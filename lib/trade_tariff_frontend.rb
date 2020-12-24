@@ -74,6 +74,10 @@ module TradeTariffFrontend
 
     module_function
 
+    def enabled?
+      ENV.fetch('SERVICE_CHOOSING_ENABLED', 'false') == 'true'
+    end
+
     def service_choices
       @service_choices ||= JSON.parse(ENV['API_SERVICE_BACKEND_URL_OPTIONS'])
     end

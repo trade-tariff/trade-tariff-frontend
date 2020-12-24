@@ -63,7 +63,7 @@ describe ServiceHelper, type: :helper do
     end
   end
 
-  describe ".trade_tariff_heading" do
+  describe '.trade_tariff_heading' do
     context 'when the selected service choice is uk-old' do
       let(:choice) { 'uk-old' }
 
@@ -127,6 +127,11 @@ describe ServiceHelper, type: :helper do
   describe '.service_switch_banner' do
     let(:request) { double('request', filtered_path: '/tools') }
     let(:choice) { 'xi' }
+    let(:service_choosing_enabled) { true }
+
+    before do
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:enabled?).and_return(service_choosing_enabled)
+    end
 
     context 'when on sections page' do
       let(:request) { double('request', filtered_path: '/sections') }
@@ -139,6 +144,14 @@ describe ServiceHelper, type: :helper do
     context 'when not on sections page' do
       it 'returns the subtle banner that allows users to toggle between the services' do
         expect(service_switch_banner).to include(t('service_banner.small', link: switch_service_link))
+      end
+    end
+
+    context 'when service choosing is disabled' do
+      let(:service_choosing_enabled) { false }
+
+      it 'returns nil' do
+        expect(service_switch_banner).to be_nil
       end
     end
   end
