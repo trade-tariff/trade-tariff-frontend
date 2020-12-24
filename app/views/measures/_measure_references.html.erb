@@ -9,7 +9,7 @@
 </div>
 <% end %>
 
-<% if !measure.national? && measure.legal_acts.present? && TradeTariffFrontend.regulations_enabled? %>
+<% if TradeTariffFrontend.uk_regulations_enabled? && measure.legal_acts.present? %>
   <div class='regulations' id='<%= measure.id %>' data-popup='<%= measure.id %>-regulations'>
     <article>
       <table class="govuk-table govuk-!-margin-bottom-2">
@@ -17,28 +17,54 @@
           <h2>Legal base</h2>
         </caption>
         <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">Regulation No.</th>
-            <th scope="col" class="govuk-table__header">Start date</th>
-            <th scope="col" class="govuk-table__header">End date</th>
-            <th scope="col" class="govuk-table__header">Publication date</th>
-            <th scope="col" class="govuk-table__header">Journal No.</th>
-            <th scope="col" class="govuk-table__header">Journal page</th>
-          </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Regulation No.</th>
+          <th scope="col" class="govuk-table__header">Title</th>
+        </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% measure.legal_acts.each do |legal_act| %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">
-                <%= link_to legal_act.regulation_code, legal_act.regulation_url, target: '_blank', rel: 'external', class: 'print-link-without-description' %>
-              </td>
-              <td class="govuk-table__cell"><%= legal_act.validity_start_date %></td>
-              <td class="govuk-table__cell"><%= legal_act.validity_end_date %></td>
-              <td class="govuk-table__cell"><%= legal_act.published_date %></td>
-              <td class="govuk-table__cell"><%= legal_act.officialjournal_number %></td>
-              <td class="govuk-table__cell"><%= legal_act.officialjournal_page %></td>
-            </tr>
-          <% end %>
+        <% measure.legal_acts.each do |legal_act| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <%= link_to legal_act.national_public_id, legal_act.national_url, target: '_blank', rel: 'external', class: 'print-link-without-description' %>
+            </td>
+            <td class="govuk-table__cell"><%= legal_act.national_information %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </article>
+  </div>
+<% elsif !measure.national? && measure.legal_acts.present? && TradeTariffFrontend.regulations_enabled? %>
+  <div class='regulations' id='<%= measure.id %>' data-popup='<%= measure.id %>-regulations'>
+    <article>
+      <table class="govuk-table govuk-!-margin-bottom-2">
+        <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-3">
+          <h2>Legal base</h2>
+        </caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Regulation No.</th>
+          <th scope="col" class="govuk-table__header">Start date</th>
+          <th scope="col" class="govuk-table__header">End date</th>
+          <th scope="col" class="govuk-table__header">Publication date</th>
+          <th scope="col" class="govuk-table__header">Journal No.</th>
+          <th scope="col" class="govuk-table__header">Journal page</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        <% measure.legal_acts.each do |legal_act| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <%= link_to legal_act.regulation_code, legal_act.regulation_url, target: '_blank', rel: 'external', class: 'print-link-without-description' %>
+            </td>
+            <td class="govuk-table__cell"><%= legal_act.validity_start_date %></td>
+            <td class="govuk-table__cell"><%= legal_act.validity_end_date %></td>
+            <td class="govuk-table__cell"><%= legal_act.published_date %></td>
+            <td class="govuk-table__cell"><%= legal_act.officialjournal_number %></td>
+            <td class="govuk-table__cell"><%= legal_act.officialjournal_page %></td>
+          </tr>
+        <% end %>
         </tbody>
       </table>
     </article>

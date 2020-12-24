@@ -59,17 +59,17 @@ class Search
               end
   end
 
-  def currency_name(currency = attributes['currency'])
+  def currency_name
     case currency
     when 'GBP'
-      'British Pound'
+      'Pound sterling'
     else
       'Euro'
     end
   end
 
   def currency
-    attributes['currency'] || 'EUR'
+    attributes['currency'] || TradeTariffFrontend.currency_default
   end
 
   def filtered_by_date?

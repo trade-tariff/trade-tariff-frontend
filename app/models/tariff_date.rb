@@ -14,6 +14,8 @@ class TariffDate
     new(
       if valid_date_param?(date_param)
         date_param.values_at(*DATE_KEYS).join('-')
+      elsif TradeTariffFrontend.simulation_date
+        TradeTariffFrontend.simulation_date
       else
         Date.current
       end
@@ -35,7 +37,7 @@ class TariffDate
   end
 
   def date
-    @date.presence || TariffUpdate.latest_applied_import_date
+    @date.presence || TradeTariffFrontend.simulation_date || TariffUpdate.latest_applied_import_date
   end
 
   def persisted?

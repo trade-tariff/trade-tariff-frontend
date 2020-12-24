@@ -59,13 +59,7 @@ module ApplicationHelper
   end
 
   def currency_options
-    options = [%w[Euro EUR]]
-    options << ['British Pound', 'GBP'] unless search_date_in_future_month?
-    options
-  end
-
-  def change_currency_message
-    search_date_in_future_month? ? "for a future date" : "Change currency"
+    [%w[Pound\ sterling GBP], %w[Euro EUR]]
   end
 
   def download_chapter_pdf_url(section_position, chapter_code)
@@ -74,7 +68,7 @@ module ApplicationHelper
       TariffPdf.chapters.map(&:url)
     end
 
-    currency = @search.attributes['currency'] || 'EUR'
+    currency = @search.attributes['currency'] || TradeTariffFrontend.currency_default
 
     pdf_urls.find do |url|
       url =~ /chapters\/#{currency.downcase}\/#{section_position.to_s.rjust(2, '0')}-#{chapter_code}\.pdf/
@@ -88,7 +82,7 @@ module ApplicationHelper
       TariffPdf.latest.map(&:url)
     end
 
-    currency = @search.attributes['currency'] || 'EUR'
+    currency = @search.attributes['currency'] || TradeTariffFrontend.currency_default
 
     pdf_urls.find do |url|
       url =~ /#{currency.downcase}\//

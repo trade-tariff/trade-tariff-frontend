@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
   before_action :set_cache
   before_action :preprocess_raw_params
   before_action :search_query
-  before_action :set_currency_for_date
   before_action :maintenance_mode_if_active
   before_action :bots_no_index_if_historical
 
@@ -30,7 +29,7 @@ class ApplicationController < ActionController::Base
   def url_options
     return super unless search_invoked?
 
-    if search_query.date.today?
+    if search_query.date.today? || search_query.date == TradeTariffFrontend.simulation_date
       return { country: search_query.country, currency: search_query.currency }.merge(super)
     end
 
@@ -86,13 +85,15 @@ class ApplicationController < ActionController::Base
   end
 
   def set_cache
-    expires_now
+    unless Rails.env.development?
+      expires_in 2.hours, :public => true, 'stale-if-error' => 86_400, 'stale-while-revalidate' => 86_400
+    end
   end
 
   protected
 
   def preprocess_raw_params
-    if TradeTariffFrontend.block_searching_past_march? && params[:year] && params[:month] && params[:day]
+    if TradeTariffFrontend.block_searching_past_brexit? && params[:year] && params[:month] && params[:day]
       now = Date.current
       search_date = begin
         Date.new(*[params[:year], params[:month], params[:day]].map(&:to_i))
@@ -106,13 +107,6 @@ class ApplicationController < ActionController::Base
         params[:day] = now.day
         flash[:alert] = "Sorry we are currently unable to display data past #{brexit_date.strftime("#{brexit_date.day.ordinalize} of %B %Y")}"
       end
-    end
-  end
-
-  def set_currency_for_date
-    if search_date_in_future_month?
-      search_query.attributes['currency'] = "EUR"
-      flash[:alert] = "Euro is the only currency supported for a search date in the future"
     end
   end
 

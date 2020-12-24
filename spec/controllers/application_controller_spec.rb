@@ -1,11 +1,41 @@
 require 'spec_helper'
 
 describe ApplicationController, type: :controller do
+  describe "behaviour for all subclasses" do
+    controller do
+      def index
+        render plain: "Jabberwocky"
+      end
+    end
+
+    describe "caching" do
+      before do
+        get :index
+      end
+
+      it "should have a max-age of 2 hours" do
+        expect(response.headers["Cache-Control"]).to include "max-age=7200"
+      end
+
+      it "should have a public directive" do
+        expect(response.headers["Cache-Control"]).to include "public"
+      end
+
+      it "should have a stale-if-error of 1 day" do
+        expect(response.headers["Cache-Control"]).to include "stale-if-error=86400"
+      end
+
+      it "should have a stale-while-revalidate of 1 day" do
+        expect(response.headers["Cache-Control"]).to include "stale-while-revalidate=86400"
+      end
+    end
+  end
+
   describe '#preprocess_raw_params' do
     before do
       ENV['BREXIT_DATE'] = (Date.today + 5.days).to_s
       ENV['ALLOW_SEARCH'] = nil
-      allow(TradeTariffFrontend).to receive(:block_searching_past_march?) { true }
+      allow(TradeTariffFrontend).to receive(:block_searching_past_brexit?) { true }
     end
 
     after do

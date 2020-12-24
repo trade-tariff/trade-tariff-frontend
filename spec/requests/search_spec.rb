@@ -14,14 +14,16 @@ describe 'Search page', type: :request do
 
             VCR.use_cassette('chapters#show') do
               VCR.use_cassette('search#search_exact') do
-                within("#new_search") do
-                  # fill_in 'q', with: '0101210000'
-                  # select2('0101210000', css: ".js-commodity-picker-select")
-                  click_button 'Search'
-                end
+                VCR.use_cassette('headings#show_0101') do
+                  within("#new_search") do
+                    # fill_in 'q', with: '0101210000'
+                    # select2('0101210000', css: ".js-commodity-picker-select")
+                    click_button 'Search'
+                  end
 
-                expect(page).to have_content 'Pure-bred breeding animals'
-                expect(page).to have_content 'The commodity code for importing is 0101210000.'
+                  expect(page).to have_content 'Pure-bred breeding animals'
+                  expect(page).to have_content 'The commodity code for importing is 0101210000.'
+                end
               end
             end
           end

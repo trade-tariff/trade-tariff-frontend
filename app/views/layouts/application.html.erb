@@ -74,6 +74,9 @@
       <% if @tariff_last_updated %>
         <div id="last-updated-at"><p class="govuk-!-font-size-16">Last updated: <%= @tariff_last_updated.strftime("%e %B %Y") %>&emsp;<a href="https://www.gov.uk/government/collections/tariff-stop-press-notices" target="_blank">View latest amendments</a></p></div>
       <% end %>
+      <% if content_for? (:commodity_pagination) %>
+        <%= yield :commodity_pagination %>
+      <% end %>
     </main>
   </div>
 

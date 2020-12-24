@@ -1,0 +1,97 @@
+.commodity-pagination {
+  margin: 3.5em 0 1em;
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+
+    .previous,
+    .next {
+      display: block;
+
+      a {
+        display: inline-block;
+        max-width: 11em;
+        font-weight: bold;
+        text-decoration: none;
+        position: relative;
+        @include govuk-font($size: 19, $weight: normal);
+
+        .commodity-pagination__name {
+          display: block;
+          text-decoration: underline;
+          font-weight: normal;
+          font-size: 0.9em;
+        }
+
+        &:active .commodity-pagination__name,
+        &:focus .commodity-pagination__name {
+          text-decoration: none;
+        }
+      }
+    }
+
+    .next {
+      margin-top: 1em;
+    }
+
+    .previous a {
+      padding-left: 1.5em;
+
+      &:before {
+        content: " ";
+        display: block;
+        width: 1em;
+        height: 1em;
+        position: absolute;
+        top: 0.25em;
+        left: 0;
+        background-image: url("../images/right_arrow.svg");
+        background-repeat: no-repeat;
+        background-size: 1em auto;
+        background-position: center;
+        transform: rotate(180deg);
+        transform-origin: 50% 50%;
+      }
+    }
+
+    .next a {
+      padding-right: 1.5em;
+
+      &:before {
+        content: " ";
+        display: block;
+        width: 1em;
+        height: 1em;
+        position: absolute;
+        top: 0.25em;
+        right: 0;
+        background-image: url("../images/right_arrow.svg");
+        background-repeat: no-repeat;
+        background-size: 1em auto;
+        background-position: center;
+      }
+    }
+
+    @media (min-width: 768px) {
+      &:after {
+        content: "";
+        display: table;
+        zoom: 1;
+        clear: both;
+      }
+
+      .previous {
+        float: left;
+        max-width: 50%;
+      }
+
+      .next {
+        float: right;
+        max-width: 50%;
+        margin-top: 0;
+      }
+    }
+  }
+}

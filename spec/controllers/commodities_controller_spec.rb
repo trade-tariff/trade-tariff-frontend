@@ -6,7 +6,9 @@ describe CommoditiesController, type: :controller do
       let!(:commodity)   { Commodity.new(attributes_for(:commodity).stringify_keys) }
 
       before(:each) do
-        get :show, params: { id: commodity.short_code }
+        VCR.use_cassette('headings_show_0101_api_json_content_type') do
+          get :show, params: { id: commodity.short_code }
+        end
       end
 
       subject { controller }

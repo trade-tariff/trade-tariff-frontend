@@ -3,8 +3,10 @@ require 'spec_helper'
 describe 'JS behaviour', js: true do
   before do
     VCR.use_cassette('geographical_areas#countries') do
-      VCR.use_cassette('commodities#show_0201300020') do
-        visit commodity_path('0201300020', day: 31, month: 5, year: 2014)
+      VCR.use_cassette('commodities#show_0201100021') do
+        VCR.use_cassette('headings#show_0201') do
+          visit commodity_path('0201100021', day: 31, month: 5, year: 2018)
+        end
       end
     end
   end
@@ -43,7 +45,7 @@ describe 'JS behaviour', js: true do
 
       click_import_tab
 
-      within '#measure-3319435' do
+      within '#measure-3563653' do
         click_on 'Conditions'
       end
     end
@@ -53,7 +55,7 @@ describe 'JS behaviour', js: true do
     end
 
     it 'displays the popup content' do
-      expect(page).to have_content('Import control - CITES for ERGA OMNES')
+      expect(page).to have_content('Veterinary control for European Union')
     end
   end
 
@@ -63,7 +65,9 @@ describe 'JS behaviour', js: true do
         @current_legal_base = ENV['HIDE_REGULATIONS'].dup
         ENV.delete('HIDE_REGULATIONS')
         VCR.use_cassette('commodities#show_0201100021_legal_base_visible_no_env') do
-          visit commodity_path('0201100021', day: 21, month: 2, year: 2019, no_env: true)
+          VCR.use_cassette('headings#show_0201') do
+            visit commodity_path('0201100021', day: 21, month: 2, year: 2019, no_env: true)
+          end
         end
 
         click_import_tab
@@ -88,9 +92,10 @@ describe 'JS behaviour', js: true do
           allow(TradeTariffFrontend).to receive(:regulations_enabled?).and_return(true)
 
           VCR.use_cassette('commodities#show_0201100021_legal_base_visible') do
-            visit commodity_path('0201100021', day: 21, month: 2, year: 2019)
+            VCR.use_cassette('headings#show_0201') do
+              visit commodity_path('0201100021', day: 21, month: 2, year: 2019)
+            end
           end
-
           click_import_tab
         end
 
@@ -108,9 +113,10 @@ describe 'JS behaviour', js: true do
           allow(TradeTariffFrontend).to receive(:regulations_enabled?).and_return(false)
 
           VCR.use_cassette('commodities#show_0201100021_legal_base_hidden') do
-            visit commodity_path('0201100021', day: 21, month: 2, year: 2019, cache_buster: 'reload')
+            VCR.use_cassette('headings#show_0201') do
+              visit commodity_path('0201100021', day: 21, month: 2, year: 2019, cache_buster: 'reload')
+            end
           end
-
           click_import_tab
         end
 

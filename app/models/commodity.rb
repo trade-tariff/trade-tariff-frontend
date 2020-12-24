@@ -6,7 +6,7 @@ class Commodity < GoodsNomenclature
 
   collection_path "/commodities"
 
-  attr_accessor :parent_sid
+  attr_accessor :parent_sid, :prev, :next
 
   has_one :heading
   # vat_measure is used for commodities under the heading only

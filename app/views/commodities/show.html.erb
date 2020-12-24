@@ -4,5 +4,33 @@
 <% end %>
 
 <% content_for :bodyClasses, "page--wide" %>
+<% content_for :commodity_pagination do %>
+  <nav class="commodity-pagination" aria-label="Navigation between commodities">
+    <ul>
+      <% if @commodity.prev.present? %>
+        <li class="previous">
+          <%= link_to commodity_url(@commodity.prev) do %>
+            Previous commodity<span class="govuk-visually-hidden">: </span>
+            <span class="commodity-pagination__name">
+              <%= @commodity.prev.description_plain %>
+            </span>
+            <span class="govuk-visually-hidden">(code <%= @commodity.prev.goods_nomenclature_item_id %>)</span>
+          <% end %>
+        </li>
+      <% end %>
+      <% if @commodity.next.present? %>
+        <li class="next">
+          <%= link_to commodity_url(@commodity.next) do %>
+            Next commodity<span class="govuk-visually-hidden">: </span>
+            <span class="commodity-pagination__name">
+              <%= @commodity.next.description_plain %>
+            </span>
+            <span class="govuk-visually-hidden">(code <%= @commodity.next.goods_nomenclature_item_id %>)</span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+<% end %>
 
 <%= render 'declarables/declarable', declarable: @commodity %>

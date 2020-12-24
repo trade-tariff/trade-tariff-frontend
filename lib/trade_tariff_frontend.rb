@@ -49,13 +49,29 @@ module TradeTariffFrontend
     ENV["CURRENCY_PICKER"].to_i == 1
   end
 
+  def currency_default_gbp?
+    ENV.fetch('CURRENCY_GBP', 'false').to_s.downcase == 'true'
+  end
+
+  def currency_default
+    currency_default_gbp? ? "GBP" : "EUR"
+  end
+
+  def simulation_date
+    ENV.fetch("SIMULATION_DATE", nil)
+  end
+  
+  def uk_regulations_enabled?
+    ENV.fetch('UK_REGULATIONS', 'false').to_s.downcase == 'true'
+  end
+
   def regulations_enabled?
     return true unless ENV['HIDE_REGULATIONS']
 
     ENV.fetch('HIDE_REGULATIONS') != 'true'
   end
 
-  def block_searching_past_march?
+  def block_searching_past_brexit?
     return true unless ENV['ALLOW_SEARCH']
 
     ENV.fetch('ALLOW_SEARCH') != 'true'

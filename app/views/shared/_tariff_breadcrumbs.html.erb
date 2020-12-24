@@ -128,4 +128,13 @@ declarable ||= false %>
       <p><strong><%= "Section #{section.numeral}: #{section}" %></strong></p>
     <% end %>
   </nav>
+
+  <% if declarable && declarable.is_a?(Commodity) %>
+    <div style="margin-top: 4rem;">
+      <%= link_to "&larr;&nbsp;Previous commodity".html_safe, commodity_path(declarable.prev, request.query_parameters.symbolize_keys) if declarable.prev %>
+      <span style="float: right">
+        <%= link_to "Next commodity&nbsp;&rarr;".html_safe, commodity_path(declarable.next, request.query_parameters.symbolize_keys) if declarable.next %>
+      </span>
+    </div>
+  <% end %>
 </div>
