@@ -34,9 +34,13 @@ en:
     az: A to Z
 
   service_banner:
+    service_name:
+      uk-old: "Online Tariff"
+      uk: "Online Tariff"
+      xi: "Northern Ireland (EU) Tariff"
     small:
       Switch to %{link}.
     big:
-      uk-old: Are you trading in Northern Ireland? From January 1st 2021, Northern Ireland is operating under a dual tariff regime and the rules may differ if you are importing goods that are at risk of being transported to the Republic of Ireland. In that case, use the %{link}.
-      uk: Are you trading in Northern Ireland? From January 1st 2021, Northern Ireland is operating under a dual tariff regime and the rules may differ if you are importing goods that are at risk of being transported to the Republic of Ireland. In that case, use the %{link}.
-      xi: Use the Northern Ireland (EU) Tariff to look up commodity codes, duty, VAT and controls if you are importing goods that are at risk of being transported to the Republic of Ireland. Find out more about the dual tariff regime for Northern Ireland.<br><br>In that case, use the %{link}.
+      uk-old: From 1 January 2021, if you’re bringing goods into Northern Ireland from outside the UK and the EU, you will pay the UK duty rate <a href="https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021" class="govuk-link">if your goods are not ‘at risk’ of onward movement to the EU</a>. If they are at risk of onward movement to the EU, use the %{link}.
+      uk: From 1 January 2021, if you’re bringing goods into Northern Ireland from outside the UK and the EU, you will pay the UK duty rate <a href="https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021" class="govuk-link">if your goods are not ‘at risk’ of onward movement to the EU</a>. If they are at risk of onward movement to the EU, use the %{link}.
+      xi: From 1 January 2021, if you’re bringing goods into Northern Ireland from outside the UK and the EU, you will pay the UK duty rate <a href="https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021" class="govuk-link">if your goods are not ‘at risk’ of onward movement to the EU</a>. If they are not at risk of onward movement to the EU, use the %{link}.
