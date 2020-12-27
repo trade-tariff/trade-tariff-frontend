@@ -2,7 +2,6 @@ name: "Development deployment"
 on: [workflow_dispatch]
 jobs:
   deploy_dev:
-    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
