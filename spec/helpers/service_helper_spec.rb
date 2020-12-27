@@ -101,7 +101,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { 'uk-old' }
 
       it 'returns the link to the XI service' do
-        expect(switch_service_link).to eq(link_to('The Northern Ireland (EU) Tariff', '/xi/sections/1'))
+        expect(switch_service_link).to eq(link_to('Northern Ireland (EU) Tariff', '/xi/sections/1'))
       end
     end
 
@@ -110,7 +110,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { 'uk' }
 
       it 'returns the link to the XI service' do
-        expect(switch_service_link).to eq(link_to('The Northern Ireland (EU) Tariff', '/xi/sections/1'))
+        expect(switch_service_link).to eq(link_to('Northern Ireland (EU) Tariff', '/xi/sections/1'))
       end
     end
 
@@ -119,7 +119,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { 'xi' }
 
       it 'returns the link to the current UK service' do
-        expect(switch_service_link).to eq(link_to('The Online Trade Tariff', '/sections/1'))
+        expect(switch_service_link).to eq(link_to('Online Tariff', '/sections/1'))
       end
     end
   end

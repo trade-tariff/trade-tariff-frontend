@@ -27,10 +27,10 @@ module ServiceHelper
   # TODO: Remove the uk-old case when we switch to the new UK version
   def switch_service_link
     case service_choice
-    when 'uk-old' then link_to(t('trade_tariff_heading.xi'), "/xi#{current_path}")
-    when 'uk' then link_to(t('trade_tariff_heading.xi'), "/xi#{current_path}")
+    when 'uk-old' then link_to(t('service_banner.service_name.xi'), "/xi#{current_path}")
+    when 'uk' then link_to(t('service_banner.service_name.xi'), "/xi#{current_path}")
     else
-      link_to(t('trade_tariff_heading.uk-old'), current_path)
+      link_to(t('service_banner.service_name.uk-old'), current_path)
     end
   end
 
