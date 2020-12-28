@@ -75,9 +75,11 @@ class Search
   end
 
   def query_attributes
-    { 'day'  => date.day,
+    {
+      'day'  => date.day,
       'year' => date.year,
-      'month' => date.month }.merge(attributes.slice(:country))
+      'month' => date.month
+    }.merge(attributes.slice(:country))
   end
 
   def to_s
