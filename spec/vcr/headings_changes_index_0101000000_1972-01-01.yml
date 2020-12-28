@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/headings/0101?as_of=1972-01-01&currency=EUR
+    uri: http://localhost:3018/headings/0101?as_of=1972-01-01
     body:
       encoding: US-ASCII
       string: ''
@@ -44,7 +44,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 14:59:31 GMT
 - request:
     method: get
-    uri: http://localhost:3018/headings/0101/changes?as_of=1972-01-01&currency=EUR
+    uri: http://localhost:3018/headings/0101/changes?as_of=1972-01-01
     body:
       encoding: US-ASCII
       string: ''

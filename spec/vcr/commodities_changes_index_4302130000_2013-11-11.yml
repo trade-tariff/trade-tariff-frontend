@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11&currency=EUR
+    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
     body:
       encoding: US-ASCII
       string: ''
@@ -41,7 +41,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11&currency=EUR
+    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
     body:
       encoding: US-ASCII
       string: ''
@@ -80,7 +80,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11&currency=EUR
+    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
     body:
       encoding: US-ASCII
       string: ''
@@ -119,7 +119,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11&currency=EUR
+    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
     body:
       encoding: US-ASCII
       string: ''
@@ -158,7 +158,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11&currency=EUR
+    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
     body:
       encoding: US-ASCII
       string: ''
@@ -197,7 +197,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11&currency=EUR
+    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
     body:
       encoding: US-ASCII
       string: ''

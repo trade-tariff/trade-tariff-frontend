@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: as_of=2019-10-03&currency=EUR&q
+      string: as_of=2019-10-03&q
     headers:
       Accept:
       - application/vnd.uktt.v2

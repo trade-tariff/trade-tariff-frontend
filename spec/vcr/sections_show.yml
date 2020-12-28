@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/sections/1?as_of=2018-11-15&currency=EUR
+    uri: http://localhost:3018/sections/1?as_of=2018-11-15
     body:
       encoding: US-ASCII
       string: ''
@@ -55,7 +55,7 @@ http_interactions:
         to the young of that genus or species.\r\n* 2\\. Except where the context
         otherwise requires, throughout the nomenclature any reference to ''dried''
         products also covers products which have been dehydrated, evaporated or freeze-dried.\r\n\r\ntest
-        ","_response_info":{"links":[{"rel":"self","href":"/trade-tariff/sections/1?as_of=2018-11-15&currency=EUR"},{"rel":"sections","href":"/trade-tariff/sections"}]}}'
+        ","_response_info":{"links":[{"rel":"self","href":"/trade-tariff/sections/1?as_of=2018-11-15"},{"rel":"sections","href":"/trade-tariff/sections"}]}}'
     http_version: 
   recorded_at: Thu, 15 Nov 2018 14:59:11 GMT
 recorded_with: VCR 3.0.3

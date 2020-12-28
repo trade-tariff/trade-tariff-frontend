@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: q=gold&as_of=2019-02-01&currency=EUR
+      string: q=gold&as_of=2019-02-01
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -122,7 +122,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: q=dsauidoasuiodsa&as_of=2019-02-01&currency=EUR
+      string: q=dsauidoasuiodsa&as_of=2019-02-01
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3

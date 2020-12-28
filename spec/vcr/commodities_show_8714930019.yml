@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/commodities/8714930019?as_of=2018-11-15&currency=EUR
+    uri: http://localhost:3018/commodities/8714930019?as_of=2018-11-15
     body:
       encoding: US-ASCII
       string: ''

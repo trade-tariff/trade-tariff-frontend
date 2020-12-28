@@ -68,7 +68,7 @@ module ApplicationHelper
       TariffPdf.chapters.map(&:url)
     end
 
-    currency = @search.attributes['currency'] || TradeTariffFrontend.currency_default
+    currency = TradeTariffFrontend::ServiceChooser.currency
 
     pdf_urls.find do |url|
       url =~ /chapters\/#{currency.downcase}\/#{section_position.to_s.rjust(2, '0')}-#{chapter_code}\.pdf/
@@ -82,7 +82,7 @@ module ApplicationHelper
       TariffPdf.latest.map(&:url)
     end
 
-    currency = @search.attributes['currency'] || TradeTariffFrontend.currency_default
+    currency = TradeTariffFrontend::ServiceChooser.currency
 
     pdf_urls.find do |url|
       url =~ /#{currency.downcase}\//

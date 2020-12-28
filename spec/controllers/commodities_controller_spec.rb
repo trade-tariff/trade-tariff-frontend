@@ -48,10 +48,7 @@ describe CommoditiesController, type: :controller do
 
       it 'redirects to actual version of the commodity page' do
         expect(response.status).to eq 302
-        expect(response.location).to eq commodity_url(
-                                            id: commodity_id.first(10),
-                                            currency: 'EUR'
-                                        )
+        expect(response.location).to eq commodity_url(id: commodity_id.first(10))
       end
     end
   end
