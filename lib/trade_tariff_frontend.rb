@@ -71,12 +71,6 @@ module TradeTariffFrontend
     ENV.fetch('HIDE_REGULATIONS') != 'true'
   end
 
-  def block_searching_past_brexit?
-    return true unless ENV['ALLOW_SEARCH']
-
-    ENV.fetch('ALLOW_SEARCH') != 'true'
-  end
-
   def download_pdf_enabled?
     ENV.fetch('DOWNLOAD_PDF_ENABLED', 'false') == 'true'
   end

@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   before_action :sample_requests_for_scout
   before_action :set_last_updated
   before_action :set_cache
-  before_action :preprocess_raw_params
   before_action :search_query
   before_action :maintenance_mode_if_active
   before_action :bots_no_index_if_historical
@@ -91,24 +90,6 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-
-  def preprocess_raw_params
-    if TradeTariffFrontend.block_searching_past_brexit? && params[:year] && params[:month] && params[:day]
-      now = Date.current
-      search_date = begin
-        Date.new(*[params[:year], params[:month], params[:day]].map(&:to_i))
-      rescue ArgumentError
-        now
-      end
-      brexit_date = Date.parse(ENV['BREXIT_DATE'] || '2021-01-01')
-      if (search_date >= brexit_date) && (now < brexit_date)
-        params[:year] = now.year
-        params[:month] = now.month
-        params[:day] = now.day
-        flash[:alert] = "Sorry we are currently unable to display data past #{brexit_date.strftime("#{brexit_date.day.ordinalize} of %B %Y")}"
-      end
-    end
-  end
 
   def maintenance_mode_if_active
     if ENV["MAINTENANCE"].present? && action_name != "maintenance"
