@@ -58,6 +58,15 @@ class Search
               end
   end
 
+  def currency_name
+    case currency
+    when 'GBP'
+      'Pound sterling'
+    else
+      'Euro'
+    end
+  end
+
   def filtered_by_date?
     date.date != TariffUpdate.latest_applied_import_date
   end
@@ -76,9 +85,9 @@ class Search
 
   def query_attributes
     {
-      'day'  => date.day,
+      'day' => date.day,
       'year' => date.year,
-      'month' => date.month
+      'month' => date.month,
     }.merge(attributes.slice(:country))
   end
 
