@@ -80,9 +80,12 @@ module TradeTariffFrontend
       'uk' => 'GBP',
       'xi' => 'EUR'
     }.freeze
-    SERVICE_DEFAULT = 'uk-old'.freeze
 
     module_function
+
+    def service_default
+      ENV.fetch('SERVICE_DEFAULT', 'uk-old')
+    end
 
     def currency
       SERVICE_CURRENCIES.fetch(service_choice, 'GBP')
@@ -113,13 +116,13 @@ module TradeTariffFrontend
     def api_host
       host = service_choices[service_choice]
 
-      return service_choices[SERVICE_DEFAULT] if host.blank?
+      return service_choices[service_default] if host.blank?
 
       host
     end
 
     def cache_prefix
-      service_choice || SERVICE_DEFAULT
+      service_choice || service_default
     end
 
     def uk?

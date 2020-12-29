@@ -34,7 +34,7 @@ module RoutingFilter
     attr_reader :path, :service_choice
 
     def service_choice_default
-      ::TradeTariffFrontend::ServiceChooser::SERVICE_DEFAULT
+      ::TradeTariffFrontend::ServiceChooser.service_default
     end
   end
 end
