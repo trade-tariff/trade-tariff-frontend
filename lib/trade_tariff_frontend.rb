@@ -84,7 +84,7 @@ module TradeTariffFrontend
     module_function
 
     def service_default
-      ENV.fetch('SERVICE_DEFAULT ', 'uk-old')
+      ENV.fetch('SERVICE_DEFAULT', 'uk-old')
     end
 
     def currency
