@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
     return super unless search_invoked?
 
     if search_query.date.today? || search_query.date == TradeTariffFrontend.simulation_date
-      return { country: search_query.country, currency: search_query.currency }.merge(super)
+      return { country: search_query.country }.merge(super)
     end
 
     {
@@ -37,7 +37,6 @@ class ApplicationController < ActionController::Base
       month: search_query.date.month,
       day: search_query.date.day,
       country: search_query.country,
-      currency: search_query.currency
     }.merge(super)
   end
 
@@ -80,7 +79,7 @@ class ApplicationController < ActionController::Base
   end
 
   def query_params
-    { as_of: search_query.date, currency: search_query.currency }
+    { as_of: search_query.date }
   end
 
   def set_cache

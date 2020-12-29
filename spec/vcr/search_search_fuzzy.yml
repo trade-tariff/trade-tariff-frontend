@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: q=horses&as_of=2018-11-15&currency=EUR
+      string: q=horses&as_of=2018-11-15
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -155,7 +155,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: as_of=2019-04-05&currency=EUR&q=car+parts
+      string: as_of=2019-04-05&q=car+parts
     headers:
       Accept:
       - application/vnd.uktt.v2
@@ -199,7 +199,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: as_of=2019-04-05&currency=EUR&q=account+books
+      string: as_of=2019-04-05&q=account+books
     headers:
       Accept:
       - application/vnd.uktt.v2
@@ -521,7 +521,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: as_of=2019-04-05&currency=EUR&q=minerals
+      string: as_of=2019-04-05&q=minerals
     headers:
       Accept:
       - application/vnd.uktt.v2
@@ -565,7 +565,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: as_of=2019-04-05&currency=EUR&q=designed+velocycles
+      string: as_of=2019-04-05&q=designed+velocycles
     headers:
       Accept:
       - application/vnd.uktt.v2
@@ -608,7 +608,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: as_of=2019-04-05&currency=EUR&q=2204
+      string: as_of=2019-04-05&q=2204
     headers:
       Accept:
       - application/vnd.uktt.v2

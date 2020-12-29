@@ -49,10 +49,6 @@ module TradeTariffFrontend
     ENV["CURRENCY_PICKER"].to_i == 1
   end
 
-  def currency_default_gbp?
-    ENV.fetch('CURRENCY_GBP', 'false').to_s.downcase == 'true'
-  end
-
   def currency_default
     currency_default_gbp? ? "GBP" : "EUR"
   end
@@ -80,9 +76,17 @@ module TradeTariffFrontend
   end
 
   module ServiceChooser
+    SERVICE_CURRENCIES = {
+      'uk' => 'GBP',
+      'xi' => 'EUR'
+    }.freeze
     SERVICE_DEFAULT = 'uk-old'.freeze
 
     module_function
+
+    def currency
+      SERVICE_CURRENCIES.fetch(service_choice, 'GBP')
+    end
 
     def enabled?
       ENV.fetch('SERVICE_CHOOSING_ENABLED', 'false') == 'true'
@@ -117,8 +121,15 @@ module TradeTariffFrontend
     def cache_prefix
       service_choice || SERVICE_DEFAULT
     end
+
+    def uk?
+      service_choice == 'uk'
+    end
+
+    def xi?
+      service_choice == 'xi'
+    end
   end
-  
 
   # CDN/CDS locking and authentication
   module Locking

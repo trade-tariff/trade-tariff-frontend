@@ -13,7 +13,6 @@ class Search
   delegate :today?, to: :date
 
   def initialize(attributes = {})
-    attributes['currency'].gsub!(/[^a-zA-Z]/, '') if attributes['currency']
     attributes['country'].gsub!(/[^a-zA-Z]/, '') if attributes['country']
     super
   end
@@ -21,7 +20,7 @@ class Search
   def perform
     retries = 0
     begin
-      response = self.class.post('/search', q: q, as_of: date.to_s(:db), currency: currency)
+      response = self.class.post('/search', q: q, as_of: date.to_s(:db))
 
       raise ApiEntity::Error if response.status == 500
 
@@ -68,10 +67,6 @@ class Search
     end
   end
 
-  def currency
-    attributes['currency'] || TradeTariffFrontend.currency_default
-  end
-
   def filtered_by_date?
     date.date != TariffUpdate.latest_applied_import_date
   end
@@ -89,9 +84,11 @@ class Search
   end
 
   def query_attributes
-    { 'day'  => date.day,
+    {
+      'day' => date.day,
       'year' => date.year,
-      'month' => date.month }.merge(attributes.slice(:country, :currency))
+      'month' => date.month,
+    }.merge(attributes.slice(:country))
   end
 
   def to_s

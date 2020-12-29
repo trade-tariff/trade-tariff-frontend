@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/commodities/0201100021?as_of=2018-05-31&currency=EUR
+    uri: http://localhost:3018/commodities/0201100021?as_of=2018-05-31
     body:
       encoding: US-ASCII
       string: ''
@@ -50,7 +50,7 @@ http_interactions:
   recorded_at: Fri, 18 Dec 2020 22:27:04 GMT
 - request:
     method: get
-    uri: http://localhost:3018/headings/0201?as_of=2018-05-31&currency=EUR
+    uri: http://localhost:3018/headings/0201?as_of=2018-05-31
     body:
       encoding: US-ASCII
       string: ''

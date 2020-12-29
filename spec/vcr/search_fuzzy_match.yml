@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: q=horses&as_of=2018-11-15&currency=EUR
+      string: q=horses&as_of=2018-11-15
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/headings/1701?as_of=2006-02-01&currency=EUR
+    uri: http://localhost:3018/headings/1701?as_of=2006-02-01
     body:
       encoding: US-ASCII
       string: ''
@@ -365,7 +365,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: as_of=2020-12-18&currency=EUR&q=1701910000
+      string: as_of=2020-12-18&q=1701910000
     headers:
       Accept:
       - application/vnd.uktt.v2
@@ -411,7 +411,7 @@ http_interactions:
   recorded_at: Fri, 18 Dec 2020 19:34:43 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/1701910000?as_of=2020-12-18&currency=EUR
+    uri: http://localhost:3018/commodities/1701910000?as_of=2020-12-18
     body:
       encoding: US-ASCII
       string: ''
@@ -459,7 +459,7 @@ http_interactions:
   recorded_at: Fri, 18 Dec 2020 19:34:43 GMT
 - request:
     method: get
-    uri: http://localhost:3018/headings/1701?as_of=2020-12-18&currency=EUR
+    uri: http://localhost:3018/headings/1701?as_of=2020-12-18
     body:
       encoding: US-ASCII
       string: ''

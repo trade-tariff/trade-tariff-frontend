@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/headings/0110?as_of=2018-11-15&currency=EUR
+    uri: http://localhost:3018/headings/0110?as_of=2018-11-15
     body:
       encoding: US-ASCII
       string: ''
@@ -41,7 +41,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 09:59:22 GMT
 - request:
     method: get
-    uri: http://localhost:3018/headings/0110?as_of=2018-11-15&currency=EUR
+    uri: http://localhost:3018/headings/0110?as_of=2018-11-15
     body:
       encoding: US-ASCII
       string: ''
@@ -80,7 +80,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 09:59:22 GMT
 - request:
     method: get
-    uri: http://localhost:3018/headings/0110?as_of=2018-11-15&currency=EUR
+    uri: http://localhost:3018/headings/0110?as_of=2018-11-15
     body:
       encoding: US-ASCII
       string: ''
@@ -119,7 +119,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 09:59:22 GMT
 - request:
     method: get
-    uri: http://localhost:3018/headings/0110?as_of=2018-11-15&currency=EUR
+    uri: http://localhost:3018/headings/0110?as_of=2018-11-15
     body:
       encoding: US-ASCII
       string: ''
@@ -158,7 +158,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 09:59:22 GMT
 - request:
     method: get
-    uri: http://localhost:3018/headings/0110?as_of=2018-11-15&currency=EUR
+    uri: http://localhost:3018/headings/0110?as_of=2018-11-15
     body:
       encoding: US-ASCII
       string: ''
@@ -197,7 +197,7 @@ http_interactions:
   recorded_at: Thu, 15 Nov 2018 09:59:22 GMT
 - request:
     method: get
-    uri: http://localhost:3018/headings/0110?as_of=2018-11-15&currency=EUR
+    uri: http://localhost:3018/headings/0110?as_of=2018-11-15
     body:
       encoding: US-ASCII
       string: ''
@@ -239,7 +239,7 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: q=0110&as_of=2018-11-15&currency=EUR
+      string: q=0110&as_of=2018-11-15
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
