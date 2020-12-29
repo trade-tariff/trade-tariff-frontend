@@ -58,7 +58,7 @@ private
 
   def service_choice
     TradeTariffFrontend::ServiceChooser.service_choice ||
-      TradeTariffFrontend::ServiceChooser::SERVICE_DEFAULT
+      TradeTariffFrontend::ServiceChooser.service_default
   end
 
   def banner_copy
