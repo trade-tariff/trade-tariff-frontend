@@ -1,20 +1,19 @@
 require 'spec_helper'
 
 describe Commodity do
-
-  describe "parent/children relationships" do
-    let(:associated_commodities) {
-                                   {
-                                    commodities: [attributes_for(:commodity, goods_nomenclature_sid: 1,
-                                                                             parent_sid: nil).stringify_keys,
-                                                  attributes_for(:commodity, parent_sid: 1,
-                                                                             goods_nomenclature_sid: 2).stringify_keys]
-                                   }
-                                 }
+  describe 'parent/children relationships' do
+    let(:associated_commodities) do
+      {
+        commodities: [attributes_for(:commodity, goods_nomenclature_sid: 1,
+                                                 parent_sid: nil).stringify_keys,
+                      attributes_for(:commodity, parent_sid: 1,
+                                                 goods_nomenclature_sid: 2).stringify_keys],
+      }
+    end
     let(:heading_attributes) { attributes_for(:heading).merge(associated_commodities).stringify_keys }
     let(:heading) { Heading.new(heading_attributes) }
 
-    describe "#children" do
+    describe '#children' do
       it 'returns list of commodities children' do
         heading
 
@@ -28,17 +27,17 @@ describe Commodity do
       end
     end
 
-    describe "#root" do
+    describe '#root' do
       it 'returns children that have no parent_sid set' do
         heading
 
         root_children = heading.commodities.select(&:root)
         expect(root_children).to     include heading.commodities.first
-        expect(root_children).to_not include heading.commodities.last
+        expect(root_children).not_to include heading.commodities.last
       end
     end
 
-    describe "#leaf?" do
+    describe '#leaf?' do
       let(:commodity_non_leaf) { heading.commodities.first }
       let(:commodity_leaf)     { heading.commodities.last }
 
@@ -49,11 +48,29 @@ describe Commodity do
     end
   end
 
-  describe "#to_param" do
+  describe '#to_param' do
     let(:commodity) { Commodity.new(attributes_for(:commodity).stringify_keys) }
 
     it 'returns commodity code as param' do
       expect(commodity.to_param).to eq commodity.code
+    end
+  end
+
+  describe '#aria_label' do
+    let(:commodity) { Commodity.new(attributes_for(:commodity).stringify_keys) }
+
+    it 'formats the aria label correctly' do
+      expect(commodity.aria_label).to eq("Commodity code 0101300000, #{commodity.description}")
+    end
+
+    context 'when the description is nil' do
+      before do
+        commodity.description = nil
+      end
+
+      it 'does not propagate an exception' do
+        expect { commodity.aria_label }.not_to raise_exception
+      end
     end
   end
 end
