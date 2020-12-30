@@ -48,7 +48,6 @@ function deploy_frontend() {
   cf attach-autoscaling-policy "$CF_APP" config/autoscaling/"$CF_SPACE"-policy.json
 
   # Enable routing from this frontend to backend applications which are private
-  cf add-network-policy "$CF_APP" "$CF_BACKEND_APP" --protocol tcp --port 8080
   cf add-network-policy "$CF_APP" "$CF_BACKEND_APP_XI" --protocol tcp --port 8080
   cf add-network-policy "$CF_APP" "$CF_BACKEND_APP_UK"  --protocol tcp --port 8080
 }
