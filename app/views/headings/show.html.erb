@@ -21,7 +21,7 @@
         <em class="level">Level</em>
         <em class="description">Description</em>
         <div class="commodity-tree__additional-info">
-          <%- if TradeTariffFrontend.hide_heading_cache? %>
+          <%- unless TradeTariffFrontend.hide_heading_cache? %>
             <em class="vat" id="commodity-vat-title">VAT</em>
             <em class="duty" id="commodity-duty-title">Third country duty</em>
             <em class="supplementary-units" id="commodity-supplementary-title">Supplementary unit</em>
