@@ -7,6 +7,11 @@ module TradeTariffFrontend
   module_function
 
   # API Endpoints of the Tariff Backend API app that can be reached via Frontend
+  #
+  def hide_heading_cache?
+    ENV.fetch('HIDE_HEADING_CACHE', 'true') == 'true'
+  end
+
   def accessible_api_endpoints
     %w[sections chapters headings commodities updates monetary_exchange_rates quotas
        goods_nomenclatures search_references geographical_areas]

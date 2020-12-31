@@ -14,30 +14,32 @@
       <div class="description open" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></div>
 
       <div class="commodity__info">
-        <div class="vat" aria-describedby="commodity-vat-title">
-          <% vats = commodity.overview_measures.vat %>
-          <% if vats.count > 0 %>
-            <%= vats.map { |m| m.duty_expression.amount.to_i.to_s + "%" }.join(" or ").html_safe %>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </div>
-        <div class="duty" aria-describedby="commodity-duty-title">
-          <% tcd = commodity.overview_measures.third_country_duty %>
-          <% if tcd.count > 0 %>
-            <%= tcd.map { |m| m.duty_expression.formatted_base }.join("<br />").html_safe %>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </div>
-        <div class="supplementary-units" aria-describedby="commodity-supplementary-title">
-          <% supplementary = commodity.overview_measures.supplementary %>
-          <% if supplementary.count > 0 %>
-            <%= supplementary.map { |m| m.duty_expression.formatted_base }.uniq.join("<br />").html_safe %>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </div>
+        <% unless TradeTariffFrontend.hide_heading_cache? %>
+          <div class="vat" aria-describedby="commodity-vat-title">
+            <% vats = commodity.overview_measures.vat %>
+            <% if vats.count > 0 %>
+              <%= vats.map { |m| m.duty_expression.amount.to_i.to_s + "%" }.join(" or ").html_safe %>
+            <% else %>
+              &nbsp;
+            <% end %>
+          </div>
+          <div class="duty" aria-describedby="commodity-duty-title">
+            <% tcd = commodity.overview_measures.third_country_duty %>
+            <% if tcd.count > 0 %>
+              <%= tcd.map { |m| m.duty_expression.formatted_base }.join("<br />").html_safe %>
+            <% else %>
+              &nbsp;
+            <% end %>
+          </div>
+          <div class="supplementary-units" aria-describedby="commodity-supplementary-title">
+            <% supplementary = commodity.overview_measures.supplementary %>
+            <% if supplementary.count > 0 %>
+              <%= supplementary.map { |m| m.duty_expression.formatted_base }.uniq.join("<br />").html_safe %>
+            <% else %>
+              &nbsp;
+            <% end %>
+          </div>
+        <%- end %>
         <div class="identifier" aria-describedby="commodity-<%= commodity.short_code %>">
           <%= format_commodity_code_based_on_level(commodity) %>
         </div>
