@@ -125,7 +125,7 @@ describe ServiceHelper, type: :helper do
   end
 
   describe '.service_switch_banner' do
-    let(:request) { double('request', filtered_path: '/tools') }
+    let(:request) { double('request', filtered_path: '/xi/sections/1') }
     let(:choice) { 'xi' }
     let(:service_choosing_enabled) { true }
 
@@ -133,8 +133,8 @@ describe ServiceHelper, type: :helper do
       allow(TradeTariffFrontend::ServiceChooser).to receive(:enabled?).and_return(service_choosing_enabled)
     end
 
-    context 'when on sections page' do
-      let(:request) { double('request', filtered_path: '/sections') }
+    context 'when on xi sections page' do
+      let(:request) { double('request', filtered_path: '/xi/sections') }
 
       it 'returns the full banner that allows users to toggle between the services' do
         expect(service_switch_banner).to include(t("service_banner.big.#{choice}", link: switch_service_link))

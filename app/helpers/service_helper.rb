@@ -62,7 +62,7 @@ private
   end
 
   def banner_copy
-    return t("service_banner.big.#{service_choice}", link: switch_service_link).html_safe if current_path == '/sections'
+    return t("service_banner.big.#{service_choice}", link: switch_service_link).html_safe if request.filtered_path == sections_path
 
     t('service_banner.small', link: switch_service_link).html_safe
   end
