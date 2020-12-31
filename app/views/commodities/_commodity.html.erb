@@ -14,7 +14,7 @@
       <div class="description open" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></div>
 
       <div class="commodity__info">
-        <%= if TradeTariffFrontend.hide_heading_cache? %>
+        <%- if TradeTariffFrontend.hide_heading_cache? %>
           <div class="vat" aria-describedby="commodity-vat-title">
             <% vats = commodity.overview_measures.vat %>
             <% if vats.count > 0 %>
