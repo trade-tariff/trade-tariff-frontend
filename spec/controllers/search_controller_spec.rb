@@ -75,7 +75,7 @@ describe SearchController, "GET to #search", type: :controller do
           it { expect(assigns(:search)).to be_a(Search) }
           it { should redirect_to(chapter_path("01", year: year, month: month, day: day)) }
         end
-
+        
         xcontext 'valid pre-EU Exit date params provided' do
           let(:future_date) { Date.new(2020, 12, 31) }
           let(:year)    { future_date.year }
