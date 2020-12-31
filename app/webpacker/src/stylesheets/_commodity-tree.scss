@@ -112,7 +112,7 @@ article.tariff {
       text-align: right;
 
       @media (min-width: $headings-large-viewport) {
-        display: none;
+        display: block;
       }
     }
 
@@ -122,7 +122,7 @@ article.tariff {
       text-align: right;
 
       @media (min-width: $headings-large-viewport) {
-        display: none;
+        display: block;
       }
     }
 
@@ -132,7 +132,7 @@ article.tariff {
       text-align: right;
 
       @media (min-width: $headings-large-viewport) {
-        display: none;
+        display: block;
       }
     }
 
