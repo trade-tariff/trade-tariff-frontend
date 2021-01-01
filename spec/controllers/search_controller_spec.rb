@@ -76,26 +76,26 @@ describe SearchController, "GET to #search", type: :controller do
           it { should redirect_to(chapter_path("01", year: year, month: month, day: day)) }
         end
 
-#         context 'valid pre-EU Exit date params provided' do
-#           let(:future_date) { Date.new(2020, 12, 31) }
-#           let(:year)    { future_date.year }
-#           let(:month)   { future_date.month }
-#           let(:day)     { future_date.day }
+        xcontext 'valid pre-EU Exit date params provided' do
+          let(:future_date) { Date.new(2020, 12, 31) }
+          let(:year)    { future_date.year }
+          let(:month)   { future_date.month }
+          let(:day)     { future_date.day }
 
-#           before(:each) do
-#             @request.env['HTTP_REFERER'] = "/chapters/01"
+          before(:each) do
+            @request.env['HTTP_REFERER'] = "/chapters/01"
 
-#             post :search, params: {
-#               year: year,
-#               month: month,
-#               day: day
-#             }
-#           end
+            post :search, params: {
+              year: year,
+              month: month,
+              day: day
+            }
+          end
 
-#           it { should respond_with(:redirect) }
-#           it { expect(assigns(:search)).to be_a(Search) }
-#           it { should redirect_to(chapter_path("01", year: year, month: month, day: day)) }
-#         end
+          it { should respond_with(:redirect) }
+          it { expect(assigns(:search)).to be_a(Search) }
+          it { should redirect_to(chapter_path("01", year: year, month: month, day: day)) }
+        end
 
         context 'valid date params provided for today' do
           let(:year)    { now.year }
