@@ -48,7 +48,6 @@ gem 'aws-sdk', '~> 3'
 gem 'aws-sdk-rails', '~> 3'
 
 group :development do
-  gem 'govuk-lint'
   gem 'letter_opener'
   gem 'rubocop-govuk'
   gem 'web-console', '>= 3.3.0'
