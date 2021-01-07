@@ -64,14 +64,6 @@ describe ServiceHelper, type: :helper do
   end
 
   describe '.trade_tariff_heading' do
-    context 'when the selected service choice is uk-old' do
-      let(:choice) { 'uk-old' }
-
-      it 'returns The Online Trade Tariff' do
-        expect(trade_tariff_heading).to eq('The Online Trade Tariff')
-      end
-    end
-
     context 'when the selected service choice is uk' do
       let(:choice) { 'uk' }
 
@@ -94,15 +86,6 @@ describe ServiceHelper, type: :helper do
 
     before do
       allow(helper).to receive(:request).and_return(request)
-    end
-
-    context 'when the selected service choice is uk-old' do
-      let(:path) { '/sections/1' }
-      let(:choice) { 'uk-old' }
-
-      it 'returns the link to the XI service' do
-        expect(switch_service_link).to eq(link_to('Northern Ireland (EU) Tariff', '/xi/sections/1'))
-      end
     end
 
     context 'when the selected service choice is uk' do

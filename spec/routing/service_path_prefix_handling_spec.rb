@@ -101,7 +101,7 @@ describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
     end
 
     context 'when the service choice is the default' do
-      let(:choice) { 'uk-old' }
+      let(:choice) { 'uk' }
 
       it 'does not prepend the choice to the url' do
         result = commodity_path(
