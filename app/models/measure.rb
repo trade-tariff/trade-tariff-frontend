@@ -6,7 +6,7 @@ class Measure
   attr_accessor :id, :origin, :effective_start_date, :effective_end_date,
                 :import, :vat, :excise, :goods_nomenclature_item_id
 
-  DEFAULT_GEOGRAPHICAL_AREA_ID = "1011".freeze # ERGA OMNES
+  DEFAULT_GEOGRAPHICAL_AREA_ID = '1011'.freeze # ERGA OMNES
 
   has_one :geographical_area
   has_many :legal_acts
@@ -29,7 +29,7 @@ class Measure
   end
 
   def excluded_country_list
-    excluded_countries.map(&:description).join(", ").html_safe
+    excluded_countries.map(&:description).join(', ').html_safe
   end
 
   def national?
@@ -41,11 +41,11 @@ class Measure
   end
 
   def third_country?
-    measure_type.id == "103"
+    measure_type.id == '103'
   end
 
   def tariff_preference?
-    measure_type.id == "142"
+    measure_type.id == '142'
   end
 
   def supplementary?
@@ -62,7 +62,7 @@ class Measure
   end
 
   def destination
-    import? ? "import" : "export"
+    import? ? 'import' : 'export'
   end
 
   def effective_start_date=(date)
@@ -89,8 +89,8 @@ class Measure
 
   # _999 is the master additional code and should come first
   def additional_code_sort
-    if additional_code && additional_code.code.to_s.include?("999")
-      "A000"
+    if additional_code && additional_code.code.to_s.include?('999')
+      'A000'
     else
       additional_code.code.to_s
     end

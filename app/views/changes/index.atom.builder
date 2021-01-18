@@ -15,7 +15,7 @@ atom_feed do |feed|
       entry.updated(change.operation_date.try(:xmlschema))
 
       entry.author do |author|
-        author.name("UK government")
+        author.name('UK government')
       end
     end
   end

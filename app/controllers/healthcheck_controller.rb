@@ -1,4 +1,4 @@
-require "api_entity"
+require 'api_entity'
 
 class HealthcheckController < ActionController::Base
   rescue_from ApiEntity::Error do |_e|
@@ -14,6 +14,6 @@ class HealthcheckController < ActionController::Base
   private
 
   def original_ua_headers
-    { "X_ORIGINAL_USER_AGENT" => request.env["HTTP_USER_AGENT"] }
+    { 'X_ORIGINAL_USER_AGENT' => request.env['HTTP_USER_AGENT'] }
   end
 end

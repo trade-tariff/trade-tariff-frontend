@@ -10,7 +10,7 @@ class Change
   attr_accessor :oid, :model_name, :operation, :operation_date, :record
 
   def id
-    [model_name, oid].join("-")
+    [model_name, oid].join('-')
   end
 
   def record=(record_attributes)
@@ -22,7 +22,7 @@ class Change
   end
 
   def change_url(_changeable)
-    "/"
+    '/'
   end
 
   private

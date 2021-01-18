@@ -5,7 +5,7 @@ module TradeTariffFrontend
     end
 
     def matches?(req)
-      (Array(req.headers['Accept']).include?("application/json") || req['format'] == 'json') &&
+      (Array(req.headers['Accept']).include?('application/json') || req['format'] == 'json') &&
         req['endpoint'].in?(@endpoints)
     end
   end

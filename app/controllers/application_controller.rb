@@ -1,4 +1,4 @@
-require "api_entity"
+require 'api_entity'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
 
   def render_500
     @no_shared_search = true
-    render template: "errors/internal_server_error",
+    render template: 'errors/internal_server_error',
            status: :internal_server_error,
            formats: :html
     false
@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
 
   def render_404
     @no_shared_search = true
-    render template: "errors/not_found",
+    render template: 'errors/not_found',
            status: :not_found,
            formats: :html
     false
@@ -74,7 +74,7 @@ class ApplicationController < ActionController::Base
     if request.headers['X-AJAX']
       false
     else
-      "application"
+      'application'
     end
   end
 
@@ -91,20 +91,20 @@ class ApplicationController < ActionController::Base
   protected
 
   def maintenance_mode_if_active
-    if ENV["MAINTENANCE"].present? && action_name != "maintenance"
-      redirect_to "/503"
+    if ENV['MAINTENANCE'].present? && action_name != 'maintenance'
+      redirect_to '/503'
     end
   end
 
   def bots_no_index_if_historical
     return if search_query.today?
 
-    response.headers["X-Robots-Tag"] = "none"
+    response.headers['X-Robots-Tag'] = 'none'
   end
 
   def append_info_to_payload(payload)
     super
-    payload[:user_agent] = request.env["HTTP_USER_AGENT"]
+    payload[:user_agent] = request.env['HTTP_USER_AGENT']
   end
 
   def sample_requests_for_scout

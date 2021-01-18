@@ -3,7 +3,7 @@ require 'api_entity'
 class MonetaryExchangeRate
   include ApiEntity
 
-  collection_path "/monetary_exchange_rates"
+  collection_path '/monetary_exchange_rates'
 
   attr_accessor :child_monetary_unit_code,
                 :exchange_rate,

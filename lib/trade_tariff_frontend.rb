@@ -20,7 +20,7 @@ module TradeTariffFrontend
   end
 
   def production?
-    ENV["GOVUK_APP_DOMAIN"] == "tariff-frontend-production.london.cloudapps.digital"
+    ENV['GOVUK_APP_DOMAIN'] == 'tariff-frontend-production.london.cloudapps.digital'
   end
 
   # Number of suggestions returned to select2
@@ -30,15 +30,15 @@ module TradeTariffFrontend
 
   # Email of the user who receives all info/error notifications, feedback
   def from_email
-    ENV["TARIFF_FROM_EMAIL"]
+    ENV['TARIFF_FROM_EMAIL']
   end
 
   def to_email
-    ENV["TARIFF_TO_EMAIL"]
+    ENV['TARIFF_TO_EMAIL']
   end
 
   def origin
-    regulations_enabled? ? "EU" : "UK"
+    regulations_enabled? ? 'EU' : 'UK'
   end
 
   def robots_enabled?
@@ -46,15 +46,15 @@ module TradeTariffFrontend
   end
 
   def currency_picker_enabled?
-    ENV["CURRENCY_PICKER"].to_i == 1
+    ENV['CURRENCY_PICKER'].to_i == 1
   end
 
   def currency_default
-    currency_default_gbp? ? "GBP" : "EUR"
+    currency_default_gbp? ? 'GBP' : 'EUR'
   end
 
   def simulation_date
-    ENV.fetch("SIMULATION_DATE", nil)
+    ENV.fetch('SIMULATION_DATE', nil)
   end
   
   def uk_regulations_enabled?
@@ -189,7 +189,7 @@ module TradeTariffFrontend
 
     def call(env)
       @query_string = env['QUERY_STRING'].to_s
-      @path_string = env["PATH_INFO"].to_s
+      @path_string = env['PATH_INFO'].to_s
       begin
         Rack::Utils.parse_nested_query @query_string
         return bad_request unless @path_string.ascii_only? && @query_string.ascii_only?

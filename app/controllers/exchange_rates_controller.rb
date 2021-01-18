@@ -1,7 +1,7 @@
 class ExchangeRatesController < ApplicationController
   def index
     all_rates = MonetaryExchangeRate.all
-    @last_updated = all_rates.last.operation_date.strftime("%d %B %Y")
+    @last_updated = all_rates.last.operation_date.strftime('%d %B %Y')
     @rates = {}
 
     all_rates.each do |rate|

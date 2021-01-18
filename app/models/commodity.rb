@@ -4,7 +4,7 @@ class Commodity < GoodsNomenclature
   include Changeable
   include Declarable
 
-  collection_path "/commodities"
+  collection_path '/commodities'
 
   attr_accessor :parent_sid, :prev, :next
 

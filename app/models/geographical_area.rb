@@ -45,8 +45,8 @@ class GeographicalArea
     end.sort_by do |country|
       match_id = country.id =~ lookup_regexp
       match_desc = country.description =~ lookup_regexp
-      key = ""
-      key << (match_id ? "0" : "1")
+      key = ''
+      key << (match_id ? '0' : '1')
       key << (match_desc || '')
       key << country.id
       key
@@ -54,8 +54,8 @@ class GeographicalArea
   end
 
   def description
-    if geographical_area_id == "1011"
-      "All countries"
+    if geographical_area_id == '1011'
+      'All countries'
     else
       attributes['description'].presence || ''
     end

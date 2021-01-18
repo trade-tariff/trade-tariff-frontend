@@ -4,7 +4,7 @@ class Heading < GoodsNomenclature
   include Changeable
   include Declarable
 
-  collection_path "/headings"
+  collection_path '/headings'
 
   has_many :commodities, class_name: 'Commodity'
   has_many :children, class_name: 'Heading'

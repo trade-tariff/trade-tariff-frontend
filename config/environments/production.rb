@@ -71,16 +71,16 @@ Rails.application.configure do
   # PaasConfig.redis returns url and db
   config.cache_store = :redis_store, PaasConfig.redis.merge({
     expires_in: 1.day,
-    namespace:  ENV["GOVUK_APP_DOMAIN"],
-    pool_size:  Integer(ENV["MAX_THREADS"] || 5)
+    namespace:  ENV['GOVUK_APP_DOMAIN'],
+    pool_size:  Integer(ENV['MAX_THREADS'] || 5)
   })
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  config.action_controller.asset_host = ENV["GOVUK_ASSET_ROOT"]
+  config.action_controller.asset_host = ENV['GOVUK_ASSET_ROOT']
 
   # set default_url_options
   config.action_controller.default_url_options = {
-    host: ENV['HOST'] || "www.trade-tariff.service.gov.uk"
+    host: ENV['HOST'] || 'www.trade-tariff.service.gov.uk'
   }
 
   # Disable delivery errors, bad email addresses will be ignored

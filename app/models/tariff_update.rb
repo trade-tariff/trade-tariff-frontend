@@ -3,7 +3,7 @@ require 'api_entity'
 class TariffUpdate
   include ApiEntity
 
-  collection_path "/updates/latest"
+  collection_path '/updates/latest'
 
   attr_accessor :update_type, :state, :created_at, :updated_at, :filename
 
@@ -40,7 +40,7 @@ class TariffUpdate
       else
         # Cache for 1 hour
         TradeTariffFrontend::ServiceChooser.cache_with_service_choice(
-          "tariff_last_updated", expires_in: 1.hour
+          'tariff_last_updated', expires_in: 1.hour
         ) do
           func.call
         end
