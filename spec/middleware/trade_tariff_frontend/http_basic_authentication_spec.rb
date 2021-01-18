@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+# rubocop:disable Rails/HttpPositionalArguments
 describe 'Basic Auth' do
   include Rack::Test::Methods
 
@@ -56,3 +57,4 @@ describe 'Basic Auth' do
     end
   end
 end
+# rubocop:enable Rails/HttpPositionalArguments

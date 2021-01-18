@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+# rubocop:disable Rails/HttpPositionalArguments
 describe Rack::Attack, vcr: { cassette_name: 'sections#index' } do
   include Rack::Test::Methods
 
@@ -128,3 +129,4 @@ describe Rack::Attack, vcr: { cassette_name: 'sections#index' } do
     end
   end
 end
+# rubocop:enable Rails/HttpPositionalArguments
