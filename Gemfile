@@ -44,7 +44,6 @@ gem 'scout_apm'
 gem 'redis-rails'
 
 # AWS
-gem 'aws-sdk', '~> 3'
 gem 'aws-sdk-rails', '~> 3'
 
 group :development do
