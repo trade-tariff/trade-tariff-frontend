@@ -6,7 +6,7 @@ class MeasurePresenter
   end
 
   def geo_class
-    measure.geographical_area.id || measure.geographical_area.children_geographical_areas.sort_by(&:id).map(&:id).join(" ")
+    measure.geographical_area.id || measure.geographical_area.children_geographical_areas.sort_by(&:id).map(&:id).join(' ')
   end
 
   def has_children_geographical_areas?
@@ -26,16 +26,16 @@ class MeasurePresenter
       {
         condition: condition.condition,
         partial_type: case condition.condition_code
-                      when "A", "B", "C", "H", "Q", "Y", "Z"
-                        "document"
-                      when "R", "S", "U"
-                        "ratio"
-                      when "F", "L", "M", "V"
-                        "ratio_duty"
-                      when "E", "I"
-                        "quantity"
+                      when 'A', 'B', 'C', 'H', 'Q', 'Y', 'Z'
+                        'document'
+                      when 'R', 'S', 'U'
+                        'ratio'
+                      when 'F', 'L', 'M', 'V'
+                        'ratio_duty'
+                      when 'E', 'I'
+                        'quantity'
                       else
-                        "default"
+                        'default'
                       end
       }
     end

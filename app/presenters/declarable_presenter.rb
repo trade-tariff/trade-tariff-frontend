@@ -1,7 +1,7 @@
 class DeclarablePresenter < TradeTariffFrontend::Presenter
   attr_reader :declarable
 
-  MEURSING_TOOL_LINK = "http://ec.europa.eu/taxation_customs/dds2/taric/measures.jsp?Lang=en&SimDate=%{date}&Taric=%{commodity_code}&LangDescr=en".freeze
+  MEURSING_TOOL_LINK = 'http://ec.europa.eu/taxation_customs/dds2/taric/measures.jsp?Lang=en&SimDate=%{date}&Taric=%{commodity_code}&LangDescr=en'.freeze
 
   def initialize(declarable)
     @declarable = declarable
@@ -16,7 +16,7 @@ class DeclarablePresenter < TradeTariffFrontend::Presenter
   end
 
   def self.model_name
-    name.chomp("Presenter").constantize.model_name
+    name.chomp('Presenter').constantize.model_name
   end
 
   def to_param

@@ -8,7 +8,7 @@ Rails.application.configure do
   config.cache_store = [:null_store]
 
   # Going to leave this here so in the future we can use BrowserStack locally
-  config.hosts << "bs-local.com"
+  config.hosts << 'bs-local.com'
 
   # Do not eager load code on boot.
   config.eager_load = false

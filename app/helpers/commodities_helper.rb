@@ -1,7 +1,7 @@
 module CommoditiesHelper
   def leaf_position(commodity)
     if commodity.last_child?
-      " last-child"
+      ' last-child'
     end
   end
 
@@ -84,7 +84,7 @@ module CommoditiesHelper
   end
 
   def code_text(code)
-    str = code || "&nbsp;"
+    str = code || '&nbsp;'
     "<div class='code-text pull-left'>#{str}</div>"
   end
 

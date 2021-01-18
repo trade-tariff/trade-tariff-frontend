@@ -16,7 +16,7 @@ module TradeTariffFrontend
 
       case rackreq.request_method
       # The API is read-only
-      when "GET", "HEAD"
+      when 'GET', 'HEAD'
         remove_service_choice_prefix!(rackreq)
 
         api_version = rackreq.path
@@ -66,7 +66,7 @@ module TradeTariffFrontend
     end
 
     def request_uri_for(rackreq)
-      api_request_path_for(rackreq.env["PATH_INFO"] + "?" + rackreq.env["QUERY_STRING"])
+      api_request_path_for(rackreq.env['PATH_INFO'] + '?' + rackreq.env['QUERY_STRING'])
     end
 
     def request_headers_for(env)

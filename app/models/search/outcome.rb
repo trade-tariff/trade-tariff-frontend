@@ -7,7 +7,7 @@ class Search
     attr_accessor :entry, :type
 
     def exact_match?
-      @type == "exact_match"
+      @type == 'exact_match'
     end
 
     def to_param

@@ -7,47 +7,47 @@ Rails.application.routes.draw do
   filter :service_path_prefix_handler
   default_url_options(host: TradeTariffFrontend.host)
 
-  get "/trade-tariff/*path", to: redirect('/%{path}', status: 301)
-  get "/api/(*path)", constraints: { path: /[^v\d+].*/ }, to: redirect { |_params, request|
-    path = request.path.gsub('/api/', "/api/v2/")
+  get '/trade-tariff/*path', to: redirect('/%{path}', status: 301)
+  get '/api/(*path)', constraints: { path: /[^v\d+].*/ }, to: redirect { |_params, request|
+    path = request.path.gsub('/api/', '/api/v2/')
     "https://#{ENV['HOST']}#{path}" # request.path starts with '/'
   }
-  get "/v1/(*path)", to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
-  get "/v2/(*path)", to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
-  get "/api/:version/commodities/:id", constraints: { id: /\d{2}00000000/ }, to: redirect { |_params, request|
+  get '/v1/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
+  get '/v2/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
+  get '/api/:version/commodities/:id', constraints: { id: /\d{2}00000000/ }, to: redirect { |_params, request|
     path = request.path.gsub('commodities', 'chapters').gsub('00000000', '')
     "https://#{ENV['HOST']}#{path}"
   }
-  get "/api/:version/commodities/:id", constraints: { id: /\d{4}000000/ }, to: redirect { |_params, request|
+  get '/api/:version/commodities/:id', constraints: { id: /\d{4}000000/ }, to: redirect { |_params, request|
     path = request.path.gsub('commodities', 'headings').gsub('000000', '')
     "https://#{ENV['HOST']}#{path}"
   }
-  get "/api/v1/quotas/search", to: redirect { |_params, request|
+  get '/api/v1/quotas/search', to: redirect { |_params, request|
     path = request.path.gsub('v1', 'v2')
     "https://#{ENV['HOST']}#{path}"
   }
 
-  get "/", to: redirect(TradeTariffFrontend.production? ? "https://www.gov.uk/trade-tariff" : "/sections", status: 302)
-  get "healthcheck", to: "healthcheck#check"
-  get "opensearch", to: "pages#opensearch", constraints: { format: :xml }
-  get "terms", to: "pages#terms"
-  get "cookies", to: "pages#cookies"
-  get "exchange_rates", to: "exchange_rates#index"
-  get "geographical_areas", to: "geographical_areas#index", as: :geographical_areas
+  get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/sections', status: 302)
+  get 'healthcheck', to: 'healthcheck#check'
+  get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
+  get 'terms', to: 'pages#terms'
+  get 'cookies', to: 'pages#cookies'
+  get 'exchange_rates', to: 'exchange_rates#index'
+  get 'geographical_areas', to: 'geographical_areas#index', as: :geographical_areas
   get 'feedback', to: 'feedback#new'
   post 'feedback', to: 'feedback#create'
   get 'feedback/thanks', to: 'feedback#thanks'
   get 'tools', to: 'pages#tools'
 
-  match "/search", to: "search#search", as: :perform_search, via: %i[get post]
-  get "search_suggestions", to: "search#suggestions", as: :search_suggestions
+  match '/search', to: 'search#search', as: :perform_search, via: %i[get post]
+  get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search
   get 'additional_code_search', to: 'search#additional_code_search', as: :additional_code_search
   get 'certificate_search', to: 'search#certificate_search', as: :certificate_search
   get 'footnote_search', to: 'search#footnote_search', as: :footnote_search
   get 'chemical_search', to: 'search#chemical_search', as: :chemical_search
-  match "a-z-index/:letter",
-        to: "search_references#show",
+  match 'a-z-index/:letter',
+        to: 'search_references#show',
         via: :get,
         as: :a_z_index,
         constraints: { letter: /[a-z]{1}/i }
@@ -59,7 +59,7 @@ Rails.application.routes.draw do
           via: :get,
           to: TradeTariffFrontend::RequestForwarder.new(
             api_request_path_formatter: lambda { |path|
-              path.gsub("#{APP_SLUG}/", "")
+              path.gsub("#{APP_SLUG}/", '')
             }
           )
   end
@@ -97,13 +97,13 @@ Rails.application.routes.draw do
 
   constraints TradeTariffFrontend::ApiPubConstraints.new(TradeTariffFrontend.public_api_endpoints) do
     scope 'api' do
-      get ":version/*path", to: TradeTariffFrontend::RequestForwarder.new(
+      get ':version/*path', to: TradeTariffFrontend::RequestForwarder.new(
         api_request_path_formatter: lambda { |path|
           path.gsub(/api\/v\d+\//, '')
         }
       ), constraints: { version: /v[1-2]{1}/ }
 
-      get "v2/goods_nomenclatures/*path", to: TradeTariffFrontend::RequestForwarder.new(
+      get 'v2/goods_nomenclatures/*path', to: TradeTariffFrontend::RequestForwarder.new(
         api_request_path_formatter: lambda { |path|
           path.gsub(/api\/v2\//, '')
         }
@@ -111,11 +111,11 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: redirect(TradeTariffFrontend.production? ? "https://www.gov.uk/trade-tariff" : "/sections", status: 302)
+  root to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/sections', status: 302)
 
-  get "/robots.:format", to: "pages#robots"
-  match "/404", to: "errors#not_found", via: :all
-  match "/500", to: "errors#internal_server_error", via: :all
-  match "/503", to: "errors#maintenance", via: :all
-  match "*path", to: "errors#not_found", via: :all
+  get '/robots.:format', to: 'pages#robots'
+  match '/404', to: 'errors#not_found', via: :all
+  match '/500', to: 'errors#internal_server_error', via: :all
+  match '/503', to: 'errors#maintenance', via: :all
+  match '*path', to: 'errors#not_found', via: :all
 end

@@ -30,7 +30,7 @@ class LegalAct
   end
 
   def url_safe_code
-    regulation_code.tr("/", "_")
+    regulation_code.tr('/', '_')
   end
 
   def has_national_data?

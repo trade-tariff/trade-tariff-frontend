@@ -18,12 +18,12 @@ module ApplicationHelper
     return nil if %w(pages errors).exclude?(controller_name)
 
     crumbs = [
-      content_tag(:li, link_to('Home', '/', class: "govuk-breadcrumbs__link"), class: "govuk-breadcrumbs__list-item"),
-      content_tag(:li, link_to('Business and self-employed', 'https://www.gov.uk/browse/business', class: "govuk-breadcrumbs__link"), class: "govuk-breadcrumbs__list-item"),
-      content_tag(:li, link_to('Imports and exports', 'https://www.gov.uk/browse/business/imports', class: "govuk-breadcrumbs__link"), class: "govuk-breadcrumbs__list-item")
+      content_tag(:li, link_to('Home', '/', class: 'govuk-breadcrumbs__link'), class: 'govuk-breadcrumbs__list-item'),
+      content_tag(:li, link_to('Business and self-employed', 'https://www.gov.uk/browse/business', class: 'govuk-breadcrumbs__link'), class: 'govuk-breadcrumbs__list-item'),
+      content_tag(:li, link_to('Imports and exports', 'https://www.gov.uk/browse/business/imports', class: 'govuk-breadcrumbs__link'), class: 'govuk-breadcrumbs__list-item')
     ]
-    content_tag(:div, class: "govuk-breadcrumbs") do
-      content_tag(:ol, crumbs.join('').html_safe, class: "govuk-breadcrumbs__list", role: "breadcrumbs")
+    content_tag(:div, class: 'govuk-breadcrumbs') do
+      content_tag(:ol, crumbs.join('').html_safe, class: 'govuk-breadcrumbs__list', role: 'breadcrumbs')
     end
   end
 
@@ -37,11 +37,11 @@ module ApplicationHelper
       content_tag(:li, current_page, class: 'govuk-breadcrumbs__list-item', aria: { current: 'page' })
     ]
 
-    content_tag(:div, class: "govuk-breadcrumbs") { content_tag(:ol, crumbs.join('').html_safe, class: "govuk-breadcrumbs__list", role: "breadcrumbs") }
+    content_tag(:div, class: 'govuk-breadcrumbs') { content_tag(:ol, crumbs.join('').html_safe, class: 'govuk-breadcrumbs__list', role: 'breadcrumbs') }
   end
 
   def govuk_header_navigation_item(active_class = false)
-    base_classname = "govuk-header__navigation-item"
+    base_classname = 'govuk-header__navigation-item'
     classname = "#{base_classname} #{active_class ? "#{base_classname}--active" : ''}"
     content_tag(:li, class: classname) { yield }
   end

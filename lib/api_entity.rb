@@ -50,7 +50,7 @@ module ApiEntity
     if attributes.present?
       attributes.each do |name, value|
         if respond_to?(:"#{name}=")
-          send(:"#{name}=", value.is_a?(String) && value == "null" ? nil : value)
+          send(:"#{name}=", value.is_a?(String) && value == 'null' ? nil : value)
         end
       end
     end
@@ -81,7 +81,7 @@ module ApiEntity
         when 500
           raise ApiEntity::Error, TariffJsonapiParser.new(resp.body).errors
         when 502
-          raise ApiEntity::Error, "502 Bad Gateway"
+          raise ApiEntity::Error, '502 Bad Gateway'
         end
         collection = TariffJsonapiParser.new(resp.body).parse
         collection = collection.map { |entry_data| new(entry_data) }
