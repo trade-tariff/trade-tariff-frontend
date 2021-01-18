@@ -8,8 +8,8 @@ describe MeasureCollection do
 
     it 'filters measures by country code' do
       expect(
-        collection.for_country('IT')
-      ).to_not include measure2
+        collection.for_country('IT'),
+      ).not_to include measure2
     end
   end
 
@@ -19,7 +19,7 @@ describe MeasureCollection do
     let(:collection) { MeasureCollection.new([measure1, measure2]) }
 
     it 'filters VAT measures' do
-      expect(collection.vat).to_not include measure2
+      expect(collection.vat).not_to include measure2
     end
   end
 
@@ -29,7 +29,7 @@ describe MeasureCollection do
     let(:collection) { MeasureCollection.new([measure1, measure2]) }
 
     it 'filters national measures' do
-      expect(collection.national).to_not include measure2
+      expect(collection.national).not_to include measure2
     end
   end
 
@@ -61,10 +61,11 @@ describe MeasureCollection do
     end
   end
 
-  describe "#present?" do
+  describe '#present?' do
     context 'measures present' do
-      let(:measure) { Measure.new(attributes_for(:measure).stringify_keys) }
       subject { MeasureCollection.new([measure]) }
+
+      let(:measure) { Measure.new(attributes_for(:measure).stringify_keys) }
 
       it 'returns true' do
         expect(subject).to be_present
@@ -75,7 +76,7 @@ describe MeasureCollection do
       subject { MeasureCollection.new([]) }
 
       it 'returns false' do
-        expect(subject).to_not be_present
+        expect(subject).not_to be_present
       end
     end
   end

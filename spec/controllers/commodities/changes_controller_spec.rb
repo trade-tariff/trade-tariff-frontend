@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Commodities::ChangesController, "GET to #index", type: :controller do
-  describe "commodity is valid at given date", vcr: { cassette_name: "commodities_changes#index" } do
-    let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: "0101210000").stringify_keys) }
+describe Commodities::ChangesController, 'GET to #index', type: :controller do
+  describe 'commodity is valid at given date', vcr: { cassette_name: 'commodities_changes#index' } do
+    let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: '0101210000').stringify_keys) }
 
     before do
       get :index, params: { commodity_id: commodity.short_code }, format: :atom
@@ -13,8 +13,8 @@ describe Commodities::ChangesController, "GET to #index", type: :controller do
     it { expect(assigns(:changes)).to be_a(ChangesPresenter) }
   end
 
-  describe 'commodity has no changes at given date', vcr: { cassette_name: "commodities_changes#index_4302130000_1998-01-01" }, type: :controller do
-    let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: "4302130000").stringify_keys) }
+  describe 'commodity has no changes at given date', vcr: { cassette_name: 'commodities_changes#index_4302130000_1998-01-01' }, type: :controller do
+    let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: '4302130000').stringify_keys) }
 
     before do
       get :index, params: { commodity_id: commodity.short_code, as_of: Date.new(1998, 1, 1) }, format: :atom
@@ -29,8 +29,8 @@ describe Commodities::ChangesController, "GET to #index", type: :controller do
     end
   end
 
-  describe 'commodity is not valid at given date', vcr: { cassette_name: "commodities_changes#index_4302130000_2013-11-11" } do
-    let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: "4302130000").stringify_keys) }
+  describe 'commodity is not valid at given date', vcr: { cassette_name: 'commodities_changes#index_4302130000_2013-11-11' } do
+    let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: '4302130000').stringify_keys) }
 
     before do
       get :index, params: { commodity_id: commodity.short_code, as_of: Date.new(2013, 11, 11) }, format: :atom

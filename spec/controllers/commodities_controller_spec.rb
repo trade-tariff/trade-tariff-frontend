@@ -1,29 +1,29 @@
 require 'spec_helper'
 
 describe CommoditiesController, type: :controller do
-  describe "GET to #show" do
-    context 'existing commodity id provided', vcr: { cassette_name: "commodities#show" } do
-      let!(:commodity)   { Commodity.new(attributes_for(:commodity).stringify_keys) }
+  describe 'GET to #show' do
+    context 'existing commodity id provided', vcr: { cassette_name: 'commodities#show' } do
+      subject { controller }
 
-      before(:each) do
+      let!(:commodity) { Commodity.new(attributes_for(:commodity).stringify_keys) }
+
+      before do
         VCR.use_cassette('headings_show_0101_api_json_content_type') do
           get :show, params: { id: commodity.short_code }
         end
       end
 
-      subject { controller }
-
-      it { should respond_with(:success) }
+      it { is_expected.to respond_with(:success) }
       it { expect(assigns(:section)).to be_present }
       it { expect(assigns(:chapter)).to be_present }
       it { expect(assigns(:heading)).to be_present }
       it { expect(assigns(:commodity)).to be_present }
     end
 
-    context 'with non existing commodity id provided', vcr: { cassette_name: "commodities#show_0101999999" } do
+    context 'with non existing commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do
       let(:commodity_id) { '0101999999' } # commodity 0101999999 does not exist
 
-      before(:each) do
+      before do
         get :show, params: { id: commodity_id }
       end
 
@@ -33,16 +33,16 @@ describe CommoditiesController, type: :controller do
       end
     end
 
-    context 'with commodity id that does not exist in provided date', vcr: { cassette_name: "commodities#show_010121000_2000-01-01" } do
+    context 'with commodity id that does not exist in provided date', vcr: { cassette_name: 'commodities#show_010121000_2000-01-01' } do
       let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
 
-      around(:each) do |example|
-        Timecop.freeze(DateTime.new(2013,11,11,12,0,0)) do
+      around do |example|
+        Timecop.freeze(DateTime.new(2013, 11, 11, 12, 0, 0)) do
           example.run
         end
       end
 
-      before(:each) do
+      before do
         get :show, params: { id: commodity_id, year: 2000, month: 1, day: 1, country: nil }
       end
 

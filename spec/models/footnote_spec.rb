@@ -5,16 +5,16 @@ describe Footnote do
     let(:measure) { Measure.new(attributes_for(:measure, id: '123').stringify_keys) }
     let(:footnote) { described_class.new(attributes_for(:footnote, casted_by: measure, code: '456').stringify_keys) }
 
-    it 'should contain casted_by info' do
+    it 'contains casted_by info' do
       expect(footnote.id).to include(footnote.casted_by.destination)
       expect(footnote.id).to include(footnote.casted_by.id)
     end
 
-    it 'should contain code' do
+    it 'contains code' do
       expect(footnote.id).to include(footnote.code)
     end
 
-    it "should contain '-footnote-'" do
+    it "contains '-footnote-'" do
       expect(footnote.id).to include('-footnote-')
     end
   end

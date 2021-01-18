@@ -7,7 +7,7 @@ describe ApplicationHelper, type: :helper do
 
       it 'renders string in Markdown as HTML' do
         expect(
-          helper.govspeak(string).strip
+          helper.govspeak(string).strip,
         ).to eq '<p><strong>hello</strong></p>'
       end
     end
@@ -17,35 +17,35 @@ describe ApplicationHelper, type: :helper do
 
       it '<script> tags with a content are filtered' do
         expect(
-          helper.govspeak(string).strip
-        ).to eq ""
+          helper.govspeak(string).strip,
+        ).to eq ''
       end
     end
 
     context 'when HashWithIndifferentAccess is passed as argument' do
-      let(:hash) {
-        { "content" => "* 1\\. This chapter does not cover:" }
-      }
+      let(:hash) do
+        { 'content' => '* 1\\. This chapter does not cover:' }
+      end
 
       it 'fetches :content from the hash' do
         expect(
-          helper.govspeak(hash)
+          helper.govspeak(hash),
         ).to eq <<~FOO
-        <ul>
-          <li>1. This chapter does not cover:</li>
-        </ul>
+          <ul>
+            <li>1. This chapter does not cover:</li>
+          </ul>
         FOO
       end
     end
 
     context 'when HashWithIndifferentAccess is passed as argument with no applicable content' do
-      let(:na_hash) {
-        { "foo" => "bar" }
-      }
+      let(:na_hash) do
+        { 'foo' => 'bar' }
+      end
 
       it 'returns an empty string' do
         expect(
-          helper.govspeak(na_hash)
+          helper.govspeak(na_hash),
         ).to eq ''
       end
     end

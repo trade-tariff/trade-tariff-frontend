@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe SearchSuggestion do
-  describe '.all', vcr: { cassette_name: 'search#suggestions', allow_playback_repeats: true }  do
+  describe '.all', vcr: { cassette_name: 'search#suggestions', allow_playback_repeats: true } do
     let(:suggestions) { SearchSuggestion.all }
 
     it 'fetches suggestions from the API' do
       expect(suggestions).to be_kind_of Array
-      expect(suggestions).to_not be_blank
+      expect(suggestions).not_to be_blank
     end
 
     it 'sorts suggestions by value' do
@@ -14,9 +14,9 @@ describe SearchSuggestion do
     end
   end
 
-  describe '.start_with', vcr: { cassette_name: 'search#suggestions', allow_playback_repeats: true  } do
+  describe '.start_with', vcr: { cassette_name: 'search#suggestions', allow_playback_repeats: true } do
     it 'invokes .cached_suggestions method' do
-      expect(described_class).to receive(:cached_suggestions) { [] }
+      expect(described_class).to receive(:cached_suggestions).and_return([])
       described_class.start_with('123')
     end
 

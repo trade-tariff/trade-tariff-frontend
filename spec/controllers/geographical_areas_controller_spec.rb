@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe GeographicalAreasController, "GET to #index", type: :controller, vcr: { cassette_name: "geographical_areas#countries", allow_playback_repeats: true } do
+describe GeographicalAreasController, 'GET to #index', type: :controller, vcr: { cassette_name: 'geographical_areas#countries', allow_playback_repeats: true } do
   let!(:areas) { GeographicalArea.all }
   let!(:area) { areas[0] }
   let!(:query) { area.long_description.to_s }
 
   context 'with term param' do
-    before(:each) do
+    before do
       get :index, params: { term: query }, format: :json
     end
 
@@ -17,12 +17,12 @@ describe GeographicalAreasController, "GET to #index", type: :controller, vcr: {
     end
 
     specify 'includes search results' do
-      expect(body['results']).to include({'id' => area.id, 'text' => area.long_description})
+      expect(body['results']).to include({ 'id' => area.id, 'text' => area.long_description })
     end
   end
 
   context 'without term param' do
-    before(:each) do
+    before do
       get :index, format: :json
     end
 

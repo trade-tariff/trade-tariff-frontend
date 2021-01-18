@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe 'Chapter page', type: :request do
   context 'as HTML' do
-    it 'should display chapter name and headings in the chapter' do
+    it 'displays chapter name and headings in the chapter' do
       VCR.use_cassette('geographical_areas#countries') do
         VCR.use_cassette('chapters#show') do
-          visit chapter_path("01")
+          visit chapter_path('01')
 
           expect(page).to have_content 'Live animals'
           expect(page).to have_content 'Live bovine animals'
@@ -19,12 +19,12 @@ describe 'Chapter page', type: :request do
     context 'requested with json format' do
       it 'renders direct API response' do
         VCR.use_cassette('chapters#show_01_api_json_format') do
-          get "/chapters/01.json"
+          get '/chapters/01.json'
 
           json = JSON.parse(response.body)
 
-          expect(json["goods_nomenclature_item_id"]).to eq '0100000000'
-          expect(json["formatted_description"]).to eq 'Live animals'
+          expect(json['goods_nomenclature_item_id']).to eq '0100000000'
+          expect(json['formatted_description']).to eq 'Live animals'
         end
       end
     end
@@ -32,12 +32,12 @@ describe 'Chapter page', type: :request do
     context 'requested with json HTTP Accept header' do
       it 'renders direct API response' do
         VCR.use_cassette('chapters#show_01_api_json_content_type') do
-          get "/chapters/01", headers: { 'HTTP_ACCEPT' => 'application/json' }
+          get '/chapters/01', headers: { 'HTTP_ACCEPT' => 'application/json' }
 
           json = JSON.parse(response.body)
 
-          expect(json["goods_nomenclature_item_id"]).to eq '0100000000'
-          expect(json["formatted_description"]).to eq 'Live animals'
+          expect(json['goods_nomenclature_item_id']).to eq '0100000000'
+          expect(json['formatted_description']).to eq 'Live animals'
         end
       end
     end

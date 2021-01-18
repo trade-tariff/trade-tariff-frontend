@@ -23,7 +23,7 @@ describe TariffDate do
 
     it 'ignores incorrect date in param' do
       expect(
-        subject.new('2011').to_s
+        subject.new('2011').to_s,
       ).to eq subject.new(nil).date.to_s(:dashed)
     end
   end

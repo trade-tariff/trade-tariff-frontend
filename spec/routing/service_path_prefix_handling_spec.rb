@@ -9,13 +9,13 @@ describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
 
   describe 'matching routes' do
     context 'when the service choice prefix is xi' do
-      let(:prefix) { "/xi" }
+      let(:prefix) { '/xi' }
 
       it 'sets the request params service choice to the xi backend' do
         expect(get: path).to route_to(
-          controller: "commodities",
-          action: "show",
-          id: "0101300000",
+          controller: 'commodities',
+          action: 'show',
+          id: '0101300000',
         )
         expect(Thread.current[:service_choice]).to eq('xi')
       end
@@ -26,9 +26,9 @@ describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
 
       it 'does not specify the service backend' do
         expect(get: path).to route_to(
-          controller: "commodities",
-          action: "show",
-          id: "0101300000",
+          controller: 'commodities',
+          action: 'show',
+          id: '0101300000',
         )
         expect(Thread.current[:service_choice]).to be_nil
       end
@@ -39,29 +39,29 @@ describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
 
       it 'does not set the request params service choice' do
         expect(get: path).to route_to(
-          controller: "commodities",
-          action: "show",
-          id: "0101300000",
+          controller: 'commodities',
+          action: 'show',
+          id: '0101300000',
         )
         expect(Thread.current[:service_choice]).to eq('uk')
       end
     end
 
     context 'when the service choice prefix is set to an unsupported service choice' do
-      let(:prefix) { "/xixi" }
+      let(:prefix) { '/xixi' }
 
       it 'routes to a not_found action in the errors controller' do
         expect(get: path).to route_to(
-          controller: "errors",
-          action: "not_found",
-          path: "xixi/commodities/0101300000"
+          controller: 'errors',
+          action: 'not_found',
+          path: 'xixi/commodities/0101300000',
         )
         expect(Thread.current[:service_choice]).to eq(nil)
       end
     end
 
     context 'when the service choice prefix is the only thing in the path' do
-      let(:path) { "#{prefix}" }
+      let(:path) { prefix.to_s }
       let(:prefix) { '/xi' }
 
       it 'routes to a not_found action in the errors controller' do
@@ -84,19 +84,19 @@ describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
       it 'prepends the choice to the url' do
         result = commodity_url(
           id: commodity_id,
-          currency: 'EUR'
+          currency: 'EUR',
         )
 
-        expect(result).to eq("http://test.host/xi/commodities/0101210000?currency=EUR")
+        expect(result).to eq('http://test.host/xi/commodities/0101210000?currency=EUR')
       end
 
       it 'prepends the choice to the path' do
         result = commodity_path(
           id: commodity_id,
-          currency: 'EUR'
+          currency: 'EUR',
         )
 
-        expect(result).to eq("/xi/commodities/0101210000?currency=EUR")
+        expect(result).to eq('/xi/commodities/0101210000?currency=EUR')
       end
     end
 
@@ -106,19 +106,19 @@ describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
       it 'does not prepend the choice to the url' do
         result = commodity_path(
           id: commodity_id,
-          currency: 'EUR'
+          currency: 'EUR',
         )
 
-        expect(result).to eq("/commodities/0101210000?currency=EUR")
+        expect(result).to eq('/commodities/0101210000?currency=EUR')
       end
 
       it 'does not prepend the choice to the path' do
         result = commodity_path(
           id: commodity_id,
-          currency: 'EUR'
+          currency: 'EUR',
         )
 
-        expect(result).to eq("/commodities/0101210000?currency=EUR")
+        expect(result).to eq('/commodities/0101210000?currency=EUR')
       end
     end
 

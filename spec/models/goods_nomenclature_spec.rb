@@ -43,9 +43,9 @@ describe GoodsNomenclature do
 
   describe '#validity_start_date' do
     context 'the date is set' do
-      let(:goods_nomenclature) {
+      let(:goods_nomenclature) do
         build(:goods_nomenclature, validity_start_date: Date.today)
-      }
+      end
 
       it 'returns instance of Date' do
         expect(goods_nomenclature.validity_start_date).to be_kind_of Date
@@ -57,9 +57,9 @@ describe GoodsNomenclature do
     end
 
     context 'date is not set' do
-      let(:goods_nomenclature) {
+      let(:goods_nomenclature) do
         build(:goods_nomenclature, validity_start_date: nil)
-      }
+      end
 
       it 'returns NullObject' do
         expect(goods_nomenclature.validity_start_date).to be_kind_of NullObject
@@ -69,9 +69,9 @@ describe GoodsNomenclature do
 
   describe '#validity_end_date' do
     context 'the date is set' do
-      let(:goods_nomenclature) {
+      let(:goods_nomenclature) do
         build(:goods_nomenclature, validity_end_date: Date.today)
-      }
+      end
 
       it 'returns instance of Date' do
         expect(goods_nomenclature.validity_end_date).to be_kind_of Date
@@ -83,9 +83,9 @@ describe GoodsNomenclature do
     end
 
     context 'date is not set' do
-      let(:goods_nomenclature) {
+      let(:goods_nomenclature) do
         build(:goods_nomenclature, validity_end_date: nil)
-      }
+      end
 
       it 'returns NullObject' do
         expect(goods_nomenclature.validity_end_date).to be_kind_of NullObject

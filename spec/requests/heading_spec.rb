@@ -7,7 +7,7 @@ describe 'Heading page', type: :request do
         it 'displays declarable related information' do
           VCR.use_cassette('geographical_areas#countries') do
             VCR.use_cassette('headings#show_declarable') do
-              visit heading_path("0501")
+              visit heading_path('0501')
 
               expect(page).to have_content 'Importing from outside the EU is subject to a third country duty of 0.00 % unless subject to other measures.'
             end
@@ -19,17 +19,16 @@ describe 'Heading page', type: :request do
         it 'displays declarable related information' do
           VCR.use_cassette('geographical_areas#countries') do
             VCR.use_cassette('headings#show_declarable') do
-              visit heading_path("0501", country: 'ZW')
+              visit heading_path('0501', country: 'ZW')
 
-              within("#import table.measures") do
+              within('#import table.measures') do
                 expect(page).to     have_content 'Zimbabwe'
                 expect(page).to     have_content 'Eastern and Southern Africa States' # Zimbabwe is member of latter
               end
 
-              within("#import table.measures") do
+              within('#import table.measures') do
                 expect(page).to     have_content 'Animal Health Certificate'
               end
-
             end
           end
         end
@@ -37,10 +36,10 @@ describe 'Heading page', type: :request do
     end
 
     context 'regular heading' do
-      it 'should display heading name and children commodities' do
+      it 'displays heading name and children commodities' do
         VCR.use_cassette('geographical_areas#countries') do
           VCR.use_cassette('headings#show') do
-            visit heading_path("0101")
+            visit heading_path('0101')
 
             expect(page).to have_content 'Live horses, asses, mules and hinnies'
             expect(page).to have_content 'Horses'
@@ -55,7 +54,7 @@ describe 'Heading page', type: :request do
     context 'requested with json format' do
       it 'renders direct API response' do
         VCR.use_cassette('headings#show_0101_api_json_format') do
-          get "/headings/0101.json"
+          get '/headings/0101.json'
 
           json = JSON.parse(response.body)
 
@@ -68,7 +67,7 @@ describe 'Heading page', type: :request do
     context 'requested with json HTTP Accept header' do
       it 'renders direct API response' do
         VCR.use_cassette('headings#show_0101_api_json_content_type') do
-          get "/headings/0101", headers: { 'HTTP_ACCEPT' => 'application/json' }
+          get '/headings/0101', headers: { 'HTTP_ACCEPT' => 'application/json' }
 
           json = JSON.parse(response.body)
 

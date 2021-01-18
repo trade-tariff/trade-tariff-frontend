@@ -8,14 +8,14 @@ describe HeadingCommodityPresenter do
 
     it 'returns commodities that have root identication' do
       expect(
-        HeadingCommodityPresenter.new(commodities).root_commodities
+        HeadingCommodityPresenter.new(commodities).root_commodities,
       ).to include root_commodity
     end
 
     it 'does not return commodity not marked as root' do
       expect(
-        HeadingCommodityPresenter.new(commodities).root_commodities
-      ).to_not include non_root_commodity
+        HeadingCommodityPresenter.new(commodities).root_commodities,
+      ).not_to include non_root_commodity
     end
   end
 end
