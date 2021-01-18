@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe 'GET to #index - getting chapter change feed', type: :request do
-  let!(:chapter) { Chapter.new(attributes_for(:chapter, goods_nomenclature_item_id: "0101000000").stringify_keys) }
+  let!(:chapter) { Chapter.new(attributes_for(:chapter, goods_nomenclature_item_id: '0101000000').stringify_keys) }
 
   describe 'no request format supplied' do
     before do
-      VCR.use_cassette("chapters_changes#index") do
-        get "/chapters/01/changes"
+      VCR.use_cassette('chapters_changes#index') do
+        get '/chapters/01/changes'
       end
     end
 

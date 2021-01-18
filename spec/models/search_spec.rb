@@ -15,7 +15,7 @@ describe Search do
       allow(Search).to receive(:api).and_return(api_mock)
     end
 
-    it "search" do
+    it 'search' do
       expect { Search.new(q: 'abc').perform }.to raise_error ApiEntity::Error
     end
   end

@@ -3,15 +3,15 @@ require 'spec_helper'
 describe ExchangeRatesController, 'GET to #index', type: :controller do
   render_views
 
-  around(:each) do |example|
+  around do |example|
     VCR.use_cassette('exchange_rates#index') do
       example.run
     end
   end
 
-  before {
+  before do
     get :index
-  }
+  end
 
   let(:latest_rate) { MonetaryExchangeRate.all.last }
 

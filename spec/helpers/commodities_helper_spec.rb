@@ -6,6 +6,6 @@ describe CommoditiesHelper, type: :helper do
 
   let(:commodities) { [commodity1, commodity2] }
 
-  describe ".commodity_tree" do
+  describe '.commodity_tree' do
   end
 end

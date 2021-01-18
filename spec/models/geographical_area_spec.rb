@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe GeographicalArea do
-  describe '.all', vcr: { cassette_name: "geographical_areas#countries" }  do
+  describe '.all', vcr: { cassette_name: 'geographical_areas#countries' } do
     let(:countries) { GeographicalArea.countries }
 
     it 'fetches geographical areas that are countries from the API' do
       expect(countries).to be_kind_of Array
-      expect(countries).to_not be_blank
+      expect(countries).not_to be_blank
     end
 
     it 'sorts countries by id' do
@@ -15,12 +15,12 @@ describe GeographicalArea do
 
     it 'removes excluded countries (United Kingdom)' do
       expect(
-        countries.detect { |c| c.id == 'GB' }
+        countries.detect { |c| c.id == 'GB' },
       ).to be_blank
     end
   end
 
-  describe '.by_long_description', vcr: { cassette_name: "geographical_areas#countries" } do
+  describe '.by_long_description', vcr: { cassette_name: 'geographical_areas#countries' } do
     let(:by_long_desc) { GeographicalArea.by_long_description('in') }
 
     it 'returns an array' do

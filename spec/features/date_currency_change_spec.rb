@@ -1,34 +1,33 @@
-require "spec_helper"
+require 'spec_helper'
 
-describe "Date & Currency change", js: true, vcr: {
-  cassette_name: "date_currency",
+describe 'Date & Currency change', js: true, vcr: {
+  cassette_name: 'date_currency',
   record: :once,
-  match_requests_on: [:path, :query]
+  match_requests_on: %i[path query],
 } do
+  it 'displays the current date' do
+    visit sections_path(day: 0o1, month: 0o2, year: 2019)
 
-  it "displays the current date" do
-    visit sections_path(day: 01, month: 02, year: 2019)
-
-    expect(page).to have_content "This tariff is for 1 February 2019"
+    expect(page).to have_content 'This tariff is for 1 February 2019'
   end
 
-  it "is able to change dates and go back in time" do
-    visit sections_path(day: 01, month: 02, year: 2019)
+  it 'is able to change dates and go back in time' do
+    visit sections_path(day: 0o1, month: 0o2, year: 2019)
 
-    expect(page).to have_content "This tariff is for 1 February 2019"
-    expect(page).to have_content "Change date"
+    expect(page).to have_content 'This tariff is for 1 February 2019'
+    expect(page).to have_content 'Change date'
 
-    click_link "Change date"
+    click_link 'Change date'
 
-    expect(page).to have_content "Set date"
+    expect(page).to have_content 'Set date'
 
     page.execute_script("$('#tariff_date_year').val('2018')")
     page.execute_script("$('#tariff_date_month').val('12')")
 
-    click_link "Set date"
+    click_link 'Set date'
 
-    expect(page).to have_content "This tariff is for 1 December 2018"
-    expect(page).to have_content "Change date"
+    expect(page).to have_content 'This tariff is for 1 December 2018'
+    expect(page).to have_content 'Change date'
   end
 
   it 'displays the searched-for date, if the searched-for date is past BREXIT_DATE, and the current date is past BREXIT_DATE' do
@@ -46,7 +45,7 @@ describe "Date & Currency change", js: true, vcr: {
 
       click_link 'Set date'
 
-      expect(page).to have_content "This tariff is for #{(searched_for_date).strftime('%-d %B %Y')}"
+      expect(page).to have_content "This tariff is for #{searched_for_date.strftime('%-d %B %Y')}"
     end
   end
 end

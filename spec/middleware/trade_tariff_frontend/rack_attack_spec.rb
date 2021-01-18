@@ -1,6 +1,7 @@
 require 'spec_helper'
 
-describe Rack::Attack, vcr: { cassette_name: "sections#index" } do
+# rubocop:disable Rails/HttpPositionalArguments
+describe Rack::Attack, vcr: { cassette_name: 'sections#index' } do
   include Rack::Test::Methods
 
   def app
@@ -8,25 +9,38 @@ describe Rack::Attack, vcr: { cassette_name: "sections#index" } do
   end
 
   context 'when app is not locked' do
-    before { ENV['CDS_LOCKED_IP'] = nil }
-    before { ENV['IP_ALLOWLIST'] = nil }
-    before { ENV['CDS_LOCKED_AUTH'] = nil }
-    before { ENV['CDS_USER'] = nil }
-    before { ENV['CDS_PASSWORD'] = nil }
-    before { ENV['CDN_SECRET_KEY'] = nil }
+    before do
+      ENV['CDN_SECRET_KEY'] = nil
+      ENV['CDS_LOCKED_AUTH'] = nil
+      ENV['CDS_LOCKED_IP'] = nil
+      ENV['CDS_PASSWORD'] = nil
+      ENV['CDS_USER'] = nil
+      ENV['IP_ALLOWLIST'] = nil
 
-    before { get '/sections' }
+      get '/sections'
+    end
 
     it { expect(last_response.status).to eq(200) }
   end
 
   context 'when app is locked' do
-    before { ENV['CDS_LOCKED_IP'] = 'true' }
-    before { ENV['IP_ALLOWLIST'] = '127.0.0.1' }
-    before { ENV['CDS_LOCKED_AUTH'] = nil }
-    before { ENV['CDS_USER'] = nil }
-    before { ENV['CDS_PASSWORD'] = nil }
-    before { ENV['CDN_SECRET_KEY'] = nil }
+    before do
+      ENV['CDN_SECRET_KEY'] = nil
+      ENV['CDS_LOCKED_AUTH'] = nil
+      ENV['CDS_LOCKED_IP'] = 'true'
+      ENV['CDS_PASSWORD'] = nil
+      ENV['CDS_USER'] = nil
+      ENV['IP_ALLOWLIST'] = '127.0.0.1'
+    end
+
+    after do
+      ENV['CDN_SECRET_KEY'] = nil
+      ENV['CDS_PASSWORD'] = nil
+      ENV['CDS_USER'] = nil
+      ENV['CDS_LOCKED_AUTH'] = nil
+      ENV['IP_ALLOWLIST'] = nil
+      ENV['CDS_LOCKED_IP'] = nil
+    end
 
     context 'and ip is not listed' do
       before { get '/sections', {}, { 'REMOTE_ADDR' => '1.2.3.4' } }
@@ -39,40 +53,43 @@ describe Rack::Attack, vcr: { cassette_name: "sections#index" } do
 
       it { expect(last_response.status).to eq(200) }
     end
-
-    after { ENV['CDS_LOCKED_IP'] = nil }
-    after { ENV['IP_ALLOWLIST'] = nil }
-    after { ENV['CDS_LOCKED_AUTH'] = nil }
-    after { ENV['CDS_USER'] = nil }
-    after { ENV['CDS_PASSWORD'] = nil }
-    after { ENV['CDN_SECRET_KEY'] = nil }
   end
 
   context 'when app has no CDN lock' do
-    before { ENV['CDN_SECRET_KEY'] = nil }
-    before { ENV['IP_ALLOWLIST'] = nil }
+    before do
+      ENV['CDN_SECRET_KEY'] = nil
+      ENV['IP_ALLOWLIST'] = nil
 
-    before { get '/sections' }
+      get '/sections'
+    end
 
     it { expect(last_response.status).to eq(200) }
   end
 
   context 'when app has CDN lock' do
-    before { ENV['CDN_SECRET_KEY'] = 'CDN_SECRET_KEY' }
-    before { ENV['IP_ALLOWLIST'] = nil }
+    before do
+      ENV['CDN_SECRET_KEY'] = 'CDN_SECRET_KEY'
+      ENV['IP_ALLOWLIST'] = nil
+    end
 
-    context 'request has no secret key header value' do
+    after { ENV['CDN_SECRET_KEY'] = nil }
+
+    context 'when request has no secret key header value' do
       before { get '/sections' }
 
       it { expect(last_response.status).to eq(403) }
     end
 
-    context 'request has no secret key header value but ip is allowed' do
-      before { ENV['IP_ALLOWLIST'] = '127.0.0.1' }
-      before { get '/sections', {},  { 'REMOTE_ADDR' => '127.0.0.1' }}
+    context 'when request has no secret key header value but ip is allowed' do
+      before do
+        ENV['IP_ALLOWLIST'] = '127.0.0.1'
+
+        get '/sections', {}, { 'REMOTE_ADDR' => '127.0.0.1' }
+      end
+
+      after { ENV['IP_ALLOWLIST'] = nil }
 
       it { expect(last_response.status).to eq(200) }
-      after { ENV['IP_ALLOWLIST'] = nil }
     end
 
     context 'request has wrong secret key header value' do
@@ -82,11 +99,15 @@ describe Rack::Attack, vcr: { cassette_name: "sections#index" } do
     end
 
     context 'request has wrong secret key header value but ip is allowed' do
-      before { ENV['IP_ALLOWLIST'] = '127.0.0.1' }
-      before { get '/sections', {}, { 'CDN_SECRET' => 'CDN_SECRET', 'REMOTE_ADDR' => '127.0.0.1' } }
+      before do
+        ENV['IP_ALLOWLIST'] = '127.0.0.1'
+
+        get '/sections', {}, { 'CDN_SECRET' => 'CDN_SECRET', 'REMOTE_ADDR' => '127.0.0.1' }
+      end
+
+      after { ENV['IP_ALLOWLIST'] = nil }
 
       it { expect(last_response.status).to eq(200) }
-      after { ENV['IP_ALLOWLIST'] = nil }
     end
 
     context 'request has correct secret key header value' do
@@ -96,13 +117,16 @@ describe Rack::Attack, vcr: { cassette_name: "sections#index" } do
     end
 
     context 'request has correct secret key header value and ip is not in allow list' do
-      before { ENV['IP_ALLOWLIST'] = '127.0.0.1' }
-      before { get '/sections', {}, { 'CDN_SECRET' => 'CDN_SECRET_KEY', 'REMOTE_ADDR' => '1.2.3.4' } }
+      before do
+        ENV['IP_ALLOWLIST'] = '127.0.0.1'
+
+        get '/sections', {}, { 'CDN_SECRET' => 'CDN_SECRET_KEY', 'REMOTE_ADDR' => '1.2.3.4' }
+      end
+
+      after { ENV['IP_ALLOWLIST'] = nil }
 
       it { expect(last_response.status).to eq(200) }
-      after { ENV['IP_ALLOWLIST'] = nil }
     end
-
-    after { ENV['CDN_SECRET_KEY'] = nil }
   end
 end
+# rubocop:enable Rails/HttpPositionalArguments

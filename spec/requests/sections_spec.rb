@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Sections Index page', type: :request do
   context 'as HTML' do
-    it 'should display section names' do
+    it 'displays section names' do
       VCR.use_cassette('geographical_areas#countries') do
         VCR.use_cassette('sections#index') do
           visit sections_path
@@ -19,7 +19,7 @@ describe 'Sections Index page', type: :request do
     context 'requested with json format' do
       it 'renders direct API response' do
         VCR.use_cassette('sections#index_api_json_format') do
-          get "/sections.json"
+          get '/sections.json'
 
           json = JSON.parse(response.body)
 
@@ -32,7 +32,7 @@ describe 'Sections Index page', type: :request do
     context 'requested with json HTTP Accept header' do
       it 'renders direct API response' do
         VCR.use_cassette('sections#index_api_json_content_type') do
-          get "/sections", headers: { 'HTTP_ACCEPT' => 'application/json' }
+          get '/sections', headers: { 'HTTP_ACCEPT' => 'application/json' }
 
           json = JSON.parse(response.body)
 
@@ -46,7 +46,7 @@ end
 
 describe 'Section page', type: :request do
   context 'as HTML' do
-    it 'should display section name and chapters in the section' do
+    it 'displays section name and chapters in the section' do
       VCR.use_cassette('geographical_areas#countries') do
         VCR.use_cassette('sections#show') do
           visit section_path(1)
@@ -63,7 +63,7 @@ describe 'Section page', type: :request do
     context 'requested with json format' do
       it 'renders direct API response' do
         VCR.use_cassette('sections#show_1_api_json_format') do
-          get "/sections/1.json"
+          get '/sections/1.json'
 
           json = JSON.parse(response.body)
 
@@ -76,7 +76,7 @@ describe 'Section page', type: :request do
     context 'requested with json HTTP Accept header' do
       it 'renders direct API response' do
         VCR.use_cassette('sections#show_1_api_json_content_type') do
-          get "/sections/1", headers: { 'HTTP_ACCEPT' => 'application/json' }
+          get '/sections/1', headers: { 'HTTP_ACCEPT' => 'application/json' }
 
           json = JSON.parse(response.body)
 

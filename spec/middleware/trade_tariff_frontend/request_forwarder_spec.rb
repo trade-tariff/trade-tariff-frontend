@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe TradeTariffFrontend::RequestForwarder do
-  let(:app)            { ->(env) { [200, env, "app"] } }
+  let(:app)            { ->(env) { [200, env, 'app'] } }
   let(:host)           { TradeTariffFrontend::ServiceChooser.api_host }
-  let(:request_path)   { "/sections/1" }
-  let(:request_params) { "?page=2" }
+  let(:request_path)   { '/sections/1' }
+  let(:request_params) { '?page=2' }
 
-  let(:response_body) { "example" }
+  let(:response_body) { 'example' }
 
   let :middleware do
     described_class.new(host: host)
@@ -25,7 +25,7 @@ describe TradeTariffFrontend::RequestForwarder do
       .to_return(
         status: 200,
         body: response_body,
-        headers: { 'Content-Length' => response_body.size }
+        headers: { 'Content-Length' => response_body.size },
       )
 
     status, env, body = middleware.call env_for(request_path)
@@ -39,13 +39,13 @@ describe TradeTariffFrontend::RequestForwarder do
       .to_return(
         status: 200,
         body: '',
-        headers: { 'Content-Length' => 0 }
+        headers: { 'Content-Length' => 0 },
       )
 
     status, env, body = middleware.call env_for(request_path, method: :head)
 
     expect(status).to eq 200
-    expect(body).to eq [""]
+    expect(body).to eq ['']
   end
 
   it 'forwards response status code from upstream backend host' do
@@ -54,7 +54,7 @@ describe TradeTariffFrontend::RequestForwarder do
       .to_return(
         status: 404,
         body: 'Not Found',
-        headers: { 'Content-Length' => 'Not Found'.size }
+        headers: { 'Content-Length' => 'Not Found'.size },
       )
 
     status, env, body = middleware.call env_for(request_path)
@@ -70,8 +70,8 @@ describe TradeTariffFrontend::RequestForwarder do
         body: response_body,
         headers: {
           'Content-Length' => response_body.size,
-          'Content-Type' => 'text/html'
-        }
+          'Content-Type' => 'text/html',
+        },
       )
 
     status, env, body = middleware.call env_for(request_path)
@@ -87,8 +87,8 @@ describe TradeTariffFrontend::RequestForwarder do
         body: response_body,
         headers: {
           'Content-Length' => response_body.size,
-          'X-UA-Compatible' => 'IE=9'
-        }
+          'X-UA-Compatible' => 'IE=9',
+        },
       )
 
     status, env, body = middleware.call env_for(request_path)
@@ -103,7 +103,7 @@ describe TradeTariffFrontend::RequestForwarder do
     expect(body).to be_blank
   end
 
-  it "forwards request params" do
+  it 'forwards request params' do
     request_uri = request_path + request_params
 
     stub_request(:get, "#{host}#{request_uri}")
@@ -111,7 +111,7 @@ describe TradeTariffFrontend::RequestForwarder do
       .to_return(
         status: 200,
         body: response_body,
-        headers: { "Content-Length" => response_body.size }
+        headers: { 'Content-Length' => response_body.size },
       )
 
     status, env, body = middleware.call env_for(request_uri)
@@ -120,7 +120,7 @@ describe TradeTariffFrontend::RequestForwarder do
   end
 
   context 'when a service prefix is included in the path' do
-    let(:request_path)   { '/xi/sections/1' }
+    let(:request_path) { '/xi/sections/1' }
 
     it 'removes the service prefix' do
       TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
@@ -132,8 +132,8 @@ describe TradeTariffFrontend::RequestForwarder do
           body: response_body,
           headers: {
             'Content-Length' => response_body.size,
-            'X-UA-Compatible' => 'IE=9'
-          }
+            'X-UA-Compatible' => 'IE=9',
+          },
         )
 
       status, env, body = middleware.call env_for(request_path)

@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+# rubocop:disable Rails/HttpPositionalArguments
 describe 'Basic Auth' do
   include Rack::Test::Methods
 
@@ -44,15 +45,16 @@ describe 'Basic Auth' do
     end
 
     context 'with incorrect credentials' do
-      before { get '/sections', {}, 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(wrong_user,wrong_password) }
+      before { get '/sections', {}, { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(wrong_user, wrong_password) } }
 
       it { expect(last_response.status).to eq(401) }
     end
 
     context 'with correct credentials' do
-      before { get '/sections', {}, 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(correct_user,correct_password) }
+      before { get '/sections', {}, { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(correct_user, correct_password) } }
 
       it { expect(last_response.status).to eq(200) }
     end
   end
 end
+# rubocop:enable Rails/HttpPositionalArguments

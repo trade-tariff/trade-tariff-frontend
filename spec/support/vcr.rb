@@ -9,10 +9,10 @@ VCR.configure do |c|
   c.default_cassette_options = { match_requests_on: [:path] }
   c.configure_rspec_metadata!
   c.ignore_request do |request|
-    if request.uri.start_with?("https://chromedriver.storage.googleapis.com")
+    if request.uri.start_with?('https://chromedriver.storage.googleapis.com')
       true
     else
-      URI(request.uri).host.in?(%w(localhost 127.0.0.1)) &&
+      URI(request.uri).host.in?(%w[localhost 127.0.0.1]) &&
         service_ports.exclude?(URI(request.uri).port)
     end
   end

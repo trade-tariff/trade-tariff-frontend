@@ -1,18 +1,18 @@
-require "spec_helper"
+require 'spec_helper'
 
-describe "a-z index", vcr: {
-  cassette_name: "search_references#az_index",
-  record: :new_episodes
+describe 'a-z index', vcr: {
+  cassette_name: 'search_references#az_index',
+  record: :new_episodes,
 } do
-  let!(:search_reference) {
+  let!(:search_reference) do
     SearchReference.all.first
-  }
+  end
 
-  before {
-    visit a_z_index_path("a")
-  }
+  before do
+    visit a_z_index_path('a')
+  end
 
   it {
-    expect(page).to have_content(search_reference.title.titleize.squeeze(" "))
+    expect(page).to have_content(search_reference.title.titleize.squeeze(' '))
   }
 end
