@@ -56,8 +56,8 @@ Rails.application.configure do
 
   # See everything in the log (default is :info)
   config.log_level = :info
-  config.lograge.enabled = true
-  config.lograge.formatter = Lograge::Formatters::Logstash.new
+  # config.lograge.enabled = true
+  # config.lograge.formatter = Lograge::Formatters::Logstash.new
   # config.lograge.custom_options = lambda do |event|
   #   {
   #     params: event.payload[:params].except('controller', 'action', 'format', 'utf8'),
@@ -65,7 +65,7 @@ Rails.application.configure do
   #     JSON.parse(ENV['VCAP_APPLICATION']).except('application_uris', 'host', 'application_name', 'space_id', 'port', 'uris', 'application_version')
   #   )
   # end
-  config.lograge.ignore_actions = ['HealthcheckController#index']
+  # config.lograge.ignore_actions = ['HealthcheckController#index']
 
   # Rails cache store
   # PaasConfig.redis returns url and db
