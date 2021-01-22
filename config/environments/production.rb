@@ -58,13 +58,13 @@ Rails.application.configure do
   config.log_level = :info
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Logstash.new
-  config.lograge.custom_options = lambda do |event|
-    {
-      params: event.payload[:params].except('controller', 'action', 'format', 'utf8'),
-    }.merge(
-      JSON.parse(ENV['VCAP_APPLICATION']).except('application_uris', 'host', 'application_name', 'space_id', 'port', 'uris', 'application_version')
-    )
-  end
+  # config.lograge.custom_options = lambda do |event|
+  #   {
+  #     params: event.payload[:params].except('controller', 'action', 'format', 'utf8'),
+  #   }.merge(
+  #     JSON.parse(ENV['VCAP_APPLICATION']).except('application_uris', 'host', 'application_name', 'space_id', 'port', 'uris', 'application_version')
+  #   )
+  # end
   config.lograge.ignore_actions = ['HealthcheckController#index']
 
   # Rails cache store
