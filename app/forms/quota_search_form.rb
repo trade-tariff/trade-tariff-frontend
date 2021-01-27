@@ -4,7 +4,7 @@ class QuotaSearchForm
                    ['Exhausted', 'exhausted'],
                    ['Not blocked', 'not_blocked'],
                    ['Not exhausted', 'not_exhausted']].freeze
-  YEARS_VALUES = %w(2016 2017 2018 2019 2020).freeze
+  YEARS_VALUES = *(5.years.ago.year..Date.today.year).freeze
   DEFAULT_YEARS_VALUE = Date.current.year.to_s.freeze
   OPTIONAL_PARAMS = [:@years, :@page]
 
