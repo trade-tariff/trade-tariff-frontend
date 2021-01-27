@@ -38,7 +38,6 @@ gem 'logstash-event'
 gem 'puma', '~> 5.0.4'
 gem 'rack-attack'
 gem 'rack-cors'
-gem 'scout_apm'
 
 # Redis
 gem 'redis-rails'
