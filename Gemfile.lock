@@ -336,8 +336,6 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.8.0)
       nokogumbo (~> 2.0)
-    scout_apm (2.6.10)
-      parser
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -430,7 +428,6 @@ DEPENDENCIES
   rspec-rails (~> 4)
   rspec_junit_formatter
   rubocop-govuk
-  scout_apm
   selenium-webdriver
   sentry-raven
   shoulda-matchers (~> 4)
