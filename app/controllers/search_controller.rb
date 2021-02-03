@@ -42,6 +42,8 @@ class SearchController < ApplicationController
   end
 
   def quota_search
+    render_404 if TradeTariffFrontend::ServiceChooser.xi?
+
     form = QuotaSearchForm.new(params)
     @result = QuotaSearchPresenter.new(form)
     respond_to do |format|
