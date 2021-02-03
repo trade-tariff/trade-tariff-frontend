@@ -9,7 +9,6 @@ describe TradeTariffFrontend::ServiceChooser do
     it 'returns a Hash of url options for the services' do
       expect(described_class.service_choices).to eq(
         'uk' => 'http://localhost:3018',
-        'uk-old' => 'http://localhost:3018',
         'xi' => 'http://localhost:3019',
       )
     end
@@ -61,7 +60,7 @@ describe TradeTariffFrontend::ServiceChooser do
       it 'caches under the service default key prefix' do
         described_class.cache_with_service_choice(cache_key, options) {}
 
-        expect(Rails.cache).to have_received(:fetch).with('uk-old.foo', options)
+        expect(Rails.cache).to have_received(:fetch).with('uk.foo', options)
       end
     end
 
