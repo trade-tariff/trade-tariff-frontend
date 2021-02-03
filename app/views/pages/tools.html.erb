@@ -14,13 +14,15 @@
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Tariff tools</h1>
     <%= service_switch_banner %>
     <ul class="govuk-list">
-      <li>
-        <p>
-          <%= link_to t('breadcrumb.quotas'), quota_search_path %>
-          <br>
-          Search for tariff quotas, including daily updated balances.
-        </p>
-      </li>
+      <% if TradeTariffFrontend::ServiceChooser.quotas_enabled? %>
+        <li>
+          <p>
+            <%= link_to t('breadcrumb.quotas'), quota_search_path %>
+            <br>
+            Search for tariff quotas, including daily updated balances.
+          </p>
+        </li>
+      <% end %>
       <li>
         <p>
           <%= link_to "Certificate, licenses and documents", certificate_search_path %>
