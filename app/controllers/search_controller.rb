@@ -47,6 +47,7 @@ class SearchController < ApplicationController
     form = QuotaSearchForm.new(params)
     @result = QuotaSearchPresenter.new(form)
     @enable_service_switch_banner_in_action = false
+    @no_shared_switch_service_link = true
 
     respond_to do |format|
       format.html
@@ -56,6 +57,7 @@ class SearchController < ApplicationController
   def additional_code_search
     form = AdditionalCodeSearchForm.new(params)
     @result = AdditionalCodeSearchPresenter.new(form)
+    @no_shared_switch_service_link = true
     respond_to do |format|
       format.html
     end
@@ -72,6 +74,7 @@ class SearchController < ApplicationController
   def certificate_search
     form = CertificateSearchForm.new(params)
     @result = CertificateSearchPresenter.new(form)
+    @no_shared_switch_service_link = true
     respond_to do |format|
       format.html
     end
@@ -80,6 +83,7 @@ class SearchController < ApplicationController
   def chemical_search
     form = ChemicalSearchForm.new(params)
     @result = ChemicalSearchPresenter.new(form)
+    @no_shared_switch_service_link = true
     respond_to do |format|
       format.html
     end
