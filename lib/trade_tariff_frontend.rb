@@ -125,12 +125,8 @@ module TradeTariffFrontend
       service_choice || service_default
     end
 
-    def quotas_enabled?
-      (service_choice || service_default) == 'uk'
-    end
-
     def uk?
-      service_choice == 'uk'
+      (service_choice || service_default) == 'uk'
     end
 
     def xi?

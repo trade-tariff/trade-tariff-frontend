@@ -14,7 +14,7 @@
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Tariff tools</h1>
     <%= service_switch_banner %>
     <ul class="govuk-list">
-      <% if TradeTariffFrontend::ServiceChooser.quotas_enabled? %>
+      <% if TradeTariffFrontend::ServiceChooser.uk? %>
         <li>
           <p>
             <%= link_to t('breadcrumb.quotas'), quota_search_path %>
