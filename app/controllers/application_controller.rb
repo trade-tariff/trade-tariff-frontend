@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include TradeTariffFrontend::ViewContext::Controller
   include ApplicationHelper
 
+  before_action :set_enable_service_switch_banner_in_action
   before_action :set_last_updated
   before_action :set_cache
   before_action :search_query
@@ -59,6 +60,10 @@ class ApplicationController < ActionController::Base
 
   def set_last_updated
     @tariff_last_updated ||= TariffUpdate.latest_applied_import_date
+  end
+
+  def set_enable_service_switch_banner_in_action
+    @enable_service_switch_banner_in_action = true
   end
 
   def search_invoked?

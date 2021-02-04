@@ -114,19 +114,31 @@ describe ServiceHelper, type: :helper do
 
     before do
       allow(TradeTariffFrontend::ServiceChooser).to receive(:enabled?).and_return(service_choosing_enabled)
+      assign(:enable_service_switch_banner_in_action, true)
+      allow(helper).to receive(:request).and_return(request)
     end
 
     context 'when on xi sections page' do
       let(:request) { double('request', filtered_path: '/xi/sections') }
 
       it 'returns the full banner that allows users to toggle between the services' do
-        expect(service_switch_banner).to include(t("service_banner.big.#{choice}", link: switch_service_link))
+        expect(helper.service_switch_banner).to include(t("service_banner.big.#{choice}", link: helper.switch_service_link))
       end
     end
 
     context 'when not on sections page' do
       it 'returns the subtle banner that allows users to toggle between the services' do
-        expect(service_switch_banner).to include(t('service_banner.small', link: switch_service_link))
+        expect(helper.service_switch_banner).to include(t('service_banner.small', link: helper.switch_service_link))
+      end
+    end
+
+    context 'when service switching is disabled for the action' do
+      before do
+        assign(:enable_service_switch_banner_in_action, false)
+      end
+
+      it 'returns nil' do
+        expect(helper.service_switch_banner).to be_nil
       end
     end
 

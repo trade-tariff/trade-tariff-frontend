@@ -126,7 +126,7 @@ module TradeTariffFrontend
     end
 
     def uk?
-      service_choice == 'uk'
+      (service_choice || service_default) == 'uk'
     end
 
     def xi?

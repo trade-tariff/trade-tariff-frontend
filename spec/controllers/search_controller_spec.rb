@@ -355,6 +355,16 @@ describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cas
     Rails.cache.clear
   end
 
+  context 'with xi as the service choice' do
+    before do
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:xi?).and_return(true)
+
+      get :quota_search, params: { goods_nomenclature_item_id: '0301919011' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:not_found) }
+  end
+
   context 'without search params' do
     render_views
 
