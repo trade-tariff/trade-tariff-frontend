@@ -56,6 +56,8 @@ Rails.application.configure do
 
   # See everything in the log (default is :info)
   config.log_level = :info
+
+  config.logger = ActiveSupport::Logger.new($stdout)
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Logstash.new
   config.lograge.custom_options = lambda do |event|
