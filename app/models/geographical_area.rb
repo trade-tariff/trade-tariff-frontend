@@ -67,7 +67,7 @@ class GeographicalArea
     description
   end
 
-  def excluded_geographical_area_ids
+  def self.excluded_geographical_area_ids
     return [] if TradeTariffFrontend::ServiceChooser.xi?
 
     %w[GB]
