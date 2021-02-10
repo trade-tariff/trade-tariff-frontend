@@ -746,7 +746,7 @@ import debounce from "./debounce";
                 source: debounce(function(query, populateResults) {
                   $.ajax({
                     type: "GET",
-                    url: window.geographicalAreasPath,
+                    url: $(".path_info").data("geographical_areas_path"),
                     data: {
                       term: query
                     },
@@ -813,7 +813,7 @@ import debounce from "./debounce";
 
                   $.ajax({
                     type: "GET",
-                    url: window.searchSuggestionsPath,
+                    url: $(".path_info").data("search_suggestions_path"),
                     data: opts,
                     success: function(data) {
                       let results = data.results;

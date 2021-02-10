@@ -3,20 +3,13 @@ require 'api_entity'
 class GeographicalArea
   include ApiEntity
 
-  collection_path "/geographical_areas/countries"
+  collection_path '/geographical_areas/countries'
 
   attr_accessor :id, :description, :geographical_area_id
 
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
 
   def self.countries
-    excluded_geographical_area_ids =
-      if TradeTariffFrontend::ServiceChooser.xi?
-        []
-      else
-        %w[GB]
-      end
-
     all.sort_by(&:id)
       .reject { |country| country.id.in?(excluded_geographical_area_ids) }
   end
@@ -72,5 +65,11 @@ class GeographicalArea
 
   def to_s
     description
+  end
+
+  def excluded_geographical_area_ids
+    return [] if TradeTariffFrontend::ServiceChooser.xi?
+
+    %w[GB]
   end
 end

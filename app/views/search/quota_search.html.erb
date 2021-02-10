@@ -43,6 +43,5 @@
   </article>
 <% end %>
 
-<%= javascript_tag do %>
-  window.quotaSearchPath = "<%= quota_search_path(format: :json) %>"
+<%= content_tag :div, class: 'path_info', data: @path_info do %>
 <% end %>

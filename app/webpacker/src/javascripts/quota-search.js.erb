@@ -15,7 +15,7 @@ import debounce from "./debounce";
         source: debounce(function(query, populateResults) {
           $.ajax({
             type: "GET",
-            url: window.geographicalAreasPath,
+            url: $(".path_info").data("geographical_areas_path"),
             data: {
               term: query
             },
