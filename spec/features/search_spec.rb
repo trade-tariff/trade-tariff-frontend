@@ -14,60 +14,60 @@ describe 'Search', js: true do
     end
   end
 
-  context 'real' do
-    it 'fetches data from the server as we type' do
-      VCR.use_cassette('search#gold', record: :new_episodes) do
-        visit sections_path
+#   context 'real' do
+#     it 'fetches data from the server as we type' do
+#       VCR.use_cassette('search#gold', record: :new_episodes) do
+#         visit sections_path
 
-        page.find('.autocomplete__input#q').click
+#         page.find('.autocomplete__input#q').click
 
-        page.find('.autocomplete__input#q').set('gold')
-        sleep 1
+#         page.find('.autocomplete__input#q').set('gold')
+#         sleep 1
 
-        expect(page.find('.autocomplete__option--focused').text).to eq('gold')
+#         expect(page.find('.autocomplete__option--focused').text).to eq('gold')
 
-        using_wait_time 1 do
-          expect(page.find_all('.autocomplete__option').length).to be > 1
-        end
+#         using_wait_time 1 do
+#           expect(page.find_all('.autocomplete__option').length).to be > 1
+#         end
 
-        expect(page.find('.autocomplete__option--focused').text).to eq('gold')
-        expect(page).to have_content('gold - gold coin')
+#         expect(page.find('.autocomplete__option--focused').text).to eq('gold')
+#         expect(page).to have_content('gold - gold coin')
 
-        page.find('.autocomplete__option--focused').click
+#         page.find('.autocomplete__option--focused').click
 
-        # trying to see if redirect done by JS needs some sleep to be caught up
-        sleep 1
+#         # trying to see if redirect done by JS needs some sleep to be caught up
+#         sleep 1
 
-        expect(page).to have_content('Search results for ‘gold’')
-      end
-    end
-  end
+#         expect(page).to have_content('Search results for ‘gold’')
+#       end
+#     end
+#   end
 
-  context '404' do
-    it 'handles no results found' do
-      VCR.use_cassette('search#gibberish', record: :new_episodes) do
-        visit sections_path
+#   context '404' do
+#     it 'handles no results found' do
+#       VCR.use_cassette('search#gibberish', record: :new_episodes) do
+#         visit sections_path
 
-        page.find('.autocomplete__input#q').click
+#         page.find('.autocomplete__input#q').click
 
-        page.find('.autocomplete__input#q').set('dsauidoasuiodsa')
+#         page.find('.autocomplete__input#q').set('dsauidoasuiodsa')
 
-        sleep 1
+#         sleep 1
 
-        expect(page.find_all('.autocomplete__option').length).to eq(1)
-        expect(page.find('.autocomplete__option--focused').text).to eq('dsauidoasuiodsa')
-        sleep 1
+#         expect(page.find_all('.autocomplete__option').length).to eq(1)
+#         expect(page.find('.autocomplete__option--focused').text).to eq('dsauidoasuiodsa')
+#         sleep 1
 
-        page.find('.autocomplete__option--focused').click
+#         page.find('.autocomplete__option--focused').click
 
-        # trying to see if redirect done by JS needs some sleep to be caught up
-        sleep 1
+#         # trying to see if redirect done by JS needs some sleep to be caught up
+#         sleep 1
 
-        expect(page).to have_content('Search results for ‘dsauidoasuiodsa’')
-        expect(page).to have_content('There are no results matching your query.')
-      end
-    end
-  end
+#         expect(page).to have_content('Search results for ‘dsauidoasuiodsa’')
+#         expect(page).to have_content('There are no results matching your query.')
+#       end
+#     end
+#   end
 
   context 'quota search' do
     before do

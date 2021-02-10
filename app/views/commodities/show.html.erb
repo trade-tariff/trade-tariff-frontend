@@ -34,3 +34,8 @@
 <% end %>
 
 <%= render 'declarables/declarable', declarable: @commodity %>
+
+<%= javascript_tag do %>
+  window.geographicalAreasPath = "<%= geographical_areas_path(format: :json) %>"
+  window.searchSuggestionsPath = "<%= search_suggestions_path(format: :json) %>"
+<% end %>
