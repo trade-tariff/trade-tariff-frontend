@@ -68,8 +68,8 @@ class GeographicalArea
   end
 
   def self.excluded_geographical_area_ids
-    return [] if TradeTariffFrontend::ServiceChooser.xi?
+    return %w[XU] if TradeTariffFrontend::ServiceChooser.xi?
 
-    %w[GB]
+    %w[GB XU XI]
   end
 end
