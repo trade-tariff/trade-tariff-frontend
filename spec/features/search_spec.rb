@@ -7,7 +7,7 @@ describe 'Search', js: true do
         visit sections_path
 
         expect(page).to have_content('UK Global Online Tariff: look up commodity codes, duty and VAT rates')
-        expect(page).to have_content('Search the UK Global Online Tariff Goods')
+        expect(page).to have_content('Search or browse the Tariff')
 
         expect(page.find('.autocomplete__input#q')).to be_present
       end
