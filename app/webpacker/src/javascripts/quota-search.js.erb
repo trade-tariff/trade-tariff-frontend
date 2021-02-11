@@ -15,7 +15,7 @@ import debounce from "./debounce";
         source: debounce(function(query, populateResults) {
           $.ajax({
             type: "GET",
-            url: window.geographicalAreasPath,
+            url: '<%= Rails.application.routes.url_helpers.geographical_areas_path(format: :json) %>',
             data: {
               term: query
             },
