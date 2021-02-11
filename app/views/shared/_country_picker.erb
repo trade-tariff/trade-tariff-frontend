@@ -2,7 +2,7 @@
   <fieldset class="govuk-fieldset country-picker js-country-picker box govuk-!-font-size-16">
     <div class="country-picker-container">
       <%= f.hidden_field :anchor, value: anchor %>
-      <%= f.label :country, 'Trade between the UK and', class: 'govuk-label' %>
+      <%= f.label :country, country_picker_text(tab: anchor), class: 'govuk-label' %>
       <%= f.select :country, f.object.countries.map{ |c| [c.long_description, c.id] }, { include_blank: 'All countries' }, class: 'custom-select js-country-picker-select', "aria-label": "Filter #{anchor.titleize} measures by country" %>
       <a class="reset-country-picker" href="#" title="Reset country picker" role="button">Reset<span class="long-text">&nbsp;to all countries</span></a>
     </div>

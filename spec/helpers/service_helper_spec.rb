@@ -10,7 +10,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { 'xi' }
 
       it 'returns the title for the current service choice' do
-        expect(helper.default_title).to eq('The Northern Ireland (EU) Tariff: Look up commodity codes, import duty, VAT and controls - GOV.UK')
+        expect(helper.default_title).to eq("Northern Ireland Online Tariff: look up commodity codes, duty and VAT rates - GOV.UK")
       end
     end
 
@@ -18,7 +18,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { nil }
 
       it 'returns the title for the current service choice' do
-        expect(helper.default_title).to eq('The Online Trade Tariff: Look up commodity codes, import duty, VAT and controls - GOV.UK')
+        expect(helper.default_title).to eq('UK Global Online Tariff: look up commodity codes, duty and VAT rates - GOV.UK')
       end
     end
   end
@@ -30,7 +30,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { 'xi' }
 
       it 'returns the correct title for the current goods nomenclature' do
-        expect(helper.goods_nomenclature_title(goods_nomenclature)).to eq('Live horses, asses, mules and hinnies - The Northern Ireland (EU) Tariff - GOV.UK')
+        expect(helper.goods_nomenclature_title(goods_nomenclature)).to eq("Live horses, asses, mules and hinnies - Northern Ireland Online Tariff - GOV.UK")
       end
     end
 
@@ -38,7 +38,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { nil }
 
       it 'returns the correct title for the current goods nomenclature' do
-        expect(helper.goods_nomenclature_title(goods_nomenclature)).to eq('Live horses, asses, mules and hinnies - The Online Trade Tariff - GOV.UK')
+        expect(helper.goods_nomenclature_title(goods_nomenclature)).to eq('Live horses, asses, mules and hinnies - UK Global Online Tariff - GOV.UK')
       end
     end
   end
@@ -50,7 +50,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { 'xi' }
 
       it 'returns the correct title for the current goods nomenclature' do
-        expect(helper.commodity_title(commodity)).to eq('Commodity code 0101300000: Pure-bred breeding animals - The Northern Ireland (EU) Tariff - GOV.UK')
+        expect(helper.commodity_title(commodity)).to eq("Commodity code 0101300000: Pure-bred breeding animals - Northern Ireland Online Tariff - GOV.UK")
       end
     end
 
@@ -58,7 +58,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { nil }
 
       it 'returns the correct title for the current goods nomenclature' do
-        expect(helper.commodity_title(commodity)).to eq('Commodity code 0101300000: Pure-bred breeding animals - The Online Trade Tariff - GOV.UK')
+        expect(helper.commodity_title(commodity)).to eq('Commodity code 0101300000: Pure-bred breeding animals - UK Global Online Tariff - GOV.UK')
       end
     end
   end
@@ -67,16 +67,16 @@ describe ServiceHelper, type: :helper do
     context 'when the selected service choice is uk' do
       let(:choice) { 'uk' }
 
-      it 'returns The Online Trade Tariff' do
-        expect(trade_tariff_heading).to eq('The Online Trade Tariff')
+      it 'returns UK Global Online Tariff' do
+        expect(trade_tariff_heading).to eq('UK Global Online Tariff')
       end
     end
 
     context 'when the selected service choice is xi' do
       let(:choice) { 'xi' }
 
-      it 'returns The Northern Ireland (EU) Tariff' do
-        expect(trade_tariff_heading).to eq('The Northern Ireland (EU) Tariff')
+      it "returns Northern Ireland Online Tariff" do
+        expect(trade_tariff_heading).to eq("Northern Ireland Online Tariff")
       end
     end
   end
@@ -93,7 +93,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { 'uk' }
 
       it 'returns the link to the XI service' do
-        expect(switch_service_link).to eq(link_to('Northern Ireland (EU) Tariff', '/xi/sections/1'))
+        expect(switch_service_link).to eq(link_to("Northern Ireland Online Tariff", '/xi/sections/1'))
       end
     end
 
@@ -102,7 +102,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { 'xi' }
 
       it 'returns the link to the current UK service' do
-        expect(switch_service_link).to eq(link_to('Online Tariff', '/sections/1'))
+        expect(switch_service_link).to eq(link_to('UK Global Online Tariff', '/sections/1'))
       end
     end
   end

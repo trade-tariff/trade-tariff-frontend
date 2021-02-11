@@ -3,6 +3,10 @@ module ServiceHelper
     t('title.default', service_name: service_name, service_description: service_description)
   end
 
+  def default_heading
+    t('h1.default', service_name: service_name, service_description: service_description)
+  end
+
   def goods_nomenclature_title(goods_nomenclature)
     t(
       'title.goods_nomenclature',
@@ -40,6 +44,18 @@ module ServiceHelper
         end
       end
     end
+  end
+
+  def search_label_text
+    t('search.label', service_name: service_name)
+  end
+
+  def measures_heading(tab: 'import')
+    t("measures_heading.#{service_choice}.#{tab}").html_safe
+  end
+
+  def country_picker_text(tab: 'import')
+    t("country_picker.#{service_choice}.#{tab}").html_safe
   end
 
 private

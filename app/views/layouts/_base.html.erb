@@ -25,7 +25,7 @@
     <nav id="proposition-menu"  aria-label="Top Level Navigation">
       <ul id="proposition-links" class="govuk-header__navigation ">
         <%= govuk_header_navigation_item(search_active_class) do %>
-          <%= link_to "Search the Tariff", sections_path, class: "govuk-header__link" %>
+          <%= link_to 'Search or browse the Tariff', sections_path, class: "govuk-header__link" %>
         <% end %>
         <%= govuk_header_navigation_item(a_z_active_class) do %>
           <%= link_to "A-Z", a_z_index_path(letter: "a"), class: "govuk-header__link" %>

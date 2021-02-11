@@ -75,7 +75,7 @@
 
   <!-- Import tab -->
   <div class="govuk-tabs__panel" id="import">
-    <h2 class="govuk-heading-m">Import measures and restrictions</h2>
+    <h2 class="govuk-heading-m"><%= measures_heading(tab: 'import') %></h2>
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
     <%= render partial: 'declarables/filtered', locals: { search: @search } %>
     <%= render partial: 'shared/country_picker', locals: { controller: @search, url: perform_search_path, anchor: 'import' } %>
@@ -119,7 +119,7 @@
 
   <!-- Export tab -->
   <div class="govuk-tabs__panel" id="export">
-    <h2 class="govuk-heading-m">Export measures and restrictions</h2>
+    <h2 class="govuk-heading-m"><%= measures_heading(tab: 'export') %></h2>
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
     <%= render partial: 'declarables/filtered', locals: { search: @search } %>
     <%= render partial: 'shared/country_picker', locals: { controller: @search, url: perform_search_path, anchor: 'export' } %>

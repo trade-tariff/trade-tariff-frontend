@@ -19,7 +19,7 @@
   </header>
 <% elsif %w(search search_references exchange_rates pages errors feedback).exclude?(controller_name) && action_name != 'quota_search' %>
   <header>
-    <h1 class="govuk-heading-l"><a href="<%= sections_path %>">Trade Tariff: look up commodity codes, duty and VAT rates</a></h1>
+    <h1 class="govuk-heading-l"><a href="<%= sections_path %>"><%= default_heading %></a></h1>
     <%= service_switch_banner %>
   </header>
   <%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css}", id: "new_search" do |f| %>
@@ -28,7 +28,7 @@
         <div class="govuk-grid-column-two-thirds">
           <div class="searchfield govuk-form-group">
             <fieldset class="govuk-fieldset govuk-search-input">
-              <%= label_tag :q, "Search the tariff", class: 'govuk-label' %>
+              <%= label_tag :q, search_label_text, class: 'govuk-label' %>
               <%= hidden_field_tag :q, @search.q, { class: "js-commodity-picker-target" } %>
               <div class='js-commodity-picker-select js-show'></div>
               <noscript>
