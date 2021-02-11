@@ -36,6 +36,10 @@
   <%= yield :head %>
 </head>
 
+
+<%= content_tag :div, class: 'path_info', data: @path_info do %>
+<% end %>
+
 <body class="govuk-template__body ">
   <script>
     document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');

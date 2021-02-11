@@ -48,9 +48,7 @@ class SearchController < ApplicationController
     @result = QuotaSearchPresenter.new(form)
     @enable_service_switch_banner_in_action = false
     @no_shared_switch_service_link = true
-    @path_info = {
-      geographical_areas_path: geographical_areas_path(format: :json),
-    }
+
     respond_to do |format|
       format.html
     end

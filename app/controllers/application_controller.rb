@@ -5,9 +5,11 @@ class ApplicationController < ActionController::Base
   include TradeTariffFrontend::ViewContext::Controller
   include ApplicationHelper
 
+  before_action :set_cache
   before_action :set_enable_service_switch_banner_in_action
   before_action :set_last_updated
-  before_action :set_cache
+  before_action :set_path_info
+
   before_action :search_query
   before_action :maintenance_mode_if_active
   before_action :bots_no_index_if_historical
@@ -109,5 +111,12 @@ class ApplicationController < ActionController::Base
   def append_info_to_payload(payload)
     super
     payload[:user_agent] = request.env['HTTP_USER_AGENT']
+  end
+
+  def set_path_info
+    @path_info = {
+      geographical_areas_path: geographical_areas_path(format: :json),
+      search_suggestions_path: search_suggestions_path(format: :json),
+    }
   end
 end

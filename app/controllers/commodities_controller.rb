@@ -6,10 +6,6 @@ class CommoditiesController < GoodsNomenclaturesController
     @section = @commodity.section
     @back_path = request.referer || heading_path(@heading.short_code)
     @commodity.prev, @commodity.next = set_prev_next(@commodity)
-    @path_info = {
-      geographical_areas_path: geographical_areas_path(format: :json),
-      search_suggestions_path: search_suggestions_path(format: :json),
-    }
   end
 
   private
