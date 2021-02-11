@@ -10,29 +10,27 @@ class GeographicalArea
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
 
   def self.countries
-    excluded_geographical_area_ids = %w[GB]
-
     all.sort_by(&:id)
-       .reject { |country| country.id.in?(excluded_geographical_area_ids) }
+      .reject { |country| country.id.in?(excluded_geographical_area_ids) }
   end
 
   def self.cached_countries
     TradeTariffFrontend::ServiceChooser.cache_with_service_choice(
       'cached_countries',
-      expires_in: 1.hour
+      expires_in: 1.hour,
     ) do
       countries
     end
   end
-  
+
   def self.areas
     collection('/geographical_areas').sort_by(&:id)
   end
-  
+
   def self.cached_areas
     TradeTariffFrontend::ServiceChooser.cache_with_service_choice(
       'areas',
-      expires_in: 1.hour
+      expires_in: 1.hour,
     ) do
       areas
     end
@@ -40,9 +38,9 @@ class GeographicalArea
 
   def self.by_long_description(term)
     lookup_regexp = /#{term}/i
-    cached_countries.select do |country|
+    cached_countries.select { |country|
       country.long_description =~ lookup_regexp
-    end.sort_by do |country|
+    }.sort_by do |country|
       match_id = country.id =~ lookup_regexp
       match_desc = country.description =~ lookup_regexp
       key = ''
@@ -67,5 +65,11 @@ class GeographicalArea
 
   def to_s
     description
+  end
+
+  def self.excluded_geographical_area_ids
+    return [] if TradeTariffFrontend::ServiceChooser.xi?
+
+    %w[GB]
   end
 end
