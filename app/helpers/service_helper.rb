@@ -55,7 +55,7 @@ module ServiceHelper
   end
 
   def country_picker_text(tab: 'import')
-    t("country_picker.#{service_choice}.#{tab}")
+    t("country_picker.#{service_choice}.#{tab}").html_safe
   end
 
 private
