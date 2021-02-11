@@ -6,8 +6,8 @@ describe 'Search', js: true do
       VCR.use_cassette('search#check', record: :new_episodes) do
         visit sections_path
 
-        expect(page).to have_content('Trade Tariff: look up commodity codes, duty and VAT rates')
-        expect(page).to have_content('Search the tariff')
+        expect(page).to have_content('UK Global Online Tariff: look up commodity codes, duty and VAT rates')
+        expect(page).to have_content('Search the UK Global Online Tariff Goods')
 
         expect(page.find('.autocomplete__input#q')).to be_present
       end

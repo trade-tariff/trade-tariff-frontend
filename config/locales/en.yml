@@ -4,22 +4,45 @@
 en:
   meta_description: "Search for import and export commodity codes and for tax, duty and licences that apply to your goods"
 
-  title: 
+  country_picker:
+    uk:
+      import: UK Global Tariff imports from
+      export: UK Global Tariff exports from
+    xi: 
+      import: NI at risk imports from
+      export: NI at risk exports from
+  measures_heading:
+    uk:
+      import: Import measures and restrictions for importing into the UK under the <abbr title="UK Global Tariff">UKGT</abbr>
+      export: Export measures and restrictions for exporting into the UK under the <abbr title="UK Global Tariff">UKGT</abbr>
+    xi:
+      import: Import measures and restrictions for importing 'at risk' goods into Northern Ireland
+      export: Export measures and restrictions for exporting 'at risk' goods into Northern Ireland
+
+  title:
     default: "%{service_name}: %{service_description} - GOV.UK"
     goods_nomenclature: "%{goods_description} - %{service_name} - GOV.UK"
-    commodity: 
+    commodity:
       uk: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
       xi: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
-    service_description: "Look up commodity codes, import duty, VAT and controls"
+    service_description: "look up commodity codes, duty and VAT rates"
     service_name:
-      uk: "The Online Trade Tariff"
-      xi: "The Northern Ireland (EU) Tariff"
+      uk: "UK Global Online Tariff"
+      xi: "Northern Ireland Online Tariff for 'At Risk' Goods"
+  h1:
+    default: "%{service_name}: %{service_description}"
+    service_description: "look up commodity codes, duty and VAT rates"
+    service_name:
+      uk: "UK Global Online Tariff"
+      xi: "Northern Ireland Online Tariff for 'At Risk' Goods"
+  search:
+    label: "Search the %{service_name}"
   geographical_areas:
     descriptions:
       erga_omnes: "All countries"
   trade_tariff_heading:
-    uk: "The Online Trade Tariff"
-    xi: "The Northern Ireland (EU) Tariff"
+    uk: "UK Global Online Tariff"
+    xi: "Northern Ireland Online Tariff for 'At Risk' Goods"
 
   breadcrumb:
     home: Home
@@ -32,8 +55,8 @@ en:
 
   service_banner:
     service_name:
-      uk: "Online Tariff"
-      xi: "Northern Ireland (EU) Tariff"
+      uk: "UK Global Online Tariff"
+      xi: "Northern Ireland Online Tariff for 'At Risk' Goods"
     small:
       Switch to %{link}.
     big:
