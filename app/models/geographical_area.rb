@@ -10,15 +10,10 @@ class GeographicalArea
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
 
   def self.countries
-    excluded_geographical_area_ids =
-      if TradeTariffFrontend::ServiceChooser.xi?
-        []
-      else
-        %w[GB]
-      end
+    excluded_geographical_area_ids = %w[GB]
 
     all.sort_by(&:id)
-      .reject { |country| country.id.in?(excluded_geographical_area_ids) }
+       .reject { |country| country.id.in?(excluded_geographical_area_ids) }
   end
 
   def self.cached_countries
