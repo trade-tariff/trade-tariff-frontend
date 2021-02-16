@@ -44,19 +44,90 @@ jobs:
           pkg-manager: yarn
           cache-key: "yarn.lock"
       - ruby/rspec-test
+      - store_artifacts:
+          path: coverage
+  deploy:
+    parameters:
+      space:
+        type: string
+      domain_prefix:
+        type: string
+    docker:
+      - image: cimg/ruby:2.7-node
+    steps:
+      - checkout
+      - run:
+          name: "Setup CF CLI"
+          command: |
+            curl -L -o cf.deb 'https://packages.cloudfoundry.org/stable?release=debian64&version=7.2.0&source=github-rel'
+            sudo dpkg -i cf.deb
+            cf -v
+            cf api "$CF_ENDPOINT"
+            cf auth "$CF_USER" "$CF_PASSWORD"
+            cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+            cf install-plugin app-autoscaler-plugin -r CF-Community -f
+            cf target -o "$CF_ORG" -s "<< parameters.space >>"
+      - run:
+          name: "Fetch existing manifest"
+          command: |
+            cf create-app-manifest "$CF_APP" -p deploy_manifest.yml
+      - run:
+          name: "Push new app in dark mode"
+          command: |
+            # Push as "dark" instance
+            cf push "$CF_APP-dark" -f deploy_manifest.yml --no-route
+
+            # Map dark route
+            cf map-route  "$CF_APP-dark" london.cloudapps.digital -n "$CF_APP-dark"
+
+            # Attach precreated autoscaling policy
+            cf attach-autoscaling-policy "$CF_APP-dark" config/autoscaling/<< parameters.space >>-policy.json
+
+            # Enable routing from this frontend to backend applications which are private
+            cf add-network-policy "$CF_APP-dark" "$CF_BACKEND_APP_XI" --protocol tcp --port 8080
+            cf add-network-policy "$CF_APP-dark" "$CF_BACKEND_APP_UK"  --protocol tcp --port 8080
+      - run:
+          name: "Verify new version is working on dark URL."
+          command: |
+            sleep 15
+            # TODO: Retry
+            # Verify new version is working on dark URL.
+            HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://$CF_APP-dark.london.cloudapps.digital/healthcheck`
+            if [ "$HTTPCODE" -ne 200 ];then
+              echo "dark route not available, failing deploy ($HTTPCODE)"
+              exit 1
+            fi
+      - run:
+          name: "Switch dark app to live"
+          command: |
+            # Send "real" url to new version
+            cf unmap-route "$CF_APP-dark" london.cloudapps.digital -n "$CF_APP-dark"
+            cf map-route  "$CF_APP-dark" london.cloudapps.digital -n "$CF_APP"
+            cf map-route  "$CF_APP-dark" "<< parameters.domain_prefix >>".trade-tariff.service.gov.uk
+            cf map-route  "$CF_APP-dark" assets-<< parameters.domain_prefix >>.trade-tariff.service.gov.uk
+
+            # Stop sending traffic to previous version
+            cf unmap-route  "$CF_APP" london.cloudapps.digital -n "$CF_APP"
+
+            # stop previous version
+            cf stop "$CF_APP"
+
+            # delete previous version
+            cf delete "$CF_APP" -f
+
+            # Switch name of "dark" version to claim correct name
+            cf rename "$CF_APP-dark" "$CF_APP"
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
-#      - checking
-      - test:
+      - checking
+      - test
+      - build:
+          requires:
+            - test
+      - deploy:
           requires:
             - build
-#      - cloudfoundry/push:
-#          appname: tariff-frontend-dev
-#          endpoint: api.london.cloud.service.gov.uk
-#          org: trade-tariff
-#          space: development
-#          manifest: manifest.yml
-# TODO: Add pre-step to fetch existing manifest.
+          space: "development"
+          domain_prefix: "dev"
