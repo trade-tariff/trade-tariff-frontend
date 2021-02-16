@@ -1,0 +1,62 @@
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@1.1.2
+  node: circleci/node@2
+  browser-tools: circleci/browser-tools@1.1
+  cloudfoundry: circleci/cloudfoundry@1.0
+
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:2.7-node
+      - image: redis
+    resource_class: medium
+    steps:
+      - checkout
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+  checking:
+    docker:
+      - image: 'cimg/ruby:2.7-node'
+    resource_class: small
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rubocop-check:
+          format: progress
+          label: Inspecting with Rubocop
+  test:
+    docker:
+      - image: cimg/ruby:2.7-node
+        environment:
+          BUNDLE_JOBS: "3"
+          BUNDLE_RETRY: "3"
+          RAILS_ENV: test
+    resource_class: medium
+    steps:
+      - browser-tools/install-browser-tools
+      - checkout
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+      - ruby/rspec-test
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+#      - checking
+      - test:
+          requires:
+            - build
+#      - cloudfoundry/push:
+#          appname: tariff-frontend-dev
+#          endpoint: api.london.cloud.service.gov.uk
+#          org: trade-tariff
+#          space: development
+#          manifest: manifest.yml
+# TODO: Add pre-step to fetch existing manifest.
