@@ -124,9 +124,17 @@ workflows:
       - checking
       - test
       - build:
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - test
       - deploy:
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - build
           space: "development"
