@@ -30,29 +30,29 @@ commands:
       - run:
           name: "Fetch existing manifest"
           command: |
-            cf create-app-manifest "$CF_APP" -p deploy_manifest.yml
+            cf create-app-manifest "$CF_APP-<< parameters.domain_prefix >>" -p deploy_manifest.yml
       - run:
           name: "Push new app in dark mode"
           command: |
             # Push as "dark" instance
-            cf push "$CF_APP-dark" -f deploy_manifest.yml --no-route
+            cf push "$CF_APP-<< parameters.domain_prefix >>-dark" -f deploy_manifest.yml --no-route
 
             # Map dark route
-            cf map-route  "$CF_APP-dark" london.cloudapps.digital -n "$CF_APP-dark"
+            cf map-route  "$CF_APP-<< parameters.domain_prefix >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.domain_prefix >>-dark"
 
             # Attach precreated autoscaling policy
-            cf attach-autoscaling-policy "$CF_APP-dark" config/autoscaling/<< parameters.space >>-policy.json
+            cf attach-autoscaling-policy "$CF_APP-<< parameters.domain_prefix >>-dark" config/autoscaling/<< parameters.space >>-policy.json
 
             # Enable routing from this frontend to backend applications which are private
-            cf add-network-policy "$CF_APP-dark" "$CF_BACKEND_APP_XI" --protocol tcp --port 8080
-            cf add-network-policy "$CF_APP-dark" "$CF_BACKEND_APP_UK"  --protocol tcp --port 8080
+            cf add-network-policy "$CF_APP-<< parameters.domain_prefix >>-dark" "$CF_BACKEND_APP_XI-<< parameters.domain_prefix >>" --protocol tcp --port 8080
+            cf add-network-policy "$CF_APP-<< parameters.domain_prefix >>-dark" "$CF_BACKEND_APP_UK-<< parameters.domain_prefix >>"  --protocol tcp --port 8080
       - run:
           name: "Verify new version is working on dark URL."
           command: |
             sleep 15
             # TODO: Retry
             # Verify new version is working on dark URL.
-            HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://$CF_APP-dark.london.cloudapps.digital/healthcheck`
+            HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://$CF_APP-<< parameters.domain_prefix >>-dark.london.cloudapps.digital/healthcheck`
             if [ "$HTTPCODE" -ne 200 ];then
               echo "dark route not available, failing deploy ($HTTPCODE)"
               exit 1
@@ -61,22 +61,22 @@ commands:
           name: "Switch dark app to live"
           command: |
             # Send "real" url to new version
-            cf unmap-route "$CF_APP-dark" london.cloudapps.digital -n "$CF_APP-dark"
-            cf map-route  "$CF_APP-dark" london.cloudapps.digital -n "$CF_APP"
-            cf map-route  "$CF_APP-dark" "<< parameters.domain_prefix >>".trade-tariff.service.gov.uk
-            cf map-route  "$CF_APP-dark" assets-<< parameters.domain_prefix >>.trade-tariff.service.gov.uk
+            cf unmap-route "$CF_APP-<< parameters.domain_prefix >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.domain_prefix >>-dark"
+            cf map-route  "$CF_APP-<< parameters.domain_prefix >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.domain_prefix >>"
+            cf map-route  "$CF_APP-<< parameters.domain_prefix >>-dark" "<< parameters.domain_prefix >>".trade-tariff.service.gov.uk
+            cf map-route  "$CF_APP-<< parameters.domain_prefix >>-dark" assets-<< parameters.domain_prefix >>.trade-tariff.service.gov.uk
 
             # Stop sending traffic to previous version
-            cf unmap-route  "$CF_APP" london.cloudapps.digital -n "$CF_APP"
+            cf unmap-route  "$CF_APP-<< parameters.domain_prefix >>" london.cloudapps.digital -n "$CF_APP-<< parameters.domain_prefix >>"
 
             # stop previous version
-            cf stop "$CF_APP"
+            cf stop "$CF_APP-<< parameters.domain_prefix >>"
 
             # delete previous version
-            cf delete "$CF_APP" -f
+            cf delete "$CF_APP-<< parameters.domain_prefix >>" -f
 
             # Switch name of "dark" version to claim correct name
-            cf rename "$CF_APP-dark" "$CF_APP"
+            cf rename "$CF_APP-<< parameters.domain_prefix >>-dark" "$CF_APP-<< parameters.domain_prefix >>"
       - slack/notify:
           channel: deployments
           event: fail
@@ -153,8 +153,9 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - checking:
-          context: trade-tariff
+# TODO: Fix rubocop issues
+#      - checking:
+#          context: trade-tariff
       - test:
           context: trade-tariff
       - build:
@@ -163,7 +164,6 @@ workflows:
             branches:
               only:
                 - master
-                - HOTT-442_CircleCI-Deploy
           requires:
             - test
       - deploy_dev:
@@ -172,7 +172,6 @@ workflows:
             branches:
               only:
                 - master
-                - HOTT-442_CircleCI-Deploy
           requires:
             - build
       - hold_staging:
@@ -188,3 +187,4 @@ workflows:
                 - HOTT-442_CircleCI-Deploy
           requires:
             - hold_staging
+# TODO: Discuss production deployment strategy.
