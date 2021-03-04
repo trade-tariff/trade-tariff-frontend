@@ -6,54 +6,13 @@ orbs:
   browser-tools: circleci/browser-tools@1.1
   cloudfoundry: circleci/cloudfoundry@1.0
 
-jobs:
-  build:
-    docker:
-      - image: cimg/ruby:2.7-node
-      - image: redis
-    resource_class: medium
-    steps:
-      - checkout
-      - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
-  checking:
-    docker:
-      - image: 'cimg/ruby:2.7-node'
-    resource_class: small
-    steps:
-      - checkout
-      - ruby/install-deps
-      - ruby/rubocop-check:
-          format: progress
-          label: Inspecting with Rubocop
-  test:
-    docker:
-      - image: cimg/ruby:2.7-node
-        environment:
-          BUNDLE_JOBS: "3"
-          BUNDLE_RETRY: "3"
-          RAILS_ENV: test
-    resource_class: medium
-    steps:
-      - browser-tools/install-browser-tools
-      - checkout
-      - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
-      - ruby/rspec-test
-      - store_artifacts:
-          path: coverage
-  deploy:
+commands:
+  cf_deploy:
     parameters:
       space:
         type: string
       domain_prefix:
         type: string
-    docker:
-      - image: cimg/ruby:2.7-node
     steps:
       - checkout
       - run:
@@ -117,6 +76,58 @@ jobs:
 
             # Switch name of "dark" version to claim correct name
             cf rename "$CF_APP-dark" "$CF_APP"
+
+
+
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:2.7-node
+      - image: redis
+    resource_class: medium
+    steps:
+      - checkout
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+  checking:
+    docker:
+      - image: 'cimg/ruby:2.7-node'
+    resource_class: small
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rubocop-check:
+          format: progress
+          label: Inspecting with Rubocop
+  test:
+    docker:
+      - image: cimg/ruby:2.7-node
+        environment:
+          BUNDLE_JOBS: "3"
+          BUNDLE_RETRY: "3"
+          RAILS_ENV: test
+    resource_class: medium
+    steps:
+      - browser-tools/install-browser-tools
+      - checkout
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+      - ruby/rspec-test
+      - store_artifacts:
+          path: coverage
+  deploy_dev:
+    docker:
+      - image: cimg/ruby:2.7-node
+    steps:
+    - cf_deploy:
+        space: "development"
+        domain_prefix: "dev"
+
+
 workflows:
   version: 2
   build_and_test:
@@ -128,14 +139,15 @@ workflows:
             branches:
               only:
                 - master
+                - HOTT-442_CircleCI-Deploy
           requires:
             - test
-      - deploy:
+      - deploy_dev:
           filters:
             branches:
               only:
                 - master
+                - HOTT-442_CircleCI-Deploy
           requires:
             - build
-          space: "development"
-          domain_prefix: "dev"
+
