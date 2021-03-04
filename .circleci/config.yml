@@ -5,6 +5,7 @@ orbs:
   node: circleci/node@2
   browser-tools: circleci/browser-tools@1.1
   cloudfoundry: circleci/cloudfoundry@1.0
+  slack: circleci/slack@4.3.0
 
 commands:
   cf_deploy:
@@ -76,8 +77,14 @@ commands:
 
             # Switch name of "dark" version to claim correct name
             cf rename "$CF_APP-dark" "$CF_APP"
-
-
+      - slack/notify:
+          channel: deployments
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          channel: deployments
+          event: pass
+          template: basic_success_1
 
 jobs:
   build:
@@ -101,6 +108,10 @@ jobs:
       - ruby/rubocop-check:
           format: progress
           label: Inspecting with Rubocop
+      - slack/notify:
+          channel: deployments
+          event: fail
+          template: basic_fail_1
   test:
     docker:
       - image: cimg/ruby:2.7-node
@@ -119,6 +130,10 @@ jobs:
       - ruby/rspec-test
       - store_artifacts:
           path: coverage
+      - slack/notify:
+          channel: deployments
+          event: fail
+          template: basic_fail_1
   deploy_dev:
     docker:
       - image: cimg/ruby:2.7-node
@@ -126,7 +141,6 @@ jobs:
     - cf_deploy:
         space: "development"
         domain_prefix: "dev"
-
   deploy_staging:
     docker:
       - image: cimg/ruby:2.7-node
@@ -135,14 +149,16 @@ jobs:
           space: "staging"
           domain_prefix: "staging"
 
-
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - checking
-      - test
+      - checking:
+          context: trade-tariff
+      - test:
+          context: trade-tariff
       - build:
+          context: trade-tariff
           filters:
             branches:
               only:
@@ -151,6 +167,7 @@ workflows:
           requires:
             - test
       - deploy_dev:
+          context: trade-tariff
           filters:
             branches:
               only:
@@ -163,6 +180,7 @@ workflows:
           requires:
             - deploy_dev
       - deploy_staging:
+          context: trade-tariff
           filters:
             branches:
               only:
