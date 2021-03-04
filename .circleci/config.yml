@@ -184,7 +184,6 @@ workflows:
             branches:
               only:
                 - master
-                - HOTT-442_CircleCI-Deploy
           requires:
             - hold_staging
 # TODO: Discuss production deployment strategy.
