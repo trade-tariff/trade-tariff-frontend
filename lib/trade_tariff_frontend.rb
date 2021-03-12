@@ -8,15 +8,41 @@ module TradeTariffFrontend
 
   # API Endpoints of the Tariff Backend API app that can be reached via Frontend
   def accessible_api_endpoints
-    %w[sections chapters headings commodities updates monetary_exchange_rates quotas
-       goods_nomenclatures search_references geographical_areas]
+    %w[
+      sections
+      chapters
+      headings
+      commodities
+      updates
+      monetary_exchange_rates
+      quotas
+      goods_nomenclatures
+      search_references
+      geographical_areas
+    ]
   end
 
   # API Endpoints of the Tariff Backend API app that can be reached via external client
   def public_api_endpoints
-    %w[sections chapters headings commodities monetary_exchange_rates quotas goods_nomenclatures
-       search_references additional_codes certificates footnotes geographical_areas chemicals
-       additional_code_types certificate_types footnote_types]
+    %w[
+      sections
+      chapters
+      headings
+      commodities
+      exchange_rates
+      monetary_exchange_rates
+      quotas
+      goods_nomenclatures
+      search_references
+      additional_codes
+      certificates
+      footnotes
+      geographical_areas
+      chemicals
+      additional_code_types
+      certificate_types
+      footnote_types
+    ]
   end
 
   def production?
@@ -56,7 +82,7 @@ module TradeTariffFrontend
   def simulation_date
     ENV.fetch('SIMULATION_DATE', nil)
   end
-  
+
   def uk_regulations_enabled?
     ENV.fetch('UK_REGULATIONS', 'false').to_s.downcase == 'true'
   end
@@ -78,7 +104,7 @@ module TradeTariffFrontend
   module ServiceChooser
     SERVICE_CURRENCIES = {
       'uk' => 'GBP',
-      'xi' => 'EUR'
+      'xi' => 'EUR',
     }.freeze
 
     module_function
@@ -205,7 +231,7 @@ module TradeTariffFrontend
       [
         @status,
         { 'Content-Type' => 'application/json' },
-        error_object
+        error_object,
       ]
     end
 
@@ -216,10 +242,10 @@ module TradeTariffFrontend
             {
               status: @status.to_s,
               title: 'There was a problem with your query',
-              source: { parameter: @query_string }
-            }
-          ]
-        }.to_json
+              source: { parameter: @query_string },
+            },
+          ],
+        }.to_json,
       ]
     end
   end
