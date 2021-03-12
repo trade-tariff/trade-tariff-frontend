@@ -33,3 +33,5 @@ cf-ssh.yml
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+.nvimlog

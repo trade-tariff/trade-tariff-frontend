@@ -53,14 +53,14 @@ Rails.application.routes.draw do
         constraints: { letter: /[a-z]{1}/i }
 
   constraints TradeTariffFrontend::ApiConstraints.new(
-    TradeTariffFrontend.accessible_api_endpoints
+    TradeTariffFrontend.accessible_api_endpoints,
   ) do
     match ':endpoint/(*path)',
           via: :get,
           to: TradeTariffFrontend::RequestForwarder.new(
             api_request_path_formatter: lambda { |path|
               path.gsub("#{APP_SLUG}/", '')
-            }
+            },
           )
   end
 
@@ -100,13 +100,13 @@ Rails.application.routes.draw do
       get ':version/*path', to: TradeTariffFrontend::RequestForwarder.new(
         api_request_path_formatter: lambda { |path|
           path.gsub(/api\/v\d+\//, '')
-        }
+        },
       ), constraints: { version: /v[1-2]{1}/ }
 
       get 'v2/goods_nomenclatures/*path', to: TradeTariffFrontend::RequestForwarder.new(
         api_request_path_formatter: lambda { |path|
           path.gsub(/api\/v2\//, '')
-        }
+        },
       )
     end
   end
