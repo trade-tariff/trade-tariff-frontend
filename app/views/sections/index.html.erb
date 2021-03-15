@@ -15,9 +15,6 @@
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">
           Section title
-          <% if TradeTariffFrontend.download_pdf_enabled? %>
-            <div class="download-pdf pull-right"><%= link_to '[BETA] Trade Tariff PDF (94MB)', download_latest_pdf_url, rel: 'nofollow', target: '_blank' %></div>
-          <% end %>
         </th>
         <th scope="col" class="govuk-table__header">Section</th>
         <th scope="col" class="govuk-table__header">Chapters</th>

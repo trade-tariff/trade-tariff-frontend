@@ -93,10 +93,6 @@ module TradeTariffFrontend
     ENV.fetch('HIDE_REGULATIONS') != 'true'
   end
 
-  def download_pdf_enabled?
-    ENV.fetch('DOWNLOAD_PDF_ENABLED', 'false') == 'true'
-  end
-
   def host
     ENV.fetch('FRONTEND_HOST', 'http://localhost')
   end

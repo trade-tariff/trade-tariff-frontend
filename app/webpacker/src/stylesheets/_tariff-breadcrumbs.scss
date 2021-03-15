@@ -58,7 +58,6 @@
           }
         }
 
-        .download-pdf,
         .feed {
           a {
             padding-right: 0 !important;
@@ -155,52 +154,7 @@
       }
     }
   }
-
-  .download-pdf {
-    margin-top: 0;
-
-    @media (min-width: $desktop-min-width) {
-      margin-top: 2em;
-      padding-top: 0 !important;
-    }
-  }
 }
-
-.download-pdf {
-  &::before {
-    content: '(';
-  }
-  &::after {
-    content: ')';
-  }
-
-  @media (min-width: $desktop-min-width) {
-    float: right;
-    margin-right: 1.25em;
-
-    &::before, &::after {
-      content: '';
-      display: none;
-    }
-  }
-
-  a {
-    background: url('../images/icon-file-download.png') 0.2em center no-repeat;
-    background-size: 14px 14px;
-    padding-left: 20px;
-    max-width: none !important;
-    display: inline-block !important;
-    min-height: 0 !important;
-    
-    @media (min-width: $desktop-min-width) {
-      background: url('../images/icon-file-download.png') 0.2em center no-repeat;
-      background-size: 16px 16px;
-      padding-left: 25px;
-      font-size: 1rem;
-    }
-  }
-}
-
 
 .full-code {
   width: 181px;
