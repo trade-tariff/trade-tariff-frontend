@@ -117,10 +117,6 @@ declarable ||= false %>
           <p>
             <%= chapter %>
           </p>
-
-          <% if TradeTariffFrontend.download_pdf_enabled? %>
-            <div class="download-pdf"><%= link_to 'Download PDF', download_chapter_pdf_url(chapter.section.position, chapter.short_code), rel: 'nofollow', target: '_blank' %></div>
-          <% end %>
         </li>
       </ul>
 
