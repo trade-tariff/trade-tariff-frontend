@@ -65,8 +65,9 @@ commands:
             # Send "real" url to new version
             cf unmap-route "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>-dark"
             cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.domain_prefix >>".trade-tariff.service.gov.uk
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" assets-<< parameters.domain_prefix >>.trade-tariff.service.gov.uk
+            # The service should be agnostic to this.
+            #cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.domain_prefix >>".trade-tariff.service.gov.uk
+            #cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" assets-<< parameters.domain_prefix >>.trade-tariff.service.gov.uk
 
             # Stop sending traffic to previous version
             cf unmap-route  "$CF_APP-<< parameters.environment_key >>" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
