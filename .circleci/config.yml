@@ -68,8 +68,8 @@ commands:
             cf unmap-route "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>-dark"
             cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
             # service.gov.uk routes
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.app_domain_prefix >>".trade-tariff.service.gov.uk
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.assets_domain_prefix >>.trade-tariff.service.gov.uk
+            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.app_domain_prefix >>.trade-tariff.service.gov.uk"
+            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.assets_domain_prefix >>.trade-tariff.service.gov.uk"
 
             # Stop sending traffic to previous version
             cf unmap-route  "$CF_APP-<< parameters.environment_key >>" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
