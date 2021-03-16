@@ -14,7 +14,9 @@ commands:
         type: string
       environment_key:
         type: string
-      domain_prefix:
+      app_domain_prefix:
+        type: string
+      assets_domain_prefix:
         type: string
     steps:
       - checkout
@@ -66,8 +68,8 @@ commands:
             cf unmap-route "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>-dark"
             cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
             # service.gov.uk routes
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.domain_prefix >>".trade-tariff.service.gov.uk
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" assets-<< parameters.domain_prefix >>.trade-tariff.service.gov.uk
+            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.app_domain_prefix >>".trade-tariff.service.gov.uk
+            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.assets_domain_prefix >>.trade-tariff.service.gov.uk
 
             # Stop sending traffic to previous version
             cf unmap-route  "$CF_APP-<< parameters.environment_key >>" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
@@ -144,7 +146,8 @@ jobs:
     - cf_deploy:
         space: "development"
         environment_key: "dev"
-        domain_prefix: "dev"
+        app_domain_prefix: "dev"
+        assets_domain_prefix: "assets-dev"
 
   deploy_staging:
     docker:
@@ -153,7 +156,8 @@ jobs:
       - cf_deploy:
           space: "staging"
           environment_key: "staging"
-          domain_prefix: "staging"
+          app_domain_prefix: "staging"
+          assets_domain_prefix: "assets-staging"
 
   deploy_production:
     docker:
@@ -162,7 +166,8 @@ jobs:
       - cf_deploy:
           space: "production"
           environment_key: "production"
-          domain_prefix: ""
+          app_domain_prefix: "www"
+          assets_domain_prefix: "assets"
 
 workflows:
   version: 2
