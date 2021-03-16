@@ -77,9 +77,6 @@ Rails.application.configure do
     pool_size:  Integer(ENV['MAX_THREADS'] || 5)
   })
 
-  # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  config.action_controller.asset_host = ENV['GOVUK_ASSET_ROOT']
-
   # set default_url_options
   config.action_controller.default_url_options = {
     host: ENV['HOST'] || 'www.trade-tariff.service.gov.uk'
