@@ -178,11 +178,19 @@ workflows:
 #          context: trade-tariff
       - test:
           context: trade-tariff
+          filters:
+            branches:
+              ignore:
+                - master
 # TODO: We don't need the build stage with buildpacks
 #      - build:
 #          context: trade-tariff
       - deploy_dev:
           context: trade-tariff
+          filters:
+            branches:
+              ignore:
+                - master
           requires:
             - test
       - deploy_staging:
