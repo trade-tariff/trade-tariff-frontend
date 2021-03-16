@@ -16,8 +16,6 @@ commands:
         type: string
       app_domain_prefix:
         type: string
-      assets_domain_prefix:
-        type: string
     steps:
       - checkout
       - run:
@@ -69,7 +67,6 @@ commands:
             cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
             # service.gov.uk routes
             cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.app_domain_prefix >>.trade-tariff.service.gov.uk"
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.assets_domain_prefix >>.trade-tariff.service.gov.uk"
 
             # Stop sending traffic to previous version
             cf unmap-route  "$CF_APP-<< parameters.environment_key >>" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
@@ -147,8 +144,6 @@ jobs:
         space: "development"
         environment_key: "dev"
         app_domain_prefix: "dev"
-        assets_domain_prefix: "assets-dev"
-
   deploy_staging:
     docker:
       - image: cimg/ruby:2.7-node
@@ -157,8 +152,6 @@ jobs:
           space: "staging"
           environment_key: "staging"
           app_domain_prefix: "staging"
-          assets_domain_prefix: "assets-staging"
-
   deploy_production:
     docker:
       - image: cimg/ruby:2.7-node
@@ -167,8 +160,6 @@ jobs:
           space: "production"
           environment_key: "production"
           app_domain_prefix: "www"
-          assets_domain_prefix: "assets"
-
 workflows:
   version: 2
   ci:
