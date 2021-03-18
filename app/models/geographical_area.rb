@@ -9,22 +9,9 @@ class GeographicalArea
 
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
 
-  def self.countries
-    all.sort_by(&:id)
-  end
-
-  def self.cached_countries
-    TradeTariffFrontend::ServiceChooser.cache_with_service_choice(
-      'cached_countries',
-      expires_in: 1.hour,
-    ) do
-      countries
-    end
-  end
-
   def self.by_long_description(term)
     lookup_regexp = /#{term}/i
-    cached_countries.select { |country|
+    countries.select { |country|
       country.long_description =~ lookup_regexp
     }.sort_by do |country|
       match_id = country.id =~ lookup_regexp

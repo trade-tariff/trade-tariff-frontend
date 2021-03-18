@@ -33,7 +33,7 @@ class QuotaSearchForm
   end
 
   def geographical_area
-    GeographicalArea.countries.find do |country|
+    GeographicalArea.all.find do |country|
       country.id == geographical_area_id
     end
   end
