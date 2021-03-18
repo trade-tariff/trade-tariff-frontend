@@ -23,14 +23,16 @@
 <% unless cookies[:cookies_preferences_set] %>
   <% if CookiesConsentController.get_cookie_policy_value(cookies[:cookies_policy]) == 'true' %>
     <div class="app-cookie-banner__message cookies_hide_message" id="cookies_accepted">
-      <p>You have accepted additional cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+      <p>You have accepted additional cookies.  You can <%= link_to "change your cookie
+        settings", "/cookies"  %> at any time.</p>
       <%= button_to  "Hide this message", cookies_consent_confirmation_message_path, class: 'govuk-button
       hide_cookie_panel',
                      action: 'add_seen_confirmation_message' %>
     </div>
   <% elsif CookiesConsentController.get_cookie_policy_value(cookies[:cookies_policy]) == 'false' %>
     <div class="app-cookie-banner__message cookies_hide_message" id="cookies_rejected">
-      <p>You have rejected additional cookies. You can <a href="/cookies">change your cookie settings</a> at any time.</p>
+      <p>You have rejected additional cookies. You can <%= link_to "change your cookie
+        settings", "/cookies"  %> at any time.</p>
       <%= button_to  "Hide this message", cookies_consent_confirmation_message_path, class: 'govuk-button hide_cookie_panel',
                      action: 'add_seen_confirmation_message' %>
     </div>
