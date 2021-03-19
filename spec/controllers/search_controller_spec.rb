@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SearchController, 'GET to #search', type: :controller do
   include CrawlerCommons
 
-  controller(described_class) do
+  controller described_class do
     def index
       render plain: 'Hari Seldon'
     end
