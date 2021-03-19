@@ -1,33 +1,21 @@
 require 'spec_helper'
 
 describe ApplicationController, type: :controller do
-  describe 'behaviour for all subclasses' do
-    controller do
-      def index
-        render plain: 'Jabberwocky'
-      end
+  controller do
+    def index
+      render plain: 'Hari Seldon'
     end
+  end
 
-    describe 'caching' do
-      before do
-        get :index
-      end
+  before do
+    get :index
+  end
 
-      it 'has a max-age of 2 hours' do
-        expect(response.headers['Cache-Control']).to include 'max-age=7200'
-      end
+  let(:expected_cache_control) do
+    'max-age=7200, public, stale-if-error=86400, stale-while-revalidate=86400'
+  end
 
-      it 'has a public directive' do
-        expect(response.headers['Cache-Control']).to include 'public'
-      end
-
-      it 'has a stale-if-error of 1 day' do
-        expect(response.headers['Cache-Control']).to include 'stale-if-error=86400'
-      end
-
-      it 'has a stale-while-revalidate of 1 day' do
-        expect(response.headers['Cache-Control']).to include 'stale-while-revalidate=86400'
-      end
-    end
+  it 'has the correct Cache-Control header' do
+    expect(response.headers['Cache-Control']).to eq(expected_cache_control)
   end
 end

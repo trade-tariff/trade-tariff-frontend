@@ -3,6 +3,18 @@ require 'spec_helper'
 describe SearchController, 'GET to #search', type: :controller do
   include CrawlerCommons
 
+  controller(described_class) do
+    def index
+      render plain: 'Hari Seldon'
+    end
+  end
+
+  it 'has the correct Cache-Control header' do
+    get :index
+
+    expect(response.headers['Cache-Control']).to eq('no-cache')
+  end
+
   context 'with HTML format' do
     context 'with search term' do
       context 'with exact match query', vcr: { cassette_name: 'search#search_exact' } do

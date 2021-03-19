@@ -1,6 +1,8 @@
 require 'addressable/uri'
 
 class SearchController < ApplicationController
+  before_action :expires_now
+
   def search
     @results = @search.perform
 
