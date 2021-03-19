@@ -3,16 +3,18 @@ require 'spec_helper'
 describe SearchController, 'GET to #search', type: :controller do
   include CrawlerCommons
 
-  controller described_class do
-    def index
-      render plain: 'Hari Seldon'
+  describe 'caching' do
+    controller described_class do
+      def index
+        render plain: 'Hari Seldon'
+      end
     end
-  end
 
-  it 'has the correct Cache-Control header' do
-    get :index
+    it 'has the correct Cache-Control header' do
+      get :index
 
-    expect(response.headers['Cache-Control']).to eq('no-cache')
+      expect(response.headers['Cache-Control']).to eq('no-cache')
+    end
   end
 
   context 'with HTML format' do
