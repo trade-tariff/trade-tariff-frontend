@@ -11,7 +11,6 @@ class GeographicalArea
 
   def self.countries
     all.sort_by(&:id)
-      .reject { |country| country.id.in?(excluded_geographical_area_ids) }
   end
 
   def self.cached_countries
@@ -52,11 +51,5 @@ class GeographicalArea
 
   def to_s
     description
-  end
-
-  def self.excluded_geographical_area_ids
-    return %w[XU] if TradeTariffFrontend::ServiceChooser.xi?
-
-    %w[GB XU XI]
   end
 end
