@@ -1,4 +1,5 @@
-<div class="govuk-width-container ">
+<%= form_with(url: cookies_path, method: :post) do |form|%>
+  <div class="govuk-width-container ">
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
@@ -69,16 +70,17 @@
             </div>
             <div class="govuk-radios govuk-radios--stacked">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="cookie-consent-usage" name="cookie-consent-usage" type="radio" value="yes">
-                <label class="govuk-label govuk-radios__label" for="cookie-consent-usage">
-                  Yes, use cookies that measure my website use
-                </label>
+                <%= form.radio_button :cookie_consent_usage, true, class: "govuk-radios__input",
+                                      checked: cookies[:cookies_policy] && JSON.parse(cookies[:cookies_policy])['usage'] == true %>
+                <%= form.label(:cookie_consent_usage_1, "use cookies that measure my website use",
+                              class:"govuk-label govuk-radios__label", for:"cookie-consent-usage_yes") %>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="cookie-consent-usage-2" name="cookie-consent-usage" type="radio" value="no">
-                <label class="govuk-label govuk-radios__label" for="cookie-consent-usage-2">
-                  No, do not use cookies that measure my website use
-                </label>
+              <%= form.radio_button :cookie_consent_usage, false, class: "govuk-radios__input",
+                                      checked: cookies[:cookies_policy] && JSON.parse(cookies[:cookies_policy])['usage'] == false %>
+
+                <%= form.label(:cookie_consent_usage_2,  "No, do not use cookies that measure my website use",
+                            class:"govuk-label govuk-radios__label", for:"cookie-consent-usage_no") %>
               </div>
             </div>
           </fieldset>
@@ -112,16 +114,19 @@
             </div>
             <div class="govuk-radios govuk-radios--stacked">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="cookie-consent-settings" name="cookie-consent-settings" type="radio" value="yes">
-                <label class="govuk-label govuk-radios__label" for="cookie-consent-settings">
-                  Yes, use cookies that remember my settings on the site
-                </label>
+                <%= form.radio_button :cookie_remember_settings, true, class: "govuk-radios__input",
+                checked: cookies[:cookies_policy] && JSON.parse(cookies[:cookies_policy])['remember_settings'] ==
+                    true %>
+                <%= form.label(:cookie_remember_settings, "Yes, use cookies that remember my settings on the site",
+                               class:"govuk-label govuk-radios__label", for:"cookie-remember_settings_yes") %>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="cookie-consent-settings-2" name="cookie-consent-settings" type="radio" value="no">
-                <label class="govuk-label govuk-radios__label" for="cookie-consent-settings-2">
-                  No, do not use cookies that remember my settings on the site
-                </label>
+                <%= form.radio_button :cookie_remember_settings, false, class: "govuk-radios__input",
+                checked: cookies[:cookies_policy] && JSON.parse(cookies[:cookies_policy])['remember_settings'] ==
+                    false %>
+                <%= form.label(:cookie_remember_settings_2,  "No, do not use cookies that remember my settings on the
+                site",
+                               class:"govuk-label govuk-radios__label", for:"cookie-remeber_settings_no") %>
               </div>
             </div>
           </fieldset>
@@ -165,12 +170,12 @@
           </tr>
           </tbody>
         </table>
-        <button name="cookies_save_changes" class="govuk-button cookies_save_changes" data-module="govuk-button">
-          Save changes
-        </button>
+        <%= submit_tag "Save Changes", class: "govuk-button
+        cookies_save_changes"  %>
         <p>Last updated 16 Mar 2021</p>
       </div>
       <div class="govuk-grid-column-two-thirds"></div>
     </div>
   </main>
 </div>
+<% end %>

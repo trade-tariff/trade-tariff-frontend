@@ -3,7 +3,7 @@ require 'json'
 class CookiesConsentController < ApplicationController
   def self.get_cookie_policy_value(cookie)
     unless cookie.nil?
-      JSON.parse(cookie)['settings']
+      JSON.parse(cookie)
     end
   end
 
@@ -24,9 +24,9 @@ class CookiesConsentController < ApplicationController
 
   private
 
-  def set_cookie_policy(should_accept)
-    policy = "{ \"settings\": \"#{should_accept}\", \"usage\": \"#{should_accept}\", \"hasSeen\": \"false\"
-      }"
+  def set_cookie_policy(cookies_allowed)
+    # policy = "{ \"settings\": \"true\", \"usage\": \"#{usage}\", \"remember_settings\": \"#{usage}\"}"
+    policy = { settings: true, usage: cookies_allowed, remember_settings: cookies_allowed }.to_json
     cookies[:cookies_policy] = { value: policy, expires: Time.zone.now + 3600 }
   end
 
