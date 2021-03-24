@@ -5,34 +5,21 @@ class GeographicalArea
 
   collection_path '/geographical_areas/countries'
 
-  attr_accessor :id, :description, :geographical_area_id
+  attr_accessor :id, :geographical_area_id
 
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
 
-  def self.countries
-    all.sort_by(&:id)
-  end
-
-  def self.cached_countries
-    TradeTariffFrontend::ServiceChooser.cache_with_service_choice(
-      'cached_countries',
-      expires_in: 1.hour,
-    ) do
-      countries
-    end
-  end
-
   def self.by_long_description(term)
     lookup_regexp = /#{term}/i
-    cached_countries.select { |country|
-      country.long_description =~ lookup_regexp
-    }.sort_by do |country|
-      match_id = country.id =~ lookup_regexp
-      match_desc = country.description =~ lookup_regexp
+    all.select { |geographical_area|
+      geographical_area.long_description =~ lookup_regexp
+    }.sort_by do |geographical_area|
+      match_id = geographical_area.id =~ lookup_regexp
+      match_desc = geographical_area.description =~ lookup_regexp
       key = ''
       key << (match_id ? '0' : '1')
       key << (match_desc || '')
-      key << country.id
+      key << geographical_area.id
       key
     end
   end

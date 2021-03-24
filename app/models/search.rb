@@ -45,7 +45,7 @@ class Search
   end
 
   def geographical_area
-    GeographicalArea.cached_countries.detect do |country|
+    GeographicalArea.all.detect do |country|
       country.id == attributes['country']
     end
   end
