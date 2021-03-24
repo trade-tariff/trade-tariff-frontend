@@ -1,41 +1,51 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  // Load Google Analytics libraries
-  GOVUK.Analytics.load();
+    if (document.cookie) {
 
-  var cookieDomain = (document.domain === 'www.gov.uk') ? '.www.gov.uk' : document.domain;
+        const cookiesPolicy = JSON.parse(decodeURIComponent(document.cookie
+            .split('; ')
+            .find(row => row.startsWith('cookies_policy='))
+            .split('=')[1]));
 
-  // Configure profiles and make interface public
-  // for custom dimensions, virtual pageviews and events
-  GOVUK.analytics = new GOVUK.Analytics({
-    universalId: 'UA-97208357-1',
-    cookieDomain: cookieDomain
-  });
+        if (cookiesPolicy.usage === true) {
+            // Load Google Analytics libraries
+            GOVUK.Analytics.load();
 
-  // Cross domain event tracking
-  ga('create', 'UA-145652997-1', 'auto', 'govuk_shared', {'allowLinker': true});
-  ga('govuk_shared.require', 'linker');
-  ga('govuk_shared.linker.set', 'anonymizeIp', true);
-  ga('govuk_shared.linker:autoLink', [cookieDomain]);
-  ga('govuk_shared.send', 'pageview');
+            var cookieDomain = (document.domain === 'www.gov.uk') ? '.www.gov.uk' : document.domain;
 
-  // Activate any event plugins eg. print intent, error tracking
-  GOVUK.analyticsPlugins.error();
-  GOVUK.analyticsPlugins.printIntent();
+            // Configure profiles and make interface public
+            // for custom dimensions, virtual pageviews and events
+            GOVUK.analytics = new GOVUK.Analytics({
+                universalId: 'UA-97208357-1',
+                cookieDomain: cookieDomain
+            });
 
-  // Track initial pageview
-  try {
-    GOVUK.analytics.trackPageview();
-  } catch (e) {
-    
-  }
+            // Cross domain event tracking
+            ga('create', 'UA-145652997-1', 'auto', 'govuk_shared', {'allowLinker': true});
+            ga('govuk_shared.require', 'linker');
+            ga('govuk_shared.linker.set', 'anonymizeIp', true);
+            ga('govuk_shared.linker:autoLink', [cookieDomain]);
+            ga('govuk_shared.send', 'pageview');
 
-  // Clicks on data-analytics-event
-  $(document).on('click', '[data-analytics-event]', function(e){
-    var $target = $(e.target);
-    GOVUK.analytics.trackEvent('click', $target.data('analytics-event'), {
-      label: e.target.innerText
-    });
-  });
+            // Activate any event plugins eg. print intent, error tracking
+            GOVUK.analyticsPlugins.error();
+            GOVUK.analyticsPlugins.printIntent();
+
+            // Track initial pageview
+            try {
+                GOVUK.analytics.trackPageview();
+            } catch (e) {
+
+            }
+
+            // Clicks on data-analytics-event
+            $(document).on('click', '[data-analytics-event]', function (e) {
+                var $target = $(e.target);
+                GOVUK.analytics.trackEvent('click', $target.data('analytics-event'), {
+                    label: e.target.innerText
+                });
+            });
+        }
+    }
 })();
