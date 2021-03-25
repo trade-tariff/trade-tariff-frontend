@@ -2,13 +2,13 @@ require 'json'
 
 class CookiesConsentController < ApplicationController
   def accept_cookies
-    set_cookie_policy(true)
+    set_cookie_policy('true')
 
     redirect_back(fallback_location: root_path)
   end
 
   def reject_cookies
-    set_cookie_policy(false)
+    set_cookie_policy('false')
 
     redirect_back(fallback_location: root_path)
   end

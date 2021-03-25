@@ -8,7 +8,7 @@
             .find(row => row.startsWith('cookies_policy='))
             .split('=')[1]));
 
-        if (cookiesPolicy.usage === true) {
+        if (cookiesPolicy.usage === 'true') {
             // Load Google Analytics libraries
             GOVUK.Analytics.load();
 
