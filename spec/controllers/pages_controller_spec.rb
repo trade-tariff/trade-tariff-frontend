@@ -37,19 +37,17 @@ describe PagesController, 'GET to #opensearch', type: :controller do
     let(:remember_settings) { nil }
     let(:remember_usage) { nil }
 
-    it 'redirects to root path' do
-      expect(response).to redirect_to(root_path)
+    let(:params) do
+      {
+      }
     end
 
-    context 'when no cookie settings are specified' do
-      let(:params) do
-        {
-        }
-      end
+    it 'redirects to root path' do
+      expect(response).to render_template(:cookies)
+    end
 
-      it 'does not update any cookies' do
-        expect(response.cookies).to be_blank
-      end
+    it 'does not update any cookies' do
+      expect(response.cookies).to be_blank
     end
 
     context 'when remember settings is set to true' do
