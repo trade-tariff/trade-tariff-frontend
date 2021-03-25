@@ -83,4 +83,15 @@ module ApplicationHelper
   def search_date_in_future_month?
     @search&.date.date >= Date.today.at_beginning_of_month.next_month
   end
+
+  def policy_cookie
+    cookie = cookies['cookies_policy']
+
+    cookie.present? ? JSON.parse(cookie) : {}
+  end
+
+  def set_cookie_policy(cookies_allowed)
+    policy = { settings: true, usage: cookies_allowed, remember_settings: cookies_allowed }.to_json
+    cookies[:cookies_policy] = { value: policy, expires: Time.zone.now + 1.year }
+  end
 end
