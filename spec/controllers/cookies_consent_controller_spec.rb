@@ -5,7 +5,7 @@ RSpec.describe CookiesConsentController, type: :controller do
     subject(:response) { post :accept_cookies }
 
     let(:expected_cookies) do
-      '{"settings":true,"usage":true,"remember_settings":true}'
+      '{"settings":true,"usage":"true","remember_settings":"true"}'
     end
 
     it 'sets the cookie policy correctly' do
@@ -21,7 +21,7 @@ RSpec.describe CookiesConsentController, type: :controller do
     subject(:response) { post :reject_cookies }
 
     let(:expected_cookies) do
-      '{"settings":true,"usage":false,"remember_settings":false}'
+      '{"settings":true,"usage":"false","remember_settings":"false"}'
     end
 
     it 'sets the cookie policy correctly' do

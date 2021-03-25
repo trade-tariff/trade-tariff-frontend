@@ -17,13 +17,13 @@
   </div>
 <% end %>
 <% unless cookies[:cookies_preferences_set] %>
-  <% if policy_cookie['usage'] == true %>
+  <% if policy_cookie['usage'] == 'true' %>
     <div class="app-cookie-banner__message cookies_hide_message" id="cookies_accepted">
       <p>You have accepted additional cookies.  You can <%= link_to "change your cookie
         settings", "/cookies"  %> at any time.</p>
       <%= button_to "Hide this message", cookies_consent_confirmation_message_path, class: 'govuk-button hide_cookie_panel' %>
     </div>
-  <% elsif policy_cookie['usage'] == false %>
+  <% elsif policy_cookie['usage'] == 'false' %>
     <div class="app-cookie-banner__message cookies_hide_message" id="cookies_rejected">
       <p>You have rejected additional cookies. You can <%= link_to "change your cookie
         settings", "/cookies"  %> at any time.</p>
