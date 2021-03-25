@@ -90,8 +90,7 @@ module ApplicationHelper
     cookie.present? ? JSON.parse(cookie) : {}
   end
 
-  def set_cookie_policy(cookies_allowed)
-    policy = { settings: true, usage: cookies_allowed, remember_settings: cookies_allowed }.to_json
-    cookies[:cookies_policy] = { value: policy, expires: Time.zone.now + 1.year }
+  def cookie_confirmation_class
+    @updated_cookies ? 'show' : 'hide'
   end
 end
