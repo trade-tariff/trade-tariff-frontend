@@ -25,20 +25,33 @@ class PagesController < ApplicationController
   end
 
   def update_cookies
-    remember_settings = params['cookie_remember_settings']
-    ga_tracking = params['cookie_consent_usage']
-
-    if remember_settings.present? || ga_tracking.present?
-      update_cookie_policy(ga_tracking, remember_settings)
+    if ga_tracking || remember_settings
+      cookies[:cookies_policy] = { value: policy_cookie_value, expires: Time.zone.now + 1.year }
     end
-
-    redirect_back(fallback_location: root_path)
   end
 
   private
 
-  def update_cookie_policy(ga_tracking, remembers_settings)
-    policy = { settings: true, usage: ga_tracking.present?, remember_settings: remembers_settings.present? }.to_json
-    cookies[:cookies_policy] = { value: policy, expires: Time.zone.now + 1.year }
+  def policy_cookie_value
+    value = { settings: true }
+    value[:usage] = ga_tracking if ga_tracking
+    value[:remember_settings] = remember_settings if remember_settings
+    value.to_json
+  end
+
+  def remember_settings
+    policy_cookie_param_for('cookie_remember_settings')
+  end
+
+  def ga_tracking
+    policy_cookie_param_for('cookie_consent_usage')
+  end
+
+  def policy_cookie_param_for(key)
+    setting = params[key]
+
+    return nil if setting.blank?
+
+    setting
   end
 end

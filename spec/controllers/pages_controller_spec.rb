@@ -37,28 +37,46 @@ describe PagesController, 'GET to #opensearch', type: :controller do
     let(:remember_settings) { nil }
     let(:remember_usage) { nil }
 
-    let(:params) do
-      {
-        'cookie_remember_settings' => remember_settings,
-        'cookie_consent_usage' => remember_usage,
-      }
-    end
-
     it 'redirects to root path' do
       expect(response).to redirect_to(root_path)
     end
 
     context 'when no cookie settings are specified' do
+      let(:params) do
+        {
+        }
+      end
+
       it 'does not update any cookies' do
         expect(response.cookies).to be_blank
       end
     end
 
     context 'when remember settings is set to true' do
-      let(:remember_settings) { true }
+      let(:params) do
+        {
+          'cookie_remember_settings' => 'true',
+        }
+      end
 
       let(:expected_cookies_policy) do
-        '{"settings":true,"usage":false,"remember_settings":true}'
+        '{"settings":true,"remember_settings":"true"}'
+      end
+
+      it 'updates the policy cookie correctly' do
+        expect(response.cookies['cookies_policy']).to eq(expected_cookies_policy)
+      end
+    end
+
+    context 'when remember settings is set to false' do
+      let(:params) do
+        {
+          'cookie_remember_settings' => 'false',
+        }
+      end
+
+      let(:expected_cookies_policy) do
+        '{"settings":true,"remember_settings":"false"}'
       end
 
       it 'updates the policy cookie correctly' do
@@ -67,10 +85,30 @@ describe PagesController, 'GET to #opensearch', type: :controller do
     end
 
     context 'when remember usage is set to true' do
-      let(:remember_usage) { true }
+      let(:params) do
+        {
+          'cookie_consent_usage' => 'true',
+        }
+      end
 
       let(:expected_cookies_policy) do
-        '{"settings":true,"usage":true,"remember_settings":false}'
+        '{"settings":true,"usage":"true"}'
+      end
+
+      it 'updates the policy cookie correctly' do
+        expect(response.cookies['cookies_policy']).to eq(expected_cookies_policy)
+      end
+    end
+
+    context 'when remember usage is set to false' do
+      let(:params) do
+        {
+          'cookie_consent_usage' => 'false',
+        }
+      end
+
+      let(:expected_cookies_policy) do
+        '{"settings":true,"usage":"false"}'
       end
 
       it 'updates the policy cookie correctly' do
