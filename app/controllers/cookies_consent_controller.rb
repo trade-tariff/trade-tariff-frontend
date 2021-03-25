@@ -3,16 +3,19 @@ require 'json'
 class CookiesConsentController < ApplicationController
   def accept_cookies
     set_cookie_policy(true)
+
     redirect_back(fallback_location: root_path)
   end
 
   def reject_cookies
     set_cookie_policy(false)
+
     redirect_back(fallback_location: root_path)
   end
 
   def add_seen_confirmation_message
     set_cookie_preference
+
     redirect_back(fallback_location: root_path)
   end
 
