@@ -25,7 +25,6 @@ class CookiesConsentController < ApplicationController
   private
 
   def set_cookie_policy(cookies_allowed)
-    # policy = "{ \"settings\": \"true\", \"usage\": \"#{usage}\", \"remember_settings\": \"#{usage}\"}"
     policy = { settings: true, usage: cookies_allowed, remember_settings: cookies_allowed }.to_json
     cookies[:cookies_policy] = { value: policy, expires: Time.zone.now + 3600 }
   end
