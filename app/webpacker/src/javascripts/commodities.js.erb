@@ -183,7 +183,7 @@ import debounce from "./debounce";
                               '</div>';
                   effectAll = function (ctrlIdx) {
                       var action = (ctrlIdx % 2 == 0) ? 'open' : 'close';
-                      if (cookiesPolicy.remember_settings === true) {
+                      if (cookiesPolicy.remember_settings === 'true') {
                           GOVUK.tariff.tree.openCloseCookie(action);
                       }
                       $parentNodes.each(function (idx) {
@@ -198,7 +198,7 @@ import debounce from "./debounce";
                   };
 
                   // Open/close tree nodes on load based on cookie
-                  if (cookiesPolicy.remember_settings === true && this.openCloseCookie() == 'open') {
+                  if (cookiesPolicy.remember_settings === 'true' && this.openCloseCookie() == 'open') {
                     effectAll(0);
                   } else {
                     effectAll(1);
