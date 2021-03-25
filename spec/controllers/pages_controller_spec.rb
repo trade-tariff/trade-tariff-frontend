@@ -44,6 +44,10 @@ describe PagesController, 'GET to #opensearch', type: :controller do
       }
     end
 
+    it 'redirects to root path' do
+      expect(response).to redirect_to(root_path)
+    end
+
     context 'when no cookie settings are specified' do
       it 'does not update any cookies' do
         expect(response.cookies).to be_blank
