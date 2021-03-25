@@ -1,6 +1,8 @@
 require 'api_entity'
 
 class ApplicationController < ActionController::Base
+  helper_method :policy_cookie
+
   protect_from_forgery
   include TradeTariffFrontend::ViewContext::Controller
   include ApplicationHelper
@@ -118,5 +120,11 @@ class ApplicationController < ActionController::Base
       geographical_areas_path: geographical_areas_path(format: :json),
       search_suggestions_path: search_suggestions_path(format: :json),
     }
+  end
+
+  def policy_cookie
+    cookie = cookies['cookies_policy']
+
+    cookie.present? ? JSON.parse(cookie) : {}
   end
 end
