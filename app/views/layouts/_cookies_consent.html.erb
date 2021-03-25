@@ -10,7 +10,7 @@
           </p>
           <%= button_to "Accept additional cookies", cookies_consent_accept_path, class: 'govuk-button cookie_accept_all' %>
           <%= button_to "Reject additional cookies", cookies_consent_reject_path, class: 'govuk-button cookie_reject_all' %>
-          <a class="cbanner-govuk-link" href="/cookies">View cookies</a>
+          <%= link_to('View cookies', cookies_path, class: "cbanner-govuk-link") %>
         </div>
       </div>
     </div>
