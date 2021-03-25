@@ -171,13 +171,21 @@ import debounce from "./debounce";
               });
 
               if (isCommodityTree) {
+
+                  const cookiesPolicy = JSON.parse(decodeURIComponent(document.cookie
+                      .split('; ')
+                      .find(row => row.startsWith('cookies_policy='))
+                      .split('=')[1]));
+
                   $controls = '<div class="tree-controls">' +
                                   '<a href="#">Open all headings</a>' +
                                   '<a href="#">Close all headings</a>' +
                               '</div>';
                   effectAll = function (ctrlIdx) {
                       var action = (ctrlIdx % 2 == 0) ? 'open' : 'close';
-                      GOVUK.tariff.tree.openCloseCookie(action);
+                      if (cookiesPolicy.remember_settings === true) {
+                          GOVUK.tariff.tree.openCloseCookie(action);
+                      }
                       $parentNodes.each(function (idx) {
                           var $childList = $(this).children('ul');
                           if (ctrlIdx % 2 == 0) {
@@ -190,7 +198,7 @@ import debounce from "./debounce";
                   };
 
                   // Open/close tree nodes on load based on cookie
-                  if (this.openCloseCookie() == 'open') {
+                  if (cookiesPolicy.remember_settings === true && this.openCloseCookie() == 'open') {
                     effectAll(0);
                   } else {
                     effectAll(1);
