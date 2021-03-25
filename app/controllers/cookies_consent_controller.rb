@@ -1,12 +1,6 @@
 require 'json'
 
 class CookiesConsentController < ApplicationController
-  def self.get_cookie_policy_value(cookie)
-    unless cookie.nil?
-      JSON.parse(cookie)
-    end
-  end
-
   def accept_cookies
     set_cookie_policy(true)
     redirect_back(fallback_location: root_path)
