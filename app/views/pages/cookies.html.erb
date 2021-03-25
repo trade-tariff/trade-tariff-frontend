@@ -72,7 +72,7 @@
               <div class="govuk-radios__item">
                 <%= form.radio_button :cookie_consent_usage, true, class: "govuk-radios__input",
                                       checked: cookies[:cookies_policy] && JSON.parse(cookies[:cookies_policy])['usage'] == true %>
-                <%= form.label(:cookie_consent_usage_1, "use cookies that measure my website use",
+                <%= form.label(:cookie_consent_usage_1, "Use cookies that measure my website use",
                               class:"govuk-label govuk-radios__label", for:"cookie-consent-usage_yes") %>
               </div>
               <div class="govuk-radios__item">

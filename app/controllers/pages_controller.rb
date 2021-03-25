@@ -31,6 +31,8 @@ class PagesController < ApplicationController
     if remember_settings.present? || ga_tracking.present?
       update_cookie_policy(ga_tracking, remember_settings)
     end
+
+    redirect_back(fallback_location: root_path)
   end
 
   private
