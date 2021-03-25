@@ -4,15 +4,10 @@ describe 'JS behaviour', js: true, vcr: {
   cassette_name: 'headings#8501',
   record: :new_episodes,
 } do
-  it 'displays the correct page' do
-    visit heading_path('8501')
-
-    expect(page).to have_content('Choose the commodity code below that best matches your goods to see more information')
-  end
-
   it 'render table tools on the top and bottom' do
     visit heading_path('8501')
 
+    expect(page).to have_content('Choose the commodity code below that best matches your goods to see more information')
     expect(page.find_all('.tree-controls').length).to eq(2)
 
     page.find_all('.has_children').each do |parent|
