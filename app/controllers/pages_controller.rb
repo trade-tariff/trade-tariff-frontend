@@ -37,6 +37,6 @@ class PagesController < ApplicationController
 
   def update_cookie_policy(ga_tracking, remembers_settings)
     policy = { settings: true, usage: ga_tracking.present?, remember_settings: remembers_settings.present? }.to_json
-    cookies[:cookies_policy] = { value: policy, expires: Time.zone.now + 3600 }
+    cookies[:cookies_policy] = { value: policy, expires: Time.zone.now + 1.year }
   end
 end
