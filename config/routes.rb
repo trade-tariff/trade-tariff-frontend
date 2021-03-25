@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   get 'healthcheck', to: 'healthcheck#check'
   get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
   get 'terms', to: 'pages#terms'
-  get 'cookies', to: 'pages#cookies', as: 'cookies'
+  get 'cookies', to: 'pages#tariff_cookies', as: 'cookies'
   post 'cookies', to: 'pages#update_cookies'
   post 'cookies_consent_accept', to: 'cookies_consent#accept_cookies'
   post 'cookies_consent_reject', to: 'cookies_consent#reject_cookies'

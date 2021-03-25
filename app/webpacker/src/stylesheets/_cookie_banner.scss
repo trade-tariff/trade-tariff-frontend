@@ -23,14 +23,18 @@
   }
 }
 
-.cookie-settings__confirmation {
+.cookie-settings__confirmation-show {
   border             : 5px solid;
   border-top-color   : currentcolor;
   border-right-color : currentcolor;
   border-bottom-color: currentcolor;
   border-left-color  : currentcolor;
   border-color       : #00703C;
-  display            : none;
+  display : block;
+}
+
+.cookie-settings__confirmation-hide {
+  display : none;
 }
 
 .cbanner-govuk-link {

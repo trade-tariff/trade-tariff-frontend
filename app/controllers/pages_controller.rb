@@ -24,10 +24,17 @@ class PagesController < ApplicationController
     @no_shared_switch_service_link = true
   end
 
+  def tariff_cookies
+    render :cookies
+  end
+
   def update_cookies
     if ga_tracking || remember_settings
+      @updated_cookies = true
       cookies[:cookies_policy] = { value: policy_cookie_value, expires: Time.zone.now + 1.year }
     end
+
+    render :cookies
   end
 
   private
