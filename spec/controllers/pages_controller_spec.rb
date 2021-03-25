@@ -42,7 +42,7 @@ describe PagesController, 'GET to #opensearch', type: :controller do
       }
     end
 
-    it 'redirects to root path' do
+    it 'renders the cookies template' do
       expect(response).to render_template(:cookies)
     end
 
