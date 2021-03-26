@@ -6,7 +6,14 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '>= 6.0.3.4'
+# Exclude mimemagic dependency and fetch only what we need
+gem 'actionmailer', '~> 6.0'
+gem 'actionpack', '~> 6.0'
+gem 'actionview', '~> 6.0'
+gem 'activemodel', '~> 6.0'
+gem 'activerecord', '~> 6.0'
+gem 'activesupport', '~> 6.0'
+gem 'railties', '~> 6.0'
 
 gem 'addressable', '~> 2.3'
 gem 'faraday'
