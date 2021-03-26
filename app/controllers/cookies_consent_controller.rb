@@ -1,15 +1,13 @@
 require 'json'
 
 class CookiesConsentController < ApplicationController
-  def accept_cookies
-    set_cookie_policy('true')
+  before_action :set_cookie_policy, only: %i[accept_cookies reject_cookies]
 
+  def accept_cookies
     redirect_back(fallback_location: root_path)
   end
 
   def reject_cookies
-    set_cookie_policy('false')
-
     redirect_back(fallback_location: root_path)
   end
 
@@ -19,14 +17,25 @@ class CookiesConsentController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  private
+  private 
 
-  def set_cookie_policy(cookies_allowed)
-    policy = { settings: true, usage: cookies_allowed, remember_settings: cookies_allowed }.to_json
+  def set_cookie_policy
     cookies[:cookies_policy] = { value: policy, expires: Time.zone.now + 1.year }
   end
 
   def set_cookie_preference
     cookies[:cookies_preferences_set] = { value: true, expires: Time.zone.now + 1.year }
+  end
+
+  def policy
+    {
+      settings: true,
+      usage: cookies_enabled?,
+      remember_settings: cookies_enabled?,
+    }.to_json
+  end
+
+  def cookies_enabled?
+    (action_name == 'accept_cookies').to_s
   end
 end
