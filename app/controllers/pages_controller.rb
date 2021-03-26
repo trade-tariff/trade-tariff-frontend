@@ -1,6 +1,4 @@
 class PagesController < ApplicationController
-  include CookiesHelper
-
   before_action do
     @tariff_last_updated = nil
   end
