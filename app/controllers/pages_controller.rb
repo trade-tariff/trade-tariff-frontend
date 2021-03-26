@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  include CookiesHelper
+
   before_action do
     @tariff_last_updated = nil
   end
@@ -43,21 +45,5 @@ class PagesController < ApplicationController
     value[:usage] = ga_tracking if ga_tracking
     value[:remember_settings] = remember_settings if remember_settings
     value.to_json
-  end
-
-  def remember_settings
-    policy_cookie_param_for('cookie_remember_settings')
-  end
-
-  def ga_tracking
-    policy_cookie_param_for('cookie_consent_usage')
-  end
-
-  def policy_cookie_param_for(key)
-    setting = params[key]
-
-    return nil if setting.blank?
-
-    setting
   end
 end

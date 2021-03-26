@@ -75,7 +75,7 @@
                               class:"govuk-label govuk-radios__label", for:"cookie-consent-usage_yes") %>
               </div>
               <div class="govuk-radios__item">
-              <%= form.radio_button :cookie_consent_usage, false, class: "govuk-radios__input", checked: usage_enabled? %>
+              <%= form.radio_button :cookie_consent_usage, false, class: "govuk-radios__input", checked: usage_disabled? %>
 
                 <%= form.label(:cookie_consent_usage_2,  "No, do not use cookies that measure my website use",
                             class:"govuk-label govuk-radios__label", for:"cookie-consent-usage_no") %>
@@ -117,7 +117,7 @@
                                class:"govuk-label govuk-radios__label", for:"cookie-remember_settings_yes") %>
               </div>
               <div class="govuk-radios__item">
-                <%= form.radio_button :cookie_remember_settings, false, class: "govuk-radios__input", checked: remember_settings_enabled? %>
+                <%= form.radio_button :cookie_remember_settings, false, class: "govuk-radios__input", checked: remember_settings_disabled? %>
                 <%= form.label(:cookie_remember_settings_2,  "No, do not use cookies that remember my settings on the
                 site",
                                class:"govuk-label govuk-radios__label", for:"cookie-remeber_settings_no") %>
