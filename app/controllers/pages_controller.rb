@@ -29,8 +29,7 @@ class PagesController < ApplicationController
   end
 
   def update_cookies
-    if ga_tracking || remember_settings
-      @updated_cookies = true
+    if updated_cookies?
       cookies[:cookies_policy] = { value: policy_cookie_value, expires: Time.zone.now + 1.year }
     end
 
