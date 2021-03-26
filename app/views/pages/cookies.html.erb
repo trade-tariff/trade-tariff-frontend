@@ -11,7 +11,7 @@
   <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <div class="cookie-settings__confirmation-<%=  cookie_confirmation_class %> govuk-!-margin-bottom-4" id="cookie-settings__confirmation" data-cookie-confirmation="true">
+        <div class="cookie-settings__confirmation-<%=  updated_cookies? ? 'show' : 'hide' %> govuk-!-margin-bottom-4" id="cookie-settings__confirmation" data-cookie-confirmation="true">
           <section class="govuk-!-padding-4" aria-label="Notice" aria-live="polite" role="region">
             <h2 class="govuk-heading-m">Your cookie settings were saved</h2>
             <p>You can update these settings at any time.</p>
@@ -70,14 +70,12 @@
             </div>
             <div class="govuk-radios govuk-radios--stacked">
               <div class="govuk-radios__item">
-                <%= form.radio_button :cookie_consent_usage, true, class: "govuk-radios__input",
-                                      checked: cookies[:cookies_policy] && JSON.parse(cookies[:cookies_policy])['usage'] == 'true' %>
+                <%= form.radio_button :cookie_consent_usage, true, class: "govuk-radios__input", checked: usage_enabled? %>
                 <%= form.label(:cookie_consent_usage_1, "Use cookies that measure my website use",
                               class:"govuk-label govuk-radios__label", for:"cookie-consent-usage_yes") %>
               </div>
               <div class="govuk-radios__item">
-              <%= form.radio_button :cookie_consent_usage, false, class: "govuk-radios__input",
-                                      checked: cookies[:cookies_policy] && JSON.parse(cookies[:cookies_policy])['usage'] == 'false' %>
+              <%= form.radio_button :cookie_consent_usage, false, class: "govuk-radios__input", checked: usage_enabled? %>
 
                 <%= form.label(:cookie_consent_usage_2,  "No, do not use cookies that measure my website use",
                             class:"govuk-label govuk-radios__label", for:"cookie-consent-usage_no") %>
@@ -114,14 +112,12 @@
             </div>
             <div class="govuk-radios govuk-radios--stacked">
               <div class="govuk-radios__item">
-                <%= form.radio_button :cookie_remember_settings, true, class: "govuk-radios__input",
-                checked: cookies[:cookies_policy] && JSON.parse(cookies[:cookies_policy])['remember_settings'] == 'true' %>
-                <%= form.label(:cookie_remember_settings, "Yes, use cookies that remember my settings on the site",
+                <%= form.radio_button :cookie_remember_settings, true, class: "govuk-radios__input", checked: remember_settings_enabled?  %>
+                <%= form.usage(:cookie_remember_settings, "Yes, use cookies that remember my settings on the site",
                                class:"govuk-label govuk-radios__label", for:"cookie-remember_settings_yes") %>
               </div>
               <div class="govuk-radios__item">
-                <%= form.radio_button :cookie_remember_settings, false, class: "govuk-radios__input",
-                checked: cookies[:cookies_policy] && JSON.parse(cookies[:cookies_policy])['remember_settings'] == 'false' %>
+                <%= form.radio_button :cookie_remember_settings, false, class: "govuk-radios__input", checked: remember_settings_enabled? %>
                 <%= form.label(:cookie_remember_settings_2,  "No, do not use cookies that remember my settings on the
                 site",
                                class:"govuk-label govuk-radios__label", for:"cookie-remeber_settings_no") %>

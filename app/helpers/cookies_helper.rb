@@ -5,7 +5,15 @@ module CookiesHelper
     cookie.present? ? JSON.parse(cookie) : {}
   end
 
-  def cookie_confirmation_class
-    @updated_cookies ? 'show' : 'hide'
+  def updated_cookies?
+    ga_tracking || remember_settings
+  end
+
+  def usage_enabled?
+    policy_cookie.fetch('usage', 'false') == 'true'
+  end
+
+  def remember_settings_enabled?
+    policy_cookie.fetch('remember_settings', 'false') == 'true'
   end
 end
