@@ -15,6 +15,7 @@
 .app-cookie-banner__message {
   margin: 0;
   @include govuk-width-container;
+  max-width: 1145px;
 }
 
 form.button_to {
