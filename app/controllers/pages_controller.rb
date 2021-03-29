@@ -25,6 +25,7 @@ class PagesController < ApplicationController
   end
 
   def tariff_cookies
+    expires_now
     render :cookies
   end
 
