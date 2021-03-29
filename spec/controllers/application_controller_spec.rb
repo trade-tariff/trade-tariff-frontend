@@ -7,12 +7,6 @@ describe ApplicationController, type: :controller do
     end
   end
 
-  before do
-    get :index
-    cookies['cookies_policy'] = policy_cookie
-    cookies['cookies_preferences_set'] = true
-  end
-
   let(:policy_cookie) do
     {
       settings: true,
@@ -21,11 +15,24 @@ describe ApplicationController, type: :controller do
     }.to_json
   end
 
-  let(:expected_cache_control) do
-    'max-age=7200, public, stale-if-error=86400, stale-while-revalidate=86400'
+  it 'has the correct Cache-Control header' do
+    get :index
+    expect(response.headers['Cache-Control']).to eq('no-cache')
   end
 
-#   it 'has the correct Cache-Control header' do
-#     expect(response.headers['Cache-Control']).to eq(expected_cache_control)
-#   end
+  context 'when cookies are set' do
+    before do
+      request.cookies['cookies_policy'] = policy_cookie
+      request.cookies['cookies_preferences_set'] = true
+      get :index
+    end
+
+    let(:expected_cache_control) do
+      'max-age=7200, public, stale-if-error=86400, stale-while-revalidate=86400'
+    end
+
+    it 'has the correct Cache-Control header' do
+      expect(response.headers['Cache-Control']).to eq(expected_cache_control)
+    end
+  end
 end
