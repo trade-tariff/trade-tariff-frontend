@@ -33,6 +33,22 @@ describe CookiesHelper, type: :helper do
     end
   end
 
+  describe '#preference_cookie' do
+    it 'returns a nil' do
+      expect(helper.preference_cookie).to be_nil
+    end
+
+    context 'when the cookies preference is present' do
+      before do
+        helper.request.cookies['cookies_preferences_set'] = 'true'
+      end
+
+      it 'returns the parsed cookie value' do
+        expect(helper.preference_cookie).to eq('true')
+      end
+    end
+  end
+
   describe '#updated_cookies?' do
     it 'returns nil' do
       expect(helper.updated_cookies?).to be_nil
@@ -75,6 +91,23 @@ describe CookiesHelper, type: :helper do
 
       it 'returns "false"' do
         expect(helper.updated_cookies?).to eq('false')
+      end
+    end
+  end
+
+  describe '#cookies_set?' do
+    it 'returns false' do
+      expect(helper).not_to be_cookies_set
+    end
+
+    context 'when both the cookies policy and cookies preference is present' do
+      before do
+        helper.request.cookies['cookies_policy'] = { 'foo' => 'bar' }.to_json
+        helper.request.cookies['cookies_preferences_set'] = 'true'
+      end
+
+      it 'returns the parsed cookie value' do
+        expect(helper).to be_cookies_set
       end
     end
   end
