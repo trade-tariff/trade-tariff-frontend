@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include CookiesHelper
 
-
   before_action :set_cache
   before_action :set_enable_service_switch_banner_in_action
   before_action :set_last_updated
@@ -92,7 +91,11 @@ class ApplicationController < ActionController::Base
 
   def set_cache
     unless Rails.env.development?
-      expires_in 2.hours, :public => true, 'stale-if-error' => 86_400, 'stale-while-revalidate' => 86_400
+      if cookies_set?
+        expires_in 2.hours, :public => true, 'stale-if-error' => 86_400, 'stale-while-revalidate' => 86_400
+      else
+        expires_now
+      end
     end
   end
 

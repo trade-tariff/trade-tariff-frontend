@@ -5,6 +5,14 @@ module CookiesHelper
     cookie.present? ? JSON.parse(cookie) : {}
   end
 
+  def preference_cookie
+    cookies['cookies_preferences_set']
+  end
+
+  def cookies_set?
+    policy_cookie.present? && preference_cookie.present?
+  end
+
   def updated_cookies?
     ga_tracking || remember_settings
   end
