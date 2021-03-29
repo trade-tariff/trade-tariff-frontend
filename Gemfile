@@ -55,7 +55,7 @@ gem 'aws-sdk-rails', '~> 3'
 group :development do
   gem 'letter_opener'
   gem 'rubocop-govuk'
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console'
 end
 
 group :development, :test do
@@ -65,20 +65,20 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara', '~> 3'
+  gem 'capybara'
   gem 'factory_bot_rails'
   gem 'forgery'
   gem 'rack-test'
   gem 'rails-controller-testing', github: 'rails/rails-controller-testing', branch: 'master'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '~> 4'
+  gem 'rspec-rails'
   gem 'selenium-webdriver'
-  gem 'shoulda-matchers', '~> 4'
-  gem 'simplecov', '~> 0.18', require: false
-  gem 'timecop', '~> 0.9.1'
-  gem 'vcr', '~> 3.0.3'
-  gem 'webdrivers', '~> 4.4'
-  gem 'webmock', '~> 3.8.0'
+  gem 'shoulda-matchers'
+  gem 'simplecov', require: false
+  gem 'timecop'
+  gem 'vcr'
+  gem 'webdrivers'
+  gem 'webmock'
 end
 
 group :production do
