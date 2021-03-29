@@ -18,7 +18,9 @@
     var queryTerm = s2Params.term,
         synonymsCount = s2Data.results.length;
 
-    GOVUK.analytics.trackEvent('synonyms', queryTerm, synonymsCount);
+    if (GOVUK.analytics) {
+      GOVUK.analytics.trackEvent('synonyms', queryTerm, synonymsCount);
+    }
   };
 
   SearchQueriesLogger.prototype.chooseQueryOption = function(e, select2Event){
@@ -27,14 +29,18 @@
 
     var actionName = synonymHit ? 'SynonymHit' : 'NoSynonymHit';
 
-    GOVUK.analytics.trackEvent(actionName, optionChosen);
+    if (GOVUK.analytics) {
+      GOVUK.analytics.trackEvent(actionName, optionChosen);
+    }
   };
 
   SearchQueriesLogger.prototype.trackEvent = function(action, label, value){
-    GOVUK.analytics.trackEvent('userSearch', 'searchterm:' + action, {
-      label: label,
-      value: value
-    });
+    if (GOVUK.analytics) {
+      GOVUK.analytics.trackEvent('userSearch', 'searchterm:' + action, {
+        label: label,
+        value: value
+      });
+    }
   };
 
   var logger = new SearchQueriesLogger();

@@ -177,7 +177,9 @@ import debounce from "./debounce";
                               '</div>';
                   effectAll = function (ctrlIdx) {
                       var action = (ctrlIdx % 2 == 0) ? 'open' : 'close';
-                      GOVUK.tariff.tree.openCloseCookie(action);
+
+                      GOVUK.tariff.tree.openClose(action);
+
                       $parentNodes.each(function (idx) {
                           var $childList = $(this).children('ul');
                           if (ctrlIdx % 2 == 0) {
@@ -189,8 +191,7 @@ import debounce from "./debounce";
                       adjustCommodityInfoHeights();
                   };
 
-                  // Open/close tree nodes on load based on cookie
-                  if (this.openCloseCookie() == 'open') {
+                  if (GOVUK.tariff.tree.openClose === 'open') {
                     effectAll(0);
                   } else {
                     effectAll(1);
@@ -207,12 +208,36 @@ import debounce from "./debounce";
                   });
               }
           },
+          openClose: function(action) {
+            if (this.cookiesPolicy().remember_settings === 'true') {
+              this.openCloseCookie(action);
+            } else {
+              return this.openCloseWithoutCookie(action);
+            }
+          },
+          openCloseWithoutCookie: function(action) {
+            if (action) {
+              this.openCloseValue = action;
+            } else {
+              return this.openCloseValue;
+            }
+          },
           openCloseCookie : function (action) {
             if (action) {
               GOVUK.tariff.utils.cookies.set('commodityTree', action, 28);
             } else {
-              return GOVUK.tariff.utils.cookies.get('commodityTree');
+              return GOVUK.tariff.utils.cookies.get('commodityTree') || 'open';
             }
+          },
+          cookiesPolicy: function() {
+            var component = GOVUK.tariff.utils.cookies.get('cookies_policy');
+            var policy = "{}";
+
+            if (component) {
+              policy = decodeURIComponent(component);
+            }
+
+            return JSON.parse(policy);
           }
       },
       /**
@@ -220,7 +245,7 @@ import debounce from "./debounce";
         @object
         @description Tabbing behaviours
       */
-      tabs : {
+      tabs: {
           /**
             @name GOVUK.tariff.tabs.initialize
             @function
@@ -228,7 +253,7 @@ import debounce from "./debounce";
             @requires jquery.tabs.js
             @param {String} context Element in which to add behaviours
           */
-          initialize : function (context) {
+          initialize: function (context) {
               var $container = $(context);
 
               if ($container.find('.nav-tabs').length) {
@@ -236,14 +261,14 @@ import debounce from "./debounce";
               }
           }
       },
-      tabLinkFocuser:{
+      tabLinkFocuser: {
           /**
             @name GOVUK.tariff.tabLinkFocuser.initialize
             @function
             @description opens relevant tab and focuses on element inside its content
             @param {String} context Element in which to add behaviours
           */
-          initialize : function (context) {
+          initialize: function (context) {
               var hash = window.location.hash,
                   pattern = /^#(import|export)\-(measure)\-(\d+)$/;
 
