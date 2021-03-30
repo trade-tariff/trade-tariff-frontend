@@ -7,177 +7,175 @@
       )
   %>
 <% end %>
-<div class="cookies-settings">
-  <%= form_with(url: cookies_path, method: :post) do |form| %>
-      <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <div class="cookie-settings__confirmation-<%= updated_cookies? ? 'show' : 'hide' %> govuk-!-margin-bottom-4" id="cookie-settings__confirmation" data-cookie-confirmation="true">
-              <section class="govuk-!-padding-4" aria-label="Notice" aria-live="polite" role="region">
-                <h2 class="govuk-heading-m">Your cookie settings were saved</h2>
-                <p>You can update these settings at any time.</p>
-              </section>
-            </div>
-            <h1 class="govuk-heading-l">
-              Cookies on the UK Global Online Tariff
-            </h1>
-            <p>Cookies are files saved on your phone, tablet or computer when you visit a website.
-              We use cookies to store information about how you use this website, such as the pages you visit.
-            </p>
-            <h2 class="govuk-heading-m">Cookie settings</h2>
-            <p>We use 3 types of cookie. You can choose which cookies you're happy for us to use.</p>
-            <h3 class="govuk-heading-s">Cookies that measure website use</h3>
-            <p>We use Google Analytics to measure how you use the website so we can improve it based on user needs. We
-              do not allow Google to use or share the data about how you use this site.</p>
-            <p>Google Analytics sets cookies that store anonymised information about:</p>
-            <ul class="govuk-list govuk-list--bullet">
-              <li>how you got to the site</li>
-              <li>the pages you visit on the UK Global Online Tariff, and how long you spend on each page</li>
-              <li>what you click on while you're visiting the site</li>
-            </ul>
-            <p>Google Analytics sets the following cookies:</p>
-            <table class="govuk-table govuk-table--m">
-              <thead class="govuk-table__head">
-              <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Name</th>
-                <th scope="col" class="govuk-table__header">Purpose</th>
-                <th scope="col" class="govuk-table__header">Expires</th>
-              </tr>
-              </thead>
-              <tbody class="govuk-table__body">
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">_ga</td>
-                <td class="govuk-table__cell">These help us count how many people visit the service by tracking if
-                  you’ve visited before
-                </td>
-                <td class="govuk-table__cell">2 years</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">_gid</td>
-                <td class="govuk-table__cell">This randomly generated number is used to determine unique visitors to our
-                  site
-                </td>
-                <td class="govuk-table__cell">24 hours</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">_gat_govuk_shared</td>
-                <td class="govuk-table__cell">This randomly generated number is used to reduce the number of requests
-                  made
-                </td>
-                <td class="govuk-table__cell">2 years</td>
-              </tr>
-              </tbody>
-            </table>
-            <br>
-            <div class="govuk-form-group">
-              <fieldset class="govuk-fieldset" aria-describedby="cookie-consent-usage-hint">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--xs">
-                  Do you consent to cookies that measure website use?
-                </legend>
-                <div id="cookie-consent-usage-hint" class="govuk-hint">
-                </div>
-                <div class="govuk-radios govuk-radios--stacked">
-                  <div class="govuk-radios__item">
-                    <%= form.radio_button :cookie_consent_usage, true, class: "govuk-radios__input", checked: usage_enabled? %>
-                    <%= form.label(:cookie_consent_usage_1, "Use cookies that measure my website use",
-                                   class: "govuk-label govuk-radios__label", for: "cookie-consent-usage_yes") %>
-                  </div>
-                  <div class="govuk-radios__item">
-                    <%= form.radio_button :cookie_consent_usage, false, class: "govuk-radios__input", checked: usage_disabled? %>
-
-                    <%= form.label(:cookie_consent_usage_2, "No, do not use cookies that measure my website use",
-                                   class: "govuk-label govuk-radios__label", for: "cookie-consent-usage_no") %>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            <h3 class="govuk-heading-s">Cookies that remember your settings</h3>
-            <p>These cookies do things like remember your preferences and the choices you make, to personalise your
-              experience of using the site.</p>
-            <p>We use the following cookies to remember your settings:</p>
-            <table class="govuk-table govuk-table--m">
-              <thead class="govuk-table__head">
-              <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Name</th>
-                <th scope="col" class="govuk-table__header">Purpose</th>
-                <th scope="col" class="govuk-table__header">Expires</th>
-              </tr>
-              </thead>
-              <tbody class="govuk-table__body">
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">commodityTree</td>
-                <td class="govuk-table__cell">Remembers if you’ve chosen the ‘Open all headings’ or ‘Close all headings’
-                  option when viewing a hierarchical list of commodities
-                </td>
-                <td class="govuk-table__cell">28 days</td>
-              </tr>
-              </tbody>
-            </table>
-            <br>
-            <div class="govuk-form-group">
-              <fieldset class="govuk-fieldset" aria-describedby="cookie-consent-settings-hint">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--xs">
-                  Do you consent to cookies that remember your settings?
-                </legend>
-                <div id="cookie-consent-settings-hint" class="govuk-hint">
-                </div>
-                <div class="govuk-radios govuk-radios--stacked">
-                  <div class="govuk-radios__item">
-                    <%= form.radio_button :cookie_remember_settings, true, class: "govuk-radios__input", checked: remember_settings_enabled? %>
-                    <%= form.label(:cookie_remember_settings, "Yes, use cookies that remember my settings on the site", class: "govuk-label govuk-radios__label", for: "cookie-remember_settings_yes") %>
-                  </div>
-                  <div class="govuk-radios__item">
-                    <%= form.radio_button :cookie_remember_settings, false, class: "govuk-radios__input", checked: remember_settings_disabled? %>
-                    <%= form.label(:cookie_remember_settings_2, "No, do not use cookies that remember my settings on the site", class: "govuk-label govuk-radios__label", for: "cookie-remeber_settings_no") %>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-            <h3 class="govuk-heading-s">Strictly necessary cookies</h3>
-            <p>These essential cookies do things like remember your progress through the application.
-              They always need to be on, or the service will not function.
-            </p>
-            <table class="govuk-table govuk-table--m">
-              <thead class="govuk-table__head">
-              <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Name</th>
-                <th scope="col" class="govuk-table__header">Purpose</th>
-                <th scope="col" class="govuk-table__header">Expires</th>
-              </tr>
-              </thead>
-              <tbody class="govuk-table__body">
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">_tradetarifffrontend_session</td>
-                <td class="govuk-table__cell">Used to remember details of the pages
-                  that you have visited in the current session
-                </td>
-                <td class="govuk-table__cell">Until you close your browser</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">_trade_tariff_duty_calculator_session</td>
-                <td class="govuk-table__cell">Used to remember data that you have
-                  entered into the online duty calculator, for the dureation of the current session
-                </td>
-                <td class="govuk-table__cell">Until you close your browser</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">cookies_preferences_set</td>
-                <td class="govuk-table__cell">Lets us know that you’ve saved your cookie consent settings</td>
-                <td class="govuk-table__cell">1 year</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">cookies_policy</td>
-                <td class="govuk-table__cell">Saves your cookie consent settings</td>
-                <td class="govuk-table__cell">1 year</td>
-              </tr>
-              </tbody>
-            </table>
-            <%= submit_tag "Save Changes", class: "govuk-button
-        cookies_save_changes" %>
-            <p>Last updated 16 Mar 2021</p>
-          </div>
-          <div class="govuk-grid-column-two-thirds"></div>
+<%= form_with(url: cookies_path, method: :post) do |form| %>
+  <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="cookie-settings__confirmation-<%= updated_cookies? ? 'show' : 'hide' %> govuk-!-margin-bottom-4" id="cookie-settings__confirmation" data-cookie-confirmation="true">
+          <section class="govuk-!-padding-4" aria-label="Notice" aria-live="polite" role="region">
+            <h2 class="govuk-heading-m">Your cookie settings were saved</h2>
+            <p>You can update these settings at any time.</p>
+          </section>
         </div>
-      </main>
-  <% end %>
-</div>
+        <h1 class="govuk-heading-l">
+          Cookies on the UK Global Online Tariff
+        </h1>
+        <p>Cookies are files saved on your phone, tablet or computer when you visit a website.
+        We use cookies to store information about how you use this website, such as the pages you visit.
+        </p>
+        <h2 class="govuk-heading-m">Cookie settings</h2>
+        <p>We use 3 types of cookie. You can choose which cookies you're happy for us to use.</p>
+        <h3 class="govuk-heading-s">Cookies that measure website use</h3>
+        <p>We use Google Analytics to measure how you use the website so we can improve it based on user needs. We
+        do not allow Google to use or share the data about how you use this site.</p>
+        <p>Google Analytics sets cookies that store anonymised information about:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>how you got to the site</li>
+          <li>the pages you visit on the UK Global Online Tariff, and how long you spend on each page</li>
+          <li>what you click on while you're visiting the site</li>
+        </ul>
+        <p>Google Analytics sets the following cookies:</p>
+        <table class="govuk-table govuk-table--m">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Name</th>
+              <th scope="col" class="govuk-table__header">Purpose</th>
+              <th scope="col" class="govuk-table__header">Expires</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">_ga</td>
+              <td class="govuk-table__cell">These help us count how many people visit the service by tracking if
+                you’ve visited before
+              </td>
+              <td class="govuk-table__cell">2 years</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">_gid</td>
+              <td class="govuk-table__cell">This randomly generated number is used to determine unique visitors to our
+                site
+              </td>
+              <td class="govuk-table__cell">24 hours</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">_gat_govuk_shared</td>
+              <td class="govuk-table__cell">This randomly generated number is used to reduce the number of requests
+                made
+              </td>
+              <td class="govuk-table__cell">2 years</td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="cookie-consent-usage-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xs">
+              Do you consent to cookies that measure website use?
+            </legend>
+            <div id="cookie-consent-usage-hint" class="govuk-hint">
+            </div>
+            <div class="govuk-radios govuk-radios--stacked">
+              <div class="govuk-radios__item">
+                <%= form.radio_button :cookie_consent_usage, true, class: "govuk-radios__input", checked: usage_enabled? %>
+                <%= form.label(:cookie_consent_usage_1, "Use cookies that measure my website use",
+                               class: "govuk-label govuk-radios__label", for: "cookie-consent-usage_yes") %>
+              </div>
+              <div class="govuk-radios__item">
+                <%= form.radio_button :cookie_consent_usage, false, class: "govuk-radios__input", checked: usage_disabled? %>
+
+                <%= form.label(:cookie_consent_usage_2, "No, do not use cookies that measure my website use",
+                               class: "govuk-label govuk-radios__label", for: "cookie-consent-usage_no") %>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <h3 class="govuk-heading-s">Cookies that remember your settings</h3>
+        <p>These cookies do things like remember your preferences and the choices you make, to personalise your
+        experience of using the site.</p>
+        <p>We use the following cookies to remember your settings:</p>
+        <table class="govuk-table govuk-table--m">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Name</th>
+              <th scope="col" class="govuk-table__header">Purpose</th>
+              <th scope="col" class="govuk-table__header">Expires</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">commodityTree</td>
+              <td class="govuk-table__cell">Remembers if you’ve chosen the ‘Open all headings’ or ‘Close all headings’
+                option when viewing a hierarchical list of commodities
+              </td>
+              <td class="govuk-table__cell">28 days</td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="cookie-consent-settings-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xs">
+              Do you consent to cookies that remember your settings?
+            </legend>
+            <div id="cookie-consent-settings-hint" class="govuk-hint">
+            </div>
+            <div class="govuk-radios govuk-radios--stacked">
+              <div class="govuk-radios__item">
+                <%= form.radio_button :cookie_remember_settings, true, class: "govuk-radios__input", checked: remember_settings_enabled? %>
+                <%= form.label(:cookie_remember_settings, "Yes, use cookies that remember my settings on the site", class: "govuk-label govuk-radios__label", for: "cookie-remember_settings_yes") %>
+              </div>
+              <div class="govuk-radios__item">
+                <%= form.radio_button :cookie_remember_settings, false, class: "govuk-radios__input", checked: remember_settings_disabled? %>
+                <%= form.label(:cookie_remember_settings_2, "No, do not use cookies that remember my settings on the site", class: "govuk-label govuk-radios__label", for: "cookie-remeber_settings_no") %>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <h3 class="govuk-heading-s">Strictly necessary cookies</h3>
+        <p>These essential cookies do things like remember your progress through the application.
+        They always need to be on, or the service will not function.
+        </p>
+        <table class="govuk-table govuk-table--m">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Name</th>
+              <th scope="col" class="govuk-table__header">Purpose</th>
+              <th scope="col" class="govuk-table__header">Expires</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">_tradetarifffrontend_session</td>
+              <td class="govuk-table__cell">Used to remember details of the pages
+                that you have visited in the current session
+              </td>
+              <td class="govuk-table__cell">Until you close your browser</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">_trade_tariff_duty_calculator_session</td>
+              <td class="govuk-table__cell">Used to remember data that you have
+                entered into the online duty calculator, for the dureation of the current session
+              </td>
+              <td class="govuk-table__cell">Until you close your browser</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">cookies_preferences_set</td>
+              <td class="govuk-table__cell">Lets us know that you’ve saved your cookie consent settings</td>
+              <td class="govuk-table__cell">1 year</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">cookies_policy</td>
+              <td class="govuk-table__cell">Saves your cookie consent settings</td>
+              <td class="govuk-table__cell">1 year</td>
+            </tr>
+          </tbody>
+        </table>
+        <%= submit_tag "Save Changes", class: "govuk-button
+        cookies_save_changes" %>
+      <p>Last updated 16 Mar 2021</p>
+      </div>
+      <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+  </main>
+<% end %>
