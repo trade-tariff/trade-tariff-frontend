@@ -31,14 +31,6 @@ describe PagesController, 'GET to #opensearch', type: :controller do
     end
   end
 
-  describe 'GET tariff_cookies' do
-    it 'has the correct Cache-Control header' do
-      get :tariff_cookies
-
-      expect(response.headers['Cache-Control']).to eq('no-cache')
-    end
-  end
-
   describe 'POST update_cookies' do
     subject(:response) { post :update_cookies, params: params }
 
