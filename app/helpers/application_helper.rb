@@ -14,19 +14,6 @@ module ApplicationHelper
     }.join.html_safe
   end
 
-  def breadcrumbs
-    return nil if %w[pages errors].exclude?(controller_name)
-
-    crumbs = [
-      tag.li(link_to('Home', '/', class: 'govuk-breadcrumbs__link'), class: 'govuk-breadcrumbs__list-item'),
-      tag.li(link_to('Business and self-employed', 'https://www.gov.uk/browse/business', class: 'govuk-breadcrumbs__link'), class: 'govuk-breadcrumbs__list-item'),
-      tag.li(link_to('Imports and exports', 'https://www.gov.uk/browse/business/imports', class: 'govuk-breadcrumbs__link'), class: 'govuk-breadcrumbs__list-item'),
-    ]
-    tag.div(class: 'govuk-breadcrumbs') do
-      tag.ol(crumbs.join('').html_safe, class: 'govuk-breadcrumbs__list', role: 'breadcrumbs')
-    end
-  end
-
   def generate_breadcrumbs(current_page, previous_pages)
     crumbs = [
       previous_pages.map do |title, link|
