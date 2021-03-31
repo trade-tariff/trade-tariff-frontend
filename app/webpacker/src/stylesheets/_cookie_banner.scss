@@ -16,6 +16,9 @@
   margin: 0;
   @include govuk-width-container;
   max-width: 1145px;
+  p {
+    padding-top: 32px;
+  }
 }
 
 form.button_to {
