@@ -6,14 +6,14 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '>= 6.0.3.4'
+gem 'rails', '~> 6'
 
 gem 'addressable', '~> 2.3'
 gem 'faraday'
 gem 'faraday_middleware', '~> 1'
 gem 'hashie', '~> 3.4'
 gem 'multi_json', '~> 1.11'
-gem 'routing-filter', '~> 0.6.3'
+gem 'routing-filter', github: 'svenfuchs/routing-filter'
 gem 'yajl-ruby', '~> 1.3.1', require: 'yajl'
 
 # Assets
@@ -23,7 +23,7 @@ gem 'responders', '~> 3.0.0'
 gem 'webpacker', '~> 5.2'
 
 # gov UK
-gem 'govspeak', '~> 6.5.6'
+gem 'govspeak', '~> 6'
 gem 'plek', '~> 1.11'
 
 gem 'connection_pool', '~> 2.2'
