@@ -97,6 +97,10 @@ module TradeTariffFrontend
     ENV.fetch('FRONTEND_HOST', 'http://localhost')
   end
 
+  def duty_calculator_enabled?
+    ENV.fetch('DUTY_CALCULATOR', 'false').to_s.downcase == 'true'
+  end
+
   module ServiceChooser
     SERVICE_CURRENCIES = {
       'uk' => 'GBP',

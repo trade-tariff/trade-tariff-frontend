@@ -150,4 +150,40 @@ describe ServiceHelper, type: :helper do
       end
     end
   end
+
+  describe '.service_choice' do
+    context 'when there is a service choice set' do
+      let(:choice) { 'xi' }
+
+      it 'returns xi' do
+        expect(helper.service_choice).to eq(choice)
+      end
+    end
+
+    context 'when the selected service choice is nil' do
+      let(:choice) { nil }
+
+      it 'returns the default service which is uk' do
+        expect(helper.service_choice).to eq('uk')
+      end
+    end
+  end
+
+  describe '.import_destination' do
+    context 'when there is a service choice is xi' do
+      let(:choice) { 'xi' }
+
+      it 'returns Northern Ireland' do
+        expect(helper.import_destination).to eq('Northern Ireland')
+      end
+    end
+
+    context 'when the selected service choice is uk' do
+      let(:choice) { 'uk' }
+
+      it 'returns United Kingdom' do
+        expect(helper.import_destination).to eq('United Kingdom')
+      end
+    end
+  end
 end
