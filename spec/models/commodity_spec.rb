@@ -49,7 +49,7 @@ describe Commodity do
   end
 
   describe '#to_param' do
-    let(:commodity) { Commodity.new(attributes_for(:commodity).stringify_keys) }
+    let(:commodity) { described_class.new(attributes_for(:commodity).stringify_keys) }
 
     it 'returns commodity code as param' do
       expect(commodity.to_param).to eq commodity.code
@@ -57,7 +57,7 @@ describe Commodity do
   end
 
   describe '#aria_label' do
-    let(:commodity) { Commodity.new(attributes_for(:commodity).stringify_keys) }
+    let(:commodity) { described_class.new(attributes_for(:commodity).stringify_keys) }
 
     it 'formats the aria label correctly' do
       expect(commodity.aria_label).to eq("Commodity code 0101300000, #{commodity.description}")
@@ -70,6 +70,46 @@ describe Commodity do
 
       it 'does not propagate an exception' do
         expect { commodity.aria_label }.not_to raise_exception
+      end
+    end
+  end
+
+  describe '#meursing_code?' do
+    subject(:commodity) { described_class.new(attributes_for(:commodity, meursing_code: meursing_code).stringify_keys) }
+
+    context 'when the commodity has a meursing code' do
+      let(:meursing_code) { true }
+
+      it 'returns true' do
+        expect(commodity).to be_meursing_code
+      end
+    end
+
+    context 'when the commodity does not have a meursing code' do
+      let(:meursing_code) { false }
+
+      it 'returns false' do
+        expect(commodity).not_to be_meursing_code
+      end
+    end
+  end
+
+  describe '#no_meursing?' do
+    subject(:commodity) { described_class.new(attributes_for(:commodity, meursing_code: meursing_code).stringify_keys) }
+
+    context 'when the commodity has a meursing code' do
+      let(:meursing_code) { true }
+
+      it 'returns true' do
+        expect(commodity).not_to be_no_meursing
+      end
+    end
+
+    context 'when the commodity does not have a meursing code' do
+      let(:meursing_code) { false }
+
+      it 'returns false' do
+        expect(commodity).to be_no_meursing
       end
     end
   end
