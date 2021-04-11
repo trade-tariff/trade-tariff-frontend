@@ -58,6 +58,15 @@ module ServiceHelper
     t("country_picker.#{service_choice}.#{tab}").html_safe
   end
 
+  def service_choice
+    TradeTariffFrontend::ServiceChooser.service_choice ||
+      TradeTariffFrontend::ServiceChooser.service_default
+  end
+
+  def import_destination
+    t("import_destination.#{service_choice}")
+  end
+
 private
 
   def switching_enabled?
@@ -74,11 +83,6 @@ private
 
   def service_description
     t('title.service_description')
-  end
-
-  def service_choice
-    TradeTariffFrontend::ServiceChooser.service_choice ||
-      TradeTariffFrontend::ServiceChooser.service_default
   end
 
   def banner_copy

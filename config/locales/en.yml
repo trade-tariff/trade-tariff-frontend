@@ -4,6 +4,9 @@
 en:
   meta_description: "Search for import and export commodity codes and for tax, duty and licences that apply to your goods"
 
+  import_destination:
+    uk: United Kingdom
+    xi: Northern Ireland
   country_picker:
     uk:
       import: UK Global Tariff imports from
