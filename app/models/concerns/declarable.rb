@@ -25,6 +25,10 @@ module Declarable
     meursing_code
   end
 
+  def no_meursing?
+    !meursing_code?
+  end
+
   def code
     goods_nomenclature_item_id
   end

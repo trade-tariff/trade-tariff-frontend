@@ -32,6 +32,7 @@ FactoryBot.define do
     goods_nomenclature_item_id { '0101300000' }
     goods_nomenclature_sid { Forgery(:basic).number }
     parent_sid { Forgery(:basic).number }
+    meursing_code { false }
   end
 
   factory :monetary_exchange_rate do
