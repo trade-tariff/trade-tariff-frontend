@@ -115,6 +115,7 @@ jobs:
           event: fail
           template: basic_fail_1
   test:
+    parallelism: 4
     docker:
       - image: cimg/ruby:2.7-node
         environment:
