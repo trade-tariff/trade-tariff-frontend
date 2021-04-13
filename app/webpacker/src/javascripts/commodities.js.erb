@@ -176,13 +176,15 @@ import debounce from "./debounce";
                                   '<a href="#">Close all headings</a>' +
                               '</div>';
                   effectAll = function (ctrlIdx) {
-                      var action = (ctrlIdx % 2 == 0) ? 'open' : 'close';
 
-                      GOVUK.tariff.tree.openClose(action);
+                      let action = (ctrlIdx % 2 === 0) ? 'open' : 'close';
 
+                      if (GOVUK.tariff.tree.cookiesPolicy().remember_settings === 'true') {
+                          GOVUK.tariff.tree.openCloseCookie(action);
+                      }
                       $parentNodes.each(function (idx) {
                           var $childList = $(this).children('ul');
-                          if (ctrlIdx % 2 == 0) {
+                          if (ctrlIdx % 2 === 0) {
                               clickBranch($branchSwitches.eq(idx), $childList, 'open');
                           } else {
                               clickBranch($branchSwitches.eq(idx), $childList, 'close');
@@ -191,7 +193,8 @@ import debounce from "./debounce";
                       adjustCommodityInfoHeights();
                   };
 
-                  if (GOVUK.tariff.tree.openClose === 'open') {
+                  // Open/close tree nodes on load based on cookie
+                  if (this.openCloseCookie() === 'open') {
                     effectAll(0);
                   } else {
                     effectAll(1);
@@ -208,44 +211,32 @@ import debounce from "./debounce";
                   });
               }
           },
-          openClose: function(action) {
-            if (this.cookiesPolicy().remember_settings === 'true') {
-              this.openCloseCookie(action);
-            } else {
-              return this.openCloseWithoutCookie(action);
-            }
-          },
-          openCloseWithoutCookie: function(action) {
-            if (action) {
-              this.openCloseValue = action;
-            } else {
-              return this.openCloseValue;
-            }
-          },
           openCloseCookie : function (action) {
             if (action) {
               GOVUK.tariff.utils.cookies.set('commodityTree', action, 28);
             } else {
-              return GOVUK.tariff.utils.cookies.get('commodityTree') || 'open';
+              return GOVUK.tariff.utils.cookies.get('commodityTree');
             }
           },
+
           cookiesPolicy: function() {
-            var component = GOVUK.tariff.utils.cookies.get('cookies_policy');
-            var policy = "{}";
+              const component = GOVUK.tariff.utils.cookies.get('cookies_policy');
+              let policy = "{}";
 
-            if (component) {
-              policy = decodeURIComponent(component);
-            }
+              if (component) {
+                  policy = decodeURIComponent(component);
+              }
 
-            return JSON.parse(policy);
+              return JSON.parse(policy);
           }
+
       },
       /**
         @name GOVUK.tariff.tabs
         @object
         @description Tabbing behaviours
       */
-      tabs: {
+      tabs : {
           /**
             @name GOVUK.tariff.tabs.initialize
             @function
@@ -253,7 +244,7 @@ import debounce from "./debounce";
             @requires jquery.tabs.js
             @param {String} context Element in which to add behaviours
           */
-          initialize: function (context) {
+          initialize : function (context) {
               var $container = $(context);
 
               if ($container.find('.nav-tabs').length) {
@@ -261,14 +252,14 @@ import debounce from "./debounce";
               }
           }
       },
-      tabLinkFocuser: {
+      tabLinkFocuser:{
           /**
             @name GOVUK.tariff.tabLinkFocuser.initialize
             @function
             @description opens relevant tab and focuses on element inside its content
             @param {String} context Element in which to add behaviours
           */
-          initialize: function (context) {
+          initialize : function (context) {
               var hash = window.location.hash,
                   pattern = /^#(import|export)\-(measure)\-(\d+)$/;
 
@@ -604,7 +595,7 @@ import debounce from "./debounce";
                 var datepickerInput = $("#tariff_date_date")[0];
                 var datepickerButton = $("#search-datepicker-button")[0];
                 var datepickerDialog = $("#search-datepicker-dialog")[0];
-                
+
                 var dtpicker = new DatePicker(datepickerInput, datepickerButton, datepickerDialog);
                 dtpicker.init();
 
@@ -808,7 +799,7 @@ import debounce from "./debounce";
                 autoselect: true,
                 showAllValues: false,
                 confirmOnBlur: true,
-                displayMenu: "overlay", 
+                displayMenu: "overlay",
                 defaultValue: $(".js-commodity-picker-target").val(),
                 placeholder: "Enter the name of the goods or commodity code",
                 onConfirm: function(text) {
