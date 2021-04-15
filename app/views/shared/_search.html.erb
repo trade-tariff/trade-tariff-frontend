@@ -32,7 +32,7 @@
               <%= hidden_field_tag :q, @search.q, { class: "js-commodity-picker-target" } %>
               <div class='js-commodity-picker-select js-show'></div>
               <noscript>
-                <%= text_field_tag(:q, @search.q, {class: "govuk-input", name: :q}) %>
+                <%= text_field_tag(:q, @search.q, {class: "govuk-input", name: :q}, '') %>
               </noscript>
             </fieldset>
             <fieldset class="govuk-fieldset search-submit">
