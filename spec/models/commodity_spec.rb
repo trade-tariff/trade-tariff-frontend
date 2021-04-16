@@ -113,4 +113,24 @@ describe Commodity do
       end
     end
   end
+
+  describe '#heading?' do
+    it { is_expected.not_to be_heading }
+  end
+
+  describe '#calculate_duties?' do
+    subject(:commodity) { described_class.new(attributes_for(:commodity, meursing_code: meursing_code).stringify_keys) }
+
+    context 'when the commodity has a meursing code' do
+      let(:meursing_code) { true }
+
+      it { is_expected.not_to be_calculate_duties }
+    end
+
+    context 'when the commodity does not have a meursing code' do
+      let(:meursing_code) { false }
+
+      it { is_expected.to be_calculate_duties }
+    end
+  end
 end

@@ -1,25 +1,25 @@
 require 'spec_helper'
 
 describe Heading do
-  describe '#to_param' do
-    let(:heading) { Heading.new(attributes_for(:heading).stringify_keys) }
+  subject(:heading) { described_class.new(attributes_for(:heading).stringify_keys) }
 
-    it 'returns heading code as param' do
-      expect(heading.to_param).to eq heading.short_code
-    end
+  describe '#to_param' do
+    it { expect(heading.to_param).to eq heading.short_code }
   end
 
   describe '#commodity_code' do
-    let(:heading) { Heading.new(attributes_for(:heading).stringify_keys) }
-
-    it 'returns first ten symbols of code' do
-      expect(heading.commodity_code).to eq heading.code.to_s.first(10)
-    end
+    it { expect(heading.commodity_code).to eq(heading.code) }
   end
 
   describe '#consigned?' do
-    it 'returns false (there are no consigned declarable headings)' do
-      expect(subject.consigned?).to be false
-    end
+    it { is_expected.not_to be_consigned }
+  end
+
+  describe '#heading?' do
+    it { is_expected.to be_heading }
+  end
+
+  describe '#calculate_duties?' do
+    it { is_expected.not_to be_calculate_duties }
   end
 end
