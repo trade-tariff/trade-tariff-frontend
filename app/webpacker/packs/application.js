@@ -23,6 +23,7 @@ import jQuery from 'jquery'
 window.$ = jQuery;
 window.jQuery = jQuery;
 
+require('../src/javascripts/sentry.js');
 
 require('popup');
 require('select2');
@@ -58,6 +59,7 @@ require('../src/javascripts/calendar-button.js');
 require('../src/javascripts/datepicker.js');
 
 window.accessibleAutocomplete = require('../src/javascripts/accessible-autocomplete.min.js');
+
 
 require('../src/javascripts/analytics-init.js');
 require('../src/javascripts/analytics-search-queries.js');

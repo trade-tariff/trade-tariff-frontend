@@ -101,6 +101,14 @@ module TradeTariffFrontend
     ENV.fetch('DUTY_CALCULATOR', 'false').to_s.downcase == 'true'
   end
 
+  def js_sentry_dsn
+    ENV.fetch('JS_SENTRY_DSN', '')
+  end
+
+  def revision
+    `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
+  end
+
   module ServiceChooser
     SERVICE_CURRENCIES = {
       'uk' => 'GBP',
