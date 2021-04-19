@@ -43,7 +43,7 @@
             <% if TradeTariffFrontend.duty_calculator_enabled? && declarable.calculate_duties? %>
               <h3 class="govuk-heading-s">Duty calculation</h3>
               
-              <p>Use our new step-by-step guide to work out the <%= link_to("duties applicable to the import of commodity #{declarable.code} into the #{import_destination}", "/duty-calculator/import-date?commodity_code=#{declarable.code}&referred_service=#{service_choice}", class: 'govuk-link') %>.</p>
+              <p>Use our tariff duty calculator to work out the <%= link_to("duties applicable to the import of commodity #{declarable.code} into the #{import_destination}", "/duty-calculator/import-date?commodity_code=#{declarable.code}&referred_service=#{service_choice}", class: 'govuk-link') %>.</p>
             <% end %>
           </div>
         </div>
