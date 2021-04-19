@@ -1,6 +1,8 @@
 module Declarable
   extend ActiveSupport::Concern
 
+  HEADING_PATTERN = '000000'.freeze
+
   included do
     include ApiEntity
 
@@ -25,8 +27,20 @@ module Declarable
     meursing_code
   end
 
+  def calculate_duties?
+    no_meursing? && no_heading?
+  end
+
   def no_meursing?
     !meursing_code?
+  end
+
+  def heading?
+    code && code.last(6) == HEADING_PATTERN
+  end
+
+  def no_heading?
+    !heading?
   end
 
   def code
