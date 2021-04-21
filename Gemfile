@@ -52,6 +52,9 @@ gem 'redis-rails'
 # AWS
 gem 'aws-sdk-rails', '~> 3'
 
+# Newrelic
+gem 'newrelic_rpm'
+
 group :development do
   gem 'letter_opener'
   gem 'rubocop-govuk'
