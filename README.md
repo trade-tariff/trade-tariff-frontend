@@ -1,12 +1,12 @@
 # Trade Tariff Frontend
 
-__Now maintained at https://github.com/bitzesty/trade-tariff-frontend__
+__Now maintained at https://github.com/trade-tariff/trade-tariff-frontend__
 
 https://www.trade-tariff.service.gov.uk/trade-tariff/sections
 
 This is the front-end application for:
 
-* [Trade Tariff Backend](https://github.com/bitzesty/trade-tariff-backend)
+* [Trade Tariff Backend](https://github.com/trade-tariff/trade-tariff-backend)
 
 This application requires one or more Trade Tariff Backend APIs to be running and the following env variables set: `API_SERVICE_BACKEND_DEFAULT`, `API_SERVICE_BACKEND_URL_OPTIONS`.
 
@@ -90,7 +90,7 @@ To create or update autoscaling policy for your application run:
     cf attach-autoscaling-policy APP_NAME ./policy.json
 
 
-Current autosscaling policy files are [here](https://github.com/bitzesty/trade-tariff-frontend/tree/master/config/autoscaling).
+Current autosscaling policy files are [here](https://github.com/trade-tariff/trade-tariff-frontend/tree/master/config/autoscaling).
 
 
 
