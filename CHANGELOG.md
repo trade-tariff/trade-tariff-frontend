@@ -35,7 +35,7 @@
 - `quiet_assets` gem
 - ActionDispatch::ParamsParser::DEFAULT_PARSERS was deprecated and `remove_parsers.rb` initializer was removed
 
-[August 28, 2017]: https://github.com/bitzesty/trade-tariff-frontend/compare/a72e3a4...9c2d125
+[August 28, 2017]: https://github.com/trade-tariff/trade-tariff-frontend/compare/a72e3a4...9c2d125
 
 
 ## [May 27, 2017]
@@ -61,7 +61,7 @@ Maintained at now at the Bit Zesty repo - not the alphagov one.
 ### Removed
 - GDS report a problem, will replace with another form
 
-[May 27, 2017]: https://github.com/bitzesty/trade-tariff-frontend/compare/ac8b487...b120373
+[May 27, 2017]: https://github.com/trade-tariff/trade-tariff-frontend/compare/ac8b487...b120373
 
 ## [August 05, 2016]
 
@@ -93,7 +93,7 @@ Maintained at now at the Bit Zesty repo - not the alphagov one.
 - Remove the `therubyracer` gem.
 - Remove ci reporter rake tasks.
 
-[August 05, 2016]: https://github.com/bitzesty/trade-tariff-frontend/compare/bcb1ea1...58633f0
+[August 05, 2016]: https://github.com/trade-tariff/trade-tariff-frontend/compare/bcb1ea1...58633f0
 
 ## [July 25, 2016]
 
@@ -122,7 +122,7 @@ Maintained at now at the Bit Zesty repo - not the alphagov one.
 - Remove hard-coded text about changes in procedures.
 - Remove `jenkins.sh` file.
 
-[July 25, 2016]: https://github.com/bitzesty/trade-tariff-frontend/compare/69114b5...1c74294
+[July 25, 2016]: https://github.com/trade-tariff/trade-tariff-frontend/compare/69114b5...1c74294
 
 
 ## [June 16, 2016]
@@ -157,7 +157,7 @@ Maintained at now at the Bit Zesty repo - not the alphagov one.
 - Remove capistrano.
 - Remove `govuk_artefact` dependency.
 
-[June 16, 2016]: https://github.com/bitzesty/trade-tariff-frontend/compare/eb1f40b...69114b5
+[June 16, 2016]: https://github.com/trade-tariff/trade-tariff-frontend/compare/eb1f40b...69114b5
 
 
 ## [March 01, 2016]
@@ -178,7 +178,7 @@ Maintained at now at the Bit Zesty repo - not the alphagov one.
 - Remove the `bundler-audit` gem and rake task.
 - Remove redundant precompiled assets
 
-[March 01, 2016]: https://github.com/bitzesty/trade-tariff-frontend/compare/58633f0...eb1f40b
+[March 01, 2016]: https://github.com/trade-tariff/trade-tariff-frontend/compare/58633f0...eb1f40b
 
 ## [September 23, 2015]
 
@@ -197,7 +197,7 @@ Maintained at now at the Bit Zesty repo - not the alphagov one.
 ### Removed
 - Remove panopticon registration
 
-[September 23, 2015]: https://github.com/bitzesty/trade-tariff-frontend/compare/bcb1ea1...58633f0
+[September 23, 2015]: https://github.com/trade-tariff/trade-tariff-frontend/compare/bcb1ea1...58633f0
 
 ## [release_754...release_776](https://github.com/alphagov/trade-tariff-frontend/compare/release_754...release_776)
 ### Changed
