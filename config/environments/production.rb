@@ -1,3 +1,5 @@
+require 'active_support/core_ext/integer/time'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -23,7 +25,7 @@ Rails.application.configure do
 
   config.public_file_server.headers = {
     'Cache-Control' => 'public, s-maxage=31536000, max-age=15552000',
-    'Expires' => 1.year.from_now.to_formatted_s(:rfc822)
+    'Expires' => 1.year.from_now.to_formatted_s(:rfc822),
   }
 
   # Compress JavaScripts and CSS
@@ -33,11 +35,9 @@ Rails.application.configure do
   # Don't fallback to assets pipeline if a precompiled asset is missed
   # config.assets.compile = false
 
-
   # Rather than use a CSS compressor, use the SASS style to perform compression.
   # config.sass.style = :compressed
   # config.sass.line_comments = false
-
 
   config.webpacker.check_yarn_integrity = false
 
@@ -64,22 +64,23 @@ Rails.application.configure do
     {
       params: event.payload[:params].except('controller', 'action', 'format', 'utf8'),
     }.merge(
-      JSON.parse(ENV['VCAP_APPLICATION']).except('application_uris', 'host', 'application_name', 'space_id', 'port', 'uris', 'application_version')
+      JSON.parse(ENV['VCAP_APPLICATION']).except('application_uris', 'host', 'application_name', 'space_id', 'port', 'uris', 'application_version'),
     )
   end
   config.lograge.ignore_actions = ['HealthcheckController#index']
 
   # Rails cache store
   # PaasConfig.redis returns url and db
-  config.cache_store = :redis_store, PaasConfig.redis.merge({
-    expires_in: 1.day,
-    namespace:  ENV['GOVUK_APP_DOMAIN'],
-    pool_size:  Integer(ENV['MAX_THREADS'] || 5)
-  })
+  config.cache_store = :redis_store,
+                       PaasConfig.redis.merge({
+                         expires_in: 1.day,
+                         namespace: ENV['GOVUK_APP_DOMAIN'],
+                         pool_size: Integer(ENV['MAX_THREADS'] || 5),
+                       })
 
   # set default_url_options
   config.action_controller.default_url_options = {
-    host: ENV['HOST'] || 'www.trade-tariff.service.gov.uk'
+    host: ENV['HOST'] || 'www.trade-tariff.service.gov.uk',
   }
 
   # Disable delivery errors, bad email addresses will be ignored

@@ -3,7 +3,7 @@ class MeasureCollection
 
   attr_accessor :measures, :presenter_klass
 
-  delegate :length, :collect, :map, :each, :all?, :include?, :to_ary, to: :to_a
+  delegate :size, :length, :collect, :map, :each, :all?, :include?, :to_ary, to: :to_a
 
   def initialize(measures, presenter_klass = MeasurePresenter)
     @measures = measures.clone
@@ -46,6 +46,7 @@ class MeasureCollection
   def present?
     measures.any?
   end
+
 
   private
 
