@@ -90,20 +90,19 @@ commands:
       - run:
           name: "Trigger Release in NewRelic"
           command: |
-              curl -i \
-              -X POST 'https://api.eu.newrelic.com/deployments.xml' \
-              -H "X-Api-Key:${NEW_RELIC_TOKEN}" \
-              -H "Content-Type: application/json" \
-              -d \
-              "{
-                \"deployment\": {
-                \"app_name\": \"${CF_APP}-dev\",
-                \"revision\": \"${CIRCLE_SHA1}\",
-                \"description\": \"${CIRCLE_SHA1}\",
-                \"user\": \"${CIRCLE_USERNAME}\"
-                }
-              }"
-
+            curl -X POST "https://api.newrelic.com/v2/applications/$NEW_RELIC_APP_ID/deployments.json" \
+                 -H "Api-Key:$NEW_RELIC_TOKEN" \
+                 -i \
+                 -H "Content-Type: application/json" \
+                 -d \
+            '{
+              "deployment": {
+                "revision": "{CIRCLE_SHA1}",
+                "changelog": "<changelog>",
+                "description": "{CIRCLE_SHA1}",
+                "user": "${CIRCLE_USERNAME}"
+              }
+            }'
 jobs:
   build:
     docker:
