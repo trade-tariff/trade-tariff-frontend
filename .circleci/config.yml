@@ -6,6 +6,7 @@ orbs:
   browser-tools: circleci/browser-tools@1.1
   cloudfoundry: circleci/cloudfoundry@1.0
   slack: circleci/slack@4.3.0
+  new-relic: configure/new-relic@0.1.4
 
 commands:
   cf_deploy:
@@ -87,6 +88,12 @@ commands:
           channel: deployments
           event: pass
           template: basic_success_1
+      - new-relic/deployment:
+          app-name: '${CF_APP}-<< parameters.environment_key >>'
+          api-key: '${NEW_RELIC_TOKEN}'
+          revision: '${CIRCLE_SHA1}'
+          user: '${CIRCLE_USERNAME}'
+          description: '${CIRCLE_SHA1}'
 
 jobs:
   build:
