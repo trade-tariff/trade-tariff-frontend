@@ -131,10 +131,12 @@ FactoryBot.define do
   end
 
   factory :measure_condition do
-    document_code { Forgery(:basic).text }
-    action { Forgery(:basic).text }
+    condition_code { Forgery(:basic).text(exactly: 1) }
     condition { Forgery(:basic).text }
-    requirement_type { Forgery(:basic).text }
+    document_code { Forgery(:basic).text(exactly: 4) }
+    requirement { Forgery(:basic).text }
+    action { Forgery(:basic).text }
+    duty_expression { Forgery(:basic).text }
   end
 
   factory :additional_code do
