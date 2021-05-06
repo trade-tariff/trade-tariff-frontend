@@ -100,7 +100,7 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
-  checking:
+  linters:
     docker:
       - image: 'cimg/ruby:2.7-node'
     resource_class: small
@@ -110,10 +110,15 @@ jobs:
       - ruby/rubocop-check:
           format: progress
           label: Inspecting with Rubocop
-      - slack/notify:
-          channel: deployments
-          event: fail
-          template: basic_fail_1
+      - run:
+          name: Inspecting with Brakeman
+          when: always
+          command: 'bundle exec brakeman -o test-results/brakeman/brakeman.junit -o brakeman.html --no-progress --separate-models'
+      - store_test_results:
+          path: test-results/brakeman/
+      - store_artifacts:
+          path: brakeman.html
+
   test:
     parallelism: 4
     docker:
@@ -166,8 +171,8 @@ workflows:
   ci:
     jobs:
 # TODO: Fix rubocop issues
-#      - checking:
-#          context: trade-tariff
+      - linters:
+          context: trade-tariff
       - test:
           context: trade-tariff
           filters:
