@@ -13,6 +13,22 @@ describe 'Chapter page', type: :request do
         end
       end
     end
+
+    it 'displays chapter and heading codes for all headings in the chapter' do
+      VCR.use_cassette('geographical_areas#countries') do
+        VCR.use_cassette('chapters#show') do
+          visit chapter_path('01')
+
+          expect(page).to have_selector '.chapter-code', text: '01', count: 7
+          expect(page).to have_selector '.heading-code', text: '01', count: 1
+          expect(page).to have_selector '.heading-code', text: '02', count: 1
+          expect(page).to have_selector '.heading-code', text: '03', count: 1
+          expect(page).to have_selector '.heading-code', text: '04', count: 1
+          expect(page).to have_selector '.heading-code', text: '05', count: 1
+          expect(page).to have_selector '.heading-code', text: '06', count: 1
+        end
+      end
+    end
   end
 
   context 'as JSON' do
