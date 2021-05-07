@@ -1,8 +1,8 @@
 <% if heading.leaf? %>
   <tr class="govuk-table__row">
-    <td class="govuk-table__cell" width="30">
-      <div class="heading-code">
-        <div class="code-text"><%= heading.display_short_code %></div>
+    <td class="govuk-table__cell" width="70">
+      <div class="full-heading-code">
+        <%= chapter_and_heading_codes(heading.short_code) %>
       </div>
     </td>
     <td class="govuk-table__cell">
