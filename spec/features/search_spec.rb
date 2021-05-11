@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Search', js: true do
-  context 'general' do
+  context 'when reaching the search page' do
     it 'renders the search container properly' do
       VCR.use_cassette('search#check', record: :new_episodes) do
         visit sections_path
@@ -14,7 +14,7 @@ describe 'Search', js: true do
     end
   end
 
-  context 'real' do
+  context 'when hitting the autocomplete fields' do
     it 'fetches data from the server as we type' do
       VCR.use_cassette('search#gold', record: :new_episodes) do
         visit sections_path
@@ -43,7 +43,7 @@ describe 'Search', js: true do
     end
   end
 
-  context '404' do
+  context 'when no result can be found' do
     it 'handles no results found' do
       VCR.use_cassette('search#gibberish', record: :new_episodes) do
         visit sections_path
@@ -69,12 +69,12 @@ describe 'Search', js: true do
     end
   end
 
-  context 'quota search' do
+  context 'when doing a full quota search' do
     before do
       Rails.cache.clear
     end
 
-    context 'quota search form' do
+    context 'when reaching the quota search form' do
       it 'contains quota search params inputs' do
         VCR.use_cassette('search#quota_search_form', record: :new_episodes) do
           visit quota_search_path
@@ -86,7 +86,9 @@ describe 'Search', js: true do
           expect(page.find('#order_number')).to be_present
           expect(page.find('#critical')).to be_present
           expect(page.find('#status')).to be_present
-          expect(page.find('#years_')).to be_present
+          expect(page.find('#day')).to be_present
+          expect(page.find('#month')).to be_present
+          expect(page.find('#year')).to be_present
           expect(page.find('input[name="new_search"]')).to be_present
 
           expect(page).not_to have_content('Quota search results')
@@ -94,7 +96,7 @@ describe 'Search', js: true do
       end
     end
 
-    context 'quota search results' do
+    context 'when getting back some quota search results' do
       it 'performs search and render results' do
         VCR.use_cassette('search#quota_search_results', record: :new_episodes) do
           visit quota_search_path
@@ -103,7 +105,9 @@ describe 'Search', js: true do
 
           page.find('#goods_nomenclature_item_id').set('0301')
           page.find('#order_number').set('0906')
-          page.find('#years_').set('2019')
+          page.find('#day').set('01')
+          page.find('#month').set('01')
+          page.find('#year').set('2019')
           page.find('input[name="new_search"]').click
 
           using_wait_time 1 do
@@ -117,12 +121,12 @@ describe 'Search', js: true do
     end
   end
 
-  context 'additional code search' do
+  context 'when doing an additional code search' do
     before do
       Rails.cache.clear
     end
 
-    context 'additional code search form' do
+    context 'when reaching the additional code search form' do
       it 'contains additional code search params inputs' do
         VCR.use_cassette('search#additional_code_search_form', record: :new_episodes) do
           visit additional_code_search_path
@@ -139,7 +143,7 @@ describe 'Search', js: true do
       end
     end
 
-    context 'additional code search results' do
+    context 'when getting back some additional code search results' do
       it 'performs search and render results' do
         VCR.use_cassette('search#additional_code_search_results', record: :new_episodes) do
           visit additional_code_search_path
@@ -160,12 +164,12 @@ describe 'Search', js: true do
     end
   end
 
-  context 'certificate search' do
+  context 'when using the certificate search' do
     before do
       Rails.cache.clear
     end
 
-    context 'certificate search form' do
+    context 'when reaching the certificate search form' do
       it 'contains certificate search params inputs' do
         VCR.use_cassette('search#certificate_search_form', record: :new_episodes) do
           visit certificate_search_path
@@ -182,7 +186,7 @@ describe 'Search', js: true do
       end
     end
 
-    context 'certificate search results' do
+    context 'when getting back some certificate search results' do
       it 'performs search and render results' do
         VCR.use_cassette('search#certificate_search_results', record: :new_episodes) do
           visit certificate_search_path
@@ -203,7 +207,7 @@ describe 'Search', js: true do
     end
   end
 
-  describe 'tools page' do
+  describe 'when reaching the tools page' do
     it 'has the Tools link present on the page' do
       visit tools_path
 
@@ -211,14 +215,14 @@ describe 'Search', js: true do
     end
   end
 
-  context 'chemical search' do
+  context 'when using the chemical search' do
     before do
       Rails.cache.clear
     end
 
     let(:name) { 'CAS' }
 
-    context 'chemical search form' do
+    context 'when reaching the chemical search form' do
       it 'contains chemical search params inputs' do
         VCR.use_cassette('search#chemical_search_form', record: :new_episodes) do
           visit chemical_search_path
@@ -232,7 +236,7 @@ describe 'Search', js: true do
       end
     end
 
-    context 'chemical search results' do
+    context 'when getting back some chemical search results' do
       it 'performs search by CAS number and render results' do
         VCR.use_cassette('search#chemical_cas_search_results', record: :new_episodes) do
           visit chemical_search_path

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cassette_name: 'search#quota_search', allow_playback_repeats: true } do
+describe SearchController, '#quota_search', type: :controller, vcr: { cassette_name: 'search#quota_search', allow_playback_repeats: true } do
   before do
     Rails.cache.clear
   end
@@ -29,7 +29,7 @@ describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cas
     end
   end
 
-  context 'search by goods nomenclature' do
+  context 'when searching by goods nomenclature' do
     render_views
 
     before do
@@ -43,7 +43,7 @@ describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cas
     end
   end
 
-  context 'search by origin' do
+  context 'when searching by origin' do
     render_views
 
     before do
@@ -57,7 +57,7 @@ describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cas
     end
   end
 
-  context 'search by order number' do
+  context 'when searching by order number' do
     render_views
 
     before do
@@ -71,7 +71,7 @@ describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cas
     end
   end
 
-  context 'search by critical flag' do
+  context 'when searching by critical flag' do
     render_views
 
     before do
@@ -85,7 +85,7 @@ describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cas
     end
   end
 
-  context 'search by status' do
+  context 'when searching by status' do
     render_views
 
     before do
@@ -99,16 +99,16 @@ describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cas
     end
   end
 
-  context 'search by year' do
+  context 'when searching by date' do
     render_views
 
     before do
-      get :quota_search, params: { years: '2019' }, format: :html
+      get :quota_search, params: { day: '01', month: '01', year: '2019' }, format: :html
     end
 
     it { is_expected.to respond_with(:success) }
 
-    it 'restricts search by years only' do
+    it 'restricts search by year only' do
       expect(response.body).to match(/Sorry, there is a problem with the search query. Please specify one or more search criteria./)
     end
   end
