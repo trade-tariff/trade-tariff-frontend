@@ -573,18 +573,9 @@ import debounce from "./debounce";
           // Submit button not needed if JavaScript is enabled
           $controlForm.find('.search-submit').hide();
 
-          $controlForm.on('change', 'select', function(e) {
-            $(this).parents('form:first').trigger("submit");
-          });
-
           $controlForm.on('click', 'a.reset-country-picker', function (e) {
             $(this).parents('form:first').find('select').val('');
-            try {
-              $(this).parents('form:first').find('select').accessibleAutocomplete.clearSelection();
-            } catch (e) {
-
-            }
-            $(this).parents('form:first').trigger("submit");
+            $(this).parents('form:first').trigger('submit');
             return false;
           });
 
@@ -758,6 +749,9 @@ import debounce from "./debounce";
                 alwaysDisplayArrow: true,
                 dropdownArrow: function() {
                   return "<span class='autocomplete__arrow'></span>";
+                },
+                onConfirm: function(text) {
+                  $(this.selectElement).parents('form:first').trigger("submit");
                 },
                 source: debounce(function(query, populateResults) {
                   $.ajax({

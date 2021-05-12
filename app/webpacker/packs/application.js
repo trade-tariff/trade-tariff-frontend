@@ -58,8 +58,8 @@ require('../src/javascripts/datepicker-day.js');
 require('../src/javascripts/calendar-button.js');
 require('../src/javascripts/datepicker.js');
 
-window.accessibleAutocomplete = require('../src/javascripts/accessible-autocomplete.min.js');
-
+import accessibleAutocomplete from 'accessible-autocomplete';
+window.accessibleAutocomplete = accessibleAutocomplete;
 
 require('../src/javascripts/analytics-init.js');
 require('../src/javascripts/analytics-search-queries.js');
