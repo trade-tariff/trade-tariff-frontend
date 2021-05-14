@@ -68,11 +68,11 @@
     </div>
   </header>
 
-  <div class="tariff service govuk-width-container">
-    <%= render 'shared/phase_banner' if ENV['NOTICE_BANNER'] %>
-    <%= yield :before_main_content %>
-
-    <main id="content" class="govuk-main-wrapper" role="main">
+  <main id="content" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" role="main">
+    <div class="tariff service govuk-width-container">
+      <%= render 'shared/phase_banner' if ENV['NOTICE_BANNER'] %>
+      <%= yield :before_main_content %>
+      
       <%= render 'shared/search' %>
 
       <%= yield %>
@@ -82,8 +82,8 @@
       <% if content_for? (:commodity_pagination) %>
         <%= yield :commodity_pagination %>
       <% end %>
-    </main>
-  </div>
+    </div>
+  </main>
 
   <footer id="footer" class="govuk-footer" role="contentinfo">
     <div class="govuk-width-container">
