@@ -9,43 +9,19 @@ import debounce from "./debounce";
       autocomplete = accessibleAutocomplete.enhanceSelectElement({
         selectElement: element[0],
         minLength: 2,
+        showAllValues: true,
+        confirmOnBlur: true,
         dropdownArrow: function() {
           return "<span class='autocomplete__arrow'></span>";
         },
-        source: debounce(function(query, populateResults) {
-          $.ajax({
-            type: "GET",
-            url: $(".path_info").data("geographicalAreasPath"),
-            data: {
-              term: query
-            },
-            success: function(data) {
-              let results = data.results;
-
-              var newOptions = [];
-              results.forEach(function(result) {
-                newOptions.push("<option value='" + result.id + "'>" + result.text + "</option>");
-              });
-
-              element.html(newOptions.join(""));
-
-              var newSource = results.map(r => r.text);
-              populateResults(newSource);
-            },
-            error: function() {
-              populateResults([]);
-            }
-          });
-        }, 300, false),
       });
     })($(this));
   });
 
   fieldset.on('click', 'a.reset-country-picker', function (e) {
     $('.js-quota-country-picker-select').val('');
-    $('.js-quota-country-picker-select').trigger('change');
-    $('#' + $('.js-quota-country-picker-select').attr('name')).val('All countries');
-    $('#' + $('.js-quota-country-picker-select').attr('name')).trigger('blur');
+    $('.js-quota-country-picker-select').trigger('blur');
+    $('#' + $('.js-quota-country-picker-select').attr('name')).val('All Countries');
 
     return false;
   });

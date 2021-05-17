@@ -41,7 +41,7 @@ class Search
   end
 
   def countries
-    [geographical_area].compact
+    GeographicalArea.all.compact
   end
 
   def geographical_area
