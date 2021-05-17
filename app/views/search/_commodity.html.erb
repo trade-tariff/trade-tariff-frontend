@@ -1,7 +1,7 @@
 <tr class="govuk-table__row">
   <td class="govuk-table__cell">
     <a href="<%= commodity_path(commodity) %>" aria-describedby="code-for-commodity-<%= commodity.id %>">
-      <%= commodity.description.html_safe %>
+      <%= sanitize commodity.description %>
       <span class="govuk-visually-hidden">
         (code <%= commodity.code %>)
       </span>    
