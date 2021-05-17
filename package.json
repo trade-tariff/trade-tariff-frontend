@@ -6,6 +6,7 @@
     "@rails/webpacker": "5.2.1",
     "@sentry/browser": "^6.2.5",
     "@sentry/tracing": "^6.2.5",
+    "accessible-autocomplete": "^2.0.3",
     "alphagov-static": "github:alphagov/static.git#release_3463",
     "govuk-frontend": "^3.8.1",
     "imask": "^6.0.5",

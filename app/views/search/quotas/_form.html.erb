@@ -1,12 +1,22 @@
 <%= form_tag quota_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
-  <h1 class="govuk-heading-l">Search the Quotas</h1>
+  <span class="govuk-caption-xl govuk-!-margin-top-0"><%= trade_tariff_heading %></span>
+  <h1 class="govuk-heading-l">Search for quotas</h1>
   <%= service_switch_banner %>
   <div class="govuk-form-group">
-    <%= label_tag :goods_nomenclature_item_id, 'Commodity code', class: 'govuk-label' %>
-    <%= text_field_tag :goods_nomenclature_item_id, search_form.goods_nomenclature_item_id, class: "govuk-input govuk-input--width-10" %>
+    <div class="govuk-inset-text govuk-grid-column-one-half govuk-!-margin-top-0 govuk-!-margin-bottom-0">
+      Search for tariff quotas, including daily updated balances. Enter data into at least one of the criteria below.
+    </div>
   </div>
   <div class="govuk-form-group">
-    <%= label_tag :geographical_area_id, 'Country', class: 'govuk-label' %>
+    <%= label_tag :order_number, 'Enter the 6-digit quota order number', class: 'govuk-label' %>
+    <%= text_field_tag :order_number, search_form.order_number, class: 'govuk-input govuk-input--width-10', maxlength: 6 %>
+  </div>
+  <div class="govuk-form-group">
+    <%= label_tag :goods_nomenclature_item_id, 'Enter a 10-digit commodity code to search for quotas available on that code', class: 'govuk-label' %>
+    <%= text_field_tag :goods_nomenclature_item_id, search_form.goods_nomenclature_item_id, class: 'govuk-input govuk-input--width-10', maxlength: 10 %>
+  </div>
+  <div class="govuk-form-group">
+    <%= label_tag :geographical_area_id, 'Select a country to which the quota applies', class: 'govuk-label' %>
     <div class="js-quota-country-picker">
       <%= select_tag :geographical_area_id, options_from_collection_for_select(Array.wrap(search_form.geographical_area), 'id', 'long_description', search_form.geographical_area_id), include_blank: 'All countries', class: 'js-quota-country-picker-select custom-select' %>
       <div class="govuk-!-margin-top-3">
@@ -15,8 +25,30 @@
     </div>
   </div>
   <div class="govuk-form-group">
-    <%= label_tag :order_number, 'Order number', class: 'govuk-label' %>
-    <%= text_field_tag :order_number, search_form.order_number, class: "govuk-input govuk-input--width-10" %>
+    <%= content_tag :legend, 'Enter the date for which you would like to return results', class: 'govuk-label' %>
+    <%= content_tag :div, 'If you leave this field blank, then today\'s date will be used', class: 'govuk-hint' %>
+
+    <div class="govuk-date-input" id="date">
+      <div class="govuk-date-input__item">
+        <div class="govuk-form-group">
+          <%= label_tag 'Day', class: 'govuk-label govuk-date-input__label', for: :day %>
+          <%= text_field_tag :day, search_form.day, class: 'govuk-input govuk-input--width-2', maxlength: 2 %>
+        </div>
+      </div>
+      <div class="govuk-date-input__item">
+        <div class="govuk-form-group">
+          <%= label_tag 'Month', class: 'govuk-label govuk-date-input__label', for: :day %>
+          <%= text_field_tag :month, search_form.month, class: 'govuk-input govuk-input--width-2', maxlength: 2 %>
+        </div>
+      </div>
+      <div class="govuk-date-input__item">
+        <div class="govuk-form-group">
+          <%= label_tag 'Year', class: 'govuk-label govuk-date-input__label', for: :day %>
+          <%= text_field_tag :year, search_form.year, class: 'govuk-input govuk-input--width-4', maxlength: 4 %>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div class="govuk-form-group">
     <%= label_tag :critical, 'Critical state', class: 'govuk-label' %>
@@ -26,10 +58,6 @@
     <%= label_tag :status, 'Status', class: 'govuk-label' %>
     <%= select_tag :status, options_for_select(QuotaSearchForm::STATUS_VALUES, search_form.status), include_blank: true, class: "custom-select" %>
   </div>
-  <div class="govuk-form-group">
-    <%= label_tag :years, 'Years', class: 'govuk-label' %>
-    <%= select_tag 'years[]', options_for_select(QuotaSearchForm::YEARS_VALUES, search_form.years.first), include_blank: true, class: "custom-select" %>
-  </div>
 
-  <input class="button govuk-button" type="submit" name="new_search" value="Search">
+  <input class="button govuk-button" type="submit" name="new_search" value="Search for quotas">
 <% end %>

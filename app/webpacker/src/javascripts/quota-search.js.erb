@@ -36,13 +36,16 @@ import debounce from "./debounce";
               populateResults([]);
             }
           });
-        }, 300, false)
+        }, 300, false),
       });
     })($(this));
   });
 
   fieldset.on('click', 'a.reset-country-picker', function (e) {
-    $('.js-quota-country-picker-select')[0].accessibleAutocomplete.clearSelection();
+    $('.js-quota-country-picker-select').val('');
+    $('.js-quota-country-picker-select').trigger('change');
+    $('#' + $('.js-quota-country-picker-select').attr('name')).val('All countries');
+    $('#' + $('.js-quota-country-picker-select').attr('name')).trigger('blur');
 
     return false;
   });

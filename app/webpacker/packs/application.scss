@@ -9,6 +9,7 @@ $govuk-images-path: "~govuk-frontend/govuk/assets/images/";
 // Third party
 @import "select2";
 @import "../src/stylesheets/vendor/datepicker";
+@import "accessible-autocomplete";
 @import "../src/stylesheets/vendor/accessible-autocomplete";
 
 // 'legacy' GOVUK styles
