@@ -453,7 +453,7 @@ describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cas
     render_views
 
     before do
-      get :quota_search, params: { years: '2019' }, format: :html
+      get :quota_search, params: { year: '2019' }, format: :html
     end
 
     it { is_expected.to respond_with(:success) }
