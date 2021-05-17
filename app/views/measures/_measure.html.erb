@@ -32,7 +32,7 @@
 
       <% if measure.additional_code.formatted_description.present? %>
         <span class='table-line'>
-          <%= raw measure.additional_code.formatted_description %>
+          <%= sanitize measure.additional_code.formatted_description %>
         </span>
       <% end %>
     <% end %>

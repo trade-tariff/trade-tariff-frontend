@@ -15,7 +15,7 @@
     </div>
     <div class="line-text">
       <h4 class="govuk-heading-s govuk-!-margin-bottom-2">
-        <a href="<%= chapter_path(chapter) %>"><%= chapter.description.html_safe %></a>
+        <a href="<%= chapter_path(chapter) %>"><%= sanitize chapter.description %></a>
       </h4>
       <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
         <summary class="govuk-details__summary">
@@ -35,7 +35,7 @@
         <li>
           <div class="heading">
             <div class="line-text">
-              <a href="<%= heading_path(heading) %>"><%= heading.description.html_safe %></a>
+              <a href="<%= heading_path(heading) %>"><%= sanitize heading.description %></a>
             </div>
             <div class="full-code">
               <div class="chapter-code">
