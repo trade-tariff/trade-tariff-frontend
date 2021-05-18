@@ -1,0 +1,35 @@
+.copy_code {
+    color        : #000;
+    display      : block;
+    font-weight  : normal;
+    font-size    : 14px;
+    margin-bottom: 2em;
+    float        : right;
+    padding      : 0.75em 0px 0px 0px;
+}
+
+@media (max-width: 55.25em) {
+    .copy_code {
+        float     : none;
+        margin-top: 0.75em;
+    }
+}
+
+.pseudo-link {
+    background-image: url('../images/copy.png');
+    background-repeat: no-repeat;
+    text-decoration  : underline;
+    padding-left     : 24px;
+    color            : #1d70b8;
+}
+
+.pseudo-link:hover {
+    cursor: pointer;
+}
+
+.copied {
+    display     : block;
+    text-indent: -999em;
+    margin-top  : 5px;
+    padding-left: 1.75em;
+}
