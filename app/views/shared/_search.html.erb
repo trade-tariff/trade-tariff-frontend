@@ -2,7 +2,15 @@
 
 <% if (controller_name == 'commodities' && action_name == 'show') || (controller_name == 'headings' && action_name == 'show' && @heading&.declarable?) %>
   <header>
-    <h1 class="govuk-heading-l commodity-header">Commodity information for <%= (@commodity || @heading).code %></h1>
+    <% comm_code = (@commodity || @heading).code %>
+
+    <h1 class="govuk-heading-l commodity-header" data-comm-code="<%= comm_code %>">
+      Commodity information for <%= comm_code %>
+      <div class="copy_code" id="copy_code">
+        <span id="copy_comm_code" class="pseudo-link govuk-link">Copy commodity code</span><br>
+        <span class="copied">Code copied</span>
+      </div>
+    </h1>
     <%= service_switch_banner %>
     <%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css}", id: "new_search" do |f| %>
       <div class="govuk-grid-row">

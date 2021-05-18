@@ -969,6 +969,36 @@ import debounce from "./debounce";
           });
         }
       },
+      copyCode: {
+        initialize: function() {
+          self = this
+          $('#copy_comm_code').on("click", function(event) {
+            self.copy(event)
+          });
+        },
+        copy: function(event) {
+          let commodityCode = $('.commodity-header').data('comm-code')
+          this.copyToClipboard(commodityCode);
+
+          $(".copied").css("text-indent", "0");
+          $(".copied")
+            .delay(500)
+            .fadeOut(750, function() {
+              $(".copied").css("text-indent", "-999em");
+              $(".copied").css("display", "block");
+            });
+          event.preventDefault();
+        },
+        copyToClipboard: function(text) {
+          var temp = $("<input>");
+          $("body").append(temp);
+          temp
+            .val(text)
+            .trigger('select');
+          document.execCommand("copy");
+          temp.remove();
+        }
+      },
       /**
         @name initialize
         @function
@@ -991,6 +1021,7 @@ import debounce from "./debounce";
           this.countryPicker.initialize();
           this.breadcrumbs.initialize();
           this.measuresTable.initialize();
+          this.copyCode.initialize();
       }
   };
 
