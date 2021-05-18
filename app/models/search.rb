@@ -3,8 +3,8 @@ require 'api_entity'
 class Search
   include ApiEntity
 
-  attr_accessor :q,       # search text query
-                :country, # search country
+  attr_reader   :q        # search text query
+  attr_accessor :country, # search country
                 :day,
                 :month,
                 :year,
