@@ -745,15 +745,21 @@ import debounce from "./debounce";
                 autoselect: true,
                 showAllValues: true,
                 confirmOnBlur: true,
-                displayMenu: "overlay",
                 alwaysDisplayArrow: true,
                 dropdownArrow: function() {
                   return "<span class='autocomplete__arrow'></span>";
                 },
-                onConfirm: function(text) {
+                onConfirm: function(confirmed) {
+                  var code = /\((\w\w)\)/.test(confirmed) ? /\((\w\w)\)/.exec(confirmed)[1] : null;
+                  $(this.selectElement).val(code);
                   $(this.selectElement).parents('form:first').trigger("submit");
                 },
               });
+
+              $('#' + element[0].id.replace('-select', '')).on('focus', function(event) {
+                $(event.currentTarget).val('')
+              });
+
             })($(this));
           });
 

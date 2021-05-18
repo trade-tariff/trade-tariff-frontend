@@ -15,6 +15,11 @@ import debounce from "./debounce";
           return "<span class='autocomplete__arrow'></span>";
         },
       });
+
+      $('#' + element[0].id.replace('-select', '')).on('focus', function(event) {
+        $(event.currentTarget).val('')
+      });
+
     })($(this));
   });
 
