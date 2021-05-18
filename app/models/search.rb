@@ -3,8 +3,8 @@ require 'api_entity'
 class Search
   include ApiEntity
 
-  attr_accessor :q,       # search text query
-                :country, # search country
+  attr_reader   :q        # search text query
+  attr_accessor :country, # search country
                 :day,
                 :month,
                 :year,
@@ -41,7 +41,7 @@ class Search
   end
 
   def countries
-    [geographical_area].compact
+    GeographicalArea.all.compact
   end
 
   def geographical_area

@@ -18,7 +18,7 @@
   <div class="govuk-form-group">
     <%= label_tag :geographical_area_id, 'Select a country to which the quota applies', class: 'govuk-label' %>
     <div class="js-quota-country-picker">
-      <%= select_tag :geographical_area_id, options_from_collection_for_select(Array.wrap(search_form.geographical_area), 'id', 'long_description', search_form.geographical_area_id), include_blank: 'All countries', class: 'js-quota-country-picker-select custom-select' %>
+      <%= select_tag :geographical_area_id, options_from_collection_for_select(search_form.geographical_areas, 'id', 'long_description', search_form.geographical_area_id), include_blank: 'All countries', class: 'js-quota-country-picker-select custom-select' %>
       <div class="govuk-!-margin-top-3">
         <a class="reset-country-picker" href="#reset-country-picker" title="Reset country picker" rel="nofollow">Reset<span class="long-text">&nbsp;to all countries</span></a>
       </div>

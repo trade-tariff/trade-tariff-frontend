@@ -743,7 +743,7 @@ import debounce from "./debounce";
                 selectElement: element[0],
                 minLength: 2,
                 autoselect: true,
-                showAllValues: false,
+                showAllValues: true,
                 confirmOnBlur: true,
                 displayMenu: "overlay",
                 alwaysDisplayArrow: true,
@@ -753,31 +753,6 @@ import debounce from "./debounce";
                 onConfirm: function(text) {
                   $(this.selectElement).parents('form:first').trigger("submit");
                 },
-                source: debounce(function(query, populateResults) {
-                  $.ajax({
-                    type: "GET",
-                    url: $(".path_info").data("geographicalAreasPath"),
-                    data: {
-                      term: query
-                    },
-                    success: function(data) {
-                      let results = data.results;
-
-                      var newOptions = [];
-                      results.forEach(function(result) {
-                        newOptions.push("<option value='" + result.id + "'>" + result.text + "</option>");
-                      });
-
-                      element.html(newOptions.join(""));
-
-                      var newSource = results.map(r => r.text);
-                      populateResults(newSource);
-                    },
-                    error: function() {
-                      populateResults([]);
-                    }
-                  });
-                }, 300, false)
               });
             })($(this));
           });

@@ -31,14 +31,8 @@ class QuotaSearchForm
     (instance_variables - OPTIONAL_PARAMS).blank?
   end
 
-  def large_result?
-    blank? && instance_variables.present?
-  end
-
-  def geographical_area
-    GeographicalArea.all.find do |country|
-      country.id == geographical_area_id
-    end
+  def geographical_areas
+    GeographicalArea.all
   end
 
   def to_params
