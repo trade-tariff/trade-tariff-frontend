@@ -1,4 +1,8 @@
 module CommoditiesHelper
+  def commodity_code
+    (@commodity || @heading).code
+  end
+
   def leaf_position(commodity)
     if commodity.last_child?
       ' last-child'

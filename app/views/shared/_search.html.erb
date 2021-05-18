@@ -2,10 +2,8 @@
 
 <% if (controller_name == 'commodities' && action_name == 'show') || (controller_name == 'headings' && action_name == 'show' && @heading&.declarable?) %>
   <header>
-    <% comm_code = (@commodity || @heading).code %>
-
-    <h1 class="govuk-heading-l commodity-header" data-comm-code="<%= comm_code %>">
-      Commodity information for <%= comm_code %>
+    <h1 class="govuk-heading-l commodity-header" data-comm-code="<%= commodity_code %>">
+      Commodity information for <%= commodity_code %>
       <div class="copy_code" id="copy_code">
         <span id="copy_comm_code" class="pseudo-link govuk-link">Copy commodity code</span><br>
         <span class="copied">Code copied</span>

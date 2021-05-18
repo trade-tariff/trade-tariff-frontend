@@ -971,9 +971,10 @@ import debounce from "./debounce";
       },
       copyCode: {
         initialize: function() {
-          self = this
+          let that = this;
+
           $('#copy_comm_code').on("click", function(event) {
-            self.copy(event)
+            that.copy(event)
           });
         },
         copy: function(event) {
@@ -990,7 +991,7 @@ import debounce from "./debounce";
           event.preventDefault();
         },
         copyToClipboard: function(text) {
-          var temp = $("<input>");
+          let temp = $("<input>");
           $("body").append(temp);
           temp
             .val(text)
