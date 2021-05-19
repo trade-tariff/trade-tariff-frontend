@@ -10,8 +10,8 @@ class QuotaSearchForm
   OPTIONAL_PARAMS = %i[@year @month @day @page].freeze
 
   attr_accessor :goods_nomenclature_item_id, :geographical_area_id, :order_number,
-                :critical, :status, :day, :month, :year
-  attr_writer   :page
+                :critical, :status
+  attr_writer   :page, :day, :month, :year
 
   def initialize(params)
     params.each do |key, value|
@@ -23,12 +23,28 @@ class QuotaSearchForm
     @page || 1
   end
 
+  def year
+    @year || DEFAULT_YEAR_VALUE
+  end
+
+  def month
+    @month || DEFAULT_MONTH_VALUE
+  end
+
+  def day
+    @day || DEFAULT_DAY_VALUE
+  end
+
   def present?
     (instance_variables - OPTIONAL_PARAMS).present?
   end
 
   def blank?
     (instance_variables - OPTIONAL_PARAMS).blank?
+  end
+
+  def large_result?
+    blank? && instance_variables.present?
   end
 
   def geographical_areas
@@ -42,9 +58,9 @@ class QuotaSearchForm
       order_number: order_number,
       critical: critical,
       status: status,
-      day: day,
-      month: month,
-      year: year,
+      day: day || DEFAULT_DAY_VALUE,
+      month: month || DEFAULT_MONTH_VALUE,
+      year: year || DEFAULT_YEAR_VALUE,
       page: page,
     }
   end
