@@ -32,7 +32,7 @@
     </table>
     <%= paginate @result.search_result %>
   </article>
-<% elsif @result.search_form.blank? || @result.with_errors %>
+<% elsif @result.search_form.large_result? || @result.with_errors %>
   <article class="search-results">
     <h1 class="govuk-heading-l">Sorry, there is a problem with the search query. Please specify one or more search criteria.</h1>
   </article>
