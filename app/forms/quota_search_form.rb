@@ -4,9 +4,6 @@ class QuotaSearchForm
                    %w[Exhausted exhausted],
                    ['Not blocked', 'not_blocked'],
                    ['Not exhausted', 'not_exhausted']].freeze
-  DEFAULT_YEAR_VALUE = Date.current.year.to_s.freeze
-  DEFAULT_MONTH_VALUE = Date.current.month.to_s.freeze
-  DEFAULT_DAY_VALUE = Date.current.day.to_s.freeze
   OPTIONAL_PARAMS = %i[@year @month @day @page].freeze
 
   attr_accessor :goods_nomenclature_item_id, :geographical_area_id, :order_number,
@@ -24,15 +21,15 @@ class QuotaSearchForm
   end
 
   def year
-    @year || DEFAULT_YEAR_VALUE
+    @year || default_year_value
   end
 
   def month
-    @month || DEFAULT_MONTH_VALUE
+    @month || default_month_value
   end
 
   def day
-    @day || DEFAULT_DAY_VALUE
+    @day || default_day_value
   end
 
   def present?
@@ -58,10 +55,24 @@ class QuotaSearchForm
       order_number: order_number,
       critical: critical,
       status: status,
-      day: day || DEFAULT_DAY_VALUE,
-      month: month || DEFAULT_MONTH_VALUE,
-      year: year || DEFAULT_YEAR_VALUE,
+      day: day || default_day_value,
+      month: month || default_month_value,
+      year: year || default_year_value,
       page: page,
     }
+  end
+
+  private
+
+  def default_year_value
+    Date.current.year.to_s
+  end
+
+  def default_month_value
+    Date.current.month.to_s
+  end
+
+  def default_day_value
+    Date.current.day.to_s
   end
 end
