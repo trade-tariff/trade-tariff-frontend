@@ -114,6 +114,7 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
+
   linters:
     docker:
       - image: 'cimg/ruby:2.7-node'
@@ -132,6 +133,17 @@ jobs:
           path: test-results/brakeman/
       - store_artifacts:
           path: brakeman.html
+
+  cypress:
+    docker:
+      - image: 'cypress/base:latest'
+    steps:
+      - run:
+          name: "Checkout tests repo"
+          command: git clone "https://github.com/trade-tariff/trade-tariff-testing/"
+      - run:
+          name: "Cypress Smoke tests"
+          command: 'cd trade-tariff-testing && npm install &&  npx cypress run --spec "/*/**/HOTT-Shared/smokeTestTradeTariff.spec.js"'
 
   test:
     parallelism: 4
@@ -209,20 +221,28 @@ workflows:
 # TODO: We don't need the build stage with buildpacks
 #      - build:
 #          context: trade-tariff
-      - deploy_dev:
-          context: trade-tariff
-          filters:
-            branches:
-              ignore:
-                - master
-          requires:
-            - test
+#      - deploy_dev:
+#          context: trade-tariff
+#          filters:
+#            branches:
+#              ignore:
+#                - master
+#          requires:
+#            - test
       - deploy_staging:
           context: trade-tariff
           filters:
             branches:
               only:
                 - master
+      - cypress
+#          filters:
+#            branches:
+#              only:
+#                - master
+#          requires:
+#            - deploy_staging
+
       - hold_production:
           type: approval
           filters:
