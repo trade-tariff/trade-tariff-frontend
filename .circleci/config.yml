@@ -122,9 +122,9 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
-      - ruby/rubocop-check:
-          format: progress
-          label: Inspecting with Rubocop
+#      - ruby/rubocop-check:
+#          format: progress
+#          label: Inspecting with Rubocop
       - run:
           name: Inspecting with Brakeman
           when: always
@@ -209,7 +209,6 @@ workflows:
   version: 2
   ci:
     jobs:
-# TODO: Fix rubocop issues
       - linters:
           context: trade-tariff
       - test:
@@ -221,28 +220,27 @@ workflows:
 # TODO: We don't need the build stage with buildpacks
 #      - build:
 #          context: trade-tariff
-#      - deploy_dev:
-#          context: trade-tariff
-#          filters:
-#            branches:
-#              ignore:
-#                - master
-#          requires:
-#            - test
+      - deploy_dev:
+          context: trade-tariff
+          filters:
+            branches:
+              ignore:
+                - master
+          requires:
+            - test
       - deploy_staging:
           context: trade-tariff
           filters:
             branches:
               only:
                 - master
-      - cypress
-#          filters:
-#            branches:
-#              only:
-#                - master
-#          requires:
-#            - deploy_staging
-
+      - cypress:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - deploy_staging
       - hold_production:
           type: approval
           filters:
