@@ -13,7 +13,7 @@ RSpec.describe CookiesConsentController, type: :controller do
     end
 
     it 'redirects to the correct fallback location' do
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(sections_path)
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe CookiesConsentController, type: :controller do
     end
 
     it 'redirects to the correct fallback location' do
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(sections_path)
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe CookiesConsentController, type: :controller do
     end
 
     it 'redirects to the correct fallback location' do
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(sections_path)
     end
   end
 end
