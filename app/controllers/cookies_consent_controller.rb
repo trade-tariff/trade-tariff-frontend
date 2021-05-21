@@ -4,20 +4,20 @@ class CookiesConsentController < ApplicationController
   before_action :set_cookie_policy, only: %i[accept_cookies reject_cookies]
 
   def accept_cookies
-    redirect_back(fallback_location: root_path)
+    redirect_back(fallback_location: sections_path)
   end
 
   def reject_cookies
-    redirect_back(fallback_location: root_path)
+    redirect_back(fallback_location: sections_path)
   end
 
   def add_seen_confirmation_message
     set_cookie_preference
 
-    redirect_back(fallback_location: root_path)
+    redirect_back(fallback_location: sections_path)
   end
 
-  private 
+  private
 
   def set_cookie_policy
     cookies[:cookies_policy] = { value: policy, expires: Time.zone.now + 1.year }
