@@ -45,6 +45,22 @@ describe TradeTariffFrontend::ServiceChooser do
     end
   end
 
+  describe '.with_source' do
+    before do
+      described_class.service_choice = :uk
+    end
+
+    it 'sets the source for the duration of the block' do
+      described_class.with_source(:xi) do
+        expect(described_class.service_choice).to eq(:xi)
+      end
+    end
+
+    it 'does not permanently change the source' do
+      expect { described_class.with_source(:xi) {} }.not_to change(described_class, :service_choice).from(:uk)
+    end
+  end
+
   describe '.cache_with_service_choice' do
     let(:cache_key) { 'foo' }
     let(:options) { {} }

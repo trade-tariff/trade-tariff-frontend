@@ -69,4 +69,94 @@ describe Measure do
       ).to eq false
     end
   end
+
+  describe '#vat_excise?' do
+    subject(:measure) { build(:measure, measure_type: measure_type) }
+
+    let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
+
+    context 'when the measure is a vat or an excise measure' do
+      let(:measure_type_id) { '305' }
+
+      it { is_expected.to be_vat_excise }
+    end
+
+    context 'when the measure is not a vat or an excise measure' do
+      let(:measure_type_id) { '105' }
+
+      it { is_expected.not_to be_vat_excise }
+    end
+  end
+
+  describe '#import_controls?' do
+    subject(:measure) { build(:measure, measure_type: measure_type) }
+
+    let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
+
+    context 'when the measure is an import control measure' do
+      let(:measure_type_id) { '277' }
+
+      it { is_expected.to be_import_controls }
+    end
+
+    context 'when the measure is not a import control measure' do
+      let(:measure_type_id) { '105' }
+
+      it { is_expected.not_to be_import_controls }
+    end
+  end
+
+  describe '#customs_duties?' do
+    subject(:measure) { build(:measure, measure_type: measure_type) }
+
+    let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
+
+    context 'when the measure is a customs duties measure' do
+      let(:measure_type_id) { '103' }
+
+      it { is_expected.to be_customs_duties }
+    end
+
+    context 'when the measure is not a customs duties measure' do
+      let(:measure_type_id) { '277' }
+
+      it { is_expected.not_to be_customs_duties }
+    end
+  end
+
+  describe '#quotas?' do
+    subject(:measure) { build(:measure, measure_type: measure_type) }
+
+    let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
+
+    context 'when the measure is a quota measure' do
+      let(:measure_type_id) { '122' }
+
+      it { is_expected.to be_quotas }
+    end
+
+    context 'when the measure is not a quota measure' do
+      let(:measure_type_id) { '277' }
+
+      it { is_expected.not_to be_quotas }
+    end
+  end
+
+  describe '#trade_remedies?' do
+    subject(:measure) { build(:measure, measure_type: measure_type) }
+
+    let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
+
+    context 'when the measure is a trade remedy measure' do
+      let(:measure_type_id) { '551' }
+
+      it { is_expected.to be_trade_remedies }
+    end
+
+    context 'when the measure is not a trade remedy measure' do
+      let(:measure_type_id) { '277' }
+
+      it { is_expected.not_to be_trade_remedies }
+    end
+  end
 end

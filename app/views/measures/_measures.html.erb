@@ -86,35 +86,14 @@
     <%= render partial: 'shared/country_picker', locals: { controller: @search, url: perform_search_path, anchor: 'import' } %>
 
     <% if declarable.import_measures.for_country(@search.country).any? %>
+      <%= render partial:'measures/grouped/navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
 
-      <%= render "shared/measure_types_help", anchor: "import" %>
+      <% if TradeTariffFrontend::ServiceChooser.xi? %>
+        <%= render partial: 'measures/grouped/xi', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
+      <% else %>
+        <%= render partial: 'measures/grouped/uk', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
+      <% end %>
 
-      <table class="small-table measures govuk-table">
-        <% if @search.filtered_by_country? %>
-          <caption class="govuk-table__caption">Measures for <%= @search.geographical_area %></caption>
-        <% else %>
-          <caption class="govuk-table__caption">Measures for all countries</caption>
-        <% end %>
-
-        <thead>
-        <tr>
-          <th>Country</th>
-          <th>Measure</th>
-          <th>Value</th>
-          <th>Conditions that apply</th>
-          <th>Exclusions</th>
-          <%- if TradeTariffFrontend.regulations_enabled? -%>
-            <th class="legal-act" title="Opens in a new window">Legal base</th>
-          <%- end -%>
-          <th>Start date<br>(End date)</th>
-          <th>Footnotes</th>
-        </tr>
-        </thead>
-
-        <tbody>
-          <%= render partial: 'measures/measure', collection: declarable.import_measures.for_country(@search.country).sort_by(&:key) %>
-        </tbody>
-      </table>
     <% else %>
       <p>There are no import measures for this commodity on this date.</p>
     <% end %>
