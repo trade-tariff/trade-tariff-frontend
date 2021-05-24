@@ -14,11 +14,6 @@ class PagesController < ApplicationController
     end
   end
 
-  def robots
-    respond_to :text
-    expires_in 6.hours, public: true
-  end
-
   def tools
     @no_shared_search = true
     @no_shared_switch_service_link = true
