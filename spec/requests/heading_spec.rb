@@ -5,31 +5,20 @@ describe 'Heading page', type: :request do
     context 'declarable heading' do
       context 'without country filter' do
         it 'displays declarable related information' do
-          VCR.use_cassette('geographical_areas#countries') do
-            VCR.use_cassette('headings#show_declarable') do
-              visit heading_path('0501')
+          VCR.use_cassette('headings#show_declarable') do
+            visit heading_path('0501')
 
-              expect(page).to have_content 'Importing from outside the EU is subject to a third country duty of 0.00 % unless subject to other measures.'
-            end
+            expect(page).to have_content 'Importing from outside the EU is subject to a third country duty of 0.00 % unless subject to other measures.'
           end
         end
       end
 
       context 'with country filter' do
-        it 'displays declarable related information' do
-          VCR.use_cassette('geographical_areas#countries') do
-            VCR.use_cassette('headings#show_declarable') do
-              visit heading_path('0501', country: 'ZW')
+        it 'responds with 200' do
+          VCR.use_cassette('headings#show_declarable') do
+            visit heading_path('0501', country: 'ZW')
 
-              within('#import table.measures') do
-                expect(page).to     have_content 'Zimbabwe'
-                expect(page).to     have_content 'Eastern and Southern Africa States' # Zimbabwe is member of latter
-              end
-
-              within('#import table.measures') do
-                expect(page).to     have_content 'Animal Health Certificate'
-              end
-            end
+            expect(page.status_code).to eq(200)
           end
         end
       end
