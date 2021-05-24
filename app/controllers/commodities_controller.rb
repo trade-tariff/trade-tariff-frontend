@@ -1,11 +1,14 @@
 class CommoditiesController < GoodsNomenclaturesController
+  before_action :fetch_commodity_from_xi,
+                :fetch_commodity_from_uk,
+                only: %i[show]
+
   def show
-    @commodity = CommodityPresenter.new(Commodity.find(params[:id], query_params))
-    @heading = @commodity.heading
-    @chapter = @commodity.chapter
-    @section = @commodity.section
+    @heading = commodity.heading
+    @chapter = commodity.chapter
+    @section = commodity.section
     @back_path = request.referer || heading_path(@heading.short_code)
-    @commodity.prev, @commodity.next = set_prev_next(@commodity)
+    commodity.prev, commodity.next = set_prev_next(commodity)
   end
 
   private
@@ -25,5 +28,21 @@ class CommoditiesController < GoodsNomenclaturesController
       i == 0 ? nil : Commodity.find(gnids[i-1]),
       i == (gnids.length - 1) ? nil : Commodity.find(gnids[i+1])
     ]
+  end
+
+  def fetch_commodity_from_xi
+    @xi_commodity = TradeTariffFrontend::ServiceChooser.with_source(:xi) do
+      CommodityPresenter.new(Commodity.find(params[:id], query_params))
+    end
+  end
+
+  def fetch_commodity_from_uk
+    @uk_commodity = TradeTariffFrontend::ServiceChooser.with_source(:uk) do
+      CommodityPresenter.new(Commodity.find(params[:id], query_params))
+    end
+  end
+
+  def commodity
+    @commodity ||= TradeTariffFrontend::ServiceChooser.uk? ? @uk_commodity : @xi_commodity
   end
 end

@@ -2,14 +2,30 @@ require 'spec_helper'
 
 describe CommoditiesController, type: :controller do
   describe 'GET to #show' do
+    before do
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('xi')
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:xi).and_call_original
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
+    end
+
+    it 'fetches the commodity from the XI service', vcr: { cassette_name: 'commodities#show_0101210000_2000-01-01' } do
+      get :show, params: { id: '0101210000' }
+
+      expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:xi)
+    end
+
+    it 'fetches the commodity from the UK service', vcr: { cassette_name: 'commodities#show_0101210000_2000-01-01' } do
+      get :show, params: { id: '0101210000' }
+
+      expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
+    end
+
     context 'existing commodity id provided', vcr: { cassette_name: 'commodities#show' } do
       subject { controller }
 
-      let!(:commodity) { Commodity.new(attributes_for(:commodity).stringify_keys) }
-
       before do
         VCR.use_cassette('headings_show_0101_api_json_content_type') do
-          get :show, params: { id: commodity.short_code }
+          get :show, params: { id: '0101300000' }
         end
       end
 
