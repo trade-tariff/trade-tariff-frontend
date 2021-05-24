@@ -52,7 +52,7 @@ describe TradeTariffFrontend::ServiceChooser do
 
     it 'sets the source for the duration of the block' do
       described_class.with_source(:xi) do
-        expect(described_class.service_choice).to eq(:xi)
+        expect(described_class.service_choice).to eq('xi')
       end
     end
 

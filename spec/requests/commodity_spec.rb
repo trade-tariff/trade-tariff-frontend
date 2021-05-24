@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Commodity page', type: :request do
   context 'when mime type is HTML' do
     it 'displays declarable related information' do
-      VCR.use_cassette('headings#show_0101', record: :new_episodes) do
+      VCR.use_cassette('headings#show_0101') do
         get '/commodities/0101300000'
 
         expect(response).to be_successful
@@ -14,7 +14,7 @@ describe 'Commodity page', type: :request do
   context 'when mime type is JSON' do
     context 'when requested with json format' do
       it 'renders a valid JSON response' do
-        VCR.use_cassette('headings#show_0101', record: :new_episodes) do
+        VCR.use_cassette('headings#show_0101') do
           get '/commodities/0101300000.json'
 
           expect {
@@ -38,7 +38,7 @@ describe 'Commodity page', type: :request do
   end
 
   it 'displays declarable related information' do
-    VCR.use_cassette('headings#show_8714', record: :new_episodes) do
+    VCR.use_cassette('headings#show_8714') do
       visit commodity_path('8714930019')
 
       expect(page).to have_content 'Proofs of origin: Origin declaration stating European Union origin, in the context of the Canada-European Union Comprehensive Economic and Trade Agreement (CETA)'
@@ -47,7 +47,7 @@ describe 'Commodity page', type: :request do
 
   context 'when commodity with country filter' do
     it 'will not display measures for other countries except for selected one' do
-      VCR.use_cassette('headings#show_0101', record: :new_episodes) do
+      VCR.use_cassette('headings#show_0101') do
         visit commodity_path('6911100090', country: 'AD')
 
         expect(page).not_to have_content 'Definitive anti-dumping duty'
@@ -57,7 +57,7 @@ describe 'Commodity page', type: :request do
 
   context 'when commodity with national measurement units' do
     it 'renders successfully' do
-      VCR.use_cassette('headings#show_2208', record: :new_episodes) do
+      VCR.use_cassette('headings#show_2208') do
         visit commodity_path('2208909110')
 
         within('#import') do
