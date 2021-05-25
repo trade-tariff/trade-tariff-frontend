@@ -86,7 +86,7 @@
     <%= render partial: 'shared/country_picker', locals: { controller: @search, url: perform_search_path, anchor: 'import' } %>
 
     <% if declarable.import_measures.for_country(@search.country).any? %>
-      <%= render partial:'measures/grouped/navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
+      <%= render partial: 'measures/grouped/navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
 
       <% if TradeTariffFrontend::ServiceChooser.xi? %>
         <%= render partial: 'measures/grouped/xi', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
