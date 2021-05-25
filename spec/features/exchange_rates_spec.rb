@@ -1,9 +1,6 @@
 require 'spec_helper'
 
-describe 'exchange rates', vcr: {
-  cassette_name: 'exchange_rates#index',
-  record: :new_episodes,
-} do
+describe 'exchange rates', vcr: { cassette_name: 'exchange_rates#index' } do
   let(:monetary_exchange_rate) do
     MonetaryExchangeRate.all.last
   end
