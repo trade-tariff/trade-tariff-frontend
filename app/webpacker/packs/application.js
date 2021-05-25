@@ -33,14 +33,6 @@ require('jquery-next-id/jquery.nextid');
 require('jquery-roving-tabindex/jquery.rovingtabindex');
 require('jquery-tabs/jquery.tabs');
 require('mark.js/dist/jquery.mark');
-require('alphagov-static/app/assets/javascripts/analytics/pii');
-require('alphagov-static/app/assets/javascripts/analytics_toolkit/google-analytics-universal-tracker');
-require('alphagov-static/app/assets/javascripts/analytics_toolkit/analytics');
-require('alphagov-static/app/assets/javascripts/analytics_toolkit/govuk-tracker');
-require('alphagov-static/app/assets/javascripts/analytics_toolkit/print-intent');
-require('alphagov-static/app/assets/javascripts/analytics_toolkit/error-tracking');
-
-
 
 // console.log('popup');
 // console.log(BetaPopup);
@@ -61,8 +53,6 @@ require('../src/javascripts/datepicker.js');
 import accessibleAutocomplete from 'accessible-autocomplete';
 window.accessibleAutocomplete = accessibleAutocomplete;
 
-require('../src/javascripts/analytics-init.js');
-require('../src/javascripts/analytics-search-queries.js');
 require('../src/javascripts/commodities.js');
 // TODO test:
 require('../src/javascripts/exchange_rate.js');
