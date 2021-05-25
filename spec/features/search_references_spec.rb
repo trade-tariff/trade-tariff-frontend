@@ -1,9 +1,6 @@
 require 'spec_helper'
 
-describe 'a-z index', vcr: {
-  cassette_name: 'search_references#az_index',
-  record: :new_episodes,
-} do
+describe 'a-z index', vcr: { cassette_name: 'search_references#az_index' } do
   let!(:search_reference) do
     SearchReference.all.first
   end

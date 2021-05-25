@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Search', js: true do
   context 'when reaching the search page' do
     it 'renders the search container properly' do
-      VCR.use_cassette('search#check', record: :new_episodes) do
+      VCR.use_cassette('search#check') do
         visit sections_path
 
         expect(page).to have_content('UK Global Online Tariff: look up commodity codes, duty and VAT rates')
@@ -16,7 +16,7 @@ describe 'Search', js: true do
 
   context 'when hitting the autocomplete fields' do
     it 'fetches data from the server as we type' do
-      VCR.use_cassette('search#gold', record: :new_episodes) do
+      VCR.use_cassette('search#gold') do
         visit sections_path
 
         page.find('.autocomplete__input#q').click
@@ -45,7 +45,7 @@ describe 'Search', js: true do
 
   context 'when no result can be found' do
     it 'handles no results found' do
-      VCR.use_cassette('search#gibberish', record: :new_episodes) do
+      VCR.use_cassette('search#gibberish') do
         visit sections_path
 
         page.find('.autocomplete__input#q').click
@@ -76,7 +76,7 @@ describe 'Search', js: true do
 
     context 'when reaching the quota search form' do
       it 'contains quota search params inputs' do
-        VCR.use_cassette('search#quota_search_form', record: :new_episodes) do
+        VCR.use_cassette('search#quota_search_form') do
           visit quota_search_path
 
           expect(page).to have_content('Quotas')
@@ -98,7 +98,7 @@ describe 'Search', js: true do
 
     context 'when getting back some quota search results' do
       it 'performs search and render results' do
-        VCR.use_cassette('search#quota_search_results', record: :new_episodes) do
+        VCR.use_cassette('search#quota_search_results') do
           visit quota_search_path
 
           expect(page).to have_content('Quotas')
@@ -128,7 +128,7 @@ describe 'Search', js: true do
 
     context 'when reaching the additional code search form' do
       it 'contains additional code search params inputs' do
-        VCR.use_cassette('search#additional_code_search_form', record: :new_episodes) do
+        VCR.use_cassette('search#additional_code_search_form') do
           visit additional_code_search_path
 
           expect(page).to have_content('Additional code')
@@ -145,7 +145,7 @@ describe 'Search', js: true do
 
     context 'when getting back some additional code search results' do
       it 'performs search and render results' do
-        VCR.use_cassette('search#additional_code_search_results', record: :new_episodes) do
+        VCR.use_cassette('search#additional_code_search_results') do
           visit additional_code_search_path
 
           expect(page).to have_content('Additional code')
@@ -171,7 +171,7 @@ describe 'Search', js: true do
 
     context 'when reaching the certificate search form' do
       it 'contains certificate search params inputs' do
-        VCR.use_cassette('search#certificate_search_form', record: :new_episodes) do
+        VCR.use_cassette('search#certificate_search_form') do
           visit certificate_search_path
 
           expect(page).to have_content('Certificate')
@@ -188,7 +188,7 @@ describe 'Search', js: true do
 
     context 'when getting back some certificate search results' do
       it 'performs search and render results' do
-        VCR.use_cassette('search#certificate_search_results', record: :new_episodes) do
+        VCR.use_cassette('search#certificate_search_results') do
           visit certificate_search_path
 
           expect(page).to have_content('Certificate')
@@ -224,7 +224,7 @@ describe 'Search', js: true do
 
     context 'when reaching the chemical search form' do
       it 'contains chemical search params inputs' do
-        VCR.use_cassette('search#chemical_search_form', record: :new_episodes) do
+        VCR.use_cassette('search#chemical_search_form') do
           visit chemical_search_path
 
           expect(page.find('#cas')).to be_present
@@ -238,7 +238,7 @@ describe 'Search', js: true do
 
     context 'when getting back some chemical search results' do
       it 'performs search by CAS number and render results' do
-        VCR.use_cassette('search#chemical_cas_search_results', record: :new_episodes) do
+        VCR.use_cassette('search#chemical_cas_search_results') do
           visit chemical_search_path
 
           expect(page).to have_content(name)
@@ -255,7 +255,7 @@ describe 'Search', js: true do
       end
 
       it 'performs search by chemical name and render results' do
-        VCR.use_cassette('search#chemical_name_search_results', record: :new_episodes) do
+        VCR.use_cassette('search#chemical_name_search_results') do
           visit chemical_search_path
 
           expect(page).to have_content(name)
