@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3000/search_references?query%5Bletter%5D=m
+    uri: http://localhost:3018/search_references?query%5Bletter%5D=m
     body:
       encoding: US-ASCII
       string: ''
