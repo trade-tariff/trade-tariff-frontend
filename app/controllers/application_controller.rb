@@ -80,15 +80,7 @@ class ApplicationController < ActionController::Base
   end
 
   def search_attributes
-    params.permit(
-      :q,
-      :country,
-      :day,
-      :month,
-      :year,
-      :as_of,
-      :country,
-    ).to_h
+    params.permit!.to_h
   end
 
   def set_layout
