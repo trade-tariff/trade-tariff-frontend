@@ -9,8 +9,6 @@ orbs:
 
 commands:
   cf_deploy:
-    environment:
-      BUILDPACK_VERSION: "v1.8.39"
     parameters:
       space:
         type: string
@@ -18,6 +16,9 @@ commands:
         type: string
       app_domain_prefix:
         type: string
+      buildpack_version:
+        type: string
+        default: "v1.8.39"
     steps:
       - checkout
       - run:
@@ -38,9 +39,9 @@ commands:
       - run:
           name: "Push new app in dark mode"
           command: |
-            # Push as "dark" instance
-            export BUILDPACK="https://github.com/cloudfoundry/ruby-buildpack.git#${BUILDPACK_VERSION}"
+            export BUILDPACK="https://github.com/cloudfoundry/ruby-buildpack.git#<< parameters.buildpack_version >>"
 
+            # Push as "dark" instance
             cf push "$CF_APP-<< parameters.environment_key >>-dark" -f deploy_manifest.yml --no-route --buildpack $BUILDPACK
 
             # Map dark route
