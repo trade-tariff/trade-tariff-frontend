@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :set_last_updated
   before_action :set_path_info
 
-  before_action :search_query
+  before_action :set_search
   before_action :maintenance_mode_if_active
   before_action :bots_no_index_if_historical
 
@@ -31,15 +31,17 @@ class ApplicationController < ActionController::Base
   def url_options
     return super unless search_invoked?
 
-    if search_query.date.today? || search_query.date == TradeTariffFrontend.simulation_date
-      return { country: search_query.country }.merge(super)
+    set_search
+
+    if @search.date.today? || @search.date == TradeTariffFrontend.simulation_date
+      return { country: @search.country }.merge(super)
     end
 
     {
-      year: search_query.date.year,
-      month: search_query.date.month,
-      day: search_query.date.day,
-      country: search_query.country,
+      year: @search.date.year,
+      month: @search.date.month,
+      day: @search.date.day,
+      country: @search.country,
     }.merge(super)
   end
 
@@ -73,8 +75,20 @@ class ApplicationController < ActionController::Base
     params[:q].present? || params[:day].present? || params[:country].present?
   end
 
-  def search_query
-    @search ||= Search.new(params.permit!.to_h)
+  def set_search
+    @search ||= Search.new(search_attributes)
+  end
+
+  def search_attributes
+    params.permit(
+      :q,
+      :country,
+      :day,
+      :month,
+      :year,
+      :as_of,
+      :country,
+    ).to_h
   end
 
   def set_layout
@@ -86,7 +100,7 @@ class ApplicationController < ActionController::Base
   end
 
   def query_params
-    { as_of: search_query.date }
+    { as_of: @search.date }
   end
 
   def set_cache
@@ -102,7 +116,7 @@ class ApplicationController < ActionController::Base
   end
 
   def bots_no_index_if_historical
-    return if search_query.today?
+    return if @search.today?
 
     response.headers['X-Robots-Tag'] = 'none'
   end
