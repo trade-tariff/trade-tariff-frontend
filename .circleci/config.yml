@@ -16,6 +16,9 @@ commands:
         type: string
       app_domain_prefix:
         type: string
+      buildpack_version:
+        type: string
+        default: "v1.8.39"
     steps:
       - checkout
       - run:
@@ -36,8 +39,10 @@ commands:
       - run:
           name: "Push new app in dark mode"
           command: |
+            export BUILDPACK="https://github.com/cloudfoundry/ruby-buildpack.git#<< parameters.buildpack_version >>"
+
             # Push as "dark" instance
-            cf push "$CF_APP-<< parameters.environment_key >>-dark" -f deploy_manifest.yml --no-route
+            cf push "$CF_APP-<< parameters.environment_key >>-dark" -f deploy_manifest.yml --no-route --buildpack $BUILDPACK
 
             # Map dark route
             cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>-dark"

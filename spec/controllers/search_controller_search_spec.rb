@@ -650,7 +650,7 @@ describe SearchController, 'GET to #certificate_search', type: :controller, vcr:
   end
 end
 
-describe SearchController, 'GET to #chemical_search', type: :controller, vcr: { cassette_name: 'search#chemical_search', record: :new_episodes } do
+describe SearchController, 'GET to #chemical_search', type: :controller, vcr: { cassette_name: 'search#chemical_search' } do
   before do
     Rails.cache.clear
   end
