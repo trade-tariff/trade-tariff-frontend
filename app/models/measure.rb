@@ -40,6 +40,26 @@ class Measure
     vat
   end
 
+  def vat_excise?
+    declarable_types[:vat_and_excise].include?(measure_type.id)
+  end
+
+  def import_controls?
+    declarable_types[:import_controls].include?(measure_type.id)
+  end
+
+  def trade_remedies?
+    declarable_types[:remedies].include?(measure_type.id)
+  end
+
+  def customs_duties?
+    declarable_types[:customs_duties].include?(measure_type.id)
+  end
+
+  def quotas?
+    declarable_types[:quotas].include?(measure_type.id)
+  end
+
   def third_country?
     measure_type.id == '103'
   end
@@ -94,5 +114,11 @@ class Measure
     else
       additional_code.code.to_s
     end
+  end
+
+  private
+
+  def declarable_types
+    @declarable_types ||= Rails.configuration.declarable_types
   end
 end

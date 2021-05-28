@@ -99,6 +99,9 @@ module TradeTariffFrontend
     # Trade Tariff Backend API Version
     config.x.backend.api_version = ENV['TARIFF_API_VERSION'] || 1
 
+    # Trade Tariff declarable types
+    config.declarable_types = config_for(:declarable_types)
+
     config.x.http.max_retry = 5
 
     config.middleware.use Rack::Attack

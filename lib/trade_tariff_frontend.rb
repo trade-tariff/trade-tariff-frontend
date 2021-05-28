@@ -117,6 +117,18 @@ module TradeTariffFrontend
 
     module_function
 
+    def with_source(service_source)
+      original_service_source = service_choice
+
+      self.service_choice = service_source.to_s
+
+      result = yield
+
+      self.service_choice = original_service_source
+
+      result
+    end
+
     def service_default
       ENV.fetch('SERVICE_DEFAULT', 'uk')
     end

@@ -1,0 +1,20 @@
+<table class="small-table measures govuk-table">
+  <thead>
+    <tr>
+      <th>Country</th>
+      <th>Measure</th>
+      <th>Value</th>
+      <th>Conditions that apply</th>
+      <th>Exclusions</th>
+      <%- if TradeTariffFrontend.regulations_enabled? -%>
+        <th class="legal-act" title="Opens in a new window">Legal base</th>
+      <%- end -%>
+      <th>Start date<br>(End date)</th>
+      <th>Footnotes</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%= render partial: 'measures/measure', collection: collection %>
+  </tbody>
+</table>

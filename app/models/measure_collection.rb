@@ -15,6 +15,41 @@ class MeasureCollection
     self
   end
 
+  def vat_excise
+    @vat_excise ||= begin
+      self.measures = measures.select(&:vat_excise?)
+      self
+    end
+  end
+
+  def import_controls
+    @import_controls ||= begin
+      self.measures = measures.select(&:import_controls?)
+      self
+    end
+  end
+
+  def trade_remedies
+    @trade_remedies ||= begin
+      self.measures = measures.select(&:trade_remedies?)
+      self
+    end
+  end
+
+  def customs_duties
+    @customs_duties ||= begin
+      self.measures = measures.select(&:customs_duties?)
+      self
+    end
+  end
+
+  def quotas
+    @quotas ||= begin
+      self.measures = measures.select(&:quotas?)
+      self
+    end
+  end
+
   def vat
     self.measures = measures.select(&:vat?)
     self
@@ -46,7 +81,6 @@ class MeasureCollection
   def present?
     measures.any?
   end
-
 
   private
 

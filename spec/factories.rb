@@ -27,6 +27,7 @@ FactoryBot.define do
 
   factory :commodity do
     heading
+    section
     description { Forgery(:basic).text }
     formatted_description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0101300000' }
@@ -67,10 +68,10 @@ FactoryBot.define do
   factory :measure do
     transient do
       measure_type_description { Forgery(:basic).text }
+      ordernumber { Forgery(:basic).number(exactly: 5) }
     end
 
     origin { %w[eu uk].sample }
-    ordernumber { Forgery(:basic).number(exactly: 5) }
     effective_start_date { Date.today.ago(3.years).to_s }
     effective_end_date { nil }
 
@@ -81,6 +82,36 @@ FactoryBot.define do
     trait :vat do
       measure_type do
         attributes_for(:measure_type, :vat, description: measure_type_description).stringify_keys
+      end
+    end
+
+    trait :vat_excise do
+      measure_type do
+        attributes_for(:measure_type, :vat_excise, description: measure_type_description).stringify_keys
+      end
+    end
+
+    trait :trade_remedies do
+      measure_type do
+        attributes_for(:measure_type, :trade_remedies, description: measure_type_description).stringify_keys
+      end
+    end
+
+    trait :import_controls do
+      measure_type do
+        attributes_for(:measure_type, :import_controls, description: measure_type_description).stringify_keys
+      end
+    end
+
+    trait :customs_duties do
+      measure_type do
+        attributes_for(:measure_type, :customs_duties, description: measure_type_description).stringify_keys
+      end
+    end
+
+    trait :quotas do
+      measure_type do
+        attributes_for(:measure_type, :quotas, description: measure_type_description).stringify_keys
       end
     end
 
@@ -128,6 +159,26 @@ FactoryBot.define do
 
     trait :vat do
       description { 'VAT' }
+    end
+
+    trait :vat_excise do
+      id { '305' }
+    end
+
+    trait :import_controls do
+      id { '277' }
+    end
+
+    trait :trade_remedies do
+      id { '551' }
+    end
+
+    trait :customs_duties do
+      id { '142' }
+    end
+
+    trait :quotas do
+      id { '122' }
     end
 
     trait :third_country do

@@ -1,6 +1,24 @@
 require 'spec_helper'
 
 describe HeadingsController, 'GET to #show', type: :controller do
+  before do
+    allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('xi')
+    allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:xi).and_call_original
+    allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
+  end
+
+  it 'fetches the heading from the XI service', vcr: { cassette_name: 'headings#show_0110', record: :new_episodes } do
+    get :show, params: { id: '0501' }
+
+    expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:xi)
+  end
+
+  it 'fetches the heading from the UK service', vcr: { cassette_name: 'headings#show_0110' } do
+    get :show, params: { id: '0501' }
+
+    expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
+  end
+
   context 'with existing heading id provided', vcr: { cassette_name: 'headings#show' } do
     let!(:heading) { Heading.new(attributes_for(:heading).stringify_keys) }
 

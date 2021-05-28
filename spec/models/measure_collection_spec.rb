@@ -33,6 +33,71 @@ describe MeasureCollection do
     end
   end
 
+  describe '#vat_excise' do
+    let(:measure1) { Measure.new(attributes_for(:measure, :vat_excise).stringify_keys) }
+    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+
+    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+
+    let(:expected_collection) { MeasureCollection.new([measure1]) }
+
+    it 'keeps only vat_excise measures' do
+      expect(collection.vat_excise.measures).to eq(expected_collection.measures)
+    end
+  end
+
+  describe '#import_controls' do
+    let(:measure1) { Measure.new(attributes_for(:measure, :import_controls).stringify_keys) }
+    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+
+    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+
+    let(:expected_collection) { MeasureCollection.new([measure1]) }
+
+    it 'keeps only import_controls measures' do
+      expect(collection.import_controls.measures).to eq(expected_collection.measures)
+    end
+  end
+
+  describe '#trade_remedies' do
+    let(:measure1) { Measure.new(attributes_for(:measure, :trade_remedies).stringify_keys) }
+    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+
+    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+
+    let(:expected_collection) { MeasureCollection.new([measure1]) }
+
+    it 'keeps only trade_remedies measures' do
+      expect(collection.trade_remedies.measures).to eq(expected_collection.measures)
+    end
+  end
+
+  describe '#quotas' do
+    let(:measure1) { Measure.new(attributes_for(:measure, :quotas).stringify_keys) }
+    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+
+    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+
+    let(:expected_collection) { MeasureCollection.new([measure1]) }
+
+    it 'keeps only trade_remedies measures' do
+      expect(collection.quotas.measures).to eq(expected_collection.measures)
+    end
+  end
+
+  describe '#customs_duties' do
+    let(:measure1) { Measure.new(attributes_for(:measure, :customs_duties).stringify_keys) }
+    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+
+    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+
+    let(:expected_collection) { MeasureCollection.new([measure1]) }
+
+    it 'keeps only customs_duties measures' do
+      expect(collection.customs_duties.measures).to eq(expected_collection.measures)
+    end
+  end
+
   describe '#to_a' do
     context 'presenter class given (default)' do
       let(:measure) { Measure.new(attributes_for(:measure).stringify_keys) }
