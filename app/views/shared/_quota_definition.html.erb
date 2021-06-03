@@ -2,7 +2,7 @@ Order No: <%= link_to order_number.number, "##{order_number.id}", class: 'refere
 
 <div class='popup govuk-visually-hidden' data-popup='<%= order_number.id %>'>
   <article>
-    <% if order_number.has_definition? %>
+    <% if order_number.definition.present? %>
       <table class="govuk-table govuk-table-m">
         <h2 class="govuk-heading-m"><%= "Quota #{order_number.number}"%></h2>
         <% if show_warning?(order_number) %>
@@ -10,7 +10,7 @@ Order No: <%= link_to order_number.number, "##{order_number.id}", class: 'refere
           <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
           <strong class="govuk-warning-text__text">
             <span class="govuk-warning-text__assistive">Warning</span>
-            <%= order_number.definition.description %>
+            <%= quota_definition.description %>
           </strong>
           </div>
         <% end %>
@@ -21,31 +21,31 @@ Order No: <%= link_to order_number.number, "##{order_number.id}", class: 'refere
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Current balance</th>
-            <td class="numerical govuk-table__cell numerical"><%= "#{order_number.definition.balance} #{order_number.definition.measurement_unit}" %></td>
+            <td class="numerical govuk-table__cell numerical"><%= "#{quota_definition.balance} #{quota_definition.measurement_unit}" %></td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Opening balance</th>
-            <td class="numerical govuk-table__cell numerical"><%= "#{order_number.definition.initial_volume} #{order_number.definition.measurement_unit}" %></td>
+            <td class="numerical govuk-table__cell numerical"><%= "#{quota_definition.initial_volume} #{quota_definition.measurement_unit}" %></td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Status</th>
-            <td class="numerical govuk-table__cell"><%= order_number.definition.status %></td>
+            <td class="numerical govuk-table__cell"><%= quota_definition.status %></td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Start and end dates</th>
-            <td class="numerical govuk-table__cell numerical"><%= start_and_end_dates_for(order_number.definition) %></td>
+            <td class="numerical govuk-table__cell numerical"><%= start_and_end_dates_for(quota_definition) %></td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Last allocation date</th>
-            <td class="numerical govuk-table__cell numerical"><%= order_number.definition.last_allocation_date.to_formatted_s(:gov) || 'n/a' %></td>
+            <td class="numerical govuk-table__cell numerical"><%= quota_definition.last_allocation_date.to_formatted_s(:gov) || 'n/a' %></td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Suspension period</th>
-            <td class="numerical govuk-table__cell numerical"><%= suspension_period_dates_for(order_number.definition) %></td>
+            <td class="numerical govuk-table__cell numerical"><%= suspension_period_dates_for(quota_definition) %></td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Blocking period</th>
-            <td class="numerical govuk-table__cell numerical"><%= blocking_period_dates_for(order_number.definition) %></td>
+            <td class="numerical govuk-table__cell numerical"><%= blocking_period_dates_for(quota_definition) %></td>
           </tr>
         </tbody>
       </table>

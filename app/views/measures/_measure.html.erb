@@ -22,7 +22,7 @@
     <span class='table-line'><%= measure.measure_type.description %></span>
     <% if measure.order_number.present? %>
       <span class='table-line'>
-        <%= render measure.order_number %>
+        <%= render partial: 'shared/quota_definition', locals: { order_number: measure.order_number, quota_definition: measure.order_number&.definition} %>
       </span>
     <% end %>
     <% if measure.additional_code.present? %>

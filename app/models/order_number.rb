@@ -13,10 +13,11 @@ class OrderNumber
   has_many :geographical_areas
 
   def id
-    @id ||= "#{casted_by.destination}-#{casted_by.id}-order-number-#{number}"
+    @id ||= "#{casted_by.id}-order-number-#{number}"
   end
 
-  def has_definition?
-    definition.present?
+  def definition
+    return @definition if @definition
+    return casted_by if casted_by.is_a?(OrderNumber::Definition)
   end
 end

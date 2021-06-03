@@ -45,10 +45,10 @@ FactoryBot.define do
 
   factory :order_number do
     number { Forgery(:basic).number(exactly: 6).to_s }
-    definition
   end
 
-  factory :definition, class: OrderNumber::Definition do
+  factory :definition, class: 'OrderNumber::Definition' do
+    quota_definition_sid { Forgery(:basic).number }
     initial_volume { '54000.0' }
     validity_start_date { '2021-01-01T00:00:00.000Z' }
     validity_end_date { '2021-12-31T00:00:00.000Z' }
@@ -63,12 +63,12 @@ FactoryBot.define do
     suspension_period_end_date { nil }
     blocking_period_start_date { nil }
     blocking_period_end_date { nil }
+    order_number { attributes_for(:order_number) }
   end
 
   factory :measure do
     transient do
       measure_type_description { Forgery(:basic).text }
-      ordernumber { Forgery(:basic).number(exactly: 5) }
     end
 
     origin { %w[eu uk].sample }
