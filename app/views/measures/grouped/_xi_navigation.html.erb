@@ -10,7 +10,7 @@
 <% end %>
 <% if xi_declarable.import_measures.trade_remedies.for_country(@search.country).present? %>
   <li class="govuk-!-margin-bottom-2">
-  <%= link_to('Trade remedies', '#trade_remedies', class: 'govuk-link') %>
+    <%= link_to('Trade Remedies, safeguards and retaliatory duties', '#trade_remedies', class: 'govuk-link') %>
   </li>
 <% end %>
 <% if xi_declarable.import_measures.import_controls.for_country(@search.country).present? %>
