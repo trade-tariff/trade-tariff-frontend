@@ -8,7 +8,7 @@ class HealthcheckController < ActionController::Base
   def check
     # Check API connectivity
     Section.all(headers: original_ua_headers)
-    render json: { git_sha1: CURRENT_RELEASE_SHA }
+    render json: { git_sha1: CURRENT_REVISION }
   end
 
   private
