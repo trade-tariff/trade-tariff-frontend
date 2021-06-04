@@ -41,6 +41,10 @@ commands:
           command: |
             export BUILDPACK="https://github.com/cloudfoundry/ruby-buildpack.git#<< parameters.buildpack_version >>"
 
+            # Enables /healthcheck to show the current deployed git sha
+            export GIT_NEW_REVISION=$(git rev-parse --short HEAD)
+            echo $GIT_NEW_REVISION >REVISION
+
             # Push as "dark" instance
             cf push "$CF_APP-<< parameters.environment_key >>-dark" -f deploy_manifest.yml --no-route --buildpack $BUILDPACK
 
