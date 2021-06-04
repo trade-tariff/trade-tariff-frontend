@@ -62,7 +62,7 @@ module CommoditiesHelper
 
   def format_commodity_code(commodity)
     code = commodity.display_short_code.to_s
-    "#{code[0..1]}&nbsp;#{code[2..3]}&nbsp;#{code[4..-1]}".html_safe
+    "#{code[0..1]}&nbsp;#{code[2..3]}&nbsp;#{code[4..]}".html_safe
   end
 
   def format_commodity_code_based_on_level(commodity)
@@ -71,7 +71,7 @@ module CommoditiesHelper
 
     if commodity.number_indents > 1 || display_full_code
       # remove trailing pairs of zeros for non declarable
-      code = code.gsub(/[0]{2}+$/, '') if commodity.has_children?
+      code = code.gsub(/0{2}+$/, '') if commodity.has_children?
       tree_code(code, klass: nil)
     end
   end
@@ -97,10 +97,10 @@ module CommoditiesHelper
     if deeper_node.present? && deeper_node.number_indents < main_commodity.number_indents
       tag.ul do
         tag.li do
-          tree_code(deeper_node.code.gsub(/[0]{2}+$/, '')) +
+          tree_code(deeper_node.code.gsub(/0{2}+$/, '')) +
             tag.p(deeper_node.to_s.html_safe) +
             # if deeper_node.producline_suffix == '80'
-            #   tree_code(deeper_node.code.gsub(/[0]{2}+$/, ''))
+            #   tree_code(deeper_node.code.gsub(/0{2}+$/, ''))
             # end +
             tree_node(main_commodity, commodities, deeper_node.number_indents)
         end
@@ -131,15 +131,6 @@ module CommoditiesHelper
                 tag.div(format_full_code(commodity), class: 'code-text')
               end
       tag.p(commodity.to_s.html_safe)
-    end
-  end
-
-  def declarable_heading(commodity)
-    tag.p do
-      tree_code(commodity.code) +
-        tag.p(commodity.formatted_description.html_safe,
-              class: '',
-              id: "commodity-#{commodity.code}")
     end
   end
 

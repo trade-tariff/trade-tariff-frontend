@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Heading page', type: :request do
-  context 'as HTML' do
-    context 'declarable heading' do
+  context 'when requesting as as HTML' do
+    context 'with a declarable heading' do
       context 'without country filter' do
         it 'displays declarable related information' do
           VCR.use_cassette('headings#show_declarable') do
@@ -24,45 +24,78 @@ describe 'Heading page', type: :request do
       end
     end
 
-    context 'regular heading' do
-      it 'displays heading name and children commodities' do
+    context 'with a regular heading' do
+      before do
         VCR.use_cassette('geographical_areas#countries') do
           VCR.use_cassette('headings#show') do
             visit heading_path('0101')
-
-            expect(page).to have_content 'Live horses, asses, mules and hinnies'
-            expect(page).to have_content 'Horses'
-            expect(page).to have_content 'Pure-bred breeding animals'
           end
         end
+      end
+
+      it 'displays the link to all sections' do
+        expect(page).to have_link 'All sections',
+                                  href: '/'
+      end
+
+      it 'displays the section as a link' do
+        expect(page).to have_link 'Section I: Live animals; animal products',
+                                  href: '/sections/1'
+      end
+
+      it 'displays the chapter as a link' do
+        expect(page).to have_link 'Live animals',
+                                  href: '/chapters/01'
+      end
+
+      it 'displays the current header' do
+        expect(page).to have_content 'Live horses, asses, mules and hinnies'
+      end
+
+      it 'displays the first level of children commodities' do
+        expect(page).to have_content 'Horses'
+      end
+
+      it 'displays the leaf level of children commodities as a link' do
+        expect(page).to have_link 'Pure-bred breeding animals'
       end
     end
   end
 
-  context 'as JSON' do
-    context 'requested with json format' do
-      it 'renders direct API response' do
+  context 'when requesting as JSON' do
+    context 'when requested with json format' do
+      before do
         VCR.use_cassette('headings#show_0101_api_json_format') do
           get '/headings/0101.json'
-
-          json = JSON.parse(response.body)
-
-          expect(json['goods_nomenclature_item_id']).to eq '0101000000'
-          expect(json['commodities']).to be_kind_of Array
         end
+      end
+
+      let(:json) { JSON.parse(response.body) }
+
+      it 'renders the correct item id' do
+        expect(json['goods_nomenclature_item_id']).to eq '0101000000'
+      end
+
+      it 'renders direct API response' do
+        expect(json['commodities']).to be_kind_of Array
       end
     end
 
-    context 'requested with json HTTP Accept header' do
-      it 'renders direct API response' do
+    context 'when requested with json HTTP Accept header' do
+      before do
         VCR.use_cassette('headings#show_0101_api_json_content_type') do
           get '/headings/0101', headers: { 'HTTP_ACCEPT' => 'application/json' }
-
-          json = JSON.parse(response.body)
-
-          expect(json['goods_nomenclature_item_id']).to eq '0101000000'
-          expect(json['commodities']).to be_kind_of Array
         end
+      end
+
+      let(:json) { JSON.parse(response.body) }
+
+      it 'renders the correct item id' do
+        expect(json['goods_nomenclature_item_id']).to eq '0101000000'
+      end
+
+      it 'renders direct API response' do
+        expect(json['commodities']).to be_kind_of Array
       end
     end
   end
