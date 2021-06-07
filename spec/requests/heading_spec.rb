@@ -35,7 +35,7 @@ describe 'Heading page', type: :request do
 
       it 'displays the link to all sections' do
         expect(page).to have_link 'All sections',
-                                  href: '/'
+                                  href: '/sections'
       end
 
       it 'displays the section as a link' do
