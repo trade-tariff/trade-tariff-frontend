@@ -74,7 +74,7 @@ describe 'Section page', type: :request do
 
     it 'displays the link to all sections' do
       expect(page).to have_link 'All sections',
-                                href: '/'
+                                href: '/sections'
     end
 
     it 'displays section name' do
