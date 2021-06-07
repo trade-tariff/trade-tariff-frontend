@@ -3,7 +3,7 @@ require 'webmock/rspec'
 
 VCR.configure do |c|
   service_ports = [3018, 3019]
-  c.cassette_library_dir = Rails.root.join('spec', 'vcr')
+  c.cassette_library_dir = Rails.root.join('spec/vcr')
   c.hook_into :webmock
   # c.debug_logger = $stdout
   c.default_cassette_options = { match_requests_on: [:path] }

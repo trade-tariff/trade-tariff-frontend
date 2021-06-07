@@ -1,0 +1,67 @@
+<div class="desktop-only">
+  <ul>
+    <li class="section-li">
+      <%= link_to "Section #{declarable.section.numeral}: #{declarable.section}",
+        section_path(declarable.section, request.query_parameters.symbolize_keys),
+        class: %w[full-width] %>
+      <ul>
+        <li class="chapter-li">
+          <%= tree_chapter_code(declarable.chapter) %>
+          <%= link_to declarable.chapter, chapter_path(declarable.chapter, request.query_parameters.symbolize_keys) %>
+          <ul>
+            <li class="heading-li">
+              <%= tree_heading_code(declarable.heading) unless declarable.heading? %>
+              <% if declarable.show_commodity_tree? %>
+                <%= link_to declarable.heading.to_s.html_safe, heading_path(declarable.heading, request.query_parameters.symbolize_keys) %>
+                <%= commodity_tree(declarable, declarable.ancestors) %>
+              <% else %>
+                <%= tree_code(declarable.code) %>
+                <%= tag.p declarable.formatted_description.html_safe, class: 'line-text' %>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="mobile-only">
+  <ul>
+    <li class="section-li">
+      <%= link_to "Section #{declarable.section.numeral}: #{declarable.section}",
+        section_path(declarable.section, request.query_parameters.symbolize_keys),
+        class: %w[full-width] %>
+      <ul class="js-full-tree">
+        <li class="chapter-li">
+          <%= tree_chapter_code(declarable.chapter) %>
+          <%= link_to declarable.chapter, chapter_path(declarable.chapter, request.query_parameters.symbolize_keys) %>
+          <ul>
+            <li class="heading-under-chapter-li">
+              <% if declarable.show_commodity_tree? %>
+                <%= tree_heading_code(declarable.heading) unless declarable.heading? %>
+                <%= link_to declarable.heading.to_s.html_safe, heading_path(declarable.heading, request.query_parameters.symbolize_keys) %>
+                <%= commodity_tree(declarable, declarable.ancestors) %>
+              <% else %>
+                <%= tree_code(declarable.code) %>
+                <%= tag.p declarable.formatted_description.html_safe, class: 'line-text' %>
+              <% end %>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="js-summary-tree">
+        <li>
+          <a href="#" class="show-full-tree-link js-show-full-tree-link">[Show all]</a>
+          <ul>
+            <% if declarable.show_commodity_tree? %>
+              <%= commodity_heading_full(declarable) %>
+            <% else %>
+              <%= declarable_heading_full(declarable) %>
+            <% end %>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

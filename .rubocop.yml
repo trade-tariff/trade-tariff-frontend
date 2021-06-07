@@ -38,5 +38,7 @@ RSpec/DescribeClass:
     - tasks/**/*.rb
 RSpec/ExampleLength:
   Enabled: false
+RSpec/NestedGroups:
+  Max: 4
 Style/StringLiterals:
   EnforcedStyle: single_quotes

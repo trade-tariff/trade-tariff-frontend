@@ -66,4 +66,36 @@ describe 'Commodity page', type: :request do
       end
     end
   end
+
+  context 'when commodity with whatever' do
+    before do
+      VCR.use_cassette('headings#show_0101') do
+        visit commodity_path('0101300000')
+      end
+    end
+
+    it 'displays the link to all sections' do
+      expect(page).to have_link 'All sections',
+                                href: '/'
+    end
+
+    it 'displays the section as a link' do
+      expect(page).to have_link 'Section I: Live animals; animal products',
+                                href: '/sections/1'
+    end
+
+    it 'displays the chapter name as a link' do
+      expect(page).to have_link 'Live animals',
+                                href: '/chapters/01'
+    end
+
+    it 'displays the header name as a link' do
+      expect(page).to have_link 'Live horses, asses, mules and hinnies',
+                                href: '/headings/0101'
+    end
+
+    it 'displays the commodity name' do
+      expect(page).to have_content 'Asses'
+    end
+  end
 end
