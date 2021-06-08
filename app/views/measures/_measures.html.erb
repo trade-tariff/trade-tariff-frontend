@@ -149,6 +149,7 @@
     <%= render partial: 'measures/measure_references', collection: declarable.import_measures.for_country(@search.country), as: 'measure' %>
     <% if TradeTariffFrontend::ServiceChooser.xi? %>
       <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.import_controls.for_country(@search.country), as: 'measure' %>
+      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.vat_excise.for_country(@search.country), as: 'measure' %>
     <% end %>
   </div>
   <div id="export-measure-references">
