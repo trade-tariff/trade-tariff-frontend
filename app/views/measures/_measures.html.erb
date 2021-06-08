@@ -42,7 +42,7 @@
             <p> Import measures and restrictions for specific countries can be found under the <a href="#import">import</a> tab.</p>
             <% if TradeTariffFrontend.duty_calculator_enabled? && declarable.calculate_duties? %>
               <h3 class="govuk-heading-s">Duty calculation</h3>
-              
+
               <p>Use our tariff duty calculator to work out the <%= link_to("duties applicable to the import of commodity #{declarable.code} into the #{import_destination}", "/duty-calculator/#{service_choice}/#{declarable.code}/import-date", class: 'govuk-link') %>.</p>
             <% end %>
           </div>
@@ -111,7 +111,7 @@
     <% if declarable.export_measures.for_country(@search.country).any? %>
 
       <%= render "shared/measure_types_help", anchor: "export" %>
-      
+
       <table class="small-table measures govuk-table">
         <% if @search.filtered_by_country? %>
           <caption class="govuk-table__caption">Measures for <%= @search.geographical_area %></caption>
@@ -147,8 +147,12 @@
   <!-- Footnote popups -->
   <div id="import-measure-references">
     <%= render partial: 'measures/measure_references', collection: declarable.import_measures.for_country(@search.country), as: 'measure' %>
+    <% if TradeTariffFrontend::ServiceChooser.xi? %>
+      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.import_controls.for_country(@search.country), as: 'measure' %>
+    <% end %>
   </div>
   <div id="export-measure-references">
     <%= render partial: 'measures/measure_references', collection: declarable.export_measures.for_country(@search.country), as: 'measure' %>
   </div>
+
 </div>
