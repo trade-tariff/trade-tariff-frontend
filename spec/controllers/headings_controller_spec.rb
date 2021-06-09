@@ -43,4 +43,24 @@ describe HeadingsController, 'GET to #show', type: :controller do
       expect(response.location).to eq sections_url
     end
   end
+
+  context 'with UK site' do
+    before do
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_call_original
+    end
+
+    context 'with non existing chapter id provided', vcr: { cassette_name: 'headings#show_0110' } do
+      let(:heading_id) { '0110' } # heading 0110 does not exist
+
+      before do
+        TradeTariffFrontend::ServiceChooser.service_choice = nil
+        get :show, params: { id: heading_id }
+      end
+
+      it 'redirects to sections index page as fallback' do
+        expect(response.status).to eq 302
+        expect(response.location).to eq sections_url
+      end
+    end
+  end
 end
