@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe 'Heading page', type: :request do
+  before do
+    TradeTariffFrontend::ServiceChooser.service_choice = nil
+  end
+
   context 'when requesting as as HTML' do
     context 'with a declarable heading' do
       context 'without country filter' do
