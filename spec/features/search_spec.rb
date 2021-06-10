@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe 'Search', js: true do
+  before do
+    TradeTariffFrontend::ServiceChooser.service_choice = nil
+  end
+
   context 'when reaching the search page' do
     it 'renders the search container properly' do
       VCR.use_cassette('search#check') do
