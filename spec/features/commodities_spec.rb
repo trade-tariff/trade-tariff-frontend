@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'JS behaviour', js: true do
   before do
+    TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
     VCR.use_cassette('headings#show_0201', record: :new_episodes) do
       visit commodity_path('0201100021', day: 31, month: 5, year: 2018)
     end

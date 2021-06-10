@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe 'Commodity page', type: :request do
+  before do
+    TradeTariffFrontend::ServiceChooser.service_choice = nil
+  end
+
   context 'when mime type is HTML' do
     it 'displays declarable related information' do
       VCR.use_cassette('headings#show_0101') do
