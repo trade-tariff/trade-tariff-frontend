@@ -1,7 +1,8 @@
 class CommoditiesController < GoodsNomenclaturesController
-  before_action :fetch_commodity_from_xi,
-                :fetch_commodity_from_uk,
+  before_action :fetch_commodity,
                 only: %i[show]
+
+  helper_method :uk_commodity, :xi_commodity
 
   def show
     @heading = commodity.heading
@@ -30,19 +31,29 @@ class CommoditiesController < GoodsNomenclaturesController
     ]
   end
 
-  def fetch_commodity_from_xi
-    @xi_commodity = TradeTariffFrontend::ServiceChooser.with_source(:xi) do
-      CommodityPresenter.new(Commodity.find(params[:id], query_params))
-    end
-  end
+  def fetch_commodity
+    @commodities ||= {}
 
-  def fetch_commodity_from_uk
-    @uk_commodity = TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-      CommodityPresenter.new(Commodity.find(params[:id], query_params))
+    if TradeTariffFrontend::ServiceChooser.uk?
+      @commodities[:uk] = CommodityPresenter.new(Commodity.find(params[:id], query_params))
+      @commodities[:xi] = nil
+    else
+      @commodities[:xi] = CommodityPresenter.new(Commodity.find(params[:id], query_params))
+      @commodities[:uk] = TradeTariffFrontend::ServiceChooser.with_source(:uk) do
+        CommodityPresenter.new(Commodity.find(params[:id], query_params))
+      end
     end
   end
 
   def commodity
-    @commodity ||= TradeTariffFrontend::ServiceChooser.uk? ? @uk_commodity : @xi_commodity
+    @commodity ||= TradeTariffFrontend::ServiceChooser.uk? ? uk_commodity : xi_commodity
+  end
+
+  def xi_commodity
+    @commodities[:xi]
+  end
+
+  def uk_commodity
+    @commodities[:uk]
   end
 end

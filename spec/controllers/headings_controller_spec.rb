@@ -7,10 +7,10 @@ describe HeadingsController, 'GET to #show', type: :controller do
     allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
   end
 
-  it 'fetches the heading from the XI service', vcr: { cassette_name: 'headings#show_0110', record: :new_episodes } do
+  it 'doesn\'t uses with_source to fetch the heading from the XI service', vcr: { cassette_name: 'headings#show_0110', record: :new_episodes } do
     get :show, params: { id: '0501' }
 
-    expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:xi)
+    expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:xi)
   end
 
   it 'fetches the heading from the UK service', vcr: { cassette_name: 'headings#show_0110' } do
