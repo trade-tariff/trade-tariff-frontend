@@ -7,10 +7,10 @@ describe HeadingsController, 'GET to #show', type: :controller do
     allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
   end
 
-  it 'fetches the heading from the XI service', vcr: { cassette_name: 'headings#show_0110', record: :new_episodes } do
+  it 'doesn\'t uses with_source to fetch the heading from the XI service', vcr: { cassette_name: 'headings#show_0110', record: :new_episodes } do
     get :show, params: { id: '0501' }
 
-    expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:xi)
+    expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:xi)
   end
 
   it 'fetches the heading from the UK service', vcr: { cassette_name: 'headings#show_0110' } do
@@ -41,6 +41,26 @@ describe HeadingsController, 'GET to #show', type: :controller do
     it 'redirects to sections index page as fallback' do
       expect(response.status).to eq 302
       expect(response.location).to eq sections_url
+    end
+  end
+
+  context 'with UK site' do
+    before do
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_call_original
+    end
+
+    context 'with non existing chapter id provided', vcr: { cassette_name: 'headings#show_0110' } do
+      let(:heading_id) { '0110' } # heading 0110 does not exist
+
+      before do
+        TradeTariffFrontend::ServiceChooser.service_choice = nil
+        get :show, params: { id: heading_id }
+      end
+
+      it 'redirects to sections index page as fallback' do
+        expect(response.status).to eq 302
+        expect(response.location).to eq sections_url
+      end
     end
   end
 end

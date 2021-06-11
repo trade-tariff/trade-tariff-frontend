@@ -3,11 +3,13 @@ require 'spec_helper'
 describe SearchController, '#quota_search', type: :controller, vcr: { cassette_name: 'search#quota_search', allow_playback_repeats: true } do
   before do
     Rails.cache.clear
+    TradeTariffFrontend::ServiceChooser.service_choice = nil
   end
 
   context 'with xi as the service choice' do
     before do
       allow(TradeTariffFrontend::ServiceChooser).to receive(:xi?).and_return(true)
+      TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
 
       get :quota_search, params: { goods_nomenclature_item_id: '0301919011' }, format: :html
     end

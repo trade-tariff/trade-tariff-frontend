@@ -127,6 +127,11 @@ module TradeTariffFrontend
       self.service_choice = original_service_source
 
       result
+    rescue StandardError => e
+      # Restore the request's original service source
+      self.service_choice = original_service_source
+
+      raise e
     end
 
     def service_default

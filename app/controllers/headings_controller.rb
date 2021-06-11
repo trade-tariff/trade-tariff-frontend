@@ -1,7 +1,8 @@
 class HeadingsController < GoodsNomenclaturesController
-  before_action :fetch_heading_from_xi,
-                :fetch_heading_from_uk,
+  before_action :fetch_heading,
                 only: %i[show]
+
+  helper_method :uk_heading, :xi_heading
 
   def show
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
@@ -22,7 +23,29 @@ class HeadingsController < GoodsNomenclaturesController
     end
   end
 
+  def fetch_heading
+    @headings ||= {}
+
+    if TradeTariffFrontend::ServiceChooser.uk?
+      @headings[:uk] = HeadingPresenter.new(Heading.find(params[:id], query_params))
+      @headings[:xi] = nil
+    else
+      @headings[:xi] = HeadingPresenter.new(Heading.find(params[:id], query_params))
+      @headings[:uk] = TradeTariffFrontend::ServiceChooser.with_source(:uk) do
+        HeadingPresenter.new(Heading.find(params[:id], query_params))
+      end
+    end
+  end
+
   def heading
-    @heading ||= TradeTariffFrontend::ServiceChooser.uk? ? @uk_heading : @xi_heading
+    @heading ||= TradeTariffFrontend::ServiceChooser.uk? ? uk_heading : xi_heading
+  end
+
+  def xi_heading
+    @headings[:xi]
+  end
+
+  def uk_heading
+    @headings[:uk]
   end
 end
