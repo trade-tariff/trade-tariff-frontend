@@ -1,3 +1,13 @@
+<% content_for :before_main_content do %>
+  <%= generate_breadcrumbs(
+      t('breadcrumb.privacy'),
+      [
+        [t('breadcrumb.home'), sections_path]
+      ]
+    )
+  %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <div class="gem-c-title govuk-!-margin-top-8 govuk-!-margin-bottom-8">
