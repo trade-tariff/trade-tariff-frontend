@@ -19,6 +19,9 @@ class PagesController < ApplicationController
     @no_shared_switch_service_link = true
   end
 
+  def privacy
+  end
+
   def tariff_cookies
     render :cookies
   end
