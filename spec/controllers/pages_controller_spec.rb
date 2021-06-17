@@ -114,4 +114,11 @@ describe PagesController, 'GET to #opensearch', type: :controller do
       end
     end
   end
+
+  describe 'GET #privacy' do
+    subject(:response) { get :privacy }
+
+    it { is_expected.to have_http_status(:ok) }
+    it { is_expected.to render_template('pages/privacy') }
+  end
 end

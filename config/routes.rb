@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
   get 'terms', to: 'pages#terms'
   get 'cookies', to: 'pages#tariff_cookies', as: 'cookies'
+  get 'privacy', to: 'pages#privacy', as: 'privacy'
   post 'cookies', to: 'pages#update_cookies'
   post 'cookies_consent_accept', to: 'cookies_consent#accept_cookies'
   post 'cookies_consent_reject', to: 'cookies_consent#reject_cookies'
