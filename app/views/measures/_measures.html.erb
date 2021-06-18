@@ -9,6 +9,9 @@
     <li class="govuk-tabs__list-item"s>
       <a class="govuk-tabs__tab" href="#export">Export</a>
     </li>
+    <li class="govuk-tabs__list-item"s>
+      <a class="govuk-tabs__tab" href="#footnotes">Footnotes</a>
+    </li>
   </ul>
 
   <!-- Overview tab -->
@@ -65,7 +68,6 @@
           </div>
         </div>
       </div>
-      <%= render 'headings/footnote', footnotes: declarable.footnotes %>
       <% if declarable.meursing_code? %>
         <h2 class="govuk-heading-m">This commodity has a meursing code</h2>
         <p>Use the <%= link_to "Look up Meursing code", "https://www.gov.uk/additional-commodity-code", rel: "external", target: "_blank", title: "Opens in a new window" %> tool to find the additional code required for importing and exporting. To calculate the duty rate, enter the meursing code (without the 7 at the start) into the <%= link_to "meursing calculator", declarable.meursing_tool_link_for(@search.date.to_taric_date), rel: "external", target: "_blank", title: "Opens in a new window" %>.</p>
@@ -144,6 +146,29 @@
     <%= render 'headings/footnote', footnotes: declarable.footnotes %>
   </div>
 
+  <!-- Footnotes tab -->
+  <div class="govuk-tabs__panel" id="footnotes">
+    <h2 class="govuk-heading-m"><%= footnote_heading(declarable) %></h2>
+    <table class="govuk-table govuk-!-margin-top-8">
+      <colgroup>
+        <col width="100">
+        <col width="*">
+      </colgroup>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Code</th>
+          <th scope="col" class="govuk-table__header">Description</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% declarable.footnotes.each do |footnote| %>
+          <% next unless footnote&.code.present? %>
+          <%= render footnote %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
   <!-- Footnote popups -->
   <div id="import-measure-references">
     <%= render partial: 'measures/measure_references', collection: declarable.import_measures.for_country(@search.country), as: 'measure' %>
@@ -155,5 +180,4 @@
   <div id="export-measure-references">
     <%= render partial: 'measures/measure_references', collection: declarable.export_measures.for_country(@search.country), as: 'measure' %>
   </div>
-
 </div>
