@@ -3,6 +3,10 @@ module CommoditiesHelper
     (@commodity || @heading).code
   end
 
+  def footnote_heading(declarable)
+    t('tabs.footnote.heading', goods_nomenclature_item_id: declarable.id, declarable_type: declarable.model_name.singular)
+  end
+
   def leaf_position(commodity)
     if commodity.last_child?
       ' last-child'
