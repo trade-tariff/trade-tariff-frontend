@@ -161,10 +161,7 @@
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        <% declarable.footnotes.each do |footnote| %>
-          <% next unless footnote&.code.present? %>
-          <%= render footnote %>
-        <% end %>
+        <%= render partial: 'footnotes/footnote', collection: declarable.footnotes %>
       </tbody>
     </table>
   </div>

@@ -9,7 +9,7 @@ describe 'measures/_measure.html.erb', type: :view do
   end
 
   before do
-    render 'measures/measure.html.erb', measure: MeasurePresenter.new(measure)
+    render 'measures/measure', measure: MeasurePresenter.new(measure)
   end
 
   context 'with formatted_base' do
