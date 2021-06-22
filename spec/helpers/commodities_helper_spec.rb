@@ -26,4 +26,26 @@ describe CommoditiesHelper, type: :helper do
       end
     end
   end
+
+  describe '#footnote_heading' do
+    context 'when a heading is passed' do
+      let(:declarable) { HeadingPresenter.new(build(:heading)) }
+
+      it 'returns the correct footnote heading' do
+        expect(helper.footnote_heading(declarable)).to eq(
+          'Footnotes for heading 0101000000',
+        )
+      end
+    end
+
+    context 'when a commodity is passed' do
+      let(:declarable) { CommodityPresenter.new(build(:commodity)) }
+
+      it 'returns the correct footnote heading' do
+        expect(helper.footnote_heading(declarable)).to eq(
+          'Footnotes for commodity 0101300000',
+        )
+      end
+    end
+  end
 end

@@ -1,4 +1,6 @@
-<tr class="govuk-table__row">
-  <th scope="row" class="govuk-table__header"><%= footnote.code %></th>
-  <td class="govuk-table__cell"><%= simple_format footnote.formatted_description %></td>
-</tr>
+<% if footnote&.code.present? %>
+  <tr class="govuk-table__row" >
+    <th scope="row" class="govuk-table__header"><%= footnote.code %></th>
+    <td class="govuk-table__cell"><%= simple_format footnote.formatted_description %></td>
+  </tr>
+<% end %>

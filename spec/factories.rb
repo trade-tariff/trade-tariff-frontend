@@ -12,22 +12,22 @@ FactoryBot.define do
   end
 
   factory :chapter do
-    section
+    section { attributes_for(:section) }
     description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0100000000' }
     formatted_description { Forgery(:basic).text }
   end
 
   factory :heading do
-    chapter
+    chapter { attributes_for(:chapter) }
     description { Forgery(:basic).text }
     formatted_description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0101000000' }
   end
 
   factory :commodity do
-    heading
-    section
+    heading { attributes_for(:heading) }
+    section { attributes_for(:section) }
     description { Forgery(:basic).text }
     formatted_description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0101300000' }
