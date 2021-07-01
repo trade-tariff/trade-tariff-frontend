@@ -48,7 +48,7 @@ module ServiceHelper
   end
 
   def steel_safeguards
-    return t("service_banner.steel_safeguards").html_safe if uk_service_choice? && request.filtered_path == sections_path
+    return t("service_banner.steel_safeguards_html").html_safe if uk_service_choice? && request.filtered_path == sections_path
 
     ''
   end
