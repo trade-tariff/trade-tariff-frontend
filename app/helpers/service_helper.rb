@@ -41,9 +41,16 @@ module ServiceHelper
           tag.p do
             banner_copy
           end
-        end
+        end +
+        steel_safeguards
       end
     end
+  end
+
+  def steel_safeguards
+    return t("service_banner.steel_safeguards_html").html_safe if uk_service_choice? && request.filtered_path == sections_path
+
+    ''
   end
 
   def search_label_text
