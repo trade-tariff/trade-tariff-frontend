@@ -11,7 +11,7 @@ en:
     uk:
       import: UK Global Tariff imports from
       export: UK Global Tariff exports to
-    xi:
+    xi: 
       import: <abbr title="Northern Ireland">NI</abbr> imports from
       export: <abbr title="Northern Ireland">NI</abbr> exports to
   measures_heading:
@@ -69,24 +69,3 @@ en:
     big:
       uk: From 1 January 2021, if you’re bringing goods into Northern Ireland from outside the UK and the EU, you will pay the UK duty rate <a href="https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021" class="govuk-link">if your goods are not ‘at risk’ of onward movement to the EU</a>. If they are at risk of onward movement to the EU, use the %{link}.
       xi: From 1 January 2021, if you’re bringing goods into Northern Ireland from outside the UK and the EU, you will pay the UK duty rate <a href="https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021" class="govuk-link">if your goods are not ‘at risk’ of onward movement to the EU</a>. If they are not at risk of onward movement to the EU, use the %{link}.
-    steel_safeguards_html: >- # Temporary warning regarding the steel safeguards
-      <div class="govuk-warning-text govuk-!-margin-bottom-0 govuk-!-margin-top-6 govuk-!-padding-top-0">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-          <span class="govuk-warning-text__assistive">Warning</span>
-          <p>
-            <strong>The Trade Remedies Authority has published its final recommendation to the Secretary of State for International Trade on the future of the UK’s steel safeguard measure. The recommendation comes into force on 1st July 2021. We are working to update the data on this service.</strong>
-          </p>
-          <p></p>
-          <p>For additional information, see:</p>
-          <ul class="govuk-list">
-            <li>
-              <a target="_blank" href="https://www.gov.uk/government/publications/trade-remedies-notice-safeguard-measures-on-certain-steel-products-application-of-tariff-rate-quotas">Trade remedies notice: safeguard measures on certain steel products – application of tariff rate quotas (opens in new window)</a>
-            </li>
-            <li>
-              <a target="_blank" href="https://questions-statements.parliament.uk/written-statements/detail/2021-06-30/hcws136">Statement made on 30 June 2021 by the Secretary of State for International Trade (opens in new window)</a>
-            </li>
-          </ul>
-        </strong>
-      </div>
-
