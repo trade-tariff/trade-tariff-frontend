@@ -11,7 +11,7 @@ en:
     uk:
       import: UK Global Tariff imports from
       export: UK Global Tariff exports to
-    xi: 
+    xi:
       import: <abbr title="Northern Ireland">NI</abbr> imports from
       export: <abbr title="Northern Ireland">NI</abbr> exports to
   measures_heading:
