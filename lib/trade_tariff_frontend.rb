@@ -42,6 +42,7 @@ module TradeTariffFrontend
       additional_code_types
       certificate_types
       footnote_types
+      changes
     ]
   end
 
