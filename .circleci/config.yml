@@ -18,7 +18,7 @@ commands:
         type: string
       buildpack_version:
         type: string
-        default: "v1.8.39"
+        default: "v1.8.42"
     steps:
       - checkout
       - run:
