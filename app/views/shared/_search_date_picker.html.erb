@@ -1,7 +1,10 @@
 <div class="govuk-form-group">
   <fieldset class="govuk-fieldset js-date-picker datepicker date-picker govuk-!-font-size-16 govuk-form-group inline"  aria-live="polite">
-    <span class="fields">This tariff is for
-      <label class="govuk-visually-hidden" for="tariff_date_date">Date</label>
+    <span class="fields">
+      <span class="govuk-!-padding-right-2">
+        This tariff is for:
+        <label class="govuk-visually-hidden" for="tariff_date_date">Date</label>
+      </span>
       <label class="govuk-visually-hidden govuk-label govuk-date-input__label" for="tariff_date_day">Day</label>
       <%= text_field_tag(:day,
                          @search.date.day,
