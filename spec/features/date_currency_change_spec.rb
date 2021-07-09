@@ -24,7 +24,7 @@ describe 'Date & Currency change', js: true, vcr: {
     page.execute_script("$('#tariff_date_year').val('2018')")
     page.execute_script("$('#tariff_date_month').val('12')")
 
-    click_link 'Set date'
+    click_button 'Set date'
 
     expect(page).to have_content 'This tariff is for 1 December 2018'
     expect(page).to have_content 'Change date'
@@ -43,7 +43,7 @@ describe 'Date & Currency change', js: true, vcr: {
       page.execute_script("$('#tariff_date_month').val('#{searched_for_date.month}')")
       page.execute_script("$('#tariff_date_day').val('#{searched_for_date.day}')")
 
-      click_link 'Set date'
+      click_button 'Set date'
 
       expect(page).to have_content "This tariff is for #{searched_for_date.strftime('%-d %B %Y')}"
     end
