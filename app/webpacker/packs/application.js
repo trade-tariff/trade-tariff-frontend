@@ -12,9 +12,7 @@
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
 //
-const images = require.context('../images', true)
-const imagePath = (name) => images(name, true)
-
+import './application.scss';
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
@@ -59,6 +57,8 @@ require('../src/javascripts/exchange_rate.js');
 require('../src/javascripts/feedback.js');
 require('../src/javascripts/quota-search.js');
 require('../src/javascripts/stop-scrolling-at-footer.js');
+
+require.context('govuk-frontend/govuk/assets');
 
 import { initAll } from 'govuk-frontend';
 
