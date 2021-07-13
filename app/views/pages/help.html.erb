@@ -1,0 +1,312 @@
+<% content_for :before_main_content do %>
+  <%= generate_breadcrumbs(
+    t('breadcrumb.help'),
+    [
+      [t('breadcrumb.home'), sections_path]
+    ]
+  ) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="gem-c-title govuk-!-margin-top-8 govuk-!-margin-bottom-8">
+      <span class="govuk-caption-xl">Online Trade Tariff</span>
+      <h1 class="govuk-heading-l">Help on using the tariff</h1>
+      <p class="govuk-body-l">If you would like to leave feedback on this service or request additional help with your trade, then use the following links.</p>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+      <div class="govuk-accordion__controls">
+        <button type="button" class="govuk-accordion__open-all" aria-expanded="false"></button>
+      </div>
+
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+
+            <button type="button" id="accordion-default-heading-1" aria-controls="accordion-default-content-1" class="govuk-accordion__section-button" aria-expanded="false" open="">
+              Get help or leave feedback
+              <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
+        </div>
+        <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li>
+              <%= link_to('Leave feedback on this service', feedback_path, class: 'govuk-link') %>
+              <p class='govuk-body'>
+                Use this link if you would like to leave feedback or suggestions for improvements to this service.
+              </p>
+            </li>
+
+            <li>
+              <%= link_to('Using the Online Trade Tariff to find a commodity code', 'https://www.gov.uk/guidance/using-the-trade-tariff-tool-to-find-a-commodity-code', target: '_blank', class: 'govuk-link') %>
+              <p class='govuk-body'>
+                Guidance on the use of this service.
+              </p>
+            </li>
+
+            <li>
+              <%= link_to('Finding commodity codes for imports or exports', "https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports", target: '_blank', class: 'govuk-link') %>
+              <p class='govuk-body'>
+                Find a commodity code to classify your goods and look up duty rates, reliefs and quotas.
+              </p>
+            </li>
+
+            <li>
+              <%= link_to('Apply for an Advance Tariff Ruling', "https://www.gov.uk/guidance/apply-for-an-advance-tariff-ruling", target: '_blank', class: 'govuk-link') %>
+              <p class='govuk-body'>
+                Find out how to get a legally binding decision on the commodity code to use when importing into or exporting from Great Britain.
+              </p>
+            </li>
+
+            <li>
+              <%= link_to('Contact HMRC', "https://www.gov.uk/government/organisations/hm-revenue-customs/contact/vat-enquiries", target: '_blank', class: 'govuk-link') %>
+              <p class='govuk-body'>
+                For general HMRC enquiries.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+            <button type="button" id="accordion-default-heading-2" aria-controls="accordion-default-content-2" class="govuk-accordion__section-button" aria-expanded="false" open="">
+              Classification guidance
+              <span class="govuk-accordion__icon" aria-hidden="true"></span>
+            </button>
+          </h2>
+        </div>
+
+        <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
+          <h3 class="govuk-heading-s">General classification guidance</h3>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              <%= link_to('Get advice on classifying your goods', 'https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods', class: 'govuk-link') %>
+              <p class='govuk-body'>
+                Find out how to contact HMRC to help you get a commodity code and what information you’ll need to send us.</li>
+              </p>
+          </ul>
+          <h3 class="govuk-heading-s">Product-specific classification guidance</h3>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              <%= link_to('Aircraft parts', "https://www.gov.uk/guidance/classifying-aircraft-parts-and-accessories", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Audio and video equipment for import and export', "https://www.gov.uk/guidance/classifying-audio-and-video-equipment", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Ceramics', "https://www.gov.uk/guidance/classifying-ceramics", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Classification of goods', "https://www.gov.uk/government/collections/classification-of-goods", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Computers and software', "https://www.gov.uk/guidance/classifying-computers-and-software", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Edible fruits, nuts and peel', "https://www.gov.uk/guidance/classifying-edible-fruits-nuts-and-peel", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Edible vegetables, roots and tubers', "https://www.gov.uk/guidance/classifying-edible-vegetables-roots-and-tubers", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Electric lamps', "https://www.gov.uk/guidance/classifying-electric-lamps", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Footwear', "https://www.gov.uk/guidance/classifying-footwear", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Herbal medicines, tonics and supplements', "https://www.gov.uk/guidance/classifying-herbal-medicines-supplements-tonics", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Iron and Steel', "https://www.gov.uk/guidance/classifying-iron-and-steel", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Leather', "https://www.gov.uk/guidance/classifying-leather", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Monitors', "https://www.gov.uk/guidance/classifying-monitors-for-import-and-export", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Organic chemicals', "https://www.gov.uk/guidance/classifying-organic-chemicals", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Pharmaceutical products', "https://www.gov.uk/guidance/classifying-pharmaceutical-products", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Placebos and comparators', "https://www.gov.uk/guidance/classifying-placebos-and-comparators", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Plastics', "https://www.gov.uk/guidance/classifying-plastics", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Rice', "https://www.gov.uk/guidance/classifying-rice", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Textiles and textile articles', "https://www.gov.uk/guidance/classifying-textile-apparel", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Tobacco and manufactured tobacco substitutes', "https://www.gov.uk/guidance/classifying-tobacco", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Toys, games and sports equipment', "https://www.gov.uk/guidance/classifying-toys-games-and-sports-equipment", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Vehicles, parts and accessories', "https://www.gov.uk/guidance/classifying-vehicles", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Wood', "https://www.gov.uk/guidance/classifying-wood", target: '_blank', class: 'govuk-link') %>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+
+            <button type="button" id="accordion-default-heading-3" aria-controls="accordion-default-content-3" class="govuk-accordion__section-button" aria-expanded="false" open="">
+              CDS guidance, code and procedures
+              <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
+        </div>
+        <div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
+
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              <%= link_to('UK Trade Tariff: volume 3 for CDS', "https://www.gov.uk/government/collections/uk-trade-tariff-volume-3-for-cds--2#imports:-guidance-on-completing-an-import-declaration-for-the-customs-declaration-service", target: '_blank', class: 'govuk-link') %>
+              <p class='govuk-body'>
+                Find the guidance, codes and procedures to use when importing or exporting goods when using the Customs Declaration Service (CDS).
+              </p>
+            </li>
+            <li>
+              <%= link_to('Customs Declaration Completion Requirements for The Northern Ireland Protocol', "https://www.gov.uk/government/publications/customs-declaration-completion-requirements-for-the-northern-ireland-protocol", target: '_blank', class: 'govuk-link') %>
+            </li>
+            <li>
+              <%= link_to('Customs Declaration Completion Requirements for Great Britain', "https://www.gov.uk/government/publications/customs-declaration-completion-requirements-for-great-britain", target: '_blank', class: 'govuk-link') %>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+            <button type="button" id="accordion-default-heading-4" aria-controls="accordion-default-content-4" class="govuk-accordion__section-button" aria-expanded="false" open="">
+              CHIEF guidance, code and procedures
+              <span class="govuk-accordion__icon" aria-hidden="true"></span>
+            </button>
+          </h2>
+        </div>
+
+        <div id="accordion-default-content-4" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-4">
+
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              <%= link_to('UK Trade Tariff: volume 3 for CHIEF', "https://www.gov.uk/government/collections/uk-trade-tariff-volume-3-for-chief", target: '_blank', class: 'govuk-link') %>
+              <p class='govuk-body'>
+                Forms, codes and procedures to use when importing or exporting goods. How to input data onto the Customs Handling of Import and Export Freight (CHIEF) system.<br><br></li>
+              </p>
+              </li>
+              <li>
+                <%= link_to('Customs Declaration Completion Requirements for Great Britain', "https://www.gov.uk/government/publications/customs-declaration-completion-requirements-for-great-britain", target: '_blank', class: 'govuk-link') %>
+              </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+            <button type="button" id="accordion-default-heading-5" aria-controls="accordion-default-content-5" class="govuk-accordion__section-button" aria-expanded="false" open="">
+              Rules of origin - glossary of terms
+              <span class="govuk-accordion__icon" aria-hidden="true"></span>
+            </button>
+          </h2>
+        </div>
+
+        <div id="accordion-default-content-4" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-4">
+          <div id="CC">
+            <h3 class="govuk-heading-s" id="Change in tariff chapter (CC)">Change in tariff chapter (CC)</h3>
+            <p class='govuk-body'>‘CC’ means production from non-originating materials of any Chapter, except that of the product; this means that any non-originating material used in the production of the product must be classified in a Chapter (2-digit level of the Harmonised System) other than that of the product (i.e. a change in Chapter);</p>
+          </div>
+
+          <div id="CTC">
+            <h3 class="govuk-heading-s" id="Change in tariff classification (CTC)">Change in tariff classification (CTC)</h3>
+            <p class='govuk-body'>Change in tariff classification (CTC) is one of the two main types of substantial transformation.</p>
+            <p class='govuk-body'>The CTC rule requires non-originating materials to have undergone a change in tariff classification on a required level in order to obtain originating status. The change in tariff classification can be required on a chapter, heading or subheading level HS Classification). It usually applies to all non-originating materials but can also apply to a specific type of material.</p>
+            <p class='govuk-body'>The CTC rule requires the exporter or producer to determine the classification of all non-originating inputs, materials and parts that are required to undergo a change in tariff classification. Only in that way will the exporter or producer be able to demonstrate that the change in classification has occurred.</p>
+          </div>
+
+          <div id="CTH">
+            <h3 class="govuk-heading-s" id="Change in tariff heading (CTH)">Change in tariff heading (CTH)</h3>
+            <p class='govuk-body'>
+              'CTH' means production from non-originating materials of any heading, except that of the product; this means that any non-originating material used in the production of the product must be classified in a heading (4-digit level of the Harmonised System) other than that of the product (i.e. a change in heading)
+            </p>
+          </div>
+
+          <div id="CTSH">
+            <h3 class="govuk-heading-s" id="Change in tariff subheading (CTSH)">Change in tariff subheading (CTSH)</h3>
+            <p class='govuk-body'>
+              ‘CTSH’ means production from non-originating materials of any subheading, except that of the product; this means that any non-originating material used in the production of the product must be classified in a subheading (6-digit level of the Harmonised System) other than that of the product (i.e. a change in sub-heading).
+            </p>
+          </div>
+
+          <div id="RVC">
+            <h3 class="govuk-heading-s" id="Regional Value Content (RVC)">Regional Value Content (RVC)</h3>
+            <p class='govuk-body'>
+              For a minority of goods, a specific rule of origin will require the good to meet an additional requirement to qualify as originating.  Usually, this additional requirement tests the good's regional value content (RVC), which requires that a certain percentage of the good’s value originates in an FTA country.</p>
+            <p class='govuk-body'>
+              For example, some rules may specify that a good must have at least a 35% RVC based on the build-up method.  To qualify for originating status under the FTA, therefore, importers have to demonstrate that at least 35% of the good’s value originated in the territory of the other party as determined using the build-up method. If a rule requires an HS classification change and an RVC test, the good has to meet both of these requirements to be an originating good.</p>
+            <p class='govuk-body'>
+              <a href="/roo/rvc">How to calculate Regional Value Content</a></p>
+          </div>
+
+          <div id="MaxNOM">
+            <h3 class="govuk-heading-s" id="Maximum value of non-originating materials (MaxNOM)">Maximum value of non-originating materials (MaxNOM)</h3>
+            <p class='govuk-body'>"MaxNOM" means the maximum value of non-originating materials expressed as a percentage and shall be calculated according to the following formula:</p>
+
+
+          </div>
+
+          <div id="EXW">
+            <h3 class="govuk-heading-s" id="Ex-works price (EXW)">Ex-works price (EXW)</h3>
+            <p class='govuk-body'>"EXW" or "ex-works price" means:</p>
+            <p class='govuk-body'>(i) the price of the product paid or payable to the producer in whose undertaking the last working or processing is carried out, provided that the price includes the value of all the materials used and all other costs incurred in the production of the product, minus any internal taxes which are, or may be, repaid when the product obtained is exported; <em>or</em></p>
+            <p class='govuk-body'>(ii) if there is no price paid or payable or if the actual price paid does not reflect all costs related to the production of the product which are actually incurred in the production of the product, the value of all the materials used and all other costs incurred in the production of the product in the exporting Party: (A) including selling, general and administrative expenses, as well as profit, that can reasonably be allocated to the product; and (B) excluding the cost of freight, insurance, all other costs incurred in transporting the product and any internal taxes of the exporting Party which are, or may be, repaid when the product obtained is exported. (iii) For the purposes of point (i), where the last production has been contracted to a producer, the term ‘producer’ in point (i) refers to the person who has employed the subcontractor (see page 417)</p>
+
+
+          </div>
+
+          <div id="FOB">
+            <h3 class="govuk-heading-s" id="Free on Board (FOB)">Free on Board (FOB)</h3>
+            <p class='govuk-body'>"FOB" or "Free on Board" means:</p>
+            <p class='govuk-body'>Free on board indicates whether the seller or the buyer is liable for goods that are damaged or destroyed during shipping. When used with an identified physical location, the designation determines which party has responsibility for the payment of the freight charges and at what point title for the shipment passes from the seller to the buyer.</p>
+            <p class='govuk-body'>In international shipping, for example, “FOB [name of originating port]” means that the seller (consignor) is responsible for transportation of the goods to the port of shipment and the cost of loading. The buyer (consignee) pays the costs of ocean freight, insurance, unloading, and transportation from the arrival port to the final destination. The seller passes the risk to the buyer when the goods are loaded at the originating port.</p>
+          </div>
+
+          <div id="sub-heading">
+            <h3 class="govuk-heading-s" id="Subheading">Subheading</h3>
+            <p class='govuk-body'>Some words about subheadings</p>
+          </div>
+
+          <div id="heading">
+            <h3 class="govuk-heading-s" id="Heading">Heading</h3>
+            <p class='govuk-body'>Some words about headings</p>
+          </div>
+
+          <div id="Accumulation">
+            <h3 class="govuk-heading-s" id="Accumulation">Accumulation</h3>
+            <p class='govuk-body'>A good may be produced partly in the territory of one FTA partner, and completed in the territory of the other FTA partner.  A good may be made from materials produced by one producer from components produced by another producer.</p>
+            <p class='govuk-body'>To determine whether a good meets an HS classification change, treat all the production done in both countries as if it occurred in one, and treat the production done by all producers in the FTA region as if it were completed by one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
