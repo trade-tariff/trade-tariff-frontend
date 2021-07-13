@@ -82,4 +82,26 @@ describe ApplicationHelper, type: :helper do
       end
     end
   end
+
+  describe '.help_active_class' do
+    let(:action) { 'something' }
+
+    before do
+      allow(controller).to receive(:params).and_return(action: action)
+    end
+
+    context 'when action is tools' do
+      let(:action) { 'help' }
+
+      it 'returns active' do
+        expect(helper.help_active_class).to eq('active')
+      end
+    end
+
+    context 'when action is not tools' do
+      it 'returns nil' do
+        expect(helper.help_active_class).to be_nil
+      end
+    end
+  end
 end

@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get 'terms', to: 'pages#terms'
   get 'cookies', to: 'pages#tariff_cookies', as: 'cookies'
   get 'privacy', to: 'pages#privacy', as: 'privacy'
+  get 'help', to: 'pages#help', as: 'help'
   post 'cookies', to: 'pages#update_cookies'
   post 'cookies_consent_accept', to: 'cookies_consent#accept_cookies'
   post 'cookies_consent_reject', to: 'cookies_consent#reject_cookies'

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PagesController, 'GET to #opensearch', type: :controller do
+describe PagesController, type: :controller do
   context 'when asked for XML file' do
     render_views
 
@@ -120,5 +120,12 @@ describe PagesController, 'GET to #opensearch', type: :controller do
 
     it { is_expected.to have_http_status(:ok) }
     it { is_expected.to render_template('pages/privacy') }
+  end
+
+  describe 'GET #help' do
+    subject(:response) { get :help }
+
+    it { is_expected.to have_http_status(:ok) }
+    it { is_expected.to render_template('pages/help') }
   end
 end

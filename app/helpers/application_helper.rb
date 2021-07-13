@@ -45,6 +45,10 @@ module ApplicationHelper
     'active' if params[:action] == 'tools'
   end
 
+  def help_active_class
+    'active' if params[:action] == 'help'
+  end
+
   def currency_options
     [%w[Pound\ sterling GBP], %w[Euro EUR]]
   end
