@@ -17,16 +17,6 @@
       <h4 class="govuk-heading-s govuk-!-margin-bottom-2">
         <a href="<%= chapter_path(chapter) %>"><%= sanitize chapter.description %></a>
       </h4>
-      <details class="govuk-details govuk-!-margin-bottom-0" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text govuk-!-font-size-16">
-            Notes
-          </span>
-        </summary>
-        <div class="govuk-details__text govuk-!-font-size-16">
-          <%= render partial: 'chapters/chapter_guides', locals: {chapter: chapter} %>
-        </div>
-      </details>
     </div>
   </div>
   <% if headings.any? %>
