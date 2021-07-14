@@ -9,7 +9,7 @@ end
 
 gem 'rails', '~> 6'
 
-gem 'addressable', '~> 2.3'
+gem 'addressable', '~> 2.8'
 gem 'faraday', '= 1.3.0' # TODO: Debug issue with newer versions of Faraday client under high loads
 gem 'faraday_middleware', '~> 1'
 gem 'hashie', '~> 3.4'
