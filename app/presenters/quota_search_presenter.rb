@@ -5,7 +5,6 @@ class QuotaSearchPresenter
     @with_errors = false
     @search_form = search_form
     @search_result = search_form.present? ? OrderNumber::Definition.search(search_form.to_params) : []
-    @search_result.reject! { |result| result.instance_of?(OrderNumber::Definition) && result.quota_definition_sid.negative? }
   rescue StandardError
     @with_errors = true
   end
