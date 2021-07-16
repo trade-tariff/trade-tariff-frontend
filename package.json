@@ -16,18 +16,18 @@
     "jquery-focus-exit": "^1.0.1",
     "jquery-grid-navigation": "^1.0.1",
     "jquery-linear-navigation": "^1.0.2",
-    "jquery-migrate": "3.3.1",
+    "jquery-migrate": "3.3.2",
     "jquery-next-id": "^1.0.1",
     "jquery-prevent-scroll-keys": "^1.0.1",
     "jquery-roving-tabindex": "^1.0.1",
     "jquery-tabs": "^0.5.3",
     "mark.js": "^8.11.1",
     "rails-erb-loader": "^5.5.2",
-    "select2": "^4.0.10",
-    "webpack": "^4.0.0"
+    "select2": "^4.1.0-rc.0",
+    "webpack": "^5.44.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.3.12",
+    "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.0"
   }
 }
