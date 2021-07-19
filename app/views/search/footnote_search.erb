@@ -1,3 +1,14 @@
+<% content_for :before_main_content do %>
+  <%= generate_breadcrumbs(
+      t('breadcrumb.footnote_search'),
+      [
+        [t('breadcrumb.home'), sections_path]
+      ]
+    )
+  %>
+<% end %>
+
+<%= service_switch_banner %>
 <%= render partial: 'search/footnotes/form', locals: { search_form: @result.search_form } %>
 <% if @result.search_result&.any? %>
   <br/>
