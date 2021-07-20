@@ -178,7 +178,6 @@ GEM
       rouge
       sprockets (< 4)
     hashdiff (1.0.1)
-    hashie (3.6.0)
     htmlentities (4.3.4)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
@@ -436,7 +435,6 @@ DEPENDENCIES
   faraday_middleware (~> 1)
   forgery
   govspeak (~> 6)
-  hashie (~> 3.4)
   kaminari (~> 1.0)
   letter_opener
   lograge

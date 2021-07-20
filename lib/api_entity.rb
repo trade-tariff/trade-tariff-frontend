@@ -5,6 +5,7 @@ require 'tariff_jsonapi_parser'
 
 module ApiEntity
   class NotFound < StandardError; end
+
   class Error < StandardError; end
 
   extend ActiveSupport::Concern
@@ -100,7 +101,7 @@ module ApiEntity
     def find(id, opts = {})
       retries = 0
       begin
-        resp = api.get("/#{self.name.pluralize.parameterize}/#{id}", opts)
+        resp = api.get("/#{name.pluralize.parameterize}/#{id}", opts)
         case resp.status
         when 404
           raise ApiEntity::NotFound
@@ -126,7 +127,7 @@ module ApiEntity
 
       attr_accessor association.to_sym
 
-      class_eval <<-METHODS
+      class_eval <<-METHODS, __FILE__, __LINE__ + 1
         def #{association}=(data)
           data ||= {}
 
@@ -138,7 +139,7 @@ module ApiEntity
     def has_many(associations, opts = {})
       options = opts.reverse_merge(class_name: associations.to_s.singularize.classify, wrapper: Array)
 
-      class_eval <<-METHODS
+      class_eval <<-METHODS, __FILE__, __LINE__ + 1
         def #{associations}
           #{options[:wrapper]}.new(@#{associations}.presence || [])
         end
@@ -161,7 +162,7 @@ module ApiEntity
     def paginate_collection(collection, pagination)
       Kaminari.paginate_array(
         collection,
-        total_count: pagination['total_count']
+        total_count: pagination['total_count'],
       ).page(pagination['page']).per(pagination['per_page'])
     end
 

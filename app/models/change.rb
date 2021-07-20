@@ -1,9 +1,6 @@
 require 'api_entity'
 
 class Change
-  class Record < Hashie::Mash
-  end
-
   include ApiEntity
   extend  ActiveModel::Naming
 
@@ -14,7 +11,7 @@ class Change
   end
 
   def record=(record_attributes)
-    @record = record_class.new(record_attributes)
+    @record = model_name.constantize.new(record_attributes)
   end
 
   def operation_date=(operation_date)
@@ -23,13 +20,5 @@ class Change
 
   def change_url(_changeable)
     '/'
-  end
-
-  private
-
-  def record_class
-    model_name.constantize # if change has relevant model, e.g. Measure
-  rescue NameError # if change has no relevant model revert to Hashie
-    Change::Record
   end
 end
