@@ -148,7 +148,11 @@ module TradeTariffFrontend
     end
 
     def service_choices
-      @service_choices ||= JSON.parse(ENV['API_SERVICE_BACKEND_URL_OPTIONS'])
+      @service_choices ||= begin
+        api_options = ENV.fetch('API_SERVICE_BACKEND_URL_OPTIONS', '{}')
+
+        JSON.parse(api_options)
+      end
     end
 
     def service_choice=(service_choice)
@@ -159,10 +163,8 @@ module TradeTariffFrontend
       Thread.current[:service_choice]
     end
 
-    def cache_with_service_choice(cache_key, options = {})
-      Rails.cache.fetch("#{cache_prefix}.#{cache_key}", options) do
-        yield
-      end
+    def cache_with_service_choice(cache_key, options = {}, &block)
+      Rails.cache.fetch("#{cache_prefix}.#{cache_key}", options, &block)
     end
 
     def api_host
