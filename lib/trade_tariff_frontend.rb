@@ -29,7 +29,6 @@ module TradeTariffFrontend
       chapters
       headings
       commodities
-      exchange_rates
       monetary_exchange_rates
       quotas
       goods_nomenclatures
