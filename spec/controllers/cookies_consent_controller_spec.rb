@@ -1,35 +1,39 @@
 require 'spec_helper'
 
 RSpec.describe CookiesConsentController, type: :controller do
-  describe 'POST accept_cookies' do
-    subject(:response) { post :accept_cookies }
+  describe 'POST create' do
+    subject(:response) { post :create, params: { cookie_acceptance: acceptance } }
 
-    let(:expected_cookies) do
-      '{"settings":true,"usage":"true","remember_settings":"true"}'
+    describe 'with accept' do
+      let(:acceptance) { 'accept' }
+
+      let(:expected_cookies) do
+        '{"settings":true,"usage":"true","remember_settings":"true"}'
+      end
+
+      it 'sets the cookie policy correctly' do
+        expect(response.cookies['cookies_policy']).to eq(expected_cookies)
+      end
+
+      it 'redirects to the correct fallback location' do
+        expect(response).to redirect_to(sections_path)
+      end
     end
 
-    it 'sets the cookie policy correctly' do
-      expect(response.cookies['cookies_policy']).to eq(expected_cookies)
-    end
+    describe 'with reject' do
+      let(:acceptance) { 'reject' }
 
-    it 'redirects to the correct fallback location' do
-      expect(response).to redirect_to(sections_path)
-    end
-  end
+      let(:expected_cookies) do
+        '{"settings":true,"usage":"false","remember_settings":"false"}'
+      end
 
-  describe 'POST reject_cookies' do
-    subject(:response) { post :reject_cookies }
+      it 'sets the cookie policy correctly' do
+        expect(response.cookies['cookies_policy']).to eq(expected_cookies)
+      end
 
-    let(:expected_cookies) do
-      '{"settings":true,"usage":"false","remember_settings":"false"}'
-    end
-
-    it 'sets the cookie policy correctly' do
-      expect(response.cookies['cookies_policy']).to eq(expected_cookies)
-    end
-
-    it 'redirects to the correct fallback location' do
-      expect(response).to redirect_to(sections_path)
+      it 'redirects to the correct fallback location' do
+        expect(response).to redirect_to(sections_path)
+      end
     end
   end
 

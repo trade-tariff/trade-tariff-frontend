@@ -1,13 +1,9 @@
 require 'json'
 
 class CookiesConsentController < ApplicationController
-  before_action :set_cookie_policy, only: %i[accept_cookies reject_cookies]
+  before_action :set_cookie_policy, only: %i[create]
 
-  def accept_cookies
-    redirect_back(fallback_location: sections_path)
-  end
-
-  def reject_cookies
+  def create
     redirect_back(fallback_location: sections_path)
   end
 
@@ -36,6 +32,6 @@ class CookiesConsentController < ApplicationController
   end
 
   def cookies_enabled?
-    (action_name == 'accept_cookies').to_s
+    (params[:cookie_acceptance] == 'accept').to_s
   end
 end
