@@ -35,8 +35,7 @@ Rails.application.routes.draw do
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'help', to: 'pages#help', as: 'help'
   post 'cookies', to: 'pages#update_cookies'
-  post 'cookies_consent_accept', to: 'cookies_consent#accept_cookies'
-  post 'cookies_consent_reject', to: 'cookies_consent#reject_cookies'
+  post 'cookies_consent', to: 'cookies_consent#create'
   post 'cookies_consent_confirmation_message', to: 'cookies_consent#add_seen_confirmation_message'
   get 'exchange_rates', to: 'exchange_rates#index'
   get 'geographical_areas', to: 'geographical_areas#index', as: :geographical_areas
