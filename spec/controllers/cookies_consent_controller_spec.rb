@@ -8,7 +8,11 @@ RSpec.describe CookiesConsentController, type: :controller do
       let(:acceptance) { 'accept' }
 
       let(:expected_cookies) do
-        '{"settings":true,"usage":"true","remember_settings":"true"}'
+        {
+          settings: true,
+          usage: 'true',
+          remember_settings: 'true',
+        }.to_json
       end
 
       it 'sets the cookie policy correctly' do
@@ -23,12 +27,16 @@ RSpec.describe CookiesConsentController, type: :controller do
     describe 'with reject' do
       let(:acceptance) { 'reject' }
 
-      let(:expected_cookies) do
-        '{"settings":true,"usage":"false","remember_settings":"false"}'
+      let(:expected_cookie) do
+        {
+          settings: true,
+          usage: 'false',
+          remember_settings: 'false',
+        }.to_json
       end
 
       it 'sets the cookie policy correctly' do
-        expect(response.cookies['cookies_policy']).to eq(expected_cookies)
+        expect(response.cookies['cookies_policy']).to eq(expected_cookie)
       end
 
       it 'redirects to the correct fallback location' do
