@@ -54,8 +54,8 @@ module ServiceHelper
     t("measures_heading.#{service_choice}.#{tab}").html_safe
   end
 
-  def country_picker_text(tab: 'import')
-    t("country_picker.#{service_choice}.#{tab}").html_safe
+  def country_picker_text
+    t("country_picker.#{service_choice}_html")
   end
 
   def service_choice
