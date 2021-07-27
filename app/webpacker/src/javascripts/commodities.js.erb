@@ -575,6 +575,7 @@ import debounce from "./debounce";
 
           $controlForm.on('click', 'a.reset-country-picker', function (e) {
             $(this).parents('form:first').find('select').val('');
+            $(this).siblings("input[name$='[anchor]']").val(window.location.hash.substring(1));
             $(this).parents('form:first').trigger('submit');
             return false;
           });
@@ -752,6 +753,7 @@ import debounce from "./debounce";
                 onConfirm: function(confirmed) {
                   var code = /\((\w\w)\)/.test(confirmed) ? /\((\w\w)\)/.exec(confirmed)[1] : null;
                   $(this.selectElement).val(code);
+                  $(this.selectElement).siblings('input[name$="[anchor]"]').val(window.location.hash.substring(1)); // maintain the tab
                   $(this.selectElement).parents('form:first').trigger("submit");
                 },
               });
