@@ -1,9 +1,6 @@
 # Build compilation image
 FROM ruby:2.7.4-alpine3.13 as builder
 
-
-ENV API_SERVICE_BACKEND_URL_OPTIONS: {"uk":"http://localhost:8080","xi":"http://localhost:8080" }
-
 # The application runs from /app
 WORKDIR /app
 
@@ -32,8 +29,7 @@ COPY . /app/
 
 # Compile assets and run webpack
 # Run in rails test environment to avoid loading development gems
-RUN RAILS_ENV=test bundle exec rails assets:precompile
-ENV RAILS_SERVE_STATIC_FILES=true
+RUN RAILS_ENV=production bundle exec rails assets:precompile
 
 # Cleanup to save space in the production image
 RUN rm -rf node_modules log tmp && \
@@ -53,6 +49,9 @@ RUN apk add --update --no-cache tzdata && \
 
 # The application runs from /app
 WORKDIR /app
+
+ENV RAILS_SERVE_STATIC_FILES=true
+ENV RAILS_ENV=production
 
 # Copy files generated in the builder image
 COPY --from=builder /app /app
