@@ -335,7 +335,7 @@ workflows:
           name: build_dev
           context: trade-tariff
           dev-build: true
-      - deploy_dev_docker:
+      - deploy_dev:
           context: trade-tariff
           filters:
             branches:
