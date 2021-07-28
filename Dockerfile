@@ -27,9 +27,12 @@ RUN yarn install --frozen-lockfile
 # Copy all files to /app (except what is defined in .dockerignore)
 COPY . /app/
 
+ENV GOVUK_APP_DOMAIN="localhost"
+ENV GOVUK_WEBSITE_ROOT="http://localhost/"
+ENV VCAP_APPLICATION="{}"
 # Compile assets and run webpack
 # Run in rails test environment to avoid loading development gems
-RUN RAILS_ENV=test bundle exec rails assets:precompile
+RUN RAILS_ENV=production bundle exec rails assets:precompile
 
 # Cleanup to save space in the production image
 RUN rm -rf node_modules log tmp && \
