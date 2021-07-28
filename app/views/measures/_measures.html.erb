@@ -85,7 +85,6 @@
     <h2 class="govuk-heading-m"><%= measures_heading(tab: 'import') %></h2>
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
     <%= render partial: 'declarables/filtered', locals: { search: @search } %>
-    <%= render partial: 'shared/country_picker', locals: { controller: @search, url: perform_search_path, anchor: 'import' } %>
 
     <% if declarable.import_measures.for_country(@search.country).any? %>
       <%= render partial: 'measures/grouped/navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
@@ -106,7 +105,6 @@
     <h2 class="govuk-heading-m"><%= measures_heading(tab: 'export') %></h2>
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
     <%= render partial: 'declarables/filtered', locals: { search: @search } %>
-    <%= render partial: 'shared/country_picker', locals: { controller: @search, url: perform_search_path, anchor: 'export' } %>
 
     <% if declarable.export_measures.for_country(@search.country).any? %>
 

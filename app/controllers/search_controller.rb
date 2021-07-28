@@ -92,14 +92,7 @@ class SearchController < ApplicationController
   private
 
   def anchor
-    if params.dig(:search, :anchor).present?
-      if params[:search][:anchor] == 'import'
-        '#import'
-      else
-        '#export'
-      end
-    else
-      ''
-    end
+    safe_anchor = params.dig(:search, :anchor).to_s.gsub(/[^a-z]/, '')
+    safe_anchor.present? ? "##{safe_anchor}" : ''
   end
 end

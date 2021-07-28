@@ -8,12 +8,8 @@ en:
     uk: United Kingdom
     xi: Northern Ireland
   country_picker:
-    uk:
-      import: UK Global Tariff imports from
-      export: UK Global Tariff exports to
-    xi:
-      import: <abbr title="Northern Ireland">NI</abbr> imports from
-      export: <abbr title="Northern Ireland">NI</abbr> exports to
+    uk_html: Trade between the UK and
+    xi_html: Trade between <abbr title="Northern Ireland">NI</abbr> and
   measures_heading:
     uk:
       import: Measures and restrictions for importing into the UK under the <abbr title="UK Global Tariff">UKGT</abbr>
