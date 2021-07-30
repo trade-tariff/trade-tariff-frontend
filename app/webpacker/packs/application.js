@@ -12,6 +12,8 @@
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
 //
+require.context('images/flags');
+
 import './application.scss';
 import "core-js/stable";
 import "regenerator-runtime/runtime";
@@ -59,7 +61,6 @@ require('../src/javascripts/quota-search.js');
 require('../src/javascripts/stop-scrolling-at-footer.js');
 
 require.context('govuk-frontend/govuk/assets');
-
 import { initAll } from 'govuk-frontend';
 
 initAll();
