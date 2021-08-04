@@ -53,6 +53,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each, type: :feature, js: true) do
+    Thread.current[:service_choice] = nil
     errors = page.driver.browser.manage.logs.get(:browser)
     if errors.present?
       aggregate_failures 'javascript errrors' do
