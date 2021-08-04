@@ -294,4 +294,3 @@ workflows:
           requires:
             - hold_production
 
-# TODO: Discuss production deployment strategy.
