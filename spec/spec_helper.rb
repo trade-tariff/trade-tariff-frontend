@@ -50,6 +50,7 @@ RSpec.configure do |config|
 
   config.before do
     allow(TariffUpdate).to receive(:all).and_return([OpenStruct.new(updated_at: Date.today)])
+    Thread.current[:service_choice] = nil
   end
 
   config.after(:each, type: :feature, js: true) do
