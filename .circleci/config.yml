@@ -170,7 +170,7 @@ jobs:
           command: 'cd trade-tariff-testing && npm install &&  npx cypress run --spec "/*/**/HOTT-Shared/smokeTestTradeTariff.spec.js"'
 
   test:
-    parallelism: 4
+    parallelism: 6
     docker:
       - image: cimg/ruby:2.7.4-node
         environment:
@@ -188,6 +188,9 @@ jobs:
       - ruby/rspec-test
       - store_artifacts:
           path: coverage
+      - run:
+         name: "debug test results"
+         command: cat /tmp/test-results/rspec/results.xml
       - slack/notify:
           channel: deployments
           event: fail
