@@ -298,7 +298,7 @@ jobs:
     environment:
       SENTRY_ENVIRONMENT: "staging"
     steps:
-      - cf_deploy:
+      - cf_deploy_docker:
           space: "staging"
           environment_key: "staging"
           app_domain_prefix: "staging"
@@ -310,7 +310,7 @@ jobs:
     environment:
       SENTRY_ENVIRONMENT: "production"
     steps:
-      - cf_deploy:
+      - cf_deploy_docker:
           space: "production"
           environment_key: "production"
           app_domain_prefix: "www"
@@ -328,9 +328,6 @@ workflows:
             branches:
               ignore:
                 - master
-# TODO: We don't need the build stage with buildpacks
-#      - build:
-#          context: trade-tariff
       - build:
           name: build_dev
           context: trade-tariff
@@ -344,12 +341,21 @@ workflows:
           requires:
             - test
             - build_dev
+      - build:
+          name: build_live
+          context: trade-tariff
+          filters:
+            branches:
+              only:
+                - master
       - deploy_staging:
           context: trade-tariff
           filters:
             branches:
               only:
                 - master
+          requires:
+            - build_live
       - cypress:
           filters:
             branches:
