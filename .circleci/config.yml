@@ -246,12 +246,12 @@ workflows:
           name: build_dev
           context: trade-tariff
           dev-build: true
-      - deploy_dev:
-          context: trade-tariff
           filters:
             branches:
               ignore:
                 - master
+      - deploy_dev:
+          context: trade-tariff
           requires:
             - test
             - build_dev
