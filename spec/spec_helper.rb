@@ -1,4 +1,4 @@
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 
 require 'simplecov'
 
@@ -9,10 +9,10 @@ require File.expand_path('../config/environment', __dir__)
 
 require 'rspec/rails'
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 # require models
-Dir[Rails.root.join("app/models/*.rb")].each { |f| require f }
+Dir[Rails.root.join('app/models/*.rb')].sort.each { |f| require f }
 
 require 'capybara/rails'
 require 'capybara/rspec'
@@ -22,7 +22,7 @@ Capybara.register_driver(:selenium_chrome_headless) do |app|
   options.add_argument('--headless')
 
   Capybara::Selenium::Driver.new(
-    app,browser: :chrome, options: options
+    app, browser: :chrome, options: options
   )
 end
 
@@ -49,7 +49,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   config.before do
-    allow(TariffUpdate).to receive(:all).and_return([OpenStruct.new(updated_at: Date.today)])
+    allow(TariffUpdate).to receive(:all).and_return([OpenStruct.new(updated_at: Time.zone.today)])
     Thread.current[:service_choice] = nil
   end
 
@@ -62,8 +62,9 @@ RSpec.configure do |config|
           puts error.level
           expect(error.level).not_to eq('SEVERE'), error.message
           next unless error.level == 'WARNING'
-          STDERR.puts 'WARN: javascript warning'
-          STDERR.puts error.message
+
+          warn 'WARN: javascript warning'
+          warn error.message
         end
       end
     end
