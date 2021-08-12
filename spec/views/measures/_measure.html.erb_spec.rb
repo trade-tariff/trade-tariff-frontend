@@ -15,11 +15,9 @@ describe 'measures/_measure.html.erb', type: :view do
   context 'with formatted_base' do
     let(:duty_expression) { attributes_for(:duty_expression).stringify_keys }
 
-    it {
-      expect(rendered).to match(/EUR/)
-      expect(rendered).to match(/Hectokilogram/)
-      expect(rendered).to match(/<abbr title='Hectokilogram'>/)
-    }
+    it { expect(rendered).to match(/EUR/) }
+    it { expect(rendered).to match(/Hectokilogram/) }
+    it { expect(rendered).to match(/<abbr title='Hectokilogram'>/) }
   end
 
   context 'without formatted_base' do
@@ -27,9 +25,7 @@ describe 'measures/_measure.html.erb', type: :view do
       attributes_for(:duty_expression, formatted_base: nil).stringify_keys
     end
 
-    it {
-      expect(rendered).to match(/EUR/)
-      expect(rendered).to match(/Hectokilogram/)
-    }
+    it { expect(rendered).to match(/EUR/) }
+    it { expect(rendered).to match(/Hectokilogram/) }
   end
 end

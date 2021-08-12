@@ -38,9 +38,9 @@
               <p>We are temporarily unable to display the VAT rate, please refer to the paper tariff.</p>
             <% end %>
             <% if declarable.basic_duty_rate.present? %>
-              <p>Importing from outside the <%= TradeTariffFrontend.origin %> is subject to a third country duty of <strong><%= declarable.basic_duty_rate.html_safe %></strong> unless subject to other measures.</p>
+              <p>Importing from outside the UK is subject to a third country duty of <strong><%= declarable.basic_duty_rate.html_safe %></strong> unless subject to other measures.</p>
             <% else %>
-              <p>Importing from outside the <%= TradeTariffFrontend.origin %> is subject to <strong>variable</strong> third country duty.</p>
+              <p>Importing from outside the UK is subject to <strong>variable</strong> third country duty.</p>
             <% end %>
             <p> Import measures and restrictions for specific countries can be found under the <a href="#import">import</a> tab.</p>
             <% if TradeTariffFrontend.duty_calculator_enabled? && declarable.calculate_duties? %>
@@ -73,10 +73,6 @@
         <p>Use the <%= link_to "Look up Meursing code", "https://www.gov.uk/additional-commodity-code", rel: "external", target: "_blank", title: "Opens in a new window" %> tool to find the additional code required for importing and exporting. To calculate the duty rate, enter the meursing code (without the 7 at the start) into the <%= link_to "meursing calculator", declarable.meursing_tool_link_for(@search.date.to_taric_date), rel: "external", target: "_blank", title: "Opens in a new window" %>.</p>
       <% end %>
       <%= render 'shared/notes', section_note: declarable.section.section_note, chapter_note: declarable.chapter.chapter_note %>
-      <%- if TradeTariffFrontend.regulations_enabled? -%>
-        <h2 class="govuk-heading-m">Binding tariff information</h2>
-        <p>You can search the EU EBTI-database for existing <%= link_to "Binding Tariff Information", declarable.bti_url, rel: "external", target: "_blank", title: "Opens in a new window" %> for commodity code <strong><%= declarable.code %></strong>.</p>
-      <% end %>
     </div>
   </div>
 
@@ -124,9 +120,7 @@
           <th>Value</th>
           <th>Conditions that apply</th>
           <th>Exclusions</th>
-          <%- if TradeTariffFrontend.regulations_enabled? -%>
-            <th class="legal-act" title="Opens in a new window">Legal base</th>
-          <%- end -%>
+          <th title="Opens in a new window">Legal base</th>
           <th>Start date<br>(End date, if any)</th>
           <th>Footnotes</th>
         </tr>

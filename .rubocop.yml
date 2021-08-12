@@ -36,6 +36,7 @@ Metrics/ModuleLength:
 RSpec/DescribeClass:
   Exclude:
     - tasks/**/*.rb
+    - spec/features/*
 RSpec/ExampleLength:
   Enabled: false
 RSpec/NestedGroups:
