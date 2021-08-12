@@ -53,7 +53,9 @@ describe 'Commodity show page', js: true do
 
   context 'when clicking popups' do
     before do
-      expect(page).not_to have_selector('#popup .info-content', visible: true) # ensure popup is hidden
+      # rubocop:disable RSpec/ExpectInHook
+      expect(page).not_to have_selector('#popup .info-content', visible: :visible) # ensure popup is hidden
+      # rubocop:enable RSpec/ExpectInHook
 
       click_import_tab
 
