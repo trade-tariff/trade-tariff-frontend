@@ -35,7 +35,7 @@ module ServiceHelper
   end
 
   def service_switch_banner(optional_classes: 'govuk-!-margin-bottom-7')
-    if switching_enabled?
+    if @enable_service_switch_banner_in_action
       tag.div(class: "tariff-breadcrumbs js-tariff-breadcrumbs clt govuk-!-font-size-15 #{optional_classes}") do
         tag.nav do
           tag.p do
@@ -68,10 +68,6 @@ module ServiceHelper
   end
 
 private
-
-  def switching_enabled?
-    @enable_service_switch_banner_in_action && TradeTariffFrontend::ServiceChooser.enabled?
-  end
 
   def uk_service_choice?
     service_choice == 'uk'
