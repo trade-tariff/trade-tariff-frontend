@@ -7,7 +7,7 @@ FactoryBot.define do
   factory :goods_nomenclature do
     description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0100000000' }
-    validity_start_date { Date.today.ago(3.years) }
+    validity_start_date { Time.zone.today.ago(3.years) }
     validity_end_date   { nil }
   end
 
@@ -39,8 +39,8 @@ FactoryBot.define do
   factory :monetary_exchange_rate do
     child_monetary_unit_code { 'GBP' }
     exchange_rate { Random.rand.to_d.truncate(9) }
-    operation_date { Date.today.at_beginning_of_month.ago(5.days).strftime('%Y-%m-%d') }
-    validity_start_date { Date.today.at_beginning_of_month.strftime('%Y-%m-%d') }
+    operation_date { Time.zone.today.at_beginning_of_month.ago(5.days).strftime('%Y-%m-%d') }
+    validity_start_date { Time.zone.today.at_beginning_of_month.strftime('%Y-%m-%d') }
   end
 
   factory :order_number do
@@ -72,7 +72,7 @@ FactoryBot.define do
     end
 
     origin { %w[eu uk].sample }
-    effective_start_date { Date.today.ago(3.years).to_s }
+    effective_start_date { Time.zone.today.ago(3.years).to_s }
     effective_end_date { nil }
 
     measure_type do
@@ -150,7 +150,6 @@ FactoryBot.define do
   factory :duty_expression do
     base { '80.50 EUR / Hectokilogram' }
     formatted_base { "80.50 EUR / <abbr title='Hectokilogram'>Hectokilogram</abbr>" }
-    national_measurement_units { nil }
   end
 
   factory :measure_type do
@@ -227,8 +226,8 @@ FactoryBot.define do
       %w[TariffSynchronizer::ChiefUpdate TariffSynchronizer::TaricUpdate].sample
     end
     state { 'A' }
-    created_at { Time.now.to_s }
-    updated_at { Time.now.to_s }
+    created_at { Time.zone.now.to_s }
+    updated_at { Time.zone.now.to_s }
     filename { 'filename.txt' }
 
     trait :chief do
