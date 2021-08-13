@@ -6,10 +6,15 @@
     <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#import">Import</a>
     </li>
-    <li class="govuk-tabs__list-item"s>
+    <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#export">Export</a>
     </li>
-    <li class="govuk-tabs__list-item"s>
+    <% if @search.filtered_by_country? %>
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#rules-of-origin">Rules of origin</a>
+    </li>
+    <% end %>
+    <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#footnotes">Footnotes</a>
     </li>
   </ul>
@@ -134,6 +139,17 @@
       <p>There are no export measures for this commodity on this date.</p>
     <% end %>
   </div>
+
+  <!-- Rules of Origin tab -->
+  <% if @search.filtered_by_country? %>
+  <div class="govuk-tabs__panel" id="rules-of-origin">
+    <h2 class="govuk-heading-m">
+      Rules of origin for trading with <%= @search.geographical_area.description %>
+      <%= country_flag_tag @search.country %>
+    </h2>
+
+  <div>
+  <% end %>
 
   <!-- Footnotes tab -->
   <div class="govuk-tabs__panel" id="footnotes">
