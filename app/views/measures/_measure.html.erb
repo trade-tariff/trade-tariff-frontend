@@ -51,11 +51,7 @@
   <td><%= measure.excluded_country_list %></td>
 
   <td class="numerical">
-    <% if !measure.national? && measure.legal_acts.present? %>
-      <% if measure.legal_acts.first.regulation_url.present? %>
-        <%= link_to measure.legal_acts.first.regulation_code, sanitize(measure.legal_acts.first.regulation_url), target: '_blank', role: "button", rel: 'noopener norefferer', class: 'govuk-link' %>
-      <% end %>
-    <% end %>
+    <%= legal_act_regulation_url_link_for(measure) %>
   </td>
 
   <td class="numerical">
