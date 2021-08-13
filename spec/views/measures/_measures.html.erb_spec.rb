@@ -6,7 +6,7 @@ describe 'measures/_measures.html.erb', type: :view, vcr: {
   subject { rendered }
 
   before do
-    allow(GeographicalArea).to receive(:all).and_return all_countries
+    allow(search).to receive(:countries).and_return all_countries
     assign :search, search
   end
 
