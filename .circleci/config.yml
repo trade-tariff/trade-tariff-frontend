@@ -250,7 +250,7 @@ workflows:
             branches:
               ignore:
                 - master
-                - /^dependabot\//
+                - /^dependabot\/.*/
       - deploy_dev:
           context: trade-tariff
           requires:
