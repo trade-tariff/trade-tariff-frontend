@@ -91,6 +91,10 @@ module TradeTariffFrontend
     ENV.fetch('JS_SENTRY_DSN', '')
   end
 
+  def rules_of_origin_enabled?
+    %w[1 true yes].include? ENV['RULES_OF_ORIGIN_ENABLED'].to_s.downcase
+  end
+
   def revision
     `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
   end
