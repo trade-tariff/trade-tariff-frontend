@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'measures/_measures.html.erb', type: :view, vcr: {
   cassette_name: 'geographical_areas_countries',
 } do
-  subject { rendered }
+  subject { render_page && rendered }
 
   before do
     allow(search).to receive(:countries).and_return all_countries
@@ -37,7 +37,7 @@ describe 'measures/_measures.html.erb', type: :view, vcr: {
   end
 
   context 'with uk service' do
-    before do
+    let :render_page do
       render 'measures/measures',
              declarable: presented_commodity,
              uk_declarable: presented_commodity,
@@ -52,11 +52,20 @@ describe 'measures/_measures.html.erb', type: :view, vcr: {
       let(:search) { Search.new(q: '0101300000', 'country' => 'FR') }
 
       it_behaves_like 'measures with rules of origin tab'
+
+      context 'with RULES_OF_ORIGIN_ENABLED set to false' do
+        before do
+          allow(TradeTariffFrontend).to \
+            receive(:rules_of_origin_enabled?).and_return false
+        end
+
+        it_behaves_like 'measures without rules of origin tab'
+      end
     end
   end
 
   context 'with xi service' do
-    before do
+    let :render_page do
       render 'measures/measures',
              declarable: presented_commodity,
              uk_declarable: presented_commodity,
@@ -71,6 +80,15 @@ describe 'measures/_measures.html.erb', type: :view, vcr: {
       let(:search) { Search.new(q: '0101300000', 'country' => 'FR') }
 
       it_behaves_like 'measures with rules of origin tab'
+
+      context 'with RULES_OF_ORIGIN_ENABLED set to false' do
+        before do
+          allow(TradeTariffFrontend).to \
+            receive(:rules_of_origin_enabled?).and_return false
+        end
+
+        it_behaves_like 'measures without rules of origin tab'
+      end
     end
   end
 end
