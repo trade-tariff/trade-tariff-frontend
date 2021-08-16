@@ -147,6 +147,7 @@
       <%= render 'measures/rules_of_origin',
                  country_code: @search.country,
                  country_name: @search.geographical_area.description,
+                 commodity_code: declarable.code,
                  rules: [] %>
     <%- else -%>
       <%= render 'measures/rules_of_origin_without_country' %>

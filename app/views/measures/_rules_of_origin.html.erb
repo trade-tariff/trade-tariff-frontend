@@ -1,8 +1,23 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">
+    <h2 class="govuk-heading-l">
       Rules of origin for trading with <%= country_name %>
       <%= country_flag_tag(country_code) %>
     </h2>
+
+    <h3 class="govuk-heading-m">
+      Product-specific rules for commodity <%= commodity_code %>
+    </h3>
+
+    <p>
+      If your product has been produced using any non-originating materials, the
+      product has to fulfil the following product-specific rule to be considered
+      originating in the <%= uk_service_choice? ? 'UK' : 'EU' %> or <%= country_name %>.
+    </p>
+
+    <p>
+      If there are alternative rules, your product needs to comply with only one
+      of them.
+    </p>
   </div>
 </div>

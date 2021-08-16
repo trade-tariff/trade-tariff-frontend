@@ -69,11 +69,11 @@ module ServiceHelper
     t("import_destination.#{service_choice}")
   end
 
-private
-
   def uk_service_choice?
     service_choice == 'uk'
   end
+
+private
 
   def service_name
     t("title.service_name.#{service_choice}")
