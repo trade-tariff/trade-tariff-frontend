@@ -54,7 +54,7 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
         OpenStruct.new(
           heading: 'Chapter 22',
           description: 'Beverages',
-          rule: "Manufacture\n\n*From materials",
+          rule: "Manufacture\n\n* From materials",
         ),
       ]
     end
@@ -77,7 +77,10 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
         have_css 'tbody tr td', text: 'Beverages'
     end
 
-    it 'formats the rule detail markdown'
+    it 'formats the rule detail markdown' do
+      expect(rendered_page).to \
+        have_css '.tariff-markdown ul li', text: 'From materials'
+    end
   end
 
   context 'without matched rules' do
