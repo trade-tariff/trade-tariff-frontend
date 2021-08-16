@@ -47,4 +47,47 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
         have_css 'p', text: /originating in the EU or France/
     end
   end
+
+  context 'with matched rules' do
+    let :rules do
+      [
+        OpenStruct.new(
+          heading: 'Chapter 22',
+          description: 'Beverages',
+          rule: "Manufacture\n\n*From materials",
+        ),
+      ]
+    end
+
+    it 'shows rules table' do
+      expect(rendered_page).to have_css 'table.govuk-table'
+    end
+
+    it 'shows row per rule' do
+      expect(rendered_page).to have_css 'tbody tr', count: 1
+    end
+
+    it 'show rule heading' do
+      expect(rendered_page).to \
+        have_css 'tbody tr td', text: 'Chapter 22'
+    end
+
+    it 'shows rule description' do
+      expect(rendered_page).to \
+        have_css 'tbody tr td', text: 'Beverages'
+    end
+
+    it 'formats the rule detail markdown'
+  end
+
+  context 'without matched rules' do
+    it 'shows rules table' do
+      expect(rendered_page).to have_css 'table.govuk-table'
+    end
+
+    it 'shows no matched rules message' do
+      expect(rendered_page).to \
+        have_css 'tbody td', text: /no product-specific rules/
+    end
+  end
 end

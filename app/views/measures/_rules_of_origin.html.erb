@@ -19,5 +19,48 @@
       If there are alternative rules, your product needs to comply with only one
       of them.
     </p>
+
+    <table class="govuk-table commodity-rules-of-origin">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="col">
+            Heading
+          </th>
+
+          <th class="govuk-table__header" scope="col">
+            Description
+          </th>
+
+          <th class="govuk-table__header" scope="col">
+            Rule
+          </th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% if rules.length.zero? %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell" colspan="3">
+            There are no product-specific rules for commodity <% commodity_code %>
+          </td>
+        </tr>
+        <% end %>
+
+        <% for rule in rules %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= rule.heading %>
+          </td>
+
+          <td class="govuk-table__cell">
+            <%= rule.description %>
+          </td>
+
+          <td class="govuk-table__cell">
+            <%= rule.rule %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
