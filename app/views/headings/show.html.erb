@@ -7,7 +7,11 @@
 <% content_for :bodyClasses, "page--wide" %>
 
 <% if @heading.declarable? %>
-  <%= render 'declarables/declarable', declarable: @heading, uk_declarable: uk_heading, xi_declarable: xi_heading %>
+  <%= render 'declarables/declarable',
+             declarable: @heading,
+             uk_declarable: uk_heading,
+             xi_declarable: xi_heading,
+             rules_of_origin: @rules_of_origin %>
 <% else %>
   <h2 class="govuk-heading-s">Choose the commodity code below that best matches your goods to see more information</h2>
   <p>If your item is not listed by name, it may be shown under what it's used for, what it's made from or 'other'.</p>
