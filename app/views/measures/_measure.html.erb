@@ -50,30 +50,18 @@
 
   <td><%= measure.excluded_country_list %></td>
 
-  <% if TradeTariffFrontend.regulations_enabled? && TradeTariffFrontend.uk_regulations_enabled? %>
-    <td class="numerical">
-      <% if measure.legal_acts.present? && measure.legal_acts.first.has_national_data? %>
-        <%= link_to measure.legal_acts.first.national_public_id, "#", class: 'reference', 'data-popup-ref' => "#{measure.id}-regulations", "aria-label": "Legal base: #{measure.legal_acts.first.national_public_id}. Click to open a dialog with all the legal bases for this measure", role: "button" %>
-      <% end %>
-    </td>
-  <% elsif TradeTariffFrontend.regulations_enabled? %>
-    <td class="numerical">
-      <% if !measure.national? && measure.legal_acts.present? %>
-        <%= link_to measure.legal_acts.first.regulation_code, "#", class: 'reference', 'data-popup-ref' => "#{measure.id}-regulations", "aria-label": "Legal base: #{measure.legal_acts.first.regulation_code}. Click to open a dialog with all the legal bases for this measure", role: "button" %>
-      <% end %>
-    </td>
-  <% end %>
+  <td class="numerical">
+    <%= legal_act_regulation_url_link_for(measure) %>
+  </td>
 
   <td class="numerical">
     <%= measure.effective_start_date %><% if measure.effective_end_date.present? %><br>(<%= measure.effective_end_date %>)<% end %>
     <% if measure.suspension_legal_act.present? %>
       <br />
-      <%- if TradeTariffFrontend.regulations_enabled? -%>
         <a class="suspended" href="<%= measure.suspension_legal_act.regulation_url %>" target="_blank">
           Suspended from <%= measure.suspension_legal_act.validity_start_date %>
           <% if measure.suspension_legal_act.validity_end_date %>
             to <%= measure.suspension_legal_act.validity_end_date %>
-          <% end %>
         </a>
         <%- else -%>
           Suspended from <%= measure.suspension_legal_act.validity_start_date %> to <%= measure.suspension_legal_act.validity_end_date %>

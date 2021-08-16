@@ -63,10 +63,6 @@ module TradeTariffFrontend
     ENV['TARIFF_TO_EMAIL']
   end
 
-  def origin
-    regulations_enabled? ? 'EU' : 'UK'
-  end
-
   def robots_enabled?
     ENV.fetch('ROBOTS_ENABLED', 'false') == 'true'
   end
@@ -81,16 +77,6 @@ module TradeTariffFrontend
 
   def simulation_date
     ENV.fetch('SIMULATION_DATE', nil)
-  end
-
-  def uk_regulations_enabled?
-    ENV.fetch('UK_REGULATIONS', 'false').to_s.downcase == 'true'
-  end
-
-  def regulations_enabled?
-    return true unless ENV['HIDE_REGULATIONS']
-
-    ENV.fetch('HIDE_REGULATIONS') != 'true'
   end
 
   def host

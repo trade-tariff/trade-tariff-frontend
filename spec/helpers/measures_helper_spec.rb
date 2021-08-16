@@ -18,4 +18,30 @@ describe MeasuresHelper, type: :helper do
       it { expect(filtered_expression).to eq('') }
     end
   end
+
+  describe '#legal_act_regulation_url_link_for' do
+    let(:measure) { build(:measure, legal_acts: legal_acts) }
+
+    context 'when there are no legal acts' do
+      let(:legal_acts) { [] }
+
+      it { expect(helper.legal_act_regulation_url_link_for(measure)).to eq('') }
+    end
+
+    context 'when the legal act has no regulation url' do
+      let(:legal_acts) { [attributes_for(:legal_act, regulation_url: '')] }
+
+      it { expect(helper.legal_act_regulation_url_link_for(measure)).to eq('') }
+    end
+
+    context 'when the legal act has a regulation url' do
+      let(:legal_acts) { [attributes_for(:legal_act)] }
+      let(:expected_link) do
+        '<a target="_blank" rel="noopener norefferer" class="govuk-link" title="The Customs Tariff (Preferential Trade Arrangements) (EU Exit) (Amendment) Regulations 2021" href="https://www.legislation.gov.uk/uksi/2020/1432">S.I. 2020/1432</a>'
+      end
+
+      it { expect(helper.legal_act_regulation_url_link_for(measure)).to eq(expected_link) }
+      it { expect(helper.legal_act_regulation_url_link_for(measure)).to be_html_safe }
+    end
+  end
 end
