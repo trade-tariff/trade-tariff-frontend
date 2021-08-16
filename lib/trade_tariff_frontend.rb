@@ -142,10 +142,6 @@ module TradeTariffFrontend
       SERVICE_CURRENCIES.fetch(service_choice, 'GBP')
     end
 
-    def enabled?
-      ENV.fetch('SERVICE_CHOOSING_ENABLED', 'false') == 'true'
-    end
-
     def service_choices
       @service_choices ||= begin
         api_options = ENV.fetch('API_SERVICE_BACKEND_URL_OPTIONS', '{}')
