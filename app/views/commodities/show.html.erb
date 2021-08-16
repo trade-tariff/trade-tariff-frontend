@@ -5,4 +5,8 @@
 
 <% content_for :bodyClasses, "page--wide" %>
 
-<%= render 'declarables/declarable', declarable: @commodity, xi_declarable: xi_commodity, uk_declarable: uk_commodity %>
+<%= render 'declarables/declarable',
+           declarable: @commodity,
+           xi_declarable: xi_commodity,
+           uk_declarable: uk_commodity,
+           rules_of_origin: @rules_of_origin %>

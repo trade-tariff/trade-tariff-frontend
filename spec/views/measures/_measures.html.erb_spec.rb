@@ -45,7 +45,8 @@ describe 'measures/_measures.html.erb', type: :view, vcr: {
       render 'measures/measures',
              declarable: presented_commodity,
              uk_declarable: presented_commodity,
-             xi_declarable: nil
+             xi_declarable: nil,
+             rules_of_origin: []
     end
 
     context 'without country selected' do
@@ -75,7 +76,8 @@ describe 'measures/_measures.html.erb', type: :view, vcr: {
       render 'measures/measures',
              declarable: presented_commodity,
              uk_declarable: presented_commodity,
-             xi_declarable: presented_commodity
+             xi_declarable: presented_commodity,
+             rules_of_origin: []
     end
 
     context 'without country selected' do
