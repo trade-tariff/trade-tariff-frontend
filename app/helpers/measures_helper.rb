@@ -14,11 +14,11 @@ module MeasuresHelper
       legal_act.regulation_code,
       legal_act.regulation_url,
       target: '_blank',
-      role: 'button',
       rel: 'noopener norefferer',
       class: 'govuk-link',
+      title: legal_act.description,
     )
 
-    sanitize(link, attributes: %w[href target role rel class])
+    sanitize(link, attributes: %w[href target role rel class title])
   end
 end

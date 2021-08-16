@@ -156,6 +156,7 @@ FactoryBot.define do
 
     regulation_code { 'S.I. 2020/1432' }
     regulation_url { 'https://www.legislation.gov.uk/uksi/2020/1432' }
+    description { 'The Customs Tariff (Preferential Trade Arrangements) (EU Exit) (Amendment) Regulations 2021' }
   end
 
   factory :duty_expression do

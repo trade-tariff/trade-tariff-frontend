@@ -8,7 +8,8 @@ class LegalAct
                 :officialjournal_page,
                 :information_text,
                 :regulation_code,
-                :regulation_url
+                :regulation_url,
+                :description
 
   attr_reader :validity_start_date,
               :validity_end_date
