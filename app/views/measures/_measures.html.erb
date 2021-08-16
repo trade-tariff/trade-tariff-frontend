@@ -9,7 +9,7 @@
     <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#export">Export</a>
     </li>
-    <% if TradeTariffFrontend.rules_of_origin_enabled? and @search.filtered_by_country? %>
+    <% if TradeTariffFrontend.rules_of_origin_enabled? %>
     <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#rules-of-origin">Rules of origin</a>
     </li>
@@ -141,13 +141,16 @@
   </div>
 
   <!-- Rules of Origin tab -->
-  <% if TradeTariffFrontend.rules_of_origin_enabled? and @search.filtered_by_country? %>
+  <% if TradeTariffFrontend.rules_of_origin_enabled? %>
   <div class="govuk-tabs__panel" id="rules-of-origin">
-    <h2 class="govuk-heading-m">
-      Rules of origin for trading with <%= @search.geographical_area.description %>
-      <%= country_flag_tag @search.country %>
-    </h2>
-
+    <%- if @search.filtered_by_country? -%>
+      <%= render 'measures/rules_of_origin',
+                 country_code: @search.country,
+                 country_name: @search.geographical_area.description,
+                 rules: [] %>
+    <%- else -%>
+      <%= render 'measures/rules_of_origin_without_country' %>
+    <%- end -%>
   <div>
   <% end %>
 
