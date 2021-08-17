@@ -256,6 +256,10 @@ workflows:
           requires:
             - test
             - build_dev
+          filters:
+            branches:
+              ignore:
+                - /^dependabot\/.*/
       - build:
           name: build_live
           context: trade-tariff
@@ -296,3 +300,4 @@ workflows:
             - hold_production
 
 # TODO: Discuss production deployment strategy.
+# Treat as new commit
