@@ -256,6 +256,10 @@ workflows:
           requires:
             - test
             - build_dev
+          filters:
+            branches:
+              ignore:
+                - /^dependabot\/.*/
       - build:
           name: build_live
           context: trade-tariff
