@@ -1,0 +1,11 @@
+body.uk-service {
+  table.measures {
+    th:nth-of-type(6) {
+      display: none;
+    }
+
+    td:nth-of-type(6) {
+      display: none;
+    }
+  }
+}
