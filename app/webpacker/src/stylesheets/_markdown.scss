@@ -1,0 +1,32 @@
+.tariff-markdown {
+  h1         { @extend .govuk-heading-l }
+  h2         { @extend .govuk-heading-m }
+  h3         { @extend .govuk-heading-s }
+  h4         { @extend .govuk-heading-s }
+  p          { @extend .govuk-body }
+  a          { @extend .govuk-link }
+  blockquote { @extend .govuk-inset-text }
+
+  ul {
+    @extend .govuk-list;
+    @extend .govuk-list--bullet;
+  }
+
+  ol {
+    @extend .govuk-list;
+    @extend .govuk-list--number;
+  }
+
+  table {
+    @extend .govuk-table;
+
+    tr { @extend .govuk-table__row }
+    th { @extend .govuk-table__header }
+    td { @extend .govuk-table__cell }
+  }
+
+  hr {
+    @extend .govuk-section-break;
+    @extend .govuk-section-break--visible;
+  }
+}
