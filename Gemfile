@@ -9,33 +9,33 @@ end
 
 gem 'rails', '~> 6'
 
-gem 'addressable', '~> 2.8'
+gem 'addressable'
 gem 'faraday', '= 1.3.0' # TODO: Debug issue with newer versions of Faraday client under high loads
-gem 'faraday_middleware', '~> 1'
-gem 'multi_json', '~> 1.11'
+gem 'faraday_middleware'
+gem 'multi_json'
 gem 'routing-filter', github: 'svenfuchs/routing-filter'
-gem 'yajl-ruby', '~> 1.4.1', require: 'yajl'
+gem 'yajl-ruby'
 
 # Assets
 gem 'bootsnap', require: false
-gem 'kaminari', '~> 1.0'
-gem 'responders', '~> 3.0.0'
-gem 'webpacker', '~> 5.2'
+gem 'kaminari'
+gem 'responders'
+gem 'webpacker'
 
 # gov UK
-gem 'govspeak', '~> 6'
-gem 'plek', '~> 1.11'
+gem 'govspeak'
+gem 'plek'
 
-gem 'connection_pool', '~> 2.2'
+gem 'connection_pool'
 
-gem 'nokogiri', '>= 1.10.10'
+gem 'nokogiri'
 
 # Logging
 gem 'lograge'
 gem 'logstash-event'
 
 # Web Server
-gem 'puma', '~> 5.4.0'
+gem 'puma'
 gem 'rack-attack'
 gem 'rack-cors'
 
@@ -43,7 +43,7 @@ gem 'rack-cors'
 gem 'redis-rails'
 
 # AWS
-gem 'aws-sdk-rails', '~> 3'
+gem 'aws-sdk-rails'
 
 # Newrelic
 gem 'newrelic_rpm'
