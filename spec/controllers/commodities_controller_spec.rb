@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CommoditiesController, type: :controller do
   describe 'GET to #show' do
-    context 'with UK site' do
+    context 'with XI site' do
       before do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('xi')
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:xi).and_call_original
@@ -22,7 +22,7 @@ describe CommoditiesController, type: :controller do
         expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
       end
 
-      context 'existing commodity id provided', vcr: { cassette_name: 'commodities#show' } do
+      context 'with existing commodity id provided', vcr: { cassette_name: 'commodities#show' } do
         subject { controller }
 
         before do
@@ -38,7 +38,7 @@ describe CommoditiesController, type: :controller do
         it { expect(assigns(:commodity)).to be_present }
       end
 
-      context 'with non existing commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do
+      context 'with non-existant commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do
         let(:commodity_id) { '0101999999' } # commodity 0101999999 does not exist
 
         before do
@@ -46,8 +46,7 @@ describe CommoditiesController, type: :controller do
         end
 
         it 'redirects to heading page (strips exceeding commodity id characters)' do
-          expect(response.status).to eq 302
-          expect(response.location).to eq heading_url(id: commodity_id.first(4))
+          expect(response.status).to redirect_to heading_url(id: commodity_id.first(4))
         end
       end
 
@@ -55,7 +54,7 @@ describe CommoditiesController, type: :controller do
         let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
 
         around do |example|
-          Timecop.freeze(DateTime.new(2013, 11, 11, 12, 0, 0)) do
+          Timecop.freeze(Time.zone.parse('2013-11-11 12:0:0')) do
             example.run
           end
         end
@@ -65,8 +64,7 @@ describe CommoditiesController, type: :controller do
         end
 
         it 'redirects to actual version of the commodity page' do
-          expect(response.status).to eq 302
-          expect(response.location).to eq commodity_url(id: commodity_id.first(10))
+          expect(response).to redirect_to commodity_url(id: commodity_id.first(10))
         end
       end
     end
@@ -88,8 +86,7 @@ describe CommoditiesController, type: :controller do
 
         it 'redirects to heading page (strips exceeding commodity id characters)' do
           TradeTariffFrontend::ServiceChooser.service_choice = nil
-          expect(response.status).to eq 302
-          expect(response.location).to eq heading_url(id: commodity_id.first(4))
+          expect(response).to redirect_to heading_url(id: commodity_id.first(4))
         end
       end
 
@@ -97,7 +94,7 @@ describe CommoditiesController, type: :controller do
         let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
 
         around do |example|
-          Timecop.freeze(DateTime.new(2013, 11, 11, 12, 0, 0)) do
+          Timecop.freeze(Time.zone.parse('2013-11-11 12:00:00')) do
             example.run
           end
         end
@@ -109,8 +106,7 @@ describe CommoditiesController, type: :controller do
 
         it 'redirects to actual version of the commodity page' do
           TradeTariffFrontend::ServiceChooser.service_choice = nil
-          expect(response.status).to eq 302
-          expect(response.location).to eq commodity_url(id: commodity_id.first(10))
+          expect(response).to redirect_to commodity_url(id: commodity_id.first(10))
         end
       end
     end

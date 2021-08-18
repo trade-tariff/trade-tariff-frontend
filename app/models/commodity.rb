@@ -14,10 +14,12 @@ class Commodity < GoodsNomenclature
   has_many :ancestors, class_name: 'Commodity'
 
   delegate :goods_nomenclature_item_id, :display_short_code, to: :heading, prefix: true
-  alias :short_code :goods_nomenclature_item_id
+  alias_method :short_code, :goods_nomenclature_item_id
 
   def substring=(substring)
+    # rubocop:disable Naming/MemoizedInstanceVariableName
     @substring ||= substring.to_i
+    # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
   def leaf?
@@ -25,11 +27,11 @@ class Commodity < GoodsNomenclature
   end
 
   def has_children?
-    not(leaf?)
+    !leaf?
   end
 
   def display_short_code
-    code[4..-1]
+    code[4..]
   end
 
   def display_export_code
