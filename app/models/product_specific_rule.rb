@@ -12,7 +12,7 @@ class ProductSpecificRule
       return mocked_response unless Rails.env.test?
 
       super opts.merge(
-        heading_code: heading_code,
+        heading_code: heading_code.first(6),
         country_code: country_code,
       )
     end

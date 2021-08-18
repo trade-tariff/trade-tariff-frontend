@@ -51,4 +51,10 @@ class GoodsNomenclature
   def code
     goods_nomenclature_item_id
   end
+
+  def rules(country_code, *args, **kwags)
+    # return nil unless declarable?
+
+    ProductSpecificRule.all(code, country_code, *args, **kwags)
+  end
 end

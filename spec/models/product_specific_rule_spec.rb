@@ -67,5 +67,18 @@ describe ProductSpecificRule do
                 page: 1)
       end
     end
+
+    context 'with full commodity code' do
+      subject(:rules) { described_class.all('1905310101', 'FR') }
+
+      before do
+        stub_request(:get, "#{api_host}/product_specific_rules")
+          .with(query: { heading_code: '190531', country_code: 'FR' })
+          .to_return(body: json_response, status: 200, headers: response_headers)
+      end
+
+      it { is_expected.to have_attributes length: 1 }
+      it { is_expected.to all be_instance_of described_class }
+    end
   end
 end
