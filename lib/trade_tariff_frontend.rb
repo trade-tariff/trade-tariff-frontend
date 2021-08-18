@@ -92,7 +92,7 @@ module TradeTariffFrontend
   end
 
   def rules_of_origin_enabled?
-    %w[1 true yes].include? ENV['RULES_OF_ORIGIN_ENABLED'].to_s.downcase
+    ENV['RULES_OF_ORIGIN_ENABLED'].to_s.downcase == 'true'
   end
 
   def revision
