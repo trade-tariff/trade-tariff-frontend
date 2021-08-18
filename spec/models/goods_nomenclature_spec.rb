@@ -92,4 +92,48 @@ describe GoodsNomenclature do
       end
     end
   end
+
+  describe '#product_specific_rules' do
+    let(:goods_nomenclature) { build(:goods_nomenclature) }
+
+    context 'without country param' do
+      it 'will raise an exception' do
+        expect { goods_nomenclature.rules }.to raise_exception ArgumentError
+      end
+    end
+
+    context 'with country param' do
+      subject(:rules) { goods_nomenclature.rules('FR') }
+
+      before do
+        allow(ProductSpecificRule).to receive(:all)
+          .with(goods_nomenclature.code, 'FR')
+          .and_return([])
+      end
+
+      it 'will chain chain to ProductSpecificRule' do
+        rules # trigger call
+
+        expect(ProductSpecificRule).to have_received(:all)
+          .with(goods_nomenclature.code, 'FR')
+      end
+    end
+
+    context 'with country param and additional params' do
+      subject(:rules) { goods_nomenclature.rules('FR', page: 1) }
+
+      before do
+        allow(ProductSpecificRule).to receive(:all)
+          .with(goods_nomenclature.code, 'FR', page: 1)
+          .and_return([])
+      end
+
+      it 'will chain chain to ProductSpecificRule' do
+        rules # trigger call
+
+        expect(ProductSpecificRule).to have_received(:all)
+          .with(goods_nomenclature.code, 'FR', page: 1)
+      end
+    end
+  end
 end

@@ -54,4 +54,10 @@ class Heading < GoodsNomenclature
   def to_s
     formatted_description || description
   end
+
+  def rules(*args, **kwargs)
+    return nil unless declarable?
+
+    super
+  end
 end
