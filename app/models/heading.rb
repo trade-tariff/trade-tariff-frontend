@@ -11,8 +11,8 @@ class Heading < GoodsNomenclature
 
   attr_accessor :leaf, :declarable
 
-  alias :leaf? :leaf
-  alias :declarable? :declarable
+  alias_method :leaf?, :leaf
+  alias_method :declarable?, :declarable
 
   def eql?(other)
     goods_nomenclature_item_id == other.goods_nomenclature_item_id
@@ -33,7 +33,7 @@ class Heading < GoodsNomenclature
   def display_short_code
     code[2..3]
   end
-  alias :heading_display_short_code :display_short_code
+  alias_method :heading_display_short_code, :display_short_code
 
   def display_export_code
     code[0..-3]

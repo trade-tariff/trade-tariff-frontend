@@ -4,9 +4,7 @@ require 'null_object'
 class GoodsNomenclature
   include ApiEntity
 
-  attr_accessor :validity_start_date,
-                :validity_end_date,
-                :goods_nomenclature_item_id,
+  attr_accessor :goods_nomenclature_item_id,
                 :formatted_description,
                 :description
 
@@ -42,6 +40,7 @@ class GoodsNomenclature
     return 'chapter' if chapter?
     return 'heading' if heading?
     return 'commodity' if commodity?
+
     'goods_nomenclature'
   end
 

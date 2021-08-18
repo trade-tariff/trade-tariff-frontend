@@ -4,15 +4,15 @@ describe GoodsNomenclature do
   describe '#validity_start_date=' do
     let(:goods_nomenclature) { described_class.new }
 
-    context 'passed date is present' do
+    context 'with passed date present' do
       it 'sets date' do
-        goods_nomenclature.validity_start_date = Date.today
+        goods_nomenclature.validity_start_date = Time.zone.today
 
-        expect(goods_nomenclature.validity_start_date).to eq Date.today.to_date
+        expect(goods_nomenclature.validity_start_date).to eq Time.zone.today.to_date
       end
     end
 
-    context 'passed date is blank' do
+    context 'with blank passed date' do
       it 'does not set validity end date' do
         goods_nomenclature.validity_start_date = nil
 
@@ -24,15 +24,15 @@ describe GoodsNomenclature do
   describe '#validity_end_date=' do
     let(:goods_nomenclature) { described_class.new }
 
-    context 'passed date is present' do
+    context 'with passed date present' do
       it 'sets date' do
-        goods_nomenclature.validity_end_date = Date.today
+        goods_nomenclature.validity_end_date = Time.zone.today
 
-        expect(goods_nomenclature.validity_end_date).to eq Date.today.to_date
+        expect(goods_nomenclature.validity_end_date).to eq Time.zone.today.to_date
       end
     end
 
-    context 'passed date is blank' do
+    context 'with blank passed date' do
       it 'does not set validity end date' do
         goods_nomenclature.validity_end_date = nil
 
@@ -42,9 +42,9 @@ describe GoodsNomenclature do
   end
 
   describe '#validity_start_date' do
-    context 'the date is set' do
+    context 'with the date set' do
       let(:goods_nomenclature) do
-        build(:goods_nomenclature, validity_start_date: Date.today)
+        build(:goods_nomenclature, validity_start_date: Time.zone.today)
       end
 
       it 'returns instance of Date' do
@@ -52,11 +52,11 @@ describe GoodsNomenclature do
       end
 
       it 'returns parsed date' do
-        expect(goods_nomenclature.validity_start_date).to eq Date.today.to_date
+        expect(goods_nomenclature.validity_start_date).to eq Time.zone.today.to_date
       end
     end
 
-    context 'date is not set' do
+    context 'without the date set' do
       let(:goods_nomenclature) do
         build(:goods_nomenclature, validity_start_date: nil)
       end
@@ -68,9 +68,9 @@ describe GoodsNomenclature do
   end
 
   describe '#validity_end_date' do
-    context 'the date is set' do
+    context 'with the date set' do
       let(:goods_nomenclature) do
-        build(:goods_nomenclature, validity_end_date: Date.today)
+        build(:goods_nomenclature, validity_end_date: Time.zone.today)
       end
 
       it 'returns instance of Date' do
@@ -78,11 +78,11 @@ describe GoodsNomenclature do
       end
 
       it 'returns parsed date' do
-        expect(goods_nomenclature.validity_end_date).to eq Date.today.to_date
+        expect(goods_nomenclature.validity_end_date).to eq Time.zone.today.to_date
       end
     end
 
-    context 'date is not set' do
+    context 'without the date set' do
       let(:goods_nomenclature) do
         build(:goods_nomenclature, validity_end_date: nil)
       end
