@@ -38,8 +38,7 @@
     <%= yield :head %>
 </head>
 
-
-<body class="govuk-template__body ">
+<body class="govuk-template__body <%= service_choice || service_default %>-service">
   <%= render partial: 'layouts/google_tag_manager_no_script' %>
 
   <%= content_tag :div, class: 'path_info', data: @path_info do %>

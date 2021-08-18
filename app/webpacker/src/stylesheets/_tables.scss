@@ -106,9 +106,11 @@ table.small-table {
       td:nth-of-type(3):before { content: 'Value'; }
       td:nth-of-type(4):before { content: 'Conditions that apply'; }
       td:nth-of-type(5):before { content: 'Exclusions'; }
-      td:nth-of-type(6):before { content: 'Start date (End date)'; }
-      td:nth-of-type(7):before { content: 'Footnotes'; }
+      td:nth-of-type(6):before { content: 'Legal base'; }
+      td:nth-of-type(7):before { content: 'Start date (End date)'; }
+      td:nth-of-type(8):before { content: 'Footnotes'; }
     }
+
     @media (min-width: $small-table-breakpoint) {
       td:nth-of-type(1) { width: 18%; }
       td:nth-of-type(2) { width: 22% }
@@ -117,7 +119,7 @@ table.small-table {
       td:nth-of-type(5) { width: 14% }
       td:nth-of-type(6) { width: 9% }
       td:nth-of-type(7) { width: 10% }
-      td:nth-of-type(8) { width: 8% }
+      td:nth-of-type(8) { width: auto }
     }
 
     /* Expanding table-cell content */
@@ -127,7 +129,7 @@ table.small-table {
       dt {
         cursor:pointer;
         position: relative;
-        
+
         &.has_children {
           padding-left: 25px;
           color: $govuk-link-colour;
