@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CommoditiesController, type: :controller do
   describe 'GET to #show' do
-    context 'with UK site' do
+    context 'with XI site' do
       before do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('xi')
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:xi).and_call_original
@@ -36,6 +36,7 @@ describe CommoditiesController, type: :controller do
         it { expect(assigns(:chapter)).to be_present }
         it { expect(assigns(:heading)).to be_present }
         it { expect(assigns(:commodity)).to be_present }
+        it { expect(assigns(:rules_of_origin)).to be_nil }
       end
 
       context 'with non existing commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do
