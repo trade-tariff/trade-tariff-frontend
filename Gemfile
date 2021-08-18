@@ -14,7 +14,7 @@ gem 'faraday', '= 1.3.0' # TODO: Debug issue with newer versions of Faraday clie
 gem 'faraday_middleware', '~> 1'
 gem 'multi_json', '~> 1.11'
 gem 'routing-filter', github: 'svenfuchs/routing-filter'
-gem 'yajl-ruby', '~> 1.3.1', require: 'yajl'
+gem 'yajl-ruby', '~> 1.4.1', require: 'yajl'
 
 # Assets
 gem 'bootsnap', require: false
