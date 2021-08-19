@@ -223,3 +223,69 @@ table.section-browser {
     //}
   }
 }
+
+.govuk-table--responsive {
+  @include govuk-media-query($until: tablet) {
+    & > caption, & > thead, & > tbody {
+      display: block;
+    }
+
+    & > caption, & > thead, & > tbody {
+      display: block;
+
+      & > tr {
+        display: block;
+        border-width: 0 0 1px 0;
+        border-style: solid;
+        border-color: $govuk-border-colour;
+
+        &:first-of-type {
+          border-top-width: 2px;
+        }
+
+        & > th {
+          display: block;
+        }
+
+        & > td {
+          display: block;
+          position: relative;
+          padding-left: 45%;
+          padding-right: 0;
+          width: auto;
+
+          &:before {
+            @include govuk-typography-weight-bold;
+            position: absolute;
+            top: govuk-spacing(2);
+            left: 0;
+            width: 40%;
+            padding-right: 5%;
+            white-space: nowrap;
+            content: attr(data-label);
+          }
+
+          &.responsive-full-width {
+            padding-left: 0;
+            position: static;
+
+            &:before {
+              position: static;
+              display: block;
+              padding-right: 0;
+              width: 100%;
+              padding-bottom: govuk-spacing(2);
+            }
+          }
+        }
+      }
+    }
+
+    & > thead tr {
+      /* Hide table headers but keep them screenreader-accessible */
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  }
+}

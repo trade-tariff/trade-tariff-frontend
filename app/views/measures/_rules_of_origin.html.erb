@@ -20,7 +20,7 @@
       of them.
     </p>
 
-    <table class="govuk-table commodity-rules-of-origin">
+    <table class="govuk-table govuk-table--responsive commodity-rules-of-origin">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th class="govuk-table__header" scope="col">
@@ -47,15 +47,15 @@
 
         <% for rule in rules %>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
+          <td class="govuk-table__cell" data-label="Heading">
             <%= rule.heading %>
           </td>
 
-          <td class="govuk-table__cell">
+          <td class="govuk-table__cell" data-label="Description">
             <%= rule.description %>
           </td>
 
-          <td class="govuk-table__cell tariff-markdown">
+          <td class="govuk-table__cell tariff-markdown responsive-full-width" data-label="Rule">
             <%= govspeak rule.rule %>
           </td>
         </tr>
