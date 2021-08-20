@@ -44,6 +44,10 @@ Rails.application.routes.draw do
   get 'feedback/thanks', to: 'feedback#thanks'
   get 'tools', to: 'pages#tools'
 
+  namespace :cookies do
+    resource :hide_confirmation, only: %i[create]
+  end
+
   match '/search', to: 'search#search', as: :perform_search, via: %i[get post]
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search
