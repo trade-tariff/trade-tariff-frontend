@@ -97,8 +97,8 @@ RSpec.describe Cookies::Policy do
     end
   end
 
-  describe '.find' do
-    subject { described_class.find cookie }
+  describe '.from_cookie' do
+    subject { described_class.from_cookie cookie }
 
     it { is_expected.to have_attributes settings: true }
     it { is_expected.to have_attributes usage: 'true' }

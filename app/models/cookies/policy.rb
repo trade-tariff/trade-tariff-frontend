@@ -5,7 +5,7 @@ module Cookies
     attr_reader :usage, :remember_settings
 
     class << self
-      def find(cookie)
+      def from_cookie(cookie)
         return new if cookie.blank?
 
         values = JSON.parse(cookie)

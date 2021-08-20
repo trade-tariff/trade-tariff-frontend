@@ -19,11 +19,11 @@
 
     <%= form_tag cookies_consent_path do %>
       <div class="govuk-button-group">
-        <%= button_tag class: 'govuk-button cookie_accept_all', name: "cookie_acceptance", value: "accept" do %>
+        <%= button_tag class: 'govuk-button cookie_accept_all', name: "cookies_policy[acceptance]", value: "accept" do %>
           Accept additional cookies
         <% end %>
 
-        <%= button_tag class: 'govuk-button cookie_reject_all', name: "cookie_acceptance", value: "reject" do %>
+        <%= button_tag class: 'govuk-button cookie_reject_all', name: "cookies_policy[acceptance]", value: "reject" do %>
           Reject additional cookies
         <% end %>
 

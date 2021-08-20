@@ -45,8 +45,10 @@ Rails.application.routes.draw do
   get 'tools', to: 'pages#tools'
 
   namespace :cookies do
+    resource :policy, only: %i[show create]
     resource :hide_confirmation, only: %i[create]
   end
+  resolve('Cookies::Policy') { %i[cookies policy] }
 
   match '/search', to: 'search#search', as: :perform_search, via: %i[get post]
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
