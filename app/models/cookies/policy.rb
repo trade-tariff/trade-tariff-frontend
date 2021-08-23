@@ -18,8 +18,16 @@ module Cookies
       @usage = value.presence
     end
 
+    def usage?
+      @usage.to_s == 'true'
+    end
+
     def remember_settings=(value)
       @remember_settings = value.presence
+    end
+
+    def remember_settings?
+      @remember_settings.to_s == 'true'
     end
 
     def settings
@@ -28,6 +36,10 @@ module Cookies
 
     def settings=(_)
       # no op
+    end
+
+    def settings?
+      true
     end
 
     def acceptance=(value)

@@ -13,60 +13,85 @@ RSpec.describe Cookies::Policy do
 
   describe 'attributes' do
     it { is_expected.to respond_to :settings }
+    it { is_expected.to respond_to :settings? }
     it { is_expected.to respond_to :usage }
+    it { is_expected.to respond_to :usage? }
     it { is_expected.to respond_to :remember_settings }
+    it { is_expected.to respond_to :remember_settings? }
 
     describe '#settings=' do
       context 'with value' do
         before { policy.settings = false }
 
         it { is_expected.to have_attributes settings: true }
+        it { is_expected.to have_attributes settings?: true }
       end
 
       context 'with nil' do
         before { policy.settings = nil }
 
         it { is_expected.to have_attributes settings: true }
+        it { is_expected.to have_attributes settings?: true }
       end
     end
 
     describe '#usage=' do
-      context 'with value' do
+      context 'with false value' do
         before { policy.usage = 'false' }
 
         it { is_expected.to have_attributes usage: 'false' }
+        it { is_expected.to have_attributes usage?: false }
+      end
+
+      context 'with true value' do
+        before { policy.usage = 'true' }
+
+        it { is_expected.to have_attributes usage: 'true' }
+        it { is_expected.to have_attributes usage?: true }
       end
 
       context 'with blank' do
         before { policy.usage = '' }
 
         it { is_expected.to have_attributes usage: nil }
+        it { is_expected.to have_attributes usage?: false }
       end
 
       context 'with nil' do
         before { policy.usage = nil }
 
         it { is_expected.to have_attributes usage: nil }
+        it { is_expected.to have_attributes usage?: false }
       end
     end
 
     describe '#remember_settings=' do
-      context 'with value' do
+      context 'with false value' do
         before { policy.remember_settings = 'false' }
 
         it { is_expected.to have_attributes remember_settings: 'false' }
+        it { is_expected.to have_attributes remember_settings?: false }
+      end
+
+      context 'with true value' do
+        before { policy.remember_settings = 'true' }
+
+        it { is_expected.to have_attributes remember_settings: 'true' }
+        it { is_expected.to have_attributes remember_settings?: true }
       end
 
       context 'with blank' do
         before { policy.remember_settings = '' }
 
         it { is_expected.to have_attributes remember_settings: nil }
+        it { is_expected.to have_attributes remember_settings?: false }
       end
 
       context 'with nil' do
         before { policy.remember_settings = nil }
 
         it { is_expected.to have_attributes remember_settings: nil }
+        it { is_expected.to have_attributes remember_settings?: false }
       end
     end
 
