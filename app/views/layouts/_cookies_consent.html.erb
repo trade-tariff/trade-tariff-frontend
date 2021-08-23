@@ -34,7 +34,7 @@
 </div>
 <% end %>
 <% unless cookies[:cookies_preferences_set] %>
-  <% if policy_cookie['usage'] == 'true' %>
+  <% if cookies_policy.usage? %>
     <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on HMRC services">
       <div class="govuk-cookie-banner__message tariff service govuk-width-container" id="cookies_accepted">
         <p>You have accepted additional cookies. You can <%= link_to "change your cookie
@@ -42,7 +42,7 @@
         <%= button_to "Hide this message", cookies_hide_confirmation_path, class: 'govuk-button hide_cookie_panel' %>
       </div>
     </div>
-  <% elsif policy_cookie['usage'] == 'false' %>
+  <% elsif cookies_policy.usage == 'false' %>
     <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on HMRC services">
       <div class="govuk-cookie-banner__message tariff service govuk-width-container" id="cookies_rejected">
         <p>You have rejected additional cookies. You can <%= link_to "change your cookie
