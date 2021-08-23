@@ -20,7 +20,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { nil }
 
       it 'returns the title for the current service choice' do
-        expect(helper.default_title).to eq('UK Global Online Tariff: look up commodity codes, duty and VAT rates - GOV.UK')
+        expect(helper.default_title).to eq('UK Integrated Online Tariff: look up commodity codes, duty and VAT rates - GOV.UK')
       end
     end
   end
@@ -40,7 +40,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { nil }
 
       it 'returns the correct title for the current goods nomenclature' do
-        expect(helper.goods_nomenclature_title(commodity)).to eq('Live horses, asses, mules and hinnies - UK Global Online Tariff - GOV.UK')
+        expect(helper.goods_nomenclature_title(commodity)).to eq('Live horses, asses, mules and hinnies - UK Integrated Online Tariff - GOV.UK')
       end
     end
   end
@@ -60,7 +60,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { nil }
 
       it 'returns the correct title for the current goods nomenclature' do
-        expect(helper.commodity_title(commodity)).to eq('Commodity code 0101300000: Pure-bred breeding animals - UK Global Online Tariff - GOV.UK')
+        expect(helper.commodity_title(commodity)).to eq('Commodity code 0101300000: Pure-bred breeding animals - UK Integrated Online Tariff - GOV.UK')
       end
     end
   end
@@ -69,8 +69,8 @@ describe ServiceHelper, type: :helper do
     context 'when the selected service choice is uk' do
       let(:choice) { 'uk' }
 
-      it 'returns UK Global Online Tariff' do
-        expect(trade_tariff_heading).to eq('UK Global Online Tariff')
+      it 'returns UK Integrated Online Tariff' do
+        expect(trade_tariff_heading).to eq('UK Integrated Online Tariff')
       end
     end
 
@@ -102,7 +102,7 @@ describe ServiceHelper, type: :helper do
       let(:choice) { 'xi' }
 
       it 'returns the link to the current UK service' do
-        expect(helper.switch_service_link).to eq(link_to('UK Global Online Tariff', '/sections/1'))
+        expect(helper.switch_service_link).to eq(link_to('UK Integrated Online Tariff', '/sections/1'))
       end
     end
   end
