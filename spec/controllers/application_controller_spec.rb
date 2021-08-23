@@ -7,14 +7,6 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  let(:policy_cookie) do
-    {
-      settings: true,
-      usage: 'true',
-      remember_settings: 'true',
-    }.to_json
-  end
-
   it 'has the correct Cache-Control header' do
     get :index
     expect(response.headers['Cache-Control']).to eq('no-cache')

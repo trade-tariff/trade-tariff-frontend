@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include TradeTariffFrontend::ViewContext::Controller
   include ApplicationHelper
-  include CookiesHelper
 
   before_action :set_cache
   before_action :enable_switch_service_banner
