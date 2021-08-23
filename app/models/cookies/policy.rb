@@ -10,7 +10,7 @@ module Cookies
 
         values = JSON.parse(cookie)
 
-        new values.slice('usage', 'remember_settings')
+        new(values).tap(&:mark_persisted!)
       end
     end
 
@@ -43,6 +43,14 @@ module Cookies
         usage: usage,
         remember_settings: remember_settings,
       }.to_json
+    end
+
+    def persisted?
+      @persisted || false
+    end
+
+    def mark_persisted!
+      @persisted = true
     end
   end
 end

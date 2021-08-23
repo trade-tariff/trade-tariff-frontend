@@ -99,6 +99,11 @@ class ApplicationController < ActionController::Base
     expires_now
   end
 
+  def cookies_policy
+    @cookies_policy ||= Cookies::Policy.from_cookie(cookies[:cookies_policy])
+  end
+  helper_method :cookies_policy
+
   protected
 
   def maintenance_mode_if_active

@@ -3,17 +3,18 @@ module Cookies
     before_action { @no_shared_search = true }
 
     def show
-      @policy = Cookies::Policy.from_cookie(cookies[:cookies_policy])
+      @policy = cookies_policy
     end
 
     def create
-      @policy = Cookies::Policy.from_cookie(cookies[:cookies_policy])
+      @policy = cookies_policy
       @policy.attributes = policy_params
 
       cookies[:cookies_policy] = {
         value: @policy.to_cookie,
         expires: 1.year.from_now,
       }
+      @policy.mark_persisted!
 
       if policy_params.key? :acceptance
         redirect_back(fallback_location: sections_path)
@@ -22,6 +23,7 @@ module Cookies
         render :show
       end
     end
+    alias_method :update, :create
 
   private
 

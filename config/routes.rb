@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   get 'tools', to: 'pages#tools'
 
   namespace :cookies do
-    resource :policy, only: %i[show create]
+    resource :policy, only: %i[show create update]
     resource :hide_confirmation, only: %i[create]
   end
   resolve('Cookies::Policy') { %i[cookies policy] }

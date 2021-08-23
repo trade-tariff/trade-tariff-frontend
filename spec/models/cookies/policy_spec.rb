@@ -98,14 +98,26 @@ RSpec.describe Cookies::Policy do
   end
 
   describe '.from_cookie' do
-    subject { described_class.from_cookie cookie }
+    context 'with cookie' do
+      subject { described_class.from_cookie cookie }
 
-    it { is_expected.to have_attributes settings: true }
-    it { is_expected.to have_attributes usage: 'true' }
-    it { is_expected.to have_attributes remember_settings: 'false' }
+      it { is_expected.to have_attributes settings: true }
+      it { is_expected.to have_attributes usage: 'true' }
+      it { is_expected.to have_attributes remember_settings: 'false' }
+      it { is_expected.to be_persisted }
+    end
+
+    context 'without cookie' do
+      subject { described_class.from_cookie nil }
+
+      it { is_expected.to have_attributes settings: true }
+      it { is_expected.to have_attributes usage: nil }
+      it { is_expected.to have_attributes remember_settings: nil }
+      it { is_expected.not_to be_persisted }
+    end
   end
 
-  describe '.to_cookie' do
+  describe '#to_cookie' do
     subject { instance.to_cookie }
 
     let(:instance) do
