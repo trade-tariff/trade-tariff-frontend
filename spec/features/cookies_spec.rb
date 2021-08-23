@@ -40,18 +40,18 @@ RSpec.feature 'Cookies management' do
     expect(page).to have_css '.govuk-cookie-banner', text: /We use some essential cookies/
     click_on 'View cookies'
 
-    expect(page).to have_css 'h1', text: 'Cookies on the UK Global Online Tariff'
+    expect(page).to have_css 'h1', text: 'Cookies on the UK Integrated Online Tariff'
     expect(page).to have_css '.govuk-cookie-banner', text: /We use some essential cookies/
     expect(page).not_to have_css '.govuk-notification-banner'
     choose 'Use cookies that measure my website use'
     click_on 'Save Changes'
 
-    expect(page).to have_css 'h1', text: 'Cookies on the UK Global Online Tariff'
+    expect(page).to have_css 'h1', text: 'Cookies on the UK Integrated Online Tariff'
     expect(page).to have_css '.govuk-notification-banner h3', text: 'Your cookie settings were saved'
     expect(page).to have_css '#cookies_accepted'
     click_on 'Hide this message'
 
-    expect(page).to have_css 'h1', text: 'Cookies on the UK Global Online Tariff'
+    expect(page).to have_css 'h1', text: 'Cookies on the UK Integrated Online Tariff'
     expect(page).not_to have_css '.govuk-notification-banner'
     expect(page).not_to have_css 'govuk-cookie-banner'
 
@@ -59,7 +59,7 @@ RSpec.feature 'Cookies management' do
     choose 'Yes, use cookies that remember my settings on the site'
     click_on 'Save Changes'
 
-    expect(page).to have_css 'h1', text: 'Cookies on the UK Global Online Tariff'
+    expect(page).to have_css 'h1', text: 'Cookies on the UK Integrated Online Tariff'
     expect(page).to have_css '.govuk-notification-banner h3', text: 'Your cookie settings were saved'
   end
 end

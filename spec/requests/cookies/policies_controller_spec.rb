@@ -7,7 +7,7 @@ RSpec.describe Cookies::PoliciesController, type: :request do
     before { get cookies_policy_path }
 
     it { is_expected.to have_http_status :success }
-    it { is_expected.to have_attributes body: /Cookies on the UK Global Online Tariff/ }
+    it { is_expected.to have_attributes body: /Cookies on the UK Integrated Online Tariff/ }
   end
 
   describe 'POST #create' do
