@@ -7,6 +7,7 @@ class HeadingsController < GoodsNomenclaturesController
   def show
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @back_path = request.referer || chapter_path(heading.chapter.short_code)
+    @rules_of_origin = []
   end
 
   private

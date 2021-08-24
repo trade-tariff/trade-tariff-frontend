@@ -6,10 +6,15 @@
     <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#import">Import</a>
     </li>
-    <li class="govuk-tabs__list-item"s>
+    <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#export">Export</a>
     </li>
-    <li class="govuk-tabs__list-item"s>
+    <% if TradeTariffFrontend.rules_of_origin_enabled? %>
+      <li class="govuk-tabs__list-item">
+        <a class="govuk-tabs__tab" href="#rules-of-origin">Rules of origin</a>
+      </li>
+    <% end %>
+    <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#footnotes">Footnotes</a>
     </li>
   </ul>
@@ -134,6 +139,21 @@
       <p>There are no export measures for this commodity on this date.</p>
     <% end %>
   </div>
+
+  <!-- Rules of Origin tab -->
+  <% if TradeTariffFrontend.rules_of_origin_enabled? %>
+    <div class="govuk-tabs__panel" id="rules-of-origin">
+      <%- if @search.filtered_by_country? -%>
+        <%= render 'measures/rules_of_origin',
+                   country_code: @search.country,
+                   country_name: @search.geographical_area.description,
+                   commodity_code: declarable.code,
+                   rules: rules_of_origin %>
+      <%- else -%>
+        <%= render 'measures/rules_of_origin_without_country' %>
+      <%- end -%>
+    <div>
+  <% end %>
 
   <!-- Footnotes tab -->
   <div class="govuk-tabs__panel" id="footnotes">

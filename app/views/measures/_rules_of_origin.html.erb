@@ -1,0 +1,66 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-l">
+      Rules of origin for trading with <%= country_name %>
+      <%= country_flag_tag(country_code) %>
+    </h2>
+
+    <h3 class="govuk-heading-m">
+      Product-specific rules for commodity <%= commodity_code %>
+    </h3>
+
+    <p>
+      If your product has been produced using any non-originating materials, the
+      product has to fulfil the following product-specific rule to be considered
+      originating in the <%= uk_service_choice? ? 'UK' : 'EU' %> or <%= country_name %>.
+    </p>
+
+    <p>
+      If there are alternative rules, your product needs to comply with only one
+      of them.
+    </p>
+
+    <table class="govuk-table commodity-rules-of-origin">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="col">
+            Heading
+          </th>
+
+          <th class="govuk-table__header" scope="col">
+            Description
+          </th>
+
+          <th class="govuk-table__header" scope="col">
+            Rule
+          </th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% if rules.length.zero? %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell" colspan="3">
+            There are no product-specific rules for commodity <% commodity_code %>
+          </td>
+        </tr>
+        <% end %>
+
+        <% for rule in rules %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= rule.heading %>
+          </td>
+
+          <td class="govuk-table__cell">
+            <%= rule.description %>
+          </td>
+
+          <td class="govuk-table__cell tariff-markdown">
+            <%= govspeak rule.rule %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

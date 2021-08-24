@@ -41,11 +41,11 @@ class Search
   end
 
   def countries
-    GeographicalArea.all.compact
+    @countries ||= GeographicalArea.all.compact
   end
 
   def geographical_area
-    GeographicalArea.all.detect do |country|
+    countries.detect do |country|
       country.id == attributes['country']
     end
   end

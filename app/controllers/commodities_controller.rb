@@ -9,6 +9,7 @@ class CommoditiesController < GoodsNomenclaturesController
     @chapter = commodity.chapter
     @section = commodity.section
     @back_path = request.referer || heading_path(@heading.short_code)
+    @rules_of_origin = []
   end
 
   private
