@@ -12,8 +12,8 @@ en:
     xi_html: Trade between <abbr title="Northern Ireland">NI</abbr> and
   measures_heading:
     uk:
-      import: Measures and restrictions for importing into the UK under the <abbr title="UK Integrated Tariff">UKGT</abbr>
-      export: Measures and restrictions for exporting from the UK under the <abbr title="UK Integrated Tariff">UKGT</abbr>
+      import: Measures and restrictions for importing into the UK
+      export: Measures and restrictions for exporting from the UK
     xi:
       import: Measures and restrictions for importing goods into Northern Ireland
       export: Measures and restrictions for exporting goods from Northern Ireland
