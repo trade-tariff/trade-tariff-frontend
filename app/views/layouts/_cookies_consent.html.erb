@@ -1,4 +1,4 @@
-<% unless cookies[:cookies_policy] %>
+<% unless cookies_policy.persisted? %>
   <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on the Online Tariff">
     <div class="govuk-cookie-banner__message tariff service govuk-width-container">
 
@@ -17,37 +17,37 @@
       </div>
     </div>
 
-    <%= form_tag cookies_consent_path do %>
+    <%= form_for Cookies::Policy.new do |form| %>
       <div class="govuk-button-group">
-        <%= button_tag class: 'govuk-button cookie_accept_all', name: "cookie_acceptance", value: "accept" do %>
+        <%= form.button class: 'govuk-button cookie_accept_all', name: "#{form.object_name}[acceptance]", value: "accept" do %>
           Accept additional cookies
         <% end %>
 
-        <%= button_tag class: 'govuk-button cookie_reject_all', name: "cookie_acceptance", value: "reject" do %>
+        <%= form.button class: 'govuk-button cookie_reject_all', name: "#{form.object_name}[acceptance]", value: "reject" do %>
           Reject additional cookies
         <% end %>
 
-        <%= link_to('View cookies', cookies_path, class: "govuk-link") %>
+        <%= link_to('View cookies', cookies_policy_path, class: "govuk-link") %>
       </div>
     <% end %>
   </div>
 </div>
 <% end %>
 <% unless cookies[:cookies_preferences_set] %>
-  <% if policy_cookie['usage'] == 'true' %>
+  <% if cookies_policy.usage? %>
     <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on HMRC services">
       <div class="govuk-cookie-banner__message tariff service govuk-width-container" id="cookies_accepted">
         <p>You have accepted additional cookies. You can <%= link_to "change your cookie
-          settings", "/cookies" %> at any time.</p>
-        <%= button_to "Hide this message", cookies_consent_confirmation_message_path, class: 'govuk-button hide_cookie_panel' %>
+          settings", cookies_policy_path %> at any time.</p>
+        <%= button_to "Hide this message", cookies_hide_confirmation_path, class: 'govuk-button hide_cookie_panel' %>
       </div>
     </div>
-  <% elsif policy_cookie['usage'] == 'false' %>
+  <% elsif cookies_policy.usage == 'false' %>
     <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on HMRC services">
       <div class="govuk-cookie-banner__message tariff service govuk-width-container" id="cookies_rejected">
         <p>You have rejected additional cookies. You can <%= link_to "change your cookie
-          settings", "/cookies" %> at any time.</p>
-        <%= button_to "Hide this message", cookies_consent_confirmation_message_path, class: 'govuk-button hide_cookie_panel' %>
+          settings", cookies_policy_path %> at any time.</p>
+        <%= button_to "Hide this message", cookies_hide_confirmation_path, class: 'govuk-button hide_cookie_panel' %>
       </div>
     </div>
   <% end %>
