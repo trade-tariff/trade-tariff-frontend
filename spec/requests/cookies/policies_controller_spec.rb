@@ -93,13 +93,7 @@ RSpec.describe Cookies::PoliciesController, type: :request do
     context 'without choosing options' do
       before { post cookies_policy_path }
 
-      let(:expected_cookies) do
-        {
-          settings: true,
-          usage: nil,
-          remember_settings: nil,
-        }.to_json
-      end
+      let(:expected_cookies) { { settings: true }.to_json }
 
       it 'sets the cookie policy correctly' do
         expect(response.cookies['cookies_policy']).to eq(expected_cookies)
