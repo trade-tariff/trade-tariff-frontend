@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
 
     set_search
 
-    if @search.date.today? || @search.date == TradeTariffFrontend.simulation_date
+    if @search.date.today?
       return { country: @search.country }.merge(super)
     end
 

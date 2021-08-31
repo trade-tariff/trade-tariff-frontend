@@ -63,10 +63,6 @@ module ApplicationHelper
 
   private
 
-  def currency
-    TradeTariffFrontend::ServiceChooser.currency
-  end
-
   def search_date_in_future_month?
     @search&.date.date >= Date.today.at_beginning_of_month.next_month
   end

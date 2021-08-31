@@ -76,11 +76,6 @@ module TradeTariffFrontend
       g.test_framework  false
     end
 
-    config.middleware.insert_before 0, TradeTariffFrontend::BasicAuth do |name, password|
-      ActiveSupport::SecurityUtils.secure_compare(name, TradeTariffFrontend::Locking.user) &
-        ActiveSupport::SecurityUtils.secure_compare(password, TradeTariffFrontend::Locking.password)
-    end
-
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins ENV['CORS_HOST'] || '*'
@@ -103,8 +98,6 @@ module TradeTariffFrontend
     config.declarable_types = config_for(:declarable_types)
 
     config.x.http.max_retry = 5
-
-    config.middleware.use Rack::Attack
 
     # Prevent invalid queries from causing an error, e.g., `/api/v2/search_references.json?query[letter]=%`
     config.middleware.use TradeTariffFrontend::FilterBadURLEncoding
