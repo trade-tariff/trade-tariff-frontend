@@ -150,5 +150,12 @@ RSpec.describe Cookies::Policy do
     end
 
     it { is_expected.to eql cookie }
+
+    context 'with partial answers' do
+      let(:instance) { described_class.new(usage: 'true') }
+      let(:cookie)   { { settings: true, usage: 'true' }.to_json }
+
+      it { is_expected.to eql cookie }
+    end
   end
 end

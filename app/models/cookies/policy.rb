@@ -54,7 +54,7 @@ module Cookies
         settings: settings,
         usage: usage,
         remember_settings: remember_settings,
-      }.to_json
+      }.compact.to_json
     end
 
     def persisted?
