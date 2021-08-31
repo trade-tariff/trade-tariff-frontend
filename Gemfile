@@ -24,7 +24,7 @@ gem 'webpacker'
 
 # gov UK
 gem 'govspeak'
-gem 'nokogiri', '~> 1.11.7' # https://github.com/sparklemotion/nokogiri/issues/2205
+gem 'nokogiri', '~> 1.12.4' # https://github.com/sparklemotion/nokogiri/issues/2205
 gem 'plek'
 
 gem 'connection_pool'
