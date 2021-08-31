@@ -248,8 +248,6 @@ GEM
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
-    rack-attack (6.5.0)
-      rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-proxy (0.7.0)
@@ -457,7 +455,6 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma
-  rack-attack
   rack-cors
   rack-test
   rails (~> 6)

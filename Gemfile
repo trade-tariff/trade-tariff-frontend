@@ -35,7 +35,6 @@ gem 'logstash-event'
 
 # Web Server
 gem 'puma'
-gem 'rack-attack'
 gem 'rack-cors'
 
 # Redis
