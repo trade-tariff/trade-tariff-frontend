@@ -99,8 +99,6 @@ module TradeTariffFrontend
 
     config.x.http.max_retry = 5
 
-    config.middleware.use Rack::Attack
-
     # Prevent invalid queries from causing an error, e.g., `/api/v2/search_references.json?query[letter]=%`
     config.middleware.use TradeTariffFrontend::FilterBadURLEncoding
   end
