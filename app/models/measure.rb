@@ -3,22 +3,28 @@ require 'api_entity'
 class Measure
   include ApiEntity
 
-  attr_accessor :id, :origin, :effective_start_date, :effective_end_date,
-                :import, :vat, :excise, :goods_nomenclature_item_id
+  attr_accessor :id,
+                :origin,
+                :import,
+                :vat,
+                :excise,
+                :goods_nomenclature_item_id
+
+  attr_reader :effective_start_date, :effective_end_date
 
   DEFAULT_GEOGRAPHICAL_AREA_ID = '1011'.freeze # ERGA OMNES
 
-  has_one :geographical_area
-  has_many :legal_acts
-  has_one :measure_type
-  has_one :suspension_legal_act, class_name: 'LegalAct'
-  has_one :additional_code
-  has_one :order_number
-  has_one :duty_expression
   has_many :excluded_countries, class_name: 'GeographicalArea'
-  has_many :measure_conditions
   has_many :footnotes
+  has_many :legal_acts
+  has_many :measure_conditions
+  has_one :additional_code
+  has_one :duty_expression
+  has_one :geographical_area
   has_one :goods_nomenclature
+  has_one :measure_type
+  has_one :order_number
+  has_one :suspension_legal_act, class_name: 'LegalAct'
 
   def relevant_for_country?(country_code)
     return false if excluded_countries.map(&:geographical_area_id).include?(country_code)
@@ -95,16 +101,6 @@ class Measure
 
   def additional_code
     @additional_code.presence || NullObject.new(code: '')
-  end
-
-  def key
-    "#{ vat? ? 0 : 1 }
-     #{ third_country? ? 0 : 1 }
-     #{ supplementary? ? 0 : 1 }
-     #{ excise ? 0 : 1 }
-     #{ geographical_area.children_geographical_areas.any? ? 0 : 1 }
-     #{ tariff_preference? ? 0 : 1 }
-     #{ geographical_area.description }#{ additional_code_sort }"
   end
 
   # _999 is the master additional code and should come first
