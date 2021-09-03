@@ -10,6 +10,7 @@ module SearchResult
         validity_start_date: validity_start_date.to_s,
         validity_end_date: validity_end_date.to_s,
         description: description,
+        declarable: declarable,
       }
     end
   end

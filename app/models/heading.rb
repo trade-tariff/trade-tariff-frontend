@@ -12,7 +12,6 @@ class Heading < GoodsNomenclature
   attr_accessor :leaf, :declarable
 
   alias :leaf? :leaf
-  alias :declarable? :declarable
 
   def eql?(other)
     goods_nomenclature_item_id == other.goods_nomenclature_item_id
