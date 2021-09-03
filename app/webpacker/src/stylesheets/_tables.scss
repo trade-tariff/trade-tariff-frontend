@@ -253,6 +253,8 @@ table.section-browser {
           padding-left: 45%;
           padding-right: 0;
           width: auto;
+          word-wrap: break-word; /* IE11 compatibility */
+          overflow-wrap: break-word;
 
           &:before {
             @include govuk-typography-weight-bold;
