@@ -33,6 +33,7 @@ module TradeTariffFrontend
       quotas
       goods_nomenclatures
       search_references
+      search
       additional_codes
       certificates
       footnotes
