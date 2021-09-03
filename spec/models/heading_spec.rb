@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe Heading do
-  subject(:heading) { described_class.new(attributes_for(:heading).stringify_keys) }
+  subject(:heading) { build(:heading) }
+
+  it_behaves_like 'a declarable'
 
   describe '#to_param' do
     it { expect(heading.to_param).to eq heading.short_code }

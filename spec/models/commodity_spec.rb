@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Commodity do
+  subject(:commodity) { build(:commodity) }
+
+  it_behaves_like 'a declarable'
+
   describe 'parent/children relationships' do
     let(:associated_commodities) do
       {
@@ -32,18 +36,22 @@ describe Commodity do
         heading
 
         root_children = heading.commodities.select(&:root)
-        expect(root_children).to     include heading.commodities.first
-        expect(root_children).not_to include heading.commodities.last
+
+        expect(root_children).to eq([heading.commodities.first])
       end
     end
 
     describe '#leaf?' do
-      let(:commodity_non_leaf) { heading.commodities.first }
-      let(:commodity_leaf)     { heading.commodities.last }
+      context 'when a leaf commodity' do
+        subject(:commodity) { heading.commodities.last }
 
-      it 'returns true if it is a left and false otherwise' do
-        expect(commodity_non_leaf.leaf?).to be false
-        expect(commodity_leaf.leaf?).to be true
+        it { is_expected.to be_leaf }
+      end
+
+      context 'when a NON leaf commodity' do
+        subject(:commodity) { heading.commodities.first }
+
+        it { is_expected.not_to be_leaf }
       end
     end
   end
