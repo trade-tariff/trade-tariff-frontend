@@ -19,7 +19,7 @@ module Declarable
                   :formatted_description, :consigned, :consigned_from, :basic_duty_rate,
                   :meursing_code, :producline_suffix, :declarable
 
-    alias :declarable? :declarable
+    alias_method :declarable?, :declarable
 
     delegate :numeral, to: :section, prefix: true
     delegate :code, :short_code, to: :chapter, prefix: true
