@@ -10,9 +10,9 @@ GIT
 
 GIT
   remote: https://github.com/svenfuchs/routing-filter.git
-  revision: 8d1f1da79c4db786e8baeda586a8d790e23712bf
+  revision: 3ce9a7eb8d6f3e9c2ce1e66ca1c21da4a56a60ed
   specs:
-    routing-filter (0.6.3)
+    routing-filter (0.7.0)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
 
