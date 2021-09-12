@@ -26,9 +26,9 @@ describe Heading do
   end
 
   describe '#rules' do
-    subject(:rules) { heading.rules('FR') }
+    subject(:rules) { heading.rules_of_origin('FR') }
 
-    before { allow(ProductSpecificRule).to receive(:all).and_return([]) }
+    before { allow(RulesOfOrigin::Scheme).to receive(:all).and_return([]) }
 
     context 'with declarable heading instance' do
       before { heading.declarable = true }

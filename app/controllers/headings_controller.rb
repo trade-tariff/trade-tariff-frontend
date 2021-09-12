@@ -8,8 +8,8 @@ class HeadingsController < GoodsNomenclaturesController
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @back_path = request.referer || chapter_path(heading.chapter.short_code)
 
-    if params[:country].present?
-      @rules_of_origin = heading.rules(params[:country])
+    if params[:country].present? && TradeTariffFrontend.rules_of_origin_enabled?
+      @rules_of_origin = heading.rules_of_origin_rules(params[:country])
     end
   end
 

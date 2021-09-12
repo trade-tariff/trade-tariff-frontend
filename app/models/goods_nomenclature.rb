@@ -52,9 +52,13 @@ class GoodsNomenclature
     goods_nomenclature_item_id
   end
 
-  def rules(country_code, *args, **kwags)
-    # return nil unless declarable?
+  def rules_of_origin(*args, **kwargs)
+    return nil unless try(:declarable?)
 
-    ProductSpecificRule.all(code, country_code, *args, **kwags)
+    @rules_of_origin ||= RulesOfOrigin::Scheme.all(code, *args, **kwargs)
+  end
+
+  def rules_of_origin_rules(...)
+    rules_of_origin(...).flat_map(&:rules)
   end
 end
