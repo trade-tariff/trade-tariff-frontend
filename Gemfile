@@ -10,7 +10,7 @@ end
 gem 'rails', '~> 6'
 
 gem 'addressable'
-gem 'faraday', '= 1.3.0' # TODO: Debug issue with newer versions of Faraday client under high loads
+gem 'faraday', '1.7.2' # TODO: Debug issue with newer versions of Faraday client under high loads
 gem 'faraday_middleware'
 gem 'multi_json'
 gem 'routing-filter', github: 'svenfuchs/routing-filter'
