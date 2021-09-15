@@ -3083,10 +3083,10 @@ iferr@^0.1.5:
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
   integrity sha1-xg7taebY/bazEEofy8ocGS3FtQE=
 
-imask@^6.0.5:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/imask/-/imask-6.1.0.tgz#8dcf4c44c51c4297f691349b925b7d5b21edff1c"
-  integrity sha512-IuElVZpc7iuGw+CXfwoUZYpGdoD5H7cGo3S93gZPgjTTWfY5XAXCFL3g3b/ZJBZ18RG2dFF2kxAuuFlXMjq7oQ==
+imask@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/imask/-/imask-6.2.0.tgz#e659d394b9ea52e0a7060d75aabd3112ad57a278"
+  integrity sha512-DWwRahwavQTD9OCbnrIWF4uhcoZ/V5kcDnAxE5s4gjz+rwoXcC3USwpjcLo49zoQRrQp4tgUvYjTZ+yGh/tfUA==
 
 import-cwd@^2.0.0:
   version "2.1.0"
