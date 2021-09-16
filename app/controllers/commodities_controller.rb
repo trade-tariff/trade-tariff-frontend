@@ -1,8 +1,8 @@
 class CommoditiesController < GoodsNomenclaturesController
-  before_action :fetch_commodity,
-                only: %i[show]
-
   helper_method :uk_commodity, :xi_commodity
+
+  before_action :fetch_commodities, only: %i[show]
+  before_action :set_session, only: %i[show]
 
   def show
     @heading = commodity.heading
@@ -19,7 +19,7 @@ class CommoditiesController < GoodsNomenclaturesController
     Commodity.by_code(search_term).sort_by(&:code)
   end
 
-  def fetch_commodity
+  def fetch_commodities
     @commodities ||= {}
 
     if TradeTariffFrontend::ServiceChooser.uk?
@@ -43,5 +43,9 @@ class CommoditiesController < GoodsNomenclaturesController
 
   def uk_commodity
     @commodities[:uk]
+  end
+
+  def set_session
+    session[:commodity_code] = commodity.code
   end
 end
