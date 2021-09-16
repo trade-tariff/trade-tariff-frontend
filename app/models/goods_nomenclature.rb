@@ -36,6 +36,10 @@ class GoodsNomenclature
     !goods_nomenclature_item_id.ends_with?('000000')
   end
 
+  def declarable?
+    false
+  end
+
   def type
     return 'chapter' if chapter?
     return 'heading' if heading?
@@ -53,7 +57,7 @@ class GoodsNomenclature
   end
 
   def rules_of_origin(*args, **kwargs)
-    return nil unless try(:declarable?)
+    return nil unless declarable?
 
     @rules_of_origin ||= RulesOfOrigin::Scheme.all(code, *args, **kwargs)
   end
