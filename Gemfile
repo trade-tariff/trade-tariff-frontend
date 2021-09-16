@@ -16,6 +16,7 @@ gem 'connection_pool'
 gem 'faraday', '= 1.3.0' # TODO: Debug issue with newer versions of Faraday client under high loads
 gem 'faraday_middleware'
 gem 'govspeak'
+gem 'govuk_design_system_formbuilder', '= 2.4.0'
 gem 'kaminari'
 gem 'lograge'
 gem 'logstash-event'

@@ -132,6 +132,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    deep_merge (1.2.1)
     diff-lcs (1.4.4)
     docile (1.4.0)
     dotenv (2.7.6)
@@ -171,6 +172,11 @@ GEM
       sentry-ruby (~> 4.5.0)
       statsd-ruby (~> 1.5.0)
       unicorn (>= 5.4, < 5.9)
+    govuk_design_system_formbuilder (2.4.0)
+      actionview (>= 5.2)
+      activemodel (>= 5.2)
+      activesupport (>= 5.2)
+      deep_merge (~> 1.2.1)
     govuk_personalisation (0.7.0)
       plek (>= 1.9.0)
       rails (~> 6)
@@ -449,6 +455,7 @@ DEPENDENCIES
   faraday_middleware
   forgery
   govspeak
+  govuk_design_system_formbuilder (= 2.4.0)
   kaminari
   letter_opener
   lograge

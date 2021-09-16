@@ -1,0 +1,21 @@
+<% if wizard.previous_key %>
+  <%= link_to('Back', step_path(wizard.previous_key), class: "govuk-back-link") %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for current_step, url: step_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <% if current_step.key == 'review_answers' %>
+        <%= render 'review_answers', current_step: current_step, f: f %>
+      <% else %>
+        <%= render 'step', current_step: current_step, f: f %>
+      <% end %>
+
+      <% if wizard.can_proceed? %>
+        <%= f.govuk_submit("Continue") %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

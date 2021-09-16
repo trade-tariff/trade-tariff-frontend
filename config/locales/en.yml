@@ -67,3 +67,41 @@ en:
     big:
       uk: If you’re bringing goods into Northern Ireland from outside the UK and the EU, you will pay the UK duty rate <a href="https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021" class="govuk-link">if your goods are not ‘at risk’ of onward movement to the EU</a>. If they are at risk of onward movement to the EU, use the %{link}.
       xi: If you’re bringing goods into Northern Ireland from outside the UK and the EU, you will pay the UK duty rate <a href="https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021" class="govuk-link">if your goods are not ‘at risk’ of onward movement to the EU</a>. If they are not at risk of onward movement to the EU, use the %{link}.
+  meursing_lookup:
+    steps:
+      starch:
+        review_answer_label: "Starch or glucose content"
+        legend_text: "How much starch or glucose does the product contain?"
+        hint_text: "The values represent % by weight"
+      sucrose:
+        review_answer_label: 'Sucrose, invert sugar or isoglucose content'
+        legend_text: "How much sucrose, invert sugar or isoglucose does the product contain?"
+        hint_text: "The values represent % by weight"
+      milk_fat:
+        review_answer_label: 'Milk fat content'
+        legend_text: "How much milk fat does the product contain?"
+        hint_text: "The values represent % by weight"
+      milk_protein:
+        review_answer_label: 'Milk protein content'
+        legend_text: "How much milk protein does the product contain?"
+        hint_text: "The values represent % by weight"
+
+  activemodel:
+    errors:
+      models:
+        meursing_lookup/steps/starch:
+          attributes:
+            starch:
+              blank: Enter how much starch or glucose the product contains
+        meursing_lookup/steps/sucrose:
+          attributes:
+            sucrose:
+              blank: Enter how much sucrose, invert sugar or isoglucose the product contains
+        meursing_lookup/steps/milk_fat:
+          attributes:
+            milk_fat:
+              blank: Enter how much milk fat the product contains
+        meursing_lookup/steps/milk_protein:
+          attributes:
+            milk_protein:
+              blank: Please pick one of the milk protein options
