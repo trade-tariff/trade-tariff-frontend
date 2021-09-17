@@ -3,6 +3,7 @@ module MeursingLookup
     before_action do
       @no_shared_search = true
       @tariff_last_updated = nil
+      clear_session
     end
 
     include WizardSteps
@@ -31,6 +32,10 @@ module MeursingLookup
 
     def last_commodity_code
       session[:commodity_code]
+    end
+
+    def clear_session
+      session.delete(wizard_store_key) if current_step.key == 'start'
     end
   end
 end
