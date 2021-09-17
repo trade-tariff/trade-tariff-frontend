@@ -21,12 +21,8 @@ module MeursingLookup
       :meursing_lookup
     end
 
-    def on_complete(...)
-      redirect_to(search_path)
-    end
-
     def set_page_title
-      @title = "#{@current_step.title.downcase} step"
+      @title = "#{@current_step.key} step"
     end
 
     def back_link(step_path)
