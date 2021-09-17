@@ -1,5 +1,5 @@
 <span class="govuk-caption-xl">Look up Meursing code</span>
 <h1 class="govuk-heading-xl">Check your answers</h1>
 <dl class="govuk-summary-list">
-  <%= render partial: 'review_answer', collection: f.object.answers_by_step, as: :review_answer %>
+  <%= render partial: 'review_answer', collection: wizard.answers_by_step, as: :review_answer %>
 </dl>

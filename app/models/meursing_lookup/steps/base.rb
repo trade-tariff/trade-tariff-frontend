@@ -9,19 +9,53 @@ module MeursingLookup
       end
 
       def options
-        [
-          OpenStruct.new(id: '0 - 4.99', name: '0 - 4.99'),
-          OpenStruct.new(id: '5 - 24.99', name: '5 - 24.99'),
-          OpenStruct.new(id: '25 - 49.99', name: '25 - 49.99'),
-          OpenStruct.new(id: '50 - 74.99', name: '50 - 74.99'),
-          OpenStruct.new(id: '75 or more', name: '75 or more'),
-        ]
+        @options ||= begin
+          current_tree = tree
+
+          previous_answers.each.with_index do |answer, index|
+            if index >= previous_answers.size - 1
+              return current_tree[answer].each_key.map { |key| option_for(key) }
+            end
+
+            current_tree = current_tree[answer].presence || current_tree['null']
+
+            next if current_tree.is_a?(Hash)
+
+            return current_tree
+          end
+        end
+
+        base_keys
+      end
+
+      def skipped?
+        options.first && options.first.id == 'null'
       end
 
       def reviewable_answers
         {
           key => public_send(key),
         }
+      end
+
+      private
+
+      def base_keys
+        tree.each_key.map { |key| option_for(key) }
+      end
+
+      def tree
+        TradeTariffFrontend.meursing_code_tree
+      end
+
+      def previous_answers
+        @previous_answers ||= @wizard.earlier_keys(key).map do |key|
+          @store[key]
+        end
+      end
+
+      def option_for(key)
+        OpenStruct.new(id: key, name: key)
       end
     end
   end

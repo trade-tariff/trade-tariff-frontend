@@ -9,7 +9,7 @@ module MeursingLookup
 
     self.wizard_class = MeursingLookup::Wizard
 
-    helper_method :back_link
+    helper_method :back_link, :last_commodity_code
 
     private
 
@@ -31,6 +31,10 @@ module MeursingLookup
 
     def back_link(step_path)
       view_context.link_to 'Back', step_path
+    end
+
+    def last_commodity_code
+      session[:commodity_code]
     end
   end
 end
