@@ -3,7 +3,7 @@ require_relative 'boot'
 require 'rails'
 require 'active_support'
 # Pick the frameworks you want:
-require "active_model/railtie"
+require 'active_model/railtie'
 # require "active_job/railtie"
 # require "active_record/railtie"
 # require "active_storage/engine"
@@ -19,7 +19,7 @@ require 'action_view/railtie'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-APP_SLUG = 'trade-tariff'
+APP_SLUG = 'trade-tariff'.freeze
 
 module TradeTariffFrontend
   class Application < Rails::Application
@@ -35,10 +35,12 @@ module TradeTariffFrontend
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.eager_load_paths += %W( #{config.root}/app/models/concerns
-                                   #{config.root}/app/presenters
-                                   #{config.root}/app/serializers
-                                   #{config.root}/app/forms )
+    config.eager_load_paths += %W[
+      #{config.root}/app/models/concerns
+      #{config.root}/app/presenters
+      #{config.root}/app/serializers
+      #{config.root}/app/forms
+    ]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -89,7 +91,7 @@ module TradeTariffFrontend
     config.action_dispatch.rack_cache = nil
 
     # Tells Rails to serve error pages from the app itself, rather than using static error pages in public/
-    config.exceptions_app = self.routes
+    config.exceptions_app = routes
 
     # Trade Tariff Backend API Version
     config.x.backend.api_version = ENV['TARIFF_API_VERSION'] || 1

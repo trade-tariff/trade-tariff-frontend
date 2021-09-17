@@ -14,15 +14,6 @@
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Tariff tools</h1>
     <%= service_switch_banner %>
     <ul class="govuk-list">
-      <% if TradeTariffFrontend::ServiceChooser.xi? %>
-        <li>
-          <p>
-            <%= link_to "Look up a Meursing code", meursing_lookup_step_path('start') %>
-            <br
-            Look up the Meursing code for your commodity.
-          </p>
-        </li>
-      <% end %>
       <% if TradeTariffFrontend::ServiceChooser.uk? %>
         <li>
           <p>
@@ -58,6 +49,15 @@
           <br>Search the tariff for chemicals by <abbr title="Chemical Abstracts Service">CAS</abbr> Registry Number (RN)
         </p>
       </li>
+      <% if TradeTariffFrontend::ServiceChooser.xi? %>
+        <li>
+          <p>
+            <%= link_to t('breadcrumb.meursing_lookup'), meursing_lookup_step_path('start') %>
+            <br>
+            Find the Meursing code for your composite agrifood.
+          </p>
+        </li>
+      <% end %>
     </ul>
   </div>
 </div>
