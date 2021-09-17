@@ -49,8 +49,12 @@ module MeursingLookup
       end
 
       def previous_answers
-        @previous_answers ||= @wizard.earlier_keys(key).map do |key|
-          @store[key]
+        @previous_answers ||= begin
+          previous = @wizard.earlier_keys(key).map do |key|
+            @store[key]
+          end
+
+          previous.compact
         end
       end
 
