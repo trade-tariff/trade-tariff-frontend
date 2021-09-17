@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'Heading page', type: :request do
   before do
+    allow(RulesOfOrigin::Scheme).to receive(:all).and_return([])
     TradeTariffFrontend::ServiceChooser.service_choice = nil
   end
 

@@ -92,4 +92,72 @@ describe GoodsNomenclature do
       end
     end
   end
+
+  describe '#rules_of_origin' do
+    before do
+      # Needed because goods nomenclature isn't declarable but #rules_of_origin
+      # short circuits for any non-declarable nomenclatures
+      allow(goods_nomenclature).to receive(:declarable?).and_return true
+    end
+
+    let(:goods_nomenclature) { build(:goods_nomenclature) }
+
+    context 'without country param' do
+      it 'will raise an exception' do
+        expect { goods_nomenclature.rules_of_origin }.to raise_exception ArgumentError
+      end
+    end
+
+    context 'with country param' do
+      subject(:rules) { goods_nomenclature.rules_of_origin('FR') }
+
+      before do
+        allow(RulesOfOrigin::Scheme).to receive(:all)
+          .with(goods_nomenclature.code, 'FR')
+          .and_return([])
+      end
+
+      it 'will chain chain to RulesOfOrigin::Scheme' do
+        rules # trigger call
+
+        expect(RulesOfOrigin::Scheme).to have_received(:all)
+          .with(goods_nomenclature.code, 'FR')
+      end
+    end
+
+    context 'with country param and additional params' do
+      subject(:rules) do
+        goods_nomenclature.rules_of_origin('FR', page: 1)
+      end
+
+      before do
+        allow(RulesOfOrigin::Scheme).to receive(:all)
+          .with(goods_nomenclature.code, 'FR', page: 1)
+          .and_return([])
+      end
+
+      it 'will chain chain to RulesOfOrigin::Scheme' do
+        rules # trigger call
+
+        expect(RulesOfOrigin::Scheme).to have_received(:all)
+          .with(goods_nomenclature.code, 'FR', page: 1)
+      end
+    end
+  end
+
+  describe '#rules_of_origin_rules' do
+    subject { goods_nomenclature.rules_of_origin_rules(country_code) }
+
+    before do
+      allow(goods_nomenclature).to \
+        receive(:rules_of_origin).with(country_code).and_return schemes
+    end
+
+    let(:goods_nomenclature) { build :goods_nomenclature }
+    let(:schemes) { build_list :rules_of_origin_scheme, 2 }
+    let(:country_code) { schemes.first.countries.first }
+
+    it { is_expected.to have_attributes length: 6 }
+    it { is_expected.to eql schemes.map(&:rules).flatten }
+  end
 end

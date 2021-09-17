@@ -250,4 +250,23 @@ FactoryBot.define do
       update_type { 'TariffSynchronizer::TaricUpdate' }
     end
   end
+
+  factory :rules_of_origin_rule, class: 'RulesOfOrigin::Rule' do
+    sequence(:id_rule) { |n| n }
+    sequence(:heading) { |n| "Chapter #{n}" }
+    description { 'Description' }
+    rule { 'Rule' }
+  end
+
+  factory :rules_of_origin_scheme, class: 'RulesOfOrigin::Scheme' do
+    transient do
+      rule_count { 3 }
+    end
+
+    sequence(:scheme_code) { |n| "SC#{n}" }
+    sequence(:title) { |n| "Scheme title #{n}" }
+    countries { %w[FR ES IT] }
+    footnote { 'Scheme footnote' }
+    rules { attributes_for_list :rules_of_origin_rule, rule_count }
+  end
 end

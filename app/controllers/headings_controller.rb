@@ -7,7 +7,10 @@ class HeadingsController < GoodsNomenclaturesController
   def show
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @back_path = request.referer || chapter_path(heading.chapter.short_code)
-    @rules_of_origin = []
+
+    if params[:country].present? && TradeTariffFrontend.rules_of_origin_enabled?
+      @rules_of_origin = heading.rules_of_origin_rules(params[:country])
+    end
   end
 
   private
