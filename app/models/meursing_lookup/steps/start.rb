@@ -1,6 +1,6 @@
 module MeursingLookup
   module Steps
-    class Start < Base
+    class Start < WizardSteps::Step
       def skipped?
         false
       end

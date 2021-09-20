@@ -23,7 +23,7 @@ module MeursingLookup
     end
 
     def set_page_title
-      @title = "#{@current_step.key} step"
+      @title = "#{current_step.key} step"
     end
 
     def back_link(step_path)
