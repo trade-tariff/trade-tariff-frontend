@@ -62,5 +62,17 @@
         <% end %>
       </tbody>
     </table>
+
+    <% for fta_intro in rules_of_origin.map(&:fta_intro).map(&:presence).compact %>
+    <div class="rules-of-origin-fta">
+      <h3 class="govuk-heading-m">
+        Trading relationship with <%= country_name %>
+      </h3>
+
+      <div class="tariff-markdown">
+        <%= govspeak fta_intro %>
+      </div>
+    </div>
+    <% end %>
   </div>
 </div>
