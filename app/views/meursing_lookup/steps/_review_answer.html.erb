@@ -6,7 +6,7 @@
   <dt class="govuk-summary-list__key"><%= I18n.t("meursing_lookup.steps.#{key}.review_answer_label") %></dt>
   <dd class="govuk-summary-list__value"><%= answer %> %</dd>
   <dd class="govuk-summary-list__actions">
-    <%= link_to('Change', step_path(key), class: 'govuk-link') %>
+    <%= link_to('Change', meursing_lookup_step_path(key), class: 'govuk-link') %>
   </dd>
 </div>
 

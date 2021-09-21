@@ -17,10 +17,6 @@ module MeursingLookup
       MeursingLookup::Steps::End,
     ]
 
-    def self.step_level(key)
-      steps.index { |step| step.key == key }
-    end
-
     def answers_by_step
       @answers_by_step ||= reviewable_answers_by_step.except(
         MeursingLookup::Steps::Start,

@@ -11,8 +11,17 @@ RSpec.describe 'meursing_lookup/steps/show', type: :view do
     render
   end
 
-  let(:wizard) { instance_double(MeursingLookup::Wizard, previous_key: 'foo') }
-  let(:store) { WizardSteps::Store.new(meursing_lookup: {}) }
+  let(:wizard) { MeursingLookup::Wizard.new(store, 'end') }
+  let(:store) { WizardSteps::Store.new(input_answers) }
+
+  let(:input_answers) do
+    {
+      'starch' => '0 - 4.99',
+      'sucrose' => '0 - 4.99',
+      'milk_fat' => '0 - 1.49',
+      'milk_protein' => '0 - 2.49',
+    }
+  end
 
   shared_examples 'an answer step view' do |step_class|
     let(:current_step) { step_class.new(wizard, store) }
@@ -36,13 +45,6 @@ RSpec.describe 'meursing_lookup/steps/show', type: :view do
 
   context 'when the current step is a review_answer step' do
     let(:current_step) { MeursingLookup::Steps::ReviewAnswers.new(wizard, store) }
-    let(:wizard) { instance_double(MeursingLookup::Wizard, previous_key: 'foo') }
-
-    let(:answers_by_step) do
-      {
-        MeursingLookup::Steps::Starch => { 'starch' => '75 or more' },
-      }
-    end
 
     it { expect(rendered).to render_template('meursing_lookup/steps/_form') }
     it { expect(rendered).to render_template('meursing_lookup/steps/_review_answers') }
