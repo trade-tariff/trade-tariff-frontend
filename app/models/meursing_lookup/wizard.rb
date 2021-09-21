@@ -1,12 +1,5 @@
 module MeursingLookup
   class Wizard < WizardSteps::Base
-    ANSWER_STEPS = [
-      MeursingLookup::Steps::Starch,
-      MeursingLookup::Steps::Sucrose,
-      MeursingLookup::Steps::MilkFat,
-      MeursingLookup::Steps::MilkProtein,
-    ].freeze
-
     self.steps = [
       MeursingLookup::Steps::Start,
       MeursingLookup::Steps::Starch,
@@ -26,8 +19,6 @@ module MeursingLookup
     end
 
     def answer_for(step)
-      return '' unless step.in?(ANSWER_STEPS)
-
       find(step.key).public_send(step.key)
     end
   end

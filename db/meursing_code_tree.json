@@ -46,16 +46,16 @@
         "6 or more": "700"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "720"
+        "milk_protein_skipped": "720"
       },
       "55 - 69.99": {
-        "skip_milk_protein": "740"
+        "milk_protein_skipped": "740"
       },
       "70 - 84.99": {
-        "skip_milk_protein": "760"
+        "milk_protein_skipped": "760"
       },
       "85 or more": {
-        "skip_milk_protein": "780"
+        "milk_protein_skipped": "780"
       }
     },
     "5 - 29.99": {
@@ -104,16 +104,16 @@
         "6 or more": "701"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "721"
+        "milk_protein_skipped": "721"
       },
       "55 - 69.99": {
-        "skip_milk_protein": "741"
+        "milk_protein_skipped": "741"
       },
       "70 - 84.99": {
-        "skip_milk_protein": "761"
+        "milk_protein_skipped": "761"
       },
       "85 or more": {
-        "skip_milk_protein": "781"
+        "milk_protein_skipped": "781"
       }
     },
     "30 - 49.99": {
@@ -162,13 +162,13 @@
         "6 or more": "702"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "722"
+        "milk_protein_skipped": "722"
       },
       "55 - 69.99": {
-        "skip_milk_protein": "742"
+        "milk_protein_skipped": "742"
       },
       "70 - 84.99": {
-        "skip_milk_protein": "762"
+        "milk_protein_skipped": "762"
       }
     },
     "50 - 69.99": {
@@ -215,7 +215,7 @@
         "6 or more": "703"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "723"
+        "milk_protein_skipped": "723"
       }
     },
     "70 or more": {
@@ -308,16 +308,16 @@
         "6 or more": "705"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "725"
+        "milk_protein_skipped": "725"
       },
       "55 - 69.99": {
-        "skip_milk_protein": "745"
+        "milk_protein_skipped": "745"
       },
       "70 - 84.99": {
-        "skip_milk_protein": "765"
+        "milk_protein_skipped": "765"
       },
       "85 or more": {
-        "skip_milk_protein": "785"
+        "milk_protein_skipped": "785"
       }
     },
     "5 - 29.99": {
@@ -366,16 +366,16 @@
         "6 or more": "706"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "726"
+        "milk_protein_skipped": "726"
       },
       "55 - 69.99": {
-        "skip_milk_protein": "746"
+        "milk_protein_skipped": "746"
       },
       "70 - 84.99": {
-        "skip_milk_protein": "766"
+        "milk_protein_skipped": "766"
       },
       "85 or more": {
-        "skip_milk_protein": "786"
+        "milk_protein_skipped": "786"
       }
     },
     "30 - 49.99": {
@@ -424,10 +424,10 @@
         "6 or more": "707"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "727"
+        "milk_protein_skipped": "727"
       },
       "55 - 69.99": {
-        "skip_milk_protein": "747"
+        "milk_protein_skipped": "747"
       }
     },
     "50 - 69.99": {
@@ -474,7 +474,7 @@
         "6 or more": "708"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "728"
+        "milk_protein_skipped": "728"
       }
     },
     "70 or more": {
@@ -561,13 +561,13 @@
         "6 or more": "710"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "730"
+        "milk_protein_skipped": "730"
       },
       "55 - 69.99": {
-        "skip_milk_protein": "750"
+        "milk_protein_skipped": "750"
       },
       "70 - 84.99": {
-        "skip_milk_protein": "770"
+        "milk_protein_skipped": "770"
       }
     },
     "5 - 29.99": {
@@ -616,13 +616,13 @@
         "6 or more": "711"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "731"
+        "milk_protein_skipped": "731"
       },
       "55 - 69.99": {
-        "skip_milk_protein": "751"
+        "milk_protein_skipped": "751"
       },
       "70 - 84.99": {
-        "skip_milk_protein": "771"
+        "milk_protein_skipped": "771"
       }
     },
     "30 - 49.99": {
@@ -669,7 +669,7 @@
         "6 or more": "712"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "732"
+        "milk_protein_skipped": "732"
       }
     },
     "50 or more": {
@@ -754,7 +754,7 @@
         "6 or more": "715"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "735"
+        "milk_protein_skipped": "735"
       }
     },
     "5 - 29.99": {
@@ -801,7 +801,7 @@
         "6 or more": "716"
       },
       "40 - 54.99": {
-        "skip_milk_protein": "736"
+        "milk_protein_skipped": "736"
       }
     },
     "30 or more": {

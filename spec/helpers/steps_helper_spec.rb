@@ -33,4 +33,18 @@ RSpec.describe StepsHelper, type: :helper do
 
     it { expect(helper.last_commodity_code).to eq('foo') }
   end
+
+  describe '#step_with_form?' do
+    context 'when the step requires a form' do
+      let(:step) { MeursingLookup::Steps::Starch }
+
+      it { expect(helper.step_with_form?(step)).to be(true) }
+    end
+
+    context 'when the step does not require a form' do
+      let(:step) { MeursingLookup::Steps::Start }
+
+      it { expect(helper.step_with_form?(step)).to be(false) }
+    end
+  end
 end

@@ -1,7 +1,7 @@
 <% content_for :title, @title %>
 
-<% if current_step.key.in?(%w[start end]) %>
-  <%= render current_step.key, current_step: current_step, wizard: wizard %>
-<% else %>
+<% if step_with_form?(current_step) %>
   <%= render "form", current_step: current_step, wizard: wizard %>
+<% else %>
+  <%= render current_step.key, current_step: current_step, wizard: wizard %>
 <% end %>

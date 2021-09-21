@@ -36,7 +36,7 @@ RSpec.describe 'meursing_lookup/steps/show', type: :view do
   it_behaves_like 'an answer step view', MeursingLookup::Steps::MilkFat
   it_behaves_like 'an answer step view', MeursingLookup::Steps::MilkProtein
 
-  context 'when the current step is an start step' do
+  context 'when the current step is a start step' do
     let(:current_step) { MeursingLookup::Steps::Start.new(wizard, store) }
 
     it { expect(rendered).to render_template('meursing_lookup/steps/show') }
@@ -46,6 +46,7 @@ RSpec.describe 'meursing_lookup/steps/show', type: :view do
   context 'when the current step is a review_answer step' do
     let(:current_step) { MeursingLookup::Steps::ReviewAnswers.new(wizard, store) }
 
+    it { expect(rendered).to render_template('meursing_lookup/steps/show') }
     it { expect(rendered).to render_template('meursing_lookup/steps/_form') }
     it { expect(rendered).to render_template('meursing_lookup/steps/_review_answers') }
     it { expect(rendered).to render_template('meursing_lookup/steps/_review_answer') }

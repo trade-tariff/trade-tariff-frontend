@@ -1,8 +1,8 @@
 module MeursingLookup
   module Steps
     class Sucrose < AnswerStep
-      def current_tree
-        tree[starch_answer]
+      def current_meursing_code_level
+        meursing_codes[starch_answer]
       end
     end
   end

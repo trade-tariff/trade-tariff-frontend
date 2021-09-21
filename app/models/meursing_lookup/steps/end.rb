@@ -4,14 +4,28 @@ module MeursingLookup
       include MeursingLookup::Steps::Tree
 
       def meursing_code
-        missing_milk_protein_meursing_code || tree.dig(starch_answer, sucrose_answer, milk_fat_answer, milk_protein_answer)
+        meursing_code_without_milk_protein || default_meursing_code
       end
 
       private
 
-      # 'skip_milk_protein' keys mean the next tree level is skipped and we do not have answers for it so just retreive the 'skip_milk_protein' key value which is a valid meursing code
-      def missing_milk_protein_meursing_code
-        tree.dig(starch_answer, sucrose_answer, milk_fat_answer, 'skip_milk_protein').presence
+      def default_meursing_code
+        meursing_codes.dig(
+          starch_answer,
+          sucrose_answer,
+          milk_fat_answer,
+          milk_protein_answer,
+        )
+      end
+
+      # 'milk_protein_skipped' keys mean the next meursing_codes level is skipped and we do not have answers for it so just retreive the 'milk_protein_skipped' key value which is a valid meursing code
+      def meursing_code_without_milk_protein
+        meursing_codes.dig(
+          starch_answer,
+          sucrose_answer,
+          milk_fat_answer,
+          'milk_protein_skipped',
+        )
       end
     end
   end
