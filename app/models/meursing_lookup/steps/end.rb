@@ -1,6 +1,6 @@
 module MeursingLookup
   module Steps
-    class End < Base
+    class End < AnswerStep
       def meursing_code
         return answer if answer.is_a?(String)
 
