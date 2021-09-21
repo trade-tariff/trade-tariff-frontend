@@ -455,7 +455,7 @@ DEPENDENCIES
   faraday_middleware
   forgery
   govspeak
-  govuk_design_system_formbuilder (= 2.4.0)
+  govuk_design_system_formbuilder
   kaminari
   letter_opener
   lograge

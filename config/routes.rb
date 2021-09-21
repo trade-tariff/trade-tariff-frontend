@@ -79,11 +79,11 @@ Rails.application.routes.draw do
           )
   end
 
-  constraints(id: /\d{1,2}/) do
+  constraints(id: /[\d]{1,2}/) do
     resources :sections, only: %i[index show]
   end
 
-  constraints(id: /\d{2}/) do
+  constraints(id: /[\d]{2}/) do
     resources :chapters, only: %i[show] do
       resources :changes,
                 only: [:index],
@@ -92,7 +92,7 @@ Rails.application.routes.draw do
     end
   end
 
-  constraints(id: /\d{4}/) do
+  constraints(id: /[\d]{4}/) do
     resources :headings, only: %i[show] do
       resources :changes,
                 only: [:index],
@@ -101,7 +101,7 @@ Rails.application.routes.draw do
     end
   end
 
-  constraints(id: /\d{10}/) do
+  constraints(id: /[\d]{10}/) do
     resources :commodities, only: %i[show] do
       resources :changes,
                 only: [:index],

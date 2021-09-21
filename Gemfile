@@ -10,28 +10,45 @@ end
 gem 'rails', '~> 6'
 
 gem 'addressable'
-gem 'aws-sdk-rails'
-gem 'bootsnap', require: false
-gem 'connection_pool'
 gem 'faraday', '= 1.3.0' # TODO: Debug issue with newer versions of Faraday client under high loads
 gem 'faraday_middleware'
-gem 'govspeak'
-gem 'govuk_design_system_formbuilder', '= 2.4.0'
-gem 'kaminari'
-gem 'lograge'
-gem 'logstash-event'
 gem 'multi_json'
-gem 'newrelic_rpm'
+gem 'routing-filter', github: 'svenfuchs/routing-filter'
+gem 'yajl-ruby'
+
+# Assets
+gem 'bootsnap', require: false
+gem 'kaminari'
+gem 'responders'
+gem 'webpacker'
+
+# gov UK
+gem 'govspeak'
 gem 'nokogiri', '~> 1.12.4' # https://github.com/sparklemotion/nokogiri/issues/2205
 gem 'plek'
+
+gem 'connection_pool'
+
+# Logging
+gem 'lograge'
+gem 'logstash-event'
+
+# Web Server
 gem 'puma'
 gem 'rack-cors'
+
+# Redis
 gem 'redis-rails'
-gem 'responders'
-gem 'routing-filter', github: 'svenfuchs/routing-filter'
-gem 'webpacker'
+
+# AWS
+gem 'aws-sdk-rails'
+
+# Newrelic
+gem 'newrelic_rpm'
+
+# For MeursingLookup functionality
+gem 'govuk_design_system_formbuilder'
 gem 'wizard_steps'
-gem 'yajl-ruby'
 
 group :development do
   gem 'letter_opener'
