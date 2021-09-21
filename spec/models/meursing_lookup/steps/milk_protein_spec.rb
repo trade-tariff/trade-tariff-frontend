@@ -6,7 +6,7 @@ RSpec.describe MeursingLookup::Steps::MilkProtein do
     JSON.parse(File.read(filename))
   end
 
-  it_behaves_like 'an answer step', 'milk_fat' do
+  it_behaves_like 'an answer step', 'milk_protein' do
     describe '#current_tree' do
       let(:input_answers) do
         {
