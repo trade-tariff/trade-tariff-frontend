@@ -1,13 +1,11 @@
 module StepsHelper
-  FORM_STEPS = %w[
-    starch
-    sucrose
-    milk_fat
-    milk_protein
+  NO_FORM_STEPS = %w[
+    start
+    end
   ].freeze
 
   def step_with_form?(step)
-    step.key.in?(FORM_STEPS)
+    !step.key.in?(NO_FORM_STEPS)
   end
 
   def back_link
