@@ -13,9 +13,7 @@
         <%= render 'step', current_step: current_step, f: f %>
       <% end %>
 
-      <% if wizard.can_proceed? %>
-        <%= f.govuk_submit("Continue") %>
-      <% end %>
+      <%= f.govuk_submit("Continue") %>
     <% end %>
   </div>
 </div>
