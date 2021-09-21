@@ -72,12 +72,5 @@ RSpec.describe MeursingLookup::StepsController, type: :controller do
       it { expect(assigns[:current_step]).to be_a(MeursingLookup::Steps::ReviewAnswers) }
       it { is_expected.to redirect_to meursing_lookup_step_path('end') }
     end
-
-    describe 'when patching a end step' do
-      let(:params) { { id: :end } }
-
-      it { expect(assigns[:current_step]).to be_a(MeursingLookup::Steps::End) }
-      it { is_expected.to have_http_status(:success) }
-    end
   end
 end
