@@ -18,6 +18,7 @@ describe RulesOfOrigin::Scheme do
               title: 'Scheme title',
               countries: %w[FR ES IT],
               footnote: 'Footnote comments **in markdown**',
+              fta_intro: "## Markdown heading\n\n Further information",
             },
             relationships: {
               rules: {
@@ -75,6 +76,7 @@ describe RulesOfOrigin::Scheme do
         it { is_expected.to have_attributes title: 'Scheme title' }
         it { is_expected.to have_attributes countries: %w[FR ES IT] }
         it { is_expected.to have_attributes footnote: /footnote/i }
+        it { is_expected.to have_attributes fta_intro: /Further information/ }
         it { expect(scheme.rules).to have_attributes length: 1 }
       end
 

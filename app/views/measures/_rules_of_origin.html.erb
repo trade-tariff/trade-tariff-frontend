@@ -37,7 +37,7 @@
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        <% if rules.length.zero? %>
+        <% if rules_of_origin.flat_map(&:rules).length.zero? %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell" colspan="3">
             There are no product-specific rules for commodity <% commodity_code %>
@@ -45,7 +45,7 @@
         </tr>
         <% end %>
 
-        <% for rule in rules %>
+        <% for rule in rules_of_origin.flat_map(&:rules) %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell" data-label="Heading">
             <%= rule.heading %>

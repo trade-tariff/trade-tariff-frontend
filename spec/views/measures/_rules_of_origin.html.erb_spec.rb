@@ -8,10 +8,16 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
            country_code: 'FR',
            country_name: 'France',
            commodity_code: '2203000100',
-           rules: rules
+           rules_of_origin: schemes
   end
 
-  let(:rules) { [] }
+  let :rules_data do
+    attributes_for_list :rules_of_origin_rule,
+                        1,
+                        rule: "Manufacture\n\n* From materials"
+  end
+
+  let(:schemes) { build_list :rules_of_origin_scheme, 1, rules: rules_data }
 
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
@@ -49,15 +55,7 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
   end
 
   context 'with matched rules' do
-    let :rules do
-      [
-        OpenStruct.new(
-          heading: 'Chapter 22',
-          description: 'Beverages',
-          rule: "Manufacture\n\n* From materials",
-        ),
-      ]
-    end
+    let(:rules) { schemes.flat_map(&:rules) }
 
     it 'shows rules table' do
       expect(rendered_page).to have_css 'table.govuk-table'
@@ -69,12 +67,12 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
 
     it 'show rule heading' do
       expect(rendered_page).to \
-        have_css 'tbody tr td', text: 'Chapter 22'
+        have_css 'tbody tr td', text: rules[0].heading
     end
 
     it 'shows rule description' do
       expect(rendered_page).to \
-        have_css 'tbody tr td', text: 'Beverages'
+        have_css 'tbody tr td', text: rules[0].description
     end
 
     it 'formats the rule detail markdown' do
@@ -84,6 +82,8 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
   end
 
   context 'without matched rules' do
+    let(:rules_data) { [] }
+
     it 'shows rules table' do
       expect(rendered_page).to have_css 'table.govuk-table'
     end
