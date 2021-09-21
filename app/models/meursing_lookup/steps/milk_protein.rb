@@ -7,8 +7,8 @@ module MeursingLookup
 
       # WizardSteps callback which decides whether this step should be rendered as the next step
       def skipped?
-        # 'null' indicates this category does not require an answer and so this step will be skipped
-        current_tree.present? && current_tree['null'].present?
+        # 'skip_milk_protein' indicates this category does not require an answer and so this step will be skipped
+        current_tree.present? && current_tree['skip_milk_protein'].present?
       end
     end
   end

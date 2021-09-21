@@ -1,4 +1,4 @@
-<%= link_to('Back', step_path(wizard.previous_key), class: "govuk-back-link") %>
+<%= back_link %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -26,11 +26,11 @@
           Return to <%= link_to('commodity code', commodity_path(last_commodity_code)) %>
         </li>
         <li>
-          <%= link_to('Start again', meursing_lookup_step_path(:start)) %>
+          <%= link_to('Start again', step_path(:start)) %>
         </li>
       </ul>
     <% else last_commodity_code.present? %>
-      <%= link_to('Start again', meursing_lookup_step_path(:start)) %>
+      <%= link_to('Start again', step_path(:start)) %>
     <% end %>
   </div>
 </div>

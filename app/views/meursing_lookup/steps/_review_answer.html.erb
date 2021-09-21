@@ -1,6 +1,6 @@
-<% step, answers = review_answer %>
-<% key = step.key %>
-<% answer = answers[step.key] %>
+<% current_step, answers = review_answer %>
+<% key = current_step.key %>
+<% answer = answers[current_step.key] %>
 
 <div class="govuk-summary-list__row">
   <dt class="govuk-summary-list__key"><%= I18n.t("meursing_lookup.steps.#{key}.review_answer_label") %></dt>

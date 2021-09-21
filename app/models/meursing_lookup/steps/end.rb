@@ -2,28 +2,12 @@ module MeursingLookup
   module Steps
     class End < AnswerStep
       def meursing_code
-        return answer if answer.is_a?(String)
-
-        missing_category_answer
+        missing_milk_protein_meursing_code || tree.dig(starch_answer, sucrose_answer, milk_fat_answer, milk_protein_answer)
       end
 
-      def skipped?
-        false
-      end
-
-      private
-
-      def answer
-        tree.dig(*answers)
-      end
-
-      def missing_category_answer
-        # When the leaf of the tree is missing the milk_protein category of answer it comes back as { "null": <code> } to reflect that we've answered the users meursing question.
-        answer['null']
-      end
-
-      def answers
-        @wizard.answers_by_step.values.flat_map(&:values)
+      # 'skip_milk_protein' keys mean the next tree level is skipped and we do not have answers for it so just retreive the 'skip_milk_protein' key value which is a valid meursing code
+      def missing_milk_protein_meursing_code
+        tree.dig(starch_answer, sucrose_answer, milk_fat_answer, 'skip_milk_protein').presence
       end
     end
   end

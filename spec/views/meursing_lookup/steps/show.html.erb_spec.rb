@@ -36,7 +36,7 @@ RSpec.describe 'meursing_lookup/steps/show', type: :view do
 
   context 'when the current step is a review_answer step' do
     let(:current_step) { MeursingLookup::Steps::ReviewAnswers.new(wizard, store) }
-    let(:wizard) { instance_double(MeursingLookup::Wizard, previous_key: 'foo', answers_by_step: answers_by_step) }
+    let(:wizard) { instance_double(MeursingLookup::Wizard, previous_key: 'foo') }
 
     let(:answers_by_step) do
       {
