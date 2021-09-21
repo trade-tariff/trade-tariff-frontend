@@ -1,0 +1,48 @@
+require 'spec_helper'
+
+RSpec.describe MeursingLookup::Steps::MilkProtein do
+  let(:tree) do
+    filename = Rails.root.join('db/meursing_code_tree.json')
+    JSON.parse(File.read(filename))
+  end
+
+  it_behaves_like 'an answer step', 'milk_fat' do
+    describe '#current_tree' do
+      let(:input_answers) do
+        {
+          'starch' => '0 - 4.99',
+          'sucrose' => '0 - 4.99',
+          'milk_fat' => '0 - 1.49',
+        }
+      end
+
+      it { expect(step.current_tree).to eq(tree['0 - 4.99']['0 - 4.99']['0 - 1.49']) }
+    end
+
+    describe '#skipped?' do
+      context 'when the current tree has a skip_milk_protein key' do
+        let(:input_answers) do
+          {
+            'starch' => '0 - 4.99',
+            'sucrose' => '0 - 4.99',
+            'milk_fat' => '40 - 54.99', # This key is marked as skipped in the tree
+          }
+        end
+
+        it { expect(step).to be_skipped }
+      end
+
+      context 'when the current tree does not have a skip_milk_protein key' do
+        let(:input_answers) do
+          {
+            'starch' => '0 - 4.99',
+            'sucrose' => '0 - 4.99',
+            'milk_fat' => '0 - 1.49', # This key is not skipped in the tree
+          }
+        end
+
+        it { expect(step).not_to be_skipped }
+      end
+    end
+  end
+end

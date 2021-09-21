@@ -88,13 +88,6 @@ module TradeTariffFrontend
     `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
   end
 
-  def meursing_code_tree
-    @meursing_code_tree ||= begin
-      filename = Rails.root.join('db/meursing_code_tree.json')
-      JSON.parse(File.read(filename))
-    end
-  end
-
   module ServiceChooser
     SERVICE_CURRENCIES = {
       'uk' => 'GBP',

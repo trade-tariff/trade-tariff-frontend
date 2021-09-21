@@ -22,7 +22,7 @@ module MeursingLookup
     end
 
     def set_page_title
-      @title = "#{current_step.key} step"
+      @title = "Meursing lookup: #{current_step.key}"
     end
 
     def clear_meursing_lookup_session
