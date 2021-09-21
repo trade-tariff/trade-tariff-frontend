@@ -47,4 +47,10 @@ RSpec.describe StepsHelper, type: :helper do
       it { expect(helper.step_with_form?(step)).to be(false) }
     end
   end
+
+  describe '#page_title_for' do
+    let(:step) { MeursingLookup::Steps::Start }
+
+    it { expect(helper.page_title_for(step)).to eq('Meursing lookup: start') }
+  end
 end

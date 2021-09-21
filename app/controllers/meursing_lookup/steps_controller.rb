@@ -4,7 +4,6 @@ module MeursingLookup
       @no_shared_search = true
       @tariff_last_updated = nil
       clear_meursing_lookup_session
-      set_page_title
     end
 
     include WizardSteps
@@ -19,10 +18,6 @@ module MeursingLookup
 
     def step_path(step_id = params[:id])
       meursing_lookup_step_path(step_id)
-    end
-
-    def set_page_title
-      @title = "Meursing lookup: #{current_step.key}"
     end
 
     def clear_meursing_lookup_session

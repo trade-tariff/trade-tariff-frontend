@@ -1,4 +1,4 @@
-<% content_for :title, @title %>
+<% content_for :title, page_title_for(current_step) %>
 
 <% if step_with_form?(current_step) %>
   <%= render "form", current_step: current_step, wizard: wizard %>
