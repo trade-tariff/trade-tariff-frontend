@@ -1,4 +1,4 @@
-module StepsHelper
+module MeursingLookupStepsHelper
   NO_FORM_STEPS = %w[
     start
     end

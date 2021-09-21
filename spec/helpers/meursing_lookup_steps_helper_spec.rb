@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe StepsHelper, type: :helper do
+RSpec.describe MeursingLookupStepsHelper, type: :helper do
   describe '#back_link' do
     before do
       allow(helper).to receive(:wizard).and_return(wizard)
