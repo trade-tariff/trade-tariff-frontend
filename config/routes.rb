@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   filter :service_path_prefix_handler
   default_url_options(host: TradeTariffFrontend.host)
 
+  namespace :meursing_lookup do
+    resources :steps, only: %i[show update]
+  end
+
   get '/trade-tariff/*path', to: redirect('/%{path}', status: 301)
   get '/api/(*path)', constraints: { path: /[^v\d+].*/ }, to: redirect { |_params, request|
     path = request.path.gsub('/api/', '/api/v2/')

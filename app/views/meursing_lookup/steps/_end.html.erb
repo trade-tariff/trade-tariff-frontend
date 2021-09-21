@@ -1,0 +1,36 @@
+<%= back_link %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">Look up a Meursing code</span>
+
+    <div class="govuk-panel govuk-panel--confirmation xgovuk-panel--semi-confirmation govuk-!-margin-top-3">
+      <h1 class="govuk-panel__title">
+        Your Meursing code
+      </h1>
+
+      <div class="govuk-panel__body">
+        The Meursing additional code for a product with this composition is <strong>7<%= current_step.meursing_code %></strong>.
+      </div>
+    </div>
+
+    <h2 class="govuk-heading-m">What next</h2>
+
+    <p class="govuk-body">
+      Use these four digits together with the ten-digit commodity code from Trade Tariff to work out duties applicable to certain complex agri-foods on the the Northern Ireland Tariff, when your import is considered to be 'at risk'.
+    </p>
+
+    <% if current_commodity_code.present? %>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          Return to <%= link_to('commodity code', commodity_path(current_commodity_code)) %>
+        </li>
+        <li>
+          <%= link_to('Start again', meursing_lookup_step_path(:start)) %>
+        </li>
+      </ul>
+    <% else current_commodity_code.present? %>
+      <%= link_to('Start again', meursing_lookup_step_path(:start)) %>
+    <% end %>
+  </div>
+</div>

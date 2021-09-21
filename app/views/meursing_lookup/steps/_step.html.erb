@@ -1,0 +1,4 @@
+<%= f.govuk_fieldset legend: { text: "" } do %>
+  <span class="govuk-caption-xl">Look up Meursing code</span>
+  <%= f.govuk_collection_radio_buttons current_step.key.to_sym, current_step.options, :id, :name, legend: { text: I18n.t("meursing_lookup.steps.#{current_step.key}.legend_text"), size: 'xl', tag: 'h1' }, hint: { text: I18n.t("meursing_lookup.steps.#{current_step.key}.hint_text") }, include_hidden: true %>
+<% end %>

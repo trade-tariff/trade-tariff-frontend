@@ -46,6 +46,10 @@ gem 'aws-sdk-rails'
 # Newrelic
 gem 'newrelic_rpm'
 
+# For MeursingLookup functionality
+gem 'govuk_design_system_formbuilder'
+gem 'wizard_steps'
+
 group :development do
   gem 'letter_opener'
   gem 'rubocop-govuk'
