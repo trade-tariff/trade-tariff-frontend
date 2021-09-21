@@ -4,7 +4,7 @@ RSpec.describe 'meursing_lookup/steps/show', type: :view do
   before do
     allow(view).to receive(:current_step).and_return(current_step)
     allow(view).to receive(:wizard).and_return(wizard)
-    allow(view).to receive(:last_commodity_code).and_return('')
+    allow(view).to receive(:current_commodity_code).and_return('')
 
     allow(current_step).to receive(:options).and_return([])
 
@@ -52,7 +52,7 @@ RSpec.describe 'meursing_lookup/steps/show', type: :view do
     it { expect(rendered).to render_template('meursing_lookup/steps/_review_answer') }
   end
 
-  context 'when the current step is an end step' do
+  context 'when the current step is the end step' do
     let(:current_step) { instance_double(MeursingLookup::Steps::End, key: 'end', meursing_code: '4001') }
 
     it { expect(rendered).to render_template('meursing_lookup/steps/show') }

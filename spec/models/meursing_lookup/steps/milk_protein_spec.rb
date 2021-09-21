@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe MeursingLookup::Steps::MilkProtein do
-  let(:tree) do
+  let(:meursing_codes) do
     filename = Rails.root.join('db/meursing_code_tree.json')
     JSON.parse(File.read(filename))
   end
@@ -16,7 +16,7 @@ RSpec.describe MeursingLookup::Steps::MilkProtein do
         }
       end
 
-      it { expect(step.current_meursing_code_level).to eq(tree['0 - 4.99']['0 - 4.99']['0 - 1.49']) }
+      it { expect(step.current_meursing_code_level).to eq(meursing_codes['0 - 4.99']['0 - 4.99']['0 - 1.49']) }
     end
 
     describe '#skipped?' do
