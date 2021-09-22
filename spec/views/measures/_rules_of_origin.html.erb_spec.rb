@@ -19,7 +19,7 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
   end
 
   it 'shows the flag' do
-    expect(rendered_page).to have_css 'h2 span.country-flag', text: '🇫🇷'
+    expect(rendered_page).to have_css 'h2 .country-flag[src*="flags/fr"]'
   end
 
   it 'references the commodity code' do

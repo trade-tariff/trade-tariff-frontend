@@ -1,35 +1,25 @@
 require 'spec_helper'
 
 describe CountryFlagHelper, type: :helper do
-  describe '#country_flag_emoji' do
-    subject { helper.country_flag_emoji(two_letter_country_code) }
-
-    context 'with GB' do
-      let(:two_letter_country_code) { 'GB' }
-
-      it { is_expected.to eql('🇬🇧') }
-    end
-
-    context 'with non country code' do
-      let(:two_letter_country_code) { '2300' }
-
-      it { is_expected.to be_nil }
-    end
-  end
-
   describe '#country_flag_tag' do
-    subject { helper.country_flag_tag(two_letter_country_code) }
-
     context 'with GB' do
-      let(:two_letter_country_code) { 'GB' }
+      subject(:rendered) { helper.country_flag_tag('GB') }
 
-      it { is_expected.to have_css('span.country-flag', text: '🇬🇧') }
+      it 'will include the relevant flag' do
+        expect(rendered).to \
+          have_css('img.country-flag[src*="media/images/flags/gb"]')
+      end
     end
 
-    context 'with non country code' do
-      let(:two_letter_country_code) { '2300' }
+    context 'with alt text' do
+      subject :rendered do
+        helper.country_flag_tag('GB', alt: 'alt text')
+      end
 
-      it { is_expected.to be_nil }
+      it 'will include the alt text' do
+        expect(rendered).to \
+          have_css('img.country-flag[alt="alt text"]')
+      end
     end
   end
 end

@@ -1,0 +1,12 @@
+.rules-of-origin-heading {
+  display: flex;
+
+  img.country-flag {
+    box-shadow: 2px 2px 2px #999999;
+    top: 3px;
+    position: relative;
+    height: 20px;
+    min-height: 30px;
+    margin-left: 0.5em;
+  }
+}
