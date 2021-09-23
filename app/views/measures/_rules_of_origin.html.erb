@@ -45,7 +45,7 @@
         </tr>
         <% end %>
 
-        <% for rule in rules_of_origin.flat_map(&:rules) %>
+        <% rules_of_origin.flat_map(&:rules).each do |rule| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell" data-label="Heading">
             <%= rule.heading %>
@@ -63,7 +63,7 @@
       </tbody>
     </table>
 
-    <% for fta_intro in rules_of_origin.map(&:fta_intro).map(&:presence).compact %>
+    <% rules_of_origin.map(&:fta_intro).map(&:presence).compact.each do |fta_intro| %>
     <div class="rules-of-origin-fta">
       <h3 class="govuk-heading-m">
         Trading relationship with <%= country_name %>
