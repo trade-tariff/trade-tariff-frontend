@@ -8,6 +8,7 @@ class RulesOfOrigin::Scheme
   attr_accessor :scheme_code, :title, :countries, :footnote, :fta_intro
 
   has_many :rules, class_name: 'RulesOfOrigin::Rule'
+  has_many :links, class_name: 'RulesOfOrigin::Link'
 
   class << self
     def all(heading_code, country_code, opts = {})

@@ -4,6 +4,14 @@ describe RulesOfOrigin::Scheme do
   let(:api_host) { TradeTariffFrontend::ServiceChooser.api_host }
   let(:response_headers) { { content_type: 'application/json; charset=utf-8' } }
 
+  it { is_expected.to respond_to :scheme_code }
+  it { is_expected.to respond_to :title }
+  it { is_expected.to respond_to :countries }
+  it { is_expected.to respond_to :footnote }
+  it { is_expected.to respond_to :fta_intro }
+  it { is_expected.to respond_to :rules }
+  it { is_expected.to respond_to :links }
+
   describe '.all' do
     let(:json_response) { response_data.to_json }
 
@@ -29,6 +37,14 @@ describe RulesOfOrigin::Scheme do
                   },
                 ],
               },
+              links: {
+                data: [
+                  {
+                    id: 'EU-link-1',
+                    type: 'rules_of_origin_link',
+                  },
+                ],
+              },
             },
           },
         ],
@@ -41,6 +57,14 @@ describe RulesOfOrigin::Scheme do
               heading: 'Chapter 22',
               description: 'Beverages',
               rule: "Rule\n\n* Requirement 1\n* Requirement 2",
+            },
+          },
+          {
+            id: 'EU-link-1',
+            type: 'rules_of_origin_link',
+            attributes: {
+              text: 'GovUK',
+              url: 'https://www.gov.uk',
             },
           },
         ],
@@ -136,7 +160,7 @@ describe RulesOfOrigin::Scheme do
       it { is_expected.to eql [] }
     end
 
-    context 'with response with no rules' do
+    context 'with response with no rules or links' do
       include_context 'with mocked response'
 
       let :response_data do
@@ -154,6 +178,7 @@ describe RulesOfOrigin::Scheme do
               relationships: {
                 rules: {
                   data: [],
+                  links: [],
                 },
               },
             },
@@ -169,6 +194,20 @@ describe RulesOfOrigin::Scheme do
 
         it { is_expected.to have_attributes scheme_code: 'EU' }
         it { is_expected.to have_attributes rules: [] }
+        it { is_expected.to have_attributes links: [] }
+      end
+    end
+
+    describe 'links' do
+      include_context 'with mocked response'
+
+      it { expect(schemes.first.links.length).to be 1 }
+
+      context 'with single link' do
+        subject { schemes.first.links.first }
+
+        it { is_expected.to have_attributes text: 'GovUK' }
+        it { is_expected.to have_attributes url: 'https://www.gov.uk' }
       end
     end
   end
