@@ -258,9 +258,15 @@ FactoryBot.define do
     rule { 'Rule' }
   end
 
+  factory :rules_of_origin_link, class: 'RulesOfOrigin::Link' do
+    sequence(:text) { |n| "GovUK page #{n}" }
+    url { 'https://www.gov.uk' }
+  end
+
   factory :rules_of_origin_scheme, class: 'RulesOfOrigin::Scheme' do
     transient do
       rule_count { 3 }
+      link_count { 2 }
     end
 
     sequence(:scheme_code) { |n| "SC#{n}" }
@@ -269,5 +275,6 @@ FactoryBot.define do
     footnote { 'Scheme footnote' }
     fta_intro { "## Agreement\n\nDetails of agreement" }
     rules { attributes_for_list :rules_of_origin_rule, rule_count }
+    links { attributes_for_list :rules_of_origin_link, link_count }
   end
 end
