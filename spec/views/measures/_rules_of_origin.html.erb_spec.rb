@@ -44,6 +44,10 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
     expect(rendered_page).to have_css '#rules-of-origin__related-content nav li'
   end
 
+  it 'includes the bloc intro' do
+    expect(rendered_page).to have_css '#rules-of-origin__intro--bloc-scheme'
+  end
+
   context 'with UK service' do
     before do
       allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('uk')
@@ -110,6 +114,20 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
       expect(rendered_page).to \
         have_css 'tbody td', text: /no product-specific rules/
     end
+  end
+
+  context 'with country specific scheme' do
+    let(:schemes) do
+      build_list :rules_of_origin_scheme, 1, rules: rules_data, countries: %w[FR]
+    end
+
+    it { is_expected.to have_css '#rules-of-origin__intro--country-scheme' }
+  end
+
+  context 'with no scheme' do
+    let(:schemes) { [] }
+
+    it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
   end
 
   context 'with blank fta_intro field' do
