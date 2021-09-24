@@ -105,4 +105,4 @@ en:
         meursing_lookup/steps/milk_protein:
           attributes:
             milk_protein:
-              blank: Please pick one of the milk protein options
+              blank: Enter how much milk protein the product contains
