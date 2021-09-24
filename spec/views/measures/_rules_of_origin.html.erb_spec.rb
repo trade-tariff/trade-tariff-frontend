@@ -36,6 +36,10 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
     expect(rendered_page).to have_css 'h3', text: /for commodity 2203000100/
   end
 
+  it 'includes the "How to read the rules" section' do
+    expect(rendered_page).to have_css 'details summary span', text: /How to read/
+  end
+
   context 'with UK service' do
     before do
       allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('uk')
