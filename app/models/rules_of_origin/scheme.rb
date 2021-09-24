@@ -5,7 +5,7 @@ class RulesOfOrigin::Scheme
 
   collection_path '/rules_of_origin_schemes'
 
-  attr_accessor :scheme_code, :title, :countries, :footnote
+  attr_accessor :scheme_code, :title, :countries, :footnote, :fta_intro
 
   has_many :rules, class_name: 'RulesOfOrigin::Rule'
 

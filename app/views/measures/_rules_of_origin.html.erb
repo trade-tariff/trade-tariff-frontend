@@ -37,7 +37,7 @@
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        <% if rules.length.zero? %>
+        <% if rules_of_origin.flat_map(&:rules).length.zero? %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell" colspan="3">
             There are no product-specific rules for commodity <% commodity_code %>
@@ -45,7 +45,7 @@
         </tr>
         <% end %>
 
-        <% for rule in rules %>
+        <% rules_of_origin.flat_map(&:rules).each do |rule| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell" data-label="Heading">
             <%= rule.heading %>
@@ -62,5 +62,17 @@
         <% end %>
       </tbody>
     </table>
+
+    <% rules_of_origin.map(&:fta_intro).map(&:presence).compact.each do |fta_intro| %>
+    <div class="rules-of-origin-fta">
+      <h3 class="govuk-heading-m">
+        Trading relationship with <%= country_name %>
+      </h3>
+
+      <div class="tariff-markdown">
+        <%= govspeak fta_intro %>
+      </div>
+    </div>
+    <% end %>
   </div>
 </div>

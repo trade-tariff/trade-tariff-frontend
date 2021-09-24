@@ -8,10 +8,20 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
            country_code: 'FR',
            country_name: 'France',
            commodity_code: '2203000100',
-           rules: rules
+           rules_of_origin: schemes
   end
 
-  let(:rules) { [] }
+  let :rules_data do
+    attributes_for_list :rules_of_origin_rule,
+                        1,
+                        rule: "Manufacture\n\n* From materials"
+  end
+
+  let(:schemes) do
+    build_list :rules_of_origin_scheme, 1, rules: rules_data, fta_intro: fta_intro
+  end
+
+  let(:fta_intro) { "## Free Trade Agreement\n\nDetails of agreement" }
 
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
@@ -48,16 +58,8 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
     end
   end
 
-  context 'with matched rules' do
-    let :rules do
-      [
-        OpenStruct.new(
-          heading: 'Chapter 22',
-          description: 'Beverages',
-          rule: "Manufacture\n\n* From materials",
-        ),
-      ]
-    end
+  context 'with matched rules of origin' do
+    let(:first_rule) { schemes[0].rules[0] }
 
     it 'shows rules table' do
       expect(rendered_page).to have_css 'table.govuk-table'
@@ -69,21 +71,29 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
 
     it 'show rule heading' do
       expect(rendered_page).to \
-        have_css 'tbody tr td', text: 'Chapter 22'
+        have_css 'tbody tr td', text: first_rule.heading
     end
 
     it 'shows rule description' do
       expect(rendered_page).to \
-        have_css 'tbody tr td', text: 'Beverages'
+        have_css 'tbody tr td', text: first_rule.description
     end
 
     it 'formats the rule detail markdown' do
       expect(rendered_page).to \
         have_css '.tariff-markdown ul li', text: 'From materials'
     end
+
+    it 'formats the scheme fta_intro markdown' do
+      expect(rendered_page).to \
+        have_css '.rules-of-origin-fta .tariff-markdown h2',
+                 text: 'Free Trade Agreement'
+    end
   end
 
   context 'without matched rules' do
+    let(:rules_data) { [] }
+
     it 'shows rules table' do
       expect(rendered_page).to have_css 'table.govuk-table'
     end
@@ -91,6 +101,14 @@ describe 'measures/_rules_of_origin.html.erb', type: :view do
     it 'shows no matched rules message' do
       expect(rendered_page).to \
         have_css 'tbody td', text: /no product-specific rules/
+    end
+  end
+
+  context 'with blank fta_intro field' do
+    let(:fta_intro) { '' }
+
+    it 'does not show details of fta field' do
+      expect(rendered_page).not_to have_css '.rules-of-origin-fta'
     end
   end
 end
