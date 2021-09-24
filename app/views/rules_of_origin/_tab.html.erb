@@ -11,59 +11,15 @@
       Product-specific rules for commodity <%= commodity_code %>
     </h3>
 
-    <p>
-      If your product has been produced using any non-originating materials, the
-      product has to fulfil the following product-specific rule to be considered
-      originating in the <%= uk_service_choice? ? 'UK' : 'EU' %> or <%= country_name %>.
-    </p>
-
-    <p>
-      If there are alternative rules, your product needs to comply with only one
-      of them.
-    </p>
-
-    <table class="govuk-table govuk-table--responsive commodity-rules-of-origin">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th class="govuk-table__header" scope="col">
-            Heading
-          </th>
-
-          <th class="govuk-table__header" scope="col">
-            Description
-          </th>
-
-          <th class="govuk-table__header" scope="col">
-            Rule
-          </th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <% if rules_of_origin.flat_map(&:rules).length.zero? %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell" colspan="3">
-            There are no product-specific rules for commodity <% commodity_code %>
-          </td>
-        </tr>
-        <% end %>
-
-        <% rules_of_origin.flat_map(&:rules).each do |rule| %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell" data-label="Heading">
-            <%= rule.heading %>
-          </td>
-
-          <td class="govuk-table__cell" data-label="Description">
-            <%= rule.description %>
-          </td>
-
-          <td class="govuk-table__cell tariff-markdown responsive-full-width" data-label="Rule">
-            <%= govspeak rule.rule %>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <%- if (rules = rules_of_origin.flat_map(&:rules)).any? -%>
+      <%= render 'rules_of_origin/rules_table',
+                 country_name: country_name,
+                 rules: rules %>
+    <%- else -%>
+      <p>
+        There are no product-specific rules for commodity <% commodity_code %>
+      </p>
+    <%- end -%>
 
     <%= render 'rules_of_origin/instructions' %>
 
