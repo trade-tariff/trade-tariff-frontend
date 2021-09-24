@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe 'measures/_rules_of_origin.html.erb', type: :view do
+describe 'rules_of_origin/_tab.html.erb', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   let :render_page do
-    render 'measures/rules_of_origin',
+    render 'rules_of_origin/tab',
            country_code: 'FR',
            country_name: 'France',
            commodity_code: '2203000100',

@@ -65,7 +65,7 @@
       </tbody>
     </table>
 
-    <%= render 'measures/rules_of_origin_instructions' %>
+    <%= render 'rules_of_origin/instructions' %>
 
     <% rules_of_origin.map(&:fta_intro).map(&:presence).compact.each do |fta_intro| %>
     <div class="rules-of-origin-fta">
