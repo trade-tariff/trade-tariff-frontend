@@ -5,6 +5,8 @@
       <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
     </h2>
 
+    <%= rules_of_origin_schemes_intro country_name, rules_of_origin %>
+
     <h3 class="govuk-heading-m">
       Product-specific rules for commodity <%= commodity_code %>
     </h3>
@@ -63,7 +65,7 @@
       </tbody>
     </table>
 
-    <%= render 'measures/rules_of_origin_instructions' %>
+    <%= render 'rules_of_origin/instructions' %>
 
     <% rules_of_origin.map(&:fta_intro).map(&:presence).compact.each do |fta_intro| %>
     <div class="rules-of-origin-fta">
