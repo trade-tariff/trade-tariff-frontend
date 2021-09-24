@@ -1,0 +1,45 @@
+<p>
+  If your product has been produced using any non-originating materials, the
+  product has to fulfil the following product-specific rule to be considered
+  originating in the <%= rules_of_origin_service_name %> or <%= country_name %>.
+</p>
+
+<p>
+  If there are alternative rules, your product needs to comply with only one
+  of them.
+</p>
+
+<table class="govuk-table govuk-table--responsive commodity-rules-of-origin">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="col">
+        Heading
+      </th>
+
+      <th class="govuk-table__header" scope="col">
+        Description
+      </th>
+
+      <th class="govuk-table__header" scope="col">
+        Rule
+      </th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% rules.each do |rule| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell" data-label="Heading">
+        <%= rule.heading %>
+      </td>
+
+      <td class="govuk-table__cell" data-label="Description">
+        <%= rule.description %>
+      </td>
+
+      <td class="govuk-table__cell tariff-markdown responsive-full-width" data-label="Rule">
+        <%= govspeak rule.rule %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

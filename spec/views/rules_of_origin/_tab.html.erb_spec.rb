@@ -106,13 +106,13 @@ describe 'rules_of_origin/_tab.html.erb', type: :view do
   context 'without matched rules' do
     let(:rules_data) { [] }
 
-    it 'shows rules table' do
-      expect(rendered_page).to have_css 'table.govuk-table'
+    it 'does not shows rules table' do
+      expect(rendered_page).not_to have_css 'table.govuk-table'
     end
 
     it 'shows no matched rules message' do
       expect(rendered_page).to \
-        have_css 'tbody td', text: /no product-specific rules/
+        have_css 'p', text: /no product-specific rules/
     end
   end
 
