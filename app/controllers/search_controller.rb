@@ -92,7 +92,7 @@ class SearchController < ApplicationController
   private
 
   def anchor
-    safe_anchor = params.dig(:search, :anchor).to_s.gsub(/[^a-z]/, '')
+    safe_anchor = params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_\-]/, '')
     safe_anchor.present? ? "##{safe_anchor}" : ''
   end
 end
