@@ -77,4 +77,22 @@
     </div>
     <% end %>
   </div>
+
+  <% if rules_of_origin.flat_map(&:links).any? %>
+  <div class="grid-column-one-third" id="rules-of-origin__related-content">
+    <h2 class="govuk-heading-m">
+      Related content
+    </h2>
+
+    <nav role="navigation">
+      <ul class="govuk-list govuk-list-s">
+        <% rules_of_origin.flat_map(&:links).each do |link| %>
+          <li>
+            <%= link_to link.text, link.url %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+  <% end %>
 </div>
