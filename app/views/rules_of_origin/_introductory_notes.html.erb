@@ -54,7 +54,7 @@
     <h2 class="govuk-heading-m">Introductory notes</h2>
 
     <div class="tariff-markdown">
-      <%= govspeak introductory_notes.to_s %>
+      <%= govspeak introductory_notes if introductory_notes.present? %>
     </div>
   </div>
 </details>
