@@ -84,6 +84,11 @@ module TradeTariffFrontend
     ENV['RULES_OF_ORIGIN_ENABLED'].to_s.downcase == 'true'
   end
 
+  def rules_of_origin_api_requests_enabled?
+    rules_of_origin_enabled? ||
+      ENV['RULES_OF_ORIGIN_API_REQUESTS_ENABLED'].to_s.downcase == 'true'
+  end
+
   def revision
     `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
   end
