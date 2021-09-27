@@ -1,0 +1,60 @@
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">How to read rules of origin</span>
+  </summary>
+
+  <div class="govuk-details__text">
+    <p>The rules of origin table contains:</p>
+
+    <ul class="govuk-list--bullet">
+      <li>
+        the product classification heading ('HS heading') or chapter number
+        (column 1)
+      </li>
+
+      <li>
+        a description of the product, or the headings / subheadings covered by
+        the rules (column 2)
+      </li>
+
+      <li>
+        a description of how non-originating materials must be worked or
+        processed to get country of origin status (column 3)
+      </li>
+    </ul>
+
+    <p>For each row:</p>
+
+    <ul class="govuk-list--bullet">
+      <li>
+        check column 1 to find the product classification heading or chapter
+        number for the product being exported
+      </li>
+
+      <li>check column 2 to find the description that applies to the product</li>
+
+      <li>
+        check column 3 <!--(and 4 if present)//--> to see how the product must
+        be worked or processed to gain country of origin status
+      </li>
+    </ul>
+
+    <p>
+      Unless preceded by ‘ex’, the rules in column 3 <!--(or 4 if present)//-->
+      apply to all products that come under the headings and chapters in column
+      1.
+    </p>
+
+    <p>
+      If the heading in column 1 starts with ‘ex’, the rules in column 3
+      <!--(and 4 if present)//--> will only apply to the product as described
+      in column 2.
+    </p>
+
+    <h2 class="govuk-heading-m">Introductory notes</h2>
+
+    <div class="tariff-markdown">
+      <%= govspeak introductory_notes if introductory_notes.present? %>
+    </div>
+  </div>
+</details>
