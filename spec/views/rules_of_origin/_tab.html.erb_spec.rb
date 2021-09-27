@@ -36,11 +36,6 @@ describe 'rules_of_origin/_tab.html.erb', type: :view do
     expect(rendered_page).to have_css 'h3', text: /for commodity 2203000100/
   end
 
-  it 'includes the introductory_notes section' do
-    expect(rendered_page).to have_css 'details .tariff-markdown p',
-                                      text: /Details of introductory notes/
-  end
-
   it 'includes links in the sidebar' do
     expect(rendered_page).to have_css '#rules-of-origin__related-content nav li'
   end
@@ -102,6 +97,11 @@ describe 'rules_of_origin/_tab.html.erb', type: :view do
         have_css '.rules-of-origin-fta .tariff-markdown h2',
                  text: 'Free Trade Agreement'
     end
+
+    it 'includes the introductory_notes section' do
+      expect(rendered_page).to have_css 'details .tariff-markdown p',
+                                        text: /Details of introductory notes/
+    end
   end
 
   context 'without matched rules' do
@@ -114,6 +114,10 @@ describe 'rules_of_origin/_tab.html.erb', type: :view do
     it 'shows no matched rules message' do
       expect(rendered_page).to \
         have_css 'p', text: /no product-specific rules/
+    end
+
+    it 'excludes the introductory_notes section' do
+      expect(rendered_page).not_to have_css 'details .tariff-markdown'
     end
   end
 

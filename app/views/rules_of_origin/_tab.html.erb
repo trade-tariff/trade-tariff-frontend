@@ -15,14 +15,14 @@
       <%= render 'rules_of_origin/rules_table',
                  country_name: country_name,
                  rules: rules %>
+
+      <%= render partial: 'rules_of_origin/introductory_notes',
+                 collection: rules_of_origin.map(&:introductory_notes) %>
     <%- else -%>
       <p>
         There are no product-specific rules for commodity <% commodity_code %>
       </p>
     <%- end -%>
-
-    <%= render partial: 'rules_of_origin/introductory_notes',
-              collection: rules_of_origin.map(&:introductory_notes) %>
 
     <% rules_of_origin.map(&:fta_intro).map(&:presence).compact.each do |fta_intro| %>
     <div class="rules-of-origin-fta">
