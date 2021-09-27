@@ -10,7 +10,7 @@ class CommoditiesController < GoodsNomenclaturesController
     @section = commodity.section
     @back_path = request.referer || heading_path(@heading.short_code)
 
-    if params[:country].present? && TradeTariffFrontend.rules_of_origin_enabled?
+    if params[:country].present? && TradeTariffFrontend.rules_of_origin_api_requests_enabled?
       @rules_of_origin = commodity.rules_of_origin(params[:country])
     end
   end
