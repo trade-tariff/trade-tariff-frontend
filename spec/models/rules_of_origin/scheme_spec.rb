@@ -9,6 +9,7 @@ describe RulesOfOrigin::Scheme do
   it { is_expected.to respond_to :countries }
   it { is_expected.to respond_to :footnote }
   it { is_expected.to respond_to :fta_intro }
+  it { is_expected.to respond_to :introductory_notes }
   it { is_expected.to respond_to :rules }
   it { is_expected.to respond_to :links }
 
@@ -27,6 +28,7 @@ describe RulesOfOrigin::Scheme do
               countries: %w[FR ES IT],
               footnote: 'Footnote comments **in markdown**',
               fta_intro: "## Markdown heading\n\n Further information",
+              introductory_notes: "## Introductory notes\n\ndetails",
             },
             relationships: {
               rules: {
@@ -101,6 +103,7 @@ describe RulesOfOrigin::Scheme do
         it { is_expected.to have_attributes countries: %w[FR ES IT] }
         it { is_expected.to have_attributes footnote: /footnote/i }
         it { is_expected.to have_attributes fta_intro: /Further information/ }
+        it { is_expected.to have_attributes introductory_notes: /Introductory notes/ }
         it { expect(scheme.rules).to have_attributes length: 1 }
       end
 

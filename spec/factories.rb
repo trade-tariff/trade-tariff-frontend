@@ -274,6 +274,7 @@ FactoryBot.define do
     countries { %w[FR ES IT] }
     footnote { 'Scheme footnote' }
     fta_intro { "## Agreement\n\nDetails of agreement" }
+    introductory_notes { "## Introductory notes\n\ndetails" }
     rules { attributes_for_list :rules_of_origin_rule, rule_count }
     links { attributes_for_list :rules_of_origin_link, link_count }
   end
