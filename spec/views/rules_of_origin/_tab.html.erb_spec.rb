@@ -36,8 +36,9 @@ describe 'rules_of_origin/_tab.html.erb', type: :view do
     expect(rendered_page).to have_css 'h3', text: /for commodity 2203000100/
   end
 
-  it 'includes the "How to read the rules" section' do
-    expect(rendered_page).to have_css 'details summary span', text: /How to read/
+  it 'includes the introductory_notes section' do
+    expect(rendered_page).to have_css 'details .tariff-markdown p',
+                                      text: /Details of introductory notes/
   end
 
   it 'includes links in the sidebar' do

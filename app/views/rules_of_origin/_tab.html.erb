@@ -21,7 +21,8 @@
       </p>
     <%- end -%>
 
-    <%= render 'rules_of_origin/instructions' %>
+    <%= render partial: 'rules_of_origin/introductory_notes',
+              collection: rules_of_origin.map(&:introductory_notes) %>
 
     <% rules_of_origin.map(&:fta_intro).map(&:presence).compact.each do |fta_intro| %>
     <div class="rules-of-origin-fta">
