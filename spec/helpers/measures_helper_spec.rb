@@ -70,7 +70,7 @@ RSpec.describe MeasuresHelper, type: :helper do
       it 'returns the augmenting modal partial options' do
         options = helper.modal_partial_options_for(declarable, measure)
         expected_options = {
-          partial: 'measure_condition_modal_augment',
+          partial: 'measures/measure_condition_modal_augment',
           locals: { modal_content_file: 'animal_health' },
         }
 
@@ -86,7 +86,7 @@ RSpec.describe MeasuresHelper, type: :helper do
       it 'returns the replacing modal partial options' do
         options = helper.modal_partial_options_for(declarable, measure)
         expected_options = {
-          partial: 'measure_condition_replacement_modals/small_breweries_relief_440',
+          partial: 'measures/measure_condition_replacement_modals/small_breweries_relief_440',
         }
 
         expect(options).to eq(expected_options)
@@ -101,7 +101,7 @@ RSpec.describe MeasuresHelper, type: :helper do
       it 'returns the default modal partial options' do
         options = helper.modal_partial_options_for(declarable, measure)
         expected_options = {
-          partial: 'measure_condition_modal_default',
+          partial: 'measures/measure_condition_modal_default',
           locals: { measure: measure },
         }
 
