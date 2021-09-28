@@ -19,6 +19,7 @@ module TradeTariffFrontend
       goods_nomenclatures
       search_references
       geographical_areas
+      meursing_measures
     ]
   end
 
@@ -43,6 +44,7 @@ module TradeTariffFrontend
       certificate_types
       footnote_types
       changes
+      meursing_measures
     ]
   end
 
