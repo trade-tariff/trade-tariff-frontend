@@ -18,7 +18,7 @@ module MeasuresHelper
       if overwrite
         { partial: "measures/measure_condition_replacement_modals/#{content_file}" }
       else
-        { partial: 'measures/measure_condition_modal_augment', locals: { modal_content_file: content_file } }
+        { partial: 'measures/measure_condition_modal_augmented', locals: { modal_content_file: "measures/measure_condition_replacement_modals/#{content_file}", measure: measure } }
       end
     else
       { partial: 'measures/measure_condition_modal_default', locals: { measure: measure } }

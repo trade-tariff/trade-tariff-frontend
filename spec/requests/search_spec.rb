@@ -61,6 +61,7 @@ describe 'Search page', type: :request do
             # fill_in "q", with: "synonym 1"
             click_button 'Search'
           end
+          save_and_open_page
           expect(page).to have_content('Section I')
         end
       end

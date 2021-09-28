@@ -70,8 +70,11 @@ RSpec.describe MeasuresHelper, type: :helper do
       it 'returns the augmenting modal partial options' do
         options = helper.modal_partial_options_for(declarable, measure)
         expected_options = {
-          partial: 'measures/measure_condition_modal_augment',
-          locals: { modal_content_file: 'animal_health' },
+          partial: 'measures/measure_condition_modal_augmented',
+          locals: {
+            modal_content_file: 'measures/measure_condition_replacement_modals/animal_health',
+            measure: measure,
+          },
         }
 
         expect(options).to eq(expected_options)
