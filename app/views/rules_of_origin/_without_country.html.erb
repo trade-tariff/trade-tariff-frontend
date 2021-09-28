@@ -9,6 +9,7 @@
       has a trade agreement from the list above
     </p>
 
+    <% if TradeTariffFrontend::ServiceChooser.uk? %>
     <p>
       You can also find out about rules of origin
     <p>
@@ -29,5 +30,6 @@
         </li>
       </ul>
     </nav>
+    <% end %>
   </div>
 </div>
