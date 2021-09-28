@@ -1,12 +1,5 @@
 <% if measure.has_measure_conditions? %>
-<div class='conditions' id='<%= measure.id %>' data-popup='<%= measure.destination %>-<%= measure.id %>-conditions'>
-  <article>
-    <h2 class="govuk-heading-l govuk-!-margin-bottom-0"><%= measure.measure_type.description %> for <%= measure.geographical_area.description %></h2>
-    <% measure.grouped_measure_conditions.each do |condition_group, conditions| %>
-      <%= render partial: "measure_conditions/measure_condition_code_#{condition_group[:partial_type]}", locals: { condition_group: condition_group, conditions: conditions } %>
-    <% end %>
-  </article>
-</div>
+  <%= render partial: 'measures/measure_condition_modal', locals: { declarable: declarable, measure: measure } %>
 <% end %>
 
 <% if measure.has_measure_footnotes? %>

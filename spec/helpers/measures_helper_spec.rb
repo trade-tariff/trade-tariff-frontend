@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MeasuresHelper, type: :helper do
+RSpec.describe MeasuresHelper, type: :helper do
   describe '#filter_duty_expression' do
     subject(:filtered_expression) { helper.filter_duty_expression(measure) }
 
@@ -42,6 +42,108 @@ describe MeasuresHelper, type: :helper do
 
       it { expect(helper.legal_act_regulation_url_link_for(measure)).to eq(expected_link) }
       it { expect(helper.legal_act_regulation_url_link_for(measure)).to be_html_safe }
+    end
+  end
+
+  describe '#modal_partial_options_for' do
+    let(:declarable) { build(:commodity, goods_nomenclature_item_id: goods_nomenclature_item_id) }
+
+    let(:measure) do
+      build(
+        :measure,
+        measure_type: attributes_for(
+          :measure_type,
+          id: measure_type_id,
+        ),
+        additional_code: attributes_for(
+          :additional_code,
+          code: additional_code,
+        ),
+      )
+    end
+
+    context 'when matching augmenting config' do
+      let(:goods_nomenclature_item_id) { '0101210000' }
+      let(:additional_code) { nil } # Translates to NullObject in Measure#additional_code
+      let(:measure_type_id) { '350' }
+
+      it 'returns the augmenting modal partial options' do
+        options = helper.modal_partial_options_for(declarable, measure)
+        expected_options = {
+          partial: 'measures/measure_condition_modal_augmented',
+          locals: {
+            modal_content_file: 'measures/measure_condition_replacement_modals/animal_health',
+            measure: measure,
+          },
+        }
+
+        expect(options).to eq(expected_options)
+      end
+    end
+
+    context 'when matching replacing config' do
+      let(:goods_nomenclature_item_id) { '2203000100' }
+      let(:additional_code) { 'X440' }
+      let(:measure_type_id) { '306' }
+
+      it 'returns the replacing modal partial options' do
+        options = helper.modal_partial_options_for(declarable, measure)
+        expected_options = {
+          partial: 'measures/measure_condition_replacement_modals/small_brewers_relief_440',
+        }
+
+        expect(options).to eq(expected_options)
+      end
+    end
+
+    context 'when matching no config' do
+      let(:goods_nomenclature_item_id) { '2203000100' }
+      let(:additional_code) { 'X440' }
+      let(:measure_type_id) { 'foo' }
+
+      it 'returns the default modal partial options' do
+        options = helper.modal_partial_options_for(declarable, measure)
+        expected_options = {
+          partial: 'measures/measure_condition_modal_default',
+          locals: { measure: measure },
+        }
+
+        expect(options).to eq(expected_options)
+      end
+    end
+  end
+
+  describe '#measure_condition_config_for' do
+    context 'when a match is found' do
+      let(:goods_nomenclature_item_id) { '2203000100' }
+      let(:additional_code) { 'X440' }
+      let(:measure_type_id) { '306' }
+
+      it 'returns the correct modal config' do
+        config = helper.measure_condition_config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
+        expected_config = {
+          'goods_nomenclature_item_id' => '2203000100',
+          'additional_code' => 'X440',
+          'measure_type_id' => '306',
+          'content_file' => 'small_brewers_relief_440',
+          'overwrite' => true,
+        }
+
+        expect(config).to eq(expected_config)
+      end
+    end
+
+    context 'when a match is not found' do
+      let(:goods_nomenclature_item_id) { '2203000100' }
+      let(:additional_code) { 'X440' }
+      let(:measure_type_id) { 'foo' }
+
+      it 'returns the correct modal config' do
+        config = helper.measure_condition_config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
+        expected_config = { content_file: nil, overwrite: nil }
+
+        expect(config).to eq(expected_config)
+      end
     end
   end
 end

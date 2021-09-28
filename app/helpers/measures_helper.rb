@@ -1,4 +1,40 @@
 module MeasuresHelper
+  DEFAULT_MODAL_CONFIG = {
+    content_file: nil,
+    overwrite: nil,
+  }.freeze
+
+  def modal_partial_options_for(declarable, measure)
+    config = measure_condition_config_for(
+      declarable.goods_nomenclature_item_id,
+      measure.additional_code.code,
+      measure.measure_type.id,
+    )
+
+    overwrite = config['overwrite']
+    content_file = config['content_file']
+
+    if content_file.present?
+      if overwrite
+        { partial: "measures/measure_condition_replacement_modals/#{content_file}" }
+      else
+        { partial: 'measures/measure_condition_modal_augmented', locals: { modal_content_file: "measures/measure_condition_replacement_modals/#{content_file}", measure: measure } }
+      end
+    else
+      { partial: 'measures/measure_condition_modal_default', locals: { measure: measure } }
+    end
+  end
+
+  def measure_condition_config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
+    config = TradeTariffFrontend.measure_condition_modal_config.find do |modal_config|
+      modal_config['goods_nomenclature_item_id'] == goods_nomenclature_item_id &&
+        modal_config['additional_code'] == additional_code &&
+        modal_config['measure_type_id'] == measure_type_id
+    end
+
+    config || DEFAULT_MODAL_CONFIG
+  end
+
   def filter_duty_expression(measure)
     duty_expression = measure.duty_expression.to_s.html_safe
     duty_expression = '' if duty_expression == 'NIHIL'
