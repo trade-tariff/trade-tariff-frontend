@@ -5,7 +5,7 @@ module MeasuresHelper
   }.freeze
 
   def modal_partial_options_for(declarable, measure)
-    config = config_for(
+    config = measure_condition_config_for(
       declarable.goods_nomenclature_item_id,
       measure.additional_code.code,
       measure.measure_type.id,
@@ -25,7 +25,7 @@ module MeasuresHelper
     end
   end
 
-  def config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
+  def measure_condition_config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
     config = TradeTariffFrontend.measure_condition_modal_config.find do |modal_config|
       modal_config['goods_nomenclature_item_id'] == goods_nomenclature_item_id &&
         modal_config['additional_code'] == additional_code &&

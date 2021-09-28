@@ -113,14 +113,14 @@ RSpec.describe MeasuresHelper, type: :helper do
     end
   end
 
-  describe '#config_for' do
+  describe '#measure_condition_config_for' do
     context 'when a match is found' do
       let(:goods_nomenclature_item_id) { '2203000100' }
       let(:additional_code) { 'X440' }
       let(:measure_type_id) { '306' }
 
       it 'returns the correct modal config' do
-        config = helper.config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
+        config = helper.measure_condition_config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
         expected_config = {
           'goods_nomenclature_item_id' => '2203000100',
           'additional_code' => 'X440',
@@ -139,7 +139,7 @@ RSpec.describe MeasuresHelper, type: :helper do
       let(:measure_type_id) { 'foo' }
 
       it 'returns the correct modal config' do
-        config = helper.config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
+        config = helper.measure_condition_config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
         expected_config = { content_file: nil, overwrite: nil }
 
         expect(config).to eq(expected_config)
