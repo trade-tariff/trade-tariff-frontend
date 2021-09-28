@@ -21,5 +21,19 @@ describe CountryFlagHelper, type: :helper do
           have_css('img.country-flag[alt="alt text"]')
       end
     end
+
+    context "with country which we don't have a flag for" do
+      subject(:rendered) { helper.country_flag_tag('A1') }
+
+      before { allow(Raven).to receive(:capture_message).and_return(true) }
+
+      it('returns nothing') { is_expected.to be_nil }
+
+      it 'notifies Sentry' do
+        rendered
+
+        expect(Raven).to have_received(:capture_message)
+      end
+    end
   end
 end

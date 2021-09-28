@@ -50,6 +50,9 @@ gem 'newrelic_rpm'
 gem 'govuk_design_system_formbuilder'
 gem 'wizard_steps'
 
+# Sentry
+gem 'sentry-raven'
+
 group :development do
   gem 'letter_opener'
   gem 'rubocop-govuk'
@@ -78,8 +81,4 @@ group :test do
   gem 'vcr'
   gem 'webdrivers'
   gem 'webmock'
-end
-
-group :production do
-  gem 'sentry-raven'
 end
