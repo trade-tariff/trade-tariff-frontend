@@ -16,12 +16,12 @@ module MeasuresHelper
 
     if content_file.present?
       if overwrite
-        { partial: "measure_condition_replacement_modals/#{content_file}" }
+        { partial: "measures/measure_condition_replacement_modals/#{content_file}" }
       else
-        { partial: 'measure_condition_modal_augment', locals: { modal_content_file: content_file } }
+        { partial: 'measures/measure_condition_modal_augment', locals: { modal_content_file: content_file } }
       end
     else
-      { partial: 'measure_condition_modal_default', locals: { measure: measure } }
+      { partial: 'measures/measure_condition_modal_default', locals: { measure: measure } }
     end
   end
 

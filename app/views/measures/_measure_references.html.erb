@@ -1,5 +1,5 @@
 <% if measure.has_measure_conditions? %>
-  <%= render partial: 'measure_condition_modal', locals: { declarable: declarable, measure: measure } %>
+  <%= render partial: 'measures/measure_condition_modal', locals: { declarable: declarable, measure: measure } %>
 <% end %>
 
 <% if measure.has_measure_footnotes? %>
