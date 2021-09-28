@@ -469,7 +469,7 @@ DEPENDENCIES
   puma
   rack-cors
   rack-test
-  rails (~> 6)
+  rails (~> 6.1.4)
   rails-controller-testing!
   redis-rails
   responders
