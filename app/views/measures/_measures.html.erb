@@ -143,7 +143,7 @@
   <!-- Rules of Origin tab -->
   <% if TradeTariffFrontend.rules_of_origin_enabled? %>
     <div class="govuk-tabs__panel" id="rules-of-origin">
-      <%- if @search.filtered_by_country? -%>
+      <%- if @search.filtered_by_country? && @search.geographical_area -%>
         <%= render 'rules_of_origin/tab',
                    country_code: @search.country,
                    country_name: @search.geographical_area.description,
