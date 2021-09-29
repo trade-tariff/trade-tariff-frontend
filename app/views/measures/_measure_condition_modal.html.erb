@@ -1,5 +1,5 @@
 <div class='conditions' id='<%= measure.id %>' data-popup='<%= measure.destination %>-<%= measure.id %>-conditions'>
   <article>
-    <%= render modal_partial_options_for(declarable, measure) %>
+    <%= render MeasureConditionDialog.build(declarable, measure).options %>
   </article>
 </div>

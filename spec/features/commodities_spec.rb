@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe 'Commodity show page', js: true do
   before do
+    stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', 'spec/fixtures/measure_condition_dialog_config.yaml')
+
     TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
     VCR.use_cassette('headings#show_0201', record: :new_episodes) do
       visit commodity_path('0201100021', day: 31, month: 5, year: 2018)

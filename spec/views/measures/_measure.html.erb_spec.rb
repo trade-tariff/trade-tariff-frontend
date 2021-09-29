@@ -9,6 +9,8 @@ describe 'measures/_measure.html.erb', type: :view do
   end
 
   before do
+    stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', 'spec/fixtures/measure_condition_dialog_config.yaml')
+
     render 'measures/measure', measure: MeasurePresenter.new(measure)
   end
 

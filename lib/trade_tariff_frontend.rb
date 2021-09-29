@@ -55,13 +55,6 @@ module TradeTariffFrontend
     10
   end
 
-  def measure_condition_modal_config
-    @measure_condition_modal_config ||= begin
-      filename = Rails.root.join('db/measure_condition_modal_config.yaml')
-      YAML.safe_load(File.read(filename))
-    end
-  end
-
   # Email of the user who receives all info/error notifications, feedback
   def from_email
     ENV['TARIFF_FROM_EMAIL']

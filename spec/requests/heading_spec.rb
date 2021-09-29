@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe 'Heading page', type: :request do
   before do
+    stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', 'spec/fixtures/measure_condition_dialog_config.yaml')
+
     allow(RulesOfOrigin::Scheme).to receive(:all).and_return([])
     TradeTariffFrontend::ServiceChooser.service_choice = nil
   end
