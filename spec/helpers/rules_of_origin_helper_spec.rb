@@ -51,4 +51,31 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.to have_css '#rules-of-origin__intro--country-scheme' }
     end
   end
+
+  describe '#rules_of_origin_tagged_descriptions' do
+    subject { helper.rules_of_origin_tagged_descriptions(content) }
+
+    context 'without tagged descriptions' do
+      let(:content) { 'Some sample content' }
+
+      it { is_expected.to eql content }
+    end
+
+    context 'with matching tagged descriptions' do
+      let(:content) { "With two tags in\n\n{{CC}}{{CTSH}}" }
+
+      it { is_expected.to start_with 'With two tags in' }
+      it { is_expected.to match 'change of chapter' }
+      it { is_expected.to match 'change in tariff subheading' }
+    end
+
+    context 'with unmatched tagged descriptions' do
+      let(:content) { "With two tags in\n\n{{UNKNOWN}}{{CTSH}}" }
+
+      it { is_expected.to start_with 'With two tags in' }
+      it { is_expected.not_to match '{{CC}}' }
+      it { is_expected.not_to match 'change of chapter' }
+      it { is_expected.to match 'change in tariff subheading' }
+    end
+  end
 end

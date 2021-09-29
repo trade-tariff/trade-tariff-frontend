@@ -1,4 +1,6 @@
 module RulesOfOriginHelper
+  ROO_TAGGED_DESCRIPTIONS = %w[CC CTH CTSH EXW WO].freeze
+
   def rules_of_origin_service_name
     TradeTariffFrontend::ServiceChooser.uk? ? 'UK' : 'EU'
   end
@@ -17,5 +19,17 @@ module RulesOfOriginHelper
     end
 
     safe_join schemes_intros, "\n\n"
+  end
+
+  def rules_of_origin_tagged_descriptions(content)
+    content.gsub(/\{\{([A-Z]+)\}\}/) do |_match|
+      matched_tag = Regexp.last_match(1)
+
+      if ROO_TAGGED_DESCRIPTIONS.include?(matched_tag)
+        render "rules_of_origin/tagged_descriptions/#{matched_tag.downcase}"
+      else
+        ''
+      end
+    end
   end
 end
