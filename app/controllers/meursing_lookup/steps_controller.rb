@@ -4,6 +4,7 @@ module MeursingLookup
       @no_shared_search = true
       @tariff_last_updated = nil
       clear_meursing_lookup_session
+      store_meursing_lookup_result_on_session
     end
 
     include WizardSteps
@@ -20,8 +21,12 @@ module MeursingLookup
       meursing_lookup_step_path(step_id)
     end
 
+    def store_meursing_lookup_result_on_session
+      session[wizard_store_key]['result'] = current_step.meursing_code if current_step.key == MeursingLookup::Steps::End.key
+    end
+
     def clear_meursing_lookup_session
-      session.delete(wizard_store_key) if current_step.key == 'start'
+      session.delete(wizard_store_key) if current_step.key == MeursingLookup::Steps::Start.key
     end
   end
 end
