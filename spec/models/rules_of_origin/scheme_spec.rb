@@ -47,6 +47,14 @@ describe RulesOfOrigin::Scheme do
                   },
                 ],
               },
+              proofs: {
+                data: [
+                  {
+                    id: 'proof-1',
+                    type: 'rules_of_origin_proof',
+                  },
+                ],
+              },
             },
           },
         ],
@@ -67,6 +75,14 @@ describe RulesOfOrigin::Scheme do
             attributes: {
               text: 'GovUK',
               url: 'https://www.gov.uk',
+            },
+          },
+          {
+            id: 'proof-1',
+            type: 'rules_of_origin_proof',
+            attributes: {
+              summary: 'proof',
+              content: 'content',
             },
           },
         ],
@@ -206,11 +222,24 @@ describe RulesOfOrigin::Scheme do
 
       it { expect(schemes.first.links.length).to be 1 }
 
-      context 'with single link' do
+      context 'with first link' do
         subject { schemes.first.links.first }
 
         it { is_expected.to have_attributes text: 'GovUK' }
         it { is_expected.to have_attributes url: 'https://www.gov.uk' }
+      end
+    end
+
+    describe 'proofs' do
+      include_context 'with mocked response'
+
+      it { expect(schemes.first.proofs.length).to be 1 }
+
+      context 'with first proof' do
+        subject { schemes.first.proofs.first }
+
+        it { is_expected.to have_attributes summary: 'proof' }
+        it { is_expected.to have_attributes content: 'content' }
       end
     end
   end
