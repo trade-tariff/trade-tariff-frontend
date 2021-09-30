@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MeasuresHelper, type: :helper do
+RSpec.describe MeasuresHelper, type: :helper do
   describe '#filter_duty_expression' do
     subject(:filtered_expression) { helper.filter_duty_expression(measure) }
 

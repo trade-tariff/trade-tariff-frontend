@@ -3,10 +3,11 @@ require 'spec_helper'
 describe 'Search page', type: :request do
   describe 'search results' do
     before do
+      stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', 'spec/fixtures/measure_condition_dialog_config.yaml')
       allow(Section).to receive(:all).and_return([])
     end
 
-    context 'exact match' do
+    context 'when exact match' do
       it 'redirects user to exact match page' do
         VCR.use_cassette('tariff_updates#index') do
           visit sections_path(q: '0101210000')
@@ -17,13 +18,13 @@ describe 'Search page', type: :request do
             click_button 'Search'
           end
 
-          expect(page).to have_content 'Pure-bred breeding animals'
-          expect(page).to have_content 'The commodity code for importing is 0101210000.'
+          expect(page.text).to include('Pure-bred breeding animals',
+                                       'The commodity code for importing is 0101210000.')
         end
       end
     end
 
-    context 'fuzzy match - when search results page is finished' do
+    context 'when search results page is finished (fuzzy match)' do
       it 'returns result list' do
         VCR.use_cassette('search_fuzzy_horses') do
           visit sections_path(q: 'horses')
@@ -38,7 +39,7 @@ describe 'Search page', type: :request do
       end
     end
 
-    context 'no results found' do
+    context 'when no results found' do
       it 'displays no results message' do
         VCR.use_cassette('search_no_results') do
           visit sections_path(q: '!!!!!!!!!!!!')
@@ -53,7 +54,7 @@ describe 'Search page', type: :request do
       end
     end
 
-    context 'duplicate results - when search results page is finished' do
+    context 'when duplicate results and search results page is finished' do
       it 'Display section when matching' do
         VCR.use_cassette('tariff_updates#index') do
           visit sections_path(q: 'synonym 1')
