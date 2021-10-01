@@ -251,16 +251,21 @@ FactoryBot.define do
     end
   end
 
+  factory :rules_of_origin_link, class: 'RulesOfOrigin::Link' do
+    sequence(:text) { |n| "GovUK page #{n}" }
+    url { 'https://www.gov.uk' }
+  end
+
+  factory :rules_of_origin_proof, class: 'RulesOfOrigin::Proof' do
+    sequence(:summary) { |n| "Proof summary #{n}" }
+    sequence(:content) { |n| "Proof content #{n}" }
+  end
+
   factory :rules_of_origin_rule, class: 'RulesOfOrigin::Rule' do
     sequence(:id_rule) { |n| n }
     sequence(:heading) { |n| "Chapter #{n}" }
     description { 'Description' }
     rule { 'Rule' }
-  end
-
-  factory :rules_of_origin_link, class: 'RulesOfOrigin::Link' do
-    sequence(:text) { |n| "GovUK page #{n}" }
-    url { 'https://www.gov.uk' }
   end
 
   factory :rules_of_origin_scheme, class: 'RulesOfOrigin::Scheme' do
