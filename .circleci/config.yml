@@ -165,16 +165,26 @@ jobs:
             docker tag $IMAGE_NAME:$DOCKER_TAG $ECR_REPO/$IMAGE_NAME:$DOCKER_TAG
             docker push $ECR_REPO/$IMAGE_NAME:$DOCKER_TAG
 
-  cypress:
+  smoketest_dev: &smoketest
     docker:
       - image: 'cypress/base:latest'
+    environment:
+      CYPRESS_BASE_URL: https://dev.trade-tariff.service.gov.uk
     steps:
       - run:
           name: "Checkout tests repo"
-          command: git clone "https://github.com/trade-tariff/trade-tariff-testing/"
+          command: git clone --depth=1 "https://github.com/trade-tariff/trade-tariff-testing/"
+      - run:
+          name: "Check environment being tested"
+          command: 'echo "Testing: ${CYPRESS_BASE_URL}"'
       - run:
           name: "Cypress Smoke tests"
-          command: 'cd trade-tariff-testing && npm install &&  npx cypress run --spec "/*/**/HOTT-Shared/smokeTestTradeTariff.spec.js"'
+          command: 'cd trade-tariff-testing && yarn install && yarn run cypress run --spec "/*/**/HOTT-Shared/smokeTestTradeTariff.spec.js"'
+
+  smoketest_staging:
+    <<: *smoketest
+    environment:
+      CYPRESS_BASE_URL: https://staging.trade-tariff.service.gov.uk
 
   test:
     parallelism: 4
@@ -243,12 +253,14 @@ workflows:
     jobs:
       - checks:
           context: trade-tariff
+
       - test:
           context: trade-tariff
           filters:
             branches:
               ignore:
                 - master
+
       - build:
           name: build_dev
           context: trade-tariff
@@ -258,6 +270,7 @@ workflows:
               ignore:
                 - master
                 - /^dependabot\/.*/
+
       - deploy_dev:
           context: trade-tariff
           requires:
@@ -267,6 +280,18 @@ workflows:
             branches:
               ignore:
                 - /^dependabot\/.*/
+
+      - smoketest_dev:
+          name: smoketest_dev
+          context: trade-tariff
+          filters:
+            branches:
+              ignore:
+                - master
+                - /^dependabot\/.*/
+          requires:
+            - deploy_dev
+
       - build:
           name: build_live
           context: trade-tariff
@@ -274,6 +299,7 @@ workflows:
             branches:
               only:
                 - master
+
       - deploy_staging:
           context: trade-tariff
           filters:
@@ -282,13 +308,15 @@ workflows:
                 - master
           requires:
             - build_live
-      - cypress:
+
+      - smoketest_staging:
           filters:
             branches:
               only:
                 - master
           requires:
             - deploy_staging
+
       - hold_production:
           type: approval
           filters:
@@ -297,6 +325,7 @@ workflows:
                 - master
           requires:
             - deploy_staging
+
       - deploy_production:
           context: trade-tariff
           filters:
