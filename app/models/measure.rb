@@ -76,10 +76,6 @@ class Measure
     measure_type.id == '142'
   end
 
-  def meursing?
-    # MEURSING_IDS.in? duty_expression.to_s
-  end
-
   def supplementary?
     options = %w[109 110 111]
     options.include?(measure_type.id)
