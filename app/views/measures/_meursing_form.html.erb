@@ -1,0 +1,17 @@
+<% meursing_finder_link = link_to 'Meursing code finder', meursing_lookup_step_path('start'), class: 'govuk-link' %>
+<% meursing_clear_link = link_to 'Clear additional code', meursing_lookup_result_path, class: 'govuk-link meursing-form-textual-button' %>
+
+<div id="meursing" class="govuk-inset-text govuk-inset-text--s no-inset tariff-inset">
+  <%= form_for MeursingLookup::Result.new, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+    <h4 class="govuk-heading-s">Enter a 'Meursing code' to work out applicable duties</h4>
+    <p class="govuk-body">This commodity code features duties which may be dependent on the <b>sugar, flour, milk fat and milk protein</b> content. To fully define the applicable duties, you need to specify the additional code that defines the content of these ingredients.</p>
+
+    <%= f.govuk_text_field :meursing_additional_code_id, width: 'one-quarter', label: { text: 'Enter the 3-digit additional code' }, prefix_text: '7',
+      hint: { text: "If you know the additional code for your commodity, enter it in the box below. If you do not know the code, then use the #{meursing_finder_link} to find the additional code. You will be able to return to this page once you have found the right Meursing additional code.".html_safe },
+      value: meursing_lookup_result.meursing_additional_code_id
+    %>
+
+    <%= f.govuk_submit("Save code and update duties") %>
+    <%= meursing_clear_link %>
+  <% end %>
+</div>

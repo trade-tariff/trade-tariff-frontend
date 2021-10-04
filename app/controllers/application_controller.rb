@@ -104,6 +104,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :cookies_policy
 
+  def meursing_lookup_result
+    @meursing_lookup_result ||= MeursingLookup::Result.new(meursing_additional_code_id: session[MeursingLookup::Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY])
+  end
+  helper_method :meursing_lookup_result
+
   protected
 
   def maintenance_mode_if_active

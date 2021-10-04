@@ -7,6 +7,7 @@ module MeursingLookup
       store_meursing_lookup_result_on_session
     end
 
+    include DeclarableHelper
     include WizardSteps
 
     self.wizard_class = MeursingLookup::Wizard
@@ -22,7 +23,7 @@ module MeursingLookup
     end
 
     def store_meursing_lookup_result_on_session
-      session[wizard_store_key]['result'] = current_step.meursing_code if current_step.key == MeursingLookup::Steps::End.key
+      session[Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY] = current_step.meursing_code if current_step.key == MeursingLookup::Steps::End.key
     end
 
     def clear_meursing_lookup_session

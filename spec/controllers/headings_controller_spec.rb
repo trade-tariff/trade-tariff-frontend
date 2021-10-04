@@ -20,6 +20,12 @@ describe HeadingsController, type: :controller do
       expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
     end
 
+    it 'sets the declarable_code in the session', vcr: { cassette_name: 'headings#show_0110' } do
+      get :show, params: { id: '0501' }
+
+      expect(session[:declarable_code]).to eq('0501')
+    end
+
     context 'with existing heading id provided', vcr: { cassette_name: 'headings#show' } do
       let!(:heading) { Heading.new(attributes_for(:heading).stringify_keys) }
 

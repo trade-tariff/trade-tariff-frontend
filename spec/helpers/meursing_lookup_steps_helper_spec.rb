@@ -26,12 +26,12 @@ RSpec.describe MeursingLookupStepsHelper, type: :helper do
     end
   end
 
-  describe '#current_commodity_code' do
+  describe '#current_declarable_code' do
     before { session[:commodity_code] = commodity_code }
 
     let(:commodity_code) { 'foo' }
 
-    it { expect(helper.current_commodity_code).to eq('foo') }
+    it { expect(helper.current_declarable_code).to eq('foo') }
   end
 
   describe '#step_with_form?' do

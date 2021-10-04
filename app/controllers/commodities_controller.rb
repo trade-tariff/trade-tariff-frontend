@@ -51,6 +51,10 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def set_session
-    session[:commodity_code] = commodity.code
+    session[:declarable_code] = commodity.code
+  end
+
+  def query_params
+    super.merge(filter: { meursing_additional_code_id: meursing_lookup_result.meursing_additional_code_id })
   end
 end

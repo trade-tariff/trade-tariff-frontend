@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   namespace :meursing_lookup do
     resources :steps, only: %i[show update]
+    resources :results, only: %i[show create]
   end
 
   get '/trade-tariff/*path', to: redirect('/%{path}', status: 301)

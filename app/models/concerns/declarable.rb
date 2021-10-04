@@ -1,8 +1,6 @@
 module Declarable
   extend ActiveSupport::Concern
 
-  HEADING_PATTERN = '000000'.freeze
-
   included do
     include ApiEntity
 
@@ -14,10 +12,19 @@ module Declarable
     has_many :export_measures, class_name: 'Measure',
                                wrapper: MeasureCollection
 
-    attr_accessor :description, :goods_nomenclature_item_id,
-                  :number_indents, :goods_nomenclature_sid, :bti_url, :description_plain,
-                  :formatted_description, :consigned, :consigned_from, :basic_duty_rate,
-                  :meursing_code, :producline_suffix, :declarable
+    attr_accessor :description,
+                  :goods_nomenclature_item_id,
+                  :number_indents,
+                  :goods_nomenclature_sid,
+                  :bti_url,
+                  :description_plain,
+                  :formatted_description,
+                  :consigned,
+                  :consigned_from,
+                  :basic_duty_rate,
+                  :meursing_code,
+                  :producline_suffix,
+                  :declarable
 
     alias_method :declarable?, :declarable
 
@@ -38,7 +45,7 @@ module Declarable
   end
 
   def heading?
-    code && code.last(6) == HEADING_PATTERN
+    code && code.last(6) == Heading::HEADING_PATTERN
   end
 
   def no_heading?

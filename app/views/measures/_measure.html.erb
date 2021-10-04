@@ -40,6 +40,13 @@
 
   <td class="numerical">
     <%= filter_duty_expression(measure) %>
+
+    <% if measure.resolved_duty_expression.present? %>
+      <br></br>
+      <span title="Showing duties for Meursing code <%= meursing_lookup_result.meursing_additional_code_id %>" class="meursing-duty-expression">
+        <%= measure.resolved_duty_expression.html_safe %>
+      </span>
+    <% end %>
   </td>
 
   <td>

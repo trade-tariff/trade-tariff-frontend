@@ -4,6 +4,9 @@ class Heading < GoodsNomenclature
   include Changeable
   include Declarable
 
+  HEADING_PATTERN = '000000'.freeze
+  SHORT_CODE_LENGTH = 4
+
   collection_path '/headings'
 
   has_many :commodities, class_name: 'Commodity'

@@ -22,10 +22,10 @@ describe CommoditiesController, type: :controller do
         expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
       end
 
-      it 'sets the commodity_code in the session', vcr: { cassette_name: 'commodities#show_0101210000_2000-01-01' } do
+      it 'sets the declarable_code in the session', vcr: { cassette_name: 'commodities#show_0101210000_2000-01-01' } do
         get :show, params: { id: '0101210000' }
 
-        expect(session[:commodity_code]).to eq('0101210000')
+        expect(session[:declarable_code]).to eq('0101210000')
       end
 
       context 'with existing commodity id provided', vcr: { cassette_name: 'commodities#show' } do
