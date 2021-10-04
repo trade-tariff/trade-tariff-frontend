@@ -28,7 +28,8 @@ RSpec.describe MeursingLookup::StepsController, type: :controller do
       when 'start'
         it { expect(session[:meursing_lookup]).to be_blank }
       when 'end'
-        it { expect(session[:meursing_lookup]).to include('result' => '000') }
+        it { expect(session[:meursing_lookup]).to eq(initial_answers) }
+        it { expect(session[:current_meursing_additional_code_id]).to eq('000') }
       else
         it { expect(session[:meursing_lookup]).to eq(initial_answers) }
       end
