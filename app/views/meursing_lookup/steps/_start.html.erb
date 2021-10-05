@@ -1,3 +1,14 @@
+<% content_for :before_main_content do %>
+  <%= generate_breadcrumbs(
+      t('breadcrumb.meursing_lookup'),
+      [
+        [t('breadcrumb.home'), sections_path],
+        [t('breadcrumb.tools'), tools_path]
+      ]
+    )
+  %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">Look up a Meursing code</h1>
@@ -33,14 +44,10 @@
     <h2 class="govuk-heading-m">Documents to download</h2>
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <a href="/public/downloads/Meursing_table.pdf" target="_blank"
-          >Meursing table (PDF) [opens in new window]</a
-        >
+        <%= link_to('Meursing table (PDF) [opens in new window]', asset_path('Meursing_table.pdf'), target: '_blank', class: 'govuk-link') %>
       </li>
       <li>
-        <a href="/public/downloads/Meursing_table.odt" target="_blank"
-          >Meursing table (ODT) [opens in new window]</a
-        >
+        <%= link_to('Meursing table (ODT) [opens in new window]', asset_path('Meursing_table.odt'), target: '_blank', class: 'govuk-link') %>
       </li>
     </ul>
   </div>
