@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TradeTariffFrontend::RequestForwarder do
+RSpec.describe TradeTariffFrontend::RequestForwarder do
   let(:app)            { ->(env) { [200, env, 'app'] } }
   let(:host)           { TradeTariffFrontend::ServiceChooser.api_host }
   let(:request_path)   { '/sections/1' }

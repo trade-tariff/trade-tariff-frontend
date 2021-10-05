@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MonetaryExchangeRate do
+RSpec.describe MonetaryExchangeRate do
   describe '#validity_start_date' do
     it 'returns a Date object from a string' do
       rate = MonetaryExchangeRate.new(attributes_for(:monetary_exchange_rate).stringify_keys)

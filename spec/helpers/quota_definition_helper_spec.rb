@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe QuotaDefinitionHelper, type: :helper do
+RSpec.describe QuotaDefinitionHelper, type: :helper do
   describe '#show_warning?' do
     let(:order_number) do
       build(:order_number, number: number, definition: attributes_for(:definition, description: description))

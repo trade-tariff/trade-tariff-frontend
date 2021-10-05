@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe HealthcheckController, type: :controller do
+RSpec.describe HealthcheckController, type: :controller do
   it 'returns success on request' do
     allow(Section).to receive(:all).and_return([])
 

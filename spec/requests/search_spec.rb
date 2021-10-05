@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Search page', type: :request do
+RSpec.describe 'Search page', type: :request do
   describe 'search results' do
     before do
       stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', 'spec/fixtures/measure_condition_dialog_config.yaml')

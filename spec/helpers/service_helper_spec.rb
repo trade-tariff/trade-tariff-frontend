@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ServiceHelper, type: :helper do
+RSpec.describe ServiceHelper, type: :helper do
   before do
     allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return(choice)
   end

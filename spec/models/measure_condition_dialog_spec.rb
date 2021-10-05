@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MeasureConditionDialog do
+RSpec.describe MeasureConditionDialog do
   subject(:dialog) { described_class.build(declarable, measure) }
 
   before do

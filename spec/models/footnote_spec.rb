@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Footnote do
+RSpec.describe Footnote do
   describe '#id' do
     let(:measure) { Measure.new(attributes_for(:measure, id: '123').stringify_keys) }
     let(:footnote) { described_class.new(attributes_for(:footnote, casted_by: measure, code: '456').stringify_keys) }

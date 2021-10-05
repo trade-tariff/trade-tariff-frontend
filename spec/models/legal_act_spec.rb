@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LegalAct do
+RSpec.describe LegalAct do
   subject(:legal_act) { build(:legal_act) }
 
   shared_examples 'a parsed date field' do |field|

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SearchController, 'GET to #certificate_search', type: :controller, vcr: { cassette_name: 'search#certificate_search' } do
+RSpec.describe SearchController, 'GET to #certificate_search', type: :controller, vcr: { cassette_name: 'search#certificate_search' } do
   before do
     Rails.cache.clear
   end

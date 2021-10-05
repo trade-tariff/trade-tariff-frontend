@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SearchSuggestion do
+RSpec.describe SearchSuggestion do
   describe '.all', vcr: { cassette_name: 'search#suggestions', allow_playback_repeats: true } do
     let(:suggestions) { SearchSuggestion.all }
 

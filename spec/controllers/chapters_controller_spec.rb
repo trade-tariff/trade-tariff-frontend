@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ChaptersController, 'GET to #show', type: :controller do
+RSpec.describe ChaptersController, 'GET to #show', type: :controller do
   let!(:section) { attributes_for(:section).stringify_keys }
 
   context 'with existing chapter id provided', vcr: { cassette_name: 'chapters#show' } do

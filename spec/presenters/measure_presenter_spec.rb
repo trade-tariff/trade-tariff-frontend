@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MeasurePresenter do
+RSpec.describe MeasurePresenter do
   describe '#geo_class' do
     context 'when geographical area is a country group' do
       subject { MeasurePresenter.new(measure) }

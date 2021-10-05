@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe HeadingsController, type: :controller do
+RSpec.describe HeadingsController, type: :controller do
   describe 'GET to #show' do
     before do
       allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('xi')

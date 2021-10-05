@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OrderNumber::Definition do
+RSpec.describe OrderNumber::Definition do
   subject(:definition) { build(:definition) }
 
   describe '#id' do

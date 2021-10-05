@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Search do
+RSpec.describe Search do
   it 'strips [ and ] characters from search term' do
     search = Search.new(q: '[hello] [world]')
     expect(search.q).to eq 'hello world'

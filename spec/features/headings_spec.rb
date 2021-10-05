@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'JS behaviour', js: true, vcr: { cassette_name: 'headings#8501' } do
+RSpec.describe 'JS behaviour', js: true, vcr: { cassette_name: 'headings#8501' } do
   it 'render table tools on the top and bottom' do
     visit heading_path('8501')
 

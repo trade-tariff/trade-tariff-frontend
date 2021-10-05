@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SectionsController, 'GET to #index', type: :controller, vcr: { cassette_name: 'sections#index' } do
+RSpec.describe SectionsController, 'GET to #index', type: :controller, vcr: { cassette_name: 'sections#index' } do
   include CrawlerCommons
 
   context 'non historical' do
@@ -22,7 +22,7 @@ describe SectionsController, 'GET to #index', type: :controller, vcr: { cassette
   end
 end
 
-describe SectionsController, 'GET to #show', type: :controller do
+RSpec.describe SectionsController, 'GET to #show', type: :controller do
   include CrawlerCommons
 
   context 'with existing section id provided', vcr: { cassette_name: 'sections#show' } do

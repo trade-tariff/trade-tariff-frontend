@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SearchReferencesController, '#show', type: :controller do
+RSpec.describe SearchReferencesController, '#show', type: :controller do
   render_views
 
   around do |example|

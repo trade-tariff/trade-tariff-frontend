@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RulesOfOrigin::Scheme do
+RSpec.describe RulesOfOrigin::Scheme do
   let(:api_host) { TradeTariffFrontend::ServiceChooser.api_host }
   let(:response_headers) { { content_type: 'application/json; charset=utf-8' } }
 

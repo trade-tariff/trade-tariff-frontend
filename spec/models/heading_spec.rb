@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Heading do
+RSpec.describe Heading do
   subject(:heading) { build(:heading) }
 
   it_behaves_like 'a declarable'

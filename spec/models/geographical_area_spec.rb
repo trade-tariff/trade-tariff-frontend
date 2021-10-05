@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GeographicalArea do
+RSpec.describe GeographicalArea do
   describe '.all', vcr: { cassette_name: 'geographical_areas#countries' } do
     let(:countries) { GeographicalArea.all }
 

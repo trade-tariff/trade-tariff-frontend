@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'GET to #index - getting commodity change feed', type: :request do
+RSpec.describe 'GET to #index - getting commodity change feed', type: :request do
   let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: '0101000000').stringify_keys) }
 
   describe 'no request format supplied' do

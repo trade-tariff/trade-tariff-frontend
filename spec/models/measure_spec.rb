@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Measure do
+RSpec.describe Measure do
   describe '#relevant_for_country?' do
     it 'returns true when no geographical area is specified' do
       measure = Measure.new(attributes_for(:measure, :eu, geographical_area: { id: 'br',
