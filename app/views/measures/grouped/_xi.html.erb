@@ -7,6 +7,7 @@
 <!-- CUSTOMS DUTIES -->
 <% if (collection = xi_declarable.import_measures.customs_duties.for_country(@search.country)).present? %>
   <%= render 'measures/grouped/shared/customs_duties_heading' %>
+  <%= render 'measures/meursing_form' if xi_declarable.meursing_code? %>
   <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key) } %>
 <% end %>
 

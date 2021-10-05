@@ -3,8 +3,16 @@ require 'api_entity'
 class Measure
   include ApiEntity
 
-  attr_accessor :id, :origin, :effective_start_date, :effective_end_date,
-                :import, :vat, :excise, :goods_nomenclature_item_id
+  attr_accessor :id,
+                :origin,
+                :effective_start_date,
+                :effective_end_date,
+                :import,
+                :vat,
+                :excise,
+                :goods_nomenclature_item_id,
+                :meursing,
+                :resolved_duty_expression
 
   DEFAULT_GEOGRAPHICAL_AREA_ID = '1011'.freeze # ERGA OMNES
 
@@ -98,13 +106,13 @@ class Measure
   end
 
   def key
-    "#{ vat? ? 0 : 1 }
-     #{ third_country? ? 0 : 1 }
-     #{ supplementary? ? 0 : 1 }
-     #{ excise ? 0 : 1 }
-     #{ geographical_area.children_geographical_areas.any? ? 0 : 1 }
-     #{ tariff_preference? ? 0 : 1 }
-     #{ geographical_area.description }#{ additional_code_sort }"
+    "#{vat? ? 0 : 1}
+     #{third_country? ? 0 : 1}
+     #{supplementary? ? 0 : 1}
+     #{excise ? 0 : 1}
+     #{geographical_area.children_geographical_areas.any? ? 0 : 1}
+     #{tariff_preference? ? 0 : 1}
+     #{geographical_area.description}#{additional_code_sort}"
   end
 
   # _999 is the master additional code and should come first

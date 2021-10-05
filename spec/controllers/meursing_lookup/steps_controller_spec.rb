@@ -5,12 +5,34 @@ RSpec.describe MeursingLookup::StepsController, type: :controller do
 
   describe 'GET #show' do
     shared_examples 'a request to GET a meursing lookup step' do |step_id, step_class|
-      before { get :show, params: { id: step_id } }
+      before do
+        session[:meursing_lookup] = initial_answers
+
+        get :show, params: { id: step_id }
+      end
+
+      let(:initial_answers) do
+        {
+          'starch' => '0 - 4.99',
+          'sucrose' => '0 - 4.99',
+          'milk_fat' => '0 - 1.49',
+          'milk_protein' => '0 - 2.49',
+        }
+      end
 
       it { is_expected.to have_http_status :success }
       it { is_expected.to render_template 'meursing_lookup/steps/show' }
       it { expect(assigns[:current_step]).to be_a(step_class) }
-      it { expect(session[:meursing_lookup]).to be_blank }
+
+      case step_class.key
+      when 'start'
+        it { expect(session[:meursing_lookup]).to be_blank }
+      when 'end'
+        it { expect(session[:meursing_lookup]).to eq(initial_answers) }
+        it { expect(session[:current_meursing_additional_code_id]).to eq('000') }
+      else
+        it { expect(session[:meursing_lookup]).to eq(initial_answers) }
+      end
     end
 
     it_behaves_like 'a request to GET a meursing lookup step', :start, MeursingLookup::Steps::Start

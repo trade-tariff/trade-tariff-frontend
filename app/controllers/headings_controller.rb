@@ -2,11 +2,14 @@ class HeadingsController < GoodsNomenclaturesController
   before_action :fetch_heading,
                 only: %i[show]
 
+  before_action :set_session, only: %i[show]
+
   helper_method :uk_heading, :xi_heading
 
   def show
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @back_path = request.referer || chapter_path(heading.chapter.short_code)
+    @meursing_additional_code = session[:meursing_lookup].try(:[], 'result')
 
     if TradeTariffFrontend.rules_of_origin_api_requests_enabled? &&
         params[:country].present? && @search.geographical_area
@@ -32,6 +35,8 @@ class HeadingsController < GoodsNomenclaturesController
   def fetch_heading
     @headings ||= {}
 
+    @meursing_additional_code = session[MeursingLookup::Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY]
+
     if TradeTariffFrontend::ServiceChooser.uk?
       @headings[:uk] = HeadingPresenter.new(Heading.find(params[:id], query_params))
       @headings[:xi] = nil
@@ -53,5 +58,13 @@ class HeadingsController < GoodsNomenclaturesController
 
   def uk_heading
     @headings[:uk]
+  end
+
+  def set_session
+    session[:declarable_code] = heading.short_code
+  end
+
+  def query_params
+    super.merge(filter: { meursing_additional_code_id: meursing_lookup_result.meursing_additional_code_id })
   end
 end

@@ -20,16 +20,16 @@
       Use these four digits together with the ten-digit commodity code from Trade Tariff to work out duties applicable to certain complex agri-foods on the the Northern Ireland Tariff, when your import is considered to be 'at risk'.
     </p>
 
-    <% if current_commodity_code.present? %>
+    <% if current_declarable_code.present? %>
       <ul class="govuk-list govuk-list--bullet">
         <li>
-          Return to <%= link_to('commodity code', commodity_path(current_commodity_code)) %>
+          <%= return_to_declarable_link %>
         </li>
         <li>
           <%= link_to('Start again', meursing_lookup_step_path(:start)) %>
         </li>
       </ul>
-    <% else current_commodity_code.present? %>
+    <% else %>
       <%= link_to('Start again', meursing_lookup_step_path(:start)) %>
     <% end %>
   </div>
