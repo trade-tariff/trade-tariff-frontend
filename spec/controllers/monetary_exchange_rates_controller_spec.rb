@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ExchangeRatesController, 'GET to #index', type: :controller do
+RSpec.describe ExchangeRatesController, 'GET to #index', type: :controller do
   render_views
 
   around do |example|

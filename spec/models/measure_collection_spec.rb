@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MeasureCollection do
+RSpec.describe MeasureCollection do
   describe '#for_country' do
     let(:measure1) { Measure.new(attributes_for(:measure, geographical_area: { geographical_area_id: 'IT' }).stringify_keys) }
     let(:measure2) { Measure.new(attributes_for(:measure, geographical_area: { geographical_area_id: 'RU' }).stringify_keys) }

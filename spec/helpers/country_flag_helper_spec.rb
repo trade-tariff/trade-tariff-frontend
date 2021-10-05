@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CountryFlagHelper, type: :helper do
+RSpec.describe CountryFlagHelper, type: :helper do
   describe '#country_flag_tag' do
     context 'with GB' do
       subject(:rendered) { helper.country_flag_tag('GB') }

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Date & Currency change', js: true, vcr: {
+RSpec.describe 'Date & Currency change', js: true, vcr: {
   cassette_name: 'date_currency',
   record: :once,
   match_requests_on: %i[path query],

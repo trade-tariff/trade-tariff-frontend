@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PagesController, type: :controller do
+RSpec.describe PagesController, type: :controller do
   context 'when asked for XML file' do
     render_views
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SearchController, '#quota_search', type: :controller, vcr: { cassette_name: 'search#quota_search', allow_playback_repeats: true } do
+RSpec.describe SearchController, '#quota_search', type: :controller, vcr: { cassette_name: 'search#quota_search', allow_playback_repeats: true } do
   before do
     Rails.cache.clear
     TradeTariffFrontend::ServiceChooser.service_choice = nil

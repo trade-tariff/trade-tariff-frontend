@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Commodity show page', js: true do
+RSpec.describe 'Commodity show page', js: true do
   before do
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', 'spec/fixtures/measure_condition_dialog_config.yaml')
 

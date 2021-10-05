@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Commodity do
+RSpec.describe Commodity do
   subject(:commodity) { build(:commodity) }
 
   it_behaves_like 'a declarable'

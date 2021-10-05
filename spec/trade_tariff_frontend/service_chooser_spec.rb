@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TradeTariffFrontend::ServiceChooser do
+RSpec.describe TradeTariffFrontend::ServiceChooser do
   describe '.service_choices' do
     it 'returns a Hash of url options for the services' do
       expect(described_class.service_choices).to eq(

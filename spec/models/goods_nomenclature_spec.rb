@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GoodsNomenclature do
+RSpec.describe GoodsNomenclature do
   describe '#validity_start_date=' do
     let(:goods_nomenclature) { described_class.new }
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Chapter page', type: :request do
+RSpec.describe 'Chapter page', type: :request do
   context 'when requesting as HTML' do
     before do
       VCR.use_cassette('geographical_areas#countries') do

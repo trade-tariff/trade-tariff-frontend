@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CookiesHelper, type: :helper do
+RSpec.describe CookiesHelper, type: :helper do
   describe '#policy_cookie' do
     it 'returns the parsed cookie value' do
       expect(helper.policy_cookie).to eq({})

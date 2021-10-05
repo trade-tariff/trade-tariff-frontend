@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe Chapter do
+RSpec.describe Chapter do
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
+RSpec.describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
   let(:path) { "#{prefix}/commodities/0101300000" }
 
   after do

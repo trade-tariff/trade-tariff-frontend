@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Sections Index page', type: :request do
+RSpec.describe 'Sections Index page', type: :request do
   context 'when requesting as HTML' do
     before do
       VCR.use_cassette('geographical_areas#countries') do
@@ -62,7 +62,7 @@ describe 'Sections Index page', type: :request do
   end
 end
 
-describe 'Section page', type: :request do
+RSpec.describe 'Section page', type: :request do
   context 'when requested as HTML' do
     before do
       VCR.use_cassette('geographical_areas#countries') do

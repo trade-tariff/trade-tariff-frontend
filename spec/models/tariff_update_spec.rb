@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TariffUpdate do
+RSpec.describe TariffUpdate do
   describe '#update_type' do
     context 'when Chief update' do
       let(:tariff_update) { TariffUpdate.new(attributes_for(:tariff_update, :chief).stringify_keys) }

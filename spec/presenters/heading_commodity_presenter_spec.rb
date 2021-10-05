@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe HeadingCommodityPresenter do
+RSpec.describe HeadingCommodityPresenter do
   describe '#root_commodities' do
     let(:root_commodity) { OpenStruct.new(root: true) }
     let(:non_root_commodity) { OpenStruct.new(root: false) }

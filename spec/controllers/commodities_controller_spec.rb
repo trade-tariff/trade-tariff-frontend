@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CommoditiesController, type: :controller do
+RSpec.describe CommoditiesController, type: :controller do
   describe 'GET to #show' do
     context 'with XI site' do
       before do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CommoditiesHelper, type: :helper do
+RSpec.describe CommoditiesHelper, type: :helper do
   describe '#commodity_code' do
     before do
       assign(:heading, heading)

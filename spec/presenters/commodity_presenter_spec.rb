@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CommodityPresenter do
+RSpec.describe CommodityPresenter do
   describe '#show_commodity_tree?' do
     it 'returns true because commodities have ancestors' do
       expect(

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TariffDate do
+RSpec.describe TariffDate do
   subject { TariffDate }
 
   describe '#date' do

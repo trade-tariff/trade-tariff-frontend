@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OrderNumber do
+RSpec.describe OrderNumber do
   subject(:order_number) { definition.order_number }
 
   let(:definition) { build(:definition) }

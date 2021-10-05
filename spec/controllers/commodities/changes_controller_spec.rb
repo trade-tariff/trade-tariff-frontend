@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Commodities::ChangesController, 'GET to #index', type: :controller do
+RSpec.describe Commodities::ChangesController, 'GET to #index', type: :controller do
   describe 'commodity is valid at given date', vcr: { cassette_name: 'commodities_changes#index' } do
     let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: '0101210000').stringify_keys) }
 

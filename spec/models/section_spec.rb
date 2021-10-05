@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe Section do
+RSpec.describe Section do
 end

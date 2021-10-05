@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MeasureCondition do
+RSpec.describe MeasureCondition do
   subject(:condition) { build(:measure_condition) }
 
   describe '#requirement' do
