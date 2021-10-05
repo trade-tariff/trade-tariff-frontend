@@ -1,3 +1,14 @@
+<% content_for :before_main_content do %>
+  <%= generate_breadcrumbs(
+      t('breadcrumb.meursing_lookup'),
+      [
+        [t('breadcrumb.home'), sections_path],
+        [t('breadcrumb.tools'), tools_path]
+      ]
+    )
+  %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">Look up a Meursing code</h1>
