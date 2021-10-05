@@ -33,14 +33,10 @@
     <h2 class="govuk-heading-m">Documents to download</h2>
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <a href="/public/downloads/Meursing_table.pdf" target="_blank"
-          >Meursing table (PDF) [opens in new window]</a
-        >
+        <%= link_to('Meursing table (PDF) [opens in new window]', asset_path('Meursing_table.pdf'), target: '_blank', class: 'govuk-link') %>
       </li>
       <li>
-        <a href="/public/downloads/Meursing_table.odt" target="_blank"
-          >Meursing table (ODT) [opens in new window]</a
-        >
+        <%= link_to('Meursing table (ODT) [opens in new window]', asset_path('Meursing_table.odt'), target: '_blank', class: 'govuk-link') %>
       </li>
     </ul>
   </div>

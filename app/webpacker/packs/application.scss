@@ -1,53 +1,52 @@
-
 $govuk-global-styles: true;
 $govuk-use-legacy-palette: false;
 $govuk-page-width: 1140px;
-$govuk-fonts-path: "~govuk-frontend/govuk/assets/fonts/";
-$govuk-images-path: "~govuk-frontend/govuk/assets/images/";
+$govuk-fonts-path: '~govuk-frontend/govuk/assets/fonts/';
+$govuk-images-path: '~govuk-frontend/govuk/assets/images/';
 
-@import "govuk-frontend/govuk/all";
+@import 'govuk-frontend/govuk/all';
 
 // Third party
-@import "select2";
-@import "../src/stylesheets/vendor/datepicker";
-@import "accessible-autocomplete";
-@import "../src/stylesheets/vendor/accessible-autocomplete";
+@import 'select2';
+@import '../src/stylesheets/vendor/datepicker';
+@import 'accessible-autocomplete';
+@import '../src/stylesheets/vendor/accessible-autocomplete';
 
 // 'legacy' GOVUK styles
 // TODO not using this anymore:
-@import "../src/stylesheets/legacy-grid-layout-conditionals";
+@import '../src/stylesheets/legacy-grid-layout-conditionals';
 
 // Trade Tariff components
-@import "../src/stylesheets/variables";
-@import "../src/stylesheets/functions";
-@import "../src/stylesheets/colors";
-@import "../src/stylesheets/header";
-@import "../src/stylesheets/footer";
-@import "../src/stylesheets/form_customisations";
-@import "../src/stylesheets/grid_extensions";
-@import "../src/stylesheets/commodity-codes";
-@import "../src/stylesheets/commodity_pagination";
-@import "../src/stylesheets/tariff-breadcrumbs";
-@import "../src/stylesheets/sections-list";
-@import "../src/stylesheets/tabs";
-@import "../src/stylesheets/tables";
-@import "../src/stylesheets/measures";
-@import "../src/stylesheets/a-z-index";
-@import "../src/stylesheets/country-picker";
-@import "../src/stylesheets/commodity-tree";
-@import "../src/stylesheets/current_rate";
-@import "../src/stylesheets/exchange_rate";
-@import "../src/stylesheets/header_hero";
-@import "../src/stylesheets/popup";
-@import "../src/stylesheets/search-results";
-@import "../src/stylesheets/index-page";
-@import "../src/stylesheets/index-page-right-column";
-@import "../src/stylesheets/feedback";
-@import "../src/stylesheets/quota-search";
-@import "../src/stylesheets/panel";
-@import "../src/stylesheets/pagination";
-@import "../src/stylesheets/tariff-custom";
-@import "../src/stylesheets/copy_code";
-@import "../src/stylesheets/rules_of_origin";
-@import "../src/stylesheets/markdown";
-@import "../src/stylesheets/uk_overrides";
+@import '../src/stylesheets/variables';
+@import '../src/stylesheets/functions';
+@import '../src/stylesheets/colors';
+@import '../src/stylesheets/header';
+@import '../src/stylesheets/footer';
+@import '../src/stylesheets/form_customisations';
+@import '../src/stylesheets/grid_extensions';
+@import '../src/stylesheets/commodity-codes';
+@import '../src/stylesheets/commodity_pagination';
+@import '../src/stylesheets/tariff-breadcrumbs';
+@import '../src/stylesheets/sections-list';
+@import '../src/stylesheets/tabs';
+@import '../src/stylesheets/tables';
+@import '../src/stylesheets/measures';
+@import '../src/stylesheets/a-z-index';
+@import '../src/stylesheets/country-picker';
+@import '../src/stylesheets/commodity-tree';
+@import '../src/stylesheets/current_rate';
+@import '../src/stylesheets/exchange_rate';
+@import '../src/stylesheets/header_hero';
+@import '../src/stylesheets/popup';
+@import '../src/stylesheets/search-results';
+@import '../src/stylesheets/index-page';
+@import '../src/stylesheets/index-page-right-column';
+@import '../src/stylesheets/feedback';
+@import '../src/stylesheets/quota-search';
+@import '../src/stylesheets/panel';
+@import '../src/stylesheets/pagination';
+@import '../src/stylesheets/tariff-custom';
+@import '../src/stylesheets/copy_code';
+@import '../src/stylesheets/rules_of_origin';
+@import '../src/stylesheets/markdown';
+@import '../src/stylesheets/uk_overrides';
