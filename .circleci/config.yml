@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
   ruby: circleci/ruby@1.1.2
-  node: circleci/node@2
+  node: circleci/node@4.7.0
   browser-tools: circleci/browser-tools@1.1
   cloudfoundry: circleci/cloudfoundry@1.0
   slack: circleci/slack@4.3.0
@@ -202,9 +202,10 @@ jobs:
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: "yarn.lock"
       - ruby/rspec-test
-      - node/test
+      - run:
+          command: yarn run test
+          name: Run YARN tests
       - store_artifacts:
           path: coverage
       - slack/notify:
