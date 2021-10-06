@@ -7,6 +7,7 @@ orbs:
   browser-tools: circleci/browser-tools@1.1
   cloudfoundry: circleci/cloudfoundry@1.0
   slack: circleci/slack@4.3.0
+  queue: eddiewebb/queue@1.6.1
 
 commands:
   cf_deploy_docker:
@@ -230,6 +231,10 @@ jobs:
     environment:
       SENTRY_ENVIRONMENT: "development"
     steps:
+      - queue/until_front_of_line:
+          time: '10'
+          consider-branch: false
+          dont-quit: true
       - cf_deploy_docker:
           dev-release: true
           space: "development"
@@ -243,6 +248,9 @@ jobs:
     environment:
       SENTRY_ENVIRONMENT: "staging"
     steps:
+      - queue/until_front_of_line:
+          time: '10'
+          dont-quit: true
       - cf_deploy_docker:
           space: "staging"
           environment_key: "staging"
@@ -255,6 +263,9 @@ jobs:
     environment:
       SENTRY_ENVIRONMENT: "production"
     steps:
+      - queue/until_front_of_line:
+          time: '10'
+          dont-quit: true
       - cf_deploy_docker:
           space: "production"
           environment_key: "production"
