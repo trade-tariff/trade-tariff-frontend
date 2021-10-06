@@ -2,13 +2,16 @@
 /*jslint
  white: true */
 
-import IMask from 'imask';
-import debounce from "./debounce";
+// import IMask from 'imask';
+// import debounce from "./debounce";
 
 "use strict";
 
 (function() {
-  window.GOVUK = window.GOVUK || {};
+  const IMask = require('imask');
+  const debounce = require('./debounce');
+
+  global.GOVUK = global.GOVUK || {};
   /**
     @name GOVUK.tariff
     @memberOf GOVUK

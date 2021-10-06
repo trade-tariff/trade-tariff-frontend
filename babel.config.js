@@ -20,9 +20,11 @@ module.exports = function(api) {
       isTestEnv && [
         require('@babel/preset-env').default,
         {
-          targets: {
-            node: 'current'
-          }
+          forceAllTransforms: true,
+          useBuiltIns: 'entry',
+          corejs: 3,
+          modules: false,
+          exclude: ['transform-typeof-symbol']
         }
       ],
       (isProductionEnv || isDevelopmentEnv) && [
