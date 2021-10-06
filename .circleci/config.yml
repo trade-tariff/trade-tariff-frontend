@@ -204,6 +204,7 @@ jobs:
           pkg-manager: yarn
           cache-key: "yarn.lock"
       - ruby/rspec-test
+      - node/test
       - store_artifacts:
           path: coverage
       - slack/notify:
