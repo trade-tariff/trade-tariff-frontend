@@ -4,20 +4,22 @@
 require('commodities.js');
 
 test('GOVUK.tariff public has expected public methods', () => {
-  const items = ['tree', 
-                  'tabs', 
-                  'tablePopup', 
-                  'tabLinkFocuser', 
-                  'hovers', 
-                  'selectBoxes', 
-                  'searchForm', 
-                  'searchHighlight', 
-                  'countryPicker', 
-                  'breadcrumbs', 
-                  'measuresTable', 
-                  'copyCode']
+  const items = [
+    'breadcrumbs',
+    'copyCode',
+    'countryPicker',
+    'hovers',
+    'measuresTable',
+    'searchForm',
+    'searchHighlight',
+    'selectBoxes',
+    'tabLinkFocuser',
+    'tablePopup',
+    'tabs',
+    'tree',
+  ];
 
   items.forEach( (item) => {
-    expect(GOVUK.tariff).toHaveProperty(item)
+    expect(GOVUK.tariff).toHaveProperty(item);
   });
 });
