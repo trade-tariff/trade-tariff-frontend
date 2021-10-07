@@ -73,10 +73,6 @@
           </div>
         </div>
       </div>
-      <% if declarable.meursing_code? %>
-        <h2 class="govuk-heading-m">This commodity has a meursing code</h2>
-        <p>Use the <%= link_to "Look up Meursing code", "https://www.gov.uk/additional-commodity-code", rel: "external", target: "_blank", title: "Opens in a new window" %> tool to find the additional code required for importing and exporting. To calculate the duty rate, enter the meursing code (without the 7 at the start) into the <%= link_to "meursing calculator", declarable.meursing_tool_link_for(@search.date.to_taric_date), rel: "external", target: "_blank", title: "Opens in a new window" %>.</p>
-      <% end %>
       <%= render 'shared/notes', section_note: declarable.section.section_note, chapter_note: declarable.chapter.chapter_note %>
     </div>
   </div>
