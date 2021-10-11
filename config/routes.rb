@@ -19,17 +19,42 @@ Rails.application.routes.draw do
   }
   get '/v1/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
   get '/v2/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
+
   get '/api/:version/commodities/:id', constraints: { id: /\d{2}00000000/ }, to: redirect { |_params, request|
     path = request.path.gsub('commodities', 'chapters').gsub('00000000', '')
-    "https://#{ENV['HOST']}#{path}"
+    query = URI(request.url).query
+
+    url = "https://#{ENV['HOST']}#{path}"
+
+    if query
+      "#{url}?#{query}" if query
+    else
+      url
+    end
   }
   get '/api/:version/commodities/:id', constraints: { id: /\d{4}000000/ }, to: redirect { |_params, request|
     path = request.path.gsub('commodities', 'headings').gsub('000000', '')
-    "https://#{ENV['HOST']}#{path}"
+    query = URI(request.url).query
+
+    url = "https://#{ENV['HOST']}#{path}"
+
+    if query
+      "#{url}?#{query}" if query
+    else
+      url
+    end
   }
   get '/api/v1/quotas/search', to: redirect { |_params, request|
     path = request.path.gsub('v1', 'v2')
-    "https://#{ENV['HOST']}#{path}"
+    query = URI(request.url).query
+
+    url = "https://#{ENV['HOST']}#{path}"
+
+    if query
+      "#{url}?#{query}" if query
+    else
+      url
+    end
   }
 
   get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/sections', status: 302)
@@ -80,11 +105,11 @@ Rails.application.routes.draw do
           )
   end
 
-  constraints(id: /[\d]{1,2}/) do
+  constraints(id: /\d{1,2}/) do
     resources :sections, only: %i[index show]
   end
 
-  constraints(id: /[\d]{2}/) do
+  constraints(id: /\d{2}/) do
     resources :chapters, only: %i[show] do
       resources :changes,
                 only: [:index],
@@ -93,7 +118,7 @@ Rails.application.routes.draw do
     end
   end
 
-  constraints(id: /[\d]{4}/) do
+  constraints(id: /\d{4}/) do
     resources :headings, only: %i[show] do
       resources :changes,
                 only: [:index],
@@ -102,7 +127,7 @@ Rails.application.routes.draw do
     end
   end
 
-  constraints(id: /[\d]{10}/) do
+  constraints(id: /\d{10}/) do
     resources :commodities, only: %i[show] do
       resources :changes,
                 only: [:index],
