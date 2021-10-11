@@ -6,7 +6,7 @@ RSpec.describe 'rules_of_origin/_without_country.html.erb', type: :view do
   context 'with UK service' do
     include_context 'with UK service'
 
-    it 'references the correct service' do
+    it 'references the UK service' do
       expect(rendered_page).to have_css 'p', text: 'the UK has a trade agreement'
     end
 
@@ -22,7 +22,7 @@ RSpec.describe 'rules_of_origin/_without_country.html.erb', type: :view do
   context 'with XI service' do
     include_context 'with XI service'
 
-    it 'references the correct service' do
+    it 'references the XI service' do
       expect(rendered_page).to match 'the EU has a trade agreement'
     end
 
