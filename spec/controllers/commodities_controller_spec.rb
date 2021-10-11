@@ -3,11 +3,11 @@ require 'spec_helper'
 RSpec.describe CommoditiesController, type: :controller do
   describe 'GET to #show' do
     context 'with XI site' do
+      include_context 'with XI service'
+
       before do
-        allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('xi')
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:xi).and_call_original
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
-        TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
       end
 
       it 'doesn\'t uses with_source to fetch the commodity from the XI service', vcr: { cassette_name: 'commodities#show_0101210000_2000-01-01' } do
@@ -77,8 +77,9 @@ RSpec.describe CommoditiesController, type: :controller do
     end
 
     context 'with UK site' do
+      include_context 'with UK service'
+
       before do
-        allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_call_original
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:xi).and_call_original
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
       end
