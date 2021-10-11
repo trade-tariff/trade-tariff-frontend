@@ -5,7 +5,7 @@
     "@babel/plugin-transform-object-assign": "^7.10.4",
     "@babel/preset-env": "^7.15.6",
     "@rails/webpacker": "5.4.3",
-    "@sentry/browser": "^6.13.2",
+    "@sentry/browser": "^6.13.3",
     "@sentry/tracing": "^6.13.2",
     "accessible-autocomplete": "^2.0.3",
     "alphagov-static": "github:alphagov/static.git#release_3463",
