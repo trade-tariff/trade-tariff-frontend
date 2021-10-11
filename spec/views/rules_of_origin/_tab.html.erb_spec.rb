@@ -25,7 +25,7 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
 
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
-      have_css 'h2', text: 'Rules of origin for trading with France'
+      have_css 'h2', text: 'Preferential rules of origin for trading with France'
   end
 
   it 'shows the flag' do
@@ -45,9 +45,7 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
   end
 
   context 'with UK service' do
-    before do
-      allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('uk')
-    end
+    include_context 'with UK service'
 
     it 'references the country in the introductory text' do
       expect(rendered_page).to \
@@ -56,9 +54,7 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
   end
 
   context 'with XI service' do
-    before do
-      allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('xi')
-    end
+    include_context 'with XI service'
 
     it 'references the country in the introductory text' do
       expect(rendered_page).to \
@@ -102,6 +98,10 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
       expect(rendered_page).to have_css 'details .tariff-markdown p',
                                         text: /Details of introductory notes/
     end
+
+    it 'includes the non-preferential bloc' do
+      expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
+    end
   end
 
   context 'without matched rules' do
@@ -119,6 +119,10 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
     it 'excludes the introductory_notes section' do
       expect(rendered_page).not_to have_css 'details .tariff-markdown'
     end
+
+    it 'includes the non-preferential bloc' do
+      expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
+    end
   end
 
   context 'with country specific scheme' do
@@ -133,6 +137,10 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
     let(:schemes) { [] }
 
     it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
+
+    it 'includes the non-preferential bloc' do
+      expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
+    end
   end
 
   context 'with blank fta_intro field' do

@@ -88,12 +88,8 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
   end
 
   describe '.currency' do
-    before do
-      allow(described_class).to receive(:service_choice).and_return(choice)
-    end
-
     context 'when the service is xi' do
-      let(:choice) { 'xi' }
+      include_context 'with XI service'
 
       it 'returns the correct currency' do
         expect(described_class.currency).to eq('EUR')
@@ -101,7 +97,7 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
     end
 
     context 'when the service is uk' do
-      let(:choice) { 'uk' }
+      include_context 'with UK service'
 
       it 'returns the correct currency' do
         expect(described_class.currency).to eq('GBP')
@@ -109,7 +105,7 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
     end
 
     context 'when the service is not set' do
-      let(:choice) { nil }
+      include_context 'with default service'
 
       it 'returns the correct currency' do
         expect(described_class.currency).to eq('GBP')

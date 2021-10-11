@@ -4,19 +4,14 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
   describe '#rules_of_origin_service_name' do
     subject { helper.rules_of_origin_service_name }
 
-    before do
-      allow(TradeTariffFrontend::ServiceChooser).to \
-        receive(:service_choice).and_return(service)
-    end
-
     context 'with uk service' do
-      let(:service) { 'uk' }
+      include_context 'with UK service'
 
       it { is_expected.to eql 'UK' }
     end
 
     context 'with xi service' do
-      let(:service) { 'xi' }
+      include_context 'with XI service'
 
       it { is_expected.to eql 'EU' }
     end
