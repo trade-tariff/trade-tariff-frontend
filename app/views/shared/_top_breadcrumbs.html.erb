@@ -1,0 +1,12 @@
+<% if @section %>
+  <div class="govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to "Home", root_path, class:'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <%=link_to "Section #{@section.numeral}", @section, class: 'govuk-breadcrumbs__link' %>
+      </li>
+    </ol>
+  </div>
+<% end %>
