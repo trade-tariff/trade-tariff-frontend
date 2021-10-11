@@ -102,6 +102,10 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
       expect(rendered_page).to have_css 'details .tariff-markdown p',
                                         text: /Details of introductory notes/
     end
+
+    it 'includes the non-preferential bloc' do
+      expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
+    end
   end
 
   context 'without matched rules' do
@@ -119,6 +123,10 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
     it 'excludes the introductory_notes section' do
       expect(rendered_page).not_to have_css 'details .tariff-markdown'
     end
+
+    it 'includes the non-preferential bloc' do
+      expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
+    end
   end
 
   context 'with country specific scheme' do
@@ -133,6 +141,10 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
     let(:schemes) { [] }
 
     it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
+
+    it 'includes the non-preferential bloc' do
+      expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
+    end
   end
 
   context 'with blank fta_intro field' do

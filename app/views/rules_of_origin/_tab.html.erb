@@ -35,6 +35,8 @@
       </div>
     </div>
     <% end %>
+
+    <%= render 'rules_of_origin/non_preferential' %>
   </div>
 
   <% if rules_of_origin.flat_map(&:links).any? %>

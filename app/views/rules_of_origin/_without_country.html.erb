@@ -5,8 +5,9 @@
     </h2>
 
     <p>
-      To view rules of origin, select a country with which the <%= rules_of_origin_service_name %>
-      has a trade agreement from the list above
+      To view rules of origin, select a country with
+      which the <%= rules_of_origin_service_name %> has a trade agreement
+      from the list above
     </p>
 
     <% if TradeTariffFrontend::ServiceChooser.uk? %>
@@ -31,5 +32,7 @@
       </ul>
     </nav>
     <% end %>
+
+    <%= render 'rules_of_origin/non_preferential' %>
   </div>
 </div>
