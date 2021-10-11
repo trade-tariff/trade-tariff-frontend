@@ -25,7 +25,7 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
 
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
-      have_css 'h2', text: 'Rules of origin for trading with France'
+      have_css 'h2', text: 'Preferential rules of origin for trading with France'
   end
 
   it 'shows the flag' do

@@ -54,14 +54,14 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
 
     context 'without country selected' do
       it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: 'Rules of origin' }
+      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
     end
 
     context 'with country selected' do
       let(:search) { Search.new(q: '0101300000', 'country' => 'FR') }
 
       it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: /Rules of origin for trading/ }
+      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
     end
 
     context 'with RULES_OF_ORIGIN_ENABLED set to false' do
@@ -85,14 +85,14 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
 
     context 'without country selected' do
       it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: 'Rules of origin' }
+      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
     end
 
     context 'with country selected' do
       let(:search) { Search.new(q: '0101300000', 'country' => 'FR') }
 
       it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: /Rules of origin for trading/ }
+      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
     end
 
     context 'with RULES_OF_ORIGIN_ENABLED set to false' do
