@@ -19,17 +19,21 @@ Rails.application.routes.draw do
   }
   get '/v1/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
   get '/v2/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
+
   get '/api/:version/commodities/:id', constraints: { id: /\d{2}00000000/ }, to: redirect { |_params, request|
     path = request.path.gsub('commodities', 'chapters').gsub('00000000', '')
-    "https://#{ENV['HOST']}#{path}"
+    query = URI(request.url).query
+    "https://#{ENV['HOST']}#{path}?#{query}"
   }
   get '/api/:version/commodities/:id', constraints: { id: /\d{4}000000/ }, to: redirect { |_params, request|
     path = request.path.gsub('commodities', 'headings').gsub('000000', '')
-    "https://#{ENV['HOST']}#{path}"
+    query = URI(request.url).query
+    "https://#{ENV['HOST']}#{path}?#{query}"
   }
   get '/api/v1/quotas/search', to: redirect { |_params, request|
     path = request.path.gsub('v1', 'v2')
-    "https://#{ENV['HOST']}#{path}"
+    query = URI(request.url).query
+    "https://#{ENV['HOST']}#{path}?#{query}"
   }
 
   get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/sections', status: 302)
