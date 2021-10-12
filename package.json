@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@babel/plugin-transform-object-assign": "^7.10.4",
-    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-env": "^7.15.8",
     "@rails/webpacker": "5.4.3",
     "@sentry/browser": "^6.13.3",
     "@sentry/tracing": "^6.13.3",
@@ -32,9 +32,9 @@
     "@babel/plugin-transform-runtime": "^7.15.8",
     "babel-jest": "^27.2.4",
     "babel-loader": "^8.2.2",
-    "eslint": "^7.32.0",
+    "eslint": "^8.0.0",
     "eslint-config-google": "^0.14.0",
-    "jest": "^27.2.4",
+    "jest": "^27.2.5",
     "webpack-cli": "^3.3.12"
   },
   "scripts": {
