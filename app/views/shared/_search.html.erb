@@ -27,7 +27,10 @@
   </header>
 <% elsif %w(search search_references exchange_rates pages errors feedback).exclude?(controller_name) && action_name != 'quota_search' %>
   <header>
-    <h1 class="govuk-heading-l"><a href="<%= sections_path %>"><%= default_heading %></a></h1>
+    <span class="govuk-caption-m"><%= trade_tariff_heading %></span>
+    <h1 class="govuk-heading-l">
+      <%= link_to(default_heading(section: @section), sections_path) %>
+    </h1>
     <%= service_switch_banner %>
   </header>
   <%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css}", id: "new_search" do |f| %>

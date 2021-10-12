@@ -10,7 +10,8 @@ RSpec.describe 'Search', js: true do
       VCR.use_cassette('search#check') do
         visit sections_path
 
-        expect(page).to have_content('UK Integrated Online Tariff: look up commodity codes, duty and VAT rates')
+        expect(page).to have_content('UK Integrated Online Tariff')
+        expect(page).to have_content('Look up commodity codes, duty and VAT rates')
         expect(page).to have_content('Search or browse the Tariff')
 
         expect(page.find('.autocomplete__input#q')).to be_present

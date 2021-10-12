@@ -12,7 +12,7 @@ RSpec.describe ServiceHelper, type: :helper do
       let(:choice) { 'xi' }
 
       it 'returns the title for the current service choice' do
-        expect(helper.default_title).to eq('Northern Ireland Online Tariff: look up commodity codes, duty and VAT rates - GOV.UK')
+        expect(helper.default_title).to eq('Northern Ireland Online Tariff: Look up commodity codes, duty and VAT rates - GOV.UK')
       end
     end
 
@@ -20,7 +20,7 @@ RSpec.describe ServiceHelper, type: :helper do
       let(:choice) { nil }
 
       it 'returns the title for the current service choice' do
-        expect(helper.default_title).to eq('UK Integrated Online Tariff: look up commodity codes, duty and VAT rates - GOV.UK')
+        expect(helper.default_title).to eq('UK Integrated Online Tariff: Look up commodity codes, duty and VAT rates - GOV.UK')
       end
     end
   end

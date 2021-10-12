@@ -9,9 +9,10 @@ class Section
                 :position,
                 :title,
                 :chapters,
-                :section_note,
-                :chapter_from,
-                :chapter_to
+                :section_note
+
+  attr_reader :chapter_to,
+              :chapter_from
 
   has_many :chapters
 
@@ -34,6 +35,8 @@ class Section
   def to_param
     position.to_s
   end
+
+  delegate :count, to: :chapters, prefix: true
 
   def to_s
     title
