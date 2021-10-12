@@ -73,4 +73,34 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.to match 'change in tariff subheading' }
     end
   end
+
+  describe '#replace_non_breaking_space' do
+    subject { helper.replace_non_breaking_space content }
+
+    let(:content) { 'With space and&nbsp;non-breaking&nbsp;space' }
+
+    it { is_expected.to eql 'With space and non-breaking space' }
+  end
+
+  describe '#prevent_breaking_heading_components' do
+    subject { helper.prevent_breaking_heading_components content }
+
+    let(:span) { '<span class="rules-of-origin__non-breaking-heading">' }
+
+    context 'with single replacement' do
+      let(:content) { 'ex Chapter 123 456' }
+
+      it { is_expected.to eql "ex #{span}Chapter 123</span> 456" }
+    end
+
+    context 'with multiple replacements' do
+      let(:content) { 'ex 123, ex 456 and ex 789' }
+
+      let :expected do
+        "#{span}ex 123</span>, #{span}ex 456</span> and #{span}ex 789</span>"
+      end
+
+      it { is_expected.to eql expected }
+    end
+  end
 end

@@ -21,3 +21,9 @@
   font-size          : 16px;
   line-height        : 1.5em;
 }
+
+.rules-of-origin {
+  &__non-breaking-heading {
+    white-space: nowrap;
+  }
+}
