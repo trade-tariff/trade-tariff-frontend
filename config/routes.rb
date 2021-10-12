@@ -26,11 +26,7 @@ Rails.application.routes.draw do
 
     url = "https://#{ENV['HOST']}#{path}"
 
-    if query
-      "#{url}?#{query}" if query
-    else
-      url
-    end
+    query ? "#{url}?#{query}" : url
   }
   get '/api/:version/commodities/:id', constraints: { id: /\d{4}000000/ }, to: redirect { |_params, request|
     path = request.path.gsub('commodities', 'headings').gsub('000000', '')
@@ -38,11 +34,7 @@ Rails.application.routes.draw do
 
     url = "https://#{ENV['HOST']}#{path}"
 
-    if query
-      "#{url}?#{query}" if query
-    else
-      url
-    end
+    query ? "#{url}?#{query}" : url
   }
   get '/api/v1/quotas/search', to: redirect { |_params, request|
     path = request.path.gsub('v1', 'v2')
@@ -50,11 +42,7 @@ Rails.application.routes.draw do
 
     url = "https://#{ENV['HOST']}#{path}"
 
-    if query
-      "#{url}?#{query}" if query
-    else
-      url
-    end
+    query ? "#{url}?#{query}" : url
   }
 
   get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/sections', status: 302)
