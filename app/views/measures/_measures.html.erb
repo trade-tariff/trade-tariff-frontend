@@ -9,11 +9,9 @@
     <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#export">Export</a>
     </li>
-    <% if TradeTariffFrontend.rules_of_origin_enabled? %>
-      <li class="govuk-tabs__list-item">
-        <a class="govuk-tabs__tab" href="#rules-of-origin">Rules of origin</a>
-      </li>
-    <% end %>
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#rules-of-origin">Rules of origin</a>
+    </li>
     <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#footnotes">Footnotes</a>
     </li>
@@ -137,19 +135,17 @@
   </div>
 
   <!-- Rules of Origin tab -->
-  <% if TradeTariffFrontend.rules_of_origin_enabled? %>
-    <div class="govuk-tabs__panel" id="rules-of-origin">
-      <%- if @search.filtered_by_country? && @search.geographical_area -%>
-        <%= render 'rules_of_origin/tab',
-                   country_code: @search.country,
-                   country_name: @search.geographical_area.description,
-                   commodity_code: declarable.code,
-                   rules_of_origin: rules_of_origin %>
-      <%- else -%>
-        <%= render 'rules_of_origin/without_country' %>
-      <%- end -%>
-    <div>
-  <% end %>
+  <div class="govuk-tabs__panel" id="rules-of-origin">
+    <%- if @search.filtered_by_country? && @search.geographical_area -%>
+      <%= render 'rules_of_origin/tab',
+                 country_code: @search.country,
+                 country_name: @search.geographical_area.description,
+                 commodity_code: declarable.code,
+                 rules_of_origin: rules_of_origin %>
+    <%- else -%>
+      <%= render 'rules_of_origin/without_country' %>
+    <%- end -%>
+  <div>
 
   <!-- Footnotes tab -->
   <div class="govuk-tabs__panel" id="footnotes">

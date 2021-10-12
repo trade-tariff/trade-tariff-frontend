@@ -11,9 +11,7 @@ class HeadingsController < GoodsNomenclaturesController
     @back_path = request.referer || chapter_path(heading.chapter.short_code)
     @meursing_additional_code = session[:meursing_lookup].try(:[], 'result')
 
-    if TradeTariffFrontend.rules_of_origin_api_requests_enabled? &&
-        params[:country].present? && @search.geographical_area
-
+    if params[:country].present? && @search.geographical_area
       @rules_of_origin = heading.rules_of_origin(params[:country])
     end
   end
