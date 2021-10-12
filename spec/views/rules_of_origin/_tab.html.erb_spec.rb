@@ -44,6 +44,10 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
     expect(rendered_page).to have_css '#rules-of-origin__intro--bloc-scheme'
   end
 
+  it 'includes the proofs' do
+    expect(rendered_page).to have_css '.rules-of-origin__proofs'
+  end
+
   context 'with UK service' do
     include_context 'with UK service'
 

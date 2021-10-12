@@ -1,0 +1,39 @@
+<div class="rules-of-origin__proofs">
+  <% if proofs.any? %>
+    <h3 class="govuk-heading-m">
+      Proving originating status and claiming preferential treatment
+    </h3>
+
+    <p>
+      The customs authority of the importing party will grant preferential
+      tariff treatment, based on a claim made by the importer, to goods that
+      originate in the other party that meet the conditions of the Trade
+      Agreement
+    </p>
+
+    <% if proofs.many? %>
+      <p>
+        A claim can be made if the importer has one of the following proofs of
+        origin:
+      </p>
+    <% else %>
+      <p>
+        A claim can be made if the importer has the following proof of origin:
+      </p>
+    <% end %>
+
+    <% proofs.each do |proof| %>
+      <ul class="govuk-list govuk-list--bullet govuk-list--spaced rules-of-origin__proofs__content">
+        <li>
+          <%= link_to proof.summary, proof.url %>
+        </li>
+
+        <% if proof.subtext.present? %>
+          <p>
+            <%= proof.subtext %>
+          </p>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>
