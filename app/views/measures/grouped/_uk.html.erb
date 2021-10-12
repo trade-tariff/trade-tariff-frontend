@@ -1,9 +1,3 @@
-<!-- VAT & EXCISE -->
-<% if (collection = uk_declarable.import_measures.vat_excise.for_country(@search.country)).present? %>
-  <%= render 'measures/grouped/shared/vat_excise_heading' %>
-  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key) } %>
-<% end %>
-
 <!-- CUSTOMS DUTIES -->
 <% if (collection = uk_declarable.import_measures.customs_duties.for_country(@search.country)).present? %>
   <%= render 'measures/grouped/shared/customs_duties_heading' %>
@@ -19,6 +13,12 @@
 <!-- TRADE REMEDIES -->
 <% if (collection = uk_declarable.import_measures.trade_remedies.for_country(@search.country)).present? %>
   <%= render 'measures/grouped/shared/trade_remedies_heading' %>
+  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key) } %>
+<% end %>
+
+<!-- VAT & EXCISE -->
+<% if (collection = uk_declarable.import_measures.vat_excise.for_country(@search.country)).present? %>
+  <%= render 'measures/grouped/shared/vat_excise_heading' %>
   <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key) } %>
 <% end %>
 
