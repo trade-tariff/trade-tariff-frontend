@@ -1,6 +1,8 @@
 RSpec.describe ClientBuilder do
   subject(:builder) { described_class.new(service) }
 
+  let(:service) { :uk }
+
   describe '#call' do
     before do
       allow(Faraday).to receive(:new)
@@ -24,6 +26,20 @@ RSpec.describe ClientBuilder do
 
         expect(Faraday).to have_received(:new).with('http://localhost:3019')
       end
+    end
+
+    context 'when the services are not configured' do
+      before do
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choices).and_return(nil)
+      end
+
+      it 'does not call Faraday' do
+        builder.call
+
+        expect(Faraday).not_to have_received(:new)
+      end
+
+      it { expect(builder.call).to be_nil }
     end
   end
 end
