@@ -107,7 +107,7 @@ RSpec.describe ServiceHelper, type: :helper do
     end
   end
 
-  describe '.service_switch_banner' do
+  describe '.switch_banner_copy' do
     before do
       helper.request.path = path
       assign(:enable_service_switch_banner_in_action, true)
@@ -117,7 +117,7 @@ RSpec.describe ServiceHelper, type: :helper do
       let(:path) { '/xi/sections' }
 
       it 'returns the full banner that allows users to toggle between the services' do
-        expect(helper.service_switch_banner).to include(t("service_banner.big.#{choice}", link: helper.switch_service_link))
+        expect(helper.switch_banner_copy).to include(t("service_banner.big.#{choice}", link: helper.switch_service_link))
       end
     end
 
@@ -125,18 +125,8 @@ RSpec.describe ServiceHelper, type: :helper do
       let(:path) { '/xi/foo' }
 
       it 'returns the subtle banner that allows users to toggle between the services' do
-        expect(helper.service_switch_banner).to include(t('service_banner.small', link: helper.switch_service_link))
+        expect(helper.switch_banner_copy).to include(t('service_banner.small', link: helper.switch_service_link))
       end
-    end
-
-    context 'when service switching is disabled for the action' do
-      before do
-        assign(:enable_service_switch_banner_in_action, false)
-      end
-
-      let(:path) { '/xi/sections' }
-
-      it { expect(helper.service_switch_banner).to be_nil }
     end
   end
 

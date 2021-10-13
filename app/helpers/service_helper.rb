@@ -38,18 +38,6 @@ module ServiceHelper
     link_to(t('service_banner.service_name.uk'), current_path)
   end
 
-  def service_switch_banner
-    if is_switch_banner_enabled?
-      tag.div(class: 'tariff-breadcrumbs js-tariff-breadcrumbs clt govuk-!-font-size-15') do
-        tag.nav do
-          tag.p do
-            banner_copy
-          end
-        end
-      end
-    end
-  end
-
   def search_label_text
     t('search.label', service_name: service_name)
   end
@@ -75,6 +63,12 @@ module ServiceHelper
     service_choice == 'uk'
   end
 
+  def switch_banner_copy
+    copy = request.filtered_path == sections_path ? "service_banner.big.#{service_choice}" : 'service_banner.small'
+
+    t(copy, link: switch_service_link).html_safe
+  end
+
 private
 
   def service_name
@@ -85,17 +79,7 @@ private
     t('title.service_description')
   end
 
-  def banner_copy
-    return t("service_banner.big.#{service_choice}", link: switch_service_link).html_safe if request.filtered_path == sections_path
-
-    t('service_banner.small', link: switch_service_link).html_safe
-  end
-
   def current_path
     request.filtered_path.sub("/#{service_choice}", '')
-  end
-
-  def is_switch_banner_enabled?
-    @enable_service_switch_banner_in_action
   end
 end

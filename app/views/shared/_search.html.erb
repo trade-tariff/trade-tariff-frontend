@@ -10,8 +10,10 @@
         <span id="copy_comm_code" class="pseudo-link govuk-link">Copy commodity code</span><br>
         <span class="copied">Code copied</span>
       </div>
-  </h1>
-    <%= service_switch_banner %>
+    </h1>
+
+    <%= render 'shared/switch_banner' %>
+
     <%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css}", id: "new_search" do |f| %>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
@@ -29,9 +31,10 @@
   <header>
     <span class="govuk-caption-m"><%= trade_tariff_heading %></span>
     <h1 class="govuk-heading-l">
-      <%= link_to(default_heading(section: @section), sections_path) %>
+      <%= default_heading(section: @section) %>
     </h1>
-    <%= service_switch_banner %>
+
+    <%= render 'shared/switch_banner' %>
   </header>
   <%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css}", id: "new_search" do |f| %>
     <div class="search-header js-search-header">

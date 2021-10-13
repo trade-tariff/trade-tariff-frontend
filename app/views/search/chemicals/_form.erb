@@ -1,6 +1,8 @@
 <%= form_tag chemical_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
   <h1 class="govuk-heading-l">Search by Chemical</h1>
-  <%= service_switch_banner %>
+
+  <%= render 'shared/switch_banner' %>
+
   <div class="govuk-form-group">
     <%= label_tag :type, 'CAS number', class: 'govuk-label' %>
     <%= text_field_tag :cas, search_form.cas, class: "govuk-input govuk-input--width-10" %>
