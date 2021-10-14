@@ -29,7 +29,7 @@
     <% rules.each do |rule| %>
     <tr class="govuk-table__row">
       <td class="govuk-table__cell" data-label="Heading">
-        <%= prevent_breaking_heading_components replace_non_breaking_space(rule.heading) %>
+        <%= restrict_wrapping replace_non_breaking_space(rule.heading) %>
       </td>
 
       <td class="govuk-table__cell" data-label="Description">

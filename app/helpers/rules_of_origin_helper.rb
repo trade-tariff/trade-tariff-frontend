@@ -38,7 +38,7 @@ module RulesOfOriginHelper
     content.gsub('&nbsp;', ' ')
   end
 
-  def prevent_breaking_heading_components(content)
+  def restrict_wrapping(content)
     safe_content = html_escape(content)
 
     safe_content.gsub(ROO_NON_BREAKING_HEADING) { |match|

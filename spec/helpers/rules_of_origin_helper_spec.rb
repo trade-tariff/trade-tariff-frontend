@@ -82,8 +82,8 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
     it { is_expected.to eql 'With space and non-breaking space' }
   end
 
-  describe '#prevent_breaking_heading_components' do
-    subject { helper.prevent_breaking_heading_components content }
+  describe '#restrict_wrapping' do
+    subject { helper.restrict_wrapping content }
 
     let(:span) { '<span class="rules-of-origin__non-breaking-heading">' }
 
