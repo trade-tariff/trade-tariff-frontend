@@ -1,5 +1,6 @@
 module RulesOfOriginHelper
   ROO_TAGGED_DESCRIPTIONS = %w[CC CTH CTSH EXW WO].freeze
+  ROO_NON_BREAKING_HEADING = /\w+\s+\d+/
 
   def rules_of_origin_service_name
     TradeTariffFrontend::ServiceChooser.uk? ? 'UK' : 'EU'
@@ -31,5 +32,17 @@ module RulesOfOriginHelper
         ''
       end
     end
+  end
+
+  def replace_non_breaking_space(content)
+    content.gsub('&nbsp;', ' ')
+  end
+
+  def restrict_wrapping(content)
+    safe_content = html_escape(content)
+
+    safe_content.gsub(ROO_NON_BREAKING_HEADING) { |match|
+      tag.span match, class: 'rules-of-origin__non-breaking-heading'
+    }.html_safe
   end
 end
