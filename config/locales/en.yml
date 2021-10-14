@@ -24,13 +24,12 @@ en:
     commodity:
       uk: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
       xi: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
-    service_description: "look up commodity codes, duty and VAT rates"
+    service_description: "Look up commodity codes, duty and VAT rates"
     service_name:
       uk: "UK Integrated Online Tariff"
       xi: "Northern Ireland Online Tariff"
   h1:
-    default: "%{service_name}: %{service_description}"
-    service_description: "look up commodity codes, duty and VAT rates"
+    service_description: "Look up commodity codes, duty and VAT rates"
     service_name:
       uk: "UK Integrated Online Tariff"
       xi: "Northern Ireland Online Tariff"

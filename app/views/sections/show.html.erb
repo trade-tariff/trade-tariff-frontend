@@ -1,4 +1,5 @@
 <% content_for :title, goods_nomenclature_title(@section) %>
+
 <% content_for :head do %>
   <meta name="description" content="<%= @section %>">
   <link rel='alternate' type='application/json' href='<%= section_url(@section, format: :json) %>' title='Section information page in JSON format' />
@@ -6,7 +7,7 @@
 
 <% content_for :bodyClasses, "page--wide" %>
 
-<h2 class="govuk-heading-m">Choose the chapter that best matches your goods</h2>
+<p>Section <strong><%= @section.numeral %></strong> contains <strong><%= @section.chapters_count %></strong> chapters. Choose the chapter that best matches your goods.</p>
 
 <%= render 'shared/tariff_breadcrumbs', section: @section %>
 
