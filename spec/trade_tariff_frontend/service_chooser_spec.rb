@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe TradeTariffFrontend::ServiceChooser do
   describe '.service_choices' do
     it 'returns a Hash of url options for the services' do
@@ -84,6 +82,54 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
 
         expect(Rails.cache).to have_received(:fetch).with('xi.foo', options)
       end
+    end
+  end
+
+  describe '.xi_host' do
+    it { expect(described_class.xi_host).to eq('http://localhost:3019') }
+  end
+
+  describe '.uk_host' do
+    it { expect(described_class.uk_host).to eq('http://localhost:3018') }
+  end
+
+  describe '.api_client' do
+    before do
+      Thread.current[:service_choice] = choice
+    end
+
+    context 'when the service choice is xi' do
+      let(:choice) { 'xi' }
+
+      it { expect(described_class.api_client).to eq(Rails.application.config.http_client_xi) }
+      it { expect(described_class.api_client).to be_a(Faraday::Connection) }
+    end
+
+    context 'when the service choice is not xi' do
+      let(:choice) { nil }
+
+      it { expect(described_class.api_client).to eq(Rails.application.config.http_client_uk) }
+      it { expect(described_class.api_client).to be_a(Faraday::Connection) }
+    end
+  end
+
+  describe '.api_client_with_forwarding' do
+    before do
+      Thread.current[:service_choice] = choice
+    end
+
+    context 'when the service choice is xi' do
+      let(:choice) { 'xi' }
+
+      it { expect(described_class.api_client_with_forwarding).to eq(Rails.application.config.http_client_xi_forwarding) }
+      it { expect(described_class.api_client_with_forwarding).to be_a(Faraday::Connection) }
+    end
+
+    context 'when the service choice is not xi' do
+      let(:choice) { nil }
+
+      it { expect(described_class.api_client_with_forwarding).to eq(Rails.application.config.http_client_uk_forwarding) }
+      it { expect(described_class.api_client_with_forwarding).to be_a(Faraday::Connection) }
     end
   end
 

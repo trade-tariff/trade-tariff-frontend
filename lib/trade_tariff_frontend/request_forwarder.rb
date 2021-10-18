@@ -24,8 +24,7 @@ module TradeTariffFrontend
                              .split('/')
                              .reject { |p| p.empty? || p == 'api' }
                              .first || "v#{Rails.configuration.x.backend.api_version}"
-        conn = Faraday.new
-        response = conn.send(
+        response = api.send(
           rackreq.request_method.downcase,
           request_url_for(rackreq)
         ) do |req|
@@ -97,6 +96,10 @@ module TradeTariffFrontend
       prefix = "/#{choice}"
 
       rackreq.path_info = rackreq.path_info.sub(prefix, '') if choice.present?
+    end
+
+    def api
+      TradeTariffFrontend::ServiceChooser.api_client_with_forwarding
     end
   end
 end
