@@ -9,8 +9,7 @@
   %>
 <% end %>
 
-<%= render 'shared/switch_banner' %>
-
+<%= service_switch_banner %>
 <%= render partial: 'search/footnotes/form', locals: { search_form: @result.search_form } %>
 <% if @result.search_result&.any? %>
   <br/>

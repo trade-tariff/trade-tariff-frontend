@@ -47,10 +47,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  helper_method :cookies_policy,
-                :meursing_lookup_result,
-                :is_switch_banner_enabled?
-
   def render_500
     @no_shared_search = true
     render template: 'errors/internal_server_error',
@@ -68,9 +64,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_last_updated
-    # rubocop:disable Naming/MemoizedInstanceVariableName
     @tariff_last_updated ||= TariffUpdate.latest_applied_import_date
-    # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
   def set_enable_service_switch_banner_in_action
@@ -82,9 +76,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_search
-    # rubocop:disable Naming/MemoizedInstanceVariableName
     @search ||= Search.new(search_attributes)
-    # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
   def search_attributes
@@ -110,14 +102,12 @@ class ApplicationController < ActionController::Base
   def cookies_policy
     @cookies_policy ||= Cookies::Policy.from_cookie(cookies[:cookies_policy])
   end
+  helper_method :cookies_policy
 
   def meursing_lookup_result
     @meursing_lookup_result ||= MeursingLookup::Result.new(meursing_additional_code_id: session[MeursingLookup::Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY])
   end
-
-  def is_switch_banner_enabled?
-    @enable_service_switch_banner_in_action
-  end
+  helper_method :meursing_lookup_result
 
   protected
 

@@ -3,12 +3,8 @@ module ServiceHelper
     t('title.default', service_name: service_name, service_description: service_description)
   end
 
-  def default_heading(section:)
-    section ? section_heading(section) : t('h1.service_description')
-  end
-
-  def section_heading(section)
-    "Section #{section.numeral}: #{section.title}"
+  def default_heading
+    t('h1.default', service_name: service_name, service_description: service_description)
   end
 
   def goods_nomenclature_title(goods_nomenclature)
@@ -38,6 +34,20 @@ module ServiceHelper
     link_to(t('service_banner.service_name.uk'), current_path)
   end
 
+  def service_switch_banner(optional_classes: 'govuk-!-margin-bottom-7')
+    # rubocop:disable Rails/HelperInstanceVariable
+    if @enable_service_switch_banner_in_action
+      tag.div(class: "tariff-breadcrumbs js-tariff-breadcrumbs clt govuk-!-font-size-15 #{optional_classes}") do
+        tag.nav do
+          tag.p do
+            banner_copy
+          end
+        end
+      end
+    end
+    # rubocop:enable Rails/HelperInstanceVariable
+  end
+
   def search_label_text
     t('search.label', service_name: service_name)
   end
@@ -63,12 +73,6 @@ module ServiceHelper
     service_choice == 'uk'
   end
 
-  def switch_banner_copy
-    copy = request.filtered_path == sections_path ? "service_banner.big.#{service_choice}" : 'service_banner.small'
-
-    t(copy, link: switch_service_link).html_safe
-  end
-
 private
 
   def service_name
@@ -77,6 +81,12 @@ private
 
   def service_description
     t('title.service_description')
+  end
+
+  def banner_copy
+    return t("service_banner.big.#{service_choice}", link: switch_service_link).html_safe if request.filtered_path == sections_path
+
+    t('service_banner.small', link: switch_service_link).html_safe
   end
 
   def current_path
