@@ -3,7 +3,6 @@ require 'paas_config'
 module TradeTariffFrontend
   autoload :Presenter,      'trade_tariff_frontend/presenter'
   autoload :ViewContext,    'trade_tariff_frontend/view_context'
-  autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
 
   module_function
 
@@ -92,6 +91,80 @@ module TradeTariffFrontend
 
   def revision
     `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
+  end
+
+  module ServiceChooser
+    SERVICE_CURRENCIES = {
+      'uk' => 'GBP',
+      'xi' => 'EUR',
+    }.freeze
+
+    module_function
+
+    def with_source(service_source)
+      original_service_source = service_choice
+
+      self.service_choice = service_source.to_s
+
+      result = yield
+
+      self.service_choice = original_service_source
+
+      result
+    rescue StandardError => e
+      # Restore the request's original service source
+      self.service_choice = original_service_source
+
+      raise e
+    end
+
+    def service_default
+      ENV.fetch('SERVICE_DEFAULT', 'uk')
+    end
+
+    def currency
+      SERVICE_CURRENCIES.fetch(service_choice, 'GBP')
+    end
+
+    def service_choices
+      @service_choices ||= begin
+        api_options = ENV.fetch('API_SERVICE_BACKEND_URL_OPTIONS', '{}')
+
+        JSON.parse(api_options)
+      end
+    end
+
+    def service_choice=(service_choice)
+      Thread.current[:service_choice] = service_choice
+    end
+
+    def service_choice
+      Thread.current[:service_choice]
+    end
+
+    def cache_with_service_choice(cache_key, options = {}, &block)
+      Rails.cache.fetch("#{cache_prefix}.#{cache_key}", options, &block)
+    end
+
+    def api_host
+      host = service_choices[service_choice]
+
+      return service_choices[service_default] if host.blank?
+
+      host
+    end
+
+    def cache_prefix
+      service_choice || service_default
+    end
+
+    def uk?
+      (service_choice || service_default) == 'uk'
+    end
+
+    def xi?
+      service_choice == 'xi'
+    end
   end
 
   class FilterBadURLEncoding

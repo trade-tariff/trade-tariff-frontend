@@ -175,7 +175,14 @@ module ApiEntity
     end
 
     def api
-      TradeTariffFrontend::ServiceChooser.api_client
+      host = TradeTariffFrontend::ServiceChooser.api_host
+
+      Faraday.new(host) do |conn|
+        conn.request :url_encoded
+        conn.adapter Faraday.default_adapter
+        conn.response :json, content_type: /\bjson$/
+        conn.headers['Accept'] = "application/vnd.uktt.v#{Rails.configuration.x.backend.api_version}"
+      end
     end
   end
 end

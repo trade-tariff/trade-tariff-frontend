@@ -8,10 +8,8 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
 
   let(:response_body) { 'example' }
 
-  let(:middleware) do described_class.new(host: host) end
-
-  before do
-    allow(TradeTariffFrontend::ServiceChooser).to receive(:api_client_with_forwarding).and_call_original
+  let :middleware do
+    described_class.new(host: host)
   end
 
   around do |example|
@@ -19,14 +17,6 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
     VCR.turned_off do
       example.run
     end
-  end
-
-  it 'picks a reusable client' do
-    stub_request(:get, "#{host}#{request_path}")
-
-    middleware.call env_for(request_path)
-
-    expect(TradeTariffFrontend::ServiceChooser).to have_received(:api_client_with_forwarding)
   end
 
   it 'forwards response from upstream backend host for GETs' do
