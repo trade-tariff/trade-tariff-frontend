@@ -1,5 +1,5 @@
 class ClientBuilder
-  DEFAULT_VERSION = 'v2'.freeze
+  DEFAULT_VERSION = '2'.freeze
   DEFAULT_FORMAT = 'jsonapi'.freeze
 
   def initialize(service, forwarding: false)
