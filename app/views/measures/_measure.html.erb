@@ -64,7 +64,8 @@
   </td>
 
   <td class="numerical">
-    <%= measure.effective_start_date %><% if measure.effective_end_date.present? %><br>(<%= measure.effective_end_date %>)<% end %>
+    <%= pretty_date_range(measure.effective_start_date, measure.effective_end_date) %>
+
     <% if measure.suspension_legal_act.present? %>
       <br />
         <a class="suspended" href="<%= measure.suspension_legal_act.regulation_url %>" target="_blank">

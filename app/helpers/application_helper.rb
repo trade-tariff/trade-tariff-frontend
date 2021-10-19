@@ -61,6 +61,12 @@ module ApplicationHelper
     request.base_url + request.path
   end
 
+  def pretty_date_range(start_date, end_date)
+    pretty_end_date = end_date ? "to #{end_date.to_formatted_s(:rfc822)}" : ''
+
+    start_date.to_formatted_s(:rfc822) + pretty_end_date
+  end
+
   private
 
   def search_date_in_future_month?

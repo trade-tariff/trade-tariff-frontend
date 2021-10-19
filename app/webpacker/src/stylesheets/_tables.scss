@@ -102,12 +102,12 @@ table.small-table {
       }
 
       td:nth-of-type(1):before { content: 'Country'; }
-      td:nth-of-type(2):before { content: 'Measure'; }
-      td:nth-of-type(3):before { content: 'Value'; }
-      td:nth-of-type(4):before { content: 'Conditions that apply'; }
+      td:nth-of-type(2):before { content: 'Measure type'; }
+      td:nth-of-type(3):before { content: 'Duty rate'; }
+      td:nth-of-type(4):before { content: 'Conditions'; }
       td:nth-of-type(5):before { content: 'Exclusions'; }
       td:nth-of-type(6):before { content: 'Legal base'; }
-      td:nth-of-type(7):before { content: 'Start date (End date)'; }
+      td:nth-of-type(7):before { content: 'Date(s)'; }
       td:nth-of-type(8):before { content: 'Footnotes'; }
     }
 
@@ -118,7 +118,7 @@ table.small-table {
       td:nth-of-type(4) { width: 9% }
       td:nth-of-type(5) { width: 14% }
       td:nth-of-type(6) { width: 9% }
-      td:nth-of-type(7) { width: 10% }
+      td:nth-of-type(7) { width: 16% }
       td:nth-of-type(8) { width: auto }
     }
 
