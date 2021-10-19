@@ -41,14 +41,14 @@ RSpec.describe ApiEntity do
       let(:status) { 404 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception ApiEntity::NotFound }
+      it { expect { request }.to raise_exception described_class::NotFound }
     end
 
     context 'with error response' do
       let(:status) { 500 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception ApiEntity::Error }
+      it { expect { request }.to raise_exception described_class::Error }
     end
 
     context 'with unparseable response' do
@@ -56,7 +56,11 @@ RSpec.describe ApiEntity do
         file_fixture('jsonapi/singular_invalid_relationship.json').read
       end
 
-      it { expect { request }.to raise_exception TariffJsonapiParser::ParsingError }
+      it 'raises descriptive exception' do
+        expect { request }.to raise_exception \
+          described_class::UnparseableResponseError,
+          %r{Error parsing #{api_endpoint}/mockentities/123 with headers:}
+      end
     end
   end
 
@@ -85,14 +89,14 @@ RSpec.describe ApiEntity do
       let(:status) { 404 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception ApiEntity::NotFound }
+      it { expect { request }.to raise_exception described_class::NotFound }
     end
 
     context 'with error response' do
       let(:status) { 500 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception ApiEntity::Error }
+      it { expect { request }.to raise_exception described_class::Error }
     end
 
     context 'with unparseable response' do
@@ -100,7 +104,11 @@ RSpec.describe ApiEntity do
         file_fixture('jsonapi/multiple_invalid_relationship.json').read
       end
 
-      it { expect { request }.to raise_exception TariffJsonapiParser::ParsingError }
+      it 'raises descriptive exception' do
+        expect { request }.to raise_exception \
+          described_class::UnparseableResponseError,
+          %r{Error parsing #{api_endpoint}/mockentities with headers:}
+      end
     end
   end
 end
