@@ -1,0 +1,13 @@
+{
+  "data" : [
+    {
+      "id": "123",
+      "type": "mock_entity",
+      "attributes": {
+        "name": "Joe",
+        "age": 21
+      }
+    }
+  ],
+  "included": []
+}
