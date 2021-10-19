@@ -56,7 +56,7 @@ RSpec.describe ApiEntity do
         file_fixture('jsonapi/singular_invalid_relationship.json').read
       end
 
-      it { expect { request }.to raise_exception NoMethodError }
+      it { expect { request }.to raise_exception TariffJsonapiParser::ParsingError }
     end
   end
 
@@ -100,7 +100,7 @@ RSpec.describe ApiEntity do
         file_fixture('jsonapi/multiple_invalid_relationship.json').read
       end
 
-      it { expect { request }.to raise_exception NoMethodError }
+      it { expect { request }.to raise_exception TariffJsonapiParser::ParsingError }
     end
   end
 end

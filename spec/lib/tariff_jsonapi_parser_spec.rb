@@ -33,7 +33,11 @@ RSpec.describe TariffJsonapiParser do
       context 'with invalid relationships' do
         let(:json_file) { 'singular_invalid_relationship' }
 
-        it { expect { parse }.to raise_exception NoMethodError }
+        it 'raises a description exception' do
+          expect { parse }.to raise_exception \
+            described_class::ParsingError,
+            "Error finding relationship 'parts': nil"
+        end
       end
     end
 
@@ -66,7 +70,11 @@ RSpec.describe TariffJsonapiParser do
       context 'with invalid relationships' do
         let(:json_file) { 'multiple_invalid_relationship' }
 
-        it { expect { parse }.to raise_exception NoMethodError }
+        it 'raises a description exception' do
+          expect { parse }.to raise_exception \
+            described_class::ParsingError,
+            "Error finding relationship 'parts': nil"
+        end
       end
     end
   end
