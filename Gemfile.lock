@@ -150,6 +150,7 @@ GEM
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
     faraday-net_http (1.0.1)
+    faraday-net_http_persistent (1.2.0)
     faraday_middleware (1.2.0)
       faraday (~> 1.0)
     forgery (0.8.1)
@@ -233,6 +234,8 @@ GEM
     msgpack (1.4.2)
     multi_json (1.15.0)
     multipart-post (2.1.1)
+    net-http-persistent (4.0.1)
+      connection_pool (~> 2.2)
     newrelic_rpm (8.0.0)
     nio4r (2.5.8)
     nokogiri (1.12.5)
@@ -448,6 +451,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faraday (= 1.3.0)
+  faraday-net_http_persistent
   faraday_middleware
   forgery
   govspeak
@@ -457,6 +461,7 @@ DEPENDENCIES
   lograge
   logstash-event
   multi_json
+  net-http-persistent
   newrelic_rpm
   nokogiri (~> 1.12.5)
   plek
