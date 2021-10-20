@@ -20,11 +20,11 @@
 <!-- XI IMPORT CONTROLS -->
 <% if (collection = xi_declarable.import_measures.import_controls.for_country(@search.country)).present? %>
   <%= render 'measures/grouped/shared/xi_import_controls_heading' %>
-  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key) } %>
+  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key), hide_duty_rate: true } %>
 <% end %>
 
 <!-- UK IMPORT CONTROLS -->
 <% if (collection = uk_declarable.import_measures.import_controls.for_country(@search.country)).present? %>
   <%= render 'measures/grouped/shared/uk_import_controls_heading' %>
-  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key) } %>
+  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key), hide_duty_rate: true } %>
 <% end %>

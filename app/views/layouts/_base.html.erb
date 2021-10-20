@@ -24,16 +24,16 @@
     <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="proposition-links" aria-label="Show or hide Top Level Navigation">Menu</button>
     <nav id="proposition-menu"  aria-label="Top Level Navigation">
       <ul id="proposition-links" class="govuk-header__navigation ">
-        <%= govuk_header_navigation_item(search_active_class) do %>
+        <%= govuk_header_navigation_item(active_class: search_active_class) do %>
           <%= link_to 'Search or browse the Tariff', sections_path, class: "govuk-header__link" %>
         <% end %>
-        <%= govuk_header_navigation_item(a_z_active_class) do %>
+        <%= govuk_header_navigation_item(active_class: a_z_active_class) do %>
           <%= link_to "A-Z", a_z_index_path(letter: "a"), class: "govuk-header__link" %>
         <% end %>
-        <%= govuk_header_navigation_item(tools_active_class) do %>
+        <%= govuk_header_navigation_item(active_class: tools_active_class) do %>
           <%= link_to "Tools", tools_path, class: "govuk-header__link" %>
         <% end %>
-        <%= govuk_header_navigation_item(help_active_class) do %>
+        <%= govuk_header_navigation_item(active_class: help_active_class) do %>
           <%= link_to "Help", help_path, class: "govuk-header__link" %>
         <% end %>
       </ul>

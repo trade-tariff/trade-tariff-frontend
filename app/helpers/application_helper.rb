@@ -27,10 +27,11 @@ module ApplicationHelper
     tag.div(class: 'govuk-breadcrumbs') { tag.ol(crumbs.join('').html_safe, class: 'govuk-breadcrumbs__list', role: 'breadcrumbs') }
   end
 
-  def govuk_header_navigation_item(active_class = false)
-    base_classname = 'govuk-header__navigation-item'
-    classname = "#{base_classname} #{active_class ? "#{base_classname}--active" : ''}"
-    tag.li(class: classname) { yield }
+  def govuk_header_navigation_item(active_class: '', &block)
+    base_class_name = 'govuk-header__navigation-item'
+    active_class_name = active_class.present? ? "#{base_class_name}--active" : ''
+
+    tag.li(class: "#{base_class_name} #{active_class_name}", &block)
   end
 
   def search_active_class
@@ -50,7 +51,7 @@ module ApplicationHelper
   end
 
   def currency_options
-    [%w[Pound\ sterling GBP], %w[Euro EUR]]
+    [['Pound sterling', 'GBP'], %w[Euro EUR]]
   end
 
   def chapter_forum_url(chapter)
@@ -62,14 +63,8 @@ module ApplicationHelper
   end
 
   def pretty_date_range(start_date, end_date)
-    pretty_end_date = end_date ? "to #{end_date.to_formatted_s(:rfc822)}" : ''
+    pretty_end_date = end_date ? "<br>to #{end_date.to_formatted_s(:rfc822)}" : ''
 
-    start_date.to_formatted_s(:rfc822) + pretty_end_date
-  end
-
-  private
-
-  def search_date_in_future_month?
-    @search&.date.date >= Date.today.at_beginning_of_month.next_month
+    (start_date.to_formatted_s(:rfc822) + pretty_end_date).html_safe
   end
 end

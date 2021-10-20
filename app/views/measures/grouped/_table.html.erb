@@ -3,7 +3,11 @@
     <tr>
       <th>Country</th>
       <th>Measure type</th>
-      <th>Duty rate</th>
+
+      <% unless local_assigns[:hide_duty_rate] %>
+        <th>Duty rate</th>
+      <% end %>
+
       <th>Conditions</th>
       <th>Exclusions</th>
       <th title="Opens in a new window">Legal base</th>
@@ -13,6 +17,6 @@
   </thead>
 
   <tbody>
-    <%= render partial: 'measures/measure', collection: collection %>
+    <%= render partial: 'measures/measure', collection: collection, locals: { hide_duty_rate: local_assigns[:hide_duty_rate] } %>
   </tbody>
 </table>
