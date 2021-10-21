@@ -38,18 +38,19 @@
     <% end %>
   </td>
 
-  <td class="numerical">
-    <%= filter_duty_expression(measure) %>
+  <% unless local_assigns[:hide_duty_rate] %>
+    <td class="numerical">
+      <%= filter_duty_expression(measure) %>
 
-    <% if measure.resolved_duty_expression.present? %>
-      <br></br>
-      <span title="Showing duties for Meursing code <%= meursing_lookup_result.meursing_additional_code_id %>" class="meursing-duty-expression">
+      <% if measure.resolved_duty_expression.present? %>
+        <br></br>
+        <span title="Showing duties for Meursing code <%= meursing_lookup_result.meursing_additional_code_id %>" class="meursing-duty-expression">
 
-      
-        <%= sanitize(measure.resolved_duty_expression, tags: %w[span abbr strong], attributes: %w[title]) %>
-      </span>
-    <% end %>
-  </td>
+          <%= sanitize(measure.resolved_duty_expression, tags: %w[span abbr strong], attributes: %w[title]) %>
+        </span>
+      <% end %>
+    </td>
+  <% end %>
 
   <td>
     <% if measure.has_measure_conditions? %>
@@ -64,7 +65,8 @@
   </td>
 
   <td class="numerical">
-    <%= measure.effective_start_date %><% if measure.effective_end_date.present? %><br>(<%= measure.effective_end_date %>)<% end %>
+    <%= pretty_date_range(measure.effective_start_date, measure.effective_end_date) %>
+
     <% if measure.suspension_legal_act.present? %>
       <br />
         <a class="suspended" href="<%= measure.suspension_legal_act.regulation_url %>" target="_blank">
