@@ -102,33 +102,16 @@
     <%= render partial: 'declarables/filtered', locals: { search: @search } %>
 
     <% if declarable.export_measures.for_country(@search.country).any? %>
-
       <%= render "shared/measure_types_help", anchor: "export" %>
 
-      <table class="small-table measures govuk-table">
-        <% if @search.filtered_by_country? %>
-          <caption class="govuk-table__caption">Measures for <%= @search.geographical_area %></caption>
-        <% else %>
-          <caption class="govuk-table__caption">Measures for all countries</caption>
-        <% end %>
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-3">
+        <%= @search.filtered_by_country? ? "Measures for #{@search.geographical_area}" : "Measures for all countries" %>
+      </h3>
 
-        <thead>
-        <tr>
-          <th>Country</th>
-          <th>Measure</th>
-          <th>Value</th>
-          <th>Conditions that apply</th>
-          <th>Exclusions</th>
-          <th title="Opens in a new window">Legal base</th>
-          <th>Start date<br>(End date, if any)</th>
-          <th>Footnotes</th>
-        </tr>
-        </thead>
-
-        <tbody>
-          <%= render partial: 'measures/measure', collection: declarable.export_measures.for_country(@search.country).sort_by(&:key) %>
-        </tbody>
-      </table>
+      <%= render partial: 'measures/grouped/table', locals: {
+        collection: declarable.export_measures.for_country(@search.country).sort_by(&:key),
+        hide_duty_rate: true }
+      %>
     <% else %>
       <p>There are no export measures for this commodity on this date.</p>
     <% end %>
