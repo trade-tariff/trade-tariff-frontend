@@ -1,30 +1,48 @@
 <!-- CUSTOMS DUTIES -->
 <% if (collection = xi_declarable.import_measures.customs_duties.for_country(@search.country)).present? %>
-  <%= render 'measures/grouped/shared/customs_duties_heading' %>
   <%= render 'measures/meursing_form' if xi_declarable.meursing_code? %>
-  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key) } %>
+  <%= render partial: 'measures/grouped/table', locals: {
+    caption: 'Customs duties',
+    collection: collection.sort_by(&:key),
+    css_id: 'customs_duties'
+  %>
 <% end %>
 
 <!-- TRADE REMEDIES -->
 <% if (collection = xi_declarable.import_measures.trade_remedies.for_country(@search.country)).present? %>
-  <%= render 'measures/grouped/shared/trade_remedies_heading' %>
-  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key) } %>
+  <%= render partial: 'measures/grouped/table', locals: {
+    caption: 'Trade Remedies, safeguards and retaliatory duties',
+    collection: collection.sort_by(&:key),
+    css_id: 'trade_remedies' }
+  %>
 <% end %>
 
 <!-- VAT & EXCISE -->
 <% if (collection = uk_declarable.import_measures.vat_excise.for_country(@search.country)).present? %>
-  <%= render 'measures/grouped/shared/vat_excise_heading' %>
-  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key) } %>
+  <%= render partial: 'measures/grouped/table', locals: {
+    caption: 'VAT and excise',
+    collection: collection.sort_by(&:key),
+    css_id: 'vat_excise' }
+  %>
 <% end %>
 
 <!-- XI IMPORT CONTROLS -->
 <% if (collection = xi_declarable.import_measures.import_controls.for_country(@search.country)).present? %>
-  <%= render 'measures/grouped/shared/xi_import_controls_heading' %>
-  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key), hide_duty_rate: true } %>
+  <%= render partial: 'measures/grouped/table', locals: {
+    caption: 'EU import controls',
+    collection: collection.sort_by(&:key),
+    hide_duty_rate: true,
+    css_id: 'xi_import_controls' }
+  %>
 <% end %>
 
 <!-- UK IMPORT CONTROLS -->
 <% if (collection = uk_declarable.import_measures.import_controls.for_country(@search.country)).present? %>
-  <%= render 'measures/grouped/shared/uk_import_controls_heading' %>
-  <%= render partial: 'measures/grouped/table', locals: { collection: collection.sort_by(&:key), hide_duty_rate: true } %>
+  <%= render partial: 'measures/grouped/table', locals: {
+    caption: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls' : 'UK import controls',
+    collection: collection.sort_by(&:key),
+    hide_duty_rate: true,
+    css_id: 'uk_import_controls'
+  }
+  %>
 <% end %>
