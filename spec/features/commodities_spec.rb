@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'Commodity show page', js: true do
   before do
-    stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', 'spec/fixtures/measure_condition_dialog_config.yaml')
+    stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
 
     TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
     VCR.use_cassette('headings#show_0201', record: :new_episodes) do

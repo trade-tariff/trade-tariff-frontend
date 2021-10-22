@@ -6,7 +6,7 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
   subject { render_page && rendered }
 
   before do
-    stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', 'spec/fixtures/measure_condition_dialog_config.yaml')
+    stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
 
     allow(search).to receive(:countries).and_return all_countries
 

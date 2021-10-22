@@ -6,9 +6,10 @@ class TariffJsonapiParser
   def parse
     return @attributes unless @attributes.is_a?(Hash) && @attributes.key?('data')
 
-    if data.is_a?(Hash)
+    case data
+    when Hash
       parse_resource(data)
-    elsif data.is_a?(Array)
+    when Array
       parse_collection(data)
     else
       data
@@ -18,6 +19,8 @@ class TariffJsonapiParser
   def errors
     @attributes['error'] || @attributes['errors']&.map { |error| error['detail'] }&.join(', ')
   end
+
+  class ParsingError < StandardError; end
 
   private
 
@@ -47,18 +50,34 @@ class TariffJsonapiParser
 
   def parse_relationships!(relationships, parent)
     relationships.each do |name, values|
-      parent[name] = if values['data'].is_a?(Array)
-                       values['data'].map do |v|
-                         record = find_included(v['id'], v['type'])
-                         parse_record(record)
-                       end
-                     elsif values['data'].is_a?(Hash)
-                       record = find_included(values['data']['id'], values['data']['type'])
-                       parse_record(record)
+      parent[name] = case values['data']
+                     when Array
+                       find_and_parse_multiple_included(name, values['data'])
+                     when Hash
+                       find_and_parse_included(name, values['data']['id'], values['data']['type'])
                      else
                        values['data']
                      end
+    rescue NoMethodError
+      raise ParsingError, "Error parsing relationship: #{name}"
     end
+  end
+
+  def find_and_parse_multiple_included(name, records)
+    records.map do |record|
+      find_and_parse_included(name, record['id'], record['type'])
+    rescue NoMethodError
+      raise ParsingError,
+            "Error finding relationship '#{name}': #{record.inspect}"
+    end
+  end
+
+  def find_and_parse_included(name, id, type)
+    record = find_included(id, type)
+    parse_record(record)
+  rescue NoMethodError
+    raise ParsingError,
+          "Error finding relationship - '#{name}', '#{id}', '#{type}': #{record.inspect}"
   end
 
   def parse_record(record)

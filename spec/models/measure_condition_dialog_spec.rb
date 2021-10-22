@@ -4,7 +4,7 @@ RSpec.describe MeasureConditionDialog do
   subject(:dialog) { described_class.build(declarable, measure) }
 
   before do
-    stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', 'spec/fixtures/measure_condition_dialog_config.yaml')
+    stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
   end
 
   describe '#build' do

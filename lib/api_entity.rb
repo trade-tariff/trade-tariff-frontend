@@ -8,6 +8,28 @@ module ApiEntity
 
   class Error < StandardError; end
 
+  class UnparseableResponseError < StandardError
+    def initialize(response)
+      @response = response
+
+      super message
+    end
+
+    def message
+      "Error parsing #{url} with headers: #{headers.inspect}"
+    end
+
+  private
+
+    def headers
+      @response.env[:request_headers]
+    end
+
+    def url
+      @response.env[:url]
+    end
+  end
+
   extend ActiveSupport::Concern
 
   included do
@@ -36,7 +58,7 @@ module ApiEntity
   def initialize(attributes = {})
     class_name = self.class.name.downcase
 
-    if attributes.present? && attributes.has_key?(class_name)
+    if attributes.present? && attributes.key?(class_name)
       @attributes = attributes[class_name]
 
       self.attributes = attributes[class_name]
@@ -84,7 +106,7 @@ module ApiEntity
         when 502
           raise ApiEntity::Error, '502 Bad Gateway'
         end
-        collection = TariffJsonapiParser.new(resp.body).parse
+        collection = parse_jsonapi(resp)
         collection = collection.map { |entry_data| new(entry_data) }
         collection = paginate_collection(collection, resp.body.dig('meta', 'pagination')) if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
         collection
@@ -110,7 +132,7 @@ module ApiEntity
         when 502
           raise ApiEntity::Error, TariffJsonapiParser.new(resp.body).errors
         end
-        resp = TariffJsonapiParser.new(resp.body).parse
+        resp = parse_jsonapi(resp)
         new(resp)
       rescue StandardError
         if retries < Rails.configuration.x.http.max_retry
@@ -176,6 +198,12 @@ module ApiEntity
 
     def api
       TradeTariffFrontend::ServiceChooser.api_client
+    end
+
+    def parse_jsonapi(resp)
+      TariffJsonapiParser.new(resp.body).parse
+    rescue TariffJsonapiParser::ParsingError
+      raise UnparseableResponseError, resp
     end
   end
 end
