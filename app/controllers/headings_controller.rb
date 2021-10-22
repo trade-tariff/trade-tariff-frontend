@@ -12,9 +12,7 @@ class HeadingsController < GoodsNomenclaturesController
     @meursing_additional_code = session[:meursing_lookup].try(:[], 'result')
     @section = heading.section
 
-    if TradeTariffFrontend.rules_of_origin_api_requests_enabled? &&
-        params[:country].present? && @search.geographical_area
-
+    if params[:country].present? && @search.geographical_area
       @rules_of_origin = heading.rules_of_origin(params[:country])
     end
   end
