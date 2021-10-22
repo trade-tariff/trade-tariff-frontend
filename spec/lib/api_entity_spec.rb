@@ -48,21 +48,21 @@ RSpec.describe ApiEntity do
       let(:status) { 404 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception described_class::NotFound }
+      it { expect { request }.to raise_exception Faraday::ResourceNotFound }
     end
 
     context 'with error response' do
       let(:status) { 500 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception described_class::Error }
+      it { expect { request }.to raise_exception Faraday::ServerError }
     end
 
     context 'with 502 response' do
       let(:status) { 502 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception described_class::Error }
+      it { expect { request }.to raise_exception Faraday::ServerError }
     end
 
     context 'with unparseable response' do
@@ -110,21 +110,21 @@ RSpec.describe ApiEntity do
       let(:status) { 404 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception described_class::NotFound }
+      it { expect { request }.to raise_exception Faraday::ResourceNotFound }
     end
 
     context 'with error response' do
       let(:status) { 500 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception described_class::Error }
+      it { expect { request }.to raise_exception Faraday::ServerError }
     end
 
     context 'with 502 response' do
       let(:status) { 502 }
       let(:body) { {}.to_json }
 
-      it { expect { request }.to raise_exception described_class::Error }
+      it { expect { request }.to raise_exception Faraday::ServerError }
     end
 
     context 'with unparseable response' do

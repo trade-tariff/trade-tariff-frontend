@@ -102,14 +102,10 @@ module ApiEntity
         collection = collection.map { |entry_data| new(entry_data) }
         collection = paginate_collection(collection, resp.body.dig('meta', 'pagination')) if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
         collection
-      rescue Faraday::Error => e
+      rescue Faraday::Error, ApiEntity::UnparseableResponseError
         if retries < Rails.configuration.x.http.max_retry
           retries += 1
           retry
-        elsif e.is_a? Faraday::ResourceNotFound
-          raise ApiEntity::NotFound
-        elsif e.is_a? Faraday::ServerError
-          raise ApiEntity::Error
         else
           raise
         end
@@ -121,14 +117,10 @@ module ApiEntity
       begin
         resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
         new parse_jsonapi(resp)
-      rescue Faraday::Error => e
+      rescue Faraday::Error, ApiEntity::UnparseableResponseError
         if retries < Rails.configuration.x.http.max_retry
           retries += 1
           retry
-        elsif e.is_a? Faraday::ResourceNotFound
-          raise ApiEntity::NotFound
-        elsif e.is_a? Faraday::ServerError
-          raise ApiEntity::Error
         else
           raise
         end
