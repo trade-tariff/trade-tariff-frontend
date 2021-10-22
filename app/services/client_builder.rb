@@ -26,6 +26,7 @@ class ClientBuilder
   def resource_client
     Faraday.new(host) do |conn|
       conn.request :url_encoded
+      conn.response :raise_error
       conn.adapter :net_http_persistent
       conn.response :json, content_type: /\bjson$/
       conn.headers['Accept'] = "application/vnd.uktt.v#{DEFAULT_VERSION}"

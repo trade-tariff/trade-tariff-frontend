@@ -37,6 +37,13 @@ RSpec.describe ApiEntity do
       it { is_expected.to have_attributes name: 'Joe', age: 21 }
     end
 
+    context 'with 400 response' do
+      let(:status) { 400 }
+      let(:body) { {}.to_json }
+
+      it { expect { request }.to raise_exception Faraday::BadRequestError }
+    end
+
     context 'with 404 response' do
       let(:status) { 404 }
       let(:body) { {}.to_json }
@@ -46,6 +53,13 @@ RSpec.describe ApiEntity do
 
     context 'with error response' do
       let(:status) { 500 }
+      let(:body) { {}.to_json }
+
+      it { expect { request }.to raise_exception described_class::Error }
+    end
+
+    context 'with 502 response' do
+      let(:status) { 502 }
       let(:body) { {}.to_json }
 
       it { expect { request }.to raise_exception described_class::Error }
@@ -85,6 +99,13 @@ RSpec.describe ApiEntity do
       it { expect(request.first).to have_attributes name: 'Joe', age: 21 }
     end
 
+    context 'with 400 response' do
+      let(:status) { 400 }
+      let(:body) { {}.to_json }
+
+      it { expect { request }.to raise_exception Faraday::BadRequestError }
+    end
+
     context 'with 404 response' do
       let(:status) { 404 }
       let(:body) { {}.to_json }
@@ -94,6 +115,13 @@ RSpec.describe ApiEntity do
 
     context 'with error response' do
       let(:status) { 500 }
+      let(:body) { {}.to_json }
+
+      it { expect { request }.to raise_exception described_class::Error }
+    end
+
+    context 'with 502 response' do
+      let(:status) { 502 }
       let(:body) { {}.to_json }
 
       it { expect { request }.to raise_exception described_class::Error }
