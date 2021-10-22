@@ -6,7 +6,7 @@ class RulesOfOrigin::Scheme
   collection_path '/rules_of_origin_schemes'
 
   attr_accessor :scheme_code, :title, :countries, :footnote, :fta_intro,
-                :introductory_notes
+                :introductory_notes, :unilateral
 
   has_many :rules, class_name: 'RulesOfOrigin::Rule'
   has_many :links, class_name: 'RulesOfOrigin::Link'

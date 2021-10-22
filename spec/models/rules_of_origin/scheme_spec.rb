@@ -8,6 +8,7 @@ RSpec.describe RulesOfOrigin::Scheme do
   it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :countries }
   it { is_expected.to respond_to :footnote }
+  it { is_expected.to respond_to :unilateral }
   it { is_expected.to respond_to :fta_intro }
   it { is_expected.to respond_to :introductory_notes }
   it { is_expected.to respond_to :rules }
@@ -25,6 +26,7 @@ RSpec.describe RulesOfOrigin::Scheme do
             attributes: {
               scheme_code: 'EU',
               title: 'Scheme title',
+              unilateral: true,
               countries: %w[FR ES IT],
               footnote: 'Footnote comments **in markdown**',
               fta_intro: "## Markdown heading\n\n Further information",
@@ -118,6 +120,7 @@ RSpec.describe RulesOfOrigin::Scheme do
         it { is_expected.to have_attributes scheme_code: 'EU' }
         it { is_expected.to have_attributes title: 'Scheme title' }
         it { is_expected.to have_attributes countries: %w[FR ES IT] }
+        it { is_expected.to have_attributes unilateral: true }
         it { is_expected.to have_attributes footnote: /footnote/i }
         it { is_expected.to have_attributes fta_intro: /Further information/ }
         it { is_expected.to have_attributes introductory_notes: /Introductory notes/ }
