@@ -28,6 +28,7 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+      it { is_expected.not_to have_css '#rules-of-origin__intro--unilateral-scheme' }
     end
 
     context 'with bloc scheme' do
@@ -36,6 +37,7 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
       it { is_expected.to have_css '#rules-of-origin__intro--bloc-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+      it { is_expected.not_to have_css '#rules-of-origin__intro--unilateral-scheme' }
     end
 
     context 'with country scheme' do
@@ -44,6 +46,18 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
       it { is_expected.to have_css '#rules-of-origin__intro--country-scheme' }
+      it { is_expected.not_to have_css '#rules-of-origin__intro--unilateral-scheme' }
+    end
+
+    context 'with gsp bloc' do
+      let(:schemes) do
+        build_list :rules_of_origin_scheme, 1, countries: %w[FR ES], unilateral: true
+      end
+
+      it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
+      it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
+      it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+      it { is_expected.to have_css '#rules-of-origin__intro--unilateral-scheme' }
     end
   end
 
