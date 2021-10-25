@@ -82,8 +82,16 @@ RSpec.describe Commodity do
     end
   end
 
+  describe '#heading?' do
+    it { is_expected.not_to be_heading }
+  end
+
   describe '#meursing_code?' do
-    subject(:commodity) { described_class.new(attributes_for(:commodity, meursing_code: meursing_code).stringify_keys) }
+    subject(:commodity) { described_class.new(attributes_for(:commodity, meta: commodity_metadata).stringify_keys) }
+
+    let(:commodity_metadata) do
+      { 'duty_calculator' => { 'meursing_code' => meursing_code } }
+    end
 
     context 'when the commodity has a meursing code' do
       let(:meursing_code) { true }
@@ -102,43 +110,37 @@ RSpec.describe Commodity do
     end
   end
 
-  describe '#no_meursing?' do
-    subject(:commodity) { described_class.new(attributes_for(:commodity, meursing_code: meursing_code).stringify_keys) }
+  describe '#calculate_duties?' do
+    subject(:commodity) { described_class.new(attributes_for(:commodity, meta: commodity_metadata).stringify_keys) }
 
-    context 'when the commodity has a meursing code' do
-      let(:meursing_code) { true }
-
-      it 'returns true' do
-        expect(commodity).not_to be_no_meursing
-      end
+    let(:commodity_metadata) do
+      {
+        'duty_calculator' => {
+          'entry_price_system' => entry_price_system,
+          'meursing_code' => meursing_code,
+        },
+      }
     end
+    let(:entry_price_system) { false }
+    let(:meursing_code) { false }
 
-    context 'when the commodity does not have a meursing code' do
+    context 'when the commodity should calculate duties' do
+      let(:entry_price_system) { false }
       let(:meursing_code) { false }
 
-      it 'returns false' do
-        expect(commodity).to be_no_meursing
-      end
+      it { is_expected.to be_calculate_duties }
     end
-  end
 
-  describe '#heading?' do
-    it { is_expected.not_to be_heading }
-  end
-
-  describe '#calculate_duties?' do
-    subject(:commodity) { described_class.new(attributes_for(:commodity, meursing_code: meursing_code).stringify_keys) }
-
-    context 'when the commodity has a meursing code' do
+    context 'when the commodity has measures that have meursing codes' do
       let(:meursing_code) { true }
 
       it { is_expected.not_to be_calculate_duties }
     end
 
-    context 'when the commodity does not have a meursing code' do
-      let(:meursing_code) { false }
+    context 'when the commodity has measures that use the Entry Price System' do
+      let(:entry_price_system) { true }
 
-      it { is_expected.to be_calculate_duties }
+      it { is_expected.not_to be_calculate_duties }
     end
   end
 end

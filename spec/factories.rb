@@ -34,6 +34,22 @@ FactoryBot.define do
     goods_nomenclature_sid { Forgery(:basic).number }
     parent_sid { Forgery(:basic).number }
     meursing_code { false }
+    meta do
+      {
+        'duty_calculator' => {
+          'applicable_additional_codes' => {},
+          'applicable_measure_units' => {},
+          'applicable_vat_options' => {
+            'VATZ' => 'VAT zero rate',
+          },
+          'entry_price_system' => false,
+          'meursing_code' => false,
+          'source' => 'uk',
+          'trade_defence' => false,
+          'zero_mfn_duty' => false,
+        },
+      }
+    end
   end
 
   factory :monetary_exchange_rate do

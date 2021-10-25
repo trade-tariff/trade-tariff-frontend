@@ -1,6 +1,7 @@
 {
   "data" : [
     {
+      "meta": { "foo": "bar" },
       "id": "123",
       "type": "mock_entity",
       "attributes": {
@@ -16,6 +17,7 @@
   ],
   "included": [
     {
+      "meta": { "foo": "bar" },
       "id": 456,
       "type": "part",
       "attributes": {

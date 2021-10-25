@@ -32,8 +32,8 @@ class TariffJsonapiParser
     result = {}
 
     parse_top_level_attributes!(resource, result)
-
     parse_relationships!(resource['relationships'], result) if resource.key?('relationships')
+    parse_meta!(resource, result) if resource.key?('meta')
 
     result
   end
@@ -44,8 +44,8 @@ class TariffJsonapiParser
     end
   end
 
-  def parse_top_level_attributes!(attributes, parent)
-    parent.merge!(attributes['attributes'])
+  def parse_top_level_attributes!(resource, parent)
+    parent.merge!(resource['attributes'])
   end
 
   def parse_relationships!(relationships, parent)
@@ -73,19 +73,18 @@ class TariffJsonapiParser
   end
 
   def find_and_parse_included(name, id, type)
-    record = find_included(id, type)
-    parse_record(record)
+    found_resource = find_included(id, type)
+
+    return {} if found_resource.blank?
+
+    parse_resource(found_resource)
   rescue NoMethodError
     raise ParsingError,
           "Error finding relationship - '#{name}', '#{id}', '#{type}': #{record.inspect}"
   end
 
-  def parse_record(record)
-    record_attrs = record['attributes'].clone || {}
-    if record.key?('relationships')
-      parse_relationships!(record['relationships'], record_attrs)
-    end
-    record_attrs
+  def parse_meta!(resource, parent)
+    parent['meta'] = resource['meta']
   end
 
   def find_included(id, type)
