@@ -24,7 +24,8 @@ module Declarable
                   :basic_duty_rate,
                   :meursing_code,
                   :producline_suffix,
-                  :declarable
+                  :declarable,
+                  :meta
 
     alias_method :declarable?, :declarable
 
@@ -32,24 +33,16 @@ module Declarable
     delegate :code, :short_code, to: :chapter, prefix: true
   end
 
-  def meursing_code?
-    meursing_code
-  end
-
   def calculate_duties?
-    no_meursing? && no_heading?
+    no_meursing? && no_heading? && no_entry_price_system?
   end
 
-  def no_meursing?
-    !meursing_code?
+  def meursing_code?
+    meta.dig('duty_calculator', 'meursing_code')
   end
 
   def heading?
     code && code.last(6) == Heading::HEADING_PATTERN
-  end
-
-  def no_heading?
-    !heading?
   end
 
   def code
@@ -62,5 +55,23 @@ module Declarable
       export_measures.map(&:footnotes).select(&:present?).flatten +
       import_measures.map(&:footnotes).select(&:present?).flatten
     ).uniq(&:code)
+  end
+
+  private
+
+  def no_meursing?
+    !meursing_code?
+  end
+
+  def no_heading?
+    !heading?
+  end
+
+  def no_entry_price_system?
+    !entry_price_system?
+  end
+
+  def entry_price_system?
+    meta.dig('duty_calculator', 'entry_price_system')
   end
 end
