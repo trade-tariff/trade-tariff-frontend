@@ -85,6 +85,11 @@ module TradeTariffFrontend
     `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
   end
 
+  # TODO: HOTT-1048 - remove once in production
+  def split_sections_page?
+    ENV['SPLIT_SECTIONS_PAGE'].to_s == 'true'
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app

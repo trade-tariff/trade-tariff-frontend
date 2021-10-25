@@ -44,6 +44,10 @@ module ApplicationHelper
     'active' if params[:action] == 'search' || (params[:controller] == 'sections' && params[:action] == 'index')
   end
 
+  def browse_active_class
+    'active' if controller_name == 'browse_sections'
+  end
+
   def a_z_active_class
     'active' if params[:controller] == 'search_references'
   end

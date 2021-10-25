@@ -105,6 +105,22 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+  describe '#browse_active_class' do
+    subject { helper.browse_active_class }
+
+    context 'with browse controller' do
+      before { allow(helper).to receive(:controller_name).and_return 'browse_sections' }
+
+      it { is_expected.to eql 'active' }
+    end
+
+    context 'with other controller' do
+      before { allow(helper).to receive(:controller_name).and_return 'search' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '#page_header' do
     context 'without block' do
       subject { helper.page_header 'Test header' }
