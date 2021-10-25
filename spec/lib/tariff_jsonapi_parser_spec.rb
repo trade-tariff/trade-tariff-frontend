@@ -10,6 +10,7 @@ RSpec.describe TariffJsonapiParser do
       context 'with valid' do
         let(:json_file) { 'singular_no_relationship' }
 
+        it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
         it { is_expected.to include 'name' => 'Joe' }
         it { is_expected.to include 'age' => 21 }
       end
@@ -17,14 +18,16 @@ RSpec.describe TariffJsonapiParser do
       context 'with relationships' do
         let(:json_file) { 'singular_with_relationship' }
 
+        it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
         it { is_expected.to include 'name' => 'Joe' }
         it { is_expected.to include 'age' => 21 }
-        it { is_expected.to include 'parts' => [{ 'part_name' => 'A part name' }] }
+        it { is_expected.to include 'parts' => [{ 'meta' => { 'foo' => 'bar' }, 'part_name' => 'A part name' }] }
       end
 
       context 'with missing relationships' do
         let(:json_file) { 'singular_missing_relationship' }
 
+        it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
         it { is_expected.to include 'name' => 'Joe' }
         it { is_expected.to include 'age' => 21 }
         it { is_expected.to include 'parts' => [{}] }
@@ -47,6 +50,7 @@ RSpec.describe TariffJsonapiParser do
       context 'with valid' do
         let(:json_file) { 'multiple_no_relationship' }
 
+        it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
         it { is_expected.to include 'name' => 'Joe' }
         it { is_expected.to include 'age' => 21 }
       end
@@ -54,14 +58,16 @@ RSpec.describe TariffJsonapiParser do
       context 'with relationships' do
         let(:json_file) { 'multiple_with_relationship' }
 
+        it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
         it { is_expected.to include 'name' => 'Joe' }
         it { is_expected.to include 'age' => 21 }
-        it { is_expected.to include 'parts' => [{ 'part_name' => 'A part name' }] }
+        it { is_expected.to include 'parts' => [{ 'meta' => { 'foo' => 'bar' }, 'part_name' => 'A part name' }] }
       end
 
       context 'with missing relationships' do
         let(:json_file) { 'multiple_missing_relationship' }
 
+        it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
         it { is_expected.to include 'name' => 'Joe' }
         it { is_expected.to include 'age' => 21 }
         it { is_expected.to include 'parts' => [{}] }

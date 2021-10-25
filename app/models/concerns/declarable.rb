@@ -38,7 +38,7 @@ module Declarable
   end
 
   def meursing_code?
-    meta.dig('duty_calculator', 'meursing_code')
+    meta&.dig('duty_calculator', 'meursing_code')
   end
 
   def heading?
@@ -72,6 +72,6 @@ module Declarable
   end
 
   def entry_price_system?
-    meta.dig('duty_calculator', 'entry_price_system')
+    meta&.dig('duty_calculator', 'entry_price_system')
   end
 end
