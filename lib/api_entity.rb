@@ -123,7 +123,7 @@ module ApiEntity
     def find(id, opts = {})
       retries = 0
       begin
-        resp = api.get("/#{name.pluralize.parameterize}/#{id}", opts)
+        resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
         case resp.status
         when 404
           raise ApiEntity::NotFound

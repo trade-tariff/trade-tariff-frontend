@@ -1,15 +1,21 @@
 class GeographicalAreasController < ApplicationController
-  respond_to :json
+  def show
+    @geographical_area = GeographicalArea.find(params[:id])
+  end
 
   def index
-    results = geographical_areas.map do |geographical_area|
-      {
-        id: geographical_area.id,
-        text: geographical_area.long_description
-      }
-    end
+    respond_to do |format|
+      format.json do
+        results = geographical_areas.map do |geographical_area|
+          {
+            id: geographical_area.id,
+            text: geographical_area.long_description,
+          }
+        end
 
-    respond_with results: results
+        respond_with results: results
+      end
+    end
   end
 
   private
