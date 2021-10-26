@@ -98,7 +98,6 @@ Rails.application.routes.draw do
     resources :sections, only: %i[index show]
   end
 
-
   constraints(id: /\d{2}/) do
     resources :chapters, only: %i[show] do
       resources :changes,

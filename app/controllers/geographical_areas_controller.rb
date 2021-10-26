@@ -1,5 +1,7 @@
 class GeographicalAreasController < ApplicationController
   def show
+    @no_shared_search = true
+    @tariff_last_updated = nil
     @geographical_area = GeographicalArea.find(params[:id])
   end
 
