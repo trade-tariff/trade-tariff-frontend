@@ -1,59 +1,11 @@
-@mixin tariff-table {
-  caption {
-    text-align: left;
-  }
-  td {
-    vertical-align: top;
-    p {
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-}
-@mixin tariff-zebra {
-  @include tariff-table();
-  td {
-    border-bottom: 0;
-  }
-  tr {
-    background-color: $page-colour;
-  }
-  tr:nth-child(even) {
-    background-color: $highlight-colour;
-  }
-}
-
-table.tariff-table {
-  @include tariff-table();
-}
-
-table.tariff-zebra {
-  @include tariff-zebra();
-}
-
 table.small-table {
-  @include tariff-zebra();
   margin: 0 0 30px 0;
   p {
     @include govuk-font($size: 14, $weight: normal);
   }
   th, td {
-    font-size: 12px;
     padding: 0.63158em 0.526315em 0.47368em 0.526315em;
     text-align: left;
-    @media (min-width: $small-table-breakpoint) {
-      font-size: 14px;
-    }
-  }
-  th {
-    background-color: $table-header-bg;
-    border: 0;
-    font-weight: normal;
-  }
-  tr:hover, tr:focus {
-    @media (min-width: $small-table-breakpoint) {
-      background-color: $panel-colour;
-    }
   }
   td {
     min-height: $table-row-standard-height;
@@ -114,7 +66,7 @@ table.small-table {
     @media (min-width: $small-table-breakpoint) {
       td:nth-of-type(1) { width: 18%; }
       td:nth-of-type(2) { width: 22% }
-      td:nth-of-type(3) { width: 8% }
+      td:nth-of-type(3) { width: 10% }
       td:nth-of-type(4) { width: 9% }
       td:nth-of-type(5) { width: 14% }
       td:nth-of-type(6) { width: 9% }
@@ -195,7 +147,6 @@ table.small-table {
 }
 
 table.section-browser {
-  //@include tariff-table();
   tr {
     &:first-of-type {
       .heading-subtitle {
@@ -205,12 +156,6 @@ table.section-browser {
     .heading-subtitle {
       padding-top: 2em;
     }
-    //td:nth-of-type(2) {
-    //  padding: 0.85em 0;
-    //  @media (min-width: $desktop-min-width) {
-    //    padding: 0.75em 0;
-    //  }
-    //}
   }
 }
 

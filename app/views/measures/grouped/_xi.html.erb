@@ -4,7 +4,7 @@
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Customs duties',
     collection: collection.sort_by(&:key),
-    css_id: 'customs_duties'
+    css_id: 'customs_duties' }
   %>
 <% end %>
 
@@ -42,7 +42,6 @@
     caption: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls' : 'UK import controls',
     collection: collection.sort_by(&:key),
     hide_duty_rate: true,
-    css_id: 'uk_import_controls'
-  }
+    css_id: 'uk_import_controls' }
   %>
 <% end %>
