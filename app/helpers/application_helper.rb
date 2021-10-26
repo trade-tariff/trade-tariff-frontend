@@ -27,6 +27,12 @@ module ApplicationHelper
     tag.div(class: 'govuk-breadcrumbs') { tag.ol(crumbs.join('').html_safe, class: 'govuk-breadcrumbs__list', role: 'breadcrumbs') }
   end
 
+  def page_header(heading, &block)
+    extra_content = block_given? ? capture(&block) : nil
+
+    render 'shared/page_header', heading: heading, extra_content: extra_content
+  end
+
   def govuk_header_navigation_item(active_class: '', &block)
     base_class_name = 'govuk-header__navigation-item'
     active_class_name = active_class.present? ? "#{base_class_name}--active" : ''

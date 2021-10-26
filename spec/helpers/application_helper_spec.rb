@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
   describe '#govspeak' do
-    context 'string without HTML code' do
+    context 'with string without HTML code' do
       let(:string) { '**hello**' }
 
       it 'renders string in Markdown as HTML' do
@@ -12,7 +12,7 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
 
-    context 'string contains Javascript code' do
+    context 'when string contains Javascript code' do
       let(:string) { "<script type='text/javascript'>alert('hello');</script>" }
 
       it '<script> tags with a content are filtered' do
@@ -102,6 +102,33 @@ RSpec.describe ApplicationHelper, type: :helper do
       it 'returns nil' do
         expect(helper.help_active_class).to be_nil
       end
+    end
+  end
+
+  describe '#page_header' do
+    context 'without block' do
+      subject { helper.page_header 'Test header' }
+
+      it { is_expected.to have_css 'header span.govuk-caption-m', text: I18n.t('title.service_name.uk') }
+      it { is_expected.to have_css 'header h1.govuk-heading-l', text: 'Test header' }
+      it { is_expected.to have_css 'header *', count: 2 }
+    end
+
+    context 'with block' do
+      subject { helper.page_header('Second header') { tag.em 'additional content' } }
+
+      it { is_expected.to have_css 'header span.govuk-caption-m', text: I18n.t('title.service_name.uk') }
+      it { is_expected.to have_css 'header h1.govuk-heading-l', text: 'Second header' }
+      it { is_expected.to have_css 'header *', count: 3 }
+      it { is_expected.to have_css 'header em', text: 'additional content' }
+    end
+
+    context 'with XI service' do
+      subject { helper.page_header 'Test header' }
+
+      include_context 'with XI service'
+
+      it { is_expected.to have_css 'header span.govuk-caption-m', text: I18n.t('title.service_name.xi') }
     end
   end
 end
