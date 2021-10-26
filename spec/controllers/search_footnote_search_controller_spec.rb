@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe SearchController, 'GET to #footnote_search', type: :controller do
+RSpec.describe SearchController, 'GET to #footnote_search', type: :controller, slow: true do
   before do
     Rails.cache.clear
   end

@@ -314,7 +314,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
   end
 end
 
-RSpec.describe SearchController, 'GET to #codes', type: :controller do
+RSpec.describe SearchController, 'GET to #codes', type: :controller, slow: true do
   describe 'GET to #suggestions', vcr: { cassette_name: 'search#suggestions', allow_playback_repeats: true } do
     let!(:suggestions) { SearchSuggestion.all }
     let!(:suggestion) { suggestions[0] }
@@ -350,7 +350,7 @@ RSpec.describe SearchController, 'GET to #codes', type: :controller do
   end
 end
 
-RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cassette_name: 'search#quota_search', allow_playback_repeats: true } do
+RSpec.describe SearchController, 'GET to #quota_search', type: :controller, slow: true, vcr: { cassette_name: 'search#quota_search', allow_playback_repeats: true } do
   before do
     Rails.cache.clear
   end
@@ -464,7 +464,7 @@ RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr:
   end
 end
 
-RSpec.describe SearchController, 'GET to #additional_code_search', type: :controller, vcr: { cassette_name: 'search#additional_code_search' } do
+RSpec.describe SearchController, 'GET to #additional_code_search', slow: true, type: :controller, vcr: { cassette_name: 'search#additional_code_search' } do
   before do
     Rails.cache.clear
   end
@@ -526,7 +526,7 @@ RSpec.describe SearchController, 'GET to #additional_code_search', type: :contro
   end
 end
 
-RSpec.describe SearchController, 'GET to #footnote_search', type: :controller do
+RSpec.describe SearchController, 'GET to #footnote_search', slow: true, type: :controller do
   before do
     Rails.cache.clear
   end
@@ -588,7 +588,7 @@ RSpec.describe SearchController, 'GET to #footnote_search', type: :controller do
   end
 end
 
-RSpec.describe SearchController, 'GET to #certificate_search', type: :controller, vcr: { cassette_name: 'search#certificate_search' } do
+RSpec.describe SearchController, 'GET to #certificate_search', slow: true, type: :controller, vcr: { cassette_name: 'search#certificate_search' } do
   before do
     Rails.cache.clear
   end
@@ -650,7 +650,7 @@ RSpec.describe SearchController, 'GET to #certificate_search', type: :controller
   end
 end
 
-RSpec.describe SearchController, 'GET to #chemical_search', type: :controller, vcr: { cassette_name: 'search#chemical_search' } do
+RSpec.describe SearchController, 'GET to #chemical_search', slow: true, type: :controller, vcr: { cassette_name: 'search#chemical_search' } do
   before do
     Rails.cache.clear
   end

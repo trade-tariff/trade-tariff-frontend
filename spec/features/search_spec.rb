@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Search', js: true do
+RSpec.describe 'Search', js: true, slow: true do
   before do
     TradeTariffFrontend::ServiceChooser.service_choice = nil
   end
