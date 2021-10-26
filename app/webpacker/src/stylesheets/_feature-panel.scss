@@ -1,0 +1,12 @@
+$feature-panel-border-colour: #333;
+
+.feature-panel {
+  @include govuk-responsive-padding(3);
+
+  border-bottom: 1px solid $feature-panel-border-colour;
+  margin-bottom: 1em;
+
+  &.last-feature-panel {
+    border: 0;
+  }
+}
