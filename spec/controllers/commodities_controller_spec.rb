@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe CommoditiesController, type: :controller do
+  describe 'GET #index' do
+    subject { get :index }
+
+    it { is_expected.to have_http_status :success }
+  end
+
   describe 'GET to #show' do
     context 'with XI site' do
       include_context 'with XI service'
