@@ -4,6 +4,10 @@ class CommoditiesController < GoodsNomenclaturesController
   before_action :fetch_commodities, only: %i[show]
   before_action :set_session, only: %i[show]
 
+  def index
+    @no_shared_search = true
+  end
+
   def show
     @heading = commodity.heading
     @chapter = commodity.chapter

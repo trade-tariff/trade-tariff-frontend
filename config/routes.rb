@@ -128,6 +128,7 @@ Rails.application.routes.draw do
                 module: 'commodities'
     end
   end
+  get '/find_commodity', to: 'commodities#index'
 
   constraints TradeTariffFrontend::ApiPubConstraints.new(TradeTariffFrontend.public_api_endpoints) do
     scope 'api' do

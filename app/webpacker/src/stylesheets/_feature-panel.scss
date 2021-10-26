@@ -9,4 +9,8 @@ $feature-panel-border-colour: #333;
   &.last-feature-panel {
     border: 0;
   }
+
+  &--shaded {
+    background-color: #f0f4f5;
+  }
 }
