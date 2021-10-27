@@ -1,9 +1,9 @@
 module DeclarableHelper
-  def return_to_declarable_back_link
+  def declarable_back_link
     link_to('Back', declarable_path, class: 'govuk-back-link')
   end
 
-  def return_to_declarable_link
+  def declarable_link
     link_to("Return to #{current_declarable_code}", declarable_path, class: 'govuk-link')
   end
 

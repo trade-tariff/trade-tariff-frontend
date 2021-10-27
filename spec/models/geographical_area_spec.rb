@@ -2,30 +2,37 @@ require 'spec_helper'
 
 RSpec.describe GeographicalArea do
   describe '.all', vcr: { cassette_name: 'geographical_areas#countries' } do
-    let(:countries) { GeographicalArea.all }
+    subject(:countries) { described_class.all }
 
     it 'fetches geographical areas that are countries from the API' do
-      expect(countries).to be_kind_of Array
-      expect(countries).not_to be_blank
+      expected_countries = %w[
+        SA BB SB BD SC SD BE SE BF SG BG SH BH SI SK BI SL BJ SM SN BM BN SO BO BR
+        SR BS ST BT SV HM NF PS TF TK UM CK NU XK QU QV QW QX QY QZ QR WS GS GU TL
+        XS EU CI ME AD NI NL NO NP NR AE NZ OM PA AF PE PF AG PG AI PH AL PK PL AM
+        PM PN PT AR PY AT QA RO AU RU AW RW AZ BA GN GQ GT GW GY HK HN HR HT HU ID
+        IE IL IN IO IQ IR IS IT JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC
+        LK LR LS LT LU LV LY MA MD MG MH ML MN MO MR MT MU MV MW MX MY MZ NA NC NE
+        NG AO GD ER LI PW MS MK MP GR CD XL MM SY SZ BW TC BY TD BZ TG CA TH CF CG
+        CH TJ TM TN CL TO CM TR CN TT CO TV CR TW TZ UA CU UG US CV UY CY UZ CZ VA
+        VC VE VG DE DJ DK VI DM DO VN VU DZ WF EC EE EG XC ES ET FI FJ FK FM FO FR
+        GA GB YE ZA ZM ZW GE GH GI GL GM QS QQ AQ AS BV CC CX BL BQ CW SS SX EH QP
+      ]
+
+      expect(countries.map(&:id)).to eq(expected_countries)
     end
   end
 
   describe '.by_long_description', vcr: { cassette_name: 'geographical_areas#countries' } do
-    let(:by_long_desc) { GeographicalArea.by_long_description('in') }
+    subject(:by_long_desc) { described_class.by_long_description('Ind') }
 
-    it 'returns an array' do
-      expect(by_long_desc).to be_a(Array)
-    end
+    it 'returns the correct presented geographical areas' do
+      expected_geographical_areas = [
+        { id: 'ID', text: 'Indonesia (ID)' },
+        { id: 'IN', text: 'India (IN)' },
+        { id: 'IO', text: 'British Indian Ocean Territory (IO)' },
+      ]
 
-    it 'filters areas by id and description' do
-      expect(by_long_desc.detect { |c| c.id == 'BR' }).to be_blank
-    end
-
-    # TODO: need to fix countryies ordering
-    it 'sorts countries by id and description' do
-      expect(by_long_desc[0].id).to eq('IN')
-      expect(by_long_desc[1].id).to eq('ID')
-      expect(by_long_desc[2].id).to eq('FI')
+      expect(by_long_desc).to eq(expected_geographical_areas)
     end
   end
 end
