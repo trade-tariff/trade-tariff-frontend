@@ -1,20 +1,16 @@
 <tr id="measure-<%= measure.id %>" class=" govuk-table__row <%= measure.geo_class %>" tabIndex="-1">
   <td class="country-col govuk-table__cell">
     <% if measure.has_children_geographical_areas? %>
-      <dl>
-        <dt class="has_children" role="button" aria-expanded="false" aria-controls="measure-<%= measure.id %>-children-geographical-areas">
-          <%= measure.geographical_area.long_description %>
-        </dt>
-        <dd aria-hidden="true" id="measure-<%= measure.id %>-children-geographical-areas">
-          <ul class="govuk-list">
-            <% measure.children_geographical_areas.each do |children_geographical_area| %>
-              <li tabindex="-1"><%= children_geographical_area.long_description %></li>
-            <% end %>
-          </ul>
-        </dd>
-      </dl>
+      <%= link_to measure.geographical_area.long_description, geographical_area_path(id: measure.geographical_area.id), class: 'govuk-link' %>
     <% else %>
       <%= measure.geographical_area.long_description %>
+    <% end %>
+
+    <% if measure.excluded_country_list.present? %>
+      </br>
+      <span class="country-exclusions">
+        excluding <%= measure.excluded_country_list %>
+      </span>
     <% end %>
   </td>
 
@@ -56,10 +52,6 @@
     <% if measure.has_measure_conditions? %>
       <%= link_to "Conditions",  "#", class: 'reference', 'data-popup-ref' => "#{measure.destination}-#{measure.id}-conditions", "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
     <% end %>
-  </td>
-
-  <td class="exclusions-col govuk-table__cell">
-    <%= measure.excluded_country_list %>
   </td>
 
   <td class="legal-base-col govuk-table__cell govuk-table__header--numeric">

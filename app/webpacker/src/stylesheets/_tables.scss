@@ -3,14 +3,15 @@ table.small-table {
   p {
     @include govuk-font($size: 14, $weight: normal);
   }
-  th, td {
+  th,
+  td {
     padding: 0.63158em 0.526315em 0.47368em 0.526315em;
     text-align: left;
   }
   td {
     min-height: $table-row-standard-height;
   }
-  a[rel='external']::after {
+  a[rel="external"]::after {
     display: none;
   }
   &.measures {
@@ -22,7 +23,12 @@ table.small-table {
     }
 
     @media (max-width: $small-table-breakpoint - 1) {
-      caption, thead, tbody, th, td, tr {
+      caption,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
         display: block;
       }
       thead tr {
@@ -53,25 +59,33 @@ table.small-table {
         }
       }
 
-      td.country-col:before { content: 'Country'; }
-      td.measure-type-col:before { content: 'Measure type'; }
-      td.duty-rate-col:before { content: 'Duty rate'; }
-      td.conditions-col:before { content: 'Conditions'; }
-      td.exclusions-col:before { content: 'Exclusions'; }
-      td.legal-base-col:before { content: 'Legal base'; }
-      td.dates-col:before { content: 'Date(s)'; }
-      td.footnotes-col:before { content: 'Footnotes'; }
-    }
+      .country-col::before {
+        content: "Country";
+      }
 
-    @media (min-width: $small-table-breakpoint) {
-      td:nth-of-type(1) { width: 18%; }
-      td:nth-of-type(2) { width: 22% }
-      td:nth-of-type(3) { width: 10% }
-      td:nth-of-type(4) { width: 9% }
-      td:nth-of-type(5) { width: 14% }
-      td:nth-of-type(6) { width: 9% }
-      td:nth-of-type(7) { width: 16% }
-      td:nth-of-type(8) { width: auto }
+      .measure-type-col::before {
+        content: "Measure type";
+      }
+
+      .duty-rate-col::before {
+        content: "Duty rate";
+      }
+
+      .conditions-col::before {
+        content: "Conditions";
+      }
+
+      .legal-base-col::before {
+        content: "Legal base";
+      }
+
+      .dates-col::before {
+        content: "Date(s)";
+      }
+
+      .footnotes-col::before {
+        content: "Footnotes";
+      }
     }
 
     /* Expanding table-cell content */
@@ -79,7 +93,7 @@ table.small-table {
       margin: 0;
 
       dt {
-        cursor:pointer;
+        cursor: pointer;
         position: relative;
 
         &.has_children {
@@ -95,7 +109,8 @@ table.small-table {
             outline: 3px solid transparent;
             color: $govuk-link-focus-colour;
             background-color: $govuk-link-focus-background;
-            box-shadow: 0 -2px $govuk-link-focus-background, 0 4px $govuk-link-focus-colour;
+            box-shadow: 0 -2px $govuk-link-focus-background,
+              0 4px $govuk-link-focus-colour;
             text-decoration: none;
           }
 
@@ -161,11 +176,15 @@ table.section-browser {
 
 .govuk-table--responsive {
   @include govuk-media-query($until: tablet) {
-    & > caption, & > thead, & > tbody {
+    & > caption,
+    & > thead,
+    & > tbody {
       display: block;
     }
 
-    & > caption, & > thead, & > tbody {
+    & > caption,
+    & > thead,
+    & > tbody {
       display: block;
 
       & > tr {
@@ -226,3 +245,9 @@ table.section-browser {
     }
   }
 }
+
+.country-exclusions {
+  display: inline-block;
+  font-size: 12px;
+}
+
