@@ -61,47 +61,97 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe '.tools_active_class' do
-    let(:action) { 'something' }
+  describe '#search_active_class' do
+    subject { helper.search_active_class }
 
     before do
-      allow(controller).to receive(:params).and_return(action: action)
+      allow(helper).to receive(:controller_name).and_return controller_name
+      allow(helper).to receive(:action_name).and_return action
     end
 
-    context 'when action is tools' do
-      let(:action) { 'tools' }
+    context 'with sections page' do
+      let(:controller_name) { 'sections' }
+      let(:action) { 'index' }
 
-      it 'returns active' do
-        expect(helper.tools_active_class).to eq('active')
-      end
+      it { is_expected.to eq 'active' }
     end
 
-    context 'when action is not tools' do
-      it 'returns nil' do
-        expect(helper.tools_active_class).to be_nil
-      end
+    context 'with search results page' do
+      let(:controller_name) { 'search' }
+      let(:action) { 'search' }
+
+      it { is_expected.to eq 'active' }
+    end
+
+    context 'with another page' do
+      let(:controller_name) { 'browse' }
+      let(:action) { 'index' }
+
+      it { is_expected.to be_nil }
     end
   end
 
-  describe '.help_active_class' do
-    let(:action) { 'something' }
+  describe '#a_z_active_class' do
+    subject { helper.a_z_active_class }
 
-    before do
-      allow(controller).to receive(:params).and_return(action: action)
+    context 'when controller is search_references' do
+      before { allow(helper).to receive(:controller_name).and_return('search_references') }
+
+      it { is_expected.to eql 'active' }
     end
 
-    context 'when action is tools' do
-      let(:action) { 'help' }
+    context 'when controller is not tools' do
+      before { allow(helper).to receive(:controller_name).and_return('something') }
 
-      it 'returns active' do
-        expect(helper.help_active_class).to eq('active')
-      end
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#tools_active_class' do
+    subject { helper.tools_active_class }
+
+    context 'when action is tools' do
+      before { allow(helper).to receive(:action_name).and_return('tools') }
+
+      it { is_expected.to eql 'active' }
     end
 
     context 'when action is not tools' do
-      it 'returns nil' do
-        expect(helper.help_active_class).to be_nil
-      end
+      before { allow(helper).to receive(:action_name).and_return('something') }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#help_active_class' do
+    subject { helper.help_active_class }
+
+    context 'when action is tools' do
+      before { allow(helper).to receive(:action_name).and_return('help') }
+
+      it { is_expected.to eql 'active' }
+    end
+
+    context 'when action is not tools' do
+      before { allow(helper).to receive(:action_name).and_return('something') }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#browse_active_class' do
+    subject { helper.browse_active_class }
+
+    context 'with browse controller' do
+      before { allow(helper).to receive(:controller_name).and_return 'browse_sections' }
+
+      it { is_expected.to eql 'active' }
+    end
+
+    context 'with other controller' do
+      before { allow(helper).to receive(:controller_name).and_return 'search' }
+
+      it { is_expected.to be_nil }
     end
   end
 

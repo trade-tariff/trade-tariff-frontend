@@ -95,6 +95,10 @@ Rails.application.routes.draw do
 
   constraints(id: /\d{1,2}/) do
     resources :sections, only: %i[index show]
+
+    if TradeTariffFrontend.updated_navigation?
+      resources :browse_sections, path: '/browse', only: %i[index]
+    end
   end
 
   constraints(id: /\d{2}/) do

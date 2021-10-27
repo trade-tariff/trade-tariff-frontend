@@ -1,0 +1,58 @@
+<% content_for :head, tag.link(rel: 'alternate',
+                               type: 'application/json',
+                               href: sections_url(format: :json),
+                               title: 'Section list in JSON format') %>
+
+<%= page_header 'Browse the tariff' %>
+
+<p>
+  The UK goods classification contains <%= pluralize @sections.length, 'section' %>,
+  listed below. Choose the section that best matches your goods to see the
+  <abbr title="Harmonised System">HS</abbr> chapters that are contained in the
+  section.
+</p>
+
+<section class="sections">
+  <table class="tariff-table govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">
+          Section
+        </th>
+
+        <th scope="col" class="govuk-table__header">
+          Section title
+        </th>
+
+        <th scope="col" class="govuk-table__header">
+          Chapters
+        </th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @sections.each do |section| %>
+      <tr class="govuk-table__row">
+        <td class="numeral govuk-table__cell">
+          <span class="govuk-visually-hidden">Section </span>
+          <%= section.numeral %>
+        </td>
+
+        <td class="title govuk-table__cell">
+          <%= link_to section_path(section, request.query_parameters.symbolize_keys) do %>
+            <span class="govuk-visually-hidden">
+              Section <%= section.position %>:
+            </span>
+            <%= section.title %>
+          <% end %>
+        </td>
+
+        <td class="chapters govuk-table__cell">
+          <%= section.chapters_title %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
+
+
