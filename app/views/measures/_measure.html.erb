@@ -1,5 +1,5 @@
-<tr id="measure-<%= measure.id %>" class="<%= measure.geo_class %>" tabIndex="-1">
-  <td class="country-col">
+<tr id="measure-<%= measure.id %>" class=" govuk-table__row <%= measure.geo_class %>" tabIndex="-1">
+  <td class="country-col govuk-table__cell">
     <% if measure.has_children_geographical_areas? %>
       <dl>
         <dt class="has_children" role="button" aria-expanded="false" aria-controls="measure-<%= measure.id %>-children-geographical-areas">
@@ -18,7 +18,7 @@
     <% end %>
   </td>
 
-  <td class="measure-type-col <%= measure.measure_type.id %>">
+  <td class="measure-type-col govuk-table__cell <%= measure.measure_type.id %>">
     <span class='table-line'><%= measure.measure_type.description %></span>
     <% if measure.order_number.present? %>
       <span class='table-line'>
@@ -39,7 +39,7 @@
   </td>
 
   <% unless local_assigns[:hide_duty_rate] %>
-    <td class="duty-rate-col numerical">
+    <td class="duty-rate-col govuk-table__cell govuk-table__header--numeric">
       <%= filter_duty_expression(measure) %>
 
       <% if measure.resolved_duty_expression.present? %>
@@ -52,19 +52,21 @@
     </td>
   <% end %>
 
-  <td class="conditions-col">
+  <td class="conditions-col govuk-table__cell">
     <% if measure.has_measure_conditions? %>
       <%= link_to "Conditions",  "#", class: 'reference', 'data-popup-ref' => "#{measure.destination}-#{measure.id}-conditions", "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
     <% end %>
   </td>
 
-  <td class="exclusions-col"><%= measure.excluded_country_list %></td>
+  <td class="exclusions-col govuk-table__cell">
+    <%= measure.excluded_country_list %>
+  </td>
 
-  <td class="legal-base-col numerical">
+  <td class="legal-base-col govuk-table__cell govuk-table__header--numeric">
     <%= legal_act_regulation_url_link_for(measure) %>
   </td>
 
-  <td class="dates-col numerical">
+  <td class="dates-col govuk-table__cell">
     <%= pretty_date_range(measure.effective_start_date, measure.effective_end_date) %>
 
     <% if measure.suspension_legal_act.present? %>
@@ -80,7 +82,7 @@
     <% end %>
   </td>
 
-  <td class="footnotes-col numerical">
+  <td class="footnotes-col govuk-table__cell govuk-table__header--numeric">
     <% if measure.has_measure_footnotes? %>
       <%= link_to measure.footnotes.size == 1 ? measure.footnotes.first.code : "Footnotes",  "#", class: 'reference', 'data-popup-ref' => "#{measure.destination}-#{measure.id}-footnotes", "aria-label": "Click to open a dialog with the footnotes for this measure", role: "button" %>
     <% end %>

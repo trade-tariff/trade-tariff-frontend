@@ -1,22 +1,26 @@
-<table class="small-table measures govuk-table">
-  <thead>
-    <tr>
-      <th>Country</th>
-      <th>Measure type</th>
+<table class="small-table measures govuk-table"  >
+  <caption class="govuk-table__caption govuk-table__caption--m" id="<%= local_assigns[:css_id] %>" >
+    <%= local_assigns[:caption]%>
+  </caption>
+
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header">Country</th>
+      <th class="govuk-table__header">Measure type</th>
 
       <% unless local_assigns[:hide_duty_rate] %>
-        <th>Duty rate</th>
+        <th class="govuk-table__header">Duty rate</th>
       <% end %>
 
-      <th>Conditions</th>
-      <th>Exclusions</th>
-      <th class="legal-base-col" title="Opens in a new window">Legal base</th>
-      <th>Date(s)</th>
-      <th>Footnotes</th>
+      <th class="govuk-table__header">Conditions</th>
+      <th class="govuk-table__header">Exclusions</th>
+      <th class="govuk-table__header legal-base-col" title="Opens in a new window">Legal base</th>
+      <th class="govuk-table__header">Date(s)</th>
+      <th class="govuk-table__header">Footnotes</th>
     </tr>
   </thead>
 
-  <tbody>
+  <tbody class="govuk-table__body">
     <%= render partial: 'measures/measure', collection: collection, locals: { hide_duty_rate: local_assigns[:hide_duty_rate] } %>
   </tbody>
 </table>
