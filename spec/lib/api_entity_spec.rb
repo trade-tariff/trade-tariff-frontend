@@ -5,7 +5,7 @@ RSpec.describe ApiEntity do
     Class.new do
       include ApiEntity
 
-      collection_path '/mockentities'
+      collection_path '/mock_entities'
 
       attr_accessor :name, :age
 
@@ -21,7 +21,7 @@ RSpec.describe ApiEntity do
     subject(:request) { mock_entity.find(123) }
 
     before do
-      stub_request(:get, "#{api_endpoint}/mockentities/123").and_return \
+      stub_request(:get, "#{api_endpoint}/mock_entities/123").and_return \
         status: status,
         headers: headers,
         body: body
@@ -59,7 +59,7 @@ RSpec.describe ApiEntity do
       it 'raises descriptive exception' do
         expect { request }.to raise_exception \
           described_class::UnparseableResponseError,
-          %r{Error parsing #{api_endpoint}/mockentities/123 with headers:}
+          %r{Error parsing #{api_endpoint}/mock_entities/123 with headers:}
       end
     end
   end
@@ -68,7 +68,7 @@ RSpec.describe ApiEntity do
     subject(:request) { mock_entity.all }
 
     before do
-      stub_request(:get, "#{api_endpoint}/mockentities").and_return \
+      stub_request(:get, "#{api_endpoint}/mock_entities").and_return \
         status: status,
         headers: headers,
         body: body
@@ -107,7 +107,7 @@ RSpec.describe ApiEntity do
       it 'raises descriptive exception' do
         expect { request }.to raise_exception \
           described_class::UnparseableResponseError,
-          %r{Error parsing #{api_endpoint}/mockentities with headers:}
+          %r{Error parsing #{api_endpoint}/mock_entities with headers:}
       end
     end
   end

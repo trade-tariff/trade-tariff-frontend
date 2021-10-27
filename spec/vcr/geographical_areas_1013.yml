@@ -1,0 +1,955 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/geographicalareas/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - a80ce025-6639-47a0-acf7-5938871ca550
+      X-Runtime:
+      - '0.398984'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:01:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographicalareas/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 98e7cf88-04f2-4389-8c5a-c8a6b405a64d
+      X-Runtime:
+      - '0.008706'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:01:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographicalareas/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 2e5b7b22-de60-4b43-951b-0ae0439b0111
+      X-Runtime:
+      - '0.382378'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:01:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographicalareas/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - ee6ecc2a-dbcb-4529-b52b-c43a65b000c2
+      X-Runtime:
+      - '0.005537'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:01:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographicalareas/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - d2dfea17-3947-45b7-9286-5717ba7ef201
+      X-Runtime:
+      - '0.005352'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:01:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographicalareas/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 4bf81732-5c56-4ef2-8a69-1a47ec80141d
+      X-Runtime:
+      - '0.005543'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:01:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - c17c0fe7-f4f4-4b46-8ef6-0c4390ac4beb
+      X-Runtime:
+      - '0.006185'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - e0e941f8-3823-472d-89cb-c5d3f0b683f5
+      X-Runtime:
+      - '0.005938'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 9af3a09b-435d-475a-b2c1-8992be319f5d
+      X-Runtime:
+      - '0.005586'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 8a0e1839-2026-445b-b12b-3821f43b4b4a
+      X-Runtime:
+      - '0.005684'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - c124b992-f697-4f8a-af6e-c855632bf8f7
+      X-Runtime:
+      - '0.005619'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 5256ce25-578e-4839-912b-0542ec28b6b1
+      X-Runtime:
+      - '0.004991'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 1ca59d85-ae31-444e-b2c3-6de261a548ae
+      X-Runtime:
+      - '0.005788'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:56 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - bfa6bf1b-a15f-4cc1-beb9-bf6ab26d4656
+      X-Runtime:
+      - '0.006532'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:56 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 8016c555-dd9d-4bdf-836e-68088892d7d3
+      X-Runtime:
+      - '0.005392'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:56 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 3563ccd2-2f4d-4ae1-abad-884d44aa577d
+      X-Runtime:
+      - '0.005692'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:56 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 283a2a76-9339-428b-ab69-e6c1ad399809
+      X-Runtime:
+      - '0.005722'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:56 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_area/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 7af096d2-df49-4713-af34-2e9da771950a
+      X-Runtime:
+      - '0.005581'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"404 - Not Found"}]}'
+  recorded_at: Tue, 26 Oct 2021 11:03:56 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/geographical_areas/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"c8c76610f5c070ec71a52b920bb12fab"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - c5af7fcf-8fb8-4baa-b5f3-69842b165335
+      X-Runtime:
+      - '0.104721'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":"1013","type":"geographical_area","attributes":{"id":"1013","description":"European
+        Union","geographical_area_id":"1013"},"relationships":{"children_geographical_areas":{"data":[{"id":"AT","type":"geographical_area"},{"id":"BE","type":"geographical_area"},{"id":"BG","type":"geographical_area"},{"id":"CY","type":"geographical_area"},{"id":"CZ","type":"geographical_area"},{"id":"DE","type":"geographical_area"},{"id":"DK","type":"geographical_area"},{"id":"EE","type":"geographical_area"},{"id":"ES","type":"geographical_area"},{"id":"EU","type":"geographical_area"},{"id":"FI","type":"geographical_area"},{"id":"FR","type":"geographical_area"},{"id":"GR","type":"geographical_area"},{"id":"HR","type":"geographical_area"},{"id":"HU","type":"geographical_area"},{"id":"IE","type":"geographical_area"},{"id":"IT","type":"geographical_area"},{"id":"LT","type":"geographical_area"},{"id":"LU","type":"geographical_area"},{"id":"LV","type":"geographical_area"},{"id":"MT","type":"geographical_area"},{"id":"NL","type":"geographical_area"},{"id":"PL","type":"geographical_area"},{"id":"PT","type":"geographical_area"},{"id":"RO","type":"geographical_area"},{"id":"SE","type":"geographical_area"},{"id":"SI","type":"geographical_area"},{"id":"SK","type":"geographical_area"}]}}},"included":[{"id":"AT","type":"geographical_area","attributes":{"id":"AT","description":"Austria","geographical_area_id":"AT"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"BE","type":"geographical_area","attributes":{"id":"BE","description":"Belgium","geographical_area_id":"BE"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"BG","type":"geographical_area","attributes":{"id":"BG","description":"Bulgaria","geographical_area_id":"BG"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"CY","type":"geographical_area","attributes":{"id":"CY","description":"Cyprus","geographical_area_id":"CY"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"CZ","type":"geographical_area","attributes":{"id":"CZ","description":"Czechia","geographical_area_id":"CZ"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"DE","type":"geographical_area","attributes":{"id":"DE","description":"Germany","geographical_area_id":"DE"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"DK","type":"geographical_area","attributes":{"id":"DK","description":"Denmark","geographical_area_id":"DK"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"EE","type":"geographical_area","attributes":{"id":"EE","description":"Estonia","geographical_area_id":"EE"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"ES","type":"geographical_area","attributes":{"id":"ES","description":"Spain","geographical_area_id":"ES"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"EU","type":"geographical_area","attributes":{"id":"EU","description":"European
+        Union","geographical_area_id":"EU"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"FI","type":"geographical_area","attributes":{"id":"FI","description":"Finland","geographical_area_id":"FI"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"FR","type":"geographical_area","attributes":{"id":"FR","description":"France","geographical_area_id":"FR"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"GR","type":"geographical_area","attributes":{"id":"GR","description":"Greece","geographical_area_id":"GR"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"HR","type":"geographical_area","attributes":{"id":"HR","description":"Croatia","geographical_area_id":"HR"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"HU","type":"geographical_area","attributes":{"id":"HU","description":"Hungary","geographical_area_id":"HU"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"IE","type":"geographical_area","attributes":{"id":"IE","description":"Ireland","geographical_area_id":"IE"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"IT","type":"geographical_area","attributes":{"id":"IT","description":"Italy","geographical_area_id":"IT"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"LT","type":"geographical_area","attributes":{"id":"LT","description":"Lithuania","geographical_area_id":"LT"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"LU","type":"geographical_area","attributes":{"id":"LU","description":"Luxembourg","geographical_area_id":"LU"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"LV","type":"geographical_area","attributes":{"id":"LV","description":"Latvia","geographical_area_id":"LV"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"MT","type":"geographical_area","attributes":{"id":"MT","description":"Malta","geographical_area_id":"MT"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"NL","type":"geographical_area","attributes":{"id":"NL","description":"Netherlands","geographical_area_id":"NL"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"PL","type":"geographical_area","attributes":{"id":"PL","description":"Poland","geographical_area_id":"PL"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"PT","type":"geographical_area","attributes":{"id":"PT","description":"Portugal","geographical_area_id":"PT"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"RO","type":"geographical_area","attributes":{"id":"RO","description":"Romania","geographical_area_id":"RO"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"SE","type":"geographical_area","attributes":{"id":"SE","description":"Sweden","geographical_area_id":"SE"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"SI","type":"geographical_area","attributes":{"id":"SI","description":"Slovenia","geographical_area_id":"SI"},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"SK","type":"geographical_area","attributes":{"id":"SK","description":"Slovakia","geographical_area_id":"SK"},"relationships":{"children_geographical_areas":{"data":[]}}}]}'
+  recorded_at: Tue, 26 Oct 2021 11:04:44 GMT
+recorded_with: VCR 6.0.0

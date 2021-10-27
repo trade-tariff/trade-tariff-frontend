@@ -1,36 +1,10 @@
 require 'spec_helper'
 
-# TODO: Write necessary and sufficient tests of this model
-xdescribe GeographicalAreasController, 'GET to #index', type: :controller, vcr: { cassette_name: 'geographical_areas#countries', record: :new_cassettes, allow_playback_repeats: true } do
-  let!(:areas) { GeographicalArea.all }
-  let!(:area) { areas[0] }
-  let!(:query) { area.long_description.to_s }
+RSpec.describe GeographicalAreasController, type: :controller do
+  describe 'GET show', vcr: { cassette_name: 'geographical_areas#1013' } do
+    subject(:do_response) { get :show, params: { id: '1013' } }
 
-  context 'with term param' do
-    before do
-      get :index, params: { term: query }, format: :json
-    end
-
-    let(:body) { JSON.parse(response.body) }
-
-    specify 'returns an Array' do
-      expect(body['results']).to be_kind_of(Array)
-    end
-
-    specify 'includes search results' do
-      expect(body['results']).to include({ 'id' => area.id, 'text' => area.long_description })
-    end
-  end
-
-  context 'without term param' do
-    before do
-      get :index, format: :json
-    end
-
-    let(:body) { JSON.parse(response.body) }
-
-    specify 'returns an Array' do
-      expect(body['results']).to be_kind_of(Array)
-    end
+    it { is_expected.to render_template('geographical_areas/show') }
+    it { is_expected.to have_http_status(:success) }
   end
 end

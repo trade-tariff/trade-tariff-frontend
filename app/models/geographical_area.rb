@@ -11,9 +11,12 @@ class GeographicalArea
 
   def self.by_long_description(term)
     lookup_regexp = /#{term}/i
-    all.select { |geographical_area|
+
+    areas = all.select do |geographical_area|
       geographical_area.long_description =~ lookup_regexp
-    }.sort_by do |geographical_area|
+    end
+
+    areas = areas.sort_by do |geographical_area|
       match_id = geographical_area.id =~ lookup_regexp
       match_desc = geographical_area.description =~ lookup_regexp
       key = ''
@@ -21,6 +24,13 @@ class GeographicalArea
       key << (match_desc || '')
       key << geographical_area.id
       key
+    end
+
+    areas.map do |geographical_area|
+      {
+        id: geographical_area.id,
+        text: geographical_area.long_description,
+      }
     end
   end
 
