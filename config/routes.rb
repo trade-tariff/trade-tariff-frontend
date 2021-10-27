@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   post 'cookies_consent_confirmation_message', to: 'cookies_consent#add_seen_confirmation_message'
   get 'exchange_rates', to: 'exchange_rates#index'
   get 'geographical_areas', to: 'geographical_areas#index', as: :geographical_areas
-  get 'geographical_areas/:id', to: 'geographical_areas#show'
+  get 'geographical_areas/:id', to: 'geographical_areas#show', as: :geographical_area
   get 'feedback', to: 'feedback#new'
   post 'feedback', to: 'feedback#create'
   get 'feedback/thanks', to: 'feedback#thanks'
