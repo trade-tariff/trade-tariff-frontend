@@ -41,7 +41,7 @@ module ApplicationHelper
   end
 
   def search_active_class
-    'active' if params[:action] == 'search' || (params[:controller] == 'sections' && params[:action] == 'index')
+    'active' if controller_name == 'search' || (controller_name == 'sections' && action_name == 'index')
   end
 
   def browse_active_class
@@ -49,15 +49,15 @@ module ApplicationHelper
   end
 
   def a_z_active_class
-    'active' if params[:controller] == 'search_references'
+    'active' if controller_name == 'search_references'
   end
 
   def tools_active_class
-    'active' if params[:action] == 'tools'
+    'active' if action_name == 'tools'
   end
 
   def help_active_class
-    'active' if params[:action] == 'help'
+    'active' if action_name == 'help'
   end
 
   def currency_options

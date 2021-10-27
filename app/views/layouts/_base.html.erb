@@ -29,7 +29,7 @@
         <% end %>
         <%= govuk_header_navigation_item(active_class: browse_active_class) do %>
           <%= link_to 'Browse', browse_sections_path, class: "govuk-header__link" %>
-        <% end if TradeTariffFrontend.split_sections_page? %>
+        <% end if TradeTariffFrontend.updated_navigation? %>
         <%= govuk_header_navigation_item(active_class: a_z_active_class) do %>
           <%= link_to "A-Z", a_z_index_path(letter: "a"), class: "govuk-header__link" %>
         <% end %>

@@ -1,12 +1,12 @@
-<% content_for :head do %>
-  <link rel='alternate' type='application/json' href='<%= sections_url(format: :json) %>' title='Section list in JSON format' />
-<% end %>
+<% content_for :head, tag.link(rel: 'alternate',
+                               type: 'application/json',
+                               href: sections_url(format: :json),
+                               title: 'Section list in JSON format') %>
 
 <%= page_header 'Browse the tariff' %>
 
 <p>
-  The UK goods classification
-  contains <%= @sections.length %> <%= 'section'.pluralize @sections.length %>,
+  The UK goods classification contains <%= pluralize @sections.length, 'section' %>,
   listed below. Choose the section that best matches your goods to see the
   <abbr title="Harmonised System">HS</abbr> chapters that are contained in the
   section.

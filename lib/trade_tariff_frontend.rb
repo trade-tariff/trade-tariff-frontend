@@ -86,8 +86,8 @@ module TradeTariffFrontend
   end
 
   # TODO: HOTT-1048 - remove once in production
-  def split_sections_page?
-    ENV['SPLIT_SECTIONS_PAGE'].to_s == 'true'
+  def updated_navigation?
+    ENV['UPDATED_NAVIGATION'].to_s == 'true'
   end
 
   class FilterBadURLEncoding
