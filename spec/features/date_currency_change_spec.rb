@@ -5,6 +5,10 @@ RSpec.describe 'Date & Currency change', js: true, vcr: {
   record: :once,
   match_requests_on: %i[path query],
 } do
+  before do
+    allow(TradeTariffFrontend).to receive(:updated_navigation?).and_return false
+  end
+
   it 'displays the current date' do
     visit sections_path(day: 0o1, month: 0o2, year: 2019)
 
@@ -31,8 +35,8 @@ RSpec.describe 'Date & Currency change', js: true, vcr: {
   end
 
   it 'displays the searched-for date, if the searched-for date is past BREXIT_DATE, and the current date is past BREXIT_DATE' do
-    post_eu_exit_date = DateTime.new(2021, 1, 2, 12, 0, 0)
-    searched_for_date = DateTime.new(2021, 2, 2, 12, 0, 0)
+    post_eu_exit_date = Time.zone.parse('2021-01-02 12:00:00')
+    searched_for_date = Time.zone.parse('2021-02-02 12:00:00')
 
     Timecop.freeze(post_eu_exit_date) do
       visit sections_path

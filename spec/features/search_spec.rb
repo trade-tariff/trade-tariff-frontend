@@ -5,72 +5,151 @@ RSpec.describe 'Search', js: true, slow: true do
     TradeTariffFrontend::ServiceChooser.service_choice = nil
   end
 
-  context 'when reaching the search page' do
-    it 'renders the search container properly' do
-      VCR.use_cassette('search#check') do
-        visit sections_path
-
-        expect(page).to have_content('UK Integrated Online Tariff')
-        expect(page).to have_content('Look up commodity codes, duty and VAT rates')
-        expect(page).to have_content('Search or browse the Tariff')
-        expect(page).to have_content('Browse')
-
-        expect(page.find('.autocomplete__input#q')).to be_present
-      end
+  context 'with existing sections page' do
+    before do
+      allow(TradeTariffFrontend).to receive(:updated_navigation?).and_return false
     end
-  end
 
-  context 'when hitting the autocomplete fields' do
-    it 'fetches data from the server as we type' do
-      VCR.use_cassette('search#gold') do
-        visit sections_path
+    context 'when reaching the search page' do
+      it 'renders the search container properly' do
+        VCR.use_cassette('search#check') do
+          visit sections_path
 
-        page.find('.autocomplete__input#q').click
+          expect(page).to have_content('UK Integrated Online Tariff')
+          expect(page).to have_content('Look up commodity codes, duty and VAT rates')
+          expect(page).to have_content('Search or browse the Tariff')
 
-        page.find('.autocomplete__input#q').set('gold')
-        sleep 1
-
-        expect(page.find('.autocomplete__option--focused').text).to eq('gold')
-
-        using_wait_time 1 do
-          expect(page.find_all('.autocomplete__option').length).to be > 1
+          expect(page.find('.autocomplete__input#q')).to be_present
         end
+      end
+    end
 
-        expect(page.find('.autocomplete__option--focused').text).to eq('gold')
-        expect(page).to have_content('gold - gold coin')
+    context 'when hitting the autocomplete fields' do
+      it 'fetches data from the server as we type' do
+        VCR.use_cassette('search#gold') do
+          visit sections_path
 
-        page.find('.autocomplete__option--focused').click
+          page.find('.autocomplete__input#q').click
 
-        # trying to see if redirect done by JS needs some sleep to be caught up
-        sleep 1
+          page.find('.autocomplete__input#q').set('gold')
+          sleep 1
 
-        expect(page).to have_content('Search results for ‘gold’')
+          expect(page.find('.autocomplete__option--focused').text).to eq('gold')
+
+          using_wait_time 1 do
+            expect(page.find_all('.autocomplete__option').length).to be > 1
+          end
+
+          expect(page.find('.autocomplete__option--focused').text).to eq('gold')
+          expect(page).to have_content('gold - gold coin')
+
+          page.find('.autocomplete__option--focused').click
+
+          # trying to see if redirect done by JS needs some sleep to be caught up
+          sleep 1
+
+          expect(page).to have_content('Search results for ‘gold’')
+        end
+      end
+    end
+
+    context 'when no result can be found' do
+      it 'handles no results found' do
+        VCR.use_cassette('search#gibberish') do
+          visit sections_path
+
+          page.find('.autocomplete__input#q').click
+
+          page.find('.autocomplete__input#q').set('dsauidoasuiodsa')
+
+          sleep 1
+
+          expect(page.find_all('.autocomplete__option').length).to eq(1)
+          expect(page.find('.autocomplete__option--focused').text).to eq('dsauidoasuiodsa')
+          sleep 1
+
+          page.find('.autocomplete__option--focused').click
+
+          # trying to see if redirect done by JS needs some sleep to be caught up
+          sleep 1
+
+          expect(page).to have_content('Search results for ‘dsauidoasuiodsa’')
+          expect(page).to have_content('There are no results matching your query.')
+        end
       end
     end
   end
 
-  context 'when no result can be found' do
-    it 'handles no results found' do
-      VCR.use_cassette('search#gibberish') do
-        visit sections_path
+  context 'with find_commodity page' do
+    context 'when reaching the search page' do
+      it 'renders the search container properly' do
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
 
-        page.find('.autocomplete__input#q').click
+          expect(page).to have_content('UK Integrated Online Tariff')
+          expect(page).to have_content('Look up commodity codes, duty and VAT rates')
+          expect(page).to have_content('Search')
+          expect(page).to have_content('Browse')
 
-        page.find('.autocomplete__input#q').set('dsauidoasuiodsa')
+          expect(page.find('.autocomplete__input#q')).to be_present
+        end
+      end
+    end
 
-        sleep 1
+    context 'when hitting the autocomplete fields' do
+      it 'fetches data from the server as we type' do
+        VCR.use_cassette('search#gold') do
+          visit find_commodity_path
 
-        expect(page.find_all('.autocomplete__option').length).to eq(1)
-        expect(page.find('.autocomplete__option--focused').text).to eq('dsauidoasuiodsa')
-        sleep 1
+          page.find('.autocomplete__input#q').click
 
-        page.find('.autocomplete__option--focused').click
+          page.find('.autocomplete__input#q').set('gold')
+          sleep 1
 
-        # trying to see if redirect done by JS needs some sleep to be caught up
-        sleep 1
+          expect(page.find('.autocomplete__option--focused').text).to eq('gold')
 
-        expect(page).to have_content('Search results for ‘dsauidoasuiodsa’')
-        expect(page).to have_content('There are no results matching your query.')
+          using_wait_time 1 do
+            expect(page.find_all('.autocomplete__option').length).to be > 1
+          end
+
+          expect(page.find('.autocomplete__option--focused').text).to eq('gold')
+          expect(page).to have_content('gold - gold coin')
+
+          page.find('.autocomplete__option--focused').click
+          page.click_on 'Search for a commodity'
+
+          # trying to see if redirect done by JS needs some sleep to be caught up
+          sleep 1
+
+          expect(page).to have_content('Search results for ‘gold’')
+        end
+      end
+    end
+
+    context 'when no result can be found' do
+      it 'handles no results found' do
+        VCR.use_cassette('search#gibberish') do
+          visit find_commodity_path
+
+          page.find('.autocomplete__input#q').click
+
+          page.find('.autocomplete__input#q').set('dsauidoasuiodsa')
+
+          sleep 1
+
+          expect(page.find_all('.autocomplete__option').length).to eq(1)
+          expect(page.find('.autocomplete__option--focused').text).to eq('dsauidoasuiodsa')
+          sleep 1
+
+          page.find('.autocomplete__option--focused').click
+          page.click_on 'Search for a commodity'
+
+          # trying to see if redirect done by JS needs some sleep to be caught up
+          sleep 1
+
+          expect(page).to have_content('Search results for ‘dsauidoasuiodsa’')
+          expect(page).to have_content('There are no results matching your query.')
+        end
       end
     end
   end
