@@ -45,7 +45,11 @@ Rails.application.routes.draw do
     query ? "#{url}?#{query}" : url
   }
 
-  get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/sections', status: 302)
+  if TradeTariffFrontend.updated_navigation?
+    get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
+  else
+    get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/sections', status: 302)
+  end
   get 'healthcheck', to: 'healthcheck#check'
   get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
   get 'terms', to: 'pages#terms'
@@ -128,7 +132,7 @@ Rails.application.routes.draw do
                 module: 'commodities'
     end
   end
-  get '/find_commodity', to: 'commodities#index'
+  get '/find_commodity', to: 'commodities#index' if TradeTariffFrontend.updated_navigation?
 
   constraints TradeTariffFrontend::ApiPubConstraints.new(TradeTariffFrontend.public_api_endpoints) do
     scope 'api' do
