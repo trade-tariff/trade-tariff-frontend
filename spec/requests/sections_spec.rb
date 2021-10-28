@@ -3,6 +3,8 @@ require 'spec_helper'
 RSpec.describe 'Sections Index page', type: :request do
   context 'when requesting as HTML' do
     before do
+      allow(TradeTariffFrontend).to receive(:updated_navigation?).and_return false
+
       VCR.use_cassette('geographical_areas#countries') do
         VCR.use_cassette('sections#index') do
           visit sections_path
@@ -20,6 +22,32 @@ RSpec.describe 'Sections Index page', type: :request do
 
     it 'displays the third section as a link' do
       expect(page).to have_link 'Privacy'
+    end
+  end
+
+  context 'when HTML with updated_navigation? enabled' do
+    let :visit_page do
+      VCR.use_cassette('geographical_areas#countries') do
+        VCR.use_cassette('sections#index') do
+          get sections_path
+        end
+      end
+    end
+
+    context 'with UK service' do
+      include_context 'with UK service'
+
+      before { visit_page }
+
+      it { expect(response).to redirect_to '/find_commodity' }
+    end
+
+    context 'with XI service' do
+      include_context 'with XI service'
+
+      before { visit_page }
+
+      it { expect(response).to redirect_to '/xi/find_commodity' }
     end
   end
 
