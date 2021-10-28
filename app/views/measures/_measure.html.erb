@@ -58,22 +58,6 @@
     <%= legal_act_regulation_url_link_for(measure) %>
   </td>
 
-  <td class="dates-col govuk-table__cell">
-    <%= pretty_date_range(measure.effective_start_date, measure.effective_end_date) %>
-
-    <% if measure.suspension_legal_act.present? %>
-      <br />
-        <a class="suspended" href="<%= measure.suspension_legal_act.regulation_url %>" target="_blank">
-          Suspended from <%= measure.suspension_legal_act.validity_start_date %>
-          <% if measure.suspension_legal_act.validity_end_date %>
-            to <%= measure.suspension_legal_act.validity_end_date %>
-        </a>
-        <%- else -%>
-          Suspended from <%= measure.suspension_legal_act.validity_start_date %> to <%= measure.suspension_legal_act.validity_end_date %>
-        <% end %>
-    <% end %>
-  </td>
-
   <td class="footnotes-col govuk-table__cell govuk-table__header--numeric">
     <% if measure.has_measure_footnotes? %>
       <%= link_to measure.footnotes.size == 1 ? measure.footnotes.first.code : "Footnotes",  "#", class: 'reference', 'data-popup-ref' => "#{measure.destination}-#{measure.id}-footnotes", "aria-label": "Click to open a dialog with the footnotes for this measure", role: "button" %>
