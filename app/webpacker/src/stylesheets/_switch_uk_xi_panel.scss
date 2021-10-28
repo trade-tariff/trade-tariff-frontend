@@ -1,0 +1,13 @@
+.switch_control {
+    font-size: 14px;
+    position: relative;
+    top: -0.4em;
+    white-space: nowrap;
+    padding: 0.2em 1em 0.3em 0.75em;
+    padding-top: 0.2em;
+    border-radius: 4px;
+    background-color: #1D70B8;
+    .arrow {
+      color: govuk-colour("white");
+    }
+}
