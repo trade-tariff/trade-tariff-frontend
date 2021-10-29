@@ -10,9 +10,7 @@
 <% end %>
 
 <% if controller_name == 'commodities' && action_name == 'show' || controller_name == 'headings' && action_name == 'show' && @heading&.declarable? %>
-  <% content_for :before_main_content do %>
-    <a class="govuk-back-link" href="<%= @back_path %>">Back <span class="govuk-visually-hidden"> to the list of commodities</span></a>
-  <% end %>
+  <% content_for :before_main_content %>
 <% end %>
 
 <% content_for :header_class, 'with-proposition' %>
