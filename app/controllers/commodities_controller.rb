@@ -8,7 +8,6 @@ class CommoditiesController < GoodsNomenclaturesController
     @heading = commodity.heading
     @chapter = commodity.chapter
     @section = commodity.section
-    @back_path = request.referer || heading_path(@heading.short_code)
 
     if params[:country].present? && @search.geographical_area
       @rules_of_origin = commodity.rules_of_origin(params[:country])
