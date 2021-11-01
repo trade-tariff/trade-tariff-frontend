@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   include CookiesHelper
 
   before_action :set_cache
-  before_action :set_enable_service_switch_banner_in_action
+  before_action :set_switch_banner
   before_action :set_last_updated
   before_action :set_path_info
 
@@ -73,8 +73,8 @@ class ApplicationController < ActionController::Base
     # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
-  def set_enable_service_switch_banner_in_action
-    @enable_service_switch_banner_in_action = true
+  def set_switch_banner
+    @switch_banner = true
   end
 
   def search_invoked?
@@ -116,7 +116,7 @@ class ApplicationController < ActionController::Base
   end
 
   def is_switch_banner_enabled?
-    @enable_service_switch_banner_in_action
+    @switch_banner == true
   end
 
   protected
