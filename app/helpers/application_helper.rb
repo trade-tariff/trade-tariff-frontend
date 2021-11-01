@@ -77,4 +77,12 @@ module ApplicationHelper
 
     (start_date.to_formatted_s(:rfc822) + pretty_end_date).html_safe
   end
+
+  def breadcrumb_link_or_text(parent, child, caption)
+    if child.present?
+      link_to(caption, parent, class: 'govuk-breadcrumbs__link')
+    else
+      caption
+    end
+  end
 end

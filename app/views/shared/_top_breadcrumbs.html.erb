@@ -5,8 +5,26 @@
         <%= link_to "Home", root_path, class:'govuk-breadcrumbs__link' %>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <%=link_to "Section #{@section.numeral}", @section, class: 'govuk-breadcrumbs__link' %>
+        <%= breadcrumb_link_or_text(@section, @chapter, "Section #{@section.numeral}") %>
       </li>
+
+      <% if @chapter %>
+        <li class="govuk-breadcrumbs__list-item">
+          <%= breadcrumb_link_or_text(@chapter, @heading, "Chapter #{@chapter.short_code}") %>
+        </li>
+
+        <% if @heading %>
+          <li class="govuk-breadcrumbs__list-item">
+            <%= breadcrumb_link_or_text(@heading, @commodity, "Heading #{@heading.short_code}") %>
+          </li>
+        <% end %>
+
+        <% if @commodity %>
+          <li class="govuk-breadcrumbs__list-item">
+            Commodity <%= @commodity.short_code %>
+          </li>
+        <% end %>
+      <% end %>
     </ol>
   </div>
 <% end %>
