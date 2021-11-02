@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   include CookiesHelper
 
   before_action :set_cache
-  before_action :set_enable_service_switch_banner_in_action
+  before_action :enable_switch_service_banner
   before_action :set_last_updated
   before_action :set_path_info
 
@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :cookies_policy,
                 :meursing_lookup_result,
-                :is_switch_banner_enabled?
+                :is_switch_service_banner_enabled?
 
   def render_500
     @no_shared_search = true
@@ -73,8 +73,16 @@ class ApplicationController < ActionController::Base
     # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
-  def set_enable_service_switch_banner_in_action
-    @enable_service_switch_banner_in_action = true
+  def enable_switch_service_banner
+    @switch_service_banner = true
+  end
+
+  def disable_switch_service_banner
+    @switch_service_banner = false
+  end
+
+  def is_switch_service_banner_enabled?
+    @switch_service_banner == true
   end
 
   def search_invoked?
@@ -113,10 +121,6 @@ class ApplicationController < ActionController::Base
 
   def meursing_lookup_result
     @meursing_lookup_result ||= MeursingLookup::Result.new(meursing_additional_code_id: session[MeursingLookup::Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY])
-  end
-
-  def is_switch_banner_enabled?
-    @enable_service_switch_banner_in_action
   end
 
   protected

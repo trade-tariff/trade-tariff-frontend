@@ -6,8 +6,25 @@
     padding: 0.2em 1em 0.3em 0.75em;
     padding-top: 0.2em;
     border-radius: 4px;
-    background-color: #1D70B8;
-    .arrow {
-      color: govuk-colour("white");
+
+    @media (min-width: $desktop-min-width) {
+      a {
+        color: govuk-colour("white");
+      }
+      background-color: #1D70B8;
+
+      .arrow:before {
+        content: "\2192";
+        color: govuk-colour("white");
+      }
+    }
+
+    @media (max-width: $small-table-breakpoint - 1) {
+      .arrow:before {
+        content: "\2192";
+        color: govuk-colour("blue");
+      }
+
+      padding-left: 0;
     }
 }
