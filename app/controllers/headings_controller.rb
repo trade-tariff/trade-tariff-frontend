@@ -10,6 +10,7 @@ class HeadingsController < GoodsNomenclaturesController
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @meursing_additional_code = session[:meursing_lookup].try(:[], 'result')
     @section = heading.section
+    @chapter = heading.chapter
 
     if params[:country].present? && @search.geographical_area
       @rules_of_origin = heading.rules_of_origin(params[:country])

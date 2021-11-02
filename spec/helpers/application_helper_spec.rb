@@ -61,6 +61,24 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+  describe '#breadcrumb_link_or_text' do
+    context 'when the breadcrumb item is the last one' do
+      it 'returns plain text' do
+        breadcrumb_item = breadcrumb_link_or_text('AAA', nil, 'Link description')
+
+        expect(breadcrumb_item).to eq('Link description')
+      end
+    end
+
+    context 'when the breadcrumb item is NOT the last one' do
+      it 'returns a link (which allows to go back)' do
+        breadcrumb_item = breadcrumb_link_or_text('AAA', 'BBB', 'Link description')
+
+        expect(breadcrumb_item).to eq('<a class="govuk-breadcrumbs__link" href="AAA">Link description</a>')
+      end
+    end
+  end
+
   describe '#search_active_class' do
     subject { helper.search_active_class }
 
