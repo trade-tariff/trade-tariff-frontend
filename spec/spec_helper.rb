@@ -49,6 +49,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Rails.application.routes.url_helpers
   config.include Capybara::DSL
+  config.include ApiResponsesHelper
 
   config.before do
     allow(TariffUpdate).to receive(:all).and_return([OpenStruct.new(updated_at: Time.zone.today)])

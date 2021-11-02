@@ -84,12 +84,16 @@ module TradeTariffFrontend
       host
     end
 
-    def cache_prefix
+    def service_name
       service_choice || service_default
     end
 
+    def cache_prefix
+      service_name
+    end
+
     def uk?
-      (service_choice || service_default) == 'uk'
+      service_name == 'uk'
     end
 
     def xi?
