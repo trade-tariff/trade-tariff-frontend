@@ -16,7 +16,6 @@ class PagesController < ApplicationController
 
   def tools
     @no_shared_search = true
-    @no_shared_switch_service_link = true
   end
 
   def tariff_cookies

@@ -76,11 +76,13 @@
       <%= render 'shared/phase_banner' if ENV['NOTICE_BANNER'] %>
       <%= yield :before_main_content %>
 
+      <%= render 'shared/top_breadcrumbs' %>
+      <%= render 'shared/switch_banner' %>
       <%= render 'shared/search' %>
 
       <%= yield %>
 
-      <%= render 'shared/switch_banner_bottom' if is_switch_banner_enabled? %>
+      <%= render 'shared/switch_banner_bottom' if is_switch_service_banner_enabled? %>
 
       <% if @tariff_last_updated %>
         <div id="last-updated-at"><p class="govuk-!-font-size-16">Last updated: <%= @tariff_last_updated.strftime("%e %B %Y") %>&emsp;<a href="https://www.gov.uk/government/collections/tariff-stop-press-notices" target="_blank">View latest amendments</a></p></div>
