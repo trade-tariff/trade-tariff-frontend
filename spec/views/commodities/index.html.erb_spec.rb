@@ -17,18 +17,20 @@ RSpec.describe 'commodities/index.html.erb', type: :view do
     it { is_expected.to have_css 'form input[name="q"]' }
     it { is_expected.to have_css 'form details .govuk-details__text' }
 
-    context 'without preset date' do
+    shared_examples 'a populated date input' do
       it { is_expected.to have_css %(.govuk-details__text input[name="day"][value="#{as_of.day}"]) }
       it { is_expected.to have_css %(.govuk-details__text input[name="month"][value="#{as_of.month}"]) }
       it { is_expected.to have_css %(.govuk-details__text input[name="year"][value="#{as_of.year}"]) }
     end
 
-    context 'with preset date' do
+    context 'with default date' do
+      it_behaves_like 'a populated date input'
+    end
+
+    context 'with selected date' do
       let(:as_of) { 3.days.ago }
 
-      it { is_expected.to have_css %(.govuk-details__text input[name="day"][value="#{as_of.day}"]) }
-      it { is_expected.to have_css %(.govuk-details__text input[name="month"][value="#{as_of.month}"]) }
-      it { is_expected.to have_css %(.govuk-details__text input[name="year"][value="#{as_of.year}"]) }
+      it_behaves_like 'a populated date input'
     end
   end
 
