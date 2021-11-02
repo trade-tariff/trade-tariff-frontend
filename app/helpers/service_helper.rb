@@ -46,7 +46,7 @@ module ServiceHelper
                    [t('service_banner.service_name.uk'), current_path]
                  end
 
-    link_to("Switch to the #{copy}", link, class: 'govuk-link--inverse govuk-link--no-underline')
+    link_to("Switch to the #{copy}", link, class: 'govuk-link--no-underline')
   end
 
   def search_label_text
