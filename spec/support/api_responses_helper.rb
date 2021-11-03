@@ -38,7 +38,7 @@ module ApiResponsesHelper
   end
 
   def format_jsonapi_item(type, attributes)
-    item = { type: type, attributes: attributes.without(:id) }
+    item = { type: type, attributes: attributes }
     item.merge(id: attributes[:id]) if attributes.key?(:id)
 
     item

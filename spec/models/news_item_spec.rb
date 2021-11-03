@@ -63,4 +63,38 @@ RSpec.describe NewsItem do
       it { is_expected.to have_attributes length: 2 }
     end
   end
+
+  describe '#paragraphs' do
+    subject { build(:news_item, content: content).paragraphs }
+
+    context 'with single paragraph' do
+      let(:content) { 'Hello world' }
+
+      it { is_expected.to eql ['Hello world'] }
+    end
+
+    context 'with multiple paragraphs' do
+      let(:content) { "Hello\nworld" }
+
+      it { is_expected.to eql %w[Hello world] }
+    end
+
+    context 'with trailing whitespace' do
+      let(:content) { "Hello\n\n\nworld\n\n\n" }
+
+      it { is_expected.to eql %w[Hello world] }
+    end
+
+    context 'with DOS line ending paragraphs' do
+      let(:content) { "Hello\r\nworld" }
+
+      it { is_expected.to eql %w[Hello world] }
+    end
+
+    context 'with no content' do
+      let(:content) { nil }
+
+      it { is_expected.to eql [] }
+    end
+  end
 end

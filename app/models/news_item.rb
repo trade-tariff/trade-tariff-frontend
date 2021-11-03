@@ -29,4 +29,8 @@ class NewsItem
       Rails.application.config.http_client_uk
     end
   end
+
+  def paragraphs
+    @paragraphs ||= content.to_s.split(/(\r?\n)+/).map(&:presence).compact
+  end
 end

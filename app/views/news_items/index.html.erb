@@ -1,0 +1,25 @@
+<%= page_header 'Latest news' %>
+
+<section class="news-items">
+  <% @news_items.each do |news_item| %>
+    <div>
+    <article class="news-item" data-news-item-id="<%= news_item.id %>">
+      <div class="news-item__date govuk-body-m">
+        <%= news_item.start_date %>
+      </div>
+
+      <div class="news-item__content">
+        <h2 class="govuk-heading-s">
+          <%= news_item.title %>
+        </h2>
+
+        <div class="tariff-markdown">
+          <%= govspeak news_item.paragraphs.first %>
+        </div>
+
+        <%= link_to 'Show more ...', news_item if news_item.paragraphs.many? %>
+      </div>
+    </article>
+    </div>
+  <% end %>
+</section>
