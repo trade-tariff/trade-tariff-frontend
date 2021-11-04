@@ -3,6 +3,7 @@ require 'spec_helper'
 RSpec.describe SectionsController, type: :controller do
   describe 'GET #index', vcr: { cassette_name: 'sections#index' } do
     include CrawlerCommons
+    include_context 'with latest news stubbed'
 
     context 'with old sections page' do
       before do
