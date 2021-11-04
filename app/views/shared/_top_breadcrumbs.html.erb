@@ -2,7 +2,7 @@
   <div class="govuk-breadcrumbs">
     <ol class="govuk-breadcrumbs__list">
       <li class="govuk-breadcrumbs__list-item">
-        <%= link_to "Home", root_path, class:'govuk-breadcrumbs__link' %>
+        <%= link_to "Home", sections_path, class:'govuk-breadcrumbs__link' %>
       </li>
       <li class="govuk-breadcrumbs__list-item">
         <%= breadcrumb_link_or_text(@section, @chapter, "Section #{@section.numeral}") %>
