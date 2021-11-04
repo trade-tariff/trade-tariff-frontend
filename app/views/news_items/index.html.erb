@@ -1,8 +1,11 @@
 <%= page_header 'Latest news' %>
 
+<% content_for :before_main_content do %>
+  <%= generate_breadcrumbs t('breadcrumb.news'), [[t('breadcrumb.home'), sections_path]] %>
+<% end %>
+
 <section class="news-items">
   <% @news_items.each do |news_item| %>
-    <div>
     <article class="news-item" data-news-item-id="<%= news_item.id %>">
       <div class="news-item__date govuk-body-m">
         <%= news_item.start_date %>
@@ -20,6 +23,5 @@
         <%= link_to 'Show more ...', news_item if news_item.paragraphs.many? %>
       </div>
     </article>
-    </div>
   <% end %>
 </section>
