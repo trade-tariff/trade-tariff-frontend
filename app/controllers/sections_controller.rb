@@ -7,6 +7,7 @@ class SectionsController < GoodsNomenclaturesController
     @tariff_updates = TariffUpdate.all
     @sections = Section.all
     @section_css = 'sections-context'
+    @latest_news = NewsItem.latest_for_home_page
   end
 
   def show

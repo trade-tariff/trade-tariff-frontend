@@ -27,3 +27,16 @@
     }
   }
 }
+
+/* for use on home page */
+.latest-news-banner {
+  .govuk-notification-banner__content {
+    .tariff-markdown {
+      max-width: 100% ;
+
+      & > :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
