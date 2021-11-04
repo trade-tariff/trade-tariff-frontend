@@ -180,6 +180,22 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+  describe '#updates_active_class' do
+    subject { helper.updates_active_class }
+
+    context 'with news_items controller' do
+      before { allow(helper).to receive(:controller_name).and_return 'news_items' }
+
+      it { is_expected.to eql 'active' }
+    end
+
+    context 'with other controller' do
+      before { allow(helper).to receive(:controller_name).and_return 'search' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '#page_header' do
     context 'without block' do
       subject { helper.page_header 'Test header' }

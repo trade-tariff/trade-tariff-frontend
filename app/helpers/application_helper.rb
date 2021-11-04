@@ -62,6 +62,10 @@ module ApplicationHelper
     'active' if action_name == 'help'
   end
 
+  def updates_active_class
+    'active' if controller_name == 'news_items'
+  end
+
   def currency_options
     [['Pound sterling', 'GBP'], %w[Euro EUR]]
   end

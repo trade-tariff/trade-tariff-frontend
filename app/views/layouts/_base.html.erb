@@ -40,6 +40,9 @@
         <%= govuk_header_navigation_item(active_class: tools_active_class) do %>
           <%= link_to "Tools", tools_path, class: "govuk-header__link" %>
         <% end %>
+        <%= govuk_header_navigation_item(active_class: updates_active_class) do %>
+          <%= link_to "Updates", news_items_path, class: "govuk-header__link" %>
+        <% end %>
         <%= govuk_header_navigation_item(active_class: help_active_class) do %>
           <%= link_to "Help", help_path, class: "govuk-header__link" %>
         <% end %>
