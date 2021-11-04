@@ -3,12 +3,10 @@ module ServiceHelper
     t('title.default', service_name: service_name, service_description: service_description)
   end
 
-  def default_heading(section:)
-    section ? section_heading(section) : t('h1.service_description')
-  end
+  def heading_for(section:, chapter:, heading:, commodity:)
+    item = commodity || heading || chapter || section
 
-  def section_heading(section)
-    "Section #{section.numeral}: #{section.title}"
+    item ? item.page_heading : t('h1.service_description')
   end
 
   def goods_nomenclature_title(goods_nomenclature)

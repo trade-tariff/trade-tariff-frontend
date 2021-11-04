@@ -82,4 +82,8 @@ class Commodity < GoodsNomenclature
   def aria_label
     "Commodity code #{code}, #{description}"
   end
+
+  def page_heading
+    "Commodity #{code}"
+  end
 end
