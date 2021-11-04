@@ -367,7 +367,7 @@ FactoryBot.define do
 
   factory :news_item do
     sequence(:id) { |n| n }
-    start_date { 1.day.ago }
+    start_date { Time.zone.yesterday }
     sequence(:title) { |n| "News item #{n}" }
     display_style { NewsItem::DISPLAY_STYLE_REGULAR }
     show_on_xi { true }

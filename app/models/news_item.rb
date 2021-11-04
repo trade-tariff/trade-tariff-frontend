@@ -7,9 +7,10 @@ class NewsItem
 
   collection_path '/news_items'
 
-  attr_accessor :id, :title, :content, :start_date, :end_date, :display_style,
-                :show_on_xi, :show_on_uk,
+  attr_accessor :id, :title, :content, :display_style, :show_on_xi, :show_on_uk,
                 :show_on_updates_page, :show_on_home_page
+
+  attr_reader :start_date, :end_date
 
   class << self
     delegate :service_name, to: TradeTariffFrontend::ServiceChooser, private: true
@@ -28,6 +29,14 @@ class NewsItem
       # Always use the UK backend because all News Items are stored there
       Rails.application.config.http_client_uk
     end
+  end
+
+  def start_date=(date)
+    @start_date = date.is_a?(String) ? Date.parse(date) : date
+  end
+
+  def end_date=(date)
+    @end_date = date.is_a?(String) ? Date.parse(date) : date
   end
 
   def paragraphs

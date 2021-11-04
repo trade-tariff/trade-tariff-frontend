@@ -97,4 +97,24 @@ RSpec.describe NewsItem do
       it { is_expected.to eql [] }
     end
   end
+
+  describe 'typecasting dates' do
+    subject do
+      described_class.new start_date: yesterday.to_s(:db),
+                          end_date: tomorrow.to_s(:db)
+    end
+
+    let(:yesterday) { Time.zone.yesterday }
+    let(:tomorrow) { Time.zone.tomorrow }
+
+    it { is_expected.to have_attributes start_date: yesterday }
+    it { is_expected.to have_attributes end_date: tomorrow }
+
+    context 'with nil end_date' do
+      subject { described_class.new start_date: nil, end_date: nil }
+
+      it { is_expected.to have_attributes start_date: nil }
+      it { is_expected.to have_attributes end_date: nil }
+    end
+  end
 end

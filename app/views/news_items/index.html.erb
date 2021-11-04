@@ -8,7 +8,7 @@
   <% @news_items.each do |news_item| %>
     <article class="news-item" data-news-item-id="<%= news_item.id %>">
       <div class="news-item__date govuk-body-m">
-        <%= news_item.start_date %>
+        <%= news_item.start_date.to_formatted_s :short %>
       </div>
 
       <div class="news-item__content">

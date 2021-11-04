@@ -12,7 +12,7 @@
   </h2>
 
   <h3 class="govuk-heading-s">
-    Published on <%= @news_item.start_date %>
+    Published on <%= @news_item.start_date.to_formatted_s :long %>
   </h3>
 
   <div class="tariff-markdown">
