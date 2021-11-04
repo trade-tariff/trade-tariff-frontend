@@ -34,7 +34,7 @@ module Declarable
   end
 
   def calculate_duties?
-    no_meursing? && no_heading? && no_entry_price_system?
+    no_heading? && no_entry_price_system?
   end
 
   def meursing_code?
@@ -58,10 +58,6 @@ module Declarable
   end
 
   private
-
-  def no_meursing?
-    !meursing_code?
-  end
 
   def no_heading?
     !heading?
