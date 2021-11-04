@@ -155,7 +155,7 @@ jobs:
       - run:
           name: Rubocop changed files
           when: always
-          command: bundle exec rubocop $(git diff --name-only --diff-filter=ACM $(git merge-base master HEAD)..HEAD | egrep '\.rb|\.rake') Gemfile
+          command: bundle exec rubocop $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | egrep '\.rb|\.rake') Gemfile
       - run:
           name: Inspecting with Brakeman
           when: always
@@ -307,14 +307,14 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - main
 
       - test:
           context: trade-tariff
           filters:
             branches:
               ignore:
-                - master
+                - main
 
       - build:
           name: build_dev
@@ -323,7 +323,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - main
                 - /^dependabot\/.*/
 
       - deploy_dev:
@@ -343,7 +343,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - main
                 - /^dependabot\/.*/
           requires:
             - deploy_dev
@@ -354,14 +354,14 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
 
       - deploy_staging:
           context: trade-tariff
           filters:
             branches:
               only:
-                - master
+                - main
           requires:
             - build_live
 
@@ -369,7 +369,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
           requires:
             - deploy_staging
 
@@ -378,7 +378,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
           requires:
             - deploy_staging
 
@@ -387,7 +387,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
           requires:
             - hold_production
 

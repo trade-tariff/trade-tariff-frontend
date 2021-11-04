@@ -90,7 +90,7 @@ To create or update autoscaling policy for your application run:
     cf attach-autoscaling-policy APP_NAME ./policy.json
 
 
-Current autosscaling policy files are [here](https://github.com/trade-tariff/trade-tariff-frontend/tree/master/config/autoscaling).
+Current autosscaling policy files are [here](https://github.com/trade-tariff/trade-tariff-frontend/tree/main/config/autoscaling).
 
 
 
