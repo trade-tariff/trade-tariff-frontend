@@ -11,7 +11,7 @@ class Chapter < GoodsNomenclature
 
   delegate :numeral, to: :section, prefix: true
 
-  alias :code :goods_nomenclature_item_id
+  alias_method :code, :goods_nomenclature_item_id
 
   def short_code
     code.first(2)
@@ -27,5 +27,9 @@ class Chapter < GoodsNomenclature
 
   def guides
     attributes['guides']
+  end
+
+  def page_heading
+    "Chapter #{short_code} - #{formatted_description}"
   end
 end

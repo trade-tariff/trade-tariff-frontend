@@ -41,4 +41,8 @@ class Section
   def to_s
     title
   end
+
+  def page_heading
+    "Section #{numeral} - #{title}"
+  end
 end

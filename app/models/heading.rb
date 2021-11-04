@@ -57,4 +57,8 @@ class Heading < GoodsNomenclature
   def to_s
     formatted_description || description
   end
+
+  def page_heading
+    "Heading #{short_code} - #{formatted_description}"
+  end
 end
