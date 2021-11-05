@@ -1,54 +1,56 @@
-<div class="govuk-form-group">
-  <fieldset class="govuk-fieldset js-date-picker datepicker date-picker govuk-!-font-size-16 govuk-form-group inline"  aria-live="polite">
-    <span class="fields">
-      <span class="govuk-!-padding-right-2">
-        This tariff is for:
-        <label class="govuk-visually-hidden" for="tariff_date_date">Date</label>
+<%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css}", id: "new_search" do |f| %>
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset js-date-picker datepicker date-picker govuk-!-font-size-16 govuk-form-group inline"  aria-live="polite">
+      <span class="fields">
+        <span class="govuk-!-padding-right-2">
+          This tariff is for:
+          <label class="govuk-visually-hidden" for="tariff_date_date">Date</label>
+        </span>
+        <label class="govuk-visually-hidden govuk-label govuk-date-input__label" for="tariff_date_day">Day</label>
+        <%= text_field_tag(:day,
+                           @search.date.day,
+                           {
+                             id: 'tariff_date_day',
+                             name: 'day',
+                             class: "govuk-input govuk-date-input__input govuk-input--width-2",
+                             maxlength: 2,
+                             placeholder: "DD",
+                             pattern: "[0-9]*",
+                             inputmode: :numeric
+                           }
+                          ) %>
+        <label class="govuk-visually-hidden govuk-label govuk-date-input__label" for="tariff_date_month">Month</label>
+        <%= text_field_tag(:month,
+                           @search.date.month,
+                           {
+                             id: 'tariff_date_month',
+                             name: 'month',
+                             class: "govuk-input govuk-date-input__input govuk-input--width-2",
+                             maxlength: 2,
+                             placeholder: "MM",
+                             pattern: "[0-9]*",
+                             inputmode: :numeric
+                           }
+                          ) %>
+        <label class="govuk-visually-hidden govuk-label govuk-date-input__label" for="tariff_date_year">Year</label>
+        <%= text_field_tag(:year,
+                           @search.date.year,
+                           {
+                             id: 'tariff_date_year',
+                             name: 'year',
+                             class: "govuk-input govuk-date-input__input govuk-input--width-4",
+                             maxlength: 4,
+                             placeholder: "YYYY",
+                             pattern: "[0-9]*",
+                             inputmode: :numeric
+                           }
+                          ) %>&emsp;
+        <button class="govuk-button" type="submit">Set date</button>
       </span>
-      <label class="govuk-visually-hidden govuk-label govuk-date-input__label" for="tariff_date_day">Day</label>
-      <%= text_field_tag(:day,
-                         @search.date.day,
-                         {
-                           id: 'tariff_date_day',
-                           name: 'day',
-                           class: "govuk-input govuk-date-input__input govuk-input--width-2",
-                           maxlength: 2,
-                           placeholder: "DD",
-                           pattern: "[0-9]*",
-                           inputmode: :numeric
-                         }
-                        ) %>
-      <label class="govuk-visually-hidden govuk-label govuk-date-input__label" for="tariff_date_month">Month</label>
-      <%= text_field_tag(:month,
-                         @search.date.month,
-                         {
-                           id: 'tariff_date_month',
-                           name: 'month',
-                           class: "govuk-input govuk-date-input__input govuk-input--width-2",
-                           maxlength: 2,
-                           placeholder: "MM",
-                           pattern: "[0-9]*",
-                           inputmode: :numeric
-                         }
-                        ) %>
-      <label class="govuk-visually-hidden govuk-label govuk-date-input__label" for="tariff_date_year">Year</label>
-      <%= text_field_tag(:year,
-                         @search.date.year,
-                         {
-                           id: 'tariff_date_year',
-                           name: 'year',
-                           class: "govuk-input govuk-date-input__input govuk-input--width-4",
-                           maxlength: 4,
-                           placeholder: "YYYY",
-                           pattern: "[0-9]*",
-                           inputmode: :numeric
-                         }
-                        ) %>&emsp;
-      <button class="govuk-button" type="submit">Set date</button>
-    </span>
-    <span class="text <%= @section_css %> js-show">
-      This tariff is for <%= @search.date.to_formatted_s(:long) %>&emsp;
-      <a href="#" title="change date" role="button">Change date</a>&emsp;
-    </span>
-  </fieldset>
-</div>
+      <span class="text <%= @section_css %> js-show">
+        This tariff is for <%= @search.date.to_formatted_s(:long) %>&emsp;
+        <a href="#" title="change date" role="button">Change date</a>&emsp;
+      </span>
+    </fieldset>
+  </div>
+<% end %>
