@@ -471,14 +471,9 @@
           */
           initialize: function () {
             var toggledDataControls = ['js-date-picker'],
-                toggleCurrencyControls = ['js-currency-picker'],
                 namespace = this;
 
             $(toggledDataControls).each(function(idx, element){
-              namespace.toggledControl.initialize(element);
-            });
-
-            $(toggleCurrencyControls).each(function(idx, element){
               namespace.toggledControl.initialize(element);
             });
 

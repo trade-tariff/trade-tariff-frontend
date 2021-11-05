@@ -15,13 +15,13 @@
             <div class="search-header">
               <div class="searchfield govuk-form-group">
                 <%= render 'shared/search_date_picker' %>
-                <%= render 'shared/currency_picker' %>
               </div>
             </div>
           </div>
         </div>
       <% end %>
     </header>
+
   <% elsif %w(search search_references exchange_rates pages errors feedback).exclude?(controller_name) && action_name != 'quota_search' %>
     <%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
 
@@ -44,10 +44,10 @@
             </div>
           </div>
         </div>
+
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full">
             <%= render 'shared/search_date_picker' %>
-            <%= render 'shared/currency_picker' %>
           </div>
         </div>
         <fieldset class="govuk-fieldset flash">
