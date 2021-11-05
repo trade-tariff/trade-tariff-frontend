@@ -3,8 +3,15 @@
     <%= trade_tariff_heading %>
   </span>
 
-  <h1 class="govuk-heading-l">
+  <h1 class="govuk-heading-l commodity-header" data-comm-code="<%= commodity_code %>">
     <%= heading %>
+
+    <% if commodity_code %>
+      <span class="copy_code" id="copy_code">
+        <span id="copy_comm_code" class="pseudo-link govuk-link">Copy commodity code</span><br>
+        <span class="copied">Code copied</span>
+      </span>
+    <% end %>
   </h1>
 
   <%= extra_content %>

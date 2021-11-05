@@ -1,6 +1,6 @@
 module CommoditiesHelper
   def commodity_code
-    (@commodity || @heading).code
+    (@commodity || @heading)&.code
   end
 
   def footnote_heading(declarable)

@@ -1,18 +1,9 @@
+<%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
+
 <% unless @no_shared_search %>
   <% if (controller_name == 'commodities' && action_name == 'show') || (controller_name == 'headings' && action_name == 'show' && @heading&.declarable?) %>
-    <header>
-      <h1 class="govuk-heading-l commodity-header" data-comm-code="<%= commodity_code %>">
-        Commodity information for <%= commodity_code %>
-        <div class="copy_code" id="copy_code">
-          <span id="copy_comm_code" class="pseudo-link govuk-link">Copy commodity code</span><br>
-          <span class="copied">Code copied</span>
-        </div>
-      </h1>
 
-      <%= render 'shared/search_date_picker' %>
-
-  <% elsif %w(search search_references exchange_rates pages errors feedback).exclude?(controller_name) && action_name != 'quota_search' %>
-    <%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
+  <% elsif %w(search search_references exchange_rates pages errors  feedback).exclude?(controller_name) && action_name != 'quota_search' %>
 
     <%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css}", id: "new_search" do |f| %>
       <div class="search-header js-search-header">
@@ -42,7 +33,7 @@
       </div>
     <% end %>
 
-    <%= render 'shared/search_date_picker' %>
-
   <% end %>
 <% end %>
+
+<%= render 'shared/search_date_picker' %>
