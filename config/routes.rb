@@ -132,7 +132,7 @@ Rails.application.routes.draw do
                 module: 'commodities'
     end
   end
-  get '/find_commodity', to: 'commodities#index' if TradeTariffFrontend.updated_navigation?
+  get '/find_commodity', to: 'find_commodities#show' if TradeTariffFrontend.updated_navigation?
 
   constraints TradeTariffFrontend::ApiPubConstraints.new(TradeTariffFrontend.public_api_endpoints) do
     scope 'api' do
