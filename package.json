@@ -38,9 +38,11 @@
     "webpack-cli": "^3.3.12"
   },
   "scripts": {
+    "spec": "jest",
     "test": "jest"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "setupFiles": [
       "./spec/javascript/setup.js"
     ],
