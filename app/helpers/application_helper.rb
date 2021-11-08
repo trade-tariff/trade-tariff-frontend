@@ -41,7 +41,9 @@ module ApplicationHelper
   end
 
   def search_active_class
-    'active' if controller_name == 'search' || (controller_name == 'sections' && action_name == 'index')
+    'active' if action_name == 'search' ||
+      (controller_name == 'sections' && action_name == 'index') ||
+      controller_name == 'find_commodities'
   end
 
   def browse_active_class

@@ -793,7 +793,10 @@
                         data: obj
                       }
                     }]);
-                    $('.js-commodity-picker-select').parents('form:first').trigger("submit");
+
+                    if (typeof($(element).data('nosubmit')) == 'undefined') {
+                      $('.js-commodity-picker-select').parents('form:first').trigger("submit");
+                    }
                   }
                 },
                 source: debounce(function(query, populateResults) {

@@ -22,12 +22,18 @@
     <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="proposition-links" aria-label="Show or hide Top Level Navigation">Menu</button>
     <nav id="proposition-menu"  aria-label="Top Level Navigation">
       <ul id="proposition-links" class="govuk-header__navigation ">
-        <%= govuk_header_navigation_item(active_class: search_active_class) do %>
-          <%= link_to 'Search or browse the Tariff', sections_path, class: "govuk-header__link" %>
+        <% if TradeTariffFrontend.updated_navigation? %>
+          <%= govuk_header_navigation_item(active_class: search_active_class) do %>
+            <%= link_to 'Search', find_commodity_path, class: "govuk-header__link" %>
+          <% end %>
+          <%= govuk_header_navigation_item(active_class: browse_active_class) do %>
+            <%= link_to 'Browse', browse_sections_path, class: "govuk-header__link" %>
+          <% end %>
+        <% else %>
+          <%= govuk_header_navigation_item(active_class: search_active_class) do %>
+            <%= link_to 'Search or browse the Tariff', sections_path, class: "govuk-header__link" %>
+          <% end %>
         <% end %>
-        <%= govuk_header_navigation_item(active_class: browse_active_class) do %>
-          <%= link_to 'Browse', browse_sections_path, class: "govuk-header__link" %>
-        <% end if TradeTariffFrontend.updated_navigation? %>
         <%= govuk_header_navigation_item(active_class: a_z_active_class) do %>
           <%= link_to "A-Z", a_z_index_path(letter: "a"), class: "govuk-header__link" %>
         <% end %>

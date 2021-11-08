@@ -1,4 +1,6 @@
 class SectionsController < GoodsNomenclaturesController
+  prepend_before_action :redirect_to_find_commodity, only: :index
+
   def index
     @tariff_updates = TariffUpdate.all
     @sections = Section.all
@@ -14,5 +16,9 @@ class SectionsController < GoodsNomenclaturesController
 
   def find_relevant_goods_code_or_fallback
     redirect_to sections_url
+  end
+
+  def redirect_to_find_commodity
+    redirect_to find_commodity_path if TradeTariffFrontend.updated_navigation?
   end
 end

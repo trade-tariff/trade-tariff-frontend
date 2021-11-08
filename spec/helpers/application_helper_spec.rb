@@ -94,6 +94,13 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to eq 'active' }
     end
 
+    context 'with find_commodity page' do
+      let(:controller_name) { 'find_commodities' }
+      let(:action) { 'show' }
+
+      it { is_expected.to eq 'active' }
+    end
+
     context 'with search results page' do
       let(:controller_name) { 'search' }
       let(:action) { 'search' }
