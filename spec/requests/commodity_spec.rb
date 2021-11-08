@@ -9,7 +9,7 @@ RSpec.describe 'Commodity page', type: :request do
 
   context 'when mime type is HTML' do
     it 'displays declarable related information' do
-      VCR.use_cassette('headings#show_0101') do
+      VCR.use_cassette('commodities#0101300000.html') do
         get '/commodities/0101300000'
 
         expect(response).to be_successful
@@ -20,7 +20,7 @@ RSpec.describe 'Commodity page', type: :request do
   context 'when mime type is JSON' do
     context 'when requested with json format' do
       it 'renders a valid JSON response' do
-        VCR.use_cassette('headings#show_0101') do
+        VCR.use_cassette('commodities#0101300000.json') do
           get '/commodities/0101300000.json'
 
           expect {
@@ -32,7 +32,7 @@ RSpec.describe 'Commodity page', type: :request do
 
     context 'when requested with json HTTP Accept header' do
       it 'renders direct API response' do
-        VCR.use_cassette('headings#show_0101') do
+        VCR.use_cassette('commodities#0101300000_accept_json') do
           get '/commodities/0101300000', headers: { 'HTTP_ACCEPT' => 'application/json' }
 
           expect {
@@ -63,7 +63,7 @@ RSpec.describe 'Commodity page', type: :request do
 
   context 'when commodity with national measurement units' do
     it 'renders successfully' do
-      VCR.use_cassette('headings#show_2208') do
+      VCR.use_cassette('commodities#2208909110') do
         visit commodity_path('2208909110')
 
         within('#import') do
@@ -75,33 +75,33 @@ RSpec.describe 'Commodity page', type: :request do
 
   context 'when commodity with whatever' do
     before do
-      VCR.use_cassette('headings#show_0101') do
+      VCR.use_cassette('commodities#0101300000.html') do
         visit commodity_path('0101300000')
       end
     end
 
-    it 'displays the link to all sections' do
-      expect(page).to have_link 'All sections',
-                                href: '/sections'
+    it 'displays the link to find commodity' do
+      expect(page).to have_link 'Search',
+                                href: '/find_commodity'
     end
 
     it 'displays the section as a link' do
-      expect(page).to have_link 'Section I: Live animals; animal products',
+      expect(page).to have_link 'Section I',
                                 href: '/sections/1'
     end
 
     it 'displays the chapter name as a link' do
-      expect(page).to have_link 'Live animals',
+      expect(page).to have_link 'Chapter 01',
                                 href: '/chapters/01'
     end
 
     it 'displays the header name as a link' do
-      expect(page).to have_link 'Live horses, asses, mules and hinnies',
+      expect(page).to have_link 'Heading 0101',
                                 href: '/headings/0101'
     end
 
-    it 'displays the commodity name' do
-      expect(page).to have_content 'Asses'
+    it 'displays the commodity classification' do
+      expect(page).to have_content 'Live horses, asses, mules and hinnies — Asses'
     end
   end
 end

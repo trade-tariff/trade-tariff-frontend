@@ -1,10 +1,17 @@
 <% content_for :title, goods_nomenclature_title(@heading) %>
+
 <% content_for :head do %>
   <meta name="description" content="<%= @heading %>">
   <link rel='alternate' type='application/json' href='<%= heading_url(@heading, format: :json) %>' title='Heading information page in JSON format' />
 <% end %>
 
 <% content_for :bodyClasses, "page--wide" %>
+
+  <%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
+
+  <%= render 'shared/search/date_picker_form' %>
+  <%= render 'shared/context_tables/heading' %>
+  <%= render 'shared/callouts/heading'%>
 
 <% if @heading.declarable? %>
   <%= render 'declarables/declarable',
@@ -13,10 +20,6 @@
              xi_declarable: xi_heading,
              rules_of_origin: @rules_of_origin %>
 <% else %>
-  <h2 class="govuk-heading-s">Choose the commodity code below that best matches your goods to see more information</h2>
-  <p>If your item is not listed by name, it may be shown under what it's used for, what it's made from or 'other'.</p>
-  <%= render 'shared/tariff_breadcrumbs', heading: @heading %>
-  <%= render 'shared/callout', chapter: @heading.chapter %>
   <article class="tariff">
     <div class="commodity-tree">
       <div class="tree-controls"></div>

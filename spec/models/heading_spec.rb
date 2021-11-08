@@ -3,7 +3,9 @@ require 'spec_helper'
 RSpec.describe Heading do
   subject(:heading) { build(:heading) }
 
-  it_behaves_like 'a declarable'
+  it_behaves_like 'a declarable' do
+    subject(:declarable) { build(:heading, import_measures: measures) }
+  end
 
   describe '#to_param' do
     it { expect(heading.to_param).to eq heading.short_code }

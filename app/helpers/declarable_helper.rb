@@ -1,4 +1,14 @@
 module DeclarableHelper
+  def classification_description(commodity)
+    descriptions = [commodity.heading, commodity.ancestors, commodity]
+      .flatten
+      .map(&:description)
+
+    boldify_last(descriptions)
+      .join(' &mdash; ')
+      .html_safe
+  end
+
   def declarable_stw_link(declarable, search)
     geographical_area = GeographicalArea.find(search.country)
     declarable_type = declarable.heading? ? 'heading' : 'commodity'
@@ -64,5 +74,10 @@ module DeclarableHelper
 
   def referer
     @referer ||= Addressable::URI.parse(request.referer) if request.referer.present?
+  end
+
+  def boldify_last(items)
+    starting_items = items[..-2]
+    starting_items << "<strong>#{items.last}</strong>"
   end
 end

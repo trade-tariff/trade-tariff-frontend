@@ -1,5 +1,5 @@
 module TradeTariffFrontend
-  class Presenter
+  class Presenter < SimpleDelegator
     delegate :view_context, to: self
 
     class << self

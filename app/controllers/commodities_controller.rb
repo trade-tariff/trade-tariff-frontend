@@ -5,9 +5,13 @@ class CommoditiesController < GoodsNomenclaturesController
   before_action :set_session, only: %i[show]
 
   def show
+    @no_shared_search = true
+
     @heading = commodity.heading
     @chapter = commodity.chapter
     @section = commodity.section
+
+    @supplementary_unit = commodity.supplementary_unit(country: @search.country)
 
     if params[:country].present? && @search.geographical_area
       @rules_of_origin = commodity.rules_of_origin(params[:country])

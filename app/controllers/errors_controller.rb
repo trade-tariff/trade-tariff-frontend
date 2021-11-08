@@ -1,17 +1,18 @@
 class ErrorsController < ApplicationController
   before_action do
+    @no_shared_search = true
     @tariff_last_updated = nil
   end
 
   def not_found
-    render status: 404
+    render status: :not_found
   end
 
   def internal_server_error
-    render status: 500
+    render status: :internal_server_error
   end
 
   def maintenance
-    render status: 503
+    render status: :service_unavailable
   end
 end

@@ -7,10 +7,14 @@ class HeadingsController < GoodsNomenclaturesController
   helper_method :uk_heading, :xi_heading
 
   def show
+    @no_shared_search = true
+
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @meursing_additional_code = session[:meursing_lookup].try(:[], 'result')
     @section = heading.section
     @chapter = heading.chapter
+
+    @supplementary_unit = heading.supplementary_unit(country: @search.country)
 
     if params[:country].present? && @search.geographical_area
       @rules_of_origin = heading.rules_of_origin(params[:country])

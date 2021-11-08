@@ -23,6 +23,13 @@ FactoryBot.define do
     description { Forgery(:basic).text }
     formatted_description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0101000000' }
+
+    import_measures { [] }
+    export_measures { [] }
+
+    initialize_with do
+      new(attributes.stringify_keys)
+    end
   end
 
   factory :commodity do
@@ -34,6 +41,10 @@ FactoryBot.define do
     goods_nomenclature_sid { Forgery(:basic).number }
     parent_sid { Forgery(:basic).number }
     meursing_code { false }
+
+    import_measures { [] }
+    export_measures { [] }
+
     meta do
       {
         'duty_calculator' => {
@@ -49,6 +60,10 @@ FactoryBot.define do
           'zero_mfn_duty' => false,
         },
       }
+    end
+
+    initialize_with do
+      new(attributes.stringify_keys)
     end
   end
 
@@ -85,6 +100,7 @@ FactoryBot.define do
   factory :measure do
     transient do
       measure_type_description { Forgery(:basic).text }
+      measure_type_id { Forgery(:basic).text }
       geographical_area_id { 'FR' }
     end
 
@@ -93,7 +109,7 @@ FactoryBot.define do
     effective_end_date { nil }
 
     measure_type do
-      attributes_for(:measure_type, id: Forgery(:basic).text, description: measure_type_description).stringify_keys
+      attributes_for(:measure_type, id: measure_type_id, description: measure_type_description).stringify_keys
     end
 
     geographical_area do
@@ -139,6 +155,22 @@ FactoryBot.define do
         attributes_for(:measure_type, :third_country, description: measure_type_description).stringify_keys
       end
       geographical_area { attributes_for(:geographical_area, :third_country).stringify_keys }
+    end
+
+    trait :supplementary do
+      measure_type do
+        attributes_for(:measure_type, :supplementary, description: measure_type_description).stringify_keys
+      end
+
+      duty_expression do
+        attributes_for(:duty_expression, base: 'p/st')
+      end
+    end
+
+    trait :with_supplementary_measure_components do
+      measure_components do
+        [attributes_for(:measure_component, :with_supplementary_measurement_unit)]
+      end
     end
 
     trait :specific_country do
@@ -217,6 +249,30 @@ FactoryBot.define do
 
     trait :third_country do
       id { '103' }
+    end
+
+    trait :supplementary do
+      id { '110' }
+    end
+  end
+
+  factory :measure_component do
+    duty_expression
+
+    trait :with_supplementary_measurement_unit do
+      measurement_unit do
+        attributes_for(:measurement_unit, :supplementary).stringify_keys
+      end
+    end
+  end
+
+  factory :measurement_unit do
+    description { Forgery(:basic).text }
+    measurement_unit_code { Forgery(:basic).text(exactly: 3).upcase }
+
+    trait :supplementary do
+      description { 'Number of items' }
+      measurement_unit_code { 'NAR' }
     end
   end
 

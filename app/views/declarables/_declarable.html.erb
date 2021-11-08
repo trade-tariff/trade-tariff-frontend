@@ -1,7 +1,6 @@
 <% content_for :title, commodity_title(declarable) %>
 
 <article class="tariff commodity">
-  <%= render 'shared/tariff_breadcrumbs', declarable: declarable %>
   <%= render partial: 'shared/country_picker', locals: { controller: @search, url: perform_search_path } %>
   <%= render 'measures/measures',
              declarable: declarable,

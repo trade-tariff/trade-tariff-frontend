@@ -6,10 +6,11 @@
 
 <% content_for :bodyClasses, "page--wide" %>
 
-<h2 class="govuk-heading-s">Choose the heading that best matches your goods</h2>
+<%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
 
-<%= render 'shared/tariff_breadcrumbs', chapter: @chapter %>
-<%= render 'shared/callout', chapter: @chapter %>
+<%= render 'shared/search/date_picker_form' %>
+<%= render 'shared/context_tables/chapter' %>
+<%= render 'shared/callouts/chapter', chapter: @chapter %>
 
 <section class="headings">
   <table class="section-browser govuk-table">

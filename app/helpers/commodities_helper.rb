@@ -17,37 +17,6 @@ module CommoditiesHelper
     "level-#{commodity.number_indents}"
   end
 
-  def commodity_tree(main_commodity, commodities)
-    if commodities.any?
-      tag.ul(class: 'commodities') do
-        tag.li do
-          tree_code(commodities.first.code) +
-            tag.p(commodities.first.to_s.html_safe) +
-            tree_node(main_commodity, commodities, commodities.first.number_indents)
-        end
-      end
-    else
-      tag.ul(class: 'commodities') do
-        commodity_heading(main_commodity)
-      end
-    end
-  end
-
-  def tree_chapter_code(chapter)
-    code = chapter.short_code
-    tree_code(code)
-  end
-
-  def tree_heading_code(heading)
-    code = heading.short_code
-    tree_code(code)
-  end
-
-  def tree_commodity_code(declarable)
-    code = declarable.code.to_s
-    tree_code(code)
-  end
-
   def tree_code(code, klass: 'full-code')
     "<div class='#{klass}'>
       #{chapter_and_heading_codes(code)}

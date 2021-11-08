@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class Heading < GoodsNomenclature
   include Changeable
   include Declarable

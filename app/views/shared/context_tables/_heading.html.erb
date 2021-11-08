@@ -1,0 +1,24 @@
+<table class="govuk-table">
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header govuk-!-width-one-quarter">Heading</th>
+      <td class="govuk-table__cell"><%= @heading.short_code %></td>
+      <td class="govuk-table__cell"/>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Classification</th>
+      <td class="govuk-table__cell"><%= @heading.to_s %></td>
+      <td class="govuk-table__cell"/>
+    </tr>
+    <% if @heading.declarable? %>
+      <%= render 'shared/context_tables/supplementary_unit_row', supplementary_unit: @supplementary_unit %>
+    <% end %>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Date of trade</th>
+      <td class="govuk-table__cell">
+        <%= @search.date.to_formatted_s(:long) %>
+      </td>
+      <td class="govuk-table__cell"></td>
+    </tr>
+  </tbody>
+</table>

@@ -39,27 +39,23 @@ RSpec.describe 'Heading page', type: :request do
         end
       end
 
-      it 'displays the link to all sections' do
-        expect(page).to have_link 'All sections',
-                                  href: '/sections'
+      it 'displays the link to find commodity' do
+        expect(page).to have_link 'Search',
+                                  href: '/find_commodity'
       end
 
       it 'displays the section as a link' do
-        expect(page).to have_link 'Section I: Live animals; animal products',
+        expect(page).to have_link 'Section I',
                                   href: '/sections/1'
       end
 
-      it 'displays the chapter as a link' do
-        expect(page).to have_link 'Live animals',
+      it 'displays the chapter name as a link' do
+        expect(page).to have_link 'Chapter 01',
                                   href: '/chapters/01'
       end
 
       it 'displays the current header' do
         expect(page).to have_content 'Live horses, asses, mules and hinnies'
-      end
-
-      it 'displays the first level of children commodities' do
-        expect(page).to have_content 'Horses'
       end
 
       it 'displays the leaf level of children commodities as a link' do

@@ -26,6 +26,12 @@ RSpec.describe HeadingsController, type: :controller do
       expect(session[:declarable_code]).to eq('0501')
     end
 
+    it 'assigns a supplementary unit', vcr: { cassette_name: 'headings#show_0110' } do
+      get :show, params: { id: '0501' }
+
+      expect(assigns[:supplementary_unit]).to eq('No supplementary unit required.')
+    end
+
     context 'with existing heading id provided', vcr: { cassette_name: 'headings#show' } do
       let!(:heading) { Heading.new(attributes_for(:heading).stringify_keys) }
 

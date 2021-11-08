@@ -1,22 +1,9 @@
-<% section ||= false
-chapter ||= false
-heading ||= false
-declarable ||= false %>
-
 <div class="tariff-breadcrumbs js-tariff-breadcrumbs clt govuk-!-font-size-16">
   <nav>
     <p>
       <%= link_to 'All sections', sections_path %>
     </p>
 
-    <% if declarable %>
-      <%= render partial: 'shared/tariff_breadcrumbs/declarable', locals: { declarable: declarable } %>
-    <% elsif heading %>
-      <%= render partial: 'shared/tariff_breadcrumbs/heading', locals: { heading: heading } %>
-    <% elsif chapter %>
-      <%= render partial: 'shared/tariff_breadcrumbs/chapter', locals: { chapter: chapter } %>
-    <% elsif section %>
-      <%= render partial: 'shared/tariff_breadcrumbs/section', locals: { section: section } %>
-    <% end %>
+    <%= render partial: 'shared/tariff_breadcrumbs/section', locals: { section: section } %>
   </nav>
 </div>

@@ -10,54 +10,18 @@ RSpec.describe 'Chapter page', type: :request do
       end
     end
 
-    it 'displays the link to all sections' do
-      expect(page).to have_link 'All sections',
-                                href: '/sections'
+    it 'displays the link to find commodity' do
+      expect(page).to have_link 'Search',
+                                href: '/find_commodity'
     end
 
     it 'displays the section as a link' do
-      expect(page).to have_link 'Section I: Live animals; animal products',
+      expect(page).to have_link 'Section I',
                                 href: '/sections/1'
     end
 
-    it 'displays the chapter name' do
+    it 'displays the chapter classification' do
       expect(page).to have_content 'Live animals'
-    end
-
-    it 'displays the second heading in the chapter as a link' do
-      expect(page).to have_link 'Live bovine animals'
-    end
-
-    it 'displays the third heading in the chapter as a link' do
-      expect(page).to have_link 'Live swine'
-    end
-
-    it 'displays chapter codes for all headings in the chapter' do
-      expect(page).to have_selector '.chapter-code', text: '01', count: 8
-    end
-
-    it 'displays heading codes for the first heading in the chapter' do
-      expect(page).to have_selector '.heading-code', text: '01', count: 1
-    end
-
-    it 'displays heading codes for the second heading in the chapter' do
-      expect(page).to have_selector '.heading-code', text: '02', count: 1
-    end
-
-    it 'displays heading codes for the third heading in the chapter' do
-      expect(page).to have_selector '.heading-code', text: '03', count: 1
-    end
-
-    it 'displays heading codes for the fourth heading in the chapter' do
-      expect(page).to have_selector '.heading-code', text: '04', count: 1
-    end
-
-    it 'displays heading codes for the fifth heading in the chapter' do
-      expect(page).to have_selector '.heading-code', text: '05', count: 1
-    end
-
-    it 'displays heading codes for the sixth heading in the chapter' do
-      expect(page).to have_selector '.heading-code', text: '06', count: 1
     end
   end
 

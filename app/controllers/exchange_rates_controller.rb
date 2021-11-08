@@ -1,4 +1,6 @@
 class ExchangeRatesController < ApplicationController
+  before_action { @no_shared_search = true }
+
   def index
     all_rates = MonetaryExchangeRate.all
     @last_updated = all_rates.last.operation_date.strftime('%d %B %Y')
