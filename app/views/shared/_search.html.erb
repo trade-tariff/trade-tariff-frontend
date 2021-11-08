@@ -1,61 +1,7 @@
 <% unless @no_shared_search %>
   <% if (controller_name == 'commodities' && action_name == 'show') || (controller_name == 'headings' && action_name == 'show' && @heading&.declarable?) %>
-    <header>
-      <h1 class="govuk-heading-l commodity-header" data-comm-code="<%= commodity_code %>">
-        Commodity information for <%= commodity_code %>
-        <div class="copy_code" id="copy_code">
-          <span id="copy_comm_code" class="pseudo-link govuk-link">Copy commodity code</span><br>
-          <span class="copied">Code copied</span>
-        </div>
-      </h1>
-
-      <%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css}", id: "new_search" do |f| %>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-full">
-            <div class="search-header">
-              <div class="searchfield govuk-form-group">
-                <%= render 'shared/search_date_picker' %>
-                <%= render 'shared/currency_picker' %>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </header>
+    <%= render 'shared/search/commodities' %>
   <% elsif %w(search search_references exchange_rates pages errors feedback).exclude?(controller_name) && action_name != 'quota_search' %>
-    <%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
-
-    <%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css}", id: "new_search" do |f| %>
-      <div class="search-header js-search-header">
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <div class="searchfield govuk-form-group">
-              <fieldset class="govuk-fieldset govuk-search-input">
-                <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-                <%= hidden_field_tag :q, @search.q, { class: "js-commodity-picker-target" } %>
-                <div class='js-commodity-picker-select js-show'></div>
-                <noscript>
-                  <%= text_field_tag(:q, @search.q, {class: "govuk-input", name: :q}) %>
-                </noscript>
-              </fieldset>
-              <fieldset class="govuk-fieldset search-submit">
-                <input class="govuk-button" type="submit" name="new_search" value="Search">
-              </fieldset>
-            </div>
-          </div>
-        </div>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-full">
-            <%= render 'shared/search_date_picker' %>
-            <%= render 'shared/currency_picker' %>
-          </div>
-        </div>
-        <fieldset class="govuk-fieldset flash">
-          <% flash.each do |key, value| %>
-            <div class="alert alert-<%= key %>"><%= value %></div>
-          <% end %>
-        </fieldset>
-      </div>
-    <% end %>
+    <%= render 'shared/search/other' %>
   <% end %>
 <% end %>
