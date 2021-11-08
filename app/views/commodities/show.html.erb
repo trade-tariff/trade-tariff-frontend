@@ -5,6 +5,8 @@
 
 <% content_for :bodyClasses, "page--wide" %>
 
+<%= render 'shared/search/commodities' %>
+
 <%= render 'declarables/declarable',
            declarable: @commodity,
            xi_declarable: xi_commodity,

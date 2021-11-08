@@ -5,6 +5,8 @@ class CommoditiesController < GoodsNomenclaturesController
   before_action :set_session, only: %i[show]
 
   def show
+    @no_shared_search = true
+
     @heading = commodity.heading
     @chapter = commodity.chapter
     @section = commodity.section

@@ -1,5 +1,6 @@
 class FeedbackController < ApplicationController
   before_action do
+    @no_shared_search = true
     @tariff_last_updated = nil
   end
 

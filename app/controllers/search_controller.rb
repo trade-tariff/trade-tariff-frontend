@@ -2,6 +2,7 @@ require 'addressable/uri'
 
 class SearchController < ApplicationController
   before_action :disable_switch_service_banner, only: [:quota_search]
+  before_action { @no_shared_search = true }
 
   def search
     @results = @search.perform

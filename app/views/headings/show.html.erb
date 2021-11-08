@@ -7,6 +7,8 @@
 <% content_for :bodyClasses, "page--wide" %>
 
 <% if @heading.declarable? %>
+  <%= render 'shared/search/commodities' %>
+
   <%= render 'declarables/declarable',
              declarable: @heading,
              uk_declarable: uk_heading,

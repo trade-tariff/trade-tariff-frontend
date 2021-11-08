@@ -1,4 +1,6 @@
 class SearchReferencesController < ApplicationController
+  before_action { @no_shared_search = true }
+
   def show
     @search_references = SearchReferencesPresenter.new(
       SearchReference.all(query: { letter: letter })

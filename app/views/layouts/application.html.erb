@@ -66,7 +66,8 @@
 
       <%= render 'shared/top_breadcrumbs' %>
       <%= render 'shared/switch_banner' %>
-      <%= render 'shared/search' %>
+
+      <%= render 'shared/search/other' unless @no_shared_search %>
 
       <%= yield %>
 
