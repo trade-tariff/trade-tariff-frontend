@@ -1,7 +1,0 @@
-<% unless @no_shared_search %>
-  <% if (controller_name == 'commodities' && action_name == 'show') || (controller_name == 'headings' && action_name == 'show' && @heading&.declarable?) %>
-    <%= render 'shared/search/commodities' %>
-  <% elsif %w(search search_references exchange_rates pages errors feedback).exclude?(controller_name) && action_name != 'quota_search' %>
-    <%= render 'shared/search/other' %>
-  <% end %>
-<% end %>
