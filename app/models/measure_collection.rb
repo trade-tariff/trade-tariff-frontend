@@ -1,13 +1,13 @@
 class MeasureCollection
   include Enumerable
 
-  attr_accessor :measures, :presenter_klass
+  attr_accessor :measures
 
+  delegate :present?, to: :measures
   delegate :size, :length, :collect, :map, :each, :all?, :include?, :to_ary, to: :to_a
 
-  def initialize(measures, presenter_klass = MeasurePresenter)
+  def initialize(measures)
     @measures = measures.clone
-    @presenter_klass = presenter_klass
   end
 
   def for_country(country)
@@ -16,38 +16,28 @@ class MeasureCollection
   end
 
   def vat_excise
-    @vat_excise ||= begin
-      self.measures = measures.select(&:vat_excise?)
-      self
-    end
+    self.measures = measures.select(&:vat_excise?)
+    self
   end
 
   def import_controls
-    @import_controls ||= begin
-      self.measures = measures.select(&:import_controls?)
-      self
-    end
+    self.measures = measures.select(&:import_controls?)
+    self
   end
 
   def trade_remedies
-    @trade_remedies ||= begin
-      self.measures = measures.select(&:trade_remedies?)
-      self
-    end
+    self.measures = measures.select(&:trade_remedies?)
+    self
   end
 
   def customs_duties
-    @customs_duties ||= begin
-      self.measures = measures.select(&:customs_duties?)
-      self
-    end
+    self.measures = measures.select(&:customs_duties?)
+    self
   end
 
   def quotas
-    @quotas ||= begin
-      self.measures = measures.select(&:quotas?)
-      self
-    end
+    self.measures = measures.select(&:quotas?)
+    self
   end
 
   def vat
@@ -71,20 +61,6 @@ class MeasureCollection
   end
 
   def to_a
-    if presenter_klass.present?
-      present_with(presenter_klass)
-    else
-      measures
-    end
-  end
-
-  def present?
-    measures.any?
-  end
-
-  private
-
-  def present_with(presenter_klass)
-    measures.map { |entry| presenter_klass.new(entry) }
+    measures.map { |entry| MeasurePresenter.new(entry) }
   end
 end

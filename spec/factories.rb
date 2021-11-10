@@ -85,6 +85,7 @@ FactoryBot.define do
   factory :measure do
     transient do
       measure_type_description { Forgery(:basic).text }
+      geographical_area_id { 'FR' }
     end
 
     origin { %w[eu uk].sample }
@@ -95,10 +96,12 @@ FactoryBot.define do
       attributes_for(:measure_type, id: Forgery(:basic).text, description: measure_type_description).stringify_keys
     end
 
+    geographical_area do
+      attributes_for(:geographical_area, id: geographical_area_id).stringify_keys
+    end
+
     trait :vat do
-      measure_type do
-        attributes_for(:measure_type, :vat, description: measure_type_description).stringify_keys
-      end
+      vat { true }
     end
 
     trait :vat_excise do
@@ -160,6 +163,10 @@ FactoryBot.define do
 
     trait :eu do
       origin { 'eu' }
+    end
+
+    initialize_with do
+      new(attributes.stringify_keys)
     end
   end
 
