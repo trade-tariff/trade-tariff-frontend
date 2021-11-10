@@ -1,33 +1,36 @@
+<%- xi_import_measures = xi_declarable.import_measures.for_country(@search.country) %>
+<%- uk_import_measures = uk_declarable.import_measures.for_country(@search.country) %>
+
 <!-- CUSTOMS DUTIES -->
-<% if xi_declarable.import_measures.customs_duties.for_country(@search.country).present? %>
+<% if xi_import_measures.customs_duties.present? %>
   <li class="govuk-!-margin-bottom-2">
   <%= link_to('Customs duties', '#customs_duties', class: 'govuk-link') %>
   </li>
 <% end %>
 
 <!-- TRADE REMEDIES -->
-<% if xi_declarable.import_measures.trade_remedies.for_country(@search.country).present? %>
+<% if xi_import_measures.trade_remedies.present? %>
   <li class="govuk-!-margin-bottom-2">
     <%= link_to('Trade Remedies, safeguards and retaliatory duties', '#trade_remedies', class: 'govuk-link') %>
   </li>
 <% end %>
 
 <!-- VAT & EXCISE -->
-<% if uk_declarable.import_measures.vat_excise.for_country(@search.country).present? %>
+<% if uk_import_measures.vat_excise.present? %>
   <li class="govuk-!-margin-bottom-2">
     <%= link_to('VAT and excise', '#vat_excise', class: 'govuk-link') %>
   </li>
 <% end %>
 
 <!-- XI IMPORT CONTROLS -->
-<% if xi_declarable.import_measures.import_controls.for_country(@search.country).present? %>
+<% if xi_import_measures.import_controls.present? %>
   <li class="govuk-!-margin-bottom-2">
     <%= link_to('EU import controls', '#xi_import_controls', class: 'govuk-link') %>
   </li>
 <% end %>
 
 <!-- UK IMPORT CONTROLS -->
-<% if uk_declarable.import_measures.import_controls.for_country(@search.country).present? %>
+<% if uk_import_measures.import_controls.present? %>
   <li class="govuk-!-margin-bottom-2">
     <%= link_to('UK import controls', '#uk_import_controls', class: 'govuk-link') %>
   </li>

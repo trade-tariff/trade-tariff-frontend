@@ -11,53 +11,43 @@ class MeasureCollection
   end
 
   def for_country(country)
-    self.measures = measures.select { |m| m.relevant_for_country?(country) }
-    self
+    self.class.new(measures.select { |m| m.relevant_for_country?(country) })
   end
 
   def vat_excise
-    self.measures = measures.select(&:vat_excise?)
-    self
+    self.class.new(measures.select(&:vat_excise?))
   end
 
   def import_controls
-    self.measures = measures.select(&:import_controls?)
-    self
+    self.class.new(measures.select(&:import_controls?))
   end
 
   def trade_remedies
-    self.measures = measures.select(&:trade_remedies?)
-    self
+    self.class.new(measures.select(&:trade_remedies?))
   end
 
   def customs_duties
-    self.measures = measures.select(&:customs_duties?)
-    self
+    self.class.new(measures.select(&:customs_duties?))
   end
 
   def quotas
-    self.measures = measures.select(&:quotas?)
-    self
+    self.class.new(measures.select(&:quotas?))
   end
 
   def vat
-    self.measures = measures.select(&:vat?)
-    self
+    self.class.new(measures.select(&:vat?))
   end
 
   def national
-    self.measures = measures.select(&:national?)
-    self
+    self.class.new(measures.select(&:national?))
   end
 
   def third_country_duty
-    self.measures = measures.select(&:third_country?)
-    self
+    self.class.new(measures.select(&:third_country?))
   end
 
   def supplementary
-    self.measures = measures.select(&:supplementary?)
-    self
+    self.class.new(measures.select(&:supplementary?))
   end
 
   def to_a

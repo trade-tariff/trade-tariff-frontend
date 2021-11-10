@@ -1,5 +1,7 @@
+<%- uk_import_measures = uk_declarable.import_measures.for_country(@search.country) %>
+
 <!-- UK IMPORT CONTROLS -->
-<% if (collection = uk_declarable.import_measures.import_controls.for_country(@search.country)).present? %>
+<% if (collection = uk_import_measures.import_controls).present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls' : 'UK import controls',
     collection: collection.sort_by(&:key),
@@ -9,12 +11,11 @@
     search: @search,
     show_stw_text: true,
   }
-
 %>
 <% end %>
 
 <!-- CUSTOMS DUTIES -->
-<% if (collection = uk_declarable.import_measures.customs_duties.for_country(@search.country)).present? %>
+<% if (collection = uk_import_measures.customs_duties).present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Customs duties',
     collection: collection.sort_by(&:key),
@@ -23,7 +24,7 @@
 <% end %>
 
 <!-- QUOTAS -->
-<% if (collection = uk_declarable.import_measures.quotas.for_country(@search.country)).present? %>
+<% if (collection = uk_import_measures.quotas).present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Quotas',
     collection: collection.sort_by(&:key),
@@ -33,7 +34,7 @@
 <% end %>
 
 <!-- TRADE REMEDIES -->
-<% if (collection = uk_declarable.import_measures.trade_remedies.for_country(@search.country)).present? %>
+<% if (collection = uk_import_measures.trade_remedies).present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Trade Remedies, safeguards and retaliatory duties',
     collection: collection.sort_by(&:key),
@@ -42,7 +43,7 @@
 <% end %>
 
 <!-- VAT & EXCISE -->
-<% if (collection = uk_declarable.import_measures.vat_excise.for_country(@search.country)).present? %>
+<% if (collection = uk_import_measures.vat_excise).present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'VAT and excise',
     collection: collection.sort_by(&:key),
