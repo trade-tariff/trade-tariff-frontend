@@ -59,12 +59,13 @@
     </div>
   </header>
 
-  <main id="content" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" role="main">
-    <div class="tariff service govuk-width-container">
+  <div class="tariff service govuk-width-container">
+    <%= render 'shared/top_breadcrumbs' %>
+
+    <main id="content" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" role="main">
       <%= render 'shared/phase_banner' if ENV['NOTICE_BANNER'] %>
       <%= yield :before_main_content %>
 
-      <%= render 'shared/top_breadcrumbs' %>
       <%= render 'shared/switch_banner' %>
       <%= render 'shared/search' %>
 
@@ -78,8 +79,8 @@
       <% if content_for? (:commodity_pagination) %>
         <%= yield :commodity_pagination %>
       <% end %>
-    </div>
-  </main>
+    </main>
+  </div>
 
   <footer id="footer" class="govuk-footer" role="contentinfo">
     <div class="govuk-width-container">
