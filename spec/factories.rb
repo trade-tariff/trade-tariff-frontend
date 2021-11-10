@@ -225,8 +225,8 @@ FactoryBot.define do
       description { Forgery(:basic).text }
     end
 
-    trait :with_children do
-      children_geographical_areas { [attributes_for(:geograpical_area).stringify_keys] }
+    initialize_with do
+      new(attributes.stringify_keys)
     end
   end
 

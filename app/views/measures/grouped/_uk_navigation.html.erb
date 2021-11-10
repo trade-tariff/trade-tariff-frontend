@@ -1,3 +1,10 @@
+<!-- UK IMPORT CONTROLS -->
+<% if declarable.import_measures.import_controls.for_country(@search.country).present? %>
+  <li class="govuk-!-margin-bottom-2">
+    <%= link_to('Import controls', '#uk_import_controls', class: 'govuk-link') %>
+  </li>
+<% end %>
+
 <!-- CUSTOMS DUTIES -->
 <% if declarable.import_measures.customs_duties.for_country(@search.country).present? %>
   <li class="govuk-!-margin-bottom-2">
@@ -23,12 +30,5 @@
 <% if declarable.import_measures.vat_excise.for_country(@search.country).present? %>
   <li class="govuk-!-margin-bottom-2">
     <%= link_to('VAT and excise', '#vat_excise', class: 'govuk-link') %>
-  </li>
-<% end %>
-
-<!-- UK IMPORT CONTROLS -->
-<% if declarable.import_measures.import_controls.for_country(@search.country).present? %>
-  <li class="govuk-!-margin-bottom-2">
-    <%= link_to('Import controls', '#uk_import_controls', class: 'govuk-link') %>
   </li>
 <% end %>

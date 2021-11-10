@@ -1,3 +1,18 @@
+<!-- UK IMPORT CONTROLS -->
+<% if (collection = uk_declarable.import_measures.import_controls.for_country(@search.country)).present? %>
+  <%= render partial: 'measures/grouped/table', locals: {
+    caption: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls' : 'UK import controls',
+    collection: collection.sort_by(&:key),
+    css_id: 'uk_import_controls',
+    declarable: uk_declarable,
+    hide_duty_rate: true,
+    search: @search,
+    show_stw_text: true,
+  }
+
+%>
+<% end %>
+
 <!-- CUSTOMS DUTIES -->
 <% if (collection = uk_declarable.import_measures.customs_duties.for_country(@search.country)).present? %>
   <%= render partial: 'measures/grouped/table', locals: {
@@ -33,15 +48,4 @@
     collection: collection.sort_by(&:key),
     css_id: 'vat_excise' }
   %>
-<% end %>
-
-<!-- UK IMPORT CONTROLS -->
-<% if (collection = uk_declarable.import_measures.import_controls.for_country(@search.country)).present? %>
-  <%= render partial: 'measures/grouped/table', locals: {
-    caption: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls' : 'UK import controls',
-    collection: collection.sort_by(&:key),
-    hide_duty_rate: true,
-    css_id: 'uk_import_controls'
-  }
-%>
 <% end %>

@@ -1,9 +1,8 @@
-require 'spec_helper'
-
 RSpec.describe 'Commodity page', type: :request do
   before do
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
 
+    allow(GeographicalArea).to receive(:find).with('AD').and_return(build(:geographical_area, id: 'AD', description: 'Andorra'))
     allow(RulesOfOrigin::Scheme).to receive(:all).and_return([])
     TradeTariffFrontend::ServiceChooser.service_choice = nil
   end

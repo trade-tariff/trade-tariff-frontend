@@ -1,8 +1,18 @@
-<table class="small-table measures govuk-table"  >
-  <caption class="govuk-table__caption govuk-table__caption--m" id="<%= local_assigns[:css_id] %>" >
-    <%= local_assigns[:caption]%>
-  </caption>
+<h3 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-3">
+  <%= local_assigns[:caption] %>
+</h3>
 
+<% if local_assigns[:show_stw_text] %> 
+  <p class= "govuk-body">
+    <% if search.country.present? %>
+      <%= declarable_stw_link(declarable, search) %>
+    <% else %>
+      To use the new 'Check how to import or export goods' service to find out which licences and certificates you need to import commodity code <%= declarable.code %>, select the country of origin from the dropdown above.
+    <% end %>
+  </p>
+<% end %>
+
+<table class="small-table measures govuk-table"  >
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th class="govuk-table__header">Country</th>
