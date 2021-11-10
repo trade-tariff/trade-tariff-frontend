@@ -32,7 +32,7 @@ RSpec.describe DeclarableHelper, type: :helper do
     context 'when the declarable is a heading' do
       let(:declarable) { build(:heading) }
 
-      it 'returns the correct expected text' do
+      it 'returns the expected text' do
         expected_text = "Check how to import heading #{declarable.code} from France."
 
         expect(declarable_stw_link).to include(expected_text)
@@ -58,7 +58,7 @@ RSpec.describe DeclarableHelper, type: :helper do
     context 'when the declarable is a commodity' do
       let(:declarable) { build(:commodity) }
 
-      it 'returns the correct expected text' do
+      it 'returns the expected text' do
         expected_text = "Check how to import commodity #{declarable.code} from France."
 
         expect(declarable_stw_link).to include(expected_text)
