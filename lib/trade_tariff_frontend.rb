@@ -73,6 +73,13 @@ module TradeTariffFrontend
     ENV.fetch('FRONTEND_HOST', 'http://localhost')
   end
 
+  def single_trade_window_url
+    ENV.fetch(
+      'STW_URI',
+      'https://check-how-to-import-export-goods.service.gov.uk/manage-this-trade/check-licences-certificates-and-other-restrictions',
+    )
+  end
+
   def js_sentry_dsn
     ENV.fetch('JS_SENTRY_DSN', '')
   end
