@@ -144,4 +144,14 @@ module CommoditiesHelper
         tag.p(commodity.to_s.html_safe)
     end
   end
+
+  def segmented_commodity_code(code)
+    return if code.blank?
+
+    parts = code.to_s.gsub(/[^\d]/, '').split('').each_slice(4).map(&:join)
+
+    tag.span class: 'segmented-commodity-code' do
+      safe_join parts.map(&tag.method(:span))
+    end
+  end
 end

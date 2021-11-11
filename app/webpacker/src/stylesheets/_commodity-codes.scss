@@ -68,3 +68,11 @@
     width: 35%;
   }
 }
+
+.segmented-commodity-code {
+  @include govuk-media-query($from: tablet) {
+    span {
+      padding: 0 0.12em;
+    }
+  }
+}
