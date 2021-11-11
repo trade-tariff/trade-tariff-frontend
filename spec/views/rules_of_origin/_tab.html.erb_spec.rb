@@ -117,7 +117,7 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
 
     it 'shows no matched rules message' do
       expect(rendered_page).to \
-        have_css 'p', text: /no product-specific rules/
+        have_css 'p', text: /no product-specific rules for commodity \d{10}/
     end
 
     it 'excludes the introductory_notes section' do
