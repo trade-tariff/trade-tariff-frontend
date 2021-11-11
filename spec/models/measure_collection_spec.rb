@@ -2,147 +2,97 @@ require 'spec_helper'
 
 RSpec.describe MeasureCollection do
   describe '#for_country' do
-    let(:measure1) { Measure.new(attributes_for(:measure, geographical_area: { geographical_area_id: 'IT' }).stringify_keys) }
-    let(:measure2) { Measure.new(attributes_for(:measure, geographical_area: { geographical_area_id: 'RU' }).stringify_keys) }
-    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+    subject(:collection) { described_class.new([italian_measure, russian_measure]) }
 
-    it 'filters measures by country code' do
-      expect(
-        collection.for_country('IT'),
-      ).not_to include measure2
-    end
+    let(:italian_measure) { build(:measure, geographical_area_id: 'IT') }
+    let(:russian_measure) { build(:measure, geographical_area_id: 'RU') }
+
+    it { expect(collection.for_country('IT').measures).to eq([italian_measure]) }
   end
 
   describe '#vat' do
-    let(:measure1) { Measure.new(attributes_for(:measure, :vat).stringify_keys) }
-    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
-    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+    subject(:collection) { described_class.new([vat_measure, measure]) }
 
-    it 'filters VAT measures' do
-      expect(collection.vat).not_to include measure2
-    end
+    let(:vat_measure) { build(:measure, :vat) }
+    let(:measure) { build(:measure) }
+
+    it { expect(collection.vat.measures).to eq([vat_measure]) }
   end
 
   describe '#national' do
-    let(:measure1) { Measure.new(attributes_for(:measure, :national).stringify_keys) }
-    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
-    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+    subject(:collection) { described_class.new([national_measure, eu_measure]) }
 
-    it 'filters national measures' do
-      expect(collection.national).not_to include measure2
-    end
+    let(:national_measure) { build(:measure, :national) }
+    let(:eu_measure) { build(:measure, :eu) }
+
+    it { expect(collection.national.measures).to eq([national_measure]) }
   end
 
   describe '#vat_excise' do
-    let(:measure1) { Measure.new(attributes_for(:measure, :vat_excise).stringify_keys) }
-    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+    subject(:collection) { described_class.new([vat_excise_measure, measure]) }
 
-    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+    let(:vat_excise_measure) { build(:measure, :vat_excise) }
+    let(:measure) { build(:measure) }
 
-    let(:expected_collection) { MeasureCollection.new([measure1]) }
-
-    it 'keeps only vat_excise measures' do
-      expect(collection.vat_excise.measures).to eq(expected_collection.measures)
-    end
+    it { expect(collection.vat_excise.measures).to eq([vat_excise_measure]) }
   end
 
   describe '#import_controls' do
-    let(:measure1) { Measure.new(attributes_for(:measure, :import_controls).stringify_keys) }
-    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+    subject(:collection) { described_class.new([import_control_measure, measure]) }
 
-    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+    let(:import_control_measure) { build(:measure, :import_controls) }
+    let(:measure) { build(:measure) }
 
-    let(:expected_collection) { MeasureCollection.new([measure1]) }
-
-    it 'keeps only import_controls measures' do
-      expect(collection.import_controls.measures).to eq(expected_collection.measures)
-    end
+    it { expect(collection.import_controls.measures).to eq([import_control_measure]) }
   end
 
   describe '#trade_remedies' do
-    let(:measure1) { Measure.new(attributes_for(:measure, :trade_remedies).stringify_keys) }
-    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+    subject(:collection) { described_class.new([trade_remedy_measure, measure]) }
 
-    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+    let(:trade_remedy_measure) { build(:measure, :trade_remedies) }
+    let(:measure) { build(:measure) }
 
-    let(:expected_collection) { MeasureCollection.new([measure1]) }
-
-    it 'keeps only trade_remedies measures' do
-      expect(collection.trade_remedies.measures).to eq(expected_collection.measures)
-    end
+    it { expect(collection.trade_remedies.measures).to eq([trade_remedy_measure]) }
   end
 
   describe '#quotas' do
-    let(:measure1) { Measure.new(attributes_for(:measure, :quotas).stringify_keys) }
-    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+    subject(:collection) { described_class.new([quota_measure, measure]) }
 
-    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+    let(:quota_measure) { build(:measure, :quotas) }
+    let(:measure) { build(:measure) }
 
-    let(:expected_collection) { MeasureCollection.new([measure1]) }
-
-    it 'keeps only trade_remedies measures' do
-      expect(collection.quotas.measures).to eq(expected_collection.measures)
-    end
+    it { expect(collection.quotas.measures).to eq([quota_measure]) }
   end
 
   describe '#customs_duties' do
-    let(:measure1) { Measure.new(attributes_for(:measure, :customs_duties).stringify_keys) }
-    let(:measure2) { Measure.new(attributes_for(:measure).stringify_keys) }
+    subject(:collection) { described_class.new([customs_measure, measure]) }
 
-    let(:collection) { MeasureCollection.new([measure1, measure2]) }
+    let(:customs_measure) { build(:measure, :customs_duties) }
+    let(:measure) { build(:measure) }
 
-    let(:expected_collection) { MeasureCollection.new([measure1]) }
-
-    it 'keeps only customs_duties measures' do
-      expect(collection.customs_duties.measures).to eq(expected_collection.measures)
-    end
+    it { expect(collection.customs_duties.measures).to eq([customs_measure]) }
   end
 
   describe '#to_a' do
-    context 'presenter class given (default)' do
-      let(:measure) { Measure.new(attributes_for(:measure).stringify_keys) }
-      let(:collection) { MeasureCollection.new([measure]) }
+    subject(:collection) { described_class.new([measure]) }
 
-      it 'returns an Array' do
-        expect(collection.to_a).to be_kind_of Array
-      end
+    let(:measure) { build(:measure) }
 
-      it 'returns array of Measures wrapped in Presenter objects' do
-        expect(collection.to_a.first).to be_kind_of collection.presenter_klass
-      end
-    end
-
-    context 'presenter class blank' do
-      let(:measure) { Measure.new(attributes_for(:measure).stringify_keys) }
-      let(:collection) { MeasureCollection.new([measure], nil) }
-
-      it 'returns an Array' do
-        expect(collection.to_a).to be_kind_of Array
-      end
-
-      it 'returns plain Measure object array' do
-        expect(collection.to_a.first).to be_kind_of Measure
-      end
-    end
+    it { expect(collection.to_a).to be_kind_of Array }
+    it { expect(collection.to_a.first).to be_kind_of MeasurePresenter }
   end
 
   describe '#present?' do
-    context 'measures present' do
-      subject { MeasureCollection.new([measure]) }
+    context 'when there are measures' do
+      subject(:collection) { described_class.new([build(:measure)]) }
 
-      let(:measure) { Measure.new(attributes_for(:measure).stringify_keys) }
-
-      it 'returns true' do
-        expect(subject).to be_present
-      end
+      it { is_expected.to be_present }
     end
 
-    context 'measures blank' do
-      subject { MeasureCollection.new([]) }
+    context 'when there are no measures' do
+      subject(:collection) { described_class.new([]) }
 
-      it 'returns false' do
-        expect(subject).not_to be_present
-      end
+      it { is_expected.not_to be_present }
     end
   end
 end

@@ -4,7 +4,7 @@
     <% if TradeTariffFrontend::ServiceChooser.xi? %>
       <%= render partial: 'measures/grouped/xi_navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
     <% else %>
-      <%= render partial: 'measures/grouped/uk_navigation', locals: { declarable: uk_declarable } %>
+      <%= render partial: 'measures/grouped/uk_navigation', locals: { uk_declarable: uk_declarable } %>
     <% end %>
   </ul>
 </nav>
