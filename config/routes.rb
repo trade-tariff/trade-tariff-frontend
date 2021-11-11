@@ -53,12 +53,8 @@ Rails.application.routes.draw do
   get 'healthcheck', to: 'healthcheck#check'
   get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
   get 'terms', to: 'pages#terms'
-  get 'cookies', to: 'pages#tariff_cookies', as: 'cookies'
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'help', to: 'pages#help', as: 'help'
-  post 'cookies', to: 'pages#update_cookies'
-  post 'cookies_consent', to: 'cookies_consent#create'
-  post 'cookies_consent_confirmation_message', to: 'cookies_consent#add_seen_confirmation_message'
   get 'exchange_rates', to: 'exchange_rates#index'
   get 'geographical_areas', to: 'geographical_areas#index', as: :geographical_areas
   get 'geographical_areas/:id', to: 'geographical_areas#show', as: :geographical_area
@@ -72,6 +68,7 @@ Rails.application.routes.draw do
     resource :hide_confirmation, only: %i[create]
   end
   resolve('Cookies::Policy') { %i[cookies policy] }
+  get 'cookies', to: redirect(path: '/cookies/policy')
 
   match '/search', to: 'search#search', as: :perform_search, via: %i[get post]
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
