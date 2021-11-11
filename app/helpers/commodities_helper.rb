@@ -145,12 +145,12 @@ module CommoditiesHelper
     end
   end
 
-  def four_four_two_commodity_code(code)
+  def segmented_commodity_code(code)
     return if code.blank?
 
     parts = code.to_s.gsub(/[^\d]/, '').split('').each_slice(4).map(&:join)
 
-    tag.span class: 'commodity-code-4-4-2' do
+    tag.span class: 'segmented-commodity-code' do
       safe_join parts.map(&tag.method(:span)), "\n"
     end
   end
