@@ -1,10 +1,10 @@
 <%- uk_import_measures = uk_declarable.import_measures.for_country(@search.country) %>
 
 <!-- UK IMPORT CONTROLS -->
-<% if (collection = uk_import_measures.import_controls).present? %>
+<% if uk_import_measures.import_controls.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls' : 'UK import controls',
-    collection: collection.sort_by(&:key),
+    collection: uk_import_measures.import_controls.sort_by(&:key),
     css_id: 'uk_import_controls',
     declarable: uk_declarable,
     hide_duty_rate: true,
@@ -15,38 +15,38 @@
 <% end %>
 
 <!-- CUSTOMS DUTIES -->
-<% if (collection = uk_import_measures.customs_duties).present? %>
+<% if uk_import_measures.customs_duties.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Customs duties',
-    collection: collection.sort_by(&:key),
+    collection: uk_import_measures.customs_duties.sort_by(&:key),
     css_id: 'customs_duties'
   } %>
 <% end %>
 
 <!-- QUOTAS -->
-<% if (collection = uk_import_measures.quotas).present? %>
+<% if uk_import_measures.quotas.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Quotas',
-    collection: collection.sort_by(&:key),
+    collection: uk_import_measures.quotas.sort_by(&:key),
     css_id: 'quotas'
   }
   %>
 <% end %>
 
 <!-- TRADE REMEDIES -->
-<% if (collection = uk_import_measures.trade_remedies).present? %>
+<% if uk_import_measures.trade_remedies.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Trade Remedies, safeguards and retaliatory duties',
-    collection: collection.sort_by(&:key),
+    collection: uk_import_measures.trade_remedies.sort_by(&:key),
     css_id: 'trade_remedies' }
   %>
 <% end %>
 
 <!-- VAT & EXCISE -->
-<% if (collection = uk_import_measures.vat_excise).present? %>
+<% if uk_import_measures.vat_excise.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'VAT and excise',
-    collection: collection.sort_by(&:key),
+    collection: uk_import_measures.vat_excise.sort_by(&:key),
     css_id: 'vat_excise' }
   %>
 <% end %>
