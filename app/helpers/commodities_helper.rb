@@ -151,7 +151,7 @@ module CommoditiesHelper
     parts = code.to_s.gsub(/[^\d]/, '').split('').each_slice(4).map(&:join)
 
     tag.span class: 'segmented-commodity-code' do
-      safe_join parts.map(&tag.method(:span)), "\n"
+      safe_join parts.map(&tag.method(:span))
     end
   end
 end
