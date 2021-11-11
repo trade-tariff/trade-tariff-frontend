@@ -1,4 +1,4 @@
-<tr id="measure-<%= measure.id %>" class=" govuk-table__row <%= measure.geo_class %>" tabIndex="-1">
+<tr id="measure-<%= measure.id %>" class=" govuk-table__row <%= measure.geographical_area.id %>" tabIndex="-1">
   <td class="country-col govuk-table__cell">
     <% if measure.has_children_geographical_areas? %>
       <%= link_to measure.geographical_area.long_description, geographical_area_path(id: measure.geographical_area.id), class: 'govuk-link' %>

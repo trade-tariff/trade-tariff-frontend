@@ -1,100 +1,80 @@
-require 'spec_helper'
-
 RSpec.describe MeasurePresenter do
-  describe '#geo_class' do
-    context 'when geographical area is a country group' do
-      subject { MeasurePresenter.new(measure) }
-
-      let(:children_ga)       { [attributes_for(:geographical_area).stringify_keys, attributes_for(:geographical_area).stringify_keys] }
-      let(:geographical_area) { attributes_for(:geographical_area, geographical_area_id: nil, children_geographical_areas: children_ga).stringify_keys }
-      let(:measure)           { Measure.new(attributes_for(:measure, geographical_area: geographical_area).stringify_keys) }
-
-      it 'returns list of contained children geographical area ids' do
-        expect(subject.geo_class).to match(/#{children_ga.first[:geographical_area_id]}/)
-        expect(subject.geo_class).to match(/#{children_ga.last[:geographical_area_id]}/)
-      end
-    end
-
-    context 'when geographical area is a country' do
-      subject { MeasurePresenter.new(measure) }
-
-      let(:geographical_area) { attributes_for(:geographical_area).stringify_keys }
-      let(:measure)           { Measure.new(attributes_for(:measure, geographical_area: geographical_area).stringify_keys) }
-
-      it 'returns geographical area id of geographical area' do
-        expect(subject.geo_class).to match(/#{geographical_area[:geographical_area_id]}/)
-      end
-    end
-  end
+  subject(:presented_measure) { described_class.new(measure) }
 
   describe '#has_children_geographical_areas?' do
-    let(:children_ga)       { [attributes_for(:geographical_area).stringify_keys, attributes_for(:geographical_area).stringify_keys] }
-    let(:geographical_area) { attributes_for(:geographical_area, geographical_area_id: nil, children_geographical_areas: children_ga).stringify_keys }
-    let(:measure1)          { MeasurePresenter.new(Measure.new(attributes_for(:measure, geographical_area: geographical_area).stringify_keys)) }
+    let(:measure) { build(:measure, geographical_area: geographical_area) }
 
-    let(:measure2)          { MeasurePresenter.new(Measure.new(attributes_for(:measure, geographical_area: attributes_for(:geographical_area).stringify_keys).stringify_keys)) }
+    context 'when the measure has a GeographicalArea with children' do
+      let(:geographical_area) do
+        attributes_for(
+          :geographical_area,
+          children_geographical_areas: [attributes_for(:geographical_area).stringify_keys],
+        ).stringify_keys
+      end
 
-    it 'returns true if measures geographical area contains any children geographical area' do
-      expect(measure1.has_children_geographical_areas?).to be true
+      it { is_expected.to be_has_children_geographical_areas }
     end
 
-    it 'returns false if measures geographical area has no children geographical area' do
-      expect(measure2.has_children_geographical_areas?).to be false
+    context 'when the measure has a GeographicalArea with no children' do
+      let(:geographical_area) { attributes_for(:geographical_area).stringify_keys }
+
+      it { is_expected.not_to be_has_children_geographical_areas }
     end
   end
 
   describe '#children_geographical_areas' do
-    let(:children_ga)       { [attributes_for(:geographical_area).stringify_keys, attributes_for(:geographical_area).stringify_keys] }
-    let(:geographical_area) { attributes_for(:geographical_area, geographical_area_id: nil, children_geographical_areas: children_ga).stringify_keys }
-    let(:measure1)          { MeasurePresenter.new(Measure.new(attributes_for(:measure, geographical_area: geographical_area))) }
+    let(:measure) { build(:measure, geographical_area: geographical_area) }
+    let(:geographical_area) { attributes_for(:geographical_area, geographical_area_id: nil, children_geographical_areas: children_geographical_areas).stringify_keys }
 
-    it 'returns measure geographical area children geographical areas' do
-      expect(measure1.children_geographical_areas).to have_attribute_superset_of children_ga.first
-      expect(measure1.children_geographical_areas).to have_attribute_superset_of children_ga.last
+    let(:children_geographical_areas) do
+      [
+        attributes_for(:geographical_area, id: 'CD').stringify_keys,
+        attributes_for(:geographical_area, id: 'AB').stringify_keys,
+      ]
     end
+
+    it { expect(presented_measure.children_geographical_areas.map(&:id)).to eq(%w[AB CD]) }
   end
 
   describe '#has_measure_conditions?' do
-    let(:measure1)          { MeasurePresenter.new(Measure.new(attributes_for(:measure, :with_conditions).stringify_keys)) }
-    let(:measure2)          { MeasurePresenter.new(Measure.new(attributes_for(:measure).stringify_keys)) }
+    context 'when the measure has measure conditions' do
+      let(:measure) { build(:measure, :with_conditions) }
 
-    it 'returns true if measure has measure conditions' do
-      expect(measure1.has_measure_conditions?).to be true
+      it { is_expected.to be_has_measure_conditions }
     end
 
-    it 'returns false if measure has no measure conditions' do
-      expect(measure2.has_measure_conditions?).to be false
+    context 'when the measure has no measure conditions' do
+      let(:measure) { build(:measure) }
+
+      it { is_expected.not_to be_has_measure_conditions }
     end
   end
 
   describe '#has_additional_code?' do
-    let(:measure1)          { MeasurePresenter.new(Measure.new(attributes_for(:measure, :with_additional_code).stringify_keys)) }
-    let(:measure2)          { MeasurePresenter.new(Measure.new(attributes_for(:measure).stringify_keys)) }
+    context 'when the measure has an additional code' do
+      let(:measure) { build(:measure, :with_additional_code) }
 
-    it 'returns true if measure has additional code' do
-      expect(measure1.has_additional_code?).to be true
+      it { is_expected.to be_has_additional_code }
     end
 
-    it 'returns false if measure has no additional code' do
-      expect(measure2.has_additional_code?).to be false
+    context 'when the measure has no additional code' do
+      let(:measure) { build(:measure) }
+
+      it { is_expected.not_to be_has_additional_code }
     end
   end
 
-  describe '#has_references?' do
-    let(:measure1)          { MeasurePresenter.new(Measure.new(attributes_for(:measure, :with_conditions).stringify_keys)) }
-    let(:measure2)          { MeasurePresenter.new(Measure.new(attributes_for(:measure, :with_footnotes).stringify_keys)) }
-    let(:measure3)          { MeasurePresenter.new(Measure.new(attributes_for(:measure).stringify_keys)) }
+  describe '#has_measure_footnotes?' do
+    context 'when the measure has footnotes' do
+      let(:measure) { build(:measure, :with_footnotes) }
 
-    it 'returns true if measure has conditions' do
-      expect(measure1.has_references?).to be true
+      it { is_expected.to be_has_measure_footnotes }
     end
 
-    it 'returns true if measure has footnotes' do
-      expect(measure2.has_references?).to be true
-    end
+    context 'when the measure has neither footnotes or conditions' do
+      let(:measure) { build(:measure) }
 
-    it 'returns false if measure has no footnotes or conditions' do
-      expect(measure3.has_references?).to be false
+      it { is_expected.not_to be_has_measure_footnotes }
     end
   end
 end
