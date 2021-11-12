@@ -16,12 +16,13 @@ class ApplicationController < ActionController::Base
 
   layout :set_layout
 
-  rescue_from ApiEntity::Error, Errno::ECONNREFUSED do
+  rescue_from ApiEntity::Error, Faraday::ServerError, Errno::ECONNREFUSED do
     request.format = :html
     render_500
   end
 
-  rescue_from(ApiEntity::NotFound, ActionView::MissingTemplate, ActionController::UnknownFormat,
+  rescue_from(Faraday::ResourceNotFound,
+              ActionView::MissingTemplate, ActionController::UnknownFormat,
               AbstractController::ActionNotFound, URI::InvalidURIError) do |_e|
     request.format = :html
     render_404

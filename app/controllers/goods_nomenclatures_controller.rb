@@ -1,5 +1,5 @@
 class GoodsNomenclaturesController < ApplicationController
-  rescue_from ApiEntity::NotFound, with: :find_relevant_goods_code_or_fallback
+  rescue_from Faraday::ResourceNotFound, with: :find_relevant_goods_code_or_fallback
 
   private
 

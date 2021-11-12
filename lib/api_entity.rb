@@ -4,8 +4,6 @@ require 'active_model'
 require 'tariff_jsonapi_parser'
 
 module ApiEntity
-  class NotFound < StandardError; end
-
   class Error < StandardError; end
 
   class UnparseableResponseError < StandardError
@@ -98,19 +96,11 @@ module ApiEntity
       retries = 0
       begin
         resp = api.get(collection_path, opts)
-        case resp.status
-        when 404
-          raise ApiEntity::NotFound, TariffJsonapiParser.new(resp.body).errors
-        when 500
-          raise ApiEntity::Error, TariffJsonapiParser.new(resp.body).errors
-        when 502
-          raise ApiEntity::Error, '502 Bad Gateway'
-        end
         collection = parse_jsonapi(resp)
         collection = collection.map { |entry_data| new(entry_data) }
         collection = paginate_collection(collection, resp.body.dig('meta', 'pagination')) if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
         collection
-      rescue StandardError
+      rescue Faraday::Error, ApiEntity::UnparseableResponseError
         if retries < Rails.configuration.x.http.max_retry
           retries += 1
           retry
@@ -124,17 +114,8 @@ module ApiEntity
       retries = 0
       begin
         resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
-        case resp.status
-        when 404
-          raise ApiEntity::NotFound
-        when 500
-          raise ApiEntity::Error, TariffJsonapiParser.new(resp.body).errors
-        when 502
-          raise ApiEntity::Error, TariffJsonapiParser.new(resp.body).errors
-        end
-        resp = parse_jsonapi(resp)
-        new(resp)
-      rescue StandardError
+        new parse_jsonapi(resp)
+      rescue Faraday::Error, ApiEntity::UnparseableResponseError
         if retries < Rails.configuration.x.http.max_retry
           retries += 1
           retry
