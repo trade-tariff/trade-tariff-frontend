@@ -5,14 +5,15 @@ class Measure
 
   attr_accessor :id,
                 :origin,
-                :effective_start_date,
-                :effective_end_date,
                 :import,
                 :vat,
                 :excise,
                 :goods_nomenclature_item_id,
                 :meursing,
                 :resolved_duty_expression
+
+  attr_reader :effective_start_date,
+              :effective_end_date
 
   DEFAULT_GEOGRAPHICAL_AREA_ID = '1011'.freeze # ERGA OMNES
 
@@ -24,6 +25,7 @@ class Measure
   has_one :order_number
   has_one :duty_expression
   has_many :excluded_countries, class_name: 'GeographicalArea'
+  has_many :measure_components
   has_many :measure_conditions
   has_many :footnotes
   has_one :goods_nomenclature
@@ -77,8 +79,8 @@ class Measure
   end
 
   def supplementary?
-    options = %w[109 110 111]
-    options.include?(measure_type.id)
+    supplementary_unit_measure_type_ids = %w[109 110 111]
+    supplementary_unit_measure_type_ids.include?(measure_type.id)
   end
 
   def import?

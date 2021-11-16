@@ -3,7 +3,9 @@ require 'spec_helper'
 RSpec.describe Commodity do
   subject(:commodity) { build(:commodity) }
 
-  it_behaves_like 'a declarable'
+  it_behaves_like 'a declarable' do
+    subject(:declarable) { build(:commodity, import_measures: measures) }
+  end
 
   describe 'parent/children relationships' do
     let(:associated_commodities) do

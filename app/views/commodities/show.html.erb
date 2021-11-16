@@ -5,6 +5,10 @@
 
 <% content_for :bodyClasses, "page--wide" %>
 
+<%= render 'shared/search/commodities', commodity_code: @commodity.short_code %>
+
+<%= render 'shared/context_tables/commodity' %>
+
 <%= render 'declarables/declarable',
            declarable: @commodity,
            xi_declarable: xi_commodity,

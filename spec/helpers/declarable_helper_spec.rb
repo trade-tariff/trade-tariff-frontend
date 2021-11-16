@@ -155,4 +155,20 @@ RSpec.describe DeclarableHelper, type: :helper do
 
     it { expect(helper.current_declarable_code).to eq('1901200000') }
   end
+
+  describe '#classification_description' do
+    let(:declarable) do
+      build(:commodity, description: 'Cherry tomatos',
+                        ancestors: [
+                          attributes_for(:commodity, description: 'Foo1'),
+                          attributes_for(:commodity, description: 'Foo2'),
+                        ],
+                        heading: attributes_for(:heading, description: 'Fruits'))
+    end
+
+    it 'returns the correct description' do
+      expect(helper.classification_description(declarable))
+        .to eq('Fruits &mdash; Foo1 &mdash; Foo2 &mdash; <strong>Cherry tomatos</strong>')
+    end
+  end
 end

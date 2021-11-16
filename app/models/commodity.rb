@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class Commodity < GoodsNomenclature
   include Changeable
   include Declarable

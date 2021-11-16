@@ -10,29 +10,35 @@ RSpec.describe CommoditiesController, type: :controller do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
       end
 
-      it 'doesn\'t uses with_source to fetch the commodity from the XI service', vcr: { cassette_name: 'commodities#show_0101210000_2000-01-01' } do
+      it 'doesn not use with_source to fetch the commodity from the XI service', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
         get :show, params: { id: '0101210000' }
 
         expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:xi)
       end
 
-      it 'fetches the commodity from the UK service', vcr: { cassette_name: 'commodities#show_0101210000_2000-01-01' } do
+      it 'fetches the commodity from the UK service', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
         get :show, params: { id: '0101210000' }
 
         expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
       end
 
-      it 'sets the declarable_code in the session', vcr: { cassette_name: 'commodities#show_0101210000_2000-01-01' } do
+      it 'sets the declarable_code in the session', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
         get :show, params: { id: '0101210000' }
 
         expect(session[:declarable_code]).to eq('0101210000')
       end
 
-      context 'with existing commodity id provided', vcr: { cassette_name: 'commodities#show' } do
+      it 'assigns a supplementary unit', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
+        get :show, params: { id: '0101210000' }
+
+        expect(assigns[:supplementary_unit]).to eq('Number of items (p/st)')
+      end
+
+      context 'with existing commodity id provided' do
         subject { controller }
 
         before do
-          VCR.use_cassette('headings_show_0101_api_json_content_type') do
+          VCR.use_cassette('commodities#0101300000_xi') do
             get :show, params: { id: '0101300000' }
           end
         end
@@ -54,24 +60,6 @@ RSpec.describe CommoditiesController, type: :controller do
 
         it 'redirects to heading page (strips exceeding commodity id characters)' do
           expect(response.status).to redirect_to heading_url(id: commodity_id.first(4))
-        end
-      end
-
-      context 'with commodity id that does not exist in provided date', vcr: { cassette_name: 'commodities#show_010121000_2000-01-01' } do
-        let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
-
-        around do |example|
-          Timecop.freeze(Time.zone.parse('2013-11-11 12:0:0')) do
-            example.run
-          end
-        end
-
-        before do
-          get :show, params: { id: commodity_id, year: 2000, month: 1, day: 1, country: nil }
-        end
-
-        it 'redirects to actual version of the commodity page' do
-          expect(response).to redirect_to commodity_url(id: commodity_id.first(10))
         end
       end
     end
@@ -98,7 +86,7 @@ RSpec.describe CommoditiesController, type: :controller do
         end
       end
 
-      context 'with commodity id that does not exist in provided date', vcr: { cassette_name: 'commodities#show_010121000_2000-01-01' } do
+      context 'with commodity id that does not exist in provided date', vcr: { cassette_name: 'commodities#show_010121000' } do
         let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
 
         around do |example|

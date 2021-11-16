@@ -5,6 +5,8 @@
   <link rel='alternate' type='application/json' href='<%= section_url(@section, format: :json) %>' title='Section information page in JSON format' />
 <% end %>
 
+<%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
+
 <% content_for :bodyClasses, "page--wide" %>
 
 <p>Section <strong><%= @section.numeral %></strong> contains <strong><%= @section.chapters_count %></strong> chapters. Choose the chapter that best matches your goods.</p>

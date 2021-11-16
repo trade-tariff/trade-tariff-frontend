@@ -1,0 +1,10 @@
+<div class="panel panel-border-wide govuk-panel">
+  <p>
+    Chapter <%= @chapter.short_code %> contains <%= pluralize @headings.count, 'heading' %>. Choose the heading that best matches your goods.
+  </p>
+  <p>
+    There are <%= link_to 'important notes for classifying your goods', "#notes" %> shown further down this page
+  </p>
+
+  <%= render partial: 'chapters/chapter_guides', locals: {chapter: chapter} %>
+</div>
