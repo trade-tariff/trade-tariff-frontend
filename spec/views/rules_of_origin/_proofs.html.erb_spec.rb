@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'rules_of_origin/_proofs.html.erb', type: :view do
+RSpec.describe 'rules_of_origin/_proofs.html.erb', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   let(:render_page) { render 'rules_of_origin/proofs', proofs: proofs }
