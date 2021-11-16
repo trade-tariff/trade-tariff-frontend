@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe NewsItem do
+  # This is stubbed for _every_ spec because its in the header menu
+  # Reverting it to real implementation for this spec
+  before { allow(described_class).to receive(:any_updates?).and_call_original }
+
   it { is_expected.to respond_to :id }
   it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :content }
@@ -61,6 +65,66 @@ RSpec.describe NewsItem do
       end
 
       it { is_expected.to have_attributes length: 2 }
+    end
+  end
+
+  describe '.any_updates?' do
+    subject(:any_updates) { described_class.any_updates? }
+
+    before { allow(Rails.cache).to receive(:fetch).and_call_original }
+
+    context 'with UK service' do
+      include_context 'with UK service'
+
+      before do
+        stub_api_request('/news_items/uk/updates', backend: 'uk')
+          .to_return jsonapi_response :news_item, updates
+      end
+
+      let(:updates) { attributes_for_list(:news_item, 2) }
+
+      it { is_expected.to be true }
+
+      it 'is caches the answer' do
+        any_updates
+
+        expect(Rails.cache).to \
+          have_received(:fetch)
+          .with('news-item-any-updates-uk-v1', expires_in: 15.minutes)
+      end
+
+      context 'with no news items' do
+        let(:updates) { [] }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'with XI service' do
+      include_context 'with XI service'
+
+      before do
+        stub_api_request('/news_items/xi/updates', backend: 'uk')
+          .to_return jsonapi_response :news_item, updates
+      end
+
+      let(:updates) { attributes_for_list(:news_item, 2) }
+
+      it { is_expected.to be true }
+
+      it 'is caches the answer' do
+        any_updates
+
+        expect(Rails.cache).to \
+          have_received(:fetch)
+          .with('news-item-any-updates-xi-v1', expires_in: 15.minutes)
+      end
+
+      context 'with no news items' do
+        let(:updates) { [] }
+
+        it { is_expected.to be false }
+      end
     end
   end
 

@@ -1,7 +1,13 @@
+# frozen_string_literal: true
+
 require 'api_entity'
 
 class NewsItem
   include ApiEntity
+
+  CACHE_KEY = 'news-item-any-updates'
+  CACHE_VERSION = 1
+  CACHE_LIFETIME = 15.minutes
 
   DISPLAY_STYLE_REGULAR = 0
 
@@ -23,11 +29,21 @@ class NewsItem
       collection "#{collection_path}/#{service_name}/updates", params
     end
 
+    def any_updates?
+      Rails.cache.fetch(updates_cache_key, expires_in: CACHE_LIFETIME) do
+        updates_page.any?
+      end
+    end
+
   private
 
     def api
       # Always use the UK backend because all News Items are stored there
       Rails.application.config.http_client_uk
+    end
+
+    def updates_cache_key
+      "#{CACHE_KEY}-#{service_name}-v#{CACHE_VERSION}"
     end
   end
 
