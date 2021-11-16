@@ -2,8 +2,6 @@
   <link rel='alternate' type='application/json' href='<%= sections_url(format: :json) %>' title='Section list in JSON format' />
 <% end %>
 
-<%= render 'news_items/latest_news', news_item: @latest_news if @latest_news %>
-
 <section class="sections">
   <table class="govuk-table">
     <caption class="govuk-table__caption govuk-table__caption--m">All sections</caption>

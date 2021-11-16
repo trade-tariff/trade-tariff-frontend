@@ -69,6 +69,7 @@
       <%= yield :before_main_content %>
 
       <%= render 'shared/switch_banner' %>
+      <%= render 'news_items/latest_news', news_item: @latest_news if @latest_news %>
 
       <% # This is a patch to show the header and search in section until the updated_navigation feature flag is removed
          # TODO: remove this after updated_navigation is removed
