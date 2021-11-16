@@ -24,4 +24,12 @@
       </div>
     </article>
   <% end %>
+
+  <% if @news_items.empty? %>
+    <div class="govuk-inset-text">
+      <p>
+        <em>There are no updates at present</em>
+      </p>
+    </div>
+  <% end %>
 </section>

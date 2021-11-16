@@ -21,4 +21,11 @@ RSpec.describe 'news_items/index.html.erb', type: :view do
     it { is_expected.to have_css 'article .tariff-markdown p', count: 2 }
     it { is_expected.not_to have_link 'Show more ...' }
   end
+
+  context 'with no news items' do
+    let(:news_items) { [] }
+
+    it { is_expected.not_to have_css 'article .tariff-markdown p' }
+    it { is_expected.to have_css 'section p', text: /no updates/ }
+  end
 end
