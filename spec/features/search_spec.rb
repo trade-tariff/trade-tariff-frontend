@@ -230,19 +230,21 @@ RSpec.describe 'Search', js: true, slow: true do
 
     context 'when getting back some additional code search results' do
       it 'performs search and render results' do
-        VCR.use_cassette('search#additional_code_search_results') do
-          visit additional_code_search_path
+        VCR.use_cassette('search#additional_code_search_form') do
+          VCR.use_cassette('search#additional_code_search_results') do
+            visit additional_code_search_path
 
-          expect(page).to have_content('Additional code')
+            expect(page).to have_content('Additional code')
 
-          page.find('#code').set('119')
-          page.find('input[name="new_search"]').click
+            page.find('#code').set('119')
+            page.find('input[name="new_search"]').click
 
-          using_wait_time 1 do
-            expect(page).to have_content('Additional code search results')
-            expect(page).to have_content('B119')
-            expect(page).to have_content('Wenzhou Jiangnan Steel Pipe Manufacturing, Co. Ltd., Yongzhong')
-            expect(page).to have_content('Of stainless steel')
+            using_wait_time 1 do
+              expect(page).to have_content('Additional code search results')
+              expect(page).to have_content('B119')
+              expect(page).to have_content('Wenzhou Jiangnan Steel Pipe Manufacturing, Co. Ltd., Yongzhong')
+              expect(page).to have_content('Of stainless steel')
+            end
           end
         end
       end
@@ -273,19 +275,21 @@ RSpec.describe 'Search', js: true, slow: true do
 
     context 'when getting back some certificate search results' do
       it 'performs search and render results' do
-        VCR.use_cassette('search#certificate_search_results') do
-          visit certificate_search_path
+        VCR.use_cassette('search#certificate_search_form') do
+          VCR.use_cassette('search#certificate_search_results') do
+            visit certificate_search_path
 
-          expect(page).to have_content('Certificate')
+            expect(page).to have_content('Certificate')
 
-          page.find('#code').set('119')
-          page.find('input[name="new_search"]').click
+            page.find('#code').set('119')
+            page.find('input[name="new_search"]').click
 
-          using_wait_time 1 do
-            expect(page).to have_content('Certificate search results')
-            expect(page).to have_content('C119')
-            expect(page).to have_content('Authorised Release Certificate — EASA Form 1 (Appendix I to Annex I to Regulation (EU) No 748/2012), or equivalent certificate')
-            expect(page).to have_content('Carbon dioxide')
+            using_wait_time 1 do
+              expect(page).to have_content('Certificate search results')
+              expect(page).to have_content('C119')
+              expect(page).to have_content('Authorised Release Certificate — EASA Form 1 (Appendix I to Annex I to Regulation (EU) No 748/2012), or equivalent certificate')
+              expect(page).to have_content('Carbon dioxide')
+            end
           end
         end
       end
