@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe SearchController, 'GET to #footnote_search', type: :controller, slow: true do
-  before do
-    Rails.cache.clear
-  end
-
   context 'without search params', vcr: { cassette_name: 'search#footnote_search_without_params' } do
     render_views
 

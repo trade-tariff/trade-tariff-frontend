@@ -3,10 +3,6 @@ require 'spec_helper'
 RSpec.describe SearchController, 'GET to #certificate_search', type: :controller,
   slow: true, vcr: { cassette_name: 'search#certificate_search' } do
 
-  before do
-    Rails.cache.clear
-  end
-
   context 'without search params' do
     render_views
 
