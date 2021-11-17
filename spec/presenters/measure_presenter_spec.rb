@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 RSpec.describe MeasurePresenter do
   subject(:presented_measure) { described_class.new(measure) }
 

@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 RSpec.describe ClientBuilder do
   subject(:builder) { described_class.new(service) }
 
