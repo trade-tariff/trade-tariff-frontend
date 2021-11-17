@@ -1,5 +1,5 @@
 class ExchangeRatesController < ApplicationController
-  before_action { @no_shared_search = true }
+  before_action { disable_search_form }
 
   def index
     all_rates = MonetaryExchangeRate.all

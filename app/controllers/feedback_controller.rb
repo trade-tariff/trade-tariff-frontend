@@ -1,6 +1,6 @@
 class FeedbackController < ApplicationController
   before_action do
-    @no_shared_search = true
+    disable_search_form
     @tariff_last_updated = nil
   end
 

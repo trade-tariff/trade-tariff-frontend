@@ -3,7 +3,7 @@ module ServiceHelper
     t('title.default', service_name: service_name, service_description: service_description)
   end
 
-  def heading_for(section:, chapter:, heading:, commodity:)
+  def heading_for(section:, chapter: nil, heading: nil, commodity: nil)
     item = commodity || heading || chapter || section
 
     item ? item.page_heading : t('h1.service_description')

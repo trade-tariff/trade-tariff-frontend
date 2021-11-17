@@ -1,5 +1,5 @@
 class SearchReferencesController < ApplicationController
-  before_action { @no_shared_search = true }
+  before_action { disable_search_form }
 
   def show
     @search_references = SearchReferencesPresenter.new(
