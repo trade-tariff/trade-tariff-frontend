@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
                 :is_switch_service_banner_enabled?
 
   def render_500
-    @no_shared_search = true
+    disable_search_form
     render template: 'errors/internal_server_error',
            status: :internal_server_error,
            formats: :html
@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
-    @no_shared_search = true
+    disable_search_form
     render template: 'errors/not_found',
            status: :not_found,
            formats: :html
@@ -83,6 +83,10 @@ class ApplicationController < ActionController::Base
 
   def is_switch_service_banner_enabled?
     @switch_service_banner == true
+  end
+
+  def disable_search_form
+    @no_shared_search = true
   end
 
   def search_invoked?

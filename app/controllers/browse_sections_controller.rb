@@ -1,5 +1,5 @@
 class BrowseSectionsController < ApplicationController
-  before_action { @no_shared_search = true }
+  before_action { disable_search_form }
 
   def index
     @sections = Section.all

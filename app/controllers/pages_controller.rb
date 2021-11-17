@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   before_action do
-    @no_shared_search = true
+    disable_search_form
     @tariff_last_updated = nil
   end
 
@@ -16,6 +16,6 @@ class PagesController < ApplicationController
   end
 
   def tools
-    @no_shared_search = true
+    disable_search_form
   end
 end

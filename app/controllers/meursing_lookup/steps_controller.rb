@@ -1,7 +1,7 @@
 module MeursingLookup
   class StepsController < ApplicationController
     before_action do
-      @no_shared_search = true
+      disable_search_form
       @tariff_last_updated = nil
 
       disable_switch_service_banner
