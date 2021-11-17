@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe SearchController, 'GET to #additional_code_search', type: :controller,
-  slow: true, vcr: { cassette_name: 'search#additional_code_search' } do
+  vcr: { cassette_name: 'search#additional_code_search' } do
 
   context 'without search params' do
     render_views
