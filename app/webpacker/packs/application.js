@@ -13,6 +13,7 @@
 // or the `imagePath` JavaScript helper below.
 //
 require.context('images/flags');
+require.context('images/');
 
 import './application.scss';
 import "core-js/stable";
