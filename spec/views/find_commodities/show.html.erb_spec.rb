@@ -38,4 +38,16 @@ RSpec.describe 'find_commodities/show.html.erb', type: :view do
     it { is_expected.to have_css 'h2', text: 'Advance tariff rulings' }
     it { is_expected.to have_css 'h2', text: 'Check how to import or export goods' }
   end
+
+  describe 'latest news' do
+    context 'when published for home page' do
+      before { assign :latest_news, build(:news_item) }
+
+      it { is_expected.to have_css '.latest-news-banner', count: 1 }
+    end
+
+    context 'when not published for home page' do
+      it { is_expected.not_to have_css '.latest-news-banner' }
+    end
+  end
 end

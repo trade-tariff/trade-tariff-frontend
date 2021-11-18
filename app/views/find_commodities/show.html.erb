@@ -1,5 +1,7 @@
 <%= page_header 'Look up commodity codes, import duties, taxes and controls' %>
 
+<%= render 'news_items/latest_news', news_item: @latest_news if @latest_news %>
+
 <%= form_tag perform_search_path, method: :get, class: "tariff-search feature-panel last-feature-panel feature-panel--shaded", id: "new_search" do |f| %>
   <div class="js-search-header">
     <h2 class="govuk-heading-m">

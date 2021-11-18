@@ -1,14 +1,10 @@
 <div class="govuk-notification-banner latest-news-banner" role="region" aria-labelledby="hott-latest-news-title" data-module="govuk-notification-banner">
   <div class="govuk-notification-banner__header">
     <h2 class="govuk-notification-banner__title" id="hott-latest-news-title">
-      Latest news
+      <%= news_item.title %>
     </h2>
   </div>
   <div class="govuk-notification-banner__content">
-    <h3 class="govuk-notification-banner__heading">
-      <%= news_item.title %>
-    </h3>
-
     <div class="tariff-markdown">
       <%= govspeak news_item.paragraphs.first %>
 
