@@ -101,11 +101,6 @@ RSpec.describe 'SectionsController', type: :request do
         end
       end
 
-      it 'displays the link to all sections' do
-        expect(page).to have_link 'All sections',
-                                  href: '/sections'
-      end
-
       it 'displays section name' do
         expect(page).to have_content 'Live animals; animal products'
       end
