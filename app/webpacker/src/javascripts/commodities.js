@@ -757,9 +757,9 @@
                 },
               });
 
-              $('#' + element[0].id.replace('-select', '')).on('focus', function(event) {
-                $(event.currentTarget).val('')
-              });
+              // $('#' + element[0].id.replace('-select', '')).on('focus', function(event) {
+              //   $(event.currentTarget).val('')
+              // });
 
             })($(this));
           });
