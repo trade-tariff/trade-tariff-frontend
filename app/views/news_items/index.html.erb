@@ -1,0 +1,35 @@
+<%= page_header 'Latest news' %>
+
+<% content_for :before_main_content do %>
+  <%= generate_breadcrumbs t('breadcrumb.news'), [[t('breadcrumb.home'), sections_path]] %>
+<% end %>
+
+<section class="news-items">
+  <% @news_items.each do |news_item| %>
+    <article class="news-item" data-news-item-id="<%= news_item.id %>">
+      <div class="news-item__date govuk-body-m">
+        <%= news_item.start_date.to_formatted_s :short %>
+      </div>
+
+      <div class="news-item__content">
+        <h2 class="govuk-heading-s">
+          <%= news_item.title %>
+        </h2>
+
+        <div class="tariff-markdown">
+          <%= govspeak news_item.paragraphs.first %>
+        </div>
+
+        <%= link_to 'Show more ...', news_item if news_item.paragraphs.many? %>
+      </div>
+    </article>
+  <% end %>
+
+  <% if @news_items.empty? %>
+    <div class="govuk-inset-text">
+      <p>
+        <em>There are no updates at present</em>
+      </p>
+    </div>
+  <% end %>
+</section>

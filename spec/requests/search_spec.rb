@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Search page', type: :request do
+  include_context 'with latest news stubbed'
+
   shared_examples 'search results' do
     before do
       stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))

@@ -2,6 +2,8 @@ require 'spec_helper'
 
 RSpec.describe 'SectionsController', type: :request do
   describe 'GET #index' do
+    include_context 'with latest news stubbed'
+
     context 'when requesting as HTML' do
       before do
         allow(TradeTariffFrontend).to receive(:updated_navigation?).and_return false

@@ -5,6 +5,8 @@ RSpec.describe 'Date & Currency change', js: true, vcr: {
   record: :once,
   match_requests_on: %i[path query],
 } do
+  include_context 'with latest news stubbed'
+
   before do
     allow(TradeTariffFrontend).to receive(:updated_navigation?).and_return false
   end

@@ -1,0 +1,17 @@
+<div class="govuk-notification-banner latest-news-banner" role="region" aria-labelledby="hott-latest-news-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner__header">
+    <h2 class="govuk-notification-banner__title" id="hott-latest-news-title">
+      <%= news_item.title %>
+    </h2>
+  </div>
+  <div class="govuk-notification-banner__content">
+    <div class="tariff-markdown">
+      <%= govspeak news_item.paragraphs.first %>
+
+      <%- if news_item.paragraphs.many? -%>
+        <%= link_to 'Show more ...', news_item,
+                    class: 'govuk-notification-banner__link' %>
+      <%- end -%>
+    </div>
+  </div>
+</div>

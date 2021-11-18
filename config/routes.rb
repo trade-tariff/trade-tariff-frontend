@@ -70,6 +70,8 @@ Rails.application.routes.draw do
   resolve('Cookies::Policy') { %i[cookies policy] }
   get 'cookies', to: redirect(path: '/cookies/policy')
 
+  resources :news_items, only: %i[index show], path: '/news'
+
   match '/search', to: 'search#search', as: :perform_search, via: %i[get post]
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search

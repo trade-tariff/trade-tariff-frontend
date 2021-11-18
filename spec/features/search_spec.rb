@@ -6,6 +6,8 @@ RSpec.describe 'Search', js: true do
   end
 
   context 'with existing sections page' do
+    include_context 'with latest news stubbed'
+
     before do
       allow(TradeTariffFrontend).to receive(:updated_navigation?).and_return false
     end
@@ -81,6 +83,8 @@ RSpec.describe 'Search', js: true do
   end
 
   context 'with find_commodity page' do
+    include_context 'with latest news stubbed'
+
     context 'when reaching the search page' do
       it 'renders the search container properly' do
         VCR.use_cassette('search#check') do

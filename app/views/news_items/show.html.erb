@@ -1,0 +1,22 @@
+<%= page_header 'Latest news' %>
+
+<% content_for :before_main_content do %>
+  <%= generate_breadcrumbs truncate(@news_item.title),
+                           [ [t('breadcrumb.home'), sections_path],
+                             [t('breadcrumb.news'), news_items_path] ] %>
+<% end %>
+
+<article class="news-item">
+  <h2 class="govuk-heading-m">
+    <%= @news_item.title %>
+  </h2>
+
+  <h3 class="govuk-heading-s">
+    Published on <%= @news_item.start_date.to_formatted_s :long %>
+  </h3>
+
+  <div class="tariff-markdown">
+    <%= govspeak @news_item.content %>
+  </div>
+</article>
+
