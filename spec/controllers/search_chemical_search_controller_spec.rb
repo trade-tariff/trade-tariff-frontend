@@ -1,11 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe SearchController, 'GET to #chemical_search', type: :controller,
-  slow: true, vcr: { cassette_name: 'search#chemical_search' } do
-
-  before do
-    Rails.cache.clear
-  end
+  vcr: { cassette_name: 'search#chemical_search' } do
 
   context 'without search params' do
     render_views
