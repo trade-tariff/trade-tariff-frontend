@@ -744,6 +744,7 @@
                 autoselect: true,
                 showAllValues: true,
                 confirmOnBlur: true,
+                displayMenu: "overlay",
                 alwaysDisplayArrow: true,
                 dropdownArrow: function() {
                   return "<span class='autocomplete__arrow'></span>";
