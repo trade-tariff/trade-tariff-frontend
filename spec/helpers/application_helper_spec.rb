@@ -215,7 +215,8 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       it { is_expected.to have_css 'header span.govuk-caption-xl', text: I18n.t('title.service_name.uk') }
       it { is_expected.to have_css 'header h1.govuk-heading-l', text: 'Test header' }
-      it { is_expected.to have_css 'header *', count: 2 }
+      it { is_expected.to have_css 'header > *', count: 2 }
+      it { is_expected.to have_css 'header span.switch-service-control' }
     end
 
     context 'with block' do
@@ -223,7 +224,8 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       it { is_expected.to have_css 'header span.govuk-caption-xl', text: I18n.t('title.service_name.uk') }
       it { is_expected.to have_css 'header h1.govuk-heading-l', text: 'Second header' }
-      it { is_expected.to have_css 'header *', count: 3 }
+      it { is_expected.to have_css 'header > *', count: 3 }
+      it { is_expected.to have_css 'header span.switch-service-control' }
       it { is_expected.to have_css 'header em', text: 'additional content' }
     end
 

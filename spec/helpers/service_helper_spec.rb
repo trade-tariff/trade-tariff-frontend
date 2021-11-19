@@ -145,16 +145,16 @@ RSpec.describe ServiceHelper, type: :helper do
     context 'with UK service' do
       include_context 'with UK service'
 
-      it { is_expected.to have_css 'span.switch_control span.arrow', text: nil }
-      it { is_expected.to have_css 'span.switch_control a.govuk-link--no-underline' }
+      it { is_expected.to have_css 'span.switch-service-control span.arrow', text: nil }
+      it { is_expected.to have_css 'span.switch-service-control a.govuk-link--no-underline' }
       it { is_expected.to have_link 'Switch to the Northern Ireland Online Tariff', href: '/xi/some_path' }
     end
 
     context 'with XI' do
       include_context 'with XI service'
 
-      it { is_expected.to have_css 'span.switch_control span.arrow', text: nil }
-      it { is_expected.to have_css 'span.switch_control a.govuk-link--no-underline' }
+      it { is_expected.to have_css 'span.switch-service-control span.arrow', text: nil }
+      it { is_expected.to have_css 'span.switch-service-control a.govuk-link--no-underline' }
       it { is_expected.to have_link 'Switch to the UK Integrated Online Tariff', href: '/some_path' }
     end
   end

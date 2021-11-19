@@ -1,30 +1,39 @@
-.switch_control {
-    font-size: 14px;
-    position: relative;
-    top: -0.4em;
-    white-space: nowrap;
-    padding: 0.2em 1em 0.3em 0.75em;
-    padding-top: 0.2em;
-    border-radius: 4px;
+.switch-service-control {
+  @include govuk-font($size: 14);
+  position: relative;
+  top: -0.4em;
+  white-space: nowrap;
+  padding: 0.2em 1em 0.2em 0;
+  border-radius: 4px;
 
-    @media (min-width: $desktop-min-width) {
-      a {
-        color: govuk-colour("white");
-      }
-      background-color: #1D70B8;
+  .arrow:before {
+    content: "\2192";
+    color: govuk-colour("blue");
+  }
 
-      .arrow:before {
-        content: "\2192";
-        color: govuk-colour("white");
-      }
+  @include govuk-media-query($from: tablet) {
+    display: inline-block;
+    padding-left: 0.75em;
+    background-color: govuk-colour("blue");
+
+    a {
+      color: govuk-colour("white");
     }
 
-    @media (max-width: $small-table-breakpoint - 1) {
-      .arrow:before {
-        content: "\2192";
-        color: govuk-colour("blue");
-      }
-
-      padding-left: 0;
+    .arrow:before {
+      color: govuk-colour("white");
     }
+  }
+}
+
+header .switch-service-control {
+  @include govuk-media-query($from: tablet) {
+    margin-left: 2.4em;
+  }
+
+  @include govuk-media-query($until: tablet) {
+    display: block;
+    padding: 0;
+    margin: 1em 0;
+  }
 }

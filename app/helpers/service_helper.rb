@@ -52,7 +52,7 @@ module ServiceHelper
                    [t('service_banner.service_name.uk'), current_path]
                  end
 
-    tag.span class: 'switch_control' do
+    tag.span class: 'switch-service-control' do
       safe_join [
         tag.span(class: 'arrow'),
         link_to("Switch to the #{copy}", link, class: 'govuk-link--no-underline'),
