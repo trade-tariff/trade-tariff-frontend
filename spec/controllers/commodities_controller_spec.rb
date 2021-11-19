@@ -28,12 +28,6 @@ RSpec.describe CommoditiesController, type: :controller do
         expect(session[:declarable_code]).to eq('0101210000')
       end
 
-      it 'assigns a supplementary unit', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
-        get :show, params: { id: '0101210000' }
-
-        expect(assigns[:supplementary_unit]).to eq('Number of items (p/st)')
-      end
-
       context 'with existing commodity id provided' do
         subject { controller }
 

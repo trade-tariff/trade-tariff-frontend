@@ -11,8 +11,6 @@ class CommoditiesController < GoodsNomenclaturesController
     @chapter = commodity.chapter
     @section = commodity.section
 
-    @supplementary_unit = commodity.supplementary_unit(country: @search.country)
-
     if params[:country].present? && @search.geographical_area
       @rules_of_origin = commodity.rules_of_origin(params[:country])
     end

@@ -159,4 +159,32 @@ RSpec.describe Measure do
       it { is_expected.not_to be_trade_remedies }
     end
   end
+
+  describe '#import?' do
+    context 'when the measure is an import measure' do
+      subject(:measure) { build(:measure, :import) }
+
+      it { is_expected.to be_import }
+    end
+
+    context 'when the measure is an export measure' do
+      subject(:measure) { build(:measure, :export) }
+
+      it { is_expected.not_to be_import }
+    end
+  end
+
+  describe '#export?' do
+    context 'when the measure is an export measure' do
+      subject(:measure) { build(:measure, :export) }
+
+      it { is_expected.to be_export }
+    end
+
+    context 'when the measure is an import measure' do
+      subject(:measure) { build(:measure, :import) }
+
+      it { is_expected.not_to be_export }
+    end
+  end
 end

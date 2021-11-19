@@ -15,8 +15,6 @@ class Measure
   attr_reader :effective_start_date,
               :effective_end_date
 
-  DEFAULT_GEOGRAPHICAL_AREA_ID = '1011'.freeze # ERGA OMNES
-
   has_one :geographical_area
   has_many :legal_acts
   has_one :measure_type
@@ -30,10 +28,14 @@ class Measure
   has_many :footnotes
   has_one :goods_nomenclature
 
+  delegate :erga_omnes?, to: :geographical_area
+
   def relevant_for_country?(country_code)
+    return true if country_code.blank?
+
     return false if excluded_countries.map(&:geographical_area_id).include?(country_code)
-    return true if geographical_area.id == DEFAULT_GEOGRAPHICAL_AREA_ID && national?
-    return true if country_code.blank? || geographical_area.id == country_code
+    return true if erga_omnes? && national?
+    return true if geographical_area.id == country_code
 
     geographical_area.children_geographical_areas.map(&:id).include?(country_code)
   end
@@ -48,6 +50,14 @@ class Measure
 
   def vat?
     vat
+  end
+
+  def supplementary_unit_description
+    if measure_type.supplementary_unit_import_only?
+      'Supplementary unit (import)'
+    else
+      'Supplementary unit'
+    end
   end
 
   def vat_excise?
@@ -78,10 +88,7 @@ class Measure
     measure_type.id == '142'
   end
 
-  def supplementary?
-    supplementary_unit_measure_type_ids = %w[109 110 111]
-    supplementary_unit_measure_type_ids.include?(measure_type.id)
-  end
+  delegate :supplementary?, to: :measure_type
 
   def import?
     import
