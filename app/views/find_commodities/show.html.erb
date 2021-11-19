@@ -37,11 +37,11 @@
               You must use the right commodity code.
             </div>
 
-            <%= hidden_field_tag :q, @search.q, { class: "js-commodity-picker-target" } %>
+            <%= hidden_field_tag :q, @search.q, id: 'q-hidden', class: "js-commodity-picker-target" %>
 
             <div class="js-commodity-picker-select js-show" data-nosubmit></div>
             <noscript>
-              <%= text_field_tag(:q, @search.q, {class: "govuk-input", name: :q}) %>
+              <%= text_field_tag :q, @search.q, class: "govuk-input" %>
             </noscript>
           </fieldset>
         </div>
