@@ -5,7 +5,7 @@
         <div class="searchfield govuk-form-group">
           <fieldset class="govuk-fieldset govuk-search-input">
             <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-            <%= hidden_field_tag :q, @search.q, { class: "js-commodity-picker-target" } %>
+            <%= hidden_field_tag :q, @search.q, { class: "js-commodity-picker-target", id: 'q-hidden' } %>
             <div class='js-commodity-picker-select js-show'></div>
             <noscript>
               <%= text_field_tag(:q, @search.q, {class: "govuk-input", name: :q}) %>
