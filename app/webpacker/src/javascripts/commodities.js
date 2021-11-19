@@ -814,13 +814,6 @@
                       let exactMatch = false;
                       options = [];
 
-                      newSource.push(query.toLowerCase());
-                      options.push({
-                        id: query.toLowerCase(),
-                        text: query.toLowerCase(),
-                        newOption: true
-                      });
-
                       results.forEach(function(result) {
                         newSource.push(result.text);
                         options.push(result);
@@ -829,6 +822,15 @@
                           exactMatch = true;
                         }
                       });
+
+                      if ($.inArray(query.toLowerCase(), newSource) < 0) {
+                        newSource.unshift(query.toLowerCase());
+                        options.unshift({
+                          id: query.toLowerCase(),
+                          text: query.toLowerCase(),
+                          newOption: true
+                        });
+                      }
 
                       populateResults(newSource);
 
