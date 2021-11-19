@@ -3,7 +3,7 @@
                                href: sections_url(format: :json),
                                title: 'Section list in JSON format') %>
 
-<% content_for :before_main_content do %>
+<% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs(
       t('breadcrumb.browse'),
       [

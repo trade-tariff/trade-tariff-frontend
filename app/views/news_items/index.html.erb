@@ -1,6 +1,6 @@
 <%= page_header 'Latest news' %>
 
-<% content_for :before_main_content do %>
+<% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs t('breadcrumb.news'), [[t('breadcrumb.home'), sections_path]] %>
 <% end %>
 
