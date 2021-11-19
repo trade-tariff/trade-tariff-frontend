@@ -1,21 +1,28 @@
-<table class="govuk-table">
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-width-one-quarter">Chapter</th>
-      <td class="govuk-table__cell"><%= @chapter.short_code %></td>
-      <td class="govuk-table__cell"/>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Classification</th>
-      <td class="govuk-table__cell"><%= @chapter.to_s %></td>
-      <td class="govuk-table__cell"/>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Date of trade</th>
-      <td class="govuk-table__cell">
-        <%= @search.date.to_formatted_s(:long) %>
-      </td>
-      <td class="govuk-table__cell"></td>
-    </tr>
-  </tbody>
-</table>
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Chapter
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @chapter.short_code %>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Classification
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @chapter.to_s %>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Date of trade
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @search.date.to_formatted_s(:long) %>
+    </dd>
+    <dd class="govuk-summary-list__actions">
+    </dd>
+  </div>
+</dl>

@@ -1,24 +1,31 @@
-<table class="govuk-table">
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row ">
-      <th scope="row" class="govuk-table__header govuk-!-width-one-quarter">Commodity</th>
-      <td class="govuk-table__cell"><%= segmented_commodity_code(@commodity.short_code) %></td>
-      <td class="govuk-table__cell"/>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Classification</th>
-      <td class="govuk-table__cell"><%= classification_description(@commodity) %></td>
-      <td class="govuk-table__cell"/>
-    </tr>
-    <% if @commodity.declarable? %>
-      <%= render 'shared/context_tables/supplementary_unit_row', supplementary_unit: @supplementary_unit %>
-    <% end %>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Date of trade</th>
-      <td class="govuk-table__cell">
-        <%= @search.date.to_formatted_s(:long) %>
-      </td>
-      <td class="govuk-table__cell"></td>
-    </tr>
-  </tbody>
-</table>
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Commodity
+    </dt>
+    <dd class="govuk-summary-list__value">
+    <%= segmented_commodity_code(@commodity.short_code) %>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Classification
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= classification_description(@commodity) %>
+    </dd>
+  </div>
+  <% if @commodity.declarable? %>
+    <%= render 'shared/context_tables/supplementary_unit_row', supplementary_unit: @supplementary_unit %>
+  <% end %>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Date of trade
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= @search.date.to_formatted_s(:long) %>
+    </dd>
+    <dd class="govuk-summary-list__actions">
+    </dd>
+  </div>
+</dl>
