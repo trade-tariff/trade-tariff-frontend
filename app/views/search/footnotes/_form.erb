@@ -1,5 +1,6 @@
 <%= form_tag footnote_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
-  <h1 class="govuk-heading-l">Search by Footnote</h1>
+  <%= page_header 'Search by Footnote' %>
+
   <div class="govuk-form-group">
     <%= label_tag :type, 'Type', class: 'govuk-label' %>
     <%= select_tag :type, options_for_select(search_form.footnote_types, search_form.type), include_blank: true, class: "custom-select" %>

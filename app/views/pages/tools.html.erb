@@ -10,8 +10,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <span class="govuk-caption-xl govuk-!-margin-top-0"><%= trade_tariff_heading %></span>
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">Tariff tools</h1>
+    <%= page_header 'Tariff tools' %>
 
     <ul class="govuk-list">
       <% if TradeTariffFrontend::ServiceChooser.uk? %>
