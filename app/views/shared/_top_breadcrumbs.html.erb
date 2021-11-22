@@ -4,6 +4,13 @@
       <li class="govuk-breadcrumbs__list-item">
         <%= link_to "Home", sections_path, class:'govuk-breadcrumbs__link' %>
       </li>
+
+      <%- if TradeTariffFrontend.updated_navigation? -%>
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Browse', browse_sections_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <%- end -%>
+
       <li class="govuk-breadcrumbs__list-item">
         <%= breadcrumb_link_or_text(@section, @chapter, "Section #{@section.numeral}") %>
       </li>
