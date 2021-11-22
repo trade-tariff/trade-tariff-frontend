@@ -24,8 +24,8 @@ module ApplicationHelper
     breadcrumbs << tag.li(current_page, class: 'govuk-breadcrumbs__list-item',
                                         aria: { current: 'page' })
 
-    tag.div class: 'govuk-breadcrumbs' do
-      tag.ol class: 'govuk-breadcrumbs__list', role: 'breadcrumbs' do
+    tag.nav class: 'govuk-breadcrumbs', aria: { label: 'Breadcrumb' } do
+      tag.ol class: 'govuk-breadcrumbs__list' do
         safe_join breadcrumbs, "\n"
       end
     end
