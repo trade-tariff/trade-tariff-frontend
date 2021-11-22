@@ -199,4 +199,36 @@ RSpec.describe ServiceHelper, type: :helper do
       end
     end
   end
+
+  describe '.service_name' do
+    subject { service_name }
+
+    context 'with UK service' do
+      include_context 'with UK service'
+
+      it { is_expected.to eql 'UK Integrated Online Tariff' }
+    end
+
+    context 'with XI service' do
+      include_context 'with XI service'
+
+      it { is_expected.to eql 'Northern Ireland Online Tariff' }
+    end
+  end
+
+  describe '.region_name' do
+    subject { region_name }
+
+    context 'with UK service' do
+      include_context 'with UK service'
+
+      it { is_expected.to eql 'the UK' }
+    end
+
+    context 'with XI service' do
+      include_context 'with XI service'
+
+      it { is_expected.to eql 'Northern Ireland' }
+    end
+  end
 end
