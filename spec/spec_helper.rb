@@ -51,6 +51,8 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.include ApiResponsesHelper
 
+  config.include_context 'with switch service banner', type: :view
+
   config.before do
     allow(TariffUpdate).to receive(:all).and_return([OpenStruct.new(updated_at: Time.zone.today)])
     allow(NewsItem).to receive(:any_updates?).and_return true

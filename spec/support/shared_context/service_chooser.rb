@@ -18,3 +18,12 @@ RSpec.shared_context 'with default service' do
       receive(:service_choice).and_return nil
   end
 end
+
+RSpec.shared_context 'with switch service banner' do
+  before do
+    allow(view).to receive(:is_switch_service_banner_enabled?)
+                     .and_return(show_switch_service_banner)
+  end
+
+  let(:show_switch_service_banner) { true }
+end

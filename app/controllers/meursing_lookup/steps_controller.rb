@@ -4,7 +4,7 @@ module MeursingLookup
       disable_search_form
       @tariff_last_updated = nil
 
-      disable_switch_service_banner
+      disable_switch_service_banner!
 
       clear_meursing_lookup_session
       store_meursing_lookup_result_on_session

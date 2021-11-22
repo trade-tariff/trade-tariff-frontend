@@ -34,7 +34,10 @@ module ApplicationHelper
   def page_header(heading = nil, &block)
     extra_content = block_given? ? capture(&block) : nil
 
-    render 'shared/page_header', heading: heading, extra_content: extra_content
+    render 'shared/page_header',
+           heading: heading,
+           show_switch_service: is_switch_service_banner_enabled?,
+           extra_content: extra_content
   end
 
   def govuk_header_navigation_item(active_class: '', &block)

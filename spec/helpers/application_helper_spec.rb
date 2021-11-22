@@ -210,6 +210,13 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe '#page_header' do
+    before do
+      allow(helper).to receive(:is_switch_service_banner_enabled?)
+                         .and_return switch_banner
+    end
+
+    let(:switch_banner) { true }
+
     context 'without block' do
       subject { helper.page_header 'Test header' }
 
@@ -235,6 +242,12 @@ RSpec.describe ApplicationHelper, type: :helper do
       include_context 'with XI service'
 
       it { is_expected.to have_css 'header span.govuk-caption-xl', text: I18n.t('title.service_name.xi') }
+    end
+
+    context 'with switch banner disabled' do
+      let(:switch_banner) { false }
+
+      it { is_expected.not_to have_css 'span.switch-service-control' }
     end
   end
 end
