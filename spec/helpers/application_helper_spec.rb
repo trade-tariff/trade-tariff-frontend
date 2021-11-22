@@ -52,12 +52,23 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe '.generate_breadcrumbs' do
-    it 'returns current page list item' do
-      expect(helper.generate_breadcrumbs('Current Page', [])).to match(/Current Page/)
+    context 'with single page' do
+      subject { generate_breadcrumbs 'Current Page', [] }
+
+      it { is_expected.to have_css 'div.govuk-breadcrumbs ol.govuk-breadcrumbs__list' }
+      it { is_expected.to have_css 'ol li.govuk-breadcrumbs__list-item', count: 1 }
+      it { is_expected.to have_css 'ol li.govuk-breadcrumbs__list-item a.govuk-breadcrumbs__link', count: 0 }
+      it { is_expected.to have_css 'ol li.govuk-breadcrumbs__list-item', text: 'Current Page' }
     end
 
-    it 'returns previous pages breadcrumbs' do
-      expect(helper.generate_breadcrumbs('Current Page', [['Previous Page', '/']])).to match(/Previous Page/)
+    context 'with nested pages' do
+      subject { generate_breadcrumbs 'Current Page', [['Previous Page', '/']] }
+
+      it { is_expected.to have_css 'div.govuk-breadcrumbs ol.govuk-breadcrumbs__list' }
+      it { is_expected.to have_css 'ol li.govuk-breadcrumbs__list-item', count: 2 }
+      it { is_expected.to have_css 'ol li.govuk-breadcrumbs__list-item a.govuk-breadcrumbs__link', count: 1 }
+      it { is_expected.to have_css 'ol li.govuk-breadcrumbs__list-item', text: 'Current Page' }
+      it { is_expected.to have_link 'Previous Page', href: '/' }
     end
   end
 
