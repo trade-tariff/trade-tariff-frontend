@@ -82,6 +82,10 @@ module ServiceHelper
     t("service_banner.bottom.#{service_choice}")
   end
 
+  def region_name
+    t("title.region_name.#{service_choice}")
+  end
+
 private
 
   def service_name

@@ -28,6 +28,9 @@ en:
     service_name:
       uk: "UK Integrated Online Tariff"
       xi: "Northern Ireland Online Tariff"
+    region_name:
+      uk: the UK
+      xi: Northern Ireland
   h1:
     service_description: "Look up commodity codes, duty and VAT rates"
     service_name:
