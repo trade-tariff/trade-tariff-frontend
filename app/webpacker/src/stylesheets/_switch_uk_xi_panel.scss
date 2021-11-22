@@ -26,14 +26,22 @@
   }
 }
 
-header .switch-service-control {
-  @include govuk-media-query($from: tablet) {
-    margin-left: 2.4em;
+header {
+  .switch-service-control__caption {
+    @include govuk-media-query($from: tablet) {
+      margin-right: 1.2em;
+    }
   }
 
-  @include govuk-media-query($until: tablet) {
-    display: block;
-    padding: 0;
-    margin: 1em 0;
+  .switch-service-control {
+    @include govuk-media-query($from: tablet) {
+      margin-top: 0.8em;
+    }
+
+    @include govuk-media-query($until: tablet) {
+      display: block;
+      padding: 0;
+      margin: 1em 0;
+    }
   }
 }
