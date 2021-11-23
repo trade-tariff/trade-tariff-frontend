@@ -8,7 +8,7 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
            country_code: 'FR',
            country_name: 'France',
            commodity_code: '2203000100',
-           rules_of_origin: schemes
+           rules_of_origin_schemes: schemes
   end
 
   let :rules_data do
