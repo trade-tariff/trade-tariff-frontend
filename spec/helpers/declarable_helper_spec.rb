@@ -171,4 +171,20 @@ RSpec.describe DeclarableHelper, type: :helper do
         .to eq('Fruits &mdash; Foo1 &mdash; Foo2 &mdash; <strong>Cherry tomatos</strong>')
     end
   end
+
+  describe '#supplementary_geographical_area_id' do
+    subject(:supplementary_geographical_area_id) { helper.supplementary_geographical_area_id(search) }
+
+    context 'when the country is present on the search' do
+      let(:search) { Search.new(country: 'IT') }
+
+      it { is_expected.to eq('IT') }
+    end
+
+    context 'when the country is not present on the search' do
+      let(:search) { Search.new(country: nil) }
+
+      it { is_expected.to eq('1011') }
+    end
+  end
 end

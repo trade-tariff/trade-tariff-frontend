@@ -14,8 +14,6 @@ class HeadingsController < GoodsNomenclaturesController
     @section = heading.section
     @chapter = heading.chapter
 
-    @supplementary_unit = heading.supplementary_unit(country: @search.country)
-
     if params[:country].present? && @search.geographical_area
       @rules_of_origin = heading.rules_of_origin(params[:country])
     end

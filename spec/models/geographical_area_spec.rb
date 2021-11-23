@@ -35,4 +35,18 @@ RSpec.describe GeographicalArea do
       expect(by_long_desc).to eq(expected_geographical_areas)
     end
   end
+
+  describe '#erga_omnes?' do
+    context 'when the geographical area is the world' do
+      subject(:geographical_area) { build(:geographical_area, :erga_omnes) }
+
+      it { is_expected.to be_erga_omnes }
+    end
+
+    context 'when the geographical area is not the world' do
+      subject(:geographical_area) { build(:geographical_area) }
+
+      it { is_expected.not_to be_erga_omnes }
+    end
+  end
 end

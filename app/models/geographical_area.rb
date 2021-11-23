@@ -9,6 +9,8 @@ class GeographicalArea
 
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
 
+  ERGA_OMNES = '1011'.freeze # Entire world
+
   def self.by_long_description(term)
     lookup_regexp = /#{term}/i
 
@@ -48,5 +50,9 @@ class GeographicalArea
 
   def to_s
     description
+  end
+
+  def erga_omnes?
+    id == ERGA_OMNES
   end
 end

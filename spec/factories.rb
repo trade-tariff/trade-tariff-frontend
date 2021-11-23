@@ -120,6 +120,10 @@ FactoryBot.define do
       vat { true }
     end
 
+    trait :erga_omnes do
+      geographical_area { attributes_for(:geographical_area, :erga_omnes).stringify_keys }
+    end
+
     trait :vat_excise do
       measure_type do
         attributes_for(:measure_type, :vat_excise, description: measure_type_description).stringify_keys
@@ -154,12 +158,22 @@ FactoryBot.define do
       measure_type do
         attributes_for(:measure_type, :third_country, description: measure_type_description).stringify_keys
       end
-      geographical_area { attributes_for(:geographical_area, :third_country).stringify_keys }
+      geographical_area { attributes_for(:geographical_area, :erga_omnes).stringify_keys }
     end
 
-    trait :supplementary do
+    trait :import_export_supplementary do
       measure_type do
-        attributes_for(:measure_type, :supplementary, description: measure_type_description).stringify_keys
+        attributes_for(:measure_type, :import_export_supplementary, description: measure_type_description).stringify_keys
+      end
+
+      duty_expression do
+        attributes_for(:duty_expression, base: 'p/st')
+      end
+    end
+
+    trait :import_only_supplementary do
+      measure_type do
+        attributes_for(:measure_type, :import_only_supplementary, description: measure_type_description).stringify_keys
       end
 
       duty_expression do
@@ -197,6 +211,14 @@ FactoryBot.define do
       origin { 'eu' }
     end
 
+    trait :import do
+      import { true }
+    end
+
+    trait :export do
+      import { false }
+    end
+
     initialize_with do
       new(attributes.stringify_keys)
     end
@@ -217,6 +239,10 @@ FactoryBot.define do
   factory :duty_expression do
     base { '80.50 EUR / Hectokilogram' }
     formatted_base { "80.50 EUR / <abbr title='Hectokilogram'>Hectokilogram</abbr>" }
+
+    trait :supplementary do
+      description { 'Number of items' }
+    end
   end
 
   factory :measure_type do
@@ -251,15 +277,25 @@ FactoryBot.define do
       id { '103' }
     end
 
-    trait :supplementary do
+    trait :import_export_supplementary do
+      id { '109' }
+    end
+
+    trait :import_only_supplementary do
       id { '110' }
+    end
+
+    trait :export_only_supplementary do
+      id { '111' }
     end
   end
 
   factory :measure_component do
-    duty_expression
-
     trait :with_supplementary_measurement_unit do
+      duty_expression do
+        attributes_for(:duty_expression, base: 'p/st')
+      end
+
       measurement_unit do
         attributes_for(:measurement_unit, :supplementary).stringify_keys
       end
@@ -280,12 +316,12 @@ FactoryBot.define do
     id { Forgery(:basic).text(exactly: 2).upcase }
     description { Forgery(:basic).text }
 
-    trait :third_country do
-      id { '1011' }
-    end
-
     trait :specific_country do
       description { Forgery(:basic).text }
+    end
+
+    trait :erga_omnes do
+      id { '1011' }
     end
 
     initialize_with do

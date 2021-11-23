@@ -59,6 +59,11 @@ module DeclarableHelper
     session[:declarable_code]
   end
 
+  # Supplementary unit measures treat no country specified in the search as the entire world
+  def supplementary_geographical_area_id(search)
+    search.country || GeographicalArea::ERGA_OMNES
+  end
+
   private
 
   def declarable_path_opts

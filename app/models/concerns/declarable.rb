@@ -57,23 +57,30 @@ module Declarable
     ).uniq(&:code)
   end
 
-  def supplementary_unit(country: nil)
-    supplementary_measures = import_measures.for_country(country).supplementary
+  def supplementary_unit_description(country:)
+    supplementary_measure(country)&.supplementary_unit_description || 'Supplementary unit'
+  end
 
-    case supplementary_measures.count
-    when 0
-      'No supplementary unit required.'
-    when 1
-      supplementary_measure = supplementary_measures.first
-      supplementary_measure_component = supplementary_measure.measure_components.first
+  def supplementary_unit(country:)
+    measure = supplementary_measure(country)
+    supplementary_component = measure&.measure_components&.first
 
-      "#{supplementary_measure_component.measurement_unit.description} (#{supplementary_measure.duty_expression.base})"
+    if supplementary_component
+      "#{supplementary_component.measurement_unit&.description} (#{measure.duty_expression&.base})"
     else
-      'There are multiple supplementary units for you trade. See measures below.'
+      'No supplementary unit required.'
     end
   end
 
   private
+
+  def supplementary_measure(country)
+    supplementary_measures(country).first
+  end
+
+  def supplementary_measures(country)
+    @supplementary_measures ||= import_measures.for_country(country).supplementary
+  end
 
   def no_heading?
     !heading?

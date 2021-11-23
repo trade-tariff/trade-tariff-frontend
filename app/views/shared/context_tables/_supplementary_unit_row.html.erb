@@ -1,17 +1,17 @@
 <div class="govuk-summary-list__row">
-  <dt class="govuk-summary-list__key">Supplementary unit</dt>
+  <dt class="govuk-summary-list__key"><%= declarable.supplementary_unit_description(country: supplementary_geographical_area_id(@search)) %></dt>
   <dd class="govuk-summary-list__value ">
-
-  <p><%= supplementary_unit %></p>
-
-  <details class="govuk-details" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">What are supplementary units?</span>
-    </summary>
-    <div class="govuk-details__text  govuk-!-font-size-16">
-      Supplementary units are used when an additional measurement unit is needed on customs declarations. For example: the quantity of the products as well as the weight in kilograms.<br>
-    </div>
-  </details>
+    <p>
+      <%= declarable.supplementary_unit(country: supplementary_geographical_area_id(@search)) %>
+    </p>
+    <details class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">What are supplementary units?</span>
+      </summary>
+      <div class="govuk-details__text  govuk-!-font-size-16">
+        Supplementary units are used when an additional measurement unit is needed on customs declarations. For example: the quantity of the products as well as the weight in kilograms.<br>
+      </div>
+    </details>
   </dd>
   <dd class="govuk-summary-list__actions"></dd>
 </div>
