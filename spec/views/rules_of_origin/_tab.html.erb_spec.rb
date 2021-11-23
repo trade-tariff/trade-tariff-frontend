@@ -55,12 +55,6 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
       expect(rendered_page).to have_css 'table.govuk-table'
     end
 
-    it 'formats the scheme fta_intro markdown' do
-      expect(rendered_page).to \
-        have_css '.rules-of-origin-fta .tariff-markdown h2',
-                 text: 'Free Trade Agreement'
-    end
-
     it 'includes the non-preferential bloc' do
       expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
     end

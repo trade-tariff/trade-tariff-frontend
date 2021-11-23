@@ -15,18 +15,6 @@
                  multiple_schemes: rules_of_origin.many?
                } %>
 
-    <% rules_of_origin.map(&:fta_intro).map(&:presence).compact.each do |fta_intro| %>
-    <div class="rules-of-origin-fta">
-      <h3 class="govuk-heading-m">
-        Trading relationship with <%= country_name %>
-      </h3>
-
-      <div class="tariff-markdown">
-        <%= govspeak fta_intro %>
-      </div>
-    </div>
-    <% end %>
-
     <%= render 'rules_of_origin/non_preferential' %>
   </div>
 
