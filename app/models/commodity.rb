@@ -81,6 +81,9 @@ class Commodity < GoodsNomenclature
     "Commodity code #{code}, #{description}"
   end
 
+  # TODO: this seems not to be used.
+  # It should be removed since we want to code to be shown
+  # in a segmented way (see segmented-commodity-code css)
   def page_heading
     "Commodity #{code}"
   end

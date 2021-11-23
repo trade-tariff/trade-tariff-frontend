@@ -5,7 +5,9 @@
 
 <% content_for :bodyClasses, "page--wide" %>
 
-<%= render 'shared/search/commodities', commodity_code: @commodity.short_code %>
+<%= render 'commodities/header', commodity_code: @commodity.short_code %>
+
+<%= render 'shared/search/date_picker_form' %>
 
 <%= render 'shared/context_tables/commodity' %>
 
