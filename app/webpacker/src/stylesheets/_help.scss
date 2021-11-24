@@ -1,0 +1,29 @@
+
+.govspeak .attachment,
+.gem-c-govspeak .attachment {
+  @include govuk-responsive-margin(6, "top");
+  @include govuk-responsive-margin(6, "bottom");
+
+  padding: 15px 0 0 129px;
+  position: relative;
+}
+
+.downloads {
+  section {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    margin-bottom: 3em;
+  }
+
+  .attachment-thumb {
+    img {
+      border: 5px solid $tariff-white;
+      max-width: 99px;
+      width: 100%;
+
+      @include govuk-media-query($until: tablet) {
+        max-width: 50px;
+      }
+    }
+  }
+}

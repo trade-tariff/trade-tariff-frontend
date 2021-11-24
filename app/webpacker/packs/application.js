@@ -12,7 +12,7 @@
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
 //
-require.context('images/flags');
+require.context('images/');
 
 import './application.scss';
 import "core-js/stable";
