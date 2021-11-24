@@ -44,6 +44,7 @@ module TradeTariffFrontend
       certificate_types
       footnote_types
       changes
+      rules_of_origin_schemes
     ]
   end
 
