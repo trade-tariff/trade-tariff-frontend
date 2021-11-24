@@ -1,7 +1,3 @@
-require 'api_entity'
-require 'ostruct'
-require 'search/base_match'
-
 class Search
   include ApiEntity
 

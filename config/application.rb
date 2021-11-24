@@ -26,21 +26,11 @@ module TradeTariffFrontend
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
-    config.autoloader = :classic
-
-    require 'trade_tariff_frontend'
+    require_relative 'trade_tariff_frontend/'
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-
-    # Custom directories with classes and modules you want to be autoloadable.
-    config.eager_load_paths += %W[
-      #{config.root}/app/models/concerns
-      #{config.root}/app/presenters
-      #{config.root}/app/serializers
-      #{config.root}/app/forms
-    ]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.

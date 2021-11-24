@@ -1,10 +1,4 @@
-require 'paas_config'
-
 module TradeTariffFrontend
-  autoload :Presenter,      'trade_tariff_frontend/presenter'
-  autoload :ViewContext,    'trade_tariff_frontend/view_context'
-  autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
-
   module_function
 
   # API Endpoints of the Tariff Backend API app that can be reached via Frontend

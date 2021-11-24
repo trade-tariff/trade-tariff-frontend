@@ -1,7 +1,3 @@
-# frozen_string_literal: true
-
-require 'api_entity'
-
 class NewsItem
   include ApiEntity
 

@@ -1,6 +1,3 @@
-require 'api_entity'
-require 'null_object'
-
 class GoodsNomenclature
   include ApiEntity
 

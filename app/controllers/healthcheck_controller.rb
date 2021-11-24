@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class HealthcheckController < ActionController::Base
   rescue_from ApiEntity::Error, Faraday::ServerError do |_e|
     render plain: '', status: :internal_server_error
