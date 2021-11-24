@@ -1,8 +1,9 @@
+
 .govspeak .attachment,
 .gem-c-govspeak .attachment {
-  margin-top: 30px;
-  margin: 30px 0;
-  padding-top: 15px;
+  @include govuk-responsive-margin(6, "top");
+  @include govuk-responsive-margin(6, "bottom");
+
   padding: 15px 0 0 129px;
   position: relative;
 }
@@ -16,9 +17,13 @@
 
   .attachment-thumb {
     img {
-      border: 5px solid #f0f0f0;
+      border: 5px solid $tariff-white;
       max-width: 99px;
       width: 100%;
+
+      @include govuk-media-query($until: tablet) {
+        max-width: 50px;
+      }
     }
   }
 }
