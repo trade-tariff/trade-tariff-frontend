@@ -3,9 +3,11 @@
     <%= trade_tariff_heading %>
   </span>
 
-  <h1 class="govuk-heading-l">
-    <%= heading %>
-  </h1>
+  <% if heading.present? %>
+    <h1 class="govuk-heading-l">
+      <%= heading %>
+    </h1>
+  <% end %>
 
   <%= extra_content %>
 </header>

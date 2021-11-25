@@ -4,7 +4,7 @@ RSpec.describe 'meursing_lookup/steps/show', type: :view do
   before do
     allow(view).to receive(:current_step).and_return(current_step)
     allow(view).to receive(:wizard).and_return(wizard)
-    allow(view).to receive(:current_declarable_code).and_return('')
+    allow(view).to receive(:current_goods_nomenclature_code).and_return('')
 
     allow(current_step).to receive(:options).and_return([])
 
