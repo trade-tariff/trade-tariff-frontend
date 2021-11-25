@@ -40,30 +40,23 @@ module DeclarableHelper
   end
 
   def declarable_back_link
-    link_to('Back', goods_nomenclature_path, class: 'govuk-back-link')
+    link_to('Back', declarable_path, class: 'govuk-back-link')
   end
 
   def declarable_link
-    link_to("Return to #{current_goods_nomenclature_code}", goods_nomenclature_path, class: 'govuk-link')
+    link_to("Return to #{current_declarable_code}", declarable_path, class: 'govuk-link')
   end
 
-  def goods_nomenclature_path(path_opts = {})
-    path_opts = goods_nomenclature_path_opts.merge(path_opts) if current_goods_nomenclature_code.present?
-
-    case current_goods_nomenclature_code&.size
-    when nil
-      sections_path(path_opts)
-    when Chapter::SHORT_CODE_LENGTH
-      chapter_path(path_opts)
-    when Heading::SHORT_CODE_LENGTH
-      heading_path(path_opts)
+  def declarable_path
+    if current_declarable_code.size == Heading::SHORT_CODE_LENGTH
+      heading_path(declarable_path_opts)
     else
-      commodity_path(path_opts)
+      commodity_path(declarable_path_opts)
     end
   end
 
-  def current_goods_nomenclature_code
-    session[:goods_nomenclature_code]
+  def current_declarable_code
+    session[:declarable_code]
   end
 
   # Supplementary unit measures treat no country specified in the search as the entire world
@@ -73,15 +66,15 @@ module DeclarableHelper
 
   private
 
-  def goods_nomenclature_path_opts
+  def declarable_path_opts
     url_options.merge(
-      id: current_goods_nomenclature_code,
+      id: current_declarable_code,
       anchor: anchor,
     )
   end
 
   def anchor
-    referer&.fragment
+    referer&.fragment.presence || 'import'
   end
 
   def referer

@@ -8,7 +8,7 @@ RSpec.describe HeadingsController, type: :controller do
       allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
     end
 
-    it 'does not use with_source to fetch the heading from the XI service', vcr: { cassette_name: 'headings#show_0110', record: :new_episodes } do
+    it 'doesn\'t uses with_source to fetch the heading from the XI service', vcr: { cassette_name: 'headings#show_0110', record: :new_episodes } do
       get :show, params: { id: '0501' }
 
       expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:xi)
@@ -20,10 +20,10 @@ RSpec.describe HeadingsController, type: :controller do
       expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
     end
 
-    it 'sets the goods_nomenclature_code in the session', vcr: { cassette_name: 'headings#show_0110' } do
+    it 'sets the declarable_code in the session', vcr: { cassette_name: 'headings#show_0110' } do
       get :show, params: { id: '0501' }
 
-      expect(session[:goods_nomenclature_code]).to eq('0501')
+      expect(session[:declarable_code]).to eq('0501')
     end
 
     context 'with existing heading id provided', vcr: { cassette_name: 'headings#show' } do

@@ -1,8 +1,11 @@
 require 'spec_helper'
 
-RSpec.describe ChaptersController, type: :controller, vcr: { cassette_name: 'chapters#show' } do
-  describe 'GET #show' do
-    let!(:chapter) { build :chapter, section: attributes_for(:section).stringify_keys }
+RSpec.describe ChaptersController, 'GET to #show', type: :controller do
+  let!(:section) { attributes_for(:section).stringify_keys }
+
+  context 'with existing chapter id provided', vcr: { cassette_name: 'chapters#show' } do
+    let!(:chapter)     { build :chapter, section: section }
+    let!(:actual_date) { Date.today.to_s(:dashed) }
 
     before do
       get :show, params: { id: chapter.to_param }
@@ -11,6 +14,5 @@ RSpec.describe ChaptersController, type: :controller, vcr: { cassette_name: 'cha
     it { is_expected.to respond_with(:success) }
     it { expect(assigns(:chapter)).to be_a(Chapter) }
     it { expect(assigns(:headings)).to be_a(Array) }
-    it { expect(session[:goods_nomenclature_code]).to eq(chapter.code) }
   end
 end

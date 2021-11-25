@@ -4,8 +4,6 @@ class Chapter < GoodsNomenclature
   include ApiEntity
   include Changeable
 
-  SHORT_CODE_LENGTH = 2
-
   attr_accessor :headings, :chapter_note
 
   has_one :section

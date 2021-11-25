@@ -2,7 +2,7 @@ class CommoditiesController < GoodsNomenclaturesController
   helper_method :uk_commodity, :xi_commodity
 
   before_action :fetch_commodities, only: %i[show]
-  before_action :set_goods_nomenclature_code, only: %i[show]
+  before_action :set_session, only: %i[show]
 
   def show
     disable_search_form
@@ -49,8 +49,8 @@ class CommoditiesController < GoodsNomenclaturesController
     @commodities[:uk]
   end
 
-  def set_goods_nomenclature_code
-    session[:goods_nomenclature_code] = commodity.code
+  def set_session
+    session[:declarable_code] = commodity.code
   end
 
   def query_params
