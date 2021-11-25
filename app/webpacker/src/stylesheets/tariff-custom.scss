@@ -38,22 +38,6 @@
   }
 }
 
-#content,
-#global-header-bar,
-#global-cookie-message p,
-#footer > .govuk-width-container,
-.tariff.service.govuk-width-container {
-  max-width: 1140px !important;
-
-  @media (min-width: 1020px) {
-    margin: 0 30px !important;
-  }
-
-  @media (min-width: 1190px) {
-    margin: 0 auto !important;
-  }
-}
-
 .govuk-heading-l a {
   text-decoration: none;
   &:hover {
