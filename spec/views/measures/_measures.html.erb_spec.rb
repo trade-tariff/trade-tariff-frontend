@@ -41,7 +41,7 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
              declarable: presented_commodity,
              uk_declarable: presented_commodity,
              xi_declarable: nil,
-             rules_of_origin_schemes: []
+             rules_of_origin: []
     end
 
     context 'without country selected' do
@@ -63,7 +63,7 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
              declarable: presented_commodity,
              uk_declarable: presented_commodity,
              xi_declarable: presented_commodity,
-             rules_of_origin_schemes: []
+             rules_of_origin: []
     end
 
     context 'without country selected' do

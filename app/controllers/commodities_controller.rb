@@ -12,7 +12,7 @@ class CommoditiesController < GoodsNomenclaturesController
     @section = commodity.section
 
     if params[:country].present? && @search.geographical_area
-      @rules_of_origin_schemes = commodity.rules_of_origin(params[:country])
+      @rules_of_origin = commodity.rules_of_origin(params[:country])
     end
   end
 
