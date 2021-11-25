@@ -5,44 +5,20 @@
       <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
     </h2>
 
-    <%= rules_of_origin_schemes_intro country_name, rules_of_origin %>
+    <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
 
-    <h3 class="govuk-heading-m">
-      Product-specific rules for commodity <%= commodity_code %>
-    </h3>
-
-    <%- if (rules = rules_of_origin.flat_map(&:rules)).any? -%>
-      <%= render 'rules_of_origin/rules_table',
+    <%= render partial: 'rules_of_origin/scheme',
+               collection: rules_of_origin_schemes,
+               locals: {
                  country_name: country_name,
-                 rules: rules %>
-
-      <%= render partial: 'rules_of_origin/introductory_notes',
-                 collection: rules_of_origin.map(&:introductory_notes) %>
-    <%- else -%>
-      <p>
-        There are no product-specific rules for commodity <%= commodity_code %>
-      </p>
-    <%- end -%>
-
-    <%= render partial: 'rules_of_origin/proofs',
-               collection: rules_of_origin.map(&:proofs) %>
-
-    <% rules_of_origin.map(&:fta_intro).map(&:presence).compact.each do |fta_intro| %>
-    <div class="rules-of-origin-fta">
-      <h3 class="govuk-heading-m">
-        Trading relationship with <%= country_name %>
-      </h3>
-
-      <div class="tariff-markdown">
-        <%= govspeak fta_intro %>
-      </div>
-    </div>
-    <% end %>
+                 commodity_code: commodity_code,
+                 multiple_schemes: rules_of_origin_schemes.many?
+               } %>
 
     <%= render 'rules_of_origin/non_preferential' %>
   </div>
 
-  <% if rules_of_origin.flat_map(&:links).any? %>
+  <% if rules_of_origin_schemes.flat_map(&:links).any? %>
   <div class="govuk-grid-column-one-third" id="rules-of-origin__related-content">
     <h2 class="govuk-heading-m">
       Related content
@@ -50,7 +26,7 @@
 
     <nav role="navigation">
       <ul class="govuk-list govuk-list-s">
-        <% rules_of_origin.flat_map(&:links).each do |link| %>
+        <% rules_of_origin_schemes.flat_map(&:links).each do |link| %>
           <li>
             <%= link_to link.text, link.url %>
           </li>
