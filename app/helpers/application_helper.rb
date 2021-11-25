@@ -31,7 +31,7 @@ module ApplicationHelper
     end
   end
 
-  def page_header(heading = nil, &block)
+  def page_header(heading, &block)
     extra_content = block_given? ? capture(&block) : nil
 
     render 'shared/page_header', heading: heading, extra_content: extra_content

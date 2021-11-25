@@ -64,8 +64,6 @@ Rails.application.routes.draw do
   get 'feedback/thanks', to: 'feedback#thanks'
   get 'tools', to: 'pages#tools'
 
-  resource :import_export_dates, only: %i[show update]
-
   namespace :cookies do
     resource :policy, only: %i[show create update]
     resource :hide_confirmation, only: %i[create]
