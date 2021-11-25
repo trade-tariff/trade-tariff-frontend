@@ -2,7 +2,7 @@
 <% meursing_clear_link = link_to 'Clear additional code', meursing_lookup_result_path, class: 'govuk-link meursing-form-textual-button' %>
 
 <div id="meursing" class="govuk-inset-text govuk-inset-text--s no-inset tariff-inset">
-  <%= form_for MeursingLookup::Result.new(@search.to_query, builder: GOVUKDesignSystemFormBuilder::FormBuilder) do |f| %>
+  <%= form_for MeursingLookup::Result.new, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
     <h4 class="govuk-heading-s">Enter a 'Meursing code' to work out applicable duties</h4>
     <p class="govuk-body">This commodity code features duties which may be dependent on the <b>sugar, flour, milk fat and milk protein</b> content. To fully define the applicable duties, you need to specify the additional code that defines the content of these ingredients.</p>
 

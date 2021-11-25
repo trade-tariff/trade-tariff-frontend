@@ -5,24 +5,14 @@ class ChangeDate
 
   attribute :import_date, :date
 
+  delegate :day, :month, :year, to: :import_date, allow_nil: true
+
   def initialize(attributes = {})
     # We need to do validations before attribute coersion for multiparameter assignment
     # otherwise we get a MultiparameterAssignmentErrors error propagated when we fail to cast and do not attach the correct error messages for the form.
     valid_attributes?(attributes)
 
     super(attributes)
-  end
-
-  def day
-    import_date&.day
-  end
-
-  def month
-    import_date&.month
-  end
-
-  def year
-    import_date&.year
   end
 
   private

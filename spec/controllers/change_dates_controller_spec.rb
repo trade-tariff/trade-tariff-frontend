@@ -71,7 +71,7 @@ RSpec.describe ChangeDatesController, type: :controller do
         it { is_expected.to redirect_to(public_send(path_method, day: '1', month: '2', year: '2021', id: goods_nomenclature_code)) }
       end
 
-      it_behaves_like 'a valid date redirect', :find_commodity_path, nil
+      it_behaves_like 'a valid date redirect', :sections_path, nil
       it_behaves_like 'a valid date redirect', :chapter_path, '01'
       it_behaves_like 'a valid date redirect', :heading_path, '1501'
       it_behaves_like 'a valid date redirect', :commodity_path, '2402201000'
