@@ -10,7 +10,7 @@ RSpec.describe CommoditiesController, type: :controller do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
       end
 
-      it 'doesn not use with_source to fetch the commodity from the XI service', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
+      it 'does not use with_source to fetch the commodity from the XI service', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
         get :show, params: { id: '0101210000' }
 
         expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:xi)
@@ -22,10 +22,10 @@ RSpec.describe CommoditiesController, type: :controller do
         expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
       end
 
-      it 'sets the declarable_code in the session', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
+      it 'sets the goods_nomenclature_code in the session', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
         get :show, params: { id: '0101210000' }
 
-        expect(session[:declarable_code]).to eq('0101210000')
+        expect(session[:goods_nomenclature_code]).to eq('0101210000')
       end
 
       context 'with existing commodity id provided' do
