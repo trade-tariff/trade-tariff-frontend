@@ -1,5 +1,5 @@
 class HeadingsController < GoodsNomenclaturesController
-  before_action :fetch_heading,only: %i[show]
+  before_action :fetch_heading, only: %i[show]
   before_action :set_goods_nomenclature_code, only: %i[show]
   before_action :disable_search_form, only: %i[show]
 
