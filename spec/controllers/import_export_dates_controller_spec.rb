@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe ChangeDatesController, type: :controller do
+RSpec.describe ImportExportDatesController, type: :controller do
   describe 'GET #show' do
     subject(:response) { get :show, params: query_params }
 
@@ -10,16 +10,16 @@ RSpec.describe ChangeDatesController, type: :controller do
       it 'initializes with todays date' do
         response
 
-        expect(assigns(:change_date).import_date).to eq(Time.zone.today)
+        expect(assigns(:import_export_date).import_date).to eq(Time.zone.today)
       end
 
       it 'attaches no error message' do
         response
 
-        expect(assigns(:change_date).errors).to be_empty
+        expect(assigns(:import_export_date).errors).to be_empty
       end
 
-      it { is_expected.to render_template('change_dates/show') }
+      it { is_expected.to render_template('import_export_dates/show') }
       it { is_expected.to have_http_status(:ok) }
     end
 
@@ -35,27 +35,27 @@ RSpec.describe ChangeDatesController, type: :controller do
       it 'initializes with todays date' do
         response
 
-        expect(assigns(:change_date).import_date).to eq(Time.zone.parse('2021-02-01'))
+        expect(assigns(:import_export_date).import_date).to eq(Time.zone.parse('2021-02-01'))
       end
 
       it 'attaches no error message' do
         response
 
-        expect(assigns(:change_date).errors).to be_empty
+        expect(assigns(:import_export_date).errors).to be_empty
       end
 
-      it { is_expected.to render_template('change_dates/show') }
+      it { is_expected.to render_template('import_export_dates/show') }
       it { is_expected.to have_http_status(:ok) }
     end
   end
 
   describe 'PATCH #update' do
-    subject(:response) { patch :update, params: change_date_params }
+    subject(:response) { patch :update, params: import_export_date_params }
 
     context 'when passing valid change date params' do
-      let(:change_date_params) do
+      let(:import_export_date_params) do
         {
-          change_date: {
+          import_export_date: {
             'import_date(3i)': '1',
             'import_date(2i)': '2',
             'import_date(1i)': '2021',
@@ -78,9 +78,9 @@ RSpec.describe ChangeDatesController, type: :controller do
     end
 
     context 'when passing invalid change date params' do
-      let(:change_date_params) do
+      let(:import_export_date_params) do
         {
-          change_date: {
+          import_export_date: {
             'import_date(3i)': '',
             'import_date(2i)': '',
             'import_date(1i)': '',
@@ -91,10 +91,10 @@ RSpec.describe ChangeDatesController, type: :controller do
       it 'attaches the correct error message' do
         response
 
-        expect(assigns(:change_date).errors.messages[:import_date]).to eq(['Enter a valid date'])
+        expect(assigns(:import_export_date).errors.messages[:import_date]).to eq(['Enter a valid date'])
       end
 
-      it { is_expected.to render_template('change_dates/show') }
+      it { is_expected.to render_template('import_export_dates/show') }
       it { is_expected.to have_http_status(:ok) }
     end
   end

@@ -11,11 +11,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <%= form_for @change_date, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: 'patch' do |f| %>
+    <%= form_for @import_export_date, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: 'patch' do |f| %>
       <%= f.govuk_error_summary %>
       <%= f.govuk_date_field :import_date,
-        legend: { text: t('change_date.form.legend_text'), size: 'xl', tag: 'h1' },
-        hint: { text: t('change_date.form.hint_text_html') } %>
+        legend: { text: t('import_export_date.form.legend_text'), size: 'xl', tag: 'h1' },
+        hint: { text: t('import_export_date.form.hint_text_html') } %>
 
       <div class="govuk-button-group">
         <%= f.govuk_submit('Update date') %>

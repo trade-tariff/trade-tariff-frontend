@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe ChangeDate do
-  subject(:change_date) { described_class.new(attributes) }
+RSpec.describe ImportExportDate do
+  subject(:import_export_date) { described_class.new(attributes) }
 
   let(:attributes) do
     {
@@ -21,7 +21,7 @@ RSpec.describe ChangeDate do
         }
       end
 
-      it { expect(change_date.errors.messages).to be_empty }
+      it { expect(import_export_date.errors.messages).to be_empty }
     end
 
     context 'when an invalid date is passed' do
@@ -33,19 +33,19 @@ RSpec.describe ChangeDate do
         }
       end
 
-      it { expect(change_date.errors.messages[:import_date]).to include('Enter a valid date') }
+      it { expect(import_export_date.errors.messages[:import_date]).to include('Enter a valid date') }
     end
   end
 
   describe '#year' do
-    it { expect(change_date.year).to eq(2021) }
+    it { expect(import_export_date.year).to eq(2021) }
   end
 
   describe '#month' do
-    it { expect(change_date.month).to eq(2) }
+    it { expect(import_export_date.month).to eq(2) }
   end
 
   describe '#day' do
-    it { expect(change_date.day).to eq(1) }
+    it { expect(import_export_date.day).to eq(1) }
   end
 end

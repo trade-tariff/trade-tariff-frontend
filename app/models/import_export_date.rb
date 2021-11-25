@@ -1,4 +1,4 @@
-class ChangeDate
+class ImportExportDate
   include ActiveModel::Model
   include ActiveModel::Attributes
   include ActiveRecord::AttributeAssignment

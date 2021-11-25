@@ -1,10 +1,10 @@
-RSpec.describe 'change_dates/show.html.erb', type: :view do
+RSpec.describe 'import_export_dates/show.html.erb', type: :view do
   subject { render }
 
-  before { assign :change_date, change_date }
+  before { assign :import_export_date, import_export_date }
 
-  let(:change_date) do
-    ChangeDate.new(
+  let(:import_export_date) do
+    ImportExportDate.new(
       'import_date(3i)' => '1',
       'import_date(2i)' => '2',
       'import_date(1i)' => '2021',
