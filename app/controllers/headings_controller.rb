@@ -2,7 +2,7 @@ class HeadingsController < GoodsNomenclaturesController
   before_action :fetch_heading,
                 only: %i[show]
 
-  before_action :set_session, only: %i[show]
+  before_action :set_goods_nomenclature_code, only: %i[show]
 
   helper_method :uk_heading, :xi_heading
 
@@ -61,8 +61,8 @@ class HeadingsController < GoodsNomenclaturesController
     @headings[:uk]
   end
 
-  def set_session
-    session[:declarable_code] = heading.short_code
+  def set_goods_nomenclature_code
+    session[:goods_nomenclature_code] = heading.short_code
   end
 
   def query_params

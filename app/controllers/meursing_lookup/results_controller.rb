@@ -5,7 +5,7 @@ module MeursingLookup
     def show
       session.delete(Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY)
 
-      redirect_to declarable_path
+      redirect_to goods_nomenclature_path
     end
 
     def create
@@ -13,7 +13,7 @@ module MeursingLookup
 
       session[Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY] = meursing_lookup_result.meursing_additional_code_id
 
-      redirect_to declarable_path
+      redirect_to goods_nomenclature_path
     end
 
     private

@@ -27,7 +27,7 @@ module ApplicationHelper
     tag.div(class: 'govuk-breadcrumbs') { tag.ol(crumbs.join('').html_safe, class: 'govuk-breadcrumbs__list', role: 'breadcrumbs') }
   end
 
-  def page_header(heading, &block)
+  def page_header(heading = nil, &block)
     extra_content = block_given? ? capture(&block) : nil
 
     render 'shared/page_header', heading: heading, extra_content: extra_content
@@ -89,6 +89,14 @@ module ApplicationHelper
       link_to(caption, parent, class: 'govuk-breadcrumbs__link')
     else
       caption
+    end
+  end
+
+  def home_path(path_opts = {})
+    if TradeTariffFrontend.updated_navigation?
+      find_commodity_path(path_opts)
+    else
+      sections_path(path_opts)
     end
   end
 end

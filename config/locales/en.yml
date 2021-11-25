@@ -63,6 +63,7 @@ en:
     az: A to Z
     footnote_search: Footnote Search
     meursing_lookup: Meursing code finder
+    date: Enter date of trade
 
   service_banner:
     service_name:
@@ -96,6 +97,16 @@ en:
         legend_text: "How much milk protein does the product contain?"
         hint_text: "The values represent % by weight"
 
+  change_date:
+    form:
+      legend_text: "When are you planning to trade the goods?"
+      hint_text_html: >
+        As commodities, duties and quotas change over time, it may be
+        important to enter the date you think your goods will be traded. Use
+        the format day, month, year, for example 27 3 2021. If you don't enter
+        a date, today's date will be used.<br /><br />
+
+        Click on 'Cancel' to return to the previous page.
   activemodel:
     errors:
       models:
@@ -115,3 +126,7 @@ en:
           attributes:
             milk_protein:
               blank: Enter how much milk protein the product contains
+        change_date:
+          attributes:
+            import_date:
+              invalid_date: Enter a valid date

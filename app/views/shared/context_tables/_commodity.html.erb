@@ -4,8 +4,9 @@
       Commodity
     </dt>
     <dd class="govuk-summary-list__value">
-    <%= segmented_commodity_code(@commodity.short_code) %>
+      <%= segmented_commodity_code(@commodity.short_code) %>
     </dd>
+    <dd class="govuk-summary-list__actions"></dd>
   </div>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
@@ -14,6 +15,7 @@
     <dd class="govuk-summary-list__value">
       <%= classification_description(@commodity) %>
     </dd>
+    <dd class="govuk-summary-list__actions"></dd>
   </div>
   <% if @commodity.declarable? %>
     <%= render 'shared/context_tables/supplementary_unit_row', declarable: @commodity %>
@@ -26,6 +28,7 @@
       <%= @search.date.to_formatted_s(:long) %>
     </dd>
     <dd class="govuk-summary-list__actions">
+      <%= link_to('Change', change_dates_path, class: 'govuk-link') %>
     </dd>
   </div>
 </dl>
