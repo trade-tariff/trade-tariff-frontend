@@ -59,17 +59,6 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
       it { is_expected.to have_css '#rules-of-origin__intro--unilateral-scheme' }
     end
-
-    context 'with multiple schemes' do
-      let(:schemes) { build_list :rules_of_origin_scheme, 2, countries: %w[FR ES] }
-
-      it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--block-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--unilateral-scheme' }
-      it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes' }
-      it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes li', count: 2 }
-    end
   end
 
   describe '#rules_of_origin_tagged_descriptions' do

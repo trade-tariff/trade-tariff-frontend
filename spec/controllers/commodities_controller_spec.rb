@@ -42,7 +42,7 @@ RSpec.describe CommoditiesController, type: :controller do
         it { expect(assigns(:chapter)).to be_present }
         it { expect(assigns(:heading)).to be_present }
         it { expect(assigns(:commodity)).to be_present }
-        it { expect(assigns(:rules_of_origin_schemes)).to be_nil }
+        it { expect(assigns(:rules_of_origin)).to be_nil }
       end
 
       context 'with non-existant commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do
