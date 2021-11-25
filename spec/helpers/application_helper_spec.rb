@@ -222,24 +222,4 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to have_css 'header span.govuk-caption-m', text: I18n.t('title.service_name.xi') }
     end
   end
-
-  describe '#home_path' do
-    subject(:home_path) { helper.home_path }
-
-    before do
-      allow(TradeTariffFrontend).to receive(:updated_navigation?).and_return(updated_navigation)
-    end
-
-    context 'when on updated navigation' do
-      let(:updated_navigation) { true }
-
-      it { is_expected.to eq(find_commodity_path) }
-    end
-
-    context 'when not on updated navigation' do
-      let(:updated_navigation) { false }
-
-      it { is_expected.to eq(sections_path) }
-    end
-  end
 end

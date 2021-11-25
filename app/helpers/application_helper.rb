@@ -91,12 +91,4 @@ module ApplicationHelper
       caption
     end
   end
-
-  def home_path(path_opts = {})
-    if TradeTariffFrontend.updated_navigation?
-      find_commodity_path(path_opts)
-    else
-      sections_path(path_opts)
-    end
-  end
 end
