@@ -15,16 +15,20 @@ module ApplicationHelper
   end
 
   def generate_breadcrumbs(current_page, previous_pages)
-    crumbs = [
-      previous_pages.map do |title, link|
-        tag.li(nil, class: 'govuk-breadcrumbs__list-item') do
-          link_to(title, link, class: 'govuk-breadcrumbs__link')
-        end
-      end,
-      tag.li(current_page, class: 'govuk-breadcrumbs__list-item', aria: { current: 'page' }),
-    ]
+    breadcrumbs = previous_pages.map do |title, link|
+      tag.li class: 'govuk-breadcrumbs__list-item' do
+        link_to title, link, class: 'govuk-breadcrumbs__link'
+      end
+    end
 
-    tag.div(class: 'govuk-breadcrumbs') { tag.ol(crumbs.join('').html_safe, class: 'govuk-breadcrumbs__list', role: 'breadcrumbs') }
+    breadcrumbs << tag.li(current_page, class: 'govuk-breadcrumbs__list-item',
+                                        aria: { current: 'page' })
+
+    tag.nav class: 'govuk-breadcrumbs', aria: { label: 'Breadcrumb' } do
+      tag.ol class: 'govuk-breadcrumbs__list' do
+        safe_join breadcrumbs, "\n"
+      end
+    end
   end
 
   def page_header(heading = nil, &block)
