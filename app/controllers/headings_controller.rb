@@ -1,12 +1,15 @@
 class HeadingsController < GoodsNomenclaturesController
-  before_action :fetch_heading,
-                only: %i[show]
-
+  before_action :fetch_heading,only: %i[show]
   before_action :set_goods_nomenclature_code, only: %i[show]
+  before_action :disable_search_form, only: %i[show]
 
   helper_method :uk_heading, :xi_heading
 
   def show
+    if @heading.declarable?
+      redirect_to commodity_url(id: @heading.id)
+    end
+
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @meursing_additional_code = session[:meursing_lookup].try(:[], 'result')
     @section = heading.section
