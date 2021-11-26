@@ -1,6 +1,4 @@
 class SearchReferencesController < ApplicationController
-  before_action { disable_search_form }
-
   def show
     @search_references = SearchReferencesPresenter.new(
       SearchReference.all(query: { letter: letter })

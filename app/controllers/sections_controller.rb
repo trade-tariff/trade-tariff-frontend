@@ -1,8 +1,6 @@
 class SectionsController < GoodsNomenclaturesController
   prepend_before_action :redirect_to_find_commodity, only: :index
 
-  before_action :disable_search_form
-
   def index
     @tariff_updates = TariffUpdate.all
     @sections = Section.all

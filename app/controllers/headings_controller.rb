@@ -7,8 +7,6 @@ class HeadingsController < GoodsNomenclaturesController
   helper_method :uk_heading, :xi_heading
 
   def show
-    disable_search_form
-
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @meursing_additional_code = session[:meursing_lookup].try(:[], 'result')
     @section = heading.section

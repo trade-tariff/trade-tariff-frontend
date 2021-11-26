@@ -1,6 +1,5 @@
 class ErrorsController < ApplicationController
   before_action do
-    disable_search_form
     @tariff_last_updated = nil
   end
 
