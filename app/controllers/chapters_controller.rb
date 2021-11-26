@@ -11,6 +11,6 @@ class ChaptersController < GoodsNomenclaturesController
   private
 
   def set_goods_nomenclature_code
-    session[:goods_nomenclature_code] = @chapter.code
+    session[:goods_nomenclature_code] = @chapter.short_code
   end
 end
