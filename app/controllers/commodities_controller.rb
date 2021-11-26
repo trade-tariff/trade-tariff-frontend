@@ -43,7 +43,7 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def heading_from_param
-    @heading_from_param ||= if is_heading_id?
+    @heading_from_param ||= if GoodsNomenclature.is_heading_id?(params[:id])
                               heading_id = params[:id].slice(0, 4)
                               HeadingPresenter.new(Heading.find(heading_id, query_params))
                             end

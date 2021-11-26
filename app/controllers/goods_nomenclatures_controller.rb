@@ -1,10 +1,6 @@
 class GoodsNomenclaturesController < ApplicationController
   rescue_from Faraday::ResourceNotFound, with: :find_relevant_goods_code_or_fallback
 
-  def is_heading_id?
-    goods_code_id.ends_with?('000000') && goods_code_id.slice(2, 2) != '00'
-  end
-
   private
 
   def goods_code_id
