@@ -16,6 +16,17 @@ GIT
       actionpack (>= 6.1)
       activesupport (>= 6.1)
 
+GIT
+  remote: https://github.com/willfish/govuk-formbuilder.git
+  revision: 1c0727d18f8373cc3faba439f03e7713b35ec000
+  branch: support-maxlength
+  specs:
+    govuk_design_system_formbuilder (2.8.0)
+      actionview (>= 6.0)
+      activemodel (>= 6.0)
+      activesupport (>= 6.0)
+      deep_merge (~> 1.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -174,11 +185,6 @@ GEM
       sentry-ruby (~> 4.5.0)
       statsd-ruby (~> 1.5.0)
       unicorn (>= 5.4, < 5.9)
-    govuk_design_system_formbuilder (2.7.6)
-      actionview (>= 6.0)
-      activemodel (>= 6.0)
-      activesupport (>= 6.0)
-      deep_merge (~> 1.2.1)
     govuk_personalisation (0.10.0)
       plek (>= 1.9.0)
       rails (~> 6)
@@ -458,7 +464,7 @@ DEPENDENCIES
   faraday_middleware
   forgery
   govspeak
-  govuk_design_system_formbuilder
+  govuk_design_system_formbuilder!
   kaminari
   letter_opener
   lograge
