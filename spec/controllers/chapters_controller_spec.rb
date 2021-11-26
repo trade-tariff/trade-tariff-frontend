@@ -11,6 +11,6 @@ RSpec.describe ChaptersController, type: :controller, vcr: { cassette_name: 'cha
     it { is_expected.to respond_with(:success) }
     it { expect(assigns(:chapter)).to be_a(Chapter) }
     it { expect(assigns(:headings)).to be_a(Array) }
-    it { expect(session[:goods_nomenclature_code]).to eq(chapter.code) }
+    it { expect(session[:goods_nomenclature_code]).to eq('01') }
   end
 end
