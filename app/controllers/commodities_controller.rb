@@ -2,7 +2,7 @@ class CommoditiesController < GoodsNomenclaturesController
   helper_method :uk_commodity, :xi_commodity
 
   before_action :disable_search_form, only: %i[show]
-  before_action :fetch_commodities, only: %i[show]
+  before_action :fetch_headings_or_commodities, only: %i[show]
   before_action :set_goods_nomenclature_code, only: %i[show]
 
   def show
@@ -22,19 +22,35 @@ class CommoditiesController < GoodsNomenclaturesController
     Commodity.by_code(search_term).sort_by(&:code)
   end
 
-  def fetch_commodities
+  def fetch_headings_or_commodities
+    if heading_from_param&.declarable?
+      fetch_headings
+    else
+      fetch_commodities
+    end
+  end
+
+  def fetch_headings
     @commodities ||= {}
 
-    if is_heading_id?
-      heading_id = params[:id].slice(0, 4)
-      heading = HeadingPresenter.new(Heading.find(heading_id, query_params))
-
-      if heading.declarable? # stay in commodity page
-        @commodities[:uk] = heading
-
-        return
-      end
+    if TradeTariffFrontend::ServiceChooser.uk?
+      @commodities[:uk] = heading_from_param
+      @commodities[:xi] = nil
+    else
+      @commodities[:xi] = heading_from_param
+      @commodities[:uk] = TradeTariffFrontend::ServiceChooser.with_source(:uk) { heading_from_param }
     end
+  end
+
+  def heading_from_param
+    @heading_from_param ||= if is_heading_id?
+                              heading_id = params[:id].slice(0, 4)
+                              HeadingPresenter.new(Heading.find(heading_id, query_params))
+                            end
+  end
+
+  def fetch_commodities
+    @commodities ||= {}
 
     if TradeTariffFrontend::ServiceChooser.uk?
       @commodities[:uk] = CommodityPresenter.new(Commodity.find(params[:id], query_params))
