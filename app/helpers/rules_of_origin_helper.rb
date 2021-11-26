@@ -8,22 +8,25 @@ module RulesOfOriginHelper
 
   def rules_of_origin_schemes_intro(country_name, schemes)
     if schemes.empty?
-      return render 'rules_of_origin/intros/no_scheme',
-                    country_name: country_name
-    end
-
-    schemes_intros = schemes.map do |scheme|
-      partial = if scheme.countries.one? then 'country'
-                elsif scheme.unilateral then 'unilateral_trade_bloc'
-                else 'trade_bloc'
-                end
-
-      render "rules_of_origin/intros/#{partial}",
+      render 'rules_of_origin/intros/no_scheme',
+             country_name: country_name
+    elsif schemes.many?
+      render 'rules_of_origin/intros/multiple_schemes',
              country_name: country_name,
-             scheme: scheme
+             schemes: schemes
+    elsif schemes.first.countries.one?
+      render 'rules_of_origin/intros/country',
+             country_name: country_name,
+             scheme: schemes.first
+    elsif schemes.first.unilateral
+      render 'rules_of_origin/intros/unilateral_trade_bloc',
+             country_name: country_name,
+             scheme: schemes.first
+    else
+      render 'rules_of_origin/intros/trade_bloc',
+             country_name: country_name,
+             scheme: schemes.first
     end
-
-    safe_join schemes_intros, "\n\n"
   end
 
   def rules_of_origin_tagged_descriptions(content)

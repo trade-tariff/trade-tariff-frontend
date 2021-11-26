@@ -1,5 +1,11 @@
 <div class="rules-of-origin__proofs">
   <% if proofs.any? %>
+    <% if scheme_title %>
+      <span class="govuk-caption-l">
+        <%= scheme_title %>
+      </span>
+    <% end %>
+
     <h3 class="govuk-heading-m">
       Proving originating status and claiming preferential treatment
     </h3>
