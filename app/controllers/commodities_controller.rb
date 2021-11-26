@@ -5,8 +5,6 @@ class CommoditiesController < GoodsNomenclaturesController
   before_action :set_goods_nomenclature_code, only: %i[show]
 
   def show
-    disable_search_form
-
     @heading = commodity.heading
     @chapter = commodity.chapter
     @section = commodity.section

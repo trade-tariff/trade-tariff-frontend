@@ -70,13 +70,6 @@
 
       <%= render 'shared/switch_banner' %>
 
-      <% # This is a patch to show the header and search in section until the updated_navigation feature flag is removed
-         # TODO: remove this after updated_navigation is removed
-       if (controller.controller_name == 'sections' && controller.action_name == 'index' && !TradeTariffFrontend.updated_navigation?) %>
-        <%= page_header heading_for(section: @section) %>
-        <%= render 'shared/search/search_form'%>
-      <% end %>
-
       <%= render 'shared/search/search_form' unless @no_shared_search %>
 
       <%= yield %>

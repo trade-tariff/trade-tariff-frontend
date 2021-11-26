@@ -2,6 +2,8 @@
   <link rel='alternate' type='application/json' href='<%= sections_url(format: :json) %>' title='Section list in JSON format' />
 <% end %>
 
+<%= page_header heading_for(section: @section) %>
+
 <section class="sections">
   <table class="govuk-table">
     <caption class="govuk-table__caption govuk-table__caption--m">All sections</caption>
