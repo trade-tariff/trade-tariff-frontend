@@ -120,7 +120,6 @@ RSpec.describe 'Search', js: true do
           expect(page).to have_content('gold - gold coin')
 
           page.find('.autocomplete__option--focused').click
-          page.click_on 'Search for a commodity'
 
           # trying to see if redirect done by JS needs some sleep to be caught up
           sleep 1
@@ -146,7 +145,6 @@ RSpec.describe 'Search', js: true do
           sleep 1
 
           page.find('.autocomplete__option--focused').click
-          page.click_on 'Search for a commodity'
 
           # trying to see if redirect done by JS needs some sleep to be caught up
           sleep 1
