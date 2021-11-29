@@ -1,5 +1,5 @@
 class ImportExportDatesController < ApplicationController
-  include DeclarableHelper
+  include GoodsNomenclatureHelper
 
   before_action :disable_search_form, :disable_switch_service_banner do
     @tariff_last_updated = nil
