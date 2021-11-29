@@ -31,4 +31,17 @@
       <%= link_to('Change', import_export_dates_path, class: 'govuk-link') %>
     </dd>
   </div>
+  <% if @heading.declarable? %>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Filter by country
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <%= trading_partner_country_description(@search.country) %>
+      </dd>
+      <dd class="govuk-summary-list__actions">
+        <%= link_to('Change', trading_partners_path, class: 'govuk-link') %>
+      </dd>
+    </div>
+  <% end %>
 </dl>

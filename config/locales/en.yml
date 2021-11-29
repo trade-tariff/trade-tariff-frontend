@@ -65,6 +65,7 @@ en:
     footnote_search: Footnote Search
     meursing_lookup: Meursing code finder
     date: Enter date of trade
+    trading_partner: Select a country
 
   service_banner:
     service_name:
@@ -98,6 +99,11 @@ en:
         legend_text: "How much milk protein does the product contain?"
         hint_text: "The values represent % by weight"
 
+  trading_partner:
+    form:
+      legend_text: "Select a country"
+      hint_text: "Filter measures against the selected country"
+      submit: "Select country"
   import_export_date:
     form:
       legend_text: "When are you planning to trade the goods?"
@@ -131,3 +137,7 @@ en:
           attributes:
             import_date:
               invalid_date: Enter a valid date
+        trading_partner:
+          attributes:
+            country:
+              invalid_country: Select a valid trading partner
