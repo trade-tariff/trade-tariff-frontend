@@ -767,6 +767,10 @@
             (function(element) {
               var options = [];
 
+              $(element).on('change', 'input[type="text"]', function(ev) {
+                $('.js-commodity-picker-target').val($(ev.target).val());
+              }) ;
+
               accessibleAutocomplete({
                 element: element[0],
                 id: "q",
