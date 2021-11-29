@@ -1,0 +1,40 @@
+<%= page_header %>
+
+<% content_for :before_main_content do %>
+  <%= generate_breadcrumbs(
+    t('breadcrumb.trading_partner'),
+    [
+      [t('breadcrumb.home'), sections_path]
+    ]
+  ) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <%= form_for @trading_partner, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: 'patch' do |f| %>
+
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-fieldset__heading"><%= t('trading_partner.form.legend_text') %></h1>
+        </legend>
+
+        <%= f.govuk_error_summary %>
+
+        <%= f.govuk_collection_select :country,
+          TradingPartner.options,
+          :id,
+          :name,
+          options: { prompt: true, },
+          label: nil,
+          hint: { text: t('trading_partner.form.hint_text') } %>
+
+        <div class="govuk-button-group">
+          <%= f.govuk_submit(t('trading_partner.form.submit')) %>
+          <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil), class: 'govuk-link') %>
+        </div>
+      <% end %>
+      </fieldset>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'trading-partner-autocomplete' %>

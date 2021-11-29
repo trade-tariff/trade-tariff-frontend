@@ -65,6 +65,7 @@ Rails.application.routes.draw do
   get 'tools', to: 'pages#tools'
 
   resource :import_export_dates, only: %i[show update]
+  resource :trading_partners, only: %i[show update]
 
   namespace :cookies do
     resource :policy, only: %i[show create update]

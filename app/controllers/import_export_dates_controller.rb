@@ -1,7 +1,9 @@
 class ImportExportDatesController < ApplicationController
   include DeclarableHelper
 
-  before_action :disable_search_form
+  before_action :disable_search_form, :disable_switch_service_banner do
+    @tariff_last_updated = nil
+  end
 
   def show
     @import_export_date = ImportExportDate.new(show_import_export_date_params)

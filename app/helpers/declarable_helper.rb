@@ -71,6 +71,14 @@ module DeclarableHelper
     search.country || GeographicalArea::ERGA_OMNES
   end
 
+  def trading_partner_country_description(geographical_area_id)
+    if geographical_area_id.present?
+      GeographicalArea.find(geographical_area_id).description
+    else
+      'All countries'
+    end
+  end
+
   private
 
   def goods_nomenclature_path_opts

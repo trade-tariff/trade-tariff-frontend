@@ -178,4 +178,18 @@ RSpec.describe DeclarableHelper, type: :helper do
       it { is_expected.to eq('1011') }
     end
   end
+
+  describe '#trading_partner_country_description', vcr: { cassette_name: 'geographical_areas#it' } do
+    context 'when the country is a valid country' do
+      subject(:trading_partner_country_description) { helper.trading_partner_country_description('IT') }
+
+      it { is_expected.to eq('Italy') }
+    end
+
+    context 'when the country is nil' do
+      subject(:trading_partner_country_description) { helper.trading_partner_country_description(nil) }
+
+      it { is_expected.to eq('All countries') }
+    end
+  end
 end
