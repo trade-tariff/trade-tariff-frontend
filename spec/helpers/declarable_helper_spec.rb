@@ -82,25 +82,13 @@ RSpec.describe DeclarableHelper, type: :helper do
     end
   end
 
-  describe '#declarable_back_link' do
-    context 'when the session goods_nomenclature_code is a commodity code' do
-      let(:session_goods_nomenclature_code) { '1901200000' }
+  describe '#goods_nomenclature_back_link' do
+    let(:session_goods_nomenclature_code) { '1901200000' }
 
-      it 'returns a return link for the commodity' do
-        expected_link = '<a class="govuk-back-link" href="/commodities/1901200000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back</a>'
+    it 'returns the correct link html' do
+      expected_link = '<a class="govuk-back-link" href="/commodities/1901200000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back</a>'
 
-        expect(helper.declarable_back_link).to eq(expected_link)
-      end
-    end
-
-    context 'when the session goods_nomenclature_code is a heading code' do
-      let(:session_goods_nomenclature_code) { '1901' }
-
-      it 'returns a return link for the commodity' do
-        expected_link = '<a class="govuk-back-link" href="/headings/1901?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back</a>'
-
-        expect(helper.declarable_back_link).to eq(expected_link)
-      end
+      expect(helper.goods_nomenclature_back_link).to eq(expected_link)
     end
   end
 

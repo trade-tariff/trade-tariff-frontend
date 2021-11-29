@@ -39,7 +39,7 @@ module DeclarableHelper
     )
   end
 
-  def declarable_back_link
+  def goods_nomenclature_back_link
     link_to('Back', goods_nomenclature_path, class: 'govuk-back-link')
   end
 
