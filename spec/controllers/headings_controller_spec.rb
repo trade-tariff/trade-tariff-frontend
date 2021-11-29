@@ -36,7 +36,7 @@ RSpec.describe HeadingsController, type: :controller do
       it { is_expected.to respond_with(:success) }
       it { expect(assigns(:heading)).to be_a(HeadingPresenter) }
       it { expect(assigns(:commodities)).to be_a(HeadingCommodityPresenter) }
-      it { expect(assigns(:rules_of_origin)).to be_nil }
+      it { expect(assigns(:rules_of_origin_schemes)).to be_nil }
     end
 
     context 'with non-existent chapter id provided', vcr: { cassette_name: 'headings#show_0110' } do

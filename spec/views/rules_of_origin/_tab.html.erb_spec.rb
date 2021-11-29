@@ -8,7 +8,7 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
            country_code: 'FR',
            country_name: 'France',
            commodity_code: '2203000100',
-           rules_of_origin: schemes
+           rules_of_origin_schemes: schemes
   end
 
   let :rules_data do
@@ -44,26 +44,8 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
     expect(rendered_page).to have_css '#rules-of-origin__intro--bloc-scheme'
   end
 
-  it 'includes the proofs' do
-    expect(rendered_page).to have_css '.rules-of-origin__proofs'
-  end
-
-  context 'with UK service' do
-    include_context 'with UK service'
-
-    it 'references the country in the introductory text' do
-      expect(rendered_page).to \
-        have_css 'p', text: /originating in the UK or France/
-    end
-  end
-
-  context 'with XI service' do
-    include_context 'with XI service'
-
-    it 'references the country in the introductory text' do
-      expect(rendered_page).to \
-        have_css 'p', text: /originating in the EU or France/
-    end
+  it 'includes the schemes' do
+    expect(rendered_page).to have_css '.rules-of-origin__scheme', count: 1
   end
 
   context 'with matched rules of origin' do
@@ -71,36 +53,6 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
 
     it 'shows rules table' do
       expect(rendered_page).to have_css 'table.govuk-table'
-    end
-
-    it 'shows row per rule' do
-      expect(rendered_page).to have_css 'tbody tr', count: 1
-    end
-
-    it 'show rule heading' do
-      expect(rendered_page).to \
-        have_css 'tbody tr td', text: first_rule.heading
-    end
-
-    it 'shows rule description' do
-      expect(rendered_page).to \
-        have_css 'tbody tr td', text: first_rule.description
-    end
-
-    it 'formats the rule detail markdown' do
-      expect(rendered_page).to \
-        have_css '.tariff-markdown ul li', text: 'From materials'
-    end
-
-    it 'formats the scheme fta_intro markdown' do
-      expect(rendered_page).to \
-        have_css '.rules-of-origin-fta .tariff-markdown h2',
-                 text: 'Free Trade Agreement'
-    end
-
-    it 'includes the introductory_notes section' do
-      expect(rendered_page).to have_css 'details .tariff-markdown p',
-                                        text: /Details of introductory notes/
     end
 
     it 'includes the non-preferential bloc' do
@@ -120,10 +72,6 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
         have_css 'p', text: /no product-specific rules for commodity \d{10}/
     end
 
-    it 'excludes the introductory_notes section' do
-      expect(rendered_page).not_to have_css 'details .tariff-markdown'
-    end
-
     it 'includes the non-preferential bloc' do
       expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
     end
@@ -141,9 +89,23 @@ RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
     let(:schemes) { [] }
 
     it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
+    it { is_expected.not_to have_css '.rules-of-origin__scheme' }
 
     it 'includes the non-preferential bloc' do
       expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
+    end
+  end
+
+  context 'with multiple schemes' do
+    let(:schemes) do
+      build_list :rules_of_origin_scheme, 3, rules: rules_data,
+                                             fta_intro: fta_intro
+    end
+
+    it { is_expected.to have_css '.rules-of-origin__scheme', count: 3 }
+
+    it 'includes one non-preferential bloc' do
+      expect(rendered_page).to have_css '.rules-of-origin__non-preferential', count: 1
     end
   end
 
