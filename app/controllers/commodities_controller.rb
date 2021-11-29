@@ -1,7 +1,6 @@
 class CommoditiesController < GoodsNomenclaturesController
   helper_method :uk_commodity, :xi_commodity
 
-  before_action :disable_search_form, only: %i[show]
   before_action :fetch_headings_or_commodities, only: %i[show]
   before_action :set_goods_nomenclature_code, only: %i[show]
 
