@@ -1,6 +1,6 @@
 module MeursingLookup
   class ResultsController < ApplicationController
-    include DeclarableHelper
+    include GoodsNomenclatureHelper
 
     def show
       session.delete(Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY)

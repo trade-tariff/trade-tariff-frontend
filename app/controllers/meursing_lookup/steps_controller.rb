@@ -10,7 +10,7 @@ module MeursingLookup
       store_meursing_lookup_result_on_session
     end
 
-    include DeclarableHelper
+    include GoodsNomenclatureHelper
     include WizardSteps
 
     self.wizard_class = MeursingLookup::Wizard
