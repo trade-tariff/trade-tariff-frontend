@@ -66,7 +66,7 @@ class GoodsNomenclature
     rules_of_origin(...).flat_map(&:rules)
   end
 
-  def self.is_heading_id?(goods_code_id)
-    goods_code_id.ends_with?('000000') && goods_code_id.slice(2, 2) != '00'
+  def self.is_heading_id?(goods_nomenclature_item_id)
+    goods_nomenclature_item_id.ends_with?('000000') && goods_nomenclature_item_id.slice(2, 2) != '00'
   end
 end

@@ -1,11 +1,11 @@
 module DeclarableHelper
-  def classification_description(commodity)
-    tree_items = if commodity.heading?
-                   [commodity]
-                 else
-                   [commodity.heading,
-                    commodity.ancestors,
-                    commodity]
+  def classification_description(declarable)
+    tree_items = if declarable.heading?
+                   [declarable]
+                 else # it is a commodity
+                   [declarable.heading,
+                    declarable.ancestors,
+                    declarable]
                  end
 
     descriptions = tree_items
