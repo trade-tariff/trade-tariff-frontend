@@ -1,11 +1,11 @@
 <% content_for :head do %>
   <meta name="description" content="<%= @commodity.description_plain %>">
-  <link rel='alternate' type='application/json' href='<%= commodity_url(@commodity, format: :json) %>' title='Commodity information page in JSON format' />
+  <link rel='alternate' type='application/json' href='<%= declarable_url_json(@commodity) %>' title='Commodity information page in JSON format' />
 <% end %>
 
 <% content_for :bodyClasses, "page--wide" %>
 
-<%= render 'commodities/header', commodity_code: @commodity.short_code %>
+<%= render 'commodities/header', commodity_code: @commodity.code %>
 
 <%= render 'shared/context_tables/commodity' %>
 

@@ -1,6 +1,14 @@
 module DeclarableHelper
-  def classification_description(commodity)
-    descriptions = [commodity.heading, commodity.ancestors, commodity]
+  def classification_description(declarable)
+    tree_items = if declarable.heading?
+                   [declarable]
+                 else # it is a commodity
+                   [declarable.heading,
+                    declarable.ancestors,
+                    declarable]
+                 end
+
+    descriptions = tree_items
       .flatten
       .map(&:description)
 
@@ -76,6 +84,14 @@ module DeclarableHelper
       GeographicalArea.find(geographical_area_id).description
     else
       'All countries'
+    end
+  end
+
+  def declarable_url_json(declarable)
+    if declarable.heading?
+      heading_url(declarable, format: :json)
+    else
+      commodity_url(declarable, format: :json)
     end
   end
 

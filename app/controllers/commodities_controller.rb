@@ -1,11 +1,11 @@
 class CommoditiesController < GoodsNomenclaturesController
   helper_method :uk_commodity, :xi_commodity
 
-  before_action :fetch_commodities, only: %i[show]
+  before_action :fetch_headings_or_commodities, only: %i[show]
   before_action :set_goods_nomenclature_code, only: %i[show]
 
   def show
-    @heading = commodity.heading
+    @heading = commodity.heading? ? commodity : commodity.heading
     @chapter = commodity.chapter
     @section = commodity.section
 
@@ -19,6 +19,33 @@ class CommoditiesController < GoodsNomenclaturesController
   def commodities_by_code
     search_term = Regexp.escape(params[:term].to_s)
     Commodity.by_code(search_term).sort_by(&:code)
+  end
+
+  def fetch_headings_or_commodities
+    if heading_from_param&.declarable?
+      fetch_headings
+    else
+      fetch_commodities
+    end
+  end
+
+  def fetch_headings
+    @commodities ||= {}
+
+    if TradeTariffFrontend::ServiceChooser.uk?
+      @commodities[:uk] = heading_from_param
+      @commodities[:xi] = nil
+    else
+      @commodities[:xi] = heading_from_param
+      @commodities[:uk] = TradeTariffFrontend::ServiceChooser.with_source(:uk) { heading_from_param }
+    end
+  end
+
+  def heading_from_param
+    @heading_from_param ||= if GoodsNomenclature.is_heading_id?(params[:id])
+                              heading_id = params[:id].slice(0, 4)
+                              HeadingPresenter.new(Heading.find(heading_id, query_params))
+                            end
   end
 
   def fetch_commodities

@@ -6,8 +6,11 @@
 <% end %>
 
 <% content_for :bodyClasses, "page--wide" %>
-
-  <%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
+  <% if @heading.declarable? %>
+    <%= render 'commodities/header', commodity_code: (@heading.page_heading + '000000') %>
+  <% else %>
+    <%= page_header heading_for(section: @section, chapter: @chapter, heading: @heading, commodity: @commodity) %>
+  <% end %>
 
   <%= render 'shared/context_tables/heading' %>
   <%= render 'shared/callouts/heading'%>

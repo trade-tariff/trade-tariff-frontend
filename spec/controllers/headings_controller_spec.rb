@@ -51,6 +51,16 @@ RSpec.describe HeadingsController, type: :controller do
       end
     end
 
+    context 'when heading is declarable', vcr: { cassette_name: 'headings#show_0903' } do
+      let(:heading_id) { '0903' } # heading is declarable
+
+      it 'redirects to the relevant commodity' do
+        get :show, params: { id: '0903' }
+
+        expect(response.status).to redirect_to commodity_url(id: '0903000000')
+      end
+    end
+
     context 'with UK site' do
       before do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_call_original

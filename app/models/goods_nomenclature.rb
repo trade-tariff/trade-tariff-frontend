@@ -29,7 +29,7 @@ class GoodsNomenclature
   end
 
   def heading?
-    goods_nomenclature_item_id.ends_with?('000000') && goods_nomenclature_item_id.slice(2, 2) != '00'
+    self.class.is_heading_id?(goods_nomenclature_item_id)
   end
 
   def commodity?
@@ -64,5 +64,9 @@ class GoodsNomenclature
 
   def rules_of_origin_rules(...)
     rules_of_origin(...).flat_map(&:rules)
+  end
+
+  def self.is_heading_id?(goods_nomenclature_item_id)
+    goods_nomenclature_item_id.ends_with?('000000') && goods_nomenclature_item_id.slice(2, 2) != '00'
   end
 end

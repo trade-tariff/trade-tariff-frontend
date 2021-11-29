@@ -20,7 +20,7 @@
           <%= breadcrumb_link_or_text(@chapter, @heading, "Chapter #{@chapter.short_code}") %>
         </li>
 
-        <% if @heading %>
+        <% if @heading && !@heading.declarable?%>
           <li class="govuk-breadcrumbs__list-item">
             <%= breadcrumb_link_or_text(@heading, @commodity, "Heading #{@heading.short_code}") %>
           </li>
