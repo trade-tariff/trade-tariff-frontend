@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: https://github.com/willfish/govuk-formbuilder.git
-  revision: 1c0727d18f8373cc3faba439f03e7713b35ec000
+  revision: 7c002bf2ffc1ff1e9205f96c358a0d6ec04e3d6f
   branch: support-maxlength
   specs:
     govuk_design_system_formbuilder (2.8.0)
