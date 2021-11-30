@@ -140,4 +140,4 @@ en:
         trading_partner:
           attributes:
             country:
-              invalid_country: Select a valid trading partner
+              invalid_country: Select a country

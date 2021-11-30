@@ -69,7 +69,7 @@ RSpec.describe TradingPartnersController, type: :controller do
       it 'attaches the correct error message' do
         response
 
-        expect(assigns(:trading_partner).errors.messages[:country]).to eq(['Select a valid trading partner'])
+        expect(assigns(:trading_partner).errors.messages[:country]).to eq(['Select a country'])
       end
 
       it { is_expected.to render_template('trading_partners/show') }
