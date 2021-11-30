@@ -250,4 +250,26 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.not_to have_css 'span.switch-service-control' }
     end
   end
+
+  describe '#css_heading_size' do
+    subject { helper.css_heading_size(text) }
+
+    context 'when text length is greater than or equal to 400 chars' do
+      let(:text) { 'X' * 400 }
+
+      it { is_expected.to eq 'govuk-heading-s' } # Small text
+    end
+
+    context 'when text length is between 120 and 400 chars' do
+      let(:text) { 'X' * 150 }
+
+      it { is_expected.to eq 'govuk-heading-m' } # Medium text
+    end
+
+    context 'when text length is smaller than 120 chars' do
+      let(:text) { 'X' * 119 }
+
+      it { is_expected.to eq 'govuk-heading-l' } # Large text
+    end
+  end
 end

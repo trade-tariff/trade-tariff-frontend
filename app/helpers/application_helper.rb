@@ -31,11 +31,11 @@ module ApplicationHelper
     end
   end
 
-  def page_header(heading = nil, &block)
+  def page_header(heading_text = nil, &block)
     extra_content = block_given? ? capture(&block) : nil
 
     render 'shared/page_header',
-           heading: heading,
+           heading_text: heading_text,
            show_switch_service: is_switch_service_banner_enabled?,
            extra_content: extra_content
   end
@@ -96,6 +96,16 @@ module ApplicationHelper
       link_to(caption, parent, class: 'govuk-breadcrumbs__link')
     else
       caption
+    end
+  end
+
+  def css_heading_size(text)
+    if text.length >= 400
+      'govuk-heading-s'
+    elsif text.length >= 120
+      'govuk-heading-m'
+    else
+      'govuk-heading-l'
     end
   end
 end
