@@ -21,7 +21,7 @@ RSpec.describe TradingPartner, vcr: { cassette_name: 'geographical_areas#countri
     context 'when an invalid date is passed' do
       let(:attributes) { { 'country' => 'FOO' } }
 
-      it { expect(trading_partner.errors.messages[:country]).to include('Select a valid trading partner') }
+      it { expect(trading_partner.errors.messages[:country]).to include('Select a country') }
     end
   end
 end
