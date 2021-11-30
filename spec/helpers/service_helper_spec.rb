@@ -221,4 +221,36 @@ RSpec.describe ServiceHelper, type: :helper do
       it { is_expected.to eql 'Northern Ireland' }
     end
   end
+
+  describe '#import_export_date_title' do
+    subject(:import_export_date_title) { helper.import_export_date_title }
+
+    context 'when the selected service choice is xi' do
+      include_context 'with XI service'
+
+      it { is_expected.to eq('Northern Ireland Online Tariff - When will your goods be traded - GOV.UK') }
+    end
+
+    context 'when the selected service choice is nil' do
+      include_context 'with default service'
+
+      it { is_expected.to eq('UK Integrated Online Tariff - When will your goods be traded - GOV.UK') }
+    end
+  end
+
+  describe '#trading_partner_title' do
+    subject(:trading_partner_title) { helper.trading_partner_title }
+
+    context 'when the selected service choice is xi' do
+      include_context 'with XI service'
+
+      it { is_expected.to eq('Northern Ireland Online Tariff - Set country filter - GOV.UK') }
+    end
+
+    context 'when the selected service choice is nil' do
+      include_context 'with default service'
+
+      it { is_expected.to eq('UK Integrated Online Tariff - Set country filter - GOV.UK') }
+    end
+  end
 end
