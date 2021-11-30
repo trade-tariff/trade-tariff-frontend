@@ -222,6 +222,106 @@ RSpec.describe ServiceHelper, type: :helper do
     end
   end
 
+  describe '.replace_service_tags' do
+    subject { replace_service_tags content }
+
+    context 'with UK service' do
+      include_context 'with UK service'
+
+      context 'without tags' do
+        let(:content) { 'this is some sample content' }
+
+        it { is_expected.to eql 'this is some sample content' }
+      end
+
+      context 'with SERVICE_NAME tag' do
+        let(:content) { 'You are on the [[SERVICE_NAME]]' }
+
+        it { is_expected.to eql 'You are on the UK Integrated Online Tariff' }
+      end
+
+      context 'with SERVICE_PATH tag' do
+        let(:content) { '<a href="[[SERVICE_PATH]]/browse">Browse</a>' }
+
+        it { is_expected.to eql '<a href="/browse">Browse</a>' }
+      end
+
+      context 'with SERVICE_REGION' do
+        let(:content) { 'within [[SERVICE_REGION]]' }
+
+        it { is_expected.to eql 'within the UK' }
+      end
+
+      context 'with multiple tags' do
+        let :content do
+          <<~END_OF_CONTENT
+            [[SERVICE_NAME]]
+            * [Find commodity]([[SERVICE_PATH]]/find_commodity)
+            * [Browse]([[SERVICE_PATH]]/browse)
+          END_OF_CONTENT
+        end
+
+        let :expected do
+          <<~END_OF_EXPECTED
+            UK Integrated Online Tariff
+            * [Find commodity](/find_commodity)
+            * [Browse](/browse)
+          END_OF_EXPECTED
+        end
+
+        it { is_expected.to eql expected }
+      end
+    end
+
+    context 'with XI service' do
+      include_context 'with XI service'
+
+      context 'without tags' do
+        let(:content) { 'this is some sample content' }
+
+        it { is_expected.to eql 'this is some sample content' }
+      end
+
+      context 'with SERVICE_NAME tag' do
+        let(:content) { 'You are on the [[SERVICE_NAME]]' }
+
+        it { is_expected.to eql 'You are on the Northern Ireland Online Tariff' }
+      end
+
+      context 'with SERVICE_PATH tag' do
+        let(:content) { '<a href="[[SERVICE_PATH]]/browse">Browse</a>' }
+
+        it { is_expected.to eql '<a href="/xi/browse">Browse</a>' }
+      end
+
+      context 'with SERVICE_REGION' do
+        let(:content) { 'within [[SERVICE_REGION]]' }
+
+        it { is_expected.to eql 'within Northern Ireland' }
+      end
+
+      context 'with multiple tags' do
+        let :content do
+          <<~END_OF_CONTENT
+            [[SERVICE_NAME]]
+            * [Find commodity]([[SERVICE_PATH]]/find_commodity)
+            * [Browse]([[SERVICE_PATH]]/browse)
+          END_OF_CONTENT
+        end
+
+        let :expected do
+          <<~END_OF_EXPECTED
+            Northern Ireland Online Tariff
+            * [Find commodity](/xi/find_commodity)
+            * [Browse](/xi/browse)
+          END_OF_EXPECTED
+        end
+
+        it { is_expected.to eql expected }
+      end
+    end
+  end
+
   describe '#import_export_date_title' do
     subject(:import_export_date_title) { helper.import_export_date_title }
 
