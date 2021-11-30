@@ -137,6 +137,28 @@ RSpec.describe ServiceHelper, type: :helper do
     end
   end
 
+  describe '#switch_service_button' do
+    subject { helper.switch_service_button }
+
+    before { allow(helper).to receive(:current_path).and_return '/some_path' }
+
+    context 'with UK service' do
+      include_context 'with UK service'
+
+      it { is_expected.to have_css 'span.switch-service-control span.arrow', text: nil }
+      it { is_expected.to have_css 'span.switch-service-control a.govuk-link--no-underline' }
+      it { is_expected.to have_link 'Switch to the Northern Ireland Online Tariff', href: '/xi/some_path' }
+    end
+
+    context 'with XI' do
+      include_context 'with XI service'
+
+      it { is_expected.to have_css 'span.switch-service-control span.arrow', text: nil }
+      it { is_expected.to have_css 'span.switch-service-control a.govuk-link--no-underline' }
+      it { is_expected.to have_link 'Switch to the UK Integrated Online Tariff', href: '/some_path' }
+    end
+  end
+
   describe '#switch_banner_copy' do
     before do
       helper.request.path = path

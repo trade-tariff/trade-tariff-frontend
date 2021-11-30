@@ -6,8 +6,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <span class="govuk-caption-xl"><%= trade_tariff_heading %></span>
-    <h1 class="govuk-heading-l">Geographical area <%= @geographical_area.id %> - <%= @geographical_area.description %></h1>
+    <%= page_header "Geographical area #{@geographical_area.id} - #{@geographical_area.description}" %>
+
     <p>Geographical area <%= @geographical_area.id %>, <strong><%= @geographical_area.description %></strong>,
       includes the following <%= @geographical_area.children_geographical_areas.count %> countries / regions.</p>
     <table class="govuk-table">

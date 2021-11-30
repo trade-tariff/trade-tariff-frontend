@@ -210,20 +210,29 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe '#page_header' do
+    before do
+      allow(helper).to receive(:is_switch_service_banner_enabled?)
+                         .and_return switch_banner
+    end
+
+    let(:switch_banner) { true }
+
     context 'without block' do
       subject { helper.page_header 'Test header' }
 
-      it { is_expected.to have_css 'header span.govuk-caption-m', text: I18n.t('title.service_name.uk') }
+      it { is_expected.to have_css 'header span.govuk-caption-xl', text: I18n.t('title.service_name.uk') }
       it { is_expected.to have_css 'header h1.govuk-heading-l', text: 'Test header' }
-      it { is_expected.to have_css 'header *', count: 2 }
+      it { is_expected.to have_css 'header > *', count: 2 }
+      it { is_expected.to have_css 'header span.switch-service-control' }
     end
 
     context 'with block' do
       subject { helper.page_header('Second header') { tag.em 'additional content' } }
 
-      it { is_expected.to have_css 'header span.govuk-caption-m', text: I18n.t('title.service_name.uk') }
+      it { is_expected.to have_css 'header span.govuk-caption-xl', text: I18n.t('title.service_name.uk') }
       it { is_expected.to have_css 'header h1.govuk-heading-l', text: 'Second header' }
-      it { is_expected.to have_css 'header *', count: 3 }
+      it { is_expected.to have_css 'header > *', count: 3 }
+      it { is_expected.to have_css 'header span.switch-service-control' }
       it { is_expected.to have_css 'header em', text: 'additional content' }
     end
 
@@ -232,7 +241,13 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       include_context 'with XI service'
 
-      it { is_expected.to have_css 'header span.govuk-caption-m', text: I18n.t('title.service_name.xi') }
+      it { is_expected.to have_css 'header span.govuk-caption-xl', text: I18n.t('title.service_name.xi') }
+    end
+
+    context 'with switch banner disabled' do
+      let(:switch_banner) { false }
+
+      it { is_expected.not_to have_css 'span.switch-service-control' }
     end
   end
 end

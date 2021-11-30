@@ -1,5 +1,5 @@
 <%= form_tag additional_code_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
-  <h1 class="govuk-heading-l">Search by Additional Code</h1>
+  <%= page_header 'Search by Additional Code' %>
 
   <div class="govuk-form-group">
     <%= label_tag :type, 'Type', class: 'govuk-label' %>

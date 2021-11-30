@@ -68,8 +68,6 @@
       <%= render 'shared/phase_banner' if ENV['NOTICE_BANNER'] %>
       <%= yield :before_main_content %>
 
-      <%= render 'shared/switch_banner' %>
-
       <%= render 'shared/search/search_form' unless @no_shared_search %>
 
       <%= yield %>

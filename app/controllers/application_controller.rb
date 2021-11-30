@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   before_action :set_cache
-  before_action :enable_switch_service_banner
   before_action :set_last_updated
   before_action :set_path_info
 
@@ -73,16 +72,12 @@ class ApplicationController < ActionController::Base
     # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
-  def enable_switch_service_banner
-    @switch_service_banner = true
-  end
-
-  def disable_switch_service_banner
-    @switch_service_banner = false
+  def disable_switch_service_banner!
+    @disable_switch_service_banner = true
   end
 
   def is_switch_service_banner_enabled?
-    @switch_service_banner == true
+    !@disable_switch_service_banner
   end
 
   def disable_search_form

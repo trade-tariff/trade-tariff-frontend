@@ -1,4 +1,4 @@
-<h1 class="govuk-heading-l">Search results for &lsquo;<%= @search.q %>&rsquo;</h1>
+<%= page_header "Search results for &lsquo;#{h @search.q}&rsquo;".html_safe %>
 <article class="search-results govuk-!-padding-top-1">
   <% if @results.any? %>
     <% if @results.reference_match.commodities.any? %>
