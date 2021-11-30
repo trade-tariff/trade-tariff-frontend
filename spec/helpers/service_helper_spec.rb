@@ -206,8 +206,8 @@ RSpec.describe ServiceHelper, type: :helper do
     end
   end
 
-  describe '#region_name' do
-    subject { region_name }
+  describe '#service_region' do
+    subject { service_region }
 
     context 'with UK service' do
       include_context 'with UK service'
