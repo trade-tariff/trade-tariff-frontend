@@ -844,7 +844,7 @@
                       populateResults([]);
                     }
                   });
-                }, 300, false)
+                }, 100, false)
               });
             })($(this));
           });
