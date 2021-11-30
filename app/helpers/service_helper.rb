@@ -26,6 +26,14 @@ module ServiceHelper
     )
   end
 
+  def import_export_date_title
+    t('title.import_export_date', service_name: service_name)
+  end
+
+  def trading_partner_title
+    t('title.trading_partner', service_name: service_name)
+  end
+
   def trade_tariff_heading
     t("trade_tariff_heading.#{service_choice}")
   end

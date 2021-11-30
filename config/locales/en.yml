@@ -21,6 +21,8 @@ en:
   title:
     default: "%{service_name}: %{service_description} - GOV.UK"
     goods_nomenclature: "%{goods_description} - %{service_name} - GOV.UK"
+    trading_partner: "%{service_name} - Set country filter - GOV.UK"
+    import_export_date: "%{service_name} - When will your goods be traded - GOV.UK"
     commodity:
       uk: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
       xi: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
