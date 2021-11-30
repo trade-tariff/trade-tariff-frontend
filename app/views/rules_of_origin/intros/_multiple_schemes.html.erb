@@ -1,0 +1,13 @@
+<div class="govuk-inset-text" id="rules-of-origin__intro--multiple-schemes">
+  <p>
+    Your trade may qualify for preferential rates with <%= country_name %>
+    through <%= schemes.length %> agreements. Check the rules of origin
+    applicable to each of these agreements.
+  </p>
+
+  <ul>
+    <% schemes.each do |scheme| %>
+      <li><%= scheme.title %></li>
+    <% end %>
+  </ul>
+</div>

@@ -13,7 +13,7 @@ class HeadingsController < GoodsNomenclaturesController
     @chapter = heading.chapter
 
     if params[:country].present? && @search.geographical_area
-      @rules_of_origin = heading.rules_of_origin(params[:country])
+      @rules_of_origin_schemes = heading.rules_of_origin(params[:country])
     end
   end
 
