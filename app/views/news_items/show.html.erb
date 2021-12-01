@@ -16,7 +16,7 @@
   </h3>
 
   <div class="tariff-markdown">
-    <%= govspeak @news_item.content %>
+    <%= govspeak replace_service_tags(@news_item.content) %>
   </div>
 </article>
 

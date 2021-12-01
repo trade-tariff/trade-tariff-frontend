@@ -95,8 +95,23 @@ module ServiceHelper
     t("service_banner.bottom.#{service_choice}")
   end
 
-  def region_name
+  def service_region
     t("title.region_name.#{service_choice}")
+  end
+
+  def replace_service_tags(content)
+    content.gsub %r{\[\[SERVICE_[A-Z_]+\]\]} do |match|
+      case match
+      when '[[SERVICE_NAME]]'
+        service_name
+      when '[[SERVICE_PATH]]'
+        TradeTariffFrontend::ServiceChooser.xi? ? '/xi' : ''
+      when '[[SERVICE_REGION]]'
+        service_region
+      else
+        match
+      end
+    end
   end
 
 private

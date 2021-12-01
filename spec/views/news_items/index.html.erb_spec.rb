@@ -5,7 +5,7 @@ RSpec.describe 'news_items/index.html.erb', type: :view do
 
   before { assign :news_items, news_items }
 
-  let(:news_items) { build_list :news_item, 3 }
+  let(:news_items) { build_list :news_item, 3, content: "[[SERVICE_NAME]]\n\nFirst para" }
   let(:date_format) { /\d\d? [A-Z][a-z]{2} [12]\d{3}/ }
 
   it { is_expected.to have_css 'section.news-items' }
@@ -13,6 +13,7 @@ RSpec.describe 'news_items/index.html.erb', type: :view do
   it { is_expected.to have_css 'section.news-items article.news-item', count: 3 }
   it { is_expected.to have_css 'section article h2', count: 3 }
   it { is_expected.to have_css 'section article .tariff-markdown p', count: 3 }
+  it { is_expected.to have_css '.news-item p', text: /#{I18n.t('title.service_name.uk')}/ }
   it { is_expected.to have_link 'Show more ...', href: %r{/news/\d+} }
 
   context 'with single paragraph news items' do

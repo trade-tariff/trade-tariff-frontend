@@ -17,7 +17,7 @@
         </h2>
 
         <div class="tariff-markdown">
-          <%= govspeak news_item.paragraphs.first %>
+          <%= govspeak replace_service_tags(news_item.paragraphs.first) %>
         </div>
 
         <%= link_to 'Show more ...', news_item if news_item.paragraphs.many? %>
