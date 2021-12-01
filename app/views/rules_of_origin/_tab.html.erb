@@ -1,38 +1,34 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m rules-of-origin-heading">
-      Preferential rules of origin for trading with <%= country_name %>
-      <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
-    </h2>
+<h2 class="govuk-heading-m rules-of-origin-heading">
+  Preferential rules of origin for trading with <%= country_name %>
+  <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
+</h2>
 
-    <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
+<%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
 
-    <%= render partial: 'rules_of_origin/scheme',
-               collection: rules_of_origin_schemes,
-               locals: {
-                 country_name: country_name,
-                 commodity_code: commodity_code,
-                 multiple_schemes: rules_of_origin_schemes.many?
-               } %>
+<%= render partial: 'rules_of_origin/scheme',
+           collection: rules_of_origin_schemes,
+           locals: {
+             country_name: country_name,
+             commodity_code: commodity_code,
+             multiple_schemes: rules_of_origin_schemes.many?
+           } %>
 
-    <%= render 'rules_of_origin/non_preferential' %>
-  </div>
+<%= render 'rules_of_origin/non_preferential' %>
 
-  <% if rules_of_origin_schemes.flat_map(&:links).any? %>
-  <div class="govuk-grid-column-one-third" id="rules-of-origin__related-content">
-    <h2 class="govuk-heading-m">
-      Related content
-    </h2>
+<% if rules_of_origin_schemes.flat_map(&:links).any? %>
+<div id="rules-of-origin__related-content">
+  <h2 class="govuk-heading-m">
+    Related content
+  </h2>
 
-    <nav role="navigation">
-      <ul class="govuk-list govuk-list-s">
-        <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
-          <li>
-            <%= link_to link.text, link.url %>
-          </li>
-        <% end %>
-      </ul>
-    </nav>
-  </div>
-  <% end %>
+  <nav role="navigation">
+    <ul class="govuk-list govuk-list-s">
+      <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
+        <li>
+          <%= link_to link.text, link.url %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
 </div>
+<% end %>
