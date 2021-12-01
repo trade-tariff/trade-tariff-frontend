@@ -2,94 +2,18 @@ require 'spec_helper'
 
 RSpec.describe 'SectionsController', type: :request do
   describe 'GET #index' do
-    include_context 'with latest news stubbed'
+    subject(:response) { get sections_path }
 
-    context 'when requesting as HTML' do
-      before do
-        allow(TradeTariffFrontend).to receive(:updated_navigation?).and_return false
+    context 'with UK service' do
+      include_context 'with UK service'
 
-        VCR.use_cassette('geographical_areas#countries') do
-          VCR.use_cassette('sections#index') do
-            visit sections_path
-          end
-        end
-      end
-
-      it 'displays the first section as a link' do
-        expect(page).to have_link 'Live animals; animal products'
-      end
-
-      it 'displays the second section as a link' do
-        expect(page).to have_link 'Vehicles, aircraft'
-      end
-
-      it 'displays the third section as a link' do
-        expect(page).to have_link 'Privacy'
-      end
+      it { expect(response).to redirect_to '/find_commodity' }
     end
 
-    context 'when HTML with updated_navigation? enabled' do
-      let :visit_page do
-        VCR.use_cassette('geographical_areas#countries') do
-          VCR.use_cassette('sections#index') do
-            get sections_path
-          end
-        end
-      end
+    context 'with XI service' do
+      include_context 'with XI service'
 
-      context 'with UK service' do
-        include_context 'with UK service'
-
-        before { visit_page }
-
-        it { expect(response).to redirect_to '/find_commodity' }
-      end
-
-      context 'with XI service' do
-        include_context 'with XI service'
-
-        before { visit_page }
-
-        it { expect(response).to redirect_to '/xi/find_commodity' }
-      end
-    end
-
-    context 'when requesting as JSON' do
-      context 'when requested with json format' do
-        before do
-          VCR.use_cassette('sections#index_api_json_format') do
-            get '/sections.json'
-          end
-        end
-
-        let(:json) { JSON.parse(response.body) }
-
-        it 'renders direct API response' do
-          expect(json).to be_kind_of Array
-        end
-
-        it 'renders the correct title for the first element' do
-          expect(json.first['title']).to eq 'Live animals; animal products'
-        end
-      end
-
-      context 'when requested with json HTTP Accept header' do
-        before do
-          VCR.use_cassette('sections#index_api_json_content_type') do
-            get '/sections', headers: { 'HTTP_ACCEPT' => 'application/json' }
-          end
-        end
-
-        let(:json) { JSON.parse(response.body) }
-
-        it 'renders direct API response' do
-          expect(json).to be_kind_of Array
-        end
-
-        it 'renders the correct title for the first element' do
-          expect(json.first['title']).to eq 'Live animals; animal products'
-        end
-      end
+      it { expect(response).to redirect_to '/xi/find_commodity' }
     end
   end
 

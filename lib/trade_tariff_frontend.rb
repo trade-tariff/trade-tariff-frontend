@@ -88,11 +88,6 @@ module TradeTariffFrontend
     `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
   end
 
-  # TODO: HOTT-1048 - remove once in production
-  def updated_navigation?
-    ENV['UPDATED_NAVIGATION'].to_s == 'true'
-  end
-
   class FilterBadURLEncoding
     def initialize(app)
       @app = app
