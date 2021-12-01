@@ -1,4 +1,14 @@
 GIT
+  remote: https://github.com/DFE-Digital/govuk-formbuilder.git
+  revision: 851d2b5955b4d9906056b92d69e6b7a66a68fb95
+  specs:
+    govuk_design_system_formbuilder (2.8.0)
+      actionview (>= 6.0)
+      activemodel (>= 6.0)
+      activesupport (>= 6.0)
+      deep_merge (~> 1.2.1)
+
+GIT
   remote: https://github.com/rails/rails-controller-testing.git
   revision: bc6f3356803d7c5d373f89a44625d59953dc0cef
   branch: master
@@ -15,17 +25,6 @@ GIT
     routing-filter (0.7.0)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
-
-GIT
-  remote: https://github.com/willfish/govuk-formbuilder.git
-  revision: 1c0727d18f8373cc3faba439f03e7713b35ec000
-  branch: support-maxlength
-  specs:
-    govuk_design_system_formbuilder (2.8.0)
-      actionview (>= 6.0)
-      activemodel (>= 6.0)
-      activesupport (>= 6.0)
-      deep_merge (~> 1.2.1)
 
 GEM
   remote: https://rubygems.org/

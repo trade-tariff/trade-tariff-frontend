@@ -49,7 +49,7 @@ gem 'aws-sdk-rails'
 gem 'newrelic_rpm'
 
 # For MeursingLookup functionality
-gem 'govuk_design_system_formbuilder', github: 'willfish/govuk-formbuilder', branch: 'support-maxlength'
+gem 'govuk_design_system_formbuilder', github: 'DFE-Digital/govuk-formbuilder'
 gem 'wizard_steps'
 
 # Sentry
