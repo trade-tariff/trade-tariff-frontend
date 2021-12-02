@@ -8,7 +8,7 @@ module CountryFlagHelper
                    **kwargs.merge(class: 'country-flag')
   rescue Webpacker::Manifest::MissingEntryError
     unless CountryFlagHelper::COUNTRY_FLAG_IGNORE.include?(two_letter_country_code)
-      Raven.capture_message \
+      Sentry.capture_message \
         "Missing flag image file for #{two_letter_country_code}"
     end
 
