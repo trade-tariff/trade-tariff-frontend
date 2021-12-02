@@ -1,25 +1,62 @@
-.hott-search-banner__toggle {
-  @include govuk-font($size: 19, $weight: bold);
-  color: govuk-colour("white") ;
-  background: $govuk-brand-colour ;
-  border: none;
-  border-bottom: 1px solid govuk-colour("dark-blue") ;
-  padding: govuk-spacing(3);
-  margin-left: 40px;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
+.hott-search-banner {
+  &__toggle {
+    @include govuk-font($size: 19, $weight: bold);
+    color: govuk-colour("white") ;
+    background: $govuk-brand-colour ;
+    border: none;
+    border-bottom: 1px solid govuk-colour("dark-blue") ;
+    padding: govuk-spacing(3);
+    margin-left: 40px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    position: relative;
 
-  &:hover {
-    background: $govuk-link-active-colour;
-    border-bottom: 5px solid $govuk-border-colour;
-    color: $govuk-border-colour;
+    &:hover {
+      background: $govuk-link-active-colour;
+      border-bottom: 5px solid $govuk-border-colour;
+      color: $govuk-border-colour;
+    }
   }
 
-  svg {
+  &__search-icon {
     width: 20px;
     height: 20px;
   }
+
+  &__close-icon {
+    font-weight: normal;
+    font-size: 36px;
+    display: none;
+    color: $govuk-text-colour;
+    background: govuk-colour("light-grey");
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 50px;
+  }
+
+  &__container {
+    display: none;
+    color: $govuk-text-colour;
+    background: govuk-colour("light-grey");
+    margin: auto; padding: 3em 0
+  }
+
+  &--open {
+    .govuk-header__container {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+  }
+
+  &--open &__search-icon { display: none }
+  &--open &__close-icon { display: inline }
+  &--open &__container { display: block }
+  &--open &__toggle { border-bottom: none }
 }
 
 #proposition-links {
