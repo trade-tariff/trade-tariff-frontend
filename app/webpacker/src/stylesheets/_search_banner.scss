@@ -44,7 +44,15 @@
     color: $govuk-text-colour;
     background: govuk-colour("light-grey");
     margin: auto;
-    padding: govuk-spacing(4) 0
+    padding: govuk-spacing(4) 0;
+  }
+
+  &__input-container {
+    position: relative;
+
+    input.govuk-button {
+      background-color: $govuk-brand-colour ;
+    }
   }
 
   &--open {
