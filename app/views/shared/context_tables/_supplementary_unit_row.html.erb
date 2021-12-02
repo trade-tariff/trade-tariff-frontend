@@ -2,7 +2,7 @@
   <dt class="govuk-summary-list__key"><%= declarable.supplementary_unit_description(country: supplementary_geographical_area_id(@search)) %></dt>
   <dd class="govuk-summary-list__value ">
     <p>
-      <%= declarable.supplementary_unit(country: supplementary_geographical_area_id(@search)) %>
+      <%= sanitize declarable.supplementary_unit(country: supplementary_geographical_area_id(@search)) %>
     </p>
     <details class="govuk-details" data-module="govuk-details">
       <summary class="govuk-details__summary">
