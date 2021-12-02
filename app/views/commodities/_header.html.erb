@@ -1,9 +1,4 @@
-<header>
-  <span class="govuk-caption-xl">
-    <%= trade_tariff_heading %>
-    <%= switch_service_button %>
-  </span>
-
+<%= page_header do %>
   <h1 class="govuk-heading-l commodity-header" data-comm-code="<%= commodity_code %>">
     Commodity <%= segmented_commodity_code commodity_code %>
     <div class="copy_code" id="copy_code">
@@ -11,4 +6,4 @@
       <span class="copied">Code copied</span>
     </div>
   </h1>
-</header>
+<% end %>
