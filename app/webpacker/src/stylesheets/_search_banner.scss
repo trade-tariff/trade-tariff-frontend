@@ -43,7 +43,8 @@
     display: none;
     color: $govuk-text-colour;
     background: govuk-colour("light-grey");
-    margin: auto; padding: 3em 0
+    margin: auto;
+    padding: govuk-spacing(4) 0
   }
 
   &--open {
