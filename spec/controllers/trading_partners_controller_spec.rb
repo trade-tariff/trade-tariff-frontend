@@ -57,7 +57,7 @@ RSpec.describe TradingPartnersController, type: :controller do
         it { is_expected.to redirect_to(public_send(path_method, country: 'IT', id: goods_nomenclature_code)) }
       end
 
-      it_behaves_like 'a valid trading partner redirect', :sections_path, nil
+      it_behaves_like 'a valid trading partner redirect', :find_commodity_path, nil
       it_behaves_like 'a valid trading partner redirect', :chapter_path, '01'
       it_behaves_like 'a valid trading partner redirect', :heading_path, '1501'
       it_behaves_like 'a valid trading partner redirect', :commodity_path, '2402201000'

@@ -183,31 +183,6 @@ RSpec.describe ServiceHelper, type: :helper do
     end
   end
 
-  describe '#switch_banner_copy' do
-    before do
-      helper.request.path = path
-      assign(:enable_service_switch_banner_in_action, true)
-    end
-
-    include_context 'with XI service'
-
-    context 'when on sections page' do
-      let(:path) { '/xi/sections' }
-
-      it 'returns the full banner that allows users to toggle between the services' do
-        expect(helper.switch_banner_copy).to include(t('service_banner.big.xi', link: helper.switch_service_link))
-      end
-    end
-
-    context 'when not on sections page' do
-      let(:path) { '/xi/foo' }
-
-      it 'returns the subtle banner that allows users to toggle between the services' do
-        expect(helper.switch_banner_copy).to include(t('service_banner.small', link: helper.switch_service_link))
-      end
-    end
-  end
-
   describe '#service_choice' do
     context 'when there is a service choice set' do
       include_context 'with XI service'

@@ -62,7 +62,7 @@ RSpec.describe Cookies::PoliciesController, type: :request do
       end
 
       it 'redirects to the correct fallback location' do
-        expect(response).to redirect_to(sections_path)
+        expect(response).to redirect_to(find_commodity_path)
       end
     end
 
@@ -86,7 +86,7 @@ RSpec.describe Cookies::PoliciesController, type: :request do
       end
 
       it 'redirects to the correct fallback location' do
-        expect(response).to redirect_to(sections_path)
+        expect(response).to redirect_to(find_commodity_path)
       end
     end
 

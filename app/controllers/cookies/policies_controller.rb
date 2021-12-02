@@ -14,7 +14,7 @@ module Cookies
       cookies_policy.mark_persisted!
 
       if policy_params.key? :acceptance
-        redirect_back(fallback_location: sections_path)
+        redirect_back(fallback_location: find_commodity_path)
       else
         @saved = true
         render :show
