@@ -97,6 +97,50 @@ commands:
           event: pass
           template: basic_success_1
 
+    cf_deploy_pr:
+      parameters:
+        dev-release:
+          default: false
+          type: boolean
+        space:
+          type: string
+        environment_key:
+          type: string
+        app_domain_prefix:
+          type: string
+      steps:
+        - checkout
+        - run:
+            name: "Setup CF CLI"
+            command: |
+              curl -L -o cf.deb --retry 3 'https://packages.cloudfoundry.org/stable?release=debian64&version=7.2.0&source=github-rel'
+              file cf.deb
+              sudo dpkg -i cf.deb
+              cf -v
+              cf api "$CF_ENDPOINT"
+              cf auth "$CF_USER" "$CF_PASSWORD"
+              cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+              cf install-plugin app-autoscaler-plugin -r CF-Community -f
+              cf target -o "$CF_ORG" -s "<< parameters.space >>"
+        - run:
+            name: "Fetch existing manifest"
+            command: |
+              cf create-app-manifest "$CF_APP-dev" -p deploy_manifest.yml
+        - run:
+            name: "Push new app in dark mode"
+            command: |
+              export DOCKER_IMAGE=tariff-frontend
+              export DOCKER_TAG=dev-756fb641020cc8bfcf678911bbb4239ec554dfe2
+              export REVIEW_URL_ID=pr$CIRCLE_PR_NUMBER # Another possibility is parsing $CIRCLE_PULL_REQUEST(S) - which is a list of URLs
+
+              # Push as "dark" instance
+              CF_DOCKER_PASSWORD=$AWS_SECRET_ACCESS_KEY cf push "$CF_APP-$REVIEW_URL_ID" -f deploy_manifest.yml --no-route --docker-image "$ECR_REPO/$DOCKER_IMAGE:$DOCKER_TAG" --docker-username "$AWS_ACCESS_KEY_ID"
+              # Map dark route
+              cf map-route "$CF_APP-$REVIEW_URL_ID" london.cloudapps.digital -n "$CF_APP-$REVIEW_URL_ID"
+              # Enable routing from this service to the backend applications which are private
+              cf add-network-policy "$CF_APP-$REVIEW_URL_ID" "$CF_BACKEND_APP_XI-dev" --protocol tcp --port 8080
+              cf add-network-policy "$CF_APP-$REVIEW_URL_ID" "$CF_BACKEND_APP_UK-dev" --protocol tcp --port 8080
+
   smoketest:
     parameters:
       url:
@@ -265,6 +309,22 @@ jobs:
           app_domain_prefix: "dev"
       - sentry-release
 
+  deploy_dev_pr:
+    docker:
+      - image: cimg/ruby:3.0.3
+    environment:
+      SENTRY_ENVIRONMENT: "development"
+    steps:
+      - queue/until_front_of_line:
+          time: '10'
+          consider-branch: true
+          dont-quit: true
+      - cf_deploy_pr:
+          dev-release: true
+          space: "development"
+          environment_key: "dev"
+          app_domain_prefix: "dev"
+
   deploy_staging:
     docker:
       - image: cimg/ruby:3.0.3-node
@@ -299,96 +359,99 @@ workflows:
   version: 2
   ci:
     jobs:
-      - checks:
+      - deploy_dev_pr:
           context: trade-tariff
 
-      - jest-tests:
-          context: trade-tariff
-          filters:
-            branches:
-              ignore:
-                - main
+      # - checks:
+      #     context: trade-tariff
 
-      - test:
-          context: trade-tariff
-          filters:
-            branches:
-              ignore:
-                - main
+      # - jest-tests:
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - main
 
-      - build:
-          name: build_dev
-          context: trade-tariff
-          dev-build: true
-          filters:
-            branches:
-              ignore:
-                - main
-                - /^dependabot\/.*/
+      # - test:
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - main
 
-      - deploy_dev:
-          context: trade-tariff
-          requires:
-            - jest-tests
-            - test
-            - build_dev
-          filters:
-            branches:
-              ignore:
-                - /^dependabot\/.*/
+      # - build:
+      #     name: build_dev
+      #     context: trade-tariff
+      #     dev-build: true
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - main
+      #           - /^dependabot\/.*/
 
-      - smoketest_dev:
-          name: smoketest_dev
-          context: trade-tariff
-          filters:
-            branches:
-              ignore:
-                - main
-                - /^dependabot\/.*/
-          requires:
-            - deploy_dev
+      # - deploy_dev:
+      #     context: trade-tariff
+      #     requires:
+      #       - jest-tests
+      #       - test
+      #       - build_dev
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - /^dependabot\/.*/
 
-      - build:
-          name: build_live
-          context: trade-tariff
-          filters:
-            branches:
-              only:
-                - main
+      # - smoketest_dev:
+      #     name: smoketest_dev
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - main
+      #           - /^dependabot\/.*/
+      #     requires:
+      #       - deploy_dev
 
-      - deploy_staging:
-          context: trade-tariff
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - build_live
+      # - build:
+      #     name: build_live
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
 
-      - smoketest_staging:
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - deploy_staging
+      # - deploy_staging:
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #     requires:
+      #       - build_live
 
-      - hold_production:
-          type: approval
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - deploy_staging
+      # - smoketest_staging:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #     requires:
+      #       - deploy_staging
 
-      - deploy_production:
-          context: trade-tariff
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - hold_production
+      # - hold_production:
+      #     type: approval
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #     requires:
+      #       - deploy_staging
+
+      # - deploy_production:
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #     requires:
+      #       - hold_production
 
 # TODO: Discuss production deployment strategy.
