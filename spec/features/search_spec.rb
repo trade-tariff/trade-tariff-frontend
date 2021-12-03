@@ -24,21 +24,21 @@ RSpec.describe 'Search', js: true do
         VCR.use_cassette('search#gold') do
           visit find_commodity_path
 
-          page.find('.autocomplete__input#q').click
+          page.find('#new_search .autocomplete__input#q').click
 
-          page.find('.autocomplete__input#q').set('gold')
+          page.find('#new_search .autocomplete__input#q').set('gold')
           sleep 1
 
-          expect(page.find('.autocomplete__option--focused').text).to eq('gold')
+          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('gold')
 
           using_wait_time 1 do
-            expect(page.find_all('.autocomplete__option').length).to be > 1
+            expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
           end
 
-          expect(page.find('.autocomplete__option--focused').text).to eq('gold')
+          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('gold')
           expect(page).to have_content('gold - gold coin')
 
-          page.find('.autocomplete__option--focused').click
+          page.find('#new_search .autocomplete__option--focused').click
 
           # trying to see if redirect done by JS needs some sleep to be caught up
           sleep 1
@@ -53,23 +53,54 @@ RSpec.describe 'Search', js: true do
         VCR.use_cassette('search#gibberish') do
           visit find_commodity_path
 
-          page.find('.autocomplete__input#q').click
+          page.find('#new_search .autocomplete__input#q').click
 
-          page.find('.autocomplete__input#q').set('dsauidoasuiodsa')
+          page.find('#new_search .autocomplete__input#q').set('dsauidoasuiodsa')
 
           sleep 1
 
-          expect(page.find_all('.autocomplete__option').length).to eq(1)
-          expect(page.find('.autocomplete__option--focused').text).to eq('dsauidoasuiodsa')
+          expect(page.find_all('#new_search .autocomplete__option').length).to eq(1)
+          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('dsauidoasuiodsa')
           sleep 1
 
-          page.find('.autocomplete__option--focused').click
+          page.find('#new_search .autocomplete__option--focused').click
 
           # trying to see if redirect done by JS needs some sleep to be caught up
           sleep 1
 
           expect(page).to have_content('Search results for ‘dsauidoasuiodsa’')
           expect(page).to have_content('There are no results matching your query.')
+        end
+      end
+    end
+
+    context 'when SEARCH_BANNER enabled' do
+      before { allow(TradeTariffFrontend).to receive(:search_banner?).and_return true }
+
+      it 'fetches data from the server as we type' do
+        VCR.use_cassette('search#gold') do
+          visit find_commodity_path
+
+          page.find('#new_search .autocomplete__input#q').click
+
+          page.find('#new_search .autocomplete__input#q').set('gold')
+          sleep 1
+
+          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('gold')
+
+          using_wait_time 1 do
+            expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
+          end
+
+          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('gold')
+          expect(page).to have_content('gold - gold coin')
+
+          page.find('#new_search .autocomplete__option--focused').click
+
+          # trying to see if redirect done by JS needs some sleep to be caught up
+          sleep 1
+
+          expect(page).to have_content('Search results for ‘gold’')
         end
       end
     end

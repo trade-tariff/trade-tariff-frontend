@@ -15,13 +15,13 @@
         <div class="govuk-grid-column-one-half">
           <div class="searchfield govuk-form-group search-header js-search-header hott-search-banner__input-container">
             <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="hott-search-banner__q-hint">
-              <%= label_tag :q, search_label_text, class: 'govuk-label govuk-visually-hidden' %>
+              <%= label_tag 'hott-search-banner__q', search_label_text, class: 'govuk-label govuk-visually-hidden' %>
               <%= hidden_field_tag :q, @search.q, id: 'hott-search-banner__q-hidden', class: "js-commodity-picker-target" %>
 
-              <div class="js-commodity-picker-select js-show"></div>
+              <div class="js-commodity-picker-select js-show" data-autocomplete-input-id="hott-search-banner__q"></div>
             </fieldset>
             <fieldset class="govuk-fieldset search-submit">
-              <input class="govuk-button" type="submit" name="new_search" value="Search">
+              <input class="govuk-button" type="submit" name="submit_search" value="Search">
             </fieldset>
           </div>
         </div>
