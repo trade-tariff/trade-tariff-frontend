@@ -64,9 +64,15 @@
   &--open &__close-icon { display: block }
   &--open &__container { display: block }
   &--open &__toggle { border-bottom: none }
+
+  @include govuk-media-query($until: desktop) {
+    &__toggle { display: none }
+  }
 }
 
-#proposition-links {
-  display: inline-block;
+@include govuk-media-query($from: desktop) {
+  #proposition-links {
+    display: inline-block;
+  }
 }
 
