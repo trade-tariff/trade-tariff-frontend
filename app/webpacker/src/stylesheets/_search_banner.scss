@@ -30,7 +30,6 @@
     display: none;
     color: $govuk-text-colour;
     background: govuk-colour("light-grey");
-    display: block;
     position: absolute;
     top: 0;
     left: 0;
@@ -62,8 +61,7 @@
     }
   }
 
-  &--open &__search-icon { display: none }
-  &--open &__close-icon { display: inline }
+  &--open &__close-icon { display: block }
   &--open &__container { display: block }
   &--open &__toggle { border-bottom: none }
 }
@@ -71,3 +69,4 @@
 #proposition-links {
   display: inline-block;
 }
+
