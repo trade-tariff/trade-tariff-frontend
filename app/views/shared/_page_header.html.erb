@@ -7,9 +7,9 @@
     <%= switch_service_button if show_switch_service %>
   </span>
 
-  <% if heading.present? %>
-    <h1 class="govuk-heading-l">
-      <%= heading %>
+  <% if heading_text.present? %>
+    <h1 class="<%= css_heading_size(heading_text) %>">
+      <%= heading_text %>
     </h1>
   <% end %>
 
