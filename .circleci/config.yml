@@ -97,6 +97,74 @@ commands:
           event: pass
           template: basic_success_1
 
+  cf_deploy_review:
+    steps:
+      - checkout
+      - run:
+          name: "Setup CF CLI"
+          command: |
+            curl -L -o cf.deb --retry 3 'https://packages.cloudfoundry.org/stable?release=debian64&version=7.2.0&source=github-rel'
+            file cf.deb
+            sudo dpkg -i cf.deb
+            cf -v
+            cf api "$CF_ENDPOINT"
+            cf auth "$CF_USER" "$CF_PASSWORD"
+            cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+            cf install-plugin app-autoscaler-plugin -r CF-Community -f
+            cf target -o "$CF_ORG" -s development
+      - run:
+          name: "Fetch existing manifest"
+          command: |
+            cf create-app-manifest "$CF_APP-dev" -p deploy_manifest.yml
+      - run:
+          name: "Push review app"
+          command: |
+            export DOCKER_IMAGE=tariff-frontend
+            export DOCKER_TAG=dev-${CIRCLE_SHA1}
+            export PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | sed 's|https://github.com/||' | cut -d '/' -f 4)
+            export REVIEW_URL_ID="pr${PR_NUMBER}"
+
+            # Push as "dark" instance
+            CF_DOCKER_PASSWORD=$AWS_SECRET_ACCESS_KEY cf push "$CF_APP-${REVIEW_URL_ID}" -f deploy_manifest.yml --no-route --docker-image "$ECR_REPO/$DOCKER_IMAGE:$DOCKER_TAG" --docker-username "$AWS_ACCESS_KEY_ID"
+            # Map dark route
+            cf map-route "$CF_APP-$REVIEW_URL_ID" london.cloudapps.digital -n "$CF_APP-$REVIEW_URL_ID"
+            # Enable routing from this service to the backend applications which are private
+            cf add-network-policy "$CF_APP-$REVIEW_URL_ID" "$CF_BACKEND_APP_XI-dev" --protocol tcp --port 8080
+            cf add-network-policy "$CF_APP-$REVIEW_URL_ID" "$CF_BACKEND_APP_UK-dev" --protocol tcp --port 8080
+  cf_purge_reviews:
+    steps:
+      - run:
+          name: "Setup CF CLI"
+          command: |
+            curl -L -o cf.deb --retry 3 'https://packages.cloudfoundry.org/stable?release=debian64&version=7.2.0&source=github-rel'
+            file cf.deb
+            sudo dpkg -i cf.deb
+            cf -v
+            cf api "$CF_ENDPOINT"
+            cf auth "$CF_USER" "$CF_PASSWORD"
+            cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+            cf install-plugin app-autoscaler-plugin -r CF-Community -f
+            cf target -o "$CF_ORG" -s development
+      - run:
+          name: Find PRs
+          command: |
+            REPO_API_URL=$(echo "${CIRCLE_REPOSITORY_URL}/" | sed 's|.git/$||' | sed 's|git@github.com:|https://api.github.com/repos/|')
+            curl "${REPO_API_URL}/pulls?state=open" | jq '.[].number' > open_prs.txt
+            cat open_prs.txt | sed "s/^/${CF_APP}-pr/" | sort > expected_apps.txt
+            cat expected_apps.txt
+      - run:
+          name: Find old review apps
+          command: |
+            cf apps | cut -d ' ' -f 1  | grep "${CF_APP}-pr" | sort > current_apps.txt
+            (comm -1 --output-delimiter="|" <(cat expected_apps.txt) <(cat current_apps.txt) | egrep -v '^\|' || true) > orphaned_apps.txt
+      - run:
+          name: Remove orphaned apps
+          command: |
+            cat orphaned_apps.txt | while read ORPHANED_APP
+              do echo "Removing ${ORPHANED_APP}"
+                cf delete "${ORPHANED_APP}" -r -f
+              done
+
   smoketest:
     parameters:
       url:
@@ -141,7 +209,6 @@ commands:
             sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT
 
 jobs:
-
   checks:
     docker:
       - image: 'cimg/ruby:3.0.3-node'
@@ -265,6 +332,26 @@ jobs:
           app_domain_prefix: "dev"
       - sentry-release
 
+  deploy_review:
+    docker:
+      - image: cimg/ruby:3.0.3
+    environment:
+      SENTRY_ENVIRONMENT: "development"
+    steps:
+      - queue/until_front_of_line:
+          time: '10'
+          consider-branch: true
+          dont-quit: true
+      - cf_deploy_review
+
+  purge_reviews:
+    docker:
+      - image: cimg/ruby:3.0.3
+    environment:
+      SENTRY_ENVIRONMENT: "development"
+    steps:
+      - cf_purge_reviews
+
   deploy_staging:
     docker:
       - image: cimg/ruby:3.0.3-node
@@ -299,6 +386,13 @@ workflows:
   version: 2
   ci:
     jobs:
+      - purge_reviews:
+          context: trade-tariff
+          filters:
+            branches:
+              ignore:
+                - /^dependabot\/.*/
+
       - checks:
           context: trade-tariff
 
@@ -327,6 +421,17 @@ workflows:
                 - /^dependabot\/.*/
 
       - deploy_dev:
+          context: trade-tariff
+          requires:
+            - jest-tests
+            - test
+            - build_dev
+          filters:
+            branches:
+              ignore:
+                - /^dependabot\/.*/
+
+      - deploy_review:
           context: trade-tariff
           requires:
             - jest-tests
