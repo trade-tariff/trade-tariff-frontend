@@ -768,7 +768,7 @@
               var options = [];
 
               $(element).on('change', 'input[type="text"]', function(ev) {
-                $('.js-commodity-picker-target').val($(ev.target).val());
+                $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
               }) ;
 
               accessibleAutocomplete({
@@ -790,7 +790,7 @@
                   });
 
                   if (obj) {
-                    $(".js-commodity-picker-target").val(obj.id);
+                    $(element).parents('form:first').find('.js-commodity-picker-target').val(obj.id);
 
                     $(document).trigger('tariff:chooseSearchQueryOption', [{
                       params: {
@@ -799,7 +799,7 @@
                     }]);
 
                     if (typeof($(element).data('nosubmit')) == 'undefined') {
-                      $('.js-commodity-picker-select').parents('form:first').trigger("submit");
+                      $(element).parents('form:first').trigger("submit");
                     }
                   }
                 },
