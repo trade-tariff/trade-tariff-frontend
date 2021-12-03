@@ -11,6 +11,13 @@
   }
 }
 
+.header-wrapper {
+  @media (min-width: 1200px) {
+    max-width: 1140px !important;
+    padding-bottom: 8px;
+  }
+}
+
 .govuk-header__content {
 
   #proposition-links {

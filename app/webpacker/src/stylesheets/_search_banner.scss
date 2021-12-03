@@ -68,6 +68,10 @@
   @include govuk-media-query($until: desktop) {
     &__toggle { display: none }
   }
+
+  .header-wrapper {
+    padding-bottom: 0;
+  }
 }
 
 @include govuk-media-query($from: desktop) {
