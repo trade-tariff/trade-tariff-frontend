@@ -309,7 +309,13 @@ jobs:
           time: '10'
           consider-branch: true
           dont-quit: true
-      - cf_deploy_review
+      # - cf_deploy_review
+      - run:
+          command: |
+            echo "CIRCLE JOB ${CIRCLE_JOB}"
+            echo "CIRCLE PR NUMBER ${CIRCLE_PR_NUMBER}"
+            echo "CIRCLE PULL REQUEST ${CIRCLE_PULL_REQUEST}"
+            echo "REQUESTS ${CIRCLE_PULL_REQUESTS}"
 
   deploy_staging:
     docker:
