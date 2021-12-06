@@ -1,6 +1,8 @@
 require 'api_entity'
 
 class GeographicalArea
+  EUROPEAN_UNION_ID = '1013'.freeze
+
   include ApiEntity
 
   collection_path '/geographical_areas/countries'
@@ -44,6 +46,10 @@ class GeographicalArea
     end
   end
 
+  def eu_member?
+    id.in?(self.class.eu_members_ids)
+  end
+
   def long_description
     "#{description} (#{id})"
   end
@@ -54,5 +60,11 @@ class GeographicalArea
 
   def erga_omnes?
     id == ERGA_OMNES
+  end
+
+  def self.eu_members_ids
+    find(EUROPEAN_UNION_ID)
+      .children_geographical_areas
+      .map(&:id)
   end
 end

@@ -49,4 +49,20 @@ RSpec.describe GeographicalArea do
       it { is_expected.not_to be_erga_omnes }
     end
   end
+
+  describe '#eu_member?', vcr: { cassette_name: 'geographical_areas#1013' } do
+    subject(:geographical_area) { build(:geographical_area, id: geographical_area_id) }
+
+    context 'when the country is part of EU' do
+      let(:geographical_area_id) { 'IT' } # Italy
+
+      it { is_expected.to be_eu_member }
+    end
+
+    context 'when the country is NOT part of EU' do
+      let(:geographical_area_id) { 'AF' } # Afghanistan
+
+      it { is_expected.not_to be_eu_member }
+    end
+  end
 end
