@@ -316,6 +316,8 @@ jobs:
             echo "CIRCLE PR NUMBER ${CIRCLE_PR_NUMBER}"
             echo "CIRCLE PULL REQUEST ${CIRCLE_PULL_REQUEST}"
             echo "REQUESTS ${CIRCLE_PULL_REQUESTS}"
+            export TEST_PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | sed 's|https://github.com/||' | cut -d '/' -f 4)
+            echo "PR NUMBER: ${TEST_PR_NUMBER}"
 
   deploy_staging:
     docker:
