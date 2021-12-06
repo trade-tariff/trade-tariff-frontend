@@ -98,16 +98,6 @@ commands:
           template: basic_success_1
 
     cf_deploy_pr:
-      parameters:
-        dev-release:
-          default: false
-          type: boolean
-        space:
-          type: string
-        environment_key:
-          type: string
-        app_domain_prefix:
-          type: string
       steps:
         - checkout
         - run:
@@ -121,7 +111,7 @@ commands:
               cf auth "$CF_USER" "$CF_PASSWORD"
               cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
               cf install-plugin app-autoscaler-plugin -r CF-Community -f
-              cf target -o "$CF_ORG" -s "<< parameters.space >>"
+              cf target -o "$CF_ORG" -s development
         - run:
             name: "Fetch existing manifest"
             command: |
@@ -319,11 +309,7 @@ jobs:
           time: '10'
           consider-branch: true
           dont-quit: true
-      - cf_deploy_pr:
-          dev-release: true
-          space: "development"
-          environment_key: "dev"
-          app_domain_prefix: "dev"
+      - cf_deploy_pr
 
   deploy_staging:
     docker:
