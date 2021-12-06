@@ -120,7 +120,7 @@ commands:
           name: "Push new app in dark mode"
           command: |
             export DOCKER_IMAGE=tariff-frontend
-            export DOCKER_TAG=dev-756fb641020cc8bfcf678911bbb4239ec554dfe2
+            export DOCKER_TAG=dev-64b67d9d9c9e1269045354290d311db16168749b
             export REVIEW_URL_ID=pr$CIRCLE_PR_NUMBER # Another possibility is parsing $CIRCLE_PULL_REQUEST(S) - which is a list of URLs
 
             # Push as "dark" instance
