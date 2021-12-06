@@ -117,14 +117,15 @@ commands:
           command: |
             cf create-app-manifest "$CF_APP-dev" -p deploy_manifest.yml
       - run:
-          name: "Push new app in dark mode"
+          name: "Push review app"
           command: |
             export DOCKER_IMAGE=tariff-frontend
             export DOCKER_TAG=dev-64b67d9d9c9e1269045354290d311db16168749b
             export PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | sed 's|https://github.com/||' | cut -d '/' -f 4)
+            export REVIEW_URL_ID="pr${PR_NUMBER}"
 
             # Push as "dark" instance
-            CF_DOCKER_PASSWORD=$AWS_SECRET_ACCESS_KEY cf push "$CF_APP-pr$PR_NUMBER" -f deploy_manifest.yml --no-route --docker-image "$ECR_REPO/$DOCKER_IMAGE:$DOCKER_TAG" --docker-username "$AWS_ACCESS_KEY_ID"
+            CF_DOCKER_PASSWORD=$AWS_SECRET_ACCESS_KEY cf push "$CF_APP-${REVIEW_URL_ID}" -f deploy_manifest.yml --no-route --docker-image "$ECR_REPO/$DOCKER_IMAGE:$DOCKER_TAG" --docker-username "$AWS_ACCESS_KEY_ID"
             # Map dark route
             cf map-route "$CF_APP-$REVIEW_URL_ID" london.cloudapps.digital -n "$CF_APP-$REVIEW_URL_ID"
             # Enable routing from this service to the backend applications which are private
