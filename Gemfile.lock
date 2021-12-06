@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/DFE-Digital/govuk-formbuilder.git
-  revision: 851d2b5955b4d9906056b92d69e6b7a66a68fb95
+  revision: 48ec42c5d144b34b0c21dcc0b0df25128e6b291f
   specs:
     govuk_design_system_formbuilder (2.8.0)
       actionview (>= 6.0)
