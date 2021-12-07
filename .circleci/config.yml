@@ -120,11 +120,15 @@ commands:
           command: |
             sed -i  "s/instances: [0-9]\+/instances\: 1/" deploy_manifest.yml
       - run:
+          name: "Find PR number"
+          command: |
+            PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | sed 's|https://github.com/||' | cut -d '/' -f 4)
+            echo "export PR_NUMBER=${PR_NUMBER}" > $BASH_ENV
+      - run:
           name: "Push review app"
           command: |
             export DOCKER_IMAGE=tariff-frontend
             export DOCKER_TAG=dev-${CIRCLE_SHA1}
-            export PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | sed 's|https://github.com/||' | cut -d '/' -f 4)
             export REVIEW_URL_ID="pr${PR_NUMBER}"
 
             CF_DOCKER_PASSWORD=$AWS_SECRET_ACCESS_KEY cf push "$CF_APP-${REVIEW_URL_ID}" -f deploy_manifest.yml --no-route --docker-image "$ECR_REPO/$DOCKER_IMAGE:$DOCKER_TAG" --docker-username "$AWS_ACCESS_KEY_ID"
@@ -133,6 +137,75 @@ commands:
             # Enable routing from this service to the backend applications which are private
             cf add-network-policy "$CF_APP-$REVIEW_URL_ID" "$CF_BACKEND_APP_XI-dev" --protocol tcp --port 8080
             cf add-network-policy "$CF_APP-$REVIEW_URL_ID" "$CF_BACKEND_APP_UK-dev" --protocol tcp --port 8080
+      - slack/notify:
+          channel: deployments
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          channel: deployments
+          event: pass
+          custom: |
+            {
+              "text": "Review App deployed for $CIRCLE_PROJECT_NAME",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Review App deployed for PR ${PR_NUMBER}  :white_check_mark:",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*URL*: https://${CF_APP}-pr${PR_NUMBER}.london.cloudapps.digital/"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project*:\n $CIRCLE_PROJECT_REPONAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch*:\n $CIRCLE_BRANCH"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit*:\n $CIRCLE_SHA1"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author*:\n $CIRCLE_USERNAME"
+                    }
+                  ],
+                  "accessory": {
+                    "type": "image",
+                    "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
+                    "alt_text": "CircleCI logo"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View App"
+                      },
+                      "url": "https://${CF_APP}-pr${PR_NUMBER}.london.cloudapps.digital/"
+                    }
+                  ]
+                }
+              ]
+            }
 
   cf_purge_reviews:
     steps:
