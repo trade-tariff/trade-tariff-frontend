@@ -2,7 +2,7 @@
   "name": "trade-tariff-frontend",
   "private": true,
   "dependencies": {
-    "@babel/plugin-transform-object-assign": "^7.10.4",
+    "@babel/plugin-transform-object-assign": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@rails/webpacker": "5.4.3",
     "@sentry/browser": "^6.15.0",
