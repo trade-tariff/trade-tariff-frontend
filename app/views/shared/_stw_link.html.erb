@@ -1,0 +1,14 @@
+<div class="govuk-inset-text govuk-inset-text--s tariff-inset-information">
+    <% if search.country.present? %>
+      <p class= "govuk-body">
+        <strong>Check how to import or export goods</strong>
+      </p>
+
+      <p class= "govuk-body">
+        Now you have identified your commodity code, you can <%= declarable_stw_link(declarable, search, anchor) %>
+      </p>
+    <% else %>
+      To <strong>check how to import commodity <%= declarable.code %></strong>, select the <%= link_to("country from which you are importing", trading_partners_path) %>.
+  <% end %>
+  </p>
+</div>

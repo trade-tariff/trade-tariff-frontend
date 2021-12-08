@@ -17,7 +17,7 @@ module DeclarableHelper
       .html_safe
   end
 
-  def declarable_stw_link(declarable, search)
+  def declarable_stw_link(declarable, search, anchor = 'import')
     geographical_area = GeographicalArea.find(search.country)
     declarable_type = declarable.heading? ? 'heading' : 'commodity'
     today = Time.zone.today
@@ -37,9 +37,8 @@ module DeclarableHelper
     }
 
     stw_link = "#{TradeTariffFrontend.single_trade_window_url}?#{CGI.unescape(stw_options.to_query)}"
-
     link_to(
-      "Check how to import #{declarable_type} #{declarable.code} from #{geographical_area&.description}.",
+      "check how to #{anchor} #{declarable_type} #{declarable.code} from #{geographical_area&.description}.",
       stw_link,
       target: '_blank',
       class: 'govuk-link',
