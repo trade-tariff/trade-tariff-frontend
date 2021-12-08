@@ -104,8 +104,6 @@
     <%= render partial: 'declarables/filtered', locals: { search: @search } %>
 
     <% if declarable.export_measures.for_country(@search.country).any? %>
-      <%= render "shared/measure_types_help", anchor: "export" %>
-
       <h3 class="govuk-heading-s govuk-!-margin-bottom-3">
         <%= @search.filtered_by_country? ? "Measures for #{@search.geographical_area}" : "Measures for all countries" %>
       </h3>
