@@ -5,7 +5,7 @@ module PagesHelper
       asset_size         = number_to_human_size(File.size(file))
       chapter_short_code = file.match(%r{Chapter (?<chapter_id>\d{2})})[:chapter_id]
       chapter            = chapter_for(chapter_short_code, chapters)
-      link_text          = "Chapter #{chapter_short_code} - #{chapter} (2023 10-digit changes)"
+      link_text          = "Chapter #{chapter_short_code} - #{chapter} (2022 10-digit changes)"
 
       [asset, asset_size, link_text]
     end

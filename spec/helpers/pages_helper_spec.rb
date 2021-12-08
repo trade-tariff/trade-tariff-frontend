@@ -8,7 +8,7 @@ RSpec.describe PagesHelper, type: :helper do
       [
         'cn2021_2022/2022 10 digit codes Chapter 03.xlsx',
         '13 KB',
-        'Chapter 03 - Fish and crustaceans, molluscs and other aquatic invertebrates (2023 10-digit changes)',
+        'Chapter 03 - Fish and crustaceans, molluscs and other aquatic invertebrates (2022 10-digit changes)',
       ]
     end
 
