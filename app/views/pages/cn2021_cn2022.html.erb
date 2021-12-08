@@ -1,4 +1,6 @@
-<% content_for :before_main_content do %>
+<% content_for :title, '2022 UK goods classification'  %>
+
+<% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs(
       t('breadcrumb.help_goods_classification'),
       [
@@ -9,40 +11,79 @@
   %>
 <% end %>
 
-<%= page_header('UK goods classification 2021 to 2022 correlation table') %>
+<%= page_header('2022 UK goods classification') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <p class="govuk-body-l">
-      The table below shows the correlation of commodity codes to the 8-digit level from the 2021 tariff to that of 2022. This incorporates the changes made to the
-      <a
-        target="_blank"
-        href="http://www.wcoomd.org/en/topics/nomenclature/instrument-and-tools/hs-nomenclature-2022-edition.aspx"
-        >Harmonised System Nomenclature for 2022 (opens in new tab)</a
-      >
-      by the <abbr title="World Customs Organisation">WCO</abbr>.
+      This page lists both the updates to 2022 UK goods classification chapters at 10-digit level (where these have been confirmed) and the correlation of commodity codes to the 8-digit level from the 2021 tariff to that of 2022. 
     </p>
-    <p class="govuk-body-l">
-      Commodity code changes are currently available to 8-digits only. We will update this page with 10-digit changes as soon as they are available. 
+    <p class="govuk-body">
+      This incorporates the changes made to the Harmonised System Nomenclature for 2022 (opens in new tab) by the <a target="_blank" href="http://www.wcoomd.org/en/topics/nomenclature/instrument-and-tools/hs-nomenclature-2022-edition.aspx">WCO</a>.
     </p>
-    <h2 class="govuk-heading-m">Downloadable documents</h2>
 
-    <div class="downloads" data-module="govspeak">
-      <section class="attachment">
-        <div class="attachment-thumb">
-          <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), asset_path('TranspositionCN2021toCN2022Rev21Oct.xls')) %> 
-        </div>
-        <div class="attachment-details">
-          <h3 class="govuk-heading-s">
-            <%= link_to('Download UK Goods classification 2021 to 2022 correlation table (changes to 8-digit codes)', asset_path('TranspositionCN2021toCN2022Rev21Oct.xls')) %> 
-          </h3>
-          <p class="metadata">
-            <span class="type">MS Excel Spreadsheet</span>,
-            <span class="file-size">330KB</span>
-          </p>
-        </div>
-      </section>
-    </div>
+    <h2 class="govuk-heading-m">Contents</h2>
+    <ul class="measure-list-item govuk-!-margin-bottom-9">
+      <li class="govuk-!-margin-bottom-2">
+        <a class="govuk-body" href="#10digit">UK goods classification 2021-2022 10-digit changes</a>
+      </li>
+
+      <li class="govuk-!-margin-bottom-2">
+        <a class="govuk-body" href="#8digit">UK goods classification 2021-2022 8-digit correlation table</a>
+      </li>
+    </ul>
+
+    <h2 class="govuk-heading-m" id= '10digit'>UK goods classification 2021-2022 10-digit changes</h2>
+
+    <p class="govuk-body">
+      The following downloadable documents list all of the deleted and newly-introduced commodity codes in the 2022 UK goods classification, where chapters have been finalised.
+    </p>
+    <p class="govuk-body">
+      Additional chapters will be uploaded as they become available.
+    </p>
+    <p class="govuk-body">
+      Where reference is made to an 'umbrella subheading', this is where an 8-digit code has a description which encompasses products covered by succeeding 10-digit codes.
+    </p>
+
+    <% cn2021_cn2022_10_digit_files(@chapters).each do |asset, filesize, link_text| %>
+      <div class="downloads" data-module="govspeak">
+        <section class="attachment">
+          <div class="attachment-thumb">
+            <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), asset_path(asset)) %> 
+          </div>
+          <div class="attachment-details">
+            <h3 class="govuk-heading-s">
+              <%= link_to(link_text, asset_path(asset)) %> 
+            </h3>
+            <p class="metadata">
+              <span class="type">MS Excel Spreadsheet</span>,
+              <span class="file-size"><%= filesize %></span>
+            </p>
+          </div>
+        </section>
+      </div>
+    <% end %>
+
+    <h2 class="govuk-heading-m" id= '8digit'>UK goods classification 2021-2022 8-digit correlation table</h2>
+
+    <% cn2021_cn2022_8_digit_file.tap do |asset, filesize, link_text| %>
+      <div class="downloads" data-module="govspeak">
+        <section class="attachment">
+          <div class="attachment-thumb">
+            <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), asset_path(asset)) %> 
+          </div>
+          <div class="attachment-details">
+            <h3 class="govuk-heading-s">
+              <%= link_to(link_text, asset_path(asset)) %> 
+            </h3>
+            <p class="metadata">
+              <span class="type">MS Excel Spreadsheet</span>,
+              <span class="file-size"><%= filesize %></span>
+            </p>
+          </div>
+        </section>
+      </div>
+    <% end %>
 
     <div class="govuk-inset-text">
       Ex: means that the content of the code for the year 2022 comes partly from

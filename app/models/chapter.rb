@@ -6,6 +6,8 @@ class Chapter < GoodsNomenclature
 
   SHORT_CODE_LENGTH = 2
 
+  collection_path '/chapters'
+
   attr_accessor :headings, :chapter_note
 
   has_one :section
