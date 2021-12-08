@@ -1,0 +1,27 @@
+<div class="govuk-inset-text govuk-inset-text--s nhs-grey-5 explainer">
+    <h3>Check duties and customs procedures for exporting goods</h3>
+
+    <% if european %>
+      <p>Find information about how to move goods from the UK to <%= country_name %>.</p>
+    <% else %>
+      <p>Find information about how to move goods from the UK to the rest of the world.</p>
+    <% end %>
+
+    <p>Use this service to check:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+        <li>rules and restrictions</li>
+        <li>tax and duty rates</li>
+        <li>what exporting documents you need</li>
+    </ul>
+
+    <p>
+      <% if european %>
+        <%= link_to("Check how to export #{commodity_code} to #{country_name} (link opens in new tab)",
+                    "https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=#{country_code}&ds=gtp&tab=tree&pc=#{commodity_code}", target: "_blank") %>
+      <% else %>
+          <%= link_to('Check how to export commodity goods (link opens in new tab)',
+                    'https://www.check-duties-customs-exporting-goods.service.gov.uk', target: "_blank") %>
+      <% end %>
+    </p>
+</div>

@@ -98,6 +98,8 @@
   <!-- Export tab -->
   <div class="govuk-tabs__panel" id="export">
     <h2 class="govuk-heading-m"><%= measures_heading(tab: 'export') %></h2>
+    <p>The commodity code for exporting and <%= link_to 'Intrastat reporting', 'https://www.gov.uk/intrastat', target: "_blank" %> is <%= declarable.display_export_code %></p>
+
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
     <%= render partial: 'declarables/filtered', locals: { search: @search } %>
 
@@ -115,6 +117,12 @@
     <% else %>
       <p>There are no export measures for this commodity on this date.</p>
     <% end %>
+
+    <%= render 'measures/export_tab_check_duties',
+                commodity_code: declarable.code,
+                country_code: @search.country,
+                country_name: @search.geographical_area&.description,
+                european: @search.geographical_area&.eu_member? %>
   </div>
 
   <!-- Rules of Origin tab -->
