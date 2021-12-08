@@ -45,11 +45,6 @@
               <p>Importing from outside the UK is subject to <strong>variable</strong> third country duty.</p>
             <% end %>
             <p> Import measures and restrictions for specific countries can be found under the <a href="#import">import</a> tab.</p>
-            <% if declarable.calculate_duties? %>
-              <h3 class="govuk-heading-s">Duty calculation</h3>
-
-              <p>Use our tariff duty calculator to work out the <%= link_to("duties applicable to the import of commodity #{declarable.code} into the #{import_destination}", "/duty-calculator/#{service_choice}/#{declarable.code}/import-date", class: 'govuk-link') %>.</p>
-            <% end %>
           </div>
         </div>
 
