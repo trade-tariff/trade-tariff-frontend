@@ -13,7 +13,8 @@ module ActiveModelTypes
     def value_from_multiparameter_assignment(vargs)
       super
     rescue ArgumentError
-      :unparseable
+      # This needs to be nil to put an empty value in the form
+      nil
     end
   end
 end

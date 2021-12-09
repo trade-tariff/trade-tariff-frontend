@@ -94,6 +94,12 @@ RSpec.describe ImportExportDatesController, type: :controller do
         expect(assigns(:import_export_date).errors.messages[:import_date]).to eq(['Enter a valid date'])
       end
 
+      it 'sets the import date to nil' do
+        response
+
+        expect(assigns(:import_export_date).import_date).to be_nil
+      end
+
       it { is_expected.to render_template('import_export_dates/show') }
       it { is_expected.to have_http_status(:ok) }
     end
