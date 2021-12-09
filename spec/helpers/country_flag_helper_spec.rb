@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe CountryFlagHelper, type: :helper do
   describe '#country_flag_tag' do
-    before { allow(Raven).to receive(:capture_message).and_return(true) }
+    before { allow(Sentry).to receive(:capture_message).and_return(true) }
 
     context 'with GB' do
       subject(:rendered) { helper.country_flag_tag('GB') }
@@ -32,7 +32,7 @@ RSpec.describe CountryFlagHelper, type: :helper do
       it 'notifies Sentry' do
         rendered
 
-        expect(Raven).to have_received(:capture_message)
+        expect(Sentry).to have_received(:capture_message)
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.describe CountryFlagHelper, type: :helper do
       it 'does not notify Sentry' do
         rendered
 
-        expect(Raven).not_to have_received(:capture_message)
+        expect(Sentry).not_to have_received(:capture_message)
       end
     end
   end

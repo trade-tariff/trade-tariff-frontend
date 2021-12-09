@@ -53,7 +53,7 @@ gem 'govuk_design_system_formbuilder', github: 'DFE-Digital/govuk-formbuilder'
 gem 'wizard_steps'
 
 # Sentry
-gem 'sentry-raven'
+gem 'sentry-rails'
 
 group :development do
   gem 'letter_opener'
