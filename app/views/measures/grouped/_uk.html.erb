@@ -12,25 +12,17 @@
     show_stw_text: true,
     anchor: 'import'
   }
-%>
+  %>
 <% end %>
 
 <!-- CUSTOMS DUTIES -->
-
 <% if uk_import_measures.customs_duties.present? %>
-  <h3 class="govuk-heading-m govuk-!-margin-top-7 govuk-!-margin-bottom-3", id='customs_duties'>
-    Customs duties
-  </h3>
-
-  <div class="govuk-inset-text govuk-inset-text--s nhs-grey-5 explainer">
-    <%= image_tag('calculator.png') %>
-
-    <p>The table below lists the customs duties that apply to the import of commodity <%= uk_declarable.code %>.</p>
-    <p>Use our <strong>tariff duty calculator</strong> to
-      <%= link_to("work out the duties and taxes applicable to the import of commodity.", "/duty-calculator/#{service_choice}/#{uk_declarable.code}/import-date") %>
-  </div>
-
-  <%= render 'measures/grouped/table_customs_duties', collection: uk_import_measures.customs_duties.sort_by(&:key) %>
+  <%= render 'measures/grouped/table',
+              caption: 'Custom duties',
+              collection: uk_import_measures.customs_duties.sort_by(&:key),
+              css_id: 'customs-duties',
+              declarable: uk_declarable,
+              show_duty_calculator: true %>
 <% end %>
 
 <!-- QUOTAS -->
