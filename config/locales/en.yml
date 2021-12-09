@@ -12,11 +12,11 @@ en:
     xi_html: Trade between <abbr title="Northern Ireland">NI</abbr> and
   measures_heading:
     uk:
-      import: Measures and restrictions for importing into the UK
-      export: Measures and restrictions for exporting from the UK
+      import: Importing into the UK
+      export: Exporting from the UK
     xi:
-      import: Measures and restrictions for importing goods into Northern Ireland
-      export: Measures and restrictions for exporting goods from Northern Ireland
+      import: Importing into Northern Ireland
+      export: Exporting from Northern Ireland
 
   title:
     default: "%{service_name}: %{service_description} - GOV.UK"

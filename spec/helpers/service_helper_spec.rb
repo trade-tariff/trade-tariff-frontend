@@ -19,6 +19,30 @@ RSpec.describe ServiceHelper, type: :helper do
     end
   end
 
+  describe '#measures_heading' do
+    shared_examples_for 'a measure heading' do |anchor, expected_text|
+      subject { helper.measures_heading(anchor: anchor) }
+
+      it { is_expected.to eq(expected_text) }
+    end
+
+    it_behaves_like 'a measure heading', 'import', 'Importing into the UK' do
+      include_context 'with UK service'
+    end
+
+    it_behaves_like 'a measure heading', 'export', 'Exporting from the UK' do
+      include_context 'with UK service'
+    end
+
+    it_behaves_like 'a measure heading', 'import', 'Importing into Northern Ireland' do
+      include_context 'with XI service'
+    end
+
+    it_behaves_like 'a measure heading', 'export', 'Exporting from Northern Ireland' do
+      include_context 'with XI service'
+    end
+  end
+
   describe '#heading_for' do
     subject { helper.heading_for(section: section, chapter: chapter, heading: heading, commodity: commodity) }
 

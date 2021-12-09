@@ -20,7 +20,6 @@
   <!-- Overview tab -->
   <div class="govuk-tabs__panel" id="overview">
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
-    <%= render partial: 'declarables/filtered', locals: { search: @search } %>
     <div class="inner">
       <h1 class="govuk-visually-hidden">Overview</h1>
       <div class="govuk-grid-row import-and-export-boxes">
@@ -77,9 +76,9 @@
 
   <!-- Import tab -->
   <div class="govuk-tabs__panel" id="import">
-    <h2 class="govuk-heading-m"><%= measures_heading(tab: 'import') %></h2>
+    <h2 class="govuk-heading-l"><%= measures_heading(anchor: 'import') %></h2>
+
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
-    <%= render partial: 'declarables/filtered', locals: { search: @search } %>
 
     <% if declarable.import_measures.for_country(@search.country).any? %>
       <%= render partial: 'measures/grouped/navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
@@ -97,17 +96,12 @@
 
   <!-- Export tab -->
   <div class="govuk-tabs__panel" id="export">
-    <h2 class="govuk-heading-m"><%= measures_heading(tab: 'export') %></h2>
+    <h2 class="govuk-heading-l"><%= measures_heading(anchor: 'export') %></h2>
     <p>The commodity code for exporting and <%= link_to 'Intrastat reporting', 'https://www.gov.uk/intrastat', target: "_blank" %> is <%= declarable.display_export_code %></p>
 
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
-    <%= render partial: 'declarables/filtered', locals: { search: @search } %>
 
     <% if declarable.export_measures.for_country(@search.country).any? %>
-      <h3 class="govuk-heading-s govuk-!-margin-bottom-3">
-        <%= @search.filtered_by_country? ? "Measures for #{@search.geographical_area}" : "Measures for all countries" %>
-      </h3>
-
       <%= render partial: 'measures/grouped/table', locals: {
         collection: declarable.export_measures.for_country(@search.country).sort_by(&:key),
         hide_duty_rate: true }

@@ -64,8 +64,8 @@ module ServiceHelper
     t('search.label', service_name: service_name)
   end
 
-  def measures_heading(tab: 'import')
-    t("measures_heading.#{service_choice}.#{tab}").html_safe
+  def measures_heading(anchor:)
+    t("measures_heading.#{service_choice}.#{anchor}")
   end
 
   def country_picker_text
