@@ -2,15 +2,7 @@
   <%= local_assigns[:caption] %>
 </h3>
 
-<% if local_assigns[:show_stw_text] %> 
-  <p class= "govuk-body">
-    <% if search.country.present? %>
-      <%= declarable_stw_link(declarable, search) %>
-    <% else %>
-      To use the new 'Check how to import or export goods' service to find out which licences and certificates you need to import commodity code <%= declarable.code %>, select the country of origin from the dropdown above.
-    <% end %>
-  </p>
-<% end %>
+<%= render 'shared/stw_link', declarable: declarable, search: search, anchor: anchor if local_assigns[:show_stw_text]  %>
 
 <table class="small-table measures govuk-table"  >
   <thead class="govuk-table__head">

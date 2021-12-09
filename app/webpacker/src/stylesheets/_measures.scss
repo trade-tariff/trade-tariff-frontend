@@ -62,14 +62,6 @@ dt.has_children + dd[aria-hidden="true"] {
   padding-top: 3px;
 }
 
-$tariff-inset-background-color:  #e9f4f9;
-$tariff-inset-border-left-color: #098dc1;
-
-.tariff-inset {
-  background-color: $tariff-inset-background-color;
-  border-left: 10px solid $tariff-inset-border-left-color;
-}
-
 .meursing-form-textual-button {
   margin-left: 15px;
   margin-right: 15px;
