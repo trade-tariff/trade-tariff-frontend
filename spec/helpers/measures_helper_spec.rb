@@ -44,4 +44,24 @@ RSpec.describe MeasuresHelper, type: :helper do
       it { expect(helper.legal_act_regulation_url_link_for(measure)).to be_html_safe }
     end
   end
+
+  describe 'check_how_to_export_goods_link' do
+    subject(:link) { check_how_to_export_goods_link(commodity_code: commodity_code, country_code: '', country_name: '') }
+
+    context 'when commodity code has 4 ending zeros' do
+      let(:commodity_code) { '1234560000' }
+
+      it 'strips out all 4 zeros' do
+        expect(link).to include('pc=123456')
+      end
+    end
+
+    context 'when commodity code has 3 ending zeros' do
+      let(:commodity_code) { '123456000' }
+
+      it 'strips out only zeros' do
+        expect(link).to include('pc=1234560')
+      end
+    end
+  end
 end

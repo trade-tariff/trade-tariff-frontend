@@ -17,11 +17,11 @@
 
     <p>
       <% if european %>
-        <%= link_to("Check how to export #{commodity_code} to #{country_name} (link opens in new tab)",
-                    "https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=#{country_code}&ds=gtp&tab=tree&pc=#{commodity_code}", target: "_blank") %>
+        <%= check_how_to_export_goods_link(commodity_code: commodity_code,
+                                           country_code: country_code,
+                                           country_name: country_name ) %>
       <% else %>
-          <%= link_to('Check how to export commodity goods (link opens in new tab)',
-                    'https://www.check-duties-customs-exporting-goods.service.gov.uk', target: "_blank") %>
+          <%= link_to('Check how to export commodity goods (link opens in new tab)', MeasuresHelper::CHEG_SERVICE_URL, target: "_blank") %>
       <% end %>
     </p>
 </div>
