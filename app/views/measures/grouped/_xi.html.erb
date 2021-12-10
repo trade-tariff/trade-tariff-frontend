@@ -7,9 +7,9 @@
   <%= render 'measures/grouped/table',
               caption: 'Custom duties',
               collection: xi_import_measures.customs_duties.sort_by(&:key),
-              css_id: 'customs-duties',
+              css_id: 'customs_duties',
               declarable: xi_declarable,
-              show_duty_calculator: true %>
+              show_duty_calculator: xi_declarable.calculate_duties? %>
 <% end %>
 
 <!-- TRADE REMEDIES -->

@@ -18,11 +18,11 @@
 <!-- CUSTOMS DUTIES -->
 <% if uk_import_measures.customs_duties.present? %>
   <%= render 'measures/grouped/table',
-              caption: 'Custom duties',
+              caption: 'Customs duties',
               collection: uk_import_measures.customs_duties.sort_by(&:key),
-              css_id: 'customs-duties',
+              css_id: 'customs_duties',
               declarable: uk_declarable,
-              show_duty_calculator: true %>
+              show_duty_calculator: uk_declarable.calculate_duties? %>
 <% end %>
 
 <!-- QUOTAS -->

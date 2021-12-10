@@ -1,9 +1,30 @@
-.explainer img {
-  float: left;
-  margin-right: 1em;
-  margin-bottom: 2em;
+@include govuk-media-query($from: tablet) {
+  .calculator-panel {
+    background-color: $feature-panel-shaded-background-colour;
+
+    border-left: 10px solid #b1b4b6;
+
+    color: #0b0c0c;
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    clear: both;
+
+    img {
+      float: left;
+      margin-right: 1em;
+      margin-bottom: 2em;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 0.5em;
+    }
+  }
 }
 
-.govuk-inset-text--s p {
-	font-size: 16px;
+@include govuk-media-query($until: tablet) {
+  img {
+    display:none;
+  }
 }

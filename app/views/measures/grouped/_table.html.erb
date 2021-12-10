@@ -4,6 +4,8 @@
 
 <%= render 'shared/stw_link', declarable: declarable, search: search, anchor: anchor if local_assigns[:show_stw_text]  %>
 
+<%= render 'measures/grouped/tariff_duty_calculator_link', declarable_code: declarable.code if local_assigns[:show_duty_calculator] %>
+
 <table class="small-table measures govuk-table"  >
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
