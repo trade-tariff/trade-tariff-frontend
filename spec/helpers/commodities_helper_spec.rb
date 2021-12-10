@@ -80,4 +80,21 @@ RSpec.describe CommoditiesHelper, type: :helper do
       end
     end
   end
+
+  describe '#abbreviate_commodity_code' do
+    subject { abbreviate_commodity_code comm_code }
+
+    shared_examples 'an abbreviated code' do |original, abbreviated|
+      let(:comm_code) { original }
+
+      it { is_expected.to eql abbreviated }
+    end
+
+    it_behaves_like 'an abbreviated code', '0123400000', '012340'
+    it_behaves_like 'an abbreviated code', '0123450000', '012345'
+    it_behaves_like 'an abbreviated code', '0123456000', '01234560'
+    it_behaves_like 'an abbreviated code', '0123456700', '01234567'
+    it_behaves_like 'an abbreviated code', '0123456780', '0123456780'
+    it_behaves_like 'an abbreviated code', '0123456789', '0123456789'
+  end
 end

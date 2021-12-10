@@ -122,4 +122,16 @@ module CommoditiesHelper
       safe_join parts.map(&tag.method(:span))
     end
   end
+
+  def abbreviate_commodity_code(code)
+    code = code.to_s
+    case code.gsub(/0*\z/, '').length
+    when 7..8
+      code.slice(0, 8)
+    when 5..6
+      code.slice(0, 6)
+    else
+      code
+    end
+  end
 end
