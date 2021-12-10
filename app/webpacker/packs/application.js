@@ -72,3 +72,5 @@ $(function(){
   GOVUK.tariff.onLoad();
   SearchBanner.connectAll();
 });
+
+import "controllers"
