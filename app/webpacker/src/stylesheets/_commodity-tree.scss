@@ -481,10 +481,15 @@ article.tariff {
     > * {
       display: grid;
       grid-auto-flow: dense;
-      grid-template-columns: [row-start] 7fr [identifier-start] 2fr [row-end];
+      grid-template-columns: [row-start] 6fr [identifier-start] 2fr [row-end];
+      font-size: 14px;
       grid-column-gap: 10px;
       position: relative;
-      font-size: 16px;
+
+      @include govuk-media-query($from: tablet) {
+        grid-template-columns: [row-start] 7fr [identifier-start] 2fr [row-end];
+        font-size: 16px;
+      }
     }
 
     @for $i from 2 through 16 {
@@ -523,17 +528,25 @@ article.tariff {
       content: '\002514';
       font-size: 12px;
       position: absolute;
-      top: 0.15em;
+      top: 0.125em;
+
+      @include govuk-media-query($from: tablet) {
+        top: 0.15em;
+      }
     }
   }
 
   .segmented-commodity-code {
     font-family: 'Azeret Mono', 'Courier New', Courier, monospace;
-    font-size: 14px;
+    font-size: 12px;
 
-    span {
-      padding: 2px 3px;
-      margin: 0px 2px 0px 0px;
+    @include govuk-media-query($from: tablet) {
+      font-size: 14px;
+
+      span {
+        padding: 2px 3px;
+        margin: 0px 2px 0px 0px;
+      }
     }
   }
 }
