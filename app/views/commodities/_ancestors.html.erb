@@ -1,0 +1,78 @@
+<nav class="commodity-ancestors"
+     aria-label="A list of commodity code <%= commodity.code %>'s section, chapter and other parent commodity codes">
+  <a href="#import" class="govuk-skip-link">
+    Skip to information about importing commodity <%= commodity.code %>
+  </a>
+
+  <ol class="govuk-list">
+    <%# list commodities section %>
+    <li>
+      <%= link_to section_path(commodity.section) do %>
+        <span class="commodity-ancestors__identifier">
+          Section <%= commodity.section.numeral %>
+        </span>
+
+        <span class="commodity-ancestors__descriptor">
+          <%= commodity.section.title %>
+        </span>
+      <% end %>
+    </li>
+
+    <%# list commodities chapter %>
+    <li>
+      <%= link_to chapter_path(commodity.chapter) do %>
+        <span class="commodity-ancestors__identifier">
+          Chapter <%= commodity.chapter.short_code %>
+        </span>
+
+        <span class="commodity-ancestors__descriptor">
+          <%= commodity.section.title %>
+        </span>
+      <% end %>
+    </li>
+
+    <%# list commodities heading %>
+    <li>
+      <%= link_to heading_path(commodity.heading) do %>
+        <span class="commodity-ancestors__identifier">
+          <%= segmented_commodity_code commodity.heading.short_code,
+                                       coloured: true %>
+        </span>
+
+        <span class="commodity-ancestors__descriptor">
+          <%= commodity.heading.description %>
+        </span>
+      <% end %>
+    </li>
+
+    <%# list each of commodities ancestors %>
+    <% @commodity.ancestors.each.with_index do |ancestor, index| %>
+    <li aria-owns="hierarchy_chapter">
+      <span>
+        <span class="commodity-ancestors__identifier">
+          <%= segmented_commodity_code abbreviate_commodity_code(ancestor.code),
+                                       coloured: true %>
+        </span>
+
+        <span class="commodity-ancestors__descriptor">
+          <%= ancestor.description %>
+        </span>
+      </span>
+    </li>
+    <% end %>
+
+    <%# list current commodity %>
+    <li aria-owns="hierarchy_chapter">
+      <span>
+        <span class="commodity-ancestors__identifier">
+          <%= segmented_commodity_code abbreviate_commodity_code(@commodity.code),
+                                       coloured: true %>
+        </span>
+
+        <span class="commodity-ancestors__descriptor">
+          <%= @commodity.description %>
+        </span>
+      </span>
+    </li>
+  </ol>
+</nav>
