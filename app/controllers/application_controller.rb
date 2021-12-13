@@ -111,7 +111,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_cache
-    expires_now
+    response.headers['Cache-Control'] = 'no-store'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
   end
 
   def cookies_policy

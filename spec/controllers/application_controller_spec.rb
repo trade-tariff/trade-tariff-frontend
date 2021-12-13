@@ -7,8 +7,11 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  it 'has the correct Cache-Control header' do
-    get :index
-    expect(response.headers['Cache-Control']).to eq('no-cache')
+  describe 'GET #index' do
+    subject(:response) { get :index }
+
+    it { expect(response.headers['Cache-Control']).to eq('no-store') }
+    it { expect(response.headers['Pragma']).to eq('no-cache') }
+    it { expect(response.headers['Expires']).to eq('-1') }
   end
 end
