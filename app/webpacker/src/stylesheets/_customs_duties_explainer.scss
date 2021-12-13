@@ -2,9 +2,8 @@
   .calculator-panel {
     background-color: $feature-panel-shaded-background-colour;
 
-    border-left: 10px solid #b1b4b6;
+    border-left: 10px solid $feature-panel-border-left;
 
-    color: #0b0c0c;
     padding: 15px;
     margin-top: 20px;
     margin-bottom: 20px;

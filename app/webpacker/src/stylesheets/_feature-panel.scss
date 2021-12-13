@@ -1,5 +1,6 @@
 $feature-panel-border-colour: #333;
 $feature-panel-shaded-background-colour: #f0f4f5;
+$feature-panel-border-left: #b1b4b6;
 
 .feature-panel {
   @include govuk-responsive-padding(3);
