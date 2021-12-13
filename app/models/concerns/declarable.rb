@@ -72,6 +72,12 @@ module Declarable
     end
   end
 
+  # Right-Strip of the zeros in pairs.
+  # Example: 8514101000 -> 85141010
+  def commodity_code_for_check_duties_service
+    code.gsub(/(00|0000)$/, '')
+  end
+
   private
 
   def supplementary_measure(country)

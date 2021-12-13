@@ -46,21 +46,25 @@ RSpec.describe MeasuresHelper, type: :helper do
   end
 
   describe 'check_how_to_export_goods_link' do
-    subject(:link) { check_how_to_export_goods_link(commodity_code: commodity_code, country_code: '', country_name: '') }
+    subject(:link) { check_how_to_export_goods_link(commodity_code: commodity_code, country_code: '', country_name: '', eu_member: eu_member) }
 
-    context 'when commodity code has 4 ending zeros' do
-      let(:commodity_code) { '1234560000' }
+    let(:eu_member) { true }
 
-      it 'strips out all 4 zeros' do
-        expect(link).to include('pc=123456')
+    context 'when it is a EU member' do
+      let(:eu_member) { true }
+      let(:commodity_code) { '1234567890' }
+
+      it 'pass in the code as argument' do
+        expect(link).to include('pc=1234567890')
       end
     end
 
-    context 'when commodity code has 3 ending zeros' do
-      let(:commodity_code) { '123456000' }
+    context 'when it is NOT a EU member' do
+      let(:eu_member) { false }
+      let(:commodity_code) { 'xxxx' }
 
-      it 'strips out only zeros' do
-        expect(link).to include('pc=1234560')
+      it 'does not include params' do
+        expect(link).not_to include('pc=')
       end
     end
   end
