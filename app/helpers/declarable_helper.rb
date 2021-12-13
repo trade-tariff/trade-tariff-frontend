@@ -1,22 +1,4 @@
 module DeclarableHelper
-  def classification_description(declarable)
-    tree_items = if declarable.heading?
-                   [declarable]
-                 else # it is a commodity
-                   [declarable.heading,
-                    declarable.ancestors,
-                    declarable]
-                 end
-
-    descriptions = tree_items
-      .flatten
-      .map(&:description)
-
-    boldify_last(descriptions)
-      .join(' &mdash; ')
-      .html_safe
-  end
-
   def declarable_stw_link(declarable, search, anchor = 'import')
     geographical_area = GeographicalArea.find(search.country)
     declarable_type = declarable.heading? ? 'heading' : 'commodity'
@@ -65,12 +47,5 @@ module DeclarableHelper
     else
       commodity_url(declarable, format: :json)
     end
-  end
-
-  private
-
-  def boldify_last(items)
-    starting_items = items[..-2]
-    starting_items << "<strong>#{items.last}</strong>"
   end
 end
