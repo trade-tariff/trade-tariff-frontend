@@ -467,28 +467,24 @@ article.tariff {
   }
 }
 
-// FIXME
-
 .commodity-ancestors {
-  margin: 0px 0px 1em 0px;
-  padding: 1em 0px 0.5em 1em;
-  font-size: 12px;
-  background-color: #f6f6f6;
+  margin-bottom: 1em;
+  padding: 1em 0 0.5em 1em;
+  background-color: $shaded-panel-background-colour;
 
   ol li {
     margin-bottom: 0.5em;
 
     > * {
+      @include govuk-font($size: 16) ;
       display: grid;
       grid-auto-flow: dense;
       grid-template-columns: [row-start] 6fr [identifier-start] 2fr [row-end];
-      font-size: 14px;
       grid-column-gap: 10px;
       position: relative;
 
       @include govuk-media-query($from: tablet) {
         grid-template-columns: [row-start] 7fr [identifier-start] 2fr [row-end];
-        font-size: 16px;
       }
     }
 
@@ -522,9 +518,9 @@ article.tariff {
     &:not(:first-of-type) .commodity-ancestors__descriptor::before {
       text-decoration: none;
       display: inline-block;
-      padding: 0px 0px 0px 0px;
-      margin: 0px 1em 0px 0px;
-      color: #000;
+      padding: 0;
+      margin: 0 1em 0 0;
+      color: $govuk-text-colour;
       content: '\002514';
       font-size: 12px;
       position: absolute;
@@ -537,15 +533,13 @@ article.tariff {
   }
 
   .segmented-commodity-code {
+    @include govuk-font($size: 14);
     font-family: 'Azeret Mono', 'Courier New', Courier, monospace;
-    font-size: 12px;
 
     @include govuk-media-query($from: tablet) {
-      font-size: 14px;
-
       span {
-        padding: 2px 3px;
-        margin: 0px 2px 0px 0px;
+        padding: 0.17em 0.25em;
+        margin-right: 0.16em;
       }
     }
   }
