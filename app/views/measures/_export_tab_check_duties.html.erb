@@ -1,7 +1,7 @@
 <div class="govuk-inset-text govuk-inset-text--s nhs-grey-5 explainer">
     <h3>Check duties and customs procedures for exporting goods</h3>
 
-    <% if european %>
+    <% if eu_member %>
       <p>Find information about how to move goods from the UK to <%= country_name %>.</p>
     <% else %>
       <p>Find information about how to move goods from the UK to the rest of the world.</p>
@@ -16,12 +16,9 @@
     </ul>
 
     <p>
-      <% if european %>
-        <%= link_to("Check how to export #{commodity_code} to #{country_name} (link opens in new tab)",
-                    "https://www.check-duties-customs-exporting-goods.service.gov.uk/summary?d=#{country_code}&ds=gtp&tab=tree&pc=#{commodity_code}", target: "_blank") %>
-      <% else %>
-          <%= link_to('Check how to export commodity goods (link opens in new tab)',
-                    'https://www.check-duties-customs-exporting-goods.service.gov.uk', target: "_blank") %>
-      <% end %>
+      <%= check_how_to_export_goods_link(commodity_code: declarable.commodity_code_for_check_duties_service,
+                                         country_code: country_code,
+                                         country_name: country_name,
+                                         eu_member: eu_member ) %>
     </p>
 </div>

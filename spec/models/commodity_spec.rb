@@ -130,4 +130,24 @@ RSpec.describe Commodity do
       it { is_expected.not_to be_calculate_duties }
     end
   end
+
+  describe '#commodity_code_for_check_duties_service' do
+    subject(:commodity) { build(:commodity, goods_nomenclature_item_id: commodity_code) }
+
+    context 'when commodity code has 4 ending zeros' do
+      let(:commodity_code) { '1234560000' }
+
+      it 'strips out all 4 zeros' do
+        expect(commodity.commodity_code_for_check_duties_service).to eq('123456')
+      end
+    end
+
+    context 'when commodity code has 3 ending zeros' do
+      let(:commodity_code) { '123456000' }
+
+      it 'strips out only 2 zeros' do
+        expect(commodity.commodity_code_for_check_duties_service).to eq('1234560')
+      end
+    end
+  end
 end

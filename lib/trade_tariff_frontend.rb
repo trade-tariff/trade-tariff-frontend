@@ -89,6 +89,10 @@ module TradeTariffFrontend
     `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
   end
 
+  def self.check_duties_service_url
+    ENV.fetch('CHECK_DUTIES_SERVICE_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app

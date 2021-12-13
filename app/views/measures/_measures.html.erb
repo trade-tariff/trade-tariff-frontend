@@ -106,10 +106,10 @@
     <% end %>
 
     <%= render 'measures/export_tab_check_duties',
-                commodity_code: declarable.code,
+                declarable: declarable,
                 country_code: @search.country,
                 country_name: @search.geographical_area&.description,
-                european: @search.geographical_area&.eu_member? %>
+                eu_member: @search.geographical_area&.eu_member? %>
   </div>
 
   <!-- Rules of Origin tab -->
