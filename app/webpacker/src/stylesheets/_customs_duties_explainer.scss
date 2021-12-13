@@ -1,0 +1,29 @@
+@include govuk-media-query($from: tablet) {
+  .calculator-panel {
+    background-color: $feature-panel-shaded-background-colour;
+
+    border-left: 10px solid $feature-panel-border-left;
+
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    clear: both;
+
+    img {
+      float: left;
+      margin-right: 1em;
+      margin-bottom: 2em;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 0.5em;
+    }
+  }
+}
+
+@include govuk-media-query($until: tablet) {
+  img {
+    display:none;
+  }
+}

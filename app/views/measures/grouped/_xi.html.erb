@@ -4,11 +4,12 @@
 <!-- CUSTOMS DUTIES -->
 <% if xi_import_measures.customs_duties.present? %>
   <%= render 'measures/meursing_form' if xi_declarable.meursing_code? %>
-  <%= render partial: 'measures/grouped/table', locals: {
-    caption: 'Customs duties',
-    collection: xi_import_measures.customs_duties.sort_by(&:key),
-    css_id: 'customs_duties' }
-  %>
+  <%= render 'measures/grouped/table',
+              caption: 'Custom duties',
+              collection: xi_import_measures.customs_duties.sort_by(&:key),
+              css_id: 'customs_duties',
+              declarable: xi_declarable,
+              show_duty_calculator: xi_declarable.calculate_duties? %>
 <% end %>
 
 <!-- TRADE REMEDIES -->
