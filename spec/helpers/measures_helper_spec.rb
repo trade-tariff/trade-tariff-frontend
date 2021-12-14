@@ -46,13 +46,14 @@ RSpec.describe MeasuresHelper, type: :helper do
   end
 
   describe 'check_how_to_export_goods_link' do
-    subject(:link) { check_how_to_export_goods_link(commodity_code: commodity_code, country_code: '', country_name: '', eu_member: eu_member) }
+    subject(:link) do
+      check_how_to_export_goods_link(declarable: declarable, country_code: '', country_name: '', eu_member: eu_member)
+    end
 
-    let(:eu_member) { true }
+    let(:declarable) { build(:commodity, goods_nomenclature_item_id: '1234567890') }
 
     context 'when it is a EU member' do
       let(:eu_member) { true }
-      let(:commodity_code) { '1234567890' }
 
       it 'pass in the code as argument' do
         expect(link).to include('pc=1234567890')
@@ -61,7 +62,6 @@ RSpec.describe MeasuresHelper, type: :helper do
 
     context 'when it is NOT a EU member' do
       let(:eu_member) { false }
-      let(:commodity_code) { 'xxxx' }
 
       it 'does not include params' do
         expect(link).not_to include('pc=')
