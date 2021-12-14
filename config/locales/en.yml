@@ -49,7 +49,7 @@ en:
 
   tabs:
     footnote:
-      heading: Footnotes for %{declarable_type} %{goods_nomenclature_item_id}
+      heading: Notes for %{declarable_type} %{goods_nomenclature_item_id}
   breadcrumb:
     home: Home
     privacy: Privacy Notice
