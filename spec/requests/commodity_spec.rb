@@ -46,14 +46,6 @@ RSpec.describe 'Commodity page', type: :request do
     end
   end
 
-  it 'displays declarable related information' do
-    VCR.use_cassette('headings#show_8714') do
-      visit commodity_path('8714930019')
-
-      expect(page).to have_content 'Proofs of origin: Origin declaration stating European Union origin, in the context of the Canada-European Union Comprehensive Economic and Trade Agreement (CETA)'
-    end
-  end
-
   context 'when commodity with country filter' do
     it 'will not display measures for other countries except for selected one' do
       VCR.use_cassette('headings#show_0101') do

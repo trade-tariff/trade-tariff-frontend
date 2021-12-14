@@ -13,16 +13,6 @@ RSpec.describe 'Heading page', type: :request do
 
   context 'when requesting as as HTML' do
     context 'with a declarable heading' do
-      context 'without country filter' do
-        it 'displays declarable related information' do
-          VCR.use_cassette('headings#show_declarable') do
-            visit heading_path('0501')
-
-            expect(page).to have_content 'Importing from outside the UK is subject to a third country duty of 0.00 % unless subject to other measures.'
-          end
-        end
-      end
-
       context 'with country filter' do
         it 'responds with 200' do
           VCR.use_cassette('headings#show_declarable') do
