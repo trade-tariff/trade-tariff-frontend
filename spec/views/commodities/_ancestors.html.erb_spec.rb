@@ -5,11 +5,9 @@ RSpec.describe 'rules_of_origin/_ancestors.html.erb', type: :view do
 
   let(:render_page) { render 'commodities/ancestors', declarable: declarable }
 
-  context 'with commodity' do
+  context 'with commodity', vcr: { cassette_name: 'commodities_2208909110' } do
     let :declarable do
-      VCR.use_cassette 'commodities_2208909110' do
-        CommodityPresenter.new Commodity.find('2208909110', as_of: '2018-11-15')
-      end
+      CommodityPresenter.new Commodity.find('2208909110', as_of: '2018-11-15')
     end
 
     let(:row_count) { declarable.ancestors.length + 4 } # Section, Chapter, Heading, Commodity itself
@@ -34,11 +32,9 @@ RSpec.describe 'rules_of_origin/_ancestors.html.erb', type: :view do
     end
   end
 
-  context 'with declarable heading' do
+  context 'with declarable heading', vcr: { cassette_name: 'headings#show_declarable' } do
     let :declarable do
-      VCR.use_cassette 'headings#show_declarable' do
-        HeadingPresenter.new Heading.find('0501')
-      end
+      HeadingPresenter.new Heading.find('0501')
     end
 
     it { is_expected.to have_css 'nav.commodity-ancestors' }

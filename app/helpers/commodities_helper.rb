@@ -134,4 +134,8 @@ module CommoditiesHelper
       code
     end
   end
+
+  def commodity_ancestor_id(index)
+    "commodity-ancestors__ancestor-#{index}"
+  end
 end

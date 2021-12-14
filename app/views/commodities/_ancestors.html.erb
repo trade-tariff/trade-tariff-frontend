@@ -53,7 +53,7 @@
 
       <%# list commodities heading %>
       <li id="commodity-ancestors__heading"
-          aria-owns="commodity-ancestors__ancestor-1">
+          aria-owns="<%= commodity_ancestor_id 1 %>">
         <%= link_to heading_path(declarable.heading) do %>
           <span class="commodity-ancestors__identifier">
             <%= segmented_commodity_code declarable.heading.short_code,
@@ -68,8 +68,8 @@
 
       <%# list each of commodities ancestors %>
       <% declarable.ancestors.each.with_index do |ancestor, index| %>
-      <li id="commodity-ancestors__ancestor-<%= index + 1 %>"
-          aria-owns="commodity-ancestors__ancestor-<%= index + 2 %>">
+      <li id="<%= commodity_ancestor_id(index + 1) %>"
+          aria-owns="<%= commodity_ancestor_id(index + 2) %>">
         <span>
           <span class="commodity-ancestors__identifier">
             <%= segmented_commodity_code abbreviate_commodity_code(ancestor.code),
@@ -84,7 +84,7 @@
       <% end %>
 
       <%# list current commodity %>
-      <li id="commodity-ancestors__ancestor-<%= declarable.ancestors.length + 1 %>">
+      <li id="<%= commodity_ancestor_id(declarable.ancestors.length + 1) %>">
         <span>
           <span class="commodity-ancestors__identifier">
             <%= segmented_commodity_code abbreviate_commodity_code(declarable.code),

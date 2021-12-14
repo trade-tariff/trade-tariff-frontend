@@ -97,4 +97,10 @@ RSpec.describe CommoditiesHelper, type: :helper do
     it_behaves_like 'an abbreviated code', '0123456780', '0123456780'
     it_behaves_like 'an abbreviated code', '0123456789', '0123456789'
   end
+
+  describe '#commodity_ancestor_id' do
+    subject { commodity_ancestor_id 23 }
+
+    it { is_expected.to eql 'commodity-ancestors__ancestor-23' }
+  end
 end
