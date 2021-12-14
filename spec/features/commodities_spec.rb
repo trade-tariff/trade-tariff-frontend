@@ -27,28 +27,20 @@ RSpec.describe 'Commodity show page', js: true do
 
   context 'when clicking tabs' do
     before do
-      click_overview_tab
+      click_import_tab
     end
 
-    it '*overview* tab is shown' do
-      expect(page).to have_selector('#overview.govuk-tabs__panel', visible: :visible)
-    end
-
-    it '*import* tab is hidden' do
-      expect(page).not_to have_selector('#import.govuk-tabs__panel', visible: :visible)
+    it '*import* tab is present' do
+      expect(page).to have_selector('#import.govuk-tabs__panel', visible: :visible)
     end
 
     describe 'switch tabs' do
       before do
-        click_import_tab
+        click_export_tab
       end
 
-      it '*overview* tab is hidden' do
-        expect(page).not_to have_selector('#overview.govuk-tabs__panel', visible: :visible)
-      end
-
-      it '*import* tab is shown' do
-        expect(page).to have_selector('#import.govuk-tabs__panel', visible: :visible)
+      it '*export* tab is shown' do
+        expect(page).to have_selector('#export.govuk-tabs__panel', visible: :visible)
       end
     end
   end
@@ -81,9 +73,9 @@ RSpec.describe 'Commodity show page', js: true do
     end
   end
 
-  def click_overview_tab
+  def click_export_tab
     within '.govuk-tabs' do
-      click_on 'Overview'
+      click_on 'Export'
     end
   end
 end

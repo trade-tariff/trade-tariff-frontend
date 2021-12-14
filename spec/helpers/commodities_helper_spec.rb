@@ -7,7 +7,7 @@ RSpec.describe CommoditiesHelper, type: :helper do
 
       it 'returns the correct footnote heading' do
         expect(helper.footnote_heading(declarable)).to eq(
-          'Footnotes for heading 0101000000',
+          'Notes for heading 0101000000',
         )
       end
     end
@@ -17,7 +17,7 @@ RSpec.describe CommoditiesHelper, type: :helper do
 
       it 'returns the correct footnote heading' do
         expect(helper.footnote_heading(declarable)).to eq(
-          'Footnotes for commodity 0101300000',
+          'Notes for commodity 0101300000',
         )
       end
     end

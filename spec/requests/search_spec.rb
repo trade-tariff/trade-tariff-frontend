@@ -17,8 +17,7 @@ RSpec.describe 'Search page', type: :request do
           click_button 'Search'
         end
 
-        expect(page.text).to include('Pure-bred breeding animals',
-                                     'The commodity code for importing is 0101210000.')
+        expect(page.text).to include('Pure-bred breeding animals')
       end
     end
   end

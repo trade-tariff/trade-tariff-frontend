@@ -28,8 +28,7 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
   end
 
   shared_examples 'measures with rules of origin tab' do
-    it { is_expected.to have_css '.govuk-tabs .govuk-tabs__tab', count: 5 }
-    it { is_expected.to have_css '.govuk-tabs__panel#overview', count: 1 }
+    it { is_expected.to have_css '.govuk-tabs .govuk-tabs__tab', count: 4 }
     it { is_expected.to have_css '.govuk-tabs__panel#import', count: 1 }
     it { is_expected.to have_css '.govuk-tabs__panel#export', count: 1 }
     it { is_expected.to have_css '.govuk-tabs__panel#rules-of-origin', count: 1 }

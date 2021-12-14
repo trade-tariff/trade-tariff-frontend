@@ -1,8 +1,5 @@
 <div class="govuk-tabs" data-module="govuk-tabs">
   <ul class="govuk-tabs__list">
-    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-      <a class="govuk-tabs__tab" href="#overview">Overview</a>
-    </li>
     <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#import">Import</a>
     </li>
@@ -13,61 +10,9 @@
       <a class="govuk-tabs__tab" href="#rules-of-origin">Rules of origin</a>
     </li>
     <li class="govuk-tabs__list-item">
-      <a class="govuk-tabs__tab" href="#footnotes">Footnotes</a>
+      <a class="govuk-tabs__tab" href="#footnotes">Notes</a>
     </li>
   </ul>
-
-  <!-- Overview tab -->
-  <div class="govuk-tabs__panel" id="overview">
-    <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
-    <div class="inner">
-      <h1 class="govuk-visually-hidden">Overview</h1>
-      <div class="govuk-grid-row import-and-export-boxes">
-        <div class="column-one-half">
-          <div class="import box">
-            <h2 class="govuk-heading-m">Import</h2>
-            <p>The commodity code for importing is <strong><%= declarable.code %></strong>.</p>
-            <% national_vat = declarable.import_measures.vat.national.to_a %>
-            <% if national_vat.count > 0 %>
-              <p>
-                Goods are subject to
-                <%= national_vat.map{ |m| "<strong>#{m.measure_type.description} (#{m.duty_expression.to_s})</strong>" }.join(' or ').html_safe + (national_vat.count > 1 ? ',' : '.') %>
-                <% if national_vat.count > 1  %>
-                  <%= link_to 'Please see related guidance as to when zero VAT applies', 'https://www.gov.uk/guidance/rates-of-vat-on-different-goods-and-services#introduction', target: :_blank %>.
-                <% end %>
-              </p>
-            <% else %>
-              <p>We are temporarily unable to display the VAT rate, please refer to the paper tariff.</p>
-            <% end %>
-            <% if declarable.basic_duty_rate.present? %>
-              <p>Importing from outside the UK is subject to a third country duty of <strong><%= declarable.basic_duty_rate.html_safe %></strong> unless subject to other measures.</p>
-            <% else %>
-              <p>Importing from outside the UK is subject to <strong>variable</strong> third country duty.</p>
-            <% end %>
-            <p> Import measures and restrictions for specific countries can be found under the <a href="#import">import</a> tab.</p>
-          </div>
-        </div>
-
-        <div class="column-one-half">
-          <div class="export box">
-            <h2 class="govuk-heading-m">Export</h2>
-            <p>The commodity code for exporting and intrastat reporting is <strong><%= declarable.display_export_code %></strong>.</p>
-
-            <% if declarable.all_footnotes.compact.select(&:eco?).any? %>
-              <p>
-                <%= link_to 'You may need to apply for a licence from the Export Control Organisation (ECO) as your goods may be controlled under the Export Control Order 2008',
-                            'https://www.gov.uk/guidance/uk-strategic-export-control-lists-the-consolidated-list-of-strategic-military-and-dual-use-items',
-                            target: :_blank %>.
-              </p>
-            <% end %>
-
-            <p>Export measures and restrictions for specific countries can be found under the <a href="#export">export</a> tab.</p>
-          </div>
-        </div>
-      </div>
-      <%= render 'shared/notes', section_note: declarable.section.section_note, chapter_note: declarable.chapter.chapter_note %>
-    </div>
-  </div>
 
   <!-- Import tab -->
   <div class="govuk-tabs__panel" id="import">
@@ -123,11 +68,12 @@
     <%- else -%>
       <%= render 'rules_of_origin/without_country' %>
     <%- end -%>
-  <div>
+  </div>
 
   <!-- Footnotes tab -->
   <div class="govuk-tabs__panel" id="footnotes">
     <h2 class="govuk-heading-m"><%= footnote_heading(declarable) %></h2>
+    <%= render 'shared/notes', section_note: declarable.section.section_note, chapter_note: declarable.chapter.chapter_note %>
     <table class="govuk-table govuk-!-margin-top-8">
       <colgroup>
         <col width="100">
@@ -140,19 +86,11 @@
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        <%= render partial: 'footnotes/footnote', collection: declarable.footnotes %>
+        <%= render partial: 'footnotes/footnote', collection: declarable.all_footnotes %>
       </tbody>
     </table>
   </div>
 
-  <!-- Footnote popups -->
-  <div id="import-measure-references">
-    <%= render partial: 'measures/measure_references', collection: declarable.import_measures.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
-    <% if TradeTariffFrontend::ServiceChooser.xi? %>
-      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.import_controls.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
-      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.vat_excise.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
-    <% end %>
-  </div>
   <div id="export-measure-references">
     <%= render partial: 'measures/measure_references', collection: declarable.export_measures.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
   </div>
