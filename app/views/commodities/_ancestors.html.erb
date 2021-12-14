@@ -1,20 +1,20 @@
 <nav class="commodity-ancestors"
-     aria-label="A list of commodity code <%= commodity.code %>'s section, chapter and other parent commodity codes">
+     aria-label="A list of commodity code <%= declarable.code %>'s section, chapter and other parent commodity codes">
   <a href="#import" class="govuk-skip-link">
-    Skip to information about importing commodity <%= commodity.code %>
+    Skip to information about importing commodity <%= declarable.code %>
   </a>
 
   <ol class="govuk-list">
     <%# list commodities section %>
     <li id="commodity-ancestors__section"
         aria-owns="commodity-ancestors__chapter">
-      <%= link_to section_path(commodity.section) do %>
+      <%= link_to section_path(declarable.section) do %>
         <span class="commodity-ancestors__identifier">
-          Section <%= commodity.section.numeral %>
+          Section <%= declarable.section.numeral %>
         </span>
 
         <span class="commodity-ancestors__descriptor">
-          <%= commodity.section.title %>
+          <%= declarable.section.title %>
         </span>
       <% end %>
     </li>
@@ -22,61 +22,81 @@
     <%# list commodities chapter %>
     <li id="commodity-ancestors__chapter"
         aria-owns="commodity-ancestors__heading">
-      <%= link_to chapter_path(commodity.chapter) do %>
+      <%= link_to chapter_path(declarable.chapter) do %>
         <span class="commodity-ancestors__identifier">
-          Chapter <%= commodity.chapter.short_code %>
+          Chapter <%= declarable.chapter.short_code %>
         </span>
 
         <span class="commodity-ancestors__descriptor">
-          <%= commodity.section.title %>
+          <%= declarable.section.title %>
         </span>
       <% end %>
     </li>
 
-    <%# list commodities heading %>
-    <li id="commodity-ancestors__heading"
-        aria-owns="commodity-ancestors__ancestor-1">
-      <%= link_to heading_path(commodity.heading) do %>
-        <span class="commodity-ancestors__identifier">
-          <%= segmented_commodity_code commodity.heading.short_code,
-                                       coloured: true %>
-        </span>
+    <% if declarable.heading? %>
 
-        <span class="commodity-ancestors__descriptor">
-          <%= commodity.heading.description %>
+      <%# list commodities heading %>
+      <li id="commodity-ancestors__heading">
+        <span>
+          <span class="commodity-ancestors__identifier">
+            <%= segmented_commodity_code declarable.short_code,
+                                         coloured: true %>
+          </span>
+
+          <span class="commodity-ancestors__descriptor">
+            <%= declarable.description %>
+          </span>
         </span>
+      </li>
+
+    <% else %>
+
+      <%# list commodities heading %>
+      <li id="commodity-ancestors__heading"
+          aria-owns="commodity-ancestors__ancestor-1">
+        <%= link_to heading_path(declarable.heading) do %>
+          <span class="commodity-ancestors__identifier">
+            <%= segmented_commodity_code declarable.heading.short_code,
+                                         coloured: true %>
+          </span>
+
+          <span class="commodity-ancestors__descriptor">
+            <%= declarable.heading.description %>
+          </span>
+        <% end %>
+      </li>
+
+      <%# list each of commodities ancestors %>
+      <% declarable.ancestors.each.with_index do |ancestor, index| %>
+      <li id="commodity-ancestors__ancestor-<%= index + 1 %>"
+          aria-owns="commodity-ancestors__ancestor-<%= index + 2 %>">
+        <span>
+          <span class="commodity-ancestors__identifier">
+            <%= segmented_commodity_code abbreviate_commodity_code(ancestor.code),
+                                         coloured: true %>
+          </span>
+
+          <span class="commodity-ancestors__descriptor">
+            <%= ancestor.description %>
+          </span>
+        </span>
+      </li>
       <% end %>
-    </li>
 
-    <%# list each of commodities ancestors %>
-    <% commodity.ancestors.each.with_index do |ancestor, index| %>
-    <li id="commodity-ancestors__ancestor-<%= index + 1 %>"
-        aria-owns="commodity-ancestors__ancestor-<%= index + 2 %>">
-      <span>
-        <span class="commodity-ancestors__identifier">
-          <%= segmented_commodity_code abbreviate_commodity_code(ancestor.code),
-                                       coloured: true %>
-        </span>
+      <%# list current commodity %>
+      <li id="commodity-ancestors__ancestor-<%= declarable.ancestors.length + 1 %>">
+        <span>
+          <span class="commodity-ancestors__identifier">
+            <%= segmented_commodity_code abbreviate_commodity_code(declarable.code),
+                                         coloured: true %>
+          </span>
 
-        <span class="commodity-ancestors__descriptor">
-          <%= ancestor.description %>
+          <span class="commodity-ancestors__descriptor">
+            <%= declarable.description %>
+          </span>
         </span>
-      </span>
-    </li>
+      </li>
+
     <% end %>
-
-    <%# list current commodity %>
-    <li id="commodity-ancestors__ancestor-<%= commodity.ancestors.length + 1 %>">
-      <span>
-        <span class="commodity-ancestors__identifier">
-          <%= segmented_commodity_code abbreviate_commodity_code(commodity.code),
-                                       coloured: true %>
-        </span>
-
-        <span class="commodity-ancestors__descriptor">
-          <%= commodity.description %>
-        </span>
-      </span>
-    </li>
   </ol>
 </nav>
