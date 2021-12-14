@@ -1,5 +1,7 @@
 <nav class="govuk-!-margin-bottom-9">
-  <h2 class="govuk-heading-s govuk-!-margin-top-7 govuk-!-margin-bottom-3">Measure groups</h2>
+  <h3 class="govuk-visually-hidden govuk-heading-s govuk-!-margin-top-7 govuk-!-margin-bottom-3">
+    Measure groups
+  </h3>
   <ul class="measure-list-item govuk-!-margin-bottom-0">
     <% if TradeTariffFrontend::ServiceChooser.xi? %>
       <%= render partial: 'measures/grouped/xi_navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
