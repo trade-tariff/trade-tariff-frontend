@@ -473,8 +473,11 @@ article.tariff {
   background-color: $shaded-panel-background-colour;
 
   ol li {
+    margin-bottom: 0.5em;
+
     > * {
       @include govuk-font($size: 16) ;
+      line-height: 21.05px !important ;
       display: grid;
       grid-auto-flow: dense;
       grid-template-columns: [row-start] 6fr [identifier-start] 2fr [row-end];
@@ -507,7 +510,6 @@ article.tariff {
     }
 
     .commodity-ancestors__identifier {
-      @include govuk-font($size: 14);
       grid-column-start: identifier-start;
       white-space: nowrap;
     }
@@ -540,6 +542,7 @@ article.tariff {
   }
 
   .segmented-commodity-code {
+    @include govuk-font($size: 14);
     font-family: 'Azeret Mono', 'Courier New', Courier, monospace;
 
     @include govuk-media-query($from: tablet) {
