@@ -110,13 +110,32 @@ module CommoditiesHelper
     end
   end
 
-  def segmented_commodity_code(code)
+  def segmented_commodity_code(code, coloured: false)
     return if code.blank?
 
     parts = code.to_s.gsub(/[^\d]/, '').split('').each_slice(4).map(&:join)
 
-    tag.span class: 'segmented-commodity-code' do
+    css_classes = %w[segmented-commodity-code]
+    css_classes << 'segmented-commodity-code--coloured' if coloured
+
+    tag.span class: css_classes.join(' ') do
       safe_join parts.map(&tag.method(:span))
     end
+  end
+
+  def abbreviate_commodity_code(code)
+    code = code.to_s
+    case code.gsub(/0*\z/, '').length
+    when 7..8
+      code.slice(0, 8)
+    when 5..6
+      code.slice(0, 6)
+    else
+      code
+    end
+  end
+
+  def commodity_ancestor_id(index)
+    "commodity-ancestors__ancestor-#{index}"
   end
 end

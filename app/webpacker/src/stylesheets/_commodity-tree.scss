@@ -466,3 +466,90 @@ article.tariff {
     }
   }
 }
+
+.commodity-ancestors {
+  margin-bottom: 1em;
+  padding: 1em 0 0.5em 1em;
+  background-color: $shaded-panel-background-colour;
+
+  ol li {
+    margin-bottom: 0.5em;
+
+    > * {
+      @include govuk-font($size: 16) ;
+      line-height: 21.05px !important ;
+      display: grid;
+      grid-auto-flow: dense;
+      grid-template-columns: [row-start] 6fr [identifier-start] 2fr [row-end];
+      grid-column-gap: 10px;
+      position: relative;
+
+      @include govuk-media-query($from: tablet) {
+        grid-template-columns: [row-start] 7fr [identifier-start] 2fr [row-end];
+      }
+    }
+
+    @for $i from 2 through 16 {
+      &:nth-of-type(#{$i}) {
+        .commodity-ancestors__descriptor {
+          margin-left: ($i - 2) * 10 + 10px;
+
+          &::before {
+            left: ($i - 2) * 10 - 2px;
+          }
+
+          @include govuk-media-query($from: tablet) {
+            margin-left: ($i - 2) * 20 + 20px;
+
+            &::before {
+              left: ($i - 2) * 20 + 4px;
+            }
+          }
+        }
+      }
+    }
+
+    .commodity-ancestors__identifier {
+      grid-column-start: identifier-start;
+      white-space: nowrap;
+    }
+
+    .commodity-ancestors__descriptor {
+      grid-column-start: row-start;
+      display: inline-block;
+      line-height: 1.3em;
+    }
+
+    &:last-of-type .commodity-ancestors__descriptor {
+      font-weight: bold;
+    }
+
+    &:not(:first-of-type) .commodity-ancestors__descriptor::before {
+      text-decoration: none;
+      display: inline-block;
+      padding: 0;
+      margin: 0 1em 0 0;
+      color: $govuk-text-colour;
+      content: '\002514';
+      font-size: 12px;
+      position: absolute;
+      top: 0.125em;
+
+      @include govuk-media-query($from: tablet) {
+        top: 0.15em;
+      }
+    }
+  }
+
+  .segmented-commodity-code {
+    @include govuk-font($size: 14);
+    font-family: 'Azeret Mono', 'Courier New', Courier, monospace;
+
+    @include govuk-media-query($from: tablet) {
+      span {
+        padding: 0.17em 0.25em;
+        margin-right: 0.16em;
+      }
+    }
+  }
+}

@@ -96,7 +96,7 @@ RSpec.describe 'Commodity page', type: :request do
     end
 
     it 'displays the commodity classification' do
-      expect(page).to have_content 'Live horses, asses, mules and hinnies — Asses'
+      expect(page).to have_content 'Asses'
     end
   end
 end

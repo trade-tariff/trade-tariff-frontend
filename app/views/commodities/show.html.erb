@@ -9,6 +9,8 @@
 
 <%= render 'shared/context_tables/commodity' %>
 
+<%= render 'commodities/ancestors', declarable: @commodity %>
+
 <%= render 'declarables/declarable',
            declarable: @commodity,
            xi_declarable: xi_commodity,

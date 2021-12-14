@@ -61,5 +61,46 @@ RSpec.describe CommoditiesHelper, type: :helper do
 
       it { is_expected.to be_nil }
     end
+
+    context 'with an 8 digit code' do
+      let(:comm_code) { '01234567' }
+
+      it { is_expected.to have_css 'span.segmented-commodity-code span', count: 2 }
+      it { is_expected.to have_css 'span span:nth-of-type(1)', text: '0123' }
+      it { is_expected.to have_css 'span span:nth-of-type(2)', text: '4567' }
+    end
+
+    context 'with coloured codes' do
+      subject(:output) { segmented_commodity_code comm_code, coloured: true }
+
+      it 'includes the coloured modifier class' do
+        expect(output).to have_css \
+          'span.segmented-commodity-code.segmented-commodity-code--coloured span',
+          count: 3
+      end
+    end
+  end
+
+  describe '#abbreviate_commodity_code' do
+    subject { abbreviate_commodity_code comm_code }
+
+    shared_examples 'an abbreviated code' do |original, abbreviated|
+      let(:comm_code) { original }
+
+      it { is_expected.to eql abbreviated }
+    end
+
+    it_behaves_like 'an abbreviated code', '0123400000', '012340'
+    it_behaves_like 'an abbreviated code', '0123450000', '012345'
+    it_behaves_like 'an abbreviated code', '0123456000', '01234560'
+    it_behaves_like 'an abbreviated code', '0123456700', '01234567'
+    it_behaves_like 'an abbreviated code', '0123456780', '0123456780'
+    it_behaves_like 'an abbreviated code', '0123456789', '0123456789'
+  end
+
+  describe '#commodity_ancestor_id' do
+    subject { commodity_ancestor_id 23 }
+
+    it { is_expected.to eql 'commodity-ancestors__ancestor-23' }
   end
 end
