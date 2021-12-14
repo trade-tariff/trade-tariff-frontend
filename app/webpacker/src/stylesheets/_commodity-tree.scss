@@ -473,8 +473,6 @@ article.tariff {
   background-color: $shaded-panel-background-colour;
 
   ol li {
-    margin-bottom: 0.5em;
-
     > * {
       @include govuk-font($size: 16) ;
       display: grid;
@@ -491,16 +489,25 @@ article.tariff {
     @for $i from 2 through 16 {
       &:nth-of-type(#{$i}) {
         .commodity-ancestors__descriptor {
-          margin-left: ($i - 2) * 20 + 20px;
+          margin-left: ($i - 2) * 10 + 10px;
 
           &::before {
-            left: ($i - 2) * 20 + 4px;
+            left: ($i - 2) * 10 - 2px;
+          }
+
+          @include govuk-media-query($from: tablet) {
+            margin-left: ($i - 2) * 20 + 20px;
+
+            &::before {
+              left: ($i - 2) * 20 + 4px;
+            }
           }
         }
       }
     }
 
     .commodity-ancestors__identifier {
+      @include govuk-font($size: 14);
       grid-column-start: identifier-start;
       white-space: nowrap;
     }
@@ -533,7 +540,6 @@ article.tariff {
   }
 
   .segmented-commodity-code {
-    @include govuk-font($size: 14);
     font-family: 'Azeret Mono', 'Courier New', Courier, monospace;
 
     @include govuk-media-query($from: tablet) {
