@@ -27,11 +27,24 @@ RSpec.describe ImportExportDate do
       it { is_expected.to be_valid }
     end
 
-    context 'when an invalid date is passed' do
+    context 'when a non-date is passed' do
       let(:attributes) do
         {
           'import_date(3i)' => 'foo',  # invalid
           'import_date(2i)' => '1',    # month
+          'import_date(1i)' => '2021', # year
+        }
+      end
+
+      it { expect(import_export_date.errors.messages[:import_date]).to include('Enter a valid date') }
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'when an invalid date is passed' do
+      let(:attributes) do
+        {
+          'import_date(3i)' => '30',   # invalid
+          'import_date(2i)' => '2',    # month
           'import_date(1i)' => '2021', # year
         }
       end
