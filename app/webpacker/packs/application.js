@@ -56,7 +56,6 @@ window.accessibleAutocomplete = accessibleAutocomplete;
 require('../src/javascripts/commodities.js');
 // TODO test:
 require('../src/javascripts/country-autocomplete.js');
-require('../src/javascripts/exchange_rate.js');
 require('../src/javascripts/feedback.js');
 require('../src/javascripts/quota-search.js');
 require('../src/javascripts/stop-scrolling-at-footer.js');

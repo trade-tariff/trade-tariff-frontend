@@ -10,10 +10,6 @@ $commodity-code-bg: #abeae5;
 $table-header-bg: #e1e8e8;
 $table-sub-border: tint($govuk-border-colour);
 
- // TODO: Remove these - exchange rates are no longer something we manage/view via the frontend
-$current-rate-accent-color: govuk-colour("green");
-$current-rate-secondary-color: $govuk-secondary-text-colour;
-
 $tariff-inset-background-color-meursing: #e9f4f9;
 $tariff-inset-border-left-color-meursing: #098dc1;
 $tariff-inset-background-color-information: #f0f4f5;
