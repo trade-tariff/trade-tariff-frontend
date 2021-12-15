@@ -45,6 +45,7 @@ module TradeTariffFrontend
       footnote_types
       changes
       rules_of_origin_schemes
+      healthcheck
     ]
   end
 
