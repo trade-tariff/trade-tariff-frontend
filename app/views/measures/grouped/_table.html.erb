@@ -2,6 +2,12 @@
   <%= local_assigns[:caption] %>
 </h3>
 
+<% if local_assigns[:information] %>
+  <div class="govuk-inset-text tariff-inset-information">
+    <%= local_assigns[:information] %>
+  </div>
+<% end %>
+
 <%= render 'shared/stw_link', declarable: declarable, search: search, anchor: anchor if local_assigns[:show_stw_text]  %>
 
 <%= render 'measures/grouped/tariff_duty_calculator_link', declarable_code: declarable.code if local_assigns[:show_duty_calculator] %>
