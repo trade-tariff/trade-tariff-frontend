@@ -7,6 +7,10 @@ RSpec.describe Heading do
     subject(:declarable) { build(:heading, import_measures: measures) }
   end
 
+  describe '#heading' do
+    it { expect(heading.heading).to eq heading }
+  end
+
   describe '#to_param' do
     it { expect(heading.to_param).to eq heading.short_code }
   end

@@ -5,7 +5,7 @@ class CommoditiesController < GoodsNomenclaturesController
   before_action :set_goods_nomenclature_code, only: %i[show]
 
   def show
-    @heading = commodity.heading? ? commodity : commodity.heading
+    @heading = commodity.heading
     @chapter = commodity.chapter
     @section = commodity.section
 
