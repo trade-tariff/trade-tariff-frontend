@@ -1,4 +1,4 @@
-<div class="govuk-inset-text govuk-inset-text--s nhs-grey-5 explainer">
+<div class="govuk-inset-text govuk-inset-text--s feature-panel--shaded explainer">
     <h3>Check duties and customs procedures for exporting goods</h3>
 
     <% if eu_member %>
@@ -16,7 +16,7 @@
     </ul>
 
     <p>
-      <%= check_how_to_export_goods_link(commodity_code: declarable.commodity_code_for_check_duties_service,
+      <%= check_how_to_export_goods_link(declarable: declarable,
                                          country_code: country_code,
                                          country_name: country_name,
                                          eu_member: eu_member ) %>
