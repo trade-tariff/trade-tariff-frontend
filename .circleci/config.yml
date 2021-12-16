@@ -163,7 +163,7 @@ commands:
       - run:
           name: Remove orphaned apps
           command: |
-            cat orphaned_apps.txt | while read ORPHANED_APP
+            for ORPHANED_APP in $(cat orphaned_apps.txt)
               do echo "Removing ${ORPHANED_APP}"
                 cf delete "${ORPHANED_APP}" -r -f
               done
