@@ -44,7 +44,7 @@
           </span>
 
           <span class="commodity-ancestors__descriptor">
-            <%= declarable.description %>
+            <%= sanitize declarable.description %>
           </span>
         </span>
       </li>
@@ -61,7 +61,7 @@
           </span>
 
           <span class="commodity-ancestors__descriptor">
-            <%= declarable.heading.description %>
+            <%= sanitize declarable.heading.description %>
           </span>
         <% end %>
       </li>
@@ -77,7 +77,7 @@
           </span>
 
           <span class="commodity-ancestors__descriptor">
-            <%= ancestor.description %>
+            <%= sanitize ancestor.description %>
           </span>
         </span>
       </li>
