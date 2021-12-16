@@ -52,7 +52,13 @@
 
   <a href="#content" class="govuk-skip-link">Skip to main content</a>
 
-  <header class="govuk-header<%= ' hott-search-banner' if TradeTariffFrontend.search_banner? %>" role="banner" data-module="govuk-header">
+  <header
+    class="govuk-header<%= ' hott-search-banner' if TradeTariffFrontend.search_banner? %>"
+    data-controller="<%= 'toggle-css' if TradeTariffFrontend.search_banner? %>"
+    data-toggle-css-target="toggleable"
+    data-toggle-css-toggle-class="hott-search-banner--open"
+    role="banner"
+    data-module="govuk-header">
     <div class="govuk-header__container govuk-width-container header-wrapper">
       <%= render 'shared/govuk_logo' %>
       <%= yield :proposition_header %>

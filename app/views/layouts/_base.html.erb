@@ -43,7 +43,7 @@
       </ul>
 
       <% if TradeTariffFrontend.search_banner? %>
-      <button class="hott-search-banner__toggle" type="button" aria-label="Show or hide the search banner">
+      <button data-action="toggle-css#toggle" class="hott-search-banner__toggle" type="button" aria-label="Show or hide the search banner">
         <span class="govuk-visually-hidden">
           Search the <%= service_name %>
         </span>

@@ -3,7 +3,7 @@ export default class SearchBanner {
     const elements = document.querySelectorAll('.hott-search-banner');
 
     for(const element of elements) {
-      new SearchBanner(element)
+      // new SearchBanner(element)
     }
   }
 
