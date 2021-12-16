@@ -28,7 +28,7 @@
     "mark.js": "^8.11.1",
     "rails-erb-loader": "^5.5.2",
     "select2": "^4.0.10",
-    "stimulus": "^2.0.0"
+    "stimulus": "^3.0.1"
   },
   "devDependencies": {
     "babel-jest": "^27.4.0",
@@ -55,6 +55,7 @@
       "node_modules",
       "app/webpacker/src/javascripts",
       "app/webpacker/controllers"
-    ]
+    ],
+    "transformIgnorePatterns": ["/node_modules/(?!stimulus)", "\\.pnp\\.[^\\\/]+$"]
   }
 }
