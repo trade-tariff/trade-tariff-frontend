@@ -64,13 +64,11 @@ require('../src/javascripts/stop-scrolling-at-footer.js');
 require.context('govuk-frontend/govuk/assets');
 import { initAll } from 'govuk-frontend';
 
-import SearchBanner from '../src/javascripts/search-banner.js';
+// load Stimulus controllers
+import "controllers"
 
 initAll();
 
 $(function(){
   GOVUK.tariff.onLoad();
-  SearchBanner.connectAll();
 });
-
-import "controllers"
