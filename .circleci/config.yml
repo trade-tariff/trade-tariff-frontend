@@ -152,7 +152,7 @@ commands:
           name: Find PRs
           command: |
             REPO_API_URL=$(echo "${CIRCLE_REPOSITORY_URL}/" | sed 's|.git/$||' | sed 's|git@github.com:|https://api.github.com/repos/|')
-            curl "${REPO_API_URL}/pulls?state=open" | jq '.[].number' > open_prs.txt
+            curl --fail --show-error "${REPO_API_URL}/pulls?state=open" | jq '.[].number' > open_prs.txt
             cat open_prs.txt | sed "s/^/${CF_APP}-pr/" | sort > expected_apps.txt
             cat expected_apps.txt
       - run:
