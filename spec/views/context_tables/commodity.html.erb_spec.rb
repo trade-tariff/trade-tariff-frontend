@@ -18,7 +18,7 @@ RSpec.describe 'shared/context_tables/_commodity.html.erb', type: :view, vcr: { 
 
   describe 'classification row' do
     it { is_expected.to have_css 'dl div dt', text: 'Classification' }
-    it { is_expected.to have_css 'dl div dd', text: commodity.description }
+    it { is_expected.to have_css 'dl div dd', text: commodity.formatted_description }
   end
 
   describe 'supplementary unit row' do
