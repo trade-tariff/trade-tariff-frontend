@@ -128,7 +128,7 @@ module TradeTariffFrontend
             {
               status: @status.to_s,
               title: 'There was a problem with your query',
-              source: { parameter: @query_string },
+              source: { parameter: 'Invalid query string' },
             },
           ],
         }.to_json,
