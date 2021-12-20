@@ -9,7 +9,7 @@
 
   <% if heading_text.present? %>
     <h1 class="<%= css_heading_size(heading_text) %>">
-      <%= heading_text %>
+      <%= sanitize heading_text %>
     </h1>
   <% end %>
 
