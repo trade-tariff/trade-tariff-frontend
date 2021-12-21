@@ -17,8 +17,12 @@ class SearchSuggestion
     end
 
     def start_with(term)
-      cached_suggestions_for(term).select { |s| s.value =~ /^#{term}/i }
-                                  .first(TradeTariffFrontend.suggestions_count)
+      cached_suggestions = cached_suggestions_for(term)
+
+      return [] unless cached_suggestions
+
+      cached_suggestions.select { |s| s.value =~ /^#{term}/i }
+                        .first(TradeTariffFrontend.suggestions_count)
     end
 
   private

@@ -37,7 +37,7 @@ class SearchController < ApplicationController
   end
 
   def suggestions
-    search_term = Regexp.escape(params[:term].to_s)
+    search_term = Regexp.escape(params[:term].to_s.strip)
     start_with = SearchSuggestion.start_with(search_term).sort_by(&:value)
     results = start_with.map { |s| { id: s.value, text: s.value } }
 
