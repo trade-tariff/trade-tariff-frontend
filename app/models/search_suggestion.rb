@@ -17,12 +17,8 @@ class SearchSuggestion
     end
 
     def start_with(term)
-      cached_suggestions = cached_suggestions_for(term)
-
-      return [] unless cached_suggestions
-
-      cached_suggestions.select { |s| s.value =~ /^#{term}/i }
-                        .first(TradeTariffFrontend.suggestions_count)
+      cached_suggestions_for(term).select { |s| s.value =~ /^#{term}/i }
+                                  .first(TradeTariffFrontend.suggestions_count)
     end
 
   private
@@ -36,12 +32,13 @@ class SearchSuggestion
       end
 
       grouped_results = all.group_by { |r| r.value.to_s.downcase.slice(0, 1) }
+
       grouped_results.transform_keys! { |letter| "#{cache_prefix}#{letter}" }
       grouped_results["#{cache_prefix}loaded"] = true
 
       Rails.cache.write_multi grouped_results, expires_in: 24.hours
 
-      grouped_results["#{cache_prefix}#{first_letter}"]
+      grouped_results["#{cache_prefix}#{first_letter}"].presence || []
     end
 
     def cache_prefix

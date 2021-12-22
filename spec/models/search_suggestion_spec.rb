@@ -31,9 +31,7 @@ RSpec.describe SearchSuggestion do
 
     context 'when cached suggestions is nil' do
       it 'returns empty array' do
-        allow(described_class).to receive(:cached_suggestions_for).and_return(nil)
-
-        expect(described_class.start_with('ba')).to eq([])
+        expect(described_class.start_with('~')).to eq([])
       end
     end
   end

@@ -58,10 +58,10 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
     end
 
     context 'without search term', vcr: { cassette_name: 'search#blank_match' } do
-      let(:now) { Time.now.utc }
+      let(:now) { Time.zone.now.utc }
 
-      context 'changing browse date' do
-        context 'valid past date params provided' do
+      context 'when changing browse date' do
+        context 'when valid past date params provided' do
           let(:year)    { now.year - 1 }
           let(:month)   { now.month }
           let(:day)     { now.day }
@@ -102,7 +102,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
           it { is_expected.to redirect_to(chapter_path('01', year: year, month: month, day: day)) }
         end
 
-        context 'valid date params provided for today' do
+        context 'when valid date params provided for today' do
           let(:year)    { now.year }
           let(:month)   { now.month }
           let(:day)     { now.day }
@@ -119,10 +119,10 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
 
           it { is_expected.to respond_with(:redirect) }
           it { expect(assigns(:search)).to be_a(Search) }
-          it { is_expected.to redirect_to(chapter_path('01') + '?') }
+          it { is_expected.to redirect_to("#{chapter_path('01')}?") }
         end
 
-        context 'valid past date time param(as_of) provided' do
+        context 'when valid past date time param(as_of) provided' do
           let(:year)    { now.year - 1 }
           let(:month)   { now.month }
           let(:day)     { now.day }
@@ -140,8 +140,8 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
           it { is_expected.to redirect_to(chapter_path('01', year: year, month: month, day: day)) }
         end
 
-        context 'invalid date param provided' do
-          context 'date param is a string' do
+        context 'when invalid date param provided' do
+          context 'when date param is a string' do
             before do
               post :search, params: { date: '2012-10-1' }
             end
@@ -151,7 +151,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
             it { is_expected.to redirect_to(sections_path) }
           end
 
-          context 'date param does not have all components present' do
+          context 'when date param does not have all components present' do
             let(:year)    { Forgery(:date).year }
             let(:month)   { Forgery(:date).month(numerical: true) }
 
@@ -167,7 +167,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
             it { is_expected.to redirect_to(sections_path) }
           end
 
-          context 'date param components are invalid' do
+          context 'when date param components are invalid' do
             let(:year)    { 'errr' }
             let(:month)   { 'er' }
             let(:day)     { 'er' }
@@ -300,13 +300,13 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
   end
 
   describe 'header for crawlers', vcr: { cassette_name: 'search#blank_match' } do
-    context 'non historical' do
+    context 'when non historical' do
       before { get :search }
 
       it { should_not_include_robots_tag! }
     end
 
-    context 'historical' do
+    context 'when historical' do
       before { historical_request :search }
 
       it { should_include_robots_tag! }
@@ -316,9 +316,9 @@ end
 
 RSpec.describe SearchController, 'GET to #codes', type: :controller do
   describe 'GET to #suggestions', vcr: { cassette_name: 'search#suggestions', allow_playback_repeats: true } do
-    let!(:suggestions) { SearchSuggestion.all }
-    let!(:suggestion) { suggestions[0] }
-    let!(:query) { suggestion.value.to_s }
+    let(:suggestions) { SearchSuggestion.all }
+    let(:suggestion) { suggestions[0] }
+    let(:query) { suggestion.value.to_s }
 
     context 'with term param' do
       before do
@@ -333,6 +333,14 @@ RSpec.describe SearchController, 'GET to #codes', type: :controller do
 
       specify 'includes search results' do
         expect(body['results']).to include({ 'id' => suggestion.value, 'text' => suggestion.value })
+      end
+
+      context 'when the query term begins with spaces' do
+        let(:query) { "   #{suggestion.value}" }
+
+        it 'includes the search results (same of stripped term search)' do
+          expect(body['results']).to include({ 'id' => suggestion.value, 'text' => suggestion.value })
+        end
       end
     end
 
@@ -375,7 +383,7 @@ RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr:
     end
   end
 
-  context 'search by goods nomenclature' do
+  context 'when search by goods nomenclature' do
     render_views
 
     before do
@@ -389,7 +397,7 @@ RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr:
     end
   end
 
-  context 'search by origin' do
+  context 'when search by origin' do
     render_views
 
     before do
@@ -403,7 +411,7 @@ RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr:
     end
   end
 
-  context 'search by order number' do
+  context 'when search by order number' do
     render_views
 
     before do
@@ -417,7 +425,7 @@ RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr:
     end
   end
 
-  context 'search by critical flag' do
+  context 'when search by critical flag' do
     render_views
 
     before do
@@ -431,7 +439,7 @@ RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr:
     end
   end
 
-  context 'search by status' do
+  context 'when search by status' do
     render_views
 
     before do
@@ -445,7 +453,7 @@ RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr:
     end
   end
 
-  context 'search by year' do
+  context 'when search by year' do
     render_views
 
     before do
@@ -461,7 +469,7 @@ RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr:
 end
 
 RSpec.describe SearchController, 'GET to #additional_code_search', type: :controller, vcr: { cassette_name: 'search#additional_code_search' } do
-  context 'without search params' do
+  context 'when without search params' do
     render_views
 
     before do
@@ -475,7 +483,7 @@ RSpec.describe SearchController, 'GET to #additional_code_search', type: :contro
     end
   end
 
-  context 'search by code' do
+  context 'when search by code' do
     render_views
 
     before do
@@ -489,7 +497,7 @@ RSpec.describe SearchController, 'GET to #additional_code_search', type: :contro
     end
   end
 
-  context 'search by type' do
+  context 'when search by type' do
     render_views
 
     before do
@@ -503,7 +511,7 @@ RSpec.describe SearchController, 'GET to #additional_code_search', type: :contro
     end
   end
 
-  context 'search by description' do
+  context 'when search by description' do
     render_views
 
     before do
@@ -519,7 +527,7 @@ RSpec.describe SearchController, 'GET to #additional_code_search', type: :contro
 end
 
 RSpec.describe SearchController, 'GET to #footnote_search', type: :controller do
-  context 'without search params', vcr: { cassette_name: 'search#footnote_search_without_params' } do
+  context 'when without search params', vcr: { cassette_name: 'search#footnote_search_without_params' } do
     render_views
 
     before do
@@ -533,7 +541,7 @@ RSpec.describe SearchController, 'GET to #footnote_search', type: :controller do
     end
   end
 
-  context 'search by code', vcr: { cassette_name: 'search#footnote_search_by_code' } do
+  context 'when search by code', vcr: { cassette_name: 'search#footnote_search_by_code' } do
     render_views
 
     before do
@@ -547,7 +555,7 @@ RSpec.describe SearchController, 'GET to #footnote_search', type: :controller do
     end
   end
 
-  context 'search by type', vcr: { cassette_name: 'search#footnote_search_by_type' } do
+  context 'when search by type', vcr: { cassette_name: 'search#footnote_search_by_type' } do
     render_views
 
     before do
@@ -561,7 +569,7 @@ RSpec.describe SearchController, 'GET to #footnote_search', type: :controller do
     end
   end
 
-  context 'search by description', vcr: { cassette_name: 'search#footnote_search_by_description' } do
+  context 'when search by description', vcr: { cassette_name: 'search#footnote_search_by_description' } do
     render_views
 
     before do
@@ -591,7 +599,7 @@ RSpec.describe SearchController, 'GET to #certificate_search', type: :controller
     end
   end
 
-  context 'search by code' do
+  context 'when search by code' do
     render_views
 
     before do
@@ -605,7 +613,7 @@ RSpec.describe SearchController, 'GET to #certificate_search', type: :controller
     end
   end
 
-  context 'search by type' do
+  context 'when search by type' do
     render_views
 
     before do
@@ -619,7 +627,7 @@ RSpec.describe SearchController, 'GET to #certificate_search', type: :controller
     end
   end
 
-  context 'search by description' do
+  context 'when search by description' do
     render_views
 
     before do
@@ -649,7 +657,7 @@ RSpec.describe SearchController, 'GET to #chemical_search', type: :controller, v
     end
   end
 
-  context 'search by CAS number' do
+  context 'when search by CAS number' do
     render_views
 
     before do
@@ -664,7 +672,7 @@ RSpec.describe SearchController, 'GET to #chemical_search', type: :controller, v
     end
   end
 
-  context 'search by (partial) chemical name' do
+  context 'when search by (partial) chemical name' do
     render_views
 
     before do
