@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'measures/_measure.html.erb', type: :view do
+RSpec.describe 'measures/_measure.html.erb', type: :view, vcr: { cassette_name: 'geographical_areas#1013' } do
   let(:measure) do
     Measure.new(
       attributes_for(:measure, :third_country,

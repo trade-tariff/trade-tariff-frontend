@@ -1,19 +1,14 @@
 require 'spec_helper'
 
-RSpec.describe DeclarableHelper, type: :helper do
+RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographical_areas#it' } do
   describe '#declarable_stw_link' do
     subject(:declarable_stw_link) { helper.declarable_stw_link(declarable, search) }
 
     let(:declarable) { build(:commodity) }
-    let(:geographical_area) { build(:geographical_area, id: 'FR', description: 'France') }
-    let(:search) { Search.new(country: 'FR', day: '01', month: '01', year: '2021') }
-
-    before do
-      allow(GeographicalArea).to receive(:find).and_return(geographical_area)
-    end
+    let(:search) { Search.new(country: 'IT', day: '01', month: '01', year: '2021') }
 
     context 'when no date is passed' do
-      let(:search) { Search.new(country: 'FR') }
+      let(:search) { Search.new(country: 'IT') }
 
       it { is_expected.to include("importDateDay=#{Time.zone.today.day}") }
       it { is_expected.to include("importDateMonth=#{Time.zone.today.month}") }
@@ -24,14 +19,14 @@ RSpec.describe DeclarableHelper, type: :helper do
       let(:declarable) { build(:heading) }
 
       it 'returns the expected text' do
-        expected_text = "check how to import heading #{declarable.code} from France."
+        expected_text = "check how to import heading #{declarable.code} from Italy."
 
         expect(declarable_stw_link).to include(expected_text)
       end
 
       it { is_expected.to include('https://test.com/stw-testing?') }
       it { is_expected.to include("commodity=#{declarable.code}") }
-      it { is_expected.to include('originCountry=FR') }
+      it { is_expected.to include('originCountry=IT') }
       it { is_expected.to include('goodsIntent=bringGoodsToSell') }
       it { is_expected.to include('userTypeTrader=true') }
       it { is_expected.to include('tradeType=import') }
@@ -50,14 +45,14 @@ RSpec.describe DeclarableHelper, type: :helper do
       let(:declarable) { build(:commodity) }
 
       it 'returns the expected text' do
-        expected_text = "check how to import commodity #{declarable.code} from France."
+        expected_text = "check how to import commodity #{declarable.code} from Italy."
 
         expect(declarable_stw_link).to include(expected_text)
       end
 
       it { is_expected.to include('https://test.com/stw-testing?') }
       it { is_expected.to include("commodity=#{declarable.code}") }
-      it { is_expected.to include('originCountry=FR') }
+      it { is_expected.to include('originCountry=IT') }
       it { is_expected.to include('goodsIntent=bringGoodsToSell') }
       it { is_expected.to include('userTypeTrader=true') }
       it { is_expected.to include('tradeType=import') }
@@ -89,7 +84,7 @@ RSpec.describe DeclarableHelper, type: :helper do
     end
   end
 
-  describe '#trading_partner_country_description', vcr: { cassette_name: 'geographical_areas#it' } do
+  describe '#trading_partner_country_description' do
     context 'when the country is a valid country' do
       subject(:trading_partner_country_description) { helper.trading_partner_country_description('IT') }
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Commodity show page', js: true do
+RSpec.describe 'Commodity show page', vcr: { cassette_name: 'geographical_areas#1013' }, js: true do
   before do
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
 

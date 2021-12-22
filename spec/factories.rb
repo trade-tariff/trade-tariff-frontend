@@ -187,6 +187,55 @@ FactoryBot.define do
       end
     end
 
+    trait :with_eu_member_exclusions do
+      excluded_countries do
+        [
+          { 'id' => 'AT', 'description' => 'Austria', 'geographical_area_id' => 'AT' },
+          { 'id' => 'BE', 'description' => 'Belgium', 'geographical_area_id' => 'BE' },
+          { 'id' => 'BG', 'description' => 'Bulgaria', 'geographical_area_id' => 'BG' },
+          { 'id' => 'CH', 'description' => 'Switzerland', 'geographical_area_id' => 'CH' },
+          { 'id' => 'CY', 'description' => 'Cyprus', 'geographical_area_id' => 'CY' },
+          { 'id' => 'CZ', 'description' => 'Czechia', 'geographical_area_id' => 'CZ' },
+          { 'id' => 'DE', 'description' => 'Germany', 'geographical_area_id' => 'DE' },
+          { 'id' => 'DK', 'description' => 'Denmark', 'geographical_area_id' => 'DK' },
+          { 'id' => 'EE', 'description' => 'Estonia', 'geographical_area_id' => 'EE' },
+          { 'id' => 'ES', 'description' => 'Spain', 'geographical_area_id' => 'ES' },
+          { 'id' => 'EU', 'description' => 'European Union', 'geographical_area_id' => 'EU' },
+          { 'id' => 'FI', 'description' => 'Finland', 'geographical_area_id' => 'FI' },
+          { 'id' => 'FR', 'description' => 'France', 'geographical_area_id' => 'FR' },
+          { 'id' => 'GR', 'description' => 'Greece', 'geographical_area_id' => 'GR' },
+          { 'id' => 'HR', 'description' => 'Croatia', 'geographical_area_id' => 'HR' },
+          { 'id' => 'HU', 'description' => 'Hungary', 'geographical_area_id' => 'HU' },
+          { 'id' => 'IE', 'description' => 'Ireland', 'geographical_area_id' => 'IE' },
+          { 'id' => 'IS', 'description' => 'Iceland', 'geographical_area_id' => 'IS' },
+          { 'id' => 'IT', 'description' => 'Italy', 'geographical_area_id' => 'IT' },
+          { 'id' => 'LI', 'description' => 'Liechtenstein', 'geographical_area_id' => 'LI' },
+          { 'id' => 'LT', 'description' => 'Lithuania', 'geographical_area_id' => 'LT' },
+          { 'id' => 'LU', 'description' => 'Luxembourg', 'geographical_area_id' => 'LU' },
+          { 'id' => 'LV', 'description' => 'Latvia', 'geographical_area_id' => 'LV' },
+          { 'id' => 'MT', 'description' => 'Malta', 'geographical_area_id' => 'MT' },
+          { 'id' => 'NL', 'description' => 'Netherlands', 'geographical_area_id' => 'NL' },
+          { 'id' => 'NO', 'description' => 'Norway', 'geographical_area_id' => 'NO' },
+          { 'id' => 'PL', 'description' => 'Poland', 'geographical_area_id' => 'PL' },
+          { 'id' => 'PT', 'description' => 'Portugal', 'geographical_area_id' => 'PT' },
+          { 'id' => 'RO', 'description' => 'Romania', 'geographical_area_id' => 'RO' },
+          { 'id' => 'SE', 'description' => 'Sweden', 'geographical_area_id' => 'SE' },
+          { 'id' => 'SI', 'description' => 'Slovenia', 'geographical_area_id' => 'SI' },
+          { 'id' => 'SK', 'description' => 'Slovakia', 'geographical_area_id' => 'SK' },
+        ]
+      end
+    end
+
+    trait :with_exclusions do
+      excluded_countries do
+        [
+          { 'id' => 'CH', 'description' => 'Switzerland', 'geographical_area_id' => 'CH' },
+          { 'id' => 'CY', 'description' => 'Cyprus', 'geographical_area_id' => 'CY' },
+          { 'id' => 'CZ', 'description' => 'Czechia', 'geographical_area_id' => 'CZ' },
+        ]
+      end
+    end
+
     trait :specific_country do
       geographical_area { attributes_for(:geographical_area, :specific_country).stringify_keys }
     end

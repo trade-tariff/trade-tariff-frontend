@@ -13,33 +13,47 @@ class GeographicalArea
 
   ERGA_OMNES = '1011'.freeze # Entire world
 
-  def self.by_long_description(term)
-    lookup_regexp = /#{term}/i
+  class << self
+    def by_long_description(term)
+      lookup_regexp = /#{term}/i
 
-    areas = all.select do |geographical_area|
-      geographical_area.long_description =~ lookup_regexp
+      areas = all.select do |geographical_area|
+        geographical_area.long_description =~ lookup_regexp
+      end
+
+      areas = areas.sort_by do |geographical_area|
+        match_id = geographical_area.id =~ lookup_regexp
+        match_desc = geographical_area.description =~ lookup_regexp
+        key = ''
+        key << (match_id ? '0' : '1')
+        key << (match_desc || '')
+        key << geographical_area.id
+        key
+      end
+
+      areas.map do |geographical_area|
+        {
+          id: geographical_area.id,
+          text: geographical_area.long_description,
+        }
+      end
     end
 
-    areas = areas.sort_by do |geographical_area|
-      match_id = geographical_area.id =~ lookup_regexp
-      match_desc = geographical_area.description =~ lookup_regexp
-      key = ''
-      key << (match_id ? '0' : '1')
-      key << (match_desc || '')
-      key << geographical_area.id
-      key
+    def european_union
+      @european_union ||= find(EUROPEAN_UNION_ID)
     end
 
-    areas.map do |geographical_area|
-      {
-        id: geographical_area.id,
-        text: geographical_area.long_description,
-      }
+    def european_union_members
+      european_union.children_geographical_areas
+    end
+
+    def eu_members_ids
+      european_union_members.map(&:id)
     end
   end
 
   def description
-    if geographical_area_id == '1011'
+    if erga_omnes?
       'All countries'
     else
       attributes['description'].presence || ''
@@ -60,11 +74,5 @@ class GeographicalArea
 
   def erga_omnes?
     id == ERGA_OMNES
-  end
-
-  def self.eu_members_ids
-    find(EUROPEAN_UNION_ID)
-      .children_geographical_areas
-      .map(&:id)
   end
 end
