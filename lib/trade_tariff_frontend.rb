@@ -46,6 +46,7 @@ module TradeTariffFrontend
       changes
       rules_of_origin_schemes
       healthcheck
+      feed
     ]
   end
 
