@@ -14,6 +14,11 @@ class Heading < GoodsNomenclature
 
   alias_method :leaf?, :leaf
 
+  # Declarable headings are their own heading from a commodity show perspective
+  def heading
+    self
+  end
+
   def eql?(other)
     goods_nomenclature_item_id == other.goods_nomenclature_item_id
   end
