@@ -29,6 +29,7 @@
 <% if uk_import_measures.quotas.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Quotas',
+    information: t('tabs.measures.quotas_information_html'),
     collection: uk_import_measures.quotas.sort_by(&:key),
     css_id: 'quotas'
   }

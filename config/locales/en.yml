@@ -50,6 +50,18 @@ en:
   tabs:
     footnote:
       heading: Notes for %{declarable_type} %{goods_nomenclature_item_id}
+    measures:
+      quotas_information_html: |
+        <p>
+          Quotas allow a limited amount of goods to be imported at a lower duty
+          rate. Once the quota has been used up, you will revert to the out-of-quota
+          rate, which may be the third-country duty or a preferential rate.
+        </p>
+
+        <p>
+          Quotas can be non-preferential (open to many countries) or preferential
+          (restricted to a particular trading partner).
+        </p>
   breadcrumb:
     home: Home
     privacy: Privacy Notice
