@@ -2,7 +2,9 @@
   "name": "trade-tariff-frontend",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.16.0",
     "@babel/plugin-transform-object-assign": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@rails/webpacker": "5.4.3",
     "@sentry/browser": "^6.15.0",
@@ -24,12 +26,9 @@
     "jquery-tabs": "^0.5.3",
     "mark.js": "^8.11.1",
     "rails-erb-loader": "^5.5.2",
-    "select2": "^4.0.10",
-    "webpack": "^4.0.0"
+    "select2": "^4.0.10"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/plugin-transform-runtime": "^7.16.0",
     "babel-jest": "^27.4.0",
     "babel-loader": "^8.2.3",
     "eslint": "^8.4.1",
