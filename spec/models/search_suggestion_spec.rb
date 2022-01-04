@@ -28,5 +28,11 @@ RSpec.describe SearchSuggestion do
     it 'returns less then 10 values' do
       expect(described_class.start_with('80').length).to be <= 10
     end
+
+    context 'when cached suggestions is nil' do
+      it 'returns empty array' do
+        expect(described_class.start_with('~')).to eq([])
+      end
+    end
   end
 end
