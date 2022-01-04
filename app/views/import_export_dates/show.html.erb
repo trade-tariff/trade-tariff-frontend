@@ -12,8 +12,7 @@
       <%= f.govuk_error_summary %>
       <%= f.govuk_date_field :import_date,
         legend: { text: t('import_export_date.form.legend_text'), size: 'xl', tag: 'h1' },
-        hint: { text: t('import_export_date.form.hint_text_html') },
-        maxlength_enabled: true %>
+        hint: { text: t('import_export_date.form.hint_text_html') } %>
 
       <div class="govuk-button-group">
         <%= f.govuk_submit('Update date') %>
