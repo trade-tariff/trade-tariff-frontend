@@ -67,13 +67,6 @@ FactoryBot.define do
     end
   end
 
-  factory :monetary_exchange_rate do
-    child_monetary_unit_code { 'GBP' }
-    exchange_rate { Random.rand.to_d.truncate(9) }
-    operation_date { Time.zone.today.at_beginning_of_month.ago(5.days).strftime('%Y-%m-%d') }
-    validity_start_date { Time.zone.today.at_beginning_of_month.strftime('%Y-%m-%d') }
-  end
-
   factory :order_number do
     number { Forgery(:basic).number(exactly: 6).to_s }
   end

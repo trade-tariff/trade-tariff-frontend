@@ -52,7 +52,6 @@ Rails.application.routes.draw do
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'help', to: 'pages#help', as: 'help'
   get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'
-  get 'exchange_rates', to: 'exchange_rates#index'
   get 'geographical_areas', to: 'geographical_areas#index', as: :geographical_areas
   get 'geographical_areas/:id', to: 'geographical_areas#show', as: :geographical_area
   get 'feedback', to: 'feedback#new'
