@@ -39,6 +39,8 @@ class NewsItem
     end
 
     def any_updates?
+      return false unless TradeTariffFrontend.news_items_enabled?
+
       Rails.cache.fetch(updates_cache_key, expires_in: CACHE_LIFETIME) do
         updates_page.any?
       end
