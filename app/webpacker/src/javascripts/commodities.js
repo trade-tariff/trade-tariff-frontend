@@ -765,15 +765,17 @@
 
           $('.js-commodity-picker-select').each(function() {
             (function(element) {
+              let autocomplete_input_id = $(element).data('autocomplete-input-id') || 'q' ;
+
               var options = [];
 
               $(element).on('change', 'input[type="text"]', function(ev) {
-                $('.js-commodity-picker-target').val($(ev.target).val());
+                $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
               }) ;
 
               accessibleAutocomplete({
                 element: element[0],
-                id: "q",
+                id: autocomplete_input_id,
                 minLength: 2,
                 autoselect: true,
                 showAllValues: false,
@@ -790,7 +792,7 @@
                   });
 
                   if (obj) {
-                    $(".js-commodity-picker-target").val(obj.id);
+                    $(element).parents('form:first').find('.js-commodity-picker-target').val(obj.id);
 
                     $(document).trigger('tariff:chooseSearchQueryOption', [{
                       params: {
@@ -799,7 +801,7 @@
                     }]);
 
                     if (typeof($(element).data('nosubmit')) == 'undefined') {
-                      $('.js-commodity-picker-select').parents('form:first').trigger("submit");
+                      $(element).parents('form:first').trigger("submit");
                     }
                   }
                 },

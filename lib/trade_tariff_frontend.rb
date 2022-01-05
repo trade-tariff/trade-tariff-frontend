@@ -94,6 +94,10 @@ module TradeTariffFrontend
     ENV.fetch('CHECK_DUTIES_SERVICE_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
   end
 
+  def search_banner?
+    ENV['SEARCH_BANNER'].to_s == 'true'
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app

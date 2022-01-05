@@ -1,0 +1,82 @@
+.tariff-search-banner {
+  &__toggle {
+    @include govuk-font($size: 19, $weight: bold);
+    color: govuk-colour("white") ;
+    background: $govuk-brand-colour ;
+    border: none;
+    border-bottom: 1px solid govuk-colour("dark-blue") ;
+    padding: govuk-spacing(3);
+    margin-left: 40px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    position: relative;
+
+    &:hover {
+      background: $govuk-link-active-colour;
+      border-bottom: 5px solid $govuk-border-colour;
+      color: $govuk-border-colour;
+    }
+  }
+
+  &__search-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__close-icon {
+    font-weight: normal;
+    font-size: 36px;
+    display: none;
+    color: $govuk-text-colour;
+    background: govuk-colour("light-grey");
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 50px;
+  }
+
+  &__container {
+    display: none;
+    color: $govuk-text-colour;
+    background: govuk-colour("light-grey");
+    margin: auto;
+    padding: govuk-spacing(4) 0;
+  }
+
+  &__input-container {
+    position: relative;
+
+    input.govuk-button {
+      background-color: $govuk-brand-colour ;
+    }
+  }
+
+  &--open {
+    .govuk-header__container {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+  }
+
+  &--open &__close-icon { display: block }
+  &--open &__container { display: block }
+  &--open &__toggle { border-bottom: none }
+
+  @include govuk-media-query($until: desktop) {
+    &__toggle { display: none }
+  }
+
+  .header-wrapper {
+    padding-bottom: 0;
+  }
+}
+
+@include govuk-media-query($from: desktop) {
+  #proposition-links {
+    display: inline-block;
+  }
+}
+

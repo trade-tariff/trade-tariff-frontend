@@ -63,6 +63,9 @@ require('../src/javascripts/stop-scrolling-at-footer.js');
 require.context('govuk-frontend/govuk/assets');
 import { initAll } from 'govuk-frontend';
 
+// load Stimulus controllers
+import "controllers"
+
 initAll();
 
 $(function(){
