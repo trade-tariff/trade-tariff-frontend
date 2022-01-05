@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     resources :results, only: %i[show create]
   end
 
+  namespace :feed, defaults: { format: 'atom' } do
+    resources :news_items, only: %i[index]
+  end
+
   get '/trade-tariff/*path', to: redirect('/%{path}', status: 301)
   get '/api/(*path)', constraints: { path: /[^v\d+].*/ }, to: redirect { |_params, request|
     path = request.path.gsub('/api/', '/api/v2/')

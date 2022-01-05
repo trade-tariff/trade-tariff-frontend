@@ -98,6 +98,10 @@ module TradeTariffFrontend
     ENV['SEARCH_BANNER'].to_s == 'true'
   end
 
+  def news_items_enabled?
+    ENV['NEWS_ITEMS_ENABLED'].to_s == 'true'
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app

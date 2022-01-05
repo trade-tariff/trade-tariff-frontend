@@ -23,7 +23,7 @@ RSpec.describe NewsItem do
       include_context 'with UK service'
 
       before do
-        stub_api_request('/news_items/uk/home?per_page=1', backend: 'uk')
+        stub_api_request('/news_items?service=uk&target=home&per_page=1', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1)
       end
 
@@ -34,7 +34,7 @@ RSpec.describe NewsItem do
       include_context 'with XI service'
 
       before do
-        stub_api_request('/news_items/xi/home?per_page=1', backend: 'uk')
+        stub_api_request('/news_items?service=xi&target=home&per_page=1', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1)
       end
 
@@ -49,7 +49,7 @@ RSpec.describe NewsItem do
       include_context 'with UK service'
 
       before do
-        stub_api_request('/news_items/uk/updates', backend: 'uk')
+        stub_api_request('/news_items?service=uk&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
       end
 
@@ -60,7 +60,7 @@ RSpec.describe NewsItem do
       include_context 'with XI service'
 
       before do
-        stub_api_request('/news_items/xi/updates', backend: 'uk')
+        stub_api_request('/news_items?service=xi&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
       end
 
@@ -77,7 +77,7 @@ RSpec.describe NewsItem do
       include_context 'with UK service'
 
       before do
-        stub_api_request('/news_items/uk/updates', backend: 'uk')
+        stub_api_request('/news_items?service=uk&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, updates
       end
 
@@ -104,7 +104,7 @@ RSpec.describe NewsItem do
       include_context 'with XI service'
 
       before do
-        stub_api_request('/news_items/xi/updates', backend: 'uk')
+        stub_api_request('/news_items?service=xi&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, updates
       end
 

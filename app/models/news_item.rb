@@ -22,14 +22,25 @@ class NewsItem
     delegate :service_name, to: TradeTariffFrontend::ServiceChooser, private: true
 
     def latest_for_home_page
-      collection("#{collection_path}/#{service_name}/home", per_page: 1).first
+      collection(
+        collection_path,
+        service: service_name,
+        target: 'home',
+        per_page: 1,
+      ).first
     end
 
-    def updates_page(params = {})
-      collection "#{collection_path}/#{service_name}/updates", params
+    def updates_page
+      collection(
+        collection_path,
+        service: service_name,
+        target: 'updates',
+      )
     end
 
     def any_updates?
+      return false unless TradeTariffFrontend.news_items_enabled?
+
       Rails.cache.fetch(updates_cache_key, expires_in: CACHE_LIFETIME) do
         updates_page.any?
       end
