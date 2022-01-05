@@ -50,6 +50,28 @@ RSpec.describe GeographicalArea do
     end
   end
 
+  describe '#european_union', vcr: { cassette_name: 'geographical_areas#1013' } do
+    subject(:european_union) { described_class.european_union }
+
+    it { is_expected.to have_attributes(id: '1013', geographical_area_id: '1013', description: 'European Union') }
+  end
+
+  describe '#european_union_members', vcr: { cassette_name: 'geographical_areas#1013' } do
+    subject(:european_union_members) { described_class.european_union_members }
+
+    it { expect(european_union_members.count).to eq(28) }
+  end
+
+  describe '#eu_member_ids', vcr: { cassette_name: 'geographical_areas#1013' } do
+    subject(:eu_member_ids) { described_class.eu_members_ids }
+
+    let(:expected_countries) do
+      %w[AT BE BG CY CZ DE DK EE ES EU FI FR GR HR HU IE IT LT LU LV MT NL PL PT RO SE SI SK]
+    end
+
+    it { is_expected.to eq(expected_countries) }
+  end
+
   describe '#eu_member?', vcr: { cassette_name: 'geographical_areas#1013' } do
     subject(:geographical_area) { build(:geographical_area, id: geographical_area_id) }
 

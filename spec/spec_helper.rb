@@ -26,6 +26,10 @@ Capybara.register_driver(:selenium_chrome_headless) do |app|
   )
 end
 
+VCR.use_cassette('geographical_areas#1013') do
+  GeographicalArea.european_union
+end
+
 Capybara.javascript_driver = :selenium_chrome_headless
 
 Capybara.ignore_hidden_elements = false
