@@ -16,14 +16,14 @@
 <% content_for :header_class, 'with-proposition' %>
 <% content_for :proposition_header do %>
   <div class="govuk-header__content">
-    <a href="<%= find_commodity_path %>" class="govuk-header__link govuk-header__link--service-name" id="proposition-name">
+    <a href="<%= home_path %>" class="govuk-header__link govuk-header__link--service-name" id="proposition-name">
       <%= trade_tariff_heading %>
     </a>
     <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="proposition-links" aria-label="Show or hide Top Level Navigation">Menu</button>
     <nav id="proposition-menu"  aria-label="Top Level Navigation">
       <ul id="proposition-links" class="govuk-header__navigation ">
         <%= govuk_header_navigation_item(active_class: search_active_class) do %>
-          <%= link_to 'Search', find_commodity_path, class: "govuk-header__link" %>
+          <%= link_to 'Search', home_path, class: "govuk-header__link" %>
         <% end %>
         <%= govuk_header_navigation_item(active_class: browse_active_class) do %>
           <%= link_to 'Browse', browse_sections_path, class: "govuk-header__link" %>

@@ -6,7 +6,7 @@ module Cookies
         expires: 1.year.from_now,
       }
 
-      redirect_back(fallback_location: find_commodity_path)
+      redirect_back(fallback_location: home_path)
     end
   end
 end

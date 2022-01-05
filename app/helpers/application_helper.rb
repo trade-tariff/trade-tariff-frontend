@@ -1,4 +1,12 @@
 module ApplicationHelper
+  def home_path(*args, &block)
+    find_commodity_path(*args, &block)
+  end
+
+  def home_url(*args, &block)
+    find_commodity_url(*args, &block)
+  end
+
   def govspeak(text)
     text = text['content'] || text[:content] if text.is_a?(Hash)
     return '' if text.nil?
