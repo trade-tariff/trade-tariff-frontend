@@ -12,14 +12,14 @@ class ImportExportDatesController < ApplicationController
   def update
     @import_export_date = ImportExportDate.new(update_import_export_date_params)
 
-    if @import_export_date.errors.messages.any?
-      render 'show'
-    else
+    if @import_export_date.valid?
       redirect_to goods_nomenclature_path(
         day: @import_export_date.day,
         month: @import_export_date.month,
         year: @import_export_date.year,
       )
+    else
+      render 'show'
     end
   end
 
