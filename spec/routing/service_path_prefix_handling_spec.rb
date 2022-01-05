@@ -136,15 +136,15 @@ RSpec.describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
       let(:choice) { 'xi' }
 
       it 'prepends the choice to the path' do
-        result = sections_path
+        result = find_commodity_path
 
-        expect(result).to eq('/xi/sections')
+        expect(result).to eq('/xi/find_commodity')
       end
 
       it 'prepends the choice to the url' do
-        result = sections_url
+        result = find_commodity_url
 
-        expect(result).to eq('http://test.host/xi/sections')
+        expect(result).to eq('http://test.host/xi/find_commodity')
       end
     end
   end

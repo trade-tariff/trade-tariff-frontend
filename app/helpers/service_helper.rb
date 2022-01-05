@@ -85,12 +85,6 @@ module ServiceHelper
     service_choice == 'uk'
   end
 
-  def switch_banner_copy
-    copy = request.filtered_path == sections_path ? "service_banner.big.#{service_choice}" : 'service_banner.small'
-
-    t(copy, link: switch_service_link).html_safe
-  end
-
   def switch_banner_bottom_copy
     t("service_banner.bottom.#{service_choice}")
   end

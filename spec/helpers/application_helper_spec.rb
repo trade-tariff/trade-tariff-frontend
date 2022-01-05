@@ -1,6 +1,18 @@
 require 'spec_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
+  describe '#home_path' do
+    subject(:home_path) { helper.home_path }
+
+    it { is_expected.to eq(find_commodity_path) }
+  end
+
+  describe '#home_url' do
+    subject(:home_url) { helper.home_url }
+
+    it { is_expected.to eq(find_commodity_url) }
+  end
+
   describe '#govspeak' do
     context 'with string without HTML code' do
       let(:string) { '**hello**' }

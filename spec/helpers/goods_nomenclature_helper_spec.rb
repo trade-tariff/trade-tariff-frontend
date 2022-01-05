@@ -52,7 +52,7 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
     it_behaves_like 'a goods_nomenclature_path', '1901200000', '/commodities/1901200000?country=AR&day=01&month=01&year=2021#export'
     it_behaves_like 'a goods_nomenclature_path', '1901', '/headings/1901?country=AR&day=01&month=01&year=2021#export'
     it_behaves_like 'a goods_nomenclature_path', '19', '/chapters/19?country=AR&day=01&month=01&year=2021#export'
-    it_behaves_like 'a goods_nomenclature_path', nil, '/sections?country=AR&day=01&month=01&year=2021'
+    it_behaves_like 'a goods_nomenclature_path', nil, '/find_commodity?country=AR&day=01&month=01&year=2021'
   end
 
   describe '#current_goods_nomenclature_code' do

@@ -8,7 +8,7 @@ module GoodsNomenclatureHelper
 
     case current_goods_nomenclature_code&.size
     when nil
-      sections_path(path_opts)
+      home_path(path_opts)
     when Chapter::SHORT_CODE_LENGTH
       chapter_path(path_opts)
     when Heading::SHORT_CODE_LENGTH
