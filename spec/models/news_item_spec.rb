@@ -68,6 +68,19 @@ RSpec.describe NewsItem do
     end
   end
 
+  describe '.for_feed' do
+    subject { described_class.for_feed }
+
+    include_context 'with UK service'
+
+    before do
+      stub_api_request('/news_items?target=updates', backend: 'uk')
+        .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
+    end
+
+    it { is_expected.to have_attributes length: 2 }
+  end
+
   describe '.any_updates?' do
     subject(:any_updates) { described_class.any_updates? }
 

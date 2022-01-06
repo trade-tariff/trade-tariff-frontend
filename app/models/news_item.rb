@@ -38,6 +38,13 @@ class NewsItem
       )
     end
 
+    def for_feed
+      collection(
+        collection_path,
+        target: 'updates',
+      )
+    end
+
     def any_updates?
       return false unless TradeTariffFrontend.news_items_enabled?
 

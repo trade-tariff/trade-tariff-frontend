@@ -1,0 +1,71 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/news_items?target=updates
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"4a4ac91101515d78450d60b156111103"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - c0fbd950-5b1b-4cd3-97af-fcab6cf9efe1
+      X-Runtime:
+      - '0.535808'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":"5","type":"news_item","attributes":{"id":5,"title":"
+        UK Goods classification 2022 - 10-digit code publication (update)","content":"10-digit
+        code changes have been published for chapters 08, 15, 25, 28, 29, 32, 36,
+        38, 39, 57, 62, 70, 73, 74, 76, 81, 84, 85, 87, 88, 94. [View 10-digit code
+        changes for these chapters](/help/cn2021_cn2022).\r\n","display_style":0,"show_on_xi":true,"show_on_uk":true,"show_on_updates_page":true,"show_on_home_page":false,"start_date":"2021-12-15","end_date":null,"created_at":"2021-12-15T10:50:45.862Z","updated_at":null}},{"id":"4","type":"news_item","attributes":{"id":4,"title":"UK
+        Goods classification 2022 - 10-digit code publication","content":"10-digit
+        code changes have been published for chapters 03, 04, 07, 08, 12, 24, 32,
+        33, 34, 40, 49, 55, 58, 68, 71, 74. [View 10-digit code changes for these
+        chapters](/help/cn2021_cn2022).\r\n","display_style":0,"show_on_xi":true,"show_on_uk":true,"show_on_updates_page":true,"show_on_home_page":false,"start_date":"2021-12-08","end_date":null,"created_at":"2021-12-09T15:47:54.821Z","updated_at":"2021-12-09T15:50:45.128Z"}},{"id":"6","type":"news_item","attributes":{"id":6,"title":"UK
+        Goods classification 2021 to 2022 correlation table","content":"From 1 January
+        2022, the UK will introduce its 2022 Integrated Tariff. This will incorporate
+        the WCO''s changes to the Harmonised System Nomenclature. This full nomenclature
+        will be published soon but you can now view the [correlation of commodity
+        codes, at 8-digit level, from the 2021 Tariff to that of 2022](/help/cn2021_cn2022).","display_style":0,"show_on_xi":true,"show_on_uk":true,"show_on_updates_page":true,"show_on_home_page":false,"start_date":"2021-11-24","end_date":null,"created_at":"2021-11-24T10:35:35.488Z","updated_at":"2021-12-02T10:27:02.216Z"}},{"id":"3","type":"news_item","attributes":{"id":3,"title":"UK
+        Goods classification 2021 to 2022 correlation table","content":"From 1 January
+        2022, the UK will introduce its 2022 Integrated Tariff. This will incorporate
+        the WCO''s changes to the Harmonised System Nomenclature. This full nomenclature
+        will be published soon but you can now view the [correlation of commodity
+        codes, at 8-digit level, from the 2021 Tariff to that of 2022](/help/cn2021_cn2022).","display_style":0,"show_on_xi":true,"show_on_uk":true,"show_on_updates_page":true,"show_on_home_page":false,"start_date":"2021-11-24","end_date":null,"created_at":"2021-11-24T11:09:52.116Z","updated_at":null}}]}'
+  recorded_at: Thu, 06 Jan 2022 10:23:00 GMT
+recorded_with: VCR 6.0.0
