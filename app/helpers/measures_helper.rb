@@ -33,4 +33,26 @@ module MeasuresHelper
       link_to('Check how to export commodity goods (link opens in new tab)', TradeTariffFrontend.check_duties_service_url, target: '_blank', rel: 'noopener')
     end
   end
+
+  def reformat_duty_expression(expression)
+    sanitized = sanitize(expression, tags: %w[abbr], attributes: %w[title])
+    components = []
+
+    while sanitized.length.positive?
+      matched = sanitized.match(%r{ (\+|-|MIN|MAX) })
+
+      if matched
+        components << tag.span(sanitized.slice(0, matched.begin(0)).html_safe)
+        components << matched[1]
+        sanitized = sanitized.slice(matched.end(0), sanitized.length)
+      else
+        components << tag.span(sanitized.html_safe)
+        sanitized = ''
+      end
+    end
+
+    tag.span(class: 'duty-expression') do
+      safe_join components.flatten.compact, ' '
+    end
+  end
 end

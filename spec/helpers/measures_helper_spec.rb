@@ -68,4 +68,40 @@ RSpec.describe MeasuresHelper, type: :helper do
       end
     end
   end
+
+  describe '#reformat_duty_expression' do
+    subject { reformat_duty_expression expression }
+
+    context 'with simple percentage' do
+      let(:expression) { '<span>20.00</span> % ' }
+
+      it { is_expected.to have_css 'span.duty-expression > span', text: '20.00 %' }
+    end
+
+    context 'with abbreviation' do
+      let :expression do
+        '<span>16.50</span> % / <abbr title="Retail Price">Retail Price</abbr> '
+      end
+
+      it { is_expected.to have_css 'span.duty-expression > span > abbr', text: 'Retail Price' }
+    end
+
+    context 'with multi segment expression' do
+      let :expression do
+        '<span>16.50</span> % / <abbr title="Retail Price">Retail Price</abbr> ' \
+        '+ <span>244.78</span> GBP / <abbr title="1000 items">1000 p/st</abbr> ' \
+        'MIN <span>320.90</span> GBP / <abbr title="1000 items">1000 p/st</abbr>'
+      end
+
+      let :expected do
+        '<span class="duty-expression">' \
+        '<span>16.50 % / <abbr title="Retail Price">Retail Price</abbr></span> ' \
+        '+ <span>244.78 GBP / <abbr title="1000 items">1000 p/st</abbr></span> ' \
+        'MIN <span>320.90 GBP / <abbr title="1000 items">1000 p/st</abbr></span>' \
+        '</span>'
+      end
+
+      it { is_expected.to match expected }
+    end
+  end
 end
