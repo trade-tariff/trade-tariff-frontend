@@ -14,7 +14,7 @@ module MeasuresHelper
       legal_act.regulation_code,
       legal_act.regulation_url,
       target: '_blank',
-      rel: 'noopener norefferer',
+      rel: 'noopener noreferrer',
       class: 'govuk-link',
       title: legal_act.description,
     )

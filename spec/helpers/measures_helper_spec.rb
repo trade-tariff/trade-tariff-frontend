@@ -37,7 +37,7 @@ RSpec.describe MeasuresHelper, type: :helper do
     context 'when the legal act has a regulation url' do
       let(:legal_acts) { [attributes_for(:legal_act)] }
       let(:expected_link) do
-        '<a target="_blank" rel="noopener norefferer" class="govuk-link" title="The Customs Tariff (Preferential Trade Arrangements) (EU Exit) (Amendment) Regulations 2021" href="https://www.legislation.gov.uk/uksi/2020/1432">S.I. 2020/1432</a>'
+        '<a target="_blank" rel="noopener noreferrer" class="govuk-link" title="The Customs Tariff (Preferential Trade Arrangements) (EU Exit) (Amendment) Regulations 2021" href="https://www.legislation.gov.uk/uksi/2020/1432">S.I. 2020/1432</a>'
       end
 
       it { expect(helper.legal_act_regulation_url_link_for(measure)).to eq(expected_link) }
