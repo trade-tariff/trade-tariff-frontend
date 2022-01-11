@@ -35,6 +35,8 @@ module MeasuresHelper
   end
 
   def reformat_duty_expression(expression)
+    # meursing measures are wrapped with strong tags it seems
+    wrapping_tag = expression.start_with?('<strong>') ? :strong : :span
     sanitized = sanitize(expression, tags: %w[abbr], attributes: %w[title])
     components = []
 
@@ -51,7 +53,7 @@ module MeasuresHelper
       end
     end
 
-    tag.span(class: 'duty-expression') do
+    content_tag(wrapping_tag, class: 'duty-expression') do
       safe_join components.flatten.compact, ' '
     end
   end

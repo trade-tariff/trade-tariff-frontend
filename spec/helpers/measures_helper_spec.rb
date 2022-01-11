@@ -86,6 +86,14 @@ RSpec.describe MeasuresHelper, type: :helper do
       it { is_expected.to have_css 'span.duty-expression > span > abbr', text: 'Retail Price' }
     end
 
+    context 'with strong tag' do
+      let :expression do
+        '<strong><span>16.50</span> % / <abbr title="Retail Price">Retail Price</abbr> </strong>'
+      end
+
+      it { is_expected.to have_css 'strong.duty-expression > span > abbr', text: 'Retail Price' }
+    end
+
     context 'with multi segment expression' do
       let :expression do
         '<span>16.50</span> % / <abbr title="Retail Price">Retail Price</abbr> ' \
