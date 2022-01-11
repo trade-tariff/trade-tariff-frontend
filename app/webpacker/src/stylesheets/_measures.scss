@@ -68,3 +68,7 @@ dt.has_children + dd[aria-hidden="true"] {
   top: 9px !important;
   position: relative;
 }
+
+.duty-expression > span {
+  white-space: nowrap;
+}
