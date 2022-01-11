@@ -28,15 +28,15 @@
     "mark.js": "^8.11.1",
     "rails-erb-loader": "^5.5.2",
     "select2": "^4.0.10",
-    "stimulus": "^3.0.1"
+    "stimulus": "^3.0.1",
+    "webpack-cli": "^4.9.1"
   },
   "devDependencies": {
     "babel-jest": "^27.4.5",
     "babel-loader": "^8.2.3",
     "eslint": "^8.4.1",
     "eslint-config-google": "^0.14.0",
-    "jest": "^27.4.5",
-    "webpack-cli": "^3.3.12"
+    "jest": "^27.4.5"
   },
   "scripts": {
     "spec": "jest",
