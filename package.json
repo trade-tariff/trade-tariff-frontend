@@ -7,8 +7,6 @@
     "@babel/plugin-transform-runtime": "^7.16.7",
     "@babel/preset-env": "^7.16.7",
     "@rails/webpacker": "5.4.3",
-    "@sentry/browser": "^6.18.2",
-    "@sentry/tracing": "^6.18.2",
     "@stimulus/polyfills": "^2.0.0",
     "accessible-autocomplete": "^2.0.4",
     "alphagov-static": "github:alphagov/static.git#release_3463",
@@ -26,7 +24,6 @@
     "jquery-roving-tabindex": "^1.0.1",
     "jquery-tabs": "^0.5.3",
     "mark.js": "^8.11.1",
-    "rails-erb-loader": "^5.5.2",
     "select2": "^4.0.10",
     "stimulus": "^3.0.1",
     "webpack-cli": "^4.9.2"
