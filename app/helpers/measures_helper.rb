@@ -43,9 +43,10 @@ module MeasuresHelper
     sanitized = sanitize(expression, tags: %w[abbr], attributes: %w[title])
     components = []
 
-    while sanitized.length.positive?
-      matched = sanitized.match(%r{ (\+|-|MIN|MAX) })
+    1.upto(20) do
+      break unless sanitized.length.positive?
 
+      matched = sanitized.match(%r{ (\+|-|MIN|MAX) })
       if matched
         components << tag.span(sanitized.slice(0, matched.begin(0)).html_safe)
         components << matched[1]
