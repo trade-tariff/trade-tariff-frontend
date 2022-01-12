@@ -2,7 +2,7 @@ module MeasuresHelper
   def filter_duty_expression(measure)
     return '' if measure.duty_expression.to_s == 'NIHIL'
 
-    reformat_duty_expression(measure.duty_expression.to_s)
+    control_line_wrapping_in_duty_expression(measure.duty_expression.to_s)
   end
 
   def legal_act_regulation_url_link_for(measure)
@@ -34,8 +34,11 @@ module MeasuresHelper
     end
   end
 
-  def reformat_duty_expression(expression)
-    # meursing measures are wrapped with strong tags it seems
+  # This rewrites the duty expression, removing existing span tags and applying
+  # them in a manner which allows preventing line breaks at confusing points
+  # in the expression
+  def control_line_wrapping_in_duty_expression(expression)
+    # meursing measures are wrapped with strong tags
     wrapping_tag = expression.start_with?('<strong>') ? :strong : :span
     sanitized = sanitize(expression, tags: %w[abbr], attributes: %w[title])
     components = []

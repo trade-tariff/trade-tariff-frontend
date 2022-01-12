@@ -69,8 +69,8 @@ RSpec.describe MeasuresHelper, type: :helper do
     end
   end
 
-  describe '#reformat_duty_expression' do
-    subject { reformat_duty_expression expression }
+  describe '#control_line_wrapping_in_duty_expression' do
+    subject { control_line_wrapping_in_duty_expression expression }
 
     context 'with simple percentage' do
       let(:expression) { '<span>20.00</span> % ' }
