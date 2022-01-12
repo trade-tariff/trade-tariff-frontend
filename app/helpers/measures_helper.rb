@@ -1,8 +1,8 @@
 module MeasuresHelper
   def filter_duty_expression(measure)
-    duty_expression = measure.duty_expression.to_s.html_safe
-    duty_expression = '' if duty_expression == 'NIHIL'
-    duty_expression
+    return '' if measure.duty_expression.to_s == 'NIHIL'
+
+    control_line_wrapping_in_duty_expression(measure.duty_expression.to_s)
   end
 
   def legal_act_regulation_url_link_for(measure)
@@ -14,7 +14,7 @@ module MeasuresHelper
       legal_act.regulation_code,
       legal_act.regulation_url,
       target: '_blank',
-      rel: 'noopener norefferer',
+      rel: 'noopener noreferrer',
       class: 'govuk-link',
       title: legal_act.description,
     )
@@ -31,6 +31,34 @@ module MeasuresHelper
               target: '_blank', rel: 'noopener')
     else
       link_to('Check how to export commodity goods (link opens in new tab)', TradeTariffFrontend.check_duties_service_url, target: '_blank', rel: 'noopener')
+    end
+  end
+
+  # This rewrites the duty expression, removing existing span tags and applying
+  # them in a manner which allows preventing line breaks at confusing points
+  # in the expression
+  def control_line_wrapping_in_duty_expression(expression)
+    # meursing measures are wrapped with strong tags
+    wrapping_tag = expression.start_with?('<strong>') ? :strong : :span
+    sanitized = sanitize(expression, tags: %w[abbr], attributes: %w[title])
+    components = []
+
+    1.upto(20) do
+      break unless sanitized.length.positive?
+
+      matched = sanitized.match(%r{ (\+|-|MIN|MAX) })
+      if matched
+        components << tag.span(sanitized.slice(0, matched.begin(0)).html_safe)
+        components << matched[1]
+        sanitized = sanitized.slice(matched.end(0), sanitized.length)
+      else
+        components << tag.span(sanitized.html_safe)
+        sanitized = ''
+      end
+    end
+
+    content_tag(wrapping_tag, class: 'duty-expression') do
+      safe_join components.flatten.compact, ' '
     end
   end
 end

@@ -19,7 +19,7 @@ RSpec.describe 'measures/_measure.html.erb', type: :view, vcr: { cassette_name: 
 
     it { expect(rendered).to match(/EUR/) }
     it { expect(rendered).to match(/Hectokilogram/) }
-    it { expect(rendered).to match(/<abbr title='Hectokilogram'>/) }
+    it { expect(rendered).to match(/<abbr title="Hectokilogram">/) }
   end
 
   context 'without formatted_base' do
