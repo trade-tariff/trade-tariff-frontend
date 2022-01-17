@@ -10,6 +10,23 @@ orbs:
   queue: eddiewebb/queue@1.6.1
 
 commands:
+  cf_install:
+    parameters:
+      space:
+        type: string
+    steps:
+      - run:
+          name: "Setup CF CLI"
+          command: |
+            curl -L -o cf.deb --retry 3 'https://packages.cloudfoundry.org/stable?release=debian64&version=7.4.0&source=github-rel'
+            file cf.deb
+            sudo dpkg -i cf.deb
+            cf -v
+            cf api "$CF_ENDPOINT"
+            cf auth "$CF_USER" "$CF_PASSWORD"
+            cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+            cf install-plugin app-autoscaler-plugin -r CF-Community -f
+            cf target -o "$CF_ORG" -s "<< parameters.space >>"
   cf_deploy_docker:
     parameters:
       dev-release:
@@ -23,18 +40,8 @@ commands:
         type: string
     steps:
       - checkout
-      - run:
-          name: "Setup CF CLI"
-          command: |
-            curl -L -o cf.deb --retry 3 'https://packages.cloudfoundry.org/stable?release=debian64&version=7.2.0&source=github-rel'
-            file cf.deb
-            sudo dpkg -i cf.deb
-            cf -v
-            cf api "$CF_ENDPOINT"
-            cf auth "$CF_USER" "$CF_PASSWORD"
-            cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
-            cf install-plugin app-autoscaler-plugin -r CF-Community -f
-            cf target -o "$CF_ORG" -s "<< parameters.space >>"
+      - cf_install:
+          space: << parameters.space >>
       - run:
           name: "Fetch existing manifest"
           command: |
@@ -99,18 +106,8 @@ commands:
 
   cf_deploy_review:
     steps:
-      - run:
-          name: Setup CF CLI
-          command: |
-            curl -L -o cf.deb --retry 3 'https://packages.cloudfoundry.org/stable?release=debian64&version=7.2.0&source=github-rel'
-            file cf.deb
-            sudo dpkg -i cf.deb
-            cf -v
-            cf api "$CF_ENDPOINT"
-            cf auth "$CF_USER" "$CF_PASSWORD"
-            cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
-            cf install-plugin app-autoscaler-plugin -r CF-Community -f
-            cf target -o "$CF_ORG" -s development
+      - cf_install:
+          space: development
       - run:
           name: Fetch existing manifest
           command: |
@@ -239,18 +236,8 @@ commands:
 
   cf_purge_reviews:
     steps:
-      - run:
-          name: "Setup CF CLI"
-          command: |
-            curl -L -o cf.deb --retry 3 'https://packages.cloudfoundry.org/stable?release=debian64&version=7.2.0&source=github-rel'
-            file cf.deb
-            sudo dpkg -i cf.deb
-            cf -v
-            cf api "$CF_ENDPOINT"
-            cf auth "$CF_USER" "$CF_PASSWORD"
-            cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
-            cf install-plugin app-autoscaler-plugin -r CF-Community -f
-            cf target -o "$CF_ORG" -s development
+      - cf_install:
+          space: development
       - run:
           name: Find PRs
           command: |
