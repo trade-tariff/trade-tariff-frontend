@@ -25,7 +25,7 @@ module TradeTariffFrontend
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
-    config.time_zone = 'London'
+    config.time_zone = 'UTC'
 
     require 'trade_tariff_frontend'
 
