@@ -111,9 +111,8 @@ module CommoditiesHelper
   end
 
   def segmented_commodity_code(code, coloured: false)
-    return if code.blank?
-
-    parts = code.to_s.gsub(/[^\d]/, '').split('').each_slice(4).map(&:join)
+    parts = divide_commodity_code(code)
+    return unless parts
 
     css_classes = %w[segmented-commodity-code]
     css_classes << 'segmented-commodity-code--coloured' if coloured
@@ -121,6 +120,12 @@ module CommoditiesHelper
     tag.span class: css_classes.join(' ') do
       safe_join parts.map(&tag.method(:span))
     end
+  end
+
+  def divide_commodity_code(code)
+    return if code.blank?
+
+    code.to_s.gsub(/[^\d]/, '').split('').each_slice(4).map(&:join)
   end
 
   def abbreviate_commodity_code(code)

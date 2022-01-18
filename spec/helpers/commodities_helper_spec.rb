@@ -23,6 +23,38 @@ RSpec.describe CommoditiesHelper, type: :helper do
     end
   end
 
+  describe '#divide_commodity_code' do
+    subject { divide_commodity_code comm_code }
+
+    let(:comm_code) { '0123456789' }
+
+    it { is_expected.to eql %w[0123 4567 89] }
+
+    context 'with blank comm code' do
+      let(:comm_code) { '' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with already divided comm code' do
+      let(:comm_code) { '0123 4567 89' }
+
+      it { is_expected.to eql %w[0123 4567 89] }
+    end
+
+    context 'with a heading' do
+      let(:comm_code) { '0123' }
+
+      it { is_expected.to eql %w[0123] }
+    end
+
+    context 'with an 8 digit code' do
+      let(:comm_code) { '01234567' }
+
+      it { is_expected.to eql %w[0123 4567] }
+    end
+  end
+
   describe '#segmented_commodity_code' do
     subject { segmented_commodity_code comm_code }
 

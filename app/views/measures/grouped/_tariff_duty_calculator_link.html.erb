@@ -1,8 +1,16 @@
 <div class="calculator-panel">
   <%= image_tag('calculator.png') %>
-  <p>The table below lists the customs duties that apply to the import of commodity <%= declarable_code %>.</p>
 
-  <p>Use our <strong>tariff duty calculator</strong> to
-    <%= link_to("work out the duties and taxes applicable to the import of commodity.", "/duty-calculator/#{service_choice}/#{declarable_code}/import-date") %>
+  <p>
+    The table below lists the customs duties that apply to the import of
+    commodity <%= segmented_commodity_code declarable_code %>.
+  </p>
+
+  <p>
+    Use our <strong>tariff duty calculator</strong> to
+    <%= link_to "/duty-calculator/#{service_choice}/#{declarable_code}/import-date" do %>
+      work out the duties and taxes applicable to the import of commodity
+      <%= divide_commodity_code(declarable_code).join ' ' %>.
+    <% end %>
   </p>
 </div>
