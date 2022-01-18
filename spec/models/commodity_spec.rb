@@ -150,4 +150,47 @@ RSpec.describe Commodity do
       end
     end
   end
+
+  describe 'umbrella_code?' do
+    subject { commodity.umbrella_code? }
+
+    let(:heading) { build :heading, commodities: [parent, child] }
+    let(:parent) { attributes_for :commodity, producline_suffix: producline_suffix }
+    let(:child) do
+      attributes_for :commodity, producline_suffix: producline_suffix,
+                                 parent_sid: parent[:goods_nomenclature_sid]
+    end
+
+    context 'with a commodity without children' do
+      let(:commodity) { heading.commodities.last }
+
+      context 'with producline_suffix of 10' do
+        let(:producline_suffix) { '10' }
+
+        it { is_expected.to be false }
+      end
+
+      context 'with producline_suffix of 80' do
+        let(:producline_suffix) { '80' }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'with a commodity with children' do
+      let(:commodity) { heading.commodities.first }
+
+      context 'with producline_suffix of 10' do
+        let(:producline_suffix) { '10' }
+
+        it { is_expected.to be true }
+      end
+
+      context 'with producline_suffix of 80' do
+        let(:producline_suffix) { '80' }
+
+        it { is_expected.to be false }
+      end
+    end
+  end
 end
