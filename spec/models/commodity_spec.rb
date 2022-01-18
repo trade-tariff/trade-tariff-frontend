@@ -70,7 +70,8 @@ RSpec.describe Commodity do
     let(:commodity) { described_class.new(attributes_for(:commodity).stringify_keys) }
 
     it 'formats the aria label correctly' do
-      expect(commodity.aria_label).to eq("Commodity code 0101300000, #{commodity.description}")
+      expect(commodity.aria_label).to \
+        eq("Commodity code #{commodity.goods_nomenclature_item_id}, #{commodity.description}")
     end
 
     context 'when the description is nil' do

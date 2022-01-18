@@ -3,7 +3,7 @@
     <span class="description open without_right_margin" aria-expanded="false" role="button" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></span>
 
     <div class='sub_heading_commodity_code_block pull-right'>
-      <%= format_commodity_code_based_on_level(commodity) %>
+      <%= format_commodity_code_based_on_level(commodity) unless commodity.umbrella_code? %>
     </div>
 
     <ul class="govuk-list"><%= render commodity.children %></ul>
