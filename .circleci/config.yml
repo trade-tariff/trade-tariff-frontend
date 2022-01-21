@@ -432,6 +432,10 @@ jobs:
           time: '10'
           consider-branch: false
           dont-quit: true
+      - run:
+          name: Debug api request
+          command: |
+            cat /tmp/jobstatus.json
       - cf_deploy_docker:
           dev-release: true
           space: "development"
