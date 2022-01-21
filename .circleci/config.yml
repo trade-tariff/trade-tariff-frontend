@@ -7,7 +7,7 @@ orbs:
   browser-tools: circleci/browser-tools@1.1
   cloudfoundry: circleci/cloudfoundry@1.0
   slack: circleci/slack@4.3.0
-  queue: eddiewebb/queue@1.6.1
+  queue: eddiewebb/queue@1.6.4
 
 commands:
   cf_deploy_docker:
@@ -432,10 +432,10 @@ jobs:
           time: '10'
           consider-branch: false
           dont-quit: true
-      - run:
-          name: Debug api request
-          command: |
-            cat /tmp/jobstatus.json
+      # - run:
+      #     name: Debug api request
+      #     command: |
+      #       cat /tmp/jobstatus.json
       - cf_deploy_docker:
           dev-release: true
           space: "development"
