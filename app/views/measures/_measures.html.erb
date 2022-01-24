@@ -56,6 +56,10 @@
                 country_name: @search.geographical_area&.description,
                 eu_member: @search.geographical_area&.eu_member? \
                 if client_location.united_kingdom? %>
+
+    <p>
+      HEADER CloudFront-Viewer-Country-Name: '<%= client_location.location_header %>'
+    </p>
   </div>
 
   <!-- Rules of Origin tab -->
