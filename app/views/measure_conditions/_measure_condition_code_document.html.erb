@@ -13,7 +13,7 @@
       <% if condition.document_code.present? %>
         <td class="govuk-table__cell numerical"><%= condition.document_code %></td>
         <td class="govuk-table__cell">
-          <%= condition.requirement %>
+          <%= condition.certificate_description.presence || condition.requirement %>
         </td>
       <% else %>
         <td class="govuk-table__cell">&nbsp;</td>
