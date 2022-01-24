@@ -48,7 +48,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :cookies_policy,
                 :meursing_lookup_result,
-                :is_switch_service_banner_enabled?
+                :is_switch_service_banner_enabled?,
+                :client_location
 
   def render_500
     disable_search_form
@@ -122,6 +123,10 @@ class ApplicationController < ActionController::Base
 
   def meursing_lookup_result
     @meursing_lookup_result ||= MeursingLookup::Result.new(meursing_additional_code_id: session[MeursingLookup::Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY])
+  end
+
+  def client_location
+    ClientLocation.new(request.headers)
   end
 
   protected

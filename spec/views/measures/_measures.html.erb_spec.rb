@@ -9,7 +9,8 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
 
     allow(GeographicalArea).to receive(:find).with('FR').and_return(build(:geographical_area, id: 'FR', description: 'France'))
-    allow(search).to receive(:countries).and_return all_countries
+    allow(search).to receive(:countries).and_return GeographicalArea.all
+    allow(view).to receive(:client_location).and_return client_location
 
     assign :search, search
   end
@@ -23,7 +24,6 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
   end
 
   let(:search) { Search.new(q: '0101300000') }
-  let(:all_countries) { GeographicalArea.all }
   let(:presented_commodity) { CommodityPresenter.new(commodity) }
 
   let(:commodity) do
@@ -33,6 +33,8 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
       end
     end
   end
+
+  let(:client_location) { ClientLocation.new({}) }
 
   shared_examples 'measures with rules of origin tab' do
     it { is_expected.to have_css '.govuk-tabs .govuk-tabs__tab', count: 4 }
@@ -103,5 +105,21 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
       it_behaves_like 'measures with rules of origin tab'
       it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
     end
+  end
+
+  context 'when viewed from outside the uk' do
+    let :client_location do
+      ClientLocation.new({ ClientLocation::HEADER => 'France' })
+    end
+
+    it { is_expected.not_to render_template('measures/_export_tab_check_duties') }
+  end
+
+  context 'when viewed inside the uk' do
+    let :client_location do
+      ClientLocation.new({ ClientLocation::HEADER => 'United Kingdom' })
+    end
+
+    it { is_expected.to render_template('measures/_export_tab_check_duties') }
   end
 end
