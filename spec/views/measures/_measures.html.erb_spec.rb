@@ -47,7 +47,7 @@ RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
   it { is_expected.to render_template('declarables/_consigned') }
   it { is_expected.to render_template('footnotes/_footnote') }
   it { is_expected.to render_template('measure_conditions/_measure_condition_code_document') }
-  it { is_expected.to render_template('measures/_export_tab_check_duties') }
+  # it { is_expected.to render_template('measures/_export_tab_check_duties') }
   it { is_expected.to render_template('measures/_measure') }
   it { is_expected.to render_template('measures/_measure_condition_modal') }
   it { is_expected.to render_template('measures/_measure_condition_modal_default') }

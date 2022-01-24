@@ -55,7 +55,7 @@
                 country_code: @search.country,
                 country_name: @search.geographical_area&.description,
                 eu_member: @search.geographical_area&.eu_member? \
-                if client_location.unknown? || client_location.united_kingdom? %>
+                if client_location.united_kingdom? %>
   </div>
 
   <!-- Rules of Origin tab -->
