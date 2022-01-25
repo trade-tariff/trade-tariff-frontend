@@ -19,12 +19,11 @@ class MeasurePresenter < SimpleDelegator
     geographical_area.children_geographical_areas.sort_by(&:id)
   end
 
-  # TODO: This is currently untested - we need to add some coverage for this
   def grouped_measure_conditions
     measure_conditions.group_by do |condition|
       {
         condition: condition.condition,
-        partial_type: case condition.condition_code
+        partial_type: case condition.condition_code[0]
                       when 'A', 'B', 'C', 'H', 'Q', 'Y', 'Z'
                         'document'
                       when 'R', 'S', 'U'
