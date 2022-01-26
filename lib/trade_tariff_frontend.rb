@@ -13,6 +13,7 @@ module TradeTariffFrontend
       sections
       chapters
       headings
+      subheadings
       commodities
       updates
       monetary_exchange_rates
@@ -29,6 +30,7 @@ module TradeTariffFrontend
       sections
       chapters
       headings
+      subheadings
       commodities
       monetary_exchange_rates
       quotas
