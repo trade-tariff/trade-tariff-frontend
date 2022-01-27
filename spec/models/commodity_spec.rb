@@ -70,7 +70,8 @@ RSpec.describe Commodity do
     let(:commodity) { described_class.new(attributes_for(:commodity).stringify_keys) }
 
     it 'formats the aria label correctly' do
-      expect(commodity.aria_label).to eq("Commodity code 0101300000, #{commodity.description}")
+      expect(commodity.aria_label).to \
+        eq("Commodity code #{commodity.goods_nomenclature_item_id}, #{commodity.description}")
     end
 
     context 'when the description is nil' do
@@ -147,6 +148,49 @@ RSpec.describe Commodity do
 
       it 'strips out only 2 zeros' do
         expect(commodity.commodity_code_for_check_duties_service).to eq('1234560')
+      end
+    end
+  end
+
+  describe 'umbrella_code?' do
+    subject { commodity.umbrella_code? }
+
+    let(:heading) { build :heading, commodities: [parent, child] }
+    let(:parent) { attributes_for :commodity, producline_suffix: producline_suffix }
+    let(:child) do
+      attributes_for :commodity, producline_suffix: producline_suffix,
+                                 parent_sid: parent[:goods_nomenclature_sid]
+    end
+
+    context 'with a commodity without children' do
+      let(:commodity) { heading.commodities.last }
+
+      context 'with producline_suffix of 10' do
+        let(:producline_suffix) { '10' }
+
+        it { is_expected.to be false }
+      end
+
+      context 'with producline_suffix of 80' do
+        let(:producline_suffix) { '80' }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'with a commodity with children' do
+      let(:commodity) { heading.commodities.first }
+
+      context 'with producline_suffix of 10' do
+        let(:producline_suffix) { '10' }
+
+        it { is_expected.to be true }
+      end
+
+      context 'with producline_suffix of 80' do
+        let(:producline_suffix) { '80' }
+
+        it { is_expected.to be false }
       end
     end
   end

@@ -87,4 +87,8 @@ class Commodity < GoodsNomenclature
   def page_heading
     "Commodity #{code}"
   end
+
+  def umbrella_code?
+    producline_suffix != '80' && has_children?
+  end
 end

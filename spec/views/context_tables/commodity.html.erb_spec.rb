@@ -13,7 +13,7 @@ RSpec.describe 'shared/context_tables/_commodity.html.erb', type: :view, vcr: { 
 
   describe 'commodity row' do
     it { is_expected.to have_css 'dl div dt', text: 'Commodity' }
-    it { is_expected.to have_css 'dl div dd', text: '0101300000' }
+    it { is_expected.to have_css 'dl div dd', text: commodity.goods_nomenclature_item_id }
   end
 
   describe 'classification row' do

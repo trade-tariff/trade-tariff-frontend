@@ -24,6 +24,7 @@ FactoryBot.define do
     formatted_description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0101000000' }
 
+    commodities { [] }
     import_measures { [] }
     export_measures { [] }
 
@@ -37,9 +38,10 @@ FactoryBot.define do
     section { attributes_for(:section) }
     description { Forgery(:basic).text }
     formatted_description { Forgery(:basic).text }
-    goods_nomenclature_item_id { '0101300000' }
-    goods_nomenclature_sid { Forgery(:basic).number }
-    parent_sid { Forgery(:basic).number }
+    sequence(:goods_nomenclature_sid) { |id| id }
+    goods_nomenclature_item_id { sprintf '010130%04d', goods_nomenclature_sid }
+    parent_sid { nil }
+    number_indents { 2 }
     meursing_code { false }
 
     import_measures { [] }
