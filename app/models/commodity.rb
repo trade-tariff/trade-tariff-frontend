@@ -89,6 +89,6 @@ class Commodity < GoodsNomenclature
   end
 
   def umbrella_code?
-    has_children? && producline_suffix != '80'
+    producline_suffix != '80' && has_children?
   end
 end
