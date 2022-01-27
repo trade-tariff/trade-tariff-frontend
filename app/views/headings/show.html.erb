@@ -13,7 +13,8 @@
   <% end %>
 
   <%= render 'shared/context_tables/heading' %>
-  <%= render 'shared/callouts/heading'%>
+  <%= render 'shared/callouts/heading',
+             leaf_commodity_count: @commodities.leaf_commodities_count %>
 
 <% if @heading.declarable? %>
   <%= render 'declarables/declarable',

@@ -4,12 +4,11 @@ RSpec.describe 'JS behaviour', js: true, vcr: { cassette_name: 'headings#8501' }
   it 'render table tools on the top and bottom' do
     visit heading_path('8501')
 
-    expect(page).to have_content('Choose the commodity code below that best matches your goods to see more information')
+    expect(page).to have_content('Choose the commodity code that best matches your goods to see more information')
     expect(page.find_all('.tree-controls').length).to eq(2)
 
-    page.find_all('.has_children').each do |parent|
-      expect(parent).to have_xpath("//ul[@class='govuk-list' and @aria-hidden='true']")
-    end
+    expect(page.find_all('.has_children')).to \
+      all(have_xpath("//ul[@class='govuk-list' and @aria-hidden='true']"))
 
     page.find_all('.tree-controls')[0].first('a').click
 
