@@ -9,7 +9,7 @@
   <% if @heading.declarable? %>
     <%= render 'commodities/header', commodity_code: (@heading.page_heading + '000000') %>
   <% else %>
-    <%= page_header heading_for(section: @section, chapter: @chapter, heading: @heading, commodity: @commodity) %>
+    <%= page_header @heading.page_heading %>
   <% end %>
 
   <%= render 'shared/context_tables/heading' %>

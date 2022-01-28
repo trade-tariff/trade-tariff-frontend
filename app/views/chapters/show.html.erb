@@ -6,7 +6,7 @@
 
 <% content_for :bodyClasses, "page--wide" %>
 
-<%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
+<%= page_header @chapter.page_heading %>
 
 <%= render 'shared/context_tables/chapter' %>
 <%= render 'shared/callouts/chapter', chapter: @chapter %>
