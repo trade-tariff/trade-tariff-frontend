@@ -124,6 +124,10 @@ Rails.application.routes.draw do
     end
   end
 
+  constraints(id: /\d{10}-\d{2}/) do
+    resources :subheadings, only: %i[show]
+  end
+
   constraints(id: /\d{10}/) do
     resources :commodities, only: %i[show] do
       resources :changes,

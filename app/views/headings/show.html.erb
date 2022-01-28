@@ -5,43 +5,23 @@
   <link rel='alternate' type='application/json' href='<%= heading_url(@heading, format: :json) %>' title='Heading information page in JSON format' />
 <% end %>
 
-<% content_for :bodyClasses, "page--wide" %>
-  <% if @heading.declarable? %>
-    <%= render 'commodities/header', commodity_code: (@heading.page_heading + '000000') %>
-  <% else %>
-    <%= page_header @heading.page_heading %>
-  <% end %>
+<% if @heading.declarable? %>
+  <%= render 'commodities/header', commodity_code: (@heading.page_heading + '000000') %>
+<% else %>
+  <%= page_header @heading.page_heading %>
+<% end %>
 
-  <%= render 'shared/context_tables/heading' %>
-  <%= render 'shared/callouts/heading',
-             leaf_commodity_count: @commodities.leaf_commodities_count %>
+<%= render 'shared/context_tables/heading' %>
+<%= render 'shared/callouts/heading', leaf_commodity_count: @commodities.leaf_commodities_count %>
+<%= render 'shared/commodity_tree' %>
+<%= render 'shared/footnote', footnotes: @heading.footnotes %>
 
 <% if @heading.declarable? %>
   <%= render 'declarables/declarable',
-             declarable: @heading,
-             uk_declarable: uk_heading,
-             xi_declarable: xi_heading,
-             rules_of_origin_schemes: @rules_of_origin_schemes %>
+    declarable: @heading,
+    uk_declarable: uk_heading,
+    xi_declarable: xi_heading,
+    rules_of_origin_schemes: @rules_of_origin_schemes %>
 <% else %>
-  <article class="tariff">
-    <div class="commodity-tree">
-      <div class="tree-controls"></div>
-      <div class="commodity-tree-note">
-        <span>The number following each commodity's description is its commodity code.</span>
-        <em class="level">Level</em>
-        <em class="description">Description</em>
-        <div class="commodity-tree__additional-info">
-          <em class="vat" id="commodity-vat-title">VAT</em>
-          <em class="duty" id="commodity-duty-title">Third country duty</em>
-          <em class="supplementary-units" id="commodity-supplementary-title">Supplementary unit</em>
-          <em class="commcode">Commodity code</em>
-        </div>
-      </div>
-      <ul class="commodities js-commodities">
-        <%= render @commodities.root_commodities %>
-      </ul>
-    </div>
-    <%= render 'footnote', footnotes: @heading.all_footnotes %>
-  </article>
   <%= render 'shared/notes', section_note: @heading.section.section_note, chapter_note: @heading.chapter.chapter_note %>
 <% end %>
