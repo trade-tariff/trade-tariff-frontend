@@ -1,10 +1,10 @@
 class CommoditiesController < GoodsNomenclaturesController
   helper_method :uk_commodity, :xi_commodity
 
-  before_action :fetch_headings_or_commodities, only: %i[show]
-  before_action :set_goods_nomenclature_code, only: %i[show]
-
   def show
+    fetch_headings_or_commodities
+    session[:goods_nomenclature_code] = commodity.code
+
     @heading = commodity.heading
     @chapter = commodity.chapter
     @section = commodity.section
@@ -72,10 +72,6 @@ class CommoditiesController < GoodsNomenclaturesController
 
   def uk_commodity
     @commodities[:uk]
-  end
-
-  def set_goods_nomenclature_code
-    session[:goods_nomenclature_code] = commodity.code
   end
 
   def query_params
