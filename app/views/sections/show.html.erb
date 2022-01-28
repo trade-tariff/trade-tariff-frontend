@@ -5,7 +5,7 @@
   <link rel='alternate' type='application/json' href='<%= section_url(@section, format: :json) %>' title='Section information page in JSON format' />
 <% end %>
 
-<%= page_header heading_for(section: @section,chapter: @chapter,heading: @heading, commodity: @commodity) %>
+<%= page_header @section.page_heading %>
 
 <% content_for :bodyClasses, "page--wide" %>
 

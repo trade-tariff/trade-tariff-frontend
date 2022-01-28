@@ -43,40 +43,6 @@ RSpec.describe ServiceHelper, type: :helper do
     end
   end
 
-  describe '#heading_for' do
-    subject { helper.heading_for(section: section, chapter: chapter, heading: heading, commodity: commodity) }
-
-    let(:section) { instance_double('Section', page_heading: 'Section AAA') }
-    let(:chapter) { instance_double('Chapter', page_heading: 'Chapter BBB') }
-    let(:heading) { instance_double('Heading', page_heading: 'Heading CCC') }
-    let(:commodity) { instance_double('Commodity', page_heading: 'Commodity EEE') }
-
-    context 'when in Commodity page' do
-      it { is_expected.to eq('Commodity EEE') }
-    end
-
-    context 'when in Heading page' do
-      let(:commodity) { nil }
-
-      it { is_expected.to eq('Heading CCC') }
-    end
-
-    context 'when in Chapter page' do
-      let(:heading) { nil }
-      let(:commodity) { nil }
-
-      it { is_expected.to eq('Chapter BBB') }
-    end
-
-    context 'when in Section page' do
-      let(:heading) { nil }
-      let(:commodity) { nil }
-      let(:chapter) { nil }
-
-      it { is_expected.to eq('Section AAA') }
-    end
-  end
-
   describe '#goods_nomenclature_title' do
     let(:commodity) { build(:commodity, formatted_description: 'Live horses, asses, mules and hinnies') }
 
