@@ -24,8 +24,8 @@ class Subheading < GoodsNomenclature
 
   def code
     case goods_nomenclature_item_id
-    when /\d+0000/ then harmonised_system_subheading_code
-    when /\d+00/ then combined_nomenclature_subheading_code
+    when /^\d+0000$/ then harmonised_system_subheading_code
+    when /^\d+00$/ then combined_nomenclature_subheading_code
     else taric_subheading_code
     end
   end

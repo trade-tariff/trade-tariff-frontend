@@ -10,6 +10,10 @@ class SubheadingsController < GoodsNomenclaturesController
 
   private
 
+  def subheading
+    @subheading ||= TradeTariffFrontend::ServiceChooser.uk? ? uk_subheading : xi_subheading
+  end
+
   def uk_subheading
     @uk_subheading ||= TradeTariffFrontend::ServiceChooser.with_source(:uk) do
       Subheading.find(params[:id], query_params)
@@ -20,10 +24,6 @@ class SubheadingsController < GoodsNomenclaturesController
     @xi_subheading ||= TradeTariffFrontend::ServiceChooser.with_source(:xi) do
       Subheading.find(params[:id], query_params)
     end
-  end
-
-  def subheading
-    @subheading ||= TradeTariffFrontend::ServiceChooser.uk? ? uk_subheading : xi_subheading
   end
 
   def set_goods_nomenclature_code

@@ -13,7 +13,6 @@
     </thead>
     <tbody class="govuk-table__body">
       <% footnotes.each do |footnote| %>
-        <% next unless footnote&.code.present? %>
         <%= render footnote %>
       <% end %>
     </tbody>
