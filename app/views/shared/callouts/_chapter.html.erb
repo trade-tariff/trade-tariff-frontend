@@ -2,9 +2,12 @@
   <p>
     Chapter <%= @chapter.short_code %> contains <%= pluralize @headings.count, 'heading' %>. Choose the heading that best matches your goods.
   </p>
+
+  <% if @chapter.chapter_note.present? %>
   <p>
     There are <%= link_to 'important notes for classifying your goods', "#notes" %> shown further down this page
   </p>
+  <% end %>
 
   <%= render partial: 'chapters/chapter_guides', locals: {chapter: chapter} %>
 </div>
