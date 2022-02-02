@@ -1,0 +1,9 @@
+<% content_for :title, goods_nomenclature_title(@subheading) %>
+
+<%= page_header @subheading.page_heading %>
+
+<%= render 'shared/context_tables/subheading' %>
+<%= render 'shared/callouts/subheading', leaf_commodity_count: @commodities.leaf_commodities_count %>
+<%= render 'shared/commodity_tree' %>
+<%= render 'shared/footnote', footnotes: @subheading.footnotes %>
+<%= render 'shared/notes', section_note: @subheading.section.section_note, chapter_note: @subheading.chapter.chapter_note %>

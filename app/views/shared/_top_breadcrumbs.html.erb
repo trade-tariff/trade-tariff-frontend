@@ -20,7 +20,13 @@
 
         <% if @heading && !@heading.declarable?%>
           <li class="govuk-breadcrumbs__list-item">
-            <%= breadcrumb_link_or_text(@heading, @commodity, "Heading #{@heading.short_code}") %>
+            <%= breadcrumb_link_or_text(@heading, @commodity || @subheading, "Heading #{@heading.short_code}") %>
+          </li>
+        <% end %>
+
+        <% if @subheading %>
+          <li class="govuk-breadcrumbs__list-item" aria-current="page">
+            Subheading <%= @subheading.code %>
           </li>
         <% end %>
 
