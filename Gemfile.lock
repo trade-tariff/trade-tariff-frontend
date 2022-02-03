@@ -239,7 +239,7 @@ GEM
     multipart-post (2.1.1)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
-    newrelic_rpm (8.2.0)
+    newrelic_rpm (8.4.0)
     nio4r (2.5.8)
     nokogiri (1.13.1)
       mini_portile2 (~> 2.7.0)
