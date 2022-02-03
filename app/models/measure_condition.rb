@@ -3,7 +3,7 @@ require 'api_entity'
 class MeasureCondition
   include ApiEntity
 
-  attr_accessor :condition_code, :condition, :document_code, :action, :duty_expression
+  attr_accessor :condition_code, :condition, :document_code, :action, :duty_expression, :certificate_description
   attr_writer :requirement
 
   def requirement
