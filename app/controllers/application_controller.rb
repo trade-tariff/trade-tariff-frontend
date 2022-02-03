@@ -144,9 +144,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_path_info
-    @path_info = {
-      geographical_areas_path: geographical_areas_path(format: :json),
-      search_suggestions_path: search_suggestions_path(format: :json),
-    }
+    @path_info = { search_suggestions_path: search_suggestions_path(format: :json) }
   end
 end
