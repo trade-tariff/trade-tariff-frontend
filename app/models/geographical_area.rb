@@ -14,31 +14,6 @@ class GeographicalArea
   ERGA_OMNES = '1011'.freeze # Entire world
 
   class << self
-    def by_long_description(term)
-      lookup_regexp = /#{term}/i
-
-      areas = all.select do |geographical_area|
-        geographical_area.long_description =~ lookup_regexp
-      end
-
-      areas = areas.sort_by do |geographical_area|
-        match_id = geographical_area.id =~ lookup_regexp
-        match_desc = geographical_area.description =~ lookup_regexp
-        key = ''
-        key << (match_id ? '0' : '1')
-        key << (match_desc || '')
-        key << geographical_area.id
-        key
-      end
-
-      areas.map do |geographical_area|
-        {
-          id: geographical_area.id,
-          text: geographical_area.long_description,
-        }
-      end
-    end
-
     def european_union
       @european_union ||= find(EUROPEAN_UNION_ID)
     end

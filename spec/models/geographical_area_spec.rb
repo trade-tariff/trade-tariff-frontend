@@ -22,20 +22,6 @@ RSpec.describe GeographicalArea do
     end
   end
 
-  describe '.by_long_description', vcr: { cassette_name: 'geographical_areas#countries' } do
-    subject(:by_long_desc) { described_class.by_long_description('Ind') }
-
-    it 'returns the correct presented geographical areas' do
-      expected_geographical_areas = [
-        { id: 'ID', text: 'Indonesia (ID)' },
-        { id: 'IN', text: 'India (IN)' },
-        { id: 'IO', text: 'British Indian Ocean Territory (IO)' },
-      ]
-
-      expect(by_long_desc).to eq(expected_geographical_areas)
-    end
-  end
-
   describe '#erga_omnes?' do
     context 'when the geographical area is the world' do
       subject(:geographical_area) { build(:geographical_area, :erga_omnes) }
