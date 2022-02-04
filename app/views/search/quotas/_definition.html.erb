@@ -3,7 +3,7 @@
     <%= render partial: 'shared/quota_definition', locals: { order_number: definition.order_number, quota_definition: definition } %>
   </td>
   <td class="govuk-table__cell">
-    <% definition.measures&.map(&:goods_nomenclature_item_id)&.uniq&.each do |goods_nomenclature_item_id| %>
+    <% definition.measures&.map(&:goods_nomenclature_item_id).uniq.sort.each do |goods_nomenclature_item_id| %>
       <%= link_to goods_nomenclature_item_id, commodity_path(goods_nomenclature_item_id) %>
       <br>
     <% end %>
