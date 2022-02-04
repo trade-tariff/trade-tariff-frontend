@@ -9,6 +9,10 @@ class PagesController < ApplicationController
     @meta_description = I18n.t('meta_description')
   end
 
+  def cn2021_cn2022
+    @chapters = Chapter.all
+  end
+
   def opensearch
     respond_to do |format|
       format.xml

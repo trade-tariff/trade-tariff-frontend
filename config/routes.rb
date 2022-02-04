@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'help', to: 'pages#help', as: 'help'
+  get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'
   get 'geographical_areas/:id', to: 'geographical_areas#show', as: :geographical_area
   get 'feedback', to: 'feedback#new'
   post 'feedback', to: 'feedback#create'
