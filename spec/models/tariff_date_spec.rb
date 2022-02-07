@@ -52,7 +52,7 @@ RSpec.describe TariffDate do
     end
 
     it 'uses the passed format when passing a format' do
-      expect(tariff_date.to_s(:short)).to eq(' 1 Jan 2021')
+      expect(tariff_date.to_s(:short)).to eq('1 Jan 2021')
     end
   end
 end
