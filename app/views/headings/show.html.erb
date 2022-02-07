@@ -12,7 +12,8 @@
 <% end %>
 
 <%= render 'shared/context_tables/heading' %>
-<%= render 'shared/callouts/heading', leaf_commodity_count: @commodities.leaf_commodities_count %>
+<%= render 'shared/callouts/heading', leaf_commodity_count: @commodities.leaf_commodities_count,
+                                      section_note: @heading.section.section_note, chapter_note: @heading.chapter.chapter_note %>
 <%= render 'shared/commodity_tree' %>
 <%= render 'shared/footnote', footnotes: @heading.footnotes %>
 

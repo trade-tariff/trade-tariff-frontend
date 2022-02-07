@@ -3,7 +3,10 @@
     There are <strong><%= pluralize leaf_commodity_count, 'commodity' %></strong> in this category.
     Choose the commodity code that best matches your goods to see more information. If your item is not listed by name, it may be shown under what it's used for, what it's made from or 'Other'.
   </p>
-  <p>
-    There are <%= link_to 'important notes for classifying your goods', "#notes" %> shown further down this page
-  </p>
+
+  <% if section_note.present? || chapter_note.present? %>
+    <p>
+      There are <%= link_to 'important notes for classifying your goods', "#notes" %> shown further down this page
+    </p>
+  <% end %>
 </div>
