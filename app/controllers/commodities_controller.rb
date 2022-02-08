@@ -12,6 +12,13 @@ class CommoditiesController < GoodsNomenclaturesController
     if params[:country].present? && @search.geographical_area
       @rules_of_origin_schemes = commodity.rules_of_origin(params[:country])
     end
+  rescue Faraday::ResourceNotFound
+    @validity_dates = ValidityDate.all(Commodity, params[:id])
+    @commodity_code = params[:id]
+    @heading_code = params[:id].first(4)
+    @chapter_code = params[:id].first(2)
+
+    render :show_404, status: :not_found
   end
 
   private
