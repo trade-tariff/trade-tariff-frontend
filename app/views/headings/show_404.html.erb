@@ -1,0 +1,48 @@
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs "Heading #{@heading_code}",
+                           [[t('breadcrumb.home'), home_path]] %>
+<% end %>
+
+<%= page_header "Heading #{@heading_code}" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @validity_dates.any? %>
+      <p>
+        The heading you entered could not be found for the date selected. The
+        code is present for the dates shown below.
+      </p>
+
+      <p>
+        Click on a date to see the measures present on that date.
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <% @validity_dates.each do |validity_date| %>
+          <li>
+            From <%= link_to validity_date.validity_start_date.to_formatted_s(:long),
+                             heading_on_date_path(@heading_code, validity_date.validity_start_date) -%>
+            <% if validity_date.validity_end_date.present? -%>
+              to <%= link_to validity_date.validity_end_date.to_formatted_s(:long),
+                             heading_on_date_path(@heading_code, validity_date.validity_end_date) -%>
+            <% end -%>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>
+        The heading you searched for can't be found. Try searching again.
+      <p>
+    <% end %>
+
+    <p>
+      Alternatively, you can visit
+      <% if @search.today? %>
+        <%= link_to "chapter #{@chapter_code}", chapter_on_date_path(@chapter_code, nil) %>.
+      <% else %>
+        <%= link_to "chapter #{@chapter_code}", chapter_on_date_path(@chapter_code, nil) %>
+        for <%= Time.zone.today.to_formatted_s :long %>.
+      <% end %>
+    </p>
+  </div>
+</div>
