@@ -10,44 +10,45 @@ module TradeTariffFrontend
   # API Endpoints of the Tariff Backend API app that can be reached via Frontend
   def accessible_api_endpoints
     %w[
-      sections
       chapters
-      headings
-      subheadings
       commodities
-      updates
+      geographical_areas
+      goods_nomenclatures
+      headings
       monetary_exchange_rates
       quotas
-      goods_nomenclatures
       search_references
-      geographical_areas
+      sections
+      subheadings
+      updates
     ]
   end
 
   # API Endpoints of the Tariff Backend API app that can be reached via external client
   def public_api_endpoints
     %w[
-      sections
-      chapters
-      headings
-      subheadings
-      commodities
-      monetary_exchange_rates
-      quotas
-      goods_nomenclatures
-      search_references
-      search
+      additional_code_types
       additional_codes
+      certificate_types
       certificates
+      changes
+      chapters
+      chemicals
+      commodities
+      footnote_types
       footnotes
       geographical_areas
-      chemicals
-      additional_code_types
-      certificate_types
-      footnote_types
-      changes
-      rules_of_origin_schemes
+      goods_nomenclatures
+      headings
       healthcheck
+      monetary_exchange_rates
+      measure_types
+      quotas
+      rules_of_origin_schemes
+      search
+      search_references
+      sections
+      subheading
     ]
   end
 
