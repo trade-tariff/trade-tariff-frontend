@@ -533,7 +533,7 @@ FactoryBot.define do
     end
   end
 
-  factory :validity_date do
+  factory :validity_period do
     transient do
       goods_nomenclature { nil }
     end

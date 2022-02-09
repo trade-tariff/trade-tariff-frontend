@@ -13,7 +13,7 @@ class CommoditiesController < GoodsNomenclaturesController
       @rules_of_origin_schemes = commodity.rules_of_origin(params[:country])
     end
   rescue Faraday::ResourceNotFound
-    @validity_dates = ValidityDate.all(Commodity, params[:id])
+    @validity_periods = ValidityPeriod.all(Commodity, params[:id])
     @commodity_code = params[:id]
     @heading_code = params[:id].first(4)
     @chapter_code = params[:id].first(2)

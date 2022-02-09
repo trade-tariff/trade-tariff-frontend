@@ -8,12 +8,12 @@ RSpec.describe 'headings/show_404.html.erb', type: :view do
   before do
     assign :heading_code, '0123'
     assign :chapter_code, '01'
-    assign :validity_dates, dates
+    assign :validity_periods, periods
     assign :search, search
   end
 
   let(:render_page) { render template: 'headings/show_404' }
-  let(:dates) { (1..2).map { |i| build :validity_date, months_ago: i } }
+  let(:periods) { (1..2).map { |i| build :validity_period, months_ago: i } }
   let(:search) { Search.new }
 
   describe 'page content' do
@@ -28,20 +28,20 @@ RSpec.describe 'headings/show_404.html.erb', type: :view do
 
     it 'links to the current commodities start date' do
       expect(rendered_page).to \
-        have_link dates[0].validity_start_date.to_formatted_s(:long),
-                  href: heading_on_date_path('0123', dates[0].validity_start_date)
+        have_link periods[0].validity_start_date.to_formatted_s(:long),
+                  href: heading_on_date_path('0123', periods[0].validity_start_date)
     end
 
     it 'links to the historical commodities start date' do
       expect(rendered_page).to \
-        have_link dates[1].validity_start_date.to_formatted_s(:long),
-                  href: heading_on_date_path('0123', dates[1].validity_start_date)
+        have_link periods[1].validity_start_date.to_formatted_s(:long),
+                  href: heading_on_date_path('0123', periods[1].validity_start_date)
     end
 
     it 'links to the historical commodities end date' do
       expect(rendered_page).to \
-        have_link dates[1].validity_end_date.to_formatted_s(:long),
-                  href: heading_on_date_path('0123', dates[1].validity_end_date)
+        have_link periods[1].validity_end_date.to_formatted_s(:long),
+                  href: heading_on_date_path('0123', periods[1].validity_end_date)
     end
 
     it { is_expected.to have_link 'chapter 01', href: chapter_path('01') }
@@ -60,8 +60,8 @@ RSpec.describe 'headings/show_404.html.erb', type: :view do
     it { is_expected.to have_css 'p', text: /for \d+ [a-z]+ \d{4}\./i }
   end
 
-  context 'without dates heading is valid for' do
-    let(:dates) { [] }
+  context 'without periods heading is valid for' do
+    let(:periods) { [] }
 
     it { is_expected.not_to have_css 'ul.govuk-list' }
     it { is_expected.not_to have_css 'p', text: /for the dates shown/ }

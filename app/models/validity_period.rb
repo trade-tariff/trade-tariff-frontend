@@ -1,6 +1,6 @@
 require 'api_entity'
 
-class ValidityDate
+class ValidityPeriod
   include ApiEntity
 
   attr_accessor :goods_nomenclature_item_id
@@ -14,7 +14,7 @@ class ValidityDate
   private
 
     def collection_path(parent_class, parent_id)
-      "#{parent_class.collection_path}/#{parent_id}/validity_dates"
+      "#{parent_class.collection_path}/#{parent_id}/validity_periods"
     end
   end
 

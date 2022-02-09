@@ -16,7 +16,7 @@ class HeadingsController < GoodsNomenclaturesController
       @rules_of_origin_schemes = heading.rules_of_origin(params[:country])
     end
   rescue Faraday::ResourceNotFound
-    @validity_dates = ValidityDate.all(Heading, params[:id])
+    @validity_periods = ValidityPeriod.all(Heading, params[:id])
     @heading_code = params[:id]
     @chapter_code = params[:id].first(2)
 

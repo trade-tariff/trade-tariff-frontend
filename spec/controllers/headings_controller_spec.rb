@@ -42,28 +42,28 @@ RSpec.describe HeadingsController, type: :controller do
     context 'with non-existent heading id provided', vcr: { cassette_name: 'headings#show_0110' } do
       let(:heading_id) { '0110' } # heading 0110 does not exist
 
-      let(:validity_dates) do
-        attributes_for_list :validity_date, 2,
+      let(:validity_periods) do
+        attributes_for_list :validity_period, 2,
                             goods_nomenclature_item_id: heading_id
       end
 
       before do
-        stub_api_request("/headings/#{heading_id}/validity_dates")
-          .to_return dates_api
+        stub_api_request("/headings/#{heading_id}/validity_periods")
+          .to_return periods_api
 
         get :show, params: { id: heading_id }
       end
 
-      context 'when no validity_dates api available' do
-        let(:dates_api) { jsonapi_error_response(404) }
+      context 'when no validity_periods api available' do
+        let(:periods_api) { jsonapi_error_response(404) }
 
         it 'redirects to sections index page as fallback' do
           expect(response.status).to redirect_to sections_url
         end
       end
 
-      context 'when validity_dates api is available' do
-        let(:dates_api) { jsonapi_response(:validity_dates, validity_dates) }
+      context 'when validity_periods api is available' do
+        let(:periods_api) { jsonapi_response(:validity_periods, validity_periods) }
 
         it 'responds with a 404' do
           expect(response).to have_http_status :not_found

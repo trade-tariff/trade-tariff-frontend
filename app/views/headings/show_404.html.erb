@@ -7,7 +7,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <% if @validity_dates.any? %>
+    <% if @validity_periods.any? %>
       <p>
         The heading you entered could not be found for the date selected. The
         code is present for the dates shown below.
@@ -18,13 +18,13 @@
       </p>
 
       <ul class="govuk-list govuk-list--bullet">
-        <% @validity_dates.each do |validity_date| %>
+        <% @validity_periods.each do |validity_period| %>
           <li>
-            From <%= link_to validity_date.validity_start_date.to_formatted_s(:long),
-                             heading_on_date_path(@heading_code, validity_date.validity_start_date) -%>
-            <% if validity_date.validity_end_date.present? -%>
-              to <%= link_to validity_date.validity_end_date.to_formatted_s(:long),
-                             heading_on_date_path(@heading_code, validity_date.validity_end_date) -%>
+            From <%= link_to validity_period.validity_start_date.to_formatted_s(:long),
+                             heading_on_date_path(@heading_code, validity_period.validity_start_date) -%>
+            <% if validity_period.validity_end_date.present? -%>
+              to <%= link_to validity_period.validity_end_date.to_formatted_s(:long),
+                             heading_on_date_path(@heading_code, validity_period.validity_end_date) -%>
             <% end -%>
           </li>
         <% end %>
