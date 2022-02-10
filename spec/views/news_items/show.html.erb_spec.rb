@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'news_items/show.html.erb', type: :view do
+RSpec.describe 'news_items/show', type: :view do
   subject { render }
 
   before { assign :news_item, news_item }

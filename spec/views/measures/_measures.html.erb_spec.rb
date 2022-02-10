@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'measures/_measures.html.erb', type: :view, vcr: {
+RSpec.describe 'measures/_measures', type: :view, vcr: {
   cassette_name: 'geographical_areas#countries',
 } do
   subject { render_page && rendered }

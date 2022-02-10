@@ -7,7 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 7'
 
 gem 'addressable'
 gem 'faraday', '= 1.3.0' # TODO: Debug issue with newer versions of Faraday client under high loads
@@ -25,7 +25,7 @@ gem 'responders'
 gem 'webpacker'
 
 # gov UK
-gem 'govspeak'
+gem 'govspeak', github: 'willfish/govspeak', branch: 'HOTT-1295-bump-govspeak-rails-compatibility'
 gem 'nokogiri', '~> 1.13.1' # https://github.com/sparklemotion/nokogiri/issues/2205
 gem 'plek'
 

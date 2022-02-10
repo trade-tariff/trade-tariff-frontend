@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/_scheme.html.erb', type: :view do
+RSpec.describe 'rules_of_origin/_scheme', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   let(:country_name) { 'Kenya' }

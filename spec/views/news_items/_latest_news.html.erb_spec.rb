@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'news_items/latest_news.html.erb', type: :view do
+RSpec.describe 'news_items/latest_news', type: :view do
   subject { render 'news_items/latest_news', news_item: news_item }
 
   let(:news_item) { build :news_item, content: "[[SERVICE_NAME]]\n\nFirst para" }

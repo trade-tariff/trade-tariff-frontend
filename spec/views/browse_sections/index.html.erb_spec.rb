@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'browse_sections/index.html.erb', type: :view do
+RSpec.describe 'browse_sections/index', type: :view do
   subject { render }
 
   before { assign :sections, sections }

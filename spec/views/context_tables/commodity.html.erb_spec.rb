@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'shared/context_tables/_commodity.html.erb', type: :view, vcr: { cassette_name: 'geographical_areas#it' } do
+RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_name: 'geographical_areas#it' } do
   subject { render }
 
   before do
