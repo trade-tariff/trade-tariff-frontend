@@ -248,7 +248,7 @@ commands:
       - run:
           name: Find open PRs
           command: |
-            DAYS=1
+            DAYS=7
             REPO_API_URL=$(echo "${CIRCLE_REPOSITORY_URL}/" | sed 's|.git/$||' | sed 's|git@github.com:|https://api.github.com/repos/|')
 
             curl --fail --show-error "${REPO_API_URL}/pulls?state=open" | \
