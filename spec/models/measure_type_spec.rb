@@ -38,4 +38,23 @@ RSpec.describe MeasureType do
       it { is_expected.not_to be_a_supplementary_unit_import_only }
     end
   end
+
+  describe '#description' do
+    subject(:description) { measure.measure_type.description }
+
+    shared_examples_for 'a Channel Island measure type description' do |measure_type_id, geographical_area_id|
+      let(:measure) { build(:measure, measure_type_id: measure_type_id, geographical_area_id: geographical_area_id) }
+
+      it { is_expected.to eq('Channel Islands duty') }
+    end
+
+    it_behaves_like 'a Channel Island measure type description', '103', '1400'
+    it_behaves_like 'a Channel Island measure type description', '105', '1400'
+
+    context 'when there are no matching locales' do
+      let(:measure) { build(:measure, measure_type_description: 'Bar') }
+
+      it { is_expected.to eq('Bar') }
+    end
+  end
 end
