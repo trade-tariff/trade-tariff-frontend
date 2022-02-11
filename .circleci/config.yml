@@ -246,20 +246,28 @@ commands:
       - cf_install:
           space: development
       - run:
-          name: Find PRs
+          name: Find open PRs
           command: |
-            DAYS=3
+            DAYS=7
             REPO_API_URL=$(echo "${CIRCLE_REPOSITORY_URL}/" | sed 's|.git/$||' | sed 's|git@github.com:|https://api.github.com/repos/|')
-            curl --fail --show-error "${REPO_API_URL}/pulls?state=open" |  jq ".[] | select((.updated_at | fromdate) > (now - $DAYS*24*60*60)) | .number" > open_prs.txt
+
+            curl --fail --show-error "${REPO_API_URL}/pulls?state=open" | \
+              jq ".[] | select((.updated_at | fromdate) > (now - $DAYS*24*60*60)) | .number" > open_prs.txt
+
             cat open_prs.txt | sed "s/^/${CF_APP}-pr/" | sort > expected_apps.txt
             cat expected_apps.txt
       - run:
-          name: Find old review apps
+          name: Find current review apps
           command: |
-            cf apps | cut -d ' ' -f 1  | grep "${CF_APP}-pr" | sort > current_apps.txt
-            (comm -1 --output-delimiter="|" <(cat expected_apps.txt) <(cat current_apps.txt) | egrep -v '^\|' || true) > orphaned_apps.txt
+            (cf apps | cut -d ' ' -f 1  | grep "${CF_APP}-pr" | sort || true) > current_apps.txt
+            cat current_apps.txt
       - run:
-          name: Remove orphaned apps
+          name: Find orphaned review apps
+          command: |
+            (comm -1 --output-delimiter="|" <(cat expected_apps.txt) <(cat current_apps.txt) | egrep -v '^\|' || true) > orphaned_apps.txt
+            cat orphaned_apps.txt
+      - run:
+          name: Remove orphaned review apps
           command: |
             for ORPHANED_APP in $(cat orphaned_apps.txt)
               do echo "Removing ${ORPHANED_APP}"
