@@ -259,7 +259,7 @@ commands:
       - run:
           name: Find current review apps
           command: |
-            cf apps | cut -d ' ' -f 1  | grep "${CF_APP}-pr" | sort > current_apps.txt
+            (cf apps | cut -d ' ' -f 1  | grep "${CF_APP}-pr" | sort || true) > current_apps.txt
             cat current_apps.txt
       - run:
           name: Find orphaned review apps
