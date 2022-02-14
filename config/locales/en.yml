@@ -84,6 +84,10 @@ en:
     date: Enter date of trade
     trading_partner: Select a country
 
+  measure_type_descriptions:
+    1400:
+      103: 'Channel Islands duty'
+      105: 'Channel Islands duty'
   service_banner:
     service_name:
       uk: "UK Integrated Online Tariff"
