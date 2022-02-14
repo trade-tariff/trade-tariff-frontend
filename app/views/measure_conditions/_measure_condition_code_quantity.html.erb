@@ -21,7 +21,7 @@
       <% else %>
         <td class="govuk-table__cell numerical"><%= condition.document_code %></td>
         <td class="govuk-table__cell">
-          <%= condition.certificate_description.presence || condition.requirement.to_s.html_safe %>
+          <%= (condition.certificate_description.presence || condition.requirement).to_s.html_safe %>
         </td>
       <% end %>
       <td class="govuk-table__cell numerical">
