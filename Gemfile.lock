@@ -18,8 +18,8 @@ GIT
 
 GIT
   remote: https://github.com/willfish/govspeak.git
-  revision: a95b6ac2ae091db07eb9aada20da9d45820ff942
-  branch: HOTT-1295-bump-govspeak-rails-compatibility
+  revision: 0a7ad9f54dcd5a2679eccaeaf905b687add8cf98
+  branch: rails7-compatibility
   specs:
     govspeak (6.7.8)
       actionview (>= 5.0, < 8)

@@ -24,7 +24,7 @@ APP_SLUG = 'trade-tariff'.freeze
 module TradeTariffFrontend
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
     config.time_zone = 'UTC'
 
     require 'trade_tariff_frontend'
