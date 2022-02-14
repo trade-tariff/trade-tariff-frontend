@@ -31,4 +31,6 @@ class TariffDate < SimpleDelegator
   def to_s(format = :date)
     to_formatted_s(format)
   end
+
+  alias_method :to_fs, :to_s
 end

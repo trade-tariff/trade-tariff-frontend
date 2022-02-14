@@ -177,8 +177,8 @@ RSpec.describe NewsItem do
 
   describe 'typecasting dates' do
     subject do
-      described_class.new start_date: yesterday.to_s(:db),
-                          end_date: tomorrow.to_s(:db)
+      described_class.new start_date: yesterday.to_fs(:db),
+                          end_date: tomorrow.to_fs(:db)
     end
 
     let(:yesterday) { Time.zone.yesterday }
