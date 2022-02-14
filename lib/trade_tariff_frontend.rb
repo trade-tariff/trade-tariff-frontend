@@ -48,6 +48,8 @@ module TradeTariffFrontend
       changes
       rules_of_origin_schemes
       measure_types
+      measure_condition_codes
+      measure_actions
       healthcheck
     ]
   end
