@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'commodities/_commodity.html.erb', type: :view do
+RSpec.describe 'commodities/_commodity', type: :view do
   subject(:rendered_page) do
     render 'commodities/commodity', commodity: commodity
     rendered

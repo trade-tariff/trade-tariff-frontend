@@ -1,4 +1,4 @@
-RSpec.describe 'import_export_dates/show.html.erb', type: :view do
+RSpec.describe 'import_export_dates/show', type: :view do
   subject { render }
 
   before { assign :import_export_date, import_export_date }

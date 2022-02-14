@@ -43,13 +43,13 @@ RSpec.describe Subheading do
 
   describe '#to_s' do
     context 'when a formatted description is supplied' do
-      subject(:to_s) { build(:subheading, formatted_description: '<strong>Horses</strong>').to_s }
+      subject(:description) { build(:subheading, formatted_description: '<strong>Horses</strong>').to_s }
 
       it { is_expected.to eq('<strong>Horses</strong>') }
     end
 
     context 'when a formatted description is not supplied' do
-      subject(:to_s) { build(:subheading, formatted_description: nil).to_s }
+      subject(:description) { build(:subheading, formatted_description: nil).to_s }
 
       it { is_expected.to eq('Horses') }
     end

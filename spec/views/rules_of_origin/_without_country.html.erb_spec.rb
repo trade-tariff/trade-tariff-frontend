@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/_without_country.html.erb', type: :view do
+RSpec.describe 'rules_of_origin/_without_country', type: :view do
   subject(:rendered_page) { render && rendered }
 
   context 'with UK service' do

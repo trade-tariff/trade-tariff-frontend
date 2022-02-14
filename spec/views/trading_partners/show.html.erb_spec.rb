@@ -1,4 +1,4 @@
-RSpec.describe 'trading_partners/show.html.erb', type: :view, vcr: { cassette_name: 'geographical_areas#countries' } do
+RSpec.describe 'trading_partners/show', type: :view, vcr: { cassette_name: 'geographical_areas#countries' } do
   subject { render }
 
   before { assign :trading_partner, trading_partner }

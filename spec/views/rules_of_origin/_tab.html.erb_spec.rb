@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/_tab.html.erb', type: :view do
+RSpec.describe 'rules_of_origin/_tab', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   let :render_page do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'shared/_top_breadcrumbs.html.erb', type: :view do
+RSpec.describe 'shared/_top_breadcrumbs', type: :view do
   subject { render }
 
   let(:section) { build :section }

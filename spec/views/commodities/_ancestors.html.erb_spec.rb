@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'commodities/_ancestors.html.erb', type: :view do
+RSpec.describe 'commodities/_ancestors', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   let(:render_page) { render 'commodities/ancestors', declarable: declarable }
