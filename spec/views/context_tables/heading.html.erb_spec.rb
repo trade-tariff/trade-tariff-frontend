@@ -9,7 +9,7 @@ RSpec.describe 'shared/context_tables/_heading', type: :view, vcr: { cassette_na
   end
 
   let(:heading) { build(:heading, declarable: declarable) }
-  let(:search) { Search.new(as_of: Time.zone.today.iso8601, country: 'IT') }
+  let(:search) { build(:search, :with_search_date, :with_country) }
 
   let(:declarable) { true }
 

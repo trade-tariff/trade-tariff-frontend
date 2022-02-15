@@ -1,14 +1,15 @@
-require 'spec_helper'
-
 RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographical_areas#it' } do
   describe '#declarable_stw_link' do
     subject(:declarable_stw_link) { helper.declarable_stw_link(declarable, search) }
 
     let(:declarable) { build(:commodity) }
-    let(:search) { Search.new(country: 'IT', day: '01', month: '01', year: '2021') }
+
+    let(:search) { build(:search, :with_search_date, :with_country, search_date: search_date) }
+
+    let(:search_date) { Date.parse('2021-01-01') }
 
     context 'when no date is passed' do
-      let(:search) { Search.new(country: 'IT') }
+      let(:search) { build(:search, :with_country) }
 
       it { is_expected.to include("importDateDay=#{Time.zone.today.day}") }
       it { is_expected.to include("importDateMonth=#{Time.zone.today.month}") }
@@ -72,13 +73,13 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
     subject(:supplementary_geographical_area_id) { helper.supplementary_geographical_area_id(search) }
 
     context 'when the country is present on the search' do
-      let(:search) { Search.new(country: 'IT') }
+      let(:search) { build(:search, :with_country) }
 
       it { is_expected.to eq('IT') }
     end
 
     context 'when the country is not present on the search' do
-      let(:search) { Search.new(country: nil) }
+      let(:search) { build(:search) }
 
       it { is_expected.to eq('1011') }
     end

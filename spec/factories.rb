@@ -512,4 +512,28 @@ FactoryBot.define do
       show_on_home_page { true }
     end
   end
+
+  factory :search do
+    transient do
+      search_date {}
+    end
+
+    q { 'foo' }
+
+    trait :with_search_date do
+      search_date { Time.zone.today }
+
+      day { search_date.day.to_s.rjust(2, '0') }
+      month { search_date.month.to_s.rjust(2, '0') }
+      year { search_date.year.to_s.rjust(2, '0') }
+    end
+
+    trait :with_country do
+      country { 'IT' }
+    end
+
+    initialize_with do
+      new(attributes.stringify_keys)
+    end
+  end
 end

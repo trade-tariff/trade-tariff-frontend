@@ -22,7 +22,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
            rules_of_origin_schemes: []
   end
 
-  let(:search) { Search.new(q: '0101300000') }
+  let(:search) { build(:search, q: '0101300000') }
   let(:all_countries) { GeographicalArea.all }
   let(:presented_commodity) { CommodityPresenter.new(commodity) }
 
@@ -76,7 +76,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     end
 
     context 'with country selected' do
-      let(:search) { Search.new(q: '0101300000', 'country' => 'FR') }
+      let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
       it_behaves_like 'measures with rules of origin tab'
       it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
@@ -98,7 +98,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     end
 
     context 'with country selected' do
-      let(:search) { Search.new(q: '0101300000', 'country' => 'FR') }
+      let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
       it_behaves_like 'measures with rules of origin tab'
       it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
