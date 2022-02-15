@@ -14,6 +14,12 @@
           <fieldset class="govuk-fieldset search-submit">
             <input class="govuk-button" type="submit" name="new_search" value="Search">
           </fieldset>
+
+          <% if @search.day_month_and_year_set? %>
+            <%= hidden_field_tag :year, @search.year %>
+            <%= hidden_field_tag :month, @search.month %>
+            <%= hidden_field_tag :day, @search.day %>
+          <% end %>
         </div>
       </div>
     </div>
