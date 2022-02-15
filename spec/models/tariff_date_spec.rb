@@ -2,24 +2,9 @@ require 'spec_helper'
 
 RSpec.describe TariffDate do
   describe '.build' do
-    subject(:tariff_date) { described_class.build(as_of, date_attributes) }
+    subject(:tariff_date) { described_class.build(date_attributes) }
 
-    let(:date_attributes) { {} }
-    let(:as_of) { nil }
-
-    context 'when passing a valid as_of' do
-      let(:as_of) { '2021-01-01' }
-
-      it { is_expected.to eq(Date.parse('2021-01-01')) }
-    end
-
-    context 'when passing an invalid as_of' do
-      let(:as_of) { '2021-01-32' }
-
-      it { is_expected.to eq(TariffUpdate.latest_applied_import_date) }
-    end
-
-    context 'when passing a nil as_of and valid date attributes' do
+    context 'when passing valid date attributes' do
       let(:date_attributes) do
         {
           'year' => '2021',
@@ -31,13 +16,29 @@ RSpec.describe TariffDate do
       it { is_expected.to eq(Date.parse('2021-01-02')) }
     end
 
-    context 'when passing a nil as_of and invalid date attributes' do
+    context 'when passing a invalid date attributes' do
       let(:date_attributes) do
         {
           'month' => '01',
           'day' => '01',
         }
       end
+
+      it { is_expected.to eq(Time.zone.today) }
+    end
+  end
+
+  describe '.build_legacy' do
+    subject(:tariff_date) { described_class.build_legacy(as_of) }
+
+    context 'when passing a valid as_of' do
+      let(:as_of) { '2021-01-01' }
+
+      it { is_expected.to eq(Date.parse('2021-01-01')) }
+    end
+
+    context 'when passing an invalid as_of' do
+      let(:as_of) { '2021-01-32' }
 
       it { is_expected.to eq(Time.zone.today) }
     end

@@ -4,31 +4,28 @@ class TariffDate < SimpleDelegator
   DATE_KEYS = %w[year month day].freeze
 
   class << self
-    def build(as_of, attributes)
-      date = if as_of.present?
-               handle_as_of(as_of)
+    def build(date_attributes)
+      date = if valid_date_param?(date_attributes)
+               Date.parse(date_attributes.slice(*DATE_KEYS).values.join('-'))
              else
-               handle_date_params(attributes)
+               Time.zone.today
              end
 
       new(date)
     end
 
-    private
-
-    def handle_as_of(as_of)
-      Date.parse(as_of.to_s)
-    rescue ArgumentError
-      TariffUpdate.latest_applied_import_date
-    end
-
-    def handle_date_params(attributes)
-      if valid_date_param?(attributes)
-        Date.parse(attributes.slice(*DATE_KEYS).values.join('-'))
-      else
+    # TODO: We should remove support for as_of as a query param when making html calls
+    def build_legacy(as_of)
+      date = begin
+        Date.parse(as_of.to_s)
+      rescue ArgumentError
         Time.zone.today
       end
+
+      new(date)
     end
+
+    private
 
     def valid_date_param?(date_param)
       date_param.present? && date_param.is_a?(Hash) &&
