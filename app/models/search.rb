@@ -20,7 +20,7 @@ class Search
   def perform
     retries = 0
     begin
-      response = self.class.post('/search', q: q, as_of: date.to_s(:db))
+      response = self.class.post('/search', q: q, as_of: date.to_fs(:db))
 
       raise ApiEntity::Error if response.status == 500
 

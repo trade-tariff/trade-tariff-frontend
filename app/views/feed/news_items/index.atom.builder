@@ -8,8 +8,8 @@ atom_feed do |feed|
     ) do |entry|
       entry.title        news_item.title
       entry.content      news_item.content
-      entry.start_date   news_item.start_date.try(:to_s, :rfc822) || ''
-      entry.end_date     news_item.end_date.try(:to_s, :rfc822) || ''
+      entry.start_date   news_item.start_date.try(:to_fs, :rfc822) || ''
+      entry.end_date     news_item.end_date.try(:to_fs, :rfc822) || ''
       entry.uk           news_item.show_on_uk
       entry.xi           news_item.show_on_xi
       entry.home_page    home_url
