@@ -122,24 +122,6 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
           it { is_expected.to redirect_to("#{chapter_path('01')}?") }
         end
 
-        context 'when valid past date time param(as_of) provided' do
-          let(:year)    { now.year - 1 }
-          let(:month)   { now.month }
-          let(:day)     { now.day }
-
-          before do
-            @request.env['HTTP_REFERER'] = '/chapters/01'
-
-            post :search, params: {
-              as_of: "#{year}-#{month}-#{day}",
-            }
-          end
-
-          it { is_expected.to respond_with(:redirect) }
-          it { expect(assigns(:search)).to be_a(Search) }
-          it { is_expected.to redirect_to(chapter_path('01', year: year, month: month, day: day)) }
-        end
-
         context 'when invalid date param provided' do
           context 'when date param is a string' do
             before do

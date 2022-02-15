@@ -1,8 +1,29 @@
 require 'spec_helper'
 
 RSpec.describe Search do
+  describe '#date' do
+    subject(:search) do
+      described_class.new(
+        'q' => 'foo',
+        'day' => '01',
+        'month' => '02',
+        'year' => '2021',
+      )
+    end
+
+    it 'calls the TariffDate builder' do
+      allow(TariffDate).to receive(:build).and_call_original
+
+      search.date
+
+      expect(TariffDate).to have_received(:build)
+    end
+
+    it { expect(search.date).to eq(Date.parse('2021-02-01')) }
+  end
+
   it 'strips [ and ] characters from search term' do
-    search = Search.new(q: '[hello] [world]')
+    search = described_class.new(q: '[hello] [world]')
     expect(search.q).to eq 'hello world'
   end
 
@@ -12,11 +33,11 @@ RSpec.describe Search do
 
     before do
       allow(api_mock).to receive(:post).and_return(response_stub)
-      allow(Search).to receive(:api).and_return(api_mock)
+      allow(described_class).to receive(:api).and_return(api_mock)
     end
 
     it 'search' do
-      expect { Search.new(q: 'abc').perform }.to raise_error ApiEntity::Error
+      expect { described_class.new(q: 'abc').perform }.to raise_error ApiEntity::Error
     end
   end
 end
