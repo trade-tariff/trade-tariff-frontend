@@ -2,45 +2,24 @@ require 'spec_helper'
 
 RSpec.describe Search do
   describe '#date' do
-    context 'when the date attributes are supplied' do
-      subject(:search) do
-        described_class.new(
-          'q' => 'foo',
-          'day' => '01',
-          'month' => '02',
-          'year' => '2021',
-        )
-      end
-
-      it 'calls the legacy TariffDate builder' do
-        allow(TariffDate).to receive(:build).and_call_original
-
-        search.date
-
-        expect(TariffDate).to have_received(:build)
-      end
-
-      it { expect(search.date).to eq(Date.parse('2021-02-01')) }
+    subject(:search) do
+      described_class.new(
+        'q' => 'foo',
+        'day' => '01',
+        'month' => '02',
+        'year' => '2021',
+      )
     end
 
-    context 'when the legacy as_of parameter is supplied' do
-      subject(:search) do
-        described_class.new(
-          'q' => 'foo',
-          'as_of' => '2021-01-01',
-        )
-      end
+    it 'calls the TariffDate builder' do
+      allow(TariffDate).to receive(:build).and_call_original
 
-      it 'calls the legacy TariffDate builder' do
-        allow(TariffDate).to receive(:build_legacy).and_call_original
+      search.date
 
-        search.date
-
-        expect(TariffDate).to have_received(:build_legacy)
-      end
-
-      it { expect(search.date).to eq(Date.parse('2021-01-01')) }
+      expect(TariffDate).to have_received(:build)
     end
+
+    it { expect(search.date).to eq(Date.parse('2021-02-01')) }
   end
 
   it 'strips [ and ] characters from search term' do

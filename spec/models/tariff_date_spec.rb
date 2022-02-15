@@ -28,22 +28,6 @@ RSpec.describe TariffDate do
     end
   end
 
-  describe '.build_legacy' do
-    subject(:tariff_date) { described_class.build_legacy(as_of) }
-
-    context 'when passing a valid as_of' do
-      let(:as_of) { '2021-01-01' }
-
-      it { is_expected.to eq(Date.parse('2021-01-01')) }
-    end
-
-    context 'when passing an invalid as_of' do
-      let(:as_of) { '2021-01-32' }
-
-      it { is_expected.to eq(Time.zone.today) }
-    end
-  end
-
   describe '#to_param' do
     subject(:to_param) { described_class.new(Date.parse('2021-01-01')).to_param }
 

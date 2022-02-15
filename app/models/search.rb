@@ -51,8 +51,7 @@ class Search
   end
 
   def date
-    # TODO: We should remove support for as_of as a query param when making html calls
-    @date ||= as_of.present? ? TariffDate.build_legacy(as_of) : TariffDate.build(attributes)
+    @date ||= TariffDate.build(attributes)
   end
 
   def filtered_by_date?

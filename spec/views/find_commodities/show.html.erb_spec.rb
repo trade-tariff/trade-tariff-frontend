@@ -5,9 +5,9 @@ RSpec.describe 'find_commodities/show', type: :view do
 
   before { assign :search, search }
 
-  let(:as_of) { Time.zone.today }
+  let(:now) { Time.zone.today }
   let(:q) { nil }
-  let(:search) { Search.new q: q, as_of: as_of }
+  let(:search) { Search.new q: q, 'day' => now.day, 'month' => now.month, 'year' => now.year }
 
   describe 'header' do
     it { is_expected.to have_css 'header h1', text: /commodity codes, import duties/ }
@@ -18,9 +18,9 @@ RSpec.describe 'find_commodities/show', type: :view do
     it { is_expected.to have_css 'form details .govuk-details__text' }
 
     shared_examples 'a populated date input' do
-      it { is_expected.to have_css %(.govuk-details__text input[name="day"][value="#{as_of.day}"]) }
-      it { is_expected.to have_css %(.govuk-details__text input[name="month"][value="#{as_of.month}"]) }
-      it { is_expected.to have_css %(.govuk-details__text input[name="year"][value="#{as_of.year}"]) }
+      it { is_expected.to have_css %(.govuk-details__text input[name="day"][value="#{now.day}"]) }
+      it { is_expected.to have_css %(.govuk-details__text input[name="month"][value="#{now.month}"]) }
+      it { is_expected.to have_css %(.govuk-details__text input[name="year"][value="#{now.year}"]) }
     end
 
     context 'with default date' do
@@ -28,7 +28,7 @@ RSpec.describe 'find_commodities/show', type: :view do
     end
 
     context 'with selected date' do
-      let(:as_of) { 3.days.ago }
+      let(:now) { 3.days.ago }
 
       it_behaves_like 'a populated date input'
     end
