@@ -423,20 +423,16 @@ FactoryBot.define do
   end
 
   factory :tariff_update do
-    update_type do
-      %w[TariffSynchronizer::ChiefUpdate TariffSynchronizer::TaricUpdate].sample
-    end
+    update_type { 'TariffSynchronizer::TaricUpdate' }
+
     state { 'A' }
-    created_at { Time.zone.now.to_s }
-    updated_at { Time.zone.now.to_s }
+    created_at { Time.zone.now.iso8601 }
+    updated_at { Time.zone.now.iso8601 }
+    applied_at { Time.zone.now.iso8601 }
     filename { 'filename.txt' }
 
-    trait :chief do
-      update_type { 'TariffSynchronizer::ChiefUpdate' }
-    end
-
-    trait :taric do
-      update_type { 'TariffSynchronizer::TaricUpdate' }
+    initialize_with do
+      new(attributes.stringify_keys)
     end
   end
 

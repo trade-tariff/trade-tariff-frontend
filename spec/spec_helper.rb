@@ -58,7 +58,7 @@ RSpec.configure do |config|
   config.include_context 'with switch service banner', type: :view
 
   config.before do
-    allow(TariffUpdate).to receive(:all).and_return([OpenStruct.new(updated_at: Time.zone.today)])
+    allow(TariffUpdate).to receive(:all).and_return([OpenStruct.new(applied_at: Time.zone.today)])
     allow(NewsItem).to receive(:any_updates?).and_return true
     Thread.current[:service_choice] = nil
   end
