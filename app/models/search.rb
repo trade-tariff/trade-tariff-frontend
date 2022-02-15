@@ -51,24 +51,11 @@ class Search
   end
 
   def date
-    @date ||= if as_of.present?
-                TariffDate.new(as_of)
-              else
-                TariffDate.parse(attributes.slice(*TariffDate::DATE_KEYS))
-              end
-  end
-
-  def currency_name
-    case currency
-    when 'GBP'
-      'Pound sterling'
-    else
-      'Euro'
-    end
+    @date ||= TariffDate.build(as_of, attributes)
   end
 
   def filtered_by_date?
-    date.date != TariffUpdate.latest_applied_import_date
+    date != TariffUpdate.latest_applied_import_date
   end
 
   def filtered_by_country?

@@ -28,7 +28,7 @@ class TariffUpdate
 
   class << self
     def latest_applied_import_date
-      func = Proc.new do
+      func = proc do
         last = all.first
         last.try(:applied_at) || Date.current
       end
