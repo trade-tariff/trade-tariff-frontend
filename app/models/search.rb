@@ -58,6 +58,10 @@ class Search
     date != TariffUpdate.latest_applied_import_date
   end
 
+  def day_month_and_year_set?
+    day.present? && month.present? && year.present?
+  end
+
   def filtered_by_country?
     country.present?
   end

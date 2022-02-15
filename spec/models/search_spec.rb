@@ -40,4 +40,24 @@ RSpec.describe Search do
       expect { described_class.new(q: 'abc').perform }.to raise_error ApiEntity::Error
     end
   end
+
+  describe '#day_month_and_year_set?' do
+    let(:search) { described_class.new }
+
+    context 'when date components are set' do
+      it 'returns true' do
+        search.day = 1
+        search.month = 12
+        search.year = 2021
+
+        expect(search.day_month_and_year_set?).to be true
+      end
+    end
+
+    context 'when date components are empty' do
+      it 'returns false' do
+        expect(search.day_month_and_year_set?).to be false
+      end
+    end
+  end
 end
