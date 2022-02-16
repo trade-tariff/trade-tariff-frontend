@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe TariffDate do
   describe '.build' do
     subject(:tariff_date) { described_class.build(date_attributes) }
@@ -14,6 +12,18 @@ RSpec.describe TariffDate do
       end
 
       it { is_expected.to eq(Date.parse('2021-01-02')) }
+    end
+
+    context 'when passing empty date attributes' do
+      let(:date_attributes) do
+        {
+          'year' => '',
+          'month' => '',
+          'day' => '',
+        }
+      end
+
+      it { is_expected.to eq(Time.zone.today) }
     end
 
     context 'when passing a invalid date attributes' do

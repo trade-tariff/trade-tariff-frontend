@@ -16,7 +16,7 @@ class TariffDate < SimpleDelegator
 
     def valid_date_attributes?(date_param)
       date_param.present? && date_param.is_a?(Hash) &&
-        DATE_KEYS.all? { |k| k.in?(date_param.keys) }
+        DATE_KEYS.all? { |k| date_param[k].present? }
     end
   end
 
