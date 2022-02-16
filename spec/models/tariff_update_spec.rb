@@ -1,29 +1,15 @@
 require 'spec_helper'
 
 RSpec.describe TariffUpdate do
-  describe '#update_type' do
-    context 'when Chief update' do
-      let(:tariff_update) { TariffUpdate.new(attributes_for(:tariff_update, :chief).stringify_keys) }
+  describe '#applied_at' do
+    subject(:applied_at) { build(:tariff_update).applied_at }
 
-      it 'returns Chief' do
-        expect(tariff_update.update_type).to eq 'CHIEF'
-      end
-    end
-
-    context 'when Taric update' do
-      let(:tariff_update) { TariffUpdate.new(attributes_for(:tariff_update, :taric).stringify_keys) }
-
-      it 'returns Taric' do
-        expect(tariff_update.update_type).to eq 'TARIC'
-      end
-    end
+    it { is_expected.to be_kind_of Date }
   end
 
-  describe '#updated_at' do
-    let(:tariff_update) { TariffUpdate.new(attributes_for(:tariff_update, :chief).stringify_keys) }
+  describe '.latest_applied_import_date' do
+    subject(:latest_applied_import_date) { described_class.latest_applied_import_date }
 
-    it 'returns instance of date' do
-      expect(tariff_update.updated_at).to be_kind_of Date
-    end
+    it { is_expected.to eq(Time.zone.today) }
   end
 end
