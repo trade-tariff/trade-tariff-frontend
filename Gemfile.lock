@@ -517,7 +517,7 @@ DEPENDENCIES
   yajl-ruby
 
 RUBY VERSION
-   ruby 3.1.0p0
+   ruby 3.0.3p157
 
 BUNDLED WITH
    2.2.32
