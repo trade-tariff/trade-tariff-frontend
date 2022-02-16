@@ -10,9 +10,9 @@ class GoodsNomenclaturesController < ApplicationController
   def find_relevant_goods_code_or_fallback
     @search = Search.new(
       q: goods_code_id,
-      'day' => @tariff_last_updated.try(:day),
-      'month' => @tariff_last_updated.try(:month),
-      'year' => @tariff_last_updated.try(:year),
+      day: @tariff_last_updated.try(:day),
+      month: @tariff_last_updated.try(:month),
+      year: @tariff_last_updated.try(:year),
     )
     results = @search.perform
 

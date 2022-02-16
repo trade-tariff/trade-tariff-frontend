@@ -56,6 +56,8 @@ module ApiEntity
   def initialize(attributes = {})
     class_name = self.class.name.downcase
 
+    attributes = HashWithIndifferentAccess.new(attributes)
+
     if attributes.present? && attributes.key?(class_name)
       @attributes = attributes[class_name]
 
