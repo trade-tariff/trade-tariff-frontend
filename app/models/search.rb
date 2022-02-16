@@ -7,8 +7,7 @@ class Search
   attr_accessor :country, # search country
                 :day,
                 :month,
-                :year,
-                :as_of    # legacy format for specifying date
+                :year
 
   delegate :today?, to: :date
 

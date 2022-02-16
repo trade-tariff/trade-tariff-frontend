@@ -9,7 +9,7 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
   end
 
   let(:commodity) { build(:commodity) }
-  let(:search) { Search.new(as_of: Time.zone.today.iso8601, country: 'IT') }
+  let(:search) { build(:search, :with_search_date, :with_country) }
 
   describe 'commodity row' do
     it { is_expected.to have_css 'dl div dt', text: 'Commodity' }

@@ -9,7 +9,7 @@ RSpec.describe 'shared/context_tables/_chapter', type: :view, vcr: { cassette_na
   end
 
   let(:chapter) { build(:chapter) }
-  let(:search) { Search.new(as_of: Time.zone.today.iso8601, country: 'IT') }
+  let(:search) { build(:search, :with_search_date, :with_country) }
 
   describe 'goods nomenclature row' do
     it { is_expected.to have_css 'dl div dt', text: 'Chapter' }

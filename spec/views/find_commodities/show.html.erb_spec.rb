@@ -5,9 +5,10 @@ RSpec.describe 'find_commodities/show', type: :view do
 
   before { assign :search, search }
 
-  let(:now) { Time.zone.today }
+  let(:search_date) { Time.zone.today }
   let(:q) { nil }
-  let(:search) { Search.new q: q, 'day' => now.day, 'month' => now.month, 'year' => now.year }
+
+  let(:search) { build(:search, :with_search_date, q: '0101300000', search_date: search_date) }
 
   describe 'header' do
     it { is_expected.to have_css 'header h1', text: /commodity codes, import duties/ }
@@ -18,9 +19,9 @@ RSpec.describe 'find_commodities/show', type: :view do
     it { is_expected.to have_css 'form details .govuk-details__text' }
 
     shared_examples 'a populated date input' do
-      it { is_expected.to have_css %(.govuk-details__text input[name="day"][value="#{now.day}"]) }
-      it { is_expected.to have_css %(.govuk-details__text input[name="month"][value="#{now.month}"]) }
-      it { is_expected.to have_css %(.govuk-details__text input[name="year"][value="#{now.year}"]) }
+      it { is_expected.to have_css %(.govuk-details__text input[name="day"][value="#{search_date.day}"]) }
+      it { is_expected.to have_css %(.govuk-details__text input[name="month"][value="#{search_date.month}"]) }
+      it { is_expected.to have_css %(.govuk-details__text input[name="year"][value="#{search_date.year}"]) }
     end
 
     context 'with default date' do
@@ -28,7 +29,7 @@ RSpec.describe 'find_commodities/show', type: :view do
     end
 
     context 'with selected date' do
-      let(:now) { 3.days.ago }
+      let(:search_date) { 3.days.ago }
 
       it_behaves_like 'a populated date input'
     end
