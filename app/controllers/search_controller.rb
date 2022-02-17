@@ -47,7 +47,15 @@ class SearchController < ApplicationController
   def quota_search
     render_404 if TradeTariffFrontend::ServiceChooser.xi?
 
-    form = QuotaSearchForm.new(params)
+    form = QuotaSearchForm.new(params.permit(:order_number,
+                                             :goods_nomenclature_item_id,
+                                             :geographical_area_id,
+                                             :day,
+                                             :month,
+                                             :year,
+                                             :critical,
+                                             :status,
+                                             :page))
     @result = QuotaSearchPresenter.new(form)
 
     respond_to do |format|
@@ -56,7 +64,10 @@ class SearchController < ApplicationController
   end
 
   def additional_code_search
-    form = AdditionalCodeSearchForm.new(params)
+    form = AdditionalCodeSearchForm.new(params.permit(:code,
+                                                      :type,
+                                                      :description,
+                                                      :page))
     @result = AdditionalCodeSearchPresenter.new(form)
     respond_to do |format|
       format.html
@@ -64,7 +75,10 @@ class SearchController < ApplicationController
   end
 
   def footnote_search
-    form = FootnoteSearchForm.new(params)
+    form = FootnoteSearchForm.new(params.permit(:code,
+                                                :type,
+                                                :description,
+                                                :page))
     @result = FootnoteSearchPresenter.new(form)
     respond_to do |format|
       format.html
@@ -72,7 +86,10 @@ class SearchController < ApplicationController
   end
 
   def certificate_search
-    form = CertificateSearchForm.new(params)
+    form = CertificateSearchForm.new(params.permit(:code,
+                                                   :type,
+                                                   :description,
+                                                   :page))
     @result = CertificateSearchPresenter.new(form)
 
     respond_to do |format|
@@ -81,7 +98,7 @@ class SearchController < ApplicationController
   end
 
   def chemical_search
-    form = ChemicalSearchForm.new(params)
+    form = ChemicalSearchForm.new(params.permit(:cas, :name, :page))
     @result = ChemicalSearchPresenter.new(form)
 
     respond_to do |format|
