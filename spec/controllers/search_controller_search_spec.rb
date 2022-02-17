@@ -12,7 +12,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
           get :search, params: { q: query }
         end
 
-        it { is_expected.to respond_with(:redirect) }
+        it { is_expected.to redirect_to commodity_path('0101210000') }
         it { expect(assigns(:search)).to be_a(Search) }
 
         it 'assigns search attribute' do
@@ -55,6 +55,14 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
           expect(response.body).to match(/no results/)
         end
       end
+    end
+
+    context 'with nested search term',
+             vcr: { cassette_name: 'search#search_exact' } do
+      before { get :search, params: { search: { q: '01' } } }
+
+      it { expect(assigns[:search]).to have_attributes q: '01' }
+      it { is_expected.to redirect_to commodity_path('0101210000') }
     end
 
     context 'without search term', vcr: { cassette_name: 'search#blank_match' } do
