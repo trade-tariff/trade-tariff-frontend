@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   layout :set_layout
 
-  rescue_from ApiEntity::Error, Faraday::ServerError, Errno::ECONNREFUSED do
+  rescue_from Faraday::ServerError, Errno::ECONNREFUSED do
     request.format = :html
     render_500
   end

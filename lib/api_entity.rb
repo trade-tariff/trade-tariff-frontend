@@ -4,8 +4,6 @@ require 'active_model'
 require 'tariff_jsonapi_parser'
 
 module ApiEntity
-  class Error < StandardError; end
-
   class UnparseableResponseError < StandardError
     def initialize(response)
       @response = response
