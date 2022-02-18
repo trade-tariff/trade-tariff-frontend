@@ -9,22 +9,10 @@ class SearchController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if @search.contains_search_term?
-          redirect_to url_for(@results.to_param.merge(url_options)) if @results.exact_match?
-        else
-          if request.referer
-            back_url = Addressable::URI.parse(request.referer)
-            back_url.query_values ||= {}
-            back_url.query_values = back_url.query_values.merge(@search.query_attributes)
-            if @search.date.today?
-              back_url.query_values = back_url.query_values.except('year', 'month', 'day')
-            end
-            return_to = back_url.to_s
-          else
-            return_to = sections_url
-          end
-
-          redirect_to(return_to + anchor)
+        if @search.missing_search_term?
+          redirect_to missing_search_query_fallback_url
+        elsif @results.exact_match?
+          redirect_to url_for @results.to_param.merge(url_options)
         end
       end
 
@@ -109,7 +97,20 @@ class SearchController < ApplicationController
   private
 
   def anchor
-    safe_anchor = params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_\-]/, '')
-    safe_anchor.present? ? "##{safe_anchor}" : ''
+    params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_\-]/, '').presence
+  end
+
+  def missing_search_query_fallback_url
+    return sections_url(anchor: anchor) if request.referer.blank?
+
+    back_url = Addressable::URI.parse(request.referer)
+    back_url.query_values ||= {}
+    back_url.query_values = back_url.query_values.merge(@search.query_attributes)
+    if @search.date.today?
+      back_url.query_values = back_url.query_values.except('year', 'month', 'day')
+    end
+    back_url.fragment = anchor
+
+    back_url.to_s
   end
 end

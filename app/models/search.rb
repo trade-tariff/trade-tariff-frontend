@@ -73,6 +73,10 @@ class Search
     q.present?
   end
 
+  def missing_search_term?
+    !contains_search_term?
+  end
+
   def query_attributes
     {
       'day' => date.day,
