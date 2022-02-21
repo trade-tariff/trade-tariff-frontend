@@ -50,6 +50,7 @@ module TradeTariffFrontend
       measure_types
       measure_condition_codes
       measure_actions
+      quota_order_numbers
       healthcheck
     ]
   end
