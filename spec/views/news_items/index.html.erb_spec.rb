@@ -15,6 +15,7 @@ RSpec.describe 'news_items/index', type: :view do
   it { is_expected.to have_css 'section article .tariff-markdown p', count: 3 }
   it { is_expected.to have_css '.news-item p', text: /#{I18n.t('title.service_name.uk')}/ }
   it { is_expected.to have_link 'Show more ...', href: %r{/news/\d+} }
+  it { is_expected.to render_template 'news_items/_feed' }
 
   context 'with single paragraph news items' do
     let(:news_items) { build_list :news_item, 2, content: 'Single paragraph' }

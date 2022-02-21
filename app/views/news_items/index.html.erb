@@ -4,6 +4,8 @@
   <%= generate_breadcrumbs t('breadcrumb.news'), [[t('breadcrumb.home'), home_path]] %>
 <% end %>
 
+<%= render 'feed' %>
+
 <section class="news-items">
   <% @news_items.each do |news_item| %>
     <article class="news-item" data-news-item-id="<%= news_item.id %>">
