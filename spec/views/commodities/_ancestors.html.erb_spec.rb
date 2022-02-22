@@ -6,9 +6,8 @@ RSpec.describe 'commodities/_ancestors', type: :view do
   let(:render_page) { render 'commodities/ancestors', declarable: declarable }
 
   context 'with commodity', vcr: { cassette_name: 'commodities_2208909110' } do
-    let :declarable do
-      CommodityPresenter.new Commodity.find('2208909110', as_of: '2018-11-15')
-    end
+    let(:commodity) { Commodity.find('2208909110', as_of: '2018-11-15') }
+    let(:declarable) { CommodityPresenter.new commodity }
 
     let(:row_count) { declarable.ancestors.length + 4 } # Section, Chapter, Heading, Commodity itself
 
@@ -23,11 +22,36 @@ RSpec.describe 'commodities/_ancestors', type: :view do
     it { is_expected.to have_css 'li#commodity-ancestors__heading[aria-owns="commodity-ancestors__ancestor-1"]' }
     it { is_expected.to have_css "li#commodity-ancestors__ancestor-#{declarable.ancestors.length + 1}" }
 
+    it 'includes short heading code' do
+      expect(rendered_page).to \
+        have_css \
+          'li#commodity-ancestors__heading span.segmented-commodity-code span',
+          count: 1
+    end
+
+    it 'includes full comm code' do
+      expect(rendered_page).to \
+        have_css \
+          "li#commodity-ancestors__ancestor-#{declarable.ancestors.length + 1} span.segmented-commodity-code span",
+          count: 3
+    end
+
     it 'checks the ancestors all chain ownership correctly' do
       declarable.ancestors.each_index do |index|
         expect(rendered_page).to have_css \
           %(li#commodity-ancestors__ancestor-#{index + 1}) +
             %([aria-owns="commodity-ancestors__ancestor-#{index + 2}"])
+      end
+    end
+
+    context 'with commodity code with multiple trailing zeros' do
+      before { allow(commodity).to receive(:code).and_return('2208909100') }
+
+      it 'includes full comm code' do
+        expect(rendered_page).to \
+          have_css \
+            "li#commodity-ancestors__ancestor-#{declarable.ancestors.length + 1} span.segmented-commodity-code span",
+            count: 3
       end
     end
   end
@@ -46,5 +70,12 @@ RSpec.describe 'commodities/_ancestors', type: :view do
     it { is_expected.to have_css 'li#commodity-ancestors__section[aria-owns="commodity-ancestors__chapter"]' }
     it { is_expected.to have_css 'li#commodity-ancestors__chapter[aria-owns="commodity-ancestors__heading"]' }
     it { is_expected.to have_css 'li#commodity-ancestors__heading' }
+
+    it 'renders as full heading code' do
+      expect(rendered_page).to \
+        have_css \
+          'li#commodity-ancestors__heading span.segmented-commodity-code span',
+          count: 3
+    end
   end
 end
