@@ -7,7 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 7'
+gem 'rails', '~> 7.0'
 
 gem 'addressable'
 gem 'faraday', '= 1.3.0' # TODO: Debug issue with newer versions of Faraday client under high loads
