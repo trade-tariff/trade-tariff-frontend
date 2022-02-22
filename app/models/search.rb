@@ -20,9 +20,6 @@ class Search
     retries = 0
     begin
       response = self.class.post('/search', q: q, as_of: date.to_fs(:db))
-
-      raise ApiEntity::Error if response.status == 500
-
       response = TariffJsonapiParser.new(response.body).parse
       Outcome.new(response)
     rescue StandardError
@@ -71,6 +68,10 @@ class Search
 
   def contains_search_term?
     q.present?
+  end
+
+  def missing_search_term?
+    !contains_search_term?
   end
 
   def query_attributes

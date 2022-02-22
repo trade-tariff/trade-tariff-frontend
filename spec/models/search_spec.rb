@@ -28,16 +28,14 @@ RSpec.describe Search do
   end
 
   describe 'raises on error if search responds with status 500' do
-    let(:api_mock) { double(:api_mock) }
-    let(:response_stub) { double(:response_stub, status: 500) }
+    subject(:perform_search) { described_class.new(q: 'abc').perform }
 
     before do
-      allow(api_mock).to receive(:post).and_return(response_stub)
-      allow(described_class).to receive(:api).and_return(api_mock)
+      stub_api_request('/search', :post).to_return jsonapi_error_response
     end
 
     it 'search' do
-      expect { described_class.new(q: 'abc').perform }.to raise_error ApiEntity::Error
+      expect { perform_search }.to raise_error Faraday::ServerError
     end
   end
 
@@ -58,6 +56,38 @@ RSpec.describe Search do
       it 'returns false' do
         expect(search.day_month_and_year_set?).to be false
       end
+    end
+  end
+
+  describe '#contains_search_term?' do
+    subject { described_class.new(q: search_term).contains_search_term? }
+
+    context 'with search query' do
+      let(:search_term) { 'testing123' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'without search query' do
+      let(:search_term) { ' ' }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#missing_search_term?' do
+    subject { described_class.new(q: search_term).missing_search_term? }
+
+    context 'with search query' do
+      let(:search_term) { 'testing123' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'without search query' do
+      let(:search_term) { ' ' }
+
+      it { is_expected.to be true }
     end
   end
 end
