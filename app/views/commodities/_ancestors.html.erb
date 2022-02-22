@@ -39,7 +39,7 @@
       <li id="commodity-ancestors__heading">
         <span>
           <span class="commodity-ancestors__identifier">
-            <%= segmented_commodity_code declarable.short_code,
+            <%= segmented_commodity_code declarable.code,
                                          coloured: true %>
           </span>
 
@@ -87,7 +87,7 @@
       <li id="<%= commodity_ancestor_id(declarable.ancestors.length + 1) %>">
         <span>
           <span class="commodity-ancestors__identifier">
-            <%= segmented_commodity_code abbreviate_commodity_code(declarable.code),
+            <%= segmented_commodity_code declarable.code,
                                          coloured: true %>
           </span>
 
