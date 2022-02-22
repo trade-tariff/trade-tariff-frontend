@@ -25,7 +25,7 @@ gem 'responders'
 gem 'webpacker'
 
 # gov UK
-gem 'govspeak', github: 'willfish/govspeak', branch: 'rails7-compatibility'
+gem 'govspeak'
 gem 'nokogiri', '~> 1.13.2' # https://github.com/sparklemotion/nokogiri/issues/2205
 gem 'plek'
 
