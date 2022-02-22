@@ -90,4 +90,72 @@ RSpec.describe Search do
       it { is_expected.to be true }
     end
   end
+
+  describe '#search_term_is_commodity_code?' do
+    subject { described_class.new(q: search_term).search_term_is_commodity_code? }
+
+    context 'with commodity_code' do
+      let(:search_term) { '0101191919' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with commodity_code with whitespace' do
+      let(:search_term) { ' 0101191919' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with other code' do
+      let(:search_term) { '010119191' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with textual search term' do
+      let(:search_term) { 'testing123' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with no search term' do
+      let(:search_term) { ' ' }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#search_term_is_heading_code?' do
+    subject { described_class.new(q: search_term).search_term_is_heading_code? }
+
+    context 'with heading_code' do
+      let(:search_term) { '0101' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with heading_code with whitespace' do
+      let(:search_term) { ' 0101' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with other code' do
+      let(:search_term) { '010119191' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with textual search term' do
+      let(:search_term) { 'testing123' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with no search term' do
+      let(:search_term) { ' ' }
+
+      it { is_expected.to be false }
+    end
+  end
 end
