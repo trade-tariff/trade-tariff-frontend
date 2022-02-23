@@ -1,6 +1,27 @@
 require 'spec_helper'
 
 RSpec.describe Measure do
+  describe '.relationships' do
+    let(:expected_relationships) do
+      %i[
+        geographical_area
+        legal_acts
+        measure_type
+        suspension_legal_act
+        additional_code
+        order_number
+        duty_expression
+        excluded_countries
+        measure_components
+        measure_conditions
+        footnotes
+        goods_nomenclature
+      ]
+    end
+
+    it { expect(described_class.relationships).to eq(expected_relationships) }
+  end
+
   describe '#relevant_for_country?' do
     context 'when the area is not present' do
       subject(:measure) { build(:measure, :eu, geographical_area: { id: 'br', description: 'Brazil' }) }
@@ -48,7 +69,7 @@ RSpec.describe Measure do
   end
 
   describe '#vat_excise?' do
-    subject(:measure) { build(:measure, measure_type: measure_type) }
+    subject(:measure) { build(:measure, measure_type:) }
 
     let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
 
@@ -66,7 +87,7 @@ RSpec.describe Measure do
   end
 
   describe '#import_controls?' do
-    subject(:measure) { build(:measure, measure_type: measure_type) }
+    subject(:measure) { build(:measure, measure_type:) }
 
     let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
 
@@ -84,7 +105,7 @@ RSpec.describe Measure do
   end
 
   describe '#customs_duties?' do
-    subject(:measure) { build(:measure, measure_type: measure_type) }
+    subject(:measure) { build(:measure, measure_type:) }
 
     let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
 
@@ -102,7 +123,7 @@ RSpec.describe Measure do
   end
 
   describe '#quotas?' do
-    subject(:measure) { build(:measure, measure_type: measure_type) }
+    subject(:measure) { build(:measure, measure_type:) }
 
     let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
 
@@ -120,7 +141,7 @@ RSpec.describe Measure do
   end
 
   describe '#trade_remedies?' do
-    subject(:measure) { build(:measure, measure_type: measure_type) }
+    subject(:measure) { build(:measure, measure_type:) }
 
     let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
 

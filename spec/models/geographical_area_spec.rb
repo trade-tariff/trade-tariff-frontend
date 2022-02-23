@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe GeographicalArea do
+  describe '.relationships' do
+    it { expect(described_class.relationships).to eq([:children_geographical_areas]) }
+  end
+
   describe '.all', vcr: { cassette_name: 'geographical_areas#countries' } do
     subject(:countries) { described_class.all }
 

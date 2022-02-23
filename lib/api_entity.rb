@@ -40,6 +40,16 @@ module ApiEntity
 
     attr_accessor :casted_by
 
+    cattr_accessor :relationships
+
+    delegate :relationships, to: :class
+
+    def inspect
+      keys_to_exclude = relationships + [:casted_by]
+
+      @attributes.except(*keys_to_exclude)
+    end
+
     class_eval do
       def resource_path
         "/#{self.class.name.underscore.pluralize}/#{to_param}"
@@ -130,6 +140,8 @@ module ApiEntity
 
       attr_accessor association.to_sym
 
+      (self.relationships ||= []) << association
+
       class_eval <<-METHODS, __FILE__, __LINE__ + 1
         def #{association}=(data)
           data ||= {}
@@ -139,25 +151,27 @@ module ApiEntity
       METHODS
     end
 
-    def has_many(associations, opts = {})
-      options = opts.reverse_merge(class_name: associations.to_s.singularize.classify, wrapper: Array)
+    def has_many(association, opts = {})
+      options = opts.reverse_merge(class_name: association.to_s.singularize.classify, wrapper: Array)
+
+      (self.relationships ||= []) << association
 
       class_eval <<-METHODS, __FILE__, __LINE__ + 1
-        def #{associations}
-          #{options[:wrapper]}.new(@#{associations}.presence || [])
+        def #{association}
+          #{options[:wrapper]}.new(@#{association}.presence || [])
         end
 
-        def #{associations}=(data)
-          @#{associations} ||= if data.present?
+        def #{association}=(data)
+          @#{association} ||= if data.present?
             data.map { |record| #{options[:class_name]}.new(record.merge(casted_by: self)) }
           else
             []
           end
         end
 
-        def add_#{associations.to_s.singularize}(record)
-          @#{associations} ||= []
-          @#{associations} << record
+        def add_#{association.to_s.singularize}(record)
+          @#{association} ||= []
+          @#{association} << record
         end
       METHODS
     end
