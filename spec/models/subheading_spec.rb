@@ -3,6 +3,37 @@ require 'spec_helper'
 RSpec.describe Subheading do
   subject(:heading) { build(:subheading) }
 
+  describe '.relationships' do
+    let(:expected_relationships) do
+      %i[
+        section
+        headings
+        section
+        chapter
+        footnotes
+        import_measures
+        export_measures
+        heading
+        overview_measures
+        ancestors
+        section
+        chapter
+        footnotes
+        import_measures
+        export_measures
+        commodities
+        children
+        section
+        chapter
+        heading
+        footnotes
+        commodities
+      ]
+    end
+
+    it { expect(described_class.relationships).to eq(expected_relationships) }
+  end
+
   it { is_expected.to have_attributes(goods_nomenclature_item_id: '0101100000') }
   it { is_expected.to have_attributes(producline_suffix: '10') }
   it { is_expected.to have_attributes(number_indents: 3) }

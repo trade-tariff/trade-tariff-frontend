@@ -5,6 +5,18 @@ RSpec.describe OrderNumber do
 
   let(:definition) { build(:definition) }
 
+  describe '.relationships' do
+    let(:expected_relationships) do
+      %i[
+        definition
+        geographical_area
+        geographical_areas
+      ]
+    end
+
+    it { expect(described_class.relationships).to eq(expected_relationships) }
+  end
+
   describe '#id' do
     it { expect(order_number.id).to eq("#{definition.id}-order-number-#{order_number.number}") }
   end

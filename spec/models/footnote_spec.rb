@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe Footnote do
+  describe '.relationships' do
+    it { expect(described_class.relationships).to eq(%i[measures goods_nomenclatures]) }
+  end
+
   describe '#id' do
     let(:measure) { Measure.new(attributes_for(:measure, id: '123').stringify_keys) }
     let(:footnote) { described_class.new(attributes_for(:footnote, casted_by: measure, code: '456').stringify_keys) }
