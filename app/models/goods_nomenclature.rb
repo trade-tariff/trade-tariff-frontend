@@ -69,4 +69,15 @@ class GoodsNomenclature
   def self.is_heading_id?(goods_nomenclature_item_id)
     goods_nomenclature_item_id.ends_with?('000000') && goods_nomenclature_item_id.slice(2, 2) != '00'
   end
+
+  def inspect
+    {
+      object_id: object_id,
+      id:,
+      type:,
+      goods_nomenclature_item_id:,
+      formatted_description:,
+      description:,
+    }
+  end
 end
