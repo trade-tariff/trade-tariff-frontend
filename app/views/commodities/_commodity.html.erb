@@ -3,7 +3,8 @@
     <span class="description open without_right_margin" aria-expanded="false" role="button" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></span>
 
     <div class='sub_heading_commodity_code_block pull-right'>
-      <%= format_commodity_code_based_on_level(commodity) unless commodity.umbrella_code? %>
+      <%= segmented_commodity_code abbreviate_commodity_code(commodity.code),
+                                   coloured: true unless commodity.umbrella_code? %>
     </div>
 
     <ul class="govuk-list"><%= render commodity.children %></ul>
@@ -39,7 +40,8 @@
           <% end %>
         </div>
         <div class="identifier" aria-describedby="commodity-<%= commodity.short_code %>">
-          <%= format_commodity_code_based_on_level(commodity) %>
+          <%= segmented_commodity_code abbreviate_commodity_code(commodity.code),
+                                       coloured: true %>
         </div>
       </div>
     <% end %>
