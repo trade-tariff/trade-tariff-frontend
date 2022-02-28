@@ -104,4 +104,28 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
       it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
     end
   end
+
+  context 'with xi service with no equivalent uk commodity' do
+    include_context 'with XI service'
+
+    let :render_page do
+      render 'measures/measures',
+             declarable: presented_commodity,
+             uk_declarable: nil,
+             xi_declarable: presented_commodity,
+             rules_of_origin_schemes: []
+    end
+
+    context 'without country selected' do
+      it_behaves_like 'measures with rules of origin tab'
+      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
+    end
+
+    context 'with country selected' do
+      let(:search) { build(:search, q: '0101300000', country: 'FR') }
+
+      it_behaves_like 'measures with rules of origin tab'
+      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
+    end
+  end
 end

@@ -93,7 +93,7 @@
 
   <div id="import-measure-references">
     <%= render partial: 'measures/measure_references', collection: declarable.import_measures.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
-    <% if TradeTariffFrontend::ServiceChooser.xi? %>
+    <% if TradeTariffFrontend::ServiceChooser.xi? && uk_declarable.present? %>
       <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.import_controls.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
       <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.vat_excise.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
     <% end %>
