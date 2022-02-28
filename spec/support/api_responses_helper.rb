@@ -22,6 +22,15 @@ module ApiResponsesHelper
     }
   end
 
+  def jsonapi_error_response(status = 500, response_data = nil, headers: nil)
+    {
+      status: status,
+      headers: headers || { 'content-type' => 'application/json; charset=utf-8' },
+      body: response_data,
+    }
+  end
+
+
   def format_jsonapi_response(type, response)
     case response
     when Hash
