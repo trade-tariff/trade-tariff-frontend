@@ -1,10 +1,10 @@
 class CommoditiesController < GoodsNomenclaturesController
   helper_method :uk_commodity, :xi_commodity
 
-  def show
-    fetch_headings_or_commodities
-    session[:goods_nomenclature_code] = commodity.code
+  before_action :fetch_headings_or_commodities, only: %i[show]
+  before_action :set_goods_nomenclature_code, only: %i[show]
 
+  def show
     @heading = commodity.heading
     @chapter = commodity.chapter
     @section = commodity.section
@@ -12,13 +12,6 @@ class CommoditiesController < GoodsNomenclaturesController
     if params[:country].present? && @search.geographical_area
       @rules_of_origin_schemes = commodity.rules_of_origin(params[:country])
     end
-  rescue Faraday::ResourceNotFound
-    @validity_periods = ValidityPeriod.all(Commodity, params[:id])
-    @commodity_code = params[:id]
-    @heading_code = params[:id].first(4)
-    @chapter_code = params[:id].first(2)
-
-    render :show_404, status: :not_found
   end
 
   private
@@ -79,6 +72,10 @@ class CommoditiesController < GoodsNomenclaturesController
 
   def uk_commodity
     @commodities[:uk]
+  end
+
+  def set_goods_nomenclature_code
+    session[:goods_nomenclature_code] = commodity.code
   end
 
   def query_params
