@@ -18,8 +18,6 @@ class CommoditiesController < GoodsNomenclaturesController
     @heading_code = params[:id].first(4)
     @chapter_code = params[:id].first(2)
 
-    disable_search_form
-
     render :show_404, status: :not_found
   end
 
