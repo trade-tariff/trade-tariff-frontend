@@ -1,13 +1,13 @@
 <%- xi_import_measures = xi_declarable.import_measures.for_country(@search.country) %>
 <%- uk_import_measures = uk_declarable.import_measures.for_country(@search.country) %>
 
-<!-- CUSTOMS DUTIES -->
+<!-- IMPORT DUTIES -->
 <% if xi_import_measures.customs_duties.present? %>
   <%= render 'measures/meursing_form' if xi_declarable.meursing_code? %>
   <%= render 'measures/grouped/table',
-              caption: 'Custom duties',
+              caption: 'Import duties',
               collection: xi_import_measures.customs_duties.sort_by(&:key),
-              css_id: 'customs_duties',
+              css_id: 'import_duties',
               declarable: xi_declarable,
               show_duty_calculator: xi_declarable.calculate_duties? %>
 <% end %>

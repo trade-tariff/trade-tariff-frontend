@@ -15,12 +15,12 @@
   %>
 <% end %>
 
-<!-- CUSTOMS DUTIES -->
+<!-- IMPORT DUTIES -->
 <% if uk_import_measures.customs_duties.present? %>
   <%= render 'measures/grouped/table',
-              caption: 'Customs duties',
+              caption: 'Import duties',
               collection: uk_import_measures.customs_duties.sort_by(&:key),
-              css_id: 'customs_duties',
+              css_id: 'import_duties',
               declarable: uk_declarable,
               show_duty_calculator: uk_declarable.calculate_duties? %>
 <% end %>
