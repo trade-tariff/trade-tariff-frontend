@@ -1,5 +1,5 @@
 <%- xi_import_measures = xi_declarable.import_measures.for_country(@search.country) %>
-<%- uk_import_measures = uk_declarable.import_measures.for_country(@search.country) %>
+<%- uk_import_measures = uk_declarable&.import_measures&.for_country(@search.country) %>
 
 <!-- IMPORT DUTIES -->
 <% if xi_import_measures.customs_duties.present? %>
@@ -22,7 +22,7 @@
 <% end %>
 
 <!-- VAT & EXCISE -->
-<% if uk_import_measures.vat_excise.present? %>
+<% if uk_import_measures&.vat_excise.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'VAT and excise',
     collection: uk_import_measures.vat_excise.sort_by(&:key),
@@ -41,7 +41,7 @@
 <% end %>
 
 <!-- UK IMPORT CONTROLS -->
-<% if uk_import_measures.import_controls.present? %>
+<% if uk_import_measures&.import_controls.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls' : 'UK import controls',
     collection: uk_import_measures.import_controls.sort_by(&:key),

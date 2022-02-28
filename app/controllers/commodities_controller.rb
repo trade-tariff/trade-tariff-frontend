@@ -67,6 +67,9 @@ class CommoditiesController < GoodsNomenclaturesController
       @commodities[:xi] = CommodityPresenter.new(Commodity.find(params[:id], query_params))
       @commodities[:uk] = TradeTariffFrontend::ServiceChooser.with_source(:uk) do
         CommodityPresenter.new(Commodity.find(params[:id], query_params))
+      rescue Faraday::ResourceNotFound
+        # Handle when no UK equivalent commodity available
+        nil
       end
     end
   end
