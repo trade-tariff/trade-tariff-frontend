@@ -172,20 +172,6 @@ RSpec.describe Measure do
     end
   end
 
-  describe '#export?' do
-    context 'when the measure is an export measure' do
-      subject(:measure) { build(:measure, :export) }
-
-      it { is_expected.to be_export }
-    end
-
-    context 'when the measure is an import measure' do
-      subject(:measure) { build(:measure, :import) }
-
-      it { is_expected.not_to be_export }
-    end
-  end
-
   describe '#excluded_country_list', vcr: { cassette_name: 'geographical_areas#1013' } do
     context 'when the excluded_countries include all eu members' do
       subject(:measure) { build(:measure, :with_eu_member_exclusions) }

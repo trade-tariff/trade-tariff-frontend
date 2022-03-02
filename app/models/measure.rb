@@ -105,10 +105,6 @@ class Measure
     import
   end
 
-  def export?
-    !import
-  end
-
   def destination
     import? ? 'import' : 'export'
   end
