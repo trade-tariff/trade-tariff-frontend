@@ -24,7 +24,7 @@
 <!-- VAT & EXCISE -->
 <% if uk_import_measures&.vat_excise.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
-    caption: 'VAT and excise',
+    caption: 'Import VAT and excise',
     collection: uk_import_measures.vat_excise.sort_by(&:key),
     css_id: 'vat_excise' }
   %>
