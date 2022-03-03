@@ -10,6 +10,10 @@ class MeasureCollection
     @measures = measures.clone
   end
 
+  def without_supplementary_unit
+    self.class.new(measures.reject(&:supplementary?))
+  end
+
   def for_country(country)
     self.class.new(measures.select { |m| m.relevant_for_country?(country) })
   end
