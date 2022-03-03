@@ -10,8 +10,8 @@ class MeasureCollection
     @measures = measures.clone
   end
 
-  def exclude_supplementary_unit
-    self.class.new(measures.reject { |m| m.measure_type.description == 'Supplementary unit' })
+  def without_supplementary_unit
+    self.class.new(measures.reject(&:supplementary?))
   end
 
   def for_country(country)

@@ -10,15 +10,13 @@ RSpec.describe MeasureCollection do
     it { expect(collection.for_country('IT').measures).to eq([italian_measure]) }
   end
 
-  describe '#exclude_supplementary_unit' do
+  describe '#without_supplementary_unit' do
     subject(:collection) { described_class.new([measure, sup_unit_measure]) }
 
     let(:measure) { build(:measure) }
-    let(:sup_unit_measure) { build(:measure, measure_type_description: 'Supplementary unit') }
+    let(:sup_unit_measure) { build(:measure, :import_export_supplementary) }
 
-    it 'excludes measure_type that are supplementary_unit' do
-      expect(collection.exclude_supplementary_unit.measures).to eq([measure])
-    end
+    it { expect(collection.without_supplementary_unit.measures).to eq([measure]) }
   end
 
   describe '#vat' do

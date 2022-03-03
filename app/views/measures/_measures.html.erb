@@ -44,7 +44,7 @@
     <% if declarable.export_measures.for_country(@search.country).any? %>
       <%= render partial: 'measures/grouped/table', locals: {
         collection: declarable.export_measures
-                              .exclude_supplementary_unit
+                              .without_supplementary_unit
                               .for_country(@search.country)
                               .sort_by(&:key),
         hide_duty_rate: true }
