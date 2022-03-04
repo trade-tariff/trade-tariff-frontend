@@ -6,13 +6,13 @@ RSpec.describe 'shared/_top_breadcrumbs', type: :view do
   let(:section) { build :section }
   let(:chapter) { build :chapter }
   let(:heading) { build :heading }
-  let(:commodity) { build :commodity }
+  let(:declarable) { build :commodity }
 
   before do
     assign(:section, section)
     assign(:chapter, chapter)
     assign(:heading, heading)
-    assign(:commodity, commodity)
+    assign(:declarable, declarable)
   end
 
   it { is_expected.to have_content 'Section' }

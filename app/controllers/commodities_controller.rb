@@ -1,16 +1,15 @@
 class CommoditiesController < GoodsNomenclaturesController
-  helper_method :uk_commodity, :xi_commodity
+  helper_method :uk_declarable, :xi_declarable, :declarable
 
   def show
-    fetch_headings_or_commodities
-    session[:goods_nomenclature_code] = commodity.code
+    session[:goods_nomenclature_code] = declarable.code
 
-    @heading = commodity.heading
-    @chapter = commodity.chapter
-    @section = commodity.section
+    @heading = declarable.heading
+    @chapter = declarable.chapter
+    @section = declarable.section
 
     if params[:country].present? && @search.geographical_area
-      @rules_of_origin_schemes = commodity.rules_of_origin(params[:country])
+      @rules_of_origin_schemes = declarable.rules_of_origin(params[:country])
     end
   rescue Faraday::ResourceNotFound
     @validity_periods = ValidityPeriod.all(Commodity, params[:id])
@@ -25,68 +24,61 @@ class CommoditiesController < GoodsNomenclaturesController
 
   private
 
-  def commodities_by_code
-    search_term = Regexp.escape(params[:term].to_s)
-    Commodity.by_code(search_term).sort_by(&:code)
+  def declarable
+    @declarable ||= heading? ? heading : commodity
   end
 
-  def fetch_headings_or_commodities
-    if heading_from_param&.declarable?
-      fetch_headings
-    else
-      fetch_commodities
-    end
+  def uk_declarable
+    @uk_declarable ||= heading? ? uk_heading : uk_commodity
   end
 
-  def fetch_headings
-    @commodities ||= {}
+  def xi_declarable
+    return nil unless TradeTariffFrontend::ServiceChooser.xi?
 
-    if TradeTariffFrontend::ServiceChooser.uk?
-      @commodities[:uk] = heading_from_param
-      @commodities[:xi] = nil
-    else
-      @commodities[:xi] = heading_from_param
-      @commodities[:uk] = TradeTariffFrontend::ServiceChooser.with_source(:uk) { heading_from_param }
-    end
+    @xi_declarable ||= heading? ? xi_heading : xi_commodity
   end
 
-  def heading_from_param
-    @heading_from_param ||= if GoodsNomenclature.is_heading_id?(params[:id])
-                              heading_id = params[:id].slice(0, 4)
-                              HeadingPresenter.new(Heading.find(heading_id, query_params))
-                            end
-  end
-
-  def fetch_commodities
-    @commodities ||= {}
-
-    if TradeTariffFrontend::ServiceChooser.uk?
-      @commodities[:uk] = CommodityPresenter.new(Commodity.find(params[:id], query_params))
-      @commodities[:xi] = nil
-    else
-      @commodities[:xi] = CommodityPresenter.new(Commodity.find(params[:id], query_params))
-      @commodities[:uk] = TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-        CommodityPresenter.new(Commodity.find(params[:id], query_params))
-      rescue Faraday::ResourceNotFound
-        # Handle when no UK equivalent commodity available
-        nil
-      end
-    end
+  def heading
+    TradeTariffFrontend::ServiceChooser.uk? ? uk_heading : xi_heading
   end
 
   def commodity
-    @commodity ||= TradeTariffFrontend::ServiceChooser.uk? ? uk_commodity : xi_commodity
+    TradeTariffFrontend::ServiceChooser.uk? ? uk_commodity : xi_commodity
   end
 
-  def xi_commodity
-    @commodities[:xi]
+  def uk_heading
+    @uk_heading ||= TradeTariffFrontend::ServiceChooser.with_source(:uk) do
+      HeadingPresenter.new(Heading.find(heading_id, query_params))
+    end
+  end
+
+  def xi_heading
+    @xi_heading ||= TradeTariffFrontend::ServiceChooser.with_source(:xi) do
+      HeadingPresenter.new(Heading.find(heading_id, query_params))
+    end
   end
 
   def uk_commodity
-    @commodities[:uk]
+    @uk_commodity ||= TradeTariffFrontend::ServiceChooser.with_source(:uk) do
+      CommodityPresenter.new(Commodity.find(params[:id], query_params))
+    end
+  end
+
+  def xi_commodity
+    @xi_commodity ||= TradeTariffFrontend::ServiceChooser.with_source(:xi) do
+      CommodityPresenter.new(Commodity.find(params[:id], query_params))
+    end
   end
 
   def query_params
     super.merge(filter: { meursing_additional_code_id: meursing_lookup_result.meursing_additional_code_id })
+  end
+
+  def heading?
+    GoodsNomenclature.is_heading_id?(params[:id]) && heading&.declarable?
+  end
+
+  def heading_id
+    params[:id].slice(0, 4)
   end
 end

@@ -5,16 +5,16 @@ RSpec.describe 'Commodity show page', vcr: { cassette_name: 'geographical_areas#
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
 
     TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
+
     VCR.use_cassette('headings#show_0201', record: :new_episodes) do
       visit commodity_path('0201100021', day: 31, month: 5, year: 2018)
     end
+
     VCR.use_cassette('commodities#show_0201100021_legal_base_visible_no_env') do
       VCR.use_cassette('headings#show_0201') do
         visit commodity_path('0201100021', day: 21, month: 2, year: 2019, no_env: true)
       end
     end
-
-    click_import_tab
   end
 
   it 'displays the legal base column' do
@@ -26,17 +26,15 @@ RSpec.describe 'Commodity show page', vcr: { cassette_name: 'geographical_areas#
   end
 
   context 'when clicking tabs' do
-    before do
-      click_import_tab
-    end
-
     it '*import* tab is present' do
       expect(page).to have_selector('#import.govuk-tabs__panel', visible: :visible)
     end
 
     describe 'switch tabs' do
       before do
-        click_export_tab
+        within '.govuk-tabs' do
+          click_on 'Export'
+        end
       end
 
       it '*export* tab is shown' do
@@ -51,8 +49,6 @@ RSpec.describe 'Commodity show page', vcr: { cassette_name: 'geographical_areas#
       expect(page).not_to have_selector('#popup .info-content', visible: :visible) # ensure popup is hidden
       # rubocop:enable RSpec/ExpectInHook
 
-      click_import_tab
-
       within '#measure-3522474' do
         click_on 'Conditions'
       end
@@ -64,18 +60,6 @@ RSpec.describe 'Commodity show page', vcr: { cassette_name: 'geographical_areas#
 
     it 'displays the popup content' do
       expect(page).to have_content('Import control of organic products')
-    end
-  end
-
-  def click_import_tab
-    within '.govuk-tabs' do
-      click_on 'Import'
-    end
-  end
-
-  def click_export_tab
-    within '.govuk-tabs' do
-      click_on 'Export'
     end
   end
 end
