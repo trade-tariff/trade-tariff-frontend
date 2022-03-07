@@ -104,6 +104,20 @@ RSpec.describe Measure do
     end
   end
 
+  describe '#unclassified_import_controls?' do
+    context 'when the measure is a potential import control measure' do
+      subject(:measure) { build(:measure, :unclassified_import_control) }
+
+      it { is_expected.to be_unclassified_import_controls }
+    end
+
+    context 'when the measure is not a import control measure' do
+      subject(:measure) { build(:measure, :vat_excise) }
+
+      it { is_expected.not_to be_unclassified_import_controls }
+    end
+  end
+
   describe '#customs_duties?' do
     subject(:measure) { build(:measure, measure_type:) }
 
@@ -119,6 +133,20 @@ RSpec.describe Measure do
       let(:measure_type_id) { '277' }
 
       it { is_expected.not_to be_customs_duties }
+    end
+  end
+
+  describe '#unclassified_customs_duties?' do
+    context 'when the measure is a potential import control measure' do
+      subject(:measure) { build(:measure, :unclassified_customs_duties) }
+
+      it { is_expected.to be_unclassified_customs_duties }
+    end
+
+    context 'when the measure is not an potential custom duties measure' do
+      subject(:measure) { build(:measure, :vat_excise) }
+
+      it { is_expected.not_to be_unclassified_customs_duties }
     end
   end
 

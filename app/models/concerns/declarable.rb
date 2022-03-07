@@ -8,9 +8,11 @@ module Declarable
     has_one :chapter
     has_many :footnotes
     has_many :import_measures, class_name: 'Measure',
-                               wrapper: MeasureCollection
+                               wrapper: MeasureCollection,
+                               filter: :without_excluded
     has_many :export_measures, class_name: 'Measure',
-                               wrapper: MeasureCollection
+                               wrapper: MeasureCollection,
+                               filter: :without_excluded
 
     attr_accessor :description,
                   :goods_nomenclature_item_id,

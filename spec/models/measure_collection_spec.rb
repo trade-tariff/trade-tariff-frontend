@@ -19,6 +19,15 @@ RSpec.describe MeasureCollection do
     it { expect(collection.without_supplementary_unit.measures).to eq([measure]) }
   end
 
+  describe '#without_excluded' do
+    subject(:collection) { described_class.new([measure, excluded_measure]) }
+
+    let(:measure) { build(:measure) }
+    let(:excluded_measure) { build(:measure, :excluded) }
+
+    it { expect(collection.without_excluded.measures).to eq([measure]) }
+  end
+
   describe '#vat' do
     subject(:collection) { described_class.new([vat_measure, measure]) }
 
@@ -47,12 +56,13 @@ RSpec.describe MeasureCollection do
   end
 
   describe '#import_controls' do
-    subject(:collection) { described_class.new([import_control_measure, measure]) }
+    subject(:collection) { described_class.new([unclassified_import_control_measure, import_control_measure, measure]) }
 
+    let(:unclassified_import_control_measure) { build(:measure, :unclassified_import_control) }
     let(:import_control_measure) { build(:measure, :import_controls) }
-    let(:measure) { build(:measure) }
+    let(:measure) { build(:measure, :vat_excise) }
 
-    it { expect(collection.import_controls.measures).to eq([import_control_measure]) }
+    it { expect(collection.import_controls.measures).to eq([import_control_measure, unclassified_import_control_measure]) }
   end
 
   describe '#trade_remedies' do
@@ -74,12 +84,13 @@ RSpec.describe MeasureCollection do
   end
 
   describe '#customs_duties' do
-    subject(:collection) { described_class.new([customs_measure, measure]) }
+    subject(:collection) { described_class.new([unclassified_customs_measure, customs_measure, measure]) }
 
+    let(:unclassified_customs_measure) { build(:measure, :unclassified_customs_duties) }
     let(:customs_measure) { build(:measure, :customs_duties) }
-    let(:measure) { build(:measure) }
+    let(:measure) { build(:measure, :vat_excise) }
 
-    it { expect(collection.customs_duties.measures).to eq([customs_measure]) }
+    it { expect(collection.customs_duties.measures).to eq([customs_measure, unclassified_customs_measure]) }
   end
 
   describe '#to_a' do

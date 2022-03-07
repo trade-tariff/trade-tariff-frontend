@@ -186,6 +186,30 @@ FactoryBot.define do
       geographical_area { attributes_for(:geographical_area, :erga_omnes).stringify_keys }
     end
 
+    trait :excluded do
+      measure_type do
+        attributes_for(:measure_type, :excluded, description: measure_type_description).stringify_keys
+      end
+    end
+
+    trait :unclassified do
+      measure_type do
+        attributes_for(:measure_type, :unclassified, description: measure_type_description).stringify_keys
+      end
+    end
+
+    trait :unclassified_import_control do
+      measure_type do
+        attributes_for(:measure_type, :unclassified, :unclassified_import_control, description: measure_type_description).stringify_keys
+      end
+    end
+
+    trait :unclassified_customs_duties do
+      measure_type do
+        attributes_for(:measure_type, :unclassified, :unclassified_customs_duties, description: measure_type_description).stringify_keys
+      end
+    end
+
     trait :import_export_supplementary do
       measure_type do
         attributes_for(:measure_type, :import_export_supplementary, description: measure_type_description).stringify_keys
@@ -351,6 +375,14 @@ FactoryBot.define do
       id { '103' }
     end
 
+    trait :excluded do
+      id { '430' }
+    end
+
+    trait :unclassified do
+      id { 'FOO' }
+    end
+
     trait :import_export_supplementary do
       id { '109' }
     end
@@ -361,6 +393,14 @@ FactoryBot.define do
 
     trait :export_only_supplementary do
       id { '111' }
+    end
+
+    trait :unclassified_import_control do
+      measure_component_applicable_code { 2 }
+    end
+
+    trait :unclassified_customs_duties do
+      measure_component_applicable_code { 1 }
     end
   end
 

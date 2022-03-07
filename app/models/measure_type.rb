@@ -6,7 +6,13 @@ class MeasureType
   SUPPLEMENTARY_MEASURE_TYPES = %w[109 110 111].freeze
   SUPPLEMENTARY_IMPORT_ONLY_MEASURE_TYPES = %w[110].freeze
 
-  attr_accessor :id
+  enum :measure_component_applicable_code, {
+    duties_permitted: [0],
+    duties_mandatory: [1],
+    duties_not_permitted: [2],
+  }
+
+  attr_accessor :id, :measure_component_applicable_code
   attr_writer :description
 
   def supplementary?

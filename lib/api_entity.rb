@@ -151,6 +151,14 @@ module ApiEntity
       METHODS
     end
 
+    def enum(field, enum_config)
+      enum_config.each do |method_name, value|
+        define_method("#{method_name}?") do
+          public_send(field).in?(value)
+        end
+      end
+    end
+
     def has_many(association, opts = {})
       options = opts.reverse_merge(class_name: association.to_s.singularize.classify, wrapper: Array)
 
@@ -158,7 +166,13 @@ module ApiEntity
 
       class_eval <<-METHODS, __FILE__, __LINE__ + 1
         def #{association}
-          #{options[:wrapper]}.new(@#{association}.presence || [])
+          collection = #{options[:wrapper]}.new(@#{association}.presence || [])
+
+          if #{options[:filter].present?}
+            collection.public_send("#{options[:filter]}")
+          else
+            collection
+          end
         end
 
         def #{association}=(data)
