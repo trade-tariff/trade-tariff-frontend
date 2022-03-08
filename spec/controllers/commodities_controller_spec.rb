@@ -106,12 +106,6 @@ RSpec.describe CommoditiesController, type: :controller do
               vcr: { cassette_name: 'commodities#show_010121000' } do
         let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
 
-        around do |example|
-          Timecop.freeze(Time.zone.parse('2013-11-11 12:00:00')) do
-            example.run
-          end
-        end
-
         before do
           stub_api_request("/commodities/#{commodity_id}/validity_periods")
             .to_return jsonapi_response(:validity_periods, validity_periods)
@@ -132,12 +126,6 @@ RSpec.describe CommoditiesController, type: :controller do
       context 'with commodity id that does not exist in provided date and no validity_periods api',
               vcr: { cassette_name: 'commodities#show_010121000' } do
         let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
-
-        around do |example|
-          Timecop.freeze(Time.zone.parse('2013-11-11 12:00:00')) do
-            example.run
-          end
-        end
 
         before do
           stub_api_request("/commodities/#{commodity_id}/validity_periods")

@@ -421,7 +421,6 @@ GEM
     statsd-ruby (1.5.0)
     strscan (3.0.1)
     thor (1.2.1)
-    timecop (0.9.4)
     timeout (0.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -501,7 +500,6 @@ DEPENDENCIES
   sentry-rails
   shoulda-matchers
   simplecov
-  timecop
   vcr
   web-console
   webdrivers
