@@ -43,7 +43,7 @@
 <!-- UK IMPORT CONTROLS -->
 <% if uk_import_measures&.import_controls.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
-    caption: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls' : 'UK import controls',
+    caption: 'UK import controls',
     collection: uk_import_measures.import_controls.sort_by(&:key),
     hide_duty_rate: true,
     css_id: 'uk_import_controls' }

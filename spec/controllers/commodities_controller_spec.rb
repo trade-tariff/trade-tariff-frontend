@@ -2,6 +2,27 @@ require 'spec_helper'
 
 RSpec.describe CommoditiesController, type: :controller do
   describe 'GET to #show' do
+    shared_examples_for 'a commodity controller response' do
+      context 'with existing commodity id provided', vcr: { cassette_name: 'commodities#0101300000_xi' } do
+        subject(:do_request) { get :show, params: { id: '0101300000' } }
+
+        before { do_request }
+
+        it { is_expected.to have_http_status(:success) }
+        it { expect(assigns(:section)).to be_present }
+        it { expect(assigns(:chapter)).to be_present }
+        it { expect(assigns(:heading)).to be_present }
+        it { expect(assigns(:declarable)).to be_present }
+        it { expect(assigns(:rules_of_origin_schemes)).to be_nil }
+      end
+
+      context 'with non-existant commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do
+        subject(:do_request) { get :show, params: { id: '0101999999' } }
+
+        it { is_expected.to redirect_to heading_url('0101') }
+      end
+    end
+
     context 'with XI site' do
       include_context 'with XI service'
 
@@ -10,51 +31,24 @@ RSpec.describe CommoditiesController, type: :controller do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
       end
 
-      it 'does not use with_source to fetch the commodity from the XI service', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
+      it_behaves_like 'a commodity controller response'
+
+      it 'uses the xi service to load the declarable', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
         get :show, params: { id: '0101210000' }
 
-        expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:xi)
+        expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:xi)
       end
 
-      it 'fetches the commodity from the UK service', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
+      it 'does not use the uk service to load the declarable', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
         get :show, params: { id: '0101210000' }
 
-        expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
+        expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:uk)
       end
 
       it 'sets the goods_nomenclature_code in the session', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
         get :show, params: { id: '0101210000' }
 
         expect(session[:goods_nomenclature_code]).to eq('0101210000')
-      end
-
-      context 'with existing commodity id provided' do
-        subject { controller }
-
-        before do
-          VCR.use_cassette('commodities#0101300000_xi') do
-            get :show, params: { id: '0101300000' }
-          end
-        end
-
-        it { is_expected.to respond_with(:success) }
-        it { expect(assigns(:section)).to be_present }
-        it { expect(assigns(:chapter)).to be_present }
-        it { expect(assigns(:heading)).to be_present }
-        it { expect(assigns(:commodity)).to be_present }
-        it { expect(assigns(:rules_of_origin_schemes)).to be_nil }
-      end
-
-      context 'with non-existant commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do
-        let(:commodity_id) { '0101999999' } # commodity 0101999999 does not exist
-
-        before do
-          get :show, params: { id: commodity_id }
-        end
-
-        it 'redirects to heading page (strips exceeding commodity id characters)' do
-          expect(response.status).to redirect_to heading_url(id: commodity_id.first(4))
-        end
       end
     end
 
@@ -66,12 +60,13 @@ RSpec.describe CommoditiesController, type: :controller do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
       end
 
-      let(:commodity_id) { '0101999999' } # commodity 0101999999 does not exist
-
       let(:validity_periods) do
         attributes_for_list :validity_period, 2,
                             goods_nomenclature_item_id: commodity_id
       end
+      let(:commodity_id) { '0101999999' } # commodity 0101999999 does not exist
+
+      it_behaves_like 'a commodity controller response'
 
       context 'with non existing commodity id provided and validity_periods api',
               vcr: { cassette_name: 'commodities#show_0101999999' } do

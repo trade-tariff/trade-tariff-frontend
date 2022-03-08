@@ -1,18 +1,18 @@
 <% content_for :head do %>
-  <meta name="description" content="<%= @commodity.description_plain %>">
-  <link rel='alternate' type='application/json' href='<%= declarable_url_json(@commodity) %>' title='Commodity information page in JSON format' />
+  <meta name="description" content="<%= declarable.description_plain %>">
+  <link rel='alternate' type='application/json' href='<%= declarable_url_json(declarable) %>' title='Commodity information page in JSON format' />
 <% end %>
 
 <% content_for :bodyClasses, "page--wide" %>
 
-<%= render 'commodities/header', commodity_code: @commodity.code %>
+<%= render 'commodities/header', commodity_code: declarable.code %>
 
 <%= render 'shared/context_tables/commodity' %>
 
-<%= render 'commodities/ancestors', declarable: @commodity %>
+<%= render 'commodities/ancestors', declarable: declarable %>
 
 <%= render 'declarables/declarable',
-           declarable: @commodity,
-           xi_declarable: xi_commodity,
-           uk_declarable: uk_commodity,
+           declarable: declarable,
+           xi_declarable: xi_declarable,
+           uk_declarable: uk_declarable,
            rules_of_origin_schemes: @rules_of_origin_schemes %>
