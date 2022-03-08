@@ -29,7 +29,7 @@ FactoryBot.define do
     export_measures { [] }
 
     initialize_with do
-      new(attributes.stringify_keys)
+      new(attributes)
     end
   end
 
@@ -59,7 +59,7 @@ FactoryBot.define do
     end
 
     initialize_with do
-      new(attributes.stringify_keys)
+      new(attributes)
     end
   end
 
@@ -95,7 +95,7 @@ FactoryBot.define do
     end
 
     initialize_with do
-      new(attributes.stringify_keys)
+      new(attributes)
     end
   end
 
@@ -134,11 +134,11 @@ FactoryBot.define do
     effective_end_date { nil }
 
     measure_type do
-      attributes_for(:measure_type, id: measure_type_id, description: measure_type_description).stringify_keys
+      attributes_for(:measure_type, id: measure_type_id, description: measure_type_description)
     end
 
     geographical_area do
-      attributes_for(:geographical_area, id: geographical_area_id).stringify_keys
+      attributes_for(:geographical_area, id: geographical_area_id)
     end
 
     trait :vat do
@@ -146,44 +146,44 @@ FactoryBot.define do
     end
 
     trait :erga_omnes do
-      geographical_area { attributes_for(:geographical_area, :erga_omnes).stringify_keys }
+      geographical_area { attributes_for(:geographical_area, :erga_omnes) }
     end
 
     trait :vat_excise do
       measure_type do
-        attributes_for(:measure_type, :vat_excise, description: measure_type_description).stringify_keys
+        attributes_for(:measure_type, :vat_excise, description: measure_type_description)
       end
     end
 
     trait :trade_remedies do
       measure_type do
-        attributes_for(:measure_type, :trade_remedies, description: measure_type_description).stringify_keys
+        attributes_for(:measure_type, :trade_remedies, description: measure_type_description)
       end
     end
 
     trait :import_controls do
       measure_type do
-        attributes_for(:measure_type, :import_controls, description: measure_type_description).stringify_keys
+        attributes_for(:measure_type, :import_controls, description: measure_type_description)
       end
     end
 
     trait :customs_duties do
       measure_type do
-        attributes_for(:measure_type, :customs_duties, description: measure_type_description).stringify_keys
+        attributes_for(:measure_type, :customs_duties, description: measure_type_description)
       end
     end
 
     trait :quotas do
       measure_type do
-        attributes_for(:measure_type, :quotas, description: measure_type_description).stringify_keys
+        attributes_for(:measure_type, :quotas, description: measure_type_description)
       end
     end
 
     trait :third_country do
       measure_type do
-        attributes_for(:measure_type, :third_country, description: measure_type_description).stringify_keys
+        attributes_for(:measure_type, :third_country, description: measure_type_description)
       end
-      geographical_area { attributes_for(:geographical_area, :erga_omnes).stringify_keys }
+      geographical_area { attributes_for(:geographical_area, :erga_omnes) }
     end
 
     trait :excluded do
@@ -212,7 +212,7 @@ FactoryBot.define do
 
     trait :import_export_supplementary do
       measure_type do
-        attributes_for(:measure_type, :import_export_supplementary, description: measure_type_description).stringify_keys
+        attributes_for(:measure_type, :import_export_supplementary, description: measure_type_description)
       end
 
       duty_expression do
@@ -222,7 +222,7 @@ FactoryBot.define do
 
     trait :import_only_supplementary do
       measure_type do
-        attributes_for(:measure_type, :import_only_supplementary, description: measure_type_description).stringify_keys
+        attributes_for(:measure_type, :import_only_supplementary, description: measure_type_description)
       end
 
       duty_expression do
@@ -286,19 +286,19 @@ FactoryBot.define do
     end
 
     trait :specific_country do
-      geographical_area { attributes_for(:geographical_area, :specific_country).stringify_keys }
+      geographical_area { attributes_for(:geographical_area, :specific_country) }
     end
 
     trait :with_conditions do
-      measure_conditions { [attributes_for(:measure_condition).stringify_keys] }
+      measure_conditions { [attributes_for(:measure_condition)] }
     end
 
     trait :with_additional_code do
-      additional_code { attributes_for(:additional_code).stringify_keys }
+      additional_code { attributes_for(:additional_code) }
     end
 
     trait :with_footnotes do
-      footnotes { [attributes_for(:footnote).stringify_keys] }
+      footnotes { [attributes_for(:footnote)] }
     end
 
     trait :national do
@@ -318,7 +318,7 @@ FactoryBot.define do
     end
 
     initialize_with do
-      new(attributes.stringify_keys)
+      new(attributes)
     end
   end
 
@@ -411,7 +411,7 @@ FactoryBot.define do
       end
 
       measurement_unit do
-        attributes_for(:measurement_unit, :supplementary).stringify_keys
+        attributes_for(:measurement_unit, :supplementary)
       end
     end
   end
@@ -439,7 +439,7 @@ FactoryBot.define do
     end
 
     initialize_with do
-      new(attributes.stringify_keys)
+      new(attributes)
     end
   end
 
@@ -472,7 +472,7 @@ FactoryBot.define do
     filename { 'filename.txt' }
 
     initialize_with do
-      new(attributes.stringify_keys)
+      new(attributes)
     end
   end
 
@@ -569,7 +569,7 @@ FactoryBot.define do
     end
 
     initialize_with do
-      new(attributes.stringify_keys)
+      new(attributes)
     end
   end
 
@@ -595,7 +595,7 @@ FactoryBot.define do
     end
 
     initialize_with do
-      new(attributes.stringify_keys)
+      new(attributes)
     end
   end
 end

@@ -4,7 +4,7 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
   let(:measure) do
     Measure.new(
       attributes_for(:measure, :third_country,
-                     duty_expression: duty_expression).stringify_keys,
+                     duty_expression: duty_expression),
     )
   end
 
@@ -15,7 +15,7 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
   end
 
   context 'with formatted_base' do
-    let(:duty_expression) { attributes_for(:duty_expression).stringify_keys }
+    let(:duty_expression) { attributes_for(:duty_expression) }
 
     it { expect(rendered).to match(/EUR/) }
     it { expect(rendered).to match(/Hectokilogram/) }
@@ -24,7 +24,7 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
 
   context 'without formatted_base' do
     let(:duty_expression) do
-      attributes_for(:duty_expression, formatted_base: nil).stringify_keys
+      attributes_for(:duty_expression, formatted_base: nil)
     end
 
     it { expect(rendered).to match(/EUR/) }

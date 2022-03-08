@@ -27,7 +27,7 @@ RSpec.describe HeadingsController, type: :controller do
     end
 
     context 'with existing heading id provided', vcr: { cassette_name: 'headings#show' } do
-      let!(:heading) { Heading.new(attributes_for(:heading).stringify_keys) }
+      let!(:heading) { Heading.new(attributes_for(:heading)) }
 
       before do
         get :show, params: { id: heading.to_param }
