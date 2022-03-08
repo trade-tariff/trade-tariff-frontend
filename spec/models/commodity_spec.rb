@@ -42,12 +42,12 @@ RSpec.describe Commodity do
     let(:associated_commodities) do
       {
         commodities: [attributes_for(:commodity, goods_nomenclature_sid: 1,
-                                                 parent_sid: nil).stringify_keys,
+                                                 parent_sid: nil),
                       attributes_for(:commodity, parent_sid: 1,
-                                                 goods_nomenclature_sid: 2).stringify_keys],
+                                                 goods_nomenclature_sid: 2)],
       }
     end
-    let(:heading_attributes) { attributes_for(:heading).merge(associated_commodities).stringify_keys }
+    let(:heading_attributes) { attributes_for(:heading).merge(associated_commodities) }
     let(:heading) { Heading.new(heading_attributes) }
 
     describe '#children' do
@@ -90,7 +90,7 @@ RSpec.describe Commodity do
   end
 
   describe '#to_param' do
-    let(:commodity) { described_class.new(attributes_for(:commodity).stringify_keys) }
+    let(:commodity) { described_class.new(attributes_for(:commodity)) }
 
     it 'returns commodity code as param' do
       expect(commodity.to_param).to eq commodity.code
@@ -98,7 +98,7 @@ RSpec.describe Commodity do
   end
 
   describe '#aria_label' do
-    let(:commodity) { described_class.new(attributes_for(:commodity).stringify_keys) }
+    let(:commodity) { described_class.new(attributes_for(:commodity)) }
 
     it 'formats the aria label correctly' do
       expect(commodity.aria_label).to \
@@ -121,7 +121,7 @@ RSpec.describe Commodity do
   end
 
   describe '#meursing_code?' do
-    subject(:commodity) { described_class.new(attributes_for(:commodity, meta: commodity_metadata).stringify_keys) }
+    subject(:commodity) { described_class.new(attributes_for(:commodity, meta: commodity_metadata)) }
 
     let(:commodity_metadata) do
       { 'duty_calculator' => { 'meursing_code' => meursing_code } }
@@ -145,7 +145,7 @@ RSpec.describe Commodity do
   end
 
   describe '#calculate_duties?' do
-    subject(:commodity) { described_class.new(attributes_for(:commodity, meta: commodity_metadata).stringify_keys) }
+    subject(:commodity) { described_class.new(attributes_for(:commodity, meta: commodity_metadata)) }
 
     let(:commodity_metadata) { { 'duty_calculator' => { 'entry_price_system' => entry_price_system } } }
     let(:entry_price_system) { false }

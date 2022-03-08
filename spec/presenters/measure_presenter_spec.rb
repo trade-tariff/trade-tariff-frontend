@@ -10,15 +10,15 @@ RSpec.describe MeasurePresenter do
       let(:geographical_area) do
         attributes_for(
           :geographical_area,
-          children_geographical_areas: [attributes_for(:geographical_area).stringify_keys],
-        ).stringify_keys
+          children_geographical_areas: [attributes_for(:geographical_area)],
+        )
       end
 
       it { is_expected.to be_has_children_geographical_areas }
     end
 
     context 'when the measure has a GeographicalArea with no children' do
-      let(:geographical_area) { attributes_for(:geographical_area).stringify_keys }
+      let(:geographical_area) { attributes_for(:geographical_area) }
 
       it { is_expected.not_to be_has_children_geographical_areas }
     end
@@ -26,12 +26,12 @@ RSpec.describe MeasurePresenter do
 
   describe '#children_geographical_areas' do
     let(:measure) { build(:measure, geographical_area: geographical_area) }
-    let(:geographical_area) { attributes_for(:geographical_area, geographical_area_id: nil, children_geographical_areas: children_geographical_areas).stringify_keys }
+    let(:geographical_area) { attributes_for(:geographical_area, geographical_area_id: nil, children_geographical_areas: children_geographical_areas) }
 
     let(:children_geographical_areas) do
       [
-        attributes_for(:geographical_area, id: 'CD').stringify_keys,
-        attributes_for(:geographical_area, id: 'AB').stringify_keys,
+        attributes_for(:geographical_area, id: 'CD'),
+        attributes_for(:geographical_area, id: 'AB'),
       ]
     end
 

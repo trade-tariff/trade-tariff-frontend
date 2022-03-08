@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Headings::ChangesController, 'GET to #index', type: :controller do
-  let!(:heading) { Heading.new(attributes_for(:heading, goods_nomenclature_item_id: '0101000000').stringify_keys) }
+  let!(:heading) { Heading.new(attributes_for(:heading, goods_nomenclature_item_id: '0101000000')) }
 
   describe 'heading is valid at given date', vcr: { cassette_name: 'headings_changes#index' } do
     before do

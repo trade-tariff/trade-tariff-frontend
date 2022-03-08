@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Chapters::ChangesController, 'GET to #index', type: :controller do
-  let!(:chapter) { Chapter.new(attributes_for(:chapter, goods_nomenclature_item_id: '0100000000').stringify_keys) }
+  let!(:chapter) { Chapter.new(attributes_for(:chapter, goods_nomenclature_item_id: '0100000000')) }
 
   describe 'chapter is valid at given date', vcr: { cassette_name: 'chapters_changes#index' } do
     before do

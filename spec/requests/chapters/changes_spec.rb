@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'GET to #index - getting chapter change feed', type: :request do
-  let!(:chapter) { Chapter.new(attributes_for(:chapter, goods_nomenclature_item_id: '0101000000').stringify_keys) }
+  let!(:chapter) { Chapter.new(attributes_for(:chapter, goods_nomenclature_item_id: '0101000000')) }
 
   describe 'no request format supplied' do
     before do

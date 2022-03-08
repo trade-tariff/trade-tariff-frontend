@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe ChaptersController, type: :controller, vcr: { cassette_name: 'chapters#show' } do
   describe 'GET #show' do
-    let!(:chapter) { build :chapter, section: attributes_for(:section).stringify_keys }
+    let!(:chapter) { build :chapter, section: attributes_for(:section) }
 
     before do
       get :show, params: { id: chapter.to_param }
