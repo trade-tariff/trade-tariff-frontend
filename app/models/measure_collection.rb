@@ -5,53 +5,58 @@ class MeasureCollection
 
   delegate :present?, to: :measures
   delegate :size, :length, :collect, :map, :each, :all?, :include?, :to_ary, to: :to_a
+  delegate :new, to: :class
 
   def initialize(measures)
-    @measures = measures.clone
+    @measures = measures.clone.presence || []
   end
 
   def without_supplementary_unit
-    self.class.new(measures.reject(&:supplementary?))
+    new(measures.reject(&:supplementary?))
+  end
+
+  def without_excluded
+    new(measures.reject(&:excluded?))
   end
 
   def for_country(country)
-    self.class.new(measures.select { |m| m.relevant_for_country?(country) })
+    new(measures.select { |m| m.relevant_for_country?(country) })
   end
 
   def vat_excise
-    self.class.new(measures.select(&:vat_excise?))
+    new(measures.select(&:vat_excise?))
   end
 
   def import_controls
-    self.class.new(measures.select(&:import_controls?))
-  end
-
-  def trade_remedies
-    self.class.new(measures.select(&:trade_remedies?))
+    new(measures.select(&:import_controls?) + measures.select(&:unclassified_import_controls?))
   end
 
   def customs_duties
-    self.class.new(measures.select(&:customs_duties?))
+    new(measures.select(&:customs_duties?) + measures.select(&:unclassified_customs_duties?))
+  end
+
+  def trade_remedies
+    new(measures.select(&:trade_remedies?))
   end
 
   def quotas
-    self.class.new(measures.select(&:quotas?))
+    new(measures.select(&:quotas?))
   end
 
   def vat
-    self.class.new(measures.select(&:vat?))
+    new(measures.select(&:vat?))
   end
 
   def national
-    self.class.new(measures.select(&:national?))
+    new(measures.select(&:national?))
   end
 
   def third_country_duty
-    self.class.new(measures.select(&:third_country?))
+    new(measures.select(&:third_country?))
   end
 
   def supplementary
-    self.class.new(measures.select(&:supplementary?))
+    new(measures.select(&:supplementary?))
   end
 
   def to_a

@@ -71,24 +71,44 @@ class Measure
     end
   end
 
+  def unclassified?
+    !classified?
+  end
+
+  def classified?
+    all_grouped_types.include?(measure_type.id)
+  end
+
   def vat_excise?
-    declarable_types[:vat_and_excise].include?(measure_type.id)
+    grouped_measure_types[:vat_and_excise].include?(measure_type.id)
+  end
+
+  def excluded?
+    grouped_measure_types[:excluded].include?(measure_type.id)
   end
 
   def import_controls?
-    declarable_types[:import_controls].include?(measure_type.id)
+    grouped_measure_types[:import_controls].include?(measure_type.id)
+  end
+
+  def unclassified_import_controls?
+    unclassified? && (measure_type.duties_permitted? || measure_type.duties_not_permitted?)
   end
 
   def trade_remedies?
-    declarable_types[:remedies].include?(measure_type.id)
+    grouped_measure_types[:remedies].include?(measure_type.id)
   end
 
   def customs_duties?
-    declarable_types[:customs_duties].include?(measure_type.id)
+    grouped_measure_types[:customs_duties].include?(measure_type.id)
+  end
+
+  def unclassified_customs_duties?
+    unclassified? && measure_type.duties_mandatory?
   end
 
   def quotas?
-    declarable_types[:quotas].include?(measure_type.id)
+    grouped_measure_types[:quotas].include?(measure_type.id)
   end
 
   def third_country?
@@ -140,13 +160,21 @@ class Measure
     end
   end
 
+  class << self
+    def grouped_measure_types
+      @grouped_measure_types ||= Rails.configuration.grouped_measure_types
+    end
+
+    def all_grouped_types
+      @all_grouped_types ||= grouped_measure_types.values.flatten.sort
+    end
+  end
+
+  delegate :grouped_measure_types, :all_grouped_types, to: :class
+
   private
 
   def excluded_country_ids
     @excluded_country_ids ||= excluded_countries.map(&:id)
-  end
-
-  def declarable_types
-    @declarable_types ||= Rails.configuration.declarable_types
   end
 end
