@@ -3,8 +3,7 @@ class MeasureCollection
 
   attr_accessor :measures
 
-  delegate :present?, to: :measures
-  delegate :size, :length, :collect, :map, :each, :all?, :include?, :to_ary, to: :to_a
+  delegate :+, :present?, :size, :length, :collect, :map, :each, :all?, :include?, to: :to_a
   delegate :new, to: :class
 
   def initialize(measures)
@@ -44,7 +43,7 @@ class MeasureCollection
   end
 
   def third_country_duties
-    measures.select(&:third_country_duties?)
+    new(measures.select(&:third_country_duties?))
   end
 
   def vat
