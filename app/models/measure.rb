@@ -142,12 +142,12 @@ class Measure
   end
 
   def key
-    "#{vat? ? 0 : 1}
-     #{third_country_duties? ? 0 : 1}
+    "#{third_country_duties? ? 0 : 1}
+     #{tariff_preferences? ? 0 : 1}
      #{supplementary? ? 0 : 1}
+     #{vat? ? 0 : 1}
      #{excise ? 0 : 1}
      #{geographical_area.children_geographical_areas.any? ? 0 : 1}
-     #{tariff_preferences? ? 0 : 1}
      #{geographical_area.description}#{additional_code_sort}"
   end
 
