@@ -99,8 +99,16 @@ class Measure
     grouped_measure_types[:remedies].include?(measure_type.id)
   end
 
-  def customs_duties?
-    grouped_measure_types[:customs_duties].include?(measure_type.id)
+  def third_country_duties?
+    grouped_measure_types[:third_country_duties].include?(measure_type.id)
+  end
+
+  def tariff_preferences?
+    grouped_measure_types[:tariff_preferences].include?(measure_type.id)
+  end
+
+  def other_customs_duties?
+    grouped_measure_types[:other_customs_duties].include?(measure_type.id)
   end
 
   def unclassified_customs_duties?
@@ -109,14 +117,6 @@ class Measure
 
   def quotas?
     grouped_measure_types[:quotas].include?(measure_type.id)
-  end
-
-  def third_country?
-    measure_type.id == '103'
-  end
-
-  def tariff_preference?
-    measure_type.id == '142'
   end
 
   delegate :supplementary?, to: :measure_type
@@ -143,11 +143,11 @@ class Measure
 
   def key
     "#{vat? ? 0 : 1}
-     #{third_country? ? 0 : 1}
+     #{third_country_duties? ? 0 : 1}
      #{supplementary? ? 0 : 1}
      #{excise ? 0 : 1}
      #{geographical_area.children_geographical_areas.any? ? 0 : 1}
-     #{tariff_preference? ? 0 : 1}
+     #{tariff_preferences? ? 0 : 1}
      #{geographical_area.description}#{additional_code_sort}"
   end
 

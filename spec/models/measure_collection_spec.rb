@@ -84,13 +84,15 @@ RSpec.describe MeasureCollection do
   end
 
   describe '#customs_duties' do
-    subject(:collection) { described_class.new([unclassified_customs_measure, customs_measure, measure]) }
+    subject(:collection) { described_class.new([third_country_measure, unclassified_customs_measure, other_customs_duties_measure, tariff_preference_measure, vat_excise_measure]) }
 
+    let(:third_country_measure) { build(:measure, :third_country) }
+    let(:tariff_preference_measure) { build(:measure, :tariff_preference) }
+    let(:other_customs_duties_measure) { build(:measure, :other_customs_duties) }
     let(:unclassified_customs_measure) { build(:measure, :unclassified_customs_duties) }
-    let(:customs_measure) { build(:measure, :customs_duties) }
-    let(:measure) { build(:measure, :vat_excise) }
+    let(:vat_excise_measure) { build(:measure, :vat_excise) }
 
-    it { expect(collection.customs_duties.measures).to eq([customs_measure, unclassified_customs_measure]) }
+    it { expect(collection.customs_duties.measures).to eq([third_country_measure, tariff_preference_measure, other_customs_duties_measure, unclassified_customs_measure]) }
   end
 
   describe '#to_a' do

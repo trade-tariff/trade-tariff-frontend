@@ -118,21 +118,45 @@ RSpec.describe Measure do
     end
   end
 
-  describe '#customs_duties?' do
-    subject(:measure) { build(:measure, measure_type:) }
+  describe '#third_country_duties?' do
+    context 'when the measure is a third country measure' do
+      subject(:measure) { build(:measure, :third_country) }
 
-    let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
+      it { is_expected.to be_third_country_duties }
+    end
 
-    context 'when the measure is a customs duties measure' do
-      let(:measure_type_id) { '103' }
+    context 'when the measure is not a third country measure' do
+      subject(:measure) { build(:measure, :vat_excise) }
 
-      it { is_expected.to be_customs_duties }
+      it { is_expected.not_to be_third_country_duties }
+    end
+  end
+
+  describe '#tariff_preferences?' do
+    context 'when the measure is a tariff preference' do
+      subject(:measure) { build(:measure, :tariff_preference) }
+
+      it { is_expected.to be_tariff_preferences }
+    end
+
+    context 'when the measure is not a tariff preference' do
+      subject(:measure) { build(:measure, :vat_excise) }
+
+      it { is_expected.not_to be_tariff_preferences }
+    end
+  end
+
+  describe '#other_customs_duties?' do
+    context 'when the measure is an other customs duties measure' do
+      subject(:measure) { build(:measure, :other_customs_duties) }
+
+      it { is_expected.to be_other_customs_duties }
     end
 
     context 'when the measure is not a customs duties measure' do
-      let(:measure_type_id) { '277' }
+      subject(:measure) { build(:measure, :vat_excise) }
 
-      it { is_expected.not_to be_customs_duties }
+      it { is_expected.not_to be_other_customs_duties }
     end
   end
 

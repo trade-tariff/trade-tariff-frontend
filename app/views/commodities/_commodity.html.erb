@@ -23,7 +23,7 @@
           <% end %>
         </div>
         <div class="duty" aria-describedby="commodity-duty-title">
-          <% tcd = commodity.overview_measures.third_country_duty %>
+          <% tcd = commodity.overview_measures.third_country_duties %>
           <% if tcd.count > 0 %>
             <%= tcd.map { |m| m.duty_expression.formatted_base }.join("<br />").html_safe %>
           <% else %>
