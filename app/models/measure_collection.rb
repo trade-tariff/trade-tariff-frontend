@@ -3,8 +3,7 @@ class MeasureCollection
 
   attr_accessor :measures
 
-  delegate :present?, to: :measures
-  delegate :size, :length, :collect, :map, :each, :all?, :include?, :to_ary, to: :to_a
+  delegate :+, :present?, :size, :length, :collect, :map, :each, :all?, :include?, to: :to_a
   delegate :new, to: :class
 
   def initialize(measures)
@@ -32,7 +31,7 @@ class MeasureCollection
   end
 
   def customs_duties
-    new(measures.select(&:customs_duties?) + measures.select(&:unclassified_customs_duties?))
+    new(third_country_duties + tariff_preferences + other_customs_duties + unclassified_customs_duties)
   end
 
   def trade_remedies
@@ -43,6 +42,10 @@ class MeasureCollection
     new(measures.select(&:quotas?))
   end
 
+  def third_country_duties
+    new(measures.select(&:third_country_duties?))
+  end
+
   def vat
     new(measures.select(&:vat?))
   end
@@ -51,15 +54,25 @@ class MeasureCollection
     new(measures.select(&:national?))
   end
 
-  def third_country_duty
-    new(measures.select(&:third_country?))
-  end
-
   def supplementary
     new(measures.select(&:supplementary?))
   end
 
   def to_a
     measures.map { |entry| MeasurePresenter.new(entry) }
+  end
+
+  private
+
+  def tariff_preferences
+    measures.select(&:tariff_preferences?)
+  end
+
+  def other_customs_duties
+    measures.select(&:other_customs_duties?)
+  end
+
+  def unclassified_customs_duties
+    measures.select(&:unclassified_customs_duties?)
   end
 end

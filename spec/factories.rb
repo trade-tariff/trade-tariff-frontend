@@ -167,12 +167,6 @@ FactoryBot.define do
       end
     end
 
-    trait :customs_duties do
-      measure_type do
-        attributes_for(:measure_type, :customs_duties, description: measure_type_description)
-      end
-    end
-
     trait :quotas do
       measure_type do
         attributes_for(:measure_type, :quotas, description: measure_type_description)
@@ -184,6 +178,18 @@ FactoryBot.define do
         attributes_for(:measure_type, :third_country, description: measure_type_description)
       end
       geographical_area { attributes_for(:geographical_area, :erga_omnes) }
+    end
+
+    trait :tariff_preference do
+      measure_type do
+        attributes_for(:measure_type, :tariff_preference, description: measure_type_description)
+      end
+    end
+
+    trait :other_customs_duties do
+      measure_type do
+        attributes_for(:measure_type, :other_customs_duties, description: measure_type_description)
+      end
     end
 
     trait :excluded do
@@ -363,16 +369,20 @@ FactoryBot.define do
       id { '551' }
     end
 
-    trait :customs_duties do
-      id { '142' }
-    end
-
     trait :quotas do
       id { '122' }
     end
 
     trait :third_country do
       id { '103' }
+    end
+
+    trait :tariff_preference do
+      id { '142' }
+    end
+
+    trait :other_customs_duties do
+      id { '109' }
     end
 
     trait :excluded do
