@@ -4,7 +4,7 @@
       Commodity
     </dt>
     <dd class="govuk-summary-list__value">
-      <%= segmented_commodity_code(declarable.code) %>
+      <%= segmented_commodity_code(@commodity.code) %>
     </dd>
     <dd class="govuk-summary-list__actions"></dd>
   </div>
@@ -13,11 +13,11 @@
       Classification
     </dt>
     <dd class="govuk-summary-list__value">
-      <%= sanitize declarable.formatted_description %>
+      <%= sanitize @commodity.formatted_description %>
     </dd>
     <dd class="govuk-summary-list__actions"></dd>
   </div>
-  <%= render 'shared/context_tables/supplementary_unit_row', declarable: declarable %>
+  <%= render 'shared/context_tables/supplementary_unit_row', declarable: @commodity %>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
       Date of trade

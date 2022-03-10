@@ -4,21 +4,21 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
   subject { render }
 
   before do
-    allow(view).to receive(:declarable).and_return(declarable)
+    assign(:commodity, commodity)
     assign(:search, search)
   end
 
-  let(:declarable) { build(:commodity) }
+  let(:commodity) { build(:commodity) }
   let(:search) { build(:search, :with_search_date, :with_country) }
 
   describe 'commodity row' do
     it { is_expected.to have_css 'dl div dt', text: 'Commodity' }
-    it { is_expected.to have_css 'dl div dd', text: declarable.goods_nomenclature_item_id }
+    it { is_expected.to have_css 'dl div dd', text: commodity.goods_nomenclature_item_id }
   end
 
   describe 'classification row' do
     it { is_expected.to have_css 'dl div dt', text: 'Classification' }
-    it { is_expected.to have_css 'dl div dd', text: declarable.formatted_description }
+    it { is_expected.to have_css 'dl div dd', text: commodity.formatted_description }
   end
 
   describe 'supplementary unit row' do
