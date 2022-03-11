@@ -59,8 +59,12 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def uk_commodity
+    fallback_to_nil_when_no_uk_equivalent = TradeTariffFrontend::ServiceChooser.xi?
+
     @uk_commodity ||= TradeTariffFrontend::ServiceChooser.with_source(:uk) do
       CommodityPresenter.new(Commodity.find(params[:id], query_params))
+    rescue Faraday::ResourceNotFound => e
+      fallback_to_nil_when_no_uk_equivalent ? nil : raise(e)
     end
   end
 
