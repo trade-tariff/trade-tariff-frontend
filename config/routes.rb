@@ -57,9 +57,12 @@ Rails.application.routes.draw do
   get 'help', to: 'pages#help', as: 'help'
   get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'
   get 'geographical_areas/:id', to: 'geographical_areas#show', as: :geographical_area
+
+  resources :feedbacks, controller: 'feedback', only: %i[new create]
+
   get 'feedback', to: 'feedback#new'
-  post 'feedback', to: 'feedback#create'
   get 'feedback/thanks', to: 'feedback#thanks'
+
   get 'tools', to: 'pages#tools'
 
   resource :import_export_dates, only: %i[show update]
