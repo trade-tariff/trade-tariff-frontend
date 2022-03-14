@@ -29,7 +29,13 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def uk_declarable
-    @uk_declarable ||= heading? ? uk_heading : uk_commodity
+    @uk_declarable ||= begin
+      heading? ? uk_heading : uk_commodity
+    rescue Faraday::ResourceNotFound
+      # When loading EU commodities we pull some measures from the UK commodity. If the UK commodity is not present
+      # in the UK database, then we should show only the applicable EU measures and not render the 404 page.
+      raise if TradeTariffFrontend::ServiceChooser.uk?
+    end
   end
 
   def xi_declarable
