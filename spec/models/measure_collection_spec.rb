@@ -94,27 +94,4 @@ RSpec.describe MeasureCollection do
 
     it { expect(collection.customs_duties.measures).to eq([third_country_measure, tariff_preference_measure, other_customs_duties_measure, unclassified_customs_measure]) }
   end
-
-  describe '#to_a' do
-    subject(:collection) { described_class.new([measure]) }
-
-    let(:measure) { build(:measure) }
-
-    it { expect(collection.to_a).to be_kind_of Array }
-    it { expect(collection.to_a.first).to be_kind_of MeasurePresenter }
-  end
-
-  describe '#present?' do
-    context 'when there are measures' do
-      subject(:collection) { described_class.new([build(:measure)]) }
-
-      it { is_expected.to be_present }
-    end
-
-    context 'when there are no measures' do
-      subject(:collection) { described_class.new([]) }
-
-      it { is_expected.not_to be_present }
-    end
-  end
 end

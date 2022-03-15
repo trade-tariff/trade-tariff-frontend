@@ -9,10 +9,12 @@ module Declarable
     has_many :footnotes
     has_many :import_measures, class_name: 'Measure',
                                wrapper: MeasureCollection,
-                               filter: :without_excluded
+                               filter: :without_excluded,
+                               presenter: MeasurePresenter
     has_many :export_measures, class_name: 'Measure',
                                wrapper: MeasureCollection,
-                               filter: :without_excluded
+                               filter: :without_excluded,
+                               presenter: MeasurePresenter
 
     attr_accessor :description,
                   :goods_nomenclature_item_id,
