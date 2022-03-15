@@ -5,8 +5,12 @@ class Feedback
 
   attr_accessor :message, :name, :email
 
-  validates :message, presence: true
-  validates :message, length: { minimum: 10, maximum: 500 }
+  validates :message, presence: true,
+                      length: { minimum: 10, maximum: 500 }
 
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
+  validates :name, length: { maximum: 100 }
+
+  validates :email, length: { maximum: 100 },
+                    format: { with: URI::MailTo::EMAIL_REGEXP },
+                    allow_blank: true
 end
