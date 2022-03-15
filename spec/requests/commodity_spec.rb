@@ -54,6 +54,20 @@ RSpec.describe 'Commodity page', type: :request do
     end
   end
 
+  context 'when on the XI service and the UK commodity returns a 404' do
+    before do
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_raise(Faraday::ResourceNotFound, 'foo')
+    end
+
+    it 'still loads the XI commodity' do
+      VCR.use_cassette('commodities#0501000000#xi') do
+        get '/xi/commodities/0501000000'
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
   context 'when mime type is HTML' do
     it 'displays declarable related information' do
       VCR.use_cassette('commodities#0101300000.html') do
