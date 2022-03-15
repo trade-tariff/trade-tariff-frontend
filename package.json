@@ -34,8 +34,6 @@
   "devDependencies": {
     "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.3",
-    "eslint": "^8.11.0",
-    "eslint-config-google": "^0.14.0",
     "jest": "^27.5.1"
   },
   "scripts": {
@@ -56,6 +54,9 @@
       "app/webpacker/src/javascripts",
       "app/webpacker/controllers"
     ],
-    "transformIgnorePatterns": ["/node_modules/(?!stimulus)", "\\.pnp\\.[^\\\/]+$"]
+    "transformIgnorePatterns": [
+      "/node_modules/(?!stimulus)",
+      "\\.pnp\\.[^\\/]+$"
+    ]
   }
 }
