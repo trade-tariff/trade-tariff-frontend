@@ -83,6 +83,7 @@ en:
     meursing_lookup: Meursing code finder
     date: Enter date of trade
     trading_partner: Select a country
+    feedback: Feedback
 
   measure_type_descriptions:
     1400:
@@ -162,3 +163,13 @@ en:
           attributes:
             country:
               invalid_country: Select a country
+        feedback:
+          attributes:
+            message:
+              blank: Enter your feedback
+              too_long: The feedback must be %{count} characters or fewer
+            name:
+              too_long: The name must be %{count} characters or fewer
+            email:
+              invalid: Enter an email address in the correct format, like name@example.com
+              too_long: The email must be %{count} characters or fewer

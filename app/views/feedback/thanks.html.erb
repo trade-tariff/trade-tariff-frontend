@@ -1,3 +1,18 @@
-<div>
-  <%= page_header flash[:alert] %>
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+    t('breadcrumb.feedback'),
+    [
+      [t('breadcrumb.home'), home_path],
+      [t('breadcrumb.help'), help_path],
+    ]
+  ) %>
+<% end %>
+
+<div class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title">
+    Thank you for your feedback.
+  </h1>
+  <div class="govuk-panel__body">
+    We will get back to you shortly.
+  </div>
 </div>

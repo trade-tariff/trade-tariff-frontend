@@ -608,4 +608,6 @@ FactoryBot.define do
       new(attributes)
     end
   end
+
+  factory :feedback
 end
