@@ -31,7 +31,7 @@ class TariffJsonapiParser
   def parse_resource(resource)
     result = {}
 
-    parse_top_level_attributes!(resource, result)
+    parse_top_level_attributes!(resource, result) if resource.key?('attributes')
     parse_relationships!(resource['relationships'], result) if resource.key?('relationships')
     parse_meta!(resource, result) if resource.key?('meta')
 

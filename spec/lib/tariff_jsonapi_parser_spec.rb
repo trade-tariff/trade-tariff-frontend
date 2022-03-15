@@ -15,6 +15,13 @@ RSpec.describe TariffJsonapiParser do
         it { is_expected.to include 'age' => 21 }
       end
 
+      context 'without attributes field' do
+        let(:json_file) { 'singular_no_attributes' }
+
+        it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
+        it { is_expected.not_to include 'name' }
+      end
+
       context 'with relationships' do
         let(:json_file) { 'singular_with_relationship' }
 
