@@ -15,7 +15,7 @@ module ApiEntity
       "Error parsing #{url} with headers: #{headers.inspect}"
     end
 
-  private
+    private
 
     def headers
       @response.env[:request_headers]
@@ -29,7 +29,6 @@ module ApiEntity
   extend ActiveSupport::Concern
 
   included do
-    include ActiveModel::Validations
     include ActiveModel::Conversion
     extend  ActiveModel::Naming
 
@@ -50,34 +49,24 @@ module ApiEntity
       @attributes.except(*keys_to_exclude)
     end
 
-    class_eval do
-      def resource_path
-        "/#{self.class.name.underscore.pluralize}/#{to_param}"
-      end
+    def resource_path
+      "/#{self.class.name.underscore.pluralize}/#{to_param}"
+    end
 
-      def to_param
-        id
-      end
+    def to_param
+      id
     end
   end
 
   def initialize(attributes = {})
-    class_name = self.class.name.downcase
-
     attributes = HashWithIndifferentAccess.new(attributes)
 
-    if attributes.present? && attributes.key?(class_name)
-      @attributes = attributes[class_name]
-
-      self.attributes = attributes[class_name]
-    else
-      @attributes = attributes
-
-      self.attributes = attributes
-    end
+    self.attributes = attributes
   end
 
   def attributes=(attributes = {})
+    @attributes = attributes
+
     if attributes.present?
       attributes.each do |name, value|
         if respond_to?(:"#{name}=")
@@ -93,6 +82,21 @@ module ApiEntity
 
   module ClassMethods
     delegate :get, :post, to: :api
+
+    def find(id, opts = {})
+      retries = 0
+      begin
+        resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
+        new parse_jsonapi(resp)
+      rescue Faraday::Error, ApiEntity::UnparseableResponseError
+        if retries < Rails.configuration.x.http.max_retry
+          retries += 1
+          retry
+        else
+          raise
+        end
+      end
+    end
 
     def all(opts = {})
       collection(collection_path, opts)
@@ -120,21 +124,6 @@ module ApiEntity
       end
     end
 
-    def find(id, opts = {})
-      retries = 0
-      begin
-        resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
-        new parse_jsonapi(resp)
-      rescue Faraday::Error, ApiEntity::UnparseableResponseError
-        if retries < Rails.configuration.x.http.max_retry
-          retries += 1
-          retry
-        else
-          raise
-        end
-      end
-    end
-
     def has_one(association, opts = {})
       options = opts.reverse_merge(class_name: association.to_s.singularize.classify)
 
@@ -142,13 +131,51 @@ module ApiEntity
 
       (self.relationships ||= []) << association
 
-      class_eval <<-METHODS, __FILE__, __LINE__ + 1
-        def #{association}=(data)
-          data ||= {}
+      define_method("#{association}=") do |attributes|
+        entity = options[:class_name].constantize.new((attributes.presence || {}).merge(casted_by: self))
 
-          @#{association} ||= #{options[:class_name]}.new(data.merge(casted_by: self))
+        instance_variable_set("@#{association}", entity)
+      end
+    end
+
+    def has_many(association, opts = {})
+      options = opts.reverse_merge(class_name: association.to_s.singularize.classify, wrapper: Array)
+
+      (self.relationships ||= []) << association
+
+      define_method(association) do
+        collection = instance_variable_get("@#{association}").presence || []
+        collection = options[:wrapper].new(collection)
+
+        if options[:filter].present?
+          collection.public_send(options[:filter])
+        else
+          collection
         end
-      METHODS
+      end
+
+      define_method("#{association}=") do |data|
+        data = data.presence || []
+
+        collection = data.map do |entity_attributes|
+          entity_attributes = entity_attributes.merge(casted_by: self)
+
+          entity = options[:class_name].constantize.new(entity_attributes)
+
+          if options[:presenter].present?
+            options[:presenter].new(entity)
+          else
+            entity
+          end
+        end
+
+        instance_variable_set("@#{association}", collection)
+      end
+
+      define_method("add_#{association.to_s.singularize}") do |entity|
+        instance_variable_set("@#{association}", []) unless instance_variable_defined?("@#{association}")
+        instance_variable_get("@#{association}").public_send('<<', entity)
+      end
     end
 
     def enum(field, enum_config)
@@ -159,37 +186,6 @@ module ApiEntity
       end
     end
 
-    def has_many(association, opts = {})
-      options = opts.reverse_merge(class_name: association.to_s.singularize.classify, wrapper: Array)
-
-      (self.relationships ||= []) << association
-
-      class_eval <<-METHODS, __FILE__, __LINE__ + 1
-        def #{association}
-          collection = #{options[:wrapper]}.new(@#{association}.presence || [])
-
-          if #{options[:filter].present?}
-            collection.public_send("#{options[:filter]}")
-          else
-            collection
-          end
-        end
-
-        def #{association}=(data)
-          @#{association} ||= if data.present?
-            data.map { |record| #{options[:class_name]}.new(record.merge(casted_by: self)) }
-          else
-            []
-          end
-        end
-
-        def add_#{association.to_s.singularize}(record)
-          @#{association} ||= []
-          @#{association} << record
-        end
-      METHODS
-    end
-
     def paginate_collection(collection, pagination)
       Kaminari.paginate_array(
         collection,
@@ -198,11 +194,9 @@ module ApiEntity
     end
 
     def collection_path(path = nil)
-      if path
-        @collection_path = path
-      else
-        @collection_path
-      end
+      return @collection_path if path.blank?
+
+      @collection_path = path
     end
 
     def api

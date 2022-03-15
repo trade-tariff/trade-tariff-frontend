@@ -8,7 +8,7 @@ class OrderNumber
 
   delegate :present?, to: :number
 
-  has_one :definition
+  has_one :definition, class_name: 'OrderNumber::Definition'
   has_one :geographical_area
   has_many :geographical_areas
 
