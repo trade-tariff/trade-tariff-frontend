@@ -15,6 +15,7 @@ class Measure
   attr_reader :effective_start_date,
               :effective_end_date
 
+  has_one :goods_nomenclature
   has_one :geographical_area
   has_many :legal_acts
   has_one :measure_type

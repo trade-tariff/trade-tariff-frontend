@@ -7,6 +7,8 @@ FactoryBot.define do
   factory :goods_nomenclature do
     description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0100000000' }
+    goods_nomenclature_id { '0100000000' }
+    goods_nomenclature_class { 'Chapter' }
     validity_start_date { Time.zone.today.ago(3.years) }
     validity_end_date   { nil }
   end

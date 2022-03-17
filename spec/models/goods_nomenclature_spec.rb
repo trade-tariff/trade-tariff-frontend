@@ -191,4 +191,18 @@ RSpec.describe GoodsNomenclature do
     it { is_expected.to have_attributes length: 6 }
     it { is_expected.to eql schemes.map(&:rules).flatten }
   end
+
+  describe '#to_path' do
+    shared_examples_for 'a goods nomenclature path' do |goods_nomenclature_id, goods_nomenclature_class, expected_path|
+      subject(:to_path) { build(:goods_nomenclature, goods_nomenclature_id:, goods_nomenclature_class:).to_path }
+
+      it { is_expected.to eq(expected_path) }
+    end
+
+    it_behaves_like 'a goods nomenclature path', '01', 'Chapter', '/chapters/01'
+    it_behaves_like 'a goods nomenclature path', '0101', 'Heading', '/headings/0101'
+    it_behaves_like 'a goods nomenclature path', '0101100000-80', 'Subheading', '/subheadings/0101100000-80'
+    it_behaves_like 'a goods nomenclature path', '0101100000', 'Commodity', '/commodities/0101100000'
+    it_behaves_like 'a goods nomenclature path', nil, nil, nil
+  end
 end
