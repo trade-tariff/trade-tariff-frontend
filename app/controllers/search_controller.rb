@@ -1,7 +1,7 @@
 require 'addressable/uri'
 
 class SearchController < ApplicationController
-  before_action :disable_switch_service_banner!, only: [:quota_search]
+  before_action :disable_switch_service_banner, only: [:quota_search]
   before_action :disable_search_form, except: [:search]
 
   def search
@@ -33,7 +33,7 @@ class SearchController < ApplicationController
     start_with = SearchSuggestion.start_with(search_term).sort_by(&:value)
     results = start_with.map { |s| { id: s.value, text: s.value } }
 
-    render json: { results: results }
+    render json: { results: }
   end
 
   def quota_search
@@ -105,7 +105,7 @@ class SearchController < ApplicationController
   end
 
   def missing_search_query_fallback_url
-    return sections_url(anchor: anchor) if request.referer.blank?
+    return sections_url(anchor:) if request.referer.blank?
 
     back_url = Addressable::URI.parse(request.referer)
     back_url.query_values ||= {}

@@ -1,8 +1,6 @@
 class PagesController < ApplicationController
-  before_action do
-    disable_search_form
-    @tariff_last_updated = nil
-  end
+  before_action :disable_search_form,
+                :disable_last_updated_footnote
 
   def index
     @section_css = 'govuk-visually-hidden'

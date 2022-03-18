@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
     # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
-  def disable_switch_service_banner!
+  def disable_switch_service_banner
     @disable_switch_service_banner = true
   end
 
@@ -82,6 +82,10 @@ class ApplicationController < ActionController::Base
 
   def disable_search_form
     @no_shared_search = true
+  end
+
+  def disable_last_updated_footnote
+    @tariff_last_updated = nil
   end
 
   def search_invoked?

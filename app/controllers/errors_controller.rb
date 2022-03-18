@@ -1,7 +1,5 @@
 class ErrorsController < ApplicationController
-  before_action do
-    @tariff_last_updated = nil
-  end
+  before_action :disable_last_updated_footnote
 
   def not_found
     render status: :not_found
