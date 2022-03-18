@@ -7,7 +7,6 @@ class GoodsNomenclature
   attr_accessor :goods_nomenclature_item_id,
                 :formatted_description,
                 :description,
-                :goods_nomenclature_class,
                 :producline_suffix
 
   def validity_start_date=(validity_start_date)

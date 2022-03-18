@@ -74,7 +74,7 @@ RSpec.describe TariffJsonapiParser do
         it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
         it { is_expected.to include 'name' => 'Joe' }
         it { is_expected.to include 'age' => 21 }
-        it { is_expected.to include 'parts' => [{ 'meta' => { 'foo' => 'bar' }, 'part_name' => 'A part name' }] }
+        it { is_expected.to include 'parts' => [{ 'type' => 'part', 'meta' => { 'foo' => 'bar' }, 'part_name' => 'A part name' }] }
       end
 
       context 'with missing relationships' do
