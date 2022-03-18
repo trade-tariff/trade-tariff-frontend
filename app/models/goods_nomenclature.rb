@@ -7,17 +7,8 @@ class GoodsNomenclature
   attr_accessor :goods_nomenclature_item_id,
                 :formatted_description,
                 :description,
-                :goods_nomenclature_id,
-                :goods_nomenclature_class
-
-  def to_path
-    case goods_nomenclature_class
-    when 'Chapter' then "/chapters/#{goods_nomenclature_id}"
-    when 'Heading' then "/headings/#{goods_nomenclature_id}"
-    when 'Subheading' then "/subheadings/#{goods_nomenclature_id}"
-    when 'Commodity' then "/commodities/#{goods_nomenclature_id}"
-    end
-  end
+                :goods_nomenclature_class,
+                :producline_suffix
 
   def validity_start_date=(validity_start_date)
     @attributes['validity_start_date'] = Date.parse(validity_start_date.to_s) if validity_start_date.present?

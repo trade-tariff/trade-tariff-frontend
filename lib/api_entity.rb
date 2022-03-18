@@ -56,6 +56,10 @@ module ApiEntity
     def to_param
       id
     end
+
+    def coerce_to_type(polymorphic_type_method)
+      send(polymorphic_type_method).constantize.new(attributes)
+    end
   end
 
   def initialize(attributes = {})
@@ -125,14 +129,19 @@ module ApiEntity
     end
 
     def has_one(association, opts = {})
-      options = opts.reverse_merge(class_name: association.to_s.singularize.classify)
-
-      attr_accessor association.to_sym
+      options = {
+        class_name: association.to_s.singularize.classify,
+        polymorphic: false,
+        polymorphic_type_method: :type,
+      }.merge(opts)
 
       (self.relationships ||= []) << association
 
+      attr_reader association.to_sym
+
       define_method("#{association}=") do |attributes|
         entity = options[:class_name].constantize.new((attributes.presence || {}).merge(casted_by: self))
+        entity = entity.coerce_to_type(options[:polymorphic_type_method]) if options[:polymorphic]
 
         instance_variable_set("@#{association}", entity)
       end

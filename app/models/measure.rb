@@ -15,7 +15,6 @@ class Measure
   attr_reader :effective_start_date,
               :effective_end_date
 
-  has_one :goods_nomenclature
   has_one :geographical_area
   has_many :legal_acts
   has_one :measure_type
@@ -27,7 +26,7 @@ class Measure
   has_many :measure_components
   has_many :measure_conditions
   has_many :footnotes
-  has_one :goods_nomenclature
+  has_one :goods_nomenclature, polymorphic: true, polymorphic_type_method: :goods_nomenclature_class
 
   delegate :erga_omnes?, to: :geographical_area
 

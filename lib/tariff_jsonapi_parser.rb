@@ -31,7 +31,8 @@ class TariffJsonapiParser
   def parse_resource(resource)
     result = {}
 
-    parse_top_level_attributes!(resource, result) if resource.key?('attributes')
+    parse_type!(resource, result)
+    parse_attributes!(resource, result) if resource.key?('attributes')
     parse_relationships!(resource['relationships'], result) if resource.key?('relationships')
     parse_meta!(resource, result) if resource.key?('meta')
 
@@ -44,12 +45,17 @@ class TariffJsonapiParser
     end
   end
 
-  def parse_top_level_attributes!(resource, parent)
+  def parse_type!(resource, parent)
+    parent.merge!('type' => resource['type'])
+  end
+
+  def parse_attributes!(resource, parent)
     parent.merge!(resource['attributes'])
   end
 
   def parse_relationships!(relationships, parent)
     relationships.each do |name, values|
+
       parent[name] = case values['data']
                      when Array
                        find_and_parse_multiple_included(name, values['data'])
