@@ -327,11 +327,9 @@ jobs:
       - run:
           name: Inspecting with Brakeman
           when: always
-          command: 'bundle exec brakeman -o test-results/brakeman/brakeman.junit -o brakeman.html --no-progress --separate-models'
+          command: 'bundle exec brakeman -o /dev/stdout -o test-results/brakeman/brakeman.junit --no-progress --no-pager'
       - store_test_results:
           path: test-results/brakeman/
-      - store_artifacts:
-          path: brakeman.html
 
   build:
     environment:
