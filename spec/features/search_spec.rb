@@ -140,18 +140,17 @@ RSpec.describe 'Search', js: true do
 
           expect(page).to have_content('Quotas')
 
-          page.find('#goods_nomenclature_item_id').set('0301')
-          page.find('#order_number').set('0906')
-          page.find('#day').set('01')
-          page.find('#month').set('01')
-          page.find('#year').set('2019')
+          page.find('#order_number').set('050088')
+          page.find('#day').set('16')
+          page.find('#month').set('03')
+          page.find('#year').set('2022')
           page.find('input[name="new_search"]').click
 
-          using_wait_time 1 do
+          using_wait_time 5 do
             expect(page).to have_content('Quota search results')
-            expect(page).to have_content('090671')
-            expect(page).to have_content('0301919011')
-            expect(page).to have_content('Faroe Islands (FO)')
+            expect(page).to have_content('050088')
+            expect(page).to have_content('2106909800-80')
+            expect(page).to have_content('All countries (1011)')
           end
         end
       end

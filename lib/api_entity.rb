@@ -125,14 +125,23 @@ module ApiEntity
     end
 
     def has_one(association, opts = {})
-      options = opts.reverse_merge(class_name: association.to_s.singularize.classify)
-
-      attr_accessor association.to_sym
+      options = {
+        class_name: association.to_s.singularize.classify,
+        polymorphic: false,
+      }.merge(opts)
 
       (self.relationships ||= []) << association
 
+      attr_reader association.to_sym
+
       define_method("#{association}=") do |attributes|
-        entity = options[:class_name].constantize.new((attributes.presence || {}).merge(casted_by: self))
+        class_name = if options[:polymorphic]
+                       attributes['resource_type'].classify
+                     else
+                       options[:class_name]
+                     end
+
+        entity = class_name.constantize.new((attributes.presence || {}).merge(casted_by: self))
 
         instance_variable_set("@#{association}", entity)
       end

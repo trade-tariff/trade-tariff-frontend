@@ -6,7 +6,8 @@ class GoodsNomenclature
 
   attr_accessor :goods_nomenclature_item_id,
                 :formatted_description,
-                :description
+                :description,
+                :producline_suffix
 
   def validity_start_date=(validity_start_date)
     @attributes['validity_start_date'] = Date.parse(validity_start_date.to_s) if validity_start_date.present?

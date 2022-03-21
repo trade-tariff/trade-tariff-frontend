@@ -26,7 +26,7 @@ class Measure
   has_many :measure_components
   has_many :measure_conditions
   has_many :footnotes
-  has_one :goods_nomenclature
+  has_one :goods_nomenclature, polymorphic: true
 
   delegate :erga_omnes?, to: :geographical_area
 
