@@ -1,7 +1,7 @@
 <tr class="govuk-table__row">
   <td class="govuk-table__cell">
     <% if goods_nomenclature.instance_of?(GoodsNomenclature) %>
-        <a href="<%= commodity_path(goods_nomenclature) %>" aria-describedby="code-for-commodity-<%= goods_nomenclature.id %>">
+      <a href="<%= commodity_path(goods_nomenclature) %>" aria-describedby="code-for-commodity-<%= goods_nomenclature.id %>">
     <% else %>
       <a href="<%= polymorphic_path(goods_nomenclature) %>" aria-describedby="code-for-commodity-<%= goods_nomenclature.id %>">
     <% end  %>

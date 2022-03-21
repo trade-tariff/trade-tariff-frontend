@@ -136,7 +136,7 @@ module ApiEntity
 
       define_method("#{association}=") do |attributes|
         class_name = if options[:polymorphic]
-                       attributes['type'].classify
+                       attributes['resource_type'].classify
                      else
                        options[:class_name]
                      end

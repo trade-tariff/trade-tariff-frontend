@@ -46,7 +46,7 @@ class TariffJsonapiParser
   end
 
   def parse_type!(resource, parent)
-    parent.merge!('type' => resource['type'])
+    parent.merge!('resource_type' => resource['type'])
   end
 
   def parse_attributes!(resource, parent)
@@ -55,7 +55,6 @@ class TariffJsonapiParser
 
   def parse_relationships!(relationships, parent)
     relationships.each do |name, values|
-
       parent[name] = case values['data']
                      when Array
                        find_and_parse_multiple_included(name, values['data'])
