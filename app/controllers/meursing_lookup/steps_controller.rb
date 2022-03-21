@@ -2,9 +2,8 @@ module MeursingLookup
   class StepsController < ApplicationController
     before_action do
       disable_search_form
-      @tariff_last_updated = nil
-
-      disable_switch_service_banner!
+      disable_last_updated_footnote
+      disable_switch_service_banner
 
       clear_meursing_lookup_session
       store_meursing_lookup_result_on_session

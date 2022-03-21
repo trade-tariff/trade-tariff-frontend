@@ -1,9 +1,7 @@
 class FeedbackController < ApplicationController
-  before_action do
-    disable_search_form
-    disable_switch_service_banner!
-    @tariff_last_updated = nil
-  end
+  before_action :disable_search_form,
+                :disable_switch_service_banner,
+                :disable_last_updated_footnote
 
   def new
     @feedback = Feedback.new

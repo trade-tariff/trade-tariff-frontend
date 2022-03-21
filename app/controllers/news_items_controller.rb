@@ -1,6 +1,6 @@
 class NewsItemsController < ApplicationController
-  before_action { @tariff_last_updated = nil }
-  before_action { @no_shared_search = true }
+  before_action :disable_search_form,
+                :disable_last_updated_footnote
 
   def index
     @news_items = NewsItem.updates_page
