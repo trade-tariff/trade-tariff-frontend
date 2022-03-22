@@ -149,7 +149,7 @@ RSpec.describe 'Search', js: true do
           using_wait_time 5 do
             expect(page).to have_content('Quota search results')
             expect(page).to have_content('050088')
-            expect(page).to have_content('2106909800-80')
+            expect(page).to have_link('2106909800', href: '/subheadings/2106909800-80?day=16&month=3&year=2022')
             expect(page).to have_content('All countries (1011)')
           end
         end
