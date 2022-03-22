@@ -220,7 +220,7 @@ GEM
       rexml
     launchy (2.5.0)
       addressable (~> 2.7)
-    letter_opener (1.8.0)
+    letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     lograge (0.11.2)
       actionpack (>= 4)
