@@ -23,8 +23,6 @@ import jQuery from 'jquery'
 window.$ = jQuery;
 window.jQuery = jQuery;
 
-require('../src/javascripts/sentry.js');
-
 require('popup');
 require('select2');
 require('jquery-migrate');
