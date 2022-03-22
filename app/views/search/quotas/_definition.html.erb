@@ -4,7 +4,7 @@
   </td>
   <td class="govuk-table__cell">
     <% definition.measures&.map(&:goods_nomenclature).uniq.each do |goods_nomenclature| %>
-      <%= link_to goods_nomenclature.to_param, polymorphic_url(goods_nomenclature) %>
+      <%= link_to goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature) %>
       <br>
     <% end %>
   </td>
