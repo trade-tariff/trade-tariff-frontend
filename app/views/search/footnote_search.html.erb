@@ -15,9 +15,8 @@
   <br/>
   <article class="search-results">
     <h1 class="govuk-heading-l">Footnote search results</h1>
-    <% @result.search_result.each do |footnote|
-        goods_nomenclatures = (footnote.measures.map(&:goods_nomenclature) | footnote.goods_nomenclatures)&.uniq(&:goods_nomenclature_item_id).sort_by(&:goods_nomenclature_item_id)
-    %>
+
+    <% @result.search_result.each do |footnote| %>
       <table class="govuk-table">
         <colgroup>
           <col width="*">
@@ -39,28 +38,25 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <div>
-            
-          </div>
-
           <% if footnote.extra_large_measures %>
             <tr class="govuk-table__row">
               <td colspan="2" class="govuk-table__cell">
                 Too many commodities are associated with footnote <a class="inline" href="<%= footnote_search_path(type: footnote.footnote_type_id, code: footnote.footnote_id) %>"><%= footnote.code %></a>.
               </td>
             </tr>
-          <% elsif goods_nomenclatures.empty? %>
+          <% elsif footnote.all_goods_nomenclatures.empty? %>
             <tr class="govuk-table__row">
               <td colspan="2" class="govuk-table__cell">
                 No valid commodities are associated with footnote <a class="inline" href="<%= footnote_search_path(type: footnote.footnote_type_id, code: footnote.footnote_id) %>"><%= footnote.code %></a>.
               </td>
             </tr>
           <% else %>
-            <%= render partial: 'search/common/goods_nomenclature', collection: goods_nomenclatures %>
+            <%= render partial: 'search/common/goods_nomenclature', collection: footnote.all_goods_nomenclatures %>
           <% end %>
         </tbody>
       </table>
     <% end %>
+
     <%= paginate @result.search_result %>
   </article>
 <% elsif @result.with_errors %>

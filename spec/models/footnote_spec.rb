@@ -5,34 +5,23 @@ RSpec.describe Footnote do
     it { expect(described_class.relationships).to eq(%i[measures goods_nomenclatures]) }
   end
 
-  describe '#id' do
-    let(:measure) { Measure.new(attributes_for(:measure, id: '123')) }
-    let(:footnote) { described_class.new(attributes_for(:footnote, casted_by: measure, code: '456')) }
+  describe '#all_goods_nomenclatures' do
+    subject(:all_goods_nomenclatures) { build(:footnote, measures:, goods_nomenclatures:).all_goods_nomenclatures.map(&:goods_nomenclature_item_id) }
 
-    it 'contains casted_by info' do
-      expect(footnote.id).to include(footnote.casted_by.destination)
-      expect(footnote.id).to include(footnote.casted_by.id)
+    let(:measures) do
+      [
+        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'DEF')),
+        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC')),
+      ]
     end
 
-    it 'contains code' do
-      expect(footnote.id).to include(footnote.code)
+    let(:goods_nomenclatures) do
+      [
+        attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC'),
+        attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'GHI'),
+      ]
     end
 
-    it "contains '-footnote-'" do
-      expect(footnote.id).to include('-footnote-')
-    end
-  end
-
-  describe '#eco?' do
-    let(:footnote) { described_class.new(attributes_for(:footnote, code: described_class::ECO_CODE)) }
-    let(:footnote1) { described_class.new(attributes_for(:footnote)) }
-
-    it 'returns true if ECO code' do
-      expect(footnote.eco?).to be_truthy
-    end
-
-    it 'returns false if not ECO code' do
-      expect(footnote1.eco?).to be_falsey
-    end
+    it { is_expected.to eq(%w[ABC DEF GHI]) }
   end
 end
