@@ -36,6 +36,7 @@ module ApiEntity
     include MultiJson
 
     attr_reader :attributes
+    attr_writer :resource_type
 
     attr_accessor :casted_by
 
@@ -55,6 +56,10 @@ module ApiEntity
 
     def to_param
       id
+    end
+
+    def resource_type
+      @attributes['resource_type'] || self.class.name.underscore.singularize
     end
   end
 
