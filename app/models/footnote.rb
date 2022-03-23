@@ -11,6 +11,10 @@ class Footnote
   has_many :goods_nomenclatures
 
   def all_goods_nomenclatures
-    measures.map(&:goods_nomenclature).concat(goods_nomenclatures).uniq(&:goods_nomenclature_item_id).sort_by(&:goods_nomenclature_item_id)
+    @all_goods_nomenclatures ||= measures
+      .map(&:goods_nomenclature)
+      .concat(goods_nomenclatures)
+      .uniq(&:goods_nomenclature_item_id)
+      .sort_by(&:goods_nomenclature_item_id)
   end
 end
