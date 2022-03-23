@@ -17,6 +17,22 @@ RSpec.describe ApiEntity do
     end
   end
 
+  describe '#resource_type' do
+    subject(:resource_type) { mock_entity.new(attributes).resource_type }
+
+    context 'when initialized with the resource type' do
+      let(:attributes) { { resource_type: 'foo' } }
+
+      it { is_expected.to eq('foo') }
+    end
+
+    context 'when initialized without the resource type' do
+      let(:attributes) { {} }
+
+      it { is_expected.to eq('mock_entity') }
+    end
+  end
+
   describe '#find' do
     subject(:request) { mock_entity.find(123) }
 
