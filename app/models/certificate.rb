@@ -13,11 +13,14 @@ class Certificate
     "#{certificate_type_code}#{certificate_code}"
   end
 
-  def present?
-    code.present?
-  end
-
   def to_s
     code
+  end
+
+  def all_goods_nomenclatures
+    @all_goods_nomenclatures ||= measures
+      .map(&:goods_nomenclature)
+      .uniq(&:goods_nomenclature_item_id)
+      .sort_by(&:goods_nomenclature_item_id)
   end
 end
