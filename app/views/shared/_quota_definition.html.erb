@@ -1,4 +1,4 @@
-Order No: <%= link_to order_number.number, "##{order_number.id}", class: 'reference numerical', title: 'Opens in a popup', 'data-popup-ref' => "#{order_number.id}" %>&nbsp;
+<%= link_to order_number.number, "##{order_number.id}", class: 'reference numerical', title: 'Opens in a popup', 'data-popup-ref' => "#{order_number.id}" %>&nbsp;
 
 <div class='popup govuk-visually-hidden' data-popup='<%= order_number.id %>'>
   <article>
