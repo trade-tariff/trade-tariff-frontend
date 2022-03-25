@@ -8,7 +8,7 @@ class MeasurePresenter < SimpleDelegator
   end
 
   def has_additional_code?
-    additional_code.present?
+    additional_code.code.present?
   end
 
   def has_measure_footnotes?
