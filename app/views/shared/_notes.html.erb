@@ -1,24 +1,24 @@
 <% section_note ||= false
 chapter_note ||= false %>
 
-<% return unless section_note || chapter_note %>
+<% if section_note || chapter_note %>
+  <article id="notes" class="tariff-markdown govuk-!-margin-top-8">
+    <% if section_note && chapter_note %>
+      <h3 class="govuk-heading-s">Chapter notes</h3>
+      <%= govspeak(chapter_note) %>
 
-<article id="notes" class="tariff-markdown govuk-!-margin-top-8">
-  <% if section_note && chapter_note %>
-    <h3 class="govuk-heading-s">Chapter notes</h3>
-    <%= govspeak(chapter_note) %>
+      <h3 class="govuk-heading-s">Section notes</h3>
+      <%= govspeak(section_note) %>
 
-    <h3 class="govuk-heading-s">Section notes</h3>
-    <%= govspeak(section_note) %>
+    <% elsif chapter_note %>
+      <h2 class="govuk-heading-s">There are important chapter notes for this part of the tariff:</h2>
+      <%= govspeak(chapter_note) %>
 
-  <% elsif chapter_note %>
-    <h2 class="govuk-heading-s">There are important chapter notes for this part of the tariff:</h2>
-    <%= govspeak(chapter_note) %>
+    <% elsif section_note %>
+      <h2 class="govuk-heading-s">There are important section notes for this part of the tariff:</h2>
+      <%= govspeak(section_note) %>
+    <% end %>
+  </article>
+<% end %>
 
-  <% elsif section_note %>
-    <h2 class="govuk-heading-s">There are important section notes for this part of the tariff:</h2>
-    <%= govspeak(section_note) %>
-  <% end %>
-
-  <%= render 'shared/general_rules_for_interpretation' %>
-</article>
+<%= render 'shared/general_rules_for_interpretation' %>
