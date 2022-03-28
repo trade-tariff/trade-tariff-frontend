@@ -37,7 +37,7 @@
         </thead>
         <tbody class="govuk-table__body">
           <% if additional_code.measures.any? %>
-            <% additional_code.measures.uniq(&:goods_nomenclature).compact.sort_by(&:goods_nomenclature_item_id).each do |goods_nomenclature| %>
+            <% additional_code.all_goods_nomenclatures.each do |goods_nomenclature| %>
               <%= render partial: 'search/common/goods_nomenclature', object: goods_nomenclature %>
             <% end %>
           <% else %>

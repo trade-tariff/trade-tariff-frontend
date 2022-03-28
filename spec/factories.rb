@@ -464,9 +464,14 @@ FactoryBot.define do
   end
 
   factory :additional_code do
-    code { Forgery(:basic).text }
+    additional_code_type_id { Forgery(:basic).text(exactly: 1).upcase }
+    additional_code { Forgery(:basic).text(exactly: 3).upcase }
+    code { Forgery(:basic).text(exactly: 4).upcase }
     description { Forgery(:basic).text }
+    formatted_description { Forgery(:basic).text }
+    measures { [attributes_for(:measure)] }
   end
+  j
 
   factory :footnote do
     code { Forgery(:basic).text }
