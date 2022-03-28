@@ -42,6 +42,32 @@ RSpec.describe NewsItem do
     end
   end
 
+  describe '.latest_for_banner' do
+    subject { described_class.latest_for_banner }
+
+    context 'with UK service' do
+      include_context 'with UK service'
+
+      before do
+        stub_api_request('/news_items?service=uk&target=banner&per_page=1', backend: 'uk')
+          .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1, :banner)
+      end
+
+      it { is_expected.to have_attributes title: /News item \d+/ }
+    end
+
+    context 'with XI service' do
+      include_context 'with XI service'
+
+      before do
+        stub_api_request('/news_items?service=xi&target=banner&per_page=1', backend: 'uk')
+          .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1, :banner)
+      end
+
+      it { is_expected.to have_attributes title: /News item \d+/ }
+    end
+  end
+
   describe '.updates_page' do
     subject { described_class.updates_page }
 

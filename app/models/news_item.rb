@@ -14,7 +14,7 @@ class NewsItem
   collection_path '/news_items'
 
   attr_accessor :id, :title, :content, :display_style, :show_on_xi, :show_on_uk,
-                :show_on_updates_page, :show_on_home_page
+                :show_on_updates_page, :show_on_home_page, :show_on_banner
 
   attr_reader :start_date, :end_date
 
@@ -26,6 +26,15 @@ class NewsItem
         collection_path,
         service: service_name,
         target: 'home',
+        per_page: 1,
+      ).first
+    end
+
+    def latest_for_banner
+      collection(
+        collection_path,
+        service: service_name,
+        target: 'banner',
         per_page: 1,
       ).first
     end
