@@ -10,14 +10,16 @@ RSpec.describe Footnote do
 
     let(:measures) do
       [
-        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'DEF')),
-        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC')),
+        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'DEF')), # Unsorted
+        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC')), # Unsorted
+        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC')), # Duplicate
+        attributes_for(:measure, goods_nomenclature: nil), # Compacted
       ]
     end
 
     let(:goods_nomenclatures) do
       [
-        attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC'),
+        attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC'), # Duplicate
         attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'GHI'),
       ]
     end

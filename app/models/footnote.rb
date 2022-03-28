@@ -14,6 +14,7 @@ class Footnote
     @all_goods_nomenclatures ||= measures
       .map(&:goods_nomenclature)
       .concat(goods_nomenclatures)
+      .compact
       .uniq(&:goods_nomenclature_item_id)
       .sort_by(&:goods_nomenclature_item_id)
   end

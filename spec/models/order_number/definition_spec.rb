@@ -13,7 +13,7 @@ RSpec.describe OrderNumber::Definition do
     end
 
     context 'when the order number defines geographical areas' do
-      subject(:definition) { build(:definition, order_number: order_number) }
+      subject(:definition) { build(:definition, order_number:) }
 
       let(:order_number) { attributes_for(:order_number, geographical_areas: [geographical_area]) }
       let(:geographical_area) { attributes_for(:geographical_area) }
@@ -26,7 +26,7 @@ RSpec.describe OrderNumber::Definition do
     context 'when the definition measures define geographical areas' do
       subject(:definition) { build(:definition, measures: [measure]) }
 
-      let(:measure) { attributes_for(:measure, geographical_area: geographical_area) }
+      let(:measure) { attributes_for(:measure, geographical_area:) }
       let(:geographical_area) { attributes_for(:geographical_area) }
 
       it 'returns the measure geographical areas' do
@@ -36,9 +36,7 @@ RSpec.describe OrderNumber::Definition do
   end
 
   describe '#all_goods_nomenclatures' do
-    subject(:definition) do
-      build(:definition, measures:).all_goods_nomenclatures.map(&:goods_nomenclature_item_id)
-    end
+    subject(:definition) { build(:definition, measures:).all_goods_nomenclatures.map(&:goods_nomenclature_item_id) }
 
     let(:measures) do
       [
