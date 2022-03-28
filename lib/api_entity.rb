@@ -140,13 +140,16 @@ module ApiEntity
       attr_reader association.to_sym
 
       define_method("#{association}=") do |attributes|
-        class_name = if options[:polymorphic]
-                       attributes['resource_type'].classify
-                     else
-                       options[:class_name]
-                     end
-
-        entity = class_name.constantize.new((attributes.presence || {}).merge(casted_by: self))
+        entity = if attributes.nil?
+                   nil
+                 else
+                   class_name = if options[:polymorphic]
+                                  attributes['resource_type'].classify
+                                else
+                                  options[:class_name]
+                                end
+                   class_name.constantize.new((attributes.presence || {}).merge(casted_by: self))
+                 end
 
         instance_variable_set("@#{association}", entity)
       end

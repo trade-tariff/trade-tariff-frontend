@@ -45,6 +45,7 @@ RSpec.describe OrderNumber::Definition do
         attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'DEF')),
         attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC')),
         attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC')),
+        attributes_for(:measure, goods_nomenclature: nil),
       ]
     end
 

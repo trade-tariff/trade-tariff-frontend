@@ -41,7 +41,7 @@ class OrderNumber
     end
 
     def all_goods_nomenclatures
-      measures.map(&:goods_nomenclature).uniq(&:goods_nomenclature_item_id).sort_by(&:goods_nomenclature_item_id)
+      measures.map(&:goods_nomenclature).compact.uniq(&:goods_nomenclature_item_id).sort_by(&:goods_nomenclature_item_id)
     end
 
     def geographical_areas
