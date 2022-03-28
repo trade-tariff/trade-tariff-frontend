@@ -10,6 +10,7 @@ RSpec.describe ApiEntity do
       attr_accessor :name, :age
 
       has_many :parts, class_name: 'Part'
+      has_one :part, class_name: 'Part'
 
       def self.name
         'MockEntity'
@@ -51,6 +52,12 @@ RSpec.describe ApiEntity do
       let(:body) { file_fixture('jsonapi/singular_no_relationship.json').read }
 
       it { is_expected.to have_attributes name: 'Joe', age: 21 }
+    end
+
+    context 'with valid response and nil relationship' do
+      let(:body) { file_fixture('jsonapi/singular_valid_null_singular_relationship.json').read }
+
+      it { is_expected.to have_attributes name: 'Joe', age: 21, part: nil }
     end
 
     context 'with 400 response' do
