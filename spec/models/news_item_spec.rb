@@ -42,8 +42,8 @@ RSpec.describe NewsItem do
     end
   end
 
-  describe '.latest_for_banner' do
-    subject { described_class.latest_for_banner }
+  describe '.latest_banner' do
+    subject { described_class.latest_banner }
 
     context 'with UK service' do
       include_context 'with UK service'
@@ -163,6 +163,46 @@ RSpec.describe NewsItem do
         let(:updates) { [] }
 
         it { is_expected.to be false }
+      end
+    end
+  end
+
+  describe '.cached_banner' do
+    subject(:cached_banner) { described_class.cached_banner }
+
+    before { allow(Rails.cache).to receive(:fetch).and_call_original }
+
+    context 'with UK service' do
+      include_context 'with UK service'
+
+      before do
+        stub_api_request('/news_items?service=uk&target=banner&per_page=1', backend: 'uk')
+          .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1, :banner)
+      end
+
+      it 'caches the UK banner' do
+        cached_banner
+
+        expect(Rails.cache).to \
+          have_received(:fetch)
+            .with('news-item-latest-banner-uk-v1', expires_in: 5.minutes)
+      end
+    end
+
+    context 'with XI service' do
+      include_context 'with XI service'
+
+      before do
+        stub_api_request('/news_items?service=xi&target=banner&per_page=1', backend: 'uk')
+          .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1, :banner)
+      end
+
+      it 'caches the XI banner' do
+        cached_banner
+
+        expect(Rails.cache).to \
+          have_received(:fetch)
+            .with('news-item-latest-banner-xi-v1', expires_in: 5.minutes)
       end
     end
   end

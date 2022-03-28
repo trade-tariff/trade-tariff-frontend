@@ -6,8 +6,10 @@ class NewsItem
   include ApiEntity
 
   CACHE_KEY = 'news-item-any-updates'
+  BANNER_CACHE_KEY = 'news-item-latest-banner'
   CACHE_VERSION = 1
   CACHE_LIFETIME = 15.minutes
+  BANNER_CACHE_LIFETIME = 5.minutes
 
   DISPLAY_STYLE_REGULAR = 0
 
@@ -30,7 +32,7 @@ class NewsItem
       ).first
     end
 
-    def latest_for_banner
+    def latest_banner
       collection(
         collection_path,
         service: service_name,
@@ -62,6 +64,12 @@ class NewsItem
       end
     end
 
+    def cached_banner
+      Rails.cache.fetch(banner_cache_key, expires_in: BANNER_CACHE_LIFETIME) do
+        latest_banner
+      end
+    end
+
   private
 
     def api
@@ -71,6 +79,10 @@ class NewsItem
 
     def updates_cache_key
       "#{CACHE_KEY}-#{service_name}-v#{CACHE_VERSION}"
+    end
+
+    def banner_cache_key
+      "#{BANNER_CACHE_KEY}-#{service_name}-v#{CACHE_VERSION}"
     end
   end
 
