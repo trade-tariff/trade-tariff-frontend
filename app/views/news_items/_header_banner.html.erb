@@ -1,7 +1,7 @@
 <% if news_item.present? %>
 <div class="hott-header-banner">
   <div class="govuk-width-container">
-    <%= govspeak replace_service_tags news_item.content %>
+    <%= format_news_item_content news_item.content %>
   </div>
 </div>
 <% end %>
