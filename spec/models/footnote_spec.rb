@@ -6,7 +6,7 @@ RSpec.describe Footnote do
   end
 
   it_behaves_like 'an entity that has goods nomenclatures' do
-    let(:entity) { build(:footnote, measures:, goods_nomenclatures:) }
+    let(:entity) { build(:footnote, measures: measures, goods_nomenclatures: goods_nomenclatures) }
 
     let(:goods_nomenclatures) do
       [

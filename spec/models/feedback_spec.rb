@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Feedback do
-  subject(:feedback) { build(:feedback, message:) }
+  subject(:feedback) { build(:feedback, message: message) }
 
   describe 'validations' do
     before { feedback.valid? }

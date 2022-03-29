@@ -2,7 +2,10 @@ require 'spec_helper'
 
 RSpec.describe MeasureType do
   describe '#duties_permitted?' do
-    subject(:measure_type) { build(:measure_type, measure_component_applicable_code:) }
+    subject(:measure_type) do
+      build(:measure_type,
+            measure_component_applicable_code: measure_component_applicable_code)
+    end
 
     context 'when the component applicable code is `0`' do
       let(:measure_component_applicable_code) { 0 }
@@ -18,7 +21,10 @@ RSpec.describe MeasureType do
   end
 
   describe '#duties_mandatory?' do
-    subject(:measure_type) { build(:measure_type, measure_component_applicable_code:) }
+    subject(:measure_type) do
+      build(:measure_type,
+            measure_component_applicable_code: measure_component_applicable_code)
+    end
 
     context 'when the component applicable code is `1`' do
       let(:measure_component_applicable_code) { 1 }
@@ -34,7 +40,10 @@ RSpec.describe MeasureType do
   end
 
   describe '#duties_not_permitted?' do
-    subject(:measure_type) { build(:measure_type, measure_component_applicable_code:) }
+    subject(:measure_type) do
+      build(:measure_type,
+            measure_component_applicable_code: measure_component_applicable_code)
+    end
 
     context 'when the component applicable code is `2`' do
       let(:measure_component_applicable_code) { 2 }
@@ -91,7 +100,10 @@ RSpec.describe MeasureType do
     subject(:description) { measure.measure_type.description }
 
     shared_examples_for 'a Channel Island measure type description' do |measure_type_id, geographical_area_id|
-      let(:measure) { build(:measure, measure_type_id:, geographical_area_id:) }
+      let(:measure) do
+        build(:measure, measure_type_id: measure_type_id,
+                        geographical_area_id: geographical_area_id)
+      end
 
       it { is_expected.to eq('Channel Islands duty') }
     end
