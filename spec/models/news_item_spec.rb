@@ -129,7 +129,7 @@ RSpec.describe NewsItem do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-          .with('news-item-any-updates-uk-v1', expires_in: 15.minutes)
+          .with('news-item-any-updates-uk-v2', expires_in: 15.minutes)
       end
 
       context 'with no news items' do
@@ -156,7 +156,7 @@ RSpec.describe NewsItem do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-          .with('news-item-any-updates-xi-v1', expires_in: 15.minutes)
+          .with('news-item-any-updates-xi-v2', expires_in: 15.minutes)
       end
 
       context 'with no news items' do
@@ -185,7 +185,7 @@ RSpec.describe NewsItem do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-            .with('news-item-latest-banner-uk-v1', expires_in: 5.minutes)
+            .with('news-item-latest-banner-uk-v2', expires_in: 5.minutes)
       end
     end
 
@@ -202,7 +202,7 @@ RSpec.describe NewsItem do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-            .with('news-item-latest-banner-xi-v1', expires_in: 5.minutes)
+            .with('news-item-latest-banner-xi-v2', expires_in: 5.minutes)
       end
     end
   end

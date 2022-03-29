@@ -7,7 +7,7 @@ class NewsItem
 
   CACHE_KEY = 'news-item-any-updates'
   BANNER_CACHE_KEY = 'news-item-latest-banner'
-  CACHE_VERSION = 1
+  CACHE_VERSION = 2
   CACHE_LIFETIME = 15.minutes
   BANNER_CACHE_LIFETIME = 5.minutes
 
