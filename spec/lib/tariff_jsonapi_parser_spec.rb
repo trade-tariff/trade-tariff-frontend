@@ -34,6 +34,16 @@ RSpec.describe TariffJsonapiParser do
         it { is_expected.to include 'parts' => [{ 'resource_type' => 'part', 'meta' => { 'foo' => 'bar' }, 'part_name' => 'A part name' }] }
       end
 
+      context 'with valid missing relationship' do
+        let(:json_file) { 'singular_valid_null_singular_relationship' }
+
+        it { is_expected.to include 'resource_type' => 'mock_entity' }
+        it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
+        it { is_expected.to include 'name' => 'Joe' }
+        it { is_expected.to include 'age' => 21 }
+        it { is_expected.to include 'part' => nil }
+      end
+
       context 'with missing relationships' do
         let(:json_file) { 'singular_missing_relationship' }
 

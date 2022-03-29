@@ -4,6 +4,7 @@ require 'null_object'
 class OrderNumber
   class Definition
     include ApiEntity
+    include HasGoodsNomenclature
 
     collection_path '/quotas'
 

@@ -59,7 +59,7 @@ class TariffJsonapiParser
                      when Array
                        find_and_parse_multiple_included(name, values['data'])
                      when Hash
-                       find_and_parse_included(name, values['data']['id'], values['data']['type'])
+                       find_and_parse_included(name, values.dig('data', 'id'), values.dig('data', 'type'))
                      else
                        values['data']
                      end
@@ -78,6 +78,8 @@ class TariffJsonapiParser
   end
 
   def find_and_parse_included(name, id, type)
+    return nil if id.blank? || type.blank?
+
     found_resource = find_included(id, type)
 
     return {} if found_resource.blank?
