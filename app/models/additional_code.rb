@@ -2,6 +2,7 @@ require 'api_entity'
 
 class AdditionalCode
   include ApiEntity
+  include HasGoodsNomenclature
 
   collection_path '/additional_codes'
 
@@ -13,13 +14,5 @@ class AdditionalCode
 
   def id
     @id ||= "#{casted_by.destination}-#{casted_by.id}-additional-code-#{code}"
-  end
-
-  def all_goods_nomenclatures
-    @all_goods_nomenclatures ||= measures
-      .map(&:goods_nomenclature)
-      .compact
-      .uniq(&:goods_nomenclature_item_id)
-      .sort_by(&:goods_nomenclature_item_id)
   end
 end

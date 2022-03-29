@@ -2,6 +2,7 @@ require 'api_entity'
 
 class Footnote
   include ApiEntity
+  include HasGoodsNomenclature
 
   collection_path '/footnotes'
 
@@ -10,12 +11,9 @@ class Footnote
   has_many :measures
   has_many :goods_nomenclatures
 
-  def all_goods_nomenclatures
-    @all_goods_nomenclatures ||= measures
+  def base_goods_nomenclatures
+    measures
       .map(&:goods_nomenclature)
       .concat(goods_nomenclatures)
-      .compact
-      .uniq(&:goods_nomenclature_item_id)
-      .sort_by(&:goods_nomenclature_item_id)
   end
 end

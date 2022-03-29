@@ -2,6 +2,7 @@ require 'api_entity'
 
 class Certificate
   include ApiEntity
+  include HasGoodsNomenclature
 
   collection_path '/certificates'
 
@@ -15,13 +16,5 @@ class Certificate
 
   def to_s
     code
-  end
-
-  def all_goods_nomenclatures
-    @all_goods_nomenclatures ||= measures
-      .map(&:goods_nomenclature)
-      .compact
-      .uniq(&:goods_nomenclature_item_id)
-      .sort_by(&:goods_nomenclature_item_id)
   end
 end

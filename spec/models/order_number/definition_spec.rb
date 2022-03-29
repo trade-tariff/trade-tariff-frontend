@@ -35,18 +35,7 @@ RSpec.describe OrderNumber::Definition do
     end
   end
 
-  describe '#all_goods_nomenclatures' do
-    subject(:definition) { build(:definition, measures:).all_goods_nomenclatures.map(&:goods_nomenclature_item_id) }
-
-    let(:measures) do
-      [
-        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'DEF')),
-        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC')),
-        attributes_for(:measure, goods_nomenclature: attributes_for(:goods_nomenclature, goods_nomenclature_item_id: 'ABC')),
-        attributes_for(:measure, goods_nomenclature: nil),
-      ]
-    end
-
-    it { is_expected.to eq(%w[ABC DEF]) }
+  it_behaves_like 'an entity that has goods nomenclatures' do
+    let(:entity) { build(:definition, measures:) }
   end
 end
