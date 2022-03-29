@@ -69,7 +69,7 @@ RSpec.describe Measure do
   end
 
   describe '#vat_excise?' do
-    subject(:measure) { build(:measure, measure_type:) }
+    subject(:measure) { build(:measure, measure_type: measure_type) }
 
     let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
 
@@ -87,7 +87,7 @@ RSpec.describe Measure do
   end
 
   describe '#import_controls?' do
-    subject(:measure) { build(:measure, measure_type:) }
+    subject(:measure) { build(:measure, measure_type: measure_type) }
 
     let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
 
@@ -175,7 +175,7 @@ RSpec.describe Measure do
   end
 
   describe '#quotas?' do
-    subject(:measure) { build(:measure, measure_type:) }
+    subject(:measure) { build(:measure, measure_type: measure_type) }
 
     let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
 
@@ -193,7 +193,7 @@ RSpec.describe Measure do
   end
 
   describe '#trade_remedies?' do
-    subject(:measure) { build(:measure, measure_type:) }
+    subject(:measure) { build(:measure, measure_type: measure_type) }
 
     let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
 

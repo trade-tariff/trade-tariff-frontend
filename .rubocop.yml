@@ -63,5 +63,8 @@ Style/FrozenStringLiteralComment:
 Style/GuardClause:
   MinBodyLength: 2
 
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
 Style/StringLiterals:
   EnforcedStyle: single_quotes
