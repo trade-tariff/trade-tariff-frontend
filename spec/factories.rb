@@ -471,7 +471,6 @@ FactoryBot.define do
     formatted_description { Forgery(:basic).text }
     measures { [attributes_for(:measure)] }
   end
-  j
 
   factory :footnote do
     code { Forgery(:basic).text }
