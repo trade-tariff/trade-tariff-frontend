@@ -64,7 +64,7 @@ class NewsItem
       end
     end
 
-    def cached_banner
+    def cached_latest_banner
       Rails.cache.fetch(banner_cache_key, expires_in: BANNER_CACHE_LIFETIME) do
         latest_banner
       end

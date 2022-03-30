@@ -167,8 +167,8 @@ RSpec.describe NewsItem do
     end
   end
 
-  describe '.cached_banner' do
-    subject(:cached_banner) { described_class.cached_banner }
+  describe '.cached_latest_banner' do
+    subject(:cached_banner) { described_class.cached_latest_banner }
 
     before { allow(Rails.cache).to receive(:fetch).and_call_original }
 
