@@ -10,8 +10,7 @@ end
 gem 'rails', '~> 7.0'
 
 gem 'addressable'
-gem 'faraday', '= 1.3.0' # TODO: Debug issue with newer versions of Faraday client under high loads
-gem 'faraday_middleware'
+gem 'faraday', '~> 2.2'
 gem 'faraday-net_http_persistent'
 gem 'multi_json'
 gem 'net-http-persistent'
