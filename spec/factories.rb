@@ -466,6 +466,10 @@ FactoryBot.define do
     requirement { Forgery(:basic).text }
     action { Forgery(:basic).text }
     duty_expression { Forgery(:basic).text }
+
+    trait :universal_waiver do
+      document_code { '999L' }
+    end
   end
 
   factory :additional_code do
