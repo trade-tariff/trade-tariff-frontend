@@ -22,8 +22,8 @@ RSpec.describe 'commodities/show_404.html.erb', type: :view do
     it { is_expected.to have_css 'p', text: /for the dates shown below/ }
     it { is_expected.to have_css 'ul.govuk-list.govuk-list--bullet li', count: 2 }
 
-    it { is_expected.to have_css 'li', text: /From \d+ [a-z]{5}[a-z]+ \d{4}/i, count: 2 }
-    it { is_expected.to have_css 'li', text: /to \d+ [a-z]{5}[a-z]+ \d{4}/i, count: 1 }
+    it { is_expected.to have_css 'li', text: /From \d+ [a-z]{4}[a-z]+ \d{4}/i, count: 2 }
+    it { is_expected.to have_css 'li', text: /to \d+ [a-z]{4}[a-z]+ \d{4}/i, count: 1 }
 
     it { is_expected.to have_css 'li > a', count: 3 }
 
