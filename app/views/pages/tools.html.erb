@@ -24,9 +24,9 @@
       <% end %>
       <li>
         <p>
-          <%= link_to "Certificate, licenses and documents", certificate_search_path %>
+          <%= link_to "Certificates, licences and documents", certificate_search_path %>
           <br>
-          Search for certificates, licenses and other document codes.
+          Search for certificates, licences and other document codes.
         </p>
       </li>
       <li>
@@ -38,14 +38,14 @@
       </li>
       <li>
         <p>
-          <%= link_to t('breadcrumb.footnote_search'), footnote_search_path %>
-          <br>Search the tariff for footnotes
+          <%= link_to 'Footnotes', footnote_search_path %>
+          <br>Search the tariff for footnotes.
         </p>
       </li>
       <li>
         <p>
           <%= link_to t('breadcrumb.chemicals'), chemical_search_path %>
-          <br>Search the tariff for chemicals by <abbr title="Chemical Abstracts Service">CAS</abbr> Registry Number (RN)
+          <br>Search the tariff for chemicals by <abbr title="Chemical Abstracts Service">CAS</abbr> Registry Number (RN).
         </p>
       </li>
       <% if TradeTariffFrontend::ServiceChooser.xi? %>
