@@ -80,6 +80,26 @@ RSpec.describe MeasurePresenter do
     end
   end
 
+  describe '#measure_conditions_without_exclusions' do
+    subject { presented_measure.measure_conditions_without_exclusions }
+
+    context 'with normal measure' do
+      let(:measure) { build :measure, :with_conditions }
+
+      it { is_expected.to include measure.measure_conditions.first }
+    end
+
+    context 'with universal waiver measure' do
+      let :measure do
+        build :measure, measure_conditions: [
+          attributes_for(:measure_condition, :universal_waiver),
+        ]
+      end
+
+      it { is_expected.not_to include measure.measure_conditions.first }
+    end
+  end
+
   describe '#grouped_measure_conditions' do
     subject(:grouped_conditions) { presented_measure.grouped_measure_conditions }
 
