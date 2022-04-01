@@ -22,6 +22,8 @@ RSpec.describe Measure do
     it { expect(described_class.relationships).to eq(expected_relationships) }
   end
 
+  it { is_expected.to respond_to :universal_waiver_applies }
+
   describe '#relevant_for_country?' do
     context 'when the area is not present' do
       subject(:measure) { build(:measure, :eu, geographical_area: { id: 'br', description: 'Brazil' }) }

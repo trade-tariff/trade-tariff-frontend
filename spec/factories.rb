@@ -133,6 +133,7 @@ FactoryBot.define do
     origin { %w[eu uk].sample }
     effective_start_date { Time.zone.today.ago(3.years).to_s }
     effective_end_date { nil }
+    universal_waiver_applies { false }
 
     measure_type do
       attributes_for(:measure_type, id: measure_type_id, description: measure_type_description)
@@ -322,6 +323,10 @@ FactoryBot.define do
 
     trait :export do
       import { false }
+    end
+
+    trait :universal_waiver do
+      universal_waiver_applies { true }
     end
 
     initialize_with do

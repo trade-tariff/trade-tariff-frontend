@@ -10,7 +10,8 @@ class Measure
                 :excise,
                 :goods_nomenclature_item_id,
                 :meursing,
-                :resolved_duty_expression
+                :resolved_duty_expression,
+                :universal_waiver_applies
 
   attr_reader :effective_start_date,
               :effective_end_date
@@ -29,6 +30,18 @@ class Measure
   has_one :goods_nomenclature, polymorphic: true
 
   delegate :erga_omnes?, to: :geographical_area
+
+  class << self
+    def grouped_measure_types
+      @grouped_measure_types ||= Rails.configuration.grouped_measure_types
+    end
+
+    def all_grouped_types
+      @all_grouped_types ||= grouped_measure_types.values.flatten.sort
+    end
+  end
+
+  delegate :grouped_measure_types, :all_grouped_types, to: :class
 
   def relevant_for_country?(country_code)
     return true if country_code.blank?
@@ -159,18 +172,6 @@ class Measure
       additional_code.code.to_s
     end
   end
-
-  class << self
-    def grouped_measure_types
-      @grouped_measure_types ||= Rails.configuration.grouped_measure_types
-    end
-
-    def all_grouped_types
-      @all_grouped_types ||= grouped_measure_types.values.flatten.sort
-    end
-  end
-
-  delegate :grouped_measure_types, :all_grouped_types, to: :class
 
   private
 

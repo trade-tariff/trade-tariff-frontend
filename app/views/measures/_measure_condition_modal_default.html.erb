@@ -2,3 +2,18 @@
 <% measure.grouped_measure_conditions.each do |condition_group, conditions| %>
   <%= render partial: "measure_conditions/measure_condition_code_#{condition_group[:partial_type]}", locals: { condition_group: condition_group, conditions: conditions } %>
 <% end %>
+
+<% if TradeTariffFrontend::ServiceChooser.uk? && measure.universal_waiver_applies %>
+<div class="universal-waiver-applies-panel">
+  <h3 class="govuk-heading-m govuk-!-margin-top-6">
+    Customs Declaration Service (CDS) universal waiver
+  </h3>
+
+  <p>
+    Requirement for a licence is waived by entering the 999L document code and the
+    document identifier CDS WAIVER in the additional documentation field for this
+    commodity item. 999L can be used for CDS in a similar way to LIC99 on the
+    CHIEF system, when a waiver may be applied.
+  </p>
+</div>
+<% end %>
