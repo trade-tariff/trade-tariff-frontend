@@ -6,7 +6,12 @@ class Certificate
 
   collection_path '/certificates'
 
-  attr_accessor :certificate_type_code, :certificate_code, :description, :formatted_description
+  attr_accessor :certificate_type_code,
+                :certificate_code,
+                :description,
+                :formatted_description,
+                :guidance_cds,
+                :guidance_chief
 
   has_many :measures
 

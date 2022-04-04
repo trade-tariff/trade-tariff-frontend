@@ -10,9 +10,13 @@ http_interactions:
       Accept:
       - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v0.11.0
+      - Faraday v1.3.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 200
@@ -24,36 +28,41 @@ http_interactions:
       - 1; mode=block
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"b6c71cba1113e62dfff80a2dd054ff4d"
+      - W/"5e948dabd9ac0a6fce9a9496f26cb0ae"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - '03944d5e-d4f0-4e54-b009-cb60b8a58f40'
+      - f9e55d8f-1849-4694-82e6-58da5f542383
       X-Runtime:
-      - '0.016777'
+      - '0.017945'
       Transfer-Encoding:
       - chunked
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"A","type":"certificate_type","attributes":{"certificate_type_code":"A","description":"Certificate
-        of authenticity"}},{"id":"E","type":"certificate_type","attributes":{"certificate_type_code":"E","description":"Export
-        certificate/licence/document from country of origin"}},{"id":"H","type":"certificate_type","attributes":{"certificate_type_code":"H","description":"HANDI,
-        LOOMS certificate"}},{"id":"I","type":"certificate_type","attributes":{"certificate_type_code":"I","description":"Surveillance
-        certificate/licence/ document issued by one of the Member States"}},{"id":"L","type":"certificate_type","attributes":{"certificate_type_code":"L","description":"Import
-        certificate/licence/document"}},{"id":"C","type":"certificate_type","attributes":{"certificate_type_code":"C","description":"Other
-        certificates"}},{"id":"X","type":"certificate_type","attributes":{"certificate_type_code":"X","description":"Export
-        licence"}},{"id":"D","type":"certificate_type","attributes":{"certificate_type_code":"D","description":"Anti-dumping/countervailing
-        document"}},{"id":"T","type":"certificate_type","attributes":{"certificate_type_code":"T","description":"T-Document"}},{"id":"U","type":"certificate_type","attributes":{"certificate_type_code":"U","description":"Proofs
-        of origin"}},{"id":"Z","type":"certificate_type","attributes":{"certificate_type_code":"Z","description":"More
-        certificates"}},{"id":"P","type":"certificate_type","attributes":{"certificate_type_code":"P","description":"Ingredients"}},{"id":"K","type":"certificate_type","attributes":{"certificate_type_code":"K","description":"Tariff
-        quota"}},{"id":"Y","type":"certificate_type","attributes":{"certificate_type_code":"Y","description":"Particular
+      string: '{"data":[{"id":"K","type":"certificate_type","attributes":{"certificate_type_code":"K","description":"Tariff
+        quota"}},{"id":"I","type":"certificate_type","attributes":{"certificate_type_code":"I","description":"Surveillance
+        certificate/licence/ document issued by one of the Member States"}},{"id":"C","type":"certificate_type","attributes":{"certificate_type_code":"C","description":"Other
+        certificates"}},{"id":"P","type":"certificate_type","attributes":{"certificate_type_code":"P","description":"Ingredients"}},{"id":"Z","type":"certificate_type","attributes":{"certificate_type_code":"Z","description":"More
+        certificates"}},{"id":"T","type":"certificate_type","attributes":{"certificate_type_code":"T","description":"T-Document"}},{"id":"L","type":"certificate_type","attributes":{"certificate_type_code":"L","description":"Import
+        certificate/licence/document"}},{"id":"U","type":"certificate_type","attributes":{"certificate_type_code":"U","description":"Proofs
+        of origin"}},{"id":"X","type":"certificate_type","attributes":{"certificate_type_code":"X","description":"Export
+        licence"}},{"id":"Y","type":"certificate_type","attributes":{"certificate_type_code":"Y","description":"Particular
         provisions"}},{"id":"N","type":"certificate_type","attributes":{"certificate_type_code":"N","description":"UN/EDIFACT
-        certificates"}},{"id":"R","type":"certificate_type","attributes":{"certificate_type_code":"R","description":"Export
-        refunds"}},{"id":"9","type":"certificate_type","attributes":{"certificate_type_code":"9","description":"National
+        certificates"}},{"id":"D","type":"certificate_type","attributes":{"certificate_type_code":"D","description":"Anti-dumping/countervailing
+        document"}},{"id":"A","type":"certificate_type","attributes":{"certificate_type_code":"A","description":"Certificate
+        of authenticity"}},{"id":"H","type":"certificate_type","attributes":{"certificate_type_code":"H","description":"HANDI,
+        LOOMS certificate"}},{"id":"R","type":"certificate_type","attributes":{"certificate_type_code":"R","description":"Export
+        refunds"}},{"id":"E","type":"certificate_type","attributes":{"certificate_type_code":"E","description":"Export
+        certificate/licence/document from country of origin"}},{"id":"9","type":"certificate_type","attributes":{"certificate_type_code":"9","description":"National
         Document"}}]}'
-    http_version: 
-  recorded_at: Fri, 04 Oct 2019 11:23:30 GMT
-recorded_with: VCR 3.0.3
+  recorded_at: Mon, 04 Apr 2022 14:47:57 GMT
+recorded_with: VCR 6.1.0
