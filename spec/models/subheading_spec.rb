@@ -85,4 +85,10 @@ RSpec.describe Subheading do
       it { is_expected.to eq('Horses') }
     end
   end
+
+  describe 'declarable?' do
+    subject { heading.declarable? }
+
+    it { is_expected.to be false }
+  end
 end
