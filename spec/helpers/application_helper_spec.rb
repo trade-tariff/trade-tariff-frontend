@@ -284,4 +284,20 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to eq 'govuk-heading-l' } # Large text
     end
   end
+
+  describe '#present_from_to' do
+    shared_examples_for 'a from to expression' do |expected_expression, start_date, end_date|
+      subject(:from_to) { helper.present_from_to(from, to) }
+
+      let(:from) { start_date && Date.parse(start_date) }
+      let(:to) { end_date && Date.parse(end_date) }
+
+      it { is_expected.to eq(expected_expression) }
+    end
+
+    it_behaves_like 'a from to expression', ' From 1 Jan 2022 to 1 Feb 2023', '2022-01-01', '2023-02-01'
+    it_behaves_like 'a from to expression', ' From 1 Jan 2022', '2022-01-01', nil
+    it_behaves_like 'a from to expression', nil, nil, '2023-02-01'
+    it_behaves_like 'a from to expression', nil, nil, nil
+  end
 end

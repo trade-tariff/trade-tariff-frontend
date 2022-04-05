@@ -116,4 +116,16 @@ module ApplicationHelper
       'govuk-heading-l'
     end
   end
+
+  def present_from_to(from, to)
+    return nil if from.blank?
+
+    from = " From #{from.to_formatted_s(:short)}"
+
+    if to.present?
+      "#{from} to #{to.to_formatted_s(:short)}"
+    else
+      from
+    end
+  end
 end
