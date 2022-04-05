@@ -26,6 +26,7 @@ class Measure
   has_many :excluded_countries, class_name: 'GeographicalArea'
   has_many :measure_components
   has_many :measure_conditions
+  has_many :measure_condition_permutation_groups
   has_many :footnotes
   has_one :goods_nomenclature, polymorphic: true
 

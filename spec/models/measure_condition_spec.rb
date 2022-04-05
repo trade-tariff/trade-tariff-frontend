@@ -3,6 +3,14 @@ require 'spec_helper'
 RSpec.describe MeasureCondition do
   subject(:condition) { build(:measure_condition) }
 
+  it { is_expected.to respond_to :condition_code }
+  it { is_expected.to respond_to :condition }
+  it { is_expected.to respond_to :document_code }
+  it { is_expected.to respond_to :action }
+  it { is_expected.to respond_to :duty_expression }
+  it { is_expected.to respond_to :certificate_description }
+  it { is_expected.to respond_to :measure_condition_class }
+
   describe '#requirement' do
     it { expect(condition.requirement).to be_html_safe }
   end

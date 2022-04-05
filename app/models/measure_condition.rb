@@ -10,7 +10,8 @@ class MeasureCondition
                 :duty_expression,
                 :certificate_description,
                 :guidance_cds,
-                :guidance_chief
+                :guidance_chief,
+                :measure_condition_class
 
   attr_writer :requirement
 

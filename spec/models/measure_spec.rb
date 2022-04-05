@@ -14,6 +14,7 @@ RSpec.describe Measure do
         excluded_countries
         measure_components
         measure_conditions
+        measure_condition_permutation_groups
         footnotes
         goods_nomenclature
       ]
