@@ -1,14 +1,21 @@
-<h3 class="govuk-heading-l govuk-!-margin-bottom-0"><%= measure.measure_type.description %> for <%= measure.geographical_area.description %></h3>
+<h3 class="govuk-heading-l govuk-!-margin-bottom-0">
+  <%= measure.measure_type.description %> for <%= measure.geographical_area.description %>
+</h3>
 
 <%= render 'measures/measure_from_to', measure: measure %>
 
-<% measure.grouped_measure_conditions.each do |condition_group, conditions| %>
-  <%= render partial: "measure_conditions/measure_condition_code_#{condition_group[:partial_type]}", locals: { condition_group: condition_group, conditions: conditions } %>
-<% end %>
+<% if measure.permutations_enabled? %>
+  FIXME: Use new permutations layout
+<% else %>
+  <% measure.grouped_measure_conditions.each do |condition_group, conditions| %>
+    <%= render partial: "measure_conditions/measure_condition_code_#{condition_group[:partial_type]}",
+               locals: { condition_group: condition_group, conditions: conditions } %>
+  <% end %>
 
-<%= render 'measures/guidance_table',
+  <%= render 'measures/guidance_table',
       measure_conditions_with_guidance: measure.measure_conditions_with_guidance
-%>
+  %>
+<% end %>
 
 <% if TradeTariffFrontend::ServiceChooser.uk? && measure.universal_waiver_applies %>
 <div class="universal-waiver-applies-panel">

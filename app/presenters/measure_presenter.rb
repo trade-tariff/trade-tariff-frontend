@@ -46,4 +46,8 @@ class MeasurePresenter < SimpleDelegator
       }
     end
   end
+
+  def permutations_enabled?
+    TradeTariffFrontend.permutations? && measure_condition_permutation_groups.any?
+  end
 end
