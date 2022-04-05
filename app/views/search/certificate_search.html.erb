@@ -35,34 +35,36 @@
         </div>
       </dl>
 
-      <details class="govuk-details govuk-!-margin-top-2" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            Using this certificate on CDS or CHIEF
-          </span>
-        </summary>
+      <% if TradeTariffFrontend::ServiceChooser.uk? %>
+        <details class="govuk-details govuk-!-margin-top-2" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Using this certificate on CDS or CHIEF
+            </span>
+          </summary>
 
-        <div class="govuk-details__text">
-          <dl class="govuk-summary-list govuk-summary-list--no-border">
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-              <strong>CDS guidance:</strong>
-              </dt>
-              <dd class="govuk-summary-list__value">
-              <%= govspeak(certificate.guidance_cds) %>
-              </ddk>
-            </div>
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-              <strong>CHIEF guidance:</strong>
-              </dt>
-              <dd class="govuk-summary-list__value">
-              <%= govspeak(certificate.guidance_chief) %>
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </details>
+          <div class="govuk-details__text">
+            <dl class="govuk-summary-list govuk-summary-list--no-border">
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                <strong>CDS guidance:</strong>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                <%= govspeak(certificate.guidance_cds) %>
+                </ddk>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                <strong>CHIEF guidance:</strong>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                <%= govspeak(certificate.guidance_chief) %>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </details>
+      <% end %>
 
       <details class="govuk-details govuk-!-margin-top-2" data-module="govuk-details">
         <summary class="govuk-details__summary">
