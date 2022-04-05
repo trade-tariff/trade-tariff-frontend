@@ -10,46 +10,97 @@
 <% end %>
 
 <%= render partial: 'search/certificate/form', locals: { search_form: @result.search_form } %>
+
 <% if @result.search_result&.any? %>
-  <br/>
   <article class="search-results">
     <h1 class="govuk-heading-l">Certificate search results</h1>
-    <% @result.search_result.each do |certificate| %>
-      <table class="govuk-table">
-        <colgroup>
-          <col width="*">
-          <col width="180">
-        </colgroup>
-        <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-6">
-          <span class="govuk-visually-hidden">
-            Valid goods nomenclatures associated with certificate
-          </span>
-          <strong>
+    <% @result.search_result.each_with_index do |certificate, index| %>
+
+      <dl class="govuk-summary-list govuk-summary-list--no-border">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <strong>Certificate code:</strong>
+          </dt>
+          <dd class="govuk-summary-list__value">
             <%= certificate.code %>
-          </strong>
-          <%= certificate.formatted_description.html_safe %>
-        </caption>
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th class="govuk-table__header" scope="col">Name</th>
-            <th class="govuk-table__header" scope="col">Code</th>
-          </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-          <% if certificate.measures.any? %>
-            <% certificate.all_goods_nomenclatures.each do |goods_nomenclature| %>
-              <%= render partial: 'search/common/goods_nomenclature', object: goods_nomenclature %>
-            <% end %>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <strong>Description:</strong>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <%= certificate.formatted_description %>
+          </dd>
+        </div>
+      </dl>
+
+      <details class="govuk-details govuk-!-margin-top-2" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Using this certificate on CDS or CHIEF
+          </span>
+        </summary>
+
+        <div class="govuk-details__text">
+          <dl class="govuk-summary-list govuk-summary-list--no-border">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+              <strong>CDS guidance:</strong>
+              </dt>
+              <dd class="govuk-summary-list__value">
+              <%= govspeak(certificate.guidance_cds) %>
+              </ddk>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+              <strong>CHIEF guidance:</strong>
+              </dt>
+              <dd class="govuk-summary-list__value">
+              <%= govspeak(certificate.guidance_chief) %>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </details>
+
+      <details class="govuk-details govuk-!-margin-top-2" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Commodity codes that require this certificate
+          </span>
+        </summary>
+
+        <div class="govuk-details__text">
+          <% if certificate.all_goods_nomenclatures.size.positive? %>
+            <table class="govuk-table">
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header">Commodity</th>
+                  <th scope="col" class="govuk-table__header">Description</th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                <% certificate.all_goods_nomenclatures.each do |goods_nomenclature| %>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">
+                      <%= link_to(segmented_commodity_code(goods_nomenclature.goods_nomenclature_item_id), polymorphic_path(goods_nomenclature)) %>
+                    </th>
+
+                    <td class="govuk-table__cell"><%= goods_nomenclature.formatted_description %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
           <% else %>
-            <tr class="govuk-table__row">
-              <td colspan="2" class="govuk-table__cell">
-                No valid goods nomenclatures are associated with certificate <a class="inline" href="<%= certificate_search_path(type: certificate.certificate_type_code, code: certificate.certificate_code) %>"><%= certificate.code %></a>.
-              </td>
-            </tr>
+              No commodities are associated with this certificate
           <% end %>
-        </tbody>
-      </table>
+        </div>
+      </details>
+
+      <%= tag.hr unless index >= @result.search_result.size - 1  %>
     <% end %>
+
     <%= paginate @result.search_result %>
   </article>
 <% elsif @result.with_errors %>

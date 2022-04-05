@@ -203,10 +203,6 @@ RSpec.describe 'Search', js: true do
   end
 
   context 'when using the certificate search' do
-    before do
-      Rails.cache.clear
-    end
-
     context 'when reaching the certificate search form' do
       it 'contains certificate search params inputs' do
         VCR.use_cassette('search#certificate_search_form') do
@@ -240,6 +236,8 @@ RSpec.describe 'Search', js: true do
               expect(page).to have_content('C119')
               expect(page).to have_content('Authorised Release Certificate — EASA Form 1 (Appendix I to Annex I to Regulation (EU) No 748/2012), or equivalent certificate')
               expect(page).to have_content('Carbon dioxide')
+              expect(page).to have_content('Using this certificate on CDS or CHIEF')
+              expect(page).to have_content('Commodity codes that require this certificate')
             end
           end
         end
