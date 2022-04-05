@@ -6,6 +6,10 @@
   <%= render partial: "measure_conditions/measure_condition_code_#{condition_group[:partial_type]}", locals: { condition_group: condition_group, conditions: conditions } %>
 <% end %>
 
+<%= render 'measures/guidance_table',
+      measure_conditions_with_valid_guidance: measure.measure_conditions_with_valid_guidance
+%>
+
 <% if TradeTariffFrontend::ServiceChooser.uk? && measure.universal_waiver_applies %>
 <div class="universal-waiver-applies-panel">
   <h3 class="govuk-heading-m govuk-!-margin-top-6">
