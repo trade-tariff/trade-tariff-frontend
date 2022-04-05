@@ -251,4 +251,17 @@ RSpec.describe Measure do
       it { expect(measure.excluded_country_list).to eq(expected_list) }
     end
   end
+
+  describe '#from_to' do
+    shared_examples_for 'a measure from to expression' do |expected_expression, start_date, end_date|
+      subject(:from_to) { build(:measure, effective_start_date: start_date, effective_end_date: end_date).from_to }
+
+      it { is_expected.to eq(expected_expression) }
+    end
+
+    it_behaves_like 'a measure from to expression', ' From 1 Jan 2022 to 1 Feb 2023', '2022-01-01', '2023-02-01'
+    it_behaves_like 'a measure from to expression', ' From 1 Jan 2022', '2022-01-01', nil
+    it_behaves_like 'a measure from to expression', nil, nil, '2023-02-01'
+    it_behaves_like 'a measure from to expression', nil, nil, nil
+  end
 end

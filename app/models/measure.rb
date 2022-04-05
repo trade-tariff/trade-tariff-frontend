@@ -173,6 +173,18 @@ class Measure
     end
   end
 
+  def from_to
+    return nil if effective_start_date.blank?
+
+    from = " From #{effective_start_date.to_formatted_s(:short)}"
+
+    if effective_end_date
+      "#{from} to #{effective_end_date.to_formatted_s(:short)}"
+    else
+      from
+    end
+  end
+
   private
 
   def excluded_country_ids
