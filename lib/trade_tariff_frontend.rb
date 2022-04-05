@@ -108,6 +108,10 @@ module TradeTariffFrontend
     ENV['NEWS_ITEMS_ENABLED'].to_s == 'true'
   end
 
+  def permutations?
+    ENV['PERMUTATIONS'].to_s == 'true'
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app
