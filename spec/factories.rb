@@ -632,4 +632,33 @@ FactoryBot.define do
   end
 
   factory :feedback
+
+  factory :certificate_search_form do
+    type { 'N' }
+    code { '002' }
+    description { 'Certificate of conformity with the GB marketing standards for fresh fruit and vegetables' }
+    page { 1 }
+
+    initialize_with do
+      params = ActionController::Parameters.new(
+        type: type,
+        code: code,
+        description: description,
+        page: page,
+      )
+
+      new(params)
+    end
+  end
+
+  factory :kaminari do
+    collection { [] }
+
+    initialize_with do
+      Kaminari
+        .paginate_array(collection, total_count: collection.size)
+        .page(1)
+        .per(5)
+    end
+  end
 end
