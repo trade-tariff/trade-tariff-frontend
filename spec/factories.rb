@@ -481,12 +481,8 @@ FactoryBot.define do
     end
 
     trait :with_guidance do
-      guidace_cds { 'Guidance CDS' }
+      guidance_cds { 'Guidance CDS' }
       guidance_chief { 'Guidance CHIEF' }
-    end
-
-    initialize_with do
-      new(attributes)
     end
   end
 

@@ -252,20 +252,20 @@ RSpec.describe Measure do
     end
   end
 
-  describe '#measure_conditions_with_valid_guidance' do
-    context 'with a valid condition guidance' do
-      let(:measure) { build :measure, :with_conditions_with_guidance }
+  describe '#measure_conditions_with_guidance' do
+    context 'with a condition guidance' do
+      subject(:measure) { build :measure, :with_conditions_with_guidance }
 
-      it 'returns measure_conditions with valid guidance' do
-        expect(measure.measure_conditions_with_valid_guidance.size).to eq(1)
+      it 'returns measure_conditions with guidance' do
+        expect(measure.measure_conditions_with_guidance.size).to eq(1)
       end
     end
 
     context 'without condition guidances' do
-      let(:measure) { build :measure, :with_conditions }
+      subject(:measure) { build :measure, :with_conditions }
 
-      it 'returns no measure_conditions with valid guidance' do
-        expect(measure.measure_conditions_with_valid_guidance.size).to eq(0)
+      it 'returns no measure_conditions with guidance' do
+        expect(measure.measure_conditions_with_guidance.size).to eq(0)
       end
     end
   end

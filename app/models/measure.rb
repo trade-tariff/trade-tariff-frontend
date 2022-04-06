@@ -173,10 +173,8 @@ class Measure
     end
   end
 
-  def measure_conditions_with_valid_guidance
-    measure_conditions.select do |mc|
-      mc.document_code.present? && (mc.guidance_cds.present? || mc.guidance_chief.present?)
-    end
+  def measure_conditions_with_guidance
+    measure_conditions.select(&:has_guidance?)
   end
 
   private

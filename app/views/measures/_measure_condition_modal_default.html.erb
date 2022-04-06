@@ -7,7 +7,7 @@
 <% end %>
 
 <%= render 'measures/guidance_table',
-      measure_conditions_with_valid_guidance: measure.measure_conditions_with_valid_guidance
+      measure_conditions_with_guidance: measure.measure_conditions_with_guidance
 %>
 
 <% if TradeTariffFrontend::ServiceChooser.uk? && measure.universal_waiver_applies %>

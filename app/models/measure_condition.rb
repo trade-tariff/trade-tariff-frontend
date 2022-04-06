@@ -17,4 +17,8 @@ class MeasureCondition
   def requirement
     @requirement&.html_safe
   end
+
+  def has_guidance?
+    guidance_cds.present? || guidance_chief.present?
+  end
 end

@@ -5,26 +5,27 @@
   <div class="govuk-details__text  govuk-!-font-size-16">
     <table class="govuk-table govuk-!-margin-bottom-2">
       <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Document code</th>
-        <th scope="col" class="govuk-table__header">CDS guidance</th>
-        <th scope="col" class="govuk-table__header">CHIEF guidance</th>
-      </tr>
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Document code</th>
+          <th scope="col" class="govuk-table__header">CDS guidance</th>
+          <th scope="col" class="govuk-table__header">CHIEF guidance</th>
+        </tr>
       </thead>
 
       <tbody class="govuk-table__body">
-      <% measure_conditions_with_valid_guidance.each do |mc| %>
-        <tr class="govuk-table__row">
+        <% measure_conditions_with_guidance.each do |mc| %>
+          <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-              <%= mc.document_code %></td>
+              <%= mc.document_code %>
+            </td>
             <td class="govuk-table__cell">
               <%= govspeak mc.guidance_cds %>
             </td>
             <td class="govuk-table__cell">
               <%= govspeak mc.guidance_chief %>
             </td>
-        </tr>
-      <% end %>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   </div>
