@@ -45,7 +45,7 @@ module ApiEntity
     delegate :relationships, to: :class
 
     def inspect
-      keys_to_exclude = relationships + [:casted_by]
+      keys_to_exclude = relationships.to_a + [:casted_by]
 
       @attributes.except(*keys_to_exclude)
     end

@@ -301,6 +301,15 @@ FactoryBot.define do
       measure_conditions { [attributes_for(:measure_condition)] }
     end
 
+    trait :with_conditions_with_guidance do
+      measure_conditions do
+        [
+          attributes_for(:measure_condition),
+          attributes_for(:measure_condition, :with_guidance),
+        ]
+      end
+    end
+
     trait :with_additional_code do
       additional_code { attributes_for(:additional_code) }
     end
@@ -469,6 +478,11 @@ FactoryBot.define do
 
     trait :universal_waiver do
       document_code { '999L' }
+    end
+
+    trait :with_guidance do
+      guidance_cds { 'Guidance CDS' }
+      guidance_chief { 'Guidance CHIEF' }
     end
   end
 

@@ -251,4 +251,22 @@ RSpec.describe Measure do
       it { expect(measure.excluded_country_list).to eq(expected_list) }
     end
   end
+
+  describe '#measure_conditions_with_guidance' do
+    context 'with a condition guidance' do
+      subject(:measure) { build :measure, :with_conditions_with_guidance }
+
+      it 'returns measure_conditions with guidance' do
+        expect(measure.measure_conditions_with_guidance.size).to eq(1)
+      end
+    end
+
+    context 'without condition guidances' do
+      subject(:measure) { build :measure, :with_conditions }
+
+      it 'returns no measure_conditions with guidance' do
+        expect(measure.measure_conditions_with_guidance.size).to eq(0)
+      end
+    end
+  end
 end
