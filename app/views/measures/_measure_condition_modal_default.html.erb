@@ -5,7 +5,8 @@
 <%= render 'measures/measure_from_to', measure: measure %>
 
 <% if measure.permutations_enabled? %>
-  FIXME: Use new permutations layout
+  <%= render partial: 'measure_conditions/permutation_group',
+             collection: measure.measure_condition_permutation_groups %>
 <% else %>
   <% measure.grouped_measure_conditions.each do |condition_group, conditions| %>
     <%= render partial: "measure_conditions/measure_condition_code_#{condition_group[:partial_type]}",
