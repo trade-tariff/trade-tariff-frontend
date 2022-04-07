@@ -8,7 +8,7 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
 
   let(:response_body) { 'example' }
 
-  let(:middleware) do described_class.new(host: host) end
+  let(:middleware) do described_class.new(host:) end
 
   before do
     allow(TradeTariffFrontend::ServiceChooser).to receive(:api_client_with_forwarding).and_call_original

@@ -6,6 +6,6 @@ RSpec.describe AdditionalCode do
   end
 
   it_behaves_like 'an entity that has goods nomenclatures' do
-    let(:entity) { build(:additional_code, measures: measures) }
+    let(:entity) { build(:additional_code, measures:) }
   end
 end

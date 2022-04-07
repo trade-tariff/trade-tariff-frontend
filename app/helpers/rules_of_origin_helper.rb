@@ -9,14 +9,14 @@ module RulesOfOriginHelper
   def rules_of_origin_schemes_intro(country_name, schemes)
     if schemes.empty?
       render 'rules_of_origin/intros/no_scheme',
-             country_name: country_name
+             country_name:
     elsif schemes.many?
       render 'rules_of_origin/intros/multiple_schemes',
-             country_name: country_name,
-             schemes: schemes
+             country_name:,
+             schemes:
     elsif schemes.first.countries.one?
       render 'rules_of_origin/intros/country',
-             country_name: country_name,
+             country_name:,
              scheme: schemes.first
     elsif schemes.first.unilateral
       render 'rules_of_origin/intros/unilateral_trade_bloc',

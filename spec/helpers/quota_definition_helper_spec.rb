@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe QuotaDefinitionHelper, type: :helper do
   describe '#show_warning?' do
     let(:order_number) do
-      build(:order_number, number: number, definition: attributes_for(:definition, description: description))
+      build(:order_number, number:, definition: attributes_for(:definition, description:))
     end
     let(:description) { nil }
     let(:number) { '050000' }

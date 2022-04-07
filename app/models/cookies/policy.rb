@@ -51,9 +51,9 @@ module Cookies
 
     def to_cookie
       {
-        settings: settings,
-        usage: usage,
-        remember_settings: remember_settings,
+        settings:,
+        usage:,
+        remember_settings:,
       }.compact.to_json
     end
 

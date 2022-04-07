@@ -39,7 +39,7 @@ module GoodsNomenclatureHelper
   def goods_nomenclature_path_opts
     url_options.merge(
       id: current_goods_nomenclature_code,
-      anchor: anchor,
+      anchor:,
     )
   end
 end

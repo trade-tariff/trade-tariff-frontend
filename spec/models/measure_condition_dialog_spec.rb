@@ -8,7 +8,7 @@ RSpec.describe MeasureConditionDialog do
   end
 
   describe '#build' do
-    let(:declarable) { build(:commodity, goods_nomenclature_item_id: goods_nomenclature_item_id) }
+    let(:declarable) { build(:commodity, goods_nomenclature_item_id:) }
 
     let(:measure) do
       build(
@@ -34,7 +34,7 @@ RSpec.describe MeasureConditionDialog do
           partial: 'measures/measure_condition_modal_augmented',
           locals: {
             modal_content_file: 'measures/measure_condition_replacement_modals/animal_health',
-            measure: measure,
+            measure:,
           },
         }
 
@@ -64,7 +64,7 @@ RSpec.describe MeasureConditionDialog do
       it 'returns the default modal partial options' do
         expected_options = {
           partial: 'measures/measure_condition_modal_default',
-          locals: { measure: measure },
+          locals: { measure: },
         }
 
         expect(dialog.options).to eq(expected_options)

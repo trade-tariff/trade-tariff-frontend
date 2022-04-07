@@ -4,7 +4,7 @@ RSpec.describe MeasuresHelper, type: :helper do
   describe '#filter_duty_expression' do
     subject(:filtered_expression) { helper.filter_duty_expression(measure) }
 
-    let(:measure) { Measure.new(attributes_for(:measure, duty_expression: duty_expression)) }
+    let(:measure) { Measure.new(attributes_for(:measure, duty_expression:)) }
 
     context 'when the duty expression is present' do
       let(:duty_expression) { attributes_for(:duty_expression) }
@@ -20,7 +20,7 @@ RSpec.describe MeasuresHelper, type: :helper do
   end
 
   describe '#legal_act_regulation_url_link_for' do
-    let(:measure) { build(:measure, legal_acts: legal_acts) }
+    let(:measure) { build(:measure, legal_acts:) }
 
     context 'when there are no legal acts' do
       let(:legal_acts) { [] }
@@ -47,7 +47,7 @@ RSpec.describe MeasuresHelper, type: :helper do
 
   describe 'check_how_to_export_goods_link' do
     subject(:link) do
-      check_how_to_export_goods_link(declarable: declarable, country_code: '', country_name: '', eu_member: eu_member)
+      check_how_to_export_goods_link(declarable:, country_code: '', country_name: '', eu_member:)
     end
 
     let(:declarable) { build(:commodity, goods_nomenclature_item_id: '1234567890') }

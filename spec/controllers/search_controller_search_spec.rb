@@ -82,15 +82,15 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
             @request.env['HTTP_REFERER'] = '/chapters/01'
 
             post :search, params: {
-              year: year,
-              month: month,
-              day: day,
+              year:,
+              month:,
+              day:,
             }
           end
 
           it { is_expected.to respond_with(:redirect) }
           it { expect(assigns(:search)).to be_a(Search) }
-          it { is_expected.to redirect_to(chapter_path('01', day: day, month: month, year: year)) }
+          it { is_expected.to redirect_to(chapter_path('01', day:, month:, year:)) }
         end
 
         context 'when valid date params provided for today' do
@@ -102,9 +102,9 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
             @request.env['HTTP_REFERER'] = '/chapters/01'
 
             post :search, params: {
-              year: year,
-              month: month,
-              day: day,
+              year:,
+              month:,
+              day:,
             }
           end
 
@@ -130,8 +130,8 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
 
             before do
               post :search, params: { date: {
-                year: year,
-                month: month,
+                year:,
+                month:,
               } }
             end
 
@@ -147,9 +147,9 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
 
             before do
               post :search, params: { date: {
-                year: year,
-                month: month,
-                day: day,
+                year:,
+                month:,
+                day:,
               } }
             end
 
@@ -171,7 +171,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
       let(:query) { 'car parts' }
 
       before do
-        get :search, params: { q: query, day: day, month: month, year: year }, format: :json
+        get :search, params: { q: query, day:, month:, year: }, format: :json
       end
 
       specify 'should return query and date within response body' do
@@ -187,7 +187,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
       let(:query) { '2204' }
 
       before do
-        get :search, params: { q: query, day: day, month: month, year: year }, format: :json
+        get :search, params: { q: query, day:, month:, year: }, format: :json
       end
 
       specify 'should return single goods nomenclature' do
@@ -203,7 +203,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
       let(:query) { 'account books' }
 
       before do
-        get :search, params: { q: query, day: day, month: month, year: year }, format: :json
+        get :search, params: { q: query, day:, month:, year: }, format: :json
       end
 
       specify 'should return single goods nomenclature' do
@@ -219,7 +219,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
       let(:query) { 'minerals' }
 
       before do
-        get :search, params: { q: query, day: day, month: month, year: year }, format: :json
+        get :search, params: { q: query, day:, month:, year: }, format: :json
       end
 
       specify 'should return single goods nomenclature' do
@@ -233,7 +233,7 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
       let(:query) { 'designed velocycles' }
 
       before do
-        get :search, params: { q: query, day: day, month: month, year: year }, format: :json
+        get :search, params: { q: query, day:, month:, year: }, format: :json
       end
 
       specify 'should return single goods nomenclature' do
