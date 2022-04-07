@@ -5,8 +5,9 @@ class TariffUpdate
                 :state,
                 :created_at,
                 :updated_at,
-                :filename,
-                :applied_at
+                :filename
+
+  attr_writer :applied_at
 
   collection_path '/updates/latest'
 

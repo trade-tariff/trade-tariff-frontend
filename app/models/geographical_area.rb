@@ -7,7 +7,9 @@ class GeographicalArea
 
   collection_path '/geographical_areas/countries'
 
-  attr_accessor :id, :geographical_area_id, :description
+  attr_accessor :id, :geographical_area_id
+
+  attr_writer :description
 
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
 

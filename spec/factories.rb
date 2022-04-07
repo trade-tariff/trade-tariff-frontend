@@ -28,10 +28,6 @@ FactoryBot.define do
     commodities { [] }
     import_measures { [] }
     export_measures { [] }
-
-    initialize_with do
-      new(attributes)
-    end
   end
 
   factory :subheading do
@@ -57,10 +53,6 @@ FactoryBot.define do
 
     trait :taric_code do
       goods_nomenclature_item_id { '0101121210' }
-    end
-
-    initialize_with do
-      new(attributes)
     end
   end
 
@@ -93,10 +85,6 @@ FactoryBot.define do
           'zero_mfn_duty' => false,
         },
       }
-    end
-
-    initialize_with do
-      new(attributes)
     end
   end
 
@@ -337,10 +325,6 @@ FactoryBot.define do
     trait :universal_waiver do
       universal_waiver_applies { true }
     end
-
-    initialize_with do
-      new(attributes)
-    end
   end
 
   factory :legal_act do
@@ -462,10 +446,6 @@ FactoryBot.define do
     trait :erga_omnes do
       id { '1011' }
     end
-
-    initialize_with do
-      new(attributes)
-    end
   end
 
   factory :measure_condition do
@@ -510,16 +490,11 @@ FactoryBot.define do
 
   factory :tariff_update do
     update_type { 'TariffSynchronizer::TaricUpdate' }
-
     state { 'A' }
     created_at { Time.zone.now.iso8601 }
     updated_at { Time.zone.now.iso8601 }
     applied_at { Time.zone.now.iso8601 }
     filename { 'filename.txt' }
-
-    initialize_with do
-      new(attributes)
-    end
   end
 
   factory :rules_of_origin_link, class: 'RulesOfOrigin::Link' do
@@ -603,7 +578,9 @@ FactoryBot.define do
     q { 'foo' }
 
     trait :with_search_date do
-      search_date { Time.zone.today }
+      transient do
+        search_date { Time.zone.today }
+      end
 
       day { search_date.day.to_s.rjust(2, '0') }
       month { search_date.month.to_s.rjust(2, '0') }
@@ -612,10 +589,6 @@ FactoryBot.define do
 
     trait :with_country do
       country { 'IT' }
-    end
-
-    initialize_with do
-      new(attributes)
     end
   end
 
@@ -638,10 +611,6 @@ FactoryBot.define do
       if months_ago && months_ago > 1
         (months_ago - 1).months.ago - 1.day
       end
-    end
-
-    initialize_with do
-      new(attributes)
     end
   end
 
