@@ -1,26 +1,26 @@
-<p>
-  Meet
+<div class="permutation-group">
+  <p>
+    <% if permutation_group.permutations.many? %>
+    Meet one of the following conditions
+    <% else %>
+    Meet the following condition
+    <% end %>
 
-  <% if permutation_group.permutations.many? %>
-  one of the following conditions
-  <% else %>
-  the following condition
-  <% end %>
+    and supply the relevant document code(s) on your declation.
+  </p>
 
-  and supply the relevant document code(s) on your declation.
-</p>
+  <table class="govuk-table govuk-!-margin-bottom-2">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Document code</th>
+        <th scope="col" class="govuk-table__header">Requirement</th>
+        <th scope="col" class="govuk-table__header">Action</th>
+      </tr>
+    </thead>
 
-<table class="govuk-table govuk-!-margin-bottom-2">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Document code</th>
-      <th scope="col" class="govuk-table__header">Requirement</th>
-      <th scope="col" class="govuk-table__header">Action</th>
-    </tr>
-  </thead>
-
-  <tbody class="govuk-table__body">
-    <%= render partial: 'measure_conditions/permutation',
-               collection: permutation_group.permutations %>
-  </tbody>
-</table>
+    <tbody class="govuk-table__body">
+      <%= render partial: 'measure_conditions/permutation',
+                 collection: permutation_group.permutations %>
+    </tbody>
+  </table>
+</div>

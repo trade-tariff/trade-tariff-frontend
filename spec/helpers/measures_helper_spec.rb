@@ -112,4 +112,46 @@ RSpec.describe MeasuresHelper, type: :helper do
       it { is_expected.to match expected }
     end
   end
+
+  describe '#format_measure_condition_requirement' do
+    subject { format_measure_condition_requirement condition }
+
+    context 'with threshold condition' do
+      let :condition do
+        build :measure_condition, measure_condition_class: 'threshold'
+      end
+
+      xit { is_expected.to match 'Your goods must' }
+    end
+
+    context 'with any other classification of condition' do
+      let :condition do
+        build :measure_condition, measure_condition_class: nil,
+                                  certificate_description: 'test description'
+      end
+
+      it { is_expected.to match 'test description' }
+    end
+  end
+
+  describe '#format_measure_condition_document_code' do
+    subject { format_measure_condition_document_code condition }
+
+    context 'with threshold condition' do
+      let :condition do
+        build :measure_condition, measure_condition_class: 'threshold'
+      end
+
+      it { is_expected.to eql 'Threshold condition' }
+    end
+
+    context 'with any other classification of condition' do
+      let :condition do
+        build :measure_condition, measure_condition_class: nil,
+                                  document_code: 'X123'
+      end
+
+      it { is_expected.to eql 'X123' }
+    end
+  end
 end

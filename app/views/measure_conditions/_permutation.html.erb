@@ -1,13 +1,34 @@
 <tr class="govuk-table__row">
   <td class="govuk-table__cell numerical">
-    <%= safe_join permutation.measure_conditions.map(&:document_code), ' + ' %>
+    <% permutation.measure_conditions.each.with_index do |condition, index| %>
+      <%= ' + ' unless index.zero? %>
+
+      <%= format_measure_condition_document_code condition %>
+    <% end %>
   </td>
 
   <td class="govuk-table__cell">
-    TBD
+    <% if permutation.measure_conditions.length == 2 %>
+      <p>Meet both conditions</p>
+    <% elsif permutation.measure_conditions.many? %>
+      <p>Meet all conditions</p>
+    <% end %>
+
+    <% permutation.measure_conditions.each.with_index do |condition, index| %>
+      <%= tag.p('and') unless index.zero? %>
+
+      <p>
+        <%= format_measure_condition_requirement condition %>
+      </p>
+    <% end %>
   </td>
 
   <td class="govuk-table__cell">
-    TBD
+    <% if permutation.measure_conditions.first.action.present? %>
+      <%= permutation.measure_conditions.first.action %>
+      <br />
+    <% end %>
+
+    <%= permutation.measure_conditions.first.duty_expression.to_s.html_safe %>
   </td>
 </tr>

@@ -61,4 +61,24 @@ module MeasuresHelper
       safe_join components.flatten.compact, ' '
     end
   end
+
+  def format_measure_condition_requirement(condition)
+    case condition.measure_condition_class
+    when 'threshold'
+      'FIXME: need unit type'
+    else
+      (condition.certificate_description.presence || condition.requirement)
+        .to_s
+        .html_safe
+    end
+  end
+
+  def format_measure_condition_document_code(condition)
+    case condition.measure_condition_class
+    when 'threshold'
+      'Threshold condition'
+    else
+      condition.document_code
+    end
+  end
 end
