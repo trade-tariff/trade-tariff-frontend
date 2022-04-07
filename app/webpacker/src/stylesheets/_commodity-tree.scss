@@ -2,10 +2,10 @@
   $left-pos: -984px;
 
   @if $level == 1 {
-    padding-left: px(($token-width - $token-padding));
+    padding-left: 0;
     font-weight: bold;
     @media (min-width: $desktop-min-width) {
-      padding-left: px(($token-width - $token-padding) + $token-space);
+      padding-left: 0;
       background-position: $left-pos + $token-width 1em;
     }
   } @else {
@@ -185,10 +185,6 @@ article.tariff {
       margin: 0;
       position:relative;
       word-wrap: break-word;
-      @media (min-width: $desktop-min-width) {
-        background-image: url("../images/commodity-indents.png");
-        background-repeat: no-repeat;
-      }
 
       &:last-child {
         border-bottom: 0;
