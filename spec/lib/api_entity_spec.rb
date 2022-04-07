@@ -18,6 +18,25 @@ RSpec.describe ApiEntity do
     end
   end
 
+  describe '#inspect' do
+    context 'when initialized with attributes' do
+      subject(:api_entity) { mock_entity.new(name: 'Bilbo Baggins', age: 111) }
+
+      it { expect(api_entity.inspect).to eq('name' => 'Bilbo Baggins', 'age' => 111) }
+    end
+
+    context 'when initialized without attributes and having them assigned separately' do
+      subject(:api_entity) { mock_entity.new }
+
+      before do
+        api_entity.name = 'Hari Seldon'
+        api_entity.age = 79
+      end
+
+      it { expect(api_entity.inspect).to eq('name' => 'Hari Seldon', 'age' => 79) }
+    end
+  end
+
   describe '#resource_type' do
     subject(:resource_type) { mock_entity.new(attributes).resource_type }
 
