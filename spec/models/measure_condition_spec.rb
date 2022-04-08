@@ -39,4 +39,32 @@ RSpec.describe MeasureCondition do
       it { is_expected.not_to have_guidance }
     end
   end
+
+  describe '#measure_condition_class' do
+    subject { condition.measure_condition_class }
+
+    let :condition do
+      build :measure_condition, measure_condition_class: condition_class
+    end
+
+    context 'with nil class' do
+      let(:condition_class) { nil }
+
+      it { is_expected.to eql '' }
+      it { is_expected.to respond_to :threshold? }
+      it { is_expected.to respond_to :document? }
+      it { is_expected.to have_attributes 'threshold?': false }
+      it { is_expected.to have_attributes 'document?': false }
+    end
+
+    context 'with document_class' do
+      let(:condition_class) { 'document' }
+
+      it { is_expected.to eql 'document' }
+      it { is_expected.to respond_to :threshold? }
+      it { is_expected.to respond_to :document? }
+      it { is_expected.to have_attributes 'threshold?': false }
+      it { is_expected.to have_attributes 'document?': true }
+    end
+  end
 end

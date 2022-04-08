@@ -81,4 +81,20 @@ module MeasuresHelper
       condition.document_code
     end
   end
+
+  def format_combined_conditions_requirement(conditions)
+    if conditions.length == 2
+      if conditions.map(&:measure_condition_class).all?(&:document?)
+        'Provide both documents'
+      else
+        'Meet both conditions'
+      end
+    elsif conditions.many?
+      if conditions.map(&:measure_condition_class).all?(&:document?)
+        'Provide all documents'
+      else
+        'Meet all conditions'
+      end
+    end
+  end
 end

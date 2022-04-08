@@ -117,17 +117,14 @@ RSpec.describe MeasuresHelper, type: :helper do
     subject { format_measure_condition_requirement condition }
 
     context 'with threshold condition' do
-      let :condition do
-        build :measure_condition, measure_condition_class: 'threshold'
-      end
+      let(:condition) { build :measure_condition, :threshold }
 
       xit { is_expected.to match 'Your goods must' }
     end
 
     context 'with any other classification of condition' do
       let :condition do
-        build :measure_condition, measure_condition_class: nil,
-                                  certificate_description: 'test description'
+        build :measure_condition, certificate_description: 'test description'
       end
 
       it { is_expected.to match 'test description' }
@@ -138,20 +135,55 @@ RSpec.describe MeasuresHelper, type: :helper do
     subject { format_measure_condition_document_code condition }
 
     context 'with threshold condition' do
-      let :condition do
-        build :measure_condition, measure_condition_class: 'threshold'
-      end
+      let(:condition) { build :measure_condition, :threshold }
 
       it { is_expected.to eql 'Threshold condition' }
     end
 
     context 'with any other classification of condition' do
-      let :condition do
-        build :measure_condition, measure_condition_class: nil,
-                                  document_code: 'X123'
-      end
+      let(:condition) { build :measure_condition, document_code: 'X123' }
 
       it { is_expected.to eql 'X123' }
+    end
+  end
+
+  describe '#format_combined_conditions_requirement' do
+    subject { format_combined_conditions_requirement conditions }
+
+    context 'with one threshold condition' do
+      let(:conditions) { build_list :measure_condition, 1, :threshold }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with one document condition' do
+      let(:conditions) { build_list :measure_condition, 1 }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with two threshold conditions' do
+      let(:conditions) { build_pair :measure_condition, :threshold }
+
+      it { is_expected.to eql 'Meet both conditions' }
+    end
+
+    context 'with two document conditions' do
+      let(:conditions) { build_pair :measure_condition }
+
+      it { is_expected.to eql 'Provide both documents' }
+    end
+
+    context 'with three threshold conditions' do
+      let(:conditions) { build_list :measure_condition, 3, :threshold }
+
+      it { is_expected.to eql 'Meet all conditions' }
+    end
+
+    context 'with three document conditions' do
+      let(:conditions) { build_list :measure_condition, 3 }
+
+      it { is_expected.to eql 'Provide all documents' }
     end
   end
 end

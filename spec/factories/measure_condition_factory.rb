@@ -6,6 +6,7 @@ FactoryBot.define do
     requirement { Forgery(:basic).text }
     action { Forgery(:basic).text }
     duty_expression { Forgery(:basic).text }
+    measure_condition_class { document_code.presence && 'document' }
 
     trait :universal_waiver do
       document_code { '999L' }
@@ -14,6 +15,10 @@ FactoryBot.define do
     trait :with_guidance do
       guidance_cds { 'Guidance CDS' }
       guidance_chief { 'Guidance CHIEF' }
+    end
+
+    trait :threshold do
+      measure_condition_class { 'threshold' }
     end
   end
 end

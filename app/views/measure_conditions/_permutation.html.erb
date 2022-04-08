@@ -8,11 +8,7 @@
   </td>
 
   <td class="govuk-table__cell">
-    <% if permutation.measure_conditions.length == 2 %>
-      <p>Meet both conditions</p>
-    <% elsif permutation.measure_conditions.many? %>
-      <p>Meet all conditions</p>
-    <% end %>
+    <%= paragraph_if_content format_combined_conditions_requirement(permutation.measure_conditions) %>
 
     <% permutation.measure_conditions.each.with_index do |condition, index| %>
       <%= tag.p('and') unless index.zero? %>
