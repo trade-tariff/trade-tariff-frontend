@@ -23,4 +23,11 @@
                  collection: permutation_group.permutations %>
     </tbody>
   </table>
+
+  <%= render 'measures/guidance_table',
+             measure_conditions_with_guidance: permutation_group
+                                                 .permutations
+                                                 .flat_map(&:measure_conditions)
+                                                 .select(&:has_guidance?)
+                                                 .uniq(&:resource_id) %>
 </div>
