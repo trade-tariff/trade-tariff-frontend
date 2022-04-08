@@ -35,7 +35,7 @@ module ApiEntity
     include Faraday
     include MultiJson
 
-    attr_reader :attributes
+    attr_reader :resource_id, :attributes
     attr_writer :resource_type
 
     attr_accessor :casted_by
@@ -76,6 +76,10 @@ module ApiEntity
     attributes = HashWithIndifferentAccess.new(attributes)
 
     self.attributes = attributes
+  end
+
+  def resource_id=(resource_id)
+    @resource_id ||= resource_id # rubocop:disable Naming/MemoizedInstanceVariableName
   end
 
   def attributes=(attributes = {})
