@@ -128,4 +128,8 @@ module ApplicationHelper
       from
     end
   end
+
+  def paragraph_if_content(content)
+    tag.p(content) if content.present?
+  end
 end
