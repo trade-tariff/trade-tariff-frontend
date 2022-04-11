@@ -83,7 +83,7 @@ module ApiEntity
 
     attributes.each do |name, value|
       if respond_to?(:"#{name}=")
-        send(:"#{name}=", value)
+        public_send(:"#{name}=", value)
       end
     end
   end
