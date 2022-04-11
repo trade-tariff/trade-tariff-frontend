@@ -16,7 +16,7 @@ class RulesOfOrigin::Scheme
     def all(heading_code, country_code, opts = {})
       super opts.merge(
         heading_code: heading_code.first(6),
-        country_code: country_code,
+        country_code:,
       )
     end
   end

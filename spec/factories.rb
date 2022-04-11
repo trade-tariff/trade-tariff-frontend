@@ -655,10 +655,10 @@ FactoryBot.define do
 
     initialize_with do
       params = ActionController::Parameters.new(
-        type: type,
-        code: code,
-        description: description,
-        page: page,
+        type:,
+        code:,
+        description:,
+        page:,
       )
 
       new(params)

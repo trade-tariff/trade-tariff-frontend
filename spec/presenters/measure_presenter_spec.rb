@@ -4,7 +4,7 @@ RSpec.describe MeasurePresenter do
   subject(:presented_measure) { described_class.new(measure) }
 
   describe '#has_children_geographical_areas?' do
-    let(:measure) { build(:measure, geographical_area: geographical_area) }
+    let(:measure) { build(:measure, geographical_area:) }
 
     context 'when the measure has a GeographicalArea with children' do
       let(:geographical_area) do
@@ -25,8 +25,8 @@ RSpec.describe MeasurePresenter do
   end
 
   describe '#children_geographical_areas' do
-    let(:measure) { build(:measure, geographical_area: geographical_area) }
-    let(:geographical_area) { attributes_for(:geographical_area, geographical_area_id: nil, children_geographical_areas: children_geographical_areas) }
+    let(:measure) { build(:measure, geographical_area:) }
+    let(:geographical_area) { attributes_for(:geographical_area, geographical_area_id: nil, children_geographical_areas:) }
 
     let(:children_geographical_areas) do
       [
@@ -122,7 +122,7 @@ RSpec.describe MeasurePresenter do
             have_attributes keys: [
               {
                 condition: "#{condition_code}: TEST",
-                partial_type: partial_type,
+                partial_type:,
               },
             ]
         end

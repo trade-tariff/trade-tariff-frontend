@@ -8,7 +8,7 @@ RSpec.describe 'shared/context_tables/_heading', type: :view, vcr: { cassette_na
     assign(:search, search)
   end
 
-  let(:heading) { build(:heading, declarable: declarable) }
+  let(:heading) { build(:heading, declarable:) }
   let(:search) { build(:search, :with_search_date, :with_country) }
 
   let(:declarable) { true }

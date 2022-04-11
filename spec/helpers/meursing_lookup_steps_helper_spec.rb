@@ -9,7 +9,7 @@ RSpec.describe MeursingLookupStepsHelper, type: :helper do
     let(:wizard) do
       instance_double(
         'MeursingLookup::Wizard',
-        previous_key: previous_key,
+        previous_key:,
       )
     end
 

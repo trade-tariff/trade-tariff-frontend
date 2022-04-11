@@ -21,7 +21,7 @@ RSpec.describe ServiceHelper, type: :helper do
 
   describe '#measures_heading' do
     shared_examples_for 'a measure heading' do |anchor, expected_text|
-      subject { helper.measures_heading(anchor: anchor) }
+      subject { helper.measures_heading(anchor:) }
 
       it { is_expected.to eq(expected_text) }
     end

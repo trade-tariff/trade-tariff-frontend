@@ -22,7 +22,7 @@ class Search
   def perform
     retries = 0
     begin
-      response = self.class.post('/search', q: q, as_of: date.to_fs(:db))
+      response = self.class.post('/search', q:, as_of: date.to_fs(:db))
       response = TariffJsonapiParser.new(response.body).parse
       Outcome.new(response)
     rescue StandardError

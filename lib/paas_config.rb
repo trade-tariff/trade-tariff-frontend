@@ -10,7 +10,7 @@ module PaasConfig
       ENV['REDIS_URL']
     end
 
-    { url: url, db: 0, id: nil }
+    { url:, db: 0, id: nil }
   end
 
   def space

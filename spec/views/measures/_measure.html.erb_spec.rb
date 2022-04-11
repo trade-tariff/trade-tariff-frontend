@@ -4,7 +4,7 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
   let(:measure) do
     Measure.new(
       attributes_for(:measure, :third_country,
-                     duty_expression: duty_expression),
+                     duty_expression:),
     )
   end
 

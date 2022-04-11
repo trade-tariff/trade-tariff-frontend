@@ -4,7 +4,7 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
 
     let(:declarable) { build(:commodity) }
 
-    let(:search) { build(:search, :with_search_date, :with_country, search_date: search_date) }
+    let(:search) { build(:search, :with_search_date, :with_country, search_date:) }
 
     let(:search_date) { Date.parse('2021-01-01') }
 

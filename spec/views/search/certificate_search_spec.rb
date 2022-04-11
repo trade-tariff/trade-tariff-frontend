@@ -8,9 +8,9 @@ RSpec.describe 'search/certificate_search', type: :view, vcr: { cassette_name: '
   let(:result) do
     instance_double(
       'CertificateSearchPresenter',
-      search_form: search_form,
+      search_form:,
       search_result: certificates,
-      with_errors: with_errors,
+      with_errors:,
     )
   end
 

@@ -8,7 +8,7 @@ RSpec.describe 'find_commodities/show', type: :view do
   let(:search_date) { Time.zone.today }
   let(:q) { nil }
 
-  let(:search) { build(:search, :with_search_date, q: '0101300000', search_date: search_date) }
+  let(:search) { build(:search, :with_search_date, q: '0101300000', search_date:) }
 
   describe 'header' do
     it { is_expected.to have_css 'header h1', text: /commodity codes, import duties/ }

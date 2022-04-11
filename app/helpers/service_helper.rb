@@ -1,13 +1,13 @@
 module ServiceHelper
   def default_title
-    t('title.default', service_name: service_name, service_description: service_description)
+    t('title.default', service_name:, service_description:)
   end
 
   def goods_nomenclature_title(goods_nomenclature)
     t(
       'title.goods_nomenclature',
       goods_description: goods_nomenclature.to_s,
-      service_name: service_name,
+      service_name:,
     )
   end
 
@@ -16,16 +16,16 @@ module ServiceHelper
       "title.commodity.#{service_choice}",
       commodity_description: commodity.to_s,
       commodity_code: commodity.code,
-      service_name: service_name,
+      service_name:,
     )
   end
 
   def import_export_date_title
-    t('title.import_export_date', service_name: service_name)
+    t('title.import_export_date', service_name:)
   end
 
   def trading_partner_title
-    t('title.trading_partner', service_name: service_name)
+    t('title.trading_partner', service_name:)
   end
 
   def trade_tariff_heading
@@ -55,7 +55,7 @@ module ServiceHelper
   end
 
   def search_label_text
-    t('search.label', service_name: service_name)
+    t('search.label', service_name:)
   end
 
   def measures_heading(anchor:)

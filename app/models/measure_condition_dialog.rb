@@ -32,17 +32,17 @@ class MeasureConditionDialog
                     {
                       partial: 'measures/measure_condition_modal_augmented',
                       locals: { modal_content_file: "measures/measure_condition_replacement_modals/#{content_file}",
-                                measure: measure },
+                                measure: },
                     }
                   end
                 else
                   {
                     partial: 'measures/measure_condition_modal_default',
-                    locals: { measure: measure },
+                    locals: { measure: },
                   }
                 end
 
-      new(options: options)
+      new(options:)
     end
 
     private

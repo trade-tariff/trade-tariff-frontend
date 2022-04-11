@@ -6,6 +6,6 @@ RSpec.describe Certificate do
   end
 
   it_behaves_like 'an entity that has goods nomenclatures' do
-    let(:entity) { build(:certificate, measures: measures) }
+    let(:entity) { build(:certificate, measures:) }
   end
 end

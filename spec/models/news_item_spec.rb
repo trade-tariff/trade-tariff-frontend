@@ -142,7 +142,7 @@ RSpec.describe NewsItem do
   end
 
   describe '#paragraphs' do
-    subject { build(:news_item, content: content).paragraphs }
+    subject { build(:news_item, content:).paragraphs }
 
     context 'with single paragraph' do
       let(:content) { 'Hello world' }
