@@ -21,5 +21,15 @@ FactoryBot.define do
     trait :threshold do
       measure_condition_class { 'threshold' }
     end
+
+    trait :weight do
+      threshold
+      condition_measurement_unit_code { 'KGM' }
+    end
+
+    trait :volume do
+      threshold
+      condition_measurement_unit_code { 'LTR' }
+    end
   end
 end

@@ -117,9 +117,24 @@ RSpec.describe MeasuresHelper, type: :helper do
     subject { format_measure_condition_requirement condition }
 
     context 'with threshold condition' do
-      let(:condition) { build :measure_condition, :threshold }
+      context 'with weight condition' do
+        let(:condition) { build :measure_condition, :weight }
 
-      xit { is_expected.to match 'Your goods must' }
+        it { is_expected.to match 'The weight of your goods must not exceed' }
+      end
+
+      context 'with volume condition' do
+        let(:condition) { build :measure_condition, :volume }
+
+        it { is_expected.to match 'The volume of your goods must not exceed' }
+      end
+
+      context 'with other threshold' do
+        let(:condition) { build :measure_condition, :threshold }
+
+        it { is_expected.to be_present }
+        it { is_expected.not_to match 'of your goods' }
+      end
     end
 
     context 'with any other classification of condition' do
