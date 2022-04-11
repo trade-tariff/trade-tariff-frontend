@@ -1,15 +1,17 @@
 <% if commodity.has_children? %>
-  <li class="has_children <%= commodity_level(commodity)%><%= leaf_position(commodity) %>">
+  <li class="has_children <%= commodity_level(commodity) %><%= leaf_position(commodity) %>">
     <span class="description open without_right_margin" aria-expanded="false" role="button" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></span>
 
     <div class='sub_heading_commodity_code_block pull-right'>
-      <%= format_commodity_code_based_on_level(commodity) unless commodity.umbrella_code? %>
+      <% unless commodity.umbrella_code? %>
+        <%= segmented_commodity_code abbreviate_commodity_code(commodity.code), coloured: true %>
+      <% end %>
     </div>
 
     <ul class="govuk-list"><%= render commodity.children %></ul>
   </li>
 <% else %>
-  <li class="<%= commodity_level(commodity)%><%= leaf_position(commodity) %>">
+  <li class="<%= commodity_level(commodity) %><%= leaf_position(commodity) %>">
     <%= link_to commodity_path(commodity, request.query_parameters.symbolize_keys), title: "View complete information for this commodity", "aria-label" => commodity.aria_label do %>
       <div class="description open" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></div>
 
@@ -39,7 +41,7 @@
           <% end %>
         </div>
         <div class="identifier" aria-describedby="commodity-<%= commodity.short_code %>">
-          <%= format_commodity_code_based_on_level(commodity) %>
+          <%= segmented_commodity_code abbreviate_commodity_code(commodity.code), coloured: true %>
         </div>
       </div>
     <% end %>

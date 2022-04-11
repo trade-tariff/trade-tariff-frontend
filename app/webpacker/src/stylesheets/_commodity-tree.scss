@@ -2,10 +2,10 @@
   $left-pos: -984px;
 
   @if $level == 1 {
-    padding-left: px(($token-width - $token-padding));
+    padding-left: 0;
     font-weight: bold;
     @media (min-width: $desktop-min-width) {
-      padding-left: px(($token-width - $token-padding) + $token-space);
+      padding-left: 0;
       background-position: $left-pos + $token-width 1em;
     }
   } @else {
@@ -94,7 +94,7 @@ article.tariff {
 
   .commodity-tree__additional-info {
     float: right;
-    width: 570px;
+    width: 514px;
 
     em {
       font-style: normal;
@@ -137,7 +137,7 @@ article.tariff {
     }
 
     .commcode {
-      width: 165px;
+      width: 110px;
       float: right;
       text-align: right;
       display: none;
@@ -185,10 +185,6 @@ article.tariff {
       margin: 0;
       position:relative;
       word-wrap: break-word;
-      @media (min-width: $desktop-min-width) {
-        background-image: url("../images/commodity-indents.png");
-        background-repeat: no-repeat;
-      }
 
       &:last-child {
         border-bottom: 0;
@@ -224,7 +220,7 @@ article.tariff {
         font-size: 16px;
         @media (min-width: 641px) {
           float: right;
-          width: 570px;
+          width: 514px;
 
           @supports(display: flex) {
             display: flex;
@@ -277,6 +273,8 @@ article.tariff {
       .identifier {
         font-family: ntatabularnumbers, "Helvetica Neue", Arial, Helvetica, sans-serif;
         font-weight: normal;
+
+        padding-bottom: 0.2em;
         display: inline-block;
         width: $identifier-width;
         border: 0;
@@ -284,10 +282,11 @@ article.tariff {
         margin-top: 0.5em;
 
         @media (min-width: $desktop-min-width) {
-          width: 180px;
+          color: $govuk-text-colour;
+          width: 124px;
           position: absolute;
           right: 0;
-          bottom: 0;
+          bottom: 0.2em;
           margin-top: 0;
         }
         div {
@@ -337,11 +336,11 @@ article.tariff {
 
     @media (min-width: 641px) {
       float: left;
-      width: calc(100% - 220px);
+      width: calc(100% - 165px);
     }
 
     @media (min-width: $headings-large-viewport) {
-      width: calc(100% - #{$identifier-width-desktop + 45px});
+      width: calc(100% - #{$identifier-width-desktop - 10px});
     }
 
     &.without_right_margin {
@@ -359,11 +358,11 @@ article.tariff {
 
       @media (min-width: 641px) {
         float: left;
-        width: calc(100% - 220px);
+        width: calc(100% - 165px);
       }
 
       @media (min-width: $headings-large-viewport) {
-        width: calc(100% - #{$identifier-width-desktop + 45px});
+        width: calc(100% - #{$identifier-width-desktop - 10px});
       }
 
       &.without_right_margin {
@@ -372,7 +371,7 @@ article.tariff {
     }
 
     > .description {
-      padding-left: 25px;
+      padding-left: 16px;
       cursor: pointer;
 
       &:before {
@@ -419,8 +418,7 @@ article.tariff {
     }
 
     .sub_heading_commodity_code_block {
-      color: #696969;
-      width: 180px;
+      width: 124px;
       font-weight: normal;
       font-family: ntatabularnumbers, "Helvetica Neue", Arial, Helvetica, sans-serif;
 
@@ -537,18 +535,6 @@ article.tariff {
 
       @include govuk-media-query($from: tablet) {
         top: 0.15em;
-      }
-    }
-  }
-
-  .segmented-commodity-code {
-    @include govuk-font($size: 14);
-    font-family: 'Azeret Mono', 'Courier New', Courier, monospace;
-
-    @include govuk-media-query($from: tablet) {
-      span {
-        padding: 0.17em 0.25em;
-        margin-right: 0.16em;
       }
     }
   }
