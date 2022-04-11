@@ -25,6 +25,6 @@
       <br />
     <% end %>
 
-    <%= permutation.measure_conditions.first.duty_expression.to_s.html_safe %>
+    <%= sanitize permutation.measure_conditions.first.duty_expression.to_s %>
   </td>
 </tr>
