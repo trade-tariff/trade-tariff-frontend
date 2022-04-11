@@ -1,10 +1,18 @@
 class TariffUpdate
   include ApiEntity
 
+  attr_accessor :update_type,
+                :state,
+                :created_at,
+                :updated_at,
+                :filename
+
+  attr_writer :applied_at
+
   collection_path '/updates/latest'
 
   def applied_at
-    Date.parse(attributes['applied_at'])
+    Date.parse(@applied_at)
   end
 
   def self.latest_applied_import_date

@@ -9,6 +9,8 @@ class GeographicalArea
 
   attr_accessor :id, :geographical_area_id
 
+  attr_writer :description
+
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
 
   ERGA_OMNES = '1011'.freeze # Entire world

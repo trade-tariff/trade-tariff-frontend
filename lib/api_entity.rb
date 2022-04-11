@@ -45,9 +45,18 @@ module ApiEntity
     delegate :relationships, to: :class
 
     def inspect
-      keys_to_exclude = relationships.to_a + [:casted_by]
+      if @attributes.blank?
+        candidate_variables = instance_variables - %i[@attributes @casted_by]
 
-      @attributes.except(*keys_to_exclude)
+        candidate_variables.each_with_object({}) do |variable, acc|
+          key = variable.to_s.sub('@', '')
+          acc[key] = public_send(key)
+        end
+      else
+        keys_to_exclude = relationships.to_a + [:casted_by]
+
+        @attributes.except(*keys_to_exclude)
+      end
     end
 
     def resource_path
@@ -72,11 +81,9 @@ module ApiEntity
   def attributes=(attributes = {})
     @attributes = attributes
 
-    if attributes.present?
-      attributes.each do |name, value|
-        if respond_to?(:"#{name}=")
-          send(:"#{name}=", value.is_a?(String) && value == 'null' ? nil : value)
-        end
+    attributes.each do |name, value|
+      if respond_to?(:"#{name}=")
+        public_send(:"#{name}=", value)
       end
     end
   end
