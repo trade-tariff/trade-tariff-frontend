@@ -73,7 +73,9 @@ module MeasuresHelper
         condition.requirement.presence || 'Condition not fulfilled'
       end
     else
-      (condition.certificate_description.presence || condition.requirement)
+      (condition.certificate_description.presence ||
+        condition.requirement.presence ||
+        'No document provided')
         .to_s
         .html_safe
     end

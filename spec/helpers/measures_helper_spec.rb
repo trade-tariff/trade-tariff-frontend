@@ -138,11 +138,32 @@ RSpec.describe MeasuresHelper, type: :helper do
     end
 
     context 'with any other classification of condition' do
-      let :condition do
-        build :measure_condition, certificate_description: 'test description'
+      context 'with certificate description' do
+        let :condition do
+          build :measure_condition, certificate_description: 'test description',
+                                    requirement: 'test requirement'
+        end
+
+        it { is_expected.to match 'test description' }
       end
 
-      it { is_expected.to match 'test description' }
+      context 'with requirement but no certificate description' do
+        let :condition do
+          build :measure_condition, certificate_description: nil,
+                                    requirement: 'test requirement'
+        end
+
+        it { is_expected.to match 'test requirement' }
+      end
+
+      context 'with neither' do
+        let :condition do
+          build :measure_condition, certificate_description: nil,
+                                    requirement: nil
+        end
+
+        it { is_expected.to match 'No document provided' }
+      end
     end
   end
 
