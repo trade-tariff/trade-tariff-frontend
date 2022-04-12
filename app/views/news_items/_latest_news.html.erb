@@ -6,7 +6,7 @@
   </div>
   <div class="govuk-notification-banner__content">
     <div class="tariff-markdown">
-      <%= govspeak replace_service_tags news_item.paragraphs.first %>
+      <%= format_news_item_content news_item.paragraphs.first %>
 
       <%- if news_item.paragraphs.many? -%>
         <%= link_to 'Show more ...', news_item,

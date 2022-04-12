@@ -61,6 +61,14 @@ RSpec.describe ApplicationHelper, type: :helper do
         ).to eq ''
       end
     end
+
+    context 'with link with target attribute' do
+      subject { govspeak source }
+
+      let(:source) { %(<a href="/" target="_blank">/</a>) }
+
+      it { is_expected.to eql "<p>#{source}</p>\n" }
+    end
   end
 
   describe '.generate_breadcrumbs' do
