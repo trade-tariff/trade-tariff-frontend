@@ -4,7 +4,7 @@
 
     <div class='sub_heading_commodity_code_block pull-right'>
       <% unless commodity.umbrella_code? %>
-        <%= segmented_commodity_code abbreviate_commodity_code(commodity.code), coloured: true %>
+        <%= segmented_commodity_code abbreviate_commodity_code(commodity), coloured: true %>
       <% end %>
     </div>
 
@@ -41,7 +41,7 @@
           <% end %>
         </div>
         <div class="identifier" aria-describedby="commodity-<%= commodity.short_code %>">
-          <%= segmented_commodity_code abbreviate_commodity_code(commodity.code), coloured: true %>
+          <%= segmented_commodity_code abbreviate_commodity_code(commodity), coloured: true %>
         </div>
       </div>
     <% end %>

@@ -128,8 +128,11 @@ module CommoditiesHelper
     code.to_s.gsub(/[^\d]/, '').split('').each_slice(4).map(&:join)
   end
 
-  def abbreviate_commodity_code(code)
-    code = code.to_s
+  def abbreviate_commodity_code(commodity)
+    code = commodity.code.to_s
+
+    return code if commodity.declarable?
+
     case code.gsub(/0*\z/, '').length
     when 7..8
       code.slice(0, 8)
