@@ -40,12 +40,4 @@ module DeclarableHelper
       'All countries'
     end
   end
-
-  def declarable_url_json(declarable)
-    if declarable.heading?
-      heading_url(declarable, format: :json)
-    else
-      commodity_url(declarable, format: :json)
-    end
-  end
 end

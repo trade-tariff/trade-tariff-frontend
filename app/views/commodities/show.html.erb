@@ -1,6 +1,6 @@
 <% content_for :head do %>
   <meta name="description" content="<%= declarable.description_plain %>">
-  <link rel='alternate' type='application/json' href='<%= declarable_url_json(declarable) %>' title='Commodity information page in JSON format' />
+  <link rel='alternate' type='application/json' href='<%= polymorphic_path(declarable, format: :json) %>' title='Commodity information page in JSON format' />
 <% end %>
 
 <% content_for :bodyClasses, "page--wide" %>
