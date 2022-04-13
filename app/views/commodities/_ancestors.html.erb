@@ -72,8 +72,7 @@
           aria-owns="<%= commodity_ancestor_id(index + 2) %>">
         <span>
           <span class="commodity-ancestors__identifier">
-            <%= segmented_commodity_code abbreviate_commodity_code(ancestor.code),
-                                         coloured: true %>
+            <%= segmented_commodity_code abbreviate_commodity_code(ancestor), coloured: true %>
           </span>
 
           <span class="commodity-ancestors__descriptor">
