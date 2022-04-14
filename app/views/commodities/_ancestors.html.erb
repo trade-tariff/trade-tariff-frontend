@@ -70,7 +70,7 @@
       <% declarable.ancestors.each.with_index do |ancestor, index| %>
       <li id="<%= commodity_ancestor_id(index + 1) %>"
           aria-owns="<%= commodity_ancestor_id(index + 2) %>">
-        <span>
+        <%= link_to subheading_path("#{ancestor.code}-#{ancestor.producline_suffix}") do %>
           <span class="commodity-ancestors__identifier">
             <%= segmented_commodity_code abbreviate_commodity_code(ancestor), coloured: true %>
           </span>
@@ -78,7 +78,7 @@
           <span class="commodity-ancestors__descriptor">
             <%= sanitize ancestor.description %>
           </span>
-        </span>
+        <% end %>
       </li>
       <% end %>
 
