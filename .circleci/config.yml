@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
-  ruby: circleci/ruby@1.7.1
+  ruby: circleci/ruby@1.4.1
   node: circleci/node@4.7.0
   browser-tools: circleci/browser-tools@1.1
   cloudfoundry: circleci/cloudfoundry@1.0
