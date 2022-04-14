@@ -323,7 +323,7 @@ commands:
 jobs:
   checks:
     docker:
-      - image: 'cimg/ruby:3.1.1-node'
+      - image: 'cimg/ruby:3.1.2-node'
     resource_class: small
     steps:
       - checkout
@@ -352,7 +352,7 @@ jobs:
         default: false
         type: boolean
     docker:
-      - image: cimg/ruby:3.1.1-node
+      - image: cimg/ruby:3.1.2-node
     steps:
       - checkout
       - setup_remote_docker:
@@ -407,7 +407,7 @@ jobs:
   test:
     parallelism: 4
     docker:
-      - image: cimg/ruby:3.1.1-node
+      - image: cimg/ruby:3.1.2-node
         environment:
           BUNDLE_JOBS: "3"
           BUNDLE_RETRY: "3"
@@ -429,7 +429,7 @@ jobs:
 
   deploy_dev:
     docker:
-      - image: cimg/ruby:3.1.1
+      - image: cimg/ruby:3.1.2
     environment:
       SENTRY_ENVIRONMENT: "development"
     steps:
@@ -446,7 +446,7 @@ jobs:
 
   deploy_review:
     docker:
-      - image: cimg/ruby:3.1.1
+      - image: cimg/ruby:3.1.2
     environment:
       SENTRY_ENVIRONMENT: "development"
     steps:
@@ -458,7 +458,7 @@ jobs:
 
   purge_reviews:
     docker:
-      - image: cimg/ruby:3.1.1
+      - image: cimg/ruby:3.1.2
     environment:
       SENTRY_ENVIRONMENT: "development"
     steps:
@@ -466,7 +466,7 @@ jobs:
 
   deploy_staging:
     docker:
-      - image: cimg/ruby:3.1.1-node
+      - image: cimg/ruby:3.1.2-node
     environment:
       SENTRY_ENVIRONMENT: "staging"
     steps:
@@ -481,7 +481,7 @@ jobs:
 
   deploy_production:
     docker:
-      - image: cimg/ruby:3.1.1-node
+      - image: cimg/ruby:3.1.2-node
     environment:
       SENTRY_ENVIRONMENT: "production"
     steps:
