@@ -53,6 +53,24 @@ RSpec.describe ApiEntity do
     end
   end
 
+  describe '#resource_id' do
+    subject(:resource_id) { instance.resource_id }
+
+    let(:instance) { mock_entity.new(resource_id: '123') }
+
+    it { is_expected.to eq '123' }
+
+    context 'when reassigning id' do
+      let(:instance) do
+        mock_entity.new(resource_id: '123').tap do |instance|
+          instance.resource_id = '456'
+        end
+      end
+
+      it { is_expected.to eq '123' }
+    end
+  end
+
   describe '#find' do
     subject(:request) { mock_entity.find(123) }
 
@@ -70,13 +88,13 @@ RSpec.describe ApiEntity do
     context 'with valid response' do
       let(:body) { file_fixture('jsonapi/singular_no_relationship.json').read }
 
-      it { is_expected.to have_attributes name: 'Joe', age: 21 }
+      it { is_expected.to have_attributes resource_id: '123', name: 'Joe', age: 21 }
     end
 
     context 'with valid response and nil relationship' do
       let(:body) { file_fixture('jsonapi/singular_valid_null_singular_relationship.json').read }
 
-      it { is_expected.to have_attributes name: 'Joe', age: 21, part: nil }
+      it { is_expected.to have_attributes resource_id: '123', name: 'Joe', age: 21, part: nil }
     end
 
     context 'with 400 response' do
@@ -138,7 +156,7 @@ RSpec.describe ApiEntity do
       let(:body) { file_fixture('jsonapi/multiple_no_relationship.json').read }
 
       it { is_expected.to have_attributes length: 1 }
-      it { expect(request.first).to have_attributes name: 'Joe', age: 21 }
+      it { expect(request.first).to have_attributes resource_id: '123', name: 'Joe', age: 21 }
     end
 
     context 'with 400 response' do

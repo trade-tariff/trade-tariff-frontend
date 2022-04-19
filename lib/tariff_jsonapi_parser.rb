@@ -32,6 +32,7 @@ class TariffJsonapiParser
     result = {}
 
     parse_type!(resource, result)
+    parse_id!(resource, result)
     parse_attributes!(resource, result) if resource.key?('attributes')
     parse_relationships!(resource['relationships'], result) if resource.key?('relationships')
     parse_meta!(resource, result) if resource.key?('meta')
@@ -47,6 +48,10 @@ class TariffJsonapiParser
 
   def parse_type!(resource, parent)
     parent.merge!('resource_type' => resource['type'])
+  end
+
+  def parse_id!(resource, parent)
+    parent.merge!('resource_id' => resource['id'])
   end
 
   def parse_attributes!(resource, parent)
