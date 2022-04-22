@@ -36,6 +36,10 @@ RSpec.describe 'commodities/_ancestors', type: :view do
           count: 3
     end
 
+    it 'links the subheadings' do
+      expect(rendered_page).to have_css %(li#commodity-ancestors__ancestor-1 a[href^="/subheadings/"])
+    end
+
     it 'checks the ancestors all chain ownership correctly' do
       declarable.ancestors.each_index do |index|
         expect(rendered_page).to have_css \
