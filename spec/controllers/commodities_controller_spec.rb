@@ -19,7 +19,54 @@ RSpec.describe CommoditiesController, type: :controller do
       context 'with non-existant commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do
         subject(:do_request) { get :show, params: { id: '0101999999' } }
 
+        before do
+          stub_api_request('/commodities/0101999999/validity_periods')
+            .and_return jsonapi_error_response(404)
+        end
+
         it { is_expected.to redirect_to heading_url('0101') }
+      end
+
+      context 'with non-declarable heading id provided' do
+        subject(:do_request) { get :show, params: { id: '0101000000' } }
+
+        before do
+          query_params = {
+            as_of: Time.zone.today,
+            filter: { meursing_additional_code_id: nil },
+          }
+
+          stub_api_request('/headings/0101')
+            .with(query: query_params)
+            .and_return \
+              jsonapi_response :heading,
+                               attributes_for(:heading,
+                                              goods_nomenclature_item_id: '0101000000')
+        end
+
+        it { is_expected.to redirect_to heading_path('0101') }
+      end
+
+      context 'with non-declarable commodity id provided',
+              vcr: { cassette_name: 'commodities#show_0101999999' } do
+        subject(:do_request) { get :show, params: { id: '0101999999' } }
+
+        before do
+          query_params = {
+            as_of: Time.zone.today,
+            filter: { meursing_additional_code_id: nil },
+          }
+
+          stub_api_request('/subheadings/0101999999-80')
+            .with(query: query_params)
+            .and_return \
+              jsonapi_response :subheading,
+                               attributes_for(:subheading,
+                                              goods_nomenclature_item_id: '0101999999',
+                                              producline_suffix: '80')
+        end
+
+        it { is_expected.to redirect_to subheading_path('0101999999-80') }
       end
     end
 

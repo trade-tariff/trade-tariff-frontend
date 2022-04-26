@@ -1,7 +1,13 @@
 class CommoditiesController < GoodsNomenclaturesController
+  rescue_from Faraday::ResourceNotFound, with: :show_validity_periods
+
   helper_method :uk_declarable, :xi_declarable, :declarable
 
   def show
+    unless declarable.declarable?
+      return redirect_to polymorphic_path(declarable)
+    end
+
     session[:goods_nomenclature_code] = declarable.code
 
     @heading = declarable.heading
@@ -11,21 +17,12 @@ class CommoditiesController < GoodsNomenclaturesController
     if params[:country].present? && @search.geographical_area
       @rules_of_origin_schemes = declarable.rules_of_origin(params[:country])
     end
-  rescue Faraday::ResourceNotFound
-    @validity_periods = ValidityPeriod.all(Commodity, params[:id])
-    @commodity_code = params[:id]
-    @heading_code = params[:id].first(4)
-    @chapter_code = params[:id].first(2)
-
-    disable_search_form
-
-    render :show_404, status: :not_found
   end
 
   private
 
   def declarable
-    @declarable ||= heading? ? heading : commodity
+    @declarable ||= heading? ? heading : commodity_or_subheading
   end
 
   def uk_declarable
@@ -48,8 +45,18 @@ class CommoditiesController < GoodsNomenclaturesController
     TradeTariffFrontend::ServiceChooser.uk? ? uk_heading : xi_heading
   end
 
+  def commodity_or_subheading
+    commodity
+  rescue Faraday::ResourceNotFound
+    subheading
+  end
+
   def commodity
     TradeTariffFrontend::ServiceChooser.uk? ? uk_commodity : xi_commodity
+  end
+
+  def subheading
+    Subheading.find("#{params[:id]}-80", query_params)
   end
 
   def uk_heading
@@ -81,10 +88,23 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def heading?
-    GoodsNomenclature.is_heading_id?(params[:id]) && heading&.declarable?
+    GoodsNomenclature.is_heading_id?(params[:id])
   end
 
   def heading_id
     params[:id].slice(0, 4)
+  end
+
+  def show_validity_periods
+    @validity_periods = ValidityPeriod.all(Commodity, params[:id])
+    @commodity_code = params[:id]
+    @heading_code = params[:id].first(4)
+    @chapter_code = params[:id].first(2)
+
+    disable_search_form
+
+    render :show_404, status: :not_found
+  rescue Faraday::ResourceNotFound
+    find_relevant_goods_code_or_fallback
   end
 end
