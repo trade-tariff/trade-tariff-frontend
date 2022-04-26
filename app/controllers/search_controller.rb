@@ -12,7 +12,7 @@ class SearchController < ApplicationController
         if @search.missing_search_term?
           redirect_to missing_search_query_fallback_url
         elsif @results.exact_match?
-          redirect_to url_for @results.to_param.merge(url_options)
+          redirect_to url_for @results.to_param.merge(url_options).merge(only_path: true)
         end
       end
 
