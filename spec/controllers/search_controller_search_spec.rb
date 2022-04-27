@@ -48,13 +48,13 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
         end
       end
 
-      context 'with commodity code', vcr: { cassette_name: 'search#search_exact' } do
+      context 'with unknown commodity code', vcr: { cassette_name: 'search#blank_match' } do
         let(:query) { '0123456789' }
 
         it { is_expected.to redirect_to commodity_path(query) }
       end
 
-      context 'with heading code', vcr: { cassette_name: 'search#search_exact' } do
+      context 'with heading code', vcr: { cassette_name: 'search#blank_match' } do
         let(:query) { '0123' }
 
         it { is_expected.to redirect_to heading_path(query) }

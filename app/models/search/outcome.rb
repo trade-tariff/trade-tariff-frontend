@@ -23,6 +23,10 @@ class Search
         (reference_match.present? && reference_match.any?)
     end
 
+    def none?
+      !any?
+    end
+
     def goods_nomenclature_match
       @goods_nomenclature_match || GoodsNomenclatureMatch::BLANK_RESULT
     end
