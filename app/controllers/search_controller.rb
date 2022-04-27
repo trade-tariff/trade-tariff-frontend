@@ -104,6 +104,10 @@ class SearchController < ApplicationController
     return sections_url(anchor:) if request.referer.blank?
 
     back_url = Addressable::URI.parse(request.referer)
+    if back_url.host.present? && back_url.host != request.host
+      return sections_url(anchor:)
+    end
+
     back_url.query_values ||= {}
     back_url.query_values = back_url.query_values.merge(@search.query_attributes)
     if @search.date.today?
