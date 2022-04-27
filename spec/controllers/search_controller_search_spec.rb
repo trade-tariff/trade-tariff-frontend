@@ -5,12 +5,12 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
 
   context 'with HTML format' do
     context 'with search term' do
+      before do
+        get :search, params: { q: query }
+      end
+
       context 'with exact match query', vcr: { cassette_name: 'search#search_exact' } do
         let(:query) { '01' }
-
-        before do
-          get :search, params: { q: query }
-        end
 
         it { is_expected.to redirect_to commodity_path('0101210000') }
         it { expect(assigns(:search)).to be_a(Search) }
@@ -22,10 +22,6 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
 
       context 'with fuzzy match query', vcr: { cassette_name: 'search#search_fuzzy' } do
         let(:query) { 'horses' }
-
-        before do
-          get :search, params: { q: query }
-        end
 
         it { is_expected.to respond_with(:success) }
         it { expect(assigns(:search)).to be_a(Search) }
@@ -40,10 +36,6 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
 
         let(:query) { ' !such string should not exist in the database! ' }
 
-        before do
-          get :search, params: { q: query }
-        end
-
         it { is_expected.to respond_with(:success) }
         it { expect(assigns(:search)).to be_a(Search) }
 
@@ -54,6 +46,18 @@ RSpec.describe SearchController, 'GET to #search', type: :controller do
         it 'displays no results' do
           expect(response.body).to match(/no results/)
         end
+      end
+
+      context 'with commodity code', vcr: { cassette_name: 'search#search_exact' } do
+        let(:query) { '0123456789' }
+
+        it { is_expected.to redirect_to commodity_path(query) }
+      end
+
+      context 'with heading code', vcr: { cassette_name: 'search#search_exact' } do
+        let(:query) { '0123' }
+
+        it { is_expected.to redirect_to heading_path(query) }
       end
     end
 
