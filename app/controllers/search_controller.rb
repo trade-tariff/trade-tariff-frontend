@@ -13,6 +13,10 @@ class SearchController < ApplicationController
           redirect_to missing_search_query_fallback_url
         elsif @results.exact_match?
           redirect_to url_for @results.to_param.merge(url_options).merge(only_path: true)
+        elsif @results.none? && @search.search_term_is_commodity_code?
+          redirect_to commodity_path(@search.q)
+        elsif @results.none? && @search.search_term_is_heading_code?
+          redirect_to heading_path(@search.q)
         end
       end
 

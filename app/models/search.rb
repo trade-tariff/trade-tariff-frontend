@@ -3,6 +3,9 @@ require 'api_entity'
 class Search
   include ApiEntity
 
+  COMMODITY_CODE = /\A[0-9]{10}\z/
+  HEADING_CODE = /\A[0-9]{4}\z/
+
   attr_reader   :q        # search text query
   attr_accessor :country, # search country
                 :day,
@@ -72,6 +75,14 @@ class Search
 
   def missing_search_term?
     !contains_search_term?
+  end
+
+  def search_term_is_commodity_code?
+    COMMODITY_CODE.match? q
+  end
+
+  def search_term_is_heading_code?
+    HEADING_CODE.match? q
   end
 
   def query_attributes
