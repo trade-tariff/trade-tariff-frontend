@@ -31,7 +31,7 @@
   "devDependencies": {
     "babel-jest": "^28.0.2",
     "babel-loader": "^8.2.5",
-    "jest": "^27.5.1"
+    "jest": "^28.0.3"
   },
   "scripts": {
     "spec": "jest",
