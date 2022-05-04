@@ -10,9 +10,16 @@ class SearchReferencePresenter
   end
 
   def link
-    reference_link = "/#{APP_SLUG}/#{referenced_class.tableize}/#{referenced_id}"
+    "/#{APP_SLUG}/#{referenced_class.tableize}/#{composite_id}"
+  end
 
-    append_product_line_suffix(reference_link)
+  def composite_id
+    case referenced_class
+    when 'Subheading'
+      "#{referenced_id}-#{productline_suffix}"
+    else
+      referenced_id
+    end
   end
 
   private
