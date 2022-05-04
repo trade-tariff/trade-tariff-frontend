@@ -10,12 +10,18 @@ class SearchReferencePresenter
   end
 
   def link
-    "/#{APP_SLUG}/#{referenced_class.tableize}/#{referenced_id}"
+    reference_link = "/#{APP_SLUG}/#{referenced_class.tableize}/#{referenced_id}"
+
+    append_product_line_suffix(reference_link)
   end
 
   private
 
   def method_missing(*args, &block)
     @search_reference.send(*args, &block)
+  end
+
+  def append_product_line_suffix(link)
+    link + (referenced_class == 'Subheading' ? "-#{productline_suffix}" : '')
   end
 end
