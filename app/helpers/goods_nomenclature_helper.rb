@@ -13,6 +13,8 @@ module GoodsNomenclatureHelper
       chapter_path(path_opts)
     when Heading::SHORT_CODE_LENGTH
       heading_path(path_opts)
+    when Subheading::FULL_CODE_LENGTH
+      subheading_path(path_opts)
     else
       commodity_path(path_opts)
     end

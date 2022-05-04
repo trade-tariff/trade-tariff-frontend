@@ -1,4 +1,7 @@
 class Subheading < GoodsNomenclature
+  # Commodity code: 10 chars  + separator: 1 char +  Product Line Suffix: 2 chars
+  FULL_CODE_LENGTH = 13
+
   include ApiEntity
 
   has_one :section
