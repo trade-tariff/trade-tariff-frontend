@@ -5,7 +5,7 @@ class SearchReference
 
   collection_path '/search_references'
 
-  attr_accessor :id, :title, :referenced_id, :referenced_class
+  attr_accessor :id, :title, :referenced_id, :referenced_class, :productline_suffix
 
   def referenced_entity
     reference_class.new(attributes['referenced'])

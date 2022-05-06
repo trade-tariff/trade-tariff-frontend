@@ -10,12 +10,25 @@ class SearchReferencePresenter
   end
 
   def link
-    "/#{APP_SLUG}/#{referenced_class.tableize}/#{referenced_id}"
+    "/#{APP_SLUG}/#{referenced_class.tableize}/#{composite_id}"
+  end
+
+  def composite_id
+    case referenced_class
+    when 'Subheading'
+      "#{referenced_id}-#{productline_suffix}"
+    else
+      referenced_id
+    end
   end
 
   private
 
   def method_missing(*args, &block)
     @search_reference.send(*args, &block)
+  end
+
+  def append_product_line_suffix(link)
+    link + (referenced_class == 'Subheading' ? "-#{productline_suffix}" : '')
   end
 end
