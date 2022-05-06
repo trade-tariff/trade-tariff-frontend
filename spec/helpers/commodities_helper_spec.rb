@@ -116,29 +116,40 @@ RSpec.describe CommoditiesHelper, type: :helper do
   describe '#abbreviate_commodity_code' do
     subject { abbreviate_commodity_code commodity }
 
+    let(:commodity_code_long_format) { '0123456700' }
+
+    let(:commodity) do
+      build(:commodity, goods_nomenclature_item_id: commodity_code_long_format, declarable:)
+    end
+
     context('when commodity is declarable') do
-      let(:commodity_code_long_format) { '0123456700' }
-      let(:commodity) do
-        build(:commodity, goods_nomenclature_item_id: commodity_code_long_format, declarable: true)
-      end
+      let(:declarable) { true }
 
       it { is_expected.to eql commodity_code_long_format }
     end
 
     context('when commodity is NOT declarable') do
-      shared_examples 'an abbreviated code' do |original, abbreviated|
-        let(:commodity) { build(:commodity, goods_nomenclature_item_id: original, declarable: false) }
+      let(:declarable) { false }
 
-        it { is_expected.to eql abbreviated }
-      end
-
-      it_behaves_like 'an abbreviated code', '0123400000', '012340'
-      it_behaves_like 'an abbreviated code', '0123450000', '012345'
-      it_behaves_like 'an abbreviated code', '0123456000', '01234560'
-      it_behaves_like 'an abbreviated code', '0123456700', '01234567'
-      it_behaves_like 'an abbreviated code', '0123456780', '0123456780'
-      it_behaves_like 'an abbreviated code', '0123456789', '0123456789'
+      it { is_expected.not_to eql commodity_code_long_format }
     end
+  end
+
+  describe '#abbreviate_code' do
+    subject { abbreviate_code(code) }
+
+    shared_examples 'an abbreviated code' do |original, abbreviated|
+      let(:code) { original }
+
+      it { is_expected.to eql abbreviated }
+    end
+
+    it_behaves_like 'an abbreviated code', '0123400000', '012340'
+    it_behaves_like 'an abbreviated code', '0123450000', '012345'
+    it_behaves_like 'an abbreviated code', '0123456000', '01234560'
+    it_behaves_like 'an abbreviated code', '0123456700', '01234567'
+    it_behaves_like 'an abbreviated code', '0123456780', '0123456780'
+    it_behaves_like 'an abbreviated code', '0123456789', '0123456789'
   end
 
   describe '#commodity_ancestor_id' do

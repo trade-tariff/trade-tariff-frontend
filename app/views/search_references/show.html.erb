@@ -30,7 +30,8 @@
             <span class="govuk-visually-hidden">Class: </span><%= search_reference.referenced_class %>
           </td>
           <td class="govuk-table__cell govuk-table__cell--numeric">
-           <span class="govuk-visually-hidden">Code: </span><%= search_reference.referenced_id %>
+           <span class="govuk-visually-hidden">Code: </span>
+            <%= segmented_commodity_code abbreviate_code(search_reference.referenced_id) %>
           </td>
         </tr>
       <% end %>

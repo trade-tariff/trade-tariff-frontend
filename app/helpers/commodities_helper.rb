@@ -131,8 +131,10 @@ module CommoditiesHelper
   def abbreviate_commodity_code(commodity)
     code = commodity.code.to_s
 
-    return code if commodity.declarable?
+    commodity.declarable? ? code : abbreviate_code(code)
+  end
 
+  def abbreviate_code(code)
     case code.gsub(/0*\z/, '').length
     when 7..8
       code.slice(0, 8)
