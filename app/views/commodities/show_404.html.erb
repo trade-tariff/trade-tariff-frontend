@@ -41,13 +41,13 @@
 
     <p>
       Alternatively, you can visit
-      <%= link_to "heading #{@heading_code}", heading_on_date_path(@heading_code, nil) %>
+      <%= link_to "heading #{@heading_code}", heading_path(@heading_code) %>
       or
       <% if @search.today? %>
-        <%= link_to "chapter #{@chapter_code}", chapter_on_date_path(@chapter_code, nil) %>.
+        <%= link_to "chapter #{@chapter_code}", chapter_path(@chapter_code) %>.
       <% else %>
-        <%= link_to "chapter #{@chapter_code}", chapter_on_date_path(@chapter_code, nil) %>
-        for <%= Time.zone.today.to_formatted_s :long %>.
+        <%= link_to "chapter #{@chapter_code}", chapter_path(@chapter_code) %>
+        for <%= @search.date.to_formatted_s :long %>.
       <% end %>
     </p>
   </div>
