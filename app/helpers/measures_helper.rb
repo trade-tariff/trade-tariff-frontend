@@ -82,8 +82,7 @@ module MeasuresHelper
   end
 
   def format_measure_condition_document_code(condition)
-    case condition.measure_condition_class
-    when 'threshold'
+    if condition.measure_condition_class.threshold?
       'Threshold condition'
     else
       condition.document_code
