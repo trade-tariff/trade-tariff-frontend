@@ -1,20 +1,20 @@
 <nav class="commodity-ancestors"
-     aria-label="A list of commodity code <%= declarable.code %>'s section, chapter and other parent commodity codes">
+     aria-label="A list of commodity code <%= goods_nomenclature.code %>'s section, chapter and other parent commodity codes">
   <a href="#import" class="govuk-skip-link">
-    Skip to information about importing commodity <%= declarable.code %>
+    Skip to information about importing commodity <%= goods_nomenclature.code %>
   </a>
 
   <ol class="govuk-list">
     <%# list commodities section %>
     <li id="commodity-ancestors__section"
         aria-owns="commodity-ancestors__chapter">
-      <%= link_to section_path(declarable.section) do %>
+      <%= link_to section_path(goods_nomenclature.section) do %>
         <span class="commodity-ancestors__identifier">
-          Section <%= declarable.section.numeral %>
+          Section <%= goods_nomenclature.section.numeral %>
         </span>
 
         <span class="commodity-ancestors__descriptor">
-          <%= declarable.section.title %>
+          <%= goods_nomenclature.section.title %>
         </span>
       <% end %>
     </li>
@@ -22,29 +22,29 @@
     <%# list commodities chapter %>
     <li id="commodity-ancestors__chapter"
         aria-owns="commodity-ancestors__heading">
-      <%= link_to chapter_path(declarable.chapter) do %>
+      <%= link_to chapter_path(goods_nomenclature.chapter) do %>
         <span class="commodity-ancestors__identifier">
-          Chapter <%= declarable.chapter.short_code %>
+          Chapter <%= goods_nomenclature.chapter.short_code %>
         </span>
 
         <span class="commodity-ancestors__descriptor">
-          <%= declarable.chapter %>
+          <%= goods_nomenclature.chapter %>
         </span>
       <% end %>
     </li>
 
-    <% if declarable.heading? %>
+    <% if goods_nomenclature.heading? %>
 
       <%# list commodities heading %>
       <li id="commodity-ancestors__heading">
         <span>
           <span class="commodity-ancestors__identifier">
-            <%= segmented_commodity_code declarable.code,
+            <%= segmented_commodity_code goods_nomenclature.code,
                                          coloured: true %>
           </span>
 
           <span class="commodity-ancestors__descriptor">
-            <%= sanitize declarable.description %>
+            <%= sanitize goods_nomenclature.description %>
           </span>
         </span>
       </li>
@@ -54,20 +54,20 @@
       <%# list commodities heading %>
       <li id="commodity-ancestors__heading"
           aria-owns="<%= commodity_ancestor_id 1 %>">
-        <%= link_to heading_path(declarable.heading) do %>
+        <%= link_to heading_path(goods_nomenclature.heading) do %>
           <span class="commodity-ancestors__identifier">
-            <%= segmented_commodity_code declarable.heading.short_code,
+            <%= segmented_commodity_code goods_nomenclature.heading.short_code,
                                          coloured: true %>
           </span>
 
           <span class="commodity-ancestors__descriptor">
-            <%= sanitize declarable.heading.description %>
+            <%= sanitize goods_nomenclature.heading.description %>
           </span>
         <% end %>
       </li>
 
       <%# list each of commodities ancestors %>
-      <% declarable.ancestors.each.with_index do |ancestor, index| %>
+      <% goods_nomenclature.ancestors.each.with_index do |ancestor, index| %>
       <li id="<%= commodity_ancestor_id(index + 1) %>"
           aria-owns="<%= commodity_ancestor_id(index + 2) %>">
         <%= link_to subheading_path("#{ancestor.code}-#{ancestor.producline_suffix}") do %>
@@ -83,15 +83,15 @@
       <% end %>
 
       <%# list current commodity %>
-      <li id="<%= commodity_ancestor_id(declarable.ancestors.length + 1) %>">
+      <li id="<%= commodity_ancestor_id(goods_nomenclature.ancestors.length + 1) %>">
         <span>
           <span class="commodity-ancestors__identifier">
-            <%= segmented_commodity_code declarable.code,
+            <%= segmented_commodity_code goods_nomenclature.code,
                                          coloured: true %>
           </span>
 
           <span class="commodity-ancestors__descriptor">
-            <%= sanitize declarable.formatted_description %>
+            <%= sanitize goods_nomenclature.formatted_description %>
           </span>
         </span>
       </li>

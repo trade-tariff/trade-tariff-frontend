@@ -41,6 +41,10 @@ class Subheading < GoodsNomenclature
     formatted_description || description
   end
 
+  def ancestors
+    []
+  end
+
   private
 
   def harmonised_system_subheading_code

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-RSpec.describe 'commodities/_ancestors', type: :view do
+RSpec.describe 'goods_nomenclatures/_ancestors', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
-  let(:render_page) { render 'commodities/ancestors', declarable: declarable }
+  let(:render_page) { render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable }
 
   context 'with commodity', vcr: { cassette_name: 'commodities_2208909110' } do
     let(:commodity) { Commodity.find('2208909110', as_of: '2018-11-15') }

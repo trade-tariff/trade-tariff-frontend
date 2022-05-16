@@ -69,9 +69,15 @@ RSpec.describe Subheading do
     end
   end
 
-  describe 'declarable?' do
+  describe '#declarable?' do
     subject { heading.declarable? }
 
     it { is_expected.to be false }
+  end
+
+  describe '#ancestors' do
+    subject { heading.ancestors }
+
+    it { is_expected.to be_empty }
   end
 end
