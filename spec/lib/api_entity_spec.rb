@@ -22,7 +22,7 @@ RSpec.describe ApiEntity do
     context 'when initialized with attributes' do
       subject(:api_entity) { mock_entity.new(name: 'Bilbo Baggins', age: 111) }
 
-      it { expect(api_entity.inspect).to eq('name' => 'Bilbo Baggins', 'age' => 111) }
+      it { expect(api_entity.inspect).to eq('#<MockEntity name: "Bilbo Baggins", age: 111>') }
     end
 
     context 'when initialized without attributes and having them assigned separately' do
@@ -33,7 +33,7 @@ RSpec.describe ApiEntity do
         api_entity.age = 79
       end
 
-      it { expect(api_entity.inspect).to eq('name' => 'Hari Seldon', 'age' => 79) }
+      it { expect(api_entity.inspect).to eq('#<MockEntity name: "Hari Seldon", age: 79>') }
     end
   end
 
@@ -76,9 +76,9 @@ RSpec.describe ApiEntity do
 
     before do
       stub_request(:get, "#{api_endpoint}/mock_entities/123").and_return \
-        status: status,
-        headers: headers,
-        body: body
+        status:,
+        headers:,
+        body:
     end
 
     let(:api_endpoint) { TradeTariffFrontend::ServiceChooser.uk_host }
@@ -143,9 +143,9 @@ RSpec.describe ApiEntity do
 
     before do
       stub_request(:get, "#{api_endpoint}/mock_entities").and_return \
-        status: status,
-        headers: headers,
-        body: body
+        status:,
+        headers:,
+        body:
     end
 
     let(:api_endpoint) { TradeTariffFrontend::ServiceChooser.uk_host }
