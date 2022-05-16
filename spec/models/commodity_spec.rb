@@ -25,16 +25,7 @@ RSpec.describe Commodity do
   end
 
   describe 'parent/children relationships' do
-    let(:associated_commodities) do
-      {
-        commodities: [attributes_for(:commodity, goods_nomenclature_sid: 1,
-                                                 parent_sid: nil),
-                      attributes_for(:commodity, parent_sid: 1,
-                                                 goods_nomenclature_sid: 2)],
-      }
-    end
-    let(:heading_attributes) { attributes_for(:heading).merge(associated_commodities) }
-    let(:heading) { Heading.new(heading_attributes) }
+    let(:heading) { build :heading, :with_commodity_tree }
 
     describe '#children' do
       it 'returns list of commodities children' do
@@ -47,6 +38,28 @@ RSpec.describe Commodity do
         heading
 
         expect(heading.commodities.last.children).to be_blank
+      end
+    end
+
+    describe '#parent' do
+      let(:heading) { build :heading, :with_commodity_tree, commodity_count: 3 }
+
+      context 'with parent' do
+        subject { heading.commodities.first.parent }
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'with child' do
+        subject { heading.commodities.second.parent }
+
+        it { is_expected.to be heading.commodities.first }
+      end
+
+      context 'with grandchild' do
+        subject { heading.commodities.third.parent.parent }
+
+        it { is_expected.to be heading.commodities.first }
       end
     end
 

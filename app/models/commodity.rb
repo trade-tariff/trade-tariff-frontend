@@ -69,6 +69,12 @@ class Commodity < GoodsNomenclature
     end
   end
 
+  def parent
+    return if casted_by.blank?
+
+    casted_by.commodities.find { |c| c.goods_nomenclature_sid == parent_sid }
+  end
+
   def last_child?
     if casted_by.present?
       goods_nomenclature_sid == casted_by.commodities.select { |c| c.parent_sid == parent_sid }.last.goods_nomenclature_sid
