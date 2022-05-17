@@ -22,7 +22,7 @@ Capybara.register_driver(:selenium_chrome_headless) do |app|
   options.add_argument('--headless')
 
   Capybara::Selenium::Driver.new(
-    app, browser: :chrome, options: options
+    app, browser: :chrome, options:
   )
 end
 
