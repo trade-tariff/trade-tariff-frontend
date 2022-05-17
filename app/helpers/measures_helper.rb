@@ -65,7 +65,9 @@ module MeasuresHelper
   def format_measure_condition_requirement(condition)
     case condition.measure_condition_class
     when 'threshold'
-      if condition.is_weight_condition?
+      if condition.is_price_condition?
+        safe_join ['The price of your goods must not exceed', condition.requirement], ' '
+      elsif condition.is_weight_condition?
         safe_join ['The weight of your goods must not exceed', condition.requirement], ' '
       elsif condition.is_volume_condition?
         safe_join ['The volume of your goods must not exceed', condition.requirement], ' '

@@ -129,6 +129,18 @@ RSpec.describe MeasuresHelper, type: :helper do
         it { is_expected.to match 'The volume of your goods must not exceed' }
       end
 
+      context 'with price condition' do
+        let(:condition) { build :measure_condition, :price }
+
+        it { is_expected.to match 'The price of your goods must not exceed' }
+      end
+
+      context 'with eps condition' do
+        let(:condition) { build :measure_condition, :eps }
+
+        it { is_expected.to match 'The price of your goods must not exceed' }
+      end
+
       context 'with other threshold' do
         let(:condition) { build :measure_condition, :threshold }
 

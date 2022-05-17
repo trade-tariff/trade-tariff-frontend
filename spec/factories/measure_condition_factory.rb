@@ -31,5 +31,15 @@ FactoryBot.define do
       threshold
       condition_measurement_unit_code { 'LTR' }
     end
+
+    trait :price do
+      threshold
+      condition_monetary_unit_code { 'EUR' }
+    end
+
+    trait :eps do
+      weight
+      price
+    end
   end
 end

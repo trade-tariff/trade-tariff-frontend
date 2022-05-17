@@ -8,6 +8,7 @@ class MeasureCondition
 
   attr_accessor :condition_code,
                 :condition_measurement_unit_code,
+                :condition_monetary_unit_code,
                 :condition,
                 :document_code,
                 :action,
@@ -30,6 +31,10 @@ class MeasureCondition
   def measure_condition_class=(condition_class)
     @measure_condition_class =
       ActiveSupport::StringInquirer.new(condition_class.to_s)
+  end
+
+  def is_price_condition?
+    condition_monetary_unit_code.present?
   end
 
   def is_weight_condition?

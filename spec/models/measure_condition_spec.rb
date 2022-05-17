@@ -67,4 +67,58 @@ RSpec.describe MeasureCondition do
       it { is_expected.to have_attributes 'document?': true }
     end
   end
+
+  describe '#is_weight_condition?' do
+    subject { condition.is_weight_condition? }
+
+    context 'with weight unit' do
+      let(:condition) { build :measure_condition, :weight }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with other unit' do
+      let(:condition) { build :measure_condition, :volume }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#is_volume_condition?' do
+    subject { condition.is_volume_condition? }
+
+    context 'with volume unit' do
+      let(:condition) { build :measure_condition, :volume }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with other unit' do
+      let(:condition) { build :measure_condition, :weight }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#is_price_condition?' do
+    subject { condition.is_price_condition? }
+
+    context 'with price unit' do
+      let(:condition) { build :measure_condition, :price }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with other unit' do
+      let(:condition) { build :measure_condition, :weight }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with eps condition' do
+      let(:condition) { build :measure_condition, :eps }
+
+      it { is_expected.to be true }
+    end
+  end
 end
