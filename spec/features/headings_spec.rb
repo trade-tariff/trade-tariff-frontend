@@ -8,13 +8,13 @@ RSpec.describe 'JS behaviour', js: true, vcr: { cassette_name: 'headings#8501' }
     expect(page.find_all('.tree-controls').length).to eq(2)
 
     expect(page.find_all('.has_children')).to \
-      all(have_xpath("//ul[@class='govuk-list' and @aria-hidden='true']"))
+      all(have_xpath("//ul[@class='govuk-list' and @aria-hidden='false']"))
 
-    page.find_all('.tree-controls')[0].first('a').click
+    page.find_all('.tree-controls')[1].first('a').click # hide all
 
     expect(page.find_all(".has_children ul[aria-hidden='true']").length).to eq(0)
 
-    page.find_all('.tree-controls')[1].find('a:nth-child(2)').click
+    page.find_all('.tree-controls')[0].find('a:nth-child(2)').click # reshow all
 
     expect(page.find_all(".has_children ul[aria-hidden='false']").length).to eq(0)
   end

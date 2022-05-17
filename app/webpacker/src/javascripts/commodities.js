@@ -197,10 +197,10 @@
                   };
 
                   // Open/close tree nodes on load based on cookie
-                  if (this.openCloseCookie() === 'open') {
-                    effectAll(0);
-                  } else {
+                  if (this.openCloseCookie() === 'closed') {
                     effectAll(1);
+                  } else {
+                    effectAll(0);
                   }
 
                   $('.tree-controls').prepend('<a href="#">Open all headings</a><a href="#">Close all headings</a>');
