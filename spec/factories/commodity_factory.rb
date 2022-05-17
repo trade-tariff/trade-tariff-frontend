@@ -7,6 +7,7 @@ FactoryBot.define do
     sequence(:goods_nomenclature_sid) { |id| id }
     goods_nomenclature_item_id { sprintf '010130%04d', goods_nomenclature_sid }
     parent_sid { nil }
+    producline_suffix { 80 }
     number_indents { 2 }
     meursing_code { false }
 

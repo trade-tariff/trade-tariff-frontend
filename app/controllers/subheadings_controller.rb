@@ -3,6 +3,7 @@ class SubheadingsController < GoodsNomenclaturesController
 
   def show
     @commodities = HeadingCommodityPresenter.new(subheading.commodities)
+    @subheading_commodities = Array.wrap(@subheading.find_self_in_commodities_list)
     @section = subheading.section
     @chapter = subheading.chapter
     @heading = subheading.heading
