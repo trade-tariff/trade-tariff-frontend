@@ -61,4 +61,49 @@ module MeasuresHelper
       safe_join components.flatten.compact, ' '
     end
   end
+
+  def format_measure_condition_requirement(condition)
+    case condition.measure_condition_class
+    when 'threshold'
+      if condition.is_price_condition?
+        safe_join ['The price of your goods must not exceed', condition.requirement], ' '
+      elsif condition.is_weight_condition?
+        safe_join ['The weight of your goods must not exceed', condition.requirement], ' '
+      elsif condition.is_volume_condition?
+        safe_join ['The volume of your goods must not exceed', condition.requirement], ' '
+      else
+        condition.requirement.presence || 'Condition not fulfilled'
+      end
+    else
+      (condition.certificate_description.presence ||
+        condition.requirement.presence ||
+        'No document provided')
+        .to_s
+        .html_safe
+    end
+  end
+
+  def format_measure_condition_document_code(condition)
+    if condition.measure_condition_class.threshold?
+      'Threshold condition'
+    else
+      condition.document_code
+    end
+  end
+
+  def format_combined_conditions_requirement(conditions)
+    if conditions.length == 2
+      if conditions.map(&:measure_condition_class).all?(&:document?)
+        'Provide both documents'
+      else
+        'Meet both conditions'
+      end
+    elsif conditions.many?
+      if conditions.map(&:measure_condition_class).all?(&:document?)
+        'Provide all documents'
+      else
+        'Meet all conditions'
+      end
+    end
+  end
 end

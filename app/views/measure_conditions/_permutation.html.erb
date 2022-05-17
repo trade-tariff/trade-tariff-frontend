@@ -1,0 +1,30 @@
+<tr class="govuk-table__row">
+  <td class="govuk-table__cell numerical">
+    <% permutation.measure_conditions.each.with_index do |condition, index| %>
+      <%= ' + ' unless index.zero? %>
+
+      <%= format_measure_condition_document_code condition %>
+    <% end %>
+  </td>
+
+  <td class="govuk-table__cell">
+    <%= paragraph_if_content format_combined_conditions_requirement(permutation.measure_conditions) %>
+
+    <% permutation.measure_conditions.each.with_index do |condition, index| %>
+      <%= tag.p('and') unless index.zero? %>
+
+      <p>
+        <%= format_measure_condition_requirement condition %>
+      </p>
+    <% end %>
+  </td>
+
+  <td class="govuk-table__cell">
+    <% if permutation.measure_conditions.first.action.present? %>
+      <%= permutation.measure_conditions.first.action %>
+      <br />
+    <% end %>
+
+    <%= sanitize permutation.measure_conditions.first.duty_expression.to_s %>
+  </td>
+</tr>

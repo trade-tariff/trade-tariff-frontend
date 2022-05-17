@@ -186,6 +186,17 @@ FactoryBot.define do
       end
     end
 
+    trait :with_permutations do
+      measure_condition_permutation_groups do
+        if respond_to?(:measure_conditions) && measure_conditions
+          attributes_for_list :measure_condition_permutation_group, 1,
+                              measure_conditions: measure_conditions
+        else
+          attributes_for_list :measure_condition_permutation_group, 1
+        end
+      end
+    end
+
     trait :with_additional_code do
       additional_code { attributes_for(:additional_code) }
     end

@@ -308,4 +308,27 @@ RSpec.describe ApplicationHelper, type: :helper do
     it_behaves_like 'a from to expression', nil, nil, '2023-02-01'
     it_behaves_like 'a from to expression', nil, nil, nil
   end
+
+  describe '#paragraph_if_content' do
+    subject { paragraph_if_content content }
+
+    context 'with content' do
+      let(:content) { 'this is some <em>content</em>'.html_safe }
+
+      it { is_expected.to have_css 'p', text: /this is some/ }
+      it { is_expected.to have_css 'p em', text: 'content' }
+    end
+
+    context 'with nil' do
+      let(:content) { nil }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with blank string' do
+      let(:content) { '' }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

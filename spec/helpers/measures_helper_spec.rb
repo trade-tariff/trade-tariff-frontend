@@ -112,4 +112,126 @@ RSpec.describe MeasuresHelper, type: :helper do
       it { is_expected.to match expected }
     end
   end
+
+  describe '#format_measure_condition_requirement' do
+    subject { format_measure_condition_requirement condition }
+
+    context 'with threshold condition' do
+      context 'with weight condition' do
+        let(:condition) { build :measure_condition, :weight }
+
+        it { is_expected.to match 'The weight of your goods must not exceed' }
+      end
+
+      context 'with volume condition' do
+        let(:condition) { build :measure_condition, :volume }
+
+        it { is_expected.to match 'The volume of your goods must not exceed' }
+      end
+
+      context 'with price condition' do
+        let(:condition) { build :measure_condition, :price }
+
+        it { is_expected.to match 'The price of your goods must not exceed' }
+      end
+
+      context 'with eps condition' do
+        let(:condition) { build :measure_condition, :eps }
+
+        it { is_expected.to match 'The price of your goods must not exceed' }
+      end
+
+      context 'with other threshold' do
+        let(:condition) { build :measure_condition, :threshold }
+
+        it { is_expected.to be_present }
+        it { is_expected.not_to match 'of your goods' }
+      end
+    end
+
+    context 'with any other classification of condition' do
+      context 'with certificate description' do
+        let :condition do
+          build :measure_condition, certificate_description: 'test description',
+                                    requirement: 'test requirement'
+        end
+
+        it { is_expected.to match 'test description' }
+      end
+
+      context 'with requirement but no certificate description' do
+        let :condition do
+          build :measure_condition, certificate_description: nil,
+                                    requirement: 'test requirement'
+        end
+
+        it { is_expected.to match 'test requirement' }
+      end
+
+      context 'with neither' do
+        let :condition do
+          build :measure_condition, certificate_description: nil,
+                                    requirement: nil
+        end
+
+        it { is_expected.to match 'No document provided' }
+      end
+    end
+  end
+
+  describe '#format_measure_condition_document_code' do
+    subject { format_measure_condition_document_code condition }
+
+    context 'with threshold condition' do
+      let(:condition) { build :measure_condition, :threshold }
+
+      it { is_expected.to eql 'Threshold condition' }
+    end
+
+    context 'with any other classification of condition' do
+      let(:condition) { build :measure_condition, document_code: 'X123' }
+
+      it { is_expected.to eql 'X123' }
+    end
+  end
+
+  describe '#format_combined_conditions_requirement' do
+    subject { format_combined_conditions_requirement conditions }
+
+    context 'with one threshold condition' do
+      let(:conditions) { build_list :measure_condition, 1, :threshold }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with one document condition' do
+      let(:conditions) { build_list :measure_condition, 1 }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with two threshold conditions' do
+      let(:conditions) { build_pair :measure_condition, :threshold }
+
+      it { is_expected.to eql 'Meet both conditions' }
+    end
+
+    context 'with two document conditions' do
+      let(:conditions) { build_pair :measure_condition }
+
+      it { is_expected.to eql 'Provide both documents' }
+    end
+
+    context 'with three threshold conditions' do
+      let(:conditions) { build_list :measure_condition, 3, :threshold }
+
+      it { is_expected.to eql 'Meet all conditions' }
+    end
+
+    context 'with three document conditions' do
+      let(:conditions) { build_list :measure_condition, 3 }
+
+      it { is_expected.to eql 'Provide all documents' }
+    end
+  end
 end

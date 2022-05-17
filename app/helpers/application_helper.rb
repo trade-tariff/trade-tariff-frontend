@@ -43,9 +43,9 @@ module ApplicationHelper
     extra_content = block_given? ? capture(&block) : nil
 
     render 'shared/page_header',
-           heading_text: heading_text,
+           heading_text:,
            show_switch_service: is_switch_service_banner_enabled?,
-           extra_content: extra_content
+           extra_content:
   end
 
   def govuk_header_navigation_item(active_class: '', &block)
@@ -127,5 +127,9 @@ module ApplicationHelper
     else
       from
     end
+  end
+
+  def paragraph_if_content(content)
+    tag.p(content) if content.present?
   end
 end

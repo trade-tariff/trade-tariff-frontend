@@ -3,6 +3,14 @@ require 'spec_helper'
 RSpec.describe MeasureCondition do
   subject(:condition) { build(:measure_condition) }
 
+  it { is_expected.to respond_to :condition_code }
+  it { is_expected.to respond_to :condition }
+  it { is_expected.to respond_to :document_code }
+  it { is_expected.to respond_to :action }
+  it { is_expected.to respond_to :duty_expression }
+  it { is_expected.to respond_to :certificate_description }
+  it { is_expected.to respond_to :measure_condition_class }
+
   describe '#requirement' do
     it { expect(condition.requirement).to be_html_safe }
   end
@@ -29,6 +37,88 @@ RSpec.describe MeasureCondition do
       subject(:condition) { build(:measure_condition) }
 
       it { is_expected.not_to have_guidance }
+    end
+  end
+
+  describe '#measure_condition_class' do
+    subject { condition.measure_condition_class }
+
+    let :condition do
+      build :measure_condition, measure_condition_class: condition_class
+    end
+
+    context 'with nil class' do
+      let(:condition_class) { nil }
+
+      it { is_expected.to eql '' }
+      it { is_expected.to respond_to :threshold? }
+      it { is_expected.to respond_to :document? }
+      it { is_expected.to have_attributes 'threshold?': false }
+      it { is_expected.to have_attributes 'document?': false }
+    end
+
+    context 'with document_class' do
+      let(:condition_class) { 'document' }
+
+      it { is_expected.to eql 'document' }
+      it { is_expected.to respond_to :threshold? }
+      it { is_expected.to respond_to :document? }
+      it { is_expected.to have_attributes 'threshold?': false }
+      it { is_expected.to have_attributes 'document?': true }
+    end
+  end
+
+  describe '#is_weight_condition?' do
+    subject { condition.is_weight_condition? }
+
+    context 'with weight unit' do
+      let(:condition) { build :measure_condition, :weight }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with other unit' do
+      let(:condition) { build :measure_condition, :volume }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#is_volume_condition?' do
+    subject { condition.is_volume_condition? }
+
+    context 'with volume unit' do
+      let(:condition) { build :measure_condition, :volume }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with other unit' do
+      let(:condition) { build :measure_condition, :weight }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#is_price_condition?' do
+    subject { condition.is_price_condition? }
+
+    context 'with price unit' do
+      let(:condition) { build :measure_condition, :price }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with other unit' do
+      let(:condition) { build :measure_condition, :weight }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with eps condition' do
+      let(:condition) { build :measure_condition, :eps }
+
+      it { is_expected.to be true }
     end
   end
 end
