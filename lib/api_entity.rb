@@ -45,18 +45,15 @@ module ApiEntity
     delegate :relationships, to: :class
 
     def inspect
-      if @attributes.blank?
-        candidate_variables = instance_variables - %i[@attributes @casted_by]
+      attrs = if defined?(@attributes) && @attributes.any?
+                attributes_for_inspect
+              else
+                instance_variables_for_inspect
+              end
 
-        candidate_variables.each_with_object({}) do |variable, acc|
-          key = variable.to_s.sub('@', '')
-          acc[key] = public_send(key)
-        end
-      else
-        keys_to_exclude = relationships.to_a + [:casted_by]
+      inspection = attrs.any? ? attrs.join(', ') : 'not initialised'
 
-        @attributes.except(*keys_to_exclude)
-      end
+      "#<#{self.class.name.presence || self.class} #{inspection}>"
     end
 
     def resource_path
@@ -94,6 +91,20 @@ module ApiEntity
 
   def persisted?
     true
+  end
+
+private
+
+  def attributes_for_inspect
+    @attributes.except(*(relationships.to_a + [:casted_by]))
+               .map { |k, v| "#{k}: #{v.inspect}" }
+  end
+
+  def instance_variables_for_inspect
+    instance_variables.without(%i[@attributes @casted_by])
+                      .map { |k| k.to_s.sub('@', '') }
+                      .select(&method(:respond_to?))
+                      .map { |k| "#{k}: #{public_send(k).inspect}" }
   end
 
   module ClassMethods
