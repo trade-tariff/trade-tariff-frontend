@@ -22,7 +22,7 @@ Capybara.register_driver(:selenium_chrome_headless) do |app|
   options.add_argument('--headless')
 
   Capybara::Selenium::Driver.new(
-    app, browser: :chrome, options: options
+    app, browser: :chrome, options:
   )
 end
 
@@ -49,6 +49,7 @@ RSpec.configure do |config|
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.file_fixture_path = 'spec/fixtures'
+  config.expose_dsl_globally = false
 
   config.include FactoryBot::Syntax::Methods
   config.include Rails.application.routes.url_helpers
