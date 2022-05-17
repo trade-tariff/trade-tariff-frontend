@@ -4,7 +4,7 @@ RSpec.describe 'measure_conditions/permutation', type: :view do
   subject { render_page && rendered }
 
   let :render_page do
-    render 'measure_conditions/permutation', permutation: permutation
+    render 'measure_conditions/permutation', permutation:
   end
 
   let :permutation do
