@@ -21,7 +21,15 @@ FactoryBot.define do
     goods_nomenclature_sid { 131_312 }
     number_indents { 3 }
 
-    commodities { attributes_for_list :commodity, commodities_count }
+    commodities do
+      attributes_for_list :commodity, commodities_count do |c, i|
+        if i.zero?
+          c[:goods_nomenclature_sid] == goods_nomenclature_sid
+        else
+          c[:parent_sid] == goods_nomenclature_sid
+        end
+      end
+    end
 
     description { 'Horses' }
     formatted_description { '<strong>Horses</strong>' }

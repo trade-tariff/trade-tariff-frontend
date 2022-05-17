@@ -42,7 +42,19 @@ class Subheading < GoodsNomenclature
   end
 
   def ancestors
-    []
+    @ancestors ||= [].tap { |ancestors|
+      commodity = find_self_in_commodities_list
+
+      while (commodity = commodity&.parent)
+        ancestors << commodity
+      end
+    }.reverse
+  end
+
+  def find_self_in_commodities_list
+    @find_self_in_commodities_list ||= commodities.find do |c|
+      c.goods_nomenclature_sid == goods_nomenclature_sid
+    end
   end
 
   private

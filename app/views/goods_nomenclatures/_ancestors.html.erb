@@ -76,7 +76,7 @@
           </span>
 
           <span class="commodity-ancestors__descriptor">
-            <%= sanitize ancestor.description %>
+            <%= sanitize (ancestor.description_plain.presence || ancestor.description) %>
           </span>
         <% end %>
       </li>
