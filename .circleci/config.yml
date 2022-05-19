@@ -479,6 +479,9 @@ jobs:
     environment:
       SENTRY_ENVIRONMENT: "production"
     steps:
+      - queue/until_front_of_line:
+          time: '10'
+          dont-quit: true
       - cf_deploy_docker:
           docker_image_tag: $CIRCLE_TAG
           space: "production"
