@@ -12,6 +12,7 @@ RSpec.describe 'subheadings/show', type: :view do
 
   let :subheading do
     build :subheading, goods_nomenclature_sid: commodities[3][:goods_nomenclature_sid],
+                       ancestors: commodities.first(3),
                        commodities:
   end
 

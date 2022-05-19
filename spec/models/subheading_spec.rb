@@ -11,6 +11,7 @@ RSpec.describe Subheading do
         heading
         footnotes
         commodities
+        ancestors
       ]
     end
 
@@ -73,22 +74,5 @@ RSpec.describe Subheading do
     subject { heading.declarable? }
 
     it { is_expected.to be false }
-  end
-
-  describe '#ancestors' do
-    subject { subheading.ancestors.map(&:goods_nomenclature_sid) }
-
-    let :subheading do
-      build :subheading, goods_nomenclature_sid: commodities[3][:goods_nomenclature_sid],
-                         commodities:
-    end
-
-    let :commodities do
-      attributes_for_list :commodity, 5 do |c, i|
-        c[:parent_sid] = (i > 0 ? c[:goods_nomenclature_sid] - 1 : nil)
-      end
-    end
-
-    it { is_expected.to eql commodities.first(3).pluck(:goods_nomenclature_sid) }
   end
 end

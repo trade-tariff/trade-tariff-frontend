@@ -10,6 +10,7 @@ class Subheading < GoodsNomenclature
 
   has_many :footnotes
   has_many :commodities
+  has_many :ancestors, class_name: 'Commodity'
 
   collection_path '/subheadings'
 
@@ -39,16 +40,6 @@ class Subheading < GoodsNomenclature
 
   def to_s
     formatted_description || description
-  end
-
-  def ancestors
-    @ancestors ||= [].tap { |ancestors|
-      commodity = find_self_in_commodities_list
-
-      while (commodity = commodity&.parent)
-        ancestors << commodity
-      end
-    }.reverse
   end
 
   def find_self_in_commodities_list

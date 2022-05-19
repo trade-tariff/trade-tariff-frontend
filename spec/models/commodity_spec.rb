@@ -41,28 +41,6 @@ RSpec.describe Commodity do
       end
     end
 
-    describe '#parent' do
-      let(:heading) { build :heading, :with_commodity_tree, commodity_count: 3 }
-
-      context 'with parent' do
-        subject { heading.commodities.first.parent }
-
-        it { is_expected.to be_nil }
-      end
-
-      context 'with child' do
-        subject { heading.commodities.second.parent }
-
-        it { is_expected.to be heading.commodities.first }
-      end
-
-      context 'with grandchild' do
-        subject { heading.commodities.third.parent.parent }
-
-        it { is_expected.to be heading.commodities.first }
-      end
-    end
-
     describe '#root' do
       it 'returns children that have no parent_sid set' do
         heading

@@ -15,8 +15,12 @@ FactoryBot.define do
 
     trait :with_commodity_tree do
       commodities do
-        attributes_for_list(:commodity, commodity_count || 2) do |c, i|
-          c[:parent_sid] = (i > 0 ? c[:goods_nomenclature_sid] - 1 : nil)
+        attributes_for_list(:commodity, commodity_count || 2) do |commodity, index|
+          commodity[:parent_sid] = if index.zero? # First commodity, so no parent
+                                     nil
+                                   else # point parent to the previous commodity
+                                     commodity[:goods_nomenclature_sid] - 1
+                                   end
         end
       end
     end
