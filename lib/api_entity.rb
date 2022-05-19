@@ -40,8 +40,6 @@ module ApiEntity
 
     attr_accessor :casted_by
 
-    cattr_accessor :relationships
-
     delegate :relationships, to: :class
 
     def inspect
@@ -110,6 +108,10 @@ private
   module ClassMethods
     delegate :get, :post, to: :api
 
+    def relationships
+      @relationships ||= superclass.include?(ApiEntity) ? superclass.relationships.dup : []
+    end
+
     def find(id, opts = {})
       retries = 0
       begin
@@ -157,7 +159,7 @@ private
         polymorphic: false,
       }.merge(opts)
 
-      (self.relationships ||= []) << association
+      relationships << association
 
       attr_reader association.to_sym
 
@@ -180,7 +182,7 @@ private
     def has_many(association, opts = {})
       options = opts.reverse_merge(class_name: association.to_s.singularize.classify, wrapper: Array)
 
-      (self.relationships ||= []) << association
+      relationships << association
 
       define_method(association) do
         collection = instance_variable_get("@#{association}").presence || []
