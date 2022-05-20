@@ -42,7 +42,7 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  config.cache_store = :redis_store,
+  config.cache_store = :redis_cache_store,
                        PaasConfig.redis.merge({
                          expires_in: 1.day,
                          namespace: ENV['GOVUK_APP_DOMAIN'],
