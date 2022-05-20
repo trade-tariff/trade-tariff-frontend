@@ -858,7 +858,7 @@
                       populateResults([]);
                     }
                   });
-                }, 100, false)
+                }, 400, false)
               });
             })($(this));
           });
