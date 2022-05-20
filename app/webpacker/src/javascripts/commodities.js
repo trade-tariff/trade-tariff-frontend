@@ -773,13 +773,22 @@
                 $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
               }) ;
 
+              $(element).on('keydown', 'input[type="text"]', function(ev) {
+                if (ev.key == 'Enter' || ev.keyCode == '13' || ev.which == '13') {
+                  ev.preventDefault() ;
+
+                  let form = $(element).parents('form') ;
+                  form.find('.js-commodity-picker-target').val($(ev.target).val());
+                  form.submit();
+                }
+              })
+
               accessibleAutocomplete({
                 element: element[0],
                 id: autocomplete_input_id,
                 minLength: 2,
-                autoselect: true,
                 showAllValues: false,
-                confirmOnBlur: true,
+                confirmOnBlur: false,
                 displayMenu: "overlay",
                 placeholder: "Enter the name of the goods or commodity code",
                 onConfirm: function(text) {
