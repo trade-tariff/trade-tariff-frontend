@@ -7,27 +7,12 @@ RSpec.describe Heading do
     let(:expected_relationships) do
       %i[
         section
-        headings
-        section
-        chapter
-        footnotes
-        import_measures
-        export_measures
-        heading
-        overview_measures
-        ancestors
-        section
         chapter
         footnotes
         import_measures
         export_measures
         commodities
         children
-        section
-        chapter
-        heading
-        footnotes
-        commodities
       ]
     end
 

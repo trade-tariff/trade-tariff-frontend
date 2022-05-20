@@ -7,8 +7,6 @@ RSpec.describe Commodity do
     let(:expected_relationships) do
       %i[
         section
-        headings
-        section
         chapter
         footnotes
         import_measures
@@ -16,18 +14,6 @@ RSpec.describe Commodity do
         heading
         overview_measures
         ancestors
-        section
-        chapter
-        footnotes
-        import_measures
-        export_measures
-        commodities
-        children
-        section
-        chapter
-        heading
-        footnotes
-        commodities
       ]
     end
 
@@ -187,9 +173,9 @@ RSpec.describe Commodity do
     subject { commodity.umbrella_code? }
 
     let(:heading) { build :heading, commodities: [parent, child] }
-    let(:parent) { attributes_for :commodity, producline_suffix: producline_suffix }
+    let(:parent) { attributes_for :commodity, producline_suffix: }
     let(:child) do
-      attributes_for :commodity, producline_suffix: producline_suffix,
+      attributes_for :commodity, producline_suffix:,
                                  parent_sid: parent[:goods_nomenclature_sid]
     end
 

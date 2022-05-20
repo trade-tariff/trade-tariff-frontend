@@ -199,4 +199,96 @@ RSpec.describe ApiEntity do
       end
     end
   end
+
+  describe 'relationships' do
+    let :parent_entity do
+      Class.new do
+        include ApiEntity
+        has_many :components, class_name: 'Part'
+      end
+    end
+
+    let :first_entity do
+      Class.new(parent_entity) do
+        collection_path '/first_entities'
+        has_many :parts, class_name: 'Part'
+        has_one :part, class_name: 'Part'
+
+        def self.name
+          'FirstEntity'
+        end
+      end
+    end
+
+    let :second_entity do
+      Class.new(parent_entity) do
+        collection_path '/second_entities'
+        has_many :parts, class_name: 'Part'
+
+        def self.name
+          'SecondEntity'
+        end
+      end
+    end
+
+    before do # instantiate all entities
+      first_entity
+      second_entity
+    end
+
+    describe '.relationships' do
+      context 'with ParentEntity' do
+        subject { parent_entity.relationships }
+
+        it { is_expected.to eql %i[components] }
+      end
+
+      context 'with FirstEntity' do
+        subject { first_entity.relationships }
+
+        it { is_expected.to eql %i[components parts part] }
+      end
+
+      context 'with SecondEntity' do
+        subject { second_entity.relationships }
+
+        it { is_expected.to eql %i[components parts] }
+      end
+    end
+
+    describe 'instance relationships' do
+      context 'with ParentEntity' do
+        subject { parent_entity.new }
+
+        it { is_expected.to respond_to :components }
+        it { is_expected.to respond_to :components= }
+        it { is_expected.not_to respond_to :parts }
+        it { is_expected.not_to respond_to :parts= }
+        it { is_expected.not_to respond_to :part }
+        it { is_expected.not_to respond_to :part= }
+      end
+
+      context 'with FirstEntity' do
+        subject { first_entity.new }
+
+        it { is_expected.to respond_to :components }
+        it { is_expected.to respond_to :components= }
+        it { is_expected.to respond_to :parts }
+        it { is_expected.to respond_to :parts= }
+        it { is_expected.to respond_to :part }
+        it { is_expected.to respond_to :part= }
+      end
+
+      context 'with SecondEntity' do
+        subject { second_entity.new }
+
+        it { is_expected.to respond_to :components }
+        it { is_expected.to respond_to :components= }
+        it { is_expected.to respond_to :parts }
+        it { is_expected.to respond_to :parts= }
+        it { is_expected.not_to respond_to :part }
+        it { is_expected.not_to respond_to :part= }
+      end
+    end
+  end
 end
