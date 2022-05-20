@@ -27,18 +27,18 @@ RSpec.describe 'Search', js: true do
           page.find('#new_search .autocomplete__input#q').click
 
           page.find('#new_search .autocomplete__input#q').set('gold')
-          sleep 1
+          sleep 1.5
 
-          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('gold')
+          expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
 
           using_wait_time 1 do
             expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
           end
 
-          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('gold')
+          expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
           expect(page).to have_content('gold - gold coin')
 
-          page.find('#new_search .autocomplete__option--focused').click
+          page.find('#new_search .autocomplete__option:first-of-type').click
 
           # trying to see if redirect done by JS needs some sleep to be caught up
           sleep 1
@@ -57,13 +57,13 @@ RSpec.describe 'Search', js: true do
 
           page.find('#new_search .autocomplete__input#q').set('dsauidoasuiodsa')
 
-          sleep 1
+          sleep 1.5
 
           expect(page.find_all('#new_search .autocomplete__option').length).to eq(1)
-          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('dsauidoasuiodsa')
+          expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('dsauidoasuiodsa')
           sleep 1
 
-          page.find('#new_search .autocomplete__option--focused').click
+          page.find('#new_search .autocomplete__option:first-of-type').click
 
           # trying to see if redirect done by JS needs some sleep to be caught up
           sleep 1
@@ -84,18 +84,18 @@ RSpec.describe 'Search', js: true do
           page.find('#new_search .autocomplete__input#q').click
 
           page.find('#new_search .autocomplete__input#q').set('gold')
-          sleep 1
+          sleep 1.5
 
-          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('gold')
+          expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
 
           using_wait_time 1 do
             expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
           end
 
-          expect(page.find('#new_search .autocomplete__option--focused').text).to eq('gold')
+          expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
           expect(page).to have_content('gold - gold coin')
 
-          page.find('#new_search .autocomplete__option--focused').click
+          page.find('#new_search .autocomplete__option:first-of-type').click
 
           # trying to see if redirect done by JS needs some sleep to be caught up
           sleep 1
@@ -107,10 +107,6 @@ RSpec.describe 'Search', js: true do
   end
 
   context 'when doing a full quota search' do
-    before do
-      Rails.cache.clear
-    end
-
     context 'when reaching the quota search form' do
       it 'contains quota search params inputs' do
         VCR.use_cassette('search#quota_search_form') do
@@ -158,10 +154,6 @@ RSpec.describe 'Search', js: true do
   end
 
   context 'when doing an additional code search' do
-    before do
-      Rails.cache.clear
-    end
-
     context 'when reaching the additional code search form' do
       it 'contains additional code search params inputs' do
         VCR.use_cassette('search#additional_code_search_form') do
@@ -254,10 +246,6 @@ RSpec.describe 'Search', js: true do
   end
 
   context 'when using the chemical search' do
-    before do
-      Rails.cache.clear
-    end
-
     let(:name) { 'CAS' }
 
     context 'when reaching the chemical search form' do
