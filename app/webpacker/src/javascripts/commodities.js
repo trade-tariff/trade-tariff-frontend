@@ -768,6 +768,7 @@
               let autocomplete_input_id = $(element).data('autocomplete-input-id') || 'q' ;
 
               var options = [];
+              var searching = true ;
 
               $(element).on('change', 'input[type="text"]', function(ev) {
                 $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
@@ -791,6 +792,7 @@
                 confirmOnBlur: false,
                 displayMenu: "overlay",
                 placeholder: "Enter the name of the goods or commodity code",
+                tNoResults: () => searching ? "Searching..." : "No results found",
                 onConfirm: function(text) {
                   let obj = null;
 
@@ -828,6 +830,7 @@
                       var newSource = [];
                       let exactMatch = false;
                       options = [];
+                      searching = false ;
 
                       results.forEach(function(result) {
                         newSource.push(result.text);
