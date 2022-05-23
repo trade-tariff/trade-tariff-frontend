@@ -40,7 +40,7 @@ gem 'puma'
 gem 'rack-cors'
 
 # Redis
-gem 'redis-rails'
+gem 'redis'
 
 # AWS
 gem 'aws-sdk-rails'
