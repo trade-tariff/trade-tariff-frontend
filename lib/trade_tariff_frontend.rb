@@ -112,6 +112,10 @@ module TradeTariffFrontend
     ENV['PERMUTATIONS'].to_s == 'true'
   end
 
+  def welsh?
+    ENV['WELSH'].to_s == 'true'
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app

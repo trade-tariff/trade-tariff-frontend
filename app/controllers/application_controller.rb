@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   include TradeTariffFrontend::ViewContext::Controller
   include ApplicationHelper
 
+  around_action :set_locale
+
   before_action :set_cache
   before_action :set_last_updated
   before_action :set_path_info
@@ -156,5 +158,11 @@ class ApplicationController < ActionController::Base
 
   def set_path_info
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json) }
+  end
+
+  def set_locale
+    I18n.locale = params[:locale].presence || I18n.default_locale
+    yield
+    I18n.locale = I18n.default_locale
   end
 end
