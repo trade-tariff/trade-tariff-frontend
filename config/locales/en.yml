@@ -186,4 +186,6 @@ en:
         <p>
           To claim preference under this easement UK importers must enter code '9UKR' in Box 44 of the customs declaration.
         </p>
-
+    steps:
+      show:
+        meta_title: "Rules of Origin: %{step}"

@@ -78,6 +78,12 @@ Rails.application.routes.draw do
 
   resources :news_items, only: %i[index show], path: '/news'
 
+  if TradeTariffFrontend.roo_wizard?
+    namespace :rules_of_origin, path: nil do
+      resources :steps, path: '/rules_of_origin', only: %i[index show update]
+    end
+  end
+
   match '/search', to: 'search#search', as: :perform_search, via: %i[get post]
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search
