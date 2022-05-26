@@ -104,10 +104,6 @@ module TradeTariffFrontend
     ENV['SEARCH_BANNER'].to_s == 'true'
   end
 
-  def news_items_enabled?
-    ENV['NEWS_ITEMS_ENABLED'].to_s == 'true'
-  end
-
   def permutations?
     ENV['PERMUTATIONS'].to_s == 'true'
   end
