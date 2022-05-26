@@ -45,6 +45,14 @@ module CommoditiesHelper
     end
   end
 
+  def preferential_treatment_partial_for(country_id)
+    preferential_treatments = Rails.cache.fetch('rules-of-origin-tab', expires_in: 1.day) do
+      YAML.load_file(Rails.root.join('config/rules_of_origin_tab.yml'))['rules_of_origin_tab']['preferential_treatment']
+    end
+
+    preferential_treatments[country_id]&.html_safe
+  end
+
   private
 
   def chapter_and_heading_codes(code)
