@@ -11,6 +11,7 @@ RSpec.describe Subheading do
         heading
         footnotes
         commodities
+        ancestors
       ]
     end
 
@@ -69,7 +70,7 @@ RSpec.describe Subheading do
     end
   end
 
-  describe 'declarable?' do
+  describe '#declarable?' do
     subject { heading.declarable? }
 
     it { is_expected.to be false }

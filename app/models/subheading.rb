@@ -10,6 +10,7 @@ class Subheading < GoodsNomenclature
 
   has_many :footnotes
   has_many :commodities
+  has_many :ancestors, class_name: 'Commodity'
 
   collection_path '/subheadings'
 
@@ -39,6 +40,12 @@ class Subheading < GoodsNomenclature
 
   def to_s
     formatted_description || description
+  end
+
+  def find_self_in_commodities_list
+    @find_self_in_commodities_list ||= commodities.find do |c|
+      c.goods_nomenclature_sid == goods_nomenclature_sid
+    end
   end
 
   private

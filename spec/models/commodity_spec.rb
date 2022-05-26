@@ -25,16 +25,7 @@ RSpec.describe Commodity do
   end
 
   describe 'parent/children relationships' do
-    let(:associated_commodities) do
-      {
-        commodities: [attributes_for(:commodity, goods_nomenclature_sid: 1,
-                                                 parent_sid: nil),
-                      attributes_for(:commodity, parent_sid: 1,
-                                                 goods_nomenclature_sid: 2)],
-      }
-    end
-    let(:heading_attributes) { attributes_for(:heading).merge(associated_commodities) }
-    let(:heading) { Heading.new(heading_attributes) }
+    let(:heading) { build :heading, :with_commodity_tree }
 
     describe '#children' do
       it 'returns list of commodities children' do
