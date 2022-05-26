@@ -157,4 +157,21 @@ RSpec.describe CommoditiesHelper, type: :helper do
 
     it { is_expected.to eql 'commodity-ancestors__ancestor-23' }
   end
+
+  describe '#preferential_treatment_partial_for' do
+    subject { helper.preferential_treatment_partial_for(geographical_area_id) }
+
+    context 'when the country has preferential treatment note in rules_of_origin_tab.yml' do
+      let(:geographical_area_id) { 'UA' }
+
+      it { is_expected.to be_html_safe }
+      it { is_expected.not_to be_nil }
+    end
+
+    context 'when the country does NOT have preferential treatment in rules_of_origin_tab.yml' do
+      let(:geographical_area_id) { 'IT' }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end
