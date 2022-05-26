@@ -6,7 +6,7 @@ RSpec.describe SearchReferencePresenter do
   let(:declarable) { build :search_reference, :with_subheading }
 
   describe '#link' do
-    it { expect(presenter.link).to eq('/trade-tariff/subheadings/1234567890-12') }
+    it { expect(presenter.link).to eq('/subheadings/1234567890-12') }
   end
 
   describe '#to_s' do
