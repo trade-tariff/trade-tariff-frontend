@@ -42,7 +42,6 @@
       </ul>
     <% end %>
 
-    <%= preferential_treatment_partial_for(@search.geographical_area.id) %>
-
+    <%= t "rules_of_origin.preferential_treatment.#{@search.geographical_area.id}_html", default: '' %>
   <% end %>
 </div>

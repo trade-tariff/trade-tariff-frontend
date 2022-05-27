@@ -45,10 +45,6 @@ module CommoditiesHelper
     end
   end
 
-  def preferential_treatment_partial_for(country_id)
-    t "rules_of_origin.preferential_treatment.#{country_id}.html", default: ''
-  end
-
   private
 
   def chapter_and_heading_codes(code)
