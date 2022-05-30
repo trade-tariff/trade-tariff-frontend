@@ -1,7 +1,7 @@
 module RulesOfOrigin
   module Steps
     class ImportExport < Base
-      OPTIONS = %i[import export].freeze
+      OPTIONS = %w[import export].freeze
 
       attribute :import_or_export
 
