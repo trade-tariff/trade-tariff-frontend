@@ -14,6 +14,10 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
 
   describe 'GET #show' do
     before do
+      stub_api_request('/geographical_areas/JP').and_return \
+        jsonapi_response :geographical_area,
+                         attributes_for(:geographical_area, description: 'Japan')
+
       get rules_of_origin_steps_path, params: initial_params
       follow_redirect!
     end

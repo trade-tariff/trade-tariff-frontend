@@ -7,6 +7,9 @@ RSpec.describe 'rules_of_origin/steps/show', type: :view do
   include_context 'with govuk form builder'
 
   before do
+    stub_api_request('/geographical_areas/JP').and_return \
+      jsonapi_response :geographical_area,
+                       attributes_for(:geographical_area, description: 'Japan')
     allow(view).to receive(:wizard).and_return wizard
     allow(view).to receive(:current_step).and_return current_step
     allow(view).to receive(:step_path).and_return \
@@ -16,8 +19,8 @@ RSpec.describe 'rules_of_origin/steps/show', type: :view do
   let(:wizard) { RulesOfOrigin::Wizard.new wizardstore, 'import_export' }
   let(:current_step) { wizard.find_current_step }
 
-  let :backing_store do
-    { service: 'uk', country_code: 'JP', commodity_code: '6004100091' }
+  let :backingstore do
+    { service: 'uk', country_code: 'JP', commodity_code: '6004100091' }.stringify_keys
   end
 
   it { is_expected.to have_css 'section', count: 1 }

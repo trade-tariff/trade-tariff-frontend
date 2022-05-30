@@ -12,11 +12,12 @@ module RulesOfOrigin
       end
 
       def service_country_name
-        'the UK'
+        I18n.t "title.region_name.#{@store['service']}"
       end
 
       def trade_country_name
-        'Japan'
+        @trade_country_name ||= GeographicalArea.find(@store['country_code'])
+                                                .description
       end
     end
   end
