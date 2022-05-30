@@ -1,5 +1,7 @@
 module RulesOfOrigin
   class StepsController < ApplicationController
+    default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
+
     include WizardSteps
     self.wizard_class = RulesOfOrigin::Wizard
 

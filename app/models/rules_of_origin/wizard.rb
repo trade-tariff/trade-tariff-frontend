@@ -1,7 +1,7 @@
 module RulesOfOrigin
   class Wizard < ::WizardSteps::Base
     self.steps = [
-      Steps::Start,
+      Steps::ImportExport,
       Steps::End,
     ]
   end

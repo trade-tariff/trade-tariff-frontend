@@ -173,6 +173,18 @@ en:
             email:
               invalid: Enter an email address in the correct format, like name@example.com
               too_long: The email must be %{count} characters or fewer
+
+  helpers:
+    label:
+      rules_of_origin_steps_import_export:
+        import_or_export_options:
+          import: I am importing goods into %{service_country} from %{trade_country}
+          export: I am exporting goods from %{service_country} to %{trade_country}
+
+    legend:
+      rules_of_origin_steps_import_export:
+        import_or_export: Are you importing goods into the UK or into Japan?
+
   rules_of_origin:
     preferential_treatment:
       UA_html: |
@@ -189,3 +201,5 @@ en:
     steps:
       show:
         meta_title: "Rules of Origin: %{step}"
+      import_export:
+        question: Are you importing goods into %{source} or into %{destination}?
