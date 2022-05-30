@@ -5,7 +5,7 @@ module RulesOfOrigin
 
       attribute :import_or_export
 
-      validates :import_or_export, presence: true, inclusion: { in: OPTIONS }
+      validates :import_or_export, presence: true, inclusion: { in: :options }
 
       def options
         OPTIONS
