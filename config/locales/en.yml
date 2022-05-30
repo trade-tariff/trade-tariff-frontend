@@ -183,7 +183,11 @@ en:
 
     legend:
       rules_of_origin_steps_import_export:
-        import_or_export: Are you importing goods into the UK or into Japan?
+        import_or_export: Are you importing goods into %{service_country} or into %{trade_country}?
+
+    caption:
+      rules_of_origin_steps_import_export:
+        import_or_export: Details of your trade
 
   rules_of_origin:
     preferential_treatment:
@@ -201,5 +205,3 @@ en:
     steps:
       show:
         meta_title: "Rules of Origin: %{step}"
-      import_export:
-        question: Are you importing goods into %{source} or into %{destination}?
