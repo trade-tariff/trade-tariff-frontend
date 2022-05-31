@@ -19,15 +19,3 @@ shared_context 'with wizard step' do |wizard_class|
 
   it { is_expected.to be_a ::WizardSteps::Step }
 end
-
-shared_context 'with rules of origin store' do |state|
-  before do
-    stub_api_request('/geographical_areas/JP').and_return \
-      jsonapi_response :geographical_area,
-                       attributes_for(:geographical_area,
-                                      description: 'Japan',
-                                      id: 'JP')
-  end
-
-  let(:wizardstore) { build :rules_of_origin_wizard, state }
-end

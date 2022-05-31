@@ -5,5 +5,13 @@ FactoryBot.define do
     service { 'uk' }
     country_code { 'JP' }
     commodity_code { '6004100091' }
+
+    trait :importing do
+      import_or_export { 'import' }
+    end
+
+    trait :exporting do
+      import_or_export { 'export' }
+    end
   end
 end

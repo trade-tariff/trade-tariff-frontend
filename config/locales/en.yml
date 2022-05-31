@@ -211,5 +211,33 @@ en:
           To claim preference under this easement UK importers must enter code '9UKR' in Box 44 of the customs declaration.
         </p>
     steps:
+      common:
+        next_step: Next step
       show:
         meta_title: "Rules of Origin: %{step}"
+        continue: Continue
+      originating:
+        caption: Are your goods originating?
+        title: How to work out if your goods are classed as 'originating' in %{originating_country}
+        lead_para: |
+          This page defines the broad rules that determine if your product
+          originates in %{originating_country} according to the %{scheme_title}
+          and therefore eligible for preferential tariff treatment.
+        conditions_md: |
+          The following products are considered as originating in Japan:
+
+          * products **wholly obtained** in %{originating_country}
+
+            Your goods are treated as 'wholly obtained' if they’re exclusively
+            produced in a country covered in a trade agreement, without
+            incorporating materials from any other country.
+
+          * Products that incorporate **materials originating from different
+            countries** that are sufficiently worked or processed according to
+            the rules laid out in the %{scheme_title}
+
+          These concepts are defined throughout the next pages, so that you can
+          determine if your product meets the rules of origin.
+        next_step_md: |
+          Click on the 'Continue' button to view the definition of
+          '**wholly obtained**' in the %{scheme_title}.
