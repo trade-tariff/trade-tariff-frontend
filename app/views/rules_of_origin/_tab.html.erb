@@ -5,6 +5,12 @@
 
 <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
 
+<% if TradeTariffFrontend.roo_wizard? && rules_of_origin_schemes.any? %>
+  <%= render 'rules_of_origin/wizard_link',
+             country_code: country_code,
+             commodity_code: commodity_code %>
+<% end %>
+
 <%= render partial: 'rules_of_origin/scheme',
            collection: rules_of_origin_schemes,
            locals: {
