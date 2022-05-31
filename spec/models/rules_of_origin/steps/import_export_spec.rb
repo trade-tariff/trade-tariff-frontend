@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe RulesOfOrigin::Steps::ImportExport do
+  include_context 'with rules of origin store'
   include_context 'with wizard step', RulesOfOrigin::Wizard
 
   it { is_expected.to respond_to :import_or_export }

@@ -177,8 +177,7 @@ en:
         rules_of_origin/steps/import_export:
           attributes:
             import_or_export:
-              blank: Choose whether you are importing or exporting goods
-              inclusion: Choose whether you are importing or exporting goods
+              inclusion: Select whether you are importing goods into %{service_country} or %{trade_country}
 
   helpers:
     label:

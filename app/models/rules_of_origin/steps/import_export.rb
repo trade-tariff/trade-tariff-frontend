@@ -5,7 +5,17 @@ module RulesOfOrigin
 
       attribute :import_or_export
 
-      validates :import_or_export, presence: true, inclusion: { in: :options }
+      validates_each :import_or_export do |record, attr, value|
+        unless value.in?(record.options)
+          record.errors.add \
+            :import_or_export,
+            I18n.t(
+              "#{i18n_scope}.errors.models.#{model_name.i18n_key}.attributes.#{attr}.inclusion",
+              service_country: record.service_country_name,
+              trade_country: record.trade_country_name,
+            )
+        end
+      end
 
       def options
         OPTIONS
