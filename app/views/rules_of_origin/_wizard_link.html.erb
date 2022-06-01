@@ -12,6 +12,7 @@
                 url: rules_of_origin_step_path(RulesOfOrigin::Wizard.steps.first.key),
                 method: :put do |f| %>
 
+    <%= f.hidden_field :service, value: TradeTariffFrontend::ServiceChooser.service_name %>
     <%= f.hidden_field :commodity_code, value: commodity_code %>
     <%= f.hidden_field :country_code, value: country_code %>
 

@@ -4,8 +4,8 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
   subject { response }
 
   let(:first_step) { RulesOfOrigin::Wizard.steps.first }
-  let(:second_step) { RulesOfOrigin::Wizard.steps.second } # first is Init step
-  let(:initial_params) { { country_code: 'JP', commodity_code: '6004100091' } }
+  let(:second_step) { RulesOfOrigin::Wizard.steps.second } # first is Start/init step
+  let(:initial_params) { { country_code: 'JP', commodity_code: '6004100091', service: 'uk' } }
 
   describe 'GET #index' do
     before { get rules_of_origin_steps_path }

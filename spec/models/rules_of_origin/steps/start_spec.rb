@@ -8,17 +8,23 @@ RSpec.describe RulesOfOrigin::Steps::Start do
   it { is_expected.to respond_to :country_code }
   it { is_expected.to respond_to :commodity_code }
 
-  describe '#services' do
-    subject { instance.service_choices }
-
-    it { is_expected.to eql %w[uk xi] }
-  end
-
   describe 'validation' do
     include_context 'with rules of origin store'
 
     describe 'service' do
-      it { is_expected.to validate_inclusion_of(:service).in_array %w[uk xi] }
+      context 'when using UK service' do
+        include_context 'with UK service'
+
+        it { is_expected.to allow_value('uk').for :service }
+        it { is_expected.not_to allow_value('xi').for :service }
+      end
+
+      context 'when using XI service' do
+        include_context 'with XI service'
+
+        it { is_expected.to allow_value('xi').for :service }
+        it { is_expected.not_to allow_value('uk').for :service }
+      end
     end
 
     describe 'country_code' do

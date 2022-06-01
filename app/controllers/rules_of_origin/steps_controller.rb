@@ -11,11 +11,17 @@ module RulesOfOrigin
       disable_switch_service_banner
     end
 
-    before_action :redirect_first_step, only: :show  # rubocop:disable Rails/LexicallyScopedActionFilter
-
     before_action :check_service_hasnt_changed,
                   except: :index,
                   if: -> { params[:id] != wizard_class.steps.first.key }
+
+    def show
+      if params[:id] == wizard_class.steps.first.key
+        redirect_to return_to_commodity_path
+      else
+        super
+      end
+    end
 
     private
 
@@ -40,12 +46,6 @@ module RulesOfOrigin
       commodity_path(wizard_store['commodity_code'],
                      country: wizard_store['country_code'],
                      anchor: 'rules-of-origin')
-    end
-
-    def redirect_first_step
-      if params[:id] == wizard_class.steps.first.key
-        redirect_to return_to_commodity_path
-      end
     end
   end
 end
