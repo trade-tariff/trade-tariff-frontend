@@ -112,6 +112,10 @@ module TradeTariffFrontend
     ENV['WELSH'].to_s == 'true'
   end
 
+  def roo_wizard?
+    ENV['ROO_WIZARD'] == 'true'
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app
