@@ -1,0 +1,13 @@
+<%= form.govuk_collection_radio_buttons \
+      :scheme_code,
+      form.object.rules_of_origin_schemes,
+      :scheme_code,
+      :title,
+      legend: {
+        text: t('helpers.legend.rules_of_origin_steps_scheme.scheme_code',
+                trade_country: form.object.trade_country_name)
+      },
+      hint: {
+        text: simple_format(t('helpers.hint.rules_of_origin_steps_scheme.scheme_code',
+                            trade_country: form.object.trade_country_name))
+      } %>

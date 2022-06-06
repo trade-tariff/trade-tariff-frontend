@@ -177,25 +177,42 @@ en:
               invalid: Enter an email address in the correct format, like name@example.com
               too_long: The email must be %{count} characters or fewer
 
+        rules_of_origin/steps/scheme:
+          attributes:
+            scheme_code:
+              inclusion: Select an agreement
+
         rules_of_origin/steps/import_export:
           attributes:
             import_or_export:
               inclusion: Select whether you are importing goods into %{service_country} or %{trade_country}
 
   helpers:
+    legend:
+      rules_of_origin_steps_scheme:
+        scheme_code: Select agreement for trading with %{trade_country}
+      rules_of_origin_steps_import_export:
+        import_or_export: Are you importing goods into %{service_country} or into %{trade_country}?
+
+    caption:
+      rules_of_origin_steps_scheme:
+        scheme_code: Details of your trade
+      rules_of_origin_steps_import_export:
+        import_or_export: Details of your trade
+
+    hint:
+      rules_of_origin_steps_scheme:
+        scheme_code: |
+          You may be able to take advantage of preferential imports duties
+          for trade with %{trade_country} via more than one trade agreement.
+
+          Select the trade agreement.
+
     label:
       rules_of_origin_steps_import_export:
         import_or_export_options:
           import: I am importing goods into %{service_country} from %{trade_country}
           export: I am exporting goods from %{service_country} to %{trade_country}
-
-    legend:
-      rules_of_origin_steps_import_export:
-        import_or_export: Are you importing goods into %{service_country} or into %{trade_country}?
-
-    caption:
-      rules_of_origin_steps_import_export:
-        import_or_export: Details of your trade
 
   rules_of_origin:
     preferential_treatment:

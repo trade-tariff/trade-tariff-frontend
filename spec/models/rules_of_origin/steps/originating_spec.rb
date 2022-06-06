@@ -21,6 +21,6 @@ RSpec.describe RulesOfOrigin::Steps::Originating do
   describe '#scheme_title' do
     subject { instance.scheme_title }
 
-    it { is_expected.to eql rules_of_origin.first.title }
+    it { is_expected.to eql schemes.first.title }
   end
 end

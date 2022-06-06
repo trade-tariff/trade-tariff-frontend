@@ -20,11 +20,9 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
   end
 
   describe 'GET #show' do
-    before do
-      stub_api_request('/geographical_areas/JP').and_return \
-        jsonapi_response :geographical_area,
-                         attributes_for(:geographical_area, description: 'Japan')
+    include_context 'with rules of origin store'
 
+    before do
       put rules_of_origin_step_path(first_step.key), params: {
         first_step.model_name.singular => initial_params,
       }
@@ -34,7 +32,7 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
       before { get rules_of_origin_step_path second_step.key }
 
       it { is_expected.to have_http_status :success }
-      it { is_expected.to have_attributes body: /into the UK or into Japan/ }
+      it { is_expected.to have_attributes body: /Details of your trade/ }
     end
 
     context 'with an invalid step' do
