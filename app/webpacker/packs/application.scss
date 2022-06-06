@@ -15,6 +15,8 @@ $govuk-images-path: '~govuk-frontend/govuk/assets/images/';
 // TODO not using this anymore:
 @import '../src/stylesheets/legacy-grid-layout-conditionals';
 
+@import '../src/stylesheets/fixes' ;
+
 // Trade Tariff components
 @import '../src/stylesheets/variables';
 @import '../src/stylesheets/functions';

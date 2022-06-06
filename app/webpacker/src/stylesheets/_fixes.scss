@@ -1,0 +1,10 @@
+/*
+  Because we enable $govuk-global-styles the govuk-body-m class is effectively
+  applied to all <p> tags. This is incorrect in the case of <p> tags under
+  .govuk-hint where the hint formatting should take precendence
+*/
+
+form fieldset div.govuk-hint p {
+  @extend .govuk-hint;
+}
+
