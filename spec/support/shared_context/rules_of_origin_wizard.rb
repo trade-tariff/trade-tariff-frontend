@@ -1,14 +1,19 @@
 shared_context 'with rules of origin store' do |state|
   before do
-    allow(GeographicalArea).to receive(:find).with('JP').and_return(japan)
+    allow(GeographicalArea).to receive(:find).with(wizardstore['country_code'])
+                                             .and_return(country)
+
     allow(RulesOfOrigin::Scheme).to \
-      receive(:all).with(wizardstore['commodity_code'], 'JP')
-                   .and_return(rules_of_origin)
+      receive(:all).with(wizardstore['commodity_code'], wizardstore['country_code'])
+                   .and_return(schemes)
   end
 
-  let(:wizardstore) { build :rules_of_origin_wizard, state }
-  let(:japan) { build :geographical_area, :japan }
-  let(:rules_of_origin) { build_list :rules_of_origin_scheme, 1 }
+  let(:wizardstore) do
+    build :rules_of_origin_wizard_store, state, schemes:, country_code: country.id
+  end
+
+  let(:country) { build :geographical_area, :japan }
+  let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: [country.id] }
 end
 
 shared_context 'with rules of origin form step' do |step, state|

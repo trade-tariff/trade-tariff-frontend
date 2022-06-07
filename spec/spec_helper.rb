@@ -8,6 +8,7 @@ SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
 require File.expand_path('../config/environment', __dir__)
 
 require 'rspec/rails'
+require 'active_record'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
@@ -38,7 +39,6 @@ Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
     with.library :rails
-    with.library :active_model
   end
 end
 
@@ -55,6 +55,7 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
   config.include Capybara::DSL
   config.include ApiResponsesHelper
+  config.include Shoulda::Matchers::ActiveModel
 
   config.include_context 'with switch service banner', type: :view
 

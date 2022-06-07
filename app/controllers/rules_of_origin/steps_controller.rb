@@ -11,12 +11,16 @@ module RulesOfOrigin
       disable_switch_service_banner
     end
 
-    before_action :check_service_hasnt_changed, except: :index
+    before_action :check_service_hasnt_changed,
+                  except: :index,
+                  if: -> { params[:id] != wizard_class.steps.first.key }
 
-    def index
-      initialize_wizard!
-
-      super
+    def show
+      if params[:id] == wizard_class.steps.first.key
+        redirect_to return_to_commodity_path
+      else
+        super
+      end
     end
 
     private
@@ -26,18 +30,7 @@ module RulesOfOrigin
     end
 
     def step_path(step_id = params[:id])
-      if step_id
-        rules_of_origin_step_path(step_id)
-      else
-        return_to_commodity_path
-      end
-    end
-
-    def initialize_wizard!
-      wizard_store.purge!
-      wizard_store.persist service: TradeTariffFrontend::ServiceChooser.service_name,
-                           country_code: params[:country_code],
-                           commodity_code: params[:commodity_code]
+      rules_of_origin_step_path(step_id)
     end
 
     def check_service_hasnt_changed

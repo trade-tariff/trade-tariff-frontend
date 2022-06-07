@@ -1,0 +1,23 @@
+<h3 class="govuk-heading-s">
+  Work out if your goods meet the rules of origin
+</h3>
+
+<p>
+  Work out if your trade fulfils the rules of origin and can therefore be
+  <strong>considered</strong> originating.
+</p>
+
+<p>
+  <%= form_with model: RulesOfOrigin::Wizard.steps.first,
+                url: rules_of_origin_step_path(RulesOfOrigin::Wizard.steps.first.key),
+                method: :put do |f| %>
+
+    <%= f.hidden_field :service, value: TradeTariffFrontend::ServiceChooser.service_name %>
+    <%= f.hidden_field :commodity_code, value: commodity_code %>
+    <%= f.hidden_field :country_code, value: country_code %>
+
+    <%= f.button 'Check rules of origin', class: 'govuk-button' %>
+  <% end %>
+</p>
+
+
