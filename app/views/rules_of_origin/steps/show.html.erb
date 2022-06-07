@@ -1,0 +1,21 @@
+<% content_for :title, t('.meta_title',  step: current_step.model_name.human) %>
+
+<section id="rules-of-origin-<%= current_step.key %>">
+  <%= link_to t('navigation.back'), step_path(wizard.previous_key), class: 'govuk-back-link' %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= form_for current_step, url: step_path do |form| %>
+        <%= form.govuk_error_summary %>
+
+        <%= render current_step.key, form: form, wizard: wizard %>
+
+        <%= form.govuk_submit %>
+      <% end %>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+      Step listing goes here
+    </div>
+  </div>
+</section>

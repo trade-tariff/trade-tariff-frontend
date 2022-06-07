@@ -85,6 +85,9 @@ en:
     trading_partner: Select a country
     feedback: Feedback
 
+  navigation:
+    back: Back
+
   measure_type_descriptions:
     1400:
       103: 'Channel Islands duty'
@@ -173,6 +176,27 @@ en:
             email:
               invalid: Enter an email address in the correct format, like name@example.com
               too_long: The email must be %{count} characters or fewer
+
+        rules_of_origin/steps/import_export:
+          attributes:
+            import_or_export:
+              inclusion: Select whether you are importing goods into %{service_country} or %{trade_country}
+
+  helpers:
+    label:
+      rules_of_origin_steps_import_export:
+        import_or_export_options:
+          import: I am importing goods into %{service_country} from %{trade_country}
+          export: I am exporting goods from %{service_country} to %{trade_country}
+
+    legend:
+      rules_of_origin_steps_import_export:
+        import_or_export: Are you importing goods into %{service_country} or into %{trade_country}?
+
+    caption:
+      rules_of_origin_steps_import_export:
+        import_or_export: Details of your trade
+
   rules_of_origin:
     preferential_treatment:
       UA_html: |
@@ -186,4 +210,6 @@ en:
         <p>
           To claim preference under this easement UK importers must enter code '9UKR' in Box 44 of the customs declaration.
         </p>
-
+    steps:
+      show:
+        meta_title: "Rules of Origin: %{step}"

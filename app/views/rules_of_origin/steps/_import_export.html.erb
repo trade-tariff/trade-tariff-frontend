@@ -1,0 +1,14 @@
+<%= form.govuk_collection_radio_buttons \
+      :import_or_export,
+      form.object.options,
+      :to_sym,
+      -> (option) {
+        t "helpers.label.rules_of_origin_steps_import_export.import_or_export_options.#{option}",
+          service_country: form.object.service_country_name,
+          trade_country: form.object.trade_country_name
+      },
+      legend: {
+        text: t('helpers.legend.rules_of_origin_steps_import_export.import_or_export',
+                service_country: form.object.service_country_name,
+                trade_country: form.object.trade_country_name)
+      } %>

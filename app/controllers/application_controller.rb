@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     render_500
   end
 
-  rescue_from(Faraday::ResourceNotFound,
+  rescue_from(Faraday::ResourceNotFound, WizardSteps::UnknownStep,
               ActionView::MissingTemplate, ActionController::UnknownFormat,
               AbstractController::ActionNotFound, URI::InvalidURIError) do |_e|
     request.format = :html
