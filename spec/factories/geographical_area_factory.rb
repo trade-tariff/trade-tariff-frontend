@@ -10,5 +10,10 @@ FactoryBot.define do
     trait :erga_omnes do
       id { '1011' }
     end
+
+    trait :japan do
+      id { 'JP' }
+      description { 'Japan' }
+    end
   end
 end

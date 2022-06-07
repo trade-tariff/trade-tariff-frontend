@@ -1,0 +1,23 @@
+<span class="govuk-caption-xl">
+  <%= t '.caption' %>
+</span>
+
+<h1 class="govuk-heading-l">
+  <%= t '.title', originating_country: form.object.originating_country %>
+</h1>
+
+<p class="govuk-body-l">
+  <%= t '.lead_para', originating_country: form.object.originating_country,
+                      scheme_title: form.object.scheme_title %>
+</p>
+
+<div class="tariff-markdown">
+  <%= govspeak t '.conditions_md', originating_country: form.object.originating_country,
+                                   scheme_title: form.object.scheme_title %>
+
+  <p>
+    <strong><%= t 'rules_of_origin.steps.common.next_step' %></strong>
+  </p>
+
+  <%= govspeak t '.next_step_md', scheme_title: form.object.scheme_title %>
+</div>
