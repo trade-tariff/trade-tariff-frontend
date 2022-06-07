@@ -8,8 +8,11 @@ shared_context 'with rules of origin store' do |state|
                    .and_return(schemes)
   end
 
-  let(:wizardstore) { build :rules_of_origin_wizard, state }
-  let(:country) { build :geographical_area, :japan, id: wizardstore['country_code'] }
+  let(:wizardstore) do
+    build :rules_of_origin_wizard_store, state, schemes:, country_code: country.id
+  end
+
+  let(:country) { build :geographical_area, :japan }
   let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: [country.id] }
 end
 
