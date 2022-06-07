@@ -85,6 +85,9 @@ en:
     trading_partner: Select a country
     feedback: Feedback
 
+  navigation:
+    back: Back
+
   measure_type_descriptions:
     1400:
       103: 'Channel Islands duty'
