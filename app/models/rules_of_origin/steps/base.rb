@@ -17,8 +17,11 @@ module RulesOfOrigin
       end
 
       def chosen_scheme
-        # FIXME: multiple scheme support coming in a later ticket
-        rules_of_origin_schemes.first
+        if @store['scheme_code']
+          rules_of_origin_schemes.index_by(&:scheme_code)[@store['scheme_code']]
+        else
+          rules_of_origin_schemes.first
+        end
       end
     end
   end

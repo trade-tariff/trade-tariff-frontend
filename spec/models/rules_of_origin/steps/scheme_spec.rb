@@ -10,8 +10,8 @@ RSpec.describe RulesOfOrigin::Steps::Scheme do
 
   it { is_expected.to respond_to :scheme_code }
 
-  describe '#scheme_codes' do
-    subject { instance.scheme_codes }
+  describe '#available_scheme_codes' do
+    subject { instance.available_scheme_codes }
 
     it { is_expected.to eql schemes.map(&:scheme_code) }
   end
@@ -49,7 +49,7 @@ RSpec.describe RulesOfOrigin::Steps::Scheme do
       it 'persists the scheme count to avoid API calls for skipped? checks' do
         instance.skipped?
 
-        expect(wizardstore['scheme_codes']).to eq schemes.map(&:scheme_code)
+        expect(wizardstore['available_scheme_codes']).to eq schemes.map(&:scheme_code)
       end
     end
 
@@ -61,7 +61,7 @@ RSpec.describe RulesOfOrigin::Steps::Scheme do
       it 'persists the scheme count to avoid API calls for skipped? checks' do
         instance.skipped?
 
-        expect(wizardstore['scheme_codes']).to eq schemes.map(&:scheme_code)
+        expect(wizardstore['available_scheme_codes']).to eq schemes.map(&:scheme_code)
       end
     end
   end

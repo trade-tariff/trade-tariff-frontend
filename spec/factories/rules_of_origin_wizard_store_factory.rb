@@ -4,24 +4,25 @@ FactoryBot.define do
 
     transient do
       schemes { build_list :rules_of_origin_scheme, 2 }
+      chosen_scheme { 1 }
     end
 
     service { 'uk' }
     country_code { 'JP' }
     commodity_code { '6004100091' }
 
-    trait :first_scheme do
-      scheme_count { schemes.length }
-      scheme_code { schemes.first.scheme_code }
+    trait :with_chosen_scheme do
+      available_scheme_codes { schemes.map(&:scheme_code) }
+      scheme_code { schemes[chosen_scheme - 1].scheme_code }
     end
 
     trait :importing do
-      trait :first_scheme
+      with_chosen_scheme
       import_or_export { 'import' }
     end
 
     trait :exporting do
-      trait :first_scheme
+      with_chosen_scheme
       import_or_export { 'export' }
     end
   end
