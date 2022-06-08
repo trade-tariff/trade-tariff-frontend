@@ -20,6 +20,10 @@ module RulesOfOrigin
       def options
         OPTIONS
       end
+
+      def unilateral_scheme?
+        @unilateral_scheme ||= !!chosen_scheme.unilateral
+      end
     end
   end
 end
