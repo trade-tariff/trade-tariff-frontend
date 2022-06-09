@@ -15,9 +15,9 @@
   <%= govspeak t '.conditions_md', originating_country: form.object.originating_country,
                                    scheme_title: form.object.scheme_title %>
 
-  <p>
-    <strong><%= t 'rules_of_origin.steps.common.next_step' %></strong>
-  </p>
+  <h3 class="govuk-heading-s">
+    <%= t 'rules_of_origin.steps.common.next_step' %>
+  </h3>
 
   <%= govspeak t '.next_step_md', scheme_title: form.object.scheme_title %>
 </div>

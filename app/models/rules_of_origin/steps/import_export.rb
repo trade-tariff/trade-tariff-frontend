@@ -21,8 +21,8 @@ module RulesOfOrigin
         OPTIONS
       end
 
-      def unilateral_scheme?
-        @unilateral_scheme ||= !!chosen_scheme.unilateral
+      def skipped?
+        !!chosen_scheme.unilateral
       end
     end
   end

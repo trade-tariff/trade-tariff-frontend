@@ -30,8 +30,8 @@ RSpec.describe RulesOfOrigin::Steps::ImportExport do
     end
   end
 
-  describe '#unilateral_scheme?' do
-    subject { instance.unilateral_scheme? }
+  describe '#skipped?' do
+    subject { instance.skipped? }
 
     it { is_expected.to be false }
 

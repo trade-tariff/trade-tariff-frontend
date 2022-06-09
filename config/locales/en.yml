@@ -105,6 +105,11 @@ en:
       uk: You are viewing the UK Integrated Online Tariff.
       xi: You are viewing the Northern Ireland Online Tariff.
 
+  service:
+    country_name:
+      uk: the United Kingdom
+      xi: Northern Ireland
+
   meursing_lookup:
     steps:
       starch:
@@ -233,6 +238,22 @@ en:
       show:
         meta_title: "Rules of Origin: %{step}"
         continue: Continue
+      import_only:
+        caption: Trading commodity %{commodity_code} with %{trade_country_name}
+        title: |
+          Importing goods into %{service_country_name} from countries which belong to
+          the GSP scheme
+        lead_para_html: |
+          %{trade_country_name} is a member of the unilateral
+          <a href="https://www.gov.uk/government/publications/trading-with-developing-nations">
+            Generalised System of Preferences (GSP)
+          </a>
+          scheme. The rules of origin apply only to the import of goods from the
+          overseas country.
+        importing_from: Importing goods from %{trade_country_name}
+        import_instructions: |
+          Click on the 'Continue' button to determine if the rules of origin
+          apply to your import from %{trade_country_name}.
       originating:
         caption: Are your goods originating?
         title: How to work out if your goods are classed as 'originating' in %{originating_country}

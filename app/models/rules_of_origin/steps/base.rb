@@ -1,8 +1,14 @@
 module RulesOfOrigin
   module Steps
     class Base < ::WizardSteps::Step
+      delegate :rules_of_origin_schemes, to: :@wizard
+
+      def service
+        @store['service']
+      end
+
       def service_country_name
-        I18n.t "title.region_name.#{@store['service']}"
+        I18n.t "title.region_name.#{service}"
       end
 
       def trade_country_name
@@ -10,10 +16,8 @@ module RulesOfOrigin
                                                 .description
       end
 
-      def rules_of_origin_schemes
-        @rules_of_origin_schemes =
-          RulesOfOrigin::Scheme.all(@store['commodity_code'],
-                                    @store['country_code'])
+      def commodity_code
+        @store['commodity_code']
       end
 
       def chosen_scheme
