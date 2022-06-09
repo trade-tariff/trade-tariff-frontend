@@ -8,6 +8,6 @@ RSpec.describe 'rules_of_origin/steps/_import_only', type: :view do
   it { is_expected.to have_css 'p', text: /Japan .* unilateral/m }
   it { is_expected.to have_link 'Generalised System of Preferences (GSP)' }
 
-  xit { is_expected.to have_css 'p', text: /export goods to Japan/ }
-  xit { is_expected.to have_css 'p a[href]', text: /Find out about the product-specific rules/ }
+  it { is_expected.to have_css 'p', text: /export goods to Japan/ }
+  it { is_expected.to have_css 'p a[href]', text: /Find out about the product-specific rules/ }
 end

@@ -254,6 +254,16 @@ en:
         import_instructions: |
           Click on the 'Continue' button to determine if the rules of origin
           apply to your import from %{trade_country_name}.
+        exporting_to: Exporting goods to %{trade_country_name}
+        export_information: |
+          If you would like to export goods to %{trade_country_name}, then MFN duties will apply.
+
+          For Most-Favoured Nation (MFN) duties, anti-dumping, anti-subsidies or
+          safeguard measures, origin marking, non-preferential rules of origin
+          apply.
+        export_info_link:
+          Find out about the product-specific rules, to determine the origin of
+          imports outside of a preferential agreement.
       originating:
         caption: Are your goods originating?
         title: How to work out if your goods are classed as 'originating' in %{originating_country}
