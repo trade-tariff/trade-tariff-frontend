@@ -12,7 +12,6 @@ FactoryBot.define do
     commodity_code { '6004100091' }
 
     trait :with_chosen_scheme do
-      available_scheme_codes { schemes.map(&:scheme_code) }
       scheme_code { schemes[chosen_scheme - 1].scheme_code }
     end
 

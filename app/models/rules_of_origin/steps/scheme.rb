@@ -6,11 +6,11 @@ module RulesOfOrigin
       validates :scheme_code, inclusion: { in: :available_scheme_codes }
 
       def available_scheme_codes
-        @store['available_scheme_codes'] ||= rules_of_origin_schemes.map(&:scheme_code)
+        rules_of_origin_schemes.map(&:scheme_code)
       end
 
       def skipped?
-        available_scheme_codes.one?
+        rules_of_origin_schemes.one?
       end
     end
   end
