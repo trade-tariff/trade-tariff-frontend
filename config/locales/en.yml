@@ -236,8 +236,19 @@ en:
       common:
         next_step: Next step
         continue: Continue
+
+      sections:
+        details: Details of your trade
+        originating: Are your goods 'originating'?
+
       show:
         meta_title: "Rules of Origin: %{step}"
+
+      sidebar:
+        steps:
+          import_export: Are you importing or exporting?
+          originating: How to work out if your goods are classed as 'originating'
+
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
         title: |
@@ -264,6 +275,7 @@ en:
         export_info_link:
           Find out about the product-specific rules, to determine the origin of
           imports outside of a preferential agreement.
+
       originating:
         caption: Are your goods originating?
         title: How to work out if your goods are classed as 'originating' in %{originating_country}

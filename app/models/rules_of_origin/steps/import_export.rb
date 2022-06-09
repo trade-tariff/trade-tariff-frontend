@@ -3,6 +3,8 @@ module RulesOfOrigin
     class ImportExport < Base
       OPTIONS = %w[import export].freeze
 
+      self.section = 'details'
+
       attribute :import_or_export
 
       validates_each :import_or_export do |record, attr, value|

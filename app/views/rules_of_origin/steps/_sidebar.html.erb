@@ -1,0 +1,11 @@
+Current step is <%= current_step.key %>
+
+<% wizard.steps.select(&:section).group_by(&:section).each do |section, steps| %>
+  <h3><%= t "rules_of_origin.steps.sections.#{section}" %></h3>
+
+  <ul>
+    <% steps.each do |step| %>
+    <li class="<%= 'govuk-heading-s' if step.key == current_step.key %>"><%= t ".steps.#{step.key}" %></li>
+    <% end %>
+  </ul>
+<% end %>
