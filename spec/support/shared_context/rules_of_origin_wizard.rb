@@ -24,15 +24,14 @@ end
 shared_context 'with rules of origin form step' do |step, *traits|
   subject { render_page && rendered }
 
+  before { allow(view).to receive(:step_path).and_return '/' }
+
   include_context 'with rules of origin store', *traits
-  include_context 'with govuk form builder'
 
   let(:wizard) { RulesOfOrigin::Wizard.new wizardstore, step }
   let(:current_step) { wizard.find_current_step }
 
   let :render_page do
-    view.form_for current_step, url: '/' do |form|
-      render "rules_of_origin/steps/#{current_step.key}", form:, wizard:
-    end
+    render "rules_of_origin/steps/#{current_step.key}", current_step:, wizard:
   end
 end

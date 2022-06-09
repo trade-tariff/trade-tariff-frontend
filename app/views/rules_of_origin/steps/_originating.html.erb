@@ -1,23 +1,25 @@
-<span class="govuk-caption-xl">
-  <%= t '.caption' %>
-</span>
+<%= rules_of_origin_form_for(current_step) do |form| %>
+  <span class="govuk-caption-xl">
+    <%= t '.caption' %>
+  </span>
 
-<h1 class="govuk-heading-l">
-  <%= t '.title', originating_country: form.object.originating_country %>
-</h1>
+  <h1 class="govuk-heading-l">
+    <%= t '.title', originating_country: form.object.originating_country %>
+  </h1>
 
-<p class="govuk-body-l">
-  <%= t '.lead_para', originating_country: form.object.originating_country,
-                      scheme_title: form.object.scheme_title %>
-</p>
+  <p class="govuk-body-l">
+    <%= t '.lead_para', originating_country: form.object.originating_country,
+                        scheme_title: form.object.scheme_title %>
+  </p>
 
-<div class="tariff-markdown">
-  <%= govspeak t '.conditions_md', originating_country: form.object.originating_country,
-                                   scheme_title: form.object.scheme_title %>
+  <div class="tariff-markdown">
+    <%= govspeak t '.conditions_md', originating_country: form.object.originating_country,
+                                     scheme_title: form.object.scheme_title %>
 
-  <h3 class="govuk-heading-s">
-    <%= t 'rules_of_origin.steps.common.next_step' %>
-  </h3>
+    <h3 class="govuk-heading-s">
+      <%= t 'rules_of_origin.steps.common.next_step' %>
+    </h3>
 
-  <%= govspeak t '.next_step_md', scheme_title: form.object.scheme_title %>
-</div>
+    <%= govspeak t '.next_step_md', scheme_title: form.object.scheme_title %>
+  </div>
+<% end %>

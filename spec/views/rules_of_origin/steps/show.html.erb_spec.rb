@@ -4,7 +4,6 @@ RSpec.describe 'rules_of_origin/steps/show', type: :view do
   subject { render && rendered }
 
   include_context 'with rules of origin store'
-  include_context 'with govuk form builder'
 
   before do
     allow(view).to receive(:wizard).and_return wizard

@@ -235,9 +235,9 @@ en:
     steps:
       common:
         next_step: Next step
+        continue: Continue
       show:
         meta_title: "Rules of Origin: %{step}"
-        continue: Continue
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
         title: |
