@@ -244,7 +244,8 @@ en:
       show:
         meta_title: "Rules of Origin: %{step}"
 
-      sidebar:
+      sidebar_section:
+        step_label: Step
         steps:
           import_export: Are you importing or exporting?
           originating: How to work out if your goods are classed as 'originating'

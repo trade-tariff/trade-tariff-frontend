@@ -1,11 +1,13 @@
-Current step is <%= current_step.key %>
-
-<% wizard.steps.select(&:section).group_by(&:section).each do |section, steps| %>
-  <h3><%= t "rules_of_origin.steps.sections.#{section}" %></h3>
-
-  <ul>
-    <% steps.each do |step| %>
-    <li class="<%= 'govuk-heading-s' if step.key == current_step.key %>"><%= t ".steps.#{step.key}" %></li>
-    <% end %>
-  </ul>
-<% end %>
+<div id="step-by-step-navigation"
+     class="app-step-nav"
+     data-controller="step-by-step-nav"
+     data-show-text="Show"
+     data-hide-text="Hide"
+     data-show-all-text="Show all"
+     data-hide-all-text="Hide all">
+  <ol class="app-step-nav__steps">
+    <%= render partial: 'sidebar_section',
+               collection: wizard.steps.select(&:section).group_by(&:section),
+               current_step: current_step %>
+  </ol>
+</div>
