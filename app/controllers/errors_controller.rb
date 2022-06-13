@@ -1,5 +1,10 @@
 class ErrorsController < ApplicationController
-  before_action :disable_last_updated_footnote
+  skip_before_action :set_last_updated
+  skip_before_action :set_path_info
+  skip_before_action :set_search
+  skip_before_action :bots_no_index_if_historical
+
+  before_action :disable_search_form
 
   def not_found
     render status: :not_found
