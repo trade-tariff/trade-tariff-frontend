@@ -1,8 +1,8 @@
 <% active_section = sidebar_section.second.map(&:key).include?(current_step.key) %>
 
 <li id="<%= sidebar_section.first %>"
-    class="app-step-nav__step js-step <%= 'app-step-nav__step--active' if active_section %>"
-    <%= 'data-show' if active_section %>>
+    <%= 'data-show' if active_section %>
+    class="app-step-nav__step js-step <%= 'app-step-nav__step--active' if active_section %>">
   <div class="app-step-nav__header js-toggle-panel" data-position="<%= sidebar_section_counter + 1 %>">
     <h3 class="app-step-nav__title">
       <span class="app-step-nav__circle app-step-nav__circle--number">

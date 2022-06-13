@@ -7,7 +7,7 @@
      data-hide-all-text="Hide all">
   <ol class="app-step-nav__steps">
     <%= render partial: 'sidebar_section',
-               collection: wizard.steps.select(&:section).group_by(&:section),
-               current_step: current_step %>
+               collection: wizard.class.grouped_steps,
+               locals: { current_step: current_step } %>
   </ol>
 </div>
