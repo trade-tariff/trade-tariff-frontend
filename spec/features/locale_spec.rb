@@ -1,28 +1,30 @@
 require 'spec_helper'
 
-RSpec.describe 'Search banner' do
+RSpec.describe 'Page banner' do
   subject { page }
 
+  include_context 'with latest news stubbed'
+
   context 'without locale prefix' do
-    before { visit '/find_commodities' }
+    before { visit '/find_commodity' }
 
     it { is_expected.to have_css 'header.govuk-header a', text: 'UK Integrated Online Tariff' }
   end
 
   context 'with locale prefix' do
-    before { visit '/cy/find_commodities' }
+    before { visit '/cy/find_commodity' }
 
     it { is_expected.to have_css 'header.govuk-header a', text: 'UK Integrated Online Tariff in Welsh' }
   end
 
   context 'with service prefix' do
-    before { visit '/xi/find_commodities' }
+    before { visit '/xi/find_commodity' }
 
     it { is_expected.to have_css 'header.govuk-header a', text: 'Northern Ireland Online Tariff' }
   end
 
   context 'with locale and service prefix' do
-    before { visit '/xi/cy/find_commodities' }
+    before { visit '/xi/cy/find_commodity' }
 
     it { is_expected.to have_css 'header.govuk-header a', text: 'Northern Ireland Online Tariff in Welsh' }
   end
