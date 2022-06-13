@@ -24,7 +24,8 @@ RSpec.describe RulesOfOrigin::Steps::Originating do
     it { is_expected.to eql schemes.first.title }
 
     context 'with multiple schemes' do
-      include_context 'with rules of origin store', :importing, scheme_count: 2, chosen_scheme: 2
+      include_context 'with rules of origin store', :importing, scheme_count: 2,
+                                                                chosen_scheme: 2
 
       it { is_expected.to eql schemes.second.title }
     end
