@@ -26,7 +26,7 @@
     "mark.js": "^8.11.1",
     "select2": "^4.0.10",
     "stimulus": "^3.0.1",
-    "webpack-cli": "^4.9.2"
+    "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
     "babel-jest": "^28.1.0",
