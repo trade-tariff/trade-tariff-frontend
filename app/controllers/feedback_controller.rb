@@ -13,7 +13,7 @@ class FeedbackController < ApplicationController
     if @feedback.valid?
       FrontendMailer.new_feedback(@feedback).deliver_now
 
-      redirect_to :feedback_thanks
+      redirect_to feedback_thanks_path
     else
       render :new
     end
