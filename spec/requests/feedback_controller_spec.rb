@@ -12,7 +12,12 @@ RSpec.describe FeedbackController, type: :request do
   describe 'POST #create' do
     before { post feedbacks_path, params: }
 
-    let(:params) { { feedback: { message: 'I love falafels.' } } }
+    let(:params) do
+      {
+        feedback: { message: 'I love falafels.' },
+        authenticity_token: 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw',
+      }
+    end
 
     it { is_expected.to redirect_to(feedback_thanks_url) }
 

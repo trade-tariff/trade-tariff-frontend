@@ -9,9 +9,11 @@ class FeedbackController < ApplicationController
 
   def create
     @feedback = Feedback.new(feedback_params)
+    @feedback.authenticity_token = params[:authenticity_token]
 
     if @feedback.valid?
       FrontendMailer.new_feedback(@feedback).deliver_now
+      @feedback.record_delivery!
 
       redirect_to feedback_thanks_path
     else
