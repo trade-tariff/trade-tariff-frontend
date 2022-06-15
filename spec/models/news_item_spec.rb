@@ -3,7 +3,10 @@ require 'spec_helper'
 RSpec.describe NewsItem do
   # This is stubbed for _every_ spec because its in the header menu
   # Reverting it to real implementation for this spec
-  before { allow(described_class).to receive(:any_updates?).and_call_original }
+  before do
+    allow(described_class).to receive(:any_updates?).and_call_original
+    allow(described_class).to receive(:latest_banner).and_call_original
+  end
 
   it { is_expected.to respond_to :id }
   it { is_expected.to respond_to :title }
@@ -65,6 +68,15 @@ RSpec.describe NewsItem do
       end
 
       it { is_expected.to have_attributes title: /News item \d+/ }
+    end
+
+    context 'with failed connection to backend' do
+      before do
+        stub_api_request('/news_items?service=uk&target=banner&per_page=1', backend: 'uk')
+          .to_timeout
+      end
+
+      it { is_expected.to be_nil }
     end
   end
 
@@ -164,6 +176,15 @@ RSpec.describe NewsItem do
 
         it { is_expected.to be false }
       end
+    end
+
+    context 'with failed connection to backend' do
+      before do
+        stub_api_request('/news_items?service=uk&target=updates', backend: 'uk')
+          .to_timeout
+      end
+
+      it { is_expected.to be false }
     end
   end
 

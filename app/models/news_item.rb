@@ -39,6 +39,10 @@ class NewsItem
         target: 'banner',
         per_page: 1,
       ).first
+    rescue Faraday::Error
+      # This method is used by all pages in the main template so backend
+      # failures should not prevent rendering of the frontend
+      nil
     end
 
     def updates_page
@@ -59,6 +63,10 @@ class NewsItem
     def any_updates?
       Rails.cache.fetch(updates_cache_key, expires_in: CACHE_LIFETIME) do
         updates_page.any?
+      rescue Faraday::Error
+        # This method is used by all pages in the main template so backend
+        # failures should not prevent rendering of the frontend
+        false
       end
     end
 
