@@ -60,5 +60,9 @@ module TradeTariffFrontend
 
     # Prevent invalid queries from causing an error, e.g., `/api/v2/search_references.json?query[letter]=%`
     config.middleware.use TradeTariffFrontend::FilterBadURLEncoding
+    config.middleware.use TradeTariffFrontend::BasicAuth do |username, password|
+      username == TradeTariffFrontend.basic_username &&
+        password == TradeTariffFrontend.basic_password
+    end
   end
 end
