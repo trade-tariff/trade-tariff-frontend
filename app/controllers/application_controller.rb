@@ -161,8 +161,13 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = params[:locale].presence || I18n.default_locale
+    I18n.locale = locale_is_valid? ? params[:locale].to_sym : I18n.default_locale
     yield
     I18n.locale = I18n.default_locale
+  end
+
+  def locale_is_valid?
+    params[:locale].presence &&
+      I18n.available_locales.include?(params[:locale]&.to_sym)
   end
 end
