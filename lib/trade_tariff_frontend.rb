@@ -1,9 +1,10 @@
 require 'paas_config'
 
 module TradeTariffFrontend
+  autoload :BasicAuth,      'trade_tariff_frontend/basic_auth'
   autoload :Presenter,      'trade_tariff_frontend/presenter'
-  autoload :ViewContext,    'trade_tariff_frontend/view_context'
   autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
+  autoload :ViewContext,    'trade_tariff_frontend/view_context'
 
   module_function
 
@@ -114,6 +115,18 @@ module TradeTariffFrontend
 
   def roo_wizard?
     ENV['ROO_WIZARD'] == 'true'
+  end
+
+  def basic_auth?
+    ENV['BASIC_AUTH'].to_s == 'true'
+  end
+
+  def basic_username
+    ENV['BASIC_USERNAME'].to_s
+  end
+
+  def basic_password
+    ENV['BASIC_PASSWORD'].to_s
   end
 
   class FilterBadURLEncoding
