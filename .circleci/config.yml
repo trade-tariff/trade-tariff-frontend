@@ -261,21 +261,19 @@ commands:
     parameters:
       url:
         type: string
+      space:
+        type: string
+        default: DEVELOPMENT
     steps:
       - run:
           name: "Checkout tests repo"
           command: git clone --depth=1 "https://github.com/trade-tariff/trade-tariff-testing/"
-      - run:
-          name: "Check environment being tested"
-          environment:
-            CYPRESS_BASE_URL: '<< parameters.url >>'
-          command: 'echo "Testing: ${CYPRESS_BASE_URL}"'
       - restore_cache:
           keys:
             - v2-smoketest-deps-{{ checksum "trade-tariff-testing/yarn.lock" }}
       - run:
           name: "Install NPM packages"
-          command: 'cd trade-tariff-testing && yarn install'
+          command: "cd trade-tariff-testing && yarn install"
       - save_cache:
           key: v2-smoketest-deps-{{ checksum "trade-tariff-testing/yarn.lock" }}
           paths:
@@ -284,8 +282,12 @@ commands:
       - run:
           name: "Cypress Smoke tests"
           environment:
-            CYPRESS_BASE_URL: '<< parameters.url >>'
-          command: 'cd trade-tariff-testing && yarn run cypress run --spec "/*/**/HOTT-Shared/devSmokeTestCI.spec.js"'
+            CYPRESS_BASE_URL: "<< parameters.url >>"
+            CYPRESS_SPACE: "<< parameters.space >>"
+          command: |
+            cd trade-tariff-testing
+
+            yarn run cypress run --spec "/*/**/HOTT-Shared/devSmokeTestCI.spec.js"
 
   sentry-release:
     steps:
@@ -307,14 +309,14 @@ commands:
 jobs:
   checks:
     docker:
-      - image: 'cimg/ruby:3.1.2-node'
+      - image: "cimg/ruby:3.1.2-node"
     resource_class: small
     steps:
       - checkout
       - ruby/install-deps
-     #- ruby/rubocop-check:
-     #   format: progress
-     #   label: Inspecting with Rubocop
+      #- ruby/rubocop-check:
+      #   format: progress
+      #   label: Inspecting with Rubocop
       - run:
           name: Rubocop changed files
           when: always
@@ -322,7 +324,7 @@ jobs:
       - run:
           name: Inspecting with Brakeman
           when: always
-          command: 'bundle exec brakeman -o /dev/stdout -o test-results/brakeman/brakeman.junit -o brakeman.html --no-progress --separate-models'
+          command: "bundle exec brakeman -o /dev/stdout -o test-results/brakeman/brakeman.junit -o brakeman.html --no-progress --separate-models"
       - store_test_results:
           path: test-results/brakeman/
       - store_artifacts:
@@ -362,17 +364,19 @@ jobs:
 
   smoketest_dev:
     docker:
-      - image: 'cypress/base:16.5.0'
+      - image: "cypress/base:16.5.0"
     steps:
       - smoketest:
           url: https://dev.trade-tariff.service.gov.uk
+          space: DEVELOPMENT
 
   smoketest_staging:
     docker:
-      - image: 'cypress/base:16.5.0'
+      - image: "cypress/base:16.5.0"
     steps:
       - smoketest:
           url: https://staging.trade-tariff.service.gov.uk
+          space: STAGING
 
   jest-tests:
     docker:
@@ -418,7 +422,7 @@ jobs:
       SENTRY_ENVIRONMENT: "development"
     steps:
       - queue/until_front_of_line:
-          time: '10'
+          time: "10"
           consider-branch: false
           dont-quit: true
       - cf_deploy_docker:
@@ -435,7 +439,7 @@ jobs:
       SENTRY_ENVIRONMENT: "development"
     steps:
       - queue/until_front_of_line:
-          time: '10'
+          time: "10"
           consider-branch: true
           dont-quit: true
       - cf_deploy_review
@@ -455,7 +459,7 @@ jobs:
       SENTRY_ENVIRONMENT: "staging"
     steps:
       - queue/until_front_of_line:
-          time: '10'
+          time: "10"
           dont-quit: true
       - cf_deploy_docker:
           docker_image_tag: $CIRCLE_SHA1
@@ -631,5 +635,4 @@ workflows:
               ignore: /.*/
           requires:
             - hold_deploy_production
-
 # TODO: Discuss production deployment strategy.
