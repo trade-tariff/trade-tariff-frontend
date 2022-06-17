@@ -1,4 +1,4 @@
-shared_context 'with rules of origin store' do |state|
+shared_context 'with rules of origin store' do |*traits, scheme_count: 1, **store_attributes|
   before do
     allow(GeographicalArea).to receive(:find).with(wizardstore['country_code'])
                                              .and_return(country)
@@ -8,26 +8,30 @@ shared_context 'with rules of origin store' do |state|
                    .and_return(schemes)
   end
 
+  let(:country) { build :geographical_area, :japan }
+
   let(:wizardstore) do
-    build :rules_of_origin_wizard_store, state, schemes:, country_code: country.id
+    build :rules_of_origin_wizard_store, *traits, schemes:,
+                                                  country_code: country.id,
+                                                  **store_attributes
   end
 
-  let(:country) { build :geographical_area, :japan }
-  let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: [country.id] }
+  let(:schemes) do
+    build_list :rules_of_origin_scheme, scheme_count, countries: [country.id]
+  end
 end
 
-shared_context 'with rules of origin form step' do |step, state|
+shared_context 'with rules of origin form step' do |step, *traits|
   subject { render_page && rendered }
 
-  include_context 'with rules of origin store', state
-  include_context 'with govuk form builder'
+  before { allow(view).to receive(:step_path).and_return '/' }
+
+  include_context 'with rules of origin store', *traits
 
   let(:wizard) { RulesOfOrigin::Wizard.new wizardstore, step }
   let(:current_step) { wizard.find_current_step }
 
   let :render_page do
-    view.form_for current_step, url: '/' do |form|
-      render "rules_of_origin/steps/#{current_step.key}", form:, wizard:
-    end
+    render "rules_of_origin/steps/#{current_step.key}", current_step:, wizard:
   end
 end

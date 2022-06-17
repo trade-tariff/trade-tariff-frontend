@@ -1,0 +1,35 @@
+<%= rules_of_origin_form_for(current_step) do |form| %>
+  <span class="govuk-caption-xl">
+    <%= t '.caption', commodity_code: form.object.commodity_code,
+                      trade_country_name: form.object.trade_country_name %>
+  </span>
+
+  <h1 class="govuk-heading-l">
+    <%= t '.title', service_country_name: t("service.country_name.#{form.object.service}") %>
+  </h1>
+
+  <p class="govuk-body-l">
+    <%= t '.lead_para_html', trade_country_name: form.object.trade_country_name %>
+  </p>
+
+  <h3 class="govuk-heading-s">
+    <%= t '.importing_from', trade_country_name: form.object.trade_country_name %>
+  </h3>
+
+  <p>
+    <%= t '.import_instructions', trade_country_name: form.object.trade_country_name %>
+  </p>
+<% end %>
+
+<h3 class="govuk-heading-s">
+  <%= t '.exporting_to', trade_country_name: current_step.trade_country_name %>
+</h3>
+
+<div class="tariff-markdown">
+  <%= simple_format t '.export_information', trade_country_name: current_step.trade_country_name %>
+</div>
+
+<p>
+  <%= link_to t('.export_info_link'),
+              "https://www.gov.uk/government/publications/reference-document-for-the-customs-origin-of-chargeable-goods-eu-exit-regulations-2020" %>
+</p>

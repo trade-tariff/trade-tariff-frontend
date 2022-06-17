@@ -1,10 +1,3 @@
-shared_context 'with govuk form builder' do
-  before do
-    allow(view).to receive(:default_form_builder)
-                   .and_return GOVUKDesignSystemFormBuilder::FormBuilder
-  end
-end
-
 shared_context 'with wizard store' do
   let(:backingstore) { {} }
   let(:wizardstore) { ::WizardSteps::Store.new backingstore }

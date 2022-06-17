@@ -5,13 +5,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= form_for current_step, url: step_path do |form| %>
-        <%= form.govuk_error_summary %>
-
-        <%= render current_step.key, form: form, wizard: wizard %>
-
-        <%= form.govuk_submit t('.continue') %>
-      <% end %>
+      <%= render current_step.key, current_step: current_step, wizard: wizard %>
     </div>
 
     <div class="govuk-grid-column-one-third">

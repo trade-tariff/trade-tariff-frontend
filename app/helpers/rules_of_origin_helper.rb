@@ -20,11 +20,11 @@ module RulesOfOriginHelper
              scheme: schemes.first
     elsif schemes.first.unilateral
       render 'rules_of_origin/intros/unilateral_trade_bloc',
-             country_name: country_name,
+             country_name:,
              scheme: schemes.first
     else
       render 'rules_of_origin/intros/trade_bloc',
-             country_name: country_name,
+             country_name:,
              scheme: schemes.first
     end
   end
@@ -51,5 +51,17 @@ module RulesOfOriginHelper
     safe_content.gsub(ROO_NON_BREAKING_HEADING) { |match|
       tag.span match, class: 'rules-of-origin__non-breaking-heading'
     }.html_safe
+  end
+
+  def rules_of_origin_form_for(current_step, *args, **kwargs, &block)
+    form_for(current_step, *args, builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+                                  url: step_path,
+                                  **kwargs) do |form|
+      safe_join [
+        form.govuk_error_summary,
+        capture(form, &block),
+        form.govuk_submit(t('rules_of_origin.steps.common.continue')),
+      ], "\n"
+    end
   end
 end

@@ -128,4 +128,35 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.to eql expected }
     end
   end
+
+  describe '#rules_of_origin_form_for' do
+    subject do
+      helper.rules_of_origin_form_for(model_instance) do |f|
+        f.govuk_text_field :name
+      end
+    end
+
+    before { allow(helper).to receive(:step_path).and_return '/' }
+
+    let :stub_model do
+      Class.new do
+        include ActiveModel::Model
+
+        attr_accessor :name
+
+        validates :name, presence: true
+
+        def self.name
+          'StubModel'
+        end
+      end
+    end
+
+    let(:model_instance) { stub_model.new.tap(&:validate) }
+
+    it { is_expected.to have_css 'form input[name="stub_model[name]"]' }
+    it { is_expected.to have_css '.govuk-error-summary' }
+    it { is_expected.to have_css '.govuk-error-message' }
+    it { is_expected.to have_css 'button[type="submit"]' }
+  end
 end

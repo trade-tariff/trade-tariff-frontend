@@ -20,6 +20,10 @@ module RulesOfOrigin
       def options
         OPTIONS
       end
+
+      def skipped?
+        !!chosen_scheme.unilateral
+      end
     end
   end
 end
