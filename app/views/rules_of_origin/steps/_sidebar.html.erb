@@ -1,0 +1,13 @@
+<div id="step-by-step-navigation"
+     class="app-step-nav"
+     data-controller="step-by-step-nav"
+     data-show-text="Show"
+     data-hide-text="Hide"
+     data-show-all-text="Show all"
+     data-hide-all-text="Hide all">
+  <ol class="app-step-nav__steps">
+    <%= render partial: 'sidebar_section',
+               collection: wizard.class.grouped_steps,
+               locals: { current_step: current_step } %>
+  </ol>
+</div>

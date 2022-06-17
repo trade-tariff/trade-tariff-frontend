@@ -3,6 +3,10 @@ module RulesOfOrigin
     class Base < ::WizardSteps::Step
       delegate :rules_of_origin_schemes, to: :@wizard
 
+      class << self
+        attr_accessor :section
+      end
+
       def service
         @store['service']
       end

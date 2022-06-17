@@ -1,6 +1,8 @@
 module RulesOfOrigin
   module Steps
     class Originating < Base
+      self.section = 'originating'
+
       def originating_country
         if @store['import_or_export'] == 'import'
           trade_country_name
