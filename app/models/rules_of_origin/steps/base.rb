@@ -2,6 +2,7 @@ module RulesOfOrigin
   module Steps
     class Base < ::WizardSteps::Step
       delegate :rules_of_origin_schemes, to: :@wizard
+      delegate :section, to: :class
 
       class << self
         attr_accessor :section

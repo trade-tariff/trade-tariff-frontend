@@ -9,7 +9,7 @@
     </div>
 
     <div class="govuk-grid-column-one-third">
-      <%= render 'sidebar', current_step: current_step, wizard: wizard %>
+      <%= render 'sidebar', current_step: current_step, wizard: wizard if current_step.section %>
     </div>
   </div>
 </section>
