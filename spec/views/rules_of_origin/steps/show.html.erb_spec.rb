@@ -18,10 +18,17 @@ RSpec.describe 'rules_of_origin/steps/show', type: :view do
   it { is_expected.to have_css 'section', count: 1 }
   it { is_expected.to have_css '.govuk-back-link' }
   it { is_expected.to have_css 'button', text: 'Continue' }
+  it { is_expected.to have_css '#step-by-step-navigation' }
 
   context 'with invalid submission' do
     before { current_step.validate }
 
     it { is_expected.to have_css '.govuk-error-summary' }
+  end
+
+  context 'with step not shown in sidebar' do
+    let(:wizard) { RulesOfOrigin::Wizard.new wizardstore, 'import_only' }
+
+    it { is_expected.not_to have_css '#step-by-step-navigation' }
   end
 end
