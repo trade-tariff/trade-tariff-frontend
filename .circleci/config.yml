@@ -505,6 +505,7 @@ workflows:
             branches:
               ignore:
                 - /^dependabot\/.*/
+                - /^hotfix\/.+/
 
       - checks:
           context: trade-tariff
@@ -531,6 +532,7 @@ workflows:
             branches:
               ignore:
                 - main
+                - /^hotfix\/.+/
                 - /^dependabot\/.*/
 
       - deploy_dev:
@@ -543,6 +545,7 @@ workflows:
             branches:
               ignore:
                 - /^dependabot\/.*/
+                - /^hotfix\/.+/
 
       - deploy_review:
           context: trade-tariff
@@ -554,6 +557,7 @@ workflows:
             branches:
               ignore:
                 - /^dependabot\/.*/
+                - /^hotfix\/.+/
 
       - smoketest_dev:
           name: smoketest_dev
@@ -562,6 +566,7 @@ workflows:
             branches:
               ignore:
                 - main
+                - /^hotfix\/.+/
                 - /^dependabot\/.*/
           requires:
             - deploy_dev
@@ -573,6 +578,7 @@ workflows:
             branches:
               only:
                 - main
+                - /^hotfix\/.+/
 
       - deploy_main_to_staging:
           context: trade-tariff
@@ -580,6 +586,7 @@ workflows:
             branches:
               only:
                 - main
+                - /^hotfix\/.+/
           requires:
             - build_live
 
@@ -588,6 +595,7 @@ workflows:
             branches:
               only:
                 - main
+                - /^hotfix\/.+/
           requires:
             - deploy_main_to_staging
 
@@ -597,6 +605,7 @@ workflows:
             branches:
               only:
                 - main
+                - /^hotfix\/.+/
           requires:
             - deploy_main_to_staging
 
@@ -607,6 +616,7 @@ workflows:
             branches:
               only:
                 - main
+                - /^hotfix\/.+/
           requires:
             - hold_create_release
 
