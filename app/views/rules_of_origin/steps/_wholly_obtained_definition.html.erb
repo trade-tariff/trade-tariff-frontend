@@ -1,0 +1,28 @@
+<%= rules_of_origin_form_for(current_step) do |form| %>
+  <span class="govuk-caption-xl">
+    <%= t '.caption' %>
+  </span>
+
+  <h1 class="govuk-heading-l">
+    <%= t '.title', scheme_title: form.object.scheme_title %>
+  </h1>
+
+  <p class="govuk-body-l">
+    <%= t '.lead_para' %>
+  </p>
+
+  <div class="tariff-markdown">
+    <%= govspeak 'TODO: external md file' %>
+  </div>
+
+  <%= render 'shared/details', summary: t('.vessel_definition'),
+                               content: 'TODO: markdown file' %>
+
+  <h3 class="govuk-heading-s">
+    <%= t 'rules_of_origin.steps.common.next_step' %>
+  </h3>
+
+  <div class="tariff-markdown">
+    <%= govspeak t '.next_step_md', scheme_title: form.object.scheme_title %>
+  </div>
+<% end %>

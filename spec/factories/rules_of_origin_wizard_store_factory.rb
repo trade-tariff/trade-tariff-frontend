@@ -24,5 +24,10 @@ FactoryBot.define do
       with_chosen_scheme
       import_or_export { 'export' }
     end
+
+    trait :originating do
+      with_chosen_scheme
+      importing
+    end
   end
 end
