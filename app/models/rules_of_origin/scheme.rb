@@ -11,6 +11,7 @@ class RulesOfOrigin::Scheme
   has_many :rules, class_name: 'RulesOfOrigin::Rule'
   has_many :links, class_name: 'RulesOfOrigin::Link'
   has_many :proofs, class_name: 'RulesOfOrigin::Proof'
+  has_many :articles, class_name: 'RulesOfOrigin::Article'
 
   class << self
     def all(heading_code, country_code, opts = {})
@@ -19,5 +20,9 @@ class RulesOfOrigin::Scheme
         country_code:,
       )
     end
+  end
+
+  def article(article)
+    articles.find { |a| a.article == article }
   end
 end

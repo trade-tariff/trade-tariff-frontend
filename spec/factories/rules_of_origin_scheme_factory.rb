@@ -3,6 +3,7 @@ FactoryBot.define do
     transient do
       rule_count { 3 }
       link_count { 2 }
+      article_count { 1 }
     end
 
     sequence(:scheme_code) { |n| "SC#{n}" }
@@ -14,5 +15,6 @@ FactoryBot.define do
     introductory_notes { "## Introductory notes\n\nDetails of introductory notes" }
     rules { attributes_for_list :rules_of_origin_rule, rule_count }
     links { attributes_for_list :rules_of_origin_link, link_count }
+    articles { attributes_for_list :rules_of_origin_article, article_count }
   end
 end

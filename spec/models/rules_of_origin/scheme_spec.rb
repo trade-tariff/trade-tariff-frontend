@@ -13,6 +13,7 @@ RSpec.describe RulesOfOrigin::Scheme do
   it { is_expected.to respond_to :introductory_notes }
   it { is_expected.to respond_to :rules }
   it { is_expected.to respond_to :links }
+  it { is_expected.to respond_to :articles }
 
   describe '.all' do
     let(:json_response) { response_data.to_json }
@@ -57,6 +58,14 @@ RSpec.describe RulesOfOrigin::Scheme do
                   },
                 ],
               },
+              articles: {
+                data: [
+                  {
+                    id: 'EU/test-article',
+                    type: 'rules_of_origin_article',
+                  },
+                ],
+              },
             },
           },
         ],
@@ -86,6 +95,14 @@ RSpec.describe RulesOfOrigin::Scheme do
               summary: 'proof',
               url: 'https://www.gov.uk/',
               subtext: 'subtext',
+            },
+          },
+          {
+            id: 'EU/test-article',
+            type: 'rules_of_origin_article',
+            attributes: {
+              article: 'test-article',
+              content: 'Hello',
             },
           },
         ],
@@ -246,6 +263,35 @@ RSpec.describe RulesOfOrigin::Scheme do
         it { is_expected.to have_attributes url: 'https://www.gov.uk/' }
         it { is_expected.to have_attributes subtext: 'subtext' }
       end
+    end
+
+    describe 'articles' do
+      include_context 'with mocked response'
+
+      it { expect(schemes.first.articles.length).to be 1 }
+
+      context 'with first article' do
+        subject { schemes.first.articles.first }
+
+        it { is_expected.to have_attributes article: 'test-article' }
+        it { is_expected.to have_attributes content: 'Hello' }
+      end
+    end
+  end
+
+  describe '#article' do
+    let(:scheme) { build(:rules_of_origin_scheme) }
+
+    context 'with matching article' do
+      subject { scheme.article scheme.articles.first.article }
+
+      it { is_expected.to have_attributes article: scheme.articles.first.article }
+    end
+
+    context 'with non matching article' do
+      subject { scheme.article 'unknown-missing' }
+
+      it { is_expected.to be_nil }
     end
   end
 end
