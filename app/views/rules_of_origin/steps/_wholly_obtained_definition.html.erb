@@ -12,7 +12,9 @@
   </p>
 
   <div class="tariff-markdown">
-    <%= govspeak form.object.wholly_obtained_text %>
+    <div class="lettered-list">
+      <%= govspeak form.object.wholly_obtained_text %>
+    </div>
 
     <%= render 'shared/details', summary: t('.vessel_definition'),
                                  content: govspeak(form.object.wholly_obtained_vessels_text) %>
