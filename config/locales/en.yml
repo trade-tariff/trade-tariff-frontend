@@ -278,6 +278,7 @@ en:
           import_export: Are you importing or exporting?
           originating: How to work out if your goods are classed as 'originating'
           wholly_obtained_definition: How 'wholly obtained' is defined
+          components_definition: What components do you need to take into account?
           wholly_obtained: Are your goods wholly obtained?
 
       import_only:
@@ -349,3 +350,42 @@ en:
           Click on the 'Continue' button to see which parts and processes
           should be included or disregarded in determining originating status
           for the %{scheme_title}.
+
+      components_definition:
+        caption: Are your goods originating?
+        title: What components do you need to take into account?
+        lead_para: |
+          In determining whether a product originates in a given country, you
+          should disregard the origin of neutral elements, meaning equipment and
+          materials used in the production, but not physically incorporated into
+          the final product, such as fuel, tools or machinery.
+        additional_info_md: |
+          Depending on the rules of the trade agreement, you may also discount:
+
+          - **packing materials and containers** for shipment used during transportation,
+          - **packaging materials used for retail sale** when classified with the product
+          - **accessories, spare parts, tools and information materials** if they are
+            invoiced and delivered with your product.
+        neutral_elements:
+          title: Neutral elements in the %{scheme_title}
+          example:
+            summary: Example of neutral elements
+            content_md: |
+              - A part is manufactured in a plant in country A.
+              - It is to be exported to country B under A-B FTA.
+              - The rule of origin for this part requires non-originating
+                materials not to exceed 40% of the final value of the part.
+              - Machines used to manufacture the part, spare parts used in the
+                maintenance of these machines and the fuel used to run these
+                machines are all originating in a non-FTA third country C.
+              - Similarly, the safety equipment and protective clothing used by
+                the factory workers comes from non-FTA countries.
+              - While calculating the value added rule of origin, the
+                non-originating machines, spare parts used to maintain them,
+                fuel, safety equipment and protective clothing are disregarded
+                or calculated as originating (depending on the agreement).
+        packaging: Packing materials in the %{scheme_title}
+        accessories: Accessories, spare parts and tools in the %{scheme_title}
+        next_step:
+          Click on the 'Continue' button to indicate if your goods are wholly
+          obtained, based on the rules of the %{scheme_title}.
