@@ -12,11 +12,11 @@
   </p>
 
   <div class="tariff-markdown">
-    <%= govspeak 'TODO: external md file' %>
-  </div>
+    <%= govspeak form.object.wholly_obtained_text %>
 
-  <%= render 'shared/details', summary: t('.vessel_definition'),
-                               content: 'TODO: markdown file' %>
+    <%= render 'shared/details', summary: t('.vessel_definition'),
+                                 content: govspeak(form.object.wholly_obtained_vessels_text) %>
+  </div>
 
   <h3 class="govuk-heading-s">
     <%= t 'rules_of_origin.steps.common.next_step' %>

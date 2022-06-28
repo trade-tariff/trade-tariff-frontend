@@ -17,8 +17,11 @@ shared_context 'with rules of origin store' do |*traits, scheme_count: 1, **stor
   end
 
   let(:schemes) do
-    build_list :rules_of_origin_scheme, scheme_count, countries: [country.id]
+    build_list :rules_of_origin_scheme, scheme_count, countries: [country.id],
+                                                      articles:
   end
+
+  let(:articles) { [] }
 end
 
 shared_context 'with rules of origin form step' do |step, *traits|
