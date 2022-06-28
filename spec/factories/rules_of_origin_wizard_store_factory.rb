@@ -29,5 +29,9 @@ FactoryBot.define do
       with_chosen_scheme
       importing
     end
+
+    trait :wholly_obtained_definition do
+      originating
+    end
   end
 end

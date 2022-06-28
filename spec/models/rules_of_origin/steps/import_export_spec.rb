@@ -6,28 +6,12 @@ RSpec.describe RulesOfOrigin::Steps::ImportExport do
 
   it { is_expected.to respond_to :import_or_export }
 
-  describe '#validation' do
-    context 'with import' do
-      let(:attributes) { { import_or_export: 'import' } }
-
-      it { is_expected.to be_valid }
-    end
-
-    context 'with export' do
-      let(:attributes) { { import_or_export: 'export' } }
-
-      it { is_expected.to be_valid }
-    end
-
-    context 'with something else' do
-      let(:attributes) { { import_or_export: 'random' } }
-
-      it { is_expected.not_to be_valid }
-    end
-
-    context 'when blank' do
-      it { is_expected.not_to be_valid }
-    end
+  describe 'validation' do
+    it { is_expected.to allow_value('import').for :import_or_export }
+    it { is_expected.to allow_value('export').for :import_or_export }
+    it { is_expected.not_to allow_value('random').for :import_or_export }
+    it { is_expected.not_to allow_value('').for :import_or_export }
+    it { is_expected.not_to allow_value(nil).for :import_or_export }
   end
 
   describe '#skipped?' do
