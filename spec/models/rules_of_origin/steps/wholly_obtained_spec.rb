@@ -5,6 +5,7 @@ RSpec.describe RulesOfOrigin::Steps::WhollyObtained do
   include_context 'with wizard step', RulesOfOrigin::Wizard
 
   it { is_expected.to respond_to :wholly_obtained }
+  it { is_expected.to have_attributes options: %w[yes no] }
 
   describe 'validation' do
     it { is_expected.to allow_value('yes').for :wholly_obtained }

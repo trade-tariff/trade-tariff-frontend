@@ -7,11 +7,20 @@ module RulesOfOrigin
 
       attribute :wholly_obtained
 
-      validates :wholly_obtained, presence: true,
-                                  inclusion: { in: OPTIONS }
+      validates_each :wholly_obtained do |record, attr, value|
+        unless value.in?(record.options)
+          record.errors.add \
+            attr,
+            I18n.t(
+              "#{i18n_scope}.errors.models.#{model_name.i18n_key}.attributes.#{attr}.inclusion",
+              service_country: record.service_country_name,
+              trade_country: record.trade_country_name,
+            )
+        end
+      end
 
-      def scheme_title
-        chosen_scheme.title
+      def options
+        OPTIONS
       end
     end
   end
