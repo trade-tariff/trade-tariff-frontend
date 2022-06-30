@@ -286,8 +286,7 @@ commands:
             CYPRESS_SPACE: "<< parameters.space >>"
           command: |
             cd trade-tariff-testing
-
-            yarn run cypress run --spec "/*/**/HOTT-Shared/devSmokeTestCI.spec.js"
+            yarn run dev-tariff-frontend-smoketests
 
   sentry-release:
     steps:
