@@ -239,6 +239,8 @@ en:
 
       sections:
         details: Details of your trade
+        details_info_html: You are importing commodity %{commodity_link} from
+                           %{trade_country}
         originating: Are your goods 'originating'?
 
       show:
