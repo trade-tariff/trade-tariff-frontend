@@ -1,0 +1,5 @@
+@import 'vendor/step-by-step-nav';
+
+ol.app-step-nav__steps li .app-step-nav__panel > p {
+  @extend .app-step-nav__paragraph ;
+}

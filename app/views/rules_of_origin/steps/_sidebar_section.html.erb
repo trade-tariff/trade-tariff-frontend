@@ -20,19 +20,13 @@
   </div>
 
   <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-check-youre-allowed-to-drive-1">
-    <% section_content = t("rules_of_origin.steps.sections.#{sidebar_section.first}_info_html",
-                           commodity_code: current_step.commodity_code,
-                           trade_country: current_step.trade_country_name,
-                           commodity_link: link_to(current_step.commodity_code,
-                                                   commodity_path(current_step.commodity_code,
-                                                                  country: current_step.trade_country_code)),
-                           default: nil) %>
-
-    <% if section_content %>
-    <p class="app-step-nav__paragraph">
-      <%= section_content %>
-    </p>
-    <% end %>
+    <%= t("rules_of_origin.steps.sections.#{sidebar_section.first}_info_html",
+          commodity_code: current_step.commodity_code,
+          trade_country: current_step.trade_country_name,
+          commodity_link: link_to(current_step.commodity_code,
+                                  commodity_path(current_step.commodity_code,
+                                                 country: current_step.trade_country_code)),
+          default: nil) %>
 
     <ol class="app-step-nav__list " data-length="<%= sidebar_section.second.length %>">
       <% sidebar_section.second.each.with_index do |step, index| %>
