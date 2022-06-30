@@ -4,7 +4,7 @@ $govuk-fonts-path: '~govuk-frontend/govuk/assets/fonts/';
 $govuk-images-path: '~govuk-frontend/govuk/assets/images/';
 
 @import 'govuk-frontend/govuk/all';
-@import '../src/stylesheets/step-by-step-nav';
+@import '../src/stylesheets/vendor/step-by-step-nav';
 
 // Third party
 @import 'select2';
