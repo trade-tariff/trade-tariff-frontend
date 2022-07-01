@@ -45,5 +45,6 @@ module RulesOfOrigin
                      country: wizard_store['country_code'],
                      anchor: 'rules-of-origin')
     end
+    helper_method :return_to_commodity_path
   end
 end

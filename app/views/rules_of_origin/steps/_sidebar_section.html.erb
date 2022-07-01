@@ -21,9 +21,7 @@
     <%= t("rules_of_origin.steps.sections.#{sidebar_section.name}_info_html",
           commodity_code: current_step.commodity_code,
           trade_country: current_step.trade_country_name,
-          commodity_link: link_to(current_step.commodity_code,
-                                  commodity_path(current_step.commodity_code,
-                                                 country: current_step.trade_country_code)),
+          commodity_link: link_to(current_step.commodity_code, return_to_commodity_path),
           default: nil) %>
 
     <ol class="app-step-nav__list " data-length="<%= sidebar_section.steps.length %>">
