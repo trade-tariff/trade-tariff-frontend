@@ -4,7 +4,6 @@ $govuk-fonts-path: '~govuk-frontend/govuk/assets/fonts/';
 $govuk-images-path: '~govuk-frontend/govuk/assets/images/';
 
 @import 'govuk-frontend/govuk/all';
-@import '../src/stylesheets/step-by-step-nav';
 
 // Third party
 @import 'select2';
@@ -56,3 +55,4 @@ $govuk-images-path: '~govuk-frontend/govuk/assets/images/';
 @import '../src/stylesheets/search_banner' ;
 @import '../src/stylesheets/help';
 @import '../src/stylesheets/customs_duties_explainer';
+@import '../src/stylesheets/step-by-step-nav' ;

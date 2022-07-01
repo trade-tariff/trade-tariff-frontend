@@ -9,14 +9,10 @@ module RulesOfOrigin
       Steps::End,
     ]
 
-    class << self
-      def grouped_steps
-        @grouped_steps ||= steps.select(&:section).group_by(&:section)
-      end
-
-      def sections
-        grouped_steps.keys
-      end
+    def sections
+      @sections ||= steps.select(&:section)
+                         .group_by(&:section)
+                         .map { |name, steps| SidebarSection.new(self, name, steps) }
     end
 
     def rules_of_origin_schemes

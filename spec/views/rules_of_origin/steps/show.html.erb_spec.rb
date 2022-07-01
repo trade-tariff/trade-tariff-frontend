@@ -10,6 +10,7 @@ RSpec.describe 'rules_of_origin/steps/show', type: :view do
     allow(view).to receive(:current_step).and_return current_step
     allow(view).to receive(:step_path).and_return \
       rules_of_origin_step_path(current_step.key)
+    allow(view).to receive(:return_to_commodity_path).and_return '/'
   end
 
   let(:wizard) { RulesOfOrigin::Wizard.new wizardstore, 'import_export' }
