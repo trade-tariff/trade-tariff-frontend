@@ -3,11 +3,11 @@ require 'spec_helper'
 RSpec.describe 'rules_of_origin/steps/_sidebar_section', type: :view do
   include_context 'with rules of origin form step', 'import_export'
 
-  let(:sections) { wizard.class.grouped_steps }
+  let(:sections) { wizard.sections.index_by(&:name) }
 
   let :render_page do
     render 'rules_of_origin/steps/sidebar_section',
-           sidebar_section: ['originating', sections['originating']],
+           sidebar_section: sections['originating'],
            sidebar_section_counter: 1,
            current_step:
   end
@@ -23,7 +23,7 @@ RSpec.describe 'rules_of_origin/steps/_sidebar_section', type: :view do
 
   context 'when rendering current_step' do
     let :render_page do
-      render 'rules_of_origin/steps/sidebar_section', object: ['originating', sections['originating']],
+      render 'rules_of_origin/steps/sidebar_section', object: sections['originating'],
                                                       sidebar_section_counter: 1,
                                                       current_step:
 
@@ -35,7 +35,7 @@ RSpec.describe 'rules_of_origin/steps/_sidebar_section', type: :view do
   context 'when addition info available' do
     let :render_page do
       render 'rules_of_origin/steps/sidebar_section',
-             sidebar_section: ['details', sections['details']],
+             sidebar_section: sections['details'],
              sidebar_section_counter: 1,
              current_step:
     end

@@ -1,22 +1,14 @@
 require 'spec_helper'
 
 RSpec.describe RulesOfOrigin::Wizard do
-  describe '.sections' do
-    subject { described_class.sections }
+  subject(:instance) { described_class.new(store, 'import_export') }
 
-    it { is_expected.to eql %w[details originating] }
-  end
+  let(:store) { build :rules_of_origin_wizard_store }
 
-  describe '.grouped_steps' do
-    subject { described_class.grouped_steps }
+  describe '#sections' do
+    subject(:sections) { instance.sections }
 
-    let :grouped_steps do
-      {
-        'details' => [RulesOfOrigin::Steps::ImportExport],
-        'originating' => [RulesOfOrigin::Steps::Originating],
-      }
-    end
-
-    it { is_expected.to eql grouped_steps }
+    it { is_expected.to all be_instance_of RulesOfOrigin::SidebarSection }
+    it { expect(sections.map(&:name)).to eql %w[details originating] }
   end
 end
