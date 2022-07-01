@@ -12,19 +12,13 @@ module RulesOfOrigin
     def sections
       @sections ||= steps.select(&:section)
                          .group_by(&:section)
-                         .map(&method(:build_section))
+                         .map { |name, steps| SidebarSection.new(self, name, steps) }
     end
 
     def rules_of_origin_schemes
       @rules_of_origin_schemes ||=
         RulesOfOrigin::Scheme.all(@store['commodity_code'],
                                   @store['country_code'])
-    end
-
-  private
-
-    def build_section(name, steps)
-      SidebarSection.new(self, name, steps)
     end
   end
 end
