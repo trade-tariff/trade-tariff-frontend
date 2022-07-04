@@ -316,7 +316,8 @@ en:
           originates in %{originating_country} according to the %{scheme_title}
           and therefore eligible for preferential tariff treatment.
         conditions_md: |
-          The following products are considered as originating in Japan:
+          The following products are considered as originating in
+          %{originating_country}:
 
           * products **wholly obtained** in %{originating_country}
 
