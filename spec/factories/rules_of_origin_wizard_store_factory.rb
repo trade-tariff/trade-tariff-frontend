@@ -33,5 +33,9 @@ FactoryBot.define do
     trait :wholly_obtained_definition do
       originating
     end
+
+    trait :components_definition do
+      wholly_obtained_definition
+    end
   end
 end

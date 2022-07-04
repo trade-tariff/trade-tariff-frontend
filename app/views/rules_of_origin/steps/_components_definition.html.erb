@@ -1,0 +1,54 @@
+<%= rules_of_origin_form_for(current_step) do |form| %>
+  <span class="govuk-caption-xl">
+    <%= t '.caption' %>
+  </span>
+
+  <h1 class="govuk-heading-l">
+    <%= t '.title', scheme_title: form.object.scheme_title %>
+  </h1>
+
+  <p class="govuk-body-l">
+    <%= t '.lead_para' %>
+  </p>
+
+  <div class="govuk-inset-text tariff-markdown">
+    <%= govspeak t('.additional_info_md') %>
+  </div>
+
+  <h3 class="govuk-heading-s">
+    <%= t '.neutral_elements.title', scheme_title: form.object.scheme_title %>
+  </h3>
+
+  <div class="tariff-markdown">
+    <%= govspeak form.object.neutral_elements_text %>
+
+    <%= render 'shared/details', summary: t('.neutral_elements.example.summary'),
+                                 content: govspeak(t('.neutral_elements.example.content_md')) %>
+  </div>
+
+  <h3 class="govuk-heading-s">
+    <%= t '.packaging', scheme_title: form.object.scheme_title %>
+  </h3>
+
+  <div class="tariff-markdown">
+    <%= govspeak form.object.packaging_text %>
+  </div>
+
+  <% if form.object.accessories_text %>
+    <h3 class="govuk-heading-s">
+      <%= t '.accessories', scheme_title: form.object.scheme_title %>
+    </h3>
+
+    <div class="tariff-markdown">
+      <%= govspeak form.object.accessories_text %>
+    </div>
+  <% end %>
+
+  <h3 class="govuk-heading-s">
+    <%= t 'rules_of_origin.steps.common.next_step' %>
+  </h3>
+
+  <p>
+    <%= t '.next_step' %>
+  </p>
+<% end %>

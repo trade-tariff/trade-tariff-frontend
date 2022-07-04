@@ -41,3 +41,21 @@ shared_context 'with rules of origin form step' do |step, *traits|
     render "rules_of_origin/steps/#{current_step.key}", current_step:, wizard:
   end
 end
+
+shared_examples_for 'an article accessor' do |method_name, article|
+  describe "##{method_name}" do
+    subject { instance.public_send(method_name) }
+
+    context 'with matching article' do
+      let(:articles) { attributes_for_list :rules_of_origin_article, 1, article: }
+
+      it { is_expected.to eql articles.first[:content] }
+    end
+
+    context 'without matching article' do
+      let(:articles) { [] }
+
+      it { is_expected.to be_nil }
+    end
+  end
+end

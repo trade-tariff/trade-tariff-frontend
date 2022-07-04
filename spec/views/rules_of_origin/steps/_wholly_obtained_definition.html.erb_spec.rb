@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/steps/_wholly_obtained_defintion', type: :view do
+RSpec.describe 'rules_of_origin/steps/_wholly_obtained_definition', type: :view do
   include_context 'with rules of origin form step',
                   'wholly_obtained_definition',
                   :originating
