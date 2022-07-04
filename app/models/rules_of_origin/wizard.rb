@@ -6,6 +6,7 @@ module RulesOfOrigin
       Steps::ImportExport,
       Steps::ImportOnly,
       Steps::Originating,
+      Steps::WhollyObtainedDefinition,
       Steps::End,
     ]
 
