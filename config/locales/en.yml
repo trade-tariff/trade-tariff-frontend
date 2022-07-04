@@ -192,18 +192,27 @@ en:
             import_or_export:
               inclusion: Select whether you are importing goods into %{service_country} or %{trade_country}
 
+        rules_of_origin/steps/wholly_obtained:
+          attributes:
+            wholly_obtained:
+              inclusion: Select whether your goods are wholly obtained in %{trade_country}
+
   helpers:
     legend:
       rules_of_origin_steps_scheme:
         scheme_code: Select agreement for trading with %{trade_country}
       rules_of_origin_steps_import_export:
         import_or_export: Are you importing goods into %{service_country} or into %{trade_country}?
+      rules_of_origin_steps_wholly_obtained:
+        wholly_obtained: Are your goods wholly obtained in %{trade_country}?
 
     caption:
       rules_of_origin_steps_scheme:
         scheme_code: Details of your trade
       rules_of_origin_steps_import_export:
         import_or_export: Details of your trade
+      rules_of_origin_steps_wholly_obtained:
+        wholly_obtained: Are your goods originating?
 
     hint:
       rules_of_origin_steps_scheme:
@@ -212,12 +221,27 @@ en:
           for trade with %{trade_country} via more than one trade agreement.
 
           Select the trade agreement.
+      rules_of_origin_steps_wholly_obtained:
+        wholly_obtained_html: |
+          Base your answers on the definition of
+          <a href="%{definition_link_path}">
+            wholly obtained
+          </a>
+          and the definition of
+          <a href="%{components_link_path}">
+            components that you need to take into account
+          </a>
+          on the previous screens.
 
     label:
       rules_of_origin_steps_import_export:
         import_or_export_options:
           import: I am importing goods into %{service_country} from %{trade_country}
           export: I am exporting goods from %{service_country} to %{trade_country}
+      rules_of_origin_steps_wholly_obtained:
+        wholly_obtained_options:
+          'yes': Yes, my goods are wholly obtained in %{trade_country}
+          'no': No, my goods are not wholly obtained in %{trade_country}
 
   rules_of_origin:
     preferential_treatment:
@@ -254,6 +278,7 @@ en:
           import_export: Are you importing or exporting?
           originating: How to work out if your goods are classed as 'originating'
           wholly_obtained_definition: How 'wholly obtained' is defined
+          wholly_obtained: Are your goods wholly obtained?
 
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
