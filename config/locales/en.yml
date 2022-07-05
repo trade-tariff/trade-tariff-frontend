@@ -92,6 +92,9 @@ en:
     1400:
       103: 'Channel Islands duty'
       105: 'Channel Islands duty'
+    1080:
+      103: 'UK-CD Customs Union'
+      105: 'UK-CD Customs Union'
   service_banner:
     service_name:
       uk: "UK Integrated Online Tariff"
