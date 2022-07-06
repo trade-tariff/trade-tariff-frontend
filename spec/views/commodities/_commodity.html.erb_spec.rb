@@ -26,20 +26,7 @@ RSpec.describe 'commodities/_commodity', type: :view do
   end
 
   context 'when the commodity has children' do
-    let(:heading) { build :heading, commodities: [parent, child] }
-
-    let(:parent) do
-      attributes_for :commodity, producline_suffix:,
-                                 number_indents: 2
-    end
-
-    let(:child) do
-      attributes_for :commodity, producline_suffix:,
-                                 parent_sid: parent[:goods_nomenclature_sid],
-                                 number_indents: 3
-    end
-
-    let(:commodity) { heading.commodities.first }
+    let(:commodity) { build(:heading, :with_subheading_and_commodity, producline_suffix:).commodities.first }
 
     context 'with producline_suffix of 80' do
       let(:producline_suffix) { '80' }

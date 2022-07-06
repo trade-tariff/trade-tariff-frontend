@@ -24,5 +24,18 @@ FactoryBot.define do
         end
       end
     end
+
+    trait :with_subheading_and_commodity do
+      transient do
+        producline_suffix {}
+      end
+
+      commodities do
+        subheading = attributes_for(:commodity, producline_suffix:, number_indents: 2)
+        commodity =  attributes_for(:commodity, producline_suffix:, parent_sid: subheading[:goods_nomenclature_sid], number_indents: 3)
+
+        [subheading, commodity]
+      end
+    end
   end
 end
