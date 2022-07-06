@@ -1,8 +1,11 @@
 module MeasuresHelper
   def filter_duty_expression(measure)
+    # NIHIL is an abbreviation (see backend DutyExpressionDescription model),
+    # our best guess is that it is used to indicate that a previously applied measure
+    # no longer carries any duties.
     return '' if measure.duty_expression.to_s == 'NIHIL'
 
-    control_line_wrapping_in_duty_expression(measure.duty_expression.to_s)
+    measure.measure_type_duty_label || control_line_wrapping_in_duty_expression(measure.duty_expression.to_s)
   end
 
   def legal_act_regulation_url_link_for(measure)

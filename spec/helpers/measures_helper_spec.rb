@@ -17,6 +17,18 @@ RSpec.describe MeasuresHelper, type: :helper do
 
       it { expect(filtered_expression).to eq('') }
     end
+
+    context 'when geographical area and measure type have a not applicable duty rate' do
+      let(:measure) do
+        Measure.new(attributes_for(:measure, duty_expression:,
+                                             geographical_area_id: '1080',
+                                             measure_type_id: '103'))
+      end
+
+      let(:duty_expression) { attributes_for(:duty_expression) }
+
+      it { expect(filtered_expression).to eq('n/a') }
+    end
   end
 
   describe '#legal_act_regulation_url_link_for' do

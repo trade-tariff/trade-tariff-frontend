@@ -179,6 +179,10 @@ class Measure
     measure_conditions.select(&:has_guidance?)
   end
 
+  def measure_type_duty_label
+    I18n.t("measure_type_duties.#{geographical_area.id}.#{measure_type.id}", default: nil)
+  end
+
   private
 
   def excluded_country_ids

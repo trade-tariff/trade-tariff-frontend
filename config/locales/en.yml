@@ -95,6 +95,9 @@ en:
     1080:
       103: 'UK-CD Customs Union'
       105: 'UK-CD Customs Union'
+  measure_type_duties:
+    1080:
+      103: 'n/a'
   service_banner:
     service_name:
       uk: "UK Integrated Online Tariff"
