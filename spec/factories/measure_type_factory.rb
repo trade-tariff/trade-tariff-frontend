@@ -4,6 +4,7 @@ FactoryBot.define do
     description { Forgery(:basic).text }
 
     trait :vat do
+      id { '305' }
       description { 'VAT' }
     end
 

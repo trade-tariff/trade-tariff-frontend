@@ -21,6 +21,8 @@ FactoryBot.define do
 
     trait :vat do
       vat { true }
+      measure_type { attributes_for(:measure_type, :vat) }
+      duty_expression { attributes_for(:duty_expression, :vat) }
     end
 
     trait :erga_omnes do

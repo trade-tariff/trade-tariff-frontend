@@ -45,6 +45,16 @@ module CommoditiesHelper
     end
   end
 
+  def vat_overview_measure_duty_amounts(commodity)
+    vat_overview_measures = commodity.overview_measures.vat
+
+    duty_amounts = vat_overview_measures.map do |vat_measure|
+      "#{vat_measure.amount}%"
+    end
+
+    safe_join(duty_amounts, ' or ').presence || '&nbsp;'.html_safe
+  end
+
   private
 
   def chapter_and_heading_codes(code)

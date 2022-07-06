@@ -31,6 +31,7 @@ class Measure
   has_one :goods_nomenclature, polymorphic: true
 
   delegate :erga_omnes?, to: :geographical_area
+  delegate :amount, to: :duty_expression
 
   class << self
     def grouped_measure_types

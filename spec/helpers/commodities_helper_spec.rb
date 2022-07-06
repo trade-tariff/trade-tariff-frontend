@@ -157,4 +157,29 @@ RSpec.describe CommoditiesHelper, type: :helper do
 
     it { is_expected.to eql 'commodity-ancestors__ancestor-23' }
   end
+
+  describe '#vat_overview_measure_duty_amounts' do
+    subject(:vat_overview_measure_duty_amounts) { helper.vat_overview_measure_duty_amounts(commodity) }
+
+    context 'when there are no vat overview measures' do
+      let(:commodity) { build(:commodity) }
+
+      it { is_expected.to eq('&nbsp;') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when there is 1 vat overview measure' do
+      let(:commodity) { build(:commodity, :with_a_vat_overview_measure) }
+
+      it { is_expected.to eq('20%') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when there is more than 1 vat overview measure' do
+      let(:commodity) { build(:commodity, :with_vat_overview_measures) }
+
+      it { is_expected.to eq('20% or 20%') }
+      it { is_expected.to be_html_safe }
+    end
+  end
 end

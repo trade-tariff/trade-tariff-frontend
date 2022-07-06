@@ -16,14 +16,11 @@
       <div class="description open" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></div>
 
       <div class="commodity__info">
-        <div class="vat" aria-describedby="commodity-vat-title">
-          <% vats = commodity.overview_measures.vat %>
-          <% if vats.count > 0 %>
-            <%= vats.map { |m| m.duty_expression.amount.to_i.to_s + "%" }.join(" or ").html_safe %>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </div>
+        <% if TradeTariffFrontend::ServiceChooser.uk? %>
+          <div class="vat" aria-describedby="commodity-vat-title">
+            <%= vat_overview_measure_duty_amounts(commodity) %>
+          </div>
+        <% end %>
         <div class="duty" aria-describedby="commodity-duty-title">
           <% tcd = commodity.overview_measures.third_country_duties %>
           <% if tcd.count > 0 %>

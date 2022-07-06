@@ -6,5 +6,11 @@ FactoryBot.define do
     trait :supplementary do
       description { 'Number of items' }
     end
+
+    trait :vat do
+      base { '20.0%' }
+      formatted_base { '20.0%' }
+      description { 'VAT' }
+    end
   end
 end

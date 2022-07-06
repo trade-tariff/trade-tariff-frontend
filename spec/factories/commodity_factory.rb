@@ -13,6 +13,7 @@ FactoryBot.define do
 
     import_measures { [] }
     export_measures { [] }
+    overview_measures { [] }
 
     meta do
       {
@@ -29,6 +30,23 @@ FactoryBot.define do
           'zero_mfn_duty' => false,
         },
       }
+    end
+
+    trait :with_a_vat_overview_measure do
+      overview_measures do
+        [
+          attributes_for(:measure, :vat),
+        ]
+      end
+    end
+
+    trait :with_vat_overview_measures do
+      overview_measures do
+        [
+          attributes_for(:measure, :vat),
+          attributes_for(:measure, :vat),
+        ]
+      end
     end
   end
 end
