@@ -595,6 +595,7 @@ workflows:
             - build_live
 
       - smoketest_staging:
+          context: trade-tariff
           filters:
             branches:
               only:
