@@ -9,7 +9,7 @@ FactoryBot.define do
 
     trait :vat do
       base { '20.0%' }
-      formatted_base { "20.0%" }
+      formatted_base { '20.0%' }
       description { 'VAT' }
     end
   end
