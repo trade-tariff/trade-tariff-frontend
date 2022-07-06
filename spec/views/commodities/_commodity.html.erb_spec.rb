@@ -6,23 +6,18 @@ RSpec.describe 'commodities/_commodity', type: :view do
     rendered
   end
 
-  let(:uk_service) { true }
   let(:commodity) { build :commodity }
 
-  before do
-    allow(TradeTariffFrontend::ServiceChooser).to receive(:uk?).and_return(uk_service)
-  end
-
   context 'when on the uk service' do
-    let(:uk_service) { true }
+    include_context 'with UK service'
 
     it { is_expected.to have_css 'div.vat', count: 1 }
   end
 
   context 'when not on the uk service' do
-    let(:uk_service) { false }
+    include_context 'with XI service'
 
-    it { is_expected.not_to have_css 'div.vat', count: 1 }
+    it { is_expected.not_to have_css 'div.vat' }
   end
 
   context 'when the commodity has children' do
