@@ -48,7 +48,6 @@ class MeasurePresenter < SimpleDelegator
   end
 
   def permutations_enabled?
-    measure_condition_permutation_groups.any? &&
-      measure_condition_permutation_groups.all? { |pg| pg.permutations.any? }
+    measure_condition_permutation_groups.any?
   end
 end
