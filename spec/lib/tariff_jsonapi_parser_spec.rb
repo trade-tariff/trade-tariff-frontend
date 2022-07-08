@@ -64,7 +64,7 @@ RSpec.describe TariffJsonapiParser do
         it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
         it { is_expected.to include 'name' => 'Joe' }
         it { is_expected.to include 'age' => 21 }
-        it { is_expected.to include 'parts' => [{}] }
+        it { is_expected.to include 'parts' => [] }
       end
 
       context 'with invalid relationships' do
@@ -118,7 +118,7 @@ RSpec.describe TariffJsonapiParser do
         it { is_expected.to include 'meta' => { 'foo' => 'bar' } }
         it { is_expected.to include 'name' => 'Joe' }
         it { is_expected.to include 'age' => 21 }
-        it { is_expected.to include 'parts' => [{}] }
+        it { is_expected.to include 'parts' => [] }
       end
 
       context 'with invalid relationships' do

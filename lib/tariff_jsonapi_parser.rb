@@ -62,7 +62,7 @@ class TariffJsonapiParser
     relationships.each do |name, values|
       parent[name] = case values['data']
                      when Array
-                       find_and_parse_multiple_included(name, values['data'])
+                       find_and_parse_multiple_included(name, values['data']).compact
                      when Hash
                        find_and_parse_included(name, values.dig('data', 'id'), values.dig('data', 'type'))
                      else
@@ -86,8 +86,7 @@ class TariffJsonapiParser
     return nil if id.blank? || type.blank?
 
     found_resource = find_included(id, type)
-
-    return {} if found_resource.blank?
+    return unless found_resource
 
     parse_resource(found_resource)
   rescue NoMethodError
@@ -100,6 +99,8 @@ class TariffJsonapiParser
   end
 
   def find_included(id, type)
-    @attributes['included']&.find { |r| r['id'].to_s == id.to_s && r['type'].to_s == type.to_s } || {}
+    @attributes['included']&.find do |r|
+      r['id'].to_s == id.to_s && r['type'].to_s == type.to_s
+    end
   end
 end
