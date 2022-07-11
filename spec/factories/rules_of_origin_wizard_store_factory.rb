@@ -30,12 +30,14 @@ FactoryBot.define do
       importing
     end
 
-    trait :wholly_obtained_definition do
+    trait :wholly_obtained do
       originating
+      wholly_obtained { 'yes' }
     end
 
-    trait :components_definition do
-      wholly_obtained_definition
+    trait :not_wholly_obtained do
+      originating
+      wholly_obtained { 'no' }
     end
   end
 end

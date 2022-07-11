@@ -10,10 +10,6 @@ module RulesOfOrigin
           I18n.t("import_destination.#{@store['service']}")
         end
       end
-
-      def scheme_title
-        chosen_scheme.title
-      end
     end
   end
 end

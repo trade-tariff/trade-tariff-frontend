@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe 'rules_of_origin/steps/_components_definition', type: :view do
   include_context 'with rules of origin form step',
                   'components_definition',
-                  :wholly_obtained_definition
+                  :originating
 
   let :articles do
     [

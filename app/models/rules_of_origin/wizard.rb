@@ -9,6 +9,7 @@ module RulesOfOrigin
       Steps::WhollyObtainedDefinition,
       Steps::ComponentsDefinition,
       Steps::WhollyObtained,
+      Steps::NotWhollyObtained,
       Steps::End,
     ]
 
