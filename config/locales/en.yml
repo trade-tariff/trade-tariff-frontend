@@ -2,6 +2,9 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  generic:
+    warning: Warning
+
   meta_description: "Search for import and export commodity codes and for tax, duty and licences that apply to your goods"
 
   feed:
@@ -284,6 +287,7 @@ en:
           components_definition: What components do you need to take into account?
           wholly_obtained: Are your goods wholly obtained?
           not_wholly_obtained: Your goods are not wholly obtained
+          parts_components: Including parts or components from other countries
 
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
@@ -453,3 +457,52 @@ en:
           Click on the 'Continue' button to view the cumulation rules in the
           %{scheme_title}, which will indicate if non-originating parts from
           other countries can be included in determining originating status.
+
+      parts_components:
+        caption: Are your goods originating?
+        title: Including parts or components from other countries
+        body_md: |
+          In order to qualify for preferential treatment, you may be able to
+          include parts that come from other countries. This depends on the
+          **cumulation rules** of the trade agreement, which are described
+          below.
+
+          **Cumulation** may allow for the origin of materials or processing
+          undertaken in country A to be added to the materials and processing
+          undertaken within country B, so long as they are further processed
+          or added to products originating in country B.
+
+          This allows those factors that contributed to the origin of country
+          A materials to be considered as though undertaken in B.
+        cumulation:
+          title: Cumulation in the %{scheme_title}
+          inset: The %{scheme_title} features bilateral cumulation.
+          body_md: |
+            **Bilateral cumulation**
+
+            Bilateral cumulation operates between 2 countries or trading blocs
+            where a trade agreement contains a provision allowing them to
+            cumulate origin.
+
+            Materials originating in either country in the trade agreement will
+            be considered as materials covered by the rule of origin.
+
+            **Example of bilateral cumulation**
+
+            Take a car, for example. If a UK company sourced all of the parts
+            from across the EU and then put it all together in a factory in the
+            UK, it could sell it back to a customer in the EU, taking advantage
+            of the preferential zero tariff rate, as if all the bits of the car
+            originated in the UK.
+          image_caption: |
+            Originating input from country A is considered to be originating
+            input in country B.
+          warning: |
+            Bear cumulation rules in mind when working out if your
+            non-originating parts meet the product-specific rules.
+        scheme:
+          summary: Read more about cumulation in the %{scheme_title}
+        next_step_md: |
+          Click on the 'Continue' button to view the definition of 'minimal
+          operations' in the %{scheme_title}. Any non-originating parts must be
+          sufficiently processed to count as originating.

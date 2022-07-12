@@ -29,4 +29,8 @@
     @extend .govuk-section-break;
     @extend .govuk-section-break--visible;
   }
+
+  &--with-lead-paragraph p:first-of-type {
+    @extend .govuk-body-l;
+  }
 }
