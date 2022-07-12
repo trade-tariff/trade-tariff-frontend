@@ -23,7 +23,7 @@
 }
 
 @include govuk-media-query($until: tablet) {
-  img {
+  .calculator-panel img {
     display:none;
   }
 }
