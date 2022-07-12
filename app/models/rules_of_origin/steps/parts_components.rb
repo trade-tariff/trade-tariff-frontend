@@ -8,7 +8,12 @@ module RulesOfOrigin
       end
 
       def scheme_details
-        'FIXME:'
+        article = exporting? ? 'cumulation-export' : 'cumulation-import'
+        chosen_scheme.article(article)&.content
+      end
+
+      def exporting?
+        !chosen_scheme.unilateral && @store['import_or_export'] == 'export'
       end
     end
   end
