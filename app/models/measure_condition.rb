@@ -5,6 +5,7 @@ class MeasureCondition
 
   WEIGHT_UNITS = %w[DTN DAP DHS GFI GRM GRT KGM KMA RET TNE].freeze
   VOLUME_UNITS = %w[HLT KLT LPA LTR MIL MTQ].freeze
+  CONDITION_CODE_V = 'V'.freeze
 
   attr_accessor :condition_code,
                 :condition_measurement_unit_code,
@@ -43,5 +44,9 @@ class MeasureCondition
 
   def is_volume_condition?
     VOLUME_UNITS.include? condition_measurement_unit_code
+  end
+
+  def is_eps_condition_code_v?
+    CONDITION_CODE_V == condition_code && is_price_condition? && is_weight_condition?
   end
 end
