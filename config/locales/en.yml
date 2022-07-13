@@ -274,6 +274,7 @@ en:
             You are importing commodity %{commodity_link} from %{trade_country}
           </p>
         originating: Are your goods 'originating'?
+        proofs: Obtaining and verifying proof of origin
 
       show:
         meta_title: "Rules of Origin: %{step}"
@@ -286,6 +287,7 @@ en:
           wholly_obtained_definition: How 'wholly obtained' is defined
           components_definition: What components do you need to take into account?
           wholly_obtained: Are your goods wholly obtained?
+          origin_requirements_met: Origin requirements met
           not_wholly_obtained: Your goods are not wholly obtained
           parts_components: Including parts or components from other countries
 
@@ -398,6 +400,22 @@ en:
         next_step:
           Click on the 'Continue' button to indicate if your goods are wholly
           obtained, based on the rules of the %{scheme_title}.
+
+      origin_requirements_met:
+        caption:
+          importing: Importing commodity %{commodity_code} from %{trade_country_name}
+          exporting: Exporting commodity %{commodity_code} from %{trade_country_name}
+        title: Origin requirements met
+        panel:
+          Based on your responses, your product appears to meet the rules of
+          origin requirements for the %{scheme_title}.
+        body: |
+          To benefit from a preferential tariff or quota, originating products
+          should be accompanied by an appropriate proof confirming their origin.
+        links:
+          proofs: See valid proofs of origin
+          requirements: See detailed processes and requirements for proving the origin for goods
+          verifications: How proofs of origin are verified
 
       not_wholly_obtained:
         caption: Are your goods originating?
