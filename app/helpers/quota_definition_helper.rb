@@ -1,8 +1,4 @@
 module QuotaDefinitionHelper
-  def show_warning?(order_number)
-    order_number.definition.description && order_number.number.start_with?('05')
-  end
-
   def start_and_end_dates_for(definition)
     start_date = definition.validity_start_date
     end_date = definition.validity_end_date
