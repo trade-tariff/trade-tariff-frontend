@@ -5,12 +5,13 @@
     <% if order_number.definition.present? %>
       <table class="govuk-table govuk-table-m">
         <h2 class="govuk-heading-m"><%= "Quota #{order_number.number}"%></h2>
-        <% if show_warning?(order_number) %>
+
+        <% if order_number.show_warning? %>
           <div class="govuk-warning-text">
           <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
           <strong class="govuk-warning-text__text">
             <span class="govuk-warning-text__assistive">Warning</span>
-            <%= quota_definition.description %>
+            <%= quota_definition.warning_text %>
           </strong>
           </div>
         <% end %>

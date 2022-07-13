@@ -36,9 +36,17 @@ class OrderNumber
     has_many :measures
 
     delegate :present?, to: :status
+    delegate :warning_text, :show_warning?, to: :order_number, allow_nil: true
 
     def id
       @id ||= quota_definition_sid
+    end
+
+    def order_number
+      # Returns the order number when loaded via the quota tools page
+      return @order_number if @order_number
+      # Returns the order number when the definition is loaded as part of a declarable response
+      return casted_by if casted_by.is_a?(OrderNumber)
     end
 
     def geographical_areas
