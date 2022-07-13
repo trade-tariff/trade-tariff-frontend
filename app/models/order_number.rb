@@ -45,6 +45,7 @@ class OrderNumber
     definition.description && number.start_with?('05')
   end
 
+  # TODO: Remove me. QAM has issues with loading quotas with a hierarchy at the moment and is decrement quotas too quickly
   def known_data_issues?
     number.in?(ORDER_NUMBERS_WITH_KNOWN_ISSUES)
   end
