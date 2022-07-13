@@ -50,4 +50,66 @@ RSpec.describe OrderNumber do
       it { expect(order_number.definition).to eq(nil) }
     end
   end
+
+  describe '#show_warning?' do
+    shared_examples_for 'an order number that shows warnings' do
+      subject(:show_warning?) { definition.order_number }
+
+      it { is_expected.to be_show_warning }
+    end
+
+    shared_examples_for 'an order number that does `not` show warnings' do
+      subject(:show_warning?) { definition.order_number }
+
+      it { is_expected.not_to be_show_warning }
+    end
+
+    it_behaves_like 'an order number that shows warnings' do
+      let(:definition) { build(:definition, number: '052012') }
+    end
+
+    it_behaves_like 'an order number that shows warnings' do
+      let(:definition) { build(:definition, number: '052105') }
+    end
+
+    it_behaves_like 'an order number that shows warnings' do
+      let(:definition) { build(:definition, number: '052106') }
+    end
+
+    it_behaves_like 'an order number that shows warnings' do
+      let(:definition) { build(:definition, number: '05foo', description: 'flibble') }
+    end
+
+    it_behaves_like 'an order number that does `not` show warnings' do
+      let(:definition) { build(:definition, number: '05foo', description: nil) }
+    end
+
+    it_behaves_like 'an order number that does `not` show warnings' do
+      let(:definition) { build(:definition, number: '041234') }
+    end
+
+    it_behaves_like 'an order number that does `not` show warnings' do
+      let(:definition) { build(:definition, number: nil) }
+    end
+
+    it_behaves_like 'an order number that does `not` show warnings' do
+      let(:definition) { build(:definition, number: '') }
+    end
+  end
+
+  describe '#warning_text' do
+    subject(:warning_text) { definition.order_number.warning_text }
+
+    context 'when the quota definition order number has known issues' do
+      let(:definition) { build(:definition, number: '052106') }
+
+      it { is_expected.to match(/There is currently a known issue/) }
+    end
+
+    context 'when the quota definition order number has a description' do
+      let(:definition) { build(:definition, number: '052000', description: 'flibble') }
+
+      it { is_expected.to eq('flibble') }
+    end
+  end
 end

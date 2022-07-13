@@ -1,34 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe QuotaDefinitionHelper, type: :helper do
-  describe '#show_warning?' do
-    let(:order_number) do
-      build(:order_number, number:, definition: attributes_for(:definition, description:))
-    end
-    let(:description) { nil }
-    let(:number) { '050000' }
-
-    context 'when there is a description and the order number starts with `05`' do
-      let(:description) { 'foo' }
-      let(:number) { '050000' }
-
-      it { expect(helper).to be_show_warning(order_number) }
-    end
-
-    context 'when there is a description and the order number does not start with 05' do
-      let(:description) { 'foo' }
-      let(:number) { '060000' }
-
-      it { expect(helper).not_to be_show_warning(order_number) }
-    end
-
-    context 'when there is no description' do
-      let(:description) { nil }
-
-      it { expect(helper).not_to be_show_warning(order_number) }
-    end
-  end
-
   describe '#start_and_end_dates_for' do
     let(:definition) { build(:definition, validity_start_date: '2021-01-01T00:00:00.000Z', validity_end_date: '2021-12-31T00:00:00.000Z') }
 
