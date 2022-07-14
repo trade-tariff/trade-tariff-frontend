@@ -1,0 +1,53 @@
+<span class="govuk-caption-xl">
+  <%= t (current_step.exporting? ? '.caption.exporting' : '.caption.importing'),
+        commodity_code: current_step.commodity_code,
+        trade_country_name: current_step.trade_country_name %>
+</span>
+
+<h1 class="govuk-heading-l">
+  <%= t '.title' %>
+</h1>
+
+<p>
+  <%= t '.body' %>
+</p>
+
+<div id="proofs-overview">
+  <h3 class="govuks-heading-s">
+    <%= t '.overview.subtitle' %>
+  </h3>
+
+  <p>
+    <%= t '.overview.body' %>
+  </p>
+
+  <ul class="govuk-list" id="body-links">
+    <li>
+      <%= link_to t('.links.statement'),
+                  'https://www.gov.uk/guidance/get-proof-of-origin-for-your-goods#origin-declaration',
+                  target: '_blank',
+                  rel: 'noreferrer noopener' %>
+    </li>
+
+    <li>
+      <%= link_to t('.links.knowledge'),
+                  'https://www.gov.uk/guidance/get-proof-of-origin-for-your-goods#importers-knowledge',
+                  target: '_blank',
+                  rel: 'noreferrer noopener' %>
+    </li>
+  </ul>
+</div>
+
+<h3 class="govuk-heading-s">
+  <%= t 'rules_of_origin.steps.common.next_step' %>
+</h3>
+
+<ul class="govuk-list" id="next-steps">
+  <li>
+    <%= link_to t('.links.requirements'), step_path(:proof_requirements) %>
+  </li>
+
+  <li>
+    <%= link_to t('.links.verifications'), step_path(:proof_verifications) %>
+  </li>
+<ul>

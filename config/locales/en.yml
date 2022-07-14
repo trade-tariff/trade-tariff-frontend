@@ -290,6 +290,7 @@ en:
           origin_requirements_met: Origin requirements met
           not_wholly_obtained: Your goods are not wholly obtained
           parts_components: Including parts or components from other countries
+          proofs_of_origin: Valid proofs of origin
 
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
@@ -409,11 +410,30 @@ en:
         panel:
           Based on your responses, your product appears to meet the rules of
           origin requirements for the %{scheme_title}.
-        body: |
+        body:
           To benefit from a preferential tariff or quota, originating products
           should be accompanied by an appropriate proof confirming their origin.
         links:
           proofs: See valid proofs of origin
+          requirements: See detailed processes and requirements for proving the origin for goods
+          verifications: How proofs of origin are verified
+
+      proofs_of_origin:
+        caption:
+          importing: Importing commodity %{commodity_code} from %{trade_country_name}
+          exporting: Exporting commodity %{commodity_code} from %{trade_country_name}
+        title: Valid proofs of origin
+        body:
+          To benefit from a preferential tariff or quota, originating products
+          should be accompanied by an appropriate proof confirming their origin.
+        overview:
+          subtitle: Proof of origin - overview
+          body:
+             There are 2 way to provide proofs of origin. Click on an option to
+             see an overview of that proof.
+        links:
+          statement: Statement on origin (opens in new tab)
+          knowledge: Importer's knowledge (opens in new tab)
           requirements: See detailed processes and requirements for proving the origin for goods
           verifications: How proofs of origin are verified
 
