@@ -11,6 +11,7 @@ module RulesOfOrigin
       Steps::WhollyObtained,
       Steps::OriginRequirementsMet,
       Steps::ProofsOfOrigin,
+      Steps::ProofRequirements,
       Steps::ProofVerification,
       Steps::NotWhollyObtained,
       Steps::PartsComponents,

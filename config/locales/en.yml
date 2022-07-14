@@ -292,6 +292,7 @@ en:
           not_wholly_obtained: Your goods are not wholly obtained
           parts_components: Including parts or components from other countries
           proofs_of_origin: Valid proofs of origin
+          proof_requirements: Requirements for proving the origin for goods
           proof_verification: How proofs of origin are verified
 
       import_only:
@@ -438,6 +439,14 @@ en:
           knowledge: Importer's knowledge (opens in new tab)
           requirements: See detailed processes and requirements for proving the origin for goods
           verification: How proofs of origin are verified
+
+      proof_requirements:
+        caption: Obtaining and verifying proofs of origin
+        title: Requirements for proving the origin for goods coming from %{trade_country_name}
+        body:
+          The following information details the processes you will need to
+          follow in order to gain proof of origin according to the
+          %{scheme_title}, including the types of proof that are valid.
 
       proof_verification:
         caption: Obtaining and verifying proofs of origin
