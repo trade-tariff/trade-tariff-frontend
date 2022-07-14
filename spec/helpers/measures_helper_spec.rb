@@ -150,7 +150,7 @@ RSpec.describe MeasuresHelper, type: :helper do
       context 'with eps condition' do
         let(:condition) { build :measure_condition, :eps }
 
-        it { is_expected.to match 'The price of your goods does not exceed' }
+        it { is_expected.to match 'The price of your goods is greater than or equal to' }
       end
 
       context 'with other threshold' do
