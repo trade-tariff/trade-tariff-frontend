@@ -46,7 +46,7 @@ class MeasureCondition
     VOLUME_UNITS.include? condition_measurement_unit_code
   end
 
-  def is_eps_condition_code_v?
+  def is_eps_condition?
     CONDITION_CODE_V == condition_code && is_price_condition? && is_weight_condition?
   end
 end

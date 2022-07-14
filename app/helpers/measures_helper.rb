@@ -68,7 +68,7 @@ module MeasuresHelper
   def format_measure_condition_requirement(condition)
     case condition.measure_condition_class
     when 'threshold'
-      if condition.is_eps_condition_code_v?
+      if condition.is_eps_condition?
         safe_join ['The price of your goods is greater than or equal to', condition.requirement], ' '
       elsif condition.is_price_condition?
         safe_join ['The price of your goods does not exceed', condition.requirement], ' '

@@ -150,12 +150,6 @@ RSpec.describe MeasuresHelper, type: :helper do
       context 'with eps condition' do
         let(:condition) { build :measure_condition, :eps }
 
-        it { is_expected.to match 'The price of your goods does not exceed' }
-      end
-
-      context 'with eps condition code V' do
-        let(:condition) { build :measure_condition, :eps, condition_code: 'V' }
-
         it { is_expected.to match 'The price of your goods is greater than or equal to' }
       end
 

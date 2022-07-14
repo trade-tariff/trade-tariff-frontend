@@ -40,6 +40,7 @@ FactoryBot.define do
     trait :eps do
       weight
       price
+      condition_code { 'V' }
     end
   end
 end

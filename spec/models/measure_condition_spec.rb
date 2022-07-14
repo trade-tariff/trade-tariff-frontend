@@ -122,17 +122,17 @@ RSpec.describe MeasureCondition do
     end
   end
 
-  describe '#is_eps_condition_code_v?' do
-    subject { condition.is_eps_condition_code_v? }
+  describe '#is_eps_condition?' do
+    subject { condition.is_eps_condition? }
 
-    context 'with eps condition code V' do
-      let(:condition) { build :measure_condition, :eps, condition_code: 'V' }
+    context 'with eps condition' do
+      let(:condition) { build :measure_condition, :eps }
 
       it { is_expected.to be true }
     end
 
-    context 'without eps condition code V' do
-      let(:condition) { build :measure_condition, :eps }
+    context 'without eps condition' do
+      let(:condition) { build :measure_condition }
 
       it { is_expected.to be false }
     end
