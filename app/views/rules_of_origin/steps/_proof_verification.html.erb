@@ -1,0 +1,13 @@
+<span class="govuk-caption-xl">
+  <%= t '.caption' %>
+</span>
+
+<h1 class="govuk-heading-l">
+  <%= t '.title', trade_country_name: current_step.trade_country_name %>
+</h1>
+
+<div class="tariff-markdown">
+  <div class="numbered-then-lettered-list">
+    <%= govspeak current_step.verification_text %>
+  </div>
+</div>

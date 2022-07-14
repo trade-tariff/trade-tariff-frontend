@@ -4,6 +4,7 @@
 en:
   generic:
     warning: Warning
+    back_to_top: Back to top
 
   meta_description: "Search for import and export commodity codes and for tax, duty and licences that apply to your goods"
 
@@ -291,6 +292,7 @@ en:
           not_wholly_obtained: Your goods are not wholly obtained
           parts_components: Including parts or components from other countries
           proofs_of_origin: Valid proofs of origin
+          proof_verification: How proofs of origin are verified
 
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
@@ -416,7 +418,7 @@ en:
         links:
           proofs: See valid proofs of origin
           requirements: See detailed processes and requirements for proving the origin for goods
-          verifications: How proofs of origin are verified
+          verification: How proofs of origin are verified
 
       proofs_of_origin:
         caption:
@@ -435,7 +437,11 @@ en:
           statement: Statement on origin (opens in new tab)
           knowledge: Importer's knowledge (opens in new tab)
           requirements: See detailed processes and requirements for proving the origin for goods
-          verifications: How proofs of origin are verified
+          verification: How proofs of origin are verified
+
+      proof_verification:
+        caption: Obtaining and verifying proofs of origin
+        title: Verification for proving the origin for goods coming from %{trade_country_name}
 
       not_wholly_obtained:
         caption: Are your goods originating?
