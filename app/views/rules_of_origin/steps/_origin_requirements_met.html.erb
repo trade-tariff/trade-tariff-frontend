@@ -1,0 +1,35 @@
+<span class="govuk-caption-xl">
+  <%= t (current_step.exporting? ? '.caption.exporting' : '.caption.importing'),
+        commodity_code: current_step.commodity_code,
+        trade_country_name: current_step.trade_country_name %>
+</span>
+
+<h1 class="govuk-heading-l">
+  <%= t '.title' %>
+</h1>
+
+<div class="govuk-panel govuk-panel--confirmation">
+  <div class="govuk-panel__body">
+    <%= t '.panel', scheme_title: current_step.scheme_title %>
+  </div>
+</div>
+
+<p>
+  <%= t '.body' %>
+</p>
+
+<h3 class="govuk-heading-s">
+  <%= t 'rules_of_origin.steps.common.next_step' %>
+</h3>
+
+<ul class="govuk-list" id="next-steps">
+  <li>
+    <%= link_to t('.links.proofs'), step_path(:proofs_of_origin) %>
+  </li>
+  <li>
+    <%= link_to t('.links.requirements'), step_path(:proof_requirements) %>
+  </li>
+  <li>
+    <%= link_to t('.links.verifications'), step_path(:proof_verifications) %>
+  </li>
+<ul>

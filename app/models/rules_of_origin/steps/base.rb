@@ -36,6 +36,10 @@ module RulesOfOrigin
       def scheme_title
         chosen_scheme.title
       end
+
+      def exporting?
+        !chosen_scheme.unilateral && @store['import_or_export'] == 'export'
+      end
     end
   end
 end

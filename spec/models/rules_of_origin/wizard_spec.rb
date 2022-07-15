@@ -9,6 +9,6 @@ RSpec.describe RulesOfOrigin::Wizard do
     subject(:sections) { instance.sections }
 
     it { is_expected.to all be_instance_of RulesOfOrigin::SidebarSection }
-    it { expect(sections.map(&:name)).to eql %w[details originating] }
+    it { expect(sections.map(&:name)).to eql %w[details originating proofs] }
   end
 end

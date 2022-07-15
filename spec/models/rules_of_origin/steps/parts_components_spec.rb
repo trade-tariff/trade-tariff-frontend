@@ -22,30 +22,6 @@ RSpec.describe RulesOfOrigin::Steps::PartsComponents do
     end
   end
 
-  describe '#exporting?' do
-    subject { instance.exporting? }
-
-    context 'with unilateral scheme so import_only' do
-      include_context 'with rules of origin store', :import_only, wholly_obtained: 'no'
-
-      let(:schemes) { build_list :rules_of_origin_scheme, 1, unilateral: true }
-
-      it { is_expected.to be false }
-    end
-
-    context 'when importing' do
-      include_context 'with rules of origin store', :importing, wholly_obtained: 'no'
-
-      it { is_expected.to be false }
-    end
-
-    context 'when exporting' do
-      include_context 'with rules of origin store', :exporting, wholly_obtained: 'no'
-
-      it { is_expected.to be true }
-    end
-  end
-
   describe '#scheme_details' do
     let(:scheme) { instance.chosen_scheme }
 
