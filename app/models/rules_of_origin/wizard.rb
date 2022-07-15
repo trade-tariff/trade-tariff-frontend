@@ -10,6 +10,7 @@ module RulesOfOrigin
       Steps::ComponentsDefinition,
       Steps::WhollyObtained,
       Steps::OriginRequirementsMet,
+      Steps::ProofsOfOrigin,
       Steps::NotWhollyObtained,
       Steps::PartsComponents,
       Steps::End,
