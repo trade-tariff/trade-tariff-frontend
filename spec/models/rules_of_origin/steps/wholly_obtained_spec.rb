@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe RulesOfOrigin::Steps::WhollyObtained do
-  include_context 'with rules of origin store', :components_definition
+  include_context 'with rules of origin store', :originating
   include_context 'with wizard step', RulesOfOrigin::Wizard
 
   it { is_expected.to respond_to :wholly_obtained }

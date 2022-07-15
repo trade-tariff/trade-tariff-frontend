@@ -291,6 +291,7 @@ en:
           wholly_obtained_definition: How 'wholly obtained' is defined
           components_definition: What components do you need to take into account?
           wholly_obtained: Are your goods wholly obtained?
+          not_wholly_obtained: Your goods are not wholly obtained
 
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
@@ -401,3 +402,62 @@ en:
         next_step:
           Click on the 'Continue' button to indicate if your goods are wholly
           obtained, based on the rules of the %{scheme_title}.
+
+      not_wholly_obtained:
+        caption: Are your goods originating?
+        title: Your goods are not wholly obtained
+        lead_para: |
+          If your product is not wholly obtained in %{trade_country_name}, it
+          will have to comply with other product-specific rules.
+        psr:
+          title: What are product-specific rules?
+          body_md: |
+            **Product-specific rules** define how a product needs to be
+            processed to be considered as originating in %{trade_country_name}
+            and therefore eligible for preferential tariff treatment.
+
+            If there are multiple rules, your product needs only comply with one
+            of them.
+          details:
+            summary: What kind of product-specific rules are there?
+            content_md: |
+              Broadly speaking, there are four types of rule that determine if
+              your product has been sufficiently transformed to be considered as
+              originating.
+
+              - **The 'value added' rule**
+                The value of all non-originating materials used cannot exceed a
+                given percentage of the product’s ex-works price.
+              - **Change of tariff classification**
+                The production process results in a change of tariff
+                classification between the non-originating materials and the
+                final product.
+              - **Manufacture from certain products**
+                A specific production process is required. For example, spinning
+                fibres into yarns. Such rules are mostly used in the textile and
+                clothing and chemical sectors.
+              - **Specific processes**
+                A specific production process is required. For example, spinning
+                fibres into yarns.
+        operations_requirements:
+          title: "Meeting minimal operations requirements: sufficient working or processing"
+          body_md: |
+            You will also be required to demonstrate that the work carried out
+            on non-originating components goes beyond the **minimal operations**
+            requirements defined in the %{scheme_title}.
+
+            If the production performed in your country is one of those listed
+            and nothing else was made there, meaning no material was produced or
+            transformed, the product cannot be considered as originating, even
+            if the product-specific rules of origin were satisfied.
+        parts:
+          title: Including parts or components from other countries
+          body_md: |
+            You may also be able to include non-originating materials imported
+            from third countries or processing carried out in a non-partner
+            country, as originating in the EU or a trade partner country,
+            according to the **cumulation rules** of the %{scheme_title}.
+        next_step_md: |
+          Click on the 'Continue' button to view the cumulation rules in the
+          %{scheme_title}, which will indicate if non-originating parts from
+          other countries can be included in determining originating status.

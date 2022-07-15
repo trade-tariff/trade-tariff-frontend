@@ -32,6 +32,10 @@ module RulesOfOrigin
           rules_of_origin_schemes.first
         end
       end
+
+      def scheme_title
+        chosen_scheme.title
+      end
     end
   end
 end

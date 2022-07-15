@@ -3,10 +3,6 @@ module RulesOfOrigin
     class ComponentsDefinition < Base
       self.section = 'originating'
 
-      def scheme_title
-        chosen_scheme.title
-      end
-
       def neutral_elements_text
         chosen_scheme.article('neutral-elements')&.content
       end

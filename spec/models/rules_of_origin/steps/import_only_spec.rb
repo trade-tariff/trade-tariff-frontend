@@ -11,9 +11,6 @@ RSpec.describe RulesOfOrigin::Steps::ImportOnly do
 
   it { is_expected.to respond_to :import_only }
 
-  it { is_expected.to have_attributes commodity_code: wizardstore['commodity_code'] }
-  it { is_expected.to have_attributes trade_country_name: country.description }
-
   describe '#skipped?' do
     subject { instance.skipped? }
 
