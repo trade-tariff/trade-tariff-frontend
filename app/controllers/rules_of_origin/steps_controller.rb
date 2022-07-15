@@ -27,8 +27,8 @@ module RulesOfOrigin
       :rules_of_origin
     end
 
-    def step_path(step_id = params[:id])
-      rules_of_origin_step_path(step_id)
+    def step_path(step_id = params[:id], ...)
+      rules_of_origin_step_path(step_id, ...)
     end
 
     def check_service_hasnt_changed

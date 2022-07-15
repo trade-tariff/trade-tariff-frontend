@@ -4,7 +4,7 @@
 en:
   generic:
     warning: Warning
-    back_to_top: Back to top
+    contents: Contents
 
   meta_description: "Search for import and export commodity codes and for tax, duty and licences that apply to your goods"
 
@@ -447,6 +447,7 @@ en:
           The following information details the processes you will need to
           follow in order to gain proof of origin according to the
           %{scheme_title}, including the types of proof that are valid.
+        article_list: Articles in this guide
 
       proof_verification:
         caption: Obtaining and verifying proofs of origin
