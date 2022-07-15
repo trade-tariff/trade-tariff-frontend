@@ -4,6 +4,8 @@ RSpec.describe RulesOfOrigin::Steps::ProofRequirements do
   include_context 'with rules of origin store', :originating
   include_context 'with wizard step', RulesOfOrigin::Wizard
 
+  it_behaves_like 'an article accessor', :processes_text, 'origin_processes'
+
   describe '#skipped' do
     subject { instance.skipped? }
 
