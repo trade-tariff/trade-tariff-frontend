@@ -15,6 +15,10 @@ FactoryBot.define do
       scheme_code { schemes[chosen_scheme - 1].scheme_code }
     end
 
+    trait :import_only do
+      import_only { true }
+    end
+
     trait :importing do
       with_chosen_scheme
       import_or_export { 'import' }

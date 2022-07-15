@@ -1,0 +1,26 @@
+img {
+  max-width: 100%;
+}
+
+@include govuk-media-query($from: tablet) {
+  figure {
+    margin-left: 0;
+    margin-right: auto;
+
+    @include govuk-responsive-margin(6, "top");
+    @include govuk-responsive-margin(6, "bottom");
+  }
+}
+
+figure {
+  margin-left: auto;
+  margin-right: auto;
+
+  figcaption {
+    @extend %govuk-body-s;
+  }
+
+  img + figcaption {
+    @include govuk-responsive-margin(2, "top");
+  }
+}
