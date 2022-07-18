@@ -228,6 +228,8 @@ en:
         sufficient_processing:
           Have non-originating parts been subject to sufficient processing to
           qualify for preferential treatment?
+      rules_of_origin_steps_product_specific_rules:
+        rules: Do your goods meet the product-specific rules?
 
     caption:
       rules_of_origin_steps_scheme:
@@ -255,6 +257,10 @@ en:
             components that you need to take into account
           </a>
           on the previous screens.
+      rules_of_origin_steps_product_specific_rules:
+        rules: |
+          Your goods must meet one of these rules in order to qualify for
+          originating status. Select an option to indicate if you meet the rule.
 
     label:
       rules_of_origin_steps_import_export:
@@ -312,6 +318,7 @@ en:
           not_wholly_obtained: Your goods are not wholly obtained
           parts_components: Including parts or components from other countries
           sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
+          product_specific_rules: Does your product meet the product-specific rules?
           rules_not_met: Rules of origin not met
           proofs_of_origin: Valid proofs of origin
 
@@ -604,6 +611,19 @@ en:
             properties.
         insufficient_processing: |
           'Insufficient processing' operations according to the %{scheme_title}
+
+      product_specific_rules:
+        body: |
+          Before selecting an option, read the **introductory notes** from the
+          %{scheme_title}'s section on product-specific rules of origin.
+        notes:
+          summary: Introductory notes to the product-specific rules
+          content: "FIXME: TBD"
+        about:
+          summary: About this commodity code
+          content:
+            commodity: Commodity code %{commodity_code}
+            link: View commodity %{commodity_code}
 
       rules_not_met:
         caption:
