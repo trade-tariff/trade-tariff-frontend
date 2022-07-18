@@ -1,6 +1,14 @@
 .panel {
   text-align: left;
   padding: govuk-spacing(4) - $govuk-border-width;
+
+  &--coloured {
+    background-color: $coloured-panel-background-colour;
+  }
+
+  .govuk-warning-text {
+    margin-bottom: inherit ;
+  }
 }
 
 .panel-border-wide {

@@ -1,0 +1,93 @@
+<span class="govuk-caption-xl">
+  <%= t (current_step.exporting? ? '.caption.exporting' : '.caption.importing'),
+        commodity_code: current_step.commodity_code,
+        trade_country_name: current_step.trade_country_name %>
+</span>
+
+<h1 class="govuk-heading-xl">
+  <%= t '.title' %>
+</h1>
+
+<div class="govuk-panel govuk-panel--confirmation">
+  <div class="govuk-panel__body">
+    <%= t '.panel', scheme_title: current_step.scheme_title %>
+  </div>
+</div>
+
+<div class="tariff-markdown">
+  <%= govspeak t('.body', scheme_title: current_step.scheme_title) %>
+</div>
+
+<div id="tolerances-section">
+  <h3 class="govuk-heading-m">
+    <%= t '.tolerances.title' %>
+  </h3>
+
+  <p>
+    <%= t '.tolerances.content' %>
+  </p>
+
+  <p>
+    <%= link_to t('.tolerances.link'), step_path(:tolerances) %>
+  </p>
+</div>
+
+<div id="absorption-section">
+  <h3 class="govuk-heading-m">
+    <%= t '.absorption.title' %>
+  </h3>
+
+  <div class="tariff-markdown">
+    <%= govspeak t('.absorption.content') %>
+  </div>
+
+  <div class="tariff-markdown govuk-inset-text">
+    <%= govspeak t('.absorption.inset') %>
+  </div>
+</div>
+
+<div id="sets-section">
+  <h3 class="govuk-heading-m">
+    <%= t '.sets.title' %>
+  </h3>
+
+  <div class="tariff-markdown">
+    <%= govspeak t('.sets.part1') %>
+
+    <%= render 'shared/details', summary: t('.sets.details.summary'),
+                                 content: tag.p(t('.sets.details.content')) %>
+
+    <%= govspeak t('.sets.part2') %>
+  </div>
+</div>
+
+<div id="cumulation-section">
+  <h3 class="govuk-heading-m">
+    <%= t '.cumulation.title' %>
+  </h3>
+
+  <p>
+    <%= t '.cumulation.content' %>
+  </p>
+
+  <p>
+    <%= link_to t('.cumulation.link', scheme_title: current_step.scheme_title),
+                step_path(:cumulation) %>.
+  </p>
+</div>
+
+<div id="whats-next-section" class="panel panel--coloured">
+  <div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-warning-text__assistive"><%= t 'generic.warning' %></span>
+      <%= t '.whats_next.title' %>
+    </strong>
+
+    <div class="govuk-warning-text__text">
+      <%= govspeak t('.whats_next.content',
+                     proofs_link: step_path(:proofs_of_origin),
+                     start_link: step_path(current_step.first_step)) %>
+    </div>
+  </div>
+</div>

@@ -43,5 +43,15 @@ FactoryBot.define do
       originating
       wholly_obtained { 'no' }
     end
+
+    trait :sufficient_processing do
+      not_wholly_obtained
+      sufficient_processing { 'yes' }
+    end
+
+    trait :insufficient_processing do
+      not_wholly_obtained
+      sufficient_processing { 'no' }
+    end
   end
 end
