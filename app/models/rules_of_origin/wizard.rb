@@ -13,6 +13,7 @@ module RulesOfOrigin
       Steps::ProofsOfOrigin,
       Steps::NotWhollyObtained,
       Steps::PartsComponents,
+      Steps::SufficientProcessing,
       Steps::End,
     ]
 
