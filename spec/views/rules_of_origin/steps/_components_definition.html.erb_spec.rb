@@ -25,6 +25,7 @@ RSpec.describe 'rules_of_origin/steps/_components_definition', type: :view do
   it { is_expected.to have_css 'h3', text: %r{Accessories} }
   it { is_expected.to have_css '.tariff-markdown > p', text: 'accessory article' }
   it { is_expected.to have_css 'h3', text: /Next step/ }
+  it { is_expected.to have_css 'p', text: %r{Click on the 'Continue' button.*#{schemes.first.title}} }
   it { is_expected.to have_css 'form button[type=submit]' }
 
   context 'without accesories article' do
