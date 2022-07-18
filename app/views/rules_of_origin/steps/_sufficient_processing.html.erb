@@ -1,0 +1,32 @@
+<%= rules_of_origin_form_for(current_step) do |form| %>
+  <span class="govuk-caption-xl">
+    <%= t '.caption' %>
+  </span>
+
+  <h1 class="govuk-heading-xl">
+    <%= t '.title' %>
+  </h1>
+
+  <div class="tariff-markdown tariff-markdown--with-lead-paragraph">
+    <%= govspeak t '.body' %>
+
+    <%= render 'shared/details', summary: t('.operations.summary'),
+                                 content: govspeak(t('.operations.content')) %>
+  </div>
+
+  <div id="insufficient-processing-article">
+    <h3 class="govuk-heading-m">
+      <%= t '.insufficient_processing', scheme_title: form.object.scheme_title %>
+    </h3>
+
+    <div class="tariff-markdown lettered-list">
+      <%= govspeak form.object.insufficient_processing_text %>
+    </div>
+  </div>
+
+  <%= form.govuk_collection_radio_buttons \
+        :sufficient_processing,
+        form.object.options,
+        :to_sym,
+        legend: { size: 'm', tag: nil } %>
+<% end %>

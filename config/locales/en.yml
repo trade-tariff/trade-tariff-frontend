@@ -211,6 +211,11 @@ en:
             wholly_obtained:
               inclusion: Select whether your goods are wholly obtained in %{trade_country}
 
+        rules_of_origin/steps/sufficient_processing:
+          attributes:
+            sufficient_processing:
+              inclusion: Select whether non-originating parts have been subject to sufficient processing
+
   helpers:
     legend:
       rules_of_origin_steps_scheme:
@@ -219,6 +224,10 @@ en:
         import_or_export: Are you importing goods into %{service_country} or into %{trade_country}?
       rules_of_origin_steps_wholly_obtained:
         wholly_obtained: Are your goods wholly obtained in %{trade_country}?
+      rules_of_origin_steps_sufficient_processing:
+        sufficient_processing:
+          Have non-originating parts been subject to sufficient processing to
+          qualify for preferential treatment?
 
     caption:
       rules_of_origin_steps_scheme:
@@ -256,6 +265,10 @@ en:
         wholly_obtained_options:
           'yes': Yes, my goods are wholly obtained in %{trade_country}
           'no': No, my goods are not wholly obtained in %{trade_country}
+      rules_of_origin_steps_sufficient_processing:
+        sufficient_processing_options:
+          'yes': 'Yes'
+          'no': 'No'
 
   rules_of_origin:
     preferential_treatment:
@@ -298,6 +311,7 @@ en:
           origin_requirements_met: Origin requirements met
           not_wholly_obtained: Your goods are not wholly obtained
           parts_components: Including parts or components from other countries
+          sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
           proofs_of_origin: Valid proofs of origin
 
       import_only:
@@ -318,7 +332,8 @@ en:
           apply to your import from %{trade_country_name}.
         exporting_to: Exporting goods to %{trade_country_name}
         export_information: |
-          If you would like to export goods to %{trade_country_name}, then MFN duties will apply.
+          If you would like to export goods to %{trade_country_name}, then MFN
+          duties will apply.
 
           For Most-Favoured Nation (MFN) duties, anti-dumping, anti-subsidies or
           safeguard measures, origin marking, non-preferential rules of origin
@@ -552,3 +567,39 @@ en:
           Click on the 'Continue' button to view the definition of 'minimal
           operations' in the %{scheme_title}. Any non-originating parts must be
           sufficiently processed to count as originating.
+
+      sufficient_processing:
+        caption: Are your goods originating?
+        title: |
+          Minimal operations: Have non-originating parts been sufficiently
+          processed?
+        body: |
+          In order to qualify for preferential treatment, non-originating parts
+          must be sufficiently processed to count as originating.
+
+          Manufacturing and processing operations must be more than simple
+          operations or processes, and must need special skills, machines,
+          apparatus or equipment especially produced or installed to carry out
+          the manufacture or process.
+
+          Some operations are regarded as too minor to confer originating status
+          to non-originating materials that are used in the production of your
+          goods. These operations are referred to as 'insufficient processing'
+          and are specific to each trade agreement.
+        operations:
+          summary: What are simple operations?
+          content: |
+            Some of the listed operations can be clearly identified as
+            insufficient operations, such as the affixing of a label on the
+            product. However, there are also some operations that need to be
+            assessed further as they contain the term ‘simple’, for example
+            ‘simple assembly’.
+
+            ‘Simple’ usually describes activities which do not need special
+            skills, machines, apparatus, or equipment especially produced or
+            installed for carrying out the activity. This term may be further
+            defined so that the skills, machines, apparatus, or tools used must
+            also contribute to the product’s essential characteristics or
+            properties.
+        insufficient_processing: |
+          'Insufficient processing' operations according to the %{scheme_title}
