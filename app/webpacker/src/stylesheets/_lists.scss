@@ -1,7 +1,13 @@
-.lettered-list ol, ol.lettered_list {
+.lettered-list ol, ol.lettered-list {
   list-style-type: lower-alpha;
 
   ol {
     list-style-type: lower-roman;
+  }
+}
+
+.numbered-then-lettered-list ol, ol.numbered-then-lettered-list {
+  ol {
+    list-style-type: lower-alpha;
   }
 }
