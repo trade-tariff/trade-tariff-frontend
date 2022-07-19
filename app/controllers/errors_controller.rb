@@ -4,7 +4,7 @@ class ErrorsController < ApplicationController
   skip_before_action :set_search
   skip_before_action :bots_no_index_if_historical
 
-  before_action :disable_search_form
+  before_action :disable_search_form, :disable_switch_service_banner
 
   def not_found
     render status: :not_found
