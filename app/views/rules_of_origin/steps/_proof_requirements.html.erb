@@ -1,0 +1,32 @@
+<span class="govuk-caption-xl">
+  <%= t '.caption' %>
+</span>
+
+<h1 class="govuk-heading-l">
+  <%= t '.title', trade_country_name: current_step.trade_country_name %>
+</h1>
+
+<p>
+  <%= t '.body', scheme_title: current_step.scheme_title %>
+</p>
+
+<aside role="complementary" id="article-section-list">
+  <nav class="gem-c-contents-list" aria-label="<%= t '.article_list' %>" role="navigation">
+    <h2 class="gem-c-contents-list__title">
+      <%= t 'generic.contents' %>
+    </h2>
+
+    <ol class="gem-c-contents-list__list">
+      <% current_step.processes_section_titles.each.with_index do |title, index| %>
+      <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
+        <%= link_to title, step_path(:proof_requirements, section: index + 1),
+                    class: 'gem-c-contents-list__link' %>
+      </li>
+      <% end %>
+    </ol>
+  </nav>
+</aside>
+
+<div class="tariff-markdown numbered-then-lettered-list" id="article-section">
+  <%= govspeak current_step.processes_section(params[:section]) %>
+</div>
