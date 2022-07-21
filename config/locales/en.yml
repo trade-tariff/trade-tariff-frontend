@@ -216,6 +216,11 @@ en:
             sufficient_processing:
               inclusion: Select whether non-originating parts have been subject to sufficient processing
 
+        rules_of_origin/steps/product_specific_rules:
+          attributes:
+            rule:
+              inclusion: Select whether your goods meet any of these rules
+
   helpers:
     legend:
       rules_of_origin_steps_scheme:
@@ -229,7 +234,7 @@ en:
           Have non-originating parts been subject to sufficient processing to
           qualify for preferential treatment?
       rules_of_origin_steps_product_specific_rules:
-        rules: Do your goods meet the product-specific rules?
+        rule: Do your goods meet the product-specific rules?
 
     caption:
       rules_of_origin_steps_scheme:
@@ -258,7 +263,7 @@ en:
           </a>
           on the previous screens.
       rules_of_origin_steps_product_specific_rules:
-        rules: |
+        rule: |
           Your goods must meet one of these rules in order to qualify for
           originating status. Select an option to indicate if you meet the rule.
 
@@ -275,6 +280,9 @@ en:
         sufficient_processing_options:
           'yes': 'Yes'
           'no': 'No'
+      rules_of_origin_steps_product_specific_rules:
+        rule_options:
+          none: Your goods do not meet any of these rules.
 
   rules_of_origin:
     preferential_treatment:

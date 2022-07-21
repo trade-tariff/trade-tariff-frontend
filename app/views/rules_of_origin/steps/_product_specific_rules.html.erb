@@ -1,8 +1,9 @@
 <%= rules_of_origin_form_for(current_step) do |form| %>
   <%= form.govuk_collection_radio_buttons \
-        :rules,
+        :rule,
         form.object.options,
-        :to_sym %>
+        :resource_id,
+        :rule %>
 
   <div class="tariff-markdown">
     <%= govspeak t '.body', scheme_title: form.object.scheme_title %>
