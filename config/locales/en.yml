@@ -5,7 +5,6 @@ en:
   generic:
     warning: Warning
     contents: Contents
-    back_to_top: Back to top
 
   meta_description: "Search for import and export commodity codes and for tax, duty and licences that apply to your goods"
 
@@ -92,6 +91,7 @@ en:
 
   navigation:
     back: Back
+    back_to_top: Back to top
 
   measure_type_descriptions:
     1400:
