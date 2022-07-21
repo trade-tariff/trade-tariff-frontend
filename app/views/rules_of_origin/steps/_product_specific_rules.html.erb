@@ -7,8 +7,8 @@
   <div class="tariff-markdown">
     <%= govspeak t '.body', scheme_title: form.object.scheme_title %>
 
-    <%= render 'shared/details', summary: t('.notes.summary'),
-                                 content: govspeak(t('.notes.content')) %>
+    <%= render 'shared/details', summary: t('.notes'),
+                                 content: govspeak(form.object.chosen_scheme.introductory_notes) %>
   </div>
 <% end %>
 

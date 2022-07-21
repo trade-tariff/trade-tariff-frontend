@@ -616,9 +616,7 @@ en:
         body: |
           Before selecting an option, read the **introductory notes** from the
           %{scheme_title}'s section on product-specific rules of origin.
-        notes:
-          summary: Introductory notes to the product-specific rules
-          content: "FIXME: TBD"
+        notes: Introductory notes to the product-specific rules
         about:
           summary: About this commodity code
           content:
