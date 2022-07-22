@@ -21,7 +21,7 @@ RSpec.describe ImageGuidesHelper, type: :helper do
       end
     end
 
-    context "when the image for the guide does NOT exist" do
+    context 'when the image for the guide does NOT exist' do
       subject(:rendered) { helper.country_flag_tag('non-existent-guide') }
 
       it('returns nothing') { is_expected.to be_nil }
