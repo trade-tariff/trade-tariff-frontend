@@ -7,6 +7,9 @@ class SearchController < ApplicationController
   def search
     @results = @search.perform
 
+    # TODO: This is the call of the new Beta search (WIP):
+    # @results = Beta::Search::SearchResult.build(search_attributes)
+
     respond_to do |format|
       format.html do
         if @search.missing_search_term?

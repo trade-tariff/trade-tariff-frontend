@@ -10,13 +10,13 @@ module Beta
                     :max_score,
                     :total_results
 
-      has_many :chapter_statistics, class: 'Beta::Search::ChapterStatistic'
-      has_many :heading_statistics, class: 'Beta::Search::HeadingStatistic'
-      has_many :hits, class: 'Beta::Search::Hit'
-      has_one :guide, class: 'Beta::Search::Guide'
-      has_one :search_query_parser_result, class: 'Beta::Search::SearchQueryParserResult'
+      has_many :chapter_statistics, class_name: 'Beta::Search::ChapterStatistic'
+      has_many :heading_statistics, class_name: 'Beta::Search::HeadingStatistic'
+      has_many :hits, class_name: 'Beta::Search::Hit'
+      has_one :guide, class_name: 'Beta::Search::Guide'
+      has_one :search_query_parser_result, class_name: 'Beta::Search::SearchQueryParserResult'
 
-      def build(query)
+      def self.build(query)
         retries = 0
         resp = api.get("/api/beta/search?q=#{query}")
         parsed = parse_jsonapi(resp)
