@@ -6,7 +6,6 @@ FactoryBot.define do
 
     sequence(:resource_id) { |n| "abcdef#{n}" }
     sequence(:heading) { |n| sprintf 'Heading %03d0-%03d9', n, n }
-    subdivision { '' }
     rules { attributes_for_list :rules_of_origin_v2_rule, rule_count }
 
     trait :subdivided do

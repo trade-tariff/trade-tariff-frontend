@@ -13,7 +13,7 @@ module RulesOfOrigin
       end
 
       def options
-        chosen_scheme.rule_sets
+        chosen_scheme.rule_sets.select(&:subdivision)
       end
 
     private

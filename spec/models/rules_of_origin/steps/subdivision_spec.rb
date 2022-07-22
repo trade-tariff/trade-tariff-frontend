@@ -4,6 +4,12 @@ RSpec.describe RulesOfOrigin::Steps::Subdivision do
   include_context 'with rules of origin store', :sufficient_processing
   include_context 'with wizard step', RulesOfOrigin::Wizard
 
+  let :schemes do
+    build_list :rules_of_origin_scheme, 1, countries: [country.id], articles:, rule_sets:
+  end
+
+  let(:rule_sets) { attributes_for_pair :rules_of_origin_rule_set, :subdivided }
+
   it { is_expected.to respond_to :subdivision }
 
   describe 'validation' do
@@ -49,8 +55,15 @@ RSpec.describe RulesOfOrigin::Steps::Subdivision do
   end
 
   describe '#options' do
-    subject { instance.options.map(&:resource_id) }
+    subject { instance.options }
 
-    it { is_expected.to eql schemes.first.rule_sets.map(&:resource_id) }
+    let :rule_sets do
+      attributes_for_pair(:rules_of_origin_rule_set, :subdivided) +
+        attributes_for_list(:rules_of_origin_rule_set, 1)
+    end
+
+    it { is_expected.to include schemes.first.rule_sets.first }
+    it { is_expected.to include schemes.first.rule_sets.second }
+    it { is_expected.not_to include schemes.first.rule_sets.third }
   end
 end
