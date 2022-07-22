@@ -1,0 +1,15 @@
+<%= render 'shared/details', summary: t('.summary') do %>
+  <%# full key necessary for i18n because we're inside shared/details %>
+  <p>
+    <%= t 'rules_of_origin.steps.about_commodity.content',
+          commodity_code: commodity_code %>
+    <br />
+    <%= description %>
+  </p>
+
+  <p>
+    <%= link_to t('rules_of_origin.steps.about_commodity.link',
+                  commodity_code: commodity_code),
+                commodity_path(commodity_code) %>
+  </p>
+<% end %>

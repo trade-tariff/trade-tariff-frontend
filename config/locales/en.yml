@@ -216,6 +216,11 @@ en:
             sufficient_processing:
               inclusion: Select whether non-originating parts have been subject to sufficient processing
 
+        rules_of_origin/steps/subdivision:
+          attributes:
+            subdivision:
+              inclusion: Select the type of product you are trading
+
         rules_of_origin/steps/product_specific_rules:
           attributes:
             rule:
@@ -233,6 +238,9 @@ en:
         sufficient_processing:
           Have non-originating parts been subject to sufficient processing to
           qualify for preferential treatment?
+      rules_of_origin_steps_subdivision:
+        subdivision: Provide more information about your product
+
       rules_of_origin_steps_product_specific_rules:
         rule: Do your goods meet the product-specific rules?
 
@@ -243,6 +251,8 @@ en:
         import_or_export: Details of your trade
       rules_of_origin_steps_wholly_obtained:
         wholly_obtained: Are your goods originating?
+      rules_of_origin_steps_subdivision:
+        subdivision: Are your goods originating?
 
     hint:
       rules_of_origin_steps_scheme:
@@ -262,6 +272,10 @@ en:
             components that you need to take into account
           </a>
           on the previous screens.
+      rules_of_origin_steps_subdivision:
+        subdivision: |
+          The rules of origin for commodity %{commodity_code} depend on the type
+          of product that you are trading.
       rules_of_origin_steps_product_specific_rules:
         rule: |
           Your goods must meet one of these rules in order to qualify for
@@ -326,6 +340,7 @@ en:
           not_wholly_obtained: Your goods are not wholly obtained
           parts_components: Including parts or components from other countries
           sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
+          subdivision: Provide more information about your product
           product_specific_rules: Does your product meet the product-specific rules?
           rules_not_met: Rules of origin not met
           proofs_of_origin: Valid proofs of origin
@@ -620,16 +635,16 @@ en:
         insufficient_processing: |
           'Insufficient processing' operations according to the %{scheme_title}
 
+      about_commodity:
+        summary: About this commodity code
+        content: Commodity code %{commodity_code}
+        link: View commodity %{commodity_code}
+
       product_specific_rules:
         body: |
           Before selecting an option, read the **introductory notes** from the
           %{scheme_title}'s section on product-specific rules of origin.
         notes: Introductory notes to the product-specific rules
-        about:
-          summary: About this commodity code
-          content:
-            commodity: Commodity code %{commodity_code}
-            link: View commodity %{commodity_code}
 
       rules_not_met:
         caption:

@@ -1,16 +1,13 @@
 <%= rules_of_origin_form_for(current_step) do |form| %>
   <%= form.govuk_collection_radio_buttons \
-        :rule,
+        :subdivision,
         form.object.options,
         :resource_id,
-        :rule %>
-
-  <div class="tariff-markdown">
-    <%= govspeak t '.body', scheme_title: form.object.scheme_title %>
-
-    <%= render 'shared/details', summary: t('.notes'),
-                                 content: govspeak(form.object.chosen_scheme.introductory_notes) %>
-  </div>
+        :subdivision,
+        hint: {
+          text: t('helpers.hint.rules_of_origin_steps_subdivision.subdivision',
+                  commodity_code: form.object.commodity_code)
+        } %>
 <% end %>
 
 <%= render 'about_commodity', commodity_code: current_step.commodity_code,
