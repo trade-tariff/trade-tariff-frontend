@@ -20,6 +20,7 @@ RSpec.describe 'rules_of_origin/steps/_proof_requirements', type: :view do
   it { is_expected.to have_link 'First section' }
   it { is_expected.to have_link 'Second section' }
   it { is_expected.to have_css '#article-section h2', count: 1, text: 'First section' }
+  it { is_expected.to have_link 'Back to top' }
 
   context 'with second section chosen' do
     let :render_page do
@@ -32,5 +33,6 @@ RSpec.describe 'rules_of_origin/steps/_proof_requirements', type: :view do
     it { is_expected.to have_link 'First section' }
     it { is_expected.to have_link 'Second section' }
     it { is_expected.to have_css '#article-section h2', count: 1, text: 'Second section' }
+    it { is_expected.to have_link 'Back to top' }
   end
 end
