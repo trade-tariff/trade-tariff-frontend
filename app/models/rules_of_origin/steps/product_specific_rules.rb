@@ -13,7 +13,11 @@ module RulesOfOrigin
       end
 
       def options
-        @options ||= chosen_scheme.v2_rules + [none_option]
+        @options ||= rules + [none_option]
+      end
+
+      def rules
+        subdivided_rules? ? subdivision_rules : all_rules
       end
 
     private
@@ -32,6 +36,24 @@ module RulesOfOrigin
 
       def available_rules
         options.map(&:resource_id)
+      end
+
+      def subdivided_rules?
+        !@wizard.find('subdivisions').skipped?
+      end
+
+      def all_rules
+        chosen_scheme.v2_rules
+      end
+
+      def subdivision_rules
+        subdivision_rule_set.rules
+      end
+
+      def subdivision_rule_set
+        chosen_scheme.rule_sets.find do |rs|
+          rs.resource_id == @store['subdivision_id']
+        end
       end
     end
   end

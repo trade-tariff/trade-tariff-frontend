@@ -17,6 +17,10 @@ shared_context 'with rules of origin store' do |*traits, scheme_count: 1, scheme
   end
 
   let(:schemes) do
+    if traits.include?(:subdivided)
+      scheme_traits << :with_subdivided_rule_sets
+    end
+
     build_list :rules_of_origin_scheme,
                scheme_count,
                *scheme_traits,
