@@ -1,14 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe RulesOfOrigin::Steps::Subdivision do
-  include_context 'with rules of origin store', :sufficient_processing
+  include_context 'with rules of origin store',
+                  :sufficient_processing,
+                  scheme_traits: %i[with_subdivided_rule_sets]
   include_context 'with wizard step', RulesOfOrigin::Wizard
-
-  let :schemes do
-    build_list :rules_of_origin_scheme, 1, countries: [country.id], articles:, rule_sets:
-  end
-
-  let(:rule_sets) { attributes_for_pair :rules_of_origin_rule_set, :subdivided }
 
   it { is_expected.to respond_to :subdivision }
 
@@ -24,16 +20,22 @@ RSpec.describe RulesOfOrigin::Steps::Subdivision do
   describe '#skipped' do
     subject { instance.skipped? }
 
-    it { is_expected.to be false }
+    context 'with subdivided rulesets' do
+      context "when 'sufficient_processing' set to 'yes'" do
+        it { is_expected.to be false }
+      end
 
-    context "when 'sufficient_processing' set to 'yes'" do
-      include_context 'with rules of origin store', :sufficient_processing
+      context "when 'sufficient_processing' set to 'no'" do
+        include_context 'with rules of origin store',
+                        :insufficient_processing,
+                        scheme_traits: %i[with_subdivided_rule_sets]
 
-      it { is_expected.to be false }
+        it { is_expected.to be true }
+      end
     end
 
-    context "when 'sufficient_processing' set to 'no'" do
-      include_context 'with rules of origin store', :insufficient_processing
+    context 'when no subdivided rule_sets' do
+      include_context 'with rules of origin store', :sufficient_processing
 
       it { is_expected.to be true }
     end
@@ -56,6 +58,10 @@ RSpec.describe RulesOfOrigin::Steps::Subdivision do
 
   describe '#options' do
     subject { instance.options }
+
+    let :schemes do
+      build_list :rules_of_origin_scheme, 1, countries: [country.id], rule_sets:
+    end
 
     let :rule_sets do
       attributes_for_pair(:rules_of_origin_rule_set, :subdivided) +

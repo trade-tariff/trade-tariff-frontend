@@ -9,7 +9,7 @@ module RulesOfOrigin
       validates :subdivision, inclusion: { in: :available_subdivisions }
 
       def skipped?
-        @store['sufficient_processing'] == 'no'
+        @store['sufficient_processing'] == 'no' || options.none?
       end
 
       def options
