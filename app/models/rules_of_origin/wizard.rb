@@ -19,6 +19,10 @@ module RulesOfOrigin
       Steps::ProofRequirements,
       Steps::ProofVerification,
       Steps::RulesNotMet,
+      Steps::NotWhollyObtained,
+      Steps::Cumulation,
+      Steps::SufficientProcessing,
+      Steps::End,
     ]
 
     def sections
