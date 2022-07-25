@@ -322,7 +322,7 @@ article.tariff {
 }
 
 .js-enabled {
-  em {
+  .commodity-tree-note em {
     @include govuk-font($size: 14, $weight: normal);
   }
 
