@@ -21,10 +21,6 @@ module RulesOfOrigin
         wholly_obtained? || sufficiently_processed? && meets_rules?
       end
 
-      def single_wholly_obtained_rule?
-        chosen_scheme.v2_rules.select(&:wholly_obtained_class?).one?
-      end
-
       def wholly_obtained?
         @store['wholly_obtained'] == 'yes'
       end

@@ -40,6 +40,12 @@ module RulesOfOrigin
       def exporting?
         !chosen_scheme.unilateral && @store['import_or_export'] == 'export'
       end
+
+    private
+
+      def single_wholly_obtained_rule?
+        chosen_scheme.v2_rules.select(&:wholly_obtained_class?).one?
+      end
     end
   end
 end
