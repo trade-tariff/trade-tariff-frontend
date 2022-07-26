@@ -67,6 +67,16 @@ RSpec.describe RulesOfOrigin::Steps::ProofRequirements do
 
         it { is_expected.to eql %(## Second section\n\nSection 2 content\n) }
       end
+
+      context 'with no content' do
+        subject(:sections) { instance.processes_sections }
+
+        let(:articles) { [] }
+
+        it 'returns an empty array' do
+          expect(sections).to be_empty
+        end
+      end
     end
 
     describe '#processes_section_titles' do
