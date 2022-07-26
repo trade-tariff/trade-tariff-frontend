@@ -12,6 +12,7 @@ class RulesOfOrigin::Scheme
   has_many :links, class_name: 'RulesOfOrigin::Link'
   has_many :proofs, class_name: 'RulesOfOrigin::Proof'
   has_many :articles, class_name: 'RulesOfOrigin::Article'
+  has_many :rule_sets, class_name: 'RulesOfOrigin::RuleSet'
 
   class << self
     def all(heading_code, country_code, opts = {})
@@ -24,5 +25,9 @@ class RulesOfOrigin::Scheme
 
   def article(article)
     articles.find { |a| a.article == article }
+  end
+
+  def v2_rules
+    rule_sets.flat_map(&:rules)
   end
 end

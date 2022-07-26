@@ -14,6 +14,7 @@ RSpec.describe RulesOfOrigin::Scheme do
   it { is_expected.to respond_to :rules }
   it { is_expected.to respond_to :links }
   it { is_expected.to respond_to :articles }
+  it { is_expected.to respond_to :rule_sets }
 
   describe '.all' do
     let(:json_response) { response_data.to_json }
@@ -292,6 +293,20 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject { scheme.article 'unknown-missing' }
 
       it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#v2_rules' do
+    subject(:v2_rules) { scheme.v2_rules }
+
+    let(:scheme) { build(:rules_of_origin_scheme, rule_set_count: 2, v2_rule_count: 3) }
+
+    it { is_expected.to have_attributes length: 6 }
+
+    describe 'rule content' do
+      subject { v2_rules.fourth.rule }
+
+      it { is_expected.to eql scheme.rule_sets[1].rules[0].rule }
     end
   end
 end
