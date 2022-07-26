@@ -1,20 +1,20 @@
 require 'spec_helper'
 
-RSpec.describe RulesOfOrigin::Steps::Subdivision do
+RSpec.describe RulesOfOrigin::Steps::Subdivisions do
   include_context 'with rules of origin store',
                   :sufficient_processing,
                   scheme_traits: %i[with_subdivided_rule_sets]
   include_context 'with wizard step', RulesOfOrigin::Wizard
 
-  it { is_expected.to respond_to :subdivision }
+  it { is_expected.to respond_to :subdivision_id }
 
   describe 'validation' do
     let(:rule_set) { schemes.first.rule_sets.first }
 
-    it { is_expected.to allow_value(rule_set.resource_id).for :subdivision }
-    it { is_expected.not_to allow_value('random').for :subdivision }
-    it { is_expected.not_to allow_value('').for :subdivision }
-    it { is_expected.not_to allow_value(nil).for :subdivision }
+    it { is_expected.to allow_value(rule_set.resource_id).for :subdivision_id }
+    it { is_expected.not_to allow_value('random').for :subdivision_id }
+    it { is_expected.not_to allow_value('').for :subdivision_id }
+    it { is_expected.not_to allow_value(nil).for :subdivision_id }
   end
 
   describe '#skipped' do

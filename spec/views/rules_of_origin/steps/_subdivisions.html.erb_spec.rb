@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/steps/_subdivision', type: :view do
-  include_context 'with rules of origin form step', 'subdivision'
+RSpec.describe 'rules_of_origin/steps/_subdivisions', type: :view do
+  include_context 'with rules of origin form step', 'subdivisions'
 
   before do
     allow(Commodity).to receive(:find).with(wizardstore['commodity_code'])

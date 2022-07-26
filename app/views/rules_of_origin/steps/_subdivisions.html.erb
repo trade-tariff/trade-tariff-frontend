@@ -1,11 +1,11 @@
 <%= rules_of_origin_form_for(current_step) do |form| %>
   <%= form.govuk_collection_radio_buttons \
-        :subdivision,
+        :subdivision_id,
         form.object.options,
         :resource_id,
         :subdivision,
         hint: {
-          text: t('helpers.hint.rules_of_origin_steps_subdivision.subdivision',
+          text: t('helpers.hint.rules_of_origin_steps_subdivisions.subdivision_id',
                   commodity_code: form.object.commodity_code)
         } %>
 <% end %>

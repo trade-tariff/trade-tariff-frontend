@@ -216,9 +216,9 @@ en:
             sufficient_processing:
               inclusion: Select whether non-originating parts have been subject to sufficient processing
 
-        rules_of_origin/steps/subdivision:
+        rules_of_origin/steps/subdivisions:
           attributes:
-            subdivision:
+            subdivision_id:
               inclusion: Select the type of product you are trading
 
         rules_of_origin/steps/product_specific_rules:
@@ -238,8 +238,8 @@ en:
         sufficient_processing:
           Have non-originating parts been subject to sufficient processing to
           qualify for preferential treatment?
-      rules_of_origin_steps_subdivision:
-        subdivision: Provide more information about your product
+      rules_of_origin_steps_subdivisions:
+        subdivision_id: Provide more information about your product
 
       rules_of_origin_steps_product_specific_rules:
         rule: Do your goods meet the product-specific rules?
@@ -251,8 +251,8 @@ en:
         import_or_export: Details of your trade
       rules_of_origin_steps_wholly_obtained:
         wholly_obtained: Are your goods originating?
-      rules_of_origin_steps_subdivision:
-        subdivision: Are your goods originating?
+      rules_of_origin_steps_subdivisions:
+        subdivision_id: Are your goods originating?
 
     hint:
       rules_of_origin_steps_scheme:
@@ -272,8 +272,8 @@ en:
             components that you need to take into account
           </a>
           on the previous screens.
-      rules_of_origin_steps_subdivision:
-        subdivision: |
+      rules_of_origin_steps_subdivisions:
+        subdivision_id: |
           The rules of origin for commodity %{commodity_code} depend on the type
           of product that you are trading.
       rules_of_origin_steps_product_specific_rules:
@@ -340,7 +340,7 @@ en:
           not_wholly_obtained: Your goods are not wholly obtained
           parts_components: Including parts or components from other countries
           sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
-          subdivision: Provide more information about your product
+          subdivisions: Provide more information about your product
           product_specific_rules: Does your product meet the product-specific rules?
           rules_not_met: Rules of origin not met
           proofs_of_origin: Valid proofs of origin

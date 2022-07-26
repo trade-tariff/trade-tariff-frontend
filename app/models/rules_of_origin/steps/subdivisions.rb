@@ -1,12 +1,12 @@
 module RulesOfOrigin
   module Steps
-    class Subdivision < Base
+    class Subdivisions < Base
       self.section = 'originating'
 
       delegate :description, to: :commodity, prefix: true
 
-      attribute :subdivision
-      validates :subdivision, inclusion: { in: :available_subdivisions }
+      attribute :subdivision_id
+      validates :subdivision_id, inclusion: { in: :available_subdivisions }
 
       def skipped?
         @store['sufficient_processing'] == 'no' || options.none?

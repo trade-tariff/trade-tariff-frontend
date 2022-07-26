@@ -14,7 +14,7 @@ module RulesOfOrigin
       Steps::NotWhollyObtained,
       Steps::PartsComponents,
       Steps::SufficientProcessing,
-      Steps::Subdivision,
+      Steps::Subdivisions,
       Steps::ProductSpecificRules,
       Steps::RulesNotMet,
       Steps::End,
