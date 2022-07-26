@@ -53,5 +53,14 @@ FactoryBot.define do
       not_wholly_obtained
       sufficient_processing { 'no' }
     end
+
+    trait :subdivided do
+      schemes do
+        build_list :rules_of_origin_scheme, 2, :subdivided
+      end
+
+      sufficient_processing
+      subdivision_id { schemes.first.rule_sets.second.resource_id }
+    end
   end
 end

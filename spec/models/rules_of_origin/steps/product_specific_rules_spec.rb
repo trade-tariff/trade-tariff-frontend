@@ -54,4 +54,18 @@ RSpec.describe RulesOfOrigin::Steps::ProductSpecificRules do
 
     it { is_expected.to eql schemes.first.v2_rules.map(&:resource_id) + %w[none] }
   end
+
+  describe '#rules' do
+    subject { instance.rules }
+
+    context 'with no subdivision chosen' do
+      it { is_expected.to eql schemes.first.v2_rules }
+    end
+
+    context 'with subdivision' do
+      include_context 'with rules of origin store', :subdivided
+
+      it { is_expected.to eql schemes.first.rule_sets.second.rules }
+    end
+  end
 end
