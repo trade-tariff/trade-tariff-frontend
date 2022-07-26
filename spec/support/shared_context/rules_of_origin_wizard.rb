@@ -1,4 +1,4 @@
-shared_context 'with rules of origin store' do |*traits, scheme_count: 1, **store_attributes|
+shared_context 'with rules of origin store' do |*traits, scheme_count: 1, scheme_traits: [], **store_attributes|
   before do
     allow(GeographicalArea).to receive(:find).with(wizardstore['country_code'])
                                              .and_return(country)
@@ -17,8 +17,11 @@ shared_context 'with rules of origin store' do |*traits, scheme_count: 1, **stor
   end
 
   let(:schemes) do
-    build_list :rules_of_origin_scheme, scheme_count, countries: [country.id],
-                                                      articles:
+    build_list :rules_of_origin_scheme,
+               scheme_count,
+               *scheme_traits,
+               countries: [country.id],
+               articles:
   end
 
   let(:articles) { [] }

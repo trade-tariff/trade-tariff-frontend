@@ -23,5 +23,13 @@ FactoryBot.define do
       attributes_for_list :rules_of_origin_rule_set, rule_set_count,
                           rule_count: v2_rule_count
     end
+
+    trait :with_subdivided_rule_sets do
+      rule_sets do
+        attributes_for_list :rules_of_origin_rule_set, rule_set_count,
+                            :subdivided,
+                            rule_count: v2_rule_count
+      end
+    end
   end
 end
