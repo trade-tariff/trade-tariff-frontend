@@ -12,6 +12,8 @@ module RulesOfOrigin
       end
 
       def processes_sections
+        return [] if processes_text.nil?
+
         @processes_sections ||= \
           processes_text.split(/^(## )/m)
                         .map(&:presence)
