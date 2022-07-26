@@ -56,7 +56,7 @@ FactoryBot.define do
 
     trait :subdivided do
       schemes do
-        build_list :rules_of_origin_scheme, 2, :with_subdivided_rule_sets
+        build_list :rules_of_origin_scheme, 2, :subdivided
       end
 
       sufficient_processing

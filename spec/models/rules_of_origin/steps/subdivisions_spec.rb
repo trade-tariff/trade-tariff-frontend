@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe RulesOfOrigin::Steps::Subdivisions do
   include_context 'with rules of origin store',
                   :sufficient_processing,
-                  scheme_traits: %i[with_subdivided_rule_sets]
+                  scheme_traits: %i[subdivided]
   include_context 'with wizard step', RulesOfOrigin::Wizard
 
   it { is_expected.to respond_to :subdivision_id }
@@ -28,7 +28,7 @@ RSpec.describe RulesOfOrigin::Steps::Subdivisions do
       context "when 'sufficient_processing' set to 'no'" do
         include_context 'with rules of origin store',
                         :insufficient_processing,
-                        scheme_traits: %i[with_subdivided_rule_sets]
+                        scheme_traits: %i[subdivided]
 
         it { is_expected.to be true }
       end
