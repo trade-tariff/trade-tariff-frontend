@@ -314,6 +314,7 @@ en:
           not_wholly_obtained: Your goods are not wholly obtained
           parts_components: Including parts or components from other countries
           sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
+          rules_not_met: Rules of origin not met
           proofs_of_origin: Valid proofs of origin
           proof_requirements: Requirements for proving the origin for goods
           proof_verification: How proofs of origin are verified
@@ -620,3 +621,110 @@ en:
             properties.
         insufficient_processing: |
           'Insufficient processing' operations according to the %{scheme_title}
+
+      rules_not_met:
+        caption:
+          importing: Importing commodity %{commodity_code} from %{trade_country_name}
+          exporting: Exporting commodity %{commodity_code} from %{trade_country_name}
+        title: Rules of Origin not met
+        panel:
+          Your product does not appear to meet the rules of origin requirements
+          for the %{scheme_title}.
+        body: |
+           Based on your answers, it is likely that your product does not class
+           as 'originating' and cannot benefit from preferential tariff
+           treatment under the agreement.
+
+           However, there are a number of flexibilities in the %{scheme_title}
+           which could be used to help you comply with the rules of origin.
+        tolerances:
+          title: Tolerances
+          content: |
+            Tolerance rules allow you to use a limited quantity of
+            non-originating materials that are normally prohibited by the
+            product specific rule.
+          link: Find out more about tolerances
+        absorption:
+          title: The absorption principle
+          content: |
+            _Also known as the 'roll-up' or intermediate materials provision._
+
+            Once a part or intermediate material obtains originating status
+            under an FTA, it is considered to be 100% originating when used for
+            further processing even if inputs used for the production of this
+            part or intermediate material were not originating.
+
+            Once the originating status is obtained, the non-originating inputs
+            are fully absorbed and not taken into account. In other words, the
+            value of non-originating materials used in the production of the
+            good will be disregarded once this good obtains originating status.
+          inset: |
+            **Example of the absorption principle**
+
+            Part A is made of non-originating materials. The rule of origin for
+            this part requires a change in tariff classification (CTC rule).
+
+            The rule of origin is met and part A is considered originating.
+
+            It is then used to manufacture the final product B which will be
+            exported to an FTA partner.
+
+            The rule of origin for the final product B requires non-originating
+            materials not to exceed 40% of the value of the product (VA rule).
+            For the calculation of regional value content part A is treated as
+            100% originating based on the roll-up principle as all the
+            non-originating materials used to produce it were absorbed once
+            part A obtained originating status.
+        sets:
+          title: Sets
+          part1: |
+            _If your product is a set, you may be able to apply an additional
+            tolerance._
+
+            A provision that clarifies circumstances under which sets can be
+            considered originating. In particular, it refers to situations
+            where not all of the items in the set are originating.
+
+            Sets, even when comprising of different items, can be classified
+            under one commodity code based on the General Rules of
+            Interpretation (GIR). Provisions on sets often set an originating
+            value threshold above which the set is considered originating.
+          part2: |
+            A set, classified pursuant to paragraphs 3(b) and (c) of Part Two,
+            Section 1, of the Tariff of the United Kingdom, will be considered
+            as originating in a Party when all of its components are
+            originating under this Origin Reference Document.
+
+            Where the set is composed of originating and non-originating
+            components, it will as a whole be considered as originating in a
+            Party, provided that the value of the non-originating components
+            does not exceed 15 per cent of the ex-works or free on board price
+            of the set.
+          details:
+            summary: Example of a set
+            content: |
+              A stationery set consists of five different items. Based on the
+              individual rules of origin for each products under the given FTA,
+              four of these products are originating and one is not. The FTA
+              states that sets can still be considered originating when the
+              value of non-originating products does not exceed 10% of the
+              value of the total set. As the non-originating product in this
+              example constitutes 25% of the value, the set cannot be
+              considered originating.
+        cumulation:
+          title: Cumulation rules
+          content: |
+            Don't forget that cumulation can affect a product's originating
+            status.
+          link:
+            Check what cumulation rules apply to the movement of goods under
+            the %{scheme_title}
+        whats_next:
+          title: What's next
+          content: |
+            If you have read the flexibilities above and you now consider your
+            goods to be originating in the United Kingdom, read more about
+            [obtaining and verifying proofs of origin](%{proofs_link}).
+
+            Alternatively, if your trade still does not meet the rules of
+            origin, [start again](%{start_link}).

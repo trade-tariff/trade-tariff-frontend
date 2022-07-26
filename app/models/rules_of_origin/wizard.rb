@@ -16,6 +16,7 @@ module RulesOfOrigin
       Steps::NotWhollyObtained,
       Steps::PartsComponents,
       Steps::SufficientProcessing,
+      Steps::RulesNotMet,
       Steps::End,
     ]
 
