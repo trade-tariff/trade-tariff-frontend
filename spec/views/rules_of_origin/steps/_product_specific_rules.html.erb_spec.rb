@@ -19,7 +19,10 @@ RSpec.describe 'rules_of_origin/steps/_product_specific_rules', type: :view do
   it { is_expected.to have_css 'button[type="submit"]', text: 'Continue' }
 
   context 'with invalid submission' do
-    before { current_step.validate }
+    before do
+      current_step.rule = 'invalid'
+      current_step.validate
+    end
 
     it { is_expected.to have_css '.govuk-error-message', text: /Select whether/i }
   end
