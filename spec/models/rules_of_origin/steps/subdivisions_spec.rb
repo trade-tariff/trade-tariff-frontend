@@ -28,7 +28,7 @@ RSpec.describe RulesOfOrigin::Steps::Subdivisions do
       context "when 'sufficient_processing' set to 'no'" do
         include_context 'with rules of origin store',
                         :insufficient_processing,
-                        scheme_traits: %i[subdivided]
+                        scheme_traits: :subdivided
 
         it { is_expected.to be true }
       end
@@ -36,6 +36,22 @@ RSpec.describe RulesOfOrigin::Steps::Subdivisions do
 
     context 'when no subdivided rule_sets' do
       include_context 'with rules of origin store', :sufficient_processing
+
+      it { is_expected.to be true }
+    end
+
+    context 'when wholly obtained' do
+      include_context 'with rules of origin store',
+                      :wholly_obtained,
+                      scheme_traits: :subdivided
+
+      it { is_expected.to be true }
+    end
+
+    context 'when only single wholly obtained rule but not wholly obtained' do
+      include_context 'with rules of origin store',
+                      :not_wholly_obtained,
+                      scheme_traits: :single_wholly_obtained_rule
 
       it { is_expected.to be true }
     end
