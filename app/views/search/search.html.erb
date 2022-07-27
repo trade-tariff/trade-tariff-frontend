@@ -26,6 +26,7 @@
       <h2 class="govuk-heading-m govuk-!-margin-top-8">
         Results matching &lsquo;<%= @search %>&rsquo;
       </h2>
+
       <ul class="results-subset js-results-subset govuk-!-padding-bottom-7">
         <%= render partial: 'search/result', collection: @results.reference_matches_by_chapter %>
       </ul>
