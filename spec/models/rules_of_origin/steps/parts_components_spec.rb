@@ -7,7 +7,7 @@ RSpec.describe RulesOfOrigin::Steps::PartsComponents do
   describe '#skipped' do
     subject { instance.skipped? }
 
-    it { is_expected.to be true }
+    it { is_expected.to be false }
 
     context "when 'wholly_obtained' set to 'yes'" do
       include_context 'with rules of origin store', :wholly_obtained
@@ -19,6 +19,14 @@ RSpec.describe RulesOfOrigin::Steps::PartsComponents do
       include_context 'with rules of origin store', :not_wholly_obtained
 
       it { is_expected.to be false }
+    end
+
+    context 'when not wholly obtained but only single WO rule' do
+      include_context 'with rules of origin store',
+                      :not_wholly_obtained,
+                      scheme_traits: :single_wholly_obtained_rule
+
+      it { is_expected.to be true }
     end
   end
 

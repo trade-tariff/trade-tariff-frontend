@@ -4,7 +4,7 @@ module RulesOfOrigin
       self.section = 'originating'
 
       def skipped?
-        @store['wholly_obtained'] != 'no'
+        @wizard.find('not_wholly_obtained').skipped?
       end
 
       def scheme_details
