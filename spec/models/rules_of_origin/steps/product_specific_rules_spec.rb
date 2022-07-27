@@ -32,6 +32,20 @@ RSpec.describe RulesOfOrigin::Steps::ProductSpecificRules do
 
       it { is_expected.to be true }
     end
+
+    context 'when wholly obtained' do
+      include_context 'with rules of origin store', :wholly_obtained
+
+      it { is_expected.to be true }
+    end
+
+    context 'when only single wholly obtained rule but not wholly obtained' do
+      include_context 'with rules of origin store',
+                      :not_wholly_obtained,
+                      scheme_traits: :single_wholly_obtained_rule
+
+      it { is_expected.to be true }
+    end
   end
 
   describe '#commodity_description' do

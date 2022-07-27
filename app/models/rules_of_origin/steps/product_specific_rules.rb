@@ -9,7 +9,7 @@ module RulesOfOrigin
       validates :rule, inclusion: { in: :available_rules }
 
       def skipped?
-        @store['sufficient_processing'] == 'no'
+        not_wholly_obtained_skipped? || insufficient_processing?
       end
 
       def options
@@ -54,6 +54,14 @@ module RulesOfOrigin
         chosen_scheme.rule_sets.find do |rs|
           rs.resource_id == @store['subdivision_id']
         end
+      end
+
+      def not_wholly_obtained_skipped?
+        @wizard.find('not_wholly_obtained').skipped?
+      end
+
+      def insufficient_processing?
+        @store['sufficient_processing'] == 'no'
       end
     end
   end
