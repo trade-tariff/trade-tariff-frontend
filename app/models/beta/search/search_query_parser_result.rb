@@ -1,13 +1,16 @@
+require 'api_entity'
+
 module Beta
   module Search
     class SearchQueryParserResult
       include ApiEntity
 
-      attr_accessor :id,
-                    :took,
-                    :timed_out,
-                    :max_score,
-                    :total_results
+      attr_accessor :original_search_query,
+                    :corrected_search_query,
+                    :adjectives,
+                    :nouns,
+                    :noun_chunks,
+                    :verbs
     end
   end
 end

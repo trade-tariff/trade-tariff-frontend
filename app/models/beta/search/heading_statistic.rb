@@ -3,11 +3,14 @@ module Beta
     class HeadingStatistic
       include ApiEntity
 
-      attr_accessor :id,
-                    :took,
-                    :timed_out,
-                    :max_score,
-                    :total_results
+      attr_accessor :description,
+                    :cnt,
+                    :score,
+                    :avg,
+                    :total_results,
+                    :chapter_id,
+                    :chapter_description,
+                    :chapter_score
     end
   end
 end
