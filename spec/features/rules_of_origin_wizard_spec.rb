@@ -44,6 +44,42 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
 
       expect(page).to have_css 'h1', text: 'Valid proofs of origin'
     end
+
+    scenario 'Importing - Not wholly obtained - Insufficient processing' do
+      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+
+      expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
+      click_on 'Check rules of origin'
+
+      expect(page).to have_css 'h1', text: /Are you importing goods.*UK.*Japan\?/
+      choose 'I am importing goods'
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /are classed as 'originating'/
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /How 'wholly obtained' is defined/
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /What components/
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /Are your goods wholly obtained/
+      choose 'No, my goods are not wholly obtained'
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: 'Your goods are not wholly obtained'
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: 'Including parts or components'
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /non-originating parts been sufficiently processed/
+      choose 'No'
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: 'Rules of Origin not met'
+    end
   end
 
   context 'with single GSP trade agreement' do
