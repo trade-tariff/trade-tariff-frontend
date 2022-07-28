@@ -110,7 +110,7 @@ module TradeTariffFrontend
   end
 
   def roo_wizard?
-    ENV['ROO_WIZARD'] == 'true'
+    ENV['ROO_WIZARD'] == 'true' && TradeTariffFrontend::ServiceChooser.uk?
   end
 
   def basic_auth?
