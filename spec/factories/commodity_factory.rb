@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :commodity do
     heading { attributes_for(:heading) }
+    chapter { attributes_for(:chapter) }
     section { attributes_for(:section) }
     description { Forgery(:basic).text }
     formatted_description { Forgery(:basic).text }
@@ -10,6 +11,7 @@ FactoryBot.define do
     producline_suffix { 80 }
     number_indents { 2 }
     meursing_code { false }
+    declarable { true }
 
     import_measures { [] }
     export_measures { [] }
