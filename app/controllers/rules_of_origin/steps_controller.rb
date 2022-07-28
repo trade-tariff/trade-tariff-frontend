@@ -3,13 +3,15 @@ module RulesOfOrigin
     include WizardSteps
     self.wizard_class = RulesOfOrigin::Wizard
 
+    delegate :service_name, to: TradeTariffFrontend::ServiceChooser
+
     before_action do
       disable_search_form
       disable_last_updated_footnote
       disable_switch_service_banner
     end
 
-    before_action :check_service_hasnt_changed,
+    before_action :check_session_data,
                   except: :index,
                   if: -> { params[:id] != wizard_class.steps.first.key }
 
@@ -31,8 +33,9 @@ module RulesOfOrigin
       rules_of_origin_step_path(step_id, ...)
     end
 
-    def check_service_hasnt_changed
-      if TradeTariffFrontend::ServiceChooser.service_name != wizard_store['service']
+    def check_session_data
+      if service_name != wizard_store['service']
+
         redirect_to return_to_commodity_path
         wizard_store.purge!
       end

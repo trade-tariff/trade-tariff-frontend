@@ -6,6 +6,7 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
   let(:first_step) { RulesOfOrigin::Wizard.steps.first }
   let(:second_step) { RulesOfOrigin::Wizard.steps.second } # first is Start/init step
   let(:initial_params) { { country_code: 'JP', commodity_code: '6004100091', service: 'uk' } }
+  let(:return_path) { commodity_path('6004100091', country: 'JP', anchor: 'rules-of-origin') }
 
   describe 'GET #index' do
     before { get rules_of_origin_steps_path }
@@ -13,10 +14,18 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
     it { is_expected.to redirect_to rules_of_origin_step_path(first_step.key) }
   end
 
-  describe 'GET #show for first step' do
-    before { get rules_of_origin_step_path(first_step.key) }
+  describe 'GET #show without initialized session' do
+    context 'with first step' do
+      before { get rules_of_origin_step_path(first_step.key) }
 
-    it { is_expected.to redirect_to find_commodity_path }
+      it { is_expected.to redirect_to find_commodity_path }
+    end
+
+    context 'with later step' do
+      before { get rules_of_origin_step_path(second_step.key) }
+
+      it { is_expected.to redirect_to find_commodity_path }
+    end
   end
 
   describe 'GET #show' do
@@ -44,7 +53,7 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
     context 'with changed service' do
       before { get "/xi#{rules_of_origin_step_path(second_step.key)}" }
 
-      it { is_expected.to redirect_to commodity_path('6004100091', country: 'JP', anchor: 'rules-of-origin') }
+      it { is_expected.to redirect_to return_path }
     end
   end
 end
