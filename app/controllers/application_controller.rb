@@ -96,7 +96,11 @@ class ApplicationController < ActionController::Base
 
   def set_search
     # rubocop:disable Naming/MemoizedInstanceVariableName
-    @search ||= Search.new(search_attributes)
+    if ENV['BETA_SEARCH'] == 'true'
+      @search = Beta::Search::PerformSearch.call(search_attributes)
+    else
+      @search ||= Search.new(search_attributes)
+    end
     # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
