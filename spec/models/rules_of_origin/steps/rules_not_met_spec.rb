@@ -41,13 +41,13 @@ RSpec.describe RulesOfOrigin::Steps::RulesNotMet do
       end
 
       context 'when not wholly obtained with sufficient processing and meeting product specific rules' do
-        include_context 'with rules of origin store', :meeting_psr
+        include_context 'with rules of origin store', :rules_met
 
         it { is_expected.to be true }
       end
 
       context 'when not wholly obtained with sufficient processing and not meeting product specific rules' do
-        include_context 'with rules of origin store', :not_meeting_psr
+        include_context 'with rules of origin store', :rules_not_met
 
         it { is_expected.to be false }
       end
