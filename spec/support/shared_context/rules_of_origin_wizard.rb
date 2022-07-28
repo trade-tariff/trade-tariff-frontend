@@ -21,7 +21,7 @@ shared_context 'with rules of origin store' do |*traits, scheme_count: 1, scheme
 
     build_list :rules_of_origin_scheme,
                scheme_count,
-               *(scheme_traits + shared_traits),
+               *(Array.wrap(scheme_traits) + shared_traits),
                countries: [country.id],
                articles:
   end

@@ -33,5 +33,13 @@ FactoryBot.define do
                             rule_count: v2_rule_count
       end
     end
+
+    trait :single_wholly_obtained_rule do
+      rule_sets do
+        attributes_for_list \
+          :rules_of_origin_rule_set, 1,
+          rules: attributes_for_list(:rules_of_origin_v2_rule, 1, :wholly_obtained)
+      end
+    end
   end
 end

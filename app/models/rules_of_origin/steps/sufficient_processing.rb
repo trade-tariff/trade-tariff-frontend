@@ -6,7 +6,6 @@ module RulesOfOrigin
       self.section = 'originating'
 
       attribute :sufficient_processing
-
       validates :sufficient_processing, inclusion: { in: OPTIONS }
 
       def options
@@ -18,7 +17,7 @@ module RulesOfOrigin
       end
 
       def skipped?
-        @store['wholly_obtained'] != 'no'
+        @wizard.find('not_wholly_obtained').skipped?
       end
     end
   end

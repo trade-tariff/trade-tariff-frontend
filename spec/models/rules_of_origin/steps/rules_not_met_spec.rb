@@ -7,18 +7,50 @@ RSpec.describe RulesOfOrigin::Steps::RulesNotMet do
   describe '#skipped' do
     subject { instance.skipped? }
 
-    it { is_expected.to be true }
+    it { is_expected.to be false }
 
-    context "when 'wholly_obtained' set to 'yes'" do
-      include_context 'with rules of origin store', :sufficient_processing
+    context 'with single wholly obtained rule' do
+      context 'when wholly obtained' do
+        include_context 'with rules of origin store',
+                        :wholly_obtained,
+                        scheme_traits: :single_wholly_obtained_rule
 
-      it { is_expected.to be true }
+        it { is_expected.to be true }
+      end
+
+      context 'when not wholly obtained' do
+        include_context 'with rules of origin store',
+                        :not_wholly_obtained,
+                        scheme_traits: :single_wholly_obtained_rule
+
+        it { is_expected.to be false }
+      end
     end
 
-    context "when 'wholly_obtained' set to 'no'" do
-      include_context 'with rules of origin store', :insufficient_processing
+    context 'with multiple rules' do
+      context 'when wholly obtained' do
+        include_context 'with rules of origin store', :wholly_obtained
 
-      it { is_expected.to be false }
+        it { is_expected.to be true }
+      end
+
+      context 'when not wholly obtained and with insufficient processing' do
+        include_context 'with rules of origin store', :insufficient_processing
+
+        it { is_expected.to be false }
+      end
+
+      context 'when not wholly obtained with sufficient processing and meeting product specific rules' do
+        include_context 'with rules of origin store', :meeting_psr
+
+        it { is_expected.to be true }
+      end
+
+      context 'when not wholly obtained with sufficient processing and not meeting product specific rules' do
+        include_context 'with rules of origin store', :not_meeting_psr
+
+        it { is_expected.to be false }
+      end
     end
   end
 

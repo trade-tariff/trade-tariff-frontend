@@ -3,5 +3,9 @@ FactoryBot.define do
     sequence(:resource_id) { |n| "abcdef#{n}" }
     sequence(:rule) { |n| "Rule #{n}" }
     rule_class { [] }
+
+    trait :wholly_obtained do
+      rule_class { %w[WO] }
+    end
   end
 end
