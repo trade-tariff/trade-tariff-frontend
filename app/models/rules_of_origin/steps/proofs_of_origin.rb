@@ -4,7 +4,7 @@ module RulesOfOrigin
       self.section = 'proofs'
 
       def skipped?
-        @store['wholly_obtained'] == 'no'
+        true
       end
     end
   end
