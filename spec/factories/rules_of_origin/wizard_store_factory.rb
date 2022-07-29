@@ -63,12 +63,12 @@ FactoryBot.define do
       subdivision_id { schemes.first.rule_sets.second.resource_id }
     end
 
-    trait :meeting_psr do
+    trait :rules_met do
       sufficient_processing
       rule { schemes.first.rule_sets.first.rules.first.resource_id }
     end
 
-    trait :not_meeting_psr do
+    trait :rules_not_met do
       sufficient_processing
       rule { 'none' }
     end
