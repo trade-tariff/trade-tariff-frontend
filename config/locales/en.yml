@@ -463,7 +463,7 @@ en:
       origin_requirements_met:
         caption:
           importing: Importing commodity %{commodity_code} from %{trade_country_name}
-          exporting: Exporting commodity %{commodity_code} from %{trade_country_name}
+          exporting: Exporting commodity %{commodity_code} to %{trade_country_name}
         title: Origin requirements met
         panel:
           Based on your responses, your product appears to meet the rules of
