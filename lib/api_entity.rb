@@ -2,30 +2,9 @@ require 'faraday_middleware'
 require 'multi_json'
 require 'active_model'
 require 'tariff_jsonapi_parser'
+require 'errors'
 
 module ApiEntity
-  class UnparseableResponseError < StandardError
-    def initialize(response)
-      @response = response
-
-      super message
-    end
-
-    def message
-      "Error parsing #{url} with headers: #{headers.inspect}"
-    end
-
-    private
-
-    def headers
-      @response.env[:request_headers]
-    end
-
-    def url
-      @response.env[:url]
-    end
-  end
-
   extend ActiveSupport::Concern
 
   included do
@@ -117,7 +96,7 @@ private
       begin
         resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
         new parse_jsonapi(resp)
-      rescue Faraday::Error, ApiEntity::UnparseableResponseError
+      rescue Faraday::Error, UnparseableResponseError
         if retries < Rails.configuration.x.http.max_retry
           retries += 1
           retry
@@ -143,7 +122,7 @@ private
         collection = collection.map { |entry_data| new(entry_data) }
         collection = paginate_collection(collection, resp.body.dig('meta', 'pagination')) if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
         collection
-      rescue Faraday::Error, ApiEntity::UnparseableResponseError
+      rescue Faraday::Error, UnparseableResponseError
         if retries < Rails.configuration.x.http.max_retry
           retries += 1
           retry
