@@ -1,4 +1,5 @@
-# https://dev.trade-tariff.service.gov.uk/uk/api/beta/search?q=clothing%20sets
+require 'api_entity'
+
 module Beta
   module Search
     class SearchResult
@@ -12,7 +13,8 @@ module Beta
 
       has_many :chapter_statistics, class_name: 'Beta::Search::ChapterStatistic'
       has_many :heading_statistics, class_name: 'Beta::Search::HeadingStatistic'
-      has_many :hits, polymorphic: true # TODO: test this!
+      has_many :hits, polymorphic: true
+      has_many :facet_filter_statistics, class_name: 'Beta::Search::FacetFilterStatistic'
       has_one :guide, class_name: 'Beta::Search::Guide'
       has_one :search_query_parser_result, class_name: 'Beta::Search::SearchQueryParserResult'
     end
