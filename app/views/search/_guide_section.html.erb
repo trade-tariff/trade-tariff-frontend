@@ -1,0 +1,13 @@
+<div class="guide xgovuk-visually-hidden">
+  <div>
+    <%= image_for_guide('vegetables') %>
+  </div>
+  <div>
+    <span class="govuk-caption-m">Classification guide</span>
+    <h2 class="govuk-heading-m"><%= @guide.title %></h2>
+    <p class="govuk-body-s"><%= @guide.strapline %></p>
+    <p class="govuk-body-s">
+      <%= link_to("View classification guide for #{@guide.title} (opens in new tab)", @guide.url, target: "_blank") %>
+    </p>
+  </div>
+</div>

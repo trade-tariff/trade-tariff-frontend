@@ -131,9 +131,8 @@ RSpec.describe ApiEntity do
       end
 
       it 'raises descriptive exception' do
-        expect { request }.to raise_exception \
-          described_class::UnparseableResponseError,
-          %r{Error parsing #{api_endpoint}/mock_entities/123 with headers:}
+        expect { request }
+          .to raise_exception UnparseableResponseError, %r{Error parsing #{api_endpoint}/mock_entities/123 with headers:}
       end
     end
   end
@@ -193,9 +192,7 @@ RSpec.describe ApiEntity do
       end
 
       it 'raises descriptive exception' do
-        expect { request }.to raise_exception \
-          described_class::UnparseableResponseError,
-          %r{Error parsing #{api_endpoint}/mock_entities with headers:}
+        expect { request }.to raise_exception UnparseableResponseError, %r{Error parsing #{api_endpoint}/mock_entities with headers:}
       end
     end
   end

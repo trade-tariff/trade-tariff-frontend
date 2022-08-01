@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   end
 
   match '/search', to: 'search#search', as: :perform_search, via: %i[get post]
+
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search
   get 'additional_code_search', to: 'search#additional_code_search', as: :additional_code_search

@@ -125,6 +125,10 @@ module TradeTariffFrontend
     ENV['BASIC_PASSWORD'].to_s
   end
 
+  def beta_search_enabled?
+    ENV['BETA_SEARCH'] == 'true'
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app
