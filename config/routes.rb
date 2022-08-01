@@ -4,7 +4,6 @@ require 'trade_tariff_frontend/request_forwarder'
 require 'routing_filter/service_path_prefix_handler'
 
 Rails.application.routes.draw do
-
   filter :locale
   filter :service_path_prefix_handler
   default_url_options(host: TradeTariffFrontend.host)
@@ -85,11 +84,7 @@ Rails.application.routes.draw do
     end
   end
 
-  if ENV['BETA_SEARCH'] == 'true'
-    get '/search', to: 'beta/search#search'
-  else
-    match '/search', to: 'search#search', as: :perform_search, via: %i[get post]
-  end
+  match '/search', to: 'search#search', as: :perform_search, via: %i[get post]
 
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search

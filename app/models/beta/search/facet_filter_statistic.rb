@@ -10,7 +10,6 @@ module Beta
                     :display_name,
                     :question
 
-      has_many :facet_filter_statistics
       has_many :facet_classification_statistics, class_name: 'Beta::Search::FacetClassificationStatistic'
     end
   end
