@@ -159,13 +159,16 @@ private
     end
 
     def has_many(association, opts = {})
-      options = opts.reverse_merge(class_name: association.to_s.singularize.classify, wrapper: Array)
+      options = {
+        class_name: association.to_s.singularize.classify,
+        polymorphic: false,
+      }.merge(opts)
 
       relationships << association
 
       define_method(association) do
         collection = instance_variable_get("@#{association}").presence || []
-        collection = options[:wrapper].new(collection)
+        collection = options[:wrapper].new(collection) if options[:wrapper]
 
         if options[:filter].present?
           collection.public_send(options[:filter])
@@ -177,10 +180,14 @@ private
       define_method("#{association}=") do |data|
         data = data.presence || []
 
-        collection = data.map do |entity_attributes|
-          entity_attributes = entity_attributes.merge(casted_by: self)
+        collection = data.map do |attributes|
+          class_name = if options[:polymorphic]
+                         attributes['resource_type'].classify
+                       else
+                         options[:class_name]
+                       end
 
-          entity = options[:class_name].constantize.new(entity_attributes)
+          entity = class_name.constantize.new((attributes.presence || {}).merge(casted_by: self))
 
           if options[:presenter].present?
             options[:presenter].new(entity)
