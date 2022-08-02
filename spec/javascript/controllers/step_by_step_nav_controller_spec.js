@@ -1,7 +1,7 @@
 import jQuery from 'jquery'
 window.jQuery = jQuery
 
-import { Application } from 'stimulus' ;
+import { Application } from '@hotwired/stimulus' ;
 import StepByStepNavController from 'step_by_step_nav_controller.js' ;
 
 

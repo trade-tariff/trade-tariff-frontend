@@ -1,4 +1,4 @@
-import { Application } from 'stimulus' ;
+import { Application } from '@hotwired/stimulus' ;
 import ToggleCssController from 'toggle_css_controller.js' ;
 
 describe('ToggleCssController', () => {
