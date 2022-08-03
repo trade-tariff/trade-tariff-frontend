@@ -37,6 +37,44 @@ RSpec.describe MeasureCollection do
     it { expect(collection.vat.measures).to eq([vat_measure]) }
   end
 
+  describe '#excise' do
+    subject(:collection) { described_class.new([excise_measure, measure]) }
+
+    let(:excise_measure) { build(:measure, :excise) }
+    let(:measure) { build(:measure) }
+
+    it { expect(collection.excise.measures).to eq([excise_measure]) }
+  end
+
+  describe '#excise?' do
+    context 'when the measure is excise' do
+      subject(:collection) { described_class.new([excise_measure, measure]) }
+
+      let(:excise_measure) { build(:measure, :excise) }
+      let(:measure) { build(:measure) }
+
+      it { expect(collection.excise?).to eq(true) }
+    end
+
+    context 'when the measure is not excise' do
+      subject(:collection_vat) { described_class.new([vat_measure, measure]) }
+
+      let(:vat_measure) { build(:measure, :vat) }
+      let(:measure) { build(:measure) }
+
+      it { expect(collection_vat.excise?).to eq(false) }
+    end
+  end
+
+  describe '#measure_with_highest_vat_rate' do
+    subject(:collection) { described_class.new([vat_measure_5, vat_measure_20]) }
+
+    let(:vat_measure_5) { build(:measure, :vat, amount: 5) }
+    let(:vat_measure_20) { build(:measure, :vat, amount: 20) }
+
+    it { expect(collection.measure_with_highest_vat_rate).to eq(vat_measure_20) }
+  end
+
   describe '#national' do
     subject(:collection) { described_class.new([national_measure, eu_measure]) }
 

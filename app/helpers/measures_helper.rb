@@ -111,4 +111,18 @@ module MeasuresHelper
       end
     end
   end
+
+  def vat_message(measure_collection)
+    count = measure_collection.vat.count
+
+    if count == 1
+      I18n.t("measure_collection.vat.message_#{count}_html", vat: filter_duty_expression(measure_collection.vat.first)).html_safe
+    elsif count == 2
+      I18n.t("measure_collection.vat.message_#{count}_html", vat: filter_duty_expression(measure_collection.vat.last), vat_2: filter_duty_expression(measure_collection.vat.first)).html_safe
+    elsif count == 3
+      I18n.t("measure_collection.vat.message_#{count}_html", vat: filter_duty_expression(measure_collection.vat[0]), vat_2: filter_duty_expression(measure_collection.vat[1]), vat_3: filter_duty_expression(measure_collection.vat[2])).html_safe
+    elsif count > 1
+      I18n.t('measure_collection.vat.message_1_html', vat: filter_duty_expression(measure_collection.measure_with_highest_vat_rate)).html_safe
+    end
+  end
 end

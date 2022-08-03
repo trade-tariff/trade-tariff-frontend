@@ -8,6 +8,10 @@ FactoryBot.define do
       description { 'VAT' }
     end
 
+    trait :excise do
+      id { '305' }
+    end
+
     trait :vat_excise do
       id { '305' }
     end

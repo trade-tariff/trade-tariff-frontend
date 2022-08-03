@@ -25,6 +25,11 @@ FactoryBot.define do
       duty_expression { attributes_for(:duty_expression, :vat) }
     end
 
+    trait :excise do
+      excise { true }
+      measure_type { attributes_for(:measure_type, :excise) }
+    end
+
     trait :erga_omnes do
       geographical_area { attributes_for(:geographical_area, :erga_omnes) }
     end

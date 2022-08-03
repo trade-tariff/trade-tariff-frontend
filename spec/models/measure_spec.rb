@@ -89,6 +89,20 @@ RSpec.describe Measure do
     end
   end
 
+  describe '#excise?' do
+    context 'when the measure is an excise measure' do
+      subject(:measure) { build(:measure, :excise) }
+
+      it { is_expected.to be_excise }
+    end
+
+    context 'when the measure is not an excise measure' do
+      let(:measure_type_id) { '105' }
+
+      it { is_expected.not_to be_excise }
+    end
+  end
+
   describe '#import_controls?' do
     subject(:measure) { build(:measure, measure_type:) }
 
