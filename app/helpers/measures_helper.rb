@@ -112,17 +112,33 @@ module MeasuresHelper
     end
   end
 
-  def vat_message(measure_collection)
+  def vat_messages(measure_collection)
+    messages = []
+    return messages if measure_collection.blank?
+
     count = measure_collection.vat.count
+    vat_info_message = I18n.t('measure_collection.vat.info_message_html').html_safe
 
     if count == 1
-      I18n.t("measure_collection.vat.message_#{count}_html", vat: filter_duty_expression(measure_collection.vat.first)).html_safe
+      messages.push I18n.t("measure_collection.vat.message_#{count}_html", vat: filter_duty_expression(measure_collection.vat.first)).html_safe
     elsif count == 2
-      I18n.t("measure_collection.vat.message_#{count}_html", vat: filter_duty_expression(measure_collection.vat.last), vat_2: filter_duty_expression(measure_collection.vat.first)).html_safe
+      messages.push I18n.t("measure_collection.vat.message_#{count}_html", vat: filter_duty_expression(measure_collection.vat.last), vat_2: filter_duty_expression(measure_collection.vat.first)).html_safe
+      messages.push vat_info_message
     elsif count == 3
-      I18n.t("measure_collection.vat.message_#{count}_html", vat: filter_duty_expression(measure_collection.vat[0]), vat_2: filter_duty_expression(measure_collection.vat[1]), vat_3: filter_duty_expression(measure_collection.vat[2])).html_safe
+      messages.push I18n.t("measure_collection.vat.message_#{count}_html", vat: filter_duty_expression(measure_collection.vat[0]), vat_2: filter_duty_expression(measure_collection.vat[1]), vat_3: filter_duty_expression(measure_collection.vat[2])).html_safe
+      messages.push vat_info_message
     elsif count > 1
-      I18n.t('measure_collection.vat.message_1_html', vat: filter_duty_expression(measure_collection.measure_with_highest_vat_rate)).html_safe
+      messages.push I18n.t('measure_collection.vat.message_1_html', vat: filter_duty_expression(measure_collection.measure_with_highest_vat_rate)).html_safe
+    end
+
+    messages
+  end
+
+  def excise_message(measure_collection, commodity_code)
+    if measure_collection.excise.any?
+      I18n.t("measure_collection.excise.apply_message_html", commodity_code: code).html_safe
+    else
+      I18n.t("measure_collection.excise.not_apply_message_html").html_safe
     end
   end
 end

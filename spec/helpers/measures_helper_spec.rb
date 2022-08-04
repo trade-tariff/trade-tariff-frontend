@@ -246,4 +246,76 @@ RSpec.describe MeasuresHelper, type: :helper do
       it { is_expected.to eql 'Provide all documents' }
     end
   end
+
+  describe '#vat_message' do
+    let(:vat_measure) { build(:measure, :vat) }
+    let(:vat_info_message) { 'Read more about <a href="https://www.gov.uk/guidance/rates-of-vat-on-different-goods-and-services">VAT rates on different goods and services</a> and the conditions that apply to these rates.' }
+    let(:vat_message_1) { "Goods are subject to an import <abbr title='Value-added tax'>VAT</abbr> rate of <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong>" }
+    let(:vat_message_3) { "An import <abbr title='Value-added tax'>VAT</abbr> rate of <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong>, <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> or <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> may apply if certain conditions are met." }
+
+    context 'with 1 VAT record in measure collection' do
+      let(:measure_collection) { MeasureCollection.new([vat_measure]) }
+
+      it { expect(vat_messages(measure_collection).count).to eq 1 }
+      it { expect(vat_messages(measure_collection)[0]).to eq vat_message_1 }
+    end
+
+    context 'with 2 VAT records in measure collection' do
+      let(:measure_collection) { MeasureCollection.new([vat_measure, vat_measure]) }
+
+      it { expect(vat_messages(measure_collection).count).to eq 2 }
+
+      it { expect(vat_messages(measure_collection)[1]).to eq vat_info_message }
+
+      it 'returns VAT message with 2 VAT rates' do
+        expect(vat_messages(measure_collection)[0]).to eq "An import <abbr title='Value-added tax'>VAT</abbr> rate of <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> or <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> may apply if certain conditions are met."
+      end
+    end
+
+    context 'with 3 VAT records in measure collection' do
+      let(:measure_collection) { MeasureCollection.new([vat_measure, vat_measure, vat_measure]) }
+
+      it { expect(vat_messages(measure_collection).count).to eq 2 }
+
+      it { expect(vat_messages(measure_collection)[1]).to eq vat_info_message }
+
+      it 'returns VAT message with 3 VAT rates' do
+        expect(vat_messages(measure_collection)[0]).to eq vat_message_3
+      end
+    end
+
+    context 'with more than 3 VAT records in measure collection' do
+      let(:measure_collection) { MeasureCollection.new([vat_measure, vat_measure, vat_measure, vat_measure]) }
+
+      it { expect(vat_messages(measure_collection).count).to eq 1 }
+
+      it { expect(vat_messages(measure_collection)[0]).to eq vat_message_1 }
+    end
+
+    context 'with 0 VAT records in measure collection' do
+      let(:measure_collection) { MeasureCollection.new([]) }
+
+      it { expect(vat_messages(measure_collection).count).to eq 0 }
+    end
+  end
+
+  describe '#excise_message' do
+    let(:vat_measure) { build(:measure, :vat) }
+    let(:excise_measure) { build(:measure, :excise) }
+    let(:not_apply_message) { '<a href="https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances">Excise duties</a> are not chargeable on this commodity.' }
+    let(:apply_message) { "<a href=\"https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances\">Excise duties</a> apply to the import of commodity 123." }
+    let(:code) { '123' }
+
+    context 'with no excise records in measure collection' do
+      let(:measure_collection) { MeasureCollection.new([vat_measure]) }
+
+      it { expect(excise_message(measure_collection, code)).to eq not_apply_message }
+    end
+
+    context 'with excise records in measure collection' do
+      let(:measure_collection) { MeasureCollection.new([excise_measure]) }
+
+      it { expect(excise_message(measure_collection, code)).to eq apply_message }
+    end
+  end
 end

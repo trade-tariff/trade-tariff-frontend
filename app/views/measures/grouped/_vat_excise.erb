@@ -1,19 +1,11 @@
-<%- uk_import_measures = uk_declarable.import_measures.for_country(@search.country) %>
+<%- uk_import_measures = uk_declarable&.import_measures&.for_country(@search.country) %>
 
 <div class="calculator-panel vat-excise-panel">
   <ul>
-    <li>
-      <%= vat_message(uk_import_measures) %>
-    </li>
-
-    <% if uk_import_measures.excise.any? %>
-      <li>
-        <%= I18n.t("measure_collection.excise.apply_message_html", commodity_code: segmented_commodity_code(declarable_code)).html_safe %>
-      </li>
-    <% else %>
-      <li>
-      <%= I18n.t("measure_collection.excise.not_apply_message_html").html_safe %>
-      </li>
+    <% vat_messages(uk_import_measures).each do |message| %>
+      <li><%= message %></li>
     <% end %>
+
+    <li><%= excise_message(uk_import_measures, segmented_commodity_code(declarable_code)) %></li>
   </ul> 
 </div>
