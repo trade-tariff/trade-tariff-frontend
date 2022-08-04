@@ -50,7 +50,7 @@ class MeasureCollection < SimpleDelegator
   end
 
   def measure_with_highest_vat_rate
-    vat.sort_by(&:amount).last
+    vat.max_by(&:amount)
   end
 
   def excise
