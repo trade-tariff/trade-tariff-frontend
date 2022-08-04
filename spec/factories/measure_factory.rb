@@ -25,6 +25,22 @@ FactoryBot.define do
       duty_expression { attributes_for(:duty_expression, :vat) }
     end
 
+    trait :vat_reduced do
+      vat { true }
+      measure_type { attributes_for(:measure_type, :vat) }
+      duty_expression { attributes_for(:duty_expression, :vat_reduced) }
+    end
+
+    trait :vat_standard do
+      vat
+    end
+
+    trait :vat_zero do
+      vat { true }
+      measure_type { attributes_for(:measure_type, :vat) }
+      duty_expression { attributes_for(:duty_expression, :vat_zero) }
+    end
+
     trait :excise do
       excise { true }
       measure_type { attributes_for(:measure_type, :excise) }

@@ -46,7 +46,7 @@ class MeasureCollection < SimpleDelegator
   end
 
   def vat
-    new(select(&:vat?))
+    new(select(&:vat?).sort_by(&:amount).reverse)
   end
 
   def measure_with_highest_vat_rate

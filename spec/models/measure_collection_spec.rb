@@ -29,12 +29,15 @@ RSpec.describe MeasureCollection do
   end
 
   describe '#vat' do
-    subject(:collection) { described_class.new([vat_measure, measure]) }
+    subject(:collection) { described_class.new([vat_measure_reduced, measure, vat_measure_standard, vat_measure_zero]) }
 
-    let(:vat_measure) { build(:measure, :vat) }
+    let(:vat_measure_standard) { build(:measure, :vat_standard) }
+    let(:vat_measure_zero) { build(:measure, :vat_zero) }
+    let(:vat_measure_reduced) { build(:measure, :vat_reduced) }
+
     let(:measure) { build(:measure) }
 
-    it { expect(collection.vat.measures).to eq([vat_measure]) }
+    it { expect(collection.vat.measures).to eq([vat_measure_standard, vat_measure_reduced, vat_measure_zero]) }
   end
 
   describe '#excise' do
@@ -53,7 +56,7 @@ RSpec.describe MeasureCollection do
       let(:excise_measure) { build(:measure, :excise) }
       let(:measure) { build(:measure) }
 
-      it { expect(collection.excise?).to eq(true) }
+      it { is_expected.to be_excise }
     end
 
     context 'when the measure is not excise' do
@@ -62,17 +65,18 @@ RSpec.describe MeasureCollection do
       let(:vat_measure) { build(:measure, :vat) }
       let(:measure) { build(:measure) }
 
-      it { expect(collection_vat.excise?).to eq(false) }
+      it { is_expected.not_to be_excise }
     end
   end
 
   describe '#measure_with_highest_vat_rate' do
-    subject(:collection) { described_class.new([vat_measure_5, vat_measure_20]) }
+    subject(:collection) { described_class.new([vat_measure_zero, vat_measure_standard, vat_measure_reduced]) }
 
-    let(:vat_measure_5) { build(:measure, :vat, amount: 5) }
-    let(:vat_measure_20) { build(:measure, :vat, amount: 20) }
+    let(:vat_measure_standard) { build(:measure, :vat_standard) }
+    let(:vat_measure_zero) { build(:measure, :vat_zero) }
+    let(:vat_measure_reduced) { build(:measure, :vat_reduced) }
 
-    it { expect(collection.measure_with_highest_vat_rate).to eq(vat_measure_20) }
+    it { expect(collection.measure_with_highest_vat_rate).to eq(vat_measure_standard) }
   end
 
   describe '#national' do
