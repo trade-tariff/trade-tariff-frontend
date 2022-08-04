@@ -136,9 +136,9 @@ module MeasuresHelper
 
   def excise_message(measure_collection, commodity_code)
     if measure_collection.excise.any?
-      I18n.t("measure_collection.excise.apply_message_html", commodity_code: code).html_safe
+      I18n.t('measure_collection.excise.apply_message_html', commodity_code:).html_safe
     else
-      I18n.t("measure_collection.excise.not_apply_message_html").html_safe
+      I18n.t('measure_collection.excise.not_apply_message_html').html_safe
     end
   end
 end
