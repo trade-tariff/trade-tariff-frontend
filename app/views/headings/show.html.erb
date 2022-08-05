@@ -1,5 +1,6 @@
 <% content_for :title, goods_nomenclature_title(@heading) %>
 
+
 <% content_for :head do %>
   <meta name="description" content="<%= @heading %>">
   <link rel='alternate' type='application/json' href='<%= heading_url(@heading, format: :json) %>' title='Heading information page in JSON format' />
@@ -9,6 +10,10 @@
   <%= render 'commodities/header', commodity_code: (@heading.page_heading + '000000') %>
 <% else %>
   <%= page_header @heading.page_heading %>
+<% end %>
+
+<% @heading.critical_footnotes.each do |footnote| %>
+  <%= render 'footnotes/critical_warning', footnote: footnote %>
 <% end %>
 
 <%= render 'shared/context_tables/heading' %>

@@ -57,5 +57,13 @@ RSpec.shared_examples 'a declarable' do
         expect(declarable.supplementary_unit_description(country: '1011')).to eq('Supplementary unit')
       end
     end
+
+    describe '#critical_footnotes' do
+      context 'when there are not footnotes having critical warning'
+        it 'returns empty array' do
+          expect(declarable.critical_footnotes).to eq([])
+        end
+      end
+    end
   end
 end

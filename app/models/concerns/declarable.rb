@@ -41,6 +41,10 @@ module Declarable
     no_heading? && no_entry_price_system?
   end
 
+  def critical_footnotes
+    @critical_footnotes = footnotes.select(&:critical_warning?)
+  end
+
   def meursing_code?
     meta&.dig('duty_calculator', 'meursing_code')
   end
