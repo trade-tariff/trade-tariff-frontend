@@ -1,0 +1,32 @@
+<div id="search-filter-navigation"
+  <nav>
+    <strong>
+      Results are filtered by:
+    </strong>
+    <% applied_filter_classifications.each do |facet_classification_statistic|  %>
+      <%= disapply_filter_link_for(facet_classification_statistic) %>
+    <% end %>
+    <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+      <% @search_result.facet_filter_statistics.each do |facet_filter_statistic| %>
+        <div class="govuk-accordion__section ">
+          <div class="govuk-accordion__section-header">
+            <h2 class="govuk-accordion__section-heading">
+              <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                <strong><%= facet_filter_statistic.display_name %></strong>
+              </span>
+            </h2>
+          </div>
+          <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+            <ul class="facet-classifications govuk-!-margin-bottom-9">
+              <% facet_filter_statistic.facet_classification_statistics.each do |facet_classification_statistic| %>
+                <li class="govuk-!-margin-bottom-2">
+                  <%= filtered_link_for(facet_classification_statistic) %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </nav>
+</div>

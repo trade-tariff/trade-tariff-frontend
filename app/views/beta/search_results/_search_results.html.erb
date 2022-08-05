@@ -1,0 +1,20 @@
+<p class="govuk-body">The following commodity codes match your search:</p>
+
+<table class="govuk-table">
+  <tbody>
+    <% @search_result.hits.each do |hit| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell" width="70">
+          <div class="full-heading-code">
+            <%= segmented_commodity_code hit.code.to_s, coloured: true %>
+          </div>
+        </td>
+        <td class="govuk-table__cell">
+          <%= link_to polymorphic_path(hit) do %>
+            <%= hit.class.name %>: <%= hit.description&.html_safe %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

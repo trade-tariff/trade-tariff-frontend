@@ -1,0 +1,34 @@
+<p class="govuk-body">Your search term appears in the following parts of the tariff:</p>
+
+<table class="govuk-table">
+  <tbody>
+    <% @search_result.chapter_statistics.each do |chapter_statistic| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell" width="70">
+          <div class="full-heading-code">
+            <%= chapter_and_heading_codes(chapter_statistic.resource_id) %>
+          </div>
+        </td>
+        <td class="govuk-table__cell">
+          <strong>
+            <%= chapter_statistic.description&.html_safe %>
+          </strong>
+        </td>
+      </tr>
+      <% @search_result.heading_statistics.by_chapter(chapter_statistic.resource_id).each do |heading_statistic| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell" width="70">
+            <div class="full-heading-code">
+              <%= chapter_and_heading_codes(heading_statistic.resource_id) %>
+            </div>
+          </td>
+          <td class="govuk-table__cell">
+            <%= link_to heading_path(heading_statistic.resource_id) do %>
+              <%= heading_statistic.description&.html_safe %>
+            <% end %> (<%= heading_statistic.cnt %>)
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

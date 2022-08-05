@@ -1,0 +1,26 @@
+<h1>Search results for '<%= @search_result.search_query_parser_result.corrected_search_query %>'</h1>
+
+<section id="beta-search-results-<%= @search_result.resource_id %>">
+  <div class="govuk-grid-row">
+    <% if @search_result.facet_filter_statistics.any? %>
+      <div class="govuk-grid-column-one-third">
+        <%= render 'sidebar'  %>
+      </div>
+      <div class="govuk-grid-column-two-thirds">
+        <% if @search_result.multiple_headings_view? %>
+          <%= render partial: 'multiple_headings_search_results' %>
+        <% else %>
+          <%= render partial: 'search_results' %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="govuk-grid-column-full">
+        <% if @search_result.multiple_headings_view? %>
+          <%= render partial: 'multiple_headings_search_results' %>
+        <% else %>
+          <%= render partial: 'search_results' %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>
