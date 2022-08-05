@@ -129,6 +129,10 @@ module TradeTariffFrontend
     ENV['BETA_SEARCH'] == 'true'
   end
 
+  def beta_search_heading_statistics_threshold
+    ENV['BETA_SEARCH_HEADING_STATISTICS_THRESHOLD'].to_i
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app
