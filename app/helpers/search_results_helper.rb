@@ -1,24 +1,36 @@
 module SearchResultsHelper
-  def filtered_link_for(facet_classification_statistic)
-    path_options = filtered_url_options_for(facet_classification_statistic.filter)
+  def filtered_link_for(filterable)
+    path_options = filtered_url_options_for(filterable.filter)
     path = perform_search_path(path_options)
-    link_html = link_to(facet_classification_statistic.classification.humanize, path)
+    link_html = link_to(filterable.display_name, path)
 
-    link_html += " (#{facet_classification_statistic.count})"
+    link_html += " (#{filterable.count})"
     link_html
   end
 
-  def disapply_filter_link_for(facet_classification_statistic)
-    path_options = disapply_url_options_for(facet_classification_statistic.facet.to_sym)
+  def disapply_filter_link_for(filterable)
+    path_options = disapply_url_options_for(filterable.filterable_key.to_sym)
     path = perform_search_path(path_options)
 
-    link_to("[x] #{facet_classification_statistic.classification.humanize}", path, class: 'facet-classifications-tag')
+    link_to("[x] #{filterable.filterable_display_name}", path, class: 'facet-classifications-tag')
   end
 
   def applied_filter_classifications
-    @filters.to_h.symbolize_keys.each_with_object([]) do |(filter, classification), acc|
-      facet_classification_statistic = @search_result.classification_for(filter, classification)
-      acc << facet_classification_statistic if facet_classification_statistic.present?
+    @applied_filter_classifications ||= @filters.to_h.symbolize_keys.each_with_object([]) { |(filter, classification), acc|
+      filterable = case filter
+                   when :heading_id
+                     @search_result.heading_statistics.find_by_heading(classification)
+                   else
+
+                     @search_result.classification_for(filter, classification)
+                   end
+      acc << filterable if filterable.present?
+    }.sort_by(&:filterable_value)
+  end
+
+  def unapplied_filter_classifications
+    @search_result.facet_filter_statistics.reject do |facet_filter_statistic|
+      facet_filter_statistic.facet.in?(applied_filter_classifications.map(&:filterable_key))
     end
   end
 
@@ -34,9 +46,9 @@ module SearchResultsHelper
     options
   end
 
-  def disapply_url_options_for(facet)
+  def disapply_url_options_for(filterable)
     filters = @filters.to_h.symbolize_keys
-    filters = filters.except(facet)
+    filters = filters.except(filterable)
 
     options = sanitized_url_options
     options.merge!(q: @query)

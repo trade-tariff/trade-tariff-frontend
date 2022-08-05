@@ -11,9 +11,17 @@ module Beta
 
       def filter
         {
-          facet.to_sym => classification,
+          filterable_key.to_sym => filterable_value,
         }
       end
+
+      def display_name
+        classification.humanize
+      end
+
+      alias_method :filterable_key, :facet
+      alias_method :filterable_value, :classification
+      alias_method :filterable_display_name, :display_name
     end
   end
 end

@@ -9,8 +9,8 @@ module Beta
         super @hits
       end
 
-      def by_heading(heading_id)
-        new(select { |hit| hit.heading_id == heading_id })
+      def commodities
+        new(select { |hit| hit.is_a?(Commodity) })
       end
     end
   end

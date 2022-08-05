@@ -23,9 +23,7 @@
             </div>
           </td>
           <td class="govuk-table__cell">
-            <%= link_to heading_path(heading_statistic.resource_id) do %>
-              <%= heading_statistic.description&.html_safe %>
-            <% end %> (<%= heading_statistic.cnt %>)
+            <%= filtered_link_for(heading_statistic) %>
           </td>
         </tr>
       <% end %>
