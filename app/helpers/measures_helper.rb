@@ -116,7 +116,6 @@ module MeasuresHelper
     messages = []
     return messages if measure_collection.blank?
 
-    
     count = measure_collection.vat.count
     vat_info_message = I18n.t('measure_collection.message_overrides.vat.info_message_html')
 

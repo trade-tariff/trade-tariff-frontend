@@ -302,14 +302,13 @@ RSpec.describe MeasuresHelper, type: :helper do
   describe '#excise_message' do
     let(:vat_measure) { build(:measure, :vat) }
     let(:excise_measure) { build(:measure, :excise) }
-    let(:not_apply_message) { '<a href="https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances">Excise duties</a> are not chargeable on this commodity.' }
     let(:apply_message) { '<a href="https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances">Excise duties</a> apply to the import of commodity 123.' }
     let(:code) { '123' }
 
     context 'with no excise records in measure collection' do
       let(:measure_collection) { MeasureCollection.new([vat_measure]) }
 
-      it { expect(excise_message(measure_collection, code)).to eq not_apply_message }
+      it { expect(excise_message(measure_collection, code)).to eq '<a href="https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances">Excise duties</a> are not chargeable on this commodity.' }
     end
 
     context 'with excise records in measure collection' do
