@@ -1,0 +1,37 @@
+.facet-classifications {
+  list-style-type: none;
+  margin: 0 0 0 2.2em;
+  margin-bottom: 0;
+  margin-top: 1;
+  padding: 0;
+
+  li::before {
+    content: "\2014";
+    margin: 0 1em 0 0;
+  }
+}
+
+.facet-classifications-tag {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  border: 1px #ddd solid;
+  clear: both;
+  display: inline-block;
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: 12px;
+  margin-bottom: 5px;
+  margin-right: 0.25em;
+  padding: 2px 5px;
+  width: auto;
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}

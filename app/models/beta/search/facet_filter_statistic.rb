@@ -11,6 +11,16 @@ module Beta
                     :question
 
       has_many :facet_classification_statistics, class_name: 'Beta::Search::FacetClassificationStatistic'
+
+      def facet
+        facet_filter.sub('filter_', '')
+      end
+
+      def find_classification(classification)
+        facet_classification_statistics.find do |facet_classification_statistic|
+          facet_classification_statistic.classification == classification
+        end
+      end
     end
   end
 end
