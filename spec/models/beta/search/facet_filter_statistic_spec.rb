@@ -6,9 +6,9 @@ RSpec.describe Beta::Search::FacetFilterStatistic do
   it { expect(described_class.relationships).to eq(%i[facet_classification_statistics]) }
 
   it {
-    expect(facet_filter_statistic).to have_attributes(facet_filter: 'animal_type',
+    expect(facet_filter_statistic).to have_attributes(facet_filter: 'material',
                                                       facet_count: 10,
-                                                      display_name: 'Animal Type',
-                                                      question: 'What animal type?')
+                                                      display_name: 'Material',
+                                                      question: 'What material?')
   }
 end
