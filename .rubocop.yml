@@ -47,6 +47,9 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Enabled: false
 
+Rails/HelperInstanceVariable:
+  Enabled: false
+
 RSpec/MultipleExpectations:
   Exclude:
     - spec/features/**/*_spec.rb
