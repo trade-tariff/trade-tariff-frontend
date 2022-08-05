@@ -8,6 +8,12 @@ module Beta
       attr_accessor :facet,
                     :classification,
                     :count
+
+      def filter
+        {
+          facet.to_sym => classification,
+        }
+      end
     end
   end
 end

@@ -8,4 +8,10 @@ RSpec.describe Beta::Search::FacetClassificationStatistic do
                                                               count: 7,
                                                               classification: 'swine')
   }
+
+  describe '#filter' do
+    subject(:filter) { build(:facet_classification_statistic).filter }
+
+    it { is_expected.to eq(animal_type: 'swine') }
+  end
 end
