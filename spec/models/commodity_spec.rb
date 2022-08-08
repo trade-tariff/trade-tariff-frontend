@@ -21,7 +21,7 @@ RSpec.describe Commodity do
   end
 
   it_behaves_like 'a declarable' do
-    subject(:declarable) { build(:commodity, import_measures: measures) }
+    subject(:declarable) { build(:commodity, import_measures: measures, footnotes:) }
   end
 
   describe 'parent/children relationships' do

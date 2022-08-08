@@ -2,6 +2,7 @@ RSpec.shared_examples 'a declarable' do
   it { is_expected.to respond_to(:declarable) }
 
   let(:measures) { [] }
+  let(:footnotes) { [] }
 
   describe '#supplementary_unit' do
     context 'when there is a supplementary measure' do
@@ -59,7 +60,17 @@ RSpec.shared_examples 'a declarable' do
     end
 
     describe '#critical_footnotes' do
-      context 'when there are not footnotes having critical warning'
+      context 'when there are critical footnotes' do
+        let(:footnotes) { [attributes_for(:footnote, code: 'CR123')] }
+
+        it 'returns the critical footnotes' do
+          expect(declarable.critical_footnotes.first.code).to eq('CR123')
+        end
+      end
+
+      context 'when there are NOT Critical footnotes' do
+        let(:footnotes) { [attributes_for(:footnote, code: 'NC456')] }
+
         it 'returns empty array' do
           expect(declarable.critical_footnotes).to eq([])
         end
