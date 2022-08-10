@@ -1,0 +1,11 @@
+<%- uk_import_measures = uk_declarable&.import_measures&.for_country(@search.country) %>
+
+<div class="calculator-panel vat-excise-panel">
+  <ul>
+    <% vat_messages(uk_import_measures).each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+
+    <li><%= excise_message(uk_import_measures, segmented_commodity_code(declarable_code)) %></li>
+  </ul> 
+</div>

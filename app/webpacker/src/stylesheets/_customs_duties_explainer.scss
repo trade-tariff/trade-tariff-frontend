@@ -20,6 +20,14 @@
       margin-bottom: 0.5em;
     }
   }
+
+  .vat-excise-panel {
+    padding: 5px;
+
+    li:not(:last-child) { 
+      margin-bottom: 5px;  
+   }
+  }
 }
 
 @include govuk-media-query($until: tablet) {

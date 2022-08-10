@@ -46,7 +46,19 @@ class MeasureCollection < SimpleDelegator
   end
 
   def vat
-    new(select(&:vat?))
+    new(select(&:vat?).sort_by(&:amount).reverse)
+  end
+
+  def measure_with_highest_vat_rate
+    vat.max_by(&:amount)
+  end
+
+  def excise
+    new(select(&:excise?))
+  end
+
+  def excise?
+    excise.any?
   end
 
   def national

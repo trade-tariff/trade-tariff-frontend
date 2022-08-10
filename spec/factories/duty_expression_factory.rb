@@ -12,5 +12,21 @@ FactoryBot.define do
       formatted_base { '20.0%' }
       description { 'VAT' }
     end
+
+    trait :vat_standard do
+      vat
+    end
+
+    trait :vat_zero do
+      base { '0.0%' }
+      formatted_base { '0.0%' }
+      description { 'VAT' }
+    end
+
+    trait :vat_reduced do
+      base { '5.0%' }
+      formatted_base { '5.0%' }
+      description { 'VAT' }
+    end
   end
 end

@@ -78,6 +78,10 @@ class Measure
     vat
   end
 
+  def excise?
+    excise
+  end
+
   def supplementary_unit_description
     if measure_type.supplementary_unit_import_only?
       'Supplementary unit (import)'

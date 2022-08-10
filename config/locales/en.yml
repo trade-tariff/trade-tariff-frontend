@@ -145,6 +145,17 @@ en:
         legend_text: "How much milk protein does the product contain?"
         hint_text: "The values represent % by weight"
 
+  measure_collection:
+    message_overrides:
+      vat:
+        info_message_html: Read more about <a href="https://www.gov.uk/guidance/rates-of-vat-on-different-goods-and-services">VAT rates on different goods and services</a> and the conditions that apply to these rates.
+        message_1_html: Goods are subject to an import <abbr title='Value-added tax'>VAT</abbr> rate of <strong>%{vat}</strong>
+        message_2_html: An import <abbr title='Value-added tax'>VAT</abbr> rate of <strong>%{vat}</strong> or <strong>%{vat_2}</strong> may apply if certain conditions are met.
+        message_3_html: An import <abbr title='Value-added tax'>VAT</abbr> rate of <strong>%{vat}</strong>, <strong>%{vat_2}</strong> or <strong>%{vat_3}</strong> may apply if certain conditions are met.
+      excise:
+        apply_message_html: <a href="https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances">Excise duties</a> apply to the import of commodity %{commodity_code}.
+        not_apply_message_html: <a href="https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances">Excise duties</a> are not chargeable on this commodity. 
+
   trading_partner:
     form:
       legend_text: "Select a country"
