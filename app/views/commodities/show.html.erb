@@ -7,6 +7,10 @@
 
 <%= render 'commodities/header', commodity_code: declarable.code %>
 
+<% declarable.critical_footnotes.each do |footnote| %>
+  <%= render 'footnotes/critical_warning', footnote: footnote %>
+<% end %>
+
 <%= render 'shared/context_tables/commodity' %>
 
 <%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
