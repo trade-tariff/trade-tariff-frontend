@@ -10,7 +10,7 @@ module Beta
       end
 
       def call
-        retries = 0
+        retries ||= 0
         path = "/api/beta/search?#{query_params}"
         response = api.get(path)
         parsed = parse_jsonapi(response)
