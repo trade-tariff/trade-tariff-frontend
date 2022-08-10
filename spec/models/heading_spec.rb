@@ -20,7 +20,9 @@ RSpec.describe Heading do
   end
 
   it_behaves_like 'a declarable' do
-    subject(:declarable) { build(:heading, import_measures: measures) }
+    subject(:declarable) { build(:heading, import_measures: measures, footnotes:) }
+
+    let(:footnotes) { [] }
   end
 
   describe '#heading' do
