@@ -20,7 +20,9 @@
   </h3>
 
   <div class="tariff-markdown">
-    <%= govspeak form.object.neutral_elements_text %>
+    <%= govspeak remove_article_reference(form.object.neutral_elements_text) %>
+    <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
+                                                   article_match: find_article_reference(form.object.neutral_elements_text) if find_article_reference(form.object.neutral_elements_text) %>
 
     <%= render 'shared/details', summary: t('.neutral_elements.example.summary'),
                                  content: govspeak(t('.neutral_elements.example.content_md')) %>
@@ -31,7 +33,9 @@
   </h3>
 
   <div class="tariff-markdown">
-    <%= govspeak form.object.packaging_text %>
+    <%= govspeak remove_article_reference(form.object.packaging_text) %>
+    <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
+                                                   article_match: find_article_reference(form.object.packaging_text) if find_article_reference(form.object.packaging_text) %>
   </div>
 
   <% if form.object.accessories_text %>
@@ -40,7 +44,9 @@
     </h3>
 
     <div class="tariff-markdown">
-      <%= govspeak form.object.accessories_text %>
+      <%= govspeak remove_article_reference(govspeak form.object.accessories_text) %>
+      <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
+                                                     article_match: find_article_reference(govspeak form.object.accessories_text) if find_article_reference(form.object.accessories_text) %>
     </div>
   <% end %>
 

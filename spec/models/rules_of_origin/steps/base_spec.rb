@@ -19,6 +19,7 @@ RSpec.describe RulesOfOrigin::Steps::Base do
   it { is_expected.to have_attributes trade_country_name: country.description }
   it { is_expected.to have_attributes commodity_code: wizardstore['commodity_code'] }
   it { is_expected.to have_attributes chosen_scheme: schemes.first }
+  it { is_expected.to have_attributes origin_reference_document: schemes.first.origin_reference_document }
 
   describe 'scheme_title' do
     subject { instance.scheme_title }
@@ -30,6 +31,19 @@ RSpec.describe RulesOfOrigin::Steps::Base do
                                                                 chosen_scheme: 2
 
       it { is_expected.to eql schemes.second.title }
+    end
+  end
+
+  describe 'origin reference document' do
+    subject { instance.origin_reference_document }
+
+    it { is_expected.to eql schemes.first.origin_reference_document }
+
+    context 'with multiple schemes' do
+      include_context 'with rules of origin store', :importing, scheme_count: 2,
+                                                                chosen_scheme: 2
+
+      it { is_expected.to eql schemes.second.origin_reference_document }
     end
   end
 

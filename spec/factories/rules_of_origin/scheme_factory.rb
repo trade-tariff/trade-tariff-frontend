@@ -18,6 +18,7 @@ FactoryBot.define do
     rules { attributes_for_list :rules_of_origin_rule, rule_count }
     links { attributes_for_list :rules_of_origin_link, link_count }
     articles { attributes_for_list :rules_of_origin_article, article_count }
+    origin_reference_document { attributes_for :rules_of_origin_origin_reference_document }
 
     rule_sets do
       attributes_for_list :rules_of_origin_rule_set, rule_set_count,

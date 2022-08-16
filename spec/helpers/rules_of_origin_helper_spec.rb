@@ -107,6 +107,34 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
     it { is_expected.to eql 'With space and non-breaking space' }
   end
 
+  describe '#remove_article_reference' do
+    subject { helper.remove_article_reference content }
+
+    let(:content) { 'With reference {{ article 123 }}' }
+
+    it { is_expected.to eql 'With reference ' }
+
+    context 'with nil content' do
+      let(:content) { nil }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#find_article_reference' do
+    subject { helper.find_article_reference content }
+
+    let(:content) { 'With reference {{article 123}}' }
+
+    it { is_expected.to eql 'article 123' }
+
+    context 'with nil content' do
+      let(:content) { nil }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '#restrict_wrapping' do
     subject { helper.restrict_wrapping content }
 
