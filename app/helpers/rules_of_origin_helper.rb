@@ -46,7 +46,7 @@ module RulesOfOriginHelper
   end
 
   def remove_article_reference(content)
-    content.sub /{{(.*)}}/i, '' if content
+    content.sub(/{{(.*)}}/i, '') if content
   end
 
   def find_article_reference(content)

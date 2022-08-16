@@ -37,9 +37,7 @@ module RulesOfOrigin
         chosen_scheme.title
       end
 
-      def origin_reference_document
-        chosen_scheme.origin_reference_document
-      end
+      delegate :origin_reference_document, to: :chosen_scheme
 
       def exporting?
         !chosen_scheme.unilateral && @store['import_or_export'] == 'export'
