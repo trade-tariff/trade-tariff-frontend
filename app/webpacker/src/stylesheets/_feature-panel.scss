@@ -12,6 +12,10 @@ $feature-panel-border-left: #b1b4b6;
     border: 0;
   }
 
+  &.no-bottom-border {
+    border-bottom: 0;
+  }
+
   &--shaded {
     background-color: $feature-panel-shaded-background-colour;
   }

@@ -480,8 +480,6 @@
             $('form').on('click', 'button[type=submit]', function(e) {
               this.closest('form').trigger("submit");
             });
-
-            this.responsivePlaceholder.initialize();
           },
           toggledControl: {
             initialize: function(control) {
@@ -520,26 +518,6 @@
                   }
                   return true;
                 });
-            }
-          },
-          responsivePlaceholder: {
-           initialize: function () {
-              var namespace = this;
-              namespace.onResize();
-              $(window).on("debouncedresize", function( event ) {
-                  namespace.onResize();
-              });
-            },
-            onResize: function () {
-              var w = $(window).width(),
-                  placeholderElem = $('.js-search-header').find('input#search_t'),
-                  placeholderText = '';
-              if (w > 440) {
-                placeholderText = 'Enter the name of the goods or commodity code';
-              } else {
-                placeholderText = 'Name of goods or comm code';
-              }
-              $(placeholderElem).attr('placeholder', placeholderText);
             }
           }
       },
@@ -791,7 +769,6 @@
                 showAllValues: false,
                 confirmOnBlur: false,
                 displayMenu: "overlay",
-                placeholder: "Enter the name of the goods or commodity code",
                 tNoResults: () => searching ? "Searching..." : "No results found",
                 onConfirm: function(text) {
                   let obj = null;
