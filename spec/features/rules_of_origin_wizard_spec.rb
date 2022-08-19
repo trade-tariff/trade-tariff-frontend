@@ -35,7 +35,40 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       expect(page).to have_css 'h1', text: /What components/
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: /Are your goods wholly obtained/
+      expect(page).to have_css 'h1', text: /Are your goods wholly obtained in Japan/
+      expect(page).to have_css 'label', text: /Yes, my goods are wholly obtained in Japan/
+      expect(page).to have_css 'label', text: /No, my goods are not wholly obtained in Japan/
+      choose 'Yes, my goods are wholly obtained'
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /Origin requirements met/
+      click_on 'See valid proofs of origin'
+
+      expect(page).to have_css 'h1', text: 'Valid proofs of origin'
+    end
+
+    scenario 'Exporting - Wholly obtained' do
+      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+
+      expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
+      click_on 'Check rules of origin'
+
+      expect(page).to have_css 'h1', text: /Are you importing goods.*UK.*Japan\?/
+      choose 'I am exporting goods'
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /are classed as 'originating'/
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /How 'wholly obtained' is defined/
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /What components/
+      click_on 'Continue'
+
+      expect(page).to have_css 'h1', text: /Are your goods wholly obtained in the UK/
+      expect(page).to have_css 'label', text: /Yes, my goods are wholly obtained in the UK/
+      expect(page).to have_css 'label', text: /No, my goods are not wholly obtained in the UK/
       choose 'Yes, my goods are wholly obtained'
       click_on 'Continue'
 
