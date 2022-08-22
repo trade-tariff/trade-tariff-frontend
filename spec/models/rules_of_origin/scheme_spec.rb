@@ -256,7 +256,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
-    describe 'links' do
+    describe '#links' do
       include_context 'with mocked response'
 
       it { expect(schemes.first.links.length).to be 1 }
@@ -269,7 +269,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
-    describe 'proofs' do
+    describe '#proofs' do
       include_context 'with mocked response'
 
       it { expect(schemes.first.proofs.length).to be 1 }
@@ -283,7 +283,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
-    describe 'articles' do
+    describe '#articles' do
       include_context 'with mocked response'
 
       it { expect(schemes.first.articles.length).to be 1 }
@@ -296,7 +296,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
-    describe 'origin reference document' do
+    describe '#origin_reference_document' do
       include_context 'with mocked response'
 
       it { expect(schemes.first.origin_reference_document).to be_instance_of RulesOfOrigin::OriginReferenceDocument }
