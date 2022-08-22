@@ -37,7 +37,7 @@
 
           <div class="searchfield govuk-form-group">
             <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
-              <%= label_tag :q, "Enter the name of the goods or a commodity code", class: 'govuk-label govuk-label--s' %>
+              <%= label_tag :q, search_label_text, class: 'govuk-label' %>
 
               <%= hidden_field_tag :q, @search.q, id: 'q-hidden', class: "js-commodity-picker-target" %>
 
