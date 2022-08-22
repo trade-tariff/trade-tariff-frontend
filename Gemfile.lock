@@ -157,8 +157,8 @@ GEM
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
     faraday-net_http (1.0.1)
-    faraday-net_http_persistent (2.0.1)
-      faraday-net_http
+    faraday-net_http_persistent (2.0.2)
+      faraday-net_http (< 3)
       net-http-persistent (~> 4.0)
     faraday_middleware (1.2.0)
       faraday (~> 1.0)
