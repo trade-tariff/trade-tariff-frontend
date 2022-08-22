@@ -523,7 +523,7 @@
             }
           },
           responsivePlaceholder: {
-          initialize: function () {
+            initialize: function () {
               var namespace = this;
               namespace.onResize();
               $(window).on("debouncedresize", function( event ) {
