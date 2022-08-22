@@ -65,18 +65,6 @@ RSpec.describe OrderNumber do
     end
 
     it_behaves_like 'an order number that shows warnings' do
-      let(:definition) { build(:definition, number: '052012') }
-    end
-
-    it_behaves_like 'an order number that shows warnings' do
-      let(:definition) { build(:definition, number: '052105') }
-    end
-
-    it_behaves_like 'an order number that shows warnings' do
-      let(:definition) { build(:definition, number: '052106') }
-    end
-
-    it_behaves_like 'an order number that shows warnings' do
       let(:definition) { build(:definition, number: '05foo', description: 'flibble') }
     end
 
@@ -99,12 +87,6 @@ RSpec.describe OrderNumber do
 
   describe '#warning_text' do
     subject(:warning_text) { definition.order_number.warning_text }
-
-    context 'when the quota definition order number has known issues' do
-      let(:definition) { build(:definition, number: '052106') }
-
-      it { is_expected.to match(/There is currently a known issue/) }
-    end
 
     context 'when the quota definition order number has a description' do
       let(:definition) { build(:definition, number: '052000', description: 'flibble') }

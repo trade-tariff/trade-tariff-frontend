@@ -2,12 +2,6 @@ require 'api_entity'
 require 'order_number/definition'
 
 class OrderNumber
-  ORDER_NUMBERS_WITH_KNOWN_ISSUES = %w[
-    052012
-    052105
-    052106
-  ].freeze
-
   include ApiEntity
 
   attr_accessor :number
@@ -28,25 +22,10 @@ class OrderNumber
   end
 
   def warning_text
-    if known_data_issues?
-      I18n.t('quota_definition.order_number.known_issues')
-    else
-      definition.description
-    end
+    definition.description
   end
 
   def show_warning?
-    starts_with_05? || known_data_issues?
-  end
-
-  private
-
-  def starts_with_05?
     definition.description && number.start_with?('05')
-  end
-
-  # TODO: Remove me. QAM has issues with loading quotas with a hierarchy at the moment and is decrement quotas too quickly
-  def known_data_issues?
-    number.in?(ORDER_NUMBERS_WITH_KNOWN_ISSUES)
   end
 end
