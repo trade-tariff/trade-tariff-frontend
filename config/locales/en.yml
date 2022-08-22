@@ -103,11 +103,6 @@ en:
   measure_type_duties:
     1080:
       103: 'n/a'
-  quota_definition:
-    order_number:
-      known_issues: >-
-        There is currently a known issue with the balance and status of this quota. We are working hard to resolve this issue as soon as possible. Until further notice the quota remains ‘open’ and quota claims should be submitted as normal.
-
   service_banner:
     service_name:
       uk: "UK Integrated Online Tariff"
