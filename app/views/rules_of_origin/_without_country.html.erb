@@ -1,36 +1,14 @@
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">
-      Preferential rules of origin
-    </h2>
-
-    <p>
-      To view rules of origin, select a country with
-      which the <%= rules_of_origin_service_name %> has a trade agreement
-      from the list above
-    </p>
+  <div class="govuk-grid-column-full">
+    <h2 class="govuk-heading-m">Preferential rules of origin</h2>
+    <p>To view rules of origin, select a country with which the <%= rules_of_origin_service_name %> has a trade agreement from the list above.</p>
 
     <% if TradeTariffFrontend::ServiceChooser.uk? %>
-    <p>
-      You can also find out about rules of origin
-    <p>
-
-    <nav role="navigation">
-      <ul class="govuk-list">
-        <li class="govuk-body-s">
-          <a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin">
-            Check your goods meet the rules of origin
-          </a>
-        </li>
-
-        <li class="govuk-body-s">
-          <a href="https://www.gov.uk/guidance/import-and-export-goods-using-preference-agreements">
-            Pay less Import Duty on goods from a country with a <%= rules_of_origin_service_name %>
-            trade agreement
-          </a>
-        </li>
+      <p>Find out more about preferential rules of origin:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a target="_blank" href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin">Check your goods meet the rules of origin (opens in new tab)</a></li>
+        <li><a target="_blank" href="https://www.gov.uk/guidance/import-and-export-goods-using-preference-agreements">Pay less Customs Duty on goods from a country with a <%= rules_of_origin_service_name %> trade agreement (opens in new tab)</a></li>
       </ul>
-    </nav>
     <% end %>
 
     <%= render 'rules_of_origin/non_preferential' %>
