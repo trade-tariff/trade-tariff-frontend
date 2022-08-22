@@ -1,0 +1,68 @@
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+      t('breadcrumb.help_find_commodity'),
+      [
+        [t('breadcrumb.home'), home_path],
+        [t('breadcrumb.help'), help_path]
+      ]
+    )
+  %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">Online Trade Tariff</span>
+    <h1 class="govuk-heading-l">Getting help from HMRC if you need to find a commodity code</h1>
+    <p class="govuk-body-l">Get help from HMRC if you cannot find the right commodity
+    code for your goods, you can contact HMRC for advice or
+    for a decision on your goods.</p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Informal advice</h2>             
+    <p>You can <%= link_to "use HMRC's Tariff Classification Service", home_path %> to get non-legally binding classification advice.</p>
+    <p>HMRC will try to respond to your email within 5 working days.</p>
+
+    <div class="govuk-inset-text">
+      You should only use this service for quick, basic and informal
+      decisions. You should consider getting a legally binding
+      decision instead, if you want HMRC to do a more in-depth
+      analysis of your goods.
+    </div>
+
+    <h2 class="govuk-heading-m">Formal legally binding decision</h2>
+    <p>You can ask HMRC to give you a legally binding decision on your goods. You may want to consider this if your goods are:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>hard to classify and informal advice is not suitable for you or your business</li>
+      <li>a new type of product (this will be the first time the product will have ever been classified)</li>
+    </ul>
+
+    <div class="call-to-action">
+      <p>Check what you’ll need to <a href="https://www.gov.uk/guidance/check-what-youll-need-to-get-a-legally-binding-decision-on-a-commodity-code" class="govuk-link">get a legally binding decision</a>.</p>
+    </div>
+
+    <p>If you want to check if a decision has already been made on goods that are similar to yours you can search for previous:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a href="https://www.tax.service.gov.uk/search-for-advance-tariff-rulings/search?enableTrackingConsent=true">Advance Tariff Rulings for Great Britain (England, Wales and Scotland)</a></li>
+      <li><a href="https://ec.europa.eu/taxation_customs/dds2/ebti/ebti_home.jsp?Lang=en">European Binding Tariff Information decisions for Northern Ireland</a></li>
+    </ul>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <div class="gem-c-related-navigation">
+
+      <h2 id="related-nav-related_items-40a88cdf" class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Related content</h2>
+
+      <nav role="navigation" class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-40a88cdf" data-module="gem-toggle" data-gem-toggle-module-started="true">
+        <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
+          <li class="gem-c-related-navigation__link">
+            <%= link_to 'Leave feedback', feedback_path, class: "gem-c-contents-list__link govuk-link govuk-link--no-underline" %>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
