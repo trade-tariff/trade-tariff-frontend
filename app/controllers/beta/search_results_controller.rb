@@ -79,7 +79,7 @@ module Beta
     def show
       @search_result = Beta::Search::PerformSearchService.new(query, filters).call
 
-      redirect_to missing_search_query_fallback_url if is_redirect?
+      redirect_to @search_result.redirect_to if @search_result.redirect?
     end
 
     private
@@ -94,14 +94,6 @@ module Beta
 
     def search_params
       params.permit(:q, :filters)
-    end
-
-    def is_redirect?
-      @search_result.meta['redirect'].eql?(true)
-    end
-
-    def missing_search_query_fallback_url
-      @search_result.meta['redirect_to']
     end
   end
 end

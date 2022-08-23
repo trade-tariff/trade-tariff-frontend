@@ -14,7 +14,6 @@ module Beta
         path = "/api/beta/search?#{query_params}"
         response = api.get(path)
         parsed = parse_jsonapi(response)
-        merge_meta_to_result!(parsed, response)
 
         Beta::Search::SearchResult.new(parsed)
       rescue Faraday::Error, UnparseableResponseError
@@ -51,10 +50,6 @@ module Beta
 
       def api
         TradeTariffFrontend::ServiceChooser.api_client
-      end
-
-      def merge_meta_to_result!(parsed, response)
-        parsed.merge!('meta' => response.body['meta'])
       end
     end
   end
