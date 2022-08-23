@@ -19,9 +19,9 @@ class ChemicalSearchForm
 
   def to_params
     {
-      cas: cas,
-      name: name,
-      page: page,
+      cas:,
+      name:,
+      page:,
     }
   end
 end

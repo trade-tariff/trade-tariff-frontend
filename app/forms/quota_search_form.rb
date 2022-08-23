@@ -50,15 +50,15 @@ class QuotaSearchForm
 
   def to_params
     {
-      goods_nomenclature_item_id: goods_nomenclature_item_id,
-      geographical_area_id: geographical_area_id,
-      order_number: order_number,
-      critical: critical,
-      status: status,
+      goods_nomenclature_item_id:,
+      geographical_area_id:,
+      order_number:,
+      critical:,
+      status:,
       day: day || default_day_value,
       month: month || default_month_value,
       year: year || default_year_value,
-      page: page,
+      page:,
     }
   end
 

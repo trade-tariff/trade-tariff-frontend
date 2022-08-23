@@ -7,7 +7,7 @@ RSpec.describe RulesOfOrigin::Link do
   describe '#id' do
     subject(:link_id) { first_link.id }
 
-    let(:first_link) { build :rules_of_origin_link, id: id }
+    let(:first_link) { build :rules_of_origin_link, id: }
     let(:second_link) { build :rules_of_origin_link }
 
     let :third_link do

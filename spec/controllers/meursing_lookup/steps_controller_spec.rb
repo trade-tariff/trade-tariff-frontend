@@ -45,7 +45,7 @@ RSpec.describe MeursingLookup::StepsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    subject(:do_response) { patch :update, params: params }
+    subject(:do_response) { patch :update, params: }
 
     before { do_response }
 

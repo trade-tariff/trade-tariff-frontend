@@ -9,10 +9,10 @@ RSpec.describe 'rules_of_origin/_scheme', type: :view do
   let(:scheme) { build :rules_of_origin_scheme }
 
   let :render_page do
-    render 'rules_of_origin/scheme', scheme: scheme,
-                                     country_name: country_name,
-                                     commodity_code: commodity_code,
-                                     multiple_schemes: multiple_schemes
+    render 'rules_of_origin/scheme', scheme:,
+                                     country_name:,
+                                     commodity_code:,
+                                     multiple_schemes:
   end
 
   it 'includes comm code' do

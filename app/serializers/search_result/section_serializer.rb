@@ -4,12 +4,12 @@ module SearchResult
     def serializable_hash(_opts = {})
       {
         type: 'section',
-        numeral: numeral,
-        position: position,
-        title: title,
-        section_note: section_note,
-        chapter_from: chapter_from,
-        chapter_to: chapter_to
+        numeral:,
+        position:,
+        title:,
+        section_note:,
+        chapter_from:,
+        chapter_to:
       }
     end
   end

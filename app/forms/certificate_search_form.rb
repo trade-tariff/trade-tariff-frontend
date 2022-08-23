@@ -1,5 +1,5 @@
 class CertificateSearchForm
-  OPTIONAL_PARAMS = [:@page]
+  OPTIONAL_PARAMS = [:@page].freeze
 
   attr_accessor :code, :type, :description, :page
 
@@ -29,10 +29,10 @@ class CertificateSearchForm
 
   def to_params
     {
-      code: code,
-      type: type,
-      description: description,
-      page: page,
+      code:,
+      type:,
+      description:,
+      page:,
     }
   end
 end

@@ -1,12 +1,10 @@
-# frozen_string_literal: true
-
 require 'api_entity'
 
 class NewsItem
   include ApiEntity
 
-  CACHE_KEY = 'news-item-any-updates'
-  BANNER_CACHE_KEY = 'news-item-latest-banner'
+  CACHE_KEY = 'news-item-any-updates'.freeze
+  BANNER_CACHE_KEY = 'news-item-latest-banner'.freeze
   CACHE_VERSION = 2
   CACHE_LIFETIME = 15.minutes
   BANNER_CACHE_LIFETIME = 5.minutes
