@@ -19,9 +19,9 @@ RSpec.describe 'find_commodities/show', type: :view do
     it { is_expected.to have_css 'form details .govuk-details__text' }
 
     shared_examples 'a populated date input' do
-      it { is_expected.to have_css %(.govuk-details__text input[name="day"][value="#{search_date.day}"]) }
-      it { is_expected.to have_css %(.govuk-details__text input[name="month"][value="#{search_date.month}"]) }
-      it { is_expected.to have_css %(.govuk-details__text input[name="year"][value="#{search_date.year}"]) }
+      it { is_expected.to have_css %(.govuk-form-group input[name="day"][value="#{search_date.day}"]) }
+      it { is_expected.to have_css %(.govuk-form-group input[name="month"][value="#{search_date.month}"]) }
+      it { is_expected.to have_css %(.govuk-form-group input[name="year"][value="#{search_date.year}"]) }
     end
 
     context 'with default date' do
@@ -33,11 +33,6 @@ RSpec.describe 'find_commodities/show', type: :view do
 
       it_behaves_like 'a populated date input'
     end
-  end
-
-  describe 'STW links' do
-    it { is_expected.to have_css 'h2', text: 'Advance tariff rulings' }
-    it { is_expected.to have_css 'h2', text: 'Check how to import or export goods' }
   end
 
   describe 'latest news' do
