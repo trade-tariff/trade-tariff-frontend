@@ -11,8 +11,8 @@ RSpec.describe 'rules_of_origin/_rules_table', type: :view do
   end
 
   let :render_page do
-    render 'rules_of_origin/rules_table', rules: rules,
-                                          country_name: country_name
+    render 'rules_of_origin/rules_table', rules:,
+                                          country_name:
   end
 
   it 'shows rules table' do

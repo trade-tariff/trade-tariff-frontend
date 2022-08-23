@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'news_items/_header_banner', type: :view do
-  subject { render 'news_items/header_banner', news_item: news_item }
+  subject { render 'news_items/header_banner', news_item: }
 
   let(:news_item) { build :news_item, content: 'Important news for [[SERVICE_NAME]]' }
 

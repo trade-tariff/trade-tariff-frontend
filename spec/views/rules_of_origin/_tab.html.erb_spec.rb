@@ -18,7 +18,7 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   end
 
   let(:schemes) do
-    build_list :rules_of_origin_scheme, 1, rules: rules_data, fta_intro: fta_intro
+    build_list :rules_of_origin_scheme, 1, rules: rules_data, fta_intro:
   end
 
   let(:fta_intro) { "## Free Trade Agreement\n\nDetails of agreement" }
@@ -99,7 +99,7 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   context 'with multiple schemes' do
     let(:schemes) do
       build_list :rules_of_origin_scheme, 3, rules: rules_data,
-                                             fta_intro: fta_intro
+                                             fta_intro:
     end
 
     it { is_expected.to have_css '.rules-of-origin__scheme', count: 3 }

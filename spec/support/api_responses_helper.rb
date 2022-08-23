@@ -16,7 +16,7 @@ module ApiResponsesHelper
   # Generate a JSONAPI response from data suitable for webmock
   def jsonapi_response(type, response_data, status: 200, headers: nil)
     {
-      status: status,
+      status:,
       headers: headers || { 'content-type' => 'application/json; charset=utf-8' },
       body: format_jsonapi_response(type, response_data).to_json,
     }
@@ -24,7 +24,7 @@ module ApiResponsesHelper
 
   def jsonapi_error_response(status = 500, response_data = nil, headers: nil)
     {
-      status: status,
+      status:,
       headers: headers || { 'content-type' => 'application/json; charset=utf-8' },
       body: response_data,
     }

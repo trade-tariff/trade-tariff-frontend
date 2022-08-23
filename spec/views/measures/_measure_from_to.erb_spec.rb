@@ -1,7 +1,7 @@
 RSpec.describe 'measures/_measure_from_to', type: :view do
   subject { render_page && rendered }
 
-  let(:render_page) { render 'measures/measure_from_to', measure: measure }
+  let(:render_page) { render 'measures/measure_from_to', measure: }
 
   context 'when the start date is nil' do
     let(:measure) { build :measure, effective_start_date: nil }

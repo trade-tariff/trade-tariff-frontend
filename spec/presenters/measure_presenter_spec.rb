@@ -108,7 +108,7 @@ RSpec.describe MeasurePresenter do
     end
 
     let(:measure_condition) do
-      attributes_for :measure_condition, condition_code: condition_code,
+      attributes_for :measure_condition, condition_code:,
                                          condition: "#{condition_code}: TEST"
     end
 
