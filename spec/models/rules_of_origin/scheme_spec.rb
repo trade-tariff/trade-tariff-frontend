@@ -15,6 +15,7 @@ RSpec.describe RulesOfOrigin::Scheme do
   it { is_expected.to respond_to :links }
   it { is_expected.to respond_to :articles }
   it { is_expected.to respond_to :rule_sets }
+  it { is_expected.to respond_to :origin_reference_document }
 
   describe '.all' do
     let(:json_response) { response_data.to_json }
@@ -50,6 +51,12 @@ RSpec.describe RulesOfOrigin::Scheme do
                     type: 'rules_of_origin_link',
                   },
                 ],
+              },
+              origin_reference_document: {
+                data: {
+                  id: 'origin_reference_document_id',
+                  type: 'rules_of_origin_origin_reference_document',
+                },
               },
               proofs: {
                 data: [
@@ -104,6 +111,16 @@ RSpec.describe RulesOfOrigin::Scheme do
             attributes: {
               article: 'test-article',
               content: 'Hello',
+            },
+          },
+          {
+            id: 'origin_reference_document_id',
+            type: 'rules_of_origin_origin_reference_document',
+            attributes: {
+              ord_date: '28 December 2021',
+              ord_original: '211203_ORD_Japan_V1.1.odt',
+              ord_title: 'Origin Reference Document title',
+              ord_version: '1.1',
             },
           },
         ],
@@ -239,7 +256,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
-    describe 'links' do
+    describe '#links' do
       include_context 'with mocked response'
 
       it { expect(schemes.first.links.length).to be 1 }
@@ -252,7 +269,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
-    describe 'proofs' do
+    describe '#proofs' do
       include_context 'with mocked response'
 
       it { expect(schemes.first.proofs.length).to be 1 }
@@ -266,7 +283,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
-    describe 'articles' do
+    describe '#articles' do
       include_context 'with mocked response'
 
       it { expect(schemes.first.articles.length).to be 1 }
@@ -276,6 +293,21 @@ RSpec.describe RulesOfOrigin::Scheme do
 
         it { is_expected.to have_attributes article: 'test-article' }
         it { is_expected.to have_attributes content: 'Hello' }
+      end
+    end
+
+    describe '#origin_reference_document' do
+      include_context 'with mocked response'
+
+      it { expect(schemes.first.origin_reference_document).to be_instance_of RulesOfOrigin::OriginReferenceDocument }
+
+      context 'with origin reference document' do
+        subject { schemes.first.origin_reference_document }
+
+        it { is_expected.to have_attributes ord_title: 'Origin Reference Document title' }
+        it { is_expected.to have_attributes ord_date: '28 December 2021' }
+        it { is_expected.to have_attributes ord_original: '211203_ORD_Japan_V1.1.odt' }
+        it { is_expected.to have_attributes ord_version: '1.1' }
       end
     end
   end

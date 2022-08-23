@@ -27,3 +27,39 @@
     white-space: nowrap;
   }
 }
+
+.rules-of-origin-attachment {
+  display        : flex;
+  flex-direction : row;
+  flex-wrap      : nowrap;
+  justify-content: space-between;
+  align-items    : stretch;
+  gap            : 10px;
+  width          : 100%;
+
+  .rules-of-origin-attachment-text {
+      font-size   : 16px;
+      width       : 90%;
+      padding-left: 1em;
+
+      .subtext {
+          font-size: 12px;
+      }
+  }
+
+  .rules-of-origin-attachment-thumb {
+      margin-top    : 5px;
+      padding-bottom: 15px;
+      width         : 10%;
+
+      svg {
+          fill        : #b1b4b6;
+          stroke      : #b1b4b6;
+          margin-right: 0.5em;
+          border      : 1px solid #ccc;
+          box-shadow  : 4px 4px #888888;
+          max-width   : 64px;
+          max-height  : 80px;
+      }
+  }
+}

@@ -13,6 +13,7 @@ class RulesOfOrigin::Scheme
   has_many :proofs, class_name: 'RulesOfOrigin::Proof'
   has_many :articles, class_name: 'RulesOfOrigin::Article'
   has_many :rule_sets, class_name: 'RulesOfOrigin::RuleSet'
+  has_one :origin_reference_document, class_name: 'RulesOfOrigin::OriginReferenceDocument'
 
   class << self
     def all(heading_code, country_code, opts = {})

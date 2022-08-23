@@ -45,6 +45,14 @@ module RulesOfOriginHelper
     content.gsub('&nbsp;', ' ')
   end
 
+  def remove_article_reference(content)
+    content.sub(/{{(.*)}}/i, '') if content
+  end
+
+  def find_article_reference(content)
+    content.scan(/{{(.*)}}/i).first&.first if content
+  end
+
   def restrict_wrapping(content)
     safe_content = html_escape(content)
 
