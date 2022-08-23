@@ -1,5 +1,5 @@
 class CertificateSearchForm
-  OPTIONAL_PARAMS = [:@page]
+  OPTIONAL_PARAMS = [:@page].freeze
 
   attr_accessor :code, :type, :description, :page
 
