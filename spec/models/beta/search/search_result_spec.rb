@@ -11,7 +11,8 @@ RSpec.describe Beta::Search::SearchResult do
     expect(search_result).to have_attributes(took: 2,
                                              timed_out: false,
                                              max_score: 76.975296,
-                                             total_results: 1097)
+                                             total_results: 1097,
+                                             meta: { redirect: false, redirect_to: '' })
   end
 
   it { expect(described_class.relationships).to eq(expected_relationships) }

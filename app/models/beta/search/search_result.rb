@@ -11,6 +11,11 @@ module Beta
                     :total_results,
                     :meta
 
+      meta_attribute :redirect
+      meta_attribute :redirect_to
+
+      alias_method :redirect?, :redirect
+
       has_many :chapter_statistics, class_name: 'Beta::Search::ChapterStatistic'
       has_many :heading_statistics, class_name: 'Beta::Search::HeadingStatistic', wrapper: Beta::Search::HeadingStatisticCollection
       has_many :hits, polymorphic: true, wrapper: Beta::Search::HitsCollection

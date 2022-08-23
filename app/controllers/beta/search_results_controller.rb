@@ -78,6 +78,8 @@ module Beta
 
     def show
       @search_result = Beta::Search::PerformSearchService.new(query, filters).call
+
+      redirect_to @search_result.redirect_to if @search_result.redirect?
     end
 
     private

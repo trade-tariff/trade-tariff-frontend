@@ -213,6 +213,15 @@ private
       end
     end
 
+    def meta_attribute(*attribute_path)
+      attribute_path = attribute_path.map(&:to_s)
+      method_name = attribute_path.last
+
+      define_method(method_name) do
+        meta.dig(*attribute_path)
+      end
+    end
+
     def paginate_collection(collection, pagination)
       Kaminari.paginate_array(
         collection,
