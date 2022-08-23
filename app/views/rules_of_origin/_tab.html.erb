@@ -1,40 +1,55 @@
-<h2 class="govuk-heading-m rules-of-origin-heading">
-  Preferential rules of origin for trading with <%= country_name %>
-  <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
-</h2>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m rules-of-origin-heading">
+      Preferential rules of origin for trading with <%= country_name %>
+      <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
+    </h2>
 
-<%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
+    <p>
+      Preferential tariff treatment reduces the duties you are required to pay when importing or exporting goods to or from <%= country_name %>
+    </p>
 
-<% if TradeTariffFrontend.roo_wizard? && rules_of_origin_schemes.any? %>
-  <%= render 'rules_of_origin/wizard_link',
-             country_code: country_code,
-             commodity_code: commodity_code %>
-<% end %>
+    <p>
+      Rules of origin are the criteria which determine the national source of a product. They determine if your trade is eligible for preferential tariff treatment and may influence the rules that apply to your import or export.
+    </p>
 
-<%= render partial: 'rules_of_origin/scheme',
-           collection: rules_of_origin_schemes,
-           locals: {
-             country_name: country_name,
-             commodity_code: commodity_code,
-             multiple_schemes: rules_of_origin_schemes.many?
-           } %>
+    <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
 
-<%= render 'rules_of_origin/non_preferential' %>
+    <% if TradeTariffFrontend.roo_wizard? && rules_of_origin_schemes.any? %>
+      <%= render 'rules_of_origin/wizard_link',
+                 country_code: country_code,
+                 commodity_code: commodity_code %>
+    <% end %>
 
-<% if rules_of_origin_schemes.flat_map(&:links).any? %>
-<div id="rules-of-origin__related-content">
-  <h2 class="govuk-heading-m">
-    Related content
-  </h2>
+    <%#= render partial: 'rules_of_origin/scheme',
+               collection: rules_of_origin_schemes,
+               locals: {
+                 country_name: country_name,
+                 commodity_code: commodity_code,
+                 multiple_schemes: rules_of_origin_schemes.many?
+               } %>
 
-  <nav role="navigation">
-    <ul class="govuk-list govuk-list-s">
-      <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
-        <li>
-          <%= link_to link.text, link.url %>
-        </li>
-      <% end %>
-    </ul>
-  </nav>
+    <%= render 'rules_of_origin/non_preferential' %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <% if rules_of_origin_schemes.flat_map(&:links).any? %>
+    <div id="rules-of-origin__related-content">
+      <h2 class="govuk-heading-m">
+        Related content
+      </h2>
+
+      <nav role="navigation">
+        <ul class="govuk-list govuk-list-s">
+          <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
+            <li>
+              <%= link_to link.text, link.url %>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+  <% end %>
+  </div>
+
 </div>
-<% end %>
