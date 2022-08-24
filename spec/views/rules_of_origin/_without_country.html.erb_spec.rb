@@ -11,7 +11,7 @@ RSpec.describe 'rules_of_origin/_without_country', type: :view do
     end
 
     it 'includes additional links' do
-      expect(rendered_page).to have_css 'nav a', text: 'Check your goods meet the'
+      expect(rendered_page).to have_css 'li a', text: 'Check your goods meet the'
     end
 
     it 'includes the non-preferential bloc' do
@@ -27,7 +27,7 @@ RSpec.describe 'rules_of_origin/_without_country', type: :view do
     end
 
     it 'excludes additional links' do
-      expect(rendered_page).not_to have_css 'nav a', text: 'Check your goods meet the'
+      expect(rendered_page).not_to have_css 'li a', text: 'Check your goods meet the'
     end
 
     it 'includes the non-preferential bloc' do

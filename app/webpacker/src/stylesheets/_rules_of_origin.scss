@@ -63,3 +63,10 @@
       }
   }
 }
+
+.js-enabled .govuk-tabs__panel {
+  margin-bottom: 0;
+  padding: 30px 20px;
+  border: 1px solid #b1b4b6;
+  border-top: 0;
+}
