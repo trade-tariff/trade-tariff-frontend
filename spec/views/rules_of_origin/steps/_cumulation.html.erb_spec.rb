@@ -9,6 +9,7 @@ RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view do
   it { is_expected.to have_css 'h1', text: /parts or components/ }
   it { is_expected.to have_css 'p strong', text: 'cumulation rules' }
   it { is_expected.to have_css 'h3.govuk-heading-s', text: %r{Cumulation.*#{schemes.first.title}} }
+  it { is_expected.to have_css 'p', text: %r{Map showing countries.*#{schemes.first.title}} }
   it { is_expected.to have_css '.govuk-inset-text', text: %r{#{schemes.first.title}} }
   it { is_expected.to have_css 'p strong', text: 'Bilateral cumulation' }
   it { is_expected.to have_css 'figure img[src*="roo_wizard/bilateral"]' }

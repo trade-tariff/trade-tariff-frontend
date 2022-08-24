@@ -11,6 +11,10 @@ module RulesOfOrigin
         article = exporting? ? 'cumulation-export' : 'cumulation-import'
         chosen_scheme.article(article)&.content
       end
+
+      def map_path
+        File.join("/cumulation_maps/#{chosen_scheme.scheme_code}.png")
+      end
     end
   end
 end

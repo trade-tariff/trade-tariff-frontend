@@ -592,6 +592,7 @@ en:
           A materials to be considered as though undertaken in B.
         cumulation:
           title: Cumulation in the %{scheme_title}
+          map: Map showing countries where cumulation may apply to the %{scheme_title}
           inset: The %{scheme_title} features bilateral cumulation.
           body_md: |
             **Bilateral cumulation**
