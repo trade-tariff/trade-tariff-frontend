@@ -347,7 +347,7 @@ en:
           wholly_obtained: Are your goods wholly obtained?
           origin_requirements_met: Origin requirements met
           not_wholly_obtained: Your goods are not wholly obtained
-          parts_components: Including parts or components from other countries
+          cumulation: Including parts or components from other countries
           sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
           subdivisions: Provide more information about your product
           product_specific_rules: Does your product meet the product-specific rules?
@@ -574,7 +574,7 @@ en:
           %{scheme_title}, which will indicate if non-originating parts from
           other countries can be included in determining originating status.
 
-      parts_components:
+      cumulation:
         caption: Are your goods originating?
         title: Including parts or components from other countries
         body_md: |

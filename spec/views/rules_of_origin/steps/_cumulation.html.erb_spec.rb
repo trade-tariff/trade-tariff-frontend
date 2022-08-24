@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/steps/_parts_components', type: :view do
+RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view do
   include_context 'with rules of origin form step',
-                  'parts_components',
+                  'cumulation',
                   :originating
 
   it { is_expected.to have_css 'span.govuk-caption-xl', text: /originating/i }

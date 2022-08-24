@@ -1,6 +1,6 @@
 module RulesOfOrigin
   module Steps
-    class PartsComponents < Base
+    class Cumulation < Base
       self.section = 'originating'
 
       def skipped?

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe RulesOfOrigin::Steps::PartsComponents do
+RSpec.describe RulesOfOrigin::Steps::Cumulation do
   include_context 'with rules of origin store', :originating
   include_context 'with wizard step', RulesOfOrigin::Wizard
 
