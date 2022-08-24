@@ -68,4 +68,26 @@ RSpec.describe RulesOfOrigin::Steps::Base do
       it { is_expected.to be true }
     end
   end
+
+  describe '#country_name' do
+    subject(:country_name) { instance.country_name }
+
+    context 'with unilateral scheme so import_only' do
+      let(:schemes) { build_list :rules_of_origin_scheme, 1, unilateral: true }
+
+      it { is_expected.to eq('Japan') }
+    end
+
+    context 'when importing' do
+      include_context 'with rules of origin store', :importing
+
+      it { is_expected.to eq('Japan') }
+    end
+
+    context 'when exporting' do
+      include_context 'with rules of origin store', :exporting
+
+      it { is_expected.to eq('the UK') }
+    end
+  end
 end
