@@ -51,4 +51,10 @@ RSpec.describe RulesOfOrigin::Steps::Cumulation do
       it { expect(scheme).to have_received(:article).with 'cumulation-export' }
     end
   end
+
+  describe '#map_path' do
+    let(:scheme) { instance.chosen_scheme }
+
+    it { expect(instance.map_path).to eq "/cumulation_maps/#{scheme.scheme_code}.png" }
+  end
 end

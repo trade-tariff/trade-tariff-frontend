@@ -15,6 +15,12 @@
     <%= t '.cumulation.title', scheme_title: form.object.scheme_title %>
   </h3>
 
+  <p><%= t '.cumulation.map', scheme_title: form.object.scheme_title %></p>
+
+  <%= image_tag(asset_path(form.object.map_path)) %>
+
+  <p><%= link_to "View cumulation map in a new browser window", asset_path(form.object.map_path), target: "_blank" %></p>
+
   <div class="govuk-inset-text">
     <%= t '.cumulation.inset', scheme_title: form.object.scheme_title %>
   </div>
