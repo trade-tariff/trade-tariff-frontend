@@ -21,6 +21,10 @@ module RulesOfOrigin
                                                 .description
       end
 
+      def country_name
+        exporting? ? service_country_name : trade_country_name
+      end
+
       def commodity_code
         @store['commodity_code']
       end
