@@ -6,8 +6,13 @@
     <% if TradeTariffFrontend::ServiceChooser.uk? %>
       <p>Find out more about preferential rules of origin:</p>
       <ul class="govuk-list govuk-list--bullet">
-        <li><a target="_blank" href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin">Check your goods meet the rules of origin (opens in new tab)</a></li>
-        <li><a target="_blank" href="https://www.gov.uk/guidance/import-and-export-goods-using-preference-agreements">Pay less Customs Duty on goods from a country with a <%= rules_of_origin_service_name %> trade agreement (opens in new tab)</a></li>
+        <li>
+          <%= link_to "Check your goods meet the rules of origin (opens in new tab)", "https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin", target: 'blank' %>
+        </li>
+
+        <li>
+          <%= link_to "Pay less Customs Duty on goods from a country with a #{rules_of_origin_service_name} trade agreement (opens in new tab)", "https://www.gov.uk/guidance/import-and-export-goods-using-preference-agreements", target: 'blank' %>
+        </li>
       </ul>
     <% end %>
 
