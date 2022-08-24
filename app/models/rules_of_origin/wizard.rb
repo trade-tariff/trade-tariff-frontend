@@ -10,7 +10,7 @@ module RulesOfOrigin
       Steps::ComponentsDefinition,
       Steps::WhollyObtained,
       Steps::NotWhollyObtained,
-      Steps::PartsComponents,
+      Steps::Cumulation,
       Steps::SufficientProcessing,
       Steps::Subdivisions,
       Steps::ProductSpecificRules,
@@ -20,9 +20,7 @@ module RulesOfOrigin
       Steps::ProofVerification,
       Steps::RulesNotMet,
       Steps::NotWhollyObtained,
-      Steps::Cumulation,
       Steps::SufficientProcessing,
-      Steps::End,
     ]
 
     def sections
