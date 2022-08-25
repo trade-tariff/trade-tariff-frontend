@@ -32,10 +32,6 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
     expect(rendered_page).to have_css 'h2 .country-flag[src*="flags/fr"]'
   end
 
-  it 'references the commodity code' do
-    expect(rendered_page).to have_css 'h3', text: /for commodity 2203000100/
-  end
-
   it 'includes links in the sidebar' do
     expect(rendered_page).to have_css '#rules-of-origin__related-content nav li'
   end
@@ -44,16 +40,8 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
     expect(rendered_page).to have_css '#rules-of-origin__intro--bloc-scheme'
   end
 
-  it 'includes the schemes' do
-    expect(rendered_page).to have_css '.rules-of-origin__scheme', count: 1
-  end
-
   context 'with matched rules of origin' do
     let(:first_rule) { schemes[0].rules[0] }
-
-    it 'shows rules table' do
-      expect(rendered_page).to have_css 'table.govuk-table'
-    end
 
     it 'includes the non-preferential bloc' do
       expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
@@ -65,11 +53,6 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
 
     it 'does not shows rules table' do
       expect(rendered_page).not_to have_css 'table.govuk-table'
-    end
-
-    it 'shows no matched rules message' do
-      expect(rendered_page).to \
-        have_css 'p', text: /no product-specific rules for commodity \d{10}/
     end
 
     it 'includes the non-preferential bloc' do
@@ -101,8 +84,6 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
       build_list :rules_of_origin_scheme, 3, rules: rules_data,
                                              fta_intro:
     end
-
-    it { is_expected.to have_css '.rules-of-origin__scheme', count: 3 }
 
     it 'includes one non-preferential bloc' do
       expect(rendered_page).to have_css '.rules-of-origin__non-preferential', count: 1
