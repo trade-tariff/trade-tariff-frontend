@@ -18,4 +18,43 @@ RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view do
   it { is_expected.to have_css 'details.govuk-details div.govuk-details__text' }
   it { is_expected.to have_css 'h3.govuk-heading-s', text: /Next step/ }
   it { is_expected.to have_css '#next-step p', text: %r{#{schemes.first.title}} }
+  it { is_expected.not_to have_css '.rules-of-origin-attachment-text' }
+
+  context 'with article reference' do
+    let(:article_reference) { 'article 123' }
+
+    let :articles do
+      [
+        attributes_for(:rules_of_origin_article,
+                       article: 'cumulation-import',
+                       content: "## Title\n\n1. Numbered list\n\n {{ #{article_reference} }}")
+      ]
+    end
+
+    it { is_expected.to have_css '.rules-of-origin-attachment-text', text: article_reference }
+    it { is_expected.to have_css '.rules-of-origin-attachment-text', text: schemes.first.origin_reference_document.ord_title }
+    it { is_expected.to have_css 'a[href]', text: /Download rules of origin reference document/ }
+    it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_version }
+    it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_date }
+
+    context 'when exporting' do
+      include_context 'with rules of origin store', :not_wholly_obtained, :exporting
+      
+      let(:article_reference) { 'article 123' }
+
+      let :articles do
+        [
+          attributes_for(:rules_of_origin_article,
+                        article: 'cumulation-export',
+                        content: "## Title\n\n1. Numbered list\n\n {{ #{article_reference} }}")
+        ]
+      end
+
+      it { is_expected.to have_css '.rules-of-origin-attachment-text', text: article_reference }
+      it { is_expected.to have_css '.rules-of-origin-attachment-text', text: schemes.first.origin_reference_document.ord_title }
+      it { is_expected.to have_css 'a[href]', text: /Download rules of origin reference document/ }
+      it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_version }
+      it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_date }
+    end
+  end
 end
