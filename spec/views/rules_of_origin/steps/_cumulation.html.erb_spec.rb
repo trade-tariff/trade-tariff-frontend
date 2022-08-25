@@ -27,7 +27,7 @@ RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view do
       [
         attributes_for(:rules_of_origin_article,
                        article: 'cumulation-import',
-                       content: "## Title\n\n1. Numbered list\n\n {{ #{article_reference} }}")
+                       content: "## Title\n\n1. Numbered list\n\n {{ #{article_reference} }}"),
       ]
     end
 
@@ -39,14 +39,14 @@ RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view do
 
     context 'when exporting' do
       include_context 'with rules of origin store', :not_wholly_obtained, :exporting
-      
+
       let(:article_reference) { 'article 123' }
 
       let :articles do
         [
           attributes_for(:rules_of_origin_article,
-                        article: 'cumulation-export',
-                        content: "## Title\n\n1. Numbered list\n\n {{ #{article_reference} }}")
+                         article: 'cumulation-export',
+                         content: "## Title\n\n1. Numbered list\n\n {{ #{article_reference} }}"),
         ]
       end
 
