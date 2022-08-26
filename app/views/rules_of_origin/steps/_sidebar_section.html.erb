@@ -20,7 +20,7 @@
   <div class="app-step-nav__panel js-panel js-hidden" id="step-panel-check-youre-allowed-to-drive-1">
     <%= t("rules_of_origin.steps.sections.#{sidebar_section.name}_info_html",
           commodity_code: current_step.commodity_code,
-          trade_country: current_step.trade_country_name,
+          trade_country: current_step.country_name,
           commodity_link: link_to(current_step.commodity_code, return_to_commodity_path),
           default: nil) %>
 
