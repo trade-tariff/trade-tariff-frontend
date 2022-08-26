@@ -5,6 +5,12 @@
     </span>
   </summary>
   <div class="govuk-details__text">
-    <%= defined?(content) ? content : yield %>
+    <% if origin_reference_document %>
+      <%= govspeak remove_article_reference(content) %>
+      <%= render 'shared/origin_reference_document', origin_reference_document: origin_reference_document,
+                                                    article_match: find_article_reference(content) if find_article_reference(content) %>
+    <% else %>
+      <%= defined?(content) ? content : yield %>
+    <% end %>
   </div>
 </details>
