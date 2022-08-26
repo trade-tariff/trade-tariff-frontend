@@ -5,13 +5,14 @@
       <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
     </h2>
 
-    <p>
-      Preferential tariff treatment reduces the duties you are required to pay when importing or exporting goods to or from <%= country_name %>
-    </p>
-
-    <p>
-      Rules of origin are the criteria which determine the national source of a product. They determine if your trade is eligible for preferential tariff treatment and may influence the rules that apply to your import or export.
-    </p>
+    <% if rules_of_origin_schemes.present? %>
+      <p>
+        Preferential tariff treatment reduces the duties you are required to pay when importing or exporting goods to or from <%= country_name %>.
+      </p>
+      <p>
+        Rules of origin are the criteria which determine the national source of a product. They determine if your trade is eligible for preferential tariff treatment and may influence the rules that apply to your import or export.
+      </p>
+    <% end %>
 
     <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
 
@@ -25,7 +26,6 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <% if rules_of_origin_schemes.flat_map(&:links).any? %>
     <div id="rules-of-origin__related-content">
       <h2 class="govuk-heading-m">
         Related content
@@ -33,15 +33,17 @@
 
       <nav role="navigation">
         <ul class="govuk-list govuk-list-s">
-          <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
-            <li>
-              <%= link_to link.text, link.url %>
-            </li>
+          <% if rules_of_origin_schemes.flat_map(&:links).any? %>
+            <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
+              <li>
+                <%= link_to link.text, link.url %>
+              </li>
+            <% end %>
+          <% else %>
+            <li><a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin">Check your goods meet the rules of origin</a></li>
           <% end %>
         </ul>
       </nav>
     </div>
-  <% end %>
   </div>
-
 </div>
