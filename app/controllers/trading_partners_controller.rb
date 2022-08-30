@@ -26,7 +26,7 @@ class TradingPartnersController < ApplicationController
   private
 
   def should_not_render_errors?
-    !params[:render_errors]
+    params[:render_errors] == 'false'
   end
 
   def trading_partner_params
