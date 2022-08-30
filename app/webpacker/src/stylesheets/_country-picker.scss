@@ -9,7 +9,7 @@
         white-space: nowrap;
         vertical-align: middle;
         padding-right: 0.5em;
-        float:left;
+        float: left;
         @media (min-width: $desktop-min-width) {
           float: none;
         }
@@ -23,19 +23,19 @@
         margin-bottom: 0;
       }
     }
-    
+
     .search-submit {
       margin-top: 1em;
       display: block;
     }
     .reset-country-picker {
-      display: none; /* JavaScript only */
+      display: none; /* TODO: Do not depend on javascript to show this */
       width: 1%;
       white-space: nowrap;
       padding-bottom: 5px;
       vertical-align: bottom;
       margin-top: 10px;
-      
+
       @media (min-width: $desktop-min-width) {
         padding-left: 1em;
         padding-bottom: 0;

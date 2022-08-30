@@ -16,12 +16,18 @@ class TradingPartnersController < ApplicationController
       redirect_to goods_nomenclature_path(
         country: @trading_partner.country,
       )
+    elsif should_not_render_errors?
+      redirect_to goods_nomenclature_path
     else
       render 'show'
     end
   end
 
   private
+
+  def should_not_render_errors?
+    !params[:render_errors]
+  end
 
   def trading_partner_params
     params.fetch(:trading_partner, {}).permit(:country)
