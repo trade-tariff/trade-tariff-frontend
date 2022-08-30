@@ -90,4 +90,33 @@ RSpec.describe RulesOfOrigin::Steps::Base do
       it { is_expected.to eq('the UK') }
     end
   end
+
+  describe '#find_declarable' do
+    subject { instance.find_declarable }
+
+    before do
+      allow(Commodity).to receive(:find).with(wizardstore['commodity_code'])
+                                        .and_return(commodity)
+    end
+
+    let :commodity do
+      build :commodity, commodity_code: wizardstore['commodity_code']
+    end
+
+    it { is_expected.to eql commodity }
+
+    context 'when heading code' do
+      before do
+        wizardstore['commodity_code'] = "9302000000"
+        allow(Heading).to receive(:find).with("9302")
+                                          .and_return(heading)
+      end
+
+      let :heading do
+        build :heading, commodity_code: wizardstore['commodity_code']
+      end
+
+      it { is_expected.to eql heading }
+    end
+  end
 end

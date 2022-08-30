@@ -48,8 +48,8 @@ RSpec.describe RulesOfOrigin::Steps::ProductSpecificRules do
     end
   end
 
-  describe '#commodity_description' do
-    subject { instance.commodity_description }
+  describe '#declareable_description' do
+    subject { instance.declareable_description }
 
     before do
       allow(Commodity).to receive(:find).with(wizardstore['commodity_code'])
@@ -61,6 +61,20 @@ RSpec.describe RulesOfOrigin::Steps::ProductSpecificRules do
     end
 
     it { is_expected.to eql commodity.description }
+
+    context 'when heading code' do
+      before do
+        wizardstore['commodity_code'] = "9302000000"
+        allow(Heading).to receive(:find).with("9302")
+                                          .and_return(heading)
+      end
+
+      let :heading do
+        build :heading, commodity_code: wizardstore['commodity_code']
+      end
+
+      it { is_expected.to eql heading.description }
+    end
   end
 
   describe '#options' do

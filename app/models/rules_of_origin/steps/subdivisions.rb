@@ -3,8 +3,6 @@ module RulesOfOrigin
     class Subdivisions < Base
       self.section = 'originating'
 
-      delegate :description, to: :commodity, prefix: true
-
       attribute :subdivision_id
       validates :subdivision_id, inclusion: { in: :available_subdivisions }
 
@@ -16,11 +14,11 @@ module RulesOfOrigin
         chosen_scheme.rule_sets.select(&:subdivision)
       end
 
-    private
-
-      def commodity
-        @commodity ||= Commodity.find(commodity_code)
+      def declareable_description
+        find_declarable.description
       end
+
+    private
 
       def available_subdivisions
         options.map(&:resource_id)
