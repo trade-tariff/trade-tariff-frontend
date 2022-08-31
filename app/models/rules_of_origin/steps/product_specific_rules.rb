@@ -18,7 +18,7 @@ module RulesOfOrigin
         subdivided_rules? ? subdivision_rules : all_rules
       end
 
-      def declareable_description
+      def declarable_description
         find_declarable.description
       end
 

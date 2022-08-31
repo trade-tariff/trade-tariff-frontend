@@ -14,7 +14,7 @@ module RulesOfOrigin
         chosen_scheme.rule_sets.select(&:subdivision)
       end
 
-      def declareable_description
+      def declarable_description
         find_declarable.description
       end
 

@@ -48,8 +48,8 @@ RSpec.describe RulesOfOrigin::Steps::ProductSpecificRules do
     end
   end
 
-  describe '#declareable_description' do
-    subject { instance.declareable_description }
+  describe '#declarable_description' do
+    subject { instance.declarable_description }
 
     before do
       allow(Commodity).to receive(:find).with(wizardstore['commodity_code'])
@@ -64,8 +64,8 @@ RSpec.describe RulesOfOrigin::Steps::ProductSpecificRules do
 
     context 'when heading code' do
       before do
-        wizardstore['commodity_code'] = "9302000000"
-        allow(Heading).to receive(:find).with("9302")
+        wizardstore['commodity_code'] = '9302000000'
+        allow(Heading).to receive(:find).with('9302')
                                           .and_return(heading)
       end
 

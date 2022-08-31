@@ -30,11 +30,11 @@ module RulesOfOrigin
       end
 
       def find_declarable
-        if commodity_code.match? /\d{4}0{6}/
-          Heading.find(commodity_code[0, 4])
-        else
-          Commodity.find(commodity_code)
-        end
+        @find_declarable ||= if commodity_code.match?(/\d{4}0{6}/)
+                               Heading.find(commodity_code[0, 4])
+                             else
+                               Commodity.find(commodity_code)
+                             end
       end
 
       def chosen_scheme

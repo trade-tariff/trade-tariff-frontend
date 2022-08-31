@@ -107,8 +107,8 @@ RSpec.describe RulesOfOrigin::Steps::Base do
 
     context 'when heading code' do
       before do
-        wizardstore['commodity_code'] = "9302000000"
-        allow(Heading).to receive(:find).with("9302")
+        wizardstore['commodity_code'] = '9302000000'
+        allow(Heading).to receive(:find).with('9302')
                                           .and_return(heading)
       end
 
