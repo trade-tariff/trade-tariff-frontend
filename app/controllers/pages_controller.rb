@@ -6,6 +6,12 @@ class PagesController < ApplicationController
     @chapters = Chapter.all
   end
 
+  def opensearch
+    respond_to do |format|
+      format.xml
+    end
+  end
+
   def terms; end
   def tools; end
   def privacy; end
