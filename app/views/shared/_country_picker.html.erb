@@ -4,10 +4,7 @@
       <%= f.hidden_field :render_errors, value: false %>
       <%= f.label :country, country_picker_text, class: 'govuk-label' %>
       <%= f.select :country, f.object.options.map{ |c| [c.name, c.id] }, { include_blank: 'All countries' }, class: 'custom-select js-country-picker-select', "aria-label": "Filter measures by country" %>
-      <%# <div class="govuk-!-margin-top-3"> %>
-        <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil), class: 'reset-country-picker') %>
-      <%# </div> %>
-      <%# <a class="reset-country-picker" href="#" title="Reset country picker" role="button">Reset<span class="long-text">&nbsp;to all countries</span></a> %>
+      <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil), class: 'reset-country-picker') %>
     </div>
     <%= f.button 'Set country', class: 'button search-submit govuk-button' %>
   </fieldset>
