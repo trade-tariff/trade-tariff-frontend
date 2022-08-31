@@ -13,10 +13,10 @@ module RulesOfOrigin
 
     before_action :check_session_data,
                   except: :index,
-                  if: -> { params[:id] != wizard_class.steps.first.key }
+                  if: -> { params[:id] != 'start' }
 
     def show
-      if params[:id] == wizard_class.steps.first.key
+      if params[:id] == 'start'
         redirect_to return_to_commodity_path
       else
         super
@@ -30,11 +30,16 @@ module RulesOfOrigin
     end
 
     def step_path(step_id = params[:id], ...)
-      rules_of_origin_step_path(step_id, ...)
+      rules_of_origin_step_path(params['commodity'],
+                                params['country'],
+                                step_id,
+                                ...)
     end
 
     def check_session_data
-      if service_name != wizard_store['service']
+      if service_name != wizard_store['service'] ||
+          params['commodity'].blank? ||
+          params['country'].blank?
 
         redirect_to return_to_commodity_path
         wizard_store.purge!
@@ -42,10 +47,10 @@ module RulesOfOrigin
     end
 
     def return_to_commodity_path
-      return find_commodity_path if wizard_store['commodity_code'].blank?
+      return find_commodity_path if params['commodity'].blank?
 
-      commodity_path(wizard_store['commodity_code'],
-                     country: wizard_store['country_code'],
+      commodity_path(params['commodity'],
+                     country: params['country'],
                      anchor: 'rules-of-origin')
     end
     helper_method :return_to_commodity_path

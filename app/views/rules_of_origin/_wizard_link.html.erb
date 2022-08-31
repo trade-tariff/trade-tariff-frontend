@@ -8,8 +8,11 @@
 
 <p>
   <%= form_with model: RulesOfOrigin::Wizard.steps.first,
-                url: rules_of_origin_step_path(RulesOfOrigin::Wizard.steps.first.key),
+                url: rules_of_origin_step_path(commodity_code,
+                                               country_code,
+                                               RulesOfOrigin::Wizard.steps.first.key),
                 method: :patch do |f| %>
+
 
     <%= f.hidden_field :service, value: TradeTariffFrontend::ServiceChooser.service_name %>
     <%= f.hidden_field :commodity_code, value: commodity_code %>
