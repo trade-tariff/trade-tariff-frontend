@@ -74,7 +74,7 @@ RSpec.describe TradingPartnersController, type: :controller do
     context 'when passing invalid trading partner params' do
       let(:params) { default_params.merge(trading_partner: { country: 'FOO' }) }
 
-      context 'and rendering errors is `true`' do
+      context 'when rendering errors is `true`' do
         let(:default_params) { { render_errors: true } }
 
         it 'attaches the correct error message' do
@@ -87,7 +87,7 @@ RSpec.describe TradingPartnersController, type: :controller do
         it { is_expected.to have_http_status(:ok) }
       end
 
-      context 'and rendering errors is `false`' do
+      context 'when rendering errors is `false`' do
         let(:default_params) { { render_errors: false } }
 
         it_behaves_like 'an invalid trading partner redirect', :find_commodity_path, nil
