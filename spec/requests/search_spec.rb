@@ -6,6 +6,7 @@ RSpec.describe 'Search page', type: :request do
   before do
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
     allow(Section).to receive(:all).and_return([])
+    allow(GeographicalArea).to receive(:all).and_return([])
   end
 
   context 'when exact match' do
@@ -28,7 +29,6 @@ RSpec.describe 'Search page', type: :request do
         visit find_commodity_path(q: 'horses')
 
         within('#new_search') do
-          # fill_in 'q', with: 'horses'
           click_button 'Search'
         end
 
