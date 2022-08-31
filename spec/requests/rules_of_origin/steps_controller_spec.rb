@@ -32,7 +32,7 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
     include_context 'with rules of origin store'
 
     before do
-      put rules_of_origin_step_path(first_step.key), params: {
+      patch rules_of_origin_step_path(first_step.key), params: {
         first_step.model_name.singular => initial_params,
       }
     end

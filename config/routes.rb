@@ -83,7 +83,9 @@ Rails.application.routes.draw do
 
   if TradeTariffFrontend.roo_wizard?
     namespace :rules_of_origin, path: nil do
-      resources :steps, path: '/rules_of_origin', only: %i[index show update]
+      get '/rules_of_origin/', to: 'steps#index', as: :steps
+      get '/rules_of_origin/:id', to: 'steps#show', as: :step
+      patch '/rules_of_origin/:id', to: 'steps#update', as: nil
     end
   end
 
