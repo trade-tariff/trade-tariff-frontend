@@ -26,7 +26,7 @@ module RulesOfOrigin
     private
 
     def wizard_store_key
-      :rules_of_origin
+      "rules_of_origin-#{params['commodity']}-#{params['country']}"
     end
 
     def step_path(step_id = params[:id], ...)
