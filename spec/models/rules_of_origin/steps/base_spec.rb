@@ -91,6 +91,28 @@ RSpec.describe RulesOfOrigin::Steps::Base do
     end
   end
 
+  describe '#direction_text' do
+    subject(:direction_text) { instance.direction_text }
+
+    context 'with unilateral scheme so import_only' do
+      let(:schemes) { build_list :rules_of_origin_scheme, 1, unilateral: true }
+
+      it { is_expected.to eq('import') }
+    end
+
+    context 'when importing' do
+      include_context 'with rules of origin store', :importing
+
+      it { is_expected.to eq('import') }
+    end
+
+    context 'when exporting' do
+      include_context 'with rules of origin store', :exporting
+
+      it { is_expected.to eq('export') }
+    end
+  end
+
   describe '#find_declarable' do
     subject { instance.find_declarable }
 

@@ -40,7 +40,7 @@ RSpec.describe 'rules_of_origin/steps/_sidebar_section', type: :view do
              current_step:
     end
 
-    it { is_expected.to have_css '.app-step-nav__panel > p', text: /commodity #{commcode} from #{country.description}/m }
+    it { is_expected.to have_css '.app-step-nav__panel > p', text: /commodity #{commcode} into the UK from #{country.description}/m }
     it { is_expected.to have_link commcode.to_s }
   end
 end
