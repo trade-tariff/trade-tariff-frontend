@@ -46,6 +46,10 @@ FactoryBot.define do
       end
     end
 
+    trait :other_subdivision do
+      mixed_subdivision
+    end
+
     trait :single_wholly_obtained_rule do
       rule_sets do
         attributes_for_list \
