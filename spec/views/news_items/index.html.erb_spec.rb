@@ -8,11 +8,10 @@ RSpec.describe 'news_items/index', type: :view do
   let(:news_items) { build_list :news_item, 3, content: "[[SERVICE_NAME]]\n\nFirst para" }
   let(:date_format) { /\d\d? [A-Z][a-z]{2} [12]\d{3}/ }
 
-  it { is_expected.to have_css 'section.news-items' }
-  it { is_expected.to have_css 'article .news-item__date', text: date_format, count: 3 }
-  it { is_expected.to have_css 'section.news-items article.news-item', count: 3 }
-  it { is_expected.to have_css 'section article h2', count: 3 }
-  it { is_expected.to have_css 'section article .tariff-markdown p', count: 3 }
+  it { is_expected.to have_css 'article.news-item' }
+  it { is_expected.to have_css 'article .news-item__date', text: date_format }
+  it { is_expected.to have_css 'article h2', count: 3 }
+  it { is_expected.to have_css 'article .tariff-markdown p', count: 3 }
   it { is_expected.to have_css '.news-item p', text: /#{I18n.t('title.service_name.uk')}/ }
   it { is_expected.to have_link 'Show more ...', href: %r{/news/\d+} }
   it { is_expected.to render_template 'news_items/_feed' }
@@ -28,6 +27,6 @@ RSpec.describe 'news_items/index', type: :view do
     let(:news_items) { [] }
 
     it { is_expected.not_to have_css 'article .tariff-markdown p' }
-    it { is_expected.to have_css 'section p', text: /no updates/ }
+    it { is_expected.to have_css 'p', text: /no updates/ }
   end
 end
