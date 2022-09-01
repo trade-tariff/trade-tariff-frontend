@@ -1,7 +1,7 @@
 <% content_for :title, strip_tags(commodity_title(declarable)) %>
 
 <article class="tariff commodity">
-  <%= render partial: 'shared/country_picker', locals: { controller: @search, url: perform_search_path } %>
+  <%= render partial: 'shared/country_picker' %>
   <%= render 'measures/measures',
              declarable: declarable,
              uk_declarable: uk_declarable,

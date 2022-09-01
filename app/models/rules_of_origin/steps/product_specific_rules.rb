@@ -3,8 +3,6 @@ module RulesOfOrigin
     class ProductSpecificRules < Base
       self.section = 'originating'
 
-      delegate :description, to: :commodity, prefix: true
-
       attribute :rule
       validates :rule, inclusion: { in: :available_rules }
 
@@ -20,11 +18,11 @@ module RulesOfOrigin
         subdivided_rules? ? subdivision_rules : all_rules
       end
 
-    private
-
-      def commodity
-        @commodity ||= Commodity.find(commodity_code)
+      def declarable_description
+        find_declarable.description
       end
+
+    private
 
       def none_option
         Struct.new(:resource_id, :rule).new('none', none_option_text)

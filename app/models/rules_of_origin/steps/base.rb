@@ -33,6 +33,14 @@ module RulesOfOrigin
         @store['commodity_code']
       end
 
+      def find_declarable
+        @find_declarable ||= if commodity_code.match?(/\d{4}0{6}/)
+                               Heading.find(commodity_code[0, 4])
+                             else
+                               Commodity.find(commodity_code)
+                             end
+      end
+
       def chosen_scheme
         if @store['scheme_code']
           rules_of_origin_schemes.index_by(&:scheme_code)[@store['scheme_code']]

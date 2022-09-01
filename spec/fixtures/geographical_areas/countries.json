@@ -1,0 +1,1002 @@
+[
+  [
+    "Saudi Arabia (SA)",
+    "SA"
+  ],
+  [
+    "Barbados (BB)",
+    "BB"
+  ],
+  [
+    "Solomon Islands (SB)",
+    "SB"
+  ],
+  [
+    "Bangladesh (BD)",
+    "BD"
+  ],
+  [
+    "Seychelles and dependencies (SC)",
+    "SC"
+  ],
+  [
+    "Sudan (SD)",
+    "SD"
+  ],
+  [
+    "Belgium (BE)",
+    "BE"
+  ],
+  [
+    "Sweden (SE)",
+    "SE"
+  ],
+  [
+    "Burkina Faso (BF)",
+    "BF"
+  ],
+  [
+    "Singapore (SG)",
+    "SG"
+  ],
+  [
+    "Bulgaria (BG)",
+    "BG"
+  ],
+  [
+    "Saint Helena, Ascension and Tristan da Cunha (SH)",
+    "SH"
+  ],
+  [
+    "Bahrain (BH)",
+    "BH"
+  ],
+  [
+    "Slovenia (SI)",
+    "SI"
+  ],
+  [
+    "Slovakia (SK)",
+    "SK"
+  ],
+  [
+    "Burundi (BI)",
+    "BI"
+  ],
+  [
+    "Sierra Leone (SL)",
+    "SL"
+  ],
+  [
+    "Benin (BJ)",
+    "BJ"
+  ],
+  [
+    "San Marino (SM)",
+    "SM"
+  ],
+  [
+    "Senegal (SN)",
+    "SN"
+  ],
+  [
+    "Bermuda (BM)",
+    "BM"
+  ],
+  [
+    "Brunei (BN)",
+    "BN"
+  ],
+  [
+    "Somalia (SO)",
+    "SO"
+  ],
+  [
+    "Bolivia (BO)",
+    "BO"
+  ],
+  [
+    "Brazil (BR)",
+    "BR"
+  ],
+  [
+    "Suriname (SR)",
+    "SR"
+  ],
+  [
+    "Bahamas (BS)",
+    "BS"
+  ],
+  [
+    "São Tomé and Principe (ST)",
+    "ST"
+  ],
+  [
+    "Bhutan (BT)",
+    "BT"
+  ],
+  [
+    "El Salvador (SV)",
+    "SV"
+  ],
+  [
+    "Heard Island and McDonald Islands (HM)",
+    "HM"
+  ],
+  [
+    "Norfolk Island (NF)",
+    "NF"
+  ],
+  [
+    "Occupied palestinian Territory (PS)",
+    "PS"
+  ],
+  [
+    "French Southern Territories (TF)",
+    "TF"
+  ],
+  [
+    "Tokelau (TK)",
+    "TK"
+  ],
+  [
+    "United States Minor outlying islands (UM)",
+    "UM"
+  ],
+  [
+    "Cook Islands (CK)",
+    "CK"
+  ],
+  [
+    "Niue Island (NU)",
+    "NU"
+  ],
+  [
+    "Kosovo (As defined by United Nations Security Council Resolution 1244 of 10 June 1999) (XK)",
+    "XK"
+  ],
+  [
+    "Countries and territories not specified (QU)",
+    "QU"
+  ],
+  [
+    "Countries and territories not specified within the framework of intra-EU trade (QV)",
+    "QV"
+  ],
+  [
+    "Countries and territories not specified within the framework of trade with third countries (QW)",
+    "QW"
+  ],
+  [
+    "Countries and territories not specified for commercial or military reasons (QX)",
+    "QX"
+  ],
+  [
+    "Countries and territories not specified for commercial or military reasons in the framework of intra-EU trade (QY)",
+    "QY"
+  ],
+  [
+    "Countries and territories not specified for commercial or military reasons in the framework of trade with third countries (QZ)",
+    "QZ"
+  ],
+  [
+    "Stores and provisions within the framework of intra-EU trade (QR)",
+    "QR"
+  ],
+  [
+    "Samoa (WS)",
+    "WS"
+  ],
+  [
+    "South Georgia and South Sandwich Islands (GS)",
+    "GS"
+  ],
+  [
+    "Guam (GU)",
+    "GU"
+  ],
+  [
+    "Timor-Leste (TL)",
+    "TL"
+  ],
+  [
+    "Serbia (XS)",
+    "XS"
+  ],
+  [
+    "European Union (EU)",
+    "EU"
+  ],
+  [
+    "Ivory Coast (CI)",
+    "CI"
+  ],
+  [
+    "Montenegro (ME)",
+    "ME"
+  ],
+  [
+    "Andorra (AD)",
+    "AD"
+  ],
+  [
+    "Nicaragua (NI)",
+    "NI"
+  ],
+  [
+    "Netherlands (NL)",
+    "NL"
+  ],
+  [
+    "Norway (NO)",
+    "NO"
+  ],
+  [
+    "Nepal (NP)",
+    "NP"
+  ],
+  [
+    "Nauru (NR)",
+    "NR"
+  ],
+  [
+    "United Arab Emirates (AE)",
+    "AE"
+  ],
+  [
+    "New Zealand (NZ)",
+    "NZ"
+  ],
+  [
+    "Oman (OM)",
+    "OM"
+  ],
+  [
+    "Panama (PA)",
+    "PA"
+  ],
+  [
+    "Afghanistan (AF)",
+    "AF"
+  ],
+  [
+    "Peru (PE)",
+    "PE"
+  ],
+  [
+    "French Polynesia (PF)",
+    "PF"
+  ],
+  [
+    "Antigua and Barbuda (AG)",
+    "AG"
+  ],
+  [
+    "Papua New Guinea (PG)",
+    "PG"
+  ],
+  [
+    "Anguilla (AI)",
+    "AI"
+  ],
+  [
+    "Philippines (PH)",
+    "PH"
+  ],
+  [
+    "Albania (AL)",
+    "AL"
+  ],
+  [
+    "Pakistan (PK)",
+    "PK"
+  ],
+  [
+    "Poland (PL)",
+    "PL"
+  ],
+  [
+    "Armenia (AM)",
+    "AM"
+  ],
+  [
+    "St Pierre and Miquelon (PM)",
+    "PM"
+  ],
+  [
+    "Pitcairn (PN)",
+    "PN"
+  ],
+  [
+    "Portugal (PT)",
+    "PT"
+  ],
+  [
+    "Argentina (AR)",
+    "AR"
+  ],
+  [
+    "Paraguay (PY)",
+    "PY"
+  ],
+  [
+    "Austria (AT)",
+    "AT"
+  ],
+  [
+    "Qatar (QA)",
+    "QA"
+  ],
+  [
+    "Romania (RO)",
+    "RO"
+  ],
+  [
+    "Australia (AU)",
+    "AU"
+  ],
+  [
+    "Russian Federation (RU)",
+    "RU"
+  ],
+  [
+    "Aruba (AW)",
+    "AW"
+  ],
+  [
+    "Rwanda (RW)",
+    "RW"
+  ],
+  [
+    "Azerbaijan (AZ)",
+    "AZ"
+  ],
+  [
+    "Bosnia and Herzegovina (BA)",
+    "BA"
+  ],
+  [
+    "Guinea (GN)",
+    "GN"
+  ],
+  [
+    "Equatorial Guinea (GQ)",
+    "GQ"
+  ],
+  [
+    "Guatemala (GT)",
+    "GT"
+  ],
+  [
+    "Guinea Bissau (GW)",
+    "GW"
+  ],
+  [
+    "Guyana (GY)",
+    "GY"
+  ],
+  [
+    "Hong Kong (HK)",
+    "HK"
+  ],
+  [
+    "Honduras (HN)",
+    "HN"
+  ],
+  [
+    "Croatia (HR)",
+    "HR"
+  ],
+  [
+    "Haiti (HT)",
+    "HT"
+  ],
+  [
+    "Hungary (HU)",
+    "HU"
+  ],
+  [
+    "Indonesia (ID)",
+    "ID"
+  ],
+  [
+    "Ireland (IE)",
+    "IE"
+  ],
+  [
+    "Israel (IL)",
+    "IL"
+  ],
+  [
+    "India (IN)",
+    "IN"
+  ],
+  [
+    "British Indian Ocean Territory (IO)",
+    "IO"
+  ],
+  [
+    "Iraq (IQ)",
+    "IQ"
+  ],
+  [
+    "Iran, Islamic Republic of (IR)",
+    "IR"
+  ],
+  [
+    "Iceland (IS)",
+    "IS"
+  ],
+  [
+    "Italy (IT)",
+    "IT"
+  ],
+  [
+    "Jamaica (JM)",
+    "JM"
+  ],
+  [
+    "Jordan (JO)",
+    "JO"
+  ],
+  [
+    "Japan (JP)",
+    "JP"
+  ],
+  [
+    "Kenya (KE)",
+    "KE"
+  ],
+  [
+    "Kyrgyzstan (KG)",
+    "KG"
+  ],
+  [
+    "Cambodia (Kampuchea) (KH)",
+    "KH"
+  ],
+  [
+    "Kiribati (KI)",
+    "KI"
+  ],
+  [
+    "Comoros (excluding Mayotte) (KM)",
+    "KM"
+  ],
+  [
+    "St Kitts and Nevis (KN)",
+    "KN"
+  ],
+  [
+    "North Korea (Democratic People’s Republic of Korea) (KP)",
+    "KP"
+  ],
+  [
+    "Korea, Republic of (South Korea) (KR)",
+    "KR"
+  ],
+  [
+    "Kuwait (KW)",
+    "KW"
+  ],
+  [
+    "Cayman Islands (KY)",
+    "KY"
+  ],
+  [
+    "Kazakhstan (KZ)",
+    "KZ"
+  ],
+  [
+    "Laos (LA)",
+    "LA"
+  ],
+  [
+    "Lebanon (LB)",
+    "LB"
+  ],
+  [
+    "St. Lucia (LC)",
+    "LC"
+  ],
+  [
+    "Sri Lanka (LK)",
+    "LK"
+  ],
+  [
+    "Liberia (LR)",
+    "LR"
+  ],
+  [
+    "Lesotho (LS)",
+    "LS"
+  ],
+  [
+    "Lithuania (LT)",
+    "LT"
+  ],
+  [
+    "Luxembourg (LU)",
+    "LU"
+  ],
+  [
+    "Latvia (LV)",
+    "LV"
+  ],
+  [
+    "Libya (LY)",
+    "LY"
+  ],
+  [
+    "Morocco (MA)",
+    "MA"
+  ],
+  [
+    "Moldova, Republic of (MD)",
+    "MD"
+  ],
+  [
+    "Madagascar (MG)",
+    "MG"
+  ],
+  [
+    "Marshall Islands, Republic of (MH)",
+    "MH"
+  ],
+  [
+    "Mali (ML)",
+    "ML"
+  ],
+  [
+    "Mongolia (MN)",
+    "MN"
+  ],
+  [
+    "Macao (MO)",
+    "MO"
+  ],
+  [
+    "Mauritania (MR)",
+    "MR"
+  ],
+  [
+    "Malta (MT)",
+    "MT"
+  ],
+  [
+    "Mauritius (MU)",
+    "MU"
+  ],
+  [
+    "Maldives (MV)",
+    "MV"
+  ],
+  [
+    "Malawi (MW)",
+    "MW"
+  ],
+  [
+    "Mexico (MX)",
+    "MX"
+  ],
+  [
+    "Malaysia (MY)",
+    "MY"
+  ],
+  [
+    "Mozambique (MZ)",
+    "MZ"
+  ],
+  [
+    "Namibia (NA)",
+    "NA"
+  ],
+  [
+    "New Caledonia and dependencies (NC)",
+    "NC"
+  ],
+  [
+    "Niger (NE)",
+    "NE"
+  ],
+  [
+    "Nigeria (NG)",
+    "NG"
+  ],
+  [
+    "Angola (AO)",
+    "AO"
+  ],
+  [
+    "Grenada (GD)",
+    "GD"
+  ],
+  [
+    "Eritrea (ER)",
+    "ER"
+  ],
+  [
+    "Liechtenstein (LI)",
+    "LI"
+  ],
+  [
+    "Palau (PW)",
+    "PW"
+  ],
+  [
+    "Montserrat (MS)",
+    "MS"
+  ],
+  [
+    "Macedonia (Former Yugoslav Republic of) (MK)",
+    "MK"
+  ],
+  [
+    "Northern Mariana Islands (MP)",
+    "MP"
+  ],
+  [
+    "Greece (GR)",
+    "GR"
+  ],
+  [
+    "Congo, Democratic Republic of (CD)",
+    "CD"
+  ],
+  [
+    "Melilla (XL)",
+    "XL"
+  ],
+  [
+    "Myanmar (MM)",
+    "MM"
+  ],
+  [
+    "Syria (SY)",
+    "SY"
+  ],
+  [
+    "Swaziland (SZ)",
+    "SZ"
+  ],
+  [
+    "Botswana (BW)",
+    "BW"
+  ],
+  [
+    "Turks and Caicos Islands (TC)",
+    "TC"
+  ],
+  [
+    "Belarus (BY)",
+    "BY"
+  ],
+  [
+    "Chad (TD)",
+    "TD"
+  ],
+  [
+    "Belize (BZ)",
+    "BZ"
+  ],
+  [
+    "Togo (TG)",
+    "TG"
+  ],
+  [
+    "Canada (CA)",
+    "CA"
+  ],
+  [
+    "Thailand (TH)",
+    "TH"
+  ],
+  [
+    "Central African Republic (CF)",
+    "CF"
+  ],
+  [
+    "Congo (Republic of) (CG)",
+    "CG"
+  ],
+  [
+    "Switzerland (CH)",
+    "CH"
+  ],
+  [
+    "Tajikistan (TJ)",
+    "TJ"
+  ],
+  [
+    "Turkmenistan (TM)",
+    "TM"
+  ],
+  [
+    "Tunisia (TN)",
+    "TN"
+  ],
+  [
+    "Chile (CL)",
+    "CL"
+  ],
+  [
+    "Tonga (TO)",
+    "TO"
+  ],
+  [
+    "Cameroon (CM)",
+    "CM"
+  ],
+  [
+    "Turkey (TR)",
+    "TR"
+  ],
+  [
+    "China (CN)",
+    "CN"
+  ],
+  [
+    "Trinidad and Tobago (TT)",
+    "TT"
+  ],
+  [
+    "Colombia (CO)",
+    "CO"
+  ],
+  [
+    "Tuvalu (TV)",
+    "TV"
+  ],
+  [
+    "Costa Rica (CR)",
+    "CR"
+  ],
+  [
+    "Taiwan (TW)",
+    "TW"
+  ],
+  [
+    "Tanzania, United Republic of (TZ)",
+    "TZ"
+  ],
+  [
+    "Ukraine (UA)",
+    "UA"
+  ],
+  [
+    "Cuba (CU)",
+    "CU"
+  ],
+  [
+    "Uganda (UG)",
+    "UG"
+  ],
+  [
+    "United States of America (US)",
+    "US"
+  ],
+  [
+    "Cape Verde (CV)",
+    "CV"
+  ],
+  [
+    "Uruguay (UY)",
+    "UY"
+  ],
+  [
+    "Cyprus (CY)",
+    "CY"
+  ],
+  [
+    "Uzbekistan (UZ)",
+    "UZ"
+  ],
+  [
+    "Czech rep. (CZ)",
+    "CZ"
+  ],
+  [
+    "Vatican City State (VA)",
+    "VA"
+  ],
+  [
+    "St Vincent and the Grenadines (VC)",
+    "VC"
+  ],
+  [
+    "Venezuela (VE)",
+    "VE"
+  ],
+  [
+    "Virgin Islands, British (VG)",
+    "VG"
+  ],
+  [
+    "Germany (DE)",
+    "DE"
+  ],
+  [
+    "Djibouti (DJ)",
+    "DJ"
+  ],
+  [
+    "Denmark (DK)",
+    "DK"
+  ],
+  [
+    "Virgin Islands, United States (VI)",
+    "VI"
+  ],
+  [
+    "Dominica (DM)",
+    "DM"
+  ],
+  [
+    "Dominican Republic (DO)",
+    "DO"
+  ],
+  [
+    "Viet Nam (VN)",
+    "VN"
+  ],
+  [
+    "Vanuatu (VU)",
+    "VU"
+  ],
+  [
+    "Algeria (DZ)",
+    "DZ"
+  ],
+  [
+    "Wallis and Futuna Islands (WF)",
+    "WF"
+  ],
+  [
+    "Ecuador (EC)",
+    "EC"
+  ],
+  [
+    "Estonia (EE)",
+    "EE"
+  ],
+  [
+    "Egypt (EG)",
+    "EG"
+  ],
+  [
+    "Ceuta (XC)",
+    "XC"
+  ],
+  [
+    "Spain (excluding XC XL) (ES)",
+    "ES"
+  ],
+  [
+    "Ethiopia (ET)",
+    "ET"
+  ],
+  [
+    "Finland (FI)",
+    "FI"
+  ],
+  [
+    "Fiji (FJ)",
+    "FJ"
+  ],
+  [
+    "Falkland Islands (FK)",
+    "FK"
+  ],
+  [
+    "Micronesia, Federated States of (FM)",
+    "FM"
+  ],
+  [
+    "Faroe Islands (FO)",
+    "FO"
+  ],
+  [
+    "France (FR)",
+    "FR"
+  ],
+  [
+    "Gabon (GA)",
+    "GA"
+  ],
+  [
+    "United Kingdom (GB)",
+    "GB"
+  ],
+  [
+    "Yemen (YE)",
+    "YE"
+  ],
+  [
+    "South Africa (ZA)",
+    "ZA"
+  ],
+  [
+    "Zambia (ZM)",
+    "ZM"
+  ],
+  [
+    "Zimbabwe (ZW)",
+    "ZW"
+  ],
+  [
+    "Georgia (GE)",
+    "GE"
+  ],
+  [
+    "Ghana (GH)",
+    "GH"
+  ],
+  [
+    "Gibraltar (GI)",
+    "GI"
+  ],
+  [
+    "Greenland (GL)",
+    "GL"
+  ],
+  [
+    "Gambia (GM)",
+    "GM"
+  ],
+  [
+    "Stores and provisions within the framework of trade with Third Countries (QS)",
+    "QS"
+  ],
+  [
+    "Stores and provisions (QQ)",
+    "QQ"
+  ],
+  [
+    "Antarctica (AQ)",
+    "AQ"
+  ],
+  [
+    "American Samoa (AS)",
+    "AS"
+  ],
+  [
+    "Bouvet Island (BV)",
+    "BV"
+  ],
+  [
+    "Cocos Islands (or Keeling Islands) (CC)",
+    "CC"
+  ],
+  [
+    "Christmas Island (CX)",
+    "CX"
+  ],
+  [
+    "Saint Barthélemy (BL)",
+    "BL"
+  ],
+  [
+    "Bonaire, Sint Eustatius and Saba (BQ)",
+    "BQ"
+  ],
+  [
+    "Curaçao (CW)",
+    "CW"
+  ],
+  [
+    "South Sudan (SS)",
+    "SS"
+  ],
+  [
+    "Sint Maarten (Dutch part) (SX)",
+    "SX"
+  ],
+  [
+    "Western Sahara (EH)",
+    "EH"
+  ],
+  [
+    "High seas (Maritime domain outside of territorial waters) (QP)",
+    "QP"
+  ]
+]

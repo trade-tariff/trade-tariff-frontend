@@ -38,7 +38,8 @@
 
   <%= render 'shared/details', summary: t('.scheme.summary',
                                           scheme_title: form.object.scheme_title),
-                               content: govspeak(form.object.scheme_details) %>
+                               content: govspeak(form.object.scheme_details),
+                               origin_reference_document: form.object.origin_reference_document %>
 
   <div class="govuk-warning-text">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>

@@ -16,10 +16,28 @@ RSpec.describe 'rules_of_origin/steps/_sufficient_processing', type: :view do
   it { is_expected.to have_css 'details.govuk-details div.govuk-details__text *' }
   it { is_expected.to have_css '#insufficient-processing-article h3' }
   it { is_expected.to have_css '#insufficient-processing-article .tariff-markdown *' }
+  it { is_expected.not_to have_css '.rules-of-origin-attachment-text' }
 
   context 'with invalid submission' do
     before { current_step.validate }
 
     it { is_expected.to have_css '.govuk-error-message', text: /Select whether/i }
+  end
+
+  context 'with article reference' do
+    let(:article_reference) { 'article 123' }
+    let :articles do
+      [
+        attributes_for(:rules_of_origin_article,
+                       article: 'insufficient-processing',
+                       content: "## Title\n\n1. Numbered list\n\n {{ #{article_reference} }}"),
+      ]
+    end
+
+    it { is_expected.to have_css '.rules-of-origin-attachment-text', text: article_reference }
+    it { is_expected.to have_css '.rules-of-origin-attachment-text', text: schemes.first.origin_reference_document.ord_title }
+    it { is_expected.to have_css 'a[href]', text: /Download rules of origin reference document/ }
+    it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_version }
+    it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_date }
   end
 end

@@ -8,7 +8,7 @@
   </h1>
 
   <p class="govuk-body-l">
-    <%= t '.lead_para', trade_country_name: form.object.trade_country_name %>
+    <%= t '.lead_para', trade_country_name: 'UK' %>
   </p>
 
   <h3 class="govuk-heading-s">
@@ -16,10 +16,11 @@
   </h3>
 
   <div class="tariff-markdown">
-    <%= govspeak t('.psr.body_md', trade_country_name: form.object.trade_country_name) %>
+    <%= govspeak t('.psr.body_md', trade_country_name: 'UK') %>
 
     <%= render 'shared/details', summary: t('.psr.details.summary'),
-                                 content: govspeak(t('.psr.details.content_md')) %>
+                                 content: govspeak(t('.psr.details.content_md')),
+                                 origin_reference_document: nil %>
   </div>
 
   <h3 class="govuk-heading-s">

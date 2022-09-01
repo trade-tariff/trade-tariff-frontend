@@ -52,12 +52,14 @@ Rails.application.routes.draw do
 
   get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
   get 'healthcheck', to: 'healthcheck#check'
-  get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
-  get 'terms', to: 'pages#terms'
-  get 'privacy', to: 'pages#privacy', as: 'privacy'
+
   get 'help', to: 'pages#help', as: 'help'
   get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'
-  get 'help/help-find-commodity', to: 'pages#help_find_commodity', as: 'help_find_commodity'
+  get 'help/help_find_commodity', to: 'pages#help_find_commodity', as: 'help_find_commodity'
+  get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
+  get 'privacy', to: 'pages#privacy', as: 'privacy'
+  get 'terms', to: 'pages#terms'
+
   get 'geographical_areas/:id', to: 'geographical_areas#show', as: :geographical_area
 
   resources :feedbacks, controller: 'feedback', only: %i[new create]

@@ -571,13 +571,6 @@
           // Submit button not needed if JavaScript is enabled
           $controlForm.find('.search-submit').hide();
 
-          $controlForm.on('click', 'a.reset-country-picker', function (e) {
-            $(this).parents('form:first').find('select').val('');
-            $(this).siblings("input[name$='[anchor]']").val(window.location.hash.substring(1));
-            $(this).parents('form:first').trigger('submit');
-            return false;
-          });
-
           this.showOrHideResetLink($controlForm);
 
           if ($("#tariff_date_date").length > 0) {
@@ -588,10 +581,6 @@
 
                 var dtpicker = new DatePicker(datepickerInput, datepickerButton, datepickerDialog);
                 dtpicker.init();
-
-                // enable js datepicker, hide individual date inputs
-                $(".no-js-search-date").hide();
-                $(".js-search-date").show();
 
                 // on datepicker change, update individual date inputs
                 $("#tariff_date_date").on("change", function() {

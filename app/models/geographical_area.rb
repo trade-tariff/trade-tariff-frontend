@@ -27,6 +27,15 @@ class GeographicalArea
     def eu_members_ids
       european_union_members.map(&:id)
     end
+
+    def country_options
+      all.compact.map do |geographical_area|
+        [
+          geographical_area.long_description,
+          geographical_area.id,
+        ]
+      end
+    end
   end
 
   def description
