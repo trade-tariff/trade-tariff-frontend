@@ -28,7 +28,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
 
   let(:commodity) do
     TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-      VCR.use_cassette('headings_show_0101_api_json_content_type') do
+      VCR.use_cassette('commodities_show_0101300000_api_json_content_type') do
         Commodity.find('0101300000', {})
       end
     end
