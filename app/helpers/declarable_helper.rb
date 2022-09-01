@@ -28,11 +28,6 @@ module DeclarableHelper
     )
   end
 
-  # Supplementary unit measures treat no country specified in the search as the entire world
-  def supplementary_geographical_area_id(search)
-    search.country || GeographicalArea::ERGA_OMNES
-  end
-
   def trading_partner_country_description(geographical_area_id)
     if geographical_area_id.present?
       GeographicalArea.find(geographical_area_id).description

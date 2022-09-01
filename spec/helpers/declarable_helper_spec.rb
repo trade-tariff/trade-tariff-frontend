@@ -69,22 +69,6 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
     end
   end
 
-  describe '#supplementary_geographical_area_id' do
-    subject(:supplementary_geographical_area_id) { helper.supplementary_geographical_area_id(search) }
-
-    context 'when the country is present on the search' do
-      let(:search) { build(:search, :with_country) }
-
-      it { is_expected.to eq('IT') }
-    end
-
-    context 'when the country is not present on the search' do
-      let(:search) { build(:search) }
-
-      it { is_expected.to eq('1011') }
-    end
-  end
-
   describe '#trading_partner_country_description' do
     context 'when the country is a valid country' do
       subject(:trading_partner_country_description) { helper.trading_partner_country_description('IT') }

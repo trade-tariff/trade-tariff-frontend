@@ -45,16 +45,6 @@ class Measure
 
   delegate :grouped_measure_types, :all_grouped_types, to: :class
 
-  def relevant_for_country?(country_code)
-    return true if country_code.blank?
-
-    return false if excluded_countries.map(&:geographical_area_id).include?(country_code)
-    return true if erga_omnes? && national?
-    return true if geographical_area.id == country_code
-
-    geographical_area.children_geographical_areas.map(&:id).include?(country_code)
-  end
-
   def excluded_country_list
     countries = if exclusions_include_european_union?
                   # Replace EU members with the EU geographical_area

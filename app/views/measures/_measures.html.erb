@@ -20,7 +20,7 @@
 
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
 
-    <% if declarable.import_measures.for_country(@search.country).any? %>
+    <% if declarable.import_measures.any? %>
       <%= render partial: 'measures/grouped/navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
 
       <% if TradeTariffFrontend::ServiceChooser.xi? %>
@@ -41,11 +41,10 @@
 
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
 
-    <% if declarable.export_measures.for_country(@search.country).any? %>
+    <% if declarable.export_measures.any? %>
       <%= render partial: 'measures/grouped/table', locals: {
         collection: declarable.export_measures
                               .without_supplementary_unit
-                              .for_country(@search.country)
                               .sort_by(&:key),
         hide_duty_rate: true }
       %>
@@ -95,13 +94,13 @@
   </div>
 
   <div id="import-measure-references">
-    <%= render partial: 'measures/measure_references', collection: declarable.import_measures.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
+    <%= render partial: 'measures/measure_references', collection: declarable.import_measures, as: 'measure', locals: { declarable: declarable } %>
     <% if TradeTariffFrontend::ServiceChooser.xi? && uk_declarable.present? %>
-      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.import_controls.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
-      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.vat_excise.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
+      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.import_controls, as: 'measure', locals: { declarable: declarable } %>
+      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.vat_excise, as: 'measure', locals: { declarable: declarable } %>
     <% end %>
   </div>
   <div id="export-measure-references">
-    <%= render partial: 'measures/measure_references', collection: declarable.export_measures.for_country(@search.country), as: 'measure', locals: { declarable: declarable } %>
+    <%= render partial: 'measures/measure_references', collection: declarable.export_measures, as: 'measure', locals: { declarable: declarable } %>
   </div>
 </div>

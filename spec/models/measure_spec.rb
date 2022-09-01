@@ -25,52 +25,6 @@ RSpec.describe Measure do
 
   it { is_expected.to respond_to :universal_waiver_applies }
 
-  describe '#relevant_for_country?' do
-    context 'when the area is not present' do
-      subject(:measure) { build(:measure, :eu, geographical_area: { id: 'br', description: 'Brazil' }) }
-
-      it { expect(measure.relevant_for_country?(nil)).to eq true }
-    end
-
-    context 'when the measure is a national measure that is erga omnes' do
-      subject(:measure) { build(:measure, :national, :erga_omnes) }
-
-      it { expect(measure.relevant_for_country?('br')).to eq true }
-    end
-
-    context 'when the area is an excluded geographical area' do
-      subject(:measure) do
-        build(:measure, geographical_area: { id: 'lt',
-                                             description: 'Lithuania' },
-                        excluded_countries: [
-                          { id: 'lt', description: 'Lithuania', geographical_area_id: 'lt' },
-                        ])
-      end
-
-      it { expect(measure.relevant_for_country?('lt')).to eq false }
-    end
-
-    context 'when an exact match on the geographical_area_id' do
-      subject(:measure) { build(:measure, :eu, geographical_area: { id: 'br' }) }
-
-      it { expect(measure.relevant_for_country?('br')).to eq true }
-    end
-
-    context 'when a group match on the geographical_area_id' do
-      subject(:measure) do
-        build(:measure, :eu, geographical_area: { id: nil,
-                                                  description: 'European Union',
-                                                  children_geographical_areas: [
-                                                    { id: 'lt', description: 'Lithuania' },
-                                                    { id: 'fr', description: 'France' },
-                                                  ] })
-      end
-
-      it { expect(measure.relevant_for_country?('lt')).to eq true }
-      it { expect(measure.relevant_for_country?('it')).to eq false }
-    end
-  end
-
   describe '#vat_excise?' do
     subject(:measure) { build(:measure, measure_type:) }
 

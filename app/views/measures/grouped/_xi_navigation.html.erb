@@ -1,5 +1,5 @@
-<%- xi_import_measures = xi_declarable.import_measures.for_country(@search.country) %>
-<%- uk_import_measures = uk_declarable&.import_measures&.for_country(@search.country) %>
+<%- xi_import_measures = xi_declarable.import_measures %>
+<%- uk_import_measures = uk_declarable&.import_measures %>
 
 <!-- CUSTOMS DUTIES -->
 <% if xi_import_measures.customs_duties.present? %>

@@ -65,12 +65,12 @@ module Declarable
     ).uniq(&:code)
   end
 
-  def supplementary_unit_description(country:)
-    supplementary_measure(country)&.supplementary_unit_description || 'Supplementary unit'
+  def supplementary_unit_description
+    supplementary_measures.first&.supplementary_unit_description || 'Supplementary unit'
   end
 
-  def supplementary_unit(country:)
-    measure = supplementary_measure(country)
+  def supplementary_unit
+    measure = supplementary_measures.first
     supplementary_component = measure&.measure_components&.first
 
     if supplementary_component
@@ -88,12 +88,8 @@ module Declarable
 
   private
 
-  def supplementary_measure(country)
-    supplementary_measures(country).first
-  end
-
-  def supplementary_measures(country)
-    @supplementary_measures ||= import_measures.for_country(country).supplementary
+  def supplementary_measures
+    @supplementary_measures ||= import_measures.supplementary
   end
 
   def no_heading?
