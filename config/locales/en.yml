@@ -327,10 +327,9 @@ en:
 
       sections:
         details: Details of your trade
-        details_info_html: |
-          <p>
-            You are importing commodity %{commodity_link} from %{trade_country}
-          </p>
+        import_or_export_options:
+          import_html: <p>You are importing commodity %{commodity_link} into %{service_country} from %{trade_country}</p>
+          export_html: <p>You are exporting commodity %{commodity_link} from %{service_country} to %{trade_country}</p>
         originating: Are your goods 'originating'?
         proofs: Obtaining and verifying proof of origin
 
