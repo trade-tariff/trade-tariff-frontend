@@ -40,6 +40,20 @@ RSpec.describe RulesOfOrigin::Steps::Subdivisions do
       it { is_expected.to be true }
     end
 
+    context 'when subdivided and non-subdivided rule_sets' do
+      context "when 'sufficient_processing' set to 'yes'" do
+        it { is_expected.to be false }
+      end
+
+      context "when 'sufficient_processing' set to 'no'" do
+        include_context 'with rules of origin store',
+                        :insufficient_processing,
+                        scheme_traits: :mixed_subdivision
+
+        it { is_expected.to be true }
+      end
+    end
+
     context 'when wholly obtained' do
       include_context 'with rules of origin store',
                       :wholly_obtained,
@@ -87,19 +101,25 @@ RSpec.describe RulesOfOrigin::Steps::Subdivisions do
   end
 
   describe '#options' do
-    subject { instance.options }
+    subject { instance.options.map(&:resource_id) }
 
     let :schemes do
-      build_list :rules_of_origin_scheme, 1, countries: [country.id], rule_sets:
+      build_list :rules_of_origin_scheme, 1, :mixed_subdivision, countries: [country.id]
     end
 
-    let :rule_sets do
-      attributes_for_pair(:rules_of_origin_rule_set, :subdivided) +
-        attributes_for_list(:rules_of_origin_rule_set, 1)
-    end
+    it { is_expected.to include schemes.first.rule_sets.first.resource_id }
+    it { is_expected.to include schemes.first.rule_sets.second.resource_id }
+    it { is_expected.not_to include schemes.first.rule_sets.third.resource_id }
+    it { is_expected.to include 'other' }
 
-    it { is_expected.to include schemes.first.rule_sets.first }
-    it { is_expected.to include schemes.first.rule_sets.second }
-    it { is_expected.not_to include schemes.first.rule_sets.third }
+    context 'with only subdivided' do
+      let :schemes do
+        build_list :rules_of_origin_scheme, 1, :subdivided, countries: [country.id]
+      end
+
+      it { is_expected.to include schemes.first.rule_sets.first.resource_id }
+      it { is_expected.to include schemes.first.rule_sets.second.resource_id }
+      it { is_expected.not_to include 'other' }
+    end
   end
 end
