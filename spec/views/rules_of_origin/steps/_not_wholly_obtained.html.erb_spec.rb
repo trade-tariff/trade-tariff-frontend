@@ -7,7 +7,7 @@ RSpec.describe 'rules_of_origin/steps/_not_wholly_obtained', type: :view do
 
   it { is_expected.to have_css 'span.govuk-caption-xl', text: /originating/i }
   it { is_expected.to have_css 'h1', text: /not wholly obtained/ }
-  it { is_expected.to have_css 'p.govuk-body-l', text: /not wholly obtained in UK/ }
+  it { is_expected.to have_css 'p.govuk-body-l', text: /not wholly obtained in Japan/ }
   it { is_expected.to have_css 'p', text: /product-specific rules/i }
   it { is_expected.to have_css 'details.govuk-details summary', text: /product-specific rules/ }
   it { is_expected.to have_css 'details.govuk-details div.govuk-details__text' }
