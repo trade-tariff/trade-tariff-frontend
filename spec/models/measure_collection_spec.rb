@@ -1,15 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe MeasureCollection do
-  describe '#for_country' do
-    subject(:collection) { described_class.new([italian_measure, russian_measure]) }
-
-    let(:italian_measure) { build(:measure, geographical_area_id: 'IT') }
-    let(:russian_measure) { build(:measure, geographical_area_id: 'RU') }
-
-    it { expect(collection.for_country('IT').measures).to eq([italian_measure]) }
-  end
-
   describe '#without_supplementary_unit' do
     subject(:collection) { described_class.new([measure, sup_unit_measure]) }
 

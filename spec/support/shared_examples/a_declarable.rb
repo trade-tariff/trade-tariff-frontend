@@ -13,7 +13,7 @@ RSpec.shared_examples 'a declarable' do
       end
 
       it 'returns the appropriate supplementary unit' do
-        expect(declarable.supplementary_unit(country: '1011')).to eq('Number of items (p/st)')
+        expect(declarable.supplementary_unit).to eq('Number of items (p/st)')
       end
     end
 
@@ -21,7 +21,7 @@ RSpec.shared_examples 'a declarable' do
       let(:measures) { [attributes_for(:measure)] }
 
       it 'returns the appropriate supplementary unit' do
-        expect(declarable.supplementary_unit(country: '1011')).to eq('No supplementary unit required.')
+        expect(declarable.supplementary_unit).to eq('No supplementary unit required.')
       end
     end
   end
@@ -35,7 +35,7 @@ RSpec.shared_examples 'a declarable' do
       end
 
       it 'returns the appropriate description' do
-        expect(declarable.supplementary_unit_description(country: '1011')).to eq('Supplementary unit (import)')
+        expect(declarable.supplementary_unit_description).to eq('Supplementary unit (import)')
       end
     end
 
@@ -47,7 +47,7 @@ RSpec.shared_examples 'a declarable' do
       end
 
       it 'returns the appropriate description' do
-        expect(declarable.supplementary_unit_description(country: '1011')).to eq('Supplementary unit')
+        expect(declarable.supplementary_unit_description).to eq('Supplementary unit')
       end
     end
 
@@ -55,7 +55,7 @@ RSpec.shared_examples 'a declarable' do
       let(:measures) { [attributes_for(:measure)] }
 
       it 'returns the appropriate description' do
-        expect(declarable.supplementary_unit_description(country: '1011')).to eq('Supplementary unit')
+        expect(declarable.supplementary_unit_description).to eq('Supplementary unit')
       end
     end
 

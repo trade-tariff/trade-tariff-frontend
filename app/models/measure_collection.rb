@@ -17,10 +17,6 @@ class MeasureCollection < SimpleDelegator
     new(reject(&:excluded?))
   end
 
-  def for_country(country)
-    new(select { |m| m.relevant_for_country?(country) })
-  end
-
   def vat_excise
     new(select(&:vat_excise?))
   end

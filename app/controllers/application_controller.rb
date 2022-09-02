@@ -170,4 +170,8 @@ class ApplicationController < ActionController::Base
     params[:locale].presence &&
       I18n.available_locales.include?(params[:locale]&.to_sym)
   end
+
+  def country
+    params['country']
+  end
 end

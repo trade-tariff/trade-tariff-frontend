@@ -107,7 +107,7 @@ RSpec.describe 'Commodity page', type: :request do
 
   context 'when commodity with country filter' do
     it 'will not display measures for other countries except for selected one' do
-      VCR.use_cassette('headings#show_0101') do
+      VCR.use_cassette('commodities#6911100090#show_filter_ad') do
         visit commodity_path('6911100090', country: 'AD')
 
         expect(page).not_to have_content 'Definitive anti-dumping duty'
