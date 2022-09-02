@@ -2,6 +2,7 @@ require 'api_entity'
 
 class GeographicalArea
   EUROPEAN_UNION_ID = '1013'.freeze
+  REFERENCING_EUROPEAN_UNION_ID = 'EU'.freeze
 
   include ApiEntity
 
@@ -25,7 +26,9 @@ class GeographicalArea
     end
 
     def eu_members_ids
-      european_union_members.map(&:id)
+      candidate_ids = european_union_members.map(&:id)
+      candidate_ids.delete('EU')
+      candidate_ids
     end
 
     def country_options
@@ -47,7 +50,7 @@ class GeographicalArea
   end
 
   def eu_member?
-    id.in?(self.class.eu_members_ids)
+    id.in?(self.class.eu_members_ids) || id == REFERENCING_EUROPEAN_UNION_ID
   end
 
   def long_description

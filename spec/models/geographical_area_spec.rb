@@ -56,13 +56,14 @@ RSpec.describe GeographicalArea do
     subject(:eu_member_ids) { described_class.eu_members_ids }
 
     let(:expected_countries) do
-      %w[AT BE BG CY CZ DE DK EE ES EU FI FR GR HR HU IE IT LT LU LV MT NL PL PT RO SE SI SK]
+      %w[AT BE BG CY CZ DE DK EE ES FI FR GR HR HU IE IT LT LU LV MT NL PL PT RO SE SI SK]
     end
 
     it { is_expected.to eq(expected_countries) }
   end
 
-  describe '.country_options', vcr: { cassette_name: 'geographical_areas#countries' } do
+  describe '.country_options',
+           vcr: { cassette_name: 'geographical_areas#countries' } do
     subject(:country_options) { described_class.country_options }
 
     let(:expected_countries) do
@@ -79,6 +80,12 @@ RSpec.describe GeographicalArea do
 
     context 'when the country is part of EU' do
       let(:geographical_area_id) { 'IT' } # Italy
+
+      it { is_expected.to be_eu_member }
+    end
+
+    context 'when the area is the eu referencing country' do
+      let(:geographical_area_id) { 'EU' } # European Union
 
       it { is_expected.to be_eu_member }
     end
