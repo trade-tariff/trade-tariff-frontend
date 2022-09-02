@@ -63,7 +63,7 @@ RSpec.describe GeographicalArea do
   end
 
   describe '.country_options',
-    vcr: { cassette_name: 'geographical_areas#countries' } do
+           vcr: { cassette_name: 'geographical_areas#countries' } do
     subject(:country_options) { described_class.country_options }
 
     let(:expected_countries) do
