@@ -25,7 +25,9 @@ class GeographicalArea
     end
 
     def eu_members_ids
-      european_union_members.map(&:id)
+      candidate_ids = european_union_members.map(&:id)
+      candidate_ids.delete('EU')
+      candidate_ids
     end
 
     def country_options
