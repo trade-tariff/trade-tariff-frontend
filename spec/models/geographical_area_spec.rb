@@ -84,6 +84,12 @@ RSpec.describe GeographicalArea do
       it { is_expected.to be_eu_member }
     end
 
+    context 'when the area is the eu referencing country' do
+      let(:geographical_area_id) { 'EU' } # European Union
+
+      it { is_expected.to be_eu_member }
+    end
+
     context 'when the country is NOT part of EU' do
       let(:geographical_area_id) { 'AF' } # Afghanistan
 
