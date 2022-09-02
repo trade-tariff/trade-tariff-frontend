@@ -6,6 +6,7 @@ module Declarable
 
     has_one :section
     has_one :chapter
+    has_one :import_trade_summary
     has_many :footnotes
     has_many :import_measures, class_name: 'Measure',
                                wrapper: MeasureCollection,

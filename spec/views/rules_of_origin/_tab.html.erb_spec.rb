@@ -8,7 +8,12 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
            country_code: 'FR',
            country_name: 'France',
            commodity_code: '2203000100',
-           rules_of_origin_schemes: schemes
+           rules_of_origin_schemes: schemes,
+           import_trade_summary: ImportTradeSummary.new(
+             basic_third_country_duty: '2.00 %',
+             preferential_tariff_duty:,
+             preferential_quota_duty:,
+           )
   end
 
   let :rules_data do
@@ -22,6 +27,9 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   end
 
   let(:fta_intro) { "## Free Trade Agreement\n\nDetails of agreement" }
+
+  let(:preferential_tariff_duty) { nil }
+  let(:preferential_quota_duty) { nil }
 
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
@@ -95,6 +103,32 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
 
     it 'does not show details of fta field' do
       expect(rendered_page).not_to have_css '.rules-of-origin-fta'
+    end
+  end
+
+  describe 'import trade summary duty box' do
+    context 'when commodity has preferential tariff duty' do
+      let(:preferential_tariff_duty) { '1.00 %' }
+
+      it { expect(rendered_page).to have_css '.preferential-tariff-duty' }
+    end
+
+    context 'when commodity has NOT preferential tariff duty' do
+      let(:preferential_tariff_duty) { nil }
+
+      it { expect(rendered_page).not_to have_css '.preferential-tariff-duty' }
+    end
+
+    context 'when commodity has preferential quota duty' do
+      let(:preferential_quota_duty) { '1.00 %' }
+
+      it { expect(rendered_page).to have_css '.preferential-quota-duty' }
+    end
+
+    context 'when commodity has NOT preferential quota duty' do
+      let(:preferential_quota_duty) { nil }
+
+      it { expect(rendered_page).not_to have_css '.preferential-quota-duty' }
     end
   end
 end
