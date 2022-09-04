@@ -26,26 +26,36 @@ module RulesOfOrigin
     private
 
     def wizard_store_key
-      :rules_of_origin
+      "rules_of_origin-#{params['commodity']}-#{params['country']}"
     end
 
     def step_path(step_id = params[:id], ...)
-      rules_of_origin_step_path(step_id, ...)
+      rules_of_origin_step_path(params['commodity'],
+                                params['country'],
+                                step_id,
+                                ...)
     end
 
     def check_session_data
-      if service_name != wizard_store['service']
-
+      if service_has_changed? || blank_session_identifier_params?
         redirect_to return_to_commodity_path
         wizard_store.purge!
       end
     end
 
-    def return_to_commodity_path
-      return find_commodity_path if wizard_store['commodity_code'].blank?
+    def service_has_changed?
+      service_name != wizard_store['service']
+    end
 
-      commodity_path(wizard_store['commodity_code'],
-                     country: wizard_store['country_code'],
+    def blank_session_identifier_params?
+      params['commodity'].blank? || params['country'].blank?
+    end
+
+    def return_to_commodity_path
+      return find_commodity_path if blank_session_identifier_params?
+
+      commodity_path(params['commodity'],
+                     country: params['country'],
                      anchor: 'rules-of-origin')
     end
     helper_method :return_to_commodity_path

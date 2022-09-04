@@ -13,7 +13,7 @@ RSpec.describe 'rules_of_origin/wizard_link', type: :view do
 
   it { is_expected.to have_css 'h3' }
   it { is_expected.to have_css 'p', text: /trade fulfils/ }
-  it { is_expected.to have_css %(form[action="#{rules_of_origin_step_path(step.key)}"]) }
+  it { is_expected.to have_css %(form[action="#{rules_of_origin_step_path('1234567890', 'JP', step.key)}"]) }
   it { is_expected.to have_css %(form input[name="#{prefix}[commodity_code]"][value="1234567890"]) }
   it { is_expected.to have_css %(form input[name="#{prefix}[country_code]"][value="JP"]) }
   it { is_expected.to have_css %(form input[name="#{prefix}[service]"][value="uk"]) }
