@@ -9,11 +9,9 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
            country_name: 'France',
            commodity_code: '2203000100',
            rules_of_origin_schemes: schemes,
-           import_trade_summary: ImportTradeSummary.new(
-             basic_third_country_duty: '2.00 %',
-             preferential_tariff_duty:,
-             preferential_quota_duty:,
-           )
+           import_trade_summary: build(:import_trade_summary,
+                                       preferential_tariff_duty:,
+                                       preferential_quota_duty:)
   end
 
   let :rules_data do

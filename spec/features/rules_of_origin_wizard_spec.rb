@@ -10,7 +10,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
                                                  .and_return schemes
   end
 
-  let(:commodity) { build :commodity }
+  let(:commodity) { build(:commodity, :with_import_trade_summary) }
   let(:japan) { build :geographical_area, :japan }
 
   context 'with single trade agreement' do
