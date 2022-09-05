@@ -20,7 +20,7 @@ module DeclarableHelper
 
     stw_link = "#{TradeTariffFrontend.single_trade_window_url}?#{CGI.unescape(stw_options.to_query)}"
     link_to(
-      "check how to #{anchor} #{declarable_type} #{declarable.code} from #{geographical_area&.description}.",
+      "Check how to #{anchor} #{declarable_type} #{declarable.code} from #{geographical_area&.description} (opens in a new tab).",
       stw_link,
       target: '_blank',
       class: 'govuk-link',
@@ -42,5 +42,25 @@ module DeclarableHelper
     else
       commodity_url(declarable, format: :json)
     end
+  end
+
+  def one_or_more_prohibitive_measure?
+    return false if declarable.import_measures.blank?
+
+    declarable.import_measures.each do |measures|
+      return true if measures.prohibitive?
+    end
+
+    false
+  end
+
+  def one_or_more_conditionally_prohibitive_measure?
+    return false if declarable.import_measures.blank? || one_or_more_prohibitive_measure?
+
+    declarable.import_measures.each do |measures|
+      return true if measures.conditionally_prohibitive?
+    end
+
+    false
   end
 end
