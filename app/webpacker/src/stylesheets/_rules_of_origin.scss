@@ -37,7 +37,7 @@
   gap            : 10px;
   width          : 100%;
 
-  .rules-of-origin-attachment-text {
+  &__text {
       font-size   : 16px;
       width       : 90%;
       padding-left: 1em;
@@ -47,7 +47,7 @@
       }
   }
 
-  .rules-of-origin-attachment-thumb {
+  &__thumb {
       margin-top    : 5px;
       padding-bottom: 15px;
       width         : 10%;
