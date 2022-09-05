@@ -4,8 +4,8 @@
   </summary>
 
   <div class="govuk-details__text">
-    <div class="rules-of-origin-attachment">
-      <div class="rules-of-origin-attachment__thumb">
+    <div class="downloadable-document">
+      <div class="downloadable-document__thumb">
         <%= link_to asset_path(origin_reference_document.document_path) do %>
           <svg class="rules-of-origin-ord-svg" version="1.1" viewBox="0 0 99 140" width="99" height="140" aria-hidden="false">
             <path d="M12 12h75v27H12zM12 59h9v9h-9zM12 77h9v9h-9zM12 95h9v9h-9zM12 113h9v9h-9zM30 59h57v9H30zM30 77h39v9H30zM30 95h57v9H30zM30 113h48v9H30z" stroke-width="0"></path>
@@ -13,7 +13,7 @@
         <% end %>
       </div>
 
-      <div class="rules-of-origin-attachment__text">
+      <div class="downloadable-document__text">
         This information is derived from <strong><%= article_match %></strong>
         of the <%= origin_reference_document.ord_title %>.
 
