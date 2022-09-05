@@ -17,7 +17,7 @@
     <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
 
     <%= render 'rules_of_origin/import_trade_summary',
-               summary: import_trade_summary
+               import_trade_summary: import_trade_summary
     %>
 
     <% if TradeTariffFrontend.roo_wizard? && rules_of_origin_schemes.any? %>

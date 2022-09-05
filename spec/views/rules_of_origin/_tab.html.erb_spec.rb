@@ -107,28 +107,23 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   end
 
   describe 'import trade summary duty box' do
-    context 'when commodity has preferential tariff duty' do
+    context 'when preferential tariff duty is present' do
       let(:preferential_tariff_duty) { '1.00 %' }
 
       it { expect(rendered_page).to have_css '.preferential-tariff-duty' }
     end
 
-    context 'when commodity has NOT preferential tariff duty' do
-      let(:preferential_tariff_duty) { nil }
-
-      it { expect(rendered_page).not_to have_css '.preferential-tariff-duty' }
-    end
-
-    context 'when commodity has preferential quota duty' do
+    context 'when preferential quota duty is present' do
       let(:preferential_quota_duty) { '1.00 %' }
 
       it { expect(rendered_page).to have_css '.preferential-quota-duty' }
     end
 
-    context 'when commodity has NOT preferential quota duty' do
-      let(:preferential_quota_duty) { nil }
-
+    context 'when both preferential duties are missing' do
+      it { expect(rendered_page).not_to have_css '.preferential-tariff-duty' }
       it { expect(rendered_page).not_to have_css '.preferential-quota-duty' }
+
+      it { expect(rendered_page).to have_css '.no-preferential-duties' }
     end
   end
 end
