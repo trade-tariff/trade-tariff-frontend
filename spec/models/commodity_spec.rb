@@ -8,6 +8,7 @@ RSpec.describe Commodity do
       %i[
         section
         chapter
+        import_trade_summary
         footnotes
         import_measures
         export_measures
