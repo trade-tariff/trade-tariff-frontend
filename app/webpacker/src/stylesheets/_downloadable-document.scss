@@ -8,7 +8,7 @@
   width          : 100%;
 
   &__text {
-    font-size   : 16px;
+    @include govuk-font($size: 16);
     width       : 90%;
     padding-left: 1em;
 
@@ -18,16 +18,16 @@
   }
 
   &__thumb {
-    margin-top    : 5px;
-    padding-bottom: 15px;
+    margin-top    : 0.25em;
+    padding-bottom: 1em;
     width         : 10%;
 
     svg {
-      fill        : #b1b4b6;
-      stroke      : #b1b4b6;
+      fill        : $govuk-border-colour;
+      stroke      : $govuk-border-colour;
       margin-right: 0.5em;
-      border      : 1px solid #ccc;
-      box-shadow  : 4px 4px #888888;
+      border      : 1px solid $govuk-border-colour;
+      box-shadow  : 4px 4px darken($govuk-border-colour, 15%);
       max-width   : 64px;
       max-height  : 80px;
     }
