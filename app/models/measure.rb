@@ -177,6 +177,14 @@ class Measure
     I18n.t("measure_type_duties.#{geographical_area.id}.#{measure_type.id}", default: nil)
   end
 
+  def conditionally_prohibitive?
+    prohibitive? && additional_code.present?
+  end
+
+  def prohibitive?
+    measure_type.prohibitive? && measure_conditions.none?
+  end
+
   private
 
   def excluded_country_ids
