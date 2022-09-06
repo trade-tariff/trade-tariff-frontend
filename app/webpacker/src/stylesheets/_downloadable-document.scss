@@ -1,0 +1,39 @@
+.downloadable-document {
+  width          : 100%;
+
+  &__text {
+    @include govuk-font($size: 16);
+
+    .subtext {
+      font-size: 12px;
+    }
+  }
+
+  &__thumb {
+    margin-top    : 0.25em;
+    padding-bottom: 1em;
+
+    svg {
+      fill        : $govuk-border-colour;
+      stroke      : $govuk-border-colour;
+      margin-right: 0.5em;
+      border      : 1px solid $govuk-border-colour;
+      box-shadow  : 4px 4px darken($govuk-border-colour, 15%);
+      max-width   : 64px;
+      max-height  : 80px;
+    }
+  }
+
+  @include govuk-media-query($from: desktop) {
+    display        : flex;
+    flex-direction : row;
+    flex-wrap      : nowrap;
+    justify-content: space-between;
+    align-items    : stretch;
+    gap            : 10px;
+
+    &__thumb {
+      width: 80px;
+    }
+  }
+}
