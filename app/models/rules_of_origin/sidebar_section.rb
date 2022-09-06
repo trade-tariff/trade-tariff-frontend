@@ -12,7 +12,7 @@ module RulesOfOrigin
       @steps.values
     end
 
-    def active?
+    def current?
       @steps.keys.include? @wizard.current_key
     end
   end

@@ -1,6 +1,6 @@
 <li id="<%= sidebar_section.name %>"
-    <%= 'data-show' if sidebar_section.active? %>
-    class="app-step-nav__step js-step <%= 'app-step-nav__step--active' if sidebar_section.active? %>">
+    <%= 'data-show' if sidebar_section.current? %>
+    class="app-step-nav__step js-step <%= 'app-step-nav__step--active' if sidebar_section.current? %>">
   <div class="app-step-nav__header js-toggle-panel" data-position="<%= sidebar_section_counter + 1 %>">
     <h3 class="app-step-nav__title">
       <span class="app-step-nav__circle app-step-nav__circle--number">
