@@ -24,13 +24,13 @@ module RulesOfOrigin
         countries_by_code = GeographicalArea.all.index_by(&:id)
 
         cumulation_methods[cumulation_method].map do |country_code|
-          case country_code 
+          case country_code
           when 'EU'
             'the European Union Member States'
           when 'GB'
             'United Kingdom'
           else
-            countries_by_code[country_code]&.description 
+            countries_by_code[country_code]&.description
           end
         end
       end
