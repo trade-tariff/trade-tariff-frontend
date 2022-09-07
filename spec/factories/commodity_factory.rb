@@ -16,6 +16,7 @@ FactoryBot.define do
     import_measures { [] }
     export_measures { [] }
     overview_measures { [] }
+    import_trade_summary {}
 
     meta do
       {
@@ -48,6 +49,12 @@ FactoryBot.define do
           attributes_for(:measure, :vat),
           attributes_for(:measure, :vat),
         ]
+      end
+    end
+
+    trait :with_import_trade_summary do
+      import_trade_summary do
+        attributes_for(:import_trade_summary)
       end
     end
   end

@@ -1,0 +1,36 @@
+<div class="govuk-inset-text">
+    <h3 class="govuk-heading-s">How rules of origin could affect the import duty payable</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+        <li class="basic-third-country-duty">
+          Basic third country duty =
+          <strong>
+            <%= import_trade_summary.basic_third_country_duty.html_safe %>
+          </strong>
+        </li>
+
+        <% if import_trade_summary.preferential_tariff_duty.present? %>
+          <li class="preferential-tariff-duty">
+            Preferential tariff duty =
+            <strong>
+              <%= import_trade_summary.preferential_tariff_duty.html_safe %>
+            </strong>
+          </li>
+        <% end %>
+
+        <% if import_trade_summary.preferential_quota_duty.present? %>
+          <li class="preferential-quota-duty">
+            Preferential quota duty =
+            <strong>
+              <%= import_trade_summary.preferential_quota_duty.html_safe %>
+            </strong>
+          </li>
+        <% end %>
+
+        <% if import_trade_summary.no_preferential_duties? %>
+          <li class="no-preferential-duties">
+            There is no preferential tarif duty or quota available for this commodity
+          </li>
+        <% end %>
+    </ul>
+</div>

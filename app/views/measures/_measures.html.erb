@@ -66,7 +66,8 @@
                  country_code: @search.country,
                  country_name: @search.geographical_area.description,
                  commodity_code: declarable.code,
-                 rules_of_origin_schemes: rules_of_origin_schemes %>
+                 rules_of_origin_schemes: rules_of_origin_schemes,
+                 import_trade_summary: declarable.import_trade_summary %>
     <%- else -%>
       <%= render 'rules_of_origin/without_country' %>
     <%- end -%>
