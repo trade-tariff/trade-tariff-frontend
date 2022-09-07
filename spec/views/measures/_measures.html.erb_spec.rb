@@ -42,6 +42,16 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     it { is_expected.to have_css '.govuk-tabs__panel#footnotes', count: 1 }
   end
 
+  shared_examples 'roo_wizard tab' do
+    it { is_expected.to render_template('rules_of_origin/_tab') }
+    it { is_expected.not_to render_template('rules_of_origin/_legacy_tab') }
+  end
+
+  shared_examples 'legacy roo tab' do
+    it { is_expected.not_to render_template('rules_of_origin/_tab') }
+    it { is_expected.to render_template('rules_of_origin/_legacy_tab') }
+  end
+
   it { is_expected.to render_template('declarables/_consigned') }
   it { is_expected.to render_template('footnotes/_footnote') }
   it { is_expected.to render_template('measure_conditions/_permutation_group') }
@@ -79,8 +89,17 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     context 'with country selected' do
       let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
-      it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
+      context 'with roo_wizard feature flag' do
+        it_behaves_like 'measures with rules of origin tab'
+        it_behaves_like 'roo_wizard tab'
+        it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
+      end
+
+      context 'without roo_wizard feature flag' do
+        before { allow(TradeTariffFrontend).to receive(:roo_wizard?).and_return false }
+
+        it_behaves_like 'legacy roo tab'
+      end
     end
   end
 
@@ -101,8 +120,17 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     context 'with country selected' do
       let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
-      it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
+      context 'with roo_wizard feature flag' do
+        it_behaves_like 'measures with rules of origin tab'
+        it_behaves_like 'roo_wizard tab'
+        it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
+      end
+
+      context 'without roo_wizard feature flag' do
+        before { allow(TradeTariffFrontend).to receive(:roo_wizard?).and_return false }
+
+        it_behaves_like 'legacy roo tab'
+      end
     end
   end
 
