@@ -43,24 +43,4 @@ module DeclarableHelper
       commodity_url(declarable, format: :json)
     end
   end
-
-  def one_or_more_prohibitive_measure?(declarable)
-    return false if declarable&.import_measures.blank?
-
-    declarable.import_measures.each do |measures|
-      return true if measures.prohibitive?
-    end
-
-    false
-  end
-
-  def one_or_more_conditionally_prohibitive_measure?(declarable)
-    return false if one_or_more_prohibitive_measure?(declarable)
-
-    declarable.import_measures.each do |measures|
-      return true if measures.conditionally_prohibitive?
-    end
-
-    false
-  end
 end

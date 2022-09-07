@@ -60,6 +60,10 @@ FactoryBot.define do
       id { '111' }
     end
 
+    trait :prohibitive do
+      measure_type_series_id { 'A' }
+    end
+
     trait :unclassified_import_control do
       measure_component_applicable_code { 2 }
     end

@@ -58,6 +58,25 @@ RSpec.describe MeasureType do
     end
   end
 
+  describe '#prohibitive?' do
+    subject(:measure_type) do
+      build(:measure_type,
+            measure_type_series_id:)
+    end
+
+    context 'when id lies in prohibitive category' do
+      let(:measure_type_series_id) { 'A' }
+
+      it { is_expected.to be_prohibitive }
+    end
+
+    context 'when id does not lie in prohibitive category' do
+      let(:measure_type_series_id) { 'D' }
+
+      it { is_expected.not_to be_prohibitive }
+    end
+  end
+
   describe '#supplementary?' do
     shared_examples_for 'a supplementary measure type' do |measure_type_id|
       subject(:measure_type) { build(:measure_type, id: measure_type_id) }

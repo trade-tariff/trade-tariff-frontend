@@ -37,6 +37,14 @@ module Declarable
     delegate :code, :short_code, to: :chapter, prefix: true
   end
 
+  def one_or_more_prohibitive_measures?
+    import_measures.present? && import_measures.any?(&:prohibitive?)
+  end
+
+  def one_or_more_conditionally_prohibitive_measures?
+    import_measures.present? && !one_or_more_prohibitive_measures? && import_measures.any?(&:conditionally_prohibitive?)
+  end
+
   def calculate_duties?
     no_heading? && no_entry_price_system?
   end
