@@ -244,7 +244,7 @@ RSpec.describe Measure do
       subject(:measure) { build(:measure, :prohibitive) }
 
       it 'returns true' do
-        expect(measure.prohibitive?).to eq(true)
+        is_expected.to be_prohibitive
       end
     end
 
