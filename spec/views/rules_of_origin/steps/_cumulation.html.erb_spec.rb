@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view do
+RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view, vcr: { cassette_name: 'geographical_areas#countries', allow_playback_repeats: true } do
   include_context 'with rules of origin form step',
                   'cumulation',
                   :originating
@@ -19,6 +19,10 @@ RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view do
   it { is_expected.to have_css 'h3.govuk-heading-s', text: /Next step/ }
   it { is_expected.to have_css '#next-step p', text: %r{#{schemes.first.title}} }
   it { is_expected.not_to have_css '.rules-of-origin-attachment-text' }
+  it { is_expected.to have_css 'h2', text: %r{Methods of cumulation .*#{schemes.first.title}} }
+  it { is_expected.to have_css 'p', text: %r{The #{schemes.first.title} .* 2 methods of cumulation} }
+  it { is_expected.to have_css 'span', text: 'Bilateral cumulation - an example' }
+  it { is_expected.to have_css 'span', text: 'Extended cumulation - an example' }
 
   context 'with article reference' do
     let(:article_reference) { 'article 123' }

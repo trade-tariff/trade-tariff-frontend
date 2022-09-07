@@ -52,6 +52,22 @@ RSpec.describe RulesOfOrigin::Steps::Cumulation do
     end
   end
 
+  describe '#available_cumulation_methods' do
+    let(:scheme) { instance.chosen_scheme }
+
+    it { expect(instance.available_cumulation_methods).to eq ['bilateral', 'extended'] }
+  end
+
+  describe '#country_codes_to_names', vcr: { cassette_name: 'geographical_areas#countries' } do
+    let(:scheme) { instance.chosen_scheme }
+
+    it { expect(instance.country_codes_to_names("bilateral")).to eq ['United Kingdom', 'Canada'] }
+
+    context 'when EU' do
+      it { expect(instance.country_codes_to_names("extended")).to eq ['the European Union Member States', 'Andorra'] }
+    end
+  end
+
   describe '#map_path' do
     let(:scheme) { instance.chosen_scheme }
 

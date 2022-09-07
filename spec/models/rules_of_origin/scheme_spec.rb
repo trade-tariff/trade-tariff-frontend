@@ -3,6 +3,7 @@ require 'spec_helper'
 RSpec.describe RulesOfOrigin::Scheme do
   let(:api_host) { TradeTariffFrontend::ServiceChooser.api_host }
   let(:response_headers) { { content_type: 'application/json; charset=utf-8' } }
+  let(:cumulation_methods) { { 'bilateral' => %w[GB CA], 'extended' => %w[EU AD]} }
 
   it { is_expected.to respond_to :scheme_code }
   it { is_expected.to respond_to :title }
@@ -16,6 +17,7 @@ RSpec.describe RulesOfOrigin::Scheme do
   it { is_expected.to respond_to :articles }
   it { is_expected.to respond_to :rule_sets }
   it { is_expected.to respond_to :origin_reference_document }
+  it { is_expected.to respond_to :cumulation_methods }
 
   describe '.all' do
     let(:json_response) { response_data.to_json }
@@ -34,6 +36,7 @@ RSpec.describe RulesOfOrigin::Scheme do
               footnote: 'Footnote comments **in markdown**',
               fta_intro: "## Markdown heading\n\n Further information",
               introductory_notes: "## Introductory notes\n\ndetails",
+              cumulation_methods: cumulation_methods
             },
             relationships: {
               rules: {
@@ -159,6 +162,7 @@ RSpec.describe RulesOfOrigin::Scheme do
         it { is_expected.to have_attributes footnote: /footnote/i }
         it { is_expected.to have_attributes fta_intro: /Further information/ }
         it { is_expected.to have_attributes introductory_notes: /Introductory notes/ }
+        it { is_expected.to have_attributes cumulation_methods: cumulation_methods }
         it { expect(scheme.rules).to have_attributes length: 1 }
       end
 

@@ -15,6 +15,12 @@ FactoryBot.define do
     unilateral { nil }
     fta_intro { "## Agreement\n\nDetails of agreement" }
     introductory_notes { "## Introductory notes\n\nDetails of introductory notes" }
+    cumulation_methods do
+      {
+        'bilateral' => %w[GB CA],
+        'extended' => %w[EU AD],
+      }
+    end
     rules { attributes_for_list :rules_of_origin_rule, rule_count }
     links { attributes_for_list :rules_of_origin_link, link_count }
     articles { attributes_for_list :rules_of_origin_article, article_count }
