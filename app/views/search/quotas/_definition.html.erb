@@ -1,20 +1,31 @@
 <tr class="govuk-table__row">
-  <td class="govuk-table__cell">
+  <td class="govuk-table__cell" data-label="Order number">
     <%= render partial: 'shared/quota_definition', locals: { order_number: definition.order_number, quota_definition: definition } %>
   </td>
-  <td class="govuk-table__cell">
+
+  <td class="govuk-table__cell" data-label="Commodity-code">
     <% definition.all_goods_nomenclatures.each do |goods_nomenclature| %>
       <%= link_to goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature) %>
       <br>
     <% end %>
   </td>
-  <td class="govuk-table__cell">
+
+  <td class="govuk-table__cell" data-label="Country">
     <% definition.geographical_areas.uniq(&:id).select { |geographical_area| geographical_area.id.present? }.each do |geographical_area| %>
       <%= geographical_area&.long_description %>
       <br>
     <% end %>
   </td>
-  <td class="govuk-table__cell"><%= definition.validity_start_date&.strftime('%d %B %Y') %></td>
-  <td class="govuk-table__cell"><%= definition.validity_end_date&.strftime('%d %B %Y') %></td>
-  <td class="govuk-table__cell numerical"><%= definition.balance %> <%= definition.measurement_unit %></td>
+
+  <td class="govuk-table__cell" data-label="Start date">
+    <%= definition.validity_start_date&.strftime('%d %B %Y') %>
+  </td>
+
+  <td class="govuk-table__cell" data-label="End date">
+    <%= definition.validity_end_date&.strftime('%d %B %Y') %>
+  </td>
+
+  <td class="govuk-table__cell numerical" data-label="Balance">
+    <%= definition.balance %> <%= definition.measurement_unit %>
+  </td>
 </tr>
