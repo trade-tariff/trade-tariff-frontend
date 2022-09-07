@@ -38,7 +38,7 @@ module Declarable
   end
 
   def one_or_more_prohibitive_measures?
-    import_measures.present? && import_measures.any?(&:prohibitive?)
+    import_measures.any?(&:prohibitive?)
   end
 
   def one_or_more_conditionally_prohibitive_measures?
