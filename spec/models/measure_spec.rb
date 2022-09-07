@@ -259,11 +259,11 @@ RSpec.describe Measure do
     context 'without prohibitive measures' do
       subject(:measure) { build(:measure, :with_conditions) }
 
-      it 'returns false' do
+      it 'returns false when prohibitive' do
         expect(measure.prohibitive?).to eq(false)
       end
 
-      it 'returns false' do
+      it 'returns false when conditionally prohibitive' do
         expect(measure.conditionally_prohibitive?).to eq(false)
       end
     end
