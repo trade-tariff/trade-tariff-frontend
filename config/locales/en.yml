@@ -589,14 +589,25 @@ en:
 
           This allows those factors that contributed to the origin of country
           A materials to be considered as though undertaken in B.
+        agreement_title: Agreement text
+        agreement_text: |
+          Check the details of the agreement text to ensure 
+          you fully understand the cumulation rules.
+        agreement_message: |
+          Please read the full agreement text as there may be conditions in
+          place that affect whether cumulation of origin is permitted.
+        navigation:
+          contents: Contents
+          methods: Methods of cumulation
+          cumulation_map: Cumulation map
+          agreement_text: Full agreement text
         cumulation:
-          title: Cumulation in the %{scheme_title}
           map: Map showing countries where cumulation may apply to the %{scheme_title}
           warning: |
             Bear cumulation rules in mind when working out if your
             non-originating parts meet the product-specific rules.
-        scheme:
-          summary: Read more about cumulation in the %{scheme_title}
+          methods_title: Methods of cumulation in the %{scheme_title}
+          methods_count: The %{scheme_title} features %{cumulation_methods_count} methods of cumulation
         next_step_md: |
           Click on the 'Continue' button to view the definition of 'minimal
           operations' in the %{scheme_title}. Any non-originating parts must be

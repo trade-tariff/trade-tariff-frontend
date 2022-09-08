@@ -10,29 +10,49 @@
   <div class="tariff-markdown tariff-markdown--with-lead-paragraph">
     <%= govspeak t '.body_md' %>
   </div>
+  
+  <div class="govuk-inset-text">
+    <%= t '.agreement_message' %>
+  </div>
 
-  <h2 class="govuk-heading-m" id="methods">Methods of cumulation in the <%= form.object.scheme_title %></h2>
+  <h2 class="govuk-heading-xs"><%= t '.navigation.contents' %></h2>
+  <nav class="govuk-!-margin-bottom-9">
+    <ul class="rules-of-origin-app-contents xgovuk-!-margin-bottom-0">
+      <li class="govuk-!-margin-bottom-2">
+        <a href="#methods"><%= t '.navigation.methods' %></a>
+      </li>        
+      <li class="govuk-!-margin-bottom-2">
+        <a href="#map"><%= t '.navigation.cumulation_map' %></a>
+      </li>        
+      <li class="govuk-!-margin-bottom-2">
+        <a href="#agreement_text"><%= t '.navigation.agreement_text' %></a>
+      </li>
+    </ul>
+  </nav>
 
-  <p>The <%= form.object.scheme_title %> features <%= form.object.available_cumulation_methods.count %> methods of cumulation:</p>
+  <h2 class="govuk-heading-m" id="methods"><%= t '.cumulation.methods_title', scheme_title: form.object.scheme_title %></h2>
+
+  <p><%= t '.cumulation.methods_count', scheme_title: form.object.scheme_title, cumulation_methods_count: form.object.available_cumulation_methods.count %>:</p>
 
   <% form.object.available_cumulation_methods.each do |cumulation_method| %>
-    <%= render "rules_of_origin/cumulation_methods/#{cumulation_method}", countries: form.object.country_codes_to_names(cumulation_method).to_sentence, scheme_title: form.object.scheme_title %>
+    <%= render "rules_of_origin/cumulation_methods/#{cumulation_method}", countries: form.object.country_codes_to_names(cumulation_method).to_sentence, 
+                                                                          scheme_title: form.object.scheme_title %>
   <% end %>
 
-  <h3 class="govuk-heading-s">
-    <%= t '.cumulation.title', scheme_title: form.object.scheme_title %>
-  </h3>
+  <h3 class="govuk-heading-m" id="map"><%= t '.cumulation.map', scheme_title: form.object.scheme_title %></h3>
 
-  <p><%= t '.cumulation.map', scheme_title: form.object.scheme_title %></p>
+  <p><%= t '.agreement_text' %></p>
 
   <%= image_tag(asset_path(form.object.map_path)) %>
 
   <p><%= link_to "View cumulation map in a new browser window", asset_path(form.object.map_path), target: "_blank" %></p>
 
-  <%= render 'shared/details', summary: t('.scheme.summary',
-                                          scheme_title: form.object.scheme_title),
-                               content: govspeak(form.object.scheme_details),
-                               origin_reference_document: form.object.origin_reference_document %>
+  <h2 class="govuk-heading-s" id="agreement_text"><%= t '.agreement_title' %></h2>
+
+  <%= govspeak remove_article_reference(form.object.scheme_details) %>
+  <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
+                                                 article_match: find_article_reference(form.object.scheme_details) if find_article_reference(form.object.scheme_details) %>
+
 
   <div class="govuk-warning-text">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>

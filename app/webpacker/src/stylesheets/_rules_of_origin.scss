@@ -27,3 +27,13 @@
     white-space: nowrap;
   }
 }
+
+.rules-of-origin-app-contents {
+  list-style-type: none;
+  text-indent: -2.2em;
+
+  li:before {
+    content: "—";
+    margin: 0 1em 0 0;
+  }
+}
