@@ -238,4 +238,34 @@ RSpec.describe Measure do
       end
     end
   end
+
+  describe '#prohibitive?' do
+    context 'with prohibitive measures' do
+      subject(:measure) { build(:measure, :prohibitive) }
+
+      it 'returns true' do
+        expect(measure).to be_prohibitive
+      end
+    end
+
+    context 'with conditionally prohibitive measures' do
+      subject(:measure) { build(:measure, :prohibitive, :with_additional_code) }
+
+      it 'returns true' do
+        expect(measure).to be_conditionally_prohibitive
+      end
+    end
+
+    context 'without prohibitive measures' do
+      subject(:measure) { build(:measure, :with_conditions) }
+
+      it 'returns false when prohibitive' do
+        expect(measure.prohibitive?).to eq(false)
+      end
+
+      it 'returns false when conditionally prohibitive' do
+        expect(measure.conditionally_prohibitive?).to eq(false)
+      end
+    end
+  end
 end

@@ -12,7 +12,11 @@ class MeasureType
     duties_not_permitted: [2],
   }
 
-  attr_accessor :id, :measure_component_applicable_code
+  enum :measure_type_series_id, {
+    prohibitive: %w[A B],
+  }
+
+  attr_accessor :id, :measure_component_applicable_code, :measure_type_series_id
   attr_writer :description
 
   def supplementary?

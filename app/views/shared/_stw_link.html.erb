@@ -1,14 +1,21 @@
 <div class="govuk-inset-text govuk-inset-text--s tariff-inset-information">
     <% if search.country.present? %>
-      <p class= "govuk-body">
-        <strong>Check how to import or export goods</strong>
-      </p>
-
-      <p class= "govuk-body">
-        Now you have identified your commodity code, you can <%= declarable_stw_link(declarable, search, anchor) %>
-      </p>
+      <% if declarable.one_or_more_prohibitive_measures? %>
+        <p> The import of commodity <%= declarable.code %> from <%= trading_partner_country_description(search.country) %> is prohibited  </p>
+      <% elsif declarable.one_or_more_conditionally_prohibitive_measures? %>
+        <p>
+          The import of commodity <%= declarable.code %> from <%= trading_partner_country_description(search.country) %> may be prohibited, depending on the additional code used.
+        </p>
+        <p class= "govuk-body">
+          <strong>Check how to import or export goods</strong>
+        </p>
+      <% else %>
+        <p class= "govuk-body">
+          <%= declarable_stw_link(declarable, search, anchor) %>
+        </p>
+      <% end %>
     <% else %>
-      To <strong>check how to import commodity <%= declarable.code %></strong>, select the <%= link_to("country from which you are importing", trading_partners_path) %>.
+      To check how to import commodity <%= declarable.code %>, select the country from which you are importing.
   <% end %>
   </p>
 </div>

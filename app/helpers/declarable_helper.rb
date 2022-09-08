@@ -20,7 +20,7 @@ module DeclarableHelper
 
     stw_link = "#{TradeTariffFrontend.single_trade_window_url}?#{CGI.unescape(stw_options.to_query)}"
     link_to(
-      "check how to #{anchor} #{declarable_type} #{declarable.code} from #{geographical_area&.description}.",
+      "Check how to #{anchor} #{declarable_type} #{declarable.code} from #{geographical_area&.description} (opens in a new tab).",
       stw_link,
       target: '_blank',
       class: 'govuk-link',

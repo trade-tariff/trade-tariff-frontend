@@ -20,7 +20,7 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
       let(:declarable) { build(:heading) }
 
       it 'returns the expected text' do
-        expected_text = "check how to import heading #{declarable.code} from Italy."
+        expected_text = "Check how to import heading #{declarable.code} from Italy (opens in a new tab)"
 
         expect(declarable_stw_link).to include(expected_text)
       end
@@ -46,7 +46,7 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
       let(:declarable) { build(:commodity) }
 
       it 'returns the expected text' do
-        expected_text = "check how to import commodity #{declarable.code} from Italy."
+        expected_text = "Check how to import commodity #{declarable.code} from Italy (opens in a new tab)"
 
         expect(declarable_stw_link).to include(expected_text)
       end
