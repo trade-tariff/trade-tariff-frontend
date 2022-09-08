@@ -29,21 +29,6 @@
 
   <p><%= link_to "View cumulation map in a new browser window", asset_path(form.object.map_path), target: "_blank" %></p>
 
-  <div class="govuk-inset-text">
-    <%= t '.cumulation.inset', scheme_title: form.object.scheme_title %>
-  </div>
-
-  <div class="tariff-markdown">
-    <%= govspeak t '.cumulation.body_md' %>
-
-    <figure>
-      <%= image_pack_tag 'roo_wizard/bilateral.png' %>
-      <figcaption>
-        <%= t '.cumulation.image_caption' %>
-      </figcaption>
-    </figure>
-  </div>
-
   <%= render 'shared/details', summary: t('.scheme.summary',
                                           scheme_title: form.object.scheme_title),
                                content: govspeak(form.object.scheme_details),
