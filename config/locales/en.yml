@@ -766,3 +766,92 @@ en:
 
             Alternatively, if your trade still does not meet the rules of
             origin, [start again](%{start_link}).
+
+    cumulation_methods:
+      heading: |
+        %{cumulation_method} cumulation
+      title: The %{scheme_title} allows for %{cumulation_method} cumulation with %{countries}.
+      example_title: |
+        %{cumulation_method} cumulation - an example
+      bilateral:
+        description_html: |
+          <p>
+            Bilateral cumulation operates between 2 countries or trading blocs where a 
+            trade agreement contains a provision allowing them to cumulate origin.
+          </p>
+
+          <p>
+            Materials originating in either country or bloc in the trade agreement will 
+            be considered as materials covered by the rule of origin.
+          </p>
+        example_list_md: |
+          1. A company in country A would like to take advantage of the FTA with country B to receive 0% import duties on the import of goods which require 100% of the value to be originating.
+          2. The goods are comprised of component parts that are sourced from both country A and country B
+          3. As there is bilateral cumulation between the two countries and all component parts are sourced in either country A or country B, the goods can be considered as originating.
+          4. Even if all the parts came from country A and were just assembled in country B, the rules would be met.
+      extended:
+        description_html: |
+            <p>
+              Extended cumulation (also referred to as third-party or cross cumulation) allows for
+               cumulation between countries which are not linked by a trade agreement or are linked 
+               by a trade agreement with different rules of origin to influence the origin of goods 
+               in the trade agreement between the two primary countries or blocs.
+            </p>
+
+            <p>
+              You are allowed to use inputs from a third-party country, which is not a member of the
+               applicable FTA and consider them originating, provided that they meet the rules of 
+               origin under the relevant trade agreement.
+            </p>
+
+            <p>
+              Extended cumulation is the most flexible type of cumulation of originating inputs and is 
+              often limited to certain tariff headings, subheadings and codes or to certain types of 
+              products only. Please check the detailed agreement text.
+            </p>
+        example_list_md: |
+          1. In order to take advantage of a 0% import duty, a business in Country A would like to import a product
+          from Country B where product-specific rules dictate that a maximum of 50% non-originating materials
+          is permitted in the item.
+          1. Only 35% of the components of the items were manufactured in Country B.
+          2. The trade deal between Country A and Country B permits components originating in Country C to count as originating
+          in Country B under certain circumstances, via **Extended Cumulation**, even though there is no Trade Agreement between
+          Country A and Country C.
+          4. Country B sources components from Country C that make up 20% of the total value of the product.
+          5. As 35% + 20% exceeds the 50% threshold, extended cumulation permits the trade to go ahead and for the preferential
+          tariff for trade in goods between Country A and Country B to be legitimately claimed.
+      regional:
+        description_html: |
+          <p>
+            Regional cumulation is a form of diagonal cumulation, which only exists under the Generalised 
+            Scheme of Preferences.
+          </p>
+      full:
+        description_html: |
+          <p>
+            Full cumulation allows for the working or processing carried out on the materials that 
+            is more than insufficient in the countries participating in agreement to be considered as 
+            carried out in the final country of production.
+          </p>
+      diagonal:
+        description_html: |
+            <p>
+              Diagonal cumulation operates between more than 2 countries.
+            </p>
+
+            <p>
+              Materials originating in a defined country or countries, may be used as materials originating in the country of export, when used in an export to a country not in the agreement. Diagonal cumulation comes with two crucial conditions attached:
+            </p>
+        description_list_md: |
+          1. all countries involved need to be joined by FTAs *and* 
+          2. rules of origin in these FTAs need to be identical.
+        example_text: |
+          This is where it gets a little more complicated. Let’s say that as well as an FTA 
+          with the UK, the EU has another one with Japan (currently being negotiated), and 
+          the UK also has one with Japan (… maybe one day). If the rules of origin requirements in 
+          the EU-UK FTA allow for diagonal cumulation explicitly with Japan, a UK producer could 
+          import a good from Japan (that originates from Japan), incorporate it into something 
+          else, alter it, do nothing with it, whatever, and then sell it to a customer in the EU 
+          and it would be treated as if it was of UK origin no matter how much value was added, 
+          or not, in the UK.
+        map_text: Originating inputs from each country are considered to be originating input in the other countries.

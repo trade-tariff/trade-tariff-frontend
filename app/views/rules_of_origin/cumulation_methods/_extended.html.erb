@@ -1,35 +1,24 @@
-<h4 class="govuk-heading-s">Extended cumulation</h4>
+<h4 class="govuk-heading-s"><%= t 'rules_of_origin.cumulation_methods.heading', cumulation_method: cumulation_method.humanize %></h4>
 
 <div class="cumulation_description">
-  <p>Extended cumulation (also referred to as third-party or cross cumulation) allows for cumulation between countries which are not linked by a trade agreement or are linked by a trade agreement with different rules of origin to influence the origin of goods in the trade agreement between the two primary countries or blocs.</p>
-  <p>You are allowed to use inputs from a third-party country, which is not a member of the applicable FTA and consider them originating, provided that they meet the rules of origin under the relevant trade agreement.</p>
-  <p>Extended cumulation is the most flexible type of cumulation of originating inputs and is often limited to certain tariff headings, subheadings and codes or to certain types of products only. Please check the detailed agreement text.</p>
+  <%= t '.description_html' %>
 </div>
 
 <div class="govuk-inset-text">
-  <p>The <%= scheme_title %> allows for extended cumulation with the <%= countries %>.</p>
+  <p><%= t 'rules_of_origin.cumulation_methods.title', scheme_title: scheme_title, countries: countries, cumulation_method: cumulation_method %></p>
 </div>
 
 <div class="cumulation_description">
   <details class="govuk-details" data-module="govuk-details">
     <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">Extended cumulation - an example</span>
+      <span class="govuk-details__summary-text"><%= t 'rules_of_origin.cumulation_methods.example_title', cumulation_method: cumulation_method.humanize %></span>
     </summary>
     <div class="govuk-details__text">
-      <p><%= image_pack_tag 'cumulation/extended.png' %></p>
+      <p><%= image_pack_tag "cumulation/#{cumulation_method}.png" %></p>
 
-      <ol class='govuk-list govuk-list--number'>
-        <li>In order to take advantage of a 0% import duty, a business in Country A would like to import a product
-        from Country B where product-specific rules dictate that a maximum of 50% non-originating materials
-        is permitted in the item.</li>
-        <li>Only 35% of the components of the items were manufactured in Country B.</li>
-        <li>The trade deal between Country A and Country B permits components originating in Country C to count as originating
-        in Country B under certain circumstances, via <strong>Extended Cumulation</strong>, even though there is no Trade Agreement between
-        Country A and Country C.</li>
-        <li>Country B sources components from Country C that make up 20% of the total value of the product.</li>
-        <li>As 35% + 20% exceeds the 50% threshold, extended cumulation permits the trade to go ahead and for the preferential
-        tariff for trade in goods between Country A and Country B to be legitimately claimed.</li>
-      </ol>
+      <div class="tariff-markdown">
+        <%= govspeak t '.example_list_md' %>
+      </div>
     </div>
   </details>
 </div>

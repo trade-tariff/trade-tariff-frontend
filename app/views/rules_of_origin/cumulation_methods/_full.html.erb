@@ -1,21 +1,21 @@
-<h4 class="govuk-heading-s">Full cumulation</h4>
+<h4 class="govuk-heading-s"><%= t 'rules_of_origin.cumulation_methods.heading', cumulation_method: cumulation_method.humanize %></h4>
 
 <div class="cumulation_description">
-  <p>Full cumulation allows for the working or processing carried out on the materials that is more than insufficient in the countries participating in agreement to be considered as carried out in the final country of production.</p>
+  <%= t '.description_html' %>
 </div>
 
 <div class="govuk-inset-text">
-  <p>The <%= scheme_title %> allows for full cumulation with <%= countries %>.</p>
+  <p><%= t 'rules_of_origin.cumulation_methods.title', scheme_title: scheme_title, countries: countries, cumulation_method: cumulation_method %></p>
 </div>
 
 <div class="cumulation_description">
   <details class="govuk-details" data-module="govuk-details">
     <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">Full cumulation - an example</span>
+      <span class="govuk-details__summary-text"><%= t 'rules_of_origin.cumulation_methods.example_title', cumulation_method: cumulation_method.humanize %></span>
     </summary>
     <div class="govuk-details__text">
-      <p>Full cumulation allows for the working or processing carried out on the materials that is more than insufficient in the countries participating in agreement to be considered as carried out in the final country of production.</p>
-      <p><%= image_pack_tag 'cumulation/full.png' %></p>
+      <%= t '.description_html' %>
+      <p><%= image_pack_tag "cumulation/#{cumulation_method}.png" %></p>
     </div>
   </details>
 </div>

@@ -1,29 +1,24 @@
-<h4 class="govuk-heading-s">Bilateral cumulation</h4>
+<h4 class="govuk-heading-s"><%= t 'rules_of_origin.cumulation_methods.heading', cumulation_method: cumulation_method.humanize %></h4>
 
 <div class="cumulation_description">
-  <p>Bilateral cumulation operates between 2 countries or trading blocs where a trade agreement contains a provision allowing them to cumulate origin.</p>
-  <p>Materials originating in either country or bloc in the trade agreement will be considered as materials covered by the rule of origin.</p>
+  <%= t '.description_html' %>
 </div>
 
 <div class="govuk-inset-text">
-  <p>The <%= scheme_title %> allows for bilateral cumulation with <%= countries %>.</p>
+  <p><%= t 'rules_of_origin.cumulation_methods.title', scheme_title: scheme_title, countries: countries, cumulation_method: cumulation_method %></p>
 </div>
 
 <div class="cumulation_description">
   <details class="govuk-details" data-module="govuk-details">
     <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">Bilateral cumulation - an example</span>
+      <span class="govuk-details__summary-text"><%= t 'rules_of_origin.cumulation_methods.example_title', cumulation_method: cumulation_method.humanize %></span>
     </summary>
     <div class="govuk-details__text">
-      <p><%= image_pack_tag 'cumulation/bilateral.png' %></p>
+      <p><%= image_pack_tag "cumulation/#{cumulation_method}.png" %></p>
 
-      <ol class='govuk-list govuk-list--number'>
-        <li>A company in country A would like to take advantage of the FTA with country B to receive 0% import duties
-        on the import of goods which require 100% of the value to be originating.</li>
-        <li>The goods are comprised of component parts that are sourced from both country A and country B</li>
-        <li>As there is bilateral cumulation between the two countries and all component parts are sourced in either country A or country B, the goods can be considered as originating.</li>
-        <li>Even if all the parts came from country A and were just assembled in country B, the rules would be met.</li>
-      </ol>
+      <div class="tariff-markdown">
+        <%= govspeak t '.example_list_md' %>
+      </div>
     </div>
   </details>
 </div>

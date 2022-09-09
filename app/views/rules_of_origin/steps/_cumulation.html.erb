@@ -36,7 +36,8 @@
 
   <% form.object.available_cumulation_methods.each do |cumulation_method| %>
     <%= render "rules_of_origin/cumulation_methods/#{cumulation_method}", countries: form.object.country_codes_to_names(cumulation_method).to_sentence, 
-                                                                          scheme_title: form.object.scheme_title %>
+                                                                          scheme_title: form.object.scheme_title,
+                                                                          cumulation_method: cumulation_method %>
   <% end %>
 
   <h3 class="govuk-heading-m" id="map"><%= t '.cumulation.map', scheme_title: form.object.scheme_title %></h3>

@@ -1,29 +1,27 @@
-<h4 class="govuk-heading-s">Diagonal cumulation</h4>
+<h4 class="govuk-heading-s"><%= t 'rules_of_origin.cumulation_methods.heading', cumulation_method: cumulation_method.humanize %></h4>
 
 <div class="cumulation_description">
-  <p>Diagonal cumulation operates between more than 2 countries.</p>
-  <p>Materials originating in a defined country or countries, may be used as materials originating in the country of export, when used in an export to a country not in the agreement. Diagonal cumulation comes with two crucial conditions attached:</p>
+  <%= t '.description_html' %>
   <div class="govuk-details__text">
-    <ol class='govuk-list govuk-list--number'>
-        <li>all countries involved need to be joined by FTAs <em>and</em> </li>
-        <li>rules of origin in these FTAs need to be identical.</li>
-    </ol>
+    <div class="tariff-markdown">
+      <%= govspeak t '.description_list_md' %>
+    </div>
   </div>
 </div>
 
 <div class="govuk-inset-text">
-  <p>The <%= scheme_title %> allows for Diagonal cumulation with <%= countries %>.</p>
+  <p><%= t 'rules_of_origin.cumulation_methods.title', scheme_title: scheme_title, countries: countries, cumulation_method: cumulation_method %></p>
 </div>
 
 <div class="cumulation_description">
   <details class="govuk-details" data-module="govuk-details">
     <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">Diagonal cumulation - an example</span>
+      <span class="govuk-details__summary-text"><%= t 'rules_of_origin.cumulation_methods.example_title', cumulation_method: cumulation_method.humanize %></span>
     </summary>
     <div class="govuk-details__text">
-      <p>This is where it gets a little more complicated. Let’s say that as well as an FTA with the UK, the EU has another one with Japan (currently being negotiated), and the UK also has one with Japan (… maybe one day). If the rules of origin requirements in the EU-UK FTA allow for diagonal cumulation explicitly with Japan, a UK producer could import a good from Japan (that originates from Japan), incorporate it into something else, alter it, do nothing with it, whatever, and then sell it to a customer in the EU and it would be treated as if it was of UK origin no matter how much value was added, or not, in the UK.</p>
-      <p><%= image_pack_tag 'cumulation/diagonal.png' %></p>
-      <p><em>Originating inputs from each country are considered to be originating input in the other countries.</em></p>
+      <p><%= t '.example_text' %></p>
+      <p><%= image_pack_tag "cumulation/#{cumulation_method}.png" %></p>
+      <p><em><%= t '.map_text' %></em></p>
     </div>
   </details>
 </div>
