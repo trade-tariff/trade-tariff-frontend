@@ -23,9 +23,9 @@ RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view, vcr: { cassette
 
   context 'with diagonal cumulation' do
     before do
-      schemes.first.cumulation_methods["diagonal"] = ["EU", "AD"]
+      schemes.first.cumulation_methods['diagonal'] = %w[EU AD]
     end
-    
+
     it { is_expected.to have_css 'span', text: 'Diagonal cumulation - an example' }
     it { is_expected.to have_css 'p img[src*="cumulation/diagonal"]' }
   end
