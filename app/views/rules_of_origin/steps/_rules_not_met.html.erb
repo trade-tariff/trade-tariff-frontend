@@ -1,6 +1,7 @@
 <span class="govuk-caption-xl">
   <%= t (current_step.exporting? ? '.caption.exporting' : '.caption.importing'),
         commodity_code: current_step.commodity_code,
+        service_country_name: current_step.service_country_name,
         trade_country_name: current_step.trade_country_name %>
 </span>
 

@@ -672,8 +672,8 @@ en:
 
       rules_not_met:
         caption:
-          importing: Importing commodity %{commodity_code} from %{trade_country_name}
-          exporting: Exporting commodity %{commodity_code} from %{trade_country_name}
+          importing: Importing commodity %{commodity_code} from %{trade_country_name} to %{service_country_name}
+          exporting: Exporting commodity %{commodity_code} from %{service_country_name} to %{trade_country_name}
         title: Rules of Origin not met
         panel:
           Your product does not appear to meet the rules of origin requirements
