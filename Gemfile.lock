@@ -324,9 +324,9 @@ GEM
     rainbow (3.1.1)
     raindrops (0.20.0)
     rake (13.0.6)
-    redis (5.0.2)
-      redis-client (~> 0.7)
-    redis-client (0.7.3)
+    redis (5.0.4)
+      redis-client (>= 0.7.4)
+    redis-client (0.8.0)
       connection_pool
     regexp_parser (2.5.0)
     request_store (1.5.1)
