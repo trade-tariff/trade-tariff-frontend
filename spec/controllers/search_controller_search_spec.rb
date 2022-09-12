@@ -333,13 +333,13 @@ end
 
 RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cassette_name: 'search#quota_search', allow_playback_repeats: true } do
   context 'with xi as the service choice' do
-    before do
+    let :request_page do
       allow(TradeTariffFrontend::ServiceChooser).to receive(:xi?).and_return(true)
 
       get :quota_search, params: { goods_nomenclature_item_id: '0301919011' }, format: :html
     end
 
-    it { is_expected.to respond_with(:not_found) }
+    it { expect { request_page }.to raise_exception TradeTariffFrontend::FeatureUnavailable }
   end
 
   context 'without search params' do

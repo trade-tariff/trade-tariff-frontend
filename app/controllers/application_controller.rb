@@ -17,18 +17,6 @@ class ApplicationController < ActionController::Base
 
   layout :set_layout
 
-  rescue_from Faraday::ServerError, Errno::ECONNREFUSED do
-    request.format = :html
-    render_500
-  end
-
-  rescue_from(Faraday::ResourceNotFound, WizardSteps::UnknownStep,
-              ActionView::MissingTemplate, ActionController::UnknownFormat,
-              AbstractController::ActionNotFound, URI::InvalidURIError) do |_e|
-    request.format = :html
-    render_404
-  end
-
   def url_options
     return super unless search_invoked?
 
@@ -51,22 +39,6 @@ class ApplicationController < ActionController::Base
   helper_method :cookies_policy,
                 :meursing_lookup_result,
                 :is_switch_service_banner_enabled?
-
-  def render_500
-    disable_search_form
-    render template: 'errors/internal_server_error',
-           status: :internal_server_error,
-           formats: :html
-    false
-  end
-
-  def render_404
-    disable_search_form
-    render template: 'errors/not_found',
-           status: :not_found,
-           formats: :html
-    false
-  end
 
   def set_last_updated
     # rubocop:disable Naming/MemoizedInstanceVariableName

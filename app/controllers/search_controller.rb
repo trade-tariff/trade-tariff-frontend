@@ -37,7 +37,9 @@ class SearchController < ApplicationController
   end
 
   def quota_search
-    render_404 if TradeTariffFrontend::ServiceChooser.xi?
+    if TradeTariffFrontend::ServiceChooser.xi?
+      raise TradeTariffFrontend::FeatureUnavailable
+    end
 
     form = QuotaSearchForm.new(params.permit(*QuotaSearchForm::PERMITTED_PARAMS))
     @result = QuotaSearchPresenter.new(form)

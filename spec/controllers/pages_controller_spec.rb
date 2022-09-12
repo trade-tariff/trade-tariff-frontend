@@ -15,22 +15,6 @@ RSpec.describe PagesController, type: :controller do
     end
   end
 
-  context 'when asked with no format' do
-    subject(:search) { get :opensearch }
-
-    it 'does not raise ActionController::UnknownFormat' do
-      expect(search).to render_template('errors/not_found')
-    end
-  end
-
-  context 'with unsupported format' do
-    subject(:search) { get :opensearch, format: :json }
-
-    it 'does not raise ActionController::UnknownFormat' do
-      expect(search).to render_template('errors/not_found')
-    end
-  end
-
   describe 'GET #privacy' do
     subject(:response) { get :privacy }
 
