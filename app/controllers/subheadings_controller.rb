@@ -30,4 +30,10 @@ class SubheadingsController < GoodsNomenclaturesController
   def set_goods_nomenclature_code
     session[:goods_nomenclature_code] = subheading.to_param
   end
+
+  rescue_from Faraday::ResourceNotFound do
+    commodity_code = params[:id].split('-').first
+
+    redirect_to commodity_url(id: commodity_code)
+  end
 end
