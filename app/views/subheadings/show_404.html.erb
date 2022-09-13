@@ -1,0 +1,48 @@
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs "Subheading #{@subheading_code}",
+                           [[t('breadcrumb.home'), home_path]] %>
+<% end %>
+
+<%= page_header "Subheading #{@subheading_code}" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @validity_periods.any? %>
+      <p>
+        The subheading you entered could not be found for the date selected. The
+        code is present for the dates shown below.
+      </p>
+
+      <p>
+        Click on a date to see the measures present on that date.
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <% @validity_periods.each do |validity_period| %>
+          <li>
+            From <%= link_to validity_period.validity_start_date.to_formatted_s(:long),
+                             subheading_on_date_path(validity_period.to_param, validity_period.validity_start_date) -%>
+            <% if validity_period.validity_end_date.present? -%>
+              to <%= link_to validity_period.validity_end_date.to_formatted_s(:long),
+                             subheading_on_date_path(validity_period.to_param, validity_period.validity_end_date) -%>
+            <% end -%>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>
+        The subheading you searched for can't be found. Try searching again.
+      <p>
+    <% end %>
+
+    <p>
+      Alternatively, you can visit
+      <% if @search.today? %>
+        <%= link_to "chapter #{@chapter_code}", chapter_path(@chapter_code) %>.
+      <% else %>
+        <%= link_to "chapter #{@chapter_code}", chapter_path(@chapter_code) %>
+        for <%= @search.date.to_formatted_s :long %>.
+      <% end %>
+    </p>
+  </div>
+</div>
