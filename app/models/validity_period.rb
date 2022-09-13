@@ -3,8 +3,11 @@ require 'api_entity'
 class ValidityPeriod
   include ApiEntity
 
-  attr_accessor :goods_nomenclature_item_id
-  attr_reader   :validity_start_date, :validity_end_date
+  attr_accessor :goods_nomenclature_item_id,
+                :validity_start_date,
+                :validity_end_date,
+                :to_param,
+                :goods_nomenclature_class
 
   class << self
     def all(parent_class, parent_id, *args)
