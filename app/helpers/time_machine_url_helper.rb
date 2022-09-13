@@ -7,6 +7,10 @@ module TimeMachineUrlHelper
     heading_path heading, extract_date_params(date)
   end
 
+  def subheading_on_date_path(subheading, date)
+    subheading_path subheading, extract_date_params(date)
+  end
+
   def chapter_on_date_path(chapter, date)
     chapter_path chapter, extract_date_params(date)
   end

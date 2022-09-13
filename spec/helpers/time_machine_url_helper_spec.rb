@@ -23,6 +23,28 @@ RSpec.describe TimeMachineUrlHelper, type: :helper do
     end
   end
 
+  describe '#subheading_on_date_path' do
+    subject { subheading_on_date_path '1234567890-80', date }
+
+    context 'with valid date' do
+      let(:date) { Date.parse '2022-01-01' }
+
+      it { is_expected.to eql '/subheadings/1234567890-80?day=1&month=1&year=2022' }
+    end
+
+    context 'with invalid date' do
+      let(:date) { 'random string' }
+
+      it { is_expected.to eql '/subheadings/1234567890-80' }
+    end
+
+    context 'with nil date' do
+      let(:date) { nil }
+
+      it { is_expected.to eql '/subheadings/1234567890-80' }
+    end
+  end
+
   describe '#heading_on_date_path' do
     subject { heading_on_date_path '1234', date }
 
