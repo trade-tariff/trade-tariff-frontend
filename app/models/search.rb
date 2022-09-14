@@ -1,7 +1,9 @@
 require 'api_entity'
+require 'retriable'
 
 class Search
   include ApiEntity
+  include Retriable
 
   COMMODITY_CODE = /\A[0-9]{10}\z/
   HEADING_CODE = /\A[0-9]{4}\z/
@@ -91,19 +93,5 @@ class Search
 
   def id
     q
-  end
-
-  private
-
-  def retries(rescue_error)
-    retries ||= 0
-    yield if block_given?
-  rescue rescue_error
-    if retries < Rails.configuration.x.http.max_retry
-      retries += 1
-      retry
-    else
-      raise
-    end
   end
 end
