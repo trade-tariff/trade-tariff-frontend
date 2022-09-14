@@ -37,11 +37,9 @@
 
     <p>
       Alternatively, you can visit
-      <% if @search.today? %>
-        <%= link_to "chapter #{@chapter_code}", chapter_path(@chapter_code) %>.
-      <% else %>
-        <%= link_to "chapter #{@chapter_code}", chapter_path(@chapter_code) %>
-        for <%= @search.date.to_formatted_s :long %>.
+      <%= link_to "chapter #{@chapter_code}", chapter_path(@chapter_code) %>
+      <% unless @search.today? %>
+        for <%= @search.date.to_formatted_s(:long) %>.
       <% end %>
     </p>
   </div>
