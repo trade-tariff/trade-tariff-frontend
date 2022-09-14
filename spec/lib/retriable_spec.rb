@@ -9,7 +9,7 @@ RSpec.describe Retriable do
     it 'makes the call' do
       allow(cat).to receive(:maow)
 
-      RetryTest.new.retries(StandardError) { cat.maow }
+      RetryTest.new.retries { cat.maow }
 
       expect(cat).to have_received(:maow).once
     end
@@ -19,7 +19,7 @@ RSpec.describe Retriable do
         allow(cat).to receive(:maow)
 
         expect {
-          RetryTest.new.retries(StandardError) do
+          RetryTest.new.retries do
             cat.maow
             raise('error!') # <- StandardError
           end
