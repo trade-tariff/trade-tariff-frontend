@@ -92,17 +92,21 @@ private
     end
 
     def find(id, opts = {})
-      retries = 0
-      begin
+      retries(Faraday::Error, UnparseableResponseError) do
         resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
         new parse_jsonapi(resp)
-      rescue Faraday::Error, UnparseableResponseError
-        if retries < Rails.configuration.x.http.max_retry
-          retries += 1
-          retry
-        else
-          raise
-        end
+      end
+    end
+
+    def retries(*rescue_errors)
+      retries ||= 0
+      yield if block_given?
+    rescue *rescue_errors
+      if retries < Rails.configuration.x.http.max_retry
+        retries += 1
+        retry
+      else
+        raise
       end
     end
 

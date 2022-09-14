@@ -20,18 +20,10 @@ class Search
   end
 
   def perform
-    retries = 0
-    begin
+    retries(StandardError) do
       response = self.class.post('/search', q:, as_of: date.to_fs(:db))
       response = TariffJsonapiParser.new(response.body).parse
       Outcome.new(response)
-    rescue StandardError
-      if retries < Rails.configuration.x.http.max_retry
-        retries += 1
-        retry
-      else
-        raise
-      end
     end
   end
 
@@ -99,5 +91,19 @@ class Search
 
   def id
     q
+  end
+
+  private
+
+  def retries(rescue_error)
+    retries ||= 0
+    yield if block_given?
+  rescue rescue_error
+    if retries < Rails.configuration.x.http.max_retry
+      retries += 1
+      retry
+    else
+      raise
+    end
   end
 end

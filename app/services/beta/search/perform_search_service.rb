@@ -9,19 +9,13 @@ module Beta
         @filters = filters
       end
 
-      def call
-        retries ||= 0
-        path = "/api/beta/search?#{query_params}"
-        response = api.get(path)
-        parsed = parse_jsonapi(response)
+      def call()
+        retries(Faraday::Error, UnparseableResponseError) do
+          path = "/api/beta/search?#{query_params}"
+          response = api.get(path)
+          parsed = parse_jsonapi(response)
 
-        Beta::Search::SearchResult.new(parsed)
-      rescue Faraday::Error, UnparseableResponseError
-        if retries < Rails.configuration.x.http.max_retry
-          retries += 1
-          retry
-        else
-          raise
+          Beta::Search::SearchResult.new(parsed)
         end
       end
 
@@ -50,6 +44,18 @@ module Beta
 
       def api
         TradeTariffFrontend::ServiceChooser.api_client
+      end
+
+      def retries(*rescue_errors)
+        retries ||= 0
+        yield if block_given?
+      rescue *rescue_errors
+        if retries < Rails.configuration.x.http.max_retry
+          retries += 1
+          retry
+        else
+          raise
+        end
       end
     end
   end
