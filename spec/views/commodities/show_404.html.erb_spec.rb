@@ -29,20 +29,20 @@ RSpec.describe 'commodities/show_404.html.erb', type: :view do
 
     it 'links to the current commodities start date' do
       expect(rendered_page).to \
-        have_link periods[0].validity_start_date.to_formatted_s(:long),
-                  href: commodity_on_date_path('0123456789', periods[0].validity_start_date)
+        have_link periods[0].start_date.to_formatted_s(:long),
+                  href: commodity_on_date_path('0123456789', periods[0].start_date)
     end
 
     it 'links to the historical commodities start date' do
       expect(rendered_page).to \
-        have_link periods[1].validity_start_date.to_formatted_s(:long),
-                  href: commodity_on_date_path('0123456789', periods[1].validity_start_date)
+        have_link periods[1].start_date.to_formatted_s(:long),
+                  href: commodity_on_date_path('0123456789', periods[1].start_date)
     end
 
     it 'links to the historical commodities end date' do
       expect(rendered_page).to \
-        have_link periods[1].validity_end_date.to_formatted_s(:long),
-                  href: commodity_on_date_path('0123456789', periods[1].validity_end_date)
+        have_link periods[1].end_date.to_formatted_s(:long),
+                  href: commodity_on_date_path('0123456789', periods[1].end_date)
     end
 
     it { is_expected.to have_link 'heading 0123', href: heading_path('0123') }

@@ -9,36 +9,23 @@ class ValidityPeriod
                 :to_param,
                 :goods_nomenclature_class
 
+  def start_date
+    validity_start_date&.to_date
+  end
+
+  def end_date
+    validity_end_date&.to_date
+  end
+
   class << self
     def all(parent_class, parent_id, *args)
       collection collection_path(parent_class, parent_id), *args
     end
 
-  private
+    private
 
     def collection_path(parent_class, parent_id)
       "#{parent_class.collection_path}/#{parent_id}/validity_periods"
-    end
-  end
-
-  def validity_start_date=(date)
-    @validity_start_date = parse_date(date)
-  end
-
-  def validity_end_date=(date)
-    @validity_end_date = parse_date(date)
-  end
-
-private
-
-  def parse_date(date)
-    case date
-    when String
-      Date.parse(date)
-    when DateTime, Time
-      date.to_date
-    else
-      date
     end
   end
 end

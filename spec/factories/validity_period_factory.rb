@@ -12,7 +12,7 @@ FactoryBot.define do
       goods_nomenclature&.code || sprintf('0101%06d', n)
     end
 
-    id { 'foo'}
+    id { 'foo' }
 
     validity_start_date { (months_ago || 1).months.ago }
 
@@ -20,6 +20,22 @@ FactoryBot.define do
       if months_ago && months_ago > 1
         (months_ago - 1).months.ago - 1.day
       end
+    end
+
+    trait :with_start_date do
+      validity_start_date { '1999-01-01T00:00:00.000Z' }
+    end
+
+    trait :without_start_date do
+      validity_start_date {}
+    end
+
+    trait :with_end_date do
+      validity_end_date { '1999-01-01T00:00:00.000Z' }
+    end
+
+    trait :without_end_date do
+      validity_end_date {}
     end
 
     trait :subheading do
