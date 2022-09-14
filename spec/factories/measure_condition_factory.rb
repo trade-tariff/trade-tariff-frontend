@@ -25,22 +25,26 @@ FactoryBot.define do
     trait :weight do
       threshold
       condition_measurement_unit_code { 'KGM' }
+      threshold_unit_type { 'weight' }
     end
 
     trait :volume do
       threshold
       condition_measurement_unit_code { 'LTR' }
+      threshold_unit_type { 'volume' }
     end
 
     trait :price do
       threshold
       condition_monetary_unit_code { 'EUR' }
+      threshold_unit_type { 'price' }
     end
 
     trait :eps do
       weight
       price
       condition_code { 'V' }
+      threshold_unit_type { 'eps' }
     end
   end
 end
