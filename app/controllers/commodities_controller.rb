@@ -100,7 +100,7 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def show_validity_periods
-    @validity_periods = ValidityPeriod.all(Commodity, params[:id])
+    @validity_periods = ValidityPeriod.all(goods_nomenclature_class, params[:id])
     @commodity_code = params[:id]
     @heading_code = params[:id].first(4)
     @chapter_code = params[:id].first(2)
@@ -110,5 +110,9 @@ class CommoditiesController < GoodsNomenclaturesController
     render :show_404, status: :not_found
   rescue Faraday::ResourceNotFound
     find_relevant_goods_code_or_fallback
+  end
+
+  def goods_nomenclature_class
+    heading? ? Heading : Commodity
   end
 end

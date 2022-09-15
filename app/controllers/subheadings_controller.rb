@@ -1,6 +1,8 @@
 class SubheadingsController < GoodsNomenclaturesController
   before_action :set_goods_nomenclature_code, only: %i[show]
 
+  rescue_from Faraday::ResourceNotFound, with: :show_validity_periods
+
   def show
     @commodities = HeadingCommodityPresenter.new(subheading.commodities)
     @subheading_commodities = Array.wrap(@subheading.find_self_in_commodities_list)
@@ -29,5 +31,17 @@ class SubheadingsController < GoodsNomenclaturesController
 
   def set_goods_nomenclature_code
     session[:goods_nomenclature_code] = subheading.to_param
+  end
+
+  def show_validity_periods
+    @validity_periods = ValidityPeriod.all(Subheading, params[:id])
+    @subheading_code = params[:id].first(10)
+    @chapter_code = params[:id].first(2)
+
+    disable_search_form
+
+    render :show_404, status: :not_found
+  rescue Faraday::ResourceNotFound
+    find_relevant_goods_code_or_fallback
   end
 end

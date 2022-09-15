@@ -5,6 +5,36 @@ RSpec.describe ValidityPeriod do
   it { is_expected.to respond_to :validity_start_date }
   it { is_expected.to respond_to :validity_end_date }
 
+  describe '#start_date' do
+    context 'when the ValidityPeriod has a validity_start_date' do
+      subject(:start_date) { build(:validity_period, :with_start_date).start_date }
+
+      it { is_expected.to eq('1999-01-01T00:00:00.000Z'.to_date) }
+      it { is_expected.to be_a(Date) }
+    end
+
+    context 'when the ValidityPeriod has no validity_start_date' do
+      subject(:start_date) { build(:validity_period, :without_start_date).start_date }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#end_date' do
+    context 'when the ValidityPeriod has a validity_end_date' do
+      subject(:end_date) { build(:validity_period, :with_end_date).end_date }
+
+      it { is_expected.to eq('1999-01-01T00:00:00.000Z'.to_date) }
+      it { is_expected.to be_a(Date) }
+    end
+
+    context 'when the ValidityPeriod has no validity_end_date' do
+      subject(:end_date) { build(:validity_period, :without_end_date).end_date }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '.all' do
     context 'with commodity' do
       subject { described_class.all Commodity, '0101012345' }
@@ -61,70 +91,6 @@ RSpec.describe ValidityPeriod do
       end
 
       it { is_expected.to have_attributes length: 1 }
-    end
-  end
-
-  describe 'date handling' do
-    shared_examples 'a date attribute' do
-      context 'with xml string' do
-        let(:date) { Time.zone.now.iso8601 }
-
-        it { is_expected.to eql Time.zone.today }
-      end
-
-      context 'with long textual string' do
-        let(:date) { Time.zone.today.to_formatted_s :long }
-
-        it { is_expected.to eql Time.zone.today }
-      end
-
-      context 'with short textual string' do
-        let(:date) { Time.zone.today.to_formatted_s :short }
-
-        it { is_expected.to eql Time.zone.today }
-      end
-
-      context 'with Date object' do
-        let(:date) { Time.zone.yesterday }
-
-        it { is_expected.to eql Time.zone.yesterday }
-      end
-
-      context 'with Time object' do
-        let(:date) { 1.day.ago }
-
-        it { is_expected.to eql Time.zone.yesterday }
-      end
-
-      context 'with DateTime object' do
-        # rubocop:disable Style/DateTime
-        let(:date) { DateTime.now }
-        # rubocop:enable Style/DateTime
-
-        it { is_expected.to eql Time.zone.today }
-      end
-
-      context 'with nil' do
-        let(:date) { nil }
-
-        it { is_expected.to be_nil }
-      end
-    end
-
-    describe '#validity_start_date=' do
-      subject { instance.validity_start_date }
-
-      let(:instance) { described_class.new(validity_start_date: date) }
-
-      it_behaves_like 'a date attribute'
-    end
-
-    describe '#validity_end_date=' do
-      subject { instance.validity_end_date }
-
-      let(:instance) { described_class.new(validity_end_date: date) }
-
-      it_behaves_like 'a date attribute'
     end
   end
 end

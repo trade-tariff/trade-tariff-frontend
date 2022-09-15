@@ -22,6 +22,10 @@ module ApiResponsesHelper
     }
   end
 
+  def jsonapi_not_found_response
+    jsonapi_error_response(404)
+  end
+
   def jsonapi_error_response(status = 500, response_data = nil, headers: nil)
     {
       status:,
