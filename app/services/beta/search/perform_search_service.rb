@@ -4,24 +4,20 @@ require 'errors'
 module Beta
   module Search
     class PerformSearchService
+      include Retriable
+
       def initialize(query, filters = {})
         @query = query
         @filters = filters
       end
 
       def call
-        retries ||= 0
-        path = "/api/beta/search?#{query_params}"
-        response = api.get(path)
-        parsed = parse_jsonapi(response)
+        with_retries(Faraday::Error, UnparseableResponseError) do
+          path = "/api/beta/search?#{query_params}"
+          response = api.get(path)
+          parsed = parse_jsonapi(response)
 
-        Beta::Search::SearchResult.new(parsed)
-      rescue Faraday::Error, UnparseableResponseError
-        if retries < Rails.configuration.x.http.max_retry
-          retries += 1
-          retry
-        else
-          raise
+          Beta::Search::SearchResult.new(parsed)
         end
       end
 

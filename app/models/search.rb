@@ -2,6 +2,7 @@ require 'api_entity'
 
 class Search
   include ApiEntity
+  include Retriable
 
   COMMODITY_CODE = /\A[0-9]{10}\z/
   HEADING_CODE = /\A[0-9]{4}\z/
@@ -20,18 +21,10 @@ class Search
   end
 
   def perform
-    retries = 0
-    begin
+    with_retries do
       response = self.class.post('/search', q:, as_of: date.to_fs(:db))
       response = TariffJsonapiParser.new(response.body).parse
       Outcome.new(response)
-    rescue StandardError
-      if retries < Rails.configuration.x.http.max_retry
-        retries += 1
-        retry
-      else
-        raise
-      end
     end
   end
 
