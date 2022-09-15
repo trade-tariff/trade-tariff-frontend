@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'rules_of_origin/steps/_sidebar_section', type: :view do
-  include_context 'with rules of origin form step', 'import_export'
+  include_context 'with rules of origin form step', 'origin_requirements_met'
 
   let(:sections) { wizard.sections.index_by(&:name) }
 
@@ -23,13 +23,13 @@ RSpec.describe 'rules_of_origin/steps/_sidebar_section', type: :view do
 
   context 'when rendering current_step' do
     let :render_page do
-      render 'rules_of_origin/steps/sidebar_section', object: sections['originating'],
+      render 'rules_of_origin/steps/sidebar_section', sidebar_section: sections['proofs'],
                                                       sidebar_section_counter: 1,
                                                       current_step:
-
-      it { is_expected.to have_css 'li.app-step-nav.app-step-nav__step--active' }
-      it { is_expected.to have_css 'li ol li.app-step-nav__list-item--active' }
     end
+
+    it { is_expected.to have_css 'li.app-step-nav__step.app-step-nav__step--active' }
+    it { is_expected.to have_css 'li ol li.app-step-nav__list-item--active' }
   end
 
   context 'when addition info available' do
