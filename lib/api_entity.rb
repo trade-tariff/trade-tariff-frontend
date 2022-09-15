@@ -95,7 +95,7 @@ private
     end
 
     def find(id, opts = {})
-      retries(Faraday::Error, UnparseableResponseError) do
+      with_retries(Faraday::Error, UnparseableResponseError) do
         resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
         new parse_jsonapi(resp)
       end

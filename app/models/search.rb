@@ -22,7 +22,7 @@ class Search
   end
 
   def perform
-    retries do
+    with_retries do
       response = self.class.post('/search', q:, as_of: date.to_fs(:db))
       response = TariffJsonapiParser.new(response.body).parse
       Outcome.new(response)

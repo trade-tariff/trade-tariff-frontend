@@ -3,13 +3,13 @@ require 'spec_helper'
 RSpec.describe Retriable do
   subject(:call) {}
 
-  describe('#retries') do
+  describe('#with_retries') do
     let(:cat) { double }
 
     it 'makes the call' do
       allow(cat).to receive(:maow)
 
-      RetryTest.new.retries { cat.maow }
+      RetryTest.new.with_retries { cat.maow }
 
       expect(cat).to have_received(:maow).once
     end
@@ -19,7 +19,7 @@ RSpec.describe Retriable do
         allow(cat).to receive(:maow)
 
         expect {
-          RetryTest.new.retries do
+          RetryTest.new.with_retries do
             cat.maow
             raise('error!') # <- StandardError
           end

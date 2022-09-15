@@ -13,7 +13,7 @@ module Beta
       end
 
       def call
-        retries(Faraday::Error, UnparseableResponseError) do
+        with_retries(Faraday::Error, UnparseableResponseError) do
           path = "/api/beta/search?#{query_params}"
           response = api.get(path)
           parsed = parse_jsonapi(response)

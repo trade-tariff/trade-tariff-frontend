@@ -1,5 +1,5 @@
 module Retriable
-  def retries(*rescue_errors)
+  def with_retries(*rescue_errors)
     retries ||= 0
     yield if block_given?
   rescue *rescue_errors, StandardError
