@@ -1,0 +1,21 @@
+<h4 class="govuk-heading-s"><%= t 'rules_of_origin.cumulation_methods.heading', cumulation_method: cumulation_method.humanize %></h4>
+
+<div class="cumulation_description">
+  <%= t '.description_html' %>
+</div>
+
+<div class="govuk-inset-text">
+  <p><%= t 'rules_of_origin.cumulation_methods.title', scheme_title: scheme_title, countries: countries, cumulation_method: cumulation_method %></p>
+</div>
+
+<div class="cumulation_description">
+  <details class="govuk-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text"><%= t 'rules_of_origin.cumulation_methods.example_title', cumulation_method: cumulation_method.humanize %></span>
+    </summary>
+    <div class="govuk-details__text">
+      <%= t '.description_html' %>
+      <p><%= image_pack_tag "cumulation/#{cumulation_method}.png" %></p>
+    </div>
+  </details>
+</div>
