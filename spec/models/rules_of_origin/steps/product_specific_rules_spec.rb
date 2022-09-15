@@ -95,5 +95,11 @@ RSpec.describe RulesOfOrigin::Steps::ProductSpecificRules do
 
       it { is_expected.to eql schemes.first.rule_sets.second.rules }
     end
+
+    context 'with other subdivision chosen' do
+      include_context 'with rules of origin store', :other_subdivision
+
+      it { is_expected.to eql schemes.first.rule_sets.last.rules }
+    end
   end
 end

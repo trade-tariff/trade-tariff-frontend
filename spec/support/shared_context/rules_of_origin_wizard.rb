@@ -17,7 +17,7 @@ shared_context 'with rules of origin store' do |*traits, scheme_count: 1, scheme
   end
 
   let(:schemes) do
-    shared_traits = traits & %i[subdivided]
+    shared_traits = traits & %i[subdivided other_subdivision]
 
     build_list :rules_of_origin_scheme,
                scheme_count,

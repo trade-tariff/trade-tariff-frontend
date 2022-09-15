@@ -303,6 +303,9 @@ en:
         sufficient_processing_options:
           'yes': 'Yes'
           'no': 'No'
+      rules_of_origin_steps_subdivisions:
+        subdivision_id_options:
+          other: All other products
       rules_of_origin_steps_product_specific_rules:
         rule_options:
           none: Your goods do not meet any of these rules.
