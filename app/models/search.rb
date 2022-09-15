@@ -1,5 +1,4 @@
 require 'api_entity'
-require 'retriable'
 
 class Search
   include ApiEntity

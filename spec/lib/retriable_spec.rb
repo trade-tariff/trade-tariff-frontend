@@ -31,7 +31,6 @@ RSpec.describe Retriable do
   end
 end
 
-require 'retriable'
 class RetryTest
   include Retriable
 end

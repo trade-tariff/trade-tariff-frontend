@@ -1,5 +1,3 @@
-require 'retriable'
-
 module Changeable
   extend ActiveSupport::Concern
   include Retriable

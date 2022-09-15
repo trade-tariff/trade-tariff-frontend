@@ -1,6 +1,5 @@
 require 'tariff_jsonapi_parser'
 require 'errors'
-require 'retriable'
 
 module Beta
   module Search
