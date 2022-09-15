@@ -1,27 +1,27 @@
 require 'spec_helper'
 
 RSpec.describe Retriable do
-  subject(:call) {}
+  let :retry_test do
+    Class.new do
+      include Retriable
+    end
+  end
 
   describe('#with_retries') do
-    let(:cat) { double }
+    let(:cat) { double(Object, meow: nil) }
 
     it 'makes the call' do
-      allow(cat).to receive(:meow)
-
-      RetryTest.new.with_retries { cat.meow }
+      retry_test.new.with_retries { cat.meow }
 
       expect(cat).to have_received(:meow).once
     end
 
     context 'when unsuccessfull calls' do
       it 'retries multiple times' do
-        allow(cat).to receive(:meow)
-
         expect {
-          RetryTest.new.with_retries do
+          retry_test.new.with_retries do
             cat.meow
-            raise('error!') # <- StandardError
+            raise(StandardError, 'error!')
           end
         }.to raise_error('error!')
 
@@ -29,8 +29,4 @@ RSpec.describe Retriable do
       end
     end
   end
-end
-
-class RetryTest
-  include Retriable
 end
