@@ -7,6 +7,15 @@
   <strong>considered</strong> originating.
 </p>
 
+<% if import_trade_summary.preferential_duties? %>
+  <div class="tariff-breadcrumbs">
+    <p>As the third country duty is zero, you do not need to apply for a preferential tariff or
+    comply with preferential rules of origin.</p>
+
+    <p>If you would still like to continue, click the 'Check rules of origin' button.</p>
+  </div>
+<% end %>
+
 <p>
   <%= form_with model: RulesOfOrigin::Wizard.steps.first,
                 url: rules_of_origin_step_path(commodity_code,
@@ -22,5 +31,3 @@
     <%= f.button 'Check rules of origin', class: 'govuk-button' %>
   <% end %>
 </p>
-
-
