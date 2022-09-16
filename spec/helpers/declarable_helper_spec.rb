@@ -1,4 +1,38 @@
+require 'spec_helper'
+
 RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographical_areas#it' } do
+  describe '#declarable_stw_html' do
+    subject(:declarable_stw_html) { helper.declarable_stw_html(declarable, search) }
+
+    context 'when no country is selected' do
+      let(:declarable) { build(:commodity, goods_nomenclature_item_id: '0101300020') }
+      let(:search) { build(:search) }
+
+      it { is_expected.to eq("<p>\n  To check how to import commodity 0101300020, select the country from which you are importing.\n</p>") }
+    end
+
+    context 'when the country is selected' do
+      let(:declarable) { build(:commodity, goods_nomenclature_item_id: '0101300020') }
+      let(:search) { build(:search, :with_country) }
+
+      it { is_expected.to eq(helper.declarable_stw_link(declarable, search)) }
+    end
+
+    context 'when conditionally prohibitive' do
+      let(:declarable) { build(:commodity, :with_conditionally_prohibitive_measures, goods_nomenclature_item_id: '0101300020') }
+      let(:search) { build(:search, :with_country) }
+
+      it { is_expected.to eq("<p>\n  The import of commodity 0101300020 from Italy may be prohibited, depending on the additional code used.\n</p>") }
+    end
+
+    context 'when prohibitive' do
+      let(:declarable) { build(:commodity, :with_prohibitive_measures, goods_nomenclature_item_id: '0101300020') }
+      let(:search) { build(:search, :with_country) }
+
+      it { is_expected.to eq("<p>\n  The import of commodity 0101300020 from Italy is prohibited.\n</p>") }
+    end
+  end
+
   describe '#declarable_stw_link' do
     subject(:declarable_stw_link) { helper.declarable_stw_link(declarable, search) }
 

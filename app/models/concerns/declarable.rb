@@ -43,7 +43,7 @@ module Declarable
   end
 
   def one_or_more_conditionally_prohibitive_measures?
-    import_measures.present? && !one_or_more_prohibitive_measures? && import_measures.any?(&:conditionally_prohibitive?)
+    import_measures.any?(&:conditionally_prohibitive?)
   end
 
   def calculate_duties?
