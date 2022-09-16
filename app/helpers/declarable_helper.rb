@@ -6,10 +6,10 @@ module DeclarableHelper
 
     trading_partner_description = search.country_description
 
-    if declarable.one_or_more_conditionally_prohibitive_measures?
-      I18n.t('stw_link.conditionally_prohibitive_html', code:, trading_partner_description:)
-    elsif declarable.one_or_more_prohibitive_measures?
+    if declarable.one_or_more_prohibitive_measures?
       I18n.t('stw_link.prohibitive_html', code:, trading_partner_description:)
+    elsif declarable.one_or_more_conditionally_prohibitive_measures?
+      I18n.t('stw_link.conditionally_prohibitive_html', code:, trading_partner_description:)
     else
       declarable_stw_link(declarable, search, anchor)
     end

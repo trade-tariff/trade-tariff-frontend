@@ -73,5 +73,14 @@ FactoryBot.define do
         ]
       end
     end
+
+    trait :with_conditionally_prohibitive_and_prohibitive_measures do
+      import_measures do
+        [
+          attributes_for(:measure, :prohibitive),
+          attributes_for(:measure, :conditionally_prohibitive),
+        ]
+      end
+    end
   end
 end
