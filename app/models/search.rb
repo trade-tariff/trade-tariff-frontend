@@ -37,9 +37,11 @@ class Search
   end
 
   def geographical_area
-    countries.detect do |country|
-      country.id == attributes['country']
-    end
+    @geographical_area ||= GeographicalArea.find(country) if country.present?
+  end
+
+  def country_description
+    geographical_area&.description || 'All countries'
   end
 
   def date
