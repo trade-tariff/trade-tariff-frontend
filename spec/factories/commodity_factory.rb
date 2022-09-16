@@ -57,5 +57,21 @@ FactoryBot.define do
         attributes_for(:import_trade_summary)
       end
     end
+
+    trait :with_conditionally_prohibitive_measures do
+      import_measures do
+        [
+          attributes_for(:measure, :conditionally_prohibitive),
+        ]
+      end
+    end
+
+    trait :with_prohibitive_measures do
+      import_measures do
+        [
+          attributes_for(:measure, :prohibitive),
+        ]
+      end
+    end
   end
 end
