@@ -18,15 +18,22 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
       it { is_expected.to eq(helper.declarable_stw_link(declarable, search)) }
     end
 
-    context 'when conditionally prohibitive' do
+    context 'when the declarable has conditionally prohibitive measures' do
       let(:declarable) { build(:commodity, :with_conditionally_prohibitive_measures, goods_nomenclature_item_id: '0101300020') }
       let(:search) { build(:search, :with_country) }
 
       it { is_expected.to eq("<p>\n  The import of commodity 0101300020 from Italy may be prohibited, depending on the additional code used.\n</p>") }
     end
 
-    context 'when prohibitive' do
+    context 'when the declarable has prohibitive measures' do
       let(:declarable) { build(:commodity, :with_prohibitive_measures, goods_nomenclature_item_id: '0101300020') }
+      let(:search) { build(:search, :with_country) }
+
+      it { is_expected.to eq("<p>\n  The import of commodity 0101300020 from Italy is prohibited.\n</p>") }
+    end
+
+    context 'when the declarable has a mix of prohibitive and conditionally prohibitive measures' do
+      let(:declarable) { build(:commodity, :with_conditionally_prohibitive_and_prohibitive_measures, goods_nomenclature_item_id: '0101300020') }
       let(:search) { build(:search, :with_country) }
 
       it { is_expected.to eq("<p>\n  The import of commodity 0101300020 from Italy is prohibited.\n</p>") }
