@@ -11,6 +11,19 @@ en:
   feed:
     news_item_title: "Online Trade Tariff News Items"
 
+  stw_link:
+    no_country_html: >-
+      <p>
+        To check how to import commodity %{code}, select the country from which you are importing.
+      </p>
+    conditionally_prohibitive_html: >-
+      <p>
+        The import of commodity %{code} from %{trading_partner_description} may be prohibited, depending on the additional code used.
+      </p>
+    prohibitive_html: >-
+      <p>
+        The import of commodity %{code} from %{trading_partner_description} is prohibited.
+      </p>
   import_destination:
     uk: United Kingdom
     xi: Northern Ireland
@@ -858,3 +871,4 @@ en:
           and it would be treated as if it was of UK origin no matter how much value was added, 
           or not, in the UK.
         map_text: Originating inputs from each country are considered to be originating input in the other countries.
+
