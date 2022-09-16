@@ -162,5 +162,16 @@ RSpec.describe 'Error handling' do
 
       it_behaves_like 'not found'
     end
+
+    context 'when maintenance is enabled' do
+      before do
+        allow(NewsItem).to \
+          receive(:find).and_raise(TradeTariffFrontend::MaintenanceMode)
+
+        visit '/news/9999'
+      end
+
+      it_behaves_like 'service unavailable'
+    end
   end
 end

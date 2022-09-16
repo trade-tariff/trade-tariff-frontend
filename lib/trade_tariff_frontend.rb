@@ -185,4 +185,5 @@ module TradeTariffFrontend
   end
 
   class FeatureUnavailable < StandardError; end
+  class MaintenanceMode < StandardError; end
 end

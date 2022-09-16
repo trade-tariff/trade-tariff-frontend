@@ -5,14 +5,14 @@ class ApplicationController < ActionController::Base
   include TradeTariffFrontend::ViewContext::Controller
   include ApplicationHelper
 
+  before_action :maintenance_mode_if_active
+
   around_action :set_locale
 
   before_action :set_cache
   before_action :set_last_updated
   before_action :set_path_info
-
   before_action :set_search
-  before_action :maintenance_mode_if_active
   before_action :bots_no_index_if_historical
 
   layout :set_layout
@@ -112,9 +112,13 @@ class ApplicationController < ActionController::Base
   protected
 
   def maintenance_mode_if_active
-    if ENV['MAINTENANCE'].present? && action_name != 'maintenance'
-      redirect_to '/503'
+    if ENV['MAINTENANCE'].present? && !maintenance_mode_bypass?
+      raise TradeTariffFrontend::MaintenanceMode
     end
+  end
+
+  def maintenance_mode_bypass?
+    ENV['MAINTENANCE_BYPASS'].present? && ENV['MAINTENANCE_BYPASS'] == params[:maintenance_bypass]
   end
 
   def bots_no_index_if_historical

@@ -1,4 +1,5 @@
 class ErrorsController < ApplicationController
+  skip_before_action :maintenance_mode_if_active
   skip_before_action :set_last_updated
   skip_before_action :set_path_info
   skip_before_action :set_search
