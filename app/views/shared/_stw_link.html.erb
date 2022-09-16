@@ -1,7 +1,7 @@
 <div class="govuk-inset-text govuk-inset-text--s tariff-inset-information">
     <% if search.country.present? %>
       <% if declarable.one_or_more_prohibitive_measures? %>
-        <p> The import of commodity <%= declarable.code %> from <%= trading_partner_country_description(search.country) %> is prohibited  </p>
+        <p> The import of commodity <%= declarable.code %> from <%= trading_partner_country_description(search.country) %> is prohibited.  </p>
       <% elsif declarable.one_or_more_conditionally_prohibitive_measures? %>
         <p>
           The import of commodity <%= declarable.code %> from <%= trading_partner_country_description(search.country) %> may be prohibited, depending on the additional code used.
@@ -15,7 +15,6 @@
         </p>
       <% end %>
     <% else %>
-      To check how to import commodity <%= declarable.code %>, select the country from which you are importing.
+      <p>To check how to import commodity <%= declarable.code %>, select the country from which you are importing.</p>
   <% end %>
-  </p>
 </div>
