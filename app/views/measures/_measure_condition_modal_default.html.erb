@@ -21,14 +21,17 @@
 <% if TradeTariffFrontend::ServiceChooser.uk? && measure.universal_waiver_applies %>
 <div class="universal-waiver-applies-panel">
   <h3 class="govuk-heading-m govuk-!-margin-top-6">
-    Customs Declaration Service (CDS) universal waiver
+    Customs Declaration Service (CDS) Licence Waiver
   </h3>
 
   <p>
-    Requirement for a licence is waived by entering the 999L document code and the
-    document identifier CDS WAIVER in the additional documentation field for this
-    commodity item. 999L can be used for CDS in a similar way to LIC99 on the
-    CHIEF system, when a waiver may be applied.
+    The use of 999L allows a CDS waiver code to be declared for prohibited and restricted goods, 
+    allowing declarants to confirm that the goods are not subject to specific licencing measures. 
+    You must enter ‘CDS Waiver’ in the additional documentation field for this commodity item.
+  </p>
+  
+  <p>
+    This waiver cannot be used for goods that are imported/exported or moved to/from Northern Ireland.
   </p>
 </div>
 <% end %>
