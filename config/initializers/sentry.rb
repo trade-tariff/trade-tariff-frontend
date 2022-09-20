@@ -3,5 +3,7 @@ Sentry.init do |config|
 
   config.excluded_exceptions += %w[
     Faraday::ResourceNotFound
+    WizardSteps::UnknownStep
+    TradeTariffFrontend::FeatureUnavailable
   ]
 end
