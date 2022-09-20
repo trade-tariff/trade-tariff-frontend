@@ -54,7 +54,8 @@ FactoryBot.define do
 
     trait :with_import_trade_summary do
       import_trade_summary do
-        attributes_for(:import_trade_summary)
+        attributes_for(:import_trade_summary,
+                       preferential_tariff_duty: '10 %')
       end
     end
 
