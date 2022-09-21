@@ -483,9 +483,6 @@ en:
           obtained, based on the rules of the %{scheme_title}.
 
       origin_requirements_met:
-        caption:
-          importing: Importing commodity %{commodity_code} from %{trade_country_name}
-          exporting: Exporting commodity %{commodity_code} to %{trade_country_name}
         title: Origin requirements met
         panel:
           Based on your responses, your product appears to meet the rules of
@@ -499,9 +496,6 @@ en:
           verification: How proofs of origin are verified
 
       proofs_of_origin:
-        caption:
-          importing: Importing commodity %{commodity_code} from %{trade_country_name}
-          exporting: Exporting commodity %{commodity_code} from %{trade_country_name}
         title: Valid proofs of origin
         body:
           To benefit from a preferential tariff or quota, originating products
@@ -677,9 +671,6 @@ en:
         notes: Introductory notes to the product-specific rules
 
       rules_not_met:
-        caption:
-          importing: Importing commodity %{commodity_code} from %{trade_country_name} to %{service_country_name}
-          exporting: Exporting commodity %{commodity_code} from %{service_country_name} to %{trade_country_name}
         title: Rules of Origin not met
         panel:
           Your product does not appear to meet the rules of origin requirements
@@ -872,3 +863,7 @@ en:
           or not, in the UK.
         map_text: Originating inputs from each country are considered to be originating input in the other countries.
 
+    shared:
+      caption:
+        importing: Importing commodity %{commodity_code} from %{trade_country_name} to %{service_country_name}
+        exporting: Exporting commodity %{commodity_code} from %{service_country_name} to %{trade_country_name}
