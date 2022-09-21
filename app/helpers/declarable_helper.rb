@@ -1,6 +1,21 @@
 module DeclarableHelper
+  def declarable_stw_html(declarable, search, anchor = 'import')
+    code = declarable.code
+
+    return I18n.t('stw_link.no_country_html', code:) if search.country.blank?
+
+    trading_partner_description = search.country_description
+
+    if declarable.one_or_more_prohibitive_measures?
+      I18n.t('stw_link.prohibitive_html', code:, trading_partner_description:)
+    elsif declarable.one_or_more_conditionally_prohibitive_measures?
+      I18n.t('stw_link.conditionally_prohibitive_html', code:, trading_partner_description:)
+    else
+      declarable_stw_link(declarable, search, anchor)
+    end
+  end
+
   def declarable_stw_link(declarable, search, anchor = 'import')
-    geographical_area = GeographicalArea.find(search.country)
     declarable_type = declarable.heading? ? 'heading' : 'commodity'
     today = Time.zone.today
 
@@ -19,8 +34,9 @@ module DeclarableHelper
     }
 
     stw_link = "#{TradeTariffFrontend.single_trade_window_url}?#{CGI.unescape(stw_options.to_query)}"
+
     link_to(
-      "Check how to #{anchor} #{declarable_type} #{declarable.code} from #{geographical_area&.description} (opens in a new tab).",
+      "Check how to #{anchor} #{declarable_type} #{declarable.code} from #{search.geographical_area&.description} (opens in a new tab).",
       stw_link,
       target: '_blank',
       class: 'govuk-link',

@@ -178,11 +178,11 @@ class Measure
   end
 
   def conditionally_prohibitive?
-    prohibitive? && additional_code.present?
+    measure_type.prohibitive? && additional_code.present?
   end
 
   def prohibitive?
-    measure_type.prohibitive? && measure_conditions.none?
+    measure_type.prohibitive? && measure_conditions.none? && additional_code.blank?
   end
 
   private

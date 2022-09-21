@@ -54,7 +54,33 @@ FactoryBot.define do
 
     trait :with_import_trade_summary do
       import_trade_summary do
-        attributes_for(:import_trade_summary)
+        attributes_for(:import_trade_summary,
+                       preferential_tariff_duty: '10 %')
+      end
+    end
+
+    trait :with_conditionally_prohibitive_measures do
+      import_measures do
+        [
+          attributes_for(:measure, :conditionally_prohibitive),
+        ]
+      end
+    end
+
+    trait :with_prohibitive_measures do
+      import_measures do
+        [
+          attributes_for(:measure, :prohibitive),
+        ]
+      end
+    end
+
+    trait :with_conditionally_prohibitive_and_prohibitive_measures do
+      import_measures do
+        [
+          attributes_for(:measure, :prohibitive),
+          attributes_for(:measure, :conditionally_prohibitive),
+        ]
       end
     end
   end

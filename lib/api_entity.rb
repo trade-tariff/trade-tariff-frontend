@@ -3,6 +3,7 @@ require 'multi_json'
 require 'active_model'
 require 'tariff_jsonapi_parser'
 require 'errors'
+require 'retriable'
 
 module ApiEntity
   extend ActiveSupport::Concern
@@ -85,6 +86,8 @@ private
   end
 
   module ClassMethods
+    include Retriable
+
     delegate :get, :post, to: :api
 
     def relationships
@@ -92,17 +95,9 @@ private
     end
 
     def find(id, opts = {})
-      retries = 0
-      begin
+      with_retries(Faraday::Error, UnparseableResponseError) do
         resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
         new parse_jsonapi(resp)
-      rescue Faraday::Error, UnparseableResponseError
-        if retries < Rails.configuration.x.http.max_retry
-          retries += 1
-          retry
-        else
-          raise
-        end
       end
     end
 

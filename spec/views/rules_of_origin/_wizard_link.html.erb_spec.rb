@@ -5,7 +5,8 @@ RSpec.describe 'rules_of_origin/wizard_link', type: :view do
 
   let :render_page do
     render 'rules_of_origin/wizard_link', country_code: 'JP',
-                                          commodity_code: '1234567890'
+                                          commodity_code: '1234567890',
+                                          import_trade_summary: build(:import_trade_summary)
   end
 
   let(:step) { RulesOfOrigin::Wizard.steps.first }

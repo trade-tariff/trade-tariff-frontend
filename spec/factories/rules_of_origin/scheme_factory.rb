@@ -41,6 +41,21 @@ FactoryBot.define do
       end
     end
 
+    trait :mixed_subdivision do
+      rule_set_count { 3 }
+
+      rule_sets do
+        attributes_for_list(:rules_of_origin_rule_set, rule_set_count - 1,
+                            :subdivided,
+                            rule_count: v2_rule_count) +
+          attributes_for_list(:rules_of_origin_rule_set, 1, rule_count: v2_rule_count)
+      end
+    end
+
+    trait :other_subdivision do
+      mixed_subdivision
+    end
+
     trait :single_wholly_obtained_rule do
       rule_sets do
         attributes_for_list \

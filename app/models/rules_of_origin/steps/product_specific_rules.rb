@@ -15,7 +15,7 @@ module RulesOfOrigin
       end
 
       def rules
-        subdivided_rules? ? subdivision_rules : all_rules
+        use_subdivision_rules? ? subdivision_rules : non_subdivision_rules
       end
 
       def declarable_description
@@ -36,12 +36,12 @@ module RulesOfOrigin
         options.map(&:resource_id)
       end
 
-      def subdivided_rules?
-        !@wizard.find('subdivisions').skipped?
+      def use_subdivision_rules?
+        !(@wizard.find('subdivisions').skipped? || @store['subdivision_id'] == 'other')
       end
 
-      def all_rules
-        chosen_scheme.v2_rules
+      def non_subdivision_rules
+        chosen_scheme.rule_sets.reject(&:subdivision).flat_map(&:rules)
       end
 
       def subdivision_rules

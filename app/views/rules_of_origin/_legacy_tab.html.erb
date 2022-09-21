@@ -8,7 +8,8 @@
 <% if TradeTariffFrontend.roo_wizard? && rules_of_origin_schemes.any? %>
   <%= render 'rules_of_origin/wizard_link',
              country_code: country_code,
-             commodity_code: commodity_code %>
+             commodity_code: commodity_code,
+             import_trade_summary: import_trade_summary %>
 <% end %>
 
 <%= render partial: 'rules_of_origin/scheme',

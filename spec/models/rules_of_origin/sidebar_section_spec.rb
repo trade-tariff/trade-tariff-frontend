@@ -12,8 +12,8 @@ RSpec.describe RulesOfOrigin::SidebarSection do
   it { is_expected.to respond_to :name }
   it { is_expected.to respond_to :steps }
 
-  describe '#active?' do
-    subject { instance.active? }
+  describe '#current?' do
+    subject { instance.current? }
 
     context 'with step in this section' do
       it { is_expected.to be true }

@@ -248,9 +248,17 @@ FactoryBot.define do
       universal_waiver_applies { true }
     end
 
+    trait :conditionally_prohibitive do
+      prohibitive
+
+      additional_code { attributes_for(:additional_code) }
+    end
+
     trait :prohibitive do
-      measure_type do
-        attributes_for(:measure_type, :prohibitive, description: measure_type_description).stringify_keys
+      measure_type { attributes_for(:measure_type, :prohibitive) }
+
+      measure_conditions do
+        []
       end
     end
   end

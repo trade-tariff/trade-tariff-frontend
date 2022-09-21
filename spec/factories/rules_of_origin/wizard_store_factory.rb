@@ -63,6 +63,15 @@ FactoryBot.define do
       subdivision_id { schemes.first.rule_sets.second.resource_id }
     end
 
+    trait :other_subdivision do
+      schemes do
+        build_list :rules_of_origin, 2, :mixed_subdivision
+      end
+
+      sufficient_processing
+      subdivision_id { 'other' }
+    end
+
     trait :rules_met do
       sufficient_processing
       rule { schemes.first.rule_sets.first.rules.first.resource_id }
