@@ -1,10 +1,10 @@
 <%= link_to order_number.number, "##{order_number.id}", class: 'reference numerical', title: 'Opens in a popup', 'data-popup-ref' => "#{order_number.id}" %>&nbsp;
 
-<div class='popup govuk-visually-hidden' data-popup='<%= order_number.id %>'>
+<div class="popup govuk-visually-hidden" data-popup="<%= order_number.id %>">
   <article>
     <% if order_number.definition.present? %>
       <table class="govuk-table govuk-table-m">
-        <h2 class="govuk-heading-m"><%= "Quota #{order_number.number}"%></h2>
+        <h2 class="govuk-heading-m">Quota order number <%= order_number.number %></h2>
 
         <% if order_number.show_warning? %>
           <div class="govuk-warning-text">
@@ -17,16 +17,29 @@
         <% end %>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
-            <th scope="col" class='govuk-table__header'>Quota order number</th>
-            <td class="numerical govuk-table__cell numerical"><%= order_number.number %></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th scope="col" class='govuk-table__header'>Current balance</th>
-            <td class="numerical govuk-table__cell numerical"><%= "#{quota_definition.balance} #{quota_definition.measurement_unit}" %></td>
+            <th scope="col" class='govuk-table__header'>
+              Balance
+              <span class="govuk-!-font-weight-regular">
+                (as of <%= @search.date.to_formatted_s :short %>)
+              </div>
+            </th>
+            <td class="numerical govuk-table__cell numerical">
+              <%= number_with_precision quota_definition.balance, precision: 3, delimiter: ',' %>
+              <%= quota_definition.measurement_unit %>
+              <% unless @search.date.today? %>
+                <br />
+                <%= link_to url_for(day: Date.today.day, month: Date.today.month, year: Date.today.year, anchor: order_number.id) do %>
+                  View balance for <%= Date.today.to_formatted_s :short %>
+                <% end %>
+              <% end %>
+            </td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Opening balance</th>
-            <td class="numerical govuk-table__cell numerical"><%= "#{quota_definition.initial_volume} #{quota_definition.measurement_unit}" %></td>
+            <td class="numerical govuk-table__cell numerical">
+              <%= number_with_precision quota_definition.initial_volume, precision: 3, delimiter: ',' %>
+              <%= quota_definition.measurement_unit %>
+            </td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Status</th>
