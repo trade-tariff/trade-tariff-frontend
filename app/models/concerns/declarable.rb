@@ -32,7 +32,10 @@ module Declarable
                   :declarable,
                   :meta
 
+    meta_attribute :duty_calculator, :zero_mfn_duty
+
     alias_method :declarable?, :declarable
+    alias_method :zero_mfn_duty?, :zero_mfn_duty
 
     delegate :numeral, to: :section, prefix: true
     delegate :code, :short_code, to: :chapter, prefix: true
