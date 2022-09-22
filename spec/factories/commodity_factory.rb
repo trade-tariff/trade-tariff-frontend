@@ -1,5 +1,9 @@
 FactoryBot.define do
   factory :commodity do
+    transient do
+      zero_mfn_duty { false }
+    end
+
     heading { attributes_for(:heading) }
     chapter { attributes_for(:chapter) }
     section { attributes_for(:section) }
@@ -30,7 +34,7 @@ FactoryBot.define do
           'meursing_code' => false,
           'source' => 'uk',
           'trade_defence' => false,
-          'zero_mfn_duty' => false,
+          'zero_mfn_duty' => zero_mfn_duty,
         },
       }
     end
@@ -53,9 +57,17 @@ FactoryBot.define do
     end
 
     trait :with_import_trade_summary do
+      transient do
+        preferential_tariff_duty { '10 %' }
+        preferential_quota_duty {}
+      end
+
       import_trade_summary do
-        attributes_for(:import_trade_summary,
-                       preferential_tariff_duty: '10 %')
+        attributes_for(
+          :import_trade_summary,
+          preferential_tariff_duty:,
+          preferential_quota_duty:,
+        )
       end
     end
 
