@@ -1,6 +1,10 @@
-.govuk-header .hott-header-banner {
+.govuk-header .tariff-header-banner {
   padding: govuk-spacing(2) 0;
   border-top: govuk-spacing(2) solid $govuk-brand-colour;
+
+  > .govuk-width-container > *:first-child {
+    margin-top: 0;
+  }
 
   p, div, h1, h2, h3 {
     color: govuk-colour("white");

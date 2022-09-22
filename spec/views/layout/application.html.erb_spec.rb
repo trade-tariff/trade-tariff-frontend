@@ -13,6 +13,6 @@ RSpec.describe 'layouts/application', type: :view do
   let(:cookies_policy) { Cookies::Policy.new }
 
   context 'with header banner' do
-    it { is_expected.to have_css 'header.govuk-header > .hott-header-banner' }
+    it { is_expected.to have_css 'header.govuk-header > .tariff-header-banner' }
   end
 end
