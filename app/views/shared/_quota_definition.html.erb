@@ -53,14 +53,33 @@
             <th scope="col" class='govuk-table__header'>Last allocation date</th>
             <td class="numerical govuk-table__cell numerical"><%= quota_definition.last_allocation_date.to_formatted_s(:gov) || 'n/a' %></td>
           </tr>
-          <tr class="govuk-table__row">
-            <th scope="col" class='govuk-table__header'>Suspension period</th>
-            <td class="numerical govuk-table__cell numerical"><%= suspension_period_dates_for(quota_definition) %></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th scope="col" class='govuk-table__header'>Blocking period</th>
-            <td class="numerical govuk-table__cell numerical"><%= blocking_period_dates_for(quota_definition) %></td>
-          </tr>
+
+          <% if quota_definition.suspension_period? %>
+            <tr class="govuk-table__row">
+              <th scope="col" class='govuk-table__header'>Suspension period</th>
+              <td class="numerical govuk-table__cell numerical">
+                <%= govuk_date_range quota_definition.suspension_period_start_date,
+                                     quota_definition.suspension_period_end_date %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if quota_definition.blocking_period? %>
+            <tr class="govuk-table__row">
+              <th scope="col" class='govuk-table__header'>Blocking period</th>
+              <td class="numerical govuk-table__cell numerical">
+                <%= govuk_date_range quota_definition.blocking_period_start_date,
+                                     quota_definition.blocking_period_end_date %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% unless quota_definition.suspension_period? || quota_definition.blocking_period? %>
+            <tr class="govuk-table__row">
+              <th scope="col" class='govuk-table__header'>Suspension / blocking periods</th>
+              <td class="numerical govuk-table__cell numerical">n/a</td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
 
