@@ -30,15 +30,15 @@ RSpec.describe 'beta/search_results/show', type: :view do
     let(:search_result) { build(:search_result) }
 
     it { is_expected.to render_template('search/_guide_section') }
+  end
 
-    context "when guide doesn't exist" do
-      let(:search_result) { build(:search_result) }
+  context "when guide doesn't exist" do
+    let(:search_result) { build(:search_result) }
 
-      before do
-        search_result.guide = nil
-      end
-
-      it { is_expected.not_to render_template('search/_guide_section') }
+    before do
+      search_result.guide = nil
     end
+
+    it { is_expected.not_to render_template('search/_guide_section') }
   end
 end
