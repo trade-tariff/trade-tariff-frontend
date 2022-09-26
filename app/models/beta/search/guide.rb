@@ -7,7 +7,8 @@ module Beta
 
       attr_accessor :title,
                     :url,
-                    :strapline
+                    :strapline,
+                    :image
     end
   end
 end

@@ -4,7 +4,7 @@
   <div class="govuk-grid-row">
     <% if @search_result.facet_filter_statistics.any? %>
       <div class="govuk-grid-column-one-third">
-        <%= render 'sidebar'  %>
+        <%= render 'sidebar', guide: @search_result.guide %>
       </div>
       <div class="govuk-grid-column-two-thirds">
         <% if @search_result.multiple_headings_view? %>
