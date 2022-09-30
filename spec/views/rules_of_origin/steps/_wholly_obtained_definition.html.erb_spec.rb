@@ -46,4 +46,10 @@ RSpec.describe 'rules_of_origin/steps/_wholly_obtained_definition', type: :view 
 
     it { is_expected.to have_css '.downloadable-document__text', text: article_reference_2 }
   end
+
+  context 'when wholly obtained vessels article does not exist' do
+    let(:articles) { [] }
+
+    it { is_expected.not_to have_css 'details.govuk-details summary' }
+  end
 end

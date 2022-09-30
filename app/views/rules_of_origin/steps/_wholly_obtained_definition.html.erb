@@ -21,7 +21,7 @@
 
     <%= render 'shared/details', summary: t('.vessel_definition'),
                                  content: govspeak(form.object.wholly_obtained_vessels_text),
-                                 origin_reference_document: form.object.origin_reference_document %>
+                                 origin_reference_document: form.object.origin_reference_document if form.object.wholly_obtained_vessels_text.present? %>
   </div>
 
   <h3 class="govuk-heading-s">
