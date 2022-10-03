@@ -464,7 +464,7 @@
                   // click link for popup
                   $(popupLink).trigger('click');
                 } else {
-                  var matches = anchor.match(/^\d+-order-number-(\d+)$/) ;
+                  var matches = anchor.match(/^order-number-(\d+)$/) ;
                   var unknownOrderPopupLink = $('a[data-popup-ref="unknown-quota-definition"]');
 
                   if (matches && unknownOrderPopupLink.length > 0) {
