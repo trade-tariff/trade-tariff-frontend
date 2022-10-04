@@ -448,14 +448,23 @@
                       that.open($(this));
                       return false;
                   });
-
-                  if ($linkElm.attr("href") === hash) {
-                      tabId = $linkElm.closest(".tab-pane").attr("id");
-                      tabId = tabId.replace(/(\w+)-enhanced/, "tab-$1");
-                      $('#' + tabId + ' a').trigger('click');
-                      that.open($(linkElm));
-                  }
               });
+
+              if (window.location.hash.length > 0) {
+                var anchor = window.location.hash.split('#')[1] ;
+
+                var popupLink = context.querySelector('a[data-popup-ref="' + anchor + '"]') ;
+                if (popupLink) {
+                  // switch to tab which contains the link
+                  var containingTabId = $(popupLink).parents('.govuk-tabs__panel').attr('id') ;
+                  if (containingTabId) {
+                    $('.govuk-tabs__list-item a[href="' + containingTabId  + '"]').trigger('click') ;
+                  }
+
+                  // click link for popup
+                  $(popupLink).trigger('click');
+                }
+              }
           }
       },
       /**
