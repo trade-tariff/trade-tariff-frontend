@@ -38,4 +38,84 @@ RSpec.describe OrderNumber::Definition do
   it_behaves_like 'an entity that has goods nomenclatures' do
     let(:entity) { build(:definition, measures:) }
   end
+
+  describe 'suspension_period?' do
+    subject { order_definition.suspension_period? }
+
+    context 'with start and end dates' do
+      let :order_definition do
+        build :definition, suspension_period_start_date: Date.yesterday.xmlschema,
+                           suspension_period_end_date: Date.tomorrow.xmlschema
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'with only start date' do
+      let :order_definition do
+        build :definition, suspension_period_start_date: Date.yesterday.xmlschema,
+                           suspension_period_end_date: nil
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'with only end date' do
+      let :order_definition do
+        build :definition, suspension_period_start_date: nil,
+                           suspension_period_end_date: Date.tomorrow.xmlschema
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'with no start or end dates' do
+      let :order_definition do
+        build :definition, suspension_period_start_date: nil,
+                           suspension_period_end_date: nil
+      end
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe 'blocking_period?' do
+    subject { definition.blocking_period? }
+
+    context 'with start and end dates' do
+      let :definition do
+        build :definition, blocking_period_start_date: Date.yesterday.xmlschema,
+                           blocking_period_end_date: Date.tomorrow.xmlschema
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'with only start date' do
+      let :definition do
+        build :definition, blocking_period_start_date: Date.yesterday.xmlschema,
+                           blocking_period_end_date: nil
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'with only end date' do
+      let :definition do
+        build :definition, blocking_period_start_date: nil,
+                           blocking_period_end_date: Date.tomorrow.xmlschema
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context 'with no start or end dates' do
+      let :definition do
+        build :definition, blocking_period_start_date: nil,
+                           blocking_period_end_date: nil
+      end
+
+      it { is_expected.to be false }
+    end
+  end
 end

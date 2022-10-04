@@ -52,5 +52,13 @@ class OrderNumber
     def geographical_areas
       order_number&.geographical_areas.presence || measures&.map(&:geographical_area) || []
     end
+
+    def suspension_period?
+      suspension_period_start_date.present? && suspension_period_end_date.present?
+    end
+
+    def blocking_period?
+      blocking_period_start_date.present? && blocking_period_end_date.present?
+    end
   end
 end
