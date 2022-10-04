@@ -130,10 +130,7 @@ module ApplicationHelper
   end
 
   def govuk_date_range(from, to)
-    from = from.to_date if from.respond_to?(:to_date)
-    to = to.to_date if to.respond_to?(:to_date)
-
-    "#{from.to_formatted_s(:long)} to #{to.to_formatted_s(:long)}"
+    "#{from.to_date.to_formatted_s(:long)} to #{to.to_date.to_formatted_s(:long)}"
   end
 
   def paragraph_if_content(content)
