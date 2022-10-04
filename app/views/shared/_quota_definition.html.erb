@@ -28,10 +28,11 @@
               <%= quota_definition.measurement_unit %>
               <% unless @search.date.today? %>
                 <br />
-                <%= link_to params.deep_dup.permit!.merge(day: Date.today.day,
-                                                          month: Date.today.month,
-                                                          year: Date.today.year,
-                                                          anchor: "order-number-#{order_number.number}") do %>
+                <%= link_to params.permit(QuotaSearchForm::PERMITTED_PARAMS)
+                                  .merge(day: Date.today.day,
+                                         month: Date.today.month,
+                                         year: Date.today.year,
+                                         anchor: "order-number-#{order_number.number}") do %>
                   View balance for <%= Date.today.to_formatted_s :short %>
                 <% end %>
               <% end %>

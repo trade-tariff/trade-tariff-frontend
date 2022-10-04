@@ -39,15 +39,7 @@ class SearchController < ApplicationController
   def quota_search
     render_404 if TradeTariffFrontend::ServiceChooser.xi?
 
-    form = QuotaSearchForm.new(params.permit(:order_number,
-                                             :goods_nomenclature_item_id,
-                                             :geographical_area_id,
-                                             :day,
-                                             :month,
-                                             :year,
-                                             :critical,
-                                             :status,
-                                             :page))
+    form = QuotaSearchForm.new(params.permit(*QuotaSearchForm::PERMITTED_PARAMS))
     @result = QuotaSearchPresenter.new(form)
 
     respond_to do |format|
