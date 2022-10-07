@@ -370,6 +370,7 @@ en:
           proofs_of_origin: Valid proofs of origin
           proof_requirements: Requirements for proving the origin for goods
           proof_verification: How proofs of origin are verified
+          duty_drawback: Duty drawback
 
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
@@ -494,6 +495,7 @@ en:
           proofs: See valid proofs of origin
           requirements: See detailed processes and requirements for proving the origin for goods
           verification: How proofs of origin are verified
+          duty_drawback: Find out about duty drawback
 
       proofs_of_origin:
         title: Valid proofs of origin
@@ -510,6 +512,7 @@ en:
           knowledge: Importer's knowledge (opens in new tab)
           requirements: See detailed processes and requirements for proving the origin for goods
           verification: How proofs of origin are verified
+          duty_drawback: Find out about duty drawback
 
       proof_requirements:
         caption: Obtaining and verifying proofs of origin
@@ -523,6 +526,34 @@ en:
       proof_verification:
         caption: Obtaining and verifying proofs of origin
         title: Verification for proving the origin for goods coming from %{trade_country_name}
+
+      duty_drawback:
+        caption: Obtaining and verifying proofs of origin
+        title: Duty drawback for trade with %{trade_country_name}
+        intro_md: |
+          Some trade agreements allow a duty drawback.
+
+          This means that, if you pay duties on non-originating materials that
+          you use to make a product which you then export under a preferential
+          tariff, you can apply for a refund of those duties.
+        example:
+          title: Duty drawback - an example
+          content_md: |
+            * A car engine originating in country A is imported into country B
+              and a 10% import duty is charged.
+            * The car engine is assembled into a complete car in country B and
+              then exported to country C, meeting the rules of origin requirements.
+            * Using duty drawback, the car manufacturer in country B could
+              'draw back' the 10% duties paid on the car engine originating in
+              country A.
+          caption: The provision of duty drawback depends on the specifics of the trade agreement.
+        prohibition: |
+          Prohibition of drawback of, or exemption from, customs duties
+          according to the %{scheme_title}
+        unavailable_md: |
+          The provision of duty drawback depends on the specifics of the trade agreement.
+
+          There is no duty drawback provision in the %{scheme_title}.
 
       not_wholly_obtained:
         caption: Are your goods originating?

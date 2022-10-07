@@ -1,14 +1,14 @@
 module RulesOfOrigin
   module Steps
-    class ProofsOfOrigin < Base
+    class DutyDrawback < Base
       self.section = 'proofs'
 
       def skipped?
         true
       end
 
-      def duty_drawback_available?
-        !!chosen_scheme.article('duty-drawback')&.content&.present?
+      def duty_drawback_text
+        chosen_scheme.article('duty-drawback')&.content
       end
     end
   end
