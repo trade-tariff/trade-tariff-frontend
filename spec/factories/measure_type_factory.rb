@@ -71,5 +71,9 @@ FactoryBot.define do
     trait :unclassified_customs_duties do
       measure_component_applicable_code { 1 }
     end
+
+    trait :safeguard do
+      id { MeasureType::SAFEGUARD_TYPES.first }
+    end
   end
 end
