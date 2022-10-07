@@ -6,6 +6,16 @@ class QuotaSearchForm
                    ['Not exhausted', 'not_exhausted']].freeze
   OPTIONAL_PARAMS = %i[@year @month @day @page].freeze
 
+  PERMITTED_PARAMS = %i[order_number
+                        goods_nomenclature_item_id
+                        geographical_area_id
+                        day
+                        month
+                        year
+                        critical
+                        status
+                        page].freeze
+
   attr_accessor :goods_nomenclature_item_id, :geographical_area_id, :order_number,
                 :critical, :status
   attr_writer   :page, :day, :month, :year

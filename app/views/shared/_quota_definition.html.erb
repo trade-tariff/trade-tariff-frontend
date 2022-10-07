@@ -1,6 +1,6 @@
-<%= link_to order_number.number, "##{order_number.id}", class: 'reference numerical', title: 'Opens in a popup', 'data-popup-ref' => "#{order_number.id}" %>&nbsp;
+<%= link_to order_number.number, "#order-number-#{order_number.number}", class: 'reference numerical', title: 'Opens in a popup', 'data-popup-ref' => "order-number-#{order_number.number}" %>&nbsp;
 
-<div class="popup govuk-visually-hidden" data-popup="<%= order_number.id %>">
+<div class="popup govuk-visually-hidden" data-popup="order-number-<%= order_number.number %>">
   <article>
     <% if order_number.definition.present? %>
       <table class="govuk-table govuk-table-m">
@@ -28,7 +28,11 @@
               <%= quota_definition.measurement_unit %>
               <% unless @search.date.today? %>
                 <br />
-                <%= link_to url_for(day: Date.today.day, month: Date.today.month, year: Date.today.year, anchor: order_number.id) do %>
+                <%= link_to params.permit(QuotaSearchForm::PERMITTED_PARAMS)
+                                  .merge(day: Date.today.day,
+                                         month: Date.today.month,
+                                         year: Date.today.year,
+                                         anchor: "order-number-#{order_number.number}") do %>
                   View balance for <%= Date.today.to_formatted_s :short %>
                 <% end %>
               <% end %>
