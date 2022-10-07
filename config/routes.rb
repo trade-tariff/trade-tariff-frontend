@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   filter :service_path_prefix_handler
   default_url_options(host: TradeTariffFrontend.host)
 
+  get '/measure_type/:measure_type_id/:preference_code_id', to: 'measure_type#show', as: :measure_type
+
   namespace :meursing_lookup do
     resources :steps, only: %i[show update]
     resources :results, only: %i[show create]
