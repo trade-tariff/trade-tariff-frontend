@@ -45,7 +45,7 @@
               <%= quota_definition.measurement_unit %>
             </td>
           </tr>
-          <% if quota_definition.within_first_twenty_days? %>
+          <% if quota_definition.within_first_twenty_days? && declarable_id %>
           <tr class="govuk-table__row hidden-pending-balance"
               data-controller="pending-balance"
               data-pending-balance-url-value="<%= pending_quota_balance_path declarable_id, quota_definition.order_number.number %>">

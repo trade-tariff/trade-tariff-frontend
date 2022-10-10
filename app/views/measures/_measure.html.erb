@@ -21,7 +21,7 @@
         <%= render 'shared/quota_definition',
                    order_number: measure.order_number,
                    quota_definition: measure.order_number&.definition,
-                   declarable_id: declarable.goods_nomenclature_item_id %>
+                   declarable_id: declarable.short_code %>
       </span>
     <% end %>
     <% if measure.additional_code.present? %>
