@@ -1,0 +1,24 @@
+<% case webchat_message_type %>
+<% when :footer %>
+<div>
+    Use our <a target="_blank" href="https://www.tax.service.gov.uk/ask-hmrc/chat/online-services-helpdesk">Digital Assistant (opens in new tab)</a>
+    to get help on classifying your goods.
+</div>
+
+<% when :not_found %>
+<div class="govuk-inset-text govuk-inset-text--s tariff-inset-information">
+    <h2 class="govuk-heading-s" id="getting-help">Getting help from HMRC if you need to find a commodity code</h2>
+    <p>If you <a href="/help/help-find-commodity">cannot find the right commodity code for your goods</a>, you can contact HMRC for advice or for a decision on your goods.</p>
+    <p>Alternatively, you can use our
+    <a target="_blank" href="https://www.tax.service.gov.uk/ask-hmrc/chat/online-services-helpdesk">Digital Assistant (opens in new tab)</a>
+    to get help on classifying your goods.
+    </p>
+</div>
+
+<% when :help %>
+<p>
+    Alternatively, you can use our <a target="_blank" href="https://www.tax.service.gov.uk/ask-hmrc/chat/online-services-helpdesk">Digital Assistant (opens in new tab)</a>
+    to get help on classifying your goods.
+</p>
+
+<% end %>

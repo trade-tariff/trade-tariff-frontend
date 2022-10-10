@@ -132,4 +132,19 @@ module ApplicationHelper
   def paragraph_if_content(content)
     tag.p(content) if content.present?
   end
+
+  def webchat_message_type
+    case [controller_name, action_name]
+    when %w[search_results show]
+      :not_found
+    when %w[commodities show],
+         %w[headings show],
+         %w[subheadings show]
+         %w[chapters show],
+         %w[sections show]
+      :footer
+    when %w[pages help]
+      :help
+    end
+  end
 end
