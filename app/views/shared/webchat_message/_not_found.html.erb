@@ -1,15 +1,17 @@
-<div class="panel panel-border-wide govuk-panel">
-    <h2 class="govuk-heading-s" id="getting-help">Getting help from HMRC if you need to find a commodity code</h2>
+<% if TradeTariffFrontend.webchat_enabled? %>
+    <div class="panel panel-border-wide govuk-panel">
+        <h2 class="govuk-heading-s" id="getting-help">Getting help from HMRC if you need to find a commodity code</h2>
 
-    <p>
-        If you
-        <%= link_to('cannot find the right commodity code for your goods', help_find_commodity_url, target: '_blank') %>
-        , you can contact HMRC for advice or for a decision on your goods.</p>
-    </p>
+        <p>
+            If you
+            <%= link_to('cannot find the right commodity code for your goods', help_find_commodity_url, target: '_blank') %>
+            , you can contact HMRC for advice or for a decision on your goods.</p>
+        </p>
 
-    <p>
-        Alternatively, you can use our
-        <%= link_to('Digital Assistant (opens in new tab)', "#{TradeTariffFrontend.webchat_url}", target: '_blank') %>
-        to get help on classifying your goods.
-    </p>
-</div>
+        <p>
+            Alternatively, you can use our
+            <%= link_to('Digital Assistant (opens in new tab)', "#{TradeTariffFrontend.webchat_url}", target: '_blank') %>
+            to get help on classifying your goods.
+        </p>
+    </div>
+<% end %>
