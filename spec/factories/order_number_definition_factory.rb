@@ -20,5 +20,20 @@ FactoryBot.define do
     blocking_period_start_date { nil }
     blocking_period_end_date { nil }
     order_number { attributes_for(:order_number, number:) }
+
+    trait :historical do
+      validity_start_date { 4.months.ago.iso8601 }
+      validity_end_date { 1.month.ago.iso8601 }
+    end
+
+    trait :future do
+      validity_start_date { 1.month.from_now.iso8601 }
+      validity_end_date { 4.months.from_now.iso8601 }
+    end
+
+    trait :current do
+      validity_start_date { 1.month.ago.iso8601 }
+      validity_end_date { 2.months.from_now.iso8601 }
+    end
   end
 end

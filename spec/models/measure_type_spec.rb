@@ -136,4 +136,18 @@ RSpec.describe MeasureType do
       it { is_expected.to eq('Bar') }
     end
   end
+
+  describe '#safeguard?' do
+    context 'with safeguard measure' do
+      subject { build :measure_type, :safeguard }
+
+      it { is_expected.to be_safeguard }
+    end
+
+    context 'with non-safeguard measure' do
+      subject { build :measure_type, :vat }
+
+      it { is_expected.not_to be_safeguard }
+    end
+  end
 end

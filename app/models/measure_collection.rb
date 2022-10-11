@@ -65,6 +65,10 @@ class MeasureCollection < SimpleDelegator
     new(select(&:supplementary?))
   end
 
+  def find_by_quota_order_number(number)
+    quotas.find { |m| m.order_number.number == number }
+  end
+
   private
 
   def tariff_preferences

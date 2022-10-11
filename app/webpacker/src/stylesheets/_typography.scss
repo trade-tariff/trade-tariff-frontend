@@ -12,3 +12,7 @@
        url("../fonts/azeret-mono-v6-latin-regular.svg#AzeretMono") format("svg");
   /* Legacy iOS */
 }
+
+.avoid-line-breaks {
+  white-space: nowrap;
+}

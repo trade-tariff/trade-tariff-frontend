@@ -60,5 +60,15 @@ class OrderNumber
     def blocking_period?
       blocking_period_start_date.present? && blocking_period_end_date.present?
     end
+
+    def within_first_twenty_days?
+      Time.zone.now.between? validity_start_date, validity_start_date + 20.days
+    end
+
+    def first_goods_nomenclature_short_code
+      all_goods_nomenclatures.select { |gn| gn.respond_to?(:short_code) }
+                             .first
+                             &.short_code
+    end
   end
 end

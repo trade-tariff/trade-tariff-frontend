@@ -127,4 +127,31 @@ RSpec.describe MeasureCollection do
 
     it { expect(collection.customs_duties.measures).to eq([third_country_measure, tariff_preference_measure, other_customs_duties_measure, unclassified_customs_measure]) }
   end
+
+  describe '#find_by_quota_order_number' do
+    subject :measure do
+      described_class.new(measures).find_by_quota_order_number '12345'
+    end
+
+    let(:measures) { [vat_measure, quota_measure] }
+    let(:vat_measure) { build :measure, :vat }
+    let(:quota_measure) { build :measure, :quotas, order_number: }
+    let(:order_number) { attributes_for :order_number, number: '12345' }
+
+    context 'with non-quota measures' do
+      let(:measures) { [vat_measure] }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with matching quota measure' do
+      it { is_expected.to eq quota_measure }
+    end
+
+    context 'without matching quota measure' do
+      let(:order_number) { attributes_for :order_number, number: '67890' }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

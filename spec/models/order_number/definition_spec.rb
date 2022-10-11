@@ -118,4 +118,99 @@ RSpec.describe OrderNumber::Definition do
       it { is_expected.to be false }
     end
   end
+
+  describe '#within_first_twenty_days?' do
+    context 'with future definition' do
+      subject { build :definition, :future }
+
+      it { is_expected.not_to be_within_first_twenty_days }
+    end
+
+    context 'with historical definition' do
+      subject { build :definition, :historical }
+
+      it { is_expected.not_to be_within_first_twenty_days }
+    end
+
+    context 'with current definition within first twenty days' do
+      subject { build :definition, :current, validity_start_date: 10.days.ago.iso8601 }
+
+      it { is_expected.to be_within_first_twenty_days }
+    end
+
+    context 'with current definition started more than twenty days ago' do
+      subject { build :definition, :current, validity_start_date: 21.days.ago.iso8601 }
+
+      it { is_expected.not_to be_within_first_twenty_days }
+    end
+  end
+
+  describe '#first_goods_nomenclature_short_code' do
+    subject { definition.first_goods_nomenclature_short_code }
+
+    let(:definition) { build :definition, measures: }
+
+    context 'without any goods nomenclatures' do
+      let(:measures) { [] }
+
+      it { is_expected.to be nil }
+    end
+
+    context 'with a goods nomenclature with a short code' do
+      let :measures do
+        [
+          attributes_for(:measure, goods_nomenclature: commodity1),
+          attributes_for(:measure, goods_nomenclature: commodity2),
+        ]
+      end
+
+      let :commodity1 do
+        attributes_for :commodity, resource_type: 'Commodity'
+      end
+
+      let :commodity2 do
+        attributes_for :commodity, resource_type: 'Commodity'
+      end
+
+      it { is_expected.to eq commodity1[:goods_nomenclature_item_id] }
+    end
+
+    context 'with goods nomenclatures without short codes' do
+      let :measures do
+        [
+          attributes_for(:measure, goods_nomenclature: subheading1),
+          attributes_for(:measure, goods_nomenclature: subheading2),
+        ]
+      end
+
+      let :subheading1 do
+        attributes_for :subheading, resource_type: 'Subheading'
+      end
+
+      let :subheading2 do
+        attributes_for :subheading, resource_type: 'Subheading'
+      end
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with goods nomenclatures with a mix of short codes and not' do
+      let :measures do
+        [
+          attributes_for(:measure, goods_nomenclature: subheading),
+          attributes_for(:measure, goods_nomenclature: commodity),
+        ]
+      end
+
+      let :subheading do
+        attributes_for :subheading, resource_type: 'Subheading'
+      end
+
+      let :commodity do
+        attributes_for :commodity, resource_type: 'Commodity'
+      end
+
+      it { is_expected.to eq commodity[:goods_nomenclature_item_id] }
+    end
+  end
 end
