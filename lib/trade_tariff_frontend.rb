@@ -130,6 +130,14 @@ module TradeTariffFrontend
     ENV['BETA_SEARCH'] == 'true'
   end
 
+  def webchat_enabled?
+    ENV['WEBCHAT_URL'].present?
+  end
+
+  def webchat_url
+    ENV['WEBCHAT_URL']
+  end
+
   def beta_search_heading_statistics_threshold
     ENV['BETA_SEARCH_HEADING_STATISTICS_THRESHOLD'].to_i
   end
