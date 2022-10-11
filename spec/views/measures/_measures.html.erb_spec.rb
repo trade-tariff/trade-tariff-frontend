@@ -122,7 +122,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
 
       context 'with roo_wizard feature flag' do
         it_behaves_like 'measures with rules of origin tab'
-        it_behaves_like 'roo_wizard tab'
+        it_behaves_like 'legacy roo tab'
         it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
       end
 
