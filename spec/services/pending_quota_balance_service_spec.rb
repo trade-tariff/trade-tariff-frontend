@@ -2,7 +2,9 @@ require 'spec_helper'
 
 RSpec.describe PendingQuotaBalanceService do
   describe '#call' do
-    subject { described_class.new(commodity.short_code, '1010', Time.zone.today).call }
+    subject :pending_balance do
+      described_class.new(commodity.short_code, '1010', Time.zone.today).call
+    end
 
     let(:start_date) { 5.days.ago }
 
@@ -89,6 +91,24 @@ RSpec.describe PendingQuotaBalanceService do
         end
 
         it { is_expected.to be_nil }
+      end
+
+      context 'without current declarable' do
+        before do
+          allow(Commodity).to receive(:find).with(commodity.id, as_of: Time.zone.today)
+                                            .and_raise(Faraday::ResourceNotFound, 'unknown')
+        end
+
+        it { expect { pending_balance }.to raise_exception Faraday::ResourceNotFound }
+      end
+
+      context 'without previous declarable' do
+        before do
+          allow(Commodity).to receive(:find).with(commodity.id, as_of: (start_date - 1.day).to_date)
+                                            .and_raise(Faraday::ResourceNotFound, 'unknown')
+        end
+
+        it { is_expected.to be nil }
       end
     end
 
