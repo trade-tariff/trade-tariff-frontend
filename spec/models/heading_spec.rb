@@ -73,13 +73,13 @@ RSpec.describe Heading do
 
     let(:vat) { attributes_for :measure, :vat }
 
-    context 'without safeguarding measures' do
+    context 'with safeguarding measures' do
       let(:measure) { attributes_for :measure, :safeguard }
 
       it { is_expected.to be_has_safeguard_measure }
     end
 
-    context 'with safeguarding measure' do
+    context 'without safeguarding measure' do
       let(:measure) { attributes_for :measure, :vat_zero }
 
       it { is_expected.not_to be_has_safeguard_measure }

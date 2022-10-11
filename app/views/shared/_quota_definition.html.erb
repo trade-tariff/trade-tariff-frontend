@@ -48,7 +48,7 @@
           <% if quota_definition.within_first_twenty_days? && declarable_id %>
           <tr class="govuk-table__row hidden-pending-balance"
               data-controller="pending-balance"
-              data-pending-balance-url-value="<%= pending_quota_balance_path declarable_id, quota_definition.order_number.number %>">
+              data-pending-balance-url-value="<%= pending_quota_balance_path(declarable_id, quota_definition.order_number.number) %>">
             <th scope="col" class='govuk-table__header'>Pending balance</th>
             <td class="numerical govuk-table__cell numerical">
               <span data-pending-balance-target="balance"></span>

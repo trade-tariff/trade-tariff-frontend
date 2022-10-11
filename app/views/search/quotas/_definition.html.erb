@@ -3,10 +3,7 @@
     <%= render 'shared/quota_definition',
                order_number: definition.order_number,
                quota_definition: definition,
-               declarable_id: definition.all_goods_nomenclatures
-                                        .select { |gn| gn.respond_to?(:short_code) }
-                                        .first
-                                        &.short_code %>
+               declarable_id: definition.first_goods_nomenclature_short_code %>
   </td>
 
   <td class="govuk-table__cell" data-label="Commodity-code">
