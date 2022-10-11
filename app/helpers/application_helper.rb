@@ -133,18 +133,7 @@ module ApplicationHelper
     tag.p(content) if content.present?
   end
 
-  def webchat_message_type
-    case [controller_name, action_name]
-    when %w[search_results show]
-      :not_found
-    when %w[commodities show],
-         %w[headings show],
-         %w[subheadings show]
-         %w[chapters show],
-         %w[sections show]
-      :footer
-    when %w[pages help]
-      :help
-    end
+  def webchat_visible_in_footer?
+    %w[commodities headings subheadings chapters sections].include?(controller_name)
   end
 end
