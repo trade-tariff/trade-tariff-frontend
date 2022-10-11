@@ -26,4 +26,22 @@ RSpec.describe 'rules_of_origin/steps/_product_specific_rules', type: :view do
 
     it { is_expected.to have_css '.govuk-error-message', text: /Select whether/i }
   end
+
+  context 'with markdown in rule' do
+    let :schemes do
+      build_list :rules_of_origin_scheme, 1,
+                 countries: [country.id],
+                 rule_sets:,
+                 articles:
+    end
+
+    let(:rule_sets) { attributes_for_list :rules_of_origin_rule_set, 1, rules: }
+
+    let :rules do
+      attributes_for_list :rules_of_origin_v2_rule, 1,
+                          rule: '[Chapter&nbsp;1](/some/where)'
+    end
+
+    it { is_expected.to have_css 'fieldset label a', text: /Chapter.*1/ }
+  end
 end
