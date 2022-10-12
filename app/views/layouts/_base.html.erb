@@ -19,9 +19,10 @@
     <a href="<%= home_path %>" class="govuk-header__link govuk-header__link--service-name" id="proposition-name">
       <%= trade_tariff_heading %>
     </a>
-    <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="proposition-links" aria-label="Show or hide Top Level Navigation">Menu</button>
-    <nav id="proposition-menu"  aria-label="Top Level Navigation">
-      <ul id="proposition-links" class="govuk-header__navigation ">
+    <nav id="proposition-menu"  aria-label="Top Level Navigation" class="govuk-header__navigation">
+      <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="proposition-links" aria-label="Show or hide Top Level Navigation">Menu</button>
+
+      <ul id="proposition-links" class="govuk-header__navigation-list">
         <%= govuk_header_navigation_item(active_class: search_active_class) do %>
           <%= link_to 'Search', home_path, class: "govuk-header__link" %>
         <% end %>
@@ -64,7 +65,7 @@
 
 <% content_for :footer_top do %>
   <div class="govuk-footer__row">
-    <div class="govuk-footer__section one-third">
+    <div class="govuk-footer__section govuk-grid-column-one-third">
       <h2 class="govuk-footer__heading govuk-heading-m">The UK has left the EU</h2>
 
       <ul class="govuk-footer__list">
@@ -73,7 +74,7 @@
     </div>
   </div>
   <div class="govuk-footer__row govuk-!-margin-top-5">
-    <div class="govuk-footer__section one-third">
+    <div class="govuk-footer__section govuk-grid-column-one-third">
       <h2 class="govuk-footer__heading govuk-heading-m">Contact</h2>
       <ul class="govuk-footer__list">
         <li class="govuk-footer__list-item"><a class="govuk-footer__link" target="_blank" href="https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods">Ask HMRC for advice on classifying your goods</a></li>
@@ -82,7 +83,7 @@
       </ul>
     </div>
 
-    <div class="govuk-footer__section one-third">
+    <div class="govuk-footer__section govuk-grid-column-one-third">
       <h2 class="govuk-footer__heading govuk-heading-m">Help</h2>
       <ul class="govuk-footer__list">
         <!-- <li><a href="#">How to use the Tariff</a></li> -->
@@ -91,7 +92,7 @@
       </ul>
     </div>
 
-    <div class="govuk-footer__section one-third">
+    <div class="govuk-footer__section govuk-grid-column-one-third">
       <h2 class="govuk-footer__heading govuk-heading-m">Related information</h2>
       <ul class="govuk-footer__list">
         <li class="govuk-footer__list-item"><a class="govuk-footer__link" target="_blank" href="https://www.gov.uk/government/collections/uk-trade-tariff-volume-1">UK Trade Tariff: Volume 1 &ndash; background information for importers and exporters</a></li>
@@ -103,13 +104,14 @@
 <% end %>
 
 <% content_for :footer_bottom do %>
-  <hr class="govuk-footer__section-break govuk-footer__row">
-  <div class="govuk-footer__meta govuk-footer__row">
+  <hr class="govuk-footer__section-break">
+
+  <div class="govuk-footer__meta">
     <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
       <h2 class="govuk-visually-hidden">Support links</h2>
       <ul class="govuk-footer__inline-list">
         <li class="govuk-footer__inline-list-item">
-          <%= link_to('Privacy', privacy_path, class: 'govuk-footer__link') %>
+          <%= link_to 'Privacy', privacy_path, class: 'govuk-footer__link' %>
         </li>
         <li class="govuk-footer__inline-list-item">
           <%= link_to 'Cookies', cookies_policy_path, class: 'govuk-footer__link' %>

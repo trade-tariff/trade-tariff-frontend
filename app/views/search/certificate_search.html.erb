@@ -30,7 +30,7 @@
             <strong>Description:</strong>
           </dt>
           <dd class="govuk-summary-list__value">
-            <%= certificate.formatted_description %>
+            <%= sanitize certificate.formatted_description %>
           </dd>
         </div>
       </dl>
@@ -87,7 +87,9 @@
                       <%= link_to(segmented_commodity_code(goods_nomenclature.goods_nomenclature_item_id), polymorphic_path(goods_nomenclature)) %>
                     </th>
 
-                    <td class="govuk-table__cell"><%= goods_nomenclature.formatted_description %></td>
+                    <td class="govuk-table__cell">
+                      <%= sanitize goods_nomenclature.formatted_description %>
+                    </td>
                   </tr>
                 <% end %>
               </tbody>
