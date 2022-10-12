@@ -132,8 +132,4 @@ module ApplicationHelper
   def paragraph_if_content(content)
     tag.p(content) if content.present?
   end
-
-  def webchat_visible_in_footer?
-    %w[commodities headings subheadings chapters sections].include?(controller_name)
-  end
 end
