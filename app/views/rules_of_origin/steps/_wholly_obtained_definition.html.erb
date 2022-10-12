@@ -19,9 +19,17 @@
     <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
                                                    article_match: find_article_reference(form.object.wholly_obtained_text) if find_article_reference(form.object.wholly_obtained_text) %>
 
-    <%= render 'shared/details', summary: t('.vessel_definition'),
-                                 content: govspeak(form.object.wholly_obtained_vessels_text),
-                                 origin_reference_document: form.object.origin_reference_document if form.object.wholly_obtained_vessels_text.present? %>
+    <% if form.object.wholly_obtained_vessels_text.present? %>
+      <%= render 'shared/details', summary: t('.vessel_definition') do %>
+        <% if form.object.origin_reference_document %>
+          <%= govspeak remove_article_reference(govspeak(form.object.wholly_obtained_vessels_text) %>
+          <%= render 'shared/origin_reference_document', origin_reference_document: origin_reference_document,
+                                                         article_match: find_article_reference(content) if find_article_reference(content) %>
+        <% else %>
+          <%= govspeak form.object.wholly_obtained_vessels_text %>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
 
   <h3 class="govuk-heading-s">

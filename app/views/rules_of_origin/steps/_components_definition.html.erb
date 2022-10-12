@@ -25,8 +25,7 @@
                                                    article_match: find_article_reference(form.object.neutral_elements_text) if find_article_reference(form.object.neutral_elements_text) %>
 
     <%= render 'shared/details', summary: t('.neutral_elements.example.summary'),
-                                 content: govspeak(t('.neutral_elements.example.content_md')),
-                                 origin_reference_document: nil %>
+                                 content: govspeak(t('.neutral_elements.example.content_md')) %>
   </div>
 
   <h3 class="govuk-heading-s">

@@ -9,8 +9,7 @@
     <%= govspeak t '.body', scheme_title: form.object.scheme_title %>
 
     <%= render 'shared/details', summary: t('.notes'),
-                                 content: govspeak(form.object.chosen_scheme.introductory_notes),
-                                 origin_reference_document: nil %>
+                                 content: govspeak(form.object.chosen_scheme.introductory_notes) %>
   </div>
 <% end %>
 
