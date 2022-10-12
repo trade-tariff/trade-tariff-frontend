@@ -15,6 +15,10 @@ module RulesOfOrigin
         @wizard.next_key('start')
       end
 
+      def tolerances_text
+        chosen_scheme.article('tolerances')&.content
+      end
+
     private
 
       def skipped_for_multiple_rules?

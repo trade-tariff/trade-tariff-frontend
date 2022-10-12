@@ -4,6 +4,10 @@ RSpec.describe RulesOfOrigin::Steps::RulesNotMet do
   include_context 'with rules of origin store', :originating
   include_context 'with wizard step', RulesOfOrigin::Wizard
 
+  it_behaves_like 'an article accessor',
+                  :tolerances_text,
+                  'tolerances'
+
   describe '#skipped' do
     subject { instance.skipped? }
 
