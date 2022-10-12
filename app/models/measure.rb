@@ -32,6 +32,7 @@ class Measure
 
   delegate :erga_omnes?, to: :geographical_area
   delegate :amount, to: :duty_expression
+  delegate :supplementary?, :safeguard?, to: :measure_type
 
   class << self
     def grouped_measure_types
@@ -127,8 +128,6 @@ class Measure
   def quotas?
     grouped_measure_types[:quotas].include?(measure_type.id)
   end
-
-  delegate :supplementary?, to: :measure_type
 
   def import?
     import

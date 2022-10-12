@@ -5,6 +5,7 @@ class MeasureType
 
   SUPPLEMENTARY_MEASURE_TYPES = %w[109 110 111].freeze
   SUPPLEMENTARY_IMPORT_ONLY_MEASURE_TYPES = %w[110].freeze
+  SAFEGUARD_TYPES = %w[696].freeze
 
   enum :measure_component_applicable_code, {
     duties_permitted: [0],
@@ -29,6 +30,10 @@ class MeasureType
 
   def supplementary_unit_import_only?
     id.in?(SUPPLEMENTARY_IMPORT_ONLY_MEASURE_TYPES)
+  end
+
+  def safeguard?
+    SAFEGUARD_TYPES.include?(id)
   end
 
   private

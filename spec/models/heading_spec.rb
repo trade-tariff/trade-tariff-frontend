@@ -67,4 +67,22 @@ RSpec.describe Heading do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#has_safeguarding_measure?' do
+    subject { build :heading, import_measures: [vat, measure] }
+
+    let(:vat) { attributes_for :measure, :vat }
+
+    context 'with safeguarding measures' do
+      let(:measure) { attributes_for :measure, :safeguard }
+
+      it { is_expected.to be_has_safeguard_measure }
+    end
+
+    context 'without safeguarding measure' do
+      let(:measure) { attributes_for :measure, :vat_zero }
+
+      it { is_expected.not_to be_has_safeguard_measure }
+    end
+  end
 end

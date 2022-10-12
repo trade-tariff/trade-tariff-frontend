@@ -99,6 +99,10 @@ FactoryBot.define do
       end
     end
 
+    trait :safeguard do
+      measure_type { attributes_for :measure_type, :safeguard }
+    end
+
     trait :unclassified do
       measure_type do
         attributes_for(:measure_type, :unclassified, description: measure_type_description).stringify_keys
