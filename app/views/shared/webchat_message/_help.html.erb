@@ -1,7 +1,6 @@
 <% if TradeTariffFrontend.webchat_enabled? %>
     <p>
-    Alternatively, you can use our
-    <%= link_to('Digital Assistant (opens in new tab)', "#{TradeTariffFrontend.webchat_url}", target: '_blank') %>
+    Alternatively, you can use our <%= webchat_link %>
     to get help on classifying your goods.
     </p>
 <% end %>
