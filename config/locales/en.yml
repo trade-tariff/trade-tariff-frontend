@@ -371,6 +371,7 @@ en:
           proof_requirements: Requirements for proving the origin for goods
           proof_verification: How proofs of origin are verified
           duty_drawback: Duty drawback
+          tolerances: Tolerances
 
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
@@ -613,6 +614,31 @@ en:
           Click on the 'Continue' button to view the cumulation rules in the
           %{scheme_title}, which will indicate if non-originating parts from
           other countries can be included in determining originating status.
+
+      tolerances:
+        caption: Are your goods originating?
+        title: Tolerances
+        intro_md: |
+          'Tolerances' represent a provision for the relaxation of the rules of
+          origin under certain conditions.
+
+          They allow a small amount of non-originating materials to be used in
+          the production of the good without affecting its originating status.
+        examples:
+          summary: Practical examples of tolerance clauses
+          content_md: |
+            1. A good is subject to a 60% value added calculations rule which
+               requires originating materials to constitute at least 60% of the
+               total value of the product. The tolerance rule under the
+               agreement is set at 10%. The rule cannot be applied to mean that
+               this threshold can be reduced by 10%.
+            2. A good is subject to a change in tariff classification rule. It
+               complies with the rule but 5% of the non-originating materials
+               have not gone through a change in tariff classification. The
+               tolerance rule under the agreement is set at 10%. Tolerance can
+               be applied and the 5% is allowed for the purpose of determining
+               origin.
+        article: Tolerances in the %{scheme_title}
 
       cumulation:
         caption: Are your goods originating?

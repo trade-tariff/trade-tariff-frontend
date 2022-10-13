@@ -20,6 +20,7 @@ module RulesOfOrigin
       Steps::ProofVerification,
       Steps::DutyDrawback,
       Steps::RulesNotMet,
+      Steps::Tolerances,
     ]
 
     def sections

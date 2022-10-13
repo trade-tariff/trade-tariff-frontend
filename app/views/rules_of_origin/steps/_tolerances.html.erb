@@ -1,0 +1,33 @@
+<span class="govuk-caption-xl">
+  <%= t '.caption' %>
+</span>
+
+<h1 class="govuk-heading-l">
+  <%= t '.title' %>
+</h1>
+
+<div class="tariff-markdown tariff-markdown--with-lead-paragraph">
+  <%= govspeak t('.intro_md') %>
+</div>
+
+<div id="tolerances-examples" class="tariff-markdown">
+  <%= render 'shared/details',
+             summary: t('.examples.summary'),
+             content: govspeak(t('.examples.content_md')),
+             origin_reference_document: nil %>
+</div>
+
+<div id="tolerances-article">
+  <h2 class="govuk-heading-m">
+    <%= t '.article', scheme_title: current_step.scheme_title %>
+  </h2>
+
+  <div class="tariff-markdown numbered-then-lettered-list">
+    <%= govspeak remove_article_reference(current_step.tolerances_text) %>
+  </div>
+
+  <%= render 'shared/origin_reference_document',
+             origin_reference_document: current_step.origin_reference_document,
+             article_match: find_article_reference(current_step.tolerances_text) if find_article_reference(current_step.tolerances_text) %>
+
+</div>
