@@ -5,6 +5,11 @@ RSpec.describe 'rules_of_origin/steps/_rules_not_met', type: :view do
                   'rules_not_met',
                   :insufficient_processing
 
+  let :articles do
+    attributes_for_list :rules_of_origin_article, 1,
+                        article: 'tolerances'
+  end
+
   it { is_expected.to have_css 'span.govuk-caption-xl', text: %r{(Im|Ex)porting.* #{wizardstore['commodity_code']}.*Japan.*UK} }
   it { is_expected.to have_css 'h1', text: /not met/i }
   it { is_expected.to have_css '.govuk-panel--confirmation .govuk-panel__body', count: 1 }
@@ -19,4 +24,10 @@ RSpec.describe 'rules_of_origin/steps/_rules_not_met', type: :view do
   it { is_expected.to have_css '#whats-next-section.panel--coloured strong' }
   it { is_expected.to have_css '#whats-next-section a', count: 2 }
   it { is_expected.not_to have_css '#next-steps' }
+
+  context 'without tolerances article' do
+    let(:articles) { [] }
+
+    it { is_expected.not_to have_css '#tolerances-section' }
+  end
 end
