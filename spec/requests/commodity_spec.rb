@@ -157,5 +157,11 @@ RSpec.describe 'Commodity page', type: :request do
     it 'displays the commodity classification' do
       expect(page).to have_content 'Asses'
     end
+
+    it 'displays Webchat link ' do
+      # ENV['WEBCHAT_URL'] = 'https://webchat_url_test'
+
+      expect(page).to have_css '#webchat-link'
+    end
   end
 end

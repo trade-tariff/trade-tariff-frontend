@@ -63,7 +63,7 @@
     <% end %>
   <% else %>
     <h2 class="govuk-heading-l">There are no results matching your query.</h2>
-    <div class="panel panel-border-wide govuk-panel">
+    <div class="panel govuk-panel">
       <p><strong>Please search again and consider:</strong></p>
       <ul class="list list-bullet">
         <li>Searching what the item is used for or made from</li>
@@ -73,4 +73,6 @@
       </ul>
     </div>
   <% end %>
+
+  <%= render 'shared/webchat_message/not_found' %>
 </article>
