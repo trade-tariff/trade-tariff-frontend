@@ -4,9 +4,11 @@
       <strong>
         Results are filtered by:
       </strong>
-      <% applied_filter_classifications.each do |facet_classification_statistic|  %>
-        <%= disapply_filter_link_for(facet_classification_statistic) %>
-      <% end %>
+      <div class="facet-classifications-tag-container">
+        <% applied_filter_classifications.each do |facet_classification_statistic|  %>
+          <%= disapply_filter_link_for(facet_classification_statistic) %>
+        <% end %>
+      </div>
     <% end %>
 
     <% if unapplied_filter_classifications.any? %>
