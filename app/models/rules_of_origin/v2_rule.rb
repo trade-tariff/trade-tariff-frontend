@@ -12,7 +12,7 @@ class RulesOfOrigin::V2Rule
     @rule_class ||= []
   end
 
-  def wholly_obtained_class?
-    rule_class.include?(WHOLLY_OBTAINED_CLASS)
+  def only_wholly_obtained_class?
+    rule_class.one? && rule_class.include?(WHOLLY_OBTAINED_CLASS)
   end
 end

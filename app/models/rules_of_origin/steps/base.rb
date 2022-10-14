@@ -61,8 +61,8 @@ module RulesOfOrigin
 
     private
 
-      def single_wholly_obtained_rule?
-        chosen_scheme.v2_rules.select(&:wholly_obtained_class?).one?
+      def only_wholly_obtained_rules?
+        chosen_scheme.v2_rules.all?(&:only_wholly_obtained_class?)
       end
     end
   end

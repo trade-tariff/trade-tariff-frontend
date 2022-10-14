@@ -4,7 +4,7 @@ module RulesOfOrigin
       self.section = 'originating'
 
       def skipped?
-        if single_wholly_obtained_rule?
+        if only_wholly_obtained_rules?
           wholly_obtained?
         else
           skipped_for_multiple_rules?
