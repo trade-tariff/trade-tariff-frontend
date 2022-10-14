@@ -13,7 +13,11 @@ RSpec.describe 'webchat_message/_footer', type: :view do
         ENV['WEBCHAT_URL'] = 'http://webchat_url_test'
       end
 
-      it { is_expected.to have_css '#webchat-link' }
+      it 'displays the webchat link ' do
+        expect(subject).to have_css '#webchat-link'
+
+        ENV['WEBCHAT_URL'] = nil
+      end
     end
 
     context 'when ENV WEBCHAT_URL is not set' do
