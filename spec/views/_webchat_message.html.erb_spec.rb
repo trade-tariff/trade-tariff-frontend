@@ -10,19 +10,17 @@ RSpec.describe 'webchat_message/_footer', type: :view do
 
     context 'when ENV WEBCHAT_URL is set' do
       before do
-        ENV['WEBCHAT_URL'] = 'http://webchat_url_test'
+        allow(TradeTariffFrontend).to receive(:webchat_url).and_return('http://webchat_url_test')
       end
 
       it 'displays the webchat link ' do
         expect(subject).to have_css '#webchat-link'
-
-        ENV['WEBCHAT_URL'] = nil
       end
     end
 
     context 'when ENV WEBCHAT_URL is not set' do
       before do
-        ENV['WEBCHAT_URL'] = nil
+        allow(TradeTariffFrontend).to receive(:webchat_url).and_return(nil)
       end
 
       it { is_expected.not_to have_css '#webchat-link' }

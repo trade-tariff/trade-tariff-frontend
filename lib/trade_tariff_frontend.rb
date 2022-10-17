@@ -131,7 +131,7 @@ module TradeTariffFrontend
   end
 
   def webchat_enabled?
-    ENV['WEBCHAT_URL'].present?
+    webchat_url.present?
   end
 
   def webchat_url

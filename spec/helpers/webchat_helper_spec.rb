@@ -1,8 +1,14 @@
 require 'spec_helper'
 
 RSpec.describe WebchatHelper, type: :helper do
+  before do
+    allow(TradeTariffFrontend).to receive(:webchat_url).and_return(webchat_test_url)
+  end
+
+  let(:webchat_test_url) { 'http://webchat_test_url' }
+
   describe '#webchat_link' do
-    it { expect(webchat_link).to include(ENV['WEBCHAT_URL']) }
+    it { expect(webchat_link).to include(webchat_test_url) }
   end
 
   describe '#webchat_visible_in_footer?' do
