@@ -34,7 +34,7 @@
 }
 
 div.facet-classifications-tag-container {
-  @media (max-width: $mobile-max-width) {
+  @include govuk-media-query($until: tablet) {
     display: inline;
   }
 }
