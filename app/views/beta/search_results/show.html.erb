@@ -7,7 +7,9 @@
   ) %>
 <% end %>
 
-<h1>Search results for '<%= @search_result.search_query_parser_result.corrected_search_query %>'</h1>
+<%= page_header "Search results for
+                &lsquo;#{h @search_result.search_query_parser_result.corrected_search_query}&rsquo;".html_safe
+%>
 
 <section id="beta-search-results-<%= @search_result.resource_id %>">
   <% if @search_result.hits.commodities.present? %>

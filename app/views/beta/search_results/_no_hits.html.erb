@@ -2,9 +2,14 @@
   <div class="govuk-grid-column-full">
     <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-      <strong class="govuk-warning-text__text">
+      <strong id="intercept-message" class="govuk-warning-text__text">
         <span class="govuk-warning-text__assistive">Warning</span>
         There are no results matching your query.
+        <% if @search_result.intercept_message %>
+          <div id="intercept-message">
+            <%= @search_result.intercept_message.html_message %>
+          </div>
+        <% end %>
       </strong>
     </div>
 

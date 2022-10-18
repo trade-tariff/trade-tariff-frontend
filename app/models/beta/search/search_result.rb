@@ -22,6 +22,7 @@ module Beta
       has_many :facet_filter_statistics, class_name: 'Beta::Search::FacetFilterStatistic'
       has_one :guide, class_name: 'Beta::Search::Guide'
       has_one :search_query_parser_result, class_name: 'Beta::Search::SearchQueryParserResult'
+      has_one :intercept_message, class_name: 'Beta::Search::InterceptMessage'
 
       def multiple_headings_view?
         heading_statistics.count > TradeTariffFrontend.beta_search_heading_statistics_threshold

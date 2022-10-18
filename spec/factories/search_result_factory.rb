@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :search_result, class: 'Beta::Search::SearchResult' do
     no_redirect
+    with_intercept_message
 
     resource_id { '6fc22ae4ee7f6fbe9b4988a4557dd3f9' }
     took { 2 }
@@ -62,6 +63,14 @@ FactoryBot.define do
 
     trait :no_guide do
       guide { nil }
+    end
+
+    trait :with_intercept_message do
+      intercept_message { attributes_for(:intercept_message) }
+    end
+
+    trait :no_intercept_message do
+      intercept_message {}
     end
   end
 end

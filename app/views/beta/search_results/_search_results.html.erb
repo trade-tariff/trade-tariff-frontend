@@ -1,4 +1,11 @@
 <p class="govuk-body">The following commodity codes match your search:</p>
+
+<% if @search_result.intercept_message %>
+  <div id="intercept-message">
+    <%= @search_result.intercept_message.html_message %>
+  </div>
+<% end %>
+
 <table class="govuk-table">
   <tbody>
     <% @search_result.hits.commodities.each do |hit| %>
