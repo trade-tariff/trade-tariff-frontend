@@ -19,6 +19,7 @@
   <%= govspeak t('.body', scheme_title: current_step.scheme_title) %>
 </div>
 
+<% if current_step.tolerances_text.present? %>
 <div id="tolerances-section">
   <h3 class="govuk-heading-m">
     <%= t '.tolerances.title' %>
@@ -32,6 +33,7 @@
     <%= link_to t('.tolerances.link'), step_path(:tolerances) %>
   </p>
 </div>
+<% end %>
 
 <div id="absorption-section">
   <h3 class="govuk-heading-m">
