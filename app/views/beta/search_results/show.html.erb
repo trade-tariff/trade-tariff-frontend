@@ -11,8 +11,6 @@
                 &lsquo;#{h @search_result.search_query_parser_result.corrected_search_query}&rsquo;".html_safe
 %>
 
-<h1>Search results for '<%= @search_result.search_query_parser_result.corrected_search_query %>'</h1>
-
 <section id="beta-search-results-<%= @search_result.resource_id %>">
   <% if @search_result.hits.commodities.present? %>
     <%= render 'with_hits' %>
