@@ -59,5 +59,9 @@ FactoryBot.define do
     trait :no_hits do
       hits { [] }
     end
+
+    trait :no_guide do
+      guide { nil }
+    end
   end
 end
