@@ -55,5 +55,9 @@ FactoryBot.define do
     trait :no_facets do
       facet_filter_statistics { [] }
     end
+
+    trait :no_hits do
+      hits { [] }
+    end
   end
 end
