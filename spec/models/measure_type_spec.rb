@@ -139,6 +139,7 @@ RSpec.describe MeasureType do
 
   describe '#description_only' do
     subject(:description) { measure.measure_type.description }
+
     let(:measure) { build(:measure, measure_type_description: 'Bar') }
 
     it { is_expected.to eq('Bar') }

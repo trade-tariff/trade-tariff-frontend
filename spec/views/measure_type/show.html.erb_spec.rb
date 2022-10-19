@@ -3,8 +3,10 @@ require 'spec_helper'
 RSpec.describe 'measure_type/show', type: :view do
   subject { render }
 
-  before { assign :measure_type, measure_type }
-  before { assign :preference_code, preference_code }
+  before do
+    assign :measure_type, measure_type
+    assign :preference_code, preference_code
+  end
 
   let(:measure_type) { build :measure_type, id: '103' }
   let(:preference_code) { build :preference_code }
