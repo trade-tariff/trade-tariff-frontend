@@ -309,6 +309,41 @@ RSpec.describe ApplicationHelper, type: :helper do
     it_behaves_like 'a from to expression', nil, nil, nil
   end
 
+  describe '#govuk_date_range' do
+    let(:from) { Date.parse('2022-01-01') }
+    let(:to) { Date.parse('2022-06-01') }
+
+    context 'with TimeWithZone' do
+      subject { govuk_date_range from.in_time_zone, to.in_time_zone }
+
+      it { is_expected.to eql '1 January 2022 to 1 June 2022' }
+    end
+
+    context 'with String Dates' do
+      subject { govuk_date_range from.to_s, to.to_s }
+
+      it { is_expected.to eql '1 January 2022 to 1 June 2022' }
+    end
+
+    context 'with String Dates with Times' do
+      subject { govuk_date_range "#{from} 01:01:00", "#{to} 01:02:00" }
+
+      it { is_expected.to eql '1 January 2022 to 1 June 2022' }
+    end
+
+    context 'with XML Time Strings' do
+      subject { govuk_date_range from.xmlschema, to.xmlschema }
+
+      it { is_expected.to eql '1 January 2022 to 1 June 2022' }
+    end
+
+    context 'with Dates' do
+      subject { govuk_date_range from, to }
+
+      it { is_expected.to eql '1 January 2022 to 1 June 2022' }
+    end
+  end
+
   describe '#paragraph_if_content' do
     subject { paragraph_if_content content }
 

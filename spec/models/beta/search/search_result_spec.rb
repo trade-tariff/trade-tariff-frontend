@@ -4,7 +4,15 @@ RSpec.describe Beta::Search::SearchResult do
   subject(:search_result) { build(:search_result) }
 
   let(:expected_relationships) do
-    %i[chapter_statistics heading_statistics hits facet_filter_statistics guide search_query_parser_result]
+    %i[
+      chapter_statistics
+      heading_statistics
+      hits
+      facet_filter_statistics
+      guide
+      search_query_parser_result
+      intercept_message
+    ]
   end
 
   it do

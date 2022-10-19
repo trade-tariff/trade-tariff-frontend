@@ -11,6 +11,8 @@
 
 <%= render partial: 'search/quotas/form', locals: { search_form: @result.search_form } %>
 <% if @result.search_result&.any? %>
+  <%= render 'shared/unknown_quota_definition' %>
+
   <article class="search-results">
     <table class="govuk-table govuk-table govuk-table--responsive">
       <caption class="govuk-table__caption">

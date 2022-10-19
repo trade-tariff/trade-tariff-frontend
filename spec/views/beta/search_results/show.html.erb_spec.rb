@@ -8,8 +8,21 @@ RSpec.describe 'beta/search_results/show', type: :view do
   context 'when there multiple headings' do
     let(:search_result) { build(:search_result, :multiple_headings_view) }
 
+    it { is_expected.to render_template('beta/search_results/_with_hits') }
     it { is_expected.to render_template('beta/search_results/_multiple_headings_search_results') }
     it { is_expected.to render_template('beta/search_results/_sidebar') }
+
+    context 'when there is an intercept message' do
+      let(:search_result) { build(:search_result, :multiple_headings_view, :with_intercept_message) }
+
+      it { is_expected.to have_css('div#intercept-message') }
+    end
+
+    context 'when there is no intercept message' do
+      let(:search_result) { build(:search_result, :multiple_headings_view, :no_intercept_message) }
+
+      it { is_expected.not_to have_css('div#intercept-message') }
+    end
   end
 
   context 'when there are not multiple headings' do
@@ -33,12 +46,46 @@ RSpec.describe 'beta/search_results/show', type: :view do
   end
 
   context "when guide doesn't exist" do
-    let(:search_result) { build(:search_result) }
-
-    before do
-      search_result.guide = nil
-    end
+    let(:search_result) { build(:search_result, :no_guide) }
 
     it { is_expected.not_to render_template('search/_guide_section') }
+  end
+
+  context 'when there are hits' do
+    let(:search_result) { build(:search_result) }
+
+    it { is_expected.to render_template('beta/search_results/_with_hits') }
+    it { is_expected.not_to render_template('beta/search_results/_no_hits') }
+
+    context 'when there is an intercept message' do
+      let(:search_result) { build(:search_result, :with_intercept_message) }
+
+      it { is_expected.to have_css('div#intercept-message') }
+    end
+
+    context 'when there is no intercept message' do
+      let(:search_result) { build(:search_result, :no_intercept_message) }
+
+      it { is_expected.not_to have_css('div#intercept-message') }
+    end
+  end
+
+  context 'when there are no hits' do
+    let(:search_result) { build(:search_result, :no_hits) }
+
+    it { is_expected.not_to render_template('beta/search_results/_with_hits') }
+    it { is_expected.to render_template('beta/search_results/_no_hits') }
+
+    context 'when there is an intercept message' do
+      let(:search_result) { build(:search_result, :no_hits, :with_intercept_message) }
+
+      it { is_expected.to have_css('div#intercept-message') }
+    end
+
+    context 'when there is no intercept message' do
+      let(:search_result) { build(:search_result, :no_hits, :no_intercept_message) }
+
+      it { is_expected.not_to have_css('div#intercept-message') }
+    end
   end
 end

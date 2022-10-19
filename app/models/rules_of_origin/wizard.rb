@@ -18,7 +18,9 @@ module RulesOfOrigin
       Steps::ProofsOfOrigin,
       Steps::ProofRequirements,
       Steps::ProofVerification,
+      Steps::DutyDrawback,
       Steps::RulesNotMet,
+      Steps::Tolerances,
     ]
 
     def sections

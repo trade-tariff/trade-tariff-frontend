@@ -5,6 +5,7 @@ class MeasureType
 
   SUPPLEMENTARY_MEASURE_TYPES = %w[109 110 111].freeze
   SUPPLEMENTARY_IMPORT_ONLY_MEASURE_TYPES = %w[110].freeze
+  SAFEGUARD_TYPES = %w[696].freeze
 
   enum :measure_component_applicable_code, {
     duties_permitted: [0],
@@ -39,6 +40,10 @@ class MeasureType
     File.read("db/measure_type_detail_texts/#{TradeTariffFrontend::ServiceChooser.service_name}/#{id}.md")
   rescue Errno::ENOENT
     nil
+  end
+
+  def safeguard?
+    SAFEGUARD_TYPES.include?(id)
   end
 
   private

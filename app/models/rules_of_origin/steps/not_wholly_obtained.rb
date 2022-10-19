@@ -4,7 +4,7 @@ module RulesOfOrigin
       self.section = 'originating'
 
       def skipped?
-        @store['wholly_obtained'] == 'yes' || single_wholly_obtained_rule?
+        @store['wholly_obtained'] == 'yes' || only_wholly_obtained_rules?
       end
     end
   end

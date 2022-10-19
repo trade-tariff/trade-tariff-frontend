@@ -51,4 +51,10 @@
   <li>
     <%= link_to t('.links.verification'), step_path(:proof_verification) %>
   </li>
+
+  <% if current_step.duty_drawback_available? %>
+    <li>
+      <%= link_to t('.links.duty_drawback'), step_path(:duty_drawback) %>
+    </li>
+  <% end %>
 <ul>

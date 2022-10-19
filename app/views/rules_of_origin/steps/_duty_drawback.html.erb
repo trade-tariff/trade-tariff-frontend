@@ -1,0 +1,46 @@
+<span class="govuk-caption-xl">
+  <%= t '.caption' %>
+</span>
+
+<h1 class="govuk-heading-l">
+  <%= t '.title', trade_country_name: current_step.trade_country_name %>
+</h1>
+
+<div class="tariff-markdown" id="intro">
+  <%= govspeak t '.intro_md' %>
+</div>
+
+<% if current_step.duty_drawback_text.present? %>
+  <div id="example">
+    <h2 class="govuk-heading-m">
+      <%= t '.example.title' %>
+    </h2>
+
+    <div class="tariff-markdown">
+      <%= govspeak t '.example.content_md' %>
+    </div>
+
+    <figure>
+      <%= image_pack_tag 'rules_of_origin/drawback.png', alt: t('.example.caption') %>
+      <figcaption class="govuk-body">
+        <%= t '.example.caption' %>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div id="prohibition">
+    <h2 class="govuk-heading-m">
+      <%= t '.prohibition', scheme_title: current_step.scheme_title %>
+    </h2>
+
+    <div class="tariff-markdown">
+      <div class="numbered-then-lettered-list">
+        <%= govspeak current_step.duty_drawback_text %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="govuk-inset-text tariff-markdown" id="unavailable">
+    <%= govspeak t '.unavailable_md', scheme_title: current_step.scheme_title %>
+  </div>
+<% end %>

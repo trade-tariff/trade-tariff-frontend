@@ -158,6 +158,10 @@ Rails.application.routes.draw do
     end
   end
   get '/find_commodity', to: 'find_commodities#show'
+  get '/pending_quota_balances/:commodity_id/:order_number',
+      to: 'pending_quota_balances#show',
+      as: :pending_quota_balance,
+      defaults: { format: :json }
 
   constraints TradeTariffFrontend::ApiPubConstraints.new(TradeTariffFrontend.public_api_endpoints) do
     scope 'api' do

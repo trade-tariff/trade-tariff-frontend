@@ -98,6 +98,10 @@ module Declarable
     code.gsub(/(00|0000)$/, '')
   end
 
+  def has_safeguard_measure?
+    import_measures.any?(&:safeguard?)
+  end
+
   private
 
   def supplementary_measures

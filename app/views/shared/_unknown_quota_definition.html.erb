@@ -1,0 +1,17 @@
+<%= link_to 'Unknown quota definition', '#unknown-quota-definition',
+            class: 'reference numerical govuk-visually-hidden',
+            style: 'display: none',
+            title: 'Opens in a popup',
+            data: { popup_ref: "unknown-quota-definition" } %>
+
+<div class="popup govuk-visually-hidden" data-popup="unknown-quota-definition">
+  <article>
+    <h2 class="govuk-heading-m">
+      Quota order number <span class="unknown-quota-order-number"></span>
+    </h2>
+
+    <p>
+      This quota is not available on the selected date.
+    </p>
+  </article>
+</div>

@@ -1,10 +1,10 @@
-<%= link_to order_number.number, "##{order_number.id}", class: 'reference numerical', title: 'Opens in a popup', 'data-popup-ref' => "#{order_number.id}" %>&nbsp;
+<%= link_to order_number.number, "#order-number-#{order_number.number}", class: 'reference numerical', title: 'Opens in a popup', 'data-popup-ref' => "order-number-#{order_number.number}" %>&nbsp;
 
-<div class='popup govuk-visually-hidden' data-popup='<%= order_number.id %>'>
+<div class="popup govuk-visually-hidden" data-popup="order-number-<%= order_number.number %>">
   <article>
     <% if order_number.definition.present? %>
       <table class="govuk-table govuk-table-m">
-        <h2 class="govuk-heading-m"><%= "Quota #{order_number.number}"%></h2>
+        <h2 class="govuk-heading-m">Quota order number <%= order_number.number %></h2>
 
         <% if order_number.show_warning? %>
           <div class="govuk-warning-text">
@@ -17,17 +17,48 @@
         <% end %>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
-            <th scope="col" class='govuk-table__header'>Quota order number</th>
-            <td class="numerical govuk-table__cell numerical"><%= order_number.number %></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th scope="col" class='govuk-table__header'>Current balance</th>
-            <td class="numerical govuk-table__cell numerical"><%= "#{quota_definition.balance} #{quota_definition.measurement_unit}" %></td>
+            <th scope="col" class='govuk-table__header'>
+              Balance
+              <span class="govuk-!-font-weight-regular avoid-line-breaks">
+                (as of <%= @search.date.to_formatted_s :short %>)
+              </div>
+            </th>
+            <td class="numerical govuk-table__cell numerical">
+              <%= number_with_precision quota_definition.balance, precision: 3, delimiter: ',' %>
+              <%= quota_definition.measurement_unit %>
+              <% unless @search.date.today? %>
+                <br />
+                <%= link_to params.permit(QuotaSearchForm::PERMITTED_PARAMS)
+                                  .merge(day: Date.today.day,
+                                         month: Date.today.month,
+                                         year: Date.today.year,
+                                         anchor: "order-number-#{order_number.number}") do %>
+                  View balance for <%= Date.today.to_formatted_s :short %>
+                <% end %>
+              <% end %>
+            </td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Opening balance</th>
-            <td class="numerical govuk-table__cell numerical"><%= "#{quota_definition.initial_volume} #{quota_definition.measurement_unit}" %></td>
+            <td class="numerical govuk-table__cell numerical">
+              <%= number_with_precision quota_definition.initial_volume, precision: 3, delimiter: ',' %>
+              <%= quota_definition.measurement_unit %>
+            </td>
           </tr>
+          <% if quota_definition.within_first_twenty_days? && declarable_id %>
+          <tr class="govuk-table__row hidden-pending-balance"
+              data-controller="pending-balance"
+              data-pending-balance-url-value="<%= pending_quota_balance_path(declarable_id, quota_definition.order_number.number) %>">
+            <th scope="col" class='govuk-table__header'>Pending balance</th>
+            <td class="numerical govuk-table__cell numerical">
+              <span data-pending-balance-target="balance"></span>
+              <%= quota_definition.measurement_unit %>
+              remains available from the previous quota period.
+              This will be transferred to the current quota period c. 20 working
+              days after the end of the previous quota period.
+            </td>
+          </tr>
+          <% end %>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Status</th>
             <td class="numerical govuk-table__cell"><%= quota_definition.status %></td>
@@ -40,17 +71,43 @@
             <th scope="col" class='govuk-table__header'>Last allocation date</th>
             <td class="numerical govuk-table__cell numerical"><%= quota_definition.last_allocation_date.to_formatted_s(:gov) || 'n/a' %></td>
           </tr>
-          <tr class="govuk-table__row">
-            <th scope="col" class='govuk-table__header'>Suspension period</th>
-            <td class="numerical govuk-table__cell numerical"><%= suspension_period_dates_for(quota_definition) %></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th scope="col" class='govuk-table__header'>Blocking period</th>
-            <td class="numerical govuk-table__cell numerical"><%= blocking_period_dates_for(quota_definition) %></td>
-          </tr>
+
+          <% if quota_definition.suspension_period? %>
+            <tr class="govuk-table__row">
+              <th scope="col" class='govuk-table__header'>Suspension period</th>
+              <td class="numerical govuk-table__cell numerical">
+                <%= govuk_date_range quota_definition.suspension_period_start_date,
+                                     quota_definition.suspension_period_end_date %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if quota_definition.blocking_period? %>
+            <tr class="govuk-table__row">
+              <th scope="col" class='govuk-table__header'>Blocking period</th>
+              <td class="numerical govuk-table__cell numerical">
+                <%= govuk_date_range quota_definition.blocking_period_start_date,
+                                     quota_definition.blocking_period_end_date %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% unless quota_definition.suspension_period? || quota_definition.blocking_period? %>
+            <tr class="govuk-table__row">
+              <th scope="col" class='govuk-table__header'>Suspension / blocking periods</th>
+              <td class="numerical govuk-table__cell numerical">n/a</td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
-      <p class="govuk-!-margin-top-4">In an effort to facilitate UK importers HMRC endeavours to keep quotas 'OPEN' where possible, therefore the information displayed above may differ slightly from the current UK position. If you require further information contact the Tariff Quota Management Team by email: <%= mail_to("tariff.management@hmrc.gov.uk", nil, subject: "Order number #{order_number.number}") %>.</p>
+
+      <p class="govuk-!-margin-top-4">
+        The status given is correct at the time of the ‘last allocation’. Quota
+        allocations are processed daily (excluding weekends and bank holidays),
+        and the updated balance will be displayed on the Online Tariff Tool the
+        next working day. The information provided within this tool is the most
+        up-to-date information that HMRC can provide at any given time.
+      </p>
     <% else %>
       <p class="govuk-!-margin-top-4">Information on the availability of this quota can be obtained from the Rural Payments Agency.</p>
     <% end %>

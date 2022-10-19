@@ -269,4 +269,18 @@ RSpec.describe Measure do
       end
     end
   end
+
+  describe '#safeguard?' do
+    context 'with safeguard measure' do
+      subject { build :measure, :safeguard }
+
+      it { is_expected.to be_safeguard }
+    end
+
+    context 'with non-safeguard measure' do
+      subject { build :measure }
+
+      it { is_expected.not_to be_safeguard }
+    end
+  end
 end

@@ -26,6 +26,7 @@
 <% end %>
 
 <!-- QUOTAS -->
+<%= render 'shared/unknown_quota_definition' %>
 <% if uk_import_measures.quotas.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Quotas',

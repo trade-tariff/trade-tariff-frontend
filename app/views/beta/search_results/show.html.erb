@@ -1,26 +1,20 @@
-<h1>Search results for '<%= @search_result.search_query_parser_result.corrected_search_query %>'</h1>
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+    t('breadcrumb.search_results'),
+    [
+      [t('breadcrumb.home'), home_path]
+    ]
+  ) %>
+<% end %>
+
+<%= page_header "Search results for
+                &lsquo;#{h @search_result.search_query_parser_result.corrected_search_query}&rsquo;".html_safe
+%>
 
 <section id="beta-search-results-<%= @search_result.resource_id %>">
-  <div class="govuk-grid-row">
-    <% if @search_result.facet_filter_statistics.any? %>
-      <div class="govuk-grid-column-one-third">
-        <%= render 'sidebar', guide: @search_result.guide %>
-      </div>
-      <div class="govuk-grid-column-two-thirds">
-        <% if @search_result.multiple_headings_view? %>
-          <%= render partial: 'multiple_headings_search_results' %>
-        <% else %>
-          <%= render partial: 'search_results' %>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="govuk-grid-column-full">
-        <% if @search_result.multiple_headings_view? %>
-          <%= render partial: 'multiple_headings_search_results' %>
-        <% else %>
-          <%= render partial: 'search_results' %>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+  <% if @search_result.hits.commodities.present? %>
+    <%= render 'with_hits' %>
+  <% else %>
+    <%= render 'no_hits' %>
+  <% end %>
 </section>

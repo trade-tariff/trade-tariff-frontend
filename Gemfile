@@ -26,7 +26,7 @@ gem 'webpacker'
 
 # gov UK
 gem 'govspeak'
-gem 'nokogiri', '~> 1.13.8' # https://github.com/sparklemotion/nokogiri/issues/2205
+gem 'nokogiri', '~> 1.13.9' # https://github.com/sparklemotion/nokogiri/issues/2205
 gem 'plek'
 
 gem 'connection_pool'
@@ -69,7 +69,7 @@ end
 
 group :test do
   gem 'brakeman'
-  gem 'capybara'
+  gem 'capybara', github: 'teamcapybara/capybara', branch: 'master'
   gem 'factory_bot_rails'
   gem 'forgery'
   gem 'rack-test'

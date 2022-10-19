@@ -129,6 +129,10 @@ module ApplicationHelper
     end
   end
 
+  def govuk_date_range(from, to)
+    "#{from.to_date.to_formatted_s(:long)} to #{to.to_date.to_formatted_s(:long)}"
+  end
+
   def paragraph_if_content(content)
     tag.p(content) if content.present?
   end
