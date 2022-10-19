@@ -17,6 +17,8 @@ module Declarable
                                filter: :without_excluded,
                                presenter: MeasurePresenter
 
+    has_many :ancestors, polymorphic: ->(attributes) { attributes[:goods_nomenclature_class] }
+
     attr_accessor :description,
                   :goods_nomenclature_item_id,
                   :number_indents,
@@ -30,6 +32,7 @@ module Declarable
                   :meursing_code,
                   :producline_suffix,
                   :declarable,
+                  :goods_nomenclature_class,
                   :meta
 
     meta_attribute :duty_calculator, :zero_mfn_duty

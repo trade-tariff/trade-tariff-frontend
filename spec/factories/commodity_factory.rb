@@ -16,11 +16,13 @@ FactoryBot.define do
     number_indents { 2 }
     meursing_code { false }
     declarable { true }
+    resource_type { 'commodity' }
 
     import_measures { [] }
     export_measures { [] }
     overview_measures { [] }
     import_trade_summary {}
+    ancestors { [] }
 
     meta do
       {
@@ -92,6 +94,16 @@ FactoryBot.define do
         [
           attributes_for(:measure, :prohibitive),
           attributes_for(:measure, :conditionally_prohibitive),
+        ]
+      end
+    end
+
+    trait :with_ancestors do
+      ancestors do
+        [
+          attributes_for(:ancestor, :chapter),
+          attributes_for(:ancestor, :heading),
+          attributes_for(:ancestor, :subheading),
         ]
       end
     end

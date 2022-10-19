@@ -8,10 +8,12 @@ FactoryBot.define do
     description { Forgery(:basic).text }
     formatted_description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0101000000' }
+    resource_type { 'heading' }
 
     commodities { attributes_for_list :commodity, commodity_count || 0 }
     import_measures { [] }
     export_measures { [] }
+    ancestors { [] }
 
     trait :with_commodity_tree do
       commodities do

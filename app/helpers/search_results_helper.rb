@@ -66,7 +66,7 @@ module SearchResultsHelper
   end
 
   def ancestor_links(hit, css_class: nil)
-    hit.ancestors[1..].map do |good_nomenclature|
+    hit.ancestors.map do |good_nomenclature|
       link_to(good_nomenclature.description, polymorphic_path(good_nomenclature), class: css_class)
     end
   end

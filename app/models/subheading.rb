@@ -10,7 +10,6 @@ class Subheading < GoodsNomenclature
 
   has_many :footnotes
   has_many :commodities
-  has_many :ancestors, class_name: 'Commodity'
 
   collection_path '/subheadings'
 

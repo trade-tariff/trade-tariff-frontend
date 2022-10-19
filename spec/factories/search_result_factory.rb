@@ -19,7 +19,7 @@ FactoryBot.define do
         attributes_for(:chapter, resource_type: 'chapter'),
         attributes_for(:heading, resource_type: 'heading'),
         attributes_for(:subheading, resource_type: 'subheading'),
-        attributes_for(:commodity, resource_type: 'commodity'),
+        attributes_for(:commodity, :with_ancestors, description: 'Pure-bred breeding animals'),
       ]
     end
 
