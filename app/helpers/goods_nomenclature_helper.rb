@@ -24,6 +24,10 @@ module GoodsNomenclatureHelper
     link_to("Return to #{current_goods_nomenclature_code}", goods_nomenclature_path, class: 'govuk-link')
   end
 
+  def goods_nomenclature_back_to_commodity_link
+    link_to("Back to commodity #{current_goods_nomenclature_code}", goods_nomenclature_path, class: 'govuk-back-link')
+  end
+
   def current_goods_nomenclature_code
     session[:goods_nomenclature_code]
   end

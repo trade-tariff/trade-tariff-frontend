@@ -27,8 +27,20 @@ class MeasureType
     translated_description || attributes['description']
   end
 
+  def description_only
+    attributes['description']
+  end
+
   def supplementary_unit_import_only?
     id.in?(SUPPLEMENTARY_IMPORT_ONLY_MEASURE_TYPES)
+  end
+
+  def md_details
+    begin
+      File.read("db/measure_type_detail_texts/#{TradeTariffFrontend::ServiceChooser.service_name}/#{id}.md") 
+    rescue Errno::ENOENT 
+      nil
+    end
   end
 
   private

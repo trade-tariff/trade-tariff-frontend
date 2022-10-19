@@ -19,6 +19,10 @@ FactoryBot.define do
       attributes_for(:geographical_area, id: geographical_area_id)
     end
 
+    preference_code do
+      attributes_for(:preference_code)
+    end
+
     trait :vat do
       vat { true }
       measure_type { attributes_for(:measure_type, :vat) }

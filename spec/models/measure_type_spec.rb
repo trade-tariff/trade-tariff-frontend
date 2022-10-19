@@ -136,4 +136,25 @@ RSpec.describe MeasureType do
       it { is_expected.to eq('Bar') }
     end
   end
+
+  describe '#description_only' do
+    subject(:description) { measure.measure_type.description }
+    let(:measure) { build(:measure, measure_type_description: 'Bar') }
+
+    it { is_expected.to eq('Bar') }
+  end
+
+  describe '#md_details' do
+    context 'when markdown file exists' do
+      subject(:measure_type) { build(:measure_type, id: '103') }
+
+      it { expect(measure_type.md_details).to match(/Third country/) }
+    end
+
+    context 'when markdown file does not exist for measure type' do
+      subject(:measure_type) { build(:measure_type, id: '911') }
+
+      it { expect(measure_type.md_details).to be_nil }
+    end
+  end
 end

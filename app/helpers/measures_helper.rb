@@ -25,6 +25,14 @@ module MeasuresHelper
     sanitize(link, attributes: %w[href target role rel class title])
   end
 
+  def measure_type_description_or_link(measure)
+    if measure.preference_code.present?
+      link_to measure.measure_type.description, measure_type_path(measure_type_id: measure.measure_type.id, preference_code_id: measure.preference_code.code), title: "#{measure.measure_type.description} - use preference code #{measure.preference_code.code}"
+    else
+      measure.measure_type.description
+    end
+  end
+
   def check_how_to_export_goods_link(declarable:, country_code:, country_name:, eu_member:)
     if eu_member
       commodity_code_for_check_duties = declarable.commodity_code_for_check_duties_service

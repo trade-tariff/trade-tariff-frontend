@@ -3,7 +3,7 @@ class MeasureTypeController < ApplicationController
                 :disable_last_updated_footnote
 
   def show
-    #@measure_type = MeasureType.find(params[:measure_type_id])
-    #@preference_code = PreferenceCode.find(params[:preference_code_id])
+    @measure_type = MeasureType.find(params[:measure_type_id])
+    @preference_code = PreferenceCode.find(params[:preference_code_id])
   end
 end

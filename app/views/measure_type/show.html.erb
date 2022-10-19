@@ -1,13 +1,13 @@
-<a href="/" class="govuk-back-link">Back to commodity x</a>
+<%= goods_nomenclature_back_to_commodity_link %>
 
 <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
       <span class="govuk-caption-xl">The UK Integrated Online Tariff</span>
-      <h1 class="govuk-heading-l">Third country duty</h1>
+      <h1 class="govuk-heading-l"><%= @measure_type.description_only %></h1>
 
       <h2 class="govuk-heading-m">
-        About third country duty measures
+        About <%= @measure_type.description_only %> measures
       </h2>
 
       <table class="govuk-table">
@@ -15,14 +15,14 @@
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header nw">Measure type</th>
             <td class="govuk-table__cell">
-              103
+              <%= @measure_type.id %>
             </td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header nw">Description</th>
             <td class="govuk-table__cell">
-              <p>Third country duty</p>
-              <p><%#= @measure_type.descrition %>A ‘Third country’ duty is the tariff charged where there isn’t a trade agreement or a customs union with the UK. It can also be referred to as the Most Favoured Nation (MFN) rate.</p>
+              <p><%= @measure_type.description_only %></p>
+              <p class="tariff-markdown"><%= govspeak @measure_type.md_details %></p>
             </td>
           </tr>
 
@@ -33,45 +33,45 @@
             </td>
           </tr>
           
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header nw">Preference code</th>
-              <td class="govuk-table__cell">100<%#= @preference_code.id %></td>
-            </tr>
-            <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">
-                Preference code description<%#= @preference_code.description %>
-              </th>
-              <td class="govuk-table__cell">
-                Erga Omnes third country duty rates
-              </td>
-            </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header nw">Preference code</th>
+            <td class="govuk-table__cell"><%= @preference_code.code %></td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Preference code description
+            </th>
+            <td class="govuk-table__cell">
+              <%= @preference_code.description %>
+            </td>
+          </tr>
         </tbody>
       </table>
 
-        <h2 class="govuk-heading-m">About preference codes</h2>
-        <div class="govuk-inset-text">
-          <p>
-            When completing import declarations, preference codes should be entered
-            into CDS in Data Element 4/17 and in CHIEF in Box 36. A preference code
-            is mandatory for all imports where the goods are:
-          </p>
-          <ul class="govuk-list govuk-list--bullet">
-            <li>
-              entering a free circulation regime (including authorised use)
-            </li>
-            <li>
-              where a claim to tariff preference or quotas is established upon entry
-              to the customs procedure
-            </li>
-          </ul>
-          <p>
-            The 3-digit code indicates whether a reduction in, or relief from,
-            import duty applies. This includes specific duties and other equivalent
-            charges applicable to CAP goods.
-          </p>
-          <p class="govuk-body">
-            <a target="_blank" href="https://www.gov.uk/government/publications/preference-codes-for-data-element-417-of-the-customs-declaration-service">See all preference codes (opens in new tab)</a>
-          </p>
+      <h2 class="govuk-heading-m">About preference codes</h2>
+      <div class="govuk-inset-text">
+        <p>
+          When completing import declarations, preference codes should be entered
+          into CDS in Data Element 4/17 and in CHIEF in Box 36. A preference code
+          is mandatory for all imports where the goods are:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            entering a free circulation regime (including authorised use)
+          </li>
+          <li>
+            where a claim to tariff preference or quotas is established upon entry
+            to the customs procedure
+          </li>
+        </ul>
+        <p>
+          The 3-digit code indicates whether a reduction in, or relief from,
+          import duty applies. This includes specific duties and other equivalent
+          charges applicable to CAP goods.
+        </p>
+        <p class="govuk-body">
+          <a target="_blank" href="https://www.gov.uk/government/publications/preference-codes-for-data-element-417-of-the-customs-declaration-service">See all preference codes (opens in new tab)</a>
+        </p>
       </div>
     </div>
   </div>

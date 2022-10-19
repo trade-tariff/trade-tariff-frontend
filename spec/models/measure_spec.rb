@@ -17,6 +17,7 @@ RSpec.describe Measure do
         measure_condition_permutation_groups
         footnotes
         goods_nomenclature
+        preference_code
       ]
     end
 
