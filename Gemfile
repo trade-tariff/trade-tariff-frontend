@@ -69,7 +69,7 @@ end
 
 group :test do
   gem 'brakeman'
-  gem 'capybara'
+  gem 'capybara', github: 'teamcapybara/capybara', branch: 'master'
   gem 'factory_bot_rails'
   gem 'forgery'
   gem 'rack-test'
