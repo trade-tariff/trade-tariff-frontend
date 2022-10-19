@@ -4,7 +4,6 @@ threads threads_count, threads_count
 
 preload_app!
 
-rackup      DefaultRackup
 port        ENV['PORT']     || 3001
 environment ENV['RACK_ENV'] || 'development'
 
@@ -12,7 +11,7 @@ on_worker_boot do
   # Ensure we don't keep connections
   if defined?(Sequel)
     ::Sequel::Model.db.disconnect
-    ::Sequel::DATABASES.each{ |db| db.disconnect }
+    ::Sequel::DATABASES.each(&:disconnect)
   end
 end
 
