@@ -19,6 +19,19 @@
           <%= link_to polymorphic_path(hit) do %>
             <%= hit.description&.html_safe %>
           <% end %>
+          <div>
+
+          <div class="govuk-breadcrumbs">
+            <ol class="govuk-breadcrumbs__list">
+              <% ancestor_links(hit, css_class: 'breadcrumbs__link').each do |link| %>
+                <li class="govuk-breadcrumbs__list-item govuk-!-font-size-14">
+                  <%= link %>
+                </li>
+                <% end %>
+            </ol>
+          </div>
+
+          </div>
         </td>
       </tr>
     <% end %>
