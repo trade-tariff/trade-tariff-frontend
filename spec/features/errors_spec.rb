@@ -19,21 +19,69 @@ RSpec.describe 'Error handling' do
   end
 
   describe 'not found page' do
-    before { visit '/404' }
+    context 'with html' do
+      before { visit '/404' }
 
-    it_behaves_like 'not found'
+      it_behaves_like 'not found'
+    end
+
+    context 'with json' do
+      before { visit '/404.json' }
+
+      it { is_expected.to have_http_status :not_found }
+      it { expect(JSON.parse(page.body)).to include 'error' => 'Resource not found' }
+    end
+
+    context 'with something else' do
+      before { visit '/404.pdf' }
+
+      it { is_expected.to have_http_status :not_found }
+      it { is_expected.to have_attributes body: 'Resource not found' }
+    end
   end
 
   describe 'exception page' do
-    before { visit '/500' }
+    context 'with html' do
+      before { visit '/500' }
 
-    it_behaves_like 'internal server error'
+      it_behaves_like 'internal server error'
+    end
+
+    context 'with json' do
+      before { visit '/500.json' }
+
+      it { is_expected.to have_http_status :internal_server_error }
+      it { expect(JSON.parse(page.body)).to include 'error' => 'Internal server error' }
+    end
+
+    context 'with something else' do
+      before { visit '/500.pdf' }
+
+      it { is_expected.to have_http_status :internal_server_error }
+      it { is_expected.to have_attributes body: 'Internal server error' }
+    end
   end
 
   describe 'maintenance mode' do
-    before { visit '/503' }
+    context 'with html' do
+      before { visit '/503' }
 
-    it_behaves_like 'service unavailable'
+      it_behaves_like 'service unavailable'
+    end
+
+    context 'with json' do
+      before { visit '/503.json' }
+
+      it { is_expected.to have_http_status :service_unavailable }
+      it { expect(JSON.parse(page.body)).to include 'error' => 'Maintenance mode' }
+    end
+
+    context 'with something else' do
+      before { visit '/503.pdf' }
+
+      it { is_expected.to have_http_status :service_unavailable }
+      it { is_expected.to have_attributes body: 'Maintenance mode' }
+    end
   end
 
   describe 'rescued exceptions' do
