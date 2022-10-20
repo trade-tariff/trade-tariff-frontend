@@ -26,10 +26,13 @@ module MeasuresHelper
   end
 
   def measure_type_description_or_link(measure)
+    description = measure.measure_type.description
+
     if measure.preference_code.present?
-      link_to measure.measure_type.description, measure_type_path(measure_type_id: measure.measure_type.id, preference_code_id: measure.preference_code.code), title: "#{measure.measure_type.description} - use preference code #{measure.preference_code.code}"
+      path = measure_type_preference_code_path(measure_type_id: measure.measure_type.id, id: measure.preference_code.code, geographical_area_id: measure.geographical_area.id)
+      link_to description, path, title: "#{measure.measure_type.description} - use preference code #{measure.preference_code.code}"
     else
-      measure.measure_type.description
+      description
     end
   end
 

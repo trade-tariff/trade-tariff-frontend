@@ -58,21 +58,19 @@ RSpec.describe MeasuresHelper, type: :helper do
   end
 
   describe '#measure_type_description_or_link' do
-    let(:measure) { build(:measure, measure_type_description: 'foo', measure_type_id: '111') }
-
     context 'when preference code is present' do
+      let(:measure) { build(:measure, measure_type_description: 'foo', measure_type_id: '111') }
+
       let(:expected_link) do
-        '<a title="foo - use preference code 103" href="/measure_type/111/103">foo</a>'
+        '<a title="foo - use preference code 103" href="/measure_types/111/preference_codes/103?geographical_area_id=FR">foo</a>'
       end
 
       it { expect(helper.measure_type_description_or_link(measure)).to eq(expected_link) }
       it { expect(helper.measure_type_description_or_link(measure)).to be_html_safe }
     end
 
-    context 'when there is no preferene_code' do
-      before do
-        measure.preference_code = nil
-      end
+    context 'when there is no preference_code' do
+      let(:measure) { build(:measure, measure_type_description: 'foo', measure_type_id: '111', preference_code: nil) }
 
       it { expect(helper.measure_type_description_or_link(measure)).to eq('foo') }
     end

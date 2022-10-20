@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe MeasureTypeController, type: :request do
+RSpec.describe MeasureTypes::PreferenceCodesController, type: :request do
   subject { make_request && response }
 
   let(:measure_type) { build :measure_type }
@@ -17,7 +17,7 @@ RSpec.describe MeasureTypeController, type: :request do
                             .and_return preference_code
     end
 
-    let(:make_request) { get measure_type_path(measure_type_id: measure_type.id, preference_code_id: preference_code.code) }
+    let(:make_request) { get measure_type_preference_code_path(measure_type_id: measure_type.id, id: preference_code.code) }
 
     it { is_expected.to have_http_status :ok }
     it { is_expected.to have_attributes content_type: %r{text/html} }

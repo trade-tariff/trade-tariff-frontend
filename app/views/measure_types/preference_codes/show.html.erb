@@ -4,10 +4,10 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
       <span class="govuk-caption-xl">The UK Integrated Online Tariff</span>
-      <h1 class="govuk-heading-l"><%= @measure_type.description_only %></h1>
+      <h1 class="govuk-heading-l"><%= @measure_type.description %></h1>
 
       <h2 class="govuk-heading-m">
-        About <%= @measure_type.description_only %> measures
+        About <%= @measure_type.description %> measures
       </h2>
 
       <table class="govuk-table">
@@ -21,8 +21,8 @@
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header nw">Description</th>
             <td class="govuk-table__cell">
-              <p><%= @measure_type.description_only %></p>
-              <p class="tariff-markdown"><%= govspeak @measure_type.md_details %></p>
+              <p><%= @measure_type.description %></p>
+              <p class="tariff-markdown"><%= @measure_type.details_text %></p>
             </td>
           </tr>
 
@@ -32,7 +32,7 @@
               Import only
             </td>
           </tr>
-          
+
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header nw">Preference code</th>
             <td class="govuk-table__cell"><%= @preference_code.code %></td>

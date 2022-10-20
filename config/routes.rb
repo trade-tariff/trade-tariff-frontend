@@ -62,7 +62,9 @@ Rails.application.routes.draw do
 
   get 'geographical_areas/:id', to: 'geographical_areas#show', as: :geographical_area
 
-  get '/measure_type/:measure_type_id/:preference_code_id', to: 'measure_type#show', as: :measure_type
+  resources :measure_types, only: [], module: 'measure_types' do
+    resources :preference_codes, only: [:show]
+  end
 
   resources :feedbacks, controller: 'feedback', only: %i[new create]
 

@@ -1,6 +1,10 @@
 require 'api_entity'
 
 class MeasureType
+  RENDERED_MEASURE_TYPE_DETAILS = { 'xi' => {}, 'uk' => {} }.freeze
+
+  delegate :service_name, to: TradeTariffFrontend::ServiceChooser
+
   include ApiEntity
 
   SUPPLEMENTARY_MEASURE_TYPES = %w[109 110 111].freeze
@@ -18,7 +22,7 @@ class MeasureType
   }
 
   attr_accessor :id, :measure_component_applicable_code, :measure_type_series_id
-  attr_writer :description
+  attr_writer :description, :geographical_area_id
 
   def supplementary?
     id.in?(SUPPLEMENTARY_MEASURE_TYPES)
@@ -28,18 +32,16 @@ class MeasureType
     translated_description || attributes['description']
   end
 
-  def description_only
-    attributes['description']
-  end
-
   def supplementary_unit_import_only?
     id.in?(SUPPLEMENTARY_IMPORT_ONLY_MEASURE_TYPES)
   end
 
-  def md_details
-    File.read("db/measure_type_detail_texts/#{TradeTariffFrontend::ServiceChooser.service_name}/#{id}.md")
-  rescue Errno::ENOENT
-    nil
+  def details_text
+    RENDERED_MEASURE_TYPE_DETAILS[service_name][id] ||=
+      Govspeak::Document.new(
+        details_markdown_text,
+        sanitize: true,
+      ).to_html.strip.html_safe
   end
 
   def safeguard?
@@ -53,6 +55,20 @@ class MeasureType
   end
 
   def geographical_area_id
-    casted_by.geographical_area.id
+    if casted_by.present?
+      casted_by.geographical_area.id
+    else
+      @geographical_area_id
+    end
+  end
+
+  def details_markdown_text
+    if File.exist?(details_markdown_file)
+      File.read(details_markdown_file)
+    end
+  end
+
+  def details_markdown_file
+    "db/measure_type_detail_texts/#{TradeTariffFrontend::ServiceChooser.service_name}/#{id}.md"
   end
 end
