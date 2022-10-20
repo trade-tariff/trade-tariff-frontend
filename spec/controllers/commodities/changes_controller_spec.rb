@@ -32,10 +32,10 @@ RSpec.describe Commodities::ChangesController, 'GET to #index', type: :controlle
   describe 'commodity is not valid at given date', vcr: { cassette_name: 'commodities_changes#index_4302130000_2013-11-11' } do
     let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: '4302130000')) }
 
-    before do
+    let :request_page do
       get :index, params: { commodity_id: commodity.short_code, as_of: Date.new(2013, 11, 11) }, format: :atom
     end
 
-    it { is_expected.to respond_with(:not_found) }
+    it { expect { request_page }.to raise_exception Faraday::ResourceNotFound }
   end
 end

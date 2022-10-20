@@ -183,4 +183,6 @@ module TradeTariffFrontend
       ]
     end
   end
+
+  class FeatureUnavailable < StandardError; end
 end

@@ -28,10 +28,10 @@ RSpec.describe Chapters::ChangesController, 'GET to #index', type: :controller d
   end
 
   describe 'chapter is not valid at given date', vcr: { cassette_name: 'chapters_changes#index_0100000000_1970-01-01' } do
-    before do
+    let :request_page do
       get :index, params: { chapter_id: chapter.short_code, as_of: Date.new(1970, 1, 1) }, format: :atom
     end
 
-    it { is_expected.to respond_with(:not_found) }
+    it { expect { request_page }.to raise_exception Faraday::ResourceNotFound }
   end
 end

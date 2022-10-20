@@ -58,6 +58,8 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
     context 'with an invalid step' do
       before { get rules_of_origin_step_path commodity_code, country_code, :invalid }
 
+      include_context 'with rescued exceptions'
+
       it { is_expected.to have_http_status :not_found }
     end
 
