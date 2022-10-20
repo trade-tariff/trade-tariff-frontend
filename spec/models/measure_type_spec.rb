@@ -116,9 +116,9 @@ RSpec.describe MeasureType do
   end
 
   describe '#description' do
-    subject(:description) { measure.measure_type.description }
-
     shared_examples_for 'a Channel Island measure type description' do |measure_type_id, geographical_area_id|
+      subject(:description) { measure.measure_type.description }
+
       let(:measure) do
         build(:measure, measure_type_id:,
                         geographical_area_id:)
@@ -130,10 +130,42 @@ RSpec.describe MeasureType do
     it_behaves_like 'a Channel Island measure type description', '103', '1400'
     it_behaves_like 'a Channel Island measure type description', '105', '1400'
 
+    context 'when the measure type is loaded without a measure and no geographical_area_id is set' do
+      subject(:description) { measure_type.description }
+
+      let(:measure_type) { build(:measure_type, description: 'Bar') }
+
+      it { is_expected.to eq('Bar') }
+    end
+
+    context 'when the measure type is loaded without a measure and a geographical_area_id is set' do
+      subject(:description) { measure_type.description }
+
+      let(:measure_type) { build(:measure_type, id: '103', description: 'Foo', geographical_area_id: '1400') }
+
+      it { is_expected.to eq('Channel Islands duty') }
+    end
+
     context 'when there are no matching locales' do
+      subject(:description) { measure.measure_type.description }
+
       let(:measure) { build(:measure, measure_type_description: 'Bar') }
 
       it { is_expected.to eq('Bar') }
+    end
+  end
+
+  describe '#details_text' do
+    context 'when markdown file exists' do
+      subject(:measure_type) { build(:measure_type, id: '103') }
+
+      it { expect(measure_type.details_text).to match(/Third country/) }
+    end
+
+    context 'when markdown file does not exist for measure type' do
+      subject(:measure_type) { build(:measure_type, id: '911') }
+
+      it { expect(measure_type.details_text).to eq('') }
     end
   end
 

@@ -1,0 +1,78 @@
+<%= goods_nomenclature_back_to_commodity_link %>
+
+<main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing" id="main-content" role="main">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+      <span class="govuk-caption-xl">The UK Integrated Online Tariff</span>
+      <h1 class="govuk-heading-l"><%= @measure_type.description %></h1>
+
+      <h2 class="govuk-heading-m">
+        About <%= @measure_type.description %> measures
+      </h2>
+
+      <table class="govuk-table">
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header nw">Measure type</th>
+            <td class="govuk-table__cell">
+              <%= @measure_type.id %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header nw">Description</th>
+            <td class="govuk-table__cell">
+              <p><%= @measure_type.description %></p>
+              <p class="tariff-markdown"><%= @measure_type.details_text %></p>
+            </td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header nw">Trade direction</th>
+            <td class="govuk-table__cell">
+              Import only
+            </td>
+          </tr>
+
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header nw">Preference code</th>
+            <td class="govuk-table__cell"><%= @preference_code.code %></td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Preference code description
+            </th>
+            <td class="govuk-table__cell">
+              <%= @preference_code.description %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="govuk-heading-m">About preference codes</h2>
+      <div class="govuk-inset-text">
+        <p>
+          When completing import declarations, preference codes should be entered
+          into CDS in Data Element 4/17 and in CHIEF in Box 36. A preference code
+          is mandatory for all imports where the goods are:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            entering a free circulation regime (including authorised use)
+          </li>
+          <li>
+            where a claim to tariff preference or quotas is established upon entry
+            to the customs procedure
+          </li>
+        </ul>
+        <p>
+          The 3-digit code indicates whether a reduction in, or relief from,
+          import duty applies. This includes specific duties and other equivalent
+          charges applicable to CAP goods.
+        </p>
+        <p class="govuk-body">
+          <a target="_blank" href="https://www.gov.uk/government/publications/preference-codes-for-data-element-417-of-the-customs-declaration-service">See all preference codes (opens in new tab)</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</main>

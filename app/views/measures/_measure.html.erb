@@ -15,7 +15,7 @@
   </td>
 
   <td class="measure-type-col govuk-table__cell <%= measure.measure_type.id %>">
-    <span class='table-line'><%= measure.measure_type.description %></span>
+    <span class='table-line'><%= measure_type_description_or_link(measure) %></span>
     <% if measure.order_number.present? %>
       <span class='table-line'>
         <%= render 'shared/quota_definition',

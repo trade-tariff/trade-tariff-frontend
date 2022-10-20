@@ -29,6 +29,7 @@ class Measure
   has_many :measure_condition_permutation_groups
   has_many :footnotes
   has_one :goods_nomenclature, polymorphic: true
+  has_one :preference_code
 
   delegate :erga_omnes?, to: :geographical_area
   delegate :amount, to: :duty_expression

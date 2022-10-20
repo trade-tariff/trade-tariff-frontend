@@ -118,6 +118,7 @@ en:
   measure_type_duties:
     1080:
       103: 'n/a'
+  measure_type_message: Click on a measure type to find out more about the measure and the preference code to be used on declarations.
   service_banner:
     service_name:
       uk: "UK Integrated Online Tariff"
