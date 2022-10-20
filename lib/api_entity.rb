@@ -141,10 +141,8 @@ private
         entity = if attributes.nil?
                    nil
                  else
-                   class_name = if options[:polymorphic] && options[:polymorphic].respond_to?(:call)
-                                  options[:polymorphic].call(attributes)
-                                elsif options[:polymorphic]
-                                  attributes['resource_type'].classify
+                   class_name = if options[:polymorphic]
+                                  attributes['resource_type']&.classify || options[:class_name]
                                 else
                                   options[:class_name]
                                 end
@@ -178,10 +176,8 @@ private
         data = data.presence || []
 
         collection = data.map do |attributes|
-          class_name = if options[:polymorphic] && options[:polymorphic].respond_to?(:call)
-                         options[:polymorphic].call(attributes)
-                       elsif options[:polymorphic]
-                         attributes['resource_type'].classify
+          class_name = if options[:polymorphic]
+                         attributes['resource_type']&.classify || options[:class_name]
                        else
                          options[:class_name]
                        end

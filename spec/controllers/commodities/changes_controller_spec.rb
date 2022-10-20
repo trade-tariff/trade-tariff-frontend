@@ -13,11 +13,11 @@ RSpec.describe Commodities::ChangesController, 'GET to #index', type: :controlle
     it { expect(assigns(:changes)).to be_a(ChangesPresenter) }
   end
 
-  describe 'commodity has no changes at given date', vcr: { cassette_name: 'commodities_changes#index_4302130000_1998-01-01' }, type: :controller do
-    let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: '4302130000')) }
+  describe 'commodity has no changes at given date', vcr: { cassette_name: 'commodities_changes#index_0702000007_2020-07-22', record: :new_episodes }, type: :controller do
+    let!(:commodity) { Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: '0702000007')) }
 
     before do
-      get :index, params: { commodity_id: commodity.short_code, as_of: Date.new(1998, 1, 1) }, format: :atom
+      get :index, params: { commodity_id: commodity.short_code, year: '2020', month: '07', day: '22'}, format: :atom
     end
 
     it { is_expected.to respond_with(:success) }

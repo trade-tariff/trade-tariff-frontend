@@ -13,6 +13,8 @@ class GoodsNomenclature
                 :heading_id,
                 :chapter_id
 
+  has_many :ancestors, polymorphic: true
+
   def validity_start_date=(validity_start_date)
     @attributes['validity_start_date'] = Date.parse(validity_start_date.to_s) if validity_start_date.present?
   end

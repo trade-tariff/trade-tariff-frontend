@@ -39,5 +39,13 @@ FactoryBot.define do
         [subheading, commodity]
       end
     end
+
+    trait :with_ancestors do
+      ancestors do
+        [
+          attributes_for(:chapter),
+        ]
+      end
+    end
   end
 end

@@ -101,9 +101,9 @@ FactoryBot.define do
     trait :with_ancestors do
       ancestors do
         [
-          attributes_for(:ancestor, :chapter),
-          attributes_for(:ancestor, :heading),
-          attributes_for(:ancestor, :subheading),
+          attributes_for(:chapter),
+          attributes_for(:heading),
+          attributes_for(:subheading),
         ]
       end
     end

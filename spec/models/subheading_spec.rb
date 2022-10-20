@@ -6,16 +6,16 @@ RSpec.describe Subheading do
   describe '.relationships' do
     let(:expected_relationships) do
       %i[
-        section
-        chapter
-        heading
-        footnotes
-        commodities
         ancestors
+        chapter
+        commodities
+        footnotes
+        heading
+        section
       ]
     end
 
-    it { expect(described_class.relationships).to eq(expected_relationships) }
+    it { expect(described_class.relationships).to match_array(expected_relationships) }
   end
 
   it { is_expected.to have_attributes(goods_nomenclature_item_id: '0101100000') }

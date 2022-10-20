@@ -2,9 +2,9 @@ require 'spec_helper'
 
 RSpec.describe GoodsNomenclature do
   describe '.relationships' do
-    let(:expected_relationships) { %i[] }
+    let(:expected_relationships) { %i[ancestors] }
 
-    it { expect(described_class.relationships).to eq(expected_relationships) }
+    it { expect(described_class.relationships).to match_array(expected_relationships) }
   end
 
   describe '#validity_start_date=' do

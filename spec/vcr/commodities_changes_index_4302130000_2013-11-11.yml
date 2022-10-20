@@ -2,17 +2,21 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
+    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
     body:
       encoding: US-ASCII
       string: ''
     headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 404
@@ -24,34 +28,43 @@ http_interactions:
       - 1; mode=block
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - efd37e2c-a47c-4b33-af0b-9f59b1ed0090
+      - 492c1d9d-129f-4374-a343-40b3aaead39e
       X-Runtime:
-      - '0.005868'
-      Transfer-Encoding:
-      - chunked
+      - '0.008746'
+      Content-Length:
+      - '35'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/commodities/4302130000?as_of=2013-11-11\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
+      string: '{"errors":[{"detail":"not found"}]}'
+  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
+    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
     body:
       encoding: US-ASCII
       string: ''
     headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 404
@@ -63,34 +76,43 @@ http_interactions:
       - 1; mode=block
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 420854c2-0847-452a-a54d-19f331a2a564
+      - 1a1d21c7-d789-4cde-a2ce-c65e91a4fcea
       X-Runtime:
-      - '0.007327'
-      Transfer-Encoding:
-      - chunked
+      - '0.007603'
+      Content-Length:
+      - '35'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/commodities/4302130000?as_of=2013-11-11\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
+      string: '{"errors":[{"detail":"not found"}]}'
+  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
+    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
     body:
       encoding: US-ASCII
       string: ''
     headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 404
@@ -102,34 +124,43 @@ http_interactions:
       - 1; mode=block
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 82d7c254-393e-47a4-8f5c-aaefbec08719
+      - e19aaf56-f95d-4ec3-8119-a75a622677b1
       X-Runtime:
-      - '0.005125'
-      Transfer-Encoding:
-      - chunked
+      - '0.008045'
+      Content-Length:
+      - '35'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/commodities/4302130000?as_of=2013-11-11\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
+      string: '{"errors":[{"detail":"not found"}]}'
+  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
+    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
     body:
       encoding: US-ASCII
       string: ''
     headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 404
@@ -141,34 +172,43 @@ http_interactions:
       - 1; mode=block
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - d97704e3-453c-47fe-87e5-d5dc06255ca3
+      - d2aa43a9-399a-462f-8cbf-454e0ce6d028
       X-Runtime:
-      - '0.005209'
-      Transfer-Encoding:
-      - chunked
+      - '0.008403'
+      Content-Length:
+      - '35'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/commodities/4302130000?as_of=2013-11-11\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
+      string: '{"errors":[{"detail":"not found"}]}'
+  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
+    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
     body:
       encoding: US-ASCII
       string: ''
     headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 404
@@ -180,34 +220,43 @@ http_interactions:
       - 1; mode=block
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - d19880e4-1bbe-4df6-9130-a9246387985e
+      - 057c4056-da92-4cd4-a460-cb32f5a5557f
       X-Runtime:
-      - '0.006077'
-      Transfer-Encoding:
-      - chunked
+      - '0.008146'
+      Content-Length:
+      - '35'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/commodities/4302130000?as_of=2013-11-11\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
+      string: '{"errors":[{"detail":"not found"}]}'
+  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2013-11-11
+    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
     body:
       encoding: US-ASCII
       string: ''
     headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 404
@@ -219,19 +268,24 @@ http_interactions:
       - 1; mode=block
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 64b02baf-db92-4439-8adf-0bcbf5bdcf7b
+      - 8682b633-1010-4769-8225-ba5a9300da22
       X-Runtime:
-      - '0.006868'
-      Transfer-Encoding:
-      - chunked
+      - '0.007470'
+      Content-Length:
+      - '35'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/commodities/4302130000?as_of=2013-11-11\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:33 GMT
-recorded_with: VCR 3.0.3
+      string: '{"errors":[{"detail":"not found"}]}'
+  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
+recorded_with: VCR 6.1.0
