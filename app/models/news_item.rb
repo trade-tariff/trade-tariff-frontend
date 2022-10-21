@@ -16,7 +16,6 @@ class NewsItem
   attr_accessor :id,
                 :slug,
                 :title,
-                :precis,
                 :content,
                 :display_style,
                 :show_on_xi,
@@ -26,6 +25,7 @@ class NewsItem
                 :show_on_banner
 
   attr_reader :start_date, :end_date
+  attr_writer :precis
 
   has_many :collections, class_name: 'NewsCollection'
 
@@ -111,5 +111,13 @@ class NewsItem
 
   def paragraphs
     @paragraphs ||= content.to_s.split(/(\r?\n)+/).map(&:presence).compact
+  end
+
+  def precis
+    @precis.presence || paragraphs.first
+  end
+
+  def content_after_precis?
+    @precis.present? ? content.present? : paragraphs.many?
   end
 end

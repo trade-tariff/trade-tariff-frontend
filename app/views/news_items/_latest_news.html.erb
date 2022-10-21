@@ -6,9 +6,9 @@
   </div>
   <div class="govuk-notification-banner__content">
     <div class="tariff-markdown">
-      <%= format_news_item_content news_item.paragraphs.first %>
+      <%= format_news_item_content news_item.precis %>
 
-      <%- if news_item.paragraphs.many? -%>
+      <%- if news_item.content_after_precis? -%>
         <%= link_to 'Show more ...', news_item,
                     class: 'govuk-notification-banner__link' %>
       <%- end -%>

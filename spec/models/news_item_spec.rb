@@ -291,4 +291,52 @@ RSpec.describe NewsItem do
     it { is_expected.to have_attributes length: 2 }
     it { is_expected.to all be_instance_of NewsCollection }
   end
+
+  describe '#precis' do
+    subject { news.precis }
+
+    context 'with precis' do
+      let(:news) { build :news_item, precis: "first para\n\nsecond para" }
+
+      it { is_expected.to eql "first para\n\nsecond para" }
+    end
+
+    context 'without precis' do
+      let(:news) { build :news_item, precis: '', content: 'Testing 123' }
+
+      it { is_expected.to eql 'Testing 123' }
+    end
+  end
+
+  describe '#content_after_precis?' do
+    subject { news.content_after_precis? }
+
+    context 'with precis' do
+      context 'with content' do
+        let(:news) { build :news_item, :with_precis, content: 'something' }
+
+        it { is_expected.to be true }
+      end
+
+      context 'without content' do
+        let(:news) { build :news_item, :with_precis, content: '' }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'without precis' do
+      context 'with single paragraph content' do
+        let(:news) { build :news_item, content: 'first paragraph' }
+
+        it { is_expected.to be false }
+      end
+
+      context 'with multiple paragraph content' do
+        let(:news) { build :news_item, content: "first paragraph\n\nsecond paragraph" }
+
+        it { is_expected.to be true }
+      end
+    end
+  end
 end
