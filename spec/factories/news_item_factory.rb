@@ -1,6 +1,11 @@
 FactoryBot.define do
   factory :news_item do
+    transient do
+      collection_count { 0 }
+    end
+
     sequence(:id) { |n| n }
+    sequence(:slug) { |n| "slug-#{n}" }
     start_date { Time.zone.yesterday }
     sequence(:title) { |n| "News item #{n}" }
     display_style { NewsItem::DISPLAY_STYLE_REGULAR }
@@ -9,6 +14,10 @@ FactoryBot.define do
     show_on_updates_page { false }
     show_on_home_page { false }
     show_on_banner { false }
+
+    collections do
+      attributes_for_list :news_collection, collection_count
+    end
 
     content do
       <<~CONTENT
@@ -38,6 +47,10 @@ FactoryBot.define do
 
     trait :updates_page do
       show_on_updates_page { true }
+    end
+
+    trait :with_precis do
+      precis { "first paragraph\n\nsecond paragraph" }
     end
   end
 end

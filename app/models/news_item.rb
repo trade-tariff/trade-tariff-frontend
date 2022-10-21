@@ -13,10 +13,21 @@ class NewsItem
 
   collection_path '/news_items'
 
-  attr_accessor :id, :title, :content, :display_style, :show_on_xi, :show_on_uk,
-                :show_on_updates_page, :show_on_home_page, :show_on_banner
+  attr_accessor :id,
+                :slug,
+                :title,
+                :precis,
+                :content,
+                :display_style,
+                :show_on_xi,
+                :show_on_uk,
+                :show_on_updates_page,
+                :show_on_home_page,
+                :show_on_banner
 
   attr_reader :start_date, :end_date
+
+  has_many :collections, class_name: 'NewsCollection'
 
   class << self
     delegate :service_name, to: TradeTariffFrontend::ServiceChooser, private: true

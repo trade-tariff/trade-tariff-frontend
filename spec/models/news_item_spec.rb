@@ -9,7 +9,9 @@ RSpec.describe NewsItem do
   end
 
   it { is_expected.to respond_to :id }
+  it { is_expected.to respond_to :slug }
   it { is_expected.to respond_to :title }
+  it { is_expected.to respond_to :precis }
   it { is_expected.to respond_to :content }
   it { is_expected.to respond_to :start_date }
   it { is_expected.to respond_to :end_date }
@@ -18,6 +20,7 @@ RSpec.describe NewsItem do
   it { is_expected.to respond_to :show_on_uk }
   it { is_expected.to respond_to :show_on_updates_page }
   it { is_expected.to respond_to :show_on_home_page }
+  it { is_expected.to respond_to :collections }
 
   describe '.latest_for_home_page' do
     subject { described_class.latest_for_home_page }
@@ -280,5 +283,12 @@ RSpec.describe NewsItem do
       it { is_expected.to have_attributes start_date: nil }
       it { is_expected.to have_attributes end_date: nil }
     end
+  end
+
+  context 'with collections' do
+    subject { build(:news_item, collection_count: 2).collections }
+
+    it { is_expected.to have_attributes length: 2 }
+    it { is_expected.to all be_instance_of NewsCollection }
   end
 end
