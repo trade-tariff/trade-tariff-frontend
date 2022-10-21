@@ -9,7 +9,9 @@ RSpec.describe NewsItem do
   end
 
   it { is_expected.to respond_to :id }
+  it { is_expected.to respond_to :slug }
   it { is_expected.to respond_to :title }
+  it { is_expected.to respond_to :precis }
   it { is_expected.to respond_to :content }
   it { is_expected.to respond_to :start_date }
   it { is_expected.to respond_to :end_date }
@@ -18,6 +20,7 @@ RSpec.describe NewsItem do
   it { is_expected.to respond_to :show_on_uk }
   it { is_expected.to respond_to :show_on_updates_page }
   it { is_expected.to respond_to :show_on_home_page }
+  it { is_expected.to respond_to :collections }
 
   describe '.latest_for_home_page' do
     subject { described_class.latest_for_home_page }
@@ -141,7 +144,7 @@ RSpec.describe NewsItem do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-          .with('news-item-any-updates-uk-v2', expires_in: 15.minutes)
+          .with('news-item-any-updates-uk-v3', expires_in: 15.minutes)
       end
 
       context 'with no news items' do
@@ -168,7 +171,7 @@ RSpec.describe NewsItem do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-          .with('news-item-any-updates-xi-v2', expires_in: 15.minutes)
+          .with('news-item-any-updates-xi-v3', expires_in: 15.minutes)
       end
 
       context 'with no news items' do
@@ -206,7 +209,7 @@ RSpec.describe NewsItem do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-            .with('news-item-latest-banner-uk-v2', expires_in: 5.minutes)
+            .with('news-item-latest-banner-uk-v3', expires_in: 5.minutes)
       end
     end
 
@@ -223,7 +226,7 @@ RSpec.describe NewsItem do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-            .with('news-item-latest-banner-xi-v2', expires_in: 5.minutes)
+            .with('news-item-latest-banner-xi-v3', expires_in: 5.minutes)
       end
     end
   end
@@ -279,6 +282,61 @@ RSpec.describe NewsItem do
 
       it { is_expected.to have_attributes start_date: nil }
       it { is_expected.to have_attributes end_date: nil }
+    end
+  end
+
+  context 'with collections' do
+    subject { build(:news_item, collection_count: 2).collections }
+
+    it { is_expected.to have_attributes length: 2 }
+    it { is_expected.to all be_instance_of NewsCollection }
+  end
+
+  describe '#precis' do
+    subject { news.precis }
+
+    context 'with precis' do
+      let(:news) { build :news_item, precis: "first para\n\nsecond para" }
+
+      it { is_expected.to eql "first para\n\nsecond para" }
+    end
+
+    context 'without precis' do
+      let(:news) { build :news_item, precis: '', content: 'Testing 123' }
+
+      it { is_expected.to eql 'Testing 123' }
+    end
+  end
+
+  describe '#content_after_precis?' do
+    subject { news.content_after_precis? }
+
+    context 'with precis' do
+      context 'with content' do
+        let(:news) { build :news_item, :with_precis, content: 'something' }
+
+        it { is_expected.to be true }
+      end
+
+      context 'without content' do
+        let(:news) { build :news_item, :with_precis, content: '' }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'without precis' do
+      context 'with single paragraph content' do
+        let(:news) { build :news_item, content: 'first paragraph' }
+
+        it { is_expected.to be false }
+      end
+
+      context 'with multiple paragraph content' do
+        let(:news) { build :news_item, content: "first paragraph\n\nsecond paragraph" }
+
+        it { is_expected.to be true }
+      end
     end
   end
 end

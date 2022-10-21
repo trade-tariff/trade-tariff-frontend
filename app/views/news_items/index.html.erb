@@ -18,10 +18,10 @@
         </h2>
 
         <div class="tariff-markdown">
-          <%= format_news_item_content news_item.paragraphs.first %>
+          <%= format_news_item_content news_item.precis %>
         </div>
 
-        <%= link_to 'Show more ...', news_item if news_item.paragraphs.many? %>
+        <%= link_to 'Show more ...', news_item if news_item.content_after_precis? %>
       </div>
     </article>
   <% end %>
