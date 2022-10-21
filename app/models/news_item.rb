@@ -5,7 +5,7 @@ class NewsItem
 
   CACHE_KEY = 'news-item-any-updates'.freeze
   BANNER_CACHE_KEY = 'news-item-latest-banner'.freeze
-  CACHE_VERSION = 2
+  CACHE_VERSION = 3
   CACHE_LIFETIME = 15.minutes
   BANNER_CACHE_LIFETIME = 5.minutes
 
