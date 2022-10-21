@@ -1,3 +1,13 @@
+.corrected-search-results {
+  color: $govuk-secondary-text-colour;
+}
+
+.non-corrected-search-results {
+  color: $govuk-secondary-text-colour;
+  display: block;
+  font-size: 10px !important;
+}
+
 .search-results {
   .full-code {
     width: 171px;

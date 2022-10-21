@@ -16,6 +16,8 @@ module Beta
 
       alias_method :redirect?, :redirect
 
+      delegate :spelling_corrected?, :original_search_query, :corrected_search_query, to: :search_query_parser_result
+
       has_many :chapter_statistics, class_name: 'Beta::Search::ChapterStatistic'
       has_many :heading_statistics, class_name: 'Beta::Search::HeadingStatistic', wrapper: Beta::Search::HeadingStatisticCollection
       has_many :hits, polymorphic: true, wrapper: Beta::Search::HitsCollection

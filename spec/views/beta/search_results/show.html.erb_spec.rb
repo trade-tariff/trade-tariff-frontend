@@ -88,4 +88,16 @@ RSpec.describe 'beta/search_results/show', type: :view do
       it { is_expected.not_to have_css('div#intercept-message') }
     end
   end
+
+  context 'when the spelling has been corrected' do
+    let(:search_result) { build(:search_result, :spelling_corrected) }
+
+    it { is_expected.to have_css('div#search-results-spelling') }
+  end
+
+  context 'when the spelling has not been corrected' do
+    let(:search_result) { build(:search_result, :spelling_not_corrected) }
+
+    it { is_expected.not_to have_css('div#search-results-spelling') }
+  end
 end

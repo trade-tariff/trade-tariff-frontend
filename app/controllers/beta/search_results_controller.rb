@@ -77,23 +77,34 @@ module Beta
     ].freeze
 
     def show
-      @search_result = Beta::Search::PerformSearchService.new(query, filters).call
+      @search_result = Beta::Search::PerformSearchService.new(query_options, filters).call
 
       redirect_to @search_result.redirect_to if @search_result.redirect?
     end
 
     private
 
+    def query_options
+      {
+        q: query,
+        spell:,
+      }
+    end
+
     def query
       @query ||= search_params[:q].presence || ''
     end
 
+    def spell
+      search_params[:spell].presence || '1'
+    end
+
     def filters
-      @filters ||= params[:filter]&.permit(*POSSIBLE_FILTERS) || {}
+      @filters ||= params[:filter]&.permit(*POSSIBLE_FILTERS).to_h || {}
     end
 
     def search_params
-      params.permit(:q, :filters)
+      params.permit(:q, :filters, :spell)
     end
   end
 end

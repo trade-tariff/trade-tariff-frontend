@@ -72,5 +72,13 @@ FactoryBot.define do
     trait :no_intercept_message do
       intercept_message {}
     end
+
+    trait :spelling_corrected do
+      search_query_parser_result { attributes_for(:search_query_parser_result, :corrected) }
+    end
+
+    trait :spelling_not_corrected do
+      search_query_parser_result { attributes_for(:search_query_parser_result, :not_corrected) }
+    end
   end
 end

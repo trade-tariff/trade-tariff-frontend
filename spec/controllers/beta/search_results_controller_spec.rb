@@ -18,7 +18,10 @@ if TradeTariffFrontend.beta_search_enabled?
       it 'calls the PerformSearchService' do
         do_response
 
-        expect(Beta::Search::PerformSearchService).to have_received(:new).with('clothing', 'material' => 'leather')
+        expect(Beta::Search::PerformSearchService).to have_received(:new).with(
+          { q: 'clothing', spell: '1' },
+          { 'material' => 'leather' },
+        )
       end
     end
   end

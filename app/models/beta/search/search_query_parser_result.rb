@@ -11,6 +11,10 @@ module Beta
                     :nouns,
                     :noun_chunks,
                     :verbs
+
+      def spelling_corrected?
+        original_search_query != corrected_search_query
+      end
     end
   end
 end
