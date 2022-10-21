@@ -7,14 +7,26 @@ class ErrorsController < ApplicationController
   before_action :disable_search_form, :disable_switch_service_banner
 
   def not_found
-    render status: :not_found
+    respond_to do |format|
+      format.html { render status: :not_found }
+      format.json { render json: { error: 'Resource not found' }, status: :not_found }
+      format.all { render status: :not_found, plain: 'Resource not found' }
+    end
   end
 
   def internal_server_error
-    render status: :internal_server_error
+    respond_to do |format|
+      format.html { render status: :internal_server_error }
+      format.json { render json: { error: 'Internal server error' }, status: :internal_server_error }
+      format.all { render status: :internal_server_error, plain: 'Internal server error' }
+    end
   end
 
   def maintenance
-    render status: :service_unavailable
+    respond_to do |format|
+      format.html { render status: :service_unavailable }
+      format.json { render json: { error: 'Maintenance mode' }, status: :service_unavailable }
+      format.all { render status: :service_unavailable, plain: 'Maintenance mode' }
+    end
   end
 end
