@@ -4,5 +4,6 @@ FactoryBot.define do
     description { Forgery(:basic).text }
     goods_nomenclature_item_id { '0100000000' }
     formatted_description { Forgery(:basic).text }
+    resource_type { 'chapter' }
   end
 end

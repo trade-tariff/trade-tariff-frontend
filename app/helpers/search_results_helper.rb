@@ -34,6 +34,14 @@ module SearchResultsHelper
     end
   end
 
+  def ancestor_links(hit, css_class: nil)
+    ancestors = hit.ancestors[1..].presence || []
+
+    ancestors.map do |good_nomenclature|
+      link_to(good_nomenclature.formatted_description, polymorphic_path(good_nomenclature), class: css_class)
+    end
+  end
+
   private
 
   def filtered_url_options_for(filter)

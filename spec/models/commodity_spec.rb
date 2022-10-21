@@ -6,19 +6,19 @@ RSpec.describe Commodity do
   describe '.relationships' do
     let(:expected_relationships) do
       %i[
-        section
-        chapter
-        import_trade_summary
-        footnotes
-        import_measures
-        export_measures
-        heading
-        overview_measures
         ancestors
+        chapter
+        export_measures
+        footnotes
+        heading
+        import_measures
+        import_trade_summary
+        overview_measures
+        section
       ]
     end
 
-    it { expect(described_class.relationships).to eq(expected_relationships) }
+    it { expect(described_class.relationships).to match_array(expected_relationships) }
   end
 
   it_behaves_like 'a declarable' do

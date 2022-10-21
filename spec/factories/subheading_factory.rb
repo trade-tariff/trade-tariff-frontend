@@ -20,6 +20,7 @@ FactoryBot.define do
     producline_suffix { '10' }
     goods_nomenclature_sid { 131_312 }
     number_indents { 3 }
+    resource_type { 'subheading' }
 
     commodities do
       attributes_for_list :commodity, commodities_count do |c, i|

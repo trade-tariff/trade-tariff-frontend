@@ -9,7 +9,6 @@ class Commodity < GoodsNomenclature
   has_one :heading
   # vat_measure is used for commodities under the heading only
   has_many :overview_measures, class_name: 'Measure', wrapper: MeasureCollection
-  has_many :ancestors, class_name: 'Commodity'
 
   delegate :goods_nomenclature_item_id, :display_short_code, to: :heading, prefix: true
   alias_method :short_code, :goods_nomenclature_item_id

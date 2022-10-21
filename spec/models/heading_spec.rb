@@ -6,18 +6,19 @@ RSpec.describe Heading do
   describe '.relationships' do
     let(:expected_relationships) do
       %i[
-        section
+        ancestors
         chapter
-        import_trade_summary
+        children
+        commodities
+        export_measures
         footnotes
         import_measures
-        export_measures
-        commodities
-        children
+        import_trade_summary
+        section
       ]
     end
 
-    it { expect(described_class.relationships).to eq(expected_relationships) }
+    it { expect(described_class.relationships).to match_array(expected_relationships) }
   end
 
   it_behaves_like 'a declarable' do
