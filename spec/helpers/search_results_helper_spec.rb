@@ -66,4 +66,27 @@ RSpec.describe SearchResultsHelper, type: :helper do
       it { is_expected.to eq([]) }
     end
   end
+
+  describe '#ancestor_links' do
+    subject(:ancestor_links) { helper.ancestor_links(hit) }
+
+    context 'when the hit has ancestors' do
+      let(:hit) { build(:commodity, :with_ancestors) }
+
+      it 'returns heading and subheading links' do
+        expect(ancestor_links).to eq(
+          [
+            '<a href="/headings/0101">Live horses, asses, mules and hinnies </a>',
+            '<a href="/subheadings/0101100000-10">Horses</a>',
+          ],
+        )
+      end
+    end
+
+    context 'when the hit has no ancestors' do
+      let(:hit) { build(:commodity, :without_ancestors) }
+
+      it { is_expected.to eq([]) }
+    end
+  end
 end

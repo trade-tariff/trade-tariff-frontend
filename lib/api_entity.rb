@@ -142,7 +142,7 @@ private
                    nil
                  else
                    class_name = if options[:polymorphic]
-                                  attributes['resource_type']&.classify || options[:class_name]
+                                  attributes['resource_type'].classify
                                 else
                                   options[:class_name]
                                 end
@@ -177,7 +177,7 @@ private
 
         collection = data.map do |attributes|
           class_name = if options[:polymorphic]
-                         attributes['resource_type']&.classify || options[:class_name]
+                         attributes['resource_type'].classify
                        else
                          options[:class_name]
                        end

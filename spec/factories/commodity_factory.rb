@@ -101,11 +101,15 @@ FactoryBot.define do
     trait :with_ancestors do
       ancestors do
         [
-          attributes_for(:chapter),
-          attributes_for(:heading),
-          attributes_for(:subheading),
+          attributes_for(:chapter, formatted_description: 'Live animals '),
+          attributes_for(:heading, formatted_description: 'Live horses, asses, mules and hinnies '),
+          attributes_for(:subheading, formatted_description: 'Horses'),
         ]
       end
+    end
+
+    trait :without_ancestors do
+      ancestors { [] }
     end
   end
 end

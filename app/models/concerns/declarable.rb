@@ -30,7 +30,6 @@ module Declarable
                   :meursing_code,
                   :producline_suffix,
                   :declarable,
-                  :goods_nomenclature_class,
                   :meta
 
     meta_attribute :duty_calculator, :zero_mfn_duty
