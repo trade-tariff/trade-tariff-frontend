@@ -8,6 +8,13 @@ module SearchResultsHelper
     link_html
   end
 
+  def uncorrected_search_link_for(original_search_query)
+    path_options = uncorrected_url_options
+    path = perform_search_path(path_options)
+
+    link_to(original_search_query, path)
+  end
+
   def disapply_filter_link_for(filterable)
     path_options = disapply_url_options_for(filterable.filterable_key.to_sym)
     path = perform_search_path(path_options)
@@ -43,6 +50,15 @@ module SearchResultsHelper
   end
 
   private
+
+  def uncorrected_url_options
+    filters = @filters.to_h.symbolize_keys
+    options = sanitized_url_options
+    options.merge!(spell: '0')
+    options.merge!(q: @query)
+    options.deep_merge!(filter: filters)
+    options
+  end
 
   def filtered_url_options_for(filter)
     filters = @filters.to_h.symbolize_keys

@@ -8,10 +8,20 @@
 <% end %>
 
 <%= page_header "Search results for
-                &lsquo;#{h @search_result.search_query_parser_result.corrected_search_query}&rsquo;".html_safe
+                &lsquo;#{h @search_result.corrected_search_query}&rsquo;".html_safe
 %>
 
 <section id="beta-search-results-<%= @search_result.resource_id %>">
+  <% if @search_result.spelling_corrected? %>
+    <div id="search-results-spelling">
+      <p class="corrected-search-results">
+        Showing results for &lsquo;<%= @search_result.corrected_search_query %>&rsquo;.
+        <span class="non-corrected-search-results govuk-!-margin-top-1">
+          Search instead for &lsquo;<%= uncorrected_search_link_for(@search_result.original_search_query) %>&rsquo;.
+        </span>
+      </p>
+    </div>
+  <% end %>
   <% if @search_result.hits.commodities.present? %>
     <%= render 'with_hits' %>
   <% else %>

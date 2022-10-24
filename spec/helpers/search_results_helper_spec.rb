@@ -89,4 +89,21 @@ RSpec.describe SearchResultsHelper, type: :helper do
       it { is_expected.to eq([]) }
     end
   end
+
+  describe '#uncorrected_search_link_for' do
+    subject(:uncorrected_search_link_for) { helper.uncorrected_search_link_for(original_search_query) }
+
+    let(:original_search_query) { 'halbiut' }
+
+    before do
+      assign(:filters, 'material' => 'leather', 'heading' => '0101')
+      assign(:query, 'halbiut')
+    end
+
+    it 'returns the original search query with a spell query param' do
+      expect(uncorrected_search_link_for).to eq(
+        '<a href="/search?filter%5Bheading%5D=0101&amp;filter%5Bmaterial%5D=leather&amp;q=halbiut&amp;spell=0">halbiut</a>',
+      )
+    end
+  end
 end

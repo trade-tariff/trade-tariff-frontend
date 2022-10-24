@@ -6,8 +6,8 @@ module Beta
     class PerformSearchService
       include Retriable
 
-      def initialize(query, filters = {})
-        @query = query
+      def initialize(query_options, filters = {})
+        @query_options = query_options
         @filters = filters
       end
 
@@ -24,7 +24,7 @@ module Beta
       private
 
       def query_params
-        @query_params = { q: @query }.merge(filter_query)
+        @query_params = @query_options.merge(filter_query)
         @query_params.to_query
       end
 
