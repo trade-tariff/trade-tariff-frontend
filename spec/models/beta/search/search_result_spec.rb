@@ -58,4 +58,16 @@ RSpec.describe Beta::Search::SearchResult do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#spelling_corrected?' do
+    it { expect(search_result.spelling_corrected?).to eq(search_result.search_query_parser_result.spelling_corrected?) }
+  end
+
+  describe '#original_search_query' do
+    it { expect(search_result.original_search_query).to eq(search_result.search_query_parser_result.original_search_query) }
+  end
+
+  describe '#corrected_search_query' do
+    it { expect(search_result.corrected_search_query).to eq(search_result.search_query_parser_result.corrected_search_query) }
+  end
 end
