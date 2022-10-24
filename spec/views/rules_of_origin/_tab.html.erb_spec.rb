@@ -15,7 +15,7 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   let(:rules) { attributes_for_list :rules_of_origin_rule, 1, rule: "Manufacture\n\n* From materials" }
   let(:rules_of_origin_schemes) { [build(:rules_of_origin_scheme, rules:, fta_intro:)] }
   let(:fta_intro) { "## Free Trade Agreement\n\nDetails of agreement" }
-  let(:import_trade_summary) { attributes_for(:import_trade_summary) }
+  let(:import_trade_summary) { attributes_for(:import_trade_summary, :with_tariff_duty) }
 
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
@@ -88,13 +88,13 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
 
   describe 'import trade summary duty box' do
     context 'when preferential tariff duty is present' do
-      let(:import_trade_summary) { attributes_for(:import_trade_summary, preferential_tariff_duty: '1.00 %') }
+      let(:import_trade_summary) { attributes_for(:import_trade_summary, :with_tariff_duty) }
 
       it { expect(rendered_page).to have_css '.preferential-tariff-duty' }
     end
 
     context 'when preferential quota duty is present' do
-      let(:import_trade_summary) { attributes_for(:import_trade_summary, preferential_quota_duty: '1.00 %') }
+      let(:import_trade_summary) { attributes_for(:import_trade_summary, :with_quota_duty) }
 
       it { expect(rendered_page).to have_css '.preferential-quota-duty' }
     end

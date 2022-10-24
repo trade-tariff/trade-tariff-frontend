@@ -14,24 +14,22 @@
       </p>
     <% end %>
 
-    <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
+    <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes unless declarable.import_trade_summary.no_preferential_duties? %>
 
     <%= render 'rules_of_origin/import_trade_summary',
-               import_trade_summary: declarable.import_trade_summary
+               import_trade_summary: declarable.import_trade_summary unless rules_of_origin_schemes.many?
     %>
 
     <% if declarable.import_trade_summary.no_preferential_duties? %>
       <p class="tariff-inset-information">
         As there is neither a preferential tariff nor a preferential quota present for this commodity, the 'Check rules of origin' tool is not available.
       </p>
-    <% else %>
-      <% if TradeTariffFrontend.roo_wizard? && rules_of_origin_schemes.any? %>
-        <%= render 'rules_of_origin/wizard_link',
-                   country_code: country_code,
-                   commodity_code: commodity_code,
-                   declarable: declarable
-        %>
-      <% end %>
+    <% elsif rules_of_origin_schemes.any? %>
+      <%= render 'rules_of_origin/wizard_link',
+                 country_code: country_code,
+                 commodity_code: commodity_code,
+                 declarable: declarable
+      %>
     <% end %>
 
     <%= render 'rules_of_origin/non_preferential' %>
