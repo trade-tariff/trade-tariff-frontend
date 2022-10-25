@@ -62,7 +62,7 @@ class OrderNumber
     end
 
     def within_first_twenty_days?
-      Time.zone.now.between? validity_start_date, validity_start_date + 20.days
+      Time.zone.now.between? validity_start_date, validity_start_date + 40.days
     end
 
     def first_goods_nomenclature_short_code
