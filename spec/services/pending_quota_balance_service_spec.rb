@@ -152,5 +152,20 @@ RSpec.describe PendingQuotaBalanceService do
 
       it { is_expected.to eq previous_definition[:balance] }
     end
+
+    context 'with no import measures' do
+      subject { described_class.new(heading.short_code, '1010', Time.zone.today).call }
+
+      before do
+        allow(Heading).to receive(:find).with(heading.short_code, as_of: Time.zone.today)
+                                        .and_return heading
+      end
+
+      let :heading do
+        build :heading
+      end
+
+      it { is_expected.to be nil }
+    end
   end
 end
