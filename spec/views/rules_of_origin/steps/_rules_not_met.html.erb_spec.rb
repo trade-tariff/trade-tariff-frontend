@@ -30,4 +30,11 @@ RSpec.describe 'rules_of_origin/steps/_rules_not_met', type: :view do
 
     it { is_expected.not_to have_css '#tolerances-section' }
   end
+
+  context 'when not passed through cumulation page' do
+    before { allow(current_step).to receive(:show_cumulation_section?).and_return false }
+
+    it { is_expected.not_to have_css '#cumulation-section h3' }
+    it { is_expected.not_to have_css '#cumulation-section a' }
+  end
 end
