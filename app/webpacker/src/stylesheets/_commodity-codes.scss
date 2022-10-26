@@ -18,13 +18,19 @@
 }
 .chapter-code {
   background-color: $chapter-code-bg;
-  width: $chapter-code-width;
+  width: $chapter-code-width + 10px;
   height: $chapter-code-height;
   margin-right: 5px;
 }
 .heading-code {
   background-color: $heading-code-bg;
   width: $heading-code-width;
+  height: $chapter-code-height;
+  margin-right: 5px;
+}
+.chapter-heading-code {
+  background-color: $chapter-heading-code-bg;
+  width: $chapter-code-width + 10px;
   height: $chapter-code-height;
   margin-right: 5px;
 }
