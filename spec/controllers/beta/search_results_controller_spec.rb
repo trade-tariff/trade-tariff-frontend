@@ -23,6 +23,14 @@ if TradeTariffFrontend.beta_search_enabled?
           { 'material' => 'leather' },
         )
       end
+
+      context 'when redirected' do
+        subject(:do_response) { get :show, params: { q: '0101', year: '2022', month: '12', day: '1' } }
+
+        let(:search_result) { build(:search_result, :redirect) }
+
+        it { is_expected.to redirect_to(heading_path('0101', year: '2022', month: '12', day: '1')) }
+      end
     end
   end
 end
