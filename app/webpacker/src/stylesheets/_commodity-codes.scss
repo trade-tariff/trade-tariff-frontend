@@ -18,7 +18,7 @@
 }
 .chapter-code {
   background-color: $chapter-code-bg;
-  width: $chapter-code-width + 10px;
+  width: $chapter-code-width;
   height: $chapter-code-height;
   margin-right: 5px;
 }
@@ -29,10 +29,14 @@
   margin-right: 5px;
 }
 .chapter-heading-code {
-  background-color: $chapter-heading-code-bg;
-  width: $chapter-code-width + 10px;
-  height: $chapter-code-height;
-  margin-right: 5px;
+  @extend .govuk-tag--grey;
+  font-weight: 400;
+  width: 2.6em;
+}
+.chapter-chapter-code {
+  @extend .govuk-tag--grey;
+  font-weight: 400;
+  width: 1.4em;
 }
 .commodity-code {
   width: 101px;

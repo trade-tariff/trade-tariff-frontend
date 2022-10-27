@@ -58,8 +58,11 @@ module CommoditiesHelper
   private
 
   def chapter_and_heading_codes(code)
-    "<div class='chapter-heading-code'>
-      #{code_text(code[0..3])}
+    "<div class='chapter-code'>
+      #{code_text(code[0..1])}
+    </div>
+    <div class='heading-code'>
+      #{code_text(code[2..3])}
     </div>".html_safe
   end
 
