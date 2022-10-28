@@ -8,8 +8,7 @@ module RulesOfOrigin
       end
 
       def scheme_details
-        article = exporting? ? 'cumulation-export' : 'cumulation-import'
-        chosen_scheme.article(article)&.content
+        chosen_scheme.article("cumulation-#{trade_direction}")&.content
       end
 
       def map_path

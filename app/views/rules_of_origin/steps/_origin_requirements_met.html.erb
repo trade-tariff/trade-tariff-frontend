@@ -1,5 +1,5 @@
 <span class="govuk-caption-xl">
-  <%= t (current_step.exporting? ? 'rules_of_origin.shared.caption.exporting' : 'rules_of_origin.shared.caption.importing'),
+  <%= t "rules_of_origin.shared.caption.#{current_step.trade_direction}ing",
         commodity_code: current_step.commodity_code,
         service_country_name: current_step.service_country_name,
         trade_country_name: current_step.trade_country_name %>
