@@ -4,8 +4,6 @@
 
 .non-corrected-search-results {
   color: $govuk-secondary-text-colour;
-  display: block;
-  font-size: 10px !important;
 }
 
 .search-results {
@@ -58,7 +56,7 @@
       padding: 1em 0 0.5em !important;
       margin: 0 !important;
     }
-    
+
     ul {
       list-style-type: none;
       padding: 0;
@@ -101,7 +99,7 @@
 
           .line-text {
             padding-left: 0 !important;
-            
+
             @media (min-width: $desktop-min-width) {
               padding-left: 0;
               padding-top: 0em;
@@ -127,8 +125,6 @@
       min-height: $chapter-code-height;
       background-color: $highlight-colour;
       position: relative;
-      
-
 
       a {
         display: block;
@@ -139,6 +135,5 @@
         }
       }
     }
-    
   }
 }
