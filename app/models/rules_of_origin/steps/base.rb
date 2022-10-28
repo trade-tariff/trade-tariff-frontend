@@ -25,7 +25,7 @@ module RulesOfOrigin
         exporting? ? service_country_name : trade_country_name
       end
 
-      def direction_text
+      def trade_direction
         exporting? ? 'export' : 'import'
       end
 

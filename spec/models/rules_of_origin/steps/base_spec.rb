@@ -91,8 +91,8 @@ RSpec.describe RulesOfOrigin::Steps::Base do
     end
   end
 
-  describe '#direction_text' do
-    subject(:direction_text) { instance.direction_text }
+  describe '#trade_direction' do
+    subject { instance.trade_direction }
 
     context 'with unilateral scheme so import_only' do
       let(:schemes) { build_list :rules_of_origin_scheme, 1, unilateral: true }
