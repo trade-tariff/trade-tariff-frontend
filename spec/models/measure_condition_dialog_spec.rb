@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe MeasureConditionDialog do
-  subject(:dialog) { described_class.build(declarable, measure) }
+  subject(:dialog) { described_class.build(declarable, measure, 'export' ) }
 
   before do
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
@@ -64,7 +64,10 @@ RSpec.describe MeasureConditionDialog do
       it 'returns the default modal partial options' do
         expected_options = {
           partial: 'measures/measure_condition_modal_default',
-          locals: { measure: },
+          locals: {
+            measure:,
+            anchor: 'export',
+          },
         }
 
         expect(dialog.options).to eq(expected_options)

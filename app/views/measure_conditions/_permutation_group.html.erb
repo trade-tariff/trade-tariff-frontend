@@ -25,6 +25,7 @@
   </table>
 
   <%= render 'measures/guidance_table',
+             anchor: anchor,
              measure_conditions_with_guidance: permutation_group
                                                  .permutations
                                                  .flat_map(&:measure_conditions)

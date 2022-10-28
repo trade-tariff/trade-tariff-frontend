@@ -10,7 +10,9 @@
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">Document code</th>
           <th scope="col" class="govuk-table__header">CDS guidance</th>
-          <th scope="col" class="govuk-table__header">CHIEF guidance</th>
+          <% if anchor == 'export' %>
+            <th scope="col" class="govuk-table__header">CHIEF guidance</th>
+          <% end %>
         </tr>
       </thead>
 
@@ -23,9 +25,12 @@
             <td class="govuk-table__cell tariff-markdown">
               <%= govspeak mc.guidance_cds %>
             </td>
-            <td class="govuk-table__cell tariff-markdown">
-              <%= govspeak mc.guidance_chief %>
-            </td>
+
+            <% if anchor == 'export' %>
+              <td class="govuk-table__cell tariff-markdown">
+                <%= govspeak mc.guidance_chief %>
+              </td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>
