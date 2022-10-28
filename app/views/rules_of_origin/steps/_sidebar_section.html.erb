@@ -22,7 +22,7 @@
           trade_country: current_step.trade_country_name,
           service_country: current_step.service_country_name,
           commodity_link: link_to(current_step.commodity_code, return_to_commodity_path),
-          default: nil) %>
+          default: nil) if current_step.trade_direction_chosen? %>
 
     <ol class="app-step-nav__list " data-length="<%= sidebar_section.steps.length %>">
       <% sidebar_section.steps.each.with_index do |step, index| %>

@@ -111,6 +111,34 @@ RSpec.describe RulesOfOrigin::Steps::Base do
 
       it { is_expected.to eq('export') }
     end
+
+    context 'when not yet chosen' do
+      include_context 'with rules of origin store'
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#trade_direction_chosen?' do
+    subject { instance.trade_direction_chosen? }
+
+    context 'with unilateral scheme so import_only' do
+      let(:schemes) { build_list :rules_of_origin_scheme, 1, unilateral: true }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when exporting' do
+      include_context 'with rules of origin store', :exporting
+
+      it { is_expected.to be true }
+    end
+
+    context 'when not yet chosen' do
+      include_context 'with rules of origin store'
+
+      it { is_expected.to be false }
+    end
   end
 
   describe '#find_declarable' do

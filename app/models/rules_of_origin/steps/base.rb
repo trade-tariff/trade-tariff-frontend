@@ -25,7 +25,13 @@ module RulesOfOrigin
         exporting? ? service_country_name : trade_country_name
       end
 
+      def trade_direction_chosen?
+        !trade_direction.nil?
+      end
+
       def trade_direction
+        return unless chosen_scheme.unilateral || @store['import_or_export'].present?
+
         exporting? ? 'export' : 'import'
       end
 
