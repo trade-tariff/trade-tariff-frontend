@@ -15,6 +15,26 @@
     }
   }
 
+  .chapter-results {
+    padding-left: 3.1rem;
+
+    @media (max-width: $mobile-max-width) {
+      padding-left: 0rem;
+    }
+  }
+
+  .list-key-chapter {
+    width: 1.9rem;
+  }
+
+  .list-key-heading {
+    width: 3.5rem;
+  }
+
+  .search-list {
+    margin: 0.1rem;
+  }
+  
   em {
     font-size: 1em;
     font-style: italic;
