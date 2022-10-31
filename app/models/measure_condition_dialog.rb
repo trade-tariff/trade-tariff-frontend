@@ -15,7 +15,7 @@ class MeasureConditionDialog
   CONFIG_FILE_NAME = 'db/measure_condition_dialog_config.yaml'.freeze
 
   class << self
-    def build(declarable, measure)
+    def build(declarable, measure, anchor = 'import')
       config = config_for(
         declarable.goods_nomenclature_item_id,
         measure.additional_code.code,
@@ -38,7 +38,7 @@ class MeasureConditionDialog
                 else
                   {
                     partial: 'measures/measure_condition_modal_default',
-                    locals: { measure: },
+                    locals: { measure:, anchor: },
                   }
                 end
 
