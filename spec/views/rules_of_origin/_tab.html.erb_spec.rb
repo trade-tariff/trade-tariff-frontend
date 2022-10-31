@@ -59,7 +59,7 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   context 'with no scheme' do
     let(:rules_of_origin_schemes) { [] }
 
-    it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
+    it { is_expected.to have_css '.govuk-inset-text', text: /neither a preferential/ }
     it { is_expected.not_to have_css '.rules-of-origin__scheme' }
 
     it 'includes the non-preferential bloc' do
