@@ -6,5 +6,4 @@ ActionDispatch::ExceptionWrapper.rescue_responses.merge!(
   'AbstractController::ActionNotFound' => :not_found,
   'URI::InvalidURIError' => :not_found,
   'TradeTariffFrontend::FeatureUnavailable' => :not_found,
-  'TradeTariffFrontend::MaintenanceMode' => :service_unavailable,
 )

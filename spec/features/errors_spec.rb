@@ -13,6 +13,11 @@ RSpec.describe 'Error handling' do
     it { is_expected.to have_css '.govuk-main-wrapper h1', text: 'We are experiencing technical difficulties' }
   end
 
+  shared_examples 'service unavailable' do
+    it { is_expected.to have_http_status :service_unavailable }
+    it { is_expected.to have_css '.govuk-main-wrapper h1', text: 'Maintenance' }
+  end
+
   describe 'not found page' do
     context 'with html' do
       before { visit '/404' }
@@ -75,6 +80,37 @@ RSpec.describe 'Error handling' do
     end
   end
 
+  describe 'maintenance mode' do
+    context 'with html' do
+      before { visit '/503' }
+
+      it_behaves_like 'service unavailable'
+    end
+
+    context 'with json' do
+      before { visit '/503.json' }
+
+      it { is_expected.to have_http_status :service_unavailable }
+      it { expect(JSON.parse(page.body)).to include 'error' => 'Maintenance mode' }
+    end
+
+    context 'with something else' do
+      before { visit '/503.pdf' }
+
+      it { is_expected.to have_http_status :service_unavailable }
+      it { is_expected.to have_attributes body: 'Maintenance mode' }
+    end
+
+    context 'with new search enabled' do
+      before do
+        allow(TradeTariffFrontend).to receive(:search_banner?).and_return true
+        visit '/503'
+      end
+
+      it_behaves_like 'service unavailable'
+    end
+  end
+
   describe 'rescued exceptions' do
     include_context 'with rescued exceptions'
 
@@ -116,7 +152,7 @@ RSpec.describe 'Error handling' do
       it_behaves_like 'internal server error'
     end
 
-    context 'with feature that is unavailable' do
+    context 'with feature that is unavailble' do
       before do
         allow(NewsItem).to \
           receive(:find).and_raise(TradeTariffFrontend::FeatureUnavailable)
