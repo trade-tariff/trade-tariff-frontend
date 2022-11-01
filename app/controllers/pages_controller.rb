@@ -2,6 +2,10 @@ class PagesController < ApplicationController
   before_action :disable_search_form,
                 :disable_last_updated_footnote
 
+  def glossary
+    @glossary = Pages::Glossary.new(params[:id])
+  end
+
   def cn2021_cn2022
     @chapters = Chapter.all
   end
