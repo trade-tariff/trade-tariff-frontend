@@ -65,11 +65,17 @@ RSpec.describe 'Error handling' do
       it { is_expected.to have_attributes body: 'Internal server error' }
     end
 
-    context 'with new search enabled' do
+    context 'with search banner enabled' do
       before do
         allow(TradeTariffFrontend).to receive(:search_banner?).and_return true
         visit '/500'
       end
+
+      it_behaves_like 'internal server error'
+    end
+
+    context 'with invalid date' do
+      before { visit '/500?day=0&month=1&year=2022' }
 
       it_behaves_like 'internal server error'
     end

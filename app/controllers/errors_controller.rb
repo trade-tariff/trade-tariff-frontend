@@ -30,4 +30,8 @@ class ErrorsController < ApplicationController
       format.all { render status: :service_unavailable, plain: 'Maintenance mode' }
     end
   end
+
+  def search_invoked?
+    false
+  end
 end
