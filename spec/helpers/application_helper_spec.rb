@@ -378,4 +378,20 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#back_link' do
+    context 'without text label' do
+      subject { back_link '/back-page' }
+
+      it { is_expected.to have_link 'Back', href: '/back-page' }
+      it { is_expected.to have_css 'a.govuk-back-link' }
+    end
+
+    context 'with text label' do
+      subject { back_link '/back-page', 'Go back' }
+
+      it { is_expected.to have_link 'Go back', href: '/back-page' }
+      it { is_expected.to have_css 'a.govuk-back-link' }
+    end
+  end
 end

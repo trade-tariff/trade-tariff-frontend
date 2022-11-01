@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe MeursingLookupStepsHelper, type: :helper do
-  describe '#back_link' do
+  describe '#meursing_back_link' do
     before do
       allow(helper).to receive(:wizard).and_return(wizard)
     end
@@ -16,13 +16,13 @@ RSpec.describe MeursingLookupStepsHelper, type: :helper do
     context 'when the wizard has a previous_key' do
       let(:previous_key) { 'starch' }
 
-      it { expect(helper.back_link).to eq('<a class="govuk-back-link" href="/meursing_lookup/steps/starch">Back</a>') }
+      it { expect(helper.meursing_back_link).to eq('<a class="govuk-back-link" href="/meursing_lookup/steps/starch">Back</a>') }
     end
 
     context 'when the wizard does not have a previous_key' do
       let(:previous_key) { nil }
 
-      it { expect(helper.back_link).to be_nil }
+      it { expect(helper.meursing_back_link).to be_nil }
     end
   end
 

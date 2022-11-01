@@ -140,4 +140,8 @@ module ApplicationHelper
   def paragraph_if_content(content)
     tag.p(content) if content.present?
   end
+
+  def back_link(url, text = t('navigation.back'), **options)
+    link_to text, url, **options.merge(class: 'govuk-back-link')
+  end
 end
