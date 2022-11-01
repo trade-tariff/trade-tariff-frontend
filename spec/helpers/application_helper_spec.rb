@@ -343,13 +343,13 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to eql '1 January 2022 to 1 June 2022' }
     end
 
-    context 'with blank :to date' do
+    context 'when :to date is blank' do
       subject { govuk_date_range from, '' }
 
       it { is_expected.to eql 'From 1 January 2022' }
     end
 
-    context 'with nil :to date' do
+    context 'when :to date is nil' do
       subject { govuk_date_range from, nil }
 
       it { is_expected.to eql 'From 1 January 2022' }
