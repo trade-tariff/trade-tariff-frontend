@@ -342,6 +342,18 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       it { is_expected.to eql '1 January 2022 to 1 June 2022' }
     end
+
+    context 'with blank :to date' do
+      subject { govuk_date_range from, '' }
+
+      it { is_expected.to eql 'From 1 January 2022' }
+    end
+
+    context 'with nil :to date' do
+      subject { govuk_date_range from, nil }
+
+      it { is_expected.to eql 'From 1 January 2022' }
+    end
   end
 
   describe '#paragraph_if_content' do
