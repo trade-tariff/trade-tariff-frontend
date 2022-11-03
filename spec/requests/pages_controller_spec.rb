@@ -49,7 +49,7 @@ RSpec.describe PagesController, type: :request do
     context 'with unknown page' do
       let(:fetch_page) { get glossary_path('unknown_page') }
 
-      it { expect { fetch_page }.to raise_exception ActionView::Template::Error }
+      it { expect { fetch_page }.to raise_exception Pages::Glossary::UnknownPage }
     end
   end
 end

@@ -3,7 +3,7 @@ class PagesController < ApplicationController
                 :disable_last_updated_footnote
 
   def glossary
-    @glossary = Pages::Glossary.new(params[:id])
+    @glossary = Pages::Glossary.find(params[:id])
   end
 
   def cn2021_cn2022
