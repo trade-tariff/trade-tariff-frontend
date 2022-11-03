@@ -148,4 +148,16 @@ module ApplicationHelper
   def glossary_term(term)
     link_to term, glossary_path(term.to_s.underscore)
   end
+
+  def link_glossary_terms(content)
+    content.gsub %r{\(([A-Z][A-Za-z]+)\)} do |match|
+      term = Regexp.last_match.captures[0]
+
+      if Pages::Glossary.pages.include? term.underscore
+        "([#{term}](/glossary/#{term.underscore}))"
+      else
+        match
+      end
+    end
+  end
 end
