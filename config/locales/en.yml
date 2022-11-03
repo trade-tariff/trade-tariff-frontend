@@ -362,7 +362,7 @@ en:
           wholly_obtained_definition: How 'wholly obtained' is defined
           components_definition: What components do you need to take into account?
           wholly_obtained: Are your goods wholly obtained?
-          origin_requirements_met: Origin requirements met
+          origin_requirements_met: Product-specific rules met
           not_wholly_obtained: Your goods are not wholly obtained
           cumulation: Including parts or components from other countries
           sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
@@ -487,7 +487,7 @@ en:
           obtained, based on the rules of the %{scheme_title}.
 
       origin_requirements_met:
-        title: Origin requirements met
+        title: Product-specific rules met
         panel:
           Based on your responses, your product appears to meet the rules of
           origin requirements for the %{scheme_title}.

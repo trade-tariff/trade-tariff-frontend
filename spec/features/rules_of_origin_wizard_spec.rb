@@ -39,7 +39,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose 'Yes, my goods are wholly obtained'
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: /Origin requirements met/
+      expect(page).to have_css 'h1', text: /Product-specific rules met/
       click_on 'See valid proofs of origin'
 
       expect(page).to have_css 'h1', text: 'Valid proofs of origin'
@@ -118,7 +118,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose schemes.first.rule_sets.first.rules.first.rule
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: /Origin requirements met/
+      expect(page).to have_css 'h1', text: /Product-specific rules met/
       click_on 'See valid proofs of origin'
 
       expect(page).to have_css 'h1', text: 'Valid proofs of origin'
@@ -190,7 +190,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose 'Yes, my goods are wholly obtained'
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: /Origin requirements met/
+      expect(page).to have_css 'h1', text: /Product-specific rules met/
       click_on 'See valid proofs of origin'
 
       expect(page).to have_css 'h1', text: 'Valid proofs of origin'
@@ -227,7 +227,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose 'Yes, my goods are wholly obtained'
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: /Origin requirements met/
+      expect(page).to have_css 'h1', text: /Product-specific rules met/
       click_on 'See valid proofs of origin'
 
       expect(page).to have_css 'h1', text: 'Valid proofs of origin'
@@ -265,7 +265,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose 'Yes, my goods are wholly obtained'
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: /Origin requirements met/
+      expect(page).to have_css 'h1', text: /Product-specific rules met/
       click_on 'See valid proofs of origin'
 
       expect(page).to have_css 'h1', text: 'Valid proofs of origin'
@@ -316,7 +316,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose schemes.first.rule_sets.first.rules.first.rule
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: /Origin requirements met/
+      expect(page).to have_css 'h1', text: /Product-specific rules met/
       click_on 'See valid proofs of origin'
 
       expect(page).to have_css 'h1', text: 'Valid proofs of origin'
@@ -351,7 +351,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose 'Yes, my goods are wholly obtained'
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: /Origin requirements met/
+      expect(page).to have_css 'h1', text: /Product-specific rules met/
       click_on 'See valid proofs of origin'
 
       expect(page).to have_css 'h1', text: 'Valid proofs of origin'
