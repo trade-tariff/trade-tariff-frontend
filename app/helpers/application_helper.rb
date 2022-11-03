@@ -144,4 +144,8 @@ module ApplicationHelper
   def back_link(url, text = t('navigation.back'), **options)
     link_to text, url, **options.merge(class: 'govuk-back-link')
   end
+
+  def glossary_term(term)
+    link_to term, glossary_path(term.to_s.underscore)
+  end
 end

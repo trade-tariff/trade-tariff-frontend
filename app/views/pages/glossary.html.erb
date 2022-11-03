@@ -1,3 +1,3 @@
-<%= back_link request.referer || root_path %>
+<%= back_link (request.referer || find_commodity_path) %>
 
 <%= render @glossary.page %>

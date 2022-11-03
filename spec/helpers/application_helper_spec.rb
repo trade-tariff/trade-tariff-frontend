@@ -394,4 +394,10 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to have_css 'a.govuk-back-link' }
     end
   end
+
+  describe '#glossary_term' do
+    subject { glossary_term 'MaxNOM' }
+
+    it { is_expected.to have_link 'MaxNOM', href: '/glossary/max_nom' }
+  end
 end
