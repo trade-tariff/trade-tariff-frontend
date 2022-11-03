@@ -3,11 +3,11 @@ require 'api_entity'
 class DutyExpression
   include ApiEntity
 
-  attr_accessor :base, :formatted_base
+  attr_accessor :base, :formatted_base, :verbose_duty
 
   def to_s
-    if formatted_base.present?
-      formatted_base
+    if verbose_duty.present?
+      verbose_duty
     else
       base
     end
