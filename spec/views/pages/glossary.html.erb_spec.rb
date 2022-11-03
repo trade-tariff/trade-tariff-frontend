@@ -12,5 +12,5 @@ RSpec.describe 'pages/glossary', type: :view do
   let(:glossary) { instance_double Pages::Glossary, page: "pages/glossary/#{page}" }
 
   it { is_expected.to have_link 'Back' }
-  it { is_expected.to have_css 'p', text: 'Test page' }
+  it { is_expected.to have_css '.govuk-grid-column-two-thirds p', text: 'Test page' }
 end
