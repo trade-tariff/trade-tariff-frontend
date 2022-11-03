@@ -6,11 +6,7 @@ class DutyExpression
   attr_accessor :base, :formatted_base, :verbose_duty
 
   def to_s
-    if verbose_duty.present?
-      verbose_duty
-    else
-      base
-    end
+    verbose_duty.presence || base
   end
 
   def amount
