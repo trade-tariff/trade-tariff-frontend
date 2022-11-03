@@ -385,6 +385,7 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       it { is_expected.to have_link 'Back', href: '/back-page' }
       it { is_expected.to have_css 'a.govuk-back-link' }
+      it { is_expected.not_to have_css 'a[onclick]' }
     end
 
     context 'with text label' do
@@ -392,6 +393,12 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       it { is_expected.to have_link 'Go back', href: '/back-page' }
       it { is_expected.to have_css 'a.govuk-back-link' }
+    end
+
+    context 'with javascript' do
+      subject { back_link '/back', javascript: true }
+
+      it { is_expected.to have_css 'a[onclick]' }
     end
   end
 

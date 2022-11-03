@@ -142,7 +142,12 @@ module ApplicationHelper
   end
 
   def back_link(url, text = t('navigation.back'), **options)
-    link_to text, url, **options.merge(class: 'govuk-back-link')
+    options = options.merge(class: 'govuk-back-link')
+    if options.delete(:javascript)
+      options[:onclick] = 'window.history.go(-1); return false;'
+    end
+
+    link_to text, url, **options
   end
 
   def glossary_term(term)
