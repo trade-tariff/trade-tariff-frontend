@@ -85,6 +85,15 @@ RSpec.describe SearchController, type: :controller do
       it { is_expected.to redirect_to heading_path('0123') }
     end
 
+    context 'with invalid date', vcr: { cassette_name: 'search#search_exact' } do
+      before { do_response }
+
+      let(:params) { { q: '01', day: '0', month: '12', year: '2022' } }
+
+      it { is_expected.to redirect_to heading_path(query) }
+      it { is_expected.to redirect_to commodity_path '0101210000' }
+    end
+
     context 'with nested search term', vcr: { cassette_name: 'search#search_exact' } do
       let(:params) { { search: { q: '01' } } }
 

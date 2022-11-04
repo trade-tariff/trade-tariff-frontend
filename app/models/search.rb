@@ -54,6 +54,8 @@ class Search
 
   def date
     @date ||= TariffDate.build(attributes)
+  rescue Date::Error
+    @date = TariffDate.new(Time.zone.today)
   end
 
   def filtered_by_date?
