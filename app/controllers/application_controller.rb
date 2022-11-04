@@ -71,11 +71,11 @@ class ApplicationController < ActionController::Base
 
   def set_search
     # rubocop:disable Naming/MemoizedInstanceVariableName
-    @search ||= Search.new(search_attributes)
+    @search ||= Search.new(search_params)
     # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
-  def search_attributes
+  def search_params
     params.fetch(:search, params).permit(
       :q,
       :resource_id,
