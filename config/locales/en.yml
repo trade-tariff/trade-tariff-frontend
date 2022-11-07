@@ -373,6 +373,7 @@ en:
           proof_requirements: Requirements for proving the origin for goods
           proof_verification: How proofs of origin are verified
           duty_drawback: Duty drawback
+          non_alteration_rule: Non alteration rule
           tolerances: Tolerances
 
       import_only:
@@ -557,6 +558,19 @@ en:
           The provision of duty drawback depends on the specifics of the trade agreement.
 
           There is no duty drawback provision in the %{scheme_title}.
+
+      non_alteration_rule:
+        caption: Obtaining and verifying proofs of origin
+        title: Non-alteration rule for trade with %{trade_country_name}
+        intro_md: |
+          The purpose of the non-alteration rule is to ensure that the goods
+          arriving in the country of import are the same as those which left the
+          country of export without alteration.
+        unavailable_md: |
+          The non-alteration rule depends on the specifics of the trade
+          agreement.
+
+          There is no non-alteration rule in the %{scheme_title}.
 
       not_wholly_obtained:
         caption: Are your goods originating?
