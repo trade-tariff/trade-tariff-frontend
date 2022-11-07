@@ -20,6 +20,10 @@ class Search
     super
   end
 
+  def country=(country)
+    @country = country&.upcase
+  end
+
   def perform
     with_retries do
       response = self.class.post('/search', q:, as_of: date.to_fs(:db))
