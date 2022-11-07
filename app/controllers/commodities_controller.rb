@@ -86,7 +86,7 @@ class CommoditiesController < GoodsNomenclaturesController
   def query_params
     query = { filter: {} }
     query[:filter][:meursing_additional_code_id] = meursing_lookup_result.meursing_additional_code_id
-    query[:filter][:geographical_area_id] = country.upcase if country.present?
+    query[:filter][:geographical_area_id] = country if country.present?
 
     super.merge(query)
   end

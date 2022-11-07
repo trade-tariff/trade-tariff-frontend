@@ -37,7 +37,7 @@ class Search
   end
 
   def geographical_area
-    @geographical_area ||= GeographicalArea.find(country.upcase) if country.present?
+    @geographical_area ||= GeographicalArea.find(country) if country.present?
   end
 
   def country_description
