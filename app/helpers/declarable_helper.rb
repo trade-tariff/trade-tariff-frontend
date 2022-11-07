@@ -46,7 +46,7 @@ module DeclarableHelper
 
   def trading_partner_country_description(geographical_area_id)
     if geographical_area_id.present?
-      GeographicalArea.find(geographical_area_id).description
+      GeographicalArea.find(geographical_area_id.upcase).description
     else
       'All countries'
     end
