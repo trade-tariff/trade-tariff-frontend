@@ -20,6 +20,7 @@ module RulesOfOrigin
       Steps::ProofVerification,
       Steps::DutyDrawback,
       Steps::NonAlterationRule,
+      Steps::DirectTransportRule,
       Steps::RulesNotMet,
       Steps::Tolerances,
     ]
