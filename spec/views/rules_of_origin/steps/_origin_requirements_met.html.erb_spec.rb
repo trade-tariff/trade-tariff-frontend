@@ -17,5 +17,15 @@ RSpec.describe 'rules_of_origin/steps/_origin_requirements_met', type: :view do
     end
 
     it { is_expected.to have_css '#next-steps a', count: 4 }
+    it { is_expected.to have_css '#next-steps a', text: /duty/ }
+  end
+
+  context 'with non alteration rule available' do
+    let :articles do
+      attributes_for_list :rules_of_origin_article, 1, article: 'non-alteration'
+    end
+
+    it { is_expected.to have_css '#next-steps a', count: 4 }
+    it { is_expected.to have_css '#next-steps a', text: /non-alteration/ }
   end
 end
