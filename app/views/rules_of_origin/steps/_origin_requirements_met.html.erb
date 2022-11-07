@@ -45,4 +45,10 @@
       <%= link_to t('.links.non_alteration'), step_path(:non_alteration_rule) %>
     </li>
   <% end %>
+
+  <% if current_step.direct_transport_available? %>
+    <li>
+      <%= link_to t('.links.direct_transport'), step_path(:direct_transport_rule) %>
+    </li>
+  <% end %>
 <ul>

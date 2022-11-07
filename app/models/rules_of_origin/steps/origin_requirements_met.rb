@@ -15,6 +15,10 @@ module RulesOfOrigin
         !!chosen_scheme.article('non-alteration')&.content&.present?
       end
 
+      def direct_transport_available?
+        !!chosen_scheme.article('direct-transport')&.content&.present?
+      end
+
     private
 
       def not_wholly_obtained?
