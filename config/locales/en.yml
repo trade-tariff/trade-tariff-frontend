@@ -500,6 +500,8 @@ en:
           requirements: See detailed processes and requirements for proving the origin for goods
           verification: How proofs of origin are verified
           duty_drawback: Find out about duty drawback
+          non_alteration: Find out about the non-alteration rule
+          direct_transport: Find out about the direct transport rule
 
       proofs_of_origin:
         title: Valid proofs of origin
