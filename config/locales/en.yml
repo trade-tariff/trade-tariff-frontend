@@ -368,11 +368,13 @@ en:
           sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
           subdivisions: Provide more information about your product
           product_specific_rules: Does your product meet the product-specific rules?
-          rules_not_met: Rules of origin not met
+          rules_not_met: Product-specific rules not met
           proofs_of_origin: Valid proofs of origin
           proof_requirements: Requirements for proving the origin for goods
           proof_verification: How proofs of origin are verified
           duty_drawback: Duty drawback
+          non_alteration_rule: Non alteration rule
+          direct_transport_rule: Direct transport rule
           tolerances: Tolerances
 
       import_only:
@@ -499,6 +501,8 @@ en:
           requirements: See detailed processes and requirements for proving the origin for goods
           verification: How proofs of origin are verified
           duty_drawback: Find out about duty drawback
+          non_alteration: Find out about the non-alteration rule
+          direct_transport: Find out about the direct transport rule
 
       proofs_of_origin:
         title: Valid proofs of origin
@@ -557,6 +561,32 @@ en:
           The provision of duty drawback depends on the specifics of the trade agreement.
 
           There is no duty drawback provision in the %{scheme_title}.
+
+      non_alteration_rule:
+        caption: Obtaining and verifying proofs of origin
+        title: Non-alteration rule for trade with %{trade_country_name}
+        intro_md: |
+          The purpose of the non-alteration rule is to ensure that the goods
+          arriving in the country of import are the same as those which left the
+          country of export without alteration.
+        unavailable_md: |
+          The non-alteration rule depends on the specifics of the trade
+          agreement.
+
+          There is no non-alteration rule in the %{scheme_title}.
+
+      direct_transport_rule:
+        caption: Obtaining and verifying proofs of origin
+        title: Direct transport rule for %{scheme_title}
+        intro_md: |
+          The purpose of the direct transport rule is to ensure that the goods
+          arriving in the country of import are the same as those which left the
+          country of export without alteration.
+        unavailable_md: |
+          The direct transport rule depends on the specifics of the trade
+          agreement.
+
+          There is no direct transport rule in the %{scheme_title}.
 
       not_wholly_obtained:
         caption: Are your goods originating?
@@ -730,7 +760,7 @@ en:
         notes: Introductory notes to the product-specific rules
 
       rules_not_met:
-        title: Rules of Origin not met
+        title: Product-specific rules not met
         panel:
           Your product does not appear to meet the rules of origin requirements
           for the %{scheme_title}.

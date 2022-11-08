@@ -37,3 +37,13 @@
     margin: 0 1em 0 0;
   }
 }
+
+.rules-of-origin-met-message {
+  padding: govuk-spacing(3);
+  background-color: govuk-colour("light-grey");
+  margin-bottom: 2em;
+
+  p {
+    margin-bottom: 0;
+  }
+}

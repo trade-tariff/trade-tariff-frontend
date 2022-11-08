@@ -8,6 +8,11 @@
 
 <div class="tariff-markdown">
   <div class="numbered-then-lettered-list">
-    <%= govspeak current_step.verification_text %>
+    <%= govspeak remove_article_reference(current_step.verification_text) %>
   </div>
 </div>
+
+<%= render 'shared/origin_reference_document',
+      origin_reference_document: current_step.origin_reference_document,
+      article_match: find_article_reference(current_step.verification_text) \
+      if find_article_reference(current_step.verification_text) %>

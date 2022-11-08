@@ -140,4 +140,29 @@ module ApplicationHelper
   def paragraph_if_content(content)
     tag.p(content) if content.present?
   end
+
+  def back_link(url, text = t('navigation.back'), **options)
+    options = options.merge(class: 'govuk-back-link')
+    if options.delete(:javascript)
+      options[:onclick] = 'window.history.go(-1); return false;'
+    end
+
+    link_to text, url, **options
+  end
+
+  def glossary_term(term)
+    link_to term, glossary_path(term.to_s.underscore)
+  end
+
+  def link_glossary_terms(content)
+    content.gsub %r{\(([A-Z][A-Za-z]+)\)} do |match|
+      term = Regexp.last_match.captures[0]
+
+      if Pages::Glossary.pages.include? term.underscore
+        "([#{term}](/glossary/#{term.underscore}))"
+      else
+        match
+      end
+    end
+  end
 end

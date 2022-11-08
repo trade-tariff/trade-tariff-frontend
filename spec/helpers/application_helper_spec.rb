@@ -378,4 +378,57 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#back_link' do
+    context 'without text label' do
+      subject { back_link '/back-page' }
+
+      it { is_expected.to have_link 'Back', href: '/back-page' }
+      it { is_expected.to have_css 'a.govuk-back-link' }
+      it { is_expected.not_to have_css 'a[onclick]' }
+    end
+
+    context 'with text label' do
+      subject { back_link '/back-page', 'Go back' }
+
+      it { is_expected.to have_link 'Go back', href: '/back-page' }
+      it { is_expected.to have_css 'a.govuk-back-link' }
+    end
+
+    context 'with javascript' do
+      subject { back_link '/back', javascript: true }
+
+      it { is_expected.to have_css 'a[onclick]' }
+    end
+  end
+
+  describe '#glossary_term' do
+    subject { glossary_term 'MaxNOM' }
+
+    it { is_expected.to have_link 'MaxNOM', href: '/glossary/max_nom' }
+  end
+
+  describe 'link_glossary_terms' do
+    subject { link_glossary_terms content }
+
+    before { allow(Pages::Glossary).to receive(:terms).and_return %w[max_nom rvc] }
+
+    context 'with matching term' do
+      let(:content) { 'Some content (MaxNOM)' }
+
+      it { is_expected.to eql 'Some content ([MaxNOM](/glossary/max_nom))' }
+    end
+
+    context 'without matching term' do
+      let(:content) { 'Some content (NOM)' }
+
+      it { is_expected.to eql content }
+    end
+
+    context 'with multiple terms' do
+      let(:content) { 'Some (RVC) content (MaxNOM)' }
+
+      it { is_expected.to eql 'Some ([RVC](/glossary/rvc)) content ([MaxNOM](/glossary/max_nom))' }
+    end
+  end
 end

@@ -19,6 +19,10 @@ module RulesOfOrigin
         chosen_scheme.article('tolerances')&.content
       end
 
+      def show_cumulation_section?
+        !@wizard.find('cumulation').skipped?
+      end
+
     private
 
       def skipped_for_multiple_rules?

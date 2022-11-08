@@ -78,7 +78,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose 'No'
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: 'Rules of Origin not met'
+      expect(page).to have_css 'h1', text: 'Product-specific rules not met'
     end
 
     scenario 'Importing - Not wholly obtained - Sufficient Processing - Rules met' do
@@ -161,7 +161,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose 'goods do not meet any'
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: 'Rules of Origin not met'
+      expect(page).to have_css 'h1', text: 'Product-specific rules not met'
     end
   end
 
@@ -380,7 +380,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose 'No, my goods are not wholly obtained'
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: 'Rules of Origin not met'
+      expect(page).to have_css 'h1', text: 'Product-specific rules not met'
     end
   end
 end
