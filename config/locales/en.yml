@@ -374,6 +374,7 @@ en:
           proof_verification: How proofs of origin are verified
           duty_drawback: Duty drawback
           non_alteration_rule: Non alteration rule
+          direct_transport_rule: Direct transport rule
           tolerances: Tolerances
 
       import_only:
@@ -573,6 +574,19 @@ en:
           agreement.
 
           There is no non-alteration rule in the %{scheme_title}.
+
+      direct_transport_rule:
+        caption: Obtaining and verifying proofs of origin
+        title: Direct transport rule for %{scheme_title}
+        intro_md: |
+          The purpose of the direct transport rule is to ensure that the goods
+          arriving in the country of import are the same as those which left the
+          country of export without alteration.
+        unavailable_md: |
+          The direct transport rule depends on the specifics of the trade
+          agreement.
+
+          There is no direct transport rule in the %{scheme_title}.
 
       not_wholly_obtained:
         caption: Are your goods originating?
