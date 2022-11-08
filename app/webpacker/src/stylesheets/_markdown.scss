@@ -5,7 +5,11 @@
   h4         { @extend .govuk-heading-s }
   p          { @extend .govuk-body }
   a          { @extend .govuk-link }
-  blockquote { @extend .govuk-inset-text }
+
+  blockquote {
+    @extend .govuk-inset-text;
+    background: none;
+  }
 
   ul {
     @extend .govuk-list;
