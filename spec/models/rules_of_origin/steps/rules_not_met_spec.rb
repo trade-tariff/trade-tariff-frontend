@@ -79,4 +79,21 @@ RSpec.describe RulesOfOrigin::Steps::RulesNotMet do
       it { is_expected.to eql 'import_export' }
     end
   end
+
+  describe '#show_cumulation_section?' do
+    subject { instance.show_cumulation_section? }
+
+    context 'when arrived via cumulation page' do
+      include_context 'with rules of origin store', :not_wholly_obtained
+
+      it { is_expected.to be true }
+    end
+
+    context 'when arrived via branch without cumulation page' do
+      include_context 'with rules of origin store', :not_wholly_obtained,
+                      scheme_traits: %i[single_wholly_obtained_rule]
+
+      it { is_expected.to be false }
+    end
+  end
 end
