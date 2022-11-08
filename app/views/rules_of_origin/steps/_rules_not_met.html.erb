@@ -9,10 +9,8 @@
   <%= t '.title' %>
 </h1>
 
-<div class="govuk-panel govuk-panel--confirmation">
-  <div class="govuk-panel__body">
-    <%= t '.panel', scheme_title: current_step.scheme_title %>
-  </div>
+<div class="rules-of-origin-met-message">
+  <p><%= t '.panel', scheme_title: current_step.scheme_title %></p>
 </div>
 
 <div class="tariff-markdown">

@@ -368,7 +368,7 @@ en:
           sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
           subdivisions: Provide more information about your product
           product_specific_rules: Does your product meet the product-specific rules?
-          rules_not_met: Rules of origin not met
+          rules_not_met: Product-specific rules not met
           proofs_of_origin: Valid proofs of origin
           proof_requirements: Requirements for proving the origin for goods
           proof_verification: How proofs of origin are verified
@@ -760,7 +760,7 @@ en:
         notes: Introductory notes to the product-specific rules
 
       rules_not_met:
-        title: Rules of Origin not met
+        title: Product-specific rules not met
         panel:
           Your product does not appear to meet the rules of origin requirements
           for the %{scheme_title}.
