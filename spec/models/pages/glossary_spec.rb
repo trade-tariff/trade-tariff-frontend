@@ -2,19 +2,21 @@ require 'spec_helper'
 
 RSpec.describe Pages::Glossary do
   describe '.new' do
-    subject { described_class.new 'test' }
+    subject { described_class.new 'max_nom' }
 
-    it { is_expected.to have_attributes term: 'test' }
+    it { is_expected.to have_attributes key: 'max_nom' }
+    it { is_expected.to have_attributes term: 'MaxNOM' }
+    it { is_expected.to have_attributes title: /maximum value/i }
   end
 
   describe '#find' do
-    before { allow(described_class).to receive(:pages).and_return %w[some_term] }
-
     context 'with safe page term' do
-      subject { described_class.find 'some_term' }
+      subject { described_class.find 'max_nom' }
 
       it { is_expected.to be_instance_of described_class }
-      it { is_expected.to have_attributes term: 'some_term' }
+      it { is_expected.to have_attributes key: 'max_nom' }
+      it { is_expected.to have_attributes term: 'MaxNOM' }
+      it { is_expected.to have_attributes title: /maximum value/i }
     end
 
     context 'with unsafe page term' do
