@@ -22,6 +22,20 @@ RSpec.describe Search do
     it { expect(search.date).to eq(Date.parse('2021-02-01')) }
   end
 
+  describe '#country=' do
+    context 'when country is present' do
+      subject { described_class.new(country: 'am') }
+
+      it { is_expected.to have_attributes country: 'AM' }
+    end
+
+    context 'when country is nil' do
+      subject { described_class.new(q: 'foo').country }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   it 'strips [ and ] characters from search term' do
     search = described_class.new(q: '[hello] [world]')
     expect(search.q).to eq 'hello world'

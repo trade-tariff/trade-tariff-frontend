@@ -148,6 +148,6 @@ class ApplicationController < ActionController::Base
   end
 
   def country
-    params['country']
+    params['country'].try(:upcase)
   end
 end
