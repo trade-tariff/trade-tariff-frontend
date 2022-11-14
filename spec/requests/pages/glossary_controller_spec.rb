@@ -3,6 +3,12 @@ require 'spec_helper'
 RSpec.describe Pages::GlossaryController, type: :request do
   subject { response }
 
+  describe 'GET #index' do
+    before { get glossary_terms_path }
+
+    it { is_expected.to have_http_status :ok }
+  end
+
   describe 'GET #show' do
     context 'with known page' do
       before { get glossary_term_path('vnm') }

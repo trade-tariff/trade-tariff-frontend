@@ -1,15 +1,14 @@
 require 'spec_helper'
 
 RSpec.describe Pages::Glossary do
-  describe '.new' do
-    subject { described_class.new 'max_nom' }
+  subject { described_class.new 'max_nom' }
 
-    it { is_expected.to have_attributes key: 'max_nom' }
-    it { is_expected.to have_attributes term: 'MaxNOM' }
-    it { is_expected.to have_attributes title: /maximum value/i }
-  end
+  it { is_expected.to have_attributes key: 'max_nom' }
+  it { is_expected.to have_attributes term: 'MaxNOM' }
+  it { is_expected.to have_attributes title: /maximum value/i }
+  it { is_expected.to have_attributes term_and_title: /MaxNOM \(.*maximum value.*\)/i }
 
-  describe '#find' do
+  describe '.find' do
     context 'with safe page term' do
       subject { described_class.find 'max_nom' }
 
@@ -30,5 +29,12 @@ RSpec.describe Pages::Glossary do
 
       it { expect { unknown }.to raise_exception described_class::UnknownPage }
     end
+  end
+
+  describe '.all' do
+    subject { described_class.all }
+
+    it { is_expected.to have_attributes length: described_class::PAGES.length }
+    it { is_expected.to all be_instance_of described_class }
   end
 end

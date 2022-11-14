@@ -23,6 +23,10 @@ module Pages
         new(term)
       end
 
+      def all
+        pages.map(&method(:find))
+      end
+
     private
 
       def templates
@@ -34,6 +38,10 @@ module Pages
       @key = key
       @term = PAGE_KEYS[key]
       @title = PAGES[term]
+    end
+
+    def term_and_title
+      "#{@term} (#{@title})"
     end
 
     class UnknownPage < StandardError; end
