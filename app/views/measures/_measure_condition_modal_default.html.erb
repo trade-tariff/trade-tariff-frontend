@@ -6,7 +6,9 @@
 
 <% if measure.permutations_enabled? %>
   <%= render partial: 'measure_conditions/permutation_group',
-             collection: measure.measure_condition_permutation_groups %>
+             collection: measure.measure_condition_permutation_groups,
+             locals: { anchor: anchor }
+  %>
 <% else %>
   <% measure.grouped_measure_conditions.each do |condition_group, conditions| %>
     <%= render partial: "measure_conditions/measure_condition_code_#{condition_group[:partial_type]}",
@@ -14,7 +16,8 @@
   <% end %>
 
   <%= render 'measures/guidance_table',
-      measure_conditions_with_guidance: measure.measure_conditions_with_guidance
+    measure_conditions_with_guidance: measure.measure_conditions_with_guidance,
+    include_chief_guidance: anchor == 'export'
   %>
 <% end %>
 
@@ -25,11 +28,11 @@
   </h3>
 
   <p>
-    The use of 999L allows a CDS waiver code to be declared for prohibited and restricted goods, 
-    allowing declarants to confirm that the goods are not subject to specific licencing measures. 
+    The use of 999L allows a CDS waiver code to be declared for prohibited and restricted goods,
+    allowing declarants to confirm that the goods are not subject to specific licencing measures.
     You must enter ‘CDS Waiver’ in the additional documentation field for this commodity item.
   </p>
-  
+
   <p>
     This waiver cannot be used for goods that are imported/exported or moved to/from Northern Ireland.
   </p>

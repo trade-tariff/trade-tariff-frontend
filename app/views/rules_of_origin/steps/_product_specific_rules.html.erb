@@ -3,7 +3,7 @@
         :rule,
         form.object.options,
         :resource_id,
-        ->(option) { govspeak option.rule } %>
+        ->(option) { govspeak link_glossary_terms option.rule } %>
 
   <div class="tariff-markdown">
     <%= govspeak t '.body', scheme_title: form.object.scheme_title %>

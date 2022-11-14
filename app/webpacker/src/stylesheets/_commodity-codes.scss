@@ -28,6 +28,16 @@
   height: $chapter-code-height;
   margin-right: 5px;
 }
+.chapter-heading-code {
+  @extend .govuk-tag--grey;
+  font-weight: 400;
+  width: 2.6em;
+}
+.chapter-chapter-code {
+  @extend .govuk-tag--grey;
+  font-weight: 400;
+  width: 1.4em;
+}
 .commodity-code {
   width: 101px;
   height: $chapter-code-height;

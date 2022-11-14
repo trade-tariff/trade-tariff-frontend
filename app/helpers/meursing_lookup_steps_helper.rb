@@ -12,7 +12,7 @@ module MeursingLookupStepsHelper
     "Meursing lookup: #{step.key}"
   end
 
-  def back_link
-    link_to 'Back', meursing_lookup_step_path(wizard.previous_key), class: 'govuk-back-link' if wizard.previous_key
+  def meursing_back_link
+    back_link meursing_lookup_step_path(wizard.previous_key) if wizard.previous_key
   end
 end

@@ -16,3 +16,12 @@
 .avoid-line-breaks {
   white-space: nowrap;
 }
+
+blockquote {
+  @extend .govuk-body ;
+
+  padding: govuk-spacing(2);
+  margin-left: 0;
+  margin-right: 0;
+  background-color: govuk-colour("light-grey");
+}

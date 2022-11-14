@@ -11,6 +11,10 @@ ol.lettered-list {
 ol.numbered-then-lettered-list {
   ol {
     list-style-type: lower-alpha;
+
+    ol {
+      list-style-type: lower-roman;
+    }
   }
 }
 

@@ -7,9 +7,9 @@ class Search
   COMMODITY_CODE = /\A[0-9]{10}\z/
   HEADING_CODE = /\A[0-9]{4}\z/
 
-  attr_reader   :q        # search text query
-  attr_accessor :country, # search country
-                :day,
+  attr_reader   :q,      # search text query
+                :country # search country
+  attr_accessor :day,
                 :month,
                 :year
 
@@ -18,6 +18,10 @@ class Search
   def initialize(attributes = {})
     attributes['country'].gsub!(/[^a-zA-Z]/, '') if attributes['country']
     super
+  end
+
+  def country=(country)
+    @country = country&.upcase
   end
 
   def perform
