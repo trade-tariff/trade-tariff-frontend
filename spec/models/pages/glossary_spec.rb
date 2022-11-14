@@ -29,12 +29,4 @@ RSpec.describe Pages::Glossary do
       it { expect { unknown }.to raise_exception described_class::UnknownPage }
     end
   end
-
-  describe '#page' do
-    context 'with known page' do
-      subject { described_class.new('something').page }
-
-      it { is_expected.to eql 'pages/glossary/something' }
-    end
-  end
 end

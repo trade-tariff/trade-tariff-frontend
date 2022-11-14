@@ -28,10 +28,6 @@ module Pages
       @term = term
     end
 
-    def page
-      "pages/glossary/#{term}"
-    end
-
     class UnknownPage < StandardError; end
   end
 end

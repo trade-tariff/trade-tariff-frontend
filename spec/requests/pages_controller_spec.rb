@@ -37,19 +37,4 @@ RSpec.describe PagesController, type: :request do
       expect(assigns[:chapters]).to be_many
     end
   end
-
-  describe 'GET #glossary' do
-    context 'with known page' do
-      before { get glossary_path('vnm') }
-
-      it { is_expected.to have_http_status :ok }
-      it { is_expected.to render_template 'pages/glossary/_vnm' }
-    end
-
-    context 'with unknown page' do
-      let(:fetch_page) { get glossary_path('unknown_page') }
-
-      it { expect { fetch_page }.to raise_exception Pages::Glossary::UnknownPage }
-    end
-  end
 end

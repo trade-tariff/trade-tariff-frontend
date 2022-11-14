@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'pages/glossary', type: :view do
+RSpec.describe 'pages/glossary/show', type: :view do
   subject { render && rendered }
 
   before do
@@ -9,7 +9,7 @@ RSpec.describe 'pages/glossary', type: :view do
   end
 
   let(:page) { 'test-page' }
-  let(:glossary) { instance_double Pages::Glossary, page: "pages/glossary/#{page}" }
+  let(:glossary) { instance_double Pages::Glossary, term: page }
 
   it { is_expected.to have_link 'Back' }
   it { is_expected.to have_css '.govuk-grid-column-two-thirds p', text: 'Test page' }
