@@ -13,13 +13,13 @@
   <p><%= t '.panel', scheme_title: current_step.scheme_title %></p>
 </div>
 
-<p>
-  <%= t '.body' %>
-</p>
-
 <h3 class="govuk-heading-s">
-  <%= t 'rules_of_origin.steps.common.next_step' %>
+  <%= t '.next_steps' %>
 </h3>
+
+<p>
+  <%= t '.body_html', scheme_title: current_step.scheme_title %>
+</p>
 
 <ul class="govuk-list" id="next-steps">
   <li>
