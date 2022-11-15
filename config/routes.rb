@@ -59,7 +59,8 @@ Rails.application.routes.draw do
   get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'terms', to: 'pages#terms'
-  get 'glossary/:id', to: 'pages#glossary', as: :glossary
+
+  resources :glossary, only: %i[index show], as: :glossary_terms, module: :pages
 
   get 'geographical_areas/:id', to: 'geographical_areas#show', as: :geographical_area
 

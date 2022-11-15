@@ -151,7 +151,7 @@ module ApplicationHelper
   end
 
   def glossary_term(term)
-    link_to term, glossary_path(term.to_s.underscore)
+    link_to term, glossary_term_path(term.to_s.underscore)
   end
 
   def link_glossary_terms(content)
@@ -159,7 +159,7 @@ module ApplicationHelper
       term = Regexp.last_match.captures[0]
 
       if Pages::Glossary.pages.include? term.underscore
-        "([#{term}](/glossary/#{term.underscore}))"
+        "([#{term}](#{glossary_term_path(term.underscore)}))"
       else
         match
       end

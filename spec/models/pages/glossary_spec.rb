@@ -1,20 +1,21 @@
 require 'spec_helper'
 
 RSpec.describe Pages::Glossary do
-  describe '.new' do
-    subject { described_class.new 'test' }
+  subject { described_class.new 'max_nom' }
 
-    it { is_expected.to have_attributes term: 'test' }
-  end
+  it { is_expected.to have_attributes key: 'max_nom' }
+  it { is_expected.to have_attributes term: 'MaxNOM' }
+  it { is_expected.to have_attributes title: /maximum value/i }
+  it { is_expected.to have_attributes term_and_title: /MaxNOM \(.*maximum value.*\)/i }
 
-  describe '#find' do
-    before { allow(described_class).to receive(:pages).and_return %w[some_term] }
-
+  describe '.find' do
     context 'with safe page term' do
-      subject { described_class.find 'some_term' }
+      subject { described_class.find 'max_nom' }
 
       it { is_expected.to be_instance_of described_class }
-      it { is_expected.to have_attributes term: 'some_term' }
+      it { is_expected.to have_attributes key: 'max_nom' }
+      it { is_expected.to have_attributes term: 'MaxNOM' }
+      it { is_expected.to have_attributes title: /maximum value/i }
     end
 
     context 'with unsafe page term' do
@@ -30,11 +31,10 @@ RSpec.describe Pages::Glossary do
     end
   end
 
-  describe '#page' do
-    context 'with known page' do
-      subject { described_class.new('something').page }
+  describe '.all' do
+    subject { described_class.all }
 
-      it { is_expected.to eql 'pages/glossary/something' }
-    end
+    it { is_expected.to have_attributes length: described_class::PAGES.length }
+    it { is_expected.to all be_instance_of described_class }
   end
 end

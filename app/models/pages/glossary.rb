@@ -1,20 +1,30 @@
 module Pages
   class Glossary
-    PAGE_GLOB = Rails.root.join('app/views/pages/glossary/_*.html.erb')
+    PAGES = {
+      'EXW' => 'Ex-works price',
+      'FOB' => 'Free on board price',
+      'MaxNOM' => 'Maximum value of non-originating materials',
+      'RVC' => 'minimum regional value content',
+      'VNM' => 'Value of non-originating materials',
+    }.freeze
 
-    attr_reader :term
+    PAGE_KEYS = Hash[PAGES.keys.map(&:underscore).zip(PAGES.keys)].freeze
+
+    attr_reader :key, :term, :title
 
     class << self
       def pages
-        @pages ||= Dir[PAGE_GLOB].map do |f|
-          File.basename(f, '.html.erb').slice(1..)
-        end
+        PAGE_KEYS.keys
       end
 
       def find(term)
         raise UnknownPage unless pages.include?(term)
 
         new(term)
+      end
+
+      def all
+        pages.map(&method(:find))
       end
 
     private
@@ -24,12 +34,14 @@ module Pages
       end
     end
 
-    def initialize(term)
-      @term = term
+    def initialize(key)
+      @key = key
+      @term = PAGE_KEYS[key]
+      @title = PAGES[term]
     end
 
-    def page
-      "pages/glossary/#{term}"
+    def term_and_title
+      "#{@term} (#{@title})"
     end
 
     class UnknownPage < StandardError; end
