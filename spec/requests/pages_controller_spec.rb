@@ -2,6 +2,7 @@ require 'spec_helper'
 
 RSpec.describe PagesController, type: :request do
   subject { response }
+
   let(:rules_of_origin_scheme) { build :rules_of_origin_scheme }
 
   context 'when asked for XML file' do

@@ -34,7 +34,7 @@ module RulesOfOrigin
     def rules_of_origin_schemes
       @rules_of_origin_schemes ||=
         RulesOfOrigin::Scheme.for_heading_and_country(@store['commodity_code'],
-                                  @store['country_code'])
+                                                      @store['country_code'])
     end
 
   private

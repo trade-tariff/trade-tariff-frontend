@@ -284,7 +284,7 @@ RSpec.describe RulesOfOrigin::Scheme do
         include_context 'with mocked response'
 
         before { schemes.first.links.first.source = 'scheme_set' }
-  
+
         it { expect(schemes.first.agreement_link).to eq nil }
       end
 
@@ -292,7 +292,7 @@ RSpec.describe RulesOfOrigin::Scheme do
         include_context 'with mocked response'
 
         before { schemes.first.links = [] }
-  
+
         it { expect(schemes.first.agreement_link).to eq nil }
       end
     end

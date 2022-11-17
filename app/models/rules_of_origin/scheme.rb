@@ -24,7 +24,7 @@ class RulesOfOrigin::Scheme
     end
 
     def with_duty_drawback_articles(opts = {})
-      all opts.merge(filter: { has_article: 'duty-drawback'})
+      all opts.merge(filter: { has_article: 'duty-drawback' })
     end
   end
 
