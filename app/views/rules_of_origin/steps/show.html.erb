@@ -1,7 +1,7 @@
 <% content_for :title, t('.meta_title',  step: current_step.model_name.human) %>
 
 <section id="rules-of-origin-<%= current_step.key %>">
-  <%= link_to t('navigation.back'), step_path(wizard.previous_key), class: 'govuk-back-link' %>
+  <%= back_link step_path(wizard.previous_key) %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

@@ -20,6 +20,7 @@ RSpec.describe 'rules_of_origin/steps/_sidebar_section', type: :view do
   it { is_expected.to have_css 'li .app-step-nav__panel ol li' }
   it { is_expected.not_to have_css 'li.app-step-nav.app-step-nav__step--active' }
   it { is_expected.not_to have_css 'li ol li.app-step-nav__list-item--active' }
+  it { is_expected.not_to have_css '.app-step-nav__panel > p' }
 
   context 'when rendering current_step' do
     let :render_page do
@@ -33,6 +34,10 @@ RSpec.describe 'rules_of_origin/steps/_sidebar_section', type: :view do
   end
 
   context 'when addition info available' do
+    include_context 'with rules of origin form step',
+                    'origin_requirements_met',
+                    :originating
+
     let :render_page do
       render 'rules_of_origin/steps/sidebar_section',
              sidebar_section: sections['details'],

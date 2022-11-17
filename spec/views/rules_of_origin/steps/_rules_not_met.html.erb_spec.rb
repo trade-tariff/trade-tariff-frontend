@@ -12,9 +12,8 @@ RSpec.describe 'rules_of_origin/steps/_rules_not_met', type: :view do
 
   it { is_expected.to have_css 'span.govuk-caption-xl', text: %r{(Im|Ex)porting.* #{wizardstore['commodity_code']}.*Japan.*UK} }
   it { is_expected.to have_css 'h1', text: /not met/i }
-  it { is_expected.to have_css '.govuk-panel--confirmation .govuk-panel__body', count: 1 }
-  it { is_expected.to have_css '.govuk-panel__body', text: %r{#{schemes.first.title}} }
-  it { is_expected.to have_css '.govuk-panel + .tariff-markdown *', text: %r{#{schemes.first.title}} }
+  it { is_expected.to have_css '.rules-of-origin-met-message', text: %r{#{schemes.first.title}} }
+  it { is_expected.to have_css '.tariff-markdown', text: %r{#{schemes.first.title}} }
   it { is_expected.to have_css '#tolerances-section p a' }
   it { is_expected.to have_css '#sets-section h3' }
   it { is_expected.to have_css '#sets-section p' }
@@ -29,5 +28,12 @@ RSpec.describe 'rules_of_origin/steps/_rules_not_met', type: :view do
     let(:articles) { [] }
 
     it { is_expected.not_to have_css '#tolerances-section' }
+  end
+
+  context 'when not passed through cumulation page' do
+    before { allow(current_step).to receive(:show_cumulation_section?).and_return false }
+
+    it { is_expected.not_to have_css '#cumulation-section h3' }
+    it { is_expected.not_to have_css '#cumulation-section a' }
   end
 end

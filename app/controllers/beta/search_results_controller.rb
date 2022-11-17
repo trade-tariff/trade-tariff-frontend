@@ -79,7 +79,7 @@ module Beta
     def show
       @search_result = Beta::Search::PerformSearchService.new(query_options, filters).call
 
-      redirect_to @search_result.redirect_to if @search_result.redirect?
+      redirect_to redirect_path if @search_result.redirect?
     end
 
     private
@@ -105,6 +105,10 @@ module Beta
 
     def search_params
       params.permit(:q, :filters, :spell)
+    end
+
+    def redirect_path
+      "#{@search_result.redirect_to}?#{url_options.slice(:year, :month, :day).to_query}"
     end
   end
 end

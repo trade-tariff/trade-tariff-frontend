@@ -42,7 +42,7 @@ private
   end
 
   def pending_balance
-    if definition.within_first_twenty_days? && declarable.has_safeguard_measure?
+    if declarable.import_measures.any? && definition.within_first_twenty_days? && declarable.has_safeguard_measure?
       begin
         previous_period_definition&.balance
       rescue Faraday::ResourceNotFound

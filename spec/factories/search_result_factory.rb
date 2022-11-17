@@ -36,7 +36,7 @@ FactoryBot.define do
       meta do
         {
           'redirect' => true,
-          'redirect_to' => 'https://example.com/headings/0101',
+          'redirect_to' => '/headings/0101',
         }
       end
     end

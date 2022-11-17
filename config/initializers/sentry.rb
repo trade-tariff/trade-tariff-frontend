@@ -5,5 +5,6 @@ Sentry.init do |config|
     Faraday::ResourceNotFound
     WizardSteps::UnknownStep
     TradeTariffFrontend::FeatureUnavailable
+    TradeTariffFrontend::MaintenanceMode
   ]
 end

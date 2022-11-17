@@ -65,7 +65,10 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Start and end dates</th>
-            <td class="numerical govuk-table__cell numerical"><%= start_and_end_dates_for(quota_definition) %></td>
+            <td class="numerical govuk-table__cell numerical">
+              <%= govuk_date_range quota_definition.validity_start_date,
+                                   quota_definition.validity_end_date %>
+            </td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="col" class='govuk-table__header'>Last allocation date</th>

@@ -48,6 +48,7 @@ module TradeTariffFrontend
       footnote_types
       changes
       rules_of_origin_schemes
+      measures
       measure_types
       measure_condition_codes
       measure_actions
@@ -86,7 +87,7 @@ module TradeTariffFrontend
   def single_trade_window_url
     ENV.fetch(
       'STW_URI',
-      'https://check-how-to-import-export-goods.service.gov.uk/manage-this-trade/check-licences-certificates-and-other-restrictions',
+      'https://check-how-to-import-export-goods.service.gov.uk/import/check-licences-certificates-and-other-restrictions',
     )
   end
 
@@ -185,4 +186,5 @@ module TradeTariffFrontend
   end
 
   class FeatureUnavailable < StandardError; end
+  class MaintenanceMode < StandardError; end
 end

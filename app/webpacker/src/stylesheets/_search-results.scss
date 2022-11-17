@@ -4,8 +4,6 @@
 
 .non-corrected-search-results {
   color: $govuk-secondary-text-colour;
-  display: block;
-  font-size: 10px !important;
 }
 
 .search-results {
@@ -17,6 +15,26 @@
     }
   }
 
+  .chapter-results {
+    padding-left: 3.1rem;
+
+    @media (max-width: $mobile-max-width) {
+      padding-left: 0rem;
+    }
+  }
+
+  .list-key-chapter {
+    width: 1.9rem;
+  }
+
+  .list-key-heading {
+    width: 3.5rem;
+  }
+
+  .search-list {
+    margin: 0.1rem;
+  }
+  
   em {
     font-size: 1em;
     font-style: italic;
@@ -58,7 +76,7 @@
       padding: 1em 0 0.5em !important;
       margin: 0 !important;
     }
-    
+
     ul {
       list-style-type: none;
       padding: 0;
@@ -101,7 +119,7 @@
 
           .line-text {
             padding-left: 0 !important;
-            
+
             @media (min-width: $desktop-min-width) {
               padding-left: 0;
               padding-top: 0em;
@@ -127,8 +145,6 @@
       min-height: $chapter-code-height;
       background-color: $highlight-colour;
       position: relative;
-      
-
 
       a {
         display: block;
@@ -139,6 +155,5 @@
         }
       }
     }
-    
   }
 }

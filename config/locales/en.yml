@@ -326,18 +326,6 @@ en:
           none: Your goods do not meet any of these rules.
 
   rules_of_origin:
-    preferential_treatment:
-      UA_html: |
-        <p>
-          Due to the ongoing situation in Ukraine, we recognise that some Ukrainian exporters,
-          who do not hold Approved Exporter status and rely on EUR1 certificates to evidence the preferential origin of their goods,
-          may not be able to obtain the duly endorsed certificates. In these cases,
-          HMRC has introduced an easement enabling preference to be claimed by UK importers
-          based on an unendorsed EUR1 certificate supported/or by alternative evidence that corroborates the originating status of the goods.
-        </p>
-        <p>
-          To claim preference under this easement UK importers must enter code '9UKR' in Box 44 of the customs declaration.
-        </p>
     steps:
       common:
         next_step: Next step
@@ -362,17 +350,19 @@ en:
           wholly_obtained_definition: How 'wholly obtained' is defined
           components_definition: What components do you need to take into account?
           wholly_obtained: Are your goods wholly obtained?
-          origin_requirements_met: Origin requirements met
+          origin_requirements_met: Product-specific rules met
           not_wholly_obtained: Your goods are not wholly obtained
           cumulation: Including parts or components from other countries
           sufficient_processing: "Minimal operations: Have non-originating parts been sufficiently processed?"
           subdivisions: Provide more information about your product
           product_specific_rules: Does your product meet the product-specific rules?
-          rules_not_met: Rules of origin not met
+          rules_not_met: Product-specific rules not met
           proofs_of_origin: Valid proofs of origin
           proof_requirements: Requirements for proving the origin for goods
           proof_verification: How proofs of origin are verified
           duty_drawback: Duty drawback
+          non_alteration_rule: Non alteration rule
+          direct_transport_rule: Direct transport rule
           tolerances: Tolerances
 
       import_only:
@@ -487,18 +477,28 @@ en:
           obtained, based on the rules of the %{scheme_title}.
 
       origin_requirements_met:
-        title: Origin requirements met
+        title: Product-specific rules met
         panel:
           Based on your responses, your product appears to meet the rules of
           origin requirements for the %{scheme_title}.
-        body:
-          To benefit from a preferential tariff or quota, originating products
-          should be accompanied by an appropriate proof confirming their origin.
+        body_html:
+          <p>
+            To benefit from a preferential tariff or quota, originating products
+            should be accompanied by an appropriate proof confirming their origin.
+          </p>
+          
+          <p>
+            It's important to read the documentation the documentation below to ensure that you meet all
+            the origin requirements of the %{scheme_title}.
+          </p>
+        next_steps: Next steps
         links:
           proofs: See valid proofs of origin
           requirements: See detailed processes and requirements for proving the origin for goods
           verification: How proofs of origin are verified
           duty_drawback: Find out about duty drawback
+          non_alteration: Find out about the non-alteration rule
+          direct_transport: Find out about the direct transport rule
 
       proofs_of_origin:
         title: Valid proofs of origin
@@ -557,6 +557,32 @@ en:
           The provision of duty drawback depends on the specifics of the trade agreement.
 
           There is no duty drawback provision in the %{scheme_title}.
+
+      non_alteration_rule:
+        caption: Obtaining and verifying proofs of origin
+        title: Non-alteration rule for trade with %{trade_country_name}
+        intro_md: |
+          The purpose of the non-alteration rule is to ensure that the goods
+          arriving in the country of import are the same as those which left the
+          country of export without alteration.
+        unavailable_md: |
+          The non-alteration rule depends on the specifics of the trade
+          agreement.
+
+          There is no non-alteration rule in the %{scheme_title}.
+
+      direct_transport_rule:
+        caption: Obtaining and verifying proofs of origin
+        title: Direct transport rule for %{scheme_title}
+        intro_md: |
+          The purpose of the direct transport rule is to ensure that the goods
+          arriving in the country of import are the same as those which left the
+          country of export without alteration.
+        unavailable_md: |
+          The direct transport rule depends on the specifics of the trade
+          agreement.
+
+          There is no direct transport rule in the %{scheme_title}.
 
       not_wholly_obtained:
         caption: Are your goods originating?
@@ -730,7 +756,7 @@ en:
         notes: Introductory notes to the product-specific rules
 
       rules_not_met:
-        title: Rules of Origin not met
+        title: Product-specific rules not met
         panel:
           Your product does not appear to meet the rules of origin requirements
           for the %{scheme_title}.
@@ -852,9 +878,13 @@ en:
           </p>
         example_list_md: |
           1. A company in country A would like to take advantage of the FTA with country B to receive 0% import duties on the import of goods which require 100% of the value to be originating.
-          2. The goods are comprised of component parts that are sourced from both country A and country B
+          2. The goods are comprised of component parts that are sourced from both country A and country B.
           3. As there is bilateral cumulation between the two countries and all component parts are sourced in either country A or country B, the goods can be considered as originating.
           4. Even if all the parts came from country A and were just assembled in country B, the rules would be met.
+
+             Goods may only be considered as originating if the parts from Country B
+             have been processed to a degree beyond what is defined in
+             the [insufficient processing clause](%{sufficient_processing_link}).
       extended:
         description_html: |
             <p>

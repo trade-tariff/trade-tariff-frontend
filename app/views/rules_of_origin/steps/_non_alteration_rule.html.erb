@@ -1,0 +1,26 @@
+<span class="govuk-caption-xl">
+  <%= t '.caption' %>
+</span>
+
+<h1 class="govuk-heading-l">
+  <%= t '.title', trade_country_name: current_step.trade_country_name %>
+</h1>
+
+<div class="tariff-markdown tariff-markdown--with-lead-paragraph" id="intro">
+  <%= govspeak t '.intro_md' %>
+</div>
+
+<% if current_step.non_alteration_text.present? %>
+  <div class="tariff-markdown numbered-then-lettered-list" id="non-alteration-rule">
+    <%= govspeak remove_article_reference(current_step.non_alteration_text) %>
+  </div>
+
+  <%= render 'shared/origin_reference_document',
+      origin_reference_document: current_step.origin_reference_document,
+      article_match: find_article_reference(current_step.non_alteration_text) \
+      if find_article_reference(current_step.non_alteration_text) %>
+<% else %>
+  <div class="govuk-inset-text tariff-markdown" id="unavailable">
+    <%= govspeak t '.unavailable_md', scheme_title: current_step.scheme_title %>
+  </div>
+<% end %>

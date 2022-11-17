@@ -60,6 +60,8 @@ Rails.application.routes.draw do
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'terms', to: 'pages#terms'
 
+  resources :glossary, only: %i[index show], as: :glossary_terms, module: :pages
+
   get 'geographical_areas/:id', to: 'geographical_areas#show', as: :geographical_area
 
   resources :measure_types, only: [], module: 'measure_types' do
