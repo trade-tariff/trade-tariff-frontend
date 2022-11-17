@@ -66,7 +66,7 @@ class GoodsNomenclature
   def rules_of_origin(*args, **kwargs)
     return nil unless declarable?
 
-    @rules_of_origin ||= RulesOfOrigin::Scheme.all(code, *args, **kwargs)
+    @rules_of_origin ||= RulesOfOrigin::Scheme.for_heading_and_country(code, *args, **kwargs)
   end
 
   def rules_of_origin_rules(...)

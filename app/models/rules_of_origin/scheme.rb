@@ -16,11 +16,15 @@ class RulesOfOrigin::Scheme
   has_one :origin_reference_document, class_name: 'RulesOfOrigin::OriginReferenceDocument'
 
   class << self
-    def all(heading_code, country_code, opts = {})
-      super opts.merge(
+    def for_heading_and_country(heading_code, country_code, opts = {})
+      all opts.merge(
         heading_code: heading_code.first(6),
         country_code:,
       )
+    end
+
+    def with_duty_drawback_articles(opts = {})
+      all opts.merge(filter: { has_article: 'duty-drawback'})
     end
   end
 
@@ -30,5 +34,9 @@ class RulesOfOrigin::Scheme
 
   def v2_rules
     rule_sets.flat_map(&:rules)
+  end
+
+  def agreement_link
+    links.find { |link| link.source == 'scheme' }&.url
   end
 end

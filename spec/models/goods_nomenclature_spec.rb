@@ -118,7 +118,7 @@ RSpec.describe GoodsNomenclature do
       subject(:rules) { goods_nomenclature.rules_of_origin('FR') }
 
       before do
-        allow(RulesOfOrigin::Scheme).to receive(:all)
+        allow(RulesOfOrigin::Scheme).to receive(:for_heading_and_country)
           .with(goods_nomenclature.code, 'FR')
           .and_return([])
       end
@@ -126,7 +126,7 @@ RSpec.describe GoodsNomenclature do
       it 'will chain chain to RulesOfOrigin::Scheme' do
         rules # trigger call
 
-        expect(RulesOfOrigin::Scheme).to have_received(:all)
+        expect(RulesOfOrigin::Scheme).to have_received(:for_heading_and_country)
           .with(goods_nomenclature.code, 'FR')
       end
     end
@@ -137,7 +137,7 @@ RSpec.describe GoodsNomenclature do
       end
 
       before do
-        allow(RulesOfOrigin::Scheme).to receive(:all)
+        allow(RulesOfOrigin::Scheme).to receive(:for_heading_and_country)
           .with(goods_nomenclature.code, 'FR', page: 1)
           .and_return([])
       end
@@ -145,7 +145,7 @@ RSpec.describe GoodsNomenclature do
       it 'will chain chain to RulesOfOrigin::Scheme' do
         rules # trigger call
 
-        expect(RulesOfOrigin::Scheme).to have_received(:all)
+        expect(RulesOfOrigin::Scheme).to have_received(:for_heading_and_country)
           .with(goods_nomenclature.code, 'FR', page: 1)
       end
     end
