@@ -1,38 +1,50 @@
-<%= page_header t('breadcrumb.news') %>
+<%= page_header do %>
+  <h1 class="govuk-heading-xl">
+    Trade tariff news bulletin
+  </h1>
+<% end %>
 
 <% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs t('breadcrumb.news'), [[t('breadcrumb.home'), home_path]] %>
 <% end %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-  <% @news_items.each do |news_item| %>
-    <article class="news-item govuk-grid-row" data-news-item-id="<%= news_item.id %>">
-      <div class="news-item__date govuk-body-m govuk-grid-column-one-quarter">
-        <%= news_item.start_date.to_formatted_s :short %>
-      </div>
+  <div class="govuk-grid-column-one-quarter">
+    &nbsp;
+  </div>
 
-      <div class="news-item__content govuk-grid-column-three-quarters">
+  <div class="govuk-grid-column-three-quarters news-items">
+    <h2 class="govuk-heading-l">
+      <%= @collection_name || 'All collections' %>
+    </h2>
+
+    <% @news_items.each do |news_item| %>
+      <article class="news-item" data-news-item-id="<%= news_item.id %>">
         <h2 class="govuk-heading-s">
-          <%= news_item.title %>
+          <%= link_to news_item.title, news_item %>
         </h2>
 
-        <div class="tariff-markdown">
+        <div class="tariff-markdown tariff-markdown--reduced-trailing-margin">
           <%= format_news_item_content news_item.precis %>
         </div>
 
-        <%= link_to 'Show more ...', news_item if news_item.content_after_precis? %>
-      </div>
-    </article>
-  <% end %>
+        <p class="tariff-body-subtext">
+          <%= news_item.start_date.to_formatted_s :short %>
+          <% news_item.collections.each do |collection| %>
+            | <%= collection.name %>
+          <% end %>
+        </p>
 
-  <% if @news_items.empty? %>
-    <div class="govuk-inset-text">
-      <p>
-        <em>There are no updates at present</em>
-      </p>
-    </div>
-  <% end %>
-</div>
-  <%= render 'feed' %>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+      </article>
+    <% end %>
+
+    <% if @news_items.empty? %>
+      <div class="govuk-inset-text">
+        <p>
+          <em>There are no updates at present</em>
+        </p>
+      </div>
+    <% end %>
+  </div>
 </div>

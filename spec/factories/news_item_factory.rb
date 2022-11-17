@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :news_item do
     transient do
-      collection_count { 0 }
+      collection_count { 1 }
     end
 
     sequence(:id) { |n| n }

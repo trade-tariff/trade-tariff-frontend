@@ -9,12 +9,12 @@ RSpec.describe 'news_items/index', type: :view do
   let(:date_format) { /\d\d? [A-Z][a-z]{2} [12]\d{3}/ }
 
   it { is_expected.to have_css 'article.news-item' }
-  it { is_expected.to have_css 'article .news-item__date', text: date_format }
+  it { is_expected.to have_css 'article .tariff-body-subtext', text: date_format }
+  it { is_expected.to have_css 'article .tariff-body-subtext', text: news_items.first.collections.first.name }
   it { is_expected.to have_css 'article h2', count: 3 }
+  it { is_expected.to have_link news_items.first.title, href: %r{/news/\d+} }
   it { is_expected.to have_css 'article .tariff-markdown p', count: 3 }
   it { is_expected.to have_css '.news-item p', text: /#{I18n.t('title.service_name.uk')}/ }
-  it { is_expected.to have_link 'Show more ...', href: %r{/news/\d+} }
-  it { is_expected.to render_template 'news_items/_feed' }
 
   context 'with single paragraph news items' do
     let(:news_items) { build_list :news_item, 2, content: 'Single paragraph' }
