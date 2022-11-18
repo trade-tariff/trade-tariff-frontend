@@ -186,6 +186,22 @@ article.tariff {
       position:relative;
       word-wrap: break-word;
 
+      @for $i from 2 through 50 {
+        &.level-#{$i} {
+            $url_list: ();
+            $position_list: ();
+
+            @for $number_of_dashes from 1 through $i - 1 {
+                $url_list: append($url_list, url("../images/hyphen.png"), comma);
+                $position_list: append($position_list, top 20px left 25px + $number_of_dashes * 16px, comma);
+            }
+
+            background-image: $url_list;
+            background-repeat: no-repeat;
+            background-position: $position_list
+        }
+      }
+
       &:last-child {
         border-bottom: 0;
       }
