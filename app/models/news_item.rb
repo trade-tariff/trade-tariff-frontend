@@ -54,11 +54,12 @@ class NewsItem
       nil
     end
 
-    def updates_page
+    def updates_page(page = 1)
       collection(
         collection_path,
         service: service_name,
         target: 'updates',
+        page:,
       )
     end
 

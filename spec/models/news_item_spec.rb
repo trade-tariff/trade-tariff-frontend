@@ -90,7 +90,7 @@ RSpec.describe NewsItem do
       include_context 'with UK service'
 
       before do
-        stub_api_request('/news_items?service=uk&target=updates', backend: 'uk')
+        stub_api_request('/news_items?page=1&service=uk&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
       end
 
@@ -101,7 +101,18 @@ RSpec.describe NewsItem do
       include_context 'with XI service'
 
       before do
-        stub_api_request('/news_items?service=xi&target=updates', backend: 'uk')
+        stub_api_request('/news_items?page=1&service=xi&target=updates', backend: 'uk')
+          .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
+      end
+
+      it { is_expected.to have_attributes length: 2 }
+    end
+
+    context 'with page number' do
+      subject { described_class.updates_page(2) }
+
+      before do
+        stub_api_request('/news_items?page=2&service=uk&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
       end
 
@@ -131,7 +142,7 @@ RSpec.describe NewsItem do
       include_context 'with UK service'
 
       before do
-        stub_api_request('/news_items?service=uk&target=updates', backend: 'uk')
+        stub_api_request('/news_items?page=1&service=uk&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, updates
       end
 
@@ -158,7 +169,7 @@ RSpec.describe NewsItem do
       include_context 'with XI service'
 
       before do
-        stub_api_request('/news_items?service=xi&target=updates', backend: 'uk')
+        stub_api_request('/news_items?page=1&service=xi&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, updates
       end
 
@@ -183,7 +194,7 @@ RSpec.describe NewsItem do
 
     context 'with failed connection to backend' do
       before do
-        stub_api_request('/news_items?service=uk&target=updates', backend: 'uk')
+        stub_api_request('/news_items?page=1&service=uk&target=updates', backend: 'uk')
           .to_timeout
       end
 

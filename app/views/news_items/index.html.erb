@@ -39,7 +39,9 @@
       </article>
     <% end %>
 
-    <% if @news_items.empty? %>
+    <% if @news_items.any? %>
+      <%= paginate @news_items %>
+    <% else %>
       <div class="govuk-inset-text">
         <p>
           <em>There are no updates at present</em>
