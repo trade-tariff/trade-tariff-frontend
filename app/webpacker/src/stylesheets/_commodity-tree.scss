@@ -186,19 +186,21 @@ article.tariff {
       position:relative;
       word-wrap: break-word;
 
+    // Creates the hiphen lines for the commodities 
       @for $i from 2 through 50 {
         &.level-#{$i} {
             $url_list: ();
             $position_list: ();
-
+            $dashes_spacing: 20px;
             @for $number_of_dashes from 1 through $i - 1 {
-                $url_list: append($url_list, url("../images/hyphen.png"), comma);
-                $position_list: append($position_list, top 20px left 25px + $number_of_dashes * 16px, comma);
+                $url_list: append($url_list, url("../images/hyphen-6px.png"), comma);
+                $position_list: append($position_list,
+                                       top 20px left 25px + $number_of_dashes * $dashes_spacing,
+                                       comma);
             }
-
             background-image: $url_list;
             background-repeat: no-repeat;
-            background-position: $position_list
+            background-position: $position_list;
         }
       }
 
