@@ -17,9 +17,11 @@
 
     <% if rules_of_origin_schemes.any? %>
       <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
-
-      <%= render 'rules_of_origin/import_trade_summary',
-                 import_trade_summary: declarable.import_trade_summary unless rules_of_origin_schemes.many? %>
+      
+      <% if declarable.import_trade_summary.basic_third_country_duty.present? %>
+        <%= render 'rules_of_origin/import_trade_summary',
+                   import_trade_summary: declarable.import_trade_summary unless rules_of_origin_schemes.many? %>
+      <% end %>
 
       <%= render 'rules_of_origin/wizard_link',
                  country_code: country_code,
