@@ -96,5 +96,11 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
 
       it { expect(rendered_page).to have_css '.no-preferential-duties' }
     end
+
+    context 'when basic_third_country_duty is missing' do
+      let(:import_trade_summary) { attributes_for(:import_trade_summary, basic_third_country_duty: nil) }
+
+      it { expect(rendered_page).not_to have_css '.import-trade-summary' }
+    end
   end
 end
