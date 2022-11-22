@@ -6,10 +6,12 @@ RSpec.describe 'news_items/index', type: :view do
   before do
     assign :news_items, paginated_news_items
     assign :news_years, news_years
+    assign :news_collections, news_collections
   end
 
   let(:news_items) { build_list :news_item, 3, content: "[[SERVICE_NAME]]\n\nFirst para" }
-  let(:news_years) { build_list(:news_year, 3) }
+  let(:news_years) { build_list :news_year, 3 }
+  let(:news_collections) { build_list :news_collection, 2 }
   let(:date_format) { /\d\d? [A-Z][a-z]{2} [12]\d{3}/ }
 
   let :paginated_news_items do
@@ -28,6 +30,10 @@ RSpec.describe 'news_items/index', type: :view do
   it { is_expected.to have_css 'ul#news-year-filter li', count: 4 }
   it { is_expected.to have_css 'ul#news-year-filter li a', count: 3 }
   it { is_expected.not_to have_css 'ul#news-year-filter li a', text: 'All years' }
+
+  it { is_expected.to have_css 'ul#news-collection-filter li', count: 3 }
+  it { is_expected.to have_css 'ul#news-collection-filter li a', count: 2 }
+  it { is_expected.not_to have_css 'ul#news-collection-filter li a', text: 'All collections' }
 
   context 'with multiple pages available' do
     let :paginated_news_items do
@@ -52,13 +58,20 @@ RSpec.describe 'news_items/index', type: :view do
   end
 
   context 'when filtering by year' do
-    before { assign :filter_year, filter_year }
-
-    let(:filter_year) { news_years.second.year }
+    before { assign :filter_year, news_years.second.year }
 
     it { is_expected.to have_css 'ul#news-year-filter li', count: 4 }
     it { is_expected.to have_css 'ul#news-year-filter li a', count: 3 }
     it { is_expected.to have_css 'ul#news-year-filter li a', text: 'All years' }
-    it { is_expected.not_to have_css 'ul#news-year-filter li a', text: filter_year.to_s }
+    it { is_expected.not_to have_css 'ul#news-year-filter li a', text: news_years.second.year.to_s }
+  end
+
+  context 'when filtering by collection' do
+    before { assign :filter_collection, news_collections.first.id }
+
+    it { is_expected.to have_css 'ul#news-collection-filter li', count: 3 }
+    it { is_expected.to have_css 'ul#news-collection-filter li a', count: 2 }
+    it { is_expected.to have_css 'ul#news-collection-filter li a', text: 'All collections' }
+    it { is_expected.not_to have_css 'ul#news-collection-filter li a', text: news_collections.first.name }
   end
 end

@@ -129,6 +129,17 @@ RSpec.describe News::Item do
 
       it { is_expected.to have_attributes length: 2 }
     end
+
+    context 'with collection_id filter' do
+      subject { described_class.updates_page(2, collection_id: 3) }
+
+      before do
+        stub_api_request('/news/items?page=2&per_page=10&service=uk&target=updates&collection_id=3', backend: 'uk')
+          .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
+      end
+
+      it { is_expected.to have_attributes length: 2 }
+    end
   end
 
   describe '.for_feed' do

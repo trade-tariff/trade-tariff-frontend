@@ -74,6 +74,7 @@ RSpec.describe 'Maintenance mode' do
         before do
           allow(News::Item).to receive(:updates_page).and_return []
           allow(News::Year).to receive(:all).and_return []
+          allow(News::Collection).to receive(:all).and_return []
 
           visit '/news?maintenance_bypass=bypass'
         end

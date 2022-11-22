@@ -28,6 +28,25 @@
       </li>
       <% end %>
     </ul>
+
+    <h3 class="govuk-heading-s">
+      Filter by collection
+    </h3>
+
+    <ul class="govuk-list govuk-list--disc" id="news-collection-filter">
+      <li>
+        <%= @filter_collection ? link_to('All collections', collection: nil, page: nil) : 'All collections' %>
+      </li>
+      <% @news_collections.each do |collection| %>
+      <li>
+        <% if @filter_collection == collection.id %>
+          <%= collection.name %>
+        <% else %>
+          <%= link_to collection.name, collection: collection.id, page: nil %>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
   </div>
 
   <div class="govuk-grid-column-three-quarters news-items">
