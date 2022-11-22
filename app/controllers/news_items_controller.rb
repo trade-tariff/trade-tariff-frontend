@@ -3,11 +3,11 @@ class NewsItemsController < ApplicationController
                 :disable_last_updated_footnote
 
   def index
-    @news_items = NewsItem.updates_page(page_number)
+    @news_items = News::Item.updates_page(page_number)
   end
 
   def show
-    @news_item = NewsItem.find(params[:id])
+    @news_item = News::Item.find(params[:id])
   end
 
 private

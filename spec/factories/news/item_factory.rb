@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :news_item do
+  factory :news_item, class: 'News::Item' do
     transient do
       collection_count { 1 }
     end
@@ -8,7 +8,7 @@ FactoryBot.define do
     sequence(:slug) { |n| "slug-#{n}" }
     start_date { Time.zone.yesterday }
     sequence(:title) { |n| "News item #{n}" }
-    display_style { NewsItem::DISPLAY_STYLE_REGULAR }
+    display_style { News::Item::DISPLAY_STYLE_REGULAR }
     show_on_xi { true }
     show_on_uk { true }
     show_on_updates_page { false }

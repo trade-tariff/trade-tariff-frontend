@@ -6,7 +6,7 @@ RSpec.describe NewsItemsController, type: :request do
   let(:news_item) { build :news_item }
 
   describe 'GET #index' do
-    before { allow(NewsItem).to receive(:updates_page).with(page).and_return paginated }
+    before { allow(News::Item).to receive(:updates_page).with(page).and_return paginated }
 
     let(:page) { 1 }
 
@@ -31,7 +31,7 @@ RSpec.describe NewsItemsController, type: :request do
 
   describe 'GET #show' do
     before do
-      allow(NewsItem).to receive(:find)
+      allow(News::Item).to receive(:find)
                          .with(news_item.id.to_s)
                          .and_return news_item
     end
