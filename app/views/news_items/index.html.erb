@@ -23,7 +23,7 @@
         <% if @filter_year == news_year.year %>
           <%= news_year.year %>
         <% else %>
-          <%= link_to news_year.year, year: news_year.year, page: nil %>
+          <%= link_to news_year.year, news_index_params.merge(year: news_year.year, page: nil) %>
         <% end %>
       </li>
       <% end %>
@@ -35,14 +35,14 @@
 
     <ul class="govuk-list govuk-list--disc" id="news-collection-filter">
       <li>
-        <%= @filter_collection ? link_to('All collections', collection: nil, page: nil) : 'All collections' %>
+        <%= @filter_collection ? link_to('All collections', collection_id: nil, page: nil) : 'All collections' %>
       </li>
       <% @news_collections.each do |collection| %>
       <li>
         <% if @filter_collection == collection.id %>
           <%= collection.name %>
         <% else %>
-          <%= link_to collection.name, collection: collection.id, page: nil %>
+          <%= link_to collection.name, news_index_params.merge(collection_id: collection.id, page: nil) %>
         <% end %>
       </li>
       <% end %>

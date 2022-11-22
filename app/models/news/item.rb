@@ -55,11 +55,10 @@ module News
         nil
       end
 
-      def updates_page(page = 1, **filters)
+      def updates_page(**filters)
         all filters.merge(service: service_name,
                           target: 'updates',
-                          per_page: 10,
-                          page:)
+                          per_page: 10)
       end
 
       def for_feed

@@ -3,15 +3,13 @@ class NewsItemsController < ApplicationController
                 :disable_last_updated_footnote
 
   def index
-    @filter_collection = params[:collection].presence&.to_i
+    @filter_collection = params[:collection_id].presence&.to_i
     @filter_year = params[:year].presence&.to_i
 
     @news_collections = News::Collection.all
     @news_years = News::Year.all
 
-    @news_items = News::Item.updates_page(page_number,
-                                          year: @filter_year,
-                                          collection_id: @filter_collection)
+    @news_items = News::Item.updates_page(**news_index_params)
   end
 
   def show
@@ -20,7 +18,10 @@ class NewsItemsController < ApplicationController
 
 private
 
-  def page_number
-    params[:page].presence&.to_i || 1
+  def news_index_params
+    params.permit(:page, :year, :collection_id)
+          .to_h
+          .symbolize_keys
   end
+  helper_method :news_index_params
 end

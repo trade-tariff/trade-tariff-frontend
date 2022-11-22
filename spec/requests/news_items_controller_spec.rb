@@ -7,10 +7,6 @@ RSpec.describe NewsItemsController, type: :request do
 
   describe 'GET #index' do
     before do
-      allow(News::Item).to receive(:updates_page).with(page, year: nil,
-                                                             collection_id: nil)
-                                                 .and_return(paginated)
-
       allow(News::Year).to receive(:all).and_return build_list(:news_year, 2)
       allow(News::Collection).to receive(:all).and_return build_list(:news_collection, 2)
     end
@@ -22,6 +18,11 @@ RSpec.describe NewsItemsController, type: :request do
     end
 
     context 'without page specified' do
+      before do
+        allow(News::Item).to receive(:updates_page).with(no_args)
+                                                   .and_return(paginated)
+      end
+
       let(:make_request) { get news_items_path }
 
       it { is_expected.to have_http_status :ok }
@@ -29,7 +30,11 @@ RSpec.describe NewsItemsController, type: :request do
     end
 
     context 'with later page' do
-      let(:page) { 2 }
+      before do
+        allow(News::Item).to receive(:updates_page).with(page: '2')
+                                                   .and_return(paginated)
+      end
+
       let(:make_request) { get news_items_path(page: 2) }
 
       it { is_expected.to have_http_status :ok }

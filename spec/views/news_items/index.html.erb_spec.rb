@@ -7,6 +7,8 @@ RSpec.describe 'news_items/index', type: :view do
     assign :news_items, paginated_news_items
     assign :news_years, news_years
     assign :news_collections, news_collections
+
+    allow(view).to receive(:news_index_params).and_return({})
   end
 
   let(:news_items) { build_list :news_item, 3, content: "[[SERVICE_NAME]]\n\nFirst para" }
