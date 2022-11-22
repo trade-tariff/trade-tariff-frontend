@@ -9,8 +9,25 @@
 <% end %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
-    &nbsp;
+  <div class="govuk-grid-column-one-quarter" id="news-filters">
+    <h3 class="govuk-heading-s">
+      Filter by year
+    </h3>
+
+    <ul class="govuk-list govuk-list--disc" id="news-year-filter">
+      <li>
+        <%= @filter_year ? link_to('All years', year: nil, page: nil) : 'All years' %>
+      </li>
+      <% @news_years.each do |news_year| %>
+      <li>
+        <% if @filter_year == news_year.year %>
+          <%= news_year.year %>
+        <% else %>
+          <%= link_to news_year.year, year: news_year.year, page: nil %>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
   </div>
 
   <div class="govuk-grid-column-three-quarters news-items">

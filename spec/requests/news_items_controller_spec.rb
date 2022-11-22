@@ -6,7 +6,12 @@ RSpec.describe NewsItemsController, type: :request do
   let(:news_item) { build :news_item }
 
   describe 'GET #index' do
-    before { allow(News::Item).to receive(:updates_page).with(page).and_return paginated }
+    before do
+      allow(News::Item).to receive(:updates_page).with(page, year: nil)
+                                                 .and_return(paginated)
+
+      allow(News::Year).to receive(:all).and_return build_list(:news_year, 2)
+    end
 
     let(:page) { 1 }
 

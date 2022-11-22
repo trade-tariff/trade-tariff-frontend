@@ -2,7 +2,7 @@ require 'api_entity'
 
 module News
   class Item
-    include ApiEntity
+    include UkOnlyApiEntity
 
     CACHE_KEY = 'news-item-any-updates'.freeze
     BANNER_CACHE_KEY = 'news-item-latest-banner'.freeze
@@ -55,13 +55,11 @@ module News
         nil
       end
 
-      def updates_page(page = 1)
-        collection(
-          collection_path,
-          service: service_name,
-          target: 'updates',
-          page:,
-        )
+      def updates_page(page = 1, **filters)
+        all filters.merge(service: service_name,
+                          target: 'updates',
+                          per_page: 10,
+                          page:)
       end
 
       def for_feed
@@ -88,11 +86,6 @@ module News
       end
 
     private
-
-      def api
-        # Always use the UK backend because all News Items are stored there
-        Rails.application.config.http_client_uk
-      end
 
       def updates_cache_key
         "#{CACHE_KEY}-#{service_name}-v#{CACHE_VERSION}"

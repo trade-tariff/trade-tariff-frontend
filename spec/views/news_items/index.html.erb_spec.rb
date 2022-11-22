@@ -3,9 +3,13 @@ require 'spec_helper'
 RSpec.describe 'news_items/index', type: :view do
   subject { render }
 
-  before { assign :news_items, paginated_news_items }
+  before do
+    assign :news_items, paginated_news_items
+    assign :news_years, news_years
+  end
 
   let(:news_items) { build_list :news_item, 3, content: "[[SERVICE_NAME]]\n\nFirst para" }
+  let(:news_years) { build_list(:news_year, 3) }
   let(:date_format) { /\d\d? [A-Z][a-z]{2} [12]\d{3}/ }
 
   let :paginated_news_items do
@@ -20,6 +24,10 @@ RSpec.describe 'news_items/index', type: :view do
   it { is_expected.to have_css 'article .tariff-markdown p', count: 3 }
   it { is_expected.to have_css '.news-item p', text: /#{I18n.t('title.service_name.uk')}/ }
   it { is_expected.not_to have_css '.pagination' }
+
+  it { is_expected.to have_css 'ul#news-year-filter li', count: 4 }
+  it { is_expected.to have_css 'ul#news-year-filter li a', count: 3 }
+  it { is_expected.not_to have_css 'ul#news-year-filter li a', text: 'All years' }
 
   context 'with multiple pages available' do
     let :paginated_news_items do
@@ -41,5 +49,16 @@ RSpec.describe 'news_items/index', type: :view do
 
     it { is_expected.not_to have_css 'article .tariff-markdown p' }
     it { is_expected.to have_css 'p', text: /no updates/ }
+  end
+
+  context 'when filtering by year' do
+    before { assign :filter_year, filter_year }
+
+    let(:filter_year) { news_years.second.year }
+
+    it { is_expected.to have_css 'ul#news-year-filter li', count: 4 }
+    it { is_expected.to have_css 'ul#news-year-filter li a', count: 3 }
+    it { is_expected.to have_css 'ul#news-year-filter li a', text: 'All years' }
+    it { is_expected.not_to have_css 'ul#news-year-filter li a', text: filter_year.to_s }
   end
 end

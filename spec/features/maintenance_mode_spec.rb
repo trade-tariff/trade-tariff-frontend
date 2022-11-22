@@ -73,6 +73,8 @@ RSpec.describe 'Maintenance mode' do
       context 'with correct bypass param' do
         before do
           allow(News::Item).to receive(:updates_page).and_return []
+          allow(News::Year).to receive(:all).and_return []
+
           visit '/news?maintenance_bypass=bypass'
         end
 
