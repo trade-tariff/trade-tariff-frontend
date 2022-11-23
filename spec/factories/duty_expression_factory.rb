@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :duty_expression do
     base { '80.50 EUR / Hectokilogram' }
-    formatted_base { "80.50 EUR / <abbr title='Hectokilogram'>Hectokilogram</abbr>" }
+    verbose_duty { '£7.80 / 100 kg, drained net weight (kg/net eda)' }
 
     trait :supplementary do
       description { 'Number of items' }
@@ -9,8 +9,8 @@ FactoryBot.define do
 
     trait :vat do
       base { '20.0%' }
-      formatted_base { '20.0%' }
       description { 'VAT' }
+      verbose_duty { '20.0%' }
     end
 
     trait :vat_standard do
