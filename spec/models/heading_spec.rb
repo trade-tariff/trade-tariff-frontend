@@ -54,7 +54,7 @@ RSpec.describe Heading do
   describe '#rules' do
     subject(:rules) { heading.rules_of_origin('FR') }
 
-    before { allow(RulesOfOrigin::Scheme).to receive(:all).and_return([]) }
+    before { allow(RulesOfOrigin::Scheme).to receive(:for_heading_and_country).and_return([]) }
 
     context 'with declarable heading instance' do
       before { heading.declarable = true }

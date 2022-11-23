@@ -4,6 +4,115 @@ RSpec.describe RulesOfOrigin::Scheme do
   let(:api_host) { TradeTariffFrontend::ServiceChooser.api_host }
   let(:response_headers) { { content_type: 'application/json; charset=utf-8' } }
   let(:cumulation_methods) { { 'bilateral' => %w[GB CA], 'extended' => %w[EU AD] } }
+  let(:json_response) { response_data.to_json }
+  let :response_data do
+    {
+      data: [
+        {
+          id: 'EU',
+          type: 'rules_of_origin_scheme',
+          attributes: {
+            scheme_code: 'EU',
+            title: 'Scheme title',
+            unilateral: true,
+            countries: %w[FR ES IT],
+            footnote: 'Footnote comments **in markdown**',
+            fta_intro: "## Markdown heading\n\n Further information",
+            introductory_notes: "## Introductory notes\n\ndetails",
+            cumulation_methods:,
+          },
+          relationships: {
+            rules: {
+              data: [
+                {
+                  id: '1',
+                  type: 'rules_of_origin_rule',
+                },
+              ],
+            },
+            links: {
+              data: [
+                {
+                  id: 'EU-link-1',
+                  type: 'rules_of_origin_link',
+                },
+              ],
+            },
+            origin_reference_document: {
+              data: {
+                id: 'origin_reference_document_id',
+                type: 'rules_of_origin_origin_reference_document',
+              },
+            },
+            proofs: {
+              data: [
+                {
+                  id: 'proof-1',
+                  type: 'rules_of_origin_proof',
+                },
+              ],
+            },
+            articles: {
+              data: [
+                {
+                  id: 'EU/test-article',
+                  type: 'rules_of_origin_article',
+                },
+              ],
+            },
+          },
+        },
+      ],
+      included: [
+        {
+          id: '1',
+          type: 'rules_of_origin_rule',
+          attributes: {
+            id_rule: 1,
+            heading: 'Chapter 22',
+            description: 'Beverages',
+            rule: "Rule\n\n* Requirement 1\n* Requirement 2",
+          },
+        },
+        {
+          id: 'EU-link-1',
+          type: 'rules_of_origin_link',
+          attributes: {
+            text: 'GovUK',
+            url: 'https://www.gov.uk',
+            source: 'scheme',
+          },
+        },
+        {
+          id: 'proof-1',
+          type: 'rules_of_origin_proof',
+          attributes: {
+            summary: 'proof',
+            url: 'https://www.gov.uk/',
+            subtext: 'subtext',
+          },
+        },
+        {
+          id: 'EU/test-article',
+          type: 'rules_of_origin_article',
+          attributes: {
+            article: 'test-article',
+            content: 'Hello',
+          },
+        },
+        {
+          id: 'origin_reference_document_id',
+          type: 'rules_of_origin_origin_reference_document',
+          attributes: {
+            ord_date: '28 December 2021',
+            ord_original: '211203_ORD_Japan_V1.1.odt',
+            ord_title: 'Origin Reference Document title',
+            ord_version: '1.1',
+          },
+        },
+      ],
+    }
+  end
 
   it { is_expected.to respond_to :scheme_code }
   it { is_expected.to respond_to :title }
@@ -19,119 +128,9 @@ RSpec.describe RulesOfOrigin::Scheme do
   it { is_expected.to respond_to :origin_reference_document }
   it { is_expected.to respond_to :cumulation_methods }
 
-  describe '.all' do
-    let(:json_response) { response_data.to_json }
-
-    let :response_data do
-      {
-        data: [
-          {
-            id: 'EU',
-            type: 'rules_of_origin_scheme',
-            attributes: {
-              scheme_code: 'EU',
-              title: 'Scheme title',
-              unilateral: true,
-              countries: %w[FR ES IT],
-              footnote: 'Footnote comments **in markdown**',
-              fta_intro: "## Markdown heading\n\n Further information",
-              introductory_notes: "## Introductory notes\n\ndetails",
-              cumulation_methods:,
-            },
-            relationships: {
-              rules: {
-                data: [
-                  {
-                    id: '1',
-                    type: 'rules_of_origin_rule',
-                  },
-                ],
-              },
-              links: {
-                data: [
-                  {
-                    id: 'EU-link-1',
-                    type: 'rules_of_origin_link',
-                  },
-                ],
-              },
-              origin_reference_document: {
-                data: {
-                  id: 'origin_reference_document_id',
-                  type: 'rules_of_origin_origin_reference_document',
-                },
-              },
-              proofs: {
-                data: [
-                  {
-                    id: 'proof-1',
-                    type: 'rules_of_origin_proof',
-                  },
-                ],
-              },
-              articles: {
-                data: [
-                  {
-                    id: 'EU/test-article',
-                    type: 'rules_of_origin_article',
-                  },
-                ],
-              },
-            },
-          },
-        ],
-        included: [
-          {
-            id: '1',
-            type: 'rules_of_origin_rule',
-            attributes: {
-              id_rule: 1,
-              heading: 'Chapter 22',
-              description: 'Beverages',
-              rule: "Rule\n\n* Requirement 1\n* Requirement 2",
-            },
-          },
-          {
-            id: 'EU-link-1',
-            type: 'rules_of_origin_link',
-            attributes: {
-              text: 'GovUK',
-              url: 'https://www.gov.uk',
-            },
-          },
-          {
-            id: 'proof-1',
-            type: 'rules_of_origin_proof',
-            attributes: {
-              summary: 'proof',
-              url: 'https://www.gov.uk/',
-              subtext: 'subtext',
-            },
-          },
-          {
-            id: 'EU/test-article',
-            type: 'rules_of_origin_article',
-            attributes: {
-              article: 'test-article',
-              content: 'Hello',
-            },
-          },
-          {
-            id: 'origin_reference_document_id',
-            type: 'rules_of_origin_origin_reference_document',
-            attributes: {
-              ord_date: '28 December 2021',
-              ord_original: '211203_ORD_Japan_V1.1.odt',
-              ord_title: 'Origin Reference Document title',
-              ord_version: '1.1',
-            },
-          },
-        ],
-      }
-    end
-
+  describe '.for_heading_and_country' do
     shared_context 'with mocked response' do
-      subject(:schemes) { described_class.all('1905310101', 'FR') }
+      subject(:schemes) { described_class.for_heading_and_country('1905310101', 'FR') }
 
       before do
         stub_request(:get, "#{api_host}/rules_of_origin_schemes")
@@ -142,7 +141,7 @@ RSpec.describe RulesOfOrigin::Scheme do
 
     context 'without codes' do
       it 'will raise an exception' do
-        expect { described_class.all }.to raise_exception ArgumentError
+        expect { described_class.for_heading_and_country }.to raise_exception ArgumentError
       end
     end
 
@@ -177,7 +176,7 @@ RSpec.describe RulesOfOrigin::Scheme do
     end
 
     context 'with additional params' do
-      subject(:schemes) { described_class.all('190531', 'FR', page: 1) }
+      subject(:schemes) { described_class.for_heading_and_country('190531', 'FR', page: 1) }
 
       before do
         allow(described_class).to receive(:api).and_return api_instance
@@ -202,7 +201,7 @@ RSpec.describe RulesOfOrigin::Scheme do
     end
 
     context 'with full commodity code' do
-      subject { described_class.all('1905310101', 'FR') }
+      subject { described_class.for_heading_and_country('1905310101', 'FR') }
 
       before do
         stub_request(:get, "#{api_host}/rules_of_origin_schemes")
@@ -270,6 +269,31 @@ RSpec.describe RulesOfOrigin::Scheme do
 
         it { is_expected.to have_attributes text: 'GovUK' }
         it { is_expected.to have_attributes url: 'https://www.gov.uk' }
+        it { is_expected.to have_attributes source: 'scheme' }
+      end
+    end
+
+    describe '#agreement_link' do
+      context 'when link source is scheme' do
+        include_context 'with mocked response'
+
+        it { expect(schemes.first.agreement_link).to eq 'https://www.gov.uk' }
+      end
+
+      context 'when link source is scheme set' do
+        include_context 'with mocked response'
+
+        before { schemes.first.links.first.source = 'scheme_set' }
+
+        it { expect(schemes.first.agreement_link).to eq nil }
+      end
+
+      context 'when no links exist' do
+        include_context 'with mocked response'
+
+        before { schemes.first.links = [] }
+
+        it { expect(schemes.first.agreement_link).to eq nil }
       end
     end
 
@@ -344,5 +368,17 @@ RSpec.describe RulesOfOrigin::Scheme do
 
       it { is_expected.to eql scheme.rule_sets[1].rules[0].rule }
     end
+  end
+
+  describe '#with_duty_drawback_articles' do
+    subject { described_class.with_duty_drawback_articles }
+
+    before do
+      stub_request(:get, "#{api_host}/rules_of_origin_schemes?filter[has_article]=duty-drawback")
+        .to_return(body: json_response, status: 200, headers: response_headers)
+    end
+
+    it { is_expected.to have_attributes length: 1 }
+    it { is_expected.to all be_instance_of described_class }
   end
 end

@@ -21,4 +21,8 @@ class PagesController < ApplicationController
   def privacy; end
   def help; end
   def help_find_commodity; end
+
+  def rules_of_origin_duty_drawback
+    @schemes = RulesOfOrigin::Scheme.with_duty_drawback_articles
+  end
 end

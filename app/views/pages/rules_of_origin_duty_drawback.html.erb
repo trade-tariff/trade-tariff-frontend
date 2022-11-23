@@ -1,0 +1,93 @@
+<% content_for :top_breadcrumbs do %>
+   <%= generate_breadcrumbs 'Duty drawback',
+                            [ [t('breadcrumb.home'), home_path],
+                              [t('breadcrumb.help'), help_path],
+                              ['Rules of origin', help_path(anchor: 'rules-of-origin')] ] %>
+ <% end %>
+
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-xl">Guide to rules of origin</span>
+      <h1 class="govuk-heading-l">Duty drawback</h1>
+      <h2 class="gem-c-contents-list__title">Contents</h2>
+
+      <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
+        <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
+          <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#what-is">What is duty
+          drawback</a>
+        </li>
+        <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
+          <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#example">Duty drawback -
+          an example</a>
+        </li>
+        <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
+          <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#agreements">Agreements</a>
+        </li>
+      </ol>
+
+      <h3 class="govuk-heading-m" id="what-is">What is duty drawback</h3>
+      <p class="govuk-body">Some trade agreements allow a duty drawback.</p>
+      <p class="govuk-body">This means that, if you pay duties on non-originating materials that you use to make a
+      product which you then export under a preferential tariff, you can apply for a refund of those duties.</p>
+
+      <h3 class="govuk-heading-m" id="example">Duty drawback - an example</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>A car engine originating in country A is imported into country B and a 10% import duty is charged.</li>
+        <li>The car engine is assembled into a complete car in country B and then exported to country C, meeting the
+        rules of origin requirements.</li>
+        <li>Using duty drawback, the car manufacturer in country B could 'draw&nbsp;back' the 10% duties paid on the
+        car engine originating in country A.</li>
+      </ul>
+
+      <div class="cumulation_description">
+        <%= image_tag('roo/drawback.png') %>
+      </div>
+
+      <p class="govuk-body">Some trade agreements allow a duty drawback.</p>
+
+      <h3 class="govuk-heading-m" id="agreements">Agreements which include a duty drawback provision</h3>
+      <p class="govuk-body">Duty drawback provision is included in these trade agreements. Click on an agreement
+      to read more. All links open in a new browser window.</p>
+
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Agreement</th>
+            <th scope="col" class="govuk-table__header">Link</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            <% @schemes.each do |scheme| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><%= scheme.title %></td>
+              <td class="govuk-table__cell">
+                <ul class="govuk-list">
+                  <li>
+                    <a href=<%= scheme.agreement_link %> target="_blank">View agreement details</a>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+      <div class="gem-c-related-navigation">
+        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Understanding rules of origin</h2>
+
+        <nav role="navigation" class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-40a88cdf" data-module="gem-toggle" data-gem-toggle-module-started="true">
+            <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
+                <li class="gem-c-related-navigation__link">
+                  <%= link_to 'Rules of origin glossary', glossary_terms_path %>
+                </li>
+                <li class="gem-c-related-navigation__link">
+                  <%= link_to 'Duty drawback', rules_of_origin_duty_drawback_path %>
+                </li>
+            </ul>
+        </nav>
+      </div>
+    </div>
+  </div>

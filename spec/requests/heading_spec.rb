@@ -6,7 +6,7 @@ RSpec.describe 'Heading page', type: :request do
 
     allow(GeographicalArea).to receive(:find).with('ZW').and_return(build(:geographical_area, id: 'ZW', description: 'Zimbabwe'))
 
-    allow(RulesOfOrigin::Scheme).to receive(:all).and_return([])
+    allow(RulesOfOrigin::Scheme).to receive(:for_heading_and_country).and_return([])
     TradeTariffFrontend::ServiceChooser.service_choice = nil
   end
 
