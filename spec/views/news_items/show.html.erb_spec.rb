@@ -16,7 +16,11 @@ RSpec.describe 'news_items/show', type: :view do
   it { is_expected.to have_css 'article.news-item' }
   it { is_expected.to have_css 'h1', text: news_item.title }
   it { is_expected.to have_css '.tariff-markdown--with-all-lead-paragraph p' }
-  it { is_expected.to have_css 'article h3', text: /published.*#{expected_date}/i }
+
+  it { is_expected.to have_css '.gem-c-metadata dl dt', text: /from/i }
+  it { is_expected.to have_css '.gem-c-metadata dl dt', text: /published/i }
+  it { is_expected.to have_css '.gem-c-metadata dl dd', count: 2 }
+
   it { is_expected.to have_css 'article .tariff-markdown p' }
   it { is_expected.to have_css 'p', text: /Welcome to #{I18n.t('title.service_name.uk')}/ }
 end

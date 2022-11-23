@@ -19,9 +19,20 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <article class="news-item">
-      <h3 class="govuk-heading-s">
-        Published on <%= @news_item.start_date.to_formatted_s :long %>
-      </h3>
+      <div class="gem-c-metadata">
+        <dl>
+          <dt class="gem-c-metadata__term">From:</dt>
+          <dd class="gem-c-metadata__definition">
+            <%= link_to 'HM Revenue & Customs',
+                        'https://www.gov.uk/government/organisations/hm-revenue-customs' %>
+          </dd>
+
+          <dt class="gem-c-metadata__term">Published</dt>
+          <dd class="gem-c-metadata__definition">
+            <%= @news_item.start_date.to_formatted_s :long %>
+          </dd>
+        </dl>
+      </div>
 
       <div class="tariff-markdown">
         <%= format_news_item_content @news_item.content %>
