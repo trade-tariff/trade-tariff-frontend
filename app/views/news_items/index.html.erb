@@ -18,7 +18,7 @@
         </h2>
 
         <div class="tariff-markdown">
-          <%= format_news_item_content news_item.precis %>
+          <%= format_news_item_content news_item.precis_with_fallback %>
         </div>
 
         <%= link_to 'Show more ...', news_item if news_item.content_after_precis? %>

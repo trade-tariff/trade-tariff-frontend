@@ -16,6 +16,8 @@
   </h3>
 
   <div class="tariff-markdown">
+    <%= format_news_item_content @news_item.precis if @news_item.precis.present? %>
+
     <%= format_news_item_content @news_item.content %>
   </div>
 </article>
