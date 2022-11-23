@@ -10,9 +10,11 @@
   <div class="govuk-grid-column-two-thirds">
     <%= page_header @news_item.title %>
 
+    <% if @news_item.precis.present? %>
     <div class="tariff-markdown tariff-markdown--with-all-lead-paragraph">
       <%= format_news_item_content @news_item.precis %>
     </div>
+    <% end %>
   </div>
 </div>
 

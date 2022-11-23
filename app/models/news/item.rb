@@ -17,6 +17,7 @@ module News
     attr_accessor :id,
                   :slug,
                   :title,
+                  :precis,
                   :content,
                   :display_style,
                   :show_on_xi,
@@ -26,7 +27,6 @@ module News
                   :show_on_banner
 
     attr_reader :start_date, :end_date
-    attr_writer :precis
 
     has_many :collections, class_name: 'News::Collection'
 
@@ -107,7 +107,7 @@ module News
       @paragraphs ||= content.to_s.split(/(\r?\n)+/).map(&:presence).compact
     end
 
-    def precis
+    def precis_with_fallback
       @precis.presence || paragraphs.first
     end
 
