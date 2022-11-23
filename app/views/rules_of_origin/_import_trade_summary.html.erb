@@ -1,11 +1,11 @@
-<div class="govuk-inset-text">
+<div class="govuk-inset-text import-trade-summary">
     <h3 class="govuk-heading-s">How rules of origin could affect the import duty payable</h3>
 
     <ul class="govuk-list govuk-list--bullet">
         <li class="basic-third-country-duty">
           Basic third country duty =
           <strong>
-            <%= import_trade_summary.basic_third_country_duty.html_safe %>
+            <%= import_trade_summary.basic_third_country_duty&.html_safe %>
           </strong>
         </li>
 

@@ -43,7 +43,7 @@ RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view, vcr: { cassette
 
     it { is_expected.to have_css '.downloadable-document__text', text: article_reference }
     it { is_expected.to have_css '.downloadable-document__text', text: schemes.first.origin_reference_document.ord_title }
-    it { is_expected.to have_css 'a[href]', text: /Download rules of origin reference document/ }
+    it { is_expected.to have_link 'Download rules of origin reference document' }
     it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_version }
     it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_date }
 
@@ -62,7 +62,7 @@ RSpec.describe 'rules_of_origin/steps/_cumulation', type: :view, vcr: { cassette
 
       it { is_expected.to have_css '.downloadable-document__text', text: article_reference }
       it { is_expected.to have_css '.downloadable-document__text', text: schemes.first.origin_reference_document.ord_title }
-      it { is_expected.to have_css 'a[href]', text: /Download rules of origin reference document/ }
+      it { is_expected.to have_link 'Download rules of origin reference document' }
       it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_version }
       it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_date }
     end

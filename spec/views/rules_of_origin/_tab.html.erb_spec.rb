@@ -56,17 +56,6 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
     it { is_expected.to have_css '#rules-of-origin__intro--country-scheme' }
   end
 
-  context 'with no scheme' do
-    let(:rules_of_origin_schemes) { [] }
-
-    it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
-    it { is_expected.not_to have_css '.rules-of-origin__scheme' }
-
-    it 'includes the non-preferential bloc' do
-      expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
-    end
-  end
-
   context 'with multiple schemes' do
     let(:rules_of_origin_schemes) do
       build_list :rules_of_origin_scheme, 3, rules:,
@@ -106,6 +95,12 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
       it { expect(rendered_page).not_to have_css '.preferential-quota-duty' }
 
       it { expect(rendered_page).to have_css '.no-preferential-duties' }
+    end
+
+    context 'when basic_third_country_duty is missing' do
+      let(:import_trade_summary) { attributes_for(:import_trade_summary, basic_third_country_duty: nil) }
+
+      it { expect(rendered_page).not_to have_css '.import-trade-summary' }
     end
   end
 end

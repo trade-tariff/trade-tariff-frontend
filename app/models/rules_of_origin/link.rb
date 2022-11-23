@@ -4,7 +4,7 @@ require 'digest'
 class RulesOfOrigin::Link
   include ApiEntity
 
-  attr_accessor :text, :url
+  attr_accessor :text, :url, :source
   attr_writer :id
 
   def id

@@ -1,0 +1,54 @@
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs 'Rules of origin glossary',
+                           [ [t('breadcrumb.home'), home_path],
+                             [t('breadcrumb.help'), help_path],
+                             ['Rules of origin', help_path(anchor: 'rules-of-origin')] ] %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">Guide to rules of origin</span>
+    <h1 class="govuk-heading-l">Rules of origin glossary</h1>
+
+    <div id="contents">
+      <h2 class="gem-c-contents-list__title">Contents</h2>
+
+      <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
+        <% for term in @terms %>
+          <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
+            <%= link_to term.term_and_title,
+                        { anchor: "glossary-#{term.key.dasherize}" },
+                        class: 'gem-c-contents-list__link govuk-link--no-underline' %>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+
+    <% for term in @terms %>
+      <h3 class="govuk-heading-m" id="glossary-<%= term.key.dasherize %>">
+        <%= term.term_and_title %>
+      </h3>
+
+      <%= render term.key %>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <div class="gem-c-related-navigation">
+      <h2 class="gem-c-related-navigation__main-heading">
+        Understanding rules of origin
+      </h2>
+
+      <nav class="gem-c-related-navigation__nav-section">
+        <ul class="gem-c-related-navigation__link-list">
+          <li class="gem-c-related-navigation__link">
+            <%= link_to 'Rules of origin glossary', glossary_terms_path %>
+          </li>
+          <li class="gem-c-related-navigation__link">
+            <%= link_to 'Duty drawback', rules_of_origin_duty_drawback_path %>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
