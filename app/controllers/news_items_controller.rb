@@ -14,6 +14,7 @@ class NewsItemsController < ApplicationController
 
   def show
     @news_item = News::Item.find(params[:id])
+    @news_collection = @news_item.collections.first || News::Collection.new
   end
 
 private
