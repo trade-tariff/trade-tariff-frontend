@@ -6,7 +6,7 @@ module News
 
     CACHE_KEY = 'news-item-any-updates'.freeze
     BANNER_CACHE_KEY = 'news-item-latest-banner'.freeze
-    CACHE_VERSION = 3
+    CACHE_VERSION = 10
     CACHE_LIFETIME = 15.minutes
     BANNER_CACHE_LIFETIME = 5.minutes
 
