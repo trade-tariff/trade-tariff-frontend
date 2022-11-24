@@ -14,7 +14,7 @@
       </div>
     </div>
     <ul class="commodities js-commodities">
-      <%= render commodities %>
+      <%= render commodities, initial_indent: commodities.first&.number_indents %>
     </ul>
   </div>
 </article>
