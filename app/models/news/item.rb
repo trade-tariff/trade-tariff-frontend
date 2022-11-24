@@ -114,5 +114,10 @@ module News
     def content_after_precis?
       @precis.present? ? content.present? : paragraphs.many?
     end
+
+    def subheadings
+      @subheadings ||= paragraphs.select { |p| p.start_with? '## ' }
+                                 .map { |heading| heading.sub(/^\#\# /, '') }
+    end
   end
 end

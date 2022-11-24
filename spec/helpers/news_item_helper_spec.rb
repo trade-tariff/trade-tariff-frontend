@@ -23,4 +23,10 @@ RSpec.describe NewsItemHelper, type: :helper do
       expect(formatted).to have_content 'Heading for UK'
     end
   end
+
+  describe '#markdown_heading_id' do
+    subject { markdown_heading_id 'This is a Heading with punctuation!' }
+
+    it { is_expected.to eq 'this-is-a-heading-with-punctuation' }
+  end
 end

@@ -372,4 +372,12 @@ RSpec.describe News::Item do
       end
     end
   end
+
+  describe '#subheadings' do
+    subject { news_item.subheadings }
+
+    let(:news_item) { build :news_item, :with_subheadings }
+
+    it { is_expected.to eql ['Second heading', 'Additional second heading'] }
+  end
 end

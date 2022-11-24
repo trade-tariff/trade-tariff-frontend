@@ -36,6 +36,22 @@
         </dl>
       </div>
 
+      <% if @news_item.subheadings.any? %>
+      <div id="contents">
+        <h2 class="gem-c-contents-list__title">Contents</h2>
+
+        <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
+          <% @news_item.subheadings.each do |subheading| %>
+            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
+              <%= link_to subheading,
+                          "##{markdown_heading_id subheading}",
+                          class: 'gem-c-contents-list__link govuk-link--no-underline' %>
+            </li>
+          <% end %>
+        </ol>
+      </div>
+      <% end %>
+
       <div class="tariff-markdown">
         <%= format_news_item_content @news_item.content %>
       </div>
