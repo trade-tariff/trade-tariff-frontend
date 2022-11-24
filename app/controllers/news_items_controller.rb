@@ -15,6 +15,8 @@ class NewsItemsController < ApplicationController
   def show
     @news_item = News::Item.find(params[:id])
     @news_collection = @news_item.collections.first || News::Collection.new
+    @collection_items = News::Item.updates_page(collection_id: @news_collection.id)
+                                  .slice(0, 3)
   end
 
 private

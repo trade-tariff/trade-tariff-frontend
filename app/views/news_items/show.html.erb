@@ -59,5 +59,29 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
+    <div class="gem-c-related-navigation">
+      <h3 class="gem-c-related-navigation__main-heading">
+        Latest content from this collection
+      </h3>
+
+      <ul class="govuk-list govuk-!-margin-bottom-6">
+        <% @collection_items.each do |collection_item| %>
+          <li class="govuk-!-padding-top-2">
+            <%= link_to collection_item.title, collection_item %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+
+    <h3 class="govuk-heading-s">
+      Collection
+    </h3>
+
+    <p>
+      <%= link_to @news_collection.name,
+                  news_items_path(collection_id: @news_collection.id) %>
+    <p>
   </div>
 </div>

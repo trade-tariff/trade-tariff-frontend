@@ -46,6 +46,10 @@ RSpec.describe NewsItemsController, type: :request do
       allow(News::Item).to receive(:find)
                          .with(news_item.id.to_s)
                          .and_return news_item
+
+      allow(News::Item).to receive(:updates_page)
+                           .with(collection_id: news_item.collections.first&.id)
+                           .and_return([])
     end
 
     let(:make_request) { get news_item_path news_item.id }
