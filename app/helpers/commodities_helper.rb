@@ -9,8 +9,11 @@ module CommoditiesHelper
     end
   end
 
-  def commodity_level(commodity)
-    "level-#{commodity.number_indents}"
+  def commodity_level(commodity, initial_indent)
+    initial_indent ||= 1
+    normalized_indent = commodity.number_indents - initial_indent + 1
+
+    "level-#{normalized_indent}"
   end
 
   def tree_code(code, klass: 'full-code')
