@@ -1,6 +1,6 @@
 module WebchatHelper
-  def webchat_link
-    link_to('Digital Assistant (opens in new tab)', TradeTariffFrontend.webchat_url, target: '_blank', rel: 'noopener')
+  def webchat_link(text='Digital Assistant (opens in new tab)')
+    link_to(text, TradeTariffFrontend.webchat_url, target: '_blank', rel: 'noopener')
   end
 
   def webchat_visible_in_footer?
