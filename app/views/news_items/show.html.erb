@@ -55,6 +55,14 @@
       <div class="tariff-markdown">
         <%= format_news_item_content @news_item.content %>
       </div>
+
+      <% if @news_collection.description.present? %>
+        <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-bottom-2" />
+
+        <div class="tariff-markdown">
+          <%= format_news_item_content @news_collection.description %>
+        </div>
+      <% end %>
     </article>
   </div>
 

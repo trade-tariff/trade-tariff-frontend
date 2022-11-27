@@ -27,6 +27,7 @@ RSpec.describe 'news_items/show', type: :view do
 
   it { is_expected.to have_css 'article .tariff-markdown p' }
   it { is_expected.to have_css 'p', text: /Welcome to #{I18n.t('title.service_name.uk')}/ }
+  it { is_expected.to have_css 'p', text: news_collection.description }
 
   it { is_expected.to have_css '.govuk-grid-column-one-third h3', text: /latest content/i }
   it { is_expected.to have_css '.govuk-grid-column-one-third li a', count: 3 }
