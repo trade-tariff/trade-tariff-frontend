@@ -6,7 +6,7 @@
   </div>
   <div class="govuk-notification-banner__content">
     <div class="tariff-markdown">
-      <%= format_news_item_content news_item.precis %>
+      <%= format_news_item_content news_item.precis_with_fallback %>
 
       <%- if news_item.content_after_precis? -%>
         <%= link_to 'Show more ...', news_item,
