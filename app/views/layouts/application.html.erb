@@ -64,7 +64,7 @@
       <%= yield :proposition_header %>
     </div>
     <%= render 'shared/search_banner' if TradeTariffFrontend.search_banner? && @search %>
-    <%= render 'news_items/header_banner', news_item: NewsItem.cached_latest_banner %>
+    <%= render 'news_items/header_banner', news_item: News::Item.cached_latest_banner %>
   </header>
 
   <div class="tariff service govuk-width-container">

@@ -37,7 +37,7 @@
         <% end %>
         <%= govuk_header_navigation_item(active_class: updates_active_class) do %>
           <%= link_to "News", news_items_path, class: "govuk-header__link" %>
-        <% end if NewsItem.any_updates? %>
+        <% end if News::Item.any_updates? %>
         <%= govuk_header_navigation_item(active_class: help_active_class) do %>
           <%= link_to "Help", help_path, class: "govuk-header__link" %>
         <% end %>

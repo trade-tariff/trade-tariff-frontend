@@ -6,6 +6,7 @@ atom_feed do |feed|
       news_item,
       url: news_item_url(news_item.id),
     ) do |entry|
+      entry.id           "tag:#{request.host},2005:NewsItem/#{news_item.id}"
       entry.title        news_item.title
       entry.content      news_item.content
       entry.start_date   news_item.start_date.try(:to_fs, :rfc822) || ''

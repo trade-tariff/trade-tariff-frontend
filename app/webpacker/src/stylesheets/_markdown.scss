@@ -37,4 +37,8 @@
   &--with-lead-paragraph > p:first-of-type {
     @extend .govuk-body-l;
   }
+
+  &--reduced-trailing-margin > p:last-of-type {
+    @include govuk-responsive-margin(2, "bottom");
+  }
 }
