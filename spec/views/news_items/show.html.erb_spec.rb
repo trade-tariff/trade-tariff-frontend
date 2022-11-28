@@ -32,6 +32,7 @@ RSpec.describe 'news_items/show', type: :view do
   it { is_expected.to have_css '.govuk-grid-column-one-third h3', text: /latest content/i }
   it { is_expected.to have_css '.govuk-grid-column-one-third li a', count: 3 }
   it { is_expected.to have_css '.govuk-grid-column-one-third h3', text: 'Collection' }
+  it { is_expected.to have_link 'Back to top' }
   it { is_expected.to have_css '.govuk-grid-column-one-third p a', text: news_collection.name }
 
   context 'without precis' do

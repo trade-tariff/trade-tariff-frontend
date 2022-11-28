@@ -56,6 +56,10 @@
         <%= format_news_item_content @news_item.content %>
       </div>
 
+      <p>
+        <%= link_to t('navigation.back_to_top'), '#content' %>
+      </p>
+
       <% if @news_collection.description.present? %>
         <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-bottom-2" />
 
