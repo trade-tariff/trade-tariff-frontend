@@ -28,7 +28,6 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--unilateral-scheme' }
     end
 
     context 'with bloc scheme' do
@@ -37,7 +36,6 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
       it { is_expected.to have_css '#rules-of-origin__intro--bloc-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--unilateral-scheme' }
     end
 
     context 'with country scheme' do
@@ -46,7 +44,6 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
       it { is_expected.to have_css '#rules-of-origin__intro--country-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--unilateral-scheme' }
     end
 
     context 'with gsp bloc' do
@@ -55,9 +52,8 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       end
 
       it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
-      it { is_expected.to have_css '#rules-of-origin__intro--unilateral-scheme' }
+      it { is_expected.to have_css '#rules-of-origin__intro--bloc-scheme' }
     end
 
     context 'with multiple schemes' do
@@ -66,7 +62,6 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--block-scheme' }
       it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--unilateral-scheme' }
       it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes' }
       it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes li', count: 2 }
     end
