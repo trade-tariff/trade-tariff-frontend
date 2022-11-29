@@ -3,26 +3,23 @@ $("#close_box").on("click", function(event) {
 })
 
 $("#close_box_longer").on("click", function(event) {
-  setCookie("show_digital_assistant_popup", "disable", 28);
+  let expiresInDays = 28;
+  setCookie("show_digital_assistant_popup", "disable", expiresInDays);
   hide_help_popup();
 })
-
-function show_help_popup() {
-  $("#help_popup").fadeIn(1000);
-}
 
 function hide_help_popup() {
   $("#help_popup").css("display", "none");
 }
 
-setTimeout(checkCookieAndBrowser, 30000);
+setTimeout(show_help_popup, 30000);
 
-function checkCookieAndBrowser() {
+function show_help_popup() {
   let cookieValue = getCookie("show_digital_assistant_popup");
-  var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   if (cookieValue == "" && isMobile == false) {
-    show_help_popup();
+    $("#help_popup").fadeIn(1000);
   }
 }
 
