@@ -88,12 +88,10 @@ Rails.application.routes.draw do
 
   resources :news_items, only: %i[index show], path: '/news'
 
-  if TradeTariffFrontend.roo_wizard?
-    namespace :rules_of_origin, path: nil do
-      get '/rules_of_origin/:commodity/:country', to: 'steps#index', as: :steps
-      get '/rules_of_origin/:commodity/:country/:id', to: 'steps#show', as: :step
-      patch '/rules_of_origin/:commodity/:country/:id', to: 'steps#update', as: nil
-    end
+  namespace :rules_of_origin, path: nil do
+    get '/rules_of_origin/:commodity/:country', to: 'steps#index', as: :steps
+    get '/rules_of_origin/:commodity/:country/:id', to: 'steps#show', as: :step
+    patch '/rules_of_origin/:commodity/:country/:id', to: 'steps#update', as: nil
   end
 
   if TradeTariffFrontend.beta_search_enabled?
