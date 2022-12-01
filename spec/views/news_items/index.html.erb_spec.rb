@@ -24,7 +24,7 @@ RSpec.describe 'news_items/index', type: :view do
   it { is_expected.to have_css 'article .tariff-body-subtext', text: date_format }
   it { is_expected.to have_css 'article .tariff-body-subtext', text: news_items.first.collections.first.name }
   it { is_expected.to have_css 'article h2', count: 3 }
-  it { is_expected.to have_link news_items.first.title, href: %r{/news/\d+} }
+  it { is_expected.to have_link news_items.first.title, href: news_item_path(news_items.first) }
   it { is_expected.to have_css 'article .tariff-markdown p', count: 3 }
   it { is_expected.to have_css '.news-item p', text: /#{I18n.t('title.service_name.uk')}/ }
   it { is_expected.not_to have_css '.pagination' }
