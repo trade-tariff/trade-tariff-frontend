@@ -7,8 +7,7 @@ module News
     CACHE_KEY = 'news-item-any-updates'.freeze
     BANNER_CACHE_KEY = 'news-item-latest-banner'.freeze
     CACHE_VERSION = 10
-    CACHE_LIFETIME = 15.minutes
-    BANNER_CACHE_LIFETIME = 5.minutes
+    CACHE_LIFETIME = 5.minutes
 
     DISPLAY_STYLE_REGULAR = 0
 
@@ -68,27 +67,13 @@ module News
         )
       end
 
-      def any_updates?
-        Rails.cache.fetch(updates_cache_key, expires_in: CACHE_LIFETIME) do
-          updates_page.any?
-        rescue Faraday::Error
-          # This method is used by all pages in the main template so backend
-          # failures should not prevent rendering of the frontend
-          false
-        end
-      end
-
       def cached_latest_banner
-        Rails.cache.fetch(banner_cache_key, expires_in: BANNER_CACHE_LIFETIME) do
+        Rails.cache.fetch(banner_cache_key, expires_in: CACHE_LIFETIME) do
           latest_banner
         end
       end
 
     private
-
-      def updates_cache_key
-        "#{CACHE_KEY}-#{service_name}-v#{CACHE_VERSION}"
-      end
 
       def banner_cache_key
         "#{BANNER_CACHE_KEY}-#{service_name}-v#{CACHE_VERSION}"
