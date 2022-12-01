@@ -38,6 +38,10 @@
     @extend .govuk-body-l;
   }
 
+  & &--with-all-lead-paragraph, &.tariff-markdown--with-all-lead-paragraph {
+    p { @extend .govuk-body-l }
+  }
+
   &--reduced-trailing-margin > p:last-of-type {
     @include govuk-responsive-margin(2, "bottom");
   }

@@ -6,8 +6,10 @@ module News
 
     collection_path '/news/collections'
 
-    attr_accessor :name
     attr_writer   :id
+    attr_accessor :name,
+                  :description,
+                  :priority
 
     def id
       @id ||= resource_id.presence&.to_i

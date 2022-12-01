@@ -325,8 +325,8 @@ RSpec.describe News::Item do
     it { is_expected.to all be_instance_of News::Collection }
   end
 
-  describe '#precis' do
-    subject { news.precis }
+  describe '#precis_with_fallback' do
+    subject { news.precis_with_fallback }
 
     context 'with precis' do
       let(:news) { build :news_item, precis: "first para\n\nsecond para" }
@@ -371,5 +371,13 @@ RSpec.describe News::Item do
         it { is_expected.to be true }
       end
     end
+  end
+
+  describe '#subheadings' do
+    subject { news_item.subheadings }
+
+    let(:news_item) { build :news_item, :with_subheadings }
+
+    it { is_expected.to eql ['Second heading', 'Additional second heading'] }
   end
 end

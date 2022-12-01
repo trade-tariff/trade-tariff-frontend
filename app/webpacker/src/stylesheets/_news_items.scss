@@ -10,3 +10,59 @@
     }
   }
 }
+
+/* Metadata section for news page */
+/* Copied from https://github.com/alphagov/govuk_publishing_components/blob/v32.1.0/app/assets/stylesheets/govuk_publishing_components/components/_metadata.scss */
+.gem-c-metadata {
+  @include govuk-text-colour;
+  @include govuk-font(16);
+  @include govuk-clearfix;
+
+  margin-bottom: govuk-spacing(3);
+  @include govuk-media-query($from: tablet) {
+    margin-bottom: govuk-spacing(7);
+  }
+
+  a {
+    @include govuk-link-common;
+    @include govuk-link-style-default;
+    font-weight: bold;
+  }
+
+  .gem-c-metadata__definition-link {
+    font-weight: normal;
+  }
+}
+
+.gem-c-metadata__term,
+.gem-c-metadata__definition {
+  line-height: 1.4;
+}
+
+.gem-c-metadata__term {
+  margin-top: .5em;
+
+  @include govuk-media-query($from: tablet) {
+    box-sizing: border-box;
+    float: left;
+    clear: left;
+    padding-right: govuk-spacing(1);
+    margin-top: 0;
+  }
+}
+
+.gem-c-metadata__definition {
+  margin: 0;
+
+  @include govuk-media-query($from: tablet) {
+    &:not(:last-of-type) {
+      margin-bottom: govuk-spacing(1);
+    }
+  }
+}
+
+/* Fix for headings in sidebar on mobile */
+.news-item__sidebar .gem-c-related-navigation__main-heading {
+  @include govuk-font($size: 19, $weight: bold);
+  @include govuk-responsive-margin(2, "bottom");
+}

@@ -52,5 +52,27 @@ FactoryBot.define do
     trait :with_precis do
       precis { "first paragraph\n\nsecond paragraph" }
     end
+
+    trait :with_subheadings do
+      content do
+        <<~CONTENT
+          ## Second heading
+
+          This is a paragraph
+
+          And Another
+
+          ## Additional second heading
+
+          Paragraph
+
+          ### Third level heading
+
+          * One
+          * Two
+          * Three
+        CONTENT
+      end
+    end
   end
 end
