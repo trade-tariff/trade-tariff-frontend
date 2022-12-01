@@ -108,11 +108,11 @@ module News
     end
 
     def precis_with_fallback
-      @precis.presence || paragraphs.first
+      precis.presence || paragraphs.first
     end
 
     def content_after_precis?
-      @precis.present? ? content.present? : paragraphs.many?
+      precis.present? ? content.present? : paragraphs.many?
     end
 
     def subheadings

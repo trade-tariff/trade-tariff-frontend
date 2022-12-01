@@ -4,7 +4,7 @@ shared_context 'with rules of origin store' do |*traits, scheme_count: 1, scheme
                                              .and_return(country)
 
     allow(RulesOfOrigin::Scheme).to \
-      receive(:all).with(wizardstore['commodity_code'], wizardstore['country_code'])
+      receive(:for_heading_and_country).with(wizardstore['commodity_code'], wizardstore['country_code'])
                    .and_return(schemes)
   end
 

@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   get 'help', to: 'pages#help', as: 'help'
   get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'
   get 'help/help_find_commodity', to: 'pages#help_find_commodity', as: 'help_find_commodity'
+  get 'help/rules_of_origin/duty_drawback', to: 'pages#rules_of_origin_duty_drawback', as: 'rules_of_origin_duty_drawback'
   get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'terms', to: 'pages#terms'
@@ -87,12 +88,10 @@ Rails.application.routes.draw do
 
   resources :news_items, only: %i[index show], path: '/news'
 
-  if TradeTariffFrontend.roo_wizard?
-    namespace :rules_of_origin, path: nil do
-      get '/rules_of_origin/:commodity/:country', to: 'steps#index', as: :steps
-      get '/rules_of_origin/:commodity/:country/:id', to: 'steps#show', as: :step
-      patch '/rules_of_origin/:commodity/:country/:id', to: 'steps#update', as: nil
-    end
+  namespace :rules_of_origin, path: nil do
+    get '/rules_of_origin/:commodity/:country', to: 'steps#index', as: :steps
+    get '/rules_of_origin/:commodity/:country/:id', to: 'steps#show', as: :step
+    patch '/rules_of_origin/:commodity/:country/:id', to: 'steps#update', as: nil
   end
 
   if TradeTariffFrontend.beta_search_enabled?

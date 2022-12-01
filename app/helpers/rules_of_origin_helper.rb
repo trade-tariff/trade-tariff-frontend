@@ -18,10 +18,6 @@ module RulesOfOriginHelper
       render 'rules_of_origin/intros/country',
              country_name:,
              scheme: schemes.first
-    elsif schemes.first.unilateral
-      render 'rules_of_origin/intros/unilateral_trade_bloc',
-             country_name:,
-             scheme: schemes.first
     else
       render 'rules_of_origin/intros/trade_bloc',
              country_name:,

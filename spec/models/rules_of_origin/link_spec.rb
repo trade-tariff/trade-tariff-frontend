@@ -3,6 +3,7 @@ require 'spec_helper'
 RSpec.describe RulesOfOrigin::Link do
   it { is_expected.to respond_to :text }
   it { is_expected.to respond_to :url }
+  it { is_expected.to respond_to :source }
 
   describe '#id' do
     subject(:link_id) { first_link.id }

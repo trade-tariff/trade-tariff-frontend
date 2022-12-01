@@ -14,17 +14,17 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
     render 'measures/measure', measure: MeasurePresenter.new(measure)
   end
 
-  context 'with formatted_base' do
+  context 'with verbose_duty' do
     let(:duty_expression) { attributes_for(:duty_expression) }
 
-    it { expect(rendered).to match(/EUR/) }
-    it { expect(rendered).to match(/Hectokilogram/) }
-    it { expect(rendered).to match(/<abbr title="Hectokilogram">/) }
+    it { expect(rendered).to match(/drained net weight/) }
+    it { expect(rendered).to match(/£7.80/) }
+    it { expect(rendered).to match(/100 kg/) }
   end
 
-  context 'without formatted_base' do
+  context 'without verbose_duty' do
     let(:duty_expression) do
-      attributes_for(:duty_expression, formatted_base: nil)
+      attributes_for(:duty_expression, verbose_duty: nil)
     end
 
     it { expect(rendered).to match(/EUR/) }

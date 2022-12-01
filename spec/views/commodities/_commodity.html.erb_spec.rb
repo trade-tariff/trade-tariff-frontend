@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'commodities/_commodity', type: :view do
   subject(:rendered_page) do
-    render 'commodities/commodity', commodity: commodity
+    render 'commodities/commodity', commodity: commodity, initial_indent: 1
     rendered
   end
 

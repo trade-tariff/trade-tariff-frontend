@@ -9,11 +9,11 @@ RSpec.describe MeasuresHelper, type: :helper do
     context 'when the duty expression is present' do
       let(:duty_expression) { attributes_for(:duty_expression) }
 
-      it { expect(filtered_expression).to match('80.50 EUR / <abbr title="Hectokilogram">Hectokilogram</abbr>') }
+      it { expect(filtered_expression).to match('£7.80 / 100 kg, drained net weight') }
     end
 
     context 'when the duty expression is `NIHIL`' do
-      let(:duty_expression) { attributes_for(:duty_expression, formatted_base: 'NIHIL') }
+      let(:duty_expression) { attributes_for(:duty_expression, verbose_duty: 'NIHIL') }
 
       it { expect(filtered_expression).to eq('') }
     end
