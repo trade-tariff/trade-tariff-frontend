@@ -10,12 +10,12 @@ class TradingPartnersController < ApplicationController
   end
 
   def update
-    @trading_partner = TradingPartner.new(trading_partner_params)
+    @trading_partner = TradingPartner.new(country: trading_partner_params[:country])
 
     if @trading_partner.valid?
       redirect_to goods_nomenclature_path(
         country: @trading_partner.country,
-        anchor: trading_partner_params['anchor'],
+        anchor: trading_partner_params[:anchor],
       )
     elsif should_not_render_errors?
       redirect_to goods_nomenclature_path

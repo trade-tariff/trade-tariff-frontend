@@ -3,7 +3,6 @@ class TradingPartner
   include ActiveModel::Attributes
 
   attribute :country, :string
-  attribute :anchor, :string
 
   delegate :options, to: :class
 
