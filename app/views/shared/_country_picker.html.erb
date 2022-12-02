@@ -2,6 +2,7 @@
   <fieldset class="govuk-fieldset country-picker js-country-picker govuk-!-font-size-16">
     <div class="country-picker-container">
       <%= f.hidden_field :render_errors, value: false %>
+      <%= f.hidden_field :anchor, value: nil %>
       <%= f.label :country, country_picker_text, class: 'govuk-label' %>
       <%= f.select :country, GeographicalArea.country_options, { include_blank: 'All countries' }, class: 'custom-select js-country-picker-select', "aria-label": "Filter measures by country" %>
       <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil), class: 'reset-country-picker') %>

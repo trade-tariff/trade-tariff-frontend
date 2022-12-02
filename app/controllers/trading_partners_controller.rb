@@ -15,6 +15,7 @@ class TradingPartnersController < ApplicationController
     if @trading_partner.valid?
       redirect_to goods_nomenclature_path(
         country: @trading_partner.country,
+        anchor: trading_partner_params["anchor"],
       )
     elsif should_not_render_errors?
       redirect_to goods_nomenclature_path
@@ -30,6 +31,6 @@ class TradingPartnersController < ApplicationController
   end
 
   def trading_partner_params
-    params.fetch(:trading_partner, {}).permit(:country)
+    params.fetch(:trading_partner, {}).permit(:country, :anchor)
   end
 end
