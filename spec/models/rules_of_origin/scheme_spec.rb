@@ -297,17 +297,17 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
-    describe '#gsp?' do
+    describe '#origin_reference_document_original?' do
       include_context 'with mocked response'
 
-      context 'without gsp scheme' do
-        it { expect(schemes.first.gsp?).to eq false }
+      context 'with origin_reference_document_original' do
+        it { expect(schemes.first.origin_reference_document_original?).to eq true }
       end
 
-      context 'with gsp scheme' do
-        before { schemes.first.scheme_code = 'gsp' }
+      context 'without origin_reference_document_original' do
+        before { schemes.first.origin_reference_document.ord_original = nil }
         
-        it { expect(schemes.first.gsp?).to eq true }
+        it { expect(schemes.first.origin_reference_document_original?).to eq false }
       end
     end
 

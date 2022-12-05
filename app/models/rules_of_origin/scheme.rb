@@ -40,7 +40,7 @@ class RulesOfOrigin::Scheme
     links.find { |link| link.source == 'scheme' }&.url
   end
 
-  def gsp?
-    scheme_code == 'gsp'
+  def origin_reference_document_original?
+    origin_reference_document.ord_original.present?
   end
 end

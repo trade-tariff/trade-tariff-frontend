@@ -66,7 +66,7 @@
                   <li>
                     <a href=<%= scheme.agreement_link %> target="_blank">View agreement details</a>
                   </li>
-                  <% if !scheme.gsp? %>
+                  <% if scheme.origin_reference_document_original? %>
                     <li>
                       <a href=<%= scheme.origin_reference_document.document_path %> target="_blank">View origin reference document</a>
                     </li>
