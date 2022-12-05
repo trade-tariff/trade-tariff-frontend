@@ -106,6 +106,7 @@ commands:
           command: |
             sed -i "s/instances: [0-9]\+/instances\: 1/" deploy_manifest.yml
             sed -i "s|CORS_HOST: dev\.trade-tariff\.service\.gov\.uk|CORS_HOST: ${CF_APP}-${REVIEW_URL_ID}.london.cloudapps.digital|" deploy_manifest.yml
+            sed -i "/BASIC_/d" deploy_manifest.yml
             sed -i "s|HOST: dev\.trade-tariff\.service\.gov\.uk|HOST: ${CF_APP}-${REVIEW_URL_ID}.london.cloudapps.digital|" deploy_manifest.yml
       - run:
           name: Push review app
