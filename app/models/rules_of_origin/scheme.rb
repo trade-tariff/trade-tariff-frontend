@@ -39,4 +39,8 @@ class RulesOfOrigin::Scheme
   def agreement_link
     links.find { |link| link.source == 'scheme' }&.url
   end
+
+  def gsp?
+    scheme_code == 'gsp'
+  end
 end

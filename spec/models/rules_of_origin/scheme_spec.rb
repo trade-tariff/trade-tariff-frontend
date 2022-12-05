@@ -297,6 +297,20 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
+    describe '#gsp?' do
+      include_context 'with mocked response'
+
+      context 'without gsp scheme' do
+        it { expect(schemes.first.gsp?).to eq false }
+      end
+
+      context 'with gsp scheme' do
+        before { schemes.first.scheme_code = 'gsp' }
+        
+        it { expect(schemes.first.gsp?).to eq true }
+      end
+    end
+
     describe '#proofs' do
       include_context 'with mocked response'
 
