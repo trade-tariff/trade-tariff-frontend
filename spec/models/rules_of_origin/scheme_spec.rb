@@ -306,7 +306,7 @@ RSpec.describe RulesOfOrigin::Scheme do
 
       context 'without origin_reference_document_original' do
         before { schemes.first.origin_reference_document.ord_original = nil }
-        
+
         it { expect(schemes.first.origin_reference_document_original?).to eq false }
       end
     end
