@@ -94,9 +94,11 @@ Rails.application.routes.draw do
     patch '/rules_of_origin/:commodity/:country/:id', to: 'steps#update', as: nil
   end
 
-  match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
-
-  get '/search/toggle_beta_search', as: :toggle_beta_search, to: 'search#toggle_beta_search'
+  if TradeTariffFrontend.beta_search_enabled?
+    match '/search', as: :perform_search, via: %i[get post], to: 'beta/search_results#show'
+  else
+    match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
+  end
 
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search

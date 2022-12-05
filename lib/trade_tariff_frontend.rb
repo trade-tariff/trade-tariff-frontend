@@ -127,6 +127,10 @@ module TradeTariffFrontend
     ENV['BASIC_PASSWORD'].to_s
   end
 
+  def beta_search_enabled?
+    ENV['BETA_SEARCH'] == 'true'
+  end
+
   def webchat_enabled?
     webchat_url.present?
   end

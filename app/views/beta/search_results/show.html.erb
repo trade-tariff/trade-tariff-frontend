@@ -23,8 +23,8 @@
     </div>
   <% end %>
   <% if @search_result.hits.commodities.present? %>
-    <%= render 'beta/search_results/with_hits' %>
+    <%= render 'with_hits' %>
   <% else %>
-    <%= render 'beta/search_results/no_hits' %>
+    <%= render 'no_hits' %>
   <% end %>
 </section>
