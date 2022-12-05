@@ -1,42 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe SearchController, type: :controller do
+RSpec.describe SearchController, 'GET to #search', type: :controller do
   include CrawlerCommons
-
-  describe 'GET #search' do
-    subject(:do_response) { get :search, params: }
-
-    context 'when using beta search' do
-      let(:params) { { q: 'clothing', filter: { material: 'leather' } } }
-      let(:search_result) { build(:search_result) }
-
-      before do
-        allow(controller).to receive(:beta_search_enabled?).and_return(true)
-        perform_search_service = instance_double('Beta::Search::PerformSearchService', call: search_result)
-        allow(Beta::Search::PerformSearchService).to receive(:new).and_return(perform_search_service)
-      end
-
-      it { is_expected.to have_http_status(:ok) }
-      it { is_expected.to render_template('beta/search_results/show') }
-
-      it 'calls the PerformSearchService' do
-        do_response
-
-        expect(Beta::Search::PerformSearchService).to have_received(:new).with(
-          { q: 'clothing', spell: '1' },
-          { 'material' => 'leather' },
-        )
-      end
-
-      context 'when redirected' do
-        let(:params) { { q: '0101', year: '2022', month: '11', day: '1' } }
-
-        let(:search_result) { build(:search_result, :redirect) }
-
-        it { is_expected.to redirect_to(heading_path('0101', year: '2022', month: '11', day: '1')) }
-      end
-    end
-  end
 
   context 'with HTML format' do
     context 'with search term' do
@@ -318,6 +283,380 @@ RSpec.describe SearchController, type: :controller do
       before { historical_request :search }
 
       it { should_include_robots_tag! }
+    end
+  end
+end
+
+RSpec.describe SearchController, 'GET to #codes', type: :controller do
+  describe 'GET to #suggestions', vcr: { cassette_name: 'search#suggestions', allow_playback_repeats: true } do
+    let(:suggestions) { SearchSuggestion.all }
+    let(:suggestion) { suggestions[0] }
+    let(:query) { suggestion.value.to_s }
+
+    context 'with term param' do
+      before do
+        get :suggestions, params: { term: query }, format: :json
+      end
+
+      let(:body) { JSON.parse(response.body) }
+
+      specify 'returns an Array' do
+        expect(body['results']).to be_kind_of(Array)
+      end
+
+      specify 'includes search results' do
+        expect(body['results']).to include({ 'id' => suggestion.value, 'text' => suggestion.value })
+      end
+
+      context 'when the query term begins with spaces' do
+        let(:query) { "   #{suggestion.value}" }
+
+        it 'includes the search results (same of stripped term search)' do
+          expect(body['results']).to include({ 'id' => suggestion.value, 'text' => suggestion.value })
+        end
+      end
+    end
+
+    context 'without term param' do
+      before do
+        get :suggestions, format: :json
+      end
+
+      let(:body) { JSON.parse(response.body) }
+
+      specify 'returns an Array' do
+        expect(body['results']).to be_kind_of(Array)
+      end
+    end
+  end
+end
+
+RSpec.describe SearchController, 'GET to #quota_search', type: :controller, vcr: { cassette_name: 'search#quota_search', allow_playback_repeats: true } do
+  context 'with xi as the service choice' do
+    let :request_page do
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:xi?).and_return(true)
+
+      get :quota_search, params: { goods_nomenclature_item_id: '0301919011' }, format: :html
+    end
+
+    it { expect { request_page }.to raise_exception TradeTariffFrontend::FeatureUnavailable }
+  end
+
+  context 'without search params' do
+    render_views
+
+    before do
+      get :quota_search, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays no results' do
+      expect(response.body).not_to match(/Quota search results/)
+    end
+  end
+
+  context 'when search by goods nomenclature' do
+    render_views
+
+    before do
+      get :quota_search, params: { goods_nomenclature_item_id: '0301919011' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Quota search results/)
+    end
+  end
+
+  context 'when search by origin' do
+    render_views
+
+    before do
+      get :quota_search, params: { geographical_area_id: '1011' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Quota search results/)
+    end
+  end
+
+  context 'when search by order number' do
+    render_views
+
+    before do
+      get :quota_search, params: { order_number: '090671' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Quota search results/)
+    end
+  end
+
+  context 'when search by critical flag' do
+    render_views
+
+    before do
+      get :quota_search, params: { critical: 'Y' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Quota search results/)
+    end
+  end
+
+  context 'when search by status' do
+    render_views
+
+    before do
+      get :quota_search, params: { status: 'Not blocked' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Quota search results/)
+    end
+  end
+
+  context 'when search by year' do
+    render_views
+
+    before do
+      get :quota_search, params: { year: '2019' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'restricts search by years only' do
+      expect(response.body).to match(/Sorry, there is a problem with the search query. Please specify one or more search criteria./)
+    end
+  end
+end
+
+RSpec.describe SearchController, 'GET to #additional_code_search', type: :controller, vcr: { cassette_name: 'search#additional_code_search' } do
+  context 'when without search params' do
+    render_views
+
+    before do
+      get :additional_code_search, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays no results' do
+      expect(response.body).not_to match(/Additional code search results/)
+    end
+  end
+
+  context 'when search by code' do
+    render_views
+
+    before do
+      get :additional_code_search, params: { code: '119' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Additional code search results/)
+    end
+  end
+
+  context 'when search by type' do
+    render_views
+
+    before do
+      get :additional_code_search, params: { type: '4' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Additional code search results/)
+    end
+  end
+
+  context 'when search by description' do
+    render_views
+
+    before do
+      get :additional_code_search, params: { description: 'shanghai' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Additional code search results/)
+    end
+  end
+end
+
+RSpec.describe SearchController, 'GET to #footnote_search', type: :controller do
+  context 'when without search params', vcr: { cassette_name: 'search#footnote_search_without_params' } do
+    render_views
+
+    before do
+      get :footnote_search, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays no results' do
+      expect(response.body).not_to match(/Footnote search results/)
+    end
+  end
+
+  context 'when search by code', vcr: { cassette_name: 'search#footnote_search_by_code' } do
+    render_views
+
+    before do
+      get :footnote_search, params: { code: '133' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Footnote search results/)
+    end
+  end
+
+  context 'when search by type', vcr: { cassette_name: 'search#footnote_search_by_type' } do
+    render_views
+
+    before do
+      get :footnote_search, params: { type: 'TN' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Footnote search results/)
+    end
+  end
+
+  context 'when search by description', vcr: { cassette_name: 'search#footnote_search_by_description' } do
+    render_views
+
+    before do
+      get :footnote_search, params: { description: 'copper' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Footnote search results/)
+    end
+  end
+end
+
+RSpec.describe SearchController, 'GET to #certificate_search', type: :controller, vcr: { cassette_name: 'search#certificate_search' } do
+  context 'without search params' do
+    render_views
+
+    before do
+      get :certificate_search, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays no results' do
+      expect(response.body).not_to match(/Certificate search results/)
+    end
+  end
+
+  context 'when search by code' do
+    render_views
+
+    before do
+      get :certificate_search, params: { code: '119' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Certificate search results/)
+    end
+  end
+
+  context 'when search by type' do
+    render_views
+
+    before do
+      get :certificate_search, params: { type: 'A' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Certificate search results/)
+    end
+  end
+
+  context 'when search by description' do
+    render_views
+
+    before do
+      get :certificate_search, params: { description: 'import licence' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Certificate search results/)
+    end
+  end
+end
+
+RSpec.describe SearchController, 'GET to #chemical_search', type: :controller, vcr: { cassette_name: 'search#chemical_search' } do
+  context 'without search params' do
+    render_views
+
+    before do
+      get :chemical_search, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays no results' do
+      expect(response.body).not_to match(/Chemical search results/)
+    end
+  end
+
+  context 'when search by CAS number' do
+    render_views
+
+    before do
+      get :chemical_search, params: { cas: '121-17-5' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Chemical search results/)
+      expect(response.body).to match(/121-17-5/)
+    end
+  end
+
+  context 'when search by (partial) chemical name' do
+    render_views
+
+    before do
+      get :chemical_search, params: { name: 'isopropyl' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Chemical search results/)
+      expect(response.body).to match(/isopropyl/)
     end
   end
 end

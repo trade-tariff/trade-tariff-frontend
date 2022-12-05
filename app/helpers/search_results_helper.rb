@@ -1,16 +1,4 @@
 module SearchResultsHelper
-  def toggle_beta_search_inset_text
-    if beta_search_enabled?
-      switch_link = link_to('switch back to legacy search', toggle_beta_search_path)
-
-      t('search.beta_search.inset_text_enabled_html', switch_link:)
-    else
-      switch_link = link_to('Use the Beta Search', toggle_beta_search_path)
-
-      t('search.beta_search.inset_text_disabled_html', switch_link:)
-    end
-  end
-
   def filtered_link_for(filterable)
     path_options = filtered_url_options_for(filterable.filter)
     path = perform_search_path(path_options)

@@ -38,8 +38,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :cookies_policy,
                 :meursing_lookup_result,
-                :is_switch_service_banner_enabled?,
-                :beta_search_enabled?
+                :is_switch_service_banner_enabled?
 
   def set_last_updated
     # rubocop:disable Naming/MemoizedInstanceVariableName
@@ -150,9 +149,5 @@ class ApplicationController < ActionController::Base
 
   def country
     params['country'].try(:upcase)
-  end
-
-  def beta_search_enabled?
-    !!session[:beta_search_enabled]
   end
 end
