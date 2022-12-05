@@ -242,11 +242,6 @@ article.tariff {
         @media (min-width: 641px) {
           float: right;
           width: 514px;
-
-          @supports(display: flex) {
-            display: flex;
-            align-items: flex-end;
-          }
         }
 
         .lte-ie8 & {
