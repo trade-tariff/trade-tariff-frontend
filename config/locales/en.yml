@@ -945,15 +945,12 @@ en:
           1. all countries involved need to be joined by FTAs *and* 
           2. rules of origin in these FTAs need to be identical.
         example_text: |
-          This is where it gets a little more complicated. Let’s say that as well as an FTA 
-          with the UK, the EU has another one with Japan (currently being negotiated), and 
-          the UK also has one with Japan (… maybe one day). If the rules of origin requirements in 
-          the EU-UK FTA allow for diagonal cumulation explicitly with Japan, a UK producer could 
-          import a good from Japan (that originates from Japan), incorporate it into something 
-          else, alter it, do nothing with it, whatever, and then sell it to a customer in the EU 
-          and it would be treated as if it was of UK origin no matter how much value was added, 
-          or not, in the UK.
-        map_text: Originating inputs from each country are considered to be originating input in the other countries.
+          1. Importers in country A would like to import goods from country B
+          2. Country A has a trade agreement with Country B
+          3. An insufficient percentage of the goods to be imported were manufactured in Country B
+          4. Country A also has a trade agreement with Country C, as does Country B and a percentage of the goods were manufactured in Country C
+          5. The origin requirements between the two countries for the commodity are the same
+          6. As a result, the parts of the commodity manufactured in Country C can be counted as originating in Country B.
 
     shared:
       caption:
