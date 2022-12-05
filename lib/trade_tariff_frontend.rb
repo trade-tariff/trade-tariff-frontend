@@ -103,10 +103,6 @@ module TradeTariffFrontend
     ENV.fetch('CHECK_DUTIES_SERVICE_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
   end
 
-  def search_banner?
-    ENV['SEARCH_BANNER'].to_s == 'true'
-  end
-
   def welsh?
     ENV['WELSH'].to_s == 'true'
   end
@@ -133,6 +129,14 @@ module TradeTariffFrontend
 
   def webchat_url
     ENV['WEBCHAT_URL']
+  end
+
+  def search_banner?
+    ENV['SEARCH_BANNER'] == 'true'
+  end
+
+  def beta_search_switching_enabled?
+    ENV['BETA_SEARCH_SWITCHING_ENABLED'] == 'true'
   end
 
   def beta_search_heading_statistics_threshold
