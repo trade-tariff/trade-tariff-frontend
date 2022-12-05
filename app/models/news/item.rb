@@ -119,5 +119,9 @@ module News
       @subheadings ||= paragraphs.select { |p| p.start_with? '## ' }
                                  .map { |heading| heading.sub(/^\#\# /, '') }
     end
+
+    def to_param
+      slug.presence || id
+    end
   end
 end

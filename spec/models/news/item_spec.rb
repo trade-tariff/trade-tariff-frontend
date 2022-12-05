@@ -380,4 +380,20 @@ RSpec.describe News::Item do
 
     it { is_expected.to eql ['Second heading', 'Additional second heading'] }
   end
+
+  describe '#to_param' do
+    subject { news_item.to_param }
+
+    context 'with slug' do
+      let(:news_item) { build :news_item, slug: 'test-slug' }
+
+      it { is_expected.to eql 'test-slug' }
+    end
+
+    context 'with blank slug' do
+      let(:news_item) { build :news_item, slug: '' }
+
+      it { is_expected.to eql news_item.id }
+    end
+  end
 end

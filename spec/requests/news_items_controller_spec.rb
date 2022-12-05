@@ -44,7 +44,7 @@ RSpec.describe NewsItemsController, type: :request do
   describe 'GET #show' do
     before do
       allow(News::Item).to receive(:find)
-                         .with(news_item.id.to_s)
+                         .with(news_item.slug)
                          .and_return news_item
 
       allow(News::Item).to receive(:updates_page)
@@ -52,7 +52,7 @@ RSpec.describe NewsItemsController, type: :request do
                            .and_return([])
     end
 
-    let(:make_request) { get news_item_path news_item.id }
+    let(:make_request) { get news_item_path news_item }
 
     it { is_expected.to have_http_status :ok }
     it { is_expected.to have_attributes content_type: %r{text/html} }
