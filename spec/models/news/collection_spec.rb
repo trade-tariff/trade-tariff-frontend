@@ -49,4 +49,44 @@ RSpec.describe News::Collection do
       it { is_expected.to be 3 }
     end
   end
+
+  describe '#matches_param?' do
+    subject { collection.matches_param? collection_id }
+
+    let(:collection) { build :news_collection }
+
+    context 'with slug' do
+      context 'when matching' do
+        let(:collection_id) { collection.slug }
+
+        it { is_expected.to be true }
+      end
+
+      context 'when not matching' do
+        let(:collection_id) { "#{collection.slug}-unknown" }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'with id' do
+      context 'when matching' do
+        let(:collection_id) { collection.id }
+
+        it { is_expected.to be true }
+      end
+
+      context 'when not matching' do
+        let(:collection_id) { collection.id.to_i + 1 }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'with nil' do
+      let(:collection_id) { nil }
+
+      it { is_expected.to be false }
+    end
+  end
 end

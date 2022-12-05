@@ -19,5 +19,15 @@ module News
     def to_param
       slug.presence || id
     end
+
+    def matches_param?(collection_id)
+      if collection_id.to_s.match? %r{\A\d+\z}
+        id == collection_id.to_i
+      elsif slug.present?
+        slug == collection_id
+      else
+        false
+      end
+    end
   end
 end

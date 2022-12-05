@@ -51,7 +51,7 @@
 
   <div class="govuk-grid-column-three-quarters news-items">
     <h2 class="govuk-heading-l">
-      <%= @collection_name || 'All collections' %>
+      <%= @current_collection&.name || 'All collections' %>
     </h2>
 
     <% @news_items.each do |news_item| %>

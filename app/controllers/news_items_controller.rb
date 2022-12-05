@@ -9,6 +9,12 @@ class NewsItemsController < ApplicationController
     @news_collections = News::Collection.all
     @news_years = News::Year.all
 
+    if params[:collection_id]
+      @current_collection = @news_collections.find do |collection|
+        collection.matches_param? params[:collection_id]
+      end
+    end
+
     @news_items = News::Item.updates_page(**news_index_params)
   end
 
