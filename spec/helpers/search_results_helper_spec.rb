@@ -1,6 +1,26 @@
 require 'spec_helper'
 
 RSpec.describe SearchResultsHelper, type: :helper do
+  describe '#toggle_beta_search_inset_text' do
+    subject(:toggle_beta_search_inset_text) { helper.toggle_beta_search_inset_text }
+
+    before do
+      allow(helper).to receive(:beta_search_enabled?).and_return(beta_search_enabled)
+    end
+
+    context 'when beta_search_enabled? is true' do
+      let(:beta_search_enabled) { true }
+
+      it { is_expected.to include('<a href="/search/toggle_beta_search">switch back to legacy search</a>') }
+    end
+
+    context 'when beta_search_enabled? is false' do
+      let(:beta_search_enabled) { false }
+
+      it { is_expected.to include('<a href="/search/toggle_beta_search">Use the Beta Search</a>') }
+    end
+  end
+
   describe '#filtered_link_for' do
     subject { helper.filtered_link_for(facet_classification_statistic) }
 
