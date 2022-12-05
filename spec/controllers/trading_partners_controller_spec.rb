@@ -51,7 +51,7 @@ RSpec.describe TradingPartnersController, type: :controller do
         session[:goods_nomenclature_code] = goods_nomenclature_code
       end
 
-      it { is_expected.to redirect_to(public_send(path_method, country: 'IT', id: goods_nomenclature_code)) }
+      it { is_expected.to redirect_to(public_send(path_method, country: 'IT', id: goods_nomenclature_code, anchor: 'export')) }
     end
 
     shared_examples_for 'an invalid trading partner redirect' do |path_method, goods_nomenclature_code|
@@ -63,7 +63,7 @@ RSpec.describe TradingPartnersController, type: :controller do
     end
 
     context 'when passing valid trading partner params' do
-      let(:params) { { trading_partner: { country: 'IT' } } }
+      let(:params) { { trading_partner: { country: 'IT', anchor: 'export' } } }
 
       it_behaves_like 'a valid trading partner redirect', :find_commodity_path, nil
       it_behaves_like 'a valid trading partner redirect', :chapter_path, '01'
