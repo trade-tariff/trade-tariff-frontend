@@ -39,8 +39,4 @@ class RulesOfOrigin::Scheme
   def agreement_link
     links.find { |link| link.source == 'scheme' }&.url
   end
-
-  def origin_reference_document_original?
-    origin_reference_document.ord_original.present?
-  end
 end

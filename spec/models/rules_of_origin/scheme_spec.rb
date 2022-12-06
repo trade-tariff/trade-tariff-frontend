@@ -297,20 +297,6 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
-    describe '#origin_reference_document_original?' do
-      include_context 'with mocked response'
-
-      context 'with origin_reference_document_original' do
-        it { expect(schemes.first.origin_reference_document_original?).to eq true }
-      end
-
-      context 'without origin_reference_document_original' do
-        before { schemes.first.origin_reference_document.ord_original = nil }
-
-        it { expect(schemes.first.origin_reference_document_original?).to eq false }
-      end
-    end
-
     describe '#proofs' do
       include_context 'with mocked response'
 
