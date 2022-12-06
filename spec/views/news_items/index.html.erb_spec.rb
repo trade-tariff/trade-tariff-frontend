@@ -24,6 +24,7 @@ RSpec.describe 'news_items/index', type: :view do
   it { is_expected.to have_css 'article .tariff-body-subtext', text: date_format }
   it { is_expected.to have_css 'article .tariff-body-subtext', text: news_items.first.collections.first.name }
   it { is_expected.to have_css 'article h2', count: 3 }
+  it { is_expected.to have_css '.news-items > h2', text: 'All collections' }
   it { is_expected.to have_link news_items.first.title, href: news_item_path(news_items.first) }
   it { is_expected.to have_css 'article .tariff-markdown p', count: 3 }
   it { is_expected.to have_css '.news-item p', text: /#{I18n.t('title.service_name.uk')}/ }
@@ -69,11 +70,16 @@ RSpec.describe 'news_items/index', type: :view do
   end
 
   context 'when filtering by collection' do
-    before { assign :filter_collection, news_collections.first.id }
+    before do
+      assign :filter_collection, news_collections.first.id
+      assign :current_collection, news_collections.first
+    end
 
     it { is_expected.to have_css 'ul#news-collection-filter li', count: 3 }
     it { is_expected.to have_css 'ul#news-collection-filter li a', count: 2 }
     it { is_expected.to have_css 'ul#news-collection-filter li a', text: 'All collections' }
     it { is_expected.not_to have_css 'ul#news-collection-filter li a', text: news_collections.first.name }
+
+    it { is_expected.to have_css '.news-items > h2', text: news_collections.first.name }
   end
 end
