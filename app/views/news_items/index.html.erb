@@ -42,7 +42,7 @@
         <% if @filter_collection == collection.id %>
           <%= collection.name %>
         <% else %>
-          <%= link_to collection.name, news_index_params.merge(collection_id: collection.id, page: nil) %>
+          <%= link_to collection.name, news_index_params.merge(collection_id: collection, page: nil) %>
         <% end %>
       </li>
       <% end %>
