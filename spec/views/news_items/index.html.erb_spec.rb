@@ -42,7 +42,7 @@ RSpec.describe 'news_items/index', type: :view do
       Kaminari.paginate_array(news_items, total_count: 200).page(1).per(10)
     end
 
-    it { is_expected.to have_css '.pagination' }
+    it { is_expected.to have_css '.govuk-pagination' }
   end
 
   context 'with single paragraph news items' do
