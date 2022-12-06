@@ -61,7 +61,6 @@ RSpec.configure do |config|
 
   config.before do
     allow(TariffUpdate).to receive(:all).and_return([OpenStruct.new(applied_at: Time.zone.today)])
-    allow(News::Item).to receive(:any_updates?).and_return true
     allow(News::Item).to receive(:latest_banner).and_return build(:news_item, :banner)
     Thread.current[:service_choice] = nil
   end

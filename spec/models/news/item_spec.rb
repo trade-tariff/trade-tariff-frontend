@@ -4,7 +4,6 @@ RSpec.describe News::Item do
   # This is stubbed for _every_ spec because its in the header menu
   # Reverting it to real implementation for this spec
   before do
-    allow(described_class).to receive(:any_updates?).and_call_original
     allow(described_class).to receive(:latest_banner).and_call_original
   end
 
@@ -153,75 +152,6 @@ RSpec.describe News::Item do
     end
 
     it { is_expected.to have_attributes length: 2 }
-  end
-
-  describe '.any_updates?' do
-    subject(:any_updates) { described_class.any_updates? }
-
-    before { allow(Rails.cache).to receive(:fetch).and_call_original }
-
-    context 'with UK service' do
-      include_context 'with UK service'
-
-      before do
-        stub_api_request('/news/items?&per_page=10&service=uk&target=updates', backend: 'uk')
-          .to_return jsonapi_response :news_item, updates
-      end
-
-      let(:updates) { attributes_for_list(:news_item, 2) }
-
-      it { is_expected.to be true }
-
-      it 'is caches the answer' do
-        any_updates
-
-        expect(Rails.cache).to \
-          have_received(:fetch)
-          .with('news-item-any-updates-uk-v10', expires_in: 15.minutes)
-      end
-
-      context 'with no news items' do
-        let(:updates) { [] }
-
-        it { is_expected.to be false }
-      end
-    end
-
-    context 'with XI service' do
-      include_context 'with XI service'
-
-      before do
-        stub_api_request('/news/items?&per_page=10&service=xi&target=updates', backend: 'uk')
-          .to_return jsonapi_response :news_item, updates
-      end
-
-      let(:updates) { attributes_for_list(:news_item, 2) }
-
-      it { is_expected.to be true }
-
-      it 'is caches the answer' do
-        any_updates
-
-        expect(Rails.cache).to \
-          have_received(:fetch)
-          .with('news-item-any-updates-xi-v10', expires_in: 15.minutes)
-      end
-
-      context 'with no news items' do
-        let(:updates) { [] }
-
-        it { is_expected.to be false }
-      end
-    end
-
-    context 'with failed connection to backend' do
-      before do
-        stub_api_request('/news/items?per_page=10&service=uk&target=updates', backend: 'uk')
-          .to_timeout
-      end
-
-      it { is_expected.to be false }
-    end
   end
 
   describe '.cached_latest_banner' do
