@@ -36,11 +36,11 @@ RSpec.describe 'news_items/show', type: :view do
   it { is_expected.to have_css '.govuk-grid-column-one-third p a', text: news_collection.name }
 
   context 'without precis' do
-    let(:news_item) { build :news_item, content: "First\n\nSecond" }
+    let(:news_item) { build :news_item, content: "First\n\nSecond", precis: '' }
 
-    it { is_expected.not_to have_css '.tariff-markdown--with-all-lead-paragraph p' }
-    it { is_expected.to have_css '.tariff-markdown p', text: 'First' }
-    it { is_expected.to have_css '.tariff-markdown p', text: 'Second' }
+    it { is_expected.to have_css '.tariff-markdown--with-all-lead-paragraph p', text: 'First' }
+    it { is_expected.not_to have_css '.news-item__content.tariff-markdown p', text: 'First' }
+    it { is_expected.to have_css '.news-item__content.tariff-markdown p', text: 'Second' }
   end
 
   context 'with subheadings' do

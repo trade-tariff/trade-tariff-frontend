@@ -10,9 +10,9 @@
   <div class="govuk-grid-column-two-thirds">
     <%= page_header @news_item.title %>
 
-    <% if @news_item.precis.present? %>
+    <% if @news_item.precis_with_fallback.present? %>
     <div class="tariff-markdown tariff-markdown--with-all-lead-paragraph">
-      <%= format_news_item_content @news_item.precis %>
+      <%= format_news_item_content @news_item.precis_with_fallback %>
     </div>
     <% end %>
   </div>
@@ -52,8 +52,8 @@
       </div>
       <% end %>
 
-      <div class="tariff-markdown">
-        <%= format_news_item_content @news_item.content %>
+      <div class="news-item__content tariff-markdown">
+        <%= format_news_item_content @news_item.content_without_precis %>
       </div>
 
       <p>

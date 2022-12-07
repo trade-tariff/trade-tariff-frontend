@@ -100,6 +100,10 @@ module News
       precis.present? ? content.present? : paragraphs.many?
     end
 
+    def content_without_precis
+      precis.present? ? content : paragraphs.slice(1..).join("\n\n")
+    end
+
     def subheadings
       @subheadings ||= paragraphs.select { |p| p.start_with? '## ' }
                                  .map { |heading| heading.sub(/^\#\# /, '') }
