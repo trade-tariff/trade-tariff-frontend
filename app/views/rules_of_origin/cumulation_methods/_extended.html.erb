@@ -17,7 +17,7 @@
       <p><%= image_pack_tag "cumulation/#{cumulation_method}.png" %></p>
 
       <div class="tariff-markdown">
-        <%= govspeak t '.example_list_md' %>
+        <%= govspeak t '.example_list_md', sufficient_processing_link: step_path(:sufficient_processing) %>
       </div>
     </div>
   </details>
