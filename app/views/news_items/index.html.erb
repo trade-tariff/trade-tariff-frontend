@@ -14,7 +14,7 @@
       Filter by year
     </h3>
 
-    <ul class="govuk-list govuk-list--disc" id="news-year-filter">
+    <ul class="govuk-list tariff-list--hyphen" id="news-year-filter">
       <li>
         <%= @filter_year ? link_to('All years', year: nil, page: nil) : 'All years' %>
       </li>
@@ -33,7 +33,7 @@
       Filter by collection
     </h3>
 
-    <ul class="govuk-list govuk-list--disc" id="news-collection-filter">
+    <ul class="govuk-list tariff-list--hyphen" id="news-collection-filter">
       <li>
         <%= @filter_collection ? link_to('All collections', collection_id: nil, page: nil) : 'All collections' %>
       </li>
