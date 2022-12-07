@@ -29,6 +29,6 @@
   </td>
 
   <td class="govuk-table__cell numerical" data-label="Balance">
-    <%= definition.balance %> <%= definition.measurement_unit %>
+    <%= number_with_precision(definition.balance, precision: 3, delimiter: ',') %> <%= definition.measurement_unit %>
   </td>
 </tr>
