@@ -86,6 +86,8 @@ Rails.application.routes.draw do
   resolve('Cookies::Policy') { %i[cookies policy] }
   get 'cookies', to: redirect(path: '/cookies/policy')
 
+  get '/news/collections/:collection_id', to: 'news_items#index', as: :news_collection
+  get '/news/stories/:id', to: 'news_items#show', as: :news_item
   resources :news_items, only: %i[index show], path: '/news'
 
   namespace :rules_of_origin, path: nil do
