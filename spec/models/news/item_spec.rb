@@ -303,6 +303,38 @@ RSpec.describe News::Item do
     end
   end
 
+  describe '#content_without_precis' do
+    subject { news.content_without_precis }
+
+    context 'with precis' do
+      context 'with content' do
+        let(:news) { build :news_item, :with_precis, content: 'something' }
+
+        it { is_expected.to eq 'something' }
+      end
+
+      context 'without content' do
+        let(:news) { build :news_item, :with_precis, content: '' }
+
+        it { is_expected.to be_blank }
+      end
+    end
+
+    context 'without precis' do
+      context 'with single paragraph content' do
+        let(:news) { build :news_item, content: 'first paragraph' }
+
+        it { is_expected.to be_blank }
+      end
+
+      context 'with multiple paragraph content' do
+        let(:news) { build :news_item, content: "first\n\nsecond\n\nthird" }
+
+        it { is_expected.to eq "second\n\nthird" }
+      end
+    end
+  end
+
   describe '#subheadings' do
     subject { news_item.subheadings }
 
