@@ -11,6 +11,7 @@ $govuk-images-path: '~govuk-frontend/govuk/assets/images/';
 @import 'accessible-autocomplete';
 @import '../src/stylesheets/vendor/accessible-autocomplete';
 @import '../src/stylesheets/vendor/govuk_publishing_components/contents-list';
+@import '../src/stylesheets/vendor/govuk_publishing_components/metadata';
 @import '../src/stylesheets/vendor/govuk_publishing_components/print-link';
 
 // 'legacy' GOVUK styles
