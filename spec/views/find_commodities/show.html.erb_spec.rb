@@ -37,7 +37,7 @@ RSpec.describe 'find_commodities/show', type: :view do
 
   describe 'latest news' do
     context 'when published for home page' do
-      before { assign :latest_news, build(:news_item) }
+      before { assign :hero_story, build(:news_item) }
 
       it { is_expected.to have_css '.latest-news-banner', count: 1 }
     end
