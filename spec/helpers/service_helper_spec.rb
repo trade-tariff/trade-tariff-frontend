@@ -102,27 +102,23 @@ RSpec.describe ServiceHelper, type: :helper do
   end
 
   describe '#switch_service_link' do
-    before do
-      helper.request.path = path
-    end
+    subject(:link) { helper.switch_service_link }
+
+    before { allow(helper).to receive(:current_path).and_return '/some_path' }
 
     context 'when the selected service choice is uk' do
       include_context 'with UK service'
 
-      let(:path) { '/uk/sections/1' }
-
       it 'returns the link to the XI service' do
-        expect(helper.switch_service_link).to eq(link_to('Northern Ireland Online Tariff', '/xi/sections/1'))
+        expect(link).to have_link 'Northern Ireland Online Tariff', href: '/xi/some_path'
       end
     end
 
     context 'when the selected service choice is xi' do
       include_context 'with XI service'
 
-      let(:path) { '/xi/sections/1' }
-
       it 'returns the link to the current UK service' do
-        expect(helper.switch_service_link).to eq(link_to('UK Integrated Online Tariff', '/sections/1'))
+        expect(link).to have_link 'UK Integrated Online Tariff', href: '/some_path'
       end
     end
   end

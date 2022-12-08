@@ -53,7 +53,7 @@
   <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
   <header
-    class="govuk-header<%= ' tariff-search-banner' if TradeTariffFrontend.search_banner? %>"
+    class="govuk-header<%= ' tariff-search-banner' if TradeTariffFrontend.search_banner? %> govuk-!-display-none-print"
     data-controller="<%= 'toggle-css' if TradeTariffFrontend.search_banner? %>"
     data-toggle-css-target="toggleable"
     data-toggle-css-toggle-class="tariff-search-banner--open"
@@ -92,7 +92,7 @@
     </main>
   </div>
 
-  <footer id="footer" class="govuk-footer" role="contentinfo">
+  <footer id="footer" class="govuk-footer govuk-!-display-none-print" role="contentinfo">
     <div class="govuk-width-container">
       <div class="govuk-footer__navigation">
         <%= yield :footer_top %>

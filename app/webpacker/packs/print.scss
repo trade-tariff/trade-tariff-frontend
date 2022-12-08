@@ -594,3 +594,7 @@ li.open {
 .pagination {
   display: none;
 }
+
+.tariff-print-grid-column-full-width {
+  @extend .govuk-grid-column-full ;
+}
