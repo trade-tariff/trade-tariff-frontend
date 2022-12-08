@@ -39,7 +39,7 @@
       </li>
       <% @news_collections.each do |collection| %>
       <li>
-        <% if @filter_collection == collection.id %>
+        <% if collection.id == @filter_collection&.id %>
           <%= collection.name %>
         <% else %>
           <%= link_to collection.name, news_index_params.merge(collection_id: collection, page: nil) %>
@@ -51,7 +51,7 @@
 
   <div class="govuk-grid-column-three-quarters news-items">
     <h2 class="govuk-heading-l">
-      <%= @current_collection&.name || 'All collections' %>
+      <%= @filter_collection&.name || 'All collections' %>
     </h2>
 
     <% @news_items.each do |news_item| %>
