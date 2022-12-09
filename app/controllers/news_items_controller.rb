@@ -3,14 +3,12 @@ class NewsItemsController < ApplicationController
                 :disable_last_updated_footnote
 
   def index
-    @filter_collection = params[:collection_id].presence&.to_i
-    @filter_year = params[:year].presence&.to_i
-
     @news_collections = News::Collection.all
     @news_years = News::Year.all
 
+    @filter_year = params[:year].presence&.to_i
     if params[:collection_id]
-      @current_collection = @news_collections.find do |collection|
+      @filter_collection = @news_collections.find do |collection|
         collection.matches_param? params[:collection_id]
       end
     end

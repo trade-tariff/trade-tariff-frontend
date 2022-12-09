@@ -70,10 +70,7 @@ RSpec.describe 'news_items/index', type: :view do
   end
 
   context 'when filtering by collection' do
-    before do
-      assign :filter_collection, news_collections.first.id
-      assign :current_collection, news_collections.first
-    end
+    before { assign :filter_collection, news_collections.first }
 
     it { is_expected.to have_css 'ul#news-collection-filter li', count: 3 }
     it { is_expected.to have_css 'ul#news-collection-filter li a', count: 2 }
