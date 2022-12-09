@@ -4,6 +4,6 @@ class FindCommoditiesController < ApplicationController
   def show
     @no_shared_search = true
     @hero_story = News::Item.latest_for_home_page
-    @recent_stories = []
+    @recent_stories = News::Item.updates_page.slice(0, 3)
   end
 end

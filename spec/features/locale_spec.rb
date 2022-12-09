@@ -4,6 +4,7 @@ RSpec.describe 'Page banner' do
   subject { page }
 
   include_context 'with latest news stubbed'
+  include_context 'with news updates stubbed'
 
   context 'without locale prefix' do
     before { visit '/find_commodity' }

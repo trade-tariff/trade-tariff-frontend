@@ -125,8 +125,8 @@
           </ul>
         </div>
       </div>
-      <div class="govuk-grid-column-one-third">
-
+      <div class="govuk-grid-column-one-third" id="recent-news">
+        <%= render 'news_items/recent_news', news_items: @recent_stories %>
       </div>
     </div>
   </div>
