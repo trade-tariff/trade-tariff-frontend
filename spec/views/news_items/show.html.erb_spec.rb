@@ -22,6 +22,7 @@ RSpec.describe 'news_items/show', type: :view do
   it { is_expected.to have_css '.gem-c-metadata dl dt', text: /from/i }
   it { is_expected.to have_css '.gem-c-metadata dl dt', text: /published/i }
   it { is_expected.to have_css '.gem-c-metadata dl dd', count: 2 }
+  it { is_expected.to have_css '.gem-c-print-link button' }
 
   it { is_expected.not_to have_css '#contents' }
 

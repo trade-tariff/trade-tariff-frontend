@@ -30,10 +30,7 @@ nav.trail {
 	margin-bottom:1em;
 	border-bottom:black 1px solid;
 }
-article dd a {
-	margin-top:-1.5em;
-	display:block;
-}
+
 article dd ul a {
 	margin-top:0;
 }
@@ -593,4 +590,8 @@ li.open {
 
 .pagination {
   display: none;
+}
+
+.tariff-print-grid-column-full-width {
+  @extend .govuk-grid-column-full ;
 }

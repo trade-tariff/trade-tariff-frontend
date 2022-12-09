@@ -1,5 +1,5 @@
 <% unless cookies_policy.persisted? %>
-  <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on the Online Tariff">
+  <div class="govuk-cookie-banner govuk-!-display-none-print" data-nosnippet role="region" aria-label="Cookies on the Online Tariff">
     <div class="govuk-cookie-banner__message govuk-width-container">
 
     <div class="govuk-grid-row">
@@ -35,7 +35,7 @@
 <% end %>
 <% unless cookies[:cookies_preferences_set] %>
   <% if cookies_policy.usage? %>
-    <div class="govuk-cookie-banner " data-nosnippet role="region" aria-label="Cookies on the Online Tariff">
+    <div class="govuk-cookie-banner govuk-!-display-none-print" data-nosnippet role="region" aria-label="Cookies on the Online Tariff">
       <div class="govuk-cookie-banner__message govuk-width-container" id="cookies_accepted">
         <p>You have accepted additional cookies. You can <%= link_to "change your cookie
           settings", cookies_policy_path %> at any time.</p>
