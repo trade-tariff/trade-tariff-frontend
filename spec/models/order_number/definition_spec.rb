@@ -119,32 +119,6 @@ RSpec.describe OrderNumber::Definition do
     end
   end
 
-  describe '#within_first_twenty_days?' do
-    context 'with future definition' do
-      subject { build :definition, :future }
-
-      it { is_expected.not_to be_within_first_twenty_days }
-    end
-
-    context 'with historical definition' do
-      subject { build :definition, :historical }
-
-      it { is_expected.not_to be_within_first_twenty_days }
-    end
-
-    context 'with current definition within first twenty days' do
-      subject { build :definition, :current, validity_start_date: 10.days.ago.iso8601 }
-
-      it { is_expected.to be_within_first_twenty_days }
-    end
-
-    context 'with current definition started more than twenty days ago' do
-      subject { build :definition, :current, validity_start_date: 21.days.ago.iso8601 }
-
-      it { is_expected.not_to be_within_first_twenty_days }
-    end
-  end
-
   describe '#first_goods_nomenclature_short_code' do
     subject { definition.first_goods_nomenclature_short_code }
 

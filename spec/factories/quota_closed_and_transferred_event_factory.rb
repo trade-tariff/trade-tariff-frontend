@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :quota_closed_and_transferred_event, class: 'QuotaClosedAndTransferredEvent' do
-    transferred_amount { '54000.0' }
-    closing_date { '2021-12-31T00:00:00.000Z' }
-    id { '1' }
+    quota_definition { attributes_for(:definition) }
+    transferred_amount { Forgery(:basic).number }
+    closing_date { Date.current.iso8601 }
+    id { '1-2012-01-01' }
   end
 end
