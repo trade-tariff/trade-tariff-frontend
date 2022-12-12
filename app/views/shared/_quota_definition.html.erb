@@ -45,7 +45,15 @@
               <%= quota_definition.measurement_unit %>
             </td>
           </tr>
-          <% if quota_definition.within_first_twenty_days? && declarable_id %>
+          <% if quota_definition.incoming_quota_closed_and_transferred_event.present? %>
+          <tr class="govuk-table__row">
+            <th scope="col" class='govuk-table__header'>Transferred balance</th>
+            <td class="numerical govuk-table__cell numerical">
+              <span data-pending-balance-target="balance"></span>
+              This balance includes <%= number_with_precision quota_definition.incoming_quota_closed_and_transferred_event.presented_transferred_amount, precision: 3, delimiter: ',' %> <%= quota_definition.incoming_quota_closed_and_transferred_event.presented_balance_text %>
+            </td>
+          </tr>
+          <% elsif declarable_id %>
           <tr class="govuk-table__row hidden-pending-balance"
               data-controller="pending-balance"
               data-pending-balance-url-value="<%= pending_quota_balance_path(declarable_id, quota_definition.order_number.number) %>">

@@ -35,6 +35,8 @@ class OrderNumber
     has_one :order_number
     has_many :measures
 
+    has_one :incoming_quota_closed_and_transferred_event, class_name: 'QuotaClosedAndTransferredEvent'
+
     delegate :present?, to: :status
     delegate :warning_text, :show_warning?, to: :order_number, allow_nil: true
 
