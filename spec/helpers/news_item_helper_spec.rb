@@ -29,4 +29,12 @@ RSpec.describe NewsItemHelper, type: :helper do
 
     it { is_expected.to eq 'this-is-a-heading-with-punctuation' }
   end
+
+  describe '#news_feed_link_tag' do
+    subject { news_feed_link_tag }
+
+    it { is_expected.to have_css 'link[type="application/atom+xml"][rel="alternate"]' }
+    it { is_expected.to have_css 'link[title="Trade tariff news bulletin"]' }
+    it { is_expected.to have_css 'link[href="http://test.host/feed/news_items.xml"]' }
+  end
 end

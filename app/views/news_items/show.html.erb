@@ -1,3 +1,5 @@
+<%= content_for :head, news_feed_link_tag %>
+
 <% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs truncate(@news_item.title),
                            [ [t('breadcrumb.home'), home_path],
