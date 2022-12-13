@@ -1,11 +1,13 @@
-.facet-classifications {
-  list-style-type: "\2014 ";
-  margin: 0 0 0 2.2em;
-  margin-bottom: 0;
-  margin-top: 1;
-  padding: 0;
+.tariff-facet-classification {
+  &.govuk-accordion__section--expanded {
+    button.govuk-accordion__section-button {
+      @include govuk-responsive-padding(0, "bottom");
+    }
+  }
 
-  li { padding-left: 0.5em }
+  .govuk-accordion__section-content {
+    @include govuk-responsive-padding(0, "top");
+  }
 }
 
 .facet-classifications-tag {
