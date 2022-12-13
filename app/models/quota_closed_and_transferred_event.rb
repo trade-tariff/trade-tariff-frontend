@@ -23,18 +23,18 @@ class QuotaClosedAndTransferredEvent
   end
 
   def presented_quota_definition_validity_start_date
-    quota_definition_validity_start_date.to_date.to_formatted_s(:long)
+    quota_definition_validity_start_date&.to_date&.to_formatted_s(:long)
   end
 
   def presented_quota_definition_validity_end_date
-    quota_definition_validity_end_date.to_date.to_formatted_s(:long)
+    quota_definition_validity_end_date&.to_date&.to_formatted_s(:long)
   end
 
   def presented_target_quota_definition_validity_start_date
-    target_quota_definition_validity_start_date.to_date.to_formatted_s(:long)
+    target_quota_definition_validity_start_date&.to_date&.to_formatted_s(:long)
   end
 
   def presented_target_quota_definition_validity_end_date
-    target_quota_definition_validity_end_date.to_date.to_formatted_s(:long)
+    target_quota_definition_validity_end_date&.to_date&.to_formatted_s(:long)
   end
 end
