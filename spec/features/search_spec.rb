@@ -3,6 +3,7 @@ require 'spec_helper'
 RSpec.describe 'Search', js: true do
   context 'with find_commodity page' do
     include_context 'with latest news stubbed'
+    include_context 'with news updates stubbed'
 
     context 'when reaching the search page' do
       it 'renders the search container properly' do
@@ -41,7 +42,7 @@ RSpec.describe 'Search', js: true do
           page.find('#new_search .autocomplete__option:first-of-type').click
 
           # trying to see if redirect done by JS needs some sleep to be caught up
-          sleep 1
+          sleep 1.5
 
           expect(page).to have_content('Search results for ‘gold’')
         end
@@ -61,12 +62,10 @@ RSpec.describe 'Search', js: true do
 
           expect(page.find_all('#new_search .autocomplete__option').length).to eq(1)
           expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('dsauidoasuiodsa')
-          sleep 1
-
           page.find('#new_search .autocomplete__option:first-of-type').click
 
           # trying to see if redirect done by JS needs some sleep to be caught up
-          sleep 1
+          sleep 1.5
 
           expect(page).to have_content('Search results for ‘dsauidoasuiodsa’')
           expect(page).to have_content('There are no results matching your query.')

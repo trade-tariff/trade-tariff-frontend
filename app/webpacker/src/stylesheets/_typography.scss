@@ -30,4 +30,8 @@ blockquote {
   @extend .govuk-body-s ;
 
   color: $govuk-secondary-text-colour;
+
+  a, a:visited, a:hover {
+    color: $govuk-secondary-text-colour;
+  }
 }

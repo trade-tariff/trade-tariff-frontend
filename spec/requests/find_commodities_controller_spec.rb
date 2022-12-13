@@ -5,6 +5,7 @@ RSpec.describe FindCommoditiesController, type: :request do
 
   describe 'GET #show' do
     include_context 'with latest news stubbed'
+    include_context 'with news updates stubbed'
 
     before { get find_commodity_path }
 
