@@ -3,15 +3,38 @@ require 'api_entity'
 class QuotaClosedAndTransferredEvent
   include ApiEntity
 
-  attr_accessor :transferred_amount, :closing_date
-
-  has_one :quota_definition, class_name: 'OrderNumber::Definition'
+  attr_accessor :transferred_amount,
+                :closing_date,
+                :quota_definition_validity_start_date,
+                :quota_definition_validity_end_date,
+                :quota_definition_measurement_unit,
+                :target_quota_definition_validity_start_date,
+                :target_quota_definition_validity_end_date,
+                :target_quota_definition_measurement_unit
 
   def presented_balance_text
-    "#{definition.measurement_unit}, transferred from the previous quota period (#{definition.validity_start_date.to_date.to_formatted_s(:long)} to #{definition.validity_end_date.to_date.to_formatted_s(:long)}) on #{closing_date.to_date.to_formatted_s(:long)}."
+    "#{quota_definition_measurement_unit}, transferred from the previous quota period (#{presented_quota_definition_validity_start_date} to #{presented_quota_definition_validity_end_date}) on #{presented_closing_date}."
   end
 
-  def definition
-    quota_definition.presence || casted_by
+  private
+
+  def presented_closing_date
+    closing_date.to_date.to_formatted_s(:long)
+  end
+
+  def presented_quota_definition_validity_start_date
+    quota_definition_validity_start_date.to_date.to_formatted_s(:long)
+  end
+
+  def presented_quota_definition_validity_end_date
+    quota_definition_validity_end_date.to_date.to_formatted_s(:long)
+  end
+
+  def presented_target_quota_definition_validity_start_date
+    target_quota_definition_validity_start_date.to_date.to_formatted_s(:long)
+  end
+
+  def presented_target_quota_definition_validity_end_date
+    target_quota_definition_validity_end_date.to_date.to_formatted_s(:long)
   end
 end
