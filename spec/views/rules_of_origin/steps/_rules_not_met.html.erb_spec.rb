@@ -22,6 +22,7 @@ RSpec.describe 'rules_of_origin/steps/_rules_not_met', type: :view do
   it { is_expected.to have_css '#cumulation-section a' }
   it { is_expected.to have_css '#whats-next-section.panel--coloured strong' }
   it { is_expected.to have_css '#whats-next-section a', count: 2 }
+  it { is_expected.to have_link 'feedback' }
   it { is_expected.not_to have_css '#next-steps' }
 
   context 'without tolerances article' do

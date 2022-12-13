@@ -8,6 +8,7 @@ RSpec.describe 'rules_of_origin/steps/_origin_requirements_met', type: :view do
   it { is_expected.to have_css 'span.govuk-caption-xl', text: %r{(Im|Ex)porting.* #{wizardstore['commodity_code']}.*Japan.*UK} }
   it { is_expected.to have_css 'h1', text: /Product-specific rules met/i }
   it { is_expected.to have_css '.rules-of-origin-met-message', text: %r{#{schemes.first.title}} }
+  it { is_expected.to have_link 'feedback' }
   it { is_expected.to have_css '#next-steps a', count: 3 }
 
   context 'with duty drawback available' do
