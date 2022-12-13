@@ -10,4 +10,11 @@ module NewsItemHelper
            .tr(' ', '-')
            .downcase
   end
+
+  def news_feed_link_tag
+    tag.link type: 'application/atom+xml',
+             rel: 'alternate',
+             href: feed_news_items_url(format: :xml),
+             title: 'Trade tariff news bulletin'
+  end
 end
