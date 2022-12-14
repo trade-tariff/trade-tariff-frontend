@@ -35,6 +35,8 @@ class OrderNumber
     has_one :order_number
     has_many :measures
 
+    has_one :incoming_quota_closed_and_transferred_event, class_name: 'QuotaClosedAndTransferredEvent'
+
     delegate :present?, to: :status
     delegate :warning_text, :show_warning?, to: :order_number, allow_nil: true
 
@@ -59,10 +61,6 @@ class OrderNumber
 
     def blocking_period?
       blocking_period_start_date.present? && blocking_period_end_date.present?
-    end
-
-    def within_first_twenty_days?
-      Time.zone.now.between? validity_start_date, validity_start_date + 20.days
     end
 
     def first_goods_nomenclature_short_code

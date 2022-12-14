@@ -78,12 +78,6 @@ RSpec.describe PendingQuotaBalanceService do
         it { is_expected.to be_nil }
       end
 
-      context 'when outside of first twenty days' do
-        let(:start_date) { 30.days.ago }
-
-        it { is_expected.to be_nil }
-      end
-
       context 'without previous balance' do
         let :previous_commodity do
           build :commodity, goods_nomenclature_item_id: commodity.goods_nomenclature_item_id,

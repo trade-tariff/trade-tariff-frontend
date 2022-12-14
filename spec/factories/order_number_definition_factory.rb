@@ -35,5 +35,13 @@ FactoryBot.define do
       validity_start_date { 1.month.ago.iso8601 }
       validity_end_date { 2.months.from_now.iso8601 }
     end
+
+    trait :with_incoming_quota_closed_and_transferred_event do
+      incoming_quota_closed_and_transferred_event { attributes_for(:quota_closed_and_transferred_event) }
+    end
+
+    trait :without_incoming_quota_closed_and_transferred_event do
+      incoming_quota_closed_and_transferred_event {}
+    end
   end
 end
