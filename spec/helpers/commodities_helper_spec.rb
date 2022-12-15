@@ -182,4 +182,38 @@ RSpec.describe CommoditiesHelper, type: :helper do
       it { is_expected.to be_html_safe }
     end
   end
+
+  describe '#convert_text_to_links' do
+    subject { convert_text_to_links declarable_formatted_description }
+
+    context 'with blank formatted description' do
+      let(:declarable_formatted_description) { '' }
+
+      it { is_expected.to be_empty }
+    end
+
+    context 'with chapter in formatted description' do
+      let(:declarable_formatted_description) { ' Chapter 32 ' }
+
+      it { is_expected.to eql " <a href='http://test.host/chapters/32'>Chapter 32</a> " }
+    end
+
+    context 'with heading in formatted description' do
+      let(:declarable_formatted_description) { ' 1234 ' }
+
+      it { is_expected.to eql " <a href='http://test.host/search?q=1234'>1234</a> " }
+    end
+
+    context 'with 8 digit subheading in formatted description' do
+      let(:declarable_formatted_description) { ' 1234 11 22 ' }
+
+      it { is_expected.to eql " <a href='http://test.host/search?q=1234 11 22'>1234 11 22</a> " }
+    end
+
+    context 'with 6 digit subheading in formatted description' do
+      let(:declarable_formatted_description) { ' 1234 11 ' }
+
+      it { is_expected.to eql " <a href='http://test.host/search?q=1234 11'>1234 11</a> " }
+    end
+  end
 end

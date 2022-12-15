@@ -58,6 +58,15 @@ module CommoditiesHelper
     safe_join(duty_amounts, ' or ').presence || '&nbsp;'.html_safe
   end
 
+  def convert_text_to_links(text)
+    base_url = request.base_url
+
+    text.gsub(/\s(\d{4}\s\d{2}\s\d{2})/, " <a href='#{base_url}/search?q=\\1'>\\1</a>")
+    .gsub(/\s(\d{4}\s\d{2})/, " <a href='#{base_url}/search?q=\\1'>\\1</a>")
+    .gsub(/\s(\d{4})/, " <a href='#{base_url}/search?q=\\1'>\\1</a>")
+    .gsub(/(chapter)\s(\d{2})/i, "<a href='#{base_url}/chapters/\\2'>\\1 \\2</a>")
+  end
+
   private
 
   def chapter_and_heading_codes(code)

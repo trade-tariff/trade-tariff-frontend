@@ -13,7 +13,7 @@
       Classification
     </dt>
     <dd class="govuk-summary-list__value">
-      <%= sanitize declarable.formatted_description %>
+      <%= convert_text_to_links(sanitize declarable.formatted_description).html_safe %>
     </dd>
     <dd class="govuk-summary-list__actions"></dd>
   </div>
