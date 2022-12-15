@@ -184,7 +184,14 @@ RSpec.describe CommoditiesHelper, type: :helper do
   end
 
   describe '#convert_text_to_links' do
-    subject { convert_text_to_links declarable_formatted_description }
+    subject { helper.convert_text_to_links declarable_formatted_description }
+
+    before do
+      allow(helper).to receive(:url_options).and_return(country: 'IN',
+                                                        year: '2022',
+                                                        month: '12',
+                                                        day: '01')
+    end
 
     context 'with blank formatted description' do
       let(:declarable_formatted_description) { '' }
@@ -195,25 +202,25 @@ RSpec.describe CommoditiesHelper, type: :helper do
     context 'with chapter in formatted description' do
       let(:declarable_formatted_description) { ' Chapter 32 ' }
 
-      it { is_expected.to eql " <a href='http://test.host/chapters/32'>Chapter 32</a> " }
+      it { is_expected.to eql " <a href='/search?q=32&country=IN&day=01&month=12&year=2022'>Chapter 32</a> " }
     end
 
     context 'with heading in formatted description' do
       let(:declarable_formatted_description) { ' 1234 ' }
 
-      it { is_expected.to eql " <a href='http://test.host/search?q=1234'>1234</a> " }
+      it { is_expected.to eql " <a href='/search?q=1234&country=IN&day=01&month=12&year=2022'>1234</a> " }
     end
 
     context 'with 8 digit subheading in formatted description' do
       let(:declarable_formatted_description) { ' 1234 11 22 ' }
 
-      it { is_expected.to eql " <a href='http://test.host/search?q=1234 11 22'>1234 11 22</a> " }
+      it { is_expected.to eql " <a href='/search?q=12341122&country=IN&day=01&month=12&year=2022'>1234 11 22</a> " }
     end
 
     context 'with 6 digit subheading in formatted description' do
       let(:declarable_formatted_description) { ' 1234 11 ' }
 
-      it { is_expected.to eql " <a href='http://test.host/search?q=1234 11'>1234 11</a> " }
+      it { is_expected.to eql " <a href='/search?q=123411&country=IN&day=01&month=12&year=2022'>1234 11</a> " }
     end
   end
 end
