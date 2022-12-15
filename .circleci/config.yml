@@ -46,11 +46,27 @@ commands:
           name: "Verify new version is working on dark URL."
           command: |
             sleep 15
-            # Verify new version is working on dark URL.
+
+            # Verify healthcheck endpoint on new app
             HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://$CF_APP-<< parameters.environment_key >>-dark.london.cloudapps.digital/healthcheck`
 
             if [ "$HTTPCODE" -ne 200 ];then
               echo "dark route not available, failing deploy ($HTTPCODE)"
+              cf logs "$CF_APP-<< parameters.environment_key >>-dark" --recent
+              cf delete -f  "$CF_APP-<< parameters.environment_key >>-dark"
+              exit 1
+            fi
+
+            if [ "<< parameters.space >>" == "development" ] && [ "${CYPRESS_DEVELOPMENT_BASIC_AUTH}" == "true" ]; then
+              BASIC_AUTH="-u ${CYPRESS_DEVELOPMENT_BASIC_USERNAME}:${CYPRESS_DEVELOPMENT_BASIC_PASSWORD}"
+            elif [ "<< parameters.space >>" == "staging" ] && [ "${CYPRESS_STAGING_BASIC_AUTH}" == "true" ]; then
+              BASIC_AUTH="-u ${CYPRESS_STAGING_BASIC_USERNAME}:${CYPRESS_STAGING_BASIC_PASSWORD}"
+            fi
+
+            HTTPCODE=`curl -s -o /dev/null ${BASIC_AUTH} -w "%{http_code}" https://$CF_APP-<< parameters.environment_key >>-dark.london.cloudapps.digital/find_commodity`
+
+            if [ "$HTTPCODE" -ne 200 ];then
+              echo "dark app home page not available, failing deploy ($HTTPCODE)"
               cf logs "$CF_APP-<< parameters.environment_key >>-dark" --recent
               cf delete -f  "$CF_APP-<< parameters.environment_key >>-dark"
               exit 1
