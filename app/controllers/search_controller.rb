@@ -197,7 +197,7 @@ class SearchController < ApplicationController
   end
 
   def anchor
-    params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_\-]/, '').presence
+    params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_-]/, '').presence
   end
 
   def missing_search_query_fallback_url
