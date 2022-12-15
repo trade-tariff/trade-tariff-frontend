@@ -45,3 +45,12 @@ ol.numbered-then-lettered-list {
     padding-left: 2em;
   }
 }
+
+.tariff-list--hyphen {
+  padding-left: govuk-spacing(2);
+
+  li {
+    list-style-type: "-";
+    padding-left: govuk-spacing(3);
+  }
+}

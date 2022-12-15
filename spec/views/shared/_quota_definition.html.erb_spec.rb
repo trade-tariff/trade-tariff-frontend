@@ -3,7 +3,10 @@ require 'spec_helper'
 RSpec.describe 'shared/_quota_definition', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
-  before { assign :search, Search.new }
+  before do
+    assign :search, Search.new
+    allow(view).to receive(:declarable_id)
+  end
 
   let :render_page do
     render 'shared/quota_definition', order_number:, quota_definition:
@@ -48,5 +51,17 @@ RSpec.describe 'shared/_quota_definition', type: :view do
 
     it { is_expected.to have_css 'th', text: 'Suspension period' }
     it { is_expected.to have_css 'th', text: 'Blocking period' }
+  end
+
+  context 'when there is a QuotaClosedAndTransferredEvent returned for the definition' do
+    let(:quota_definition) { build(:definition, :with_incoming_quota_closed_and_transferred_event) }
+
+    it { is_expected.to have_css '#transferred-balance', text: 'Transferred balance' }
+  end
+
+  context 'when there is not a QuotaClosedAndTransferredEvent returned for the definition' do
+    let(:definition) { build(:definition, :without_incoming_quota_closed_and_transferred_event) }
+
+    it { is_expected.not_to have_css '#transferred-balance', text: 'Transferred balance' }
   end
 end

@@ -1,24 +1,119 @@
-<%= page_header 'Latest news' %>
+<%= content_for :head, news_feed_link_tag %>
 
 <% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs truncate(@news_item.title),
                            [ [t('breadcrumb.home'), home_path],
-                             [t('breadcrumb.news'), news_items_path] ] %>
+                             [t('breadcrumb.news'), news_items_path],
+                             [@news_collection.name,
+                              news_collection_path(@news_collection)], ] %>
 <% end %>
 
-<article class="news-item">
-  <h2 class="govuk-heading-m">
-    <%= @news_item.title %>
-  </h2>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds tariff-print-grid-column-full-width">
+    <%= page_header @news_item.title %>
 
-  <h3 class="govuk-heading-s">
-    Published on <%= @news_item.start_date.to_formatted_s :long %>
-  </h3>
-
-  <div class="tariff-markdown">
-    <%= format_news_item_content @news_item.precis if @news_item.precis.present? %>
-
-    <%= format_news_item_content @news_item.content %>
+    <% if @news_item.precis_with_fallback.present? %>
+    <div class="tariff-markdown tariff-markdown--with-all-lead-paragraph">
+      <%= format_news_item_content @news_item.precis_with_fallback %>
+    </div>
+    <% end %>
   </div>
-</article>
+</div>
 
+<div class="govuk-grid-row news-item-grid">
+  <div class="govuk-grid-column-two-thirds tariff-print-grid-column-full-width">
+    <article class="news-item">
+      <div class="gem-c-metadata">
+        <dl>
+          <dt class="gem-c-metadata__term">From:</dt>
+          <dd class="gem-c-metadata__definition">
+            <%= link_to 'HM Revenue & Customs',
+                        'https://www.gov.uk/government/organisations/hm-revenue-customs' %>
+          </dd>
+
+          <dt class="gem-c-metadata__term">Published</dt>
+          <dd class="gem-c-metadata__definition">
+            <%= @news_item.start_date.to_formatted_s :long %>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="gem-c-print-link govuk-!-display-none-print govuk-!-margin-bottom-6">
+        <button onclick="javascript:window.print()"
+                class="govuk-link govuk-body-s gem-c-print-link__button"
+                data-module="print-link"
+                data-print-link-module-started="true">
+          Print this page
+        </button>
+      </div>
+
+      <% if @news_item.subheadings.any? %>
+      <div id="contents">
+        <h2 class="gem-c-contents-list__title">Contents</h2>
+
+        <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
+          <% @news_item.subheadings.each do |subheading| %>
+            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
+              <%= link_to subheading,
+                          "##{markdown_heading_id subheading}",
+                          class: 'gem-c-contents-list__link govuk-link--no-underline' %>
+            </li>
+          <% end %>
+        </ol>
+      </div>
+      <% end %>
+
+      <div class="news-item__content tariff-markdown">
+        <%= format_news_item_content @news_item.content_without_precis %>
+      </div>
+
+      <p>
+        <%= link_to t('navigation.back_to_top'), '#content', class: 'govuk-!-display-none-print' %>
+      </p>
+
+      <% if @news_collection.description.present? %>
+        <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-bottom-2" />
+
+        <div class="tariff-markdown">
+          <%= format_news_item_content @news_collection.description %>
+        </div>
+      <% end %>
+
+      <div class="gem-c-print-link govuk-!-display-none-print govuk-!-margin-bottom-6">
+        <button onclick="javascript:window.print()"
+                class="govuk-link govuk-body-s gem-c-print-link__button"
+                data-module="print-link"
+                data-print-link-module-started="true">
+          Print this page
+        </button>
+      </div>
+    </article>
+  </div>
+
+  <div class="govuk-grid-column-one-third news-item__sidebar govuk-!-display-none-print">
+    <div class="gem-c-related-navigation">
+      <h3 class="gem-c-related-navigation__main-heading">
+        Latest content from this collection
+      </h3>
+
+      <ul class="govuk-list govuk-!-margin-bottom-6">
+        <% @collection_items.each do |collection_item| %>
+          <li class="govuk-!-padding-top-2">
+            <%= link_to collection_item.title, collection_item %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+
+    <h3 class="govuk-heading-s">
+      Collection
+    </h3>
+
+    <p>
+      <%= link_to @news_collection.name,
+                  news_collection_path(collection_id: @news_collection) %>
+    <p>
+  </div>
+</div>

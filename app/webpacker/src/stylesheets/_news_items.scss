@@ -1,33 +1,3 @@
-.news-items {
-  .news-item {
-    @include govuk-responsive-margin(4, "bottom");
-    @include govuk-responsive-padding(4, "bottom");
-  }
-
-  @include govuk-media-query($until: tablet) {
-    .news-item {
-      border-bottom: 1px solid $govuk-border-colour;
-    }
-  }
-
-  @include govuk-media-query($from: tablet) {
-    .news-item {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: space-evenly;
-      align-content: space-around;
-    }
-
-    .news-item__date {
-      width: 20% ;
-    }
-
-    .news-item__content {
-      width: 80% ;
-    }
-  }
-}
-
 /* for use on home page */
 .latest-news-banner {
   .govuk-notification-banner__content {
@@ -39,4 +9,10 @@
       }
     }
   }
+}
+
+/* Fix for headings in sidebar on mobile */
+.news-item__sidebar .gem-c-related-navigation__main-heading {
+  @include govuk-font($size: 19, $weight: bold);
+  @include govuk-responsive-margin(2, "bottom");
 }

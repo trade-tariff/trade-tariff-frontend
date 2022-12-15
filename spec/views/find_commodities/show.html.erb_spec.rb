@@ -3,7 +3,10 @@ require 'spec_helper'
 RSpec.describe 'find_commodities/show', type: :view do
   subject { render }
 
-  before { assign :search, search }
+  before do
+    assign :search, search
+    assign :recent_stories, build_list(:news_item, 3)
+  end
 
   let(:search_date) { Time.zone.today }
   let(:q) { nil }
@@ -35,9 +38,9 @@ RSpec.describe 'find_commodities/show', type: :view do
     end
   end
 
-  describe 'latest news' do
+  describe 'hero story' do
     context 'when published for home page' do
-      before { assign :latest_news, build(:news_item) }
+      before { assign :hero_story, build(:news_item) }
 
       it { is_expected.to have_css '.latest-news-banner', count: 1 }
     end
@@ -45,5 +48,9 @@ RSpec.describe 'find_commodities/show', type: :view do
     context 'when not published for home page' do
       it { is_expected.not_to have_css '.latest-news-banner' }
     end
+  end
+
+  describe 'recent news stories' do
+    it { is_expected.to have_css 'h3', text: 'Latest news' }
   end
 end

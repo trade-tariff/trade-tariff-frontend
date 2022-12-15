@@ -36,7 +36,7 @@ module ServiceHelper
   def switch_service_link
     return link_to(t('service_banner.service_name.xi'), "/xi#{current_path}") if uk_service_choice?
 
-    link_to(t('service_banner.service_name.uk'), current_path)
+    link_to(t('service_banner.service_name.uk'), current_path, class: 'govuk-!-display-none-print')
   end
 
   def switch_service_button
@@ -46,7 +46,7 @@ module ServiceHelper
                    [t('service_banner.service_name.uk'), current_path]
                  end
 
-    tag.span class: 'switch-service-control' do
+    tag.span class: %w[switch-service-control govuk-!-display-none-print] do
       safe_join [
         tag.span(class: 'arrow'),
         link_to("Switch to the #{copy}", link, class: 'govuk-link--no-underline'),

@@ -25,3 +25,13 @@ blockquote {
   margin-right: 0;
   background-color: govuk-colour("light-grey");
 }
+
+.tariff-body-subtext {
+  @extend .govuk-body-s ;
+
+  color: $govuk-secondary-text-colour;
+
+  a, a:visited, a:hover {
+    color: $govuk-secondary-text-colour;
+  }
+}

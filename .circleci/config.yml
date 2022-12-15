@@ -2,8 +2,8 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
-  ruby: circleci/ruby@1
-  node: circleci/node@4.7.0
+  ruby: circleci/ruby@2
+  node: circleci/node@5
   browser-tools: circleci/browser-tools@1.1
   cloudfoundry: circleci/cloudfoundry@1.0
   slack: circleci/slack@4.3.0
@@ -314,7 +314,7 @@ commands:
 jobs:
   checks:
     docker:
-      - image: "cimg/ruby:3.1.2-node"
+      - image: "cimg/ruby:3.1.3-node"
     resource_class: small
     steps:
       - checkout
@@ -343,7 +343,7 @@ jobs:
         default: false
         type: boolean
     docker:
-      - image: cimg/ruby:3.1.2-node
+      - image: cimg/ruby:3.1.3-node
     steps:
       - checkout
       - setup_remote_docker:
@@ -400,11 +400,12 @@ jobs:
   test:
     parallelism: 4
     docker:
-      - image: cimg/ruby:3.1.2-node
+      - image: cimg/ruby:3.1.3-node
         environment:
           BUNDLE_JOBS: "3"
           BUNDLE_RETRY: "3"
           RAILS_ENV: test
+          NODE_OPTIONS: --openssl-legacy-provider
     resource_class: medium
     steps:
       - browser-tools/install-browser-tools
@@ -422,7 +423,7 @@ jobs:
 
   deploy_dev:
     docker:
-      - image: cimg/ruby:3.1.2
+      - image: cimg/ruby:3.1.3
     environment:
       SENTRY_ENVIRONMENT: "development"
     steps:
@@ -439,7 +440,7 @@ jobs:
 
   deploy_review:
     docker:
-      - image: cimg/ruby:3.1.2
+      - image: cimg/ruby:3.1.3
     environment:
       SENTRY_ENVIRONMENT: "development"
     steps:
@@ -451,7 +452,7 @@ jobs:
 
   purge_reviews:
     docker:
-      - image: cimg/ruby:3.1.2
+      - image: cimg/ruby:3.1.3
     environment:
       SENTRY_ENVIRONMENT: "development"
     steps:
@@ -459,7 +460,7 @@ jobs:
 
   deploy_main_to_staging:
     docker:
-      - image: cimg/ruby:3.1.2-node
+      - image: cimg/ruby:3.1.3-node
     environment:
       SENTRY_ENVIRONMENT: "staging"
     steps:
@@ -475,7 +476,7 @@ jobs:
 
   deploy_release_to_staging:
     docker:
-      - image: cimg/ruby:3.1.2-node
+      - image: cimg/ruby:3.1.3-node
     steps:
       - cf_deploy_docker:
           docker_image_tag: $CIRCLE_TAG
@@ -485,7 +486,7 @@ jobs:
 
   deploy_production:
     docker:
-      - image: cimg/ruby:3.1.2-node
+      - image: cimg/ruby:3.1.3-node
     environment:
       SENTRY_ENVIRONMENT: "production"
     steps:

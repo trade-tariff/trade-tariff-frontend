@@ -1,38 +1,90 @@
-<%= page_header 'Latest news' %>
+<%= content_for :head, news_feed_link_tag %>
+
+<%= page_header do %>
+  <h1 class="govuk-heading-xl">
+    Trade tariff news bulletin
+  </h1>
+<% end %>
 
 <% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs t('breadcrumb.news'), [[t('breadcrumb.home'), home_path]] %>
 <% end %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-  <% @news_items.each do |news_item| %>
-    <article class="news-item govuk-grid-row" data-news-item-id="<%= news_item.id %>">
-      <div class="news-item__date govuk-body-m govuk-grid-column-one-quarter">
-        <%= news_item.start_date.to_formatted_s :short %>
-      </div>
+  <div class="govuk-grid-column-one-quarter" id="news-filters">
+    <h3 class="govuk-heading-s">
+      Filter by year
+    </h3>
 
-      <div class="news-item__content govuk-grid-column-three-quarters">
+    <ul class="govuk-list tariff-list--hyphen" id="news-year-filter">
+      <li>
+        <%= @filter_year ? link_to('All years', year: nil, page: nil) : 'All years' %>
+      </li>
+      <% @news_years.each do |news_year| %>
+      <li>
+        <% if @filter_year == news_year.year %>
+          <%= news_year.year %>
+        <% else %>
+          <%= link_to news_year.year, news_index_params.merge(year: news_year.year, page: nil) %>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
+
+    <h3 class="govuk-heading-s">
+      Filter by collection
+    </h3>
+
+    <ul class="govuk-list tariff-list--hyphen" id="news-collection-filter">
+      <li>
+        <%= @filter_collection ? link_to('All collections', collection_id: nil, page: nil) : 'All collections' %>
+      </li>
+      <% @news_collections.each do |collection| %>
+      <li>
+        <% if collection.id == @filter_collection&.id %>
+          <%= collection.name %>
+        <% else %>
+          <%= link_to collection.name, news_index_params.merge(collection_id: collection, page: nil) %>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="govuk-grid-column-three-quarters news-items">
+    <h2 class="govuk-heading-l">
+      <%= @filter_collection&.name || 'All collections' %>
+    </h2>
+
+    <% @news_items.each do |news_item| %>
+      <article class="news-item" data-news-item-id="<%= news_item.id %>">
         <h2 class="govuk-heading-s">
-          <%= news_item.title %>
+          <%= link_to news_item.title, news_item %>
         </h2>
 
-        <div class="tariff-markdown">
+        <div class="tariff-markdown tariff-markdown--reduced-trailing-margin">
           <%= format_news_item_content news_item.precis_with_fallback %>
         </div>
 
-        <%= link_to 'Show more ...', news_item if news_item.content_after_precis? %>
-      </div>
-    </article>
-  <% end %>
+        <p class="tariff-body-subtext">
+          <%= news_item.start_date.to_formatted_s :short %>
+          <% news_item.collections.each do |collection| %>
+            | <%= collection.name %>
+          <% end %>
+        </p>
 
-  <% if @news_items.empty? %>
-    <div class="govuk-inset-text">
-      <p>
-        <em>There are no updates at present</em>
-      </p>
-    </div>
-  <% end %>
-</div>
-  <%= render 'feed' %>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+      </article>
+    <% end %>
+
+    <% if @news_items.any? %>
+      <%= paginate @news_items %>
+    <% else %>
+      <div class="govuk-inset-text">
+        <p>
+          <em>There are no updates at present</em>
+        </p>
+      </div>
+    <% end %>
+  </div>
 </div>
