@@ -59,12 +59,16 @@ module CommoditiesHelper
   end
 
   def convert_text_to_links(text)
-    query = url_options.slice(:year, :month, :day, :country).to_query
-
     text.gsub(/\s(\d{4})\s(\d{2})\s(\d{2})/, " <a href='/search?q=\\1\\2\\3&#{query}'>\\1 \\2 \\3</a>")
         .gsub(/\s(\d{4})\s(\d{2})/, " <a href='/search?q=\\1\\2&#{query}'>\\1 \\2</a>")
         .gsub(/\s(\d{4})/, " <a href='/search?q=\\1&#{query}'>\\1</a>")
         .gsub(/(chapter)\s(\d{2})/i, "<a href='/search?q=\\2&#{query}'>\\1 \\2</a>")
+  end
+
+  def query
+    applicable_query_params = url_options.slice(:year, :month, :day, :country)
+
+    applicable_query_params.any? ? "&#{applicable_query_params.to_query}" : ''
   end
 
   private

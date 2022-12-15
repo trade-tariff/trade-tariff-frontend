@@ -223,4 +223,31 @@ RSpec.describe CommoditiesHelper, type: :helper do
       it { is_expected.to eql " <a href='/search?q=123411&country=IN&day=01&month=12&year=2022'>1234 11</a> " }
     end
   end
+
+  describe '#query' do
+    subject(:query) { helper.query }
+
+    before do
+      allow(helper).to receive(:url_options).and_return(url_options)
+    end
+
+    context 'when there are no applicable query params' do
+      let(:url_options) { {} }
+
+      it { is_expected.to eq('') }
+    end
+
+    context 'when there are applicable query params' do
+      let(:url_options) do
+        {
+          country: 'IN',
+          year: '2022',
+          month: '12',
+          day: '01',
+        }
+      end
+
+      it { is_expected.to eq('&country=IN&day=01&month=12&year=2022') }
+    end
+  end
 end
