@@ -1,4 +1,4 @@
-<div class="govuk-grid-row">
+<div id="search-result-with-hits" class="govuk-grid-row">
   <% if @search_result.facet_filter_statistics.any? %>
     <div class="govuk-grid-column-one-third">
       <%= render 'beta/search_results/sidebar', guide: @search_result.guide %>
