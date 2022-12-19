@@ -6,6 +6,8 @@ RSpec.describe PendingQuotaBalanceService do
       described_class.new(commodity.short_code, '1010', Time.zone.today).call
     end
 
+    let(:start_date) { 5.days.ago }
+
     let :current_definition do
       attributes_for :definition,
                      balance: '1000.0',
@@ -190,7 +192,6 @@ RSpec.describe PendingQuotaBalanceService do
     context 'with no import measures' do
       subject { described_class.new(heading.short_code, '1010', Time.zone.today).call }
 
-      let(:start_date) { Date.current }
       let(:heading) { build :heading }
 
       before do
