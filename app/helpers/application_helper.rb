@@ -166,4 +166,11 @@ module ApplicationHelper
       end
     end
   end
+
+  def duty_calculator_url(dc_path)
+    dc_base_url = ENV.fetch('DUTY_CALCULATOR_BASE_URL', '/duty-calculator')
+    normalised_dc_path = dc_path.gsub(/\A\//, '')
+
+    "#{dc_base_url}/#{normalised_dc_path}"
+  end
 end

@@ -431,4 +431,30 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to eql 'Some ([RVC](/glossary/rvc)) content ([MaxNOM](/glossary/max_nom))' }
     end
   end
+
+  describe '#duty_calculator_url' do
+    context 'with default' do
+      subject { duty_calculator_url '/some/test?path=1' }
+
+      it { is_expected.to eq '/duty-calculator/some/test?path=1' }
+    end
+
+    context 'with override' do
+      subject { duty_calculator_url '/some/test?path=1' }
+
+      before do
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('/some/test?path=1')
+                                     .and_return 'http://localhost:3002'
+      end
+
+      it { is_expected.to eq '/duty-calculator/some/test?path=1' }
+    end
+
+    context 'without leading slash' do
+      subject { duty_calculator_url 'some/test?path=1' }
+
+      it { is_expected.to eq '/duty-calculator/some/test?path=1' }
+    end
+  end
 end
