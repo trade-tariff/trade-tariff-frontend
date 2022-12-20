@@ -1,4 +1,7 @@
 class PendingQuotaBalanceService
+  QUOTA_FIRST_QUARTER_DAY = 1
+  QUOTA_FIRST_QUARTER_MONTH = 7
+
   attr_reader :declarable_id,
               :quota_order_number_id,
               :chosen_period,
@@ -42,7 +45,7 @@ private
   end
 
   def pending_balance
-    if declarable.import_measures.any? && declarable.has_safeguard_measure?
+    if show_pending_balances?
       begin
         previous_period_definition&.balance
       rescue Faraday::ResourceNotFound
@@ -53,5 +56,26 @@ private
 
   def previous_period
     (definition.validity_start_date - 1.day).to_date
+  end
+
+  def show_pending_balances?
+    declarable.import_measures.any? && declarable.has_safeguard_measure? && not_current_definition_first_quarter?
+  end
+
+  def not_current_definition_first_quarter?
+    !current_definition_first_quarter?
+  end
+
+  def current_definition_first_quarter?
+    current_definition_start_day == QUOTA_FIRST_QUARTER_DAY &&
+      current_definition_start_month == QUOTA_FIRST_QUARTER_MONTH
+  end
+
+  def current_definition_start_day
+    definition.validity_start_date.to_date.day
+  end
+
+  def current_definition_start_month
+    definition.validity_start_date.to_date.month
   end
 end

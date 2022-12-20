@@ -5,16 +5,16 @@ RSpec.describe ImageGuidesHelper, type: :helper do
     before { allow(Sentry).to receive(:capture_message).and_return(true) }
 
     context 'when image for the guides does exist' do
-      subject(:rendered) { helper.image_for_guide('audio.png') }
+      subject(:rendered) { helper.image_for_guide('rice.png') }
 
       it 'includes the relevant image' do
         expect(rendered).to \
-          have_css('img.image-guide[src*="media/images/guides/audio"]')
+          have_css('img.image-guide[src*="media/images/guides/rice"]')
       end
     end
 
     context 'with alt text' do
-      subject(:rendered) { helper.image_for_guide('audio.png', alt: 'alt text') }
+      subject(:rendered) { helper.image_for_guide('rice.png', alt: 'alt text') }
 
       it 'includes the alt text' do
         expect(rendered).to have_css('img.image-guide[alt="alt text"]')

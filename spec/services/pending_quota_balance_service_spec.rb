@@ -58,7 +58,27 @@ RSpec.describe PendingQuotaBalanceService do
               ]
       end
 
-      context 'with safeguard measure and inside first twenty days' do
+      context 'with the definition in the quotas first quarter' do
+        let(:start_date) { Date.current.change(day: 1, month: 7) }
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'with the definition in the quotas second quarter' do
+        let(:start_date) { Date.current.change(day: 1, month: 9) }
+
+        it { is_expected.to eq previous_definition[:balance] }
+      end
+
+      context 'with the definition in the quotas third quarter' do
+        let(:start_date) { Date.current.change(day: 1, month: 1) }
+
+        it { is_expected.to eq previous_definition[:balance] }
+      end
+
+      context 'with the definition in the quotas fourth quarter' do
+        let(:start_date) { Date.current.change(day: 1, month: 4) }
+
         it { is_expected.to eq previous_definition[:balance] }
       end
 
@@ -144,19 +164,39 @@ RSpec.describe PendingQuotaBalanceService do
               ]
       end
 
-      it { is_expected.to eq previous_definition[:balance] }
+      context 'with the definition in the quotas first quarter' do
+        let(:start_date) { Date.current.change(day: 1, month: 7) }
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'with the definition in the quotas second quarter' do
+        let(:start_date) { Date.current.change(day: 1, month: 9) }
+
+        it { is_expected.to eq previous_definition[:balance] }
+      end
+
+      context 'with the definition in the quotas third quarter' do
+        let(:start_date) { Date.current.change(day: 1, month: 1) }
+
+        it { is_expected.to eq previous_definition[:balance] }
+      end
+
+      context 'with the definition in the quotas fourth quarter' do
+        let(:start_date) { Date.current.change(day: 1, month: 4) }
+
+        it { is_expected.to eq previous_definition[:balance] }
+      end
     end
 
     context 'with no import measures' do
       subject { described_class.new(heading.short_code, '1010', Time.zone.today).call }
 
+      let(:heading) { build :heading }
+
       before do
         allow(Heading).to receive(:find).with(heading.short_code, as_of: Time.zone.today)
                                         .and_return heading
-      end
-
-      let :heading do
-        build :heading
       end
 
       it { is_expected.to be nil }
