@@ -197,7 +197,7 @@ class SearchController < ApplicationController
   end
 
   def anchor
-    params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_\-]/, '').presence
+    params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_-]/, '').presence
   end
 
   def missing_search_query_fallback_url
@@ -242,6 +242,6 @@ class SearchController < ApplicationController
   end
 
   def beta_redirect_path
-    "#{@search_result.redirect_to}?#{url_options.slice(:year, :month, :day).to_query}"
+    "#{@search_result.redirect_to}?#{url_options.slice(:year, :month, :day, :country).to_query}"
   end
 end

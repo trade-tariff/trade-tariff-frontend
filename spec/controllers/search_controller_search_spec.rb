@@ -29,11 +29,11 @@ RSpec.describe SearchController, type: :controller do
       end
 
       context 'when redirected' do
-        let(:params) { { q: '0101', year: '2022', month: '11', day: '1' } }
+        let(:params) { { q: '0101', year: '2022', month: '11', day: '1', country: 'IN' } }
 
         let(:search_result) { build(:search_result, :redirect) }
 
-        it { is_expected.to redirect_to(heading_path('0101', year: '2022', month: '11', day: '1')) }
+        it { is_expected.to redirect_to(heading_path('0101', year: '2022', month: '11', day: '1', country: 'IN')) }
       end
     end
   end
