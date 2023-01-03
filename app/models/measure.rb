@@ -94,6 +94,10 @@ class Measure
     grouped_measure_types[:vat_and_excise].include?(measure_type.id)
   end
 
+  def suspension?
+    grouped_measure_types[:suspension].include?(measure_type.id)
+  end
+
   def excluded?
     grouped_measure_types[:excluded].include?(measure_type.id)
   end

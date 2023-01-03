@@ -28,6 +28,12 @@
   </li>
 <% end %>
 
+<% if uk_import_measures.suspensions.present? %>
+  <li class="govuk-!-margin-bottom-2">
+    <%= link_to('Suspensions', '#suspensions', class: 'govuk-link') %>
+  </li>
+<% end %>
+
 <!-- VAT & EXCISE -->
 <% if uk_import_measures.vat_excise.present? %>
   <li class="govuk-!-margin-bottom-2">

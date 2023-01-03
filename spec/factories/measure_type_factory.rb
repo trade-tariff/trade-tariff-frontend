@@ -16,6 +16,10 @@ FactoryBot.define do
       id { '305' }
     end
 
+    trait :suspension do
+      id { '112' }
+    end
+
     trait :import_controls do
       id { '277' }
     end
