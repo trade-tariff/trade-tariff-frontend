@@ -16,6 +16,8 @@ class ErrorsController < ApplicationController
   end
 
   def internal_server_error
+    @skip_news_banner = true
+
     respond_to do |format|
       format.html { render status: :internal_server_error }
       format.json { render json: { error: 'Internal server error' }, status: :internal_server_error }
@@ -24,6 +26,8 @@ class ErrorsController < ApplicationController
   end
 
   def maintenance
+    @skip_news_banner = true
+
     respond_to do |format|
       format.html { render status: :service_unavailable }
       format.json { render json: { error: 'Maintenance mode' }, status: :service_unavailable }

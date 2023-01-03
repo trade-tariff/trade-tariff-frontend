@@ -37,6 +37,17 @@ RSpec.describe 'Maintenance mode' do
 
       it_behaves_like 'service unavailable'
     end
+
+    context 'with broken news banner' do
+      before do
+        allow(News::Item).to \
+          receive(:latest_banner).and_raise(StandardError, 'Something went wrong')
+
+        visit '/503'
+      end
+
+      it_behaves_like 'service unavailable'
+    end
   end
 
   describe 'visiting a page whilst maintenance mode is enabled' do
