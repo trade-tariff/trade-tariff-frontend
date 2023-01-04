@@ -60,6 +60,12 @@ FactoryBot.define do
       end
     end
 
+    trait :suspension do
+      measure_type do
+        attributes_for(:measure_type, :suspension, description: measure_type_description)
+      end
+    end
+
     trait :trade_remedies do
       measure_type do
         attributes_for(:measure_type, :trade_remedies, description: measure_type_description)

@@ -21,6 +21,15 @@
   %>
 <% end %>
 
+<% if xi_import_measures.suspensions.present? %>
+  <%= render partial: 'measures/grouped/table', locals: {
+    caption: 'Suspensions',
+    collection: xi_import_measures.suspensions.sort_by(&:key),
+    css_id: 'suspensions',
+    declarable: xi_declarable }
+  %>
+<% end %>
+
 <!-- VAT & EXCISE -->
 <% if uk_import_measures&.vat_excise.present? %>
   <%= render partial: 'measures/grouped/table', locals: {

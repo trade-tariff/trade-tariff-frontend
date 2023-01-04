@@ -17,6 +17,10 @@ class MeasureCollection < SimpleDelegator
     new(reject(&:excluded?))
   end
 
+  def suspensions
+    new(select(&:suspension?))
+  end
+
   def vat_excise
     new(select(&:vat_excise?))
   end

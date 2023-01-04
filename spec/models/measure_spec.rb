@@ -44,6 +44,24 @@ RSpec.describe Measure do
     end
   end
 
+  describe '#suspension?' do
+    subject(:measure) { build(:measure, measure_type:) }
+
+    let(:measure_type) { attributes_for(:measure_type, id: measure_type_id) }
+
+    context 'when the measure is a suspension measure' do
+      let(:measure_type_id) { '112' }
+
+      it { is_expected.to be_suspension }
+    end
+
+    context 'when the measure is not a suspension measure' do
+      let(:measure_type_id) { '105' }
+
+      it { is_expected.not_to be_suspension }
+    end
+  end
+
   describe '#excise?' do
     context 'when the measure is an excise measure' do
       subject(:measure) { build(:measure, :excise) }

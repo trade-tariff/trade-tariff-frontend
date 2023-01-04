@@ -88,6 +88,15 @@ RSpec.describe MeasureCollection do
     it { expect(collection.vat_excise.measures).to eq([vat_excise_measure]) }
   end
 
+  describe '#suspension' do
+    subject(:collection) { described_class.new([suspension_measure, measure]) }
+
+    let(:suspension_measure) { build(:measure, :suspension) }
+    let(:measure) { build(:measure) }
+
+    it { expect(collection.suspensions.measures).to eq([suspension_measure]) }
+  end
+
   describe '#import_controls' do
     subject(:collection) { described_class.new([unclassified_import_control_measure, import_control_measure, measure]) }
 
