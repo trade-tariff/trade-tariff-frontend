@@ -104,7 +104,7 @@ RSpec.describe ServiceHelper, type: :helper do
   describe '#switch_service_link' do
     subject(:link) { helper.switch_service_link }
 
-    before { allow(helper).to receive(:current_path).and_return '/some_path' }
+    before { allow(request).to receive(:path).and_return '/some_path' }
 
     context 'when the selected service choice is uk' do
       include_context 'with UK service'
@@ -121,12 +121,23 @@ RSpec.describe ServiceHelper, type: :helper do
         expect(link).to have_link 'UK Integrated Online Tariff', href: '/some_path'
       end
     end
+
+    context 'with url parts including service name' do
+      subject(:link) { helper.switch_service_link }
+
+      before { allow(request).to receive(:path).and_return '/some_path/uk-part' }
+
+      it 'switches correctly' do
+        expect(link).to have_link 'Northern Ireland Online Tariff',
+                                  href: '/xi/some_path/uk-part'
+      end
+    end
   end
 
   describe '#switch_service_button' do
     subject { helper.switch_service_button }
 
-    before { allow(helper).to receive(:current_path).and_return '/some_path' }
+    before { allow(request).to receive(:path).and_return '/some_path' }
 
     context 'with UK service' do
       include_context 'with UK service'
@@ -142,6 +153,16 @@ RSpec.describe ServiceHelper, type: :helper do
       it { is_expected.to have_css 'span.switch-service-control span.arrow', text: nil }
       it { is_expected.to have_css 'span.switch-service-control a.govuk-link--no-underline' }
       it { is_expected.to have_link 'Switch to the UK Integrated Online Tariff', href: '/some_path' }
+    end
+
+    context 'with service part later in URL' do
+      subject { helper.switch_service_button }
+
+      before { allow(request).to receive(:path).and_return '/some_path/uk-part' }
+
+      include_context 'with UK service'
+
+      it { is_expected.to have_link 'Switch to the Northern Ireland Online Tariff', href: '/xi/some_path/uk-part' }
     end
   end
 

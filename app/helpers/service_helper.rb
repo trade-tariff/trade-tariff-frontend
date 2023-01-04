@@ -117,7 +117,17 @@ private
   end
 
   def current_path
-    request.filtered_path.sub("/#{service_choice}", '')
+    path, query_string = request.filtered_path.split('?', 2)
+
+    components = path.to_s.split('/')
+                          .reject(&:blank?)
+                          .reject { |c| c == service_choice }
+
+    if query_string.blank?
+      "/#{components.join('/')}"
+    else
+      "/#{components.join('/')}?#{query_string}"
+    end
   end
 
   def service_path_prefix
