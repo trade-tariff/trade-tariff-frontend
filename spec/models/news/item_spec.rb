@@ -159,12 +159,14 @@ RSpec.describe News::Item do
 
     before { allow(Rails.cache).to receive(:fetch).and_call_original }
 
+    let(:banner_attrs) { attributes_for :news_item, :banner }
+
     context 'with UK service' do
       include_context 'with UK service'
 
       before do
         stub_api_request('/news/items?service=uk&target=banner&per_page=1', backend: 'uk')
-          .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1, :banner)
+          .to_return jsonapi_response :news_item, [banner_attrs]
       end
 
       it 'caches the UK banner' do
@@ -172,7 +174,7 @@ RSpec.describe News::Item do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-            .with('news-item-latest-banner-uk-v10', expires_in: 5.minutes)
+            .with('news-item-latest-banner-uk-v11', expires_in: 5.minutes)
       end
     end
 
@@ -181,7 +183,7 @@ RSpec.describe News::Item do
 
       before do
         stub_api_request('/news/items?service=xi&target=banner&per_page=1', backend: 'uk')
-          .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1, :banner)
+          .to_return jsonapi_response :news_item, [banner_attrs]
       end
 
       it 'caches the XI banner' do
@@ -189,8 +191,37 @@ RSpec.describe News::Item do
 
         expect(Rails.cache).to \
           have_received(:fetch)
-            .with('news-item-latest-banner-xi-v10', expires_in: 5.minutes)
+            .with('news-item-latest-banner-xi-v11', expires_in: 5.minutes)
       end
+    end
+
+    describe 'model attributes' do
+      before do
+        stub_api_request('/news/items?service=uk&target=banner&per_page=1', backend: 'uk')
+          .to_return jsonapi_response :news_item, [banner_attrs]
+      end
+
+      it { is_expected.to have_attributes title: banner_attrs[:title] }
+      it { is_expected.to have_attributes resource_id: banner_attrs[:resource_id] }
+      it { is_expected.to have_attributes slug: banner_attrs[:slug] }
+      it { is_expected.to have_attributes precis: banner_attrs[:precis] }
+      it { is_expected.to have_attributes content: banner_attrs[:content] }
+
+      context 'with collections' do
+        subject { described_class.cached_latest_banner.collections }
+
+        it { is_expected.to have_attributes length: 1 }
+        it { is_expected.to all have_attributes name: banner_attrs[:collections][0][:name] }
+      end
+    end
+
+    context 'without published banner' do
+      before do
+        stub_api_request('/news/items?service=uk&target=banner&per_page=1', backend: 'uk')
+          .to_return jsonapi_response :news_item, []
+      end
+
+      it { is_expected.to be_nil }
     end
   end
 
