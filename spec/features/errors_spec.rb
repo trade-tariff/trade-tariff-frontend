@@ -90,7 +90,7 @@ RSpec.describe 'Error handling' do
       it_behaves_like 'not found'
     end
 
-    context 'with non existant resource' do
+    context 'with non existent resource' do
       before do
         stub_api_request('/news/items/9999', backend: 'uk')
           .and_return jsonapi_error_response(404)
@@ -115,6 +115,17 @@ RSpec.describe 'Error handling' do
       before do
         allow(News::Item).to \
           receive(:find).and_raise(StandardError, 'Something went wrong')
+
+        visit '/news/9999'
+      end
+
+      it_behaves_like 'internal server error'
+    end
+
+    context 'with broken news banner' do
+      before do
+        allow(News::Item).to \
+          receive(:latest_banner).and_raise(StandardError, 'Something went wrong')
 
         visit '/news/9999'
       end
