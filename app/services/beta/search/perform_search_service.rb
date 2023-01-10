@@ -4,21 +4,17 @@ require 'errors'
 module Beta
   module Search
     class PerformSearchService
-      include Retriable
-
       def initialize(query_options, filters = {})
         @query_options = query_options
         @filters = filters
       end
 
       def call
-        with_retries(Faraday::Error, UnparseableResponseError) do
-          path = "/api/beta/search?#{query_params}"
-          response = api.get(path)
-          parsed = parse_jsonapi(response)
+        path = "/api/beta/search?#{query_params}"
+        response = api.get(path)
+        parsed = parse_jsonapi(response)
 
-          Beta::Search::SearchResult.new(parsed)
-        end
+        Beta::Search::SearchResult.new(parsed)
       end
 
       private
