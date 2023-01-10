@@ -56,4 +56,10 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
 
   config.webpacker.check_yarn_integrity = false
+
+  config.x.http.retry_options = {
+    interval: 0,
+    interval_randomness: 0,
+    backoff_factor: 0,
+  }
 end
