@@ -195,6 +195,23 @@ RSpec.describe ApiEntity do
         expect { request }.to raise_exception UnparseableResponseError, %r{Error parsing #{api_endpoint}/mock_entities with headers:}
       end
     end
+
+    context 'with flaky connection' do
+      before do
+        stub_request(:get, "#{api_endpoint}/mock_entities")
+          .to_timeout
+          .then.to_timeout
+          .then.to_return status:,
+                          headers:,
+                          body:
+      end
+
+      let(:body) { file_fixture('jsonapi/multiple_no_relationship.json').read }
+
+      it 'retries' do
+        expect(request).to have_attributes length: 1
+      end
+    end
   end
 
   describe 'relationships' do

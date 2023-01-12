@@ -56,7 +56,7 @@ module TradeTariffFrontend
 
     config.grouped_measure_types = config_for(:grouped_measure_types)
 
-    config.x.http.max_retry = 5
+    config.x.http.retry_options = {}
 
     # Prevent invalid queries from causing an error, e.g., `/api/v2/search_references.json?query[letter]=%`
     config.middleware.use TradeTariffFrontend::FilterBadURLEncoding

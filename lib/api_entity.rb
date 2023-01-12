@@ -3,7 +3,6 @@ require 'multi_json'
 require 'active_model'
 require 'tariff_jsonapi_parser'
 require 'errors'
-require 'retriable'
 
 module ApiEntity
   extend ActiveSupport::Concern
@@ -86,8 +85,6 @@ private
   end
 
   module ClassMethods
-    include Retriable
-
     delegate :get, :post, to: :api
 
     def relationships
@@ -95,10 +92,8 @@ private
     end
 
     def find(id, opts = {})
-      with_retries(Faraday::Error, UnparseableResponseError) do
-        resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
-        new parse_jsonapi(resp)
-      end
+      resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
+      new parse_jsonapi(resp)
     end
 
     def all(opts = {})
@@ -110,21 +105,13 @@ private
     end
 
     def collection(collection_path, opts = {})
-      retries = 0
-      begin
-        resp = api.get(collection_path, opts)
-        collection = parse_jsonapi(resp)
-        collection = collection.map { |entry_data| new(entry_data) }
-        collection = paginate_collection(collection, resp.body.dig('meta', 'pagination')) if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
-        collection
-      rescue Faraday::Error, UnparseableResponseError
-        if retries < Rails.configuration.x.http.max_retry
-          retries += 1
-          retry
-        else
-          raise
-        end
+      resp = api.get(collection_path, opts)
+      collection = parse_jsonapi(resp)
+      collection = collection.map { |entry_data| new(entry_data) }
+      if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
+        collection = paginate_collection(collection, resp.body.dig('meta', 'pagination'))
       end
+      collection
     end
 
     def has_one(association, opts = {})
