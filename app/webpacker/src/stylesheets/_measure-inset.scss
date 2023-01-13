@@ -1,5 +1,5 @@
 @include govuk-media-query($from: tablet) {
-  .calculator-panel {
+  .measure-inset {
     background-color: $feature-panel-shaded-background-colour;
 
     border-left: 10px solid $feature-panel-border-left;
@@ -24,14 +24,14 @@
   .vat-excise-panel {
     padding: 5px;
 
-    li:not(:last-child) { 
-      margin-bottom: 5px;  
-   }
+    li:not(:last-child) {
+      margin-bottom: 5px;
+    }
   }
 }
 
 @include govuk-media-query($until: tablet) {
-  .calculator-panel img {
-    display:none;
+  .measure-inset img {
+    display: none;
   }
 }

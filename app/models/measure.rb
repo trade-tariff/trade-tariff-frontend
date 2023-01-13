@@ -98,6 +98,10 @@ class Measure
     grouped_measure_types[:suspension].include?(measure_type.id)
   end
 
+  def credibility_check?
+    grouped_measure_types[:credibility_checks].include?(measure_type.id)
+  end
+
   def excluded?
     grouped_measure_types[:excluded].include?(measure_type.id)
   end
