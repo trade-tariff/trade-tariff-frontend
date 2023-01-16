@@ -21,10 +21,6 @@ class MeasureCollection < SimpleDelegator
     new(select(&:suspension?))
   end
 
-  def credibility_checks
-    new(select(&:credibility_check?))
-  end
-
   def vat_excise
     new(select(&:vat_excise?))
   end
