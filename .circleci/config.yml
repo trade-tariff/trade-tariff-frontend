@@ -335,9 +335,6 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
-      #- ruby/rubocop-check:
-      #   format: progress
-      #   label: Inspecting with Rubocop
       - run:
           name: Rubocop changed files
           when: always
@@ -424,8 +421,9 @@ jobs:
           NODE_OPTIONS: --openssl-legacy-provider
     resource_class: medium
     steps:
-      - browser-tools/install-browser-tools
       - checkout
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
