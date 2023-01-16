@@ -20,6 +20,10 @@ FactoryBot.define do
       id { '112' }
     end
 
+    trait :credibility_check do
+      id { '481' }
+    end
+
     trait :import_controls do
       id { '277' }
     end
