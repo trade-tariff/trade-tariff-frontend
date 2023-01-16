@@ -66,12 +66,6 @@ FactoryBot.define do
       end
     end
 
-    trait :credibility_check do
-      measure_type do
-        attributes_for(:measure_type, :credibility_check, description: measure_type_description)
-      end
-    end
-
     trait :trade_remedies do
       measure_type do
         attributes_for(:measure_type, :trade_remedies, description: measure_type_description)
