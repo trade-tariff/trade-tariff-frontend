@@ -59,8 +59,8 @@ module CommoditiesHelper
   end
 
   def convert_text_to_links(text)
-    starting_characters = /(\s|^)/
-    terminating_characters = /(\s|;|,|$|\.)/
+    starting_characters = /(\s|^|\A|<br>|<\/br>)/
+    terminating_characters = /(\s|;|,|$|\.|\z|<br>|<\/br>)/
 
     text = text.gsub( # Match subheading longer-syntax
       /#{starting_characters}(\d{4})\s(\d{2})\s(\d{2})#{terminating_characters}/,

@@ -212,9 +212,9 @@ RSpec.describe CommoditiesHelper, type: :helper do
     end
 
     context 'with heading in formatted description' do
-      let(:declarable_formatted_description) { ' 1234 ' }
+      let(:declarable_formatted_description) { ' 1234<br>' }
 
-      it { is_expected.to eql " <a href='/search?q=1234&country=IN&day=01&month=12&year=2022'>1234</a> " }
+      it { is_expected.to eql " <a href='/search?q=1234&country=IN&day=01&month=12&year=2022'>1234</a><br>" }
     end
 
     context 'with 8 digit subheading in formatted description' do
