@@ -199,6 +199,12 @@ RSpec.describe CommoditiesHelper, type: :helper do
       it { is_expected.to be_empty }
     end
 
+    context 'with chemical references in formatted description' do
+      let(:declarable_formatted_description) { 'CAS RN 7439-93-2' }
+
+      it { is_expected.to eql "CAS RN <a href='/search?q=7439&country=IN&day=01&month=12&year=2022'>7439</a>-93-2" }
+    end
+
     context 'with chapter in formatted description' do
       let(:declarable_formatted_description) { ' Chapter 32 ' }
 
