@@ -202,13 +202,13 @@ RSpec.describe CommoditiesHelper, type: :helper do
     context 'with chemical references in formatted description' do
       let(:declarable_formatted_description) { 'CAS RN 7439-93-2' }
 
-      it { is_expected.to eql "CAS RN <a href='/search?q=7439&country=IN&day=01&month=12&year=2022'>7439</a>-93-2" }
+      it { is_expected.to eql 'CAS RN 7439-93-2' }
     end
 
     context 'with chapter in formatted description' do
-      let(:declarable_formatted_description) { ' Chapter 32 ' }
+      let(:declarable_formatted_description) { ' Chapter 32.' }
 
-      it { is_expected.to eql " <a href='/search?q=32&country=IN&day=01&month=12&year=2022'>Chapter 32</a> " }
+      it { is_expected.to eql " <a href='/search?q=32&country=IN&day=01&month=12&year=2022'>Chapter 32</a>." }
     end
 
     context 'with heading in formatted description' do
@@ -218,15 +218,15 @@ RSpec.describe CommoditiesHelper, type: :helper do
     end
 
     context 'with 8 digit subheading in formatted description' do
-      let(:declarable_formatted_description) { ' 1234 11 22 ' }
+      let(:declarable_formatted_description) { ' 1234 11 22' }
 
-      it { is_expected.to eql " <a href='/search?q=12341122&country=IN&day=01&month=12&year=2022'>1234 11 22</a> " }
+      it { is_expected.to eql " <a href='/search?q=12341122&country=IN&day=01&month=12&year=2022'>1234 11 22</a>" }
     end
 
     context 'with 6 digit subheading in formatted description' do
-      let(:declarable_formatted_description) { ' 1234 11 ' }
+      let(:declarable_formatted_description) { ' 1234 11, flibble' }
 
-      it { is_expected.to eql " <a href='/search?q=123411&country=IN&day=01&month=12&year=2022'>1234 11</a> " }
+      it { is_expected.to eql " <a href='/search?q=123411&country=IN&day=01&month=12&year=2022'>1234 11</a>, flibble" }
     end
   end
 

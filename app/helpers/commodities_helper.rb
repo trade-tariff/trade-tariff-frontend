@@ -59,10 +59,25 @@ module CommoditiesHelper
   end
 
   def convert_text_to_links(text)
-    text.gsub(/\s(\d{4})\s(\d{2})\s(\d{2})/, " <a href='/search?q=\\1\\2\\3#{query}'>\\1 \\2 \\3</a>")
-        .gsub(/\s(\d{4})\s(\d{2})/, " <a href='/search?q=\\1\\2#{query}'>\\1 \\2</a>")
-        .gsub(/\s(\d{4})/, " <a href='/search?q=\\1#{query}'>\\1</a>")
-        .gsub(/(chapter)\s(\d{2})/i, "<a href='/search?q=\\2#{query}'>\\1 \\2</a>")
+    starting_characters = /(\s|^)/
+    terminating_characters = /(\s|;|,|$|\.)/
+
+    text = text.gsub( # Match subheading longer-syntax
+      /#{starting_characters}(\d{4})\s(\d{2})\s(\d{2})#{terminating_characters}/,
+      " <a href='/search?q=\\2\\3\\4#{query}'>\\2 \\3 \\4</a>\\5",
+    )
+    text = text.gsub( # Match subheading short syntax
+      /#{starting_characters}(\d{4})\s(\d{2})#{terminating_characters}/,
+      " <a href='/search?q=\\2\\3#{query}'>\\2 \\3</a>\\4",
+    )
+    text = text.gsub( # Match heading short syntax
+      /#{starting_characters}(\d{4})#{terminating_characters}/,
+      " <a href='/search?q=\\2#{query}'>\\2</a>\\3",
+    )
+    text.gsub( # Match chapter short syntax
+      /(chapter)\s(\d{2})#{terminating_characters}/i,
+      "<a href='/search?q=\\2#{query}'>\\1 \\2</a>\\3",
+    )
   end
 
   def query
