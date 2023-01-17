@@ -97,6 +97,15 @@ RSpec.describe MeasureCollection do
     it { expect(collection.suspensions.measures).to eq([suspension_measure]) }
   end
 
+  describe '#credibility_checks' do
+    subject(:collection) { described_class.new([credibility_check_measure, measure]) }
+
+    let(:credibility_check_measure) { build(:measure, :credibility_check) }
+    let(:measure) { build(:measure) }
+
+    it { expect(collection.credibility_checks.measures).to eq([credibility_check_measure]) }
+  end
+
   describe '#import_controls' do
     subject(:collection) { described_class.new([unclassified_import_control_measure, import_control_measure, measure]) }
 
