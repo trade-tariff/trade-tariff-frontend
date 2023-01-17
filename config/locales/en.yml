@@ -962,3 +962,24 @@ en:
       caption:
         importing: Importing commodity %{commodity_code} from %{trade_country_name} to %{service_country_name}
         exporting: Exporting commodity %{commodity_code} from %{service_country_name} to %{trade_country_name}
+  threshold_requirement_text:
+    eps:
+      "=>_html": The price of your goods is greater than or equal to %{requirement_duty_expression}
+    price:
+      "<_html": "The price of your goods is less than %{requirement_duty_expression}"
+      "=<_html": "The price of your goods does not exceed %{requirement_duty_expression}"
+      "==_html": "The price of your goods is equal %{requirement_duty_expression}"
+      "=>_html": "The price of your goods is equal to or exceeds %{requirement_duty_expression}"
+      ">_html": "The price of your goods exceeds %{requirement_duty_expression}"
+    weight:
+      "<_html": "The weight of your goods is less than %{requirement_duty_expression}"
+      "=<_html": "The weight of your goods does not exceed %{requirement_duty_expression}"
+      "==_html": "The weight of your goods is equal %{requirement_duty_expression}"
+      "=>_html": "The weight of your goods is equal to or exceeds %{requirement_duty_expression}"
+      ">_html": "The weight of your goods exceeds %{requirement_duty_expression}"
+    volume:
+      "<_html": "The volume of your goods is less than %{requirement_duty_expression}"
+      "=<_html": "The volume of your goods does not exceed %{requirement_duty_expression}"
+      "==_html": "The volume of your goods is equal %{requirement_duty_expression}"
+      "=>_html": "The volume of your goods is equal to or exceeds %{requirement_duty_expression}"
+      ">_html": "The volume of your goods exceeds %{requirement_duty_expression}"
