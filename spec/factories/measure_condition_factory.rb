@@ -26,25 +26,35 @@ FactoryBot.define do
       threshold
       condition_measurement_unit_code { 'KGM' }
       threshold_unit_type { 'weight' }
+      requirement_operator { '=<' }
     end
 
     trait :volume do
       threshold
       condition_measurement_unit_code { 'LTR' }
       threshold_unit_type { 'volume' }
+      requirement_operator { '=<' }
     end
 
     trait :price do
       threshold
       condition_monetary_unit_code { 'EUR' }
       threshold_unit_type { 'price' }
+      requirement_operator { '=<' }
     end
 
     trait :eps do
       weight
       price
+
+      requirement { '<span>84.60</span> EUR / <abbr title="Hectokilogram">100 kg</abbr>' }
       condition_code { 'V' }
       threshold_unit_type { 'eps' }
+      requirement_operator { '=>' }
+    end
+
+    trait :no_requirement do
+      requirement { nil }
     end
   end
 end

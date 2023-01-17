@@ -11,6 +11,7 @@ RSpec.describe MeasureCondition do
   it { is_expected.to respond_to :certificate_description }
   it { is_expected.to respond_to :measure_condition_class }
   it { is_expected.to respond_to :threshold_unit_type }
+  it { is_expected.to respond_to :requirement_operator }
 
   describe '#requirement' do
     it { expect(condition.requirement).to be_html_safe }

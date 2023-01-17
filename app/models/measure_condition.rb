@@ -13,21 +13,20 @@ class MeasureCondition
                 :certificate_description,
                 :guidance_cds,
                 :guidance_chief,
-                :threshold_unit_type
+                :threshold_unit_type,
+                :requirement_operator
 
-  attr_writer :requirement
-  attr_reader :measure_condition_class
+  attr_writer :requirement, :measure_condition_class
 
   def requirement
     @requirement&.html_safe
   end
 
-  def has_guidance?
-    guidance_cds.present? || guidance_chief.present?
+  def measure_condition_class
+    ActiveSupport::StringInquirer.new(@measure_condition_class.to_s)
   end
 
-  def measure_condition_class=(condition_class)
-    @measure_condition_class =
-      ActiveSupport::StringInquirer.new(condition_class.to_s)
+  def has_guidance?
+    guidance_cds.present? || guidance_chief.present?
   end
 end
