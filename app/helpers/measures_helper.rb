@@ -77,20 +77,10 @@ module MeasuresHelper
   end
 
   def format_measure_condition_requirement(condition)
-    case condition.measure_condition_class
-    when 'threshold'
-      case condition.threshold_unit_type
-      when 'eps'
-        safe_join ['The price of your goods is greater than or equal to', condition.requirement], ' '
-      when 'price'
-        safe_join ['The price of your goods does not exceed', condition.requirement], ' '
-      when 'weight'
-        safe_join ['The weight of your goods does not exceed', condition.requirement], ' '
-      when 'volume'
-        safe_join ['The volume of your goods does not exceed', condition.requirement], ' '
-      else
-        condition.requirement.presence || 'Condition not fulfilled'
-      end
+    if condition.measure_condition_class.threshold?
+      threshold_fallback = condition.requirement.presence || 'Condition not fulfilled'
+
+      t("threshold_requirement_text.#{condition.threshold_unit_type}.#{condition.requirement_operator}_html", requirement_duty_expression: condition.requirement, default: threshold_fallback).html_safe
     else
       (condition.certificate_description.presence ||
         condition.requirement.presence ||

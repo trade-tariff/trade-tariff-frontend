@@ -147,40 +147,53 @@ RSpec.describe MeasuresHelper, type: :helper do
   describe '#format_measure_condition_requirement' do
     subject { format_measure_condition_requirement condition }
 
-    context 'with threshold condition' do
-      context 'with weight condition' do
-        let(:condition) { build :measure_condition, :weight }
+    context 'with weight threshold condition' do
+      let(:condition) { build :measure_condition, :weight }
 
-        it { is_expected.to match 'The weight of your goods does not exceed' }
-      end
-
-      context 'with volume condition' do
-        let(:condition) { build :measure_condition, :volume }
-
-        it { is_expected.to match 'The volume of your goods does not exceed' }
-      end
-
-      context 'with price condition' do
-        let(:condition) { build :measure_condition, :price }
-
-        it { is_expected.to match 'The price of your goods does not exceed' }
-      end
-
-      context 'with eps condition' do
-        let(:condition) { build :measure_condition, :eps }
-
-        it { is_expected.to match 'The price of your goods is greater than or equal to' }
-      end
-
-      context 'with other threshold' do
-        let(:condition) { build :measure_condition, :threshold }
-
-        it { is_expected.to be_present }
-        it { is_expected.not_to match 'of your goods' }
-      end
+      it { is_expected.to match 'The weight of your goods does not exceed' }
+      it { is_expected.to match(condition.requirement) }
+      it { is_expected.to be_html_safe }
     end
 
-    context 'with any other classification of condition' do
+    context 'with volume threshold condition' do
+      let(:condition) { build :measure_condition, :volume }
+
+      it { is_expected.to match 'The volume of your goods does not exceed' }
+      it { is_expected.to match(condition.requirement) }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'with price threshold condition' do
+      let(:condition) { build :measure_condition, :price }
+
+      it { is_expected.to match 'The price of your goods does not exceed' }
+      it { is_expected.to match(condition.requirement) }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'with eps threshold condition' do
+      let(:condition) { build :measure_condition, :eps }
+
+      it { is_expected.to match('The price of your goods is greater than or equal to') }
+      it { is_expected.to match(condition.requirement) }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'with other threshold and missing requirement' do
+      let(:condition) { build :measure_condition, :threshold, :no_requirement }
+
+      it { is_expected.to eq('Condition not fulfilled') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'with other threshold and requirement present' do
+      let(:condition) { build :measure_condition, :threshold }
+
+      it { is_expected.to match(condition.requirement) }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'with non threshold condition classification' do
       context 'with certificate description' do
         let :condition do
           build :measure_condition, certificate_description: 'test description',
@@ -188,6 +201,7 @@ RSpec.describe MeasuresHelper, type: :helper do
         end
 
         it { is_expected.to match 'test description' }
+        it { is_expected.to be_html_safe }
       end
 
       context 'with requirement but no certificate description' do
@@ -197,6 +211,7 @@ RSpec.describe MeasuresHelper, type: :helper do
         end
 
         it { is_expected.to match 'test requirement' }
+        it { is_expected.to be_html_safe }
       end
 
       context 'with neither' do
@@ -206,6 +221,7 @@ RSpec.describe MeasuresHelper, type: :helper do
         end
 
         it { is_expected.to match 'No document provided' }
+        it { is_expected.to be_html_safe }
       end
     end
   end
