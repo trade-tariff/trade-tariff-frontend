@@ -21,7 +21,7 @@ FactoryBot.define do
     end
 
     trait :credibility_check do
-      id { '481' }
+      id { '482' }
     end
 
     trait :import_controls do
