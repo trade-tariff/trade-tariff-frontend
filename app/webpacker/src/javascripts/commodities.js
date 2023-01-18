@@ -10,6 +10,7 @@
 (function() {
   const IMask = require('imask');
   const debounce = require('./debounce');
+  const htmlEscaper = require('html-escaper');
 
   global.GOVUK = global.GOVUK || {};
   /**
@@ -823,8 +824,10 @@
                   }
                 },
                 source: debounce(function(query, populateResults) {
+                  const escapedQuery = htmlEscaper.escape(query) ;
+
                   let opts = {
-                    term: query
+                    term: escapedQuery
                   };
 
                   $.ajax({
@@ -842,16 +845,16 @@
                         newSource.push(result.text);
                         options.push(result);
 
-                        if (result.text.toLowerCase() == query.toLowerCase()) {
+                        if (result.text.toLowerCase() == escapedQuery.toLowerCase()) {
                           exactMatch = true;
                         }
                       });
 
-                      if ($.inArray(query.toLowerCase(), newSource) < 0) {
-                        newSource.unshift(query.toLowerCase());
+                      if ($.inArray(escapedQuery.toLowerCase(), newSource) < 0) {
+                        newSource.unshift(escapedQuery.toLowerCase());
                         options.unshift({
-                          id: query.toLowerCase(),
-                          text: query.toLowerCase(),
+                          id: escapedQuery.toLowerCase(),
+                          text: escapedQuery.toLowerCase(),
                           newOption: true
                         });
                       }
