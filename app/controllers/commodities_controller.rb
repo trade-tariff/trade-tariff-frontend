@@ -19,6 +19,10 @@ class CommoditiesController < GoodsNomenclaturesController
     end
   end
 
+  def url_options
+    @remove_country_url_option ? super.merge(country: nil) : super
+  end
+
   private
 
   def declarable
@@ -105,6 +109,7 @@ class CommoditiesController < GoodsNomenclaturesController
     @heading_code = params[:id].first(4)
     @chapter_code = params[:id].first(2)
 
+    @remove_country_url_option = true
     disable_search_form
 
     render :show_404, status: :not_found
