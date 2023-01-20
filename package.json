@@ -11,7 +11,7 @@
     "accessible-autocomplete": "^2.0.4",
     "alphagov-static": "github:alphagov/static.git#release_3463",
     "govuk-frontend": "^4.4.1",
-    "html-escaper": "^2.0.2",
+    "html-escaper": "^3.0.3",
     "imask": "^6.4.3",
     "jquery": "3.6.3",
     "jquery-common-keydown": "^1.0.1",
@@ -25,9 +25,9 @@
     "jquery-roving-tabindex": "^1.0.1",
     "jquery-tabs": "^0.5.3",
     "mark.js": "^8.11.1",
-    "select2": "^4.0.10",
+    "select2": "^4.1.0-rc.0",
     "stimulus": "^3.2.1",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^5.0.1"
   },
   "devDependencies": {
     "babel-jest": "^29.3.1",
