@@ -187,4 +187,26 @@ RSpec.describe OrderNumber::Definition do
       it { is_expected.to eq commodity[:goods_nomenclature_item_id] }
     end
   end
+
+  describe '#shows_balance_transfers?' do
+    subject(:definition) { build(:definition, validity_start_date:) }
+
+    context 'when the validity start date is before the hmrc date' do
+      let(:validity_start_date) { Date.parse('2022-06-30').iso8601 }
+
+      it { is_expected.not_to be_shows_balance_transfers }
+    end
+
+    context 'when the validity start date is on the hmrc date' do
+      let(:validity_start_date) { Date.parse('2022-07-01').iso8601 }
+
+      it { is_expected.to be_shows_balance_transfers }
+    end
+
+    context 'when the validity start date is after the hmrc date' do
+      let(:validity_start_date) { Date.parse('2022-07-02').iso8601 }
+
+      it { is_expected.to be_shows_balance_transfers }
+    end
+  end
 end

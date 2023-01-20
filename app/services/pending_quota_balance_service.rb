@@ -59,7 +59,10 @@ private
   end
 
   def show_pending_balances?
-    declarable.import_measures.any? && declarable.has_safeguard_measure? && not_current_definition_first_quarter?
+    declarable.import_measures.any? &&
+      declarable.has_safeguard_measure? &&
+      not_current_definition_first_quarter? &&
+      definition.shows_balance_transfers?
   end
 
   def not_current_definition_first_quarter?
