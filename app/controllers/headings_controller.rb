@@ -20,9 +20,14 @@ class HeadingsController < GoodsNomenclaturesController
     @heading_code = params[:id]
     @chapter_code = params[:id].first(2)
 
+    @remove_country_url_option = true
     disable_search_form
 
     render :show_404, status: :not_found
+  end
+
+  def url_options
+    @remove_country_url_option ? super.merge(country: nil) : super
   end
 
   private
