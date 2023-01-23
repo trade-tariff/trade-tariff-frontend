@@ -9,13 +9,13 @@ RSpec.describe 'URL redirects', type: :request do
     context 'when the id is a chapter id' do
       let(:goods_nomenclature_item_id) { '9900000000' }
 
-      it { is_expected.to redirect_to 'https://www.example.com/api/v2/chapters/99?as_of=test&some=param' }
+      it { is_expected.to redirect_to 'http://test.host/api/v2/chapters/99?as_of=test&some=param' }
     end
 
     context 'when the id is a heading id' do
       let(:goods_nomenclature_item_id) { '9999000000' }
 
-      it { is_expected.to redirect_to 'https://www.example.com/api/v2/headings/9999?as_of=test&some=param' }
+      it { is_expected.to redirect_to 'http://test.host/api/v2/headings/9999?as_of=test&some=param' }
     end
 
     context 'when the id is a commodity id' do
@@ -33,13 +33,13 @@ RSpec.describe 'URL redirects', type: :request do
     context 'when a query is not supplied' do
       let(:path) { '/api/v1/quotas/search' }
 
-      it { is_expected.to redirect_to 'https://www.example.com/api/v2/quotas/search' }
+      it { is_expected.to redirect_to 'http://test.host/api/v2/quotas/search' }
     end
 
     context 'when a query is supplied' do
       let(:path) { '/api/v1/quotas/search?as_of=test&some=param' }
 
-      it { is_expected.to redirect_to 'https://www.example.com/api/v2/quotas/search?as_of=test&some=param' }
+      it { is_expected.to redirect_to 'http://test.host/api/v2/quotas/search?as_of=test&some=param' }
     end
   end
 end
