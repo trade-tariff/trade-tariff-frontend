@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   get '/trade-tariff/*path', to: redirect('/%{path}', status: 301)
   get '/api/(*path)', constraints: { path: /[^v\d+].*/ }, to: redirect { |_params, request|
     path = request.path.gsub('/api/', '/api/v2/')
-    "https://#{ENV['HOST']}#{path}" # request.path starts with '/'
+    "#{request.scheme}://#{ENV['HOST']}#{path}" # request.path starts with '/'
   }
   get '/v1/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
   get '/v2/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     path = request.path.gsub('commodities', 'chapters').gsub('00000000', '')
     query = URI(request.url).query
 
-    url = "https://#{ENV['HOST']}#{path}"
+    url = "#{request.scheme}://#{ENV['HOST']}#{path}"
 
     query ? "#{url}?#{query}" : url
   }
@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     path = request.path.gsub('commodities', 'headings').gsub('000000', '')
     query = URI(request.url).query
 
-    url = "https://#{ENV['HOST']}#{path}"
+    url = "#{request.scheme}://#{ENV['HOST']}#{path}"
 
     query ? "#{url}?#{query}" : url
   }
@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     path = request.path.gsub('v1', 'v2')
     query = URI(request.url).query
 
-    url = "https://#{ENV['HOST']}#{path}"
+    url = "#{request.scheme}://#{ENV['HOST']}#{path}"
 
     query ? "#{url}?#{query}" : url
   }
