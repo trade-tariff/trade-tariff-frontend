@@ -82,6 +82,12 @@ RSpec.describe PendingQuotaBalanceService do
         it { is_expected.to eq previous_definition[:balance] }
       end
 
+      context 'with the definition in before hmrc started managing pending balances' do
+        let(:start_date) { Date.current.change(year: 2022, day: 30, month: 6) }
+
+        it { is_expected.to be_nil }
+      end
+
       context 'without safeguard measure' do
         let :commodity do
           build :commodity, import_measures: [

@@ -17,6 +17,7 @@ class OrderNumber
       validity_end_date
       last_allocation_date
     ].freeze
+    DATE_HMRC_STARTED_MANAGING_PENDING_BALANCES = Date.parse('2022-07-01').freeze
 
     attr_accessor :quota_definition_sid, :quota_order_number_id, :initial_volume, :status, :measurement_unit,
                   :measurement_unit_qualifier,
@@ -67,6 +68,10 @@ class OrderNumber
       all_goods_nomenclatures.select { |gn| gn.respond_to?(:short_code) }
                              .first
                              &.short_code
+    end
+
+    def shows_balance_transfers?
+      validity_start_date.to_date >= DATE_HMRC_STARTED_MANAGING_PENDING_BALANCES
     end
   end
 end
