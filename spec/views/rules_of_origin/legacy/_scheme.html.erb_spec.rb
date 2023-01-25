@@ -10,9 +10,9 @@ RSpec.describe 'rules_of_origin/legacy/_scheme', type: :view do
 
   let :render_page do
     render 'rules_of_origin/legacy/scheme', scheme:,
-                                     country_name:,
-                                     commodity_code:,
-                                     multiple_schemes:
+                                            country_name:,
+                                            commodity_code:,
+                                            multiple_schemes:
   end
 
   it 'includes comm code' do

@@ -5,10 +5,25 @@
       <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
     </h2>
 
+    <nav id="contents">
+      <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
+        <%= contents_list_item 'Overview', '#overview' %>
+        <%= contents_list_item 'Work out if your goods meet the rules of origin',
+                               '#work-out-rules-of-origin' %>
+        <%= contents_list_item 'Product-specific rules', '#product-specific-rules' if rules_of_origin_schemes.any? %>
+        <%= contents_list_item 'Non-preferential rules of origin', '#non-preferential-rules' %>
+      </ol>
+    </nav>
+
+    <h3 class="govuk-heading-m" id="overview">
+      Overview
+    </h3>
+
     <% if rules_of_origin_schemes.any? %>
       <p>
         Preferential tariff treatment reduces the duties you are required to pay when importing or exporting goods to or from <%= country_name %>.
       </p>
+
       <p>
         Rules of origin are the criteria which determine the national source of a product. They determine if your trade is eligible for preferential tariff treatment and may influence the rules that apply to your import or export.
       </p>
@@ -16,21 +31,31 @@
 
     <% if rules_of_origin_schemes.any? %>
       <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
-      
+
       <% if declarable.import_trade_summary.basic_third_country_duty.present? %>
         <%= render 'rules_of_origin/import_trade_summary',
                    import_trade_summary: declarable.import_trade_summary unless rules_of_origin_schemes.many? %>
       <% end %>
 
-      <%= render 'rules_of_origin/wizard_link',
-                 country_code: country_code,
-                 commodity_code: commodity_code,
-                 declarable: declarable %>
+      <%= render 'rules_of_origin/wizard_link', rules_of_origin_schemes:,
+                                                country_code:,
+                                                commodity_code:,
+                                                declarable: %>
     <% else %>
       <p class="govuk-inset-text">
         As there is neither a preferential tariff nor a preferential quota present for this commodity, the 'Check rules of origin' tool is not available.
       </p>
     <% end %>
+
+    <div class="rules-of-origin__scheme govuk-!-margin-bottom-7">
+      <h3 class="govuk-heading-m" id="product-specific-rules">
+        Product-specific rules - trade with <%= country_name %>
+      </h3>
+
+      <%= render partial: 'rules_of_origin/scheme',
+                 collection: rules_of_origin_schemes,
+                 locals: { commodity_code: } %>
+    </div>
 
     <%= render 'rules_of_origin/non_preferential' %>
   </div>

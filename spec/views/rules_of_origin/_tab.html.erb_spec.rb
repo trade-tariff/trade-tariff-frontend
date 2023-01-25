@@ -12,8 +12,8 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
            declarable: build(:commodity, import_trade_summary:)
   end
 
-  let(:rules) { attributes_for_list :rules_of_origin_rule, 1, rule: "Manufacture\n\n* From materials" }
-  let(:rules_of_origin_schemes) { [build(:rules_of_origin_scheme, rules:, fta_intro:)] }
+  let(:rule_sets) { attributes_for_list :rules_of_origin_rule_set, 1 }
+  let(:rules_of_origin_schemes) { build_list(:rules_of_origin_scheme, 1, rule_sets:, fta_intro:) }
   let(:fta_intro) { "## Free Trade Agreement\n\nDetails of agreement" }
   let(:import_trade_summary) { attributes_for(:import_trade_summary, :with_tariff_duty) }
 
@@ -38,11 +38,15 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
     expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
   end
 
+  it 'includes the psr table' do
+    expect(rendered_page).to have_css '.commodity-rules-of-origin'
+  end
+
   context 'without matched rules' do
-    let(:rules) { [] }
+    let(:rule_sets) { [] }
 
     it 'does not shows rules table' do
-      expect(rendered_page).not_to have_css 'table.govuk-table'
+      expect(rendered_page).not_to have_css '.commodity-rules-of-origin'
     end
 
     it 'includes the non-preferential bloc' do
@@ -51,19 +55,24 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   end
 
   context 'with country specific scheme' do
-    let(:rules_of_origin_schemes) { build_list :rules_of_origin_scheme, 1, rules:, countries: %w[FR] }
+    let :rules_of_origin_schemes do
+      build_list :rules_of_origin_scheme, 1, rule_sets:, countries: %w[FR]
+    end
 
     it { is_expected.to have_css '#rules-of-origin__intro--country-scheme' }
   end
 
   context 'with multiple schemes' do
-    let(:rules_of_origin_schemes) do
-      build_list :rules_of_origin_scheme, 3, rules:,
-                                             fta_intro:
+    let :rules_of_origin_schemes do
+      build_list :rules_of_origin_scheme, 3, rule_sets:, fta_intro:
     end
 
     it 'includes one non-preferential bloc' do
       expect(rendered_page).to have_css '.rules-of-origin__non-preferential', count: 1
+    end
+
+    it 'includes multiple psr tables' do
+      expect(rendered_page).to have_css '.commodity-rules-of-origin', count: 3
     end
   end
 
