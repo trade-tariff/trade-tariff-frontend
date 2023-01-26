@@ -128,7 +128,13 @@ RSpec.describe PendingQuotaBalanceService do
                                             .and_raise(Faraday::ResourceNotFound, 'unknown')
         end
 
-        it { is_expected.to be nil }
+        it { is_expected.to be_nil }
+      end
+
+      context 'without current definition' do
+        let(:current_definition) { nil }
+
+        it { is_expected.to be_nil }
       end
     end
 
