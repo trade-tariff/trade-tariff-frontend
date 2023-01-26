@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/_scheme', type: :view do
+RSpec.describe 'rules_of_origin/legacy/_scheme', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   let(:country_name) { 'Kenya' }
@@ -9,7 +9,7 @@ RSpec.describe 'rules_of_origin/_scheme', type: :view do
   let(:scheme) { build :rules_of_origin_scheme }
 
   let :render_page do
-    render 'rules_of_origin/scheme', scheme:,
+    render 'rules_of_origin/legacy/scheme', scheme:,
                                      country_name:,
                                      commodity_code:,
                                      multiple_schemes:

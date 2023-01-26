@@ -44,12 +44,12 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
 
   shared_examples 'roo_wizard tab' do
     it { is_expected.to render_template('rules_of_origin/_tab') }
-    it { is_expected.not_to render_template('rules_of_origin/_legacy_tab') }
+    it { is_expected.not_to render_template('rules_of_origin/legacy/_tab') }
   end
 
   shared_examples 'legacy roo tab' do
     it { is_expected.not_to render_template('rules_of_origin/_tab') }
-    it { is_expected.to render_template('rules_of_origin/_legacy_tab') }
+    it { is_expected.to render_template('rules_of_origin/legacy/_tab') }
   end
 
   it { is_expected.to render_template('declarables/_consigned') }
