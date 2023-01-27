@@ -1,0 +1,45 @@
+<div id="rules-of-origin-proofs">
+  <h3 class="govuk-heading-m" id="proofs-of-origin">
+    Proofs of origin
+  </h3>
+
+  <% schemes.each do |scheme| %>
+    <p>
+      <% if scheme.proofs.many? %>
+        The following are valid proofs of origin for the <%= scheme.title %>:
+      <% else %>
+        The following proof of origin is valid for the <%= scheme.title %>:
+      <% end %>
+    </p>
+
+    <div class="tariff-markdown stacked-govuk-details">
+      <% scheme.proofs.each do |proof| %>
+        <%= render 'shared/details', summary: proof.summary,
+                                     content: govspeak(proof.content) %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if schemes.many? %>
+    <p>
+      <%= link_to 'See valid proofs of origin for all trade agreements', '#tbd' %>
+    </p>
+  <% else %>
+    <p>Find out more about proofs of origin:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        <%= link_to 'How proofs are verified', '#tbd' %>
+      </li>
+
+      <li>
+        <%= link_to 'Detailed processes and requirements for proving the origin for goods',
+                    '#tbd' %>
+      </li>
+
+      <li>
+        <%= link_to 'See valid proofs of origin for all trade agreements', '#tbd' %>
+      </li>
+    </ul>
+  <% end %>
+</div>
