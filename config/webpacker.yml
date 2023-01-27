@@ -55,7 +55,6 @@ development:
   <<: *default
   compile: true
 
-  # Verifies that correct packages and versions are installed by inspecting package.json, yarn.lock, and node_modules
   check_yarn_integrity: true
 
   # Reference: https://webpack.js.org/configuration/dev-server/
@@ -72,6 +71,7 @@ development:
     disable_host_check: true
     use_local_ip: false
     quiet: false
+    pretty: false
     headers:
       'Access-Control-Allow-Origin': '*'
     watch_options:
