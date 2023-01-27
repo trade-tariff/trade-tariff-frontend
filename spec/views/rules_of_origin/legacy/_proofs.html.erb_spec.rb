@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/_proofs', type: :view, vcr: { cassette_name: 'geographical_areas#it' } do
+RSpec.describe 'rules_of_origin/legacy/_proofs', type: :view, vcr: { cassette_name: 'geographical_areas#it' } do
   subject(:rendered_page) { render_page && rendered }
 
   # 'UA' stands for Ukraine, it is a country with RoR preferential_treatment
   before { assign :search, Search.new(country: 'IT') }
 
   let(:render_page) do
-    render 'rules_of_origin/proofs', proofs:, scheme_title: nil
+    render 'rules_of_origin/legacy/proofs', proofs:, scheme_title: nil
   end
 
   context 'with no proofs' do
