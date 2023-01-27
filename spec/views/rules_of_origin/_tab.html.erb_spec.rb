@@ -76,6 +76,18 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
     end
   end
 
+  context 'with no schemes' do
+    let(:rules_of_origin_schemes) { [] }
+
+    it 'includes one non-preferential bloc' do
+      expect(rendered_page).to have_css '.rules-of-origin__non-preferential', count: 1
+    end
+
+    it 'excludes the psr tables' do
+      expect(rendered_page).not_to have_css '.commodity-rules-of-origin'
+    end
+  end
+
   context 'with blank fta_intro field' do
     let(:fta_intro) { '' }
 
