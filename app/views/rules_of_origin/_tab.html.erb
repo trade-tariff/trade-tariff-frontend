@@ -1,86 +1,79 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m rules-of-origin-heading">
-      Preferential rules of origin for trading with <%= country_name %>
-      <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
-    </h2>
+<h2 class="govuk-heading-m rules-of-origin-heading">
+  Preferential rules of origin for trading with <%= country_name %>
+  <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
+</h2>
 
-    <nav id="contents">
-      <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
-        <%= contents_list_item 'Overview', '#overview' %>
-        <%- if rules_of_origin_schemes.any? -%>
-          <%= contents_list_item 'Work out if your goods meet the rules of origin',
-                                 '#work-out-rules-of-origin'  %>
-          <%= contents_list_item 'Product-specific rules', '#product-specific-rules' %>
-        <%- end -%>
-        <%= contents_list_item 'Non-preferential rules of origin', '#non-preferential-rules' %>
-      </ol>
-    </nav>
+<nav id="contents">
+  <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
+    <%= contents_list_item 'Overview', '#overview' %>
+    <%- if rules_of_origin_schemes.any? -%>
+      <%= contents_list_item 'Work out if your goods meet the rules of origin',
+                             '#work-out-rules-of-origin'  %>
+      <%= contents_list_item 'Product-specific rules', '#product-specific-rules' %>
+    <%- end -%>
+    <%= contents_list_item 'Non-preferential rules of origin', '#non-preferential-rules' %>
+    <%= contents_list_item 'Related content', '#rules-of-origin__related-content' %>
+  </ol>
+</nav>
 
-    <h3 class="govuk-heading-m" id="overview">
-      Overview
+<h3 class="govuk-heading-m" id="overview">
+  Overview
+</h3>
+
+<% if rules_of_origin_schemes.any? %>
+  <p>
+    Preferential tariff treatment reduces the duties you are required to pay when importing or exporting goods to or from <%= country_name %>.
+  </p>
+
+  <p>
+    Rules of origin are the criteria which determine the national source of a product. They determine if your trade is eligible for preferential tariff treatment and may influence the rules that apply to your import or export.
+  </p>
+
+  <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
+
+  <% if declarable.import_trade_summary.basic_third_country_duty.present? %>
+    <%= render 'rules_of_origin/import_trade_summary',
+               import_trade_summary: declarable.import_trade_summary unless rules_of_origin_schemes.many? %>
+  <% end %>
+
+  <%= render 'rules_of_origin/wizard_link', rules_of_origin_schemes:,
+                                            country_code:,
+                                            commodity_code:,
+                                            declarable: %>
+
+  <div class="rules-of-origin__scheme govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m" id="product-specific-rules">
+      Product-specific rules - trade with <%= country_name %>
     </h3>
 
-    <% if rules_of_origin_schemes.any? %>
-      <p>
-        Preferential tariff treatment reduces the duties you are required to pay when importing or exporting goods to or from <%= country_name %>.
-      </p>
+    <%= render partial: 'rules_of_origin/scheme',
+               collection: rules_of_origin_schemes,
+               locals: { commodity_code: } %>
+  </div>
+<% else %>
+  <p class="govuk-inset-text">
+    As there is neither a preferential tariff nor a preferential quota present for this commodity, the 'Check rules of origin' tool is not available.
+  </p>
+<% end %>
 
-      <p>
-        Rules of origin are the criteria which determine the national source of a product. They determine if your trade is eligible for preferential tariff treatment and may influence the rules that apply to your import or export.
-      </p>
+<%= render 'rules_of_origin/non_preferential' %>
 
-      <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
+<div id="rules-of-origin__related-content">
+  <h2 class="govuk-heading-m">
+    Related content
+  </h2>
 
-      <% if declarable.import_trade_summary.basic_third_country_duty.present? %>
-        <%= render 'rules_of_origin/import_trade_summary',
-                   import_trade_summary: declarable.import_trade_summary unless rules_of_origin_schemes.many? %>
+  <nav role="navigation">
+    <ul class="govuk-list govuk-list-s">
+      <% if rules_of_origin_schemes.flat_map(&:links).any? %>
+        <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
+          <li>
+            <%= link_to link.text, link.url %>
+          </li>
+        <% end %>
+      <% else %>
+        <li><a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin">Check your goods meet the rules of origin</a></li>
       <% end %>
-
-      <%= render 'rules_of_origin/wizard_link', rules_of_origin_schemes:,
-                                                country_code:,
-                                                commodity_code:,
-                                                declarable: %>
-
-      <div class="rules-of-origin__scheme govuk-!-margin-bottom-7">
-        <h3 class="govuk-heading-m" id="product-specific-rules">
-          Product-specific rules - trade with <%= country_name %>
-        </h3>
-
-        <%= render partial: 'rules_of_origin/scheme',
-                   collection: rules_of_origin_schemes,
-                   locals: { commodity_code: } %>
-      </div>
-    <% else %>
-      <p class="govuk-inset-text">
-        As there is neither a preferential tariff nor a preferential quota present for this commodity, the 'Check rules of origin' tool is not available.
-      </p>
-    <% end %>
-
-
-
-    <%= render 'rules_of_origin/non_preferential' %>
-  </div>
-
-  <div class="govuk-grid-column-one-third">
-    <div id="rules-of-origin__related-content">
-      <h2 class="govuk-heading-m">
-        Related content
-      </h2>
-
-      <nav role="navigation">
-        <ul class="govuk-list govuk-list-s">
-          <% if rules_of_origin_schemes.flat_map(&:links).any? %>
-            <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
-              <li>
-                <%= link_to link.text, link.url %>
-              </li>
-            <% end %>
-          <% else %>
-            <li><a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin">Check your goods meet the rules of origin</a></li>
-          <% end %>
-        </ul>
-      </nav>
-    </div>
-  </div>
+    </ul>
+  </nav>
 </div>
