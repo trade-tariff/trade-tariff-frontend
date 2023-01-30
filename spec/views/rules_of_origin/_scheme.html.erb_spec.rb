@@ -3,48 +3,31 @@ require 'spec_helper'
 RSpec.describe 'rules_of_origin/_scheme', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
-  let(:country_name) { 'Kenya' }
-  let(:commodity_code) { '0302111000' }
-  let(:multiple_schemes) { true }
+  let :render_page do
+    render 'rules_of_origin/scheme', scheme:, commodity_code: '2203000100'
+  end
+
   let(:scheme) { build :rules_of_origin_scheme }
 
-  let :render_page do
-    render 'rules_of_origin/scheme', scheme:,
-                                     country_name:,
-                                     commodity_code:,
-                                     multiple_schemes:
+  it { is_expected.to have_css 'table' }
+  it { is_expected.to have_css 'table th', count: 2 }
+  it { is_expected.to have_css 'table td', count: 2 }
+  it { is_expected.to have_css 'h3', text: /#{scheme.title}/ }
+  it { is_expected.to have_css 'td', text: /#{scheme.v2_rules.first.rule}/ }
+  it { is_expected.to have_css 'td.tariff-markdown *' } # check markdown being rendered
+
+  context 'with multiple rule sets' do
+    let(:scheme) { build :rules_of_origin_scheme, rule_set_count: 3 }
+
+    it { is_expected.to have_css 'table th', count: 3 }
+    it { is_expected.to have_css 'table tr', count: 4 }
+    it { is_expected.to have_css 'table td', count: 9 }
   end
 
-  it 'includes comm code' do
-    expect(rendered_page).to have_css '.rules-of-origin__scheme h3',
-                                      text: /rules for commodity 0302111000/
-  end
+  context 'with no rule sets' do
+    let(:scheme) { build :rules_of_origin_scheme, rule_set_count: 0 }
 
-  describe 'scheme caption' do
-    context 'with single scheme' do
-      let(:multiple_schemes) { false }
-
-      it { is_expected.not_to have_css 'h3 span' }
-    end
-
-    context 'with multiple schemes' do
-      it { is_expected.to have_css 'h3 span' }
-    end
-  end
-
-  it { is_expected.to have_css 'table.commodity-rules-of-origin' }
-  it { is_expected.not_to have_css 'p', text: /no product-specific rules/ }
-
-  it 'includes the introductory_notes section' do
-    expect(rendered_page).to have_css 'details .tariff-markdown p',
-                                      text: /Details of introductory notes/
-  end
-
-  context 'with no rules' do
-    let(:scheme) { build :rules_of_origin_scheme, rule_count: 0 }
-
-    it { is_expected.not_to have_css 'table.commodity-rules-of-origin' }
-    it { is_expected.not_to have_css 'details.govuk-details' }
-    it { is_expected.to have_css 'p', text: /no product-specific rules/ }
+    it { is_expected.to have_content 'no product-specific rules' }
+    it { is_expected.not_to have_css 'table' }
   end
 end

@@ -1,22 +1,35 @@
-<h3 class="govuk-heading-s">
-  Work out if your goods meet the rules of origin
-</h3>
+<div class="panel panel--grey">
 
-<p>
-  Work out if your trade fulfils the rules of origin and can therefore be
-  <strong>considered</strong> originating.
-</p>
+  <h3 class="govuk-heading-m" id="work-out-rules-of-origin">
+    Work out if your goods meet the rules of origin
+  </h3>
 
-<% if declarable.zero_mfn_duty? && declarable.import_trade_summary.preferential_duties? %>
-  <div class="tariff-breadcrumbs">
-    <p>As the third country duty is zero, you do not need to apply for a preferential tariff or
-    comply with preferential rules of origin.</p>
+  <p>
+    Use this tool to determine whether your trade fulfils the rules of origin of
+    <% if rules_of_origin_schemes.many? %>
+      of the relevant trade agreement
+    <% else %>
+      <%= rules_of_origin_schemes.first.title %>
+    <% end %>
+    and can therefore be considered as <strong>originating</strong>.
+  </p>
+
+  <% if declarable.zero_mfn_duty? && declarable.import_trade_summary.preferential_duties? %>
+    <p>
+      As the third country duty is zero, you do not need to apply for a
+      preferential tariff or comply with preferential rules of origin.
+    </p>
 
     <p>If you would still like to continue, click the 'Check rules of origin' button.</p>
-  </div>
-<% end %>
+  <% end %>
 
-<p>
+  <p>
+    This is not a legal binding decision. For certainty, you can
+    <%= link_to 'https://www.gov.uk/guidance/apply-for-an-advance-origin-ruling' do %>
+      apply for an advanced origin ruling (opens in new window)
+    <% end %>.
+  </p>
+
   <%= form_with model: RulesOfOrigin::Wizard.steps.first,
                 url: rules_of_origin_step_path(commodity_code,
                                                country_code,
@@ -30,4 +43,5 @@
 
     <%= f.button 'Check rules of origin', class: 'govuk-button' %>
   <% end %>
-</p>
+
+</div>
