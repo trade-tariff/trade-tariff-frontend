@@ -22,25 +22,10 @@
           </div>
         <% end %>
         <div class="duty" aria-describedby="commodity-duty-title">
-          <% tcd = commodity.overview_measures.third_country_duties %><%= commodity.id %>
+          <% tcd = commodity.overview_measures.third_country_duties %>
 
           <% if tcd.count > 1 %>
-            <table class='table'>
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Duty</th>
-                </tr>
-              </thead>
-              <tbody>
-              <% tcd.each do |t| %>
-                <tr>
-                  <td><%= t.additional_code&.code %></td>
-                  <td><%= t.duty_expression.formatted_base.html_safe %></td>
-                </tr>
-              <% end %>
-              </tbody>
-            </table>
+            <%= render '/commodities/additional_code_table', measures: tcd %>
           <% elsif tcd.count > 0 %>
             <%= tcd.map { |m| m.duty_expression.formatted_base }.join("<br />").html_safe %>
           <% else %>
