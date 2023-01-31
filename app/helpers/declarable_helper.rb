@@ -1,5 +1,5 @@
 module DeclarableHelper
-  def declarable_stw_html(declarable, search, anchor = 'import')
+  def declarable_stw_html(declarable, search, _anchor = 'import')
     code = declarable.code
 
     return I18n.t('stw_link.no_country_html', code:) if search.country.blank?
@@ -10,8 +10,9 @@ module DeclarableHelper
       I18n.t('stw_link.prohibitive_html', code:, trading_partner_description:)
     elsif declarable.one_or_more_conditionally_prohibitive_measures?
       I18n.t('stw_link.conditionally_prohibitive_html', code:, trading_partner_description:)
-    else
-      declarable_stw_link(declarable, search, anchor)
+      # TODO: Reinstate when STW have sorted their end
+      # else
+      #   declarable_stw_link(declarable, search, anchor)
     end
   end
 

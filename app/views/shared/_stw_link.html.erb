@@ -1,3 +1,5 @@
-<div class="govuk-inset-text govuk-inset-text--s tariff-inset-information">
-  <%= sanitize(declarable_stw_html(declarable, @search), tags: %w[a p], attributes: %w[target class rel href]) %>
-</div>
+<% if declarable_stw_html(declarable, @search).present? %>
+  <div class="govuk-inset-text govuk-inset-text--s tariff-inset-information">
+    <%= sanitize(declarable_stw_html(declarable, @search), tags: %w[a p], attributes: %w[target class rel href]) %>
+  </div>
+<% end %>
