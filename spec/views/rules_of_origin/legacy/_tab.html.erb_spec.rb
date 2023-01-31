@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/_legacy_tab', type: :view do
+RSpec.describe 'rules_of_origin/legacy/_tab', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   let :render_page do
-    render 'rules_of_origin/legacy_tab',
+    render 'rules_of_origin/legacy/tab',
            country_code: 'FR',
            country_name: 'France',
            commodity_code: '2203000100',

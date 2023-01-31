@@ -1,9 +1,16 @@
 .panel {
   text-align: left;
   padding: govuk-spacing(4) - $govuk-border-width;
+  @include govuk-responsive-margin(6, "top");
+  @include govuk-responsive-margin(6, "bottom");
+
 
   &--coloured {
     background-color: $coloured-panel-background-colour;
+  }
+
+  &--grey {
+    background-color: govuk-colour("light-grey");
   }
 
   .govuk-warning-text {

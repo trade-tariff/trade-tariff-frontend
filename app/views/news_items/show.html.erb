@@ -53,11 +53,9 @@
 
         <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
           <% @news_item.subheadings.each do |subheading| %>
-            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-              <%= link_to subheading,
-                          "##{markdown_heading_id subheading}",
-                          class: 'gem-c-contents-list__link govuk-link--no-underline' %>
-            </li>
+            <%= contents_list_item subheading,
+                                   "##{markdown_heading_id subheading}",
+                                   'govuk-link--no-underline' %>
           <% end %>
         </ol>
       </div>

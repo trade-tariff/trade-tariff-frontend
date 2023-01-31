@@ -5,7 +5,8 @@ RSpec.describe 'rules_of_origin/wizard_link', type: :view do
 
   context 'when the import trade summary has a non-zero mfn duty' do
     let :render_page do
-      render 'rules_of_origin/wizard_link', country_code: 'JP',
+      render 'rules_of_origin/wizard_link', rules_of_origin_schemes: build_list(:rules_of_origin_scheme, 1),
+                                            country_code: 'JP',
                                             commodity_code: '1234567890',
                                             declarable: build(:commodity, :with_import_trade_summary)
     end
@@ -24,7 +25,8 @@ RSpec.describe 'rules_of_origin/wizard_link', type: :view do
 
   context 'when the import trade summary has preferential duties and the declarable has a zero mfn duty' do
     let :render_page do
-      render 'rules_of_origin/wizard_link', country_code: 'JP',
+      render 'rules_of_origin/wizard_link', rules_of_origin_schemes: build_list(:rules_of_origin_scheme, 1),
+                                            country_code: 'JP',
                                             commodity_code: '1234567890',
                                             declarable: build(:commodity, :with_import_trade_summary, zero_mfn_duty: true)
     end
