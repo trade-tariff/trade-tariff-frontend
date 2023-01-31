@@ -266,7 +266,7 @@ GEM
       net-protocol
     newrelic_rpm (8.14.0)
     nio4r (2.5.8)
-    nokogiri (1.14.0)
+    nokogiri (1.14.1)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     parallel (1.22.1)
@@ -472,7 +472,7 @@ DEPENDENCIES
   multi_json
   net-http-persistent
   newrelic_rpm
-  nokogiri (~> 1.14.0)
+  nokogiri (~> 1.14.1)
   plek
   pry-byebug
   pry-rails
