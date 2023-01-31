@@ -514,11 +514,13 @@ en:
         overview:
           subtitle: Proof of origin - overview
           body:
-             There are 2 way to provide proofs of origin. Click on an option to
-             see an overview of that proof.
+            one:
+              There is 1 way to provide proofs of origin. Click on an option to
+              see an overview of that proof.
+            other:
+              There are %{count} ways to provide proofs of origin. Click on an option to
+              see an overview of that proof.
         links:
-          statement: Statement on origin (opens in new tab)
-          knowledge: Importer's knowledge (opens in new tab)
           requirements: See detailed processes and requirements for proving the origin for goods
           verification: How proofs of origin are verified
           duty_drawback: Find out about duty drawback
