@@ -15,7 +15,7 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
       let(:declarable) { build(:commodity, goods_nomenclature_item_id: '0101300020') }
       let(:search) { build(:search, :with_country) }
 
-      it { is_expected.to eq(helper.declarable_stw_link(declarable, search)) }
+      it { is_expected.to be_nil }
     end
 
     context 'when the declarable has conditionally prohibitive measures' do

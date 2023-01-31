@@ -10,8 +10,9 @@ module DeclarableHelper
       I18n.t('stw_link.prohibitive_html', code:, trading_partner_description:)
     elsif declarable.one_or_more_conditionally_prohibitive_measures?
       I18n.t('stw_link.conditionally_prohibitive_html', code:, trading_partner_description:)
-    else
-      declarable_stw_link(declarable, search, anchor)
+    # TODO: Reinstate when STW have sorted their end
+    # else
+    #   declarable_stw_link(declarable, search, anchor)
     end
   end
 
