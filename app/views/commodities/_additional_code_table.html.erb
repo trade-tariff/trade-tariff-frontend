@@ -7,10 +7,10 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-  <% measures.each do |t| %>
+  <% measures.each do |m| %>
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell" id="additional-code"><%= t.additional_code&.code %></td>
-      <td class="govuk-table__cell"><%= t.duty_expression.formatted_base.html_safe %></td>
+      <td class="govuk-table__cell" id="additional-code"><%= m.additional_code&.code %></td>
+      <td class="govuk-table__cell"><%= m.duty_expression.formatted_base.html_safe %></td>
     </tr>
   <% end %>
   </tbody>
