@@ -8,6 +8,18 @@ module PagesHelper
     [asset, asset_size, link_text]
   end
 
+  def help_guide_links
+    content_tag(:ul, class: 'govuk-list govuk-list--bullet') do
+      safe_join(
+        Rails.application.config.guide_links.map do |link_text, url|
+          content_tag(:li) do
+            link_to link_text, url, class: 'gem-c-contents-list__link govuk-link govuk-link--no-underline', target: '_blank', rel: 'noopener'
+          end
+        end,
+      )
+    end
+  end
+
   private
 
   def chapter_for(short_code, chapters)
