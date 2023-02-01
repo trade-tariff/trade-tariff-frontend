@@ -8,7 +8,9 @@
   </div>
 <% end %>
 
-<%= render 'shared/stw_link', declarable: declarable, search: search, anchor: anchor if local_assigns[:show_stw_text] && !declarable.one_or_more_prohibitive_measures?  %>
+<% if local_assigns[:show_stw_text] %>
+  <%= render 'shared/stw_link', declarable: declarable, search: search, anchor: anchor %>
+<% end %>
 
 <%= render 'measures/grouped/tariff_duty_calculator_link', declarable_code: declarable.code if local_assigns[:show_duty_calculator] %>
 
