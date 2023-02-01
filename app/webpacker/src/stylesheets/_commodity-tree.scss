@@ -557,6 +557,6 @@ article.tariff {
 }
 
 .additional-code-table {
-  font-size: 14px;
-  margin-bottom: 10px;
+  @include govuk-font($size: 14);
+  margin-bottom: govuk-spacing(3);
 }
