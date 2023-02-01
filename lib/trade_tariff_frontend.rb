@@ -91,6 +91,10 @@ module TradeTariffFrontend
     )
   end
 
+  def single_trade_window_linking_enabled?
+    ENV.fetch('STW_ENABLED', 'false') == 'true'
+  end
+
   def js_sentry_dsn
     ENV.fetch('JS_SENTRY_DSN', '')
   end
