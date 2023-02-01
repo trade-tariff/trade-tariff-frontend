@@ -68,3 +68,11 @@ dt.has_children + dd[aria-hidden="true"] {
   top: 9px !important;
   position: relative;
 }
+
+.residual-message-key {
+  width: 13%;
+}
+
+.residual-message-font {
+  @include govuk-font($size: 16);
+}

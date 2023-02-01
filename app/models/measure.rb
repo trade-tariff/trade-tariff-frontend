@@ -193,6 +193,10 @@ class Measure
     measure_type.prohibitive? && measure_conditions.none? && additional_code.blank?
   end
 
+  def residual?
+    measure_type.prohibitive? && additional_code.residual? && !measure_conditions.any?
+  end
+
   private
 
   def excluded_country_ids

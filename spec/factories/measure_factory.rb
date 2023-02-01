@@ -281,5 +281,11 @@ FactoryBot.define do
         []
       end
     end
+
+    trait :residual do
+      measure_type { attributes_for(:measure_type, :prohibitive) }
+      additional_code { attributes_for(:additional_code, code: '49999') }
+      measure_conditions { [] }
+    end
   end
 end

@@ -48,6 +48,12 @@ class MeasureType
     SAFEGUARD_TYPES.include?(id)
   end
 
+  def abbreviation
+    return 'Prohibition' if description.scan(/Prohibition/i).present?
+    return 'Restriction' if description.scan(/Restriction/i).present?
+    'Control'
+  end
+
   private
 
   def translated_description

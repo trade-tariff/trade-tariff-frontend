@@ -306,6 +306,24 @@ RSpec.describe Measure do
     end
   end
 
+  describe '#residual?' do
+    context 'with residual measure' do
+      subject(:measure) { build(:measure, :residual) }
+
+      it 'returns true' do
+        expect(measure).to be_residual
+      end
+    end
+
+    context 'with residual measure' do
+      subject(:measure) { build(:measure) }
+
+      it 'returns false' do
+        expect(measure).not_to be_residual
+      end
+    end
+  end
+
   describe '#safeguard?' do
     context 'with safeguard measure' do
       subject { build :measure, :safeguard }

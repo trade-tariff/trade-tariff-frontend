@@ -30,4 +30,14 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
     it { expect(rendered).to match(/EUR/) }
     it { expect(rendered).to match(/Hectokilogram/) }
   end
+
+  context 'with residual measure' do
+    let(:measure) { build(:measure, :residual) }
+
+    it { expect(rendered).to match(/Control does not apply to goods/) }
+
+    it { expect(rendered).to match(measure.additional_code.code) }
+
+    it { expect(rendered).to match(measure.additional_code.formatted_description) }
+  end
 end

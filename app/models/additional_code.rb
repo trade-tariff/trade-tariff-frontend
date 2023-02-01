@@ -4,6 +4,8 @@ class AdditionalCode
   include ApiEntity
   include HasGoodsNomenclature
 
+  RESIDUAL_CODES = %w[49 98 99]
+
   collection_path '/additional_codes'
 
   has_many :measures
@@ -14,5 +16,9 @@ class AdditionalCode
 
   def id
     @id ||= "#{casted_by.destination}-#{casted_by.id}-additional-code-#{code}"
+  end
+
+  def residual?
+    RESIDUAL_CODES.include? code.last(2)
   end
 end

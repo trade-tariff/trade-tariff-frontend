@@ -25,15 +25,24 @@
       </span>
     <% end %>
     <% if measure.additional_code.present? %>
-      <span class='table-line'>
-        Additional code: <strong><%= measure.additional_code.code %></strong>
-      </span>
+      <div class="govuk-inset-text tariff-inset-information residual-message-font">
+        <% if measure.residual? %>
+          <%= measure.measure_type.abbreviation %> does not apply to goods covered under additional code:
+        <% else %>
+          <%= measure.measure_type.abbreviation %> applies to goods covered under additional code:
+        <% end %>
 
-      <% if measure.additional_code.formatted_description.present? %>
-        <span class='table-line'>
-          <%= sanitize measure.additional_code.formatted_description %>
-        </span>
-      <% end %>
+        <dl class="govuk-summary-list govuk-summary-list--no-border residual-message-font">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key residual-message-key">
+              <%= measure.additional_code.code %>
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <%= sanitize measure.additional_code.formatted_description if measure.additional_code.formatted_description.present? %>
+            </dd>
+          </div>
+        </dl>
+      </div>
     <% end %>
   </td>
 
