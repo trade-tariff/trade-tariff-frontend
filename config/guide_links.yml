@@ -1,0 +1,28 @@
+default: &default
+  ceramics: https://www.gov.uk/guidance/classifying-ceramics
+  computers and software: https://www.gov.uk/guidance/classifying-computers-and-software
+  drones and aircraft parts: https://www.gov.uk/guidance/classifying-aircraft-parts-and-accessories
+  edible fruit, vegetables and nuts: https://www.gov.uk/guidance/classifying-edible-fruit-vegetables-and-nuts-for-import-and-export
+  electrical equipment: https://www.gov.uk/guidance/classifying-electrical-equipment-for-import-and-export
+  electric lamps: https://www.gov.uk/guidance/classifying-electric-lamps
+  footwear: https://www.gov.uk/guidance/classifying-footwear
+  herbal medicines, supplements and tonics: https://www.gov.uk/guidance/classifying-vitamins-supplements-and-herbal-medicines-for-import-and-export
+  iron and steel: https://www.gov.uk/guidance/classifying-iron-and-steel
+  leather: https://www.gov.uk/guidance/classifying-leather
+  organic chemicals: https://www.gov.uk/guidance/classifying-organic-chemicals
+  pharmaceutical products and placebos: https://www.gov.uk/guidance/classifying-pharmaceutical-products
+  plastics: https://www.gov.uk/guidance/classifying-plastics
+  rice: https://www.gov.uk/guidance/classifying-rice
+  textile apparel: https://www.gov.uk/guidance/classifying-textile-apparel
+  tobacco: https://www.gov.uk/guidance/classifying-tobacco
+  toys, games and festive articles: https://www.gov.uk/guidance/classifying-toys-games-and-festive-articles-for-import-and-export
+  vehicles, bicycles, parts and accessories: https://www.gov.uk/guidance/classifying-vehicles
+  wood: https://www.gov.uk/guidance/classifying-wood
+
+development:
+  <<: *default
+test:
+  ceramics: https://www.gov.uk/guidance/classifying-ceramics
+  computers and software: https://www.gov.uk/guidance/classifying-computers-and-software
+production:
+  <<: *default
