@@ -19,7 +19,7 @@ RSpec.describe PagesHelper, type: :helper do
     subject(:help_guide_links) { helper.help_guide_links }
 
     it { is_expected.to be_html_safe }
-    it { is_expected.to have_link 'computers and software', href: 'https://www.gov.uk/guidance/classifying-ceramics' }
+    it { is_expected.to have_link 'computers and software', href: 'https://www.gov.uk/guidance/classifying-computers-and-software' }
     it { is_expected.to have_link 'ceramics', href: 'https://www.gov.uk/guidance/classifying-ceramics' }
   end
 end
