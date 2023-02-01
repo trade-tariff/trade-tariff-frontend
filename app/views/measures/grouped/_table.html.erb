@@ -8,7 +8,7 @@
   </div>
 <% end %>
 
-<% if local_assigns[:show_stw_text] && (search.country.blank? || !declarable.one_or_more_prohibitive_measures?) %>
+<% if local_assigns[:show_stw_text] %>
   <%= render 'shared/stw_link', declarable: declarable, search: search, anchor: anchor %>
 <% end %>
 
