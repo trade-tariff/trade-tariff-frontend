@@ -269,6 +269,13 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       it { is_expected.not_to have_css 'span.switch-service-control' }
     end
+
+    context 'with caption' do
+      subject { helper.page_header 'Some header', 'Some caption' }
+
+      it { is_expected.to have_css 'header h1.govuk-heading-l', text: 'Some header' }
+      it { is_expected.to have_css 'header span.govuk-caption-xl', text: 'Some caption' }
+    end
   end
 
   describe '#css_heading_size' do

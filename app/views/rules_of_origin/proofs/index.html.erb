@@ -1,0 +1,30 @@
+<%= back_link request.referer || find_commodity_path, javascript: true %>
+
+<%= page_header 'Proofs of origin for all trade agreements', 'Rules of origin' %>
+
+<nav id="contents">
+  <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
+    <h2 class="gem-c-contents-list__title">Contents</h2>
+
+    <% @schemes.each do |scheme| %>
+      <%= contents_list_item scheme.title, "#proofs-for-#{scheme.scheme_code}" %>
+    <% end %>
+  </ol>
+</nav>
+
+<% @schemes.each do |scheme| %>
+  <h2 class="govuk-heading-m" id="proofs-for-<%= scheme.scheme_code %>">
+    <%= scheme.title %>
+  </h2>
+
+  <p>
+    The following are valid proofs of origin:
+  </p>
+
+  <div class="stacked-govuk-details">
+    <% scheme.proofs.each do |proof| %>
+      <%= render 'shared/details', summary: proof.summary,
+                                   content: govspeak(proof.content) %>
+    <% end %>
+  </div>
+<% end %>
