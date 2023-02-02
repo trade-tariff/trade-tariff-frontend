@@ -168,7 +168,6 @@ article.tariff {
     @include contain-float;
     padding: 0;
     margin: 1em;
-    //here
     position:relative;
     font-size: 14px;
     @media(min-width: $desktop-min-width) {
