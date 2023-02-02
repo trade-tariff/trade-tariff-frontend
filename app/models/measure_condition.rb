@@ -18,6 +18,10 @@ class MeasureCondition
 
   attr_writer :requirement, :measure_condition_class
 
+  def requirement_text
+    (certificate_description.presence || requirement.to_s).html_safe
+  end
+
   def requirement
     @requirement&.html_safe
   end

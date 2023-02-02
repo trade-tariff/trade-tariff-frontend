@@ -11,6 +11,7 @@ RSpec.describe 'measures/_measure_condition_modal_default', type: :view do
   context 'with measure which universal waiver does not apply to' do
     let(:measure) { build :measure, :with_conditions }
 
+    it { is_expected.to include(measure.measure_conditions.first.requirement_text) }
     it { is_expected.to render_template('measures/_measure_from_to') }
     it { is_expected.not_to have_css '.universal-waiver-applies-panel' }
     it { is_expected.not_to have_css '.permutation-group' }
