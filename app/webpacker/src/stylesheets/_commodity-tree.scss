@@ -558,5 +558,12 @@ article.tariff {
 
 .additional-code-table {
   @include govuk-font($size: 14);
-  @include govuk-responsive-margin(3, "bottom");
+  @include govuk-responsive-margin(2, "bottom");
+
+  .govuk-table__body .govuk-table__cell {
+    padding: 0.1rem;
+  }
+  .govuk-table__head .govuk-table__header {
+    padding: 0.1rem;
+  }
 }
