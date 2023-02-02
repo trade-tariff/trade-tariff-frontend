@@ -76,3 +76,9 @@ dt.has_children + dd[aria-hidden="true"] {
 .residual-message-font {
   @include govuk-font($size: 16);
 }
+
+.residual-message-box {
+  padding: 7px;
+  margin-bottom: 7px;
+  margin-top: 7px;
+}

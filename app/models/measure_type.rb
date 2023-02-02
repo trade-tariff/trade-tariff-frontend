@@ -51,6 +51,7 @@ class MeasureType
   def abbreviation
     return 'Prohibition' if description.scan(/Prohibition/i).present?
     return 'Restriction' if description.scan(/Restriction/i).present?
+
     'Control'
   end
 

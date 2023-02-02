@@ -12,13 +12,13 @@ RSpec.describe AdditionalCode do
   describe '#residual?' do
     subject(:abbreviation) { additional_code.residual? }
 
-    context "it returns true if last 2 characters match" do
+    context 'when last 2 characters match it returns true' do
       let(:additional_code) { build(:additional_code, code: '1149') }
 
       it { is_expected.to eq(true) }
     end
 
-    context "it returns false if last 2 characters do not match" do
+    context 'when last 2 characters do not match it returns false' do
       let(:additional_code) { build(:additional_code, code: '1111') }
 
       it { is_expected.to eq(false) }

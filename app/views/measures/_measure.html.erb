@@ -25,7 +25,7 @@
       </span>
     <% end %>
     <% if measure.additional_code.present? %>
-      <div class="govuk-inset-text tariff-inset-information residual-message-font">
+      <div class="govuk-inset-text tariff-inset-information residual-message-font residual-message-box">
         <% if measure.residual? %>
           <%= measure.measure_type.abbreviation %> does not apply to goods covered under additional code:
         <% else %>

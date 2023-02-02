@@ -4,7 +4,7 @@ class AdditionalCode
   include ApiEntity
   include HasGoodsNomenclature
 
-  RESIDUAL_CODES = %w[49 98 99]
+  RESIDUAL_CODES = %w[49 98 99].freeze
 
   collection_path '/additional_codes'
 

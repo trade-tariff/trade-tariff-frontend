@@ -194,7 +194,7 @@ class Measure
   end
 
   def residual?
-    measure_type.prohibitive? && additional_code.residual? && !measure_conditions.any?
+    measure_type.prohibitive? && additional_code.residual? && measure_conditions.none?
   end
 
   private

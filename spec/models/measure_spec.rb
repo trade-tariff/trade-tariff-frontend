@@ -315,7 +315,7 @@ RSpec.describe Measure do
       end
     end
 
-    context 'with residual measure' do
+    context 'without residual measure' do
       subject(:measure) { build(:measure) }
 
       it 'returns false' do
