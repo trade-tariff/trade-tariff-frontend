@@ -69,4 +69,45 @@ RSpec.describe MeasureCondition do
       it { is_expected.to have_attributes 'document?': true }
     end
   end
+
+  describe '#requirement_text' do
+    context 'when the certificate_description is present' do
+      subject(:requirement_text) do
+        build(
+          :measure_condition,
+          requirement: nil,
+          certificate_description: 'ICCAT swordfish statistical document',
+        ).requirement_text
+      end
+
+      it { is_expected.to eq('ICCAT swordfish statistical document') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when the requirement is present' do
+      subject(:requirement_text) do
+        build(
+          :measure_condition,
+          requirement: 'Other certificates: ICCAT swordfish statistical document',
+          certificate_description: nil,
+        ).requirement_text
+      end
+
+      it { is_expected.to eq('Other certificates: ICCAT swordfish statistical document') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when neither the certificate_description or requirement are present' do
+      subject(:requirement_text) do
+        build(
+          :measure_condition,
+          requirement: nil,
+          certificate_description: nil,
+        ).requirement_text
+      end
+
+      it { is_expected.to eq('') }
+      it { is_expected.to be_html_safe }
+    end
+  end
 end
