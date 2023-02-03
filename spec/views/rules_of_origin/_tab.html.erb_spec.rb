@@ -42,6 +42,10 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
     expect(rendered_page).to have_css '.commodity-rules-of-origin'
   end
 
+  it 'includes single proofs section' do
+    expect(rendered_page).to have_css '#rules-of-origin-proofs', count: 1
+  end
+
   context 'without matched rules' do
     let(:rule_sets) { [] }
 
@@ -74,6 +78,10 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
     it 'includes multiple psr tables' do
       expect(rendered_page).to have_css '.commodity-rules-of-origin', count: 3
     end
+
+    it 'includes proofs section' do
+      expect(rendered_page).to have_css '#rules-of-origin-proofs'
+    end
   end
 
   context 'with no schemes' do
@@ -85,6 +93,10 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
 
     it 'excludes the psr tables' do
       expect(rendered_page).not_to have_css '.commodity-rules-of-origin'
+    end
+
+    it 'does not show the proofs section' do
+      expect(rendered_page).not_to have_css '#rules-of-origin-proofs'
     end
   end
 

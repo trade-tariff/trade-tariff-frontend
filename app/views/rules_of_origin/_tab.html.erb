@@ -10,6 +10,7 @@
       <%= contents_list_item 'Work out if your goods meet the rules of origin',
                              '#work-out-rules-of-origin'  %>
       <%= contents_list_item 'Product-specific rules', '#product-specific-rules' %>
+      <%= contents_list_item 'Proofs of origin', '#proofs-of-origin' %>
     <%- end -%>
     <%= contents_list_item 'Non-preferential rules of origin', '#non-preferential-rules' %>
     <%= contents_list_item 'Related content', '#rules-of-origin__related-content' %>
@@ -49,10 +50,14 @@
     <%= render partial: 'rules_of_origin/scheme',
                collection: rules_of_origin_schemes,
                locals: { commodity_code: } %>
+
+    <%= render 'rules_of_origin/proofs', schemes: rules_of_origin_schemes,
+                                         commodity_code: %>
   </div>
 <% else %>
   <p class="govuk-inset-text">
-    As there is neither a preferential tariff nor a preferential quota present for this commodity, the 'Check rules of origin' tool is not available.
+    As there is neither a preferential tariff nor a preferential quota present
+    for this commodity, the 'Check rules of origin' tool is not available.
   </p>
 <% end %>
 
