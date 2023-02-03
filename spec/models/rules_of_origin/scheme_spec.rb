@@ -259,6 +259,32 @@ RSpec.describe RulesOfOrigin::Scheme do
       end
     end
 
+    describe '.with_rules_for_commodity' do
+      subject { described_class.with_rules_for_commodity commodity }
+
+      before do
+        stub_request(:get, "#{api_host}/rules_of_origin_schemes/#{commodity.to_param}")
+          .to_return(body: json_response, status: 200, headers: response_headers)
+      end
+
+      let(:commodity) { build :commodity }
+
+      it { is_expected.to have_attributes length: 1 }
+      it { is_expected.to all be_instance_of described_class }
+    end
+
+    describe '.with_duty_drawback_articles' do
+      subject { described_class.with_duty_drawback_articles }
+
+      before do
+        stub_request(:get, "#{api_host}/rules_of_origin_schemes?filter[has_article]=duty-drawback")
+          .to_return(body: json_response, status: 200, headers: response_headers)
+      end
+
+      it { is_expected.to have_attributes length: 1 }
+      it { is_expected.to all be_instance_of described_class }
+    end
+
     describe '#links' do
       include_context 'with mocked response'
 
@@ -368,17 +394,5 @@ RSpec.describe RulesOfOrigin::Scheme do
 
       it { is_expected.to eql scheme.rule_sets[1].rules[0].rule }
     end
-  end
-
-  describe '#with_duty_drawback_articles' do
-    subject { described_class.with_duty_drawback_articles }
-
-    before do
-      stub_request(:get, "#{api_host}/rules_of_origin_schemes?filter[has_article]=duty-drawback")
-        .to_return(body: json_response, status: 200, headers: response_headers)
-    end
-
-    it { is_expected.to have_attributes length: 1 }
-    it { is_expected.to all be_instance_of described_class }
   end
 end
