@@ -12,4 +12,8 @@ module GovukFrontendHelper
       link_to text, href, class: link_classes
     end
   end
+
+  def back_to_top_link
+    link_to t('navigation.back_to_top'), '#content', class: 'govuk-!-display-none-print'
+  end
 end

@@ -7,6 +7,7 @@ RSpec.describe RulesOfOrigin::ProductSpecificRulesController, type: :request do
     before do
       allow(RulesOfOrigin::Scheme).to receive(:with_rules_for_commodity).and_return(schemes)
       allow(Commodity).to receive(:find).with(commodity.to_param).and_return(commodity)
+      allow(GeographicalArea).to receive(:all).and_return []
 
       get rules_of_origin_product_specific_rules_path(commodity)
     end

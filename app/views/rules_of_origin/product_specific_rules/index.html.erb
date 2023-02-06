@@ -2,6 +2,16 @@
 
 <%= page_header "Commodity #{@commodity.goods_nomenclature_item_id}", false %>
 
+<p>
+  <%= @commodity.description %>
+</p>
+
+<p>
+  This page lists the product-specific rules of origin in place for all
+  <%= TradeTariffFrontend::ServiceChooser.uk? ? 'UK' : 'Northern Ireland' %>
+  trade agreements for commodity <%= @commodity.goods_nomenclature_item_id %>.
+</p>
+
 <nav id="contents">
   <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
     <h2 class="gem-c-contents-list__title">Contents</h2>
@@ -13,11 +23,19 @@
 </nav>
 
 <% @schemes.each do |scheme| %>
-  <h2 class="govuk-heading-m" id="rules-for-<%= scheme.scheme_code %>">
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-0" id="rules-for-<%= scheme.scheme_code %>">
     <%= scheme.title %>
   </h2>
+
+  <p class="govuk-caption-m">
+    <%= safe_join scheme.countries.map(&@countries.method(:[])).compact.sort, ', ' %>
+  </p>
 
   <%= render 'rules_of_origin/product_specific_rules',
              rule_sets: scheme.rule_sets,
              commodity_code: @commodity.goods_nomenclature_item_id %>
+
+  <p>
+    <%= back_to_top_link %>
+  </p>
 <% end %>

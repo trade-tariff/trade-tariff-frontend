@@ -5,6 +5,9 @@ module RulesOfOrigin
     def index
       @commodity = Commodity.find(params[:commodity])
       @schemes = RulesOfOrigin::Scheme.with_rules_for_commodity(@commodity)
+      @countries = GeographicalArea.all(filter: { exclude_none: true })
+                                   .index_by(&:id)
+                                   .transform_values(&:description)
     end
   end
 end
