@@ -3,6 +3,8 @@ module RulesOfOrigin
     class ProofsOfOrigin < Base
       self.section = 'proofs'
 
+      delegate :proofs, to: :chosen_scheme
+
       def skipped?
         true
       end

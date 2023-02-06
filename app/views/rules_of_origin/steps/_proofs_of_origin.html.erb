@@ -19,24 +19,16 @@
   </h3>
 
   <p>
-    <%= t '.overview.body' %>
+    <%= t '.overview.body', count: current_step.proofs.length %>
   </p>
 
-  <ul class="govuk-list" id="body-links">
-    <li>
-      <%= link_to t('.links.statement'),
-                  'https://www.gov.uk/guidance/get-proof-of-origin-for-your-goods#origin-declaration',
-                  target: '_blank',
-                  rel: 'noreferrer noopener' %>
-    </li>
-
-    <li>
-      <%= link_to t('.links.knowledge'),
-                  'https://www.gov.uk/guidance/get-proof-of-origin-for-your-goods#importers-knowledge',
-                  target: '_blank',
-                  rel: 'noreferrer noopener' %>
-    </li>
-  </ul>
+  <div class="stacked-govuk-details tariff-markdown">
+    <% current_step.proofs.each do |proof| %>
+      <%= render 'shared/details', summary: proof.summary,
+                                   content: govspeak(proof.content) \
+          if proof.content.present? %>
+    <% end %>
+  </div>
 </div>
 
 <h3 class="govuk-heading-s">

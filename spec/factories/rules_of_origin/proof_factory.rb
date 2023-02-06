@@ -3,5 +3,6 @@ FactoryBot.define do
     sequence(:summary) { |n| "Proof summary #{n}" }
     url { 'https://www.gov.uk/' }
     sequence(:subtext) { |n| "Proof subtext #{n}" }
+    content { "First paragraph\n\nSecond paragraph" }
   end
 end

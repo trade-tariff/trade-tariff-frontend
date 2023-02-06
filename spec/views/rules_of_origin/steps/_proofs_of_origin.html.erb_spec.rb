@@ -10,7 +10,7 @@ RSpec.describe 'rules_of_origin/steps/_origin_requirements_met', type: :view do
   it { is_expected.to have_css 'p', text: /preferential tariff/ }
   it { is_expected.to have_css '#proofs-overview h3', text: /overview/ }
   it { is_expected.to have_css '#proofs-overview p', text: /provide proof/ }
-  it { is_expected.to have_css '#proofs-overview a', count: 2 }
+  it { is_expected.to have_css '#proofs-overview details', count: 1 }
   it { is_expected.to have_css 'h3', text: /Next/i }
   it { is_expected.to have_css '#next-steps a', count: 2 }
 
