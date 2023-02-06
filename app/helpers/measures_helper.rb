@@ -82,11 +82,8 @@ module MeasuresHelper
 
       t("threshold_requirement_text.#{condition.threshold_unit_type}.#{condition.requirement_operator}_html", requirement_duty_expression: condition.requirement, default: threshold_fallback).html_safe
     else
-      (condition.certificate_description.presence ||
-        condition.requirement.presence ||
-        'No document provided')
-        .to_s
-        .html_safe
+      document_text = condition.requirement_text.presence || 'No document provided'
+      document_text.to_s.html_safe
     end
   end
 

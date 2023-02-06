@@ -109,7 +109,7 @@ article.tariff {
     .vat {
       width: 80px;
       display: none;
-      text-align: right;
+      text-align: left;
 
       @media (min-width: $headings-large-viewport) {
         display: block;
@@ -119,7 +119,7 @@ article.tariff {
     .duty {
       width: 145px;
       display: none;
-      text-align: right;
+      text-align: left;
 
       @media (min-width: $headings-large-viewport) {
         display: block;
@@ -129,7 +129,7 @@ article.tariff {
     .supplementary-units {
       width: 120px;
       display: none;
-      text-align: right;
+      text-align: left;
 
       @media (min-width: $headings-large-viewport) {
         display: block;
@@ -138,8 +138,8 @@ article.tariff {
 
     .commcode {
       width: 110px;
-      float: right;
-      text-align: right;
+      float: left;
+      text-align: left;
       display: none;
 
       @media (min-width: $headings-large-viewport) {
@@ -272,17 +272,17 @@ article.tariff {
 
         .vat {
           width: 80px;
-          text-align: right;
+          text-align: left;
         }
 
         .duty {
-          width: 145px;
-          text-align: right;
+          width: 170px;
+          text-align: left;
         }
 
         .supplementary-units {
           width: 120px;
-          text-align: right;
+          text-align: left;
         }
       }
 
@@ -552,5 +552,17 @@ article.tariff {
         top: 0.15em;
       }
     }
+  }
+}
+
+.additional-code-table {
+  @include govuk-font($size: 14);
+  @include govuk-responsive-margin(2, "bottom");
+
+  .govuk-table__body .govuk-table__cell {
+    padding: 0.1rem;
+  }
+  .govuk-table__head .govuk-table__header {
+    padding: 0.1rem;
   }
 }

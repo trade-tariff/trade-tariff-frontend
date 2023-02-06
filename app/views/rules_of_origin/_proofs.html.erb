@@ -1,45 +1,45 @@
-<div class="rules-of-origin__proofs">
-  <% if proofs.any? %>
-    <% if scheme_title %>
-      <span class="govuk-caption-l">
-        <%= scheme_title %>
-      </span>
-    <% end %>
+<div id="rules-of-origin-proofs">
+  <h3 class="govuk-heading-m" id="proofs-of-origin">
+    Proofs of origin
+  </h3>
 
-    <h3 class="govuk-heading-m">
-      Proving originating status and claiming preferential treatment
-    </h3>
-
+  <% schemes.each do |scheme| %>
     <p>
-      The customs authority of the importing party will grant preferential
-      tariff treatment, based on a claim made by the importer, to goods that
-      originate in the other party that meet the conditions of the Trade
-      Agreement
+      <% if scheme.proofs.many? %>
+        The following are valid proofs of origin for the <%= scheme.title %>:
+      <% else %>
+        The following proof of origin is valid for the <%= scheme.title %>:
+      <% end %>
     </p>
 
-    <% if proofs.many? %>
-      <p>
-        A claim can be made if the importer has one of the following proofs of
-        origin:
-      </p>
-    <% else %>
-      <p>
-        A claim can be made if the importer has the following proof of origin:
-      </p>
-    <% end %>
+    <div class="tariff-markdown stacked-govuk-details">
+      <% scheme.proofs.each do |proof| %>
+        <%= render 'shared/details', summary: proof.summary,
+                                     content: govspeak(proof.content) %>
+      <% end %>
+    </div>
+  <% end %>
 
-    <% proofs.each do |proof| %>
-      <ul class="govuk-list govuk-list--bullet govuk-list--spaced rules-of-origin__proofs__content">
-        <li>
-          <%= link_to proof.summary, proof.url %>
-        </li>
+  <% if false && schemes.many? %>
+    <p>
+      <%= link_to 'See valid proofs of origin for all trade agreements', '#tbd' %>
+    </p>
+  <% elsif false && %>
+    <p>Find out more about proofs of origin:</p>
 
-        <% if proof.subtext.present? %>
-          <p>
-            <%= proof.subtext %>
-          </p>
-        <% end %>
-      </ul>
-    <% end %>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        <%= link_to 'How proofs are verified', '#tbd' %>
+      </li>
+
+      <li>
+        <%= link_to 'Detailed processes and requirements for proving the origin for goods',
+                    '#tbd' %>
+      </li>
+
+      <li>
+        <%= link_to 'See valid proofs of origin for all trade agreements', '#tbd' %>
+      </li>
+    </ul>
   <% end %>
 </div>
