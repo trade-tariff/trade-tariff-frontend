@@ -1,0 +1,23 @@
+<%= back_link request.referer || find_commodity_path, javascript: true %>
+
+<%= page_header "Commodity #{@commodity.goods_nomenclature_item_id}", false %>
+
+<nav id="contents">
+  <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
+    <h2 class="gem-c-contents-list__title">Contents</h2>
+
+    <% @schemes.each do |scheme| %>
+      <%= contents_list_item scheme.title, "#rules-for-#{scheme.scheme_code}" %>
+    <% end %>
+  </ol>
+</nav>
+
+<% @schemes.each do |scheme| %>
+  <h2 class="govuk-heading-m" id="rules-for-<%= scheme.scheme_code %>">
+    <%= scheme.title %>
+  </h2>
+
+  <%= render 'rules_of_origin/product_specific_rules',
+             rule_sets: scheme.rule_sets,
+             commodity_code: @commodity.goods_nomenclature_item_id %>
+<% end %>

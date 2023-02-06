@@ -2,49 +2,5 @@
   Rules under the <%= scheme.title %>
 </h3>
 
-<%- if scheme.rule_sets.empty? -%>
-  <p>
-    There are no product-specific rules for commodity <%= commodity_code %>
-  </p>
-<%- else -%>
-  <table class="govuk-table govuk-table--responsive commodity-rules-of-origin">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-!-width-one-quarter" scope="col">
-          Heading
-        </th>
-
-        <% if scheme.rule_sets.many? %>
-        <th class="govuk-table__header" scope="col">
-          Description
-        </th>
-        <% end %>
-
-        <th class="govuk-table__header" scope="col">
-          Rule
-        </th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <% scheme.rule_sets.each do |rule_set| %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell" data-label="Heading">
-          <%= restrict_wrapping replace_non_breaking_space(rule_set.heading) %>
-        </td>
-
-        <% if scheme.rule_sets.many? %>
-        <td class="govuk-table__cell" data-label="Description">
-          <%= rule_set.subdivision %>
-        </td>
-        <% end %>
-
-        <td class="govuk-table__cell tariff-markdown responsive-full-width" data-label="Rule">
-          <% rule_set.rules.each do |rule| %>
-            <%= govspeak link_glossary_terms(rule.rule) %>
-          <% end %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-<%- end -%>
+<%= render 'rules_of_origin/product_specific_rules', rule_sets: scheme.rule_sets,
+                                                     commodity_code: %>
