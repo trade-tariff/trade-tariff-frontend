@@ -68,7 +68,8 @@
     z-index:100
 }
 .autocomplete__menu--inline{
-    position:relative
+    position: absolute;
+    z-index: 1;
 }
 .autocomplete__option{
     border-bottom:solid #b1b4b6;
