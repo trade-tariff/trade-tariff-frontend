@@ -13,4 +13,5 @@ RSpec.describe 'rules_of_origin/_scheme', type: :view do
   it { is_expected.to have_css 'table' }
   it { is_expected.to have_css 'table th', count: 2 }
   it { is_expected.to have_css 'table td', count: 2 }
+  it { is_expected.to have_link 'View product-specific rules', href: %r{/2203000100} }
 end
