@@ -4,7 +4,7 @@ orbs:
   aws-cli: circleci/aws-cli@2.0.3
   ruby: circleci/ruby@2
   node: circleci/node@5
-  browser-tools: circleci/browser-tools@1.1
+  browser-tools: circleci/browser-tools@1
   cloudfoundry: circleci/cloudfoundry@1.0
   slack: circleci/slack@4.3.0
   queue: eddiewebb/queue@1.6.4
