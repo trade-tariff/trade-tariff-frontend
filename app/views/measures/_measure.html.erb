@@ -35,7 +35,9 @@
           <strong><%= measure.additional_code.code %></strong>
         </p>
 
-        <p class="govuk-!-font-size-16"><%= sanitize measure.additional_code.formatted_description if measure.additional_code.formatted_description.present? %></p>
+        <% if measure.additional_code.formatted_description.present? %>
+          <p class="govuk-!-font-size-16"><%= sanitize measure.additional_code.formatted_description %></p>
+        <% end %>
       </div>
     <% end %>
   </td>
