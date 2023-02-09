@@ -11,16 +11,12 @@ module RulesOfOrigin
         origin_processes&.content
       end
 
-      def processes_sections
-        origin_processes&.sections || []
-      end
-
       def processes_section(section_number)
         origin_processes&.section(section_number)
       end
 
-      def processes_section_titles
-        origin_processes&.subheadings || []
+      def processes_contents_list
+        origin_processes&.sections_contents_list || {}
       end
 
     private

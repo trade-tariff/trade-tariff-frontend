@@ -40,4 +40,9 @@ class RulesOfOrigin::Article
              .sub(/^## /, '')
     end
   end
+
+  def sections_contents_list
+    subheadings.map
+               .with_index { |title, index| [title, index + 1] }
+  end
 end

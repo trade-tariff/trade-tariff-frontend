@@ -128,5 +128,13 @@ RSpec.describe RulesOfOrigin::Article do
         it { is_expected.to include '## First section' }
       end
     end
+
+    describe '#sections_contents_list' do
+      subject { instance.sections_contents_list }
+
+      it { is_expected.to have_attributes length: 2 }
+      it { is_expected.to include ['First section', 1] }
+      it { is_expected.to include ['Second section', 2] }
+    end
   end
 end
