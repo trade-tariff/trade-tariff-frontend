@@ -23,6 +23,10 @@ class RulesOfOrigin::Scheme
       )
     end
 
+    def with_rules_for_commodity(commodity, opts = {})
+      collection "#{collection_path}/#{commodity.to_param}", opts
+    end
+
     def with_duty_drawback_articles(opts = {})
       all opts.merge(filter: { has_article: 'duty-drawback' })
     end
