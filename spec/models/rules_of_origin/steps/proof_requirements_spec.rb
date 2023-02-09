@@ -49,22 +49,6 @@ RSpec.describe RulesOfOrigin::Steps::ProofRequirements do
         it { is_expected.to include '### sub sub heading' }
         it { is_expected.to include 'sub content' }
       end
-
-      context 'with second section' do
-        subject { sections.second }
-
-        it { is_expected.to eql %(## Second section\n\nSection 2 content\n) }
-      end
-
-      context 'with no content' do
-        subject(:sections) { instance.processes_sections }
-
-        let(:articles) { [] }
-
-        it 'returns an empty array' do
-          expect(sections).to be_empty
-        end
-      end
     end
 
     describe '#processes_section_titles' do
@@ -74,23 +58,9 @@ RSpec.describe RulesOfOrigin::Steps::ProofRequirements do
     end
 
     describe '#processes_section' do
-      context 'without section' do
-        subject { instance.processes_section(nil) }
+      subject { instance.processes_section(2) }
 
-        it { is_expected.to include '## First section' }
-      end
-
-      context 'with valid section' do
-        subject { instance.processes_section(2) }
-
-        it { is_expected.to include '## Second section' }
-      end
-
-      context 'with invalid section' do
-        subject { instance.processes_section('foobar') }
-
-        it { is_expected.to include '## First section' }
-      end
+      it { is_expected.to include '## Second section' }
     end
   end
 end

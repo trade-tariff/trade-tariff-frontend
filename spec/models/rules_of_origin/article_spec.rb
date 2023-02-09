@@ -53,4 +53,80 @@ RSpec.describe RulesOfOrigin::Article do
       it { is_expected.to be true }
     end
   end
+
+  describe 'processing content with subsections' do
+    subject(:instance) { build :rules_of_origin_article, content: }
+
+    let :content do
+      <<~EOCONTENT
+        # Full title
+
+        ## First section
+
+        Section 1 content
+
+        ### sub sub heading
+
+        sub content
+
+        ## Second section
+
+        Section 2 content
+      EOCONTENT
+    end
+
+    describe '#sections' do
+      subject(:sections) { instance.sections }
+
+      it { is_expected.to have_attributes length: 2 }
+
+      context 'with first section' do
+        subject { sections.first }
+
+        it { is_expected.to include '## First section' }
+        it { is_expected.to include '### sub sub heading' }
+        it { is_expected.to include 'sub content' }
+      end
+
+      context 'with second section' do
+        subject { sections.second }
+
+        it { is_expected.to eql %(## Second section\n\nSection 2 content\n) }
+      end
+
+      context 'with no content' do
+        let(:content) { nil }
+
+        it 'returns an empty array' do
+          expect(sections).to be_empty
+        end
+      end
+    end
+
+    describe '#subheadings' do
+      subject { instance.subheadings }
+
+      it { is_expected.to eql ['First section', 'Second section'] }
+    end
+
+    describe '#section' do
+      context 'without section' do
+        subject { instance.section(nil) }
+
+        it { is_expected.to include '## First section' }
+      end
+
+      context 'with valid section' do
+        subject { instance.section(2) }
+
+        it { is_expected.to include '## Second section' }
+      end
+
+      context 'with invalid section' do
+        subject { instance.section('foobar') }
+
+        it { is_expected.to include '## First section' }
+      end
+    end
+  end
 end

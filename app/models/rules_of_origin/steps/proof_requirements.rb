@@ -8,30 +8,25 @@ module RulesOfOrigin
       end
 
       def processes_text
-        chosen_scheme.article('origin_processes')&.content
+        origin_processes&.content
       end
 
       def processes_sections
-        return [] if processes_text.nil?
-
-        @processes_sections ||= \
-          processes_text.split(/^(## )/m)
-                        .map(&:presence)
-                        .compact
-                        .slice_before('## ')
-                        .select { |marker, _| marker == '## ' }
-                        .map(&:join)
+        origin_processes&.sections || []
       end
 
       def processes_section(section_number)
-        section_number = section_number.to_i - 1
-        processes_sections[section_number.positive? ? section_number : 0]
+        origin_processes&.section(section_number)
       end
 
       def processes_section_titles
-        processes_sections.map do |content|
-          content.lines(chomp: true).first.sub(/^## /, '')
-        end
+        origin_processes&.subheadings || []
+      end
+
+    private
+
+      def origin_processes
+        chosen_scheme.article('origin_processes')
       end
     end
   end
