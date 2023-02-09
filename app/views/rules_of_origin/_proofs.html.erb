@@ -20,7 +20,7 @@
     </div>
   <% end %>
 
-  <% if schemes.many? %>
+  <% if schemes.many? || schemes.none? %>
     <p>
       <%= link_to 'See valid proofs of origin for all trade agreements',
                   rules_of_origin_proofs_path %>
@@ -29,16 +29,19 @@
     <p>Find out more about proofs of origin:</p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <% if false %>
       <li>
-        <%= link_to 'How proofs are verified', '#tbd' %>
+        <%= link_to 'How proofs are verified',
+                    rules_of_origin_proof_verification_path(
+                      "#{commodity_code}-#{country_code}-#{schemes.first.scheme_code}"
+                    ) %>
       </li>
 
       <li>
         <%= link_to 'Detailed processes and requirements for proving the origin for goods',
-                    '#tbd' %>
+                    rules_of_origin_proof_requirements_path(
+                      "#{commodity_code}-#{country_code}-#{schemes.first.scheme_code}"
+                    ) %>
       </li>
-      <% end %>
 
       <li>
         <%= link_to 'See valid proofs of origin for all trade agreements',
