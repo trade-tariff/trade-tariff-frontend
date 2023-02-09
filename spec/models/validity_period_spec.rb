@@ -4,6 +4,20 @@ RSpec.describe ValidityPeriod do
   it { is_expected.to respond_to :goods_nomenclature_item_id }
   it { is_expected.to respond_to :validity_start_date }
   it { is_expected.to respond_to :validity_end_date }
+  it { is_expected.to respond_to :description }
+  it { is_expected.to respond_to :formatted_description }
+  it { is_expected.to respond_to :to_param }
+  it { is_expected.to respond_to :goods_nomenclature_class }
+
+  describe '.relationships' do
+    let(:expected_relationships) do
+      %i[
+        deriving_goods_nomenclatures
+      ]
+    end
+
+    it { expect(described_class.relationships).to eq(expected_relationships) }
+  end
 
   describe '#start_date' do
     context 'when the ValidityPeriod has a validity_start_date' do

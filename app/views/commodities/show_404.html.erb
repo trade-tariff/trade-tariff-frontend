@@ -32,11 +32,7 @@
             <% end -%>
           </li>
 
-          <% if validity_period.deriving_goods_nomenclatures.any? %>
-            <% validity_period.deriving_goods_nomenclatures.each do |goods_nomenclature| %>
-              <%= link_to(goods_nomenclature.formatted_description, polymorphic_path(goods_nomenclature)) %>
-            <% end %>
-          <% end -%>
+          <%= render "shared/derived_goods_nomenclature", deriving_goods_nomenclatures: validity_period.deriving_goods_nomenclatures if validity_period.deriving_goods_nomenclatures.present? %>
         <% end %>
       </ul>
     <% else %>
