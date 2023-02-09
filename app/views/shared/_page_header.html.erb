@@ -1,7 +1,7 @@
 <header>
   <span class="govuk-caption-xl">
     <span class="switch-service-control__caption">
-      <%= trade_tariff_heading %>
+      <%= caption_text.presence || trade_tariff_heading %>
     </span>
 
     <%= switch_service_button if show_switch_service %>
