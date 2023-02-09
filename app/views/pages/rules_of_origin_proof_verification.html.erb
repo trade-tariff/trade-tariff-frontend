@@ -1,0 +1,20 @@
+<%= back_link request.referer || find_commodity_path, javascript: true %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= page_header t('rules_of_origin.steps.proof_verification.title',
+                      trade_country_name: @country.description),
+                    t('rules_of_origin.steps.proof_verification.caption') %>
+
+    <div class="tariff-markdown">
+      <div class="numbered-then-lettered-list">
+        <%= govspeak remove_article_reference(@article.content) %>
+      </div>
+    </div>
+
+    <%= render 'shared/origin_reference_document',
+          origin_reference_document: @chosen_scheme.origin_reference_document,
+          article_match: find_article_reference(@article.content) \
+          if find_article_reference(@article.content) %>
+  <div>
+</div>

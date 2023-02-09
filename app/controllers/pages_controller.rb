@@ -29,10 +29,23 @@ class PagesController < ApplicationController
   def rules_of_origin_proof_requirements
     disable_switch_service_banner
 
-    @commodity_code, @country_code, @scheme_code = params[:id].split('-', 3)
+    load_rules_of_origin_scheme(params[:id])
+    @article = @chosen_scheme.article('origin_processes')
+  end
+
+  def rules_of_origin_proof_verification
+    disable_switch_service_banner
+
+    load_rules_of_origin_scheme(params[:id])
+    @article = @chosen_scheme.article('verification')
+  end
+
+private
+
+  def load_rules_of_origin_scheme(id)
+    @commodity_code, @country_code, @scheme_code = id.split('-', 3)
     @country = GeographicalArea.find(@country_code)
     @all_schemes = RulesOfOrigin::Scheme.for_heading_and_country(@commodity_code, @country_code)
     @chosen_scheme = @all_schemes.find { |scheme| scheme.scheme_code == @scheme_code }
-    @article = @chosen_scheme.article('origin_processes')
   end
 end
