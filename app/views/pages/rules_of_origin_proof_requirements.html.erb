@@ -1,0 +1,24 @@
+<%= back_link request.referer || find_commodity_path, javascript: true %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= page_header t('rules_of_origin.steps.proof_requirements.title',
+                      trade_country_name: @country.description),
+                    t('rules_of_origin.steps.proof_requirements.caption') %>
+
+    <p>
+      <%= t 'rules_of_origin.steps.proof_requirements.body',
+            scheme_title: @chosen_scheme.title %>
+    </p>
+
+    <aside role="complementary" id="article-section-list">
+      <%= contents_list(@article.sections_contents_list) { |section| url_for(section:) } %>
+    </aside>
+
+    <div class="tariff-markdown numbered-then-lettered-list" id="article-section">
+      <%= govspeak @article.section(params[:section]) %>
+    </div>
+
+    <%= link_to t('navigation.back_to_top'), '#content' %>
+  </div>
+</div>

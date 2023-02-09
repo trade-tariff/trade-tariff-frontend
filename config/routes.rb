@@ -57,6 +57,8 @@ Rails.application.routes.draw do
   get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'
   get 'help/help_find_commodity', to: 'pages#help_find_commodity', as: 'help_find_commodity'
   get 'help/rules_of_origin/duty_drawback', to: 'pages#rules_of_origin_duty_drawback', as: 'rules_of_origin_duty_drawback'
+  get 'help/rules_of_origin/proof_requirements/:id', to: 'pages#rules_of_origin_proof_requirements',
+                                                     as: 'rules_of_origin_proof_requirements'
   get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'terms', to: 'pages#terms'
