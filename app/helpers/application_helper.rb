@@ -40,11 +40,12 @@ module ApplicationHelper
     end
   end
 
-  def page_header(heading_text = nil, &block)
+  def page_header(heading_text = nil, caption_text = nil, &block)
     extra_content = block_given? ? capture(&block) : nil
 
     render 'shared/page_header',
            heading_text:,
+           caption_text:,
            show_switch_service: is_switch_service_banner_enabled?,
            extra_content:
   end

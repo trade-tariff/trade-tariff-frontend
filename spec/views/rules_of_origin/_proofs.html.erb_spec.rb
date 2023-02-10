@@ -11,6 +11,7 @@ RSpec.describe 'rules_of_origin/_proofs', type: :view do
 
   it { is_expected.to have_css '#proofs-of-origin' }
   xit { is_expected.to have_css '.govuk-list--bullet li a', count: 3 }
+  it { is_expected.to have_css '.govuk-list--bullet li a', count: 1 } # FIXME: determine best option for other links
 
   it { is_expected.to have_css '.stacked-govuk-details', count: 1 }
   it { is_expected.to have_css 'p', text: /origin is valid/ }
@@ -29,7 +30,7 @@ RSpec.describe 'rules_of_origin/_proofs', type: :view do
     let(:schemes) { build_list :rules_of_origin_scheme, 3, proof_count: 2 }
 
     it { is_expected.not_to have_css '.govuk-list--bullet li a' }
-    xit { is_expected.to have_link 'See valid proofs of origin' }
+    it { is_expected.to have_link 'See valid proofs of origin' }
     it { is_expected.to have_css '.stacked-govuk-details', count: 3 }
     it { is_expected.to have_css '.govuk-details', count: 6 }
   end
