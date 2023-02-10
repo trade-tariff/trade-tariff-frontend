@@ -155,6 +155,28 @@ RSpec.describe MeasureType do
     end
   end
 
+  describe '#abbreviation' do
+    subject(:abbreviation) { measure.measure_type.abbreviation }
+
+    context 'when description contains Prohibition' do
+      let(:measure) { build(:measure, measure_type_description: 'Prohibition text') }
+
+      it { is_expected.to eq('Prohibition') }
+    end
+
+    context 'when description contains Restriction' do
+      let(:measure) { build(:measure, measure_type_description: 'Restriction text') }
+
+      it { is_expected.to eq('Restriction') }
+    end
+
+    context 'when description does not cantain any of above' do
+      let(:measure) { build(:measure, measure_type_description: 'Other text') }
+
+      it { is_expected.to eq('Control') }
+    end
+  end
+
   describe '#details_text' do
     context 'when markdown file exists' do
       subject(:measure_type) { build(:measure_type, id: '103') }
