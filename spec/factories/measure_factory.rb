@@ -232,8 +232,8 @@ FactoryBot.define do
     trait :with_permutations do
       measure_condition_permutation_groups do
         if respond_to?(:measure_conditions) && measure_conditions
-          attributes_for_list :measure_condition_permutation_group, 1,
-                              measure_conditions: measure_conditions
+          attributes_for_list(:measure_condition_permutation_group, 1,
+                              measure_conditions:)
         else
           attributes_for_list :measure_condition_permutation_group, 1
         end
@@ -280,6 +280,12 @@ FactoryBot.define do
       measure_conditions do
         []
       end
+    end
+
+    trait :residual do
+      measure_type { attributes_for(:measure_type, :prohibitive) }
+      additional_code { attributes_for(:additional_code, code: '49999') }
+      measure_conditions { [] }
     end
   end
 end

@@ -280,7 +280,6 @@ commands:
         type: string
       space:
         type: string
-        default: DEVELOPMENT
     steps:
       - run:
           name: "Checkout tests repo"
@@ -301,14 +300,7 @@ commands:
           command: |
             cd trade-tariff-testing
 
-            if [[ << parameters.space >> = "staging" ]]; then
-              yarn run staging-tariff-frontend-smoketests
-            elif [[ << parameters.space >> = "development" ]]; then
-              yarn run dev-tariff-frontend-smoketests
-            else
-              echo "You specified an invalid space"
-              exit 1
-            fi
+            yarn run << parameters.space >>-tariff-frontend-smoketests
 
   sentry-release:
     steps:
@@ -386,7 +378,7 @@ jobs:
     steps:
       - smoketest:
           url: https://dev.trade-tariff.service.gov.uk
-          space: development
+          space: dev
 
   smoketest_staging:
     docker:
@@ -648,6 +640,17 @@ workflows:
               only: /^release-202[\d-]+/
             branches:
               ignore: /.*/
+
+      - smoketest_staging:
+          name: smoketest_release_to_staging
+          context: trade-tariff
+          filters:
+            tags:
+              only: /^release-202[\d-]+/
+            branches:
+              ignore: /.*/
+          requires:
+            - deploy_release_to_staging
 
       - hold_deploy_production:
           type: approval

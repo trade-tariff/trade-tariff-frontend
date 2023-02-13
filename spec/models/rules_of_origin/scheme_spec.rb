@@ -4,7 +4,6 @@ RSpec.describe RulesOfOrigin::Scheme do
   let(:api_host) { TradeTariffFrontend::ServiceChooser.api_host }
   let(:response_headers) { { content_type: 'application/json; charset=utf-8' } }
   let(:cumulation_methods) { { 'bilateral' => %w[GB CA], 'extended' => %w[EU AD] } }
-  let(:json_response) { response_data.to_json }
   let :response_data do
     {
       data: [
@@ -135,7 +134,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       before do
         stub_request(:get, "#{api_host}/rules_of_origin_schemes")
           .with(query: { heading_code: '190531', country_code: 'FR' })
-          .to_return(body: json_response, status: 200, headers: response_headers)
+          .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
     end
 
@@ -184,7 +183,7 @@ RSpec.describe RulesOfOrigin::Scheme do
 
         stub_request(:get, "#{api_host}/rules_of_origin_schemes")
           .with(query: { heading_code: '190531', country_code: 'FR', page: 1 })
-          .to_return(body: json_response, status: 200, headers: response_headers)
+          .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
 
       let(:api_instance) { described_class.api }
@@ -206,7 +205,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       before do
         stub_request(:get, "#{api_host}/rules_of_origin_schemes")
           .with(query: { heading_code: '190531', country_code: 'FR' })
-          .to_return(body: json_response, status: 200, headers: response_headers)
+          .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
 
       it { is_expected.to have_attributes length: 1 }
@@ -257,6 +256,32 @@ RSpec.describe RulesOfOrigin::Scheme do
         it { is_expected.to have_attributes rules: [] }
         it { is_expected.to have_attributes links: [] }
       end
+    end
+
+    describe '.with_rules_for_commodity' do
+      subject { described_class.with_rules_for_commodity commodity }
+
+      before do
+        stub_request(:get, "#{api_host}/rules_of_origin_schemes/#{commodity.to_param}")
+          .to_return(body: response_data.to_json, status: 200, headers: response_headers)
+      end
+
+      let(:commodity) { build :commodity }
+
+      it { is_expected.to have_attributes length: 1 }
+      it { is_expected.to all be_instance_of described_class }
+    end
+
+    describe '.with_duty_drawback_articles' do
+      subject { described_class.with_duty_drawback_articles }
+
+      before do
+        stub_request(:get, "#{api_host}/rules_of_origin_schemes?filter[has_article]=duty-drawback")
+          .to_return(body: response_data.to_json, status: 200, headers: response_headers)
+      end
+
+      it { is_expected.to have_attributes length: 1 }
+      it { is_expected.to all be_instance_of described_class }
     end
 
     describe '#links' do
@@ -368,17 +393,5 @@ RSpec.describe RulesOfOrigin::Scheme do
 
       it { is_expected.to eql scheme.rule_sets[1].rules[0].rule }
     end
-  end
-
-  describe '#with_duty_drawback_articles' do
-    subject { described_class.with_duty_drawback_articles }
-
-    before do
-      stub_request(:get, "#{api_host}/rules_of_origin_schemes?filter[has_article]=duty-drawback")
-        .to_return(body: json_response, status: 200, headers: response_headers)
-    end
-
-    it { is_expected.to have_attributes length: 1 }
-    it { is_expected.to all be_instance_of described_class }
   end
 end

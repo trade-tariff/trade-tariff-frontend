@@ -15,4 +15,11 @@ RSpec.describe GovukFrontendHelper, type: :helper do
       it { is_expected.to have_css 'li a.gem-c-contents-list__link.some-custom-class' }
     end
   end
+
+  describe '#back_to_top_link' do
+    subject { back_to_top_link }
+
+    it { is_expected.to have_link 'Back to top', href: '#content' }
+    it { is_expected.to have_css 'a.govuk-\!-display-none-print' }
+  end
 end
