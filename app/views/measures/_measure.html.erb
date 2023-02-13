@@ -16,29 +16,22 @@
 
   <td class="measure-type-col govuk-table__cell <%= measure.measure_type.id %>">
     <span class='table-line'><%= measure_type_description_or_link(measure) %></span>
+
     <% if measure.order_number.present? %>
       <span class='table-line'>
         <%= render 'shared/quota_definition',
-                   order_number: measure.order_number,
-                   quota_definition: measure.order_number&.definition,
-                   declarable_id: declarable.short_code %>
+          order_number: measure.order_number,
+          quota_definition: measure.order_number&.definition,
+          declarable_id: declarable.short_code %>
       </span>
     <% end %>
-    <% if measure.additional_code.present? %>
-      <div class="govuk-inset-text tariff-inset-information residual-inset">
-        <p class="govuk-!-font-size-16">
-          <% if measure.residual? %>
-            <%= measure.measure_type.abbreviation %> does not apply to goods covered under additional code:
-          <% else %>
-            <%= measure.measure_type.abbreviation %> applies to goods covered under additional code:
-          <% end %>
-          <strong><%= measure.additional_code.code %></strong>
-        </p>
 
-        <% if measure.additional_code.formatted_description.present? %>
-          <p class="govuk-!-font-size-16"><%= sanitize measure.additional_code.formatted_description %></p>
-        <% end %>
-      </div>
+    <% if measure.additional_code.present? %>
+      <% if measure.measure_type.prohibitive? %>
+        <%= render 'measures/additional_codes/prohibitive', measure: measure %>
+      <% else %>
+        <%= render 'measures/additional_codes/regular', measure: measure %>
+      <% end %>
     <% end %>
   </td>
 
