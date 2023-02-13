@@ -37,60 +37,17 @@ RSpec.describe RulesOfOrigin::Steps::ProofRequirements do
       EOCONTENT
     end
 
-    describe '#processes_sections' do
-      subject(:sections) { instance.processes_sections }
+    describe '#processes_contents_list' do
+      subject { instance.processes_contents_list }
 
-      it { is_expected.to have_attributes length: 2 }
-
-      context 'with first section' do
-        subject { sections.first }
-
-        it { is_expected.to include '## First section' }
-        it { is_expected.to include '### sub sub heading' }
-        it { is_expected.to include 'sub content' }
-      end
-
-      context 'with second section' do
-        subject { sections.second }
-
-        it { is_expected.to eql %(## Second section\n\nSection 2 content\n) }
-      end
-
-      context 'with no content' do
-        subject(:sections) { instance.processes_sections }
-
-        let(:articles) { [] }
-
-        it 'returns an empty array' do
-          expect(sections).to be_empty
-        end
-      end
-    end
-
-    describe '#processes_section_titles' do
-      subject { instance.processes_section_titles }
-
-      it { is_expected.to eql ['First section', 'Second section'] }
+      it { is_expected.to include ['First section', 1] }
+      it { is_expected.to include ['Second section', 2] }
     end
 
     describe '#processes_section' do
-      context 'without section' do
-        subject { instance.processes_section(nil) }
+      subject { instance.processes_section(2) }
 
-        it { is_expected.to include '## First section' }
-      end
-
-      context 'with valid section' do
-        subject { instance.processes_section(2) }
-
-        it { is_expected.to include '## Second section' }
-      end
-
-      context 'with invalid section' do
-        subject { instance.processes_section('foobar') }
-
-        it { is_expected.to include '## First section' }
-      end
+      it { is_expected.to include '## Second section' }
     end
   end
 end

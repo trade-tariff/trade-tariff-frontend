@@ -53,4 +53,36 @@ RSpec.describe PagesController, type: :request do
       expect(assigns[:schemes]).to be_many
     end
   end
+
+  describe 'GET #proof_requirements' do
+    before do
+      allow(RulesOfOrigin::Scheme).to receive(:for_heading_and_country).and_return schemes
+      allow(GeographicalArea).to receive(:find).and_return country
+
+      get rules_of_origin_proof_requirements_path('123457890-FR-eu')
+    end
+
+    let(:schemes) { build_list :rules_of_origin_scheme, 1, scheme_code: 'eu', articles: }
+    let(:country) { build :geographical_area }
+    let(:articles) { attributes_for_list :rules_of_origin_article, 1, article: 'origin_processes' }
+
+    it { is_expected.to have_http_status(:ok) }
+    it { is_expected.to render_template('pages/rules_of_origin_proof_requirements') }
+  end
+
+  describe 'GET #proof_verification' do
+    before do
+      allow(RulesOfOrigin::Scheme).to receive(:for_heading_and_country).and_return schemes
+      allow(GeographicalArea).to receive(:find).and_return country
+
+      get rules_of_origin_proof_verification_path('123457890-FR-eu')
+    end
+
+    let(:schemes) { build_list :rules_of_origin_scheme, 1, scheme_code: 'eu', articles: }
+    let(:country) { build :geographical_area }
+    let(:articles) { attributes_for_list :rules_of_origin_article, 1, article: 'verification' }
+
+    it { is_expected.to have_http_status(:ok) }
+    it { is_expected.to render_template('pages/rules_of_origin_proof_verification') }
+  end
 end
