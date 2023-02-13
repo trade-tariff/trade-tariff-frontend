@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'shared/_derived_goods_nomenclature', type: :view  do
+RSpec.describe 'shared/_derived_goods_nomenclature', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   let :render_page do
