@@ -13,7 +13,7 @@ RSpec.describe 'headings/show_404.html.erb', type: :view do
   end
 
   let(:render_page) { render template: 'headings/show_404' }
-  let(:periods) { (1..2).map { |i| build :validity_period, months_ago: i } }
+  let(:periods) { (1..2).map { |i| build :validity_period, :with_deriving_goods_nomenclatures, months_ago: i } }
   let(:search) { Search.new }
 
   describe 'page content' do
@@ -66,5 +66,9 @@ RSpec.describe 'headings/show_404.html.erb', type: :view do
     it { is_expected.not_to have_css 'ul.govuk-list' }
     it { is_expected.not_to have_css 'p', text: /for the dates shown/ }
     it { is_expected.to have_css 'p', text: 'Try searching again' }
+  end
+
+  context 'with deriving goods nomanclature' do
+    it { is_expected.to have_css 'p', text: /Goods previously classified under/ }
   end
 end

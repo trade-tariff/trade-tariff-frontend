@@ -34,4 +34,10 @@ RSpec.describe 'shared/_derived_goods_nomenclature', type: :view do
 
     it { is_expected.to have_css 'td', count: 6 }
   end
+
+  context 'with 0 items in goods nomanclature array' do
+    let(:deriving_goods_nomenclatures) { [] }
+
+    it { is_expected.not_to have_css 'table' }
+  end
 end

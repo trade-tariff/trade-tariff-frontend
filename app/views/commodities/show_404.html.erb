@@ -31,10 +31,10 @@
                      commodity_on_date_path(@commodity_code, validity_period.end_date) -%>
             <% end -%>
           </li>
-
-          <%= render "shared/derived_goods_nomenclature", deriving_goods_nomenclatures: validity_period.deriving_goods_nomenclatures if validity_period.deriving_goods_nomenclatures.present? %>
         <% end %>
       </ul>
+
+      <%= render "shared/derived_goods_nomenclature", deriving_goods_nomenclatures: @validity_periods.first.deriving_goods_nomenclatures if @validity_periods.first.deriving_goods_nomenclatures.present? %>
     <% else %>
       <p>
         The commodity code you searched for can't be found. Try searching again.
