@@ -2,7 +2,7 @@
   <% deriving_goods_nomenclatures.each do |goods_nomenclature| %>
     <p>Goods previously classified under commodity <%= @commodity_code %>
     were moved to code <%= link_to(goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature)) %> 
-    (<%= goods_nomenclature.formatted_description %>) on <%= goods_nomenclature.validity_end_date %></p>
+    (<%= goods_nomenclature.formatted_description %>) on <%= goods_nomenclature.validity_start_date&.to_formatted_s(:long) %></p>
   <% end %>
 <% elsif deriving_goods_nomenclatures.count > 1 %>
   <table class="small-table govuk-table">
@@ -19,7 +19,7 @@
     <tr>
       <td><%= link_to(goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature)) %></td>
       <td><%= goods_nomenclature.formatted_description %></td>
-      <td><%= goods_nomenclature.validity_end_date %></td>
+      <td><%= goods_nomenclature.validity_start_date&.to_formatted_s(:long) %></td>
     </tr>
     <% end %>
     </tbody>

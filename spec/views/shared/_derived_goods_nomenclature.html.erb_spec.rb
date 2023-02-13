@@ -16,7 +16,7 @@ RSpec.describe 'shared/_derived_goods_nomenclature', type: :view  do
 
     it { is_expected.to have_css 'p', text: deriving_goods_nomenclatures.first.formatted_description }
 
-    it { is_expected.to have_css 'p', text: deriving_goods_nomenclatures.first.validity_end_date }
+    it { is_expected.to have_css 'p', text: deriving_goods_nomenclatures.first.validity_start_date.to_formatted_s(:long) }
   end
 
   context 'with more than 1 item in deriving goods nomanclature array' do
@@ -30,8 +30,8 @@ RSpec.describe 'shared/_derived_goods_nomenclature', type: :view  do
 
     it { is_expected.to have_css 'td', text: deriving_goods_nomenclatures.first.formatted_description }
 
-    it { is_expected.to have_css 'td', text: deriving_goods_nomenclatures.first.validity_end_date }
+    it { is_expected.to have_css 'td', text: deriving_goods_nomenclatures.first.validity_start_date.to_formatted_s(:long) }
 
-    it { is_expected.to have_css 'td', text: deriving_goods_nomenclatures.last.validity_end_date }
+    it { is_expected.to have_css 'td', count: 6 }
   end
 end
