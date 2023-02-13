@@ -31,25 +31,15 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
     it { expect(rendered).to match(/Hectokilogram/) }
   end
 
-  context 'with residual measure' do
-    context 'when residual returns true' do
-      let(:measure) { build(:measure, :residual) }
+  context 'with a prohibitive measure that has an additional code' do
+    let(:measure) { build(:measure, :prohibitive, :with_additional_code) }
 
-      it { expect(rendered).to match(/Control does not apply to goods/) }
+    it { expect(rendered).to render_template('measures/additional_codes/_prohibitive') }
+  end
 
-      it { expect(rendered).to match(measure.additional_code.code) }
+  context 'with a non-prohibitive measure that has an additional code' do
+    let(:measure) { build(:measure, :with_additional_code) }
 
-      it { expect(rendered).to match(measure.additional_code.formatted_description) }
-    end
-
-    context 'when residual returns false' do
-      let(:measure) { build(:measure, :with_additional_code) }
-
-      it { expect(rendered).to match(/Control applies to goods/) }
-
-      it { expect(rendered).to match(measure.additional_code.code) }
-
-      it { expect(rendered).to match(measure.additional_code.formatted_description) }
-    end
+    it { expect(rendered).to render_template('measures/additional_codes/_regular') }
   end
 end
