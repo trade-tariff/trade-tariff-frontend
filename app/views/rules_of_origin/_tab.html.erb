@@ -52,7 +52,8 @@
                locals: { commodity_code: } %>
 
     <%= render 'rules_of_origin/proofs', schemes: rules_of_origin_schemes,
-                                         commodity_code: %>
+                                         commodity_code:,
+                                         country_code: %>
   </div>
 <% else %>
   <p class="govuk-inset-text">
