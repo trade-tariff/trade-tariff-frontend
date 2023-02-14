@@ -53,5 +53,9 @@ FactoryBot.define do
 
       to_param { goods_nomenclature_item_id }
     end
+
+    trait :with_deriving_goods_nomenclatures do
+      deriving_goods_nomenclatures { [attributes_for(:goods_nomenclature)] }
+    end
   end
 end
