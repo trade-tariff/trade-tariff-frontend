@@ -516,7 +516,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /^dependabot\/.*/
+                - /^dependabot/(?!docker/).*/
                 - /^hotfix\/.+/
 
       - checks:
@@ -545,7 +545,7 @@ workflows:
               ignore:
                 - main
                 - /^hotfix\/.+/
-                - /^dependabot\/.*/
+                - /^dependabot/(?!docker/).*/
 
       - deploy_dev:
           context: trade-tariff
@@ -556,7 +556,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /^dependabot\/.*/
+                - /^dependabot/(?!docker/).*/
                 - /^hotfix\/.+/
 
       - deploy_review:
@@ -568,7 +568,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - /^dependabot\/.*/
+                - /^dependabot/(?!docker/).*/
                 - /^hotfix\/.+/
 
       - smoketest_dev:
@@ -579,7 +579,7 @@ workflows:
               ignore:
                 - main
                 - /^hotfix\/.+/
-                - /^dependabot\/.*/
+                - /^dependabot/(?!docker/).*/
           requires:
             - deploy_dev
 
