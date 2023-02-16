@@ -4,21 +4,6 @@ class SearchReferencePresenter < SimpleDelegator
   end
 
   def link
-    "/#{referenced_class.tableize}/#{composite_id}"
-  end
-
-  def composite_id
-    case referenced_class
-    when 'Subheading'
-      "#{referenced_id}-#{productline_suffix}"
-    else
-      referenced_id
-    end
-  end
-
-  private
-
-  def append_product_line_suffix(link)
-    link + (referenced_class == 'Subheading' ? "-#{productline_suffix}" : '')
+    "/#{referenced_class.tableize}/#{referenced_id}"
   end
 end
