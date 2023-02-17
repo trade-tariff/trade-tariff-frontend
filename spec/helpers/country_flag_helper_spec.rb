@@ -2,8 +2,6 @@ require 'spec_helper'
 
 RSpec.describe CountryFlagHelper, type: :helper do
   describe '#country_flag_tag' do
-    before { allow(Sentry).to receive(:capture_message).and_return(true) }
-
     context 'with GB' do
       subject(:rendered) { helper.country_flag_tag('GB') }
 
@@ -28,24 +26,12 @@ RSpec.describe CountryFlagHelper, type: :helper do
       subject(:rendered) { helper.country_flag_tag('A1') }
 
       it('returns nothing') { is_expected.to be_nil }
-
-      it 'notifies Sentry' do
-        rendered
-
-        expect(Sentry).to have_received(:capture_message)
-      end
     end
 
     context "with country which we don't have a flag which is in ignore list" do
       subject(:rendered) { helper.country_flag_tag('XI') }
 
       it('returns nothing') { is_expected.to be_nil }
-
-      it 'does not notify Sentry' do
-        rendered
-
-        expect(Sentry).not_to have_received(:capture_message)
-      end
     end
   end
 end
