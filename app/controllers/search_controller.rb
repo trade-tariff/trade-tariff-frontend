@@ -191,7 +191,7 @@ class SearchController < ApplicationController
     @query = params[:q]
     @filters = beta_filters
 
-    return redirect_to beta_redirect_path if @search_result.redirect?
+    return redirect_to polymorphic_path(@search_result.direct_hit) if @search_result.direct_hit.present?
 
     render 'beta/search_results/show'
   end
@@ -239,9 +239,5 @@ class SearchController < ApplicationController
 
   def beta_search_params
     params.permit(:q, :filters, :spell)
-  end
-
-  def beta_redirect_path
-    "#{@search_result.redirect_to}?#{url_options.slice(:year, :month, :day, :country).to_query}"
   end
 end
