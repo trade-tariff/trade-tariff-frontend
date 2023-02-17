@@ -24,21 +24,11 @@ FactoryBot.define do
     end
 
     trait :no_redirect do
-      meta do
-        {
-          'redirect' => false,
-          'redirect_to' => '',
-        }
-      end
+      direct_hit { nil }
     end
 
     trait :redirect do
-      meta do
-        {
-          'redirect' => true,
-          'redirect_to' => '/headings/0101',
-        }
-      end
+      direct_hit { attributes_for(:heading, goods_nomenclature_item_id: '0101000000', producline_suffix: '80') }
     end
 
     trait :multiple_headings_view do

@@ -8,6 +8,7 @@ RSpec.describe Beta::Search::SearchResult do
       chapter_statistics
       heading_statistics
       hits
+      direct_hit
       facet_filter_statistics
       guide
       search_query_parser_result
@@ -19,8 +20,7 @@ RSpec.describe Beta::Search::SearchResult do
     expect(search_result).to have_attributes(took: 2,
                                              timed_out: false,
                                              max_score: 76.975296,
-                                             total_results: 1097,
-                                             meta: { redirect: false, redirect_to: '' })
+                                             total_results: 1097)
   end
 
   it { expect(described_class.relationships).to eq(expected_relationships) }
