@@ -2,6 +2,63 @@
 http_interactions:
 - request:
     method: get
+    uri: http://localhost:3018/additional_code_types
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"2e7cf478c3c6ada49c4deb83665d2d32"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - b6865bfc-4e18-403e-9373-5654fc0a8777
+      X-Runtime:
+      - '0.070571'
+      Content-Length:
+      - '1881'
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":"3","type":"additional_code_type","attributes":{"additional_code_type_id":"3","description":"Prohibition/Restriction/Surveillance"}},{"id":"8","type":"additional_code_type","attributes":{"additional_code_type_id":"8","description":"Anti-dumping/countervailing"}},{"id":"7","type":"additional_code_type","attributes":{"additional_code_type_id":"7","description":"Agricultural
+        Tables (Meursing)"}},{"id":"F","type":"additional_code_type","attributes":{"additional_code_type_id":"F","description":"Reference
+        prices fishery products"}},{"id":"D","type":"additional_code_type","attributes":{"additional_code_type_id":"D","description":"Dual
+        Use"}},{"id":"P","type":"additional_code_type","attributes":{"additional_code_type_id":"P","description":"Refund
+        for basic products"}},{"id":"B","type":"additional_code_type","attributes":{"additional_code_type_id":"B","description":"Anti-dumping/countervailing"}},{"id":"6","type":"additional_code_type","attributes":{"additional_code_type_id":"6","description":"Agricultural
+        Tables (non-Meursing)"}},{"id":"9","type":"additional_code_type","attributes":{"additional_code_type_id":"9","description":"Export
+        Refunds"}},{"id":"A","type":"additional_code_type","attributes":{"additional_code_type_id":"A","description":"Anti-dumping/countervailing"}},{"id":"4","type":"additional_code_type","attributes":{"additional_code_type_id":"4","description":"Restrictions"}},{"id":"C","type":"additional_code_type","attributes":{"additional_code_type_id":"C","description":"Anti-dumping/countervailing"}},{"id":"V","type":"additional_code_type","attributes":{"additional_code_type_id":"V","description":"VAT"}},{"id":"X","type":"additional_code_type","attributes":{"additional_code_type_id":"X","description":"EXCISE"}},{"id":"2","type":"additional_code_type","attributes":{"additional_code_type_id":"2","description":"Tariff
+        preference"}}]}'
+  recorded_at: Tue, 21 Feb 2023 11:26:32 GMT
+- request:
+    method: get
     uri: http://localhost:3018/additional_codes/search?code=180&description=&type=8
     body:
       encoding: US-ASCII
@@ -41,14 +98,14 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - d98dc373-b4d1-49bb-8390-59dc56f93bd7
+      - 74a6feac-b323-4d52-b708-22dda51437c1
       X-Runtime:
-      - '0.599648'
+      - '0.023316'
       Content-Length:
       - '7343'
     body:
       encoding: UTF-8
       string: '{"data":[{"id":"4442","type":"additional_code","attributes":{"additional_code_type_id":"8","additional_code":"180","code":"8180","description":"Karl
         Storm Andersen Eft AS","formatted_description":"Karl Storm Andersen Eft AS"},"relationships":{"measures":{"data":[{"id":"1731178","type":"measure"},{"id":"1731148","type":"measure"},{"id":"1731117","type":"measure"},{"id":"1731293","type":"measure"},{"id":"1731223","type":"measure"},{"id":"1731326","type":"measure"},{"id":"1731355","type":"measure"},{"id":"1731264","type":"measure"},{"id":"1785460","type":"measure"},{"id":"1785388","type":"measure"},{"id":"1785412","type":"measure"},{"id":"1785436","type":"measure"},{"id":"1952232","type":"measure"},{"id":"1952192","type":"measure"},{"id":"1962078","type":"measure"},{"id":"1962032","type":"measure"}]}}}],"included":[{"id":"69104","type":"commodity","attributes":{"goods_nomenclature_item_id":"0304101319","producline_suffix":"80","description":"Other","formatted_description":"Other","validity_start_date":"1997-09-30T00:00:00.000Z","validity_end_date":"1999-04-16T00:00:00.000Z"}},{"id":"1731178","type":"measure","attributes":{"goods_nomenclature_item_id":"0304101319","validity_end_date":"1998-04-09T00:00:00.000Z","validity_start_date":"1997-12-18T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69104","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"69103","type":"commodity","attributes":{"goods_nomenclature_item_id":"0303220019","producline_suffix":"80","description":"Other","formatted_description":"Other","validity_start_date":"1997-09-30T00:00:00.000Z","validity_end_date":"1999-04-16T00:00:00.000Z"}},{"id":"1731148","type":"measure","attributes":{"goods_nomenclature_item_id":"0303220019","validity_end_date":"1998-04-09T00:00:00.000Z","validity_start_date":"1997-12-18T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69103","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"69102","type":"commodity","attributes":{"goods_nomenclature_item_id":"0302120019","producline_suffix":"80","description":"Other","formatted_description":"Other","validity_start_date":"1997-09-30T00:00:00.000Z","validity_end_date":"1999-04-16T00:00:00.000Z"}},{"id":"1731117","type":"measure","attributes":{"goods_nomenclature_item_id":"0302120019","validity_end_date":"1998-04-09T00:00:00.000Z","validity_start_date":"1997-12-18T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69102","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1731293","type":"measure","attributes":{"goods_nomenclature_item_id":"0303220019","validity_end_date":"1998-04-09T00:00:00.000Z","validity_start_date":"1997-12-18T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69103","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"69105","type":"commodity","attributes":{"goods_nomenclature_item_id":"0304201319","producline_suffix":"80","description":"Other","formatted_description":"Other","validity_start_date":"1997-09-30T00:00:00.000Z","validity_end_date":"1999-04-16T00:00:00.000Z"}},{"id":"1731223","type":"measure","attributes":{"goods_nomenclature_item_id":"0304201319","validity_end_date":"1998-04-09T00:00:00.000Z","validity_start_date":"1997-12-18T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69105","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1731326","type":"measure","attributes":{"goods_nomenclature_item_id":"0304101319","validity_end_date":"1998-04-09T00:00:00.000Z","validity_start_date":"1997-12-18T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69104","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1731355","type":"measure","attributes":{"goods_nomenclature_item_id":"0304201319","validity_end_date":"1998-04-09T00:00:00.000Z","validity_start_date":"1997-12-18T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69105","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1731264","type":"measure","attributes":{"goods_nomenclature_item_id":"0302120019","validity_end_date":"1998-04-09T00:00:00.000Z","validity_start_date":"1997-12-18T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69102","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1785460","type":"measure","attributes":{"goods_nomenclature_item_id":"0304201319","validity_end_date":"1999-04-16T00:00:00.000Z","validity_start_date":"1998-04-10T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69105","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1785388","type":"measure","attributes":{"goods_nomenclature_item_id":"0302120019","validity_end_date":"1999-04-16T00:00:00.000Z","validity_start_date":"1998-04-10T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69102","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1785412","type":"measure","attributes":{"goods_nomenclature_item_id":"0304101319","validity_end_date":"1999-04-16T00:00:00.000Z","validity_start_date":"1998-04-10T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69104","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1785436","type":"measure","attributes":{"goods_nomenclature_item_id":"0303220019","validity_end_date":"1999-04-16T00:00:00.000Z","validity_start_date":"1998-04-10T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69103","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1952232","type":"measure","attributes":{"goods_nomenclature_item_id":"0303220019","validity_end_date":"1999-04-16T00:00:00.000Z","validity_start_date":"1999-01-01T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69103","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1952192","type":"measure","attributes":{"goods_nomenclature_item_id":"0302120019","validity_end_date":"1999-04-16T00:00:00.000Z","validity_start_date":"1999-01-01T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69102","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1962078","type":"measure","attributes":{"goods_nomenclature_item_id":"0304201319","validity_end_date":"1999-04-16T00:00:00.000Z","validity_start_date":"1999-01-01T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69105","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}},{"id":"1962032","type":"measure","attributes":{"goods_nomenclature_item_id":"0304101319","validity_end_date":"1999-04-16T00:00:00.000Z","validity_start_date":"1999-01-01T00:00:00.000Z"},"relationships":{"goods_nomenclature":{"data":{"id":"69104","type":"commodity"}},"geographical_area":{"data":{"id":"NO","type":"geographical_area"}}}}],"meta":{"pagination":{"page":1,"per_page":5,"total_count":1}}}'
-  recorded_at: Tue, 21 Feb 2023 10:53:38 GMT
+  recorded_at: Tue, 21 Feb 2023 11:26:32 GMT
 recorded_with: VCR 6.1.0

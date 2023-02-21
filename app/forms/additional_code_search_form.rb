@@ -17,7 +17,6 @@ class AdditionalCodeSearchForm
 
   def validate_code
     if code.present?
-      # A234 and 6999 are valid codes, but A0234 is not
       errors.add(:code, :invalid) unless code =~ /\A([A-Z]|[0-9]){4}\z/
       errors.add(:code, :wrong_type) unless type.in?(self.class.possible_types)
     elsif description.blank?
@@ -46,7 +45,6 @@ class AdditionalCodeSearchForm
   class << self
     def possible_types
       additional_code_type_ids
-        .dup
         .reject do |additional_code_type_id|
           if TradeTariffFrontend::ServiceChooser.uk?
             UK_EXCLUDED_TYPES

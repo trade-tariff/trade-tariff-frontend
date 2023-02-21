@@ -1,5 +1,3 @@
-require 'addressable/uri'
-
 class AdditionalCodeSearchController < ApplicationController
   def new
     @form = AdditionalCodeSearchForm.new

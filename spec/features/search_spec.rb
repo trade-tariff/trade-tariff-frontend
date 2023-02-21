@@ -161,7 +161,7 @@ RSpec.describe 'Search', js: true do
 
         expect(page.find('#additional-code-search-form-code-field')).to be_present
         expect(page.find('#additional-code-search-form-description-field')).to be_present
-        expect(page.find('input[name="new_search"]')).to be_present
+        expect(page.find('#additional-code-submit')).to be_present
 
         expect(page).not_to have_css('.search-results')
       end
