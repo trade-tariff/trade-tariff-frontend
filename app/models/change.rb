@@ -4,7 +4,8 @@ class Change
   include ApiEntity
   extend  ActiveModel::Naming
 
-  attr_accessor :oid, :model_name, :operation, :operation_date, :record
+  attr_accessor :oid, :model_name, :operation_type, :operation
+  attr_reader :operation_date, :record
 
   def id
     [model_name, oid].join('-')
