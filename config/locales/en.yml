@@ -43,6 +43,7 @@ en:
     goods_nomenclature: "%{goods_description} - %{service_name} - GOV.UK"
     trading_partner: "%{service_name} - Set country filter - GOV.UK"
     import_export_date: "%{service_name} - When will your goods be traded - GOV.UK"
+    additional_code: "%{service_name} - Search for additional codes - GOV.UK"
     commodity:
       uk: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
       xi: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
@@ -107,6 +108,7 @@ en:
     meursing_lookup: Meursing code finder
     date: Enter date of trade
     trading_partner: Select a country
+    additional_codes_search: Search for additional codes
     feedback: Feedback
     search_results: Search results
 
@@ -171,13 +173,21 @@ en:
         message_3_html: An import <abbr title='Value-added tax'>VAT</abbr> rate of <strong>%{vat}</strong>, <strong>%{vat_2}</strong> or <strong>%{vat_3}</strong> may apply if certain conditions are met.
       excise:
         apply_message_html: <a href="https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances">Excise duties</a> apply to the import of commodity %{commodity_code}.
-        not_apply_message_html: <a href="https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances">Excise duties</a> are not chargeable on this commodity. 
+        not_apply_message_html: <a href="https://www.gov.uk/government/publications/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances/uk-trade-tariff-excise-duties-reliefs-drawbacks-and-allowances">Excise duties</a> are not chargeable on this commodity.
 
   trading_partner:
     form:
       legend_text: "Select a country"
       hint_text: "Filter measures against the selected country"
       submit: "Select country"
+  additional_code_search:
+    form:
+      legend_text: "Search"
+      additional_code_label_html: "<strong>Additional code</strong>"
+      additional_code_hint_text: "Additional codes are made up of 4 alphanumeric digits. Enter the 4-digit code here."
+      additional_code_description_label_html: "<strong>Additional code description</strong>"
+      additional_code_description_hint_text: "Use this field if you know a key phrase included in the additional code description."
+      submit: "Search"
   import_export_date:
     form:
       legend_text: "When are you planning to trade the goods?"
@@ -215,6 +225,14 @@ en:
           attributes:
             country:
               invalid_country: Select a country
+        additional_code_search_form:
+          attributes:
+            code:
+              invalid: The additional code must have 4 digits
+              wrong_type: You have specified an additional code type that does not exist
+              blank: You need to supply at least a 4-digit additional code
+            description:
+              blank: You need to supply at least a description
         feedback:
           attributes:
             message:
@@ -492,7 +510,7 @@ en:
             To benefit from a preferential tariff or quota, originating products
             should be accompanied by an appropriate proof confirming their origin.
           </p>
-          
+
           <p>
             It's important to read the documentation the documentation below to ensure that you meet all
             the origin requirements of the %{scheme_title}.
@@ -694,7 +712,7 @@ en:
           A materials to be considered as though undertaken in B.
         agreement_title: Agreement text
         agreement_text: |
-          Check the details of the agreement text to ensure 
+          Check the details of the agreement text to ensure
           you fully understand the cumulation rules.
         agreement_message: |
           Please read the full agreement text as there may be conditions in
@@ -876,12 +894,12 @@ en:
       bilateral:
         description_html: |
           <p>
-            Bilateral cumulation operates between 2 countries or trading blocs where a 
+            Bilateral cumulation operates between 2 countries or trading blocs where a
             trade agreement contains a provision allowing them to cumulate origin.
           </p>
 
           <p>
-            Materials originating in either country or bloc in the trade agreement will 
+            Materials originating in either country or bloc in the trade agreement will
             be considered as materials covered by the rule of origin.
           </p>
         example_list_md: |
@@ -897,20 +915,20 @@ en:
         description_html: |
             <p>
               Extended cumulation (also referred to as third-party or cross cumulation) allows for
-               cumulation between countries which are not linked by a trade agreement or are linked 
-               by a trade agreement with different rules of origin to influence the origin of goods 
+               cumulation between countries which are not linked by a trade agreement or are linked
+               by a trade agreement with different rules of origin to influence the origin of goods
                in the trade agreement between the two primary countries or blocs.
             </p>
 
             <p>
               You are allowed to use inputs from a third-party country, which is not a member of the
-               applicable FTA and consider them originating, provided that they meet the rules of 
+               applicable FTA and consider them originating, provided that they meet the rules of
                origin under the relevant trade agreement.
             </p>
 
             <p>
-              Extended cumulation is the most flexible type of cumulation of originating inputs and is 
-              often limited to certain tariff headings, subheadings and codes or to certain types of 
+              Extended cumulation is the most flexible type of cumulation of originating inputs and is
+              often limited to certain tariff headings, subheadings and codes or to certain types of
               products only. Please check the detailed agreement text.
             </p>
         example_list_md: |
@@ -925,19 +943,19 @@ en:
           5. As 35% + 20% exceeds the 50% threshold, extended cumulation permits the trade to go ahead and for the preferential
           tariff for trade in goods between Country A and Country B to be legitimately claimed.
 
-             Goods may only be considered as originating if the parts from Country B have been processed to a degree beyond what 
+             Goods may only be considered as originating if the parts from Country B have been processed to a degree beyond what
              is defined in the [insufficient processing clause](%{sufficient_processing_link}).
       regional:
         description_html: |
           <p>
-            Regional cumulation is a form of diagonal cumulation, which only exists under the Generalised 
+            Regional cumulation is a form of diagonal cumulation, which only exists under the Generalised
             Scheme of Preferences.
           </p>
       full:
         description_html: |
           <p>
-            Full cumulation allows for the working or processing carried out on the materials that 
-            is more than insufficient in the countries participating in agreement to be considered as 
+            Full cumulation allows for the working or processing carried out on the materials that
+            is more than insufficient in the countries participating in agreement to be considered as
             carried out in the final country of production.
           </p>
       diagonal:
@@ -950,7 +968,7 @@ en:
               Materials originating in a defined country or countries, may be used as materials originating in the country of export, when used in an export to a country not in the agreement. Diagonal cumulation comes with two crucial conditions attached:
             </p>
         description_list_md: |
-          1. all countries involved need to be joined by FTAs *and* 
+          1. all countries involved need to be joined by FTAs *and*
           2. rules of origin in these FTAs need to be identical.
         example_text: |
           1. Importers in country A would like to import goods from country B

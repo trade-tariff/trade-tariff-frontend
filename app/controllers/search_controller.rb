@@ -117,17 +117,6 @@ class SearchController < ApplicationController
     end
   end
 
-  def additional_code_search
-    form = AdditionalCodeSearchForm.new(params.permit(:code,
-                                                      :type,
-                                                      :description,
-                                                      :page))
-    @result = AdditionalCodeSearchPresenter.new(form)
-    respond_to do |format|
-      format.html
-    end
-  end
-
   def footnote_search
     form = FootnoteSearchForm.new(params.permit(:code,
                                                 :type,

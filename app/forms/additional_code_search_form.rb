@@ -1,50 +1,65 @@
 class AdditionalCodeSearchForm
-  OPTIONAL_PARAMS = [:@page].freeze
-  EXCLUDED_TYPES = %w[6 7 9 D F P].freeze
+  include ActiveModel::Model
+  include ActiveModel::Attributes
 
-  attr_accessor :code, :type, :description
+  OPTIONAL_PARAMS = [:@page].freeze
+  DEFAULT_EXCLUDED_TYPES = %w[6 9 D F P].freeze
+  UK_EXCLUDED_TYPES = (DEFAULT_EXCLUDED_TYPES.dup << '7').freeze
+  XI_EXCLUDED_TYPES = DEFAULT_EXCLUDED_TYPES.dup.freeze
+
+  attribute :code, :string
+  attribute :description, :string
+
+  validate :validate_code
+  validate :validate_description
+
   attr_writer :page
 
-  def initialize(params)
-    params.each do |key, value|
-      public_send("#{key}=", value) if respond_to?("#{key}=") && value.present?
+  def validate_code
+    if code.present?
+      # A234 and 6999 are valid codes, but A0234 is not
+      errors.add(:code, :invalid) unless code =~ /\A([A-Z]|[0-9]){4}\z/
+      errors.add(:code, :wrong_type) unless type.in?(self.class.possible_types)
+    elsif description.blank?
+      errors.add(:code, :blank)
     end
   end
 
-  def additional_code_types
-    TradeTariffFrontend::ServiceChooser.cache_with_service_choice('cached_additional_code_types-v2', expires_in: 24.hours) do
-      AdditionalCodeType.all
-                        &.sort_by(&:additional_code_type_id)
-                        &.reject(&method(:exclude_additional_code_type?))
-                        &.map(&method(:additional_code_type_option))
-                        &.to_h
+  def validate_description
+    unless description.present? || code.present?
+      errors.add(:description, :blank)
     end
   end
 
-  def page
-    @page || 1
-  end
-
-  def present?
-    (instance_variables - OPTIONAL_PARAMS).present?
+  def type
+    code.to_s[0]
   end
 
   def to_params
     {
-      code:,
-      type:,
+      code: code.to_s[1..],
+      type: code.to_s[0],
       description:,
-      page:,
     }
   end
 
-private
+  class << self
+    def possible_types
+      additional_code_type_ids
+        .dup
+        .reject do |additional_code_type_id|
+          if TradeTariffFrontend::ServiceChooser.uk?
+            UK_EXCLUDED_TYPES
+          else
+            XI_EXCLUDED_TYPES
+          end.include?(additional_code_type_id)
+        end
+    end
 
-  def additional_code_type_option(type)
-    ["#{type&.additional_code_type_id} - #{type&.description}", type&.additional_code_type_id]
-  end
+    private
 
-  def exclude_additional_code_type?(type)
-    EXCLUDED_TYPES.include? type.additional_code_type_id
+    def additional_code_type_ids
+      @additional_code_type_ids ||= AdditionalCodeType.all.map(&:additional_code_type_id).sort
+    end
   end
 end

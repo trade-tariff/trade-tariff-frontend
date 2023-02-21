@@ -5,60 +5,55 @@
         [t('breadcrumb.home'), find_commodity_path],
         [t('breadcrumb.tools'), tools_path]
       ]
-    )
-  %>
+    ) %>
 <% end %>
 
-<%= render partial: 'search/additional_codes/form', locals: { search_form: @result.search_form } %>
-<% if @result.search_result&.any? %>
-  <br/>
+<%= render partial: 'search/additional_codes/form' %>
+
+<% if @query.present? %>
+  <br>
   <article class="search-results">
-    <h1 class="govuk-heading-l">Additional code search results</h1>
-    <% @result.search_result.each do |additional_code| %>
-      <table class="govuk-table">
-        <colgroup>
-          <col width="*">
-          <col width="180">
-        </colgroup>
-        <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-6">
-          <span class="govuk-visually-hidden">
-            Commodities associated with the additional code
-          </span>
-          <strong>
-            <%= additional_code.code %>
-          </strong>
-          <%= additional_code.formatted_description.html_safe %>
-        </caption>
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th class="govuk-table__header" scope="col">Name</th>
-            <th class="govuk-table__header" scope="col">Code</th>
-          </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-          <% if additional_code.measures.any? %>
-            <% additional_code.all_goods_nomenclatures.each do |goods_nomenclature| %>
-              <%= render partial: 'search/common/goods_nomenclature', object: goods_nomenclature %>
-            <% end %>
-          <% else %>
+    <h1 class="govuk-heading-l">Search results:</h1>
+
+    <% if @additional_codes.any? %>
+      <% @additional_codes.each do |additional_code| %>
+        <table class="govuk-table">
+          <colgroup>
+            <col width="*">
+            <col width="180">
+          </colgroup>
+          <caption class="govuk-table__caption govuk-!-margin-top-6">
+            <strong>
+              <%= additional_code.code %>
+            </strong>
+
+            <%= additional_code.formatted_description.html_safe %>
+          </caption>
+          <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-              <td colspan="2" class="govuk-table__cell">
-                No valid commodities are associated with additional code <a class="inline" href="<%= additional_code_search_path(type: additional_code.additional_code_type_id, code: additional_code.additional_code) %>"><%= additional_code.code %></a>.
-              </td>
+              <th class="govuk-table__header" scope="col">Name</th>
+              <th class="govuk-table__header" scope="col">Code</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody class="govuk-table__body">
+            <% if additional_code.all_goods_nomenclatures.any? %>
+              <% additional_code.all_goods_nomenclatures.each do |goods_nomenclature| %>
+                <%= render partial: 'search/common/goods_nomenclature', object: goods_nomenclature %>
+              <% end %>
+            <% else %>
+              <tr class="govuk-table__row">
+                <td colspan="2" class="govuk-table__cell">
+                  No valid commodities are associated with additional code <a class="inline" href="<%= additional_code_search_path(type: additional_code.additional_code_type_id, code: additional_code.additional_code) %>"><%= additional_code.code %></a>.
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    <% else %>
+      <article class="search-results">
+        <h1 class="govuk-heading-l">There are no matching results</h1>
+      </article>
     <% end %>
-    <%= paginate @result.search_result %>
-  </article>
-<% elsif @result.with_errors %>
-  <article class="search-results">
-    <h1 class="govuk-heading-l">Sorry, there is a problem with the search query. Please specify one or more search criteria.</h1>
-  </article>
-<% elsif @result.search_form.present? %>
-  <br/>
-  <article class="search-results">
-    <h1 class="govuk-heading-l">There are no matching results</h1>
   </article>
 <% end %>
