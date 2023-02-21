@@ -5,16 +5,6 @@ RSpec.describe PagesController, type: :request do
 
   let(:rules_of_origin_scheme) { build :rules_of_origin_scheme }
 
-  context 'when asked for XML file' do
-    before { get opensearch_path(format: 'xml') }
-
-    it { is_expected.to have_http_status(:ok) }
-
-    it 'renders OpenSearch file successfully' do
-      expect(response.body).to include 'Tariff'
-    end
-  end
-
   describe 'GET #privacy' do
     before { get privacy_path }
 

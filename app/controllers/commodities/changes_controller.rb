@@ -10,8 +10,8 @@ module Commodities
       @changeable ||= CommodityPresenter.new(commodity)
     end
 
-    def change_url(opts = {})
-      commodity_url(commodity, opts)
+    def change_path(opts = {})
+      commodity_path(commodity, opts)
     end
   end
 end

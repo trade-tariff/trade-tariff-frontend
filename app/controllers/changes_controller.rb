@@ -8,5 +8,5 @@ class ChangesController < ApplicationController
   end
 
   helper_method :changeable
-  helper_method :change_url
+  helper_method :change_path
 end

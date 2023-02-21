@@ -11,6 +11,6 @@ class SectionsController < GoodsNomenclaturesController
   private
 
   def find_relevant_goods_code_or_fallback
-    redirect_to sections_url
+    redirect_to sections_path
   end
 end

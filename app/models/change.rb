@@ -18,7 +18,7 @@ class Change
     @operation_date = Date.parse(operation_date)
   end
 
-  def change_url(_changeable)
+  def change_path(_changeable)
     '/'
   end
 end

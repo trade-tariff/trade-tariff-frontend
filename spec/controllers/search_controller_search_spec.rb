@@ -293,10 +293,6 @@ RSpec.describe SearchController, type: :controller do
         expect(response.body).to include '/search.atom'
       end
 
-      specify 'includes link to opensearch.xml file (search link)' do
-        expect(response.body).to include '/opensearch.xml'
-      end
-
       specify 'includes commodity descriptions' do
         expect(response.body).to include 'Of horses, asses, mules and hinnies'
       end

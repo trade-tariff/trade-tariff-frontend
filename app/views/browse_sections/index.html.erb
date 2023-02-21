@@ -1,6 +1,6 @@
 <% content_for :head, tag.link(rel: 'alternate',
                                type: 'application/json',
-                               href: sections_url(format: :json),
+                               href: sections_path(format: :json),
                                title: 'Section list in JSON format') %>
 
 <% content_for :top_breadcrumbs do %>
