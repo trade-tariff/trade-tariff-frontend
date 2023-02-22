@@ -2,87 +2,6 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/additional_codes/search?code&description&page=1&type=4
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/vnd.uktt.v2
-      User-Agent:
-      - Faraday v0.11.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"76467f1b4723567c5d549c66bf454f8e"
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - de8f4145-dd1c-4d27-992f-df2a3d2eb7d1
-      X-Runtime:
-      - '0.144040'
-      Transfer-Encoding:
-      - chunked
-    body:
-      encoding: UTF-8
-      string: '{"data":[{"id":"8410","type":"additional_code","attributes":{"additional_code_type_id":"4","additional_code":"008","code":"4008","description":"Pictures
-        and paintings, other than those covered by additional codes 4040 and 4041,
-        executed entirely by hand in any medium and on any material, which are more
-        than 50 years old and do not belong to their originators","formatted_description":"Pictures
-        and paintings, other than those covered by additional codes 4040 and 4041,
-        executed entirely by hand in any medium and on any material, which are more
-        than 50 years old and do not belong to their originators"},"relationships":{"measures":{"data":[{"id":"2524705","type":"measure"},{"id":"2946682","type":"measure"},{"id":"3348453","type":"measure"}]}}},{"id":"6640","type":"additional_code","attributes":{"additional_code_type_id":"4","additional_code":"010","code":"4010","description":"Archaeological
-        objects more than 100 years old which are products of excavations and finds
-        on the land or under water, archaeological sites or archaeological collections","formatted_description":"Archaeological
-        objects more than 100 years old which are products of excavations and finds
-        on the land or under water, archaeological sites or archaeological collections"},"relationships":{"measures":{"data":[{"id":"2946630","type":"measure"},{"id":"2524322","type":"measure"},{"id":"3348469","type":"measure"},{"id":"2946636","type":"measure"},{"id":"3348462","type":"measure"},{"id":"2524316","type":"measure"}]}}},{"id":"6641","type":"additional_code","attributes":{"additional_code_type_id":"4","additional_code":"011","code":"4011","description":"Elements
-        forming an integral part of artistic, historical or religious monuments which
-        have been dismembered, of an age exceeding 100 years","formatted_description":"Elements
-        forming an integral part of artistic, historical or religious monuments which
-        have been dismembered, of an age exceeding 100 years"},"relationships":{"measures":{"data":[{"id":"3348463","type":"measure"},{"id":"2946631","type":"measure"},{"id":"2524323","type":"measure"},{"id":"2946637","type":"measure"},{"id":"2524317","type":"measure"},{"id":"3348470","type":"measure"}]}}},{"id":"6643","type":"additional_code","attributes":{"additional_code_type_id":"4","additional_code":"013","code":"4013","description":"Archives,
-        and any elements thereof, of any kind or any medium which are more than 50
-        years old","formatted_description":"Archives, and any elements thereof, of
-        any kind or any medium which are more than 50 years old"},"relationships":{"measures":{"data":[{"id":"3348402","type":"measure"},{"id":"2946663","type":"measure"},{"id":"2524326","type":"measure"},{"id":"2524340","type":"measure"},{"id":"3348396","type":"measure"},{"id":"2946651","type":"measure"},{"id":"2946633","type":"measure"},{"id":"2946652","type":"measure"},{"id":"2524351","type":"measure"},{"id":"2524338","type":"measure"},{"id":"2524319","type":"measure"},{"id":"2946640","type":"measure"},{"id":"2524350","type":"measure"},{"id":"3348411","type":"measure"},{"id":"3348464","type":"measure"},{"id":"3348471","type":"measure"},{"id":"2946662","type":"measure"},{"id":"2946653","type":"measure"},{"id":"2524339","type":"measure"},{"id":"3348417","type":"measure"},{"id":"3348399","type":"measure"}]}}},{"id":"6647","type":"additional_code","attributes":{"additional_code_type_id":"4","additional_code":"023","code":"4023","description":"Incunabula
-        and manuscripts, including maps and musical scores, singly or in collections,
-        more than 50 years old which do not belong to their originators","formatted_description":"Incunabula
-        and manuscripts, including maps and musical scores, singly or in collections,
-        more than 50 years old which do not belong to their originators"},"relationships":{"measures":{"data":[{"id":"2524349","type":"measure"},{"id":"2524345","type":"measure"},{"id":"3348413","type":"measure"},{"id":"3348418","type":"measure"},{"id":"3348472","type":"measure"},{"id":"2946657","type":"measure"},{"id":"2524343","type":"measure"},{"id":"2524347","type":"measure"},{"id":"2524346","type":"measure"},{"id":"2946656","type":"measure"},{"id":"2946660","type":"measure"},{"id":"3348457","type":"measure"},{"id":"2946659","type":"measure"},{"id":"2946661","type":"measure"},{"id":"3348412","type":"measure"},{"id":"3348416","type":"measure"},{"id":"3348414","type":"measure"},{"id":"2524342","type":"measure"},{"id":"2946655","type":"measure"},{"id":"2524344","type":"measure"},{"id":"2524348","type":"measure"},{"id":"2946658","type":"measure"},{"id":"2946654","type":"measure"},{"id":"3348415","type":"measure"}]}}}],"included":[{"id":"2524705","type":"measure","attributes":{"id":2524705,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9701000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54749","type":"goods_nomenclature"}}}},{"id":"2946682","type":"measure","attributes":{"id":2946682,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9701000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54749","type":"goods_nomenclature"}}}},{"id":"3348453","type":"measure","attributes":{"id":3348453,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9701000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54749","type":"goods_nomenclature"}}}},{"id":"54749","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9701000000","goods_nomenclature_sid":54749,"number_indents":0,"description":"Paintings,
-        drawings and pastels, executed entirely by hand, other than drawings of heading\u0026nbsp;4906\u0026nbsp;and
-        other than hand-painted or hand-decorated manufactured articles; collages
-        and similar decorative plaques","productline_suffix":"80"}},{"id":"2946630","type":"measure","attributes":{"id":2946630,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54755","type":"goods_nomenclature"}}}},{"id":"2524322","type":"measure","attributes":{"id":2524322,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"3348469","type":"measure","attributes":{"id":3348469,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"2946636","type":"measure","attributes":{"id":2946636,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"3348462","type":"measure","attributes":{"id":3348462,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54755","type":"goods_nomenclature"}}}},{"id":"2524316","type":"measure","attributes":{"id":2524316,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54755","type":"goods_nomenclature"}}}},{"id":"54755","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9705000000","goods_nomenclature_sid":54755,"number_indents":0,"description":"Collections
-        and collectors'' pieces of zoological, botanical, mineralogical, anatomical,
-        historical, archaeological, palaeontological, ethnographic or numismatic interest","productline_suffix":"80"}},{"id":"54756","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9706000000","goods_nomenclature_sid":54756,"number_indents":0,"description":"Antiques
-        of an age exceeding 100\u0026nbsp;years","productline_suffix":"80"}},{"id":"3348463","type":"measure","attributes":{"id":3348463,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54755","type":"goods_nomenclature"}}}},{"id":"2946631","type":"measure","attributes":{"id":2946631,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54755","type":"goods_nomenclature"}}}},{"id":"2524323","type":"measure","attributes":{"id":2524323,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"2946637","type":"measure","attributes":{"id":2946637,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"2524317","type":"measure","attributes":{"id":2524317,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54755","type":"goods_nomenclature"}}}},{"id":"3348470","type":"measure","attributes":{"id":3348470,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"3348402","type":"measure","attributes":{"id":3348402,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"3706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"38298","type":"goods_nomenclature"}}}},{"id":"2946663","type":"measure","attributes":{"id":2946663,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4901000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40798","type":"goods_nomenclature"}}}},{"id":"2524326","type":"measure","attributes":{"id":2524326,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"2524340","type":"measure","attributes":{"id":2524340,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"3704000000"},"relationships":{"goods_nomenclature":{"data":{"id":"38289","type":"goods_nomenclature"}}}},{"id":"3348396","type":"measure","attributes":{"id":3348396,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"3704000000"},"relationships":{"goods_nomenclature":{"data":{"id":"38289","type":"goods_nomenclature"}}}},{"id":"2946651","type":"measure","attributes":{"id":2946651,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"3706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"38298","type":"goods_nomenclature"}}}},{"id":"2946633","type":"measure","attributes":{"id":2946633,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54755","type":"goods_nomenclature"}}}},{"id":"2946652","type":"measure","attributes":{"id":2946652,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"3705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"38292","type":"goods_nomenclature"}}}},{"id":"2524351","type":"measure","attributes":{"id":2524351,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4901000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40798","type":"goods_nomenclature"}}}},{"id":"2524338","type":"measure","attributes":{"id":2524338,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"3706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"38298","type":"goods_nomenclature"}}}},{"id":"2524319","type":"measure","attributes":{"id":2524319,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54755","type":"goods_nomenclature"}}}},{"id":"2946640","type":"measure","attributes":{"id":2946640,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"2524350","type":"measure","attributes":{"id":2524350,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4906000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40816","type":"goods_nomenclature"}}}},{"id":"3348411","type":"measure","attributes":{"id":3348411,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4901000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40798","type":"goods_nomenclature"}}}},{"id":"3348464","type":"measure","attributes":{"id":3348464,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54755","type":"goods_nomenclature"}}}},{"id":"3348471","type":"measure","attributes":{"id":3348471,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"2946662","type":"measure","attributes":{"id":2946662,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4906000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40816","type":"goods_nomenclature"}}}},{"id":"2946653","type":"measure","attributes":{"id":2946653,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"3704000000"},"relationships":{"goods_nomenclature":{"data":{"id":"38289","type":"goods_nomenclature"}}}},{"id":"2524339","type":"measure","attributes":{"id":2524339,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"3705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"38292","type":"goods_nomenclature"}}}},{"id":"3348417","type":"measure","attributes":{"id":3348417,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4906000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40816","type":"goods_nomenclature"}}}},{"id":"3348399","type":"measure","attributes":{"id":3348399,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"3705000000"},"relationships":{"goods_nomenclature":{"data":{"id":"38292","type":"goods_nomenclature"}}}},{"id":"38298","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3706000000","goods_nomenclature_sid":38298,"number_indents":0,"description":"Cinematographic
-        film, exposed and developed, whether or not incorporating soundtrack or consisting
-        only of soundtrack","productline_suffix":"80"}},{"id":"40798","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"4901000000","goods_nomenclature_sid":40798,"number_indents":0,"description":"Printed
-        books, brochures, leaflets and similar printed matter, whether or not in single
-        sheets","productline_suffix":"80"}},{"id":"38289","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3704000000","goods_nomenclature_sid":38289,"number_indents":0,"description":"Photographic
-        plates, film, paper, paperboard and textiles, exposed but not developed","productline_suffix":"80"}},{"id":"38292","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3705000000","goods_nomenclature_sid":38292,"number_indents":0,"description":"Photographic
-        plates and film, exposed and developed, other than cinematographic film","productline_suffix":"80"}},{"id":"40816","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"4906000000","goods_nomenclature_sid":40816,"number_indents":0,"description":"Plans
-        and drawings for architectural, engineering, industrial, commercial, topographical
-        or similar purposes, being originals drawn by hand; handwritten texts; photographic
-        reproductions on sensitised paper and carbon copies of the foregoing","productline_suffix":"80"}},{"id":"2524349","type":"measure","attributes":{"id":2524349,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4906000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40816","type":"goods_nomenclature"}}}},{"id":"2524345","type":"measure","attributes":{"id":2524345,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4901990000"},"relationships":{"goods_nomenclature":{"data":{"id":"40802","type":"goods_nomenclature"}}}},{"id":"3348413","type":"measure","attributes":{"id":3348413,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4901990000"},"relationships":{"goods_nomenclature":{"data":{"id":"40802","type":"goods_nomenclature"}}}},{"id":"3348418","type":"measure","attributes":{"id":3348418,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4906000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40816","type":"goods_nomenclature"}}}},{"id":"3348472","type":"measure","attributes":{"id":3348472,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"2946657","type":"measure","attributes":{"id":2946657,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4901990000"},"relationships":{"goods_nomenclature":{"data":{"id":"40802","type":"goods_nomenclature"}}}},{"id":"2524343","type":"measure","attributes":{"id":2524343,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"2524347","type":"measure","attributes":{"id":2524347,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4905910000"},"relationships":{"goods_nomenclature":{"data":{"id":"40814","type":"goods_nomenclature"}}}},{"id":"2524346","type":"measure","attributes":{"id":2524346,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4904000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40810","type":"goods_nomenclature"}}}},{"id":"2946656","type":"measure","attributes":{"id":2946656,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4901100000"},"relationships":{"goods_nomenclature":{"data":{"id":"40799","type":"goods_nomenclature"}}}},{"id":"2946660","type":"measure","attributes":{"id":2946660,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4905990000"},"relationships":{"goods_nomenclature":{"data":{"id":"40815","type":"goods_nomenclature"}}}},{"id":"3348457","type":"measure","attributes":{"id":3348457,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9702000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54752","type":"goods_nomenclature"}}}},{"id":"2946659","type":"measure","attributes":{"id":2946659,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4905910000"},"relationships":{"goods_nomenclature":{"data":{"id":"40814","type":"goods_nomenclature"}}}},{"id":"2946661","type":"measure","attributes":{"id":2946661,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4906000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40816","type":"goods_nomenclature"}}}},{"id":"3348412","type":"measure","attributes":{"id":3348412,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4901100000"},"relationships":{"goods_nomenclature":{"data":{"id":"40799","type":"goods_nomenclature"}}}},{"id":"3348416","type":"measure","attributes":{"id":3348416,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4905990000"},"relationships":{"goods_nomenclature":{"data":{"id":"40815","type":"goods_nomenclature"}}}},{"id":"3348414","type":"measure","attributes":{"id":3348414,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4904000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40810","type":"goods_nomenclature"}}}},{"id":"2524342","type":"measure","attributes":{"id":2524342,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9702000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54752","type":"goods_nomenclature"}}}},{"id":"2946655","type":"measure","attributes":{"id":2946655,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9706000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54756","type":"goods_nomenclature"}}}},{"id":"2524344","type":"measure","attributes":{"id":2524344,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4901100000"},"relationships":{"goods_nomenclature":{"data":{"id":"40799","type":"goods_nomenclature"}}}},{"id":"2524348","type":"measure","attributes":{"id":2524348,"validity_start_date":"2003-05-23T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4905990000"},"relationships":{"goods_nomenclature":{"data":{"id":"40815","type":"goods_nomenclature"}}}},{"id":"2946658","type":"measure","attributes":{"id":2946658,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4904000000"},"relationships":{"goods_nomenclature":{"data":{"id":"40810","type":"goods_nomenclature"}}}},{"id":"2946654","type":"measure","attributes":{"id":2946654,"validity_start_date":"2007-01-01T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"9702000000"},"relationships":{"goods_nomenclature":{"data":{"id":"54752","type":"goods_nomenclature"}}}},{"id":"3348415","type":"measure","attributes":{"id":3348415,"validity_start_date":"2013-12-15T00:00:00.000Z","validity_end_date":null,"goods_nomenclature_item_id":"4905910000"},"relationships":{"goods_nomenclature":{"data":{"id":"40814","type":"goods_nomenclature"}}}},{"id":"40802","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"4901990000","goods_nomenclature_sid":40802,"number_indents":2,"description":"Other","productline_suffix":"80"}},{"id":"40814","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"4905910000","goods_nomenclature_sid":40814,"number_indents":2,"description":"In
-        book form","productline_suffix":"80"}},{"id":"40810","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"4904000000","goods_nomenclature_sid":40810,"number_indents":0,"description":"Music,
-        printed or in manuscript, whether or not bound or illustrated","productline_suffix":"80"}},{"id":"40799","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"4901100000","goods_nomenclature_sid":40799,"number_indents":1,"description":"In
-        single sheets, whether or not folded","productline_suffix":"80"}},{"id":"40815","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"4905990000","goods_nomenclature_sid":40815,"number_indents":2,"description":"Other","productline_suffix":"80"}},{"id":"54752","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9702000000","goods_nomenclature_sid":54752,"number_indents":0,"description":"Original
-        engravings, prints and lithographs","productline_suffix":"80"}}],"meta":{"pagination":{"page":1,"per_page":5,"total_count":51}}}'
-    http_version: 
-  recorded_at: Fri, 04 Oct 2019 12:36:37 GMT
-- request:
-    method: get
     uri: http://localhost:3018/additional_code_types
     body:
       encoding: US-ASCII
@@ -91,9 +10,13 @@ http_interactions:
       Accept:
       - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v0.11.0
+      - Faraday v1.3.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 200
@@ -105,28 +28,83 @@ http_interactions:
       - 1; mode=block
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"3511c1dead32f729fa46e2bc7fba97be"
+      - W/"2e7cf478c3c6ada49c4deb83665d2d32"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - a88e453f-8d47-48d8-8c12-c521f38abf81
+      - 7b911704-ee0e-4f95-b9b9-39a614420052
       X-Runtime:
-      - '0.010595'
-      Transfer-Encoding:
-      - chunked
+      - '0.520813'
+      Content-Length:
+      - '1881'
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"8","type":"additional_code_type","attributes":{"additional_code_type_id":"8","description":"Anti-dumping/countervailing"}},{"id":"7","type":"additional_code_type","attributes":{"additional_code_type_id":"7","description":"Agricultural
-        Tables (Meursing)"}},{"id":"3","type":"additional_code_type","attributes":{"additional_code_type_id":"3","description":"Prohibition/Restriction/Surveillance"}},{"id":"4","type":"additional_code_type","attributes":{"additional_code_type_id":"4","description":"Restrictions"}},{"id":"6","type":"additional_code_type","attributes":{"additional_code_type_id":"6","description":"Agricultural
-        Tables (non-Meursing)"}},{"id":"2","type":"additional_code_type","attributes":{"additional_code_type_id":"2","description":"Tariff
-        preference"}},{"id":"9","type":"additional_code_type","attributes":{"additional_code_type_id":"9","description":"Export
-        Refunds"}},{"id":"A","type":"additional_code_type","attributes":{"additional_code_type_id":"A","description":"Anti-dumping/countervailing"}},{"id":"D","type":"additional_code_type","attributes":{"additional_code_type_id":"D","description":"Dual
+      string: '{"data":[{"id":"3","type":"additional_code_type","attributes":{"additional_code_type_id":"3","description":"Prohibition/Restriction/Surveillance"}},{"id":"8","type":"additional_code_type","attributes":{"additional_code_type_id":"8","description":"Anti-dumping/countervailing"}},{"id":"7","type":"additional_code_type","attributes":{"additional_code_type_id":"7","description":"Agricultural
+        Tables (Meursing)"}},{"id":"F","type":"additional_code_type","attributes":{"additional_code_type_id":"F","description":"Reference
+        prices fishery products"}},{"id":"D","type":"additional_code_type","attributes":{"additional_code_type_id":"D","description":"Dual
         Use"}},{"id":"P","type":"additional_code_type","attributes":{"additional_code_type_id":"P","description":"Refund
-        for basic products"}},{"id":"B","type":"additional_code_type","attributes":{"additional_code_type_id":"B","description":"Anti-dumping/countervailing"}},{"id":"C","type":"additional_code_type","attributes":{"additional_code_type_id":"C","description":"Anti-dumping/countervailing"}},{"id":"F","type":"additional_code_type","attributes":{"additional_code_type_id":"F","description":"Reference
-        prices fishery products"}}]}'
-    http_version: 
-  recorded_at: Fri, 04 Oct 2019 12:36:37 GMT
-recorded_with: VCR 3.0.3
+        for basic products"}},{"id":"B","type":"additional_code_type","attributes":{"additional_code_type_id":"B","description":"Anti-dumping/countervailing"}},{"id":"6","type":"additional_code_type","attributes":{"additional_code_type_id":"6","description":"Agricultural
+        Tables (non-Meursing)"}},{"id":"9","type":"additional_code_type","attributes":{"additional_code_type_id":"9","description":"Export
+        Refunds"}},{"id":"A","type":"additional_code_type","attributes":{"additional_code_type_id":"A","description":"Anti-dumping/countervailing"}},{"id":"4","type":"additional_code_type","attributes":{"additional_code_type_id":"4","description":"Restrictions"}},{"id":"C","type":"additional_code_type","attributes":{"additional_code_type_id":"C","description":"Anti-dumping/countervailing"}},{"id":"V","type":"additional_code_type","attributes":{"additional_code_type_id":"V","description":"VAT"}},{"id":"X","type":"additional_code_type","attributes":{"additional_code_type_id":"X","description":"EXCISE"}},{"id":"2","type":"additional_code_type","attributes":{"additional_code_type_id":"2","description":"Tariff
+        preference"}}]}'
+  recorded_at: Tue, 21 Feb 2023 10:50:34 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/additional_codes/search?code=119&description&type=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"d33cf496991f863a8323ef070f9b5353"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 557c8db1-914c-4bf2-809d-82f72acc500f
+      X-Runtime:
+      - '0.070141'
+      Content-Length:
+      - '87'
+    body:
+      encoding: UTF-8
+      string: '{"data":[],"included":[],"meta":{"pagination":{"page":1,"per_page":5,"total_count":0}}}'
+  recorded_at: Tue, 21 Feb 2023 10:50:35 GMT
+recorded_with: VCR 6.1.0

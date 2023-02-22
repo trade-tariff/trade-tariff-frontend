@@ -1,17 +1,28 @@
-<%= form_tag additional_code_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
-  <%= page_header 'Search by Additional Code' %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <%= form_for @form, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post, url: perform_additional_code_search_path do |f| %>
+      <%= page_header 'Search for additional codes' %>
 
-  <div class="govuk-form-group">
-    <%= label_tag :type, 'Type', class: 'govuk-label' %>
-    <%= select_tag :type, options_for_select(search_form.additional_code_types, search_form.type), include_blank: true, class: "custom-select" %>
+      <%= render 'search/additional_codes/helper' %>
+
+      <p class="govuk-body">To search for additional codes, and the measures to which they apply, enter either a four-digit additional code or words from the additional code in the fields below.</p>
+
+      <%= f.hidden_field :render_errors, value: true %>
+
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_field :code,
+        width: 'one-quarter',
+        label: { text: t('additional_code_search.form.additional_code_label_html') },
+        hint: { text: t('additional_code_search.form.additional_code_hint_text') } %>
+
+      <%= f.govuk_text_field :description,
+        width: 'one-half',
+        label: { text: t('additional_code_search.form.additional_code_description_label_html') },
+        hint: { text: t('additional_code_search.form.additional_code_description_hint_text') } %>
+
+      <%= f.govuk_submit(t('additional_code_search.form.submit'), id: 'additional-code-submit') %>
+
+    <% end %>
   </div>
-  <div class="govuk-form-group">
-    <%= label_tag :code, 'Code', class: 'govuk-label' %>
-    <%= text_field_tag :code, search_form.code, class: "govuk-input govuk-input--width-10" %>
-  </div>
-  <div class="govuk-form-group">
-    <%= label_tag :description, 'Description', class: 'govuk-label' %>
-    <%= text_field_tag :description, search_form.description, class: "govuk-input govuk-input--width-20" %>
-  </div>
-  <input class="button govuk-button" type="submit" name="new_search" value="Search">
-<% end %>
+</div>

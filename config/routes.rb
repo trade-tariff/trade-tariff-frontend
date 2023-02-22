@@ -110,7 +110,8 @@ Rails.application.routes.draw do
 
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search
-  get 'additional_code_search', to: 'search#additional_code_search', as: :additional_code_search
+  get 'additional_code_search', to: 'additional_code_search#new', as: :additional_code_search
+  post 'additional_code_search', to: 'additional_code_search#create', as: :perform_additional_code_search
   get 'certificate_search', to: 'search#certificate_search', as: :certificate_search
   get 'footnote_search', to: 'search#footnote_search', as: :footnote_search
   get 'chemical_search', to: 'search#chemical_search', as: :chemical_search

@@ -155,38 +155,32 @@ RSpec.describe 'Search', js: true do
   context 'when doing an additional code search' do
     context 'when reaching the additional code search form' do
       it 'contains additional code search params inputs' do
-        VCR.use_cassette('search#additional_code_search_form') do
-          visit additional_code_search_path
+        visit additional_code_search_path
 
-          expect(page).to have_content('Additional code')
+        expect(page).to have_content('Search for additional codes')
 
-          expect(page.find('#code')).to be_present
-          expect(page.find('#type')).to be_present
-          expect(page.find('#description')).to be_present
-          expect(page.find('input[name="new_search"]')).to be_present
+        expect(page.find('#additional-code-search-form-code-field')).to be_present
+        expect(page.find('#additional-code-search-form-description-field')).to be_present
+        expect(page.find('#additional-code-submit')).to be_present
 
-          expect(page).not_to have_content('Additional code search results')
-        end
+        expect(page).not_to have_css('.search-results')
       end
     end
 
     context 'when getting back some additional code search results' do
       it 'performs search and render results' do
-        VCR.use_cassette('search#additional_code_search_form') do
-          VCR.use_cassette('search#additional_code_search_results') do
-            visit additional_code_search_path
+        VCR.use_cassette('search#additional_code_search_results_8180') do
+          visit additional_code_search_path
 
-            expect(page).to have_content('Additional code')
+          expect(page).to have_content('Search for additional codes')
 
-            page.find('#code').set('119')
-            page.find('input[name="new_search"]').click
+          page.find('#additional-code-search-form-code-field').set('8180')
+          page.find('#additional-code-submit').click
 
-            using_wait_time 1 do
-              expect(page).to have_content('Additional code search results')
-              expect(page).to have_content('B119')
-              expect(page).to have_content('Wenzhou Jiangnan Steel Pipe Manufacturing, Co. Ltd., Yongzhong')
-              expect(page).to have_content('Of stainless steel')
-            end
+          using_wait_time 1 do
+            expect(page).to have_css('.search-results')
+            expect(page).to have_content('8180 Karl Storm Andersen Eft AS')
+            expect(page).to have_link('Other', href: '/commodities/0302120019')
           end
         end
       end
