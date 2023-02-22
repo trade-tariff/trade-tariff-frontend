@@ -19,7 +19,7 @@ class GoodsNomenclaturesController < ApplicationController
     if results.exact_match?
       redirect_to url_for(results.to_param.merge(url_options).merge(only_path: true))
     else
-      redirect_to sections_url
+      redirect_to sections_path
     end
   end
 end

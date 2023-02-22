@@ -10,8 +10,8 @@ module Headings
       @changeable ||= HeadingPresenter.new(heading)
     end
 
-    def change_url(*)
-      heading_url(heading)
+    def change_path(*)
+      heading_path(heading)
     end
   end
 end

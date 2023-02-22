@@ -8,7 +8,7 @@ atom_feed do |feed|
     feed.entry(
       change,
       id: "tag:#{request.host},2005:Change/#{change.id}",
-      url: change_url(anchor: change.anchor_link)
+      url: change_path(anchor: change.anchor_link),
     ) do |entry|
       entry.title(change.title)
       entry.content(change.content)

@@ -5,7 +5,7 @@ class HeadingsController < GoodsNomenclaturesController
     fetch_heading
     session[:goods_nomenclature_code] = heading.short_code
 
-    redirect_to commodity_url(id: heading.id) if heading.declarable?
+    redirect_to commodity_path(id: heading.id) if heading.declarable?
 
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @meursing_additional_code = session[:meursing_lookup].try(:[], 'result')

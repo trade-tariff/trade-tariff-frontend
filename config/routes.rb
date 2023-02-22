@@ -61,7 +61,6 @@ Rails.application.routes.draw do
                                                      as: 'rules_of_origin_proof_requirements'
   get 'help/rules_of_origin/proof_verification/:id', to: 'pages#rules_of_origin_proof_verification',
                                                      as: 'rules_of_origin_proof_verification'
-  get 'opensearch', to: 'pages#opensearch', constraints: { format: :xml }
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'terms', to: 'pages#terms'
 

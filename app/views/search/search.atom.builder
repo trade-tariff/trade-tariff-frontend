@@ -1,14 +1,13 @@
 atom_feed(
   'xmlns:os' => 'http://a9.com/-/spec/opensearch/1.1/',
-  root_url: perform_search_url(q: @search.q)
+  root_url: perform_search_path(q: @search.q),
 ) do |feed|
   feed.title("Trade Tariff - search results for #{@search}")
-  feed.link(rel: 'search', type: 'application/opensearchdescription+xml', href: opensearch_url(format: :xml))
   feed.tag!('os:totalResults', @results.size)
   feed.tag!('os:itemsPerPage', @results.size)
   feed.tag!('os:startIndex', 1)
   feed.tag!('os:Query', role: 'request', searchTerms: @search.q)
-  feed.updated(Time.now)
+  feed.updated(Time.zone.now)
   feed.author do |author|
     author.name 'HM Government'
   end
@@ -17,11 +16,11 @@ atom_feed(
     feed.entry(
       result,
       id: "tag:#{request.host},2005:#{result.class}/#{result.to_param}",
-      url: polymorphic_url(result)
+      url: polymorphic_url(result),
     ) do |entry|
       entry.title("#{result.class} #{result.to_param}")
       entry.content(result.to_s)
-      entry.updated(Time.now)
+      entry.updated(Time.zone.now)
 
       entry.author do |author|
         author.name 'HM Government'

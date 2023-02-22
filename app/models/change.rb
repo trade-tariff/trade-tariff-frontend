@@ -4,7 +4,8 @@ class Change
   include ApiEntity
   extend  ActiveModel::Naming
 
-  attr_accessor :oid, :model_name, :operation, :operation_date, :record
+  attr_accessor :oid, :model_name, :operation_type, :operation
+  attr_reader :operation_date, :record
 
   def id
     [model_name, oid].join('-')
@@ -18,7 +19,7 @@ class Change
     @operation_date = Date.parse(operation_date)
   end
 
-  def change_url(_changeable)
+  def change_path(_changeable)
     '/'
   end
 end

@@ -6,8 +6,8 @@ module Chapters
       @changeable ||= Chapter.find(params[:chapter_id], query_params)
     end
 
-    def change_url(*)
-      chapter_url(changeable)
+    def change_path(*)
+      chapter_path(changeable)
     end
   end
 end

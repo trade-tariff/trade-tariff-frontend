@@ -190,11 +190,11 @@ class SearchController < ApplicationController
   end
 
   def missing_search_query_fallback_url
-    return sections_url(anchor:) if request.referer.blank?
+    return sections_path(anchor:) if request.referer.blank?
 
     back_url = Addressable::URI.parse(request.referer)
     if back_url.host.present? && back_url.host != request.host
-      return sections_url(anchor:)
+      return sections_path(anchor:)
     end
 
     back_url.query_values ||= {}

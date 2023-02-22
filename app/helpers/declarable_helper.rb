@@ -52,11 +52,11 @@ module DeclarableHelper
     end
   end
 
-  def declarable_url_json(declarable)
+  def declarable_path_json(declarable)
     if declarable.heading?
-      heading_url(declarable, format: :json)
+      heading_path(declarable, format: :json)
     else
-      commodity_url(declarable, format: :json)
+      commodity_path(declarable, format: :json)
     end
   end
 end
