@@ -4,17 +4,7 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
   describe '.possible_types' do
     subject(:possible_types) { described_class.possible_types }
 
-    context 'when on the XI service' do
-      include_context 'with XI service'
-
-      it { is_expected.to eq(%w[2 3 4 7 8 A B C V X]) }
-    end
-
-    context 'when on the UK service' do
-      include_context 'with UK service'
-
-      it { is_expected.to eq(%w[2 3 4 8 A B C V X]) }
-    end
+    it { is_expected.to eq(%w[2 3 4 8 A B C V X]) }
   end
 
   describe 'validations' do
