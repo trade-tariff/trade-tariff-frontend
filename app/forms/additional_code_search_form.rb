@@ -3,9 +3,7 @@ class AdditionalCodeSearchForm
   include ActiveModel::Attributes
 
   OPTIONAL_PARAMS = [:@page].freeze
-  DEFAULT_EXCLUDED_TYPES = %w[6 9 D F P].freeze
-  UK_EXCLUDED_TYPES = (DEFAULT_EXCLUDED_TYPES.dup << '7').freeze
-  XI_EXCLUDED_TYPES = DEFAULT_EXCLUDED_TYPES.dup.freeze
+  EXCLUDED_TYPES = %w[6 7 9 D F P].freeze
 
   attribute :code, :string
   attribute :description, :string
@@ -46,11 +44,7 @@ class AdditionalCodeSearchForm
     def possible_types
       additional_code_type_ids
         .reject do |additional_code_type_id|
-          if TradeTariffFrontend::ServiceChooser.uk?
-            UK_EXCLUDED_TYPES
-          else
-            XI_EXCLUDED_TYPES
-          end.include?(additional_code_type_id)
+          EXCLUDED_TYPES.include?(additional_code_type_id)
         end
     end
 
