@@ -772,6 +772,22 @@
           });
 
           $('.js-commodity-picker-select').each(function() {
+            function inputValueTemplate (result) {
+              if (result && result.id) {
+                return result.id;
+              } else {
+                return result;
+              };
+            }
+
+            function suggestionTemplate (result) {
+              // The first suggestion is always the input text
+              if (typeof result === 'string') {
+                return result;
+              } else if (result && result.text && result.query) {
+                return result.text.replace(result.query, `<strong>$&</strong>`)
+              };
+            }
             (function(element) {
               let autocomplete_input_id = $(element).data('autocomplete-input-id') || 'q' ;
 
@@ -780,10 +796,10 @@
 
               $(element).on('change', 'input[type="text"]', function(ev) {
                 $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
-              }) ;
+              });
 
               $(element).on('keydown', 'input[type="text"]', function(ev) {
-                if (ev.key == 'Enter' || ev.keyCode == '13' || ev.which == '13') {
+                if (ev.key == 'Enter') {
                   ev.preventDefault() ;
 
                   let form = $(element).parents('form') ;
@@ -801,6 +817,10 @@
                 displayMenu: "overlay",
                 placeholder: "Enter the name of the goods or commodity code",
                 tNoResults: () => searching ? "Searching..." : "No results found",
+                templates: {
+                  inputValue: inputValueTemplate,
+                  suggestion: suggestionTemplate
+                },
                 onConfirm: function(text) {
                   let obj = null;
 
@@ -843,7 +863,7 @@
                       searching = false ;
 
                       results.forEach(function(result) {
-                        newSource.push(result.text);
+                        newSource.push(result);
                         options.push(result);
 
                         if (result.text.toLowerCase() == escapedQuery.toLowerCase()) {
