@@ -799,19 +799,19 @@
               });
 
               // Avoid the default keydown behaviour of the autocomplete library and
-              // auto submit on Enter or Tab ourselves
+              // auto submit on Mousclick, Enter or Tab ourselves
               // when an element receives Enter, the form is submitted
               // when an element selected with arrow keys, the form is not submitted
-              const handleKeyDown = function(ev) {
-                if (ev.key === 'Enter' || ev.key === 'Tab') {
-                  ev.preventDefault();
-
+              const handleSubmitEvent = function(ev) {
+                if (ev.type === 'click' || ev.key === 'Enter' || ev.key === 'Tab') {
                   const form = $(element).parents('form') ;
                   let text = $(ev.target).text();
 
+                  ev.preventDefault();
+
                   if (text === '') {
                     text = $(element).find('input[type="text"]').val();
-                  }
+                  };
 
                   form.find('.js-commodity-picker-target').val(text);
                   form.submit();
@@ -819,8 +819,11 @@
               };
 
               // Both the input and the list items need to be handled for keyboard events
-              $(element).on('keydown', 'li[id^="q__option--"]', handleKeyDown);
-              $(element).on('keydown', 'input[type="text"]', handleKeyDown);
+              $(element).on('keydown', 'li[id^="q__option--"]', handleSubmitEvent);
+              $(element).on('keydown', 'input[type="text"]', handleSubmitEvent);
+              // Handle mouse click
+              $(element).on('click', 'li[id^="q__option--"]', handleSubmitEvent);
+
 
               accessibleAutocomplete({
                 element: element[0],
