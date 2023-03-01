@@ -798,15 +798,29 @@
                 $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
               });
 
-              $(element).on('keydown', 'input[type="text"]', function(ev) {
-                if (ev.key == 'Enter') {
-                  ev.preventDefault() ;
+              // Avoid the default keydown behaviour of the autocomplete library and
+              // auto submit on Enter or Tab ourselves
+              // when an element receives Enter, the form is submitted
+              // when an element selected with arrow keys, the form is not submitted
+              const handleKeyDown = function(ev) {
+                if (ev.key === 'Enter' || ev.key === 'Tab') {
+                  ev.preventDefault();
 
-                  let form = $(element).parents('form') ;
-                  form.find('.js-commodity-picker-target').val($(ev.target).val());
+                  const form = $(element).parents('form') ;
+                  let text = $(ev.target).text();
+
+                  if (text === '') {
+                    text = $(element).find('input[type="text"]').val();
+                  }
+
+                  form.find('.js-commodity-picker-target').val(text);
                   form.submit();
                 }
-              })
+              };
+
+              // Both the input and the list items need to be handled for keyboard events
+              $(element).on('keydown', 'li[id^="q__option--"]', handleKeyDown);
+              $(element).on('keydown', 'input[type="text"]', handleKeyDown);
 
               accessibleAutocomplete({
                 element: element[0],
@@ -833,15 +847,9 @@
                   if (obj) {
                     $(element).parents('form:first').find('.js-commodity-picker-target').val(obj.id);
 
-                    $(document).trigger('tariff:chooseSearchQueryOption', [{
-                      params: {
-                        data: obj
-                      }
-                    }]);
-
                     if (typeof($(element).data('nosubmit')) == 'undefined') {
                       $(element).parents('form:first').trigger("submit");
-                    }
+                    };
                   }
                 },
                 source: debounce(function(query, populateResults) {
