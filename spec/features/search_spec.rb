@@ -37,7 +37,7 @@ RSpec.describe 'Search', js: true do
           end
 
           expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
-          expect(page).to have_content('gold - gold coin')
+          expect(page).to have_content('goldsmiths')
 
           page.find('#new_search .autocomplete__option:first-of-type').click
 
@@ -92,7 +92,7 @@ RSpec.describe 'Search', js: true do
           end
 
           expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
-          expect(page).to have_content('gold - gold coin')
+          expect(page).to have_content('goldsmiths')
 
           page.find('#new_search .autocomplete__option:first-of-type').click
 
