@@ -61,6 +61,8 @@ Rails.application.routes.draw do
                                                      as: 'rules_of_origin_proof_requirements'
   get 'help/rules_of_origin/proof_verification/:id', to: 'pages#rules_of_origin_proof_verification',
                                                      as: 'rules_of_origin_proof_verification'
+  get 'howto/:id', to: 'pages#howto', as: 'howto'
+
   get 'privacy', to: 'pages#privacy', as: 'privacy'
   get 'terms', to: 'pages#terms'
 

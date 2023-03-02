@@ -40,6 +40,12 @@ class PagesController < ApplicationController
     @article = @chosen_scheme.article('verification')
   end
 
+  def howto
+    @howto = params[:id]
+
+    render 'howto'
+  end
+
 private
 
   def load_rules_of_origin_scheme(id)
