@@ -40,7 +40,17 @@ class PagesController < ApplicationController
     @article = @chosen_scheme.article('verification')
   end
 
+  POSSIBLE_HOWTOS = %w[
+    origin
+    quotas
+    valuation
+    trade-remedies
+    commodity-codes
+  ].freeze
+
   def howto
+    raise ActionController::RoutingError, 'Not Found' unless POSSIBLE_HOWTOS.include?(params[:id])
+
     @howto = params[:id]
 
     render 'howto'
