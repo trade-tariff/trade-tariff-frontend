@@ -76,7 +76,7 @@ module ApplicationHelper
   end
 
   def help_active_class
-    'active' if action_name == 'help'
+    'active' if action_name == 'help' || action_name == 'howto'
   end
 
   def updates_active_class

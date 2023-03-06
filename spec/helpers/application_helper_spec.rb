@@ -184,13 +184,19 @@ RSpec.describe ApplicationHelper, type: :helper do
   describe '#help_active_class' do
     subject { helper.help_active_class }
 
-    context 'when action is tools' do
+    context 'when action is help' do
       before { allow(helper).to receive(:action_name).and_return('help') }
 
       it { is_expected.to eql 'active' }
     end
 
-    context 'when action is not tools' do
+    context 'when action is howto' do
+      before { allow(helper).to receive(:action_name).and_return('howto') }
+
+      it { is_expected.to eql 'active' }
+    end
+
+    context 'when action is not help' do
       before { allow(helper).to receive(:action_name).and_return('something') }
 
       it { is_expected.to be_nil }
