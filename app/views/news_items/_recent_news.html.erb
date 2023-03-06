@@ -1,20 +1,26 @@
-<h3 class="govuk-heading-s">
-  Latest news
-</h3>
+<div class="gem-c-contextual-sidebar govuk-!-margin-bottom-0">
+<div class="gem-c-related-navigation">
+  <h2 id="related-nav-related_items-e81f23c1" class="gem-c-related-navigation__main-heading" data-track-count="sidebarrelateditemsection">
+    Latest news
+  </h2>
 
-<% news_items.each do |news_item| %>
-  <article class="news-item">
-    <p class="govuk-body-s govuk-!-margin-bottom-2">
-      <%= link_to news_item.title, news_item %>
-    </p>
+  <nav role="navigation" class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-e81f23c1" data-module="gem-toggle">
+    <% news_items.each do |news_item| %>
+      <article class="news-item">
+        <p class="govuk-body-s govuk-!-margin-bottom-2">
+          <%= link_to news_item.title, news_item %>
+        </p>
 
-    <p class="tariff-body-subtext">
-      <%= news_item.start_date.to_formatted_s :short %>
-      <% news_item.collections.each do |collection| %>
-        | <%= link_to collection.name, collection %>
-      <% end %>
-    </p>
-  </article>
-<% end %>
+        <p class="tariff-body-subtext">
+          <%= news_item.start_date.to_formatted_s :short %>
+          <% news_item.collections.each do |collection| %>
+            | <%= link_to collection.name, collection %>
+          <% end %>
+        </p>
+      </article>
+    <% end %>
 
-<%= link_to 'See all latest news', news_items_path %>
+    <%= link_to 'See all latest news', news_items_path %>
+  </nav>
+</div>
+</div>

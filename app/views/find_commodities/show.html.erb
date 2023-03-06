@@ -126,10 +126,9 @@
         </div>
       </div>
       <div class="govuk-grid-column-one-third" id="recent-news">
+        <%= render partial: "/pages/howto_sidebar_links" %>
         <%= render 'news_items/recent_news', news_items: @recent_stories %>
       </div>
     </div>
   </div>
 <% end %>
-
-

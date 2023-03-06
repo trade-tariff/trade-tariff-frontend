@@ -51,6 +51,6 @@ RSpec.describe 'find_commodities/show', type: :view do
   end
 
   describe 'recent news stories' do
-    it { is_expected.to have_css 'h3', text: 'Latest news' }
+    it { is_expected.to have_css 'h2', text: 'Latest news' }
   end
 end

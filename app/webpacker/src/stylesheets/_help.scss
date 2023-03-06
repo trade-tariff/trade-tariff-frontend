@@ -27,3 +27,32 @@
     }
   }
 }
+
+table.commodity-code-exemplar {
+  border-bottom: 2px black solid;
+  width: 100%;
+}
+table.commodity-code-exemplar td {
+  border: 2px black solid;
+  text-align: center;
+  width: 20%;
+  padding: 0.5em 0px;
+}
+
+table.commodity-code-exemplar tr.coloured-code td:nth-of-type(1),
+table.commodity-code-exemplar tr.coloured-code td:nth-of-type(2) {
+  background-color: #E8E9F3;
+}
+table.commodity-code-exemplar tr.coloured-code td:nth-of-type(3),
+table.commodity-code-exemplar tr.coloured-code td:nth-of-type(4) {
+  background-color: #D9ECF7;
+}
+table.commodity-code-exemplar tr.coloured-code td:nth-of-type(5) {
+  background-color: #D5F5F2;
+}
+
+.howto-image {
+  max-width: 640px;
+  border: 1px solid #333;
+  margin-bottom: 1em;
+}
