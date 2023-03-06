@@ -75,4 +75,25 @@ RSpec.describe PagesController, type: :request do
     it { is_expected.to have_http_status(:ok) }
     it { is_expected.to render_template('pages/rules_of_origin_proof_verification') }
   end
+
+  describe 'GET #howto' do
+    subject(:do_request) do
+      get howto_path(howto)
+      response
+    end
+
+    context 'when howto exists' do
+      let(:howto) { 'origin' }
+
+      it { is_expected.to have_http_status(:ok) }
+      it { is_expected.to render_template('pages/howto') }
+      it { is_expected.to render_template('pages/howtos/_origin') }
+    end
+
+    context 'when howto does not exist' do
+      let(:howto) { 'non-existent' }
+
+      it { expect { do_request }.to raise_error(ActionController::RoutingError) }
+    end
+  end
 end
