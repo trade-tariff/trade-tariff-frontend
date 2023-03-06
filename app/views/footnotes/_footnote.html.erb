@@ -1,6 +1,6 @@
 <% if footnote&.code.present? %>
   <tr class="govuk-table__row" >
     <th scope="row" class="govuk-table__header"><%= footnote.code %></th>
-    <td class="govuk-table__cell"><%= simple_format footnote.formatted_description %></td>
+    <td class="govuk-table__cell footnote-list"><%= footnote.formatted_description.html_safe %></td>
   </tr>
 <% end %>
