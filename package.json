@@ -32,7 +32,7 @@
   "devDependencies": {
     "babel-jest": "^29.5.0",
     "babel-loader": "^8.2.5",
-    "jest": "^29.4.3",
+    "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0"
   },
   "scripts": {
