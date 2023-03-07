@@ -1,6 +1,6 @@
 <% if footnote&.code.present? %>
   <tr class="govuk-table__row" >
     <th scope="row" class="govuk-table__header"><%= footnote.code %></th>
-    <td class="govuk-table__cell footnote-list"><%= footnote.formatted_description.html_safe %></td>
+    <td class="govuk-table__cell footnote-list"><%= sanitize footnote.formatted_description, tags: %w(strong em a ul li p br b em ol sub sup u ul), attributes: %w(href) %></td>
   </tr>
 <% end %>
