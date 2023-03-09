@@ -7,9 +7,9 @@ RSpec.describe Beta::Search::SearchResult do
     %i[
       chapter_statistics
       heading_statistics
+      facet_filter_statistics
       hits
       direct_hit
-      facet_filter_statistics
       guide
       search_query_parser_result
       intercept_message
@@ -24,6 +24,18 @@ RSpec.describe Beta::Search::SearchResult do
   end
 
   it { expect(described_class.relationships).to eq(expected_relationships) }
+
+  describe '#facet_filter_statistics' do
+    subject(:facet_filter_statistics) do
+      build(
+        :search_result,
+        :with_facet_filter_statistics_above_and_below_threshold,
+      ).facet_filter_statistics
+    end
+
+    it { is_expected.to all(be_a(Beta::Search::FacetFilterStatistic)) }
+    it { expect(facet_filter_statistics.count).to eq(1) }
+  end
 
   describe '#multiple_headings_view?' do
     context 'when the are multiple headings' do

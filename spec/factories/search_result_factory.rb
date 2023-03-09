@@ -43,6 +43,17 @@ FactoryBot.define do
       end
     end
 
+    trait :with_facet_filter_statistics_above_and_below_threshold do
+      total_results { 100 }
+      facet_filter_statistics do
+        [
+          attributes_for(:facet_filter_statistic, facet_count: 4),
+          attributes_for(:facet_filter_statistic, facet_count: 5),
+          attributes_for(:facet_filter_statistic, facet_count: 6),
+        ]
+      end
+    end
+
     trait :no_facets do
       facet_filter_statistics { [] }
     end
