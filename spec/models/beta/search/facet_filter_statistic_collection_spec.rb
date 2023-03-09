@@ -15,7 +15,7 @@ RSpec.describe Beta::Search::FacetFilterStatisticCollection do
         ]
       end
 
-      it { is_expected.to eq(facet_filter_statistics[..2]) }
+      it { is_expected.to eq([facet_filter_statistics.last]) }
       it { is_expected.to be_a(described_class) }
     end
 
