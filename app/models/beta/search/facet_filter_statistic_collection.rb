@@ -29,8 +29,7 @@ module Beta
           facet_filter_statistic.facet_count,
         )
 
-        facet_filter_statistic.facet_classification_statistics.many? &&
-          facet_percentage_of_total > beta_search_facet_filter_display_percentage_threshold
+        facet_percentage_of_total > beta_search_facet_filter_display_percentage_threshold
       end
 
       def calculate_percentage_of(total, value)
