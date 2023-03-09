@@ -10,7 +10,7 @@ FactoryBot.define do
     total_results { 1097 }
     chapter_statistics { [attributes_for(:chapter_statistic)] }
     heading_statistics { [attributes_for(:heading_statistic)] }
-    facet_filter_statistics { [attributes_for(:facet_filter_statistic)] }
+    facet_filter_statistics { [attributes_for(:facet_filter_statistic, facet_count: 500)] }
     guide { attributes_for(:guide) }
     search_query_parser_result { attributes_for(:search_query_parser_result) }
 
@@ -39,6 +39,17 @@ FactoryBot.define do
           attributes_for(:heading_statistic),
           attributes_for(:heading_statistic),
           attributes_for(:heading_statistic),
+        ]
+      end
+    end
+
+    trait :with_facet_filter_statistics_above_and_below_threshold do
+      total_results { 100 }
+      facet_filter_statistics do
+        [
+          attributes_for(:facet_filter_statistic, facet_count: 4),
+          attributes_for(:facet_filter_statistic, facet_count: 5),
+          attributes_for(:facet_filter_statistic, facet_count: 6),
         ]
       end
     end
