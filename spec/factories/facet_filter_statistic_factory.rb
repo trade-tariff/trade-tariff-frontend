@@ -7,7 +7,6 @@ FactoryBot.define do
     facet_classification_statistics do
       [
         attributes_for(:facet_classification_statistic, :material),
-        attributes_for(:facet_classification_statistic, :garment_type),
       ]
     end
   end
