@@ -12,7 +12,7 @@
     <% end %>
 
     <% if unapplied_filter_classifications.any? %>
-      <div class="govuk-accordion tariff-facet-classifications" data-module="govuk-accordion" id="accordion-default">
+      <div class="govuk-accordion tariff-facet-classifications" data-module="govuk-accordion" id="accordion-default" data-i18n.show-all-sections="Show all filters" data-i18n.hide-all-sections="Hide all filters">
         <% unapplied_filter_classifications.each do |facet_filter_statistic| %>
           <div class="govuk-accordion__section tariff-facet-classification">
             <div class="govuk-accordion__section-header">
