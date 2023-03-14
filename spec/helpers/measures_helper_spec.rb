@@ -283,7 +283,8 @@ RSpec.describe MeasuresHelper, type: :helper do
   end
 
   describe '#vat_message' do
-    let(:vat_measure) { build(:measure, :vat) }
+    let(:vat_measure) { build(:measure, :vat, :erga_omnes) }
+    let(:vat_measure_not_erga_omnes) { build(:measure, :vat) }
     let(:vat_info_message) { 'Read more about <a href="https://www.gov.uk/guidance/rates-of-vat-on-different-goods-and-services">VAT rates on different goods and services</a> and the conditions that apply to these rates.' }
     let(:vat_message_1) { "Goods are subject to an import <abbr title='Value-added tax'>VAT</abbr> rate of <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong>" }
     let(:vat_message_3) { "An import <abbr title='Value-added tax'>VAT</abbr> rate of <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong>, <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> or <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> may apply if certain conditions are met." }
@@ -293,6 +294,12 @@ RSpec.describe MeasuresHelper, type: :helper do
 
       it { expect(vat_messages(measure_collection).count).to eq 1 }
       it { expect(vat_messages(measure_collection)[0]).to eq vat_message_1 }
+    end
+
+    context 'with 1 VAT record in measure collection that is not erga omnes' do
+      let(:measure_collection) { MeasureCollection.new([vat_measure_not_erga_omnes]) }
+
+      it { expect(vat_messages(measure_collection).count).to eq 0 }
     end
 
     context 'with 2 VAT records in measure collection' do

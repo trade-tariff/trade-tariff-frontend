@@ -3,6 +3,7 @@ require 'api_entity'
 class GeographicalArea
   EUROPEAN_UNION_ID = '1013'.freeze
   REFERENCING_EUROPEAN_UNION_ID = 'EU'.freeze
+  ERGA_OMNES_ID = '1011'.freeze
 
   include ApiEntity
 

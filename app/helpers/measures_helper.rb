@@ -113,36 +113,37 @@ module MeasuresHelper
 
   def vat_messages(measure_collection)
     messages = []
+    measure_collection = measure_collection.vat_erga_omnes
     return messages if measure_collection.blank?
 
-    count = measure_collection.vat.count
+    count = measure_collection.count
     vat_info_message = I18n.t('measure_collection.message_overrides.vat.info_message_html')
 
     case count
     when 1
       messages.push I18n.t(
         "measure_collection.message_overrides.vat.message_#{count}_html",
-        vat: filter_duty_expression(measure_collection.vat.first),
+        vat: filter_duty_expression(measure_collection.first),
       )
     when 2
       messages.push I18n.t(
         "measure_collection.message_overrides.vat.message_#{count}_html",
-        vat: filter_duty_expression(measure_collection.vat.first),
-        vat_2: filter_duty_expression(measure_collection.vat.last),
+        vat: filter_duty_expression(measure_collection.first),
+        vat_2: filter_duty_expression(measure_collection.last),
       ).html_safe
       messages.push vat_info_message
     when 3
       messages.push I18n.t(
         "measure_collection.message_overrides.vat.message_#{count}_html",
-        vat: filter_duty_expression(measure_collection.vat[0]),
-        vat_2: filter_duty_expression(measure_collection.vat[1]),
-        vat_3: filter_duty_expression(measure_collection.vat[2]),
+        vat: filter_duty_expression(measure_collection[0]),
+        vat_2: filter_duty_expression(measure_collection[1]),
+        vat_3: filter_duty_expression(measure_collection[2]),
       ).html_safe
       messages.push vat_info_message
     else
       messages.push I18n.t(
         'measure_collection.message_overrides.vat.message_1_html',
-        vat: filter_duty_expression(measure_collection.measure_with_highest_vat_rate),
+        vat: filter_duty_expression(measure_collection.measure_with_highest_vat_rate_erga_omnes),
       )
     end
 
