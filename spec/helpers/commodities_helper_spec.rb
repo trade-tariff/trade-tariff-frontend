@@ -257,36 +257,35 @@ RSpec.describe CommoditiesHelper, type: :helper do
     end
   end
 
-  describe "commodity_validity_dates" do
-    let(:declarable) { CommodityPresenter.new(build(:commodity, validity_start_date: Date.today)) }
-  
-    it "renders the validity start date when there is no end date" do
-      rendered = commodity_validity_dates(declarable)
-      expect(rendered).to have_selector("dt", text: "Commodity valid from")
-      expect(rendered).to have_selector("dd", text: Date.today.to_formatted_s(:long))
-    end
-  
-    it "renders the validity start and end dates when there is an end date" do
-      declarable.validity_end_date = Date.today + 1
-      rendered = commodity_validity_dates(declarable)
-      expect(rendered).to have_selector("dt", text: "Commodity valid between")
-      expect(rendered).to have_selector("dd", text: "#{Date.today.to_formatted_s(:long)} and #{(Date.today + 1).to_formatted_s(:long)}")
-    end
-  
-    it "handles a nil start date" do
-      declarable.validity_start_date = nil
-      expect { commodity_validity_dates(declarable).to be_nil }
-    end
-  
-    it "handles a nil end date" do
-      declarable.validity_end_date = nil
-      expect { commodity_validity_dates(declarable).to be_nil }
+  describe 'commodity_validity_dates' do
+    subject(:rendered_html) { commodity_validity_dates(declarable) }
+
+    let(:declarable) { CommodityPresenter.new(build(:commodity, validity_start_date: Time.zone.today)) }
+
+    context 'when start date is present' do
+      it { is_expected.to have_selector('dt', text: 'Commodity valid from') }
+
+      it { is_expected.to have_selector('dd', text: Time.zone.today.to_formatted_s(:long)) }
     end
 
-    it "handles nil dates" do
-      declarable.validity_end_date = nil
-      declarable.validity_start_date = nil
-      expect { commodity_validity_dates(declarable).to be_nil }
+    context 'when both dates are present' do
+      before { declarable.validity_end_date = Time.zone.today }
+
+      it { is_expected.to have_selector('dt', text: 'Commodity valid between') }
+
+      it { is_expected.to have_selector('dd', text: "#{Time.zone.today.to_formatted_s(:long)} and #{Time.zone.today.to_formatted_s(:long)}") }
+    end
+
+    context 'when both dates are nil' do
+      let(:declarable) { CommodityPresenter.new(build(:commodity, validity_start_date: nil)) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when only end date is present' do
+      let(:declarable) { CommodityPresenter.new(build(:commodity, validity_start_date: nil, validity_end_date: Time.zone.today)) }
+
+      it { is_expected.to be_nil }
     end
   end
 end

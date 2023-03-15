@@ -88,16 +88,16 @@ module CommoditiesHelper
 
   def commodity_validity_dates(declarable)
     if declarable.validity_start_date.present? && declarable.validity_end_date.present?
-      content_tag(:div, class: "govuk-summary-list__row") do
-        concat content_tag(:dt, "Commodity valid between", class: "govuk-summary-list__key")
-        concat content_tag(:dd, "#{declarable.validity_start_date.to_formatted_s(:long)} and #{declarable.validity_end_date.to_formatted_s(:long)}", class: "govuk-summary-list__value")
-        concat content_tag(:dd, "", class: "govuk-summary-list__actions")
+      content_tag(:div, class: 'govuk-summary-list__row') do
+        concat content_tag(:dt, 'Commodity valid between', class: 'govuk-summary-list__key')
+        concat content_tag(:dd, "#{declarable.validity_start_date.to_formatted_s(:long)} and #{declarable.validity_end_date.to_formatted_s(:long)}", class: 'govuk-summary-list__value')
+        concat content_tag(:dd, '', class: 'govuk-summary-list__actions')
       end
     elsif declarable.validity_start_date.present?
-      content_tag(:div, class: "govuk-summary-list__row") do
-        concat content_tag(:dt, "Commodity valid from", class: "govuk-summary-list__key")
-        concat content_tag(:dd, "#{declarable.validity_start_date.to_formatted_s(:long)}", class: "govuk-summary-list__value")
-        concat content_tag(:dd, "", class: "govuk-summary-list__actions")
+      content_tag(:div, class: 'govuk-summary-list__row') do
+        concat content_tag(:dt, 'Commodity valid from', class: 'govuk-summary-list__key')
+        concat content_tag(:dd, declarable.validity_start_date.to_formatted_s(:long).to_s, class: 'govuk-summary-list__value')
+        concat content_tag(:dd, '', class: 'govuk-summary-list__actions')
       end
     end
   end
