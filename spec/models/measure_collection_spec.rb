@@ -172,4 +172,13 @@ RSpec.describe MeasureCollection do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#erga_omnes' do
+    subject(:collection) { described_class.new([erga_omnes_measure, measure]) }
+
+    let(:erga_omnes_measure) { build(:measure, :erga_omnes) }
+    let(:measure) { build(:measure) }
+
+    it { expect(collection.erga_omnes.measures).to eq([erga_omnes_measure]) }
+  end
 end

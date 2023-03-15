@@ -6,6 +6,7 @@ FactoryBot.define do
 
     trait :supplementary do
       description { 'Number of items' }
+      base { 'p/st' }
     end
 
     trait :vat do

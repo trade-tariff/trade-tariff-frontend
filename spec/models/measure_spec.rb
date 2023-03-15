@@ -337,4 +337,18 @@ RSpec.describe Measure do
       it { is_expected.not_to be_safeguard }
     end
   end
+
+  describe '#measurement_units?' do
+    context 'with measurement units' do
+      subject(:measure) { build(:measure, :with_supplementary_measure_components) }
+
+      it { is_expected.to be_measurement_units }
+    end
+
+    context 'without measurement units' do
+      subject(:measure) { build(:measure) }
+
+      it { is_expected.not_to be_measurement_units }
+    end
+  end
 end

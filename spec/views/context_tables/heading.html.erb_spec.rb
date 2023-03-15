@@ -33,7 +33,7 @@ RSpec.describe 'shared/context_tables/_heading', type: :view, vcr: { cassette_na
 
     describe 'supplementary unit row' do
       it { is_expected.to have_css 'dl div dt', text: 'Supplementary unit' }
-      it { is_expected.to have_css 'dl div dd', text: 'No supplementary unit required.' }
+      it { is_expected.to have_css 'dl div dd', text: 'There are no supplementary unit measures assigned to this commodity' }
     end
 
     describe 'trading partner row' do

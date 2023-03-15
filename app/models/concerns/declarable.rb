@@ -78,17 +78,16 @@ module Declarable
   end
 
   def supplementary_unit_description
-    supplementary_measures.first&.supplementary_unit_description || 'Supplementary unit'
+    import_measures.supplementary.first&.supplementary_unit_description || 'Supplementary unit'
   end
 
   def supplementary_unit
-    measure = supplementary_measures.first
-    supplementary_component = measure&.measure_components&.first
-
-    if supplementary_component
-      "#{supplementary_component.measurement_unit&.description} (#{measure.duty_expression&.base})"
+    if supplementary_component.present?
+      supplementary_component.unit_for_classification
+    elsif supplementary_excise_measures?
+      excise_unit_for_classification
     else
-      'No supplementary unit required.'
+      no_supplementary_unit_classification
     end
   end
 
@@ -104,8 +103,28 @@ module Declarable
 
   private
 
-  def supplementary_measures
-    @supplementary_measures ||= import_measures.supplementary
+  def supplementary_component
+    @supplementary_component ||= import_measures.supplementary.first&.measure_components&.first
+  end
+
+  def supplementary_excise_measures?
+    import_measures.excise.erga_omnes.any? && import_measures.excise.erga_omnes.any?(&:measurement_units?)
+  end
+
+  def excise_unit_for_classification
+    excise_units = import_measures.excise.erga_omnes.each_with_object({}) do |measure, acc|
+      measure.measure_components.each do |component|
+        acc[component.measurement_unit.resource_id] = component.measurement_unit.description.downcase
+      end
+    end
+
+    excise_units = excise_units.values.sort.uniq.join(', ')
+
+    I18n.t('declarable.supplementary_unit_classifications.excise', units: excise_units)
+  end
+
+  def no_supplementary_unit_classification
+    I18n.t('declarable.supplementary_unit_classifications.none')
   end
 
   def no_heading?

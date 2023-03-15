@@ -197,6 +197,10 @@ class Measure
     measure_type.prohibitive? && additional_code.residual? && measure_conditions.none?
   end
 
+  def measurement_units?
+    measure_components.any?(&:measurement_unit)
+  end
+
   private
 
   def excluded_country_ids

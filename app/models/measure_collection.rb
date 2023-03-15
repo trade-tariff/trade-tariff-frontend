@@ -49,6 +49,10 @@ class MeasureCollection < SimpleDelegator
     new(select(&:third_country_duties?))
   end
 
+  def erga_omnes
+    new(select(&:erga_omnes?))
+  end
+
   def vat
     new(select(&:vat?).sort_by(&:amount).reverse)
   end
