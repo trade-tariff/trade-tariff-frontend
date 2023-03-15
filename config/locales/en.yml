@@ -31,6 +31,11 @@ en:
       <p>
         The import of commodity %{code} from %{trading_partner_description} is prohibited.
       </p>
+  declarable:
+    supplementary_unit_classifications:
+      excise: >-
+        There are no supplementary unit measures assigned to this commodity, however you will need to declare the unit of import (%{units}) for excise purposes.
+      none: "There are no supplementary unit measures assigned to this commodity"
   import_destination:
     uk: United Kingdom
     xi: Northern Ireland
