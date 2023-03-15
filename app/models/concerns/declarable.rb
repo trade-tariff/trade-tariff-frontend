@@ -108,13 +108,13 @@ module Declarable
   end
 
   def supplementary_excise_measures?
-    import_measures.excise.erga_omnes.any? && import_measures.excise.erga_omnes.any?(&:measurement_units?)
+    import_measures.excise.erga_omnes.any?(&:measurement_units?)
   end
 
   def excise_unit_for_classification
     excise_units = import_measures.excise.erga_omnes.each_with_object({}) do |measure, acc|
       measure.measure_components.each do |component|
-        acc[component.measurement_unit.resource_id] = component.measurement_unit.description.downcase
+        acc[component.measurement_unit.resource_id] = component.measurement_unit&.description.to_s.downcase
       end
     end
 
