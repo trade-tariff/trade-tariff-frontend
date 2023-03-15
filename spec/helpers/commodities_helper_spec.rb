@@ -256,4 +256,37 @@ RSpec.describe CommoditiesHelper, type: :helper do
       it { is_expected.to eq('&country=IN&day=01&month=12&year=2022') }
     end
   end
+
+  describe "commodity_validity_dates" do
+    let(:declarable) { CommodityPresenter.new(build(:commodity, validity_start_date: Date.today)) }
+  
+    it "renders the validity start date when there is no end date" do
+      rendered = commodity_validity_dates(declarable)
+      expect(rendered).to have_selector("dt", text: "Commodity valid from")
+      expect(rendered).to have_selector("dd", text: Date.today.to_formatted_s(:long))
+    end
+  
+    it "renders the validity start and end dates when there is an end date" do
+      declarable.validity_end_date = Date.today + 1
+      rendered = commodity_validity_dates(declarable)
+      expect(rendered).to have_selector("dt", text: "Commodity valid between")
+      expect(rendered).to have_selector("dd", text: "#{Date.today.to_formatted_s(:long)} and #{(Date.today + 1).to_formatted_s(:long)}")
+    end
+  
+    it "handles a nil start date" do
+      declarable.validity_start_date = nil
+      expect { commodity_validity_dates(declarable).to be_nil }
+    end
+  
+    it "handles a nil end date" do
+      declarable.validity_end_date = nil
+      expect { commodity_validity_dates(declarable).to be_nil }
+    end
+
+    it "handles nil dates" do
+      declarable.validity_end_date = nil
+      declarable.validity_start_date = nil
+      expect { commodity_validity_dates(declarable).to be_nil }
+    end
+  end
 end

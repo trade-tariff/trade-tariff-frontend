@@ -34,6 +34,11 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
     end
   end
 
+  describe 'validity dates row' do
+    it { is_expected.to have_css 'dl div dt', text: 'Commodity valid from' }
+    it { is_expected.to have_css 'dl div dd', text: "#{declarable.validity_start_date.to_formatted_s(:long)}" }
+  end
+
   describe 'supplementary unit row' do
     it { is_expected.to have_css 'dl div dt', text: 'Supplementary unit' }
     it { is_expected.to have_css 'dl div dd', text: 'There are no supplementary unit measures assigned to this commodity' }
