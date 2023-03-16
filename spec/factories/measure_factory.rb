@@ -163,6 +163,11 @@ FactoryBot.define do
       end
     end
 
+    trait :with_monetary_unit_measure_components do
+      measure_components do
+        [attributes_for(:measure_component, :with_monetary_unit_measure_components)]
+      end
+    end
     trait :with_eu_member_exclusions do
       excluded_countries do
         [

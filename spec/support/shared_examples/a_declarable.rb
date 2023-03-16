@@ -31,6 +31,12 @@ RSpec.shared_examples 'a declarable' do
             :erga_omnes,
             :with_supplementary_measure_components,
           ),
+          attributes_for(
+            :measure,
+            :excise,
+            :erga_omnes,
+            :with_monetary_unit_measure_components,
+          ),
         ]
       end
 
