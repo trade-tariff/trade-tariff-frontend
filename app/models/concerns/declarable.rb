@@ -114,7 +114,9 @@ module Declarable
   def excise_unit_for_classification
     excise_units = import_measures.excise.erga_omnes.each_with_object({}) do |measure, acc|
       measure.measure_components.each do |component|
-        acc[component.measurement_unit.resource_id] = component.measurement_unit&.description.to_s.downcase
+        if component.measurement_unit.present?
+          acc[component.measurement_unit.resource_id] = component.measurement_unit&.description.to_s.downcase
+        end
       end
     end
 
