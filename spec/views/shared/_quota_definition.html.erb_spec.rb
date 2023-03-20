@@ -64,4 +64,16 @@ RSpec.describe 'shared/_quota_definition', type: :view do
 
     it { is_expected.not_to have_css '#transferred-balance', text: 'Transferred balance' }
   end
+
+  context 'when there is no quota definition and the quota order number is not licenced' do
+    let(:order_number) { build(:order_number, :no_definition, :non_licenced) }
+
+    it { is_expected.to have_css '#missing-definition-non-licenced' }
+  end
+
+  context 'when there is no quota definition and the quota order number is licenced' do
+    let(:order_number) { build(:order_number, :no_definition, :licenced) }
+
+    it { is_expected.to have_css '#missing-definition-licenced' }
+  end
 end

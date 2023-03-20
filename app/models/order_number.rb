@@ -28,4 +28,8 @@ class OrderNumber
   def show_warning?
     definition.description && number.start_with?('05')
   end
+
+  def licenced?
+    number[2] == '4'
+  end
 end
