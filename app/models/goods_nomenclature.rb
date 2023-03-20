@@ -31,6 +31,10 @@ class GoodsNomenclature
     @attributes['validity_end_date'].presence || NullObject.new
   end
 
+  def is_other?
+    to_s.match(/^other$/i)
+  end
+
   def chapter?
     goods_nomenclature_item_id.ends_with?('00000000')
   end

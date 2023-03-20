@@ -19,6 +19,19 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
   describe 'classification row' do
     it { is_expected.to have_css 'dl div dt', text: 'Classification' }
     it { is_expected.to have_css 'dl div dd', text: declarable.formatted_description }
+
+    context 'when the declarable description is `Other`' do
+      let(:declarable) do
+        build(
+          :commodity,
+          :with_ancestors,
+          formatted_description: 'Other',
+        )
+      end
+
+      it { is_expected.to have_css 'dl div dd', text: 'Horses' }
+      it { is_expected.to have_css 'dl div dd strong', text: 'Other' }
+    end
   end
 
   describe 'supplementary unit row' do
