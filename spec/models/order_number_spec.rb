@@ -94,4 +94,18 @@ RSpec.describe OrderNumber do
       it { is_expected.to eq('flibble') }
     end
   end
+
+  describe '#licenced?' do
+    context 'when the order number is not licenced' do
+      subject(:order_number) { build(:order_number, :non_licenced) }
+
+      it { expect(order_number).not_to be_licenced }
+    end
+
+    context 'when the order number is licenced' do
+      subject(:order_number) { build(:order_number, :licenced) }
+
+      it { expect(order_number).to be_licenced }
+    end
+  end
 end
