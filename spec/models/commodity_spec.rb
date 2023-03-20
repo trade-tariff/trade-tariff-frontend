@@ -221,4 +221,51 @@ RSpec.describe Commodity do
       it { is_expected.not_to be_has_safeguard_measure }
     end
   end
+
+  describe '#descriptions_with_other_handling' do
+    subject(:descriptions_with_other_handling) do
+      build(:commodity, ancestors:, formatted_description:).descriptions_with_other_handling
+    end
+
+    context 'when the commodity does not have `other` as a description' do
+      let(:formatted_description) { 'Mules' }
+
+      let(:ancestors) do
+        [
+          attributes_for(:chapter, formatted_description: 'Live animals '),
+          attributes_for(:heading, formatted_description: 'Live horses, asses, mules and hinnies '),
+          attributes_for(:subheading, formatted_description: 'Horses'),
+        ]
+      end
+
+      it { is_expected.to eq([]) }
+    end
+
+    context 'when the subheading has a non other description' do
+      let(:formatted_description) { 'Other' }
+      let(:ancestors) do
+        [
+          attributes_for(:chapter, formatted_description: 'Live animals '),
+          attributes_for(:heading, formatted_description: 'Live horses, asses, mules and hinnies '),
+          attributes_for(:subheading, formatted_description: 'Horses'),
+        ]
+      end
+
+      it { is_expected.to eq(%w[Horses]) }
+    end
+
+    context 'when the heading has the non other description' do
+      let(:formatted_description) { 'Other' }
+      let(:ancestors) do
+        [
+          attributes_for(:chapter, formatted_description: 'Live animals '),
+          attributes_for(:heading, formatted_description: 'Live horses, asses, mules and hinnies'),
+          attributes_for(:subheading, formatted_description: 'Other'),
+          attributes_for(:subheading, formatted_description: 'Other'),
+        ]
+      end
+
+      it { is_expected.to eq(['Live horses, asses, mules and hinnies', 'Other', 'Other']) }
+    end
+  end
 end

@@ -166,4 +166,28 @@ RSpec.describe GoodsNomenclature do
     it { is_expected.to have_attributes length: 6 }
     it { is_expected.to eql schemes.map(&:rules).flatten }
   end
+
+  describe '#is_other?' do
+    shared_examples 'a goods nomenclature with an `other` description' do |formatted_description|
+      subject(:goods_nomenclature) { build(:commodity, formatted_description:) }
+
+      it { is_expected.to be_is_other }
+    end
+
+    it_behaves_like 'a goods nomenclature with an `other` description', 'Other'
+    it_behaves_like 'a goods nomenclature with an `other` description', 'other'
+    it_behaves_like 'a goods nomenclature with an `other` description', 'OTHER'
+
+    context 'when the description is `nil`' do
+      subject(:goods_nomenclature) { build(:commodity, formatted_description: nil) }
+
+      it { is_expected.not_to be_is_other }
+    end
+
+    context 'when the description is anything else' do
+      subject(:goods_nomenclature) { build(:commodity, formatted_description: 'foo') }
+
+      it { is_expected.not_to be_is_other }
+    end
+  end
 end

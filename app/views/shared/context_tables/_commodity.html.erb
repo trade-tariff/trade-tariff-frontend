@@ -13,7 +13,17 @@
       Classification
     </dt>
     <dd class="govuk-summary-list__value">
-      <%= convert_text_to_links(sanitize declarable.formatted_description).html_safe %>
+      <% if declarable.is_other? %>
+        <% declarable.descriptions_with_other_handling.each do |description| %>
+          <%= convert_text_to_links(description).html_safe %> >
+        <% end %>
+
+        <strong>
+          <%= convert_text_to_links(declarable.to_s).html_safe %>
+        </strong>
+      <% else %>
+        <%= convert_text_to_links(declarable.to_s).html_safe %>
+    <% end %>
     </dd>
     <dd class="govuk-summary-list__actions"></dd>
   </div>
@@ -29,7 +39,7 @@
       <%= link_to('Change', import_export_dates_path, class: 'govuk-link') %>
     </dd>
   </div>
-  <div class="govuk-summary-list__row" >
+  <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
       Filter by country
     </dt>
