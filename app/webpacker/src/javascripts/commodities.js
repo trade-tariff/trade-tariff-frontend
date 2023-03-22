@@ -13,6 +13,7 @@ import CookieManager from './cookie-manager.js';
   const IMask = require('imask');
   const debounce = require('./debounce');
   const htmlEscaper = require('html-escaper');
+  const cookieManagerInstance = new CookieManager();
 
   global.GOVUK = global.GOVUK || {};
   /**
@@ -185,7 +186,7 @@ import CookieManager from './cookie-manager.js';
 
                       let action = (ctrlIdx % 2 === 0) ? 'open' : 'close';
 
-                      if (CookieManager.remember_settings()) {
+                      if (cookieManagerInstance.rememberSettings()) {
                           GOVUK.tariff.tree.openCloseCookie(action);
                       }
                       $parentNodes.each(function (idx) {
