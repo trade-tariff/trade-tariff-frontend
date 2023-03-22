@@ -7,6 +7,8 @@
 
 "use strict";
 
+import CookieManager from './cookie-manager.js';
+
 (function() {
   const IMask = require('imask');
   const debounce = require('./debounce');
@@ -183,7 +185,7 @@
 
                       let action = (ctrlIdx % 2 === 0) ? 'open' : 'close';
 
-                      if (GOVUK.tariff.tree.cookiesPolicy().remember_settings === 'true') {
+                      if (CookieManager.remember_settings()) {
                           GOVUK.tariff.tree.openCloseCookie(action);
                       }
                       $parentNodes.each(function (idx) {
