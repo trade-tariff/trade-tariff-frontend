@@ -225,18 +225,6 @@ import CookieManager from './cookie-manager.js';
               return GOVUK.tariff.utils.cookies.get('commodityTree');
             }
           },
-
-          cookiesPolicy: function() {
-              const component = GOVUK.tariff.utils.cookies.get('cookies_policy');
-              let policy = "{}";
-
-              if (component) {
-                  policy = decodeURIComponent(component);
-              }
-
-              return JSON.parse(policy);
-          }
-
       },
       /**
         @name GOVUK.tariff.tabs
