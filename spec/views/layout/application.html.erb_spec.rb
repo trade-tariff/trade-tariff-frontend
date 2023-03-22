@@ -4,7 +4,6 @@ RSpec.describe 'layouts/application', type: :view do
   subject { render }
 
   before do
-    allow(view).to receive(:cookies_policy).and_return Cookies::Policy.new
     allow(view).to receive(:is_switch_service_banner_enabled?).and_return true
     allow(view).to receive(:beta_search_enabled?).and_return true
 

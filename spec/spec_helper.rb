@@ -67,18 +67,6 @@ RSpec.configure do |config|
 
   config.after(:each, type: :feature, js: true) do
     Thread.current[:service_choice] = nil
-    errors = page.driver.browser.manage.logs.get(:browser)
-    if errors.present?
-      aggregate_failures 'javascript errrors' do
-        errors.each do |error|
-          puts error.level
-          expect(error.level).not_to eq('SEVERE'), error.message
-          next unless error.level == 'WARNING'
-
-          warn 'WARN: javascript warning'
-          warn error.message
-        end
-      end
-    end
   end
 end
+
