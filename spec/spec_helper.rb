@@ -69,4 +69,3 @@ RSpec.configure do |config|
     Thread.current[:service_choice] = nil
   end
 end
-
