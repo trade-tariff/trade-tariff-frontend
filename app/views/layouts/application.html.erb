@@ -4,15 +4,13 @@
 <%= render partial: 'layouts/base' %>
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <title><%= yield :pageTitle %></title>
-  <meta name="robots" content="noindex,nofollow" />
+  <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b0c0c" />
+  <meta name="theme-color" content="#0b0c0c">
 
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <%= render partial: 'layouts/google_tag_manager' %>
-
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <%= favicon_link_tag asset_pack_path('media/images/favicon.ico') %>
   <%= favicon_link_tag asset_pack_path('media/images/govuk-mask-icon.svg'), rel: 'mask-icon', type: 'image/svg', color: "#0b0c0c" %>
   <%= favicon_link_tag asset_pack_path('media/images/govuk-apple-touch-icon.png'), rel: 'apple-touch-icon', type: 'image/png' %>
@@ -39,8 +37,6 @@
 </head>
 
 <body class="govuk-template__body <%= service_choice || service_default %>-service">
-  <%= render partial: 'layouts/google_tag_manager_no_script' %>
-
   <%= content_tag :div, class: 'path_info', data: @path_info do %>
   <% end %>
 

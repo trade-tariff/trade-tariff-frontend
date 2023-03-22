@@ -47,7 +47,8 @@ require('mark.js/dist/jquery.mark');
 require('../src/javascripts/datepicker-day.js');
 require('../src/javascripts/calendar-button.js');
 require('../src/javascripts/datepicker.js');
-require('../src/javascripts/help_popup');
+require('../src/javascripts/help_popup.js');
+require('../src/javascripts/google-tag-manager-loader.js');
 
 import accessibleAutocomplete from 'accessible-autocomplete';
 window.accessibleAutocomplete = accessibleAutocomplete;
