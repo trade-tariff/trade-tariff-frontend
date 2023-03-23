@@ -81,6 +81,11 @@ describe('CookieManager', () => {
       expect(cookieManager.showHideConfirmCookiesBanner()).toBe(true);
     });
 
+    it('should return false if cookies_hide_confirm cookie is set to a string literal `true` value', () => {
+      cookieManager.setCookiesHideConfirm('true');
+      expect(cookieManager.showHideConfirmCookiesBanner()).toBe(false);
+    });
+
     it('should return false if cookies_hide_confirm cookie is set', () => {
       cookieManager.setCookiesHideConfirm({value: true});
       expect(cookieManager.showHideConfirmCookiesBanner()).toBe(false);

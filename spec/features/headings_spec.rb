@@ -23,12 +23,10 @@ RSpec.describe 'JS behaviour', js: true, vcr: { cassette_name: 'headings#8501' }
   end
 
   it 'is able to open close specific headings' do
-    visit help_path
+    visit heading_path('8501')
 
     find(:button, 'Accept additional cookies', visible: true).click
     find(:button, 'Hide this message', visible: true).click
-
-    visit heading_path('8501')
 
     page.find_all('.tree-controls')[1].find('a:nth-child(2)').click
 
