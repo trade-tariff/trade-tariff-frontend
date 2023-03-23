@@ -102,10 +102,6 @@ class ApplicationController < ActionController::Base
     response.headers['Expires'] = '-1'
   end
 
-  def cookies_policy
-    @cookies_policy ||= Cookies::Policy.from_cookie(cookies[:cookies_policy])
-  end
-
   def meursing_lookup_result
     @meursing_lookup_result ||= MeursingLookup::Result.new(meursing_additional_code_id: session[MeursingLookup::Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY])
   end

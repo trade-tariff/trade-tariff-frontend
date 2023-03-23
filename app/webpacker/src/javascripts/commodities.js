@@ -7,10 +7,13 @@
 
 "use strict";
 
+import CookieManager from './cookie-manager.js';
+
 (function() {
   const IMask = require('imask');
   const debounce = require('./debounce');
   const htmlEscaper = require('html-escaper');
+  const cookieManagerInstance = new CookieManager();
 
   global.GOVUK = global.GOVUK || {};
   /**
@@ -183,7 +186,7 @@
 
                       let action = (ctrlIdx % 2 === 0) ? 'open' : 'close';
 
-                      if (GOVUK.tariff.tree.cookiesPolicy().remember_settings === 'true') {
+                      if (cookieManagerInstance.rememberSettings()) {
                           GOVUK.tariff.tree.openCloseCookie(action);
                       }
                       $parentNodes.each(function (idx) {
@@ -222,18 +225,6 @@
               return GOVUK.tariff.utils.cookies.get('commodityTree');
             }
           },
-
-          cookiesPolicy: function() {
-              const component = GOVUK.tariff.utils.cookies.get('cookies_policy');
-              let policy = "{}";
-
-              if (component) {
-                  policy = decodeURIComponent(component);
-              }
-
-              return JSON.parse(policy);
-          }
-
       },
       /**
         @name GOVUK.tariff.tabs

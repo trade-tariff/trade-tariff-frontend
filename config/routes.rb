@@ -85,10 +85,8 @@ Rails.application.routes.draw do
   resource :trading_partners, only: %i[show update]
 
   namespace :cookies do
-    resource :policy, only: %i[show create update]
-    resource :hide_confirmation, only: %i[create]
+    resource :policy, only: %i[show]
   end
-  resolve('Cookies::Policy') { %i[cookies policy] }
   get 'cookies', to: redirect(path: '/cookies/policy')
 
   get '/news/collections/:collection_id', to: 'news_items#index', as: :news_collection
