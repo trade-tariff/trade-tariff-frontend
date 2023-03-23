@@ -7,7 +7,7 @@ class NewsItemsController < ApplicationController
     @news_collections = News::Collection.all
     @news_years = News::Year.all
 
-    @filter_year = params[:year].presence&.to_i
+    @filter_year = params[:story_year].presence&.to_i
     if params[:collection_id]
       @filter_collection = @news_collections.find do |collection|
         collection.matches_param? params[:collection_id]
@@ -27,7 +27,7 @@ class NewsItemsController < ApplicationController
 private
 
   def news_index_params
-    params.permit(:page, :year, :collection_id)
+    params.permit(:page, :story_year, :collection_id)
           .to_h
           .symbolize_keys
   end

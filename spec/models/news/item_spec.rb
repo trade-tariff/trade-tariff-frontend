@@ -119,7 +119,7 @@ RSpec.describe News::Item do
     end
 
     context 'with year filter' do
-      subject { described_class.updates_page(year: 2020) }
+      subject { described_class.updates_page(story_year: 2020) }
 
       before do
         stub_api_request('/news/items?per_page=10&service=uk&target=updates&year=2020', backend: 'uk')
