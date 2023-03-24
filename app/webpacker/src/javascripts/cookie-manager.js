@@ -73,7 +73,7 @@ export default class CookieManager {
 
   #setCookie(name, value, expires) {
     const isSecureEnvironment = location.protocol === 'https:';
-    const encodedValue = encodeURIComponent(JSON.stringify(value));
+    const encodedValue = JSON.stringify(value);
     Cookies.set(name, encodedValue, {expires: expires, secure: isSecureEnvironment});
   }
 
@@ -84,10 +84,8 @@ export default class CookieManager {
       return null;
     }
 
-    const decodedJson = decodeURIComponent(candidateJson);
-
     try {
-      return JSON.parse(decodedJson);
+      return JSON.parse(candidateJson);
     } catch (e) {
       return candidateJson;
     }
