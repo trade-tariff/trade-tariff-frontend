@@ -1,6 +1,9 @@
 <article class="tariff">
-  <div class="commodity-tree">
-    <div class="tree-controls"></div>
+  <div class="commodity-tree" data-controller="tree">
+    <div class="tree-controls">
+      <a href="#" data-tree-target="openAll" data-action="click->tree#openAll">Open all headings</a>
+      <a href="#" data-tree-target="closeAll" data-action="click->tree#closeAll">Close all headings</a>
+    </div>
     <div class="commodity-tree-note">
       <span>The number following each commodity's description is its commodity code.</span>
       <em class="description">Description</em>
@@ -16,5 +19,9 @@
     <ul class="commodities js-commodities">
       <%= render commodities, initial_indent: commodities.first&.number_indents %>
     </ul>
+    <div class="tree-controls">
+      <a href="#" data-action="click->tree#openAll">Open all headings</a>
+      <a href="#" data-action="click->tree#closeAll">Close all headings</a>
+    </div>
   </div>
 </article>
