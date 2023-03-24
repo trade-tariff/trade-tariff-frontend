@@ -1,6 +1,6 @@
 <% if commodity.has_children? %>
   <li data-tree-target="parentNode" class="has_children <%= commodity_level(commodity, initial_indent) %><%= leaf_position(commodity) %>">
-    <span data-tree-target="branchSwitch" data-action="mouseenter->tree#hoverOnNode mouseleave->tree#hoverOffNode click->tree#toggleNode" class="description open without_right_margin" aria-expanded="false" role="button" id="commodity-<%= commodity.short_code %>">
+    <span data-tree-target="commodityNode" data-action="mouseenter->tree#hoverOnNode mouseleave->tree#hoverOffNode click->tree#toggleNode" class="description open without_right_margin" aria-expanded="false" role="button" id="commodity-<%= commodity.short_code %>">
       <%= commodity.to_s.html_safe %>
     </span>
 

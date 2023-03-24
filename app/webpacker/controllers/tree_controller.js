@@ -6,7 +6,7 @@ export default class extends Controller {
     'openAll',
     'closeAll',
     'parentNode',
-    'branchSwitch',
+    'commodityNode',
     'commodityInfo',
   ];
 
@@ -23,14 +23,15 @@ export default class extends Controller {
 
   toggleNode(event) {
     event.preventDefault();
-    const branch = event.currentTarget;
+    const commodityNode = event.currentTarget;
+    const childList = commodityNode.parentElement.querySelector('ul');
 
-    const childList = branch.parentElement.querySelector('ul');
+    console.log('running toggle node with childList aria-hidden', childList.getAttribute('aria-hidden'));
 
     if (childList.getAttribute('aria-hidden') == 'true') {
-      this.#openBranch(branch, childList);
+      this.#openBranch(commodityNode, childList);
     } else {
-      this.#closeBranch(branch, childList);
+      this.#closeBranch(commodityNode, childList);
     }
   }
 
@@ -51,8 +52,6 @@ export default class extends Controller {
 
     this.#doOpenAll();
     this.#adjustCommodityInfoHeights();
-
-    console.log(this.cookieManager.getCookiesTreeOpenClosedDefault());
   }
 
   closeAll(event) {
@@ -108,7 +107,7 @@ export default class extends Controller {
   #doOpenAll() {
     this.parentNodeTargets.forEach((parentNode, idx) => {
       this.#openBranch(
-          this.branchSwitchTargets[idx],
+          this.commodityNodeTargets[idx],
           parentNode.querySelector('ul'),
       );
     });
@@ -117,7 +116,7 @@ export default class extends Controller {
   #doCloseAll() {
     this.parentNodeTargets.forEach((parentNode, idx) => {
       this.#closeBranch(
-          this.branchSwitchTargets[idx],
+          this.commodityNodeTargets[idx],
           parentNode.querySelector('ul'),
       );
     });

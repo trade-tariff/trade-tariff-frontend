@@ -1,10 +1,9 @@
-import {
-  Application,
-} from '@hotwired/stimulus';
+import {Application} from '@hotwired/stimulus';
 import TreeController from 'tree_controller';
 import CookieManager from 'cookie-manager';
 import fs from 'fs';
 import path from 'path';
+import Cookies from 'js-cookie';
 
 describe('TreeController', () => {
   const fixturePath = path.join(__dirname, '__fixtures__', 'tree_controller', 'domSnippet.html');
@@ -13,6 +12,15 @@ describe('TreeController', () => {
   let cookieManager;
   let element;
   let controllerInstance;
+
+  function resetCookies() {
+    const allCookies = Cookies.get();
+    for (const cookieName in allCookies) {
+      if (Object.prototype.hasOwnProperty.call(allCookies, cookieName)) {
+        Cookies.remove(cookieName);
+      }
+    }
+  }
 
   beforeEach(() => {
     cookieManager = new CookieManager();
@@ -30,93 +38,91 @@ describe('TreeController', () => {
 
   afterEach(() => {
     application.unload();
-    document.body.removeChild(element);
+    document.body.innerHTML = '';
+    resetCookies();
+  });
+
+  describe('toggleNode', () => {
+    it('enables toggling opening and closing of nodes', async () => {
+      controllerInstance = application.getControllerForElementAndIdentifier(element, 'tree');
+      const commodityNode = controllerInstance.commodityNodeTargets[0];
+      const childList = commodityNode.parentElement.querySelector('ul');
+      childList.setAttribute('aria-hidden', 'true');
+      expect(childList.getAttribute('aria-hidden')).toEqual('true');
+      commodityNode.click();
+      expect(childList.getAttribute('aria-hidden')).toEqual('false');
+    });
   });
 
   describe('connect', () => {
     it('initializes the tree and marks all nodes as open by default', () => {
       controllerInstance = application.getControllerForElementAndIdentifier(element, 'tree');
-      expect(controllerInstance.parentNodeTargets.length).toEqual(1);
-      expect(controllerInstance.branchSwitchTargets.length).toEqual(2);
-      expect(controllerInstance.commodityInfoTargets.length).toEqual(3);
-      controllerInstance.branchSwitchTargets.forEach((branchSwitch) => {
-        expect(branchSwitch.getAttribute('aria-expanded')).toEqual('true');
+      expect(controllerInstance.parentNodeTargets.length).toEqual(3);
+      expect(controllerInstance.commodityNodeTargets.length).toEqual(3);
+      expect(controllerInstance.commodityInfoTargets.length).toEqual(5);
+      controllerInstance.commodityNodeTargets.forEach((commodityNode) => {
+        expect(commodityNode.getAttribute('aria-expanded')).toEqual('true');
       });
-    });
-  });
-
-  describe('toggleNode', () => {
-    it('enables toggling opening and closing of nodes', () => {
-      controllerInstance = application.getControllerForElementAndIdentifier(element, 'tree');
-      const branchSwitch = controllerInstance.branchSwitchTargets[0];
-      const childList = branchSwitch.parentElement.querySelector('ul');
-      expect(childList.getAttribute('aria-hidden')).toEqual('false');
-      branchSwitch.click();
-      expect(childList.getAttribute('aria-hidden')).toEqual('true');
     });
   });
 
   describe('hoverOnNode', () => {
     it('adds a class to the hovered node', () => {
       controllerInstance = application.getControllerForElementAndIdentifier(element, 'tree');
-      const branchSwitch = controllerInstance.branchSwitchTargets[0];
-      expect(branchSwitch.classList.contains('description-hover')).toEqual(false);
-      branchSwitch.dispatchEvent(new MouseEvent('mouseenter'));
-      expect(branchSwitch.classList.contains('description-hover')).toEqual(true);
+      const commodityNode = controllerInstance.commodityNodeTargets[0];
+      expect(commodityNode.classList.contains('description-hover')).toEqual(false);
+      commodityNode.dispatchEvent(new MouseEvent('mouseenter'));
+      expect(commodityNode.classList.contains('description-hover')).toEqual(true);
     });
   });
 
   describe('hoverOffNode', () => {
     it('removes a class from the hovered node', () => {
       controllerInstance = application.getControllerForElementAndIdentifier(element, 'tree');
-      const branchSwitch = controllerInstance.branchSwitchTargets[0];
-      branchSwitch.classList.add('description-hover');
-      expect(branchSwitch.classList.contains('description-hover')).toEqual(true);
-      branchSwitch.dispatchEvent(new MouseEvent('mouseleave'));
-      expect(branchSwitch.classList.contains('description-hover')).toEqual(false);
+      const commodityNode = controllerInstance.commodityNodeTargets[0];
+      commodityNode.classList.add('description-hover');
+      expect(commodityNode.classList.contains('description-hover')).toEqual(true);
+      commodityNode.dispatchEvent(new MouseEvent('mouseleave'));
+      expect(commodityNode.classList.contains('description-hover')).toEqual(false);
     });
   });
 
   describe('openAll', () => {
-    it('opens all nodes', async () => { // Declare the test function as async
+    it('opens all nodes', () => {
       controllerInstance = application.getControllerForElementAndIdentifier(element, 'tree');
 
       // Close all nodes
       controllerInstance.closeAllTarget.click();
-      await new Promise((resolve) => setTimeout(resolve, 100));
       expect(cookieManager.shouldOpenTree()).toEqual(false);
-      controllerInstance.branchSwitchTargets.forEach((branchSwitch) => {
-        expect(branchSwitch.getAttribute('aria-expanded')).toEqual('false');
+      controllerInstance.commodityNodeTargets.forEach((commodityNode) => {
+        expect(commodityNode.getAttribute('aria-expanded')).toEqual('false');
       });
 
       // Open all nodes
       controllerInstance.openAllTarget.click();
-      await new Promise((resolve) => setTimeout(resolve, 100));
       expect(cookieManager.shouldOpenTree()).toEqual(true);
-      controllerInstance.branchSwitchTargets.forEach((branchSwitch) => {
-        expect(branchSwitch.getAttribute('aria-expanded')).toEqual('true');
+      controllerInstance.commodityNodeTargets.forEach((commodityNode) => {
+        expect(commodityNode.getAttribute('aria-expanded')).toEqual('true');
       });
     });
   });
 
   describe('closeAll', () => {
-    it('closes all nodes', async () => { // Declare the test function as async
+    it('closes all nodes', () => {
       controllerInstance = application.getControllerForElementAndIdentifier(element, 'tree');
 
       // Open all nodes
       controllerInstance.openAllTarget.click();
-      await new Promise((resolve) => setTimeout(resolve, 100));
       expect(cookieManager.shouldOpenTree()).toEqual(true);
-      controllerInstance.branchSwitchTargets.forEach((branchSwitch) => {
-        expect(branchSwitch.getAttribute('aria-expanded')).toEqual('true');
+      controllerInstance.commodityNodeTargets.forEach((commodityNode) => {
+        expect(commodityNode.getAttribute('aria-expanded')).toEqual('true');
       });
 
       // Close all nodes
       controllerInstance.closeAllTarget.click();
-      await new Promise((resolve) => setTimeout(resolve, 100));
       expect(cookieManager.shouldOpenTree()).toEqual(false);
-      controllerInstance.branchSwitchTargets.forEach((branchSwitch) => {
-        expect(branchSwitch.getAttribute('aria-expanded')).toEqual('false');
+      controllerInstance.commodityNodeTargets.forEach((commodityNode) => {
+        expect(commodityNode.getAttribute('aria-expanded')).toEqual('false');
       });
     });
   });
