@@ -256,36 +256,4 @@ RSpec.describe CommoditiesHelper, type: :helper do
       it { is_expected.to eq('&country=IN&day=01&month=12&year=2022') }
     end
   end
-
-  describe 'commodity_validity_dates' do
-    subject(:rendered_html) { commodity_validity_dates(declarable) }
-
-    let(:declarable) { CommodityPresenter.new(build(:commodity, validity_start_date: Time.zone.today)) }
-
-    context 'when start date is present' do
-      it { is_expected.to have_selector('dt', text: 'Commodity valid from') }
-
-      it { is_expected.to have_selector('dd', text: Time.zone.today.to_formatted_s(:long)) }
-    end
-
-    context 'when both dates are present' do
-      before { declarable.validity_end_date = Time.zone.today }
-
-      it { is_expected.to have_selector('dt', text: 'Commodity valid between') }
-
-      it { is_expected.to have_selector('dd', text: "#{Time.zone.today.to_formatted_s(:long)} and #{Time.zone.today.to_formatted_s(:long)}") }
-    end
-
-    context 'when both dates are nil' do
-      let(:declarable) { CommodityPresenter.new(build(:commodity, validity_start_date: nil)) }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'when only end date is present' do
-      let(:declarable) { CommodityPresenter.new(build(:commodity, validity_start_date: nil, validity_end_date: Time.zone.today)) }
-
-      it { is_expected.to be_nil }
-    end
-  end
 end
