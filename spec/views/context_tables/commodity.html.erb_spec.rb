@@ -55,7 +55,7 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
   end
 
   describe 'commodity validity dates' do
-    let(:declarable) { build(:commodity, validity_start_date: Time.zone.today)}
+    let(:declarable) { build(:commodity, validity_start_date: Time.zone.today) }
 
     context 'when start date is present' do
       it { is_expected.to have_css 'dt', text: 'Commodity valid from' }
