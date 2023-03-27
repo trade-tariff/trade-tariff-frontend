@@ -53,4 +53,34 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
     it { is_expected.to have_css 'dl div dt', text: 'Filter by country' }
     it { is_expected.to have_css 'dl div dd', text: 'Italy' }
   end
+
+  describe 'commodity validity dates' do
+    let(:declarable) { build(:commodity, validity_start_date: Time.zone.today)}
+
+    context 'when start date is present' do
+      it { is_expected.to have_css 'dt', text: 'Commodity valid from' }
+
+      it { is_expected.to have_css 'dd', text: Time.zone.today.to_formatted_s(:long) }
+    end
+
+    context 'when both dates are present' do
+      before { declarable.validity_end_date = Time.zone.today }
+
+      it { is_expected.to have_css 'dt', text: 'Commodity valid between' }
+
+      it { is_expected.to have_css 'dd', text: "#{Time.zone.today.to_formatted_s(:long)} and #{Time.zone.today.to_formatted_s(:long)}" }
+    end
+
+    context 'when both dates are nil' do
+      let(:declarable) { build(:commodity, validity_start_date: nil) }
+
+      it { is_expected.not_to have_css 'dt', text: 'Commodity valid' }
+    end
+
+    context 'when only end date is present' do
+      let(:declarable) { build(:commodity, validity_start_date: nil, validity_end_date: Time.zone.today) }
+
+      it { is_expected.not_to have_css 'dt', text: 'Commodity valid' }
+    end
+  end
 end
