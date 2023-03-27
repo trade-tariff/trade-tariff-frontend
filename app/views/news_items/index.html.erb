@@ -18,14 +18,14 @@
 
     <ul class="govuk-list tariff-list--hyphen" id="news-year-filter">
       <li>
-        <%= @filter_year ? link_to('All years', year: nil, page: nil) : 'All years' %>
+        <%= @filter_year ? link_to('All years', story_year: nil, page: nil) : 'All years' %>
       </li>
-      <% @news_years.each do |news_year| %>
+      <% @news_years.each do |story_year| %>
       <li>
-        <% if @filter_year == news_year.year %>
-          <%= news_year.year %>
+        <% if @filter_year == story_year.year %>
+          <%= story_year.year %>
         <% else %>
-          <%= link_to news_year.year, news_index_params.merge(year: news_year.year, page: nil) %>
+          <%= link_to story_year.year, news_index_params.merge(story_year: story_year.year, page: nil) %>
         <% end %>
       </li>
       <% end %>
@@ -44,7 +44,7 @@
         <% if collection.id == @filter_collection&.id %>
           <%= collection.name %>
         <% else %>
-          <%= link_to collection.name, news_index_params.merge(collection_id: collection, page: nil) %>
+          <%= link_to collection.name, news_index_params.merge(collection_id: collection, page: nil, story_year: @filter_year) %>
         <% end %>
       </li>
       <% end %>

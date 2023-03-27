@@ -89,7 +89,8 @@ Rails.application.routes.draw do
   end
   get 'cookies', to: redirect(path: '/cookies/policy')
 
-  get '/news/collections/:collection_id', to: 'news_items#index', as: :news_collection
+  get '/news/collections/:collection_id(/:story_year)', to: 'news_items#index', as: :news_collection
+  get '/news/years/:story_year', to: 'news_items#index', as: :news_year
   get '/news/stories/:id', to: 'news_items#show', as: :news_item
   resources :news_items, only: %i[index show], path: '/news'
 

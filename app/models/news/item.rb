@@ -55,6 +55,10 @@ module News
       end
 
       def updates_page(**filters)
+        if filters.key?(:story_year)
+          filters = filters.merge(year: filters.delete(:story_year))
+        end
+
         all filters.merge(service: service_name,
                           target: 'updates',
                           per_page: 10)
