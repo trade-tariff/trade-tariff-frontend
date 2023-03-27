@@ -4,7 +4,9 @@ export default class CookieManager {
   constructor() {
     this.cookiesPolicyName = 'cookies_policy';
     this.cookiesHideConfirmName = 'cookies_preferences_set';
+    this.cookiesTreeOpenClosedDefault = 'tree_open_close_default';
     this.expiresInOneYear = 365;
+    this.expiresInTwentyEightDays = 28;
   }
 
   rememberSettings() {
@@ -36,6 +38,20 @@ export default class CookieManager {
       }
     } else {
       return false;
+    }
+  }
+
+  shouldOpenTree() {
+    if (this.getCookiesTreeOpenClosedDefault()) {
+      const value = this.getCookiesTreeOpenClosedDefault();
+
+      if (value === 'open') {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
     }
   }
 
@@ -71,10 +87,28 @@ export default class CookieManager {
     return this.#getCookie(this.cookiesHideConfirmName);
   }
 
+  setCookiesTreeOpenClosedDefault(value = {value: 'open'}) {
+    this.#setCookie(this.cookiesTreeOpenClosedDefault, value, this.expiresInTwentyEightDays);
+  }
+
+  getCookiesTreeOpenClosedDefault() {
+    const cookie = this.#getCookie(this.cookiesTreeOpenClosedDefault);
+    if (cookie) {
+      return cookie.value;
+    } else {
+      return 'open';
+    }
+  }
+
   #setCookie(name, value, expires) {
     const isSecureEnvironment = location.protocol === 'https:';
     const encodedValue = JSON.stringify(value);
-    Cookies.set(name, encodedValue, {expires: expires, secure: isSecureEnvironment});
+
+    Cookies.set(name, encodedValue, {
+      expires: expires,
+      secure: isSecureEnvironment,
+      sameSite: 'Strict',
+    });
   }
 
   #getCookie(name) {

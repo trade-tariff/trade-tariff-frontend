@@ -1,6 +1,8 @@
 <% if commodity.has_children? %>
-  <li class="has_children <%= commodity_level(commodity, initial_indent) %><%= leaf_position(commodity) %>">
-    <span class="description open without_right_margin" aria-expanded="false" role="button" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></span>
+  <li data-tree-target="parentNode" class="has_children <%= commodity_level(commodity, initial_indent) %><%= leaf_position(commodity) %>">
+    <span data-tree-target="commodityNode" data-action="mouseenter->tree#hoverOnNode mouseleave->tree#hoverOffNode click->tree#toggleNode" class="description open without_right_margin" aria-expanded="false" role="button" id="commodity-<%= commodity.short_code %>">
+      <%= commodity.to_s.html_safe %>
+    </span>
 
     <div class='sub_heading_commodity_code_block pull-right'>
       <% unless commodity.umbrella_code? %>
@@ -15,7 +17,7 @@
     <%= link_to commodity_path(commodity, request.query_parameters.symbolize_keys), title: "View complete information for this commodity", "aria-label" => commodity.aria_label do %>
       <div class="description open" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></div>
 
-      <div class="commodity__info">
+      <div data-tree-target="commodityInfo" class="commodity__info">
         <% if TradeTariffFrontend::ServiceChooser.uk? %>
           <div class="vat" aria-describedby="commodity-vat-title">
             <%= vat_overview_measure_duty_amounts(commodity) %>

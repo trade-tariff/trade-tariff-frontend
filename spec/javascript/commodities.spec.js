@@ -17,7 +17,6 @@ test('GOVUK.tariff public has expected public methods', () => {
     'tabLinkFocuser',
     'tablePopup',
     'tabs',
-    'tree',
   ];
 
   items.forEach( (item) => {

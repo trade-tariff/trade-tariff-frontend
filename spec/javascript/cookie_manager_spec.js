@@ -65,6 +65,22 @@ describe('CookieManager', () => {
     });
   });
 
+  describe('shouldOpenTree', () => {
+    it('should return true if cookies_tree_open_closed_default cookie is not set', () => {
+      expect(cookieManager.shouldOpenTree()).toBe(true);
+    });
+
+    it('should return true if cookies_tree_open_closed_default cookie is set to a string literal `open` value', () => {
+      cookieManager.setCookiesTreeOpenClosedDefault({'value': 'open'});
+      expect(cookieManager.shouldOpenTree()).toBe(true);
+    });
+
+    it('should return false if cookies_tree_open_closed_default cookie is set to a string literal `closed` value', () => {
+      cookieManager.setCookiesTreeOpenClosedDefault({'value': 'closed'});
+      expect(cookieManager.shouldOpenTree()).toBe(false);
+    });
+  });
+
   describe('showAcceptRejectCookiesBanner', () => {
     it('should return true if cookies_policy cookie is not set', () => {
       expect(cookieManager.showAcceptRejectCookiesBanner()).toBe(true);
@@ -139,6 +155,25 @@ describe('CookieManager', () => {
       const cookieValue = {value: false};
       cookieManager.setCookiesHideConfirm(cookieValue);
       expect(cookieManager.getCookiesHideConfirm()).toEqual(cookieValue);
+    });
+  });
+
+  describe('setCookiesTreeOpenClosedDefault', () => {
+    it('should set cookies_tree_open_closed_default cookie with default value', () => {
+      cookieManager.setCookiesTreeOpenClosedDefault();
+      expect(cookieManager.getCookiesTreeOpenClosedDefault()).toEqual('open');
+    });
+
+    it('should set cookies_tree_open_closed_default cookie with custom value', () => {
+      const cookieValue = {value: 'closed'};
+      cookieManager.setCookiesTreeOpenClosedDefault(cookieValue);
+      expect(cookieManager.getCookiesTreeOpenClosedDefault()).toEqual('closed');
+    });
+  });
+
+  describe('getCookiesTreeOpenClosedDefault', () => {
+    it('should return `open` if cookies_tree_open_closed_default cookie is not set', () => {
+      expect(cookieManager.getCookiesTreeOpenClosedDefault()).toEqual('open');
     });
   });
 });
