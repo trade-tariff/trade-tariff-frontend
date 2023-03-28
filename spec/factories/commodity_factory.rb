@@ -9,6 +9,7 @@ FactoryBot.define do
     section { attributes_for(:section) }
     description { Forgery(:basic).text }
     formatted_description { Forgery(:basic).text }
+    validity_start_date { '2022-01-01T00:00:00.000Z' }
     sequence(:goods_nomenclature_sid) { |id| id }
     goods_nomenclature_item_id { sprintf '010130%04d', goods_nomenclature_sid }
     parent_sid { nil }
