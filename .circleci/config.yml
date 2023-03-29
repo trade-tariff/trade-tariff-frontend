@@ -40,7 +40,6 @@ commands:
         type: string
     steps:
       - checkout
-      - aws-cli/install
       - cf-install:
           space: << parameters.space >>
       - run:
@@ -123,7 +122,6 @@ commands:
 
   cf_deploy_review:
     steps:
-      - aws-cli/install
       - cf-install:
           space: development
       - run:
@@ -262,7 +260,6 @@ commands:
 
   cf_purge_reviews:
     steps:
-      - aws-cli/install
       - cf-install:
           space: development
       - run:
