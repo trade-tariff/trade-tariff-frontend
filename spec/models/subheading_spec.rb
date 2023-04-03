@@ -24,6 +24,26 @@ RSpec.describe Subheading do
   it { is_expected.to have_attributes(description: 'Horses') }
   it { is_expected.to have_attributes(formatted_description: '<strong>Horses</strong>') }
 
+  describe '#descendants' do
+    context 'when the subheading has descendants' do
+      subject(:descendants) { build(:subheading, :with_descendants).descendants }
+
+      it { is_expected.to be_present }
+    end
+
+    context 'when the subheading has no descendants' do
+      subject(:descendants) { build(:subheading, :without_descendants).descendants }
+
+      it { is_expected.to be_empty }
+    end
+
+    context 'when the subheading has no commodities' do
+      subject(:descendants) { build(:subheading, :without_commodities).descendants }
+
+      it { is_expected.to be_empty }
+    end
+  end
+
   describe '#page_heading' do
     subject(:page_heading) { build(:subheading).page_heading }
 
