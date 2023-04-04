@@ -74,5 +74,33 @@ FactoryBot.define do
         CONTENT
       end
     end
+
+    trait :with_unsafe_html do
+      unsafe_html = "<script>alert('Hello, world!')</script>"
+
+      title { "Title #{unsafe_html}" }
+
+      content do
+        <<~CONTENT
+          ## Second heading #{unsafe_html}
+
+          This is a paragraph
+        CONTENT
+      end
+    end
+
+    trait :with_safe_html do
+      safe_html = "<abbr>MFN</abbr>"
+
+      title { "Title #{safe_html}" }
+
+      content do
+        <<~CONTENT
+          ## Second heading #{safe_html}
+
+          This is a paragraph
+        CONTENT
+      end
+    end
   end
 end

@@ -59,7 +59,7 @@
     <% @news_items.each do |news_item| %>
       <article class="news-item" data-news-item-id="<%= news_item.id %>">
         <h2 class="govuk-heading-s">
-          <%= link_to news_item.title, news_item %>
+          <%= link_to sanitize(news_item.title), news_item %>
         </h2>
 
         <div class="tariff-markdown tariff-markdown--reduced-trailing-margin">

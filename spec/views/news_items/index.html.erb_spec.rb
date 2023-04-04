@@ -53,6 +53,18 @@ RSpec.describe 'news_items/index', type: :view do
     it { is_expected.not_to have_link 'Show more ...' }
   end
 
+  context 'with safe html in title' do
+    let(:news_items) { build_list :news_item, 2, :with_safe_html }
+
+    it { is_expected.to have_css 'article h2 a abbr' }
+  end
+
+  context 'with unsafe html in title' do
+    let(:news_items) { build_list :news_item, 2, :with_unsafe_html }
+
+    it { is_expected.not_to have_css 'article h2 a script' }
+  end
+
   context 'with no news items' do
     let(:news_items) { [] }
 
