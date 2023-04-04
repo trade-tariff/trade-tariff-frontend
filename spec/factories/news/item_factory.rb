@@ -76,13 +76,11 @@ FactoryBot.define do
     end
 
     trait :with_unsafe_html do
-      unsafe_html = "<script>alert('Hello, world!')</script>"
-
-      title { "Title #{unsafe_html}" }
+      title { "Title <script>alert('Hello, world!')</script>" }
 
       content do
         <<~CONTENT
-          ## Second heading #{unsafe_html}
+          ## Second heading <script>alert('Hello, world!')</script>
 
           This is a paragraph
         CONTENT
@@ -90,13 +88,11 @@ FactoryBot.define do
     end
 
     trait :with_safe_html do
-      safe_html = '<abbr>MFN</abbr>'
-
-      title { "Title #{safe_html}" }
+      title { "Title <abbr>MFN</abbr>" }
 
       content do
         <<~CONTENT
-          ## Second heading #{safe_html}
+          ## Second heading <abbr>MFN</abbr>
 
           This is a paragraph
         CONTENT
