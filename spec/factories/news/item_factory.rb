@@ -90,7 +90,7 @@ FactoryBot.define do
     end
 
     trait :with_safe_html do
-      safe_html = "<abbr>MFN</abbr>"
+      safe_html = '<abbr>MFN</abbr>'
 
       title { "Title #{safe_html}" }
 
