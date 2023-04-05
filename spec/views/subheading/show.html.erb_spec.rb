@@ -6,7 +6,7 @@ RSpec.describe 'subheadings/show', type: :view do
   before do
     assign :subheading, subheading
     assign :commodities, HeadingCommodityPresenter.new(subheading.commodities)
-    assign :subheading_commodities, [subheading.find_self_in_commodities_list]
+    assign :subheading_commodities, subheading.descendants
     assign :search, Search.new
   end
 
@@ -28,5 +28,5 @@ RSpec.describe 'subheadings/show', type: :view do
   it { is_expected.to have_css 'dl.govuk-summary-list' }
   it { is_expected.to have_css 'strong', text: '1 commodity' }
   it { is_expected.to have_css 'nav.commodity-ancestors ol li', count: 7 }
-  it { is_expected.to have_css '.commodity-tree ul li', count: 4 }
+  it { is_expected.to have_css '.commodity-tree ul li', count: 3 }
 end

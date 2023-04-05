@@ -47,5 +47,32 @@ FactoryBot.define do
     trait :taric_code do
       goods_nomenclature_item_id { '0101121210' }
     end
+
+    trait :with_descendants do
+      commodities_count { 2 }
+
+      commodities do
+        [
+          attributes_for(:commodity, goods_nomenclature_sid:),
+          attributes_for(:commodity, parent_sid: goods_nomenclature_sid),
+        ]
+      end
+    end
+
+    trait :without_descendants do
+      commodities_count { 2 }
+
+      commodities do
+        [
+          attributes_for(:commodity, goods_nomenclature_sid:),
+        ]
+      end
+    end
+
+    trait :without_commodities do
+      commodities_count { 0 }
+
+      commodities { [] }
+    end
   end
 end

@@ -21,6 +21,12 @@ class Subheading < GoodsNomenclature
                 :formatted_description,
                 :declarable
 
+  def descendants
+    included_subheading = commodities.find { |c| c.goods_nomenclature_sid == goods_nomenclature_sid }
+
+    included_subheading&.children || []
+  end
+
   def page_heading
     "Subheading #{code} - #{self}"
   end
@@ -39,12 +45,6 @@ class Subheading < GoodsNomenclature
 
   def to_s
     formatted_description || description
-  end
-
-  def find_self_in_commodities_list
-    @find_self_in_commodities_list ||= commodities.find do |c|
-      c.goods_nomenclature_sid == goods_nomenclature_sid
-    end
   end
 
   private
