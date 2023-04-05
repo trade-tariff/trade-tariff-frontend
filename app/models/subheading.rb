@@ -24,11 +24,7 @@ class Subheading < GoodsNomenclature
   def descendants
     included_subheading = commodities.find { |c| c.goods_nomenclature_sid == goods_nomenclature_sid }
 
-    if included_subheading.present?
-      included_subheading.children
-    else
-      []
-    end
+    included_subheading&.children || []
   end
 
   def page_heading
