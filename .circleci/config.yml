@@ -11,23 +11,6 @@ orbs:
   tariff: trade-tariff/trade-tariff-ci-orb@0 # can also change to @dev:<gitsha> for specific version or @dev:alpha to test dev branches
 
 commands:
-  cf-install:
-    parameters:
-      space:
-        type: string
-    steps:
-      - run:
-          name: "Setup CF CLI"
-          command: |
-            curl -L -o cf.deb --retry 3 'https://trade-tariff-hosted-binaries.s3.eu-west-2.amazonaws.com/cf7-cli-installer_7.4.0_x86-64.deb'
-            sudo dpkg -i cf.deb
-            cf -v
-            cf api "$CF_ENDPOINT"
-            cf auth "$CF_USER" "$CF_PASSWORD"
-            cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
-            cf install-plugin app-autoscaler-plugin -r CF-Community -f
-            cf target -o "$CF_ORG" -s "<< parameters.space >>"
-
   cf_deploy_docker:
     parameters:
       docker_image_tag:
@@ -40,7 +23,7 @@ commands:
         type: string
     steps:
       - checkout
-      - cf-install:
+      - tariff/cf-install:
           space: << parameters.space >>
       - run:
           name: "Fetch existing manifest"
@@ -122,7 +105,7 @@ commands:
 
   cf_deploy_review:
     steps:
-      - cf-install:
+      - tariff/cf-install:
           space: development
       - run:
           name: Fetch existing manifest
@@ -260,7 +243,7 @@ commands:
 
   cf_purge_reviews:
     steps:
-      - cf-install:
+      - tariff/cf-install:
           space: development
       - run:
           name: Find open PRs
