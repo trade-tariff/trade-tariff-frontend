@@ -20,7 +20,7 @@
       margin-bottom: 0.5em;
     }
 
-    div {
+    & > img + div {
       margin-left: 60px;
     }
   }
