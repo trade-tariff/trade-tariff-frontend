@@ -53,7 +53,7 @@
 
         <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
           <% @news_item.subheadings.each do |subheading| %>
-            <%= contents_list_item subheading,
+            <%= contents_list_item sanitize(subheading),
                                    "##{markdown_heading_id subheading}",
                                    'govuk-link--no-underline' %>
           <% end %>

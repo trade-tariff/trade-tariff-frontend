@@ -50,5 +50,17 @@ RSpec.describe 'news_items/show', type: :view do
     it { is_expected.to have_css '#contents ol.gem-c-contents-list__list' }
     it { is_expected.to have_css '#contents li a', count: news_item.subheadings.length }
     it { is_expected.to have_link news_item.subheadings.first, href: '#second-heading' }
+
+    context 'with unsafe html in content' do
+      let(:news_item) { build :news_item, :with_unsafe_html }
+
+      it { is_expected.not_to have_css '#contents li a script' }
+    end
+
+    context 'with safe html in content' do
+      let(:news_item) { build :news_item, :with_safe_html }
+
+      it { is_expected.to have_css '#contents li a abbr' }
+    end
   end
 end
