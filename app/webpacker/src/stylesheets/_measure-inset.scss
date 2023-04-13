@@ -19,6 +19,10 @@
       font-size: 16px;
       margin-bottom: 0.5em;
     }
+
+    & > img + div {
+      margin-left: 60px;
+    }
   }
 
   .vat-excise-panel {

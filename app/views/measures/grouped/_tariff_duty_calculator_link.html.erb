@@ -1,17 +1,19 @@
 <div class="measure-inset">
   <%= image_tag('calculator.png') %>
-  <p>
-    The table below lists the import duties that apply to the import of
-    commodity <%= segmented_commodity_code declarable_code %>.
-  </p>
+  <div>
+    <p>
+      The table below lists the import duties that apply to the import of
+      commodity <%= segmented_commodity_code declarable_code %>.
+    </p>
 
-  <p>
-    Use our <strong>tariff duty calculator</strong> to
-    <%= link_to duty_calculator_url "/#{service_choice}/#{declarable_code}/import-date" do %>
-      work out the duties and taxes applicable to the import of commodity
-      <%= divide_commodity_code(declarable_code).join ' ' %>.
-    <% end %>
-  </p>
+    <p>
+      Use our <strong>tariff duty calculator</strong> to
+      <%= link_to duty_calculator_url "/#{service_choice}/#{declarable_code}/import-date" do %>
+        work out the duties and taxes applicable to the import of commodity
+        <%= divide_commodity_code(declarable_code).join ' ' %>.
+      <% end %>
+    </p>
 
-  <p><%= I18n.t("measure_type_message")%></p>
+    <p><%= I18n.t("measure_type_message")%></p>
+  </div>
 </div>
