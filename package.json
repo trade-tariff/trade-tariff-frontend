@@ -13,7 +13,7 @@
     "alphagov-static": "github:alphagov/static.git#release_3463",
     "govuk-frontend": "^4.5.0",
     "html-escaper": "^2.0.2",
-    "imask": "^6.4.3",
+    "imask": "^6.6.0",
     "jquery": "3.6.4",
     "jquery-common-keydown": "^1.0.1",
     "jquery-debouncedresize": "^0.0.2",
