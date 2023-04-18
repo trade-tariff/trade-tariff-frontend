@@ -6,7 +6,7 @@ RSpec.describe SearchSuggestion do
   it { is_expected.to have_attributes(score: 0.1124, query: 'test', value: 'test', suggestion_type: 'search_reference', priority: 1) }
 
   describe '#formatted_suggestion_type' do
-    shared_context 'a formatted suggestion type' do |suggestion_type, value, formatted_suggestion_type|
+    shared_examples_for 'a formatted suggestion type' do |suggestion_type, value, formatted_suggestion_type|
       subject(:suggestion_type) do
         build(
           :search_suggestion,
