@@ -561,138 +561,152 @@ import CookieManager from './cookie-manager.js';
             })($(this));
           });
 
-          $('.js-commodity-picker-select').each(function() {
-            function inputValueTemplate (result) {
-              if (result && result.id) {
-                return result.id;
-              } else {
-                return result;
-              };
+        $('.js-commodity-picker-select').each(function() {
+          const debugEnabled = $(this).data('debug') || false;
+          function inputValueTemplate(result) {
+            if (result && result.id) {
+              return result.id;
+            } else {
+              return result;
             }
+          }
 
-            function suggestionTemplate (result) {
-              // The first suggestion is always the input text
-              if (typeof result === 'string') {
-                return result;
-              } else if (result && result.text && result.query) {
-                return result.text.replace(result.query, `<strong>$&</strong>`)
-              };
+          function suggestionTemplate(result) {
+            // The first suggestion is always the input text
+            if (typeof result === 'string') {
+              return result;
+            } else if (result && result.text && result.query) {
+              let enhanced = result.text.replace(result.query, `<strong>$&</strong>`);
+
+              if (result.formatted_suggestion_type) {
+                enhanced = `<span data-suggestion-type="${result.formatted_suggestion_type}">${enhanced}</span>`;
+                enhanced += `<span class="suggestion-type">${result.formatted_suggestion_type}</span>`;
+              }
+
+              return enhanced;
             }
-            (function(element) {
-              let autocomplete_input_id = $(element).data('autocomplete-input-id') || 'q' ;
+          }
+          (function(element) {
+            const autocomplete_input_id = $(element).data('autocomplete-input-id') || 'q';
 
-              var options = [];
-              var searching = true ;
+            let options = [];
+            let searching = true;
 
-              $(element).on('change', 'input[type="text"]', function(ev) {
-                $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
-              });
+            $(element).on('change', 'input[type="text"]', function(ev) {
+              $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
+            });
 
-              // Avoid the default keydown behaviour of the autocomplete library and
-              // auto submit on Mousclick, Enter or Tab ourselves
-              // when an element receives Enter, the form is submitted
-              // when an element selected with arrow keys, the form is not submitted
-              const handleSubmitEvent = function(ev) {
-                if (ev.type === 'click' || ev.key === 'Enter' || ev.key === 'Tab') {
-                  const form = $(element).parents('form') ;
-                  let text = $(ev.target).text();
+            // Avoid the default keydown behaviour of the autocomplete library and
+            // auto submit on Mousclick, Enter or Tab ourselves
+            // when an element receives Enter, the form is submitted
+            // when an element selected with arrow keys, the form is not submitted
+            const handleSubmitEvent = function(ev) {
+              if (ev.type === 'click' || ev.key === 'Enter' || ev.key === 'Tab') {
+                const form = $(element).parents('form');
+                const suggestionType = $(ev.target).find('[data-suggestion-type]').data('suggestion-type');
+                let text = $(ev.target).text();
 
-                  ev.preventDefault();
+                ev.preventDefault();
 
-                  if (text === '') {
-                    text = $(element).find('input[type="text"]').val();
-                  };
-
-                  form.find('.js-commodity-picker-target').val(text);
-                  form.submit();
+                if (text === '') {
+                  text = $(element).find('input[type="text"]').val();
                 }
-              };
 
-              // Both the input and the list items need to be handled for keyboard events
-              $(element).on('keydown', 'li[id^="q__option--"]', handleSubmitEvent);
-              $(element).on('keydown', 'input[type="text"]', handleSubmitEvent);
-              // Handle mouse click
-              $(element).on('click', 'li[id^="q__option--"]', handleSubmitEvent);
+                if (suggestionType) {
+                  text = text.replace(suggestionType, '');
+                }
+
+                form.find('.js-commodity-picker-target').val(text);
+                form.submit();
+              }
+            };
+
+            // Both the input and the list items need to be handled for keyboard events
+            $(element).on('keydown', 'li[id^="q__option--"]', handleSubmitEvent);
+            $(element).on('keydown', 'input[type="text"]', handleSubmitEvent);
+            // Handle mouse click
+            $(element).on('click', 'li[id^="q__option--"]', handleSubmitEvent);
 
 
-              accessibleAutocomplete({
-                element: element[0],
-                id: autocomplete_input_id,
-                minLength: 2,
-                showAllValues: false,
-                confirmOnBlur: false,
-                displayMenu: "overlay",
-                placeholder: "Enter the name of the goods or commodity code",
-                tNoResults: () => searching ? "Searching..." : "No results found",
-                templates: {
-                  inputValue: inputValueTemplate,
-                  suggestion: suggestionTemplate
-                },
-                onConfirm: function(text) {
-                  let obj = null;
+            accessibleAutocomplete({
+              element: element[0],
+              id: autocomplete_input_id,
+              minLength: 2,
+              showAllValues: false,
+              confirmOnBlur: false,
+              displayMenu: 'overlay',
+              placeholder: 'Enter the name of the goods or commodity code',
+              tNoResults: () => searching ? 'Searching...' : 'No results found',
+              templates: {
+                inputValue: inputValueTemplate,
+                suggestion: suggestionTemplate,
+              },
+              onConfirm: function(text) {
+                let obj = null;
 
-                  options.forEach(function(option) {
-                    if (option.text == text) {
-                      obj = option;
-                    }
-                  });
-
-                  if (obj) {
-                    $(element).parents('form:first').find('.js-commodity-picker-target').val(obj.id);
-
-                    if (typeof($(element).data('nosubmit')) == 'undefined') {
-                      $(element).parents('form:first').trigger("submit");
-                    };
+                options.forEach(function(option) {
+                  if (option.text == text) {
+                    obj = option;
                   }
-                },
-                source: debounce(function(query, populateResults) {
-                  const escapedQuery = htmlEscaper.escape(query) ;
+                });
 
-                  let opts = {
-                    term: escapedQuery
-                  };
+                if (obj) {
+                  $(element).parents('form:first').find('.js-commodity-picker-target').val(obj.id);
 
-                  $.ajax({
-                    type: "GET",
-                    url: $(".path_info").data("searchSuggestionsPath"),
-                    data: opts,
-                    success: function(data) {
-                      let results = data.results;
-                      var newSource = [];
-                      let exactMatch = false;
-                      options = [];
-                      searching = false ;
+                  if (typeof($(element).data('nosubmit')) == 'undefined') {
+                    $(element).parents('form:first').trigger('submit');
+                  }
+                }
+              },
+              source: debounce(function(query, populateResults) {
+                const escapedQuery = htmlEscaper.escape(query);
 
-                      results.forEach(function(result) {
-                        newSource.push(result);
-                        options.push(result);
+                const opts = {
+                  term: escapedQuery,
+                };
 
-                        if (result.text.toLowerCase() == escapedQuery.toLowerCase()) {
-                          exactMatch = true;
-                        }
-                      });
+                $.ajax({
+                  type: 'GET',
+                  url: $('.path_info').data('searchSuggestionsPath'),
+                  data: opts,
+                  success: function(data) {
+                    const results = data.results;
+                    const newSource = [];
+                    let exactMatch = false;
+                    options = [];
+                    searching = false;
 
-                      if ($.inArray(escapedQuery.toLowerCase(), newSource) < 0) {
-                        newSource.unshift(escapedQuery.toLowerCase());
-                        options.unshift({
-                          id: escapedQuery.toLowerCase(),
-                          text: escapedQuery.toLowerCase(),
-                          newOption: true
-                        });
+                    results.forEach(function(result) {
+                      newSource.push(result);
+                      options.push(result);
+
+                      if (result.text.toLowerCase() == escapedQuery.toLowerCase()) {
+                        exactMatch = true;
                       }
+                    });
 
-                      populateResults(newSource);
-
-                      $(document).trigger('tariff:searchQuery', [data, opts]);
-                    },
-                    error: function() {
-                      populateResults([]);
+                    if ($.inArray(escapedQuery.toLowerCase(), newSource) < 0) {
+                      newSource.unshift(escapedQuery.toLowerCase());
+                      options.unshift({
+                        id: escapedQuery.toLowerCase(),
+                        text: escapedQuery.toLowerCase(),
+                        suggestion_type: 'exact',
+                        newOption: true,
+                      });
                     }
-                  });
-                }, 400, false)
-              });
-            })($(this));
-          });
+
+                    populateResults(newSource);
+
+                    $(document).trigger('tariff:searchQuery', [data, opts]);
+                  },
+                  error: function() {
+                    populateResults([]);
+                  },
+                });
+              }, 400, false),
+            });
+          })($(this));
+        });
         }
       },
       /**

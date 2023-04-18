@@ -99,7 +99,14 @@ class SearchController < ApplicationController
   def suggestions
     search_term = Regexp.escape(params[:term].to_s.strip)
     matched_suggestions = SearchSuggestion.all(q: search_term)
-    results = matched_suggestions.map { |s| { id: s.value, text: s.value, query: s.query } }
+    results = matched_suggestions.map do |s|
+      {
+        id: s.value,
+        text: s.value,
+        query: s.query,
+        formatted_suggestion_type: s.formatted_suggestion_type,
+      }
+    end
 
     render json: { results: }
   end
