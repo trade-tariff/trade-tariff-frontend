@@ -86,6 +86,11 @@ module CommoditiesHelper
     applicable_query_params.any? ? "&#{applicable_query_params.to_query}" : ''
   end
 
+  def fix_markdown_bullets(text)
+    text.gsub(/:<br>- /, "\n\n- ")
+        .gsub(/<br>- /, "\n- ")
+  end
+
   private
 
   def chapter_and_heading_codes(code)
