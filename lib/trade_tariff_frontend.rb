@@ -22,6 +22,7 @@ module TradeTariffFrontend
       goods_nomenclatures
       search_references
       geographical_areas
+      chemical_substances
     ]
   end
 
@@ -54,6 +55,7 @@ module TradeTariffFrontend
       measure_actions
       quota_order_numbers
       preference_codes
+      chemical_substances
       healthcheck
     ]
   end
