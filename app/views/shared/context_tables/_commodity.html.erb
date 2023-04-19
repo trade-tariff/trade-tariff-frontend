@@ -16,11 +16,11 @@
       <div class="tariff-markdown">
         <% if declarable.is_other? %>
           <% declarable.descriptions_with_other_handling.each do |description| %>
-            <%= govspeak fix_markdown_bullets(convert_text_to_links(description)).html_safe %> >
+            <%= convert_text_to_links(description).html_safe %> >
           <% end %>
 
           <strong>
-            <%= govspeak fix_markdown_bullets(convert_text_to_links(declarable.to_s)).html_safe %>
+            <%= convert_text_to_links(declarable.to_s).html_safe %>
           </strong>
         <% else %>
           <%= govspeak fix_markdown_bullets(convert_text_to_links(declarable.to_s)).html_safe %>
