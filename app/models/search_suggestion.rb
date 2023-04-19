@@ -27,7 +27,7 @@ class SearchSuggestion
     when CHEMICAL_TYPE
       PRESENTED_CHEMICAL_TYPE
     when REFERENCE_TYPE
-      PRESENTED_REFERENCE_TYPE
+      ''
     else
       suggestion_type.to_s.humanize
     end
