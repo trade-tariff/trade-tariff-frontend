@@ -13,7 +13,7 @@
       Classification
     </dt>
     <dd class="govuk-summary-list__value">
-      <div class="tariff-markdown">
+      <div class="tariff-markdown classifiction-markdown">
         <% if declarable.is_other? %>
           <% declarable.descriptions_with_other_handling.each do |description| %>
             <%= convert_text_to_links(description).html_safe %> >
