@@ -1,11 +1,11 @@
-<div id="search-filter-navigation"
+<div id="search-filter-navigation">
   <nav>
     <% if applied_filter_classifications.any? %>
       <strong>
         Results are filtered by:
       </strong>
       <div class="facet-classifications-tag-container">
-        <% applied_filter_classifications.each do |facet_classification_statistic|  %>
+        <% applied_filter_classifications.each do |facet_classification_statistic| %>
           <%= disapply_filter_link_for(facet_classification_statistic) %>
         <% end %>
       </div>

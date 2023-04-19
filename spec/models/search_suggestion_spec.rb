@@ -18,7 +18,7 @@ RSpec.describe SearchSuggestion do
       it { is_expected.to eq(formatted_suggestion_type) }
     end
 
-    it_behaves_like 'a formatted suggestion type', 'search_reference', nil, 'Reference'
+    it_behaves_like 'a formatted suggestion type', 'search_reference', nil, ''
     it_behaves_like 'a formatted suggestion type', 'goods_nomenclature', '12', 'Chapter'
     it_behaves_like 'a formatted suggestion type', 'goods_nomenclature', '1234', 'Heading'
     it_behaves_like 'a formatted suggestion type', 'goods_nomenclature', '1234567890', 'Commodity'
