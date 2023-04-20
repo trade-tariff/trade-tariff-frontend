@@ -14,6 +14,22 @@ RSpec.describe CommoditiesController, type: :controller do
         it { expect(assigns(:heading)).to be_present }
         it { expect(assigns(:declarable)).to be_present }
         it { expect(assigns(:rules_of_origin_schemes)).to be_nil }
+        it { expect(assigns(:chemicals)).to be_nil }
+      end
+
+      context 'with a commodity with chemicals', vcr: { cassette_name: 'commodities#2924297099' } do
+        subject(:do_request) { get :show, params: { id: '2924297099' } }
+
+        before do
+          chemicals = [attributes_for(:chemical_substance, goods_nomenclature_sid: 101_368)]
+
+          stub_api_request('/chemical_substances?filter[goods_nomenclature_sid]=101368')
+            .and_return(jsonapi_response(:chemical_substance, chemicals))
+
+          do_request
+        end
+
+        it { expect(assigns(:chemicals)).to all(be_a(ChemicalSubstance)) }
       end
 
       context 'with non-existant commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do
