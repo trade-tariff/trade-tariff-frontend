@@ -83,14 +83,16 @@
   <div class="govuk-tabs__panel" id="chemicals">
     <h2 class="govuk-heading-m">
       Chemicals included within commodity code <%= segmented_commodity_code declarable.code %>
-  </h2>
-    <table class="govuk-table govuk-!-margin-top-8">
+    </h2>
+    <table class="govuk-table govuk-table--responsive govuk-!-margin-top-8">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">
             <abbr title="Chemical Abstracts Service Registry Number">CAS RN</abbr>
           </th>
-          <th scope="col" class="govuk-table__header">CUS number</th>
+          <th scope="col" class="govuk-table__header">
+            <abbr title="European Union unique chemical identifier">CUS number</abbr>
+          </th>
           <th scope="col" class="govuk-table__header">Name</th>
         </tr>
       </thead>
