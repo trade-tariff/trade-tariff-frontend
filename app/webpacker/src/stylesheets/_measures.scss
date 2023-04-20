@@ -74,3 +74,7 @@ dt.has_children + dd[aria-hidden="true"] {
   margin-bottom: 7px;
   margin-top: 7px;
 }
+
+.chemical-substance-cell {
+  word-break: break-word;
+}

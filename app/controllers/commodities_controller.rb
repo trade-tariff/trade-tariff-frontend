@@ -13,6 +13,7 @@ class CommoditiesController < GoodsNomenclaturesController
     @heading = declarable.heading
     @chapter = declarable.chapter
     @section = declarable.section
+    @chemicals = ChemicalSubstance.by_sid(declarable.resource_id) if declarable.has_chemicals?
 
     if params[:country].present? && @search.geographical_area
       @rules_of_origin_schemes = declarable.rules_of_origin(params[:country])

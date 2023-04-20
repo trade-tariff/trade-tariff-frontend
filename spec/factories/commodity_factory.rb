@@ -17,6 +17,7 @@ FactoryBot.define do
     number_indents { 2 }
     meursing_code { false }
     declarable { true }
+    has_chemicals { false }
     resource_type { 'commodity' }
 
     import_measures { [] }
