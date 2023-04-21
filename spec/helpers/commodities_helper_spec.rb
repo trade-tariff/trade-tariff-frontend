@@ -158,31 +158,6 @@ RSpec.describe CommoditiesHelper, type: :helper do
     it { is_expected.to eql 'commodity-ancestors__ancestor-23' }
   end
 
-  describe '#vat_overview_measure_duty_amounts' do
-    subject(:vat_overview_measure_duty_amounts) { helper.vat_overview_measure_duty_amounts(commodity) }
-
-    context 'when there are no vat overview measures' do
-      let(:commodity) { build(:commodity) }
-
-      it { is_expected.to eq('&nbsp;') }
-      it { is_expected.to be_html_safe }
-    end
-
-    context 'when there is 1 vat overview measure' do
-      let(:commodity) { build(:commodity, :with_a_vat_overview_measure) }
-
-      it { is_expected.to eq('20%') }
-      it { is_expected.to be_html_safe }
-    end
-
-    context 'when there is more than 1 vat overview measure' do
-      let(:commodity) { build(:commodity, :with_vat_overview_measures) }
-
-      it { is_expected.to eq('20% or 20%') }
-      it { is_expected.to be_html_safe }
-    end
-  end
-
   describe '#convert_text_to_links' do
     subject { helper.convert_text_to_links declarable_formatted_description }
 
@@ -254,6 +229,107 @@ RSpec.describe CommoditiesHelper, type: :helper do
       end
 
       it { is_expected.to eq('&country=IN&day=01&month=12&year=2022') }
+    end
+  end
+
+  describe '#overview_measure_duty_amounts_for' do
+    subject(:overview_measure_duty_amounts_for) { helper.overview_measure_duty_amounts_for(commodity) }
+
+    let(:commodity) { build(:commodity) }
+
+    it { is_expected.to be_html_safe }
+
+    context 'when TradeTariffFrontend::ServiceChooser.uk? is true' do
+      before do
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:uk?).and_return(true)
+      end
+
+      it { is_expected.to have_css('div.vat') }
+    end
+
+    context 'when TradeTariffFrontend::ServiceChooser.uk? is false' do
+      before do
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:uk?).and_return(false)
+      end
+
+      it { is_expected.not_to have_css('div.vat') }
+    end
+
+    it { is_expected.to have_css('div.duty') }
+    it { is_expected.to have_css('div.supplementary-units') }
+    it { is_expected.to have_css('div.identifier') }
+  end
+
+  describe '#vat_overview_measure_duty_amounts' do
+    subject(:vat_overview_measure_duty_amounts) do
+      helper.vat_overview_measure_duty_amounts(commodity)
+    end
+
+    context 'when there are no vat overview measures' do
+      let(:commodity) { build(:commodity) }
+
+      it { is_expected.to eq('&nbsp;') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when there is 1 vat overview measure' do
+      let(:commodity) { build(:commodity, :with_a_vat_overview_measure) }
+
+      it { is_expected.to eq('20%') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when there is more than 1 vat overview measure' do
+      let(:commodity) { build(:commodity, :with_vat_overview_measures) }
+
+      it { is_expected.to eq('20% or 20%') }
+      it { is_expected.to be_html_safe }
+    end
+  end
+
+  describe '#third_country_overview_measure_duty_amounts' do
+    subject(:third_country_overview_measure_duty_amounts) do
+      helper.third_country_overview_measure_duty_amounts(commodity)
+    end
+
+    context 'when there are no third country overview measures' do
+      let(:commodity) { build(:commodity) }
+
+      it { is_expected.to eq('&nbsp;') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when there are third country overview measures without additional codes' do
+      let(:commodity) { build(:commodity, :with_third_country_overview_measures) }
+
+      it { is_expected.to eq('2.00%') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when there are third country overview measures with additional codes' do
+      let(:commodity) { build(:commodity, :with_third_country_overview_measures_with_additional_codes) }
+
+      it { is_expected.to have_css('table') }
+    end
+  end
+
+  describe '#supplementary_unit_overview_measure_duty_amounts' do
+    subject(:supplementary_unit_overview_measure_duty_amounts) do
+      helper.supplementary_unit_overview_measure_duty_amounts(commodity)
+    end
+
+    context 'when there are no supplementary unit overview measures' do
+      let(:commodity) { build(:commodity) }
+
+      it { is_expected.to eq('&nbsp;') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when there are supplementary unit overview measures' do
+      let(:commodity) { build(:commodity, :with_a_supplementary_unit_overview_measure) }
+
+      it { is_expected.to eq('p/st') }
+      it { is_expected.to be_html_safe }
     end
   end
 end

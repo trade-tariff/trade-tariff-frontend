@@ -40,6 +40,10 @@ FactoryBot.define do
       id { '103' }
     end
 
+    trait :third_country_authorised_use do
+      id { '105' }
+    end
+
     trait :tariff_preference do
       id { '142' }
     end

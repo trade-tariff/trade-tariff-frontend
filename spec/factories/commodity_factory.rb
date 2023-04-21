@@ -60,6 +60,31 @@ FactoryBot.define do
       end
     end
 
+    trait :with_third_country_overview_measures do
+      overview_measures do
+        [
+          attributes_for(:measure, :third_country),
+        ]
+      end
+    end
+
+    trait :with_third_country_overview_measures_with_additional_codes do
+      overview_measures do
+        [
+          attributes_for(:measure, :third_country, :with_additional_code),
+          attributes_for(:measure, :third_country),
+        ]
+      end
+    end
+
+    trait :with_a_supplementary_unit_overview_measure do
+      overview_measures do
+        [
+          attributes_for(:measure, :import_export_supplementary),
+        ]
+      end
+    end
+
     trait :with_import_trade_summary do
       transient do
         preferential_tariff_duty { '10 %' }

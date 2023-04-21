@@ -156,6 +156,43 @@ RSpec.describe MeasureCollection do
     it { expect(collection.quotas.measures).to eq([quota_measure]) }
   end
 
+  describe '#third_country_duties' do
+    subject(:collection) { described_class.new([third_country_measure, authorised_use_measure, measure]) }
+
+    let(:third_country_measure) { build(:measure, :third_country) }
+    let(:authorised_use_measure) { build(:measure, :third_country_authorised_use) }
+    let(:measure) { build(:measure) }
+
+    it { expect(collection.third_country_duties.measures).to eq([third_country_measure, authorised_use_measure]) }
+  end
+
+  describe '#unique_third_country_overview_measures' do
+    let(:third_country_measure) { build(:measure, :third_country) }
+    let(:authorised_use_measure) { build(:measure, :third_country_authorised_use) }
+    let(:measure) { build(:measure) }
+
+    context 'when there is only one third country measure' do
+      subject(:collection) { described_class.new([authorised_use_measure, measure]) }
+
+      it { expect(collection.unique_third_country_overview_measures.measures).to eq([authorised_use_measure]) }
+    end
+
+    context 'when there are multiple third country measures' do
+      subject(:collection) { described_class.new([third_country_measure, authorised_use_measure, measure]) }
+
+      it { expect(collection.unique_third_country_overview_measures.measures).to eq([third_country_measure]) }
+    end
+  end
+
+  describe '#with_additional_code' do
+    subject(:collection) { described_class.new([measure_with_additional_code, measure]) }
+
+    let(:measure_with_additional_code) { build(:measure, :with_additional_code) }
+    let(:measure) { build(:measure) }
+
+    it { expect(collection.with_additional_code.measures).to eq([measure_with_additional_code]) }
+  end
+
   describe '#customs_duties' do
     subject(:collection) { described_class.new([third_country_measure, unclassified_customs_measure, other_customs_duties_measure, tariff_preference_measure, vat_excise_measure]) }
 

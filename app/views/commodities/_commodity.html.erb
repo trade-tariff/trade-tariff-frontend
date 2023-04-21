@@ -17,35 +17,7 @@
     <%= link_to commodity_path(commodity, request.query_parameters.symbolize_keys), title: "View complete information for this commodity", "aria-label" => commodity.aria_label do %>
       <div class="description open" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></div>
 
-      <div data-tree-target="commodityInfo" class="commodity__info">
-        <% if TradeTariffFrontend::ServiceChooser.uk? %>
-          <div class="vat" aria-describedby="commodity-vat-title">
-            <%= vat_overview_measure_duty_amounts(commodity) %>
-          </div>
-        <% end %>
-        <div class="duty" aria-describedby="commodity-duty-title">
-          <% tcd = commodity.overview_measures.third_country_duties %>
-
-          <% if tcd.count > 1 %>
-            <%= render 'commodities/additional_code_table', measures: tcd %>
-          <% elsif tcd.count > 0 %>
-            <%= tcd.map { |m| m.duty_expression.formatted_base }.join("<br />").html_safe %>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </div>
-        <div class="supplementary-units" aria-describedby="commodity-supplementary-title">
-          <% supplementary = commodity.overview_measures.supplementary %>
-          <% if supplementary.count > 0 %>
-            <%= supplementary.map { |m| m.duty_expression.formatted_base }.uniq.join("<br />").html_safe %>
-          <% else %>
-            &nbsp;
-          <% end %>
-        </div>
-        <div class="identifier" aria-describedby="commodity-<%= commodity.short_code %>">
-          <%= segmented_commodity_code abbreviate_commodity_code(commodity), coloured: true %>
-        </div>
-      </div>
+      <%= overview_measure_duty_amounts_for(commodity) %>
     <% end %>
   </li>
 <% end %>

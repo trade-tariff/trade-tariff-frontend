@@ -5,14 +5,18 @@ class NullObject
     @stub_attrs = stub_attrs
   end
 
-  def empty?; true; end
-
-  def blank?; true; end
+  def present? = false
+  def empty? = true
+  def blank? = true
 
   def method_missing(*args)
     method_name = args.first
 
     @stub_attrs.fetch(method_name, nil)
+  end
+
+  def respond_to_missing?(*_args)
+    true
   end
 
   def to_s

@@ -2,23 +2,11 @@ require 'spec_helper'
 
 RSpec.describe 'commodities/_commodity', type: :view do
   subject(:rendered_page) do
-    render 'commodities/commodity', commodity: commodity, initial_indent: 1
+    render 'commodities/commodity', commodity:, initial_indent: 1
     rendered
   end
 
   let(:commodity) { build :commodity }
-
-  context 'when on the uk service' do
-    include_context 'with UK service'
-
-    it { is_expected.to have_css 'div.vat', count: 1 }
-  end
-
-  context 'when not on the uk service' do
-    include_context 'with XI service'
-
-    it { is_expected.not_to have_css 'div.vat' }
-  end
 
   context 'when the commodity has children' do
     let(:commodity) { build(:heading, :with_subheading_and_commodity, producline_suffix:).commodities.first }
