@@ -51,7 +51,7 @@ class MeasureCollection < SimpleDelegator
 
   def unique_third_country_overview_measures
     if third_country_duties.many?
-      new([third_country_duties.find(&:mfn?)])
+      new([third_country_duties.find(&:mfn_no_authorized_use?)])
     else
       third_country_duties
     end

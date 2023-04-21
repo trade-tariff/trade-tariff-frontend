@@ -205,23 +205,23 @@ RSpec.describe MeasureType do
     end
   end
 
-  describe '#mfn?' do
+  describe '#mfn_no_authorized_use?' do
     context 'with MFN measure' do
       subject { build :measure_type, :third_country }
 
-      it { is_expected.to be_mfn }
+      it { is_expected.to be_mfn_no_authorized_use }
     end
 
     context 'with an authorised used measure' do
       subject { build :measure_type, :third_country_authorised_use }
 
-      it { is_expected.not_to be_mfn }
+      it { is_expected.not_to be_mfn_no_authorized_use }
     end
 
     context 'with non-MFN measure' do
       subject { build :measure_type, :vat }
 
-      it { is_expected.not_to be_mfn }
+      it { is_expected.not_to be_mfn_no_authorized_use }
     end
   end
 end
