@@ -95,6 +95,15 @@ FactoryBot.define do
         attributes_for(:measure_type, :third_country, description: measure_type_description)
       end
       geographical_area { attributes_for(:geographical_area, :erga_omnes) }
+      duty_expression { attributes_for(:duty_expression, :third_country) }
+    end
+
+    trait :third_country_authorised_use do
+      measure_type do
+        attributes_for(:measure_type, :third_country_authorised_use, description: measure_type_description)
+      end
+      geographical_area { attributes_for(:geographical_area, :erga_omnes) }
+      duty_expression { attributes_for(:duty_expression, :third_country) }
     end
 
     trait :tariff_preference do
@@ -143,7 +152,7 @@ FactoryBot.define do
       end
 
       duty_expression do
-        attributes_for(:duty_expression, base: 'p/st')
+        attributes_for(:duty_expression, :supplementary)
       end
     end
 

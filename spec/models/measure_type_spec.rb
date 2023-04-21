@@ -204,4 +204,24 @@ RSpec.describe MeasureType do
       it { is_expected.not_to be_safeguard }
     end
   end
+
+  describe '#mfn?' do
+    context 'with MFN measure' do
+      subject { build :measure_type, :third_country }
+
+      it { is_expected.to be_mfn }
+    end
+
+    context 'with an authorised used measure' do
+      subject { build :measure_type, :third_country_authorised_use }
+
+      it { is_expected.not_to be_mfn }
+    end
+
+    context 'with non-MFN measure' do
+      subject { build :measure_type, :vat }
+
+      it { is_expected.not_to be_mfn }
+    end
+  end
 end

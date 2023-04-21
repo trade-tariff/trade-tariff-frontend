@@ -28,6 +28,10 @@ class MeasureType
     id.in?(SUPPLEMENTARY_MEASURE_TYPES)
   end
 
+  def mfn?
+    id == '103'
+  end
+
   def description
     translated_description || attributes['description']
   end

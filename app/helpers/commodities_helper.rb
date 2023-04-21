@@ -48,16 +48,6 @@ module CommoditiesHelper
     end
   end
 
-  def vat_overview_measure_duty_amounts(commodity)
-    vat_overview_measures = commodity.overview_measures.vat
-
-    duty_amounts = vat_overview_measures.map do |vat_measure|
-      "#{vat_measure.amount}%"
-    end
-
-    safe_join(duty_amounts, ' or ').presence || '&nbsp;'.html_safe
-  end
-
   def convert_text_to_links(text)
     starting_characters = /(\s|^|\A|<br>|<\/br>)/
     terminating_characters = /(\s|;|,|$|\.|\z|<br>|<\/br>)/
@@ -84,6 +74,56 @@ module CommoditiesHelper
     applicable_query_params = url_options.slice(:year, :month, :day, :country)
 
     applicable_query_params.any? ? "&#{applicable_query_params.to_query}" : ''
+  end
+
+  def overview_measure_duty_amounts_for(commodity)
+    content_tag(:div, data: { tree_target: 'commodityInfo' }, class: 'commodity__info') do
+      if TradeTariffFrontend::ServiceChooser.uk?
+        concat(content_tag(:div, vat_overview_measure_duty_amounts(commodity), class: 'vat', aria: { describedby: 'commodity-vat-title' }))
+      end
+
+      concat(content_tag(:div, third_country_overview_measure_duty_amounts(commodity), class: 'duty', aria: { describedby: 'commodity-duty-title' }))
+      concat(content_tag(:div, supplementary_unit_overview_measure_duty_amounts(commodity), class: 'supplementary-units', aria: { describedby: 'commodity-supplementary-title' }))
+      concat(content_tag(:div, segmented_commodity_code(abbreviate_commodity_code(commodity), coloured: true), class: 'identifier', aria: { describedby: "commodity-#{commodity.short_code}" }))
+    end
+  end
+
+  def vat_overview_measure_duty_amounts(commodity)
+    vat_overview_measures = commodity.overview_measures.vat
+
+    duty_amounts = vat_overview_measures.map do |vat_measure|
+      "#{vat_measure.amount}%"
+    end
+
+    safe_join(duty_amounts, ' or ').presence || '&nbsp;'.html_safe
+  end
+
+  def third_country_overview_measure_duty_amounts(commodity)
+    measures = commodity.overview_measures.third_country_duties
+    additional_code_measures = measures.with_additional_code
+
+    if additional_code_measures.none? && measures.any?
+      duty_amounts = measures.unique_third_country_overview_measures.map do |measure|
+        measure.duty_expression.formatted_base
+      end
+
+      duty_amounts.join('<br />').html_safe
+    elsif measures.many?
+      render('commodities/additional_code_table', measures:)
+    else
+      '&nbsp;'.html_safe
+    end
+  end
+
+  def supplementary_unit_overview_measure_duty_amounts(commodity)
+    measures = commodity.overview_measures.supplementary
+
+    if measures.length.positive?
+      duty_amounts = measures.map { |m| m.duty_expression.formatted_base }
+      duty_amounts.uniq.join('<br />').html_safe
+    else
+      '&nbsp;'.html_safe
+    end
   end
 
   private
