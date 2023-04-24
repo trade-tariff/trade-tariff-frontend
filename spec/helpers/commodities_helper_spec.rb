@@ -248,7 +248,7 @@ RSpec.describe CommoditiesHelper, type: :helper do
     context 'with colon, <br> tag and dash' do
       let(:declarable_formatted_description) { ' :<br>- ' }
 
-      it { is_expected.to eq " \n\n- " }
+      it { is_expected.to eq " :\n\n- " }
     end
   end
 

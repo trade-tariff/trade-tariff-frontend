@@ -87,7 +87,7 @@ module CommoditiesHelper
   end
 
   def fix_markdown_bullets(text)
-    text.gsub(/:<br>- /, "\n\n- ")
+    text.gsub(/:<br>- /, ":\n\n- ")
         .gsub(/<br>- /, "\n- ")
   end
 
