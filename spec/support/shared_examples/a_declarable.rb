@@ -114,5 +114,49 @@ RSpec.shared_examples 'a declarable' do
         end
       end
     end
+
+    describe '#has_supplementary_unit?' do
+      context 'when there is a supplementary measure' do
+        let(:measures) do
+          [
+            attributes_for(
+              :measure,
+              :import_export_supplementary,
+              :erga_omnes,
+              :with_supplementary_measure_components,
+            ),
+          ]
+        end
+
+        it { is_expected.to be_has_supplementary_unit }
+      end
+
+      context 'when there is no official supplementary measure but there are excise units' do
+        let(:measures) do
+          [
+            attributes_for(
+              :measure,
+              :excise,
+              :erga_omnes,
+              :with_supplementary_measure_components,
+            ),
+          ]
+        end
+
+        it { is_expected.to be_has_supplementary_unit }
+      end
+
+      context 'when there are no supplementary measures' do
+        let(:measures) { [attributes_for(:measure)] }
+
+        it { is_expected.not_to be_has_supplementary_unit }
+      end
+
+      context 'when there are no measures' do
+        let(:measures) { [] }
+
+        it { is_expected.not_to be_has_supplementary_unit }
+      end
+    end
   end
 end

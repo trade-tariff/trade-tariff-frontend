@@ -4,6 +4,8 @@ RSpec.describe 'shared/context_tables/_heading', type: :view, vcr: { cassette_na
   subject { render }
 
   before do
+    allow(view).to receive(:declarable).and_return(heading)
+    allow(view).to receive(:uk_declarable).and_return(heading)
     assign(:heading, heading)
     assign(:search, search)
   end

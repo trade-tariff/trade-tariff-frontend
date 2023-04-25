@@ -5,6 +5,7 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
 
   before do
     allow(view).to receive(:declarable).and_return(declarable)
+    allow(view).to receive(:uk_declarable).and_return(declarable)
     assign(:search, search)
   end
 

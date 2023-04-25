@@ -103,6 +103,10 @@ module Declarable
     import_measures.any?(&:safeguard?)
   end
 
+  def has_supplementary_unit?
+    supplementary_component.present? || supplementary_excise_measures?
+  end
+
   private
 
   def supplementary_component
