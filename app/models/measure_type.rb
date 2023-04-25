@@ -7,6 +7,7 @@ class MeasureType
 
   include ApiEntity
 
+  THIRD_COUNTRY_NO_AUTHORISED_USE_MEASURE_TYPE = '103'.freeze
   SUPPLEMENTARY_MEASURE_TYPES = %w[109 110 111].freeze
   SUPPLEMENTARY_IMPORT_ONLY_MEASURE_TYPES = %w[110].freeze
   SAFEGUARD_TYPES = %w[696].freeze
@@ -26,6 +27,10 @@ class MeasureType
 
   def supplementary?
     id.in?(SUPPLEMENTARY_MEASURE_TYPES)
+  end
+
+  def mfn_no_authorized_use?
+    id == THIRD_COUNTRY_NO_AUTHORISED_USE_MEASURE_TYPE
   end
 
   def description

@@ -49,6 +49,18 @@ class MeasureCollection < SimpleDelegator
     new(select(&:third_country_duties?))
   end
 
+  def unique_third_country_overview_measures
+    if third_country_duties.many?
+      new([third_country_duties.find(&:mfn_no_authorized_use?)])
+    else
+      third_country_duties
+    end
+  end
+
+  def with_additional_code
+    new(select { |measure| measure.additional_code.present? })
+  end
+
   def erga_omnes
     new(select(&:erga_omnes?))
   end

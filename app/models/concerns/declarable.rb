@@ -30,11 +30,13 @@ module Declarable
                   :meursing_code,
                   :producline_suffix,
                   :declarable,
+                  :has_chemicals,
                   :meta
 
     meta_attribute :duty_calculator, :zero_mfn_duty
 
     alias_method :declarable?, :declarable
+    alias_method :has_chemicals?, :has_chemicals
     alias_method :zero_mfn_duty?, :zero_mfn_duty
 
     delegate :numeral, to: :section, prefix: true
