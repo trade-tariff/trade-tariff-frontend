@@ -25,13 +25,14 @@
           declarable_id: declarable.short_code %>
       </span>
     <% end %>
-
     <% if measure.additional_code.present? %>
       <% if measure.measure_type.prohibitive? %>
         <%= render 'measures/additional_codes/prohibitive', measure: measure %>
       <% else %>
         <%= render 'measures/additional_codes/regular', measure: measure %>
       <% end %>
+    <% elsif !measure.additional_code.present? && measure.vat? %>
+      <span class="table-line">Standard rate</span>
     <% end %>
   </td>
 

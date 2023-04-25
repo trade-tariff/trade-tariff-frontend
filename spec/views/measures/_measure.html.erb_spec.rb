@@ -42,4 +42,18 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
 
     it { expect(rendered).to render_template('measures/additional_codes/_regular') }
   end
+
+  context 'when standard rate' do
+    context 'with a VAT measure that has no additional code' do
+      let(:measure) { build(:measure, :vat) }
+
+      it { expect(rendered).to match(/Standard rate/) }
+    end
+
+    context 'without a VAT measure' do
+      let(:measure) { build(:measure) }
+
+      it { expect(rendered).not_to match(/Standard rate/) }
+    end
+  end
 end
