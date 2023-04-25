@@ -205,6 +205,28 @@ RSpec.describe CommoditiesHelper, type: :helper do
     end
   end
 
+  describe '#fix_markdown_bullets' do
+    subject { helper.fix_markdown_bullets declarable_formatted_description }
+
+    context 'with blank formatted description' do
+      let(:declarable_formatted_description) { '' }
+
+      it { is_expected.to be_empty }
+    end
+
+    context 'with <br> tag and dash' do
+      let(:declarable_formatted_description) { ' <br>- ' }
+
+      it { is_expected.to eq " \n- " }
+    end
+
+    context 'with colon, <br> tag and dash' do
+      let(:declarable_formatted_description) { ' :<br>- ' }
+
+      it { is_expected.to eq " :\n\n- " }
+    end
+  end
+
   describe '#query' do
     subject(:query) { helper.query }
 
