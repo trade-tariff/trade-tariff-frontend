@@ -43,6 +43,32 @@ FactoryBot.define do
       }
     end
 
+    trait :with_supplementary_unit do
+      import_measures do
+        [
+          attributes_for(
+            :measure,
+            :excise,
+            :erga_omnes,
+            :with_supplementary_measure_components,
+          ),
+        ]
+      end
+    end
+
+    trait :with_excise_supplementary_unit do
+      import_measures do
+        [
+          attributes_for(
+            :measure,
+            :excise,
+            :erga_omnes,
+            :with_monetary_unit_measure_components,
+          ),
+        ]
+      end
+    end
+
     trait :with_a_vat_overview_measure do
       overview_measures do
         [

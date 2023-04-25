@@ -123,4 +123,41 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
       it { is_expected.to eq('All countries') }
     end
   end
+
+  describe '#supplementary_unit_for' do
+    subject(:supplementary_unit_for) { helper.supplementary_unit_for(declarable, uk_declarable) }
+
+    context 'when the declarable has a supplementary unit' do
+      let(:declarable) { build(:commodity, :with_supplementary_unit) }
+      let(:uk_declarable) { build(:commodity, :with_excise_supplementary_unit) }
+
+      it { is_expected.to eq(declarable.supplementary_unit) }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when both the decalarable and the uk declarable have no supplementary units' do
+      let(:declarable) { build(:commodity) }
+      let(:uk_declarable) { build(:commodity) }
+
+      it { is_expected.to eq(declarable.supplementary_unit) }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when the declarable has no supplementary unit and the uk declarable does' do
+      let(:declarable) { build(:commodity) }
+      let(:uk_declarable) { build(:commodity, :with_supplementary_unit) }
+
+      it { is_expected.to eq(uk_declarable.supplementary_unit) }
+      it { is_expected.to be_html_safe }
+    end
+
+    # Handle cases where the declarable is present on the XI but not on the UK
+    context 'when the uk declarable is nil' do
+      let(:declarable) { build(:commodity) }
+      let(:uk_declarable) { nil }
+
+      it { is_expected.to eq(declarable.supplementary_unit) }
+      it { is_expected.to be_html_safe }
+    end
+  end
 end

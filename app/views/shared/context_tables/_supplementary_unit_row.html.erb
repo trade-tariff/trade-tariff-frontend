@@ -2,7 +2,7 @@
   <dt class="govuk-summary-list__key"><%= declarable.supplementary_unit_description %></dt>
   <dd class="govuk-summary-list__value ">
     <p>
-      <%= sanitize declarable.supplementary_unit %>
+      <%= supplementary_unit_for(declarable, uk_declarable) %>
     </p>
     <details class="govuk-details" data-module="govuk-details">
       <summary class="govuk-details__summary">

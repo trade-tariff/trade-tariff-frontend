@@ -59,4 +59,16 @@ module DeclarableHelper
       commodity_path(declarable, format: :json)
     end
   end
+
+  # Supplementary units coming from the UK declarable excise measures
+  # need to be displayed when there are no units on the XI declarable.
+  def supplementary_unit_for(declarable, uk_declarable)
+    supplementary_unit = if declarable.has_supplementary_unit? || !uk_declarable
+                           declarable.supplementary_unit
+                         else
+                           uk_declarable.supplementary_unit
+                         end
+
+    sanitize supplementary_unit
+  end
 end
