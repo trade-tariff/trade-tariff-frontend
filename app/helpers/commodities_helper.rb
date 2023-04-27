@@ -76,11 +76,6 @@ module CommoditiesHelper
     applicable_query_params.any? ? "&#{applicable_query_params.to_query}" : ''
   end
 
-  def fix_markdown_bullets(text)
-    text.gsub(/:<br>- /, ":\n\n- ")
-        .gsub(/<br>- /, "\n- ")
-  end
-
   def overview_measure_duty_amounts_for(commodity)
     content_tag(:div, data: { tree_target: 'commodityInfo' }, class: 'commodity__info') do
       if TradeTariffFrontend::ServiceChooser.uk?

@@ -13,19 +13,17 @@
       Classification
     </dt>
     <dd class="govuk-summary-list__value">
-      <div class="tariff-markdown classifiction-markdown">
-        <% if declarable.is_other? %>
-          <% declarable.descriptions_with_other_handling.each do |description| %>
-            <%= convert_text_to_links(description).html_safe %> >
-          <% end %>
-
-          <strong>
-            <%= convert_text_to_links(declarable.to_s).html_safe %>
-          </strong>
-        <% else %>
-          <%= govspeak fix_markdown_bullets(convert_text_to_links(declarable.to_s)).html_safe %>
+      <% if declarable.is_other? %>
+        <% declarable.descriptions_with_other_handling.each do |description| %>
+          <%= convert_text_to_links(description).html_safe %> >
         <% end %>
-      </div>
+
+        <strong>
+          <%= convert_text_to_links(declarable.to_s).html_safe %>
+        </strong>
+      <% else %>
+        <%= convert_text_to_links(declarable.to_s).html_safe %>
+    <% end %>
     </dd>
     <dd class="govuk-summary-list__actions"></dd>
   </div>
