@@ -570,7 +570,3 @@ article.tariff {
 .non-breaking-heading {
   white-space: nowrap;
 }
-
-.classifiction-markdown > *:last-child {
-  @include govuk-responsive-margin(0, "bottom") 
-}
