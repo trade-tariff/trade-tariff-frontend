@@ -10,7 +10,8 @@ class Search
                 :country # search country
   attr_accessor :day,
                 :month,
-                :year
+                :year,
+                :resource_id
 
   delegate :today?, to: :date
 
@@ -24,7 +25,12 @@ class Search
   end
 
   def perform
-    response = self.class.post('/search', q:, as_of: date.to_fs(:db))
+    response = self.class.post(
+      '/search',
+      q:,
+      as_of: date.to_fs(:db),
+      resource_id:,
+    )
     response = TariffJsonapiParser.new(response.body).parse
     Outcome.new(response)
   end
