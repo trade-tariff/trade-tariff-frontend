@@ -17,6 +17,7 @@
             <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="tariff-search-banner__q-hint">
               <%= label_tag 'tariff-search-banner__q', search_label_text, class: 'govuk-label govuk-visually-hidden' %>
               <%= hidden_field_tag :q, @search.q, id: 'tariff-search-banner__q-hidden', class: "js-commodity-picker-target" %>
+              <%= hidden_field_tag :resource_id, '', id: 'tariff-search-banner__resource-id-hidden', class: "js-commodity-picker-resource-id" %>
 
               <div class="js-commodity-picker-select js-show" data-autocomplete-input-id="tariff-search-banner__q"></div>
             </fieldset>

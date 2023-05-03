@@ -104,6 +104,7 @@ class SearchController < ApplicationController
         id: s.value,
         text: s.value,
         query: s.query,
+        resource_id: s.resource_id,
         formatted_suggestion_type: s.formatted_suggestion_type,
       }
     end
@@ -215,10 +216,11 @@ class SearchController < ApplicationController
   end
 
   def beta_query_options
-    {
-      q: beta_query,
-      spell: beta_spell,
-    }
+    options = {}
+    options[:resource_id] = beta_resource_id if beta_resource_id.present?
+    options[:spell] = beta_spell
+    options[:q] = beta_query
+    options
   end
 
   def beta_query
@@ -229,11 +231,15 @@ class SearchController < ApplicationController
     beta_search_params[:spell].presence || '1'
   end
 
+  def beta_resource_id
+    beta_search_params[:resource_id].presence
+  end
+
   def beta_filters
     @beta_filters ||= params[:filter]&.permit(*BETA_POSSIBLE_FILTERS).to_h || {}
   end
 
   def beta_search_params
-    params.permit(:q, :filters, :spell)
+    @beta_search_params ||= params.permit(:q, :filters, :spell, :resource_id)
   end
 end

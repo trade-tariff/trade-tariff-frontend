@@ -10,9 +10,13 @@ http_interactions:
       Accept:
       - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v0.11.0
+      - Faraday v1.3.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 200
@@ -33,18 +37,17 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"933037b4d86266c763d39c34f72964ac"
+      - W/"48cbac8904a4e3c7cc705d5c1906d91b"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - ee6ccac3-26b7-4987-991c-e651b945f12a
+      - d1ef4c08-69b8-4077-b41e-4ad2b2595157
       X-Runtime:
-      - '0.165717'
-      Transfer-Encoding:
-      - chunked
+      - '0.031664'
+      Content-Length:
+      - '742'
     body:
       encoding: UTF-8
-      string: '{"data":[{"id":"10","type":"chemical","attributes":{"id":10,"cas":"121-17-5","name":"4-chloro-alpha,alpha,alpha-trifluoro-3-nitrotoluene"},"relationships":{"goods_nomenclatures":{"data":[{"id":"101275","type":"goods_nomenclature"}]},"chemical_names":{"data":[{"id":"10","type":"chemical_name"}]}}}],"included":[{"id":"10","type":"chemical_name","attributes":{"name":"4-chloro-alpha,alpha,alpha-trifluoro-3-nitrotoluene","chemical_id":10}},{"id":"101275","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"2904990000","goods_nomenclature_sid":101275,"description":"Other","number_indents":2,"productline_suffix":"80","href":"/api/v2/commodities/2904990000"}}],"meta":{"pagination":{"page":1,"per_page":20,"total_count":1}}}'
-    http_version: 
-  recorded_at: Fri, 03 Apr 2020 18:07:22 GMT
-recorded_with: VCR 3.0.3
+      string: '{"data":[{"id":"10","type":"chemical","attributes":{"id":10,"cas":"121-17-5","name":"4-chloro-alpha,alpha,alpha-trifluoro-3-nitrotoluene"},"relationships":{"goods_nomenclatures":{"data":[{"id":"101275","type":"goods_nomenclature"}]},"chemical_names":{"data":[{"id":"10","type":"chemical_name"}]}}}],"included":[{"id":"101275","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"2904990000","goods_nomenclature_sid":101275,"producline_suffix":"80","description":"Other","number_indents":2,"href":"/api/v2/commodities/2904990000"}},{"id":"10","type":"chemical_name","attributes":{"name":"4-chloro-alpha,alpha,alpha-trifluoro-3-nitrotoluene","chemical_id":10}}],"meta":{"pagination":{"page":1,"per_page":20,"total_count":1}}}'
+  recorded_at: Fri, 28 Apr 2023 09:09:40 GMT
+recorded_with: VCR 6.1.0

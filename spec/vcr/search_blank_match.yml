@@ -5,16 +5,20 @@ http_interactions:
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: as_of=2019-10-03&q
+      string: as_of=2023-04-28&q=0123456789&resource_id
     headers:
       Accept:
       - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v0.11.0
+      - Faraday v1.3.0
       Content-Type:
       - application/x-www-form-urlencoded
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 200
@@ -26,21 +30,26 @@ http_interactions:
       - 1; mode=block
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"1a5843fb75a698e9a368db9681212cfd"
+      - W/"950231491983260c3114d301178e0116"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 5c488678-83f4-4ee0-a3a3-5366fa945870
+      - 148a03fe-2aa0-47eb-86cb-d5f825cf6ec5
       X-Runtime:
-      - '0.012112'
-      Transfer-Encoding:
-      - chunked
+      - '0.032493'
+      Content-Length:
+      - '244'
     body:
       encoding: UTF-8
-      string: '{"errors":[{"title":"q","detail":"can''t be blank"}]}'
-    http_version: 
-  recorded_at: Thu, 03 Oct 2019 13:36:34 GMT
-recorded_with: VCR 3.0.3
+      string: '{"data":{"id":"1","type":"fuzzy_search","attributes":{"type":"fuzzy_match","goods_nomenclature_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]},"reference_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]}}}}'
+  recorded_at: Fri, 28 Apr 2023 09:10:38 GMT
+recorded_with: VCR 6.1.0

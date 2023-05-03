@@ -579,7 +579,7 @@ import CookieManager from './cookie-manager.js';
               let enhanced = result.text.replace(result.query, `<strong>$&</strong>`);
 
               if (result.formatted_suggestion_type) {
-                enhanced = `<span data-suggestion-type="${result.formatted_suggestion_type}">${enhanced}</span>`;
+                enhanced = `<span data-resource-id="${result.resource_id}" data-suggestion-type="${result.formatted_suggestion_type}">${enhanced}</span>`;
                 enhanced += `<span class="suggestion-type">${result.formatted_suggestion_type}</span>`;
               }
 
@@ -604,6 +604,7 @@ import CookieManager from './cookie-manager.js';
               if (ev.type === 'click' || ev.key === 'Enter' || ev.key === 'Tab') {
                 const form = $(element).parents('form');
                 const suggestionType = $(ev.target).find('[data-suggestion-type]').data('suggestion-type');
+                const resourceId = $(ev.target).find('[data-resource-id]').data('resource-id');
                 let text = $(ev.target).text();
 
                 ev.preventDefault();
@@ -617,6 +618,11 @@ import CookieManager from './cookie-manager.js';
                 }
 
                 form.find('.js-commodity-picker-target').val(text);
+
+                if (resourceId) {
+                    form.find('.js-commodity-picker-resource-id').val(resourceId);
+                }
+
                 form.submit();
               }
             };

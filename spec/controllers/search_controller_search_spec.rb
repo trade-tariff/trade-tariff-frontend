@@ -42,7 +42,7 @@ RSpec.describe SearchController, type: :controller do
 
       let(:params) { { q: '01' } }
 
-      it { is_expected.to redirect_to commodity_path('0101210000') }
+      it { is_expected.to redirect_to chapter_path('01') }
       it { expect(assigns(:search)).to be_a(Search) }
       it { expect(assigns[:search].q).to eq '01' }
     end
@@ -91,7 +91,7 @@ RSpec.describe SearchController, type: :controller do
       before { do_response }
 
       it { expect(assigns[:search]).to have_attributes q: '01' }
-      it { is_expected.to redirect_to commodity_path('0101210000') }
+      it { is_expected.to redirect_to chapter_path('01') }
     end
 
     context 'without search term', vcr: { cassette_name: 'search#blank_match' } do
@@ -190,7 +190,7 @@ RSpec.describe SearchController, type: :controller do
       end
 
       describe 'exact match search result' do
-        let(:query) { '2204' }
+        let(:query) { '22' }
 
         before do
           get :search, params: { q: query, day:, month:, year: }, format: :json
@@ -200,12 +200,12 @@ RSpec.describe SearchController, type: :controller do
           goods_nomenclature_item_ids = JSON.parse(response.body)['results']
             .map { |h| h['goods_nomenclature_item_id'] }
 
-          expect(goods_nomenclature_item_ids).to include('2204000000')
+          expect(goods_nomenclature_item_ids).to eq(%w[2200000000])
         end
       end
 
       describe 'search references exact match search result' do
-        let(:query) { 'account books' }
+        let(:query) { 'ricotta' }
 
         before do
           get :search, params: { q: query, day:, month:, year: }, format: :json
@@ -215,7 +215,7 @@ RSpec.describe SearchController, type: :controller do
           goods_nomenclature_item_ids = JSON.parse(response.body)['results']
             .map { |h| h['goods_nomenclature_item_id'] }
 
-          expect(goods_nomenclature_item_ids).to include('4820000000')
+          expect(goods_nomenclature_item_ids).to eq(%w[0406105090])
         end
       end
 
@@ -248,12 +248,13 @@ RSpec.describe SearchController, type: :controller do
       end
     end
 
-    context 'with ATOM format', vcr: { cassette_name: 'search#search_fuzzy' } do
+    context 'with ATOM format', vcr: { cassette_name: 'search#search_fuzzy', match_requests_on: %i[uri body] } do
       render_views
 
       let(:query) { 'horses' }
 
       before do
+        controller.session[:beta_search_enabled] = false
         get :search, params: { q: query }, format: :atom
       end
 

@@ -76,6 +76,7 @@ class ApplicationController < ActionController::Base
   def search_attributes
     params.fetch(:search, params).permit(
       :q,
+      :resource_id,
       :country,
       :day,
       :month,

@@ -41,9 +41,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - f36a5788-e612-4cf4-8a60-dbaf4156707d
+      - d78c50d6-e583-4c55-9027-a2df7c42499a
       X-Runtime:
-      - '0.031426'
+      - '0.019606'
       Content-Length:
       - '4716'
     body:
@@ -84,7 +84,7 @@ http_interactions:
         and ammunition; parts and accessories thereof","position":19,"chapter_from":"93","chapter_to":"93"}},{"id":"20","type":"section","attributes":{"id":20,"numeral":"XX","title":"Miscellaneous
         manufactured articles","position":20,"chapter_from":"94","chapter_to":"96"}},{"id":"21","type":"section","attributes":{"id":21,"numeral":"XXI","title":"Works
         of art, collectors'' pieces and antiques","position":21,"chapter_from":"97","chapter_to":"99"}}]}'
-  recorded_at: Tue, 28 Feb 2023 11:44:36 GMT
+  recorded_at: Fri, 28 Apr 2023 09:06:53 GMT
 - request:
     method: get
     uri: http://localhost:3018/search_suggestions?q=dsauidoasuiodsa
@@ -126,21 +126,21 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 819cd8ca-463f-4396-94c7-6d53be139076
+      - c49b2c26-f96f-4a39-a5d4-9b8a81c11668
       X-Runtime:
-      - '0.147712'
+      - '0.040559'
       Content-Length:
       - '11'
     body:
       encoding: UTF-8
       string: '{"data":[]}'
-  recorded_at: Tue, 28 Feb 2023 11:44:37 GMT
+  recorded_at: Fri, 28 Apr 2023 09:06:54 GMT
 - request:
     method: post
     uri: http://localhost:3018/search
     body:
       encoding: UTF-8
-      string: as_of=2023-02-28&q=dsauidoasuiodsa
+      string: as_of=2023-04-28&q=dsauidoasuiodsa&resource_id=
     headers:
       Accept:
       - application/vnd.uktt.v2
@@ -178,13 +178,13 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - ca95f54a-f06a-4d6c-b045-a24bc0159f6e
+      - ea8cbb8b-0041-4308-b608-35f0a9a2a7ad
       X-Runtime:
-      - '0.068731'
+      - '0.046066'
       Content-Length:
       - '244'
     body:
       encoding: UTF-8
       string: '{"data":{"id":"1","type":"fuzzy_search","attributes":{"type":"fuzzy_match","goods_nomenclature_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]},"reference_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]}}}}'
-  recorded_at: Tue, 28 Feb 2023 11:44:39 GMT
+  recorded_at: Fri, 28 Apr 2023 09:06:56 GMT
 recorded_with: VCR 6.1.0
