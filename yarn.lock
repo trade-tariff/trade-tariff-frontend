@@ -4681,10 +4681,10 @@ ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
-imask@^6.4.3:
-  version "6.4.3"
-  resolved "https://registry.yarnpkg.com/imask/-/imask-6.4.3.tgz#b81b247043807995e048f559e98930c2fec8004a"
-  integrity sha512-aH2GHemGkr3cbRBfhogHMIx05eUxdHrZNlKTTLmz8VxpSopuHHJ8+85FsDlBVQqxPlDLhZuwj4lpHHWbLOdBSw==
+imask@^6.6.1:
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/imask/-/imask-6.6.1.tgz#06987afaf72c1d9f6ca4fdddd0e04a174466a8c9"
+  integrity sha512-3JfLZVYABpNUGZpObu92/+3ptwwNIHXWNYqCfS+OaHBmMhLKBAAnGa2oNJWLbx5r3EyWxnkFNb2bX5Dz4wLkuA==
 
 import-cwd@^2.0.0:
   version "2.1.0"
