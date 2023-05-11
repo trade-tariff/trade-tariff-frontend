@@ -50,7 +50,7 @@ RSpec.describe SearchController, type: :controller do
     context 'with fuzzy match query', vcr: { cassette_name: 'search#search_fuzzy' } do
       before { do_response }
 
-      let(:params) { { q: 'horses' } }
+      let(:params) { { q: 'horses', day: '11', month: '05', year: '2023' } }
 
       it { is_expected.to have_http_status(:ok) }
       it { expect(assigns(:search)).to be_a(Search) }

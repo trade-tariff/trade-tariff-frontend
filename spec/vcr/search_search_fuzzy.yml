@@ -983,4 +983,185 @@ http_interactions:
         and edible meat offal","guides":[]},"section":{"numeral":"I","title":"Live
         animals; animal products","position":1},"class":"Commodity"}}}],"headings":[],"sections":[]}}}}'
   recorded_at: Tue, 09 May 2023 10:20:51 GMT
+- request:
+    method: post
+    uri: http://localhost:3018/search
+    body:
+      encoding: UTF-8
+      string: as_of=2023-05-11&q=horses&resource_id
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v1.3.0
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"838b9d3f2a21c7286df3cdd223a1d032"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - d979fc0b-4e33-48d0-a534-32fe30c40301
+      X-Runtime:
+      - '0.696572'
+      Content-Length:
+      - '23174'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":"1","type":"fuzzy_search","attributes":{"type":"fuzzy_match","goods_nomenclature_match":{"chapters":[],"commodities":[{"_index":"tariff-commodities-uk","_id":"93797","_score":1.0,"_source":{"id":93797,"goods_nomenclature_item_id":"0101210000","producline_suffix":"10","validity_start_date":"2012-01-01T00:00:00.000Z","validity_end_date":null,"description":"Horses","number_indents":1,"heading":{"goods_nomenclature_sid":27624,"goods_nomenclature_item_id":"0101000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Live
+        horses, asses, mules and hinnies","number_indents":0},"chapter":{"goods_nomenclature_sid":27623,"goods_nomenclature_item_id":"0100000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Live
+        animals","guides":[]},"section":{"numeral":"I","title":"Live animals; animal
+        products","position":1}}},{"_index":"tariff-commodities-uk","_id":"72799","_score":1.0,"_source":{"id":72799,"goods_nomenclature_item_id":"0210991000","producline_suffix":"80","validity_start_date":"2002-01-01T00:00:00.000Z","validity_end_date":null,"description":"Of
+        horses, salted, in brine or dried","number_indents":4,"heading":{"goods_nomenclature_sid":28295,"goods_nomenclature_item_id":"0210000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal, salted, in brine, dried or smoked; edible flours and
+        meals of meat or meat offal","number_indents":0},"chapter":{"goods_nomenclature_sid":27809,"goods_nomenclature_item_id":"0200000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"93985","_score":1.0,"_source":{"id":93985,"goods_nomenclature_item_id":"0302410000","producline_suffix":"10","validity_start_date":"2012-01-01T00:00:00.000Z","validity_end_date":null,"description":"Herrings
+        (Clupea harengus, Clupea pallasii), anchovies (Engraulis spp.), sardines (Sardina
+        pilchardus, Sardinops spp.), sardinella (Sardinella spp.), brisling or sprats
+        (Sprattus sprattus), mackerel (Scomber scombrus, Scomber australasicus, Scomber
+        japonicus), Indian mackerels (Rastrelliger spp.), seerfishes (Scomberomorus
+        spp.), jack and horse mackerel (Trachurus spp.), jacks, crevalles (Caranx
+        spp.), cobia (Rachycentron canadum), silver pomfrets (Pampus spp.), Pacific
+        saury (Cololabis saira), scads (Decapterus spp.), capelin (Mallotus villosus),
+        swordfish (Xiphias gladius), Kawakawa (Euthynnus affinis), bonitos (Sarda
+        spp.), marlins, sailfishes, spearfish (Istiophoridae), excluding edible fish
+        offal of subheadings 0302 91 to 0302 99","number_indents":1,"heading":{"goods_nomenclature_sid":28402,"goods_nomenclature_item_id":"0302000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fish,
+        fresh or chilled, excluding fish fillets and other fish meat of heading 0304","number_indents":0},"chapter":{"goods_nomenclature_sid":28373,"goods_nomenclature_item_id":"0300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Fish
+        and crustaceans, molluscs and other aquatic invertebrates","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"93993","_score":1.0,"_source":{"id":93993,"goods_nomenclature_item_id":"0302450000","producline_suffix":"80","validity_start_date":"2012-01-01T00:00:00.000Z","validity_end_date":null,"description":"Jack
+        and horse mackerel (Trachurus spp.)","number_indents":2,"heading":{"goods_nomenclature_sid":28402,"goods_nomenclature_item_id":"0302000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fish,
+        fresh or chilled, excluding fish fillets and other fish meat of heading 0304","number_indents":0},"chapter":{"goods_nomenclature_sid":28373,"goods_nomenclature_item_id":"0300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Fish
+        and crustaceans, molluscs and other aquatic invertebrates","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"93994","_score":1.0,"_source":{"id":93994,"goods_nomenclature_item_id":"0302451000","producline_suffix":"80","validity_start_date":"2012-01-01T00:00:00.000Z","validity_end_date":null,"description":"Atlantic
+        horse mackerel (Trachurus trachurus)","number_indents":3,"heading":{"goods_nomenclature_sid":28402,"goods_nomenclature_item_id":"0302000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fish,
+        fresh or chilled, excluding fish fillets and other fish meat of heading 0304","number_indents":0},"chapter":{"goods_nomenclature_sid":28373,"goods_nomenclature_item_id":"0300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Fish
+        and crustaceans, molluscs and other aquatic invertebrates","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"95674","_score":1.0,"_source":{"id":95674,"goods_nomenclature_item_id":"0302459010","producline_suffix":"80","validity_start_date":"2012-01-01T00:00:00.000Z","validity_end_date":null,"description":"Horse
+        mackerel (scad) (Caranx trachurus)","number_indents":4,"heading":{"goods_nomenclature_sid":28402,"goods_nomenclature_item_id":"0302000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fish,
+        fresh or chilled, excluding fish fillets and other fish meat of heading 0304","number_indents":0},"chapter":{"goods_nomenclature_sid":28373,"goods_nomenclature_item_id":"0300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Fish
+        and crustaceans, molluscs and other aquatic invertebrates","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"28100","_score":1.0,"_source":{"id":28100,"goods_nomenclature_item_id":"0206809100","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Of
+        horses, asses, mules and hinnies","number_indents":3,"heading":{"goods_nomenclature_sid":28044,"goods_nomenclature_item_id":"0206000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Edible
+        offal of bovine animals, swine, sheep, goats, horses, asses, mules or hinnies,
+        fresh, chilled or frozen","number_indents":0},"chapter":{"goods_nomenclature_sid":27809,"goods_nomenclature_item_id":"0200000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"28105","_score":1.0,"_source":{"id":28105,"goods_nomenclature_item_id":"0206909100","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Of
+        horses, asses, mules and hinnies","number_indents":3,"heading":{"goods_nomenclature_sid":28044,"goods_nomenclature_item_id":"0206000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Edible
+        offal of bovine animals, swine, sheep, goats, horses, asses, mules or hinnies,
+        fresh, chilled or frozen","number_indents":0},"chapter":{"goods_nomenclature_sid":27809,"goods_nomenclature_item_id":"0200000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"94153","_score":1.0,"_source":{"id":94153,"goods_nomenclature_item_id":"0303510000","producline_suffix":"10","validity_start_date":"2012-01-01T00:00:00.000Z","validity_end_date":null,"description":"Herrings
+        (Clupea harengus, Clupea pallasii), anchovies (Engraulis spp.), sardines (Sardina
+        pilchardus, Sardinops spp.), sardinella (Sardinella spp.), brisling or sprats
+        (Sprattus sprattus), mackerel (Scomber scombrus, Scomber australasicus, Scomber
+        japonicus), Indian mackerels (Rastrelliger spp.), seerfishes (Scomberomorus
+        spp.), jack and horse mackerel (Trachurus spp.), jacks, crevalles (Caranx
+        spp.), cobia (Rachycentron canadum), silver pomfrets (Pampus spp.), Pacific
+        saury (Cololabis saira), scads (Decapterus spp.), capelin (Mallotus villosus),
+        swordfish (Xiphias gladius), Kawakawa (Euthynnus affinis), bonitos (Sarda
+        spp.), marlins, sailfishes, spearfish (Istiophoridae), excluding edible fish
+        offal of subheadings 0303 91 to 0303 99","number_indents":1,"heading":{"goods_nomenclature_sid":28590,"goods_nomenclature_item_id":"0303000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fish,
+        frozen, excluding fish fillets and other fish meat of heading 0304","number_indents":0},"chapter":{"goods_nomenclature_sid":28373,"goods_nomenclature_item_id":"0300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Fish
+        and crustaceans, molluscs and other aquatic invertebrates","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"94180","_score":1.0,"_source":{"id":94180,"goods_nomenclature_item_id":"0303550000","producline_suffix":"80","validity_start_date":"2012-01-01T00:00:00.000Z","validity_end_date":null,"description":"Jack
+        and horse mackerel (Trachurus spp.)","number_indents":2,"heading":{"goods_nomenclature_sid":28590,"goods_nomenclature_item_id":"0303000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fish,
+        frozen, excluding fish fillets and other fish meat of heading 0304","number_indents":0},"chapter":{"goods_nomenclature_sid":28373,"goods_nomenclature_item_id":"0300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Fish
+        and crustaceans, molluscs and other aquatic invertebrates","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"94181","_score":1.0,"_source":{"id":94181,"goods_nomenclature_item_id":"0303551000","producline_suffix":"80","validity_start_date":"2012-01-01T00:00:00.000Z","validity_end_date":null,"description":"Atlantic
+        horse mackerel (Trachurus trachurus)","number_indents":3,"heading":{"goods_nomenclature_sid":28590,"goods_nomenclature_item_id":"0303000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fish,
+        frozen, excluding fish fillets and other fish meat of heading 0304","number_indents":0},"chapter":{"goods_nomenclature_sid":28373,"goods_nomenclature_item_id":"0300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Fish
+        and crustaceans, molluscs and other aquatic invertebrates","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"96208","_score":1.0,"_source":{"id":96208,"goods_nomenclature_item_id":"0303559010","producline_suffix":"80","validity_start_date":"2012-01-01T00:00:00.000Z","validity_end_date":null,"description":"Horse
+        mackerel (scad) (Caranx trachurus)","number_indents":4,"heading":{"goods_nomenclature_sid":28590,"goods_nomenclature_item_id":"0303000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fish,
+        frozen, excluding fish fillets and other fish meat of heading 0304","number_indents":0},"chapter":{"goods_nomenclature_sid":28373,"goods_nomenclature_item_id":"0300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Fish
+        and crustaceans, molluscs and other aquatic invertebrates","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"100664","_score":1.0,"_source":{"id":100664,"goods_nomenclature_item_id":"0305540000","producline_suffix":"80","validity_start_date":"2017-01-01T00:00:00.000Z","validity_end_date":null,"description":"Herrings
+        (Clupea harengus, Clupea pallasii), anchovies (Engraulis spp.), sardines (Sardina
+        pilchardus, Sardinops spp.), sardinella (Sardinella spp.), brisling or sprats
+        (Sprattus sprattus), mackerel (Scomber scombrus, Scomber australasicus, Scomber
+        japonicus), Indian mackerels (Rastrelliger spp.), seerfishes (Scomberomorus
+        spp.), jack and horse mackerel (Trachurus spp.), jacks, crevalles (Caranx
+        spp.), cobia (Rachycentron canadum), silver pomfrets (Pampus spp.), Pacific
+        saury (Cololabis saira), scads (Decapterus spp.), capelin (Mallotus villosus),
+        swordfish (Xiphias gladius), Kawakawa (Euthynnus affinis), bonitos (Sarda
+        spp.), marlins, sailfishes, spearfish (Istiophoridae)","number_indents":2,"heading":{"goods_nomenclature_sid":29160,"goods_nomenclature_item_id":"0305000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fish,
+        dried, salted or in brine; smoked fish, whether or not cooked before or during
+        the smoking process","number_indents":0},"chapter":{"goods_nomenclature_sid":28373,"goods_nomenclature_item_id":"0300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Fish
+        and crustaceans, molluscs and other aquatic invertebrates","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-commodities-uk","_id":"30763","_score":1.0,"_source":{"id":30763,"goods_nomenclature_item_id":"0713500000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Broad
+        beans (Vicia faba var. major) and horse beans (Vicia faba var. equina, Vicia
+        faba var. minor)","number_indents":1,"heading":{"goods_nomenclature_sid":30726,"goods_nomenclature_item_id":"0713000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Dried
+        leguminous vegetables, shelled, whether or not skinned or split","number_indents":0},"chapter":{"goods_nomenclature_sid":30240,"goods_nomenclature_item_id":"0700000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Edible
+        vegetables and certain roots and tubers","guides":[]},"section":{"numeral":"II","title":"Vegetable
+        products","position":2}}},{"_index":"tariff-commodities-uk","_id":"74274","_score":1.0,"_source":{"id":74274,"goods_nomenclature_item_id":"2308004000","producline_suffix":"80","validity_start_date":"2002-01-01T00:00:00.000Z","validity_end_date":null,"description":"Acorns
+        and horse-chestnuts; pomace or marc of fruit, other than grapes","number_indents":1,"heading":{"goods_nomenclature_sid":35179,"goods_nomenclature_item_id":"2308000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Vegetable
+        materials and vegetable waste, vegetable residues and by-products, whether
+        or not in the form of pellets, of a kind used in animal feeding, not elsewhere
+        specified or included","number_indents":0},"chapter":{"goods_nomenclature_sid":35125,"goods_nomenclature_item_id":"2300000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Residues
+        and waste from the food industries; prepared animal fodder","guides":[]},"section":{"numeral":"IV","title":"Prepared
+        foodstuffs; beverages, spirits and vinegar; tobacco and manufactured tobacco
+        substitutes","position":4}}},{"_index":"tariff-commodities-uk","_id":"102284","_score":1.0,"_source":{"id":102284,"goods_nomenclature_item_id":"4412330000","producline_suffix":"80","validity_start_date":"2017-01-01T00:00:00.000Z","validity_end_date":null,"description":"Other,
+        with at least one outer ply of non-coniferous wood of the species alder (Alnus
+        spp.), ash (Fraxinus spp.), beech (Fagus spp.), birch (Betula spp.), cherry
+        (Prunus spp.) chestnut (Castanea spp.), elm (Ulmus spp.), eucalyptus (Eucalyptus
+        spp.), hickory (Carya spp.), horse chestnut (Aesculus spp.), lime (Tilia spp.),
+        maple (Acer spp.) oak (Quercus spp.), plane tree (Platanus spp.), poplar and
+        aspen (Populus spp.) robinia (Robinia spp.) tulipwood (Liriodendron spp.)
+        or walnut (Juglans spp.)","number_indents":2,"heading":{"goods_nomenclature_sid":40191,"goods_nomenclature_item_id":"4412000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Plywood,
+        veneered panels and similar laminated wood","number_indents":0},"chapter":{"goods_nomenclature_sid":39988,"goods_nomenclature_item_id":"4400000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Wood
+        and articles of wood; wood charcoal","guides":[]},"section":{"numeral":"IX","title":"Wood
+        and articles of wood; wood charcoal; cork and articles of cork; manufactures
+        of straw, of esparto or of other plaiting materials; basket-ware and wickerwork","position":9}}}],"headings":[{"_index":"tariff-headings-uk","_id":"27624","_score":1.0,"_source":{"id":27624,"goods_nomenclature_item_id":"0101000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Live
+        horses, asses, mules and hinnies","number_indents":0,"chapter":{"goods_nomenclature_sid":27623,"goods_nomenclature_item_id":"0100000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Live
+        animals","guides":[]},"section":{"numeral":"I","title":"Live animals; animal
+        products","position":1}}},{"_index":"tariff-headings-uk","_id":"28039","_score":1.0,"_source":{"id":28039,"goods_nomenclature_item_id":"0205000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        of horses, asses, mules or hinnies, fresh, chilled or frozen","number_indents":0,"chapter":{"goods_nomenclature_sid":27809,"goods_nomenclature_item_id":"0200000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}},{"_index":"tariff-headings-uk","_id":"28044","_score":1.0,"_source":{"id":28044,"goods_nomenclature_item_id":"0206000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Edible
+        offal of bovine animals, swine, sheep, goats, horses, asses, mules or hinnies,
+        fresh, chilled or frozen","number_indents":0,"chapter":{"goods_nomenclature_sid":27809,"goods_nomenclature_item_id":"0200000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1}}}],"sections":[]},"reference_match":{"chapters":[],"commodities":[{"_index":"tariff-search_references-uk","_id":"7857","_score":7.313613,"_source":{"title":"horse
+        meat, frozen","reference_class":"Commodity","reference":{"id":77135,"goods_nomenclature_item_id":"0205008000","producline_suffix":"80","validity_start_date":"2004-01-01T00:00:00.000Z","validity_end_date":null,"description":"Frozen","number_indents":1,"heading":{"goods_nomenclature_sid":28039,"goods_nomenclature_item_id":"0205000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        of horses, asses, mules or hinnies, fresh, chilled or frozen","number_indents":0},"chapter":{"goods_nomenclature_sid":27809,"goods_nomenclature_item_id":"0200000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1},"class":"Commodity"}}},{"_index":"tariff-search_references-uk","_id":"7856","_score":6.4297943,"_source":{"title":"horse
+        meat, fresh or chilled","reference_class":"Commodity","reference":{"id":77134,"goods_nomenclature_item_id":"0205002000","producline_suffix":"80","validity_start_date":"2004-01-01T00:00:00.000Z","validity_end_date":null,"description":"Fresh
+        or chilled","number_indents":1,"heading":{"goods_nomenclature_sid":28039,"goods_nomenclature_item_id":"0205000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        of horses, asses, mules or hinnies, fresh, chilled or frozen","number_indents":0},"chapter":{"goods_nomenclature_sid":27809,"goods_nomenclature_item_id":"0200000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1},"class":"Commodity"}}},{"_index":"tariff-search_references-uk","_id":"7883","_score":5.736558,"_source":{"title":"horse
+        meat, salted, in brine or dried","reference_class":"Commodity","reference":{"id":72799,"goods_nomenclature_item_id":"0210991000","producline_suffix":"80","validity_start_date":"2002-01-01T00:00:00.000Z","validity_end_date":null,"description":"Of
+        horses, salted, in brine or dried","number_indents":4,"heading":{"goods_nomenclature_sid":28295,"goods_nomenclature_item_id":"0210000000","producline_suffix":"80","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal, salted, in brine, dried or smoked; edible flours and
+        meals of meat or meat offal","number_indents":0},"chapter":{"goods_nomenclature_sid":27809,"goods_nomenclature_item_id":"0200000000","producline_suffix":"80","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null,"description":"Meat
+        and edible meat offal","guides":[]},"section":{"numeral":"I","title":"Live
+        animals; animal products","position":1},"class":"Commodity"}}}],"headings":[],"sections":[]}}}}'
+  recorded_at: Thu, 11 May 2023 09:48:04 GMT
 recorded_with: VCR 6.1.0
