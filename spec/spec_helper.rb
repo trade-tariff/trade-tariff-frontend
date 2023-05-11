@@ -56,6 +56,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.include ApiResponsesHelper
   config.include Shoulda::Matchers::ActiveModel
+  config.include ActiveSupport::Testing::TimeHelpers
 
   config.include_context 'with switch service banner', type: :view
 
