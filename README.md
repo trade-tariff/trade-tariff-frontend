@@ -92,14 +92,3 @@ To create or update autoscaling policy for your application run:
 
 Current autosscaling policy files are [here](https://github.com/trade-tariff/trade-tariff-frontend/tree/main/config/autoscaling).
 
-
-
-
-
-
-
-
-
-
-
-
