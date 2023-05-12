@@ -4,7 +4,6 @@ class ErrorsController < ApplicationController
   skip_before_action :set_path_info
   skip_before_action :set_search
   skip_before_action :bots_no_index_if_historical
-  skip_after_action :gc_session_data
 
   before_action :disable_search_form, :disable_switch_service_banner
 
