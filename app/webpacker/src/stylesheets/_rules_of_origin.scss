@@ -47,3 +47,15 @@
     margin-bottom: 0;
   }
 }
+
+.rules-of-origin__step-col .tariff-markdown {
+  img {
+    max-width: 75%;
+  }
+
+  @include govuk-media-query($until: tablet) {
+    img {
+      max-width: 100%;
+    }
+  }
+}
