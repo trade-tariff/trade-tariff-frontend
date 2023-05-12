@@ -255,7 +255,7 @@ RSpec.describe SearchController, type: :controller do
 
       before do
         controller.session[:beta_search_enabled] = false
-        get :search, params: { q: query }, format: :atom
+        get :search, params: { q: query, day: '11', month: '5', year: '2023' }, format: :atom
       end
 
       specify 'includes link to current page (self link)' do
