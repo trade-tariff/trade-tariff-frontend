@@ -21,6 +21,7 @@
         </th>
       </tr>
     </thead>
+
     <tbody class="govuk-table__body">
       <% rule_sets.each do |rule_set| %>
       <tr class="govuk-table__row">
@@ -36,7 +37,13 @@
 
         <td class="govuk-table__cell tariff-markdown responsive-full-width" data-label="Rule">
           <% rule_set.rules.each do |rule| %>
-            <%= govspeak link_glossary_terms(rule.rule) %>
+            <% if rule.footnotes.any? %>
+              <%= render 'shared/details',
+                         summary: rule.rule,
+                         content: govspeak(rule.all_footnotes) %>
+            <% else %>
+              <%= govspeak link_glossary_terms(rule.rule) %>
+            <% end %>
           <% end %>
         </td>
       </tr>

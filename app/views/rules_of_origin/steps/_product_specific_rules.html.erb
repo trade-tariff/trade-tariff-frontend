@@ -3,7 +3,15 @@
         :rule,
         form.object.options,
         :resource_id,
-        ->(option) { govspeak link_glossary_terms option.rule } %>
+        ->(option) do
+          if option.footnotes.any?
+            render 'shared/details',
+                   summary: option.rule,
+                   content: govspeak(option.all_footnotes)
+          else
+            govspeak link_glossary_terms option.rule
+          end
+        end %>
 
   <div class="tariff-markdown">
     <%= govspeak t '.body', scheme_title: form.object.scheme_title %>

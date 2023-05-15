@@ -4,5 +4,10 @@ FactoryBot.define do
     sequence(:heading) { |n| "Chapter #{n}" }
     description { 'Description' }
     rule { 'Rule' }
+    footnotes { [] }
+
+    trait :with_footnote do
+      footnotes { ['This is a footnote'] }
+    end
   end
 end
