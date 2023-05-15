@@ -29,7 +29,7 @@ RSpec.describe RulesOfOrigin::StepsController, type: :request do
     end
 
     context 'with missing params' do
-      before { get rules_of_origin_step_path(' ', ' ', 'start') }
+      before { get rules_of_origin_step_path('1234567890', ' ', 'start') }
 
       it { is_expected.to redirect_to find_commodity_path }
     end
