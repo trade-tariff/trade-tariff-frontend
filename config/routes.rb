@@ -95,12 +95,13 @@ Rails.application.routes.draw do
   resources :news_items, only: %i[index show], path: '/news'
 
   namespace :rules_of_origin, path: nil do
-    get '/rules_of_origin/:commodity/:country', to: 'steps#index', as: :steps
-    get '/rules_of_origin/:commodity/:country/:id', to: 'steps#show', as: :step
-    patch '/rules_of_origin/:commodity/:country/:id', to: 'steps#update', as: nil
-    get '/rules_of_origin/:commodity', constraints: { commodity: /\d{10}/ },
-                                       to: 'product_specific_rules#index',
-                                       as: :product_specific_rules
+    with_options constraints: { commodity: /\d{10}/ } do
+      get '/rules_of_origin/:commodity/:country', to: 'steps#index', as: :steps
+      get '/rules_of_origin/:commodity/:country/:id', to: 'steps#show', as: :step
+      patch '/rules_of_origin/:commodity/:country/:id', to: 'steps#update', as: nil
+      get '/rules_of_origin/:commodity', to: 'product_specific_rules#index',
+                                         as: :product_specific_rules
+    end
     get '/rules_of_origin/proofs', to: 'proofs#index', as: :proofs
   end
 
