@@ -68,5 +68,18 @@ RSpec.describe 'rules_of_origin/product_specific_rules/index', type: :view do
       it { is_expected.to have_css 'td', text: %r{#{ruleset.rules.first.rule}} }
       it { is_expected.not_to have_css 'tbody tr td:nth-of-type(3)' }
     end
+
+    context 'with footnotes on the rules' do
+      let :schemes do
+        build_list :rules_of_origin_scheme, 1, rule_sets: [
+          attributes_for(:rules_of_origin_rule_set, rules: [
+            attributes_for(:rules_of_origin_rule, :with_footnote),
+          ]),
+        ]
+      end
+
+      it { is_expected.to have_css 'td details summary', text: %r{\w+} }
+      it { is_expected.to have_css 'td details .govuk-details__text *' }
+    end
   end
 end

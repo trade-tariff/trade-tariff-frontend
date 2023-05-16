@@ -7,5 +7,13 @@ FactoryBot.define do
     trait :wholly_obtained do
       rule_class { %w[WO] }
     end
+
+    trait :with_markdown do
+      rule { '[Chapter&nbsp;1](/some/where)' }
+    end
+
+    trait :with_footnote do
+      footnotes { ['This is a **footnote**'] }
+    end
   end
 end

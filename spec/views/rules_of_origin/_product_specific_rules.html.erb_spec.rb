@@ -31,4 +31,12 @@ RSpec.describe 'rules_of_origin/_product_specific_rules', type: :view do
     it { is_expected.to have_content 'no product-specific rules' }
     it { is_expected.not_to have_css 'table' }
   end
+
+  context 'with footnotes on the rules' do
+    let(:rule_sets) { build_list :rules_of_origin_rule_set, 1, rules: }
+    let(:rules) { attributes_for_list :rules_of_origin_v2_rule, 1, :with_footnote }
+
+    it { is_expected.to have_css 'td details summary', text: rules.first[:rule] }
+    it { is_expected.to have_css 'td details .govuk-details__text *' }
+  end
 end

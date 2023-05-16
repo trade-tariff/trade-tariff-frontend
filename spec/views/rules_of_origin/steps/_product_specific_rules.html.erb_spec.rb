@@ -36,12 +36,23 @@ RSpec.describe 'rules_of_origin/steps/_product_specific_rules', type: :view do
     end
 
     let(:rule_sets) { attributes_for_list :rules_of_origin_rule_set, 1, rules: }
-
-    let :rules do
-      attributes_for_list :rules_of_origin_v2_rule, 1,
-                          rule: '[Chapter&nbsp;1](/some/where)'
-    end
+    let(:rules) { attributes_for_list :rules_of_origin_v2_rule, 1, :with_markdown }
 
     it { is_expected.to have_css 'fieldset label a', text: /Chapter.*1/ }
+  end
+
+  context 'with footnotes on rule' do
+    let :schemes do
+      build_list :rules_of_origin_scheme, 1,
+                 countries: [country.id],
+                 rule_sets:,
+                 articles:
+    end
+
+    let(:rule_sets) { attributes_for_list :rules_of_origin_rule_set, 1, rules: }
+    let(:rules) { attributes_for_list :rules_of_origin_v2_rule, 1, :with_footnote, rule: 'Test' }
+
+    it { is_expected.to have_css 'fieldset label details summary', text: 'Test' }
+    it { is_expected.to have_css 'fieldset label details .govuk-details__text *' }
   end
 end
