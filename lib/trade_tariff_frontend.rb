@@ -23,6 +23,7 @@ module TradeTariffFrontend
       search_references
       geographical_areas
       chemical_substances
+      simplified_procedural_code_measures
     ]
   end
 
@@ -57,6 +58,7 @@ module TradeTariffFrontend
       preference_codes
       chemical_substances
       healthcheck
+      simplified_procedural_code_measures
     ]
   end
 
