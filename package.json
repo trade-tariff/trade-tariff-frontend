@@ -25,7 +25,7 @@
     "jquery-prevent-scroll-keys": "^1.0.1",
     "jquery-roving-tabindex": "^1.0.1",
     "jquery-tabs": "^0.5.3",
-    "js-cookie": "^3.0.1",
+    "js-cookie": "^3.0.5",
     "mark.js": "^8.11.1",
     "select2": "^4.0.10",
     "stimulus": "^3.2.1",
