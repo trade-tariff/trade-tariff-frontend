@@ -29,7 +29,9 @@ RSpec.describe CommoditiesController, type: :controller do
           do_request
         end
 
-        it { expect(assigns(:chemicals)).to all(be_a(ChemicalSubstance)) }
+        it { expect(assigns(:all_chemicals)).to all(be_a(ChemicalSubstance)) }
+        it { expect(assigns(:inn_chemicals)).to all(be_a(ChemicalSubstance)) }
+        it { expect(assigns(:rest_chemicals)).to be_empty }
       end
 
       context 'with non-existant commodity id provided', vcr: { cassette_name: 'commodities#show_0101999999' } do

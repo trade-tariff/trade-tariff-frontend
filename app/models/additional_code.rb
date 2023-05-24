@@ -4,6 +4,7 @@ class AdditionalCode
   include ApiEntity
   include HasGoodsNomenclature
 
+  PHARMA_CODES = %w[2500 2501].freeze
   RESIDUAL_CODES = %w[49 98 99].freeze
 
   collection_path '/additional_codes'
@@ -16,6 +17,10 @@ class AdditionalCode
 
   def id
     @id ||= "#{casted_by.destination}-#{casted_by.id}-additional-code-#{code}"
+  end
+
+  def pharma?
+    code.in?(PHARMA_CODES)
   end
 
   def residual?
