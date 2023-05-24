@@ -3,9 +3,14 @@ require 'api_entity'
 class GeographicalArea
   EUROPEAN_UNION_ID = '1013'.freeze
   REFERENCING_EUROPEAN_UNION_ID = 'EU'.freeze
-  ERGA_OMNES_ID = '1011'.freeze
 
   include ApiEntity
+
+  enum :id, {
+    channel_islands: '1080',
+    erga_omnes: '1011',
+    european_union: '1013',
+  }
 
   collection_path '/geographical_areas/countries'
 
@@ -14,8 +19,6 @@ class GeographicalArea
   attr_writer :description
 
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
-
-  ERGA_OMNES = '1011'.freeze # Entire world
 
   class << self
     def european_union
@@ -60,9 +63,5 @@ class GeographicalArea
 
   def to_s
     description
-  end
-
-  def erga_omnes?
-    id == ERGA_OMNES
   end
 end

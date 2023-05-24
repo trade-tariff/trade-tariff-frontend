@@ -11,6 +11,8 @@ class DeclarableUnitService
 
   private
 
+  attr_reader :uk_declarable, :xi_declarable, :country
+
   def uk_units
     uk_import_measures = uk_declarable.import_measures.excluding_channel_islands
 

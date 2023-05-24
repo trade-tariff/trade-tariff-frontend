@@ -188,9 +188,15 @@ private
     end
 
     def enum(field, enum_config)
-      enum_config.each do |method_name, value|
+      enum_config.each do |method_name, values|
         define_method("#{method_name}?") do
-          public_send(field).in?(value)
+          result = public_send(field)
+
+          if result.present?
+            values.include?(result)
+          else
+            false
+          end
         end
       end
     end

@@ -125,39 +125,19 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
   end
 
   describe '#supplementary_unit_for' do
-    subject(:supplementary_unit_for) { helper.supplementary_unit_for(declarable, uk_declarable) }
+    subject(:supplementary_unit_for) { helper.supplementary_unit_for(uk_declarable, xi_declarable, country) }
 
-    context 'when the declarable has a supplementary unit' do
-      let(:declarable) { build(:commodity, :with_supplementary_unit) }
-      let(:uk_declarable) { build(:commodity, :with_excise_supplementary_unit) }
+    let(:uk_declarable) { instance_double('Commodity') }
+    let(:xi_declarable) { instance_double('Commodity') }
+    let(:country) { 'IT' }
 
-      it { is_expected.to eq(declarable.supplementary_unit) }
-      it { is_expected.to be_html_safe }
+    before do
+      service_double = instance_double('DeclarableUnitService', call: '<p>supplementary unit</p>')
+
+      allow(DeclarableUnitService).to receive(:new).with(uk_declarable, xi_declarable, country).and_return(service_double)
     end
 
-    context 'when both the decalarable and the uk declarable have no supplementary units' do
-      let(:declarable) { build(:commodity) }
-      let(:uk_declarable) { build(:commodity) }
-
-      it { is_expected.to eq(declarable.supplementary_unit) }
-      it { is_expected.to be_html_safe }
-    end
-
-    context 'when the declarable has no supplementary unit and the uk declarable does' do
-      let(:declarable) { build(:commodity) }
-      let(:uk_declarable) { build(:commodity, :with_supplementary_unit) }
-
-      it { is_expected.to eq(uk_declarable.supplementary_unit) }
-      it { is_expected.to be_html_safe }
-    end
-
-    # Handle cases where the declarable is present on the XI but not on the UK
-    context 'when the uk declarable is nil' do
-      let(:declarable) { build(:commodity) }
-      let(:uk_declarable) { nil }
-
-      it { is_expected.to eq(declarable.supplementary_unit) }
-      it { is_expected.to be_html_safe }
-    end
+    it { is_expected.to eq('<p>supplementary unit</p>') }
+    it { is_expected.to be_html_safe }
   end
 end

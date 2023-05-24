@@ -60,14 +60,8 @@ module DeclarableHelper
     end
   end
 
-  # Supplementary units coming from the UK declarable excise measures
-  # need to be displayed when there are no units on the XI declarable.
-  def supplementary_unit_for(declarable, uk_declarable)
-    supplementary_unit = if declarable.has_supplementary_unit? || !uk_declarable
-                           declarable.supplementary_unit
-                         else
-                           uk_declarable.supplementary_unit
-                         end
+  def supplementary_unit_for(uk_declarable, xi_declarable, country = nil)
+    supplementary_unit = DeclarableUnitService.new(uk_declarable, xi_declarable, country).call
 
     sanitize supplementary_unit
   end

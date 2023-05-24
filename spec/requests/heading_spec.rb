@@ -12,13 +12,15 @@ RSpec.describe 'Heading page', type: :request do
 
   context 'when requesting as as HTML' do
     context 'with a declarable heading' do
-      context 'with country filter' do
-        it 'responds with 200' do
-          VCR.use_cassette('headings#show_declarable') do
-            visit heading_path('0501', country: 'ZW')
+      before do
+        allow(DeclarableUnitService).to receive(:new).and_return(instance_double(DeclarableUnitService, call: 'There are no supplementary unit measures assigned to this commodity'))
+      end
 
-            expect(page.status_code).to eq(200)
-          end
+      it 'responds with 200' do
+        VCR.use_cassette('headings#show_declarable') do
+          visit heading_path('0501', country: 'ZW')
+
+          expect(page.status_code).to eq(200)
         end
       end
     end

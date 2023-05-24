@@ -31,7 +31,7 @@ class Measure
   has_one :goods_nomenclature, polymorphic: true
   has_one :preference_code
 
-  delegate :erga_omnes?, to: :geographical_area
+  delegate :erga_omnes?, :channel_islands?, to: :geographical_area
   delegate :mfn_no_authorized_use?, to: :measure_type
   delegate :amount, to: :duty_expression
   delegate :supplementary?, :safeguard?, to: :measure_type

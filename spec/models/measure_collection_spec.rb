@@ -31,18 +31,6 @@ RSpec.describe MeasureCollection do
     it { expect(collection.vat.measures).to eq([vat_measure_standard, vat_measure_reduced, vat_measure_zero]) }
   end
 
-  describe '#vat_erga_omnes' do
-    subject(:collection) { described_class.new([vat_measure_reduced, measure, vat_measure_standard_erga_omnes, vat_measure_zero]) }
-
-    let(:vat_measure_standard_erga_omnes) { build(:measure, :vat_standard, :erga_omnes) }
-    let(:vat_measure_zero) { build(:measure, :vat_zero) }
-    let(:vat_measure_reduced) { build(:measure, :vat_reduced) }
-
-    let(:measure) { build(:measure) }
-
-    it { expect(collection.vat_erga_omnes.measures).to eq([vat_measure_standard_erga_omnes]) }
-  end
-
   describe '#excise' do
     subject(:collection) { described_class.new([excise_measure, measure]) }
 
