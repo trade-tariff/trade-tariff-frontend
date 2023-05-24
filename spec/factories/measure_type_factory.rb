@@ -9,7 +9,7 @@ FactoryBot.define do
     end
 
     trait :excise do
-      id { '305' }
+      id { '306' }
     end
 
     trait :vat_excise do
@@ -85,7 +85,7 @@ FactoryBot.define do
     end
 
     trait :safeguard do
-      id { MeasureType::SAFEGUARD_TYPES.first }
+      id { '696' }
     end
   end
 end
