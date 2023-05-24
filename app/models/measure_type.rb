@@ -7,10 +7,14 @@ class MeasureType
 
   include ApiEntity
 
-  THIRD_COUNTRY_NO_AUTHORISED_USE_MEASURE_TYPE = '103'.freeze
-  SUPPLEMENTARY_MEASURE_TYPES = %w[109 110 111].freeze
-  SUPPLEMENTARY_IMPORT_ONLY_MEASURE_TYPES = %w[110].freeze
-  SAFEGUARD_TYPES = %w[696].freeze
+  enum :id, {
+    excise: %w[306],
+    mfn_no_authorized_use: %w[103],
+    provides_unit_context: %w[103 105 141 142 145 106 122 123 143 146],
+    safeguard: %w[696],
+    supplementary: %w[109 110 111],
+    supplementary_unit_import_only: %w[110],
+  }
 
   enum :measure_component_applicable_code, {
     duties_permitted: [0],
@@ -25,20 +29,8 @@ class MeasureType
   attr_accessor :id, :measure_component_applicable_code, :measure_type_series_id
   attr_writer :description, :geographical_area_id
 
-  def supplementary?
-    id.in?(SUPPLEMENTARY_MEASURE_TYPES)
-  end
-
-  def mfn_no_authorized_use?
-    id == THIRD_COUNTRY_NO_AUTHORISED_USE_MEASURE_TYPE
-  end
-
   def description
     translated_description || attributes['description']
-  end
-
-  def supplementary_unit_import_only?
-    id.in?(SUPPLEMENTARY_IMPORT_ONLY_MEASURE_TYPES)
   end
 
   def details_text
@@ -47,10 +39,6 @@ class MeasureType
         details_markdown_text,
         sanitize: true,
       ).to_html.strip.html_safe
-  end
-
-  def safeguard?
-    SAFEGUARD_TYPES.include?(id)
   end
 
   def abbreviation

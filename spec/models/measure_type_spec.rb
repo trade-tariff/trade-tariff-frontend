@@ -224,4 +224,43 @@ RSpec.describe MeasureType do
       it { is_expected.not_to be_mfn_no_authorized_use }
     end
   end
+
+  describe '#excise?' do
+    context 'with excise measure' do
+      subject { build :measure_type, :excise }
+
+      it { is_expected.to be_excise }
+    end
+
+    context 'with non-excise measure' do
+      subject { build :measure_type, :vat }
+
+      it { is_expected.not_to be_excise }
+    end
+  end
+
+  describe '#provides_unit_context?' do
+    shared_examples_for 'a provides unit context measure type' do |id|
+      subject(:measure_type) { build(:measure_type, id:) }
+
+      it { is_expected.to be_provides_unit_context }
+    end
+
+    it_behaves_like 'a provides unit context measure type', '103'
+    it_behaves_like 'a provides unit context measure type', '105'
+    it_behaves_like 'a provides unit context measure type', '141'
+    it_behaves_like 'a provides unit context measure type', '142'
+    it_behaves_like 'a provides unit context measure type', '145'
+    it_behaves_like 'a provides unit context measure type', '106'
+    it_behaves_like 'a provides unit context measure type', '122'
+    it_behaves_like 'a provides unit context measure type', '123'
+    it_behaves_like 'a provides unit context measure type', '143'
+    it_behaves_like 'a provides unit context measure type', '146'
+
+    context 'when the measure type does not provide unit context' do
+      subject(:measure_type) { build(:measure_type, id: '696') }
+
+      it { is_expected.not_to be_provides_unit_context }
+    end
+  end
 end
