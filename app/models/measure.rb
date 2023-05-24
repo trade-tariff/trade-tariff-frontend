@@ -32,7 +32,7 @@ class Measure
   has_one :preference_code
 
   delegate :erga_omnes?, :channel_islands?, to: :geographical_area
-  delegate :mfn_no_authorized_use?, to: :measure_type
+  delegate :mfn_no_authorized_use?, :provides_unit_context?, to: :measure_type
   delegate :amount, to: :duty_expression
   delegate :supplementary?, :safeguard?, to: :measure_type
 
