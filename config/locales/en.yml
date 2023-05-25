@@ -33,6 +33,12 @@ en:
       </p>
   declarable:
     supplementary_unit_classifications:
+      unit_and_excise: >-
+        There are no supplementary unit measures assigned to this commodity, however you will need to declare the
+        unit of import (e.g. %{excise_measure_units}) for excise purposes and the unit of import (e.g. %{unit_measure_units}), depending on which import duties are applicable to your trade.
+      unit: >-
+        There are no supplementary unit measures assigned to this commodity, however you may need to declare the unit of import (%{units}),
+        depending on which import duties are applicable to your trade.
       excise: >-
         There are no supplementary unit measures assigned to this commodity, however you will need to declare the unit of import (%{units}) for excise purposes.
       none: "There are no supplementary unit measures assigned to this commodity"

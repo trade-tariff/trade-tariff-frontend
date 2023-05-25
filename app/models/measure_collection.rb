@@ -65,16 +65,20 @@ class MeasureCollection < SimpleDelegator
     new(select(&:erga_omnes?))
   end
 
+  def channel_islands
+    new(select(&:channel_islands?))
+  end
+
+  def excluding_channel_islands
+    new(reject(&:channel_islands?))
+  end
+
   def vat
     new(select(&:vat?).sort_by(&:amount).reverse)
   end
 
-  def vat_erga_omnes
-    new(vat.select { |measure_collection| measure_collection.geographical_area.id == GeographicalArea::ERGA_OMNES_ID })
-  end
-
   def measure_with_highest_vat_rate_erga_omnes
-    vat_erga_omnes.max_by(&:amount)
+    vat.erga_omnes.max_by(&:amount)
   end
 
   def measure_with_highest_vat_rate
@@ -83,6 +87,10 @@ class MeasureCollection < SimpleDelegator
 
   def excise
     new(select(&:excise?))
+  end
+
+  def unit
+    new(select(&:provides_unit_context?))
   end
 
   def excise?

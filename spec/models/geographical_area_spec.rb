@@ -96,4 +96,20 @@ RSpec.describe GeographicalArea do
       it { is_expected.not_to be_eu_member }
     end
   end
+
+  describe '#channel_islands?' do
+    subject(:geographical_area) { build(:geographical_area, id:) }
+
+    context 'when the geographical area is the Channel Islands' do
+      let(:id) { '1080' }
+
+      it { is_expected.to be_channel_islands }
+    end
+
+    context 'when the geographical area is NOT the Channel Islands' do
+      let(:id) { '1013' }
+
+      it { is_expected.not_to be_channel_islands }
+    end
+  end
 end

@@ -113,7 +113,7 @@ module MeasuresHelper
 
   def vat_messages(measure_collection)
     messages = []
-    measure_collection = measure_collection.vat_erga_omnes
+    measure_collection = measure_collection.vat.erga_omnes
     return messages if measure_collection.blank?
 
     count = measure_collection.count

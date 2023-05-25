@@ -46,6 +46,7 @@ FactoryBot.define do
     end
 
     trait :excise do
+      erga_omnes
       excise { true }
       measure_type { attributes_for(:measure_type, :excise) }
     end
@@ -147,6 +148,8 @@ FactoryBot.define do
     end
 
     trait :import_export_supplementary do
+      with_supplementary_measure_components
+
       measure_type do
         attributes_for(:measure_type, :import_export_supplementary, description: measure_type_description)
       end
@@ -169,6 +172,12 @@ FactoryBot.define do
     trait :with_supplementary_measure_components do
       measure_components do
         [attributes_for(:measure_component, :with_supplementary_measurement_unit)]
+      end
+    end
+
+    trait :with_measurement_unit_measure_components do
+      measure_components do
+        [attributes_for(:measure_component, :with_measurement_unit_measure_components)]
       end
     end
 

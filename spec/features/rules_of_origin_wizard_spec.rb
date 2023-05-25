@@ -4,6 +4,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
   before do
     allow(Commodity).to receive(:find).and_return commodity
 
+    allow(DeclarableUnitService).to receive(:new).and_return(instance_double(DeclarableUnitService, call: ''))
     allow(GeographicalArea).to receive(:all).and_return [japan]
     allow(GeographicalArea).to receive(:find).with('JP').and_return japan
     allow(RulesOfOrigin::Scheme).to receive(:for_heading_and_country).with(commodity.code, 'JP')

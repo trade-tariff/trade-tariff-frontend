@@ -6,6 +6,8 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
   before do
     allow(view).to receive(:declarable).and_return(declarable)
     allow(view).to receive(:uk_declarable).and_return(declarable)
+    allow(view).to receive(:xi_declarable).and_return(declarable)
+    allow(DeclarableUnitService).to receive(:new).and_return(instance_double(DeclarableUnitService, call: 'There are no supplementary unit measures assigned to this commodity'))
     assign(:search, search)
   end
 
