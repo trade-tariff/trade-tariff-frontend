@@ -43,6 +43,10 @@ module Declarable
     delegate :code, :short_code, to: :chapter, prefix: true
   end
 
+  def has_pharma_suspsension_measures?
+    import_measures.third_country_duties.any?(&:pharma_additional_code?)
+  end
+
   def one_or_more_prohibitive_measures?
     import_measures.any?(&:prohibitive?)
   end

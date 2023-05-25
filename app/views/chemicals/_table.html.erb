@@ -1,0 +1,16 @@
+<table class="govuk-table govuk-table--responsive">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">
+        <abbr title="Chemical Abstracts Service Registry Number">CAS RN</abbr>
+      </th>
+      <th scope="col" class="govuk-table__header">
+        <abbr title="European Union unique chemical identifier">CUS number</abbr>
+      </th>
+      <th scope="col" class="govuk-table__header">Name</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <%= render partial: 'chemicals/chemical', collection: chemicals %>
+  </tbody>
+</table>

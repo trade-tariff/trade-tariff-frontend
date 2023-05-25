@@ -24,4 +24,26 @@ RSpec.describe AdditionalCode do
       it { is_expected.to eq(false) }
     end
   end
+
+  describe '#pharma?' do
+    subject(:additional_code) { build(:additional_code, code:) }
+
+    context 'when code is 2500' do
+      let(:code) { '2500' }
+
+      it { is_expected.to be_pharma }
+    end
+
+    context 'when code is 2501' do
+      let(:code) { '2501' }
+
+      it { is_expected.to be_pharma }
+    end
+
+    context 'when code is not a pharma code' do
+      let(:code) { '1111' }
+
+      it { is_expected.not_to be_pharma }
+    end
+  end
 end

@@ -7,5 +7,6 @@ FactoryBot.define do
     goods_nomenclature_item_id { '2924297099' }
     producline_suffix { '80' }
     name { "3'-aminoacetanilide" }
+    nomen { 'INN' }
   end
 end

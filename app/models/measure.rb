@@ -36,6 +36,10 @@ class Measure
   delegate :amount, to: :duty_expression
   delegate :supplementary?, :safeguard?, to: :measure_type
 
+  def pharma_additional_code?
+    additional_code && additional_code.pharma?
+  end
+
   class << self
     def grouped_measure_types
       @grouped_measure_types ||= Rails.configuration.grouped_measure_types

@@ -79,29 +79,9 @@
     <%- end -%>
   </div>
 
+  <!-- Chemicals tab -->
   <% if declarable.has_chemicals? %>
-    <!-- Chemicals tab -->
-    <div class="govuk-tabs__panel" id="chemicals">
-      <h2 class="govuk-heading-m">
-        Chemicals included within commodity code <%= segmented_commodity_code declarable.code %>
-      </h2>
-      <table class="govuk-table govuk-table--responsive govuk-!-margin-top-8">
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">
-              <abbr title="Chemical Abstracts Service Registry Number">CAS RN</abbr>
-            </th>
-            <th scope="col" class="govuk-table__header">
-              <abbr title="European Union unique chemical identifier">CUS number</abbr>
-            </th>
-            <th scope="col" class="govuk-table__header">Name</th>
-          </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-          <%= render partial: 'chemicals/chemical', collection: @chemicals %>
-        </tbody>
-      </table>
-    </div>
+    <%= render 'chemicals/tab',  has_pharma_suspsension_measures: declarable.has_pharma_suspsension_measures? %>
   <% end %>
 
   <!-- Footnotes tab -->

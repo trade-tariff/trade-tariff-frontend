@@ -1,0 +1,21 @@
+<div class="govuk-tabs__panel" id="chemicals">
+  <h2 class="govuk-heading-m">
+    Chemicals included within commodity code <%= segmented_commodity_code declarable.code %>
+  </h2>
+
+  <% if has_pharma_suspsension_measures %>
+    <p>
+      List of International Non-proprietary Names (INNs), provided for pharmaceutical substances by the World Health Organisation, which are free of duty under commodity code <%= segmented_commodity_code declarable.code %>
+    </p>
+
+    <%= render 'chemicals/table', chemicals: @inn_chemicals %>
+
+    <p>
+      Additional chemicals included under commodity code <%= segmented_commodity_code declarable.code %>.
+    </p>
+
+    <%= render 'chemicals/table', chemicals: @rest_chemicals %>
+  <% else %>
+    <%= render 'chemicals/table', chemicals: @all_chemicals %>
+  <% end %>
+</div>
