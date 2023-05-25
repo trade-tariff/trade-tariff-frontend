@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :simplified_procedural_code do
+  factory :simplified_procedural_code_measure do
     validity_start_date { '2023-02-17' }
     validity_end_date { '2023-03-02' }
     duty_amount { 67.94 }
