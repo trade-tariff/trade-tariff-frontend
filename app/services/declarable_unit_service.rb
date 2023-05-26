@@ -45,7 +45,11 @@ class DeclarableUnitService
 
     units = measures.each_with_object({}) do |measure, acc|
       measure.measure_components.each do |component|
-        next if component.measurement_unit.blank? || component.measurement_unit_qualifier.blank?
+        if measure.excise?
+          next if component.measurement_unit.blank?
+        elsif component.measurement_unit.blank? || component.measurement_unit_qualifier.blank?
+          next
+        end
 
         id = component.measurement_unit.resource_id.to_s
         id += "-#{component.measurement_unit_qualifier.resource_id}" if component.measurement_unit_qualifier.present?
