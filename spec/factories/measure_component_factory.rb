@@ -29,6 +29,10 @@ FactoryBot.define do
       measurement_unit do
         attributes_for(:measurement_unit, :hectokilogram)
       end
+
+      measurement_unit_qualifier do
+        attributes_for(:measurement_unit_qualifier)
+      end
     end
   end
 end

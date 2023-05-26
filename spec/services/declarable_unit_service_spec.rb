@@ -24,14 +24,14 @@ RSpec.describe DeclarableUnitService do
         let(:country) { 'FR' }
         let(:uk_import_measures) { [attributes_for(:measure, :third_country, :with_measurement_unit_measure_components)] }
 
-        it { is_expected.to include('hectokilogram') }
+        it { is_expected.to include('hectokilogram of drained net weight') }
       end
 
       context 'when the country is provided and there are excise measures' do
         let(:country) { 'FR' }
         let(:uk_import_measures) { [attributes_for(:measure, :excise, :with_measurement_unit_measure_components)] }
 
-        it { is_expected.to include('hectokilogram') }
+        it { is_expected.to include('hectokilogram of drained net weight') }
       end
 
       context 'when there are no excise or unit measures' do
@@ -59,14 +59,14 @@ RSpec.describe DeclarableUnitService do
           ]
         end
 
-        it { is_expected.to include('hectokilogram') }
+        it { is_expected.to include('hectokilogram of drained net weight') }
       end
 
       context 'when the country is not provided and there are excise measures' do
         let(:country) { nil }
         let(:uk_import_measures) { [attributes_for(:measure, :excise, :with_measurement_unit_measure_components)] }
 
-        it { is_expected.to include('hectokilogram') }
+        it { is_expected.to include('hectokilogram of drained net weight') }
       end
 
       context 'when the country is not provided and there are no excise or unit measures' do
@@ -90,14 +90,14 @@ RSpec.describe DeclarableUnitService do
         let(:country) { 'FR' }
         let(:xi_import_measures) { [attributes_for(:measure, :third_country, :with_measurement_unit_measure_components)] }
 
-        it { is_expected.to include('hectokilogram') }
+        it { is_expected.to include('hectokilogram of drained net weight') }
       end
 
       context 'when the country is provided and there are excise measures' do
         let(:country) { 'FR' }
         let(:uk_import_measures) { [attributes_for(:measure, :excise, :with_measurement_unit_measure_components)] }
 
-        it { is_expected.to include('hectokilogram') }
+        it { is_expected.to include('hectokilogram of drained net weight') }
       end
 
       context 'when there are no excise or unit measures' do
@@ -125,14 +125,14 @@ RSpec.describe DeclarableUnitService do
           ]
         end
 
-        it { is_expected.to include('hectokilogram') }
+        it { is_expected.to include('hectokilogram of drained net weight') }
       end
 
       context 'when the country is not provided and there are excise measures' do
         let(:country) { nil }
         let(:uk_import_measures) { [attributes_for(:measure, :excise, :with_measurement_unit_measure_components)] }
 
-        it { is_expected.to include('hectokilogram') }
+        it { is_expected.to include('hectokilogram of drained net weight') }
       end
 
       context 'when the country is not provided and there are no excise or unit measures' do
