@@ -33,6 +33,14 @@ class SimplifiedProceduralCodeMeasure
       all_date_options.keys.uniq.compact.sort.reverse
     end
 
+    def all_date_options
+      all.select(&:validity_start_date).each_with_object({}) do |simplified_procedural_code_measure, acc|
+        if simplified_procedural_code_measure.validity_start_date
+          acc[simplified_procedural_code_measure.validity_start_date] = simplified_procedural_code_measure.validity_end_date
+        end
+      end
+    end
+
     def by_date_options
       validity_start_dates.map do |validity_start_date|
         [
@@ -42,13 +50,7 @@ class SimplifiedProceduralCodeMeasure
       end
     end
 
-    def all_date_options
-      all.select(&:validity_start_date).each_with_object({}) do |simplified_procedural_code_measure, acc|
-        if simplified_procedural_code_measure.validity_start_date
-          acc[simplified_procedural_code_measure.validity_start_date] = simplified_procedural_code_measure.validity_end_date
-        end
-      end
-    end
+    private
 
     def maximum_validity_start_date
       all_date_options.keys.max

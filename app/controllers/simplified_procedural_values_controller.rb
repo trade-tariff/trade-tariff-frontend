@@ -25,5 +25,6 @@ class SimplifiedProceduralValuesController < ApplicationController
     @validity_start_date = params[:validity_start_date].presence || SimplifiedProceduralCodeMeasure.maximum_validity_start_date
     @validity_end_date = SimplifiedProceduralCodeMeasure.all_date_options[@validity_start_date]
     @by_code = false
+    @by_date_options = SimplifiedProceduralCodeMeasure.by_date_options
   end
 end

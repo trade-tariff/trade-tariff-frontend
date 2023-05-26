@@ -15,7 +15,7 @@
   <div class="govuk-form-group simplified-procdural-values-form">
     <p>Select unit price period start date</p>
     <%= form_with(url: simplified_procedural_values_path, method: "get") do |f| %>
-      <%= f.select :validity_start_date, SimplifiedProceduralCodeMeasure.by_date_options, { selected: @validity_start_date }, { class: "govuk-select" } %>
+      <%= f.select :validity_start_date, @by_date_options, { selected: @validity_start_date }, { class: "govuk-select" } %>
       <%= f.submit 'View rates for selected date', class: 'govuk-button', name: nil %>
     <% end %>
   </div>
