@@ -116,6 +116,10 @@
 }
 
 .footnote-list {
+  ol {
+    @include govuk-responsive-margin(1);
+  }
+
   ul {
     li {
       margin-bottom: 0.5em;
