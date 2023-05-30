@@ -50,8 +50,6 @@ class SimplifiedProceduralCodeMeasure
       end
     end
 
-    private
-
     def maximum_validity_start_date
       all_date_options.keys.max
     end

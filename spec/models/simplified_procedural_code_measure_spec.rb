@@ -19,7 +19,7 @@ RSpec.describe SimplifiedProceduralCodeMeasure do
     before { allow(described_class).to receive(:all).and_return([spc1, spc2, spc3, spc4]) }
 
     it 'returns simplified procedural codes filtered by code sorted by validity start date in reverse' do
-      allow(described_class).to receive(:all).with(filter: { simplified_procedural_code: '1.10'}).and_return([spc1, spc2])
+      allow(described_class).to receive(:all).with(filter: { simplified_procedural_code: '1.10' }).and_return([spc1, spc2])
 
       expect(described_class.by_code('1.10')).to eq([spc2, spc1])
     end
@@ -47,6 +47,17 @@ RSpec.describe SimplifiedProceduralCodeMeasure do
       }
 
       expect(described_class.all_date_options).to eq(expected_result)
+    end
+  end
+
+  describe '.maximum_validity_start_date' do
+    it 'returns the maximum validity start date' do
+      allow(described_class).to receive(:all_date_options).and_return({
+        '2023-01-01' => '2023-01-31',
+        '2023-02-01' => '2023-02-28',
+      })
+
+      expect(described_class.maximum_validity_start_date).to eq('2023-02-01')
     end
   end
 
