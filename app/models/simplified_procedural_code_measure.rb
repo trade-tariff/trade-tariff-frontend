@@ -57,23 +57,25 @@ class SimplifiedProceduralCodeMeasure
     end
   end
 
+  def by_code_duty_amount
+    if duty_amount == '—'
+      '—'
+    else
+      "#{presented_monetary_unit}#{duty_amount}"
+    end
+  end
+
   def duty_amount
     @duty_amount.presence || '—'
   end
+
+  private
 
   def presented_monetary_unit
     if monetary_unit_code == 'GBP'
       '£'
     else
       '€'
-    end
-  end
-
-  def by_code_duty_amount
-    if duty_amount == '—'
-      '—'
-    else
-      "#{presented_monetary_unit}#{duty_amount}"
     end
   end
 end
