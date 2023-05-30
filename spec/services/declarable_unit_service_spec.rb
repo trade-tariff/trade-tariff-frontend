@@ -141,6 +141,13 @@ RSpec.describe DeclarableUnitService do
 
         it { is_expected.to eq('There are no supplementary unit measures assigned to this commodity') }
       end
+
+      context 'when the uk declarable is nil and there are no excise or unit measures' do
+        let(:uk_declarable) { nil }
+        let(:xi_import_measures) { [] }
+
+        it { is_expected.to eq('There are no supplementary unit measures assigned to this commodity') }
+      end
     end
   end
 end
