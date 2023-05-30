@@ -28,7 +28,11 @@ class DeclarableUnitService
 
   def xi_units
     xi_import_measures = xi_declarable.import_measures.excluding_channel_islands
-    uk_excise_measures = uk_declarable.import_measures.excluding_channel_islands.excise.erga_omnes
+    uk_excise_measures = if uk_declarable.present?
+                           uk_declarable.import_measures.excluding_channel_islands.excise.erga_omnes
+                         else
+                           []
+                         end
 
     return xi_import_measures.supplementary.first&.measure_components&.first&.unit_for_classification if xi_import_measures.supplementary.any?
 
