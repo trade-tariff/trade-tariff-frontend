@@ -14,60 +14,53 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe '#govspeak' do
-    context 'with string without HTML code' do
-      let(:string) { '**hello**' }
+    subject(:html) { govspeak source }
 
-      it 'renders string in Markdown as HTML' do
-        expect(
-          helper.govspeak(string).strip,
-        ).to eq '<p><strong>hello</strong></p>'
-      end
+    context 'with string without HTML code' do
+      let(:source) { '**hello**' }
+
+      it { is_expected.to have_css 'p strong', text: 'hello' }
     end
 
     context 'when string contains Javascript code' do
-      let(:string) { "<script type='text/javascript'>alert('hello');</script>" }
+      let(:source) { "<script type='text/javascript'>alert('hello');</script>" }
 
-      it '<script> tags with a content are filtered' do
-        expect(
-          helper.govspeak(string).strip,
-        ).to eq ''
-      end
+      it { is_expected.to be_blank }
     end
 
     context 'when HashWithIndifferentAccess is passed as argument' do
-      let(:hash) do
-        { 'content' => '* 1\\. This chapter does not cover:' }
-      end
+      let(:source) { { 'content' => '* 1\\. This chapter does not cover:' } }
 
-      it 'fetches :content from the hash' do
-        expect(
-          helper.govspeak(hash),
-        ).to eq <<~FOO
-          <ul>
-            <li>1. This chapter does not cover:</li>
-          </ul>
-        FOO
-      end
+      it { is_expected.to have_css 'ul li', text: '1. This chapter does not cover:' }
     end
 
     context 'when HashWithIndifferentAccess is passed as argument with no applicable content' do
-      let(:na_hash) do
-        { 'foo' => 'bar' }
-      end
+      let(:source) { { 'foo' => 'bar' } }
 
-      it 'returns an empty string' do
-        expect(
-          helper.govspeak(na_hash),
-        ).to eq ''
-      end
+      it { is_expected.to be_blank }
     end
 
     context 'with link with target attribute' do
-      subject { govspeak source }
-
       let(:source) { %(<a href="/" target="_blank">/</a>) }
 
-      it { is_expected.to eql "<p>#{source}</p>\n" }
+      it { is_expected.to have_css 'p a[href="/"][target="_blank"]', text: '' }
+    end
+
+    context 'with table' do
+      let :source do
+        <<~EOSOURCE
+          Hello
+
+          | Heading A | Heading B |
+          | --------- | --------- |
+          | Column A  | Column B  |
+
+          World
+        EOSOURCE
+      end
+
+      it { is_expected.to have_css 'table thead tr th', count: 2 }
+      it { is_expected.to have_css 'table tbody tr td', count: 2 }
     end
   end
 
