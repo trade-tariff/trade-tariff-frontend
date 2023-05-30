@@ -124,4 +124,22 @@ RSpec.describe SimplifiedProceduralCodeMeasure do
       end
     end
   end
+
+  describe '#no_data?' do
+    context 'when the measure has a duty amount' do
+      subject(:spc) { spc5 }
+
+      it 'returns true' do
+        expect(spc.no_data?).to be(true)
+      end
+    end
+
+    context 'when the measure does not have a duty amount' do
+      subject(:spc) { spc4 }
+
+      it 'returns true' do
+        expect(spc.no_data?).to be(false)
+      end
+    end
+  end
 end

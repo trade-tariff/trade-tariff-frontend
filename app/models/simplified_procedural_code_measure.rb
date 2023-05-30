@@ -15,6 +15,10 @@ class SimplifiedProceduralCodeMeasure
 
   attr_writer :duty_amount
 
+  def no_data?
+    duty_amount == '—'
+  end
+
   class << self
     def by_valid_start_date(validity_start_date)
       validity_start_date = maximum_validity_start_date if validity_start_date.blank?
