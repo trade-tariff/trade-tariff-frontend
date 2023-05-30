@@ -59,8 +59,8 @@ RSpec.describe ApplicationHelper, type: :helper do
         EOSOURCE
       end
 
-      it { is_expected.to have_css 'table thead tr th', count: 2 }
-      it { is_expected.to have_css 'table tbody tr td', count: 2 }
+      it { is_expected.to have_css 'div.scroll-x table thead tr th', count: 2 }
+      it { is_expected.to have_css 'div.scroll-x table tbody tr td', count: 2 }
     end
   end
 
