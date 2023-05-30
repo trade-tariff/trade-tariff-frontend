@@ -1,34 +1,35 @@
 <div class="govuk-grid-column-two-thirds">
   <%= link_to("Back", simplified_procedural_values_path, class: 'govuk-back-link') %>
-  <span class="govuk-caption-xl">The UK Integrated Online Tariff</span>
-  <h1 class="govuk-heading-l">Simplified procedure value rates for code <%= @simplified_procedural_code %> - <%= @goods_nomenclature_label %></h1>
+  <%= page_header "Simplified procedure value rates for code #{@result.simplified_procedural_code} - #{@result.goods_nomenclature_label}" %>
 
-  <p>Applies to commodity code <%= @goods_nomenclature_item_ids %>.</p>
-
-  <% if @simplified_procedural_codes.all?(&:no_data?) %>
+  <% if @result.no_data %>
     <p>
       No data found for this SPV code
     </p>
   <% else %>
+    <p>
+      Applies to commodity code <%= @result.goods_nomenclature_item_ids %>.
+    </p>
+
     <table class="govuk-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">From</th>
           <th scope="col" class="govuk-table__header">To</th>
-          <th scope="col" class="govuk-table__header">Value per 100 kg</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Value per 100 kg</th>
         </tr>
       </thead>
       <tbody>
-        <% @simplified_procedural_codes.each do |spc| %>
+        <% @result.measures.each do |measure| %>
           <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-              <%= spc.validity_start_date&.to_date&.to_formatted_s(:short) %>
+              <%= measure.validity_start_date&.to_date&.to_formatted_s(:short) %>
             </td>
             <td class="govuk-table__cell">
-              <%= spc.validity_end_date&.to_date&.to_formatted_s(:short) %>
+              <%= measure.validity_end_date&.to_date&.to_formatted_s(:short) %>
             </td>
-            <td class="govuk-table__cell">
-              <%= spc.by_code_duty_amount %>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= presented_duty_amount(measure) %>
             </td>
           </tr>
         <% end %>

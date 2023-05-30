@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :simplified_procedural_code_measure do
+    resource_id { '1.10' }
     validity_start_date { '2023-02-17' }
     validity_end_date { '2023-03-02' }
     duty_amount { 67.94 }
