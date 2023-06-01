@@ -26,8 +26,6 @@ export default class extends Controller {
     const commodityNode = event.currentTarget;
     const childList = commodityNode.parentElement.querySelector('ul');
 
-    console.log('running toggle node with childList aria-hidden', childList.getAttribute('aria-hidden'));
-
     if (childList.getAttribute('aria-hidden') == 'true') {
       this.#openBranch(commodityNode, childList);
     } else {
