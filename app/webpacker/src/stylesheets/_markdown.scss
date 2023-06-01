@@ -45,4 +45,9 @@
   &--reduced-trailing-margin > p:last-of-type {
     @include govuk-responsive-margin(2, "bottom");
   }
+
+  .scroll-x {
+    max-width: 100%;
+    overflow-x: scroll;
+  }
 }
