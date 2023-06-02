@@ -4,8 +4,7 @@
       [
         [t('breadcrumb.home'), home_path]
       ]
-    )
-  %>
+    ) %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -13,6 +12,13 @@
     <%= page_header 'Tariff tools' %>
 
     <ul class="govuk-list">
+      <li>
+        <p>
+          <%= link_to t('breadcrumb.simplified_procedural_values'), simplified_procedural_values_path %>
+          <br>
+          Use simplified procedure value rates for fresh fruit and vegetable goods that you import.
+        </p>
+      </li>
       <% if TradeTariffFrontend::ServiceChooser.uk? %>
         <li>
           <p>

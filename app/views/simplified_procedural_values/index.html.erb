@@ -1,0 +1,21 @@
+<%= content_for :pageTitle, simplified_procedural_code_page_title(@result.by_code, @result.simplified_procedural_code, @result.goods_nomenclature_label) %>
+
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+      t('breadcrumb.spv_rates'),
+      [
+        [t('breadcrumb.home'), find_commodity_path],
+        [t('breadcrumb.tools'), tools_path]
+      ]
+    ) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <% if @result.by_code %>
+    <%= render 'by_code' %>
+  <% else %>
+    <%= render 'by_date' %>
+  <% end %>
+
+  <%= render 'sidebar' %>
+</div>

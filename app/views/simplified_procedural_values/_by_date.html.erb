@@ -1,0 +1,54 @@
+<div class="govuk-grid-column-two-thirds">
+  <%= page_header "Check simplified procedure value rates for fresh fruit and vegetables" %>
+
+  <h2 class="govuk-heading-s">When to use a simplified procedure value</h2>
+  <p>If you import whole fruit or vegetables into the UK on a consignment basis you may be able to <a href="https://www.gov.uk/guidance/how-to-value-your-imports-for-customs-duty-and-trade-statistics#simp-val">use a simplified procedure value</a> using the <a href="https://www.gov.uk/guidance/valuing-imported-goods-using-method-4-deductive-method">method 4 valuation</a> to declare the produce.</p>
+
+  <h2 class="govuk-heading-s">Goods that are excluded</h2>
+  <p>Fruit or vegetable products that are cut and diced before they’re imported are excluded from the scheme.</p>
+  <p>You cannot use the simplified procedure value if there is a sale for export and the transaction value is known. Those goods must be valued using <a href="https://www.gov.uk/guidance/valuing-imported-goods-using-method-1-transaction-value">valuation method 1</a>.</p>
+
+  <h2 class="govuk-heading-s">Rates for period <%= date_range_message(@result.validity_start_date, @result.validity_end_date) %></h2>
+  <p>Simplified procedure value rates change every 14 days. You may only use the rate that applies to the produce you are importing within the correct 14-day period.</p>
+
+  <div class="govuk-form-group.simplified-procedural-values-form">
+    <p>Select unit price period start date</p>
+    <%= form_with(url: simplified_procedural_values_path, method: "get") do |f| %>
+      <%= f.select :validity_start_date, @result.by_date_options, { selected: @result.validity_start_date }, { class: "govuk-select" } %>
+      <%= f.submit 'View rates for selected date', class: 'govuk-button', name: nil %>
+    <% end %>
+  </div>
+
+  <p>The following goods with simplified procedure value rates are listed alphabetically by 'Description of goods'.</p>
+
+  <p>Click on the simplified procedure code to see the applicable rate for that code over time.</p>
+
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Simplified procedure code</th>
+        <th scope="col" class="govuk-table__header">Commodity code(s)</th>
+        <th scope="col" class="govuk-table__header">Description of goods</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Value per 100 kg</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @result.measures.each do |measure| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= link_to  measure.resource_id, simplified_procedural_values_path(simplified_procedural_code: measure.resource_id) %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= goods_nomenclature_item_id_links_for(measure.goods_nomenclature_item_ids) %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= measure.goods_nomenclature_label %>
+          </td>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            <%= presented_duty_amount(measure) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
