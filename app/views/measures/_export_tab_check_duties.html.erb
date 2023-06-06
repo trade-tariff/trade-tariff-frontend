@@ -1,24 +1,30 @@
-<div class="govuk-inset-text govuk-inset-text--s feature-panel--shaded explainer">
-    <h3>Check duties and customs procedures for exporting goods</h3>
+<div class="govuk-inset-text govuk-inset-text--s feature-panel--shaded explainer" data-controller="uk-only">
+  <h3>Check duties and customs procedures for exporting goods</h3>
 
+  <p>
     <% if eu_member %>
-      <p>Find information about how to move goods from the UK to <%= country_name %>.</p>
+      Find information about how to move goods from the UK to <%= country_name %>.
     <% else %>
-      <p>Find information about how to move goods from the UK to the rest of the world.</p>
+      Find information about how to move goods from the UK to the rest of the world.
     <% end %>
+  </p>
 
-    <p>Use this service to check:</p>
+  <p>Use this service to check:</p>
 
-    <ul class="govuk-list govuk-list--bullet">
-        <li>rules and restrictions</li>
-        <li>tax and duty rates</li>
-        <li>what exporting documents you need</li>
-    </ul>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>rules and restrictions</li>
+    <li>tax and duty rates</li>
+    <li>what exporting documents you need</li>
+  </ul>
 
-    <p>
-      <%= check_how_to_export_goods_link(declarable: declarable,
-                                         country_code: country_code,
-                                         country_name: country_name,
-                                         eu_member: eu_member ) %>
-    </p>
+  <p>
+    This service is only available in the UK due to licencing restrictions;
+  </p>
+
+  <p>
+    <%= check_how_to_export_goods_link(declarable: declarable,
+                                       country_code: country_code,
+                                       country_name: country_name,
+                                       eu_member: eu_member ) %>
+  </p>
 </div>
