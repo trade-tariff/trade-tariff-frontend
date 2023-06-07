@@ -11,7 +11,8 @@ class GoodsNomenclature
                 :producline_suffix,
                 :search_references,
                 :heading_id,
-                :chapter_id
+                :chapter_id,
+                :description_plain
 
   has_many :ancestors, polymorphic: true
 
