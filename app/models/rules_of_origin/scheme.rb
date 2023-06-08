@@ -54,4 +54,10 @@ class RulesOfOrigin::Scheme
   def cds_proof_info?
     proof_intro.present? || proof_codes&.any?
   end
+
+  def applies_to_geographical_area?(area)
+    area_code = area.is_a?(GeographicalArea) ? area.geographical_area_id : area
+
+    countries.include? area_code
+  end
 end

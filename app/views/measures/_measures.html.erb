@@ -31,15 +31,12 @@
       <%= render partial: 'measures/grouped/navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
 
       <% if TradeTariffFrontend::ServiceChooser.xi? %>
-        <%= render partial: 'measures/grouped/xi',
-                   locals: { uk_declarable: uk_declarable,
-                             xi_declarable: xi_declarable,
-                             rules_of_origin_schemes: rules_of_origin_schemes } %>
+        <%= render partial: 'measures/grouped/xi', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
       <% else %>
         <%= render partial: 'measures/grouped/uk',
                    locals: { uk_declarable: uk_declarable,
                              xi_declarable: xi_declarable,
-                             rules_of_origin_schemes: rules_of_origin_schemes } %>
+                             rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes } %>
       <% end %>
 
     <% else %>

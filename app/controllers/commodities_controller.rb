@@ -21,6 +21,8 @@ class CommoditiesController < GoodsNomenclaturesController
 
     if params[:country].present? && @search.geographical_area
       @rules_of_origin_schemes = declarable.rules_of_origin(params[:country])
+    else
+      @roo_all_schemes = RulesOfOrigin::Scheme.all
     end
   end
 
