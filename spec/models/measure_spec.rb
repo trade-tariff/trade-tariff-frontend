@@ -25,6 +25,7 @@ RSpec.describe Measure do
   end
 
   it { is_expected.to respond_to :universal_waiver_applies }
+  it { is_expected.to respond_to :cds_proofs_of_origin? }
 
   describe '#vat_excise?' do
     subject(:measure) { build(:measure, measure_type:) }

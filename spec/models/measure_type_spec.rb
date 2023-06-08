@@ -263,4 +263,18 @@ RSpec.describe MeasureType do
       it { is_expected.not_to be_provides_unit_context }
     end
   end
+
+  describe '#cds_proofs_of_origin?' do
+    context 'when expected type' do
+      subject { build(:measure_type, :tariff_preference).cds_proofs_of_origin? }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when not expected type' do
+      subject { build(:measure_type, :suspension).cds_proofs_of_origin? }
+
+      it { is_expected.to be false }
+    end
+  end
 end

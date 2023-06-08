@@ -2,6 +2,7 @@ require 'api_entity'
 
 class MeasureType
   RENDERED_MEASURE_TYPE_DETAILS = { 'xi' => {}, 'uk' => {} }.freeze
+  CDS_PROOFS_OF_ORIGIN = %w[141 142 143 145 146 147].freeze
 
   delegate :service_name, to: TradeTariffFrontend::ServiceChooser
 
@@ -46,6 +47,10 @@ class MeasureType
     return 'Restriction' if description.scan(/Restriction/i).present?
 
     'Control'
+  end
+
+  def cds_proofs_of_origin?
+    CDS_PROOFS_OF_ORIGIN.include? id
   end
 
   private
