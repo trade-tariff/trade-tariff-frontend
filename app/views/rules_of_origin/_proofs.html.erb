@@ -18,6 +18,8 @@
                                      content: govspeak(proof.content) %>
       <% end %>
     </div>
+
+    <%= render 'rules_of_origin/cds_proof_info', scheme: scheme if scheme.cds_proof_info? %>
   <% end %>
 
   <% if schemes.many? || schemes.none? %>

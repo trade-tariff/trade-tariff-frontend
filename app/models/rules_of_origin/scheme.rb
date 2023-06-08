@@ -50,4 +50,8 @@ class RulesOfOrigin::Scheme
   def proof_codes
     @proof_codes ||= {}
   end
+
+  def cds_proof_info?
+    proof_intro.present? || proof_codes&.any?
+  end
 end
