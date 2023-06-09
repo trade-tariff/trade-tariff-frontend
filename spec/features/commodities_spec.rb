@@ -4,6 +4,7 @@ RSpec.describe 'Commodity show page', vcr: { cassette_name: 'geographical_areas#
   before do
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
     allow(DeclarableUnitService).to receive(:new).and_return(instance_double(DeclarableUnitService, call: ''))
+    allow(RulesOfOrigin::Scheme).to receive(:all).and_return build_list(:rules_of_origin_scheme, 1)
 
     TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
 

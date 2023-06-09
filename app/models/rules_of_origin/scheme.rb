@@ -56,8 +56,6 @@ class RulesOfOrigin::Scheme
   end
 
   def applies_to_geographical_area?(area)
-    area_code = area.is_a?(GeographicalArea) ? area.geographical_area_id : area
-
-    countries.include? area_code
+    countries.include? area.geographical_area_id
   end
 end
