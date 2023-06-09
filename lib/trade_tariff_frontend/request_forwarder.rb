@@ -41,8 +41,7 @@ module TradeTariffFrontend
           Rack::Utils::HeaderHash.new(
             response.headers.
                      except(*IGNORED_UPSTREAM_HEADERS).
-                     merge('X-Slimmer-Skip' => true).
-                     merge('Cache-Control' => cache_control_string(response))
+                     merge('X-Slimmer-Skip' => true)
           )
         ).finish
       else
