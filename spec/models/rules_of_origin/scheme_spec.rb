@@ -126,6 +126,8 @@ RSpec.describe RulesOfOrigin::Scheme do
   it { is_expected.to respond_to :rule_sets }
   it { is_expected.to respond_to :origin_reference_document }
   it { is_expected.to respond_to :cumulation_methods }
+  it { is_expected.to respond_to :proof_intro }
+  it { is_expected.to respond_to :proof_codes }
 
   describe '.for_heading_and_country' do
     shared_context 'with mocked response' do
@@ -392,6 +394,26 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject { v2_rules.fourth.rule }
 
       it { is_expected.to eql scheme.rule_sets[1].rules[0].rule }
+    end
+  end
+
+  describe '#proof_codes' do
+    subject { described_class.new }
+
+    it { is_expected.to have_attributes proof_codes: {} }
+  end
+
+  describe 'cds_proof_info?' do
+    context 'with info' do
+      subject { build(:rules_of_origin_scheme, :with_cds_proof_info).cds_proof_info? }
+
+      it { is_expected.to be true }
+    end
+
+    context 'without info' do
+      subject { build(:rules_of_origin_scheme).cds_proof_info? }
+
+      it { is_expected.to be false }
     end
   end
 end

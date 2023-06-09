@@ -65,5 +65,16 @@ FactoryBot.define do
           rules: attributes_for_list(:rules_of_origin_v2_rule, 1, :wholly_obtained)
       end
     end
+
+    trait :with_cds_proof_info do
+      proof_intro { 'Some intro text' }
+
+      proof_codes do
+        {
+          'abc' => 'Description **with markdown**',
+          'def' => 'Second description',
+        }
+      end
+    end
   end
 end

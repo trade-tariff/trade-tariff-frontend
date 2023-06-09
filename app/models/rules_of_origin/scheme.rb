@@ -6,7 +6,10 @@ class RulesOfOrigin::Scheme
   collection_path '/rules_of_origin_schemes'
 
   attr_accessor :scheme_code, :title, :countries, :footnote, :fta_intro,
-                :introductory_notes, :unilateral, :cumulation_methods
+                :introductory_notes, :unilateral, :cumulation_methods,
+                :proof_intro
+
+  attr_writer :proof_codes
 
   has_many :rules, class_name: 'RulesOfOrigin::Rule'
   has_many :links, class_name: 'RulesOfOrigin::Link'
@@ -42,5 +45,13 @@ class RulesOfOrigin::Scheme
 
   def agreement_link
     links.find { |link| link.source == 'scheme' }&.url
+  end
+
+  def proof_codes
+    @proof_codes ||= {}
+  end
+
+  def cds_proof_info?
+    proof_intro.present? || proof_codes&.any?
   end
 end
