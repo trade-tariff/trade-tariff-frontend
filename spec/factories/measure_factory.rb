@@ -16,7 +16,7 @@ FactoryBot.define do
     end
 
     geographical_area do
-      attributes_for(:geographical_area, id: geographical_area_id)
+      attributes_for(:geographical_area, id: geographical_area_id, geographical_area_id:)
     end
 
     preference_code do

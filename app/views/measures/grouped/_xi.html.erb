@@ -8,14 +8,16 @@
               collection: xi_import_measures.customs_duties.sort_by(&:key),
               css_id: 'import_duties',
               declarable: xi_declarable,
-              show_duty_calculator: xi_declarable.calculate_duties? %>
+              show_duty_calculator: xi_declarable.calculate_duties?,
+              roo_schemes: rules_of_origin_schemes %>
 <% end %>
 
 <% if xi_import_measures.trade_remedies.present? %>
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Trade remedies, safeguards and retaliatory duties',
     collection: xi_import_measures.trade_remedies.sort_by(&:key),
-    css_id: 'trade_remedies' } %>
+    css_id: 'trade_remedies',
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>
 
 <% if xi_import_measures.suspensions.present? %>
@@ -23,7 +25,8 @@
     caption: 'Suspensions',
     collection: xi_import_measures.suspensions.sort_by(&:key),
     css_id: 'suspensions',
-    declarable: xi_declarable } %>
+    declarable: xi_declarable,
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>
 
 <% if xi_import_measures.credibility_checks.present? %>
@@ -33,7 +36,8 @@
     css_id: 'credibility_checks',
     credibility_checks: true,
     hide_duty_rate: true,
-    xi_declarable: xi_declarable } %>
+    xi_declarable: xi_declarable,
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>
 
 <% if uk_import_measures&.vat_excise.present? %>
@@ -42,7 +46,8 @@
     collection: uk_import_measures.vat_excise.sort_by(&:key),
     css_id: 'vat_excise',
     uk_declarable: uk_declarable,
-    vat_excise: true } %>
+    vat_excise: true,
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>
 
 <% if xi_import_measures.import_controls.present? %>
@@ -50,7 +55,8 @@
     caption: 'EU import controls',
     collection: xi_import_measures.import_controls.sort_by(&:key),
     hide_duty_rate: true,
-    css_id: 'xi_import_controls' } %>
+    css_id: 'xi_import_controls',
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>
 
 <% if uk_import_measures&.import_controls.present? %>
@@ -58,5 +64,6 @@
     caption: 'UK import controls',
     collection: uk_import_measures.import_controls.sort_by(&:key),
     hide_duty_rate: true,
-    css_id: 'uk_import_controls' } %>
+    css_id: 'uk_import_controls',
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>

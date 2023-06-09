@@ -35,6 +35,11 @@
   </thead>
 
   <tbody class="govuk-table__body">
-    <%= render partial: 'measures/measure', collection: collection, locals: { hide_duty_rate: local_assigns[:hide_duty_rate] } %>
+    <%= render partial: 'measures/measure',
+               collection: collection,
+               locals: {
+                 hide_duty_rate: local_assigns[:hide_duty_rate],
+                 roo_schemes: local_assigns[:roo_schemes],
+               } %>
   </tbody>
 </table>

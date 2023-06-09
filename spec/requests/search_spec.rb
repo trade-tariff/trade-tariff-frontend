@@ -8,6 +8,7 @@ RSpec.describe 'Search page', type: :request do
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
     allow(Section).to receive(:all).and_return([])
     allow(GeographicalArea).to receive(:all).and_return([])
+    allow(RulesOfOrigin::Scheme).to receive(:all).and_return([])
   end
 
   context 'when exact match' do

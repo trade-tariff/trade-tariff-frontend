@@ -403,7 +403,7 @@ RSpec.describe RulesOfOrigin::Scheme do
     it { is_expected.to have_attributes proof_codes: {} }
   end
 
-  describe 'cds_proof_info?' do
+  describe '#cds_proof_info?' do
     context 'with info' do
       subject { build(:rules_of_origin_scheme, :with_cds_proof_info).cds_proof_info? }
 
@@ -412,6 +412,28 @@ RSpec.describe RulesOfOrigin::Scheme do
 
     context 'without info' do
       subject { build(:rules_of_origin_scheme).cds_proof_info? }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#applies_to_geographical_area?' do
+    let(:scheme) { build :rules_of_origin_scheme, countries: %w[FR] }
+
+    context 'when area in countries list' do
+      subject do
+        scheme.applies_to_geographical_area? \
+          build(:geographical_area, geographical_area_id: 'FR')
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context 'when area not in countries list' do
+      subject do
+        scheme.applies_to_geographical_area? \
+          build(:geographical_area, geographical_area_id: 'DE')
+      end
 
       it { is_expected.to be false }
     end

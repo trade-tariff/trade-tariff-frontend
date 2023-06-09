@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 RSpec.describe CommoditiesController, type: :controller do
+  before do
+    allow(RulesOfOrigin::Scheme).to receive(:all).and_return \
+      build_list(:rules_of_origin_scheme, 1)
+  end
+
   describe 'GET to #show' do
     shared_examples_for 'a commodity controller response' do
       context 'with existing commodity id provided', vcr: { cassette_name: 'commodities#0101300000_xi' } do

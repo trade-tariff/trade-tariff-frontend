@@ -9,7 +9,8 @@
     hide_duty_rate: true,
     search: @search,
     show_stw_text: true,
-    anchor: 'import'
+    anchor: 'import',
+    roo_schemes: rules_of_origin_schemes
   } %>
 <% end %>
 
@@ -19,7 +20,8 @@
               collection: uk_import_measures.customs_duties.sort_by(&:key),
               css_id: 'import_duties',
               declarable: uk_declarable,
-              show_duty_calculator: uk_declarable.calculate_duties? %>
+              show_duty_calculator: uk_declarable.calculate_duties?,
+              roo_schemes: rules_of_origin_schemes %>
 <% end %>
 
 <%= render 'shared/unknown_quota_definition' %>
@@ -29,7 +31,8 @@
     caption: 'Quotas',
     information: t('tabs.measures.quotas_information_html'),
     collection: uk_import_measures.quotas.sort_by(&:key),
-    css_id: 'quotas'
+    css_id: 'quotas',
+    roo_schemes: rules_of_origin_schemes
   } %>
 <% end %>
 
@@ -37,7 +40,8 @@
   <%= render partial: 'measures/grouped/table', locals: {
     caption: 'Trade remedies, safeguards and retaliatory duties',
     collection: uk_import_measures.trade_remedies.sort_by(&:key),
-    css_id: 'trade_remedies' } %>
+    css_id: 'trade_remedies',
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>
 
 <% if uk_import_measures.suspensions.present? %>
@@ -45,7 +49,8 @@
     caption: 'Suspensions',
     collection: uk_import_measures.suspensions.sort_by(&:key),
     css_id: 'suspensions',
-    uk_declarable: uk_declarable } %>
+    uk_declarable: uk_declarable,
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>
 
 <% if uk_import_measures.credibility_checks.present? %>
@@ -55,7 +60,8 @@
     css_id: 'credibility_checks',
     hide_duty_rate: true,
     credibility_checks: true,
-    uk_declarable: uk_declarable } %>
+    uk_declarable: uk_declarable,
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>
 
 <% if uk_import_measures.vat_excise.present? %>
@@ -64,5 +70,6 @@
     collection: uk_import_measures.vat_excise.sort_by(&:key),
     css_id: 'vat_excise',
     uk_declarable: uk_declarable,
-    vat_excise: true } %>
+    vat_excise: true,
+    roo_schemes: rules_of_origin_schemes } %>
 <% end %>

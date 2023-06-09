@@ -206,6 +206,13 @@ class Measure
     measure_components.any?(&:measurement_unit)
   end
 
+  def cds_proofs_of_origin(schemes)
+    return [] unless measure_type.cds_proofs_of_origin?
+
+    schemes.select(&:cds_proof_info?)
+           .select { |s| s.applies_to_geographical_area? geographical_area }
+  end
+
   private
 
   def excluded_country_ids
