@@ -1,5 +1,7 @@
 <% if measure.has_measure_conditions? %>
   <%= render partial: 'measures/measure_condition_modal', locals: { declarable: declarable, measure:, anchor: } %>
+<% elsif measure.cds_proofs_of_origin(rules_of_origin_schemes).any? %>
+  <%= render 'measures/cds_proofs_modal', measure:, rules_of_origin_schemes: %>
 <% end %>
 
 <% if measure.has_measure_footnotes? %>

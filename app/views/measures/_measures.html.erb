@@ -109,13 +109,44 @@
   </div>
 
   <div id="import-measure-references">
-    <%= render partial: 'measures/measure_references', collection: declarable.import_measures, as: 'measure', locals: { declarable: declarable, anchor: 'import' } %>
+    <%= render partial: 'measures/measure_references',
+               collection: declarable.import_measures,
+               as: 'measure',
+               locals: {
+                 declarable: declarable,
+                 anchor: 'import',
+                 rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+               } %>
+
     <% if TradeTariffFrontend::ServiceChooser.xi? && uk_declarable.present? %>
-      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.import_controls, as: 'measure', locals: { declarable: declarable, anchor: 'import' } %>
-      <%= render partial: 'measures/measure_references', collection: uk_declarable.import_measures.vat_excise, as: 'measure', locals: { declarable: declarable, anchor: 'import' } %>
+      <%= render partial: 'measures/measure_references',
+                 collection: uk_declarable.import_measures.import_controls,
+                 as: 'measure',
+                 locals: {
+                   declarable: declarable,
+                   anchor: 'import',
+                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+                 } %>
+
+      <%= render partial: 'measures/measure_references',
+                 collection: uk_declarable.import_measures.vat_excise,
+                 as: 'measure',
+                 locals: {
+                   declarable: declarable,
+                   anchor: 'import',
+                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+                 } %>
     <% end %>
   </div>
+
   <div id="export-measure-references">
-    <%= render partial: 'measures/measure_references', collection: declarable.export_measures, as: 'measure', locals: { declarable: declarable, anchor: 'export' } %>
+    <%= render partial: 'measures/measure_references',
+               collection: declarable.export_measures,
+               as: 'measure',
+               locals: {
+                 declarable: declarable,
+                 anchor: 'export',
+                 rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+               } %>
   </div>
 </div>

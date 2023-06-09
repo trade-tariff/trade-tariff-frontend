@@ -25,7 +25,6 @@ RSpec.describe Measure do
   end
 
   it { is_expected.to respond_to :universal_waiver_applies }
-  it { is_expected.to respond_to :cds_proofs_of_origin? }
 
   describe '#vat_excise?' do
     subject(:measure) { build(:measure, measure_type:) }
@@ -350,6 +349,42 @@ RSpec.describe Measure do
       subject(:measure) { build(:measure) }
 
       it { is_expected.not_to be_measurement_units }
+    end
+  end
+
+  describe '#cds_proofs_of_origin' do
+    subject { measure.cds_proofs_of_origin schemes }
+
+    let(:measure) { build :measure, geographical_area_id: 'FR', measure_type_id: '142' }
+
+    let :schemes do
+      build_list :rules_of_origin_scheme, 1, :with_cds_proof_info, countries: %w[FR]
+    end
+
+    context 'with measure of wrong type' do
+      let(:measure) { build :measure, geographical_area_id: 'FR', measure_type_id: '101' }
+
+      it { is_expected.to be_empty }
+    end
+
+    context 'with measure of right type' do
+      context 'with matching schemes with proof info present' do
+        it { is_expected.to include schemes.first }
+      end
+
+      context 'with matching schemes without proof info present' do
+        let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: %w[FR] }
+
+        it { is_expected.to be_empty }
+      end
+
+      context 'without matching schemes' do
+        let :schemes do
+          build_list :rules_of_origin_scheme, 1, :with_cds_proof_info, countries: %w[DE]
+        end
+
+        it { is_expected.to be_empty }
+      end
     end
   end
 end

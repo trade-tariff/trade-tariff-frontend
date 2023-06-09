@@ -34,7 +34,7 @@ class Measure
   delegate :erga_omnes?, :channel_islands?, to: :geographical_area
   delegate :mfn_no_authorized_use?, :provides_unit_context?, to: :measure_type
   delegate :amount, to: :duty_expression
-  delegate :supplementary?, :safeguard?, :cds_proofs_of_origin?, to: :measure_type
+  delegate :supplementary?, :safeguard?, to: :measure_type
 
   def pharma_additional_code?
     additional_code && additional_code.pharma?
@@ -204,6 +204,13 @@ class Measure
 
   def measurement_units?
     measure_components.any?(&:measurement_unit)
+  end
+
+  def cds_proofs_of_origin(schemes)
+    return [] unless measure_type.cds_proofs_of_origin?
+
+    schemes.select(&:cds_proof_info?)
+           .select { |s| s.applies_to_geographical_area? geographical_area }
   end
 
   private
