@@ -10,6 +10,7 @@ RSpec.describe 'Commodity page', type: :request do
     allow(GeographicalArea).to receive(:find).with('AD').and_return(build(:geographical_area, id: 'AD', description: 'Andorra'))
     allow(GeographicalArea).to receive(:all).and_return([build(:geographical_area, id: 'AD', description: 'Andorra')])
     allow(RulesOfOrigin::Scheme).to receive(:for_heading_and_country).and_return([])
+    allow(RulesOfOrigin::Scheme).to receive(:all).and_return build_list(:rules_of_origin_scheme, 1)
 
     TradeTariffFrontend::ServiceChooser.service_choice = nil
   end

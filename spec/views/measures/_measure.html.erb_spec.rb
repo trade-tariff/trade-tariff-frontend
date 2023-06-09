@@ -11,7 +11,7 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
   before do
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
 
-    render 'measures/measure', measure: MeasurePresenter.new(measure)
+    render 'measures/measure', measure: MeasurePresenter.new(measure), roo_schemes: []
   end
 
   context 'with verbose_duty' do
