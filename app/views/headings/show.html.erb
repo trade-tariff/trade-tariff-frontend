@@ -22,5 +22,5 @@
 <%= render 'shared/commodity_tree', commodities: @commodities.root_commodities %>
 <%= render 'shared/footnote', footnotes: @heading.footnotes %>
 
-<%= render 'shared/notes', section_note: @heading.section.section_note,
-                           chapter_note: @heading.chapter.chapter_note %>
+<%= render 'shared/notes', section_note: insert_service_links(@heading.section.section_note),
+                           chapter_note: insert_service_links(@heading.chapter.chapter_note) %>

@@ -401,4 +401,31 @@ RSpec.describe ServiceHelper, type: :helper do
       it { is_expected.to eq('UK Integrated Online Tariff - Set country filter - GOV.UK') }
     end
   end
+
+  describe '#insert_service_links' do
+    let(:note) { 'This is a sample note with URLs: /chapters/93, /headings/0307, /subheadings/9504300000-80, /commodities/0203111000, /sections/20' }
+    let(:expected_result) { 'This is a sample note with URLs: /xi/chapters/93, /xi/headings/0307, /xi/subheadings/9504300000-80, /xi/commodities/0203111000, /xi/sections/20' }
+
+    context 'when the UK service choice is selected' do
+      include_context 'with default service'
+
+      it 'does not modify the note' do
+        expect(helper.insert_service_links(note)).to eq(note)
+      end
+    end
+
+    context 'when the XI service choice is selected' do
+      include_context 'with XI service'
+
+      it 'appends /xi to the URLs in the note' do
+        expect(helper.insert_service_links(note)).to eq(expected_result)
+      end
+    end
+
+    context 'when note is nil' do
+      it 'returns nil' do
+        expect(helper.insert_service_links(nil)).to eq(nil)
+      end
+    end
+  end
 end

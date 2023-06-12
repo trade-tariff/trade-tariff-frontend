@@ -106,6 +106,12 @@ module ServiceHelper
     end
   end
 
+  def insert_service_links(note)
+    return note if uk_service_choice? || note.nil?
+
+    note.gsub(/(\/chapters\/\d+|\/headings\/\d+|\/subheadings\/\d+-\d+|\/commodities\/\d+|\/sections\/\d+)/, '/xi\\1')
+  end
+
 private
 
   def service_name
