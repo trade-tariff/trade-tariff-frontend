@@ -84,7 +84,8 @@
                 <% certificate.all_goods_nomenclatures.each do |goods_nomenclature| %>
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__header">
-                      <%= link_to(segmented_commodity_code(goods_nomenclature.goods_nomenclature_item_id), polymorphic_path(goods_nomenclature)) %>
+                      <%= link_to segmented_commodity_code(goods_nomenclature.goods_nomenclature_item_id),
+                                  polymorphic_path(goods_nomenclature, day: nil, month: nil, year: nil) %>
                     </th>
 
                     <td class="govuk-table__cell">
