@@ -59,6 +59,7 @@ module TradeTariffFrontend
       chemical_substances
       healthcheck
       simplified_procedural_code_measures
+      bulk_searches
     ]
   end
 
