@@ -19,4 +19,4 @@
   </table>
 </section>
 
-<%= render 'shared/notes', section_note: insert_service_links(@chapter.section.section_note), chapter_note: insert_service_links(@chapter.chapter_note) %>
+<%= render 'shared/notes', section_note: @chapter.section.section_note, chapter_note: @chapter.chapter_note %>

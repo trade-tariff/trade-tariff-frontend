@@ -93,7 +93,7 @@
   <!-- Footnotes tab -->
   <div class="govuk-tabs__panel" id="footnotes">
     <h2 class="govuk-heading-m"><%= footnote_heading(declarable) %></h2>
-    <%= render 'shared/notes', section_note: insert_service_links(declarable.section.section_note), chapter_note: insert_service_links(declarable.chapter.chapter_note) %>
+    <%= render 'shared/notes', section_note: declarable.section.section_note, chapter_note: declarable.chapter.chapter_note %>
     <table class="govuk-table govuk-!-margin-top-8">
       <colgroup>
         <col width="100">

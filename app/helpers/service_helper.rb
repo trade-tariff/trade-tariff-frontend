@@ -106,10 +106,16 @@ module ServiceHelper
     end
   end
 
-  def insert_service_links(note)
-    return note if uk_service_choice? || note.nil?
+  def insert_service_links(html)
+    return html if uk_service_choice? || html.blank?
 
-    note.gsub(/(\/chapters\/\d+|\/headings\/\d+|\/subheadings\/\d+-\d+|\/commodities\/\d+|\/sections\/\d+)/, '/xi\\1') if note.instance_of?(String)
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
+
+    doc.xpath(".//a[not(starts-with(@href, 'http')) and not(starts-with(@href, '/xi'))]").each do |link|
+      link['href'] = File.join('/xi', link['href'])
+    end
+
+    doc.to_html.html_safe
   end
 
 private

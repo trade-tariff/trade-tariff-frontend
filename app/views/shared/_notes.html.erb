@@ -6,18 +6,18 @@ chapter_note ||= false %>
 <article id="notes" class="tariff-markdown govuk-!-margin-top-8">
   <% if section_note && chapter_note %>
     <h3 class="govuk-heading-s">Chapter notes</h3>
-    <%= govspeak(chapter_note) %>
+    <%= insert_service_links(govspeak(chapter_note)) %>
 
     <h3 class="govuk-heading-s">Section notes</h3>
-    <%= govspeak(section_note) %>
+    <%= insert_service_links(govspeak(section_note)) %>
 
   <% elsif chapter_note %>
     <h2 class="govuk-heading-s">There are important chapter notes for this part of the tariff:</h2>
-    <%= govspeak(chapter_note) %>
+    <%= insert_service_links(govspeak(chapter_note)) %>
 
   <% elsif section_note %>
     <h2 class="govuk-heading-s">There are important section notes for this part of the tariff:</h2>
-    <%= govspeak(section_note) %>
+    <%= insert_service_links(govspeak(section_note)) %>
   <% end %>
 
   <%= render 'shared/general_rules_for_interpretation' %>

@@ -7,4 +7,4 @@
 <%= render 'goods_nomenclatures/ancestors', goods_nomenclature: @subheading %>
 <%= render 'shared/commodity_tree', commodities: @subheading_commodities %>
 <%= render 'shared/footnote', footnotes: @subheading.footnotes %>
-<%= render 'shared/notes', section_note: insert_service_links(@subheading.section.section_note), chapter_note: insert_service_links(@subheading.chapter.chapter_note) %>
+<%= render 'shared/notes', section_note: @subheading.section.section_note, chapter_note: @subheading.chapter.chapter_note %>
