@@ -10,8 +10,7 @@ end
 gem 'rails', '~> 7.0'
 
 gem 'addressable'
-gem 'faraday', '~> 1'
-gem 'faraday_middleware'
+gem 'faraday', '~> 2'
 gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
 gem 'multi_json'

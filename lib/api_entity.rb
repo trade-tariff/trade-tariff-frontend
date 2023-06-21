@@ -1,4 +1,3 @@
-require 'faraday_middleware'
 require 'multi_json'
 require 'active_model'
 require 'tariff_jsonapi_parser'

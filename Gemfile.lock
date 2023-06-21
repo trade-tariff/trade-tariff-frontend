@@ -155,35 +155,15 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faraday (1.9.0)
-      faraday-em_http (~> 1.0)
-      faraday-em_synchrony (~> 1.0)
-      faraday-excon (~> 1.1)
-      faraday-httpclient (< 3)
-      faraday-multipart (~> 1.0)
-      faraday-net_http (< 3)
-      faraday-net_http_persistent (< 3)
-      faraday-patron (< 3)
-      faraday-rack (~> 1.0)
-      faraday-retry (~> 1.0)
+    faraday (2.7.7)
+      faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
-    faraday-em_http (1.0.0)
-    faraday-em_synchrony (1.0.0)
-    faraday-excon (1.1.0)
-    faraday-httpclient (2.0.1)
-      httpclient (>= 2.2)
-    faraday-multipart (1.0.4)
-      multipart-post (~> 2)
-    faraday-net_http (2.1.0)
-    faraday-net_http_persistent (2.0.2)
-      faraday-net_http (< 3)
+    faraday-net_http (3.0.2)
+    faraday-net_http_persistent (2.1.0)
+      faraday (~> 2.5)
       net-http-persistent (~> 4.0)
-    faraday-patron (2.0.1)
-      patron (>= 0.4.2)
-    faraday-rack (1.0.0)
-    faraday-retry (1.0.3)
-    faraday_middleware (1.2.0)
-      faraday (~> 1.0)
+    faraday-retry (2.2.0)
+      faraday (~> 2.0)
     forgery (0.8.1)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -226,7 +206,6 @@ GEM
     html-attributes-utils (1.0.0)
       activesupport (>= 6.1.4.4)
     htmlentities (4.3.4)
-    httpclient (2.8.3)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     jmespath (1.6.2)
@@ -274,7 +253,6 @@ GEM
     minitest (5.18.0)
     msgpack (1.6.1)
     multi_json (1.15.0)
-    multipart-post (2.3.0)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
     net-imap (0.3.4)
@@ -294,7 +272,6 @@ GEM
     parallel (1.22.1)
     parser (3.2.1.1)
       ast (~> 2.4.1)
-    patron (0.13.3)
     plek (5.0.0)
     prometheus_exporter (2.0.8)
       webrick
@@ -481,10 +458,9 @@ DEPENDENCIES
   connection_pool
   dotenv-rails
   factory_bot_rails
-  faraday (~> 1)
+  faraday (~> 2)
   faraday-net_http_persistent
   faraday-retry
-  faraday_middleware
   forgery
   govspeak
   govuk_design_system_formbuilder
