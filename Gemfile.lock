@@ -483,6 +483,7 @@ DEPENDENCIES
   factory_bot_rails
   faraday (~> 1)
   faraday-net_http_persistent
+  faraday-retry
   faraday_middleware
   forgery
   govspeak
