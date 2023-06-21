@@ -106,6 +106,18 @@ module ServiceHelper
     end
   end
 
+  def insert_service_links(html)
+    return html if uk_service_choice? || html.blank?
+
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
+
+    doc.xpath(".//a[not(starts-with(@href, 'http')) and not(starts-with(@href, '/xi'))]").each do |link|
+      link['href'] = File.join('/xi', link['href'])
+    end
+
+    doc.to_html.html_safe
+  end
+
 private
 
   def service_name

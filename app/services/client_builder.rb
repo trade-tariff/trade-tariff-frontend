@@ -4,12 +4,12 @@ class ClientBuilder
 
   RETRY_DEFAULTS = {
     methods: %i[get head],
-    max: 3,
-    interval: 0.2,
+    max: 1,
+    interval: 0.5,
     interval_randomness: 0.5,
     backoff_factor: 2,
     exceptions: (
-      Faraday::Request::Retry::DEFAULT_EXCEPTIONS +
+      Faraday::Retry::Middleware::DEFAULT_EXCEPTIONS +
       Faraday::Error.descendants -
       [
         # ClientError is needed because the following three inherit from it and
@@ -22,9 +22,10 @@ class ClientBuilder
     ),
   }.freeze
 
-  def initialize(service, forwarding: false)
+  def initialize(service, forwarding: false, cache: Rails.cache)
     @service = service
     @forwarding = forwarding
+    @cache = cache
   end
 
   def call
@@ -47,6 +48,7 @@ class ClientBuilder
     Faraday.new(host) do |conn|
       conn.request :url_encoded
       conn.request :retry, RETRY_DEFAULTS.merge(Rails.configuration.x.http.retry_options)
+      conn.use :http_cache, store: @cache, logger: Rails.logger if @cache
       conn.response :raise_error
       conn.adapter :net_http_persistent
       conn.response :json, content_type: /\bjson$/

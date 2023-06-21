@@ -1,7 +1,7 @@
 class FootnoteSearchForm
   OPTIONAL_PARAMS = [:@page].freeze
 
-  attr_accessor :code, :type, :description, :page
+  attr_accessor :code, :type, :description
 
   def initialize(params)
     params.each do |key, value|
@@ -10,11 +10,9 @@ class FootnoteSearchForm
   end
 
   def footnote_types
-    TradeTariffFrontend::ServiceChooser.cache_with_service_choice('cached_footnote_types', expires_in: 24.hours) do
-      FootnoteType.all&.sort_by(&:footnote_type_id).map do |type|
-        [ "#{type&.footnote_type_id} - #{type&.description}", type&.footnote_type_id ]
-      end.to_h
-    end
+    FootnoteType.all.sort_by(&:footnote_type_id).map { |type|
+      ["#{type&.footnote_type_id} - #{type&.description}", type&.footnote_type_id]
+    }.to_h
   end
 
   def page

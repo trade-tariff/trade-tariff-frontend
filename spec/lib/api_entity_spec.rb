@@ -197,19 +197,35 @@ RSpec.describe ApiEntity do
     end
 
     context 'with flaky connection' do
-      before do
-        stub_request(:get, "#{api_endpoint}/mock_entities")
-          .to_timeout
-          .then.to_timeout
-          .then.to_return status:,
-                          headers:,
-                          body:
-      end
-
       let(:body) { file_fixture('jsonapi/multiple_no_relationship.json').read }
 
-      it 'retries' do
-        expect(request).to have_attributes length: 1
+      context 'with one failure' do
+        before do
+          stub_request(:get, "#{api_endpoint}/mock_entities")
+            .to_timeout
+            .then.to_return status:,
+                            headers:,
+                            body:
+        end
+
+        it 'retries' do
+          expect(request).to have_attributes length: 1
+        end
+      end
+
+      context 'with multiple failures' do
+        before do
+          stub_request(:get, "#{api_endpoint}/mock_entities")
+            .to_timeout
+            .then.to_timeout
+            .then.to_return status:,
+                            headers:,
+                            body:
+        end
+
+        it 'raises an exception' do
+          expect { request }.to raise_exception Faraday::TimeoutError
+        end
       end
     end
   end
