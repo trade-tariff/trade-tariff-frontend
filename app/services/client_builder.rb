@@ -9,7 +9,7 @@ class ClientBuilder
     interval_randomness: 0.5,
     backoff_factor: 2,
     exceptions: (
-      Faraday::Request::Retry::DEFAULT_EXCEPTIONS +
+      Faraday::Retry::Middleware::DEFAULT_EXCEPTIONS +
       Faraday::Error.descendants -
       [
         # ClientError is needed because the following three inherit from it and
