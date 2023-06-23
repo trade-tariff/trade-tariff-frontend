@@ -401,4 +401,44 @@ RSpec.describe ServiceHelper, type: :helper do
       it { is_expected.to eq('UK Integrated Online Tariff - Set country filter - GOV.UK') }
     end
   end
+
+  describe '#insert_service_links' do
+    subject(:insert_service_links) { helper.insert_service_links(html) }
+
+    let(:html) do
+      helper.govspeak(
+        'fish and crustaceans of heading [0301](headings/0301), [0306](/xi/headings/0306), [0221](https://google.com), [0220](http://gov.uk',
+      )
+    end
+
+    context 'when the XI service choice is selected' do
+      include_context 'with XI service'
+
+      it { is_expected.to eq("<p>fish and crustaceans of heading <a href=\"/xi/headings/0301\">0301</a>, <a href=\"/xi/headings/0306\">0306</a>, <a rel=\"external\" href=\"https://google.com\">0221</a>, [0220](http://gov.uk</p>\n") }
+    end
+
+    context 'when the UK service choice is selected' do
+      include_context 'with UK service'
+
+      it { is_expected.to eq(html) }
+    end
+
+    context 'when the default service choice is selected' do
+      include_context 'with default service'
+
+      it { is_expected.to eq(html) }
+    end
+
+    context 'when the input html is nil' do
+      let(:html) { nil }
+
+      it { is_expected.to eq(nil) }
+    end
+
+    context 'when the input html is an empty string' do
+      let(:html) { '' }
+
+      it { is_expected.to eq('') }
+    end
+  end
 end
