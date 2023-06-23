@@ -4,8 +4,8 @@ class ClientBuilder
 
   RETRY_DEFAULTS = {
     methods: %i[get head],
-    max: 3,
-    interval: 0.2,
+    max: 1,
+    interval: 0.5,
     interval_randomness: 0.5,
     backoff_factor: 2,
     exceptions: (
