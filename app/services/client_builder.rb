@@ -47,6 +47,9 @@ class ClientBuilder
     Faraday.new(host) do |conn|
       conn.request :url_encoded
       conn.request :retry, RETRY_DEFAULTS.merge(Rails.configuration.x.http.retry_options)
+      if Rails.configuration.action_controller.perform_caching
+        conn.use :http_cache, store: Rails.cache, logger: Rails.logger
+      end
       conn.response :raise_error
       conn.adapter :net_http_persistent
       conn.response :json, content_type: /\bjson$/
