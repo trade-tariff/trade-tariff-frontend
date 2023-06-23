@@ -16,8 +16,6 @@ class TariffUpdate
   end
 
   def self.latest_applied_import_date
-    TradeTariffFrontend::ServiceChooser.cache_with_service_choice('tariff_last_updated', expires_in: 23.hours) do
-      all.first.try(:applied_at) || Time.zone.today
-    end
+    all.first.try(:applied_at) || Time.zone.today
   end
 end

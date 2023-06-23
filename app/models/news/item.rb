@@ -4,11 +4,6 @@ module News
   class Item
     include UkOnlyApiEntity
 
-    CACHE_KEY = 'news-item-any-updates'.freeze
-    BANNER_CACHE_KEY = 'news-item-latest-banner'.freeze
-    CACHE_VERSION = 11
-    CACHE_LIFETIME = 5.minutes
-
     DISPLAY_STYLE_REGULAR = 0
 
     collection_path '/news/items'
@@ -69,23 +64,6 @@ module News
           collection_path,
           target: 'updates',
         )
-      end
-
-      def cached_latest_banner
-        attrs = cached_latest_banner_attributes
-        new(attrs) if attrs
-      end
-
-    private
-
-      def banner_cache_key
-        "#{BANNER_CACHE_KEY}-#{service_name}-v#{CACHE_VERSION}"
-      end
-
-      def cached_latest_banner_attributes
-        Rails.cache.fetch(banner_cache_key, expires_in: CACHE_LIFETIME) do
-          latest_banner&.attributes
-        end
       end
     end
 
