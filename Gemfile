@@ -11,6 +11,7 @@ gem 'rails', '~> 7.0'
 
 gem 'addressable'
 gem 'faraday', '~> 2'
+gem 'faraday-http-cache'
 gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
 gem 'multi_json'

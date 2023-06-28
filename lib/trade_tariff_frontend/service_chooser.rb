@@ -48,10 +48,6 @@ module TradeTariffFrontend
       Thread.current[:service_choice]
     end
 
-    def cache_with_service_choice(cache_key, options = {}, &block)
-      Rails.cache.fetch("#{cache_prefix}.#{cache_key}", options, &block)
-    end
-
     def xi_host
       service_choices['xi']
     end
