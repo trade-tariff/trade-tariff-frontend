@@ -44,7 +44,7 @@ RSpec.describe ServiceHelper, type: :helper do
   end
 
   describe '#goods_nomenclature_title' do
-    let(:commodity) { build(:commodity, description_plain: 'Live horses, asses, mules and hinnies') }
+    let(:commodity) { build(:commodity, formatted_description: 'Live horses, asses, mules and hinnies') }
 
     context 'when the selected service choice is xi' do
       include_context 'with XI service'

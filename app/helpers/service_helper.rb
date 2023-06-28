@@ -6,7 +6,7 @@ module ServiceHelper
   def goods_nomenclature_title(goods_nomenclature)
     t(
       'title.goods_nomenclature',
-      goods_description: goods_nomenclature.description_plain,
+      goods_description: goods_nomenclature.formatted_description,
       service_name:,
     )
   end

@@ -10,7 +10,7 @@ class Section
                 :title,
                 :chapters,
                 :section_note,
-                :description_plain
+                :formatted_description
 
   attr_reader :chapter_to,
               :chapter_from
