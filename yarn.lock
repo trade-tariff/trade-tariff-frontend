@@ -5665,10 +5665,10 @@ jquery-tabs@^0.5.3:
   resolved "https://registry.yarnpkg.com/jquery-tabs/-/jquery-tabs-0.5.3.tgz#8d2de3dcf34bbafa312523233d16710d991ec486"
   integrity sha512-fieVCnB2mFZak1deHGGmDWKtE/MxcHIDsyeIga731Bq+NATWFUzaAzh/QhojlVGZ4qYLTkf51ODi9f6LuK4n1Q==
 
-jquery@3.6.4:
-  version "3.6.4"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.4.tgz#ba065c188142100be4833699852bf7c24dc0252f"
-  integrity sha512-v28EW9DWDFpzcD9O5iyJXg3R3+q+mET5JhnjJzQUZMHOv67bpSIHq81GEYpPNZHG+XXHsfSme3nxp/hndKEcsQ==
+jquery@3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.0.tgz#fe2c01a05da500709006d8790fe21c8a39d75612"
+  integrity sha512-umpJ0/k8X0MvD1ds0P9SfowREz2LenHsQaxSohMZ5OMNEU2r0tf8pdeEFTHMFxWVxKNyU9rTtK3CWzUCTKJUeQ==
 
 jquery@^2.2.2:
   version "2.2.4"
