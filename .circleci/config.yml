@@ -372,6 +372,25 @@ jobs:
             docker tag $IMAGE_NAME:$DOCKER_TAG $ECR_REPO/$IMAGE_NAME:$DOCKER_TAG
             docker push $ECR_REPO/$IMAGE_NAME:$DOCKER_TAG
 
+  # new aws env
+  build_and_push:
+    environment:
+      IMAGE_NAME: tariff-frontend
+    parameters:
+      environment:
+        type: string
+    docker:
+      - image: cimg/ruby:3.2.2-node
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.11
+          docker_layer_caching: false
+      - aws-cli/install
+      - run:
+          name: Build and push image
+          command: ./.circleci/ecr.sh << parameters.environment >>
+
   smoketest_dev:
     docker:
       - image: "cypress/base:16.5.0"
@@ -540,6 +559,18 @@ workflows:
           name: build_dev
           context: trade-tariff
           dev-build: true
+          filters:
+            branches:
+              ignore:
+                - main
+                - /^hotfix\/.+/
+                - /^dependabot/(?!docker/).*/
+
+      # new aws env
+      - build_and_push:
+          name: build_and_push_dev
+          context: trade-tariff-terraform-aws-development
+          environment: development
           filters:
             branches:
               ignore:
