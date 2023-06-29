@@ -28,9 +28,10 @@ module TradeTariffFrontend
           rackreq.request_method.downcase,
           request_url_for(rackreq)
         ) do |req|
-
           req.headers['Accept'] = "application/vnd.uktt.#{api_version}"
           req.headers['Content-Type'] = env['CONTENT_TYPE']
+          req.headers['If-None-Match'] = env['HTTP_IF_NONE_MATCH'] || env['IF_NONE_MATCH']
+          req.headers['If-Modified-Since'] = env['HTTP_IF_MODIFIED_SINCE'] || env['IF_MODIFIED_SINCE']
           req.options.timeout = 60           # open/read timeout in seconds
           req.options.open_timeout = 15      # connection open timeout in seconds
         end
@@ -39,10 +40,10 @@ module TradeTariffFrontend
           [response.body],
           response.status.to_i,
           Rack::Utils::HeaderHash.new(
-            response.headers.
-                     except(*IGNORED_UPSTREAM_HEADERS).
-                     merge('X-Slimmer-Skip' => true).
-                     merge('Cache-Control' => cache_control_string(response))
+            response.headers
+                     .except(*IGNORED_UPSTREAM_HEADERS)
+                     .merge(overridden_cache_headers(response))
+                     .merge('X-Slimmer-Skip' => true)
           )
         ).finish
       else
@@ -81,6 +82,14 @@ module TradeTariffFrontend
     def api_request_path_for(path)
       @uri = URI.parse(path)
       @api_request_path_formatter.call(path)
+    end
+
+    def overridden_cache_headers(response)
+      return {} if TradeTariffFrontend.cdn_supports_etag?
+
+      {
+        'Cache-Control' => cache_control_string(response)
+      }
     end
 
     def cache_control_string(response)

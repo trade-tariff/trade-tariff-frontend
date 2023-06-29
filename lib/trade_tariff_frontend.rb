@@ -156,6 +156,10 @@ module TradeTariffFrontend
     ENV['BETA_SEARCH_FACET_FILTER_DISPLAY_PERCENTAGE_THRESHOLD'].to_i
   end
 
+  def cdn_supports_etag?
+    ENV['FEATURE_CDN_SUPPORTS_ETAG'].to_s == 'true'
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app
