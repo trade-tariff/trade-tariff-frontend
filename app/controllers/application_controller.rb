@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   around_action :set_locale
 
-  before_action :set_cache
+  before_action :no_store # Rails method to prevent caching
   before_action :set_last_updated
   before_action :set_path_info
   before_action :set_search
@@ -95,12 +95,6 @@ class ApplicationController < ActionController::Base
 
   def query_params
     { as_of: @search.date }
-  end
-
-  def set_cache
-    response.headers['Cache-Control'] = 'public, must-revalidate, proxy-revalidate, max-age=0'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '-1'
   end
 
   def meursing_lookup_result

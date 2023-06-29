@@ -8,19 +8,10 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe 'GET #index' do
-    subject(:response) { get :index }
+    subject { response.headers.to_h }
 
-    let(:expected_cache_control) do
-      %w[
-        max-age=0
-        public
-        must-revalidate
-        proxy-revalidate
-      ].join(', ')
-    end
+    before { get :index }
 
-    it { expect(response.headers['Cache-Control']).to eq(expected_cache_control) }
-    it { expect(response.headers['Pragma']).to eq('no-cache') }
-    it { expect(response.headers['Expires']).to eq('-1') }
+    it { is_expected.to include 'Cache-Control' => 'no-store' }
   end
 end
