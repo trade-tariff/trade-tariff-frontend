@@ -2,11 +2,11 @@
 
 environment=$1
 docker_tag=$(git rev-parse --short HEAD)
-container="${IMAGE_NAME}:${docker_tag}"
+container="${IMAGE_NAME}-$environment"
 
 function fetch_ecr_url {
   json=$(aws ssm get-parameter     \
-  --name "/${environment}/ECR_URL" \
+  --name "/${environment}/FRONTEND_ECR_URL" \
   --with-decryption                \
   --output json                    \
   --color off)
@@ -23,9 +23,9 @@ function fetch_ecr_url {
 ecr_url=$(fetch_ecr_url)
 
 docker build -t "$container" .
-docker tag "$container" "${ecr_url}/${container}"
+docker tag "${container}:${docker_tag}" "${ecr_url}/${container}:${docker_tag}"
 
-aws ecr get-login-password --region "$AWS_DEFAULT_REGION" |
-  docker login --username AWS --password-stdin "$ecr_url"
+aws ecr get-login-password --region "${AWS_DEFAULT_REGION}" |
+  docker login --username AWS --password-stdin "${ecr_url}"
 
 docker push "${ecr_url}/${container}"
