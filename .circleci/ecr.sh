@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# let's debug
+set -x
+set -e
+
 environment=$1
 docker_tag=$(git rev-parse --short HEAD)
 container="${IMAGE_NAME}-$environment:${docker_tag}"
