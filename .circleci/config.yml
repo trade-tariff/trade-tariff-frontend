@@ -2,18 +2,30 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
+  terraform: circleci/terraform@3.2.1
   ruby: circleci/ruby@2
   node: circleci/node@5
   browser-tools: circleci/browser-tools@1
   cloudfoundry: circleci/cloudfoundry@1.0
   slack: circleci/slack@4.3.0
   queue: eddiewebb/queue@1.6.4
-  tariff: trade-tariff/trade-tariff-ci-orb@0 # can also change to @dev:<gitsha> for specific version or @dev:alpha to test dev branches
+  tariff: trade-tariff/trade-tariff-ci-orb@0
+
+executors:
+  terraform:
+    docker:
+      - image: hashicorp/terraform:1.4.6
+    resource_class: small
+    working_directory: "/tmp/terraform"
+    environment:
+      TF_INPUT: 0
+      TF_IN_AUTOMATION: 1
+      TF_VAR_docker_tag: $(git rev-parse --short HEAD)
 
 commands:
   cf_deploy_docker:
     parameters:
-      docker_image_tag:
+      docker_tag:
         type: string
       space:
         type: string
@@ -21,79 +33,47 @@ commands:
         type: string
       app_domain_prefix:
         type: string
+
     steps:
       - checkout
       - tariff/cf-install:
           space: << parameters.space >>
+      - tariff/deploy-dark-app:
+          aws_access_key_id: "$AWS_ACCESS_KEY_ID"
+          aws_secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+          cf_app: tariff-frontend
+          docker_image: tariff-frontend
+          docker_tag: << parameters.docker_tag >>
+          ecr_repo: "$ECR_REPO"
+          environment_key: << parameters.environment_key >>
+          space: << parameters.space >>
       - run:
-          name: "Fetch existing manifest"
+          name: Map dark routes
           command: |
-            cf create-app-manifest "$CF_APP-<< parameters.environment_key >>" -p deploy_manifest.yml
-      - run:
-          name: "Push new app in dark mode"
-          command: |
-            export DOCKER_IMAGE=tariff-frontend
-            export DOCKER_TAG="<< parameters.docker_image_tag >>"
+            cf map-route \
+              "$CF_APP-<< parameters.environment_key >>-dark" \
+              london.cloudapps.digital \
+              -n "$CF_APP-<< parameters.environment_key >>-dark"
 
-            # Push as "dark" instance
-            CF_DOCKER_PASSWORD=$AWS_SECRET_ACCESS_KEY cf push "$CF_APP-<< parameters.environment_key >>-dark" -f deploy_manifest.yml --no-route --docker-image "$ECR_REPO/$DOCKER_IMAGE:$DOCKER_TAG" --docker-username "$AWS_ACCESS_KEY_ID"
-            # Map dark route
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>-dark"
-            # Enable routing from this service to the backend applications which are private
-            cf add-network-policy "$CF_APP-<< parameters.environment_key >>-dark" "$CF_BACKEND_APP_XI-<< parameters.environment_key >>" --protocol tcp --port 8080
-            cf add-network-policy "$CF_APP-<< parameters.environment_key >>-dark" "$CF_BACKEND_APP_UK-<< parameters.environment_key >>" --protocol tcp --port 8080
-      - run:
-          name: "Verify new version is working on dark URL."
-          command: |
-            sleep 15
+            cf add-network-policy "$CF_APP-<< parameters.environment_key >>-dark" \
+              "$CF_BACKEND_APP_XI-<< parameters.environment_key >>" \
+              --protocol tcp \
+              --port 8080
 
-            # Verify healthcheck endpoint on new app
-            HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://$CF_APP-<< parameters.environment_key >>-dark.london.cloudapps.digital/healthcheck`
-
-            if [ "$HTTPCODE" -ne 200 ];then
-              echo "dark route not available, failing deploy ($HTTPCODE)"
-              cf logs "$CF_APP-<< parameters.environment_key >>-dark" --recent
-              cf delete -f  "$CF_APP-<< parameters.environment_key >>-dark"
-              exit 1
-            fi
-
-            if [ "<< parameters.space >>" == "development" ] && [ "${CYPRESS_DEVELOPMENT_BASIC_AUTH}" == "true" ]; then
-              BASIC_AUTH="-u ${CYPRESS_DEVELOPMENT_BASIC_USERNAME}:${CYPRESS_DEVELOPMENT_BASIC_PASSWORD}"
-            elif [ "<< parameters.space >>" == "staging" ] && [ "${CYPRESS_STAGING_BASIC_AUTH}" == "true" ]; then
-              BASIC_AUTH="-u ${CYPRESS_STAGING_BASIC_USERNAME}:${CYPRESS_STAGING_BASIC_PASSWORD}"
-            fi
-
-            HTTPCODE=`curl -s -o /dev/null ${BASIC_AUTH} -w "%{http_code}" https://$CF_APP-<< parameters.environment_key >>-dark.london.cloudapps.digital/find_commodity`
-
-            if [ "$HTTPCODE" -ne 200 ];then
-              echo "dark app home page not available, failing deploy ($HTTPCODE)"
-              cf logs "$CF_APP-<< parameters.environment_key >>-dark" --recent
-              cf delete -f  "$CF_APP-<< parameters.environment_key >>-dark"
-              exit 1
-            fi
-      - run:
-          name: "Switch dark app to live"
-          command: |
-            # Send "real" url to new version
-            cf unmap-route "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>-dark"
-
-            # Start sending traffic to new version
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
-            # TODO: Update when we remove referring service from the path
-            cf map-route  "$CF_APP-<< parameters.environment_key >>-dark" "<< parameters.app_domain_prefix >>".trade-tariff.service.gov.uk
-
-            # Stop sending traffic to previous version
-            cf unmap-route  "$CF_APP-<< parameters.environment_key >>" london.cloudapps.digital -n "$CF_APP-<< parameters.environment_key >>"
-            cf unmap-route  "$CF_APP-<< parameters.environment_key >>" "<< parameters.app_domain_prefix >>".trade-tariff.service.gov.uk
-
-            # stop previous version
-            cf stop "$CF_APP-<< parameters.environment_key >>"
-
-            # delete previous version
-            cf delete "$CF_APP-<< parameters.environment_key >>" -f
-
-            # Switch name of "dark" version to claim correct name
-            cf rename "$CF_APP-<< parameters.environment_key >>-dark" "$CF_APP-<< parameters.environment_key >>"
+            cf add-network-policy "$CF_APP-<< parameters.environment_key >>-dark" \
+              "$CF_BACKEND_APP_UK-<< parameters.environment_key >>" \
+              --protocol tcp \
+              --port 8080
+      - tariff/test-dark-app:
+          cf_app: tariff-frontend
+          environment_key: << parameters.environment_key >>
+          healthcheck_path: "find_commodity"
+          space: << parameters.space >>
+      - tariff/pivot-dark-app:
+          app_domain_prefix: << parameters.app_domain_prefix >>
+          cf_app: tariff-frontend
+          environment_key: << parameters.environment_key >>
+          space: << parameters.space >>
       - slack/notify:
           channel: deployments
           event: fail
@@ -274,67 +254,80 @@ commands:
                 cf delete "${ORPHANED_APP}" -r -f
               done
 
-  smoketest:
+jobs:
+  fmt_validate_terraform:
+    executor: terraform
     parameters:
-      url:
+      environment:
         type: string
-      space:
-        type: string
-    steps:
-      - run:
-          name: "Checkout tests repo"
-          command: git clone --depth=1 "https://github.com/trade-tariff/trade-tariff-testing/"
-      - restore_cache:
-          keys:
-            - v2-smoketest-deps-{{ checksum "trade-tariff-testing/yarn.lock" }}
-      - run:
-          name: "Install NPM packages"
-          command: "cd trade-tariff-testing && yarn install"
-      - save_cache:
-          key: v2-smoketest-deps-{{ checksum "trade-tariff-testing/yarn.lock" }}
-          paths:
-            - trade-tariff-testing/node_modules
-            - /root/.cache/Cypress
-      - run:
-          name: "Cypress Smoke tests"
-          command: |
-            cd trade-tariff-testing
-
-            yarn run << parameters.space >>-tariff-frontend-smoketests
-
-  sentry-release:
     steps:
       - checkout
-      - run:
-          name: Create release and notify Sentry of deploy
-          command: |
-            sudo curl -sL \
-                      -o /usr/local/bin/sentry-cli \
-                      https://github.com/getsentry/sentry-cli/releases/download/1.74.3/sentry-cli-Linux-x86_64
-            sudo chmod 0755 /usr/local/bin/sentry-cli
-            export SENTRY_RELEASE=$(sentry-cli releases propose-version)
-            sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE &&
-              sentry-cli releases set-commits $SENTRY_RELEASE --auto &&
-              sentry-cli releases finalize $SENTRY_RELEASE &&
-              sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT ||
-              /usr/bin/true # prevent sentry outage from blocking deploys - see HOTT-1570
+      - terraform/init:
+          path: terraform/
+          backend_config_file: backends/<< parameters.environment >>.tfbackend
+      - terraform/fmt:
+          path: terraform/
+      - terraform/validate:
+          path: terraform/
 
-jobs:
-  checks:
+  plan_terraform:
+    executor: terraform
+    parameters:
+      environment:
+        type: string
+    steps:
+      - checkout
+      - terraform/init:
+          path: terraform/
+          backend_config_file: backends/<< parameters.environment >>.tfbackend
+      - terraform/plan:
+          path: terraform/
+          backend_config_file: backends/<< parameters.environment >>.tfbackend
+          var_file: config_<< parameters.environment >>.tfvars
+
+  apply_terraform:
+    executor: terraform
+    parameters:
+      environment:
+        type: string
+    steps:
+      - checkout
+      - terraform/init:
+          path: terraform/
+          backend_config_file: backends/<< parameters.environment >>.tfbackend
+      - terraform/apply:
+          path: terraform/
+          backend_config_file: backends/<< parameters.environment >>.tfbackend
+          var_file: config_<< parameters.environment >>.tfvars
+
+  purge_reviews:
     docker:
-      - image: "cimg/ruby:3.2.2-node"
-    resource_class: small
+      - image: cimg/ruby:3.2.2
+    environment:
+      SENTRY_ENVIRONMENT: "development"
+    steps:
+      - cf_purge_reviews
+
+  checks:
+    executor: tariff/ruby
     steps:
       - checkout
       - ruby/install-deps
       - run:
           name: Rubocop changed files
           when: always
-          command: bundle exec rubocop $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | egrep '\.rb|\.rake') Gemfile
+          command: |
+            bundle exec rubocop $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | egrep '\.rb|\.rake') Gemfile
       - run:
           name: Inspecting with Brakeman
           when: always
-          command: "bundle exec brakeman -o /dev/stdout -o test-results/brakeman/brakeman.junit -o brakeman.html --no-progress --separate-models"
+          command: |
+            bundle exec brakeman \
+              -o /dev/stdout \
+              -o test-results/brakeman/brakeman.junit \
+              -o brakeman.html \
+              --no-progress \
+              --separate-models
       - store_test_results:
           path: test-results/brakeman/
       - store_artifacts:
@@ -371,41 +364,6 @@ jobs:
             aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin $ECR_REPO
             docker tag $IMAGE_NAME:$DOCKER_TAG $ECR_REPO/$IMAGE_NAME:$DOCKER_TAG
             docker push $ECR_REPO/$IMAGE_NAME:$DOCKER_TAG
-
-  # new aws env
-  build_and_push:
-    environment:
-      IMAGE_NAME: tariff-frontend
-    parameters:
-      environment:
-        type: string
-    docker:
-      - image: cimg/ruby:3.2.2-node
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 20.10.11
-          docker_layer_caching: false
-      - aws-cli/install
-      - run:
-          name: Build and push image
-          command: ./.circleci/ecr.sh << parameters.environment >>
-
-  smoketest_dev:
-    docker:
-      - image: "cypress/base:16.5.0"
-    steps:
-      - smoketest:
-          url: https://dev.trade-tariff.service.gov.uk
-          space: dev
-
-  smoketest_staging:
-    docker:
-      - image: "cypress/base:16.5.0"
-    steps:
-      - smoketest:
-          url: https://staging.trade-tariff.service.gov.uk
-          space: staging
 
   jest-tests:
     docker:
@@ -447,80 +405,74 @@ jobs:
           template: basic_fail_1
 
   deploy_dev:
-    docker:
-      - image: cimg/ruby:3.2.2
+    executor:
+      name: tariff/ruby
     environment:
-      SENTRY_ENVIRONMENT: "development"
+      SENTRY_ENVIRONMENT: development
     steps:
       - queue/until_front_of_line:
           time: "10"
           consider-branch: false
           dont-quit: true
       - cf_deploy_docker:
-          docker_image_tag: dev-$CIRCLE_SHA1
-          space: "development"
-          environment_key: "dev"
-          app_domain_prefix: "dev"
-      - sentry-release
+          docker_tag: dev-$CIRCLE_SHA1
+          space: development
+          environment_key: dev
+          app_domain_prefix: dev
+      - tariff/sentry-release:
+          environment: development
 
   deploy_review:
-    docker:
-      - image: cimg/ruby:3.2.2
+    executor:
+      name: tariff/ruby
     environment:
-      SENTRY_ENVIRONMENT: "development"
+      SENTRY_ENVIRONMENT: development
     steps:
       - queue/until_front_of_line:
           time: "10"
-          consider-branch: true
+          consider-branch: false
           dont-quit: true
       - cf_deploy_review
 
-  purge_reviews:
-    docker:
-      - image: cimg/ruby:3.2.2
-    environment:
-      SENTRY_ENVIRONMENT: "development"
-    steps:
-      - cf_purge_reviews
-
   deploy_main_to_staging:
-    docker:
-      - image: cimg/ruby:3.2.2-node
+    executor:
+      name: tariff/ruby
     environment:
-      SENTRY_ENVIRONMENT: "staging"
+      SENTRY_ENVIRONMENT: staging
     steps:
       - queue/until_front_of_line:
           time: "10"
+          consider-branch: false
           dont-quit: true
       - cf_deploy_docker:
-          docker_image_tag: $CIRCLE_SHA1
-          space: "staging"
-          environment_key: "staging"
-          app_domain_prefix: "staging"
-      - sentry-release
+          docker_tag: $CIRCLE_SHA1
+          space: staging
+          environment_key: staging
+          app_domain_prefix: staging
+      - tariff/sentry-release:
+          environment: staging
 
   deploy_release_to_staging:
-    docker:
-      - image: cimg/ruby:3.2.2-node
+    executor:
+      name: tariff/ruby
     steps:
       - cf_deploy_docker:
-          docker_image_tag: $CIRCLE_TAG
+          docker_tag: $CIRCLE_TAG
           space: staging
           environment_key: staging
           app_domain_prefix: staging
 
   deploy_production:
-    docker:
-      - image: cimg/ruby:3.2.2-node
-    environment:
-      SENTRY_ENVIRONMENT: "production"
+    executor:
+      name: tariff/ruby
     steps:
       - cf_deploy_docker:
-          docker_image_tag: $CIRCLE_TAG
-          space: "production"
-          environment_key: "production"
-          app_domain_prefix: "www"
-      - sentry-release
+          docker_tag: $CIRCLE_TAG
+          space: production
+          environment_key: production
+          app_domain_prefix: www
+      - tariff/sentry-release:
+          environment: production
       - tariff/notify-production-release:
           app-name: Frontend
           slack-channel: trade_tariff
@@ -530,174 +482,212 @@ workflows:
   version: 2
   ci:
     jobs:
-      - purge_reviews:
-          context: trade-tariff
-          filters:
-            branches:
-              ignore:
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+      # - purge_reviews:
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - /^dependabot/(?!docker/).*/
+      #           - /^hotfix\/.+/
 
-      - checks:
-          context: trade-tariff
+      # - checks:
+      #     context: trade-tariff
 
-      - jest-tests:
-          context: trade-tariff
-          filters:
-            branches:
-              ignore:
-                - main
+      # - jest-tests:
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         ignore: [main]
 
-      - test:
-          context: trade-tariff
-          filters:
-            branches:
-              ignore:
-                - main
+      # - test:
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         ignore: [main]
 
-      - build:
-          name: build_dev
-          context: trade-tariff
-          dev-build: true
-          filters:
-            branches:
-              ignore:
-                - main
-                - /^hotfix\/.+/
-                - /^dependabot/(?!docker/).*/
-
-      # new aws env
-      - build_and_push:
-          name: build_and_push_dev
+      - fmt_validate_terraform:
           context: trade-tariff-terraform-aws-development
           environment: development
           filters:
             branches:
               ignore:
                 - main
-                - /^hotfix\/.+/
                 - /^dependabot/(?!docker/).*/
+                - /^hotfix\/.+/
 
-      - deploy_dev:
-          context: trade-tariff
+      - plan_terraform:
+          context: trade-tariff-terraform-aws-development
+          environment: development
           requires:
-            - jest-tests
-            - test
-            - build_dev
+            - fmt_validate_terraform
+          filters:
+            branches:
+              ignore:
+                - main
+                - /^dependabot/(?!docker/).*/
+                - /^hotfix\/.+/
+
+      # - build:
+      #     name: build_paas_development
+      #     context: trade-tariff
+      #     dev-build: true
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - main
+      #           - /^dependabot/(?!docker/).*/
+      #           - /^hotfix\/.+/
+
+      - tariff/build-and-push:
+          name: build_and_push_dev
+          context: trade-tariff-terraform-aws-development
+          aws_default_region: "$AWS_DEFAULT_REGION"
+          environment: development
+          image_name: tariff-frontend
+          ssm_parameter: "/development/FRONTEND_ECR_URL"
+          filters:
+            branches:
+              ignore:
+                - main
+                - /^dependabot/(?!docker/).*/
+                - /^hotfix\/.+/
+
+      # - deploy_dev:
+      #     context: trade-tariff
+      #     requires:
+      #       - jest-tests
+      #       - test
+      #       - build_paas_development
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - /^dependabot/(?!docker/).*/
+      #           - /^hotfix\/.+/
+
+      # - deploy_review:
+      #     context: trade-tariff
+      #     requires:
+      #       - jest-tests
+      #       - test
+      #       - build_paas_development
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - /^dependabot/(?!docker/).*/
+      #           - /^hotfix\/.+/
+
+      - apply_terraform:
+          context: trade-tariff-terraform-aws-development
+          environment: development
+          requires:
+            - plan_terraform
           filters:
             branches:
               ignore:
                 - /^dependabot/(?!docker/).*/
                 - /^hotfix\/.+/
 
-      - deploy_review:
-          context: trade-tariff
-          requires:
-            - jest-tests
-            - test
-            - build_dev
-          filters:
-            branches:
-              ignore:
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+      # - tariff/smoketests:
+      #     name: smoketest_dev
+      #     context: trade-tariff
+      #     url: https://dev.trade-tariff.service.gov.uk
+      #     yarn_run: dev-tariff-frontend-smoketests
+      #     requires:
+      #       - deploy_dev
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - /^dependabot/(?!docker/).*/
+      #           - /^hotfix\/.+/
 
-      - smoketest_dev:
-          name: smoketest_dev
-          context: trade-tariff
-          filters:
-            branches:
-              ignore:
-                - main
-                - /^hotfix\/.+/
-                - /^dependabot/(?!docker/).*/
-          requires:
-            - deploy_dev
+      # - build:
+      #     name: build_paas_live
+      #     context: trade-tariff
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #           - /^hotfix\/.+/
 
-      - build:
-          name: build_live
-          context: trade-tariff
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
+      # - deploy_main_to_staging:
+      #     context: trade-tariff
+      #     requires:
+      #       - build_paas_live
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #           - /^hotfix\/.+/
 
-      - deploy_main_to_staging:
-          context: trade-tariff
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
-          requires:
-            - build_live
+      # - tariff/smoketests:
+      #     name: smoketest_staging
+      #     context: trade-tariff
+      #     url: https://staging.trade-tariff.service.gov.uk
+      #     yarn_run: staging-tariff-frontend-smoketests
+      #     requires:
+      #       - deploy_main_to_staging
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #           - /^hotfix\/.+/
 
-      - smoketest_staging:
-          context: trade-tariff
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
-          requires:
-            - deploy_main_to_staging
+      # - hold_create_release:
+      #     type: approval
+      #     requires:
+      #       - deploy_main_to_staging
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #           - /^hotfix\/.+/
 
-      - hold_create_release:
-          type: approval
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
-          requires:
-            - deploy_main_to_staging
+      # - tariff/create-production-release:
+      #     context: trade-tariff
+      #     image-name: tariff-frontend
+      #     requires:
+      #       - hold_create_release
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #           - /^hotfix\/.+/
 
-      - tariff/create-production-release:
-          context: trade-tariff
-          image-name: tariff-frontend
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
-          requires:
-            - hold_create_release
+      # - deploy_release_to_staging:
+      #     context: trade-tariff
+      #     filters:
+      #       tags:
+      #         only: /^release-202[\d-]+/
+      #       branches:
+      #         ignore: /.*/
 
-      - deploy_release_to_staging:
-          context: trade-tariff
-          filters:
-            tags:
-              only: /^release-202[\d-]+/
-            branches:
-              ignore: /.*/
+      # - tariff/smoketests:
+      #     name: smoketest_release_to_staging
+      #     context: trade-tariff
+      #     url: https://staging.trade-tariff.service.gov.uk
+      #     yarn_run: staging-tariff-frontend-smoketests
+      #     filters:
+      #       tags:
+      #         only: /^release-202[\d-]+/
+      #       branches:
+      #         ignore: /.*/
+      #     requires:
+      #       - deploy_release_to_staging
 
-      - smoketest_staging:
-          name: smoketest_release_to_staging
-          context: trade-tariff
-          filters:
-            tags:
-              only: /^release-202[\d-]+/
-            branches:
-              ignore: /.*/
-          requires:
-            - deploy_release_to_staging
+      # - hold_deploy_production:
+      #     type: approval
+      #     filters:
+      #       tags:
+      #         only: /^release-202[\d-]+/
+      #       branches:
+      #         ignore: /.*/
 
-      - hold_deploy_production:
-          type: approval
-          filters:
-            tags:
-              only: /^release-202[\d-]+/
-            branches:
-              ignore: /.*/
-
-      - deploy_production:
-          context: trade-tariff
-          filters:
-            tags:
-              only: /^release-202[\d-]+/
-            branches:
-              ignore: /.*/
-          requires:
-            - hold_deploy_production
-# TODO: Discuss production deployment strategy.
+      # - deploy_production:
+      #     context: trade-tariff
+      #     filters:
+      #       tags:
+      #         only: /^release-202[\d-]+/
+      #       branches:
+      #         ignore: /.*/
+      #     requires:
+      #       - hold_deploy_production
