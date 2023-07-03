@@ -24,10 +24,12 @@ RSpec.describe PendingQuotaBalanceService do
 
     context 'with Commodity' do
       before do
-        allow(Commodity).to receive(:find).with(commodity.id, as_of: Time.zone.today)
-                                          .and_return commodity
-        allow(Commodity).to receive(:find).with(commodity.id, as_of: (start_date - 1.day).to_date)
-                                          .and_return previous_commodity
+        allow(Commodity).to receive(:find) do |_id, options = {}|
+          case options[:as_of]
+          when Time.zone.today then commodity
+          when start_date.to_date - 1.day then previous_commodity
+          end
+        end
       end
 
       let :commodity do
@@ -142,10 +144,12 @@ RSpec.describe PendingQuotaBalanceService do
       subject { described_class.new(heading.short_code, '1010', Time.zone.today).call }
 
       before do
-        allow(Heading).to receive(:find).with(heading.short_code, as_of: Time.zone.today)
-                                        .and_return heading
-        allow(Heading).to receive(:find).with(heading.short_code, as_of: (start_date - 1.day).to_date)
-                                        .and_return previous_heading
+        allow(Heading).to receive(:find) do |_id, options = {}|
+          case options[:as_of]
+          when Time.zone.today then heading
+          when start_date.to_date - 1.day then previous_heading
+          end
+        end
       end
 
       let :heading do
