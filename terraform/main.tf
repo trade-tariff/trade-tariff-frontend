@@ -114,10 +114,6 @@ module "service" {
       value = "trade-tariff-support@enginegroup.com"
     },
     {
-      name  = "VCAP_APPLICATION"
-      value = "{}"
-    },
-    {
       name  = "WEB_CONCURRENCY"
       value = "6"
     },
