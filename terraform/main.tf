@@ -20,7 +20,7 @@ module "service" {
   skip_destroy = true
 
   service_environment_config = [
-    # TODO: discuss this internally
+    # TODO: discuss this internally via HOTT-3555
     {
       name  = "API_SERVICE_BACKEND_OPTIONS"
       value = jsonencode(local.api_service_backend_url_options)
