@@ -3,7 +3,6 @@ require 'spec_helper'
 RSpec.describe RulesOfOrigin::Scheme do
   let(:api_host) { TradeTariffFrontend::ServiceChooser.api_host }
   let(:response_headers) { { content_type: 'application/json; charset=utf-8' } }
-  let(:cumulation_methods) { { 'bilateral' => %w[GB CA], 'extended' => %w[EU AD] } }
   let :response_data do
     {
       data: [
@@ -18,7 +17,7 @@ RSpec.describe RulesOfOrigin::Scheme do
             footnote: 'Footnote comments **in markdown**',
             fta_intro: "## Markdown heading\n\n Further information",
             introductory_notes: "## Introductory notes\n\ndetails",
-            cumulation_methods:,
+            cumulation_methods: { 'bilateral' => %w[GB CA], 'extended' => %w[EU AD] },
           },
           relationships: {
             rules: {
@@ -134,7 +133,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject(:schemes) { described_class.for_heading_and_country('1905310101', 'FR') }
 
       before do
-        stub_request(:get, "#{api_host}/rules_of_origin_schemes")
+        stub_api_request('rules_of_origin_schemes')
           .with(query: { heading_code: '190531', country_code: 'FR' })
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
@@ -162,7 +161,7 @@ RSpec.describe RulesOfOrigin::Scheme do
         it { is_expected.to have_attributes footnote: /footnote/i }
         it { is_expected.to have_attributes fta_intro: /Further information/ }
         it { is_expected.to have_attributes introductory_notes: /Introductory notes/ }
-        it { is_expected.to have_attributes cumulation_methods: }
+        it { is_expected.to have_attributes cumulation_methods: include('bilateral' => %w[GB CA]) }
         it { expect(scheme.rules).to have_attributes length: 1 }
       end
 
@@ -183,7 +182,7 @@ RSpec.describe RulesOfOrigin::Scheme do
         allow(described_class).to receive(:api).and_return api_instance
         allow(api_instance).to receive(:get).and_call_original
 
-        stub_request(:get, "#{api_host}/rules_of_origin_schemes")
+        stub_api_request('/rules_of_origin_schemes')
           .with(query: { heading_code: '190531', country_code: 'FR', page: 1 })
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
@@ -205,7 +204,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject { described_class.for_heading_and_country('1905310101', 'FR') }
 
       before do
-        stub_request(:get, "#{api_host}/rules_of_origin_schemes")
+        stub_api_request('/rules_of_origin_schemes')
           .with(query: { heading_code: '190531', country_code: 'FR' })
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
@@ -264,7 +263,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject { described_class.with_rules_for_commodity commodity }
 
       before do
-        stub_request(:get, "#{api_host}/rules_of_origin_schemes/#{commodity.to_param}")
+        stub_api_request("/rules_of_origin_schemes/#{commodity.to_param}")
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
 
@@ -278,7 +277,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject { described_class.with_duty_drawback_articles }
 
       before do
-        stub_request(:get, "#{api_host}/rules_of_origin_schemes?filter[has_article]=duty-drawback")
+        stub_api_request('/rules_of_origin_schemes?filter[has_article]=duty-drawback')
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
 
@@ -418,24 +417,44 @@ RSpec.describe RulesOfOrigin::Scheme do
   end
 
   describe '#applies_to_geographical_area?' do
+    subject { scheme.applies_to_geographical_area? area }
+
     let(:scheme) { build :rules_of_origin_scheme, countries: %w[FR] }
 
     context 'when area in countries list' do
-      subject do
-        scheme.applies_to_geographical_area? \
-          build(:geographical_area, geographical_area_id: 'FR')
-      end
+      let(:area) { build :geographical_area, geographical_area_id: 'FR' }
 
       it { is_expected.to be true }
     end
 
     context 'when area not in countries list' do
-      subject do
-        scheme.applies_to_geographical_area? \
-          build(:geographical_area, geographical_area_id: 'DE')
-      end
+      let(:area) { build :geographical_area, geographical_area_id: 'DE' }
 
       it { is_expected.to be false }
+    end
+  end
+
+  describe '#applies_to_geographical_area_or_its_children?' do
+    subject { scheme.applies_to_geographical_area_or_its_children? area }
+
+    let(:scheme) { build :rules_of_origin_scheme, countries: %w[FR] }
+
+    context 'when area in countries list' do
+      let(:area) { build :geographical_area, geographical_area_id: 'FR' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when area not in countries list' do
+      let(:area) { build :geographical_area, geographical_area_id: 'DE' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when child area in countries list' do
+      let(:area) { build :geographical_area, child_area_ids: %w[FR] }
+
+      it { is_expected.to be true }
     end
   end
 end

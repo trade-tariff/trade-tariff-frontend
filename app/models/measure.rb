@@ -210,7 +210,7 @@ class Measure
     return [] unless measure_type.cds_proofs_of_origin?
 
     schemes.select(&:cds_proof_info?)
-           .select { |s| s.applies_to_geographical_area? geographical_area }
+           .select { |s| s.applies_to_geographical_area_or_its_children? geographical_area }
   end
 
   private
