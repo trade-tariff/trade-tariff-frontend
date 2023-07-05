@@ -58,4 +58,9 @@ class RulesOfOrigin::Scheme
   def applies_to_geographical_area?(area)
     countries.include? area.geographical_area_id
   end
+
+  def applies_to_geographical_area_or_its_children?(area)
+    applies_to_geographical_area?(area) ||
+      area.children_geographical_areas.any?(&method(:applies_to_geographical_area?))
+  end
 end
