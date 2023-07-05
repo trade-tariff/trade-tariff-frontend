@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
   before_action :set_path_info
   before_action :set_search
   before_action :bots_no_index_if_historical
-  after_action :gc_session_data
 
   layout :set_layout
 
@@ -152,9 +151,5 @@ class ApplicationController < ActionController::Base
 
   def beta_search_enabled?
     !!session[:beta_search_enabled]
-  end
-
-  def gc_session_data
-    RulesOfOrigin::WizardStore.gc_store_data(session)
   end
 end
