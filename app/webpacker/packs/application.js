@@ -35,12 +35,6 @@ require('mark.js/dist/jquery.mark');
 // console.log('popup');
 // console.log(BetaPopup);
 // BetaPopup.popup('title', 'tariff-info');
-// console.log(
-//   require('jquery-debouncedresize')
-// );
-// console.log(
-//   import('jquery-debouncedresize')
-// );
 // require('./node_modules/jquery-history/dist/jquery.history');
 // require('../../../node_modules/jquery-history/dist/jquery.history');
 // require('jquery-history/dist/jquery.history');

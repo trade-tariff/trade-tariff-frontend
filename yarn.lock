@@ -5623,13 +5623,6 @@ jquery-common-keydown@^1.0.1:
   resolved "https://registry.yarnpkg.com/jquery-common-keydown/-/jquery-common-keydown-1.0.1.tgz#4b6d99dae5c20ffa9bc937b1652fb4620ca9f1f6"
   integrity sha512-SShg1jPEkNXH8yUBsIhGYjnt5U2Rbg7aNaHPVieG3nxjMjpqPREG3//MDWUgGHTyyenfsrV1OLTu5Ne/5U3Sdg==
 
-jquery-debouncedresize@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/jquery-debouncedresize/-/jquery-debouncedresize-0.0.2.tgz#1ef06573138fa891834461c8fccb9c945bc0926b"
-  integrity sha1-HvBlcxOPqJGDRGHI/MuclFvAkms=
-  dependencies:
-    jquery "^2.2.2"
-
 jquery-focus-exit@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/jquery-focus-exit/-/jquery-focus-exit-1.0.1.tgz#76b5686bb464d07f9be45ef3888216305ced8046"
@@ -5674,11 +5667,6 @@ jquery@3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.0.tgz#fe2c01a05da500709006d8790fe21c8a39d75612"
   integrity sha512-umpJ0/k8X0MvD1ds0P9SfowREz2LenHsQaxSohMZ5OMNEU2r0tf8pdeEFTHMFxWVxKNyU9rTtK3CWzUCTKJUeQ==
-
-jquery@^2.2.2:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02"
-  integrity sha1-LInWiJterFIqfuoywUUhVZxsvwI=
 
 js-cookie@^3.0.5:
   version "3.0.5"
