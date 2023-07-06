@@ -580,6 +580,7 @@ workflows:
           environment: development
           requires:
             - plan_terraform
+            - build_and_push_dev
           filters:
             branches:
               ignore:

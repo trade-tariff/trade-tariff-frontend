@@ -1,5 +1,5 @@
 module "service" {
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.3.0"
+  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=09ad91a"
 
   environment = var.environment
   region      = var.region
@@ -9,7 +9,7 @@ module "service" {
 
   cluster_name              = "trade-tariff-cluster-${var.environment}"
   subnet_ids                = data.aws_subnets.private.ids
-  security_groups           = [data.aws_security_group.this.arn]
+  security_groups           = [data.aws_security_group.this.id]
   target_group_arn          = data.aws_lb_target_group.this.arn
   cloudwatch_log_group_name = "platform-logs-${var.environment}"
 
@@ -20,9 +20,14 @@ module "service" {
   docker_tag   = var.docker_tag
   skip_destroy = true
 
+  container_port = 8080
+
   service_environment_config = [
-    # TODO: discuss this internally via HOTT-3555
     {
+      name  = "PORT"
+      value = "8080"
+    },
+    { # TODO: discuss this internally via HOTT-3555
       name  = "API_SERVICE_BACKEND_OPTIONS"
       value = jsonencode(local.api_service_backend_url_options)
     },
@@ -124,10 +129,36 @@ module "service" {
     }
   ]
 
-  service_secrets_config = [
-    {
-      name      = "REDIS_URL"
-      valueFrom = data.aws_secretsmanager_secret.redis_connection_string.arn
-    }
-  ]
+  # service_secrets_config = [
+  #   {
+  #     name      = "REDIS_URL"
+  #     valueFrom = data.aws_secretsmanager_secret_version.redis_connection_string.arn
+  #   },
+  # ]
+}
+
+data "aws_iam_policy_document" "secrets" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "secretsmanager:GetResourcePolicy",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:ListSecretVersionIds"
+    ]
+    resources = [
+      data.aws_secretsmanager_secret.redis_connection_string.arn
+    ]
+  }
+}
+
+resource "aws_iam_policy" "secrets" {
+  name   = "frontend-execution-role-secrets-policy"
+  policy = data.aws_iam_policy_document.secrets.json
+}
+
+resource "aws_iam_policy_attachment" "secrets" {
+  name       = "secrets-attachment"
+  roles      = ["frontend-execution-role"]
+  policy_arn = aws_iam_policy.secrets.arn
 }

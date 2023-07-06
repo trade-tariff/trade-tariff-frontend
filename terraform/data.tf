@@ -18,11 +18,15 @@ data "aws_lb_target_group" "this" {
 }
 
 data "aws_security_group" "this" {
-  name = "trade-tariff-alb-security-group-${var.environment}"
+  name = "trade-tariff-ecs-security-group-${var.environment}"
 }
 
 data "aws_secretsmanager_secret" "redis_connection_string" {
   name = "redis-connection-string"
+}
+
+data "aws_secretsmanager_secret_version" "redis_connection_string" {
+  secret_id = "redis-connection-string"
 }
 
 data "aws_ssm_parameter" "ecr_url" {
