@@ -541,7 +541,6 @@ workflows:
       - tariff/build-and-push:
           name: build_and_push_dev
           context: trade-tariff-terraform-aws-development
-          aws_default_region: "$AWS_DEFAULT_REGION"
           environment: development
           image_name: tariff-frontend
           ssm_parameter: "/development/FRONTEND_ECR_URL"

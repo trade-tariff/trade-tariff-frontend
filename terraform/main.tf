@@ -1,5 +1,5 @@
 module "service" {
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.2.0"
+  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.3.0"
 
   environment = var.environment
   region      = var.region
@@ -7,10 +7,11 @@ module "service" {
   service_name  = "frontend"
   service_count = var.service_count
 
-  cluster_name     = "trade-tariff-cluster-${var.environment}"
-  subnet_ids       = data.aws_subnets.private.ids
-  security_groups  = [data.aws_security_group.this.arn]
-  target_group_arn = data.aws_lb_target_group.this.arn
+  cluster_name              = "trade-tariff-cluster-${var.environment}"
+  subnet_ids                = data.aws_subnets.private.ids
+  security_groups           = [data.aws_security_group.this.arn]
+  target_group_arn          = data.aws_lb_target_group.this.arn
+  cloudwatch_log_group_name = "platform-logs-${var.environment}"
 
   min_capacity = var.min_capacity
   max_capacity = var.max_capacity

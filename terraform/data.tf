@@ -26,5 +26,5 @@ data "aws_secretsmanager_secret" "redis_connection_string" {
 }
 
 data "aws_ssm_parameter" "ecr_url" {
-  name = "${var.environment}/FRONTEND_ECR_URL"
+  name = "/${var.environment}/FRONTEND_ECR_URL"
 }
