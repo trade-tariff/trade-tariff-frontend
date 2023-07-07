@@ -1,0 +1,9 @@
+<% @period_list.exchange_rate_years.each do |year| %>
+  <%= year.year %>
+<% end %>
+
+<% @period_list.exchange_rate_periods.each do |period| %>
+  <%= period.month %>
+<% end %>
+
+<%= @period_list.year %>
