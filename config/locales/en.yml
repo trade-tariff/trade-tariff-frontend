@@ -426,13 +426,10 @@ en:
       import_only:
         caption: Trading commodity %{commodity_code} with %{trade_country_name}
         title: |
-          Importing goods into %{service_country_name} from countries which belong to
-          the GSP scheme
+          Importing goods into %{service_country_name} from countries which
+          belong to unilateral preference schemes
         lead_para_html: |
-          %{trade_country_name} is a member of the unilateral
-          <a href="https://www.gov.uk/government/publications/trading-with-developing-nations">
-            Generalised System of Preferences (GSP)
-          </a>
+          %{trade_country_name} is a member of the unilateral %{scheme_title}
           scheme. The rules of origin apply only to the import of goods from the
           overseas country.
         importing_from: Importing goods from %{trade_country_name}

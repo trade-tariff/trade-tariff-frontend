@@ -175,7 +175,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Check rules of origin'
 
-      expect(page).to have_css 'h1', text: /Importing goods.*from countries which belong to the GSP scheme/
+      expect(page).to have_css 'h1', text: /Importing goods.*from countries which belong to unilateral preference schemes/
       click_on 'Continue'
 
       expect(page).to have_css 'h1', text: /are classed as 'originating'/
@@ -250,7 +250,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       choose unilateral.title
       click_on 'Continue'
 
-      expect(page).to have_css 'h1', text: /Importing goods.*from countries which belong to the GSP scheme/
+      expect(page).to have_css 'h1', text: /Importing goods.*from countries which belong to unilateral preference schemes/
       click_on 'Continue'
 
       expect(page).to have_css 'h1', text: /are classed as 'originating'/
