@@ -25,8 +25,8 @@ data "aws_secretsmanager_secret" "redis_connection_string" {
   name = "redis-connection-string"
 }
 
-data "aws_secretsmanager_secret_version" "redis_connection_string" {
-  secret_id = "redis-connection-string"
+data "aws_kms_key" "secretsmanager_key" {
+  key_id = "alias/secretsmanager-key"
 }
 
 data "aws_ssm_parameter" "ecr_url" {

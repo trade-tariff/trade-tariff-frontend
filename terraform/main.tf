@@ -1,5 +1,5 @@
 module "service" {
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=09ad91a"
+  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.5.0"
 
   environment = var.environment
   region      = var.region
@@ -21,6 +21,10 @@ module "service" {
   skip_destroy = true
 
   container_port = 8080
+
+  execution_role_policy_arns = [
+    aws_iam_policy.secrets.arn
+  ]
 
   service_environment_config = [
     {
@@ -129,36 +133,10 @@ module "service" {
     }
   ]
 
-  # service_secrets_config = [
-  #   {
-  #     name      = "REDIS_URL"
-  #     valueFrom = data.aws_secretsmanager_secret_version.redis_connection_string.arn
-  #   },
-  # ]
-}
-
-data "aws_iam_policy_document" "secrets" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "secretsmanager:GetResourcePolicy",
-      "secretsmanager:GetSecretValue",
-      "secretsmanager:DescribeSecret",
-      "secretsmanager:ListSecretVersionIds"
-    ]
-    resources = [
-      data.aws_secretsmanager_secret.redis_connection_string.arn
-    ]
-  }
-}
-
-resource "aws_iam_policy" "secrets" {
-  name   = "frontend-execution-role-secrets-policy"
-  policy = data.aws_iam_policy_document.secrets.json
-}
-
-resource "aws_iam_policy_attachment" "secrets" {
-  name       = "secrets-attachment"
-  roles      = ["frontend-execution-role"]
-  policy_arn = aws_iam_policy.secrets.arn
+  service_secrets_config = [
+    {
+      name      = "REDIS_URL"
+      valueFrom = data.aws_secretsmanager_secret.redis_connection_string.arn
+    },
+  ]
 }
