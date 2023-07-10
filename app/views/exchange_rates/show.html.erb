@@ -1,9 +1,41 @@
-<% @period_list.exchange_rate_years.each do |year| %>
-  <%= year.year %>
-<% end %>
+<% content_for :top_breadcrumbs do %>
+   <%= generate_breadcrumbs 'Exchange rates',
+                            [ [t('breadcrumb.home'), home_path],
+                              [t('breadcrumb.tools'), tools_path], ] %>
+ <% end %>
 
-<% @period_list.exchange_rate_periods.each do |period| %>
-  <%= period.month %>
-<% end %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-xl"><%= trade_tariff_heading %></span>
+      <h1 class="govuk-heading-l"><%= @period_list.year %> HMRC currency exchange rates for Customs and <abbr title="value added tax">VAT</abbr></h1>
+      <p class="govuk-body-l">Check the official <%= @period_list.year %> HMRC foreign currency exchange monthly rates for Customs and <abbr title="value added tax">VAT</abbr>.</p>
+      <p class="govuk-body">Data is available in online (HTML), CSV and XML formats.</p>
 
-<%= @period_list.year %>
+      <dt class="gem-c-metadata__term">From:</dt>
+      <dd class="gem-c-metadata__definition">
+        <a href="https://www.gov.uk/government/organisations/hm-revenue-customs">HM Revenue &amp; Customs</a>
+      </dd>
+
+      <h2>Documents</h2>
+
+      <% @period_list.exchange_rate_periods.each do |period| %>
+        <%= render partial: 'exchange_rates/document_detail', locals: { period: period } %>
+      <% end %>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+      <div class="gem-c-related-navigation">
+        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Data for other years</h2>
+
+        <nav role="navigation" class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-40a88cdf" data-module="gem-toggle" data-gem-toggle-module-started="true">
+            <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
+              <% @period_list.exchange_rate_years.each do |year| %>
+                <li class="gem-c-related-navigation__link">
+                    <%= link_to "HMRC exchange rates for #{year.year.to_s}", exchange_rate_path(year.year) %><br>
+                </li>
+              <% end %>
+            </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
