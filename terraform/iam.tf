@@ -8,7 +8,8 @@ data "aws_iam_policy_document" "secrets" {
       "secretsmanager:ListSecretVersionIds"
     ]
     resources = [
-      data.aws_secretsmanager_secret.redis_connection_string.arn
+      data.aws_secretsmanager_secret.redis_connection_string.arn,
+      data.aws_secretsmanager_secret.frontend_secret_key_base.arn
     ]
   }
 

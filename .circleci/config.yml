@@ -482,28 +482,28 @@ workflows:
   version: 2
   ci:
     jobs:
-      # - purge_reviews:
-      #     context: trade-tariff
-      #     filters:
-      #       branches:
-      #         ignore:
-      #           - /^dependabot/(?!docker/).*/
-      #           - /^hotfix\/.+/
+      - purge_reviews:
+          context: trade-tariff
+          filters:
+            branches:
+              ignore:
+                - /^dependabot/(?!docker/).*/
+                - /^hotfix\/.+/
 
-      # - checks:
-      #     context: trade-tariff
+      - checks:
+          context: trade-tariff
 
-      # - jest-tests:
-      #     context: trade-tariff
-      #     filters:
-      #       branches:
-      #         ignore: [main]
+      - jest-tests:
+          context: trade-tariff
+          filters:
+            branches:
+              ignore: [main]
 
-      # - test:
-      #     context: trade-tariff
-      #     filters:
-      #       branches:
-      #         ignore: [main]
+      - test:
+          context: trade-tariff
+          filters:
+            branches:
+              ignore: [main]
 
       - fmt_validate_terraform:
           context: trade-tariff-terraform-aws-development
@@ -527,16 +527,16 @@ workflows:
                 - /^dependabot/(?!docker/).*/
                 - /^hotfix\/.+/
 
-      # - build:
-      #     name: build_paas_development
-      #     context: trade-tariff
-      #     dev-build: true
-      #     filters:
-      #       branches:
-      #         ignore:
-      #           - main
-      #           - /^dependabot/(?!docker/).*/
-      #           - /^hotfix\/.+/
+      - build:
+          name: build_paas_development
+          context: trade-tariff
+          dev-build: true
+          filters:
+            branches:
+              ignore:
+                - main
+                - /^dependabot/(?!docker/).*/
+                - /^hotfix\/.+/
 
       - tariff/build-and-push:
           name: build_and_push_dev
@@ -551,29 +551,29 @@ workflows:
                 - /^dependabot/(?!docker/).*/
                 - /^hotfix\/.+/
 
-      # - deploy_dev:
-      #     context: trade-tariff
-      #     requires:
-      #       - jest-tests
-      #       - test
-      #       - build_paas_development
-      #     filters:
-      #       branches:
-      #         ignore:
-      #           - /^dependabot/(?!docker/).*/
-      #           - /^hotfix\/.+/
+      - deploy_dev:
+          context: trade-tariff
+          requires:
+            - jest-tests
+            - test
+            - build_paas_development
+          filters:
+            branches:
+              ignore:
+                - /^dependabot/(?!docker/).*/
+                - /^hotfix\/.+/
 
-      # - deploy_review:
-      #     context: trade-tariff
-      #     requires:
-      #       - jest-tests
-      #       - test
-      #       - build_paas_development
-      #     filters:
-      #       branches:
-      #         ignore:
-      #           - /^dependabot/(?!docker/).*/
-      #           - /^hotfix\/.+/
+      - deploy_review:
+          context: trade-tariff
+          requires:
+            - jest-tests
+            - test
+            - build_paas_development
+          filters:
+            branches:
+              ignore:
+                - /^dependabot/(?!docker/).*/
+                - /^hotfix\/.+/
 
       - apply_terraform:
           context: trade-tariff-terraform-aws-development
@@ -587,107 +587,107 @@ workflows:
                 - /^dependabot/(?!docker/).*/
                 - /^hotfix\/.+/
 
-      # - tariff/smoketests:
-      #     name: smoketest_dev
-      #     context: trade-tariff
-      #     url: https://dev.trade-tariff.service.gov.uk
-      #     yarn_run: dev-tariff-frontend-smoketests
-      #     requires:
-      #       - deploy_dev
-      #     filters:
-      #       branches:
-      #         ignore:
-      #           - /^dependabot/(?!docker/).*/
-      #           - /^hotfix\/.+/
+      - tariff/smoketests:
+          name: smoketest_dev
+          context: trade-tariff
+          url: https://dev.trade-tariff.service.gov.uk
+          yarn_run: dev-tariff-frontend-smoketests
+          requires:
+            - deploy_dev
+          filters:
+            branches:
+              ignore:
+                - /^dependabot/(?!docker/).*/
+                - /^hotfix\/.+/
 
-      # - build:
-      #     name: build_paas_live
-      #     context: trade-tariff
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
-      #           - /^hotfix\/.+/
+      - build:
+          name: build_paas_live
+          context: trade-tariff
+          filters:
+            branches:
+              only:
+                - main
+                - /^hotfix\/.+/
 
-      # - deploy_main_to_staging:
-      #     context: trade-tariff
-      #     requires:
-      #       - build_paas_live
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
-      #           - /^hotfix\/.+/
+      - deploy_main_to_staging:
+          context: trade-tariff
+          requires:
+            - build_paas_live
+          filters:
+            branches:
+              only:
+                - main
+                - /^hotfix\/.+/
 
-      # - tariff/smoketests:
-      #     name: smoketest_staging
-      #     context: trade-tariff
-      #     url: https://staging.trade-tariff.service.gov.uk
-      #     yarn_run: staging-tariff-frontend-smoketests
-      #     requires:
-      #       - deploy_main_to_staging
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
-      #           - /^hotfix\/.+/
+      - tariff/smoketests:
+          name: smoketest_staging
+          context: trade-tariff
+          url: https://staging.trade-tariff.service.gov.uk
+          yarn_run: staging-tariff-frontend-smoketests
+          requires:
+            - deploy_main_to_staging
+          filters:
+            branches:
+              only:
+                - main
+                - /^hotfix\/.+/
 
-      # - hold_create_release:
-      #     type: approval
-      #     requires:
-      #       - deploy_main_to_staging
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
-      #           - /^hotfix\/.+/
+      - hold_create_release:
+          type: approval
+          requires:
+            - deploy_main_to_staging
+          filters:
+            branches:
+              only:
+                - main
+                - /^hotfix\/.+/
 
-      # - tariff/create-production-release:
-      #     context: trade-tariff
-      #     image-name: tariff-frontend
-      #     requires:
-      #       - hold_create_release
-      #     filters:
-      #       branches:
-      #         only:
-      #           - main
-      #           - /^hotfix\/.+/
+      - tariff/create-production-release:
+          context: trade-tariff
+          image-name: tariff-frontend
+          requires:
+            - hold_create_release
+          filters:
+            branches:
+              only:
+                - main
+                - /^hotfix\/.+/
 
-      # - deploy_release_to_staging:
-      #     context: trade-tariff
-      #     filters:
-      #       tags:
-      #         only: /^release-202[\d-]+/
-      #       branches:
-      #         ignore: /.*/
+      - deploy_release_to_staging:
+          context: trade-tariff
+          filters:
+            tags:
+              only: /^release-202[\d-]+/
+            branches:
+              ignore: /.*/
 
-      # - tariff/smoketests:
-      #     name: smoketest_release_to_staging
-      #     context: trade-tariff
-      #     url: https://staging.trade-tariff.service.gov.uk
-      #     yarn_run: staging-tariff-frontend-smoketests
-      #     filters:
-      #       tags:
-      #         only: /^release-202[\d-]+/
-      #       branches:
-      #         ignore: /.*/
-      #     requires:
-      #       - deploy_release_to_staging
+      - tariff/smoketests:
+          name: smoketest_release_to_staging
+          context: trade-tariff
+          url: https://staging.trade-tariff.service.gov.uk
+          yarn_run: staging-tariff-frontend-smoketests
+          filters:
+            tags:
+              only: /^release-202[\d-]+/
+            branches:
+              ignore: /.*/
+          requires:
+            - deploy_release_to_staging
 
-      # - hold_deploy_production:
-      #     type: approval
-      #     filters:
-      #       tags:
-      #         only: /^release-202[\d-]+/
-      #       branches:
-      #         ignore: /.*/
+      - hold_deploy_production:
+          type: approval
+          filters:
+            tags:
+              only: /^release-202[\d-]+/
+            branches:
+              ignore: /.*/
 
-      # - deploy_production:
-      #     context: trade-tariff
-      #     filters:
-      #       tags:
-      #         only: /^release-202[\d-]+/
-      #       branches:
-      #         ignore: /.*/
-      #     requires:
-      #       - hold_deploy_production
+      - deploy_production:
+          context: trade-tariff
+          filters:
+            tags:
+              only: /^release-202[\d-]+/
+            branches:
+              ignore: /.*/
+          requires:
+            - hold_deploy_production

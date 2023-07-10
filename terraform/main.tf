@@ -138,5 +138,9 @@ module "service" {
       name      = "REDIS_URL"
       valueFrom = data.aws_secretsmanager_secret.redis_connection_string.arn
     },
+    {
+      name      = "SECRET_KEY_BASE"
+      valueFrom = data.aws_secretsmanager_secret.frontend_secret_key_base.arn
+    }
   ]
 }

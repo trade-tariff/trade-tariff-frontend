@@ -25,6 +25,10 @@ data "aws_secretsmanager_secret" "redis_connection_string" {
   name = "redis-connection-string"
 }
 
+data "aws_secretsmanager_secret" "frontend_secret_key_base" {
+  name = "frontend-secret-key-base"
+}
+
 data "aws_kms_key" "secretsmanager_key" {
   key_id = "alias/secretsmanager-key"
 }
