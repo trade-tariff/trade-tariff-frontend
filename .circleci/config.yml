@@ -255,6 +255,19 @@ commands:
               done
 
 jobs:
+  write_docker_tag:
+    parameters:
+      environment:
+        type: string
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "docker_tag = \"$(git rev-parse --short HEAD)\"" >> terraform/config_<< parameters.environment >>.tfvars
+      - persist_to_workspace:
+          root: .
+          paths:
+            - terraform/
+
   fmt_validate_terraform:
     executor: terraform
     parameters:
@@ -262,6 +275,8 @@ jobs:
         type: string
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - terraform/init:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
@@ -277,6 +292,8 @@ jobs:
         type: string
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - terraform/init:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
@@ -292,6 +309,8 @@ jobs:
         type: string
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - terraform/init:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
@@ -482,6 +501,9 @@ workflows:
   version: 2
   ci:
     jobs:
+      - write_docker_tag:
+          environment: development
+
       - purge_reviews:
           context: trade-tariff
           filters:
@@ -519,6 +541,7 @@ workflows:
           context: trade-tariff-terraform-aws-development
           environment: development
           requires:
+            - write_docker_tag
             - fmt_validate_terraform
           filters:
             branches:
