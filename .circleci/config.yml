@@ -271,6 +271,8 @@ jobs:
 
   plan_terraform:
     executor: terraform
+    environment:
+      TF_VAR_docker_tag: ${CIRCLE_SHA1:0:8}
     parameters:
       environment:
         type: string
@@ -283,10 +285,11 @@ jobs:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
           var_file: config_<< parameters.environment >>.tfvars
-          var: "docker_tag=${CIRCLE_SHA1:0:8}"
 
   apply_terraform:
     executor: terraform
+    environment:
+      TF_VAR_docker_tag: ${CIRCLE_SHA1:0:8}
     parameters:
       environment:
         type: string
@@ -299,7 +302,6 @@ jobs:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
           var_file: config_<< parameters.environment >>.tfvars
-          var: "docker_tag=${CIRCLE_SHA1:0:8}"
 
   purge_reviews:
     docker:

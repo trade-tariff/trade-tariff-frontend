@@ -38,10 +38,10 @@ Rails.application.configure do
   # https://stackoverflow.com/a/68929831
   config.ssl_options = {
     redirect: {
-      exclude: -> request {
+      exclude: lambda { |request|
         request.path =~ /healthcheck/
-      }
-    }
+      },
+    },
   }
 
   # Include generic and useful information about system operation, but avoid logging too much
