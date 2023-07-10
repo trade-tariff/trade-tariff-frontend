@@ -20,7 +20,7 @@ executors:
     environment:
       TF_INPUT: 0
       TF_IN_AUTOMATION: 1
-      TF_VAR_docker_tag: "${CIRCLE_SHA1:0:8}"
+      TF_VAR_docker_tag: $(git rev-parse --short HEAD)
 
 commands:
   cf_deploy_docker:
