@@ -20,6 +20,7 @@ executors:
     environment:
       TF_INPUT: 0
       TF_IN_AUTOMATION: 1
+      TF_VAR_docker_tag: "${CIRCLE_SHA1:0:8}"
 
 commands:
   cf_deploy_docker:
@@ -255,7 +256,6 @@ commands:
 
 jobs:
   fmt_validate_terraform:
-    shell: /bin/sh -leo pipefail
     executor: terraform
     parameters:
       environment:
@@ -271,7 +271,6 @@ jobs:
           path: terraform/
 
   plan_terraform:
-    shell: /bin/sh -leo pipefail
     executor: terraform
     parameters:
       environment:
@@ -281,17 +280,12 @@ jobs:
       - terraform/init:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
-      - run:
-          name: Fetch Docker Tag
-          command: |
-            echo "export TF_VAR_docker_tag=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
       - terraform/plan:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
           var_file: config_<< parameters.environment >>.tfvars
 
   apply_terraform:
-    shell: /bin/sh -leo pipefail
     executor: terraform
     parameters:
       environment:
@@ -301,10 +295,6 @@ jobs:
       - terraform/init:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
-      - run:
-          name: Fetch Docker Tag
-          command: |
-            echo "export TF_VAR_docker_tag=${CIRCLE_SHA1:0:8}" >> $BASH_ENV
       - terraform/apply:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
