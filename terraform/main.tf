@@ -36,6 +36,10 @@ module "service" {
       value = jsonencode(local.api_service_backend_url_options)
     },
     {
+      name  = "BASIC_AUTH"
+      value = "false"
+    },
+    {
       name  = "BETA_SEARCH"
       value = var.environment == "production" ? "false" : "true"
     },
