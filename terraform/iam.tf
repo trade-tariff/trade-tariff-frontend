@@ -9,7 +9,8 @@ data "aws_iam_policy_document" "secrets" {
     ]
     resources = [
       data.aws_secretsmanager_secret.redis_connection_string.arn,
-      data.aws_secretsmanager_secret.frontend_secret_key_base.arn
+      data.aws_secretsmanager_secret.frontend_secret_key_base.arn,
+      data.aws_secretsmanager_secret.newrelic_license_key.arn
     ]
   }
 
