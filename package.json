@@ -31,7 +31,7 @@
     "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
-    "babel-jest": "^29.5.0",
+    "babel-jest": "^29.6.1",
     "babel-loader": "^8.2.5",
     "eslint": "^8.44.0",
     "eslint-config-google": "^0.14.0",
