@@ -54,15 +54,18 @@ commands:
               london.cloudapps.digital \
               -n "$CF_APP-<< parameters.environment_key >>-dark"
 
-            cf add-network-policy "$CF_APP-<< parameters.environment_key >>-dark" \
+            cf add-network-policy \
+              "$CF_APP-<< parameters.environment_key >>-dark" \
               "$CF_BACKEND_APP_XI-<< parameters.environment_key >>" \
               --protocol tcp \
               --port 8080
 
-            cf add-network-policy "$CF_APP-<< parameters.environment_key >>-dark" \
+            cf add-network-policy \
+              "$CF_APP-<< parameters.environment_key >>-dark" \
               "$CF_BACKEND_APP_UK-<< parameters.environment_key >>" \
               --protocol tcp \
               --port 8080
+
       - tariff/test-dark-app:
           cf_app: tariff-frontend
           environment_key: << parameters.environment_key >>
