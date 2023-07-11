@@ -1,16 +1,16 @@
 
 <div class="downloads" data-module="govspeak">
-  <section class="attachment">
+  <section class="attachment exchange-rates-attachment">
     <div class="attachment-thumb">
         <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), asset_path('todo')) %>
     
     </div>
     <div class="attachment-details">
-        <h3 class="govuk-heading-s govuk-!-font-size-27 govuk-!-font-weight-regular">
+        <h3 class="govuk-heading-s govuk-!-font-size-27 govuk-!-font-weight-regular exchange-rates-period-heading">
           <%= Date::MONTHNAMES[period.month] %> <%= period.year %> monthly exchange rates
         </h3>
 
-        <p><strong><a class="govuk-link" href="/government/uploads/system/uploads/attachment_data/file/1165033/exrates-monthly-0723.csv/preview">View online</a></strong></p>
+        <p><strong><a class="govuk-link" href="/todo">View online</a></strong></p>
 
         <p>This file may not be suitable for users of assistive technology</p>
 

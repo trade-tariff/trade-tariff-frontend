@@ -1,5 +1,5 @@
 class ExchangeRatesController < ApplicationController
-  def show
-    @period_list = ExchangeRates::PeriodList.find(params[:id])
+  def index
+    @period_list = ExchangeRates::PeriodList.find(params[:year])
   end
 end
