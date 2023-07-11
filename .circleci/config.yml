@@ -20,7 +20,6 @@ executors:
     environment:
       TF_INPUT: 0
       TF_IN_AUTOMATION: 1
-      TF_VAR_docker_tag: $(git rev-parse --short HEAD)
 
 commands:
   cf_deploy_docker:
@@ -68,7 +67,6 @@ commands:
           cf_app: tariff-frontend
           environment_key: << parameters.environment_key >>
           healthcheck_path: "find_commodity"
-          space: << parameters.space >>
       - tariff/pivot-dark-app:
           app_domain_prefix: << parameters.app_domain_prefix >>
           cf_app: tariff-frontend
