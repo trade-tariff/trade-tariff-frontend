@@ -22,6 +22,9 @@ module "service" {
 
   container_port = 8080
 
+  cpu    = var.cpu
+  memory = var.memory
+
   execution_role_policy_arns = [
     aws_iam_policy.secrets.arn
   ]
