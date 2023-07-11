@@ -52,6 +52,7 @@ Rails.application.routes.draw do
 
   get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
   get 'healthcheck', to: 'healthcheck#check'
+  get 'healthcheckz', to: 'healthcheck#checkz'
 
   get 'help', to: 'pages#help', as: 'help'
   get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'

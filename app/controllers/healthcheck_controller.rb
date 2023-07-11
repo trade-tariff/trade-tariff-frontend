@@ -11,6 +11,10 @@ class HealthcheckController < ActionController::Base
     render json: { git_sha1: CURRENT_REVISION }
   end
 
+  def checkz
+    render json: { git_sha1: CURRENT_REVISION }
+  end
+
   private
 
   def original_ua_headers
