@@ -1,5 +1,5 @@
 module "service" {
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.2.0"
+  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.6.0"
 
   environment = var.environment
   region      = var.region
@@ -7,10 +7,11 @@ module "service" {
   service_name  = "frontend"
   service_count = var.service_count
 
-  cluster_name     = "trade-tariff-cluster-${var.environment}"
-  subnet_ids       = data.aws_subnets.private.ids
-  security_groups  = [data.aws_security_group.this.arn]
-  target_group_arn = data.aws_lb_target_group.this.arn
+  cluster_name              = "trade-tariff-cluster-${var.environment}"
+  subnet_ids                = data.aws_subnets.private.ids
+  security_groups           = [data.aws_security_group.this.id]
+  target_group_arn          = data.aws_lb_target_group.this.arn
+  cloudwatch_log_group_name = "platform-logs-${var.environment}"
 
   min_capacity = var.min_capacity
   max_capacity = var.max_capacity
@@ -19,11 +20,27 @@ module "service" {
   docker_tag   = var.docker_tag
   skip_destroy = true
 
+  container_port = 8080
+
+  cpu    = var.cpu
+  memory = var.memory
+
+  execution_role_policy_arns = [
+    aws_iam_policy.secrets.arn
+  ]
+
   service_environment_config = [
-    # TODO: discuss this internally via HOTT-3555
     {
+      name  = "PORT"
+      value = "8080"
+    },
+    { # TODO: discuss this internally via HOTT-3555
       name  = "API_SERVICE_BACKEND_OPTIONS"
       value = jsonencode(local.api_service_backend_url_options)
+    },
+    {
+      name  = "BASIC_AUTH"
+      value = "false"
     },
     {
       name  = "BETA_SEARCH"
@@ -74,6 +91,14 @@ module "service" {
       value = var.environment
     },
     {
+      name  = "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+      value = false
+    },
+    {
+      name  = "NEW_RELIG_LOG"
+      value = "stdout"
+    },
+    {
       name  = "RAILS_ENV"
       value = "production"
     },
@@ -120,6 +145,10 @@ module "service" {
     {
       name  = "WEBCHAT_URL"
       value = "https://www.tax.service.gov.uk/ask-hmrc/chat/trade-tariff"
+    },
+    {
+      name  = "VCAP_APPLICATION"
+      value = "{}"
     }
   ]
 
@@ -127,6 +156,14 @@ module "service" {
     {
       name      = "REDIS_URL"
       valueFrom = data.aws_secretsmanager_secret.redis_connection_string.arn
+    },
+    {
+      name      = "SECRET_KEY_BASE"
+      valueFrom = data.aws_secretsmanager_secret.frontend_secret_key_base.arn
+    },
+    {
+      name      = "NEWRELIC_LICENSE_KEY"
+      valueFrom = data.aws_secretsmanager_secret.newrelic_license_key.arn
     }
   ]
 }
