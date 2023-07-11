@@ -88,6 +88,14 @@ module "service" {
       value = var.environment
     },
     {
+      name  = "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+      value = false
+    },
+    {
+      name  = "NEW_RELIG_LOG"
+      value = "stdout"
+    },
+    {
       name  = "RAILS_ENV"
       value = "production"
     },
@@ -134,6 +142,10 @@ module "service" {
     {
       name  = "WEBCHAT_URL"
       value = "https://www.tax.service.gov.uk/ask-hmrc/chat/trade-tariff"
+    },
+    {
+      name  = "VCAP_APPLICATION"
+      value = "{}"
     }
   ]
 
@@ -145,6 +157,10 @@ module "service" {
     {
       name      = "SECRET_KEY_BASE"
       valueFrom = data.aws_secretsmanager_secret.frontend_secret_key_base.arn
+    },
+    {
+      name      = "NEWRELIC_LICENSE_KEY"
+      valueFrom = data.aws_secretsmanager_secret.newrelic_license_key.arn
     }
   ]
 }
