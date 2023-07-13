@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :exchange_rate_period_list, class: 'ExchangeRates::PeriodList' do
-    transient do
-      year { 2020 }
-    end
+    year { 2020 }
 
     exchange_rate_years { attributes_for_list :exchange_rate_year, 1 }
 

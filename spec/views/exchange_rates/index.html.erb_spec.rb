@@ -11,7 +11,7 @@ RSpec.describe 'exchange_rates/index', type: :view do
 
   it { is_expected.to have_css 'h1', text: "#{period_list.year} HMRC currency exchange rates" }
 
-  it { is_expected.to have_css 'p', text: "Check the official  #{period_list.year}" }
+  it { is_expected.to have_css 'p', text: "Check the official #{period_list.year}" }
 
   it { is_expected.to render_template(partial: '_document_detail') }
 

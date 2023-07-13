@@ -23,14 +23,6 @@ RSpec.describe ExchangeRates::PeriodList do
                   year:,
                 },
               },
-              {
-                id: '2023-5-exchange_rate_period',
-                type: 'exchange_rate_period',
-                attributes: {
-                  month: 5,
-                  year:,
-                },
-              },
             ],
           },
           exchange_rate_years: {
@@ -40,13 +32,6 @@ RSpec.describe ExchangeRates::PeriodList do
                 type: 'exchange_rate_year',
                 attributes: {
                   year: 2023,
-                },
-              },
-              {
-                id: '2022-exchange_rate_year',
-                type: 'exchange_rate_year',
-                attributes: {
-                  year:,
                 },
               },
             ],
@@ -63,25 +48,10 @@ RSpec.describe ExchangeRates::PeriodList do
           },
         },
         {
-          id: '2023-5-exchange_rate_period',
-          type: 'exchange_rate_period',
-          attributes: {
-            month: 5,
-            year:,
-          },
-        },
-        {
           id: '2023-exchange_rate_year',
           type: 'exchange_rate_year',
           attributes: {
             year:,
-          },
-        },
-        {
-          id: '2022-exchange_rate_year',
-          type: 'exchange_rate_year',
-          attributes: {
-            year: 2022,
           },
         },
       ],
@@ -106,8 +76,8 @@ RSpec.describe ExchangeRates::PeriodList do
 
     it { is_expected.to be_instance_of described_class }
     it { is_expected.to have_attributes year: }
-    it { expect(period_list.exchange_rate_years).to have_attributes length: 2 }
-    it { expect(period_list.exchange_rate_periods).to have_attributes length: 2 }
+    it { expect(period_list.exchange_rate_years).to have_attributes length: 1 }
+    it { expect(period_list.exchange_rate_periods).to have_attributes length: 1 }
 
     context 'with first exchange rate period' do
       subject { period_list.exchange_rate_periods.first }
