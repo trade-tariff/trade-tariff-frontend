@@ -35,8 +35,10 @@ commands:
 
     steps:
       - checkout
+
       - tariff/cf-install:
           space: << parameters.space >>
+
       - tariff/deploy-dark-app:
           aws_access_key_id: "$AWS_ACCESS_KEY_ID"
           aws_secret_access_key: "$AWS_SECRET_ACCESS_KEY"
@@ -46,6 +48,7 @@ commands:
           ecr_repo: "$ECR_REPO"
           environment_key: << parameters.environment_key >>
           space: << parameters.space >>
+
       - run:
           name: Map dark routes
           command: |
@@ -70,15 +73,27 @@ commands:
           cf_app: tariff-frontend
           environment_key: << parameters.environment_key >>
           healthcheck_path: "find_commodity"
+
+      - run:
+          name: "Pivot CDN route"
+          command: |
+            app_name="${CF_APP}-<< parameters.environment_key >>"
+            dark_app="${app_name}-dark"
+
+            cf map-route "$dark_app" "<< parameters.app_domain_prefix >>.trade-tariff.service.gov.uk"
+            cf unmap-route  "$app_name" "<< parameters.app_domain_prefix >>.trade-tariff.service.gov.uk"
+
       - tariff/pivot-dark-app:
           app_domain_prefix: << parameters.app_domain_prefix >>
           cf_app: tariff-frontend
           environment_key: << parameters.environment_key >>
           space: << parameters.space >>
+
       - slack/notify:
           channel: deployments
           event: fail
           template: basic_fail_1
+
       - slack/notify:
           channel: deployments
           event: pass
