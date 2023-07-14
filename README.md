@@ -4,22 +4,19 @@ __Now maintained at https://github.com/trade-tariff/trade-tariff-frontend__
 
 https://www.trade-tariff.service.gov.uk/trade-tariff/sections
 
-This is the front-end application for:
+This is the front-end application for [Trade Tariff Backend](https://github.com/trade-tariff/trade-tariff-backend), which provides the Backend APIs.
 
-* [Trade Tariff Backend](https://github.com/trade-tariff/trade-tariff-backend)
 
-This application requires one or more Trade Tariff Backend APIs to be running and the following env variables set: `API_SERVICE_BACKEND_DEFAULT`, `API_SERVICE_BACKEND_URL_OPTIONS`.
+## Configuration
 
-For example:
+You can run the front-end on your local machine without changing the file `.env.development`, which contains all the environment variables used in development.
 
-```
-API_SERVICE_BACKEND_DEFAULT=uk
-API_SERVICE_BACKEND_URL_OPTIONS={"uk":"http://localhost:3001","xi":"http://localhost:3002"}
-```
+Here are some of the relevant Env variables:
 
-By default (without a service choice prefix) the application will route to whatever the `API_SERVICE_BACKEND_DEFAULT` specifies from the `API_SERVICE_BACKEND_URL_OPTIONS` list.
+- `API_SERVICE_BACKEND_URL_OPTIONS`: to set the BE address for he UK and XI (EU) services.
+    For example: `API_SERVICE_BACKEND_URL_OPTIONS={"uk":"http://localhost:3001","xi":"http://localhost:3002"}`
 
-To use latest api version need to set up env variable `TARIFF_API_VERSION`. 
+- `TARIFF_API_VERSION`:  to set the APIs version, the current ver. is **2**.
 
 ## Running the frontend
 
