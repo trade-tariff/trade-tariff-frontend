@@ -56,6 +56,24 @@ RSpec.describe MeasureConditionDialog do
       end
     end
 
+    context 'when the config file specifies generic goods nomenclatures (= no specific goods_nomenclature_item_id)' do
+      let(:goods_nomenclature_item_id) { '1234567890' }
+      let(:additional_code) { 'X440' }
+      let(:measure_type_id) { '306' }
+
+      it 'returns the replacing modal partial options' do
+        expected_options = {
+          partial: 'measures/measure_condition_modal_augmented',
+          locals: {
+            measure:,
+            modal_content_file: 'measures/measure_condition_replacement_modals/asterisk_small_brewers_relief_440',
+          },
+        }
+
+        expect(dialog.options).to include(expected_options)
+      end
+    end
+
     context 'when matching no config' do
       let(:goods_nomenclature_item_id) { '2203000100' }
       let(:additional_code) { 'X440' }

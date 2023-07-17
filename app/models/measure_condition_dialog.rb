@@ -24,7 +24,6 @@ class MeasureConditionDialog
 
       overwrite = config['overwrite']
       content_file = config['content_file']
-
       options = if content_file.present?
                   if overwrite
                     { partial: "measures/measure_condition_replacement_modals/#{content_file}" }
@@ -48,13 +47,28 @@ class MeasureConditionDialog
     private
 
     def config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
-      measure_condition_to_augment = config.find do |entry|
+      measure_condition_to_augment = conditions_for_specific_nomenclature_items.find do |entry|
         entry['goods_nomenclature_item_id'] == goods_nomenclature_item_id &&
           entry['additional_code'] == additional_code &&
           entry['measure_type_id'] == measure_type_id
       end
 
+      # If there are not matches, it applies the search:
+      # ANY good nomenclatures with a specific additional_code and measure_type_id.
+      measure_condition_to_augment ||= conditions_for_unspecified_nomenclature_items.find do |entry|
+        entry['additional_code'] == additional_code &&
+          entry['measure_type_id'] == measure_type_id
+      end
+
       measure_condition_to_augment || DEFAULT_CONFIG_ENTRY
+    end
+
+    def conditions_for_specific_nomenclature_items
+      config.select { |entry| entry['goods_nomenclature_item_id'].present? }
+    end
+
+    def conditions_for_unspecified_nomenclature_items
+      config.select { |entry| entry['goods_nomenclature_item_id'].blank? }
     end
 
     def config

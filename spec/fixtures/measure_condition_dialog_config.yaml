@@ -19,3 +19,9 @@
   measure_type_id: '410'
   content_file: 'vet_control'
   overwrite: true
+# The following entry misses goods_nomenclature_item_id, so the conditions applies
+# for ANY goods nomenclature, and specific additional_code and measure_type_id.
+- additional_code: 'X440'
+  measure_type_id: '306'
+  content_file: 'asterisk_small_brewers_relief_440'
+  overwrite: false

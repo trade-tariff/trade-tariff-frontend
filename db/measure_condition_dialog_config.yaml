@@ -1,31 +1,9 @@
 ---
-- goods_nomenclature_item_id: '2203000100'
-  additional_code: 'X440'
+- additional_code: 'X440'
   measure_type_id: '306'
   content_file: 'small_brewers_relief_440'
   overwrite: false
-- goods_nomenclature_item_id: '2203000100'
-  additional_code: 'X441'
-  measure_type_id: '306'
-  content_file: 'small_brewers_relief_441'
-  overwrite: false
-- goods_nomenclature_item_id: '2203001000'
-  additional_code: 'X440'
-  measure_type_id: '306'
-  content_file: 'small_brewers_relief_440'
-  overwrite: false
-- goods_nomenclature_item_id: '2203001000'
-  additional_code: 'X441'
-  measure_type_id: '306'
-  content_file: 'small_brewers_relief_441'
-  overwrite: false
-- goods_nomenclature_item_id: '2203000900'
-  additional_code: 'X440'
-  measure_type_id: '306'
-  content_file: 'small_brewers_relief_440'
-  overwrite: false
-- goods_nomenclature_item_id: '2203000900'
-  additional_code: 'X441'
+- additional_code: 'X441'
   measure_type_id: '306'
   content_file: 'small_brewers_relief_441'
   overwrite: false
