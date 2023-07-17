@@ -21,8 +21,8 @@
 
   <td class="govuk-table__cell">
     <% if permutation.measure_conditions.first.action.present? %>
-      <%= permutation.measure_conditions.first.action %>
-      <br />
+      <%= permutation.measure_conditions.first.presented_action %>
+      <br>
     <% end %>
 
     <%= sanitize permutation.measure_conditions.first.duty_expression.to_s %>

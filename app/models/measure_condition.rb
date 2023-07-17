@@ -1,6 +1,10 @@
 require 'api_entity'
 
 class MeasureCondition
+  OVERRIDDEN_ACTION_CODES = {
+    '01' => 'Apply the duty',
+  }.freeze
+
   include ApiEntity
 
   attr_accessor :condition_code,
@@ -9,6 +13,7 @@ class MeasureCondition
                 :condition,
                 :document_code,
                 :action,
+                :action_code,
                 :duty_expression,
                 :certificate_description,
                 :guidance_cds,
@@ -32,5 +37,9 @@ class MeasureCondition
 
   def has_guidance?
     guidance_cds.present? || guidance_chief.present?
+  end
+
+  def presented_action
+    OVERRIDDEN_ACTION_CODES.fetch(action_code.to_s, action)
   end
 end
