@@ -11,7 +11,7 @@
     "@stimulus/polyfills": "^2.0.0",
     "accessible-autocomplete": "^2.0.4",
     "alphagov-static": "github:alphagov/static.git#release_3463",
-    "govuk-frontend": "^4.6.0",
+    "govuk-frontend": "^4.7.0",
     "html-escaper": "^2.0.2",
     "imask": "^7.0.1",
     "jquery": "3.7.0",
