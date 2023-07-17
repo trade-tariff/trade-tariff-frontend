@@ -1,7 +1,8 @@
 <% content_for :top_breadcrumbs do %>
-   <%= generate_breadcrumbs 'Exchange rates',
+   <%= generate_breadcrumbs "Exchange rates #{@period_list.year}",
                             [ [t('breadcrumb.home'), home_path],
-                            [t('breadcrumb.tools'), tools_path], ] %>
+                            [t('breadcrumb.tools'), tools_path],
+                            [t('breadcrumb.exchange_rates'), exchange_rates_path], ] %>
  <% end %>
 
 <div class="govuk-grid-row">
