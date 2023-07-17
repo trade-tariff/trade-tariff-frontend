@@ -110,4 +110,18 @@ RSpec.describe MeasureCondition do
       it { is_expected.to be_html_safe }
     end
   end
+
+  describe '#presented_action' do
+    context 'when action_code is 01' do
+      subject(:presented_action) { build(:measure_condition, action_code: '01').presented_action }
+
+      it { is_expected.to eq('Apply the duty') }
+    end
+
+    context 'when action_code is not 01' do
+      subject(:presented_action) { build(:measure_condition, action_code: '02').presented_action }
+
+      it { is_expected.not_to eq('Apply the duty') }
+    end
+  end
 end
