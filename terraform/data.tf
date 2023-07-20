@@ -22,7 +22,7 @@ data "aws_security_group" "this" {
 }
 
 data "aws_secretsmanager_secret" "redis_connection_string" {
-  name = "redis-connection-string"
+  name = "redis-frontend-connection-string"
 }
 
 data "aws_secretsmanager_secret" "frontend_secret_key_base" {
