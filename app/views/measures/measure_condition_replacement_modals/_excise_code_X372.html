@@ -1,0 +1,91 @@
+<h3 class="govuk-heading-m">Small Producer Relief</h3>
+<p>If you're a small producer you may be able to pay a lower rate of alcohol duty on any product with an
+alcohol by volume (<abbr title='Percentage alcohol by volume'>ABV</abbr>) of less than 8.5%.</p>
+
+<p>For more information:</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>
+        <a target="_blank" href="https://www.gov.uk/guidance/check-if-youre-eligible-for-small-producer-relief-on-alcohol-duty">Check if you're eligible for Small Producer Relief on Alcohol Duty (opens in new tab)</a>
+    </li>
+    <li>
+        <a target="_blank" href="https://www.gov.uk/guidance/how-to-work-out-your-alcohol-duty-rates-if-youre-eligible-for-small-producer-relief">How to work out your Alcohol Duty rates if you're eligible for Small Producer Relief (opens in new tab)</a>
+    </li>
+    <li>
+        <a target="_blank" href="https://www.gov.uk/guidance/how-your-business-set-up-can-affect-your-eligibility-for-small-producer-relief">How your business set up can affect your eligibility for Small Producer Relief (opens in new tab)</a>
+    </li>
+</ul>
+
+<h3 class="govuk-heading-m">Draught Relief</h3>
+
+<p>If you trade in draught products, find out if you could pay a reduced rate of Alcohol Duty.</p>
+
+<p><a target="_blank" href="https://www.gov.uk/government/collections/alcohol-duty">Check if you can pay less Alcohol Duty on draught products  </a></p>
+
+
+<h3 class="govuk-heading-m">Completing a declaration in CDS for goods subject to excise code 372</h3>
+<div class="govuk-inset-text">Applies to cider with an <abbr title='Percentage alcohol by volume'>ABV</abbr> less than 3.5% and eligible for SPR (Small Producer Relief) and DR (Draught Relief).</div>
+
+<table class="govuk-table govuk-table-m">
+    <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">CDS data element</th>
+            <th scope="col" class="govuk-table__header" colspan="2">CDS data element description</th>
+            <th scope="col" class="govuk-table__header">Requirement</th>
+        </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">DE 4/3</td>
+            <td class="govuk-table__cell" colspan="2">Tax type</td>
+            <td class="govuk-table__cell">372</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">DE 6/16 or 6/17</td>
+            <td class="govuk-table__cell" colspan="2">Taric additional code / national additional code</td>
+            <td class="govuk-table__cell">X372</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell" rowspan="7">DE 4/4</td>
+            <td class="govuk-table__cell" rowspan="4">Tax base</td>
+            <td class="govuk-table__cell">Measurement unit</td>
+            <td class="govuk-table__cell">LTR</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">Numerical value of the measurement</td>
+            <td class="govuk-table__cell">Mandatory</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">Code</td>
+            <td class="govuk-table__cell">ASV</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">Numerical value of the alcoholic strength by volume (ASV)</td>
+            <td class="govuk-table__cell">=> 3.5% but < 8.5%</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">SPR</td>
+            <td class="govuk-table__cell">Numerical value</td>
+            <td class="govuk-table__cell">Must be less than full rate</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell" rowspan="2">Wine easement</td>
+            <td class="govuk-table__cell">Code</td>
+            <td class="govuk-table__cell">Not applicable</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">Numerical value of the alcoholic strength by volume (ASV)</td>
+            <td class="govuk-table__cell">Not applicable</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">DE 6/2</td>
+            <td class="govuk-table__cell" colspan="2">Supplementary unit</td>
+            <td class="govuk-table__cell">Mandatory</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell" style="width:20%">&nbsp;</td>
+            <td class="govuk-table__cell" style="width:20%">&nbsp;</td>
+            <td class="govuk-table__cell" style="width:40%">&nbsp;</td>
+            <td class="govuk-table__cell" style="width:20%">&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
