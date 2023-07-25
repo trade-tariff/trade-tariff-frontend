@@ -1034,3 +1034,9 @@ en:
       "==_html": "The volume of your goods is equal %{requirement_duty_expression}"
       "=>_html": "The volume of your goods is equal to or exceeds %{requirement_duty_expression}"
       ">_html": "The volume of your goods exceeds %{requirement_duty_expression}"
+    percentage_abv:
+      "<_html": "The percentage ABV is less than %{requirement_duty_expression}"
+      "=<_html": "The percentage ABV does not exceed %{requirement_duty_expression}"
+      "==_html": "The percentage ABV is equal %{requirement_duty_expression}"
+      "=>_html": "The percentage ABV is equal to or exceeds %{requirement_duty_expression}"
+      ">_html": "The percentage ABV exceeds %{requirement_duty_expression}"
