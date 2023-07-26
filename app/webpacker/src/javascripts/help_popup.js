@@ -1,3 +1,5 @@
+const HELP_POPUP_TIMEOUT = 20000;
+
 $('#close_box').on('click', function(event) {
   hideHelpPopup();
 });
@@ -12,7 +14,7 @@ function hideHelpPopup() {
   $('#help_popup').css('display', 'none');
 }
 
-setTimeout(showHelpPopup, 30000);
+setTimeout(showHelpPopup, HELP_POPUP_TIMEOUT);
 
 function showHelpPopup() {
   const cookieValue = getCookie('show_digital_assistant_popup');
