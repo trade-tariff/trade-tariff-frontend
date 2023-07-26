@@ -34,8 +34,8 @@ module "service" {
       name  = "PORT"
       value = "8080"
     },
-    { # TODO: discuss this internally via HOTT-3555
-      name  = "API_SERVICE_BACKEND_OPTIONS"
+    {
+      name  = "API_SERVICE_BACKEND_URL_OPTIONS"
       value = jsonencode(local.api_service_backend_url_options)
     },
     {
