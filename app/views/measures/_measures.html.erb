@@ -50,7 +50,7 @@
   <!-- Export tab -->
   <div class="govuk-tabs__panel" id="export">
     <h2 class="govuk-heading-l"><%= measures_heading(anchor: 'export') %></h2>
-    <p>The commodity code for exporting and <%= link_to 'Intrastat reporting', 'https://www.gov.uk/intrastat', target: "_blank" %> is <%= declarable.display_export_code %></p>
+    <p>The commodity code for exporting and <%= link_to 'Intrastat reporting', 'https://www.gov.uk/intrastat', target: "_blank" %> is <%= declarable.display_export_code %>.</p>
 
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
 

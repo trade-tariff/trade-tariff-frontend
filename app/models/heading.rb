@@ -41,7 +41,8 @@ class Heading < GoodsNomenclature
   alias_method :heading_display_short_code, :display_short_code
 
   def display_export_code
-    code[0..-3]
+    code_without_subheading = code[0..-3]
+    code_without_subheading[0..3] + ' ' + code_without_subheading[4..]
   end
 
   def short_code
