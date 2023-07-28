@@ -31,11 +31,6 @@ class Commodity < GoodsNomenclature
     code[4..]
   end
 
-  def display_export_code
-    code_without_subheading = code[0..-3]
-    code_without_subheading[0..3] + ' ' + code_without_subheading[4..]
-  end
-
   def chapter_code
     code[0..1]
   end

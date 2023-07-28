@@ -64,5 +64,11 @@ RSpec.shared_examples 'a declarable' do
         end
       end
     end
+
+    describe '#display_export_code' do
+      it 'is eight chars long and include a space' do
+        expect(declarable.code).to include(declarable.display_export_code.remove(' '))
+      end
+    end
   end
 end
