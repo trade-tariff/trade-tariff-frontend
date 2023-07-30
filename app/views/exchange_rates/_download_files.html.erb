@@ -1,0 +1,12 @@
+<dt class="gem-c-metadata__term">From:</dt>
+<dd class="gem-c-metadata__definition">
+  <strong><a href="https://www.gov.uk/government/organisations/hm-revenue-customs">HM Revenue &amp; Customs</a></strong>
+</dd>
+<dt class="gem-c-metadata__term">Published:</dt>
+<dd class="gem-c-metadata__definition"><%= @published_date %></dd>
+<dt class="gem-c-metadata__term">Download:</dt>
+<dd class="gem-c-metadata__definition">
+  <% files.each do |file| %>
+     <a href="#{file.file_path}"><%= file.format %>_file</a>(<% file.file_size %>)|
+  <% end %>
+</dd>
