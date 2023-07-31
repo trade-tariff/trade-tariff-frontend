@@ -40,10 +40,6 @@ class Heading < GoodsNomenclature
   end
   alias_method :heading_display_short_code, :display_short_code
 
-  def display_export_code
-    code[0..-3]
-  end
-
   def short_code
     code.first(4)
   end

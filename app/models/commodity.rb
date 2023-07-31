@@ -31,10 +31,6 @@ class Commodity < GoodsNomenclature
     code[4..]
   end
 
-  def display_export_code
-    code[0..-3]
-  end
-
   def chapter_code
     code[0..1]
   end

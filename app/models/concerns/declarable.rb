@@ -75,6 +75,11 @@ module Declarable
     goods_nomenclature_item_id
   end
 
+  def display_export_code
+    code_without_taric_subheading = code[0..-3]
+    "#{code_without_taric_subheading[0..3]} #{code_without_taric_subheading[4..]}"
+  end
+
   def all_footnotes
     (
       footnotes +
