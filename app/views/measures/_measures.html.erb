@@ -54,7 +54,7 @@
 
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
 
-    <% if uk_declarable.presence&.export_measures&.any? %>
+    <% if uk_declarable&.export_measures&.any? %>
       <h3 class="govuk-heading-m" id="uk-export-controls">
         UK export controls
       </h3>
@@ -65,7 +65,7 @@
         hide_duty_rate: true } %>
     <% end %>
 
-    <% if TradeTariffFrontend::ServiceChooser.xi? && xi_declarable.presence.export_measures.any? %>
+    <% if TradeTariffFrontend::ServiceChooser.xi? && xi_declarable&.export_measures&.any? %>
       <h3 class="govuk-heading-m govuk-!-margin-top-9" id="eu-export-controls">
         EU export controls
       </h3>
@@ -157,7 +157,7 @@
   </div>
 
   <div id="export-measure-references">
-    <% if uk_declarable.presence&.export_measures&.any? %>
+    <% if uk_declarable&.export_measures&.any? %>
         <%= render partial: 'measures/measure_references',
                 collection: uk_declarable.export_measures,
                 as: 'measure',
@@ -168,7 +168,7 @@
                 } %>
     <% end %>
 
-    <% if xi_declarable.presence&.export_measures&.any? %>
+    <% if xi_declarable&.export_measures&.any? %>
         <%= render partial: 'measures/measure_references',
                 collection: xi_declarable.export_measures,
                 as: 'measure',
