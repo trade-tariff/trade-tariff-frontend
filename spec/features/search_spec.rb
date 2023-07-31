@@ -169,18 +169,18 @@ RSpec.describe 'Search', js: true do
 
     context 'when getting back some additional code search results' do
       it 'performs search and render results' do
-        VCR.use_cassette('search#additional_code_search_results_8180') do
+        VCR.use_cassette('search#additional_code_search_results_4055') do
           visit additional_code_search_path
 
           expect(page).to have_content('Search for additional codes')
 
-          page.find('#additional-code-search-form-code-field').set('8180')
+          page.find('#additional-code-search-form-code-field').set('4055')
           page.find('#additional-code-submit').click
 
           using_wait_time 1 do
             expect(page).to have_css('.search-results')
-            expect(page).to have_content('8180 Karl Storm Andersen Eft AS')
-            expect(page).to have_link('Other', href: '/commodities/0302120019')
+            expect(page).to have_content('4055 Clocks and watches and parts thereof, between 50 and 100 years old')
+            expect(page).to have_link('CLOCKS AND WATCHES AND PARTS THEREOF ', href: '/chapters/91')
           end
         end
       end

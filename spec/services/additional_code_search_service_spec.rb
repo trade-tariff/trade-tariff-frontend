@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe AdditionalCodeSearchService, vcr: { cassette_name: 'search#additional_code_search_results_8180' } do
+RSpec.describe AdditionalCodeSearchService, vcr: { cassette_name: 'search#additional_code_search_results_4055' } do
   describe '#call' do
     subject(:call) { described_class.new(query_params).call }
 
@@ -11,7 +11,7 @@ RSpec.describe AdditionalCodeSearchService, vcr: { cassette_name: 'search#additi
     end
 
     context 'when search params are valid' do
-      let(:query_params) { { code: '180', type: '8' } }
+      let(:query_params) { { code: '055', type: '4' } }
 
       it { expect(AdditionalCode).to have_received(:search).with(query_params) }
       it { is_expected.to all(be_a(AdditionalCode)) }

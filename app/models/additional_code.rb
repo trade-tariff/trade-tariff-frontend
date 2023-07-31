@@ -8,7 +8,7 @@ class AdditionalCode
 
   collection_path '/additional_codes'
 
-  has_many :goods_nomenclatures
+  has_many :goods_nomenclatures, polymorphic: true
 
   attr_accessor :additional_code_type_id,
                 :additional_code,

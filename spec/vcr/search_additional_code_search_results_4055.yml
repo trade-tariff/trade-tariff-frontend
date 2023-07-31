@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/additional_code_types
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v2.7.10
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"2e7cf478c3c6ada49c4deb83665d2d32"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 2ff09a4c-6b59-4e0d-8dca-0b4ec74a6fc5
+      X-Runtime:
+      - '0.197972'
+      Content-Length:
+      - '1881'
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":"3","type":"additional_code_type","attributes":{"additional_code_type_id":"3","description":"Prohibition/Restriction/Surveillance"}},{"id":"8","type":"additional_code_type","attributes":{"additional_code_type_id":"8","description":"Anti-dumping/countervailing"}},{"id":"7","type":"additional_code_type","attributes":{"additional_code_type_id":"7","description":"Agricultural
+        Tables (Meursing)"}},{"id":"F","type":"additional_code_type","attributes":{"additional_code_type_id":"F","description":"Reference
+        prices fishery products"}},{"id":"D","type":"additional_code_type","attributes":{"additional_code_type_id":"D","description":"Dual
+        Use"}},{"id":"P","type":"additional_code_type","attributes":{"additional_code_type_id":"P","description":"Refund
+        for basic products"}},{"id":"B","type":"additional_code_type","attributes":{"additional_code_type_id":"B","description":"Anti-dumping/countervailing"}},{"id":"6","type":"additional_code_type","attributes":{"additional_code_type_id":"6","description":"Agricultural
+        Tables (non-Meursing)"}},{"id":"9","type":"additional_code_type","attributes":{"additional_code_type_id":"9","description":"Export
+        Refunds"}},{"id":"A","type":"additional_code_type","attributes":{"additional_code_type_id":"A","description":"Anti-dumping/countervailing"}},{"id":"4","type":"additional_code_type","attributes":{"additional_code_type_id":"4","description":"Restrictions"}},{"id":"C","type":"additional_code_type","attributes":{"additional_code_type_id":"C","description":"Anti-dumping/countervailing"}},{"id":"V","type":"additional_code_type","attributes":{"additional_code_type_id":"V","description":"VAT"}},{"id":"X","type":"additional_code_type","attributes":{"additional_code_type_id":"X","description":"EXCISE"}},{"id":"2","type":"additional_code_type","attributes":{"additional_code_type_id":"2","description":"Tariff
+        preference"}}]}'
+  recorded_at: Mon, 31 Jul 2023 15:25:53 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/additional_codes/search?code=055&description=&type=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v2.7.10
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"5b99a288cb8acd408d6b539089ce4a26"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 9b3ba720-a7a6-4954-9763-f9209e10db6e
+      X-Runtime:
+      - '1.628821'
+      Content-Length:
+      - '892'
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":"8386","type":"additional_code","attributes":{"additional_code_type_id":"4","additional_code":"055","code":"4055","description":"Clocks
+        and watches and parts thereof, between 50 and 100 years old, other than those
+        covered by the additional codes 4008, 4010, 4011, 4013, 4023, 4040 - 4048","formatted_description":"Clocks
+        and watches and parts thereof, between 50 and 100 years old, other than those
+        covered by the additional codes 4008, 4010, 4011, 4013, 4023, 4040 - 4048"},"relationships":{"goods_nomenclatures":{"data":[{"id":"54014","type":"chapter"}]}}}],"included":[{"id":"54014","type":"chapter","attributes":{"goods_nomenclature_item_id":"9100000000","producline_suffix":"80","description":"CLOCKS
+        AND WATCHES AND PARTS THEREOF","formatted_description":"Clocks and watches
+        and parts thereof","validity_start_date":"1971-12-31T00:00:00.000Z","validity_end_date":null}}]}'
+  recorded_at: Mon, 31 Jul 2023 15:25:55 GMT
+recorded_with: VCR 6.2.0
