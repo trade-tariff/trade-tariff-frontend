@@ -13,6 +13,10 @@ class MeasureCollection < SimpleDelegator
     new(reject(&:supplementary?))
   end
 
+  def without_supplementary_unit_for_import
+    new(reject(&:supplementary_unit_import_only?))
+  end
+
   def without_excluded
     new(reject(&:excluded?))
   end

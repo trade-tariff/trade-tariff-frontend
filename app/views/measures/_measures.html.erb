@@ -54,25 +54,22 @@
 
     <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
 
-    <% if uk_declarable&.export_measures&.any? %>
+    <% if uk_declarable&.export_measures_without_supplementary_unit_for_import&.any? %>
       <h3 class="govuk-heading-m" id="uk-export-controls">
         UK export controls
       </h3>
       <%= render partial: 'measures/grouped/table', locals: {
-        collection: uk_declarable.export_measures
-                              .without_supplementary_unit
-                              .sort_by(&:key),
+        collection: uk_declarable.export_measures_without_supplementary_unit_for_import,
         hide_duty_rate: true } %>
     <% end %>
 
-    <% if TradeTariffFrontend::ServiceChooser.xi? && xi_declarable&.export_measures&.any? %>
+    <% if TradeTariffFrontend::ServiceChooser.xi? &&
+          xi_declarable&.export_measures_without_supplementary_unit_for_import&.any? %>
       <h3 class="govuk-heading-m govuk-!-margin-top-9" id="eu-export-controls">
         EU export controls
       </h3>
       <%= render partial: 'measures/grouped/table', locals: {
-        collection: xi_declarable.export_measures
-                                 .without_supplementary_unit
-                                 .sort_by(&:key),
+        collection: xi_declarable.export_measures_without_supplementary_unit_for_import,
         hide_duty_rate: true } %>
     <% else %>
       <p>There are no export measures for this commodity on this date.</p>
