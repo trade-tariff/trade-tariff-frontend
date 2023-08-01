@@ -36,8 +36,8 @@
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            <% if additional_code.all_goods_nomenclatures.any? %>
-              <% additional_code.all_goods_nomenclatures.each do |goods_nomenclature| %>
+            <% if additional_code.goods_nomenclatures.any? %>
+              <% additional_code.goods_nomenclatures.each do |goods_nomenclature| %>
                 <%= render partial: 'search/common/goods_nomenclature', object: goods_nomenclature %>
               <% end %>
             <% else %>
