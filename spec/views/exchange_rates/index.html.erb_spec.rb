@@ -9,6 +9,8 @@ RSpec.describe 'exchange_rates/index', type: :view do
     assign :period_list, period_list
   end
 
+  pending 'uncomment tests when exchange rates is ready'
+
   # it { is_expected.to have_css 'h1', text: "#{period_list.year} HMRC currency exchange rates" }
 
   # it { is_expected.to have_css 'p', text: "Check the official #{period_list.year}" }
