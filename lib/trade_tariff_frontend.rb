@@ -24,6 +24,7 @@ module TradeTariffFrontend
       geographical_areas
       chemical_substances
       simplified_procedural_code_measures
+      exchange_rates
     ]
   end
 
@@ -60,6 +61,7 @@ module TradeTariffFrontend
       healthcheck
       simplified_procedural_code_measures
       bulk_searches
+      exchange_rates
     ]
   end
 
