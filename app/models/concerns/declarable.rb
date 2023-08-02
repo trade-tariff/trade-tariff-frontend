@@ -43,9 +43,8 @@ module Declarable
     delegate :code, :short_code, to: :chapter, prefix: true
   end
 
-  def export_measures_without_supplementary_unit_for_import
-    export_measures.without_supplementary_unit_for_import
-                   .sort_by(&:key)
+  def has_export_measures?
+    export_measures&.any?
   end
 
   def has_pharma_suspsension_measures?
