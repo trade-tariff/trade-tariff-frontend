@@ -7,4 +7,8 @@ class ExchangeRates::File
                 :file_size,
                 :publication_date,
                 :format
+
+  def file_size_in_kb
+    sprintf('%.1f', file_size.to_f / 1024)
+  end
 end
