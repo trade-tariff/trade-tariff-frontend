@@ -60,6 +60,7 @@ module TradeTariffFrontend
       healthcheck
       simplified_procedural_code_measures
       bulk_searches
+      exchange_rates
     ]
   end
 

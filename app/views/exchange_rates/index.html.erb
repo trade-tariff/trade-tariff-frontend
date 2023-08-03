@@ -16,12 +16,18 @@
     <dd class="gem-c-metadata__definition">
       <strong><a href="https://www.gov.uk/government/organisations/hm-revenue-customs">HM Revenue &amp; Customs</a></strong>
     </dd>
+    <dt class="gem-c-metadata__term">Published:</dt>
+    <dd class="gem-c-metadata__definition">
+      <%= @period_list.publication_date %>
+    </dd>
 
     <h2>Documents</h2>
 
     <% @period_list.exchange_rate_periods.each do |period| %>
       <%= render partial: 'exchange_rates/document_detail', locals: { period: period } %>
     <% end %>
+
+    <p>HMRC currency exchange rates for Customs and VAT are sourced from data provided by ft.com and xe.com.</p>
   </div>
 
   <div class="govuk-grid-column-one-third">
