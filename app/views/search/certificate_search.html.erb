@@ -5,8 +5,7 @@
         [t('breadcrumb.home'), find_commodity_path],
         [t('breadcrumb.tools'), tools_path]
       ]
-    )
-  %>
+    ) %>
 <% end %>
 
 <%= render partial: 'search/certificate/form', locals: { search_form: @result.search_form } %>
@@ -72,7 +71,7 @@
         </summary>
 
         <div class="govuk-details__text">
-          <% if certificate.all_goods_nomenclatures.size.positive? %>
+          <% if certificate.goods_nomenclatures.many? %>
             <table class="govuk-table">
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
@@ -81,7 +80,7 @@
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
-                <% certificate.all_goods_nomenclatures.each do |goods_nomenclature| %>
+                <% certificate.goods_nomenclatures.each do |goods_nomenclature| %>
                   <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__header">
                       <%= link_to segmented_commodity_code(goods_nomenclature.goods_nomenclature_item_id),
@@ -101,17 +100,15 @@
         </div>
       </details>
 
-      <%= tag.hr unless index >= @result.search_result.size - 1  %>
+      <%= tag.hr unless index >= @result.search_result.size - 1 %>
     <% end %>
-
-    <%= paginate @result.search_result %>
   </article>
 <% elsif @result.with_errors %>
   <article class="search-results">
     <h1 class="govuk-heading-l">Sorry, there is a problem with the search query. Please specify one or more search criteria.</h1>
   </article>
 <% elsif @result.search_form.present? %>
-  <br/>
+  <br>
   <article class="search-results">
     <h1 class="govuk-heading-l">There are no matching results</h1>
   </article>
