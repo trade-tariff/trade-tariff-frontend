@@ -16,6 +16,6 @@ class ExchangeRates::PeriodList
   def publication_date
     date_str = exchange_rate_periods.first.files.first&.publication_date
     date = Date.parse(date_str) if date_str
-    date&.strftime('%d %B %Y')
+    date&.to_formatted_s(:long)
   end
 end
