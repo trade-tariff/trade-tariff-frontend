@@ -63,9 +63,10 @@
         <!-- Export Measures are present in EU or UK (or both) -->
         <h3 class="govuk-heading-m" id="uk-export-controls">UK export controls</h3>
         <% if uk_declarable&.has_export_measures? %>
+
           <%= render partial: 'measures/grouped/table', locals: {
                      collection: uk_declarable.export_measures.sort_by(&:key),
-                     hide_duty_rate: true } %>
+                     hide_duty_rate: uk_declarable.export_measures.has_no_duties? } %>
           <% else %>
             <%= render 'measures/no_export_measures_warning', header: 'UK export controls' %>
         <% end %>
@@ -74,7 +75,7 @@
         <% if xi_declarable&.has_export_measures? %>
           <%= render partial: 'measures/grouped/table', locals: {
                      collection: xi_declarable.export_measures.sort_by(&:key),
-                     hide_duty_rate: true } %>
+                     hide_duty_rate: xi_declarable.export_measures.has_no_duties? } %>
         <% else %>
           <%= render 'measures/no_export_measures_warning', header: 'EU export controls' %>
         <% end %>
@@ -87,7 +88,7 @@
         <h3 class="govuk-heading-m" id="uk-export-controls">UK export controls</h3>
         <%= render partial: 'measures/grouped/table', locals: {
                    collection: uk_declarable.export_measures.sort_by(&:key),
-                   hide_duty_rate: true } %>
+                   hide_duty_rate: uk_declarable.export_measures.has_no_duties? } %>
       <% else %>
         <%= render 'measures/no_export_measures_warning' %>
       <% end %>

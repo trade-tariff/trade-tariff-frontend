@@ -109,6 +109,10 @@ class MeasureCollection < SimpleDelegator
     quotas.find { |m| m.order_number.number == number }
   end
 
+  def has_no_duties?
+    none?(&:duty_expression)
+  end
+
   private
 
   def tariff_preferences
