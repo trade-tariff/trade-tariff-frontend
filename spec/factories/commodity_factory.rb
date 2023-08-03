@@ -127,6 +127,14 @@ FactoryBot.define do
       end
     end
 
+    trait :with_export_measures do
+      export_measures do
+        [
+          attributes_for(:measure),
+        ]
+      end
+    end
+
     trait :with_conditionally_prohibitive_measures do
       import_measures do
         [

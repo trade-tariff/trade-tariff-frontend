@@ -1,0 +1,11 @@
+<!-- UK service -->
+<% if TradeTariffFrontend::ServiceChooser.uk? %>
+    <% if uk_declarable&.has_export_measures? %>
+    <h3 class="govuk-heading-m" id="uk-export-controls">UK export controls</h3>
+    <%= render partial: 'measures/grouped/table', locals: {
+                collection: uk_declarable.export_measures.sort_by(&:key),
+                hide_duty_rate: uk_declarable.export_measures.has_no_duties? } %>
+    <% else %>
+    <%= render 'measures/no_export_measures_warning' %>
+    <% end %>
+<% end %>
