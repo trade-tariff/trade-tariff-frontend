@@ -12,7 +12,7 @@
         <p><strong><a class="govuk-link" href="/todo">View online</a></strong> | 
         <% period.files.each_with_index do |file, index| %>
           <strong><a href="<%= file.file_path %>"><%= file.format.upcase %></strong> <%= file.file_size_in_kb %> KB</a>
-          <% unless index == period.files.size - 1 %>|<% end %>
+          <%= '|' unless index == period.files.size - 1 %>
         <% end %>
         </p>
 

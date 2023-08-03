@@ -24,7 +24,6 @@ module TradeTariffFrontend
       geographical_areas
       chemical_substances
       simplified_procedural_code_measures
-      exchange_rates
     ]
   end
 
