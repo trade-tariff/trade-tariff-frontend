@@ -19,6 +19,7 @@ module ApiEntity
     attr_accessor :casted_by
 
     delegate :relationships, to: :class
+    delegate :[], :dig, to: :attributes
 
     def inspect
       attrs = if defined?(@attributes) && @attributes.any?
