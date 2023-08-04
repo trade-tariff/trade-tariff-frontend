@@ -25,21 +25,24 @@
   <div class="govuk-tabs__panel" id="import">
     <h2 class="govuk-heading-l"><%= measures_heading(anchor: 'import') %></h2>
 
-    <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
+    <%= render 'declarables/consigned', declarable: declarable %>
 
     <% if declarable.import_measures.any? %>
-      <%= render partial: 'measures/grouped/navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
+      <%= render 'measures/grouped/navigation',
+                 uk_declarable: uk_declarable,
+                 xi_declarable: xi_declarable
+      %>
 
       <% if TradeTariffFrontend::ServiceChooser.xi? %>
-        <%= render partial: 'measures/grouped/xi',
-                   locals: { uk_declarable: uk_declarable,
-                             xi_declarable: xi_declarable,
-                             rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes } %>
+        <%= render 'measures/grouped/xi',
+                   uk_declarable: uk_declarable,
+                   xi_declarable: xi_declarable,
+                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes %>
       <% else %>
-        <%= render partial: 'measures/grouped/uk',
-                   locals: { uk_declarable: uk_declarable,
-                             xi_declarable: xi_declarable,
-                             rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes } %>
+        <%= render 'measures/grouped/uk',
+                   uk_declarable: uk_declarable,
+                   xi_declarable: xi_declarable,
+                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes %>
       <% end %>
 
     <% else %>
@@ -52,31 +55,18 @@
     <h2 class="govuk-heading-l"><%= measures_heading(anchor: 'export') %></h2>
     <p>The commodity code for exporting and <%= link_to 'Intrastat reporting', 'https://www.gov.uk/intrastat', target: "_blank" %> is <%= declarable.display_export_code %>.</p>
 
-    <%= render partial: 'declarables/consigned', locals: { declarable: declarable } %>
+    <%= render 'declarables/consigned', declarable: declarable %>
 
-    <% if uk_declarable&.export_measures&.any? %>
-      <h3 class="govuk-heading-m" id="uk-export-controls">
-        UK export controls
-      </h3>
-      <%= render partial: 'measures/grouped/table', locals: {
-        collection: uk_declarable.export_measures
-                              .without_supplementary_unit
-                              .sort_by(&:key),
-        hide_duty_rate: true } %>
-    <% end %>
-
-    <% if TradeTariffFrontend::ServiceChooser.xi? && xi_declarable&.export_measures&.any? %>
-      <h3 class="govuk-heading-m govuk-!-margin-top-9" id="eu-export-controls">
-        EU export controls
-      </h3>
-      <%= render partial: 'measures/grouped/table', locals: {
-        collection: xi_declarable.export_measures
-                                 .without_supplementary_unit
-                                 .sort_by(&:key),
-        hide_duty_rate: true } %>
-    <% else %>
-      <p>There are no export measures for this commodity on this date.</p>
-    <% end %>
+    <!-- EU Service -->
+    <%= render "measures/measures_export_eu",
+                xi_declarable: xi_declarable,
+                uk_declarable: uk_declarable
+    %>
+    
+    <!-- UK service -->
+    <%= render "measures/measures_export_uk",
+               uk_declarable: uk_declarable
+    %>
 
     <%= render 'measures/export_tab_check_duties',
                 declarable: declarable,
@@ -162,20 +152,20 @@
                 collection: uk_declarable.export_measures,
                 as: 'measure',
                 locals: {
-                    declarable: uk_declarable,
-                    anchor: 'export',
-                    rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+                  declarable: uk_declarable,
+                  anchor: 'export',
+                  rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
                 } %>
     <% end %>
 
     <% if xi_declarable&.export_measures&.any? %>
-        <%= render partial: 'measures/measure_references',
-                collection: xi_declarable.export_measures,
-                as: 'measure',
-                locals: {
-                    declarable: xi_declarable,
-                    anchor: 'export',
-                    rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+      <%= render partial: 'measures/measure_references',
+                 collection: xi_declarable.export_measures,
+                 as: 'measure',
+                 locals: {
+                   declarable: xi_declarable,
+                   anchor: 'export',
+                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
                 } %>
     <% end %>
   </div>
