@@ -2,7 +2,6 @@ require 'api_entity'
 
 class Certificate
   include ApiEntity
-  include HasGoodsNomenclature
 
   collection_path '/certificates'
 
@@ -13,7 +12,7 @@ class Certificate
                 :guidance_cds,
                 :guidance_chief
 
-  has_many :measures
+  has_many :goods_nomenclatures, polymorphic: true
 
   def code
     "#{certificate_type_code}#{certificate_code}"
