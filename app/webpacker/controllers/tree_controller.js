@@ -66,7 +66,7 @@ export default class extends Controller {
   #openBranch(branch, childList) {
     childList.setAttribute('aria-hidden', 'false');
     branch.classList.add('open');
-    branch.setAttribute('title', 'Click to open');
+    branch.setAttribute('title', 'Click to close');
     branch.setAttribute('aria-expanded', 'true');
 
     this.#focusChild(childList);
@@ -75,7 +75,7 @@ export default class extends Controller {
   #closeBranch(branch, childList) {
     childList.setAttribute('aria-hidden', 'true');
     branch.classList.remove('open');
-    branch.setAttribute('title', 'Click to close');
+    branch.setAttribute('title', 'Click to open');
     branch.setAttribute('aria-expanded', 'false');
 
     this.#focusChild(childList);
