@@ -128,8 +128,7 @@ class SearchController < ApplicationController
   def footnote_search
     form = FootnoteSearchForm.new(params.permit(:code,
                                                 :type,
-                                                :description,
-                                                :page))
+                                                :description))
     @result = FootnoteSearchPresenter.new(form)
     respond_to do |format|
       format.html
@@ -139,8 +138,7 @@ class SearchController < ApplicationController
   def certificate_search
     form = CertificateSearchForm.new(params.permit(:code,
                                                    :type,
-                                                   :description,
-                                                   :page))
+                                                   :description))
     @result = CertificateSearchPresenter.new(form)
 
     respond_to do |format|

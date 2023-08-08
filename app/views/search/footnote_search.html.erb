@@ -5,14 +5,13 @@
         [t('breadcrumb.home'), find_commodity_path],
         [t('breadcrumb.tools'), tools_path]
       ]
-    )
-  %>
+    ) %>
 <% end %>
 
-
 <%= render partial: 'search/footnotes/form', locals: { search_form: @result.search_form } %>
+
 <% if @result.search_result&.any? %>
-  <br/>
+  <br>
   <article class="search-results">
     <h1 class="govuk-heading-l">Footnote search results</h1>
 
@@ -38,33 +37,25 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% if footnote.extra_large_measures %>
-            <tr class="govuk-table__row">
-              <td colspan="2" class="govuk-table__cell">
-                Too many commodities are associated with footnote <a class="inline" href="<%= footnote_search_path(type: footnote.footnote_type_id, code: footnote.footnote_id) %>"><%= footnote.code %></a>.
-              </td>
-            </tr>
-          <% elsif footnote.all_goods_nomenclatures.empty? %>
+          <% if footnote.goods_nomenclatures.empty? %>
             <tr class="govuk-table__row">
               <td colspan="2" class="govuk-table__cell">
                 No valid commodities are associated with footnote <a class="inline" href="<%= footnote_search_path(type: footnote.footnote_type_id, code: footnote.footnote_id) %>"><%= footnote.code %></a>.
               </td>
             </tr>
           <% else %>
-            <%= render partial: 'search/common/goods_nomenclature', collection: footnote.all_goods_nomenclatures %>
+            <%= render partial: 'search/common/goods_nomenclature', collection: footnote.goods_nomenclatures %>
           <% end %>
         </tbody>
       </table>
     <% end %>
-
-    <%= paginate @result.search_result %>
   </article>
 <% elsif @result.with_errors %>
   <article class="search-results">
     <h1 class="govuk-heading-l">Sorry, there is a problem with the search query. Please specify one or more search criteria.</h1>
   </article>
 <% elsif @result.search_form.present? %>
-  <br/>
+  <br>
   <article class="search-results">
     <h1 class="govuk-heading-l">There are no matching results</h1>
   </article>
