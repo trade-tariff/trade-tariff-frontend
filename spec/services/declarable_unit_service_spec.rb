@@ -14,10 +14,16 @@ RSpec.describe DeclarableUnitService do
     context 'when the service is uk' do
       include_context 'with UK service'
 
-      context 'when there are supplementary units' do
-        let(:uk_import_measures) { [attributes_for(:measure, :import_export_supplementary)] }
+      context 'when there are supplementary units for erga omnes' do
+        let(:uk_import_measures) { [attributes_for(:measure, :import_export_supplementary, :erga_omnes)] }
 
         it { is_expected.to eq('Number of items (p/st)') }
+      end
+
+      context 'when there are supplementary units in another geography' do
+        let(:uk_import_measures) { [attributes_for(:measure, :import_export_supplementary, geographical_area_id: 'IT')] }
+
+        it { is_expected.to eq('There are no supplementary unit measures assigned to this commodity') }
       end
 
       context 'when the country is provided and there are unit measures' do
@@ -80,10 +86,16 @@ RSpec.describe DeclarableUnitService do
     context 'when the service is xi' do
       include_context 'with XI service'
 
-      context 'when there are supplementary units' do
-        let(:xi_import_measures) { [attributes_for(:measure, :import_export_supplementary)] }
+      context 'when there are supplementary units for erga omnes' do
+        let(:xi_import_measures) { [attributes_for(:measure, :import_export_supplementary, :erga_omnes)] }
 
         it { is_expected.to eq('Number of items (p/st)') }
+      end
+
+      context 'when there are supplementary units in another geography' do
+        let(:uk_import_measures) { [attributes_for(:measure, :import_export_supplementary, geographical_area_id: 'IT')] }
+
+        it { is_expected.to eq('There are no supplementary unit measures assigned to this commodity') }
       end
 
       context 'when the country is provided and there are unit measures' do
