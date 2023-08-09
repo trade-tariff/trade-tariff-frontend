@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-RSpec.describe SearchController, type: :controller, vcr: { cassette_name: 'search#footnote_search', record: :new_episodes } do
-  render_views
+RSpec.describe SearchController, 'GET to #footnote_search', type: :controller do
+  context 'without search params', vcr: { cassette_name: 'search#footnote_search_without_params' } do
+    render_views
 
-  context 'without search params' do
     before do
       get :footnote_search, format: :html
     end
@@ -15,9 +15,11 @@ RSpec.describe SearchController, type: :controller, vcr: { cassette_name: 'searc
     end
   end
 
-  context 'when searching by code and type' do
+  context 'search by code', vcr: { cassette_name: 'search#footnote_search_by_code' } do
+    render_views
+
     before do
-      get :footnote_search, params: { code: '133', type: 'TN' }, format: :html
+      get :footnote_search, params: { code: '133' }, format: :html
     end
 
     it { is_expected.to respond_with(:success) }
@@ -27,7 +29,23 @@ RSpec.describe SearchController, type: :controller, vcr: { cassette_name: 'searc
     end
   end
 
-  context 'when searching by description' do
+  context 'search by type', vcr: { cassette_name: 'search#footnote_search_by_type' } do
+    render_views
+
+    before do
+      get :footnote_search, params: { type: 'TN' }, format: :html
+    end
+
+    it { is_expected.to respond_with(:success) }
+
+    it 'displays results' do
+      expect(response.body).to match(/Footnote search results/)
+    end
+  end
+
+  context 'search by description', vcr: { cassette_name: 'search#footnote_search_by_description' } do
+    render_views
+
     before do
       get :footnote_search, params: { description: 'copper' }, format: :html
     end

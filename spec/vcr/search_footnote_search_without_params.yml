@@ -1,0 +1,70 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/footnote_types
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v0.11.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"1787c2ad6985925beb6e2d39e75ea719"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 4f5e838d-07dc-4178-9e04-82d8ea598e72
+      X-Runtime:
+      - '0.016216'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":"NC","type":"footnote_type","attributes":{"footnote_type_id":"NC","description":"Combined
+        Nomenclature"}},{"id":"TN","type":"footnote_type","attributes":{"footnote_type_id":"TN","description":"Taric
+        Nomenclature"}},{"id":"WR","type":"footnote_type","attributes":{"footnote_type_id":"WR","description":"Wine
+        reference"}},{"id":"NM","type":"footnote_type","attributes":{"footnote_type_id":"NM","description":"CN
+        measure"}},{"id":"TM","type":"footnote_type","attributes":{"footnote_type_id":"TM","description":"Taric
+        Measure"}},{"id":"MX","type":"footnote_type","attributes":{"footnote_type_id":"MX","description":"Export
+        refund measure"}},{"id":"MH","type":"footnote_type","attributes":{"footnote_type_id":"MH","description":"Meursing
+        table"}},{"id":"CA","type":"footnote_type","attributes":{"footnote_type_id":"CA","description":"Additional
+        nomenclature - CADD"}},{"id":"NX","type":"footnote_type","attributes":{"footnote_type_id":"NX","description":"Export
+        Refund Nomenclature"}},{"id":"CD","type":"footnote_type","attributes":{"footnote_type_id":"CD","description":"Conditions"}},{"id":"PB","type":"footnote_type","attributes":{"footnote_type_id":"PB","description":"Publication"}},{"id":"PN","type":"footnote_type","attributes":{"footnote_type_id":"PN","description":"See
+        annex"}},{"id":"TP","type":"footnote_type","attributes":{"footnote_type_id":"TP","description":"Dynamic
+        footnote"}},{"id":"DU","type":"footnote_type","attributes":{"footnote_type_id":"DU","description":"Dual
+        use goods"}},{"id":"TR","type":"footnote_type","attributes":{"footnote_type_id":"TR","description":"Torture
+        and repression"}},{"id":"CG","type":"footnote_type","attributes":{"footnote_type_id":"CG","description":"Cultural
+        goods"}},{"id":"EU","type":"footnote_type","attributes":{"footnote_type_id":"EU","description":"End
+        use"}},{"id":"MG","type":"footnote_type","attributes":{"footnote_type_id":"MG","description":"Military
+        goods and technologies"}},{"id":"CO","type":"footnote_type","attributes":{"footnote_type_id":"CO","description":"Conditions"}},{"id":"01","type":"footnote_type","attributes":{"footnote_type_id":"01","description":"UK
+        tax type, to distinguish which applies by tax type when several Excise measures
+        on commodity"}},{"id":"02","type":"footnote_type","attributes":{"footnote_type_id":"02","description":"UK
+        complex calculation of excise duty (small brewery beer and cigarettes rate
+        calculation)"}},{"id":"03","type":"footnote_type","attributes":{"footnote_type_id":"03","description":"UK
+        VAT rate, to distinguish which applies when multiple rates on same commodity"}},{"id":"04","type":"footnote_type","attributes":{"footnote_type_id":"04","description":"UK
+        footnotes_oplog on prohibitions and restrictions"}},{"id":"05","type":"footnote_type","attributes":{"footnote_type_id":"05","description":"UK
+        footnotes_oplog on commodities"}},{"id":"06","type":"footnote_type","attributes":{"footnote_type_id":"06","description":"UK
+        footnotes_oplog on EU measures"}},{"id":"OZ","type":"footnote_type","attributes":{"footnote_type_id":"OZ","description":"Ozone-depleting
+        substances"}},{"id":"IS","type":"footnote_type","attributes":{"footnote_type_id":"IS","description":"Invasive
+        alien species"}}]}'
+    http_version: 
+  recorded_at: Fri, 04 Oct 2019 12:36:32 GMT
+recorded_with: VCR 3.0.3

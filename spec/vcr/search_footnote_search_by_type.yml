@@ -1,0 +1,407 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/footnotes/search?code&description&page=1&type=TN
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v0.11.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"1d447d93ff1078e71c09993d11352b08"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - a8720d05-adbc-4133-b270-cd36ef788c0b
+      X-Runtime:
+      - '0.019989'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":"TN001","type":"footnote","attributes":{"code":"TN001","footnote_type_id":"TN","footnote_id":"001","description":"Entry
+        under this subheading is subject to the conditions laid down in Section II.F.
+        of the preliminary provisions.","formatted_description":"Entry under this
+        subheading is subject to the conditions laid down in Section II.F. of the
+        preliminary provisions.","extra_large_measures":false},"relationships":{"measures":{"data":[]},"goods_nomenclatures":{"data":[]}}},{"id":"TN006","type":"footnote","attributes":{"code":"TN006","footnote_type_id":"TN","footnote_id":"006","description":"Complying
+        with the provisions of the Directives on the marketing of seeds and plants.","formatted_description":"Complying
+        with the provisions of the Directives on the marketing of seeds and plants.","extra_large_measures":false},"relationships":{"measures":{"data":[]},"goods_nomenclatures":{"data":[]}}},{"id":"TN018","type":"footnote","attributes":{"code":"TN018","footnote_type_id":"TN","footnote_id":"018","description":"\"Airtight
+        cans\" means cans which are soldered or bonded in such a manner that neither
+        air nor germs can penetrate and which cannot be opened other than by the process
+        of deterioration.","formatted_description":"\"Airtight cans\" means cans which
+        are soldered or bonded in such a manner that neither air nor germs can penetrate
+        and which cannot be opened other than by the process of deterioration.","extra_large_measures":false},"relationships":{"measures":{"data":[]},"goods_nomenclatures":{"data":[]}}},{"id":"TN022","type":"footnote","attributes":{"code":"TN022","footnote_type_id":"TN","footnote_id":"022","description":"\"Free-at-frontier
+        value\" means the free-at-frontier price or fob price in the country of exportation,
+        plus an amount, where appropriate, for delivery costs and insurance to the
+        customs territory of the Community.","formatted_description":"\"Free-at-frontier
+        value\" means the free-at-frontier price or fob price in the country of exportation,
+        plus an amount, where appropriate, for delivery costs and insurance to the
+        customs territory of the Community.","extra_large_measures":false},"relationships":{"measures":{"data":[]},"goods_nomenclatures":{"data":[]}}},{"id":"TN026","type":"footnote","attributes":{"code":"TN026","footnote_type_id":"TN","footnote_id":"026","description":"For
+        the construction, maintenance and repair of aircraft of an unladen weight
+        exceeding 2|000|Kilograms and of ground flying trainers for civil use.","formatted_description":"For
+        the construction, maintenance and repair of aircraft of an unladen weight
+        exceeding 2\u0026nbsp;000\u0026nbsp;Kilograms and of ground flying trainers
+        for civil use.","extra_large_measures":false},"relationships":{"measures":{"data":[]},"goods_nomenclatures":{"data":[]}}}],"included":[{"id":"70346","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"0806101005","goods_nomenclature_sid":70346,"number_indents":3,"description":"Of
+        the variety emperor (vitis vinifera c.v.), from 1 january to 31 january and
+        from 1 december to 31 december","productline_suffix":"80"}},{"id":"92784","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"2501005110","goods_nomenclature_sid":92784,"number_indents":4,"description":"Denatured","productline_suffix":"80"}},{"id":"101742","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8419508010","goods_nomenclature_sid":101742,"number_indents":3,"description":"For
+        use in civil aircraft","productline_suffix":"80"}},{"id":"94694","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"1209918010","goods_nomenclature_sid":94694,"number_indents":4,"description":"Seeds","productline_suffix":"80"}},{"id":"32230","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"1209999910","goods_nomenclature_sid":32230,"number_indents":5,"description":"Seeds","productline_suffix":"80"}},{"id":"32796","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"1604139091","goods_nomenclature_sid":32796,"number_indents":6,"description":"In
+        airtight cans","productline_suffix":"80"}},{"id":"32906","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"1604209030","goods_nomenclature_sid":32906,"number_indents":5,"description":"In
+        airtight cans","productline_suffix":"80"}},{"id":"103513","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"1605100011","goods_nomenclature_sid":103513,"number_indents":3,"description":"Cancer
+        pagurus","productline_suffix":"80"}},{"id":"104501","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"1605100021","goods_nomenclature_sid":104501,"number_indents":4,"description":"Of
+        the species \"king\" (paralithodes camchaticus), \"hanasaki\" (paralithodes
+        brevipes), \"kegani\" (erimacrus isenbecki), \"queen\" and \"snow\" (chionoecetes
+        spp.), \"red\" (geryon quinquedens), \"rough stone\" (neolithodes asperrimus),
+        lithodes santolla, \"mud\" (scylla serrata), \"blue\" (portunus spp.), simply
+        boiled in water and shelled, whether or not frozen, in immediate packings
+        of a net content of 2\u0026nbsp;kilograms or more, for processing","productline_suffix":"80"}},{"id":"104511","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"1605100021","goods_nomenclature_sid":104511,"number_indents":3,"description":"Other","productline_suffix":"10"}},{"id":"104499","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"1605100029","goods_nomenclature_sid":104499,"number_indents":4,"description":"Other","productline_suffix":"80"}},{"id":"29845","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"0406902110","goods_nomenclature_sid":29845,"number_indents":4,"description":"Made
+        from unpasteurized milk, of a minimum fat content of 50% by weight, in the
+        dry matter, matured for at least nine months, of a free-at-frontier value
+        per 100\u0026nbsp;kg net weight of 334,20\u0026nbsp;euro or more in the case
+        of standard whole sizes (cheeses of the conventional flat cylindrical shape
+        of a net weight of not less than 33\u0026nbsp;kg but not more than 44\u0026nbsp;kg;
+        cubic block shape or parallelepiped shape, of a net weight of 10\u0026nbsp;kg
+        or more), 354,83\u0026nbsp;euro or more in the case of cheeses of a net weight
+        of 500\u0026nbsp;g or more and 368,58\u0026nbsp;euro or more in the case of
+        cheeses of a net weight of less than 500\u0026nbsp;g","productline_suffix":"80"}},{"id":"38459","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3813000010","goods_nomenclature_sid":38459,"number_indents":1,"description":"Preparations
+        and charges for fire-extinguishers, of mentioned in code 8424, for use in
+        certain types of aircraft","productline_suffix":"80"}},{"id":"38523","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3819000010","goods_nomenclature_sid":38523,"number_indents":1,"description":"Based
+        on silicate or phosphoric esters, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38673","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3901300010","goods_nomenclature_sid":38673,"number_indents":2,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38691","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3902300010","goods_nomenclature_sid":38691,"number_indents":2,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"65323","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3902909010","goods_nomenclature_sid":65323,"number_indents":3,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38722","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3904100010","goods_nomenclature_sid":38722,"number_indents":2,"description":"In
+        the form of granules, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38726","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3904210010","goods_nomenclature_sid":38726,"number_indents":3,"description":"In
+        the form of granules, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38729","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3904220010","goods_nomenclature_sid":38729,"number_indents":3,"description":"In
+        the form of granules, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38733","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3904400010","goods_nomenclature_sid":38733,"number_indents":2,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"65341","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3904509010","goods_nomenclature_sid":65341,"number_indents":3,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38755","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3904900010","goods_nomenclature_sid":38755,"number_indents":2,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38761","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3905190010","goods_nomenclature_sid":38761,"number_indents":3,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"60914","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3905290010","goods_nomenclature_sid":60914,"number_indents":3,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"60916","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3905910010","goods_nomenclature_sid":60916,"number_indents":3,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"65356","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3905999010","goods_nomenclature_sid":65356,"number_indents":4,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38856","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3911100010","goods_nomenclature_sid":38856,"number_indents":2,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"65409","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3911909910","goods_nomenclature_sid":65409,"number_indents":4,"description":"For
+        cavity filling, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"38942","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3916100010","goods_nomenclature_sid":38942,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"38979","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3917211010","goods_nomenclature_sid":38979,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"83052","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3917219020","goods_nomenclature_sid":83052,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"38988","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3917221010","goods_nomenclature_sid":38988,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"83056","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3917229020","goods_nomenclature_sid":83056,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"38997","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3917231010","goods_nomenclature_sid":38997,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"83443","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3917239020","goods_nomenclature_sid":83443,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"83456","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3917310020","goods_nomenclature_sid":83456,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"39076","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3918101010","goods_nomenclature_sid":39076,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"39079","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3918109010","goods_nomenclature_sid":39079,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"39082","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3918900010","goods_nomenclature_sid":39082,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"69592","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920102410","goods_nomenclature_sid":69592,"number_indents":6,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"55242","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920102810","goods_nomenclature_sid":55242,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"55247","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920104010","goods_nomenclature_sid":55247,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"65436","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920108910","goods_nomenclature_sid":65436,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"39208","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920202110","goods_nomenclature_sid":39208,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"39211","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920202910","goods_nomenclature_sid":39211,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"39227","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920300010","goods_nomenclature_sid":39227,"number_indents":2,"description":"Acrylonitrile-butadiene-styrene,
+        for use in certain types of aircraft","productline_suffix":"80"}},{"id":"73482","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920431010","goods_nomenclature_sid":73482,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"73489","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920439010","goods_nomenclature_sid":73489,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"73493","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920491010","goods_nomenclature_sid":73493,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"73509","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920499010","goods_nomenclature_sid":73509,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"39362","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920910010","goods_nomenclature_sid":39362,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"65465","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3920995910","goods_nomenclature_sid":65465,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"39409","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3921110010","goods_nomenclature_sid":39409,"number_indents":3,"description":"Acrylonitrile
+        butadiene styrene, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"39413","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3921120020","goods_nomenclature_sid":39413,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"70422","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3921190010","goods_nomenclature_sid":70422,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"39462","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"3921906010","goods_nomenclature_sid":39462,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"70988","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7019390020","goods_nomenclature_sid":70988,"number_indents":3,"description":"Boards
+        and similar non-woven products of low moisture absorption capacity, intended
+        for certain types of aircraft","productline_suffix":"80"}},{"id":"46235","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307210010","goods_nomenclature_sid":46235,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"56438","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307221010","goods_nomenclature_sid":56438,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"56440","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307229010","goods_nomenclature_sid":56440,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"46249","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307291010","goods_nomenclature_sid":46249,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"46259","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307910010","goods_nomenclature_sid":46259,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"56442","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307921010","goods_nomenclature_sid":56442,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"56444","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307929010","goods_nomenclature_sid":56444,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"46274","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307939110","goods_nomenclature_sid":46274,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"46277","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307939910","goods_nomenclature_sid":46277,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"46281","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7307991010","goods_nomenclature_sid":46281,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"46418","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7318130010","goods_nomenclature_sid":46418,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"102529","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7318163110","goods_nomenclature_sid":102529,"number_indents":5,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"102535","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7318163910","goods_nomenclature_sid":102535,"number_indents":5,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"102525","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7318164010","goods_nomenclature_sid":102525,"number_indents":5,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"102513","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7318166010","goods_nomenclature_sid":102513,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"46550","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7318190020","goods_nomenclature_sid":46550,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"46560","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7318230020","goods_nomenclature_sid":46560,"number_indents":3,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46563","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7318240020","goods_nomenclature_sid":46563,"number_indents":3,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46566","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7318290020","goods_nomenclature_sid":46566,"number_indents":3,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46579","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320101110","goods_nomenclature_sid":46579,"number_indents":4,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46582","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320101910","goods_nomenclature_sid":46582,"number_indents":4,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46585","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320109010","goods_nomenclature_sid":46585,"number_indents":3,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46592","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320202010","goods_nomenclature_sid":46592,"number_indents":3,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46596","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320208110","goods_nomenclature_sid":46596,"number_indents":4,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46599","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320208510","goods_nomenclature_sid":46599,"number_indents":4,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46602","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320208910","goods_nomenclature_sid":46602,"number_indents":4,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46611","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320901010","goods_nomenclature_sid":46611,"number_indents":3,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46614","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320903010","goods_nomenclature_sid":46614,"number_indents":3,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"46617","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7320909010","goods_nomenclature_sid":46617,"number_indents":3,"description":"For
+        use in  certain types of aircraft","productline_suffix":"80"}},{"id":"65505","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7325999010","goods_nomenclature_sid":65505,"number_indents":4,"description":"Collars,
+        flanges and other devices for fixing, jointing, clamping or spacing, for use
+        in certain types of aircraft","productline_suffix":"80"}},{"id":"65506","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7325999020","goods_nomenclature_sid":65506,"number_indents":4,"description":"Devices
+        for cargo stowage and clamping freight, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"65507","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7325999030","goods_nomenclature_sid":65507,"number_indents":4,"description":"Balls
+        used in freight loading systems in certain types of aircraft","productline_suffix":"80"}},{"id":"79574","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7326909810","goods_nomenclature_sid":79574,"number_indents":4,"description":"Collars,
+        flanges and other devices for fixing, jointing, clamping or spacing, for use
+        in certain types of aircraft","productline_suffix":"80"}},{"id":"79584","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7326909820","goods_nomenclature_sid":79584,"number_indents":4,"description":"Devices
+        for cargo stowage and clamping freight, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"79585","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7326909830","goods_nomenclature_sid":79585,"number_indents":4,"description":"Ball
+        bearings used in freight loading systems in certain types of aircraft","productline_suffix":"80"}},{"id":"46943","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7604109010","goods_nomenclature_sid":46943,"number_indents":3,"description":"Bearing
+        a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46944","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7604109020","goods_nomenclature_sid":46944,"number_indents":3,"description":"Conical
+        shapes for reinforcing lateral rudders, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46951","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7604299010","goods_nomenclature_sid":46951,"number_indents":4,"description":"Bearing
+        a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46952","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7604299020","goods_nomenclature_sid":46952,"number_indents":4,"description":"Conical
+        shapes for reinforcing lateral rudders, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46969","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7606111010","goods_nomenclature_sid":46969,"number_indents":4,"description":"Plates
+        bearing a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46973","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7606119110","goods_nomenclature_sid":46973,"number_indents":5,"description":"Plates
+        bearing a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46976","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7606119310","goods_nomenclature_sid":46976,"number_indents":5,"description":"Plates
+        bearing a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46979","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7606119910","goods_nomenclature_sid":46979,"number_indents":5,"description":"Plates
+        bearing a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46992","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7606129310","goods_nomenclature_sid":46992,"number_indents":6,"description":"Plates
+        bearing a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46995","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7606129910","goods_nomenclature_sid":46995,"number_indents":6,"description":"Plates
+        bearing a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"46999","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7606910010","goods_nomenclature_sid":46999,"number_indents":3,"description":"Plates
+        bearing a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"47002","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7606920010","goods_nomenclature_sid":47002,"number_indents":3,"description":"Plates
+        bearing a specific manufacture number, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"84115","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7608100020","goods_nomenclature_sid":84115,"number_indents":2,"description":"Tubes
+        and pipes, ready for fitting, usable as hydraulic conduits or as conduits
+        for fuel-oil or lubricants for use in certain types of aircraft","productline_suffix":"80"}},{"id":"84147","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7608202020","goods_nomenclature_sid":84147,"number_indents":3,"description":"Tubes
+        and pipes, ready for fitting, usable as hydraulic conduits or as conduits
+        for fuel-oil or lubricants for use in certain types of aircraft","productline_suffix":"80"}},{"id":"84148","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7608208920","goods_nomenclature_sid":84148,"number_indents":4,"description":"Tubes
+        and pipes, ready for fitting, usable as hydraulic conduits or as conduits
+        for fuel-oil or lubricants for use in certain types of aircraft","productline_suffix":"80"}},{"id":"47041","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7609000010","goods_nomenclature_sid":47041,"number_indents":1,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"47057","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7613000010","goods_nomenclature_sid":47057,"number_indents":1,"description":"Bottles
+        for inflating escape chutes, intended for use in certain types of aircraft","productline_suffix":"80"}},{"id":"47073","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7616100091","goods_nomenclature_sid":47073,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"60935","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7616991010","goods_nomenclature_sid":60935,"number_indents":4,"description":"Collars,
+        flanges and other devices for fixing, jointing, clamping or spacing, for use
+        in certain types of aircraft","productline_suffix":"80"}},{"id":"60936","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7616991020","goods_nomenclature_sid":60936,"number_indents":4,"description":"\"quick
+        change\" apparatus for transforming passenger transport aeroplanes into goods
+        transport aeroplanes and vice versa, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"60938","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7616999010","goods_nomenclature_sid":60938,"number_indents":5,"description":"Collars,
+        flanges and other devices for fixing, jointing, clamping or spacing, for use
+        in certain types of aircraft","productline_suffix":"80"}},{"id":"60939","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7616999020","goods_nomenclature_sid":60939,"number_indents":5,"description":"\"quick
+        change\" apparatus for transforming passenger transport aeroplanes into goods
+        transport aeroplanes and vice versa, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"60940","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"7616999030","goods_nomenclature_sid":60940,"number_indents":5,"description":"Plates
+        and sheets of variable thickness of widths of 1\u0026nbsp;200\u0026nbsp;mm
+        or more, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"84246","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8108906020","goods_nomenclature_sid":84246,"number_indents":3,"description":"Thin-walled
+        tubes ready for use in ventilation and air-conditioning systems, for use in
+        certain types of aircraft","productline_suffix":"80"}},{"id":"47225","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8108909091","goods_nomenclature_sid":47225,"number_indents":4,"description":"Bolts,
+        nuts, screws, rivets and similar articles complying with us standards, for
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"47553","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8308200010","goods_nomenclature_sid":47553,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"48034","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8418991010","goods_nomenclature_sid":48034,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"48037","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8418999010","goods_nomenclature_sid":48037,"number_indents":4,"description":"Of
+        refrigerating equipment adapted to the air-conditioning system, for use in
+        certain types of aircraft","productline_suffix":"80"}},{"id":"70294","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481100510","goods_nomenclature_sid":70294,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49238","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481101910","goods_nomenclature_sid":49238,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49248","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481109910","goods_nomenclature_sid":49248,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62975","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481201020","goods_nomenclature_sid":62975,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62976","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481209020","goods_nomenclature_sid":62976,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62977","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481309120","goods_nomenclature_sid":62977,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62978","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481309920","goods_nomenclature_sid":62978,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62979","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481401050","goods_nomenclature_sid":62979,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62980","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481409010","goods_nomenclature_sid":62980,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49288","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481801110","goods_nomenclature_sid":49288,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49291","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481801910","goods_nomenclature_sid":49291,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"72155","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481804010","goods_nomenclature_sid":72155,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62981","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481806350","goods_nomenclature_sid":62981,"number_indents":6,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62982","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481806950","goods_nomenclature_sid":62982,"number_indents":6,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49318","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481807310","goods_nomenclature_sid":49318,"number_indents":6,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49321","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481807910","goods_nomenclature_sid":49321,"number_indents":6,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62983","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481808130","goods_nomenclature_sid":62983,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62984","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481808530","goods_nomenclature_sid":62984,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62985","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481808730","goods_nomenclature_sid":62985,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62986","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481809940","goods_nomenclature_sid":62986,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49341","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8481900010","goods_nomenclature_sid":49341,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49500","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501101010","goods_nomenclature_sid":49500,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49504","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501109110","goods_nomenclature_sid":49504,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49507","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501109310","goods_nomenclature_sid":49507,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49510","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501109910","goods_nomenclature_sid":49510,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"82355","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501200020","goods_nomenclature_sid":82355,"number_indents":2,"description":"Of
+        an output of less than 750\u0026nbsp;w or exceeding 150\u0026nbsp;kw, for
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"82358","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501310020","goods_nomenclature_sid":82358,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"82376","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501330020","goods_nomenclature_sid":82376,"number_indents":3,"description":"Of
+        an output exceding 150 kw, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"82388","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501402020","goods_nomenclature_sid":82388,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"82389","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501408020","goods_nomenclature_sid":82389,"number_indents":3,"description":"Of
+        an output exceeding\u0026nbsp;150\u0026nbsp;kw, for use in certain types of
+        aircraft","productline_suffix":"80"}},{"id":"82393","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501510020","goods_nomenclature_sid":82393,"number_indents":3,"description":"Of
+        an output of less than 750\u0026nbsp;w, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"82407","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501538120","goods_nomenclature_sid":82407,"number_indents":5,"description":"Of
+        an output exceeding\u0026nbsp;150\u0026nbsp;kw, for use in certain types of
+        aircraft","productline_suffix":"80"}},{"id":"49621","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501539410","goods_nomenclature_sid":49621,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49624","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8501539910","goods_nomenclature_sid":49624,"number_indents":5,"description":"For
+        use in certain types of aircrafts","productline_suffix":"80"}},{"id":"49670","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8503001010","goods_nomenclature_sid":49670,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49677","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8503009110","goods_nomenclature_sid":49677,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49680","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8503009910","goods_nomenclature_sid":49680,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"69088","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8504901810","goods_nomenclature_sid":69088,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"68870","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8504909910","goods_nomenclature_sid":68870,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49752","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8505110010","goods_nomenclature_sid":49752,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49756","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8505191010","goods_nomenclature_sid":49756,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49759","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8505199010","goods_nomenclature_sid":49759,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49762","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8505200010","goods_nomenclature_sid":49762,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49775","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8505909010","goods_nomenclature_sid":49775,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"49940","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8511900010","goods_nomenclature_sid":49940,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50045","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8516900010","goods_nomenclature_sid":50045,"number_indents":2,"description":"For
+        heating aircraft and wing surfaces, mounted on propeller aeroplanes, and for
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50121","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8518900010","goods_nomenclature_sid":50121,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50199","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8521900010","goods_nomenclature_sid":50199,"number_indents":2,"description":"Video-reproducing
+        apparatus, for certain types of aircraft","productline_suffix":"80"}},{"id":"82691","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8522904920","goods_nomenclature_sid":82691,"number_indents":5,"description":"For
+        cockpit voice-recorders for use in certain types of aircraft","productline_suffix":"80"}},{"id":"82692","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8522904930","goods_nomenclature_sid":82692,"number_indents":5,"description":"Parts
+        and accesories for music reproducers and automatic announcers, for use in
+        certain types of aircraft","productline_suffix":"80"}},{"id":"82702","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8522908010","goods_nomenclature_sid":82702,"number_indents":4,"description":"For
+        cockpit voice-recorders for use in certain types of aircraft","productline_suffix":"80"}},{"id":"82703","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8522908020","goods_nomenclature_sid":82703,"number_indents":4,"description":"Parts
+        and accessories for music reproducers and automatic announcers, for use in
+        certain types of aircraft","productline_suffix":"80"}},{"id":"50685","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8535100010","goods_nomenclature_sid":50685,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50689","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8535210010","goods_nomenclature_sid":50689,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50692","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8535290010","goods_nomenclature_sid":50692,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50696","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8535301010","goods_nomenclature_sid":50696,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50699","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8535309010","goods_nomenclature_sid":50699,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50702","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8535400010","goods_nomenclature_sid":50702,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50705","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8535900010","goods_nomenclature_sid":50705,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50716","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536101010","goods_nomenclature_sid":50716,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50719","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536105010","goods_nomenclature_sid":50719,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50722","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536109010","goods_nomenclature_sid":50722,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50726","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536201010","goods_nomenclature_sid":50726,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50729","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536209010","goods_nomenclature_sid":50729,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50733","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536301010","goods_nomenclature_sid":50733,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50736","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536303010","goods_nomenclature_sid":50736,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50739","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536309010","goods_nomenclature_sid":50739,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50744","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536411010","goods_nomenclature_sid":50744,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50749","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536419010","goods_nomenclature_sid":50749,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50754","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536490010","goods_nomenclature_sid":50754,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50766","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536501110","goods_nomenclature_sid":50766,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50769","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536501510","goods_nomenclature_sid":50769,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50772","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536501910","goods_nomenclature_sid":50772,"number_indents":5,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"69000","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536508010","goods_nomenclature_sid":69000,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50784","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536611010","goods_nomenclature_sid":50784,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50787","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536619010","goods_nomenclature_sid":50787,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50799","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536699010","goods_nomenclature_sid":50799,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50803","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8536900110","goods_nomenclature_sid":50803,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50827","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8537101010","goods_nomenclature_sid":50827,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50831","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8537109110","goods_nomenclature_sid":50831,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50848","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8537209110","goods_nomenclature_sid":50848,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50851","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8537209910","goods_nomenclature_sid":50851,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"50855","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8538100010","goods_nomenclature_sid":50855,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"69201","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8538909110","goods_nomenclature_sid":69201,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"69205","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8538909910","goods_nomenclature_sid":69205,"number_indents":4,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"60982","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8539219210","goods_nomenclature_sid":60982,"number_indents":5,"description":"Lamps
+        for lighting, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"60983","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8539219810","goods_nomenclature_sid":60983,"number_indents":5,"description":"Lamps
+        for lighting, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"50887","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8539221010","goods_nomenclature_sid":50887,"number_indents":4,"description":"Lamps
+        for lighting, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"50890","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8539229010","goods_nomenclature_sid":50890,"number_indents":4,"description":"Lamps
+        for lighting, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"60985","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8539299210","goods_nomenclature_sid":60985,"number_indents":5,"description":"Lamps
+        for lighting, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"60987","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8539299810","goods_nomenclature_sid":60987,"number_indents":5,"description":"Lamps
+        for lighting, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"50907","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8539311010","goods_nomenclature_sid":50907,"number_indents":4,"description":"Lamps
+        for lighting, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"50910","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8539319010","goods_nomenclature_sid":50910,"number_indents":4,"description":"Lamps
+        for lighting, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"60989","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8539329010","goods_nomenclature_sid":60989,"number_indents":4,"description":"Lamps
+        for lighting, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"50987","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540120010","goods_nomenclature_sid":50987,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"51007","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540201010","goods_nomenclature_sid":51007,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"70472","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540208010","goods_nomenclature_sid":70472,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62463","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540400010","goods_nomenclature_sid":62463,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62465","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540600010","goods_nomenclature_sid":62465,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62466","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540710010","goods_nomenclature_sid":62466,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"62468","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540790010","goods_nomenclature_sid":62468,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"51067","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540810010","goods_nomenclature_sid":51067,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"70476","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540890010","goods_nomenclature_sid":70476,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"51084","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540910010","goods_nomenclature_sid":51084,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"51096","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8540990010","goods_nomenclature_sid":51096,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"69012","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"8548909010","goods_nomenclature_sid":69012,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"60943","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9007200010","goods_nomenclature_sid":60943,"number_indents":2,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"53598","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9007920010","goods_nomenclature_sid":53598,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"53684","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9015101010","goods_nomenclature_sid":53684,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"53687","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9015109010","goods_nomenclature_sid":53687,"number_indents":3,"description":"For
+        use in certain types of aircraft","productline_suffix":"80"}},{"id":"53711","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9015900010","goods_nomenclature_sid":53711,"number_indents":2,"description":"Parts
+        of meteorological instruments and of rangefinders, for use in certain types
+        of aircraft","productline_suffix":"80"}},{"id":"84107","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9020000020","goods_nomenclature_sid":84107,"number_indents":2,"description":"Parts
+        of respiratory apparatus and of gas masks, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"54096","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9107000010","goods_nomenclature_sid":54096,"number_indents":1,"description":"Time
+        switches, with clock or watch movement, used in automatic systems, intended
+        in certain types of aircraft","productline_suffix":"80"}},{"id":"54122","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9110120010","goods_nomenclature_sid":54122,"number_indents":3,"description":"Used
+        in automatic systems, for use in certain types of aircraft","productline_suffix":"80"}},{"id":"54128","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9110900010","goods_nomenclature_sid":54128,"number_indents":2,"description":"Incomplete
+        watch or clock movements, assembled, used in automatic systems, intended for
+        certain types of aircraft","productline_suffix":"80"}},{"id":"54161","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9114100010","goods_nomenclature_sid":54161,"number_indents":2,"description":"Intended
+        for certain types of aircraft","productline_suffix":"80"}},{"id":"54167","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9114300010","goods_nomenclature_sid":54167,"number_indents":2,"description":"Intended
+        for certain types of aircraft","productline_suffix":"80"}},{"id":"54170","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9114400010","goods_nomenclature_sid":54170,"number_indents":2,"description":"Intended
+        for certain types of aircraft","productline_suffix":"80"}},{"id":"54173","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9114900010","goods_nomenclature_sid":54173,"number_indents":2,"description":"Intended
+        for certain types of aircraft","productline_suffix":"80"}},{"id":"54313","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"9401901010","goods_nomenclature_sid":54313,"number_indents":3,"description":"Of
+        seats specially designed for the crew, for use in certain types of aircraft","productline_suffix":"80"}}],"meta":{"pagination":{"page":1,"per_page":5,"total_count":26}}}'
+    http_version: 
+  recorded_at: Fri, 11 Oct 2019 12:01:09 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/footnote_types
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v0.11.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"1787c2ad6985925beb6e2d39e75ea719"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - b6496767-ae6a-4e21-8348-c05dde53a953
+      X-Runtime:
+      - '0.013169'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":"NC","type":"footnote_type","attributes":{"footnote_type_id":"NC","description":"Combined
+        Nomenclature"}},{"id":"TN","type":"footnote_type","attributes":{"footnote_type_id":"TN","description":"Taric
+        Nomenclature"}},{"id":"WR","type":"footnote_type","attributes":{"footnote_type_id":"WR","description":"Wine
+        reference"}},{"id":"NM","type":"footnote_type","attributes":{"footnote_type_id":"NM","description":"CN
+        measure"}},{"id":"TM","type":"footnote_type","attributes":{"footnote_type_id":"TM","description":"Taric
+        Measure"}},{"id":"MX","type":"footnote_type","attributes":{"footnote_type_id":"MX","description":"Export
+        refund measure"}},{"id":"MH","type":"footnote_type","attributes":{"footnote_type_id":"MH","description":"Meursing
+        table"}},{"id":"CA","type":"footnote_type","attributes":{"footnote_type_id":"CA","description":"Additional
+        nomenclature - CADD"}},{"id":"NX","type":"footnote_type","attributes":{"footnote_type_id":"NX","description":"Export
+        Refund Nomenclature"}},{"id":"CD","type":"footnote_type","attributes":{"footnote_type_id":"CD","description":"Conditions"}},{"id":"PB","type":"footnote_type","attributes":{"footnote_type_id":"PB","description":"Publication"}},{"id":"PN","type":"footnote_type","attributes":{"footnote_type_id":"PN","description":"See
+        annex"}},{"id":"TP","type":"footnote_type","attributes":{"footnote_type_id":"TP","description":"Dynamic
+        footnote"}},{"id":"DU","type":"footnote_type","attributes":{"footnote_type_id":"DU","description":"Dual
+        use goods"}},{"id":"TR","type":"footnote_type","attributes":{"footnote_type_id":"TR","description":"Torture
+        and repression"}},{"id":"CG","type":"footnote_type","attributes":{"footnote_type_id":"CG","description":"Cultural
+        goods"}},{"id":"EU","type":"footnote_type","attributes":{"footnote_type_id":"EU","description":"End
+        use"}},{"id":"MG","type":"footnote_type","attributes":{"footnote_type_id":"MG","description":"Military
+        goods and technologies"}},{"id":"CO","type":"footnote_type","attributes":{"footnote_type_id":"CO","description":"Conditions"}},{"id":"01","type":"footnote_type","attributes":{"footnote_type_id":"01","description":"UK
+        tax type, to distinguish which applies by tax type when several Excise measures
+        on commodity"}},{"id":"02","type":"footnote_type","attributes":{"footnote_type_id":"02","description":"UK
+        complex calculation of excise duty (small brewery beer and cigarettes rate
+        calculation)"}},{"id":"03","type":"footnote_type","attributes":{"footnote_type_id":"03","description":"UK
+        VAT rate, to distinguish which applies when multiple rates on same commodity"}},{"id":"04","type":"footnote_type","attributes":{"footnote_type_id":"04","description":"UK
+        footnotes_oplog on prohibitions and restrictions"}},{"id":"05","type":"footnote_type","attributes":{"footnote_type_id":"05","description":"UK
+        footnotes_oplog on commodities"}},{"id":"06","type":"footnote_type","attributes":{"footnote_type_id":"06","description":"UK
+        footnotes_oplog on EU measures"}},{"id":"OZ","type":"footnote_type","attributes":{"footnote_type_id":"OZ","description":"Ozone-depleting
+        substances"}},{"id":"IS","type":"footnote_type","attributes":{"footnote_type_id":"IS","description":"Invasive
+        alien species"}}]}'
+    http_version: 
+  recorded_at: Fri, 11 Oct 2019 12:01:09 GMT
+recorded_with: VCR 3.0.3
