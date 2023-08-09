@@ -216,17 +216,25 @@ module CommoditiesHelper
   end
 
   def abbreviate_code(code)
-    case code.gsub(/0*\z/, '').length
+    only_code = code_without_subheading(code)
+
+    case only_code.gsub(/0*\z/, '').length
+    when 9..10
+      only_code
     when 7..8
-      code.slice(0, 8)
+      only_code.slice(0, 8)
     when 5..6
-      code.slice(0, 6)
+      only_code.slice(0, 6)
     else
-      code
+      only_code
     end
   end
 
   def commodity_ancestor_id(index)
     "commodity-ancestors__ancestor-#{index}"
+  end
+
+  def code_without_subheading(code)
+    code.split('-').first
   end
 end

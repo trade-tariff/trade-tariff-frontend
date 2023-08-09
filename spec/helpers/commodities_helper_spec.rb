@@ -150,6 +150,7 @@ RSpec.describe CommoditiesHelper, type: :helper do
     it_behaves_like 'an abbreviated code', '0123456700', '01234567'
     it_behaves_like 'an abbreviated code', '0123456780', '0123456780'
     it_behaves_like 'an abbreviated code', '0123456789', '0123456789'
+    it_behaves_like 'an abbreviated code', '0123456789-10', '0123456789'
   end
 
   describe '#commodity_ancestor_id' do
