@@ -1,6 +1,4 @@
 class FootnoteSearchForm
-  OPTIONAL_PARAMS = [:@page].freeze
-
   attr_accessor :code, :type, :description
 
   def initialize(params)
@@ -19,16 +17,13 @@ class FootnoteSearchForm
     @page || 1
   end
 
-  def present?
-    (instance_variables - OPTIONAL_PARAMS).present?
-  end
+  delegate :present?, to: :instance_variables
 
   def to_params
     {
       code:,
       type:,
       description:,
-      page:,
     }
   end
 end

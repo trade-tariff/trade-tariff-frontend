@@ -30,8 +30,7 @@
     <% if declarable.import_measures.any? %>
       <%= render 'measures/grouped/navigation',
                  uk_declarable: uk_declarable,
-                 xi_declarable: xi_declarable
-      %>
+                 xi_declarable: xi_declarable %>
 
       <% if TradeTariffFrontend::ServiceChooser.xi? %>
         <%= render 'measures/grouped/xi',
@@ -60,13 +59,11 @@
     <!-- EU Service -->
     <%= render "measures/measures_export_eu",
                 xi_declarable: xi_declarable,
-                uk_declarable: uk_declarable
-    %>
-    
+                uk_declarable: uk_declarable %>
+
     <!-- UK service -->
     <%= render "measures/measures_export_uk",
-               uk_declarable: uk_declarable
-    %>
+               uk_declarable: uk_declarable %>
 
     <%= render 'measures/export_tab_check_duties',
                 declarable: declarable,
