@@ -1,29 +1,41 @@
 class FootnoteSearchForm
-  attr_accessor :code, :type, :description
+  include ActiveModel::Model
+  include ActiveModel::Attributes
 
-  def initialize(params)
-    params.each do |key, value|
-      public_send("#{key}=", value) if respond_to?("#{key}=") && value.present?
+  attribute :code, :string
+  attribute :description, :string
+
+  validate :validate_code
+  validate :validate_description
+
+  def validate_code
+    if code.present?
+      errors.add(:code, :invalid) unless code =~ /\A([A-Z]|[0-9]){5}\z/
+      errors.add(:code, :wrong_type) unless type.in?(self.class.footnote_types)
+    elsif description.blank?
+      errors.add(:code, :blank)
     end
   end
 
-  def footnote_types
-    FootnoteType.all.sort_by(&:footnote_type_id).map { |type|
-      ["#{type&.footnote_type_id} - #{type&.description}", type&.footnote_type_id]
-    }.to_h
+  def validate_description
+    errors.add(:description, :blank) if description.blank? && code.blank?
   end
 
-  def page
-    @page || 1
+  def type
+    code.to_s[0..1]
   end
-
-  delegate :present?, to: :instance_variables
 
   def to_params
     {
-      code:,
+      code: code.to_s[2..],
       type:,
       description:,
     }
+  end
+
+  class << self
+    def footnote_types
+      @footnote_types ||= FootnoteType.all.map(&:footnote_type_id).sort
+    end
   end
 end

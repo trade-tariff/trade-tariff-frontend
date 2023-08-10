@@ -223,6 +223,14 @@ en:
       additional_code_description_label_html: "<strong>Additional code description</strong>"
       additional_code_description_hint_text: "Use this field if you know a key phrase included in the additional code description."
       submit: "Search"
+  footnote_search:
+    form:
+      legend_text: "Search"
+      footnote_label_html: "<strong>Footnote code</strong>"
+      footnote_hint_text: "Footnote full codes are made up of 5 alphanumeric digits (e.g. CD001) . Enter the 5-digit code here."
+      footnote_description_label_html: "<strong>Footnote description</strong>"
+      footnote_description_hint_text: "Use this field if you know a key phrase included in the footnote description."
+      submit: "Search"
   import_export_date:
     form:
       legend_text: "When are you planning to trade the goods?"
@@ -266,6 +274,14 @@ en:
               invalid: The additional code must have 4 digits
               wrong_type: You have specified an additional code type that does not exist
               blank: You need to supply at least a 4-digit additional code
+            description:
+              blank: You need to supply at least a description
+        footnote_search_form:
+          attributes:
+            code:
+              invalid: The footnote code must have 5 digits
+              wrong_type: You have specified a footnote type that does not exist
+              blank: You need to supply at least a 5-digit footnote code
             description:
               blank: You need to supply at least a description
         feedback:

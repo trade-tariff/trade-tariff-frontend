@@ -117,7 +117,8 @@ Rails.application.routes.draw do
   get 'additional_code_search', to: 'additional_code_search#new', as: :additional_code_search
   post 'additional_code_search', to: 'additional_code_search#create', as: :perform_additional_code_search
   get 'certificate_search', to: 'search#certificate_search', as: :certificate_search
-  get 'footnote_search', to: 'search#footnote_search', as: :footnote_search
+  get 'footnote_search', to: 'footnote_search#new', as: :footnote_search
+  post 'footnote_search', to: 'footnote_search#create', as: :perform_footnote_search
   get 'chemical_search', to: 'search#chemical_search', as: :chemical_search
   match 'a-z-index/:letter',
         to: 'search_references#show',
