@@ -1,17 +1,26 @@
-<%= form_tag footnote_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
-  <%= page_header 'Search by Footnote' %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <%= form_for @form, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post, url: perform_footnote_search_path do |f| %>
+      <%= page_header 'Search by Footnote' %>
 
-  <div class="govuk-form-group">
-    <%= label_tag :type, 'Type', class: 'govuk-label' %>
-    <%= select_tag :type, options_for_select(search_form.footnote_types, search_form.type), include_blank: true, class: "custom-select" %>
+      <p class="govuk-body">To search for footnotes, and the measures and goods nomenclatures to which they apply, enter either a two-digit footnote type immediately proceeded by a three-digit footnote id or words from the footnote in the fields below.</p>
+
+      <%= f.hidden_field :render_errors, value: true %>
+
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_field :code,
+        width: 'one-quarter',
+        label: { text: t('footnote_search.form.footnote_label_html') },
+        hint: { text: t('footnote_search.form.footnote_hint_text') } %>
+
+      <%= f.govuk_text_field :description,
+        width: 'one-half',
+        label: { text: t('footnote_search.form.footnote_description_label_html') },
+        hint: { text: t('footnote_search.form.footnote_description_hint_text') } %>
+
+      <%= f.govuk_submit(t('footnote_search.form.submit'), id: 'footnote-submit') %>
+
+    <% end %>
   </div>
-  <div class="govuk-form-group">
-    <%= label_tag :code, 'Code', class: 'govuk-label' %>
-    <%= text_field_tag :code, search_form.code, class: "govuk-input govuk-input--width-10" %>
-  </div>
-  <div class="govuk-form-group">
-    <%= label_tag :description, 'Description', class: 'govuk-label' %>
-    <%= text_field_tag :description, search_form.description, class: "govuk-input govuk-input--width-20" %>
-  </div>
-  <input class="button govuk-button" type="submit" name="new_search" value="Search">
-<% end %>
+</div>

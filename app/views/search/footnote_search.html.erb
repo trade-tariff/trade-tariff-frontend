@@ -8,55 +8,42 @@
     ) %>
 <% end %>
 
-<%= render partial: 'search/footnotes/form', locals: { search_form: @result.search_form } %>
+<%= render partial: 'search/footnotes/form' %>
 
-<% if @result.search_result&.any? %>
+<% if @query.present? %>
   <br>
   <article class="search-results">
     <h1 class="govuk-heading-l">Footnote search results</h1>
 
-    <% @result.search_result.each do |footnote| %>
-      <table class="govuk-table">
-        <colgroup>
-          <col width="*">
-          <col width="180">
-        </colgroup>
-        <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-6">
-          <span class="govuk-visually-hidden">
-            Commodities associated with footnote
-          </span>
-          <strong>
-            <%= footnote.code %>
-          </strong>
-          <%= footnote.formatted_description.html_safe %>
-        </caption>
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th class="govuk-table__header" scope="col">Name</th>
-            <th class="govuk-table__header" scope="col">Code</th>
-          </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-          <% if footnote.goods_nomenclatures.empty? %>
+    <% if @footnotes.any? %>
+      <% @footnotes.each do |footnote| %>
+        <table class="govuk-table">
+          <colgroup>
+            <col width="*">
+            <col width="180">
+          </colgroup>
+          <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-6">
+            <span class="govuk-visually-hidden">
+              Commodities associated with footnote
+            </span>
+            <strong>
+              <%= footnote.code %>
+            </strong>
+            <%= footnote.formatted_description.html_safe %>
+          </caption>
+          <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-              <td colspan="2" class="govuk-table__cell">
-                No valid commodities are associated with footnote <a class="inline" href="<%= footnote_search_path(type: footnote.footnote_type_id, code: footnote.footnote_id) %>"><%= footnote.code %></a>.
-              </td>
+              <th class="govuk-table__header" scope="col">Name</th>
+              <th class="govuk-table__header" scope="col">Code</th>
             </tr>
-          <% else %>
+          </thead>
+          <tbody class="govuk-table__body">
             <%= render partial: 'search/common/goods_nomenclature', collection: footnote.goods_nomenclatures %>
-          <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      <% end %>
+    <% else %>
+      <h1 class="govuk-heading-l">There are no matching results</h1>
     <% end %>
-  </article>
-<% elsif @result.with_errors %>
-  <article class="search-results">
-    <h1 class="govuk-heading-l">Sorry, there is a problem with the search query. Please specify one or more search criteria.</h1>
-  </article>
-<% elsif @result.search_form.present? %>
-  <br>
-  <article class="search-results">
-    <h1 class="govuk-heading-l">There are no matching results</h1>
   </article>
 <% end %>
