@@ -25,9 +25,13 @@ class FootnoteSearchForm
     code.to_s[0..1]
   end
 
+  def id
+    code.to_s[2..]
+  end
+
   def to_params
     {
-      code: code.to_s[2..],
+      code: id,
       type:,
       description:,
     }

@@ -4,10 +4,8 @@ class FootnoteSearchService
   end
 
   def call
-    if @query.any?
-      Footnote.search(@query)
-    else
-      []
-    end
+    return [] if @query.none?
+
+    Footnote.search(@query)
   end
 end

@@ -9,14 +9,13 @@ class FootnoteSearchController < ApplicationController
 
   def create
     @form = FootnoteSearchForm.new(footnote_search_params)
+    @query = @form.to_params
 
-    if @form.valid?
-      @query = @form.to_params
-      @footnotes = FootnoteSearchService.new(@query).call
-    else
-      @query = {}
-      @footnotes = []
-    end
+    @footnotes = if @form.valid?
+                   FootnoteSearchService.new(@query).call
+                 else
+                   []
+                 end
 
     render 'search/footnote_search'
   end
