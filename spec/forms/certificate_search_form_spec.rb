@@ -1,8 +1,8 @@
-RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'search#additional_code_search' } do
-  describe '.possible_types' do
-    subject(:possible_types) { described_class.possible_types }
+RSpec.describe CertificateSearchForm, type: :model, vcr: { cassette_name: 'search#certificate_search', record: :new_episodes } do
+  describe '.certificate_types' do
+    subject(:certificate_types) { described_class.certificate_types }
 
-    it { is_expected.to eq(%w[2 3 4 8 A B C V X]) }
+    it { is_expected.to eq(%w[9 A C D E H I K L N P R T U X Y Z]) }
   end
 
   describe 'validations' do
@@ -11,7 +11,7 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
     before { form.valid? }
 
     context 'when the code is valid' do
-      let(:params) { { code: '8180' } }
+      let(:params) { { code: '9180' } }
 
       it { is_expected.to be_valid }
       it { expect(form.errors).to be_empty }
@@ -29,14 +29,14 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
 
       it { is_expected.not_to be_valid }
       it { expect(form.errors[:description]).to eq(['You need to supply at least a description']) }
-      it { expect(form.errors[:code]).to eq(['You need to supply at least a 4-digit additional code']) }
+      it { expect(form.errors[:code]).to eq(['You need to supply at least a 4-digit certificate code']) }
     end
 
     context 'when the code is too short ' do
       let(:params) { { code: '823' } }
 
       let(:expected_error) do
-        ['The additional code must have 4 digits']
+        ['The certificate code must have 4 digits', 'You have specified a certificate type that does not exist']
       end
 
       it { is_expected.not_to be_valid }
@@ -47,7 +47,7 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
       let(:params) { { code: '1234' } }
 
       let(:expected_error) do
-        ['You have specified an additional code type that does not exist']
+        ['You have specified a certificate type that does not exist']
       end
 
       it { is_expected.not_to be_valid }
@@ -59,9 +59,9 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
     subject(:type) { described_class.new(params).type }
 
     context 'when the code is valid' do
-      let(:params) { { code: '8180' } }
+      let(:params) { { code: '9180' } }
 
-      it { is_expected.to eq('8') }
+      it { is_expected.to eq('9') }
     end
 
     context 'when the code is not set' do
@@ -72,8 +72,8 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
   end
 
   describe '#to_params' do
-    subject(:params) { described_class.new(code: '8180', description: 'plastic').to_params }
+    subject(:params) { described_class.new(code: '9180', description: 'plastic').to_params }
 
-    it { is_expected.to eq(code: '180', type: '8', description: 'plastic') }
+    it { is_expected.to eq(code: '180', type: '9', description: 'plastic') }
   end
 end

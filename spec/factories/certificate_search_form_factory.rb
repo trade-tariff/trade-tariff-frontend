@@ -1,17 +1,12 @@
 FactoryBot.define do
   factory :certificate_search_form do
-    type { 'N' }
-    code { '002' }
+    code { 'N002' }
     description { 'Certificate of conformity with the GB marketing standards for fresh fruit and vegetables' }
-    page { 1 }
 
     initialize_with do
-      params = ActionController::Parameters.new(
-        type:,
-        code:,
-        description:,
-        page:,
-      )
+      params = ActionController::Parameters
+        .new(code:, description:)
+        .permit(:code, :description)
 
       new(params)
     end

@@ -223,6 +223,14 @@ en:
       additional_code_description_label_html: "<strong>Additional code description</strong>"
       additional_code_description_hint_text: "Use this field if you know a key phrase included in the additional code description."
       submit: "Search"
+  certificate_search:
+    form:
+      legend_text: "Search"
+      certificate_label_html: "<strong>Certificate code</strong>"
+      certificate_hint_text: "Certificate codes are made up of 4 alphanumeric digits (e.g. 999L) . Enter the 4-digit code here."
+      certificate_description_label_html: "<strong>Certificate description</strong>"
+      certificate_description_hint_text: "Use this field if you know a key phrase included in the certificate description."
+      submit: "Search"
   footnote_search:
     form:
       legend_text: "Search"
@@ -274,6 +282,14 @@ en:
               invalid: The additional code must have 4 digits
               wrong_type: You have specified an additional code type that does not exist
               blank: You need to supply at least a 4-digit additional code
+            description:
+              blank: You need to supply at least a description
+        certificate_search_form:
+          attributes:
+            code:
+              invalid: The certificate code must have 4 digits
+              wrong_type: You have specified a certificate type that does not exist
+              blank: You need to supply at least a 4-digit certificate code
             description:
               blank: You need to supply at least a description
         footnote_search_form:

@@ -125,17 +125,6 @@ class SearchController < ApplicationController
     end
   end
 
-  def certificate_search
-    form = CertificateSearchForm.new(params.permit(:code,
-                                                   :type,
-                                                   :description))
-    @result = CertificateSearchPresenter.new(form)
-
-    respond_to do |format|
-      format.html
-    end
-  end
-
   def chemical_search
     form = ChemicalSearchForm.new(params.permit(:cas, :name, :page))
     @result = ChemicalSearchPresenter.new(form)

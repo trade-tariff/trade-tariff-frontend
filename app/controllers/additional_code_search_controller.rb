@@ -9,9 +9,12 @@ class AdditionalCodeSearchController < ApplicationController
 
   def create
     @form = AdditionalCodeSearchForm.new(additional_code_search_params)
-    @form.valid?
     @query = @form.to_params
-    @additional_codes = AdditionalCodeSearchService.new(@query).call
+    @additional_codes = if @form.valid?
+                          AdditionalCode.search(@query)
+                        else
+                          []
+                        end
 
     render 'search/additional_code_search'
   end
