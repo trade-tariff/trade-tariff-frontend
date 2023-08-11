@@ -10,6 +10,8 @@ class FootnoteSearchForm
 
   def validate_code
     if code.present?
+      code.strip!
+
       errors.add(:code, :invalid) unless code =~ /\A([A-Z]|[0-9]){5}\z/
       errors.add(:code, :wrong_type) unless type.in?(self.class.footnote_types)
     elsif description.blank?
