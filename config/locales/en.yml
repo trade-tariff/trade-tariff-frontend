@@ -227,7 +227,7 @@ en:
     form:
       legend_text: "Search"
       certificate_label_html: "<strong>Certificate code</strong>"
-      certificate_hint_text: "Certificate codes are made up of 4 alphanumeric digits (e.g. 999L) . Enter the 4-digit code here."
+      certificate_hint_text: "Certificate codes are made up of 4 alphanumeric digits (e.g. D005) . Enter the 4-digit code here."
       certificate_description_label_html: "<strong>Certificate description</strong>"
       certificate_description_hint_text: "Use this field if you know a key phrase included in the certificate description."
       submit: "Search"
