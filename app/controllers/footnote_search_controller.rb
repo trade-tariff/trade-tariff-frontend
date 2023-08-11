@@ -12,7 +12,7 @@ class FootnoteSearchController < ApplicationController
     @query = @form.to_params
 
     @footnotes = if @form.valid?
-                   FootnoteSearchService.new(@query).call
+                   Footnote.search(@query)
                  else
                    []
                  end

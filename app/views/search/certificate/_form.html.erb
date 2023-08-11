@@ -1,28 +1,26 @@
-<%= form_tag certificate_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
-  <%= page_header 'Search for a certificate, licence or document' %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <%= form_for @form, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post, url: perform_certificate_search_path do |f| %>
+      <%= page_header 'Search for a certificate, licence or document' %>
 
-  <div class="govuk-inset-text">
-    Search for certificates, licences and other document codes and the commodities which reference them.
-    Document codes may be needed to complete your import or export declaration.
-  </div>
+      <p class="govuk-body">To search for certificates, and the goods nomenclatures to which they apply, enter either a one-digit certificate type immediately proceeded by a three-digit certificate id or words from the certificate in the fields below.</p>
 
-  <div class="govuk-form-group">
-    <%= label_tag :type, 'Certificate type', class: 'govuk-label' %>
-    <%= select_tag :type, options_for_select(search_form.certificate_types, search_form.type), include_blank: true, class: "custom-select" %>
+      <%= f.hidden_field :render_errors, value: true %>
+
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_field :code,
+        width: 'one-quarter',
+        label: { text: t('certificate_search.form.certificate_label_html') },
+        hint: { text: t('certificate_search.form.certificate_hint_text') } %>
+
+      <%= f.govuk_text_field :description,
+        width: 'one-half',
+        label: { text: t('certificate_search.form.certificate_description_label_html') },
+        hint: { text: t('certificate_search.form.certificate_description_hint_text') } %>
+
+      <%= f.govuk_submit(t('certificate_search.form.submit'), id: 'certificate-submit') %>
+
+    <% end %>
   </div>
-  <div class="govuk-form-group">
-    <%= label_tag :code, 'Certificate code', class: 'govuk-label' %>
-    <div class="govuk-hint" id="code-hint">
-      Enter the 3 digit certificate code
-    </div>
-    <%= text_field_tag :code, search_form.code, class: "govuk-input govuk-input--width-10", 'aria-describedby': 'code-hint' %>
-  </div>
-  <div class="govuk-form-group">
-    <%= label_tag :description, 'Description', class: 'govuk-label' %>
-    <div class="govuk-hint" id="description-hint">
-      Enter key terms from the certificate description
-    </div>
-    <%= text_field_tag :description, search_form.description, class: "govuk-input govuk-input--width-20", 'aria-describedby': 'description-hint' %>
-  </div>
-  <input class="button govuk-button" type="submit" name="new_search" value="Search for a certificate">
-<% end %>
+</div>

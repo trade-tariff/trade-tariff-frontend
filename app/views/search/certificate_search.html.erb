@@ -8,108 +8,103 @@
     ) %>
 <% end %>
 
-<%= render partial: 'search/certificate/form', locals: { search_form: @result.search_form } %>
+<%= render partial: 'search/certificate/form' %>
 
-<% if @result.search_result&.any? %>
-  <article class="search-results">
-    <h1 class="govuk-heading-l">Certificate search results</h1>
-    <% @result.search_result.each_with_index do |certificate, index| %>
-
-      <dl class="govuk-summary-list govuk-summary-list--no-border">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <strong>Certificate code:</strong>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= certificate.code %>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <strong>Description:</strong>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= sanitize certificate.formatted_description %>
-          </dd>
-        </div>
-      </dl>
-
-      <details class="govuk-details govuk-!-margin-top-2" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            Using this certificate on CDS or CHIEF
-          </span>
-        </summary>
-
-        <div class="govuk-details__text">
-          <dl class="govuk-summary-list govuk-summary-list--no-border">
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-              <strong>CDS guidance:</strong>
-              </dt>
-              <dd class="govuk-summary-list__value">
-              <%= govspeak(certificate.guidance_cds) %>
-              </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-              <strong>CHIEF guidance:</strong>
-              </dt>
-              <dd class="govuk-summary-list__value">
-              <%= govspeak(certificate.guidance_chief) %>
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </details>
-
-      <details class="govuk-details govuk-!-margin-top-2" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            Commodity codes that require this certificate
-          </span>
-        </summary>
-
-        <div class="govuk-details__text">
-          <% if certificate.goods_nomenclatures.many? %>
-            <table class="govuk-table">
-              <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                  <th scope="col" class="govuk-table__header">Commodity</th>
-                  <th scope="col" class="govuk-table__header">Description</th>
-                </tr>
-              </thead>
-              <tbody class="govuk-table__body">
-                <% certificate.goods_nomenclatures.each do |goods_nomenclature| %>
-                  <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">
-                      <%= link_to segmented_commodity_code(goods_nomenclature.goods_nomenclature_item_id),
-                                  polymorphic_path(goods_nomenclature, day: nil, month: nil, year: nil) %>
-                    </th>
-
-                    <td class="govuk-table__cell">
-                      <%= sanitize goods_nomenclature.formatted_description %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          <% else %>
-              No commodities are associated with this certificate
-          <% end %>
-        </div>
-      </details>
-
-      <%= tag.hr unless index >= @result.search_result.size - 1 %>
-    <% end %>
-  </article>
-<% elsif @result.with_errors %>
-  <article class="search-results">
-    <h1 class="govuk-heading-l">Sorry, there is a problem with the search query. Please specify one or more search criteria.</h1>
-  </article>
-<% elsif @result.search_form.present? %>
+<% if @query.present? %>
   <br>
   <article class="search-results">
-    <h1 class="govuk-heading-l">There are no matching results</h1>
+    <h1 class="govuk-heading-l">Certificate search results</h1>
+    <% if @certificates.any? %>
+      <% @certificates.each_with_index do |certificate, index| %>
+        <dl class="govuk-summary-list govuk-summary-list--no-border">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              <strong>Certificate code:</strong>
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <%= certificate.code %>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              <strong>Description:</strong>
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <%= sanitize certificate.formatted_description %>
+            </dd>
+          </div>
+        </dl>
+
+        <details class="govuk-details govuk-!-margin-top-2" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Using this certificate on CDS or CHIEF
+            </span>
+          </summary>
+
+          <div class="govuk-details__text">
+            <dl class="govuk-summary-list govuk-summary-list--no-border">
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                <strong>CDS guidance:</strong>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                <%= govspeak(certificate.guidance_cds) %>
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                <strong>CHIEF guidance:</strong>
+                </dt>
+                <dd class="govuk-summary-list__value">
+                <%= govspeak(certificate.guidance_chief) %>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </details>
+
+        <details class="govuk-details govuk-!-margin-top-2" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Commodity codes that require this certificate
+            </span>
+          </summary>
+
+          <div class="govuk-details__text">
+            <% if certificate.goods_nomenclatures.many? %>
+              <table class="govuk-table">
+                <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Commodity</th>
+                    <th scope="col" class="govuk-table__header">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                  <% certificate.goods_nomenclatures.each do |goods_nomenclature| %>
+                    <tr class="govuk-table__row">
+                      <th scope="row" class="govuk-table__header">
+                        <%= link_to segmented_commodity_code(goods_nomenclature.goods_nomenclature_item_id),
+                                    polymorphic_path(goods_nomenclature, day: nil, month: nil, year: nil) %>
+                      </th>
+
+                      <td class="govuk-table__cell">
+                        <%= sanitize goods_nomenclature.formatted_description %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% else %>
+                No commodities are associated with this certificate
+            <% end %>
+          </div>
+        </details>
+
+        <%= tag.hr unless index >= @certificates.size - 1 %>
+      <% end %>
+    <% else %>
+      <h1 class="govuk-heading-l">There are no matching results</h1>
+    <% end %>
   </article>
 <% end %>

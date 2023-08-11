@@ -10,7 +10,7 @@ http_interactions:
       Accept:
       - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v1.3.0
+      - Faraday v2.7.10
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Connection:
@@ -41,11 +41,11 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - f9e55d8f-1849-4694-82e6-58da5f542383
+      - 8a06eab5-249b-4652-a7bd-bd24db4685f7
       X-Runtime:
-      - '0.017945'
-      Transfer-Encoding:
-      - chunked
+      - '0.019762'
+      Content-Length:
+      - '2089'
     body:
       encoding: UTF-8
       string: '{"data":[{"id":"K","type":"certificate_type","attributes":{"certificate_type_code":"K","description":"Tariff
@@ -64,5 +64,5 @@ http_interactions:
         refunds"}},{"id":"E","type":"certificate_type","attributes":{"certificate_type_code":"E","description":"Export
         certificate/licence/document from country of origin"}},{"id":"9","type":"certificate_type","attributes":{"certificate_type_code":"9","description":"National
         Document"}}]}'
-  recorded_at: Mon, 04 Apr 2022 14:47:57 GMT
-recorded_with: VCR 6.1.0
+  recorded_at: Fri, 11 Aug 2023 11:11:52 GMT
+recorded_with: VCR 6.2.0

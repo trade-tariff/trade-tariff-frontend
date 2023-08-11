@@ -1,34 +1,43 @@
 class CertificateSearchForm
-  OPTIONAL_PARAMS = [:@page].freeze
+  include ActiveModel::Model
+  include ActiveModel::Attributes
 
-  attr_accessor :code, :type, :description
+  attribute :code, :string
+  attribute :description, :string
 
-  def initialize(params)
-    params.each do |key, value|
-      public_send("#{key}=", value) if respond_to?("#{key}=") && value.present?
+  validate :validate_code
+  validate :validate_description
+
+  def validate_code
+    if code.present?
+      code.strip!
+
+      errors.add(:code, :invalid) unless code =~ /\A([A-Z]|[0-9]){4}\z/
+      errors.add(:code, :wrong_type) unless type.in?(self.class.certificate_types)
+    elsif description.blank?
+      errors.add(:code, :blank)
     end
   end
 
-  def certificate_types
-    CertificateType.all.sort_by(&:certificate_type_code).map { |type|
-      ["#{type&.certificate_type_code} - #{type&.description}", type&.certificate_type_code]
-    }.to_h
+  def validate_description
+    errors.add(:description, :blank) if description.blank? && code.blank?
   end
 
-  def page
-    @page || 1
-  end
-
-  def present?
-    (instance_variables - OPTIONAL_PARAMS).present?
+  def type
+    code.to_s[0]
   end
 
   def to_params
     {
-      code:,
+      code: code.to_s[1..],
       type:,
       description:,
-      page:,
     }
+  end
+
+  class << self
+    def certificate_types
+      @certificate_types ||= CertificateType.all.map(&:certificate_type_code).sort
+    end
   end
 end

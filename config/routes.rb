@@ -116,7 +116,8 @@ Rails.application.routes.draw do
   get 'simplified_procedure_value', to: 'simplified_procedural_values#index', as: :simplified_procedural_values
   get 'additional_code_search', to: 'additional_code_search#new', as: :additional_code_search
   post 'additional_code_search', to: 'additional_code_search#create', as: :perform_additional_code_search
-  get 'certificate_search', to: 'search#certificate_search', as: :certificate_search
+  get 'certificate_search', to: 'certificate_search#new', as: :certificate_search
+  post 'certificate_search', to: 'certificate_search#create', as: :perform_certificate_search
   get 'footnote_search', to: 'footnote_search#new', as: :footnote_search
   post 'footnote_search', to: 'footnote_search#create', as: :perform_footnote_search
   get 'chemical_search', to: 'search#chemical_search', as: :chemical_search
