@@ -275,7 +275,7 @@ GEM
       net-protocol
     newrelic_rpm (9.3.1)
     nio4r (2.5.9)
-    nokogiri (1.15.3)
+    nokogiri (1.15.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     opentelemetry-api (1.2.1)
@@ -678,7 +678,7 @@ DEPENDENCIES
   multi_json
   net-http-persistent
   newrelic_rpm
-  nokogiri (~> 1.15.3)
+  nokogiri (~> 1.15.4)
   plek
   pry-byebug
   pry-rails
