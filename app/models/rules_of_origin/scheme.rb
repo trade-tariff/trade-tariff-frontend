@@ -5,9 +5,16 @@ class RulesOfOrigin::Scheme
 
   collection_path '/rules_of_origin_schemes'
 
-  attr_accessor :scheme_code, :title, :countries, :footnote, :fta_intro,
-                :introductory_notes, :unilateral, :cumulation_methods,
-                :proof_intro
+  attr_accessor :scheme_code,
+                :title,
+                :countries,
+                :footnote,
+                :fta_intro,
+                :introductory_notes,
+                :unilateral,
+                :cumulation_methods,
+                :proof_intro,
+                :show_proofs_for_geographical_areas
 
   attr_writer :proof_codes
 
@@ -56,6 +63,10 @@ class RulesOfOrigin::Scheme
   end
 
   def applies_to_geographical_area?(area)
+    if show_proofs_for_geographical_areas.present?
+      return show_proofs_for_geographical_areas.include?(area.geographical_area_id)
+    end
+
     countries.include? area.geographical_area_id
   end
 

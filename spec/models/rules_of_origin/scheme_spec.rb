@@ -221,6 +221,11 @@ RSpec.describe RulesOfOrigin::Scheme do
       it { is_expected.to eql [] }
     end
 
+    context 'with show_proofs_for_geographical_areas' do
+      include_context 'with mocked response'
+      
+    end
+
     context 'with response with no rules or links' do
       include_context 'with mocked response'
 

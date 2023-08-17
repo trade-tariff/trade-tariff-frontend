@@ -26,6 +26,7 @@ FactoryBot.define do
     links { attributes_for_list :rules_of_origin_link, link_count }
     articles { attributes_for_list :rules_of_origin_article, article_count }
     proofs { attributes_for_list :rules_of_origin_proof, proof_count }
+    show_proofs_for_geographical_areas { [] } # if emtpy it is ignored
     origin_reference_document { attributes_for :rules_of_origin_origin_reference_document }
 
     rule_sets do
