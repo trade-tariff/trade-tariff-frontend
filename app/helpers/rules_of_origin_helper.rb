@@ -9,7 +9,7 @@ module RulesOfOriginHelper
   def show_proofs_for_geographical_areas?(roo_schemes, measure)
     schemes_that_apply_to_geographical_area = roo_schemes&.select do |s|
       s.applies_to_geographical_area?(measure.geographical_area)
-    end
+    end || []
 
     (schemes_that_apply_to_geographical_area.count <= 1) && measure.cds_proofs_of_origin(roo_schemes).any?
   end

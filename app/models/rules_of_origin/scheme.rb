@@ -67,7 +67,7 @@ class RulesOfOrigin::Scheme
       return show_proofs_for_geographical_areas.include?(area.geographical_area_id)
     end
 
-    countries.include? area.geographical_area_id
+    countries.include?(area.geographical_area_id)
   end
 
   def applies_to_geographical_area_or_its_children?(area)

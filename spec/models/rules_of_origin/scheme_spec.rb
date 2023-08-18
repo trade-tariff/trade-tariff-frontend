@@ -221,10 +221,6 @@ RSpec.describe RulesOfOrigin::Scheme do
       it { is_expected.to eql [] }
     end
 
-    context 'with show_proofs_for_geographical_areas' do
-      include_context 'with mocked response'
-    end
-
     context 'with response with no rules or links' do
       include_context 'with mocked response'
 
@@ -433,6 +429,20 @@ RSpec.describe RulesOfOrigin::Scheme do
 
     context 'when area not in countries list' do
       let(:area) { build :geographical_area, geographical_area_id: 'DE' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when area is specified in show_proofs_for_geographical_areas' do
+      let(:area) { build :geographical_area, geographical_area_id: 'AU' }
+      let(:scheme) { build :rules_of_origin_scheme, show_proofs_for_geographical_areas: %w[AU] }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when show_proofs_for_geographical_areas is not specified' do
+      let(:area) { build :geographical_area, geographical_area_id: 'AU' }
+      let(:scheme) { build :rules_of_origin_scheme }
 
       it { is_expected.to be false }
     end
