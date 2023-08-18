@@ -1,4 +1,4 @@
-<h3 class="govuk-heading-m govuk-!-margin-top-5 govuk-!-margin-bottom-3", id=<%= local_assigns[:css_id]%>>
+<h3 class="govuk-heading-m govuk-!-margin-top-5 govuk-!-margin-bottom-3" <%= local_assigns[:css_id] %>>
   <%= local_assigns[:caption] %>
 </h3>
 
@@ -18,7 +18,7 @@
 
 <%= render 'measures/grouped/credibility_checks' if local_assigns[:credibility_checks] %>
 
-<table class="small-table measures govuk-table"  >
+<table class="small-table measures govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th class="govuk-table__header">Country</th>
