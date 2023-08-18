@@ -421,16 +421,23 @@ RSpec.describe RulesOfOrigin::Scheme do
 
     let(:scheme) { build :rules_of_origin_scheme, countries: %w[FR] }
 
-    context 'when area in countries list' do
+    context 'when area in countries list and there is no show_proofs_for_geographical_areas list' do
       let(:area) { build :geographical_area, geographical_area_id: 'FR' }
 
       it { is_expected.to be true }
     end
 
-    context 'when area not in countries list' do
+    context 'when area not in countries list and there is no show_proofs_for_geographical_areas list' do
       let(:area) { build :geographical_area, geographical_area_id: 'DE' }
 
       it { is_expected.to be false }
+    end
+
+    context 'when area is specified in show_proofs_for_geographical_areas' do
+      let(:area) { build :geographical_area, geographical_area_id: 'AU' }
+      let(:scheme) { build :rules_of_origin_scheme, show_proofs_for_geographical_areas: %w[AU] }
+
+      it { is_expected.to be true }
     end
   end
 

@@ -53,8 +53,7 @@
   <td class="conditions-col govuk-table__cell">
     <% if measure.has_measure_conditions? %>
       <%= link_to "Conditions",  "#", class: 'reference', 'data-popup-ref' => "#{measure.destination}-#{measure.id}-conditions", "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
-    <% elsif !roo_schemes&.many? { |s| s.applies_to_geographical_area? measure.geographical_area } &&
-        measure.cds_proofs_of_origin(roo_schemes).any? %>
+    <% elsif show_proofs_for_geographical_areas?(roo_schemes, measure) %>
       <%= link_to "Conditions",  "#", class: 'reference', 'data-popup-ref' => "#{measure.destination}-#{measure.id}-cds-proofs", "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
     <% end %>
   </td>

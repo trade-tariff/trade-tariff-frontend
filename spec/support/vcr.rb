@@ -9,7 +9,14 @@ VCR.configure do |c|
   c.default_cassette_options = { match_requests_on: [:path] }
   c.configure_rspec_metadata!
   c.ignore_request do |request|
-    if request.uri.start_with?('https://chromedriver.storage.googleapis.com')
+    chrome_urls = [
+      'https://chromedriver.storage.googleapis.com',
+      'https://googlechromelabs.github.io/',
+      'https://edgedl.me.gvt1.com/',
+    ]
+    starts_with_chrome_url = chrome_urls.any? { |url| request.uri.start_with?(url) }
+
+    if starts_with_chrome_url
       true
     else
       URI(request.uri).host.in?(%w[localhost 127.0.0.1]) &&
