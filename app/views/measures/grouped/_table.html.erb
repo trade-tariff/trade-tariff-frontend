@@ -14,9 +14,9 @@
 
 <%= render 'measures/grouped/tariff_duty_calculator_link', declarable_code: declarable.code if local_assigns[:show_duty_calculator] %>
 
-<%= render 'measures/grouped/vat_excise', uk_declarable: uk_declarable, declarable_code: uk_declarable.code if local_assigns[:vat_excise] && local_assigns[:uk_declarable] %> 
+<%= render 'measures/grouped/vat_excise', uk_declarable: uk_declarable, declarable_code: uk_declarable.code if local_assigns[:vat_excise] && local_assigns[:uk_declarable] %>
 
-<%= render 'measures/grouped/credibility_checks' if local_assigns[:credibility_checks] %> 
+<%= render 'measures/grouped/credibility_checks' if local_assigns[:credibility_checks] %>
 
 <table class="small-table measures govuk-table"  >
   <thead class="govuk-table__head">
