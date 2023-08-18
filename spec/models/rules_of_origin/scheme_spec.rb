@@ -223,7 +223,6 @@ RSpec.describe RulesOfOrigin::Scheme do
 
     context 'with show_proofs_for_geographical_areas' do
       include_context 'with mocked response'
-      
     end
 
     context 'with response with no rules or links' do
