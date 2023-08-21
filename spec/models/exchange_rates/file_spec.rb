@@ -8,9 +8,7 @@ RSpec.describe ExchangeRates::File do
   it { is_expected.to respond_to :publication_date }
   it { is_expected.to respond_to :format }
 
-  describe '#file_size_in_kb' do
-    it 'converts bytes to kilobytes with one decimal place' do
-      expect(file.file_size_in_kb).to eq('2.0')
-    end
+  describe '#file_size_label' do
+    it { expect(file.file_size_label).to eq 'CSV file (2.0 KB)' }
   end
 end

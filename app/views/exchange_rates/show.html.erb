@@ -1,73 +1,76 @@
 <% content_for :top_breadcrumbs do %>
-   <%= generate_breadcrumbs "Exchange rates #{@exchange_rates_list.year}",
+   <%= generate_breadcrumbs "Exchange rates #{@monthly_exchange_rate.month_and_year_name}",
                             [ [t('breadcrumb.home'), home_path],
                             [t('breadcrumb.tools'), tools_path],
-                            [t('breadcrumb.exchange_rate_list'), exchange_rates_list_path], ] %>
+                            [t('breadcrumb.exchange_rates'), exchange_rates_path], ] %>
  <% end %>
 
- <div class="govuk-grid-row">
-   <span class="govuk-caption-xl"><%= trade_tariff_heading %></span>
-   <h1 class="govuk-heading-l"><%= @month_and_year %> monthly exchange rates</h1>
-   <p class="govuk-body-l">Official <%= @month_and_year %> HMRC foreign currency exchange monthly rates for Customs and <abbr title="value added tax">VAT</abbr>.</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= page_header "#{@monthly_exchange_rate.month_and_year_name} monthly exchange rates" %>
 
-   <%= render partial: 'exchange_rates/download_files', locals: { files: files } %>
+    <p class="govuk-body-l">Official <%= @monthly_exchange_rate.month_and_year_name %> HMRC foreign currency exchange monthly rates for Customs and <abbr title="value added tax">VAT</abbr>.</p>
 
-   <table class="tariff-table govuk-table">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">
-          Country/territory
-        </th>
+    <%= render partial: 'exchange_rates/download_files', locals: { files: @monthly_exchange_rate.exchange_rate_files } %>
 
-        <th scope="col" class="govuk-table__header">
-          Currency
-        </th>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">
+            Country/territory
+          </th>
 
-        <th scope="col" class="govuk-table__header">
-          Currency code
-        </th>
+          <th scope="col" class="govuk-table__header">
+            Currency
+          </th>
 
-        <th scope="col" class="govuk-table__header">
-          Currency units pet £1
-        </th>
+          <th scope="col" class="govuk-table__header">
+            Currency code
+          </th>
 
-        <th scope="col" class="govuk-table__header">
-          Start date
-        </th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+            Currency units per £1
+          </th>
 
-        <th scope="col" class="govuk-table__header">
-          End date
-        </th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <% @exchange_rates_list.exchange_rates.each do |exchange_rate| %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">
-          <%= exchange_rate.country.capitalize %>
-        </td>
+          <th scope="col" class="govuk-table__header">
+            Start date
+          </th>
 
-        <td class="govuk-table__cell">
-          <%= exchange_rate.currency_description.capitalize %>
-        </td>
+          <th scope="col" class="govuk-table__header">
+            End date
+          </th>
+        </tr>
+      </thead>
 
-        <td class="govuk-table__cell">
-          <%= exchange_rate.currency_code.upcase %>
-        </td>
+      <tbody class="govuk-table__body">
+        <% @monthly_exchange_rate.exchange_rates.each do |exchange_rate| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <%= exchange_rate.country %>
+            </td>
 
-        <td class="govuk-table__cell">
-          <%= exchange_rate.rate %>
-        </td>
+            <td class="govuk-table__cell">
+              <%= exchange_rate.currency_description.capitalize %>
+            </td>
 
-        <td class="govuk-table__cell">
-          <%= exchange_rate.validity_start_date&.strftime('%-d %B %Y') %>
-        </td>
+            <td class="govuk-table__cell">
+              <%= exchange_rate.currency_code.upcase %>
+            </td>
 
-        <td class="govuk-table__cell">
-          <%= exchange_rate.validity_end_date&.strftime('%-d %B %Y') %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+            <td class="govuk-table__cell govuk-table__cell govuk-table__cell--numeric">
+              <%= exchange_rate.rate %>
+            </td>
+
+            <td class="govuk-table__cell">
+              <%= exchange_rate.formatted_validity_start_date %>
+            </td>
+
+            <td class="govuk-table__cell">
+              <%= exchange_rate.formatted_validity_end_date %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -1,16 +1,27 @@
 class ExchangeRatesController < ApplicationController
-  before_action :disable_search_form
+  before_action :disable_search_form, :disable_switch_service_banner
 
   def index
     @period_list = ExchangeRates::PeriodList.find(params[:year])
   end
 
   def show
-    @exchange_rates_list = ExchangeRates::RatesList.all(month: params[:month], year: params[:year])
-    @month_and_year = "#{Date::MONTHNAMES[@exchange_rates_list.month]} #{@exchange_rates_list.year}"
+    @monthly_exchange_rate = ExchangeRates::MonthlyExchangeRate.find(
+      "#{year}-#{month}",
+    )
+  end
 
-    # Need to consider if each file would have adifferent publication date ever between CSV/XML
-    @published_date = @exchange_rates_list.exchange_rate_files.first.publication_date
-    @file_type = @exchange_rates_list.exchange_rate_files.first.publication_date
+  private
+
+  def month
+    id.split('-').last
+  end
+
+  def year
+    id.split('-').first
+  end
+
+  def id
+    params[:id]
   end
 end

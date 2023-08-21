@@ -1,4 +1,3 @@
-
 <div class="downloads" data-module="govspeak">
   <section class="attachment exchange-rates-attachment">
     <div class="attachment-thumb">
@@ -9,11 +8,18 @@
           <%= Date::MONTHNAMES[period.month] %> <%= period.year %> monthly exchange rates
         </h3>
 
-        <p><strong><a class="govuk-link" href="/todo">View online</a></strong> | 
-        <% period.files.each_with_index do |file, index| %>
-          <strong><a href="<%= file.file_path %>"><%= file.format.upcase %></strong> <%= file.file_size_in_kb %> KB</a>
-          <%= '|' unless index == period.files.size - 1 %>
-        <% end %>
+        <p>
+          <strong>
+            <%= link_to "View online", monthly_exchange_rate_path("#{period.year}-#{period.month}"), class: 'govuk-link' %>
+          </strong>
+
+          <% if period.files.any? %>
+            |
+            <% period.files.each_with_index do |file, index| %>
+              <strong><a href="<%= file.file_path %>"><%= file.format.upcase %></strong> <%= file.file_size_in_kb %> KB</a>
+              <%= '|' unless index == period.files.size - 1 %>
+            <% end %>
+          <% end %>
         </p>
 
         <p>This file may not be suitable for users of assistive technology</p>

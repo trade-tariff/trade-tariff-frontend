@@ -7,7 +7,7 @@ FactoryBot.define do
     currency_description { 'Dirham' }
     currency_code { 'AED' }
     rate { 4.5409 }
-    validity_start_date { '2023-06-01T00:00:00.000Z' }
-    validity_end_date { '2023-06-31T23:59:59.999Z' }
+    validity_start_date { '2023-06-01' }
+    validity_end_date { '2023-06-30' }
   end
 end

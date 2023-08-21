@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/exchange_rates/period_lists?year=2023
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v2.7.10
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"0087382872d25ab6c11806f59801a8cb"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 66197801-8ccd-46c0-91a4-8551d9776b0a
+      X-Runtime:
+      - '0.179345'
+      Content-Length:
+      - '3197'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":"2023-exchange_rate_period_list","type":"exchange_rate_period_list","attributes":{"year":2023},"relationships":{"exchange_rate_periods":{"data":[{"id":"2023-9-exchange_rate_period","type":"exchange_rate_period"},{"id":"2023-8-exchange_rate_period","type":"exchange_rate_period"},{"id":"2023-7-exchange_rate_period","type":"exchange_rate_period"},{"id":"2023-6-exchange_rate_period","type":"exchange_rate_period"},{"id":"2023-5-exchange_rate_period","type":"exchange_rate_period"},{"id":"2023-4-exchange_rate_period","type":"exchange_rate_period"},{"id":"2023-3-exchange_rate_period","type":"exchange_rate_period"},{"id":"2023-2-exchange_rate_period","type":"exchange_rate_period"},{"id":"2023-1-exchange_rate_period","type":"exchange_rate_period"}]},"exchange_rate_years":{"data":[{"id":"2023-exchange_rate_year","type":"exchange_rate_year"},{"id":"2022-exchange_rate_year","type":"exchange_rate_year"},{"id":"2021-exchange_rate_year","type":"exchange_rate_year"},{"id":"2020-exchange_rate_year","type":"exchange_rate_year"}]}}},"included":[{"id":"2023-9-csv_file","type":"exchange_rate_file","attributes":{"file_path":"/api/v2/exchange_rates/files.csv?month=9\u0026year=2023","file_size":10367,"format":"csv","publication_date":"2023-08-23"}},{"id":"2023-9-xml_file","type":"exchange_rate_file","attributes":{"file_path":"/api/v2/exchange_rates/files.xml?month=9\u0026year=2023","file_size":39296,"format":"xml","publication_date":"2023-08-23"}},{"id":"2023-9-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":9,"year":2023},"relationships":{"files":{"data":[{"id":"2023-9-csv_file","type":"exchange_rate_file"},{"id":"2023-9-xml_file","type":"exchange_rate_file"}]}}},{"id":"2023-8-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":8,"year":2023},"relationships":{"files":{"data":[]}}},{"id":"2023-7-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":7,"year":2023},"relationships":{"files":{"data":[]}}},{"id":"2023-6-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":6,"year":2023},"relationships":{"files":{"data":[]}}},{"id":"2023-5-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":5,"year":2023},"relationships":{"files":{"data":[]}}},{"id":"2023-4-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":4,"year":2023},"relationships":{"files":{"data":[]}}},{"id":"2023-3-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":3,"year":2023},"relationships":{"files":{"data":[]}}},{"id":"2023-2-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":2,"year":2023},"relationships":{"files":{"data":[]}}},{"id":"2023-1-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":1,"year":2023},"relationships":{"files":{"data":[]}}},{"id":"2023-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2023}},{"id":"2022-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2022}},{"id":"2021-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2021}},{"id":"2020-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2020}}]}'
+  recorded_at: Thu, 24 Aug 2023 10:33:54 GMT
+recorded_with: VCR 6.2.0
