@@ -1,8 +1,7 @@
 module "service" {
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.6.0"
+  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.11.3"
 
-  environment = var.environment
-  region      = var.region
+  region = var.region
 
   service_name  = "frontend"
   service_count = var.service_count
