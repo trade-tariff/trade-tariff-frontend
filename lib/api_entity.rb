@@ -92,8 +92,12 @@ private
     end
 
     def find(id, opts = {})
-      resp = api.get("/#{name.pluralize.underscore}/#{id}", opts)
-      new parse_jsonapi(resp)
+      path = "/#{name.pluralize.underscore}"
+      path = "#{path}/#{id}" if id.present?
+
+      response = api.get(path, opts)
+
+      new parse_jsonapi(response)
     end
 
     def all(opts = {})
