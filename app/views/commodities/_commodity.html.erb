@@ -4,7 +4,7 @@
       <%= commodity.to_s.html_safe %>
     </span>
 
-    <div class='sub_heading_commodity_code_block pull-right'>
+    <div class="identifier service-<%= TradeTariffFrontend::ServiceChooser.service_name %>">
       <% unless commodity.umbrella_code? %>
         <%= segmented_commodity_code abbreviate_commodity_code(commodity), coloured: true %>
       <% end %>

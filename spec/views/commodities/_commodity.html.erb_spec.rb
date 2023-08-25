@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe 'commodities/_commodity', type: :view do
   subject(:rendered_page) do
     render 'commodities/commodity', commodity:, initial_indent: 1
@@ -16,7 +14,7 @@ RSpec.describe 'commodities/_commodity', type: :view do
 
       it 'will show the commodity code' do
         expect(rendered_page).to have_css \
-          'li.has_children > .sub_heading_commodity_code_block .segmented-commodity-code'
+          'li.has_children > .identifier.service-uk .segmented-commodity-code'
       end
 
       it 'shows the children with their codes' do
@@ -29,7 +27,7 @@ RSpec.describe 'commodities/_commodity', type: :view do
     context 'with producline_suffix of 10' do
       let(:producline_suffix) { '10' }
 
-      it { is_expected.to have_css 'li.has_children > .sub_heading_commodity_code_block' }
+      it { is_expected.to have_css 'li.has_children > .identifier.service-uk' }
 
       it 'will not show the commodity code' do
         expect(rendered_page).not_to have_css \
