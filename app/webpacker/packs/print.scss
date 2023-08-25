@@ -530,25 +530,6 @@ li.open {
     .open {
       background-position:0 -386px;
     }
-
-    .sub_heading_commodity_code_block {
-      color: #696969;
-      width: 150px;
-      font-weight: normal;
-      font-family: ntatabularnumbers, "Helvetica Neue", Arial, Helvetica, sans-serif;
-
-      .chapter-code, .heading-code, .commodity-code {
-        float: left;
-      }
-
-      .code-text {
-        text-align: center;
-      }
-
-      @media (max-width: 640px) {
-        display: none;
-      }
-    }
   }
 
   .conditions,

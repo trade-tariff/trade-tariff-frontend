@@ -82,9 +82,32 @@ module CommoditiesHelper
         concat(content_tag(:div, vat_overview_measure_duty_amounts(commodity), class: 'vat', aria: { describedby: 'commodity-vat-title' }))
       end
 
-      concat(content_tag(:div, third_country_overview_measure_duty_amounts(commodity), class: 'duty', aria: { describedby: 'commodity-duty-title' }))
-      concat(content_tag(:div, supplementary_unit_overview_measure_duty_amounts(commodity), class: 'supplementary-units', aria: { describedby: 'commodity-supplementary-title' }))
-      concat(content_tag(:div, segmented_commodity_code(abbreviate_commodity_code(commodity), coloured: true), class: 'identifier', aria: { describedby: "commodity-#{commodity.short_code}" }))
+      concat(
+        content_tag(
+          :div,
+          third_country_overview_measure_duty_amounts(commodity),
+          class: 'duty',
+          aria: { describedby: 'commodity-duty-title' },
+        ),
+      )
+
+      concat(
+        content_tag(
+          :div,
+          supplementary_unit_overview_measure_duty_amounts(commodity),
+          class: 'supplementary-units',
+          aria: { describedby: 'commodity-supplementary-title' },
+        ),
+      )
+
+      concat(
+        content_tag(
+          :div,
+          segmented_commodity_code(abbreviate_commodity_code(commodity), coloured: true),
+          class: "identifier service-#{TradeTariffFrontend::ServiceChooser.service_name}",
+          aria: { describedby: "commodity-#{commodity.short_code}" },
+        ),
+      )
     end
   end
 
