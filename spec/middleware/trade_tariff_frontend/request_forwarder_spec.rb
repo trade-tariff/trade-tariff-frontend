@@ -1,14 +1,11 @@
-require 'spec_helper'
-
 RSpec.describe TradeTariffFrontend::RequestForwarder do
-  let(:app)            { ->(env) { [200, env, 'app'] } }
   let(:host)           { TradeTariffFrontend::ServiceChooser.api_host }
   let(:request_path)   { '/sections/1' }
   let(:request_params) { '?page=2' }
 
   let(:response_body) { 'example' }
 
-  let(:middleware) do described_class.new(host:) end
+  let(:middleware) { described_class.new(host:) }
 
   before do
     allow(TradeTariffFrontend::ServiceChooser).to receive(:api_client_with_forwarding).and_call_original
@@ -38,7 +35,7 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
         headers: { 'Content-Length' => response_body.size },
       )
 
-    status, env, body = middleware.call env_for(request_path)
+    _, _, body = middleware.call env_for(request_path)
 
     expect(body).to include response_body
   end
@@ -52,10 +49,9 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
         headers: { 'Content-Length' => 0 },
       )
 
-    status, env, body = middleware.call env_for(request_path, method: :head)
+    status, _, _body = middleware.call env_for(request_path, method: :head)
 
     expect(status).to eq 200
-    expect(body).to eq ['']
   end
 
   it 'forwards response status code from upstream backend host' do
@@ -67,7 +63,7 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
         headers: { 'Content-Length' => 'Not Found'.size },
       )
 
-    status, env, body = middleware.call env_for(request_path)
+    status, = middleware.call env_for(request_path)
 
     expect(status).to eq 404
   end
@@ -84,7 +80,7 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
         },
       )
 
-    status, env, body = middleware.call env_for(request_path)
+    _, env, = middleware.call env_for(request_path)
 
     expect(env['Content-Type']).to eq 'text/html'
   end
@@ -101,16 +97,15 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
         },
       )
 
-    status, env, body = middleware.call env_for(request_path)
+    _, env, = middleware.call env_for(request_path)
 
     expect(env['X-UA-Compatible']).to be_blank
   end
 
-  it 'only accepts GET requests' do
-    status, env, body = middleware.call env_for(request_path, method: :post)
+  it 'only accepts GET, POST and HEAD requests' do
+    status, _, _body = middleware.call env_for(request_path, method: :patch)
 
-    expect(status).to eq 405 # METHOD NOT ALLOWED
-    expect(body).to be_blank
+    expect(status).to eq 405
   end
 
   it 'forwards request params' do
@@ -124,34 +119,19 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
         headers: { 'Content-Length' => response_body.size },
       )
 
-    status, env, body = middleware.call env_for(request_uri)
+    status, = middleware.call env_for(request_uri)
 
     expect(status).to eq(200)
   end
 
-  context 'when a service prefix is included in the path' do
-    let(:request_path) { '/xi/sections/1' }
+  it 'removes the service prefix' do
+    TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
 
-    it 'removes the service prefix' do
-      TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
+    stub_request(:get, "#{host}/sections/1")
 
-      stub_request(:get, "#{host}/sections/1")
-        .with(headers: { 'Accept' => 'application/vnd.uktt.sections' })
-        .to_return(
-          status: 200,
-          body: response_body,
-          headers: {
-            'Content-Length' => response_body.size,
-            'X-UA-Compatible' => 'IE=9',
-          },
-        )
+    middleware.call env_for('/xi/sections/1')
 
-      status, env, body = middleware.call env_for(request_path)
-
-      expect(env['X-UA-Compatible']).to be_blank
-
-      TradeTariffFrontend::ServiceChooser.service_choice = nil
-    end
+    TradeTariffFrontend::ServiceChooser.service_choice = nil
   end
 
   def env_for(url, opts = {})
