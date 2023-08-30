@@ -465,7 +465,7 @@ jobs:
           event: fail
           template: basic_fail_1
 
-  deploy_dev:
+  deploy-dev:
     executor:
       name: tariff/ruby
     environment:
@@ -617,7 +617,7 @@ workflows:
           url: https://dev.trade-tariff.service.gov.uk
           yarn_run: dev-tariff-frontend-smoketests
           requires:
-            - deploy-development
+            - deploy-dev
           <<: *filter-not-main
 
   deploy-to-staging:
@@ -669,7 +669,7 @@ workflows:
           url: https://staging.trade-tariff.service.gov.uk
           yarn_run: staging-tariff-frontend-smoketests
           requires:
-            - deploy-staging
+            - deploy-main-to-staging
           <<: *filter-main
 
   deploy-to-production:
