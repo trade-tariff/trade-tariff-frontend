@@ -15,8 +15,7 @@ module TradeTariffFrontend
       rackreq = Rack::Request.new(env)
 
       case rackreq.request_method
-      # The API is read-only
-      when 'GET', 'HEAD'
+      when 'GET', 'HEAD', 'POST'
         remove_service_choice_prefix!(rackreq)
 
         api_version = rackreq.path
@@ -26,11 +25,11 @@ module TradeTariffFrontend
                              .first || "v#{Rails.configuration.x.backend.api_version}"
         response = api.send(
           rackreq.request_method.downcase,
-          request_url_for(rackreq)
+          request_url_for(rackreq),
         ) do |req|
-
           req.headers['Accept'] = "application/vnd.uktt.#{api_version}"
           req.headers['Content-Type'] = env['CONTENT_TYPE']
+          req.body = rackreq.body.read
           req.options.timeout = 60           # open/read timeout in seconds
           req.options.open_timeout = 15      # connection open timeout in seconds
         end
@@ -39,11 +38,11 @@ module TradeTariffFrontend
           [response.body],
           response.status.to_i,
           Rack::Utils::HeaderHash.new(
-            response.headers.
-                     except(*IGNORED_UPSTREAM_HEADERS).
-                     merge('X-Slimmer-Skip' => true).
-                     merge('Cache-Control' => cache_control_string(response))
-          )
+            response.headers
+                     .except(*IGNORED_UPSTREAM_HEADERS)
+                     .merge('X-Slimmer-Skip' => true)
+                     .merge('Cache-Control' => cache_control_string(response)),
+          ),
         ).finish
       else
         # "DELETE", "OPTIONS", "TRACE" "PUT", "POST"
@@ -65,17 +64,17 @@ module TradeTariffFrontend
     end
 
     def request_uri_for(rackreq)
-      api_request_path_for(rackreq.env['PATH_INFO'] + '?' + rackreq.env['QUERY_STRING'])
+      api_request_path_for("#{rackreq.env['PATH_INFO']}?#{rackreq.env['QUERY_STRING']}")
     end
 
     def request_headers_for(env)
       headers = Rack::Utils::HeaderHash.new
 
-      env.each { |key, value|
+      env.each do |key, value|
         if key =~ /HTTP_(.*)/
-          headers[$1] = value
+          headers[::Regexp.last_match(1)] = value
         end
-      }
+      end
     end
 
     def api_request_path_for(path)
@@ -85,6 +84,7 @@ module TradeTariffFrontend
 
     def cache_control_string(response)
       return 'no-cache' if @uri.path =~ /\/(quotas|additional_codes|certificates|footnotes)\/search.*/
+
       is_error = response.status.to_i.between?(500, 599)
       cache_control = ["max-age=#{is_error ? 0 : 3600}"]
       cache_control.unshift('no-store') if is_error
