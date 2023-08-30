@@ -1,5 +1,27 @@
 version: 2.1
 
+filter-not-main: &filter-not-main
+  filters:
+    branches:
+      ignore:
+        - main
+        - /^dependabot/(?!docker/).*/
+        - /^hotfix\/.+/
+
+filter-main: &filter-main
+  filters:
+    branches:
+      only:
+        - main
+        - /^hotfix\/.+/
+
+filter-release: &filter-release
+  filters:
+    tags:
+      only: /^release-202[\d-]+/
+    branches:
+      ignore: /.*/
+
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
   terraform: circleci/terraform@3.2.1
@@ -14,7 +36,7 @@ orbs:
 executors:
   terraform:
     docker:
-      - image: hashicorp/terraform:1.4.6
+      - image: hashicorp/terraform:1.5.5
     resource_class: small
     working_directory: "/tmp/terraform"
     environment:
@@ -22,7 +44,7 @@ executors:
       TF_IN_AUTOMATION: 1
 
 commands:
-  cf_deploy_docker:
+  cf-deploy-docker:
     parameters:
       docker_tag:
         type: string
@@ -99,7 +121,7 @@ commands:
           event: pass
           template: basic_success_1
 
-  cf_deploy_review:
+  cf-deploy-review:
     steps:
       - tariff/cf-install:
           space: development
@@ -237,7 +259,7 @@ commands:
               ]
             }
 
-  cf_purge_reviews:
+  cf-purge-reviews:
     steps:
       - tariff/cf-install:
           space: development
@@ -271,7 +293,7 @@ commands:
               done
 
 jobs:
-  write_docker_tag:
+  write-docker-tag:
     parameters:
       environment:
         type: string
@@ -285,7 +307,7 @@ jobs:
           paths:
             - terraform/
 
-  fmt_validate_terraform:
+  fmt-validate-terraform:
     executor: terraform
     parameters:
       environment:
@@ -302,7 +324,7 @@ jobs:
       - terraform/validate:
           path: terraform/
 
-  plan_terraform:
+  plan-terraform:
     executor: terraform
     parameters:
       environment:
@@ -319,7 +341,7 @@ jobs:
           backend_config_file: backends/<< parameters.environment >>.tfbackend
           var_file: config_<< parameters.environment >>.tfvars
 
-  apply_terraform:
+  apply-terraform:
     executor: terraform
     parameters:
       environment:
@@ -336,13 +358,13 @@ jobs:
           backend_config_file: backends/<< parameters.environment >>.tfbackend
           var_file: config_<< parameters.environment >>.tfvars
 
-  purge_reviews:
+  purge-reviews:
     docker:
       - image: cimg/ruby:3.2.2
     environment:
       SENTRY_ENVIRONMENT: "development"
     steps:
-      - cf_purge_reviews
+      - cf-purge-reviews
 
   checks:
     executor: tariff/ruby
@@ -415,6 +437,7 @@ jobs:
       - run:
           command: yarn run test
           name: Run YARN tests
+
   test:
     parallelism: 4
     docker:
@@ -450,7 +473,7 @@ jobs:
           time: "10"
           consider-branch: false
           dont-quit: true
-      - cf_deploy_docker:
+      - cf-deploy-docker:
           docker_tag: dev-$CIRCLE_SHA1
           space: development
           environment_key: dev
@@ -458,7 +481,7 @@ jobs:
       - tariff/sentry-release:
           environment: development
 
-  deploy_review:
+  deploy-review:
     executor:
       name: tariff/ruby
     environment:
@@ -468,9 +491,9 @@ jobs:
           time: "10"
           consider-branch: false
           dont-quit: true
-      - cf_deploy_review
+      - cf-deploy-review
 
-  deploy_main_to_staging:
+  deploy-main-to-staging:
     executor:
       name: tariff/ruby
     environment:
@@ -480,7 +503,7 @@ jobs:
           time: "10"
           consider-branch: false
           dont-quit: true
-      - cf_deploy_docker:
+      - cf-deploy-docker:
           docker_tag: $CIRCLE_SHA1
           space: staging
           environment_key: staging
@@ -488,21 +511,21 @@ jobs:
       - tariff/sentry-release:
           environment: staging
 
-  deploy_release_to_staging:
+  deploy-release-to-staging:
     executor:
       name: tariff/ruby
     steps:
-      - cf_deploy_docker:
+      - cf-deploy-docker:
           docker_tag: $CIRCLE_TAG
           space: staging
           environment_key: staging
           app_domain_prefix: staging
 
-  deploy_production:
+  deploy-production:
     executor:
       name: tariff/ruby
     steps:
-      - cf_deploy_docker:
+      - cf-deploy-docker:
           docker_tag: $CIRCLE_TAG
           space: production
           environment_key: production
@@ -516,221 +539,177 @@ jobs:
 
 workflows:
   version: 2
-  ci:
+
+  deploy-to-development:
     jobs:
-      - write_docker_tag:
+      - write-docker-tag:
+          name: write-docker-tag-dev
           environment: development
-
-      - purge_reviews:
-          context: trade-tariff
-          filters:
-            branches:
-              ignore:
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
-
-      - checks:
-          context: trade-tariff
+          <<: *filter-not-main
 
       - jest-tests:
           context: trade-tariff
-          filters:
-            branches:
-              ignore: [main]
+          <<: *filter-not-main
 
       - test:
           context: trade-tariff
-          filters:
-            branches:
-              ignore: [main]
+          <<: *filter-not-main
 
-      - fmt_validate_terraform:
+      - fmt-validate-terraform:
+          name: fmt-terraform-dev
           context: trade-tariff-terraform-aws-development
           environment: development
-          filters:
-            branches:
-              ignore:
-                - main
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+          <<: *filter-not-main
 
-      - plan_terraform:
+      - plan-terraform:
+          name: plan-terraform-dev
           context: trade-tariff-terraform-aws-development
           environment: development
           requires:
-            - write_docker_tag
-            - fmt_validate_terraform
-          filters:
-            branches:
-              ignore:
-                - main
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+            - write-docker-tag-dev
+            - fmt-terraform-dev
+          <<: *filter-not-main
 
       - build:
-          name: build_paas_development
+          name: build-dev
           context: trade-tariff
           dev-build: true
-          filters:
-            branches:
-              ignore:
-                - main
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+          <<: *filter-not-main
 
       - tariff/build-and-push:
-          name: build_and_push_dev
+          name: build-and-push-dev
           context: trade-tariff-terraform-aws-development
-          requires:
-            - jest-tests
-            - test
           environment: development
           image_name: tariff-frontend
           ssm_parameter: "/development/FRONTEND_ECR_URL"
-          filters:
-            branches:
-              ignore:
-                - main
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+          <<: *filter-not-main
 
-      - deploy_dev:
+      - deploy-dev:
           context: trade-tariff
           requires:
             - jest-tests
             - test
-            - build_paas_development
-          filters:
-            branches:
-              ignore:
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+            - build-dev
+          <<: *filter-not-main
 
-      - deploy_review:
+      - deploy-review:
           context: trade-tariff
           requires:
             - jest-tests
             - test
-            - build_paas_development
-          filters:
-            branches:
-              ignore:
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+            - build-dev
+          <<: *filter-not-main
 
-      - apply_terraform:
+      - apply-terraform:
+          name: apply-terraform-dev
           context: trade-tariff-terraform-aws-development
           environment: development
           requires:
-            - plan_terraform
-            - build_and_push_dev
-          filters:
-            branches:
-              ignore:
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+            - plan-terraform-dev
+            - build-and-push-dev
+          <<: *filter-not-main
 
       - tariff/smoketests:
-          name: smoketest_dev
+          name: smoketest-dev
           context: trade-tariff
           url: https://dev.trade-tariff.service.gov.uk
           yarn_run: dev-tariff-frontend-smoketests
           requires:
-            - deploy_dev
-          filters:
-            branches:
-              ignore:
-                - /^dependabot/(?!docker/).*/
-                - /^hotfix\/.+/
+            - deploy-development
+          <<: *filter-not-main
+
+  deploy-to-staging:
+    jobs:
+      - write-docker-tag:
+          name: write-docker-tag-staging
+          environment: staging
+
+      - plan-terraform:
+          name: plan-terraform-staging
+          context: trade-tariff-terraform-aws-staging
+          environment: staging
+          requires:
+            - write-docker-tag-staging
+          <<: *filter-not-main
 
       - build:
-          name: build_paas_live
+          name: build-live
           context: trade-tariff
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
+          <<: *filter-main
 
-      - deploy_main_to_staging:
+      - tariff/build-and-push:
+          name: build-and-push-live
+          context: trade-tariff-terraform-aws-staging
+          environment: staging
+          image_name: tariff-frontend
+          ssm_parameter: "/staging/FRONTEND_ECR_URL"
+          <<: *filter-main
+
+      - apply-terraform:
+          name: apply-terraform-staging
+          context: trade-tariff-terraform-aws-staging
+          environment: staging
+          requires:
+            - write-docker-tag-staging
+            - plan-terraform-staging
+            - build-and-push-live
+          <<: *filter-main
+
+      - deploy-main-to-staging:
           context: trade-tariff
           requires:
-            - build_paas_live
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
+            - build-live
+          <<: *filter-main
 
       - tariff/smoketests:
-          name: smoketest_staging
+          name: smoketest-staging
           context: trade-tariff
           url: https://staging.trade-tariff.service.gov.uk
           yarn_run: staging-tariff-frontend-smoketests
           requires:
-            - deploy_main_to_staging
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
+            - deploy-staging
+          <<: *filter-main
 
-      - hold_create_release:
-          type: approval
+  deploy-to-production:
+    jobs:
+      - write-docker-tag:
+          name: write-docker-tag-prod
+          environment: production
+
+      - plan-terraform:
+          name: plan-terraform-prod
+          context: trade-tariff-terraform-aws-production
+          environment: production
           requires:
-            - deploy_main_to_staging
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
+            - write-docker-tag-prod
+          <<: *filter-not-main
+
+      - promote-to-production?:
+          type: approval
+          <<: *filter-main
+
+      - create-release?:
+          type: approval
+          <<: *filter-main
 
       - tariff/create-production-release:
           context: trade-tariff
           image-name: tariff-frontend
           requires:
-            - hold_create_release
-          filters:
-            branches:
-              only:
-                - main
-                - /^hotfix\/.+/
+            - create-release?
+          <<: *filter-main
 
-      - deploy_release_to_staging:
+      - deploy-production:
           context: trade-tariff
-          filters:
-            tags:
-              only: /^release-202[\d-]+/
-            branches:
-              ignore: /.*/
-
-      - tariff/smoketests:
-          name: smoketest_release_to_staging
-          context: trade-tariff
-          url: https://staging.trade-tariff.service.gov.uk
-          yarn_run: staging-tariff-frontend-smoketests
-          filters:
-            tags:
-              only: /^release-202[\d-]+/
-            branches:
-              ignore: /.*/
           requires:
-            - deploy_release_to_staging
+            - promote-to-production?
+          <<: *filter-release
 
-      - hold_deploy_production:
-          type: approval
-          filters:
-            tags:
-              only: /^release-202[\d-]+/
-            branches:
-              ignore: /.*/
-
-      - deploy_production:
-          context: trade-tariff
-          filters:
-            tags:
-              only: /^release-202[\d-]+/
-            branches:
-              ignore: /.*/
+      - apply-terraform:
+          name: apply-terraform-prod
+          context: trade-tariff-terraform-aws-production
+          environment: production
           requires:
-            - hold_deploy_production
+            - write-docker-tag-prod
+            - promote-to-production?
+          <<: *filter-main
