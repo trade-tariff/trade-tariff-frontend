@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 RSpec.describe CertificateSearchController, type: :request, vcr: { cassette_name: 'search#certificate_search', record: :new_episodes } do
   describe 'GET #new' do
     before { get certificate_search_path }
