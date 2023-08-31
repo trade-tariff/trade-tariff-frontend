@@ -343,6 +343,7 @@ jobs:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
           var_file: config_<< parameters.environment >>.tfvars
+          lock-timeout: 5m
 
   apply-terraform:
     executor: terraform
@@ -360,6 +361,7 @@ jobs:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
           var_file: config_<< parameters.environment >>.tfvars
+          lock-timeout: 5m
 
   purge-reviews:
     docker:
