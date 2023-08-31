@@ -745,10 +745,15 @@ workflows:
           context: trade-tariff
           <<: *filter-release
 
+      - write-docker-tag:
+          name: write-docker-tag-prod-release
+          environment: production
+          <<: *filter-release
+
       - apply-terraform:
           name: apply-terraform-prod
           context: trade-tariff-terraform-aws-production
           environment: production
           requires:
-            - write-docker-tag-prod
+            - write-docker-tag-prod-release
           <<: *filter-release
