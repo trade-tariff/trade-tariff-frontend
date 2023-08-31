@@ -329,6 +329,8 @@ jobs:
 
   plan-terraform:
     executor: terraform
+    environment:
+      TF_CLI_ARGS: "-lock=false"
     parameters:
       environment:
         type: string
