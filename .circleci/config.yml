@@ -21,9 +21,9 @@ filter-release: &filter-release
       only:
         - /^release-202[\d-]+/
     branches:
-      only:
-        - main
-        - /^hotfix\/.+/
+      ignore:
+        - "/.*/"
+
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
@@ -329,6 +329,8 @@ jobs:
 
   plan-terraform:
     executor: terraform
+    environment:
+      TF_CLI_ARGS: "-lock=false"
     parameters:
       environment:
         type: string
@@ -646,6 +648,8 @@ workflows:
           context: trade-tariff-terraform-aws-development
           environment: development
           requires:
+            - jest-tests
+            - test
             - plan-terraform-dev
             - build-and-push-dev
           <<: *filter-not-main
