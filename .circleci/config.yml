@@ -18,9 +18,12 @@ filter-main: &filter-main
 filter-release: &filter-release
   filters:
     tags:
-      only: /^release-202[\d-]+/
+      only:
+        - /^release-202[\d-]+/
     branches:
-      only: main
+      only:
+        - main
+        - /^hotfix\/.+/
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
@@ -549,7 +552,15 @@ workflows:
           environment: development
           <<: *filter-not-main
 
+      - purge-reviews:
+          context: trade-tariff
+          <<: *filter-not-main
+
       - jest-tests:
+          context: trade-tariff
+          <<: *filter-not-main
+
+      - checks:
           context: trade-tariff
           <<: *filter-not-main
 
@@ -689,22 +700,19 @@ workflows:
       - promote-to-production?:
           type: approval
           <<: *filter-main
-
-      - create-release?:
-          type: approval
-          <<: *filter-main
+          requires:
+            - plan-terraform-prod
 
       - tariff/create-production-release:
+          name: "create-production-release"
           context: trade-tariff
           image-name: tariff-frontend
           requires:
-            - create-release?
+            - promote-to-production?
           <<: *filter-main
 
       - deploy-production:
           context: trade-tariff
-          requires:
-            - promote-to-production?
           <<: *filter-release
 
       - apply-terraform:
@@ -713,5 +721,4 @@ workflows:
           environment: production
           requires:
             - write-docker-tag-prod
-            - promote-to-production?
-          <<: *filter-main
+          <<: *filter-release
