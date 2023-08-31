@@ -18,9 +18,12 @@ filter-main: &filter-main
 filter-release: &filter-release
   filters:
     tags:
-      only: /^release-202[\d-]+/
+      only:
+        - /^release-202[\d-]+/
     branches:
-      only: main
+      only:
+        - main
+        - /^hotfix\/.+/
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
@@ -340,6 +343,7 @@ jobs:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
           var_file: config_<< parameters.environment >>.tfvars
+          lock-timeout: 5m
 
   apply-terraform:
     executor: terraform
@@ -357,6 +361,7 @@ jobs:
           path: terraform/
           backend_config_file: backends/<< parameters.environment >>.tfbackend
           var_file: config_<< parameters.environment >>.tfvars
+          lock-timeout: 5m
 
   purge-reviews:
     docker:
@@ -366,7 +371,20 @@ jobs:
     steps:
       - cf-purge-reviews
 
-  checks:
+  javascript-checks:
+    docker:
+      - image: cimg/node:16.13.2
+    resource_class: small
+    steps:
+      - checkout
+      - run: "yarn install"
+      - run:
+          name: "Lint changed files"
+          command: |
+            yarn run eslint $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | egrep '\.js' | grep -v json)
+
+  ruby-checks:
+
     executor: tariff/ruby
     steps:
       - checkout
@@ -544,18 +562,39 @@ workflows:
 
   deploy-to-development:
     jobs:
+      - ruby-checks:
+          context: trade-tariff
+          <<: *filter-not-main
+
+      - javascript-checks:
+          context: trade-tariff
+          <<: *filter-not-main
+
       - write-docker-tag:
           name: write-docker-tag-dev
           environment: development
+          <<: *filter-not-main
+          requires:
+            - ruby-checks
+            - javascript-checks
+
+      - purge-reviews:
+          context: trade-tariff
           <<: *filter-not-main
 
       - jest-tests:
           context: trade-tariff
           <<: *filter-not-main
+          requires:
+            - ruby-checks
+            - javascript-checks
 
       - test:
           context: trade-tariff
           <<: *filter-not-main
+          requires:
+            - ruby-checks
+            - javascript-checks
 
       - fmt-validate-terraform:
           name: fmt-terraform-dev
@@ -689,22 +728,19 @@ workflows:
       - promote-to-production?:
           type: approval
           <<: *filter-main
-
-      - create-release?:
-          type: approval
-          <<: *filter-main
+          requires:
+            - plan-terraform-prod
 
       - tariff/create-production-release:
+          name: "create-production-release"
           context: trade-tariff
           image-name: tariff-frontend
           requires:
-            - create-release?
+            - promote-to-production?
           <<: *filter-main
 
       - deploy-production:
           context: trade-tariff
-          requires:
-            - promote-to-production?
           <<: *filter-release
 
       - apply-terraform:
@@ -713,5 +749,4 @@ workflows:
           environment: production
           requires:
             - write-docker-tag-prod
-            - promote-to-production?
-          <<: *filter-main
+          <<: *filter-release
