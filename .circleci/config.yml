@@ -20,7 +20,7 @@ filter-release: &filter-release
     tags:
       only: /^release-202[\d-]+/
     branches:
-      ignore: /.*/
+      only: main
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
