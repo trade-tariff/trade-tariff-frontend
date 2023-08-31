@@ -732,8 +732,6 @@ workflows:
       - promote-to-production?:
           type: approval
           <<: *filter-main
-          requires:
-            - plan-terraform-prod
 
       - tariff/create-production-release:
           name: "create-production-release"
