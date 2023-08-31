@@ -369,7 +369,20 @@ jobs:
     steps:
       - cf-purge-reviews
 
-  checks:
+  javascript-checks:
+    docker:
+      - image: cimg/node:16.13.2
+    resource_class: small
+    steps:
+      - checkout
+      - run: "yarn install"
+      - run:
+          name: "Lint changed files"
+          command: |
+            yarn run eslint $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | egrep '\.js' | grep -v json)
+
+  ruby-checks:
+
     executor: tariff/ruby
     steps:
       - checkout
@@ -547,10 +560,21 @@ workflows:
 
   deploy-to-development:
     jobs:
+      - ruby-checks:
+          context: trade-tariff
+          <<: *filter-not-main
+
+      - javascript-checks:
+          context: trade-tariff
+          <<: *filter-not-main
+
       - write-docker-tag:
           name: write-docker-tag-dev
           environment: development
           <<: *filter-not-main
+          requires:
+            - ruby-checks
+            - javascript-checks
 
       - purge-reviews:
           context: trade-tariff
@@ -559,14 +583,16 @@ workflows:
       - jest-tests:
           context: trade-tariff
           <<: *filter-not-main
-
-      - checks:
-          context: trade-tariff
-          <<: *filter-not-main
+          requires:
+            - ruby-checks
+            - javascript-checks
 
       - test:
           context: trade-tariff
           <<: *filter-not-main
+          requires:
+            - ruby-checks
+            - javascript-checks
 
       - fmt-validate-terraform:
           name: fmt-terraform-dev
