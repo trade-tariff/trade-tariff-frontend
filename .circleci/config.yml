@@ -646,6 +646,8 @@ workflows:
           context: trade-tariff-terraform-aws-development
           environment: development
           requires:
+            - jest-tests
+            - test
             - plan-terraform-dev
             - build-and-push-dev
           <<: *filter-not-main
