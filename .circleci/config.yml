@@ -21,9 +21,9 @@ filter-release: &filter-release
       only:
         - /^release-202[\d-]+/
     branches:
-      only:
-        - main
-        - /^hotfix\/.+/
+      ignore:
+        - "/.*/"
+
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
