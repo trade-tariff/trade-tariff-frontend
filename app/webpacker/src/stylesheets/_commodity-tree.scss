@@ -475,12 +475,6 @@ article.tariff {
   }
 }
 
-.commodity-ancestors {
-  margin-bottom: 1em;
-  padding: 1em 0 0.5em 1em;
-  background-color: $shaded-panel-background-colour;
-}
-
 .additional-code-table {
   @include govuk-font($size: 14);
   @include govuk-responsive-margin(2, "bottom");
