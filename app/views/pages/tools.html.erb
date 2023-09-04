@@ -12,6 +12,15 @@
     <%= page_header 'Tariff tools' %>
 
     <ul class="govuk-list">
+      <% if TradeTariffFrontend::ServiceChooser.uk? %>
+        <li>
+          <p>
+            <%= link_to t('breadcrumb.exchange_rates'), exchange_rates_path %>
+            <br>
+            Check the official HMRC foreign exchange rates for Customs & VAT in online (HTML), CSV and XML formats.
+          </p>
+        </li>
+      <% end %>
       <li>
         <p>
           <%= link_to t('breadcrumb.simplified_procedural_values'), simplified_procedural_values_path %>
