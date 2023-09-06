@@ -1,0 +1,14 @@
+<% content_for :top_breadcrumbs do %>
+   <%= generate_breadcrumbs "Exchange rates #{@monthly_exchange_rate.month_and_year_name}",
+                            [ [t('breadcrumb.home'), home_path],
+                            [t('breadcrumb.tools'), tools_path],
+                            [t('breadcrumb.exchange_rates'), exchange_rates_path], ] %>
+ <% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <p>
+      There are no exchnage rates present for the year requested please use the back navigation for years with data.
+    </p>
+  </div>
+</div>

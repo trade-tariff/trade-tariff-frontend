@@ -9,6 +9,8 @@ class ExchangeRatesController < ApplicationController
     @monthly_exchange_rate = ExchangeRates::MonthlyExchangeRate.find(
       "#{year}-#{month}",
     )
+
+    render :show_404, status: :not_found unless @monthly_exchange_rate
   end
 
   private
