@@ -160,9 +160,5 @@ module "service" {
       name      = "SECRET_KEY_BASE"
       valueFrom = data.aws_secretsmanager_secret.frontend_secret_key_base.arn
     },
-    {
-      name      = "NEWRELIC_LICENSE_KEY"
-      valueFrom = data.aws_secretsmanager_secret.newrelic_license_key.arn
-    }
   ]
 }
