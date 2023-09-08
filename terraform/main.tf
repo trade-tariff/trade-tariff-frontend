@@ -135,7 +135,7 @@ module "service" {
     },
     {
       name  = "TARIFF_TO_EMAIL"
-      value = "trade-tariff-support@enginegroup.com"
+      value = "hmrc-trade-tariff-support-g@digital.hmrc.gov.uk"
     },
     {
       name  = "WEB_CONCURRENCY"
