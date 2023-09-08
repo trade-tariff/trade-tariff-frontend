@@ -1,5 +1,6 @@
 class ExchangeRatesController < ApplicationController
-  before_action :disable_search_form, :disable_switch_service_banner
+  before_action :disable_search_form,
+                :disable_switch_service_banner
 
   def index
     @period_list = ExchangeRates::PeriodList.find(params[:year])

@@ -110,8 +110,11 @@ Rails.application.routes.draw do
 
   get '/search/toggle_beta_search', as: :toggle_beta_search, to: 'search#toggle_beta_search'
 
-  get 'exchange_rates(/:year)', to: 'exchange_rates#index', as: 'exchange_rates'
-  get 'exchange_rates/view/:id', to: 'exchange_rates#show', as: 'monthly_exchange_rate'
+  scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
+    get 'exchange_rates(/:year)', to: 'exchange_rates#index', as: 'exchange_rates'
+    get 'exchange_rates/view/:id', to: 'exchange_rates#show', as: 'monthly_exchange_rate'
+  end
+
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search
   get 'simplified_procedure_value', to: 'simplified_procedural_values#index', as: :simplified_procedural_values
