@@ -1,7 +1,6 @@
 class ExchangeRatesController < ApplicationController
   before_action :disable_search_form,
-                :disable_switch_service_banner,
-                :disable_on_xi
+                :disable_switch_service_banner
 
   def index
     @period_list = ExchangeRates::PeriodList.find(params[:year])
@@ -25,11 +24,5 @@ class ExchangeRatesController < ApplicationController
 
   def id
     params[:id]
-  end
-
-  def disable_on_xi
-    if TradeTariffFrontend::ServiceChooser.xi?
-      raise TradeTariffFrontend::FeatureUnavailable
-    end
   end
 end
