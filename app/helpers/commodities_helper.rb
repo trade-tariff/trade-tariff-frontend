@@ -70,6 +70,13 @@ module CommoditiesHelper
     )
   end
 
+  def capitalize_uk(text)
+    capital_words = %w[united kingdom]
+    text.gsub(/(\w+)/) do |word|
+      capital_words.include?(word) ? word.capitalize : word
+    end
+  end
+
   def query
     applicable_query_params = url_options.slice(:year, :month, :day, :country)
 

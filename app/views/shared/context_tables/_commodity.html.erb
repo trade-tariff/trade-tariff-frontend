@@ -19,10 +19,10 @@
         <% end %>
 
         <strong>
-          <%= convert_text_to_links(declarable.to_s).html_safe %>
+          <%= convert_text_to_links(capitalize_uk(declarable.to_s)).html_safe %>
         </strong>
       <% else %>
-        <%= convert_text_to_links(declarable.to_s).html_safe %>
+        <%= convert_text_to_links(capitalize_uk(declarable.to_s)).html_safe %>
     <% end %>
     </dd>
     <dd class="govuk-summary-list__actions"></dd>
