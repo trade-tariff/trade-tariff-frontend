@@ -75,7 +75,11 @@ Rails.application.configure do
       JSON.parse(ENV['VCAP_APPLICATION']).except('application_uris', 'host', 'application_name', 'space_id', 'port', 'uris', 'application_version'),
     )
   end
-  config.lograge.ignore_actions = ['HealthcheckController#index']
+
+  config.lograge.ignore_actions = [
+    'HealthcheckController#index',
+    'HealthcheckController#checkz',
+  ]
 
   # set default_url_options
   config.action_controller.default_url_options = {
