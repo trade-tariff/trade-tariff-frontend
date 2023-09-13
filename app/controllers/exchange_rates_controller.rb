@@ -1,6 +1,6 @@
 class ExchangeRatesController < ApplicationController
-  before_action :disable_search_form,
-                :disable_switch_service_banner
+  before_action :disable_search_form, :disable_switch_service_banner
+  rescue_from Faraday::ResourceNotFound, with: :render_404
 
   def index
     @period_list = ExchangeRates::PeriodList.find(params[:year])
@@ -13,6 +13,10 @@ class ExchangeRatesController < ApplicationController
   end
 
   private
+
+  def render_404
+    render :show_404, status: :not_found
+  end
 
   def month
     id.split('-').last
