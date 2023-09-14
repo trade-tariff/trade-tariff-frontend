@@ -7,7 +7,7 @@ class Feedback
 
   include ActiveModel::Model
 
-  attr_accessor :message, :name, :email, :authenticity_token
+  attr_accessor :message, :name, :email, :telephone, :authenticity_token
 
   validates :message, presence: true,
                       length: { minimum: 10, maximum: 500 }
@@ -21,6 +21,8 @@ class Feedback
   validates :authenticity_token, presence: true,
                                  length: { minimum: 50, maximum: 100 }
   validate :authenticity_token_reuse, if: :authenticity_token
+
+  validate :honeypot_catcher
 
   def record_delivery!
     Rails.cache.write(tracking_token, tracking_token_count + 1, expires_in: TOKEN_TRACKING_LIFETIME)
@@ -44,5 +46,11 @@ class Feedback
 
   def filtered_authenticity_token
     @authenticity_token.to_s.gsub(/[^A-Za-z0-9_-]/, '')
+  end
+
+  def honeypot_catcher
+    unless telephone.nil?
+      errors.add(:telephone, 'must be kept nil')
+    end
   end
 end
