@@ -9,7 +9,7 @@
   <div class="govuk-grid-column-full">
     <%= page_header "#{@monthly_exchange_rate.month_and_year_name} monthly exchange rates" %>
 
-    <p class="govuk-body-l">Official <%= @monthly_exchange_rate.month_and_year_name %> HMRC foreign currency exchange monthly rates for Customs and <abbr title="value added tax">VAT</abbr>.</p>
+    <p class="govuk-body-l">Official <%= @monthly_exchange_rate.month_and_year_name %> HMRC foreign currency exchange monthly rates.</p>
 
     <%= render partial: 'exchange_rates/download_files', locals: { files: @monthly_exchange_rate.exchange_rate_files } %>
 
