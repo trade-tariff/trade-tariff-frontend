@@ -10,6 +10,10 @@ en:
 
   feed:
     news_item_title: "Online Trade Tariff News Items"
+  news_item:
+    title:
+      uk: "UK Integrated Online Tariff"
+      xi: "Northern Ireland Online Tariff"
 
   howtos:
     h1:

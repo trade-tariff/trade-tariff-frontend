@@ -24,6 +24,8 @@ module News
 
     has_many :collections, class_name: 'News::Collection'
 
+    delegate :service_name, to: TradeTariffFrontend::ServiceChooser
+
     class << self
       delegate :service_name, to: TradeTariffFrontend::ServiceChooser, private: true
 
