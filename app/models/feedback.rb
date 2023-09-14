@@ -49,8 +49,8 @@ class Feedback
   end
 
   def honeypot_catcher
-    unless telephone.nil?
-      errors.add(:telephone, 'must be kept nil')
+    if telephone.present?
+      errors.add(:telephone, 'must be kept blank')
     end
   end
 end
