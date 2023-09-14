@@ -24,5 +24,21 @@ RSpec.describe FeedbackController, type: :request do
     it 'sends the feedback email' do
       expect(ActionMailer::Base.deliveries.count).to eq(1)
     end
+
+    context 'when honeypot (telephone field) captcha data included' do
+      let(:params) do
+        {
+          feedback: { message: 'I love gravy.',
+                      telephone: '00000000000' },
+          authenticity_token: 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw',
+        }
+      end
+
+      it { is_expected.not_to redirect_to(feedback_thanks_url) }
+
+      it 'will not send the email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
+      end
+    end
   end
 end
