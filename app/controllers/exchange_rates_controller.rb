@@ -16,6 +16,12 @@ class ExchangeRatesController < ApplicationController
     )
   end
 
+  def index_average_rates
+    # TODO: This is temporary using the monthly period.
+    #       When BE provides the average rates it will be updated.
+    @period_list = ExchangeRates::PeriodList.find(params[:year])
+  end
+
   private
 
   def render_404
