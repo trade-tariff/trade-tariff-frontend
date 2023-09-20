@@ -1,21 +1,18 @@
 <div class="downloads" data-module="govspeak">
   <section class="attachment exchange-rates-attachment">
     <div class="attachment-thumb">
-      <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), monthly_exchange_rate_path("#{period.year}-#{period.month}")) %>
+      <%= image_pack_tag("spreadsheet.png", alt: "") %>
     </div>
     <div class="attachment-details">
       <h3 class="govuk-heading-s govuk-!-font-size-27 govuk-!-font-weight-regular exchange-rates-period-heading">
-        Average rate for the year to <%= Date::MONTHNAMES[period.month] %> <%= period.year %>
+        Average rate for the year to <%= end_date %>
       </h3>
 
       <p>
-        <% if period.file_csv.present? %>
-            
-              <a href="<%= period.file_csv.file_path %>">
-                <strong>Download CSV</strong>
-                <%= period.file_csv.file_size_in_kb %> KB
-            </a>
-          <% end %>
+        <a href="<%= filename %>">
+            <strong>Download CSV</strong>
+            6.5 KB
+        </a>
       </p>
 
       <p>This file may not be suitable for users of assistive technology</p>

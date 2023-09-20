@@ -19,13 +19,19 @@
     </dd>
     <dt class="gem-c-metadata__term">Published:</dt>
     <dd class="gem-c-metadata__definition">
-      <%= @period_list.publication_date %>
+      <%= '1 April 2011' %>
+    </dd>
+
+    <dt class="gem-c-metadata__term">Last updated:</dt>
+    <dd class="gem-c-metadata__definition">
+      <%= '3 May 2023' %>
     </dd>
 
     <h2>Documents</h2>
 
-    <% @period_list.exchange_rate_periods.each do |period| %>
-      <%= render partial: 'exchange_rates/document_average_rate_detail', locals: { period: period } %>
+    <% @period_file_list.each do |period_file| %>
+      <%= render partial: 'exchange_rates/document_average_rate_detail',
+                 locals: { end_date: period_file[:end_date], filename: period_file[:filename] } %>
     <% end %>
 
     <p>HMRC currency exchange rates for Customs and VAT are sourced from data provided by ft.com and xe.com.</p>
@@ -38,11 +44,7 @@
       <nav role="navigation" class="gem-c-related-na
       vigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
           <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
-            <% filter_years(@period_list.exchange_rate_years, @period_list.year).each do |year| %>
-              <li class="gem-c-related-navigation__link">
-                  <%= link_to "HMRC exchange rates for #{year.year.to_s}", exchange_rates_path(year: year.year) %><br>
-              </li>
-            <% end %>
+            <%# add lateral bar %>
           </ul>
       </nav>
     </div>
