@@ -11,7 +11,7 @@
     <span class="govuk-caption-xl"><%= trade_tariff_heading %></span>
     <h1 class="govuk-heading-l">HMRC Yearly average rates and <abbr title="value added tax">VAT</abbr></h1>
     <p class="govuk-body-l">Check the official HMRC foreign currency exchange yearly average rates for Customs and <abbr title="value added tax">VAT</abbr>.</p>
-    <p class="govuk-body">Data is available in online (HTML), CSV and XML formats.</p>
+    <p class="govuk-body">Data is available in CSV format.</p>
 
     <dt class="gem-c-metadata__term">From:</dt>
     <dd class="gem-c-metadata__definition">
@@ -39,12 +39,13 @@
 
   <div class="govuk-grid-column-one-third">
     <div class="gem-c-related-navigation">
-      <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Data for other years</h2>
+      <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">
+        Related information
+      </h2>
 
-      <nav role="navigation" class="gem-c-related-na
-      vigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
+      <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
           <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
-            <%# add lateral bar %>
+            <%= link_to 'Exchange rates', exchange_rates_path %>
           </ul>
       </nav>
     </div>
