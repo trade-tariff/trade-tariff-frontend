@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 RSpec.describe FootnoteSearchController, type: :request, vcr: { cassette_name: 'search#footnote_search', record: :new_episodes } do
   describe 'GET #new' do
     before { get footnote_search_path }
