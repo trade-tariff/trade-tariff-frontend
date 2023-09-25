@@ -12,14 +12,24 @@
     <p class="govuk-body-l">Check the official <%= @period_list.year %> HMRC foreign currency exchange monthly rates.</p>
     <p class="govuk-body">Data is available in online (HTML), CSV and XML formats.</p>
 
-    <dt class="gem-c-metadata__term">From:</dt>
-    <dd class="gem-c-metadata__definition">
-      <strong><a href="https://www.gov.uk/government/organisations/hm-revenue-customs">HM Revenue &amp; Customs</a></strong>
-    </dd>
-    <dt class="gem-c-metadata__term">Published:</dt>
-    <dd class="gem-c-metadata__definition">
-      <%= @period_list.publication_date %>
-    </dd>
+    <div>
+      <dt class="gem-c-metadata__term">From:</dt>
+      <dd class="gem-c-metadata__definition">
+        <strong>
+          <a href="https://www.gov.uk/government/organisations/hm-revenue-customs">
+            HM Revenue &amp; Customs
+          </a>
+        </strong>
+      </dd>
+      
+      <% if @period_list.publication_date.present? %>
+        <dt class="gem-c-metadata__term">Published:</dt>
+
+        <dd class="gem-c-metadata__definition">
+          <%= @period_list.publication_date %>
+        </dd>
+      <% end %>
+    </div>
 
     <h2>Documents</h2>
 
@@ -35,10 +45,10 @@
       <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
           <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
               <li class="gem-c-related-navigation__link">
-                <%= link_to "Average rates", average_exchange_rates_path %><br>
+                <%= link_to "Average rates", exchange_rates_path(type: :average) %><br>
               </li>
               <li class="gem-c-related-navigation__link">
-                <%= link_to "Spot rates", '' %><br>
+                <%= link_to "Spot rates", exchange_rates_path(type: :spot) %><br>
               </li>
           </ul>
       </nav>
@@ -51,7 +61,7 @@
           <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
             <% filter_years(@period_list.exchange_rate_years, @period_list.year).each do |year| %>
               <li class="gem-c-related-navigation__link">
-                  <%= link_to "#{year.year.to_s}", exchange_rates_path(year: year.year) %><br>
+                  <%= link_to "#{year.year.to_s}", exchange_rates_path(type: :scheduled, year: year.year) %><br>
               </li>
             <% end %>
           </ul>

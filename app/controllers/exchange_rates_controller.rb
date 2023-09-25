@@ -1,12 +1,20 @@
 class ExchangeRatesController < ApplicationController
   before_action :disable_search_form, :disable_switch_service_banner
-  rescue_from Faraday::ResourceNotFound, with: :render_404
 
   def index
-    @period_list = ExchangeRates::PeriodList.find(
-      params[:year],
-      filter: { type: 'scheduled' },
-    )
+    case type
+    when 'spot', 'scheduled'
+      @period_list = ExchangeRates::PeriodList.find(
+        params[:year],
+        filter: { type: },
+      )
+
+      render 'index'
+    when 'average'
+      @period_file_list = period_file_list
+
+      render 'index_average_rates'
+    end
   end
 
   def show
@@ -16,8 +24,8 @@ class ExchangeRatesController < ApplicationController
     )
   end
 
-  def index_average_rates
-    @period_file_list = [
+  def period_file_list
+    [
       { end_date: 'March 2020', filename: '/api/v2/exchange_rates/files/average_csv_2020-03.csv' },
       { end_date: 'December 2020', filename: '/api/v2/exchange_rates/files/average_csv_2020-12.csv' },
       { end_date: 'March 2021', filename: '/api/v2/exchange_rates/files/average_csv_2021-03.csv' },
@@ -44,5 +52,9 @@ class ExchangeRatesController < ApplicationController
 
   def id
     params[:id]
+  end
+
+  def type
+    params[:type] || 'scheduled'
   end
 end
