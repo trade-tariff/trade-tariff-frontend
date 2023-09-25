@@ -5,8 +5,6 @@ class Heading < GoodsNomenclature
   HEADING_PATTERN = '000000'.freeze
   SHORT_CODE_LENGTH = 4
 
-  collection_path '/headings'
-
   has_many :commodities, class_name: 'Commodity'
   has_many :children, class_name: 'Heading'
 

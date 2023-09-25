@@ -3,8 +3,6 @@ require 'api_entity'
 class Section
   include ApiEntity
 
-  collection_path '/sections'
-
   attr_accessor :numeral,
                 :position,
                 :title,

@@ -10,8 +10,6 @@ class SearchSuggestion
   PRESENTED_CHEMICAL_TYPE = 'Chemical'.freeze
   PRESENTED_REFERENCE_TYPE = 'Reference'.freeze
 
-  collection_path '/search_suggestions'
-
   attr_accessor :score,
                 :query,
                 :value,

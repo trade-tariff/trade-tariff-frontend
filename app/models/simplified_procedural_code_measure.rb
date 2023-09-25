@@ -3,8 +3,6 @@ require 'api_entity'
 class SimplifiedProceduralCodeMeasure
   include ApiEntity
 
-  collection_path '/simplified_procedural_code_measures'
-
   attr_accessor :validity_start_date,
                 :validity_end_date,
                 :goods_nomenclature_item_ids,

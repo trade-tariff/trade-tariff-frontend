@@ -5,8 +5,6 @@ class Footnote
 
   CRITICAL_WARNING_REGEX = /^CR/
 
-  collection_path '/footnotes'
-
   attr_accessor :code,
                 :footnote_type_id,
                 :footnote_id,

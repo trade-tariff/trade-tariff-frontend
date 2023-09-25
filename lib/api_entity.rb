@@ -92,8 +92,9 @@ private
     end
 
     def find(id, opts = {})
-      path = "/#{name.pluralize.underscore}"
-      path = "#{path}/#{id}" if id.present?
+      id = id.to_s
+      path = singular_path.sub(':id', id) if @singular_path.present?
+      path = "/#{name.underscore.pluralize}/#{id}" if path.blank?
 
       response = api.get(path, opts)
 
@@ -221,10 +222,20 @@ private
       ).page(pagination['page']).per(pagination['per_page'])
     end
 
-    def collection_path(path = nil)
-      return @collection_path if path.blank?
+    def singular_path(path = nil)
+      if path.present?
+        @singular_path = path
+      else
+        @singular_path ||= "/#{name.pluralize.underscore}/:id"
+      end
+    end
 
-      @collection_path = path
+    def collection_path(path = nil)
+      if path.present?
+        @collection_path = path
+      else
+        @collection_path ||= "/#{name.pluralize.underscore}"
+      end
     end
 
     def api

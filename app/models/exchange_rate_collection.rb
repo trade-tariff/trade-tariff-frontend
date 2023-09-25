@@ -1,7 +1,9 @@
 require 'api_entity'
 
-class ExchangeRates::MonthlyExchangeRate
+class ExchangeRateCollection
   include ApiEntity
+
+  singular_path '/exchange_rates/:id'
 
   attr_accessor :month, :year
 

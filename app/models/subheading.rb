@@ -11,8 +11,6 @@ class Subheading < GoodsNomenclature
   has_many :footnotes
   has_many :commodities
 
-  collection_path '/subheadings'
-
   attr_accessor :goods_nomenclature_item_id,
                 :producline_suffix,
                 :goods_nomenclature_sid,

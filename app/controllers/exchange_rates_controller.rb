@@ -3,12 +3,16 @@ class ExchangeRatesController < ApplicationController
   rescue_from Faraday::ResourceNotFound, with: :render_404
 
   def index
-    @period_list = ExchangeRates::PeriodList.find(params[:year])
+    @period_list = ExchangeRates::PeriodList.find(
+      params[:year],
+      filter: { type: 'scheduled' },
+    )
   end
 
   def show
-    @monthly_exchange_rate = ExchangeRates::MonthlyExchangeRate.find(
+    @exchange_rate_collection = ExchangeRateCollection.find(
       "#{year}-#{month}",
+      filter: { type: 'scheduled' },
     )
   end
 

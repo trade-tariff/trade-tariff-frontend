@@ -3,8 +3,6 @@ require 'api_entity'
 class ChemicalSubstance
   include ApiEntity
 
-  collection_path '/chemical_substances'
-
   attr_accessor :cus,
                 :cas_rn,
                 :goods_nomenclature_sid,
