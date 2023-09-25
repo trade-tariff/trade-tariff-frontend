@@ -5,7 +5,7 @@ RSpec.describe ApiEntity do
     Class.new do
       include ApiEntity
 
-      collection_path '/mock_entities'
+      set_collection_path '/mock_entities'
 
       attr_accessor :name, :age
 
@@ -240,7 +240,7 @@ RSpec.describe ApiEntity do
 
     let :first_entity do
       Class.new(parent_entity) do
-        collection_path '/first_entities'
+        set_collection_path '/first_entities'
         has_many :parts, class_name: 'Part'
         has_one :part, class_name: 'Part'
 
@@ -252,7 +252,7 @@ RSpec.describe ApiEntity do
 
     let :second_entity do
       Class.new(parent_entity) do
-        collection_path '/second_entities'
+        set_collection_path '/second_entities'
         has_many :parts, class_name: 'Part'
 
         def self.name
