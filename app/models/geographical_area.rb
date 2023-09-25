@@ -12,7 +12,7 @@ class GeographicalArea
     european_union: '1013',
   }
 
-  collection_path '/geographical_areas/countries'
+  set_collection_path '/geographical_areas/countries'
 
   attr_accessor :id, :geographical_area_id
 

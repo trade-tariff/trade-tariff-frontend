@@ -3,8 +3,6 @@ require 'api_entity'
 class Certificate
   include ApiEntity
 
-  collection_path '/certificates'
-
   attr_accessor :certificate_type_code,
                 :certificate_code,
                 :description,

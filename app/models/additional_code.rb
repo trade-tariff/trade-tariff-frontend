@@ -6,8 +6,6 @@ class AdditionalCode
   PHARMA_CODES = %w[2500 2501].freeze
   RESIDUAL_CODES = %w[49 98 99].freeze
 
-  collection_path '/additional_codes'
-
   has_many :goods_nomenclatures, polymorphic: true
 
   attr_accessor :additional_code_type_id,

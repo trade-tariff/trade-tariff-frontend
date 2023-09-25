@@ -1,5 +1,5 @@
 <% content_for :top_breadcrumbs do %>
-   <%= generate_breadcrumbs "Exchange rates #{@monthly_exchange_rate.month_and_year_name}",
+   <%= generate_breadcrumbs "Exchange rates #{@exchange_rate_collection.month_and_year_name}",
                             [ [t('breadcrumb.home'), home_path],
                             [t('breadcrumb.tools'), tools_path],
                             [t('breadcrumb.exchange_rates'), exchange_rates_path], ] %>
@@ -7,11 +7,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= page_header "#{@monthly_exchange_rate.month_and_year_name} monthly exchange rates" %>
+    <%= page_header "#{@exchange_rate_collection.month_and_year_name} monthly exchange rates" %>
 
-    <p class="govuk-body-l">Official <%= @monthly_exchange_rate.month_and_year_name %> HMRC foreign currency exchange monthly rates.</p>
+    <p class="govuk-body-l">Official <%= @exchange_rate_collection.month_and_year_name %> HMRC foreign currency exchange monthly rates.</p>
 
-    <%= render partial: 'exchange_rates/download_files', locals: { files: @monthly_exchange_rate.exchange_rate_files } %>
+    <%= render partial: 'exchange_rates/download_files', locals: { files: @exchange_rate_collection.exchange_rate_files } %>
 
     <table class="govuk-table">
       <thead class="govuk-table__head">
@@ -43,7 +43,7 @@
       </thead>
 
       <tbody class="govuk-table__body">
-        <% @monthly_exchange_rate.exchange_rates.each do |exchange_rate| %>
+        <% @exchange_rate_collection.exchange_rates.each do |exchange_rate| %>
           <tr class="govuk-table__row">
             <td class="govuk-table__cell">
               <%= exchange_rate.country %>

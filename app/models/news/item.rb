@@ -6,7 +6,7 @@ module News
 
     DISPLAY_STYLE_REGULAR = 0
 
-    collection_path '/news/items'
+    set_collection_path '/news/items'
 
     attr_accessor :id,
                   :slug,
