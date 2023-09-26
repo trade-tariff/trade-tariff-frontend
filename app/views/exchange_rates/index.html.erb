@@ -9,27 +9,25 @@
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-xl"><%= trade_tariff_heading %></span>
     <h1 class="govuk-heading-l"><%= @period_list.year %> HMRC currency exchange rates.</h1>
-    <p class="govuk-body-l">Check the official <%= @period_list.year %> HMRC foreign currency exchange monthly rates.</p>
+    <p class="govuk-body-l">Check the official <%= @period_list.year %> HMRC foreign currency exchange <%= @period_list.type_label %> rates.</p>
     <p class="govuk-body">Data is available in online (HTML), CSV and XML formats.</p>
 
-    <div>
-      <dt class="gem-c-metadata__term">From:</dt>
-      <dd class="gem-c-metadata__definition">
-        <strong>
-          <a href="https://www.gov.uk/government/organisations/hm-revenue-customs">
-            HM Revenue &amp; Customs
-          </a>
-        </strong>
-      </dd>
-      
-      <% if @period_list.publication_date.present? %>
-        <dt class="gem-c-metadata__term">Published:</dt>
+    <dt class="gem-c-metadata__term">From:</dt>
+    <dd class="gem-c-metadata__definition">
+      <strong>
+        <a href="https://www.gov.uk/government/organisations/hm-revenue-customs">
+          HM Revenue &amp; Customs
+        </a>
+      </strong>
+    </dd>
 
-        <dd class="gem-c-metadata__definition">
-          <%= @period_list.publication_date %>
-        </dd>
-      <% end %>
-    </div>
+    <% if @period_list.publication_date.present? %>
+      <dt class="gem-c-metadata__term">Published:</dt>
+
+      <dd class="gem-c-metadata__definition">
+        <%= @period_list.publication_date %>
+      </dd>
+    <% end %>
 
     <h2>Documents</h2>
 

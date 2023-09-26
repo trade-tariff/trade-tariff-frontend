@@ -111,7 +111,6 @@ Rails.application.routes.draw do
   get '/search/toggle_beta_search', as: :toggle_beta_search, to: 'search#toggle_beta_search'
 
   scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
-    # param 'type' = [average | monthly | spot], 'year' is a query param.
     get 'exchange_rates(/:type)', to: 'exchange_rates#index', as: 'exchange_rates'
 
     get 'exchange_rates/view/:id', to: 'exchange_rates#show', as: 'exchange_rate_collection'
