@@ -31,7 +31,11 @@
 
     <% @period_file_list.each do |period_file| %>
       <%= render partial: 'exchange_rates/document_average_rate_detail',
-                 locals: { end_date: period_file[:end_date], filename: period_file[:filename] } %>
+                 locals: {
+                   end_date: period_file[:end_date],
+                   filename: period_file[:filename],
+                   size: period_file[:size]
+                 } %>
     <% end %>
 
     <p>HMRC currency exchange rates for Customs and VAT are sourced from data provided by ft.com and xe.com.</p>

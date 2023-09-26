@@ -30,13 +30,13 @@ class ExchangeRatesController < ApplicationController
 
   def period_file_list
     [
-      { end_date: 'March 2020', filename: '/api/v2/exchange_rates/files/average_csv_2020-03.csv' },
-      { end_date: 'December 2020', filename: '/api/v2/exchange_rates/files/average_csv_2020-12.csv' },
-      { end_date: 'March 2021', filename: '/api/v2/exchange_rates/files/average_csv_2021-03.csv' },
-      { end_date: 'December 2021', filename: '/api/v2/exchange_rates/files/average_csv_2021-12.csv' },
-      { end_date: 'March 2022', filename: '/api/v2/exchange_rates/files/average_csv_2022-03.csv' },
-      { end_date: 'December 2022', filename: '/api/v2/exchange_rates/files/average_csv_2022-12.csv' },
-      { end_date: 'March 2023', filename: '/api/v2/exchange_rates/files/average_csv_2023-03.csv' },
+      { end_date: 'March 2020', filename: '/api/v2/exchange_rates/files/average_csv_2020-03.csv', size: '6.2 KB' },
+      { end_date: 'December 2020', filename: '/api/v2/exchange_rates/files/average_csv_2020-12.csv', size: '6.1 KB' },
+      { end_date: 'March 2021', filename: '/api/v2/exchange_rates/files/average_csv_2021-03.csv', size: '6.8 KB' },
+      { end_date: 'December 2021', filename: '/api/v2/exchange_rates/files/average_csv_2021-12.csv', size: '6.0 KB' },
+      { end_date: 'March 2022', filename: '/api/v2/exchange_rates/files/average_csv_2022-03.csv', size: '6.7 KB' },
+      { end_date: 'December 2022', filename: '/api/v2/exchange_rates/files/average_csv_2022-12.csv', size: '6.1 KB' },
+      { end_date: 'March 2023', filename: '/api/v2/exchange_rates/files/average_csv_2023-03.csv', size: '6.7 KB' },
     ].reverse
   end
 
