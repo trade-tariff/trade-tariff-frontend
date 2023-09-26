@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe ExchangeRates::PeriodList, vcr: { cassette_name: 'exchange_rates#period_list' } do
-  subject(:period_list) { described_class.find(year) }
+  subject(:period_list) { described_class.find(year, filter: { type: :scheduled }) }
 
   let(:year) { 2023 }
 

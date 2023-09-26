@@ -21,4 +21,12 @@ class ExchangeRates::PeriodList
 
     type
   end
+
+  def monthly?
+    type == 'scheduled'
+  end
+
+  def annual?
+    type.in?(%w[spot average])
+  end
 end
