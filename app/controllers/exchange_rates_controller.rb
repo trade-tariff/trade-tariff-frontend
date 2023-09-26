@@ -10,10 +10,14 @@ class ExchangeRatesController < ApplicationController
       )
 
       render 'index'
+
+    # TODO: the average will be simplified, and handled the same way as spot and scheduled
     when 'average'
       @period_file_list = period_file_list
 
       render 'index_average_rates'
+    else
+      render :show_404, status: :not_found
     end
   end
 
