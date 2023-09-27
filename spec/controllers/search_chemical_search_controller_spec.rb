@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe SearchController, 'GET to #chemical_search', type: :controller,
-  vcr: { cassette_name: 'search#chemical_search' } do
-
+                                                            vcr: { cassette_name: 'search#chemical_search' } do
   context 'without search params' do
     render_views
 

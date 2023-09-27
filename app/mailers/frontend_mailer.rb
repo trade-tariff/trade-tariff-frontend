@@ -1,4 +1,4 @@
-class FrontendMailer < ActionMailer::Base
+class FrontendMailer < ApplicationMailer
   default from: TradeTariffFrontend.from_email,
           to: TradeTariffFrontend.to_email
 

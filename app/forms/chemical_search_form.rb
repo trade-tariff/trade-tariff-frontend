@@ -1,7 +1,7 @@
 class ChemicalSearchForm
   OPTIONAL_PARAMS = [:@page].freeze
 
-  attr_accessor :cas, :name, :page
+  attr_accessor :cas, :name
 
   def initialize(params)
     params.each do |key, value|
@@ -10,7 +10,7 @@ class ChemicalSearchForm
   end
 
   def page
-    @page || 1
+    @page ||= 1
   end
 
   def present?

@@ -8,15 +8,15 @@ module RulesOfOrigin
       end
 
       def duty_drawback_available?
-        !!chosen_scheme.article('duty-drawback')&.content&.present?
+        chosen_scheme.article('duty-drawback')&.content.present?
       end
 
       def non_alteration_available?
-        !!chosen_scheme.article('non-alteration')&.content&.present?
+        chosen_scheme.article('non-alteration')&.content.present?
       end
 
       def direct_transport_available?
-        !!chosen_scheme.article('direct-transport')&.content&.present?
+        chosen_scheme.article('direct-transport')&.content.present?
       end
 
     private

@@ -8,7 +8,7 @@ class SearchPresenter
     {
       q: @search.q,
       as_of: @search.date.to_s,
-      results: @search_results.as_json(opts)
+      results: @search_results.as_json(opts),
     }
   end
 end
