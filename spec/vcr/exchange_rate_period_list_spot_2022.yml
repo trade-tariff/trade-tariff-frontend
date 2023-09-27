@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/exchange_rates/period_lists/2022?filter%5Btype%5D=spot
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v2.7.11
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"f02afbc4b03e9bddb24aef5bd08af206"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - bfa05012-3173-4210-b415-9147fb359e2a
+      X-Runtime:
+      - '0.154232'
+      Content-Length:
+      - '1242'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":"4c10ca04e941f08668958bf26e2a475a","type":"exchange_rate_period_list","attributes":{"year":2022,"type":"spot"},"relationships":{"exchange_rate_periods":{"data":[{"id":"2022-12-exchange_rate_period","type":"exchange_rate_period"},{"id":"2022-3-exchange_rate_period","type":"exchange_rate_period"}]},"exchange_rate_years":{"data":[{"id":"2023-exchange_rate_year","type":"exchange_rate_year"},{"id":"2022-exchange_rate_year","type":"exchange_rate_year"},{"id":"2021-exchange_rate_year","type":"exchange_rate_year"},{"id":"2020-exchange_rate_year","type":"exchange_rate_year"}]}}},"included":[{"id":"2022-12-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":12,"year":2022},"relationships":{"files":{"data":[]}}},{"id":"2022-3-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":3,"year":2022},"relationships":{"files":{"data":[]}}},{"id":"2023-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2023}},{"id":"2022-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2022}},{"id":"2021-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2021}},{"id":"2020-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2020}}]}'
+  recorded_at: Tue, 26 Sep 2023 10:40:03 GMT
+recorded_with: VCR 6.2.0

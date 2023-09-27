@@ -122,6 +122,7 @@ en:
   breadcrumb:
     exchange_rates: Exchange rates
     exchange_rate_list: Exchange rate list
+    exchange_rates_yearly_average: Yearly average rates
     simplified_procedural_values: Check simplified procedure value rates for fresh fruit and vegetables
     home: Home
     privacy: Privacy Notice

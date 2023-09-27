@@ -3,8 +3,6 @@ require 'spec_helper'
 RSpec.describe BrowseSectionsController, type: :request do
   subject { response }
 
-  let(:json) { JSON.parse(response.body) }
-
   describe 'GET /browse' do
     before do
       VCR.use_cassette('geographical_areas#countries') do

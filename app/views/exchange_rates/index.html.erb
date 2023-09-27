@@ -8,18 +8,40 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-xl"><%= trade_tariff_heading %></span>
-    <h1 class="govuk-heading-l"><%= @period_list.year %> HMRC currency exchange rates.</h1>
-    <p class="govuk-body-l">Check the official <%= @period_list.year %> HMRC foreign currency exchange monthly rates.</p>
+    <h1>
+      <% if @period_list.monthly? %>
+        <%= @period_list.year %> HMRC <%= @period_list.type_label %> currency exchange rates.
+      <% else %>
+        HMRC <%= @period_list.type_label %> currency exchange rates.
+      <% end %>
+    </h1>
+
+    <p class="govuk-body-l">
+      <% if @period_list.monthly? %>
+        Check the official <%= @period_list.year %> HMRC foreign currency exchange <%= @period_list.type_label %> rates.
+      <% else %>
+        Check the official HMRC foreign currency exchange <%= @period_list.type_label %> rates.
+      <% end %>
+    </p>
+
     <p class="govuk-body">Data is available in online (HTML), CSV and XML formats.</p>
 
     <dt class="gem-c-metadata__term">From:</dt>
     <dd class="gem-c-metadata__definition">
-      <strong><a href="https://www.gov.uk/government/organisations/hm-revenue-customs">HM Revenue &amp; Customs</a></strong>
+      <strong>
+        <a href="https://www.gov.uk/government/organisations/hm-revenue-customs">
+          HM Revenue &amp; Customs
+        </a>
+      </strong>
     </dd>
-    <dt class="gem-c-metadata__term">Published:</dt>
-    <dd class="gem-c-metadata__definition">
-      <%= @period_list.publication_date %>
-    </dd>
+
+    <% if @period_list.publication_date.present? %>
+      <dt class="gem-c-metadata__term">Published:</dt>
+
+      <dd class="gem-c-metadata__definition">
+        <%= @period_list.publication_date %>
+      </dd>
+    <% end %>
 
     <h2>Documents</h2>
 
@@ -33,29 +55,26 @@
       <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Related information</h2>
 
       <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
-          <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
-              <li class="gem-c-related-navigation__link">
-                <%= link_to "Average rates", '' %><br>
-              </li>
-              <li class="gem-c-related-navigation__link">
-                <%= link_to "Spot rates", '' %><br>
-              </li>
-          </ul>
+        <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
+          <%= related_information_sidebar_list_items(@period_list.type) %>
+        </ul>
       </nav>
     </div>
 
-    <div class="gem-c-related-navigation">
-      <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Monthly exchange rates by year</h2>
+    <% if @period_list.monthly? %>
+      <div class="gem-c-related-navigation">
+        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Monthly exchange rates by year</h2>
 
-      <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
+        <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
           <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
             <% filter_years(@period_list.exchange_rate_years, @period_list.year).each do |year| %>
               <li class="gem-c-related-navigation__link">
-                  <%= link_to "#{year.year.to_s}", exchange_rates_path(year: year.year) %><br>
+                <%= link_to "#{year.year.to_s}", exchange_rates_path(type: @period_list.type, year: year.year) %><br>
               </li>
             <% end %>
           </ul>
-      </nav>
-    </div>
+        </nav>
+      </div>
+    <% end %>
   </div>
 </div>
