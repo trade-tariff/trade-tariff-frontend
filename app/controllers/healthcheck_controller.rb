@@ -1,6 +1,7 @@
 require 'api_entity'
-
-class HealthcheckController < ApplicationController
+# rubocop:disable Rails/ApplicationController
+class HealthcheckController < ActionController::Base
+  # rubocop:enable Rails/ApplicationController
   rescue_from Faraday::ServerError do |_e|
     render plain: '', status: :internal_server_error
   end

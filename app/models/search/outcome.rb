@@ -35,13 +35,15 @@ class Search
       @reference_match || ReferenceMatch::BLANK_RESULT
     end
 
+    # rubocop:disable Naming/MemoizedInstanceVariableName
     def goods_nomenclature_match=(entries)
-      @goods_nomenclature_match= ||= GoodsNomenclatureMatch.new(entries)
+      @goods_nomenclature_match ||= GoodsNomenclatureMatch.new(entries)
     end
 
     def reference_match=(entries)
-      @reference_match= ||= ReferenceMatch.new(entries)
+      @reference_match ||= ReferenceMatch.new(entries)
     end
+    # rubocop:enable Naming/MemoizedInstanceVariableName
 
     def all_reference_matches
       [reference_match.chapters, reference_match.headings].flatten

@@ -28,7 +28,9 @@ module RoutingFilter
         if service_choice.present? && service_choice != service_choice_default
           prepended_url = prepend_segment(result.url, service_choice)
 
-          result.update!(prepended_url)
+          # rubocop:disable Rails/SaveBang
+          result.update(prepended_url)
+          # rubocop:enable Rails/SaveBang
         end
       end
     end

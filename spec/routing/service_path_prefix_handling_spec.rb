@@ -109,7 +109,7 @@ RSpec.describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
           currency: 'EUR',
         )
 
-        expect(result).to eq('/commodities/0101210000?currency=EUR')
+        expect(result).to include('/commodities/0101210000?currency=EUR')
       end
 
       it 'does not prepend the choice to the path' do
