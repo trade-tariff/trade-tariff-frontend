@@ -16,14 +16,18 @@ class ExchangeRates::PeriodList
     date&.to_formatted_s(:long)
   end
 
-  def type_label
-    return 'monthly' if type == 'scheduled'
+  def type_label(capitalize: false)
+    label = type == 'scheduled' ? 'monthly' : type
 
-    type
+    capitalize ? label.capitalize : label
   end
 
   def monthly?
     type == 'scheduled'
+  end
+
+  def average?
+    type == 'average'
   end
 
   def annual?

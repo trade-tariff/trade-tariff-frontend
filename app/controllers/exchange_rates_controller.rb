@@ -3,19 +3,13 @@ class ExchangeRatesController < ApplicationController
 
   def index
     case type
-    when 'spot', 'scheduled'
+    when 'spot', 'scheduled', 'average'
       @period_list = ExchangeRates::PeriodList.find(
         params[:year],
         filter: { type: },
       )
 
       render 'index'
-
-    # TODO: the average will be simplified, and handled the same way as spot and scheduled
-    when 'average'
-      @period_file_list = period_file_list
-
-      render 'index_average_rates'
     else
       render :show_404, status: :not_found
     end

@@ -45,9 +45,16 @@
 
     <h2>Documents</h2>
 
-    <% @period_list.exchange_rate_periods.each do |period| %>
-      <%= render partial: 'exchange_rates/document_detail', locals: { period: period } %>
+    <% if @period_list.type == 'average' %>
+      <% @period_list.exchange_rate_periods.each do |period| %>
+        <%= render partial: 'exchange_rates/document_average_rate_detail', locals: { period: period } %>
+      <% end %>
+    <% else %>
+      <% @period_list.exchange_rate_periods.each do |period| %>
+        <%= render partial: 'exchange_rates/document_detail', locals: { period: period } %>
+      <% end %>
     <% end %>
+
   </div>
 
   <div class="govuk-grid-column-one-third">
@@ -61,20 +68,23 @@
       </nav>
     </div>
 
-    <% if @period_list.monthly? %>
+    <% if @period_list.monthly? || @period_list.average? %>
       <div class="gem-c-related-navigation">
-        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Monthly exchange rates by year</h2>
+        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">
+          <%= @period_list.type_label(capitalize: true) %> exchange rates by year
+        </h2>
 
         <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
           <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
             <% filter_years(@period_list.exchange_rate_years, @period_list.year).each do |year| %>
               <li class="gem-c-related-navigation__link">
-                <%= link_to "#{year.year.to_s}", exchange_rates_path(type: @period_list.type, year: year.year) %><br>
+                <%= link_to "#{year.year}", exchange_rates_path(type: @period_list.type, year: year.year) %><br>
               </li>
             <% end %>
           </ul>
         </nav>
       </div>
     <% end %>
+
   </div>
 </div>
