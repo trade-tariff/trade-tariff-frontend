@@ -1,20 +1,27 @@
 <div class="downloads" data-module="govspeak">
   <section class="attachment exchange-rates-attachment">
     <div class="attachment-thumb">
-      <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}")) %>
+      <% if period.has_exchange_rates %>
+        <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}")) %>
+      <% else %>
+        <%= image_pack_tag("spreadsheet.png", alt: "") %>
+      <% end %>
     </div>
     <div class="attachment-details">
       <h3 class="govuk-heading-s govuk-!-font-size-27 govuk-!-font-weight-regular exchange-rates-period-heading">
-        <%= Date::MONTHNAMES[period.month] %> <%= period.year %> monthly exchange rates
+        <%= Date::MONTHNAMES[period.month] %> <%= period.year %> <%= @period_list.type_label %> exchange rates
       </h3>
 
       <p>
         <strong>
-          <%= link_to "View online", exchange_rate_collection_path("#{period.year}-#{period.month}"), class: 'govuk-link' %>
+          <% if period.has_exchange_rates %>
+            <%= link_to "View online", exchange_rate_collection_path("#{period.year}-#{period.month}"), class: 'govuk-link' %>
+
+          <% end %>
         </strong>
 
         <% if period.files.any? %>
-          |
+          <%= "|" if period.has_exchange_rates %>
           <% period.files.each_with_index do |file, index| %>
             <strong><a href="<%= file.file_path %>"><%= file.format.upcase %></strong> <%= file.file_size_in_kb %> KB</a>
               <%= '|' unless index == period.files.size - 1 %>

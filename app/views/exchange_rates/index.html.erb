@@ -44,15 +44,8 @@
     <% end %>
 
     <h2>Documents</h2>
-
-    <% if @period_list.type == 'average' %>
-      <% @period_list.exchange_rate_periods.each do |period| %>
-        <%= render partial: 'exchange_rates/document_average_rate_detail', locals: { period: period } %>
-      <% end %>
-    <% else %>
-      <% @period_list.exchange_rate_periods.each do |period| %>
-        <%= render partial: 'exchange_rates/document_detail', locals: { period: period } %>
-      <% end %>
+    <% @period_list.exchange_rate_periods.each do |period| %>
+      <%= render partial: 'exchange_rates/document_detail', locals: { period: period } %>
     <% end %>
 
   </div>
@@ -68,7 +61,7 @@
       </nav>
     </div>
 
-    <% if @period_list.monthly? || @period_list.average? %>
+    <% if @period_list.monthly? %>
       <div class="gem-c-related-navigation">
         <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">
           <%= @period_list.type_label(capitalize: true) %> exchange rates by year
