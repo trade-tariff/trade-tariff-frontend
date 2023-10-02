@@ -17,7 +17,9 @@ RSpec.describe ExchangeRatesController, type: :request do
 
   context 'when exchange rate type is "average"' do
     before do
-      get '/exchange_rates/average'
+      VCR.use_cassette('exchange_rate_period_list_average') do
+        get '/exchange_rates/average'
+      end
     end
 
     describe 'GET exchange_rates' do
