@@ -1,11 +1,18 @@
 require 'api_entity'
 
 class ExchangeRates::PeriodList
+  include ApiEntity
+
   AVERAGE_RATE = 'average'.freeze
   SCHEDULED_RATE = 'scheduled'.freeze
   SPOT_RATE = 'spot'.freeze
 
-  include ApiEntity
+  enum :type, {
+    monthly: %w[scheduled],
+    annual: %w[average spot],
+    average: %w[average],
+    spot: %w[spot],
+  }
 
   attr_accessor :year, :type
 
@@ -21,21 +28,9 @@ class ExchangeRates::PeriodList
   end
 
   def type_label(capitalize: false)
-    label = type == SCHEDULED_RATE ? 'monthly' : type
+    label = monthly? ? 'monthly' : type
 
     capitalize ? label.capitalize : label
-  end
-
-  def monthly?
-    type == SCHEDULED_RATE
-  end
-
-  def average?
-    type == AVERAGE_RATE
-  end
-
-  def annual?
-    type.in?(%w[SPOT_RATE AVERAGE_RATE])
   end
 
   def self.valid_rate_type?(type)
