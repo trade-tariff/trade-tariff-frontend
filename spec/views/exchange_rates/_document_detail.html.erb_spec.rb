@@ -6,6 +6,7 @@ RSpec.describe 'exchange_rates/_document_detail', type: :view do
   let(:period) { build(:exchange_rate_period, has_exchange_rates: true) }
 
   before do
+    assign(:period_list, build(:exchange_rate_period_list))
     allow(view).to receive(:period) { period }
     allow(view).to receive(:type_label).and_return('spot')
   end
@@ -14,5 +15,5 @@ RSpec.describe 'exchange_rates/_document_detail', type: :view do
 
   it { is_expected.to have_link('CSV', href: '/exchange_rates/csv/exrates-monthly-0623.csv'), count: 2 }
 
-  it { is_expected.to have_link('View online', href: "/exchange_rates/view/#{period.year}-#{period.month}") }
+  it { is_expected.to have_link('View online', href: "/exchange_rates/view/#{period.year}-#{period.month}?type=scheduled") }
 end

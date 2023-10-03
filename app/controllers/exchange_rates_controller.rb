@@ -13,7 +13,7 @@ class ExchangeRatesController < ApplicationController
   def show
     @exchange_rate_collection = ExchangeRateCollection.find(
       "#{year}-#{month}",
-      filter: { type: 'scheduled' },
+      filter: { type: },
     )
   end
 
