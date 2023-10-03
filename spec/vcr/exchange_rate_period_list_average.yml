@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/exchange_rates/period_lists/?filter%5Btype%5D=average
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v2.7.11
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"303540c185c38dec2de20d35da08e784"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 430838f9-b3c8-43c3-82af-be0bf623a052
+      X-Runtime:
+      - '0.060781'
+      Content-Length:
+      - '2762'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":"7402d8dba817b8ec53a92f8432669f0e","type":"exchange_rate_period_list","attributes":{"year":null,"type":"average"},"relationships":{"exchange_rate_periods":{"data":[{"id":"2023-3-exchange_rate_period","type":"exchange_rate_period"},{"id":"2022-12-exchange_rate_period","type":"exchange_rate_period"},{"id":"2022-3-exchange_rate_period","type":"exchange_rate_period"},{"id":"2021-12-exchange_rate_period","type":"exchange_rate_period"},{"id":"2021-3-exchange_rate_period","type":"exchange_rate_period"},{"id":"2020-12-exchange_rate_period","type":"exchange_rate_period"},{"id":"2020-3-exchange_rate_period","type":"exchange_rate_period"}]},"exchange_rate_years":{"data":[{"id":"2023-exchange_rate_year","type":"exchange_rate_year"},{"id":"2022-exchange_rate_year","type":"exchange_rate_year"},{"id":"2021-exchange_rate_year","type":"exchange_rate_year"},{"id":"2020-exchange_rate_year","type":"exchange_rate_year"}]}}},"included":[{"id":"2023-3-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":3,"year":2023,"has_exchange_rates":true},"relationships":{"files":{"data":[]}}},{"id":"2022-12-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":12,"year":2022,"has_exchange_rates":true},"relationships":{"files":{"data":[]}}},{"id":"2022-3-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":3,"year":2022,"has_exchange_rates":true},"relationships":{"files":{"data":[]}}},{"id":"2021-12-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":12,"year":2021,"has_exchange_rates":true},"relationships":{"files":{"data":[]}}},{"id":"2021-3-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":3,"year":2021,"has_exchange_rates":true},"relationships":{"files":{"data":[]}}},{"id":"2020-12-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":12,"year":2020,"has_exchange_rates":true},"relationships":{"files":{"data":[]}}},{"id":"c9c6097679286eedc8a9da6f515d4499","type":"exchange_rate_file","attributes":{"file_path":"/api/v2/exchange_rates/files/average_csv_2020-3.csv","file_size":6500,"format":"csv","publication_date":"2023-05-03"}},{"id":"2020-3-exchange_rate_period","type":"exchange_rate_period","attributes":{"month":3,"year":2020,"has_exchange_rates":true},"relationships":{"files":{"data":[{"id":"c9c6097679286eedc8a9da6f515d4499","type":"exchange_rate_file"}]}}},{"id":"2023-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2023}},{"id":"2022-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2022}},{"id":"2021-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2021}},{"id":"2020-exchange_rate_year","type":"exchange_rate_year","attributes":{"year":2020}}]}'
+  recorded_at: Mon, 02 Oct 2023 22:20:05 GMT
+recorded_with: VCR 6.2.0
