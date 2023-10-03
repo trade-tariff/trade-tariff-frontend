@@ -1,18 +1,13 @@
 class ExchangeRatesController < ApplicationController
   before_action :disable_search_form, :disable_switch_service_banner
 
-  def index
-    case type
-    when 'spot', 'scheduled', 'average'
-      @period_list = ExchangeRates::PeriodList.find(
-        params[:year],
-        filter: { type: },
-      )
+  before_action :validate_rate_type!, only: [:index]
 
-      render 'index'
-    else
-      render :show_404, status: :not_found
-    end
+  def index
+    @period_list = ExchangeRates::PeriodList.find(
+      params[:year],
+      filter: { type: },
+    )
   end
 
   def show
@@ -54,5 +49,11 @@ class ExchangeRatesController < ApplicationController
 
   def type
     params[:type] || 'scheduled'
+  end
+
+  def validate_rate_type!
+    unless ExchangeRates::PeriodList.valid_rate_type?(type)
+      render :show_404, status: :not_found
+    end
   end
 end
