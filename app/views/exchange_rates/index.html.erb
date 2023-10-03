@@ -47,7 +47,7 @@
 
     <% @period_list.exchange_rate_periods.each do |period| %>
       <%= render partial: 'exchange_rates/document_detail',
-                 locals: { period: period, type_label: @period_list.type_label }
+                 locals: { period: period, type_label: @period_list.type_label, type: @period_list.type }
       %>
     <% end %>
 

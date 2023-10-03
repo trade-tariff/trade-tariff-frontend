@@ -2,7 +2,7 @@
   <section class="attachment exchange-rates-attachment">
     <div class="attachment-thumb">
       <% if period.has_exchange_rates %>
-        <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}")) %>
+        <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}"), class: 'govuk-link') %>
       <% else %>
         <%= image_pack_tag("spreadsheet.png", alt: "") %>
       <% end %>
@@ -15,16 +15,16 @@
       <p>
         <strong>
           <% if period.has_exchange_rates %>
-            <%= link_to "View online", exchange_rate_collection_path("#{period.year}-#{period.month}", type: @period_list.type), class: 'govuk-link' %>
+            <%= link_to "View online", exchange_rate_collection_path("#{period.year}-#{period.month}", type: type), class: 'govuk-link' %>
 
           <% end %>
         </strong>
 
         <% if period.files.any? %>
-          <%= "|" if period.has_exchange_rates %>
+          <%= " | " if period.has_exchange_rates %>
           <% period.files.each_with_index do |file, index| %>
             <strong><a href="<%= file.file_path %>"><%= file.format.upcase %></strong> <%= file.file_size_in_kb %> KB</a>
-              <%= '|' unless index == period.files.size - 1 %>
+              <%= ' | ' unless index == period.files.size - 1 %>
             <% end %>
           <% end %>
       </p>
