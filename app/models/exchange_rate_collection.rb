@@ -5,7 +5,14 @@ class ExchangeRateCollection
 
   set_singular_path '/exchange_rates/:id'
 
-  attr_accessor :month, :year
+  attr_accessor :month, :year, :type
+
+  enum :type, {
+    monthly: %w[scheduled],
+    annual: %w[average spot],
+    average: %w[average],
+    spot: %w[spot],
+  }
 
   has_many :exchange_rate_files, class_name: 'ExchangeRates::File'
   has_many :exchange_rates, class_name: 'ExchangeRates::ExchangeRate'
@@ -16,6 +23,12 @@ class ExchangeRateCollection
 
   def month_and_year_name
     "#{month_name} #{year}"
+  end
+
+  def type_label(capitalize: false)
+    label = monthly? ? 'monthly' : type
+
+    capitalize ? label.capitalize : label
   end
 
   def published_date

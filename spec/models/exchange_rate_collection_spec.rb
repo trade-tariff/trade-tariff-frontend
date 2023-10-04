@@ -22,4 +22,16 @@ RSpec.describe ExchangeRateCollection, vcr: { cassette_name: 'exchange_rates' } 
   describe '#exchange_rate_files' do
     it { expect(exchange_rate_collection.exchange_rate_files).to all(be_a(ExchangeRates::File)) }
   end
+
+  describe '#type_label' do
+    shared_examples 'type label' do |type, expected_label|
+      subject(:exchange_rate_collection) { build(:exchange_rate_collection, type:) }
+
+      it { expect(exchange_rate_collection.type_label).to eq(expected_label) }
+    end
+
+    it_behaves_like 'type label', 'scheduled', 'monthly'
+    it_behaves_like 'type label', 'average', 'average'
+    it_behaves_like 'type label', 'spot', 'spot'
+  end
 end
