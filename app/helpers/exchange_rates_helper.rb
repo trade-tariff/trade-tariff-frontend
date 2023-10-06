@@ -5,7 +5,7 @@ module ExchangeRatesHelper
 
   def related_information_sidebar_list_items(type)
     case type
-    when 'scheduled'
+    when 'monthly'
       [
         list_item_for('Average rates', :average),
         list_item_for('Spot rates', :spot),
@@ -13,11 +13,11 @@ module ExchangeRatesHelper
     when 'spot'
       [
         list_item_for('Average rates', :average),
-        list_item_for('Monthly rates', :scheduled),
+        list_item_for('Monthly rates', :monthly),
       ]
     when 'average'
       [
-        list_item_for('Monthly rates', :scheduled),
+        list_item_for('Monthly rates', :monthly),
         list_item_for('Spot rates', :spot),
       ]
     end.join.html_safe

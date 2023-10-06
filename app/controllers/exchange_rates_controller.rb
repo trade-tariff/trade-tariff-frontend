@@ -32,7 +32,7 @@ class ExchangeRatesController < ApplicationController
   end
 
   def type
-    params[:type] || ExchangeRates::PeriodList::SCHEDULED_RATE
+    params[:type] || ExchangeRates::PeriodList::MONTHLY_RATE
   end
 
   def validate_rate_type!

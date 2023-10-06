@@ -10,10 +10,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= page_header "#{@exchange_rate_collection.month_and_year_name} #{@exchange_rate_collection.type_label} exchange rates" %>
+    <%= page_header "#{@exchange_rate_collection.month_and_year_name} #{@exchange_rate_collection.type} exchange rates" %>
 
     <p class="govuk-body-l">
-      Official <%= @exchange_rate_collection.month_and_year_name %> HMRC foreign currency exchange <%= @exchange_rate_collection.type_label %> rates.
+      Official <%= @exchange_rate_collection.month_and_year_name %> HMRC foreign currency exchange <%= @exchange_rate_collection.type %> rates.
     </p>
 
     <% if @exchange_rate_collection.exchange_rate_files.any? %>

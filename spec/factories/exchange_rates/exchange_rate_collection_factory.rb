@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :exchange_rate_collection, class: 'ExchangeRateCollection' do
     year { 2023 }
     month { 6 }
-    type { 'scheduled' }
+    type { 'monthly' }
 
     exchange_rate_files { attributes_for_list :exchange_rate_file, 1 }
 
