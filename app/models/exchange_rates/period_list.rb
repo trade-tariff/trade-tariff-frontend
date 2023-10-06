@@ -4,12 +4,12 @@ class ExchangeRates::PeriodList
   include ApiEntity
 
   AVERAGE_RATE = 'average'.freeze
-  SCHEDULED_RATE = 'scheduled'.freeze
+  MONTHLY_RATE = 'monthly'.freeze
   SPOT_RATE = 'spot'.freeze
 
   enum :type, {
-    monthly: %w[scheduled],
     annual: %w[average spot],
+    monthly: %w[monthly],
     average: %w[average],
     spot: %w[spot],
   }
@@ -27,13 +27,7 @@ class ExchangeRates::PeriodList
     date&.to_formatted_s(:long)
   end
 
-  def type_label(capitalize: false)
-    label = monthly? ? 'monthly' : type
-
-    capitalize ? label.capitalize : label
-  end
-
   def self.valid_rate_type?(type)
-    [AVERAGE_RATE, SCHEDULED_RATE, SPOT_RATE].include?(type)
+    [AVERAGE_RATE, MONTHLY_RATE, SPOT_RATE].include?(type)
   end
 end

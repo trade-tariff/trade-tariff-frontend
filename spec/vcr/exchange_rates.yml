@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/exchange_rates/2023-9?filter%5Btype%5D=scheduled
+    uri: http://localhost:3018/exchange_rates/2023-9?filter%5Btype%5D=monthly
     body:
       encoding: US-ASCII
       string: ''

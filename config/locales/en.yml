@@ -122,7 +122,6 @@ en:
   breadcrumb:
     average_rates: Average rates
     monthly_rates: Monthly rates
-    scheduled_rates: Monthly rates
     spot_rates: Spot rates
     exchange_rates: Exchange rates
     exchange_rate_list: Exchange rate list

@@ -12,17 +12,17 @@
     <span class="govuk-caption-xl"><%= trade_tariff_heading %></span>
     <h1>
       <% if @period_list.monthly? %>
-        <%= @period_list.year %> HMRC <%= @period_list.type_label %> currency exchange rates.
+        <%= @period_list.year %> HMRC <%= @period_list.type %> currency exchange rates.
       <% else %>
-        HMRC <%= @period_list.type_label %> currency exchange rates.
+        HMRC <%= @period_list.type %> currency exchange rates.
       <% end %>
     </h1>
 
     <p class="govuk-body-l">
       <% if @period_list.monthly? %>
-        Check the official <%= @period_list.year %> HMRC foreign currency exchange <%= @period_list.type_label %> rates.
+        Check the official <%= @period_list.year %> HMRC foreign currency exchange <%= @period_list.type %> rates.
       <% else %>
-        Check the official HMRC foreign currency exchange <%= @period_list.type_label %> rates.
+        Check the official HMRC foreign currency exchange <%= @period_list.type %> rates.
       <% end %>
     </p>
 
@@ -49,7 +49,7 @@
 
     <% @period_list.exchange_rate_periods.each do |period| %>
       <%= render partial: 'exchange_rates/document_detail',
-                 locals: { period: period, type_label: @period_list.type_label, type: @period_list.type }
+                 locals: { period: period, type: @period_list.type }
       %>
     <% end %>
 
@@ -69,7 +69,7 @@
     <% if @period_list.monthly? %>
       <div class="gem-c-related-navigation">
         <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">
-          <%= @period_list.type_label(capitalize: true) %> exchange rates by year
+          <%= @period_list.type.capitalize %> exchange rates by year
         </h2>
 
         <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">

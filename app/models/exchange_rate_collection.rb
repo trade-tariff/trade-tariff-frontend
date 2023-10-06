@@ -8,7 +8,7 @@ class ExchangeRateCollection
   attr_accessor :month, :year, :type
 
   enum :type, {
-    monthly: %w[scheduled],
+    monthly: %w[monthly],
     annual: %w[average spot],
     average: %w[average],
     spot: %w[spot],
@@ -23,12 +23,6 @@ class ExchangeRateCollection
 
   def month_and_year_name
     "#{month_name} #{year}"
-  end
-
-  def type_label(capitalize: false)
-    label = monthly? ? 'monthly' : type
-
-    capitalize ? label.capitalize : label
   end
 
   def published_date
