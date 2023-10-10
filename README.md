@@ -89,14 +89,17 @@ To create or update autoscaling policy for your application run:
 
 Current autosscaling policy files are [here](https://github.com/trade-tariff/trade-tariff-frontend/tree/main/config/autoscaling).
 
+## Troubleshooting
 
+Sometimes, when trying to load the front page, you get the error: **[Webpacker] Compilation failed**
 
-
-
-
-
-
-
-
-
-
+Try to clear Yarn and Webpacker Cache:
+```
+$ yarn cache clean
+$ rails tmp:cache:clear
+```
+and update npm modules:
+```
+rm yarn.lock
+yarn install
+```
