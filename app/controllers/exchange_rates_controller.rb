@@ -1,6 +1,5 @@
 class ExchangeRatesController < ApplicationController
   before_action :disable_search_form, :disable_switch_service_banner
-
   before_action :validate_rate_type!
 
   def index
@@ -8,6 +7,8 @@ class ExchangeRatesController < ApplicationController
       params[:year],
       filter: { type: },
     )
+
+    render :show_404, status: :not_found if @period_list.exchange_rate_periods.blank?
   end
 
   def show

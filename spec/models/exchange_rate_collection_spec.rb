@@ -1,4 +1,4 @@
-RSpec.describe ExchangeRateCollection, vcr: { cassette_name: 'exchange_rates' } do
+RSpec.describe ExchangeRateCollection, vcr: { cassette_name: 'exchange_rates', record: :new_episodes } do
   subject(:exchange_rate_collection) { described_class.find('2023-9', filter: { type: 'monthly' }) }
 
   it { is_expected.to have_attributes(month: '9', year: '2023') }
@@ -12,7 +12,7 @@ RSpec.describe ExchangeRateCollection, vcr: { cassette_name: 'exchange_rates' } 
   end
 
   describe '#published_date' do
-    it { expect(exchange_rate_collection.published_date).to eq('23 Aug 2023') }
+    it { expect(exchange_rate_collection.published_date).to eq('1 Sep 2023') }
   end
 
   describe '#exchange_rates' do
