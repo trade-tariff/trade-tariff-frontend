@@ -61,6 +61,7 @@ module TradeTariffFrontend
       simplified_procedural_code_measures
       bulk_searches
       exchange_rates
+      updates
     ]
   end
 
