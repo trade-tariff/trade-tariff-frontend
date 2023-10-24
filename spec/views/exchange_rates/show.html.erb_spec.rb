@@ -13,7 +13,7 @@ RSpec.describe 'exchange_rates/show', type: :view do
 
   it { is_expected.to have_css 'p', text: "Official #{exchange_rate_collection.month_and_year_name}" }
 
-  it { is_expected.to have_css 'th', text: 'Country/territory' }
+  it { is_expected.to have_css 'th', text: 'Country / Territory' }
   it { is_expected.to have_css 'th', text: 'Currency' }
   it { is_expected.to have_css 'th', text: 'Currency code' }
   it { is_expected.to have_css 'th', text: 'Currency units per £1' }
