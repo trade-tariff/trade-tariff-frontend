@@ -14,10 +14,11 @@ class AdditionalCodeSearchForm
   attr_writer :page
 
   def validate_code
-    sanitize_code
-
     if code.present?
+      sanitize_code!
+
       errors.add(:code, :length) unless code.length == 4
+      errors.add(:code, :invalid_characters) unless code =~ /\A([A-Z]|[0-9]){4}\z/
       errors.add(:code, :wrong_type) unless type.in?(self.class.possible_types)
     elsif description.blank?
       errors.add(:code, :blank)
@@ -59,9 +60,7 @@ class AdditionalCodeSearchForm
 
   private
 
-  def sanitize_code
-    return if code.blank?
-
+  def sanitize_code!
     code.strip!
     code.upcase!
   end

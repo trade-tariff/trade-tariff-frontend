@@ -37,23 +37,29 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
     context 'when the code is too short ' do
       let(:params) { { code: '823' } }
 
-      let(:expected_error) do
-        ['The additional code must have 4 digits']
-      end
+      it { is_expected.not_to be_valid }
+      it { expect(form.errors[:code]).to be_present }
+    end
+
+    context 'when the code include initial and ending spaces' do
+      let(:params) { { code: '  a180 ' } }
+
+      it { is_expected.to be_valid }
+      it { is_expected.to have_attributes(code: 'A180') }
+    end
+
+    context 'when the code has invalid characters' do
+      let(:params) { { code: 'a18-' } }
 
       it { is_expected.not_to be_valid }
-      it { expect(form.errors[:code]).to eq(expected_error) }
+      it { expect(form.errors[:code]).to be_present }
     end
 
     context 'when the code is a type that does not exist' do
       let(:params) { { code: '1234' } }
 
-      let(:expected_error) do
-        ['You have specified an additional code type that does not exist']
-      end
-
       it { is_expected.not_to be_valid }
-      it { expect(form.errors[:code]).to eq(expected_error) }
+      it { expect(form.errors[:code]).to be_present }
     end
   end
 

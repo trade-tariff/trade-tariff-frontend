@@ -10,9 +10,10 @@ class FootnoteSearchForm
 
   def validate_code
     if code.present?
-      code.strip!
+      sanitize_code!
 
-      errors.add(:code, :invalid) unless code =~ /\A([A-Z]|[0-9]){5}\z/
+      errors.add(:code, :length) unless code.length == 5
+      errors.add(:code, :invalid_characters) unless code =~ /\A([A-Z]|[0-9]){5}\z/
       errors.add(:code, :wrong_type) unless type.in?(self.class.footnote_types)
     elsif description.blank?
       errors.add(:code, :blank)
@@ -37,6 +38,13 @@ class FootnoteSearchForm
       type:,
       description:,
     }
+  end
+
+  private
+
+  def sanitize_code!
+    code.strip!
+    code.upcase!
   end
 
   class << self

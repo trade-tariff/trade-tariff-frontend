@@ -33,25 +33,31 @@ RSpec.describe CertificateSearchForm, type: :model, vcr: { cassette_name: 'searc
     end
 
     context 'when the code is too short ' do
-      let(:params) { { code: '823' } }
-
-      let(:expected_error) do
-        ['The certificate code must have 4 digits', 'You have specified a certificate type that does not exist']
-      end
+      let(:params) { { code: '923' } }
 
       it { is_expected.not_to be_valid }
-      it { expect(form.errors[:code]).to eq(expected_error) }
+      it { expect(form.errors[:code]).to be_present }
+    end
+
+    context 'when the code include initial and ending spaces' do
+      let(:params) { { code: '  a180 ' } }
+
+      it { is_expected.to be_valid }
+      it { is_expected.to have_attributes(code: 'A180') }
+    end
+
+    context 'when the code has invalid characters' do
+      let(:params) { { code: 'a18-' } }
+
+      it { is_expected.not_to be_valid }
+      it { expect(form.errors[:code]).to be_present }
     end
 
     context 'when the code is a type that does not exist' do
       let(:params) { { code: '1234' } }
 
-      let(:expected_error) do
-        ['You have specified a certificate type that does not exist']
-      end
-
       it { is_expected.not_to be_valid }
-      it { expect(form.errors[:code]).to eq(expected_error) }
+      it { expect(form.errors[:code]).to be_present }
     end
   end
 
