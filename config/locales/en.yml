@@ -283,7 +283,7 @@ en:
         additional_code_search_form:
           attributes:
             code:
-              invalid: The additional code must have 4 digits
+              length: The additional code must have 4 digits
               wrong_type: You have specified an additional code type that does not exist
               blank: You need to supply at least a 4-digit additional code
             description:

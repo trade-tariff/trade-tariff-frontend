@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'search#additional_code_search' } do
   describe '.possible_types' do
     subject(:possible_types) { described_class.possible_types }
