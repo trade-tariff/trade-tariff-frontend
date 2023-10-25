@@ -26,7 +26,20 @@
       <% end %>
     </p>
 
-    <p class="govuk-body">Data is available in online (HTML), CSV and XML formats.</p>
+    <% if @period_list.spot? %>
+      <p class="govuk-body">
+        Spot rates are published on 31st March and 31st December every year.
+        It reflects the exchange rate at midday of that day.
+      </p>
+      <p class="govuk-body">Data is available to view online.</p>
+    <% elsif @period_list.average? %>
+      <p class="govuk-body">
+      Average rates are published on 31st March and 31st December every year.<br>
+      It reflects the mean average of all exchange rates which have been present in all Monthly exchange rate files for the 12 month period leading up to the given Average rate publication.</p>
+      <p class="govuk-body">Data is available to download in CSV format.</p>
+    <% elsif @period_list.monthly? %>
+      <p class="govuk-body">Data is available to view online, and to download in CSV and XML formats.</p>
+    <% end %>
 
     <dt class="gem-c-metadata__term">From:</dt>
     <dd class="gem-c-metadata__definition">
