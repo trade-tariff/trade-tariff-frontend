@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe PendingQuotaBalanceService do
-  xdescribe '#call' do
+  describe '#call' do
     subject :pending_balance do
       described_class.new(commodity.short_code, '1010', Time.zone.today).call
     end

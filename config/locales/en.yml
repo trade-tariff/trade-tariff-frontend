@@ -283,7 +283,8 @@ en:
         additional_code_search_form:
           attributes:
             code:
-              invalid: The additional code must have 4 digits
+              invalid_characters: The additional code must be 4 alphanumeric characters
+              length: The additional code must have 4 digits
               wrong_type: You have specified an additional code type that does not exist
               blank: You need to supply at least a 4-digit additional code
             description:
@@ -291,7 +292,8 @@ en:
         certificate_search_form:
           attributes:
             code:
-              invalid: The certificate code must have 4 digits
+              invalid_characters: The certificate code must be 4 alphanumeric characters
+              length: The certificate code must have 4 digits
               wrong_type: You have specified a certificate type that does not exist
               blank: You need to supply at least a 4-digit certificate code
             description:
@@ -299,7 +301,8 @@ en:
         footnote_search_form:
           attributes:
             code:
-              invalid: The footnote code must have 5 digits
+              invalid_characters: The footnote code must be 5 alphanumeric characters
+              length: The footnote code must have 5 digits
               wrong_type: You have specified a footnote type that does not exist
               blank: You need to supply at least a 5-digit footnote code
             description:

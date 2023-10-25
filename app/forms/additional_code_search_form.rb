@@ -15,7 +15,10 @@ class AdditionalCodeSearchForm
 
   def validate_code
     if code.present?
-      errors.add(:code, :invalid) unless code =~ /\A([A-Z]|[0-9]){4}\z/
+      sanitize_code!
+
+      errors.add(:code, :length) unless code.length == 4
+      errors.add(:code, :invalid_characters) unless code =~ /\A([A-Z]|[0-9]){4}\z/
       errors.add(:code, :wrong_type) unless type.in?(self.class.possible_types)
     elsif description.blank?
       errors.add(:code, :blank)
@@ -53,5 +56,12 @@ class AdditionalCodeSearchForm
     def additional_code_type_ids
       @additional_code_type_ids ||= AdditionalCodeType.all.map(&:additional_code_type_id).sort
     end
+  end
+
+  private
+
+  def sanitize_code!
+    code.strip!
+    code.upcase!
   end
 end

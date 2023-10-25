@@ -10,9 +10,10 @@ class CertificateSearchForm
 
   def validate_code
     if code.present?
-      code.strip!
+      sanitize_code!
 
-      errors.add(:code, :invalid) unless code =~ /\A([A-Z]|[0-9]){4}\z/
+      errors.add(:code, :length) unless code.length == 4
+      errors.add(:code, :invalid_characters) unless code =~ /\A([A-Z]|[0-9]){4}\z/
       errors.add(:code, :wrong_type) unless type.in?(self.class.certificate_types)
     elsif description.blank?
       errors.add(:code, :blank)
@@ -33,6 +34,13 @@ class CertificateSearchForm
       type:,
       description:,
     }
+  end
+
+  private
+
+  def sanitize_code!
+    code.strip!
+    code.upcase!
   end
 
   class << self
