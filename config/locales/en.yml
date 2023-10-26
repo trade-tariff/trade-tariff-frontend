@@ -15,6 +15,22 @@ en:
       uk: "UK Integrated Online Tariff"
       xi: "Northern Ireland Online Tariff"
 
+  exchange_rates:
+    period_list:
+      description:
+        spot_html: >-
+          Spot rates are published on 31st March and 31st December every year.
+          It reflects the exchange rate at midday of that day.
+        average_html: >-
+          Average rates are published on 31st March and 31st December every year.<br> It reflects the mean average of all exchange rates which have been present in all Monthly exchange rate files for the 12 month period leading up to the given Average rate publication.
+        monthly_html: ""
+      download_formats:
+        spot_html: >-
+          Data is available to view online.
+        average_html: >-
+          Data is available to download in CSV format.
+        monthly_html: >-
+          Data is available to view online, and to download in CSV and XML formats.
   howtos:
     h1:
       commodity-codes: "Classifying your goods"
@@ -162,14 +178,14 @@ en:
 
   measure_type_descriptions:
     1400:
-      103: 'Channel Islands duty'
-      105: 'Channel Islands duty'
+      103: "Channel Islands duty"
+      105: "Channel Islands duty"
     1080:
-      103: 'UK-CD Customs Union'
-      105: 'UK-CD Customs Union'
+      103: "UK-CD Customs Union"
+      105: "UK-CD Customs Union"
   measure_type_duties:
     1080:
-      103: 'n/a'
+      103: "n/a"
   measure_type_message: Click on a measure type to find out more about the measure and the preference code to be used on declarations.
   service_banner:
     service_name:
@@ -191,15 +207,15 @@ en:
         legend_text: "How much starch or glucose does the product contain?"
         hint_text: "The values represent % by weight"
       sucrose:
-        review_answer_label: 'Sucrose, invert sugar or isoglucose content'
+        review_answer_label: "Sucrose, invert sugar or isoglucose content"
         legend_text: "How much sucrose, invert sugar or isoglucose does the product contain?"
         hint_text: "The values represent % by weight"
       milk_fat:
-        review_answer_label: 'Milk fat content'
+        review_answer_label: "Milk fat content"
         legend_text: "How much milk fat does the product contain?"
         hint_text: "The values represent % by weight"
       milk_protein:
-        review_answer_label: 'Milk protein content'
+        review_answer_label: "Milk protein content"
         legend_text: "How much milk protein does the product contain?"
         hint_text: "The values represent % by weight"
 
@@ -410,12 +426,12 @@ en:
           export: I am exporting goods from %{service_country} to %{trade_country}
       rules_of_origin_steps_wholly_obtained:
         wholly_obtained_options:
-          'yes': Yes, my goods are wholly obtained in %{trade_country}
-          'no': No, my goods are not wholly obtained in %{trade_country}
+          "yes": Yes, my goods are wholly obtained in %{trade_country}
+          "no": No, my goods are not wholly obtained in %{trade_country}
       rules_of_origin_steps_sufficient_processing:
         sufficient_processing_options:
-          'yes': 'Yes'
-          'no': 'No'
+          "yes": "Yes"
+          "no": "No"
       rules_of_origin_steps_subdivisions:
         subdivision_id_options:
           other: All other products
@@ -576,15 +592,14 @@ en:
         panel:
           Based on your responses, your product appears to meet the rules of
           origin requirements for the %{scheme_title}.
-        body_html:
-          <p>
-            To benefit from a preferential tariff or quota, originating products
-            should be accompanied by an appropriate proof confirming their origin.
+        body_html: <p>
+          To benefit from a preferential tariff or quota, originating products
+          should be accompanied by an appropriate proof confirming their origin.
           </p>
 
           <p>
-            It's important to read the documentation the documentation below to ensure that you meet all
-            the origin requirements of the %{scheme_title}.
+          It's important to read the documentation the documentation below to ensure that you meet all
+          the origin requirements of the %{scheme_title}.
           </p>
         next_steps: Next steps
         links:
@@ -617,8 +632,7 @@ en:
       proof_requirements:
         caption: Obtaining and verifying proofs of origin
         title: Requirements for proving the origin for goods coming from %{trade_country_name}
-        body:
-          The following information details the processes you will need to
+        body: The following information details the processes you will need to
           follow in order to gain proof of origin according to the
           %{scheme_title}, including the types of proof that are valid.
         article_list: Articles in this guide
@@ -858,12 +872,12 @@ en:
           Your product does not appear to meet the rules of origin requirements
           for the %{scheme_title}.
         body: |
-           Based on your answers, it is likely that your product does not class
-           as 'originating' and cannot benefit from preferential tariff
-           treatment under the agreement.
+          Based on your answers, it is likely that your product does not class
+          as 'originating' and cannot benefit from preferential tariff
+          treatment under the agreement.
 
-           However, there are a number of flexibilities in the %{scheme_title}
-           which could be used to help you comply with the rules of origin.
+          However, there are a number of flexibilities in the %{scheme_title}
+          which could be used to help you comply with the rules of origin.
         tolerances:
           title: Tolerances
           content: |
@@ -943,8 +957,7 @@ en:
           content: |
             Don't forget that cumulation can affect a product's originating
             status.
-          link:
-            Check what cumulation rules apply to the movement of goods under
+          link: Check what cumulation rules apply to the movement of goods under
             the %{scheme_title}
         whats_next:
           title: What's next
@@ -984,24 +997,24 @@ en:
              the [insufficient processing clause](%{sufficient_processing_link}).
       extended:
         description_html: |
-            <p>
-              Extended cumulation (also referred to as third-party or cross cumulation) allows for
-               cumulation between countries which are not linked by a trade agreement or are linked
-               by a trade agreement with different rules of origin to influence the origin of goods
-               in the trade agreement between the two primary countries or blocs.
-            </p>
+          <p>
+            Extended cumulation (also referred to as third-party or cross cumulation) allows for
+             cumulation between countries which are not linked by a trade agreement or are linked
+             by a trade agreement with different rules of origin to influence the origin of goods
+             in the trade agreement between the two primary countries or blocs.
+          </p>
 
-            <p>
-              You are allowed to use inputs from a third-party country, which is not a member of the
-               applicable FTA and consider them originating, provided that they meet the rules of
-               origin under the relevant trade agreement.
-            </p>
+          <p>
+            You are allowed to use inputs from a third-party country, which is not a member of the
+             applicable FTA and consider them originating, provided that they meet the rules of
+             origin under the relevant trade agreement.
+          </p>
 
-            <p>
-              Extended cumulation is the most flexible type of cumulation of originating inputs and is
-              often limited to certain tariff headings, subheadings and codes or to certain types of
-              products only. Please check the detailed agreement text.
-            </p>
+          <p>
+            Extended cumulation is the most flexible type of cumulation of originating inputs and is
+            often limited to certain tariff headings, subheadings and codes or to certain types of
+            products only. Please check the detailed agreement text.
+          </p>
         example_list_md: |
           1. In order to take advantage of a 0% import duty, a business in Country A would like to import a product
           from Country B where product-specific rules dictate that at least 50% of the materials that go to make up
@@ -1031,13 +1044,13 @@ en:
           </p>
       diagonal:
         description_html: |
-            <p>
-              Diagonal cumulation operates between more than 2 countries.
-            </p>
+          <p>
+            Diagonal cumulation operates between more than 2 countries.
+          </p>
 
-            <p>
-              Materials originating in a defined country or countries, may be used as materials originating in the country of export, when used in an export to a country not in the agreement. Diagonal cumulation comes with two crucial conditions attached:
-            </p>
+          <p>
+            Materials originating in a defined country or countries, may be used as materials originating in the country of export, when used in an export to a country not in the agreement. Diagonal cumulation comes with two crucial conditions attached:
+          </p>
         description_list_md: |
           1. all countries involved need to be joined by FTAs *and*
           2. rules of origin in these FTAs need to be identical.

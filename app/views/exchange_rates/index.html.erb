@@ -26,7 +26,12 @@
       <% end %>
     </p>
 
-    <p class="govuk-body">Data is available in online (HTML), CSV and XML formats.</p>
+    <p>
+      <%= t("exchange_rates.period_list.description.#{@period_list.type}_html") %>
+    </p>
+    <p>
+      <%= t("exchange_rates.period_list.download_formats.#{@period_list.type}_html") %>
+    </p>
 
     <dt class="gem-c-metadata__term">From:</dt>
     <dd class="gem-c-metadata__definition">
@@ -49,8 +54,7 @@
 
     <% @period_list.exchange_rate_periods.each do |period| %>
       <%= render partial: 'exchange_rates/document_detail',
-                 locals: { period: period, type: @period_list.type }
-      %>
+                 locals: { period: period, type: @period_list.type } %>
     <% end %>
 
   </div>
