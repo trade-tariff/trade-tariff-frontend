@@ -28,4 +28,45 @@ RSpec.describe ExchangeRatesHelper, type: :helper do
       end
     end
   end
+
+  describe '#exchange_rates_page_title' do
+    subject(:page_title) { helper.exchange_rates_page_title(type:, year: 2022, month:) }
+
+    let(:month) { nil }
+
+    context 'when type is monthly' do
+      let(:type) { 'monthly' }
+      let(:month) { 1 }
+
+      it { is_expected.to eq('January 2022 HMRC monthly currency exchange rates - GOV.UK') }
+    end
+
+    context 'when the month is nil' do
+      let(:month) { nil }
+      let(:type) { 'monthly' }
+
+      it { is_expected.to eq('2022 HMRC monthly currency exchange rates - GOV.UK') }
+    end
+
+    context 'when type is spot' do
+      let(:type) { 'spot' }
+      let(:month) { 1 }
+
+      it { is_expected.to eq('January 2022 HMRC currency exchange spot rates - GOV.UK') }
+    end
+
+    context 'when type is average' do
+      let(:type) { 'average' }
+
+      it { is_expected.to eq('HMRC currency exchange average rates - GOV.UK') }
+    end
+
+    context 'when the type is not valid' do
+      let(:type) { 'wrong-type' }
+
+      it 'raises an exception' do
+        expect { page_title }.to raise_exception("Not valid Exchage rate type: 'wrong-type'")
+      end
+    end
+  end
 end

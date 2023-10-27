@@ -28,4 +28,21 @@ module ExchangeRatesHelper
       link_to(link_text, exchange_rates_path(type:))
     end
   end
+
+  def exchange_rates_page_title(type:, year:, month: nil)
+    case type
+    when 'average'
+      'HMRC currency exchange average rates - GOV.UK'
+    when 'monthly'
+      month_year = month_and_year_name(month, year)
+
+      "#{month_year} HMRC monthly currency exchange rates - GOV.UK".strip
+    when 'spot'
+      month_year = month_and_year_name(month, year)
+
+      "#{month_year} HMRC currency exchange spot rates - GOV.UK".strip
+    else
+      raise "Not valid Exchage rate type: '#{type}'"
+    end
+  end
 end
