@@ -175,7 +175,8 @@ module ApplicationHelper
     "#{dc_base_url}/#{normalised_dc_path}"
   end
 
-  def month_and_year_name(month, year)
-    month.present? ? "#{Date::MONTHNAMES[month.to_i]} #{year}" : year
+  def month_name_and_year(month, year)
+    # Output examples: "March 2022", "2022"
+    month.present? ? "#{Date::MONTHNAMES[month.to_i]} #{year}" : year.to_s
   end
 end

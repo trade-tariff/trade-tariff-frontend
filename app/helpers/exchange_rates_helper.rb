@@ -30,19 +30,23 @@ module ExchangeRatesHelper
   end
 
   def exchange_rates_page_title(type:, year:, month: nil)
+    month_year = month_name_and_year(month, year)
+
+    t("exchange_rates.title.#{type}", month_year:).strip
+  end
+
+  def exchange_rates_meta_description(type:, year:, month: nil)
     case type
     when 'average'
-      'HMRC currency exchange average rates - GOV.UK'
+      t('exchange_rates.meta_description.average')
     when 'monthly'
-      month_year = month_and_year_name(month, year)
-
-      "#{month_year} HMRC monthly currency exchange rates - GOV.UK".strip
+      t('exchange_rates.meta_description.monthly', month_year: month_name_and_year(month, year))
     when 'spot'
-      month_year = month_and_year_name(month, year)
-
-      "#{month_year} HMRC currency exchange spot rates - GOV.UK".strip
-    else
-      raise "Not valid Exchage rate type: '#{type}'"
+      if month.present? && year.present?
+        t('exchange_rates.meta_description.spot.by_month_and_year', month_year: month_name_and_year(month, year))
+      else
+        t('exchange_rates.meta_description.spot.generic')
+      end
     end
   end
 end

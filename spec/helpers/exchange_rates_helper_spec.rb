@@ -32,41 +32,39 @@ RSpec.describe ExchangeRatesHelper, type: :helper do
   describe '#exchange_rates_page_title' do
     subject(:page_title) { helper.exchange_rates_page_title(type:, year: 2022, month:) }
 
-    let(:month) { nil }
-
     context 'when type is monthly' do
       let(:type) { 'monthly' }
       let(:month) { 1 }
 
-      it { is_expected.to eq('January 2022 HMRC monthly currency exchange rates - GOV.UK') }
+      it { is_expected.to eq('January 2022 HMRC currency exchange monthly rates - GOV.UK') }
     end
 
-    context 'when the month is nil' do
+    context 'when the month and year are nil' do
       let(:month) { nil }
-      let(:type) { 'monthly' }
-
-      it { is_expected.to eq('2022 HMRC monthly currency exchange rates - GOV.UK') }
-    end
-
-    context 'when type is spot' do
+      let(:year) { nil }
       let(:type) { 'spot' }
-      let(:month) { 1 }
 
-      it { is_expected.to eq('January 2022 HMRC currency exchange spot rates - GOV.UK') }
+      it { is_expected.to eq('2022 HMRC currency exchange spot rates - GOV.UK') }
+    end
+  end
+
+  describe '#exchange_rates_meta_description' do
+    subject(:page_title) { helper.exchange_rates_meta_description(type:, year:, month:) }
+
+    let(:type) { 'spot' }
+
+    context 'when type is spot and year and month are present' do
+      let(:month) { 2 }
+      let(:year) { 2021 }
+
+      it { is_expected.to include('February 2021') }
     end
 
-    context 'when type is average' do
-      let(:type) { 'average' }
+    context 'when the month and year are nil' do
+      let(:month) { nil }
+      let(:year) { nil }
 
-      it { is_expected.to eq('HMRC currency exchange average rates - GOV.UK') }
-    end
-
-    context 'when the type is not valid' do
-      let(:type) { 'wrong-type' }
-
-      it 'raises an exception' do
-        expect { page_title }.to raise_exception("Not valid Exchage rate type: 'wrong-type'")
-      end
+      it { is_expected.not_to include('February 2021') }
     end
   end
 end
