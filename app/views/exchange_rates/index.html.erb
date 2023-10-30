@@ -1,3 +1,14 @@
+<% content_for :title, exchange_rates_page_title(type: @period_list.type,
+                                                 year: @period_list.year)
+%>
+
+<% content_for :head do %>
+  <meta name="description" content="<%= exchange_rates_meta_description(type: @period_list.type,
+                                                                        year: @period_list.year)
+  %>">
+<% end %>
+
+
 <% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs t("breadcrumb.#{@period_list.type}_rates") ,
     [

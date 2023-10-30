@@ -1,3 +1,19 @@
+<% content_for :title, exchange_rates_page_title(
+                         type: @exchange_rate_collection.type,
+                         month: @exchange_rate_collection.month,
+                         year: @exchange_rate_collection.year
+                       )
+%>
+
+<% content_for :head do %>
+  <meta name="description" content="<%= exchange_rates_meta_description(
+                                          type: @exchange_rate_collection.type,
+                                          month: @exchange_rate_collection.month,
+                                          year: @exchange_rate_collection.year
+                                        )
+ %>">
+<% end %>
+
 <% content_for :top_breadcrumbs do %>
    <%= generate_breadcrumbs "#{@exchange_rate_collection.month_and_year_name}",
      [

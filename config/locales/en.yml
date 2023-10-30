@@ -22,7 +22,8 @@ en:
           Spot rates are published on 31st March and 31st December every year.
           It reflects the exchange rate at midday of that day.
         average_html: >-
-          Average rates are published on 31st March and 31st December every year.<br> It reflects the mean average of all exchange rates which have been present in all Monthly exchange rate files for the 12 month period leading up to the given Average rate publication.
+          Average rates are published on 31st March and 31st December every year.<br>
+          It reflects the mean average of all exchange rates which have been present in all Monthly exchange rate files for the 12 month period leading up to the given Average rate publication.
         monthly_html: ""
       download_formats:
         spot_html: >-
@@ -31,6 +32,28 @@ en:
           Data is available to download in CSV format.
         monthly_html: >-
           Data is available to view online, and to download in CSV and XML formats.
+    title:
+      average: >-
+        %{month_year} HMRC currency exchange average rates - GOV.UK
+      monthly:  >-
+        %{month_year} HMRC currency exchange monthly rates - GOV.UK
+      spot: >-
+        %{month_year} HMRC currency exchange spot rates - GOV.UK
+
+
+    meta_description:
+      average: >-
+        Average rates are published on 31st March and 31st December every year and reflect the average of the rates for the previous 12-month period.
+        Data is available to download in CSV format.
+      monthly: >-
+        Check the official %{month_year} HMRC foreign currency exchange monthly rates.
+        Data is available in online (HTML), CSV and XML formats.
+      spot:
+        generic: >-
+          Check the official HMRC currency exchange spot rates.
+          Spot rates are published on 31st March and 31st December every year and reflect the exchange rate at midday of that day.
+        by_month_and_year: >-
+          Check the official %{month_year} HMRC currency exchange spot rates, reflecting the exchange rate at midday of 31 %{month_year}.
   howtos:
     h1:
       commodity-codes: "Classifying your goods"

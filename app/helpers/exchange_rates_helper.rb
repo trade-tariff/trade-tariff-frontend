@@ -28,4 +28,25 @@ module ExchangeRatesHelper
       link_to(link_text, exchange_rates_path(type:))
     end
   end
+
+  def exchange_rates_page_title(type:, year:, month: nil)
+    month_year = month_name_and_year(month, year)
+
+    t("exchange_rates.title.#{type}", month_year:).strip
+  end
+
+  def exchange_rates_meta_description(type:, year:, month: nil)
+    case type
+    when 'average'
+      t('exchange_rates.meta_description.average')
+    when 'monthly'
+      t('exchange_rates.meta_description.monthly', month_year: month_name_and_year(month, year))
+    when 'spot'
+      if month.present? && year.present?
+        t('exchange_rates.meta_description.spot.by_month_and_year', month_year: month_name_and_year(month, year))
+      else
+        t('exchange_rates.meta_description.spot.generic')
+      end
+    end
+  end
 end

@@ -28,4 +28,43 @@ RSpec.describe ExchangeRatesHelper, type: :helper do
       end
     end
   end
+
+  describe '#exchange_rates_page_title' do
+    subject(:page_title) { helper.exchange_rates_page_title(type:, year: 2022, month:) }
+
+    context 'when type is monthly' do
+      let(:type) { 'monthly' }
+      let(:month) { 1 }
+
+      it { is_expected.to eq('January 2022 HMRC currency exchange monthly rates - GOV.UK') }
+    end
+
+    context 'when the month and year are nil' do
+      let(:month) { nil }
+      let(:year) { nil }
+      let(:type) { 'spot' }
+
+      it { is_expected.to eq('2022 HMRC currency exchange spot rates - GOV.UK') }
+    end
+  end
+
+  describe '#exchange_rates_meta_description' do
+    subject(:page_title) { helper.exchange_rates_meta_description(type:, year:, month:) }
+
+    let(:type) { 'spot' }
+
+    context 'when type is spot and year and month are present' do
+      let(:month) { 2 }
+      let(:year) { 2021 }
+
+      it { is_expected.to include('February 2021') }
+    end
+
+    context 'when the month and year are nil' do
+      let(:month) { nil }
+      let(:year) { nil }
+
+      it { is_expected.not_to include('February 2021') }
+    end
+  end
 end
