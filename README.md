@@ -23,8 +23,9 @@ Here are some of the relevant Env variables:
 Requires:
 * Ruby
 * Rails
-* node & npm
+* node
 * yarn
+* chrome-for-testing and corresponding chromedriver
 
 Uses:
 * Redis
