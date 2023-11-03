@@ -2,11 +2,7 @@ require 'spec_helper'
 
 RSpec.feature 'Cookies management', js: true do
   def cookie_for(name)
-    cookie_value = begin
-      page.driver.browser.manage.cookie_named(name)[:value]
-    rescue Selenium::WebDriver::Error::NoSuchCookieError
-      nil
-    end
+    cookie_value = page.driver.cookies[name]&.value
 
     JSON.parse(CGI.unescape(cookie_value)) if cookie_value.present?
   end

@@ -143,6 +143,9 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    cuprite (0.15)
+      capybara (~> 3.0)
+      ferrum (~> 0.14.0)
     date (3.3.3)
     diff-lcs (1.5.0)
     docile (1.4.0)
@@ -168,6 +171,11 @@ GEM
       net-http-persistent (~> 4.0)
     faraday-retry (2.2.0)
       faraday (~> 2.0)
+    ferrum (0.14)
+      addressable (~> 2.5)
+      concurrent-ruby (~> 1.1)
+      webrick (~> 1.7)
+      websocket-driver (>= 0.6, < 0.8)
     forgery (0.8.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -596,14 +604,9 @@ GEM
       rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
-    rubyzip (2.3.2)
     sanitize (6.1.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    selenium-webdriver (4.14.0)
-      rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
-      websocket (~> 1.0)
     semantic_range (3.0.0)
     sentry-rails (5.12.0)
       railties (>= 5.0)
@@ -633,10 +636,6 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webdrivers (5.2.0)
-      nokogiri (~> 1.6)
-      rubyzip (>= 1.3.0)
-      selenium-webdriver (~> 4.0)
     webmock (3.19.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -647,7 +646,6 @@ GEM
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
     webrick (1.8.1)
-    websocket (1.2.10)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -667,6 +665,7 @@ DEPENDENCIES
   brakeman
   capybara
   connection_pool
+  cuprite
   dotenv-rails
   factory_bot_rails
   faraday (~> 2)
@@ -697,13 +696,11 @@ DEPENDENCIES
   rspec-rails
   rspec_junit_formatter
   rubocop-govuk
-  selenium-webdriver
   sentry-rails
   shoulda-matchers
   simplecov
   vcr
   web-console
-  webdrivers
   webmock
   webpacker
   wizard_steps

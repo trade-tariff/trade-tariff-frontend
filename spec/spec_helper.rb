@@ -18,20 +18,17 @@ Dir[Rails.root.join('app/models/*.rb')].sort.each { |f| require f }
 require 'capybara/rails'
 require 'capybara/rspec'
 
-Capybara.register_driver(:selenium_chrome_headless) do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('--headless')
-
-  Capybara::Selenium::Driver.new(
-    app, browser: :chrome, options:
-  )
+require 'capybara/cuprite'
+Capybara.javascript_driver = :cuprite
+Capybara.register_driver(:cuprite) do |app|
+  Capybara::Cuprite::Driver.new(app, window_size: [1200, 800])
 end
 
 VCR.use_cassette('geographical_areas#1013') do
   GeographicalArea.european_union
 end
 
-Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.javascript_driver = :cuprite
 
 Capybara.ignore_hidden_elements = false
 

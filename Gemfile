@@ -68,16 +68,15 @@ end
 group :test do
   gem 'brakeman'
   gem 'capybara'
+  gem 'cuprite'
   gem 'factory_bot_rails'
   gem 'forgery'
   gem 'rack-test'
   gem 'rails-controller-testing', github: 'rails/rails-controller-testing', branch: 'master'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails'
-  gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
   gem 'vcr'
-  gem 'webdrivers'
   gem 'webmock'
 end
