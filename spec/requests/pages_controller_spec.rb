@@ -95,5 +95,11 @@ RSpec.describe PagesController, type: :request do
 
       it { expect { do_request }.to raise_error(ActionController::RoutingError) }
     end
+
+    context 'when howto format is not html' do
+      let(:howto) { 'origin.json' }
+
+      it { expect { do_request }.to raise_error(ActionController::RoutingError) }
+    end
   end
 end

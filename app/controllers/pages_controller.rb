@@ -49,7 +49,7 @@ class PagesController < ApplicationController
   ].freeze
 
   def howto
-    raise ActionController::RoutingError, 'Not Found' unless POSSIBLE_HOWTOS.include?(params[:id])
+    raise ActionController::RoutingError, 'Not Found' if params[:format].present? || !POSSIBLE_HOWTOS.include?(params[:id])
 
     @howto = params[:id]
 
