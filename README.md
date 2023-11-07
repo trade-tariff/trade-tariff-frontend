@@ -28,38 +28,22 @@ Requires:
 * Chrome or Chrome-for-testing for browser based testing
 
 Uses:
-* Redis
+* Redis (production only)
 
 Commands:
 
-    ./bin/setup
-    yarn install
-    foreman start
+```
+  $ bin/setup
+  $ bin/rails start
+```
 
 ## Running the test suite
 
 To run the spec use the following command:
 
-    RAILS_ENV=test bundle exec rake
-
-## Deploying the application
-
-We deploy to cloud foundry, so you need to have the CLI installed, and the following [cf plugin](https://github.com/bluemixgaragelondon/cf-blue-green-deploy) installed:
-
-
-Set the following ENV variables:
-* CF_USER
-* CF_PASSWORD
-* CF_ORG
-* CF_SPACE
-* CF_APP
-* SLACK_CHANNEL
-* SLACK_WEBHOOK
-
-Then run
-
-    ./bin/deploy
-
+```
+  $ bundle exec rspec
+```
 
 ## Scaling the application
 
@@ -96,11 +80,6 @@ Sometimes, when trying to load the front page, you get the error: **[Webpacker] 
 
 Try to clear Yarn and Webpacker Cache:
 ```
-$ yarn cache clean
-$ rails tmp:cache:clear
-```
-and update npm modules:
-```
-rm yarn.lock
-yarn install
+  $ yarn cache clean
+  $ bin/rails setup
 ```
