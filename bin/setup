@@ -13,13 +13,13 @@ FileUtils.chdir APP_ROOT do
   # This script is idempotent, so that you can run it at any time and get an expectable outcome.
   # Add necessary setup steps to this file.
 
-  puts "== Installing dependencies =="
+  puts "== Installing ruby dependencies =="
   system! "gem install bundler --conservative"
   system("bundle check") || system!("bundle install")
 
-  puts "\n== Removing old logs and tempfiles =="
-  system! "bin/rails log:clear tmp:clear"
+  puts "== Installing node dependencies =="
+  system! "yarn install"
 
-  puts "\n== Restarting application server =="
-  system! "bin/rails restart"
+  puts "\n== Removing old logs and tempfiles =="
+  system! "bin/rails log:clear tmp:clear webpacker:clobber"
 end
