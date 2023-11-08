@@ -124,176 +124,6 @@ commands:
           event: pass
           template: basic_success_1
 
-  cf-deploy-review:
-    steps:
-      - tariff/cf-install:
-          space: development
-      - run:
-          name: Fetch existing manifest
-          command: |
-            cf create-app-manifest "$CF_APP-dev" -p deploy_manifest.yml
-      - run:
-          name: Find PR number
-          command: |
-            PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | sed 's|https://github.com/||' | cut -d '/' -f 4)
-            echo "export PR_NUMBER=${PR_NUMBER}" >> $BASH_ENV
-            echo "export REVIEW_URL_ID='pr${PR_NUMBER}'" >> $BASH_ENV
-      - run:
-          name: Update app manifest
-          command: |
-            sed -i "s/instances: [0-9]\+/instances\: 1/" deploy_manifest.yml
-            sed -i "s|CORS_HOST: dev\.trade-tariff\.service\.gov\.uk|CORS_HOST: ${CF_APP}-${REVIEW_URL_ID}.london.cloudapps.digital|" deploy_manifest.yml
-            sed -i "/BASIC_/d" deploy_manifest.yml
-            sed -i "s|HOST: dev\.trade-tariff\.service\.gov\.uk|HOST: ${CF_APP}-${REVIEW_URL_ID}.london.cloudapps.digital|" deploy_manifest.yml
-      - run:
-          name: Push review app
-          command: |
-            export DOCKER_IMAGE=tariff-frontend
-            export DOCKER_TAG=dev-${CIRCLE_SHA1}
-
-            CF_DOCKER_PASSWORD=$AWS_SECRET_ACCESS_KEY cf push "$CF_APP-${REVIEW_URL_ID}" \
-              -f deploy_manifest.yml \
-              --no-route \
-              --docker-image "$ECR_REPO/$DOCKER_IMAGE:$DOCKER_TAG" \
-              --docker-username "$AWS_ACCESS_KEY_ID"
-
-            cf map-route "$CF_APP-$REVIEW_URL_ID" london.cloudapps.digital -n "$CF_APP-$REVIEW_URL_ID"
-
-            # Enable routing from this service to the backend applications which are private
-            cf add-network-policy "$CF_APP-$REVIEW_URL_ID" "$CF_BACKEND_APP_XI-dev" --protocol tcp --port 8080
-            cf add-network-policy "$CF_APP-$REVIEW_URL_ID" "$CF_BACKEND_APP_UK-dev" --protocol tcp --port 8080
-      - run:
-          name: Find JIRA ticket number
-          command: |
-            REPO_API_URL=$(echo "${CIRCLE_REPOSITORY_URL}/" | sed 's|.git/$||' | sed 's|git@github.com:|https://api.github.com/repos/|')
-            JIRA_TICKET=$(curl --silent --show-error "${REPO_API_URL}/pulls/${PR_NUMBER}" | jq -r '.body' | grep -oP 'HOTT-\d{4,5}' | head -1 || true)
-            echo "FOUND ${JIRA_TICKET}"
-            echo "export JIRA_TICKET=${JIRA_TICKET}" >> $BASH_ENV
-      - run:
-          name: Generate JIRA comment
-          command: |
-            APP_URL="https://${CF_APP}-pr${PR_NUMBER}.london.cloudapps.digital/"
-            echo "{ \"body\":\"Pull Request ${PR_NUMBER}\n${CIRCLE_PULL_REQUEST}\n\nReview App\n${APP_URL}\" }" > jira_comment.json
-      - run:
-          name: Notify JIRA
-          command: |
-            if [[ $JIRA_TICKET != '' ]]
-            then
-              echo "NOTIFYING TICKET ${JIRA_TICKET}"
-
-              curl \
-                --request POST \
-                --header "Content-Type: application/json" \
-                --user "${JIRA_USERNAME}:${JIRA_TOKEN}" \
-                --silent \
-                --output /dev/null \
-                --show-error \
-                --fail \
-                --data @jira_comment.json \
-                https://transformuk.atlassian.net/rest/api/2/issue/${JIRA_TICKET}/comment
-            fi
-      - slack/notify:
-          channel: deployments
-          event: fail
-          template: basic_fail_1
-      - slack/notify:
-          channel: deployments
-          event: pass
-          custom: |
-            {
-              "text": "Review App deployed for $CIRCLE_PROJECT_NAME",
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Review App deployed for PR ${PR_NUMBER}  :white_check_mark:",
-                    "emoji": true
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*URL*: https://${CF_APP}-pr${PR_NUMBER}.london.cloudapps.digital/"
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Project*:\n $CIRCLE_PROJECT_REPONAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch*:\n $CIRCLE_BRANCH"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit*:\n $CIRCLE_SHA1"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Author*:\n $CIRCLE_USERNAME"
-                    }
-                  ],
-                  "accessory": {
-                    "type": "image",
-                    "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
-                    "alt_text": "CircleCI logo"
-                  }
-                },
-                {
-                  "type": "actions",
-                  "elements": [
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View App"
-                      },
-                      "url": "https://${CF_APP}-pr${PR_NUMBER}.london.cloudapps.digital/"
-                    }
-                  ]
-                }
-              ]
-            }
-
-  cf-purge-reviews:
-    steps:
-      - tariff/cf-install:
-          space: development
-      - run:
-          name: Find open PRs
-          command: |
-            DAYS=7
-            REPO_API_URL=$(echo "${CIRCLE_REPOSITORY_URL}/" | sed 's|.git/$||' | sed 's|git@github.com:|https://api.github.com/repos/|')
-
-            curl --fail --retry 3 --show-error "${REPO_API_URL}/pulls?state=open" | \
-              jq ".[] | select((.updated_at | fromdate) > (now - $DAYS*24*60*60)) | .number" > open_prs.txt
-
-            cat open_prs.txt | sed "s/^/${CF_APP}-pr/" | sort > expected_apps.txt
-            cat expected_apps.txt
-      - run:
-          name: Find current review apps
-          command: |
-            (cf apps | cut -d ' ' -f 1  | grep "${CF_APP}-pr" | sort || true) > current_apps.txt
-            cat current_apps.txt
-      - run:
-          name: Find orphaned review apps
-          command: |
-            (comm -1 --output-delimiter="|" <(cat expected_apps.txt) <(cat current_apps.txt) | egrep -v '^\|' || true) > orphaned_apps.txt
-            cat orphaned_apps.txt
-      - run:
-          name: Remove orphaned review apps
-          command: |
-            for ORPHANED_APP in $(cat orphaned_apps.txt)
-              do echo "Removing ${ORPHANED_APP}"
-                cf delete "${ORPHANED_APP}" -r -f
-              done
 
 jobs:
   write-docker-tag:
@@ -365,14 +195,6 @@ jobs:
           var_file: config_<< parameters.environment >>.tfvars
           lock-timeout: 5m
 
-  purge-reviews:
-    docker:
-      - image: cimg/ruby:3.2.2
-    environment:
-      SENTRY_ENVIRONMENT: "development"
-    steps:
-      - cf-purge-reviews
-
   javascript-checks:
     docker:
       - image: cimg/node:16.13.2
@@ -386,7 +208,6 @@ jobs:
             yarn run eslint $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | egrep '\.js' | grep -v json)
 
   ruby-checks:
-
     executor: tariff/ruby
     steps:
       - checkout
@@ -485,64 +306,6 @@ jobs:
           event: fail
           template: basic_fail_1
 
-  deploy-dev:
-    executor:
-      name: tariff/ruby
-    environment:
-      SENTRY_ENVIRONMENT: development
-    steps:
-      - queue/until_front_of_line:
-          time: "10"
-          consider-branch: false
-          dont-quit: true
-      - cf-deploy-docker:
-          docker_tag: dev-$CIRCLE_SHA1
-          space: development
-          environment_key: dev
-          app_domain_prefix: dev
-      - tariff/sentry-release:
-          environment: development
-
-  deploy-review:
-    executor:
-      name: tariff/ruby
-    environment:
-      SENTRY_ENVIRONMENT: development
-    steps:
-      - queue/until_front_of_line:
-          time: "10"
-          consider-branch: false
-          dont-quit: true
-      - cf-deploy-review
-
-  deploy-main-to-staging:
-    executor:
-      name: tariff/ruby
-    environment:
-      SENTRY_ENVIRONMENT: staging
-    steps:
-      - queue/until_front_of_line:
-          time: "10"
-          consider-branch: false
-          dont-quit: true
-      - cf-deploy-docker:
-          docker_tag: $CIRCLE_SHA1
-          space: staging
-          environment_key: staging
-          app_domain_prefix: staging
-      - tariff/sentry-release:
-          environment: staging
-
-  deploy-release-to-staging:
-    executor:
-      name: tariff/ruby
-    steps:
-      - cf-deploy-docker:
-          docker_tag: $CIRCLE_TAG
-          space: staging
-          environment_key: staging
-          app_domain_prefix: staging
-
   deploy-production:
     executor:
       name: tariff/ruby
@@ -580,10 +343,6 @@ workflows:
             - ruby-checks
             - javascript-checks
 
-      - purge-reviews:
-          context: trade-tariff
-          <<: *filter-not-main
-
       - jest-tests:
           context: trade-tariff
           <<: *filter-not-main
@@ -613,34 +372,12 @@ workflows:
             - fmt-terraform-dev
           <<: *filter-not-main
 
-      - build:
-          name: build-dev
-          context: trade-tariff
-          dev-build: true
-          <<: *filter-not-main
-
       - tariff/build-and-push:
           name: build-and-push-dev
           context: trade-tariff-terraform-aws-development
           environment: development
           image_name: tariff-frontend
           ssm_parameter: "/development/FRONTEND_ECR_URL"
-          <<: *filter-not-main
-
-      - deploy-dev:
-          context: trade-tariff
-          requires:
-            - jest-tests
-            - test
-            - build-dev
-          <<: *filter-not-main
-
-      - deploy-review:
-          context: trade-tariff
-          requires:
-            - jest-tests
-            - test
-            - build-dev
           <<: *filter-not-main
 
       - apply-terraform:
@@ -660,7 +397,7 @@ workflows:
           url: https://dev.trade-tariff.service.gov.uk
           yarn_run: dev-tariff-frontend-smoketests
           requires:
-            - deploy-dev
+            - apply-terraform-dev
           <<: *filter-not-main
 
   deploy-to-staging:
@@ -700,19 +437,13 @@ workflows:
             - build-and-push-live
           <<: *filter-main
 
-      - deploy-main-to-staging:
-          context: trade-tariff
-          requires:
-            - build-live
-          <<: *filter-main
-
       - tariff/smoketests:
           name: smoketest-staging
           context: trade-tariff
           url: https://staging.trade-tariff.service.gov.uk
           yarn_run: staging-tariff-frontend-smoketests
           requires:
-            - deploy-main-to-staging
+            - apply-terraform-staging
           <<: *filter-main
 
   deploy-to-production:
