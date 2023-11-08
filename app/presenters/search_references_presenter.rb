@@ -4,8 +4,8 @@ class SearchReferencesPresenter
   delegate :each, to: :search_references
 
   def initialize(search_references)
-    @search_references = search_references.map { |search_reference|
+    @search_references = search_references.map do |search_reference|
       SearchReferencePresenter.new(search_reference)
-    }
+    end
   end
 end

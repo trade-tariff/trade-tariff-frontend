@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Goods nomenclature API request', type: :request do
-  context 'as JSON' do
-    it 'renders direct API response as JSON' do
+  context 'with data as JSON' do
+    it 'renders direct API response as JSON', :aggregate_failures do
       VCR.use_cassette('goods_nomenclatures_heading_01_v2_api_json_format') do
         get '/api/v2/goods_nomenclatures/heading/0101.json'
 
@@ -17,7 +17,7 @@ RSpec.describe 'Goods nomenclature API request', type: :request do
     end
   end
 
-  context 'as CSV' do
+  context 'with data as CSV' do
     it 'renders direct API response as CSV' do
       VCR.use_cassette('goods_nomenclatures_heading_01_v2_api_csv_format') do
         get '/api/v2/goods_nomenclatures/heading/0101.csv'
@@ -27,8 +27,8 @@ RSpec.describe 'Goods nomenclature API request', type: :request do
     end
   end
 
-  context 'scoped by date' do
-    it 'renders direct API response scoped by date' do
+  context 'when scoped by date' do
+    it 'renders direct API response scoped by date', :aggregate_failures do
       VCR.use_cassette('goods_nomenclatures_heading_01_as_of_date_v2_api_json_format') do
         get '/api/v2/goods_nomenclatures/heading/0101.json?as_of=1971-12-31'
 

@@ -5,7 +5,7 @@ require 'search/base_match'
 class Search
   class GoodsNomenclatureMatch < BaseMatch
     BLANK_RESULT = OpenStruct.new(
-      sections: [], chapters: [], headings: [], commodities: []
+      sections: [], chapters: [], headings: [], commodities: [],
     )
 
     array_attr_reader :sections, :chapters, :headings, :commodities
@@ -29,12 +29,12 @@ class Search
       @commodity_headings ||= []
 
       commodities.each do |commodity|
-        if existing_heading = find_heading(commodity.heading)
+        if (existing_heading = find_heading(commodity.heading))
           existing_heading.add_commodity(commodity)
         else
-          @commodity_headings << build_heading_from(commodity).tap { |heading|
+          @commodity_headings << build_heading_from(commodity).tap do |heading|
             heading.add_commodity(commodity)
-          }
+          end
         end
       end
     end
@@ -51,9 +51,7 @@ class Search
       [headings, commodities, chapters, sections].flatten
     end
 
-    def size
-      all.size
-    end
+    delegate :size, to: :all
 
     private
 

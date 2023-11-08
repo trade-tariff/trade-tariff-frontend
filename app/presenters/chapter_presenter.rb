@@ -2,6 +2,8 @@ class ChapterPresenter < TradeTariffFrontend::Presenter
   attr_reader :chapter
 
   def initialize(chapter)
+    super
+
     @chapter = chapter
   end
 
@@ -11,7 +13,9 @@ class ChapterPresenter < TradeTariffFrontend::Presenter
 
   private
 
+  # rubocop:disable Style/MissingRespondToMissing
   def method_missing(*args, &block)
     @chapter.send(*args, &block)
   end
+  # rubocop:enable Style/MissingRespondToMissing
 end

@@ -18,7 +18,7 @@ class Search
       def array_attr_writer(*names)
         names.each do |name|
           define_method("#{name}=") do |entry_data|
-            instance_variable_set("@#{name}", entry_data.map { |ed| name.to_s.singularize.capitalize.constantize.new(ed['_source'].has_key?('reference') ? ed['_source']['reference'] : ed['_source']) })
+            instance_variable_set("@#{name}", entry_data.map { |ed| name.to_s.singularize.capitalize.constantize.new(ed['_source'].key?('reference') ? ed['_source']['reference'] : ed['_source']) })
           end
         end
       end
