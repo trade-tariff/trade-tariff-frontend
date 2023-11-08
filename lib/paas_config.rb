@@ -6,7 +6,7 @@ module PaasConfig
       # TODO: !Important
       # need to fetch by service name if we use multiple redis services
       JSON.parse(ENV['VCAP_SERVICES'])['redis'][0]['credentials']['uri']
-    rescue
+    rescue StandardError
       ENV['REDIS_URL']
     end
 
@@ -15,7 +15,7 @@ module PaasConfig
 
   def space
     JSON.parse(ENV['VCAP_APPLICATION'])['space_name']
-  rescue
+  rescue StandardError
     Rails.env
   end
 end

@@ -6,9 +6,9 @@ class ChangesPresenter
   delegate :operation_date, to: :last_change, prefix: true
 
   def initialize(change_collection)
-    @change_collection = change_collection.map { |change|
+    @change_collection = change_collection.map do |change|
       change_presenter_class_for(change.model_name).new(change)
-    }
+    end
   end
 
   private

@@ -9,7 +9,7 @@ module SearchResult
         title:,
         section_note:,
         chapter_from:,
-        chapter_to:
+        chapter_to:,
       }
     end
   end

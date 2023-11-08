@@ -9,7 +9,7 @@ module RoutingFilter
                                            .join('|')
                                            .freeze
 
-    SERVICE_CHOICE_PREFIXES_REGEX = %r{^/(#{SERVICE_CHOICE_PREFIXES})(?=/|$)}.freeze
+    SERVICE_CHOICE_PREFIXES_REGEX = %r{^/(#{SERVICE_CHOICE_PREFIXES})(?=/|$)}
 
     # Recognising paths
     def around_recognize(path, _env)
@@ -28,7 +28,9 @@ module RoutingFilter
         if service_choice.present? && service_choice != service_choice_default
           prepended_url = prepend_segment(result.url, service_choice)
 
+          # rubocop:disable Rails/SaveBang
           result.update(prepended_url)
+          # rubocop:enable Rails/SaveBang
         end
       end
     end

@@ -11,7 +11,7 @@ RSpec.describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
     context 'when the service choice prefix is xi' do
       let(:prefix) { '/xi' }
 
-      it 'sets the request params service choice to the xi backend' do
+      it 'sets the request params service choice to the xi backend', :aggregate_failures do
         expect(get: path).to route_to(
           controller: 'commodities',
           action: 'show',
@@ -24,7 +24,7 @@ RSpec.describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
     context 'when the service choice prefix is not present' do
       let(:prefix) { nil }
 
-      it 'does not specify the service backend' do
+      it 'does not specify the service backend', :aggregate_failures do
         expect(get: path).to route_to(
           controller: 'commodities',
           action: 'show',
@@ -37,7 +37,7 @@ RSpec.describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
     context 'when the service choice prefix is the same as the default' do
       let(:prefix) { '/uk' }
 
-      it 'does not set the request params service choice' do
+      it 'does not set the request params service choice', :aggregate_failures do
         expect(get: path).to route_to(
           controller: 'commodities',
           action: 'show',
@@ -50,7 +50,7 @@ RSpec.describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
     context 'when the service choice prefix is set to an unsupported service choice' do
       let(:prefix) { '/xixi' }
 
-      it 'routes to a not_found action in the errors controller' do
+      it 'routes to a not_found action in the errors controller', :aggregate_failures do
         expect(get: path).to route_to(
           controller: 'errors',
           action: 'not_found',
@@ -104,12 +104,12 @@ RSpec.describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
       let(:choice) { 'uk' }
 
       it 'does not prepend the choice to the url' do
-        result = commodity_path(
+        result = commodity_url(
           id: commodity_id,
           currency: 'EUR',
         )
 
-        expect(result).to eq('/commodities/0101210000?currency=EUR')
+        expect(result).to include('/commodities/0101210000?currency=EUR')
       end
 
       it 'does not prepend the choice to the path' do

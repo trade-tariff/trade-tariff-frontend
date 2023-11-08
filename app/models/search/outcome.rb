@@ -14,7 +14,7 @@ class Search
       {
         controller: @entry['endpoint'],
         action: :show,
-        id: @entry['id']
+        id: @entry['id'],
       }
     end
 
@@ -35,6 +35,7 @@ class Search
       @reference_match || ReferenceMatch::BLANK_RESULT
     end
 
+    # rubocop:disable Naming/MemoizedInstanceVariableName
     def goods_nomenclature_match=(entries)
       @goods_nomenclature_match ||= GoodsNomenclatureMatch.new(entries)
     end
@@ -42,6 +43,7 @@ class Search
     def reference_match=(entries)
       @reference_match ||= ReferenceMatch.new(entries)
     end
+    # rubocop:enable Naming/MemoizedInstanceVariableName
 
     def all_reference_matches
       [reference_match.chapters, reference_match.headings].flatten
@@ -52,7 +54,7 @@ class Search
     end
 
     def gn_chapters_without_duplicates
-      # TODO - Do we need this if we're removing duplicates below anyway?
+      # TODO: - Do we need this if we're removing duplicates below anyway?
       goods_nomenclature_match.chapters.delete_if { |gc| reference_match.chapters.select { |rc| rc.code == gc.code }.any? }
     end
 
@@ -93,8 +95,6 @@ class Search
       [reference_match.all, goods_nomenclature_match.all].flatten
     end
 
-    def size
-      all.size
-    end
+    delegate :size, to: :all
   end
 end
