@@ -24,7 +24,9 @@ en:
         average_html: >-
           Average rates are published on 31st March and 31st December every year.<br>
           It reflects the mean average of all exchange rates which have been present in all Monthly exchange rate files for the 12 month period leading up to the given Average rate publication.
-        monthly_html: ""
+        monthly_html: >-
+          Monthly rates are published on the penultimate Thursday of every month.<br>
+          They represent the exchange rate as of midday the day before publication and are intended to apply to the following calendar month.
       download_formats:
         spot_html: >-
           Data is available to view online.
