@@ -131,7 +131,7 @@ module "service" {
     },
     {
       name  = "TARIFF_FROM_EMAIL"
-      value = "Tariff Frontend [${title(var.environment)}] <no-reply@trade-tariff.service.gov.uk>"
+      value = "Tariff Frontend [${title(var.environment)}] <no-reply@${var.base_domain}>"
     },
     {
       name  = "TARIFF_TO_EMAIL"
