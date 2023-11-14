@@ -77,6 +77,12 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
 
       it { is_expected.to be_nil }
     end
+
+    context 'when the code start with a space' do
+      let(:params) { { code: ' 8180' } }
+
+      it { is_expected.to eq('8') }
+    end
   end
 
   describe '#to_params' do
