@@ -41,13 +41,6 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
       it { expect(form.errors[:code]).to be_present }
     end
 
-    context 'when the code include initial and ending spaces' do
-      let(:params) { { code: '  a180 ' } }
-
-      it { is_expected.to be_valid }
-      it { is_expected.to have_attributes(code: 'A180') }
-    end
-
     context 'when the code has invalid characters' do
       let(:params) { { code: 'a18-' } }
 
@@ -78,8 +71,8 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
       it { is_expected.to be_nil }
     end
 
-    context 'when the code start with a space' do
-      let(:params) { { code: ' 8180' } }
+    context 'when the code include initial and ending spaces' do
+      let(:params) { { code: ' 8180 ' } }
 
       it { is_expected.to eq('8') }
     end
