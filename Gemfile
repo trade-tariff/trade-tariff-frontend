@@ -7,7 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 7.0'
+gem 'rails', '~> 7.1'
 
 gem 'addressable'
 gem 'faraday', '~> 2'
@@ -27,7 +27,7 @@ gem 'webpacker'
 
 # gov UK
 gem 'govspeak'
-gem 'nokogiri', '~> 1.15.4' # https://github.com/sparklemotion/nokogiri/issues/2205
+gem 'nokogiri', '~> 1.15.5' # https://github.com/sparklemotion/nokogiri/issues/2205
 gem 'plek'
 
 gem 'connection_pool'
