@@ -10,8 +10,8 @@ module SearchResult
         number_indents:,
         producline_suffix:,
         type: 'heading',
-        validity_end_date: validity_end_date.to_s,
-        validity_start_date: validity_start_date.to_s,
+        validity_end_date: validity_end_date.to_fs,
+        validity_start_date: validity_start_date.to_fs,
       }
     end
   end
