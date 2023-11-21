@@ -14,7 +14,7 @@ RSpec.describe SearchResult::SubheadingSerializer do
     it { is_expected.to include 'description' => subheading.description }
     it { is_expected.to include 'number_indents' => subheading.number_indents }
     it { is_expected.to include 'producline_suffix' => subheading.producline_suffix }
-    it { is_expected.to include 'validity_start_date' => subheading.validity_start_date.to_s }
-    it { is_expected.to include 'validity_end_date' => subheading.validity_end_date.to_s }
+    it { is_expected.to include 'validity_start_date' => subheading.validity_start_date.to_fs }
+    it { is_expected.to include 'validity_end_date' => subheading.validity_end_date.to_fs }
   end
 end
