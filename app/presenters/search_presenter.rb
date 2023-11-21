@@ -7,7 +7,7 @@ class SearchPresenter
   def as_json(opts = {})
     {
       q: @search.q,
-      as_of: @search.date.to_s,
+      as_of: @search.date.to_fs,
       results: @search_results.as_json(opts),
     }
   end

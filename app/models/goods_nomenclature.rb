@@ -17,7 +17,9 @@ class GoodsNomenclature
   has_many :ancestors, polymorphic: true
 
   def validity_start_date=(validity_start_date)
-    @attributes['validity_start_date'] = Date.parse(validity_start_date.to_s) if validity_start_date.present?
+    return if validity_start_date.blank?
+
+    @attributes['validity_start_date'] = validity_start_date.to_date
   end
 
   def validity_start_date
@@ -25,7 +27,9 @@ class GoodsNomenclature
   end
 
   def validity_end_date=(validity_end_date)
-    @attributes['validity_end_date'] = Date.parse(validity_end_date.to_s) if validity_end_date.present?
+    return if validity_end_date.blank?
+
+    @attributes['validity_end_date'] = validity_end_date.to_date
   end
 
   def validity_end_date
