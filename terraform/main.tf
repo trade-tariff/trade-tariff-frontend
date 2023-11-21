@@ -25,7 +25,11 @@ module "service" {
   memory = var.memory
 
   execution_role_policy_arns = [
-    aws_iam_policy.secrets.arn
+    aws_iam_policy.secrets.arn,
+  ]
+
+  task_role_policy_arns = [
+    aws_iam_policy.emails.arn
   ]
 
   service_environment_config = [

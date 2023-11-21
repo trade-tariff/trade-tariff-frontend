@@ -30,7 +30,23 @@ data "aws_iam_policy_document" "secrets" {
   }
 }
 
+data "aws_iam_policy_document" "emails" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ses:SendEmail",
+      "ses:SendRawEmail"
+    ]
+    resources = ["*"]
+  }
+}
+
 resource "aws_iam_policy" "secrets" {
   name   = "frontend-execution-role-secrets-policy"
   policy = data.aws_iam_policy_document.secrets.json
+}
+
+resource "aws_iam_policy" "emails" {
+  name   = "frontend-task-role-emails-policy"
+  policy = data.aws_iam_policy_document.emails.json
 }
