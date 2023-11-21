@@ -48,11 +48,11 @@ RSpec.describe TariffDate do
     subject(:tariff_date) { described_class.new(Date.parse('2021-01-01')) }
 
     it 'defaults to :date format when not passing a format' do
-      expect(tariff_date.to_s).to eq('2021-01-01')
+      expect(tariff_date.to_fs).to eq('2021-01-01')
     end
 
     it 'uses the passed format when passing a format' do
-      expect(tariff_date.to_s(:short)).to eq('1 Jan 2021')
+      expect(tariff_date.to_fs(:short)).to eq('1 Jan 2021')
     end
   end
 end

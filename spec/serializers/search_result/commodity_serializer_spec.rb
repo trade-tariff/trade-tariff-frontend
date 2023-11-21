@@ -14,7 +14,7 @@ RSpec.describe SearchResult::CommoditySerializer do
     it { is_expected.to include 'description' => commodity.description }
     it { is_expected.to include 'number_indents' => commodity.number_indents }
     it { is_expected.to include 'producline_suffix' => commodity.producline_suffix }
-    it { is_expected.to include 'validity_start_date' => commodity.validity_start_date.to_s }
-    it { is_expected.to include 'validity_end_date' => commodity.validity_end_date.to_s }
+    it { is_expected.to include 'validity_start_date' => commodity.validity_start_date.to_fs }
+    it { is_expected.to include 'validity_end_date' => commodity.validity_end_date.to_fs }
   end
 end

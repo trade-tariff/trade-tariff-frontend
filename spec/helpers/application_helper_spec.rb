@@ -333,13 +333,13 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
 
     context 'with String Dates' do
-      subject { govuk_date_range from.to_s, to.to_s }
+      subject { govuk_date_range from.to_fs, to.to_fs }
 
       it { is_expected.to eql '1 January 2022 to 1 June 2022' }
     end
 
     context 'with String Dates with Times' do
-      subject { govuk_date_range "#{from} 01:01:00", "#{to} 01:02:00" }
+      subject { govuk_date_range "#{from.to_fs} 01:01:00", "#{to.to_fs} 01:02:00" }
 
       it { is_expected.to eql '1 January 2022 to 1 June 2022' }
     end
