@@ -13,7 +13,7 @@ RSpec.describe SearchResult::HeadingSerializer do
     it { is_expected.to include 'description' => heading.description }
     it { is_expected.to include 'number_indents' => heading.number_indents }
     it { is_expected.to include 'producline_suffix' => heading.producline_suffix }
-    it { is_expected.to include 'validity_start_date' => heading.validity_start_date.to_s }
-    it { is_expected.to include 'validity_end_date' => heading.validity_end_date.to_s }
+    it { is_expected.to include 'validity_start_date' => heading.validity_start_date.to_fs }
+    it { is_expected.to include 'validity_end_date' => heading.validity_end_date.to_fs }
   end
 end
