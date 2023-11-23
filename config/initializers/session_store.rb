@@ -1,6 +1,10 @@
 # Be sure to restart your server when you modify this file.
 
-TradeTariffFrontend::Application.config.session_store :cookie_store, key: '_tradetarifffrontend_session'
+TradeTariffFrontend::Application.config.session_store(
+  :cookie_store,
+  key: '_tradetarifffrontend_session',
+  secure: Rails.env.production?,
+)
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
