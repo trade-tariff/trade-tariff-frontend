@@ -1,13 +1,14 @@
 source 'https://rubygems.org'
 
-ruby File.read('.ruby-version')
+# ruby File.read('.ruby-version')
+ruby file: '.ruby-version'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 7.0'
+gem 'rails', '~> 7.1'
 
 gem 'addressable'
 gem 'faraday', '~> 2'
