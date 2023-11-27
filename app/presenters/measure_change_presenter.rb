@@ -4,7 +4,7 @@ class MeasureChangePresenter < ChangePresenter
   end
 
   def content
-    "'#{change_record.measure_type.description}' #{change_record.destination} measure #{operation_name} for #{change.record.geographical_area} on #{change.operation_date}"
+    "'#{change_record.measure_type.description}' #{change_record.destination} measure #{operation_name} for #{change.record.geographical_area} on #{change.operation_date.to_fs}"
   end
 
   def anchor_link
