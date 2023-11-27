@@ -99,7 +99,7 @@ RSpec.describe PagesController, type: :request do
     context 'when howto format is html' do
       let(:howto) { 'origin.html' }
 
-      it { expect { do_request }.not_to raise_error(ActionController::RoutingError) }
+      it { expect { do_request }.not_to raise_error }
     end
 
     context 'when howto format is not html' do
