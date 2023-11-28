@@ -22,7 +22,6 @@ gem 'yajl-ruby'
 # Assets
 gem 'bootsnap', require: false
 gem 'kaminari'
-gem 'responders'
 gem 'webpacker'
 
 # gov UK
