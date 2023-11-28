@@ -122,6 +122,10 @@ module "service" {
       value = "false"
     },
     {
+      name  = "SENTRY_ENVIRONMENT"
+      value = var.environment
+    },
+    {
       name  = "SERVICE_DEFAULT"
       value = "uk"
     },
@@ -152,7 +156,7 @@ module "service" {
     {
       name  = "VCAP_APPLICATION"
       value = "{}"
-    }
+    },
   ]
 
   service_secrets_config = [
@@ -163,6 +167,10 @@ module "service" {
     {
       name      = "SECRET_KEY_BASE"
       valueFrom = data.aws_secretsmanager_secret.frontend_secret_key_base.arn
+    },
+    {
+      name      = "SENTRY_DSN"
+      valueFrom = data.aws_secretsmanager_secret.sentry_dsn.arn
     },
   ]
 }
