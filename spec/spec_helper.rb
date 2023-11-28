@@ -23,9 +23,18 @@ Capybara.default_max_wait_time = 5
 require 'capybara/cuprite'
 Capybara.javascript_driver = :cuprite
 Capybara.register_driver(:cuprite) do |app|
-  Capybara::Cuprite::Driver.new(app, window_size: [1200, 800],
-                                     process_timeout: 30,
-                                     timeout: 30)
+  opts = {
+    window_size: [1200, 800],
+    process_timeout: 30,
+    timeout: 30,
+  }
+
+  if File.exist?('/.dockerenv') || # check for docker
+      File.exist?('/run/.containerenv') # check for podman + other oci runtimes
+    opts[:browser_options] = { 'no-sandbox': nil }
+  end
+
+  Capybara::Cuprite::Driver.new(app, **opts)
 end
 
 VCR.use_cassette('geographical_areas#1013') do
