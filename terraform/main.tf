@@ -55,7 +55,7 @@ module "service" {
     },
     {
       name  = "BETA_SEARCH_SWITCHING_ENABLED"
-      value = "true"
+      value = var.beta_search_enabled
     },
     {
       name  = "CORS_HOST"

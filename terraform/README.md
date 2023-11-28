@@ -43,6 +43,7 @@ Terraform to deploy the service into AWS.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_base_domain"></a> [base\_domain](#input\_base\_domain) | URL of the service. | `string` | n/a | yes |
+| <a name="input_beta_search_enabled"></a> [beta\_search\_enabled](#input\_beta\_search\_enabled) | Enable beta search. | `bool` | n/a | yes |
 | <a name="input_cpu"></a> [cpu](#input\_cpu) | CPU units to use. | `number` | n/a | yes |
 | <a name="input_docker_tag"></a> [docker\_tag](#input\_docker\_tag) | Image tag to use. | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | Deployment environment. | `string` | n/a | yes |
