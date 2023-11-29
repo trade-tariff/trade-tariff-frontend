@@ -19,6 +19,13 @@ RSpec.describe SearchReferencePresenter do
   end
 
   describe '#to_s' do
-    it { expect(presented.to_s).to eq('Tomatoes') }
+    it 'returns the correct string' do
+      expect(presented.to_s).to eq('Tomatoes')
+    end
+
+    it 'capitalizes the first letter of the string and leaves the rest as is' do
+      presented.title = 'semi-skimmed milk, not powdered'
+      expect(presented.to_s).to eq('Semi-skimmed milk, not powdered')
+    end
   end
 end
