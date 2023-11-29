@@ -4,7 +4,6 @@ require 'trade_tariff_frontend/request_forwarder'
 require 'routing_filter/service_path_prefix_handler'
 
 Rails.application.routes.draw do
-  filter :locale
   filter :service_path_prefix_handler
   default_url_options(host: TradeTariffFrontend.host)
 
