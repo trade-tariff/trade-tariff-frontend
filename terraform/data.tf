@@ -36,3 +36,7 @@ data "aws_kms_key" "secretsmanager_key" {
 data "aws_ssm_parameter" "ecr_url" {
   name = "/${var.environment}/FRONTEND_ECR_URL"
 }
+
+data "aws_secretsmanager_secret" "sentry_dsn" {
+  name = "frontend-sentry-dsn"
+}
