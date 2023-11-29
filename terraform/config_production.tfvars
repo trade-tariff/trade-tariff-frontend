@@ -1,6 +1,6 @@
 region              = "eu-west-2"
 environment         = "production"
-base_domain         = "ott-production.co.uk"
+base_domain         = "tradetesting.net"
 cpu                 = 1024
 memory              = 2048
 service_count       = 4
