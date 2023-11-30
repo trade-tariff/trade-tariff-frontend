@@ -7,8 +7,6 @@ class ApplicationController < ActionController::Base
 
   before_action :maintenance_mode_if_active
 
-  around_action :set_locale
-
   before_action :set_cache
   before_action :set_last_updated
   before_action :set_path_info
@@ -132,17 +130,6 @@ class ApplicationController < ActionController::Base
 
   def set_path_info
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json) }
-  end
-
-  def set_locale
-    I18n.locale = locale_is_valid? ? params[:locale].to_sym : I18n.default_locale
-    yield
-    I18n.locale = I18n.default_locale
-  end
-
-  def locale_is_valid?
-    params[:locale].presence &&
-      I18n.available_locales.include?(params[:locale]&.to_sym)
   end
 
   def country
