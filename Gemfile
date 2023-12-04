@@ -17,7 +17,7 @@ gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
 gem 'multi_json'
 gem 'net-http-persistent'
-gem 'routing-filter', github: 'svenfuchs/routing-filter'
+gem 'routing-filter', git: 'https://github.com/trade-tariff/routing-filter', branch: 'fix-nil-parameters-error'
 gem 'yajl-ruby'
 
 # Assets
