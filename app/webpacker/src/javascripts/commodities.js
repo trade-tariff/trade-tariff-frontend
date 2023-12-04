@@ -590,46 +590,15 @@
             let options = [];
             let searching = true;
 
-            $(element).on('change', 'input[type="text"]', function(ev) {
-              $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
-            });
 
-            // Avoid the default keydown behaviour of the autocomplete library and
-            // auto submit on Mousclick, Enter or Tab ourselves
-            // when an element receives Enter, the form is submitted
-            // when an element selected with arrow keys, the form is not submitted
-            const handleSubmitEvent = function(ev) {
-              if (ev.type === 'click' || ev.key === 'Enter' || ev.key === 'Tab') {
-                const form = $(element).parents('form');
-                const suggestionType = $(ev.target).find('[data-suggestion-type]').data('suggestion-type');
-                const resourceId = $(ev.target).find('[data-resource-id]').data('resource-id');
-                let text = $(ev.target).text();
+            $(element).on('keydown', 'input[type="text"]', (ev) => {
+              if (ev.key === 'Enter') {
+                const form = $(ev.target.form) ;
 
-                ev.preventDefault();
-
-                if (text === '') {
-                  text = $(element).find('input[type="text"]').val();
-                }
-
-                if (suggestionType) {
-                  text = text.replace(suggestionType, '');
-                }
-
-                form.find('.js-commodity-picker-target').val(text);
-
-                if (resourceId) {
-                  form.find('.js-commodity-picker-resource-id').val(resourceId);
-                }
-
-                form.submit();
+                form.find('.js-commodity-picker-target').val(ev.target.value);
+                form.trigger('submit') ;
               }
-            };
-
-            // Both the input and the list items need to be handled for keyboard events
-            $(element).on('keydown', 'li[id^="q__option--"]', handleSubmitEvent);
-            $(element).on('keydown', 'input[type="text"]', handleSubmitEvent);
-            // Handle mouse click
-            $(element).on('click', 'li[id^="q__option--"]', handleSubmitEvent);
+            });
 
 
             accessibleAutocomplete({
@@ -637,7 +606,7 @@
               id: autocomplete_input_id,
               minLength: 2,
               showAllValues: false,
-              confirmOnBlur: false,
+              confirmOnBlur: true,
               displayMenu: 'overlay',
               placeholder: 'Enter the name of the goods or commodity code',
               tNoResults: () => searching ? 'Searching...' : 'No results found',
@@ -645,21 +614,19 @@
                 inputValue: inputValueTemplate,
                 suggestion: suggestionTemplate,
               },
-              onConfirm: function(text) {
-                let obj = null;
+              onConfirm: function(option) {
+                const form = $(element).parents('form:first') ;
 
-                options.forEach(function(option) {
-                  if (option.text == text) {
-                    obj = option;
-                  }
-                });
+                const text = (option && option.id) ? option.id : option ;
+                form.find('.js-commodity-picker-target').val(text);
 
-                if (obj) {
-                  $(element).parents('form:first').find('.js-commodity-picker-target').val(obj.id);
+                const resourceId = (option && option.resource_id) ? option.resource_id : null
+                if (resourceId) {
+                  form.find('.js-commodity-picker-resource-id').val(resourceId);
+                }
 
-                  if (typeof($(element).data('nosubmit')) == 'undefined') {
-                    $(element).parents('form:first').trigger('submit');
-                  }
+                if (typeof($(element).data('nosubmit')) == 'undefined') {
+                  $(element).parents('form:first').trigger('submit');
                 }
               },
               source: debounce(function(query, populateResults) {
