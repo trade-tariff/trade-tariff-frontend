@@ -11,7 +11,6 @@ GIT
 GIT
   remote: https://github.com/trade-tariff/routing-filter
   revision: 9bf77f8904e40d985ce0a033d3f1080ede83a9d9
-  branch: fix-nil-parameters-error
   specs:
     routing-filter (0.7.1)
       actionpack (>= 6.1)
