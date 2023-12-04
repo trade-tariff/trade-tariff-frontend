@@ -595,55 +595,11 @@
             let searching = true;
 
             $(element).on('change', 'input[type="text"]', function(ev) {
-              $(element).parents('form').find('.js-commodity-picker-target').val($(ev.target).val());
-            });
+              const form = $(element).parents('form:first') ;
 
-            // Avoid the default keydown behaviour of the autocomplete library and
-            // auto submit on Mousclick, Enter or Tab ourselves
-            // when an element receives Enter, the form is submitted
-            // when an element selected with arrow keys, the form is not submitted
-            const handleSubmitEvent = function(ev) {
-              if (ev.type === 'click' || ev.key === 'Enter' || ev.key === 'Tab') {
-                const form = $(element).parents('form');
-                const suggestionType = $(ev.target).find('[data-suggestion-type]').data('suggestion-type');
-                const resourceId = $(ev.target).find('[data-resource-id]').data('resource-id');
-                let text = $(ev.target).text();
-
-                ev.preventDefault();
-
-                if (text === '') {
-                  text = $(element).find('input[type="text"]').val();
-                }
-
-                if (suggestionType) {
-                  text = text.replace(suggestionType, '');
-                }
-
-                // accessible-autocomplete adds the index of the options into
-                // the option text on ios for some reason
-                // That breaks search so strip it back out
-                // FIXME: Solve event handling so we can just handle submission
-                // in onConfirm and avoid all this complexity
-                if (isIosDevice()) {
-                  text = text.replace(/ \d+ of \d+$/, '');
-                }
-
-                form.find('.js-commodity-picker-target').val(text);
-
-                if (resourceId) {
-                  form.find('.js-commodity-picker-resource-id').val(resourceId);
-                }
-
-                form.submit();
-              }
-            };
-
-            // Both the input and the list items need to be handled for keyboard events
-            $(element).on('keydown', 'li[id^="q__option--"]', handleSubmitEvent);
-            $(element).on('keydown', 'input[type="text"]', handleSubmitEvent);
-            // Handle mouse click
-            $(element).on('click', 'li[id^="q__option--"]', handleSubmitEvent);
-
+              const search_text = $(ev.target).val() ;
+              form.find('.js-commodity-picker-target').val(search_text);
+            }) ;
 
             accessibleAutocomplete({
               element: element[0],
@@ -658,22 +614,17 @@
                 inputValue: inputValueTemplate,
                 suggestion: suggestionTemplate,
               },
-              onConfirm: function(text) {
-                let obj = null;
+              onConfirm: function(option) {
+                const form = $(element).parents('form:first') ;
 
-                options.forEach(function(option) {
-                  if (option.text == text) {
-                    obj = option;
-                  }
-                });
+                const text = (option && option.id) ? option.id : option ;
+                form.find('.js-commodity-picker-target').val(text);
 
-                if (obj) {
-                  $(element).parents('form:first').find('.js-commodity-picker-target').val(obj.id);
-
-                  if (typeof($(element).data('nosubmit')) == 'undefined') {
-                    $(element).parents('form:first').trigger('submit');
-                  }
+                if (option && option.resource_id) {
+                  form.find('.js-commodity-picker-resource-id').val(option.resource_id);
                 }
+
+                $(element).parents('form:first').trigger('submit');
               },
               source: debounce(function(query, populateResults) {
                 const escapedQuery = htmlEscaper.escape(query);
