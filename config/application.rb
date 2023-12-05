@@ -5,7 +5,6 @@ require 'rails'
 require 'active_model/railtie'
 # require "active_job/railtie"
 
-# TODO: try to remove this:
 require 'active_record/attribute_assignment'
 # require "active_record/railtie"
 # require "active_storage/engine"
