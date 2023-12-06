@@ -5,3 +5,18 @@
 .exchange-rates-attachment {
   margin-bottom: 15px !Important;
 }
+
+.document-download {
+  margin-top: 0.5em;
+}
+
+.document-download a {
+  margin-right: 0.25em;
+  border-right: 1px #2F5FAF solid;
+  padding-right: 0.5em;
+}
+
+.document-download a:last-of-type {
+  border-right: 0;
+  margin-left: 0.25em;
+}
