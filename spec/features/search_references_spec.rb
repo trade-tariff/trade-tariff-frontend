@@ -10,6 +10,6 @@ RSpec.describe 'a-z index', vcr: { cassette_name: 'search_references#az_index' }
   end
 
   it {
-    expect(page).to have_content(search_reference.title.titleize.squeeze(' '))
+    expect(page).to have_content(search_reference.title.capitalize.squeeze(' '))
   }
 end

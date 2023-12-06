@@ -1,6 +1,6 @@
 class SearchReferencePresenter < SimpleDelegator
   def to_s
-    title.titleize
+    title.capitalize
   end
 
   def link

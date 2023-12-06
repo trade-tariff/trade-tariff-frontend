@@ -36,7 +36,7 @@ RSpec.describe SearchReferencesController, type: :controller do
 
     context 'when looking for the relevant sections' do
       it 'renders the Machine Tools title' do
-        expect(response.body).to include 'Machine Tools'
+        expect(response.body).to include 'Machine tools'
       end
 
       it 'renders links to relevant sections' do
