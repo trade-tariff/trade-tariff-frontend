@@ -702,16 +702,6 @@
                       }
                     });
 
-                    if ($.inArray(escapedQuery.toLowerCase(), newSource) < 0) {
-                      newSource.unshift(escapedQuery.toLowerCase());
-                      options.unshift({
-                        id: escapedQuery.toLowerCase(),
-                        text: escapedQuery.toLowerCase(),
-                        suggestion_type: 'exact',
-                        newOption: true,
-                      });
-                    }
-
                     populateResults(newSource);
 
                     $(document).trigger('tariff:searchQuery', [data, opts]);
