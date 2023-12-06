@@ -9,10 +9,10 @@ GIT
       activesupport (>= 5.0.1.rc1)
 
 GIT
-  remote: https://github.com/trade-tariff/routing-filter
-  revision: 9bf77f8904e40d985ce0a033d3f1080ede83a9d9
+  remote: https://github.com/trade-tariff/routing-filter.git
+  revision: e8b0ad1b57cb8c51ec2007e4d25b0c00f337b2a7
   specs:
-    routing-filter (0.7.1)
+    routing-filter (0.7.2)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
 

@@ -42,12 +42,10 @@ Rails.application.configure do
     .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
     .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
-  # Prepend all log lines with the following tags.
-  config.log_tags = [:request_id]
-
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
   config.log_level = ENV.fetch('RAILS_LOG_LEVEL', :info)
+
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
