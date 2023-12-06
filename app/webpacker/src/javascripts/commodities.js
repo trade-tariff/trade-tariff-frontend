@@ -12,6 +12,10 @@
   const debounce = require('./debounce');
   const htmlEscaper = require('html-escaper');
 
+  const isIosDevice = function() {
+    return typeof navigator !== 'undefined' && !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
+  }
+
   global.GOVUK = global.GOVUK || {};
   /**
     @name GOVUK.tariff
@@ -613,6 +617,15 @@
 
                 if (suggestionType) {
                   text = text.replace(suggestionType, '');
+                }
+
+                // accessible-autocomplete adds the index of the options into
+                // the option text on ios for some reason
+                // That breaks search so strip it back out
+                // FIXME: Solve event handling so we can just handle submission
+                // in onConfirm and avoid all this complexity
+                if (isIosDevice()) {
+                  text = text.replace(/ \d+ of \d+$/, '');
                 }
 
                 form.find('.js-commodity-picker-target').val(text);
