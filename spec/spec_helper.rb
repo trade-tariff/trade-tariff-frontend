@@ -18,10 +18,14 @@ Dir[Rails.root.join('app/models/*.rb')].sort.each { |f| require f }
 require 'capybara/rails'
 require 'capybara/rspec'
 
+Capybara.default_max_wait_time = 5
+
 require 'capybara/cuprite'
 Capybara.javascript_driver = :cuprite
 Capybara.register_driver(:cuprite) do |app|
-  Capybara::Cuprite::Driver.new(app, window_size: [1200, 800])
+  Capybara::Cuprite::Driver.new(app, window_size: [1200, 800],
+                                     process_timeout: 30,
+                                     timeout: 30)
 end
 
 VCR.use_cassette('geographical_areas#1013') do

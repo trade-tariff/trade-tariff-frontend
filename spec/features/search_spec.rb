@@ -26,23 +26,16 @@ RSpec.describe 'Search', js: true do
           visit find_commodity_path
 
           page.find('#new_search .autocomplete__input#q').click
-
           page.find('#new_search .autocomplete__input#q').set('gold')
-          sleep 1.5
 
+          expect(page).to have_css('#new_search .autocomplete__option')
+          expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
           expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
-
-          using_wait_time 1 do
-            expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
-          end
 
           expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
           expect(page).to have_content('goldsmiths')
 
           page.find('#new_search .autocomplete__option:first-of-type').click
-
-          # trying to see if redirect done by JS needs some sleep to be caught up
-          sleep 1.5
 
           expect(page).to have_content('Search results for ‘gold’')
         end
@@ -58,14 +51,10 @@ RSpec.describe 'Search', js: true do
 
           page.find('#new_search .autocomplete__input#q').set('dsauidoasuiodsa')
 
-          sleep 1.5
-
+          expect(page).to have_css('#new_search .autocomplete__option')
           expect(page.find_all('#new_search .autocomplete__option').length).to eq(1)
           expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('dsauidoasuiodsa')
           page.find('#new_search .autocomplete__option:first-of-type').click
-
-          # trying to see if redirect done by JS needs some sleep to be caught up
-          sleep 1.5
 
           expect(page).to have_content('Search results for ‘dsauidoasuiodsa’')
           expect(page).to have_content('There are no results matching your query.')
@@ -83,21 +72,15 @@ RSpec.describe 'Search', js: true do
           page.find('#new_search .autocomplete__input#q').click
 
           page.find('#new_search .autocomplete__input#q').set('gold')
-          sleep 1.5
+          expect(page).to have_css('#new_search .autocomplete__option')
 
           expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
-
-          using_wait_time 1 do
-            expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
-          end
+          expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
 
           expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
           expect(page).to have_content('goldsmiths')
 
           page.find('#new_search .autocomplete__option:first-of-type').click
-
-          # trying to see if redirect done by JS needs some sleep to be caught up
-          sleep 1
 
           expect(page).to have_content('Search results for ‘gold’')
         end
@@ -141,12 +124,10 @@ RSpec.describe 'Search', js: true do
           page.find('#year').set('2022')
           page.find('input[name="new_search"]').click
 
-          using_wait_time 5 do
-            expect(page).to have_content('Quota search results')
-            expect(page).to have_content('050088')
-            expect(page).to have_link('2106909800', href: '/subheadings/2106909800-80?day=16&month=3&year=2022')
-            expect(page).to have_content('All countries (1011)')
-          end
+          expect(page).to have_content('Quota search results')
+          expect(page).to have_content('050088')
+          expect(page).to have_link('2106909800', href: '/subheadings/2106909800-80?day=16&month=3&year=2022')
+          expect(page).to have_content('All countries (1011)')
         end
       end
     end
@@ -187,11 +168,9 @@ RSpec.describe 'Search', js: true do
           page.find('#cas').set('121-17-5')
           page.find('input[name="new_search"]').click
 
-          using_wait_time 1 do
-            expect(page).to have_content('Chemical search results for “121-17-5”')
-            expect(page).to have_content('4-chloro-alpha,alpha,alpha-trifluoro-3-nitrotoluene')
-            expect(page).to have_link('Other', href: '/commodities/2904990000')
-          end
+          expect(page).to have_content('Chemical search results for “121-17-5”')
+          expect(page).to have_content('4-chloro-alpha,alpha,alpha-trifluoro-3-nitrotoluene')
+          expect(page).to have_link('Other', href: '/commodities/2904990000')
         end
       end
 
@@ -204,12 +183,10 @@ RSpec.describe 'Search', js: true do
           page.find('#name').set('benzene')
           page.find('input[name="new_search"]').click
 
-          using_wait_time 1 do
-            expect(page).to have_content('Chemical search results for “benzene”')
-            expect(page).to have_content('22199-08-2')
-            expect(page).to have_content('4-amino-N-(pyrimidin-2(1H)-ylidene-κN 1)benzenesulfonamidato-κOsilver')
-            expect(page).to have_link('Other', href: '/commodities/2843290000')
-          end
+          expect(page).to have_content('Chemical search results for “benzene”')
+          expect(page).to have_content('22199-08-2')
+          expect(page).to have_content('4-amino-N-(pyrimidin-2(1H)-ylidene-κN 1)benzenesulfonamidato-κOsilver')
+          expect(page).to have_link('Other', href: '/commodities/2843290000')
         end
       end
     end
