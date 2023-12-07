@@ -86,18 +86,6 @@ module "service" {
       value = "6"
     },
     {
-      name  = "NEW_RELIC_APP_NAME"
-      value = "tariff-frontend-${var.environment}"
-    },
-    {
-      name  = "NEW_RELIC_ENV"
-      value = var.environment
-    },
-    {
-      name  = "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
-      value = false
-    },
-    {
       name  = "NEW_RELIG_LOG"
       value = "stdout"
     },
@@ -147,7 +135,7 @@ module "service" {
     },
     {
       name  = "WEB_CONCURRENCY"
-      value = "6"
+      value = "4"
     },
     {
       name  = "WEBCHAT_URL"
