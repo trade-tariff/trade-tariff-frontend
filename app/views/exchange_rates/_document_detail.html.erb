@@ -12,21 +12,18 @@
         <%= Date::MONTHNAMES[period.month] %> <%= period.year %> <%= type %> exchange rates
       </h3>
 
-      <p>
-        <strong>
-          <% if period.has_exchange_rates %>
-            <%= link_to "View online", exchange_rate_collection_path("#{period.year}-#{period.month}", type: type), class: 'govuk-link' %>
-
-          <% end %>
-        </strong>
+      <p class="document-download">
+        <% if period.has_exchange_rates %>
+          <%= link_to "<strong>View online</strong>".html_safe, exchange_rate_collection_path("#{period.year}-#{period.month}", type: type), title: "View #{period.month} #{period.year} monthly exchange rates online", class: 'govuk-link' %>
+        <% end %>
 
         <% if period.files.any? %>
-          <%= " | " if period.has_exchange_rates %>
-          <% period.files.each_with_index do |file, index| %>
-            <strong><a href="<%= file.file_path %>"><%= file.format.upcase %></strong> <%= file.file_size_in_kb %> KB</a>
-              <%= ' | ' unless index == period.files.size - 1 %>
-            <% end %>
+          <% period.files.each do |file| %>
+            <a title="Download <%= period.month%> <%= period.year %> monthly exchange rates in <%= file.format.upcase %> format" href="<%= file.file_path %>">
+              <strong><%= file.format.upcase %></strong> <%= file.file_size_in_kb %> KB
+            </a>
           <% end %>
+        <% end %>
       </p>
 
       <p>This file may not be suitable for users of assistive technology</p>
