@@ -1,7 +1,7 @@
 class SearchReferencesController < ApplicationController
   def show
     @search_references = SearchReferencesPresenter.new(
-      SearchReference.all(query: { letter: })
+      SearchReference.all(query: { letter: }),
     )
   end
 
