@@ -350,17 +350,38 @@ article.tariff {
   }
 }
 
-.js-enabled {
-  .commodity-tree-note em {
-    @include govuk-font($size: 14, $weight: normal);
+.commodity-tree-note em {
+  @include govuk-font($size: 14, $weight: normal);
+}
+
+li:not(.has_children) .description {
+  @include govuk-font($size: 16, $weight: normal);
+  color: $govuk-link-colour;
+  padding-left: px($expand-arrow-space);
+  margin-left: -1 * px($expand-arrow-space);
+  cursor:pointer;
+  position:relative; /* to give z-index */
+
+  @media (min-width: 641px) {
+    float: left;
+    width: calc(100% - 165px);
   }
 
-  li:not(.has_children) .description {
+  @media (min-width: $headings-large-viewport) {
+    width: calc(100% - #{$identifier-width-desktop - 10px});
+  }
+
+  &.without_right_margin {
+    margin: 0 !important;
+  }
+}
+
+li.has_children {
+  .description {
     @include govuk-font($size: 16, $weight: normal);
     color: $govuk-link-colour;
     padding-left: px($expand-arrow-space);
     margin-left: -1 * px($expand-arrow-space);
-    cursor:pointer;
     position:relative; /* to give z-index */
 
     @media (min-width: 641px) {
@@ -377,101 +398,78 @@ article.tariff {
     }
   }
 
-  li.has_children {
-    .description {
-      @include govuk-font($size: 16, $weight: normal);
-      color: $govuk-link-colour;
-      padding-left: px($expand-arrow-space);
-      margin-left: -1 * px($expand-arrow-space);
-      position:relative; /* to give z-index */
+  > .description {
+    padding-left: 16px;
+    cursor: pointer;
 
-      @media (min-width: 641px) {
-        float: left;
-        width: calc(100% - 165px);
-      }
-
-      @media (min-width: $headings-large-viewport) {
-        width: calc(100% - #{$identifier-width-desktop - 10px});
-      }
-
-      &.without_right_margin {
-        margin: 0 !important;
-      }
-    }
-
-    > .description {
-      padding-left: 16px;
-      cursor: pointer;
-
-      &:before {
-        content: "";
-        position: absolute;
-        top: 3px;
-        bottom: 0;
-        left: 0;
-        display: block;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-color: transparent;
-        -webkit-clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-        clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-        border-width: 7px 0 7px 12.124px;
-        border-left-color: inherit;
-      }
-    }
-
-   .description:hover,
-   .description-hover {
-      color: $govuk-link-hover-colour;
-    }
-
-    a .description {
-      margin-left: 0;
-      padding-left:0;
-      background:none;
-    }
-
-    .open {
-      &:before {
-        display: block;
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-color: transparent;
-        -webkit-clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
-        clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
-        border-width: 12.124px 7px 0 7px;
-        border-top-color: inherit;
-      }
+    &:before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      bottom: 0;
+      left: 0;
+      display: block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: transparent;
+      -webkit-clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+      clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+      border-width: 7px 0 7px 12.124px;
+      border-left-color: inherit;
     }
   }
 
-  .conditions,
-  .footnotes,
-  .additional-codes {
-    display:none;
-    clear:both;
+ .description:hover,
+ .description-hover {
+    color: $govuk-link-hover-colour;
   }
 
-  .date-filter-search {
-    display:none;
+  a .description {
+    margin-left: 0;
+    padding-left:0;
+    background:none;
   }
 
-  .tooltip-description {
-    display:none;
-    position:absolute;
-    width:200px;
-    padding:px($top-level-padding);
-    z-index:1;
-    font-size:em(14, 16);
-    background:#fff;
-    border:solid 1px #bbb;
-
-    p {
-      margin:0;
-      padding:$top-level-padding;
+  .open {
+    &:before {
+      display: block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: transparent;
+      -webkit-clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+      clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+      border-width: 12.124px 7px 0 7px;
+      border-top-color: inherit;
     }
+  }
+}
+
+.conditions,
+.footnotes,
+.additional-codes {
+  display:none;
+  clear:both;
+}
+
+.date-filter-search {
+  display:none;
+}
+
+.tooltip-description {
+  display:none;
+  position:absolute;
+  width:200px;
+  padding:px($top-level-padding);
+  z-index:1;
+  font-size:em(14, 16);
+  background:#fff;
+  border:solid 1px #bbb;
+
+  p {
+    margin:0;
+    padding:$top-level-padding;
   }
 }
 
