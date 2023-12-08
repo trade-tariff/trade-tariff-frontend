@@ -23,7 +23,7 @@ RSpec.describe DeclarableUnitService do
       context 'when there are supplementary units in another geography' do
         let(:uk_import_measures) { [attributes_for(:measure, :import_export_supplementary, geographical_area_id: 'IT')] }
 
-        it { is_expected.to eq('There are no supplementary unit measures assigned to this commodity') }
+        it { is_expected.to match(/There are no supplementary units globally assigned to this commodity/) }
       end
 
       context 'when the country is provided and there are unit measures' do
@@ -93,9 +93,9 @@ RSpec.describe DeclarableUnitService do
       end
 
       context 'when there are supplementary units in another geography' do
-        let(:uk_import_measures) { [attributes_for(:measure, :import_export_supplementary, geographical_area_id: 'IT')] }
+        let(:xi_import_measures) { [attributes_for(:measure, :import_export_supplementary, geographical_area_id: 'IT')] }
 
-        it { is_expected.to eq('There are no supplementary unit measures assigned to this commodity') }
+        it { is_expected.to match(/There are no supplementary units globally assigned to this commodity/) }
       end
 
       context 'when the country is provided and there are unit measures' do
