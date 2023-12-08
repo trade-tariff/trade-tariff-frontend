@@ -45,12 +45,12 @@ RSpec.describe SearchReferencesController, type: :controller do
     end
 
     context 'when looking for the relevant commodities' do
-      it 'doesn\'t renders the Mascarpone title' do
-        expect(response.body).not_to include 'Mascarpone'
+      it 'renders the Mascarpone title' do
+        expect(response.body).to include 'Mascarpone'
       end
 
-      it 'doesn\'t renders links to commodities' do
-        expect(response.body).not_to include '/commodities/0406105090'
+      it 'does renders links to commodities' do
+        expect(response.body).to include '/commodities/0406105090'
       end
     end
   end

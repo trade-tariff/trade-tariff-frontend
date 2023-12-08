@@ -31,7 +31,11 @@
           </td>
           <td class="govuk-table__cell govuk-table__cell--numeric">
            <span class="govuk-visually-hidden">Code: </span>
-            <%= segmented_commodity_code abbreviate_code(search_reference.referenced_id) %>
+            <% if search_reference.referenced_class == "Commodity" %>
+              <%= segmented_commodity_code search_reference.referenced_id %>
+            <% else %>
+              <%= segmented_commodity_code abbreviate_code(search_reference.referenced_id) %>
+            <% end %>
           </td>
         </tr>
       <% end %>

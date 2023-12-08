@@ -1,8 +1,7 @@
 class SearchReferencesController < ApplicationController
   def show
     @search_references = SearchReferencesPresenter.new(
-      SearchReference.all(query: { letter: })
-                     .reject { |ref| ref.attributes['referenced_class'] == 'Commodity' },
+      SearchReference.all(query: { letter: }),
     )
   end
 
