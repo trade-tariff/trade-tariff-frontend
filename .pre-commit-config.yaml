@@ -1,5 +1,11 @@
 ---
-files: (^terraform\/\S+)|(.pre\-commit\-config.yaml)|(.circleci\/\S+)
+files: |
+  (?x)^(
+    ^terraform\/\S+ |
+    .circleci\/\S+  |
+    .pre\-commit\-config.yaml
+  )
+
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.81.0
