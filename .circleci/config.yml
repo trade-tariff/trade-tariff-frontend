@@ -204,6 +204,15 @@ jobs:
           event: fail
           template: basic_fail_1
 
+  notify-production-deployment:
+    docker:
+      - image: cimg/ruby:3.2.2
+    steps:
+      - tariff/notify-production-release:
+          app-name: Frontend
+          slack-channel: trade_tariff
+          release-tag: $CIRCLE_TAG
+
 workflows:
   version: 2
 
@@ -233,7 +242,7 @@ workflows:
             - javascript-checks
 
       - test:
-          context: trade-tariff
+          context: trade-tariff-notifications
           <<: *filter-not-main
           requires:
             - ruby-checks
@@ -316,7 +325,7 @@ workflows:
 
       - tariff/smoketests:
           name: smoketest-staging
-          context: trade-tariff
+          context: trade-tariff-testing
           url: https://staging.trade-tariff.service.gov.uk
           yarn_run: staging-tariff-frontend-smoketests
           requires:
@@ -343,8 +352,8 @@ workflows:
 
       - tariff/create-production-release:
           name: "create-production-release"
-          context: trade-tariff
-          image-name: tariff-frontend
+          context: trade-tariff-releases
+          image-name: tariff-frontend-production
           requires:
             - promote-to-production?
           <<: *filter-main
@@ -360,4 +369,10 @@ workflows:
           environment: production
           requires:
             - write-docker-tag-prod-release
+          <<: *filter-release
+
+      - notify-production-deployment:
+          context: trade-tariff-releases
+          requires:
+            - apply-terraform-prod
           <<: *filter-release
