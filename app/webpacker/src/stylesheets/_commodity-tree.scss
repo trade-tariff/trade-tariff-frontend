@@ -348,9 +348,7 @@ article.tariff {
       clear: both;
     }
   }
-}
 
-.js-enabled {
   .commodity-tree-note em {
     @include govuk-font($size: 14, $weight: normal);
   }
@@ -421,8 +419,8 @@ article.tariff {
       }
     }
 
-   .description:hover,
-   .description-hover {
+    .description:hover,
+    .description-hover {
       color: $govuk-link-hover-colour;
     }
 
@@ -473,20 +471,22 @@ article.tariff {
       padding:$top-level-padding;
     }
   }
-}
 
-.additional-code-table {
-  @include govuk-font($size: 14);
-  @include govuk-responsive-margin(2, "bottom");
+  .additional-code-table {
+    @include govuk-font($size: 14);
+    @include govuk-responsive-margin(2, "bottom");
 
-  .govuk-table__body .govuk-table__cell {
-    padding: 0.1rem;
+    .govuk-table__body .govuk-table__cell {
+      padding: 0.1rem;
+    }
+    .govuk-table__head .govuk-table__header {
+      padding: 0.1rem;
+    }
   }
-  .govuk-table__head .govuk-table__header {
-    padding: 0.1rem;
+
+  .non-breaking-heading {
+    white-space: nowrap;
   }
 }
 
-.non-breaking-heading {
-  white-space: nowrap;
-}
+
