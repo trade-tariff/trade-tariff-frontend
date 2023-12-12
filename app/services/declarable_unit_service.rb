@@ -19,6 +19,8 @@ class DeclarableUnitService
 
     return uk_import_measures.supplementary.first&.measure_components&.first&.unit_for_classification if uk_import_measures.supplementary.any?
 
+    return I18n.t('declarable.supplementary_unit_classifications.some') if !picked_country? && uk_declarable.import_measures.excluding_channel_islands.supplementary.any?
+
     unit_measures = picked_country? ? uk_import_measures.unit : uk_import_measures.unit.erga_omnes
 
     unit_measure_units = units_for(unit_measures)
@@ -38,6 +40,8 @@ class DeclarableUnitService
                          end
 
     return xi_import_measures.supplementary.first&.measure_components&.first&.unit_for_classification if xi_import_measures.supplementary.any?
+
+    return I18n.t('declarable.supplementary_unit_classifications.some') if !picked_country? && xi_declarable.import_measures.excluding_channel_islands.supplementary.any?
 
     unit_measures = picked_country? ? xi_import_measures.unit : xi_import_measures.unit.erga_omnes
 
