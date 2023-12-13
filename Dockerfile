@@ -52,12 +52,18 @@ RUN apk add --update --no-cache tzdata && \
 WORKDIR /app
 
 ENV RAILS_SERVE_STATIC_FILES=true \
-  RAILS_ENV=production
+  RAILS_ENV=production \
+  PORT=8080 \
+  GOVUK_APP_DOMAIN="localhost" \
+  GOVUK_WEBSITE_ROOT="http://localhost/" \
+  VCAP_APPLICATION="{}"
 
 RUN bundle config set without 'development test'
 
 # Copy files generated in the builder image
 COPY --from=builder /app /app
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+
+HEALTHCHECK CMD nc -z localhost 8080
 
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
