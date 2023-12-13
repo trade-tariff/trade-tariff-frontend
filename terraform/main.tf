@@ -47,7 +47,7 @@ module "service" {
     },
     {
       name  = "BETA_SEARCH"
-      value = var.environment == "production" ? "false" : "true"
+      value = false
     },
     {
       name  = "BETA_SEARCH_HEADING_STATISTICS_THRESHOLD"
@@ -55,7 +55,7 @@ module "service" {
     },
     {
       name  = "BETA_SEARCH_SWITCHING_ENABLED"
-      value = var.beta_search_enabled
+      value = false
     },
     {
       name  = "CORS_HOST"
