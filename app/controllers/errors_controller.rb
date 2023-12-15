@@ -26,6 +26,8 @@ class ErrorsController < ApplicationController
   end
 
   def maintenance
+    # shouldn't this be service_unavailable as that's what exception is mapped to
+    # 'TradeTariffFrontend::MaintenanceMode' => :service_unavailable,
     @skip_news_banner = true
 
     respond_to do |format|
@@ -33,6 +35,38 @@ class ErrorsController < ApplicationController
       format.json { render json: { error: 'Maintenance mode' }, status: :service_unavailable }
       format.all { render status: :service_unavailable, plain: 'Maintenance mode' }
     end
+  end
+
+  def unprocessable_entity
+    @skip_news_banner = true
+
+    respond_to do |format|
+      format.html { render status: :unprocessable_entity }
+      format.json { render json: { error: 'Unprocessable entity' }, status: :unprocessable_entity }
+      format.all { render status: :unprocessable_entity, plain: 'Unprocessable entity' }
+    end
+  end
+
+  def bad_request
+    @skip_news_banner = true
+
+    respond_to do |format|
+      format.html { render status: :bad_request }
+      format.json { render json: { error: 'Bad request' }, status: :bad_request }
+      format.all { render status: :bad_request, plain: 'Bad request' }
+    end
+  end
+
+  def not_implemented
+    internal_server_error
+  end
+
+  def method_not_allowed
+    internal_server_error
+  end
+
+  def not_acceptable
+    internal_server_error
   end
 
   def search_invoked?
