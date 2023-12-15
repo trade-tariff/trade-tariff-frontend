@@ -26,8 +26,6 @@ class ErrorsController < ApplicationController
   end
 
   def maintenance
-    # shouldn't this be service_unavailable as that's what exception is mapped to
-    # 'TradeTariffFrontend::MaintenanceMode' => :service_unavailable,
     @skip_news_banner = true
 
     respond_to do |format|
