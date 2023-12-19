@@ -2,7 +2,7 @@ class Commodity < GoodsNomenclature
   include Changeable
   include Declarable
 
-  attr_accessor :parent_sid
+  attr_accessor :parent_sid, :ancestor_descriptions, :score
 
   has_one :heading
   # vat_measure is used for commodities under the heading only

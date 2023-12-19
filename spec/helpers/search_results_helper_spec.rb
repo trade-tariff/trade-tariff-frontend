@@ -1,6 +1,24 @@
 require 'spec_helper'
 
 RSpec.describe SearchResultsHelper, type: :helper do
+  describe '#descriptions_with_other_handling' do
+    subject(:descriptions_with_other_handling) { helper.descriptions_with_other_handling(commodity) }
+
+    context 'when the commodity description is "other"' do
+      let(:commodity) { build(:commodity, :with_other_ancestor_descriptions) }
+
+      it { is_expected.to eq('Live horses, asses, mules and hinnies &gt; Other &gt; Other &gt; <strong>Other</strong>') }
+      it { is_expected.to be_html_safe }
+    end
+
+    context 'when the commodity description is not "other"' do
+      let(:commodity) { build(:commodity, :with_ancestor_descriptions) }
+
+      it { is_expected.to eq('Horses') }
+      it { is_expected.to be_html_safe }
+    end
+  end
+
   describe '#toggle_beta_search_inset_text' do
     subject(:toggle_beta_search_inset_text) { helper.toggle_beta_search_inset_text }
 

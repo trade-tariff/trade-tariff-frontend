@@ -18,6 +18,10 @@ class Search
       }
     end
 
+    def commodities
+      (reference_commodities + goods_nomenclature_commodities).sort_by(&:score).reverse
+    end
+
     def any?
       (goods_nomenclature_match.present? && goods_nomenclature_match.any?) ||
         (reference_match.present? && reference_match.any?)
@@ -96,5 +100,15 @@ class Search
     end
 
     delegate :size, to: :all
+
+    private
+
+    def reference_commodities
+      reference_match.commodities.presence || []
+    end
+
+    def goods_nomenclature_commodities
+      goods_nomenclature_match.commodities.presence || []
+    end
   end
 end

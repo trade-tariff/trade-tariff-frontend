@@ -32,6 +32,7 @@ class Search
       resource_id:,
     )
     response = TariffJsonapiParser.new(response.body).parse
+
     Outcome.new(response)
   end
 
