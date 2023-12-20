@@ -64,11 +64,11 @@
               <td class="govuk-table__cell">
                 <ul class="govuk-list">
                   <li>
-                    <a href=<%= scheme.agreement_link %> target="_blank">View agreement details</a>
+                    <a href=<%= scheme.agreement_link %> target="_blank" rel="noopener noreferrer">View agreement details</a>
                   </li>
                   <% if scheme.origin_reference_document&.ord_original&.present? %>
                     <li>
-                      <a href=<%= scheme.origin_reference_document.document_path %> target="_blank">View origin reference document</a>
+                      <a href=<%= scheme.origin_reference_document.document_path %> target="_blank" rel="noopener noreferrer">View origin reference document</a>
                     </li>
                   <% end %>
                 </ul>
