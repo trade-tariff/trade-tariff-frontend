@@ -1,14 +1,14 @@
 <%= page_header "Search results for &lsquo;#{h @search.q}&rsquo;".html_safe %>
 <article class="search-results govuk-!-padding-top-1">
   <% if @results.any? %>
-    <% if @results.reference_match.commodities.any? %>
+    <% if @results.commodities.any? %>
       <table class="govuk-table govuk-!-padding-bottom-7">
         <colgroup>
           <col width="*">
           <col width="180">
         </colgroup>
         <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-6">
-          Commodities matching &lsquo;<%= @search %>&rsquo;
+          Best commodity matches for &lsquo;<%= @search %>&rsquo;
         </caption>
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <%= render partial: 'search/commodity', collection: @results.reference_match.commodities %>
+          <%= render partial: 'search/commodity', collection: @results.commodities %>
         </tbody>
       </table>
     <% end %>

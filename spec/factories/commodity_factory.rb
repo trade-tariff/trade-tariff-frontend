@@ -26,6 +26,7 @@ FactoryBot.define do
     overview_measures { [] }
     import_trade_summary {}
     ancestors { [] }
+    ancestor_descriptions { [] }
 
     meta do
       {
@@ -172,6 +173,16 @@ FactoryBot.define do
 
     trait :without_ancestors do
       ancestors { [] }
+    end
+
+    trait :with_ancestor_descriptions do
+      description { 'Horses' }
+      ancestor_descriptions { ['Live animals', 'Live horses, asses, mules and hinnies', 'Horses'] }
+    end
+
+    trait :with_other_ancestor_descriptions do
+      description { 'Other' }
+      ancestor_descriptions { ['Live animals', 'Live horses, asses, mules and hinnies', 'Other', 'Other', 'Other'] }
     end
   end
 end

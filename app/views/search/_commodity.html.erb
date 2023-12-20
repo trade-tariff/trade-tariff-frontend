@@ -1,10 +1,15 @@
 <tr class="govuk-table__row">
-  <td class="govuk-table__cell">
+  <td class="govuk-table__cell commodity-result">
     <a href="<%= commodity_path(commodity) %>" aria-describedby="code-for-commodity-<%= commodity.id %>">
-      <%= sanitize commodity.description %>
+      <% if commodity.ancestor_descriptions.present? %>
+        <%= descriptions_with_other_handling(commodity) %>
+      <% else %>
+        <%= sanitize commodity.description %>
+      <% end %>
+
       <span class="govuk-visually-hidden">
         (code <%= commodity.code %>)
-      </span>    
+      </span>
     </a>
   </td>
 

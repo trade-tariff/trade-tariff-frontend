@@ -12,7 +12,12 @@ class Search
     array_attr_writer :sections, :chapters, :headings, :commodities
 
     def commodities=(commodity_data)
-      @commodities = commodity_data.map { |cd| Commodity.new(cd['_source']) }
+      @commodities = commodity_data.map do |cd|
+        attributes = cd['_source']
+        attributes['score'] = cd['_score'] if cd['_score'].present?
+
+        Commodity.new(attributes)
+      end
 
       self.commodity_headings = @commodities
     end
