@@ -19,7 +19,10 @@ class Search
     end
 
     def commodities
-      (reference_commodities + goods_nomenclature_commodities).sort_by(&:score).reverse
+      (reference_commodities + goods_nomenclature_commodities)
+        .sort_by(&:score)
+        .reverse
+        .filter(&:declarable)
     end
 
     def any?

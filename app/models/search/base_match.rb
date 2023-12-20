@@ -17,12 +17,12 @@ class Search
 
       def array_attr_writer(*names)
         names.each do |name|
+          klass = name.to_s.singularize.capitalize.constantize
+
           define_method("#{name}=") do |entry_data|
             instance_variable_set(
               "@#{name}",
               entry_data.map do |ed|
-                klass = name.to_s.singularize.capitalize.constantize
-
                 attributes = if ed['_source'].key?('reference')
                                ed['_source']['reference']
                              else
