@@ -159,7 +159,7 @@ module TradeTariffFrontend
   end
 
   def legacy_results_to_show
-    ENV['LEGACY_RESULTS_TO_SHOW'].to_i || 5
+    ENV.fetch('LEGACY_RESULTS_TO_SHOW', '5').to_i
   end
 
   class FilterBadURLEncoding
