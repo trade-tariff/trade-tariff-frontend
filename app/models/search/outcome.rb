@@ -23,6 +23,7 @@ class Search
         .sort_by(&:score)
         .reverse
         .filter(&:declarable)
+        .first(TradeTariffFrontend.legacy_results_to_show)
     end
 
     def any?
