@@ -17,7 +17,7 @@ class ExchangeRates::ExchangeRate
     validity_start_date&.to_date&.to_fs(:short)
   end
 
-  def formatted_validity_end_datee
+  def formatted_validity_end_date
     return 'n/a' if validity_end_date.blank?
 
     validity_end_date&.to_date&.to_fs(:short)

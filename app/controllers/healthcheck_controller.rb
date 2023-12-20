@@ -8,9 +8,6 @@ class HealthcheckController < ActionController::Base
 
   def check
     # Check API connectivity
-
-    raise ActionController::InvalidAuthenticityToken
-    
     Section.all(headers: original_ua_headers)
     render json: { git_sha1: CURRENT_REVISION }
   end
