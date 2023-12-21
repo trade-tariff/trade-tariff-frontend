@@ -11,11 +11,10 @@ RUN apk add --update --no-cache build-base git yarn tzdata && \
   cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
   echo "Europe/London" > /etc/timezone
 
-RUN bundle config set without 'development test'
-
 # Install gems defined in Gemfile
 COPY .ruby-version Gemfile Gemfile.lock /app/
-RUN bundle install --jobs=4 --no-binstubs
+RUN bundle config set without 'development test'
+RUN bundle install --jobs=4 --no-binstubs --retry=3
 
 # Install node packages defined in package.json, including webpack
 COPY package.json yarn.lock /app/
@@ -56,7 +55,8 @@ ENV RAILS_SERVE_STATIC_FILES=true \
   PORT=8080 \
   GOVUK_APP_DOMAIN="localhost" \
   GOVUK_WEBSITE_ROOT="http://localhost/" \
-  VCAP_APPLICATION="{}"
+  VCAP_APPLICATION="{}" \
+  SECRET_KEY_BASE="0620b2907b1cee61dbcf5cbbf4125c04bf5db3554c66589d40a9349b5abd5463a40f4a1a8c2db9b07c13715340ee3c94bbc24b1adb3140a20f702e9dc3d4fc0c"
 
 RUN bundle config set without 'development test'
 
@@ -64,6 +64,13 @@ RUN bundle config set without 'development test'
 COPY --from=builder /app /app
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 
+RUN addgroup -S tariff && \
+  adduser -S tariff -G tariff && \
+  chown -R tariff:tariff /app && \
+  chown -R tariff:tariff /usr/local/bundle
+
 HEALTHCHECK CMD nc -z localhost 8080
+
+USER tariff
 
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
