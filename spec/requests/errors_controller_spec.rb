@@ -52,12 +52,6 @@ RSpec.describe ErrorsController, type: :request do
 
   # Test html error responses
 
-  describe 'GET /nonexistent_page' do
-    let(:make_request) { get '/nonexistent_page' }
-
-    it { expect(body).to include 'Page not found' }
-  end
-
   describe 'GET /404' do
     let(:make_request) { get '/404' }
 

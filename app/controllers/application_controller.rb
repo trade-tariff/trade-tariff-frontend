@@ -57,6 +57,10 @@ class ApplicationController < ActionController::Base
     @no_shared_search = true
   end
 
+  def skip_news_banner
+    @skip_news_banner = true
+  end
+
   def disable_last_updated_footnote
     @tariff_last_updated = nil
   end

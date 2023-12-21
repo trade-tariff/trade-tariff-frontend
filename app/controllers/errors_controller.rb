@@ -5,7 +5,9 @@ class ErrorsController < ApplicationController
   skip_before_action :set_search
   skip_before_action :bots_no_index_if_historical
 
-  before_action :disable_search_form, :disable_switch_service_banner
+  before_action :disable_search_form,
+                :disable_switch_service_banner,
+                :skip_news_banner
 
   # 404
   def not_found
@@ -18,8 +20,6 @@ class ErrorsController < ApplicationController
 
   # 422
   def unprocessable_entity
-    @skip_news_banner = true
-
     message = "We're sorry, but we cannot process your request at this time.<br>
                Please contact support for assistance or try a different request.".html_safe
 
@@ -32,8 +32,6 @@ class ErrorsController < ApplicationController
 
   # 500
   def internal_server_error
-    @skip_news_banner = true
-
     message = 'We are experiencing technical difficulties'
 
     respond_to do |format|
@@ -45,8 +43,6 @@ class ErrorsController < ApplicationController
 
   # 400
   def bad_request
-    @skip_news_banner = true
-
     message = "The request you made is not valid.<br>
                Please contact support for assistance or try a different request.".html_safe
 
@@ -59,8 +55,6 @@ class ErrorsController < ApplicationController
 
   # 405
   def method_not_allowed
-    @skip_news_banner = true
-    # message for method not allowed
     message = "We're sorry, but this request method is not supported.<br>
                Please contact support for assistance or try a different request.".html_safe
 
@@ -73,8 +67,6 @@ class ErrorsController < ApplicationController
 
   # 406
   def not_acceptable
-    @skip_news_banner = true
-
     message = "Unfortunately, we cannot fulfill your request as it is not in a format we can accept.<br>
                Please contact support for assistance or try a different request.".html_safe
 
@@ -87,8 +79,6 @@ class ErrorsController < ApplicationController
 
   # 501
   def not_implemented
-    @skip_news_banner = true
-
     message = 'We\'re sorry, but the requested action is not supported by our server at this time.<br>
                Please contact support for assistance or try a different request.'.html_safe
 
@@ -101,8 +91,6 @@ class ErrorsController < ApplicationController
 
   # 503
   def maintenance
-    @skip_news_banner = true
-
     respond_to do |format|
       format.html { render status: :service_unavailable }
       format.json { render json: { error: 'Maintenance mode' }, status: :service_unavailable }

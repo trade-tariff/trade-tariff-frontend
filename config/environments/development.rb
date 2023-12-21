@@ -15,7 +15,7 @@ Rails.application.configure do
   config.action_dispatch.show_exceptions = true
 
   # Show full error reports.
-  config.consider_all_requests_local = false
+  config.consider_all_requests_local = true
 
   # Enable server timing
   config.server_timing = true
