@@ -11,6 +11,9 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # Raise exceptions instead of rendering exception templates.
+  config.action_dispatch.show_exceptions = true
+
   # Show full error reports.
   config.consider_all_requests_local = true
 

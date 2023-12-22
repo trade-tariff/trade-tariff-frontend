@@ -93,19 +93,21 @@ RSpec.describe PagesController, type: :request do
     context 'when howto does not exist' do
       let(:howto) { 'non-existent' }
 
-      it { expect { do_request }.to raise_error(ActionController::RoutingError) }
+      it { expect(do_request).to have_http_status(:not_found) }
     end
 
     context 'when howto format is html' do
       let(:howto) { 'origin.html' }
 
-      it { expect { do_request }.not_to raise_error }
+      it { expect(do_request.body).to include 'What is origin?' }
     end
 
     context 'when howto format is not html' do
       let(:howto) { 'origin.json' }
 
-      it { expect { do_request }.to raise_error(ActionController::RoutingError) }
+      it 'returns resource not found' do
+        expect(JSON.parse(do_request.body)).to eq('error' => 'Resource not found')
+      end
     end
   end
 end

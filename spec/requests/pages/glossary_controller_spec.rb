@@ -18,9 +18,11 @@ RSpec.describe Pages::GlossaryController, type: :request do
     end
 
     context 'with unknown page' do
-      let(:fetch_page) { get glossary_term_path('unknown_page') }
+      before do
+        get glossary_term_path('unknown_page')
+      end
 
-      it { expect { fetch_page }.to raise_exception Pages::Glossary::UnknownPage }
+      it { expect(response).to have_http_status(:internal_server_error) }
     end
   end
 end
