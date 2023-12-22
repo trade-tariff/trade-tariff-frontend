@@ -82,8 +82,6 @@ RSpec.describe 'Error handling' do
   end
 
   describe 'rescued exceptions' do
-    include_context 'with rescued exceptions'
-
     context 'with unknown url' do
       before { visit '/unknown' }
 
