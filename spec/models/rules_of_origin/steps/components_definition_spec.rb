@@ -6,5 +6,6 @@ RSpec.describe RulesOfOrigin::Steps::ComponentsDefinition do
 
   it_behaves_like 'an article accessor', :neutral_elements_text, 'neutral-elements'
   it_behaves_like 'an article accessor', :packaging_text, 'packaging'
+  it_behaves_like 'an article accessor', :packaging_retail_text, 'packaging_retail'
   it_behaves_like 'an article accessor', :accessories_text, 'accessories'
 end
