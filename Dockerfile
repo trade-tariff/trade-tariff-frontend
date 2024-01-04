@@ -66,7 +66,7 @@ RUN addgroup -S tariff && \
   chown -R tariff:tariff /app && \
   chown -R tariff:tariff /usr/local/bundle
 
-HEALTHCHECK CMD nc -z localhost 8080
+HEALTHCHECK CMD nc -z 0.0.0.0 $PORT
 
 USER tariff
 
