@@ -7,16 +7,10 @@ class Feedback
 
   include ActiveModel::Model
 
-  attr_accessor :message, :name, :email, :telephone, :authenticity_token
+  attr_accessor :message, :telephone, :authenticity_token
 
   validates :message, presence: true,
                       length: { minimum: 10, maximum: 500 }
-
-  validates :name, length: { maximum: 100 }
-
-  validates :email, length: { maximum: 100 },
-                    format: { with: URI::MailTo::EMAIL_REGEXP },
-                    allow_blank: true
 
   validates :authenticity_token, presence: true,
                                  length: { minimum: 50, maximum: 100 }

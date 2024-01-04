@@ -1,7 +1,3 @@
 <p>Hello,</p>
 
 <p><%= @message %></p>
-
-<% if @name || @email %>
-  <p>Contact details: <%= [@name, @email].map(&:presence).compact.join(', ') %></p>
-<% end %>
