@@ -53,8 +53,6 @@ WORKDIR /app
 ENV RAILS_SERVE_STATIC_FILES=true \
   RAILS_ENV=production \
   PORT=8080 \
-  GOVUK_APP_DOMAIN="localhost" \
-  GOVUK_WEBSITE_ROOT="http://localhost/" \
   VCAP_APPLICATION="{}"
 
 RUN bundle config set without 'development test'
