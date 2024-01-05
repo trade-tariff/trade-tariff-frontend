@@ -142,8 +142,8 @@ module "service" {
       value = "https://www.tax.service.gov.uk/ask-hmrc/chat/trade-tariff"
     },
     {
-      name  = "VCAP_APPLICATION"
-      value = "{}"
+      name  = "ENVIRONMENT"
+      value = var.environment
     },
   ]
 

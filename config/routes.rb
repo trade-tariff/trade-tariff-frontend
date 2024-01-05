@@ -49,7 +49,6 @@ Rails.application.routes.draw do
     query ? "#{url}?#{query}" : url
   }
 
-  get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
   get 'healthcheck', to: 'healthcheck#check'
   get 'healthcheckz', to: 'healthcheck#checkz'
 
@@ -207,7 +206,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/sections', status: 302)
+  get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
 
   get '/robots.:format', to: 'pages#robots'
   match '/400', to: 'errors#bad_request', via: :all

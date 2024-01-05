@@ -40,7 +40,7 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store,
-                       PaasConfig.redis.merge({
+                       TradeTariffFrontend.redis_config.merge({
                          expires_in: 1.day,
                          namespace: ENV['GOVUK_APP_DOMAIN'],
                          pool_size: Integer(ENV['MAX_THREADS'] || 5),
@@ -71,9 +71,7 @@ Rails.application.configure do
   config.lograge.custom_options = lambda do |event|
     {
       params: event.payload[:params].except('controller', 'action', 'format', 'utf8'),
-    }.merge(
-      JSON.parse(ENV['VCAP_APPLICATION']).except('application_uris', 'host', 'application_name', 'space_id', 'port', 'uris', 'application_version'),
-    )
+    }
   end
 
   config.lograge.ignore_actions = [
