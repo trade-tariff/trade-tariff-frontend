@@ -1,5 +1,3 @@
-require 'paas_config'
-
 module TradeTariffFrontend
   autoload :BasicAuth,      'trade_tariff_frontend/basic_auth'
   autoload :Presenter,      'trade_tariff_frontend/presenter'
@@ -66,7 +64,15 @@ module TradeTariffFrontend
   end
 
   def production?
-    ENV['GOVUK_APP_DOMAIN'] == 'tariff-frontend-production.london.cloudapps.digital'
+    environment == 'production'
+  end
+
+  def environment
+    ENV.fetch('ENVIRONMENT', Rails.env)
+  end
+
+  def redis_config
+    { url: ENV['REDIS_URL'], db: 0, id: nil }
   end
 
   # Number of suggestions returned to select2
