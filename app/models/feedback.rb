@@ -7,7 +7,7 @@ class Feedback
 
   include ActiveModel::Model
 
-  attr_accessor :message, :telephone, :authenticity_token
+  attr_accessor :message, :telephone, :authenticity_token, :referrer
 
   validates :message, presence: true,
                       length: { minimum: 10, maximum: 500 }

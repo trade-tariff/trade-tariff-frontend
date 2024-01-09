@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :feedback do
     message { 'Hello world' }
+    referrer { 'https://example.com' }
 
     trait :with_authenticity_token do
       authenticity_token do
