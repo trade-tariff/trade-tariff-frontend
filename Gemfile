@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-ruby File.read('.ruby-version')
+ruby file: '.ruby-version'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 7.0'
+gem 'rails', '~> 7.1'
 
 gem 'addressable'
 gem 'faraday', '~> 2'
@@ -16,7 +16,7 @@ gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
 gem 'multi_json'
 gem 'net-http-persistent'
-gem 'routing-filter', github: 'svenfuchs/routing-filter'
+gem 'routing-filter', github: 'trade-tariff/routing-filter'
 gem 'yajl-ruby'
 
 # Assets
