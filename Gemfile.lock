@@ -10,11 +10,11 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/routing-filter.git
-  revision: e8b0ad1b57cb8c51ec2007e4d25b0c00f337b2a7
+  revision: 2de69fcaaca7c0aa1fa1a572e8f01305c8b80e3e
   specs:
-    routing-filter (0.7.2)
-      actionpack (>= 6.1)
-      activesupport (>= 6.1)
+    routing-filter (1.0.0)
+      actionpack (>= 7.1)
+      activesupport (>= 7.1)
 
 GEM
   remote: https://rubygems.org/
