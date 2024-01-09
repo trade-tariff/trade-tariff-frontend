@@ -60,6 +60,7 @@ module TradeTariffFrontend
       bulk_searches
       exchange_rates
       updates
+      green_lanes
     ]
   end
 
