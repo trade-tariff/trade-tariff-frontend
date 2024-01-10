@@ -147,8 +147,11 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
       'HTTP_AUTHORIZATION' => 'Test',
     })
 
-    request(:get, "#{host}#{request_path}")
-      .with(headers: { 'Authorization' => 'Test' }).should have_been_made.once
+    # request(:get, "#{host}#{request_path}")
+    #   .with(headers: { 'Authorization' => 'Test' }).should have_been_made.once
+
+    WebMock.should have_requested(:get, "#{host}#{request_path}")
+      .with(headers: { 'Authorization' => 'Test' }).once
   end
 
   it 'does not add empty authorisation header if it does not exist in client request' do
@@ -162,8 +165,11 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
 
     middleware.call env_for(request_path)
 
-    request(:get, "#{host}#{request_path}")
-      .with(headers: { 'Authorization' => '' }).should_not have_been_made
+    # request(:get, "#{host}#{request_path}")
+    #   .with(headers: { 'Authorization' => '' }).should_not have_been_made
+
+    WebMock.should_not have_requested(:get, "#{host}#{request_path}")
+       .with(headers: { 'Authorization' => '' }).should_not have_been_made
   end
 
   def env_for(url, opts = {})
