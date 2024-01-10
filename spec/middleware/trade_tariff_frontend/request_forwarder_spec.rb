@@ -147,10 +147,7 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
       'HTTP_AUTHORIZATION' => 'Test',
     })
 
-    # request(:get, "#{host}#{request_path}")
-    #   .with(headers: { 'Authorization' => 'Test' }).should have_been_made.once
-
-    WebMock.should have_requested(:get, "#{host}#{request_path}")
+    expect(WebMock).to have_requested(:get, "#{host}#{request_path}")
       .with(headers: { 'Authorization' => 'Test' }).once
   end
 
@@ -165,11 +162,8 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
 
     middleware.call env_for(request_path)
 
-    # request(:get, "#{host}#{request_path}")
-    #   .with(headers: { 'Authorization' => '' }).should_not have_been_made
-
-    WebMock.should_not have_requested(:get, "#{host}#{request_path}")
-       .with(headers: { 'Authorization' => '' }).should_not have_been_made
+    expect(WebMock).not_to have_requested(:get, "#{host}#{request_path}")
+       .with(headers: { 'Authorization' => '' })
   end
 
   def env_for(url, opts = {})
