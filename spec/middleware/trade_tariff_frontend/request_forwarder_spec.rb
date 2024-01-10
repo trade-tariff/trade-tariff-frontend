@@ -134,6 +134,40 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
     TradeTariffFrontend::ServiceChooser.service_choice = nil
   end
 
+  it 'add adds authorisation header if it exist in client request' do
+    stub_request(:get, "#{host}#{request_path}")
+      .with(headers: { 'Accept' => 'application/vnd.uktt.sections' })
+      .to_return(
+        status: 200,
+        body: response_body,
+        headers: { 'Content-Length' => response_body.size },
+        )
+
+    middleware.call env_for(request_path, opts = {
+      'HTTP_AUTHORIZATION' => 'Test'
+    })
+
+    request(:get, "#{host}#{request_path}").
+      with(:headers => { 'Authorization' => 'Test' }).should have_been_made.once
+
+  end
+
+  it 'does not add empty authorisation header if it does not exist in client request' do
+    stub_request(:get, "#{host}#{request_path}")
+      .with(headers: { 'Accept' => 'application/vnd.uktt.sections' })
+      .to_return(
+        status: 200,
+        body: response_body,
+        headers: { 'Content-Length' => response_body.size },
+        )
+
+    middleware.call env_for(request_path)
+
+    request(:get, "#{host}#{request_path}").
+      with(:headers => { 'Authorization' => '' }).should_not have_been_made
+
+  end
+
   def env_for(url, opts = {})
     Rack::MockRequest.env_for(url, opts)
   end
