@@ -130,6 +130,28 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
     end
   end
 
+  describe '#insert_ord_url' do
+    context 'with matching ord placeholder in content' do
+      subject { helper.insert_ord_url content, ord, placeholder }
+
+      let(:content) { '{ord_url}' }
+      let(:ord) { build(:rules_of_origin_origin_reference_document) }
+      let(:placeholder) { '{ord_url}' }
+
+      it { is_expected.to eq '<a href="/roo_origin_reference_documents/211203_ORD_Japan_V1.1.odt">origin reference document</a>' }
+    end
+
+    context 'without matching ord placeholder in content' do
+      subject { helper.insert_ord_url content, ord, placeholder }
+
+      let(:content) { 'foo' }
+      let(:ord) { build(:rules_of_origin_origin_reference_document) }
+      let(:placeholder) { '{ord_url}' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '#restrict_wrapping' do
     subject { helper.restrict_wrapping content }
 

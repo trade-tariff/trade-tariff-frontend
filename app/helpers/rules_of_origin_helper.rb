@@ -57,6 +57,11 @@ module RulesOfOriginHelper
     content.scan(/{{(.*)}}/i).first&.first if content
   end
 
+  def insert_ord_url(content, ord, placeholder)
+    url = link_to 'origin reference document', asset_path(ord.document_path)
+    content.gsub!(placeholder, url)
+  end
+
   def restrict_wrapping(content)
     safe_content = html_escape(content)
 

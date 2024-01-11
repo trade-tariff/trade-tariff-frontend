@@ -6,6 +6,7 @@
   </summary>
   <div class="govuk-details__text">
     <% if defined?(origin_reference_document) && origin_reference_document %>
+      <% insert_ord_url content, origin_reference_document, "{ord_url}" %>
       <%= govspeak remove_article_reference(content) %>
       <%= render 'shared/origin_reference_document', origin_reference_document: origin_reference_document,
                                                     article_match: find_article_reference(content) if find_article_reference(content) %>
