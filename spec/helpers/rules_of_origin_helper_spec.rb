@@ -138,7 +138,6 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
       let(:ord) { build(:rules_of_origin_origin_reference_document) }
 
       it { is_expected.to have_link 'Origin Reference Document', href: '/roo_origin_reference_documents/211203_ORD_Japan_V1.1.odt' }
-
     end
 
     context 'without matching ord placeholder in content' do
