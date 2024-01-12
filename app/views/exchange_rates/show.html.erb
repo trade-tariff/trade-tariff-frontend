@@ -26,74 +26,78 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= page_header "#{@exchange_rate_collection.month_and_year_name} #{@exchange_rate_collection.type} exchange rates" %>
+    <% if @exchange_rate_collection.exchange_rates.length > 0 %>
+      <%= page_header "#{@exchange_rate_collection.month_and_year_name} #{@exchange_rate_collection.type} exchange rates" %>
 
-    <p class="govuk-body-l">
-      Official <%= @exchange_rate_collection.month_and_year_name %> HMRC foreign currency exchange <%= @exchange_rate_collection.type %> rates.
-    </p>
+      <p class="govuk-body-l">
+        Official <%= @exchange_rate_collection.month_and_year_name %> HMRC foreign currency exchange <%= @exchange_rate_collection.type %> rates.
+      </p>
 
-    <% if @exchange_rate_collection.exchange_rate_files.any? %>
-      <%= render partial: 'exchange_rates/download_files', locals: { files: @exchange_rate_collection.exchange_rate_files } %>
-    <% end %>
+      <% if @exchange_rate_collection.exchange_rate_files.any? %>
+        <%= render partial: 'exchange_rates/download_files', locals: { files: @exchange_rate_collection.exchange_rate_files } %>
+      <% end %>
 
-    <table class="govuk-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">
-            Country/territory
-          </th>
-
-          <th scope="col" class="govuk-table__header">
-            Currency
-          </th>
-
-          <th scope="col" class="govuk-table__header">
-            Currency code
-          </th>
-
-          <th scope="col" class="govuk-table__header govuk-table__header--numeric">
-            Currency units per £1
-          </th>
-
-          <th scope="col" class="govuk-table__header">
-            Start date
-          </th>
-
-          <th scope="col" class="govuk-table__header">
-            End date
-          </th>
-        </tr>
-      </thead>
-
-      <tbody class="govuk-table__body">
-        <% @exchange_rate_collection.exchange_rates.each do |exchange_rate| %>
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
-              <%= exchange_rate.country %>
-            </td>
+            <th scope="col" class="govuk-table__header">
+              Country/territory
+            </th>
 
-            <td class="govuk-table__cell">
-              <%= exchange_rate.currency_description %>
-            </td>
+            <th scope="col" class="govuk-table__header">
+              Currency
+            </th>
 
-            <td class="govuk-table__cell">
-              <%= exchange_rate.currency_code.upcase %>
-            </td>
+            <th scope="col" class="govuk-table__header">
+              Currency code
+            </th>
 
-            <td class="govuk-table__cell govuk-table__cell govuk-table__cell--numeric">
-              <%= exchange_rate.rate %>
-            </td>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+              Currency units per £1
+            </th>
 
-            <td class="govuk-table__cell">
-              <%= exchange_rate.formatted_validity_start_date %>
-            </td>
+            <th scope="col" class="govuk-table__header">
+              Start date
+            </th>
 
-            <td class="govuk-table__cell">
-              <%= exchange_rate.formatted_validity_end_date %>
-            </td>
+            <th scope="col" class="govuk-table__header">
+              End date
+            </th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody class="govuk-table__body">
+          <% @exchange_rate_collection.exchange_rates.each do |exchange_rate| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <%= exchange_rate.country %>
+              </td>
+
+              <td class="govuk-table__cell">
+                <%= exchange_rate.currency_description %>
+              </td>
+
+              <td class="govuk-table__cell">
+                <%= exchange_rate.currency_code.upcase %>
+              </td>
+
+              <td class="govuk-table__cell govuk-table__cell govuk-table__cell--numeric">
+                <%= exchange_rate.rate %>
+              </td>
+
+              <td class="govuk-table__cell">
+                <%= exchange_rate.formatted_validity_start_date %>
+              </td>
+
+              <td class="govuk-table__cell">
+                <%= exchange_rate.formatted_validity_end_date %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <%= page_header "There are no #{@exchange_rate_collection.type} exchange rates for the year specified." %>
+    <% end %>
   </div>
 </div>
