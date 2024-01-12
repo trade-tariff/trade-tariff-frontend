@@ -58,7 +58,7 @@ module RulesOfOriginHelper
   end
 
   def replace_ord_url(content, ord)
-    content.gsub("{ord_url}", asset_path(ord.document_path))
+    content.gsub('{ord_url}', asset_path(ord.document_path))
   end
 
   def restrict_wrapping(content)

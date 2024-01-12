@@ -144,10 +144,10 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
     context 'without matching ord placeholder in content' do
       subject { helper.replace_ord_url content, ord }
 
-      let(:content) { '{foo}' }
+      let(:content) { 'foo' }
       let(:ord) { build(:rules_of_origin_origin_reference_document) }
 
-      it { is_expected.to eq '{foo}' }
+      it { is_expected.to eq 'foo' }
     end
   end
 
