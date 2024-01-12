@@ -57,9 +57,8 @@ module RulesOfOriginHelper
     content.scan(/{{(.*)}}/i).first&.first if content
   end
 
-  def insert_ord_url(content, ord, placeholder)
-    url = link_to 'origin reference document', asset_path(ord.document_path)
-    content.gsub!(placeholder, url)
+  def replace_ord_url(content, ord)
+    content.gsub("{ord_url}", asset_path(ord.document_path))
   end
 
   def restrict_wrapping(content)
