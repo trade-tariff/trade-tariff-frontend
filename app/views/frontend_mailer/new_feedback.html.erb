@@ -2,6 +2,6 @@
 
 <p><%= @message %></p>
 
-<% if @name || @email %>
-  <p>Contact details: <%= [@name, @email].map(&:presence).compact.join(', ') %></p>
+<% if @url %>
+  <p>URL: <%= @url %></p>
 <% end %>
