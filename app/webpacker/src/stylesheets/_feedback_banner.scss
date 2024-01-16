@@ -1,0 +1,25 @@
+.tariff-feedback-banner {
+  background-color: govuk-colour("white");
+
+  .phase-tag {
+    color: govuk-colour("white");
+    background-color: govuk-colour("blue");
+    letter-spacing: 1px;
+    padding: 1px 4px 0;
+    margin: 0 5px 0 0;
+  }
+
+  .phase-banner {
+    border-bottom: 1px solid #bfc1c3;
+  }
+
+  p {
+    @include govuk-font($size: 16);
+    margin-bottom: 0;
+  }
+
+  .govuk-width-container {
+    padding-top: govuk-spacing(4);
+    padding-bottom: govuk-spacing(2);
+  }
+}
