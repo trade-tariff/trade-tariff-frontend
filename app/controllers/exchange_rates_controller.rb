@@ -16,7 +16,6 @@ class ExchangeRatesController < ApplicationController
       "#{year}-#{month}",
       filter: { type: },
     )
-    @display_exchange_rates = @exchange_rate_collection.exchange_rates.length > 0
   end
 
   private
