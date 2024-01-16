@@ -355,12 +355,7 @@ en:
           attributes:
             message:
               blank: Enter your feedback
-              too_long: The feedback must be %{count} characters or fewer
-            name:
-              too_long: The name must be %{count} characters or fewer
-            email:
-              invalid: Enter an email address in the correct format, like name@example.com
-              too_long: The email must be %{count} characters or fewer
+              too_long: Edit your response to under %{count} characters
 
         rules_of_origin/steps/scheme:
           attributes:

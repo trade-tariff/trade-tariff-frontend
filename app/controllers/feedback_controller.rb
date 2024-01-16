@@ -4,12 +4,14 @@ class FeedbackController < ApplicationController
                 :disable_last_updated_footnote
 
   def new
+    session[:feedback_referrer] = request.referer
     @feedback = Feedback.new
   end
 
   def create
     @feedback = Feedback.new(feedback_params)
     @feedback.authenticity_token = params[:authenticity_token]
+    @feedback.referrer = session[:feedback_referrer]
 
     if @feedback.valid?
       FrontendMailer.new_feedback(@feedback).deliver_now
@@ -21,11 +23,13 @@ class FeedbackController < ApplicationController
     end
   end
 
-  def thanks; end
+  def thanks
+    @referrer = session.delete(:feedback_referrer)
+  end
 
   private
 
   def feedback_params
-    params.require(:feedback).permit(:name, :email, :message, :telephone)
+    params.require(:feedback).permit(:message, :telephone)
   end
 end
