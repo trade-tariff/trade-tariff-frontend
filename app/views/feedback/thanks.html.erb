@@ -10,9 +10,18 @@
 
 <div class="govuk-panel govuk-panel--confirmation">
   <h1 class="govuk-panel__title">
-    Thank you for your feedback.
+    Feedback submitted
   </h1>
-  <div class="govuk-panel__body">
-    We will get back to you shortly.
-  </div>
 </div>
+
+<p>Thank you for your valuable feedback.</p>
+
+<h2>What happens next</h2>
+
+<p>We’ve sent your feedback to the Online Trade Tariff team</p>
+
+<% if @referrer.present? %>
+  <p>
+    <a href=<%= @referrer %>>Return to page</a>
+  </p>
+<% end %>

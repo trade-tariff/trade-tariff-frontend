@@ -10,34 +10,21 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <%= page_header 'Send your feedback' %>
+    <%= page_header 'Give feedback on Online Trade Tariff' %>
 
     <p class="form-hint govuk-hint">
-      Don't include any personal information. This form is for submitting feedback on the website. If you have a question
-      related to classifying a good then
-      <%= link_to 'please contact HMRC', 'https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods', target: '_blank' %>.
-      If you have a complaint about the phone service then
-      <%= link_to 'please see this page', 'https://www.gov.uk/guidance/complain-to-hm-revenue-and-customs', target: '_blank' %>.
+      Tell us how to improve our service.<br>
+      Feedback is anonymous. Do not include any personal information.
     </p>
 
     <%= form_for @feedback, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_text_area :message,
-                            label: { text: 'Did something go wrong? What went well? How can we improve the service?' },
+                            label: nil,
                             max_chars: 500 %>
 
-      <p class="form-hint govuk-hint">
-        Optionally, leave your contact details, so that we can get back to you in response to your feedback.
+      <p class="form-hint">
+        If you have any questions or need assistance, <%= link_to 'contact HMRC', 'https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods', target: '_blank' %>.
       </p>
-
-      <%= f.govuk_text_field :name,
-                             label: { text: 'Name (optional)' },
-                             width: 20,
-                             max_chars: 100 %>
-
-      <%= f.govuk_text_field :email,
-                             label: { text: 'Email (optional)' },
-                             width: 20,
-                             max_chars: 100 %>
 
       <div style="display: none;">
         <%= f.govuk_phone_field :telephone,

@@ -6,14 +6,6 @@ RSpec.describe Feedback do
     it { is_expected.to validate_length_of(:message).is_at_least 10 }
     it { is_expected.to validate_length_of(:message).is_at_most 500 }
 
-    it { is_expected.to validate_length_of(:name).is_at_most 100 }
-
-    it { is_expected.to validate_length_of(:email).is_at_most 100 }
-    it { is_expected.to allow_value('hello@world.com').for(:email) }
-    it { is_expected.not_to allow_value('hello@').for(:email) }
-    it { is_expected.not_to allow_value('@world.com').for(:email) }
-    it { is_expected.not_to allow_value('hello').for(:email) }
-
     it { is_expected.to validate_presence_of :authenticity_token }
     it { is_expected.to validate_length_of(:authenticity_token).is_at_least 50 }
     it { is_expected.to validate_length_of(:authenticity_token).is_at_most 100 }

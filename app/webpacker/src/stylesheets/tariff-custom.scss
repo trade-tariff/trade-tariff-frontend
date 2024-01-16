@@ -18,6 +18,10 @@
   }
 }
 
+.govuk-list + .govuk-list + .govuk-list--number {
+  list-style-type: lower-alpha;
+}
+
 .govuk-back-link + .govuk-main-wrapper {
   padding-top: 20px !important;
 

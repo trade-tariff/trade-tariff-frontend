@@ -39,6 +39,12 @@
                                                    article_match: find_article_reference(form.object.packaging_text) if find_article_reference(form.object.packaging_text) %>
   </div>
 
+  <div class="tariff-markdown">
+    <%= govspeak remove_article_reference(form.object.packaging_retail_text) %>
+    <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
+               article_match: find_article_reference(form.object.packaging_retail_text) if find_article_reference(form.object.packaging_retail_text) %>
+  </div>
+
   <% if form.object.accessories_text %>
     <h3 class="govuk-heading-s">
       <%= t '.accessories', scheme_title: form.object.scheme_title %>
