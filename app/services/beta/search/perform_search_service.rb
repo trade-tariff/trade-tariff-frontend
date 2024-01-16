@@ -1,5 +1,5 @@
 require 'tariff_jsonapi_parser'
-require 'errors'
+require 'unparseable_response_error'
 
 module Beta
   module Search

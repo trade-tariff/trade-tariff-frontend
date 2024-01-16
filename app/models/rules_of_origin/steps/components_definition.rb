@@ -11,6 +11,10 @@ module RulesOfOrigin
         chosen_scheme.article('packaging')&.content
       end
 
+      def packaging_retail_text
+        chosen_scheme.article('packaging_retail')&.content
+      end
+
       def accessories_text
         chosen_scheme.article('accessories')&.content
       end

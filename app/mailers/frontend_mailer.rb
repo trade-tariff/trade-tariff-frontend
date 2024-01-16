@@ -6,10 +6,8 @@ class FrontendMailer < ActionMailer::Base
 
   def new_feedback(feedback)
     @message = feedback.message
-    @name = feedback.name.presence
-    @email = feedback.email.presence || TradeTariffFrontend.from_email
+    @url = feedback.referrer
 
-    mail subject: 'Trade Tariff Feedback',
-         reply_to: @email
+    mail subject: 'Trade Tariff Feedback'
   end
 end
