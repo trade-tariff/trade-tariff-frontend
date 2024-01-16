@@ -33,5 +33,6 @@ RSpec.describe 'exchange_rates/show', type: :view do
     let(:exchange_rate_collection) { build(:exchange_rate_collection, exchange_rates: []) }
 
     it { is_expected.to have_css 'p', text: "There are no #{exchange_rate_collection.type} exchange rates for the year specified." }
+    it { is_expected.not_to have_css 'table' }
   end
 end
