@@ -1,9 +1,13 @@
 <% unless @feedback %>
 <div class="tariff-feedback-banner">
-  <div class="phase-banner govuk-width-container">
-    <p>
-      <strong class="phase-tag">FEEDBACK</strong>
-      <span>Tell us what you think - your <%= link_to 'feedback', feedback_path %> will help us improve.</span>
+  <div class="govuk-phase-banner govuk-width-container">
+    <p class="govuk-phase-banner__content">
+      <strong class="govuk-tag govuk-phase-banner__content__tag">
+        FEEDBACK
+      </strong>
+      <span class="govuk-phase-banner__text">
+        Tell us what you think - your <%= link_to 'feedback', feedback_path, class: 'govuk-link' %> will help us improve.
+      </span>
     </p>
   </div>
 </div>
