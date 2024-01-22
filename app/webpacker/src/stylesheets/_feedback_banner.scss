@@ -5,3 +5,9 @@
     padding-top: govuk-spacing(4);
   }
 }
+
+.tariff-header-banner + .tariff-feedback-banner {
+  .govuk-phase-banner {
+    padding-top: govuk-spacing(2) ;
+  }
+}

@@ -61,7 +61,7 @@
     </div>
     <%= render 'shared/search_banner' if TradeTariffFrontend.search_banner? && @search %>
     <%= render 'news_items/header_banner', news_item: News::Item.latest_banner unless @skip_news_banner %>
-    <%= render 'shared/feedback_banner' unless @feedback %>
+    <%= render 'shared/feedback_banner' %>
   </header>
 
   <div class="tariff service govuk-width-container">
