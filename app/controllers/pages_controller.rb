@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   before_action :disable_search_form,
                 :disable_last_updated_footnote
+  before_action :disable_switch_service_banner, only: [:changes_999l]
 
   def glossary
     @glossary = Pages::Glossary.find(params[:id])
@@ -9,6 +10,8 @@ class PagesController < ApplicationController
   def cn2021_cn2022
     @chapters = Chapter.all
   end
+
+  def changes_999l; end
 
   def opensearch
     respond_to do |format|
