@@ -30,6 +30,13 @@ RSpec.describe PagesController, type: :request do
     end
   end
 
+  describe 'GET #999l' do
+    before { get help_changes_999l_path }
+
+    it { is_expected.to have_http_status(:ok) }
+    it { is_expected.to render_template('pages/changes_999l') }
+  end
+
   describe 'GET #duty_drawback' do
     before do
       allow(RulesOfOrigin::Scheme).to receive(:with_duty_drawback_articles).and_return [rules_of_origin_scheme, rules_of_origin_scheme]
