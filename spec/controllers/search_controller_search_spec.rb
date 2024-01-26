@@ -90,8 +90,7 @@ RSpec.describe SearchController, type: :controller do
 
       let(:params) { { q: '01', day: '0', month: '12', year: '2022' } }
 
-      it { is_expected.to redirect_to heading_path(query) }
-      it { is_expected.to redirect_to commodity_path '0101210000' }
+      it { is_expected.to redirect_to chapter_path('01') }
     end
 
     context 'with nested search term', vcr: { cassette_name: 'search#search_exact' } do
@@ -160,20 +159,22 @@ RSpec.describe SearchController, type: :controller do
         it { expect(assigns(:search)).to be_a(Search) }
         it { is_expected.to redirect_to(sections_path) }
       end
-    end
 
-    context 'when date param components are invalid' do
-      subject(:do_response) do
-        post :search, params: { year:, month:, day: }
+      context 'when date param components are invalid' do
+        subject(:do_response) do
+          post :search, params: { year:, month:, day: }
 
-        response
+          response
+        end
+
+        let(:year)    { 'errr' }
+        let(:month)   { 'er' }
+        let(:day)     { 'er' }
+
+        it { is_expected.to have_http_status(:redirect) }
+        it { expect(assigns(:search)).to be_a(Search) }
+        it { is_expected.to redirect_to(sections_path) }
       end
-
-      let(:year)    { 'errr' }
-      let(:month)   { 'er' }
-      let(:day)     { 'er' }
-
-      it { expect { do_response }.to raise_error(Date::Error) }
     end
 
     context 'with JSON format', vcr: { cassette_name: 'search#search_fuzzy', match_requests_on: %i[uri body] } do
