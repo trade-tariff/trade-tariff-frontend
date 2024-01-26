@@ -54,6 +54,7 @@ Rails.application.routes.draw do
 
   get 'help', to: 'pages#help', as: 'help'
   get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'
+  get 'help/changes_999l', to: 'pages#changes_999l', as: 'help_changes_999l'
   get 'help/help_find_commodity', to: 'pages#help_find_commodity', as: 'help_find_commodity'
   get 'help/rules_of_origin/duty_drawback', to: 'pages#rules_of_origin_duty_drawback', as: 'rules_of_origin_duty_drawback'
   get 'help/rules_of_origin/proof_requirements/:id', to: 'pages#rules_of_origin_proof_requirements',
