@@ -25,7 +25,8 @@
   <div class="stacked-govuk-details tariff-markdown">
     <% current_step.proofs.each do |proof| %>
       <%= render 'shared/details', summary: proof.summary,
-                                   content: govspeak(proof.content) \
+                                   content: govspeak(proof.content),
+                                   origin_reference_document: current_step.origin_reference_document \
           if proof.content.present? %>
     <% end %>
   </div>

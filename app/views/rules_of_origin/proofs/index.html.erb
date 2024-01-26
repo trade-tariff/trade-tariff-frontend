@@ -24,7 +24,8 @@
   <div class="stacked-govuk-details">
     <% scheme.proofs.each do |proof| %>
       <%= render 'shared/details', summary: proof.summary,
-                                   content: govspeak(proof.content) %>
+                                   content: govspeak(proof.content),
+                                   origin_reference_document: scheme.origin_reference_document%>
     <% end %>
   </div>
 <% end %>
