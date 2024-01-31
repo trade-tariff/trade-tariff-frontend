@@ -20,7 +20,7 @@ class FindCommodity
   end
 
   def date
-    Date.civil(year.to_i, month.to_i, day.to_i) if date_parts_are_valid?
+    Date.civil(year.to_i, month.to_i, day.to_i) if Date.valid_civil? year.to_i, month.to_i, day.to_i
   end
 
   def date=(date)
