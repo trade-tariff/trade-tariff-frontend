@@ -32,13 +32,9 @@ class FindCommodity
 private
 
   def date_is_valid
-    unless date_parts_are_valid?
+    unless Date.valid_civil? year.to_i, month.to_i, day.to_i
       errors.add :date, :invalid_date
     end
-  end
-
-  def date_parts_are_valid?
-    Date.valid_civil? year.to_i, month.to_i, day.to_i
   end
 
   def default_to_today

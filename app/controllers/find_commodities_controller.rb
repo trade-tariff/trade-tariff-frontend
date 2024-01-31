@@ -7,9 +7,12 @@ class FindCommoditiesController < ApplicationController
     @recent_stories = News::Item.updates_page.slice(0, 3)
 
     @find_commodity = FindCommodity.new(search_params)
-    return unless @find_commodity.performing_search? && @find_commodity.valid?
 
-    redirect_to perform_search_path redirect_params
+    if @find_commodity.performing_search? && @find_commodity.valid?
+      render :show
+    else
+      redirect_to perform_search_path redirect_params
+    end
   end
 
   private
