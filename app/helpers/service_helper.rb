@@ -88,18 +88,14 @@ module ServiceHelper
   end
 
   def replace_service_tags(content)
-    content.gsub %r{\[\[[A-Z]+_[A-Z_]+\]\]} do |match|
+    content.gsub %r{\[\[SERVICE_[A-Z_]+\]\]} do |match|
       case match
       when '[[SERVICE_NAME]]'
         service_name
       when '[[SERVICE_PATH]]'
-        service_path_prefix
+        TradeTariffFrontend::ServiceChooser.xi? ? '/xi' : ''
       when '[[SERVICE_REGION]]'
         service_region
-      when '[[LOCALE_PATH]]'
-        locale_path_prefix
-      when '[[PREFIX_PATH]]'
-        "#{service_path_prefix}#{locale_path_prefix}"
       else
         match
       end
@@ -140,13 +136,5 @@ private
     else
       "/#{components.join('/')}?#{query_string}"
     end
-  end
-
-  def service_path_prefix
-    TradeTariffFrontend::ServiceChooser.xi? ? '/xi' : ''
-  end
-
-  def locale_path_prefix
-    I18n.locale == I18n.default_locale ? '' : "/#{I18n.locale}"
   end
 end

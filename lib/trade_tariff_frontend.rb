@@ -121,10 +121,6 @@ module TradeTariffFrontend
     ENV.fetch('CHECK_DUTIES_SERVICE_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
   end
 
-  def welsh?
-    ENV['WELSH'].to_s == 'true'
-  end
-
   def roo_wizard?
     ENV['ROO_WIZARD'] == 'true' && TradeTariffFrontend::ServiceChooser.uk?
   end
