@@ -8,7 +8,7 @@ class FindCommoditiesController < ApplicationController
 
     @find_commodity = FindCommodity.new(search_params)
 
-    if !search_params.present?
+    if search_params.blank?
       nil
     else
       return unless @find_commodity.valid? & @find_commodity.performing_search?
