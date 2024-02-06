@@ -8,9 +8,11 @@ class FindCommoditiesController < ApplicationController
 
     @find_commodity = FindCommodity.new(search_params)
 
-    if @find_commodity.performing_search? && @find_commodity.valid?
-      render :show
+    if !search_params.present?
+      nil
     else
+      return unless @find_commodity.valid? & @find_commodity.performing_search?
+
       redirect_to perform_search_path redirect_params
     end
   end

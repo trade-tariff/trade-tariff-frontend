@@ -48,6 +48,13 @@
               <%= hidden_field_tag :q, f.object.q, id: 'q-hidden', class: "js-commodity-picker-target" %>
               <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', class: "js-commodity-picker-resource-id" %>
 
+              <% if f.object.errors.key? :q %>
+                <p id="date-error" class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span>
+                  <%= f.object.errors.messages_for(:q).first %>
+                </p>
+              <% end %>
+
               <div class="js-commodity-picker-select js-show"></div>
               <noscript>
                 <%= text_field_tag :q, f.object.q, class: "govuk-input" %>

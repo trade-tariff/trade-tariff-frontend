@@ -16,7 +16,12 @@ class FindCommodity
   end
 
   def performing_search?
-    q.present?
+    if q.present?
+      true
+    else
+      errors.add(:q, :blank_search)
+      false
+    end
   end
 
   def date
