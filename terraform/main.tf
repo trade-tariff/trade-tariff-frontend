@@ -131,7 +131,7 @@ module "service" {
     },
     {
       name  = "TARIFF_TO_EMAIL"
-      value = "hmrc-trade-tariff-support-g@digital.hmrc.gov.uk"
+      value = var.tariff_email_to
     },
     {
       name  = "WEB_CONCURRENCY"
