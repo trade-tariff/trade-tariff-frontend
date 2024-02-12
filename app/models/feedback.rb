@@ -7,7 +7,7 @@ class Feedback
 
   include ActiveModel::Model
 
-  attr_accessor :message, :telephone, :authenticity_token, :referrer
+  attr_accessor :message, :telephone, :authenticity_token, :referrer, :page_useful
 
   validates :message, presence: true,
                       length: { minimum: 10, maximum: 500 }
@@ -20,6 +20,10 @@ class Feedback
 
   def record_delivery!
     Rails.cache.write(tracking_token, tracking_token_count + 1, expires_in: TOKEN_TRACKING_LIFETIME)
+  end
+
+  def valid_page_useful_options?
+    [nil, '', 'yes', 'no'].include?(page_useful)
   end
 
   private
