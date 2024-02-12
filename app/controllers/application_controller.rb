@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   before_action :maintenance_mode_if_active
-
   before_action :set_cache
   before_action :set_last_updated
   before_action :set_path_info

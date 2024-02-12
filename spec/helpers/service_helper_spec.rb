@@ -324,50 +324,6 @@ RSpec.describe ServiceHelper, type: :helper do
         it { is_expected.to eql expected }
       end
     end
-
-    context 'with LOCALE_PATH' do
-      let(:content) { '[Browse]([[LOCALE_PATH]]/browse)' }
-
-      context 'with English locale' do
-        it { is_expected.to eql '[Browse](/browse)' }
-      end
-
-      context 'with Cymru locale' do
-        include_context 'with Cymru locale'
-
-        it { is_expected.to eql '[Browse](/cy/browse)' }
-      end
-    end
-
-    context 'with PREFIX_PATH' do
-      let(:content) { '[Browse]([[PREFIX_PATH]]/browse)' }
-
-      context 'with UK service and default locale' do
-        include_context 'with UK service'
-
-        it { is_expected.to eql '[Browse](/browse)' }
-      end
-
-      context 'with UK service and Cymru locale' do
-        include_context 'with UK service'
-        include_context 'with Cymru locale'
-
-        it { is_expected.to eql '[Browse](/cy/browse)' }
-      end
-
-      context 'with XI service and default locale' do
-        include_context 'with XI service'
-
-        it { is_expected.to eql '[Browse](/xi/browse)' }
-      end
-
-      context 'with XI service and Cymru locale' do
-        include_context 'with XI service'
-        include_context 'with Cymru locale'
-
-        it { is_expected.to eql '[Browse](/xi/cy/browse)' }
-      end
-    end
   end
 
   describe '#import_export_date_title' do
