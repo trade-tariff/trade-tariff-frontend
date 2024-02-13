@@ -149,6 +149,11 @@ module CommoditiesHelper
     end
   end
 
+  def sanitize_quotes(text)
+    text.gsub(/[\u2018\u2019]/, "'") # Replace left and right single quotes
+        .gsub(/[\u201C\u201D]/, '"') # Replace left and right double quotes
+  end
+
   private
 
   def chapter_and_heading_codes(code)
