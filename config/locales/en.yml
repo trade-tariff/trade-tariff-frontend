@@ -88,7 +88,7 @@ en:
         There are no supplementary unit measures assigned to this commodity, however you will need to declare the unit of import (%{units}) for excise purposes.
       none: "There are no supplementary unit measures assigned to this commodity"
       some: >-
-        There are no supplementary units globally assigned to this commodity. 
+        There are no supplementary units globally assigned to this commodity.
         Select a country of import / export to check on supplementary units for a specific country, or scroll down to the import duties section.
   import_destination:
     uk: United Kingdom
@@ -300,6 +300,9 @@ en:
         Click on 'Cancel' to return to the previous page.
   activemodel:
     errors:
+      messages:
+        invalid_date: Enter a valid date
+        blank_search: Enter the name of the goods or commodity code
       models:
         meursing_lookup/steps/starch:
           attributes:
@@ -317,10 +320,6 @@ en:
           attributes:
             milk_protein:
               blank: Enter how much milk protein the product contains
-        import_export_date:
-          attributes:
-            import_date:
-              invalid_date: Enter a valid date
         trading_partner:
           attributes:
             country:
