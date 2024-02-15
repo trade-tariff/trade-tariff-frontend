@@ -84,6 +84,7 @@ class ApplicationController < ActionController::Base
       :month,
       :year,
       :as_of,
+      :commit
     ).to_h
   end
 

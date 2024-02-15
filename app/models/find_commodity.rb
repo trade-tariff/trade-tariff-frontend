@@ -5,23 +5,16 @@ class FindCommodity
                 :day,
                 :month,
                 :year,
-                :resource_id
+                :resource_id,
+                :commit
 
   validate :date_is_valid
+  validates :q, presence:{message: :blank_search}, allow_nil: true
 
   def initialize(...)
     super
 
     default_to_today
-  end
-
-  def performing_search?
-    if q.present?
-      true
-    else
-      errors.add(:q, :blank_search)
-      false
-    end
   end
 
   def date

@@ -8,13 +8,11 @@ class FindCommoditiesController < ApplicationController
 
     @find_commodity = FindCommodity.new(search_params)
 
-    if search_params.blank?
-      nil
-    else
-      return unless @find_commodity.valid? & @find_commodity.performing_search?
+    return unless search_params[:commit].present? || search_params[:q].present?
 
-      redirect_to perform_search_path redirect_params
-    end
+    return unless @find_commodity.valid?
+
+    redirect_to perform_search_path redirect_params
   end
 
   private
