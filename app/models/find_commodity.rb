@@ -9,7 +9,7 @@ class FindCommodity
                 :commit
 
   validate :date_is_valid
-  validates :q, presence:{message: :blank_search}, allow_nil: true
+  validates :q, presence: { message: :blank_search }, allow_nil: true
 
   def initialize(...)
     super
