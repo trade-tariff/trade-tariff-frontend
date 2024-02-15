@@ -22,20 +22,6 @@ RSpec.describe FindCommodity do
     end
   end
 
-  describe '#performing_search?' do
-    context 'with search query?' do
-      subject { described_class.new(q: 'testing').performing_search? }
-
-      it { is_expected.to be true }
-    end
-
-    context 'without search query' do
-      subject { described_class.new(q: '').performing_search? }
-
-      it { is_expected.to be false }
-    end
-  end
-
   describe '#date' do
     subject { instance.date }
 
