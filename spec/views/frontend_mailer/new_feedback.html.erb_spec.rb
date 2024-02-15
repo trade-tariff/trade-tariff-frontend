@@ -23,4 +23,15 @@ RSpec.describe 'frontend_mailer/new_feedback', type: :view do
     it { expect(rendered).to include(feedback.message) }
     it { expect(rendered).to include(feedback.referrer) }
   end
+
+  context 'with page useful option' do
+    before do
+      assign(:message, feedback.message)
+      assign(:page_useful, feedback.page_useful)
+      render
+    end
+
+    it { expect(rendered).to include(feedback.message) }
+    it { expect(rendered).to include(feedback.page_useful) }
+  end
 end
