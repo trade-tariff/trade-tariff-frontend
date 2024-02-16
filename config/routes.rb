@@ -179,10 +179,7 @@ Rails.application.routes.draw do
                 module: 'commodities'
     end
   end
-
-  resource :find_commodity, only: %i[show]
-  resolve('FindCommodity') { route_for(:find_commodity) }
-
+  get '/find_commodity', to: 'find_commodities#show'
   get '/pending_quota_balances/:commodity_id/:order_number',
       to: 'pending_quota_balances#show',
       as: :pending_quota_balance,
