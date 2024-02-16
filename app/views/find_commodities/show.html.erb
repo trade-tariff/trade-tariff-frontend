@@ -2,18 +2,12 @@
 
 <%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
 
-<%= form_for @find_commodity, method: :get,
-                              html: { class: "tariff-search", id: "new_search" },
-                              builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
-
+<%= form_tag perform_search_path, method: :get, class: "tariff-search", id: "new_search" do |f| %>
   <div class="js-search-header">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
           <h2 class="govuk-heading-m">Search for a commodity</h2>
-
-          <%= f.govuk_error_summary %>
-
           <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
           <details class="govuk-details" data-module="govuk-details">
             <summary class="govuk-details__summary">
@@ -45,24 +39,17 @@
             <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
               <%= label_tag :q, search_label_text, class: 'govuk-label' %>
 
-              <%= hidden_field_tag :q, f.object.q, id: 'q-hidden', class: "js-commodity-picker-target" %>
+              <%= hidden_field_tag :q, @search.q, id: 'q-hidden', class: "js-commodity-picker-target" %>
               <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', class: "js-commodity-picker-resource-id" %>
-
-              <% if f.object.errors.key? :q %>
-                <p id="date-error" class="govuk-error-message">
-                  <span class="govuk-visually-hidden">Error:</span>
-                  <%= f.object.errors.messages_for(:q).first %>
-                </p>
-              <% end %>
 
               <div class="js-commodity-picker-select js-show"></div>
               <noscript>
-                <%= text_field_tag :q, f.object.q, class: "govuk-input" %>
+                <%= text_field_tag :q, @search.q, class: "govuk-input" %>
               </noscript>
             </fieldset>
           </div>
 
-          <div class="govuk-form-group govuk-!-margin-top-6 <%= 'govuk-form-group--error' if f.object.errors.key? :date %>">
+          <div class="govuk-form-group govuk-!-margin-top-6">
             <fieldset class="govuk-fieldset" role="group" aria-describedby="find-commodity-hint">
               <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
                 <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
@@ -74,19 +61,12 @@
                 today's date is used.
               </div>
 
-              <% if f.object.errors.key? :date %>
-              <p id="date-error" class="govuk-error-message">
-                <span class="govuk-visually-hidden">Error:</span>
-                <%= f.object.errors.messages_for(:date).first %>
-              </p>
-              <% end %>
-
               <div class="govuk-date-input">
                 <div class="govuk-date-input__item">
                   <div class="govuk-form-group">
                     <label class="govuk-label govuk-date-input__label" for="tariff_date_day">Day</label>
                     <%= text_field_tag(:day,
-                          f.object.day,
+                          @search.date.day,
                           {
                             id: 'tariff_date_day',
                             name: 'day',
@@ -103,7 +83,7 @@
                   <div class="govuk-form-group">
                     <label class="govuk-label govuk-date-input__label" for="tariff_date_month">Month</label>
                     <%= text_field_tag(:month,
-                          f.object.month,
+                          @search.date.month,
                           {
                             id: 'tariff_date_month',
                             name: 'month',
@@ -120,7 +100,7 @@
                   <div class="govuk-form-group">
                     <label class="govuk-label govuk-date-input__label" for="tariff_date_year">Year</label>
                     <%= text_field_tag(:year,
-                          f.object.year,
+                          @search.date.year,
                           {
                             id: 'tariff_date_year',
                             name: 'year',
