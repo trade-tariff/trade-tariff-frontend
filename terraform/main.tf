@@ -135,7 +135,7 @@ module "service" {
     },
     {
       name  = "TARIFF_SUPPORT_EMAIL"
-      value = "ata.dahri1@digital.hmrc.gov.uk"
+      value = "ata-ul-rouf.dahri@transformuk.com"
     },
     {
       name  = "WEB_CONCURRENCY"
