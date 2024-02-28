@@ -134,6 +134,10 @@ module "service" {
       value = var.tariff_email_to
     },
     {
+      name  = "TARIFF_SUPPORT_EMAIL"
+      value = "ata.dahri1@digital.hmrc.gov.uk"
+    },
+    {
       name  = "WEB_CONCURRENCY"
       value = "4"
     },

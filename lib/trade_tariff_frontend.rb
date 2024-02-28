@@ -90,6 +90,10 @@ module TradeTariffFrontend
     ENV['TARIFF_TO_EMAIL']
   end
 
+  def support_email
+    ENV['TARIFF_SUPPORT_EMAIL']
+  end
+
   def currency_default
     currency_default_gbp? ? 'GBP' : 'EUR'
   end
