@@ -131,6 +131,10 @@ module "service" {
     },
     {
       name  = "TARIFF_TO_EMAIL"
+      value = var.tariff_email_to
+    },
+    {
+      name  = "TARIFF_SUPPORT_EMAIL"
       value = "hmrc-trade-tariff-support-g@digital.hmrc.gov.uk"
     },
     {

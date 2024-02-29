@@ -52,6 +52,7 @@ Terraform to deploy the service into AWS.
 | <a name="input_min_capacity"></a> [min\_capacity](#input\_min\_capacity) | Smallest number of tasks the service can scale-in to. | `number` | `1` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region to use. | `string` | n/a | yes |
 | <a name="input_service_count"></a> [service\_count](#input\_service\_count) | Number of services to use. | `number` | `2` | no |
+| <a name="input_tariff_email_to"></a> [tariff\_email\_to](#input\_tariff\_email\_to) | Email address to send emails to. | `string` | n/a | yes |
 
 ## Outputs
 
