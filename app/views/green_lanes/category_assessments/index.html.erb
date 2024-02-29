@@ -1,0 +1,9 @@
+<%= form_tag green_lanes_search_path, method: :get, class: "green-lanes-search", id: "new_search" do |f| %>
+  <div class="searchfield govuk-form-group">
+    <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
+      <%= label_tag :commodity_code, search_label_text, class: 'govuk-label' %>
+      <%= text_field_tag :commodity_code, @category_assessments_search.commodity_code, class: "govuk-input" %>
+      <%= submit_tag 'Search Category Assessments', class: 'govuk-button' %>
+    </fieldset>
+  </div>
+<% end %>
