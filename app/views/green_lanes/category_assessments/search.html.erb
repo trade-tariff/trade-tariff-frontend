@@ -1,0 +1,77 @@
+<%= page_header "Search results for &lsquo;#{h @category_assessments_search.commodity_code}&rsquo;".html_safe %>
+<article class="search-results govuk-!-padding-top-1">
+  <%# if @results.any? %>
+    <%# if @results.commodities.any? %>
+<!--      <table class="govuk-table govuk-!-padding-bottom-7">-->
+<!--        <colgroup>-->
+<!--          <col width="*">-->
+<!--          <col width="180">-->
+<!--        </colgroup>-->
+<!--        <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-6">-->
+<!--          Best commodity matches for &lsquo;<%#= @search %>&rsquo;-->
+<!--        </caption>-->
+<!--        <thead class="govuk-table__head">-->
+<!--          <tr class="govuk-table__row">-->
+<!--            <th class="govuk-table__header" scope="col">Name</th>-->
+<!--            <th class="govuk-table__header" scope="col">Code</th>-->
+<!--          </tr>-->
+<!--        </thead>-->
+<!--        <tbody class="govuk-table__body">-->
+          <%#= render partial: 'search/commodity', collection: @results.commodities %>
+<!--        </tbody>-->
+<!--      </table>-->
+    <%# end %>
+
+    <%# if @results.reference_matches_by_chapter.any? %>
+<!--      <h2 class="govuk-heading-m govuk-!-margin-top-8">-->
+<!--        Results matching &lsquo;<%#= @search %>&rsquo;-->
+<!--      </h2>-->
+
+<!--      <ul class="results-subset js-results-subset govuk-!-padding-bottom-7">-->
+        <%#= render partial: 'search/result', collection: @results.reference_matches_by_chapter %>
+<!--      </ul>-->
+    <%# end %>
+
+    <%# if @results.gn_matches_without_duplicates_by_chapter.any? %>
+<!--      <h2 class="govuk-heading-m govuk-!-margin-top-8">-->
+<!--        Other results containing the term &lsquo;<%#= @search %>&rsquo;-->
+<!--      </h2>-->
+<!--       <ul class="results-subset js-results-subset govuk-!-padding-bottom-7">-->
+        <%#= render partial: 'search/result', collection: @results.gn_matches_without_duplicates_by_chapter %>
+<!--      </ul>-->
+    <%# end %>
+
+    <%# if @results.reference_match.sections.any? %>
+<!--      <table class="govuk-table govuk-!-padding-bottom-7">-->
+<!--        <colgroup>-->
+<!--          <col width="*">-->
+<!--          <col width="180">-->
+<!--        </colgroup>-->
+<!--        <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-8">-->
+<!--          Sections matching &lsquo;<%#= @search %>&rsquo;-->
+<!--        </caption>-->
+<!--        <thead class="govuk-table__head">-->
+<!--          <tr class="govuk-table__row">-->
+<!--            <th class="govuk-table__header" scope="col">Name</th>-->
+<!--            <th class="govuk-table__header" scope="col">Code</th>-->
+<!--          </tr>-->
+<!--        </thead>-->
+<!--        <tbody class="govuk-table__body">-->
+          <%#= render partial: 'search/section', collection: @results.reference_match.sections %>
+<!--        </tbody>-->
+<!--      </table>-->
+    <%# end %>
+  <%# else %>
+<!--    <h2 class="govuk-heading-l">There are no results matching your query.</h2>-->
+<!--    <div class="panel govuk-panel">-->
+<!--      <p><strong>Please search again and consider:</strong></p>-->
+<!--      <ul class="list list-bullet">-->
+<!--        <li>Searching what the item is used for or made from</li>-->
+<!--        <li>Broadening your search criteria</li>-->
+<!--        <li>Checking your spelling</li>-->
+<!--        <li>Browsing the <%#= link_to 'A-Z of Classified Goods', a_z_index_path(letter: 'a') %></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+  <%# end %>
+
+</article>
