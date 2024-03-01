@@ -1,14 +1,14 @@
-require 'api_entity'
+require 'active_model'
 
 class GreenLanes::CategoryAssessmentSearch
-  include ApiEntity
+  include ActiveModel::Model
 
-  COMMODITY_CODE = /\A[0-9]{10}\z/
-  HEADING_CODE = /\A[0-9]{4}\z/
+  attr_accessor   :commodity_code,
+                  :commit
 
-  attr_accessor   :commodity_code
+  validates :commodity_code, presence: true, length: { minimum: 4, maximum: 10 }
 
-  def initialize(attributes = {})
+  def initialize(...)
     super
   end
 end
