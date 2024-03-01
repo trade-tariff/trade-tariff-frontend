@@ -37,8 +37,10 @@
         <%= govuk_header_navigation_item(active_class: updates_active_class) do %>
           <%= link_to "News", news_items_path, class: "govuk-header__link" %>
         <% end %>
-        <%= govuk_header_navigation_item(active_class: search_active_class) do %>
-          <%= link_to "Green Lanes", green_lanes_category_assessments_path, class: "govuk-header__link" %>
+        <%if TradeTariffFrontend::green_lane_allowed? %>
+          <%= govuk_header_navigation_item(active_class: search_active_class) do %>
+            <%= link_to "Green Lanes", green_lanes_category_assessments_path, class: "govuk-header__link" %>
+          <% end %>
         <% end %>
         <%= govuk_header_navigation_item(active_class: help_active_class) do %>
           <%= link_to "Help", help_path, class: "govuk-header__link" %>

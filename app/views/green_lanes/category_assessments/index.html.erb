@@ -1,9 +1,10 @@
-<%= form_tag green_lanes_search_path, method: :get, class: "green-lanes-search", id: "new_search" do |f| %>
+<%= form_for @category_assessments_search, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post, url: green_lanes_category_search_path do |f| %>
   <div class="searchfield govuk-form-group">
+    <%= f.govuk_error_summary %>
     <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
-      <%= label_tag :commodity_code, search_label_text, class: 'govuk-label' %>
-      <%= text_field_tag :commodity_code, @category_assessments_search, class: "govuk-input" %>
-      <%= submit_tag 'Search Category Assessments', class: 'govuk-button' %>
+      <%= text_field_tag :commodity_code, @category_assessments_search.commodity_code, class: "govuk-input" %>
+
+      <%= f.govuk_submit("Search") %>
     </fieldset>
   </div>
 <% end %>
