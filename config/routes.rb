@@ -105,13 +105,10 @@ Rails.application.routes.draw do
     get '/rules_of_origin/proofs', to: 'proofs#index', as: :proofs
   end
 
-
   namespace :green_lanes do
     get '/category_assessments', as: :category_assessments, to: 'category_assessments#index'
 
     match '/search', as: :search, via: %i[get post], to: 'category_assessments#search'
-
-    resources :goods_nomenclatures, only: %i[show], constraints: { id: /\d{6,10}/ }
   end
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
