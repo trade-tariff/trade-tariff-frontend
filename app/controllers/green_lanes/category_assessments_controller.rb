@@ -1,19 +1,30 @@
 module GreenLanes
   class CategoryAssessmentsController < ApplicationController
 
+    before_action :check_allowed
+
     def index
       @category_assessments_search = CategoryAssessmentSearch.new
     end
 
     def search
-      search_attributes = params.fetch(:search, params).permit(:commodity_code, :commit).to_h
-      @category_assessments_search = CategoryAssessmentSearch.new(search_attributes)
+      @category_assessments_search = CategoryAssessmentSearch.new(ca_search_params)
 
       if @category_assessments_search.valid?
         @goods_nomenclature = GreenLanes::GoodsNomenclature.find(@category_assessments_search.commodity_code)
       else
         render :index
       end
+    end
+
+    private
+
+    def ca_search_params
+      params.require(:green_lanes_category_assessment_search).permit(:commodity_code)
+    end
+
+    def check_allowed
+      raise TradeTariffFrontend::FeatureUnavailable unless TradeTariffFrontend::green_lane_allowed?
     end
 
   end
