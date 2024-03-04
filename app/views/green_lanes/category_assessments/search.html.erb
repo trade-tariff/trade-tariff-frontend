@@ -4,7 +4,7 @@
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          Item Id
+          Goods Nomenclature Item Id
         </dt>
         <dd class="govuk-summary-list__value">
           <%= @goods_nomenclature.goods_nomenclature_item_id %>
@@ -20,23 +20,6 @@
         </dd>
         <dd class="govuk-summary-list__actions"></dd>
       </div>
-      <% if @goods_nomenclature.validity_start_date.present? && @goods_nomenclature.validity_end_date.present? %>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Commodity valid between</dt>
-          <dd class="govuk-summary-list__value">
-            <%= @goods_nomenclature.validity_start_date %> and <%= @goods_nomenclature.validity_end_date %>
-          </dd>
-          <dd class="govuk-summary-list__actions"></dd>
-        </div>
-      <% elsif @goods_nomenclature.validity_start_date.present? %>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Commodity valid from</dt>
-          <dd class="govuk-summary-list__value">
-            <%= @goods_nomenclature.validity_start_date %>
-          </dd>
-          <dd class="govuk-summary-list__actions"></dd>
-        </div>
-      <% end %>
     </dl>
 
     <%= render 'green_lanes/category_assessments/category' %>

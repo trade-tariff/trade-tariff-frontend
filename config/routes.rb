@@ -108,7 +108,7 @@ Rails.application.routes.draw do
   namespace :green_lanes do
     get '/category_assessments', as: :category_assessments, to: 'category_assessments#index'
 
-    match '/category_search', as: :category_search, via: %i[get post], to: 'category_assessments#search'
+    match '/category_assessments_search', as: :category_assessments_search, via: %i[get post], to: 'category_assessments#search'
   end
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'

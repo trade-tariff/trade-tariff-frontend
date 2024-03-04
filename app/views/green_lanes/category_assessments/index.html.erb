@@ -1,8 +1,9 @@
-<%= form_for @category_assessments_search, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post, url: green_lanes_category_search_path do |f| %>
+<%= form_for @category_assessments_search, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post, url: green_lanes_category_assessments_search_path do |f| %>
   <div class="searchfield govuk-form-group">
     <%= f.govuk_error_summary %>
     <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
-      <%= text_field_tag :commodity_code, @category_assessments_search.commodity_code, class: "govuk-input" %>
+      <%= f.govuk_text_field :commodity_code, width: 'one-quarter',
+                             label: { text: 'Commodity Code'} %>
 
       <%= f.govuk_submit("Search") %>
     </fieldset>
