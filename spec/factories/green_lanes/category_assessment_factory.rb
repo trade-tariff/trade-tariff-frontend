@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :category_assessment, class: 'GreenLanes::GoodsNomenclature'  do
+  factory :category_assessment, class: 'GreenLanes::GoodsNomenclature' do
     transient do
       geographical_area_id { 'FR' }
     end

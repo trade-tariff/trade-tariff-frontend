@@ -1,6 +1,5 @@
 module GreenLanes
   class CategoryAssessmentsController < ApplicationController
-
     before_action :check_allowed
 
     def show
@@ -24,8 +23,7 @@ module GreenLanes
     end
 
     def check_allowed
-      raise TradeTariffFrontend::FeatureUnavailable unless TradeTariffFrontend::green_lane_allowed?
+      raise TradeTariffFrontend::FeatureUnavailable unless TradeTariffFrontend.green_lane_allowed?
     end
-
   end
 end

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :green_lanes_goods_nomenclature, class: 'GreenLanes::GoodsNomenclature'  do
+  factory :green_lanes_goods_nomenclature, class: 'GreenLanes::GoodsNomenclature' do
     transient do
       assessment_count { 1 }
     end
