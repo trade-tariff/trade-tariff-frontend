@@ -3,6 +3,10 @@ require 'spec_helper'
 RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
   subject { make_request && response }
 
+  before do
+    allow(TradeTariffFrontend).to receive(:green_lane_allowed?).and_return true
+  end
+
   let(:goods_nomenclature) { build :green_lanes_goods_nomenclature }
 
   describe 'GET #create' do
