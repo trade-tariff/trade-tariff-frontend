@@ -3,11 +3,11 @@ module GreenLanes
 
     before_action :check_allowed
 
-    def index
+    def show
       @category_assessments_search = CategoryAssessmentSearch.new
     end
 
-    def search
+    def create
       @category_assessments_search = CategoryAssessmentSearch.new(ca_search_params)
 
       if @category_assessments_search.valid?

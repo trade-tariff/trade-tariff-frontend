@@ -105,10 +105,10 @@ Rails.application.routes.draw do
     get '/rules_of_origin/proofs', to: 'proofs#index', as: :proofs
   end
 
-  namespace :green_lanes do
-    get '/category_assessments', as: :category_assessments, to: 'category_assessments#index'
+  resolve('GreenLanes::CategoryAssessmentSearch') { [:category_assessments] }
 
-    match '/category_assessments_search', as: :category_assessments_search, via: %i[get post], to: 'category_assessments#search'
+  namespace :green_lanes do
+    resource :category_assessments, only: %i[create show]
   end
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
