@@ -5,6 +5,7 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
 
   before do
     allow(TradeTariffFrontend).to receive(:green_lane_allowed?).and_return true
+    allow(TradeTariffFrontend).to receive(:green_lanes_api_token).and_return ''
   end
 
   let(:goods_nomenclature) { build :green_lanes_goods_nomenclature }
@@ -14,12 +15,13 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
       before do
         allow(GreenLanes::GoodsNomenclature).to receive(:find)
                                                   .with(goods_nomenclature.goods_nomenclature_item_id,
-                                                        filter: { geographical_area_id: '' })
+                                                        { filter: { geographical_area_id: '' } },
+                                                        { authorization: '' })
                                                   .and_return goods_nomenclature
       end
 
       let(:make_request) do
-        post green_lanes_category_assessments_path, params: {
+        post "/xi#{green_lanes_category_assessments_path}", params: {
           green_lanes_category_assessment_search: {
             commodity_code: goods_nomenclature.goods_nomenclature_item_id,
             country: '',
@@ -35,12 +37,13 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
       before do
         allow(GreenLanes::GoodsNomenclature).to receive(:find)
                                                   .with(goods_nomenclature.goods_nomenclature_item_id,
-                                                        filter: { geographical_area_id: 'FR' })
+                                                        { filter: { geographical_area_id: 'FR' } },
+                                                        { authorization: '' })
                                                   .and_return goods_nomenclature
       end
 
       let(:make_request) do
-        post green_lanes_category_assessments_path, params: {
+        post "/xi#{green_lanes_category_assessments_path}", params: {
           green_lanes_category_assessment_search: {
             commodity_code: goods_nomenclature.goods_nomenclature_item_id,
             country: 'FR',
@@ -58,7 +61,7 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
               :with_applicable_category_assessments_exemptions
       end
       let(:make_request) do
-        post green_lanes_category_assessments_path, params: {
+        post "/xi#{green_lanes_category_assessments_path}", params: {
           green_lanes_category_assessment_search: {
             commodity_code: goods_nomenclature.goods_nomenclature_item_id,
             country: '',
@@ -69,7 +72,8 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
       before do
         allow(GreenLanes::GoodsNomenclature).to receive(:find)
                                                   .with(goods_nomenclature.goods_nomenclature_item_id,
-                                                        filter: { geographical_area_id: '' })
+                                                        { filter: { geographical_area_id: '' } },
+                                                        { authorization: '' })
                                                   .and_return goods_nomenclature
       end
 
@@ -80,7 +84,7 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
 
   describe 'GET #show' do
     context 'when green lanes is allowed' do
-      let(:make_request) { get green_lanes_category_assessments_path }
+      let(:make_request) { get "/xi#{green_lanes_category_assessments_path}" }
       let(:countries) { build_list :geographical_area, 2 }
 
       before do

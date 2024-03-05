@@ -178,7 +178,7 @@ module TradeTariffFrontend
   end
 
   def green_lanes_api_token
-    'Bearer ' + ENV['GREEN_LANES_API_TOKEN']
+    "Bearer #{ENV['GREEN_LANES_API_TOKEN']}"
   end
 
   class FilterBadURLEncoding
