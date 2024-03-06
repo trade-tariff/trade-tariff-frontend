@@ -4,7 +4,8 @@ class GreenLanes::CategoryAssessmentSearch
   include ActiveModel::Model
 
   attr_accessor   :commodity_code,
-                  :commit
+                  :country
 
   validates :commodity_code, presence: true, length: { minimum: 6, maximum: 10 }
+
 end
