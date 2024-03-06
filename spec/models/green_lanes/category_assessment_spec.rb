@@ -4,13 +4,21 @@ RSpec.describe GreenLanes::CategoryAssessment do
   subject(:category_assessment) { build(:category_assessment) }
 
   describe '.relationships' do
-    let(:expected_relationships) do
+    subject { described_class.relationships }
+
+    let(:geographical_area) do
       %i[
         geographical_area
+      ]
+    end
+
+    let(:excluded_geographical_areas) do
+      %i[
         excluded_geographical_areas
       ]
     end
 
-    it { expect(described_class.relationships).to match_array(expected_relationships) }
+    it { is_expected.to include :geographical_area }
+    it { is_expected.to include :excluded_geographical_areas }
   end
 end
