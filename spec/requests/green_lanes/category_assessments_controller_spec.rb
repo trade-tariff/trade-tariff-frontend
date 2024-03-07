@@ -54,13 +54,26 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
   end
 
   describe 'GET #show' do
-    let(:make_request) { get green_lanes_category_assessments_path }
+    context 'when green lanes is allowed' do
+      let(:make_request) { get green_lanes_category_assessments_path }
 
-    before do
-      allow(GeographicalArea).to receive(:country_options).and_return %w[France FR]
+      before do
+        allow(GeographicalArea).to receive(:country_options).and_return %w[France FR]
+      end
+
+      it { is_expected.to have_http_status :ok }
+      it { is_expected.to have_attributes content_type: %r{text/html} }
     end
 
-    it { is_expected.to have_http_status :ok }
-    it { is_expected.to have_attributes content_type: %r{text/html} }
+    context 'when green lanes is not allowed' do
+      before do
+        allow(TradeTariffFrontend).to receive(:green_lane_allowed?).and_return false
+      end
+
+      let(:make_request) { get green_lanes_category_assessments_path }
+
+      it { is_expected.to have_http_status :not_found }
+      it { is_expected.to have_attributes content_type: %r{text/html} }
+    end
   end
 end

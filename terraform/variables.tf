@@ -45,3 +45,8 @@ variable "memory" {
   description = "Memory to allocate in MB. Powers of 2 only."
   type        = number
 }
+
+variable "tariff_email_to" {
+  description = "Email address to send emails to."
+  type        = string
+}

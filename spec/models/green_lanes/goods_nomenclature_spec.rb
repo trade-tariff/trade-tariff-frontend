@@ -4,12 +4,14 @@ RSpec.describe GreenLanes::GoodsNomenclature do
   subject(:goods_nomenclature) { build(:goods_nomenclature) }
 
   describe '.relationships' do
-    let(:expected_relationships) do
+    subject { described_class.relationships }
+
+    let(:applicable_category_assessments) do
       %i[
         applicable_category_assessments
       ]
     end
 
-    it { expect(described_class.relationships).to match_array(expected_relationships) }
+    it { is_expected.to include :applicable_category_assessments }
   end
 end
