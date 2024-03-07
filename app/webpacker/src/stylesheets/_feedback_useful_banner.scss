@@ -1,0 +1,49 @@
+.feedback-useful-banner {
+  border-top: 1px solid $govuk-border-colour;
+
+  .feedback-useful-container {
+    position: relative;
+    padding: 1em;
+    background-color: govuk-colour("light-grey");
+    height: 36px;
+    padding-top: 17px;
+  }
+
+  p {
+    font-weight: bold;
+    float: left;
+    padding-top: 7px;
+    padding-left: 11px;
+    padding-right: 15px;
+  }
+
+  .govuk-button {
+    border: 1px solid govuk-colour("black");
+    box-shadow: 0 2px 0 govuk-colour("black");
+    min-width: 6em;
+  }
+}
+
+.govuk-footer {
+  border-top: 10px solid govuk-colour("blue");
+}
+
+@media (max-width: 900px) {
+  .feedback-useful-banner {
+    .report-problem {
+      display: none;
+    }
+  }
+}
+
+@include govuk-media-query($until: tablet) {
+  .feedback-useful-banner {
+    p {
+      padding-top: 9px;
+    }
+
+    .govuk-button {
+      min-width: 3.5em;
+    }
+  }
+}

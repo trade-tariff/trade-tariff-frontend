@@ -333,4 +333,14 @@ RSpec.describe CommoditiesHelper, type: :helper do
       it { is_expected.to be_html_safe }
     end
   end
+
+  describe '#sanitize_quotes' do
+    subject(:sanitize_quotes) { helper.sanitize_quotes(bad_hyperlink) }
+
+    let(:bad_hyperlink) { '<a href=”https://www.gov.uk”>' }
+
+    it 'replaces double comma quotation mark to simple quotation mark' do
+      expect(sanitize_quotes).to eq('<a href="https://www.gov.uk">')
+    end
+  end
 end
