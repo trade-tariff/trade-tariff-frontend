@@ -1,4 +1,4 @@
-<%= page_header "Search results for &lsquo;#{h @category_assessments_search.commodity_code}&rsquo;".html_safe %>
+<%= page_header "Search results for #{h @category_assessments_search.commodity_code}" %>
 <article class="search-results govuk-!-padding-top-1">
   <% if @goods_nomenclature.present? %>
     <dl class="govuk-summary-list">
