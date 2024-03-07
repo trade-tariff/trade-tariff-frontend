@@ -171,6 +171,10 @@ Rails.application.routes.draw do
     resources :subheadings, only: %i[show]
   end
 
+  # HOTT-5285
+  # Redirect route for /subheading/ to fix instances of the singular controller name in URLs
+  get '/subheading/:id', to: redirect('/subheadings/%{id}')
+
   constraints(id: /\d{10}/) do
     resources :commodities, only: %i[show] do
       resources :changes,
