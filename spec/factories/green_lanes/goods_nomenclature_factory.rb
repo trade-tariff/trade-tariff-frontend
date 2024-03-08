@@ -13,5 +13,11 @@ FactoryBot.define do
     applicable_category_assessments do
       attributes_for_list :category_assessment, assessment_count
     end
+
+    trait :with_applicable_category_assessments_exemptions do
+      applicable_category_assessments do
+        attributes_for_list :category_assessment, assessment_count, :with_exemptions
+      end
+    end
   end
 end

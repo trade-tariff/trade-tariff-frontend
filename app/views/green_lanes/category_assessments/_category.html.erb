@@ -24,7 +24,21 @@
           </h2>
         </div>
         <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+          <h3 class="govuk-heading-s">Geographical Area</h3>
           <p class="govuk-body"><%= ca.geographical_area %></p>
+          <% if ca.excluded_geographical_areas.any? %>
+            <h3 class="govuk-heading-s">Excluded Geographical Area</h3>
+            <% ca.excluded_geographical_areas.each do |ga| %>
+              <p class="govuk-body"><%= ga.geographical_area %></p>
+            <% end %>
+          <% end %>
+          <% if ca.exemptions.any? %>
+            <% ca.exemptions.each do |ex| %>
+              <h3 class="govuk-heading-s"><%= ex.class.model_name.human %></h3>
+              <p class="govuk-body"><%= ex.code %></p>
+              <p class="govuk-body"><%= ex.description %></p>
+            <% end %>
+          <% end %>
         </div>
       </div>
     <% end %>

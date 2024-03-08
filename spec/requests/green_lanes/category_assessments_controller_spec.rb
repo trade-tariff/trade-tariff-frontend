@@ -51,6 +51,31 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
       it { is_expected.to have_http_status :ok }
       it { is_expected.to have_attributes content_type: %r{text/html} }
     end
+
+    context 'when category assessments with exemptions' do
+      let(:goods_nomenclature) do
+        build :green_lanes_goods_nomenclature,
+              :with_applicable_category_assessments_exemptions
+      end
+      let(:make_request) do
+        post green_lanes_category_assessments_path, params: {
+          green_lanes_category_assessment_search: {
+            commodity_code: goods_nomenclature.goods_nomenclature_item_id,
+            country: '',
+          },
+        }
+      end
+
+      before do
+        allow(GreenLanes::GoodsNomenclature).to receive(:find)
+                                                  .with(goods_nomenclature.goods_nomenclature_item_id,
+                                                        filter: { geographical_area_id: '' })
+                                                  .and_return goods_nomenclature
+      end
+
+      it { is_expected.to have_http_status :ok }
+      it { is_expected.to have_attributes content_type: %r{text/html} }
+    end
   end
 
   describe 'GET #show' do
