@@ -12,7 +12,8 @@ module GreenLanes
       if @category_assessments_search.valid?
         @goods_nomenclature = GreenLanes::GoodsNomenclature.find(
           @category_assessments_search.commodity_code,
-          filter: { geographical_area_id: @category_assessments_search.country },
+          {filter: { geographical_area_id: @category_assessments_search.country }},
+          :authorization => TradeTariffFrontend.green_lanes_api_token
         )
       else
         render :show

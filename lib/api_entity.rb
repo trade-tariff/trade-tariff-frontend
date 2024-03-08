@@ -91,11 +91,11 @@ private
       @relationships ||= superclass.include?(ApiEntity) ? superclass.relationships.dup : []
     end
 
-    def find(id, opts = {})
+    def find(id, opts = {}, headers = {} )
       id = id.to_s
       path = singular_path.sub(':id', id)
 
-      response = api.get(path, opts)
+      response = api.get(path, opts, headers)
 
       new parse_jsonapi(response)
     end
