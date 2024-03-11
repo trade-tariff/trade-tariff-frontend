@@ -164,5 +164,9 @@ module "service" {
       name      = "SENTRY_DSN"
       valueFrom = data.aws_secretsmanager_secret.sentry_dsn.arn
     },
+    {
+      name      = "GREEN_LANES_API_TOKEN"
+      valueFrom = data.aws_secretsmanager_secret.green_lanes_api_token.arn
+    },
   ]
 }
