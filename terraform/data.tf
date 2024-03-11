@@ -40,3 +40,7 @@ data "aws_ssm_parameter" "ecr_url" {
 data "aws_secretsmanager_secret" "sentry_dsn" {
   name = "frontend-sentry-dsn"
 }
+
+data "aws_secretsmanager_secret" "green_lanes_api_token" {
+  name = "frontend-green-lanes-api-token"
+}

@@ -11,6 +11,7 @@ data "aws_iam_policy_document" "secrets" {
       data.aws_secretsmanager_secret.redis_connection_string.arn,
       data.aws_secretsmanager_secret.frontend_secret_key_base.arn,
       data.aws_secretsmanager_secret.sentry_dsn.arn,
+      data.aws_secretsmanager_secret.green_lanes_api_token.arn,
     ]
   }
 
