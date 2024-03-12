@@ -28,15 +28,24 @@
           <p class="govuk-body"><%= ca.geographical_area %></p>
           <% if ca.excluded_geographical_areas.any? %>
             <h3 class="govuk-heading-s">Excluded Geographical Area</h3>
-            <% ca.excluded_geographical_areas.each do |ga| %>
-              <p class="govuk-body"><%= ga.geographical_area %></p>
-            <% end %>
+            <p class="govuk-body"><%= ca.excluded_geographical_areas.map(&:description).to_sentence %></p>
           <% end %>
           <% if ca.exemptions.any? %>
+            <h3 class="govuk-heading-s">Exemptions</h3>
             <% ca.exemptions.each do |ex| %>
-              <h3 class="govuk-heading-s"><%= ex.class.model_name.human %></h3>
-              <p class="govuk-body"><%= ex.code %></p>
-              <p class="govuk-body"><%= ex.description %></p>
+              <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    <%= ex.code %>
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    <%= ex.description %>
+                  </dd>
+                  <dd class="govuk-summary-list__actions">
+                    <%= ex.class.model_name.human %>
+                  </dd>
+                </div>
+              </dl>
             <% end %>
           <% end %>
         </div>
