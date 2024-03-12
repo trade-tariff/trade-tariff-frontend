@@ -166,7 +166,7 @@ module "service" {
     },
     {
       name      = "GREEN_LANES_API_TOKEN"
-      valueFrom = data.aws_secretsmanager_secret.green_lanes_api_token.arn
+      valueFrom = data.aws_secretsmanager_secret.green_lanes_api_tokens.arn
     },
   ]
 }
