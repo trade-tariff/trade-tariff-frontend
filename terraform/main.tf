@@ -151,7 +151,7 @@ module "service" {
     },
     {
       name  = "ALLOW_GREEN_LANE"
-      value = "false"
+      value = var.allow_green_lanes
     },
   ]
 
