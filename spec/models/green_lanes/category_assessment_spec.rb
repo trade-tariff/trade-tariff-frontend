@@ -18,7 +18,14 @@ RSpec.describe GreenLanes::CategoryAssessment do
       ]
     end
 
+    let(:exemptions) do
+      %i[
+        exemptions
+      ]
+    end
+
     it { is_expected.to include :geographical_area }
     it { is_expected.to include :excluded_geographical_areas }
+    it { is_expected.to include :exemptions }
   end
 end

@@ -15,5 +15,14 @@ FactoryBot.define do
       category { %w[1 2 3].sample }
       theme { %w[Sanction Food Other].sample }
     end
+
+    trait :with_exemptions do
+      exemptions do
+        [
+          attributes_for(:certificate),
+          attributes_for(:additional_code),
+        ]
+      end
+    end
   end
 end
