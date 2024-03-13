@@ -11,16 +11,19 @@ module GreenLanes
       @category_assessments_search = CategoryAssessmentSearch.new(ca_search_params)
 
       if @category_assessments_search.valid?
-        @goods_nomenclature = GreenLanes::GoodsNomenclature.find(@category_assessments_search.commodity_code)
+        @goods_nomenclature = GreenLanes::GoodsNomenclature.find(
+          @category_assessments_search.commodity_code,
+          filter: { geographical_area_id: @category_assessments_search.country },
+        )
       else
-        render :index
+        render :show
       end
     end
 
     private
 
     def ca_search_params
-      params.require(:green_lanes_category_assessment_search).permit(:commodity_code)
+      params.require(:green_lanes_category_assessment_search).permit(:commodity_code, :country)
     end
 
     def check_allowed

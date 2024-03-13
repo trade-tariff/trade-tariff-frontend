@@ -5,7 +5,17 @@
       <%= f.govuk_text_field :commodity_code, width: 'one-quarter',
                              label: { text: 'Commodity Code'} %>
 
-      <%= f.govuk_submit("Search") %>
+      <%= f.govuk_collection_select :country,
+                                    TradingPartner.options,
+                                    :id,
+                                    :name,
+                                    options: { include_blank: 'All countries' },
+                                    label: { text: 'Select Origin' } %>
+
+      <div class="govuk-button-group">
+        <%= f.govuk_submit('Search') %>
+      </div>
+
     </fieldset>
   </div>
 <% end %>
