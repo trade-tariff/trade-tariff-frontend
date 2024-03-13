@@ -1,6 +1,7 @@
 module GreenLanes
   class CategoryAssessmentsController < ApplicationController
-    before_action :check_allowed
+    before_action :disable_search_form,
+                  :check_allowed
 
     def show
       @category_assessments_search = CategoryAssessmentSearch.new
