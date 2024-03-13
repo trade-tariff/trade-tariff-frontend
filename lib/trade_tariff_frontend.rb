@@ -177,6 +177,10 @@ module TradeTariffFrontend
     ENV['ALLOW_GREEN_LANE'].to_s == 'true'
   end
 
+  def green_lanes_api_token
+    'Bearer ' + ENV['GREEN_LANES_API_TOKEN']
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app
