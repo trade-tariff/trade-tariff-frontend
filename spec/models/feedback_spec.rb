@@ -86,4 +86,14 @@ RSpec.describe Feedback do
       it { expect(feedback.valid_page_useful_options?).to eq(false) }
     end
   end
+
+  describe '#disable_links' do
+    context 'when feedback contains link as text' do
+      let(:feedback) { build :feedback, :with_authenticity_token, :with_message_containing_link_text }
+
+      before { feedback.disable_links }
+
+      it { expect(feedback.message).to eq('google . com') }
+    end
+  end
 end
