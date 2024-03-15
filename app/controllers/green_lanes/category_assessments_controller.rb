@@ -16,6 +16,9 @@ module GreenLanes
           { filter: { geographical_area_id: @category_assessments_search.country } },
           { authorization: TradeTariffFrontend.green_lanes_api_token },
         )
+        if @goods_nomenclature.applicable_category_assessments.any?
+          Rails.logger.info "Number of category assessments: #{@goods_nomenclature.applicable_category_assessments.count}"
+        end
       else
         render :show
       end
