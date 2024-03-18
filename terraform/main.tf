@@ -149,6 +149,10 @@ module "service" {
       name  = "ENVIRONMENT"
       value = var.environment
     },
+    {
+      name  = "ALLOW_GREEN_LANE"
+      value = var.allow_green_lanes
+    },
   ]
 
   service_secrets_config = [

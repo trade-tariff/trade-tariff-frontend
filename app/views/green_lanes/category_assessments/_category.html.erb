@@ -1,0 +1,57 @@
+<% if @goods_nomenclature.applicable_category_assessments.any? %>
+  <h2>Applicable Category Assessments</h2>
+  <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+    <% @goods_nomenclature.applicable_category_assessments.each do |ca| %>
+      <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+          <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Category</dt>
+              <dd class="govuk-summary-list__value">
+                <%= ca.category %>
+              </dd>
+              <dd class="govuk-summary-list__actions"></dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Theme</dt>
+              <dd class="govuk-summary-list__value">
+                <%= ca.theme %>
+              </dd>
+              <dd class="govuk-summary-list__actions"></dd>
+            </div>
+          </span>
+          </h2>
+        </div>
+        <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+          <h3 class="govuk-heading-s">Geographical Area</h3>
+          <p class="govuk-body"><%= ca.geographical_area %></p>
+          <% if ca.excluded_geographical_areas.any? %>
+            <h3 class="govuk-heading-s">Excluded Geographical Area</h3>
+            <p class="govuk-body"><%= ca.excluded_geographical_areas.map(&:description).to_sentence %></p>
+          <% end %>
+          <% if ca.exemptions.any? %>
+            <h3 class="govuk-heading-s">Exemptions</h3>
+            <% ca.exemptions.each do |ex| %>
+              <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    <%= ex.code %>
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    <%= ex.description %>
+                  </dd>
+                  <dd class="govuk-summary-list__actions">
+                    <%= ex.class.model_name.human %>
+                  </dd>
+                </div>
+              </dl>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <h2>There are no Applicable Category Assessments</h2>
+<% end %>
