@@ -1,0 +1,23 @@
+<h2 class="govuk-heading-m">Search category assessments</h2>
+
+<%= form_for search_form, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post, url: green_lanes_category_assessments_path do |f| %>
+  <div class="searchfield govuk-form-group">
+    <%= f.govuk_error_summary %>
+    <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
+      <%= f.govuk_text_field :commodity_code, width: 'one-quarter',
+                             label: { text: 'Commodity Code'} %>
+
+      <%= f.govuk_collection_select :country,
+                                    TradingPartner.options,
+                                    :id,
+                                    :name,
+                                    options: { include_blank: 'All countries' },
+                                    label: { text: 'Select Origin' } %>
+
+      <div class="govuk-button-group">
+        <%= f.govuk_submit('Search') %>
+      </div>
+
+    </fieldset>
+  </div>
+<% end %>

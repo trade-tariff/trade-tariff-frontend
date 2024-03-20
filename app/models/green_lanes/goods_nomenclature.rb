@@ -1,7 +1,7 @@
 require 'api_entity'
 
 class GreenLanes::GoodsNomenclature
-  include ApiEntity
+  include XiOnlyApiEntity
 
   attr_accessor :goods_nomenclature_item_id,
                 :description,
@@ -16,4 +16,12 @@ class GreenLanes::GoodsNomenclature
   def all(opts = {})
     raise NotImplementedError, 'This method is not implemented'
   end
+
+  def filter_by_category(category)
+    if applicable_category_assessments.any?
+      grouped = applicable_category_assessments.group_by(&:category)
+      grouped[category]
+    end
+  end
+
 end

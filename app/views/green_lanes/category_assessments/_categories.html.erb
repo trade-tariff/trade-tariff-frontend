@@ -1,0 +1,18 @@
+<% if @goods_nomenclature.filter_by_category('1').any?%>
+  <h2>Category 1 Assessments</h2>
+  <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+    <% @goods_nomenclature.filter_by_category('1').each do |category| %>
+      <%= render 'green_lanes/category_assessments/category', category: category %>
+    <% end %>
+  </div>
+<% elsif @goods_nomenclature.filter_by_category('2').any?%>
+  <h2>Category 2 Assessments</h2>
+
+  <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+    <% @goods_nomenclature.filter_by_category('2').each do |category| %>
+      <%= render 'green_lanes/category_assessments/category', category: category %>
+    <% end %>
+  </div>
+<% else %>
+  <h2>There are no Applicable Category Assessments</h2>
+<% end %>
