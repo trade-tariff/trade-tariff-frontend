@@ -23,5 +23,4 @@ class GreenLanes::GoodsNomenclature
       grouped[category]
     end
   end
-
 end
