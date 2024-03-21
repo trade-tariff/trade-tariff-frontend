@@ -6,5 +6,6 @@ class GreenLanes::CategoryAssessmentSearch
   attr_accessor   :commodity_code,
                   :country
 
-  validates :commodity_code, presence: true, length: { minimum: 10, maximum: 10, message: 'Please search declarable commodity.' }
+  validates :commodity_code, presence: true,
+                             length: { minimum: 10, maximum: 10, message: 'Enter a declarable 10 digit commodity code.' }
 end
