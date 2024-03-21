@@ -13,5 +13,9 @@ FactoryBot.define do
     trait :with_invalid_choice do
       page_useful { 'invalid' }
     end
+
+    trait :with_message_containing_link_text do
+      message { 'google.com' }
+    end
   end
 end
