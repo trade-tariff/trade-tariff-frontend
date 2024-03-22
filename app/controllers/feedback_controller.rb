@@ -17,6 +17,7 @@ class FeedbackController < ApplicationController
     return redirect_to(find_commodity_path) unless @feedback.valid_page_useful_options?
 
     if @feedback.valid?
+      @feedback.disable_links
       FrontendMailer.new_feedback(@feedback).deliver_now
       @feedback.record_delivery!
 

@@ -26,6 +26,10 @@ class Feedback
     [nil, '', 'yes', 'no'].include?(page_useful)
   end
 
+  def disable_links
+    @message = @message.gsub(/(\S)(\.)(\S)/, '\1 . \3')
+  end
+
   private
 
   def authenticity_token_reuse
