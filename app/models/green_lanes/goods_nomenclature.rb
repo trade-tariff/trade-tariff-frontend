@@ -21,6 +21,8 @@ class GreenLanes::GoodsNomenclature
     if applicable_category_assessments.any?
       grouped = applicable_category_assessments.group_by(&:category)
       grouped[category]
+    else
+      []
     end
   end
 end
