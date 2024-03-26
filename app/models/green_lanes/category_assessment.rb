@@ -1,7 +1,7 @@
 require 'api_entity'
 
 class GreenLanes::CategoryAssessment
-  include ApiEntity
+  include XiOnlyApiEntity
 
   attr_accessor :category,
                 :theme

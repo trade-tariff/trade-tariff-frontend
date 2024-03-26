@@ -1,3 +1,6 @@
 .stacked-govuk-details details:not([open]):not(:last-of-type) {
   @include govuk-responsive-margin(1, "bottom");
 }
+.govuk-div--with-border {
+  border: 1px solid  $govuk-border-colour
+}
