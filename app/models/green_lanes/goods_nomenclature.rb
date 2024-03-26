@@ -18,11 +18,7 @@ class GreenLanes::GoodsNomenclature
   end
 
   def filter_by_category(category)
-    if applicable_category_assessments.any?
-      grouped = applicable_category_assessments.group_by(&:category)
-      grouped[category]
-    else
-      []
-    end
+    grouped = applicable_category_assessments.group_by(&:category)
+    grouped[category] || []
   end
 end

@@ -15,7 +15,7 @@ class TradingPartner
   end
 
   def self.options
-    GeographicalArea.all.sort_by(&:long_description).map do |geographical_area|
+    GeographicalArea.all.map do |geographical_area|
       OpenStruct.new(
         name: geographical_area.long_description,
         id: geographical_area.id,
