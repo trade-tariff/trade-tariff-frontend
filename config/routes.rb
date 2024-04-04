@@ -107,7 +107,7 @@ Rails.application.routes.draw do
 
   resolve('GreenLanes::CategoryAssessmentSearch') { [:category_assessments] }
 
-  scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.xi? } do
+  scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
     namespace :green_lanes do
       resource :category_assessments, only: %i[create show]
     end
