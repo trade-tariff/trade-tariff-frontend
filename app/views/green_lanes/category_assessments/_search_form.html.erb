@@ -10,7 +10,7 @@
       <%= f.govuk_collection_select :country,
                                     GreenLanes::CategoryAssessmentSearch.country_options,
                                     :id,
-                                    :name,
+                                    :long_description,
                                     options: { include_blank: 'All countries' },
                                     label: { text: 'Select Origin' } %>
 

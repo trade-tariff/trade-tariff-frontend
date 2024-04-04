@@ -10,11 +10,6 @@ class GreenLanes::CategoryAssessmentSearch
                              length: { minimum: 10, maximum: 10, message: 'Enter a declarable 10 digit commodity code.' }
 
   def self.country_options
-    GeographicalArea.all.sort_by(&:long_description).map do |geographical_area|
-      OpenStruct.new(
-        name: geographical_area.long_description,
-        id: geographical_area.id,
-      )
-    end
+    GeographicalArea.all.sort_by(&:long_description)
   end
 end
