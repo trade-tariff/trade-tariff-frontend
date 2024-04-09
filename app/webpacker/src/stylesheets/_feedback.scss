@@ -18,3 +18,7 @@
     color: red;
   }
 }
+
+#feedback-message-field-error { 
+  border-color: govuk-colour("red");
+}

@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :additional_code do
+    resource_type { 'additional_code' }
     additional_code_type_id { Forgery(:basic).text(exactly: 1).upcase }
     additional_code { Forgery(:basic).text(exactly: 3).upcase }
     code { Forgery(:basic).text(exactly: 4).upcase }

@@ -49,11 +49,11 @@ RSpec.feature 'Feedback', type: :feature do
 
   scenario 'feedback banner is not shown on feedback page' do
     visit '/404'
-    expect(page).to have_css 'a', text: 'feedback'
+    expect(page).to have_css 'a', exact_text: 'feedback'
     expect(page).to have_css 'p', text: 'Tell us what you think - your feedback will help us improve.'
 
     click_on 'feedback'
-    expect(page).not_to have_css 'a', text: 'feedback'
+    expect(page).not_to have_css 'a', exact_text: 'feedback'
     expect(page).not_to have_css 'p', text: 'Tell us what you think - your feedback will help us improve.'
   end
 end

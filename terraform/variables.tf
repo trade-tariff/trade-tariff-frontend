@@ -50,3 +50,9 @@ variable "tariff_email_to" {
   description = "Email address to send emails to."
   type        = string
 }
+
+variable "allow_green_lanes" {
+  description = "Enable green lanes api UI in front end"
+  type        = bool
+  default     = false
+}

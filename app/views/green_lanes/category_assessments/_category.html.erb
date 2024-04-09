@@ -1,0 +1,62 @@
+<div class="govuk-div--with-border">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h3 class="govuk-heading-s">Theme</h3>
+    <p><%= category.theme %></p>
+  </div>
+</div>
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h3 class="govuk-heading-s">Geographical Area</h3>
+    <p><%= category.geographical_area %></p>
+  </div>
+</div>
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <h3 class="govuk-heading-s">Measure Type</h3>
+  </div>
+  <div class="govuk-grid-column-one-half">
+    <h3 class="govuk-heading-s">Measure Type Description</h3>
+  </div>
+</div>
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <h3 class="govuk-heading-s">EU Regulation ID</h3>
+  </div>
+  <div class="govuk-grid-column-one-half">
+    <h3 class="govuk-heading-s">EU Regulation Description</h3>
+  </div>
+</div>
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h3 class="govuk-heading-s">Available Exemptions</h3>
+    <% if category.exemptions.any? %>
+      <td class="govuk-table__cell">
+        <% category.exemptions.each do |ex| %>
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                <%= ex.code %>
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <%= ex.description %>
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <%= ex.class.model_name.human %>
+              </dd>
+            </div>
+          </dl>
+        <% end %>
+      </td>
+    <% else %>
+      <td class="govuk-table__cell">None</td>
+    <% end %>
+  </div>
+</div>
+</div>
+<hr class="govuk-section-break govuk-section-break--m">
+

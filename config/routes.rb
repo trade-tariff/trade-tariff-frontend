@@ -105,6 +105,14 @@ Rails.application.routes.draw do
     get '/rules_of_origin/proofs', to: 'proofs#index', as: :proofs
   end
 
+  resolve('GreenLanes::CategoryAssessmentSearch') { [:category_assessments] }
+
+  scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
+    namespace :green_lanes do
+      resource :category_assessments, only: %i[create show]
+    end
+  end
+
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
 
   get '/search/toggle_beta_search', as: :toggle_beta_search, to: 'search#toggle_beta_search'
