@@ -6,6 +6,8 @@ class FindCommodity
                 :month,
                 :year,
                 :resource_id,
+                :as_of,
+                :country,
                 :commit
 
   validate :date_is_valid

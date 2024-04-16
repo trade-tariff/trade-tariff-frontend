@@ -5,6 +5,8 @@ RSpec.describe FindCommodity do
   it { is_expected.to respond_to :day }
   it { is_expected.to respond_to :month }
   it { is_expected.to respond_to :year }
+  it { is_expected.to respond_to :country }
+  it { is_expected.to respond_to :as_of }
 
   describe 'validation' do
     subject { instance.tap(&:valid?).errors.full_messages }
