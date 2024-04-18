@@ -9,13 +9,15 @@ RSpec.describe 'trading_partners/show', type: :view, vcr: { cassette_name: 'geog
     it { is_expected.to have_css 'header span', text: /UK Integrated/ }
   end
 
-  describe 'Tariff specific change' do
+  context 'with XI service' do
     include_context 'with XI service'
-    it { is_expected.to have_css 'form', text: / View EU / }
+
+    it { is_expected.to have_css '#trading-partner-country-hint', text: 'View EU' }
   end
 
-  describe 'Tariff specific change' do
+  context 'with UK service' do
     include_context 'with UK service'
-    it { is_expected.not_to have_css 'form', text: / View EU / }
+
+    it { is_expected.to have_css '#trading-partner-country-hint', text: 'View UK' }
   end
 end
