@@ -358,6 +358,7 @@ en:
             message:
               blank: Enter your feedback
               too_long: Edit your response to under %{count} characters
+              too_short: Edit your response to be over %{count} characters
 
         rules_of_origin/steps/scheme:
           attributes:
