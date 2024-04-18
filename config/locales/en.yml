@@ -262,8 +262,9 @@ en:
   trading_partner:
     form:
       legend_text: "Select a country"
-      hint_text: "Filter measures against the selected country"
-      submit: "Select country"
+      hint_text_uk: "View UK measures for the selected country"
+      hint_text_xi: "View EU and UK measures for the selected country"
+      submit: "Continue"
   additional_code_search:
     form:
       legend_text: "Search"
