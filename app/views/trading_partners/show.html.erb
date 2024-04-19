@@ -25,7 +25,7 @@
           :name,
           options: { prompt: true, },
           label: nil,
-          hint: { text: t('trading_partner.form.hint_text') } %>
+          hint: { text: TradeTariffFrontend::ServiceChooser.uk? ? t('trading_partner.form.hint_text_uk') : t('trading_partner.form.hint_text_xi') } %>
 
         <div class="govuk-button-group">
           <%= f.govuk_submit(t('trading_partner.form.submit')) %>
