@@ -1,11 +1,4 @@
 ---
-files: |
-  (?x)^(
-    ^terraform\/\S+ |
-    .circleci\/\S+  |
-    .pre\-commit\-config.yaml
-  )
-
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.81.0
@@ -23,5 +16,29 @@ repos:
     rev: v4.4.0
     hooks:
       - id: trailing-whitespace
+        exclude: ^spec/vcr|vendor/
       - id: end-of-file-fixer
+        exclude: ^spec/vcr|vendor/
       - id: check-yaml
+        exclude: ^spec/vcr|vendor/
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.38.0
+    hooks:
+      - id: markdownlint
+        args:
+          - "--fix"
+          - "--ignore"
+          - terraform
+
+  - repo: https://github.com/zahorniak/pre-commit-circleci.git
+    rev: v0.6
+    hooks:
+      - id: circleci_validate
+        args:
+          - --org-id=da607531-93bb-4321-90ed-08710434ce1c
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.16.1
+    hooks:
+      - id: gitleaks
