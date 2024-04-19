@@ -41,4 +41,3 @@ These are regular ActiveModel classes with the `Wizard::Base` mixin, and are hel
 These are regular erb partials held within `/app/views/rules_of_origin/steps` and utilising the GovUK Form Builder
 
 The are included in the `/app/views/rules_of_origin/show.html.erb` page template
-
