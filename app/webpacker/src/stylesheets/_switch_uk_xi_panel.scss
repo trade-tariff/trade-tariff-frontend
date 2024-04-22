@@ -35,7 +35,7 @@ header {
 
   .switch-service-control {
     @include govuk-media-query($from: tablet) {
-      margin-top: 0.8em;
+      margin-top: 0.0em;
     }
 
     @include govuk-media-query($until: tablet) {

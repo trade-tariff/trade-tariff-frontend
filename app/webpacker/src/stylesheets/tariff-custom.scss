@@ -78,3 +78,13 @@
 body {
   font-family: $govuk-font-family-gds-transport !important;
 }
+
+.govuk-breadcrumbs + .govuk-main-wrapper {
+  padding-top: 30px !important;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-list {
+    margin-bottom: 20px; 
+  }
+}
