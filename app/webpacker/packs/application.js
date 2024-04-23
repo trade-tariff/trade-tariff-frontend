@@ -53,7 +53,7 @@ require('../src/javascripts/country-autocomplete.js');
 require('../src/javascripts/quota-search.js');
 require('../src/javascripts/stop-scrolling-at-footer.js');
 
-require.context('govuk-frontend/govuk/assets');
+require.context('govuk-frontend/dist/govuk/assets');
 import { initAll } from 'govuk-frontend';
 initAll();
 
