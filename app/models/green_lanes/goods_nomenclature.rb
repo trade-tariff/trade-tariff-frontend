@@ -13,12 +13,24 @@ class GreenLanes::GoodsNomenclature
 
   has_many :applicable_category_assessments, class_name: 'GreenLanes::CategoryAssessment'
 
-  def all(opts = {})
-    raise NotImplementedError, 'This method is not implemented'
+  def all(_opts = {})
+    raise NoMethodError, 'This method is not implemented'
   end
 
   def filter_by_category(category)
-    grouped = applicable_category_assessments.group_by(&:category)
-    grouped[category] || []
+    grouped_assessments[category.to_i] || []
+  end
+
+  def primary_assessments_group
+    grouped_assessments.first&.second || []
+  end
+
+  private
+
+  def grouped_assessments
+    @grouped_assessments ||= \
+      Hash[applicable_category_assessments.group_by(&:category)
+                                          .transform_keys(&:to_i)
+                                          .sort]
   end
 end
