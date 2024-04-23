@@ -1,4 +1,4 @@
-<%= form_for TradingPartner.new(country: params['country']), method: :patch, url: trading_partners_path do |f| %>
+<%= form_for TradingPartner.new(country: params['country']), method: :patch, url: trading_partners_path,  html: { class: 'govuk-!-margin-bottom-7' } do |f| %>
   <fieldset class="govuk-fieldset country-picker js-country-picker govuk-!-font-size-16">
     <div class="country-picker-container">
       <%= f.hidden_field :render_errors, value: false %>
