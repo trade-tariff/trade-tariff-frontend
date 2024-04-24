@@ -25,8 +25,6 @@ class GreenLanes::GoodsNomenclature
     grouped_assessments.first&.second || []
   end
 
-  private
-
   def grouped_assessments
     @grouped_assessments ||= \
       Hash[applicable_category_assessments.group_by(&:category)
