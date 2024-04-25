@@ -125,4 +125,3 @@ CalendarButtonInput.prototype.handleFocus = function () {
     this.setLabel('');
   }
 };
-
