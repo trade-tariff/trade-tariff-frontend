@@ -10,7 +10,8 @@
     search: @search,
     show_stw_text: true,
     anchor: 'import',
-    roo_schemes: rules_of_origin_schemes
+    roo_schemes: rules_of_origin_schemes,
+    information: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls are restrictions the UK has for importing goods' : ''
   } %>
 <% end %>
 
