@@ -94,8 +94,8 @@ en:
     uk: United Kingdom
     xi: Northern Ireland
   country_picker:
-    uk_html: Trade between the UK and
-    xi_html: Trade between <abbr title="Northern Ireland">NI</abbr> and
+    uk_html: "View UK measures for the selected country"
+    xi_html: "View EU and UK measures for the selected country"
   measures_heading:
     uk:
       import: Importing into the UK
