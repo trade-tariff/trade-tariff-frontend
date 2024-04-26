@@ -162,6 +162,9 @@ en:
           Quotas can be non-preferential (open to many countries) or preferential
           (restricted to a particular trading partner).
         </p>
+        
+      import_controls_uk: "Import controls are restrictions the UK has for importing goods"
+      import_controls_xi: ""
 
   breadcrumb:
     average_rates: Average rates

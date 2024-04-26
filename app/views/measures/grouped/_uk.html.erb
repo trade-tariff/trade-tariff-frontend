@@ -11,7 +11,7 @@
     show_stw_text: true,
     anchor: 'import',
     roo_schemes: rules_of_origin_schemes,
-    information: TradeTariffFrontend::ServiceChooser.uk? ? 'Import controls are restrictions the UK has for importing goods' : ''
+    information: TradeTariffFrontend::ServiceChooser.uk? ? t('tabs.measures.import_controls_uk') : t('tabs.measures.import_controls_xi')
   } %>
 <% end %>
 
