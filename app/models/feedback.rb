@@ -30,7 +30,17 @@ class Feedback
     @message = @message.gsub(/(\S)(\.)(\S)/, '\1 . \3')
   end
 
+  def silently_fail?
+    only_integers?
+  end
+
   private
+
+  def only_integers?
+    paragraph_without_spaces = @message.gsub(/\s+/, '')
+
+    paragraph_without_spaces.match?(/\A\d+\z/)
+  end
 
   def authenticity_token_reuse
     return if tracking_token_count < TOKEN_TRACKING_MAX_USAGE

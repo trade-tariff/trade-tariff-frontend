@@ -96,4 +96,18 @@ RSpec.describe Feedback do
       it { expect(feedback.message).to eq('google . com') }
     end
   end
+
+  describe '#silently_fail?' do
+    context 'when feedback contains integers only' do
+      let(:feedback) { build :feedback, :with_authenticity_token, :with_message_containing_integers_only }
+
+      it { expect(feedback.silently_fail?).to be true }
+    end
+
+    context 'when feedback does not contain integers only' do
+      let(:feedback) { build :feedback, :with_authenticity_token }
+
+      it { expect(feedback.silently_fail?).to be false }
+    end
+  end
 end

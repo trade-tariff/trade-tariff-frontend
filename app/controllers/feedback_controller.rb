@@ -18,7 +18,7 @@ class FeedbackController < ApplicationController
 
     if @feedback.valid?
       @feedback.disable_links
-      FrontendMailer.new_feedback(@feedback).deliver_now
+      FrontendMailer.new_feedback(@feedback).deliver_now unless @feedback.silently_fail?
       @feedback.record_delivery!
 
       redirect_to feedback_thanks_path
