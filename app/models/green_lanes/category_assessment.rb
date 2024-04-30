@@ -3,14 +3,16 @@ require 'api_entity'
 class GreenLanes::CategoryAssessment
   include XiOnlyApiEntity
 
-  attr_accessor :category,
-                :theme
-
+  has_one :theme, class_name: 'GreenLanes::Theme'
+  has_one :measure_type
+  has_one :regulation, class_name: 'LegalAct'
   has_one :geographical_area
   has_many :excluded_geographical_areas, class_name: 'GeographicalArea'
   has_many :exemptions, polymorphic: true
 
-  def find(id, opts = {})
-    raise NotImplementedError, 'This method is not implemented'
+  delegate :category, to: :theme
+
+  def find(_id, _opts = {})
+    raise NoMethodError, 'This method is not implemented'
   end
 end

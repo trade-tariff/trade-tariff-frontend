@@ -1,19 +1,16 @@
 FactoryBot.define do
-  factory :category_assessment, class: 'GreenLanes::GoodsNomenclature' do
+  factory :category_assessment, class: 'GreenLanes::CategoryAssessment' do
     transient do
       geographical_area_id { 'FR' }
+      category { 2 }
     end
 
-    category { '1' }
-    theme { 'Sanction' }
+    theme        { attributes_for :green_lanes_theme, category: }
+    measure_type { attributes_for :measure_type }
+    regulation   { attributes_for :legal_act }
 
     geographical_area do
       attributes_for(:geographical_area, id: geographical_area_id)
-    end
-
-    trait :random_category do
-      category { %w[1 2 3].sample }
-      theme { %w[Sanction Food Other].sample }
     end
 
     trait :with_exemptions do
