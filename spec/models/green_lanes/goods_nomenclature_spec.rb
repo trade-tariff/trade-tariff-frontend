@@ -23,21 +23,21 @@ RSpec.describe GreenLanes::GoodsNomenclature do
             applicable_category_assessments: assessments
     end
 
-    context 'with only category 1' do
+    context 'with only category 1 assessments' do
       let(:assessments) { attributes_for_pair :category_assessment, category: 1 }
 
       it { is_expected.to have_attributes length: 2 }
       it { is_expected.to all have_attributes category: 1 }
     end
 
-    context 'with only category 2' do
+    context 'with only category 2 assessments' do
       let(:assessments) { attributes_for_pair :category_assessment, category: 2 }
 
       it { is_expected.to have_attributes length: 2 }
       it { is_expected.to all have_attributes category: 2 }
     end
 
-    context 'with mix of category 1 and category 2' do
+    context 'with both of category 1 and category 2 assessments' do
       let :assessments do
         [
           attributes_for(:category_assessment, category: 2),
