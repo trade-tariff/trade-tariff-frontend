@@ -1,6 +1,6 @@
 <%= render 'search_form', search_form: @category_assessments_search %>
 
-<%= page_header "Search results for #{h @category_assessments_search.commodity_code}" %>
+<%= page_header "Search results for #{@category_assessments_search.commodity_code}" %>
 
 <article class="search-results govuk-!-padding-top-1">
   <% if @goods_nomenclature.present? %>
@@ -25,6 +25,7 @@
       </div>
     </dl>
 
-    <%= render 'green_lanes/category_assessments/categories' %>
+    <%= render 'green_lanes/category_assessments/categories',
+               assessments: @goods_nomenclature.grouped_assessments %>
   <% end %>
 </article>

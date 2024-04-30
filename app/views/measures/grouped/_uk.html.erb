@@ -10,7 +10,8 @@
     search: @search,
     show_stw_text: true,
     anchor: 'import',
-    roo_schemes: rules_of_origin_schemes
+    roo_schemes: rules_of_origin_schemes,
+    information: TradeTariffFrontend::ServiceChooser.uk? ? t('tabs.measures.import_controls_uk') : t('tabs.measures.import_controls_xi')
   } %>
 <% end %>
 

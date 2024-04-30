@@ -17,5 +17,9 @@ FactoryBot.define do
     trait :with_message_containing_link_text do
       message { 'google.com' }
     end
+
+    trait :with_message_containing_integers_only do
+      message { '1234567890' }
+    end
   end
 end

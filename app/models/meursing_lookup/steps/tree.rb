@@ -24,7 +24,7 @@ module MeursingLookup
       end
 
       def current_meursing_code_level
-        raise NotImplementedError, 'Implement this where this module is included'
+        raise NoMethodError, 'Implement this where this module is included'
       end
 
       def starch_answer

@@ -1,4 +1,4 @@
-<div class="govuk-tabs" data-module="govuk-tabs">
+<div class="govuk-tabs govuk-!-margin-top-0" data-module="govuk-tabs">
   <ul class="govuk-tabs__list">
     <li class="govuk-tabs__list-item">
       <a class="govuk-tabs__tab" href="#import">Import</a>
@@ -7,7 +7,7 @@
       <a class="govuk-tabs__tab" href="#export">Export</a>
     </li>
     <li class="govuk-tabs__list-item">
-      <a class="govuk-tabs__tab" href="#rules-of-origin">Rules of origin</a>
+      <a class="govuk-tabs__tab" href="#rules-of-origin">Origin</a>
     </li>
     <% if declarable.has_chemicals? %>
       <div data-controller="chemicals">
@@ -23,7 +23,12 @@
 
   <!-- Import tab -->
   <div class="govuk-tabs__panel" id="import">
-    <h2 class="govuk-heading-l"><%= measures_heading(anchor: 'import') %></h2>
+    
+    <h2 class="govuk-heading-m"><%= measures_heading(anchor: 'import') %></h2>
+    
+    <p>Select a country to view country-specific import information.</p>
+    
+    <p>You will then be able to check in the Origin tab if preferential tariff treatments apply to this specific commodity.</p>
 
     <%= render 'declarables/consigned', declarable: declarable %>
 
