@@ -78,5 +78,20 @@ RSpec.describe FeedbackController, type: :request do
         expect(ActionMailer::Base.deliveries.count).to eq(0)
       end
     end
+
+    context 'when feedback message contains integers only' do
+      let(:params) do
+        {
+          feedback: { message: '1234567890' },
+          authenticity_token: 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw',
+        }
+      end
+
+      it { is_expected.to redirect_to(feedback_thanks_url) }
+
+      it 'will not send the email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
+      end
+    end
   end
 end

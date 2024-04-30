@@ -16,18 +16,27 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
     <h3 class="govuk-heading-s">Measure Type</h3>
+    <p><%= category.measure_type.id %></p>
   </div>
   <div class="govuk-grid-column-one-half">
     <h3 class="govuk-heading-s">Measure Type Description</h3>
+    <p><%= category.measure_type.description %></p>
   </div>
 </div>
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
     <h3 class="govuk-heading-s">EU Regulation ID</h3>
+    <p><%= category.regulation.regulation_code %></p>
   </div>
   <div class="govuk-grid-column-one-half">
     <h3 class="govuk-heading-s">EU Regulation Description</h3>
+    <p><%= category.regulation.description %></p>
+    <% if category.regulation.regulation_url.present? %>
+    <p>
+      <%= link_to 'Further information', category.regulation.regulation_url, target: '_blank' %>
+    </p>
+    <% end %>
   </div>
 </div>
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
