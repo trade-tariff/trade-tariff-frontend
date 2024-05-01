@@ -551,9 +551,10 @@
               },
               onConfirm: function(confirmed) {
                 const code = /\((\w\w)\)/.test(confirmed) ? /\((\w\w)\)/.exec(confirmed)[1] : null;
-                $(this.selectElement).val(code);
-                $(this.selectElement).siblings('input[name$="[anchor]"]').val(window.location.hash.substring(1)); // maintain the tab
-                $(this.selectElement).parents('form:first').trigger('submit');
+                element.val(code);
+                const anchorInput = element.closest('.govuk-fieldset').find('input[name$="[anchor]"]');
+                anchorInput.val(window.location.hash.substring(1)); // maintain the tab
+                element.parents('form:first').trigger('submit');
               },
             });
 
