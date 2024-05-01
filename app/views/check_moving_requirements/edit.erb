@@ -1,0 +1,86 @@
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+    "Check measures for movements from GB to NI",
+    [
+      [t('breadcrumb.home'), home_path],
+      ["Section", browse_sections_path],
+    ]
+  ) %>
+<% end %>
+
+
+<%= page_header do %>
+  <h1 class="govuk-heading-l">
+    Tell us about your movement of goods
+  </h1>
+<% end %>
+
+<p>Details provided will help us display specific requirements for your goods.</p>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= form_with model:@check_moving_requirement, url: '/check_moving_requirement' do |f| %>
+      <%= f.label :commodity_code, "What is your commodity code?", class: 'govuk-heading-s' %>
+
+      <p>
+        Commodity codes are internationally recognised reference numbers that describe specific goods.
+        Search the Online Trade Tariff if you're unsure of your commodity code.
+      </p>
+
+      <%= f.text_field :commodity_code, class: "govuk-input", id: "commodity_code" %>
+
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+      <%= f.label :country_of_origin, "What is the origin of your goods?", class: 'govuk-heading-s' %>
+      <p>
+        Origin allows for various policy measures to be implemented and for duties to be calculated.
+        Find out more about origin if you're unsure which country to select.
+      </p>
+
+      <%= f.text_field :country_of_origin, class: "govuk-input", id: "country_of_origin" %>
+
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+      <%= f.label :day, "When is the movement of goods taking place?", class: 'govuk-heading-s' %>
+
+      <p>
+        Requirements can change over time. If you are unsure of the date of movement and want to check requirements currently in place, enter today's date.
+      </p>
+
+      <div class="govuk-form-group">
+        <%= content_tag :legend, 'Enter the date for which you would like to return results', class: 'govuk-label' %>
+        <%= content_tag :div, 'If you leave this field blank, then today\'s date will be used', class: 'govuk-hint' %>
+
+        <div class="govuk-date-input" id="date">
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <%= f.label 'Day', class: 'govuk-label govuk-date-input__label', for: :day %>
+              <%= f.text_field :day, class: 'govuk-input govuk-input--width-2', maxlength: 2 %>
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <%= f.label 'Month', class: 'govuk-label govuk-date-input__label', for: :day %>
+              <%= f.text_field :month, class: 'govuk-input govuk-input--width-2', maxlength: 2 %>
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <%= f.label 'Year', class: 'govuk-label govuk-date-input__label', for: :day %>
+              <%= f.text_field :year, class: 'govuk-input govuk-input--width-4', maxlength: 4 %>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <%= f.submit "Continue", class: "govuk-button" %>
+    <% end %>
+
+    <p class="govuk-heading-s">If you need help using this tool</p>
+    <p>
+      Contaxt xxxxxxx ...
+    </p>
+  </div>
+</div>

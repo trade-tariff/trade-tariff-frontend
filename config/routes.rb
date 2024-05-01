@@ -215,6 +215,14 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/check_moving_requirements/start', to: 'check_moving_requirements#start'
+  get '/check_moving_requirements/edit', to: 'check_moving_requirements#edit', as: :edit_check_moving_requirements
+
+  # This solution does not work because edit action could have an empy commodity_code in the URL
+  # resources :check_moving_requirements, only: %i[show update edit] do
+  #   get 'start', on: :collection
+  # end
+
   get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
 
   get '/robots.:format', to: 'pages#robots'
