@@ -53,7 +53,7 @@ require('../src/javascripts/quota-search.js');
 require('../src/javascripts/stop-scrolling-at-footer.js');
 
 require.context('govuk-frontend/dist/govuk/assets');
-import {initAll} from 'govuk-frontend';
+import {initAll} from 'govuk-frontend/dist/govuk/govuk-frontend.min.js';
 initAll();
 
 // load Stimulus controllers
