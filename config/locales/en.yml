@@ -393,6 +393,15 @@ en:
             rule:
               inclusion: Select whether your goods meet any of these rules
 
+        check_moving_requirements_form:
+          attributes:
+            moving_date:
+              blank: Enter a valid date
+            country_of_origin:
+              blank: Select the country of origin
+            commodity_code:
+              wrong_length: Commodity code must have 10 digits
+
   helpers:
     legend:
       rules_of_origin_steps_scheme:

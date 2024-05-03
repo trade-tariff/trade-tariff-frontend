@@ -215,8 +215,10 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/check_moving_requirements/start', to: 'check_moving_requirements#start'
+  get '/check_moving_requirements/start', to: 'check_moving_requirements#start', as: :start_check_moving_requirements
   get '/check_moving_requirements/edit', to: 'check_moving_requirements#edit', as: :edit_check_moving_requirements
+  put '/check_moving_requirements/update', to: 'check_moving_requirements#update', as: :update_check_moving_requirements
+  get '/check_moving_requirements/result', to: 'check_moving_requirements#result', as: :result_check_moving_requirements
 
   # This solution does not work because edit action could have an empy commodity_code in the URL
   # resources :check_moving_requirements, only: %i[show update edit] do
