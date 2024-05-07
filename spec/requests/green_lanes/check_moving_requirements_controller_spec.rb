@@ -5,6 +5,7 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
 
   before do
     allow(GreenLanes::CategoryAssessmentSearch).to receive(:country_options).and_return([])
+    allow(TradeTariffFrontend).to receive(:check_moving_requirements_enabled?).and_return(true)
   end
 
   describe 'GET #start' do
@@ -13,6 +14,20 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
     end
 
     it { is_expected.to have_http_status :ok }
+  end
+
+  describe 'when the feature "check moving requirements" is disabled' do
+    let(:make_request) do
+      get start_check_moving_requirements_path
+    end
+
+    before do
+      allow(TradeTariffFrontend).to receive(:check_moving_requirements_enabled?).and_return(false)
+    end
+
+    it { is_expected.to have_http_status :not_found }
+
+    it { is_expected.to render_template 'errors/not_found' }
   end
 
   describe 'GET #edit' do

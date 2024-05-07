@@ -1,4 +1,6 @@
 class CheckMovingRequirementsController < ApplicationController
+  before_action :check_moving_requirements
+
   def start
     @commodity_code = params[:code]
     render 'start'
@@ -29,5 +31,11 @@ class CheckMovingRequirementsController < ApplicationController
       :country_of_origin,
       :moving_date,
     )
+  end
+
+  def check_moving_requirements
+    unless TradeTariffFrontend.check_moving_requirements_enabled?
+      raise TradeTariffFrontend::FeatureUnavailable
+    end
   end
 end
