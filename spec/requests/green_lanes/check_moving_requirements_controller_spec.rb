@@ -41,7 +41,7 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
   describe 'PUT #update' do
     context 'when all the form values are correct' do
       let(:make_request) do
-        put update_check_moving_requirements_path, params: {
+        put check_moving_requirements_path, params: {
           check_moving_requirements_form: {
             commodity_code: '1234567890',
             country_of_origin: 'IT',
@@ -57,7 +57,7 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
 
     context 'when a value is missing or incorrect' do
       let(:make_request) do
-        put update_check_moving_requirements_path, params: {
+        put check_moving_requirements_path, params: {
           check_moving_requirements_form: {
             commodity_code: '',
             country_of_origin: 'IT',
