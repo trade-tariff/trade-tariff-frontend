@@ -85,4 +85,16 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
 
     it { expect(helper.current_goods_nomenclature_code).to eq('1901200000') }
   end
+
+  describe '#referer_goods_nomenclature_code' do
+    context 'when there is no referer' do
+      before { allow(helper.request).to receive(:referer).and_return(nil) }
+
+      it { expect(helper.referer_goods_nomenclature_code).to eq(nil) }
+    end
+
+    context 'when there is a referer' do
+      it { expect(helper.referer_goods_nomenclature_code).to eq('2402201000') }
+    end
+  end
 end

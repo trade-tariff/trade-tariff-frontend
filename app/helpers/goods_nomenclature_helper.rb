@@ -4,7 +4,7 @@ module GoodsNomenclatureHelper
   end
 
   def goods_nomenclature_path(path_opts = {})
-    path_opts = goods_nomenclature_path_opts.merge(path_opts) if current_goods_nomenclature_code.present?
+    path_opts = goods_nomenclature_path_opts.merge(path_opts.reject { |k, v| (k == :id && v.blank?) }) if current_goods_nomenclature_code.present?
 
     case current_goods_nomenclature_code&.size
     when nil
@@ -30,6 +30,10 @@ module GoodsNomenclatureHelper
 
   def current_goods_nomenclature_code
     session[:goods_nomenclature_code]
+  end
+
+  def referer_goods_nomenclature_code
+    referer.path.match(%r{/commodities/(\d+)})[1] if referer.present? && referer.path.present?
   end
 
   private
