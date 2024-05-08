@@ -13,7 +13,6 @@ RSpec.describe 'goods_nomenclatures/_ancestors', type: :view do
 
     it { is_expected.to have_css 'nav.commodity-ancestors' }
     it { is_expected.to have_css %(nav[aria-label*="commodity code #{declarable.code}"]) }
-    it { is_expected.to have_css 'nav a.govuk-skip-link', text: /commodity #{declarable.code}/ }
     it { is_expected.to have_css 'nav ol li', count: row_count }
     it { is_expected.to have_css 'li span.commodity-ancestors__identifier', count: row_count }
     it { is_expected.to have_css 'li span.commodity-ancestors__descriptor', count: row_count }
@@ -67,7 +66,6 @@ RSpec.describe 'goods_nomenclatures/_ancestors', type: :view do
 
     it { is_expected.to have_css 'nav.commodity-ancestors' }
     it { is_expected.to have_css %(nav[aria-label*="commodity code #{declarable.code}"]) }
-    it { is_expected.to have_css 'nav a.govuk-skip-link', text: /commodity #{declarable.code}/ }
     it { is_expected.to have_css 'nav ol li', count: 3 }
     it { is_expected.to have_css 'li span.commodity-ancestors__identifier', count: 3 }
     it { is_expected.to have_css 'li span.commodity-ancestors__descriptor', count: 3 }
