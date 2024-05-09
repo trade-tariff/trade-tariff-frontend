@@ -29,8 +29,7 @@
         Search the Online Trade Tariff if you're unsure of your commodity code.
       </p>
 
-      <%= f.govuk_text_field :commodity_code, width: 'one-quarter',
-                  label: { text: 'Commodity Code'} %>
+      <%= f.govuk_text_field :commodity_code, width: 'one-quarter', label: { text: 'Commodity Code'} %>
 
       <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
@@ -52,7 +51,10 @@
       <%= f.govuk_date_field :moving_date,
         maxlength_enabled: true,
         legend: { text: 'When is the movement of goods taking place?', size: 's', tag: 'h1' },
-        hint: { text: "Arrangements can change over time. If you are unsure of the date of movement and want to check arrangements currently in place, enter today's date." } %>
+        hint: { text: "Arrangements can change over time. If you are unsure of the date of " \
+                      "movement and want to check arrangements currently in place, enter today's date."
+              }
+      %>
 
       <%= f.submit "Continue", class: "govuk-button" %>
     <% end %>

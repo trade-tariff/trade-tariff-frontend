@@ -34,7 +34,6 @@ RSpec.describe GreenLanes::CheckMovingRequirementsController, type: :request do
     let(:make_request) do
       get edit_green_lanes_check_moving_requirements_path
     end
-    
 
     it { is_expected.to have_http_status :ok }
   end
