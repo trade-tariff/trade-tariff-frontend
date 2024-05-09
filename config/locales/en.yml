@@ -393,7 +393,7 @@ en:
             rule:
               inclusion: Select whether your goods meet any of these rules
 
-        check_moving_requirements_form:
+        green_lanes/check_moving_requirements_form:
           attributes:
             moving_date:
               blank: Enter a valid date
