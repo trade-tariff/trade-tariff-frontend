@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe CheckMovingRequirementsController, type: :request do
+RSpec.describe GreenLanes::CheckMovingRequirementsController, type: :request do
   subject { make_request && response }
 
   before do
@@ -10,7 +10,7 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
 
   describe 'GET #start' do
     let(:make_request) do
-      get start_check_moving_requirements_path
+      get start_green_lanes_check_moving_requirements_path
     end
 
     it { is_expected.to have_http_status :ok }
@@ -18,7 +18,7 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
 
   describe 'when the feature "check moving requirements" is disabled' do
     let(:make_request) do
-      get start_check_moving_requirements_path
+      get start_green_lanes_check_moving_requirements_path
     end
 
     before do
@@ -32,8 +32,9 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
 
   describe 'GET #edit' do
     let(:make_request) do
-      get edit_check_moving_requirements_path
+      get edit_green_lanes_check_moving_requirements_path
     end
+    
 
     it { is_expected.to have_http_status :ok }
   end
@@ -41,7 +42,7 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
   describe 'PUT #update' do
     context 'when all the form values are correct' do
       let(:make_request) do
-        put check_moving_requirements_path, params: {
+        put green_lanes_check_moving_requirements_path, params: {
           check_moving_requirements_form: {
             commodity_code: '1234567890',
             country_of_origin: 'IT',
@@ -52,12 +53,12 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
         }
       end
 
-      it { is_expected.to redirect_to(result_check_moving_requirements_path) }
+      it { is_expected.to redirect_to(result_green_lanes_check_moving_requirements_path) }
     end
 
     context 'when a value is missing or incorrect' do
       let(:make_request) do
-        put check_moving_requirements_path, params: {
+        put green_lanes_check_moving_requirements_path, params: {
           check_moving_requirements_form: {
             commodity_code: '',
             country_of_origin: 'IT',
