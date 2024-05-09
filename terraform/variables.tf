@@ -51,7 +51,7 @@ variable "tariff_email_to" {
   type        = string
 }
 
-variable "allow_green_lanes" {
+variable "green_lanes_enabled" {
   description = "Enable green lanes api UI in front end"
   type        = bool
   default     = false

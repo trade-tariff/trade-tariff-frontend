@@ -5,7 +5,7 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
 
   before do
     allow(GreenLanes::CategoryAssessmentSearch).to receive(:country_options).and_return([])
-    allow(TradeTariffFrontend).to receive(:check_moving_requirements_enabled?).and_return(true)
+    allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return(true)
   end
 
   describe 'GET #start' do
@@ -22,7 +22,7 @@ RSpec.describe CheckMovingRequirementsController, type: :request do
     end
 
     before do
-      allow(TradeTariffFrontend).to receive(:check_moving_requirements_enabled?).and_return(false)
+      allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return(false)
     end
 
     it { is_expected.to have_http_status :not_found }

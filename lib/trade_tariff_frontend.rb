@@ -169,16 +169,12 @@ module TradeTariffFrontend
     ENV['BETA_SEARCH_FACET_FILTER_DISPLAY_PERCENTAGE_THRESHOLD'].to_i
   end
 
-  def check_moving_requirements_enabled?
-    ENV['CHECK_MOVING_REQUIREMENTS_ENABLED'] == 'true'
-  end
-
   def legacy_results_to_show
     ENV.fetch('LEGACY_RESULTS_TO_SHOW', '5').to_i
   end
 
-  def green_lane_allowed?
-    ENV['ALLOW_GREEN_LANE'].to_s == 'true'
+  def green_lanes_enabled?
+    ENV['GREEN_LANES_ENABLED'].to_s == 'true'
   end
 
   def green_lanes_api_token

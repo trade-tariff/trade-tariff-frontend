@@ -34,7 +34,7 @@ class CheckMovingRequirementsController < ApplicationController
   end
 
   def check_moving_requirements
-    unless TradeTariffFrontend.check_moving_requirements_enabled?
+    unless TradeTariffFrontend.green_lanes_enabled?
       raise TradeTariffFrontend::FeatureUnavailable
     end
   end
