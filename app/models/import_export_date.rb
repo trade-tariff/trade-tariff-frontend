@@ -4,6 +4,7 @@ class ImportExportDate
   include ActiveRecord::AttributeAssignment
 
   attribute :import_date, :tariff_date
+  attribute :previous_page_referer
 
   delegate :day, :month, :year, to: :import_date, allow_nil: true
 

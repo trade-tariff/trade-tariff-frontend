@@ -32,8 +32,8 @@ module GoodsNomenclatureHelper
     session[:goods_nomenclature_code]
   end
 
-  def referer_goods_nomenclature_code
-    referer.path.match(%r{/commodities/(\d+)})[1] if referer.present? && referer.path.present?
+  def referer_goods_nomenclature_code(referer_link)
+    referer_link.match(%r{/commodities/(\d+)})[1] if referer_link.present?
   end
 
   private
