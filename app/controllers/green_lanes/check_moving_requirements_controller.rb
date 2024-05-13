@@ -1,6 +1,7 @@
 module GreenLanes
   class CheckMovingRequirementsController < ApplicationController
-    before_action :check_moving_requirements
+    before_action :check_moving_requirements,
+                  :disable_switch_service_banner
 
     def start
       @commodity_code = params[:code]
@@ -27,7 +28,7 @@ module GreenLanes
     private
 
     def check_moving_requirements_params
-      params.require(:check_moving_requirements_form).permit(
+      params.require(:green_lanes_check_moving_requirements_form).permit(
         :commodity_code,
         :country_of_origin,
         :moving_date,

@@ -1,67 +1,68 @@
-<% content_for :top_breadcrumbs do %>
-  <%= generate_breadcrumbs(
-    "Check measures for movements from GB to NI",
-    [
-      [t('breadcrumb.home'), home_path],
-      ["Section", browse_sections_path],
-    ]
-  ) %>
-<% end %>
-
-
-<%= page_header do %>
-  <h1 class="govuk-heading-l">
-    Tell us about your movement of goods
-  </h1>
-<% end %>
-
-<p>Details provided will help us display specific requirements for your goods.</p>
+<%= back_link start_green_lanes_check_moving_requirements_path %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
+    <header>
+      <span class="govuk-caption-xl">
+        Check arrangements for internal market movements
+      </span>
+
+      <h1 class="govuk-heading-l">
+        Tell us about your movement of goods
+      </h1>
+    </header>
+
     <%= form_for @check_moving_requirements_form, builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-          method: :put,
-          url: green_lanes_check_moving_requirements_path do |f| %>
+        method: :put,
+        url: green_lanes_check_moving_requirements_path do |f| %>
 
-      <p>
-        Commodity codes are internationally recognised reference numbers that describe specific goods.
-        Search the Online Trade Tariff if you're unsure of your commodity code.
-      </p>
+      <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_field :commodity_code, width: 'one-quarter', label: { text: 'Commodity Code'} %>
+      <p>Details provided will help us display specific requirements for your goods.</p>
 
-      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-      <%= f.label :country_of_origin, "What is the origin of your goods?", class: 'govuk-heading-s' %>
-      <p>
-        Origin allows for various policy measures to be implemented and for duties to be calculated.
-        Find out more about origin if you're unsure which country to select.
-      </p>
+      <%= f.govuk_text_field :commodity_code, maxlength: 10,
+                             label: { text: "What is your commodity code?", size: 's'},
+                             hint: { text: "Commodity codes are internationally recognised reference numbers that describe specific goods." \
+                                           "Search the Online Trade Tariff if you're unsure of your commodity code.",
+                                    },
+                             style: "width:330px"
+      %>
 
       <%= f.govuk_collection_select :country_of_origin,
                               GreenLanes::CategoryAssessmentSearch.country_options,
                               :id,
                               :long_description,
                               options: { include_blank: '' },
-                              label: { text: 'Select Origin' } %>
+                              label: { text: "What is the origin of your goods?", size: 's' },
+                              hint: { text: "Origin allows for various policy measures to be implemented and for duties" \
+                                            "to be calculated. Find out more about origin if you're unsure which country to select.",
+                                    },
+                              style: "width:330px"
+      %>
 
-      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      <%= f.label :commodity_code, "When is the movement of goods taking place?", class: 'govuk-heading-s',
+                  for: 'green_lanes_check_moving_requirements_form_moving_date_3i' %>
 
       <%= f.govuk_date_field :moving_date,
         maxlength_enabled: true,
-        legend: { text: 'When is the movement of goods taking place?', size: 's', tag: 'h1' },
         hint: { text: "Arrangements can change over time. If you are unsure of the date of " \
-                      "movement and want to check arrangements currently in place, enter today's date."
-              }
-      %>
+                      "movement and want to check arrangements currently in place, enter today's date.",
+                      class: 'govuk-body-l'
+              },
+        legend: nil %>
 
-      <%= f.submit "Continue", class: "govuk-button" %>
+        <%= f.submit "Continue", class: "govuk-button" %>
     <% end %>
 
-    <p class="govuk-heading-s">If you need help using this tool</p>
+    <p class="govuk-heading-s govuk-!-static-margin-top-5">If you need help using this tool</p>
     <p>
-      Contaxt xxxxxxx ...
+      Contact xxxxxxx ...
     </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>aaaaa</i>
+      <li>bbbbb</i>
+      <li>ccccc</i>
+    </ul>
   </div>
 </div>
