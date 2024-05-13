@@ -42,6 +42,7 @@
                          summary: rule.rule,
                          content: govspeak(rule.all_footnotes) %>
             <% else %>
+              <%= govspeak rule.operator%>
               <%= govspeak link_glossary_terms(rule.rule) %>
             <% end %>
           <% end %>
