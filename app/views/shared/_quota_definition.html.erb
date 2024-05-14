@@ -122,7 +122,7 @@
       <% id = "missing-definition-#{order_number.licenced? ? "licenced" : "non-licenced"}" %>
       <p id="<%= id %>" class="govuk-!-margin-top-4">
         <% if order_number.licenced? %>
-          Information on the availability of licenced quotas can be obtained from the <%= link_to("Rural Payments Agency (opens in new browser window)", "https://www.gov.uk/government/organisations/rural-payments-agency", target: '_blank', class: 'govuk-link') %>.
+          Information on the availability of licenced quotas can be obtained from the <%= link_to("UK tariff rate quotas (opens in new browser window)", "https://www.gov.uk/government/collections/uk-tariff-rate-quotas-allocation-of-co-efficients", target: '_blank', class: 'govuk-link') %>.
         <% else %>
           No further information for this quota can be found.
         <% end %>
