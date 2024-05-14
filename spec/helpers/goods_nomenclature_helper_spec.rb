@@ -11,10 +11,8 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
   let(:url_options) { { country: 'AR', year: '2021', month: '01', day: '01' } }
 
   describe '#goods_nomenclature_back_link' do
-    let(:session_goods_nomenclature_code) { '1901200000' }
-
     it 'returns the correct link html' do
-      expected_link = '<a class="govuk-back-link" href="/commodities/1901200000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back</a>'
+      expected_link = '<a class="govuk-back-link" href="/commodities/2402201000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back</a>'
 
       expect(helper.goods_nomenclature_back_link).to eq(expected_link)
     end

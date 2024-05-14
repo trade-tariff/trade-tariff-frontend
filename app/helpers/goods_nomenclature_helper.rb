@@ -1,6 +1,6 @@
 module GoodsNomenclatureHelper
   def goods_nomenclature_back_link
-    link_to('Back', goods_nomenclature_path, class: 'govuk-back-link')
+    link_to('Back', goods_nomenclature_path(id: referer_goods_nomenclature_code(request.referer)), class: 'govuk-back-link')
   end
 
   def goods_nomenclature_path(path_opts = {})
