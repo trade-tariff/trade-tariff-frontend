@@ -1,7 +1,8 @@
 module GreenLanes
   class CheckMovingRequirementsController < ApplicationController
     before_action :check_moving_requirements,
-                  :disable_switch_service_banner
+                  :disable_switch_service_banner,
+                  :disable_search_form
 
     def start
       @commodity_code = params[:code]
