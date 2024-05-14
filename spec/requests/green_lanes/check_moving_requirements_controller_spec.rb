@@ -42,7 +42,7 @@ RSpec.describe GreenLanes::CheckMovingRequirementsController, type: :request do
     context 'when all the form values are correct' do
       let(:make_request) do
         put green_lanes_check_moving_requirements_path, params: {
-          check_moving_requirements_form: {
+          green_lanes_check_moving_requirements_form: {
             commodity_code: '1234567890',
             country_of_origin: 'IT',
             'moving_date(3i)' => '3',
@@ -58,7 +58,7 @@ RSpec.describe GreenLanes::CheckMovingRequirementsController, type: :request do
     context 'when a value is missing or incorrect' do
       let(:make_request) do
         put green_lanes_check_moving_requirements_path, params: {
-          check_moving_requirements_form: {
+          green_lanes_check_moving_requirements_form: {
             commodity_code: '',
             country_of_origin: 'IT',
             'moving_date(3i)' => '3',
