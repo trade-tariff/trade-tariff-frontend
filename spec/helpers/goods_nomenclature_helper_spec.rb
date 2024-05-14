@@ -96,5 +96,11 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
     context 'when there is a referer' do
       it { expect(helper.referer_goods_nomenclature_code(helper.request.referer)).to eq('2402201000') }
     end
+
+    context 'when there is non commodity code referer' do
+      before { allow(helper.request).to receive(:referer).and_return('http://example.com/something/else') }
+
+      it { expect(helper.referer_goods_nomenclature_code(helper.request.referer)).to eq(nil) }
+    end
   end
 end
