@@ -42,10 +42,8 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
 
   describe '#goods_nomenclature_link_back_link' do
     context 'when the session goods_nomenclature_code is a commodity code' do
-      let(:session_goods_nomenclature_code) { '1901200000' }
-
       it 'returns a return link for the commodity' do
-        expected_link = '<a class="govuk-back-link" href="/commodities/1901200000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back to commodity 1901200000</a>'
+        expected_link = '<a class="govuk-back-link" href="/commodities/2402201000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back to commodity 2402201000</a>'
 
         expect(helper.goods_nomenclature_back_to_commodity_link).to eq(expected_link)
       end
@@ -54,8 +52,10 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
     context 'when the session goods_nomenclature_code is a heading code' do
       let(:session_goods_nomenclature_code) { '1901' }
 
+      before { allow(helper.request).to receive(:referer).and_return('http://example.com/headings/1901') }
+
       it 'returns a return link for the heading' do
-        expected_link = '<a class="govuk-back-link" href="/headings/1901?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back to commodity 1901</a>'
+        expected_link = '<a class="govuk-back-link" href="/headings/1901?country=AR&amp;day=01&amp;month=01&amp;year=2021">Back to commodity 1901</a>'
 
         expect(helper.goods_nomenclature_back_to_commodity_link).to eq(expected_link)
       end
