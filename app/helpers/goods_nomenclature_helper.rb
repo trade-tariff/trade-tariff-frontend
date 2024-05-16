@@ -1,10 +1,10 @@
 module GoodsNomenclatureHelper
   def goods_nomenclature_back_link
-    link_to('Back', goods_nomenclature_path, class: 'govuk-back-link')
+    link_to('Back', goods_nomenclature_path(id: referer_goods_nomenclature_code(request.referer)), class: 'govuk-back-link')
   end
 
   def goods_nomenclature_path(path_opts = {})
-    path_opts = goods_nomenclature_path_opts.merge(path_opts) if current_goods_nomenclature_code.present?
+    path_opts = goods_nomenclature_path_opts.merge(path_opts.reject { |k, v| (k == :id && v.blank?) }) if current_goods_nomenclature_code.present?
 
     case current_goods_nomenclature_code&.size
     when nil
@@ -25,11 +25,19 @@ module GoodsNomenclatureHelper
   end
 
   def goods_nomenclature_back_to_commodity_link
-    link_to("Back to commodity #{current_goods_nomenclature_code}", goods_nomenclature_path, class: 'govuk-back-link')
+    if referer_goods_nomenclature_code(request.referer).present?
+      link_to("Back to commodity #{referer_goods_nomenclature_code(request.referer)}", goods_nomenclature_path(id: referer_goods_nomenclature_code(request.referer)), class: 'govuk-back-link')
+    else
+      link_to("Back to commodity #{current_goods_nomenclature_code}", goods_nomenclature_path, class: 'govuk-back-link')
+    end
   end
 
   def current_goods_nomenclature_code
     session[:goods_nomenclature_code]
+  end
+
+  def referer_goods_nomenclature_code(referer_link)
+    referer_link.match(%r{/commodities/(\d+)})[1] if referer_link.present? && referer_link.match(%r{/commodities/(\d+)}).present?
   end
 
   private
