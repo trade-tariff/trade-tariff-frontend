@@ -67,8 +67,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
   it { is_expected.to render_template('measures/grouped/_vat_excise') }
   it { is_expected.to render_template('measures/grouped/_uk') }
   it { is_expected.to render_template('measures/grouped/_uk_navigation') }
-  it { is_expected.to render_template('rules_of_origin/_non_preferential') }
-  it { is_expected.to render_template('rules_of_origin/_without_country') }
+  it { is_expected.to render_template('rules_of_origin/_without_country_uk') }
   it { is_expected.to render_template('shared/_notes') }
   it { is_expected.to render_template('shared/_stw_link') }
 
@@ -83,7 +82,10 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
 
     context 'without country selected' do
       it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
+      it { is_expected.to have_css '#rules-of-origin strong', text: 'Select a country to check which tariff treatments apply.' }
+      it { is_expected.to render_template('rules_of_origin/_preferential_uk') }
+      it { is_expected.to render_template('rules_of_origin/_non_preferential_uk') }
+      it { is_expected.not_to render_template('rules_of_origin/_non_preferential_xi') }
     end
 
     context 'with country selected' do
@@ -113,6 +115,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     end
 
     context 'without country selected' do
+      include_context 'with XI service'
       it_behaves_like 'measures with rules of origin tab'
       it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
     end
@@ -148,6 +151,9 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     context 'without country selected' do
       it_behaves_like 'measures with rules of origin tab'
       it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
+      it { is_expected.to render_template('rules_of_origin/_non_preferential_xi') }
+      it { is_expected.not_to render_template('rules_of_origin/_non_preferential_uk') }
+      it { is_expected.not_to render_template('rules_of_origin/_preferential_uk') }
     end
 
     context 'with country selected' do

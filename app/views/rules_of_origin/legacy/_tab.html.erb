@@ -13,7 +13,11 @@
              multiple_schemes: rules_of_origin_schemes.many?
            } %>
 
-<%= render 'rules_of_origin/non_preferential' %>
+<% if TradeTariffFrontend::ServiceChooser.uk? %>
+  <%= render 'rules_of_origin/non_preferential_uk' %>
+<% else %>
+  <%= render 'rules_of_origin/non_preferential_xi' %>
+<% end %>
 
 <% if rules_of_origin_schemes.flat_map(&:links).any? %>
 <div id="rules-of-origin__related-content">
