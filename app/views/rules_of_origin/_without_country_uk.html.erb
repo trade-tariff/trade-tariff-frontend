@@ -7,10 +7,9 @@
           Select a country to check which tariff treatments apply.
       </strong>
     </div>
-    <p>Origin allows for various policy measures to be implemented and for duties to be calculated.</p>
-    <p>There are two types of origin, subject to different rules, which may affect your trade.</p>
-    <p><a href="/howto/origin" class="govuk-link">Find out more about origin</a></p>
-    <%= render 'rules_of_origin/preferential_uk' %>
-    <%= render 'rules_of_origin/non_preferential_uk' %>
+    <%= render 'rules_of_origin/find_out_more' %>
+    <%= render 'rules_of_origin/preferential' %>
+    <%= render 'rules_of_origin/non_preferential_uk',
+                country_name: '' %>
   </div>
 </div>

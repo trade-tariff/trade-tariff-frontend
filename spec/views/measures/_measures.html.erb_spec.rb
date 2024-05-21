@@ -42,8 +42,13 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     it { is_expected.to have_css '.govuk-tabs__panel#footnotes', count: 1 }
   end
 
-  shared_examples 'roo_wizard tab' do
-    it { is_expected.to render_template('rules_of_origin/_tab') }
+  shared_examples 'roo_wizard_uk tab' do
+    it { is_expected.to render_template('rules_of_origin/_tab_uk') }
+    it { is_expected.not_to render_template('rules_of_origin/legacy/_tab') }
+  end
+
+  shared_examples 'roo_wizard_xi tab' do
+    it { is_expected.to render_template('rules_of_origin/_tab_xi') }
     it { is_expected.not_to render_template('rules_of_origin/legacy/_tab') }
   end
 
@@ -83,7 +88,8 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     context 'without country selected' do
       it_behaves_like 'measures with rules of origin tab'
       it { is_expected.to have_css '#rules-of-origin strong', text: 'Select a country to check which tariff treatments apply.' }
-      it { is_expected.to render_template('rules_of_origin/_preferential_uk') }
+      it { is_expected.to render_template('rules_of_origin/_find_out_more') }
+      it { is_expected.to render_template('rules_of_origin/_preferential') }
       it { is_expected.to render_template('rules_of_origin/_non_preferential_uk') }
       it { is_expected.not_to render_template('rules_of_origin/_non_preferential_xi') }
     end
@@ -93,8 +99,8 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
 
       context 'with roo_wizard feature flag' do
         it_behaves_like 'measures with rules of origin tab'
-        it_behaves_like 'roo_wizard tab'
-        it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
+        it_behaves_like 'roo_wizard_uk tab'
+        it { is_expected.to have_css '#rules-of-origin h2', text: 'Trading with' }
       end
 
       context 'without roo_wizard feature flag' do
@@ -106,6 +112,8 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
   end
 
   context 'with xi service' do
+    before { allow(TradeTariffFrontend::ServiceChooser).to receive(:uk?).and_return(false) }
+
     let :render_page do
       render 'measures/measures',
              declarable: presented_commodity,
@@ -115,7 +123,6 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     end
 
     context 'without country selected' do
-      include_context 'with XI service'
       it_behaves_like 'measures with rules of origin tab'
       it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
     end
@@ -124,8 +131,10 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
       let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
       context 'with roo_wizard feature flag' do
+        before { allow(TradeTariffFrontend).to receive(:roo_wizard?).and_return true }
+
         it_behaves_like 'measures with rules of origin tab'
-        it_behaves_like 'roo_wizard tab'
+        it_behaves_like 'roo_wizard_xi tab'
         it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
       end
 
@@ -153,7 +162,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
       it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
       it { is_expected.to render_template('rules_of_origin/_non_preferential_xi') }
       it { is_expected.not_to render_template('rules_of_origin/_non_preferential_uk') }
-      it { is_expected.not_to render_template('rules_of_origin/_preferential_uk') }
+      it { is_expected.not_to render_template('rules_of_origin/_preferential') }
     end
 
     context 'with country selected' do

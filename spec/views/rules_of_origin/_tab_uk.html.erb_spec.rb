@@ -4,7 +4,7 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   let :render_page do
-    render 'rules_of_origin/tab',
+    render 'rules_of_origin/tab_uk',
            country_code: 'FR',
            country_name: 'France',
            commodity_code: '2203000100',
@@ -19,7 +19,7 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
 
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
-      have_css 'h2', text: 'Preferential rules of origin for trading with France'
+      have_css 'h2', text: 'Trading with France'
   end
 
   it 'shows the flag' do

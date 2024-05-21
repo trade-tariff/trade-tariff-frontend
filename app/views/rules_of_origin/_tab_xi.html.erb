@@ -62,11 +62,7 @@
   </p>
 <% end %>
 
-<% if TradeTariffFrontend::ServiceChooser.uk? %>
-  <%= render 'rules_of_origin/non_preferential_uk' %>
-<% else %>
-  <%= render 'rules_of_origin/non_preferential_xi' %>
-<% end %>
+<%= render 'rules_of_origin/non_preferential_xi' %>
 
 <div id="rules-of-origin__related-content">
   <h2 class="govuk-heading-m">

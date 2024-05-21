@@ -79,19 +79,16 @@
 
   <!-- Rules of Origin tab -->
   <div class="govuk-tabs__panel" id="rules-of-origin">
+  <% tariff_tab = TradeTariffFrontend::ServiceChooser.uk? ? 'uk' : 'xi' %>
     <%- if @search.filtered_by_country? && @search.geographical_area -%>
-      <%= render (TradeTariffFrontend.roo_wizard? ? 'rules_of_origin/tab' : 'rules_of_origin/legacy/tab'),
+      <%= render (TradeTariffFrontend.roo_wizard? ? 'rules_of_origin/tab_' + tariff_tab : 'rules_of_origin/legacy/tab'),
                  country_code: @search.country,
                  country_name: @search.geographical_area.description,
                  commodity_code: declarable.code,
                  rules_of_origin_schemes: rules_of_origin_schemes,
                  declarable: declarable %>
     <%- else -%>
-      <%- if TradeTariffFrontend::ServiceChooser.uk? -%>
-        <%= render 'rules_of_origin/without_country_uk' %>
-      <%- else -%>
-        <%= render 'rules_of_origin/without_country_xi' %>
-      <%- end -%>
+      <%= render 'rules_of_origin/without_country_' + tariff_tab %>
     <%- end -%>
   </div>
 

@@ -14,6 +14,10 @@ RSpec.describe 'rules_of_origin/_without_country_uk', type: :view do
       expect(rendered_page).to have_css 'p a', text: 'Find out more about origin'
     end
 
+    it 'includes the find out more bloc' do
+      expect(rendered_page).to have_css '.rules-of-origin__find_out_more'
+    end
+
     it 'includes the preferential bloc' do
       expect(rendered_page).to have_css '.rules-of-origin__preferential'
     end
