@@ -151,7 +151,7 @@ module "beta_service" {
     },
     {
       name  = "ALLOW_GREEN_LANE"
-      value = var.allow_green_lanes
+      value = var.green_lanes_enabled
     },
   ]
 
