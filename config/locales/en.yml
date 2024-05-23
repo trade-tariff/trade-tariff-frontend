@@ -401,6 +401,7 @@ en:
               blank: Select the country of origin
             commodity_code:
               wrong_length: Commodity code must have 10 digits
+              only_numbers: Commodity code must only contain numbers
 
   helpers:
     legend:
