@@ -31,4 +31,11 @@ class GreenLanes::GoodsNomenclature
                                           .transform_keys(&:to_i)
                                           .sort]
   end
+
+  def category
+    # TODO: complete cat_1 and cat_2
+    if applicable_category_assessments.empty?
+      :cat_3
+    end
+  end
 end

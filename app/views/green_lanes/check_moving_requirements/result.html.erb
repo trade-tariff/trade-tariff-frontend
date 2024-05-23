@@ -1,15 +1,100 @@
-<% content_for :top_breadcrumbs do %>
-  <%= generate_breadcrumbs(
-    "Check measures for movements from GB to NI",
-    [
-      [t('breadcrumb.home'), home_path],
-      ["Section", browse_sections_path],
-    ]
-  ) %>
-<% end %>
+<%= back_link edit_green_lanes_check_moving_requirements_path %>
 
-<%= page_header do %>
-  <h1 class="govuk-heading-l">
-    Requirements for your movement of goods
-  </h1>
-<% end %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">
+      Results for your goods
+    </h1>
+
+    <p class="govuk-body">
+      Check the category of your goods to determine whether or not goods are eligible for the
+      simplified process for internal market movements from Great Britain to Northern Ireland.
+    </p>
+
+    <p class="govuk-body">
+      Find information on:
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>the criteria that determine the category of your goods</li>
+        <li>category exemptions that may apply to your goods</li>
+        <li>category codes and instructions for your next step</li>
+      </ul>
+    </p>
+
+
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__content">
+        <h2 class="govuk-notification-banner__heading">
+          Your goods are Standard Category
+        </h2>
+
+      <p class="govuk-body">
+          Your goods are eligible for the simplified process for internal market movements.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">
+          Your movements of goods
+        </h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Commodity
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <%= @commodity_code %>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Non-preferential origin
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <%= @country_of_origin %>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Date of movement
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <%= @moving_date %>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+      <h2 class="govuk-heading-m">
+        Next steps
+      </h2>
+
+      <ol class="govuk-list govuk-list--number">
+        <li>
+          Apply to become an authorised trader under the UK Internal Market Scheme (UKIMS)
+        </li>
+        <li>
+          Prepare a submission for your internal market movement through services provided by
+          the Trader Goods Profile (TGP), Trader Support Service (TSS) or individual customs agents.
+        </li>
+        <li>
+          Complete the submission to HMRC, including the category of your goods and any exemption or additional codes that apply.
+        </li>
+      </ol>
+
+    <h2 class="govuk-heading-m">
+      If you need help using this tool
+    </h2>
+    <p class="govuk-body">
+      Email <%= mail_to 'help@hmrc.gov.uk' %> for non-legally binding advice on categorising your goods.
+    </p>
+
+  </div>
+</div>
