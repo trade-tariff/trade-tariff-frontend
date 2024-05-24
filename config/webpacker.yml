@@ -13,7 +13,7 @@ default: &default
   # ['app/assets', 'engine/foo/app/assets']
   additional_paths:
     - vendor/assets/javascripts
-    - node_modules/govuk-frontend/govuk
+    - node_modules/govuk-frontend/dist/govuk
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false

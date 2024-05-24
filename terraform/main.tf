@@ -150,8 +150,8 @@ module "service" {
       value = var.environment
     },
     {
-      name  = "ALLOW_GREEN_LANE"
-      value = var.allow_green_lanes
+      name  = "GREEN_LANES_ENABLED"
+      value = var.green_lanes_enabled
     },
   ]
 

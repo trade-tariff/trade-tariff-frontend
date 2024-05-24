@@ -17,6 +17,7 @@ class ImportExportDatesController < ApplicationController
         day: @import_export_date.day,
         month: @import_export_date.month,
         year: @import_export_date.year,
+        id: referer_goods_nomenclature_code(params['previous_page_referer']),
       )
     else
       render 'show'

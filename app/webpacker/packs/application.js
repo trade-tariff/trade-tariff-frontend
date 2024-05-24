@@ -15,11 +15,10 @@
 require.context('images/');
 
 import './application.scss';
-import "core-js/stable";
-import "regenerator-runtime/runtime";
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
-import IMask from 'imask';
-import jQuery from 'jquery'
+import jQuery from 'jquery';
 window.$ = jQuery;
 window.jQuery = jQuery;
 
@@ -53,13 +52,15 @@ require('../src/javascripts/country-autocomplete.js');
 require('../src/javascripts/quota-search.js');
 require('../src/javascripts/stop-scrolling-at-footer.js');
 
-require.context('govuk-frontend/govuk/assets');
-import { initAll } from 'govuk-frontend';
+require.context('govuk-frontend/dist/govuk/assets');
+import {initAll} from 'govuk-frontend/dist/govuk/govuk-frontend.min.js';
 initAll();
 
 // load Stimulus controllers
-import "controllers"
+import 'controllers';
 
-$(function(){
+// eslint-disable-next-line no-undef
+$(function() {
+  // eslint-disable-next-line no-undef
   GOVUK.tariff.onLoad();
 });

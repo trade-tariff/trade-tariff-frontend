@@ -1,9 +1,9 @@
 $govuk-global-styles: true;
-$govuk-use-legacy-palette: false;
-$govuk-fonts-path: '~govuk-frontend/govuk/assets/fonts/';
-$govuk-images-path: '~govuk-frontend/govuk/assets/images/';
+$govuk-new-typography-scale: true;
+$govuk-fonts-path: '~govuk-frontend/dist/govuk/assets/fonts/';
+$govuk-images-path: '~govuk-frontend/dist/govuk/assets/images/';
 
-@import 'govuk-frontend/govuk/all';
+@import 'govuk-frontend/dist/govuk/all';
 
 // Third party
 @import 'select2';
