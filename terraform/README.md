@@ -46,7 +46,7 @@ Terraform to deploy the service into AWS.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_allow_green_lanes"></a> [allow\_green\_lanes](#input\_allow\_green\_lanes) | Enable green lanes api UI in front end | `bool` | `false` | no |
+| <a name="input_green_lanes_enabled"></a> [allow\_green\_lanes](#input\_allow\_green\_lanes) | Enable green lanes api UI in front end | `bool` | `false` | no |
 | <a name="input_base_domain"></a> [base\_domain](#input\_base\_domain) | URL of the service. | `string` | n/a | yes |
 | <a name="input_cpu"></a> [cpu](#input\_cpu) | CPU units to use. | `number` | n/a | yes |
 | <a name="input_docker_tag"></a> [docker\_tag](#input\_docker\_tag) | Image tag to use. | `string` | n/a | yes |

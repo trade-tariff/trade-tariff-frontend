@@ -1,0 +1,80 @@
+<%= back_link home_path %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <header>
+      <h1 class="govuk-heading-l">
+        Check arrangements for internal market movements
+      </h1>
+    </header>
+
+    <p>
+      Use this tool if you are a trader moving goods from Great Britain to Northern Ireland and believe that your goods are 'not of risk' of onward movement to the EU.
+    <p>
+
+    <p>
+      For eligible goods moving from Great Britain to Northern Ireland, traders can benefit from a simplified process for internal market movements.
+    </p>
+
+    <p>
+      If you're based anywhere in the UK, you can join the UK Internal Market Scheme (UKIMS) to access the simplified process and benefit from reduced customs duties and checks.
+    </p>
+
+    <p>
+    Use this tool to:
+    <ul class="govuk-list govuk-list--bullet">
+      <li>check if your goods could be eligible for the simplified process for internal market movements</li>
+      <li>check measures, criteria and exemptions for the movements of goods from Great Britain to Northern Ireland</li>
+      <li>find information required for your necessary form submissions</li>
+    </ul>
+
+    <h3 class="govuk-heading-s">Before you start</h3>
+    <p>
+      You'll need to know:
+      <ul class="govuk-list govuk-list--bullet">
+        <li>that your goods are 'not at risk' of onward movement to the EU</li>
+        <li>the commodity code of the goods</li>
+        <li>the non-preferential origin of your goods</li>
+        <li>when the movement of goods is taking place</li>
+      </ul>
+    </p>
+
+    <%= button_to  edit_green_lanes_check_moving_requirements_path,
+      method: :get,
+      params: { code: @commodity_code },
+      class: "govuk-button govuk-button--start" do %>
+
+      <span>Start now</span>
+      <%= render 'shared/start_arrow' %>
+    <% end %>
+
+    <p class="govuk-heading-s govuk-!-static-margin-top-5">If you need help using this tool</p>
+    <p>
+      Contact xxxxxxx ...
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>aaaaa</i>
+      <li>bbbbb</i>
+      <li>ccccc</i>
+    </ul>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <div class="gem-c-related-navigation">
+      <h2 class="gem-c-related-navigation__main-heading">
+        Subsections
+      </h2>
+
+      <nav class="gem-c-related-navigation__nav-section">
+        <ul class="gem-c-related-navigation__link-list">
+          <li class="gem-c-related-navigation__link">
+            <%= link_to 'Related Link 1', 'link1' %>
+          </li>
+          <li class="gem-c-related-navigation__link">
+            <%= link_to 'Related Link 2', 'link2' %>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
