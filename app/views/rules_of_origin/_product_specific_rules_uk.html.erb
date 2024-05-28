@@ -1,0 +1,56 @@
+<% if rules_of_origin_schemes.first.rule_sets.any? %>
+  <table class="govuk-table govuk-table--responsive commodity-rules-of-origin">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-!-width-one-quarter" scope="col">
+          Agreement
+        </th>
+
+        <th class="govuk-table__header govuk-!-width-one-quarter" scope="col">
+          Heading
+        </th>
+
+        <th class="govuk-table__header govuk-!-width-one-quarter" scope="col">
+          Description
+        </th>
+
+        <th class="govuk-table__header govuk-!-width-one-quarter" scope="col">
+          Product Specific Rule
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="govuk-table__body">
+    <% rules_of_origin_schemes.each do |scheme| %>
+      <% scheme.rule_sets.each do |rule_set| %>
+
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell" data-label="Heading">
+          <%= scheme.title %>
+        </td>
+
+        <td class="govuk-table__cell" data-label="Heading">
+          <%= restrict_wrapping replace_non_breaking_space(rule_set.heading) %>
+        </td>
+
+        <td class="govuk-table__cell" data-label="Description">
+          <%= rule_set.subdivision %>
+        </td>
+
+        <td class="govuk-table__cell tariff-markdown responsive-full-width" data-label="Rule">
+          <% rule_set.rules.each do |rule| %>
+            <% if rule.footnotes.any? %>
+              <%= render 'shared/details',
+                          summary: rule.rule,
+                          content: govspeak(rule.all_footnotes) %>
+            <% else %>
+              <%= govspeak link_glossary_terms(rule.rule) %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+<% end%>

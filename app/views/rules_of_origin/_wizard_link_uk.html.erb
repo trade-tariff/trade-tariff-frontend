@@ -1,0 +1,29 @@
+<div class="govuk-inset-text gov govuk-!-padding-bottom-0">
+
+  <h3 class="govuk-heading-s" id="work-out-rules-of-origin">
+    Check eligibility for preferential duty rates
+  </h3>
+
+  <p>
+    This tool can help you understand if your product meets the rules of origin
+    <% if rules_of_origin_schemes.many? %>
+      of the relevant trade agreement.
+    <% else %>
+      under the <%= rules_of_origin_schemes.first.title %>.
+    <% end %>
+  </p>
+
+  <%= form_with model: RulesOfOrigin::Wizard.steps.first,
+                url: rules_of_origin_step_path(commodity_code,
+                                               country_code,
+                                               RulesOfOrigin::Wizard.steps.first.key),
+                method: :patch do |f| %>
+
+    <%= f.hidden_field :service, value: TradeTariffFrontend::ServiceChooser.service_name %>
+    <%= f.hidden_field :commodity_code, value: commodity_code %>
+    <%= f.hidden_field :country_code, value: country_code %>
+
+    <%= f.button 'Start now', class: 'govuk-button govuk-!-font-weight-bold govuk-!-font-size-24' %>
+  <% end %>
+
+</div>

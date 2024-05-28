@@ -19,7 +19,7 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
 
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
-      have_css 'h2', text: 'Trading with France'
+      have_css 'h2', text: 'Preferential rules of origin for trading with France'
   end
 
   it 'shows the flag' do
@@ -75,8 +75,8 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
       expect(rendered_page).to have_css '.rules-of-origin__non-preferential', count: 1
     end
 
-    it 'includes multiple psr tables' do
-      expect(rendered_page).to have_css '.commodity-rules-of-origin', count: 3
+    it 'includes one psr table' do
+      expect(rendered_page).to have_css '.commodity-rules-of-origin', count: 1
     end
 
     it 'includes proofs section' do
