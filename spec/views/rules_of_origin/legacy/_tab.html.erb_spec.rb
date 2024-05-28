@@ -24,6 +24,8 @@ RSpec.describe 'rules_of_origin/legacy/_tab', type: :view do
 
   let(:fta_intro) { "## Free Trade Agreement\n\nDetails of agreement" }
 
+  before { allow(TradeTariffFrontend::ServiceChooser).to receive(:uk?).and_return(false) }
+
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
       have_css 'h2', text: 'Preferential rules of origin for trading with France'

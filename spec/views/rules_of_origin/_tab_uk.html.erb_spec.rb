@@ -17,6 +17,8 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   let(:fta_intro) { "## Free Trade Agreement\n\nDetails of agreement" }
   let(:import_trade_summary) { attributes_for(:import_trade_summary, :with_tariff_duty) }
 
+  before { allow(TradeTariffFrontend::ServiceChooser).to receive(:uk?).and_return(true) }
+
   it 'includes the countries name in the title' do
     expect(rendered_page).to \
       have_css 'h2', text: 'Preferential rules of origin for trading with France'
@@ -31,7 +33,7 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
   end
 
   it 'includes the bloc intro' do
-    expect(rendered_page).to have_css '#rules-of-origin__intro--bloc-scheme'
+    expect(rendered_page).to have_css '#rules-of-origin__intro--bloc-scheme_uk'
   end
 
   it 'includes the non-preferential bloc' do
@@ -63,7 +65,7 @@ RSpec.describe 'rules_of_origin/_tab', type: :view do
       build_list :rules_of_origin_scheme, 1, rule_sets:, countries: %w[FR]
     end
 
-    it { is_expected.to have_css '#rules-of-origin__intro--country-scheme' }
+    it { is_expected.to have_css '#rules-of-origin__intro--country-scheme_uk' }
   end
 
   context 'with multiple schemes' do
