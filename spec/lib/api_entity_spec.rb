@@ -320,5 +320,113 @@ RSpec.describe ApiEntity do
         it { is_expected.not_to respond_to :part= }
       end
     end
+
+    context 'with polymorphic relationships' do
+      subject(:instance) { mock_entity.new(attributes) }
+
+      before do
+        stub_const 'Part', (Class.new do
+          include ApiEntity
+
+          attr_accessor :quantity, :name
+
+          def self.name = 'Part'
+        end)
+      end
+
+      let :attributes do
+        {
+          resource_type: 'parent_entity',
+          vehicle_type: 'SUV',
+          components: [
+            {
+              resource_type: 'part',
+              name: 'steering wheel',
+              quantity: 1,
+            },
+            {
+              resource_type: 'part',
+              name: 'seat',
+              quantity: 4,
+            },
+          ],
+          engine: {
+            resource_type: 'part',
+            name: 'petrol engine',
+            quantity: 1,
+          },
+        }
+      end
+
+      context 'with explicit mappings' do
+        let :mock_entity do
+          Class.new do
+            include ApiEntity
+            has_many :components, polymorphic: { 'part' => 'Part' }
+            has_one :engine, polymorphic: { 'part' => 'Part' }
+
+            attr_accessor :vehicle_type
+
+            def self.name = 'Car'
+          end
+        end
+
+        it { is_expected.to have_attributes vehicle_type: 'SUV' }
+
+        it { expect(instance.engine).to have_attributes name: 'petrol engine' }
+        it { expect(instance.engine).to have_attributes quantity: 1 }
+
+        it { expect(instance.components).to have_attributes length: 2 }
+
+        it { expect(instance.components.first).to have_attributes name: 'steering wheel' }
+        it { expect(instance.components.first).to have_attributes quantity: 1 }
+
+        it { expect(instance.components.second).to have_attributes name: 'seat' }
+        it { expect(instance.components.second).to have_attributes quantity: 4 }
+      end
+
+      context 'with unknown explicit types' do
+        let :mock_entity do
+          Class.new do
+            include ApiEntity
+            has_many :components, polymorphic: { 'component' => 'Part' }
+            has_one :engine, polymorphic: { 'engine' => 'Part' }
+
+            attr_accessor :vehicle_type
+
+            def self.name = 'Car'
+          end
+        end
+
+        it { expect { instance }.to raise_exception 'Unspecified polymorphic resource type' }
+      end
+
+      context 'with implicit mappings' do
+        let :mock_entity do
+          Class.new do
+            include ApiEntity
+            has_many :components, polymorphic: true
+            has_one :engine, polymorphic: true
+
+            attr_accessor :vehicle_type
+
+            def self.name = 'Car'
+          end
+        end
+
+        it { is_expected.to have_attributes vehicle_type: 'SUV' }
+
+        it { expect(instance.engine).to have_attributes name: 'petrol engine' }
+        it { expect(instance.engine).to have_attributes quantity: 1 }
+
+        it { expect(instance.components).to have_attributes length: 2 }
+
+        it { expect(instance.components.first).to have_attributes name: 'steering wheel' }
+        it { expect(instance.components.first).to have_attributes quantity: 1 }
+
+        it { expect(instance.components.second).to have_attributes name: 'seat' }
+        it { expect(instance.components.second).to have_attributes quantity: 4 }
+      end
+    end
   end
 end
