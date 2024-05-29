@@ -1,4 +1,7 @@
-<%= back_link edit_green_lanes_check_moving_requirements_path %>
+<%= link_to "Back", edit_green_lanes_check_moving_requirements_path(commodity_code: @commodity_code,
+                                                                    country_of_origin: @country_of_origin,
+                                                                    moving_date: @moving_date)
+%>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -22,19 +25,17 @@
       </ul>
     </p>
 
-
-    <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner govuk-notification-banner--success" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
       <div class="govuk-notification-banner__content">
         <h2 class="govuk-notification-banner__heading">
           Your goods are Standard Category
         </h2>
 
-      <p class="govuk-body">
+        <p class="govuk-body">
           Your goods are eligible for the simplified process for internal market movements.
         </p>
       </div>
     </div>
-
 
     <div class="govuk-summary-card">
       <div class="govuk-summary-card__title-wrapper">

@@ -41,7 +41,7 @@
 
     <%= button_to  edit_green_lanes_check_moving_requirements_path,
       method: :get,
-      params: { code: @commodity_code },
+      params: @commodity_code.present? ? { commodity_code: @commodity_code } : nil,
       class: "govuk-button govuk-button--start" do %>
 
       <span>Start now</span>

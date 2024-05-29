@@ -5,18 +5,22 @@ module GreenLanes
                   :disable_search_form
 
     def start
-      @commodity_code = params[:code]
+      @commodity_code = params[:commodity_code]
       render 'start'
     end
 
     def edit
-      @commodity_code = params[:code]
-      @check_moving_requirements_form = CheckMovingRequirementsForm.new(commodity_code: @commodity_code)
+      @commodity_code = params[:commodity_code]
+      @check_moving_requirements_form = CheckMovingRequirementsForm.new(commodity_code: @commodity_code,
+                                                                        country_of_origin: params[:country_of_origin],
+                                                                        moving_date: params[:moving_date])
 
       render 'edit'
     end
 
     def update
+      flash[:error] = nil
+
       @check_moving_requirements_form = CheckMovingRequirementsForm.new(check_moving_requirements_params)
       form = @check_moving_requirements_form
 
