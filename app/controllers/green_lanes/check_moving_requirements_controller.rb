@@ -58,6 +58,7 @@ module GreenLanes
 
       @commodity_code = @goods_nomenclature.goods_nomenclature_item_id
       @country_of_origin = moving_requirements_params[:country_of_origin]
+      @country_description = GeographicalArea.find(@country_of_origin).description
       @moving_date = moving_requirements_params[:moving_date]
 
       @category = @goods_nomenclature.category

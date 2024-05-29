@@ -1,14 +1,23 @@
-<%= link_to "Back", edit_green_lanes_check_moving_requirements_path(commodity_code: @commodity_code,
-                                                                    country_of_origin: @country_of_origin,
-                                                                    moving_date: @moving_date)
-%>
+<% content_for :back_link do %>
+  <% link_to "Back", edit_green_lanes_check_moving_requirements_path(commodity_code: @commodity_code,
+                                                                     country_of_origin: @country_of_origin,
+                                                                     moving_date: @moving_date),
+                                                                     class: "govuk-back-link"
+  %>
+<% end %>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-static-margin-top-7">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l">
-      Results for your goods
-    </h1>
+    <header>
+      <span class="govuk-caption-xl">
+        Check arrangements for internal market movements
+      </span>
+
+      <h1 class="govuk-heading-l">
+        Results for your goods
+      </h1>
+    </header>
 
     <p class="govuk-body">
       Check the category of your goods to determine whether or not goods are eligible for the
@@ -42,6 +51,15 @@
         <h2 class="govuk-summary-card__title">
           Your movements of goods
         </h2>
+        <ul class="govuk-summary-card__actions">
+          <li class="govuk-summary-card__action">
+            <%= link_to "Edit details", edit_green_lanes_check_moving_requirements_path(commodity_code: @commodity_code,
+                                                                                        country_of_origin: @country_of_origin,
+                                                                                        moving_date: @moving_date),
+                                                                                        class: "govuk-link"
+            %>
+          </li>
+        </ul>
       </div>
       <div class="govuk-summary-card__content">
         <dl class="govuk-summary-list">
@@ -58,7 +76,7 @@
               Non-preferential origin
             </dt>
             <dd class="govuk-summary-list__value">
-              <%= @country_of_origin %>
+              <%= @country_description %>
             </dd>
           </div>
           <div class="govuk-summary-list__row">
@@ -73,22 +91,25 @@
       </div>
     </div>
 
-      <h2 class="govuk-heading-m">
-        Next steps
-      </h2>
+    <h2 class="govuk-heading-m">
+      Next steps
+    </h2>
 
-      <ol class="govuk-list govuk-list--number">
-        <li>
-          Apply to become an authorised trader under the UK Internal Market Scheme (UKIMS)
-        </li>
-        <li>
-          Prepare a submission for your internal market movement through services provided by
-          the Trader Goods Profile (TGP), Trader Support Service (TSS) or individual customs agents.
-        </li>
-        <li>
-          Complete the submission to HMRC, including the category of your goods and any exemption or additional codes that apply.
-        </li>
-      </ol>
+    <ol class="govuk-list govuk-list--number">
+      <li>
+        <%= link_to "Apply to become an authorised trader under the UK Internal Market Scheme (UKIMS)",
+                    "https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland",
+                    target: "_blank"
+        %>
+      </li>
+      <li>
+        Prepare a submission for your internal market movement through services provided by
+        the Trader Goods Profile (TGP), Trader Support Service (TSS) or individual customs agents.
+      </li>
+      <li>
+        Complete the submission to HMRC, including the category of your goods and any exemption or additional codes that apply.
+      </li>
+    </ol>
 
     <h2 class="govuk-heading-m">
       If you need help using this tool
@@ -96,6 +117,5 @@
     <p class="govuk-body">
       Email <%= mail_to 'help@hmrc.gov.uk' %> for non-legally binding advice on categorising your goods.
     </p>
-
   </div>
 </div>

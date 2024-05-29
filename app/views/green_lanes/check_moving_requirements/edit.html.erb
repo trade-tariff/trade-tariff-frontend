@@ -1,6 +1,8 @@
-<%= back_link start_green_lanes_check_moving_requirements_path %>
+<% content_for :back_link do %>
+  <% back_link start_green_lanes_check_moving_requirements_path %>
+<% end %>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-static-margin-top-7">
   <div class="govuk-grid-column-two-thirds">
 
     <header>
@@ -39,7 +41,7 @@
       <p>Details provided will help us display specific requirements for your goods.</p>
 
       <%= f.govuk_text_field :commodity_code, maxlength: 10,
-                             label: { text: "What is your commodity code?", size: 's'},
+                             label: { text: "What is your commodity code?", size: 'm'},
                              hint: { text: "Commodity codes are internationally recognised reference numbers that describe specific goods." \
                                            "Search the Online Trade Tariff if you're unsure of your commodity code.",
                                     },
@@ -51,14 +53,14 @@
                               :id,
                               :long_description,
                               options: { include_blank: '' },
-                              label: { text: "What is the origin of your goods?", size: 's' },
+                              label: { text: "What is the origin of your goods?", size: 'm' },
                               hint: { text: "Origin allows for various policy measures to be implemented and for duties" \
                                             "to be calculated. Find out more about origin if you're unsure which country to select.",
                                     },
                               style: "width:330px"
       %>
 
-      <%= f.label :commodity_code, "When is the movement of goods taking place?", class: 'govuk-heading-s',
+      <%= f.label :commodity_code, "When is the movement of goods taking place?", class: 'govuk-heading-m',
                   for: 'green_lanes_moving_requirements_form_moving_date_3i' %>
 
       <%= f.govuk_date_field :moving_date,
