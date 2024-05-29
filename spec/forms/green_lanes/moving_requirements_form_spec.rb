@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe GreenLanes::CheckMovingRequirementsForm, type: :model do
+RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
   describe 'validations' do
     subject(:form) { described_class.new(params) }
 

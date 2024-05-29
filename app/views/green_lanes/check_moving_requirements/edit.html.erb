@@ -30,7 +30,7 @@
     </div>
     <% end %>
 
-    <%= form_for @check_moving_requirements_form, builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+    <%= form_for @moving_requirements_form, builder: GOVUKDesignSystemFormBuilder::FormBuilder,
         method: :put,
         url: green_lanes_check_moving_requirements_path do |f| %>
 
@@ -59,7 +59,7 @@
       %>
 
       <%= f.label :commodity_code, "When is the movement of goods taking place?", class: 'govuk-heading-s',
-                  for: 'green_lanes_check_moving_requirements_form_moving_date_3i' %>
+                  for: 'green_lanes_moving_requirements_form_moving_date_3i' %>
 
       <%= f.govuk_date_field :moving_date,
         maxlength_enabled: true,

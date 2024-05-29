@@ -11,9 +11,9 @@ module GreenLanes
 
     def edit
       @commodity_code = params[:commodity_code]
-      @check_moving_requirements_form = CheckMovingRequirementsForm.new(commodity_code: @commodity_code,
-                                                                        country_of_origin: params[:country_of_origin],
-                                                                        moving_date: params[:moving_date])
+      @moving_requirements_form = MovingRequirementsForm.new(commodity_code: @commodity_code,
+                                                             country_of_origin: params[:country_of_origin],
+                                                             moving_date: params[:moving_date])
 
       render 'edit'
     end
@@ -21,8 +21,8 @@ module GreenLanes
     def update
       flash[:error] = nil
 
-      @check_moving_requirements_form = CheckMovingRequirementsForm.new(check_moving_requirements_params)
-      form = @check_moving_requirements_form
+      @moving_requirements_form = MovingRequirementsForm.new(moving_requirements_params)
+      form = @moving_requirements_form
 
       if form.valid?
         @goods_nomenclature = GreenLanes::GoodsNomenclature.find(
@@ -35,7 +35,7 @@ module GreenLanes
         )
 
         redirect_to result_green_lanes_check_moving_requirements_path(
-          green_lanes_check_moving_requirements_form: {
+          green_lanes_moving_requirements_form: {
             commodity_code: form.commodity_code,
             country_of_origin: form.country_of_origin,
             moving_date: form.moving_date,
@@ -51,14 +51,14 @@ module GreenLanes
 
     def result
       @goods_nomenclature = GreenLanes::GoodsNomenclature.find(
-        check_moving_requirements_params[:commodity_code],
-        { filter: { geographical_area_id: check_moving_requirements_params[:country_of_origin] } },
+        moving_requirements_params[:commodity_code],
+        { filter: { geographical_area_id: moving_requirements_params[:country_of_origin] } },
         { authorization: TradeTariffFrontend.green_lanes_api_token },
       )
 
       @commodity_code = @goods_nomenclature.goods_nomenclature_item_id
-      @country_of_origin = check_moving_requirements_params[:country_of_origin]
-      @moving_date = check_moving_requirements_params[:moving_date]
+      @country_of_origin = moving_requirements_params[:country_of_origin]
+      @moving_date = moving_requirements_params[:moving_date]
 
       @category = @goods_nomenclature.category
 
@@ -67,8 +67,8 @@ module GreenLanes
 
     private
 
-    def check_moving_requirements_params
-      params.require(:green_lanes_check_moving_requirements_form).permit(
+    def moving_requirements_params
+      params.require(:green_lanes_moving_requirements_form).permit(
         :commodity_code,
         :country_of_origin,
         :moving_date,

@@ -1,5 +1,5 @@
 module GreenLanes
-  class CheckMovingRequirementsForm
+  class MovingRequirementsForm
     include ActiveModel::Model
     include ActiveModel::Attributes
     include ActiveRecord::AttributeAssignment
