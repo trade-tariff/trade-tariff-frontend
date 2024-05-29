@@ -140,7 +140,8 @@ jobs:
             yarn run eslint $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | egrep '\.js' | grep -v json)
 
   ruby-checks:
-    executor: tariff/ruby
+    docker:
+      - image: cimg/ruby:3.2.3
     steps:
       - checkout
       - ruby/install-deps
@@ -245,16 +246,10 @@ workflows:
       - jest-tests:
           context: trade-tariff
           <<: *filter-not-main
-          requires:
-            - ruby-checks
-            - javascript-checks
 
       - test:
           context: trade-tariff-notifications
           <<: *filter-not-main
-          requires:
-            - ruby-checks
-            - javascript-checks
 
       - fmt-validate-terraform:
           name: fmt-terraform-dev
@@ -282,6 +277,9 @@ workflows:
       - confirm-deploy-for-qa?:
           type: approval
           requires:
+            - ruby-checks
+            - javascript-checks
+            - pre-commit
             - jest-tests
             - test
             - plan-terraform-dev
