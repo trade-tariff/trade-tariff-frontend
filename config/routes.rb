@@ -110,6 +110,11 @@ Rails.application.routes.draw do
   scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
     namespace :green_lanes do
       resource :category_assessments, only: %i[create show]
+
+      resource :check_moving_requirements, only: %i[update edit] do
+        get 'start'
+        get 'result'
+      end
     end
   end
 

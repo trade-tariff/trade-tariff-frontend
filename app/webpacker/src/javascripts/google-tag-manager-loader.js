@@ -12,5 +12,5 @@ if (cookieManager.usage()) {
     j.async = true;
     j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
     f.parentNode.insertBefore(j, f);
-  })(window, document, 'script', 'dataLayer', 'GTM-MNNT6SX');
+  })(window, document, 'script', 'dataLayer', 'GTM-KPM7NRDG');
 }

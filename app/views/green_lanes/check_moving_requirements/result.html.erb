@@ -1,0 +1,15 @@
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+    "Check measures for movements from GB to NI",
+    [
+      [t('breadcrumb.home'), home_path],
+      ["Section", browse_sections_path],
+    ]
+  ) %>
+<% end %>
+
+<%= page_header do %>
+  <h1 class="govuk-heading-l">
+    Requirements for your movement of goods
+  </h1>
+<% end %>
