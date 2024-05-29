@@ -26,7 +26,7 @@ RSpec.describe 'rules_of_origin/_preferential', type: :view do
     let(:country_code) { 'MX' }
 
     context 'with no scheme' do
-      it { is_expected.to have_css 'h2', text: 'Trading with ' + country_name }
+      it { is_expected.to have_css 'h2', text: "Trading with #{country_name}" }
     end
 
     context 'with scheme' do
