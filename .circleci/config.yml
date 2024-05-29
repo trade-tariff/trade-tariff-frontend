@@ -36,12 +36,15 @@ orbs:
 executors:
   terraform:
     docker:
-      - image: hashicorp/terraform:1.5.5
+      - image: hashicorp/terraform:1.8.2
     resource_class: small
     working_directory: "/tmp/terraform"
     environment:
       TF_INPUT: 0
       TF_IN_AUTOMATION: 1
+  python-executor:
+    docker:
+      - image: circleci/python:latest
 
 jobs:
   write-docker-tag:
@@ -161,6 +164,11 @@ jobs:
       - store_artifacts:
           path: brakeman.html
 
+  pre-commit:
+    executor: python-executor
+    steps:
+      - tariff/pre-commit
+
   jest-tests:
     docker:
       - image: cimg/node:16.10.0
@@ -179,7 +187,7 @@ jobs:
   test:
     parallelism: 4
     docker:
-      - image: cimg/ruby:3.2.2-node
+      - image: cimg/ruby:3.2.3-node
         environment:
           BUNDLE_JOBS: "3"
           BUNDLE_RETRY: "3"
@@ -203,7 +211,7 @@ jobs:
 
   notify-production-deployment:
     docker:
-      - image: cimg/ruby:3.2.2
+      - image: cimg/ruby:3.2.3
     steps:
       - tariff/notify-production-release:
           app-name: Frontend
@@ -221,6 +229,9 @@ workflows:
 
       - javascript-checks:
           context: trade-tariff
+          <<: *filter-not-main
+
+      - pre-commit:
           <<: *filter-not-main
 
       - write-docker-tag:
