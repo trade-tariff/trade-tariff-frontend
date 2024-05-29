@@ -38,13 +38,13 @@ RSpec.feature 'Feedback', type: :feature do
     expect(page).to have_css 'a', text: 'Yes'
     expect(page).to have_css 'a', text: 'No'
     expect(page).to have_css 'a', text: 'Report a problem with this page'
-    expect(page).to have_css 'p', text: 'is this page useful?'
+    expect(page).to have_css 'p', text: 'Is this page useful?'
 
     click_on 'Yes'
     expect(page).not_to have_css 'a', text: 'Yes'
     expect(page).not_to have_css 'a', text: 'No'
     expect(page).not_to have_css 'a', text: 'Report a problem with this page'
-    expect(page).not_to have_css 'p', text: 'is this page useful?'
+    expect(page).not_to have_css 'p', text: 'Is this page useful?'
   end
 
   scenario 'feedback banner is not shown on feedback page' do

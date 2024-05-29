@@ -173,8 +173,8 @@ module TradeTariffFrontend
     ENV.fetch('LEGACY_RESULTS_TO_SHOW', '5').to_i
   end
 
-  def green_lane_allowed?
-    ENV['ALLOW_GREEN_LANE'].to_s == 'true'
+  def green_lanes_enabled?
+    ENV['GREEN_LANES_ENABLED'].to_s == 'true'
   end
 
   def green_lanes_api_token

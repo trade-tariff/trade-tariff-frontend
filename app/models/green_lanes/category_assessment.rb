@@ -8,7 +8,11 @@ class GreenLanes::CategoryAssessment
   has_one :regulation, class_name: 'LegalAct'
   has_one :geographical_area
   has_many :excluded_geographical_areas, class_name: 'GeographicalArea'
-  has_many :exemptions, polymorphic: true
+  has_many :exemptions, polymorphic: {
+    'exemption' => 'GreenLanes::Exemption',
+    'certificate' => 'Certificate',
+    'additional_code' => 'AdditionalCode',
+  }
 
   delegate :category, to: :theme
 
