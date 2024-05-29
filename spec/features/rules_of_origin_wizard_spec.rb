@@ -21,7 +21,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Are you importing goods.*UK.*Japan\?/
       choose 'I am importing goods'
@@ -50,7 +50,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Are you importing goods.*UK.*Japan\?/
       choose 'I am importing goods'
@@ -86,7 +86,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Are you importing goods.*UK.*Japan\?/
       choose 'I am importing goods'
@@ -129,7 +129,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Are you importing goods.*UK.*Japan\?/
       choose 'I am importing goods'
@@ -173,7 +173,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Importing goods.*from countries which belong to unilateral preference schemes/
       click_on 'Continue'
@@ -205,7 +205,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Select agreement for trading with/
       choose schemes.second.title
@@ -244,7 +244,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Select agreement for trading with/
       choose unilateral.title
@@ -280,7 +280,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Are you importing goods.*UK.*Japan\?/
       choose 'I am importing goods'
@@ -333,7 +333,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Are you importing goods.*UK.*Japan\?/
       choose 'I am importing goods'
@@ -362,7 +362,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
       visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
-      click_on 'Check rules of origin'
+      click_on 'Start now'
 
       expect(page).to have_css 'h1', text: /Are you importing goods.*UK.*Japan\?/
       choose 'I am importing goods'
