@@ -65,7 +65,7 @@ RSpec.describe GreenLanes::MovingRequirementsController, type: :request do
       let(:make_request) do
         put green_lanes_check_moving_requirements_path, params: {
           green_lanes_moving_requirements_form: {
-            commodity_code: '',
+            commodity_code: '1234567890',
             country_of_origin: 'IT',
             'moving_date(3i)' => '3',
             'moving_date(2i)' => '2',

@@ -6,16 +6,28 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
 
     before { form.valid? }
 
-    context 'when all the attributes are correct' do
+    context 'when all the attributes are correct', vcr: { cassette_name: 'green_lanes/get_goods_nomenclatures_200' } do
       let(:params) do
         {
-          commodity_code: '1234567890',
+          commodity_code: '6203000000',
           country_of_origin: 'IT',
-          moving_date: { 1 => 1998, 2 => 12, 3 => 25 },
+          moving_date: { 1 => 2022, 2 => 2, 3 => 3 },
         }
       end
 
       it { expect(form.errors).to be_empty }
+    end
+
+    context 'when the attributes correct but the commodity code does not exist', vcr: { cassette_name: 'green_lanes/get_goods_nomenclatures_404' } do
+      let(:params) do
+        {
+          commodity_code: '1234567890',
+          country_of_origin: 'IT',
+          moving_date: { 1 => 2022, 2 => 2, 3 => 3 },
+        }
+      end
+
+      it { expect(form.errors[:base]).to eq(['No result found for the given commodity code, country of origin and moving date.']) }
     end
 
     context 'when the attributes are incorrect' do

@@ -14,7 +14,7 @@ module GreenLanes
     validates :country_of_origin, presence: true
     validates :moving_date, presence: true
 
-    validate :commodity_code_exists
+    validate :commodity_code_exists, if: -> { errors.empty? }
 
     def commodity_code_exists
       GreenLanes::GoodsNomenclature.find(
