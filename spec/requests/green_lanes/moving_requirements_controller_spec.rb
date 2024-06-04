@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe GreenLanes::CheckMovingRequirementsController, type: :request do
+RSpec.describe GreenLanes::MovingRequirementsController, type: :request do
   subject { make_request && response }
 
   before do
@@ -38,8 +38,8 @@ RSpec.describe GreenLanes::CheckMovingRequirementsController, type: :request do
     it { is_expected.to have_http_status :ok }
   end
 
-  describe 'PUT #update', vcr: { cassette_name: 'green_lanes/get_goods_nomenclatures_200' } do
-    context 'when all the form values are correct' do
+  describe 'PUT #update' do
+    context 'when all the form values are correct', vcr: { cassette_name: 'green_lanes/get_goods_nomenclatures_200' } do
       let(:make_request) do
         put green_lanes_check_moving_requirements_path, params: {
           green_lanes_moving_requirements_form: {
@@ -61,7 +61,7 @@ RSpec.describe GreenLanes::CheckMovingRequirementsController, type: :request do
       end
     end
 
-    context 'when a value is missing or incorrect' do
+    context 'when a value is missing or incorrect', vcr: { cassette_name: 'green_lanes/get_goods_nomenclatures_404', record: :new_episodes } do
       let(:make_request) do
         put green_lanes_check_moving_requirements_path, params: {
           green_lanes_moving_requirements_form: {

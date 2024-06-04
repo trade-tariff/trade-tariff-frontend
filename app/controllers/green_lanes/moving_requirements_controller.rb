@@ -1,5 +1,5 @@
 module GreenLanes
-  class CheckMovingRequirementsController < ApplicationController
+  class MovingRequirementsController < ApplicationController
     before_action :check_moving_requirements,
                   :disable_switch_service_banner,
                   :disable_search_form
@@ -25,15 +25,6 @@ module GreenLanes
       form = @moving_requirements_form
 
       if form.valid?
-        @goods_nomenclature = GreenLanes::GoodsNomenclature.find(
-          form.commodity_code,
-          {
-            filter: { geographical_area_id: form.country_of_origin },
-            as_of: form.moving_date,
-          },
-          { authorization: TradeTariffFrontend.green_lanes_api_token },
-        )
-
         redirect_to result_green_lanes_check_moving_requirements_path(
           green_lanes_moving_requirements_form: {
             commodity_code: form.commodity_code,
@@ -44,9 +35,6 @@ module GreenLanes
       else
         render 'edit', status: :unprocessable_entity
       end
-    rescue Faraday::ResourceNotFound
-      flash[:error] = 'No result found for the given commodity code, country of origin and moving date.'
-      render 'edit', status: :not_found
     end
 
     def result
