@@ -25,7 +25,7 @@
       <% scheme.rule_sets.each do |rule_set| %>
 
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell" data-label="Heading">
+        <td class="govuk-table__cell" data-label="Agreement">
           <%= scheme.title %>
         </td>
 
@@ -33,11 +33,12 @@
           <%= restrict_wrapping replace_non_breaking_space(rule_set.heading) %>
         </td>
 
-        <td class="govuk-table__cell" data-label="Description">
-          <%= rule_set.subdivision %>
+        <% description = rule_set.subdivision %>
+        <td class="govuk-table__cell <%= 'hide-in-mobile' if description.blank? %>" data-label="Description">
+          <%= description %>
         </td>
 
-        <td class="govuk-table__cell tariff-markdown responsive-full-width" data-label="Rule">
+        <td class="govuk-table__cell tariff-markdown responsive-full-width" data-label="Product Specific Rule">
           <% rule_set.rules.each do |rule| %>
             <% if rule.footnotes.any? %>
               <%= render 'shared/details',
