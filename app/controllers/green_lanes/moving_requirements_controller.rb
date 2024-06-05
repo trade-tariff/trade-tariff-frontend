@@ -49,9 +49,13 @@ module GreenLanes
       @country_description = GeographicalArea.find(@country_of_origin).description
       @moving_date = moving_requirements_params[:moving_date]
 
-      @category = @goods_nomenclature.category
+      category = GreenLanes::DetermineCategory.call(@goods_nomenclature)
 
-      render 'result'
+      if category == :cat_3
+        render 'result'
+      else
+        raise 'The view for this category is not implemented yet!'
+      end
     end
 
     private
