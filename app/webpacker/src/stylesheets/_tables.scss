@@ -250,6 +250,10 @@ table.section-browser {
       top: -9999px;
       left: -9999px;
     }
+
+    & .hide-in-mobile {
+      display: none;
+    }
   }
 }
 

@@ -15,19 +15,20 @@ module RulesOfOriginHelper
   end
 
   def rules_of_origin_schemes_intro(country_name, schemes)
+    tariff_tab = TradeTariffFrontend::ServiceChooser.uk? ? '_uk' : ''
     if schemes.empty?
       render 'rules_of_origin/intros/no_scheme',
              country_name:
     elsif schemes.many?
-      render 'rules_of_origin/intros/multiple_schemes',
+      render "rules_of_origin/intros/multiple_schemes#{tariff_tab}",
              country_name:,
              schemes:
     elsif schemes.first.countries.one?
-      render 'rules_of_origin/intros/country',
+      render "rules_of_origin/intros/country#{tariff_tab}",
              country_name:,
              scheme: schemes.first
     else
-      render 'rules_of_origin/intros/trade_bloc',
+      render "rules_of_origin/intros/trade_bloc#{tariff_tab}",
              country_name:,
              scheme: schemes.first
     end

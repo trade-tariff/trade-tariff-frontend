@@ -1,0 +1,54 @@
+<div id="rules-of-origin-proofs">
+  <h3 class="govuk-heading-m" id="proofs-of-origin">
+    Prove the origin of your goods
+  </h3>
+
+  <p>
+    You may need provide evidence to prove the preferential origin of your product.
+  </p>
+
+  <% schemes.each do |scheme| %>
+    <p>
+      <% if scheme.proofs.many? %>
+        Under the <%= scheme.title %> valid proofs of origin include:
+      <% else %>
+        Under the <%= scheme.title %> a valid proof of origin is:
+      <% end %>
+    </p>
+
+    <div class="tariff-markdown stacked-govuk-details">
+      <% scheme.proofs.each do |proof| %>
+        <%= render 'shared/details', summary: proof.summary,
+                                     content: govspeak(proof.content),
+                                     origin_reference_document: scheme.origin_reference_document%>
+      <% end %>
+    </div>
+
+    <%= render 'rules_of_origin/cds_proof_info', scheme: scheme if scheme.cds_proof_info? %>
+  <% end %>
+
+  <% if !schemes.many? %>
+
+    <p>Find out more about proving origin:</p>
+
+    <p>
+
+        <%= link_to 'Verification for proving the origin for goods coming from ' + country_name,
+                    rules_of_origin_proof_verification_path(
+                      "#{commodity_code}-#{country_code}-#{schemes.first.scheme_code}"
+                    ) %>
+     </p>
+
+      <p>
+        <%= link_to 'Requirements for proving the origin for goods coming from ' + country_name,
+                    rules_of_origin_proof_requirements_path(
+                      "#{commodity_code}-#{country_code}-#{schemes.first.scheme_code}"
+                    ) %>
+                    </p>
+
+  <% end %>
+  <p>
+    <%= link_to 'View valid proofs of origin for all trade agreements',
+                rules_of_origin_proofs_path %>
+  </p>
+</div>

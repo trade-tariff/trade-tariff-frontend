@@ -1,0 +1,24 @@
+<div class="rules-of-origin__preferential govuk-!-margin-bottom-6">
+  <% if country_name == ''%>
+    <h3 class="govuk-heading-m" id="preferential-rules">
+      Preferential rules of origin
+    </h3>
+    <p>Products which meet all preferential rules of origin (for countries where the UK has trade agreements in place) may be eligible for reduced or zero duty rates.</p>
+  <% else %>
+    <% if !rules_of_origin_schemes.any? %>
+      <h2 class="govuk-heading-m rules-of-origin-heading">
+        Trading with <%=country_name%>
+        <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
+      </h2>
+      <p class="govuk-inset-text govuk-!-margin-top-2">
+        Preferential tariff treatment for trading with <%= country_name %> is not available for this product.
+        You can select another country to check where preferential tariff treatments apply.
+      </p>
+    <% else %>
+      <h2 class="govuk-heading-m rules-of-origin-heading">
+        Preferential rules of origin for trading with <%=country_name%>
+        <%= country_flag_tag country_code, alt: "Flag for #{country_name}" %>
+      </h2>
+    <%end%>
+  <%end%>
+</div>

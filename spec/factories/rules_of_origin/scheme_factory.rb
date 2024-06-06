@@ -44,6 +44,16 @@ FactoryBot.define do
       end
     end
 
+    trait :rules_with_footnotes do
+      rule_set_count { 1 }
+
+      rule_sets do
+        attributes_for_list(:rules_of_origin_rule_set, rule_set_count).each do |rule_set_attributes|
+          rule_set_attributes[:rules] = attributes_for_list(:rules_of_origin_v2_rule, v2_rule_count, :with_footnote)
+        end
+      end
+    end
+
     trait :mixed_subdivision do
       rule_set_count { 3 }
 
