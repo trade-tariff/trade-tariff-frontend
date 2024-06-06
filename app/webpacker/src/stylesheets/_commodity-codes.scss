@@ -61,6 +61,11 @@
   }
 }
 
+.govuk-tag--green--wide {
+  @extend .govuk-tag--green;
+  max-width: 100%;
+}
+
 .search-results .commodity-code .code-text + .code-text {
   margin-left: 2px;
 }

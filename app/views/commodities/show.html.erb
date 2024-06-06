@@ -11,9 +11,23 @@
   <%= render 'footnotes/critical_warning', footnote: footnote %>
 <% end %>
 
+<%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
+
 <%= render 'shared/context_tables/commodity' %>
 
-<%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
+<strong class="govuk-tag govuk-tag--green--wide">
+  You are currently using the <%= service_name %>
+</strong>
+
+<p class="govuk-body govuk-!-margin-top-6">
+  Use this page to find:
+</p>
+
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+  <li>import and export measures, conditions and exemptions</li>
+  <li>reduced or zero duty rates based on preferential rules of origin</li>
+  <li>chapter notes and references</li>
+</ul>
 
 <%= render 'declarables/declarable',
            declarable: declarable,
