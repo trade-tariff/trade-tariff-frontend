@@ -132,7 +132,9 @@ private
         entity = if attributes.nil?
                    nil
                  else
-                   class_name = if options[:polymorphic]
+                   class_name = if options[:polymorphic].is_a?(Hash)
+                                  options[:polymorphic][attributes['resource_type']] || raise('Unspecified polymorphic resource type')
+                                elsif options[:polymorphic]
                                   attributes['resource_type'].classify
                                 else
                                   options[:class_name]
@@ -167,7 +169,9 @@ private
         data = data.presence || []
 
         collection = data.map do |attributes|
-          class_name = if options[:polymorphic]
+          class_name = if options[:polymorphic].is_a?(Hash)
+                         options[:polymorphic][attributes['resource_type']] || raise('Unspecified polymorphic resource type')
+                       elsif options[:polymorphic]
                          attributes['resource_type'].classify
                        else
                          options[:class_name]

@@ -51,7 +51,7 @@ bundle exec rspec
 ## Troubleshooting
 
 Sometimes, when trying to load the front page, you get the error:
-**[Webpacker] Compilation failed**
+__[Webpacker] Compilation failed__
 
 Try to clear Yarn and Webpacker Cache:
 

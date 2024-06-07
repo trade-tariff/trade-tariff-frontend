@@ -1,23 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe 'rules_of_origin/_without_country', type: :view do
+RSpec.describe 'rules_of_origin/_without_country_xi', type: :view do
   subject(:rendered_page) { render && rendered }
-
-  context 'with UK service' do
-    include_context 'with UK service'
-
-    it 'references the UK service' do
-      expect(rendered_page).to have_css 'p', text: 'the UK has a trade agreement'
-    end
-
-    it 'includes additional links' do
-      expect(rendered_page).to have_css 'li a', text: 'Check your goods meet the'
-    end
-
-    it 'includes the non-preferential bloc' do
-      expect(rendered_page).to have_css '.rules-of-origin__non-preferential'
-    end
-  end
 
   context 'with XI service' do
     include_context 'with XI service'

@@ -23,11 +23,11 @@
 
   <!-- Import tab -->
   <div class="govuk-tabs__panel" id="import">
-    
+
     <h2 class="govuk-heading-m"><%= measures_heading(anchor: 'import') %></h2>
-    
+
     <p>Select a country to view country-specific import information.</p>
-    
+
     <p>You will then be able to check in the Origin tab if preferential tariff treatments apply to this specific commodity.</p>
 
     <%= render 'declarables/consigned', declarable: declarable %>
@@ -79,15 +79,16 @@
 
   <!-- Rules of Origin tab -->
   <div class="govuk-tabs__panel" id="rules-of-origin">
+  <% tariff_tab = TradeTariffFrontend::ServiceChooser.uk? ? 'uk' : 'xi' %>
     <%- if @search.filtered_by_country? && @search.geographical_area -%>
-      <%= render (TradeTariffFrontend.roo_wizard? ? 'rules_of_origin/tab' : 'rules_of_origin/legacy/tab'),
+      <%= render (TradeTariffFrontend.roo_wizard? ? 'rules_of_origin/tab_' + tariff_tab : 'rules_of_origin/legacy/tab'),
                  country_code: @search.country,
                  country_name: @search.geographical_area.description,
                  commodity_code: declarable.code,
                  rules_of_origin_schemes: rules_of_origin_schemes,
                  declarable: declarable %>
     <%- else -%>
-      <%= render 'rules_of_origin/without_country' %>
+      <%= render 'rules_of_origin/without_country_' + tariff_tab %>
     <%- end -%>
   </div>
 

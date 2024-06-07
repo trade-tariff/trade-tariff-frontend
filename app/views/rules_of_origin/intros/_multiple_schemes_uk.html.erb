@@ -1,0 +1,19 @@
+<div id="rules-of-origin__intro--multiple-schemes_uk">
+  <p>
+   Your trade may qualify for preferential tariff treatment. This means you may be eligible to pay lower or zero duties.
+  </p>
+
+   <p>
+   To qualify for preferential tariff treatment, you must meet the product-specific rules of origin under the following agreements:
+  </p>
+
+  <ul>
+    <% schemes.each do |scheme| %>
+      <li><%= scheme.title %></li>
+    <% end %>
+  </ul>
+
+   <p>
+    Note, you do not need to apply for a preferential tariff (or comply with preferential rules of origin) if the MFN duty for your product is zero.
+  </p>
+</div>

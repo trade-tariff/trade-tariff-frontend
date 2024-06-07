@@ -16,6 +16,7 @@ class TradingPartnersController < ApplicationController
       redirect_to goods_nomenclature_path(
         country: @trading_partner.country,
         anchor: trading_partner_params[:anchor],
+        id: referer_goods_nomenclature_code(request.referer),
       )
     elsif should_not_render_errors?
       redirect_to goods_nomenclature_path

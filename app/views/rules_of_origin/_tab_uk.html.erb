@@ -1,0 +1,59 @@
+<%= render 'rules_of_origin/find_out_more' %>
+
+<%= render 'rules_of_origin/preferential',
+  rules_of_origin_schemes: rules_of_origin_schemes,
+  country_code: country_code,
+  country_name: country_name %>
+
+<% if rules_of_origin_schemes.any? %>
+
+  <%= rules_of_origin_schemes_intro country_name, rules_of_origin_schemes %>
+
+  <div class="rules-of-origin__scheme govuk-!-margin-bottom-6">
+    <%= render partial: 'rules_of_origin/product_specific_rules_uk', locals: { rules_of_origin_schemes: rules_of_origin_schemes, commodity_code: commodity_code } %>
+  </div>
+
+   <%= render 'rules_of_origin/wizard_link_uk', rules_of_origin_schemes:,
+                                            country_code:,
+                                            commodity_code:,
+                                            declarable: %>
+
+
+  <% if declarable.import_trade_summary.basic_third_country_duty.present? %>
+    <%= render 'rules_of_origin/import_trade_summary_uk',
+               import_trade_summary: declarable.import_trade_summary unless rules_of_origin_schemes.many? %>
+  <% end %>
+
+  <div class="rules-of-origin__scheme govuk-!-margin-bottom-6">
+    <%= render 'rules_of_origin/proofs_uk', schemes: rules_of_origin_schemes,
+                                         commodity_code:,
+                                         country_code:,
+                                         country_name: %>
+  </div>
+
+  <%= render 'rules_of_origin/non_preferential_uk' %>
+
+  <div id="rules-of-origin__related-content" class="govuk-!-margin-top-6">
+    <h2 class="govuk-heading-m">
+      Further information on trade with <%= country_name %>
+    </h2>
+
+    <nav role="navigation">
+      <ul class="govuk-list govuk-list-s">
+        <% if rules_of_origin_schemes.flat_map(&:links).any? %>
+          <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
+            <p>
+              <li>
+                <%= link_to link.text, link.url %>
+              </li>
+            </p>
+          <% end %>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+<% else %>
+
+   <%= render 'rules_of_origin/non_preferential_uk' %>
+
+<% end %>

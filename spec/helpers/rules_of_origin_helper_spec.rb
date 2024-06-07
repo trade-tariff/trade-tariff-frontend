@@ -22,48 +22,100 @@ RSpec.describe RulesOfOriginHelper, type: :helper do
 
     let(:country_name) { 'France' }
 
-    context 'with no scheme' do
-      let(:schemes) { [] }
+    context 'with xi service' do
+      before { allow(TradeTariffFrontend::ServiceChooser).to receive(:uk?).and_return(false) }
 
-      it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
-    end
+      context 'with no scheme' do
+        let(:schemes) { [] }
 
-    context 'with bloc scheme' do
-      let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: %w[FR ES] }
-
-      it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
-      it { is_expected.to have_css '#rules-of-origin__intro--bloc-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
-    end
-
-    context 'with country scheme' do
-      let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: %w[FR] }
-
-      it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
-      it { is_expected.to have_css '#rules-of-origin__intro--country-scheme' }
-    end
-
-    context 'with gsp bloc' do
-      let(:schemes) do
-        build_list :rules_of_origin_scheme, 1, countries: %w[FR ES], unilateral: true
+        it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
       end
 
-      it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
-      it { is_expected.to have_css '#rules-of-origin__intro--bloc-scheme' }
+      context 'with bloc scheme' do
+        let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: %w[FR ES] }
+
+        it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.to have_css '#rules-of-origin__intro--bloc-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+      end
+
+      context 'with country scheme' do
+        let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: %w[FR] }
+
+        it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
+        it { is_expected.to have_css '#rules-of-origin__intro--country-scheme' }
+      end
+
+      context 'with gsp bloc' do
+        let(:schemes) do
+          build_list :rules_of_origin_scheme, 1, countries: %w[FR ES], unilateral: true
+        end
+
+        it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+        it { is_expected.to have_css '#rules-of-origin__intro--bloc-scheme' }
+      end
+
+      context 'with multiple schemes' do
+        let(:schemes) { build_list :rules_of_origin_scheme, 2, countries: %w[FR ES] }
+
+        it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--block-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+        it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes' }
+        it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes li', count: 2 }
+      end
     end
 
-    context 'with multiple schemes' do
-      let(:schemes) { build_list :rules_of_origin_scheme, 2, countries: %w[FR ES] }
+    context 'with uk service' do
+      before { allow(TradeTariffFrontend::ServiceChooser).to receive(:uk?).and_return(true) }
 
-      it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--block-scheme' }
-      it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
-      it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes' }
-      it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes li', count: 2 }
+      context 'with no scheme' do
+        let(:schemes) { [] }
+
+        it { is_expected.to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+      end
+
+      context 'with bloc scheme' do
+        let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: %w[FR ES] }
+
+        it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.to have_css '#rules-of-origin__intro--bloc-scheme_uk' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+      end
+
+      context 'with country scheme' do
+        let(:schemes) { build_list :rules_of_origin_scheme, 1, countries: %w[FR] }
+
+        it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--bloc-scheme' }
+        it { is_expected.to have_css '#rules-of-origin__intro--country-scheme_uk' }
+      end
+
+      context 'with gsp bloc' do
+        let(:schemes) do
+          build_list :rules_of_origin_scheme, 1, countries: %w[FR ES], unilateral: true
+        end
+
+        it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+        it { is_expected.to have_css '#rules-of-origin__intro--bloc-scheme_uk' }
+      end
+
+      context 'with multiple schemes' do
+        let(:schemes) { build_list :rules_of_origin_scheme, 2, countries: %w[FR ES] }
+
+        it { is_expected.not_to have_css '#rules-of-origin__intro--no-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--block-scheme' }
+        it { is_expected.not_to have_css '#rules-of-origin__intro--country-scheme' }
+        it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes_uk' }
+        it { is_expected.to have_css '#rules-of-origin__intro--multiple-schemes_uk li', count: 2 }
+      end
     end
   end
 

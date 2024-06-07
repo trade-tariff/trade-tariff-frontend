@@ -94,8 +94,8 @@ en:
     uk: United Kingdom
     xi: Northern Ireland
   country_picker:
-    uk_html: "View UK measures for the selected country"
-    xi_html: "View EU and UK measures for the selected country"
+    uk_html: "Select or enter a country name to view UK measures"
+    xi_html: "Select or enter a country name to view EU and UK measures"
   measures_heading:
     uk:
       import: Importing into the UK
@@ -162,7 +162,7 @@ en:
           Quotas can be non-preferential (open to many countries) or preferential
           (restricted to a particular trading partner).
         </p>
-        
+
       import_controls_uk: "Import controls are restrictions the UK has for importing goods"
       import_controls_xi: ""
 
@@ -392,6 +392,16 @@ en:
           attributes:
             rule:
               inclusion: Select whether your goods meet any of these rules
+
+        green_lanes/check_moving_requirements_form:
+          attributes:
+            moving_date:
+              blank: Enter a valid date
+            country_of_origin:
+              blank: Select the country of origin
+            commodity_code:
+              wrong_length: Commodity code must have 10 digits
+              only_numbers: Commodity code must only contain numbers
 
   helpers:
     legend:
