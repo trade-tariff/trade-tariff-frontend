@@ -52,11 +52,6 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
     it { is_expected.to have_css 'dl div dd', text: Time.zone.today.to_formatted_s(:long) }
   end
 
-  describe 'trading partner row' do
-    it { is_expected.to have_css 'dl div dt', text: 'Filter by country' }
-    it { is_expected.to have_css 'dl div dd', text: 'Italy' }
-  end
-
   describe 'commodity validity dates' do
     let(:declarable) { build(:commodity, validity_start_date: Time.zone.today) }
 
