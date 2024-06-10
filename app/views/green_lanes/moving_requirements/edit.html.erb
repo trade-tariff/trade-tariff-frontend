@@ -5,46 +5,44 @@
 <div class="govuk-grid-row govuk-!-static-margin-top-7">
   <div class="govuk-grid-column-two-thirds">
 
-    <header>
-      <span class="govuk-caption-xl">
-        Check arrangements for internal market movements
-      </span>
-
-      <h1 class="govuk-heading-l">
-        Tell us about your movement of goods
-      </h1>
-    </header>
-
-    <% if flash[:error] %>
-    <div class="govuk-error-summary" data-module="govuk-error-summary">
-      <div role="alert">
-        <h2 class="govuk-error-summary__title">
-          There is a problem
-        </h2>
-        <div class="govuk-error-summary__body">
-          <ul class="govuk-list govuk-error-summary__list">
-            <li>
-              <%= flash[:error] %>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <% end %>
-
     <%= form_for @moving_requirements_form, builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-        method: :put,
-        url: green_lanes_check_moving_requirements_path do |f| %>
+      method: :put,
+      url: green_lanes_check_moving_requirements_path do |f| %>
 
       <%= f.govuk_error_summary %>
 
-      <p>Details provided will help us display specific requirements for your goods.</p>
+      <header>
+        <span class="govuk-caption-xl">
+          Check arrangements for internal market movements
+        </span>
+
+        <h1 class="govuk-heading-l">
+          Tell us about your goods
+        </h1>
+      </header>
+
+      <% if flash[:error] %>
+      <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <li>
+                <%= flash[:error] %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <% end %>
+
+      <p>Details provided will help us display specific arrangements for your goods.</p>
 
       <%= f.govuk_text_field :commodity_code, maxlength: 10,
-                             label: { text: "What is your commodity code?", size: 'm'},
-                             hint: { text: "Commodity codes are internationally recognised reference numbers that describe specific goods." \
-                                           "Search the Online Trade Tariff if you're unsure of your commodity code.",
-                                    },
+                             label: { text: "What is the commodity code?", size: 'm'},
+                             hint: { text: "Commodity codes are internationally recognised reference numbers that describe specific goods."},
                              style: "width:330px"
       %>
 
@@ -53,20 +51,20 @@
                               :id,
                               :long_description,
                               options: { include_blank: '' },
-                              label: { text: "What is the origin of your goods?", size: 'm' },
-                              hint: { text: "Origin allows for various policy measures to be implemented and for duties" \
-                                            "to be calculated. Find out more about origin if you're unsure which country to select.",
+                              label: { text: "What is the non-preferential origin?", size: 'm' },
+                              hint: { text: "The non-preferential origin of goods allows for various policy measures " \
+                                            "to be implemented and for duties to be calculated."
                                     },
                               style: "width:330px"
       %>
 
-      <%= f.label :commodity_code, "When is the movement of goods taking place?", class: 'govuk-heading-m',
+      <%= f.label :commodity_code, "When is the internal movement of goods taking place?", class: 'govuk-heading-m',
                   for: 'green_lanes_moving_requirements_form_moving_date_3i' %>
 
       <%= f.govuk_date_field :moving_date,
         maxlength_enabled: true,
-        hint: { text: "Arrangements can change over time. If you are unsure of the date of " \
-                      "movement and want to check arrangements currently in place, enter today's date.",
+        hint: { text: "Arrangements can change over time. Enter today's date if you are unsure of the date of movement " \
+                      "and want to check arrangements currently in place.",
                       class: 'govuk-body-l'
               },
         legend: nil %>
