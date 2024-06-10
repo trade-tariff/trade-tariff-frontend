@@ -39,8 +39,8 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
         }
       end
 
-      it { expect(form.errors[:commodity_code]).to eq(['Commodity code must have 10 digits', 'Commodity code must only contain numbers']) }
-      it { expect(form.errors[:country_of_origin]).to eq(['Select the country of origin']) }
+      it { expect(form.errors[:commodity_code]).to eq(['Enter a 10 digit commodity code', 'Enter a 10 digit commodity code']) }
+      it { expect(form.errors[:country_of_origin]).to eq(['Select the non-preferential origin of your goods']) }
       it { expect(form.errors[:moving_date]).to eq(['Enter a valid date']) }
     end
   end

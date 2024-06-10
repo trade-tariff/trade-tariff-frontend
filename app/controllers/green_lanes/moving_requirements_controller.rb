@@ -1,6 +1,6 @@
 module GreenLanes
   class MovingRequirementsController < ApplicationController
-    before_action :check_moving_requirements,
+    before_action :check_green_lanes_enabled,
                   :disable_switch_service_banner,
                   :disable_search_form
 
@@ -68,7 +68,7 @@ module GreenLanes
       )
     end
 
-    def check_moving_requirements
+    def check_green_lanes_enabled
       unless TradeTariffFrontend.green_lanes_enabled?
         raise TradeTariffFrontend::FeatureUnavailable
       end
