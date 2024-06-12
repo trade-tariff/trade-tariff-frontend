@@ -287,7 +287,7 @@
         });
 
         $('form').on('click', 'button[type=submit]', function(e) {
-          this.closest('form').trigger('submit');
+          $(this).closest('form').trigger('submit');
         });
 
         this.responsivePlaceholder.initialize();
