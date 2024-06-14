@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3019/green_lanes/goods_nomenclatures/1234567890?as_of=2022-02-03&filter%5Bgeographical_area_id%5D=IT
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/vnd.uktt.v2
+      User-Agent:
+      - Faraday v2.8.1
+      Authorization:
+      - Bearer
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 28acbd43-0b16-4e4c-8c1d-1471413022ba
+      X-Runtime:
+      - '0.061714'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=8.94, process_action.action_controller;dur=32.97
+      Content-Length:
+      - '35'
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"detail":"not found"}]}'
+  recorded_at: Tue, 04 Jun 2024 16:39:07 GMT
+recorded_with: VCR 6.2.0

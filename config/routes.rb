@@ -111,7 +111,7 @@ Rails.application.routes.draw do
     namespace :green_lanes do
       resource :category_assessments, only: %i[create show]
 
-      resource :check_moving_requirements, only: %i[update edit] do
+      resource :check_moving_requirements, controller: 'moving_requirements', only: %i[update edit] do
         get 'start'
         get 'result'
       end

@@ -1,0 +1,60 @@
+<% content_for :back_link do %>
+  <% back_link start_green_lanes_check_moving_requirements_path %>
+<% end %>
+
+<div class="govuk-grid-row govuk-!-static-margin-top-7">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= form_for @moving_requirements_form, builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      method: :put,
+      url: green_lanes_check_moving_requirements_path do |f| %>
+
+      <%= f.govuk_error_summary %>
+
+      <header class="govuk-!-margin-bottom-6">
+        <span class="govuk-caption-xl">
+          Check arrangements for internal market movements
+        </span>
+
+        <h1 class="govuk-heading-l">
+          Tell us about your goods
+        </h1>
+      </header>
+
+      <p>Details provided will help us display specific arrangements for your goods.</p>
+
+      <%= f.govuk_text_field :commodity_code, maxlength: 10,
+                             label: { text: "What is the commodity code?", size: 'm'},
+                             hint: { text: "Commodity codes are internationally recognised reference numbers that describe specific goods."},
+                             style: "width:330px"
+      %>
+
+      <%= f.govuk_collection_select :country_of_origin,
+                              GreenLanes::CategoryAssessmentSearch.country_options,
+                              :id,
+                              :long_description,
+                              options: { include_blank: '' },
+                              label: { text: "What is the non-preferential origin?", size: 'm' },
+                              hint: { text: "The non-preferential origin of goods allows for various policy measures " \
+                                            "to be implemented and for duties to be calculated."
+                                    },
+                              style: "width:330px"
+      %>
+
+      <%= f.label :commodity_code, "When is the internal movement of goods taking place?", class: 'govuk-heading-m',
+                  for: 'green_lanes_moving_requirements_form_moving_date_3i' %>
+
+      <%= f.govuk_date_field :moving_date,
+        maxlength_enabled: true,
+        hint: { text: "Arrangements can change over time. Enter today's date if you are unsure of the date of movement " \
+                      "and want to check arrangements currently in place.",
+                      class: 'govuk-body-l'
+              },
+        legend: nil %>
+
+        <%= f.submit "Continue", class: "govuk-button" %>
+    <% end %>
+
+    <%= render '/green_lanes/shared/support_email_section' %>
+  </div>
+</div>

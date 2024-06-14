@@ -1,0 +1,116 @@
+<% content_for :back_link do %>
+  <% link_to "Back", edit_green_lanes_check_moving_requirements_path(commodity_code: @commodity_code,
+                                                                     country_of_origin: @country_of_origin,
+                                                                     moving_date: @moving_date),
+                                                                     class: "govuk-back-link"
+  %>
+<% end %>
+
+<div class="govuk-grid-row govuk-!-static-margin-top-7">
+  <div class="govuk-grid-column-two-thirds">
+
+    <header class="govuk-!-margin-bottom-6">
+      <span class="govuk-caption-xl">
+        Check arrangements for internal market movements
+      </span>
+
+      <h1 class="govuk-heading-l">
+        Results for your goods
+      </h1>
+    </header>
+
+    <p class="govuk-body">
+      Check the category of your goods to determine whether or not goods are eligible for the
+      simplified process for internal market movements from Great Britain to Northern Ireland.
+    </p>
+
+    <p class="govuk-body">
+      Find information on:
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>the criteria that determine the category of your goods</li>
+        <li>category exemptions that may apply to your goods</li>
+        <li>category codes and instructions for your next step</li>
+      </ul>
+    </p>
+
+    <div class="govuk-notification-banner govuk-notification-banner--success" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__content">
+        <h2 class="govuk-notification-banner__heading">
+          Your goods are Standard Category
+        </h2>
+
+        <p class="govuk-body">
+          Your goods are eligible for the simplified process for internal market movements.
+        </p>
+      </div>
+    </div>
+
+    <div class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">
+          Your movements of goods
+        </h2>
+        <ul class="govuk-summary-card__actions">
+          <li class="govuk-summary-card__action">
+            <%= link_to "Edit details", edit_green_lanes_check_moving_requirements_path(commodity_code: @commodity_code,
+                                                                                        country_of_origin: @country_of_origin,
+                                                                                        moving_date: @moving_date),
+                                                                                        class: "govuk-link"
+            %>
+          </li>
+        </ul>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Commodity
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <%= @commodity_code %>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Non-preferential origin
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <%= @country_description %>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Date of movement
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <%= @moving_date %>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <h2 class="govuk-heading-m">
+      Next steps
+    </h2>
+
+    <ol class="govuk-list govuk-list--number">
+      <li>
+        <%= link_to "Apply to become an authorised trader under the UK Internal Market Scheme (UKIMS)",
+                    "https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland",
+                    target: "_blank"
+        %>
+      </li>
+      <li>
+        Prepare a submission for your internal market movement through services provided by
+        the Trader Goods Profile (TGP), Trader Support Service (TSS) or individual customs agents.
+      </li>
+      <li>
+        Complete the submission to HMRC, including the category of your goods and any exemption or additional codes that apply.
+      </li>
+    </ol>
+
+    <%= render '/green_lanes/shared/support_email_section' %>
+  </div>
+</div>

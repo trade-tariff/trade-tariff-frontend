@@ -393,15 +393,15 @@ en:
             rule:
               inclusion: Select whether your goods meet any of these rules
 
-        green_lanes/check_moving_requirements_form:
+        green_lanes/moving_requirements_form:
           attributes:
             moving_date:
               blank: Enter a valid date
             country_of_origin:
-              blank: Select the country of origin
+              blank: Select the non-preferential origin of your goods
             commodity_code:
-              wrong_length: Commodity code must have 10 digits
-              only_numbers: Commodity code must only contain numbers
+              wrong_length: Enter a 10 digit commodity code
+              only_numbers: Enter a 10 digit commodity code
 
   helpers:
     legend:
