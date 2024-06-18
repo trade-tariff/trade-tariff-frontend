@@ -49,12 +49,12 @@ module GreenLanes
       @country_description = GeographicalArea.find(@country_of_origin).description
       @moving_date = moving_requirements_params[:moving_date]
 
-      category = GreenLanes::DetermineCategory.call(@goods_nomenclature)
+      categories = GreenLanes::DetermineCategory.new(@goods_nomenclature).call
 
-      if category == :cat_3
+      if categories == [:cat_3]
         render 'result'
       else
-        raise 'The view for this category is not implemented yet!'
+        render 'generic_result', locals: { categories: }
       end
     end
 
