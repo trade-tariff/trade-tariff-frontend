@@ -4,14 +4,12 @@ RSpec.describe 'find_commodities/show', type: :view do
   subject { render }
 
   before do
-    assign :search, search
-    assign :recent_stories, build_list(:news_item, 3)
+    assign :find_commodity, find_commodity
+    assign :recent_stories, build_list(:news_item, 2)
   end
 
+  let(:find_commodity) { build :find_commodity, date: search_date }
   let(:search_date) { Time.zone.today }
-  let(:q) { nil }
-
-  let(:search) { build(:search, :with_search_date, q: '0101300000', search_date:) }
 
   describe 'header' do
     it { is_expected.to have_css 'header h1', text: /commodity codes, import duties/ }
@@ -35,6 +33,18 @@ RSpec.describe 'find_commodities/show', type: :view do
       let(:search_date) { 3.days.ago }
 
       it_behaves_like 'a populated date input'
+    end
+
+    context 'with invalid date' do
+      let :find_commodity do
+        build(:find_commodity, day: '0', month: search_date.month, year: search_date.year).tap(&:valid?)
+      end
+
+      it { is_expected.to have_css %(.govuk-form-group input[name="day"][value="0"]) }
+      it { is_expected.to have_css %(.govuk-form-group input[name="month"][value="#{search_date.month}"]) }
+      it { is_expected.to have_css %(.govuk-form-group input[name="year"][value="#{search_date.year}"]) }
+      it { is_expected.to have_css '.govuk-error-summary li', text: /valid date/ }
+      it { is_expected.to have_css '.govuk-form-group--error .govuk-error-message', text: /valid date/ }
     end
   end
 

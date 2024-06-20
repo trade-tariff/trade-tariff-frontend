@@ -14,9 +14,10 @@ RSpec.describe 'Search page', type: :request do
   context 'when exact match' do
     it 'redirects user to exact match page' do
       VCR.use_cassette('searching#exact_match') do
-        visit find_commodity_path(q: '0101210000')
+        visit find_commodity_path
 
         within('#new_search') do
+          fill_in :q, with: '0101210000'
           click_button 'Search'
         end
 
@@ -28,9 +29,10 @@ RSpec.describe 'Search page', type: :request do
   context 'when search results page is finished (fuzzy match)' do
     it 'returns result list' do
       VCR.use_cassette('searching#fuzzy') do
-        visit find_commodity_path(q: 'horses')
+        visit find_commodity_path
 
         within('#new_search') do
+          fill_in :q, with: 'horses'
           click_button 'Search'
         end
 
@@ -42,9 +44,10 @@ RSpec.describe 'Search page', type: :request do
   context 'when no results found' do
     it 'displays no results message' do
       VCR.use_cassette('searching#no_results') do
-        visit find_commodity_path(q: '!!!!!!!!!!!!')
+        visit find_commodity_path
 
         within('#new_search') do
+          fill_in :q, with: '!!!!!!!!!!!!'
           click_button 'Search'
         end
 
@@ -56,8 +59,9 @@ RSpec.describe 'Search page', type: :request do
   context 'when duplicate results and search results page is finished' do
     it 'Display section when matching' do
       VCR.use_cassette('searching#exact_match') do
-        visit find_commodity_path(q: 'synonym 1')
+        visit find_commodity_path
         within('#new_search') do
+          fill_in :q, with: 'synonym 1'
           click_button 'Search'
         end
         expect(page).to have_content('Section I')
