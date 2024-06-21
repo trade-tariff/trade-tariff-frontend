@@ -2,25 +2,25 @@ require 'spec_helper'
 
 RSpec.describe GoodsNomenclatureHelper, type: :helper do
   before do
-    session[:goods_nomenclature_code] = session_goods_nomenclature_code
+    assign(:goods_nomenclature_code, goods_nomenclature_code)
     allow(helper).to receive(:url_options).and_return(url_options)
     allow(helper.request).to receive(:referer).and_return('http://example.com/commodities/2402201000?country=AE&day=25&month=12&year=2021#export')
   end
 
-  let(:session_goods_nomenclature_code) { '1901200000' }
+  let(:goods_nomenclature_code) { '1901200000' }
   let(:url_options) { { country: 'AR', year: '2021', month: '01', day: '01' } }
 
   describe '#goods_nomenclature_back_link' do
     it 'returns the correct link html' do
-      expected_link = '<a class="govuk-back-link" href="/commodities/2402201000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back</a>'
+      expected_link = '<a class="govuk-back-link" href="/commodities/1901200000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back</a>'
 
       expect(helper.goods_nomenclature_back_link).to eq(expected_link)
     end
   end
 
   describe '#goods_nomenclature_link' do
-    context 'when the session goods_nomenclature_code is a commodity code' do
-      let(:session_goods_nomenclature_code) { '1901200000' }
+    context 'when the goods_nomenclature_code is a commodity code' do
+      let(:goods_nomenclature_code) { '1901200000' }
 
       it 'returns a return link for the commodity' do
         expected_link = '<a class="govuk-link" href="/commodities/1901200000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Return to 1901200000</a>'
@@ -29,8 +29,8 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
       end
     end
 
-    context 'when the session goods_nomenclature_code is a heading code' do
-      let(:session_goods_nomenclature_code) { '1901' }
+    context 'when the goods_nomenclature_code is a heading code' do
+      let(:goods_nomenclature_code) { '1901' }
 
       it 'returns a return link for the heading' do
         expected_link = '<a class="govuk-link" href="/headings/1901?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Return to 1901</a>'
@@ -41,16 +41,16 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
   end
 
   describe '#goods_nomenclature_link_back_link' do
-    context 'when the session goods_nomenclature_code is a commodity code' do
+    context 'when the goods_nomenclature_code is a commodity code' do
       it 'returns a return link for the commodity' do
-        expected_link = '<a class="govuk-back-link" href="/commodities/2402201000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back to commodity 2402201000</a>'
+        expected_link = '<a class="govuk-back-link" href="/commodities/1901200000?country=AR&amp;day=01&amp;month=01&amp;year=2021#export">Back to commodity 1901200000</a>'
 
         expect(helper.goods_nomenclature_back_to_commodity_link).to eq(expected_link)
       end
     end
 
-    context 'when the session goods_nomenclature_code is a heading code' do
-      let(:session_goods_nomenclature_code) { '1901' }
+    context 'when the goods_nomenclature_code is a heading code' do
+      let(:goods_nomenclature_code) { '1901' }
 
       before { allow(helper.request).to receive(:referer).and_return('http://example.com/headings/1901') }
 
@@ -64,7 +64,7 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
 
   describe '#goods_nomenclature_path' do
     shared_examples_for 'a goods_nomenclature_path' do |goods_nomenclature_code, expected_path|
-      let(:session_goods_nomenclature_code) { goods_nomenclature_code }
+      let(:goods_nomenclature_code) { goods_nomenclature_code }
 
       it { expect(helper.goods_nomenclature_path).to eq(expected_path) }
     end
@@ -78,27 +78,9 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
 
   describe '#current_goods_nomenclature_code' do
     before do
-      session[:goods_nomenclature_code] = '1901200000'
+      assign(:goods_nomenclature_code, '1901200000')
     end
 
     it { expect(helper.current_goods_nomenclature_code).to eq('1901200000') }
-  end
-
-  describe '#referer_goods_nomenclature_code' do
-    context 'when there is no referer' do
-      before { allow(helper.request).to receive(:referer).and_return(nil) }
-
-      it { expect(helper.referer_goods_nomenclature_code(helper.request.referer)).to eq(nil) }
-    end
-
-    context 'when there is a referer' do
-      it { expect(helper.referer_goods_nomenclature_code(helper.request.referer)).to eq('2402201000') }
-    end
-
-    context 'when there is non commodity code referer' do
-      before { allow(helper.request).to receive(:referer).and_return('http://example.com/something/else') }
-
-      it { expect(helper.referer_goods_nomenclature_code(helper.request.referer)).to eq(nil) }
-    end
   end
 end

@@ -4,6 +4,7 @@
       <div class="govuk-grid-column-two-thirds">
         <p class="govuk-heading-m">Select a country<p>
         <%= f.hidden_field :render_errors, value: false %>
+        <%= f.hidden_field :goods_nomenclature_code, value: current_goods_nomenclature_code %>
         <%= f.hidden_field :anchor, value: nil %>
         <%= f.label :country, country_picker_text %>
           <div class="govuk-grid-row">

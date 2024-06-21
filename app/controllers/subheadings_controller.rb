@@ -1,6 +1,4 @@
 class SubheadingsController < GoodsNomenclaturesController
-  before_action :set_goods_nomenclature_code, only: %i[show]
-
   rescue_from Faraday::ResourceNotFound, with: :show_validity_periods
 
   def show
@@ -31,10 +29,6 @@ class SubheadingsController < GoodsNomenclaturesController
     @xi_subheading ||= TradeTariffFrontend::ServiceChooser.with_source(:xi) do
       Subheading.find(params[:id], query_params)
     end
-  end
-
-  def set_goods_nomenclature_code
-    session[:goods_nomenclature_code] = subheading.to_param
   end
 
   def show_validity_periods

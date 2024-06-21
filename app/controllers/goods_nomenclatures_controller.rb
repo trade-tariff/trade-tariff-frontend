@@ -1,4 +1,6 @@
 class GoodsNomenclaturesController < ApplicationController
+  before_action :set_goods_nomenclature_code
+
   rescue_from Faraday::ResourceNotFound, with: :find_relevant_goods_code_or_fallback
 
   private
@@ -21,5 +23,9 @@ class GoodsNomenclaturesController < ApplicationController
     else
       redirect_to sections_path
     end
+  end
+
+  def set_goods_nomenclature_code
+    @goods_nomenclature_code = goods_code_id
   end
 end

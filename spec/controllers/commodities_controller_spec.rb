@@ -20,6 +20,7 @@ RSpec.xdescribe CommoditiesController, type: :controller do
         it { expect(assigns(:declarable)).to be_present }
         it { expect(assigns(:rules_of_origin_schemes)).to be_nil }
         it { expect(assigns(:chemicals)).to be_nil }
+        it { expect(assigns(:goods_nomenclature_code)).to eq('0101300000') }
       end
 
       context 'with a commodity with chemicals', vcr: { cassette_name: 'commodities#2924297099' } do
@@ -113,12 +114,6 @@ RSpec.xdescribe CommoditiesController, type: :controller do
         get :show, params: { id: '0101210000' }
 
         expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:uk)
-      end
-
-      it 'sets the goods_nomenclature_code in the session', vcr: { cassette_name: 'commodities#show_0101210000_xi' } do
-        get :show, params: { id: '0101210000' }
-
-        expect(session[:goods_nomenclature_code]).to eq('0101210000')
       end
     end
 

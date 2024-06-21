@@ -7,6 +7,7 @@ module MeursingLookup
 
       clear_meursing_lookup_session
       store_meursing_lookup_result_on_session
+      set_goods_nomenclature_code
     end
 
     include GoodsNomenclatureHelper
@@ -21,7 +22,7 @@ module MeursingLookup
     end
 
     def step_path(step_id = params[:id])
-      meursing_lookup_step_path(step_id)
+      meursing_lookup_step_path(step_id, goods_nomenclature_code: current_goods_nomenclature_code)
     end
 
     def store_meursing_lookup_result_on_session
@@ -30,6 +31,15 @@ module MeursingLookup
 
     def clear_meursing_lookup_session
       session.delete(wizard_store_key) if current_step.key == MeursingLookup::Steps::Start.key
+    end
+
+    def set_goods_nomenclature_code
+      @goods_nomenclature_code = params[:goods_nomenclature_code].presence ||
+        params.fetch(step_param_key, {})[:goods_nomenclature_code]
+    end
+
+    def step_param_key
+      "#{wizard_store_key}_steps_#{current_step.key}"
     end
   end
 end

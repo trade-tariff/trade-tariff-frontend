@@ -1,5 +1,5 @@
-<% meursing_finder_link = link_to 'Meursing code finder', meursing_lookup_step_path('start'), class: 'govuk-link' %>
-<% meursing_clear_link = link_to 'Clear additional code', meursing_lookup_result_path, class: 'govuk-link meursing-form-textual-button' %>
+<% meursing_finder_link = link_to 'Meursing code finder', meursing_lookup_step_path('start', goods_nomenclature_code: current_goods_nomenclature_code), class: 'govuk-link' %>
+<% meursing_clear_link = link_to 'Clear additional code', meursing_lookup_result_path(goods_nomenclature_code: current_goods_nomenclature_code), class: 'govuk-link meursing-form-textual-button' %>
 
 <div id="meursing" class="govuk-inset-text govuk-inset-text--s no-inset tariff-inset-meursing">
   <%= form_for MeursingLookup::Result.new, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
@@ -10,6 +10,10 @@
       hint: { text: "If you know the additional code for your commodity, enter it in the box below. If you do not know the code, then use the #{meursing_finder_link} to find the additional code. You will be able to return to this page once you have found the right Meursing additional code.".html_safe },
       value: meursing_lookup_result.meursing_additional_code_id
     %>
+
+    <% if current_goods_nomenclature_code %>
+      <%= f.hidden_field :goods_nomenclature_code, value: current_goods_nomenclature_code %>
+    <% end %>
 
     <%= f.govuk_submit("Save code and update duties") %>
     <%= meursing_clear_link %>

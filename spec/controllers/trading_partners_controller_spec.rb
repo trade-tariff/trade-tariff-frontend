@@ -47,24 +47,18 @@ RSpec.describe TradingPartnersController, type: :controller do
     subject(:response) { patch :update, params: }
 
     shared_examples_for 'a valid trading partner redirect' do |path_method, goods_nomenclature_code|
-      before do
-        session[:goods_nomenclature_code] = goods_nomenclature_code
-      end
+      let(:params) { { trading_partner: { country: 'IT', anchor: 'export', goods_nomenclature_code: } } }
 
       it { is_expected.to redirect_to(public_send(path_method, country: 'IT', id: goods_nomenclature_code, anchor: 'export')) }
     end
 
     shared_examples_for 'an invalid trading partner redirect' do |path_method, goods_nomenclature_code|
-      before do
-        session[:goods_nomenclature_code] = goods_nomenclature_code
-      end
+      let(:params) { default_params.merge({ trading_partner: { country: 'FOO', anchor: 'export', goods_nomenclature_code: } }) }
 
       it { is_expected.to redirect_to(public_send(path_method, id: goods_nomenclature_code)) }
     end
 
     context 'when passing valid trading partner params' do
-      let(:params) { { trading_partner: { country: 'IT', anchor: 'export' } } }
-
       it_behaves_like 'a valid trading partner redirect', :find_commodity_path, nil
       it_behaves_like 'a valid trading partner redirect', :chapter_path, '01'
       it_behaves_like 'a valid trading partner redirect', :heading_path, '1501'
@@ -72,10 +66,8 @@ RSpec.describe TradingPartnersController, type: :controller do
     end
 
     context 'when passing invalid trading partner params' do
-      let(:params) { default_params.merge(trading_partner: { country: 'FOO' }) }
-
       context 'when rendering errors is `true`' do
-        let(:default_params) { { render_errors: true } }
+        let(:params) { { trading_partner: { country: 'FOO' }, render_errors: true } }
 
         it 'attaches the correct error message' do
           response

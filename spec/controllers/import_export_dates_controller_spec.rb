@@ -53,19 +53,16 @@ RSpec.describe ImportExportDatesController, type: :controller do
     subject(:response) { patch :update, params: import_export_date_params }
 
     context 'when passing valid change date params' do
-      let(:import_export_date_params) do
-        {
-          import_export_date: {
-            'import_date(3i)': '1',
-            'import_date(2i)': '2',
-            'import_date(1i)': '2021',
-          },
-        }
-      end
-
       shared_examples_for 'a valid date redirect' do |path_method, goods_nomenclature_code|
-        before do
-          session[:goods_nomenclature_code] = goods_nomenclature_code
+        let(:import_export_date_params) do
+          {
+            import_export_date: {
+              'import_date(3i)': '1',
+              'import_date(2i)': '2',
+              'import_date(1i)': '2021',
+            },
+            goods_nomenclature_code:,
+          }
         end
 
         it { is_expected.to redirect_to(public_send(path_method, day: '1', month: '2', year: '2021', id: goods_nomenclature_code)) }
@@ -85,6 +82,7 @@ RSpec.describe ImportExportDatesController, type: :controller do
             'import_date(2i)': '',
             'import_date(1i)': '',
           },
+          goods_nomenclature_code: nil,
         }
       end
 

@@ -20,10 +20,10 @@ RSpec.describe HeadingsController, type: :controller do
       expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
     end
 
-    it 'sets the goods_nomenclature_code in the session', vcr: { cassette_name: 'headings#show_0110' } do
+    it 'sets the goods_nomenclature_code', vcr: { cassette_name: 'headings#show_0110' } do
       get :show, params: { id: '0501' }
 
-      expect(session[:goods_nomenclature_code]).to eq('0501')
+      expect(assigns(:goods_nomenclature_code)).to eq('0501')
     end
 
     context 'with existing heading id provided', vcr: { cassette_name: 'headings#show' } do
