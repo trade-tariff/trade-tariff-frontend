@@ -59,10 +59,14 @@ RSpec.describe MeasuresHelper, type: :helper do
 
   describe '#measure_type_description_or_link' do
     context 'when preference code is present' do
+      before do
+        assign(:goods_nomenclature_code, '1234567890')
+      end
+
       let(:measure) { build(:measure, measure_type_description: 'foo', measure_type_id: '111') }
 
       let(:expected_link) do
-        '<a title="foo - use preference code 103" href="/measure_types/111/preference_codes/103?geographical_area_id=FR">foo</a>'
+        '<a title="foo - use preference code 103" href="/measure_types/111/preference_codes/103?geographical_area_id=FR&amp;goods_nomenclature_code=1234567890">foo</a>'
       end
 
       it { expect(helper.measure_type_description_or_link(measure)).to eq(expected_link) }
