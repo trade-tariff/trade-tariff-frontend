@@ -3,7 +3,6 @@ class HeadingsController < GoodsNomenclaturesController
 
   def show
     fetch_heading
-    session[:goods_nomenclature_code] = heading.short_code
 
     redirect_to commodity_path(id: heading.id) if heading.declarable?
 

@@ -11,7 +11,9 @@
     <%= form_for @import_export_date, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: 'patch' do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= hidden_field_tag :previous_page_referer, request.referer %>
+      <% if current_goods_nomenclature_code %>
+        <%= f.hidden_field :goods_nomenclature_code, value: current_goods_nomenclature_code %>
+      <% end %>
 
       <%= f.govuk_date_field :import_date,
         legend: { text: t('import_export_date.form.legend_text'), size: 'xl', tag: 'h1' },

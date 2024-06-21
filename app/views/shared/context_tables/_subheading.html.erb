@@ -25,7 +25,7 @@
       <%= @search.date.to_formatted_s(:long) %>
     </dd>
     <dd class="govuk-summary-list__actions">
-      <%= link_to('Change', import_export_dates_path, class: 'govuk-link') %>
+      <%= link_to('Change', import_export_dates_path(goods_nomenclature_code: current_goods_nomenclature_code), class: 'govuk-link') %>
     </dd>
   </div>
 </dl>

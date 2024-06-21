@@ -8,8 +8,6 @@ class CommoditiesController < GoodsNomenclaturesController
       return redirect_to polymorphic_path(declarable)
     end
 
-    session[:goods_nomenclature_code] = declarable.code
-
     @heading = declarable.heading
     @chapter = declarable.chapter
     @section = declarable.section

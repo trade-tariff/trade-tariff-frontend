@@ -16,7 +16,9 @@
         </legend>
 
         <%= f.hidden_field :render_errors, value: true %>
-        <%= f.hidden_field :goods_nomenclature_code, value: referer_goods_nomenclature_code(request.referer) %>
+        <% if current_goods_nomenclature_code %>
+          <%= f.hidden_field :goods_nomenclature_code, value: current_goods_nomenclature_code %>
+        <% end %>
 
         <%= f.govuk_error_summary %>
 
@@ -30,7 +32,7 @@
 
         <div class="govuk-button-group">
           <%= f.govuk_submit(t('trading_partner.form.submit')) %>
-          <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil, id: referer_goods_nomenclature_code(request.referer)), class: 'govuk-link') %>
+          <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil), class: 'govuk-link') %>
         </div>
       <% end %>
       </fieldset>

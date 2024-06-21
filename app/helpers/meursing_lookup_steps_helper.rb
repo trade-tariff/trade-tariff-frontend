@@ -13,6 +13,6 @@ module MeursingLookupStepsHelper
   end
 
   def meursing_back_link
-    back_link meursing_lookup_step_path(wizard.previous_key) if wizard.previous_key
+    back_link meursing_lookup_step_path(wizard.previous_key, goods_nomenclature_code: current_goods_nomenclature_code) if wizard.previous_key
   end
 end
