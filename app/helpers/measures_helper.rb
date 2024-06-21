@@ -29,7 +29,12 @@ module MeasuresHelper
     description = measure.measure_type.description
 
     if measure.preference_code.present?
-      path = measure_type_preference_code_path(measure_type_id: measure.measure_type.id, id: measure.preference_code.code, geographical_area_id: measure.geographical_area.id)
+      path = measure_type_preference_code_path(
+        measure_type_id: measure.measure_type.id,
+        id: measure.preference_code.code,
+        geographical_area_id: measure.geographical_area.id,
+        goods_nomenclature_code: current_goods_nomenclature_code,
+      )
       link_to description, path, title: "#{measure.measure_type.description} - use preference code #{measure.preference_code.code}"
     else
       description
