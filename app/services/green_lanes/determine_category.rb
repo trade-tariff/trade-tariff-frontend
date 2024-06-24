@@ -25,6 +25,10 @@ module GreenLanes
       end
     end
 
+    def cat1_without_exemptions
+      cat1_assessments.select { |ca| ca.exemptions.empty? }
+    end
+
     private
 
     def cat1_assessments
@@ -37,10 +41,6 @@ module GreenLanes
 
     def category_assessments
       goods_nomenclature.applicable_category_assessments
-    end
-
-    def cat1_without_exemptions
-      cat1_assessments.select { |ca| ca.exemptions.empty? }
     end
 
     def cat2_without_exemptions
