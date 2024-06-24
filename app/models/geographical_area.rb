@@ -3,6 +3,7 @@ require 'api_entity'
 class GeographicalArea
   EUROPEAN_UNION_ID = '1013'.freeze
   REFERENCING_EUROPEAN_UNION_ID = 'EU'.freeze
+  ERGA_OMNES = '1011'.freeze
 
   include ApiEntity
 
@@ -11,6 +12,8 @@ class GeographicalArea
     erga_omnes: '1011',
     european_union: '1013',
   }
+
+  enum :status, { draft: 0, published: 1, archived: 2, trashed: 3 }
 
   set_collection_path '/geographical_areas/countries'
 
