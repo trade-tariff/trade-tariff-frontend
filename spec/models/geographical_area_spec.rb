@@ -69,10 +69,14 @@ RSpec.describe GeographicalArea do
     let(:expected_countries) do
       countries = file_fixture('geographical_areas/countries.json').read
 
-      JSON.parse(countries)
+      sorted_countries = JSON.parse(countries).sort_by { |country| country[0] }
+
+      [['All countries', ' ']] + sorted_countries
     end
 
-    it { is_expected.to eq(expected_countries) }
+    it 'returns countries in alphabetical order with "All countries" first' do
+      expect(country_options).to eq(expected_countries)
+    end
   end
 
   describe '#eu_member?', vcr: { cassette_name: 'geographical_areas#1013' } do

@@ -101,6 +101,7 @@
     position: absolute;
     top: 10px;
     right: 0.5em;
+    pointer-events: none; // HW allows element behind arrow (ie select element) to react to pointer events
 
     @media (max-width: 640px) {
       top: 8px;
