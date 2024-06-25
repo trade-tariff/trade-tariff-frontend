@@ -1,18 +1,17 @@
-<h3 class="govuk-heading-m">Category 1 criteria and exemptions</h3>
+<h3 class="govuk-heading-m">Category 2 criteria and exemptions</h3>
 
 
 <p class="govuk-body govuk-!-font-weight-bold">
-  Your goods will be Category 1 if you do not meet an exemption for each category 1 assessment shown.
-  You only need to check further categories if you meet exemptions for all assessments.
+  Your goods will be Category 2 if you do not meet an exemption for each Category 2 assessment shown.
 </p>
 
-<% @determine_categories.cat1_without_exemptions.each do |category_assessment| %>
+<% @determine_categories.cat2_without_exemptions.each do |category_assessment| %>
 <div class="govuk-summary-card">
   <div class="govuk-summary-card__content">
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
-          Category 1 assessment
+          Category 2 assessment
         </dt>
         <dd class="govuk-summary-list__value">
           <%= category_assessment.theme.theme %>

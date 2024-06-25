@@ -36,6 +36,8 @@
 
     <% if @categories == [:cat_1] %>
     <%= render '/green_lanes/shared/result_category_1'%>
+    <% elsif @categories == [:cat_2] %>
+    <%= render '/green_lanes/shared/result_category_2' %>
     <% elsif @categories == [:cat_3] %>
     <%= render '/green_lanes/shared/result_standard_category_3' %>
     <% end %>
@@ -87,30 +89,19 @@
 
     <% if @categories == [:cat_1] %>
     <%= render '/green_lanes/shared/category_1_criteria_and_exemptions' %>
+    <% elsif @categories == [:cat_2] %>
+    <%= render '/green_lanes/shared/category_2_criteria_and_exemptions' %>
     <% end %>
 
     <h2 class="govuk-heading-m">
       Next steps
     </h2>
 
-    <% if @categories == [:cat_1] %>
+    <% case @categories %>
+    <% when [:cat_1] %>
     <%= render '/green_lanes/shared/category_1_next_step' %>
-    <% else %>
-    <ol class="govuk-list govuk-list--number">
-      <li>
-        <%= link_to "Apply to become an authorised trader under the UK Internal Market Scheme (UKIMS)",
-                    "https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland",
-                    target: "_blank"
-        %>
-      </li>
-      <li>
-        Prepare a submission for your internal market movement through services provided by
-        the Trader Goods Profile (TGP), Trader Support Service (TSS) or individual customs agents.
-      </li>
-      <li>
-        Complete the submission to HMRC, including the category of your goods and any exemption or additional codes that apply.
-      </li>
-    </ol>
+    <% when [:cat_2], [:cat_3] %>
+    <%= render '/green_lanes/shared/category_2_and_3_next_step' %>
     <% end %>
 
     <%= render '/green_lanes/shared/support_email_section' %>

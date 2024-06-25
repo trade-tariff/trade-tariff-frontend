@@ -13,8 +13,6 @@ class GeographicalArea
     european_union: '1013',
   }
 
-  enum :status, { draft: 0, published: 1, archived: 2, trashed: 3 }
-
   set_collection_path '/geographical_areas/countries'
 
   attr_accessor :id, :geographical_area_id
