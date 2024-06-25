@@ -6,8 +6,8 @@ module GreenLanes
       @goods_nomenclature = goods_nomenclature
     end
 
-    def call
-      return [:cat_3] if category_assessments.empty?  # Result 3
+    def categories
+      return [:cat_3] if category_assessments.empty? # Result 3
       return [:cat_1] if cat1_without_exemptions.any? # Result 1
 
       if cat2_without_exemptions.any?
@@ -29,6 +29,10 @@ module GreenLanes
       cat1_assessments.select { |ca| ca.exemptions.empty? }
     end
 
+    def cat2_without_exemptions
+      cat2_assessments.select { |ca| ca.exemptions.empty? }
+    end
+
     private
 
     def cat1_assessments
@@ -41,10 +45,6 @@ module GreenLanes
 
     def category_assessments
       goods_nomenclature.applicable_category_assessments
-    end
-
-    def cat2_without_exemptions
-      cat2_assessments.select { |ca| ca.exemptions.empty? }
     end
 
     def cat1_with_exemptions

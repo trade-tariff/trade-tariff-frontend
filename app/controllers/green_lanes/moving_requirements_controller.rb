@@ -50,9 +50,10 @@ module GreenLanes
       @moving_date = moving_requirements_params[:moving_date]
       @determine_categories = GreenLanes::DetermineCategory.new(goods_nomenclature)
 
-      @categories = @determine_categories.call
+      @categories = @determine_categories.categories
 
-      if @categories == [:cat_1] || @categories == [:cat_3]
+      case @categories
+      when [:cat_1], [:cat_2], [:cat_3]
         render 'result'
       else
         render 'generic_result'
