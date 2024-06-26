@@ -538,21 +538,23 @@
 
         $('.js-country-picker-select').each(function() {
           (function(element) {
+            let previousValue = element.find('option:selected').text();
             accessibleAutocomplete.enhanceSelectElement({
               selectElement: element[0],
               minLength: 2,
-              autoselect: true,
+              autoselect: false,
               showAllValues: true,
-              confirmOnBlur: true,
+              confirmOnBlur: false,
               alwaysDisplayArrow: true,
               displayMenu: 'overlay',
+              placeholder: previousValue, // in case the user clicks away without selecting anything
               dropdownArrow: function() {
                 return '<span class=\'autocomplete__arrow\'></span>';
               },
               onConfirm: function(confirmed) {
                 const commodityCode = $('.commodity-header').data('comm-code');
                 // Handle the "All countries" case
-                if (confirmed === ' ' || confirmed === 'All countries') {
+                if (confirmed === 'All countries') {
                   const selectedTab = window.location.hash.substring(1);  //to maintain the tab
                   const url = `/commodities/${commodityCode}#${selectedTab}`;
                   window.location.href = url;
@@ -565,13 +567,11 @@
                 }
               },
             });
-
             $('#' + element[0].id.replace('-select', '')).on('focus', function(event) {
               $(event.currentTarget).val('');
             });
           })($(this));
         });
-
 
         $('.js-commodity-picker-select').each(function() {
           const debugEnabled = $(this).data('debug') || false;
