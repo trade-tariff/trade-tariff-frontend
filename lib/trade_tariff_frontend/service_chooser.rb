@@ -33,11 +33,7 @@ module TradeTariffFrontend
     end
 
     def service_choices
-      @service_choices ||= begin
-        api_options = ENV.fetch('API_SERVICE_BACKEND_URL_OPTIONS', '{}')
-
-        JSON.parse(api_options)
-      end
+      @service_choices ||= Rails.application.config.x.backend.url_options
     end
 
     def service_choice=(service_choice)

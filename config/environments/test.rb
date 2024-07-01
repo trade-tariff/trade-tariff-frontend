@@ -68,4 +68,7 @@ Rails.application.configure do
     interval_randomness: 0,
     backoff_factor: 0,
   }
+
+  config.x.backend.url_options = { 'uk' => 'http://localhost:3018',
+                                   'xi' => 'http://localhost:3019' }
 end
