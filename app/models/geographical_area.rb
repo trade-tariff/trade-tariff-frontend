@@ -36,12 +36,18 @@ class GeographicalArea
     end
 
     def country_options
-      all.compact.map do |geographical_area|
-        [
-          geographical_area.long_description,
-          geographical_area.id,
-        ]
-      end
+      options = all.compact
+                   .sort_by(&:long_description)
+                   .map do |geographical_area|
+                     [
+                       geographical_area.long_description,
+                       geographical_area.id,
+                     ]
+                   end
+
+      options.unshift(['All countries', ' '])
+
+      options
     end
   end
 
