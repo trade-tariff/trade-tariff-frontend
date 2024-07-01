@@ -57,6 +57,8 @@ module TradeTariffFrontend
 
     config.grouped_measure_types = config_for(:grouped_measure_types)
 
+    config.hosts << TradeTariffFrontend.host
+
     config.x.http.retry_options = {}
 
     config.guide_links = config_for(:guide_links)

@@ -2,34 +2,15 @@ version: '3.8'
 
 services:
   frontend:
-    image: aiguldj/trade-tariff-frontend
-    platform: linux/amd64
+    build:
+      dockerfile: Dockerfile
     ports:
       - "3000:8080"  # Map frontend service port to host
     environment:
+      API_SERVICE_BACKEND_URL_OPTIONS: "{\"uk\":\"http://backend-uk.tariff.internal:8080\",\"xi\":\"http://backend-xi.tariff.internal:8080\"}"
+      AWS_LIGHTSAIL: "true"
       GOVUK_APP_DOMAIN: "localhost"
       GOVUK_WEBSITE_ROOT: "http://localhost/"
-      RAILS_ENV: "development"
       NODE_OPTIONS: "--openssl-legacy-provider"
-      SECRET_KEY_BASE: "0620b2907b1cee61dbcf5cbbf4125c04bf5db3554c66589d40a9349b5abd5463a40f4a1a8c2db9b07c13715340ee3c94bbc24b1adb3140a20f702e9dc3d4fc0c"
-    networks:
-      - trade-tariff-network
-    depends_on:
-      - backend
-        # condition: service_healthy
-
-  backend:
-    image: aiguldj/trade-tariff-backend
-    platform: linux/amd64
-    environment:
-      GOVUK_APP_DOMAIN: "localhost"
       RAILS_ENV: "development"
-    ports:
-      - "3001:8080"  # Map backend service port to host
-    command: ["echo", "Backend service running without database"]
-    networks:
-      - trade-tariff-network
-
-networks:
-  trade-tariff-network:
-    driver: bridge
+      SECRET_KEY_BASE: "0620b2907b1cee61dbcf5cbbf4125c04bf5db3554c66589d40a9349b5abd5463a40f4a1a8c2db9b07c13715340ee3c94bbc24b1adb3140a20f702e9dc3d4fc0c"
