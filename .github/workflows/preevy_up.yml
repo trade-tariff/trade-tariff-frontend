@@ -1,0 +1,47 @@
+name: Deploy Preevy environment
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+permissions:
+  id-token: write
+  contents: read
+  # Needed to write a PR comment with the environment URLs
+  pull-requests: write
+
+jobs:
+  deploy:
+    timeout-minutes: 15
+    # allow a single job to run per PR
+    concurrency: preevy-${{ github.event.number }}
+
+    environment:
+      # An environment needs to be created at https://github.com/YOUR-ORG/YOUR-REPO/settings/environments
+      name: preview
+      # Change `frontend` and `3000` to the service and port whos URL should be used for the deployment
+      url: ${{ fromJson(steps.preevy.outputs.urls-map).frontend[3000] }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::445220836204:role/github_actions_trade_tariff
+          aws-region: eu-west-2
+
+      - uses: actions/checkout@v3
+
+      - uses: livecycle/preevy-up-action@v2.3.0
+        id: preevy
+        with:
+          # Create the profile using the `preevy init` command, see https://preevy.dev/ci
+          profile-url: "s3://preevy-test?region=eu-west-2"
+
+      # Change `frontend` and `3000` in this step to your main service and port
+      # This will appear as the GH environment URL
+      - id: store_url
+        name: Store URL of frontend
+        run: |
+          echo url=$(jq -r '.[] | select(.service=="frontend" and .port==3000).url' "${{ steps.preevy_up.outputs.urls-file }}") >> "$GITHUB_OUTPUT"

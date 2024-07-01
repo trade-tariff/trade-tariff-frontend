@@ -1,0 +1,27 @@
+name: Teardown Preevy environment
+on:
+  pull_request:
+    types:
+      - closed
+permissions:
+  id-token: write
+  contents: read
+  # needed to update the PR comment with the environment URLs
+  pull-requests: write
+
+jobs:
+  teardown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::445220836204:role/github_actions_trade_tariff
+          aws-region: eu-west-2
+
+      - uses: actions/checkout@v3
+      - uses: livecycle/preevy-down-action@v1.3.0
+        id: preevy
+        with:
+          # Create the profile using the `preevy init` command, see https://preevy.dev/ci
+          profile-url: "s3://preevy-test?region=eu-west-2"
+          # docker-compose-yaml-paths: "./docker/docker-compose.yaml"
