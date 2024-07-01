@@ -99,7 +99,11 @@ module TradeTariffFrontend
   end
 
   def host
-    ENV.fetch('FRONTEND_HOST', 'http://localhost')
+    if ENV.fetch('AWS_LIGHTSAIL', 'false') == 'true'
+      /frontend-trade-tariff-frontend-.*livecycle.run/
+    else
+      ENV.fetch('FRONTEND_HOST', 'http://localhost')
+    end
   end
 
   def single_trade_window_url
