@@ -1,5 +1,8 @@
 module GreenLanes
   class DetermineCategory
+    CAT_1 = 1
+    CAT_2 = 2
+
     attr_reader :goods_nomenclature
 
     def initialize(goods_nomenclature)
@@ -26,33 +29,39 @@ module GreenLanes
     end
 
     def cat1_without_exemptions
-      cat1_assessments.select { |ca| ca.exemptions.empty? }
+      without_exemptions(
+        category_assessments(CAT_1),
+      )
     end
 
     def cat2_without_exemptions
-      cat2_assessments.select { |ca| ca.exemptions.empty? }
+      without_exemptions(
+        category_assessments(CAT_2),
+      )
     end
 
     private
 
-    def cat1_assessments
-      category_assessments.select { |ca| ca.theme.category == 1 }
+    def without_exemptions(cat_assessments)
+      cat_assessments.select { |ca| ca.exemptions.empty? }
     end
 
-    def cat2_assessments
-      category_assessments.select { |ca| ca.theme.category == 2 }
-    end
+    def category_assessments(category = nil)
+      ca_assessments = goods_nomenclature.applicable_category_assessments
 
-    def category_assessments
-      goods_nomenclature.applicable_category_assessments
+      return ca_assessments unless category
+
+      category_assessments.select { |ca| ca.theme.category == category }
     end
 
     def cat1_with_exemptions
-      cat1_assessments.select { |ca| ca.exemptions.any? }
+      category_assessments(CAT_1)
+        .select { |ca| ca.exemptions.any? }
     end
 
     def cat2_with_exemptions
-      cat2_assessments.select { |ca| ca.exemptions.any? }
+      category_assessments(CAT_2)
+        .select { |ca| ca.exemptions.any? }
     end
   end
 end
