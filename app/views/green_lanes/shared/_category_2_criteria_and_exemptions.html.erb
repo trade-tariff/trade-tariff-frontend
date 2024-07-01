@@ -1,0 +1,31 @@
+<h3 class="govuk-heading-m">Category 2 criteria and exemptions</h3>
+
+
+<p class="govuk-body govuk-!-font-weight-bold">
+  Your goods will be Category 2 if you do not meet an exemption for each Category 2 assessment shown.
+</p>
+
+<% @determine_categories.cat2_without_exemptions.each do |category_assessment| %>
+<div class="govuk-summary-card">
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Category 2 assessment
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= category_assessment.theme.theme %>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Exemption
+        </dt>
+        <dd class="govuk-summary-list__value">
+          No exemption available
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+<% end %>

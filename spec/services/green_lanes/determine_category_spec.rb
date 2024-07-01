@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe ::GreenLanes::DetermineCategory do
-  describe '.call' do
-    subject { described_class.new(goods_nomenclature).call }
+  describe '.categories' do
+    subject { described_class.new(goods_nomenclature).categories }
 
     # Result 3
     context 'when there are no category assessments' do
@@ -94,6 +94,54 @@ RSpec.describe ::GreenLanes::DetermineCategory do
 
         it { is_expected.to eq(%i[cat_2 cat_3]) }
       end
+    end
+  end
+
+  describe '#cat1_without_exemptions' do
+    subject(:cat1_without_exemptions) do
+      described_class.new(goods_nomenclature).cat1_without_exemptions
+    end
+
+    let(:goods_nomenclature) do
+      build(:green_lanes_goods_nomenclature, applicable_category_assessments: assessments)
+    end
+
+    let(:assessments) do
+      [
+        attributes_for(:category_assessment, category: 1),
+        attributes_for(:category_assessment, :with_exemptions, category: 1),
+        attributes_for(:category_assessment, category: 2),
+        attributes_for(:category_assessment, category: 2),
+        attributes_for(:category_assessment, :with_exemptions, category: 2),
+      ]
+    end
+
+    it 'returns only Cat1 assessments without exemptions' do
+      expect(cat1_without_exemptions.count).to eq(1)
+    end
+  end
+
+  describe '#cat2_without_exemptions' do
+    subject(:cat2_without_exemptions) do
+      described_class.new(goods_nomenclature).cat2_without_exemptions
+    end
+
+    let(:goods_nomenclature) do
+      build(:green_lanes_goods_nomenclature, applicable_category_assessments: assessments)
+    end
+
+    let(:assessments) do
+      [
+        attributes_for(:category_assessment, category: 1),
+        attributes_for(:category_assessment, :with_exemptions, category: 1),
+        attributes_for(:category_assessment, category: 2),
+        attributes_for(:category_assessment, category: 2),
+        attributes_for(:category_assessment, :with_exemptions, category: 2),
+      ]
+    end
+
+    it 'returns only Cat2 assessments without exemptions' do
+      expect(cat2_without_exemptions.count).to eq(2)
     end
   end
 end
