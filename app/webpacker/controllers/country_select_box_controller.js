@@ -1,9 +1,9 @@
 import {Controller} from '@hotwired/stimulus';
-import accessibleAutocomplete from "accessible-autocomplete";
+import accessibleAutocomplete from 'accessible-autocomplete';
 import Utility from '../src/javascripts/utility';
 
 export default class extends Controller {
-  static targets = ["countrySelect"];
+  static targets = ['countrySelect'];
 
   connect() {
     this.selectElement = this.countrySelectTarget.querySelector('select');
@@ -30,7 +30,7 @@ export default class extends Controller {
       dropdownArrow: function() {
         return '<span class="autocomplete__arrow"></span>';
       },
-      onConfirm: (confirmed) => Utility.countrySelectorOnConfirm(confirmed, this.selectElement)
+      onConfirm: (confirmed) => Utility.countrySelectorOnConfirm(confirmed, this.selectElement),
     });
   }
 
@@ -40,7 +40,7 @@ export default class extends Controller {
 
   #getPreviousValue() {
     const selectedOption = this.selectElement ? this.selectElement.options[this.selectElement.selectedIndex] : null;
-    return selectedOption ? selectedOption.textContent : "";
+    return selectedOption ? selectedOption.textContent : '';
   }
 
   #attachFocusListener() {

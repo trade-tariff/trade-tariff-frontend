@@ -1,7 +1,7 @@
 import Utility from 'utility';
 
 describe('Utility.countrySelectorOnConfirm', () => {
-  let selectElement, form, anchorInput, originalLocation;
+  let selectElement; let form; let anchorInput; let originalLocation;
 
   beforeEach(() => {
     // Save the original location so we can restore it after the test
@@ -11,7 +11,7 @@ describe('Utility.countrySelectorOnConfirm', () => {
     delete window.location;
     window.location = {
       href: '',
-      hash: '#origin'
+      hash: '#origin',
     };
 
     // Create a mock select element and other necessary DOM elements

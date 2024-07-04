@@ -1,4 +1,4 @@
-import { Application } from '@hotwired/stimulus';
+import {Application} from '@hotwired/stimulus';
 import CountrySelectBoxController from 'country_select_box_controller';
 
 describe('CountrySelectBoxController', () => {
@@ -13,7 +13,8 @@ describe('CountrySelectBoxController', () => {
     document.body.innerHTML = `
      <div data-controller="country-select-box">
       <div data-country-select-box-target="countrySelect">
-        <select data-action="focus->country-select-box#clearSelect" aria-label="Filter measures by country" name="trading_partner[country]" id="trading_partner_country-select" style="display: none;">
+        <select data-action="focus->country-select-box#clearSelect"
+          name="trading_partner[country]" id="trading_partner_country-select" style="display: none;">
           <option value=" ">All countries</option>
           <option selected="selected" value="AF">Afghanistan (AF)</option>
           <option value="ZW">Zimbabwe (ZW)</option>
@@ -29,7 +30,6 @@ describe('CountrySelectBoxController', () => {
 
   it('clears the select value on focus', () => {
     const element = document.querySelector('[data-controller="country-select-box"]');
-    const controller = application.getControllerForElementAndIdentifier(element, 'country-select-box');
     const inputElement = element.querySelector('.autocomplete__input');
 
     inputElement.value = 'All countries';
