@@ -10,7 +10,7 @@ class TradingPartner
 
   def validate_country
     country.in?(options.map(&:id)).tap do |valid_country|
-      errors.add(:country, :invalid_country) unless valid_country
+      errors.add(:country, :invalid_country) unless valid_country || country == ' '
     end
   end
 
