@@ -38,23 +38,25 @@ module GreenLanes
     end
 
     def result
-      @goods_nomenclature = GreenLanes::GoodsNomenclature.find(
+      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
         moving_requirements_params[:commodity_code],
         { filter: { geographical_area_id: moving_requirements_params[:country_of_origin] } },
         { authorization: TradeTariffFrontend.green_lanes_api_token },
       )
 
-      @commodity_code = @goods_nomenclature.goods_nomenclature_item_id
-      @country_of_origin = moving_requirements_params[:country_of_origin]
+      @commodity_code = goods_nomenclature.goods_nomenclature_item_id
+      @country_of_origin = moving_requirements_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @country_description = GeographicalArea.find(@country_of_origin).description
       @moving_date = moving_requirements_params[:moving_date]
+      @determine_categories = GreenLanes::DetermineCategory.new(goods_nomenclature)
 
-      categories = GreenLanes::DetermineCategory.new(@goods_nomenclature).call
+      @categories = @determine_categories.categories
 
-      if categories == [:cat_3]
+      case @categories
+      when [:cat_1], [:cat_2], [:cat_3]
         render 'result'
       else
-        render 'generic_result', locals: { categories: }
+        render 'generic_result'
       end
     end
 
