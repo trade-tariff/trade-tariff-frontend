@@ -7,14 +7,19 @@
         <%= f.hidden_field :goods_nomenclature_code, value: current_goods_nomenclature_code %>
         <%= f.hidden_field :anchor, value: nil %>
         <%= f.label :country, country_picker_text %>
-          <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-              <%= f.select :country, GeographicalArea.country_options, {}, class: 'custom-select js-country-picker-select', "aria-label": "Filter measures by country" %>
-            </div>
-            <div class="govuk-grid-column-one-third govuk-!-padding-top-2">
-              <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil), class: 'govuk-link') %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <div data-controller="country-select-box">
+              <div data-country-select-box-target="countrySelect">
+                  <%= f.select :country, GeographicalArea.country_options, {}, data: { action: "focus->country-select-box#clearSelect" }, "aria-label": "Filter measures by country" %>
+              </div>
             </div>
           </div>
+
+          <div class="govuk-grid-column-one-third govuk-!-padding-top-2">
+            <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil), class: 'govuk-link') %>
+          </div>
+        </div>
       </div>
     </div>
     <%= f.button 'Set country', class: 'button search-submit govuk-button' %>
