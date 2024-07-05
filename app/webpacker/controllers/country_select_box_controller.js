@@ -5,6 +5,10 @@ import Utility from '../src/javascripts/utility';
 export default class extends Controller {
   static targets = ['countrySelect'];
 
+  clearSelect(event) {
+    event.currentTarget.value = '';
+  }
+
   connect() {
     this.selectElement = this.countrySelectTarget.querySelector('select');
 
@@ -13,6 +17,13 @@ export default class extends Controller {
     // Attach event listener after initialization as accessibleAutocomplete.enhanceSelectElement
     // hides focus event from stimulus.
     this.#attachFocusListener();
+  }
+
+  disconnect() {
+    const autocompleteInput = this.countrySelectTarget.querySelector('input.autocomplete__input');
+    if (autocompleteInput) {
+      autocompleteInput.removeEventListener('focus', this.clearSelect.bind(this));
+    }
   }
 
   #initializeAutocomplete() {
@@ -34,10 +45,6 @@ export default class extends Controller {
     });
   }
 
-  clearSelect(event) {
-    event.currentTarget.value = '';
-  }
-
   #getPreviousValue() {
     const selectedOption = this.selectElement ? this.selectElement.options[this.selectElement.selectedIndex] : null;
     return selectedOption ? selectedOption.textContent : '';
@@ -51,13 +58,6 @@ export default class extends Controller {
       autocompleteInput.addEventListener('focus', this.clearSelect.bind(this));
     } else {
       console.error('Autocomplete input element not found.');
-    }
-  }
-
-  disconnect() {
-    const autocompleteInput = this.countrySelectTarget.querySelector('input.autocomplete__input');
-    if (autocompleteInput) {
-      autocompleteInput.removeEventListener('focus', this.clearSelect.bind(this));
     }
   }
 }
