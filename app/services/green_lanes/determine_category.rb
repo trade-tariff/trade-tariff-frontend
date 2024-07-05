@@ -13,6 +13,8 @@ module GreenLanes
       return [:cat_3] if category_assessments.empty? # Result 3
       return [:cat_1] if cat1_without_exemptions.any? # Result 1
 
+      # cat1_without_exemptions NO
+
       if cat2_without_exemptions.any?
         if cat1_with_exemptions.any?
           %i[cat_1 cat_2] # Result 4
