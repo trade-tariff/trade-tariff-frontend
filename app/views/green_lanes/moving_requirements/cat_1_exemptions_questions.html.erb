@@ -1,0 +1,35 @@
+<% content_for :back_link do %>
+  <% back_link home_path %>
+<% end %>
+
+<div class="govuk-grid-row govuk-!-static-margin-top-7">
+
+  <div class="govuk-grid-column-two-thirds">
+    <header>
+      <h1 class="govuk-heading-l">
+        Cat 1 exemptions questions
+      </h1>
+    </header>
+
+    <%= render '/green_lanes/shared/support_email_section' %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <div class="gem-c-related-navigation">
+      <h2 class="gem-c-related-navigation__main-heading">
+        Subsections
+      </h2>
+
+      <nav class="gem-c-related-navigation__nav-section">
+        <ul class="gem-c-related-navigation__link-list">
+          <li class="gem-c-related-navigation__link">
+            <%= link_to 'Related Link 1', 'link1' %>
+          </li>
+          <li class="gem-c-related-navigation__link">
+            <%= link_to 'Related Link 2', 'link2' %>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
