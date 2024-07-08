@@ -52,17 +52,19 @@ module GreenLanes
 
       @categories = @determine_categories.categories
 
-      next_page = DetermineQuestionPage.new(goods_nomenclature).next_page
+      next_page = DetermineNextPage.new(goods_nomenclature).next
 
       case next_page
-      when :result # Result Cat1, Cat2 or Cat3
-        render 'result'
+      when :result_cat_1
+        render 'result_cat_1'
+      when :result_cat_2
+        render 'result_cat_2'
+      when :result_cat_3
+        render 'result_cat_3'
       when :cat_1_exemptions_questions
         redirect_to cat_1_questions_green_lanes_check_moving_requirements_path
       when :cat_2_exemptions_questions
         redirect_to cat_2_questions_green_lanes_check_moving_requirements_path
-      else
-        render 'generic_result'
       end
     end
 
