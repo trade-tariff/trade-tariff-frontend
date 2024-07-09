@@ -13,18 +13,20 @@ module GreenLanes
       return [:cat_3] if category_assessments.empty? # Result 3
       return [:cat_1] if cat1_without_exemptions.any? # Result 1
 
+      # cat1_without_exemptions NO
+
       if cat2_without_exemptions.any?
         if cat1_with_exemptions.any?
-          %i[cat_1 cat_2] # Result 4
+          %i[cat_1 cat_2]
         else
           [:cat_2] # Result 2
         end
       elsif cat1_with_exemptions.any? && cat2_with_exemptions.any?
-        %i[cat_1 cat_2 cat_3] # Result 5
+        %i[cat_1 cat_2 cat_3]
       elsif cat1_with_exemptions.any?
-        %i[cat_1 cat_3] # Result 6
+        %i[cat_1 cat_3]
       elsif cat2_with_exemptions.any?
-        %i[cat_2 cat_3] # Result 7
+        %i[cat_2 cat_3]
       end
     end
 
@@ -51,7 +53,7 @@ module GreenLanes
 
       return ca_assessments unless category
 
-      category_assessments.select { |ca| ca.theme.category == category }
+      ca_assessments.select { |ca| ca.theme.category == category }
     end
 
     def cat1_with_exemptions
