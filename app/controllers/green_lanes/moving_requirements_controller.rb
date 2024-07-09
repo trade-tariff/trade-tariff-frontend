@@ -62,17 +62,35 @@ module GreenLanes
       when :result_cat_3
         render 'result_cat_3'
       when :cat_1_exemptions_questions
-        redirect_to cat_1_questions_green_lanes_check_moving_requirements_path
+        redirect_to cat_1_questions_green_lanes_check_moving_requirements_path(
+          commodity_code: @commodity_code,
+          country_of_origin: @country_of_origin,
+          moving_date: @moving_date,
+        )
       when :cat_2_exemptions_questions
-        redirect_to cat_2_questions_green_lanes_check_moving_requirements_path
+        redirect_to cat_2_questions_green_lanes_check_moving_requirements_path(
+          commodity_code: @commodity_code,
+          country_of_origin: @country_of_origin,
+          moving_date: @moving_date,
+        )
       end
     end
 
-    def cat_1_exemptions_questions; end
+    def cat_1_exemptions_questions
+      @goods_nomenclature = GreenLanes::GoodsNomenclature.find(
+        questions_page_params[:commodity_code],
+        { filter: { geographical_area_id: questions_page_params[:country_of_origin] } },
+        { authorization: TradeTariffFrontend.green_lanes_api_token },
+      )
+    end
 
     def cat_2_exemptions_questions; end
 
     private
+
+    def questions_page_params
+      params.permit(:commodity_code, :country_of_origin, :moving_date)
+    end
 
     def moving_requirements_params
       params.require(:green_lanes_moving_requirements_form).permit(
