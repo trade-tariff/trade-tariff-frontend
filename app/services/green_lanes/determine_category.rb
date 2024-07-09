@@ -53,7 +53,7 @@ module GreenLanes
 
       return ca_assessments unless category
 
-      category_assessments.select { |ca| ca.theme.category == category }
+      ca_assessments.select { |ca| ca.theme.category == category }
     end
 
     def cat1_with_exemptions
