@@ -1,8 +1,8 @@
 module GreenLanes
   class MovingRequirementsController < ApplicationController
-    before_action :check_green_lanes_enabled,
-                  :disable_switch_service_banner,
-                  :disable_search_form
+    # before_action :check_green_lanes_enabled,
+    #               :disable_switch_service_banner,
+    #               :disable_search_form
 
     def start
       @commodity_code = params[:commodity_code]
@@ -58,6 +58,7 @@ module GreenLanes
       when :result # Result Cat1, Cat2 or Cat3
         render 'result'
       when :cat_1_exemptions_questions
+        # Is redirect correct for these?
         redirect_to cat_1_questions_green_lanes_check_moving_requirements_path
       when :cat_2_exemptions_questions
         redirect_to cat_2_questions_green_lanes_check_moving_requirements_path
@@ -66,7 +67,20 @@ module GreenLanes
       end
     end
 
-    def cat_1_exemptions_questions; end
+    def cat_1_exemptions_questions
+    #   exemptions_codes = 
+
+        @exemptions = [
+          {
+            code: 'CODE1',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget suscipit ex. Nulla a sapien sem. Proin at nisl vitae turpis varius cursus. In faucibus tortor sit amet odio pellentesque viverra.'
+          },
+          {
+            code: 'CODE2',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget suscipit ex. Nulla a sapien sem. Proin at nisl vitae turpis varius cursus. In faucibus tortor sit amet odio pellentesque viverra. Aenean vitae lectus lacus. Pellentesque id lacus dolor. Nam maximus nunc ultrices elit cursus vestibulum.'
+          }
+        ]
+    end
 
     def cat_2_exemptions_questions; end
 
