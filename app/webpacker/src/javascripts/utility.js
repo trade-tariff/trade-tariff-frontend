@@ -9,8 +9,7 @@ export default class Utility {
         // stops url defaulting to uk service on redirect
         const url = `${window.location.origin}/${service}/commodities/${commodityCode}#${selectedTab}`;
         window.location.href = url;
-      }
-      else {
+      } else {
         // we don't want the 'uk' service in the URL.
         const url = `/commodities/${commodityCode}#${selectedTab}`;
         window.location.href = url;
