@@ -19,6 +19,7 @@ describe('Utility.countrySelectorOnConfirm', () => {
       <div class="commodity-header" data-comm-code="1234"></div>
       <form>
         <div class="govuk-fieldset">
+          <input value="uk" autocomplete="off" type="hidden" name="trading_partner[service]" id="trading_partner_service" />
           <input autocomplete="off" type="hidden" name="trading_partner[anchor]" id="trading_partner_anchor" />
           <select>
             <option value="AF">(AF)</option>
@@ -57,5 +58,16 @@ describe('Utility.countrySelectorOnConfirm', () => {
     expect(selectElement.value).toBe('AF');
     expect(anchorInput.value).toBe('origin');
     expect(form.submit).toHaveBeenCalled();
+  });
+
+  it('navigates to the URL with service "xi" for "All countries"', () => {
+    // Set the service to 'xi'
+    document.getElementById('trading_partner_service').value = 'xi';
+
+    const confirmed = 'All countries';
+
+    Utility.countrySelectorOnConfirm(confirmed, selectElement);
+
+    expect(window.location.href).toBe(`${window.location.origin}/xi/commodities/1234#origin`);
   });
 });
