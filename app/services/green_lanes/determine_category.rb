@@ -17,16 +17,16 @@ module GreenLanes
 
       if cat2_without_exemptions.any?
         if cat1_with_exemptions.any?
-          %i[cat_1 cat_2] # Result 4
+          %i[cat_1 cat_2]
         else
           [:cat_2] # Result 2
         end
       elsif cat1_with_exemptions.any? && cat2_with_exemptions.any?
-        %i[cat_1 cat_2 cat_3] # Result 5
+        %i[cat_1 cat_2 cat_3]
       elsif cat1_with_exemptions.any?
-        %i[cat_1 cat_3] # Result 6
+        %i[cat_1 cat_3]
       elsif cat2_with_exemptions.any?
-        %i[cat_2 cat_3] # Result 7
+        %i[cat_2 cat_3]
       end
     end
 
