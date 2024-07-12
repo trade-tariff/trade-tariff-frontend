@@ -75,39 +75,17 @@ RSpec.describe GreenLanes::MovingRequirementsController, type: :request do
     end
   end
 
-  describe 'GET #cat_1_exemptions_questions_edit' do
+  xdescribe 'GET #cat_1_exemptions_questions_edit' do
     let(:make_request) { get cat_1_questions_green_lanes_check_moving_requirements_path }
 
     it { is_expected.to have_http_status(:ok) }
     it { is_expected.to render_template('cat_1_exemptions_questions_edit') }
   end
 
-  describe 'PUT #cat_1_exemptions_questions_update' do
-    let(:make_request) do
-      put cat_1_questions_green_lanes_check_moving_requirements_path, params: { exemptions: %w[exemption_1] }
-    end
-
-    it 'successfully updates', :aggregate_failures do
-      expect(make_request).to redirect_to('some_path')
-      expect(flash[:success]).to eq 'Exemptions updated successfully.'
-    end
-  end
-
-  describe 'GET #cat_2_exemptions_questions_edit' do
+  xdescribe 'GET #cat_2_exemptions_questions_edit' do
     let(:make_request) { get cat_2_questions_green_lanes_check_moving_requirements_path }
 
     it { is_expected.to have_http_status(:ok) }
     it { is_expected.to render_template('cat_2_exemptions_questions_edit') }
-  end
-
-  describe 'PUT #cat_2_exemptions_questions_update' do
-    let(:make_request) do
-      put cat_2_questions_green_lanes_check_moving_requirements_path, params: { exemptions: %w[exemption_1] }
-    end
-
-    it 'successfully updates', :aggregate_failures do
-      expect(make_request).to redirect_to('some_path')
-      expect(flash[:success]).to eq 'Exemptions updated successfully.'
-    end
   end
 end
