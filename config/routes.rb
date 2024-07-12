@@ -116,6 +116,13 @@ Rails.application.routes.draw do
         get 'result'
         get 'cat_1_exemptions_questions', as: :cat_1_questions
         get 'cat_2_exemptions_questions', as: :cat_2_questions
+        get 'result_cat_1'
+        get 'result_cat_2'
+        get 'result_cat_3'
+
+        patch 'cat_1_exemptions_questions',
+              to: 'moving_requirements#cat_1_exemptions_questions_update',
+              as: :cat_1_questions_update
       end
     end
   end

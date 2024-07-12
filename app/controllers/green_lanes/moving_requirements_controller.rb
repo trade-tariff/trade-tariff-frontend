@@ -84,9 +84,47 @@ module GreenLanes
       )
     end
 
-    def cat_2_exemptions_questions; end
+    def cat_1_exemptions_questions_update
+      # This came from result page
+      # TODO: params[:exemptions_answers_form, :commodity_code, :country_of_origin, :moving_date]
+
+      exemptions_apply = exemptions_apply?(params[:cat_1_exemptions_apply])
+
+      goods_nomenclature = questions_page_params[:commodity_code]
+
+      if exemptions_apply
+        next_page = GreenLanes::DetermineNextPage
+                      .new(goods_nomenclature)
+                      .next(cat_1_exemptions_apply: exemptions_apply)
+        case next_page
+        when :result_cat_2
+          redirect_to cat_2_questions_green_lanes_check_moving_requirements_path
+        when :result_cat_3
+          redirect_to result_cat_3_green_lanes_check_moving_requirements_path
+        when :cat_2_exemptions_questions
+          redirect_to cat_2_questions_green_lanes_check_moving_requirements_path(
+            commodity_code: @commodity_code,
+            country_of_origin: @country_of_origin,
+            moving_date: @moving_date,
+          )
+        end
+      else
+        redirect_to result_cat_1_green_lanes_check_moving_requirements_path
+      end
+    end
+
+    def result_cat_1; end
+
+    def result_cat_2; end
+
+    def result_cat_3; end
 
     private
+
+    def exemptions_apply?(_exemptions_answers_form)
+      # TODO: code this after Sam has implemented the form
+      params[:cat_1_exemptions_apply] == 'true'
+    end
 
     def questions_page_params
       params.permit(:commodity_code, :country_of_origin, :moving_date)

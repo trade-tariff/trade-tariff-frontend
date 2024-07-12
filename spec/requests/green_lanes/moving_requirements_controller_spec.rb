@@ -77,4 +77,31 @@ RSpec.describe GreenLanes::MovingRequirementsController, type: :request do
       it { is_expected.to have_http_status :unprocessable_entity }
     end
   end
+
+  describe 'PATCH cat_1_exemptions_questions' do
+    before do
+      allow(GreenLanes::DetermineNextPage).to receive(:new)
+                                                .with('6203000000')
+                                                .and_return(double(next: :result_cat_2))
+    end
+
+    let(:make_request) do
+      patch cat_1_questions_green_lanes_check_moving_requirements_path, params: {
+        commodity_code: '6203000000',
+        cat_1_exemptions_apply:,
+      }
+    end
+
+    context 'when the user selects that some Cat 1 exemptions apply' do
+      let(:cat_1_exemptions_apply) { 'true' }
+
+      it { is_expected.to redirect_to(cat_2_questions_green_lanes_check_moving_requirements_path) }
+    end
+
+    context 'when the user selects that NO Cat 1 exemptions apply' do
+      let(:cat_1_exemptions_apply) { 'false' }
+
+      it { is_expected.to redirect_to(result_cat_1_green_lanes_check_moving_requirements_path) }
+    end
+  end
 end
