@@ -11,9 +11,7 @@ module GreenLanes
 
     def edit
       @commodity_code = params[:commodity_code]
-      @moving_requirements_form = MovingRequirementsForm.new(commodity_code: @commodity_code,
-                                                             country_of_origin: params[:country_of_origin],
-                                                             moving_date: params[:moving_date])
+      @moving_requirements_form = MovingRequirementsForm.new(form_params)
 
       render 'edit'
     end
@@ -25,24 +23,14 @@ module GreenLanes
       form = @moving_requirements_form
 
       if form.valid?
-        redirect_to result_green_lanes_check_moving_requirements_path(
-          green_lanes_moving_requirements_form: {
-            commodity_code: form.commodity_code,
-            country_of_origin: form.country_of_origin,
-            moving_date: form.moving_date,
-          },
-        )
+        redirect_to result_green_lanes_check_moving_requirements_path(green_lanes_moving_requirements_form: form_params)
       else
         render 'edit', status: :unprocessable_entity
       end
     end
 
     def result
-      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
-        moving_requirements_params[:commodity_code],
-        { filter: { geographical_area_id: moving_requirements_params[:country_of_origin] } },
-        { authorization: TradeTariffFrontend.green_lanes_api_token },
-      )
+      goods_nomenclature = find_goods_nomenclature
 
       @commodity_code = goods_nomenclature.goods_nomenclature_item_id
       @country_of_origin = moving_requirements_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
@@ -62,17 +50,9 @@ module GreenLanes
       when :result_cat_3
         render 'result_cat_3'
       when :cat_1_exemptions_questions
-        redirect_to cat_1_questions_green_lanes_check_moving_requirements_path(
-          commodity_code: @commodity_code,
-          country_of_origin: @country_of_origin,
-          moving_date: @moving_date,
-        )
+        redirect_to cat_1_questions_green_lanes_check_moving_requirements_edit_path
       when :cat_2_exemptions_questions
-        redirect_to cat_2_questions_green_lanes_check_moving_requirements_path(
-          commodity_code: @commodity_code,
-          country_of_origin: @country_of_origin,
-          moving_date: @moving_date,
-        )
+        redirect_to cat_2_questions_green_lanes_check_moving_requirements_edit_path
       end
     end
 
@@ -84,12 +64,70 @@ module GreenLanes
       )
     end
 
-    def cat_2_exemptions_questions; end
+    def cat_1_exemptions_questions_edit
+      # cc= '4114109000'
+      # country_of_origin= 'UA'
+      # moving_date= '2024-07-15'
+
+      # goods_nomenclature = GreenLanes::GoodsNomenclature.find(cc,
+      #   { filter: { geographical_area_id: country_of_origin, moving_date: moving_date } },
+      #   { authorization: TradeTariffFrontend.green_lanes_api_token },
+      # )
+
+      goods_nomenclature = find_goods_nomenclature
+
+      @category_assessments = DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
+    end
+
+    def cat_1_exemptions_questions_update
+      selected_exemptions = params[:exemptions] || []
+
+      if selected_exemptions.present?
+        # next result page
+      else
+        flash[:error] = 'Not all exemption options selected.'
+      end
+
+      redirect_to some_path
+    end
+
+    def cat_2_exemptions_questions_edit
+      goods_nomenclature = find_goods_nomenclature
+
+      @category_assessments = DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
+    end
+
+    def cat_2_exemptions_questions_update
+      selected_exemptions = params[:exemptions] || []
+
+      if selected_exemptions.present?
+        # next result page
+      else
+        flash[:error] = 'Not all exemption options selected.'
+      end
+
+      redirect_to some_path
+    end
 
     private
 
     def questions_page_params
       params.permit(:commodity_code, :country_of_origin, :moving_date)
+    end
+
+    def form_params
+      { commodity_code: @commodity_code, country_of_origin: params[:country_of_origin], moving_date: params[:moving_date] }
+    end
+
+    def find_goods_nomenclature
+      GreenLanes::GoodsNomenclature.find(
+        moving_requirements_params[:commodity_code],
+        { filter: { geographical_area_id: moving_requirements_params[:country_of_origin], moving_date: moving_requirements_params[:moving_date] } },
+        { authorization: TradeTariffFrontend.green_lanes_api_token },
+      )
+    rescue StandardError => e
+      Rails.logger.error "GoodsNomenclature API error: #{e.message}"
+      nil
     end
 
     def moving_requirements_params
