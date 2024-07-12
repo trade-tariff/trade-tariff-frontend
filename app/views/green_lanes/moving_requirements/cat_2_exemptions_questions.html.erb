@@ -2,34 +2,54 @@
   <% back_link home_path %>
 <% end %>
 
-<div class="govuk-grid-row govuk-!-static-margin-top-7">
-
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <header>
-      <h1 class="govuk-heading-l">
-        Cat 2 exemptions questions
-      </h1>
-    </header>
+    <h1 class="govuk-heading-l">Tell us if your goods meet any exemptions</h1>
+    <p class="govuk-body">Your goods may meet criteria for Category 1. However, more information is needed to determine the category of your goods.</p>
+    <div class="govuk-inset-text">
+      Check if your goods meet any exemptions. This will help to determine their category, and whether you can continue through the simplified process for internal market movements.
+    </div>
+
+    <%= form_with url: update_cat_2_exemptions_questions_path, method: :post, local: true, class: 'govuk-form' do %>
+
+      <% @category_assessments.each_with_index do |category_assessment, index| %>
+        <fieldset class="govuk-fieldset" style="margin-bottom: 20px;">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h2 class="govuk-fieldset__heading">Do your goods meet any exemptions?</h2>
+          </legend>
+
+          <p class="govuk-body" style="margin-top: 5px; margin-bottom: 10px;"><%= category_assessment.measures.first[:footnotes].first[:formatted_description] %></p>
+
+          <a href="<%= category_assessment.regulation.regulation_url %>" class="govuk-link">View EU Regulation document</a>
+
+          <div class="govuk-checkboxes">
+            <% category_assessment.exemptions.each do |exemption| %>
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="<%= exemption.code %>" name="exemptions[]" type="checkbox" value="<%= exemption.code %>">
+                <label class="govuk-label govuk-checkboxes__label" for="<%= exemption.code %>">
+                  [<%= exemption.code %>]
+                  <p class="govuk-body" style="margin-top: 5px; margin-bottom: 10px;"><%= exemption.formatted_description %></p>
+                </label>
+              </div>
+            <% end %>
+          </div>
+
+          <% if index == @category_assessments.length - 1 %>
+            <div class="govuk-checkboxes__item" style="margin-top: 10px;">
+              <input class="govuk-checkboxes__input" id="no_exemptions" name="exemptions[]" type="checkbox" value="no_exemptions">
+              <label class="govuk-label govuk-checkboxes__label" for="no_exemptions">
+                No exemptions apply to my goods
+              </label>
+            </div>
+          <% end %>
+        </fieldset>
+      <% end %>
+
+      <button class="govuk-button" data-module="govuk-button">
+        Continue
+      </button>
+    <% end %>
 
     <%= render '/green_lanes/shared/support_email_section' %>
-  </div>
-
-  <div class="govuk-grid-column-one-third">
-    <div class="gem-c-related-navigation">
-      <h2 class="gem-c-related-navigation__main-heading">
-        Subsections
-      </h2>
-
-      <nav class="gem-c-related-navigation__nav-section">
-        <ul class="gem-c-related-navigation__link-list">
-          <li class="gem-c-related-navigation__link">
-            <%= link_to 'Related Link 1', 'link1' %>
-          </li>
-          <li class="gem-c-related-navigation__link">
-            <%= link_to 'Related Link 2', 'link2' %>
-          </li>
-        </ul>
-      </nav>
-    </div>
   </div>
 </div>

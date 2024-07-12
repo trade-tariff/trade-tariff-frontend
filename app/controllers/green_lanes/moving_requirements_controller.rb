@@ -84,13 +84,65 @@ module GreenLanes
       )
     end
 
-    def cat_2_exemptions_questions; end
+    def cat_1_exemptions_questions_edit
+      # cc= '4114109000'
+      # country_of_origin= 'UA'
+      # moving_date= '2024-07-15'
+
+      # goods_nomenclature = GreenLanes::GoodsNomenclature.find(cc,
+      #   { filter: { geographical_area_id: country_of_origin, moving_date: moving_date } },
+      #   { authorization: TradeTariffFrontend.green_lanes_api_token },
+      # )
+
+      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
+        moving_requirements_params[:commodity_code],
+        { filter: { geographical_area_id: moving_requirements_params[:country_of_origin], moving_date: moving_requirements_params[:moving_date] } },
+        { authorization: TradeTariffFrontend.green_lanes_api_token },
+      )
+
+      @category_assessments = DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
+    end
+
+    def cat_1_exemptions_questions_update
+      selected_exemptions = params[:exemptions] || []
+
+      if selected_exemptions.present?
+        # next result page
+      else
+        flash[:error] = 'Not all exemption options selected.'
+      end
+
+      redirect_to some_path
+    end
+
+    def cat_2_exemptions_questions_edit
+      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
+        moving_requirements_params[:commodity_code],
+        { filter: { geographical_area_id: moving_requirements_params[:country_of_origin], moving_date: moving_requirements_params[:moving_date] } },
+        { authorization: TradeTariffFrontend.green_lanes_api_token },
+      )
+
+      @category_assessments = DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
+    end
+
+    def cat_2_exemptions_questions_update
+      selected_exemptions = params[:exemptions] || []
+
+      if selected_exemptions.present?
+        # next result page
+      else
+        flash[:error] = 'Not all exemption options selected.'
+      end
+
+      redirect_to some_path
+    end
 
     private
 
     def questions_page_params
       params.permit(:commodity_code, :country_of_origin, :moving_date)
     end
+
 
     def moving_requirements_params
       params.require(:green_lanes_moving_requirements_form).permit(
