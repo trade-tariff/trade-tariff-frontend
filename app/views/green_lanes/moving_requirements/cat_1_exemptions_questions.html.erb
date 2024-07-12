@@ -10,7 +10,7 @@
       Check if your goods meet any exemptions. This will help to determine their category, and whether you can continue through the simplified process for internal market movements.
     </div>
 
-    <%= form_with url: update_cat_1_exemptions_questions_path, method: :post, local: true, class: 'govuk-form' do %>
+    <%= form_with url: '/q1_cat_update', method: :post, local: true, class: 'govuk-form' do %>
 
       <% @category_assessments.each_with_index do |category_assessment, index| %>
         <fieldset class="govuk-fieldset" style="margin-bottom: 20px;">
@@ -18,11 +18,22 @@
             <h2 class="govuk-fieldset__heading">Do your goods meet any exemptions?</h2>
           </legend>
 
-          <p class="govuk-body" style="margin-top: 5px; margin-bottom: 10px;"><%= category_assessment.measures.first[:footnotes].first[:formatted_description] %></p>
+          <p class="govuk-body" style="margin-top: 5px; margin-bottom: 10px;">
+            Annex IV of the Windsor Framework states: "<%= category_assessment.theme.to_s %>"
+          </p>
 
-          <a href="<%= category_assessment.regulation.regulation_url %>" class="govuk-link">View EU Regulation document</a>
+          <p class="govuk-body" style="margin-top: 5px; margin-bottom: 10px;">
+            <%= category_assessment.regulation.description %>
+          </p>
 
-          <div class="govuk-checkboxes">
+          <% if category_assessment.regulation.regulation_url.present? %>
+            <%= link_to 'View EU Regulation document',
+                        category_assessment.regulation.regulation_url, 
+                        class: 'govuk-link'
+            %>
+          <% end %>
+
+          <div class="govuk-checkboxes govuk-!-margin-top-3">
             <% category_assessment.exemptions.each do |exemption| %>
               <div class="govuk-checkboxes__item">
                 <input class="govuk-checkboxes__input" id="<%= exemption.code %>" name="exemptions[]" type="checkbox" value="<%= exemption.code %>">
@@ -34,14 +45,17 @@
             <% end %>
           </div>
 
-          <% if index == @category_assessments.length - 1 %>
-            <div class="govuk-checkboxes__item" style="margin-top: 10px;">
-              <input class="govuk-checkboxes__input" id="no_exemptions" name="exemptions[]" type="checkbox" value="no_exemptions">
-              <label class="govuk-label govuk-checkboxes__label" for="no_exemptions">
-                No exemptions apply to my goods
-              </label>
-            </div>
+          <% if index < @category_assessments.length - 1 %>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           <% end %>
+
+          <div class="govuk-checkboxes__item" style="margin-top: 10px;">
+            <input class="govuk-checkboxes__input" id="no_exemptions" name="exemptions[]" type="checkbox" value="no_exemptions">
+            <label class="govuk-label govuk-checkboxes__label" for="no_exemptions">
+              No exemptions apply to my goods
+            </label>
+          </div>
+
         </fieldset>
       <% end %>
 
