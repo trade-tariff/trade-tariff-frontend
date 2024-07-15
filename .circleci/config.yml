@@ -141,7 +141,7 @@ jobs:
 
   ruby-checks:
     docker:
-      - image: cimg/ruby:3.2.3
+      - image: cimg/ruby:3.3.4
     steps:
       - checkout
       - ruby/install-deps
@@ -188,7 +188,7 @@ jobs:
   test:
     parallelism: 4
     docker:
-      - image: cimg/ruby:3.2.3-node
+      - image: cimg/ruby:3.3.4-node
         environment:
           BUNDLE_JOBS: "3"
           BUNDLE_RETRY: "3"
@@ -212,7 +212,7 @@ jobs:
 
   notify-production-deployment:
     docker:
-      - image: cimg/ruby:3.2.3
+      - image: cimg/ruby:3.3.4
     steps:
       - tariff/notify-production-release:
           app-name: Frontend
