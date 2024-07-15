@@ -52,15 +52,79 @@ module GreenLanes
 
       @categories = @determine_categories.categories
 
-      case @categories
-      when [:cat_1], [:cat_2], [:cat_3]
-        render 'result'
-      else
-        render 'generic_result'
+      next_page = DetermineNextPage.new(goods_nomenclature).next
+
+      case next_page
+      when :result_cat_1
+        render 'result_cat_1'
+      when :result_cat_2
+        render 'result_cat_2'
+      when :result_cat_3
+        render 'result_cat_3'
+      when :cat_1_exemptions_questions
+        redirect_to cat_1_questions_green_lanes_check_moving_requirements_path(
+          commodity_code: @commodity_code,
+          country_of_origin: @country_of_origin,
+          moving_date: @moving_date,
+        )
+      when :cat_2_exemptions_questions
+        redirect_to cat_2_questions_green_lanes_check_moving_requirements_path(
+          commodity_code: @commodity_code,
+          country_of_origin: @country_of_origin,
+          moving_date: @moving_date,
+        )
       end
     end
 
+    def cat_1_exemptions_questions
+      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
+        questions_page_params[:commodity_code],
+        { filter: { geographical_area_id: questions_page_params[:country_of_origin], moving_date: questions_page_params[:moving_date] } },
+        { authorization: TradeTariffFrontend.green_lanes_api_token },
+      )
+
+      @category_assessments = DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
+    end
+
+    def cat_1_exemptions_questions_update
+      selected_exemptions = params[:exemptions] || []
+
+      if selected_exemptions.present?
+        # next result page
+      else
+        flash[:error] = 'Not all exemption options selected.'
+      end
+
+      redirect_to some_path
+    end
+
+    def cat_2_exemptions_questions
+      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
+        questions_page_params[:commodity_code],
+        { filter: { geographical_area_id: questions_page_params[:country_of_origin], moving_date: questions_page_params[:moving_date] } },
+        { authorization: TradeTariffFrontend.green_lanes_api_token },
+      )
+
+      @category_assessments = DetermineCategory.new(goods_nomenclature).cat2_with_exemptions
+    end
+
+    def cat_2_exemptions_questions_update
+      selected_exemptions = params[:exemptions] || []
+
+      if selected_exemptions.present?
+        # next result page
+      else
+        flash[:error] = 'Not all exemption options selected.'
+      end
+
+      redirect_to some_path
+    end
+
     private
+
+    def questions_page_params
+      params.permit(:commodity_code, :country_of_origin, :moving_date)
+    end
 
     def moving_requirements_params
       params.require(:green_lanes_moving_requirements_form).permit(

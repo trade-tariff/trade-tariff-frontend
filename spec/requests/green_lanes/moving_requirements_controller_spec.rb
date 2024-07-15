@@ -9,33 +9,26 @@ RSpec.describe GreenLanes::MovingRequirementsController, type: :request do
   end
 
   describe 'GET #start' do
-    let(:make_request) do
-      get start_green_lanes_check_moving_requirements_path
-    end
+    let(:make_request) { get start_green_lanes_check_moving_requirements_path }
 
-    it { is_expected.to have_http_status :ok }
+    it { is_expected.to have_http_status(:ok) }
   end
 
   describe 'when the feature "check moving requirements" is disabled' do
-    let(:make_request) do
-      get start_green_lanes_check_moving_requirements_path
-    end
+    let(:make_request) { get start_green_lanes_check_moving_requirements_path }
 
     before do
       allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return(false)
     end
 
-    it { is_expected.to have_http_status :not_found }
-
-    it { is_expected.to render_template 'errors/not_found' }
+    it { is_expected.to have_http_status(:not_found) }
+    it { is_expected.to render_template('errors/not_found') }
   end
 
   describe 'GET #edit' do
-    let(:make_request) do
-      get edit_green_lanes_check_moving_requirements_path
-    end
+    let(:make_request) { get edit_green_lanes_check_moving_requirements_path }
 
-    it { is_expected.to have_http_status :ok }
+    it { is_expected.to have_http_status(:ok) }
   end
 
   describe 'PUT #update' do
@@ -53,11 +46,15 @@ RSpec.describe GreenLanes::MovingRequirementsController, type: :request do
       end
 
       it do
-        expect(make_request).to redirect_to(result_green_lanes_check_moving_requirements_path(
-                                              green_lanes_moving_requirements_form: {
-                                                commodity_code: '6203000000', country_of_origin: 'IT', moving_date: '2022-02-03'
-                                              },
-                                            ))
+        expect(make_request).to redirect_to(
+          result_green_lanes_check_moving_requirements_path(
+            green_lanes_moving_requirements_form: {
+              commodity_code: '6203000000',
+              country_of_origin: 'IT',
+              moving_date: '2022-02-03',
+            },
+          ),
+        )
       end
     end
 
@@ -74,7 +71,21 @@ RSpec.describe GreenLanes::MovingRequirementsController, type: :request do
         }
       end
 
-      it { is_expected.to have_http_status :unprocessable_entity }
+      it { is_expected.to have_http_status(:unprocessable_entity) }
     end
+  end
+
+  xdescribe 'GET #cat_1_exemptions_questions_edit' do
+    let(:make_request) { get cat_1_questions_green_lanes_check_moving_requirements_path }
+
+    it { is_expected.to have_http_status(:ok) }
+    it { is_expected.to render_template('cat_1_exemptions_questions_edit') }
+  end
+
+  xdescribe 'GET #cat_2_exemptions_questions_edit' do
+    let(:make_request) { get cat_2_questions_green_lanes_check_moving_requirements_path }
+
+    it { is_expected.to have_http_status(:ok) }
+    it { is_expected.to render_template('cat_2_exemptions_questions_edit') }
   end
 end

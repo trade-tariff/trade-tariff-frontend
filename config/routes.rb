@@ -114,6 +114,10 @@ Rails.application.routes.draw do
       resource :check_moving_requirements, controller: 'moving_requirements', only: %i[update edit] do
         get 'start'
         get 'result'
+        get 'cat_1_exemptions_questions', as: :cat_1_questions
+        patch 'cat_1_exemptions_questions_update', as: :cat_1_questions_update
+        get 'cat_2_exemptions_questions', as: :cat_2_questions
+        patch 'cat_2_exemptions_questions_update', as: :cat_2_questions_update
       end
     end
   end

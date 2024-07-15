@@ -2,6 +2,7 @@ export default class Utility {
   static countrySelectorOnConfirm(confirmed, selectElement) {
     const commodityCode = document.querySelector('.commodity-header').dataset.commCode;
     const service = document.getElementById('trading_partner_service').value;
+    const service = document.getElementById('trading_partner_service').value;
 
     if (confirmed === 'All countries') {
       const selectedTab = window.location.hash.substring(1);

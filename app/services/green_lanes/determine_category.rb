@@ -13,6 +13,8 @@ module GreenLanes
       return [:cat_3] if category_assessments.empty? # Result 3
       return [:cat_1] if cat1_without_exemptions.any? # Result 1
 
+      # cat1_without_exemptions NO
+
       if cat2_without_exemptions.any?
         if cat1_with_exemptions.any?
           %i[cat_1 cat_2] # Result 4
@@ -29,15 +31,19 @@ module GreenLanes
     end
 
     def cat1_without_exemptions
-      without_exemptions(
-        category_assessments(CAT_1),
-      )
+      without_exemptions(category_assessments(CAT_1))
     end
 
     def cat2_without_exemptions
-      without_exemptions(
-        category_assessments(CAT_2),
-      )
+      without_exemptions(category_assessments(CAT_2))
+    end
+
+    def cat1_with_exemptions
+      with_exemptions(category_assessments(CAT_1))
+    end
+
+    def cat2_with_exemptions
+      with_exemptions(category_assessments(CAT_2))
     end
 
     private
@@ -46,22 +52,16 @@ module GreenLanes
       cat_assessments.select { |ca| ca.exemptions.empty? }
     end
 
+    def with_exemptions(cat_assessments)
+      cat_assessments.select { |ca| ca.exemptions.any? }
+    end
+
     def category_assessments(category = nil)
       ca_assessments = goods_nomenclature.applicable_category_assessments
 
       return ca_assessments unless category
 
-      category_assessments.select { |ca| ca.theme.category == category }
-    end
-
-    def cat1_with_exemptions
-      category_assessments(CAT_1)
-        .select { |ca| ca.exemptions.any? }
-    end
-
-    def cat2_with_exemptions
-      category_assessments(CAT_2)
-        .select { |ca| ca.exemptions.any? }
+      ca_assessments.select { |ca| ca.category == category }
     end
   end
 end
