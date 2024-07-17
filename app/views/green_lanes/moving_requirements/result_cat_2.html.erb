@@ -1,3 +1,4 @@
+
 <% content_for :back_link do %>
   <% link_to "Back", edit_green_lanes_check_moving_requirements_path(commodity_code: @commodity_code,
                                                                      country_of_origin: @country_of_origin,
@@ -6,27 +7,71 @@
   %>
 <% end %>
 
-<div class="govuk-grid-row govuk-!-static-margin-top-7">
-  <div class="govuk-grid-column-two-thirds">
-
-    <header class="govuk-!-margin-bottom-6">
-      <span class="govuk-caption-xl">
-        Check arrangements for internal market movements
-      </span>
-
-      <h1 class="govuk-heading-l">
-        Results for your goods
-      </h1>
-    </header>
-
-    <div class="govuk-notification-banner govuk-notification-banner--success" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-      <div class="govuk-notification-banner__content">
-        <h2 class="govuk-notification-banner__heading">
-          Your goods may be in the categories: <%= @categories.join(', ') %>
-        </h2>
-      </div>
-    </div>
-
-    <%= render '/green_lanes/shared/support_email_section' %>
+<div class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title">
+    Your goods are Category 2
+  </h1>
+  <div class="govuk-panel__body">
+    This means that, based on the information you have provided, your goods can continue through the simplified process for internal market movements.
   </div>
 </div>
+
+<p>Your goods are Category 2 because they are:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>moving from Great Britain to Northern Ireland</li>
+  <li>intended to be sold to, or used by, end consumers in the UK, and therefore deemed ‘not at risk’ of onward movement to the EU</li>
+  <li>excise products or subject to special health, licensing or environmental controls</li>
+</ul>
+
+<h2 class="govuk-heading-m">What you should do next</h2>
+<p>To move your goods under the simplified process for internal market movements, you’ll need to become an authorised trader under the UK Internal Market Scheme (UKIMS) (opens in a new tab). If you are not already, register <a href="registration_link" target="_blank" rel="noopener noreferrer">here</a>.</p>
+
+<p>Next, prepare an Internal Market Enforcement Information (IMEI) submission using <a href="submission_link" target="_blank" rel="noopener noreferrer">submission guidelines</a>, or use the live support provided by HMRC’s Trader Support Service (TSS).</p>
+
+<p>As part of the required IMEI submission, you’ll need to provide:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>an EORI number</li>
+  <li>your UKIMS authorisation</li>
+  <li>your HMRC authorisation number, if relevant</li>
+  <li>certificates, licenses and evidence applicable to your goods</li>
+</ul>
+
+<p>Find out more about the <a href="simplified_process_link" target="_blank" rel="noopener noreferrer">simplified process for internal market movements</a></p>
+
+<h2 class="govuk-heading-m">About the categorisation of your goods</h2>
+<p>You may need to apply the following codes or evidence when preparing your IMEI submission.</p>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Commodity</dt>
+    <dd class="govuk-summary-list__value">2204290800</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Classification</dt>
+    <dd class="govuk-summary-list__value">Lorem ipsum</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Non-preferential origin</dt>
+    <dd class="govuk-summary-list__value">Armenia</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Date of movement</dt>
+    <dd class="govuk-summary-list__value">1st Oct 2024</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="<%= edit_green_lanes_check_moving_requirements_path %>">Edit details</a>
+    </dd>
+  </div>
+</dl>
+
+<h2 class="govuk-heading-m">Category 2</h2>
+<p>Annex IV of the Windsor Framework states: "Proin at nisi vitae turpis varius cursus. In hac habitasse platea dictumst. Pellentesque vehicula vehicula nisl vel malesuada. Proin eu ultricies tortor, at scelerisque urna. Nulla facilisi."</p>
+<%= link_to 'View EU Regulation document', 'www.google.com', class: 'govuk-link', target: '_blank', rel: 'noopener noreferrer' %>
+
+<p>No exemptions available</p>
+
+<%= link_to 'Check the category of other goods', edit_green_lanes_check_moving_requirements_path, class: 'govuk-button', target: '_blank' %>
+
+<%= render '/green_lanes/shared/support_email_section' %>
+
