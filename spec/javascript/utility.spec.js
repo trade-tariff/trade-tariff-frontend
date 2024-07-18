@@ -1,7 +1,9 @@
+/* eslint-env node, jest */
+
 import Utility from 'utility';
 
 describe('Utility.countrySelectorOnConfirm', () => {
-  let selectElement, form, anchorInput, originalLocation;
+  let selectElement; let form; let anchorInput; let originalLocation;
 
   beforeEach(() => {
     // Save the original location so we can restore it after the test
@@ -84,8 +86,8 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
   it('fetches suggestions and populates results', async () => {
     const mockResponse = {
       results: [
-        { id: 'wine', text: 'wine', query: 'wine', resource_id: '6828', formatted_suggestion_type: '' },
-        { id: 'red wine', text: 'red wine', query: 'wine', resource_id: '7273', formatted_suggestion_type: '' },
+        {id: 'wine', text: 'wine', query: 'wine', resource_id: '6828', formatted_suggestion_type: ''},
+        {id: 'red wine', text: 'red wine', query: 'wine', resource_id: '7273', formatted_suggestion_type: ''},
       ],
     };
 
@@ -108,7 +110,7 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
     });
 
     const expectedResults = [
-      { id: 'wine', text: 'wine', suggestion_type: 'exact', newOption: true },
+      {id: 'wine', text: 'wine', suggestion_type: 'exact', newOption: true},
       ...mockResponse.results,
     ];
 
@@ -136,12 +138,12 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
 });
 
 describe('Utility.commoditySelectorOnConfirm', () => {
-  let options, resourceIdHidden, inputElement, form;
+  let options; let resourceIdHidden; let inputElement; let form;
 
   beforeEach(() => {
     options = [
-      { "id": "wine", "text": "wine", "suggestion_type": "exact", "newOption": true },
-      { "id": "wine", "text": "wine", "query": "wine", "resource_id": "6828", "formatted_suggestion_type": "" }
+      {'id': 'wine', 'text': 'wine', 'suggestion_type': 'exact', 'newOption': true},
+      {'id': 'wine', 'text': 'wine', 'query': 'wine', 'resource_id': '6828', 'formatted_suggestion_type': ''},
     ];
 
     document.body.innerHTML = `
@@ -159,7 +161,7 @@ describe('Utility.commoditySelectorOnConfirm', () => {
   });
 
   it('sets the resource ID and submits the form when an option is confirmed', () => {
-    const text = { id: 'wine', text: 'wine' };
+    const text = {id: 'wine', text: 'wine'};
 
     Utility.commoditySelectorOnConfirm(text, options, resourceIdHidden, inputElement);
 
@@ -169,7 +171,7 @@ describe('Utility.commoditySelectorOnConfirm', () => {
   });
 
   it('does nothing if the selected option is not found', () => {
-    const text = { id: '3', text: 'Unknown Commodity' };
+    const text = {id: '3', text: 'Unknown Commodity'};
 
     Utility.commoditySelectorOnConfirm(text, options, resourceIdHidden, inputElement);
 
