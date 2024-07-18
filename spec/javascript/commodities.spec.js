@@ -1,7 +1,6 @@
-// There are tests for commodities.js
-// To run them: 'yarn test' .
+/* eslint-env node, jest */
+/* global GOVUK */
 
-global.accessibleAutocomplete = require('accessible-autocomplete');
 require('commodities.js');
 
 test('GOVUK.tariff public has expected public methods', () => {
@@ -18,7 +17,7 @@ test('GOVUK.tariff public has expected public methods', () => {
     'tabs',
   ];
 
-  items.forEach( (item) => {
+  items.forEach((item) => {
     expect(GOVUK.tariff).toHaveProperty(item);
   });
 });

@@ -1,4 +1,4 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 import accessibleAutocomplete from 'accessible-autocomplete';
 import debounce from '../src/javascripts/debounce';
 import Utility from '../src/javascripts/utility';
@@ -36,7 +36,8 @@ export default class extends Controller {
       let enhanced = result.text.replace(new RegExp(result.query, 'gi'), `<strong>$&</strong>`);
 
       if (result.formatted_suggestion_type) {
-        enhanced = `<span data-resource-id="${result.resource_id}" data-suggestion-type="${result.formatted_suggestion_type}">${enhanced}</span>`;
+        enhanced = `<span data-resource-id="${result.resource_id}"
+                    data-suggestion-type="${result.formatted_suggestion_type}">${enhanced}</span>`;
         enhanced += `<span class="suggestion-type">${result.formatted_suggestion_type}</span>`;
       }
 

@@ -11,13 +11,14 @@ describe('CommoditySelectBoxController', () => {
 
   beforeEach(() => {
     document.body.innerHTML = `
-      <div data-controller="commodity-select-box">
-        <input type="hidden" name="resource_id" id="resource-id-hidden" value="6828" data-commodity-select-box-target="resourceIdHidden" autocomplete="off">
-        <label class="govuk-label" for="q">Search the UK Integrated Online Tariff</label>
-        <div>
-          <input id="q" class="autocomplete__input" data-commodity-select-box-target="commodityInput">
-        </div>
-      </div> `;
+    <div data-controller="commodity-select-box">
+      <input type="hidden" name="resource_id" id="resource-id-hidden"
+      value="6828" data-commodity-select-box-target="resourceIdHidden" autocomplete="off">
+      <label class="govuk-label" for="q">Search the UK Integrated Online Tariff</label>
+      <div>
+        <input id="q" class="autocomplete__input" data-commodity-select-box-target="commodityInput">
+      </div>
+    </div> `;
   });
 
   it('should initialize the controller', () => {
