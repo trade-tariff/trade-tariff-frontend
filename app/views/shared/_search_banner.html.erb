@@ -14,16 +14,18 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-half">
           <div class="searchfield govuk-form-group search-header js-search-header tariff-search-banner__input-container">
-            <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="tariff-search-banner__q-hint">
-              <%= label_tag 'tariff-search-banner__q', search_label_text, class: 'govuk-label govuk-visually-hidden' %>
-              <%= hidden_field_tag :q, @search.q, id: 'tariff-search-banner__q-hidden', class: "js-commodity-picker-target" %>
-              <%= hidden_field_tag :resource_id, '', id: 'tariff-search-banner__resource-id-hidden', class: "js-commodity-picker-resource-id" %>
 
-              <div class="js-commodity-picker-select js-show" data-autocomplete-input-id="tariff-search-banner__q"></div>
-            </fieldset>
-            <fieldset class="govuk-fieldset search-submit">
-              <input class="govuk-button" type="submit" name="submit_search" value="Search">
-            </fieldset>
+            <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="tariff-search-banner__q-hint">
+            <div data-controller="commodity-select-box">
+              <%= label_tag 'tariff-search-banner__q', search_label_text, class: 'govuk-label govuk-visually-hidden' %>
+              <%= text_field_tag :q, @search.q, id: 'q', class: "govuk-input", data: { 'commodity-select-box-target': "commodityInput" } %>
+              <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', data: { 'commodity-select-box-target': "resourceIdHidden" } %>
+            </div>
+          </fieldset>
+
+          <fieldset class="govuk-fieldset search-submit">
+            <input class="govuk-button" type="submit" name="submit_search" value="Search">
+          </fieldset>
           </div>
         </div>
       </div>
