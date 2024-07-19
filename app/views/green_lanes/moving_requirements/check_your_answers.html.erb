@@ -1,0 +1,111 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <a href="#" class="govuk-back-link">Back</a>
+    <h1 class="govuk-heading-l">Check your answers</h1>
+
+    <div class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">About your goods</h2>
+        <div class="govuk-summary-card__actions">
+          <a class="govuk-link" href="<%= edit_green_lanes_check_moving_requirements_path %>">Edit</a>
+        </div>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Commodity</dt>
+            <dd class="govuk-summary-list__value"><%= @commodity_code %></dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Classification</dt>
+            <dd class="govuk-summary-list__value">Other wine, grape must with fermentation prevented or arrested by the addition of alcohol - Other varietal wines</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Non-preferential origin</dt>
+            <dd class="govuk-summary-list__value"><%= @country_of_origin %></dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Date of movement</dt>
+            <dd class="govuk-summary-list__value"><%= @moving_date %></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <h2 class="govuk-heading-m">Category exemptions</h2>
+    <% unless @category_one_assessments.flat_map(&:exemptions).count < 1 %>
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Category 1 exemptions</h2>
+          <div class="govuk-summary-card__actions">
+            <a class="govuk-link" href="<%= cat_1_questions_green_lanes_check_moving_requirements_path %>">Edit details</a>
+          </div>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <% @category_one_assessments.each do |category_assessment| %>
+              <% category_assessment.exemptions.each do |exemption| %>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key"><%= exemption.code %></dt>
+                  <dd class="govuk-summary-list__value">
+                    <%= exemption.formatted_description %>
+                  </dd>
+                  <dd class="govuk-summary-list__actions">
+                    <% if @selected_exemptions[category_assessment['category_assessment_id'].to_s].nil? %> 
+                      'Exemption not met'
+                    <% else %>
+                      <%= @selected_exemptions[category_assessment['category_assessment_id'].to_s].include?(exemption.code) ? 'Exemption met' : 'Exemption not met' %>
+                    <% end %>
+                  </dd>
+                </div>
+              <% end %>
+            <% end %>
+          </dl>
+        </div>
+      </div>
+    <% end %>
+
+    <% unless @category_two_assessments.flat_map(&:exemptions).count < 1 %>
+      <div class="govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Category 2 exemptions</h2>
+          <div class="govuk-summary-card__actions">
+            <a class="govuk-link" href="<%= cat_2_questions_green_lanes_check_moving_requirements_path %>">Edit details</a>
+          </div>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <% @category_two_assessments.each do |category_assessment| %>
+              <% category_assessment.exemptions.each do |exemption| %>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key"><%= exemption.code %></dt>
+                  <dd class="govuk-summary-list__value">
+                    <%= exemption.formatted_description %>
+                  </dd>
+                  <dd class="govuk-summary-list__actions">
+                    <% if @selected_exemptions[category_assessment['category_assessment_id'].to_s].nil? %> 
+                      Exemption not met
+                    <% else %>
+                      <%= @selected_exemptions[category_assessment['category_assessment_id'].to_s].include?(exemption.code) ? 'Exemption met' : 'Exemption not met' %>
+                    <% end %>
+                  </dd>
+                </div>
+              <% end %>
+            <% end %>
+          </dl>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <%= form_with url: result_green_lanes_check_moving_requirements_path, method: :get do %>
+        <%= hidden_field_tag :commodity_code, params[:commodity_code] %>
+        <%= hidden_field_tag :country_of_origin, params[:country_of_origin] %>
+        <%= hidden_field_tag :moving_date, params[:moving_date] %>
+        <%= hidden_field_tag :result, @result %>
+        <%= hidden_field_tag :check_your_answers, true %>
+        <%= submit_tag "Continue", class: 'govuk-button' %>
+      <% end %>
+    </div>
+  </div>
+</div>

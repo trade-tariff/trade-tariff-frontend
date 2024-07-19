@@ -38,50 +38,54 @@ module GreenLanes
     end
 
     def result
-      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
-        moving_requirements_params[:commodity_code],
-        { filter: { geographical_area_id: moving_requirements_params[:country_of_origin] } },
-        { authorization: TradeTariffFrontend.green_lanes_api_token },
-      )
+      # ========================================================
+      # added to enable easy testing
+      # next_page = :result_cat_1
+      # @selected_exemptions = {"34"=>["Y997"], "82"=>["none"]}
+      # moving_requirements_params = {
+      #   "commodity_code" => "4114109000",
+      #     "country_of_origin" => "UA",
+      #     "moving_date" => "2024-07-16"
+      # }.with_indifferent_access
+      # ===================================================
+
+      set_goods_nomenclature
 
       @commodity_code = goods_nomenclature.goods_nomenclature_item_id
       @country_of_origin = moving_requirements_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @country_description = GeographicalArea.find(@country_of_origin).description
       @moving_date = moving_requirements_params[:moving_date]
       @determine_categories = GreenLanes::DetermineCategory.new(goods_nomenclature)
-
       @categories = @determine_categories.categories
+      @selected_exemptions = params[:exemptions][:category_assessments_checked]
 
-      next_page = DetermineNextPage.new(goods_nomenclature).next
+      # next_page = DetermineNextPage.new(goods_nomenclature).next
 
-      case next_page
-      when :result_cat_1
-        render 'result_cat_1'
-      when :result_cat_2
-        render 'result_cat_2'
-      when :result_cat_3
-        render 'result_cat_3'
-      when :cat_1_exemptions_questions
-        redirect_to cat_1_questions_green_lanes_check_moving_requirements_path(
-          commodity_code: @commodity_code,
-          country_of_origin: @country_of_origin,
-          moving_date: @moving_date,
-        )
-      when :cat_2_exemptions_questions
-        redirect_to cat_2_questions_green_lanes_check_moving_requirements_path(
-          commodity_code: @commodity_code,
-          country_of_origin: @country_of_origin,
-          moving_date: @moving_date,
-        )
+      if params[:check_your_answers]
+        render next_page
+      else
+        handle_result_redirection(next_page)
       end
     end
 
+    def check_your_answers
+      set_goods_nomenclature
+
+      @commodity_code = goods_nomenclature.goods_nomenclature_item_id
+      @country_of_origin = params[:country_of_origin] || GeographicalArea::ERGA_OMNES
+      @moving_date = params[:moving_date]
+      @result = params[:result]
+      @selected_exemptions= params[:selected_exemptions]
+      @rejected_exemptions= {}
+
+      @category_one_assessments = DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
+      @category_two_assessments = DetermineCategory.new(goods_nomenclature).cat2_with_exemptions
+
+      render 'check_your_answers'
+    end
+
     def cat_1_exemptions_questions
-      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
-        questions_page_params[:commodity_code],
-        { filter: { geographical_area_id: questions_page_params[:country_of_origin], moving_date: questions_page_params[:moving_date] } },
-        { authorization: TradeTariffFrontend.green_lanes_api_token },
-      )
+      set_goods_nomenclature(questions_page_params)
 
       @category_assessments = DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
     end
@@ -99,11 +103,7 @@ module GreenLanes
     end
 
     def cat_2_exemptions_questions
-      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
-        questions_page_params[:commodity_code],
-        { filter: { geographical_area_id: questions_page_params[:country_of_origin], moving_date: questions_page_params[:moving_date] } },
-        { authorization: TradeTariffFrontend.green_lanes_api_token },
-      )
+      set_goods_nomenclature(questions_page_params)
 
       @category_assessments = DetermineCategory.new(goods_nomenclature).cat2_with_exemptions
     end
@@ -121,6 +121,33 @@ module GreenLanes
     end
 
     private
+
+    def handle_result_redirection(next_page)
+      redirection_params = {
+        commodity_code: @commodity_code,
+        country_of_origin: @country_of_origin,
+        moving_date: @moving_date,
+        selected_exemptions: @selected_exemptions,
+        result: next_page
+      }
+
+      case next_page
+      when :result_cat_1, :result_cat_2, :result_cat_3
+        redirect_to check_your_answers_path(redirection_params)
+      when :cat_1_exemptions_questions
+        redirect_to cat_1_questions_path(redirection_params)
+      when :cat_2_exemptions_questions
+        redirect_to cat_2_questions_path(redirection_params)
+      end
+    end
+
+    def set_goods_nomenclature(filter_params = moving_requirements_params)
+      @goods_nomenclature = GreenLanes::GoodsNomenclature.find(
+        filter_params[:commodity_code],
+        { filter: { geographical_area_id: filter_params[:country_of_origin], moving_date: filter_params[:moving_date] } },
+        { authorization: TradeTariffFrontend.green_lanes_api_token }
+      )
+    end
 
     def questions_page_params
       params.permit(:commodity_code, :country_of_origin, :moving_date)
