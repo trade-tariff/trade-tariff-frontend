@@ -2,31 +2,100 @@
   <% link_to "Back", edit_green_lanes_check_moving_requirements_path(commodity_code: @commodity_code,
                                                                      country_of_origin: @country_of_origin,
                                                                      moving_date: @moving_date),
-                                                                     class: "govuk-back-link"
-  %>
+                                                                     class: "govuk-back-link" %>
 <% end %>
 
-<div class="govuk-grid-row govuk-!-static-margin-top-7">
-  <div class="govuk-grid-column-two-thirds">
+<div class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title">
+    Your goods are Category 1
+  </h1>
+</div>
 
-    <header class="govuk-!-margin-bottom-6">
-      <span class="govuk-caption-xl">
-        Check arrangements for internal market movements
-      </span>
+<p>
+  This means that, based on the information you have provided, your goods can continue through the simplified process for internal market movements.
+</p>
 
-      <h1 class="govuk-heading-l">
-        Results for your goods
-      </h1>
-    </header>
+<p>Your goods are Category 1 because they are:</p>
 
-    <div class="govuk-notification-banner govuk-notification-banner--success" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-      <div class="govuk-notification-banner__content">
-        <h2 class="govuk-notification-banner__heading">
-          Your goods may be in the categories: <%= @categories.join(', ') %>
-        </h2>
-      </div>
+<ul class="govuk-list govuk-list--bullet">
+  <li>restrictions enforced by the Treaty on the Functioning of the European Union (TFEU)</li>
+  <li>total bans or prohibitions</li>
+  <li>trade defence measures</li>
+  <li>union tariff rate quotas when claimed by the importer</li>
+  <li>union quotas other than tariff rate quotas</li>
+</ul>
+
+<h2 class="govuk-heading-m">What you should do next</h2>
+
+<p>You cannot continue through the simplified process for internal market movements with Category 1 goods.</p>
+
+<p>
+You may still be able to move your goods from Great Britain to Northern Ireland, unless certain conditions apply, such as goods being prohibited or from an origin with sanctions implemented. To move your goods you will need to follow a customs full declaration process.</p>
+
+<a href="submission_link" target="_blank" rel="noopener noreferrer">Find out more about trading and moving goods in and out of Northern Ireland (opens in a new tab)</a></p>
+
+<a href="submission_link" target="_blank" rel="noopener noreferrer">Find out more about the simplified process for internal market movements</a></p>
+
+<h2 class="govuk-heading-m">About the categorisation of your goods</h2>
+
+<div class="govuk-summary-card">
+  <div class="govuk-summary-card__title-wrapper">
+    <h2 class="govuk-summary-card__title">Your movement of goods</h2>
+    <div class="govuk-summary-card__actions">
+      <a class="govuk-link" href="<%= edit_green_lanes_check_moving_requirements_path %>">Edit details</a>
     </div>
-
-    <%= render '/green_lanes/shared/support_email_section' %>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Commodity</dt>
+        <dd class="govuk-summary-list__value"><%= @commodity_code %></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Classification</dt>
+        <dd class="govuk-summary-list__value">Lorem ipsum</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Non-preferential origin</dt>
+        <dd class="govuk-summary-list__value"><%= @country_of_origin %></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Date of movement</dt>
+        <dd class="govuk-summary-list__value"><%= @moving_date %></dd>
+      </div>
+    </dl>
   </div>
 </div>
+
+<div class="govuk-summary-card">
+  <div class="govuk-summary-card__title-wrapper">
+    <h2 class="govuk-summary-card__title">
+      Category 1
+    </h2>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dd class="govuk-summary-list__value">
+          <p>
+            Annex IV of the Windsor Framework: "<%= @category_assessment_2.theme.to_s %>"
+          </p>
+
+          <p>[<%= @category_assessment_2.regulation.description %>]</p>
+
+          <% if @category_assessment_2.regulation.regulation_url.present? %>
+            <%= link_to 'View EU Regulation document', @category_assessment_2.regulation.regulation_url, class: 'govuk-link' %>
+          <% end %>
+
+          <hr>
+
+          <p class='govuk-!-margin-top-4'>No exemptions available</p>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+<%= link_to 'Check the category of other goods', edit_green_lanes_check_moving_requirements_path, class: 'govuk-button govuk-button--secondary', target: '_blank' %>
+
+<%= render '/green_lanes/shared/support_email_section' %>

@@ -38,6 +38,14 @@ module GreenLanes
     end
 
     def result
+
+      # added to enable easy testing
+      moving_requirements_params = {
+        "commodity_code" => "0204300090",
+          "country_of_origin" => "GR",
+          "moving_date" => "2024-07-16"
+      }.with_indifferent_access
+
       goods_nomenclature = GreenLanes::GoodsNomenclature.find(
         moving_requirements_params[:commodity_code],
         { filter: { geographical_area_id: moving_requirements_params[:country_of_origin] } },
@@ -52,28 +60,35 @@ module GreenLanes
 
       @categories = @determine_categories.categories
 
-      next_page = DetermineNextPage.new(goods_nomenclature).next
+      # next_page = DetermineNextPage.new(goods_nomenclature).next
 
-      case next_page
-      when :result_cat_1
-        render 'result_cat_1'
-      when :result_cat_2
-        render 'result_cat_2'
-      when :result_cat_3
-        render 'result_cat_3'
-      when :cat_1_exemptions_questions
-        redirect_to cat_1_questions_green_lanes_check_moving_requirements_path(
-          commodity_code: @commodity_code,
-          country_of_origin: @country_of_origin,
-          moving_date: @moving_date,
-        )
-      when :cat_2_exemptions_questions
-        redirect_to cat_2_questions_green_lanes_check_moving_requirements_path(
-          commodity_code: @commodity_code,
-          country_of_origin: @country_of_origin,
-          moving_date: @moving_date,
-        )
-      end
+      # case next_page
+      # when :result_cat_1
+      #   render 'result_cat_1'
+      # when :result_cat_2
+      #   render 'result_cat_2'
+      # when :result_cat_3
+      #   render 'result_cat_3'
+      # when :cat_1_exemptions_questions
+      #   redirect_to cat_1_questions_green_lanes_check_moving_requirements_path(
+      #     commodity_code: @commodity_code,
+      #     country_of_origin: @country_of_origin,
+      #     moving_date: @moving_date,
+      #   )
+      # when :cat_2_exemptions_questions
+      #   redirect_to cat_2_questions_green_lanes_check_moving_requirements_path(
+      #     commodity_code: @commodity_code,
+      #     country_of_origin: @country_of_origin,
+      #     moving_date: @moving_date,
+      #   )
+      # end
+
+
+      # added to enable easy testing
+      # @exemptions = params[:exemptions]
+      @category_assessment_2 = GreenLanes::DetermineCategory.new(goods_nomenclature).cat2_with_exemptions.first
+
+      render 'result_cat_2'
     end
 
     def cat_1_exemptions_questions
@@ -83,7 +98,7 @@ module GreenLanes
         { authorization: TradeTariffFrontend.green_lanes_api_token },
       )
 
-      @category_assessments = DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
+      @category_assessments = GreenLanes::DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
     end
 
     def cat_1_exemptions_questions_update
@@ -126,13 +141,13 @@ module GreenLanes
       params.permit(:commodity_code, :country_of_origin, :moving_date)
     end
 
-    def moving_requirements_params
-      params.require(:green_lanes_moving_requirements_form).permit(
-        :commodity_code,
-        :country_of_origin,
-        :moving_date,
-      )
-    end
+    # def moving_requirements_params
+      # params.require(:green_lanes_moving_requirements_form).permit(
+        # :commodity_code,
+        # :country_of_origin,
+        # :moving_date,
+      # )
+    # end
 
     def check_green_lanes_enabled
       unless TradeTariffFrontend.green_lanes_enabled?
