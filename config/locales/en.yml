@@ -19,21 +19,20 @@ en:
     period_list:
       description:
         spot_html: >-
-          Spot rates are published on 31st March and 31st December every year.
-          It reflects the exchange rate at midday of that day.
+          View spot exchange rates
         average_html: >-
-          Average rates are published on 31st March and 31st December every year.<br>
-          It reflects the mean average of all exchange rates which have been present in all Monthly exchange rate files for the 12 month period leading up to the given Average rate publication.
+          View average exchange rates
         monthly_html: >-
-          Monthly rates are published on the penultimate Thursday of every month.<br>
-          They represent the exchange rate as of midday the day before publication and are intended to apply to the following calendar month.
+          View monthly exchange rates
       download_formats:
         spot_html: >-
-          Data is available to view online.
+          online. You can also request accessible formats. Documents have been designed for trader needs.
         average_html: >-
-          Data is available to download in CSV format.
+          , data is available to download in CSV format. You can also request accessible formats. Documents have been designed for trader needs.
         monthly_html: >-
-          Data is available to view online, and to download in CSV and XML formats.
+          online, or download in CSV or XML. You can also request accessible formats. Documents have been designed for trader needs.
+
+
     title:
       average: >-
         %{month_year} HMRC currency exchange average rates - GOV.UK
