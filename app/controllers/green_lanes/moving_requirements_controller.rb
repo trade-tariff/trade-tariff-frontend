@@ -75,8 +75,7 @@ module GreenLanes
       @country_of_origin = params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @moving_date = params[:moving_date]
       @result = params[:result]
-      @selected_exemptions= params[:selected_exemptions]
-      @rejected_exemptions= {}
+      @selected_exemptions = params[:selected_exemptions]
 
       @category_one_assessments = DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
       @category_two_assessments = DetermineCategory.new(goods_nomenclature).cat2_with_exemptions
@@ -128,7 +127,7 @@ module GreenLanes
         country_of_origin: @country_of_origin,
         moving_date: @moving_date,
         selected_exemptions: @selected_exemptions,
-        result: next_page
+        result: next_page,
       }
 
       case next_page
@@ -145,7 +144,7 @@ module GreenLanes
       @goods_nomenclature = GreenLanes::GoodsNomenclature.find(
         filter_params[:commodity_code],
         { filter: { geographical_area_id: filter_params[:country_of_origin], moving_date: filter_params[:moving_date] } },
-        { authorization: TradeTariffFrontend.green_lanes_api_token }
+        { authorization: TradeTariffFrontend.green_lanes_api_token },
       )
     end
 
