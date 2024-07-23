@@ -3,6 +3,8 @@ require 'api_entity'
 class GreenLanes::CategoryAssessment
   include XiOnlyApiEntity
 
+  attr_accessor :category_assessment_id
+
   has_one :theme, class_name: 'GreenLanes::Theme'
   has_one :measure_type
   has_one :regulation, class_name: 'LegalAct'
@@ -15,6 +17,10 @@ class GreenLanes::CategoryAssessment
   }
 
   delegate :category, to: :theme
+
+  def id
+    "category_assessment_#{category_assessment_id}"
+  end
 
   def find(_id, _opts = {})
     raise NoMethodError, 'This method is not implemented'

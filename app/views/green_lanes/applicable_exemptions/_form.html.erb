@@ -1,0 +1,42 @@
+<%= form_with model: @exemptions_form,
+             url: submit_form_url,
+             scope: :exemptions,
+             local: true,
+             builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+
+      <%= f.govuk_error_summary %>
+
+      <% @category_assessments.each_with_index do |category_assessment, index| %>
+        <%= f.govuk_check_boxes_fieldset category_assessment.id,
+                                          multiple: true,
+                                          legend: {
+                                            text: 'Do your goods meet any exemption?',
+                                            size: 'm'
+                                          } do %>
+
+          <% category_assessment.exemptions.each_with_index do |exemption, exem_index| %>
+            <%= f.govuk_check_box category_assessment.id,
+                                  exemption.code,
+                                  link_errors: (exem_index == 0),
+                                  label: { text: "[#{exemption.code}]" },
+                                  hint: { text: exemption.formatted_description },
+                                  checked: exemption_checkbox_checked?(category_assessment.id, exemption.code) %>
+
+          <% end %>
+
+          <%= f.govuk_check_box_divider %>
+
+          <%= f.govuk_check_box category_assessment.id, :none,
+                                  exclusive: true,
+                                  label: { text: 'No exemptions apply to my goods' },
+                                  checked: exemption_checkbox_none?(category_assessment.id) %>
+
+          <% if index < @category_assessments.length - 1 %>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+          <% end %>
+
+        <% end %>
+      <% end %>
+
+  <%= f.govuk_submit 'Continue' %>
+<% end %>

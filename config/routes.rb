@@ -111,14 +111,11 @@ Rails.application.routes.draw do
     namespace :green_lanes do
       resource :category_assessments, only: %i[create show]
 
-      resource :check_moving_requirements, controller: 'moving_requirements', only: %i[update edit] do
-        get 'start'
-        get 'result'
-        get 'cat_1_exemptions_questions', as: :cat_1_questions
-        patch 'cat_1_exemptions_questions_update', as: :cat_1_questions_update
-        get 'cat_2_exemptions_questions', as: :cat_2_questions
-        patch 'cat_2_exemptions_questions_update', as: :cat_2_questions_update
-      end
+      resource :start, only: %i[new]
+      resource :moving_requirements, only: %i[new create]
+      resource :applicable_exemptions, only: %i[new create]
+      # resource :check_your_answers, only: %i[new create]
+      resource :results, only: %i[show]
     end
   end
 
