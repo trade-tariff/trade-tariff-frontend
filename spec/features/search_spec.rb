@@ -61,31 +61,6 @@ RSpec.describe 'Search', js: true do
         end
       end
     end
-
-    context 'when SEARCH_BANNER enabled' do
-      before { allow(TradeTariffFrontend).to receive(:search_banner?).and_return true }
-
-      it 'fetches data from the server as we type' do
-        VCR.use_cassette('search#gold') do
-          visit find_commodity_path
-
-          page.find('#new_search .autocomplete__input#q').click
-
-          page.find('#new_search .autocomplete__input#q').set('gold')
-          expect(page).to have_css('#new_search .autocomplete__option')
-
-          expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
-          expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
-
-          expect(page.find('#new_search .autocomplete__option:first-of-type').text).to eq('gold')
-          expect(page).to have_content('goldsmiths')
-
-          page.find('#new_search .autocomplete__option:first-of-type').click
-
-          expect(page).to have_content('Search results for ‘gold’')
-        end
-      end
-    end
   end
 
   context 'when doing a full quota search' do

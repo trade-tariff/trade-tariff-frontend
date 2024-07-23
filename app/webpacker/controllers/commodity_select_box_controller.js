@@ -9,7 +9,7 @@ export default class extends Controller {
   connect() {
     this.inputElement = this.commodityInputTarget;
     this.resourceIdHidden = this.resourceIdHiddenTarget;
-    this.autocomplete_input_id = this.inputElement.id || 'q';
+    this.autocompleteInputId = this.inputElement.id || 'q';
     this.options = [];
     this.searching = true;
 
@@ -18,6 +18,7 @@ export default class extends Controller {
     this.resourceIdHidden.value = '';
 
     this.#initializeAutocomplete();
+    this.#initializeEventListeners();
   }
 
   // templates can't be private functions as they won't work with dynamic accessibleAutocomplete.enhanceSelectElement
@@ -49,7 +50,7 @@ export default class extends Controller {
     accessibleAutocomplete.enhanceSelectElement({
       defaultValue: '',
       selectElement: this.inputElement,
-      id: this.autocomplete_input_id,
+      id: this.autocompleteInputId,
       minLength: 2,
       showAllValues: false,
       confirmOnBlur: false,
@@ -68,5 +69,59 @@ export default class extends Controller {
         Utility.commoditySelectorOnConfirm(text, this.options, this.resourceIdHidden, this.inputElement);
       },
     });
+  }
+
+  #initializeEventListeners() {
+    this.inputElement.on('keydown', 'li[id^="q__option--"]', this.#handleSubmitEvent);
+    this.inputElement.on('keydown', 'input[type="text"]', this.#handleSubmitEvent);
+    this.inputElement.on('click', 'li[id^="q__option--"]', this.#handleSubmitEvent);
+    this.inputElement.addEventListener('change', () => {
+      if (this.inputElement.value === '') {
+        this.resourceIdHidden.value = '';
+      }
+    });
+  }
+  // Avoid the default keydown behaviour of the autocomplete library and
+  // auto submit on Mousclick, Enter or Tab ourselves
+  // when an element receives Enter, the form is submitted
+  // when an element selected with arrow keys, the form is not submitted
+  #handleSubmitEvent(ev) {
+    if (ev.type === 'click' || ev.key === 'Enter' || ev.key === 'Tab') {
+      const form = $(element).parents('form');
+      const suggestionType = $(ev.target).find('[data-suggestion-type]').data('suggestion-type');
+      const resourceId = $(ev.target).find('[data-resource-id]').data('resource-id');
+      let text = $(ev.target).text();
+
+      ev.preventDefault();
+
+      if (text === '') {
+        text = $(element).find('input[type="text"]').val();
+      }
+
+      if (suggestionType) {
+        text = text.replace(suggestionType, '');
+      }
+
+      // accessible-autocomplete adds the index of the options into
+      // the option text on ios for some reason
+      // That breaks search so strip it back out
+      // FIXME: Solve event handling so we can just handle submission
+      // in onConfirm and avoid all this complexity
+      if (isIosDevice()) {
+        text = text.replace(/ \d+ of \d+$/, '');
+      }
+
+      form.find('.js-commodity-picker-target').val(text);
+
+      if (resourceId) {
+        form.find('.js-commodity-picker-resource-id').val(resourceId);
+      }
+
+      form.submit();
+    }
+  }
+
+  #isIosDevice() {
+    return typeof window.navigator !== 'undefined' && !!(window.navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g));
   }
 }

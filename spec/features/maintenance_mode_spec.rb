@@ -29,15 +29,6 @@ RSpec.describe 'Maintenance mode' do
       it { is_expected.to have_attributes body: 'Maintenance mode' }
     end
 
-    context 'with new search enabled' do
-      before do
-        allow(TradeTariffFrontend).to receive(:search_banner?).and_return true
-        visit '/503'
-      end
-
-      it_behaves_like 'service unavailable'
-    end
-
     context 'with broken news banner' do
       before do
         allow(News::Item).to \

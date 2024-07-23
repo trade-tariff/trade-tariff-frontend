@@ -42,17 +42,13 @@
   <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
   <header
-    class="govuk-header<%= ' tariff-search-banner' if TradeTariffFrontend.search_banner? %> govuk-!-display-none-print"
-    data-controller="<%= 'toggle-css' if TradeTariffFrontend.search_banner? %>"
-    data-toggle-css-target="toggleable"
-    data-toggle-css-toggle-class="tariff-search-banner--open"
+    class="govuk-header govuk-!-display-none-print"
     role="banner"
     data-module="govuk-header">
     <div class="govuk-header__container govuk-width-container">
       <%= render 'shared/govuk_logo' %>
       <%= yield :proposition_header %>
     </div>
-    <%= render 'shared/search_banner' if TradeTariffFrontend.search_banner? && @search %>
     <%= render 'news_items/header_banner', news_item: News::Item.latest_banner unless @skip_news_banner %>
     <%= render 'shared/feedback_banner' %>
   </header>
@@ -66,8 +62,7 @@
       <%= render 'shared/phase_banner' if ENV['NOTICE_BANNER'] %>
       <%= yield :before_main_content %>
 
-      <%= render 'shared/search/search_form' unless @no_shared_search || TradeTariffFrontend.search_banner? %>
-      <%= render 'shared/search/switch_beta_search' unless @no_shared_search || TradeTariffFrontend.search_banner? %>
+      <%= render 'shared/search/search_form' unless @no_shared_search %>
 
       <%= yield %>
 
