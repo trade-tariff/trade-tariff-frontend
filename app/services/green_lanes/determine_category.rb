@@ -3,8 +3,6 @@ module GreenLanes
     CAT_1 = 1
     CAT_2 = 2
 
-    attr_reader :goods_nomenclature
-
     def initialize(goods_nomenclature)
       @goods_nomenclature = goods_nomenclature
     end
@@ -47,6 +45,8 @@ module GreenLanes
     end
 
     private
+
+    attr_reader :goods_nomenclature
 
     def without_exemptions(cat_assessments)
       cat_assessments.select { |ca| ca.exemptions.empty? }

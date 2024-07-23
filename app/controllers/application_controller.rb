@@ -143,4 +143,10 @@ class ApplicationController < ActionController::Base
   def beta_search_enabled?
     !!session[:beta_search_enabled]
   end
+
+  def check_green_lanes_enabled
+    unless TradeTariffFrontend.green_lanes_enabled?
+      raise TradeTariffFrontend::FeatureUnavailable
+    end
+  end
 end
