@@ -106,10 +106,6 @@ module "beta_service" {
       value = "--enable-yjit"
     },
     {
-      name  = "SEARCH_BANNER"
-      value = "false"
-    },
-    {
       name  = "SENTRY_ENVIRONMENT"
       value = var.environment
     },

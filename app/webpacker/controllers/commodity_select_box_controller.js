@@ -9,7 +9,7 @@ export default class extends Controller {
   connect() {
     this.inputElement = this.commodityInputTarget;
     this.resourceIdHidden = this.resourceIdHiddenTarget;
-    this.autocomplete_input_id = this.inputElement.id || 'q';
+    this.autocompleteInputId = this.inputElement.id || 'q';
     this.options = [];
     this.searching = true;
 
@@ -49,7 +49,7 @@ export default class extends Controller {
     accessibleAutocomplete.enhanceSelectElement({
       defaultValue: '',
       selectElement: this.inputElement,
-      id: this.autocomplete_input_id,
+      id: this.autocompleteInputId,
       minLength: 2,
       showAllValues: false,
       confirmOnBlur: false,
