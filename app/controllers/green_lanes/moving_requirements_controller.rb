@@ -38,7 +38,7 @@ module GreenLanes
                    country_of_origin: form.country_of_origin,
                  )
                else
-                 redirect_to green_lanes_result_path(
+                 green_lanes_results_path(
                    commodity_code: form.commodity_code,
                    moving_date: form.moving_date.iso8601,
                    country_of_origin: form.country_of_origin,

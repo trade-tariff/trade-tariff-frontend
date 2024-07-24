@@ -15,7 +15,17 @@ module GreenLanes
       @exemptions_form = exemptions_form
 
       if @exemptions_form.valid?
-        raise 'TODO: next result page'
+        next_page = GreenLanes::DetermineNextPage.new(goods_nomenclature)
+                                                 .next(cat_1_exemptions_apply: applicable_exemptions_result_params[:c1ex],
+                                                       cat_2_exemptions_apply: applicable_exemptions_result_params[:c2ex])
+
+        query_string = {
+          commodity_code: params[:commodity_code],
+          country_of_origin: params[:country_of_origin],
+          moving_date: params[:moving_date],
+        }.to_query
+
+        redirect_to "#{next_page}?#{query_string}"
       else
         render "cat_#{category}_exemptions_questions"
       end
@@ -33,14 +43,6 @@ module GreenLanes
 
     def cat_2_exemptions_questions
       render 'cat_2_exemptions_questions'
-    end
-
-    def moving_requirements_params
-      params.require(:green_lanes_moving_requirements_form).permit(
-        :commodity_code,
-        :country_of_origin,
-        :moving_date,
-      )
     end
 
     def exemptions_params

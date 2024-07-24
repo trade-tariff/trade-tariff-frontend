@@ -8,15 +8,17 @@ module GreenLanes
       case @categories
       when [:cat_1], [:cat_2], [:cat_3]
         # Simplest case: only one category is present
-        "result_#{@categories.first}".to_sym
+        # "result_#{@categories.first}".to_sym
+        "/green_lanes/results/#{@categories.first}"
       when %i[cat_1 cat_2]
         # Questions Cat 1 exemptions has not been answered
+
         return :cat_1_exemptions_questions if question_unanswered?(cat_1_exemptions_apply)
 
         if cat_1_exemptions_apply
-          :result_cat_2
+          '/green_lanes/results/2'
         else
-          :result_cat_1
+          '/green_lanes/results/1'
         end
       when %i[cat_1 cat_2 cat_3]
         # Questions Cat 1 exemptions has not been answered
@@ -25,7 +27,7 @@ module GreenLanes
         if cat_1_exemptions_apply
           :cat_2_exemptions_questions
         else
-          :result_cat_1
+          '/green_lanes/results/1'
         end
       when %i[cat_2 cat_3]
         return :cat_2_exemptions_questions if question_unanswered?(cat_2_exemptions_apply)
@@ -47,3 +49,7 @@ module GreenLanes
     end
   end
 end
+
+# result.size > 1 -> question page
+
+# result.size == 1 -> result page + catX as param

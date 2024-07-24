@@ -39,8 +39,8 @@
       </ul>
     </p>
 
-    <%= button_to new_green_lanes_moving_requirements_path(commodity_code: @commodity_code), class: "govuk-button govuk-button--start" do %>
-
+    <%= button_to new_green_lanes_moving_requirements_path, params: {commodity_code: @commodity_code},
+                  class: "govuk-button govuk-button--start", method: :get do %>
       <span>Start now</span>
       <%= render 'shared/start_arrow' %>
     <% end %>
