@@ -22,30 +22,7 @@ module GreenLanes
           .new(goods_nomenclature)
           .next
 
-        path = case next_page
-               when :cat_1_exemptions_questions
-                 new_green_lanes_applicable_exemptions_path(
-                   category: '1',
-                   commodity_code: form.commodity_code,
-                   moving_date: form.moving_date.iso8601,
-                   country_of_origin: form.country_of_origin,
-                 )
-               when :cat_2_exemptions_questions
-                 new_green_lanes_applicable_exemptions_path(
-                   category: '2',
-                   commodity_code: form.commodity_code,
-                   moving_date: form.moving_date.iso8601,
-                   country_of_origin: form.country_of_origin,
-                 )
-               else
-                 redirect_to green_lanes_result_path(
-                   commodity_code: form.commodity_code,
-                   moving_date: form.moving_date.iso8601,
-                   country_of_origin: form.country_of_origin,
-                 )
-               end
-
-        redirect_to path
+        redirect_to handle_next_page(next_page)
       else
         render 'new'
       end
@@ -72,6 +49,26 @@ module GreenLanes
           authorization: TradeTariffFrontend.green_lanes_api_token,
         },
       )
+    end
+
+    def handle_next_page(next_page)
+      uri = URI(next_page)
+      path = uri.path
+      next_page_query = if uri.query
+                          CGI.parse(uri.query).transform_values(&:first)
+                        else
+                          {}
+                        end
+
+      query = {
+        commodity_code: moving_requirements_params[:commodity_code],
+        country_of_origin: moving_requirements_params[:country_of_origin],
+        moving_date: @moving_requirements_form.moving_date.iso8601,
+      }
+        .merge(next_page_query)
+        .deep_symbolize_keys
+
+      "#{path}?#{query.to_query}"
     end
   end
 end

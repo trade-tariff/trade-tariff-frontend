@@ -2,29 +2,30 @@ module GreenLanes
   class DetermineCategory
     CAT_1 = 1
     CAT_2 = 2
+    CAT_3 = 3
 
     def initialize(goods_nomenclature)
       @goods_nomenclature = goods_nomenclature
     end
 
     def categories
-      return [:cat_3] if category_assessments.empty? # Result 3
-      return [:cat_1] if cat1_without_exemptions.any? # Result 1
+      return [CAT_3] if category_assessments.empty?
+      return [CAT_1] if cat1_without_exemptions.any?
 
       # cat1_without_exemptions NO
 
       if cat2_without_exemptions.any?
         if cat1_with_exemptions.any?
-          %i[cat_1 cat_2] # Result 4
+          [CAT_1, CAT_2]
         else
-          [:cat_2] # Result 2
+          [CAT_2]
         end
       elsif cat1_with_exemptions.any? && cat2_with_exemptions.any?
-        %i[cat_1 cat_2 cat_3] # Result 5
+        [CAT_1, CAT_2, CAT_3]
       elsif cat1_with_exemptions.any?
-        %i[cat_1 cat_3] # Result 6
+        [CAT_1, CAT_3]
       elsif cat2_with_exemptions.any?
-        %i[cat_2 cat_3] # Result 7
+        [CAT_2, CAT_3]
       end
     end
 

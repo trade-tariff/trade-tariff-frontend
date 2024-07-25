@@ -9,7 +9,10 @@ module GreenLanes
     def show
       goods_nomenclature = GreenLanes::GoodsNomenclature.find(
         results_params[:commodity_code],
-        { filter: { geographical_area_id: results_params[:country_of_origin] } },
+        { filter: {
+          geographical_area_id: results_params[:country_of_origin],
+          moving_date: results_params[:moving_date],
+        } },
         { authorization: TradeTariffFrontend.green_lanes_api_token },
       )
 
@@ -37,7 +40,7 @@ module GreenLanes
 
     private
 
-    def result_params
+    def results_params
       params.permit(
         :commodity_code,
         :country_of_origin,
@@ -48,14 +51,14 @@ module GreenLanes
     end
 
     def cat_1_exemptions_apply
-      case result_params[:c1ex]
+      case results_params[:c1ex]
       when 'true' then true
       when 'false' then false
       end
     end
 
     def cat_2_exemptions_apply
-      case result_params[:c2ex]
+      case results_params[:c2ex]
       when 'true' then true
       when 'false' then false
       end
