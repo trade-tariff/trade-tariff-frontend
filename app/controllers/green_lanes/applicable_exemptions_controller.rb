@@ -18,14 +18,7 @@ module GreenLanes
         next_page = GreenLanes::DetermineNextPage.new(goods_nomenclature)
                                                  .next(cat_1_exemptions_apply: applicable_exemptions_result_params[:c1ex],
                                                        cat_2_exemptions_apply: applicable_exemptions_result_params[:c2ex])
-
-        query_string = {
-          commodity_code: params[:commodity_code],
-          country_of_origin: params[:country_of_origin],
-          moving_date: params[:moving_date],
-        }.to_query
-
-        redirect_to "#{next_page}?#{query_string}"
+        redirect_to handle_next_page(next_page)
       else
         render "cat_#{category}_exemptions_questions"
       end
@@ -92,10 +85,11 @@ module GreenLanes
 
     def applicable_exemptions_path
       green_lanes_applicable_exemptions_path(
-        category: 1,
+        category:,
         commodity_code: params[:commodity_code],
         moving_date: params[:moving_date],
         country_of_origin: params[:country_of_origin],
+        c1ex: params[:c1ex].present? ? params[:c1ex] == 'true' : nil,
       )
     end
 
@@ -107,6 +101,13 @@ module GreenLanes
       }.merge(exemptions_results_params)
     end
 
+    # moving_requirements -> applicable_exemptions
+    # applicable_exemptions -> applicable_exemptions
+    # check-your-answers <- applicable_exemptions
+    #
+    # New
+    #
+    # Used in create
     def exemptions_results_params
       current_category_result = if params[:category] == '1'
                                   { c1ex: @exemptions_form.exempt? }
@@ -120,7 +121,31 @@ module GreenLanes
                                    {}
                                  end
 
-      current_category_result.merge(previous_category_result)
+      merged_params = current_category_result.merge(previous_category_result)
+      merged_params[:c1ex] = merged_params[:c1ex].to_s == 'true' if merged_params[:c1ex].present?
+      merged_params[:c2ex] = merged_params[:c2ex].to_s == 'true' if merged_params[:c2ex].present?
+      merged_params
+    end
+
+    def handle_next_page(next_page)
+      uri = URI(next_page)
+      path = uri.path
+      next_page_query = if uri.query
+                          CGI.parse(uri.query).transform_values(&:first)
+                        else
+                          {}
+                        end
+
+      query = {
+        commodity_code: params[:commodity_code],
+        country_of_origin: params[:country_of_origin],
+        moving_date: params[:moving_date],
+      }
+        .merge(exemptions_results_params)
+        .merge(next_page_query)
+        .deep_symbolize_keys
+
+      "#{path}?#{query.to_query}"
     end
 
     helper_method :applicable_exemptions_path

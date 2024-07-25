@@ -10,7 +10,7 @@ RSpec.describe ::GreenLanes::DetermineCategory do
         build(:green_lanes_goods_nomenclature, applicable_category_assessments: [])
       end
 
-      it { is_expected.to eq([:cat_3]) }
+      it { is_expected.to eq([3]) }
     end
 
     # Result 1
@@ -22,7 +22,7 @@ RSpec.describe ::GreenLanes::DetermineCategory do
 
         let(:assessments) { [attributes_for(:category_assessment, category: 1)] }
 
-        it { is_expected.to eq([:cat_1]) }
+        it { is_expected.to eq([1]) }
       end
 
       # Result 4
@@ -39,7 +39,7 @@ RSpec.describe ::GreenLanes::DetermineCategory do
           ]
         end
 
-        it { is_expected.to eq(%i[cat_1 cat_2]) }
+        it { is_expected.to eq([1, 2]) }
       end
 
       # Result 2
@@ -51,7 +51,7 @@ RSpec.describe ::GreenLanes::DetermineCategory do
 
         let(:assessments) { [attributes_for(:category_assessment, category: 2)] }
 
-        it { is_expected.to eq([:cat_2]) }
+        it { is_expected.to eq([2]) }
       end
 
       # Result 5
@@ -68,7 +68,7 @@ RSpec.describe ::GreenLanes::DetermineCategory do
           ]
         end
 
-        it { is_expected.to eq(%i[cat_1 cat_2 cat_3]) }
+        it { is_expected.to eq([1, 2, 3]) }
       end
 
       # Result 6
@@ -80,7 +80,7 @@ RSpec.describe ::GreenLanes::DetermineCategory do
 
         let(:assessments) { [attributes_for(:category_assessment, :with_exemptions, category: 1)] }
 
-        it { is_expected.to eq(%i[cat_1 cat_3]) }
+        it { is_expected.to eq([1, 3]) }
       end
 
       # Result 7
@@ -92,7 +92,7 @@ RSpec.describe ::GreenLanes::DetermineCategory do
 
         let(:assessments) { [attributes_for(:category_assessment, :with_exemptions, category: 2)] }
 
-        it { is_expected.to eq(%i[cat_2 cat_3]) }
+        it { is_expected.to eq([2, 3]) }
       end
     end
   end

@@ -16,7 +16,7 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
         build(:green_lanes_goods_nomenclature, applicable_category_assessments: [])
       end
 
-      it { is_expected.to eq(:result_cat_3) }
+      it { is_expected.to eq('/green_lanes/results/3') }
     end
 
     # [cat_1]
@@ -27,7 +27,7 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
 
       let(:assessments) { [attributes_for(:category_assessment, category: 1)] }
 
-      it { is_expected.to eq(:result_cat_1) }
+      it { is_expected.to eq('/green_lanes/results/1') }
     end
 
     # [cat_2]
@@ -38,7 +38,7 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
 
       let(:assessments) { [attributes_for(:category_assessment, category: 2)] }
 
-      it { is_expected.to eq(:result_cat_2) }
+      it { is_expected.to eq('/green_lanes/results/2') }
     end
 
     # [cat_1, cat_2]
@@ -57,19 +57,19 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
       context 'when Cat 1 exemptions question has not been answered' do
         let(:cat_1_exemptions_apply) { nil }
 
-        it { is_expected.to eq(:cat_1_exemptions_questions) }
+        it { is_expected.to eq('/green_lanes/applicable_exemptions/new?category=1') }
       end
 
       context 'when some Cat 1 exemptions apply' do
         let(:cat_1_exemptions_apply) { true }
 
-        it { is_expected.to eq(:result_cat_2) }
+        it { is_expected.to eq('/green_lanes/results/2') }
       end
 
       context 'when NO Cat 1 exemptions apply' do
         let(:cat_1_exemptions_apply) { false }
 
-        it { is_expected.to eq(:result_cat_1) }
+        it { is_expected.to eq('/green_lanes/results/1') }
       end
     end
 
@@ -86,22 +86,29 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
         ]
       end
 
+      context 'when Cat 1 exemptions questions apply AND Cat 2 exemptions questions apply' do
+        let(:cat_1_exemptions_apply) { true }
+        let(:cat_2_exemptions_apply) { true }
+
+        it { is_expected.to eq('/green_lanes/results/3') }
+      end
+
       context 'when Cat 1 exemptions question has not been answered' do
         let(:cat_1_exemptions_apply) { nil }
 
-        it { is_expected.to eq(:cat_1_exemptions_questions) }
+        it { is_expected.to eq('/green_lanes/applicable_exemptions/new?category=1') }
       end
 
       context 'when some Cat 1 exemptions apply to the goods' do
         let(:cat_1_exemptions_apply) { true }
 
-        it { is_expected.to eq(:cat_2_exemptions_questions) }
+        it { is_expected.to eq('/green_lanes/applicable_exemptions/new?category=2&c1ex=true') }
       end
 
       context 'when NO Cat 1 exemptions apply to the goods' do
         let(:cat_1_exemptions_apply) { false }
 
-        it { is_expected.to eq(:result_cat_1) }
+        it { is_expected.to eq('/green_lanes/results/1') }
       end
     end
 
@@ -116,19 +123,19 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
       context 'when Cat 2 exemptions question has not been answered' do
         let(:cat_2_exemptions_apply) { nil }
 
-        it { is_expected.to eq(:cat_2_exemptions_questions) }
+        it { is_expected.to eq('/green_lanes/applicable_exemptions/new?category=2') }
       end
 
       context 'when some Cat 2 exemptions apply to the goods' do
         let(:cat_2_exemptions_apply) { true }
 
-        it { is_expected.to eq(:result_cat_3) }
+        it { is_expected.to eq('/green_lanes/results/3') }
       end
 
       context 'when NO Cat 2 exemptions apply to the goods' do
         let(:cat_2_exemptions_apply) { false }
 
-        it { is_expected.to eq(:result_cat_2) }
+        it { is_expected.to eq('/green_lanes/results/2') }
       end
     end
   end

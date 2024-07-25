@@ -39,6 +39,6 @@ RSpec.describe GreenLanes::ApplicableExemptionsController, type: :request,
     end
 
     it { is_expected.to have_http_status :redirect }
-    it { is_expected.to redirect_to('/green_lanes/results/1?commodity_code=4114109000&country_of_origin=UA&moving_date=2024-05-29') }
+    it { is_expected.to redirect_to('/green_lanes/results/1?c1ex=false&commodity_code=4114109000&country_of_origin=UA&moving_date=2024-05-29') }
   end
 end
