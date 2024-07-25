@@ -166,6 +166,9 @@ en:
       import_controls_xi: ""
 
   breadcrumb:
+    monthly_exchange_rates: Monthly exchange rates
+    average_exchange_rates: Average exchange rates
+    spot_exchange_rates: Spot exchange rates
     average_rates: Average rates
     monthly_rates: Monthly rates
     spot_rates: Spot rates
