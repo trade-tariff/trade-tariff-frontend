@@ -102,18 +102,21 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
 
       context 'when Cat 1 exemptions question has not been answered' do
         let(:cat_1_exemptions_apply) { nil }
+        let(:cat_2_exemptions_apply) { nil }
 
         it { is_expected.to eq('/green_lanes/applicable_exemptions/new?category=1') }
       end
 
       context 'when some Cat 1 exemptions apply to the goods' do
         let(:cat_1_exemptions_apply) { true }
+        let(:cat_2_exemptions_apply) { nil }
 
         it { is_expected.to eq('/green_lanes/applicable_exemptions/new?category=2&c1ex=true') }
       end
 
       context 'when NO Cat 1 exemptions apply to the goods' do
         let(:cat_1_exemptions_apply) { false }
+        let(:cat_2_exemptions_apply) { nil }
 
         it { is_expected.to eq('/green_lanes/results/1') }
       end

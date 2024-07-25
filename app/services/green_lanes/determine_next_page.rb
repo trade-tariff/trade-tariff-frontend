@@ -22,13 +22,12 @@ module GreenLanes
       when [1, 2, 3]
         # Questions Cat 1 exemptions has not been answered
         return '/green_lanes/applicable_exemptions/new?category=1' if question_unanswered?(cat_1_exemptions_apply)
+        return '/green_lanes/applicable_exemptions/new?category=2&c1ex=true' if question_unanswered?(cat_2_exemptions_apply)
 
         if cat_1_exemptions_apply && cat_2_exemptions_apply
           '/green_lanes/results/3'
         elsif cat_1_exemptions_apply && !cat_2_exemptions_apply
           '/green_lanes/results/2'
-        elsif cat_1_exemptions_apply
-          '/green_lanes/applicable_exemptions/new?category=2&c1ex=true'
         else
           '/green_lanes/results/1'
         end
