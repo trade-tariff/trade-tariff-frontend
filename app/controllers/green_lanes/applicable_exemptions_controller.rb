@@ -101,13 +101,6 @@ module GreenLanes
       }.merge(exemptions_results_params)
     end
 
-    # moving_requirements -> applicable_exemptions
-    # applicable_exemptions -> applicable_exemptions
-    # check-your-answers <- applicable_exemptions
-    #
-    # New
-    #
-    # Used in create
     def exemptions_results_params
       current_category_result = if params[:category] == '1'
                                   { c1ex: @exemptions_form.exempt? }

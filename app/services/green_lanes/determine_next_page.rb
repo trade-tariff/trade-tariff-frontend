@@ -25,6 +25,8 @@ module GreenLanes
 
         if cat_1_exemptions_apply && cat_2_exemptions_apply
           '/green_lanes/results/3'
+        elsif cat_1_exemptions_apply && !cat_2_exemptions_apply
+          '/green_lanes/results/2'
         elsif cat_1_exemptions_apply
           '/green_lanes/applicable_exemptions/new?category=2&c1ex=true'
         else
