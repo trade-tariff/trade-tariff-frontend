@@ -40,5 +40,11 @@ module GreenLanes
     def exempt?
       answers.values.none? { |value| value == NONE_ANSWER_WAS_GIVEN }
     end
+
+    def presented_answers
+      answers.each_with_object({}) do |(key, value), acc|
+        acc[key.split('_').last] = value.select(&:present?)
+      end
+    end
   end
 end

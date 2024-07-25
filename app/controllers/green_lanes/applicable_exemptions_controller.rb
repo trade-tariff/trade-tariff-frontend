@@ -49,7 +49,7 @@ module GreenLanes
     def exemptions_answers
       return {} unless params.key?(:exemptions)
 
-      params.require(:exemptions).permit(applicable_answers)
+      params.require(:exemptions).permit(applicable_answers).to_hash
     end
 
     def applicable_answers
@@ -91,6 +91,7 @@ module GreenLanes
         moving_date: params[:moving_date],
         country_of_origin: params[:country_of_origin],
         c1ex: params[:c1ex].present? ? params[:c1ex] == 'true' : nil,
+        ans: passed_exemption_answers[:ans],
       )
     end
 
@@ -137,9 +138,26 @@ module GreenLanes
       }
         .merge(exemptions_results_params)
         .merge(next_page_query)
+        .merge(passed_exemption_answers)
         .deep_symbolize_keys
 
       "#{path}?#{query.to_query}"
+    end
+
+    def passed_exemption_answers
+      new_answers = {
+        ans: {
+          category => @exemptions_form.presented_answers,
+        },
+      }
+
+      old_answers = if params[:ans].present?
+                      params.require(:ans).permit("1": {}).to_hash
+                    else
+                      {}
+                    end
+
+      new_answers.deep_merge(ans: old_answers)
     end
 
     helper_method :applicable_exemptions_path
