@@ -27,7 +27,6 @@ RSpec.describe GreenLanes::ApplicableExemptionsController, type: :request,
     let(:make_request) do
       post green_lanes_applicable_exemptions_path, params: {
         exemptions: {
-          category_assessment_822: ['', 'Y922'],
           category_assessment_34: ['', 'Y997'],
           category_assessment_82: ['', 'none'],
         },

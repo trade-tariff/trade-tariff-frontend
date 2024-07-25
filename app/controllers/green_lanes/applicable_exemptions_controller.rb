@@ -18,6 +18,7 @@ module GreenLanes
         next_page = GreenLanes::DetermineNextPage.new(goods_nomenclature)
                                                  .next(cat_1_exemptions_apply: applicable_exemptions_result_params[:c1ex],
                                                        cat_2_exemptions_apply: applicable_exemptions_result_params[:c2ex])
+
         redirect_to handle_next_page(next_page)
       else
         render "cat_#{category}_exemptions_questions"
