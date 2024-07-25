@@ -21,16 +21,16 @@ en:
         spot_html: >-
           View spot exchange rates
         average_html: >-
-          View average exchange rates
+          Download average exchange rates
         monthly_html: >-
           View monthly exchange rates
       download_formats:
         spot_html: >-
-          online. You can also request accessible formats. Documents have been designed for trader needs.
+          online and the latest two in CSV format.
         average_html: >-
-          , data is available to download in CSV format. You can also request accessible formats. Documents have been designed for trader needs.
+          in CSV format and view the latest two online.
         monthly_html: >-
-          online, or download in CSV or XML. You can also request accessible formats. Documents have been designed for trader needs.
+          online, or download in CSV or XML.
 
 
     title:
