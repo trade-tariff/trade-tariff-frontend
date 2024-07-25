@@ -10,11 +10,10 @@
 
 
 <% content_for :top_breadcrumbs do %>
-  <%= generate_breadcrumbs t("breadcrumb.#{@period_list.type}_rates") ,
+  <%= generate_breadcrumbs t("breadcrumb.#{@period_list.type} exchange rates") ,
     [
       [t('breadcrumb.home'), home_path],
-      [t('breadcrumb.tools'), tools_path],
-      ["Exchange rates #{@period_list.year}",exchange_rates_path]
+      [t('breadcrumb.tools'), tools_path]
     ] %>
  <% end %>
 
