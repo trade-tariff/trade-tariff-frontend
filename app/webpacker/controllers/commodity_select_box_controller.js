@@ -79,14 +79,14 @@ export default class extends Controller {
       }
     });
 
-    //Selecting a list option is handled by accessibleAutocomplete onConfirm now
+    // Selecting a list option is handled by accessibleAutocomplete onConfirm now
     // this.inputElementForEventHandling.addEventListener('keydown', (event) => {
     //   if (event.target.matches('li[id^="q__option--"]')) {
     //     this.#handleSubmitEvent(event);
     //   }
     // });
 
-    //Clicking a list option is handled by accessibleAutocomplete onConfirm now
+    // Clicking a list option is handled by accessibleAutocomplete onConfirm now
     // this.inputElementForEventHandling.addEventListener('click', (event) => {
     //   if (event.target.matches('li[id^="q__option--"]')) {
     //     this.#handleSubmitEvent(event);
@@ -99,50 +99,45 @@ export default class extends Controller {
   // when an element receives Enter, the form is submitted
   // when an element selected with arrow keys, the form is not submitted
   #handleSubmitEvent(event) {
-
     // NOT SURE IF THE COMMENTED OUT CODE BELOW IS REQUIRED
     // FOR EXAMPLE THE SEARCH FOR 'TEA' AND HITTING ENTER HAS THE SAME EFFECT AS CLICKING ON IT IN THE DROPDOWN.
     // CLICK is handled by onConfirm in accessibleAutocomplete now.
     if (event.key === 'Enter' || event.key === 'Tab') {
-        this.inputElement.value = event.target.value;
-        let text = event.target.value;
-        Utility.commoditySelectorOnConfirm(text, this.options, this.resourceIdHidden, this.inputElement);
+      this.inputElement.value = event.target.value;
+      const text = event.target.value;
+      Utility.commoditySelectorOnConfirm(text, this.options, this.resourceIdHidden, this.inputElement);
 
-    //   const form = $(element).parents('form');
-    //   const suggestionType = $(ev.target).find('[data-suggestion-type]').data('suggestion-type');
-    //   const resourceId = $(ev.target).find('[data-resource-id]').data('resource-id');
-    //   let text = $(ev.target).text();
+      //   const form = $(element).parents('form');
+      //   const suggestionType = $(ev.target).find('[data-suggestion-type]').data('suggestion-type');
+      //   const resourceId = $(ev.target).find('[data-resource-id]').data('resource-id');
+      //   let text = $(ev.target).text();
 
-    //   ev.preventDefault();
+      //   ev.preventDefault();
 
-    //   if (text === '') {
-    //     text = $(element).find('input[type="text"]').val();
-    //   }
+      //   if (text === '') {
+      //     text = $(element).find('input[type="text"]').val();
+      //   }
 
-    //   if (suggestionType) {
-    //     text = text.replace(suggestionType, '');
-    //   }
+      //   if (suggestionType) {
+      //     text = text.replace(suggestionType, '');
+      //   }
 
-    //   // accessible-autocomplete adds the index of the options into
-    //   // the option text on ios for some reason
-    //   // That breaks search so strip it back out
-    //   // FIXME: Solve event handling so we can just handle submission
-    //   // in onConfirm and avoid all this complexity
-    //   if (isIosDevice()) {
-    //     text = text.replace(/ \d+ of \d+$/, '');
-    //   }
+      //   // accessible-autocomplete adds the index of the options into
+      //   // the option text on ios for some reason
+      //   // That breaks search so strip it back out
+      //   // FIXME: Solve event handling so we can just handle submission
+      //   // in onConfirm and avoid all this complexity
+      //   if (isIosDevice()) {
+      //     text = text.replace(/ \d+ of \d+$/, '');
+      //   }
 
-    //   form.find('.js-commodity-picker-target').val(text);
+      //   form.find('.js-commodity-picker-target').val(text);
 
-    //   if (resourceId) {
-    //     form.find('.js-commodity-picker-resource-id').val(resourceId);
-    //   }
+      //   if (resourceId) {
+      //     form.find('.js-commodity-picker-resource-id').val(resourceId);
+      //   }
 
     //   form.submit();
     }
   }
-
-  // #isIosDevice() {
-  //   return typeof window.navigator !== 'undefined' && !!(window.navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g));
-  // }
 }
