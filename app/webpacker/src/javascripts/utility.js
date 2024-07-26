@@ -71,16 +71,10 @@ export default class Utility {
         selectedOption = option;
       }
     });
-    console.log('submitting form');
-    console.log('resourceIdHidden.value: ', resourceIdHidden.value);
-    console.log('inputElement.value: ', inputElement.value);
     if (selectedOption) {
       resourceIdHidden.value = selectedOption.resource_id;
       inputElement.value = decodeURIComponent(selectedOption.id);
       const form = inputElement.closest('form');
-      console.log('selected option found submitting form');
-      console.log('selected option found resourceIdHidden: ', resourceIdHidden);
-      console.log('selected option found inputElement.value: ', inputElement.value);
       form.submit();
     }
   }
