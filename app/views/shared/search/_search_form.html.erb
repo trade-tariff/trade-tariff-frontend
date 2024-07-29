@@ -3,16 +3,15 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <div class="searchfield govuk-form-group">
-          <fieldset class="govuk-fieldset govuk-search-input">
-            <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-            <%= hidden_field_tag :q, @search.q, class: "js-commodity-picker-target", id: 'q-hidden' %>
-            <%= hidden_field_tag :resource_id, '', class: "js-commodity-picker-resource-id", id: 'resource-id-hidden' %>
 
-            <div class='js-commodity-picker-select js-show'></div>
-            <noscript>
-              <%= text_field_tag(:q, @search.q, {class: "govuk-input", name: :q}) %>
-            </noscript>
+          <fieldset class="govuk-fieldset govuk-search-input">
+            <div data-controller="commodity-select-box">
+              <%= label_tag :q, search_label_text, class: 'govuk-label' %>
+              <%= text_field_tag :q, @search.q, id: 'q', class: "govuk-input", data: { 'commodity-select-box-target': "commodityInput" } %>
+              <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', data: { 'commodity-select-box-target': "resourceIdHidden" } %>
+            </div>
           </fieldset>
+
           <fieldset class="govuk-fieldset search-submit">
             <input class="govuk-button" type="submit" name="new_search" value="Search">
           </fieldset>

@@ -33,15 +33,6 @@ RSpec.describe 'Error handling' do
       it { is_expected.to have_http_status :not_found }
       it { is_expected.to have_attributes body: 'Resource not found' }
     end
-
-    context 'with new search enabled' do
-      before do
-        allow(TradeTariffFrontend).to receive(:search_banner?).and_return true
-        visit '/404'
-      end
-
-      it_behaves_like 'not found'
-    end
   end
 
   describe 'exception page' do
@@ -63,15 +54,6 @@ RSpec.describe 'Error handling' do
 
       it { is_expected.to have_http_status :internal_server_error }
       it { is_expected.to have_attributes body: 'Internal server error' }
-    end
-
-    context 'with search banner enabled' do
-      before do
-        allow(TradeTariffFrontend).to receive(:search_banner?).and_return true
-        visit '/500'
-      end
-
-      it_behaves_like 'internal server error'
     end
 
     context 'with invalid date' do

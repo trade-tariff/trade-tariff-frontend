@@ -153,10 +153,6 @@ module TradeTariffFrontend
     ENV['WEBCHAT_URL']
   end
 
-  def search_banner?
-    ENV['SEARCH_BANNER'] == 'true'
-  end
-
   def beta_search_switching_enabled?
     ENV['BETA_SEARCH_SWITCHING_ENABLED'] == 'true'
   end

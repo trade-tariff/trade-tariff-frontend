@@ -1,3 +1,5 @@
+/* eslint-env node, jest */
+
 import Utility from 'utility';
 
 describe('Utility.countrySelectorOnConfirm', () => {
@@ -69,5 +71,112 @@ describe('Utility.countrySelectorOnConfirm', () => {
     Utility.countrySelectorOnConfirm(confirmed, selectElement);
 
     expect(window.location.href).toBe(`${window.location.origin}/xi/commodities/1234#origin`);
+  });
+});
+
+describe('Utility.fetchCommoditySearchSuggestions', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('fetches suggestions and populates results', async () => {
+    const mockResponse = {
+      results: [
+        {id: 'wine', text: 'wine', query: 'wine', resource_id: '6828', formatted_suggestion_type: ''},
+        {id: 'red wine', text: 'red wine', query: 'wine', resource_id: '7273', formatted_suggestion_type: ''},
+      ],
+    };
+
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockResponse),
+    });
+
+    const query = 'wine';
+    const searchSuggestionsPath = '/test-path';
+    const options = [];
+    const populateResults = jest.fn();
+
+    await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
+
+    expect(fetch).toHaveBeenCalledWith(`${searchSuggestionsPath}?term=wine`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const expectedResults = [
+      {id: 'wine', text: 'wine', suggestion_type: 'exact', newOption: true},
+      ...mockResponse.results,
+    ];
+
+    expect(options).toEqual(expectedResults);
+  });
+
+  it('handles fetch error gracefully', async () => {
+    global.fetch.mockRejectedValue(new Error('Fetch error'));
+
+    const query = 'wine';
+    const searchSuggestionsPath = '/test-path';
+    const options = [];
+    const populateResults = jest.fn();
+
+    await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
+
+    expect(fetch).toHaveBeenCalledWith(`${searchSuggestionsPath}?term=wine`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    expect(populateResults).toHaveBeenCalledWith([]);
+  });
+});
+
+describe('Utility.commoditySelectorOnConfirm', () => {
+  let options; let resourceIdHidden; let inputElement; let form;
+
+  beforeEach(() => {
+    options = [
+      {'id': 'wine', 'text': 'wine', 'suggestion_type': 'exact', 'newOption': true},
+      {'id': 'wine', 'text': 'wine', 'query': 'wine', 'resource_id': '6828', 'formatted_suggestion_type': ''},
+    ];
+
+    document.body.innerHTML = `
+      <form>
+        <input type="hidden" id="resourceIdHidden" />
+        <input id="inputElement" />
+      </form>
+    `;
+
+    resourceIdHidden = document.getElementById('resourceIdHidden');
+    inputElement = document.getElementById('inputElement');
+    form = inputElement.closest('form');
+
+    form.submit = jest.fn();
+  });
+
+  it('sets the resource ID and submits the form when an option is confirmed', () => {
+    const text = {id: 'wine', text: 'wine'};
+
+    Utility.commoditySelectorOnConfirm(text, options, resourceIdHidden, inputElement);
+
+    expect(resourceIdHidden.value).toBe('6828');
+    expect(inputElement.value).toBe('wine');
+    expect(form.submit).toHaveBeenCalled();
+  });
+
+  it('does nothing if the selected option is not found', () => {
+    const text = {id: '3', text: 'Unknown Commodity'};
+
+    Utility.commoditySelectorOnConfirm(text, options, resourceIdHidden, inputElement);
+
+    expect(resourceIdHidden.value).toBe('');
+    expect(inputElement.value).toBe('');
+    expect(form.submit).not.toHaveBeenCalled();
   });
 });
