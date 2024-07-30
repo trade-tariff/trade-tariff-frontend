@@ -28,7 +28,7 @@ module GreenLanesHelper
     elsif !all_exemptions_met
       render('category_assessments_card', category:)
     else
-      render 'exemptions_card', category_number: category
+      render 'exemptions_card', category:
     end
   end
 

@@ -11,7 +11,7 @@
     <%= render 'category_exemptions', title: 'Category 2 exemptions', category: '2', assessments: @category_two_assessments, edit_path: 'EDIT PATH HERE CAT 2 questions' %>
 
     <div class="govuk-button-group">
-      <%= form_with url: green_lanes_results_path(category: params[:category]) do %>
+      <%= form_with url: green_lanes_results_path do %>
         <%= hidden_field_tag :commodity_code, @commodity_code %>
         <%= hidden_field_tag :country_of_origin, params[:country_of_origin] %>
         <%= hidden_field_tag :moving_date, params[:moving_date] %>

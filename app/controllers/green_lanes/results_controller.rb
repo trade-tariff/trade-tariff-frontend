@@ -13,7 +13,7 @@ module GreenLanes
       @moving_date = results_params[:moving_date]
       @category = category
       @answers = JSON.parse(results_params[:ans].presence || '{}')
-      @assessments = AssessmentsPresenter.new(determine_category, @ans)
+      @assessments = AssessmentsPresenter.new(determine_category, @answers)
     end
 
     private
@@ -25,7 +25,6 @@ module GreenLanes
         :moving_date,
         :c1ex,
         :c2ex,
-        :category,
         :ans,
       )
     end
@@ -39,7 +38,19 @@ module GreenLanes
     end
 
     def category
-      results_params[:category] || determine_category.categories.first
+      DetermineResultingCategory.new(categories, c1ex, c2ex).call.to_s
+    end
+
+    def categories
+      @categories ||= determine_category.categories
+    end
+
+    def c1ex
+      results_params[:c1ex]
+    end
+
+    def c2ex
+      results_params[:c2ex]
     end
   end
 end
