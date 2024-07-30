@@ -4,42 +4,18 @@ module GreenLanes
       @categories = GreenLanes::DetermineCategory.new(goods_nomenclature).categories
     end
 
-    def next(cat_1_exemptions_apply: nil, cat_2_exemptions_apply: nil)
+    def next(cat_1_exemptions_apply: nil,
+             cat_2_exemptions_apply: nil)
+
+      return check_your_answers if single_category?
+
       case @categories
-      when [1], [2], [3]
-        # Simplest case: only one category is present
-        # "result_#{@categories.first}".to_sym
-        "/green_lanes/results/#{@categories.first}"
       when [1, 2]
-        # Questions Cat 1 exemptions has not been answered
-        return '/green_lanes/applicable_exemptions/new?category=1' if question_unanswered?(cat_1_exemptions_apply)
-
-        if cat_1_exemptions_apply
-          '/green_lanes/results/2'
-        else
-          '/green_lanes/results/1'
-        end
+        handle_cat1_cat2(cat_1_exemptions_apply)
       when [1, 2, 3]
-        # Questions Cat 1 exemptions has not been answered
-        return '/green_lanes/applicable_exemptions/new?category=1' if question_unanswered?(cat_1_exemptions_apply)
-
-        if cat_1_exemptions_apply && cat_2_exemptions_apply
-          '/green_lanes/results/3'
-        elsif cat_1_exemptions_apply && question_unanswered?(cat_2_exemptions_apply)
-          '/green_lanes/applicable_exemptions/new?category=2&c1ex=true'
-        elsif cat_1_exemptions_apply && !cat_2_exemptions_apply
-          '/green_lanes/results/2'
-        else
-          '/green_lanes/results/1'
-        end
+        handle_all_categories(cat_1_exemptions_apply, cat_2_exemptions_apply)
       when [2, 3]
-        return '/green_lanes/applicable_exemptions/new?category=2' if question_unanswered?(cat_2_exemptions_apply)
-
-        if cat_2_exemptions_apply
-          '/green_lanes/results/3'
-        else
-          '/green_lanes/results/2'
-        end
+        handle_cat2_cat3(cat_2_exemptions_apply)
       else
         raise 'Impossible to determine next page'
       end
@@ -47,8 +23,41 @@ module GreenLanes
 
     private
 
+    def single_category?
+      @categories.size == 1
+    end
+
+    def handle_cat1_cat2(cat_1_exemptions_apply)
+      return new_exemptions_path(1) if question_unanswered?(cat_1_exemptions_apply)
+
+      check_your_answers
+    end
+
+    def handle_all_categories(cat_1_exemptions_apply, cat_2_exemptions_apply)
+      return new_exemptions_path(1) if question_unanswered?(cat_1_exemptions_apply)
+      return new_exemptions_path(2, c1ex: true) if cat_1_exemptions_apply && question_unanswered?(cat_2_exemptions_apply)
+
+      check_your_answers
+    end
+
+    def handle_cat2_cat3(cat_2_exemptions_apply)
+      return new_exemptions_path(2) if question_unanswered?(cat_2_exemptions_apply)
+
+      check_your_answers
+    end
+
     def question_unanswered?(cat_exemptions_apply)
       cat_exemptions_apply.nil?
+    end
+
+    def new_exemptions_path(category, params = {})
+      query = params.to_query
+
+      "/green_lanes/applicable_exemptions/new?category=#{category}" + (query.present? ? "&#{query}" : '')
+    end
+
+    def check_your_answers
+      '/green_lanes/check_your_answers/new'
     end
   end
 end

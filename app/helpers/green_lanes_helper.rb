@@ -15,11 +15,27 @@ module GreenLanesHelper
     cas_checked.include?('none')
   end
 
-  def all_exemption_questions_replied?(questions_count)
-    checked = params[:exemptions][:category_assessments_checked]
-    questions_replied_count = checked ? checked.keys.count : 0
+  def render_exemptions_or_no_card(category, assessments)
+    no_exemptions = assessments.public_send("no_cat#{category}_exemptions")
+    exemptions_met = assessments.public_send("cat_#{category}_exemptions_met")
 
-    questions_count == questions_replied_count
+    total_exemptions = assessments.public_send("cat_#{category}_exemptions")
+
+    all_exemptions_met = total_exemptions.count == exemptions_met.count
+
+    if no_exemptions || !all_exemptions_met
+      render('category_assessments_card', category:)
+    else
+      render 'exemptions_card', category:
+    end
+  end
+
+  def exemptions_met?(category, category_assessment, answers)
+    category = category.to_s
+
+    category_assessment_answer = answers.dig(category, category_assessment.category_assessment_id.to_s)
+
+    category_assessment_answer.present? && category_assessment_answer != %w[none]
   end
 
   private

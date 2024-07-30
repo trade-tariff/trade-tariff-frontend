@@ -114,8 +114,8 @@ Rails.application.routes.draw do
       resource :start, only: %i[new]
       resource :moving_requirements, only: %i[new create]
       resource :applicable_exemptions, only: %i[new create]
-      # resource :check_your_answers, only: %i[new create]
-      resources :results, param: :category, only: %i[show]
+      resource :check_your_answers, only: %i[new create]
+      resources :results, param: :category, only: %i[create]
     end
   end
 

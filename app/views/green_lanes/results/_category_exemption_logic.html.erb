@@ -1,0 +1,11 @@
+<% if @category.to_s == '3' %>
+  <% if @assessments.cat_1_exemptions_met || @assessments.cat_2_exemptions_met %>
+    <%= render_exemptions_or_no_card(1, @assessments) %>
+    <%= render_exemptions_or_no_card(2, @assessments) %>
+  <% end %>
+<% else %>
+  <% if @assessments.cat_1_exemptions_met || @assessments.cat_2_exemptions_met && !@assessments.no_cat1_exemptions %>
+    <%= render_exemptions_or_no_card(1, @assessments) %>
+    <%= render_exemptions_or_no_card(2, @assessments) %>
+  <% end %>
+<% end %>
