@@ -23,9 +23,7 @@ module GreenLanesHelper
 
     all_exemptions_met = total_exemptions.count == exemptions_met.count
 
-    if no_exemptions
-      render('category_assessments_card', category:)
-    elsif !all_exemptions_met
+    if no_exemptions || !all_exemptions_met
       render('category_assessments_card', category:)
     else
       render 'exemptions_card', category:

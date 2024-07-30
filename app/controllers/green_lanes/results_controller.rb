@@ -25,7 +25,7 @@ module GreenLanes
         :moving_date,
         :c1ex,
         :c2ex,
-        :ans,
+        ans: {},
       )
     end
 
