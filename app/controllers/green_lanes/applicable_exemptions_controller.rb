@@ -27,16 +27,33 @@ module GreenLanes
 
     private
 
+    # Category assessment methods
     def category_assessments
       @category_assessments ||= determine_category.public_send("cat#{category}_with_exemptions")
     end
 
-    def cat_1_exemptions_questions
-      render 'cat_1_exemptions_questions'
+    def determine_category
+      @determine_category ||= DetermineCategory.new(goods_nomenclature)
     end
 
-    def cat_2_exemptions_questions
-      render 'cat_2_exemptions_questions'
+    # Goods nomenclature methods
+    def goods_nomenclature
+      @goods_nomenclature ||= GreenLanes::GoodsNomenclature.find(
+        params[:commodity_code],
+        {
+          filter: {
+            geographical_area_id: params[:country_of_origin],
+            moving_date: params[:moving_date],
+          },
+          as_of: params[:moving_date],
+        },
+        { authorization: TradeTariffFrontend.green_lanes_api_token },
+      )
+    end
+
+    # Form handling methods
+    def exemptions_form
+      ApplicableExemptionsForm.new(exemptions_params)
     end
 
     def exemptions_params
@@ -53,30 +70,26 @@ module GreenLanes
     end
 
     def applicable_answers
-      @category_assessments.each_with_object({}) do |ca, acc|
+      category_assessments.each_with_object({}) do |ca, acc|
         acc[ca.id] = []
       end
     end
 
-    def exemptions_form
-      ApplicableExemptionsForm.new(exemptions_params)
+    # View rendering methods
+    def cat_1_exemptions_questions
+      render 'cat_1_exemptions_questions'
     end
 
-    def determine_category
-      @determine_category ||= DetermineCategory.new(goods_nomenclature)
+    def cat_2_exemptions_questions
+      render 'cat_2_exemptions_questions'
     end
 
-    def goods_nomenclature
-      @goods_nomenclature ||= GreenLanes::GoodsNomenclature.find(
-        params[:commodity_code],
-        {
-          filter: {
-            geographical_area_id: params[:country_of_origin],
-            moving_date: params[:moving_date],
-          },
-          as_of: params[:moving_date],
-        },
-        { authorization: TradeTariffFrontend.green_lanes_api_token },
+    # Parameter handling methods
+    def moving_requirements_params
+      params.require(:green_lanes_moving_requirements_form).permit(
+        :commodity_code,
+        :country_of_origin,
+        :moving_date,
       )
     end
 
@@ -84,6 +97,7 @@ module GreenLanes
       @category ||= Integer(params[:category])
     end
 
+    # Path helper methods
     def applicable_exemptions_path
       green_lanes_applicable_exemptions_path(
         category:,
@@ -135,6 +149,7 @@ module GreenLanes
         commodity_code: params[:commodity_code],
         country_of_origin: params[:country_of_origin],
         moving_date: params[:moving_date],
+        category: params[:category],
       }
         .merge(exemptions_results_params)
         .merge(next_page_query)

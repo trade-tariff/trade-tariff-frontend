@@ -4,38 +4,16 @@ module GreenLanes
 
     before_action :check_green_lanes_enabled,
                   :disable_switch_service_banner,
-                  :disable_search_form
+                  :disable_search_form,
+                  only: :create
 
-    def show
-      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
-        results_params[:commodity_code],
-        { filter: {
-          geographical_area_id: results_params[:country_of_origin],
-          moving_date: results_params[:moving_date],
-        } },
-        { authorization: TradeTariffFrontend.green_lanes_api_token },
-      )
-
+    def create
       @commodity_code = goods_nomenclature.goods_nomenclature_item_id
       @country_of_origin = results_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
-      @country_description = GeographicalArea.find(@country_of_origin).description
       @moving_date = results_params[:moving_date]
-
-      next_page = DetermineNextPage
-        .new(goods_nomenclature)
-        .next(
-          cat_1_exemptions_apply:,
-          cat_2_exemptions_apply:,
-        )
-
-      case next_page
-      when :result_cat_1
-        render 'result_cat_1'
-      when :result_cat_2
-        render 'result_cat_2'
-      when :result_cat_3
-        render 'result_cat_3'
-      end
+      @category = category
+      @answers = JSON.parse(results_params[:ans].presence || '{}')
+      @assessments = AssessmentsPresenter.new(determine_category, @ans)
     end
 
     private
@@ -47,21 +25,21 @@ module GreenLanes
         :moving_date,
         :c1ex,
         :c2ex,
+        :category,
+        :ans,
       )
     end
 
-    def cat_1_exemptions_apply
-      case results_params[:c1ex]
-      when 'true' then true
-      when 'false' then false
-      end
+    def determine_category
+      @determine_category ||= DetermineCategory.new(goods_nomenclature)
     end
 
-    def cat_2_exemptions_apply
-      case results_params[:c2ex]
-      when 'true' then true
-      when 'false' then false
-      end
+    def goods_nomenclature
+      @goods_nomenclature ||= GreenLanes::FetchGoodsNomenclature.new(results_params).call
+    end
+
+    def category
+      results_params[:category] || determine_category.categories.first
     end
   end
 end

@@ -1,0 +1,18 @@
+module GreenLanes
+  class FetchGoodsNomenclature
+    def initialize(params)
+      @params = params
+    end
+
+    def call
+      GreenLanes::GoodsNomenclature.find(
+        @params[:commodity_code],
+        filter: {
+          geographical_area_id: @params[:country_of_origin],
+          moving_date: @params[:moving_date],
+        },
+        authorization: TradeTariffFrontend.green_lanes_api_token,
+      )
+    end
+  end
+end

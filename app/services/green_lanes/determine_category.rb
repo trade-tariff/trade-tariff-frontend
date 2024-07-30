@@ -12,8 +12,6 @@ module GreenLanes
       return [CAT_3] if category_assessments.empty?
       return [CAT_1] if cat1_without_exemptions.any?
 
-      # cat1_without_exemptions NO
-
       if cat2_without_exemptions.any?
         if cat1_with_exemptions.any?
           [CAT_1, CAT_2]
