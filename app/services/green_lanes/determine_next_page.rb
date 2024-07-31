@@ -2,6 +2,7 @@ module GreenLanes
   class DetermineNextPage
     def initialize(goods_nomenclature)
       @categories = GreenLanes::DetermineCategory.new(goods_nomenclature).categories
+      @cat1_exemptions = GreenLanes::DetermineCategory.new(goods_nomenclature).cat1_with_exemptions
     end
 
     def next(cat_1_exemptions_apply: nil,
@@ -9,7 +10,7 @@ module GreenLanes
 
       return check_your_answers if @categories == [3]
 
-      handle_cat1_cat2(cat_1_exemptions_apply) if single_category?
+      return handle_cat1_cat2(cat_1_exemptions_apply) if single_category?
 
       case @categories
       when [1, 2]
@@ -30,7 +31,7 @@ module GreenLanes
     end
 
     def handle_cat1_cat2(cat_1_exemptions_apply)
-      return new_exemptions_path(1) if question_unanswered?(cat_1_exemptions_apply)
+      return new_exemptions_path(1) if question_unanswered?(cat_1_exemptions_apply) && @cat1_exemptions.present?
 
       check_your_answers
     end

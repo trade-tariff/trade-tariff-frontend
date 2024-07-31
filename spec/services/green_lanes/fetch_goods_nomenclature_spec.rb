@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe GreenLanes::FetchGoodsNomenclature, type: :service do
+RSpec.describe GreenLanes::FetchGoodsNomenclature do
   let(:params) do
     {
-      commodity_code: '123456',
-      country_of_origin: 'US',
+      commodity_code: '01020304',
+      country_of_origin: 'GB',
       moving_date: '2024-01-01',
     }
   end
@@ -19,21 +19,27 @@ RSpec.describe GreenLanes::FetchGoodsNomenclature, type: :service do
   end
 
   describe '#call' do
-    it 'fetches the goods nomenclature with the correct parameters', :aggregate_failures do
-      service = described_class.new(params)
-      result = service.call
+    subject(:fetch_goods) { described_class.new(params).call }
 
-      expect(GreenLanes::GoodsNomenclature).to have_received(:find).with(
-        params[:commodity_code],
-        {
-          filter: {
-            geographical_area_id: params[:country_of_origin],
-            moving_date: params[:moving_date],
+    context 'with valid parameters' do
+      it 'calls GoodsNomenclature.find with the correct arguments' do
+        fetch_goods
+        expect(GreenLanes::GoodsNomenclature).to have_received(:find).with(
+          params[:commodity_code],
+          {
+            filter: {
+              geographical_area_id: params[:country_of_origin],
+              moving_date: params[:moving_date],
+            },
+            as_of: params[:moving_date],
           },
-          authorization: 'test_token',
-        },
-      )
-      expect(result).to eq(expected_response)
+          authorization: TradeTariffFrontend.green_lanes_api_token,
+        )
+      end
+
+      it 'returns the expected response' do
+        expect(fetch_goods).to eq(expected_response)
+      end
     end
   end
 end

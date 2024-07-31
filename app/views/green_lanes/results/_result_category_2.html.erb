@@ -47,4 +47,4 @@
 
 <%= render 'green_lanes/shared/summary_card', title: 'Your movement of goods', edit_path: "EDIT_PATH" %>
 
-<%= render 'category_exemption_logic' %>
+<%= render_exemptions(@assessments, @category) %>
