@@ -31,11 +31,17 @@ module GreenLanesHelper
   end
 
   def exemptions_met?(category, category_assessment, answers)
+    return false if answers.nil?
+
     category = category.to_s
 
     category_assessment_answer = answers.dig(category, category_assessment.category_assessment_id.to_s)
 
     category_assessment_answer.present? && category_assessment_answer != %w[none]
+  end
+
+  def all_exemptions_met?(category, category_assessments, answers)
+    category_assessments.all? { |ca| exemptions_met?(category, ca, answers) }
   end
 
   private

@@ -5,23 +5,18 @@ module GreenLanes
     before_action :check_green_lanes_enabled,
                   :disable_switch_service_banner,
                   :disable_search_form
+    before_action :set_exemptions_form, only: %i[new create]
 
     def new
-      @exemptions_form = exemptions_form
-      send("cat_#{category}_exemptions_questions")
+      render_exemptions_questions
     end
 
     def create
-      @exemptions_form = exemptions_form
-
       if @exemptions_form.valid?
-        next_page = GreenLanes::DetermineNextPage.new(goods_nomenclature)
-                                                 .next(cat_1_exemptions_apply: applicable_exemptions_result_params[:c1ex],
-                                                       cat_2_exemptions_apply: applicable_exemptions_result_params[:c2ex])
-
+        next_page = determine_next_page
         redirect_to handle_next_page(next_page)
       else
-        render "cat_#{category}_exemptions_questions"
+        render_exemptions_questions
       end
     end
 
@@ -38,22 +33,12 @@ module GreenLanes
 
     # Goods nomenclature methods
     def goods_nomenclature
-      @goods_nomenclature ||= GreenLanes::GoodsNomenclature.find(
-        params[:commodity_code],
-        {
-          filter: {
-            geographical_area_id: params[:country_of_origin],
-            moving_date: params[:moving_date],
-          },
-          as_of: params[:moving_date],
-        },
-        { authorization: TradeTariffFrontend.green_lanes_api_token },
-      )
+      @goods_nomenclature ||= FetchGoodsNomenclature.new(goods_nomenclature_params).call
     end
 
     # Form handling methods
-    def exemptions_form
-      ApplicableExemptionsForm.new(exemptions_params)
+    def set_exemptions_form
+      @exemptions_form = ApplicableExemptionsForm.new(exemptions_params)
     end
 
     def exemptions_params
@@ -76,15 +61,15 @@ module GreenLanes
     end
 
     # View rendering methods
-    def cat_1_exemptions_questions
-      render 'cat_1_exemptions_questions'
-    end
-
-    def cat_2_exemptions_questions
-      render 'cat_2_exemptions_questions'
+    def render_exemptions_questions
+      render "cat_#{@category}_exemptions_questions"
     end
 
     # Parameter handling methods
+    def goods_nomenclature_params
+      params.permit(:commodity_code, :country_of_origin, :moving_date)
+    end
+
     def moving_requirements_params
       params.require(:green_lanes_moving_requirements_form).permit(
         :commodity_code,
@@ -95,6 +80,12 @@ module GreenLanes
 
     def category
       @category ||= Integer(params[:category])
+    end
+
+    def determine_next_page
+      GreenLanes::DetermineNextPage.new(@goods_nomenclature)
+                                   .next(cat_1_exemptions_apply: applicable_exemptions_result_params[:c1ex],
+                                         cat_2_exemptions_apply: applicable_exemptions_result_params[:c2ex])
     end
 
     # Path helper methods

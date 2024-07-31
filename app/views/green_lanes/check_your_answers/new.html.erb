@@ -8,7 +8,10 @@
     <h2 class="govuk-heading-m">Category exemptions</h2>
 
     <%= render 'category_exemptions', title: 'Category 1 exemptions', category: '1', assessments: @category_one_assessments, edit_path: 'EDIT PATH HERE CAT 1 questions' %>
-    <%= render 'category_exemptions', title: 'Category 2 exemptions', category: '2', assessments: @category_two_assessments, edit_path: 'EDIT PATH HERE CAT 2 questions' %>
+
+    <% if all_exemptions_met?(@category, @category_one_assessments, @answers) %>
+      <%= render 'category_exemptions', title: 'Category 2 exemptions', category: '2', assessments: @category_two_assessments, edit_path: 'EDIT PATH HERE CAT 2 questions' %>
+    <% end %>
 
     <div class="govuk-button-group">
       <%= form_with url: green_lanes_results_path do %>
