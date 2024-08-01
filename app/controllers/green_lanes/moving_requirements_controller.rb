@@ -39,16 +39,7 @@ module GreenLanes
     end
 
     def goods_nomenclature
-      @goods_nomenclature ||= GreenLanes::GoodsNomenclature.find(
-        moving_requirements_params[:commodity_code],
-        {
-          filter: {
-            geographical_area_id: moving_requirements_params[:country_of_origin],
-            as_of: @moving_requirements_form.moving_date.iso8601,
-          },
-          authorization: TradeTariffFrontend.green_lanes_api_token,
-        },
-      )
+      @goods_nomenclature ||= FetchGoodsNomenclature.new(moving_requirements_params).call
     end
 
     def handle_next_page(next_page)

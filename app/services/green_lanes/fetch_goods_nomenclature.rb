@@ -14,7 +14,9 @@ module GreenLanes
           },
           as_of: @params[:moving_date],
         },
-        authorization: TradeTariffFrontend.green_lanes_api_token,
+        {
+          authorization: TradeTariffFrontend.green_lanes_api_token,
+        },
       )
     end
   end
