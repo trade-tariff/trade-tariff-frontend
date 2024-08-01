@@ -540,6 +540,7 @@
         context = document.body;
       }
 
+      this.tablePopup.initialize(context);
       this.searchForm.initialize();
       this.searchHighlight.initialize();
       this.countryPicker.initialize();
