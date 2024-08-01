@@ -10,11 +10,6 @@
 (function() {
   const IMask = require('imask');
   const debounce = require('./debounce');
-  const htmlEscaper = require('html-escaper');
-
-  const isIosDevice = function() {
-    return typeof navigator !== 'undefined' && !!(navigator.userAgent.match(/(iPod|iPhone|iPad)/g) && navigator.userAgent.match(/AppleWebKit/g))
-  }
 
   global.GOVUK = global.GOVUK || {};
   /**
@@ -26,80 +21,6 @@
   */
 
   GOVUK.tariff = {
-    /**
-        @name GOVUK.tariff.tabs
-        @object
-        @description Tabbing behaviours
-      */
-    tabs: {
-      /**
-            @name GOVUK.tariff.tabs.initialize
-            @function
-            @description adds tabbing behaviour
-            @requires jquery.tabs.js
-            @param {String} context Element in which to add behaviours
-          */
-      initialize: function(context) {
-        const $container = $(context);
-
-        if ($container.find('.nav-tabs').length) {
-          $container.tabs();
-        }
-      },
-    },
-    tabLinkFocuser: {
-      /**
-            @name GOVUK.tariff.tabLinkFocuser.initialize
-            @function
-            @description opens relevant tab and focuses on element inside its content
-            @param {String} context Element in which to add behaviours
-          */
-      initialize: function(context) {
-        const hash = window.location.hash;
-        const pattern = /^#(import|export)\-(measure)\-(\d+)$/;
-
-        if (hash.match(pattern)) {
-          const matches = hash.match(pattern);
-          const tabId = 'tab-' + matches[1];
-          const entity = matches[2];
-          const entityId = matches[3];
-
-          $('#' + tabId + ' a').trigger('click');
-          $('#' + entity + '-' + entityId).trigger('focus');
-        }
-      },
-    },
-    /**
-        @name GOVUK.tariff.breadcrumbs
-        @object
-        @description Adds show/hide behaviour to breadcrumbs on narrow viewports
-      */
-    breadcrumbs: {
-      fullTree: $('.js-tariff-breadcrumbs .js-full-tree'),
-      summaryTree: $('.js-tariff-breadcrumbs .js-summary-tree'),
-      showBtn: $('.js-tariff-breadcrumbs .js-show-full-tree-link'),
-      /**
-            @name GOVUK.tariff.breadcrumbs.initialize
-            @function
-            @description adds tabbing behaviour
-            @requires jquery.tabs.js
-            @param {String} context Element in which to add behaviours
-          */
-      initialize: function() {
-        this.hideTree();
-        this.showBtn.on('click', function() {
-          GOVUK.tariff.breadcrumbs.showTree();
-        });
-      },
-      hideTree: function() {
-        this.fullTree.hide();
-        this.summaryTree.show();
-      },
-      showTree: function() {
-        this.fullTree.show();
-        this.summaryTree.hide();
-      },
-    },
     /**
         @name GOVUK.tariff.tablePopup
         @object
@@ -469,59 +390,6 @@
       },
     },
     /**
-        @name hovers
-        @object
-        @description adding hovers for item numbers
-      */
-    hovers: {
-      /**
-          @name init
-          @function
-          @description initialize the namespace
-          @param {String} context Element in which to add behaviours
-        */
-      init: function(context) {
-        const $terms = $('dt.chapter-code, dt.heading-code, dt.section-number, dl.sections dt', context);
-        let controlClass;
-
-        controlClass = function(idx, action, $descriptionLink) {
-          return function() {
-            $descriptionLink[action + 'Class']('hover');
-            $terms.eq(idx)[action + 'Class']('hover');
-          };
-        };
-
-        $terms.each(function(idx) {
-          const $this = $(this);
-          const $description = $this.next('dd').removeClass('hover');
-          let $descriptionLink = $description.find('>a');
-
-          if (!$descriptionLink.length) {
-            $descriptionLink = $description.find('>h1 a');
-            if (!$descriptionLink.length) {
-              return;
-            }
-          }
-
-          $descriptionLink.removeClass('hover');
-
-          // fire the link when it's term is clicked
-          $this.on('click', function() {
-            // clear classes in case content is cached with pjax
-            $(this).removeClass('hover');
-            $descriptionLink.removeClass('hover');
-            GOVUK.tariff.utils.triggerClick.call($descriptionLink[0]);
-          });
-
-          $this.add($descriptionLink).hover(
-              controlClass(idx, 'add', $descriptionLink),
-              controlClass(idx, 'remove', $descriptionLink),
-          );
-        });
-      },
-    },
-
-    /**
         @name utils
         @namespace
         @description utilities for the GOVUK.tariff namespace
@@ -672,14 +540,9 @@
         context = document.body;
       }
 
-      this.tabs.initialize(context);
-      this.tablePopup.initialize(context);
-      this.tabLinkFocuser.initialize(context);
-      this.hovers.init(context);
       this.searchForm.initialize();
       this.searchHighlight.initialize();
       this.countryPicker.initialize();
-      this.breadcrumbs.initialize();
       this.measuresTable.initialize();
       this.copyCode.initialize();
     },
