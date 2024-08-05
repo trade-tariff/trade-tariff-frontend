@@ -31,7 +31,7 @@ module GreenLanesHelper
   end
 
   def exemption_met?(category, category_assessment, answers)
-    return false if answers.nil?
+    return false if answers.blank?
 
     category = category.to_s
 

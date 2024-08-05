@@ -12,24 +12,20 @@ module GreenLanes
       @country_of_origin = results_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @moving_date = results_params[:moving_date]
       @category = category
-      # TODO: THIS IS STILL NOT WORKING!!!!!
-      @answers = JSON.parse(params[:ans].presence || '{}')
+      @answers = JSON.parse(results_params[:ans].presence || '{}')
       @assessments = AssessmentsPresenter.new(determine_category, @answers)
     end
 
     private
 
     def results_params
-      parsed_ans = JSON.parse(params[:ans]) if params[:ans].present? && !params.is_a?(ActionController::Parameters)
-      params[:ans] = parsed_ans if parsed_ans
-
       params.permit(
         :commodity_code,
         :country_of_origin,
         :moving_date,
         :c1ex,
         :c2ex,
-        ans: permit_dynamic_ans(parsed_ans),
+        :ans,
       )
     end
 
@@ -55,15 +51,6 @@ module GreenLanes
 
     def c2ex
       results_params[:c2ex]
-    end
-
-    def permit_dynamic_ans(params)
-      if params.is_a?(Hash)
-        params.each_key do |key|
-          params[key] = params[key].is_a?(Hash) ? permit_dynamic_ans(params[key]) : params[key]
-        end
-      end
-      params
     end
   end
 end
