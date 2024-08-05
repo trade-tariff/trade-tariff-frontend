@@ -14,10 +14,10 @@
               <dt class="govuk-summary-list__key"><%= exemption.code %></dt>
               <dd class="govuk-summary-list__value"><%= exemption.formatted_description %></dd>
               <dd class="govuk-summary-list__actions">
-                <% if !exemption_met?(category, category_assessment, @answers) %>
-                  Exemption not met
-                <% else %>
+                <% if exemption_met?(category, category_assessment, @answers) %>
                   Exemption met
+                <% else %>
+                  Exemption not met
                 <% end %>
               </dd>
             </div>
