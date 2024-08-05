@@ -40,7 +40,7 @@ module GreenLanes
     end
 
     # Form handling methods
-    def set_exemptions_form
+    def exemptions_form
       ApplicableExemptionsForm.new(exemptions_params)
     end
 

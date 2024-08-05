@@ -14,7 +14,7 @@
               <dt class="govuk-summary-list__key"><%= exemption.code %></dt>
               <dd class="govuk-summary-list__value"><%= exemption.formatted_description %></dd>
               <dd class="govuk-summary-list__actions">
-                <% if !exemptions_met?(category, category_assessment, @answers) %>
+                <% if !exemption_met?(category, category_assessment, @answers) %>
                   Exemption not met
                 <% else %>
                   Exemption met

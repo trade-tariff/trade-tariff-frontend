@@ -13,7 +13,7 @@ module GreenLanes
       @moving_date = results_params[:moving_date]
       @category = category
       # TODO: THIS IS STILL NOT WORKING!!!!!
-      @answers = JSON.parse(results_params[:ans].presence || '{}')
+      @answers = JSON.parse(params[:ans].presence || '{}')
       @assessments = AssessmentsPresenter.new(determine_category, @answers)
     end
 
