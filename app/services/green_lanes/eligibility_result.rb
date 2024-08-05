@@ -4,7 +4,8 @@ module GreenLanes
     NOT_YET_ELIGIBLE = 'not_yet_eligible'.freeze
     NOT_ELIGIBLE = 'not_eligible'.freeze
 
-    POSITIVE_RESPONSES = %w[yes not_sure].freeze
+    NOT_SURE = 'not_sure'.freeze
+    YES = 'yes'.freeze
 
     def initialize(params)
       @moving_goods_gb_to_ni = normalize_answer(params[:moving_goods_gb_to_ni])
@@ -23,23 +24,35 @@ module GreenLanes
     private
 
     def not_eligible?
-      !@moving_goods_gb_to_ni || !@free_circulation_in_uk || !@end_consumers_in_uk
+      [@moving_goods_gb_to_ni, @free_circulation_in_uk, @end_consumers_in_uk].any?(&:!)
     end
 
     def not_yet_eligible?
-      all_positive_conditions_met? && !@ukims
+      all_conditions_met_except_ukims? || end_consumers_not_sure?
     end
 
     def may_be_eligible?
-      all_positive_conditions_met? && @ukims
+      all_positive_conditions_met?
     end
 
     def all_positive_conditions_met?
-      @moving_goods_gb_to_ni && @free_circulation_in_uk && @end_consumers_in_uk
+      [@moving_goods_gb_to_ni, @free_circulation_in_uk, @end_consumers_in_uk == true, @ukims].all?
+    end
+
+    def all_conditions_met_except_ukims?
+      [@moving_goods_gb_to_ni, @free_circulation_in_uk, @end_consumers_in_uk].all? && !@ukims
+    end
+
+    def end_consumers_not_sure?
+      @moving_goods_gb_to_ni && @free_circulation_in_uk && @end_consumers_in_uk == NOT_SURE
     end
 
     def normalize_answer(response)
-      POSITIVE_RESPONSES.include?(response.downcase)
+      case response.downcase
+      when YES then true
+      when NOT_SURE then NOT_SURE
+      else false
+      end
     end
   end
 end
