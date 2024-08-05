@@ -5,13 +5,16 @@ module GreenLanes
     before_action :check_green_lanes_enabled,
                   :disable_switch_service_banner,
                   :disable_search_form
-    before_action :set_exemptions_form, only: %i[new create]
 
     def new
+      @exemptions_form = exemptions_form
+
       render_exemptions_questions
     end
 
     def create
+      @exemptions_form = exemptions_form
+
       if @exemptions_form.valid?
         next_page = determine_next_page
         redirect_to handle_next_page(next_page)
@@ -38,7 +41,7 @@ module GreenLanes
 
     # Form handling methods
     def set_exemptions_form
-      @exemptions_form = ApplicableExemptionsForm.new(exemptions_params)
+      ApplicableExemptionsForm.new(exemptions_params)
     end
 
     def exemptions_params
