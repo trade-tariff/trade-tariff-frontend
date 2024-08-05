@@ -16,9 +16,8 @@ module GreenLanes
 
     def create
       @eligibility_form = EligibilityForm.new(elgibility_params)
-      form = @eligibility_form
 
-      if form.valid?
+      if @eligibility_form.valid?
         redirect_to new_green_lanes_eligibility_result_path(elgibility_params)
       else
         render 'new'
