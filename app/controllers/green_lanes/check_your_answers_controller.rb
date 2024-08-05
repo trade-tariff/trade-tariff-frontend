@@ -24,7 +24,7 @@ module GreenLanes
     end
 
     def goods_nomenclature
-      @goods_nomenclature ||= GoodsNomenclature.find(check_your_answers_params[:commodity_code])
+      @goods_nomenclature ||= FetchGoodsNomenclature.new(check_your_answers_params).call
     end
 
     def check_your_answers_params

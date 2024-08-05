@@ -31,7 +31,7 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
     end
 
     # [cat_2]
-    context 'when there are not Cat1 AND there are Cat2 without exemptions' do
+    context 'when there are no Cat1 assessments AND there are Cat2 without exemptions' do
       let(:goods_nomenclature) do
         build(:green_lanes_goods_nomenclature, applicable_category_assessments: assessments)
       end

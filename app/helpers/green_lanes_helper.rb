@@ -30,7 +30,9 @@ module GreenLanesHelper
     end
   end
 
-  def exemptions_met?(category, category_assessment, answers)
+  def exemption_met?(category, category_assessment, answers)
+    return false if answers.blank?
+
     category = category.to_s
 
     category_assessment_answer = answers.dig(category, category_assessment.category_assessment_id.to_s)
@@ -38,7 +40,25 @@ module GreenLanesHelper
     category_assessment_answer.present? && category_assessment_answer != %w[none]
   end
 
+  def all_exemptions_met?(category, category_assessments, answers)
+    category_assessments.all? { |ca| exemption_met?(category, ca, answers) }
+  end
+
+  def render_exemptions(assessments, category)
+    if category.to_s == '3'
+      render_all_exemptions(assessments) if assessments.cat_1_exemptions_met || assessments.cat_2_exemptions_met
+    elsif assessments.cat_1_exemptions_met || assessments.cat_2_exemptions_met || !assessments.no_cat1_exemptions
+      result = render_exemptions_or_no_card(1, assessments)
+      result += render_exemptions_or_no_card(2, assessments) unless assessments.cat_1_exemptions_not_met
+      result
+    end
+  end
+
   private
+
+  def render_all_exemptions(assessments)
+    safe_join([render_exemptions_or_no_card(1, assessments), render_exemptions_or_no_card(2, assessments)])
+  end
 
   def category_assessments_checked(category_assessment_id)
     exemptions = params[:exemptions]
