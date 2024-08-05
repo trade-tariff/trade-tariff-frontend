@@ -63,20 +63,20 @@
     <p>You'll need to know:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <a href='https://www.trade-tariff.service.gov.uk/find_commodity' target='_blank'>
+        <a href='https://www.trade-tariff.service.gov.uk/find_commodity'>
           the commodity code for your goods
         </a>
       </li>
       <li>
-        <a href='https://www.trade-tariff.service.gov.uk/howto/origin' target='_blank'>
+        <a href='https://www.trade-tariff.service.gov.uk/howto/origin'>
           the non-preferential origin of your goods
         </a>
       </li>
-      <li>when the movement of goods is taking place</li>
+      <li>when the internal movement of goods is likely to take place</li>
     </ul>
 
     <%= button_to new_green_lanes_moving_requirements_path, params: {commodity_code: @commodity_code},
-                  class: "govuk-button govuk-button--start", method: :get do %>
+                  class: "govuk-button govuk-button--start govuk-!-margin-top-6", method: :get do %>
 
       <span>Start now</span>
       <%= render 'shared/start_arrow' %>
