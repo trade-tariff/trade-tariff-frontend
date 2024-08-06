@@ -42,7 +42,10 @@
               },
         legend: nil %>
 
-        <%= render '/green_lanes/shared/check_your_answers_fields' %>
+        <%= hidden_field_tag 'check_your_answers_data[commodity_code_data][commodity_code]', @check_your_answers_data.commodity_code_data[:commodity_code] %>
+        <%= hidden_field_tag 'check_your_answers_data[eligibility_data]', @check_your_answers_data.eligibility_data %>
+        <%= hidden_field_tag 'check_your_answers_data[moving_requirements_data]', @check_your_answers_data.moving_requirements_data.to_json %>
+        <%= hidden_field_tag 'check_your_answers_data[exemptions_answers_data]', @check_your_answers_data.exemptions_answers_data %>
 
         <%= f.submit "Continue", class: "govuk-button govuk-!-margin-bottom-8" %>
     <% end %>

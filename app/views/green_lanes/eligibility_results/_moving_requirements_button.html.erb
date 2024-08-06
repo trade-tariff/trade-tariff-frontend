@@ -1,5 +1,6 @@
 <%= form_with url: new_green_lanes_moving_requirements_path, method: :get, local: true do %>
-  <%= render '/green_lanes/shared/check_your_answers_fields' %>
+  <%= hidden_field_tag 'check_your_answers_data[commodity_code_data][commodity_code]', @check_your_answers_data.commodity_code_data[:commodity_code] %>
+  <%= hidden_field_tag 'check_your_answers_data[eligibility_data]', @check_your_answers_data.eligibility_data.to_json %>
 
   <%= submit_tag "Continue", class: "govuk-button" %>
 <% end %>

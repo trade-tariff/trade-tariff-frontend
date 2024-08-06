@@ -8,7 +8,7 @@ module GreenLanes
 
     def new
       @check_your_answers_data = CheckYourAnswersData.new(parse_json_params(params[:check_your_answers_data]))
-      @eligibility_form = EligibilityForm.new(eligibility_params)
+      @eligibility_form = EligibilityForm.new(@check_your_answers_data.eligibility_data)
     end
 
     def create

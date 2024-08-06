@@ -1,4 +1,0 @@
-<%= hidden_field_tag 'check_your_answers_data[commodity_code_data][commodity_code]', @check_your_answers_data.commodity_code_data[:commodity_code] %>
-<%= hidden_field_tag 'check_your_answers_data[eligibility_data]', @check_your_answers_data.eligibility_data %>
-<%= hidden_field_tag 'check_your_answers_data[moving_requirements_data]', @check_your_answers_data.moving_requirements_data %>
-<%= hidden_field_tag 'check_your_answers_data[exemptions_answers_data]', @check_your_answers_data.exemptions_answers_data %>
