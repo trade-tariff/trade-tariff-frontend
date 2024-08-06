@@ -54,6 +54,14 @@ module GreenLanesHelper
     end
   end
 
+  def yes_no_options
+    [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No')]
+  end
+
+  def yes_no_not_sure_options
+    [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No'), OpenStruct.new(id: 'not_sure', name: 'Not sure')]
+  end
+
   private
 
   def render_all_exemptions(assessments)

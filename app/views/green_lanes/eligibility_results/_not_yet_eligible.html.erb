@@ -1,0 +1,39 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">
+      Check the category of your goods
+    </h1>
+
+    <p>
+      Based on the information you have provided, your goods are in free circulation, moving from Great Britain to Northern Ireland and may be considered
+      <a href="https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu" target="_blank" class="govuk-link">‘not at risk’ of moving to the EU (opens in new tab)</a>.
+    </p>
+
+    <p>
+      As part of the Windsor Framework,
+      <a href="https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland" target="_blank" class="govuk-link">UK Internal Market Scheme (UKIMS) authorised traders (opens in new tab)</a>
+      who wish to use the simplified process for internal market movements (SPIMM) must first check the category of their goods.
+    </p>
+
+    <p>
+      As categorisation is complex, this tool will help you determine if your specific goods are:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Category 1: not eligible for SPIMM and subject to full customs duties and checks</li>
+      <li>Category 2: eligible for SPIMM but must meet certain requirements and conditions, including document controls</li>
+      <li>Standard Category: eligible for SPIMM</li>
+    </ul>
+
+    <p>
+      Depending on the specific composition and origin of your goods, you may need to check if legal conditions apply before your category can be determined.
+    </p>
+
+    <%= form_with url: new_green_lanes_moving_requirements_path, method: :get, local: true do %>
+      <%= submit_tag "Continue", class: "govuk-button" %>
+    <% end %>
+
+    <%= render '/green_lanes/shared/support_email_section' %>
+  </div>
+</div>

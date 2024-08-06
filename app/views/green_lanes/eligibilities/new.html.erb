@@ -1,0 +1,48 @@
+<% content_for :back_link do %>
+  <% back_link new_green_lanes_start_path(commodity_code: @commodity_code) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= form_for @eligibility_form, builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      url: green_lanes_eligibility_path do |f| %>
+
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">
+        Tell us about the movement of goods
+      </h1>
+
+      <%= f.govuk_collection_radio_buttons :moving_goods_gb_to_ni,
+        yes_no_options,
+        :id, :name,
+        legend: { text: "Are you moving goods from Great Britain to Northern Ireland?", size: "m" } %>
+
+
+      <%= f.govuk_collection_radio_buttons :free_circulation_in_uk,
+        yes_no_options,
+        :id, :name,
+        legend: { text: "Are your goods in free circulation in the UK (England, Wales, Scotland and Northern Ireland)?", size: "m" },
+        hint: { text: "Goods in free circulation have already been imported into the UK with duties paid. SPIMM can only be used for goods that are in free circulation in Great Britain and moving into free circulation in Northern Ireland." } %>
+
+
+      <%= f.govuk_collection_radio_buttons :end_consumers_in_uk,
+        yes_no_not_sure_options,
+        :id, :name,
+        legend: { text: "Are your goods intended to be sold to, or used by, end consumers in the UK (England, Wales, Scotland and Northern Ireland)?", size: "m" },
+        hint: { text: "SPIMM can only be used for the movement of goods that are 'not at risk' of onward movement into the European Union, including Republic of Ireland." } %>
+
+
+      <%= f.govuk_collection_radio_buttons :ukims,
+        yes_no_options,
+        :id, :name,
+        legend: { text: "Are you authorised to trade under the UK Internal Market Scheme (UKIMS)?", size: "m" },
+        hint: { text: "SPIMM is only available to UKIMS authorised traders." } %>
+
+      <%= f.govuk_submit "Continue", class: "govuk-button" %>
+    <% end %>
+
+    <%= render '/green_lanes/shared/support_email_section' %>
+  </div>
+</div>
