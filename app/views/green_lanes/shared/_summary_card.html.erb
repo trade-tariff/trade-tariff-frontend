@@ -12,12 +12,22 @@
           <dd class="govuk-summary-list__value"><%= @commodity_code %></dd>
         </div>
         <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Classification</dt>
+          <dd class="govuk-summary-list__value">
+            <%= render '/shared/classification', goods_nomenclature: @goods_nomenclature %>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Non-preferential origin</dt>
           <dd class="govuk-summary-list__value"><%= @country_of_origin %></dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Date of movement</dt>
           <dd class="govuk-summary-list__value"><%= @moving_date %></dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Category</dt>
+          <dd class="govuk-summary-list__value">Category <%= @category %></dd>
         </div>
       </dl>
   </div>

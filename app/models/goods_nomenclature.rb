@@ -4,6 +4,8 @@ require 'null_object'
 class GoodsNomenclature
   include ApiEntity
 
+  include Classifiable
+
   attr_accessor :goods_nomenclature_item_id,
                 :formatted_description,
                 :description,
@@ -34,10 +36,6 @@ class GoodsNomenclature
 
   def validity_end_date
     @attributes['validity_end_date'].presence || NullObject.new
-  end
-
-  def is_other?
-    to_s.match(/^other$/i)
   end
 
   def chapter?

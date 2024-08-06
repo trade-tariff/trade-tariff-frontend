@@ -27,17 +27,28 @@
 
 <h2 class="govuk-heading-m">What you should do next</h2>
 
-<p>You cannot continue through the simplified process for internal market movements with Category 1 goods.</p>
+<p>
+  Category 1 goods cannot continue through SPIMM.
+</p>
 
 <p>
-You may still be able to move your goods from Great Britain to Northern Ireland, unless certain conditions apply, such as goods being prohibited or from an origin with sanctions implemented. To move your goods you will need to follow a customs full declaration process.</p>
+  Unless certain conditions apply, such as goods being prohibited or sanctions implemented,
+  you may still be able to move your goods from Great Britain to Northern Ireland using the full declaration process.
+</p>
 
-<a href="submission_link" target="_blank" rel="noopener noreferrer">Find out more about trading and moving goods in and out of Northern Ireland (opens in a new tab)</a></p>
-
-<a href="submission_link" target="_blank" rel="noopener noreferrer">Find out more about the simplified process for internal market movements</a></p>
+<p>
+  <%= link_to 'Find out more about trading and moving goods in and out of Northern Ireland (opens in a new tab)',
+              'https://www.gov.uk/guidance/trading-and-moving-goods-in-and-out-of-northern-ireland',
+              target: '_blank', rel: 'noopener noreferrer'
+  %>
+</p>
 
 <h2 class="govuk-heading-m">About the categorisation of your goods</h2>
 
-<%= render 'green_lanes/shared/summary_card', title: 'Your movement of goods', edit_path: 'EDIT GOOD DETAILS PAGE' %>
+<p>
+  You may need to supply the following information when preparing your declaration.
+</p>
+
+<%= render 'green_lanes/shared/summary_card', title: 'Your goods', edit_path: 'EDIT GOOD DETAILS PAGE' %>
 
 <%= render_exemptions(@assessments, @category) %>
