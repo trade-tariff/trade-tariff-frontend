@@ -7,28 +7,6 @@ RSpec.describe GreenLanes::EligibilitiesController, type: :request do
     allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return true
   end
 
-  let(:valid_params) do
-    {
-      green_lanes_eligibility_form: {
-        moving_goods_gb_to_ni: 'yes',
-        free_circulation_in_uk: 'yes',
-        end_consumers_in_uk: 'yes',
-        ukims: 'yes',
-      },
-    }
-  end
-
-  let(:invalid_params) do
-    {
-      green_lanes_eligibility_form: {
-        moving_goods_gb_to_ni: '',
-        free_circulation_in_uk: '',
-        end_consumers_in_uk: '',
-        ukims: '',
-      },
-    }
-  end
-
   describe 'GET #new' do
     let(:make_request) { get new_green_lanes_eligibility_path, params: { commodity_code: '12345' } }
 
@@ -43,6 +21,17 @@ RSpec.describe GreenLanes::EligibilitiesController, type: :request do
 
   describe 'POST #create' do
     context 'with valid params' do
+      let(:valid_params) do
+        {
+          green_lanes_eligibility_form: {
+            moving_goods_gb_to_ni: 'yes',
+            free_circulation_in_uk: 'yes',
+            end_consumers_in_uk: 'yes',
+            ukims: 'yes',
+          },
+        }
+      end
+
       let(:make_request) { post green_lanes_eligibility_path, params: valid_params }
 
       it 'redirects to the result path' do
@@ -53,6 +42,17 @@ RSpec.describe GreenLanes::EligibilitiesController, type: :request do
     end
 
     context 'with invalid params' do
+      let(:invalid_params) do
+        {
+          green_lanes_eligibility_form: {
+            moving_goods_gb_to_ni: '',
+            free_circulation_in_uk: '',
+            end_consumers_in_uk: '',
+            ukims: '',
+          },
+        }
+      end
+
       let(:make_request) { post green_lanes_eligibility_path, params: invalid_params }
 
       it 'renders the new template' do

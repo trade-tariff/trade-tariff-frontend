@@ -20,7 +20,7 @@ RSpec.describe GreenLanes::EligibilityForm, type: :model do
       it { expect(form.errors).to be_empty }
     end
 
-    context 'when an commodity_code is missing' do
+    context 'when the commodity_code is missing' do
       let(:params) do
         {
           commodity_code: '',
