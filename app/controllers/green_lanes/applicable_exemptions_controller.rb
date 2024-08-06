@@ -7,17 +7,21 @@ module GreenLanes
                   :disable_search_form
 
     def new
+      @check_your_answers_data = CheckYourAnswersData.new(parse_json_params(params[:check_your_answers_data]))
       @exemptions_form = exemptions_form
 
       render_exemptions_questions
     end
 
     def create
+      @check_your_answers_data = CheckYourAnswersData.new(parse_json_params(params[:check_your_answers_data]))
       @exemptions_form = exemptions_form
 
       if @exemptions_form.valid?
+        @check_your_answers_data.exemptions_answers_data = @exemptions_form.attributes
+
         next_page = determine_next_page
-        redirect_to handle_next_page(next_page)
+        redirect_to handle_next_page(next_page, @check_your_answers_data.attributes)
       else
         render_exemptions_questions
       end
@@ -36,7 +40,7 @@ module GreenLanes
 
     # Goods nomenclature methods
     def goods_nomenclature
-      @goods_nomenclature ||= FetchGoodsNomenclature.new(goods_nomenclature_params).call
+      @goods_nomenclature ||= FetchGoodsNomenclature.new(@check_your_answers_data.moving_requirements_data).call
     end
 
     # Form handling methods
@@ -130,7 +134,7 @@ module GreenLanes
       merged_params
     end
 
-    def handle_next_page(next_page)
+    def handle_next_page(next_page, check_your_answers_data)
       uri = URI(next_page)
       path = uri.path
       next_page_query = if uri.query
@@ -144,6 +148,7 @@ module GreenLanes
         country_of_origin: params[:country_of_origin],
         moving_date: params[:moving_date],
         category: params[:category],
+        check_your_answers_data:,
       }
         .merge(exemptions_results_params)
         .merge(next_page_query)

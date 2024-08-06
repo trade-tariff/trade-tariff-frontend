@@ -30,9 +30,7 @@
       Depending on the specific composition and origin of your goods, you may need to check if legal conditions apply before your category can be determined.
     </p>
 
-    <%= form_with url: new_green_lanes_moving_requirements_path, method: :get, local: true do %>
-      <%= submit_tag "Continue", class: "govuk-button" %>
-    <% end %>
+    <%= render 'moving_requirements_button' %>
 
     <%= render '/green_lanes/shared/support_email_section' %>
   </div>

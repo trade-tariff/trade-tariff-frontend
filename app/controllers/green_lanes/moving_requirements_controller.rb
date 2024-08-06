@@ -7,22 +7,24 @@ module GreenLanes
                   :disable_search_form
 
     def new
-      @commodity_code = params[:commodity_code]
-      @moving_requirements_form = MovingRequirementsForm.new(commodity_code: @commodity_code,
-                                                             country_of_origin: params[:country_of_origin],
-                                                             moving_date: params[:moving_date])
+      @check_your_answers_data = CheckYourAnswersData.new(parse_json_params(params[:check_your_answers_data]))
+      @moving_requirements_form = MovingRequirementsForm.new(
+        commodity_code: @commodity_code,
+        country_of_origin: params[:country_of_origin],
+        moving_date: params[:moving_date],
+      )
     end
 
     def create
       @moving_requirements_form = MovingRequirementsForm.new(moving_requirements_params)
-      form = @moving_requirements_form
 
-      if form.valid?
-        next_page = DetermineNextPage
-          .new(goods_nomenclature)
-          .next
+      if @moving_requirements_form.valid?
+        @check_your_answers_data = CheckYourAnswersData.new(parse_json_params(params[:check_your_answers_data]))
+        @check_your_answers_data.moving_requirements_data = @moving_requirements_form.attributes
 
-        redirect_to handle_next_page(next_page)
+        next_page = DetermineNextPage.new(goods_nomenclature).next
+
+        redirect_to handle_next_page(next_page, @check_your_answers_data.attributes)
       else
         render 'new'
       end
@@ -42,22 +44,14 @@ module GreenLanes
       @goods_nomenclature ||= FetchGoodsNomenclature.new(moving_requirements_params).call
     end
 
-    def handle_next_page(next_page)
+    def handle_next_page(next_page, check_your_answers_data)
       uri = URI(next_page)
       path = uri.path
-      next_page_query = if uri.query
-                          CGI.parse(uri.query).transform_values(&:first)
-                        else
-                          {}
-                        end
+      next_page_query = uri.query ? CGI.parse(uri.query).transform_values(&:first) : {}
 
       query = {
-        commodity_code: moving_requirements_params[:commodity_code],
-        country_of_origin: moving_requirements_params[:country_of_origin],
-        moving_date: @moving_requirements_form.moving_date.iso8601,
-      }
-        .merge(next_page_query)
-        .deep_symbolize_keys
+        check_your_answers_data:,
+      }.merge(next_page_query).deep_symbolize_keys
 
       "#{path}?#{query.to_query}"
     end

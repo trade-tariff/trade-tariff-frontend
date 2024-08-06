@@ -62,6 +62,12 @@ module GreenLanesHelper
     [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No'), OpenStruct.new(id: 'not_sure', name: 'Not sure')]
   end
 
+  def parse_json_params(json_params)
+    return {} if json_params.blank?
+
+    JSON.parse(json_params.to_json, symbolize_names: true)
+  end
+
   private
 
   def render_all_exemptions(assessments)

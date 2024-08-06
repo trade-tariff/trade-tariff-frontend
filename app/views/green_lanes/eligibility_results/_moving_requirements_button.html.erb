@@ -1,0 +1,5 @@
+<%= form_with url: new_green_lanes_moving_requirements_path, method: :get, local: true do %>
+  <%= render '/green_lanes/shared/check_your_answers_fields' %>
+
+  <%= submit_tag "Continue", class: "govuk-button" %>
+<% end %>
