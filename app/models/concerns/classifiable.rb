@@ -25,7 +25,7 @@ module Classifiable
   end
 
   def is_other?
-    description.match(/^other$/i)
+    to_s.match(/^other$/i)
   end
 
   def to_s

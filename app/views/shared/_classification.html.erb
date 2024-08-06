@@ -1,11 +1,11 @@
 <% if goods_nomenclature.is_other? %>
-    <% goods_nomenclature.descriptions_with_other_handling.each do |description| %>
-        <%= convert_text_to_links(description).html_safe %> >
-    <% end %>
+  <% goods_nomenclature.descriptions_with_other_handling.each do |description| %>
+    <%= convert_text_to_links(description).html_safe %> >
+  <% end %>
 
-    <strong>
-        <%= convert_text_to_links(goods_nomenclature.description).html_safe %>
-    </strong>
-    <% else %>
-    <%= convert_text_to_links(goods_nomenclature.description).html_safe %>
+  <strong>
+    <%= convert_text_to_links(goods_nomenclature.to_s).html_safe %>
+  </strong>
+  <% else %>
+  <%= convert_text_to_links(goods_nomenclature.to_s).html_safe %>
 <% end %>
