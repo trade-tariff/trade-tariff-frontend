@@ -27,12 +27,37 @@ module GreenLanes
     def update
       set_moving_requirements_form
 
-      @moving_requirements_form.assign_attributes(moving_requirements_params)
+      original_attributes = {
+        commodity_code: params[:original_commodity_code],
+        country_of_origin: params[:original_country_of_origin],
+        moving_date: params[:original_moving_date].to_date,
+      }.symbolize_keys
 
-      if @moving_requirements_form.valid?
-        redirect_to_next_page
+      updated_attributes = moving_requirements_params.to_h.symbolize_keys
+
+      updated_attributes[:moving_date] = Date.new(
+        updated_attributes.delete(:"moving_date(1i)").to_i,
+        updated_attributes.delete(:"moving_date(2i)").to_i,
+        updated_attributes.delete(:"moving_date(3i)").to_i,
+      )
+
+      if original_attributes == updated_attributes
+        redirect_to green_lanes_check_your_answers_path(
+          commodity_code: original_attributes[:commodity_code],
+          country_of_origin: original_attributes[:country_of_origin],
+          moving_date: original_attributes[:moving_date].iso8601,
+          ans: params[:ans],
+          c1ex: params[:c1ex],
+          c2ex: params[:c2ex],
+        )
       else
-        render 'edit'
+        @moving_requirements_form.assign_attributes(updated_attributes)
+
+        if @moving_requirements_form.valid?
+          redirect_to_next_page
+        else
+          render 'edit'
+        end
       end
     end
 

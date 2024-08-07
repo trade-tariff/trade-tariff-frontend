@@ -6,9 +6,16 @@
   <div class="govuk-grid-column-two-thirds">
 
     <%= form_for @moving_requirements_form, builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-      url: green_lanes_moving_requirements_path do |f| %>
+      url: green_lanes_moving_requirements_path, method: :put do |f| %>
 
       <%= f.govuk_error_summary %>
+
+      <%= hidden_field_tag :original_commodity_code, @moving_requirements_form.commodity_code %>
+      <%= hidden_field_tag :original_country_of_origin, @moving_requirements_form.country_of_origin %>
+      <%= hidden_field_tag :original_moving_date, @moving_requirements_form.moving_date %>
+      <%= hidden_field_tag :ans, @ans %>
+      <%= hidden_field_tag :c1ex, params[:c1ex] %>
+      <%= hidden_field_tag :c2ex, params[:c2ex] %>
 
       <h1 class="govuk-heading-l">
         Tell us about your goods

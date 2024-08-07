@@ -114,9 +114,9 @@ Rails.application.routes.draw do
       resource :start, only: %i[new]
       resource :eligibility, only: %i[new create]
       resource :eligibility_result, only: %i[new]
-      resource :moving_requirements, only: %i[new create edit]
-      resource :applicable_exemptions, only: %i[new create]
-      resource :check_your_answers, only: %i[new create]
+      resource :moving_requirements, only: %i[new create edit update]
+      resource :applicable_exemptions, only: %i[new create edit update]
+      resource :check_your_answers, only: %i[show]
       resources :results, param: :category, only: %i[create]
     end
   end

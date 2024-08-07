@@ -2,11 +2,7 @@
   <div class="govuk-summary-card__title-wrapper">
     <h2 class="govuk-summary-card__title"><%= title %></h2>
     <div class="govuk-summary-card__actions">
-      <a class="govuk-link" href="<%= edit_green_lanes_moving_requirements_path(
-                                    commodity_code: @commodity_code,
-                                    country_of_origin: @country_of_origin,
-                                    moving_date: @moving_date
-                                  ) %>">Edit details</a>
+      <a class="govuk-link" href="<%= edit_path %>">Edit details</a>
     </div>
   </div>
   <div class="govuk-summary-card__content">
