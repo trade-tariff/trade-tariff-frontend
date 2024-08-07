@@ -3,14 +3,27 @@
     <a href="#" class="govuk-back-link">Back</a>
     <h1 class="govuk-heading-l">Check your answers</h1>
 
-    <%= render 'green_lanes/shared/summary_card', title: 'About your goods', edit_path: 'EDIT GOOD DETAILS PAGE' %>
+    <%= render 'green_lanes/shared/about_your_goods_card',
+               title: 'About your goods',
+               edit_path: 'EDIT GOOD DETAILS PAGE'
+    %>
 
     <h2 class="govuk-heading-m">Category exemptions</h2>
 
-    <%= render 'category_exemptions', title: 'Category 1 exemptions', category: '1', assessments: @category_one_assessments, edit_path: 'EDIT PATH HERE CAT 1 questions' %>
+    <%= render 'category_exemptions',
+               title: 'Category 1 exemptions',
+               category: '1',
+               assessments: @category_one_assessments,
+               edit_path: 'EDIT PATH HERE CAT 1 questions'
+    %>
 
     <% if all_exemptions_met?(1, @category_one_assessments, @answers) %>
-      <%= render 'category_exemptions', title: 'Category 2 exemptions', category: '2', assessments: @category_two_assessments, edit_path: 'EDIT PATH HERE CAT 2 questions' %>
+      <%= render 'category_exemptions',
+                 title: 'Category 2 exemptions',
+                 category: '2',
+                 assessments: @category_two_assessments,
+                 edit_path: 'EDIT PATH HERE CAT 2 questions'
+      %>
     <% end %>
 
     <div class="govuk-button-group">
