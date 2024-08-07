@@ -126,7 +126,7 @@ jobs:
 
   javascript-checks:
     docker:
-      - image: cimg/node:16.13.2
+      - image: cimg/node:22
     resource_class: small
     steps:
       - checkout
@@ -134,7 +134,7 @@ jobs:
       - run:
           name: "Lint changed files"
           command: |
-            yarn run eslint $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | egrep '\.js' | grep -v json)
+            yarn run eslint $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | grep -E '\.js' | grep -v json)
 
   ruby-checks:
     executor: tariff/ruby
@@ -163,7 +163,7 @@ jobs:
 
   jest-tests:
     docker:
-      - image: cimg/node:16.10.0
+      - image: cimg/node:22
         environment:
           BUNDLE_JOBS: "3"
           BUNDLE_RETRY: "3"
