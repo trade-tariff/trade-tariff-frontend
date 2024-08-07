@@ -40,7 +40,7 @@
       Exchange rates are published by HMRC on the penultimate Thursday of every month (as per section 18 of Notices made under the Taxation (Cross-border Trade) Act 2018). These exchange rates apply to the following calendar month, and represent rates as of midday the day before publication.
     </p>
     <p>
-      Note, for goods being imported into Northern Ireland the Customs Declaration Service (CDS) will use exchange rate set by the European Central Bank (as per Article 48 of the Implementing Regulation (EU) 2015/2447).
+      For goods being imported into Northern Ireland the Customs Declaration Service (CDS) will use exchange rate set by the European Central Bank (as per Article 48 of the Implementing Regulation (EU) 2015/2447).
     </p>
 
     <p>
@@ -66,7 +66,14 @@
       </dd>
     <% end %>
 
-    <h2>Documents</h2>
+    <h2>
+      <% if @period_list.year != nil %>
+        <%= @period_list.type.capitalize %> exchange rates for year (<%= @period_list.year %>)
+      <% else %>
+        <%= @period_list.type.capitalize %> exchange rates
+      <% end %>
+    </h2>
+
 
     <% @period_list.exchange_rate_periods.each do |period| %>
       <%= render partial: 'exchange_rates/document_detail',
@@ -89,7 +96,7 @@
     <% if @period_list.monthly? %>
       <div class="gem-c-related-navigation">
         <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">
-          <%= @period_list.type.capitalize %> exchange rates by year
+          Rates from previous years
         </h2>
 
         <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
