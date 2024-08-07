@@ -20,8 +20,6 @@
               <%= link_to 'View EU Regulation document', category_assessment.regulation.regulation_url, class: 'govuk-link' %>
             <% end %>
 
-            <hr>
-
             <% if category_assessment.exemptions.none? %>
               <p class='govuk-!-margin-top-4'>No exemptions available</p>
             <% else %>
