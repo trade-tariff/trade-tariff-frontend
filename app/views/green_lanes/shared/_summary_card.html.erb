@@ -2,33 +2,37 @@
   <div class="govuk-summary-card__title-wrapper">
     <h2 class="govuk-summary-card__title"><%= title %></h2>
     <div class="govuk-summary-card__actions">
-      <a class="govuk-link" href="<%= edit_path %>">Edit details</a>
+      <a class="govuk-link" href="<%= edit_green_lanes_moving_requirements_path(
+                                    commodity_code: @commodity_code,
+                                    country_of_origin: @country_of_origin,
+                                    moving_date: @moving_date
+                                  ) %>">Edit details</a>
     </div>
   </div>
   <div class="govuk-summary-card__content">
     <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Commodity</dt>
-          <dd class="govuk-summary-list__value"><%= @commodity_code %></dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Classification</dt>
-          <dd class="govuk-summary-list__value">
-            <%= render '/shared/classification', goods_nomenclature: @goods_nomenclature %>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Non-preferential origin</dt>
-          <dd class="govuk-summary-list__value"><%= @country_of_origin %></dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Date of movement</dt>
-          <dd class="govuk-summary-list__value"><%= @moving_date %></dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Category</dt>
-          <dd class="govuk-summary-list__value">Category <%= @category %></dd>
-        </div>
-      </dl>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Commodity</dt>
+        <dd class="govuk-summary-list__value"><%= @commodity_code %></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Classification</dt>
+        <dd class="govuk-summary-list__value">
+          <%= render '/shared/classification', goods_nomenclature: @goods_nomenclature %>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Non-preferential origin</dt>
+        <dd class="govuk-summary-list__value"><%= @country_of_origin %></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Date of movement</dt>
+        <dd class="govuk-summary-list__value"><%= @moving_date %></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Category</dt>
+        <dd class="govuk-summary-list__value">Category <%= @category %></dd>
+      </div>
+    </dl>
   </div>
 </div>

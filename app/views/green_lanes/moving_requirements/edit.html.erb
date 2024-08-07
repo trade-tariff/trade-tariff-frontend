@@ -1,0 +1,50 @@
+<% content_for :back_link do %>
+  <% back_link new_green_lanes_start_path(commodity_code: @commodity_code) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= form_for @moving_requirements_form, builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+      url: green_lanes_moving_requirements_path do |f| %>
+
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-l">
+        Tell us about your goods
+      </h1>
+      <%= f.govuk_text_field :commodity_code, maxlength: 10,
+                             label: { text: "What is your commodity code?", size: 'm'},
+                             hint: { text: "Commodity codes are internationally recognised reference numbers that describe specific goods. You can use the Online Tariff to " \
+                                           "<a href='https://www.gov.uk/trade-tariff' target='_blank' rel='noopener noreferrer'>search for a commodity (opens in a new tab).</a>".html_safe
+                                   },
+                             style: "width:330px" %>
+
+      <%= f.govuk_collection_select :country_of_origin,
+                              GreenLanes::CategoryAssessmentSearch.country_options,
+                              :id,
+                              :long_description,
+                              options: { include_blank: '' },
+                              label: { text: "What is the non-preferential origin of your goods?", size: 'm' },
+                              hint: { text: "The non-preferential origin will affect the category your goods are assigned. " \
+                                            "If you are unsure, <a href='https://www.trade-tariff.service.gov.uk/howto/origin' target='_blank' rel='noopener noreferrer'>" \
+                                            "find out how to determine the non-preferential origin of goods (opens in a new tab).</a>".html_safe
+                                    },
+                              style: "width:330px" %>
+
+      <%= f.label :commodity_code, "When is the internal movement of goods taking place?", class: 'govuk-heading-m',
+                  for: 'green_lanes_moving_requirements_form_moving_date_3i' %>
+
+      <%= f.govuk_date_field :moving_date,
+        maxlength_enabled: true,
+        hint: { text: "Arrangements can change over time. If you do not know the date of movement and want to check arrangements currently in place, enter today's date.",
+                      class: 'govuk-body-l'
+              },
+        legend: nil %>
+
+        <%= f.submit "Continue", class: "govuk-button govuk-!-margin-bottom-8" %>
+    <% end %>
+
+    <%= render '/green_lanes/shared/support_email_section' %>
+  </div>
+</div>
