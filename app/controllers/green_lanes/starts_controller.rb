@@ -7,7 +7,11 @@ module GreenLanes
                   :disable_search_form
 
     def new
-      @commodity_code = params[:commodity_code]
+      @check_your_answers_data = CheckYourAnswersData.new(commodity_code_data: { commodity_code: params[:commodity_code] })
+    end
+
+    def create
+      redirect_to new_green_lanes_eligibility_path(check_your_answers_data: @check_your_answers_data.attributes)
     end
   end
 end

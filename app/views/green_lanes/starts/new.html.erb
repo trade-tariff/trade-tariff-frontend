@@ -75,12 +75,13 @@
       <li>when the internal movement of goods is likely to take place</li>
     </ul>
 
-    <%= button_to new_green_lanes_eligibility_path, params: {commodity_code: @commodity_code},
+    <%= button_to new_green_lanes_eligibility_path,
+                  params: { check_your_answers_data: { commodity_code_data: { commodity_code: @commodity_code } } },
                   class: "govuk-button govuk-button--start govuk-!-margin-top-6", method: :get do %>
-
       <span>Start now</span>
       <%= render 'shared/start_arrow' %>
     <% end %>
+
 
     <%= render '/green_lanes/shared/support_email_section' %>
 
