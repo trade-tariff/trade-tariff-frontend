@@ -1,7 +1,7 @@
 <div class="govuk-summary-card">
   <div class="govuk-summary-card__title-wrapper">
     <h2 class="govuk-summary-card__title">
-      Category <%= category %>
+      Why your goods are Category <%= category %>
     </h2>
   </div>
 
@@ -19,8 +19,6 @@
             <% if category_assessment.regulation.regulation_url.present? %>
               <%= link_to 'View EU Regulation document', category_assessment.regulation.regulation_url, class: 'govuk-link' %>
             <% end %>
-
-            <hr>
 
             <% if category_assessment.exemptions.none? %>
               <p class='govuk-!-margin-top-4'>No exemptions available</p>

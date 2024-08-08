@@ -1,44 +1,69 @@
 <div class="govuk-panel govuk-panel--confirmation">
   <h1 class="govuk-panel__title">
-    Your goods are Standard Category
+    Standard Category
   </h1>
+  <div class="govuk-panel__body">
+    Goods are eligible to move through the simplified process for internal market movements (SPIMM)
+  </div>
 </div>
 
 <p>
-  This means that, based on the information you have provided, your goods can continue through the simplified process for internal market movements.
+  Based on the information you have provided, your goods are determined to be Standard Category.
 </p>
 
-<p>Your goods are Standard Category because they are:</p>
+<p>Standard Category goods will be eligible for SPIMM if they are:</p>
 
 <ul class="govuk-list govuk-list--bullet">
   <li>moving from Great Britain to Northern Ireland</li>
-  <li>intended to be sold to, or used by, end consumers in the UK, and therefore deemed not 'at risk' of onward movement to the EU</li>
-  <li>of UK Domestic Status</li>
-  <li>free of import controls or licensing requirements</li>
+  <li>intended to be sold to, or used by, end consumers in the UK, and therefore deemed not 'at risk' of onward movement to the EU, including the Republic of Ireland</li>
+  <li>free of import or licensing requirements</li>
+  <li>in free circulation in the UK</li>
   <li>not entering a customs duty suspense procedure</li>
 </ul>
 
+<p>
+  <%= link_to 'Find out more about SPIMM', '', class: 'govuk-link', target: '_blank', rel: 'noopener noreferrer' %>
+</p>
+
 <h2 class="govuk-heading-m">What you should do next</h2>
 
-<p>To move your goods under the simplified process for internal market movements, you’ll need to become an authorised trader under the UK Internal Market Scheme (UKIMS) (opens in a new tab). If you are not already, register <a href="registration_link" target="_blank" rel="noopener noreferrer">here</a>.</p>
+<p>To move your goods through SPIMM, you'll need to:</p>
 
-<p>Next, prepare an Internal Market Enforcement Information (IMEI) submission using <a href="submission_link" target="_blank" rel="noopener noreferrer">submission guidelines</a>, or use the live support provided by HMRC’s Trader Support Service (TSS).</p>
+<ol class="govuk-list govuk-list--number">
+  <li>
+    <%= link_to 'Become an authorised trader under the UK Internal Market Scheme (UKIMS) (opens in a new tab)',
+                'https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland',
+                target: '_blank', rel: 'noopener noreferrer'
+    %> if you are not already.
+  </li>
+  <li>Prepare an Internal Market Movement Information (IMMI) submission either pre-movement or post-movement, depending on your preference.</li>
+  <li>Submit the IMMI using a customs agent, or free-to-use services provided by the
+      <%= link_to 'Trader Support Service (TSS) (opens in a new tab).',
+                'https://www.gov.uk/guidance/trader-support-service',
+                target: '_blank', rel: 'noopener noreferrer'
+      %>
+  </li>
+</ol>
 
-<p>As part of the required IMMI submission, you’ll need to provide:</p>
+<p>
+  The IMMI will allow you to submit a reduced data set requiring significantly less information.
+  As part of the IMMI, you'll need to provide:
+</p>
 
 <ul class="govuk-list govuk-list--bullet">
-  <li>an EORI number</li>
-  <li>your UKIMS authorisation</li>
-  <li>your HMRC authorisation number, if relevant</li>
-  <li>certificates, licenses and evidence applicable to your goods</li>
+  <li>the category of your goods</li>
+  <li>the EORI number associated with your UKIMS account</li>
+  <li>your UKIMS authorisation number</li>
+  <li>your Northern Ireland Retail Movement Scheme (NIRMS) authorisation number, if relevant</li>
+  <li>certificates, licences and evidence applicable to your goods, if relevant</li>
 </ul>
-
-<p>Find out more about the <a href="simplified_process_link" target="_blank" rel="noopener noreferrer">simplified process for internal market movements</a></p>
 
 <h2 class="govuk-heading-m">About the categorisation of your goods</h2>
 
-<p>You may need to apply the following codes or evidence when preparing your IMEI submission.</p>
+<p>
+  You may need to supply the following information when preparing your IMMI submission.
+</p>
 
-<%= render 'green_lanes/shared/summary_card', title: 'Your movement of goods', edit_path: 'EDIT GOOD DETAILS PAGE' %>
+<%= render 'green_lanes/shared/about_your_goods_card', title: 'Your movement of goods', edit_path: 'EDIT GOOD DETAILS PAGE' %>
 
 <%= render_exemptions(@assessments, @category) %>

@@ -49,6 +49,10 @@
   You may need to supply the following information when preparing your declaration.
 </p>
 
-<%= render 'green_lanes/shared/summary_card', title: 'Your goods', edit_path: 'EDIT GOOD DETAILS PAGE' %>
+<%= render 'green_lanes/shared/about_your_goods_card',
+            title: 'Your goods',
+            optional_rows: [:category],
+            edit_path: 'EDIT GOOD DETAILS PAGE'
+%>
 
 <%= render_exemptions(@assessments, @category) %>
