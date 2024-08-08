@@ -19,21 +19,20 @@ en:
     period_list:
       description:
         spot_html: >-
-          Spot rates are published on 31st March and 31st December every year.
-          It reflects the exchange rate at midday of that day.
+          View spot exchange rates
         average_html: >-
-          Average rates are published on 31st March and 31st December every year.<br>
-          It reflects the mean average of all exchange rates which have been present in all Monthly exchange rate files for the 12 month period leading up to the given Average rate publication.
+          Download average exchange rates
         monthly_html: >-
-          Monthly rates are published on the penultimate Thursday of every month.<br>
-          They represent the exchange rate as of midday the day before publication and are intended to apply to the following calendar month.
+          View monthly exchange rates
       download_formats:
         spot_html: >-
-          Data is available to view online.
+          online and the latest two in CSV format.
         average_html: >-
-          Data is available to download in CSV format.
+          in CSV format and view the latest two online.
         monthly_html: >-
-          Data is available to view online, and to download in CSV and XML formats.
+          online, or download in CSV or XML.
+
+
     title:
       average: >-
         %{month_year} HMRC currency exchange average rates - GOV.UK
@@ -167,10 +166,13 @@ en:
       import_controls_xi: ""
 
   breadcrumb:
+    monthly_exchange_rates: Monthly exchange rates
+    average_exchange_rates: Average exchange rates
+    spot_exchange_rates: Spot exchange rates
     average_rates: Average rates
     monthly_rates: Monthly rates
     spot_rates: Spot rates
-    exchange_rates: Exchange rates
+    exchange_rates: Check foreign currency exchange rates
     exchange_rate_list: Exchange rate list
     exchange_rates_yearly_average: Yearly average rates
     simplified_procedural_values: Check simplified procedure value rates for fresh fruit and vegetables
