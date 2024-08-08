@@ -7,23 +7,53 @@ module GreenLanes
                   :disable_search_form
 
     def new
-      @exemptions_form = exemptions_form
+      @exemptions_form = build_exemptions_form
+      @back_link_path = determine_back_link_path
 
       render_exemptions_questions
     end
 
     def create
-      @exemptions_form = exemptions_form
+      @exemptions_form = build_exemptions_form
 
       if @exemptions_form.valid?
         next_page = determine_next_page
         redirect_to handle_next_page(next_page)
       else
+        @back_link_path = determine_back_link_path
+
         render_exemptions_questions
       end
     end
 
     private
+
+    def determine_back_link_path
+      permitted_params = params.permit(:commodity_code, :country_of_origin, :moving_date, :c1ex, :c2ex, ans: {})
+
+      if category == 2
+        new_green_lanes_applicable_exemptions_path(
+          category: 1,
+          commodity_code: permitted_params[:commodity_code],
+          country_of_origin: permitted_params[:country_of_origin],
+          moving_date: permitted_params[:moving_date],
+          ans: parsed_ans(permitted_params[:ans]),
+          c1ex: permitted_params[:c1ex],
+        )
+      else
+        new_green_lanes_moving_requirements_path(
+          commodity_code: params[:commodity_code],
+          country_of_origin: params[:country_of_origin],
+          moving_date: params[:moving_date],
+        )
+      end
+    end
+
+    def parsed_ans(ans_param)
+      return ans_param unless ans_param.is_a?(String)
+
+      JSON.parse(ans_param)
+    end
 
     # Category assessment methods
     def category_assessments
@@ -40,7 +70,7 @@ module GreenLanes
     end
 
     # Form handling methods
-    def exemptions_form
+    def build_exemptions_form
       ApplicableExemptionsForm.new(exemptions_params)
     end
 
@@ -52,9 +82,7 @@ module GreenLanes
     end
 
     def exemptions_answers
-      return {} unless params.key?(:exemptions)
-
-      params.require(:exemptions).permit(applicable_answers).to_hash
+      params.fetch(:exemptions, {}).permit(applicable_answers).to_hash
     end
 
     def applicable_answers
@@ -65,7 +93,7 @@ module GreenLanes
 
     # View rendering methods
     def render_exemptions_questions
-      render "cat_#{@category}_exemptions_questions"
+      render "cat_#{@category}_exemptions_questions", locals: { back_link_path: @back_link_path }
     end
 
     # Parameter handling methods
@@ -82,13 +110,14 @@ module GreenLanes
     end
 
     def category
-      @category ||= Integer(params[:category])
+      @category ||= params[:category].to_i
     end
 
     def determine_next_page
-      GreenLanes::DetermineNextPage.new(@goods_nomenclature)
-                                   .next(cat_1_exemptions_apply: applicable_exemptions_result_params[:c1ex],
-                                         cat_2_exemptions_apply: applicable_exemptions_result_params[:c2ex])
+      GreenLanes::DetermineNextPage.new(goods_nomenclature).next(
+        cat_1_exemptions_apply: applicable_exemptions_result_params[:c1ex],
+        cat_2_exemptions_apply: applicable_exemptions_result_params[:c2ex],
+      )
     end
 
     # Path helper methods
@@ -112,21 +141,10 @@ module GreenLanes
     end
 
     def exemptions_results_params
-      current_category_result = if params[:category] == '1'
-                                  { c1ex: @exemptions_form.exempt? }
-                                else
-                                  { c2ex: @exemptions_form.exempt? }
-                                end
-
-      previous_category_result = if params[:c1ex].present?
-                                   { c1ex: params[:c1ex] }
-                                 else
-                                   {}
-                                 end
-
-      merged_params = current_category_result.merge(previous_category_result)
-      merged_params[:c1ex] = merged_params[:c1ex].to_s == 'true' if merged_params[:c1ex].present?
-      merged_params[:c2ex] = merged_params[:c2ex].to_s == 'true' if merged_params[:c2ex].present?
+      current_result = { category == 1 ? :c1ex : :c2ex => @exemptions_form.exempt? }
+      previous_result = params[:c1ex].present? ? { c1ex: params[:c1ex] } : {}
+      merged_params = current_result.merge(previous_result)
+      merged_params.transform_values! { |v| v.to_s == 'true' } if merged_params.present?
       merged_params
     end
 
@@ -154,18 +172,8 @@ module GreenLanes
     end
 
     def passed_exemption_answers
-      new_answers = {
-        ans: {
-          category => @exemptions_form.presented_answers,
-        },
-      }
-
-      old_answers = if params[:ans].present?
-                      params.require(:ans).permit("1": {}).to_hash
-                    else
-                      {}
-                    end
-
+      new_answers = { ans: { category => @exemptions_form.presented_answers } }
+      old_answers = params[:ans].present? ? params.require(:ans).permit("1": {}).to_hash : {}
       new_answers.deep_merge(ans: old_answers)
     end
 

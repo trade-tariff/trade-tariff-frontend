@@ -6,7 +6,7 @@ module GreenLanes
                   :disable_switch_service_banner,
                   :disable_search_form
 
-    def new
+    def show
       @commodity_code = check_your_answers_params[:commodity_code]
       @country_of_origin = check_your_answers_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @moving_date = check_your_answers_params[:moving_date]
@@ -15,9 +15,42 @@ module GreenLanes
       @answers = check_your_answers_params[:ans]
       @c1ex = check_your_answers_params[:c1ex]
       @c2ex = check_your_answers_params[:c2ex]
+      @back_link_path = determine_back_link_path(check_your_answers_params)
     end
 
     private
+
+    def determine_back_link_path(permitted_params)
+      cat_2_questions_exist = !permitted_params[:ans]['2'].nil?
+      cat_1_questions_dont_exist = permitted_params[:ans]['1'].nil?
+
+      if cat_2_questions_exist
+        new_green_lanes_applicable_exemptions_path(
+          category: 2,
+          commodity_code: permitted_params[:commodity_code],
+          country_of_origin: permitted_params[:country_of_origin],
+          moving_date: permitted_params[:moving_date],
+          ans: permitted_params[:ans],
+          c1ex: permitted_params[:c1ex],
+          c2ex: permitted_params[:c2ex],
+        )
+      elsif cat_1_questions_dont_exist
+        new_green_lanes_moving_requirements_path(
+          commodity_code: permitted_params[:commodity_code],
+          country_of_origin: permitted_params[:country_of_origin],
+          moving_date: permitted_params[:moving_date],
+        )
+      else
+        new_green_lanes_applicable_exemptions_path(
+          category: 1,
+          commodity_code: permitted_params[:commodity_code],
+          country_of_origin: permitted_params[:country_of_origin],
+          moving_date: permitted_params[:moving_date],
+          ans: permitted_params[:ans],
+          c1ex: permitted_params[:c1ex],
+        )
+      end
+    end
 
     def determine_category
       @determine_category ||= DetermineCategory.new(goods_nomenclature)

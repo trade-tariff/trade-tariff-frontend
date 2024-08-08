@@ -23,10 +23,6 @@ module GreenLanes
 
     private
 
-    def not_eligible?
-      !@moving_goods_gb_to_ni || !@free_circulation_in_uk || !@end_consumers_in_uk
-    end
-
     def not_yet_eligible?
       all_conditions_met_except_ukims? || end_consumers_not_sure?
     end
