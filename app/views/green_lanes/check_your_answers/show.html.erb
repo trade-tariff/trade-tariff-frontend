@@ -1,0 +1,51 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <a href="#" class="govuk-back-link">Back</a>
+    <h1 class="govuk-heading-l">Check your answers</h1>
+
+    <%= render 'green_lanes/shared/summary_card', title: 'About your goods', edit_path: edit_green_lanes_moving_requirements_path(
+      commodity_code: @commodity_code,
+      country_of_origin: @country_of_origin,
+      moving_date: @moving_date,
+      ans: @answers,
+      c1ex: @c1ex,
+      c2ex: @c2ex
+    ) %>
+
+
+    <h2 class="govuk-heading-m">Category exemptions</h2>
+
+    <%= render 'category_exemptions', title: 'Category 1 exemptions', category: '1', assessments: @category_one_assessments, edit_path: edit_green_lanes_applicable_exemptions_path(
+      category: 1,
+      commodity_code: @commodity_code,
+      country_of_origin: @country_of_origin,
+      moving_date: @moving_date,
+      ans: @answers,
+      c1ex: @c1ex
+    ) %>
+
+    <% if all_exemptions_met?(1, @category_one_assessments, @answers) %>
+      <%= render 'category_exemptions', title: 'Category 2 exemptions', category: '2', assessments: @category_two_assessments, edit_path: edit_green_lanes_applicable_exemptions_path(
+        category: 2,
+        commodity_code: @commodity_code,
+        country_of_origin: @country_of_origin,
+        moving_date: @moving_date,
+        ans: @answers,
+        c1ex: @c1ex,
+        c2ex: @c2ex
+      ) %>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <%= form_with url: green_lanes_results_path do %>
+        <%= hidden_field_tag :commodity_code, @commodity_code %>
+        <%= hidden_field_tag :country_of_origin, params[:country_of_origin] %>
+        <%= hidden_field_tag :moving_date, params[:moving_date] %>
+        <%= hidden_field_tag :c1ex, @c1ex %>
+        <%= hidden_field_tag :c2ex, @c2ex %>
+        <%= hidden_field_tag :ans, @answers.to_json %>
+        <%= submit_tag "Continue", class: 'govuk-button' %>
+      <% end %>
+    </div>
+  </div>
+</div>

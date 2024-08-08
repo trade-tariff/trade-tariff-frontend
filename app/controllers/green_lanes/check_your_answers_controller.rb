@@ -6,7 +6,7 @@ module GreenLanes
                   :disable_switch_service_banner,
                   :disable_search_form
 
-    def new
+    def show
       @commodity_code = check_your_answers_params[:commodity_code]
       @country_of_origin = check_your_answers_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @moving_date = check_your_answers_params[:moving_date]

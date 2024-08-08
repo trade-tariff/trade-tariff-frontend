@@ -60,7 +60,7 @@ module GreenLanes
     end
 
     def check_your_answers
-      '/green_lanes/check_your_answers/new'
+      Rails.application.routes.url_helpers.green_lanes_check_your_answers_path
     end
   end
 end

@@ -23,6 +23,18 @@ module GreenLanes
       end
     end
 
+    def edit
+      @exemptions_form = exemptions_form
+
+      render_exemptions_questions
+    end
+
+    def update
+      @exemptions_form = exemptions_form
+
+      render_exemptions_questions
+    end
+
     private
 
     # Category assessment methods
@@ -65,7 +77,7 @@ module GreenLanes
 
     # View rendering methods
     def render_exemptions_questions
-      render "cat_#{@category}_exemptions_questions"
+      render "cat_#{category}_exemptions_questions"
     end
 
     # Parameter handling methods
@@ -86,7 +98,7 @@ module GreenLanes
     end
 
     def determine_next_page
-      GreenLanes::DetermineNextPage.new(@goods_nomenclature)
+      GreenLanes::DetermineNextPage.new(goods_nomenclature)
                                    .next(cat_1_exemptions_apply: applicable_exemptions_result_params[:c1ex],
                                          cat_2_exemptions_apply: applicable_exemptions_result_params[:c2ex])
     end
@@ -99,6 +111,7 @@ module GreenLanes
         moving_date: params[:moving_date],
         country_of_origin: params[:country_of_origin],
         c1ex: params[:c1ex].present? ? params[:c1ex] == 'true' : nil,
+        c2ex: params[:c2ex].present? ? params[:c2ex] == 'true' : nil,
         ans: passed_exemption_answers[:ans],
       )
     end
@@ -161,7 +174,7 @@ module GreenLanes
       }
 
       old_answers = if params[:ans].present?
-                      params.require(:ans).permit("1": {}).to_hash
+                      params.require(:ans).permit("1": {}, "2": {}).to_hash
                     else
                       {}
                     end
