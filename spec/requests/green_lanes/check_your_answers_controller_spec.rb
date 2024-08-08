@@ -42,7 +42,7 @@ RSpec.describe GreenLanes::CheckYourAnswersController, type: :request, vcr: {
 
     it 'renders the new template', :aggregate_failures do
       expect(response).to render_template('green_lanes/check_your_answers/new')
-      expect(response).to render_template('green_lanes/shared/_summary_card')
+      expect(response).to render_template('green_lanes/shared/_about_your_goods_card')
       expect(response).to render_template('green_lanes/check_your_answers/_category_exemptions')
     end
   end
