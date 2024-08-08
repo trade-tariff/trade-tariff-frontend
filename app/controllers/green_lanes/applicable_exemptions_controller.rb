@@ -52,11 +52,7 @@ module GreenLanes
     def parsed_ans(ans_param)
       return ans_param unless ans_param.is_a?(String)
 
-      begin
-        JSON.parse(ans_param)
-      rescue JSON::ParserError
-        ans_param
-      end
+      JSON.parse(ans_param)
     end
 
     # Category assessment methods

@@ -22,8 +22,9 @@ module GreenLanes
 
     def determine_back_link_path(permitted_params)
       cat_2_questions_exist = !permitted_params[:ans]['2'].nil?
+      cat_1_questions_dont_exist = permitted_params[:ans]['1'].nil?
 
-      if all_exemptions_met?(1, @category_one_assessments, @answers) && cat_2_questions_exist
+      if cat_2_questions_exist
         new_green_lanes_applicable_exemptions_path(
           category: 2,
           commodity_code: permitted_params[:commodity_code],
@@ -33,7 +34,7 @@ module GreenLanes
           c1ex: permitted_params[:c1ex],
           c2ex: permitted_params[:c2ex],
         )
-      elsif permitted_params[:ans]['1'].nil?
+      elsif cat_1_questions_dont_exist
         new_green_lanes_moving_requirements_path(
           commodity_code: permitted_params[:commodity_code],
           country_of_origin: permitted_params[:country_of_origin],
