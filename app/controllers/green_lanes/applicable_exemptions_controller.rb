@@ -8,6 +8,7 @@ module GreenLanes
 
     def new
       @exemptions_form = exemptions_form
+      @back_link_path = determine_back_link_path
 
       render_exemptions_questions
     end
@@ -19,11 +20,44 @@ module GreenLanes
         next_page = determine_next_page
         redirect_to handle_next_page(next_page)
       else
+        @back_link_path = determine_back_link_path
+
         render_exemptions_questions
       end
     end
 
     private
+
+    def determine_back_link_path
+      permitted_params = params.permit(:commodity_code, :country_of_origin, :moving_date, :c1ex, :c2ex, ans: {})
+
+      if category == 2
+        new_green_lanes_applicable_exemptions_path(
+          category: 1,
+          commodity_code: permitted_params[:commodity_code],
+          country_of_origin: permitted_params[:country_of_origin],
+          moving_date: permitted_params[:moving_date],
+          ans: parsed_ans(permitted_params[:ans]),
+          c1ex: permitted_params[:c1ex],
+        )
+      else
+        new_green_lanes_moving_requirements_path(
+          commodity_code: params[:commodity_code],
+          country_of_origin: params[:country_of_origin],
+          moving_date: params[:moving_date],
+        )
+      end
+    end
+
+    def parsed_ans(ans_param)
+      return ans_param unless ans_param.is_a?(String)
+
+      begin
+        JSON.parse(ans_param)
+      rescue JSON::ParserError
+        ans_param
+      end
+    end
 
     # Category assessment methods
     def category_assessments
@@ -65,7 +99,7 @@ module GreenLanes
 
     # View rendering methods
     def render_exemptions_questions
-      render "cat_#{@category}_exemptions_questions"
+      render "cat_#{@category}_exemptions_questions", locals: { back_link_path: @back_link_path }
     end
 
     # Parameter handling methods
@@ -159,7 +193,6 @@ module GreenLanes
           category => @exemptions_form.presented_answers,
         },
       }
-
       old_answers = if params[:ans].present?
                       params.require(:ans).permit("1": {}).to_hash
                     else
