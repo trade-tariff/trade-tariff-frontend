@@ -14,10 +14,11 @@
               Annex IV of the Windsor Framework: "<%= category_assessment.theme.to_s %>"
             </p>
 
-            <p>[<%= category_assessment.regulation.description %>]</p>
 
-            <% if category_assessment.regulation.regulation_url.present? %>
-              <%= link_to 'View EU Regulation document', category_assessment.regulation.regulation_url, class: 'govuk-link' %>
+            <p><%= category_assessment.regulation.description %></p>
+
+            <% if category_assessment.regulation_url.present? %>
+              <%= link_to 'View EU Regulation document', category_assessment.regulation_url, class: 'govuk-link' %>
             <% end %>
 
             <% if category_assessment.exemptions.none? %>
