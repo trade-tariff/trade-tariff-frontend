@@ -6,7 +6,7 @@ RSpec.describe GreenLanes::CheckYourAnswersController, type: :request, vcr: {
     before { make_request }
 
     let(:make_request) do
-      get new_green_lanes_check_your_answers_path(
+      get green_lanes_check_your_answers_path(
         commodity_code: '4114109000',
         country_of_origin: 'UA',
         moving_date: '2024-05-29',
@@ -41,7 +41,7 @@ RSpec.describe GreenLanes::CheckYourAnswersController, type: :request, vcr: {
     end
 
     it 'renders the new template', :aggregate_failures do
-      expect(response).to render_template('green_lanes/check_your_answers/new')
+      expect(response).to render_template('green_lanes/check_your_answers/show')
       expect(response).to render_template('green_lanes/shared/_about_your_goods_card')
       expect(response).to render_template('green_lanes/check_your_answers/_category_exemptions')
     end
