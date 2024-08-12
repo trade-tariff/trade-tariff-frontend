@@ -210,15 +210,6 @@ jobs:
           event: fail
           template: basic_fail_1
 
-  notify-production-deployment:
-    docker:
-      - image: cimg/ruby:3.3.4
-    steps:
-      - tariff/notify-production-release:
-          app-name: Frontend
-          slack-channel: trade_tariff
-          release-tag: $CIRCLE_TAG
-
 workflows:
   version: 2
 
@@ -381,10 +372,4 @@ workflows:
           environment: production
           requires:
             - write-docker-tag-prod-release
-          <<: *filter-release
-
-      - notify-production-deployment:
-          context: trade-tariff-releases
-          requires:
-            - apply-terraform-prod
           <<: *filter-release
