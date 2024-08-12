@@ -51,11 +51,15 @@
   <% end %>
 
   <td class="conditions-col govuk-table__cell">
-    <% if measure.has_measure_conditions? %>
-      <%= link_to "Conditions",  "#", class: 'reference', 'data-popup-ref' => "#{measure.destination}-#{measure.id}-conditions", "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
-    <% elsif show_proofs_for_geographical_areas?(roo_schemes, measure) %>
-      <%= link_to "Conditions",  "#", class: 'reference', 'data-popup-ref' => "#{measure.destination}-#{measure.id}-cds-proofs", "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
-    <% end %>
+    <div data-controller="anchor">
+      <% if measure.has_measure_conditions? %>
+        <%= link_to "Conditions", "#", class: 'reference', data: { action: "click->anchor#launchModal", modal_ref: "#{measure.destination}-#{measure.id}-conditions" }, "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
+        <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
+      <% elsif show_proofs_for_geographical_areas?(roo_schemes, measure) %>
+        <%= link_to "Conditions", "#", class: 'reference', data: { action: "click->anchor#launchModal", modal_ref: "#{measure.destination}-#{measure.id}-cds-proofs" }, "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
+        <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
+      <% end %>
+    </div>
   </td>
 
   <td class="legal-base-col govuk-table__cell govuk-table__header--numeric">
@@ -64,7 +68,10 @@
 
   <td class="footnotes-col govuk-table__cell govuk-table__header--numeric">
     <% if measure.has_measure_footnotes? %>
-      <%= link_to measure.footnotes.size == 1 ? measure.footnotes.first.code : "Footnotes",  "#", class: 'reference', 'data-popup-ref' => "#{measure.destination}-#{measure.id}-footnotes", "aria-label": "Click to open a dialog with the footnotes for this measure", role: "button" %>
+      <div data-controller="anchor">
+        <%= link_to measure.footnotes.size == 1 ? measure.footnotes.first.code : "Footnotes", "#", class: 'reference', data: { action: "click->anchor#launchModal", modal_ref: "#{measure.destination}-#{measure.id}-footnotes" }, "aria-label": "Click to open a dialog with the footnotes for this measure", role: "button" %>
+        <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
+      </div>
     <% end %>
   </td>
 </tr>
