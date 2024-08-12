@@ -64,4 +64,6 @@
 
 <%= render 'green_lanes/shared/about_your_goods_card', title: 'Your movement of goods', edit_path: 'EDIT GOOD DETAILS PAGE' %>
 
-<%= render_exemptions(@assessments, @category) %>
+<% unless @answers.nil? %>
+  <%= render_exemptions(@assessments, @category) %>
+<% end %>

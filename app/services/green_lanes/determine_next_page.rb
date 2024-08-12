@@ -31,6 +31,7 @@ module GreenLanes
     end
 
     def handle_cat1_cat2(cat_1_exemptions_apply)
+      return check_your_answers if @determine_category.cat1_without_exemptions.present?
       return new_exemptions_path(1) if question_unanswered?(cat_1_exemptions_apply) && @determine_category.cat1_with_exemptions.present?
 
       check_your_answers
