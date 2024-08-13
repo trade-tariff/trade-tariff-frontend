@@ -28,15 +28,15 @@
   <div class="govuk-grid-column-full">
     <%= page_header "#{@exchange_rate_collection.month_and_year_name} #{@exchange_rate_collection.type} exchange rates" %>
 
-    <p>The following exchange rates are provided for traders to calculate customs value on imported goods.</p>
-
-    <p class="govuk-!-margin-bottom-6">Exchange rates are published by HMRC on the penultimate Thursday of every month and apply to the following calendar month. They represent rates as of midday the day before publication.</p>
+    <p class="govuk-body-l">
+      Official <%= @exchange_rate_collection.month_and_year_name %> HMRC foreign currency exchange <%= @exchange_rate_collection.type %> rates.
+    </p>
 
     <% if @exchange_rate_collection.exchange_rate_files.any? %>
       <%= render partial: 'exchange_rates/download_files', locals: { files: @exchange_rate_collection.exchange_rate_files } %>
     <% end %>
 
-    <table class="govuk-table govuk-!-margin-top-6">
+    <table class="govuk-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">
@@ -80,7 +80,7 @@
               <%= exchange_rate.currency_code.upcase %>
             </td>
 
-            <td class="govuk-table__cell govuk-table__cell">
+            <td class="govuk-table__cell govuk-table__cell govuk-table__cell--numeric">
               <%= exchange_rate.rate %>
             </td>
 

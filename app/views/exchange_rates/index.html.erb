@@ -10,10 +10,11 @@
 
 
 <% content_for :top_breadcrumbs do %>
-  <%= generate_breadcrumbs t("breadcrumb.#{@period_list.type}_exchange_rates") ,
+  <%= generate_breadcrumbs t("breadcrumb.#{@period_list.type}_rates") ,
     [
       [t('breadcrumb.home'), home_path],
-      [t('breadcrumb.tools'), tools_path]
+      [t('breadcrumb.tools'), tools_path],
+      ["Exchange rates #{@period_list.year}",exchange_rates_path]
     ] %>
  <% end %>
 
@@ -21,33 +22,27 @@
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-xl"><%= trade_tariff_heading %></span>
     <h1>
-      Check foreign currency exchange rates
+      <% if @period_list.monthly? %>
+        <%= @period_list.year %> HMRC currency exchange <%= @period_list.type %> rates
+      <% else %>
+        HMRC currency exchange <%= @period_list.type %> rates
+      <% end %>
     </h1>
-    <p>
-      Check foreign currency exchange rates to calculate customs value on imported goods.
-    </p>
-    <p>
-      Find guidance on:
-    </p>
-    <p>
-      <ul>
-        <li><p><a href="https://www.gov.uk/guidance/foreign-currency-transactions-vat-and-tour-operators" target="_blank">which rates of exchange to use to work out the customs value of your imported goods (open in new tab)</a></p></li>
 
-        <li><p><a href="https://www.gov.uk/guidance/converting-foreign-currency-amounts-to-include-in-the-customs-value" target="_blank">converting foreign currency amounts to include in the customs value (open in new tab)</a></p></li>
-      </ul>
-    </p>
-    <p>
-      Exchange rates are published by HMRC on the penultimate Thursday of every month (as per section 18 of Notices made under the Taxation (Cross-border Trade) Act 2018). These exchange rates apply to the following calendar month, and represent rates as of midday the day before publication.
-    </p>
-    <p>
-      For goods being imported into Northern Ireland the Customs Declaration Service (CDS) will use exchange rate set by the European Central Bank (as per Article 48 of the Implementing Regulation (EU) 2015/2447).
+    <p class="govuk-body-l">
+      <% if @period_list.monthly? %>
+        Check the official <%= @period_list.year %> HMRC foreign currency exchange <%= @period_list.type %> rates.
+      <% else %>
+        Check the official HMRC foreign currency exchange <%= @period_list.type %> rates.
+      <% end %>
     </p>
 
     <p>
       <%= t("exchange_rates.period_list.description.#{@period_list.type}_html") %>
+    </p>
+    <p>
       <%= t("exchange_rates.period_list.download_formats.#{@period_list.type}_html") %>
     </p>
-
 
     <dt class="gem-c-metadata__term">From:</dt>
     <dd class="gem-c-metadata__definition">
@@ -66,14 +61,7 @@
       </dd>
     <% end %>
 
-    <h2>
-      <% if @period_list.year != nil %>
-        <%= @period_list.type.capitalize %> exchange rates for year (<%= @period_list.year %>)
-      <% else %>
-        <%= @period_list.type.capitalize %> exchange rates
-      <% end %>
-    </h2>
-
+    <h2>Documents</h2>
 
     <% @period_list.exchange_rate_periods.each do |period| %>
       <%= render partial: 'exchange_rates/document_detail',
@@ -84,7 +72,7 @@
 
   <div class="govuk-grid-column-one-third">
     <div class="gem-c-related-navigation">
-      <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">You can also check</h2>
+      <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Related information</h2>
 
       <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
         <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
@@ -96,7 +84,7 @@
     <% if @period_list.monthly? %>
       <div class="gem-c-related-navigation">
         <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">
-          Rates from previous years
+          <%= @period_list.type.capitalize %> exchange rates by year
         </h2>
 
         <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
