@@ -7,8 +7,8 @@ RSpec.describe 'Green lanes category assessments',
                },
                js: true do
   # 1 - direct to cat 1 (no exemptions) "6912002310", "USA"
-  # 2 - direct to cat 2 (no exemptions) "2204101500", "Italy"
-  # 3 - direct to cat 3 "0808108090", "Chile"
+  # 2 - direct to cat 2 (no exemptions) "2402209000", "Italy"
+  # 3 - direct to cat 3 "3926200000", "Bangladesh"
   # 4 - cat 1 with exemptions, exemptions don't apply "0808108090" "Ukraine"
   # 5 - 2204101500 Ukraine
   # 6 - 0808108090 Ukraine
@@ -42,9 +42,9 @@ RSpec.describe 'Green lanes category assessments',
     visit new_green_lanes_moving_requirements_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
-    fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '2204101500'
+    fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '2402209000'
 
-    select 'Italy (IT)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
+    select 'Morocco (MA)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
     fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
     fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
@@ -63,9 +63,9 @@ RSpec.describe 'Green lanes category assessments',
     visit new_green_lanes_moving_requirements_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
-    fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '0808108090'
+    fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '3926200000'
 
-    select 'Chile (CL)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
+    select 'Bangladesh (BD)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
     fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
     fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
