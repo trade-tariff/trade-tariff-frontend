@@ -11,14 +11,16 @@
                edit_path: 'EDIT GOOD DETAILS PAGE'
     %>
 
-    <h2 class="govuk-heading-m">Category exemptions</h2>
+    <% unless @category_one_assessments.empty? || @answers.nil? %>
+      <h2 class="govuk-heading-m">Category exemptions</h2>
 
-    <%= render 'category_exemptions',
-               title: 'Category 1 exemptions',
-               category: '1',
-               assessments: @category_one_assessments,
-               edit_path: 'EDIT PATH HERE CAT 1 questions'
-    %>
+      <%= render 'category_exemptions',
+                 title: 'Category 1 exemptions',
+                 category: '1',
+                 assessments: @category_one_assessments,
+                 edit_path: 'EDIT PATH HERE CAT 1 questions'
+      %>
+    <% end %>
 
     <% if all_exemptions_met?(1, @category_one_assessments, @answers) %>
       <%= render 'category_exemptions',
