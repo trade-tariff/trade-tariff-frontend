@@ -19,7 +19,7 @@ module GreenLanes
       when [2, 3]
         handle_cat2_cat3
       else
-        raise 'Impossible to determine your result'
+        raise ArgumentError, 'Impossible to determine your result'
       end
     end
 
