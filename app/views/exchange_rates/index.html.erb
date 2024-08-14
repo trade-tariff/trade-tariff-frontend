@@ -19,35 +19,52 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-xl"><%= trade_tariff_heading %></span>
-    <h1>
-      Check foreign currency exchange rates
-    </h1>
-    <p>
-      Check foreign currency exchange rates to calculate customs value on imported goods.
-    </p>
-    <p>
-      Find guidance on:
-    </p>
-    <p>
-      <ul>
-        <li><p><a href="https://www.gov.uk/guidance/foreign-currency-transactions-vat-and-tour-operators" target="_blank">which rates of exchange to use to work out the customs value of your imported goods (open in new tab)</a></p></li>
 
-        <li><p><a href="https://www.gov.uk/guidance/converting-foreign-currency-amounts-to-include-in-the-customs-value" target="_blank">converting foreign currency amounts to include in the customs value (open in new tab)</a></p></li>
-      </ul>
-    </p>
-    <p>
-      Exchange rates are published by HMRC on the penultimate Thursday of every month (as per section 18 of Notices made under the Taxation (Cross-border Trade) Act 2018). These exchange rates apply to the following calendar month, and represent rates as of midday the day before publication.
-    </p>
-    <p>
-      For goods being imported into Northern Ireland the Customs Declaration Service (CDS) will use exchange rate set by the European Central Bank (as per Article 48 of the Implementing Regulation (EU) 2015/2447).
-    </p>
+    <% if @period_list.monthly? %>
+      <%= page_header 'Check foreign currency exchange rates' %>
+    <% else %>
+      <%= page_header  "HMRC currency exchange #{@period_list.type} rates" %>
+    <% end %>
 
     <p>
-      <%= t("exchange_rates.period_list.description.#{@period_list.type}_html") %>
-      <%= t("exchange_rates.period_list.download_formats.#{@period_list.type}_html") %>
+      <% if @period_list.monthly? %>
+        Check foreign currency exchange rates to calculate customs value on imported goods.
+      <% else %>
+        <div class="govuk-body-l">
+          Check the official HMRC foreign currency exchange <%= @period_list.type %> rates.
+        </div>
+      <% end %>
     </p>
 
+    <% if @period_list.monthly? %>
+      <p>
+        Find guidance on:
+      </p>
+      <p>
+        <ul>
+          <li><p><a href="https://www.gov.uk/guidance/foreign-currency-transactions-vat-and-tour-operators" target="_blank">which rates of exchange to use to work out the customs value of your imported goods (open in new tab)</a></p></li>
+
+          <li><p><a href="https://www.gov.uk/guidance/converting-foreign-currency-amounts-to-include-in-the-customs-value" target="_blank">converting foreign currency amounts to include in the customs value (open in new tab)</a></p></li>
+        </ul>
+      </p>
+      <p>
+        Exchange rates are published by HMRC on the penultimate Thursday of every month (as per section 18 of Notices made under the Taxation (Cross-border Trade) Act 2018). These exchange rates apply to the following calendar month, and represent rates as of midday the day before publication.
+      </p>
+      <p>
+        For goods being imported into Northern Ireland the Customs Declaration Service (CDS) will use exchange rate set by the European Central Bank (as per Article 48 of the Implementing Regulation (EU) 2015/2447).
+      </p>
+      <p>
+        <%= t("exchange_rates.period_list.description.#{@period_list.type}_html") %>
+        <%= t("exchange_rates.period_list.download_formats.#{@period_list.type}_html") %>
+      </p>
+    <% else %>
+      <p>
+        <%= t("exchange_rates.period_list.description.#{@period_list.type}_html") %>
+      </p>
+      <p>
+        <%= t("exchange_rates.period_list.download_formats.#{@period_list.type}_html") %>
+      </p>
+    <% end %>
 
     <dt class="gem-c-metadata__term">From:</dt>
     <dd class="gem-c-metadata__definition">
@@ -67,25 +84,32 @@
     <% end %>
 
     <h2>
-      <% if @period_list.year != nil %>
-        <%= @period_list.type.capitalize %> exchange rates for year (<%= @period_list.year %>)
+      <% if !@period_list.monthly? %>
+        Documents
       <% else %>
-        <%= @period_list.type.capitalize %> exchange rates
+        <% if @period_list.year != nil %>
+          <%= @period_list.type.capitalize %> exchange rates for year (<%= @period_list.year %>)
+        <% else %>
+          <%= @period_list.type.capitalize %> exchange rates
+        <% end %>
       <% end %>
     </h2>
 
-
     <% @period_list.exchange_rate_periods.each do |period| %>
       <%= render partial: 'exchange_rates/document_detail',
-                 locals: { period: period, type: @period_list.type } %>
+                locals: { period: period, type: @period_list.type } %>
     <% end %>
+
 
   </div>
 
   <div class="govuk-grid-column-one-third">
     <div class="gem-c-related-navigation">
-      <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">You can also check</h2>
-
+      <% if !@period_list.monthly? %>
+        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Related information</h2>
+      <%else%>
+        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">You can also check</h2>
+      <%end%>
       <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
         <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
           <%= related_information_sidebar_list_items(@period_list.type) %>
