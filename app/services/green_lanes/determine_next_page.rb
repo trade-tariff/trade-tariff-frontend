@@ -15,10 +15,12 @@ module GreenLanes
       case @categories
       when [1, 2]
         handle_cat1_cat2(cat_1_exemptions_apply)
-      when [1, 2, 3]
-        handle_all_categories(cat_1_exemptions_apply, cat_2_exemptions_apply)
+      when [1, 3]
+        handle_cat1_cat3(cat_1_exemptions_apply)
       when [2, 3]
         handle_cat2_cat3(cat_2_exemptions_apply)
+      when [1, 2, 3]
+        handle_all_categories(cat_1_exemptions_apply, cat_2_exemptions_apply)
       else
         raise 'Impossible to determine next page'
       end
@@ -40,6 +42,12 @@ module GreenLanes
     def handle_all_categories(cat_1_exemptions_apply, cat_2_exemptions_apply)
       return new_exemptions_path(1) if question_unanswered?(cat_1_exemptions_apply)
       return new_exemptions_path(2, c1ex: true) if cat_1_exemptions_apply && question_unanswered?(cat_2_exemptions_apply)
+
+      check_your_answers
+    end
+
+    def handle_cat1_cat3(cat_1_exemptions_apply)
+      return new_exemptions_path(1) if question_unanswered?(cat_1_exemptions_apply)
 
       check_your_answers
     end
