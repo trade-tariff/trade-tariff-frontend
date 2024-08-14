@@ -160,30 +160,44 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_css('h1', text: 'Category 2')
   end
-  #   scenario 'Category 1' do
-  #     visit new_green_lanes_moving_requirements_path
 
-  #     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
-  #     fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '4114109000'
+  scenario 'given category assessment with cat1 and cat2 exemptions when no exemptions for cat1 apply and exemptions for cat2 do no apply resulting in Category 2' do
+    # 3926909790
+    # Iran, Islamic Republic of (IR)
 
-  #     select 'Ukraine (UA)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
+    visit new_green_lanes_moving_requirements_path
 
-  #     fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-  #     fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-  #     fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
 
-  #     click_on 'Continue'
+    fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '3926909790'
 
-  #     check 'exemptions-category-assessment-34-none-field'
-  #     check 'exemptions-category-assessment-82-none-field'
+    select 'Iran, Islamic Republic of (IR)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-  #     click_on 'Continue'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
 
-  #     # Confirm answers are okay
-  #     click_on 'Continue'
+    click_on 'Continue'
 
-  #     expect(page).to have_css('h1', text: 'Category 1')
-  #   end
-  # [category_1_with_exemptions, category_2_with_exemptions] # pick some for category 1 and none for category 2
-  # [category_1_with_exemptions, category_2_with_exemptions] # pick all for category 1 and all for category 2
+    expect(page).to have_text('Your goods may be Category 1')
+
+    check 'exemptions-category-assessment-838-y160-field'
+    check 'exemptions-category-assessment-30-y966-field'
+
+    click_on 'Continue'
+
+    expect(page).to have_text('Your goods may be Category 2')
+
+    check 'exemptions-category-assessment-23-none-field'
+
+    check 'exemptions-category-assessment-92-y904-field'
+
+    click_on 'Continue'
+
+    expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
+
+    click_on 'Continue'
+
+    expect(page).to have_css('h1', text: 'Category 2')
+  end
 end
