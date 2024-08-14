@@ -11,7 +11,7 @@ RSpec.describe 'exchange_rates/show', type: :view do
 
   it { is_expected.to have_css 'h1', text: "#{exchange_rate_collection.month_and_year_name} monthly exchange rates" }
 
-  it { is_expected.to have_css 'p', text: "Official #{exchange_rate_collection.month_and_year_name}" }
+  it { is_expected.to have_css 'p', text: 'The following exchange rates are provided for traders to calculate customs value on imported goods.' }
 
   it { is_expected.to have_css 'th', text: 'Country/territory' }
   it { is_expected.to have_css 'th', text: 'Currency' }
