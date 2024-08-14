@@ -5,7 +5,7 @@ module GreenLanes
     include ActiveRecord::AttributeAssignment
 
     NO_ANSWER_WAS_GIVEN = [''].freeze
-    NONE_ANSWER_WAS_GIVEN = ['', 'none'].freeze
+    NONE_ANSWER_WAS_GIVEN = 'none'.freeze
 
     attr_reader :answers, :category_assessments
 
@@ -38,7 +38,7 @@ module GreenLanes
     end
 
     def exempt?
-      answers.values.none? { |value| value == NONE_ANSWER_WAS_GIVEN }
+      !answers.values.flatten.include?(NONE_ANSWER_WAS_GIVEN)
     end
 
     def presented_answers
