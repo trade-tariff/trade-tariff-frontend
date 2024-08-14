@@ -7,15 +7,19 @@ module GreenLanesHelper
     exemption_checkbox_checked?(category_assessment_id, 'none')
   end
 
-  def render_exemptions_or_no_card(category, assessments)
+  def render_exemptions_or_no_card(category, assessments, result)
     no_exemptions = assessments.public_send("no_cat#{category}_exemptions")
     exemptions_met = assessments.public_send("cat_#{category}_exemptions_met")
     total_exemptions = assessments.public_send("cat_#{category}_exemptions")
 
     all_exemptions_met = total_exemptions.count == exemptions_met.count
 
-    template = no_exemptions || !all_exemptions_met ? 'category_assessments_card' : 'exemptions_card'
-    render(template, category:)
+    if result == '3'
+      render('exemptions_card', category:)
+    else
+      template = no_exemptions || !all_exemptions_met ? 'category_assessments_card' : 'exemptions_card'
+      render(template, category:)
+    end
   end
 
   def exemption_met?(exemption_code, category, category_assessment, answers)
@@ -34,14 +38,13 @@ module GreenLanesHelper
     end
   end
 
-  def render_exemptions(assessments, category)
-    if category.to_s == '3'
-      render_all_exemptions(assessments) if any_exemptions_met?(assessments)
-    elsif any_exemptions_met?(assessments) || !assessments.no_cat1_exemptions
-      result = render_exemptions_or_no_card(1, assessments)
-      result += render_exemptions_or_no_card(2, assessments) unless assessments.cat_1_exemptions_not_met
-      result
-    end
+  def render_exemptions(assessments, result)
+    view = []
+
+    view << render_exemptions_or_no_card(1, assessments, result) unless assessments.cat_1_exemptions_met.empty?
+    view << render_exemptions_or_no_card(2, assessments, result) unless assessments.cat_2_exemptions_met.empty?
+
+    safe_join(view)
   end
 
   def yes_no_options
