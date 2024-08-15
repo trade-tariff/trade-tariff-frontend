@@ -173,7 +173,7 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
         status: 200,
         body: response_body,
         headers: { 'Content-Length' => response_body.size },
-        )
+      )
 
     middleware.call env_for(request_path, {
       'HTTP_X_API_KEY' => 'Test',
@@ -190,7 +190,7 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
         status: 200,
         body: response_body,
         headers: { 'Content-Length' => response_body.size },
-        )
+      )
 
     middleware.call env_for(request_path)
 
