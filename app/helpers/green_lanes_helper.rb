@@ -41,8 +41,16 @@ module GreenLanesHelper
   def render_exemptions(assessments, result)
     view = []
 
-    view << render_exemptions_or_no_card(1, assessments, result) unless assessments.cat_1_exemptions_met.empty?
-    view << render_exemptions_or_no_card(2, assessments, result) unless assessments.cat_2_exemptions_met.empty?
+    case result
+    when '1'
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.public_send('cat_1_exemptions').present? || @cas_without_exemptions.present?
+    when '2'
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.public_send('cat_1_exemptions').present?
+      view << render_exemptions_or_no_card(2, assessments, result) if assessments.public_send('cat_2_exemptions').present? || @cas_without_exemptions.present?
+    when '3'
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.public_send('cat_1_exemptions').present?
+      view << render_exemptions_or_no_card(2, assessments, result) if assessments.public_send('cat_2_exemptions').present?
+    end
 
     safe_join(view)
   end
@@ -56,10 +64,6 @@ module GreenLanesHelper
   end
 
   private
-
-  def render_all_exemptions(assessments)
-    safe_join([render_exemptions_or_no_card(1, assessments), render_exemptions_or_no_card(2, assessments)])
-  end
 
   def category_assessments_checked(category_assessment_id)
     params.dig(:exemptions, :category_assessments_checked, category_assessment_id.to_s)
