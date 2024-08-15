@@ -57,29 +57,31 @@ RSpec.describe GreenLanesHelper, type: :helper do
 
   describe '#render_exemptions' do
     let(:assessments) { instance_double('Assessments') }
-    let(:category) { '3' }
+    let(:result) { '3' }
 
     before do
       allow(helper).to receive(:render_exemptions_or_no_card)
     end
 
+    # rubocop:disable RSpec/InstanceVariable
     context 'when result is 3' do
       before do
-        allow(assessments).to receive(:cat_1_exemptions_met).and_return([1])
-        allow(assessments).to receive(:cat_2_exemptions_met).and_return([1])
+        allow(assessments).to receive(:cat_1_exemptions).and_return([1])
+        allow(assessments).to receive(:cat_2_exemptions).and_return([1])
+        allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
       it 'renders exemptions or no card for category 1 and 2', :aggregate_failures do
-        helper.render_exemptions(assessments, category)
+        helper.render_exemptions(assessments, result)
         expect(helper).to have_received(:render_exemptions_or_no_card).with(1, assessments, '3')
         expect(helper).to have_received(:render_exemptions_or_no_card).with(2, assessments, '3')
       end
     end
 
-    context 'when result is not 3 and cat_1_exemptions_met is not empty' do
+    context 'when result is 1 and cat_1_exemptions is not empty' do
       before do
-        allow(assessments).to receive(:cat_1_exemptions_met).and_return([1])
-        allow(assessments).to receive(:cat_2_exemptions_met).and_return([])
+        allow(assessments).to receive(:cat_1_exemptions).and_return([1])
+        allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
       it 'renders exemptions or no card for category 1 only', :aggregate_failures do
@@ -89,17 +91,60 @@ RSpec.describe GreenLanesHelper, type: :helper do
       end
     end
 
-    context 'when result is not 3 and cat_2_exemptions_met is not empty' do
+    context 'when result is 1 and @cas_without_exemptions is present' do
       before do
-        allow(assessments).to receive(:cat_1_exemptions_met).and_return([])
-        allow(assessments).to receive(:cat_2_exemptions_met).and_return([1])
+        allow(assessments).to receive(:cat_1_exemptions).and_return([])
+        allow(@cas_without_exemptions).to receive(:present?).and_return(true)
+      end
+
+      it 'renders exemptions or no card for category 1 only', :aggregate_failures do
+        helper.render_exemptions(assessments, '1')
+        expect(helper).to have_received(:render_exemptions_or_no_card).with(1, assessments, '1')
+        expect(helper).not_to have_received(:render_exemptions_or_no_card).with(2, assessments, '1')
+      end
+    end
+
+    context 'when result is 2 and cat_1_exemptions is not empty' do
+      before do
+        allow(assessments).to receive(:cat_1_exemptions).and_return([1])
+        allow(assessments).to receive(:cat_2_exemptions).and_return([])
+        allow(@cas_without_exemptions).to receive(:present?).and_return(false)
+      end
+
+      it 'renders exemptions or no card for category 1 only', :aggregate_failures do
+        helper.render_exemptions(assessments, '2')
+        expect(helper).to have_received(:render_exemptions_or_no_card).with(1, assessments, '2')
+        expect(helper).not_to have_received(:render_exemptions_or_no_card).with(2, assessments, '2')
+      end
+    end
+
+    context 'when result is 2 and cat_2_exemptions is not empty' do
+      before do
+        allow(assessments).to receive(:cat_1_exemptions).and_return([])
+        allow(assessments).to receive(:cat_2_exemptions).and_return([1])
+        allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
       it 'renders exemptions or no card for category 2 only', :aggregate_failures do
-        helper.render_exemptions(assessments, '1')
-        expect(helper).not_to have_received(:render_exemptions_or_no_card).with(1, assessments, '1')
-        expect(helper).to have_received(:render_exemptions_or_no_card).with(2, assessments, '1')
+        helper.render_exemptions(assessments, '2')
+        expect(helper).not_to have_received(:render_exemptions_or_no_card).with(1, assessments, '2')
+        expect(helper).to have_received(:render_exemptions_or_no_card).with(2, assessments, '2')
       end
     end
+
+    context 'when result is 2 and @cas_without_exemptions is present' do
+      before do
+        allow(assessments).to receive(:cat_1_exemptions).and_return([1])
+        allow(assessments).to receive(:cat_2_exemptions).and_return([1])
+        allow(@cas_without_exemptions).to receive(:present?).and_return(true)
+      end
+
+      it 'renders exemptions or no card for both categories', :aggregate_failures do
+        helper.render_exemptions(assessments, '2')
+        expect(helper).to have_received(:render_exemptions_or_no_card).with(1, assessments, '2')
+        expect(helper).to have_received(:render_exemptions_or_no_card).with(2, assessments, '2')
+      end
+    end
+    # rubocop:enable RSpec/InstanceVariable
   end
 end
