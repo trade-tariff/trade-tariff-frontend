@@ -166,6 +166,38 @@ RSpec.describe TradeTariffFrontend::RequestForwarder do
        .with(headers: { 'Authorization' => '' })
   end
 
+  it 'add adds X-Api-Key header if it exist in client request' do
+    stub_request(:get, "#{host}#{request_path}")
+      .with(headers: { 'Accept' => 'application/vnd.uktt.sections' })
+      .to_return(
+        status: 200,
+        body: response_body,
+        headers: { 'Content-Length' => response_body.size },
+        )
+
+    middleware.call env_for(request_path, {
+      'HTTP_X_API_KEY' => 'Test',
+    })
+
+    expect(WebMock).to have_requested(:get, "#{host}#{request_path}")
+                         .with(headers: { 'X-Api-Key' => 'Test' }).once
+  end
+
+  it 'does not add empty X-Api-Key header if it does not exist in client request' do
+    stub_request(:get, "#{host}#{request_path}")
+      .with(headers: { 'Accept' => 'application/vnd.uktt.sections' })
+      .to_return(
+        status: 200,
+        body: response_body,
+        headers: { 'Content-Length' => response_body.size },
+        )
+
+    middleware.call env_for(request_path)
+
+    expect(WebMock).not_to have_requested(:get, "#{host}#{request_path}")
+                             .with(headers: { 'X-Api-Key' => '' })
+  end
+
   def env_for(url, opts = {})
     Rack::MockRequest.env_for(url, opts)
   end
