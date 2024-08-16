@@ -48,7 +48,7 @@ RSpec.describe 'Commodity show page', vcr: { cassette_name: 'geographical_areas#
   context 'when clicking popups' do
     before do
       # rubocop:disable RSpec/ExpectInHook
-      expect(page).not_to have_selector('#popup .info-content', visible: :visible) # ensure popup is hidden
+      expect(page).not_to have_selector('#modal .info-content', visible: :visible) # ensure popup is hidden
       # rubocop:enable RSpec/ExpectInHook
 
       within '#measure-3522474' do
@@ -57,7 +57,7 @@ RSpec.describe 'Commodity show page', vcr: { cassette_name: 'geographical_areas#
     end
 
     it 'displays the popup' do
-      expect(page).to have_selector('#popup .info-content', visible: :visible)
+      expect(page).to have_selector('#modal .info-content', visible: :visible)
     end
 
     it 'displays the popup content' do

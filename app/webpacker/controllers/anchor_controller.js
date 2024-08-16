@@ -2,17 +2,20 @@
    https://tighten.com/insights/stimulus-101-building-a-modal/
    (renamed demo to anchor for context)
 */
-import { Controller } from "stimulus";
+
+/* global $ */
+
+import {Controller} from 'stimulus';
 
 export default class extends Controller {
-  static targets = ["modal"];
+  static targets = ['modal'];
 
   initialize() {
     // All the HTML for modal pop-ups are generated already and need to be hidden on the page
     $('#import-measure-references, #export-measure-references').hide();
     this.isModalOpen = false;
-    document.addEventListener("click", this.handleClickOutsideOpenModal.bind(this));
-    document.addEventListener("keydown", this.handleEscapePressWithOpenModal.bind(this));
+    document.addEventListener('click', this.handleClickOutsideOpenModal.bind(this));
+    document.addEventListener('keydown', this.handleEscapePressWithOpenModal.bind(this));
   }
 
   launchModal(event) {
@@ -27,8 +30,8 @@ export default class extends Controller {
     }
 
     this.modalController = this.application.getControllerForElementAndIdentifier(
-      this.modalTarget,
-      "modal")
+        this.modalTarget,
+        'modal');
 
     this.isModalOpen = true;
     this.modalController.open(popupContent.innerHTML);
@@ -42,7 +45,7 @@ export default class extends Controller {
   }
 
   handleEscapePressWithOpenModal(event) {
-    if (event.key === "Escape" && this.isModalOpen) {
+    if (event.key === 'Escape' && this.isModalOpen) {
       this.modalController.close(event);
       this.isModalOpen = false;
     }

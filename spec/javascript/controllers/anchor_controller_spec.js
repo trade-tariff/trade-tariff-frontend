@@ -1,4 +1,4 @@
-import { Application } from '@hotwired/stimulus';
+import {Application} from '@hotwired/stimulus';
 import AnchorController from 'anchor_controller';
 import ModalController from 'modal_controller';
 
@@ -46,7 +46,7 @@ describe('AnchorController', () => {
     expect(modalElement.classList.contains('show')).toEqual(true);
   });
 
-it('handleClickOutsideOpenModal method closes the modal when clicking outside', () => {
+  it('handleClickOutsideOpenModal method closes the modal when clicking outside', () => {
     const anchorController = application.getControllerForElementAndIdentifier(anchorElement, 'anchor');
     const modalController = application.getControllerForElementAndIdentifier(modalElement, 'modal');
 

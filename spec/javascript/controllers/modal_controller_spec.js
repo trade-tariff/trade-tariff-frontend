@@ -1,7 +1,7 @@
 import {Application} from '@hotwired/stimulus';
 import ModalController from 'modal_controller';
 
-describe("ModalController", () => {
+describe('ModalController', () => {
   let application;
   let element;
 
@@ -11,28 +11,28 @@ describe("ModalController", () => {
     `;
 
     application = Application.start();
-    application.register("modal", ModalController);
+    application.register('modal', ModalController);
 
-    element = document.querySelector("#modal");
+    element = document.querySelector('#modal');
   });
 
   afterEach(() => {
     application.stop();
   });
 
-  it("opens the modal with provided content", () => {
-    const controller = application.getControllerForElementAndIdentifier(element, "modal");
+  it('opens the modal with provided content', () => {
+    const controller = application.getControllerForElementAndIdentifier(element, 'modal');
 
-    controller.open("<p>Modal Content</p>");
+    controller.open('<p>Modal Content</p>');
 
     expect(element.classList.contains('show')).toEqual(true);
-    expect(element.textContent).toContain("Modal Content");
+    expect(element.textContent).toContain('Modal Content');
   });
 
-  it("closes the modal when close is called", () => {
-    const controller = application.getControllerForElementAndIdentifier(element, "modal");
+  it('closes the modal when close is called', () => {
+    const controller = application.getControllerForElementAndIdentifier(element, 'modal');
 
-    controller.open("<p>Modal Content</p>");
+    controller.open('<p>Modal Content</p>');
 
     const event = new Event('click');
     jest.spyOn(event, 'preventDefault');
@@ -46,12 +46,12 @@ describe("ModalController", () => {
     const backdrop = document.querySelector('.modal-backdrop');
     expect(backdrop).toBeNull();
     expect(element.innerHTML).toBe('');
-   });
+  });
 
-  it("removes the backdrop when the modal is closed", () => {
-    const controller = application.getControllerForElementAndIdentifier(element, "modal");
+  it('removes the backdrop when the modal is closed', () => {
+    const controller = application.getControllerForElementAndIdentifier(element, 'modal');
 
-    controller.open("<p>Modal Content</p>");
+    controller.open('<p>Modal Content</p>');
 
     const event = new Event('click');
     jest.spyOn(event, 'preventDefault');
@@ -59,7 +59,7 @@ describe("ModalController", () => {
     controller.close(event);
 
     expect(event.preventDefault).toHaveBeenCalled();
-    const backdrop = document.querySelector(".modal-backdrop");
+    const backdrop = document.querySelector('.modal-backdrop');
     expect(backdrop).toBeNull();
   });
 });
