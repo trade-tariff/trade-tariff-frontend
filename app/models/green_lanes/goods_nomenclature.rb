@@ -2,6 +2,7 @@ require 'api_entity'
 
 class GreenLanes::GoodsNomenclature
   include XiOnlyApiEntity
+  include Classifiable
 
   attr_accessor :goods_nomenclature_item_id,
                 :description,
@@ -13,9 +14,7 @@ class GreenLanes::GoodsNomenclature
 
   has_many :applicable_category_assessments, class_name: 'GreenLanes::CategoryAssessment'
 
-  def all(_opts = {})
-    raise NoMethodError, 'This method is not implemented'
-  end
+  has_many :ancestors, class_name: 'GreenLanes::GoodsNomenclature'
 
   def filter_by_category(category)
     grouped_assessments[category.to_i] || []

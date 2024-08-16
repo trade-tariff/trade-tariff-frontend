@@ -1,49 +1,79 @@
 module GreenLanesHelper
   def exemption_checkbox_checked?(category_assessment_id, exemption_code)
-    cas_checked = category_assessments_checked(category_assessment_id)
-
-    return if cas_checked.nil?
-
-    cas_checked.include?(exemption_code)
+    category_assessments_checked(category_assessment_id)&.include?(exemption_code)
   end
 
   def exemption_checkbox_none?(category_assessment_id)
-    cas_checked = category_assessments_checked(category_assessment_id)
-
-    return if cas_checked.nil?
-
-    cas_checked.include?('none')
+    exemption_checkbox_checked?(category_assessment_id, 'none')
   end
 
-  def render_exemptions_or_no_card(category, assessments)
+  def render_exemptions_or_no_card(category, assessments, result)
     no_exemptions = assessments.public_send("no_cat#{category}_exemptions")
     exemptions_met = assessments.public_send("cat_#{category}_exemptions_met")
-
     total_exemptions = assessments.public_send("cat_#{category}_exemptions")
 
     all_exemptions_met = total_exemptions.count == exemptions_met.count
 
-    if no_exemptions || !all_exemptions_met
-      render('category_assessments_card', category:)
+    if result == '3'
+      render('exemptions_card', category:)
     else
-      render 'exemptions_card', category:
+      template = no_exemptions || !all_exemptions_met ? 'category_assessments_card' : 'exemptions_card'
+      render(template, category:)
     end
   end
 
-  def exemptions_met?(category, category_assessment, answers)
-    category = category.to_s
+  def exemption_met?(exemption_code, category, category_assessment, answers)
+    return false if answers.blank?
 
-    category_assessment_answer = answers.dig(category, category_assessment.category_assessment_id.to_s)
+    category_assessment_answer = dig_category_answer(answers, category, category_assessment.category_assessment_id)
+    category_assessment_answer.present? && category_assessment_answer != %w[none] && category_assessment_answer.include?(exemption_code)
+  end
 
-    category_assessment_answer.present? && category_assessment_answer != %w[none]
+  def all_exemptions_met?(category, category_assessments, answers)
+    return false if answers.blank?
+
+    category_assessments.all? do |ca|
+      category_assessment_answer = dig_category_answer(answers, category, ca.category_assessment_id)
+      category_assessment_answer.present? && category_assessment_answer != %w[none]
+    end
+  end
+
+  def render_exemptions(assessments, result)
+    view = []
+
+    case result
+    when '1'
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.public_send('cat_1_exemptions').present? || @cas_without_exemptions.present?
+    when '2'
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.public_send('cat_1_exemptions').present?
+      view << render_exemptions_or_no_card(2, assessments, result) if assessments.public_send('cat_2_exemptions').present? || @cas_without_exemptions.present?
+    when '3'
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.public_send('cat_1_exemptions').present?
+      view << render_exemptions_or_no_card(2, assessments, result) if assessments.public_send('cat_2_exemptions').present?
+    end
+
+    safe_join(view)
+  end
+
+  def yes_no_options
+    [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No')]
+  end
+
+  def yes_no_not_sure_options
+    [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No'), OpenStruct.new(id: 'not_sure', name: 'Not sure')]
   end
 
   private
 
   def category_assessments_checked(category_assessment_id)
-    exemptions = params[:exemptions]
-    return if exemptions.nil? || exemptions[:category_assessments_checked].nil?
+    params.dig(:exemptions, :category_assessments_checked, category_assessment_id.to_s)
+  end
 
-    exemptions[:category_assessments_checked][category_assessment_id.to_s]
+  def dig_category_answer(answers, category, category_assessment_id)
+    answers.dig(category.to_s, category_assessment_id.to_s)
+  end
+
+  def any_exemptions_met?(assessments)
+    assessments.cat_1_exemptions_met || assessments.cat_2_exemptions_met
   end
 end

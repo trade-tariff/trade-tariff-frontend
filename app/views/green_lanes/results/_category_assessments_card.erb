@@ -1,32 +1,30 @@
 <div class="govuk-summary-card">
   <div class="govuk-summary-card__title-wrapper">
     <h2 class="govuk-summary-card__title">
-      Category <%= category %>
+      Your Category <%= category %> exemptions
     </h2>
   </div>
 
   <div class="govuk-summary-card__content">
     <dl class="govuk-summary-list">
-      <% @assessments.public_send("cat_#{category}_exemptions_not_met").each do |category_assessment| %>
+      <% assessments = @cas_without_exemptions.present? ? @cas_without_exemptions : @assessments.public_send("cat_#{category}_exemptions_not_met") %>
+
+      <% assessments.each do |category_assessment| %>
         <div class="govuk-summary-list__row">
           <dd class="govuk-summary-list__value">
             <p>
               Annex IV of the Windsor Framework: "<%= category_assessment.theme.to_s %>"
             </p>
 
-            <p>[<%= category_assessment.regulation.description %>]</p>
+            <p><%= category_assessment.regulation.description %></p>
 
-            <% if category_assessment.regulation.regulation_url.present? %>
-              <%= link_to 'View EU Regulation document', category_assessment.regulation.regulation_url, class: 'govuk-link' %>
+            <% if category_assessment.regulation_url.present? %>
+              <%= link_to 'View EU Regulation document', category_assessment.regulation_url, class: 'govuk-link' %>
             <% end %>
 
-            <hr>
-
-            <% if category_assessment.exemptions.none? %>
-              <p class='govuk-!-margin-top-4'>No exemptions available</p>
-            <% else %>
-              <p class='govuk-!-margin-top-4'>Exemptions not met</p>
-            <% end %>
+            <p class='govuk-!-margin-top-4'>
+              <%= @cas_without_exemptions.present? ? 'No exemptions available' : (category_assessment.exemptions.none? ? 'No exemptions available' : 'Exemptions not met') %>
+            </p>
           </dd>
         </div>
       <% end %>

@@ -7,18 +7,35 @@
       <%= f.govuk_error_summary %>
 
       <% @category_assessments.each_with_index do |category_assessment, index| %>
+
         <%= f.govuk_check_boxes_fieldset category_assessment.id,
                                           multiple: true,
                                           legend: {
-                                            text: 'Do your goods meet any exemption?',
+                                            text: "Do your goods meet any of these Category #{category} exemptions?",
                                             size: 'm'
+                                          },
+                                          hint: {
+                                            text: "Annex IV of the Windsor Framework: \" #{category_assessment.theme.to_s}\""
                                           } do %>
+
+          <% if category_assessment.regulation_url.present? %>
+          <p>
+            <%= link_to 'View EU Regulation document',
+                        category_assessment.regulation_url,
+                        class: 'govuk-link', target: '_blank', rel: 'noopener noreferrer'
+            %>
+          </p>
+          <% end %>
+
+          <h2 class="govuk-heading-s govuk-!-margin-bottom-3">
+            Select all that apply
+          </h2>
 
           <% category_assessment.exemptions.each_with_index do |exemption, exem_index| %>
             <%= f.govuk_check_box category_assessment.id,
                                   exemption.code,
                                   link_errors: (exem_index == 0),
-                                  label: { text: "[#{exemption.code}]" },
+                                  label: { text: exemption.code },
                                   hint: { text: exemption.formatted_description },
                                   checked: exemption_checkbox_checked?(category_assessment.id, exemption.code) %>
 
@@ -28,11 +45,11 @@
 
           <%= f.govuk_check_box category_assessment.id, :none,
                                   exclusive: true,
-                                  label: { text: 'No exemptions apply to my goods' },
+                                  label: { text: 'None of these exemptions apply to my goods' },
                                   checked: exemption_checkbox_none?(category_assessment.id) %>
 
           <% if index < @category_assessments.length - 1 %>
-            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
           <% end %>
 
         <% end %>

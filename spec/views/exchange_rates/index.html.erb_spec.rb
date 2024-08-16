@@ -9,9 +9,9 @@ RSpec.describe 'exchange_rates/index', type: :view do
     assign :period_list, period_list
   end
 
-  it { is_expected.to have_css 'h1', text: "#{period_list.year} HMRC currency exchange monthly rates" }
+  it { is_expected.to have_css 'h1', text: 'Check foreign currency exchange rates' }
 
-  it { is_expected.to have_css 'p', text: "Check the official #{period_list.year}" }
+  it { is_expected.to have_css 'p', text: 'Check foreign currency exchange rates to calculate customs value on imported goods.' }
 
   it { is_expected.to render_template(partial: '_document_detail') }
 

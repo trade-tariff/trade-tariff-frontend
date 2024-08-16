@@ -7,18 +7,18 @@ module ExchangeRatesHelper
     case type
     when 'monthly'
       [
-        list_item_for('Average rates', :average),
-        list_item_for('Spot rates', :spot),
+        list_item_for('Currency exchange average rates', :average),
+        list_item_for('Currency exchange spot rates', :spot),
       ]
     when 'spot'
       [
-        list_item_for('Average rates', :average),
-        list_item_for('Monthly rates', :monthly),
+        list_item_for('Currency exchange average rates', :average),
+        list_item_for('Currency exchange monthly rates', :monthly),
       ]
     when 'average'
       [
-        list_item_for('Monthly rates', :monthly),
-        list_item_for('Spot rates', :spot),
+        list_item_for('Currency exchange monthly rates', :monthly),
+        list_item_for('Currency exchange spot rates', :spot),
       ]
     end.join.html_safe
   end

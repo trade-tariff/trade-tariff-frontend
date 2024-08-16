@@ -29,8 +29,11 @@ module "service" {
   ]
 
   task_role_policy_arns = [
+    aws_iam_policy.exec.arn,
     aws_iam_policy.emails.arn
   ]
+
+  enable_ecs_exec = true
 
   service_environment_config = [
     {

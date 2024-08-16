@@ -27,10 +27,14 @@ module GreenLanes
     end
 
     def cat_1_exemptions_met
+      return [] if @answers.nil?
+
       process_exemptions(@answers['1'])
     end
 
     def cat_2_exemptions_met
+      return [] if @answers.nil?
+
       process_exemptions(@answers['2'])
     end
 

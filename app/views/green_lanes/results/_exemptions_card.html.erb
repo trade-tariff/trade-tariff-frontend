@@ -8,7 +8,7 @@
   <div class="govuk-summary-card__content">
     <div class="govuk-summary-list">
       <% @assessments.public_send("cat#{category}_with_exemptions").each do |category_assessment| %>
-        <% category_assessment.exemptions.each do |exemption| %>
+        <% category_assessment.exemptions.select { |exemption| dig_category_answer(@answers, category, category_assessment.category_assessment_id).include?(exemption.code) }.each do |exemption| %>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               <%= exemption.code %>

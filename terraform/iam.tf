@@ -52,3 +52,24 @@ resource "aws_iam_policy" "emails" {
   name   = "frontend-task-role-emails-policy"
   policy = data.aws_iam_policy_document.emails.json
 }
+
+data "aws_iam_policy_document" "exec" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ssmmessages:CreateControlChannel",
+      "ssmmessages:CreateDataChannel",
+      "ssmmessages:OpenControlChannel",
+      "ssmmessages:OpenDataChannel",
+      "logs:CreateLogStream",
+      "logs:DescribeLogStreams",
+      "logs:PutLogEvents"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "exec" {
+  name   = "frontend-task-role-exec-policy"
+  policy = data.aws_iam_policy_document.exec.json
+}
