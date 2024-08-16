@@ -25,4 +25,6 @@ class GreenLanes::CategoryAssessment
   def find(_id, _opts = {})
     raise NoMethodError, 'This method is not implemented'
   end
+
+  delegate :regulation_url, to: :regulation
 end

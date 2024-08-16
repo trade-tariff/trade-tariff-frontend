@@ -3,7 +3,7 @@
     <div class="govuk-summary-card__title-wrapper">
       <h2 class="govuk-summary-card__title"><%= title %></h2>
       <div class="govuk-summary-card__actions">
-        <a class="govuk-link" href="<%= edit_path %>">Edit details</a>
+        <a class="govuk-link" href="<%= edit_path %>"></a>
       </div>
     </div>
     <div class="govuk-summary-card__content">
@@ -14,10 +14,10 @@
               <dt class="govuk-summary-list__key"><%= exemption.code %></dt>
               <dd class="govuk-summary-list__value"><%= exemption.formatted_description %></dd>
               <dd class="govuk-summary-list__actions">
-                <% if !exemptions_met?(category, category_assessment, @answers) %>
-                  Exemption not met
-                <% else %>
+                <% if exemption_met?(exemption.code, category, category_assessment, @answers) %>
                   Exemption met
+                <% else %>
+                  Exemption not met
                 <% end %>
               </dd>
             </div>

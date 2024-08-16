@@ -14,10 +14,12 @@ module GreenLanes
         handle_all_categories
       when [1, 2]
         handle_cat1_cat2
+      when [1, 3]
+        handle_cat1_cat3
       when [2, 3]
         handle_cat2_cat3
       else
-        raise 'Impossible to determine your result'
+        raise ArgumentError, 'Impossible to determine your result'
       end
     end
 
@@ -32,6 +34,12 @@ module GreenLanes
 
     def handle_cat1_cat2
       return 2 if @cat_1_exempt
+
+      1
+    end
+
+    def handle_cat1_cat3
+      return 3 if @cat_1_exempt
 
       1
     end

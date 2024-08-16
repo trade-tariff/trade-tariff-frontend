@@ -7,11 +7,16 @@ module GreenLanes
     def call
       GreenLanes::GoodsNomenclature.find(
         @params[:commodity_code],
-        filter: {
-          geographical_area_id: @params[:country_of_origin],
-          moving_date: @params[:moving_date],
+        {
+          filter: {
+            geographical_area_id: @params[:country_of_origin],
+            moving_date: @params[:moving_date],
+          },
+          as_of: @params[:moving_date],
         },
-        authorization: TradeTariffFrontend.green_lanes_api_token,
+        {
+          authorization: TradeTariffFrontend.green_lanes_api_token,
+        },
       )
     end
   end
