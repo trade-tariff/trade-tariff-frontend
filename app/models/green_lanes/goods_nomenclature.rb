@@ -15,6 +15,7 @@ class GreenLanes::GoodsNomenclature
   has_many :applicable_category_assessments, class_name: 'GreenLanes::CategoryAssessment'
 
   has_many :ancestors, class_name: 'GreenLanes::GoodsNomenclature'
+  has_many :descendants, class_name: 'GreenLanes::GoodsNomenclature'
 
   def filter_by_category(category)
     grouped_assessments[category.to_i] || []
@@ -29,5 +30,15 @@ class GreenLanes::GoodsNomenclature
       Hash[applicable_category_assessments.group_by(&:category)
                                           .transform_keys(&:to_i)
                                           .sort]
+  end
+
+  def declarable?
+    producline_suffix == '80'
+  end
+
+  def get_declarable
+    return self if declarable?
+
+    descendants.find(&:declarable?)
   end
 end
