@@ -402,8 +402,8 @@ en:
             country_of_origin:
               blank: Select the non-preferential origin of your goods
             commodity_code:
-              wrong_length: Enter a 10 digit commodity code
-              only_numbers: Enter a 10 digit commodity code
+              wrong_length: Enter a 10 digit commodity code, for example, '0123456789'
+              only_numbers: Enter a 10 digit commodity code, for example, '0123456789'
 
   helpers:
     legend:

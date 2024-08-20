@@ -17,16 +17,9 @@ module GreenLanes
     validate :commodity_code_exists, if: -> { errors.empty? }
 
     def commodity_code_exists
-      GreenLanes::GoodsNomenclature.find(
-        commodity_code,
-        {
-          filter: { geographical_area_id: country_of_origin },
-          as_of: moving_date,
-        },
-        { authorization: TradeTariffFrontend.green_lanes_api_token },
-      )
+      FetchGoodsNomenclature.new(commodity_code:, country_of_origin:, moving_date:).call
     rescue Faraday::ResourceNotFound
-      errors.add(:base, 'No result found for the given commodity code, country of origin and moving date.')
+      errors.add(:base, 'This commodity code is not recognised.<br>Enter a different commodity code.'.html_safe)
     end
   end
 end

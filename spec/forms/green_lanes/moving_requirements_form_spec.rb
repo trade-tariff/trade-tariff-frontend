@@ -27,7 +27,7 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
         }
       end
 
-      it { expect(form.errors[:base]).to eq(['No result found for the given commodity code, country of origin and moving date.']) }
+      it { expect(form.errors[:base]).to eq(['This commodity code is not recognised.<br>Enter a different commodity code.']) }
     end
 
     context 'when the attributes are incorrect' do
@@ -39,7 +39,11 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
         }
       end
 
-      it { expect(form.errors[:commodity_code]).to eq(['Enter a 10 digit commodity code', 'Enter a 10 digit commodity code']) }
+      it do
+        expect(form.errors[:commodity_code]).to eq(["Enter a 10 digit commodity code, for example, '0123456789'",
+                                                    "Enter a 10 digit commodity code, for example, '0123456789'"])
+      end
+
       it { expect(form.errors[:country_of_origin]).to eq(['Select the non-preferential origin of your goods']) }
       it { expect(form.errors[:moving_date]).to eq(['Enter a valid date']) }
     end
