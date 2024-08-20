@@ -66,6 +66,7 @@ module GreenLanes
 
     # Goods nomenclature methods
     def goods_nomenclature
+      # goods_nomenclature_params[:moving_date] = Date.parse(goods_nomenclature_params[:moving_date])
       @goods_nomenclature ||= FetchGoodsNomenclature.new(goods_nomenclature_params).call
     end
 

@@ -13,6 +13,8 @@ RSpec.describe GreenLanes::GoodsNomenclature do
     end
 
     it { is_expected.to include :applicable_category_assessments }
+    it { is_expected.to include :ancestors }
+    it { is_expected.to include :descendants }
   end
 
   describe '#primary_assessments_group' do
