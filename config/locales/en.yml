@@ -398,7 +398,7 @@ en:
         green_lanes/moving_requirements_form:
           attributes:
             moving_date:
-              blank: Enter a valid date
+              blank: Enter a valid date, for example, 01 02 2024
             country_of_origin:
               blank: Select the non-preferential origin of your goods
             commodity_code:
