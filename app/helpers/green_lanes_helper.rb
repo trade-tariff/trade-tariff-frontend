@@ -8,16 +8,16 @@ module GreenLanesHelper
   end
 
   def render_exemptions_or_no_card(category, assessments, result)
-    no_exemptions = assessments.public_send("no_cat#{category}_exemptions")
-    exemptions_met = assessments.public_send("cat_#{category}_exemptions_met")
-    total_exemptions = assessments.public_send("cat_#{category}_exemptions")
+    no_exemptions = assessments.send("no_cat#{category}_exemptions")
+    assessments_met = assessments.send("cat_#{category}_assessments_met")
+    total_assessments = assessments.send("cat_#{category}_assessments").pluck(:category_assessment_id).map(&:to_s)
 
-    all_exemptions_met = total_exemptions.count == exemptions_met.count
+    all_assessments_met = total_assessments.count == assessments_met.count
 
     if result == '3'
       render('exemptions_card', category:)
     else
-      template = no_exemptions || !all_exemptions_met ? 'category_assessments_card' : 'exemptions_card'
+      template = no_exemptions || !all_assessments_met ? 'category_assessments_card' : 'exemptions_card'
       render(template, category:)
     end
   end

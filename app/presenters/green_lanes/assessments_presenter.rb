@@ -26,6 +26,14 @@ module GreenLanes
       extract_exemptions(cat2_with_exemptions)
     end
 
+    def cat_1_assessments
+      cat1_with_exemptions
+    end
+
+    def cat_2_assessments
+      cat2_with_exemptions
+    end
+
     def cat_1_exemptions_met
       return [] if @answers.nil?
 
@@ -36,6 +44,18 @@ module GreenLanes
       return [] if @answers.nil?
 
       process_exemptions(@answers['2'])
+    end
+
+    def cat_1_assessments_met
+      return [] if @answers.nil?
+
+      process_assessments(@answers['1'])
+    end
+
+    def cat_2_assessments_met
+      return [] if @answers.nil?
+
+      process_assessments(@answers['2'])
     end
 
     def no_exemptions_met
@@ -64,11 +84,19 @@ module GreenLanes
       category_assessments.flat_map { |ca| ca.exemptions.map(&:code) }
     end
 
-    def process_exemptions(exemptions)
-      return [] if exemptions.nil?
+    def process_exemptions(answers)
+      return [] if answers.nil?
 
-      filtered_exemptions = exemptions.values.flatten.reject { |val| val == 'none' }
+      filtered_exemptions = answers.values.flatten.reject { |val| val == 'none' }
       filtered_exemptions.empty? ? [] : filtered_exemptions
+    end
+
+    def process_assessments(answers)
+      return [] if answers.nil?
+
+      answers.select { |_key, values|
+        values.any? { |value| !value.empty? && value != 'none' }
+      }.keys
     end
   end
 end
