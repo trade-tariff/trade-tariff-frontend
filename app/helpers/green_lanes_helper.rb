@@ -63,6 +63,10 @@ module GreenLanesHelper
     [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No'), OpenStruct.new(id: 'not_sure', name: 'Not sure')]
   end
 
+  def green_lanes_eligibility_start_path
+    '/green_lanes/start/new'
+  end
+
   private
 
   def category_assessments_checked(category_assessment_id)

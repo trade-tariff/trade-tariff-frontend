@@ -145,6 +145,11 @@ RSpec.describe GreenLanesHelper, type: :helper do
         expect(helper).to have_received(:render_exemptions_or_no_card).with(2, assessments, '2')
       end
     end
+
+    describe '#green_lanes_eligibility_start_path' do
+      it { expect(helper.green_lanes_eligibility_start_path).to eq('/green_lanes/start/new') }
+    end
+
     # rubocop:enable RSpec/InstanceVariable
   end
 end
