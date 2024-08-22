@@ -26,6 +26,7 @@ export default class extends Controller {
     // Display the modal
     this.element.style.display = 'block';
     this.element.classList.add('show');
+    this.element.classList.add('modal-border');
 
     // Create and append the backdrop
     const backdrop = document.createElement('div');
@@ -44,6 +45,7 @@ export default class extends Controller {
     // Hide the modal
     this.element.style.display = 'none';
     this.element.classList.remove('show');
+    this.element.classList.remove('modal-border');
 
     // Remove the backdrop
     const backdrop = document.querySelector('.modal-backdrop');

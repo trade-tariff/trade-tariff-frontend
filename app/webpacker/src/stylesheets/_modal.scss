@@ -27,6 +27,12 @@
   opacity: 1;
 }
 
+.modal-border{
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+}
+
 /* styling for the modal */
 .modal {
   position: fixed;
@@ -149,36 +155,4 @@
       margin-top: 0;
     }
   }
-}
-
-/* Specific styles for #modal.tariff-info */
-#modal.tariff-info .close {
-  padding: .2em 10px .2em .5em;
-  text-align: right;
-
-  a {
-    background-position: 0.6875em 0.6875em;
-    display: inline-block;
-    text-indent: 99999px;
-    overflow: hidden;
-  }
-}
-
-/* Specific styles for modal dialog and content */
-.modal-dialog {
-  max-width: 500px;
-  margin: 1.75rem auto;
-}
-
-.modal-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  pointer-events: auto;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 0.3rem;
-  outline: 0;
 }

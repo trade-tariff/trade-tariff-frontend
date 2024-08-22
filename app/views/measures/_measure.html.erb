@@ -54,11 +54,10 @@
     <div data-controller="anchor">
       <% if measure.has_measure_conditions? %>
         <%= link_to "Conditions", "#", class: 'reference', data: { action: "click->anchor#launchModal", modal_ref: "#{measure.destination}-#{measure.id}-conditions" }, "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
-        <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
       <% elsif show_proofs_for_geographical_areas?(roo_schemes, measure) %>
         <%= link_to "Conditions", "#", class: 'reference', data: { action: "click->anchor#launchModal", modal_ref: "#{measure.destination}-#{measure.id}-cds-proofs" }, "aria-label": "Click to open a dialog with the conditions for this measure", role: "button" %>
-        <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
       <% end %>
+      <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
     </div>
   </td>
 
