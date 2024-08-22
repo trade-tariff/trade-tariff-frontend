@@ -11,7 +11,7 @@ module GreenLanes
       @country_of_origin = check_your_answers_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @moving_date = check_your_answers_params[:moving_date]
       @category_one_assessments = determine_category.cat1_with_exemptions
-      @category_two_assessments_without_exemptions = determine_category.cat2_without_exemptions.present?
+      @category_two_assessments_without_exemptions = determine_category.cat2_without_exemptions
       @category_two_assessments = determine_category.cat2_with_exemptions
       @answers = check_your_answers_params[:ans]
       @c1ex = check_your_answers_params[:c1ex]
