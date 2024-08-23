@@ -274,107 +274,6 @@
       },
     },
     /**
-        @name GOVUK.tariff.countryPicker
-        @object
-        @description container for country picker behaviour
-      */
-    countryPicker: {
-      initialize: function () {
-        const control = 'js-country-picker';
-        const $controlForm = $('fieldset[class~=' + control + ']');
-
-        // Submit button not needed if JavaScript is enabled
-        $controlForm.find('.search-submit').hide();
-
-        this.showOrHideResetLink($controlForm);
-
-        if ($('#tariff_date_date').length > 0) {
-          // configure and activate datepicker
-          const datepickerInput = $('#tariff_date_date')[0];
-          const datepickerButton = $('#search-datepicker-button')[0];
-          const datepickerDialog = $('#search-datepicker-dialog')[0];
-
-          const dtpicker = new DatePicker(datepickerInput, datepickerButton, datepickerDialog);
-          dtpicker.init();
-
-          // on datepicker change, update individual date inputs
-          $('#tariff_date_date').on('change', function () {
-            const parts = $('#tariff_date_date').val().split('/');
-
-            $('#tariff_date_day').val(parts[0]);
-            $('#tariff_date_month').val(parts[1]);
-            $('#tariff_date_year').val(parts[2]);
-          });
-
-          // with JS enable link style submit
-          $('.js-date-picker a.submit').show();
-
-          // input mask
-          const dateMask = IMask($('#tariff_date_date')[0], {
-            mask: Date, // enable date mask
-
-            // other options are optional
-            pattern: 'd{/}`m{/}`Y', // Pattern mask with defined blocks, default is 'd{.}`m{.}`Y'
-            // you can provide your own blocks definitions, default blocks for date mask are:
-            blocks: {
-              d: {
-                mask: IMask.MaskedRange,
-                from: 1,
-                to: 31,
-                maxLength: 2,
-              },
-              m: {
-                mask: IMask.MaskedRange,
-                from: 1,
-                to: 12,
-                maxLength: 2,
-              },
-              Y: {
-                mask: IMask.MaskedRange,
-                // from: 2008,
-                to: (new Date()).getFullYear() + 1,
-              },
-            },
-            // define date -> str convertion
-            format: function (date) {
-              let day = date.getDate();
-              let month = date.getMonth() + 1;
-              const year = date.getFullYear();
-
-              if (day < 10) day = '0' + day;
-              if (month < 10) month = '0' + month;
-
-              return [day, month, year].join('/');
-            },
-            // define str -> date convertion
-            parse: function (str) {
-              const yearMonthDay = str.split('/');
-              return new Date(parseInt(yearMonthDay[2], 10), parseInt(yearMonthDay[1], 10) - 1, parseInt(yearMonthDay[0], 10));
-            },
-
-            // optional interval options
-            min: new Date(2008, 0, 1), // defaults to `1900-01-01`
-            max: new Date((new Date()).getFullYear() + 1, 11, 31), // defaults to `9999-01-01`
-
-            autofix: false, // defaults to `false`
-
-            // also Pattern options can be set
-            lazy: false,
-
-            // and other common options
-            overwrite: true, // defaults to `false`
-          });
-        }
-
-        $('.js-show').show();
-      },
-      showOrHideResetLink: function ($controlForm) {
-        if ($controlForm.find('select').val() != '') {
-          $('.reset-country-picker').css('display', 'table-cell');
-        }
-      },
-    },
-    /**
         @name utils
         @namespace
         @description utilities for the GOVUK.tariff namespace
@@ -527,7 +426,6 @@
 
       this.tablePopup.initialize(context);
       this.searchForm.initialize();
-      this.countryPicker.initialize();
       this.measuresTable.initialize();
       this.copyCode.initialize();
     },
