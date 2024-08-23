@@ -25,9 +25,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'United States (US)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 
@@ -46,9 +46,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'Morocco (MA)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 
@@ -67,9 +67,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'Bangladesh (BD)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 
@@ -90,9 +90,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'Ukraine (UA)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 
@@ -118,9 +118,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'Ukraine (UA)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 
@@ -148,9 +148,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'Ukraine (UA)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 
@@ -180,9 +180,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'Iran, Islamic Republic of (IR)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 
@@ -218,9 +218,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'Iran, Islamic Republic of (IR)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 
@@ -256,9 +256,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'Greenland (GL)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 
@@ -294,9 +294,9 @@ RSpec.describe 'Green lanes category assessments',
 
     select 'Greenland (GL)', from: 'green-lanes-moving-requirements-form-country-of-origin-field'
 
-    fill_in 'green_lanes_moving_requirements_form_moving_date_3i', with: '12'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_2i', with: '8'
-    fill_in 'green_lanes_moving_requirements_form_moving_date_1i', with: '2024'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: '12'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: '8'
+    fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: '2024'
 
     click_on 'Continue'
 

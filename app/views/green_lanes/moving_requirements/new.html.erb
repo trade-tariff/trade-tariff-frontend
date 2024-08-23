@@ -33,14 +33,16 @@
                               style: "width:330px" %>
 
       <%= f.label :commodity_code, "When is the internal movement of goods taking place?", class: 'govuk-heading-m',
-                  for: 'green_lanes_moving_requirements_form_moving_date_3i' %>
+                  for: 'green_lanes_moving_requirements_form_moving_date_3' %>
 
       <%= f.govuk_date_field :moving_date,
         maxlength_enabled: true,
         hint: { text: "Arrangements can change over time. If you do not know the date of movement and want to check arrangements currently in place, enter today's date.",
                       class: 'govuk-body-l'
               },
-        legend: nil %>
+        legend: nil,
+        segments: { day: '3', month: '2', year: '1' } # This prevents casting the segments to Integer (3i, 2i, 1i)
+        %>
 
         <%= f.submit "Continue", class: "govuk-button" %>
     <% end %>
