@@ -442,7 +442,6 @@
       this.tablePopup.initialize(context);
       this.searchForm.initialize();
       this.searchHighlight.initialize();
-      this.countryPicker.initialize();
       this.measuresTable.initialize();
       this.copyCode.initialize();
     },
