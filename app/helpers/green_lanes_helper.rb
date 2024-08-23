@@ -8,16 +8,16 @@ module GreenLanesHelper
   end
 
   def render_exemptions_or_no_card(category, assessments, result)
-    no_exemptions = assessments.public_send("no_cat#{category}_exemptions")
-    exemptions_met = assessments.public_send("cat_#{category}_exemptions_met")
-    total_exemptions = assessments.public_send("cat_#{category}_exemptions")
+    no_exemptions = assessments.send("no_cat#{category}_exemptions")
+    assessments_met = assessments.send("cat_#{category}_assessments_met")
+    total_assessments = assessments.send("cat_#{category}_assessments").pluck(:category_assessment_id).map(&:to_s)
 
-    all_exemptions_met = total_exemptions.count == exemptions_met.count
+    all_assessments_met = total_assessments.count == assessments_met.count
 
     if result == '3'
       render('exemptions_card', category:)
     else
-      template = no_exemptions || !all_exemptions_met ? 'category_assessments_card' : 'exemptions_card'
+      template = no_exemptions || !all_assessments_met ? 'category_assessments_card' : 'exemptions_card'
       render(template, category:)
     end
   end
@@ -43,13 +43,13 @@ module GreenLanesHelper
 
     case result
     when '1'
-      view << render_exemptions_or_no_card(1, assessments, result) if assessments.public_send('cat_1_exemptions').present? || @cas_without_exemptions.present?
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.send('cat_1_exemptions').present? || @cas_without_exemptions.present?
     when '2'
-      view << render_exemptions_or_no_card(1, assessments, result) if assessments.public_send('cat_1_exemptions').present?
-      view << render_exemptions_or_no_card(2, assessments, result) if assessments.public_send('cat_2_exemptions').present? || @cas_without_exemptions.present?
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.send('cat_1_exemptions').present?
+      view << render_exemptions_or_no_card(2, assessments, result) if assessments.send('cat_2_exemptions').present? || @cas_without_exemptions.present?
     when '3'
-      view << render_exemptions_or_no_card(1, assessments, result) if assessments.public_send('cat_1_exemptions').present?
-      view << render_exemptions_or_no_card(2, assessments, result) if assessments.public_send('cat_2_exemptions').present?
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.send('cat_1_exemptions').present?
+      view << render_exemptions_or_no_card(2, assessments, result) if assessments.send('cat_2_exemptions').present?
     end
 
     safe_join(view)
@@ -63,6 +63,10 @@ module GreenLanesHelper
     [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No'), OpenStruct.new(id: 'not_sure', name: 'Not sure')]
   end
 
+  def green_lanes_eligibility_start_path
+    '/green_lanes/start/new'
+  end
+
   private
 
   def category_assessments_checked(category_assessment_id)
@@ -71,9 +75,5 @@ module GreenLanesHelper
 
   def dig_category_answer(answers, category, category_assessment_id)
     answers.dig(category.to_s, category_assessment_id.to_s)
-  end
-
-  def any_exemptions_met?(assessments)
-    assessments.cat_1_exemptions_met || assessments.cat_2_exemptions_met
   end
 end

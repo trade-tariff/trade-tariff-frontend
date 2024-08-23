@@ -19,23 +19,43 @@ module GreenLanes
     end
 
     def cat_1_exemptions
-      extract_exemptions(cat1_with_exemptions)
+      extract_exemption_codes(cat1_with_exemptions)
     end
 
     def cat_2_exemptions
-      extract_exemptions(cat2_with_exemptions)
+      extract_exemption_codes(cat2_with_exemptions)
     end
 
     def cat_1_exemptions_met
       return [] if @answers.nil?
 
-      process_exemptions(@answers['1'])
+      applicable_exemptions(@answers['1'])
     end
 
     def cat_2_exemptions_met
       return [] if @answers.nil?
 
-      process_exemptions(@answers['2'])
+      applicable_exemptions(@answers['2'])
+    end
+
+    def cat_1_assessments
+      cat1_with_exemptions
+    end
+
+    def cat_2_assessments
+      cat2_with_exemptions
+    end
+
+    def cat_1_assessments_met
+      return [] if @answers.nil?
+
+      exempt_category_assessments(@answers['1'])
+    end
+
+    def cat_2_assessments_met
+      return [] if @answers.nil?
+
+      exempt_category_assessments(@answers['2'])
     end
 
     def no_exemptions_met
@@ -60,15 +80,22 @@ module GreenLanes
 
     private
 
-    def extract_exemptions(category_assessments)
+    def extract_exemption_codes(category_assessments)
       category_assessments.flat_map { |ca| ca.exemptions.map(&:code) }
     end
 
-    def process_exemptions(exemptions)
-      return [] if exemptions.nil?
-
-      filtered_exemptions = exemptions.values.flatten.reject { |val| val == 'none' }
+    def applicable_exemptions(answers)
+      filtered_exemptions = answers.values.flatten.reject { |val| val == 'none' }
       filtered_exemptions.empty? ? [] : filtered_exemptions
+    end
+
+    def exempt_category_assessments(answers)
+      # Returns array of the category assessment ids that trader is exempt.
+      return [] if answers.nil?
+
+      answers.select { |_key, values|
+        values.any? { |value| !value.empty? && value != 'none' }
+      }.keys
     end
   end
 end

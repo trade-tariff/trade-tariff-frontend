@@ -22,7 +22,7 @@
       %>
     <% end %>
 
-    <% if all_exemptions_met?(1, @category_one_assessments, @answers) %>
+    <% if all_exemptions_met?(1, @category_one_assessments, @answers) && @category_two_assessments_without_exemptions.empty? %>
       <%= render 'category_exemptions',
                  title: 'Category 2 exemptions',
                  category: '2',
