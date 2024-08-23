@@ -8,6 +8,7 @@ module GreenLanes
 
     def new
       @exemptions_form = build_exemptions_form
+      @category_one_assessments_without_exemptions = determine_category.cat1_without_exemptions
       @back_link_path = determine_back_link_path
 
       render_exemptions_questions
@@ -31,7 +32,7 @@ module GreenLanes
     def determine_back_link_path
       permitted_params = params.permit(:commodity_code, :country_of_origin, :moving_date, :c1ex, :c2ex, ans: {})
 
-      if category == 2
+      if category == 2 && @category_one_assessments_without_exemptions.empty?
         green_lanes_applicable_exemptions_path(
           category: 1,
           commodity_code: permitted_params[:commodity_code],

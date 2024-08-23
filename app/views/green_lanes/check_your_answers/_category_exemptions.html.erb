@@ -10,7 +10,7 @@
       <dl class="govuk-summary-list">
         <% unique_exemptions(assessments).each do |exemption, category_assessment| %>
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key"><%= exemption.code %></dt>
+            <dt class="govuk-summary-list__key"><%= hide_pseudo_codes(exemption.code)  %></dt>
             <dd class="govuk-summary-list__value"><%= exemption.formatted_description %></dd>
             <dd class="govuk-summary-list__actions">
               <%= exemption_status(exemption, category, category_assessment) %>

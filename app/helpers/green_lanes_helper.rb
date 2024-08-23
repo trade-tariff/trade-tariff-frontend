@@ -8,6 +8,14 @@ module GreenLanesHelper
     exemption_checkbox_checked?(resource_id, 'none')
   end
 
+  def hide_pseudo_codes(code)
+    if code.start_with?('WFE')
+      ''
+    else
+      code
+    end
+  end
+
   def render_exemptions_or_no_card(category, assessments, result)
     no_exemptions = assessments.send("no_cat#{category}_exemptions")
     assessments_met = assessments.send("cat_#{category}_assessments_met")

@@ -10,9 +10,12 @@ module GreenLanes
       @commodity_code = check_your_answers_params[:commodity_code]
       @country_of_origin = check_your_answers_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @moving_date = check_your_answers_params[:moving_date]
+
       @category_one_assessments = candidate_categories.cat1_with_exemptions
       @category_two_assessments_without_exemptions = candidate_categories.cat2_without_exemptions
       @category_two_assessments = candidate_categories.cat2_with_exemptions
+      @category_two_assessments_without_exemptions = determine_category.cat2_without_exemptions
+
       @resulting_category = prettify_category(resulting_category)
 
       @answers = check_your_answers_params[:ans]
@@ -25,7 +28,8 @@ module GreenLanes
 
     def determine_back_link_path(permitted_params)
       ans = permitted_params[:ans]
-      category = if ans.nil?
+
+      category = if ans.nil? || @category_two_assessments_without_exemptions.present?
                    1
                  elsif ans['2'].present?
                    2
@@ -48,6 +52,14 @@ module GreenLanes
                          end
 
       green_lanes_applicable_exemptions_path(back_link_params)
+
+      if category == 2 && @category_two_assessments_without_exemptions.empty?
+        new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex], c2ex: permitted_params[:c2ex]))
+      elsif ans.nil? || ans['1'].nil? || @category_one_assessments_without_exemptions.present?
+        new_green_lanes_moving_requirements_path(base_params)
+      else
+        new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex]))
+      end
     end
 
     def candidate_categories
