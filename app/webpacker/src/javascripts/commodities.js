@@ -274,21 +274,6 @@
       },
     },
     /**
-        @name GOVUK.tariff.searchHighlight
-        @object
-        @description highlights search terms
-      */
-    searchHighlight: {
-      initialize: function () {
-        if (GOVUK.tariff.utils.getUrlParam('t')) {
-          const words = GOVUK.tariff.utils.getUrlParam('t').replace(/\+/g, ' ');
-          const passages = '.js-results-subset a,' + // Search results page
-            '.js-commodities .description'; // Commodity tree (headings) page
-          $(passages).mark(words, { className: 'highlight' });
-        }
-      },
-    },
-    /**
         @name utils
         @namespace
         @description utilities for the GOVUK.tariff namespace
@@ -441,7 +426,6 @@
 
       this.tablePopup.initialize(context);
       this.searchForm.initialize();
-      this.searchHighlight.initialize();
       this.measuresTable.initialize();
       this.copyCode.initialize();
     },
