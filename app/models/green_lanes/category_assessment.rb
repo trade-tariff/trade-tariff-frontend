@@ -17,14 +17,19 @@ class GreenLanes::CategoryAssessment
   }
 
   delegate :category, to: :theme
+  delegate :regulation_url, to: :regulation
 
   def id
-    "category_assessment_#{category_assessment_id}"
+    "category_assessment_#{resource_id}"
   end
 
   def find(_id, _opts = {})
     raise NoMethodError, 'This method is not implemented'
   end
 
-  delegate :regulation_url, to: :regulation
+  def answered_exemptions(answers)
+    exemptions.select do |exemption|
+      answers.dig(category.to_s, category_assessment_id.to_s).include?(exemption.code)
+    end
+  end
 end

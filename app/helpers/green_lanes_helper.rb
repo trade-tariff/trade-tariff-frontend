@@ -72,8 +72,4 @@ module GreenLanesHelper
   def category_assessments_checked(category_assessment_id)
     params.dig(:exemptions, :category_assessments_checked, category_assessment_id.to_s)
   end
-
-  def dig_category_answer(answers, category, category_assessment_id)
-    answers.dig(category.to_s, category_assessment_id.to_s)
-  end
 end
