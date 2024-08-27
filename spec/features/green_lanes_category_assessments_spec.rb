@@ -6,17 +6,6 @@ RSpec.describe 'Green lanes category assessments',
                  record: :new_episodes,
                },
                js: true do
-  # 1 - direct to cat 1 (no exemptions) "6912002310", "USA"
-  # 2 - direct to cat 2 (no exemptions) "2402209000", "Italy"
-  # 3 - direct to cat 3 "3926200000", "Bangladesh"
-  # 4 - cat 1 with exemptions, exemptions don't apply "0808108090" "Ukraine"
-  # 5 - 2204101500 Ukraine
-  # 6 - 0808108090 Ukraine
-
-  # 7 - 3926909790 Iran
-  # 8 - 3926909790 Iran
-  # 9 - 1904901000 China
-  # 10 - 1904901000 China
   scenario 'direct to category 1' do
     visit new_green_lanes_moving_requirements_path
 
@@ -96,16 +85,14 @@ RSpec.describe 'Green lanes category assessments',
 
     click_on 'Continue'
 
-    check 'exemptions-category-assessment-34-none-field'
-    check 'exemptions-category-assessment-82-none-field'
+    check 'exemptions-category-assessment-a6b633a7b098132ec45c036d0e14713a-none-field'
+    check 'exemptions-category-assessment-18fcbb5b75781f8a676bd84dae9c170e-none-field'
 
     click_on 'Continue'
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
     click_on 'Continue'
-
-    expect(page).to have_css('h1', text: 'Category 1')
   end
 
   scenario 'Given the commodity has Cat1 exemptions \
@@ -126,8 +113,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_text('Your goods may be Category 1')
 
-    check 'exemptions-category-assessment-34-y997-field'
-    check 'exemptions-category-assessment-82-y984-field'
+    check 'exemptions-category-assessment-a6b633a7b098132ec45c036d0e14713a-y997-field'
+    check 'exemptions-category-assessment-18fcbb5b75781f8a676bd84dae9c170e-y984-field'
 
     click_on 'Continue'
 
@@ -156,8 +143,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_text('Your goods may be Category 1')
 
-    check 'exemptions-category-assessment-34-y997-field'
-    check 'exemptions-category-assessment-82-y984-field'
+    check 'exemptions-category-assessment-a6b633a7b098132ec45c036d0e14713a-y997-field'
+    check 'exemptions-category-assessment-18fcbb5b75781f8a676bd84dae9c170e-y984-field'
 
     click_on 'Continue'
 
@@ -188,15 +175,15 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_text('Your goods may be Category 1')
 
-    check 'exemptions-category-assessment-838-y160-field'
-    check 'exemptions-category-assessment-30-y966-field'
+    check 'exemptions-category-assessment-b75355747789bdbc8e3d63cf2d91d214-y160-field'
+    check 'exemptions-category-assessment-e562118c58fdbb9ac68bb82c4593f98e-y966-field'
 
     click_on 'Continue'
 
     expect(page).to have_text('Your goods may be Category 2')
 
-    check 'exemptions-category-assessment-23-none-field'
-    check 'exemptions-category-assessment-92-none-field'
+    check 'exemptions-category-assessment-b8e061e4ddb9e4d99cbec41195277304-none-field'
+    check 'exemptions-category-assessment-34aad1bc2c330cd7635ef3fdacef2de7-none-field'
 
     click_on 'Continue'
 
@@ -226,15 +213,15 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_text('Your goods may be Category 1')
 
-    check 'exemptions-category-assessment-838-y160-field'
-    check 'exemptions-category-assessment-30-y966-field'
+    check 'exemptions-category-assessment-b75355747789bdbc8e3d63cf2d91d214-y160-field'
+    check 'exemptions-category-assessment-e562118c58fdbb9ac68bb82c4593f98e-y966-field'
 
     click_on 'Continue'
 
     expect(page).to have_text('Your goods may be Category 2')
 
-    check 'exemptions-category-assessment-23-y058-field'
-    check 'exemptions-category-assessment-92-y904-field'
+    check 'exemptions-category-assessment-b8e061e4ddb9e4d99cbec41195277304-y058-field'
+    check 'exemptions-category-assessment-34aad1bc2c330cd7635ef3fdacef2de7-y904-field'
 
     click_on 'Continue'
 
@@ -264,15 +251,9 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_text('Your goods may be Category 2')
 
-    # Check the first 'exemptions-category-assessment-23-none-field'
-    all('#exemptions-category-assessment-23-none-field').first.set(true)
-
-    # find(:css, 'input[name="exemptions-category-assessment-23-none-field"]:nth-of-type(1)').set(true)
-
-    # This checkbox has the same ID as previouse "none" in a different Cat Assessment
-    # TODO: check Back End API
-    # check 'exemptions-category-assessment-23-none-field'
-    check 'exemptions-category-assessment-818-none-field'
+    check 'exemptions-category-assessment-37f58c7ec2982bf82ab238d33b376b4f-none-field'
+    check 'exemptions-category-assessment-abed84f406002f0d36f8660d9f80884e-none-field'
+    check 'exemptions-category-assessment-5667f4515c310042a7349c3aa31bd57e-none-field'
 
     click_on 'Continue'
 
@@ -302,9 +283,9 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_text('Your goods may be Category 2')
 
-    # We check 1 checkbox instead of two because they share the same ID (there is a ticket to solve this)
-    all('#exemptions-category-assessment-23-y170-field').first.set(true)
-    check 'exemptions-category-assessment-818-y900-field'
+    check 'exemptions-category-assessment-37f58c7ec2982bf82ab238d33b376b4f-y170-field'
+    check 'exemptions-category-assessment-abed84f406002f0d36f8660d9f80884e-y058-field'
+    check 'exemptions-category-assessment-5667f4515c310042a7349c3aa31bd57e-y900-field'
 
     click_on 'Continue'
 

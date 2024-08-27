@@ -10,7 +10,7 @@ module GreenLanesHelper
   def render_exemptions_or_no_card(category, assessments, result)
     no_exemptions = assessments.send("no_cat#{category}_exemptions")
     assessments_met = assessments.send("cat_#{category}_assessments_met")
-    total_assessments = assessments.send("cat_#{category}_assessments").pluck(:category_assessment_id).map(&:to_s)
+    total_assessments = assessments.send("cat_#{category}_assessments").pluck(:resource_id).map(&:to_s)
 
     all_assessments_met = total_assessments.count == assessments_met.count
 

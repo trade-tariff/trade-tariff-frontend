@@ -30,15 +30,13 @@
   <li>
     <%= link_to 'Become an authorised trader under the UK Internal Market Scheme (UKIMS) (opens in a new tab)',
                 'https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland',
-                target: '_blank', rel: 'noopener noreferrer'
-    %> if you are not already.
+                target: '_blank', rel: 'noopener noreferrer' %> if you are not already.
   </li>
   <li>Prepare an Internal Market Movement Information (IMMI) submission either pre-movement or post-movement, depending on your preference.</li>
   <li>Submit the IMMI using a customs agent, or free-to-use services provided by the
       <%= link_to 'Trader Support Service (TSS) (opens in a new tab).',
                 'https://www.gov.uk/guidance/trader-support-service',
-                target: '_blank', rel: 'noopener noreferrer'
-      %>
+                target: '_blank', rel: 'noopener noreferrer' %>
   </li>
 </ol>
 
@@ -64,7 +62,6 @@
 <%= render 'green_lanes/shared/about_your_goods_card',
             title: 'Your goods',
             optional_rows: [:category],
-            edit_path: 'EDIT GOOD DETAILS PAGE'
-%>
+            edit_path: 'EDIT GOOD DETAILS PAGE' %>
 
 <%= render_exemptions(@assessments, @category) %>
