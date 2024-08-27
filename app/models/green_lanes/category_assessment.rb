@@ -28,8 +28,10 @@ class GreenLanes::CategoryAssessment
   end
 
   def answered_exemptions(answers)
+    applicable_answers = answers.dig(category.to_s, resource_id.to_s) || []
+
     exemptions.select do |exemption|
-      answers.dig(category.to_s, category_assessment_id.to_s).include?(exemption.code)
+      applicable_answers.include?(exemption.code)
     end
   end
 end
