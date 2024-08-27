@@ -21,45 +21,19 @@ module GreenLanes
       @answers = check_your_answers_params[:ans]
       @c1ex = check_your_answers_params[:c1ex]
       @c2ex = check_your_answers_params[:c2ex]
-      @back_link_path = determine_back_link_path(check_your_answers_params)
+      @back_link_path = back_link_path_for_current_page
     end
 
     private
 
     def determine_back_link_path(permitted_params)
-      ans = permitted_params[:ans]
 
-      category = if ans.nil? || @category_two_assessments_without_exemptions.present?
-                   1
-                 elsif ans['2'].present?
-                   2
-                 else
-                   1
-                 end
-
-      base_params = {
-        commodity_code: permitted_params[:commodity_code],
-        country_of_origin: permitted_params[:country_of_origin],
-        moving_date: permitted_params[:moving_date],
-      }
-
-      back_link_params = if category == 2
-                           base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex], c2ex: permitted_params[:c2ex])
-                         elsif ans.nil? || ans['1'].nil?
-                           base_params
-                         else
-                           base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex])
-                         end
-
-      green_lanes_applicable_exemptions_path(back_link_params)
-
-      if category == 2 && @category_two_assessments_without_exemptions.empty?
-        new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex], c2ex: permitted_params[:c2ex]))
-      elsif ans.nil? || ans['1'].nil? || @category_one_assessments_without_exemptions.present?
-        new_green_lanes_moving_requirements_path(base_params)
-      else
-        new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex]))
-      end
+      BackLinkPath.new(
+        current_page: :check_your_answers,
+        params:,
+        category_one_assessments_without_exemptions: @category_one_assessments_without_exemptions,
+        category_two_assessments_without_exemptions: @category_two_assessments_without_exemptions,
+      ).call
     end
 
     def candidate_categories
