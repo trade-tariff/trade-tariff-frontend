@@ -1,4 +1,40 @@
-#popup.tariff-info {
+/* Prevent scrolling when modal is open */
+.modal-open {
+  overflow: hidden;
+}
+
+/* Backdrop for modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 1040;
+  opacity: 0;
+  transition: opacity 0.15s linear;
+}
+
+/* Fade effect for modal */
+.fade {
+  transition: opacity 0.15s linear;
+}
+
+/* Show class for modal */
+.show {
+  display: block !important;
+  opacity: 1;
+}
+
+.modal-border{
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+}
+
+/* styling for the modal */
+.modal {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
@@ -6,21 +42,26 @@
   width: 100%;
   max-width: 960px;
   max-height: 90%;
-  padding:0;
-  zoom:1;
-  z-index: 10;
+  padding: 0;
+  zoom: 1;
+  z-index: 1050;
   overflow-y: scroll;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+
   @media (min-width: $desktop-min-width) {
     top: 30px;
     width: 80%;
   }
+
   &:focus {
     outline: 0;
   }
 
   @include ie(6) {
     position: absolute;
-    width:720px;
+    width: 720px;
   }
 
   .close {
@@ -35,13 +76,13 @@
       background-position: 50% 50%;
       background-repeat: no-repeat;
       display: block;
-      margin: 0;
       height: 2em;
       width: 2em;
       text-indent: -9999px;
+      font-size: 19px;
 
       &:hover {
-        background-color: rgba(0,0,0,0.25);
+        background-color: rgba(0, 0, 0, 0.25);
       }
     }
   }
@@ -56,15 +97,14 @@
     padding: 2.4em px($top-level-padding) px($top-level-padding) px($top-level-padding);
   }
 
-  /* resets for article styles */
+  /* Resets for article styles */
   article {
-    float:none;
-    margin:0;
-    width:auto;
-    height:auto;
-    min-height:0;
-
-    overflow:hidden;
+    float: none;
+    margin: 0;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
 
     @media(max-width: $mobile-max-width) {
       overflow-x: scroll;
@@ -75,37 +115,43 @@
       margin-top: 1em;
     }
 
-  }
-
-  .close {
-    padding:0.2em px($top-level-padding) 0.2em 0.5em;
-    text-align:right;
-
-    a {
-      background-position:0.6875em 0.6875em;
-      display:inline-block;
-      text-indent:99999px;
-      overflow:hidden;
+    p {
+      font-size: 19px;
+      margin-top: 0;
+      line-height: 25px;
     }
   }
 
   table {
-    margin:0;
-    width:100%;
+    margin: 0;
+    width: 100%;
 
     caption {
       padding-left: 0;
       padding-right: 0;
+
       :first-child {
         margin-top: 0;
       }
+
       h2:focus {
         outline: 0;
       }
     }
 
+    th {
+      font-size: 19px;
+      padding: 10px 20px 10px 0;
+    }
+    td {
+      font-size: 19px;
+      font-weight: 400;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
     p {
-      font-size: 1em;
+      font-size: 19px;
       margin-top: 0;
     }
   }
