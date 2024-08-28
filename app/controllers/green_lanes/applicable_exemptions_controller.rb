@@ -102,14 +102,6 @@ module GreenLanes
       params.permit(:commodity_code, :country_of_origin, :moving_date)
     end
 
-    def moving_requirements_params
-      params.require(:green_lanes_moving_requirements_form).permit(
-        :commodity_code,
-        :country_of_origin,
-        :moving_date,
-      )
-    end
-
     def category
       @category ||= params[:category].to_i
     end

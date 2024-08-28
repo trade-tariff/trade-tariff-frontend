@@ -16,7 +16,7 @@
         <em class="commcode">Commodity code</em>
       </div>
     </div>
-    <ul class="commodities js-commodities">
+    <ul class="commodities" data-controller='highlighter' data-highlighter-term-value='<%= params[:t] if params[:t].present? %>'>
       <%= render commodities, initial_indent: commodities.first&.number_indents %>
     </ul>
     <div class="tree-controls">

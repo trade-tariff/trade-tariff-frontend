@@ -15,7 +15,7 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
         {
           commodity_code: '6203000000',
           country_of_origin: 'IT',
-          moving_date: { year => 2022, month => 2, day => 3 },
+          moving_date: { year => '2022', month => '2', day => '3' },
         }
       end
 
@@ -27,7 +27,7 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
         {
           commodity_code: '1234567890',
           country_of_origin: 'IT',
-          moving_date: { year => 2022, month => 2, day => 3 },
+          moving_date: { year => '2022', month => '2', day => '3' },
         }
       end
 
@@ -56,7 +56,7 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
     describe 'date validation' do
       context 'when day is empty' do
         let(:params) do
-          { moving_date: { year => 1998, month => 12, day => nil } }
+          { moving_date: { year => '1998', month => '12', day => '' } }
         end
 
         it { expect(form.errors[:moving_date]).to eq(['Enter a valid date, for example, 01 02 2024']) }
@@ -64,7 +64,7 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
 
       context 'when year is 2 digit instead of 4' do
         let(:params) do
-          { moving_date: { year => 24, month => 12, day => 20 } }
+          { moving_date: { year => '24', month => '12', day => '20' } }
         end
 
         it { expect(form.errors[:moving_date]).to eq(['Enter a valid date, for example, 01 02 2024']) }
@@ -72,7 +72,7 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
 
       context 'when date is correct' do
         let(:params) do
-          { moving_date: { year => 2024, month => 12, day => 20 } }
+          { moving_date: { year => '2024', month => '12', day => '20' } }
         end
 
         it { expect(form.errors[:moving_date]).to be_empty }
