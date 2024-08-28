@@ -84,26 +84,26 @@ export default class extends Controller {
       }
     });
 
-    //handle submit button event
+    // handle submit button event
     const formElement = this.inputElement.closest('form');
     formElement.addEventListener('submit', (event) => {
-        event.preventDefault();
-        this.inputElement.value = this.inputElementForEventHandling.value;
-        this.#handleSubmitEvent(event);
+      event.preventDefault();
+      this.inputElement.value = this.inputElementForEventHandling.value;
+      this.#handleSubmitEvent(event);
     });
   }
 
   #handleSubmitEvent(event) {
     // Event handling for when user doesn't wait for autocomplete and submits a search
-    if(event.key){
+    if (event.key) {
       if (event.key === 'Enter') {
-        if(event.target.value){
+        if (event.target.value) {
           this.inputElement.value = event.target.value;
           const text = event.target.value;
           Utility.commoditySelectorOnConfirm(text, this.options, this.resourceIdHidden, this.inputElement);
         }
       }
-    }else{
+    } else {
       // no key event so submit the form anyway
       const form = this.inputElement.closest('form');
       form.submit();
@@ -111,9 +111,9 @@ export default class extends Controller {
   }
 
   #setPlaceholder() {
-    const placeholderText = window.matchMedia('(max-width: 440px)').matches
-      ? 'Name of goods or comm code'
-      : 'Enter the name of the goods or commodity code';
+    const placeholderText = window.matchMedia('(max-width: 440px)').matches ?
+      'Name of goods or comm code' :
+      'Enter the name of the goods or commodity code';
     this.inputElement.setAttribute('placeholder', placeholderText);
   }
 }
