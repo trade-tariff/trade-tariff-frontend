@@ -38,6 +38,6 @@ RSpec.describe GreenLanes::ApplicableExemptionsController, type: :request,
     end
 
     it { is_expected.to have_http_status :redirect }
-    it { is_expected.to redirect_to('http://www.example.com/green_lanes/check_your_answers?ans%5B1%5D%5B18fcbb5b75781f8a676bd84dae9c170e%5D%5B%5D=none&ans%5B1%5D%5Ba6b633a7b098132ec45c036d0e14713a%5D%5B%5D=Y997&c1ex=false&category=1&commodity_code=4114109000&country_of_origin=UA&moving_date=2024-05-29') }
+    it { is_expected.to redirect_to('http://www.example.com/check-spimm-eligibility/check_your_answers?ans%5B1%5D%5B18fcbb5b75781f8a676bd84dae9c170e%5D%5B%5D=none&ans%5B1%5D%5Ba6b633a7b098132ec45c036d0e14713a%5D%5B%5D=Y997&c1ex=false&category=1&commodity_code=4114109000&country_of_origin=UA&moving_date=2024-05-29') }
   end
 end

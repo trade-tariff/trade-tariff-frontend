@@ -65,7 +65,7 @@ module GreenLanes
     def new_exemptions_path(category, params = {})
       query = params.to_query
 
-      "/green_lanes/applicable_exemptions/new?category=#{category}" + (query.present? ? "&#{query}" : '')
+      "/check-spimm-eligibility/applicable_exemptions/new?category=#{category}" + (query.present? ? "&#{query}" : '')
     end
 
     def check_your_answers
