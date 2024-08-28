@@ -171,7 +171,6 @@
       if (context === undefined) {
         context = document.body;
       }
-
       this.measuresTable.initialize();
       this.copyCode.initialize();
     },
