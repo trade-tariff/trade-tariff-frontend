@@ -1,21 +1,19 @@
 require 'spec_helper'
 
 RSpec.describe GreenLanesHelper, type: :helper do
-  let(:assessment_1) { OpenStruct.new(category_assessment_id: 1) }
-  let(:assessment_2) { OpenStruct.new(category_assessment_id: 2) }
-
-  let(:assessments) do
-    instance_double('Assessments',
-                    no_cat1_exemptions: false,
-                    cat_1_assessments_met: [1],
-                    cat_1_assessments: [assessment_1, assessment_2])
-  end
-
-  before do
-    allow(helper).to receive(:render)
-  end
+  before { allow(helper).to receive(:render) }
 
   describe '#render_exemptions_or_no_card' do
+    let(:assessments) do
+      instance_double('Assessments',
+                      no_cat1_exemptions: false,
+                      cat_1_assessments_met: [1],
+                      cat_1_assessments: [assessment_1, assessment_2])
+    end
+
+    let(:assessment_1) { OpenStruct.new(category_assessment_id: 1) }
+    let(:assessment_2) { OpenStruct.new(category_assessment_id: 2) }
+
     context 'when result is "3"' do
       it 'renders exemptions_card' do
         helper.render_exemptions_or_no_card(1, assessments, '3')
@@ -150,6 +148,38 @@ RSpec.describe GreenLanesHelper, type: :helper do
 
     describe '#green_lanes_eligibility_start_path' do
       it { expect(helper.green_lanes_eligibility_start_path).to eq('/green_lanes/start/new') }
+    end
+
+    describe '#exemption_met?' do
+      subject(:exemption_met?) { helper.exemption_met?(category_assessment.exemptions.first.code, 2, category_assessment, answers) }
+
+      let(:category_assessment) { build(:category_assessment, :with_exemptions) }
+
+      context 'when there are answers given and the answers include our exemption code' do
+        let(:answers) do
+          {
+            '2' => {
+              category_assessment.resource_id => [category_assessment.exemptions.first.code],
+            },
+          }
+        end
+
+        it { is_expected.to be(true) }
+      end
+
+      context 'when there are answers given and the answers include none' do
+        let(:answers) do
+          { '2' => { category_assessment.id => %w[none] } }
+        end
+
+        it { is_expected.to be(false) }
+      end
+
+      context 'when there are no answers given' do
+        let(:answers) { {} }
+
+        it { is_expected.to be(false) }
+      end
     end
 
     # rubocop:enable RSpec/InstanceVariable

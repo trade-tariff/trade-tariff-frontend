@@ -7,7 +7,7 @@
 
 'use strict';
 
-(function() {
+(function () {
   const IMask = require('imask');
   const debounce = require('./debounce');
 
@@ -22,289 +22,6 @@
 
   GOVUK.tariff = {
     /**
-        @name GOVUK.tariff.tablePopup
-        @object
-        @description Adds popup behaviour to tariff table cells
-      */
-    tablePopup: {
-      html: ['<div class="info-content"><h2 id="dialog-title" class="govuk-visually-hidden">',
-        '</h2>' +
-                      '<p class="close"><a href="#">Close</a></p>' +
-                      '<div class="info-inner">' +
-                          '<p>Content unavailable</p>' +
-                      '</div>' +
-                  '</div>'],
-      /**
-            @name GOVUK.tariff.tablePopup.adapt
-            @function
-            @description adapts the disclaimer popup for reuse
-            @param {Object} $this jQuery-wrapped link that fired the popup
-          */
-      adapt: function($linkElm) {
-        const that = this;
-
-        const url = $linkElm.attr('href');
-        const $popup = $('#popup');
-        const $popupInner = $popup.find('div.info-inner');
-        const $dialogTitle = $('#dialog-title');
-        const $closeBtn = $popup.find('.close a');
-        const $mask = $('#mask');
-        const loader = '<img src="" alt="Content is loading" class="loader" />';
-        let htmlContent;
-        let popupCSS;
-
-        htmlContent = $('[data-popup=' + $linkElm.data('popup-ref') + ']').html();
-        $popupInner.html(htmlContent);
-
-        // reset the tabindex of the heading
-        $dialogTitle
-            .attr('tabindex', 0)
-            .trigger('focus');
-        $popup
-            .attr({
-              'tabindex': -1,
-              'role': 'dialog',
-              'aria-labelledby': 'dialog-title',
-            })
-            .on('click', function(e) {
-              // If the user has clicked outside of the actual popup but not on the mask
-              // Will switch to CSS when IE11+ support is required
-              if (e.target.id == 'popup') {
-                closePopup();
-              }
-            });
-
-        $mask
-            .on('click', function() {
-              closePopup();
-            });
-
-        closePopup = function() {
-          $popup.fadeOut(400, function() {
-            $mask.slideUp('fast', function() {
-              $(this).remove(); $popup.remove();
-            });
-          });
-          that.scrollInPopup(false);
-          $linkElm.trigger('focus');
-        };
-
-        // return focus to the trigger link when the lightbox closes
-        $closeBtn.on('click', function(e) {
-          $linkElm.trigger('focus');
-        });
-
-        // dialogs need focus to be retained until closed so control tabbing
-        $popup.on('keydown', function(e) {
-          if (e.which == 9) {
-            // cancel tabbing from the close button (assumed this is the last link)
-            if (e.target.nodeName.toLowerCase() === 'a') {
-              if (!event.shiftKey) {
-                return false;
-              }
-            } else {
-              // popup removes tabindex from the title by default so re-apply it
-              if (e.target.nodeName.toLowerCase() === 'h2') {
-                e.target.tabIndex = 0;
-              }
-
-              // cancel reverse-tabbing out of the popup
-              if (event.shiftKey) {
-                return false;
-              }
-            }
-          }
-
-          return true;
-        });
-      },
-      /**
-            @name GOVUK.tariff.tablePopup.open
-            @function
-            @description opens the popup
-            @param {Element} $target Target of the click event
-          */
-      scrollInPopup: function(scrollPopup) {
-        if (scrollPopup == true) {
-          $('body, html').css('overflow', 'hidden');
-        } else {
-          $('body, html').css('overflow', '');
-        }
-      },
-      open: function($target) {
-        const title = this.html[0] + 'Conditions' + this.html[1];
-
-        BetaPopup.maskOpacity = 0.2;
-        BetaPopup.popup(title, 'tariff-info');
-        this.adapt($target);
-        this.scrollInPopup(true);
-      },
-      /**
-            @name GOVUK.tariff.tablePopup.initialize
-            @function
-            @description initializes the popup behaviour
-            @param {String} context Element in which to add behaviours
-          */
-      initialize: function(context) {
-        const that = this;
-        const hash = window.location.hash;
-        const $linkElms = $('table td a.reference', context);
-        let tabId;
-
-        $('#import-measure-references, #export-measure-references').hide();
-
-        $linkElms.each(function(idx, linkElm) {
-          const $linkElm = $(linkElm);
-
-          $linkElm.attr('title', 'Opens in a popup');
-          $linkElm.on('click', function(e) {
-            that.open($(this));
-            return false;
-          });
-        });
-
-        if (window.location.hash.length > 0) {
-          const anchor = window.location.hash.split('#')[1];
-
-          const popupLink = context.querySelector('a[data-popup-ref="' + anchor + '"]');
-          if (popupLink) {
-            // switch to tab which contains the link
-            const containingTabId = $(popupLink).parents('.govuk-tabs__panel').attr('id');
-            if (containingTabId) {
-              $('.govuk-tabs__list-item a[href="' + containingTabId + '"]').trigger('click');
-            }
-
-            // click link for popup
-            $(popupLink).trigger('click');
-          } else {
-            const matches = anchor.match(/^order-number-(\d+)$/);
-            const unknownOrderPopupLink = $('a[data-popup-ref="unknown-quota-definition"]');
-
-            if (matches && unknownOrderPopupLink.length > 0) {
-              $('div[data-popup="unknown-quota-definition"] .unknown-quota-order-number').text(matches[1]);
-              that.open(unknownOrderPopupLink);
-            }
-          }
-        }
-      },
-    },
-    /**
-        @name GOVUK.tariff.searchHighlight
-        @object
-        @description highlights search terms
-      */
-    searchHighlight: {
-      initialize: function() {
-        if (GOVUK.tariff.utils.getUrlParam('t')) {
-          const words = GOVUK.tariff.utils.getUrlParam('t').replace(/\+/g, ' ');
-          const passages = '.js-results-subset a,' + // Search results page
-                           '.js-commodities .description'; // Commodity tree (headings) page
-          $(passages).mark(words, {className: 'highlight'});
-        }
-      },
-    },
-    /**
-        @name GOVUK.tariff.countryPicker
-        @object
-        @description container for country picker behaviour
-      */
-    countryPicker: {
-      initialize: function() {
-        const control = 'js-country-picker';
-        const $controlForm = $('fieldset[class~=' + control + ']');
-
-        // Submit button not needed if JavaScript is enabled
-        $controlForm.find('.search-submit').hide();
-
-        this.showOrHideResetLink($controlForm);
-
-        if ($('#tariff_date_date').length > 0) {
-          // configure and activate datepicker
-          const datepickerInput = $('#tariff_date_date')[0];
-          const datepickerButton = $('#search-datepicker-button')[0];
-          const datepickerDialog = $('#search-datepicker-dialog')[0];
-
-          const dtpicker = new DatePicker(datepickerInput, datepickerButton, datepickerDialog);
-          dtpicker.init();
-
-          // on datepicker change, update individual date inputs
-          $('#tariff_date_date').on('change', function() {
-            const parts = $('#tariff_date_date').val().split('/');
-
-            $('#tariff_date_day').val(parts[0]);
-            $('#tariff_date_month').val(parts[1]);
-            $('#tariff_date_year').val(parts[2]);
-          });
-
-          // with JS enable link style submit
-          $('.js-date-picker a.submit').show();
-
-          // input mask
-          const dateMask = IMask($('#tariff_date_date')[0], {
-            mask: Date, // enable date mask
-
-            // other options are optional
-            pattern: 'd{/}`m{/}`Y', // Pattern mask with defined blocks, default is 'd{.}`m{.}`Y'
-            // you can provide your own blocks definitions, default blocks for date mask are:
-            blocks: {
-              d: {
-                mask: IMask.MaskedRange,
-                from: 1,
-                to: 31,
-                maxLength: 2,
-              },
-              m: {
-                mask: IMask.MaskedRange,
-                from: 1,
-                to: 12,
-                maxLength: 2,
-              },
-              Y: {
-                mask: IMask.MaskedRange,
-                // from: 2008,
-                to: (new Date()).getFullYear() + 1,
-              },
-            },
-            // define date -> str convertion
-            format: function(date) {
-              let day = date.getDate();
-              let month = date.getMonth() + 1;
-              const year = date.getFullYear();
-
-              if (day < 10) day = '0' + day;
-              if (month < 10) month = '0' + month;
-
-              return [day, month, year].join('/');
-            },
-            // define str -> date convertion
-            parse: function(str) {
-              const yearMonthDay = str.split('/');
-              return new Date(parseInt(yearMonthDay[2], 10), parseInt(yearMonthDay[1], 10) - 1, parseInt(yearMonthDay[0], 10));
-            },
-
-            // optional interval options
-            min: new Date(2008, 0, 1), // defaults to `1900-01-01`
-            max: new Date((new Date()).getFullYear() + 1, 11, 31), // defaults to `9999-01-01`
-
-            autofix: false, // defaults to `false`
-
-            // also Pattern options can be set
-            lazy: false,
-
-            // and other common options
-            overwrite: true, // defaults to `false`
-          });
-        }
-
-        $('.js-show').show();
-      },
-      showOrHideResetLink: function($controlForm) {
-        if ($controlForm.find('select').val() != '') {
-          $('.reset-country-picker').css('display', 'table-cell');
-        }
-      },
-    },
-    /**
         @name utils
         @namespace
         @description utilities for the GOVUK.tariff namespace
@@ -316,10 +33,10 @@
           @description trigger a click on an element. To be on an element via the call() method
           @param {String} event Name of the event to trigger
         */
-      triggerClick: function() {
+      triggerClick: function () {
         if (document.createEvent) {
           var evt = document.createEvent('HTMLEvents');
-          evt.initEvent('click', true, true ); // event type, bubbling, cancelable
+          evt.initEvent('click', true, true); // event type, bubbling, cancelable
           return this.dispatchEvent(evt);
         } else {
           // dispatch for IE
@@ -333,13 +50,13 @@
           @description controls the getting and setting of cookies
         */
       cookies: {
-        set: function(cname, cvalue, exdays) {
+        set: function (cname, cvalue, exdays) {
           const d = new Date();
-          d.setTime(d.getTime() + (exdays*24*60*60*1000));
-          const expires = 'expires='+d.toUTCString();
+          d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+          const expires = 'expires=' + d.toUTCString();
           document.cookie = cname + '=' + cvalue + '; ' + expires;
         },
-        get: function(cname) {
+        get: function (cname) {
           const name = cname + '=';
           const ca = document.cookie.split(';');
           for (let i = 0; i < ca.length; i++) {
@@ -359,9 +76,9 @@
           @function
           @description gets a variable value from the query string based on its name
         */
-      getUrlParam: function(name) {
+      getUrlParam: function (name) {
         const results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
-        if (results==null) {
+        if (results == null) {
           return null;
         } else {
           return results[1] || 0;
@@ -369,7 +86,7 @@
       },
     },
     measuresTable: {
-      initialize: function() {
+      initialize: function () {
         this.$tables = $('table.measures');
 
         if (this.$tables.length <= 0) {
@@ -379,28 +96,28 @@
         this.bindEvents();
         this.enforceHeights();
       },
-      bindEvents: function() {
+      bindEvents: function () {
         const self = this;
 
-        $(window).on('resize', function() {
+        $(window).on('resize', function () {
           self.enforceHeights();
         });
 
-        $('.js-tabs a').on('click', function() {
+        $('.js-tabs a').on('click', function () {
           self.enforceHeights();
         });
       },
-      enforceHeights: function() {
+      enforceHeights: function () {
         const windowWidth = $(window).width();
 
-        this.$tables.each(function() {
+        this.$tables.each(function () {
           const table = $(this);
 
-          table.find('dt.has_children').each(function() {
+          table.find('dt.has_children').each(function () {
             const dt = $(this);
             const secondColumn = dt.closest('td').next();
             let height = 0;
-            secondColumn.find('span.table-line').each(function() {
+            secondColumn.find('span.table-line').each(function () {
               height += $(this).outerHeight();
             });
 
@@ -414,32 +131,32 @@
       },
     },
     copyCode: {
-      initialize: function() {
+      initialize: function () {
         const that = this;
 
-        $('#copy_comm_code').on('click', function(event) {
+        $('#copy_comm_code').on('click', function (event) {
           that.copy(event);
         });
       },
-      copy: function(event) {
+      copy: function (event) {
         const commodityCode = $('.commodity-header').data('comm-code');
         this.copyToClipboard(commodityCode);
 
         $('.copied').css('text-indent', '0');
         $('.copied')
-            .delay(500)
-            .fadeOut(750, function() {
-              $('.copied').css('text-indent', '-999em');
-              $('.copied').css('display', 'block');
-            });
+          .delay(500)
+          .fadeOut(750, function () {
+            $('.copied').css('text-indent', '-999em');
+            $('.copied').css('display', 'block');
+          });
         event.preventDefault();
       },
-      copyToClipboard: function(text) {
+      copyToClipboard: function (text) {
         const temp = $('<input>');
         $('body').append(temp);
         temp
-            .val(text)
-            .trigger('select');
+          .val(text)
+          .trigger('select');
         document.execCommand('copy');
         temp.remove();
       },
@@ -450,14 +167,11 @@
         @description adds behaviours
         @param {Element} content Element in which to add behaviours
       */
-    onLoad: function(context) {
+    onLoad: function (context) {
       if (context === undefined) {
         context = document.body;
       }
-
-      this.tablePopup.initialize(context);
-      this.searchHighlight.initialize();
-      this.countryPicker.initialize();
+      
       this.measuresTable.initialize();
       this.copyCode.initialize();
     },
