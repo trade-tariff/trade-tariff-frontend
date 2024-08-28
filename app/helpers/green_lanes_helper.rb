@@ -1,10 +1,10 @@
 module GreenLanesHelper
-  def exemption_checkbox_checked?(category_assessment_id, exemption_code)
-    category_assessments_checked(category_assessment_id)&.include?(exemption_code)
+  def exemption_checkbox_checked?(resource_id, exemption_code)
+    category_assessments_checked(resource_id)&.include?(exemption_code)
   end
 
-  def exemption_checkbox_none?(category_assessment_id)
-    exemption_checkbox_checked?(category_assessment_id, 'none')
+  def exemption_checkbox_none?(resource_id)
+    exemption_checkbox_checked?(resource_id, 'none')
   end
 
   def render_exemptions_or_no_card(category, assessments, result)
@@ -25,7 +25,7 @@ module GreenLanesHelper
   def exemption_met?(exemption_code, category, category_assessment, answers)
     return false if answers.blank?
 
-    category_assessment_answer = dig_category_answer(answers, category, category_assessment.category_assessment_id)
+    category_assessment_answer = dig_category_answer(answers, category, category_assessment.resource_id)
     category_assessment_answer.present? && category_assessment_answer != %w[none] && category_assessment_answer.include?(exemption_code)
   end
 
@@ -33,7 +33,7 @@ module GreenLanesHelper
     return false if answers.blank?
 
     category_assessments.all? do |ca|
-      category_assessment_answer = dig_category_answer(answers, category, ca.category_assessment_id)
+      category_assessment_answer = dig_category_answer(answers, category, ca.resource_id)
       category_assessment_answer.present? && category_assessment_answer != %w[none]
     end
   end
@@ -69,11 +69,11 @@ module GreenLanesHelper
 
   private
 
-  def category_assessments_checked(category_assessment_id)
-    params.dig(:exemptions, :category_assessments_checked, category_assessment_id.to_s)
+  def category_assessments_checked(resource_id)
+    params.dig(:exemptions, :category_assessments_checked, resource_id.to_s)
   end
 
-  def dig_category_answer(answers, category, category_assessment_id)
-    answers.dig(category.to_s, category_assessment_id.to_s)
+  def dig_category_answer(answers, category, resource_id)
+    answers.dig(category.to_s, resource_id.to_s)
   end
 end
