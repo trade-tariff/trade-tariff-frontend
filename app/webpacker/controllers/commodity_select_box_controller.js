@@ -60,7 +60,7 @@ export default class extends Controller {
       showAllValues: false,
       confirmOnBlur: false,
       displayMenu: 'overlay',
-      placeholder: this.inputElement.getAttribute('placeholder'),//'Enter the name of the goods or commodity code',
+      placeholder: this.inputElement.getAttribute('placeholder'),
       tNoResults: () => this.searching ? 'Searching...' : 'No results found',
       templates: {
         inputValue: this.inputValueTemplate.bind(this),
