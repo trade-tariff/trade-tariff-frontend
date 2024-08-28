@@ -66,6 +66,7 @@ module GreenLanes
 
     # Goods nomenclature methods
     def goods_nomenclature
+      # goods_nomenclature_params[:moving_date] = Date.parse(goods_nomenclature_params[:moving_date])
       @goods_nomenclature ||= FetchGoodsNomenclature.new(goods_nomenclature_params).call
     end
 
@@ -99,14 +100,6 @@ module GreenLanes
     # Parameter handling methods
     def goods_nomenclature_params
       params.permit(:commodity_code, :country_of_origin, :moving_date)
-    end
-
-    def moving_requirements_params
-      params.require(:green_lanes_moving_requirements_form).permit(
-        :commodity_code,
-        :country_of_origin,
-        :moving_date,
-      )
     end
 
     def category

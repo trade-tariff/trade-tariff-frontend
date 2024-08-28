@@ -1,22 +1,20 @@
 <div class="govuk-summary-card">
   <div class="govuk-summary-card__title-wrapper">
     <h2 class="govuk-summary-card__title">
-      Category <%= category %> exemptions you have met
+      Your Category <%= category %> exemptions
     </h2>
   </div>
 
   <div class="govuk-summary-card__content">
     <div class="govuk-summary-list">
       <% @assessments.public_send("cat#{category}_with_exemptions").each do |category_assessment| %>
-        <% category_assessment.exemptions.select { |exemption| dig_category_answer(@answers, category, category_assessment.category_assessment_id).include?(exemption.code) }.each do |exemption| %>
+        <% category_assessment.answered_exemptions(@answers).each do |exemption| %>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               <%= exemption.code %>
             </dt>
             <dd class="govuk-summary-list__value">
               <%= exemption.formatted_description %>
-              <br><br>
-              Certificate needed
             </dd>
           </div>
         <% end %>

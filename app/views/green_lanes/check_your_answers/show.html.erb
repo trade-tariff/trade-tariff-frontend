@@ -8,8 +8,7 @@
 
     <%= render 'green_lanes/shared/about_your_goods_card',
                title: 'About your goods',
-               edit_path: 'EDIT GOOD DETAILS PAGE'
-    %>
+               edit_path: 'EDIT GOOD DETAILS PAGE' %>
 
     <% unless @category_one_assessments.empty? || @answers.nil? %>
       <h2 class="govuk-heading-m">Category exemptions</h2>
@@ -18,17 +17,15 @@
                  title: 'Category 1 exemptions',
                  category: '1',
                  assessments: @category_one_assessments,
-                 edit_path: 'EDIT PATH HERE CAT 1 questions'
-      %>
+                 edit_path: 'EDIT PATH HERE CAT 1 questions' %>
     <% end %>
 
-    <% if all_exemptions_met?(1, @category_one_assessments, @answers) %>
+    <% if all_exemptions_met?(1, @category_one_assessments, @answers) && @category_two_assessments_without_exemptions.empty? %>
       <%= render 'category_exemptions',
                  title: 'Category 2 exemptions',
                  category: '2',
                  assessments: @category_two_assessments,
-                 edit_path: 'EDIT PATH HERE CAT 2 questions'
-      %>
+                 edit_path: 'EDIT PATH HERE CAT 2 questions' %>
     <% end %>
 
     <div class="govuk-button-group">
