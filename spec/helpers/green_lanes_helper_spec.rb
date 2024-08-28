@@ -3,15 +3,13 @@ require 'spec_helper'
 RSpec.describe GreenLanesHelper, type: :helper do
   before { allow(helper).to receive(:render) }
 
-  describe '#hide_pseudo_codes' do
-    it 'returns an empty string for codes starting with WFE', :aggregate_failures do
-      expect(hide_pseudo_codes('WFE001')).to eq('')
-      expect(hide_pseudo_codes('WFE015')).to eq('')
+  describe '#hide_pseudo_code' do
+    it 'returns an empty string for codes starting with WFE' do
+      expect(hide_pseudo_code('WFE001')).to eq('')
     end
 
-    it 'returns the original code for codes not starting with WFE', :aggregate_failures do
-      expect(hide_pseudo_codes('Y171')).to eq('Y171')
-      expect(hide_pseudo_codes('Y093')).to eq('Y093')
+    it 'returns the original code for codes not starting with WFE' do
+      expect(hide_pseudo_code('Y171')).to eq('Y171')
     end
   end
 

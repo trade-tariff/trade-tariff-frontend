@@ -73,6 +73,10 @@ module GreenLanesHelper
     end
   end
 
+  def hide_pseudo_code(code)
+    code.start_with?('WFE') ? '' : code
+  end
+
   def unique_exemptions(assessments)
     exemptions = []
     displayed_exemptions = Set.new

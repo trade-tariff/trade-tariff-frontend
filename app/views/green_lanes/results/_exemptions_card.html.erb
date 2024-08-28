@@ -11,7 +11,7 @@
         <% category_assessment.answered_exemptions(@answers).each do |exemption| %>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              <%= exemption.display_code %>
+              <%= hide_pseudo_code(exemption.code) %>
             </dt>
             <dd class="govuk-summary-list__value">
               <%= exemption.formatted_description %>

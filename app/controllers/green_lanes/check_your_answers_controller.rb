@@ -12,9 +12,7 @@ module GreenLanes
       @moving_date = check_your_answers_params[:moving_date]
 
       @category_one_assessments = candidate_categories.cat1_with_exemptions
-      @category_two_assessments_without_exemptions = candidate_categories.cat2_without_exemptions
       @category_two_assessments = candidate_categories.cat2_with_exemptions
-      @category_two_assessments_without_exemptions = determine_category.cat2_without_exemptions
 
       @resulting_category = prettify_category(resulting_category)
 
@@ -26,14 +24,10 @@ module GreenLanes
 
     private
 
-    def determine_back_link_path(permitted_params)
-
-      BackLinkPath.new(
-        current_page: :check_your_answers,
-        params:,
-        category_one_assessments_without_exemptions: @category_one_assessments_without_exemptions,
-        category_two_assessments_without_exemptions: @category_two_assessments_without_exemptions,
-      ).call
+    def back_link_path_for_current_page
+      BackLinkPath.new(params: check_your_answers_params,
+                       category_one_assessments_without_exemptions: candidate_categories.cat1_without_exemptions,
+                       category_two_assessments_without_exemptions: candidate_categories.cat2_without_exemptions).call
     end
 
     def candidate_categories

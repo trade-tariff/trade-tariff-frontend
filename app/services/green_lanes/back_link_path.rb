@@ -1,7 +1,8 @@
 module GreenLanes
   class BackLinkPath
-    def initialize(current_page:, params:, category_one_assessments_without_exemptions:, category_two_assessments_without_exemptions:)
-      @current_page = current_page
+    def initialize(params:,
+                   category_one_assessments_without_exemptions:,
+                   category_two_assessments_without_exemptions:)
       @params = params
       @category_one_assessments_without_exemptions = category_one_assessments_without_exemptions
       @category_two_assessments_without_exemptions = category_two_assessments_without_exemptions
@@ -18,20 +19,31 @@ module GreenLanes
       }
 
       if category == 2 && @category_two_assessments_without_exemptions.empty?
-        Rails.application.routes.url_helpers.new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: @params[:c1ex], c2ex: @params[:c2ex]))
+        # Remvoing the old answers for the back link path
+        ans.delete('2')
+
+        Rails.application.routes.url_helpers
+          .new_green_lanes_applicable_exemptions_path(base_params.merge(category:,
+                                                                        ans:,
+                                                                        c1ex: @params[:c1ex]))
       elsif ans.nil? || ans['1'].nil? || @category_one_assessments_without_exemptions.present?
-        Rails.application.routes.url_helpers.new_green_lanes_moving_requirements_path(base_params)
+        Rails.application.routes.url_helpers
+          .new_green_lanes_moving_requirements_path(base_params)
       else
-        Rails.application.routes.url_helpers.new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: @params[:c1ex]))
+        Rails.application.routes.url_helpers
+          .new_green_lanes_applicable_exemptions_path(base_params.merge(
+                                                        category:,
+                                                        ans: {},
+                                                      ))
       end
     end
 
     private
 
-    def determine_category(ans)
-      if ans.nil? || @category_two_assessments_without_exemptions.present?
+    def determine_category(answers)
+      if answers.nil? || @category_two_assessments_without_exemptions.present?
         1
-      elsif ans['2'].present?
+      elsif answers['2'].present?
         2
       else
         1

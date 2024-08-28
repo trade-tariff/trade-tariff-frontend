@@ -8,7 +8,6 @@ module GreenLanes
 
     def new
       @exemptions_form = build_exemptions_form
-      @category_one_assessments_without_exemptions = determine_category.cat1_without_exemptions
       @back_link_path = back_link_path_for_current_page
 
       render_exemptions_questions
@@ -21,7 +20,7 @@ module GreenLanes
         next_page = determine_next_page
         redirect_to handle_next_page(next_page)
       else
-        @back_link_path = determine_back_link_path
+        @back_link_path = back_link_path_for_current_page
 
         render_exemptions_questions
       end
@@ -29,13 +28,21 @@ module GreenLanes
 
     private
 
-    def determine_back_link_path
-      BackLinkPath.new(
-        current_page: :new_applicable_exemptions,
-        params:,
-        category_one_assessments_without_exemptions: @category_one_assessments_without_exemptions,
-        category_two_assessments_without_exemptions: determine_category.cat2_without_exemptions,
-      ).call
+    def back_link_params
+      params.permit(
+        :commodity_code,
+        :country_of_origin,
+        :moving_date,
+        :c1ex,
+        :c2ex,
+        ans: {},
+      )
+    end
+
+    def back_link_path_for_current_page
+      BackLinkPath.new(params: back_link_params,
+                       category_one_assessments_without_exemptions: candidate_categories.cat1_without_exemptions,
+                       category_two_assessments_without_exemptions: candidate_categories.cat2_without_exemptions).call
     end
 
     def parsed_ans(ans_param)
