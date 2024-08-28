@@ -65,7 +65,6 @@ export default class Utility {
 
   static commoditySelectorOnConfirm(text, options, resourceIdHidden, inputElement) {
     let selectedOption = null;
-    console.log(options);
     options.forEach((option) => {
       if (option.text === text.id || option.text === text) {
         selectedOption = option;
