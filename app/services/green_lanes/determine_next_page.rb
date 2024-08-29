@@ -1,5 +1,7 @@
 module GreenLanes
   class DetermineNextPage
+    include Rails.application.routes.url_helpers
+
     def initialize(goods_nomenclature)
       @determine_category = GreenLanes::DetermineCategory.new(goods_nomenclature)
       @categories = @determine_category.categories
@@ -63,13 +65,13 @@ module GreenLanes
     end
 
     def new_exemptions_path(category, params = {})
-      query = params.to_query
-
-      "/check-spimm-eligibility/applicable_exemptions/new?category=#{category}" + (query.present? ? "&#{query}" : '')
+      new_green_lanes_applicable_exemptions_path(
+        params.merge(category:),
+      )
     end
 
     def check_your_answers
-      Rails.application.routes.url_helpers.green_lanes_check_your_answers_path
+      green_lanes_check_your_answers_path
     end
   end
 end
