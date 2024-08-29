@@ -761,12 +761,12 @@
     "@babel/helper-plugin-utils" "^7.22.5"
     "@babel/plugin-syntax-numeric-separator" "^7.10.4"
 
-"@babel/plugin-transform-object-assign@^7.23.3":
-  version "7.23.3"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.23.3.tgz#64177e8cf943460c7f0e1c410277546804f59625"
-  integrity sha512-TPJ6O7gVC2rlQH2hvQGRH273G1xdoloCj9Pc07Q7JbIZYDi+Sv5gaE2fu+r5E7qK4zyt6vj0FbZaZTRU5C3OMA==
+"@babel/plugin-transform-object-assign@^7.24.7":
+  version "7.24.7"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.24.7.tgz#9d2cc7ee1482bd208fcc51974ca4f7649662c899"
+  integrity sha512-DOzAi77P9jSyPijHS7Z8vH0wLRcZH6wWxuIZgLAiy8FWOkcKMJmnyHjy2JM94k6A0QxlA/hlLh+R9T3GEryjNQ==
   dependencies:
-    "@babel/helper-plugin-utils" "^7.22.5"
+    "@babel/helper-plugin-utils" "^7.24.7"
 
 "@babel/plugin-transform-object-rest-spread@^7.24.0":
   version "7.24.0"
