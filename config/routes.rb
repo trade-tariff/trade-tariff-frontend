@@ -107,18 +107,16 @@ Rails.application.routes.draw do
 
   resolve('GreenLanes::CategoryAssessmentSearch') { [:category_assessments] }
 
-  scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
-    namespace :green_lanes, path: 'check_spimm_eligibility' do
-      resource :category_assessments, only: %i[create show]
+  namespace :green_lanes, path: 'check_spimm_eligibility' do
+    resource :category_assessments, only: %i[create show]
 
-      resource :start, only: %i[new]
-      resource :eligibility, only: %i[new create]
-      resource :eligibility_result, only: %i[new]
-      resource :moving_requirements, only: %i[new create]
-      resource :applicable_exemptions, only: %i[new create]
-      resource :check_your_answers, only: %i[show]
-      resources :results, param: :category, only: %i[create]
-    end
+    resource :start, only: %i[new]
+    resource :eligibility, only: %i[new create]
+    resource :eligibility_result, only: %i[new]
+    resource :moving_requirements, only: %i[new create]
+    resource :applicable_exemptions, only: %i[new create]
+    resource :check_your_answers, only: %i[show]
+    resources :results, param: :category, only: %i[create]
   end
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'

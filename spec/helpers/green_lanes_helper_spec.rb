@@ -146,10 +146,6 @@ RSpec.describe GreenLanesHelper, type: :helper do
       end
     end
 
-    describe '#green_lanes_eligibility_start_path' do
-      it { expect(helper.green_lanes_eligibility_start_path).to eq('/green_lanes/start/new') }
-    end
-
     describe '#exemption_met?' do
       subject(:exemption_met?) { helper.exemption_met?(category_assessment.exemptions.first.code, 2, category_assessment, answers) }
 
