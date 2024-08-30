@@ -177,6 +177,10 @@ module TradeTariffFrontend
     "Bearer #{ENV['GREEN_LANES_API_TOKEN']}"
   end
 
+  def google_tag_manager_container_id
+    ENV.fetch('GOOGLE_TAG_MANAGER_CONTAINER_ID', '')
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app

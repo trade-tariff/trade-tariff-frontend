@@ -171,5 +171,9 @@ module "service" {
       name      = "GREEN_LANES_API_TOKEN"
       valueFrom = data.aws_secretsmanager_secret.green_lanes_api_tokens.arn
     },
+    {
+      name      = "GOOGLE_TAG_MANAGER_CONTAINER_ID"
+      valueFrom = data.aws_secretsmanager_secret.google_tag_manager_container_id.arn
+    },
   ]
 }
