@@ -108,15 +108,24 @@ Rails.application.routes.draw do
   resolve('GreenLanes::CategoryAssessmentSearch') { [:category_assessments] }
 
   namespace :green_lanes, path: 'check_spimm_eligibility' do
+    get '/', to: 'starts#new'
+    resource :start, only: %i[new]
+
     resource :category_assessments, only: %i[create show]
 
-    resource :start, only: %i[new]
-    resource :eligibility, only: %i[new create]
+    get 'your_movement', to: 'eligibilities#new'
+    resource :eligibility, only: %i[new create], path: 'your_movement'
     resource :eligibility_result, only: %i[new]
-    resource :moving_requirements, only: %i[new create]
-    resource :applicable_exemptions, only: %i[new create]
+
+    get 'your_goods', to: 'moving_requirements#new'
+    resource :moving_requirements, only: %i[new create], path: 'your_goods'
+
+    get 'category_exemptions', to: 'applicable_exemptions#new'
+    resource :applicable_exemptions, only: %i[new create], path: 'category_exemptions'
+
     resource :check_your_answers, only: %i[show]
-    resources :results, param: :category, only: %i[create]
+
+    resources :results, param: :category, only: %i[create], path: 'results'
   end
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'

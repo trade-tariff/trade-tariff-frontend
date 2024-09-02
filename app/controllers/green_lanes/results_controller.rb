@@ -31,7 +31,7 @@ module GreenLanes
     end
 
     def cas_without_exemptions
-      return [] if @category == '3'
+      return [] if category == '3'
 
       determine_category.public_send("cat#{category}_without_exemptions")
     end
@@ -45,11 +45,9 @@ module GreenLanes
     end
 
     def category
-      DetermineResultingCategory.new(categories, c1ex, c2ex).call.to_s
-    end
-
-    def categories
-      @categories ||= determine_category.categories
+      DetermineResultingCategory.new(
+        determine_category.categories, c1ex, c2ex
+      ).call.to_s
     end
 
     def c1ex

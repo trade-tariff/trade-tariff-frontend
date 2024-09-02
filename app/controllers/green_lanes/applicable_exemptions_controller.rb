@@ -115,7 +115,7 @@ module GreenLanes
 
     # Path helper methods
     def applicable_exemptions_path
-      green_lanes_applicable_exemptions_path(
+      green_lanes_category_exemptions_path(
         category:,
         commodity_code: params[:commodity_code],
         moving_date: params[:moving_date],

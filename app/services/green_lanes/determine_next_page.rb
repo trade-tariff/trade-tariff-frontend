@@ -65,7 +65,7 @@ module GreenLanes
     end
 
     def new_exemptions_path(category, params = {})
-      new_green_lanes_applicable_exemptions_path(
+      green_lanes_category_exemptions_path(
         params.merge(category:),
       )
     end

@@ -13,6 +13,8 @@ module GreenLanes
       @category_one_assessments = determine_category.cat1_with_exemptions
       @category_two_assessments_without_exemptions = determine_category.cat2_without_exemptions
       @category_two_assessments = determine_category.cat2_with_exemptions
+      @resulting_category = prettify_category(resulting_category)
+
       @answers = check_your_answers_params[:ans]
       @c1ex = check_your_answers_params[:c1ex]
       @c2ex = check_your_answers_params[:c2ex]
@@ -63,6 +65,14 @@ module GreenLanes
         :c2ex,
         ans: {},
       )
+    end
+
+    def resulting_category
+      DetermineResultingCategory.new(
+        determine_category.categories,
+        check_your_answers_params[:c1ex],
+        check_your_answers_params[:c2ex],
+      ).call.to_s
     end
   end
 end

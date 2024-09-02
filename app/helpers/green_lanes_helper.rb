@@ -63,6 +63,15 @@ module GreenLanesHelper
     [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No'), OpenStruct.new(id: 'not_sure', name: 'Not sure')]
   end
 
+  def prettify_category(category)
+    case category.to_i
+    when 1, 2
+      category.to_s
+    when 3
+      'standard'
+    end
+  end
+
   private
 
   def category_assessments_checked(resource_id)
