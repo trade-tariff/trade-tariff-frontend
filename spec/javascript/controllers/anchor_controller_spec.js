@@ -28,7 +28,7 @@ describe('AnchorController', () => {
     application.stop();
   });
 
-  it.only('launchModal method opens the modal with the correct content', () => {
+  it('launchModal method opens the modal with the correct content', async () => {
     const anchorController = application.getControllerForElementAndIdentifier(anchorElement, 'anchor');
     const modalController = application.getControllerForElementAndIdentifier(modalElement, 'modal');
 
@@ -42,20 +42,25 @@ describe('AnchorController', () => {
 
     anchorController.launchModal(event);
 
+    // Wait for the modal to be opened
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(event.preventDefault).toHaveBeenCalled();
     expect(modalController.open).toHaveBeenCalledWith('Modal Content for Test');
     expect(modalElement.classList.contains('show')).toEqual(true);
   });
 
-  it('handleClickOutsideOpenModal method closes the modal when clicking outside', () => {
+  it('handleClickOutsideOpenModal method closes the modal when clicking outside', async () => {
     const anchorController = application.getControllerForElementAndIdentifier(anchorElement, 'anchor');
     const modalController = application.getControllerForElementAndIdentifier(modalElement, 'modal');
 
     const event = {
       preventDefault: jest.fn(),
       currentTarget: anchorElement.querySelector('a'),
+      isTrusted: true,
     };
     anchorController.launchModal(event);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     jest.spyOn(modalController, 'close');
 
@@ -73,15 +78,17 @@ describe('AnchorController', () => {
     expect(modalElement.classList.contains('show')).toEqual(false);
   });
 
-  it('handleEscapePressWithOpenModal method closes the modal on Escape key press', () => {
+  it('handleEscapePressWithOpenModal method closes the modal on Escape key press', async () => {
     const anchorController = application.getControllerForElementAndIdentifier(anchorElement, 'anchor');
     const modalController = application.getControllerForElementAndIdentifier(modalElement, 'modal');
 
     const event = {
       preventDefault: jest.fn(),
       currentTarget: anchorElement.querySelector('a'),
+      isTrusted: true,
     };
     anchorController.launchModal(event);
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     jest.spyOn(modalController, 'close');
 

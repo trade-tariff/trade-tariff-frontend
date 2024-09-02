@@ -47,18 +47,18 @@ export default class extends Controller {
     }
 
     // ensure all modals are loaded before opening
-    // setTimeout(() => {
-    this.modalController = this.application.getControllerForElementAndIdentifier(
-        this.modalTarget,
-        'modal',
-    );
-    if (this.modalController) {
-      this.isModalOpen = true;
-      this.modalController.open(popupContent.innerHTML);
-    } else {
-      console.error('Modal controller could not be found');
-    }
-    // }, 0);
+    setTimeout(() => {
+      this.modalController = this.application.getControllerForElementAndIdentifier(
+          this.modalTarget,
+          'modal',
+      );
+      if (this.modalController) {
+        this.isModalOpen = true;
+        this.modalController.open(popupContent.innerHTML);
+      } else {
+        console.error('Modal controller could not be found');
+      }
+    }, 0);
   }
 
   handleClickOutsideOpenModal(event) {
