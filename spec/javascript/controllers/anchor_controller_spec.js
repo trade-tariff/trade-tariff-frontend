@@ -29,7 +29,6 @@ describe('AnchorController', () => {
   });
 
   it.only('launchModal method opens the modal with the correct content', () => {
-    console.log(window.location.hash);
     const anchorController = application.getControllerForElementAndIdentifier(anchorElement, 'anchor');
     const modalController = application.getControllerForElementAndIdentifier(modalElement, 'modal');
 
@@ -40,7 +39,7 @@ describe('AnchorController', () => {
       currentTarget: anchorElement.querySelector('a'),
       isTrusted: true,
     };
-console.log(event);
+
     anchorController.launchModal(event);
 
     expect(event.preventDefault).toHaveBeenCalled();

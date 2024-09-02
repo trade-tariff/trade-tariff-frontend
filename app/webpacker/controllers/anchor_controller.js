@@ -18,23 +18,23 @@ export default class extends Controller {
     this.isModalOpen = false;
   }
 
-  connect(){
+  connect() {
     // This will check the anchor tag in the URL and launch the modal automatically if it matches the order number
     const anchorOrderNumber = window.location.hash && window.location.hash.slice(1);
     const anchorLink = this.element.querySelector('a');
     if (anchorLink) {
       const modalOrderNumber = anchorLink.dataset.modalRef;
       if (modalOrderNumber === anchorOrderNumber) {
-        this.launchModal({ currentTarget: anchorLink });
+        this.launchModal({currentTarget: anchorLink});
       }
     }
   }
 
   launchModal(event) {
     const modalRef = event.currentTarget.dataset.modalRef;
-console.log('modalRef: ',modalRef);
+
     // this stops the page scrolling to the top when the modal is closed
-    if (event.isTrusted){
+    if (event.isTrusted) {
       event.preventDefault();
     }
 
@@ -47,20 +47,18 @@ console.log('modalRef: ',modalRef);
     }
 
     // ensure all modals are loaded before opening
-   // setTimeout(() => {
-      this.modalController = this.application.getControllerForElementAndIdentifier(
+    // setTimeout(() => {
+    this.modalController = this.application.getControllerForElementAndIdentifier(
         this.modalTarget,
-        'modal'
-      );
-      console.log('modalController: ', this.modalController);
-      if (this.modalController) {
-        this.isModalOpen = true;
-        console.log('opening modal now!');
-        this.modalController.open(popupContent.innerHTML);
-      } else {
-        console.error('Modal controller could not be found');
-      }
-    //}, 0);
+        'modal',
+    );
+    if (this.modalController) {
+      this.isModalOpen = true;
+      this.modalController.open(popupContent.innerHTML);
+    } else {
+      console.error('Modal controller could not be found');
+    }
+    // }, 0);
   }
 
   handleClickOutsideOpenModal(event) {
