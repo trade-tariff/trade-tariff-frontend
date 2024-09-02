@@ -28,7 +28,8 @@ describe('AnchorController', () => {
     application.stop();
   });
 
-  it('launchModal method opens the modal with the correct content', () => {
+  it.only('launchModal method opens the modal with the correct content', () => {
+    console.log(window.location.hash);
     const anchorController = application.getControllerForElementAndIdentifier(anchorElement, 'anchor');
     const modalController = application.getControllerForElementAndIdentifier(modalElement, 'modal');
 
@@ -37,8 +38,9 @@ describe('AnchorController', () => {
     const event = {
       preventDefault: jest.fn(),
       currentTarget: anchorElement.querySelector('a'),
+      isTrusted: true,
     };
-
+console.log(event);
     anchorController.launchModal(event);
 
     expect(event.preventDefault).toHaveBeenCalled();

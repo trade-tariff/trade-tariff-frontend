@@ -21,18 +21,18 @@ export default class extends Controller {
   connect(){
     // This will check the anchor tag in the URL and launch the modal automatically if it matches the order number
     const anchorOrderNumber = window.location.hash && window.location.hash.slice(1);
-    const myModal = this.element.querySelector('a');
-    if (myModal) {
-      const modalOrderNumber = myModal.dataset.modalRef;
+    const anchorLink = this.element.querySelector('a');
+    if (anchorLink) {
+      const modalOrderNumber = anchorLink.dataset.modalRef;
       if (modalOrderNumber === anchorOrderNumber) {
-        this.launchModal({ currentTarget: myModal });
+        this.launchModal({ currentTarget: anchorLink });
       }
     }
   }
 
   launchModal(event) {
     const modalRef = event.currentTarget.dataset.modalRef;
-
+console.log('modalRef: ',modalRef);
     // this stops the page scrolling to the top when the modal is closed
     if (event.isTrusted){
       event.preventDefault();
@@ -40,7 +40,6 @@ export default class extends Controller {
 
     // Find the hidden HTML element with the corresponding data-popup value
     const popupContent = document.querySelector(`[data-popup='${modalRef}']`);
-    console.log('popupContent: ', popupContent);
 
     if (!popupContent) {
       console.error(`No content found for modal reference: ${modalRef}`);
@@ -48,19 +47,20 @@ export default class extends Controller {
     }
 
     // ensure all modals are loaded before opening
-    setTimeout(() => {
+   // setTimeout(() => {
       this.modalController = this.application.getControllerForElementAndIdentifier(
         this.modalTarget,
         'modal'
       );
-
+      console.log('modalController: ', this.modalController);
       if (this.modalController) {
         this.isModalOpen = true;
+        console.log('opening modal now!');
         this.modalController.open(popupContent.innerHTML);
       } else {
         console.error('Modal controller could not be found');
       }
-    }, 0);
+    //}, 0);
   }
 
   handleClickOutsideOpenModal(event) {
