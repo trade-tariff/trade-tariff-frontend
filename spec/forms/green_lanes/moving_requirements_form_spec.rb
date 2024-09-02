@@ -31,7 +31,11 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
         }
       end
 
-      it { expect(form.errors[:base]).to eq(['This commodity code is not recognised.<br>Enter a different commodity code.']) }
+      it do
+        expect(
+          form.errors[:commodity_code],
+        ).to eq(['This commodity code is not recognised.<br>Enter a different commodity code.'])
+      end
     end
 
     context 'when the commodity code contains non-digit characters' do
