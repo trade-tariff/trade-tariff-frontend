@@ -1,6 +1,6 @@
 <div data-controller="anchor">
   <%= link_to order_number.number, "#", class: 'reference numerical', data: { action: "click->anchor#launchModal", modal_ref: "order-number-#{order_number.number}" }, "aria-label": "Opens in a popup", role: "button" %>&nbsp;
-  <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
+  <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal" data-order-number="#order-number-#{order_number.number}"></div>
 </div>
 <div class="govuk-visually-hidden" data-popup="order-number-<%= order_number.number %>">
   <article>

@@ -13,9 +13,17 @@ export default class extends Controller {
   initialize() {
     // All the HTML for modal pop-ups are generated already and need to be hidden on the page
     $('#import-measure-references, #export-measure-references').hide();
-    this.isModalOpen = false;
     document.addEventListener('click', this.handleClickOutsideOpenModal.bind(this));
     document.addEventListener('keydown', this.handleEscapePressWithOpenModal.bind(this));
+    this.isModalOpen = false;
+
+    const anchorOrderNumber = window.location.hash;
+    const modalOrderNumber = this.modalTarget.data.get('order-number');
+
+    if (modalOrderNumber === anchorOrderNumber) {
+      const event = new Event('click');
+      this.launchModal(event);
+    }
   }
 
   launchModal(event) {
