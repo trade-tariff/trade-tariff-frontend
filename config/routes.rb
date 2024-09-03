@@ -108,14 +108,14 @@ Rails.application.routes.draw do
   resolve('GreenLanes::CategoryAssessmentSearch') { [:category_assessments] }
 
   namespace :green_lanes, path: 'check_spimm_eligibility' do
-    get '/', to: 'starts#new'
-    resource :start, only: %i[new]
+    get '/', to: 'starts#new', as: 'start'
 
     resource :category_assessments, only: %i[create show]
 
     get 'your_movement', to: 'eligibilities#new'
     resource :eligibility, only: %i[new create], path: 'your_movement'
-    resource :eligibility_result, only: %i[new]
+
+    get :eligibility_result, to: 'eligibility_results#new', path: 'eligibility'
 
     get 'your_goods', to: 'moving_requirements#new'
     resource :moving_requirements, only: %i[new create], path: 'your_goods'

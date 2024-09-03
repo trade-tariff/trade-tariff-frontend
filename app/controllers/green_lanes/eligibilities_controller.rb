@@ -15,10 +15,10 @@ module GreenLanes
     end
 
     def create
-      @eligibility_form = EligibilityForm.new(elgibility_params)
+      @eligibility_form = EligibilityForm.new(eligibility_params)
 
       if @eligibility_form.valid?
-        redirect_to new_green_lanes_eligibility_result_path(elgibility_params)
+        redirect_to green_lanes_eligibility_result_path(eligibility_params)
       else
         render 'new'
       end
@@ -26,7 +26,7 @@ module GreenLanes
 
     private
 
-    def elgibility_params
+    def eligibility_params
       params.require(:green_lanes_eligibility_form).permit(
         :moving_goods_gb_to_ni,
         :free_circulation_in_uk,

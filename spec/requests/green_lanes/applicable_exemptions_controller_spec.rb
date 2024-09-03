@@ -11,10 +11,10 @@ RSpec.describe GreenLanes::ApplicableExemptionsController, type: :request,
 
   describe 'GET #new' do
     let(:make_request) do
-      get new_green_lanes_applicable_exemptions_path(category:,
-                                                     commodity_code:,
-                                                     country_of_origin:,
-                                                     moving_date:)
+      get green_lanes_applicable_exemptions_path(category:,
+                                                 commodity_code:,
+                                                 country_of_origin:,
+                                                 moving_date:)
     end
 
     it { is_expected.to have_http_status :ok }

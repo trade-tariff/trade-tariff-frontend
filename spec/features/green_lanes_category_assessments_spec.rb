@@ -7,7 +7,7 @@ RSpec.describe 'Green lanes category assessments',
                },
                js: true do
   scenario 'direct to category 1' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
     fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '6912002310'
@@ -28,7 +28,7 @@ RSpec.describe 'Green lanes category assessments',
   end
 
   scenario 'direct to category 2' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
     fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '2402209000'
@@ -49,7 +49,7 @@ RSpec.describe 'Green lanes category assessments',
   end
 
   scenario 'direct to category 3' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
     fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '3926200000'
@@ -72,7 +72,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has Cat1 exemptions \
             when Cat1 exemptions do not apply \
             it results in Category 1' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
     fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '0808108090'
@@ -98,7 +98,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has Cat1 exemptions \
             when Cat1 exemptions apply \
             it results in Category 3' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
     fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '0808108090'
@@ -128,7 +128,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has Cat1 exemptions and does not have Cat2 exemptions, \
             When exemptions apply to Cat1 \
             Then it results in Category 2' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
     fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: '2204101500'
@@ -159,7 +159,7 @@ RSpec.describe 'Green lanes category assessments',
             when exemptions for Cat1 apply and \
             exemptions for Cat2 do not apply \
             it results in Category 2' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
 
@@ -197,7 +197,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has Cat1 and Cat2 exemptions \
             when exemptions for Cat1 and Cat2 apply \
             it results in Category 3' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
 
@@ -235,7 +235,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has only Cat2 exemptions \
             when exemptions for Cat2 does not apply \
             then it results in Category 2' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
 
@@ -267,7 +267,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has only Cat2 exemptions \
             when exemptions for Cat2 apply \
             then it results in Category 3' do
-    visit new_green_lanes_moving_requirements_path
+    visit green_lanes_your_goods_path
 
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
 

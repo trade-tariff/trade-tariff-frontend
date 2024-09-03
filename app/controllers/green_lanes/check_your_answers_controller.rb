@@ -39,13 +39,15 @@ module GreenLanes
         moving_date: permitted_params[:moving_date],
       }
 
-      if category == 2
-        new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex], c2ex: permitted_params[:c2ex]))
-      elsif ans.nil? || ans['1'].nil?
-        new_green_lanes_moving_requirements_path(base_params)
-      else
-        new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex]))
-      end
+      back_link_params = if category == 2
+                           base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex], c2ex: permitted_params[:c2ex])
+                         elsif ans.nil? || ans['1'].nil?
+                           base_params
+                         else
+                           base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex])
+                         end
+
+      green_lanes_applicable_exemptions_path(back_link_params)
     end
 
     def determine_category

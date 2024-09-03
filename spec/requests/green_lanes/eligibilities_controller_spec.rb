@@ -37,7 +37,7 @@ RSpec.describe GreenLanes::EligibilitiesController, type: :request do
       it 'redirects to the result path' do
         make_request
 
-        expect(response).to redirect_to(new_green_lanes_eligibility_result_path(valid_params[:green_lanes_eligibility_form]))
+        expect(response).to redirect_to(green_lanes_eligibility_result_path(valid_params[:green_lanes_eligibility_form]))
       end
     end
 

@@ -32,7 +32,7 @@ module GreenLanes
       permitted_params = params.permit(:commodity_code, :country_of_origin, :moving_date, :c1ex, :c2ex, ans: {})
 
       if category == 2
-        new_green_lanes_applicable_exemptions_path(
+        green_lanes_applicable_exemptions_path(
           category: 1,
           commodity_code: permitted_params[:commodity_code],
           country_of_origin: permitted_params[:country_of_origin],
@@ -41,7 +41,7 @@ module GreenLanes
           c1ex: permitted_params[:c1ex],
         )
       else
-        new_green_lanes_moving_requirements_path(
+        green_lanes_moving_requirements_path(
           commodity_code: params[:commodity_code],
           country_of_origin: params[:country_of_origin],
           moving_date: params[:moving_date],
