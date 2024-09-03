@@ -17,8 +17,13 @@ export default class extends Controller {
     this.inputElement.value = '';
     this.resourceIdHidden.value = '';
 
+    this.#setPlaceholder();
     this.#initializeAutocomplete();
     this.#attachEventListeners();
+  }
+
+  disconnect() {
+    window.removeEventListener('resize', this.#setPlaceholder.bind(this));
   }
 
   // templates can't be private functions as they won't work with dynamic accessibleAutocomplete.enhanceSelectElement
@@ -55,7 +60,7 @@ export default class extends Controller {
       showAllValues: false,
       confirmOnBlur: false,
       displayMenu: 'overlay',
-      placeholder: 'Enter the name of the goods or commodity code',
+      placeholder: this.inputElement.getAttribute('placeholder'),
       tNoResults: () => this.searching ? 'Searching...' : 'No results found',
       templates: {
         inputValue: this.inputValueTemplate.bind(this),
@@ -78,14 +83,37 @@ export default class extends Controller {
         this.#handleSubmitEvent(event);
       }
     });
+
+    // handle submit button event
+    const formElement = this.inputElement.closest('form');
+    formElement.addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.inputElement.value = this.inputElementForEventHandling.value;
+      this.#handleSubmitEvent(event);
+    });
   }
 
   #handleSubmitEvent(event) {
     // Event handling for when user doesn't wait for autocomplete and submits a search
-    if (event.key === 'Enter') {
-      this.inputElement.value = event.target.value;
-      const text = event.target.value;
-      Utility.commoditySelectorOnConfirm(text, this.options, this.resourceIdHidden, this.inputElement);
+    if (event.key) {
+      if (event.key === 'Enter') {
+        if (event.target.value) {
+          this.inputElement.value = event.target.value;
+          const text = event.target.value;
+          Utility.commoditySelectorOnConfirm(text, this.options, this.resourceIdHidden, this.inputElement);
+        }
+      }
+    } else {
+      // no key event so submit the form anyway
+      const form = this.inputElement.closest('form');
+      form.submit();
     }
+  }
+
+  #setPlaceholder() {
+    const placeholderText = window.matchMedia('(max-width: 440px)').matches ?
+      'Name of goods or comm code' :
+      'Enter the name of the goods or commodity code';
+    this.inputElement.setAttribute('placeholder', placeholderText);
   }
 }

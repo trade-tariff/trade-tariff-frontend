@@ -22,91 +22,6 @@
 
   GOVUK.tariff = {
     /**
-        @name GOVUK.tariff.searchForm
-        @object
-        @description container for searchForm behaviour
-      */
-    searchForm: {
-      /**
-            @name GOVUK.tariff.datePicker.initialize
-            @function
-            @description initializes namespace
-          */
-      initialize: function () {
-        const toggledDataControls = ['js-date-picker'];
-        const namespace = this;
-
-        $(toggledDataControls).each(function (idx, element) {
-          namespace.toggledControl.initialize(element);
-        });
-
-        $('form').on('click', 'button[type=submit]', function (e) {
-          $(this).closest('form').trigger('submit');
-        });
-
-        this.responsivePlaceholder.initialize();
-      },
-      toggledControl: {
-        initialize: function (control) {
-          const $controlForm = $('fieldset[class~=' + control + ']');
-          const $infoPara = $controlForm.find('span.text');
-          const $fields = $controlForm.find('span.fields');
-
-          $fields.hide();
-
-          $controlForm.on('click', 'a', function (e) {
-            $infoPara.toggle();
-            $fields.toggle();
-
-            if ($fields.is(':visible')) {
-              $fields.find('input, select').filter(':visible').first().trigger('focus');
-            }
-
-            return false;
-          });
-
-          $controlForm.on('click', 'a.submit', function (e) {
-            $controlForm.closest('form').trigger('submit');
-          });
-
-          $('form').on('submit', function () {
-            const today = new Date();
-            const fday = $('#tariff_date_day');
-            const fmonth = $('#tariff_date_month');
-            const fyear = $('#tariff_date_year');
-            if (today.getDate().toString() == fday.val() &&
-              (today.getMonth() + 1).toString() == fmonth.val() &&
-              today.getFullYear().toString() == fyear.val()) {
-              fday.attr('disabled', 'disabled');
-              fmonth.attr('disabled', 'disabled');
-              fyear.attr('disabled', 'disabled');
-            }
-            return true;
-          });
-        },
-      },
-      responsivePlaceholder: {
-        initialize: function () {
-          const namespace = this;
-          namespace.onResize();
-          $(window).on('debouncedresize', function (event) {
-            namespace.onResize();
-          });
-        },
-        onResize: function () {
-          const w = $(window).width();
-          const placeholderElem = $('.js-search-header').find('input#search_t');
-          let placeholderText = '';
-          if (w > 440) {
-            placeholderText = 'Enter the name of the goods or commodity code';
-          } else {
-            placeholderText = 'Name of goods or comm code';
-          }
-          $(placeholderElem).attr('placeholder', placeholderText);
-        },
-      },
-    },
-    /**
         @name utils
         @namespace
         @description utilities for the GOVUK.tariff namespace
@@ -256,8 +171,6 @@
       if (context === undefined) {
         context = document.body;
       }
-
-      this.searchForm.initialize();
       this.measuresTable.initialize();
       this.copyCode.initialize();
     },

@@ -3,142 +3,140 @@
 <%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
 
 <%= form_tag perform_search_path, method: :get, class: "tariff-search", id: "new_search" do |f| %>
-  <div class="js-search-header">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
-          <h2 class="govuk-heading-m">Search for a commodity</h2>
-          <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
-          <details class="govuk-details">
-            <summary class="govuk-details__summary">
-              <span class="govuk-details__summary-text">Tips on searching for products</span>
-            </summary>
-            <div class="govuk-details__text">
-              <p>You need to know the details about your product and must accurately describe your item to use the search tool. This may include:</p>
-              <ul class="govuk-list--bullet govuk-list">
-                <li>the type of product</li>
-                <li>the purpose of the product</li>
-                <li>the materials used to make it</li>
-                <li>the production methods used to make it</li>
-                <li>the way it's packaged</li>
-              </ul>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
+        <h2 class="govuk-heading-m">Search for a commodity</h2>
+        <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
+        <details class="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">Tips on searching for products</span>
+          </summary>
+          <div class="govuk-details__text">
+            <p>You need to know the details about your product and must accurately describe your item to use the search tool. This may include:</p>
+            <ul class="govuk-list--bullet govuk-list">
+              <li>the type of product</li>
+              <li>the purpose of the product</li>
+              <li>the materials used to make it</li>
+              <li>the production methods used to make it</li>
+              <li>the way it's packaged</li>
+            </ul>
 
-              <p>If you have an item made of 2 substances (for example, clothing that is 60% cotton and 40% polyester), you'd normally classify the item using the higher percentage content. There are exceptions, so check the relevant section and chapter notes for your goods in the tool.</p>
+            <p>If you have an item made of 2 substances (for example, clothing that is 60% cotton and 40% polyester), you'd normally classify the item using the higher percentage content. There are exceptions, so check the relevant section and chapter notes for your goods in the tool.</p>
 
-              <p>These steps will help you get started:</p>
-              <ol class="special-numbered-list govuk-!-margin-bottom-0">
-                <li><p>Enter the search term you want to use – an item may not be listed by name, it may come under what it’s used for or made from.</p></li>
-                <li><p>The tool will suggest a section or number of sections, divided into chapters.</p></li>
-                <li><p>The headings in each chapter describe a product, only select a sub-heading if your item is accurately described.</p></li>
-                <li><p>If your item is not accurately described, check further down the list – if none of the sub-headings match your item use the ‘other’ heading.</p></li>
-              </ol>
-            </div>
-          </details>
-
-           <div class="searchfield govuk-form-group">
-            <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
-              <div data-controller="commodity-select-box">
-                <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', data: { 'commodity-select-box-target': "resourceIdHidden" } %>
-                <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-                <%= text_field_tag :q, @search.q, id: 'q', class: "govuk-input", data: { 'commodity-select-box-target': "commodityInput" } %>
-              </div>
-            </fieldset>
+            <p>These steps will help you get started:</p>
+            <ol class="special-numbered-list govuk-!-margin-bottom-0">
+              <li><p>Enter the search term you want to use – an item may not be listed by name, it may come under what it’s used for or made from.</p></li>
+              <li><p>The tool will suggest a section or number of sections, divided into chapters.</p></li>
+              <li><p>The headings in each chapter describe a product, only select a sub-heading if your item is accurately described.</p></li>
+              <li><p>If your item is not accurately described, check further down the list – if none of the sub-headings match your item use the ‘other’ heading.</p></li>
+            </ol>
           </div>
+        </details>
 
-          <div class="govuk-form-group govuk-!-margin-top-6">
-            <fieldset class="govuk-fieldset" role="group" aria-describedby="find-commodity-hint">
-              <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
-                <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
-              </legend>
-
-              <div class="govuk-hint" id="find-commodity-hint">
-                You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
-                change over time. Use the format day, month, year, for example  27&nbsp;3&nbsp;2021. If you don't enter a date,
-                today's date is used.
-              </div>
-
-              <div class="govuk-date-input">
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="tariff_date_day">Day</label>
-                    <%= text_field_tag(:day,
-                          @search.date.day,
-                          {
-                            id: 'tariff_date_day',
-                            name: 'day',
-                            class: "govuk-input govuk-date-input__input govuk-input--width-2",
-                            maxlength: 2,
-                            placeholder: "DD",
-                            pattern: "[0-9]*",
-                            inputmode: :numeric
-                          }
-                          ) %>
-                  </div>
-                </div>
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="tariff_date_month">Month</label>
-                    <%= text_field_tag(:month,
-                          @search.date.month,
-                          {
-                            id: 'tariff_date_month',
-                            name: 'month',
-                            class: "govuk-input govuk-date-input__input govuk-input--width-2",
-                            maxlength: 2,
-                            placeholder: "MM",
-                            pattern: "[0-9]*",
-                            inputmode: :numeric
-                          }
-                          ) %>
-                  </div>
-                </div>
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="tariff_date_year">Year</label>
-                    <%= text_field_tag(:year,
-                          @search.date.year,
-                          {
-                            id: 'tariff_date_year',
-                            name: 'year',
-                            class: "govuk-input govuk-date-input__input govuk-input--width-4",
-                            maxlength: 4,
-                            placeholder: "YYYY",
-                            pattern: "[0-9]*",
-                            inputmode: :numeric
-                          }
-                          ) %>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <div class="govuk-form-group govuk-!-margin-top-6"></div>
-          <%= submit_tag 'Search for a commodity', class: 'govuk-button' %><hr>
-
-          <p>Alternatively, you can:</p>
-          <ul class="govuk-list--bullet govuk-list">
-            <li><%= link_to 'browse the goods classification', browse_sections_path %> or</li>
-            <li><%= link_to 'look for your product in the A-Z', a_z_index_path('a') %>.</li>
-          </ul>
-
-          <% if TradeTariffFrontend.green_lanes_enabled? %>
-            <hr>
-
-            <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-4">
-              <strong> New process for moving goods from Great Britain to Northern Ireland</strong>
+          <div class="searchfield govuk-form-group">
+          <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
+            <div data-controller="commodity-select-box">
+              <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', data: { 'commodity-select-box-target': "resourceIdHidden" } %>
+              <%= label_tag :q, search_label_text, class: 'govuk-label' %>
+              <%= text_field_tag :q, @search.q, id: 'q', class: "govuk-input", data: { 'commodity-select-box-target': "commodityInput" } %>
             </div>
-
-            <p class="govuk-!-margin-bottom-6">
-              <%= link_to 'Check eligibility for the simplified process for internal market movements (SPIMM)', new_green_lanes_eligibility_path %>
-              , available to UKIMS authorised traders from 30th September 2024.
-            </p>
-          <% end %>
+          </fieldset>
         </div>
+
+        <div class="govuk-form-group govuk-!-margin-top-6">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="find-commodity-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
+              <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
+            </legend>
+
+            <div class="govuk-hint" id="find-commodity-hint">
+              You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
+              change over time. Use the format day, month, year, for example  27&nbsp;3&nbsp;2021. If you don't enter a date,
+              today's date is used.
+            </div>
+
+            <div class="govuk-date-input">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="tariff_date_day">Day</label>
+                  <%= text_field_tag(:day,
+                        @search.date.day,
+                        {
+                          id: 'tariff_date_day',
+                          name: 'day',
+                          class: "govuk-input govuk-date-input__input govuk-input--width-2",
+                          maxlength: 2,
+                          placeholder: "DD",
+                          pattern: "[0-9]*",
+                          inputmode: :numeric
+                        }
+                        ) %>
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="tariff_date_month">Month</label>
+                  <%= text_field_tag(:month,
+                        @search.date.month,
+                        {
+                          id: 'tariff_date_month',
+                          name: 'month',
+                          class: "govuk-input govuk-date-input__input govuk-input--width-2",
+                          maxlength: 2,
+                          placeholder: "MM",
+                          pattern: "[0-9]*",
+                          inputmode: :numeric
+                        }
+                        ) %>
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="tariff_date_year">Year</label>
+                  <%= text_field_tag(:year,
+                        @search.date.year,
+                        {
+                          id: 'tariff_date_year',
+                          name: 'year',
+                          class: "govuk-input govuk-date-input__input govuk-input--width-4",
+                          maxlength: 4,
+                          placeholder: "YYYY",
+                          pattern: "[0-9]*",
+                          inputmode: :numeric
+                        }
+                        ) %>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="govuk-form-group govuk-!-margin-top-6"></div>
+        <%= submit_tag 'Search for a commodity', class: 'govuk-button' %><hr>
+
+        <p>Alternatively, you can:</p>
+        <ul class="govuk-list--bullet govuk-list">
+          <li><%= link_to 'browse the goods classification', browse_sections_path %> or</li>
+          <li><%= link_to 'look for your product in the A-Z', a_z_index_path('a') %>.</li>
+        </ul>
+
+        <% if TradeTariffFrontend.green_lanes_enabled? %>
+          <hr>
+
+          <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+            <strong> New process for moving goods from Great Britain to Northern Ireland</strong>
+          </div>
+
+          <p class="govuk-!-margin-bottom-6">
+            <%= link_to 'Check eligibility for the simplified process for internal market movements (SPIMM)', new_green_lanes_eligibility_path %>
+            , available to UKIMS authorised traders from 30th September 2024.
+          </p>
+        <% end %>
       </div>
-      <div class="govuk-grid-column-one-third" id="recent-news">
-        <%= render partial: "/pages/howto_sidebar_links" %>
-        <%= render 'news_items/recent_news', news_items: @recent_stories %>
-      </div>
+    </div>
+    <div class="govuk-grid-column-one-third" id="recent-news">
+      <%= render partial: "/pages/howto_sidebar_links" %>
+      <%= render 'news_items/recent_news', news_items: @recent_stories %>
     </div>
   </div>
 <% end %>
