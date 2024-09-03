@@ -31,12 +31,6 @@ require('jquery-roving-tabindex/jquery.rovingtabindex');
 require('jquery-tabs/jquery.tabs');
 require('mark.js/dist/jquery.mark');
 
-// console.log('popup');
-// console.log(BetaPopup);
-// BetaPopup.popup('title', 'tariff-info');
-// require('./node_modules/jquery-history/dist/jquery.history');
-// require('../../../node_modules/jquery-history/dist/jquery.history');
-// require('jquery-history/dist/jquery.history');
 require('../src/javascripts/datepicker-day.js');
 require('../src/javascripts/calendar-button.js');
 require('../src/javascripts/datepicker.js');

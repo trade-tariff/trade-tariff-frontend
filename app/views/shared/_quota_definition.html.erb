@@ -1,6 +1,8 @@
-<%= link_to order_number.number, "#order-number-#{order_number.number}", class: 'reference numerical', title: 'Opens in a popup', 'data-popup-ref' => "order-number-#{order_number.number}" %>&nbsp;
-
-<div class="popup govuk-visually-hidden" data-popup="order-number-<%= order_number.number %>">
+<div data-controller="anchor">
+  <%= link_to order_number.number, "#", class: 'reference numerical', data: { action: "click->anchor#launchModal", modal_ref: "order-number-#{order_number.number}" }, "aria-label": "Opens in a popup", role: "button" %>&nbsp;
+  <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
+</div>
+<div class="govuk-visually-hidden" data-popup="order-number-<%= order_number.number %>">
   <article>
     <% if order_number.definition.present? %>
       <table class="govuk-table govuk-table-m">
