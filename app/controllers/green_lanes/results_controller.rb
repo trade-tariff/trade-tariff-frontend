@@ -26,6 +26,7 @@ module GreenLanes
         :moving_date,
         :c1ex,
         :c2ex,
+        :category,
         :ans,
       )
     end
@@ -45,9 +46,9 @@ module GreenLanes
     end
 
     def category
-      DetermineResultingCategory.new(
-        determine_category.categories, c1ex, c2ex
-      ).call.to_s
+      return '3' if results_params[:category] == 'standard'
+
+      results_params[:category]
     end
 
     def c1ex
