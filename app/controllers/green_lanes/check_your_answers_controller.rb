@@ -10,9 +10,9 @@ module GreenLanes
       @commodity_code = check_your_answers_params[:commodity_code]
       @country_of_origin = check_your_answers_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @moving_date = check_your_answers_params[:moving_date]
-      @category_one_assessments = determine_category.cat1_with_exemptions
-      @category_two_assessments_without_exemptions = determine_category.cat2_without_exemptions
-      @category_two_assessments = determine_category.cat2_with_exemptions
+      @category_one_assessments = candidate_categories.cat1_with_exemptions
+      @category_two_assessments_without_exemptions = candidate_categories.cat2_without_exemptions
+      @category_two_assessments = candidate_categories.cat2_with_exemptions
       @resulting_category = prettify_category(resulting_category)
 
       @answers = check_your_answers_params[:ans]
@@ -50,8 +50,8 @@ module GreenLanes
       green_lanes_applicable_exemptions_path(back_link_params)
     end
 
-    def determine_category
-      @determine_category ||= DetermineCategory.new(goods_nomenclature)
+    def candidate_categories
+      @candidate_categories ||= DetermineCandidateCategories.new(goods_nomenclature)
     end
 
     def goods_nomenclature
@@ -71,7 +71,7 @@ module GreenLanes
 
     def resulting_category
       DetermineResultingCategory.new(
-        determine_category.categories,
+        candidate_categories.categories,
         check_your_answers_params[:c1ex],
         check_your_answers_params[:c2ex],
       ).call.to_s

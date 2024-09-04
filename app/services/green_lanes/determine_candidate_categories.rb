@@ -1,58 +1,54 @@
 module GreenLanes
-  class DetermineCategory
-    CAT_1 = 1
-    CAT_2 = 2
-    CAT_3 = 3
-
+  class DetermineCandidateCategories
     def initialize(goods_nomenclature)
       @goods_nomenclature = goods_nomenclature
     end
 
     def categories
-      return [CAT_3] if category_assessments.empty?
-      return [CAT_1] if cat1_without_exemptions.any?
+      return [3] if category_assessments.empty?
+      return [1] if cat1_without_exemptions.any?
 
       if cat2_without_exemptions.any?
         if cat1_with_exemptions.any?
-          [CAT_1, CAT_2]
+          [1, 2]
         else
-          [CAT_2]
+          [2]
         end
       elsif cat1_with_exemptions.any? && cat2_with_exemptions.any?
-        [CAT_1, CAT_2, CAT_3]
+        [1, 2, 3]
       elsif cat1_with_exemptions.any?
-        [CAT_1, CAT_3]
+        [1, 3]
       elsif cat2_with_exemptions.any?
-        [CAT_2, CAT_3]
+        [2, 3]
       end
     end
 
     def cat1_without_exemptions
-      without_exemptions(category_assessments(CAT_1))
+      without_exemptions(category_assessments(1))
     end
 
     def cat2_without_exemptions
-      without_exemptions(category_assessments(CAT_2))
+      without_exemptions(category_assessments(2))
     end
 
     def cat1_with_exemptions
-      with_exemptions(category_assessments(CAT_1))
+      with_exemptions(category_assessments(1))
     end
 
     def cat2_with_exemptions
-      with_exemptions(category_assessments(CAT_2))
+      with_exemptions(category_assessments(2))
     end
 
     private
 
     attr_reader :goods_nomenclature
 
-    def without_exemptions(cat_assessments)
-      cat_assessments.select { |ca| ca.exemptions.empty? }
+    def without_exemptions(assessments)
+      assessments.select { |ca| ca.exemptions.empty? }
     end
 
-    def with_exemptions(cat_assessments)
-      cat_assessments.select { |ca| ca.exemptions.any? }
+    def with_exemptions(assessments)
+      assessments.select { |ca| ca.exemptions.any? }
     end
 
     def category_assessments(category = nil)

@@ -3,8 +3,8 @@ module GreenLanes
     include Rails.application.routes.url_helpers
 
     def initialize(goods_nomenclature)
-      @determine_category = GreenLanes::DetermineCategory.new(goods_nomenclature)
-      @categories = @determine_category.categories
+      @candidate_categories = GreenLanes::DetermineCandidateCategories.new(goods_nomenclature)
+      @categories = @candidate_categories.categories
     end
 
     def next(cat_1_exemptions_apply: nil,
@@ -35,8 +35,8 @@ module GreenLanes
     end
 
     def handle_cat1_cat2(cat_1_exemptions_apply)
-      return check_your_answers if @determine_category.cat1_without_exemptions.present?
-      return new_exemptions_path(1) if question_unanswered?(cat_1_exemptions_apply) && @determine_category.cat1_with_exemptions.present?
+      return check_your_answers if @candidate_categories.cat1_without_exemptions.present?
+      return new_exemptions_path(1) if question_unanswered?(cat_1_exemptions_apply) && @candidate_categories.cat1_with_exemptions.present?
 
       check_your_answers
     end

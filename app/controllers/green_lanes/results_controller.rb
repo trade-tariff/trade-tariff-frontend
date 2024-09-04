@@ -13,7 +13,7 @@ module GreenLanes
       @moving_date = results_params[:moving_date]
       @category = category
       @answers = JSON.parse(results_params[:ans].presence || '{}')
-      @assessments = AssessmentsPresenter.new(determine_category, @answers)
+      @assessments = AssessmentsPresenter.new(candidate_categories, @answers)
       @cas_without_exemptions = cas_without_exemptions
     end
 
@@ -34,11 +34,11 @@ module GreenLanes
     def cas_without_exemptions
       return [] if category == '3'
 
-      determine_category.public_send("cat#{category}_without_exemptions")
+      candidate_categories.public_send("cat#{category}_without_exemptions")
     end
 
-    def determine_category
-      @determine_category ||= DetermineCategory.new(goods_nomenclature)
+    def candidate_categories
+      @candidate_categories ||= DetermineCandidateCategories.new(goods_nomenclature)
     end
 
     def goods_nomenclature

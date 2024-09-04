@@ -57,11 +57,11 @@ module GreenLanes
 
     # Category assessment methods
     def category_assessments
-      @category_assessments ||= determine_category.public_send("cat#{category}_with_exemptions")
+      @category_assessments ||= candidate_categories.public_send("cat#{category}_with_exemptions")
     end
 
-    def determine_category
-      @determine_category ||= DetermineCategory.new(goods_nomenclature)
+    def candidate_categories
+      @candidate_categories ||= DetermineCandidateCategories.new(goods_nomenclature)
     end
 
     # Goods nomenclature methods

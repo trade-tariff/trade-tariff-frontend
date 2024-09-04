@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe ::GreenLanes::DetermineCategory do
+RSpec.describe ::GreenLanes::DetermineCandidateCategories do
   describe '.categories' do
     subject { described_class.new(goods_nomenclature).categories }
 
