@@ -22,7 +22,7 @@ namespace :green_lanes do
       commodity_code = row[0]
 
       goods_nomenclature = GreenLanes::GoodsNomenclature.find(commodity_code)
-      cat = GreenLanes::DetermineCategory.new(goods_nomenclature).categories
+      cat = GreenLanes::DetermineCandidateCategories.new(goods_nomenclature).categories
 
       puts "#{commodity_code}, #{cat}"
     end

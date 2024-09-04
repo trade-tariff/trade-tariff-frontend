@@ -29,7 +29,7 @@
     <% end %>
 
     <div class="govuk-button-group">
-      <%= form_with url: green_lanes_results_path do %>
+      <%= form_with url: green_lanes_results_path(category: @resulting_category) do %>
         <%= hidden_field_tag :commodity_code, @commodity_code %>
         <%= hidden_field_tag :country_of_origin, params[:country_of_origin] %>
         <%= hidden_field_tag :moving_date, params[:moving_date] %>

@@ -10,9 +10,11 @@ module GreenLanes
       @commodity_code = check_your_answers_params[:commodity_code]
       @country_of_origin = check_your_answers_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
       @moving_date = check_your_answers_params[:moving_date]
-      @category_one_assessments = determine_category.cat1_with_exemptions
-      @category_two_assessments_without_exemptions = determine_category.cat2_without_exemptions
-      @category_two_assessments = determine_category.cat2_with_exemptions
+      @category_one_assessments = candidate_categories.cat1_with_exemptions
+      @category_two_assessments_without_exemptions = candidate_categories.cat2_without_exemptions
+      @category_two_assessments = candidate_categories.cat2_with_exemptions
+      @resulting_category = prettify_category(resulting_category)
+
       @answers = check_your_answers_params[:ans]
       @c1ex = check_your_answers_params[:c1ex]
       @c2ex = check_your_answers_params[:c2ex]
@@ -37,17 +39,19 @@ module GreenLanes
         moving_date: permitted_params[:moving_date],
       }
 
-      if category == 2
-        new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex], c2ex: permitted_params[:c2ex]))
-      elsif ans.nil? || ans['1'].nil?
-        new_green_lanes_moving_requirements_path(base_params)
-      else
-        new_green_lanes_applicable_exemptions_path(base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex]))
-      end
+      back_link_params = if category == 2
+                           base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex], c2ex: permitted_params[:c2ex])
+                         elsif ans.nil? || ans['1'].nil?
+                           base_params
+                         else
+                           base_params.merge(category:, ans:, c1ex: permitted_params[:c1ex])
+                         end
+
+      green_lanes_applicable_exemptions_path(back_link_params)
     end
 
-    def determine_category
-      @determine_category ||= DetermineCategory.new(goods_nomenclature)
+    def candidate_categories
+      @candidate_categories ||= DetermineCandidateCategories.new(goods_nomenclature)
     end
 
     def goods_nomenclature
@@ -63,6 +67,14 @@ module GreenLanes
         :c2ex,
         ans: {},
       )
+    end
+
+    def resulting_category
+      DetermineResultingCategory.new(
+        candidate_categories.categories,
+        check_your_answers_params[:c1ex],
+        check_your_answers_params[:c2ex],
+      ).call.to_s
     end
   end
 end

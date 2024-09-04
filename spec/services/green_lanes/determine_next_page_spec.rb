@@ -44,7 +44,7 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
       context 'when Cat 1 exemptions question has not been answered' do
         let(:cat_1_exemptions_apply) { nil }
 
-        it { is_expected.to eq(new_green_lanes_applicable_exemptions_path(category: 1)) }
+        it { is_expected.to eq(green_lanes_applicable_exemptions_path(category: 1)) }
       end
 
       context 'when some Cat 1 exemptions apply' do
@@ -87,14 +87,14 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
         let(:cat_1_exemptions_apply) { nil }
         let(:cat_2_exemptions_apply) { nil }
 
-        it { is_expected.to eq(new_green_lanes_applicable_exemptions_path(category: 1)) }
+        it { is_expected.to eq(green_lanes_applicable_exemptions_path(category: 1)) }
       end
 
       context 'when some Cat 1 exemptions apply to the goods' do
         let(:cat_1_exemptions_apply) { true }
         let(:cat_2_exemptions_apply) { nil }
 
-        it { is_expected.to eq(new_green_lanes_applicable_exemptions_path(c1ex: true, category: 2)) }
+        it { is_expected.to eq(green_lanes_applicable_exemptions_path(c1ex: true, category: 2)) }
       end
 
       context 'when NO Cat 1 exemptions apply to the goods' do
@@ -112,7 +112,7 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
       context 'when Cat 2 exemptions question has not been answered' do
         let(:cat_2_exemptions_apply) { nil }
 
-        it { is_expected.to eq(new_green_lanes_applicable_exemptions_path(category: 2)) }
+        it { is_expected.to eq(green_lanes_applicable_exemptions_path(category: 2)) }
       end
 
       context 'when some Cat 2 exemptions apply to the goods' do
@@ -135,7 +135,7 @@ RSpec.describe ::GreenLanes::DetermineNextPage do
       context 'when Cat 1 exemptions question has not been answered' do
         let(:cat_1_exemptions_apply) { nil }
 
-        it { is_expected.to eq(new_green_lanes_applicable_exemptions_path(category: 1)) }
+        it { is_expected.to eq(green_lanes_applicable_exemptions_path(category: 1)) }
       end
 
       context 'when some Cat 1 exemptions apply to the goods' do

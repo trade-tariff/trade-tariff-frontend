@@ -32,7 +32,7 @@ module GreenLanes
       permitted_params = params.permit(:commodity_code, :country_of_origin, :moving_date, :c1ex, :c2ex, ans: {})
 
       if category == 2
-        new_green_lanes_applicable_exemptions_path(
+        green_lanes_applicable_exemptions_path(
           category: 1,
           commodity_code: permitted_params[:commodity_code],
           country_of_origin: permitted_params[:country_of_origin],
@@ -41,7 +41,7 @@ module GreenLanes
           c1ex: permitted_params[:c1ex],
         )
       else
-        new_green_lanes_moving_requirements_path(
+        green_lanes_moving_requirements_path(
           commodity_code: params[:commodity_code],
           country_of_origin: params[:country_of_origin],
           moving_date: params[:moving_date],
@@ -57,11 +57,11 @@ module GreenLanes
 
     # Category assessment methods
     def category_assessments
-      @category_assessments ||= determine_category.public_send("cat#{category}_with_exemptions")
+      @category_assessments ||= candidate_categories.public_send("cat#{category}_with_exemptions")
     end
 
-    def determine_category
-      @determine_category ||= DetermineCategory.new(goods_nomenclature)
+    def candidate_categories
+      @candidate_categories ||= DetermineCandidateCategories.new(goods_nomenclature)
     end
 
     # Goods nomenclature methods
@@ -115,7 +115,7 @@ module GreenLanes
 
     # Path helper methods
     def applicable_exemptions_path
-      green_lanes_applicable_exemptions_path(
+      green_lanes_category_exemptions_path(
         category:,
         commodity_code: params[:commodity_code],
         moving_date: params[:moving_date],
