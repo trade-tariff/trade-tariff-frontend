@@ -180,4 +180,53 @@ RSpec.describe GreenLanesHelper, type: :helper do
 
     # rubocop:enable RSpec/InstanceVariable
   end
+
+  describe 'exemption_checkbox_checked?' do
+    subject { helper.exemption_checkbox_checked?('category_assessment_1234567890', 'Y922') }
+
+    before do
+      allow(helper).to receive(:params).and_return(
+        exemptions: {
+          'category_assessment_1234567890' => checked_exemptions,
+        },
+      )
+    end
+
+    context 'when the exemption Y922 was checked' do
+      let(:checked_exemptions) { ['', 'Y922'] }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the no options was checked' do
+      let(:checked_exemptions) { [''] }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe 'exemption_checkbox_none?' do
+    subject { helper.exemption_checkbox_none?('category_assessment_1234567890') }
+
+    before do
+      allow(helper).to receive(:params)
+                        .and_return(
+                          exemptions: {
+                            'category_assessment_1234567890' => checked_exemptions,
+                          },
+                        )
+    end
+
+    context 'when "none" was checked' do
+      let(:checked_exemptions) { ['', 'none'] }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the exemption Y922 is not checked' do
+      let(:checked_exemptions) { ['', 'Y922'] }
+
+      it { is_expected.to be false }
+    end
+  end
 end
