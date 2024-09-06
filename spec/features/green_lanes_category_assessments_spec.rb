@@ -341,8 +341,33 @@ RSpec.describe 'Green lanes category assessments',
       expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
     end
 
+    within('.govuk-summary-list__row', text: 'Y900') do
+      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
+    end
+
+    click_on 'Continue'
+
+    category_2_result_screen
+
+    expect(page).to have_css('p', text: 'Exemptions not met', count: 2)
+    expect(page).to have_no_css('p', text: 'Exemption met')
+  end
+
+  # Journey 10: Cat 3 via Cat 2 exemptions passed only
+  scenario 'Given the commodity has only Cat2 exemptions when exemptions for Cat2 apply then it results in Category 3' do
+    fill_moving_requirments_form(commodity_codes[:cat2_exemptions], countries[:greenland])
+
+    expect(page).to have_text('Your goods may be Category 2')
+
+    check 'exemptions-category-assessment-37f58c7ec2982bf82ab238d33b376b4f-y170-field'
+    check 'exemptions-category-assessment-abed84f406002f0d36f8660d9f80884e-y058-field'
+    check 'exemptions-category-assessment-5667f4515c310042a7349c3aa31bd57e-y900-field'
+    click_on 'Continue'
+
+    expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
+
     within('.govuk-summary-list__row', text: 'Y170') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
+      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
     end
 
     within('.govuk-summary-list__row', text: 'Y171') do
@@ -365,39 +390,31 @@ RSpec.describe 'Green lanes category assessments',
       expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
     end
 
+    within('.govuk-summary-list__row', text: 'Y058') do
+      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
+    end
+
     within('.govuk-summary-list__row', text: 'Y900') do
       expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
     end
 
-    category_2_result_screen
-  end
-
-  # Journey 10: Cat 3 via Cat 2 exemptions passed only
-  scenario 'Given the commodity has only Cat2 exemptions when exemptions for Cat2 apply then it results in Category 3' do
-    fill_moving_requirments_form(commodity_codes[:cat2_exemptions], countries[:greenland])
-
-    expect(page).to have_text('Your goods may be Category 2')
-
-    check 'exemptions-category-assessment-37f58c7ec2982bf82ab238d33b376b4f-y170-field'
-    check 'exemptions-category-assessment-abed84f406002f0d36f8660d9f80884e-y058-field'
-    check 'exemptions-category-assessment-5667f4515c310042a7349c3aa31bd57e-y900-field'
     click_on 'Continue'
 
-    expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
-
-    within('.govuk-summary-list__row', text: 'Y997') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y984') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y984') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
     standard_category_result_screen
+
+    expect(page).to have_no_css('h2', text: 'Your Category 1 exemptions')
+    expect(page).to have_css('h2', text: 'Your Category 2 exemptions')
+    expect(page).to have_no_css('p', text: 'Exemptions not met')
+
+    expect(page).to have_css('.govuk-summary-list__key', text: 'Y170')
+    expect(page).to have_css('.govuk-summary-list__key', text: 'Y058')
+    expect(page).to have_css('.govuk-summary-list__key', text: 'Y900')
+
+    expect(page).to have_no_css('.govuk-summary-list__key', text: 'Y171')
+    expect(page).to have_no_css('.govuk-summary-list__key', text: 'Y174')
+    expect(page).to have_no_css('.govuk-summary-list__key', text: 'Y175')
+    expect(page).to have_no_css('.govuk-summary-list__key', text: 'Y176')
+    expect(page).to have_no_css('.govuk-summary-list__key', text: 'Y177')
   end
 
   def fill_moving_requirments_form(commodity_code, country)

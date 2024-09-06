@@ -8,21 +8,14 @@
     </div>
     <div class="govuk-summary-card__content">
       <dl class="govuk-summary-list">
-        <% assessments.each do |category_assessment| %>
-        <% binding.pry %>
-          <% category_assessment.exemptions.each do |exemption| %>
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key"><%= exemption.code %></dt>
-              <dd class="govuk-summary-list__value"><%= exemption.formatted_description %></dd>
-              <dd class="govuk-summary-list__actions">
-                <% if exemption_met?(exemption.code, category, category_assessment, @answers) %>
-                  Exemption met
-                <% else %>
-                  Exemption not met
-                <% end %>
-              </dd>
-            </div>
-          <% end %>
+        <% unique_exemptions(assessments).each do |exemption, category_assessment| %>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key"><%= exemption.code %></dt>
+            <dd class="govuk-summary-list__value"><%= exemption.formatted_description %></dd>
+            <dd class="govuk-summary-list__actions">
+              <%= exemption_status(exemption, category, category_assessment) %>
+            </dd>
+          </div>
         <% end %>
       </dl>
     </div>

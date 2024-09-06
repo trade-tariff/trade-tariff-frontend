@@ -73,6 +73,28 @@ module GreenLanesHelper
     end
   end
 
+  def unique_exemptions(assessments)
+    exemptions = []
+    displayed_exemptions = Set.new
+    assessments.each do |category_assessment|
+      category_assessment.exemptions.each do |exemption|
+        unless displayed_exemptions.include?(exemption.code)
+          exemptions << [exemption, category_assessment]
+          displayed_exemptions.add(exemption.code)
+        end
+      end
+    end
+    exemptions
+  end
+
+  def exemption_status(exemption, category, category_assessment)
+    if exemption_met?(exemption.code, category, category_assessment, @answers)
+      'Exemption met'
+    else
+      'Exemption not met'
+    end
+  end
+
   private
 
   def dig_category_answer(answers, category, resource_id)
