@@ -37,7 +37,8 @@
                                   link_errors: (exem_index == 0),
                                   label: { text: exemption.code },
                                   hint: { text: exemption.formatted_description },
-                                  checked: exemption_checkbox_checked?(category_assessment.id, exemption.code) %>
+                                  checked: exemption_checkbox_checked?(category_assessment.id, exemption.code)
+            %>
 
           <% end %>
 

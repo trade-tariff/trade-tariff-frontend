@@ -1,6 +1,7 @@
 module GreenLanesHelper
   def exemption_checkbox_checked?(resource_id, exemption_code)
-    category_assessments_checked(resource_id)&.include?(exemption_code)
+    params.dig(:exemptions, resource_id.to_s)
+          &.include?(exemption_code)
   end
 
   def exemption_checkbox_none?(resource_id)
@@ -73,10 +74,6 @@ module GreenLanesHelper
   end
 
   private
-
-  def category_assessments_checked(resource_id)
-    params.dig(:exemptions, :category_assessments_checked, resource_id.to_s)
-  end
 
   def dig_category_answer(answers, category, resource_id)
     answers.dig(category.to_s, resource_id.to_s)
