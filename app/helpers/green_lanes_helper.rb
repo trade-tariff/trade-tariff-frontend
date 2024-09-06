@@ -76,6 +76,7 @@ module GreenLanesHelper
   def unique_exemptions(assessments)
     exemptions = []
     displayed_exemptions = Set.new
+
     assessments.each do |category_assessment|
       category_assessment.exemptions.each do |exemption|
         unless displayed_exemptions.include?(exemption.code)
@@ -84,6 +85,7 @@ module GreenLanesHelper
         end
       end
     end
+
     exemptions
   end
 

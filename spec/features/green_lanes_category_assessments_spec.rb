@@ -34,33 +34,27 @@ RSpec.describe 'Green lanes category assessments',
   # Journey 1
   scenario 'Journey 1: Direct to category 1' do
     fill_moving_requirments_form(commodity_codes[:category_1], countries[:us])
-
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
     expect(page).not_to have_css('govuk-summary-card')
     click_on 'Continue'
-
     category_1_result_screen
   end
 
   # Journey 2
   scenario 'Journey 2: Direct to category 2' do
     fill_moving_requirments_form(commodity_codes[:category_2], countries[:morocco])
-
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
     expect(page).not_to have_css('govuk-summary-card')
     click_on 'Continue'
-
     category_2_result_screen
   end
 
   # Journey 3
   scenario 'Journey 3: Direct to standard category' do
     fill_moving_requirments_form(commodity_codes[:category_3], countries[:bangladesh])
-
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
     expect(page).not_to have_css('govuk-summary-card')
     click_on 'Continue'
-
     standard_category_result_screen
   end
 
@@ -74,13 +68,7 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    within('.govuk-summary-list__row', text: 'Y997') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y984') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
+    check_your_answers_exemption_card(%w[Y997 Y984], 'Exemption not met')
 
     click_on 'Continue'
 
@@ -102,13 +90,7 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    within('.govuk-summary-list__row', text: 'Y997') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y984') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
+    check_your_answers_exemption_card(%w[Y997 Y984], 'Exemption met')
 
     click_on 'Continue'
 
@@ -131,13 +113,7 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    within('.govuk-summary-list__row', text: 'Y997') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y984') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
+    check_your_answers_exemption_card(%w[Y997 Y984], 'Exemption met')
 
     click_on 'Continue'
 
@@ -164,49 +140,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    within('.govuk-summary-list__row', text: 'Y160') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y966') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y058') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y170') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y171') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y174') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y175') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y176') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y177') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y930') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y904') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
+    check_your_answers_exemption_card(%w[Y160 Y966 Y904], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930 Y058], 'Exemption not met')
 
     click_on 'Continue'
 
@@ -234,49 +169,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    within('.govuk-summary-list__row', text: 'Y160') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y966') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y058') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y170') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y171') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y174') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y175') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y176') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y177') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y930') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y904') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
+    check_your_answers_exemption_card(%w[Y160 Y966 Y058 Y904], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930], 'Exemption not met')
 
     click_on 'Continue'
 
@@ -313,37 +207,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    within('.govuk-summary-list__row', text: 'Y170') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y171') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y174') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y175') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y176') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y177') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y058') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y900') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
+    check_your_answers_exemption_card(%w[Y900], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y170 Y058 Y171 Y174 Y175 Y176 Y177], 'Exemption not met')
 
     click_on 'Continue'
 
@@ -366,37 +231,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    within('.govuk-summary-list__row', text: 'Y170') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y171') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y174') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y175') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y176') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y177') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption not met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y058') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
-
-    within('.govuk-summary-list__row', text: 'Y900') do
-      expect(page).to have_css('.govuk-summary-list__actions', text: 'Exemption met')
-    end
+    check_your_answers_exemption_card(%w[Y170 Y058 Y900], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y171 Y174 Y175 Y176 Y177], 'Exemption not met')
 
     click_on 'Continue'
 
@@ -415,6 +251,14 @@ RSpec.describe 'Green lanes category assessments',
     expect(page).to have_no_css('.govuk-summary-list__key', text: 'Y175')
     expect(page).to have_no_css('.govuk-summary-list__key', text: 'Y176')
     expect(page).to have_no_css('.govuk-summary-list__key', text: 'Y177')
+  end
+
+  def check_your_answers_exemption_card(codes, exemption_status)
+    codes.each do |code|
+      within('.govuk-summary-list__row', text: code) do
+        expect(page).to have_css('.govuk-summary-list__actions', text: exemption_status)
+      end
+    end
   end
 
   def fill_moving_requirments_form(commodity_code, country)
