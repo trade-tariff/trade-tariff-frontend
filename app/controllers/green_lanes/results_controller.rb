@@ -7,6 +7,11 @@ module GreenLanes
                   :disable_search_form,
                   only: :create
 
+    def show
+      # Restart the Wizard
+      redirect_to green_lanes_start_path
+    end
+
     def create
       @commodity_code = goods_nomenclature.goods_nomenclature_item_id
       @country_of_origin = results_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
