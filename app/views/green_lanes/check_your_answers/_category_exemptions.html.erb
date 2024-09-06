@@ -9,6 +9,7 @@
     <div class="govuk-summary-card__content">
       <dl class="govuk-summary-list">
         <% assessments.each do |category_assessment| %>
+        <% binding.pry %>
           <% category_assessment.exemptions.each do |exemption| %>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key"><%= exemption.code %></dt>
