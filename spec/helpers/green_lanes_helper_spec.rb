@@ -181,7 +181,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
     # rubocop:enable RSpec/InstanceVariable
   end
 
-  describe 'exemption_checkbox_checked?' do
+  describe '#exemption_checkbox_checked?' do
     subject { helper.exemption_checkbox_checked?('category_assessment_1234567890', 'Y922') }
 
     before do
@@ -205,7 +205,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
     end
   end
 
-  describe 'exemption_checkbox_none?' do
+  describe '#exemption_checkbox_none?' do
     subject { helper.exemption_checkbox_none?('category_assessment_1234567890') }
 
     before do
