@@ -229,4 +229,55 @@ RSpec.describe GreenLanesHelper, type: :helper do
       it { is_expected.to be false }
     end
   end
+
+  # rubocop:disable RSpec/MultipleMemoizedHelpers
+  describe '#unique_exemptions' do
+    let(:assessment1) { instance_double('Assessment', exemptions: [exemption1, exemption2]) }
+    let(:assessment2) { instance_double('Assessment', exemptions: [exemption3, exemption2]) }
+    let(:exemption1) { instance_double('Exemption', code: 'E001', formatted_description: 'Description 1') }
+    let(:exemption2) { instance_double('Exemption', code: 'E002', formatted_description: 'Description 2') }
+    let(:exemption3) { instance_double('Exemption', code: 'E003', formatted_description: 'Description 3') }
+
+    let(:assessments) { [assessment1, assessment2] }
+
+    it 'returns unique exemptions across assessments' do
+      result = helper.unique_exemptions(assessments)
+
+      expect(result).to contain_exactly(
+        [exemption1, assessment1],
+        [exemption2, assessment1],
+        [exemption3, assessment2],
+      )
+    end
+
+    it 'does not include duplicate exemptions' do
+      result = helper.unique_exemptions(assessments)
+
+      expect(result).not_to include([exemption2, assessment2])
+    end
+  end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
+
+  describe '#exemption_status' do
+    let(:exemption) { instance_double('Exemption', code: 'E001') }
+    let(:category) { instance_double('Category') }
+    let(:category_assessment) { instance_double('CategoryAssessment') }
+    let(:answers) { instance_double('Answers') }
+
+    before do
+      assign(:answers, answers)  # Mock @answers as an instance variable
+    end
+
+    it 'returns "Exemption met" when the exemption is met' do
+      allow(helper).to receive(:exemption_met?).with(exemption.code, category, category_assessment, answers).and_return(true)
+
+      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Exemption met')
+    end
+
+    it 'returns "Exemption not met" when the exemption is not met' do
+      allow(helper).to receive(:exemption_met?).with(exemption.code, category, category_assessment, answers).and_return(false)
+
+      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Exemption not met')
+    end
+  end
 end
