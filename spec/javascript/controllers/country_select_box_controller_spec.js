@@ -17,6 +17,7 @@ describe('CountrySelectBoxController', () => {
           name="trading_partner[country]" id="trading_partner_country-select" style="display: none;">
           <option value=" ">All countries</option>
           <option selected="selected" value="AF">Afghanistan (AF)</option>
+          <option value="TR">Turkey (TR)</option>
           <option value="ZW">Zimbabwe (ZW)</option>
         </select>
       </div>
@@ -37,5 +38,16 @@ describe('CountrySelectBoxController', () => {
     inputElement.dispatchEvent(event);
 
     expect(inputElement.value).toEqual('');
+  });
+
+  it('matches accented characters', () => {
+    const element = document.querySelector('[data-controller="country-select-box"]');
+    const inputElement = element.querySelector('.autocomplete__input');
+
+    inputElement.value = 'Tü';
+    const event = new Event('onKeyDown');
+    inputElement.dispatchEvent(event);
+
+    expect(element.querySelector('ul').getElementsByTagName('li').length).toEqual(1);
   });
 });
