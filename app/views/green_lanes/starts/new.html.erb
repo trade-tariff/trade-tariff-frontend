@@ -12,11 +12,8 @@
     </header>
 
     <p>
-      Traders may be able to use the
-      <a href='https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland' target='_blank' rel='noopener noreferrer'>
-        simplified process for internal market movements (SPIMM) (opens in new tab)
-      </a>
-      as part of the Windsor Framework.
+      Traders may be able to use the simplified process for internal market movements (SPIMM) under the Windsor Framework.
+      <%# <a href='https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland' target='_blank' rel='noopener noreferrer'>Find out more about SPIMM (opens in new tab).</a> %>
     <p>
 
     <p>
@@ -35,6 +32,10 @@
       <li>what to do next</li>
     </ul>
 
+    <p>
+      This tool sits on the UK tariff due to legal requirements set out in the Windsor Framework.
+    </p>
+
     <h3 class="govuk-heading-m">Categorisation of goods</h3>
 
     <p>
@@ -49,11 +50,11 @@
     <ul class="govuk-list govuk-list--bullet">
       <li>
         <span class="govuk-!-font-weight-bold">Category 1:</span>
-        not eligible for SPIMM and subject to full customs duties and checks
+        not eligible for SPIMM and subject to full customs processes
       </li>
       <li>
         <span class="govuk-!-font-weight-bold">Category 2</span> or
-        <span class="govuk-!-font-weight-bold">Standard Category:</span>
+        <span class="govuk-!-font-weight-bold">Standard goods:</span>
         eligible for SPIMM
       </li>
     </ul>
@@ -77,7 +78,7 @@
 
     <%= button_to green_lanes_your_movement_path,
                   params: (@commodity_code ? {commodity_code: @commodity_code} : {}),
-                  class: "govuk-button govuk-button--start govuk-!-margin-top-6", method: :get do %>
+                  class: "govuk-button govuk-button--start govuk-!-margin-top-6 govuk-!-margin-bottom-8", method: :get do %>
 
       <span>Start now</span>
       <%= render 'shared/start_arrow' %>
