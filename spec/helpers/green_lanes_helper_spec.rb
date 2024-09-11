@@ -3,6 +3,16 @@ require 'spec_helper'
 RSpec.describe GreenLanesHelper, type: :helper do
   before { allow(helper).to receive(:render) }
 
+  describe '#hide_pseudo_code' do
+    it 'returns an empty string for codes starting with WFE' do
+      expect(hide_pseudo_code('WFE001')).to eq('')
+    end
+
+    it 'returns the original code for codes not starting with WFE' do
+      expect(hide_pseudo_code('Y171')).to eq('Y171')
+    end
+  end
+
   describe '#render_exemptions_or_no_card' do
     let(:assessments) do
       instance_double('Assessments',
