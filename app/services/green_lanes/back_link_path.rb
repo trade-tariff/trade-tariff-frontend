@@ -1,5 +1,7 @@
 module GreenLanes
   class BackLinkPath
+    include Rails.application.routes.url_helpers
+
     def initialize(params:,
                    category_one_assessments_without_exemptions:,
                    category_two_assessments_without_exemptions:)
@@ -22,19 +24,16 @@ module GreenLanes
         # Remvoing the old answers for the back link path
         ans.delete('2')
 
-        Rails.application.routes.url_helpers
-          .new_green_lanes_applicable_exemptions_path(base_params.merge(category:,
-                                                                        ans:,
-                                                                        c1ex: @params[:c1ex]))
+        new_green_lanes_applicable_exemptions_path(base_params.merge(category:,
+                                                                     ans:,
+                                                                     c1ex: @params[:c1ex]))
       elsif ans.nil? || ans['1'].nil? || @category_one_assessments_without_exemptions.present?
-        Rails.application.routes.url_helpers
-          .new_green_lanes_moving_requirements_path(base_params)
+        new_green_lanes_moving_requirements_path(base_params)
       else
-        Rails.application.routes.url_helpers
-          .new_green_lanes_applicable_exemptions_path(base_params.merge(
-                                                        category:,
-                                                        ans: {},
-                                                      ))
+        new_green_lanes_applicable_exemptions_path(base_params.merge(
+                                                     category:,
+                                                     ans: {},
+                                                   ))
       end
     end
 

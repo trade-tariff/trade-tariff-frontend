@@ -13,6 +13,7 @@ module GreenLanes
 
       @category_one_assessments = candidate_categories.cat1_with_exemptions
       @category_two_assessments = candidate_categories.cat2_with_exemptions
+      @category_two_assessments_without_exemptions = candidate_categories.cat2_without_exemptions
 
       @resulting_category = prettify_category(resulting_category)
 
@@ -27,7 +28,7 @@ module GreenLanes
     def back_link_path_for_current_page
       BackLinkPath.new(params: check_your_answers_params,
                        category_one_assessments_without_exemptions: candidate_categories.cat1_without_exemptions,
-                       category_two_assessments_without_exemptions: candidate_categories.cat2_without_exemptions).call
+                       category_two_assessments_without_exemptions: @category_two_assessments_without_exemptions).call
     end
 
     def candidate_categories
