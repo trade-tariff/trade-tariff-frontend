@@ -278,14 +278,14 @@ RSpec.describe 'Green lanes category assessments',
     expect(page).to have_css('h1', text: 'Category 1')
     expect(page).to have_css('.govuk-summary-list__value', text: 'Category 1')
 
-    expect(page).to have_css('h2', text: 'Why your goods are category 1')
+    expect(page).to have_css('h2', text: 'Your category 1 result is based on EU regulations')
   end
 
   def category_2_result_screen
     expect(page).to have_css('h1', text: 'Category 2')
     expect(page).to have_css('.govuk-summary-list__value', text: 'Category 2')
 
-    expect(page).to have_css('h2', text: 'Why your goods are category 2')
+    expect(page).to have_css('h2', text: 'Your category 2 result is based on EU regulations')
   end
 
   def standard_category_result_screen
