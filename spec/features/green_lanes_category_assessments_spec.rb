@@ -96,7 +96,7 @@ RSpec.describe 'Green lanes category assessments',
 
     category_2_result_screen
 
-    expect(page).to have_css('h2', text: 'Category 1 exemptions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
     expect(page).to have_no_css('p', text: 'Exemption met', count: 2)
     expect(page).to have_no_css('p', text: 'Exemptions not met')
   end
@@ -118,8 +118,8 @@ RSpec.describe 'Green lanes category assessments',
     click_on 'Continue'
 
     standard_category_result_screen
-    expect(page).to have_css('h2', text: 'Your Category 1 exemptions')
-    expect(page).to have_no_css('h2', text: 'Your Category 2 exemptions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
+    expect(page).to have_no_css('h2', text: 'Your goods are exempt from Category 2 because you meet these conditions')
   end
 
   # Journey 7: Cat 2 via Cat 1 exemptions passed and 2 exemptions failed
@@ -147,7 +147,7 @@ RSpec.describe 'Green lanes category assessments',
 
     category_2_result_screen
 
-    expect(page).to have_css('h2', text: 'Your Category 1 exemptions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
     expect(page).to have_css('p', text: 'Exemptions not met')
   end
 
@@ -176,8 +176,8 @@ RSpec.describe 'Green lanes category assessments',
 
     standard_category_result_screen
 
-    expect(page).to have_css('h2', text: 'Your Category 1 exemptions')
-    expect(page).to have_css('h2', text: 'Your Category 2 exemptions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 2 because you meet these conditions')
     expect(page).to have_no_css('p', text: 'Exemptions not met')
 
     expect(page).to have_css('.govuk-summary-list__key', text: 'Y160')
@@ -238,8 +238,8 @@ RSpec.describe 'Green lanes category assessments',
 
     standard_category_result_screen
 
-    expect(page).to have_no_css('h2', text: 'Your Category 1 exemptions')
-    expect(page).to have_css('h2', text: 'Your Category 2 exemptions')
+    expect(page).to have_no_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 2 because you meet these conditions')
     expect(page).to have_no_css('p', text: 'Exemptions not met')
 
     expect(page).to have_css('.govuk-summary-list__key', text: 'Y170')
@@ -278,14 +278,14 @@ RSpec.describe 'Green lanes category assessments',
     expect(page).to have_css('h1', text: 'Category 1')
     expect(page).to have_css('.govuk-summary-list__value', text: 'Category 1')
 
-    expect(page).to have_css('h2', text: 'Your category 1 result is based on EU regulations')
+    expect(page).to have_css('h2', text: 'Your Category 1 result is based on EU regulations')
   end
 
   def category_2_result_screen
     expect(page).to have_css('h1', text: 'Category 2')
     expect(page).to have_css('.govuk-summary-list__value', text: 'Category 2')
 
-    expect(page).to have_css('h2', text: 'Your category 2 result is based on EU regulations')
+    expect(page).to have_css('h2', text: 'Your Category 2 result is based on EU regulations')
   end
 
   def standard_category_result_screen
