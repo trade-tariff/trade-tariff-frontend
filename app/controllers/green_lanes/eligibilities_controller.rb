@@ -18,7 +18,9 @@ module GreenLanes
       @eligibility_form = EligibilityForm.new(eligibility_params)
 
       if @eligibility_form.valid?
-        redirect_to green_lanes_eligibility_result_path(eligibility_params)
+        redirect_to green_lanes_eligibility_result_path(
+          eligibility_params.merge(t: Time.zone.now.to_i),
+        )
       else
         render 'new'
       end
