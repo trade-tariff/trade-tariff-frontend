@@ -68,7 +68,7 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y997 Y984], 'Exemption not met')
+    check_your_answers_exemption_card(%w[Y997 Y984], 'Condition not met')
 
     click_on 'Continue'
 
@@ -90,7 +90,7 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y997 Y984], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y997 Y984], 'Condition met')
 
     click_on 'Continue'
 
@@ -113,7 +113,7 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y997 Y984], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y997 Y984], 'Condition met')
 
     click_on 'Continue'
 
@@ -140,8 +140,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y160 Y966 Y904], 'Exemption met')
-    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930 Y058], 'Exemption not met')
+    check_your_answers_exemption_card(%w[Y160 Y966 Y904], 'Condition met')
+    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930 Y058], 'Condition not met')
 
     click_on 'Continue'
 
@@ -169,8 +169,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y160 Y966 Y058 Y904], 'Exemption met')
-    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930], 'Exemption not met')
+    check_your_answers_exemption_card(%w[Y160 Y966 Y058 Y904], 'Condition met')
+    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930], 'Condition not met')
 
     click_on 'Continue'
 
@@ -207,8 +207,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y900], 'Exemption met')
-    check_your_answers_exemption_card(%w[Y170 Y058 Y171 Y174 Y175 Y176 Y177], 'Exemption not met')
+    check_your_answers_exemption_card(%w[Y900], 'Condition met')
+    check_your_answers_exemption_card(%w[Y170 Y058 Y171 Y174 Y175 Y176 Y177], 'Condition not met')
 
     click_on 'Continue'
 
@@ -231,8 +231,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y170 Y058 Y900], 'Exemption met')
-    check_your_answers_exemption_card(%w[Y171 Y174 Y175 Y176 Y177], 'Exemption not met')
+    check_your_answers_exemption_card(%w[Y170 Y058 Y900], 'Condition met')
+    check_your_answers_exemption_card(%w[Y171 Y174 Y175 Y176 Y177], 'Condition not met')
 
     click_on 'Continue'
 
