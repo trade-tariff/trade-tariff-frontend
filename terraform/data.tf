@@ -50,5 +50,5 @@ data "aws_secretsmanager_secret" "green_lanes_api_tokens" {
 }
 
 data "aws_secretsmanager_secret" "google_tag_manager_container_id" {
-  name = "google_tag_manager_container_id"
+  name = "frontend-google-tag-manager-container-id"
 }
