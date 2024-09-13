@@ -1,7 +1,6 @@
-RSpec.describe GreenLanes::CheckYourAnswersController, type: :request, vcr: {
-  cassette_name: 'green_lanes/check_your_answers',
-  record: :new_episodes,
-} do
+RSpec.describe GreenLanes::CheckYourAnswersController,
+               type: :request,
+               vcr: { cassette_name: 'green_lanes/check_your_answers' } do
   describe 'GET #new' do
     before { make_request }
 
@@ -22,8 +21,11 @@ RSpec.describe GreenLanes::CheckYourAnswersController, type: :request, vcr: {
         category: 2,
         c1ex: true,
         c2ex: false,
+        t: timestamp,
       )
     end
+
+    let(:timestamp) { Time.zone.now.to_i }
 
     it 'responds with status code :ok' do
       expect(response).to have_http_status(:ok), "Response body: #{response.body}"
@@ -44,6 +46,14 @@ RSpec.describe GreenLanes::CheckYourAnswersController, type: :request, vcr: {
       expect(response).to render_template('green_lanes/check_your_answers/show')
       expect(response).to render_template('green_lanes/shared/_about_your_goods_card')
       expect(response).to render_template('green_lanes/check_your_answers/_category_exemptions')
+    end
+
+    context 'when the page has expired' do
+      let(:timestamp) { Time.zone.now.to_i - 11.hours }
+
+      it 'redirects to the start page' do
+        expect(make_request).to redirect_to green_lanes_start_path
+      end
     end
   end
 end

@@ -2,9 +2,13 @@ module GreenLanes
   class ApplicableExemptionsController < ApplicationController
     include GreenLanesHelper
 
+    include Concerns::ExpirableUrl
+
     before_action :check_green_lanes_enabled,
                   :disable_switch_service_banner,
                   :disable_search_form
+
+    before_action :page_has_not_expired, only: %i[new]
 
     def new
       @exemptions_form = build_exemptions_form
@@ -118,6 +122,7 @@ module GreenLanes
         country_of_origin: params[:country_of_origin],
         c1ex: params[:c1ex].present? ? params[:c1ex] == 'true' : nil,
         ans: passed_exemption_answers[:ans],
+        t: Time.zone.now.to_i,
       )
     end
 
@@ -155,6 +160,7 @@ module GreenLanes
         .merge(exemptions_results_params)
         .merge(next_page_query)
         .merge(passed_exemption_answers)
+        .merge(t: Time.zone.now.to_i)
         .deep_symbolize_keys
 
       "#{path}?#{query.to_query}"

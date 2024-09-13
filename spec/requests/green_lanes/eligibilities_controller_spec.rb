@@ -21,6 +21,12 @@ RSpec.describe GreenLanes::EligibilitiesController, type: :request do
 
   describe 'POST #create' do
     context 'with valid params' do
+      before do
+        allow(Time.zone).to receive(:now).and_return(
+          instance_double(Time, to_i: timestamp),
+        )
+      end
+
       let(:valid_params) do
         {
           green_lanes_eligibility_form: {
@@ -32,12 +38,22 @@ RSpec.describe GreenLanes::EligibilitiesController, type: :request do
         }
       end
 
+      let(:timestamp) { Time.zone.now.to_i }
+
       let(:make_request) { post green_lanes_eligibility_path, params: valid_params }
 
       it 'redirects to the result path' do
         make_request
 
-        expect(response).to redirect_to(green_lanes_eligibility_result_path(valid_params[:green_lanes_eligibility_form]))
+        expect(response).to redirect_to(green_lanes_eligibility_result_path(
+                                          {
+                                            moving_goods_gb_to_ni: 'yes',
+                                            free_circulation_in_uk: 'yes',
+                                            end_consumers_in_uk: 'yes',
+                                            ukims: 'yes',
+                                            t: timestamp,
+                                          },
+                                        ))
       end
     end
 
