@@ -23,13 +23,13 @@ export default class Utility {
 
   static async fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults) {
     const escapedQuery = encodeURIComponent(query);
-    const opts = {
-      term: escapedQuery,
-    };
-    const queryParams = new URLSearchParams(opts).toString();
+
+    const fetchURL = new URL(window.location.href);
+    fetchURL.pathname = searchSuggestionsPath;
+    fetchURL.searchParams.append('term', escapedQuery);
 
     try {
-      const response = await fetch(`${searchSuggestionsPath}?${queryParams}`, {
+      const response = await fetch(fetchURL, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export default class Utility {
         });
       }
       populateResults(newSource);
-      document.dispatchEvent(new CustomEvent('tariff:searchQuery', {detail: [data, opts]}));
+      document.dispatchEvent(new CustomEvent('tariff:searchQuery', {detail: [data, {'term': escapedQuery}]}));
     } catch (error) {
       console.error('Error fetching data:', error);
       populateResults([]);
