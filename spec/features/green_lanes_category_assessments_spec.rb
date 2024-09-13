@@ -82,7 +82,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has Cat1 exemptions and at least 1 CA without exemptions when Cat1 exemptions apply it results in Category 2' do
     fill_moving_requirments_form(commodity_codes[:cat1_exemptions_no_cat_2_exemptions], countries[:ukraine])
 
-    expect(page).to have_text('Your goods may be Category 1')
+    expect(page).to have_text('Your goods will be Category 1')
 
     check 'exemptions-category-assessment-a6b633a7b098132ec45c036d0e14713a-y997-field'
     check 'exemptions-category-assessment-18fcbb5b75781f8a676bd84dae9c170e-y984-field'
@@ -105,7 +105,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has Cat1 exemptions and no Cat2 CAs, When exemptions apply to Cat1 Then it results in Category 3' do
     fill_moving_requirments_form(commodity_codes[:cat1_exemptions], countries[:ukraine])
 
-    expect(page).to have_text('Your goods may be Category 1')
+    expect(page).to have_text('Your goods will be Category 1')
 
     check 'exemptions-category-assessment-a6b633a7b098132ec45c036d0e14713a-y997-field'
     check 'exemptions-category-assessment-18fcbb5b75781f8a676bd84dae9c170e-y984-field'
@@ -126,13 +126,13 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has both Cat1 and Cat2 exemptions when exemptions for Cat1 apply and exemptions for Cat2 do not apply it results in Category 2' do
     fill_moving_requirments_form(commodity_codes[:both_exemptions], countries[:iran])
 
-    expect(page).to have_text('Your goods may be Category 1')
+    expect(page).to have_text('Your goods will be Category 1')
 
     check 'exemptions-category-assessment-b75355747789bdbc8e3d63cf2d91d214-y160-field'
     check 'exemptions-category-assessment-e562118c58fdbb9ac68bb82c4593f98e-y966-field'
     click_on 'Continue'
 
-    expect(page).to have_text('Your goods may be Category 2')
+    expect(page).to have_text('Your goods will be Category 2')
 
     check 'exemptions-category-assessment-b8e061e4ddb9e4d99cbec41195277304-none-field'
     check 'exemptions-category-assessment-34aad1bc2c330cd7635ef3fdacef2de7-y904-field'
@@ -155,13 +155,13 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has Cat1 and Cat2 exemptions when exemptions for Cat1 and Cat2 apply it results in Category 3' do
     fill_moving_requirments_form(commodity_codes[:both_exemptions], countries[:iran])
 
-    expect(page).to have_text('Your goods may be Category 1')
+    expect(page).to have_text('Your goods will be Category 1')
 
     check 'exemptions-category-assessment-b75355747789bdbc8e3d63cf2d91d214-y160-field'
     check 'exemptions-category-assessment-e562118c58fdbb9ac68bb82c4593f98e-y966-field'
     click_on 'Continue'
 
-    expect(page).to have_text('Your goods may be Category 2')
+    expect(page).to have_text('Your goods will be Category 2')
 
     check 'exemptions-category-assessment-b8e061e4ddb9e4d99cbec41195277304-y058-field'
     check 'exemptions-category-assessment-34aad1bc2c330cd7635ef3fdacef2de7-y904-field'
@@ -198,7 +198,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has only Cat2 exemptions when exemptions for Cat2 does not apply then it results in Category 2' do
     fill_moving_requirments_form(commodity_codes[:cat2_exemptions], countries[:greenland])
 
-    expect(page).to have_text('Your goods may be Category 2')
+    expect(page).to have_text('Your goods will be Category 2')
 
     check 'exemptions-category-assessment-37f58c7ec2982bf82ab238d33b376b4f-none-field'
     check 'exemptions-category-assessment-abed84f406002f0d36f8660d9f80884e-none-field'
@@ -222,7 +222,7 @@ RSpec.describe 'Green lanes category assessments',
   scenario 'Given the commodity has only Cat2 exemptions when exemptions for Cat2 apply then it results in Category 3' do
     fill_moving_requirments_form(commodity_codes[:cat2_exemptions], countries[:greenland])
 
-    expect(page).to have_text('Your goods may be Category 2')
+    expect(page).to have_text('Your goods will be Category 2')
 
     check 'exemptions-category-assessment-37f58c7ec2982bf82ab238d33b376b4f-y170-field'
     check 'exemptions-category-assessment-abed84f406002f0d36f8660d9f80884e-y058-field'

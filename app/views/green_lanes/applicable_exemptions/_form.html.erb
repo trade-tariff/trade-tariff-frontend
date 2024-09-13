@@ -11,11 +11,11 @@
         <%= f.govuk_check_boxes_fieldset category_assessment.id,
                                           multiple: true,
                                           legend: {
-                                            text: "Do your goods meet any of these Category #{category} exemptions?",
+                                            text: "Do your goods meet any of these conditions?",
                                             size: 'm'
                                           },
                                           hint: {
-                                            text: "Annex IV of the Windsor Framework: \" #{category_assessment.theme.to_s}\""
+                                            text: "Annex IV of the Windsor Framework states: \" #{category_assessment.theme.to_s}\""
                                           } do %>
 
           <% if category_assessment.regulation_url.present? %>
