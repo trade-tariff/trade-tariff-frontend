@@ -45,8 +45,15 @@ RSpec.describe GreenLanes::EligibilityForm, type: :model do
         }
       end
 
-      it { expect(form.errors[:moving_goods_gb_to_ni]).to include("can't be blank") }
-      it { expect(form.errors[:end_consumers_in_uk]).to include("can't be blank") }
+      it do
+        expect(form.errors[:moving_goods_gb_to_ni])
+          .to include('Select an option to tell us if you are moving goods from Great Britain to Northern Ireland')
+      end
+
+      it do
+        expect(form.errors[:end_consumers_in_uk])
+          .to include('Select an option to tell us if your goods are for sale or final use in the UK')
+      end
     end
 
     context 'when all attributes are empty strings' do
@@ -60,10 +67,10 @@ RSpec.describe GreenLanes::EligibilityForm, type: :model do
         }
       end
 
-      it { expect(form.errors[:moving_goods_gb_to_ni]).to include("can't be blank") }
-      it { expect(form.errors[:free_circulation_in_uk]).to include("can't be blank") }
-      it { expect(form.errors[:end_consumers_in_uk]).to include("can't be blank") }
-      it { expect(form.errors[:ukims]).to include("can't be blank") }
+      it { expect(form.errors[:moving_goods_gb_to_ni]).to include('Select an option to tell us if you are moving goods from Great Britain to Northern Ireland') }
+      it { expect(form.errors[:free_circulation_in_uk]).to include('Select an option to tell us if your goods are in free circulation in the UK') }
+      it { expect(form.errors[:end_consumers_in_uk]).to include('Select an option to tell us if your goods are for sale or final use in the UK') }
+      it { expect(form.errors[:ukims]).to include('Select an option to tell us if you are a UKIMS authorised trader') }
     end
   end
 end

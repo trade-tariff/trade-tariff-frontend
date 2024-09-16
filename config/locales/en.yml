@@ -404,7 +404,16 @@ en:
             commodity_code:
               wrong_length: Enter a 10 digit commodity code, for example, '0123456789'
               only_numbers: Enter a 10 digit commodity code, for example, '0123456789'
-
+        green_lanes/eligibility_form:
+          attributes:
+            moving_goods_gb_to_ni:
+              blank: "Select an option to tell us if you are moving goods from Great Britain to Northern Ireland"
+            free_circulation_in_uk:
+              blank: "Select an option to tell us if your goods are in free circulation in the UK"
+            end_consumers_in_uk:
+              blank: "Select an option to tell us if your goods are for sale or final use in the UK"
+            ukims:
+              blank: "Select an option to tell us if you are a UKIMS authorised trader"
   helpers:
     legend:
       rules_of_origin_steps_scheme:
