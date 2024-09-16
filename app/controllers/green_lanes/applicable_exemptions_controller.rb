@@ -2,13 +2,17 @@ module GreenLanes
   class ApplicableExemptionsController < ApplicationController
     include GreenLanesHelper
 
+    include Concerns::ExpirableUrl
+
     before_action :check_green_lanes_enabled,
                   :disable_switch_service_banner,
                   :disable_search_form
 
+    before_action :page_has_not_expired, only: %i[new]
+
     def new
       @exemptions_form = build_exemptions_form
-      @back_link_path = determine_back_link_path
+      @back_link_path = back_link_path_for_current_page
 
       render_exemptions_questions
     end
@@ -20,7 +24,7 @@ module GreenLanes
         next_page = determine_next_page
         redirect_to handle_next_page(next_page)
       else
-        @back_link_path = determine_back_link_path
+        @back_link_path = back_link_path_for_current_page
 
         render_exemptions_questions
       end
@@ -28,25 +32,21 @@ module GreenLanes
 
     private
 
-    def determine_back_link_path
-      permitted_params = params.permit(:commodity_code, :country_of_origin, :moving_date, :c1ex, :c2ex, ans: {})
+    def back_link_params
+      params.permit(
+        :commodity_code,
+        :country_of_origin,
+        :moving_date,
+        :c1ex,
+        :c2ex,
+        ans: {},
+      )
+    end
 
-      if category == 2
-        green_lanes_applicable_exemptions_path(
-          category: 1,
-          commodity_code: permitted_params[:commodity_code],
-          country_of_origin: permitted_params[:country_of_origin],
-          moving_date: permitted_params[:moving_date],
-          ans: parsed_ans(permitted_params[:ans]),
-          c1ex: permitted_params[:c1ex],
-        )
-      else
-        green_lanes_moving_requirements_path(
-          commodity_code: params[:commodity_code],
-          country_of_origin: params[:country_of_origin],
-          moving_date: params[:moving_date],
-        )
-      end
+    def back_link_path_for_current_page
+      BackLinkPath.new(params: back_link_params,
+                       category_one_assessments_without_exemptions: candidate_categories.cat1_without_exemptions,
+                       category_two_assessments_without_exemptions: candidate_categories.cat2_without_exemptions).call
     end
 
     def parsed_ans(ans_param)
@@ -122,6 +122,7 @@ module GreenLanes
         country_of_origin: params[:country_of_origin],
         c1ex: params[:c1ex].present? ? params[:c1ex] == 'true' : nil,
         ans: passed_exemption_answers[:ans],
+        t: Time.zone.now.to_i,
       )
     end
 
@@ -159,6 +160,7 @@ module GreenLanes
         .merge(exemptions_results_params)
         .merge(next_page_query)
         .merge(passed_exemption_answers)
+        .merge(t: Time.zone.now.to_i)
         .deep_symbolize_keys
 
       "#{path}?#{query.to_query}"

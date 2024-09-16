@@ -3,6 +3,16 @@ require 'spec_helper'
 RSpec.describe GreenLanesHelper, type: :helper do
   before { allow(helper).to receive(:render) }
 
+  describe '#hide_pseudo_code' do
+    it 'returns an empty string for codes starting with WFE' do
+      expect(hide_pseudo_code('WFE001')).to eq('')
+    end
+
+    it 'returns the original code for codes not starting with WFE' do
+      expect(hide_pseudo_code('Y171')).to eq('Y171')
+    end
+  end
+
   describe '#render_exemptions_or_no_card' do
     let(:assessments) do
       instance_double('Assessments',
@@ -268,16 +278,16 @@ RSpec.describe GreenLanesHelper, type: :helper do
       assign(:answers, answers)  # Mock @answers as an instance variable
     end
 
-    it 'returns "Exemption met" when the exemption is met' do
+    it 'returns "Condition met" when the exemption is met' do
       allow(helper).to receive(:exemption_met?).with(exemption.code, category, category_assessment, answers).and_return(true)
 
-      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Exemption met')
+      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Condition met')
     end
 
-    it 'returns "Exemption not met" when the exemption is not met' do
+    it 'returns "Condition not met" when the exemption is not met' do
       allow(helper).to receive(:exemption_met?).with(exemption.code, category, category_assessment, answers).and_return(false)
 
-      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Exemption not met')
+      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Condition not met')
     end
   end
 end

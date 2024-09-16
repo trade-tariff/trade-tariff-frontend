@@ -29,19 +29,6 @@
   <li>chapter notes and references</li>
 </ul>
 
-<% if TradeTariffFrontend.green_lanes_enabled? %>
-  <div class="govuk-!-margin-top-4 govuk-!-margin-bottom-4">
-    <strong> New process for moving goods from Great Britain to Northern Ireland</strong>
-  </div>
-
-  <p class="govuk-!-margin-bottom-6">
-    <%= link_to 'Check eligibility for the simplified process for internal market movements (SPIMM)', green_lanes_eligibility_path %>
-    , available to UKIMS authorised traders from 30th September 2024.
-  </p>
-<% end %>
-
-
-
 <%= render 'declarables/declarable',
            declarable: declarable,
            xi_declarable: xi_declarable,

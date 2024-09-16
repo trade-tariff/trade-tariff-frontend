@@ -6,11 +6,9 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">We need more information about your goods</h1>
     <p class="govuk-body">
-      Your goods may be Category 1. Tell us more about your goods so that we can determine their category.
+      Your goods will be Category 1, unless you meet sufficient conditions.
     </p>
 
     <%= render 'form', submit_form_url: applicable_exemptions_path, category: '1' %>
-
-    <%= render '/green_lanes/shared/support_email_section' %>
   </div>
 </div>

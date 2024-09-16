@@ -73,6 +73,10 @@ module GreenLanesHelper
     end
   end
 
+  def hide_pseudo_code(code)
+    code.start_with?('WFE') ? '' : code
+  end
+
   def unique_exemptions(assessments)
     exemptions = []
     displayed_exemptions = Set.new
@@ -91,9 +95,9 @@ module GreenLanesHelper
 
   def exemption_status(exemption, category, category_assessment)
     if exemption_met?(exemption.code, category, category_assessment, @answers)
-      'Exemption met'
+      'Condition met'
     else
-      'Exemption not met'
+      'Condition not met'
     end
   end
 

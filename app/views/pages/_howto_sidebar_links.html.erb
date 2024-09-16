@@ -28,14 +28,6 @@
           <a class="govuk-link govuk-link gem-c-related-navigation__section-link govuk-link gem-c-related-navigation__section-link--sidebar govuk-link gem-c-related-navigation__section-link--other" href="/howto/origin">What is origin and why is it important for international trade?</a>
         </li>
 
-        <% if TradeTariffFrontend.green_lanes_enabled? %>
-          <li class="gem-c-related-navigation__link">
-            <%= link_to 'Check if you are eligible for the simplified process for internal market movements from Great Britain to Northern Ireland (SPIMM).',
-              green_lanes_start_path,
-              class: 'govuk-link govuk-link gem-c-related-navigation__section-link govuk-link gem-c-related-navigation__section-link--sidebar govuk-link gem-c-related-navigation__section-link--other'
-            %>
-          </li>
-        <% end %>
       </ul>
     </nav>
   </div>

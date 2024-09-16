@@ -55,9 +55,9 @@ module GreenLanes
         commodity_code: moving_requirements_params[:commodity_code],
         country_of_origin: moving_requirements_params[:country_of_origin],
         moving_date: @moving_requirements_form.moving_date.iso8601,
-      }
-        .merge(next_page_query)
-        .deep_symbolize_keys
+      }.merge(next_page_query)
+       .merge(t: Time.zone.now.to_i)
+       .deep_symbolize_keys
 
       "#{path}?#{query.to_query}"
     end
