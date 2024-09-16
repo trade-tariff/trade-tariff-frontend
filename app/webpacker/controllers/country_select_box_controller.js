@@ -12,7 +12,7 @@ export default class extends Controller {
   connect() {
     this.selectElement = this.countrySelectTarget.querySelector('select');
 
-    this.#initializeAutocomplete();
+    this.#initializeAutocomplete(this.selectElement);
 
     // Attach event listener after initialization as accessibleAutocomplete.enhanceSelectElement
     // hides focus event from stimulus.
@@ -26,8 +26,19 @@ export default class extends Controller {
     }
   }
 
-  #initializeAutocomplete() {
+  #initializeAutocomplete(element) {
     const previousValue = this.#getPreviousValue();
+
+    function matcher(query, element) {
+      const options = [...element.options].map((o) => o.text);
+      const filteredResults = options.filter((result) => normalizeString(result).indexOf(normalizeString(query)) !== -1);
+      return filteredResults;
+    }
+
+    function normalizeString(str) {
+      return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    }
+
 
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: this.selectElement,
@@ -40,6 +51,9 @@ export default class extends Controller {
       placeholder: previousValue,
       dropdownArrow: function() {
         return '<span class="autocomplete__arrow"></span>';
+      },
+      source: function(query, populateResults) {
+        populateResults(matcher(query, element));
       },
       onConfirm: (confirmed) => Utility.countrySelectorOnConfirm(confirmed, this.selectElement),
     });
