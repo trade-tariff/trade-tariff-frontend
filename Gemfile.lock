@@ -130,7 +130,9 @@ GEM
       rack (~> 2)
     aws-sigv4 (1.6.0)
       aws-eventstream (~> 1, >= 1.0.2)
+    backport (1.2.0)
     base64 (0.2.0)
+    benchmark (0.3.0)
     bigdecimal (3.1.8)
     bindex (0.8.1)
     bootsnap (1.17.0)
@@ -165,6 +167,7 @@ GEM
       dotenv (= 2.8.1)
       railties (>= 3.2)
     drb (2.2.1)
+    e2mmap (0.1.0)
     erubi (1.13.0)
     factory_bot (6.4.5)
       activesupport (>= 5.0.0)
@@ -251,6 +254,7 @@ GEM
     irb (1.14.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    jaro_winkler (1.6.0)
     jmespath (1.6.2)
     json (2.6.3)
     kaminari (1.2.2)
@@ -267,6 +271,8 @@ GEM
     kaminari-core (1.2.2)
     kramdown (2.4.0)
       rexml
+    kramdown-parser-gfm (1.1.0)
+      kramdown (~> 2.0)
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
@@ -579,6 +585,7 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
+    rbs (2.8.4)
     rdoc (6.7.0)
       psych (>= 4.0.0)
     redis (5.0.8)
@@ -590,6 +597,8 @@ GEM
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
+    reverse_markdown (2.1.1)
+      nokogiri
     rexml (3.3.4)
       strscan
     rinku (2.0.6)
@@ -666,6 +675,22 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
+    solargraph (0.50.0)
+      backport (~> 1.2)
+      benchmark
+      bundler (~> 2.0)
+      diff-lcs (~> 1.4)
+      e2mmap
+      jaro_winkler (~> 1.5)
+      kramdown (~> 2.3)
+      kramdown-parser-gfm (~> 1.1)
+      parser (~> 3.0)
+      rbs (~> 2.0)
+      reverse_markdown (~> 2.0)
+      rubocop (~> 1.38)
+      thor (~> 1.0)
+      tilt (~> 2.0)
+      yard (~> 0.9, >= 0.9.24)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -677,6 +702,7 @@ GEM
     stringio (3.1.1)
     strscan (3.1.0)
     thor (1.3.1)
+    tilt (2.4.0)
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -704,6 +730,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yajl-ruby (1.4.3)
+    yard (0.9.37)
     zeitwerk (2.6.17)
 
 PLATFORMS
@@ -751,6 +778,7 @@ DEPENDENCIES
   sentry-rails
   shoulda-matchers
   simplecov
+  solargraph
   vcr
   web-console
   webmock

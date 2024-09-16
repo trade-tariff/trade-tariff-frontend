@@ -24,6 +24,7 @@ require 'capybara/cuprite'
 Capybara.javascript_driver = :cuprite
 Capybara.register_driver(:cuprite) do |app|
   opts = {
+    browser_name: :chrome,
     window_size: [1200, 800],
     process_timeout: 30,
     timeout: 30,

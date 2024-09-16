@@ -35,3 +35,5 @@ yarn-debug.log*
 
 .nvimlog
 .byebug_history
+
+.direnv

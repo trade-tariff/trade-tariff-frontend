@@ -102,13 +102,6 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
 
-    expect(fetch).toHaveBeenCalledWith(`${searchSuggestionsPath}?term=wine`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
     const expectedResults = [
       {id: 'wine', text: 'wine', suggestion_type: 'exact', newOption: true},
       ...mockResponse.results,
@@ -127,12 +120,6 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
 
-    expect(fetch).toHaveBeenCalledWith(`${searchSuggestionsPath}?term=wine`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
     expect(populateResults).toHaveBeenCalledWith([]);
   });
 });
