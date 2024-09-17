@@ -168,11 +168,23 @@ module ApplicationHelper
     end
   end
 
-  def duty_calculator_url(dc_path)
-    dc_base_url = ENV.fetch('DUTY_CALCULATOR_BASE_URL', '/duty-calculator')
-    normalised_dc_path = dc_path.gsub(/\A\//, '')
+  def duty_calculator_link(service_choice, declarable_code)
+    url = ENV.fetch('DUTY_CALCULATOR_BASE_URL', '/duty-calculator')
+    code = divide_commodity_code(declarable_code).join(' ')
 
-    "#{dc_base_url}/#{normalised_dc_path}"
+    link_description = "work out the duties and taxes applicable to the import of commodity #{code}"
+    link_url = File.join(
+      url,
+      service_choice,
+      declarable_code,
+      'import-date',
+    )
+
+    params.slice(:day, :month, :year).to_unsafe_hash.to_query.tap do |query|
+      link_url += "?#{query}" if query.present?
+    end
+
+    link_to link_description, link_url
   end
 
   def month_name_and_year(month, year)

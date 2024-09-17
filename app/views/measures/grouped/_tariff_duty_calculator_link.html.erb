@@ -8,10 +8,8 @@
 
     <p>
       Use our <strong>tariff duty calculator</strong> to
-      <%= link_to duty_calculator_url "/#{service_choice}/#{declarable_code}/import-date" do %>
-        work out the duties and taxes applicable to the import of commodity
-        <%= divide_commodity_code(declarable_code).join ' ' %>.
-      <% end %>
+
+      <%= duty_calculator_link(service_choice, declarable_code) %>
     </p>
 
     <p><%= I18n.t("measure_type_message")%></p>
