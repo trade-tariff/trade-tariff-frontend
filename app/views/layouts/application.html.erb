@@ -35,6 +35,7 @@
 
   <%= javascript_tag nonce: true do -%>
     document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+    window.googleTagManagerContainerId = "<%= TradeTariffFrontend.google_tag_manager_container_id %>";
   <% end -%>
 
     <%= render 'layouts/cookies_consent' %>

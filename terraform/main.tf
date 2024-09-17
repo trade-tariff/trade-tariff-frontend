@@ -149,6 +149,10 @@ module "service" {
       value = var.environment
     },
     {
+      name  = "GOOGLE_TAG_MANAGER_CONTAINER_ID"
+      value = var.google_tag_manager_container_id
+    },
+    {
       name  = "GREEN_LANES_ENABLED"
       value = var.green_lanes_enabled
     },
