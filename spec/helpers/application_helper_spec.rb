@@ -445,29 +445,10 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe '#duty_calculator_url' do
-    context 'with default' do
-      subject { duty_calculator_url '/some/test?path=1' }
+  describe '#duty_calculator_link' do
+    subject { helper.duty_calculator_link 'uk', '1704909991' }
 
-      it { is_expected.to eq '/duty-calculator/some/test?path=1' }
-    end
-
-    context 'with override' do
-      subject { duty_calculator_url '/some/test?path=1' }
-
-      before do
-        allow(ENV).to receive(:fetch).and_call_original
-        allow(ENV).to receive(:fetch).with('/some/test?path=1')
-                                     .and_return 'http://localhost:3002'
-      end
-
-      it { is_expected.to eq '/duty-calculator/some/test?path=1' }
-    end
-
-    context 'without leading slash' do
-      subject { duty_calculator_url 'some/test?path=1' }
-
-      it { is_expected.to eq '/duty-calculator/some/test?path=1' }
-    end
+    it { is_expected.to have_css 'a', text: 'work out the duties and taxes applicable to the import of commodity 1704 9099 91' }
+    it { is_expected.to have_css 'a[href="/duty-calculator/uk/1704909991/import-date"]' }
   end
 end
