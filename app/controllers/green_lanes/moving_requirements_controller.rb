@@ -15,9 +15,8 @@ module GreenLanes
 
     def create
       @moving_requirements_form = MovingRequirementsForm.new(moving_requirements_params)
-      form = @moving_requirements_form
 
-      if form.valid?
+      if @moving_requirements_form.valid?
         next_page = DetermineNextPage
           .new(goods_nomenclature)
           .next
@@ -39,7 +38,15 @@ module GreenLanes
     end
 
     def goods_nomenclature
-      @goods_nomenclature ||= FetchGoodsNomenclature.new(moving_requirements_params).call
+      @goods_nomenclature ||= FetchGoodsNomenclature.new(goods_nomenclature_params).call
+    end
+
+    def goods_nomenclature_params
+      {
+        commodity_code: moving_requirements_params[:commodity_code],
+        country_of_origin: moving_requirements_params[:country_of_origin],
+        moving_date: @moving_requirements_form.moving_date,
+      }
     end
 
     def handle_next_page(next_page)

@@ -13,10 +13,11 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    height: 40px;
+    height: 70px;
     width: 40px;
     overflow: visible;
   }
+
   input.govuk-button {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -28,12 +29,16 @@
     background-repeat: no-repeat;
     background-position: 1px -17px;
   }
-  .govuk-form-group.searchfield, .govuk-form-group.date-picker {
+
+  .govuk-form-group.searchfield,
+  .govuk-form-group.date-picker {
     margin-bottom: 15px;
   }
+
   .change-date-link {
     white-space: nowrap;
   }
+
   fieldset.inline {
     display: inline-block;
     width: auto;
@@ -58,14 +63,17 @@
   border: 2px solid #0b0c0c !important;
   border-radius: 0 !important;
 
-  .select2-selection__placeholder, .select2-selection__rendered {
+  .select2-selection__placeholder,
+  .select2-selection__rendered {
     width: 100%;
     padding: 0;
     line-height: 40px;
   }
+
   .select2-selection__placeholder {
     height: 40px;
   }
+
   .select2-selection__rendered {
     height: 40px;
     @include govuk-font(19);
@@ -121,9 +129,13 @@ a.back-to-previous {
   text-align: right;
   margin: 2em 0 0 0;
   overflow: hidden;
-  &:active, &:hover, &:focus {
+
+  &:active,
+  &:hover,
+  &:focus {
     color: $govuk-text-colour;
   }
+
   @media (min-width: $desktop-min-width) {
     font-size: 16px;
   }
