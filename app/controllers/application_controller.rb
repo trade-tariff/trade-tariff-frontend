@@ -15,23 +15,6 @@ class ApplicationController < ActionController::Base
 
   layout :set_layout
 
-  def url_options
-    return super unless search_invoked?
-
-    set_search
-
-    if @search.date.today?
-      return { country: @search.country }.merge(super)
-    end
-
-    {
-      year: @search.date.year,
-      month: @search.date.month,
-      day: @search.date.day,
-      country: @search.country,
-    }.merge(super)
-  end
-
   private
 
   helper_method :cookies_policy,
@@ -70,9 +53,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_search
-    # rubocop:disable Naming/MemoizedInstanceVariableName
     @search ||= Search.new(search_attributes)
-    # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
   def search_attributes
@@ -124,6 +105,8 @@ class ApplicationController < ActionController::Base
   def bots_no_index_if_historical
     return if @search.today?
 
+    response.headers['X-Robots-Tag'] = 'none'
+  rescue StandardError
     response.headers['X-Robots-Tag'] = 'none'
   end
 

@@ -5,6 +5,9 @@ import Utility from '../src/javascripts/utility';
 
 export default class extends Controller {
   static targets = ['commodityInput', 'resourceIdHidden'];
+  static values = {
+    q: String,
+  };
 
   connect() {
     this.inputElement = this.commodityInputTarget;
@@ -14,7 +17,7 @@ export default class extends Controller {
     this.searching = true;
 
     // Reset the input value on connection so it doesn't persist between pages
-    this.inputElement.value = '';
+    this.inputElement.value = this.qValue;
     this.resourceIdHidden.value = '';
 
     this.#setPlaceholder();

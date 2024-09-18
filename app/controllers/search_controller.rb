@@ -88,6 +88,8 @@ class SearchController < ApplicationController
     else
       perform_legacy_search
     end
+  rescue Search::InvalidDate
+    redirect_to find_commodity_path(search_params.merge(invalid_date: true))
   end
 
   def toggle_beta_search
@@ -120,9 +122,14 @@ class SearchController < ApplicationController
     form = QuotaSearchForm.new(params.permit(*QuotaSearchForm::PERMITTED_PARAMS))
     @result = QuotaSearchPresenter.new(form)
 
+    # Test the search date to check if it's valid
+    @search.date unless params.key?(:invalid_date)
+
     respond_to do |format|
       format.html
     end
+  rescue Search::InvalidDate
+    redirect_to quota_search_path(quota_search_params.merge(invalid_date: true))
   end
 
   def chemical_search
@@ -132,6 +139,17 @@ class SearchController < ApplicationController
     respond_to do |format|
       format.html
     end
+  end
+
+  def url_options
+    return super unless search_invoked?
+
+    opt = {}
+    opt.merge!(day: params[:day]) if params.key?(:day)
+    opt.merge!(month: params[:month]) if params.key?(:month)
+    opt.merge!(year: params[:year]) if params.key?(:year)
+    opt.merge!(country: params[:country]) if params.key?(:country)
+    opt.merge!(super)
   end
 
   private
@@ -218,5 +236,13 @@ class SearchController < ApplicationController
 
   def beta_search_params
     @beta_search_params ||= params.permit(:q, :filters, :spell, :resource_id)
+  end
+
+  def search_params
+    params.permit(:q, :day, :month, :year)
+  end
+
+  def quota_search_params
+    params.permit(:day, :month, :year, :order_number, :goods_nomenclature_item_id, :geographical_area_id, :critical, :status)
   end
 end
