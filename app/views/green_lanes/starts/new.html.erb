@@ -78,12 +78,10 @@
 
     <%= button_to green_lanes_your_movement_path,
                   params: (@commodity_code ? {commodity_code: @commodity_code} : {}),
-                  class: "govuk-button govuk-button--start govuk-!-margin-top-6 govuk-!-margin-bottom-8", method: :get do %>
+                  class: "govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-4", method: :get do %>
 
       <span>Start now</span>
       <%= render 'shared/start_arrow' %>
     <% end %>
-
-    <p>This tool sits on the UK tariff due to legal requirements set out in the Windsor Framework.</p>
   </div>
 </div>
