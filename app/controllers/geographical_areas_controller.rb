@@ -5,6 +5,7 @@ class GeographicalAreasController < ApplicationController
                 :set_goods_nomenclature_code
 
   def show
+    render 'errors/not_found', status: :not_found if params[:id] == 'countries'
     @geographical_area = GeographicalArea.find(params[:id], query_params)
   end
 
