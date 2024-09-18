@@ -11,12 +11,6 @@ RSpec.describe 'Heading page', type: :request do
   end
 
   context 'when requesting as as HTML' do
-    context 'with a declarable heading' do
-      before do
-        allow(DeclarableUnitService).to receive(:new).and_return(instance_double(DeclarableUnitService, call: 'There are no supplementary unit measures assigned to this commodity'))
-      end
-    end
-
     context 'with a regular heading' do
       before do
         VCR.use_cassette('geographical_areas#countries') do

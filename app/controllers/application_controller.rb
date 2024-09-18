@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_search
-    @search ||= Search.new(search_attributes)
+    @search ||= Search.new(search_attributes) # rubocop:disable Naming/MemoizedInstanceVariableName
   end
 
   def search_attributes
