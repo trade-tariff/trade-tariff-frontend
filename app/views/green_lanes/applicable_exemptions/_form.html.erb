@@ -33,12 +33,12 @@
 
           <% category_assessment.exemptions.each_with_index do |exemption, exem_index| %>
             <%= f.govuk_check_box category_assessment.id,
-                                  exemption.code,
-                                  link_errors: (exem_index == 0),
-                                  label: { text: hide_pseudo_code(exemption.code) },
-                                  hint: { text: exemption.formatted_description },
-                                  checked: exemption_checkbox_checked?(category_assessment.id, exemption.code)
+                  exemption.code,
+                  link_errors: (exem_index == 0),
+                  label: { text: format_pseudo_code_for_exemption(exemption) },
+                  checked: exemption_checkbox_checked?(category_assessment.id, exemption.code)
             %>
+
 
           <% end %>
 
