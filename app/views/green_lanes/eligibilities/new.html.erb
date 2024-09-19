@@ -14,11 +14,16 @@
         Tell us about the movement of goods
       </h1>
 
+      <p class="govuk-!-margin-bottom-6">
+        The simplified process for internal market movements (SPIMM) can only be used by traders in certain circumstances.
+      <p>
+
       <%= f.govuk_collection_radio_buttons :moving_goods_gb_to_ni,
         yes_no_options,
         :id, :name,
-        legend: { text: "Are you moving goods from Great Britain to Northern Ireland?", size: "m" } %>
-
+        legend: { text: "Are you moving goods from Great Britain to Northern Ireland?", size: "m" },
+        hint: { text: "SPIMM can only be used for the movement of goods from Great Britain to Northern Ireland." }
+      %>
 
       <%= f.govuk_collection_radio_buttons :free_circulation_in_uk,
         yes_no_options,
@@ -38,7 +43,7 @@
         yes_no_options,
         :id, :name,
         legend: { text: "Are you authorised to trade under the UK Internal Market Scheme (UKIMS)?", size: "m" },
-        hint: { text: "SPIMM is only available to UKIMS authorised traders." } %>
+        hint: { text: "The simplified process for internal market movements is only available to UKIMS authorised traders." } %>
 
       <%= f.govuk_submit "Continue", class: "govuk-button govuk-!-margin-top-6 govuk-!-margin-bottom-4" %>
     <% end %>
