@@ -36,11 +36,10 @@ en:
     title:
       average: >-
         %{month_year} HMRC currency exchange average rates - GOV.UK
-      monthly:  >-
+      monthly: >-
         %{month_year} HMRC currency exchange monthly rates - GOV.UK
       spot: >-
         %{month_year} HMRC currency exchange spot rates - GOV.UK
-
 
     meta_description:
       average: >-
@@ -162,7 +161,7 @@ en:
           (restricted to a particular trading partner).
         </p>
 
-      import_controls_uk: "Import controls are restrictions the UK has for importing goods"
+      import_controls_uk: "Import controls are restrictions the UK has for importing goods."
       import_controls_xi: ""
 
   breadcrumb:
