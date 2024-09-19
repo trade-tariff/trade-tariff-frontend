@@ -48,6 +48,18 @@ To run the spec use the following command:
 bundle exec rspec
 ```
 
+### Guard
+
+We use [Guard](https://github.com/guard/guard) to run the test suite automatically when files are changed.
+
+To run Guard use the following command:
+
+```sh
+bundle exec guard
+``` 
+
+This will run the appropriate test suite for the file you are working on.
+
 ## Troubleshooting
 
 Sometimes, when trying to load the front page, you get the error:

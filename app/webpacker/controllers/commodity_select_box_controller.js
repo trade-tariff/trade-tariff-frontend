@@ -69,7 +69,7 @@ export default class extends Controller {
       source: debounce((query, populateResults) => {
         const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
         Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, this.options, populateResults);
-      }, 400, false),
+      }, 200, false),
       onConfirm: (text) => {
         Utility.commoditySelectorOnConfirm(text, this.options, this.resourceIdHidden, this.inputElement);
       },

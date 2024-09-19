@@ -3,7 +3,6 @@
 
   .feedback-useful-container {
     position: relative;
-    padding: 1em;
     background-color: govuk-colour("light-grey");
     height: 36px;
     padding-top: 17px;
@@ -32,6 +31,9 @@
   .feedback-useful-banner {
     .report-problem {
       display: none;
+    }
+    .govuk-footer__meta-item {
+      margin-right: 0 !important;
     }
   }
 }

@@ -61,6 +61,8 @@ end
 
 group :development, :test do
   gem 'dotenv-rails'
+  gem 'guard-rspec', '~> 4.7'
+  gem 'guard-rubocop'
   gem 'pry-byebug'
   gem 'pry-rails'
 end
