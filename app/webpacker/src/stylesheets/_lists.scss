@@ -54,3 +54,12 @@ ol.numbered-then-lettered-list {
     padding-left: govuk-spacing(3);
   }
 }
+
+ol.legislative-list,
+ol.legislative-list ol {
+  list-style-type: none;
+}
+
+ol.legislative-list {
+  padding: 0;
+}
