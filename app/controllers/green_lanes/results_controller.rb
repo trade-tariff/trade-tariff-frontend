@@ -15,7 +15,7 @@ module GreenLanes
     def create
       @commodity_code = goods_nomenclature.goods_nomenclature_item_id
       @country_of_origin = results_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
-      @moving_date = results_params[:moving_date]
+      @moving_date = long_date(results_params[:moving_date]) if results_params[:moving_date].present?
       @category = category
       @answers = JSON.parse(results_params[:ans].presence || '{}')
       @assessments = AssessmentsPresenter.new(candidate_categories, @answers)

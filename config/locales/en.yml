@@ -6,6 +6,10 @@ en:
     warning: Warning
     contents: Contents
 
+  date:
+    formats:
+      ordinal: "%-d %b %Y"
+
   meta_description: "Search for import and export commodity codes and for tax, duty and licences that apply to your goods"
 
   feed:
