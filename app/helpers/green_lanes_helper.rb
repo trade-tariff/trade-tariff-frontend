@@ -101,6 +101,11 @@ module GreenLanesHelper
     end
   end
 
+  def long_date(string_date)
+    date = Date.parse(string_date)
+    date.to_formatted_s(:long)
+  end
+
   private
 
   def dig_category_answer(answers, category, resource_id)

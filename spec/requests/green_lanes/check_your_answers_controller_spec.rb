@@ -34,7 +34,7 @@ RSpec.describe GreenLanes::CheckYourAnswersController,
     it 'assigns the correct instance variables', :aggregate_failures do
       expect(assigns(:commodity_code)).to eq('4114109000')
       expect(assigns(:country_of_origin)).to eq('UA')
-      expect(assigns(:moving_date)).to eq('2024-05-29')
+      expect(assigns(:moving_date)).to eq('29 May 2024')
       expect(assigns(:category_one_assessments)).to all(be_a(GreenLanes::CategoryAssessment))
       expect(assigns(:category_two_assessments)).to all(be_a(GreenLanes::CategoryAssessment))
       expect(assigns(:answers)).not_to be_nil
