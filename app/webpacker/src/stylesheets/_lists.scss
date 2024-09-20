@@ -58,8 +58,20 @@ ol.numbered-then-lettered-list {
 ol.legislative-list,
 ol.legislative-list ol {
   list-style-type: none;
+  font-size: 1.1875rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 ol.legislative-list {
   padding: 0;
+
+  ol li {
+    color: #0b0c0c;
+    font-weight: 400;
+  }
+
+  ol li ol {
+    margin-top: 20px;
+  }
 }
