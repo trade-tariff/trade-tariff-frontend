@@ -31,16 +31,14 @@
 
     <p>The details you have provided determine category of your goods.</p>
 
-    <div class='govuk-button-group'>
-      <%= form_with url: green_lanes_results_path(category: @resulting_category) do %>
-        <%= hidden_field_tag :commodity_code, @commodity_code %>
-        <%= hidden_field_tag :country_of_origin, params[:country_of_origin] %>
-        <%= hidden_field_tag :moving_date, params[:moving_date] %>
-        <%= hidden_field_tag :c1ex, @c1ex %>
-        <%= hidden_field_tag :c2ex, @c2ex %>
-        <%= hidden_field_tag :ans, @answers.to_json %>
-        <%= submit_tag "Continue", class: 'govuk-!-margin-top-6 govuk-!-margin-bottom-8 govuk-button' %>
-      <% end %>
-    </div>
+    <%= form_with url: green_lanes_results_path(category: @resulting_category) do %>
+      <%= hidden_field_tag :commodity_code, @commodity_code %>
+      <%= hidden_field_tag :country_of_origin, params[:country_of_origin] %>
+      <%= hidden_field_tag :moving_date, params[:moving_date] %>
+      <%= hidden_field_tag :c1ex, @c1ex %>
+      <%= hidden_field_tag :c2ex, @c2ex %>
+      <%= hidden_field_tag :ans, @answers.to_json %>
+      <%= submit_tag "Continue", class: 'govuk-button govuk-!-margin-top-2' %>
+    <% end %>
   </div>
 </div>
