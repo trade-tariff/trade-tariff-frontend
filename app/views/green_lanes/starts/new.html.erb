@@ -23,7 +23,7 @@
     </p>
 
     <p>
-      Use this tool to help you check::
+      Use this tool to help you check:
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
@@ -78,7 +78,7 @@
 
     <%= button_to green_lanes_your_movement_path,
                   params: (@commodity_code ? {commodity_code: @commodity_code} : {}),
-                  class: "govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-4", method: :get do %>
+                  class: "govuk-button govuk-button--start govuk-!-margin-top-2", method: :get do %>
 
       <span>Start now</span>
       <%= render 'shared/start_arrow' %>

@@ -56,7 +56,7 @@ To run Guard use the following command:
 
 ```sh
 bundle exec guard
-``` 
+```
 
 This will run the appropriate test suite for the file you are working on.
 
