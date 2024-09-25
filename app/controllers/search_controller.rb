@@ -8,6 +8,7 @@ class SearchController < ApplicationController
 
   def search
     @results = @search.perform
+
     respond_to do |format|
       format.html do
         if @search.missing_search_term?
@@ -29,8 +30,6 @@ class SearchController < ApplicationController
     end
   rescue Search::InvalidDate
     redirect_to find_commodity_path(search_params.merge(invalid_date: true))
-  end
-
   end
 
   def suggestions
