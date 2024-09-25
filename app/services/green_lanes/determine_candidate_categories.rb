@@ -31,6 +31,12 @@ module GreenLanes
       without_exemptions(category_assessments(2))
     end
 
+    # Category assessments having exemptions that are not met
+    def cas_with_exemptions_that_are_not_met(answers)
+      non_met_ca_ids = answers ? answers.select{|k, v| v == ['none'] }.keys : []
+      cat2_with_exemptions.select{ |ca| non_met_ca_ids.include?(ca.resource_id) }
+    end
+
     def cat1_with_exemptions
       with_exemptions(category_assessments(1))
     end

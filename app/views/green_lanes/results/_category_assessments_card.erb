@@ -21,7 +21,11 @@
             <% end %>
 
             <p class='govuk-!-margin-top-4'>
-              <%= @cas_without_exemptions.present? ? 'No exemptions available' : (category_assessment.exemptions.none? ? 'No exemptions available' : 'Exemptions not met') %>
+              <% if @cas_without_exemptions.present? %>
+                <%= 'No exemptions available' %>
+              <% else %>%
+                <%= category_assessment.exemptions.none? ? 'No exemptions available' : 'Exemptions not met' %>
+              <% end %>
             </p>
           </dd>
         </div>

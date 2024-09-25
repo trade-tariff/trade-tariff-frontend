@@ -35,6 +35,10 @@ module GreenLanes
     def cat_2_exemptions_met
       return [] if @answers.nil?
 
+      puts ">>> @answers['2'] = #{@answers['2']}"
+      puts "class = #{@answers['2'].class}"
+
+
       applicable_exemptions(@answers['2'])
     end
 
@@ -85,7 +89,9 @@ module GreenLanes
     end
 
     def applicable_exemptions(answers)
+      puts ">>> answers = #{answers}"
       filtered_exemptions = answers.values.flatten.reject { |val| val == 'none' }
+      puts ">>> filtered_exemptions = #{filtered_exemptions}"
       filtered_exemptions.empty? ? [] : filtered_exemptions
     end
 
