@@ -136,11 +136,6 @@ en:
       xi: "Northern Ireland Online Tariff"
   search:
     label: "Search the %{service_name}"
-    beta_search:
-      inset_text_enabled_html: |
-        You are currently using Beta search. You can %{switch_link} at any time.
-      inset_text_disabled_html: |
-        We are updating the search functionality on the Online Trade Tariff. %{switch_link}. You can switch back to the existing search functionality at any time.
 
   geographical_areas:
     descriptions:

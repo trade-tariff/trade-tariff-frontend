@@ -6,37 +6,6 @@ RSpec.describe SearchController, type: :controller do
   describe 'GET #search' do
     subject(:do_response) { get :search, params: }
 
-    context 'when using beta search' do
-      let(:params) { { q: 'clothing', filter: { material: 'leather' } } }
-      let(:search_result) { build(:search_result) }
-
-      before do
-        allow(controller).to receive(:beta_search_enabled?).and_return(true)
-        perform_search_service = instance_double('Beta::Search::PerformSearchService', call: search_result)
-        allow(Beta::Search::PerformSearchService).to receive(:new).and_return(perform_search_service)
-      end
-
-      it { is_expected.to have_http_status(:ok) }
-      it { is_expected.to render_template('beta/search_results/show') }
-
-      it 'calls the PerformSearchService' do
-        do_response
-
-        expect(Beta::Search::PerformSearchService).to have_received(:new).with(
-          { q: 'clothing', spell: '1' },
-          { 'material' => 'leather' },
-        )
-      end
-
-      context 'when redirected' do
-        let(:params) { { q: '0101', year: '2022', month: '11', day: '1', country: 'IN' } }
-
-        let(:search_result) { build(:search_result, :redirect) }
-
-        it { is_expected.to redirect_to(heading_path('0101', year: '2022', month: '11', day: '1', country: 'IN')) }
-      end
-    end
-
     context 'with exact match query', vcr: { cassette_name: 'search#search_exact' } do
       before { do_response }
 
@@ -254,7 +223,6 @@ RSpec.describe SearchController, type: :controller do
       let(:query) { 'horses' }
 
       before do
-        controller.session[:beta_search_enabled] = false
         get :search, params: { q: query, day: '11', month: '5', year: '2023' }, format: :atom
       end
 

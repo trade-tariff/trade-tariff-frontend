@@ -49,18 +49,6 @@ module "beta_service" {
       value = "false"
     },
     {
-      name  = "BETA_SEARCH"
-      value = false
-    },
-    {
-      name  = "BETA_SEARCH_HEADING_STATISTICS_THRESHOLD"
-      value = "3"
-    },
-    {
-      name  = "BETA_SEARCH_SWITCHING_ENABLED"
-      value = false
-    },
-    {
       name  = "CORS_HOST"
       value = var.base_domain
     },
