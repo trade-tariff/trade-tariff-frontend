@@ -134,8 +134,6 @@ Rails.application.routes.draw do
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
 
-  get '/search/toggle_beta_search', as: :toggle_beta_search, to: 'search#toggle_beta_search'
-
   scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
     get 'exchange_rates(/:type)', to: 'exchange_rates#index', as: 'exchange_rates'
 

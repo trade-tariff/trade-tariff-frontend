@@ -5,7 +5,6 @@ RSpec.describe 'layouts/application', type: :view do
 
   before do
     allow(view).to receive(:is_switch_service_banner_enabled?).and_return true
-    allow(view).to receive(:beta_search_enabled?).and_return true
 
     assign :search, Search.new
   end

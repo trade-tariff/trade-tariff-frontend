@@ -153,18 +153,6 @@ module TradeTariffFrontend
     ENV['WEBCHAT_URL']
   end
 
-  def beta_search_switching_enabled?
-    ENV['BETA_SEARCH_SWITCHING_ENABLED'] == 'true'
-  end
-
-  def beta_search_heading_statistics_threshold
-    ENV['BETA_SEARCH_HEADING_STATISTICS_THRESHOLD'].to_i
-  end
-
-  def beta_search_facet_filter_display_percentage_threshold
-    ENV['BETA_SEARCH_FACET_FILTER_DISPLAY_PERCENTAGE_THRESHOLD'].to_i
-  end
-
   def legacy_results_to_show
     ENV.fetch('LEGACY_RESULTS_TO_SHOW', '5').to_i
   end
