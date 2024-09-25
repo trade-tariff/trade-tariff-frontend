@@ -3,7 +3,6 @@
 
   .feedback-useful-container {
     position: relative;
-    padding: 1em;
     background-color: govuk-colour("light-grey");
     height: 36px;
     padding-top: 17px;
@@ -33,6 +32,12 @@
     .report-problem {
       display: none;
     }
+    .govuk-footer__meta-item {
+      margin-right: 0 !important;
+    }
+    .govuk-footer__inline-list-item{
+      margin-right: 0 !important;
+    }
   }
 }
 
@@ -44,6 +49,25 @@
 
     .govuk-button {
       min-width: 3.5em;
+    }
+  }
+}
+
+// for the older devices with smaller screens show the buttons as a block
+@media (max-width: 384px) {
+  .feedback-useful-banner {
+    .feedback-useful-container {
+      height: auto;
+      padding-bottom: 20px;
+    }
+
+    .govuk-footer__inline-list-item {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .govuk-button {
+      width: 100%;
     }
   }
 }

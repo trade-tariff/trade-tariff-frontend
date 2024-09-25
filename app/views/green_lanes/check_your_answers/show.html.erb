@@ -8,16 +8,15 @@
 
     <%= render 'green_lanes/shared/about_your_goods_card',
                title: 'About your goods',
-               edit_path: 'EDIT GOOD DETAILS PAGE' %>
+               edit_path: '' %>
 
     <% unless @category_one_assessments.empty? || @answers.nil? %>
-      <h2 class="govuk-heading-m">Category exemptions</h2>
 
       <%= render 'category_exemptions',
                  title: 'Category 1 exemptions',
                  category: '1',
                  assessments: @category_one_assessments,
-                 edit_path: 'EDIT PATH HERE CAT 1 questions' %>
+                 edit_path: '' %>
     <% end %>
 
     <% if all_exemptions_met?(1, @category_one_assessments, @answers) && @category_two_assessments_without_exemptions.empty? %>
@@ -25,19 +24,21 @@
                  title: 'Category 2 exemptions',
                  category: '2',
                  assessments: @category_two_assessments,
-                 edit_path: 'EDIT PATH HERE CAT 2 questions' %>
+                 edit_path: '' %>
     <% end %>
 
-    <div class="govuk-button-group">
-      <%= form_with url: green_lanes_results_path(category: @resulting_category) do %>
-        <%= hidden_field_tag :commodity_code, @commodity_code %>
-        <%= hidden_field_tag :country_of_origin, params[:country_of_origin] %>
-        <%= hidden_field_tag :moving_date, params[:moving_date] %>
-        <%= hidden_field_tag :c1ex, @c1ex %>
-        <%= hidden_field_tag :c2ex, @c2ex %>
-        <%= hidden_field_tag :ans, @answers.to_json %>
-        <%= submit_tag "Continue", class: 'govuk-button' %>
-      <% end %>
-    </div>
+    <h2 class="govuk-heading-m">Do you want to categorise your goods using this information?</h2>
+
+    <p>The details you have provided determine category of your goods.</p>
+
+    <%= form_with url: green_lanes_results_path(category: @resulting_category) do %>
+      <%= hidden_field_tag :commodity_code, @commodity_code %>
+      <%= hidden_field_tag :country_of_origin, params[:country_of_origin] %>
+      <%= hidden_field_tag :moving_date, params[:moving_date] %>
+      <%= hidden_field_tag :c1ex, @c1ex %>
+      <%= hidden_field_tag :c2ex, @c2ex %>
+      <%= hidden_field_tag :ans, @answers.to_json %>
+      <%= submit_tag "Continue", class: 'govuk-button govuk-!-margin-top-2' %>
+    <% end %>
   </div>
 </div>

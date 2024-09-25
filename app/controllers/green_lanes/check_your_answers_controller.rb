@@ -11,7 +11,7 @@ module GreenLanes
     def show
       @commodity_code = check_your_answers_params[:commodity_code]
       @country_of_origin = check_your_answers_params[:country_of_origin] || GeographicalArea::ERGA_OMNES
-      @moving_date = check_your_answers_params[:moving_date]
+      @moving_date = long_date(check_your_answers_params[:moving_date]) if check_your_answers_params[:moving_date].present?
 
       @category_one_assessments = candidate_categories.cat1_with_exemptions
       @category_two_assessments = candidate_categories.cat2_with_exemptions

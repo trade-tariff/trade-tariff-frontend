@@ -3,6 +3,19 @@ require 'spec_helper'
 RSpec.describe GreenLanesHelper, type: :helper do
   before { allow(helper).to receive(:render) }
 
+  describe '#format_pseudo_code_for_exemption' do
+    let(:exemption_with_wfe_code) { instance_double('Exemption', code: 'WFE001', formatted_description: 'Ukraine exemption') }
+    let(:exemption_without_wfe_code) { instance_double('Exemption', code: 'Y171', formatted_description: 'Food Exemption') }
+
+    it 'returns the formatted description for codes starting with WFE' do
+      expect(format_pseudo_code_for_exemption(exemption_with_wfe_code)).to eq('Ukraine exemption')
+    end
+
+    it 'returns the code and formatted description for codes not starting with WFE' do
+      expect(format_pseudo_code_for_exemption(exemption_without_wfe_code)).to eq('Y171 Food Exemption')
+    end
+  end
+
   describe '#hide_pseudo_code' do
     it 'returns an empty string for codes starting with WFE' do
       expect(hide_pseudo_code('WFE001')).to eq('')
