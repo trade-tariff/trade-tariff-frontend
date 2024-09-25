@@ -1,14 +1,15 @@
 <% content_for :back_link do %>
-  <% back_link(
-      green_lanes_check_your_answers_path(
-        commodity_code: @commodity_code,
-        country_of_origin: @country_of_origin,
-        moving_date: @moving_date,
-        ans: @answers,
-        c1ex: @c1ex,
-        c2ex: @c2ex
-      )
-    ) %>
+  <% # back_link(
+     # green_lanes_check_your_answers_path(
+     #   commodity_code: @commodity_code,
+     #   country_of_origin: @country_of_origin,
+     #   moving_date: @moving_date,
+     #   ans: @answers,
+     #   c1ex: @c1ex,
+     #   c2ex: @c2ex
+     # )
+     #)
+  %>
 <% end %>
 
 <%= render partial: "result_category_#{@category}" %>
