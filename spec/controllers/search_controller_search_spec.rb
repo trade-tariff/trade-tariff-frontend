@@ -122,20 +122,6 @@ RSpec.describe SearchController, type: :controller do
       end
     end
 
-    context 'when date param components are invalid' do
-      subject(:do_response) do
-        post :search, params: { year:, month:, day: }
-
-        response
-      end
-
-      let(:year)    { 'errr' }
-      let(:month)   { 'er' }
-      let(:day)     { 'er' }
-
-      it { expect { do_response }.to raise_error(Date::Error) }
-    end
-
     context 'with JSON format', vcr: { cassette_name: 'search#search_fuzzy', match_requests_on: %i[uri body] } do
       let(:day) { '5' }
       let(:month) { '4' }

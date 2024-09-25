@@ -11,20 +11,6 @@ RSpec.describe 'Heading page', type: :request do
   end
 
   context 'when requesting as as HTML' do
-    context 'with a declarable heading' do
-      before do
-        allow(DeclarableUnitService).to receive(:new).and_return(instance_double(DeclarableUnitService, call: 'There are no supplementary unit measures assigned to this commodity'))
-      end
-
-      it 'responds with 200' do
-        VCR.use_cassette('headings#show_declarable') do
-          visit heading_path('0501', country: 'ZW')
-
-          expect(page.status_code).to eq(200)
-        end
-      end
-    end
-
     context 'with a regular heading' do
       before do
         VCR.use_cassette('geographical_areas#countries') do

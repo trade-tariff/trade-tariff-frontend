@@ -36,81 +36,25 @@
 
           <div class="searchfield govuk-form-group">
           <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
-            <div data-controller="commodity-select-box">
+            <div data-controller="commodity-select-box" data-commodity-select-box-q-value="<%= params[:q] %>">
               <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', data: { 'commodity-select-box-target': "resourceIdHidden" } %>
               <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-              <%= text_field_tag :q, @search.q, id: 'q', class: "govuk-input", data: { 'commodity-select-box-target': "commodityInput" } %>
+              <%= text_field_tag :q, params[:q], id: 'q', class: "govuk-input", data: { 'commodity-select-box-target': "commodityInput" } %>
             </div>
           </fieldset>
         </div>
 
-        <div class="govuk-form-group govuk-!-margin-top-6">
-          <fieldset class="govuk-fieldset" role="group" aria-describedby="find-commodity-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
-              <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
-            </legend>
+        <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
+            <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
+          </legend>
+          <div class="govuk-hint" id="find-commodity-hint">
+            You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
+            change over time. Use the format day, month, year, for example  27&nbsp;3&nbsp;2021. If you don't enter a date,
+            today's date is used.
+          </div>
+        <% end %>
 
-            <div class="govuk-hint" id="find-commodity-hint">
-              You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
-              change over time. Use the format day, month, year, for example  27&nbsp;3&nbsp;2021. If you don't enter a date,
-              today's date is used.
-            </div>
-
-            <div class="govuk-date-input">
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="tariff_date_day">Day</label>
-                  <%= text_field_tag(:day,
-                        @search.date.day,
-                        {
-                          id: 'tariff_date_day',
-                          name: 'day',
-                          class: "govuk-input govuk-date-input__input govuk-input--width-2",
-                          maxlength: 2,
-                          placeholder: "DD",
-                          pattern: "[0-9]*",
-                          inputmode: :numeric
-                        }
-                        ) %>
-                </div>
-              </div>
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="tariff_date_month">Month</label>
-                  <%= text_field_tag(:month,
-                        @search.date.month,
-                        {
-                          id: 'tariff_date_month',
-                          name: 'month',
-                          class: "govuk-input govuk-date-input__input govuk-input--width-2",
-                          maxlength: 2,
-                          placeholder: "MM",
-                          pattern: "[0-9]*",
-                          inputmode: :numeric
-                        }
-                        ) %>
-                </div>
-              </div>
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="tariff_date_year">Year</label>
-                  <%= text_field_tag(:year,
-                        @search.date.year,
-                        {
-                          id: 'tariff_date_year',
-                          name: 'year',
-                          class: "govuk-input govuk-date-input__input govuk-input--width-4",
-                          maxlength: 4,
-                          placeholder: "YYYY",
-                          pattern: "[0-9]*",
-                          inputmode: :numeric
-                        }
-                        ) %>
-                </div>
-              </div>
-            </div>
-          </fieldset>
-        </div>
         <div class="govuk-form-group govuk-!-margin-top-6"></div>
         <%= submit_tag 'Search for a commodity', class: 'govuk-button' %><hr>
 

@@ -3,6 +3,8 @@ require 'api_entity'
 class Search
   include ApiEntity
 
+  class InvalidDate < StandardError; end
+
   COMMODITY_CODE = /\A[0-9]{10}\z/
   HEADING_CODE = /\A[0-9]{4}\z/
 
@@ -54,6 +56,8 @@ class Search
 
   def date
     @date ||= TariffDate.build(attributes)
+  rescue Date::Error
+    raise Search::InvalidDate
   end
 
   def filtered_by_date?

@@ -1,0 +1,71 @@
+<%
+  text_error_class = ""
+  text_error_class = "govuk-input--error" if isInvalidDate
+%>
+
+<div class="govuk-form-group <%= isInvalidDate ? "govuk-form-group--error" : "" %> govuk-!-margin-top-6">
+  <fieldset class="govuk-fieldset" role="group" aria-describedby="find-commodity-hint">
+
+    <%= yield %>
+
+    <% if isInvalidDate %>
+      <p id="search-date-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> You must enter a valid date
+      </p>
+    <% end %>
+
+    <div class="govuk-date-input">
+      <div class="govuk-date-input__item">
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-date-input__label" for="tariff_date_day">Day</label>
+          <%= text_field_tag(:day,
+                params[:day] || Time.zone.now.day,
+                {
+                  id: 'day',
+                  name: 'day',
+                  class: "govuk-input govuk-date-input__input govuk-input--width-2 #{text_error_class}",
+                  maxlength: 2,
+                  placeholder: "DD",
+                  pattern: "[0-9]*",
+                  inputmode: :numeric
+                }
+                ) %>
+        </div>
+      </div>
+      <div class="govuk-date-input__item">
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-date-input__label" for="tariff_date_month">Month</label>
+          <%= text_field_tag(:month,
+                params[:month] || Time.zone.now.month,
+                {
+                  id: 'month',
+                  name: 'month',
+                  class: "govuk-input govuk-date-input__input govuk-input--width-2 #{text_error_class}",
+                  maxlength: 2,
+                  placeholder: "MM",
+                  pattern: "[0-9]*",
+                  inputmode: :numeric
+                }
+                ) %>
+        </div>
+      </div>
+      <div class="govuk-date-input__item">
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-date-input__label" for="tariff_date_year">Year</label>
+          <%= text_field_tag(:year,
+                params[:year] || Time.zone.now.year,
+                {
+                  id: 'year',
+                  name: 'year',
+                  class: "govuk-input govuk-date-input__input govuk-input--width-4 #{text_error_class}",
+                  maxlength: 4,
+                  placeholder: "YYYY",
+                  pattern: "[0-9]*",
+                  inputmode: :numeric
+                }
+                ) %>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
