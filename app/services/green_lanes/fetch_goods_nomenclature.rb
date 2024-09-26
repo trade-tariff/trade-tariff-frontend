@@ -18,8 +18,6 @@ module GreenLanes
           authorization: TradeTariffFrontend.green_lanes_api_token,
         },
       )
-
-      # goods_nomenclature.get_declarable
     end
   end
 end

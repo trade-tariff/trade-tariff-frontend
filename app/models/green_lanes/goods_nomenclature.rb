@@ -41,4 +41,8 @@ class GreenLanes::GoodsNomenclature
 
     descendants.find(&:declarable?)
   end
+
+  def descendant_category_assessments
+    descendants.flat_map(&:applicable_category_assessments)
+  end
 end
