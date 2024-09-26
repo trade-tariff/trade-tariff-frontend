@@ -15,11 +15,11 @@ RSpec.describe 'JS behaviour', js: true, vcr: { cassette_name: 'headings#8501' }
 
     page.find_all('.tree-controls')[1].first('a').click # hide all
 
-    expect(page.find_all(".has_children ul[aria-hidden='true']").length).to eq(0)
+    expect(page.find_all(".has_children ul[aria-hidden='true']", wait: false).length).to eq(0)
 
     page.find_all('.tree-controls')[0].find('a:nth-child(2)').click # reshow all
 
-    expect(page.find_all(".has_children ul[aria-hidden='false']").length).to eq(0)
+    expect(page.find_all(".has_children ul[aria-hidden='false']", wait: false).length).to eq(0)
   end
 
   it 'is able to open close specific headings' do
@@ -35,10 +35,10 @@ RSpec.describe 'JS behaviour', js: true, vcr: { cassette_name: 'headings#8501' }
 
     within parent do
       find(:xpath, "./span[contains(concat(' ',normalize-space(@class),' '), ' description ')]").click
-      expect(parent.find_all(:xpath, "./span[contains(concat(' ',normalize-space(@class),' '), ' open ')]").length).to eq(1)
+      expect(parent.find_all(:xpath, "./span[contains(concat(' ',normalize-space(@class),' '), ' open ')]", wait: false).length).to eq(1)
 
       find(:xpath, "./span[contains(concat(' ',normalize-space(@class),' '), ' description ')]").click
-      expect(parent.find_all(:xpath, "./span[contains(concat(' ',normalize-space(@class),' '), ' open ')]").length).to eq(0)
+      expect(parent.find_all(:xpath, "./span[contains(concat(' ',normalize-space(@class),' '), ' open ')]", wait: false).length).to eq(0)
     end
   end
 end
