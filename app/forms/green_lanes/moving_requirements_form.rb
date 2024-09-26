@@ -14,7 +14,6 @@ module GreenLanes
 
     def moving_date=(date)
       date ||= {}
-
       @moving_date = valid_moving_date?(date) ? convert_to_date(date) : nil
     end
 
@@ -27,23 +26,25 @@ module GreenLanes
     validate :commodity_code_exists, if: -> { errors[:commodity_code].empty? }
 
     def commodity_code_exists
-      FetchGoodsNomenclature.new(commodity_code:, country_of_origin:, moving_date:).call
+      fetch_goods_nomenclature
     rescue Faraday::ResourceNotFound
       errors.add(:commodity_code, 'This commodity code is not recognised.<br>Enter a different commodity code.'.html_safe)
     end
 
     private
 
+    def fetch_goods_nomenclature
+      FetchGoodsNomenclature.new(
+        commodity_code:,
+        country_of_origin:,
+        moving_date:,
+      ).call
+    end
+
     def valid_moving_date?(date)
-      raise ArgumentError unless date[YEAR].to_s.length == 4
+      return false unless date[YEAR].to_s.length == 4
 
-      unless only_digits?(date[YEAR]) && only_digits?(date[MONTH]) && only_digits?(date[DAY])
-        raise ArgumentError
-      end
-
-      convert_to_date(date)
-
-      true
+      only_digits?(date[YEAR]) && only_digits?(date[MONTH]) && only_digits?(date[DAY])
     rescue ArgumentError, TypeError
       false
     end
