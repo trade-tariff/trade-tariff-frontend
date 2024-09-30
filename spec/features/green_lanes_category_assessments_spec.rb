@@ -225,7 +225,10 @@ RSpec.describe 'Green lanes category assessments',
     expect(page).to have_text('Your goods will be Category 2')
 
     check 'exemptions-category-assessment-37f58c7ec2982bf82ab238d33b376b4f-y170-field'
+
     check 'exemptions-category-assessment-abed84f406002f0d36f8660d9f80884e-y058-field'
+    check 'exemptions-category-assessment-abed84f406002f0d36f8660d9f80884e-y170-field' # This must be checked to pass the ambiguous exemption check
+
     check 'exemptions-category-assessment-5667f4515c310042a7349c3aa31bd57e-y900-field'
     click_on 'Continue'
 
