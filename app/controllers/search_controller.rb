@@ -57,7 +57,7 @@ class SearchController < ApplicationController
     @result = QuotaSearchPresenter.new(form)
 
     # Test the search date to check if it's valid
-    @search.date unless params.key?(:invalid_date)
+    @search.date unless params.key?(:invalid_date) && params[:invalid_date] == 'true'
 
     respond_to do |format|
       format.html
@@ -102,11 +102,11 @@ class SearchController < ApplicationController
 
     back_url.query_values ||= {}
     back_url.query_values = back_url.query_values.merge(@search.query_attributes)
+    back_url.query_values = back_url.query_values.tap { |qv| qv.delete('invalid_date') }
     if @search.date.today?
       back_url.query_values = back_url.query_values.except('year', 'month', 'day')
     end
     back_url.fragment = anchor
-
     back_url.to_s
   end
 
