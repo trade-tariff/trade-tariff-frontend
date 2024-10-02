@@ -22,11 +22,9 @@ export default class Utility {
   }
 
   static async fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults) {
-    const escapedQuery = encodeURIComponent(query);
-
     const fetchURL = new URL(window.location.href);
     fetchURL.pathname = searchSuggestionsPath;
-    fetchURL.searchParams.append('term', escapedQuery);
+    fetchURL.searchParams.append('term', query);
 
     try {
       const response = await fetch(fetchURL, {
@@ -46,17 +44,17 @@ export default class Utility {
         options.push(result);
       });
 
-      if (!newSource.includes(escapedQuery.toLowerCase())) {
-        newSource.unshift(escapedQuery.toLowerCase());
+      if (!newSource.includes(query.toLowerCase())) {
+        newSource.unshift(query.toLowerCase());
         options.unshift({
-          id: escapedQuery.toLowerCase(),
-          text: escapedQuery.toLowerCase(),
+          id: query.toLowerCase(),
+          text: query.toLowerCase(),
           suggestion_type: 'exact',
           newOption: true,
         });
       }
       populateResults(newSource);
-      document.dispatchEvent(new CustomEvent('tariff:searchQuery', {detail: [data, {'term': escapedQuery}]}));
+      document.dispatchEvent(new CustomEvent('tariff:searchQuery', {detail: [data, {'term': query}]}));
     } catch (error) {
       console.error('Error fetching data:', error);
       populateResults([]);
