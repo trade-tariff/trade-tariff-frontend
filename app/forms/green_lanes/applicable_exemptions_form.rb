@@ -18,6 +18,14 @@ module GreenLanes
       end
     end
 
+    validate :check_ambiguous_exemptions
+
+    def check_ambiguous_exemptions
+      if ambiguous_exemptions.any?
+        errors.add(:base, 'A condition has only been selected once. If you meet this condition, select it wherever it appears on this page.')
+      end
+    end
+
     def initialize(attributes)
       @answers = attributes['answers']
       @category_assessments = attributes['category_assessments']
@@ -45,6 +53,29 @@ module GreenLanes
       answers.each_with_object({}) do |(key, value), acc|
         acc[key.split('_').last] = value.select(&:present?)
       end
+    end
+
+    private
+
+    # Output: A list of exemptions (conditions) that appear more than once in the form,
+    #         where the user has selected only one of the occurrences.
+    def ambiguous_exemptions
+      answered_exemptions = answers.values.flatten.reject { |e| ['none', ''].include?(e) }
+
+      count_answers = answered_exemptions.group_by { |code| code }
+                                         .transform_values(&:count)
+
+      count_answers.reject { |code, count| count == exemptions_count[code] }
+                   .keys
+    end
+
+    def exemptions_count
+      all_exemptions = category_assessments.flat_map do |ca|
+        ca.exemptions.map(&:resource_id)
+      end
+
+      all_exemptions.group_by { |code| code }
+                    .transform_values(&:count)
     end
   end
 end

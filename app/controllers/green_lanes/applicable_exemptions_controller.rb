@@ -14,7 +14,7 @@ module GreenLanes
       @exemptions_form = build_exemptions_form
       @back_link_path = back_link_path_for_current_page
 
-      render_exemptions_questions
+      render_exemptions_questions(:ok)
     end
 
     def create
@@ -26,7 +26,7 @@ module GreenLanes
       else
         @back_link_path = back_link_path_for_current_page
 
-        render_exemptions_questions
+        render_exemptions_questions(:unprocessable_entity)
       end
     end
 
@@ -92,8 +92,8 @@ module GreenLanes
     end
 
     # View rendering methods
-    def render_exemptions_questions
-      render "cat_#{@category}_exemptions_questions", locals: { back_link_path: @back_link_path }
+    def render_exemptions_questions(status)
+      render "cat_#{@category}_exemptions_questions", locals: { back_link_path: @back_link_path }, status:
     end
 
     # Parameter handling methods
