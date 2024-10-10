@@ -52,7 +52,13 @@ module GreenLanes
     end
 
     def category_assessments(category = nil)
-      ca_assessments = goods_nomenclature.applicable_category_assessments
+      descendents = goods_nomenclature.descendants
+
+      ca_assessments = if descendents.count.positive?
+                         goods_nomenclature.applicable_category_assessments + goods_nomenclature.descendant_category_assessments
+                       else
+                         goods_nomenclature.applicable_category_assessments
+                       end
 
       return ca_assessments unless category
 
