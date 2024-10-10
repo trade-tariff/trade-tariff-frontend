@@ -27,7 +27,7 @@ module GreenLanes
     validate :commodity_code_exists, if: -> { errors[:commodity_code].empty? }
 
     def commodity_code_exists
-      FetchGoodsNomenclature.new(commodity_code:, country_of_origin:, moving_date:).call
+      ValidateDeclarableGoodsNomenclature.new(commodity_code:, moving_date:).call
     rescue Faraday::ResourceNotFound
       errors.add(:commodity_code, 'This commodity code is not recognised.<br>Enter a different commodity code.'.html_safe)
     end
