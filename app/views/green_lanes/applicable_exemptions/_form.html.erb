@@ -6,6 +6,11 @@
 
       <%= f.govuk_error_summary %>
 
+      <h1 class="govuk-heading-l">We need more information about your goods</h1>
+      <p class="govuk-body">
+        Your goods will be Category <%= category %>, unless you meet sufficient conditions.
+      </p>
+
       <% @category_assessments.each_with_index do |category_assessment, index| %>
 
         <%= f.govuk_check_boxes_fieldset category_assessment.id,
