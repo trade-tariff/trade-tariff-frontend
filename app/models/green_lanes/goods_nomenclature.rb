@@ -13,6 +13,7 @@ class GreenLanes::GoodsNomenclature
                 :producline_suffix
 
   has_many :applicable_category_assessments, class_name: 'GreenLanes::CategoryAssessment'
+  has_many :descendant_category_assessments, class_name: 'GreenLanes::CategoryAssessment'
 
   has_many :ancestors, class_name: 'GreenLanes::GoodsNomenclature'
   has_many :descendants, class_name: 'GreenLanes::GoodsNomenclature'
@@ -40,9 +41,5 @@ class GreenLanes::GoodsNomenclature
     return self if declarable?
 
     descendants.find(&:declarable?)
-  end
-
-  def descendant_category_assessments
-    descendants.flat_map(&:applicable_category_assessments)
   end
 end
