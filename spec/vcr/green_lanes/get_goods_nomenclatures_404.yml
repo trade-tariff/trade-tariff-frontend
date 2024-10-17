@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3019/green_lanes/goods_nomenclatures/1234567890?as_of=2022-02-03&filter%5Bgeographical_area_id%5D=IT
+    uri: http://localhost:3019/goods_nomenclatures/1234567890?as_of=2022-02-03
     body:
       encoding: US-ASCII
       string: ''
