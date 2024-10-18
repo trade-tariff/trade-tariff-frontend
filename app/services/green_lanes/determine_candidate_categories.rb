@@ -52,7 +52,14 @@ module GreenLanes
     end
 
     def category_assessments(category = nil)
+      declarable_sid = goods_nomenclature.get_declarable['goods_nomenclature_sid']
+
+      descendant_category_assessments = goods_nomenclature.descendant_category_assessments.select do |descendant|
+        descendant['measures'].any? { |measure| measure['goods_nomenclature_sid'] == declarable_sid }
+      end
+
       ca_assessments = goods_nomenclature.applicable_category_assessments
+      ca_assessments += descendant_category_assessments unless descendant_category_assessments.empty?
 
       return ca_assessments unless category
 
