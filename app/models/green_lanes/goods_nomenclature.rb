@@ -13,6 +13,7 @@ class GreenLanes::GoodsNomenclature
                 :producline_suffix
 
   has_many :applicable_category_assessments, class_name: 'GreenLanes::CategoryAssessment'
+  has_many :descendant_category_assessments, class_name: 'GreenLanes::CategoryAssessment'
 
   has_many :ancestors, class_name: 'GreenLanes::GoodsNomenclature'
   has_many :descendants, class_name: 'GreenLanes::GoodsNomenclature'

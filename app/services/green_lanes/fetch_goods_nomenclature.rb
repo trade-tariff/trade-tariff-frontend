@@ -5,7 +5,7 @@ module GreenLanes
     end
 
     def call
-      goods_nomenclature = GreenLanes::GoodsNomenclature.find(
+      GreenLanes::GoodsNomenclature.find(
         @params[:commodity_code],
         {
           filter: {
@@ -18,8 +18,6 @@ module GreenLanes
           authorization: TradeTariffFrontend.green_lanes_api_token,
         },
       )
-
-      goods_nomenclature.get_declarable
     end
   end
 end
