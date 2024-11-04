@@ -6,7 +6,10 @@ VCR.configure do |c|
   c.cassette_library_dir = Rails.root.join('spec/vcr')
   c.hook_into :webmock
   # c.debug_logger = $stdout
-  c.default_cassette_options = { match_requests_on: [:path] }
+  c.default_cassette_options = {
+    match_requests_on: [:path],
+    record: :new_episodes,
+  }
   c.configure_rspec_metadata!
   c.ignore_request do |request|
     chrome_urls = [
