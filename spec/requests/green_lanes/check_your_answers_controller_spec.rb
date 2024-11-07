@@ -1,6 +1,6 @@
 RSpec.describe GreenLanes::CheckYourAnswersController,
                type: :request,
-               vcr: { cassette_name: 'green_lanes/check_your_answers' } do
+               vcr: { cassette_name: 'green_lanes/check_your_answers', record: :new_episodes } do
   describe 'GET #new' do
     before { make_request }
 

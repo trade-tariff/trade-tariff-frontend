@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe GreenLanes::FetchGoodsNomenclature, vcr: { cassette_name: 'green_lanes/get_goods_nomenclatures' } do
+RSpec.describe GreenLanes::FetchGoodsNomenclature, vcr: { cassette_name: 'green_lanes/get_goods_nomenclatures', record: :new_episodes } do
   describe '#call' do
     subject(:fetch_goods) { described_class.new(params).call }
 
