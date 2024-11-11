@@ -75,17 +75,6 @@ class SearchController < ApplicationController
     end
   end
 
-  def url_options
-    return super unless search_invoked?
-
-    opt = {}
-    opt.merge!(day: params[:day]) if params.key?(:day)
-    opt.merge!(month: params[:month]) if params.key?(:month)
-    opt.merge!(year: params[:year]) if params.key?(:year)
-    opt.merge!(country: params[:country]) if params.key?(:country)
-    opt.merge!(super)
-  end
-
   private
 
   def anchor

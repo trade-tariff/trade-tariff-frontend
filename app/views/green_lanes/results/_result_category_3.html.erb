@@ -19,17 +19,26 @@
   <li>not entering a customs duty suspense procedure</li>
 </ul>
 
+<p>
+  <%= link_to 'Find out more about SPIMM (opens in new tab)',
+              'http://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland',
+              target: '_blank', rel: 'noopener noreferrer'
+  %>
+</p>
+
+<!--
+
 <h2 class="govuk-heading-m">What you should do next</h2>
 
 <p>To move your goods through SPIMM, you'll need to submit an Internal Market Movement Information (IMMI). This will allow you to submit a reduced data set requiring significantly less information.
-<%# <a href="" target="_blank" class="govuk-link">Find out more about what you need to submit an IMMI (opens in a new tab).</a> %></p>
+<a href="" target="_blank" class="govuk-link">Find out more about what you need to submit an IMMI (opens in a new tab).</a></p>
 
 <ol class="govuk-list govuk-list--number">
   <li>
     If you are not already,
     <%= link_to 'Become an authorised trader under the UK Internal Market Scheme (UKIMS) (opens in a new tab)',
                 'https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland',
-                target: '_blank', rel: 'noopener noreferrer' %> if you are not already.
+                target: '_blank', rel: 'noopener noreferrer' %>
   </li>
   <li>You may wish to access your <%= link_to 'Trader Goods Profile (opens in new tab)',
                 'https://www.gov.uk/guidance/manage-your-trader-goods-profile',
@@ -40,11 +49,13 @@
                 target: '_blank', rel: 'noopener noreferrer' %> to prepare the IMMI. Depending on your preference, submit an IMMI either pre-movement or post-movement.
   </li>
 </ol>
+-->
+
 
 <h2 class="govuk-heading-m">About the categorisation of your goods</h2>
 
 <p>
-  You may need to supply the following codes or evidence when preparing your IMMI submission.
+  You may need to supply the following information when preparing your IMMI.
 </p>
 
 <%= render 'green_lanes/shared/about_your_goods_card',

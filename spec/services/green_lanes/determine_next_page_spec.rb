@@ -3,13 +3,22 @@ require 'spec_helper'
 RSpec.describe ::GreenLanes::DetermineNextPage do
   describe '#next_page' do
     subject do
-      goods_nomenclature = build(:green_lanes_goods_nomenclature, applicable_category_assessments: assessments)
       described_class.new(goods_nomenclature)
         .next(cat_1_exemptions_apply:, cat_2_exemptions_apply:)
     end
 
+    let(:goods_nomenclature_sid) { 11_111 }
     let(:cat_1_exemptions_apply) { nil }
     let(:cat_2_exemptions_apply) { nil }
+    let(:goods_nomenclature) do
+      build(:green_lanes_goods_nomenclature,
+            goods_nomenclature_sid:,
+            applicable_category_assessments: assessments)
+    end
+
+    before do
+      allow(goods_nomenclature).to receive(:get_declarable).and_return(goods_nomenclature)
+    end
 
     # [cat_3]
     context 'when there are no category assessments' do

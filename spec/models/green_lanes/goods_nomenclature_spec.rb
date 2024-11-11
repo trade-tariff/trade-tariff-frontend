@@ -17,6 +17,87 @@ RSpec.describe GreenLanes::GoodsNomenclature do
     it { is_expected.to include :descendants }
   end
 
+  describe '#filter_by_category' do
+    subject { goods_nomenclature.filter_by_category(category) }
+
+    let(:goods_nomenclature) do
+      build :green_lanes_goods_nomenclature,
+            applicable_category_assessments: assessments
+    end
+
+    context 'when filtering for category 1' do
+      let(:category) { 1 }
+      let(:assessments) { attributes_for_pair :category_assessment, category: 1 }
+
+      it { is_expected.to all have_attributes category: 1 }
+      it { is_expected.to have_attributes length: 2 }
+    end
+
+    context 'when there are no assessments for the given category' do
+      let(:category) { 3 }
+      let(:assessments) { attributes_for_pair :category_assessment, category: 1 }
+
+      it { is_expected.to eq([]) }
+    end
+  end
+
+  describe '#declarable?' do
+    subject { goods_nomenclature.declarable? }
+
+    context 'when producline_suffix is 80' do
+      before { goods_nomenclature.producline_suffix = '80' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when producline_suffix is not 80' do
+      before { goods_nomenclature.producline_suffix = '10' }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#get_declarable' do
+    subject { goods_nomenclature.get_declarable }
+
+    context 'when the goods_nomenclature is declarable' do
+      before { goods_nomenclature.producline_suffix = '80' }
+
+      it { is_expected.to eq(goods_nomenclature) }
+    end
+  end
+
+  describe '#grouped_assessments' do
+    subject(:grouped_assessments) { goods_nomenclature.grouped_assessments }
+
+    let(:goods_nomenclature) do
+      build :green_lanes_goods_nomenclature,
+            applicable_category_assessments: assessments
+    end
+
+    context 'when there are multiple categories' do
+      let(:assessments) do
+        [
+          attributes_for(:category_assessment, category: 1),
+          attributes_for(:category_assessment, category: 2),
+          attributes_for(:category_assessment, category: 1),
+        ]
+      end
+
+      it 'groups assessments by category', :aggregate_failures do
+        expect(grouped_assessments.keys).to match_array([1, 2])
+        expect(grouped_assessments[1].length).to eq(2)
+        expect(grouped_assessments[2].length).to eq(1)
+      end
+    end
+
+    context 'when there are no assessments' do
+      let(:assessments) { [] }
+
+      it { is_expected.to be_empty }
+    end
+  end
+
   describe '#primary_assessments_group' do
     subject { goods_nomenclature.primary_assessments_group }
 

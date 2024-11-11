@@ -22,7 +22,7 @@
 
       <%= f.govuk_collection_select :country_of_origin,
                               GreenLanes::CategoryAssessmentSearch.country_options,
-                              :id,
+                              :long_description,
                               :long_description,
                               options: { include_blank: '' },
                               label: { text: "What is the non-preferential origin of your goods?", size: 'm' },
