@@ -216,13 +216,13 @@ Rails.application.routes.draw do
         api_request_path_formatter: lambda { |path|
           path.gsub(/api\/v\d+\//, '')
         },
-      ), constraints: { version: /v[1-2]{1}/ }
+      ), constraints: { version: /v2/ }
 
       post ':version/*path', to: TradeTariffFrontend::RequestForwarder.new(
         api_request_path_formatter: lambda { |path|
           path.gsub(/api\/v\d+\//, '')
         },
-      ), constraints: { version: /v[1-2]{1}/ }
+      ), constraints: { version: /v2/ }
 
       get 'v2/goods_nomenclatures/*path', to: TradeTariffFrontend::RequestForwarder.new(
         api_request_path_formatter: lambda { |path|
