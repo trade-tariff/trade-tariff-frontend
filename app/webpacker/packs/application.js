@@ -36,15 +36,21 @@ require('../src/javascripts/calendar-button.js');
 require('../src/javascripts/datepicker.js');
 require('../src/javascripts/help_popup.js');
 require('../src/javascripts/google-tag-manager-loader.js');
-
-import accessibleAutocomplete from 'accessible-autocomplete';
-window.accessibleAutocomplete = accessibleAutocomplete;
-
 require('../src/javascripts/commodities.js');
 // TODO test:
 require('../src/javascripts/country-autocomplete.js');
 require('../src/javascripts/quota-search.js');
 require('../src/javascripts/stop-scrolling-at-footer.js');
+
+import Utility from '../src/javascripts/utility.js';
+window.Utility = Utility;
+
+import debounce from '../src/javascripts/debounce.js';
+window.debounce = debounce;
+
+import accessibleAutocomplete from 'accessible-autocomplete';
+window.accessibleAutocomplete = accessibleAutocomplete;
+
 
 require.context('govuk-frontend/dist/govuk/assets');
 import {initAll} from 'govuk-frontend/dist/govuk/govuk-frontend.min.js';

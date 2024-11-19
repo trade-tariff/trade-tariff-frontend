@@ -3,72 +3,112 @@
 <%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
 
 <%= form_tag perform_search_path, method: :get, class: "tariff-search", id: "new_search" do |f| %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
-        <h2 class="govuk-heading-m">Search for a commodity</h2>
-        <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
-        <details class="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">Tips on searching for products</span>
-          </summary>
-          <div class="govuk-details__text">
-            <p>You need to know the details about your product and must accurately describe your item to use the search tool. This may include:</p>
-            <ul class="govuk-list--bullet govuk-list">
-              <li>the type of product</li>
-              <li>the purpose of the product</li>
-              <li>the materials used to make it</li>
-              <li>the production methods used to make it</li>
-              <li>the way it's packaged</li>
-            </ul>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
+      <h2 class="govuk-heading-m">Search for a commodity</h2>
+      <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">Tips on searching for products</span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>You need to know the details about your product and must accurately describe your item to use the search tool. This may include:</p>
+          <ul class="govuk-list--bullet govuk-list">
+            <li>the type of product</li>
+            <li>the purpose of the product</li>
+            <li>the materials used to make it</li>
+            <li>the production methods used to make it</li>
+            <li>the way it's packaged</li>
+          </ul>
 
-            <p>If you have an item made of 2 substances (for example, clothing that is 60% cotton and 40% polyester), you'd normally classify the item using the higher percentage content. There are exceptions, so check the relevant section and chapter notes for your goods in the tool.</p>
+          <p>If you have an item made of 2 substances (for example, clothing that is 60% cotton and 40% polyester), you'd normally classify the item using the higher percentage content. There are exceptions, so check the relevant section and chapter notes for your goods in the tool.</p>
 
-            <p>These steps will help you get started:</p>
-            <ol class="special-numbered-list govuk-!-margin-bottom-0">
-              <li><p>Enter the search term you want to use – an item may not be listed by name, it may come under what it’s used for or made from.</p></li>
-              <li><p>The tool will suggest a section or number of sections, divided into chapters.</p></li>
-              <li><p>The headings in each chapter describe a product, only select a sub-heading if your item is accurately described.</p></li>
-              <li><p>If your item is not accurately described, check further down the list – if none of the sub-headings match your item use the ‘other’ heading.</p></li>
-            </ol>
-          </div>
-        </details>
-
-          <div class="searchfield govuk-form-group">
-          <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
-            <div data-controller="commodity-select-box" data-commodity-select-box-q-value="<%= params[:q] %>">
-              <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', data: { 'commodity-select-box-target': "resourceIdHidden" } %>
-              <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-              <%= text_field_tag :q, params[:q], id: 'q', class: "govuk-input", data: { 'commodity-select-box-target': "commodityInput" } %>
-            </div>
-          </fieldset>
+          <p>These steps will help you get started:</p>
+          <ol class="special-numbered-list govuk-!-margin-bottom-0">
+            <li>
+              <p>Enter the search term you want to use – an item may not be listed by name, it may come under what it’s used for or made from.</p>
+            </li>
+            <li>
+              <p>The tool will suggest a section or number of sections, divided into chapters.</p>
+            </li>
+            <li>
+              <p>The headings in each chapter describe a product, only select a sub-heading if your item is accurately described.</p>
+            </li>
+            <li>
+              <p>If your item is not accurately described, check further down the list – if none of the sub-headings match your item use the ‘other’ heading.</p>
+            </li>
+          </ol>
         </div>
+      </details>
 
-        <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
-            <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
-          </legend>
-          <div class="govuk-hint" id="find-commodity-hint">
-            You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
-            change over time. Use the format day, month, year, for example  27&nbsp;3&nbsp;2021. If you don't enter a date,
-            today's date is used.
+      <div class="searchfield govuk-form-group">
+        <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
+          <div>
+            <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', data: { 'commodity-select-box-target': "resourceIdHidden" } %>
+            <%= label_tag :q, search_label_text, class: 'govuk-label' %>
+
+            <div id="autocomplete"></div>
+
+            <script>
+              window.onload = function() {
+                let tempQuery = '';
+                window.accessibleAutocomplete({
+                  element: document.querySelector('#autocomplete'),
+                  id: 'autocomplete', // To match it to the existing <label>.
+                  required: "true",
+                  name: 'q',
+                  placeholder: 'Enter the name of the goods or commodity code',
+                  source: window.debounce((query, populateResults) => {
+                    tempQuery = query;
+                    const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
+                    window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
+                  }, 200, false),
+                  templates: {
+                    inputValue: function(result) {
+                      return result;
+                    },
+                    suggestion: function(result) {
+                      return result.replace(tempQuery, "<strong>$&</strong>");
+                    }
+                  },
+                });
+
+                document.querySelector('#autocomplete').onEnter = function(event) {
+                  document.querySelector("#new_search").submit();
+                }
+              }
+            </script>
           </div>
-        <% end %>
-
-        <div class="govuk-form-group govuk-!-margin-top-6"></div>
-        <%= submit_tag 'Search for a commodity', class: 'govuk-button' %><hr>
-
-        <p>Alternatively, you can:</p>
-        <ul class="govuk-list--bullet govuk-list">
-          <li><%= link_to 'browse the goods classification', browse_sections_path %> or</li>
-          <li><%= link_to 'look for your product in the A-Z', a_z_index_path('a') %>.</li>
-        </ul>
-
+        </fieldset>
       </div>
-    </div>
-    <div class="govuk-grid-column-one-third" id="recent-news">
-      <%= render partial: "/pages/howto_sidebar_links" %>
-      <%= render 'news_items/recent_news', news_items: @recent_stories %>
+
+      <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
+        <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
+      </legend>
+      <div class="govuk-hint" id="find-commodity-hint">
+        You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
+        change over time. Use the format day, month, year, for example 27&nbsp;3&nbsp;2021. If you don't enter a date,
+        today's date is used.
+      </div>
+      <% end %>
+
+      <div class="govuk-form-group govuk-!-margin-top-6"></div>
+      <%= submit_tag 'Search for a commodity', class: 'govuk-button' %>
+      <hr>
+
+      <p>Alternatively, you can:</p>
+      <ul class="govuk-list--bullet govuk-list">
+        <li><%= link_to 'browse the goods classification', browse_sections_path %> or</li>
+        <li><%= link_to 'look for your product in the A-Z', a_z_index_path('a') %>.</li>
+      </ul>
+
     </div>
   </div>
+  <div class="govuk-grid-column-one-third" id="recent-news">
+    <%= render partial: "/pages/howto_sidebar_links" %>
+    <%= render 'news_items/recent_news', news_items: @recent_stories %>
+  </div>
+</div>
 <% end %>

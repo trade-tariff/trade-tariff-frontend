@@ -37,22 +37,11 @@ export default class Utility {
       const data = await response.json();
       const results = data.results;
       const newSource = [];
-      options.length = 0;
 
       results.forEach((result) => {
-        newSource.push(result);
-        options.push(result);
+        newSource.push(result.text);
       });
 
-      if (!newSource.includes(query.toLowerCase())) {
-        newSource.unshift(query.toLowerCase());
-        options.unshift({
-          id: query.toLowerCase(),
-          text: query.toLowerCase(),
-          suggestion_type: 'exact',
-          newOption: true,
-        });
-      }
       populateResults(newSource);
       document.dispatchEvent(new CustomEvent('tariff:searchQuery', {detail: [data, {'term': query}]}));
     } catch (error) {
