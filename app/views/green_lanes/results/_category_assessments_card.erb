@@ -1,7 +1,7 @@
 <div class="govuk-summary-card">
   <div class="govuk-summary-card__title-wrapper">
     <h2 class="govuk-summary-card__title">
-      Your Category <%= category %> result is based on EU regulations
+      Your Category <%= category %> result is based on the following regulations
     </h2>
   </div>
 
@@ -17,7 +17,7 @@
             </p>
 
             <% if category_assessment.regulation_url.present? %>
-              <%= link_to 'View EU Regulation document', category_assessment.regulation_url, class: 'govuk-link' %>
+              <%= link_to 'View Regulation document', category_assessment.regulation_url, class: 'govuk-link' %>
             <% end %>
 
             <p class='govuk-!-margin-top-4'>
