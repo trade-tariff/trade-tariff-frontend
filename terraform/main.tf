@@ -163,5 +163,9 @@ module "service" {
       name      = "GREEN_LANES_API_TOKEN"
       valueFrom = data.aws_secretsmanager_secret.green_lanes_api_tokens.arn
     },
+    {
+      name      = "NEW_RELIC_LICENSE_KEY"
+      valueFrom = data.aws_secretsmanager_secret.new_relic_license_key.arn
+    },
   ]
 }
