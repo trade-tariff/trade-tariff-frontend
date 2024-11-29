@@ -48,3 +48,7 @@ data "aws_secretsmanager_secret" "sentry_dsn" {
 data "aws_secretsmanager_secret" "green_lanes_api_tokens" {
   name = "backend-green-lanes-api-tokens"
 }
+
+data "aws_secretsmanager_secret" "new_relic_license_key" {
+  name = "backend-new-relic-license-key"
+}
