@@ -16,6 +16,7 @@ gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
 gem 'multi_json'
 gem 'net-http-persistent'
+gem 'newrelic_rpm'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
 gem 'yajl-ruby'
 
