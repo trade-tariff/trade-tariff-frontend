@@ -23,10 +23,6 @@ filter-release: &filter-release
       ignore:
         - "/.*/"
 
-dependencies:
-  pre:
-    - 'echo -e "test:\n  secret_key_base: DRP57/m3nTx1UEQ0qAo0IsCKZgKDvu8W+U/8hTO7jPY=" > config/secrets.yml'
-
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
   terraform: circleci/terraform@3.2.1
