@@ -6,17 +6,17 @@ inherit_gem:
 require: rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 3.3.4
+  TargetRubyVersion: 3.3.6
   Exclude:
-    - 'db/schema.rb'
-    - 'vendor/**/*'
-    - 'bin/**'
-    - 'db/**/*'
-    - 'node_modules/**/*'
-    - 'tmp/**/*'
-    - 'config/initializers/canonical_rails.rb'
-    - 'config/puma.rb'
-    - 'spec/spec_helper.rb'
+    - "db/schema.rb"
+    - "vendor/**/*"
+    - "bin/**"
+    - "db/**/*"
+    - "node_modules/**/*"
+    - "tmp/**/*"
+    - "config/initializers/canonical_rails.rb"
+    - "config/puma.rb"
+    - "spec/spec_helper.rb"
 
 Layout/AccessModifierIndentation:
   Enabled: false

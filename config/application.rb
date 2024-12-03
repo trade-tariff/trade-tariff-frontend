@@ -3,7 +3,7 @@ require_relative 'boot'
 require 'rails'
 # Pick the frameworks you want:
 require 'active_model/railtie'
-# require "active_job/railtie"
+require 'active_job/railtie'
 require 'active_record/attribute_assignment'
 # require "active_record/railtie"
 # require "active_storage/engine"
@@ -18,7 +18,6 @@ require 'action_view/railtie'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-
 APP_SLUG = 'trade-tariff'.freeze
 
 module TradeTariffFrontend
