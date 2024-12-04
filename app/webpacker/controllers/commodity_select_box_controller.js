@@ -91,6 +91,7 @@ export default class extends Controller {
     const formElement = this.inputElement.closest('form');
     formElement.addEventListener('submit', (event) => {
       event.preventDefault();
+      this.inputElement.value = this.inputElementForEventHandling.value;
       this.#handleSubmitEvent(event);
     });
   }

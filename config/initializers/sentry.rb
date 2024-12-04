@@ -1,5 +1,5 @@
 Sentry.init do |config|
-  config.breadcrumbs_logger = [:active_support_logger]
+  config.breadcrumbs_logger = [:active_support_logger, :http_logger]
 
   config.excluded_exceptions += %w[
     Faraday::ResourceNotFound
@@ -7,4 +7,8 @@ Sentry.init do |config|
     TradeTariffFrontend::FeatureUnavailable
     TradeTariffFrontend::MaintenanceMode
   ]
+
+  config.traces_sample_rate = 1.0
+
+  config.profiles_sample_rate = 1.0
 end
