@@ -515,7 +515,7 @@
       type = "gem";
     };
     targets = [];
-    version = "3.3.4";
+    version = "3.3.6";
   };
   diff-lcs = {
     groups = ["default" "development" "test"];
@@ -2563,7 +2563,7 @@
       type = "gem";
     };
     targets = [];
-    version = "3.3.4";
+    version = "3.3.6";
   };
   rinku = {
     groups = ["default"];

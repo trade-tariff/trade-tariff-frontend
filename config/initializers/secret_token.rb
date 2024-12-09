@@ -6,4 +6,4 @@
 # no regular words or you'll be exposed to dictionary attacks.
 
 TradeTariffFrontend::Application.config.secret_token = ENV['SECRET_TOKEN']
-TradeTariffFrontend::Application.config.secret_key_base = ENV['SECRET_KEY_BASE']
+TradeTariffFrontend::Application.config.secret_key_base = ENV.fetch('SECRET_KEY_BASE', 'DRP57/m3nTx1UEQ0qAo0IsCKZgKDvu8W+U/8hTO7jPY=')
