@@ -1,17 +1,44 @@
-<%= form_tag perform_search_path, method: :get, class: "tariff-search #{@section_css} govuk-!-padding-bottom-7", id: "new_search" do |f| %>
+<%= form_tag perform_search_path, method: :get, class: "tariff-search govuk-!-padding-bottom-7", id: "new_search" do |f| %>
   <div class="search-header">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <div class="searchfield govuk-form-group">
+          <fieldset class="govuk-fieldset">
 
-          <fieldset class="govuk-fieldset govuk-search-input">
-            <div data-controller="commodity-select-box">
-              <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-              <%= text_field_tag :q, @search.q, id: 'q', class: "govuk-input", data: { 'commodity-select-box-target': "commodityInput" } %>
-              <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', data: { 'commodity-select-box-target': "resourceIdHidden" } %>
-            </div>
+            <%= label_tag :q, search_label_text, class: 'govuk-label' %>
+            <div id='autocomplete'></div>
+
+            <script>
+                window.onload = function() {
+                  let tempQuery = '';
+                  window.accessibleAutocomplete({
+                    element: document.querySelector('#autocomplete'),
+                    id: 'autocomplete', // To match it to the existing <label>.
+                    required: 'true',
+                    className: 'govuk-input',
+                    name: 'q',
+                    placeholder: 'Enter the name of the goods or commodity code',
+                    source: window.debounce((query, populateResults) => {
+                      tempQuery = query;
+                      const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
+                      window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
+                    }, 200, false),
+                    templates: {
+                      inputValue: function(result) {
+                        return result;
+                      },
+                      suggestion: function(result) {
+                        return result.replace(tempQuery, '<strong>$&</strong>');
+                      }
+                    },
+                  });
+
+                  document.querySelector('#autocomplete').onEnter = function(event) {
+                    document.querySelector("#new_search").submit();
+                  }
+                }
+              </script>
           </fieldset>
-
           <fieldset class="govuk-fieldset search-submit">
             <input class="govuk-button" type="submit" name="new_search" value="Search">
           </fieldset>
@@ -24,11 +51,5 @@
         </div>
       </div>
     </div>
-
-    <fieldset class="govuk-fieldset flash">
-      <% flash.each do |key, value| %>
-        <div class="alert alert-<%= key %>"><%= value %></div>
-      <% end %>
-    </fieldset>
   </div>
 <% end %>

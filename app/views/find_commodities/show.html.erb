@@ -2,7 +2,6 @@
 
 <%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
 
-<%= form_tag perform_search_path, method: :get, class: "tariff-search", id: "new_search" do |f| %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
@@ -42,61 +41,25 @@
         </div>
       </details>
 
-      <div class="searchfield govuk-form-group">
-        <fieldset class="govuk-fieldset govuk-search-input" aria-describedby="q-hint">
-          <div>
-            <%= hidden_field_tag :resource_id, '', id: 'resource-id-hidden', data: { 'commodity-select-box-target': "resourceIdHidden" } %>
-            <%= label_tag :q, search_label_text, class: 'govuk-label' %>
+      <%= form_tag perform_search_path, method: :get, class: "tariff-search", id: "new_search" do |f| %>
 
-            <div id="autocomplete"></div>
+        <%= render partial: 'shared/search/search_form'%>
 
-            <script>
-              window.onload = function() {
-                let tempQuery = '';
-                window.accessibleAutocomplete({
-                  element: document.querySelector('#autocomplete'),
-                  id: 'autocomplete', // To match it to the existing <label>.
-                  required: "true",
-                  name: 'q',
-                  placeholder: 'Enter the name of the goods or commodity code',
-                  source: window.debounce((query, populateResults) => {
-                    tempQuery = query;
-                    const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
-                    window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
-                  }, 200, false),
-                  templates: {
-                    inputValue: function(result) {
-                      return result;
-                    },
-                    suggestion: function(result) {
-                      return result.replace(tempQuery, "<strong>$&</strong>");
-                    }
-                  },
-                });
-
-                document.querySelector('#autocomplete').onEnter = function(event) {
-                  document.querySelector("#new_search").submit();
-                }
-              }
-            </script>
+        <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
+            <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
+          </legend>
+          <div class="govuk-hint" id="find-commodity-hint">
+            You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
+            change over time. Use the format day, month, year, for example 27&nbsp;3&nbsp;2021. If you don't enter a date,
+            today's date is used.
           </div>
-        </fieldset>
-      </div>
-
-      <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
-        <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
-      </legend>
-      <div class="govuk-hint" id="find-commodity-hint">
-        You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
-        change over time. Use the format day, month, year, for example 27&nbsp;3&nbsp;2021. If you don't enter a date,
-        today's date is used.
-      </div>
-      <% end %>
+        <% end %>
 
       <div class="govuk-form-group govuk-!-margin-top-6"></div>
-      <%= submit_tag 'Search for a commodity', class: 'govuk-button' %>
+        <%= submit_tag 'Search for a commodity', class: 'govuk-button' %>
       <hr>
+      <% end %>
 
       <p>Alternatively, you can:</p>
       <ul class="govuk-list--bullet govuk-list">
@@ -106,9 +69,9 @@
 
     </div>
   </div>
+
   <div class="govuk-grid-column-one-third" id="recent-news">
     <%= render partial: "/pages/howto_sidebar_links" %>
     <%= render 'news_items/recent_news', news_items: @recent_stories %>
   </div>
 </div>
-<% end %>
