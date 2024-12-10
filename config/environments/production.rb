@@ -54,7 +54,6 @@ Rails.application.configure do
                        TradeTariffFrontend.redis_config.merge({
                          expires_in: 1.day,
                          namespace: ENV['GOVUK_APP_DOMAIN'],
-                         pool_size: Integer(ENV['MAX_THREADS'] || 5),
                        })
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
