@@ -1,47 +1,48 @@
 <%= form_tag perform_search_path, method: :get, class: "tariff-search govuk-!-padding-bottom-7", id: "new_search" do |f| %>
-  <div class="search-header">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <div class="searchfield govuk-form-group">
-          <fieldset class="govuk-fieldset">
+  <div class="govuk-grid-row">
+      <div class="govuk-grid-column-three-quarters">
 
-            <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-            <div id='autocomplete'></div>
+        <%= label_tag :q, search_label_text, class: 'govuk-label' %>
 
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" id='autocomplete' aria-describedby='q'>
             <script>
-                window.onload = function() {
-                  let tempQuery = '';
-                  window.accessibleAutocomplete({
-                    element: document.querySelector('#autocomplete'),
-                    id: 'autocomplete', // To match it to the existing <label>.
-                    required: 'true',
-                    className: 'govuk-input',
-                    name: 'q',
-                    placeholder: 'Enter the name of the goods or commodity code',
-                    source: window.debounce((query, populateResults) => {
-                      tempQuery = query;
-                      const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
-                      window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
-                    }, 200, false),
-                    templates: {
-                      inputValue: function(result) {
-                        return result;
-                      },
-                      suggestion: function(result) {
-                        return result.replace(tempQuery, '<strong>$&</strong>');
-                      }
+              window.onload = function() {
+                let tempQuery = '';
+                window.accessibleAutocomplete({
+                  element: document.querySelector('#autocomplete'),
+                  id: 'autocomplete', // To match it to the existing <label>.
+                  required: 'true',
+                  className: 'govuk-input',
+                  name: 'q',
+                  confirmOnBlur: false,
+                  placeholder: 'Enter the name of the goods or commodity code',
+                  tNoResults: () => this.results ? 'Searching...' : `${tempQuery}` ,
+                  templates: {
+                    inputValue: function(result) {
+                      return result;
                     },
-                  });
+                    suggestion: function(result) {
+                      return result.replace(tempQuery, '<strong>$&</strong>');
+                    }
+                  },
+                  source: window.debounce((query, populateResults) => {
+                    tempQuery = query;
+                    const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
+                    window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
+                  }, 200, false)
+                });
 
-                  document.querySelector('#autocomplete').onEnter = function(event) {
-                    document.querySelector("#new_search").submit();
-                  }
+                document.querySelector('#autocomplete').onEnter = function(event) {
+                  document.querySelector("#new_search").submit();
                 }
-              </script>
+              }
+            </script>
           </fieldset>
-          <fieldset class="govuk-fieldset search-submit">
-            <input class="govuk-button" type="submit" name="new_search" value="Search">
-          </fieldset>
+
+          <% if !@no_shared_search %>
+              <button class="govuk-button search-button" type="submit" name="new_search" value="Search"/>
+          <% end %>
 
           <% if @search.day_month_and_year_set? %>
             <%= hidden_field_tag :year, @search.year %>
@@ -50,6 +51,5 @@
           <% end %>
         </div>
       </div>
-    </div>
   </div>
 <% end %>
