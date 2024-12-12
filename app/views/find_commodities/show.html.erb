@@ -41,24 +41,17 @@
         </div>
       </details>
 
-      <%= form_tag perform_search_path, method: :get, class: "tariff-search", id: "new_search" do |f| %>
+      <%= render partial: 'shared/search/search_form' %>
 
-        <%= render partial: 'shared/search/search_form'%>
-
-        <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
-            <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
-          </legend>
-          <div class="govuk-hint" id="find-commodity-hint">
-            You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
-            change over time. Use the format day, month, year, for example 27&nbsp;3&nbsp;2021. If you don't enter a date,
-            today's date is used.
-          </div>
-        <% end %>
-
-      <div class="govuk-form-group govuk-!-margin-top-6"></div>
-        <%= submit_tag 'Search for a commodity', class: 'govuk-button' %>
-      <hr>
+      <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
+          <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
+        </legend>
+        <div class="govuk-hint" id="find-commodity-hint">
+          You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
+          change over time. Use the format day, month, year, for example 27&nbsp;3&nbsp;2021. If you don't enter a date,
+          today's date is used.
+        </div>
       <% end %>
 
       <p>Alternatively, you can:</p>
