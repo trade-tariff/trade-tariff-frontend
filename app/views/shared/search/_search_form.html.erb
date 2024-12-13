@@ -23,13 +23,19 @@
                   },
                   suggestion: function(result) {
                     return result.replace(tempQuery, '<strong>$&</strong>');
-                  }
+                  },
                 },
                 source: window.debounce((query, populateResults) => {
                   tempQuery = query;
                   const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
                   window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
-                }, 200, false)
+                }, 200, false),
+                onConfirm:(suggestion) => {
+                  if (suggestion) {
+                    document.querySelector('#autocomplete input').value = suggestion;
+                    document.querySelector("#new_search").submit()
+                  }
+                }
               });
 
               document.querySelector('#autocomplete').onEnter = function(event) {
