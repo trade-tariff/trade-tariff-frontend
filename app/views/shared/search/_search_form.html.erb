@@ -41,6 +41,11 @@
               document.querySelector('#autocomplete').onEnter = function(event) {
                 document.querySelector("#new_search").submit();
               }
+
+              window.addEventListener('pageshow', (event) => {
+                event.persisted ? document.querySelector('#autocomplete input').value = '' : () => {}
+               });
+
             }
           </script>
         </div>
