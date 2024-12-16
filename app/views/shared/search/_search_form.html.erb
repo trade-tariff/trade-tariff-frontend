@@ -70,13 +70,16 @@
       </div>
       <% end %>
     <% end %>
-
+  </div>
 
     <% if @no_shared_search %>
-    <%= submit_tag 'Search for a commodity', class: 'govuk-button govuk-!-margin-top-6'  %>
+    <div class="govuk-grid-column-three-quarters">
+      <%= submit_tag 'Search for a commodity', class: 'govuk-button govuk-!-margin-top-6'  %>
+    </div>
     <% else %>
-    <%= submit_tag 'Search', class: 'govuk-button search-button' %>
+    <div class="govuk-grid-column-one-quarter">
+      <%= submit_tag 'Search', class: 'govuk-button govuk-!-margin-top-6 search-button' %>
+    </div>
     <% end %>
-  </div>
 </div>
 <% end %>
