@@ -42,6 +42,8 @@ export default class Utility {
         newSource.push(result.text);
       });
 
+      newSource.unshift(query)
+
       populateResults(newSource);
       document.dispatchEvent(new CustomEvent('tariff:searchQuery', {detail: [data, {'term': query}]}));
     } catch (error) {
