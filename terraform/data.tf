@@ -17,9 +17,9 @@ data "aws_lb_target_group" "this" {
   name = "frontend"
 }
 
-data "aws_lb_target_group" "beta" {
-  name = "frontend-beta"
-}
+# data "aws_lb_target_group" "beta" {
+#   name = "frontend-beta"
+# }
 
 data "aws_security_group" "this" {
   name = "trade-tariff-ecs-security-group-${var.environment}"
@@ -47,4 +47,8 @@ data "aws_secretsmanager_secret" "sentry_dsn" {
 
 data "aws_secretsmanager_secret" "green_lanes_api_tokens" {
   name = "backend-green-lanes-api-tokens"
+}
+
+data "aws_secretsmanager_secret" "new_relic_license_key" {
+  name = "backend-new-relic-license-key"
 }
