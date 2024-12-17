@@ -1,47 +1,20 @@
-.search-header {
-  .searchfield {
-    position: relative;
 
-    max-width: 85ex;
-  }
-
-  .select2-selection__arrow {
-    display: none;
-  }
-
-  .search-submit {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    height: 40px;
-    width: 40px;
-    overflow: visible;
-  }
-  input.govuk-button {
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    width: 40px;
-    height: 40px;
-    text-indent: -5000px;
-    background-image: url('../images/search-button.png');
-    background-repeat: no-repeat;
-    background-position: 1px -17px;
-  }
-  .govuk-form-group.searchfield, .govuk-form-group.date-picker {
-    margin-bottom: 15px;
-  }
-  .change-date-link {
-    white-space: nowrap;
-  }
-  fieldset.inline {
-    display: inline-block;
-    width: auto;
-    @include govuk-font(false);
-    padding-top: 0;
-    padding-bottom: 0;
-    border: none;
-  }
+.search-button {
+  display: block;
+  position: relative;
+  bottom: 0;
+  left: -30px;
+  right: 0;
+  height: 39px;
+  width: 40px;
+  overflow: visible;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  text-indent: -5000px;
+  background-image: url('../images/search-button.png');
+  background-repeat: no-repeat;
+  background-position: 1px -17px;
 }
 
 .select2-selection {
