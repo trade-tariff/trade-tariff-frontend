@@ -42,7 +42,9 @@ export default class Utility {
         newSource.push(result.text);
       });
 
-      newSource.unshift(query);
+      if (!newSource.includes(query)) {
+        newSource.unshift(query);
+      }
 
       populateResults(newSource);
       document.dispatchEvent(new CustomEvent('tariff:searchQuery', {detail: [data, {'term': query}]}));
