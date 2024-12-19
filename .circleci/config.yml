@@ -193,6 +193,7 @@ jobs:
           BUNDLE_RETRY: "3"
           RAILS_ENV: test
           NODE_OPTIONS: --openssl-legacy-provider
+          API_SERVICE_BACKEND_URL_OPTIONS: '{"uk":"http://localhost:3000","xi":"http://localhost:3000"}'
     resource_class: medium
     steps:
       - checkout
