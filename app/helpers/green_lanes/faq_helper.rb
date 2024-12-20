@@ -2,13 +2,14 @@ module GreenLanes::FaqHelper
   def faq_categories
     t('green_lanes_faq.faq_categories').map do |key, category|
       {
-        id: "category-heading-#{key.to_s.split('_').last}",
+        div_id: "category-heading-#{key.to_s.split('_').last}",
         heading: category[:heading],
-        questions: category[:questions].map do |_q_key, q_data|
+        questions: category[:questions].map do |q_key, q_data|
           {
-            id: "content-heading-#{key.to_s.split('_').last}",
+            div_id: "content-heading-#{key.to_s.split('_').last}",
             question: q_data[:question],
             answer: interpolate(q_data[:answer]),
+            feedback_id: "#{key} | #{q_key}",
           }
         end,
       }

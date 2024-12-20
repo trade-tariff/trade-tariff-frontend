@@ -126,7 +126,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_path_info
-    @path_info = { search_suggestions_path: search_suggestions_path(format: :json) }
+    @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
+                   faq_send_feedback_path: green_lanes_send_feedback_path }
   end
 
   def country
