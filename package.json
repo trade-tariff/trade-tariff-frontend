@@ -30,7 +30,7 @@
     "stimulus": "^3.2.2"
   },
   "devDependencies": {
-    "@webpack-cli/serve": "^2.0.5",
+    "@webpack-cli/serve": "^3.0.1",
     "babel-jest": "^29.7.0",
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
