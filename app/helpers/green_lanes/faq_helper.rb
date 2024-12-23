@@ -7,7 +7,7 @@ module GreenLanes::FaqHelper
         questions: category[:questions].map do |q_key, q_data|
           {
             div_id: "content-heading-#{key.to_s.split('_').last}",
-            question: q_data[:question],
+            question: interpolate(q_data[:question]),
             answer: interpolate(q_data[:answer]),
             feedback_id: "#{key} | #{q_key}",
           }

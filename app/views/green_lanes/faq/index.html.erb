@@ -37,7 +37,7 @@
                 </div>
                 <% category[:questions].each do |question| %>
                   <div id="<%= question[:div_id] %>" class="govuk-accordion__section-content">
-                    <p class="govuk-body"><strong><%= question[:question] %></strong></p>
+                    <p class="govuk-body"><strong><%= question[:question].html_safe %></strong></p>
                     <div class="govuk-body"><%= question[:answer].html_safe %></div>
                     <p>
                       How was this answer?

@@ -1231,6 +1231,26 @@ en:
                     <p>
                     For example, if a trader is moving pencils, the trader must establish the relevant classification of the good: this is classification. Once this is done so they can proceed to establish the Windsor Framework category the commodity belongs to, taking into account any licenses or exemptions which may apply to that commodity under the Windsor Framework. This can be done via the Northern Ireland Online Tariff Tool, via the TGP or with the support of the Trader Support Service.
                     </p>
+          question_6:
+            question: What is the <a href="%{green_lanes_start_path}" target="_blank">‘Eligibility Tool’ for the simplified processes for Internal Market Movements from Great Britain to Northern Ireland</a>, and how can it help me?
+            answer: |
+                    <p>
+                    This tool helps you to check:
+                      <ul>
+                        <li>what is required to use the simplified processes for Internal Market Movements</li>
+                        <li>the category of your goods</li>
+                        <li>what to do next after obtaining a categorisation recommendation</li>
+                      </ul>
+                    </p>
+                    <p>
+                    The tool cannot save or download category results.
+                    </p>
+          question_7:
+            question: Can I save or download a PDF copy of my commodity category results?
+            answer: |
+                    <p>
+                    If you need to save or download your category results direct from the tool, you can take a screen capture or print the category results page.
+                    </p>
       category_2:
         heading: "Commodity codes"
         questions:
@@ -1309,6 +1329,15 @@ en:
             answer: |
                     <p>
                     Goods exemptions might change alongside the tariff, you can use the eligibility too lor refer to your TGP for support. Where you are presented with an exemption that alters your goods category this is likely to be the most up to date exemption applicable to your good.
+                    </p>
+          question_5:
+            question: Why does the categorisation tool only use exemption codes to categorise my goods?
+            answer: |
+                    <p>
+                    The eligibility tool only shows exemption codes as it needs to determine which rules under Annex IV of the Windsor Framework your goods are exempt from.
+                    </p>
+                    <p>
+                    For example, Common Health Entry Document (CHED) certificates do not appear in the list of exemptions as they are not considered exemptions. If you are using a CHED, it means you are not utilising an available exemption, and therefore you should select 'none of the above' from the listed options in the tool.
                     </p>
       category_4:
         heading: "Procedure codes"
