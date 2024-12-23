@@ -5,32 +5,32 @@ export default class extends Controller {
   }
 
   saveFeedback(event) {
-    let category_id = event.currentTarget.value.split('|')[0].split('_')[1].trim();
-    let question_id = event.currentTarget.value.split('|')[1].split('_')[1].trim();
-    let useful = event.currentTarget.value.split('|')[2];
-    if (!this.feedbackExistsInSession(category_id, question_id)) {
-          if(this.sendFeedbackToBackend(category_id, question_id, useful)){
-            this.saveFeedbackToCookie(category_id, question_id);
-          }
+    const categoryId = event.currentTarget.value.split('|')[0].split('_')[1].trim();
+    const questionId = event.currentTarget.value.split('|')[1].split('_')[1].trim();
+    const useful = event.currentTarget.value.split('|')[2];
+    if (!this.feedbackExistsInSession(categoryId, questionId)) {
+      if (this.sendFeedbackToBackend(categoryId, questionId, useful)) {
+        this.saveFeedbackToCookie(categoryId, questionId);
+      }
     }
   }
 
-  saveFeedbackToCookie(category_id, question_id) {
-    document.cookie = `${category_id}${question_id}=y`;
+  saveFeedbackToCookie(categoryId, questionId) {
+    document.cookie = `${categoryId}${questionId}=y`;
   }
 
-  feedbackExistsInSession(category_id, question_id) {
-    let cookies = document.cookie.split(';');
+  feedbackExistsInSession(categoryId, questionId) {
+    const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
-        let cookie = cookies[i].trim().split('=');
-        if (cookie[0] === `${category_id}${question_id}`) {
-            return true;
-        }
+      const cookie = cookies[i].trim().split('=');
+      if (cookie[0] === `${categoryId}${questionId}`) {
+        return true;
+      }
     }
     return false;
   }
 
-  async sendFeedbackToBackend(category_id, question_id, useful) {
+  async sendFeedbackToBackend(categoryId, questionId, useful) {
     const faqFeedbackPath = document.querySelector('.path_info').dataset.faqSendFeedbackPath;
     const fetchURL = new URL(window.location.href);
     fetchURL.pathname = faqFeedbackPath;
@@ -38,14 +38,14 @@ export default class extends Controller {
 
     const payload = {
       faq_feedback: {
-        category_id: category_id,
-        question_id: question_id,
+        category_id: categoryId,
+        question_id: questionId,
         useful: useful,
-      }
+      },
     };
 
     try {
-      const response = await fetch(fetchURL, {
+      await fetch(fetchURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
