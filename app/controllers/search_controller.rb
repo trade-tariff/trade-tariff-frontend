@@ -7,6 +7,8 @@ class SearchController < ApplicationController
   before_action :disable_search_form, except: [:search]
 
   def search
+    @search.q = params[:q] if params[:q]
+
     @results = @search.perform
 
     respond_to do |format|
