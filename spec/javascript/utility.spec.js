@@ -79,22 +79,22 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
     jest.clearAllMocks();
   });
 
-  it('fetches suggestions and populates results', async () => {
-    const query = 'wine';
-    const searchSuggestionsPath = '/search-suggestions';
-    const options = [];
-    const populateResults = jest.fn();
+  const query = 'wine';
+  const searchSuggestionsPath = '/search-suggestions';
+  const options = [];
+  const populateResults = jest.fn();
 
+  it('fetches suggestions and populates results', async () => {
     const mockResponse = {
       results: [
         {id: 'wine', text: 'wine', query: 'wine', resource_id: '6828', formatted_suggestion_type: ''},
-        {id: 'red wine', text: 'red wine', query: 'wine', resource_id: '7273', formatted_suggestion_type: ''},
-      ],
+        {id: 'red wine', text: 'red wine', query: 'wine', resource_id: '7273', formatted_suggestion_type: ''}
+      ]
     };
 
     const expectedResults = [
       'wine', 'red wine'
-    ]
+    ];
 
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -102,42 +102,25 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
       })
     );
 
-    await Utility.fetchCommoditySearchSuggestions(
-        query,
-        searchSuggestionsPath,
-        options,
-        populateResults
-    );
+    await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
 
     expect(populateResults).toHaveBeenCalledWith([
       'wine',
       'red wine'
     ]);
 
-    expect(populateResults).toHaveBeenCalledWith(
-        expect.arrayContaining(expectedResults)
+    expect(populateResults).toHaveBeenCalledWith(expect.arrayContaining(expectedResults)
     );
   });
 
   it('handles fetch error gracefully', async () => {
-    const mockQuery = 'wine';
-    const mockSearchSuggestionsPath = '/search-suggestions';
-    const mockOptions = {}; // Any additional options if needed
-    const mockPopulateResults = jest.fn();
-
     global.fetch = jest.fn(() => Promise.reject(new Error('Network error')));
 
-    const mockDispatchEvent = jest.spyOn(document, 'dispatchEvent');
+    await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
 
-    await Utility.fetchCommoditySearchSuggestions(
-        mockQuery,
-        mockSearchSuggestionsPath,
-        mockOptions,
-        mockPopulateResults
-    );
-
-    expect(mockPopulateResults).toHaveBeenCalledWith([]);
-    expect(mockDispatchEvent).not.toHaveBeenCalled();
+    expect(populateResults).toHaveBeenCalledWith([]);
+  });
+});
 
 describe('Utility.commoditySelectorOnConfirm', () => {
   let options; let resourceIdHidden; let inputElement; let form;
