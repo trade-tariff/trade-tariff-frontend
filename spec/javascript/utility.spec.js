@@ -88,28 +88,28 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
     const mockResponse = {
       results: [
         {id: 'wine', text: 'wine', query: 'wine', resource_id: '6828', formatted_suggestion_type: ''},
-        {id: 'red wine', text: 'red wine', query: 'wine', resource_id: '7273', formatted_suggestion_type: ''}
-      ]
+        {id: 'red wine', text: 'red wine', query: 'wine', resource_id: '7273', formatted_suggestion_type: ''},
+      ],
     };
 
     const expectedResults = [
-      'wine', 'red wine'
+      'wine', 'red wine',
     ];
 
     global.fetch = jest.fn(() =>
       Promise.resolve({
         json: () => Promise.resolve(mockResponse),
-      })
+      }),
     );
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
 
     expect(populateResults).toHaveBeenCalledWith([
       'wine',
-      'red wine'
+      'red wine',
     ]);
 
-    expect(populateResults).toHaveBeenCalledWith(expect.arrayContaining(expectedResults)
+    expect(populateResults).toHaveBeenCalledWith(expect.arrayContaining(expectedResults),
     );
   });
 
