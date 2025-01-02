@@ -15,7 +15,7 @@ RSpec.describe 'Search', js: true do
           expect(page).to have_content('Search')
           expect(page).to have_content('Browse')
 
-          expect(page.find('.autocomplete__input#q')).to be_present
+          expect(page.find('#autocomplete input')).to be_present
         end
       end
     end
@@ -25,8 +25,8 @@ RSpec.describe 'Search', js: true do
         VCR.use_cassette('search#gold') do
           visit find_commodity_path
 
-          page.find('#new_search .autocomplete__input#q').click
-          page.find('#new_search .autocomplete__input#q').set('gold')
+          page.find('#new_search #autocomplete input').click
+          page.find('#new_search #autocomplete input').set('gold')
 
           expect(page).to have_css('#new_search .autocomplete__option')
           expect(page.find_all('#new_search .autocomplete__option').length).to be > 1
@@ -47,9 +47,9 @@ RSpec.describe 'Search', js: true do
         VCR.use_cassette('search#gibberish') do
           visit find_commodity_path
 
-          page.find('#new_search .autocomplete__input#q').click
+          page.find('#new_search #autocomplete input').click
 
-          page.find('#new_search .autocomplete__input#q').set('dsauidoasuiodsa')
+          page.find('#new_search #autocomplete input').set('dsauidoasuiodsa')
 
           expect(page).to have_css('#new_search .autocomplete__option')
           expect(page.find_all('#new_search .autocomplete__option').length).to eq(1)
