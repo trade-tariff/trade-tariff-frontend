@@ -5,7 +5,7 @@ module GreenLanes
 
     def send_feedback_to_backend(feedback_params, session_id)
       response = self.class.post(
-        'admin/green_lanes/faq_feedback',
+        'green_lanes/faq_feedback',
         data: {
           attributes: {
             session_id:,
