@@ -134,6 +134,8 @@ Rails.application.routes.draw do
 
     get 'faq', to: 'faq#index'
 
+    get 'get_feedback', to: 'faq#get_feedback'
+
     post 'send_feedback', to: 'faq#send_feedback', as: :send_feedback
   end
 

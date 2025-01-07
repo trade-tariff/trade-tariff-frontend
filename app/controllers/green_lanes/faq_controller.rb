@@ -19,6 +19,14 @@ module GreenLanes
       success
     end
 
+    def get_feedback
+      response = FaqFeedback.new.get_faq_feedback
+      unless response
+        Rails.logger.info('Feedback could not be fetched.')
+      end
+      render json: response
+    end
+
     private
 
     def feedback_params

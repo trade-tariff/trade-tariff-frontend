@@ -13,6 +13,7 @@ export default class extends Controller {
         this.saveFeedbackToCookie(categoryId, questionId);
       }
     }
+    alert('Thank you for your feedback.');
   }
 
   saveFeedbackToCookie(categoryId, questionId) {

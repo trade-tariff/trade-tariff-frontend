@@ -27,5 +27,18 @@ module GreenLanes
       Rails.logger.error("Unexpected error when sending feedback: #{e.message}")
       false
     end
+
+    def get_faq_feedback
+      response = self.class.get(
+        'green_lanes/faq_feedback',
+      )
+
+      if response.success?
+        response.body
+      else
+        Rails.logger.warn("Failed to get feedback: #{response.status} #{response.body}")
+        nil
+      end
+    end
   end
 end
