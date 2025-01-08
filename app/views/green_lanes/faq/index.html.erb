@@ -1,6 +1,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l"> <%= t('green_lanes_faq.page_title') %></h1>
+    <h1 class="govuk-heading-l"> <%= t('green_lanes_faq.page_title').html_safe %></h1>
     <p class="govuk-body-m"><%= t('green_lanes_faq.page_description') %></p>
     <p class="govuk-body-m"><%= t('green_lanes_faq.page_info').html_safe %></p>
   </div>
@@ -39,18 +39,20 @@
                   <div id="<%= question[:div_id] %>" class="govuk-accordion__section-content">
                     <p class="govuk-body"><strong><%= question[:question].html_safe %></strong></p>
                     <div class="govuk-body"><%= question[:answer].html_safe %></div>
-                    <p>
-                      How was this answer?
-                      <button class="faq-feedback-button"
-                              value='<%= "#{question[:feedback_id]}|1" %>'
-                              data-action="click->faq#saveFeedback">Useful
-                      </button>
-                      or
-                      <button class="faq-feedback-button"
-                               value='<%= "#{question[:feedback_id]}|0" %>'
-                              data-action="click->faq#saveFeedback">Not useful
-                      </button>
-                    </p>
+                    <div class="govuk-inset-text tariff-inset-information">
+                      <p>
+                        How was this answer?
+                        <button class="faq-feedback-button"
+                                value='<%= "#{question[:feedback_id]}|1" %>'
+                                data-action="click->faq#saveFeedback">Useful
+                        </button>
+                        or
+                        <button class="faq-feedback-button"
+                                value='<%= "#{question[:feedback_id]}|0" %>'
+                                data-action="click->faq#saveFeedback">Not useful
+                        </button>
+                      </p>
+                    </div>
                   </div>
                 <% end %>
               </div>

@@ -1143,7 +1143,7 @@ en:
       ">_html": "The percentage ABV exceeds %{requirement_duty_expression}"
   green_lanes_faq:
 
-    page_title: "Internal Market Movements from Great Britain to Northern Ireland: your questions answered"
+    page_title: "Internal Market Movements from Great Britain to Northern Ireland:<br /><br />Your questions answered"
     page_description: "Find answers to questions on using the simplified processes for Internal Market Movements under the Windsor Framework."
     page_info: "For additional help and support, contact the <a href='https://www.gov.uk/guidance/trader-support-service' target='_blank'>Trader Support Service (TSS)</a> on 0800 060 8888, or call HMRC Customs and International Trade helpline on 0300 322 9434 (textphone 0300 200 3719)."
 
