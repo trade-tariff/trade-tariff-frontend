@@ -15,6 +15,8 @@ class NewsItemsController < ApplicationController
     end
 
     @news_items = News::Item.updates_page(**news_index_params)
+  rescue Faraday::ServerError
+    redirect_to not_found_path
   end
 
   def show
