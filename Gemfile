@@ -7,7 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 7.1'
+gem 'rails', '~> 8.0'
 
 gem 'addressable'
 gem 'faraday', '~> 2'
@@ -16,6 +16,7 @@ gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
 gem 'multi_json'
 gem 'net-http-persistent'
+gem 'newrelic_rpm'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
 gem 'yajl-ruby'
 

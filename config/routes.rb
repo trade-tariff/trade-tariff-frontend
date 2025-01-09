@@ -108,8 +108,9 @@ Rails.application.routes.draw do
   resolve('GreenLanes::CategoryAssessmentSearch') { [:category_assessments] }
 
   get 'green_lanes' => 'green_lanes/results#show' # Old path. Now "check_spimm_eligibility".
+  get '/check_spimm_eligibility(/:path)', to: redirect('/check_simplified_processes_eligibility', status: :moved_permanently)
 
-  namespace :green_lanes, path: 'check_spimm_eligibility' do
+  namespace :green_lanes, path: 'check_simplified_processes_eligibility' do
     get '/', to: 'starts#new', as: 'start'
 
     resource :category_assessments, only: %i[create show]
