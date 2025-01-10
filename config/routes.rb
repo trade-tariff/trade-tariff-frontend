@@ -237,7 +237,7 @@ Rails.application.routes.draw do
 
   get '/robots.:format', to: 'pages#robots'
   match '/400', to: 'errors#bad_request', via: :all
-  match '/404', to: 'errors#not_found', via: :all
+  match '/404', to: 'errors#not_found', via: :all, as: :not_found
   match '/405', to: 'errors#method_not_allowed', via: :all
   match '/406', to: 'errors#not_acceptable', via: :all
   match '/422', to: 'errors#unprocessable_entity', via: :all
