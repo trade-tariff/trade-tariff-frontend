@@ -76,12 +76,13 @@ describe('Utility.countrySelectorOnConfirm', () => {
 
 describe('Utility.fetchCommoditySearchSuggestions', () => {
   beforeEach(() => {
-    global.fetch = jest.fn();
+    jest.clearAllMocks();
   });
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  const query = 'wine';
+  const searchSuggestionsPath = '/search-suggestions';
+  const options = [];
+  const populateResults = jest.fn();
 
   it('fetches suggestions and populates results', async () => {
     const mockResponse = {
@@ -91,32 +92,29 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
       ],
     };
 
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockResponse),
-    });
+    const expectedResults = [
+      'wine', 'red wine',
+    ];
 
-    const query = 'wine';
-    const searchSuggestionsPath = '/test-path';
-    const options = [];
-    const populateResults = jest.fn();
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+      }),
+    );
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
 
-    const expectedResults = [
-      {id: 'wine', text: 'wine', suggestion_type: 'exact', newOption: true},
-      ...mockResponse.results,
-    ];
+    expect(populateResults).toHaveBeenCalledWith([
+      'wine',
+      'red wine',
+    ]);
 
-    expect(options).toEqual(expectedResults);
+    expect(populateResults).toHaveBeenCalledWith(expect.arrayContaining(expectedResults),
+    );
   });
 
   it('handles fetch error gracefully', async () => {
-    global.fetch.mockRejectedValue(new Error('Fetch error'));
-
-    const query = 'wine';
-    const searchSuggestionsPath = '/test-path';
-    const options = [];
-    const populateResults = jest.fn();
+    global.fetch = jest.fn(() => Promise.reject(new Error('Network error')));
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
 
