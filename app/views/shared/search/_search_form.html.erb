@@ -1,82 +1,82 @@
 <%= form_tag perform_search_path, method: :get, id: "new_search" do |f| %>
 
-  <% if @search.day_month_and_year_set? %>
-  <%= hidden_field_tag :year, @search.year %>
-  <%= hidden_field_tag :month, @search.month %>
-  <%= hidden_field_tag :day, @search.day %>
-  <% end %>
+<% if @search.day_month_and_year_set? %>
+<%= hidden_field_tag :year, @search.year %>
+<%= hidden_field_tag :month, @search.month %>
+<%= hidden_field_tag :day, @search.day %>
+<% end %>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-three-quarters">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
 
-      <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-      <%= hidden_field_tag :q, id: 'q' %>
+    <%= label_tag :q, search_label_text, class: 'govuk-label' %>
+    <%= hidden_field_tag :q %>
 
-      <div class="govuk-fieldset" id='autocomplete' aria-describedby='q' >
-        <script>
-          window.onload = function() {
-            let tempQuery = '';
-            window.accessibleAutocomplete({
-              element: document.querySelector('#autocomplete'),
-              id: 'autocomplete',
-              name: 'q',
-              required: 'true',
-              className: 'govuk-input',
-              placeholder: 'Enter the name of the goods or commodity code',
-              confirmOnBlur: false,
-              autoselect: true,
-              minLength: 2,
-              tNoResults: () => 'Searching...',
-              templates: {
-                inputValue: function(result) {
-                  return result;
-                },
-                suggestion: function(result) {
-                  return result.replace(tempQuery, '<strong>$&</strong>');
-                },
+    <div class="govuk-fieldset" id='autocomplete' aria-describedby='q'>
+      <script>
+        window.onload = function() {
+          let tempQuery = '';
+          window.accessibleAutocomplete({
+            element: document.querySelector('#autocomplete'),
+            id: 'autocomplete',
+            required: 'true',
+            className: 'govuk-input',
+            placeholder: 'Enter the name of the goods or commodity code',
+            confirmOnBlur: false,
+            autoselect: true,
+            minLength: 2,
+            tNoResults: () => 'Searching...',
+            templates: {
+              inputValue: function(result) {
+                return result;
               },
-              source: window.debounce((query, populateResults) => {
-                tempQuery = query;
-                const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
-                window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
-              }, 200, false),
-              onConfirm: (suggestion) => {
-                if (suggestion) {
-                  document.querySelector('#q').value = suggestion
-                  document.querySelector("#new_search").submit()
-                }
+              suggestion: function(result) {
+                return result.replace(tempQuery, '<strong>$&</strong>');
+              },
+            },
+            source: window.debounce((query, populateResults) => {
+              tempQuery = query;
+              const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
+              window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
+            }, 200, false),
+            onConfirm: (suggestion) => {
+              if (suggestion) {
+                document.querySelector('#q').value = suggestion
+                document.querySelector("#new_search").submit()
               }
-            });
+            }
+          });
 
-            window.addEventListener('pageshow', (event) => {
-              event.persisted ? document.querySelector('#autocomplete input').value = '' : () => {}
-            });
-          }
-        </script>
-      </div>
-
-      <% if use_date_picker ||= false  %>
-        <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
-          <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
-        </legend>
-        <div class="govuk-hint" id="find-commodity-hint">
-          You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
-          change over time. Use the format day, month, year, for example 27&nbsp;3&nbsp;2021. If you don't enter a date,
-          today's date is used.
-        </div>
-        <% end %>
-      <% end %>
+          window.addEventListener('pageshow', (event) => {
+            event.persisted ? document.querySelector('#autocomplete input').value = '' : () => {}
+          });
+        }
+      </script>
     </div>
 
-      <% if @no_shared_search %>
-      <div class="govuk-grid-column-three-quarters">
-        <%= submit_tag 'Search for a commodity', class: 'govuk-button govuk-!-margin-top-6'  %><hr>
-      </div>
-      <% else %>
-      <div class="govuk-grid-column-one-quarter">
-        <%= submit_tag 'Search', class: 'govuk-button govuk-!-margin-top-6 search-button' %>
-      </div>
-      <% end %>
+    <% if use_date_picker ||= false  %>
+    <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
+      <h1 class="govuk-fieldset__heading">When are you planning to trade the goods?</h1>
+    </legend>
+    <div class="govuk-hint" id="find-commodity-hint">
+      You can enter the date your goods will be traded. This is important, as commodities, duties and quotas
+      change over time. Use the format day, month, year, for example 27&nbsp;3&nbsp;2021. If you don't enter a date,
+      today's date is used.
+    </div>
+    <% end %>
+    <% end %>
   </div>
+
+  <% if @no_shared_search %>
+  <div class="govuk-grid-column-three-quarters">
+    <%= submit_tag 'Search for a commodity', class: 'govuk-button govuk-!-margin-top-6'  %>
+    <hr>
+  </div>
+  <% else %>
+  <div class="govuk-grid-column-one-quarter">
+    <%= submit_tag 'Search', class: 'govuk-button govuk-!-margin-top-6 search-button' %>
+  </div>
+  <% end %>
+</div>
 <% end %>
