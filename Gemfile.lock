@@ -773,6 +773,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yajl-ruby (1.4.3)
+    yaml (0.4.0)
     yard (0.9.37)
     zeitwerk (2.6.18)
 
@@ -832,6 +833,7 @@ DEPENDENCIES
   webpacker
   wizard_steps
   yajl-ruby
+  yaml
 
 RUBY VERSION
    ruby 3.3.6p108
