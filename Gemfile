@@ -19,6 +19,7 @@ gem 'net-http-persistent'
 gem 'newrelic_rpm'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
 gem 'yajl-ruby'
+gem 'yaml'
 
 # Assets
 gem 'bootsnap', require: false
