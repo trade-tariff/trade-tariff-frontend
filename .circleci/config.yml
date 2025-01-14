@@ -46,12 +46,6 @@ executors:
       - image: circleci/python:latest
 
 jobs:
-  install-deps:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run: apt-get install libyaml
-
   write-docker-tag:
     parameters:
       environment:
@@ -220,9 +214,6 @@ workflows:
 
   deploy-to-development:
     jobs:
-      - install-deps:
-          name: Install libyaml
-
       - ruby-checks:
           context: trade-tariff
           <<: *filter-not-main
