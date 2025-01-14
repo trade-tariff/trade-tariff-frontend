@@ -60,7 +60,6 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - run: apt-get install libyaml
       - run: echo "docker_tag = \"$(git rev-parse --short HEAD)\"" >> terraform/config_<< parameters.environment >>.tfvars
       - persist_to_workspace:
           root: .
@@ -221,6 +220,9 @@ workflows:
 
   deploy-to-development:
     jobs:
+      - install-deps:
+          name: Install libyaml
+
       - ruby-checks:
           context: trade-tariff
           <<: *filter-not-main
