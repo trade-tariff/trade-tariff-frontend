@@ -1328,7 +1328,7 @@ en:
             question: I was presented with a different exemption to the one I was expecting.
             answer: |
                     <p>
-                    Goods exemptions might change alongside the tariff, you can use the eligibility too lor refer to your TGP for support. Where you are presented with an exemption that alters your goods category this is likely to be the most up to date exemption applicable to your good.
+                    Goods exemptions might change alongside the tariff, you can use the eligibility tool or refer to your TGP for support. Where you are presented with an exemption that alters your goods category this is likely to be the most up to date exemption applicable to your good.
                     </p>
           question_5:
             question: Why does the categorisation tool only use exemption codes to categorise my goods?
@@ -1370,7 +1370,7 @@ en:
             question: How do I work out if my goods are excise goods and therefore category 2?
             answer: |
                     <p>
-                    In most cases it will be clear if the goods are category 2 excise goods because they are subject to UK excise duty (eg alcohol, tobacco, fuels). Some goods may or may not be excisable depending, for example, on how they are to be used.
+                    In most cases it will be clear if the goods are category 2 excise goods because they are subject to UK excise duty (e.g. alcohol, tobacco, fuels). Some goods may or may not be excisable depending, for example, on how they are to be used.
                     </p>
                     <p>
                     The tool will return that these are potentially excise goods and a categorisation decision will need to be taken based on the circumstances applicable to the particular goods.
