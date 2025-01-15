@@ -7,7 +7,7 @@ WORKDIR /app
 # build-base: compilation tools for bundle
 # git: used to pull gems from git
 # yarn: node package manager
-RUN apk add --update --no-cache build-base git yarn tzdata && \
+RUN apk add --update --no-cache build-base git yarn tzdata yaml-dev && \
   cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
   echo "Europe/London" > /etc/timezone
 

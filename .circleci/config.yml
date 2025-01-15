@@ -26,7 +26,7 @@ filter-release: &filter-release
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
   terraform: circleci/terraform@3.2.1
-  ruby: circleci/ruby@2
+  ruby: circleci/ruby@2.3.1
   node: circleci/node@5
   browser-tools: circleci/browser-tools@1
   slack: circleci/slack@4.3.0
