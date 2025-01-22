@@ -54,6 +54,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - run: echo "this is the commit sha:${CIRCLE_SHA1}"
       - run: echo "docker_tag = \"$(git rev-parse --short HEAD)\"" >> terraform/config_<< parameters.environment >>.tfvars
       - persist_to_workspace:
           root: .
