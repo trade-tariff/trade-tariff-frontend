@@ -142,10 +142,12 @@ jobs:
     docker:
       - image: cimg/ruby:3.3.6
     steps:
+      - checkout
       - run:
           name: Checkout specific commit
           command: |
             echo "Checking out ${CIRCLE_SHA1}"
+            git fetch --all
             git checkout ${CIRCLE_SHA1}
 
       - ruby/install-deps
