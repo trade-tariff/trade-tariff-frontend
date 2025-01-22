@@ -24,6 +24,7 @@
             className: 'govuk-input',
             placeholder: 'Enter the name of the goods or commodity code',
             confirmOnBlur: false,
+            autoselect: true,
             minLength: 2,
             tNoResults: () => 'Searching...',
             templates: {
@@ -39,6 +40,12 @@
               const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
               window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
             }, 200, false),
+            onConfirm: (suggestion) => {
+              if (suggestion) {
+                document.querySelector('#q').value = suggestion
+                document.querySelector("#new_search").submit()
+              }
+            }
           });
 
           window.addEventListener('pageshow', (event) => {
