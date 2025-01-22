@@ -145,8 +145,8 @@ jobs:
       - run:
           name: Checkout specific commit
           command: |
-              git fetch origin ${CIRCLE_SHA1} --depth=1
-              git checkout ${CIRCLE_SHA1}
+            echo "Checking out ${CIRCLE_SHA1}"
+            git checkout ${CIRCLE_SHA1}
 
       - ruby/install-deps
       - run:
