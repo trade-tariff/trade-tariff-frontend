@@ -53,12 +53,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
-      - run: echo "fetching remotes"
-      - run: git fetch
-      - run: echo "checking out branch $CIRCLE_BRANCH"
-      - run: git checkout "$CIRCLE_BRANCH"
-      - run: echo "checking out commit ${CIRCLE_SHA1}"
-      - run: git checkout "$CIRCLE_SHA1"
+      - checkout
       - run: echo "docker_tag = \"$(git rev-parse --short HEAD)\"" >> terraform/config_<< parameters.environment >>.tfvars
       - persist_to_workspace:
           root: .
@@ -147,7 +142,12 @@ jobs:
     docker:
       - image: cimg/ruby:3.3.6
     steps:
-      - checkout
+      - run:
+          name: Checkout specific commit
+          command: |
+              git fetch origin ${CIRCLE_SHA1} --depth=1
+              git checkout ${CIRCLE_SHA1}
+
       - ruby/install-deps
       - run:
           name: Rubocop all files
