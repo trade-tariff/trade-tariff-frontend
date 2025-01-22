@@ -53,6 +53,8 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
+      - run: echo "fetching remotes"
+      - run: git fetch
       - run: echo "checking out branch $CIRCLE_BRANCH"
       - run: git checkout "$CIRCLE_BRANCH"
       - run: echo "checking out commit ${CIRCLE_SHA1}"
