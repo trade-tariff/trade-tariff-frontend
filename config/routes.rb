@@ -241,6 +241,8 @@ Rails.application.routes.draw do
 
   get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
 
+  match '/api/v1/:path', to: 'out_of_service#index', via: :all
+
   get '/robots.:format', to: 'pages#robots'
   match '/400', to: 'errors#bad_request', via: :all
   match '/404', to: 'errors#not_found', via: :all, as: :not_found
