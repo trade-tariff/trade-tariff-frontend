@@ -1,5 +1,3 @@
-
-
 $govuk-grid-widths: map-merge($govuk-grid-widths, (one-eighth: 12.5%, seven-eighth: 87.5%));
 
 .column-two-quarters {
@@ -33,6 +31,18 @@ $govuk-grid-widths: map-merge($govuk-grid-widths, (one-eighth: 12.5%, seven-eigh
 .column-full-mobile-only {
   @include govuk-media-query(false, $desktop-min-width - 1px) {
     @include govuk-grid-column(full, $at: mobile);
+  }
+}
+
+.column-one-quarter-mobile-only {
+  @include govuk-media-query(false, $desktop-min-width - 1px) {
+    @include govuk-grid-column(one-quarter, $at: mobile);
+  }
+}
+
+.column-three-quarters-mobile-only {
+  @include govuk-media-query(false, $desktop-min-width - 1px) {
+    @include govuk-grid-column(three-quarters, $at: mobile);
   }
 }
 

@@ -1,0 +1,42 @@
+<div class="govuk-fieldset" id='autocomplete' aria-describedby='q'>
+  <script>
+    window.onload = function() {
+      let tempQuery = '';
+      window.accessibleAutocomplete({
+        element: document.querySelector('#autocomplete'),
+        id: 'q',
+        name: 'q',
+        required: 'true',
+        className: 'govuk-input',
+        placeholder: 'Enter the name of the goods or commodity code',
+        confirmOnBlur: false,
+        autoselect: true,
+        minLength: 2,
+        tNoResults: () => 'Searching...',
+        templates: {
+          inputValue: function(result) {
+            return result;
+          },
+          suggestion: function(result) {
+            return result.replace(tempQuery, '<strong>$&</strong>');
+          },
+        },
+        source: window.debounce((query, populateResults) => {
+          tempQuery = query;
+          const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
+          window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
+        }, 200, false),
+        onConfirm: (suggestion) => {
+          if (suggestion) {
+            document.querySelector('#q').value = suggestion
+            document.querySelector("#new_search").submit()
+          }
+        }
+      });
+
+      window.addEventListener('pageshow', (event) => {
+        event.persisted ? document.querySelector('#autocomplete input').value = '' : () => {}
+      });
+    }
+  </script>
+</div>
