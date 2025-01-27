@@ -6,7 +6,6 @@
 <head>
   <meta charset="utf-8">
   <title><%= yield :pageTitle %></title>
-  <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0c0c">
 
@@ -30,6 +29,8 @@
 </head>
 
 <body class="govuk-template__body <%= service_choice || service_default %>-service">
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= TradeTariffFrontend.google_tag_manager_container_id %>"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <%= content_tag :div, class: 'path_info', data: @path_info do %>
   <% end %>
 

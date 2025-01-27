@@ -1,5 +1,5 @@
 # Build compilation image
-FROM ruby:3.3.4-alpine3.20 as builder
+FROM ruby:3.3.6-alpine3.20 as builder
 
 # The application runs from /app
 WORKDIR /app
@@ -7,7 +7,7 @@ WORKDIR /app
 # build-base: compilation tools for bundle
 # git: used to pull gems from git
 # yarn: node package manager
-RUN apk add --update --no-cache build-base git yarn tzdata && \
+RUN apk add --update --no-cache build-base git yarn tzdata yaml-dev && \
   cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
   echo "Europe/London" > /etc/timezone
 
@@ -40,7 +40,7 @@ RUN rm -rf node_modules log tmp && \
   find /usr/local/bundle/gems -name "*.html" -delete
 
 # Build runtime image
-FROM ruby:3.3.4-alpine3.20 as production
+FROM ruby:3.3.6-alpine3.20 as production
 
 RUN apk add --update --no-cache tzdata && \
   cp /usr/share/zoneinfo/Europe/London /etc/localtime && \

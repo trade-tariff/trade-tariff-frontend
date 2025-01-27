@@ -131,6 +131,12 @@ Rails.application.routes.draw do
     get 'result' => 'results#show'
 
     resources :results, param: :category, only: %i[create], path: 'result'
+
+    get 'faq', to: 'faq#index'
+
+    get 'get_feedback', to: 'faq#get_feedback'
+
+    post 'send_feedback', to: 'faq#send_feedback', as: :send_feedback
   end
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
@@ -237,7 +243,7 @@ Rails.application.routes.draw do
 
   get '/robots.:format', to: 'pages#robots'
   match '/400', to: 'errors#bad_request', via: :all
-  match '/404', to: 'errors#not_found', via: :all
+  match '/404', to: 'errors#not_found', via: :all, as: :not_found
   match '/405', to: 'errors#method_not_allowed', via: :all
   match '/406', to: 'errors#not_acceptable', via: :all
   match '/422', to: 'errors#unprocessable_entity', via: :all
