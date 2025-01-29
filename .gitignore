@@ -21,7 +21,6 @@ spec/reports
 *_manifest.yml
 
 cf-ssh.yml
-.ruby-gemset
 .idea/*
 .env
 .env.*.local
@@ -37,3 +36,4 @@ yarn-debug.log*
 .byebug_history
 
 .direnv
+.envrc
