@@ -53,7 +53,7 @@
 
   <div class="tariff service govuk-width-container">
 
-    <%= FeatureService.is_enabled? "my-test-flag", @user_context %>
+    <%= Features.is_enabled? "my-test-flag", @user_context %>
 
 
     <%= render 'shared/top_breadcrumbs' %>

@@ -5,4 +5,4 @@ Unleash.configure do |config|
   config.custom_http_headers = { 'Authorization': 'default:development.unleash-insecure-api-token' }
 end
 
-FeatureService = Unleash::Client.new
+Features = Unleash::Client.new
