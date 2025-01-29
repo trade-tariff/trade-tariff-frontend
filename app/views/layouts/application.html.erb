@@ -15,38 +15,34 @@
   <%= favicon_link_tag asset_pack_path('media/images/govuk-icon-180.png'), rel: 'apple-touch-icon', type: 'image/png' %>
 
   <!--[if !IE 8]><!-->
-    <%= stylesheet_pack_tag 'application', media: 'all' %>
-    <%= stylesheet_pack_tag 'print', media: 'print' %>
-    <!--<![endif]-->
+  <%= stylesheet_pack_tag 'application', media: 'all' %>
+  <%= stylesheet_pack_tag 'print', media: 'print' %>
+  <!--<![endif]-->
 
-    <!--[if lt IE 9]>
+  <!--[if lt IE 9]>
       <script src="/html5-shiv/html5shiv.js"></script>
     <![endif]-->
 
-    <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
+  <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
 
-    <%= yield :head %>
+  <%= yield :head %>
 </head>
 
 <body class="govuk-template__body <%= service_choice || service_default %>-service">
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= TradeTariffFrontend.google_tag_manager_container_id %>"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= TradeTariffFrontend.google_tag_manager_container_id %>" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <%= content_tag :div, class: 'path_info', data: @path_info do %>
   <% end %>
 
   <%= javascript_tag nonce: true do -%>
-    document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
-    window.googleTagManagerContainerId = "<%= TradeTariffFrontend.google_tag_manager_container_id %>";
+  document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+  window.googleTagManagerContainerId = "<%= TradeTariffFrontend.google_tag_manager_container_id %>";
   <% end -%>
 
-    <%= render 'layouts/cookies_consent' %>
+  <%= render 'layouts/cookies_consent' %>
 
   <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
-  <header
-    class="govuk-header govuk-!-display-none-print"
-    role="banner"
-    data-module="govuk-header">
+  <header class="govuk-header govuk-!-display-none-print" role="banner" data-module="govuk-header">
     <div class="govuk-header__container govuk-width-container">
       <%= render 'shared/govuk_logo' %>
       <%= yield :proposition_header %>
@@ -56,6 +52,10 @@
   </header>
 
   <div class="tariff service govuk-width-container">
+
+    <%= FeatureService.is_enabled? "my-test-flag", @user_context %>
+
+
     <%= render 'shared/top_breadcrumbs' %>
 
     <%= yield :back_link %>
@@ -73,10 +73,12 @@
       <%= render 'shared/webchat_message/footer' if webchat_visible_in_footer? %>
 
       <% if @tariff_last_updated %>
-        <div id="last-updated-at"><p class="govuk-!-font-size-16">Last updated: <%= @tariff_last_updated.strftime("%e %B %Y") %>&emsp;<a href="https://www.gov.uk/government/collections/tariff-stop-press-notices" target="_blank">View latest amendments</a></p></div>
+      <div id="last-updated-at">
+        <p class="govuk-!-font-size-16">Last updated: <%= @tariff_last_updated.strftime("%e %B %Y") %>&emsp;<a href="https://www.gov.uk/government/collections/tariff-stop-press-notices" target="_blank">View latest amendments</a></p>
+      </div>
       <% end %>
       <% if content_for? (:commodity_pagination) %>
-        <%= yield :commodity_pagination %>
+      <%= yield :commodity_pagination %>
       <% end %>
     </main>
   </div>

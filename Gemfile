@@ -18,6 +18,7 @@ gem 'multi_json'
 gem 'net-http-persistent'
 gem 'newrelic_rpm'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
+gem 'unleash', '~> 6.1.0'
 gem 'yajl-ruby'
 
 # Assets

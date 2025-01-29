@@ -191,9 +191,7 @@ GEM
       concurrent-ruby (~> 1.1)
       webrick (~> 1.7)
       websocket-driver (>= 0.6, < 0.8)
-    ffi (1.17.0-arm64-darwin)
-    ffi (1.17.0-x86_64-darwin)
-    ffi (1.17.0-x86_64-linux-gnu)
+    ffi (1.16.3)
     forgery (0.8.1)
     formatador (1.1.0)
     globalid (1.2.1)
@@ -749,6 +747,8 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
+    unleash (6.1.1)
+      yggdrasil-engine (~> 1.0.1)
     uri (1.0.2)
     useragent (0.16.11)
     vcr (6.2.0)
@@ -775,6 +775,12 @@ GEM
       nokogiri (~> 1.8)
     yajl-ruby (1.4.3)
     yard (0.9.37)
+    yggdrasil-engine (1.0.1-arm64-darwin)
+      ffi (~> 1.16.3)
+    yggdrasil-engine (1.0.1-x86_64-darwin)
+      ffi (~> 1.16.3)
+    yggdrasil-engine (1.0.1-x86_64-linux)
+      ffi (~> 1.16.3)
     zeitwerk (2.6.18)
 
 PLATFORMS
@@ -827,6 +833,7 @@ DEPENDENCIES
   shoulda-matchers
   simplecov
   solargraph
+  unleash (~> 6.1.0)
   vcr
   web-console
   webmock

@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :set_last_updated
   before_action :set_path_info
   before_action :set_search
+  before_action :set_unleash_context
   before_action :bots_no_index_if_historical
 
   layout :set_layout
@@ -138,5 +139,15 @@ class ApplicationController < ActionController::Base
     unless TradeTariffFrontend.green_lanes_enabled?
       raise TradeTariffFrontend::FeatureUnavailable
     end
+  end
+
+  private
+
+  def set_unleash_context
+    @user_context = Unleash::Context.new(
+      # session_id: session.id,
+      remote_address: request.remote_ip,
+      # user_id: session[:user_id],
+    )
   end
 end
