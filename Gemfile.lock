@@ -178,7 +178,7 @@ GEM
       base64
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
-    faraday-http-cache (2.5.0)
+    faraday-http-cache (2.5.1)
       faraday (>= 0.8)
     faraday-net_http (3.0.2)
     faraday-net_http_persistent (2.1.0)
