@@ -332,7 +332,7 @@ GEM
     msgpack (1.7.2)
     multi_json (1.15.0)
     nenv (0.3.0)
-    net-http-persistent (4.0.4)
+    net-http-persistent (4.0.5)
       connection_pool (~> 2.2)
     net-imap (0.5.1)
       date
