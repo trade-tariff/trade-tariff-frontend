@@ -18,6 +18,7 @@ gem 'multi_json'
 gem 'net-http-persistent'
 gem 'newrelic_rpm'
 gem 'rack-attack'
+gem 'rack-timeout'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
 gem 'yajl-ruby'
 
