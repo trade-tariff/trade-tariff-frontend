@@ -1,6 +1,7 @@
+<% cache [TradeTariffFrontend::ServiceChooser.service_name, params[:id], params[:year], params[:month], params[:day], params[:country]], expires_in: 3.hours do %>
 <% content_for :head do %>
-  <meta name="description" content="<%= declarable.description_plain %>">
-  <link rel='alternate' type='application/json' href='<%= declarable_path_json(declarable) %>' title='Commodity information page in JSON format' />
+<meta name="description" content="<%= declarable.description_plain %>">
+<link rel='alternate' type='application/json' href='<%= declarable_path_json(declarable) %>' title='Commodity information page in JSON format' />
 <% end %>
 
 <% content_for :bodyClasses, "page--wide" %>
@@ -8,7 +9,7 @@
 <%= render 'commodities/header', commodity_code: declarable.code %>
 
 <% declarable.critical_footnotes.each do |footnote| %>
-  <%= render 'footnotes/critical_warning', footnote: footnote %>
+<%= render 'footnotes/critical_warning', footnote: footnote %>
 <% end %>
 
 <%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
@@ -37,3 +38,4 @@
            roo_all_schemes: @roo_all_schemes %>
 
 <%= render 'commodities/help_popup' %>
+<% end %>
