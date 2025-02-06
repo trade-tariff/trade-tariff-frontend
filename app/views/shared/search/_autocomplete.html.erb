@@ -25,7 +25,7 @@
           tempQuery = query;
           const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
           window.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
-        }, 200, false),
+        }, 400, false),
         onConfirm: (suggestion) => {
           if (suggestion) {
             document.querySelector('#q').value = suggestion
