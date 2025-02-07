@@ -85,7 +85,7 @@ RSpec.describe GreenLanes::GoodsNomenclature do
       end
 
       it 'groups assessments by category', :aggregate_failures do
-        expect(grouped_assessments.keys).to match_array([1, 2])
+        expect(grouped_assessments.keys).to contain_exactly(1, 2)
         expect(grouped_assessments[1].length).to eq(2)
         expect(grouped_assessments[2].length).to eq(1)
       end

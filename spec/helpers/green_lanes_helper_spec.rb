@@ -4,8 +4,8 @@ RSpec.describe GreenLanesHelper, type: :helper do
   before { allow(helper).to receive(:render) }
 
   describe '#format_pseudo_code_for_exemption' do
-    let(:exemption_with_wfe_code) { instance_double('Exemption', code: 'WFE001', formatted_description: 'Ukraine exemption') }
-    let(:exemption_without_wfe_code) { instance_double('Exemption', code: 'Y171', formatted_description: 'Food Exemption') }
+    let(:exemption_with_wfe_code) { instance_double(Exemption, code: 'WFE001', formatted_description: 'Ukraine exemption') }
+    let(:exemption_without_wfe_code) { instance_double(Exemption, code: 'Y171', formatted_description: 'Food Exemption') }
 
     it 'returns the formatted description for codes starting with WFE' do
       expect(format_pseudo_code_for_exemption(exemption_with_wfe_code)).to eq('Ukraine exemption')
@@ -28,7 +28,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
 
   describe '#render_exemptions_or_no_card' do
     let(:assessments) do
-      instance_double('Assessments',
+      instance_double(Assessments,
                       no_cat1_exemptions: false,
                       cat_1_assessments_met: [1],
                       cat_1_assessments: [assessment_1, assessment_2])
@@ -79,7 +79,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
   end
 
   describe '#render_exemptions' do
-    let(:assessments) { instance_double('Assessments') }
+    let(:assessments) { instance_double(Assessments) }
     let(:result) { '3' }
 
     before do
@@ -89,8 +89,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
     # rubocop:disable RSpec/InstanceVariable
     context 'when result is 3' do
       before do
-        allow(assessments).to receive(:cat_1_exemptions).and_return([1])
-        allow(assessments).to receive(:cat_2_exemptions).and_return([1])
+        allow(assessments).to receive_messages(cat_1_exemptions: [1], cat_2_exemptions: [1])
         allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
@@ -129,8 +128,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
 
     context 'when result is 2 and cat_1_exemptions is not empty' do
       before do
-        allow(assessments).to receive(:cat_1_exemptions).and_return([1])
-        allow(assessments).to receive(:cat_2_exemptions).and_return([])
+        allow(assessments).to receive_messages(cat_1_exemptions: [1], cat_2_exemptions: [])
         allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
@@ -143,8 +141,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
 
     context 'when result is 2 and cat_2_exemptions is not empty' do
       before do
-        allow(assessments).to receive(:cat_1_exemptions).and_return([])
-        allow(assessments).to receive(:cat_2_exemptions).and_return([1])
+        allow(assessments).to receive_messages(cat_1_exemptions: [], cat_2_exemptions: [1])
         allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
@@ -157,8 +154,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
 
     context 'when result is 2 and @cas_without_exemptions is present' do
       before do
-        allow(assessments).to receive(:cat_1_exemptions).and_return([1])
-        allow(assessments).to receive(:cat_2_exemptions).and_return([1])
+        allow(assessments).to receive_messages(cat_1_exemptions: [1], cat_2_exemptions: [1])
         allow(@cas_without_exemptions).to receive(:present?).and_return(true)
       end
 
@@ -255,11 +251,11 @@ RSpec.describe GreenLanesHelper, type: :helper do
 
   # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe '#unique_exemptions' do
-    let(:assessment1) { instance_double('Assessment', exemptions: [exemption1, exemption2]) }
-    let(:assessment2) { instance_double('Assessment', exemptions: [exemption3, exemption2]) }
-    let(:exemption1) { instance_double('Exemption', code: 'E001', formatted_description: 'Description 1') }
-    let(:exemption2) { instance_double('Exemption', code: 'E002', formatted_description: 'Description 2') }
-    let(:exemption3) { instance_double('Exemption', code: 'E003', formatted_description: 'Description 3') }
+    let(:assessment1) { instance_double(Assessment, exemptions: [exemption1, exemption2]) }
+    let(:assessment2) { instance_double(Assessment, exemptions: [exemption3, exemption2]) }
+    let(:exemption1) { instance_double(Exemption, code: 'E001', formatted_description: 'Description 1') }
+    let(:exemption2) { instance_double(Exemption, code: 'E002', formatted_description: 'Description 2') }
+    let(:exemption3) { instance_double(Exemption, code: 'E003', formatted_description: 'Description 3') }
 
     let(:assessments) { [assessment1, assessment2] }
 
@@ -282,13 +278,13 @@ RSpec.describe GreenLanesHelper, type: :helper do
   # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe '#exemption_status' do
-    let(:exemption) { instance_double('Exemption', code: 'E001') }
-    let(:category) { instance_double('Category') }
-    let(:category_assessment) { instance_double('CategoryAssessment') }
-    let(:answers) { instance_double('Answers') }
+    let(:exemption) { instance_double(Exemption, code: 'E001') }
+    let(:category) { instance_double(Category) }
+    let(:category_assessment) { instance_double(CategoryAssessment) }
+    let(:answers) { instance_double(Answers) }
 
     before do
-      assign(:answers, answers)  # Mock @answers as an instance variable
+      assign(:answers, answers) # Mock @answers as an instance variable
     end
 
     it 'returns "Condition met" when the exemption is met' do

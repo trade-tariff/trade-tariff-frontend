@@ -13,7 +13,7 @@ RSpec.describe 'webchat_message/_footer', type: :view do
         allow(TradeTariffFrontend).to receive(:webchat_url).and_return('http://webchat_url_test')
       end
 
-      it 'displays the webchat link ' do
+      it 'displays the webchat link' do
         expect(subject).to have_css '#webchat-link'
       end
     end

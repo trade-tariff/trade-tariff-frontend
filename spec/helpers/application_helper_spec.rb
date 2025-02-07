@@ -109,8 +109,7 @@ RSpec.describe ApplicationHelper, type: :helper do
     subject { helper.search_active_class }
 
     before do
-      allow(helper).to receive(:controller_name).and_return controller_name
-      allow(helper).to receive(:action_name).and_return action
+      allow(helper).to receive_messages(controller_name: controller_name, action_name: action)
     end
 
     context 'with sections page' do

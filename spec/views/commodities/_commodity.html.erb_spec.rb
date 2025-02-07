@@ -12,7 +12,7 @@ RSpec.describe 'commodities/_commodity', type: :view do
     context 'with producline_suffix of 80' do
       let(:producline_suffix) { '80' }
 
-      it 'will show the commodity code' do
+      it 'shows the commodity code' do
         expect(rendered_page).to have_css \
           'li.has_children > .identifier.service-uk .segmented-commodity-code'
       end
@@ -29,7 +29,7 @@ RSpec.describe 'commodities/_commodity', type: :view do
 
       it { is_expected.to have_css 'li.has_children > .identifier.service-uk' }
 
-      it 'will not show the commodity code' do
+      it 'does not show the commodity code' do
         expect(rendered_page).not_to have_css \
           'li.has_children > .sub_heading_commodity_code_block .segmented-commodity-code'
       end

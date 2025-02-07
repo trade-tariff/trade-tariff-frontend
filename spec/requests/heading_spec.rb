@@ -60,7 +60,7 @@ RSpec.describe 'Heading page', type: :request do
       end
 
       it 'renders direct API response' do
-        expect(json['commodities']).to be_kind_of Array
+        expect(json['commodities']).to be_a Array
       end
     end
 
@@ -78,7 +78,7 @@ RSpec.describe 'Heading page', type: :request do
       end
 
       it 'renders direct API response' do
-        expect(json['commodities']).to be_kind_of Array
+        expect(json['commodities']).to be_a Array
       end
     end
   end

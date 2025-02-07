@@ -32,7 +32,7 @@ RSpec.describe FootnoteSearchForm, type: :model, vcr: { cassette_name: 'search#f
       it { expect(form.errors[:code]).to eq(['You need to supply at least a 5-digit footnote code']) }
     end
 
-    context 'when the code is too short ' do
+    context 'when the code is too short' do
       let(:params) { { code: '012' } }
 
       it { is_expected.not_to be_valid }

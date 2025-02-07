@@ -56,7 +56,7 @@ RSpec.describe RoutingFilter::ServicePathPrefixHandler, type: :routing do
           action: 'not_found',
           path: 'xixi/commodities/0101300000',
         )
-        expect(Thread.current[:service_choice]).to eq(nil)
+        expect(Thread.current[:service_choice]).to be_nil
       end
     end
 

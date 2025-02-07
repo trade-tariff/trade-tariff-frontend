@@ -70,7 +70,7 @@ RSpec.describe MeursingLookup::StepsController, type: :controller do
 
         it { is_expected.to have_http_status(:success) }
         it { expect(assigns[:current_step].errors.messages[step_id]).not_to be_blank }
-        it { expect(session.dig('meursing_lookup', step_id.to_s)).to eq(nil) }
+        it { expect(session.dig('meursing_lookup', step_id.to_s)).to be_nil }
         it { is_expected.to render_template('meursing_lookup/steps/show') }
         it { expect(assigns[:current_step]).to be_a(step_klass) }
       end

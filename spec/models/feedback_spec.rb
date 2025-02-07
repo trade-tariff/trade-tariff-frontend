@@ -77,13 +77,13 @@ RSpec.describe Feedback do
     context 'when choice is valid' do
       let(:feedback) { build :feedback, :with_authenticity_token }
 
-      it { expect(feedback.valid_page_useful_options?).to eq(true) }
+      it { expect(feedback.valid_page_useful_options?).to be(true) }
     end
 
     context 'when choice is invalid' do
       let(:feedback) { build :feedback, :with_authenticity_token, :with_invalid_choice }
 
-      it { expect(feedback.valid_page_useful_options?).to eq(false) }
+      it { expect(feedback.valid_page_useful_options?).to be(false) }
     end
   end
 

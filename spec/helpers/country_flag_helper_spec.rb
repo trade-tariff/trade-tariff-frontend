@@ -5,7 +5,7 @@ RSpec.describe CountryFlagHelper, type: :helper do
     context 'with GB' do
       subject(:rendered) { helper.country_flag_tag('GB') }
 
-      it 'will include the relevant flag' do
+      it 'includes the relevant flag' do
         expect(rendered).to \
           have_css('img.country-flag[src*="media/images/flags/gb"]')
       end
@@ -16,7 +16,7 @@ RSpec.describe CountryFlagHelper, type: :helper do
         helper.country_flag_tag('GB', alt: 'alt text')
       end
 
-      it 'will include the alt text' do
+      it 'includes the alt text' do
         expect(rendered).to \
           have_css('img.country-flag[alt="alt text"]')
       end

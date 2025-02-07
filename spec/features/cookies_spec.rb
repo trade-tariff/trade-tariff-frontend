@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.feature 'Cookies management', js: true do
+RSpec.feature 'Cookies management', :js do
   def cookie_for(name)
     cookie_value = page.driver.cookies[name]&.value
 

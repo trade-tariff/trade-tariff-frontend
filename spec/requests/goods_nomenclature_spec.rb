@@ -8,8 +8,8 @@ RSpec.describe 'Goods nomenclature API request', type: :request do
 
         json = JSON.parse(response.body)
 
-        expect(json['data']).to be_kind_of Array
-        expect(json['data'].first).to be_kind_of Hash
+        expect(json['data']).to be_a Array
+        expect(json['data'].first).to be_a Hash
         expect(json['data'].first).to have_key('id')
         expect(json['data'].first).to have_key('type')
         expect(json['data'].first).to have_key('attributes')
@@ -34,7 +34,7 @@ RSpec.describe 'Goods nomenclature API request', type: :request do
 
         json = JSON.parse(response.body)
 
-        expect(json['data']).to be_kind_of Array
+        expect(json['data']).to be_a Array
         expect(json['data']).to eq([])
       end
     end

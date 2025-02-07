@@ -91,7 +91,7 @@ RSpec.describe GreenLanes::FaqHelper, type: :helper do
         },
       )
       allow(helper).to receive(:interpolate).and_wrap_original do |_original_method, link|
-        link  # Just return the link as it is (no interpolation needed)
+        link # Just return the link as it is (no interpolation needed)
       end
     end
 

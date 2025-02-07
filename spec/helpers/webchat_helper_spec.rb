@@ -15,13 +15,13 @@ RSpec.describe WebchatHelper, type: :helper do
     context('when the controller supports webchat link') do
       let(:controller_name) { %w[commodities headings subheadings chapters sections].sample }
 
-      it { expect(webchat_visible_in_footer?).to eq true }
+      it { expect(webchat_visible_in_footer?).to be true }
     end
 
     context('when the controller does not support webchat link') do
       let(:controller_name) { 'measures' }
 
-      it { expect(webchat_visible_in_footer?).to eq false }
+      it { expect(webchat_visible_in_footer?).to be false }
     end
   end
 end

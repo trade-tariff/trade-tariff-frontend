@@ -55,7 +55,7 @@ RSpec.describe 'SectionsController', type: :request do
         end
 
         it 'renders direct API response' do
-          expect(json['chapters']).to be_kind_of Array
+          expect(json['chapters']).to be_a Array
         end
       end
 
@@ -73,7 +73,7 @@ RSpec.describe 'SectionsController', type: :request do
         end
 
         it 'renders direct API response' do
-          expect(json['chapters']).to be_kind_of Array
+          expect(json['chapters']).to be_a Array
         end
       end
     end

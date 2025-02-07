@@ -1,11 +1,9 @@
 require 'spec_helper'
 
-RSpec.describe 'Green lanes category assessments',
-               vcr: {
-                 cassette_name: 'green_lanes/wizard',
-                 record: :new_episodes,
-               },
-               js: true do
+RSpec.describe 'Green lanes category assessments', :js, vcr: {
+  cassette_name: 'green_lanes/wizard',
+  record: :new_episodes,
+} do
   let(:date) { { day: '21', month: '10', year: '2024' } }
 
   let(:commodity_codes) do
