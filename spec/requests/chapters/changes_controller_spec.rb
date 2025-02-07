@@ -4,7 +4,7 @@ RSpec.describe Chapters::ChangesController, type: :request do
   describe 'GET #index' do
     before do
       VCR.use_cassette('chapters_changes#index') do
-        get '/chapters/01/changes'
+        get '/chapters/01/changes.atom'
       end
     end
 

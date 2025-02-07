@@ -4,7 +4,7 @@ RSpec.describe Headings::ChangesController, type: :request do
   describe 'GET #index' do
     before do
       VCR.use_cassette('headings_changes#index') do
-        get '/headings/0101/changes'
+        get '/headings/0101/changes.atom'
       end
     end
 

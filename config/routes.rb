@@ -194,7 +194,6 @@ Rails.application.routes.draw do
     resources :headings, only: %i[show] do
       resources :changes,
                 only: [:index],
-                defaults: { format: :atom },
                 module: 'headings'
     end
   end
