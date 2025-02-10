@@ -32,6 +32,12 @@ RSpec.describe ErrorsController, type: :request do
     it_behaves_like 'a json error response', 406, 'Not acceptable'
   end
 
+  describe 'GET /429.json' do
+    let(:make_request) { get '/429.json' }
+
+    it_behaves_like 'a json error response', 429, 'Too many requests'
+  end
+
   describe 'GET /500.json' do
     let(:make_request) { get '/500.json' }
 
@@ -62,6 +68,12 @@ RSpec.describe ErrorsController, type: :request do
     let(:make_request) { get '/406' }
 
     it { expect(body).to include 'Not acceptable' }
+  end
+
+  describe 'GET /429' do
+    let(:make_request) { get '/429' }
+
+    it { expect(body).to include 'Too Many Requests' }
   end
 
   describe 'GET /500' do
