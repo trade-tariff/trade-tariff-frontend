@@ -28,7 +28,7 @@ class Search
 
   def perform
     response = self.class.post(
-      '/search',
+      '/api/v2/search',
       q:,
       as_of: date.to_fs(:db),
       resource_id:,

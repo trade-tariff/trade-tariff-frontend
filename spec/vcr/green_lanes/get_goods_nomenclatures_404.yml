@@ -2,19 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3019/goods_nomenclatures/1234567890?as_of=2022-02-03
+    uri: http://localhost:3018/api/v2/goods_nomenclatures/1234567890?as_of=2022-02-03
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
       - Faraday v2.8.1
-      Authorization:
-      - Bearer
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -41,15 +39,15 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 28acbd43-0b16-4e4c-8c1d-1471413022ba
+      - cbe5ab4b-79b1-44ba-86a0-dd8c5ca0c860
       X-Runtime:
-      - '0.061714'
+      - '0.010367'
       Server-Timing:
-      - start_processing.action_controller;dur=0.01, sql.sequel;dur=8.94, process_action.action_controller;dur=32.97
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=0.74, process_action.action_controller;dur=2.12
       Content-Length:
-      - '35'
+      - '106'
     body:
       encoding: UTF-8
-      string: '{"errors":[{"detail":"not found"}]}'
-  recorded_at: Tue, 04 Jun 2024 16:39:07 GMT
+      string: '{"error":"not found","url":"http://localhost:3018/api/v2/goods_nomenclatures/1234567890?as_of=2022-02-03"}'
+  recorded_at: Tue, 11 Feb 2025 16:43:55 GMT
 recorded_with: VCR 6.2.0

@@ -10,18 +10,31 @@ RSpec.describe GeographicalArea do
 
     it 'fetches geographical areas that are countries from the API' do
       expected_countries = %w[
-        SA BB SB BD SC SD BE SE BF SG BG SH BH SI SK BI SL BJ SM SN BM BN SO BO BR
-        SR BS ST BT SV HM NF PS TF TK UM CK NU XK QU QV QW QX QY QZ QR WS GS GU TL
-        XS EU CI ME AD NI NL NO NP NR AE NZ OM PA AF PE PF AG PG AI PH AL PK PL AM
-        PM PN PT AR PY AT QA RO AU RU AW RW AZ BA GN GQ GT GW GY HK HN HR HT HU ID
-        IE IL IN IO IQ IR IS IT JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC
-        LK LR LS LT LU LV LY MA MD MG MH ML MN MO MR MT MU MV MW MX MY MZ NA NC NE
-        NG AO GD ER LI PW MS MK MP GR CD XL MM SY SZ BW TC BY TD BZ TG CA TH CF CG
-        CH TJ TM TN CL TO CM TR CN TT CO TV CR TW TZ UA CU UG US CV UY CY UZ CZ VA
-        VC VE VG DE DJ DK VI DM DO VN VU DZ WF EC EE EG XC ES ET FI FJ FK FM FO FR
-        GA GB YE ZA ZM ZW GE GH GI GL GM QS QQ AQ AS BV CC CX BL BQ CW SS SX EH QP
+        AD AE AF AG AI AL AM AO AQ AR AS
+        AT AU AW AX AZ BA BB BD BE BF BG
+        BH BI BJ BL BM BN BO BQ BR BS BT
+        BV BW BY BZ CA CC CD CF CG CH CI
+        CK CL CM CN CO CR CU CV CW CX CY
+        CZ DE DJ DK DM DO DZ EC EE EG EH
+        ER ES ET FI FJ FK FM FO FR GA GD
+        GE GF GH GI GL GM GN GP GQ GR GS
+        GT GU GW GY HK HM HN HR HT HU ID
+        IE IL IM IN IO IQ IR IS IT JM JO
+        JP KE KG KH KI KM KN KP KR KW KY
+        KZ LA LB LC LI LK LR LS LT LU LV
+        LY MA MC MD ME MF MG MH MK ML MM
+        MN MO MP MQ MR MS MT MU MV MW MX
+        MY MZ NA NC NE NF NG NI NL NO NP
+        NR NU NZ OM PA PE PF PG PH PK PL
+        PM PN PR PS PT PW PY QA RE RO RU
+        RW SA SB SC SD SE SG SH SI SJ SK
+        SL SM SN SO SR SS ST SV SX SY SZ
+        TC TD TF TG TH TJ TK TL TM TN TO
+        TR TT TV TW TZ UA UG UM US UY UZ
+        VA VC VE VG VI VN VU WF WS XC XK
+        XL XS YE YT ZA ZB ZD ZE ZF ZG ZH
+        ZM ZN ZU ZW
       ]
-
       expect(countries.map(&:id)).to eq(expected_countries)
     end
   end

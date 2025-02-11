@@ -16,39 +16,6 @@ Rails.application.routes.draw do
     resources :news_items, only: %i[index]
   end
 
-  get '/trade-tariff/*path', to: redirect('/%{path}', status: 301)
-  get '/api/(*path)', constraints: { path: /[^v\d+].*/ }, to: redirect { |_params, request|
-    path = request.path.gsub('/api/', '/api/v2/')
-    "#{request.scheme}://#{ENV['HOST']}#{path}" # request.path starts with '/'
-  }
-  get '/v1/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
-  get '/v2/(*path)', to: redirect { |_params, request| "/api#{request.path}?#{request.query_string}" }
-
-  get '/api/:version/commodities/:id', constraints: { id: /\d{2}00000000/ }, to: redirect { |_params, request|
-    path = request.path.gsub('commodities', 'chapters').gsub('00000000', '')
-    query = URI(request.url).query
-
-    url = "#{request.scheme}://#{ENV['HOST']}#{path}"
-
-    query ? "#{url}?#{query}" : url
-  }
-  get '/api/:version/commodities/:id', constraints: { id: /\d{4}000000/ }, to: redirect { |_params, request|
-    path = request.path.gsub('commodities', 'headings').gsub('000000', '')
-    query = URI(request.url).query
-
-    url = "#{request.scheme}://#{ENV['HOST']}#{path}"
-
-    query ? "#{url}?#{query}" : url
-  }
-  get '/api/v1/quotas/search', to: redirect { |_params, request|
-    path = request.path.gsub('v1', 'v2')
-    query = URI(request.url).query
-
-    url = "#{request.scheme}://#{ENV['HOST']}#{path}"
-
-    query ? "#{url}?#{query}" : url
-  }
-
   get 'healthcheck', to: 'healthcheck#check'
   get 'healthcheckz', to: 'healthcheck#checkz'
 
@@ -163,6 +130,8 @@ Rails.application.routes.draw do
         as: :a_z_index,
         constraints: { letter: /[a-z]{1}/i }
 
+  # TODO: Remove me once had a conversation and socialised removal
+  # API served through frontend routes /headings/0101.json
   constraints TradeTariffFrontend::ApiConstraints.new(
     TradeTariffFrontend.accessible_api_endpoints,
   ) do
@@ -170,7 +139,9 @@ Rails.application.routes.draw do
           via: :get,
           to: TradeTariffFrontend::RequestForwarder.new(
             api_request_path_formatter: lambda { |path|
-              path.gsub("#{APP_SLUG}/", '')
+              path = path.gsub("#{APP_SLUG}/", '')
+
+              "/api/v1/#{path}"
             },
           )
   end
@@ -216,28 +187,6 @@ Rails.application.routes.draw do
       to: 'pending_quota_balances#show',
       as: :pending_quota_balance,
       defaults: { format: :json }
-
-  constraints TradeTariffFrontend::ApiPubConstraints.new(TradeTariffFrontend.public_api_endpoints) do
-    scope 'api' do
-      get ':version/*path', to: TradeTariffFrontend::RequestForwarder.new(
-        api_request_path_formatter: lambda { |path|
-          path.gsub(/api\/v\d+\//, '')
-        },
-      ), constraints: { version: /v[1-2]{1}/ }
-
-      post ':version/*path', to: TradeTariffFrontend::RequestForwarder.new(
-        api_request_path_formatter: lambda { |path|
-          path.gsub(/api\/v\d+\//, '')
-        },
-      ), constraints: { version: /v[1-2]{1}/ }
-
-      get 'v2/goods_nomenclatures/*path', to: TradeTariffFrontend::RequestForwarder.new(
-        api_request_path_formatter: lambda { |path|
-          path.gsub(/api\/v2\//, '')
-        },
-      )
-    end
-  end
 
   get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
 

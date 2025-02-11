@@ -13,7 +13,7 @@ RSpec.describe GreenLanes::MovingRequirementsForm, type: :model do
     context 'when all the attributes are correct', vcr: { cassette_name: 'green_lanes/get_goods_nomenclatures_200' } do
       let(:params) do
         {
-          commodity_code: '6203000000',
+          commodity_code: '0201100021',
           country_of_origin: 'IT',
           moving_date: { year => '2022', month => '2', day => '3' },
         }

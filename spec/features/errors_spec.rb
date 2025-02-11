@@ -72,7 +72,7 @@ RSpec.describe 'Error handling' do
 
     context 'with non existent resource' do
       before do
-        stub_api_request('/news/items/9999', backend: 'uk')
+        stub_api_request('/api/v2/news/items/9999', backend: 'uk')
           .and_return jsonapi_error_response(404)
 
         visit '/news/9999'
@@ -83,7 +83,7 @@ RSpec.describe 'Error handling' do
 
     context 'with faraday connection error' do
       before do
-        stub_api_request('/news/items/9999', backend: 'uk').to_timeout
+        stub_api_request('/api/v2/news/items/9999', backend: 'uk').to_timeout
 
         visit '/news/9999'
       end

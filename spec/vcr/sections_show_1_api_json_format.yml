@@ -2,17 +2,21 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/sections/1.json
+    uri: http://localhost:3018/api/v1//sections/1.json
     body:
-      encoding: US-ASCII
+      encoding: ASCII-8BIT
       string: ''
     headers:
+      User-Agent:
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - "*/*"
-      User-Agent:
-      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
       code: 200
@@ -21,41 +25,33 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"22096e4447190418e3186d4f4131b831"
+      - W/"53e009a0771df53f9961d41e39021cd6"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 28911483-3fc9-474b-8fd8-da6b809dbc25
+      - 0e5333b1-63b1-43cf-930f-ecd28d76252e
       X-Runtime:
-      - '0.205090'
-      Transfer-Encoding:
-      - chunked
+      - '0.102529'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.00, sql.sequel;dur=64.61, render_template.action_view;dur=92.37,
+        process_action.action_controller;dur=94.45
+      Content-Length:
+      - '2294'
     body:
-      encoding: UTF-8
-      string: '{"id":1,"position":1,"title":"Live animals; animal products","numeral":"I","chapter_from":"01","chapter_to":"05","chapters":[{"description":"LIVE
-        ANIMALS","goods_nomenclature_item_id":"0100000000","goods_nomenclature_sid":27623,"headings_from":"0101","headings_to":"0106","formatted_description":"Live
-        animals","chapter_note_id":46},{"description":"MEAT AND EDIBLE MEAT OFFAL","goods_nomenclature_item_id":"0200000000","goods_nomenclature_sid":27809,"headings_from":"0201","headings_to":"0210","formatted_description":"Meat
-        and edible meat offal","chapter_note_id":47},{"description":"FISH AND CRUSTACEANS,
-        MOLLUSCS AND OTHER AQUATIC INVERTEBRATES","goods_nomenclature_item_id":"0300000000","goods_nomenclature_sid":28373,"headings_from":"0301","headings_to":"0308","formatted_description":"Fish
-        and crustaceans, molluscs and other aquatic invertebrates","chapter_note_id":48},{"description":"DAIRY
-        PRODUCE; BIRDS'' EGGS; NATURAL HONEY; EDIBLE PRODUCTS OF ANIMAL ORIGIN, NOT
-        ELSEWHERE SPECIFIED OR INCLUDED","goods_nomenclature_item_id":"0400000000","goods_nomenclature_sid":29417,"headings_from":"0401","headings_to":"0410","formatted_description":"Dairy
-        produce; birds'' eggs; natural honey; edible products of animal origin, not
-        elsewhere specified or included","chapter_note_id":49},{"description":"PRODUCTS
-        OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED","goods_nomenclature_item_id":"0500000000","goods_nomenclature_sid":30015,"headings_from":"0501","headings_to":"0511","formatted_description":"Products
-        of animal origin, not elsewhere specified or included","chapter_note_id":50}],"section_note":"*
-        1\\. Any reference in this section to a particular genus or species of an
-        animal, except where the context otherwise requires, includes a reference
-        to the young of that genus or species.\r\n* 2\\. Except where the context
-        otherwise requires, throughout the nomenclature any reference to ''dried''
-        products also covers products which have been dehydrated, evaporated or freeze-dried.\r\n\r\ntest
-        ","_response_info":{"links":[{"rel":"self","href":"/trade-tariff/sections/1.json"},{"rel":"sections","href":"/trade-tariff/sections"}]}}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:40 GMT
-recorded_with: VCR 3.0.3
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJpZCI6MSwicG9zaXRpb24iOjEsInRpdGxlIjoiTGl2ZSBhbmltYWxzOyBhbmltYWwgcHJvZHVjdHMiLCJudW1lcmFsIjoiSSIsImNoYXB0ZXJfZnJvbSI6IjAxIiwiY2hhcHRlcl90byI6IjA1IiwiY2hhcHRlcnMiOlt7ImRlc2NyaXB0aW9uIjoiTElWRSBBTklNQUxTIiwiZ29vZHNfbm9tZW5jbGF0dXJlX2l0ZW1faWQiOiIwMTAwMDAwMDAwIiwiZ29vZHNfbm9tZW5jbGF0dXJlX3NpZCI6Mjc2MjMsImhlYWRpbmdzX2Zyb20iOiIwMTAxIiwiaGVhZGluZ3NfdG8iOiIwMTA2IiwiZm9ybWF0dGVkX2Rlc2NyaXB0aW9uIjoiTGl2ZSBhbmltYWxzIiwiY2hhcHRlcl9ub3RlX2lkIjo5Niwic2VhcmNoX3JlZmVyZW5jZXNfY291bnQiOjJ9LHsiZGVzY3JpcHRpb24iOiJNRUFUIEFORCBFRElCTEUgTUVBVCBPRkZBTCIsImdvb2RzX25vbWVuY2xhdHVyZV9pdGVtX2lkIjoiMDIwMDAwMDAwMCIsImdvb2RzX25vbWVuY2xhdHVyZV9zaWQiOjI3ODA5LCJoZWFkaW5nc19mcm9tIjoiMDIwMSIsImhlYWRpbmdzX3RvIjoiMDIxMCIsImZvcm1hdHRlZF9kZXNjcmlwdGlvbiI6Ik1lYXQgYW5kIGVkaWJsZSBtZWF0IG9mZmFsIiwiY2hhcHRlcl9ub3RlX2lkIjo5Nywic2VhcmNoX3JlZmVyZW5jZXNfY291bnQiOjF9LHsiZGVzY3JpcHRpb24iOiJGSVNIIEFORCBDUlVTVEFDRUFOUywgTU9MTFVTQ1MgQU5EIE9USEVSIEFRVUFUSUMgSU5WRVJURUJSQVRFUyIsImdvb2RzX25vbWVuY2xhdHVyZV9pdGVtX2lkIjoiMDMwMDAwMDAwMCIsImdvb2RzX25vbWVuY2xhdHVyZV9zaWQiOjI4MzczLCJoZWFkaW5nc19mcm9tIjoiMDMwMSIsImhlYWRpbmdzX3RvIjoiMDMwOSIsImZvcm1hdHRlZF9kZXNjcmlwdGlvbiI6IkZpc2ggYW5kIGNydXN0YWNlYW5zLCBtb2xsdXNjcyBhbmQgb3RoZXIgYXF1YXRpYyBpbnZlcnRlYnJhdGVzIiwiY2hhcHRlcl9ub3RlX2lkIjo5OCwic2VhcmNoX3JlZmVyZW5jZXNfY291bnQiOjF9LHsiZGVzY3JpcHRpb24iOiJEQUlSWSBQUk9EVUNFOyBCSVJEUycgRUdHUzsgTkFUVVJBTCBIT05FWTsgRURJQkxFIFBST0RVQ1RTIE9GIEFOSU1BTCBPUklHSU4sIE5PVCBFTFNFV0hFUkUgU1BFQ0lGSUVEIE9SIElOQ0xVREVEIiwiZ29vZHNfbm9tZW5jbGF0dXJlX2l0ZW1faWQiOiIwNDAwMDAwMDAwIiwiZ29vZHNfbm9tZW5jbGF0dXJlX3NpZCI6Mjk0MTcsImhlYWRpbmdzX2Zyb20iOiIwNDAxIiwiaGVhZGluZ3NfdG8iOiIwNDEwIiwiZm9ybWF0dGVkX2Rlc2NyaXB0aW9uIjoiRGFpcnkgcHJvZHVjZTsgYmlyZHMnIGVnZ3M7IG5hdHVyYWwgaG9uZXk7IGVkaWJsZSBwcm9kdWN0cyBvZiBhbmltYWwgb3JpZ2luLCBub3QgZWxzZXdoZXJlIHNwZWNpZmllZCBvciBpbmNsdWRlZCIsImNoYXB0ZXJfbm90ZV9pZCI6OTksInNlYXJjaF9yZWZlcmVuY2VzX2NvdW50IjoxfSx7ImRlc2NyaXB0aW9uIjoiUFJPRFVDVFMgT0YgQU5JTUFMIE9SSUdJTiwgTk9UIEVMU0VXSEVSRSBTUEVDSUZJRUQgT1IgSU5DTFVERUQiLCJnb29kc19ub21lbmNsYXR1cmVfaXRlbV9pZCI6IjA1MDAwMDAwMDAiLCJnb29kc19ub21lbmNsYXR1cmVfc2lkIjozMDAxNSwiaGVhZGluZ3NfZnJvbSI6IjA1MDEiLCJoZWFkaW5nc190byI6IjA1MTEiLCJmb3JtYXR0ZWRfZGVzY3JpcHRpb24iOiJQcm9kdWN0cyBvZiBhbmltYWwgb3JpZ2luLCBub3QgZWxzZXdoZXJlIHNwZWNpZmllZCBvciBpbmNsdWRlZCIsImNoYXB0ZXJfbm90ZV9pZCI6MTAwLCJzZWFyY2hfcmVmZXJlbmNlc19jb3VudCI6MH1dLCJzZWN0aW9uX25vdGUiOiIxLiBBbnkgcmVmZXJlbmNlIGluIHRoaXMgc2VjdGlvbiB0byBhIHBhcnRpY3VsYXIgZ2VudXMgb3Igc3BlY2llcyBvZiBhbiBhbmltYWwsIGV4Y2VwdCB3aGVyZSB0aGUgY29udGV4dCBvdGhlcndpc2UgcmVxdWlyZXMsIGluY2x1ZGVzIGEgcmVmZXJlbmNlIHRvIHRoZSB5b3VuZyBvZiB0aGF0IGdlbnVzIG9yIHNwZWNpZXMuXHJcblxyXG4yLiBFeGNlcHQgd2hlcmUgdGhlIGNvbnRleHQgb3RoZXJ3aXNlIHJlcXVpcmVzLCB0aHJvdWdob3V0IHRoZSBub21lbmNsYXR1cmUgYW55IHJlZmVyZW5jZSB0byDigJhkcmllZOKAmSBwcm9kdWN0cyBhbHNvIGNvdmVycyBwcm9kdWN0cyB3aGljaCBoYXZlIGJlZW4gZGVoeWRyYXRlZCwgZXZhcG9yYXRlZCBvciBmcmVlemUtZHJpZWQuXHJcblxyXG4iLCJfcmVzcG9uc2VfaW5mbyI6eyJsaW5rcyI6W3sicmVsIjoic2VsZiIsImhyZWYiOiIvdHJhZGUtdGFyaWZmL2FwaS92MS9zZWN0aW9ucy8xLmpzb24ifSx7InJlbCI6InNlY3Rpb25zIiwiaHJlZiI6Ii90cmFkZS10YXJpZmYvdWsvYXBpL3YxL3NlY3Rpb25zIn1dfX0=
+  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
+recorded_with: VCR 6.2.0

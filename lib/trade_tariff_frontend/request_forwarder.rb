@@ -18,16 +18,10 @@ module TradeTariffFrontend
       when 'GET', 'HEAD', 'POST'
         remove_service_choice_prefix!(rackreq)
 
-        api_version = rackreq.path
-                             .downcase
-                             .split('/')
-                             .reject { |p| p.empty? || p == 'api' }
-                             .first || "v#{Rails.configuration.x.backend.api_version}"
         response = api.send(
           rackreq.request_method.downcase,
           request_url_for(rackreq),
         ) do |req|
-          req.headers['Accept'] = "application/vnd.uktt.#{api_version}"
           req.headers['Content-Type'] = env['CONTENT_TYPE']
           req.headers['Authorization'] = env['HTTP_AUTHORIZATION']
           req.headers['X-Api-Key'] = env['HTTP_X_API_KEY']

@@ -2,236 +2,113 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/chapters/01?as_of=1970-01-01
+    uri: http://localhost:3018/api/v2/chapters/01?as_of=2025-02-11
     body:
       encoding: US-ASCII
       string: ''
     headers:
+      User-Agent:
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - "*/*"
-      User-Agent:
-      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 200
+      message: OK
     headers:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      Etag:
+      - W/"53a7af64f1c7786c40acc421fb14f831"
       Cache-Control:
-      - no-cache
+      - max-age=0, private, must-revalidate
       X-Request-Id:
-      - a709cfde-7aaf-4fd0-836b-e435be696575
+      - 98e28b70-a644-4596-987c-b254261f84da
       X-Runtime:
-      - '0.006097'
-      Transfer-Encoding:
-      - chunked
+      - '0.075896'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, cache_read.active_support;dur=0.05,
+        sql.sequel;dur=17.82, cache_generate.active_support;dur=53.59, cache_write.active_support;dur=0.35,
+        process_action.action_controller;dur=54.85
+      Content-Length:
+      - '4493'
     body:
-      encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/chapters/01?as_of=1970-01-01\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:40 GMT
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJkYXRhIjp7ImlkIjoiMjc2MjMiLCJ0eXBlIjoiY2hhcHRlciIsImF0dHJpYnV0ZXMiOnsiZ29vZHNfbm9tZW5jbGF0dXJlX3NpZCI6Mjc2MjMsImdvb2RzX25vbWVuY2xhdHVyZV9pdGVtX2lkIjoiMDEwMDAwMDAwMCIsImRlc2NyaXB0aW9uIjoiTElWRSBBTklNQUxTIiwiZm9ybWF0dGVkX2Rlc2NyaXB0aW9uIjoiTGl2ZSBhbmltYWxzIiwidmFsaWRpdHlfc3RhcnRfZGF0ZSI6IjE5NzEtMTItMzFUMDA6MDA6MDAuMDAwWiIsInZhbGlkaXR5X2VuZF9kYXRlIjpudWxsLCJkZXNjcmlwdGlvbl9wbGFpbiI6IkxpdmUgYW5pbWFscyIsImNoYXB0ZXJfbm90ZSI6IjEuIFRoaXMgY2hhcHRlciBjb3ZlcnMgYWxsIGxpdmUgYW5pbWFscyBleGNlcHQ6XHJcblxyXG4gICAgYSkgZmlzaCBhbmQgY3J1c3RhY2VhbnMsIG1vbGx1c2NzIGFuZCBvdGhlciBhcXVhdGljIGludmVydGVicmF0ZXMsIG9mIGhlYWRpbmcgWzAzMDFdKC9oZWFkaW5ncy8wMzAxKSwgWzAzMDZdKC9oZWFkaW5ncy8wMzA2KSwgWzAzMDddKC9oZWFkaW5ncy8wMzA3KSBvciBbMDMwOF0oL2hlYWRpbmdzLzAzMDgpO1xyXG5cclxuICAgIGIpIGN1bHR1cmVzIG9mIG1pY3JvLW9yZ2FuaXNtcyBhbmQgb3RoZXIgcHJvZHVjdHMgb2YgaGVhZGluZyBbMzAwMl0oL2hlYWRpbmdzLzMwMDIpOyBhbmRcclxuXHJcbiAgICBjKSBhbmltYWxzIG9mIGhlYWRpbmcgWzk1MDhdKC9oZWFkaW5ncy85NTA4KS5cclxuXHJcbjIuIEluIHRoaXMgY2hhcHRlciDigJxwdXJlYnJlZCBicmVlZGluZyBhbmltYWzigJ0gaXMgZGVmaW5lZCBhcyBpbiAoVUsgbGF3IGVxdWl2YWxlbnQgdG8gRVUgUmVndWxhdGlvbiAxMDEyLzIwMTYpXHJcbiIsImZvcnVtX3VybCI6bnVsbCwic2VjdGlvbl9pZCI6MX0sInJlbGF0aW9uc2hpcHMiOnsic2VjdGlvbiI6eyJkYXRhIjp7ImlkIjoiMSIsInR5cGUiOiJzZWN0aW9uIn19LCJndWlkZXMiOnsiZGF0YSI6W119LCJoZWFkaW5ncyI6eyJkYXRhIjpbeyJpZCI6IjI3NjI0IiwidHlwZSI6ImhlYWRpbmcifSx7ImlkIjoiMjc2MzMiLCJ0eXBlIjoiaGVhZGluZyJ9LHsiaWQiOiIyNzc2MiIsInR5cGUiOiJoZWFkaW5nIn0seyJpZCI6IjI3NzczIiwidHlwZSI6ImhlYWRpbmcifSx7ImlkIjoiMjc3ODMiLCJ0eXBlIjoiaGVhZGluZyJ9LHsiaWQiOiIyNzgwMiIsInR5cGUiOiJoZWFkaW5nIn1dfX19LCJpbmNsdWRlZCI6W3siaWQiOiIxIiwidHlwZSI6InNlY3Rpb24iLCJhdHRyaWJ1dGVzIjp7ImlkIjoxLCJudW1lcmFsIjoiSSIsInRpdGxlIjoiTGl2ZSBhbmltYWxzOyBhbmltYWwgcHJvZHVjdHMiLCJwb3NpdGlvbiI6MSwic2VjdGlvbl9ub3RlIjoiMS4gQW55IHJlZmVyZW5jZSBpbiB0aGlzIHNlY3Rpb24gdG8gYSBwYXJ0aWN1bGFyIGdlbnVzIG9yIHNwZWNpZXMgb2YgYW4gYW5pbWFsLCBleGNlcHQgd2hlcmUgdGhlIGNvbnRleHQgb3RoZXJ3aXNlIHJlcXVpcmVzLCBpbmNsdWRlcyBhIHJlZmVyZW5jZSB0byB0aGUgeW91bmcgb2YgdGhhdCBnZW51cyBvciBzcGVjaWVzLlxyXG5cclxuMi4gRXhjZXB0IHdoZXJlIHRoZSBjb250ZXh0IG90aGVyd2lzZSByZXF1aXJlcywgdGhyb3VnaG91dCB0aGUgbm9tZW5jbGF0dXJlIGFueSByZWZlcmVuY2UgdG8g4oCYZHJpZWTigJkgcHJvZHVjdHMgYWxzbyBjb3ZlcnMgcHJvZHVjdHMgd2hpY2ggaGF2ZSBiZWVuIGRlaHlkcmF0ZWQsIGV2YXBvcmF0ZWQgb3IgZnJlZXplLWRyaWVkLlxyXG5cclxuIn19LHsiaWQiOiIyNzYyNCIsInR5cGUiOiJoZWFkaW5nIiwiYXR0cmlidXRlcyI6eyJnb29kc19ub21lbmNsYXR1cmVfc2lkIjoyNzYyNCwiZ29vZHNfbm9tZW5jbGF0dXJlX2l0ZW1faWQiOiIwMTAxMDAwMDAwIiwiZGVjbGFyYWJsZSI6ZmFsc2UsImRlc2NyaXB0aW9uIjoiTGl2ZSBob3JzZXMsIGFzc2VzLCBtdWxlcyBhbmQgaGlubmllcyIsInByb2R1Y2xpbmVfc3VmZml4IjoiODAiLCJsZWFmIjp0cnVlLCJkZXNjcmlwdGlvbl9wbGFpbiI6IkxpdmUgaG9yc2VzLCBhc3NlcywgbXVsZXMgYW5kIGhpbm5pZXMiLCJmb3JtYXR0ZWRfZGVzY3JpcHRpb24iOiJMaXZlIGhvcnNlcywgYXNzZXMsIG11bGVzIGFuZCBoaW5uaWVzIiwidmFsaWRpdHlfc3RhcnRfZGF0ZSI6IjE5NzItMDEtMDFUMDA6MDA6MDAuMDAwWiIsInZhbGlkaXR5X2VuZF9kYXRlIjpudWxsfSwicmVsYXRpb25zaGlwcyI6eyJjaGlsZHJlbiI6eyJkYXRhIjpbXX19fSx7ImlkIjoiMjc2MzMiLCJ0eXBlIjoiaGVhZGluZyIsImF0dHJpYnV0ZXMiOnsiZ29vZHNfbm9tZW5jbGF0dXJlX3NpZCI6Mjc2MzMsImdvb2RzX25vbWVuY2xhdHVyZV9pdGVtX2lkIjoiMDEwMjAwMDAwMCIsImRlY2xhcmFibGUiOmZhbHNlLCJkZXNjcmlwdGlvbiI6IkxpdmUgYm92aW5lIGFuaW1hbHMiLCJwcm9kdWNsaW5lX3N1ZmZpeCI6IjgwIiwibGVhZiI6dHJ1ZSwiZGVzY3JpcHRpb25fcGxhaW4iOiJMaXZlIGJvdmluZSBhbmltYWxzIiwiZm9ybWF0dGVkX2Rlc2NyaXB0aW9uIjoiTGl2ZSBib3ZpbmUgYW5pbWFscyIsInZhbGlkaXR5X3N0YXJ0X2RhdGUiOiIxOTcyLTAxLTAxVDAwOjAwOjAwLjAwMFoiLCJ2YWxpZGl0eV9lbmRfZGF0ZSI6bnVsbH0sInJlbGF0aW9uc2hpcHMiOnsiY2hpbGRyZW4iOnsiZGF0YSI6W119fX0seyJpZCI6IjI3NzYyIiwidHlwZSI6ImhlYWRpbmciLCJhdHRyaWJ1dGVzIjp7Imdvb2RzX25vbWVuY2xhdHVyZV9zaWQiOjI3NzYyLCJnb29kc19ub21lbmNsYXR1cmVfaXRlbV9pZCI6IjAxMDMwMDAwMDAiLCJkZWNsYXJhYmxlIjpmYWxzZSwiZGVzY3JpcHRpb24iOiJMaXZlIHN3aW5lIiwicHJvZHVjbGluZV9zdWZmaXgiOiI4MCIsImxlYWYiOnRydWUsImRlc2NyaXB0aW9uX3BsYWluIjoiTGl2ZSBzd2luZSIsImZvcm1hdHRlZF9kZXNjcmlwdGlvbiI6IkxpdmUgc3dpbmUiLCJ2YWxpZGl0eV9zdGFydF9kYXRlIjoiMTk3Mi0wMS0wMVQwMDowMDowMC4wMDBaIiwidmFsaWRpdHlfZW5kX2RhdGUiOm51bGx9LCJyZWxhdGlvbnNoaXBzIjp7ImNoaWxkcmVuIjp7ImRhdGEiOltdfX19LHsiaWQiOiIyNzc3MyIsInR5cGUiOiJoZWFkaW5nIiwiYXR0cmlidXRlcyI6eyJnb29kc19ub21lbmNsYXR1cmVfc2lkIjoyNzc3MywiZ29vZHNfbm9tZW5jbGF0dXJlX2l0ZW1faWQiOiIwMTA0MDAwMDAwIiwiZGVjbGFyYWJsZSI6ZmFsc2UsImRlc2NyaXB0aW9uIjoiTGl2ZSBzaGVlcCBhbmQgZ29hdHMiLCJwcm9kdWNsaW5lX3N1ZmZpeCI6IjgwIiwibGVhZiI6dHJ1ZSwiZGVzY3JpcHRpb25fcGxhaW4iOiJMaXZlIHNoZWVwIGFuZCBnb2F0cyIsImZvcm1hdHRlZF9kZXNjcmlwdGlvbiI6IkxpdmUgc2hlZXAgYW5kIGdvYXRzIiwidmFsaWRpdHlfc3RhcnRfZGF0ZSI6IjE5NzItMDEtMDFUMDA6MDA6MDAuMDAwWiIsInZhbGlkaXR5X2VuZF9kYXRlIjpudWxsfSwicmVsYXRpb25zaGlwcyI6eyJjaGlsZHJlbiI6eyJkYXRhIjpbXX19fSx7ImlkIjoiMjc3ODMiLCJ0eXBlIjoiaGVhZGluZyIsImF0dHJpYnV0ZXMiOnsiZ29vZHNfbm9tZW5jbGF0dXJlX3NpZCI6Mjc3ODMsImdvb2RzX25vbWVuY2xhdHVyZV9pdGVtX2lkIjoiMDEwNTAwMDAwMCIsImRlY2xhcmFibGUiOmZhbHNlLCJkZXNjcmlwdGlvbiI6IkxpdmUgcG91bHRyeSwgdGhhdCBpcyB0byBzYXksIGZvd2xzIG9mIHRoZSBzcGVjaWVzIEdhbGx1cyBkb21lc3RpY3VzLCBkdWNrcywgZ2Vlc2UsIHR1cmtleXMgYW5kIGd1aW5lYSBmb3dscyIsInByb2R1Y2xpbmVfc3VmZml4IjoiODAiLCJsZWFmIjp0cnVlLCJkZXNjcmlwdGlvbl9wbGFpbiI6IkxpdmUgcG91bHRyeSwgdGhhdCBpcyB0byBzYXksIGZvd2xzIG9mIHRoZSBzcGVjaWVzIGdhbGx1cyBkb21lc3RpY3VzLCBkdWNrcywgZ2Vlc2UsIHR1cmtleXMgYW5kIGd1aW5lYSBmb3dscyIsImZvcm1hdHRlZF9kZXNjcmlwdGlvbiI6IkxpdmUgcG91bHRyeSwgdGhhdCBpcyB0byBzYXksIGZvd2xzIG9mIHRoZSBzcGVjaWVzIGdhbGx1cyBkb21lc3RpY3VzLCBkdWNrcywgZ2Vlc2UsIHR1cmtleXMgYW5kIGd1aW5lYSBmb3dscyIsInZhbGlkaXR5X3N0YXJ0X2RhdGUiOiIxOTcyLTAxLTAxVDAwOjAwOjAwLjAwMFoiLCJ2YWxpZGl0eV9lbmRfZGF0ZSI6bnVsbH0sInJlbGF0aW9uc2hpcHMiOnsiY2hpbGRyZW4iOnsiZGF0YSI6W119fX0seyJpZCI6IjI3ODAyIiwidHlwZSI6ImhlYWRpbmciLCJhdHRyaWJ1dGVzIjp7Imdvb2RzX25vbWVuY2xhdHVyZV9zaWQiOjI3ODAyLCJnb29kc19ub21lbmNsYXR1cmVfaXRlbV9pZCI6IjAxMDYwMDAwMDAiLCJkZWNsYXJhYmxlIjpmYWxzZSwiZGVzY3JpcHRpb24iOiJPdGhlciBsaXZlIGFuaW1hbHMiLCJwcm9kdWNsaW5lX3N1ZmZpeCI6IjgwIiwibGVhZiI6dHJ1ZSwiZGVzY3JpcHRpb25fcGxhaW4iOiJPdGhlciBsaXZlIGFuaW1hbHMiLCJmb3JtYXR0ZWRfZGVzY3JpcHRpb24iOiJPdGhlciBsaXZlIGFuaW1hbHMiLCJ2YWxpZGl0eV9zdGFydF9kYXRlIjoiMTk3Mi0wMS0wMVQwMDowMDowMC4wMDBaIiwidmFsaWRpdHlfZW5kX2RhdGUiOm51bGx9LCJyZWxhdGlvbnNoaXBzIjp7ImNoaWxkcmVuIjp7ImRhdGEiOltdfX19XX0=
+  recorded_at: Tue, 11 Feb 2025 16:09:20 GMT
 - request:
     method: get
-    uri: http://localhost:3018/chapters/01?as_of=1970-01-01
+    uri: http://localhost:3018/api/v2/chapters/01/changes?as_of=2025-02-11
     body:
       encoding: US-ASCII
       string: ''
     headers:
+      User-Agent:
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - "*/*"
-      User-Agent:
-      - Ruby
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 200
+      message: OK
     headers:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      Etag:
+      - W/"f96048849fba9a5cdf0c209b782e54b7"
       Cache-Control:
-      - no-cache
+      - max-age=0, private, must-revalidate
       X-Request-Id:
-      - f1047eed-afa1-4059-afeb-651527e175ac
+      - 7bef0fc6-a773-433f-9989-12605e113d8d
       X-Runtime:
-      - '0.005774'
-      Transfer-Encoding:
-      - chunked
+      - '0.236240'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.00, cache_read.active_support;dur=0.04,
+        sql.sequel;dur=161.39, cache_generate.active_support;dur=227.58, cache_write.active_support;dur=0.16,
+        process_action.action_controller;dur=228.66
+      Content-Length:
+      - '5053'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/chapters/01?as_of=1970-01-01\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:40 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/chapters/01?as_of=1970-01-01
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      Content-Type:
-      - application/json; charset=utf-8
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - b4bc6da2-fea1-4106-bd8f-23426084a6ff
-      X-Runtime:
-      - '0.004929'
-      Transfer-Encoding:
-      - chunked
-    body:
-      encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/chapters/01?as_of=1970-01-01\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:40 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/chapters/01?as_of=1970-01-01
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      Content-Type:
-      - application/json; charset=utf-8
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - d3caecf8-1946-4c56-b37c-62505f850095
-      X-Runtime:
-      - '0.006465'
-      Transfer-Encoding:
-      - chunked
-    body:
-      encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/chapters/01?as_of=1970-01-01\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:40 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/chapters/01?as_of=1970-01-01
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      Content-Type:
-      - application/json; charset=utf-8
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - a6c0badc-9603-4336-8485-ac080ce39d96
-      X-Runtime:
-      - '0.004620'
-      Transfer-Encoding:
-      - chunked
-    body:
-      encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/chapters/01?as_of=1970-01-01\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:40 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/chapters/01?as_of=1970-01-01
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      Content-Type:
-      - application/json; charset=utf-8
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - 72fd8dd7-17d9-446a-9293-b8bf4b1d7c1b
-      X-Runtime:
-      - '0.022698'
-      Transfer-Encoding:
-      - chunked
-    body:
-      encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/chapters/01?as_of=1970-01-01\u0026currency=EUR"}'
-    http_version: 
-  recorded_at: Thu, 15 Nov 2018 14:59:40 GMT
-recorded_with: VCR 3.0.3
+      string: '{"data":[{"id":"3090694","type":"change","attributes":{"oid":3090694,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199624","type":"measure"}}}},{"id":"3090698","type":"change","attributes":{"oid":3090698,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199613","type":"measure"}}}},{"id":"3090696","type":"change","attributes":{"oid":3090696,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199611","type":"measure"}}}},{"id":"3090692","type":"change","attributes":{"oid":3090692,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199622","type":"measure"}}}},{"id":"3090697","type":"change","attributes":{"oid":3090697,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199612","type":"measure"}}}},{"id":"3090695","type":"change","attributes":{"oid":3090695,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199625","type":"measure"}}}},{"id":"3090693","type":"change","attributes":{"oid":3090693,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199623","type":"measure"}}}},{"id":"3090690","type":"change","attributes":{"oid":3090690,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199610","type":"measure"}}}},{"id":"3090691","type":"change","attributes":{"oid":3090691,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199621","type":"measure"}}}},{"id":"3090699","type":"change","attributes":{"oid":3090699,"model_name":"Measure","operation":"U","operation_date":"2025-02-06"},"relationships":{"record":{"data":{"id":"20199626","type":"measure"}}}}],"included":[{"id":"1008","type":"geographical_area","attributes":{"id":"1008","description":"All
+        third countries"}},{"id":"410","type":"measure_type","attributes":{"id":"410","description":"Veterinary
+        control"}},{"id":"20199624","type":"measure","attributes":{"id":20199624,"origin":"eu","import":true,"goods_nomenclature_item_id":"0104200000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}},{"id":"20199613","type":"measure","attributes":{"id":20199613,"origin":"eu","import":true,"goods_nomenclature_item_id":"0106130000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}},{"id":"20199611","type":"measure","attributes":{"id":20199611,"origin":"eu","import":true,"goods_nomenclature_item_id":"0106110000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}},{"id":"20199622","type":"measure","attributes":{"id":20199622,"origin":"eu","import":true,"goods_nomenclature_item_id":"0103000000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}},{"id":"20199612","type":"measure","attributes":{"id":20199612,"origin":"eu","import":true,"goods_nomenclature_item_id":"0106120000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}},{"id":"20199625","type":"measure","attributes":{"id":20199625,"origin":"eu","import":true,"goods_nomenclature_item_id":"0105000000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}},{"id":"20199623","type":"measure","attributes":{"id":20199623,"origin":"eu","import":true,"goods_nomenclature_item_id":"0104100000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}},{"id":"20199610","type":"measure","attributes":{"id":20199610,"origin":"eu","import":true,"goods_nomenclature_item_id":"0101900000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}},{"id":"20199621","type":"measure","attributes":{"id":20199621,"origin":"eu","import":true,"goods_nomenclature_item_id":"0102000000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}},{"id":"20199626","type":"measure","attributes":{"id":20199626,"origin":"eu","import":true,"goods_nomenclature_item_id":"0106140000"},"relationships":{"geographical_area":{"data":{"id":"1008","type":"geographical_area"}},"measure_type":{"data":{"id":"410","type":"measure_type"}}}}]}'
+  recorded_at: Tue, 11 Feb 2025 16:09:20 GMT
+recorded_with: VCR 6.2.0

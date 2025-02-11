@@ -2,19 +2,19 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3018/search
+    uri: http://localhost:3018/api/v2/search
     body:
       encoding: UTF-8
-      string: as_of=2023-04-28&q=01&resource_id
+      string: as_of=2025-02-11&q=01&resource_id
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v1.3.0
+      - Faraday v2.8.1
       Content-Type:
       - application/x-www-form-urlencoded
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -27,7 +27,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -43,13 +43,15 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 002eead0-2552-441a-989e-87d9dbdf2f2b
+      - 17d71f60-da42-4338-8447-89fc245dcbf6
       X-Runtime:
-      - '0.014280'
+      - '0.077411'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=35.64, process_action.action_controller;dur=61.22
       Content-Length:
       - '119'
     body:
       encoding: UTF-8
       string: '{"data":{"id":"1","type":"exact_search","attributes":{"type":"exact_match","entry":{"endpoint":"chapters","id":"01"}}}}'
-  recorded_at: Fri, 28 Apr 2023 09:10:38 GMT
-recorded_with: VCR 6.1.0
+  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
+recorded_with: VCR 6.2.0
