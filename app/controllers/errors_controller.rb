@@ -90,6 +90,13 @@ class ErrorsController < ApplicationController
     end
   end
 
+  def too_many_requests
+    respond_to do |format|
+      format.html { render 'errors/error', status: :too_many_requests, locals: { header: 'Too Many Requests', message: 'You are rate limited. Please try again later.' } }
+      format.json { render json: { error: 'Too many requests' }, status: :too_many_requests }
+    end
+  end
+
   def search_invoked?
     false
   end

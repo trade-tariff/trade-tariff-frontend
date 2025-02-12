@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
 
   layout :set_layout
 
+  rescue_from Faraday::TooManyRequestsError, with: :handle_too_many_requests_error
+
   def url_options
     return super unless search_invoked?
 
@@ -138,5 +140,9 @@ class ApplicationController < ActionController::Base
     unless TradeTariffFrontend.green_lanes_enabled?
       raise TradeTariffFrontend::FeatureUnavailable
     end
+  end
+
+  def handle_too_many_requests_error
+    redirect_to '/429'
   end
 end
