@@ -52,14 +52,6 @@ module DeclarableHelper
     end
   end
 
-  def declarable_path_json(declarable)
-    if declarable.heading?
-      heading_path(declarable, format: :json)
-    else
-      commodity_path(declarable, format: :json)
-    end
-  end
-
   def supplementary_unit_for(uk_declarable, xi_declarable, country = nil)
     supplementary_unit = DeclarableUnitService.new(uk_declarable, xi_declarable, country).call
 
