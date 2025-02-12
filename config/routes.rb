@@ -1,6 +1,4 @@
 require 'trade_tariff_frontend'
-require 'trade_tariff_frontend/api_constraints'
-require 'trade_tariff_frontend/request_forwarder'
 require 'routing_filter/service_path_prefix_handler'
 
 Rails.application.routes.draw do
@@ -129,22 +127,6 @@ Rails.application.routes.draw do
         via: :get,
         as: :a_z_index,
         constraints: { letter: /[a-z]{1}/i }
-
-  # TODO: Remove me once had a conversation and socialised removal
-  # API served through frontend routes /headings/0101.json
-  constraints TradeTariffFrontend::ApiConstraints.new(
-    TradeTariffFrontend.accessible_api_endpoints,
-  ) do
-    match ':endpoint/(*path)',
-          via: :get,
-          to: TradeTariffFrontend::RequestForwarder.new(
-            api_request_path_formatter: lambda { |path|
-              path = path.gsub("#{APP_SLUG}/", '')
-
-              "/api/v1/#{path}"
-            },
-          )
-  end
 
   constraints(id: /\d{1,2}/) do
     resources :sections, only: %i[index show]

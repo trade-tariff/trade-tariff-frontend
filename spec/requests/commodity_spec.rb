@@ -81,32 +81,6 @@ RSpec.describe 'Commodity page', type: :request do
     end
   end
 
-  context 'when mime type is JSON' do
-    context 'when requested with json format' do
-      it 'renders a valid JSON response' do
-        VCR.use_cassette('commodities#0101300000.json') do
-          get '/commodities/0101300000.json'
-
-          expect {
-            JSON.parse(response.body)
-          }.not_to raise_error
-        end
-      end
-    end
-
-    context 'when requested with json HTTP Accept header' do
-      it 'renders direct API response' do
-        VCR.use_cassette('commodities#0101300000_accept_json') do
-          get '/commodities/0101300000', headers: { 'HTTP_ACCEPT' => 'application/json' }
-
-          expect {
-            JSON.parse(response.body)
-          }.not_to raise_error
-        end
-      end
-    end
-  end
-
   context 'when commodity with country filter' do
     it 'will not display measures for other countries except for selected one' do
       VCR.use_cassette('commodities#6911100090#show_filter_ad') do

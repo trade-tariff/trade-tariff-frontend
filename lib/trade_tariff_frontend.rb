@@ -6,25 +6,6 @@ module TradeTariffFrontend
 
   module_function
 
-  # API Endpoints of the Tariff Backend API app that can be reached via Frontend
-  def accessible_api_endpoints
-    %w[
-      sections
-      chapters
-      headings
-      subheadings
-      commodities
-      updates
-      monetary_exchange_rates
-      quotas
-      goods_nomenclatures
-      search_references
-      geographical_areas
-      chemical_substances
-      simplified_procedural_code_measures
-    ]
-  end
-
   def production?
     environment == 'production'
   end
