@@ -291,16 +291,16 @@ RSpec.describe GreenLanesHelper, type: :helper do
       assign(:answers, answers)  # Mock @answers as an instance variable
     end
 
-    it 'returns "Condition met" when the exemption is met' do
+    it 'returns "Exemption met" when the exemption is met' do
       allow(helper).to receive(:exemption_met?).with(exemption.code, category, category_assessment, answers).and_return(true)
 
-      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Condition met')
+      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Exemption met')
     end
 
-    it 'returns "Condition not met" when the exemption is not met' do
+    it 'returns "Exemption not met" when the exemption is not met' do
       allow(helper).to receive(:exemption_met?).with(exemption.code, category, category_assessment, answers).and_return(false)
 
-      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Condition not met')
+      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Exemption not met')
     end
   end
 end

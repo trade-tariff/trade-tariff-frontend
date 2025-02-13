@@ -27,13 +27,19 @@
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>Category 1: not eligible for simplified processes and subject to full customs processes</li>
-      <li>Category 2: eligible for simplified processes but must meet certain requirements and conditions, including document controls</li>
-      <li>Standard goods: eligible for simplified processes</li>
+      <li>
+        <span class="govuk-!-font-weight-bold">Category 1:</span>
+        not eligible for simplified processes and subject to full customs duties and checks
+      </li>
+      <li>
+        <span class="govuk-!-font-weight-bold">Category 2</span> or
+        <span class="govuk-!-font-weight-bold">Standard goods:</span>
+        eligible for simplified processes
+      </li>
     </ul>
 
     <p>
-      Depending on the specific composition and origin of your goods, you may need to check if legal conditions apply before your category can be determined.
+      Depending on the specific composition and origin of your goods, you may need to check if exemptions apply before your category can be determined.
     </p>
 
     <%= form_with url: green_lanes_your_goods_path, method: :get, local: true do %>
