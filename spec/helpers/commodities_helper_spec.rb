@@ -253,7 +253,7 @@ RSpec.describe CommoditiesHelper, type: :helper do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:uk?).and_return(false)
       end
 
-      it { is_expected.not_to have_css('div.vat') }
+      it { is_expected.to have_css('div.vat') }
     end
 
     it { is_expected.to have_css('div.duty') }

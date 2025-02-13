@@ -78,9 +78,7 @@ module CommoditiesHelper
 
   def overview_measure_duty_amounts_for(commodity)
     content_tag(:div, data: { tree_target: 'commodityInfo' }, class: 'commodity__info') do
-      if TradeTariffFrontend::ServiceChooser.uk?
-        concat(content_tag(:div, vat_overview_measure_duty_amounts(commodity), class: 'vat', aria: { describedby: 'commodity-vat-title' }))
-      end
+      concat(content_tag(:div, vat_overview_measure_duty_amounts(commodity), class: 'vat', aria: { describedby: 'commodity-vat-title' }))
 
       concat(
         content_tag(
