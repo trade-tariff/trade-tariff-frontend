@@ -99,9 +99,9 @@ module GreenLanesHelper
 
   def exemption_status(exemption, category, category_assessment)
     if exemption_met?(exemption.code, category, category_assessment, @answers)
-      'Condition met'
+      'Exemption met'
     else
-      'Condition not met'
+      'Exemption not met'
     end
   end
 

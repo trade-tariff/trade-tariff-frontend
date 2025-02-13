@@ -9,14 +9,14 @@
       <h1 class="govuk-heading-l">We need more information about your goods</h1>
 
       <p class="govuk-body">
-        Your goods will be Category <%= category %>, unless you meet sufficient conditions.
+        Your goods will be Category <%= category %>, unless you meet sufficient exemptions.
       </p>
 
       <% @category_assessments.each_with_index do |category_assessment, index| %>
         <%= f.govuk_check_boxes_fieldset category_assessment.id,
                                           multiple: true,
                                           legend: {
-                                            text: "Do your goods meet any of these conditions?",
+                                            text: "Do your goods meet any of these exemptions?",
                                             size: 'm'
                                           },
                                           hint: {

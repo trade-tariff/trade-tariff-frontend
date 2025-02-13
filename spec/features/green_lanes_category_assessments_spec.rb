@@ -68,7 +68,7 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y997 Y984], 'Condition not met')
+    check_your_answers_exemption_card(%w[Y997 Y984], 'Exemption not met')
 
     click_on 'Continue'
 
@@ -90,13 +90,13 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y997 Y984], 'Condition met')
+    check_your_answers_exemption_card(%w[Y997 Y984], 'Exemption met')
 
     click_on 'Continue'
 
     category_2_result_screen
 
-    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these exemptions')
     expect(page).to have_no_css('p', text: 'Exemption met', count: 2)
     expect(page).to have_no_css('p', text: 'Exemptions not met')
   end
@@ -113,13 +113,13 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y997 Y984], 'Condition met')
+    check_your_answers_exemption_card(%w[Y997 Y984], 'Exemption met')
 
     click_on 'Continue'
 
     standard_category_result_screen
-    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
-    expect(page).to have_no_css('h2', text: 'Your goods are exempt from Category 2 because you meet these conditions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these exemptions')
+    expect(page).to have_no_css('h2', text: 'Your goods are exempt from Category 2 because you meet these exemptions')
   end
 
   # Journey 7: Cat 2 via Cat 1 exemptions passed and 2 exemptions failed
@@ -140,14 +140,14 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y160 Y966 Y904], 'Condition met')
-    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930 Y058], 'Condition not met')
+    check_your_answers_exemption_card(%w[Y160 Y966 Y904], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930 Y058], 'Exemption not met')
 
     click_on 'Continue'
 
     category_2_result_screen
 
-    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these exemptions')
     expect(page).to have_css('p', text: 'Exemptions not met')
   end
 
@@ -169,15 +169,15 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y160 Y966 Y058 Y904], 'Condition met')
-    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930], 'Condition not met')
+    check_your_answers_exemption_card(%w[Y160 Y966 Y058 Y904], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y170 Y171 Y174 Y175 Y176 Y177 Y930], 'Exemption not met')
 
     click_on 'Continue'
 
     standard_category_result_screen
 
-    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
-    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 2 because you meet these conditions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 1 because you meet these exemptions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 2 because you meet these exemptions')
     expect(page).to have_no_css('p', text: 'Exemptions not met')
 
     expect(page).to have_css('.govuk-summary-list__key', text: 'Y160')
@@ -207,8 +207,8 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y900], 'Condition met')
-    check_your_answers_exemption_card(%w[Y170 Y058 Y171 Y174 Y175 Y176 Y177], 'Condition not met')
+    check_your_answers_exemption_card(%w[Y900], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y170 Y058 Y171 Y174 Y175 Y176 Y177], 'Exemption not met')
 
     click_on 'Continue'
 
@@ -234,15 +234,15 @@ RSpec.describe 'Green lanes category assessments',
 
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
 
-    check_your_answers_exemption_card(%w[Y170 Y058 Y900], 'Condition met')
-    check_your_answers_exemption_card(%w[Y171 Y174 Y175 Y176 Y177], 'Condition not met')
+    check_your_answers_exemption_card(%w[Y170 Y058 Y900], 'Exemption met')
+    check_your_answers_exemption_card(%w[Y171 Y174 Y175 Y176 Y177], 'Exemption not met')
 
     click_on 'Continue'
 
     standard_category_result_screen
 
-    expect(page).to have_no_css('h2', text: 'Your goods are exempt from Category 1 because you meet these conditions')
-    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 2 because you meet these conditions')
+    expect(page).to have_no_css('h2', text: 'Your goods are exempt from Category 1 because you meet these exemptions')
+    expect(page).to have_css('h2', text: 'Your goods are exempt from Category 2 because you meet these exemptions')
     expect(page).to have_no_css('p', text: 'Exemptions not met')
 
     expect(page).to have_css('.govuk-summary-list__key', text: 'Y170')
