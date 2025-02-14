@@ -2,19 +2,19 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3018/search
+    uri: http://localhost:3018/api/v2/search
     body:
       encoding: UTF-8
-      string: as_of=2023-04-28&q=0123456789&resource_id
+      string: as_of=2008-01-01&q&resource_id
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v1.3.0
+      - Faraday v2.8.1
       Content-Type:
       - application/x-www-form-urlencoded
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -27,7 +27,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -39,17 +39,19 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"950231491983260c3114d301178e0116"
+      - W/"7ed095f894a10223ce8cca7e89caa5ba"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 148a03fe-2aa0-47eb-86cb-d5f825cf6ec5
+      - a2ac1532-74ab-45dd-a0b5-8858fce9e91c
       X-Runtime:
-      - '0.032493'
+      - '0.021284'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, process_action.action_controller;dur=4.44
       Content-Length:
-      - '244'
+      - '242'
     body:
       encoding: UTF-8
-      string: '{"data":{"id":"1","type":"fuzzy_search","attributes":{"type":"fuzzy_match","goods_nomenclature_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]},"reference_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]}}}}'
-  recorded_at: Fri, 28 Apr 2023 09:10:38 GMT
-recorded_with: VCR 6.1.0
+      string: '{"data":{"id":"1","type":"null_search","attributes":{"type":"null_match","goods_nomenclature_match":{"sections":[],"chapters":[],"headings":[],"commodities":[]},"reference_match":{"sections":[],"chapters":[],"headings":[],"commodities":[]}}}}'
+  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
+recorded_with: VCR 6.2.0

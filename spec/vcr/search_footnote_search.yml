@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/footnote_types
+    uri: http://localhost:3018/api/v2/footnote_types
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v2.7.10
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -25,7 +25,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -37,15 +37,17 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"50d13f430c9853032522cf8134a6a383"
+      - W/"5eee0cd79aaefbd2da015f89b6dded1b"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - e2dbd31d-3a1f-4bdf-ae15-81bd36ec1c15
+      - 2851d2b0-4328-42da-b944-c6e852c4b191
       X-Runtime:
-      - '0.160060'
+      - '0.040400'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=8.78, process_action.action_controller;dur=23.63
       Content-Length:
-      - '3998'
+      - '4113'
     body:
       encoding: UTF-8
       string: '{"data":[{"id":"PN","type":"footnote_type","attributes":{"footnote_type_id":"PN","description":"See
@@ -80,21 +82,22 @@ http_interactions:
         Against Pandemics Initiative (TAPI)"}},{"id":"SN","type":"footnote_type","attributes":{"footnote_type_id":"SN","description":"Sanctions"}},{"id":"PH","type":"footnote_type","attributes":{"footnote_type_id":"PH","description":"Phytosanitary
         measures"}},{"id":"AD","type":"footnote_type","attributes":{"footnote_type_id":"AD","description":"Anti
         dumping"}},{"id":"CR","type":"footnote_type","attributes":{"footnote_type_id":"CR","description":"Critical
-        commodity footnote"}}]}'
-  recorded_at: Thu, 10 Aug 2023 13:26:07 GMT
+        commodity footnote"}},{"id":"RT","type":"footnote_type","attributes":{"footnote_type_id":"RT","description":"Regional
+        Trade Agreement"}}]}'
+  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
 - request:
     method: get
-    uri: http://localhost:3018/footnotes/search?code=001&description&type=PI
+    uri: http://localhost:3018/api/v2/footnotes/search?code=001&description&type=PI
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v2.7.10
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -107,7 +110,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -123,9 +126,12 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 118107dd-e98f-4d64-9674-40f994adbd7b
+      - 641ea553-8039-4b9a-8a1a-453a3f69bf14
       X-Runtime:
-      - '0.420039'
+      - '0.038498'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, unpermitted_parameters.action_controller;dur=0.09,
+        sql.sequel;dur=9.43, process_action.action_controller;dur=25.64
       Content-Length:
       - '1125'
     body:
@@ -135,5 +141,5 @@ http_interactions:
         80% or more ethyl alcohol) falling under this code","formatted_description":"This
         suspension only applies to alcohol solution (undenatured, containing by volume
         80% or more ethyl alcohol) falling under this code","validity_start_date":"2021-01-01T00:00:00.000Z","validity_end_date":null},"relationships":{"goods_nomenclatures":{"data":[{"id":"33085","type":"subheading"},{"id":"34973","type":"commodity"}]}}}],"included":[{"id":"33085","type":"subheading","attributes":{"goods_nomenclature_item_id":"1704909900","producline_suffix":"80","description":"Other","formatted_description":"Other","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null}},{"id":"34973","type":"commodity","attributes":{"goods_nomenclature_item_id":"2207100090","producline_suffix":"80","description":"Other","formatted_description":"Other","validity_start_date":"1972-01-01T00:00:00.000Z","validity_end_date":null}}]}'
-  recorded_at: Thu, 10 Aug 2023 13:26:08 GMT
+  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
 recorded_with: VCR 6.2.0

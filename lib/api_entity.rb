@@ -34,7 +34,7 @@ module ApiEntity
     end
 
     def resource_path
-      "/#{self.class.name.underscore.pluralize}/#{to_param}"
+      "/api/v2/#{self.class.name.underscore.pluralize}/#{to_param}"
     end
 
     def to_param
@@ -226,7 +226,7 @@ private
     end
 
     def singular_path
-      @singular_path ||= "/#{name.pluralize.underscore}/:id"
+      @singular_path ||= "/api/v2/#{name.pluralize.underscore}/:id"
     end
 
     def set_singular_path(path)
@@ -234,7 +234,7 @@ private
     end
 
     def collection_path
-      @collection_path ||= "/#{name.pluralize.underscore}"
+      @collection_path ||= "/api/v2/#{name.pluralize.underscore}"
     end
 
     def set_collection_path(path)

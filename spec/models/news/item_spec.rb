@@ -28,7 +28,7 @@ RSpec.describe News::Item do
       include_context 'with UK service'
 
       before do
-        stub_api_request('/news/items?service=uk&target=home&per_page=1', backend: 'uk')
+        stub_api_request('/api/v2/news/items?service=uk&target=home&per_page=1', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1)
       end
 
@@ -39,7 +39,7 @@ RSpec.describe News::Item do
       include_context 'with XI service'
 
       before do
-        stub_api_request('/news/items?service=xi&target=home&per_page=1', backend: 'uk')
+        stub_api_request('/api/v2/news/items?service=xi&target=home&per_page=1', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1)
       end
 
@@ -54,7 +54,7 @@ RSpec.describe News::Item do
       include_context 'with UK service'
 
       before do
-        stub_api_request('/news/items?service=uk&target=banner&per_page=1', backend: 'uk')
+        stub_api_request('/api/v2/news/items?service=uk&target=banner&per_page=1', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1, :banner)
       end
 
@@ -65,7 +65,7 @@ RSpec.describe News::Item do
       include_context 'with XI service'
 
       before do
-        stub_api_request('/news/items?service=xi&target=banner&per_page=1', backend: 'uk')
+        stub_api_request('/api/v2/news/items?service=xi&target=banner&per_page=1', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 1, :banner)
       end
 
@@ -74,7 +74,7 @@ RSpec.describe News::Item do
 
     context 'with failed connection to backend' do
       before do
-        stub_api_request('/news/items?service=uk&target=banner&per_page=1', backend: 'uk')
+        stub_api_request('/api/v2/news/items?service=uk&target=banner&per_page=1', backend: 'uk')
           .to_timeout
       end
 
@@ -89,7 +89,7 @@ RSpec.describe News::Item do
       include_context 'with UK service'
 
       before do
-        stub_api_request('/news/items?per_page=10&service=uk&target=updates', backend: 'uk')
+        stub_api_request('/api/v2/news/items?per_page=10&service=uk&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
       end
 
@@ -100,7 +100,7 @@ RSpec.describe News::Item do
       include_context 'with XI service'
 
       before do
-        stub_api_request('/news/items?&per_page=10&service=xi&target=updates', backend: 'uk')
+        stub_api_request('/api/v2/news/items?&per_page=10&service=xi&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
       end
 
@@ -111,7 +111,7 @@ RSpec.describe News::Item do
       subject { described_class.updates_page(page: 2) }
 
       before do
-        stub_api_request('/news/items?page=2&per_page=10&service=uk&target=updates', backend: 'uk')
+        stub_api_request('/api/v2/news/items?page=2&per_page=10&service=uk&target=updates', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
       end
 
@@ -122,7 +122,7 @@ RSpec.describe News::Item do
       subject { described_class.updates_page(story_year: 2020) }
 
       before do
-        stub_api_request('/news/items?per_page=10&service=uk&target=updates&year=2020', backend: 'uk')
+        stub_api_request('/api/v2/news/items?per_page=10&service=uk&target=updates&year=2020', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
       end
 
@@ -133,7 +133,7 @@ RSpec.describe News::Item do
       subject { described_class.updates_page(collection_id: 3) }
 
       before do
-        stub_api_request('/news/items?per_page=10&service=uk&target=updates&collection_id=3', backend: 'uk')
+        stub_api_request('/api/v2/news/items?per_page=10&service=uk&target=updates&collection_id=3', backend: 'uk')
           .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
       end
 
@@ -147,7 +147,7 @@ RSpec.describe News::Item do
     include_context 'with UK service'
 
     before do
-      stub_api_request('/news/items?target=updates', backend: 'uk')
+      stub_api_request('/api/v2/news/items?target=updates', backend: 'uk')
         .to_return jsonapi_response :news_item, attributes_for_list(:news_item, 2)
     end
 

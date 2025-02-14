@@ -2,7 +2,7 @@ RSpec.describe FootnoteSearchForm, type: :model, vcr: { cassette_name: 'search#f
   describe '.footnote_types' do
     subject(:footnote_types) { described_class.footnote_types }
 
-    it { is_expected.to eq(%w[01 02 03 04 AD CA CD CG CO CR DS DU EU EX IS MG MH MX NC NM NX OZ PB PE PH PI PN PR SN TM TN TP TR WR]) }
+    it { is_expected.to eq(%w[01 02 03 04 AD CA CD CG CO CR DS DU EU EX IS MG MH MX NC NM NX OZ PB PE PH PI PN PR RT SN TM TN TP TR WR]) }
   end
 
   describe 'validations' do

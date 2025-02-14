@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
+    uri: http://localhost:3018/api/v2/commodities/4302130000?as_of=2013-11-11
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v1.3.0
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -25,7 +25,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -39,253 +39,15 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 492c1d9d-129f-4374-a343-40b3aaead39e
+      - 23acffe8-df6b-4d9b-a486-3a4ff1e3e624
       X-Runtime:
-      - '0.008746'
+      - '0.013564'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=1.83, process_action.action_controller;dur=5.92
       Content-Length:
-      - '35'
+      - '98'
     body:
       encoding: UTF-8
-      string: '{"errors":[{"detail":"not found"}]}'
-  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/vnd.uktt.v2
-      User-Agent:
-      - Faraday v1.3.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - 1a1d21c7-d789-4cde-a2ce-c65e91a4fcea
-      X-Runtime:
-      - '0.007603'
-      Content-Length:
-      - '35'
-    body:
-      encoding: UTF-8
-      string: '{"errors":[{"detail":"not found"}]}'
-  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/vnd.uktt.v2
-      User-Agent:
-      - Faraday v1.3.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - e19aaf56-f95d-4ec3-8119-a75a622677b1
-      X-Runtime:
-      - '0.008045'
-      Content-Length:
-      - '35'
-    body:
-      encoding: UTF-8
-      string: '{"errors":[{"detail":"not found"}]}'
-  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/vnd.uktt.v2
-      User-Agent:
-      - Faraday v1.3.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - d2aa43a9-399a-462f-8cbf-454e0ce6d028
-      X-Runtime:
-      - '0.008403'
-      Content-Length:
-      - '35'
-    body:
-      encoding: UTF-8
-      string: '{"errors":[{"detail":"not found"}]}'
-  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/vnd.uktt.v2
-      User-Agent:
-      - Faraday v1.3.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - 057c4056-da92-4cd4-a460-cb32f5a5557f
-      X-Runtime:
-      - '0.008146'
-      Content-Length:
-      - '35'
-    body:
-      encoding: UTF-8
-      string: '{"errors":[{"detail":"not found"}]}'
-  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/commodities/4302130000?as_of=2022-10-20
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/vnd.uktt.v2
-      User-Agent:
-      - Faraday v1.3.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - 8682b633-1010-4769-8225-ba5a9300da22
-      X-Runtime:
-      - '0.007470'
-      Content-Length:
-      - '35'
-    body:
-      encoding: UTF-8
-      string: '{"errors":[{"detail":"not found"}]}'
-  recorded_at: Thu, 20 Oct 2022 15:49:39 GMT
-recorded_with: VCR 6.1.0
+      string: '{"error":"not found","url":"http://localhost:3018/api/v2/commodities/4302130000?as_of=2013-11-11"}'
+  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
+recorded_with: VCR 6.2.0

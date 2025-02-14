@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/certificate_types
+    uri: http://localhost:3018/api/v2/certificate_types
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v2.7.10
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -25,7 +25,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -41,9 +41,11 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 8a06eab5-249b-4652-a7bd-bd24db4685f7
+      - 55aebefb-0bca-4158-b4f3-9e25bf37fa56
       X-Runtime:
-      - '0.019762'
+      - '0.076939'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=6.09, process_action.action_controller;dur=32.53
       Content-Length:
       - '2089'
     body:
@@ -64,5 +66,5 @@ http_interactions:
         refunds"}},{"id":"E","type":"certificate_type","attributes":{"certificate_type_code":"E","description":"Export
         certificate/licence/document from country of origin"}},{"id":"9","type":"certificate_type","attributes":{"certificate_type_code":"9","description":"National
         Document"}}]}'
-  recorded_at: Fri, 11 Aug 2023 11:11:52 GMT
+  recorded_at: Tue, 11 Feb 2025 20:42:22 GMT
 recorded_with: VCR 6.2.0

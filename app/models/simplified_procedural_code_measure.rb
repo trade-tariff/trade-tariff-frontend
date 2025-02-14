@@ -39,7 +39,9 @@ class SimplifiedProceduralCodeMeasure
     end
 
     def by_code(simplified_procedural_code)
-      all(filter: { simplified_procedural_code: }).sort_by(&:validity_start_date).reverse
+      all(filter: { simplified_procedural_code: })
+        .select(&:sensible_date_range?)
+        .sort_by(&:validity_start_date).reverse
     end
   end
 

@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/additional_code_types
+    uri: http://localhost:3018/api/v2/additional_code_types
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v1.3.0
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -25,7 +25,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -41,9 +41,11 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 7b911704-ee0e-4f95-b9b9-39a614420052
+      - bb81f9b0-14f1-42ac-b93e-d1c0928ab3a8
       X-Runtime:
-      - '0.520813'
+      - '0.048378'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=11.53, process_action.action_controller;dur=30.38
       Content-Length:
       - '1881'
     body:
@@ -56,20 +58,20 @@ http_interactions:
         Tables (non-Meursing)"}},{"id":"9","type":"additional_code_type","attributes":{"additional_code_type_id":"9","description":"Export
         Refunds"}},{"id":"A","type":"additional_code_type","attributes":{"additional_code_type_id":"A","description":"Anti-dumping/countervailing"}},{"id":"4","type":"additional_code_type","attributes":{"additional_code_type_id":"4","description":"Restrictions"}},{"id":"C","type":"additional_code_type","attributes":{"additional_code_type_id":"C","description":"Anti-dumping/countervailing"}},{"id":"V","type":"additional_code_type","attributes":{"additional_code_type_id":"V","description":"VAT"}},{"id":"X","type":"additional_code_type","attributes":{"additional_code_type_id":"X","description":"EXCISE"}},{"id":"2","type":"additional_code_type","attributes":{"additional_code_type_id":"2","description":"Tariff
         preference"}}]}'
-  recorded_at: Tue, 21 Feb 2023 10:50:34 GMT
+  recorded_at: Tue, 11 Feb 2025 16:09:45 GMT
 - request:
     method: get
-    uri: http://localhost:3018/additional_codes/search?code=119&description&type=4
+    uri: http://localhost:3018/api/v2/additional_codes/search?code=119&description&type=4
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v1.3.0
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -82,7 +84,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -94,17 +96,20 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"d33cf496991f863a8323ef070f9b5353"
+      - W/"42f8104a18754db6b114ef6672fc4f0e"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 557c8db1-914c-4bf2-809d-82f72acc500f
+      - d6dcc085-4895-4e1f-a69c-a2132e6c1656
       X-Runtime:
-      - '0.070141'
+      - '0.026549'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, unpermitted_parameters.action_controller;dur=0.31,
+        sql.sequel;dur=2.68, process_action.action_controller;dur=16.52
       Content-Length:
-      - '87'
+      - '25'
     body:
       encoding: UTF-8
-      string: '{"data":[],"included":[],"meta":{"pagination":{"page":1,"per_page":5,"total_count":0}}}'
-  recorded_at: Tue, 21 Feb 2023 10:50:35 GMT
-recorded_with: VCR 6.1.0
+      string: '{"data":[],"included":[]}'
+  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
+recorded_with: VCR 6.2.0

@@ -5,7 +5,7 @@ RSpec.describe ApiEntity do
     Class.new do
       include ApiEntity
 
-      set_collection_path '/mock_entities'
+      set_collection_path '/api/v2/mock_entities'
 
       attr_accessor :name, :age
 
@@ -81,7 +81,7 @@ RSpec.describe ApiEntity do
         body:
     end
 
-    let(:api_endpoint) { TradeTariffFrontend::ServiceChooser.uk_host }
+    let(:api_endpoint) { "#{TradeTariffFrontend::ServiceChooser.uk_host}/api/v2" }
     let(:status) { 200 }
     let(:headers) { { 'content-type' => 'application/json; charset=utf-8' } }
 
@@ -147,7 +147,7 @@ RSpec.describe ApiEntity do
         body:
     end
 
-    let(:api_endpoint) { TradeTariffFrontend::ServiceChooser.uk_host }
+    let(:api_endpoint) { "#{TradeTariffFrontend::ServiceChooser.uk_host}/api/v2" }
     let(:status) { 200 }
     let(:headers) { { 'content-type' => 'application/json; charset=utf-8' } }
 
@@ -240,7 +240,7 @@ RSpec.describe ApiEntity do
 
     let :first_entity do
       Class.new(parent_entity) do
-        set_collection_path '/first_entities'
+        set_collection_path '/api/v2/first_entities'
         has_many :parts, class_name: 'Part'
         has_one :part, class_name: 'Part'
 
@@ -252,7 +252,7 @@ RSpec.describe ApiEntity do
 
     let :second_entity do
       Class.new(parent_entity) do
-        set_collection_path '/second_entities'
+        set_collection_path '/api/v2/second_entities'
         has_many :parts, class_name: 'Part'
 
         def self.name

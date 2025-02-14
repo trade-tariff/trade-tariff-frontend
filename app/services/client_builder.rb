@@ -1,7 +1,4 @@
 class ClientBuilder
-  DEFAULT_VERSION = '2'.freeze
-  DEFAULT_FORMAT = 'jsonapi'.freeze
-
   RETRY_DEFAULTS = {
     methods: %i[get head],
     max: 1,
@@ -52,7 +49,6 @@ class ClientBuilder
       conn.response :raise_error
       conn.adapter :net_http_persistent
       conn.response :json, content_type: /\bjson$/
-      conn.headers['Accept'] = "application/vnd.uktt.v#{DEFAULT_VERSION}"
     end
   end
 
