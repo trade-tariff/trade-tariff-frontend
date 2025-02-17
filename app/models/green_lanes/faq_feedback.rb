@@ -15,10 +15,7 @@ module GreenLanes
             useful: feedback_params[:useful],
           },
         },
-        headers: {
-          'Content-Type' => 'application/json',
-          authorization: TradeTariffFrontend.green_lanes_api_token,
-        },
+        headers
       )
 
       if response.success?
@@ -35,10 +32,7 @@ module GreenLanes
     def get_faq_feedback
       response = self.class.get(
         '/api/v2/green_lanes/faq_feedback',
-        headers: {
-          'Content-Type' => 'application/json',
-          authorization: TradeTariffFrontend.green_lanes_api_token,
-        },
+        headers
       )
 
       if response.success?
@@ -48,5 +42,11 @@ module GreenLanes
         nil
       end
     end
+
+    def headers
+      {
+        'Content-Type' => 'application/json',
+        authorization: TradeTariffFrontend.green_lanes_api_token,
+     }
   end
 end
