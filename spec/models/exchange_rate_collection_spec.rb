@@ -12,7 +12,7 @@ RSpec.describe ExchangeRateCollection, vcr: { cassette_name: 'exchange_rates', r
   end
 
   describe '#published_date' do
-    it { expect(exchange_rate_collection.published_date).to eq('1 Sep 2023') }
+    it { expect(exchange_rate_collection.published_date).to eq('23 Aug 2023') }
   end
 
   describe '#exchange_rates' do

@@ -9,7 +9,7 @@ class TariffUpdate
 
   attr_writer :applied_at
 
-  set_collection_path '/updates/latest'
+  set_collection_path '/api/v2/updates/latest'
 
   def applied_at
     Date.parse(@applied_at)

@@ -44,42 +44,4 @@ RSpec.describe 'Heading page', type: :request do
       end
     end
   end
-
-  context 'when requesting as JSON' do
-    context 'when requested with json format' do
-      before do
-        VCR.use_cassette('headings#show_0101_api_json_format') do
-          get '/headings/0101.json'
-        end
-      end
-
-      let(:json) { JSON.parse(response.body) }
-
-      it 'renders the correct item id' do
-        expect(json['goods_nomenclature_item_id']).to eq '0101000000'
-      end
-
-      it 'renders direct API response' do
-        expect(json['commodities']).to be_kind_of Array
-      end
-    end
-
-    context 'when requested with json HTTP Accept header' do
-      before do
-        VCR.use_cassette('headings#show_0101_api_json_content_type') do
-          get '/headings/0101', headers: { 'HTTP_ACCEPT' => 'application/json' }
-        end
-      end
-
-      let(:json) { JSON.parse(response.body) }
-
-      it 'renders the correct item id' do
-        expect(json['goods_nomenclature_item_id']).to eq '0101000000'
-      end
-
-      it 'renders direct API response' do
-        expect(json['commodities']).to be_kind_of Array
-      end
-    end
-  end
 end

@@ -19,7 +19,7 @@ RSpec.describe News::Collection do
     subject { described_class.all }
 
     before do
-      stub_api_request('/news/collections', backend: 'uk')
+      stub_api_request('/api/v2/news/collections', backend: 'uk')
           .to_return jsonapi_response :news_collection, attributes_for_list(:news_collection, 2)
     end
 

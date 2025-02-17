@@ -1,7 +1,6 @@
 <% content_for :title, goods_nomenclature_title(@chapter) %>
 <% content_for :head do %>
   <meta name="description" content="<%= @chapter  %>">
-  <link rel='alternate' type='application/json' href='<%= chapter_path(@chapter, format: :json) %>' title='Chapter information page in JSON format' />
 <% end %>
 
 <% content_for :bodyClasses, "page--wide" %>

@@ -3,7 +3,7 @@ require 'api_entity'
 class ExchangeRateCollection
   include ApiEntity
 
-  set_singular_path '/exchange_rates/:id'
+  set_singular_path '/api/v2/exchange_rates/:id'
 
   attr_accessor :month, :year, :type
 

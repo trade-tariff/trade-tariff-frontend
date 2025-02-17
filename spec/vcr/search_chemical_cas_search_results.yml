@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/chemicals/search?cas=121-17-5&name&page=1
+    uri: http://localhost:3018/api/v2/chemicals/search?cas=121-17-5&name&page=1
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/vnd.uktt.v2
       User-Agent:
-      - Faraday v1.3.0
+      - Faraday v2.8.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -25,7 +25,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Xss-Protection:
-      - 1; mode=block
+      - '0'
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -41,13 +41,17 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - d1ef4c08-69b8-4077-b41e-4ad2b2595157
+      - b6d26b73-8bce-49e4-9f24-c839fbb09e9e
       X-Runtime:
-      - '0.031664'
+      - '0.026077'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, cache_read.active_support;dur=0.03,
+        sql.sequel;dur=5.14, cache_generate.active_support;dur=4.09, cache_write.active_support;dur=0.09,
+        process_action.action_controller;dur=15.52
       Content-Length:
       - '742'
     body:
       encoding: UTF-8
       string: '{"data":[{"id":"10","type":"chemical","attributes":{"id":10,"cas":"121-17-5","name":"4-chloro-alpha,alpha,alpha-trifluoro-3-nitrotoluene"},"relationships":{"goods_nomenclatures":{"data":[{"id":"101275","type":"goods_nomenclature"}]},"chemical_names":{"data":[{"id":"10","type":"chemical_name"}]}}}],"included":[{"id":"101275","type":"goods_nomenclature","attributes":{"goods_nomenclature_item_id":"2904990000","goods_nomenclature_sid":101275,"producline_suffix":"80","description":"Other","number_indents":2,"href":"/api/v2/commodities/2904990000"}},{"id":"10","type":"chemical_name","attributes":{"name":"4-chloro-alpha,alpha,alpha-trifluoro-3-nitrotoluene","chemical_id":10}}],"meta":{"pagination":{"page":1,"per_page":20,"total_count":1}}}'
-  recorded_at: Fri, 28 Apr 2023 09:09:40 GMT
-recorded_with: VCR 6.1.0
+  recorded_at: Tue, 11 Feb 2025 16:09:47 GMT
+recorded_with: VCR 6.2.0

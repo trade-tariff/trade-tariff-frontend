@@ -4,7 +4,7 @@ module News
   class Collection
     include UkOnlyApiEntity
 
-    set_collection_path '/news/collections'
+    set_collection_path '/api/v2/news/collections'
 
     attr_writer   :id
     attr_accessor :name,

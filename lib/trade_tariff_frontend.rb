@@ -6,64 +6,6 @@ module TradeTariffFrontend
 
   module_function
 
-  # API Endpoints of the Tariff Backend API app that can be reached via Frontend
-  def accessible_api_endpoints
-    %w[
-      sections
-      chapters
-      headings
-      subheadings
-      commodities
-      updates
-      monetary_exchange_rates
-      quotas
-      goods_nomenclatures
-      search_references
-      geographical_areas
-      chemical_substances
-      simplified_procedural_code_measures
-    ]
-  end
-
-  # API Endpoints of the Tariff Backend API app that can be reached via external client
-  def public_api_endpoints
-    %w[
-      sections
-      chapters
-      headings
-      subheadings
-      commodities
-      monetary_exchange_rates
-      quotas
-      goods_nomenclatures
-      search_references
-      search
-      additional_codes
-      certificates
-      footnotes
-      geographical_areas
-      chemicals
-      additional_code_types
-      certificate_types
-      footnote_types
-      changes
-      rules_of_origin_schemes
-      measures
-      measure_types
-      measure_condition_codes
-      measure_actions
-      quota_order_numbers
-      preference_codes
-      chemical_substances
-      healthcheck
-      simplified_procedural_code_measures
-      bulk_searches
-      exchange_rates
-      updates
-      green_lanes
-    ]
-  end
-
   def production?
     environment == 'production'
   end
