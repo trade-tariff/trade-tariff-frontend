@@ -5,7 +5,7 @@ module GreenLanes
 
     def send_feedback_to_backend(feedback_params, session_id)
       response = self.class.post(
-        'green_lanes/faq_feedback',
+        '/api/v2/green_lanes/faq_feedback',
         data: {
           attributes: {
             session_id:,
@@ -14,7 +14,10 @@ module GreenLanes
             useful: feedback_params[:useful],
           },
         },
-        headers: { 'Content-Type' => 'application/json' },
+        headers: {
+          'Content-Type' => 'application/json',
+          'Authorization' => TradeTariffFrontend.green_lanes_api_token,
+        },
       )
 
       if response.success?
@@ -30,7 +33,7 @@ module GreenLanes
 
     def get_faq_feedback
       response = self.class.get(
-        'green_lanes/faq_feedback',
+        '/api/v2/green_lanes/faq_feedback',
       )
 
       if response.success?
