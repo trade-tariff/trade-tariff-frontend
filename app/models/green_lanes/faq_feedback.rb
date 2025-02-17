@@ -1,6 +1,7 @@
 require 'api_entity'
 module GreenLanes
   class FaqFeedback
+    include XiOnlyApiEntity
     include ApiEntity
 
     def send_feedback_to_backend(feedback_params, session_id)
@@ -16,7 +17,7 @@ module GreenLanes
         },
         headers: {
           'Content-Type' => 'application/json',
-          'Authorization' => TradeTariffFrontend.green_lanes_api_token,
+          authorization: TradeTariffFrontend.green_lanes_api_token,
         },
       )
 
@@ -34,6 +35,10 @@ module GreenLanes
     def get_faq_feedback
       response = self.class.get(
         '/api/v2/green_lanes/faq_feedback',
+        headers: {
+          'Content-Type' => 'application/json',
+          authorization: TradeTariffFrontend.green_lanes_api_token,
+        },
       )
 
       if response.success?
