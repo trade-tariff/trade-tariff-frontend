@@ -7,8 +7,7 @@ class Certificate
                 :certificate_code,
                 :description,
                 :formatted_description,
-                :guidance_cds,
-                :guidance_chief
+                :guidance_cds
 
   has_many :goods_nomenclatures, polymorphic: true
 

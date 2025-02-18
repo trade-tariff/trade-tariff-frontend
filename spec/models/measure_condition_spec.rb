@@ -25,7 +25,6 @@ RSpec.describe MeasureCondition do
                   duty_expression: '',
                   certificate_description: 'Foo bar',
                   guidance_cds: 'CDS guiance',
-                  guidance_chief: 'CHIEF guiance',
                   requirement: 'requirement'
 
   describe '#has_guidance?' do
