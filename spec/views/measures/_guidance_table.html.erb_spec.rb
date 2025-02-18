@@ -5,7 +5,7 @@ RSpec.describe 'measures/guidance_table', type: :view do
 
   let(:render_page) { render 'measures/guidance_table', measure_conditions_with_guidance: }
 
-  context 'page includes measures with conditions' do
+  context 'when page includes measures with conditions' do
     let(:measure_conditions_with_guidance) { build_list :measure_condition, 2, :with_guidance }
 
     it { is_expected.to have_css 'details summary', text: /Guidance for completing/ }
@@ -14,7 +14,7 @@ RSpec.describe 'measures/guidance_table', type: :view do
     it { is_expected.to have_css 'table tbody td', text: /Guidance CDS/ }
   end
 
-  context 'page includes with no conditions' do
+  context 'when page includes measures without conditions' do
     let(:measure_conditions_with_guidance) { [] }
 
     it { is_expected.not_to have_css 'details' }
