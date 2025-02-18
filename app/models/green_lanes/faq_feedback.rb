@@ -16,7 +16,7 @@ module GreenLanes
               useful: feedback_params[:useful],
             },
           },
-        },
+        }.to_json,
         headers,
       )
 
