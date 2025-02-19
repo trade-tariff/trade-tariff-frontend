@@ -170,7 +170,9 @@ Rails.application.routes.draw do
       as: :pending_quota_balance,
       defaults: { format: :json }
 
+  # The following two routes are how gov.uk links to the trade tariff
   get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
+  get '/trade-tariff/sections', to: redirect('/find_commodity', status: 301)
 
   get '/robots.:format', to: 'pages#robots'
   match '/400', to: 'errors#bad_request', via: :all
