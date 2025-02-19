@@ -56,6 +56,7 @@ gem 'sentry-rails'
 
 group :development do
   gem 'letter_opener'
+  gem 'rubocop-capybara'
   gem 'rubocop-govuk'
   gem 'solargraph'
   gem 'web-console'

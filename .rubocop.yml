@@ -3,10 +3,12 @@ inherit_gem:
     - config/default.yml
     - config/rails.yml
 
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - rubocop-capybara
 
 AllCops:
-  TargetRubyVersion: 3.3.6
+  TargetRubyVersion: 3.3.7
   Exclude:
     - "db/schema.rb"
     - "vendor/**/*"
@@ -34,9 +36,6 @@ Metrics/BlockLength:
   Enabled: false
 
 Metrics/ModuleLength:
-  Enabled: false
-
-RSpec/Capybara/FeatureMethods:
   Enabled: false
 
 RSpec/DescribeClass:

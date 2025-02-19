@@ -26,7 +26,7 @@ filter-release: &filter-release
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
   terraform: circleci/terraform@3.2.1
-  ruby: circleci/ruby@2.3.1
+  ruby: circleci/ruby@2.5.0
   node: circleci/node@5
   browser-tools: circleci/browser-tools@1
   slack: circleci/slack@4.3.0
@@ -140,7 +140,7 @@ jobs:
 
   ruby-checks:
     docker:
-      - image: cimg/ruby:3.3.6
+      - image: cimg/ruby:3.3.7
     steps:
       - checkout
       - ruby/install-deps
@@ -187,7 +187,7 @@ jobs:
   test:
     parallelism: 4
     docker:
-      - image: cimg/ruby:3.3.6-node
+      - image: cimg/ruby:3.3.7-node
         environment:
           BUNDLE_JOBS: "3"
           BUNDLE_RETRY: "3"
