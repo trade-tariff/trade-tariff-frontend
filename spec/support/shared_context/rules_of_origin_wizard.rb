@@ -33,8 +33,7 @@ shared_context 'with rules of origin form step' do |step, *traits|
   subject { render_page && rendered }
 
   before do
-    allow(view).to receive(:step_path).and_return '/'
-    allow(view).to receive(:return_to_commodity_path).and_return '/'
+    allow(view).to receive_messages(step_path: '/', return_to_commodity_path: '/')
   end
 
   include_context 'with rules of origin store', *traits

@@ -4,9 +4,7 @@ RSpec.describe 'shared/context_tables/_heading', type: :view, vcr: { cassette_na
   subject { render }
 
   before do
-    allow(view).to receive(:declarable).and_return(heading)
-    allow(view).to receive(:uk_declarable).and_return(heading)
-    allow(view).to receive(:xi_declarable).and_return(heading)
+    allow(view).to receive_messages(declarable: heading, uk_declarable: heading, xi_declarable: heading)
     allow(DeclarableUnitService).to receive(:new).and_return(instance_double(DeclarableUnitService, call: 'There are no supplementary unit measures assigned to this commodity'))
     assign(:heading, heading)
     assign(:search, search)

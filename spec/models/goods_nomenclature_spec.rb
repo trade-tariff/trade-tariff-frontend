@@ -56,7 +56,7 @@ RSpec.describe GoodsNomenclature do
       end
 
       it 'returns instance of Date' do
-        expect(goods_nomenclature.validity_start_date).to be_kind_of Date
+        expect(goods_nomenclature.validity_start_date).to be_a Date
       end
 
       it 'returns parsed date' do
@@ -70,7 +70,7 @@ RSpec.describe GoodsNomenclature do
       end
 
       it 'returns NullObject' do
-        expect(goods_nomenclature.validity_start_date).to be_kind_of NullObject
+        expect(goods_nomenclature.validity_start_date).to be_a NullObject
       end
     end
   end
@@ -82,7 +82,7 @@ RSpec.describe GoodsNomenclature do
       end
 
       it 'returns instance of Date' do
-        expect(goods_nomenclature.validity_end_date).to be_kind_of Date
+        expect(goods_nomenclature.validity_end_date).to be_a Date
       end
 
       it 'returns parsed date' do
@@ -96,7 +96,7 @@ RSpec.describe GoodsNomenclature do
       end
 
       it 'returns NullObject' do
-        expect(goods_nomenclature.validity_end_date).to be_kind_of NullObject
+        expect(goods_nomenclature.validity_end_date).to be_a NullObject
       end
     end
   end
@@ -111,7 +111,7 @@ RSpec.describe GoodsNomenclature do
     let(:goods_nomenclature) { build(:goods_nomenclature) }
 
     context 'without country param' do
-      it 'will raise an exception' do
+      it 'raises an exception' do
         expect { goods_nomenclature.rules_of_origin }.to raise_exception ArgumentError
       end
     end
@@ -125,7 +125,7 @@ RSpec.describe GoodsNomenclature do
           .and_return([])
       end
 
-      it 'will chain chain to RulesOfOrigin::Scheme' do
+      it 'chains chain to RulesOfOrigin::Scheme' do
         rules # trigger call
 
         expect(RulesOfOrigin::Scheme).to have_received(:for_heading_and_country)
@@ -144,7 +144,7 @@ RSpec.describe GoodsNomenclature do
           .and_return([])
       end
 
-      it 'will chain chain to RulesOfOrigin::Scheme' do
+      it 'chains chain to RulesOfOrigin::Scheme' do
         rules # trigger call
 
         expect(RulesOfOrigin::Scheme).to have_received(:for_heading_and_country)

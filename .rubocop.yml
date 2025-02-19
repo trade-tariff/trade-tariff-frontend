@@ -72,3 +72,6 @@ Style/StringLiterals:
 Style/SymbolArray:
   Exclude:
     - config/initializers/*.rb
+
+RSpec/IndexedLet:
+  Enabled: false

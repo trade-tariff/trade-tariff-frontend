@@ -127,12 +127,12 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
   describe '#supplementary_unit_for' do
     subject(:supplementary_unit_for) { helper.supplementary_unit_for(uk_declarable, xi_declarable, country) }
 
-    let(:uk_declarable) { instance_double('Commodity') }
-    let(:xi_declarable) { instance_double('Commodity') }
+    let(:uk_declarable) { instance_double(Commodity) }
+    let(:xi_declarable) { instance_double(Commodity) }
     let(:country) { 'IT' }
 
     before do
-      service_double = instance_double('DeclarableUnitService', call: '<p>supplementary unit</p>')
+      service_double = instance_double(DeclarableUnitService, call: '<p>supplementary unit</p>')
 
       allow(DeclarableUnitService).to receive(:new).with(uk_declarable, xi_declarable, country).and_return(service_double)
     end

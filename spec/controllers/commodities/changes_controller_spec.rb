@@ -13,7 +13,7 @@ RSpec.describe Commodities::ChangesController, type: :controller do
         it { expect(assigns(:changes)).to be_a(ChangesPresenter) }
       end
 
-      context 'when there are no changes', vcr: { cassette_name: 'commodities_changes#index_0702000007_2020-07-22', record: :new_episodes }, type: :controller do
+      context 'when there are no changes', type: :controller, vcr: { cassette_name: 'commodities_changes#index_0702000007_2020-07-22', record: :new_episodes } do
         let(:params) { { commodity_id: '0702000007', year: '2020', month: '07', day: '22' } }
 
         it { is_expected.to respond_with(:success) }

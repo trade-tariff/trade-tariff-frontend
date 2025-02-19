@@ -31,7 +31,7 @@ RSpec.describe OrderNumber do
     context 'when built without a definition' do
       subject(:order_number) { build(:order_number) }
 
-      it { expect(order_number.definition).to eq(nil) }
+      it { expect(order_number.definition).to be_nil }
     end
 
     context 'when cast by a definition' do
@@ -47,7 +47,7 @@ RSpec.describe OrderNumber do
 
       let(:measure) { build(:measure, order_number: attributes_for(:order_number)) }
 
-      it { expect(order_number.definition).to eq(nil) }
+      it { expect(order_number.definition).to be_nil }
     end
   end
 

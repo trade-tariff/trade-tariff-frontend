@@ -10,7 +10,7 @@ RSpec.describe TradingPartnersController, type: :controller do
       it 'initializes with the correct country' do
         response
 
-        expect(assigns(:trading_partner).country).to eq(nil)
+        expect(assigns(:trading_partner).country).to be_nil
       end
 
       it 'attaches no error message' do

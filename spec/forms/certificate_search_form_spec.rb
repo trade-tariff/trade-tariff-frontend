@@ -32,7 +32,7 @@ RSpec.describe CertificateSearchForm, type: :model, vcr: { cassette_name: 'searc
       it { expect(form.errors[:code]).to eq(['You need to supply at least a 4-digit certificate code']) }
     end
 
-    context 'when the code is too short ' do
+    context 'when the code is too short' do
       let(:params) { { code: '923' } }
 
       it { is_expected.not_to be_valid }

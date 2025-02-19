@@ -53,7 +53,7 @@ module ApiEntity
   end
 
   def resource_id=(resource_id)
-    @resource_id ||= resource_id # rubocop:disable Naming/MemoizedInstanceVariableName
+    @resource_id ||= resource_id
   end
 
   def attributes=(attributes = {})

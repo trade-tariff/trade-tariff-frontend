@@ -432,7 +432,7 @@ RSpec.describe ServiceHelper, type: :helper do
     context 'when the input html is nil' do
       let(:html) { nil }
 
-      it { is_expected.to eq(nil) }
+      it { is_expected.to be_nil }
     end
 
     context 'when the input html is an empty string' do

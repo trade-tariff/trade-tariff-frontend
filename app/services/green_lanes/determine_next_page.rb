@@ -9,7 +9,6 @@ module GreenLanes
 
     def next(cat_1_exemptions_apply: nil,
              cat_2_exemptions_apply: nil)
-
       return check_your_answers if @categories == [3]
 
       return handle_cat1_cat2(cat_1_exemptions_apply) if single_category?

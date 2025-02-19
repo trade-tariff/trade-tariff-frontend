@@ -11,13 +11,13 @@ RSpec.describe AdditionalCode do
     context 'when last 2 characters match it returns true' do
       let(:additional_code) { build(:additional_code, code: '1149') }
 
-      it { is_expected.to eq(true) }
+      it { is_expected.to be(true) }
     end
 
     context 'when last 2 characters do not match it returns false' do
       let(:additional_code) { build(:additional_code, code: '1111') }
 
-      it { is_expected.to eq(false) }
+      it { is_expected.to be(false) }
     end
   end
 
