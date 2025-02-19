@@ -15,7 +15,6 @@ FactoryBot.define do
 
     trait :with_guidance do
       guidance_cds { 'Guidance CDS' }
-      guidance_chief { 'Guidance CHIEF' }
     end
 
     trait :threshold do

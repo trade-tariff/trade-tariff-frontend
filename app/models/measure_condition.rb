@@ -17,7 +17,6 @@ class MeasureCondition
                 :duty_expression,
                 :certificate_description,
                 :guidance_cds,
-                :guidance_chief,
                 :threshold_unit_type,
                 :requirement_operator
 
@@ -36,7 +35,7 @@ class MeasureCondition
   end
 
   def has_guidance?
-    guidance_cds.present? || guidance_chief.present?
+    guidance_cds.present?
   end
 
   def presented_action
