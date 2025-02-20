@@ -34,7 +34,7 @@ RSpec.describe AdditionalCodeSearchForm, type: :model, vcr: { cassette_name: 'se
       it { expect(form.errors[:code]).to eq(['You need to supply at least a 4-digit additional code']) }
     end
 
-    context 'when the code is too short ' do
+    context 'when the code is too short' do
       let(:params) { { code: '823' } }
 
       it { is_expected.not_to be_valid }

@@ -6,11 +6,7 @@ RSpec.describe 'rules_of_origin/steps/show', type: :view do
   include_context 'with rules of origin store'
 
   before do
-    allow(view).to receive(:wizard).and_return wizard
-    allow(view).to receive(:current_step).and_return current_step
-    allow(view).to receive(:step_path).and_return \
-      rules_of_origin_step_path('1234567890', 'JP', current_step.key)
-    allow(view).to receive(:return_to_commodity_path).and_return '/'
+    allow(view).to receive_messages(wizard: wizard, current_step: current_step, step_path: rules_of_origin_step_path('1234567890', 'JP', current_step.key), return_to_commodity_path: '/')
   end
 
   let(:wizard) { RulesOfOrigin::Wizard.new wizardstore, 'import_export' }

@@ -127,7 +127,7 @@ RSpec.describe OrderNumber::Definition do
     context 'without any goods nomenclatures' do
       let(:measures) { [] }
 
-      it { is_expected.to be nil }
+      it { is_expected.to be_nil }
     end
 
     context 'with a goods nomenclature with a short code' do

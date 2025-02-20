@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GreenLanes::FaqFeedback, type: :model do
   let(:faq_feedback) { build(:green_lanes_faq_feedback) }
 
@@ -15,7 +13,7 @@ RSpec.describe GreenLanes::FaqFeedback, type: :model do
 
     def mock_response(success:, status: nil, body: nil)
       instance_double(
-        'HTTPResponse',
+        Faraday::Response,
         success?: success,
         status:,
         body:,
@@ -30,7 +28,7 @@ RSpec.describe GreenLanes::FaqFeedback, type: :model do
       end
 
       it 'returns true' do
-        expect(faq_feedback.send_feedback_to_backend(feedback_params, session_id)).to eq(true)
+        expect(faq_feedback.send_feedback_to_backend(feedback_params, session_id)).to be(true)
       end
     end
 
@@ -48,7 +46,7 @@ RSpec.describe GreenLanes::FaqFeedback, type: :model do
       end
 
       it 'returns false' do
-        expect(faq_feedback.send_feedback_to_backend(feedback_params, session_id)).to eq(false)
+        expect(faq_feedback.send_feedback_to_backend(feedback_params, session_id)).to be(false)
       end
     end
 
@@ -68,7 +66,7 @@ RSpec.describe GreenLanes::FaqFeedback, type: :model do
       end
 
       it 'returns false' do
-        expect(faq_feedback.send_feedback_to_backend(feedback_params, session_id)).to eq(false)
+        expect(faq_feedback.send_feedback_to_backend(feedback_params, session_id)).to be(false)
       end
     end
   end

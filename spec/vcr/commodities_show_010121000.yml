@@ -1,0 +1,163 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/api/v2/commodities/0101210000?as_of=2000-01-01&filter%5Bmeursing_additional_code_id%5D
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - bcc15e39-dc24-48d4-8f94-fa51d24a645c
+      X-Runtime:
+      - '0.184651'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=30.08, process_action.action_controller;dur=117.99
+      Content-Length:
+      - '143'
+    body:
+      encoding: UTF-8
+      string: '{"error":"not found","url":"http://localhost:3018/api/v2/commodities/0101210000?as_of=2000-01-01\u0026filter%5Bmeursing_additional_code_id%5D"}'
+  recorded_at: Thu, 20 Feb 2025 09:10:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/api/v2/subheadings/0101210000-80?as_of=2000-01-01&filter%5Bmeursing_additional_code_id%5D
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 67305b0b-e4d4-4457-8d49-69d71ed4faec
+      X-Runtime:
+      - '0.034458'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=3.61, process_action.action_controller;dur=21.33
+      Content-Length:
+      - '146'
+    body:
+      encoding: UTF-8
+      string: '{"error":"not found","url":"http://localhost:3018/api/v2/subheadings/0101210000-80?as_of=2000-01-01\u0026filter%5Bmeursing_additional_code_id%5D"}'
+  recorded_at: Thu, 20 Feb 2025 09:10:16 GMT
+- request:
+    method: post
+    uri: http://localhost:3018/api/v2/search
+    body:
+      encoding: UTF-8
+      string: as_of=2025-02-20&q=0101210000&resource_id
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
+      Etag:
+      - W/"8cfd0fb94d254811a057069f38442657"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 5f6f68b7-b1c4-4537-b29d-b349260eb883
+      X-Runtime:
+      - '0.334455'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=74.99, process_action.action_controller;dur=255.63
+      Content-Length:
+      - '130'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":"1","type":"exact_search","attributes":{"type":"exact_match","entry":{"endpoint":"commodities","id":"0101210000"}}}}'
+  recorded_at: Thu, 20 Feb 2025 09:10:17 GMT
+recorded_with: VCR 6.2.0

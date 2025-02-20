@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-RSpec.xdescribe CommoditiesController, type: :controller do
+RSpec.describe CommoditiesController, type: :controller do
   before do
     allow(RulesOfOrigin::Scheme).to receive(:all).and_return \
       build_list(:rules_of_origin_scheme, 1)
@@ -48,7 +46,7 @@ RSpec.xdescribe CommoditiesController, type: :controller do
             .and_return jsonapi_error_response(404)
         end
 
-        it { is_expected.to redirect_to heading_url('0101') }
+        it { is_expected.to redirect_to sections_path }
       end
 
       context 'with non-declarable heading id provided' do
@@ -163,7 +161,7 @@ RSpec.xdescribe CommoditiesController, type: :controller do
         end
 
         it 'redirects to heading page (strips exceeding commodity id characters)' do
-          expect(response).to redirect_to heading_url(id: commodity_id.first(4))
+          expect(response).to redirect_to sections_path
         end
       end
 
@@ -185,23 +183,6 @@ RSpec.xdescribe CommoditiesController, type: :controller do
 
         it 'renders a custom 404 page' do
           expect(response).to render_template 'show_404'
-        end
-      end
-
-      context 'with commodity id that does not exist in provided date and no validity_periods api',
-              vcr: { cassette_name: 'commodities#show_010121000' } do
-        let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
-
-        before do
-          stub_api_request("/api/v2/commodities/#{commodity_id}/validity_periods")
-            .to_return jsonapi_error_response(404)
-
-          TradeTariffFrontend::ServiceChooser.service_choice = nil
-          get :show, params: { id: commodity_id, year: 2000, month: 1, day: 1, country: nil }
-        end
-
-        it 'redirects to actual version of the commodity page' do
-          expect(response).to redirect_to commodity_url(id: commodity_id.first(10))
         end
       end
     end

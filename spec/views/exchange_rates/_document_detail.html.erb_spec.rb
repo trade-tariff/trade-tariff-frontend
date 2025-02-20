@@ -7,8 +7,7 @@ RSpec.describe 'exchange_rates/_document_detail', type: :view do
 
   before do
     allow(view).to receive(:period) { period }
-    allow(view).to receive(:type).and_return('spot')
-    allow(view).to receive(:type_label).and_return('spot')
+    allow(view).to receive_messages(type: 'spot', type_label: 'spot')
   end
 
   it { is_expected.to have_css 'h3', text: "June #{period.year} spot exchange rates" }

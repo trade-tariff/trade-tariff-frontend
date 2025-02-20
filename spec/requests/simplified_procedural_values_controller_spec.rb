@@ -13,7 +13,7 @@ RSpec.describe SimplifiedProceduralValuesController, type: :request do
 
       it { expect(response).to render_template(:index) }
       it { expect(result.measures).to all(be_a(SimplifiedProceduralCodeMeasure)) }
-      it { expect(result.by_code).to eq(true) }
+      it { expect(result.by_code).to be(true) }
     end
 
     context 'when validity_start_date is present' do
@@ -25,7 +25,7 @@ RSpec.describe SimplifiedProceduralValuesController, type: :request do
 
       it { expect(response).to render_template(:index) }
       it { expect(result.measures).to all(be_a(SimplifiedProceduralCodeMeasure)) }
-      it { expect(result.by_code).to eq(false) }
+      it { expect(result.by_code).to be(false) }
     end
 
     context 'when no filters are present' do

@@ -12,9 +12,7 @@ class Commodity < GoodsNomenclature
   alias_method :short_code, :goods_nomenclature_item_id
 
   def substring=(substring)
-    # rubocop:disable Naming/MemoizedInstanceVariableName
     @substring ||= substring.to_i
-    # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
   def leaf?

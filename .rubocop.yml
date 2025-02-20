@@ -3,10 +3,12 @@ inherit_gem:
     - config/default.yml
     - config/rails.yml
 
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - rubocop-capybara
 
 AllCops:
-  TargetRubyVersion: 3.3.6
+  TargetRubyVersion: 3.3.7
   Exclude:
     - "db/schema.rb"
     - "vendor/**/*"
@@ -36,9 +38,6 @@ Metrics/BlockLength:
 Metrics/ModuleLength:
   Enabled: false
 
-RSpec/Capybara/FeatureMethods:
-  Enabled: false
-
 RSpec/DescribeClass:
   Exclude:
     - tasks/**/*.rb
@@ -48,6 +47,9 @@ RSpec/ExampleLength:
   Enabled: false
 
 Rails/HelperInstanceVariable:
+  Enabled: false
+
+Rails/FindEach:
   Enabled: false
 
 RSpec/MultipleExpectations:
@@ -73,3 +75,12 @@ Style/StringLiterals:
 Style/SymbolArray:
   Exclude:
     - config/initializers/*.rb
+
+Style/HashEachMethods:
+  Enabled: false
+
+RSpec/IndexedLet:
+  Enabled: false
+
+RSpec/NoExpectationExample:
+  Enabled: false

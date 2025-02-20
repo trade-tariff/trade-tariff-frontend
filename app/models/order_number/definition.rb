@@ -48,8 +48,9 @@ class OrderNumber
     def order_number
       # Returns the order number when loaded via the quota tools page
       return @order_number if @order_number
+
       # Returns the order number when the definition is loaded as part of a declarable response
-      return casted_by if casted_by.is_a?(OrderNumber)
+      casted_by if casted_by.is_a?(OrderNumber)
     end
 
     def geographical_areas

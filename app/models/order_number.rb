@@ -18,7 +18,8 @@ class OrderNumber
 
   def definition
     return @definition if @definition
-    return casted_by if casted_by.is_a?(OrderNumber::Definition)
+
+    casted_by if casted_by.is_a?(OrderNumber::Definition)
   end
 
   def warning_text

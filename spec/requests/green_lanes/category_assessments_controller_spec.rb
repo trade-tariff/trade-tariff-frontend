@@ -4,8 +4,7 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
   subject { make_request && response }
 
   before do
-    allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return true
-    allow(TradeTariffFrontend).to receive(:green_lanes_api_token).and_return ''
+    allow(TradeTariffFrontend).to receive_messages(green_lanes_enabled?: true, green_lanes_api_token: '')
     allow(GeographicalArea).to receive(:all).and_return countries
   end
 

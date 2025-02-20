@@ -1,0 +1,209 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3019/api/v2/commodities/0101999999?as_of=2025-02-20&filter%5Bmeursing_additional_code_id%5D
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - e7b89100-82ca-480d-95d7-66b0ab32a9c7
+      X-Runtime:
+      - '0.032608'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.03, sql.sequel;dur=1.34, process_action.action_controller;dur=22.22
+      Content-Length:
+      - '143'
+    body:
+      encoding: UTF-8
+      string: '{"error":"not found","url":"http://localhost:3019/api/v2/commodities/0101999999?as_of=2025-02-20\u0026filter%5Bmeursing_additional_code_id%5D"}'
+  recorded_at: Thu, 20 Feb 2025 09:09:31 GMT
+- request:
+    method: get
+    uri: http://localhost:3019/api/v2/subheadings/0101999999-80?as_of=2025-02-20&filter%5Bmeursing_additional_code_id%5D
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - dff3d3fc-d15d-49c4-827e-cbc4463be2c0
+      X-Runtime:
+      - '0.135230'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=15.83, process_action.action_controller;dur=67.05
+      Content-Length:
+      - '146'
+    body:
+      encoding: UTF-8
+      string: '{"error":"not found","url":"http://localhost:3019/api/v2/subheadings/0101999999-80?as_of=2025-02-20\u0026filter%5Bmeursing_additional_code_id%5D"}'
+  recorded_at: Thu, 20 Feb 2025 09:09:33 GMT
+- request:
+    method: post
+    uri: http://localhost:3019/api/v2/search
+    body:
+      encoding: UTF-8
+      string: as_of=2025-02-20&q=0101999999&resource_id
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"950231491983260c3114d301178e0116"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - d0abd574-a8b2-436d-b75f-a65b7d07dfbd
+      X-Runtime:
+      - '0.233307'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=157.59, process_action.action_controller;dur=221.81
+      Content-Length:
+      - '244'
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":"1","type":"fuzzy_search","attributes":{"type":"fuzzy_match","goods_nomenclature_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]},"reference_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]}}}}'
+  recorded_at: Thu, 20 Feb 2025 09:09:33 GMT
+- request:
+    method: get
+    uri: http://localhost:3019/api/v2/commodities/0101999999/validity_periods
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.8.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"42f8104a18754db6b114ef6672fc4f0e"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 7d3e02c0-027f-477e-b4dc-907015f68591
+      X-Runtime:
+      - '0.046155'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.01, sql.sequel;dur=3.62, process_action.action_controller;dur=16.18
+      Content-Length:
+      - '25'
+    body:
+      encoding: UTF-8
+      string: '{"data":[],"included":[]}'
+  recorded_at: Thu, 20 Feb 2025 09:15:08 GMT
+recorded_with: VCR 6.2.0

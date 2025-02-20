@@ -31,6 +31,6 @@ RSpec.describe NullObject do
   describe '#to_s' do
     subject { null_object.to_s }
 
-    it { is_expected.to be nil }
+    it { is_expected.to be_nil }
   end
 end

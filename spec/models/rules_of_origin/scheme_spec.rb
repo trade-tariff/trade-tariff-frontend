@@ -140,7 +140,7 @@ RSpec.describe RulesOfOrigin::Scheme do
     end
 
     context 'without codes' do
-      it 'will raise an exception' do
+      it 'raises an exception' do
         expect { described_class.for_heading_and_country }.to raise_exception ArgumentError
       end
     end
@@ -311,7 +311,7 @@ RSpec.describe RulesOfOrigin::Scheme do
 
         before { schemes.first.links.first.source = 'scheme_set' }
 
-        it { expect(schemes.first.agreement_link).to eq nil }
+        it { expect(schemes.first.agreement_link).to be_nil }
       end
 
       context 'when no links exist' do
@@ -319,7 +319,7 @@ RSpec.describe RulesOfOrigin::Scheme do
 
         before { schemes.first.links = [] }
 
-        it { expect(schemes.first.agreement_link).to eq nil }
+        it { expect(schemes.first.agreement_link).to be_nil }
       end
     end
 

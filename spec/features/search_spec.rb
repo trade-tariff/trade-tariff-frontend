@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Search', js: true do
+RSpec.describe 'Search', :js do
   context 'with find_commodity page' do
     include_context 'with latest news stubbed'
     include_context 'with news updates stubbed'

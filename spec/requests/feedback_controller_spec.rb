@@ -38,7 +38,7 @@ RSpec.describe FeedbackController, type: :request do
 
       it { is_expected.not_to redirect_to(feedback_thanks_url) }
 
-      it 'will not send the email' do
+      it 'does not send the email' do
         expect(ActionMailer::Base.deliveries.count).to eq(0)
       end
     end
@@ -74,7 +74,7 @@ RSpec.describe FeedbackController, type: :request do
 
       it { is_expected.to redirect_to(find_commodity_url) }
 
-      it 'will not send the email' do
+      it 'does not send the email' do
         expect(ActionMailer::Base.deliveries.count).to eq(0)
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe FeedbackController, type: :request do
 
       it { is_expected.to redirect_to(feedback_thanks_url) }
 
-      it 'will not send the email' do
+      it 'does not send the email' do
         expect(ActionMailer::Base.deliveries.count).to eq(0)
       end
     end
