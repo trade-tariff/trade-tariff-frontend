@@ -12,7 +12,7 @@ atom_feed(
     author.name 'HM Government'
   end
 
-  @results.all.find_each do |result|
+  @results.all.each do |result|
     feed.entry(
       result,
       id: "tag:#{request.host},2005:#{result.class}/#{result.to_param}",

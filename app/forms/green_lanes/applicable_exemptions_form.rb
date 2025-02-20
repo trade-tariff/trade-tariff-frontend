@@ -10,7 +10,7 @@ module GreenLanes
     attr_reader :answers, :category_assessments
 
     validates_each :answers do |record, _attr, _value|
-      record.category_assessments.each_key do |category_assessment|
+      record.category_assessments.each do |category_assessment, _all_answered|
         key = category_assessment.id
         value = record.public_send(key)
 

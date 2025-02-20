@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe GreenLanes::FaqFeedback, type: :model do
   let(:faq_feedback) { build(:green_lanes_faq_feedback) }
 
@@ -15,7 +13,7 @@ RSpec.describe GreenLanes::FaqFeedback, type: :model do
 
     def mock_response(success:, status: nil, body: nil)
       instance_double(
-        HTTPResponse,
+        Faraday::Response,
         success?: success,
         status:,
         body:,
