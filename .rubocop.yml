@@ -49,6 +49,9 @@ RSpec/ExampleLength:
 Rails/HelperInstanceVariable:
   Enabled: false
 
+Rails/FindEach:
+  Enabled: false
+
 RSpec/MultipleExpectations:
   Exclude:
     - spec/features/**/*_spec.rb
