@@ -114,5 +114,77 @@ RSpec.describe CommoditiesController, type: :controller do
         expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:uk)
       end
     end
+
+    context 'with UK site' do
+      include_context 'with UK service'
+
+      before do
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:xi).and_call_original
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
+      end
+
+      let(:validity_periods) do
+        attributes_for_list :validity_period, 2,
+                            goods_nomenclature_item_id: commodity_id
+      end
+      let(:commodity_id) { '0101999999' } # commodity 0101999999 does not exist
+
+      it_behaves_like 'a commodity controller response'
+
+      context 'with non existing commodity id provided and validity_periods api',
+              vcr: { cassette_name: 'commodities#show_0101999999' } do
+        before do
+          stub_api_request("/api/v2/commodities/#{commodity_id}/validity_periods")
+            .to_return jsonapi_response(:validity_periods, validity_periods)
+
+          TradeTariffFrontend::ServiceChooser.service_choice = nil
+          get :show, params: { id: commodity_id }
+        end
+
+        it 'responds with a 404' do
+          expect(response).to have_http_status :not_found
+        end
+
+        it 'renders a custom 404 page' do
+          expect(response).to render_template 'show_404'
+        end
+      end
+
+      context 'with non existing commodity id provided and no validity_periods api',
+              vcr: { cassette_name: 'commodities#show_0101999999' } do
+        before do
+          stub_api_request("/api/v2/commodities/#{commodity_id}/validity_periods")
+            .to_return jsonapi_error_response(404)
+
+          TradeTariffFrontend::ServiceChooser.service_choice = nil
+          get :show, params: { id: commodity_id }
+        end
+
+        it 'redirects to heading page (strips exceeding commodity id characters)' do
+          expect(response).to redirect_to sections_path
+        end
+      end
+
+      context 'with commodity id that does not exist in provided date and validity_periods api',
+              vcr: { cassette_name: 'commodities#show_010121000' } do
+        let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
+
+        before do
+          stub_api_request("/api/v2/commodities/#{commodity_id}/validity_periods")
+            .to_return jsonapi_response(:validity_periods, validity_periods)
+
+          TradeTariffFrontend::ServiceChooser.service_choice = nil
+          get :show, params: { id: commodity_id, year: 2000, month: 1, day: 1, country: nil }
+        end
+
+        it 'responds with a 404' do
+          expect(response).to have_http_status :not_found
+        end
+
+        it 'renders a custom 404 page' do
+          expect(response).to render_template 'show_404'
+        end
+      end
+    end
   end
 end
