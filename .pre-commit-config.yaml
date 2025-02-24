@@ -38,10 +38,10 @@ repos:
         args:
           - --org-id=da607531-93bb-4321-90ed-08710434ce1c
 
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.16.1
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.88.12
     hooks:
-      - id: gitleaks
+      - id: trufflehog
 
   - repo: https://github.com/mattlqx/pre-commit-ruby
     rev: v1.3.6
