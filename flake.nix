@@ -57,9 +57,10 @@
           buildInputs = [
             chrome
             lint
-            ruby
-            pkgs.yarn
+            pkgs.nodejs_latest
             pkgs.rufo
+            pkgs.yarn
+            ruby
           ];
         };
       });

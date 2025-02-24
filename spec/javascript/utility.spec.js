@@ -3,7 +3,10 @@
 import Utility from 'utility';
 
 describe('Utility.countrySelectorOnConfirm', () => {
-  let selectElement; let form; let anchorInput; let originalLocation;
+  let selectElement;
+  let form;
+  let anchorInput;
+  let originalLocation;
 
   beforeEach(() => {
     // Save the original location so we can restore it after the test
@@ -33,7 +36,9 @@ describe('Utility.countrySelectorOnConfirm', () => {
 
     selectElement = document.querySelector('select');
     form = selectElement.closest('form');
-    anchorInput = selectElement.closest('.govuk-fieldset').querySelector('input[name$="[anchor]"]');
+    anchorInput = selectElement
+        .closest('.govuk-fieldset')
+        .querySelector('input[name$="[anchor]"]');
   });
 
   afterEach(() => {
@@ -70,13 +75,16 @@ describe('Utility.countrySelectorOnConfirm', () => {
 
     Utility.countrySelectorOnConfirm(confirmed, selectElement);
 
-    expect(window.location.href).toBe(`${window.location.origin}/xi/commodities/1234#origin`);
+    expect(window.location.href).toBe(
+        `${window.location.origin}/xi/commodities/1234#origin`,
+    );
   });
 });
 
 describe('Utility.fetchCommoditySearchSuggestions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.spyOn(console, 'error').mockImplementation(() => {}); // Suppress console.error
   });
 
   const query = 'wine';
@@ -87,14 +95,24 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
   it('fetches suggestions and populates results', async () => {
     const mockResponse = {
       results: [
-        {id: 'wine', text: 'wine', query: 'wine', resource_id: '6828', formatted_suggestion_type: ''},
-        {id: 'red wine', text: 'red wine', query: 'wine', resource_id: '7273', formatted_suggestion_type: ''},
+        {
+          id: 'wine',
+          text: 'wine',
+          query: 'wine',
+          resource_id: '6828',
+          formatted_suggestion_type: '',
+        },
+        {
+          id: 'red wine',
+          text: 'red wine',
+          query: 'wine',
+          resource_id: '7273',
+          formatted_suggestion_type: '',
+        },
       ],
     };
 
-    const expectedResults = [
-      'wine', 'red wine',
-    ];
+    const expectedResults = ['wine', 'red wine'];
 
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -102,33 +120,50 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
       }),
     );
 
-    await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
+    await Utility.fetchCommoditySearchSuggestions(
+        query,
+        searchSuggestionsPath,
+        options,
+        populateResults,
+    );
 
-    expect(populateResults).toHaveBeenCalledWith([
-      'wine',
-      'red wine',
-    ]);
+    expect(populateResults).toHaveBeenCalledWith(['wine', 'red wine']);
 
-    expect(populateResults).toHaveBeenCalledWith(expect.arrayContaining(expectedResults),
+    expect(populateResults).toHaveBeenCalledWith(
+        expect.arrayContaining(expectedResults),
     );
   });
 
   it('handles fetch error gracefully', async () => {
     global.fetch = jest.fn(() => Promise.reject(new Error('Network error')));
 
-    await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
+    await Utility.fetchCommoditySearchSuggestions(
+        query,
+        searchSuggestionsPath,
+        options,
+        populateResults,
+    );
 
     expect(populateResults).toHaveBeenCalledWith([]);
   });
 });
 
 describe('Utility.commoditySelectorOnConfirm', () => {
-  let options; let resourceIdHidden; let inputElement; let form;
+  let options;
+  let resourceIdHidden;
+  let inputElement;
+  let form;
 
   beforeEach(() => {
     options = [
-      {'id': 'wine', 'text': 'wine', 'suggestion_type': 'exact', 'newOption': true},
-      {'id': 'wine', 'text': 'wine', 'query': 'wine', 'resource_id': '6828', 'formatted_suggestion_type': ''},
+      {id: 'wine', text: 'wine', suggestion_type: 'exact', newOption: true},
+      {
+        id: 'wine',
+        text: 'wine',
+        query: 'wine',
+        resource_id: '6828',
+        formatted_suggestion_type: '',
+      },
     ];
 
     document.body.innerHTML = `
@@ -148,7 +183,12 @@ describe('Utility.commoditySelectorOnConfirm', () => {
   it('sets the resource ID and submits the form when an option is confirmed', () => {
     const text = {id: 'wine', text: 'wine'};
 
-    Utility.commoditySelectorOnConfirm(text, options, resourceIdHidden, inputElement);
+    Utility.commoditySelectorOnConfirm(
+        text,
+        options,
+        resourceIdHidden,
+        inputElement,
+    );
 
     expect(resourceIdHidden.value).toBe('6828');
     expect(inputElement.value).toBe('wine');
@@ -158,7 +198,12 @@ describe('Utility.commoditySelectorOnConfirm', () => {
   it('does nothing if the selected option is not found', () => {
     const text = {id: '3', text: 'Unknown Commodity'};
 
-    Utility.commoditySelectorOnConfirm(text, options, resourceIdHidden, inputElement);
+    Utility.commoditySelectorOnConfirm(
+        text,
+        options,
+        resourceIdHidden,
+        inputElement,
+    );
 
     expect(resourceIdHidden.value).toBe('');
     expect(inputElement.value).toBe('');
