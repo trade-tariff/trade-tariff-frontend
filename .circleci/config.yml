@@ -171,7 +171,7 @@ jobs:
 
   jest-tests:
     docker:
-      - image: cimg/node:16.10.0
+      - image: cimg/node:23.8.0
         environment:
           BUNDLE_JOBS: "3"
           BUNDLE_RETRY: "3"
