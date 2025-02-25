@@ -18,12 +18,7 @@
           overlays = [nixpkgs-ruby.overlays.default];
         };
 
-        rubyVersion = let
-          rubyRegex = "^ruby (.*)$";
-          toolVersionsLines = builtins.split "\n" (builtins.readFile ./.tool-versions);
-          rubyLine = builtins.head (builtins.filter (line: builtins.match rubyRegex (builtins.toString line) != null) toolVersionsLines);
-          versionMatch = builtins.match rubyRegex rubyLine;
-        in builtins.elemAt versionMatch 0;
+        rubyVersion = builtins.head (builtins.split "\n" (builtins.readFile ./.ruby-version));
         ruby = pkgs."ruby-${rubyVersion}";
 
         lint = pkgs.writeScriptBin "lint" ''
