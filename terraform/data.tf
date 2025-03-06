@@ -41,10 +41,6 @@ data "aws_ssm_parameter" "ecr_url" {
   name = "/${var.environment}/FRONTEND_ECR_URL"
 }
 
-data "aws_secretsmanager_secret" "sentry_dsn" {
-  name = "frontend-sentry-dsn"
-}
-
 data "aws_secretsmanager_secret" "green_lanes_api_tokens" {
   name = "backend-green-lanes-api-tokens"
 }
