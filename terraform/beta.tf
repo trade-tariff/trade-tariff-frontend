@@ -97,10 +97,6 @@
 #       value = "--enable-yjit"
 #     },
 #     {
-#       name  = "SENTRY_ENVIRONMENT"
-#       value = var.environment
-#     },
-#     {
 #       name  = "SERVICE_DEFAULT"
 #       value = "uk"
 #     },
@@ -154,10 +150,6 @@
 #     {
 #       name      = "SECRET_KEY_BASE"
 #       valueFrom = data.aws_secretsmanager_secret.frontend_secret_key_base.arn
-#     },
-#     {
-#       name      = "SENTRY_DSN"
-#       valueFrom = data.aws_secretsmanager_secret.sentry_dsn.arn
 #     },
 #     {
 #       name      = "GREEN_LANES_API_TOKEN"

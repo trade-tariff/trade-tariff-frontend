@@ -55,10 +55,6 @@ module TradeTariffFrontend
     ENV.fetch('STW_ENABLED', 'false') == 'true'
   end
 
-  def js_sentry_dsn
-    ENV.fetch('JS_SENTRY_DSN', '')
-  end
-
   def revision
     `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
   end

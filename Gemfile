@@ -51,9 +51,6 @@ gem 'aws-sdk-rails'
 gem 'govuk_design_system_formbuilder'
 gem 'wizard_steps'
 
-# Sentry
-gem 'sentry-rails'
-
 group :development do
   gem 'letter_opener'
   gem 'rubocop-capybara'

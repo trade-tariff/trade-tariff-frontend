@@ -817,7 +817,6 @@ DEPENDENCIES
   rspec_junit_formatter
   rubocop-capybara
   rubocop-govuk
-  sentry-rails
   shoulda-matchers
   simplecov
   solargraph
