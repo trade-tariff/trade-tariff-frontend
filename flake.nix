@@ -35,6 +35,10 @@
           "--with-libyaml-include=${libyaml.dev}/include"
           "--with-libyaml-lib=${libyaml.out}/lib"
         ];
+        update-providers = pkgs.writeScriptBin "update-providers" ''
+          cd terraform
+          terraform init -backend=false -reconfigure -upgrade
+        '';
       in {
         devShells.default = pkgs.mkShell {
           shellHook = ''
@@ -53,9 +57,11 @@
             chrome
             lint
             pkgs.nodejs_latest
+            pkgs.circleci-cli
             pkgs.rufo
             pkgs.yarn
             ruby
+            update-providers
           ];
         };
       });
