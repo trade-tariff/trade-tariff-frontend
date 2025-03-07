@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.81.0
+    rev: v1.97.4
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
@@ -13,7 +13,7 @@ repos:
           - --hook-config=--create-file-if-not-exist=true
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
         exclude: ^spec/vcr|vendor/
@@ -23,7 +23,7 @@ repos:
         exclude: ^spec/vcr|vendor/
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.38.0
+    rev: v0.44.0
     hooks:
       - id: markdownlint-docker
         args:
@@ -32,14 +32,14 @@ repos:
           - terraform
 
   - repo: https://github.com/zahorniak/pre-commit-circleci.git
-    rev: v0.6
+    rev: v1.1.0
     hooks:
       - id: circleci_validate
         args:
           - --org-id=da607531-93bb-4321-90ed-08710434ce1c
 
   - repo: https://github.com/trufflesecurity/trufflehog
-    rev: v3.88.12
+    rev: v3.88.15
     hooks:
       - id: trufflehog
 
