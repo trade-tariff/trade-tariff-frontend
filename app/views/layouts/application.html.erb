@@ -4,6 +4,7 @@
 <%= render partial: 'layouts/base' %>
 
 <head>
+  <%= render 'shared/gtm', part: 'head' %>
   <meta charset="utf-8">
   <title><%= yield :pageTitle %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -29,17 +30,15 @@
 </head>
 
 <body class="govuk-template__body <%= service_choice || service_default %>-service">
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= TradeTariffFrontend.google_tag_manager_container_id %>"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <%= render 'shared/gtm', part: 'body' %>
   <%= content_tag :div, class: 'path_info', data: @path_info do %>
   <% end %>
 
   <%= javascript_tag nonce: true do -%>
     document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
-    window.googleTagManagerContainerId = "<%= TradeTariffFrontend.google_tag_manager_container_id %>";
   <% end -%>
 
-    <%= render 'layouts/cookies_consent' %>
+  <%= render 'layouts/cookies_consent' %>
 
   <a href="#content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 
