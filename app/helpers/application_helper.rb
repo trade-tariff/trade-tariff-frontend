@@ -184,7 +184,7 @@ module ApplicationHelper
       link_url += "?#{query}" if query.present?
     end
 
-    link_to link_description, link_url
+    link_to link_description, link_url, id: 'duty-calculator-link'
   end
 
   def month_name_and_year(month, year)
