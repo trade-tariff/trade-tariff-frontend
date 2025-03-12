@@ -7,7 +7,6 @@ class MockRackApp
 
   def call(env)
     @env = env
-    @request_body = env['rack.input'].read
     [200, { 'Content-Type' => 'text/plain' }, %w[OK]]
   end
 

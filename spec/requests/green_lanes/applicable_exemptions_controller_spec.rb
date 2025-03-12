@@ -95,7 +95,7 @@ RSpec.describe GreenLanes::ApplicableExemptionsController,
         }
       end
 
-      it { is_expected.to have_http_status :unprocessable_entity }
+      it { is_expected.to have_http_status 422 }
 
       it 'assigns the error to the @exemptions_form' do
         make_request
