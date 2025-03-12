@@ -45,6 +45,7 @@ gem 'rack-cors'
 gem 'redis'
 
 # AWS
+gem 'aws-actionmailer-ses'
 gem 'aws-sdk-rails'
 
 # For MeursingLookup functionality
