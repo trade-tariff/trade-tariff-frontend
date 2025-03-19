@@ -100,7 +100,7 @@ Rails.application.configure do
     host: ENV['HOST'] || 'www.trade-tariff.service.gov.uk',
   }
 
-  config.action_mailer.delivery_method = :ses
+  config.action_mailer.delivery_method = :ses_v2
 
   config.webpacker.check_yarn_integrity = false
 end
