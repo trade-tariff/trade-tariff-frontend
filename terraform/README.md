@@ -52,6 +52,7 @@ Terraform to deploy the service into AWS.
 | <a name="input_environment"></a> [environment](#input\_environment) | Deployment environment. | `string` | n/a | yes |
 | <a name="input_google_tag_manager_container_id"></a> [google\_tag\_manager\_container\_id](#input\_google\_tag\_manager\_container\_id) | Google Tag Manager container ID | `string` | n/a | yes |
 | <a name="input_green_lanes_enabled"></a> [green\_lanes\_enabled](#input\_green\_lanes\_enabled) | Enable green lanes api UI in front end | `bool` | `false` | no |
+| <a name="input_maintenance"></a> [maintenance](#input\_maintenance) | Enable maintenance mode | `bool` | `false` | no |
 | <a name="input_max_capacity"></a> [max\_capacity](#input\_max\_capacity) | Largest number of tasks the service can scale-out to. | `number` | `5` | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | Memory to allocate in MB. Powers of 2 only. | `number` | n/a | yes |
 | <a name="input_min_capacity"></a> [min\_capacity](#input\_min\_capacity) | Smallest number of tasks the service can scale-in to. | `number` | `1` | no |

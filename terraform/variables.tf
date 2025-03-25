@@ -57,6 +57,12 @@ variable "green_lanes_enabled" {
   default     = false
 }
 
+variable "maintenance" {
+  description = "Enable maintenance mode"
+  type        = bool
+  default     = false
+}
+
 variable "google_tag_manager_container_id" {
   description = "Google Tag Manager container ID"
   type        = string

@@ -9,3 +9,4 @@ max_capacity                    = 8
 tariff_email_to                 = "hmrc-trade-tariff-support-g@digital.hmrc.gov.uk"
 green_lanes_enabled             = true
 google_tag_manager_container_id = "GTM-M48MSVMQ"
+maintenance                     = true

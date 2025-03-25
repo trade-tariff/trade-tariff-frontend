@@ -9,3 +9,4 @@ max_capacity                    = 16
 tariff_email_to                 = "online.tariff.feedback@hmrc.gov.uk"
 green_lanes_enabled             = true
 google_tag_manager_container_id = "GTM-KPM7NRDG"
+maintenance                     = true

@@ -140,6 +140,10 @@ module "service" {
       name  = "GREEN_LANES_ENABLED"
       value = var.green_lanes_enabled
     },
+    {
+      name  = "MAINTENANCE"
+      value = var.maintenance
+    },
   ]
 
   service_secrets_config = [
