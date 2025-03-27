@@ -4,7 +4,7 @@
 <%= render partial: 'layouts/base' %>
 
 <head>
-  <%= render 'shared/gtm', part: 'head' %>
+  <%= render 'shared/gtm', part: 'head' if analytics_allowed? %>
   <meta charset="utf-8">
   <title><%= yield :pageTitle %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -30,7 +30,7 @@
 </head>
 
 <body class="govuk-template__body <%= service_choice || service_default %>-service">
-  <%= render 'shared/gtm', part: 'body' %>
+  <%= render 'shared/gtm', part: 'body' if analytics_allowed? %>
   <%= content_tag :div, class: 'path_info', data: @path_info do %>
   <% end %>
 
