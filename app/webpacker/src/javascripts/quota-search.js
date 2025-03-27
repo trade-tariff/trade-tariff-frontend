@@ -1,4 +1,4 @@
-import debounce from "./debounce";
+import accessibleAutocomplete from 'accessible-autocomplete';
 
 (function(){
   var fieldset = $('.js-quota-country-picker');
