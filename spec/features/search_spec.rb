@@ -39,6 +39,8 @@ RSpec.describe 'Search', :js do
           expect(page.find('#year')).to be_present
           expect(page.find('input[name="new_search"]')).to be_present
 
+          expect(page.find('.autocomplete__wrapper')).to be_present
+
           expect(page).not_to have_content('Quota search results')
         end
       end
