@@ -22,6 +22,9 @@ RSpec.feature 'Cookies management', :js do
     expect(cookie_for('cookies_policy')).to eq('remember_settings' => true, 'usage' => true)
     expect(cookie_for('cookies_preferences_set')).to eq('value' => true)
     expect(page).to have_css '#banner', visible: :hidden
+
+    visit help_path
+    expect(page).to have_selector("script[src*='https://www.googletagmanager.com/gtm.js']", visible: :hidden)
   end
 
   scenario 'rejecting cookies from banner' do
@@ -39,6 +42,9 @@ RSpec.feature 'Cookies management', :js do
     expect(cookie_for('cookies_policy')).to eq('remember_settings' => false, 'usage' => false)
     expect(cookie_for('cookies_preferences_set')).to eq('value' => true)
     expect(page).to have_css '#banner', visible: :hidden
+
+    visit help_path
+    expect(page).not_to have_selector("script[src*='https://www.googletagmanager.com/gtm.js']")
   end
 
   scenario 'manually setting cookies' do
@@ -52,7 +58,6 @@ RSpec.feature 'Cookies management', :js do
 
     expect(page).to have_css 'h1', text: 'Cookies on the UK Integrated Online Tariff'
     expect(page).to have_css '#banner', text: /We use some essential cookies/
-    choose 'No, do not use cookies that measure my website use'
     choose 'Yes, use cookies that remember my settings on the site'
     choose 'Use cookies that measure my website use'
     click_on 'Save Changes'
@@ -61,15 +66,19 @@ RSpec.feature 'Cookies management', :js do
     expect(page).to have_css '.govuk-notification-banner h3', text: 'Your cookie settings were saved'
     expect(page).to have_css '#cookies_accepted'
 
-    find(:button, 'Accept additional cookies', visible: true).click
-    expect(cookie_for('cookies_policy')).to eq('remember_settings' => true, 'usage' => true)
-    expect(cookie_for('cookies_preferences_set')).to be_nil
-
+    visit cookies_path
     find(:button, 'Hide this message', visible: true).click
     expect(cookie_for('cookies_policy')).to eq('remember_settings' => true, 'usage' => true)
     expect(cookie_for('cookies_preferences_set')).to eq('value' => true)
-
+    expect(page).to have_selector("script[src*='https://www.googletagmanager.com/gtm.js']", visible: :hidden)
     expect(page).to have_css 'h1', text: 'Cookies on the UK Integrated Online Tariff'
     expect(page).to have_css '#banner', visible: :hidden
+
+    choose 'No, do not use cookies that measure my website use'
+    click_on 'Save Changes'
+    expect(cookie_for('cookies_policy')).to eq('remember_settings' => true, 'usage' => false)
+
+    visit cookies_path
+    expect(page).not_to have_selector("script[src*='https://www.googletagmanager.com/gtm.js']")
   end
 end

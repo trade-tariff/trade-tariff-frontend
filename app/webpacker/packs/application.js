@@ -35,7 +35,6 @@ require('../src/javascripts/datepicker-day.js');
 require('../src/javascripts/calendar-button.js');
 require('../src/javascripts/datepicker.js');
 require('../src/javascripts/help_popup.js');
-require('../src/javascripts/google-tag-manager-loader.js');
 require('../src/javascripts/commodities.js');
 // TODO test:
 require('../src/javascripts/country-autocomplete.js');
