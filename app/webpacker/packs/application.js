@@ -45,9 +45,10 @@ import debounce from '../src/javascripts/debounce.js';
 import Utility from '../src/javascripts/utility.js';
 import accessibleAutocomplete from 'accessible-autocomplete';
 
-window.Utility = Utility;
-window.debounce = debounce;
-window.accessibleAutocomplete = accessibleAutocomplete;
+window.GOVUK = window.GOVUK || {};
+window.GOVUK.Utility = Utility;
+window.GOVUK.debounce = debounce;
+window.GOVUK.accessibleAutocomplete = accessibleAutocomplete;
 
 require.context('govuk-frontend/dist/govuk/assets');
 import {initAll} from 'govuk-frontend/dist/govuk/govuk-frontend.min.js';
@@ -60,6 +61,4 @@ import 'controllers';
 $(function() {
   // eslint-disable-next-line no-undef
   GOVUK.tariff.onLoad();
-  window.Utility = Utility;
-  window.debounce = debounce;
 });
