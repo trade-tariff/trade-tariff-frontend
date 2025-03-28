@@ -22,6 +22,9 @@ RSpec.feature 'Cookies management', :js do
     expect(cookie_for('cookies_policy')).to eq('remember_settings' => true, 'usage' => true)
     expect(cookie_for('cookies_preferences_set')).to eq('value' => true)
     expect(page).to have_css '#banner', visible: :hidden
+
+    visit help_path
+    expect(page).to have_selector("script[src*='https://www.googletagmanager.com/gtm.js']", visible: false)
   end
 
   scenario 'rejecting cookies from banner' do
@@ -39,6 +42,9 @@ RSpec.feature 'Cookies management', :js do
     expect(cookie_for('cookies_policy')).to eq('remember_settings' => false, 'usage' => false)
     expect(cookie_for('cookies_preferences_set')).to eq('value' => true)
     expect(page).to have_css '#banner', visible: :hidden
+
+    visit help_path
+    expect(page).not_to have_selector("script[src*='https://www.googletagmanager.com/gtm.js']", visible: false)
   end
 
   scenario 'manually setting cookies' do
