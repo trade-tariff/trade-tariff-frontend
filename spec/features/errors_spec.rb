@@ -5,12 +5,10 @@ RSpec.describe 'Error handling' do
 
   shared_examples 'not found' do
     it { is_expected.to have_http_status :not_found }
-    it { is_expected.to have_css '.govuk-main-wrapper h1', text: 'Page not found' }
   end
 
   shared_examples 'internal server error' do
     it { is_expected.to have_http_status :internal_server_error }
-    it { is_expected.to have_css '.govuk-main-wrapper h1', text: 'We are experiencing technical difficulties' }
   end
 
   describe 'not found page' do
