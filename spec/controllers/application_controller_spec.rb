@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe ApplicationController, type: :controller do
+RSpec.describe ApplicationController, type: :controller do # rubocop:disable RSpec/MultipleDescribes
   controller do
     def index
       render plain: 'Hari Seldon'
