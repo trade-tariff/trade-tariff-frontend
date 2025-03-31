@@ -17,6 +17,12 @@ class ApplicationController < ActionController::Base
   layout :set_layout
 
   rescue_from Faraday::TooManyRequestsError, with: :handle_too_many_requests_error
+  rescue_from URI::InvalidURIError, with: :handle_invalid_uri_error
+  rescue_from ActionController::UnknownFormat, with: :handle_unknown_format
+  rescue_from Faraday::ConnectionFailed, with: :handle_connection_failed
+  rescue_from Faraday::TimeoutError, with: :handle_timeout_error
+  rescue_from Faraday::ServerError, with: :handle_server_error
+  rescue_from ActionDispatch::Http::Parameters::ParseError, with: :handle_params_parse_error
 
   def url_options
     return super unless search_invoked?
@@ -146,4 +152,30 @@ class ApplicationController < ActionController::Base
   def handle_too_many_requests_error
     redirect_to '/429'
   end
+
+  # Methods below are used to handle errors and
+  # exceptions as we principally don't need these ending up in our error logging
+  def raise_not_found(exception)
+    Rails.logger.info(exception.message)
+    redirect_to '/404', status: :not_found
+  end
+
+  alias_method :handle_invalid_uri_error, :raise_not_found
+  alias_method :handle_unknown_format, :raise_not_found
+
+  def bad_request(exception)
+    Rails.logger.info(exception.message)
+    redirect_to '/400', status: :bad_request
+  end
+
+  alias_method :handle_params_parse_error, :bad_request
+
+  def raise_internal_server_error(exception)
+    Rails.logger.error(exception.message)
+    redirect_to '/500', status: :internal_server_error
+  end
+
+  alias_method :handle_connection_failed, :raise_internal_server_error
+  alias_method :handle_timeout_error, :raise_internal_server_error
+  alias_method :handle_server_error, :raise_internal_server_error
 end
