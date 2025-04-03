@@ -37,6 +37,7 @@ end
 
 RSpec.describe MyFakeController, type: :controller do
   before do
+    Rails.application.reload_routes!
     routes.disable_clear_and_finalize = true
     routes.draw { get 'bad_action' => 'my_fake#bad_action' }
     routes.draw { get 'bad_connection' => 'my_fake#bad_connection' }
