@@ -1,0 +1,37 @@
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper" id="main-content" role="main">
+    <% if flash[:error] %>
+      <div class="govuk-error-summary">
+        <h2 class="govuk-error-summary__title">There was a problem</h2>
+        <div class="govuk-error-summary__body">
+          <p><%= flash[:error] %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <%= form_for @basic_session, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: :post do |form| %>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds-from-desktop">
+          <h1 class="govuk-heading-xl">
+            This is a non-production Online Trade Tariff application used for validation, only.
+          </h1>
+
+          <p>
+            If you need access to either this or the production application, please
+            <a href="mailto:hmrc-trade-tariff-support-g@digital.hmrc.gov.uk">contact</a>
+            the team.
+          </p>
+
+          <%= form.govuk_password_field :password,
+                                        label: { text: 'Password' },
+                                        class: 'govuk-input--width-10' %>
+
+
+	  <%= form.hidden_field :return_url, value: @basic_session.return_url %>
+
+          <%= form.govuk_submit 'Continue' %>
+        </div>
+      </div>
+    <% end %>
+  </main>
+</div>
