@@ -412,6 +412,11 @@ en:
               blank: "Select an option to tell us if your goods are for sale or final use in the UK"
             ukims:
               blank: "Select an option to tell us if you are a UKIMS authorised trader"
+
+        basic_session:
+          attributes:
+            password:
+              inclusion: "Incorrect password"
   helpers:
     legend:
       rules_of_origin_steps_scheme:

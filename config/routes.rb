@@ -187,4 +187,8 @@ Rails.application.routes.draw do
   match '/501', to: 'errors#not_implemented', via: :all
   match '/503', to: 'errors#maintenance', via: :all
   match '*path', to: 'errors#not_found', via: :all
+
+  if TradeTariffFrontend.basic_session_authentication?
+    resources :basic_sessions, only: %i[new create]
+  end
 end

@@ -107,6 +107,14 @@ module TradeTariffFrontend
     ENV.fetch('GOOGLE_TAG_MANAGER_CONTAINER_ID', '')
   end
 
+  def basic_session_authentication?
+    @basic_session_authentication ||= basic_session_password.present?
+  end
+
+  def basic_session_password
+    @basic_session_password ||= ENV['BASIC_PASSWORD']
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app

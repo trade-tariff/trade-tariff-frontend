@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include TradeTariffFrontend::ViewContext::Controller
   include ApplicationHelper
+  include BasicSessionAuth
 
   before_action :maintenance_mode_if_active
 
