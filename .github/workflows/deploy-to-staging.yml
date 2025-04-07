@@ -55,7 +55,6 @@ jobs:
     secrets:
       basic_password: ${{ secrets.BASIC_PASSWORD }}
 
-
   notifications:
       runs-on: ubuntu-latest
       needs: post-deploy
@@ -66,3 +65,4 @@ jobs:
           with:
             result: ${{ needs.post-deploy.result }}
             slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+        - run: if [[ "${{ needs.post-deploy.result }}" != "success" ]]; then exit 1; fi
