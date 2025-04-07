@@ -1,5 +1,4 @@
 module TradeTariffFrontend
-  autoload :BasicAuth,      'trade_tariff_frontend/basic_auth'
   autoload :Presenter,      'trade_tariff_frontend/presenter'
   autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
   autoload :ViewContext,    'trade_tariff_frontend/view_context'
@@ -75,14 +74,6 @@ module TradeTariffFrontend
     ENV['BASIC_AUTH'].to_s == 'true'
   end
 
-  def basic_username
-    ENV['BASIC_USERNAME'].to_s
-  end
-
-  def basic_password
-    ENV['BASIC_PASSWORD'].to_s
-  end
-
   def webchat_enabled?
     webchat_url.present?
   end
@@ -105,6 +96,14 @@ module TradeTariffFrontend
 
   def google_tag_manager_container_id
     ENV.fetch('GOOGLE_TAG_MANAGER_CONTAINER_ID', '')
+  end
+
+  def basic_session_authentication?
+    @basic_session_authentication ||= basic_session_password.present?
+  end
+
+  def basic_session_password
+    @basic_session_password ||= ENV['BASIC_PASSWORD']
   end
 
   class FilterBadURLEncoding

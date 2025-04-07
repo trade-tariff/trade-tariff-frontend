@@ -176,6 +176,8 @@ Rails.application.routes.draw do
   get '/trade-tariff/headings', to: redirect('/find_commodity', status: 301)
   get '/trade-tariff/headings/:heading_id', to: redirect('/headings/%{heading_id}', status: 301), constraints: { heading_id: /\d+/ }
 
+  resources :basic_sessions, only: %i[new create] if TradeTariffFrontend.basic_session_authentication?
+
   get '/robots.:format', to: 'pages#robots'
   match '/400', to: 'errors#bad_request', via: :all
   match '/404', to: 'errors#not_found', via: :all, as: :not_found
