@@ -4,7 +4,7 @@ export default class CountryAutocomplete {
   enhanceElement(element) {
     accessibleAutocomplete.enhanceSelectElement({
       defaultValue: '',
-      selectElement: element
+      selectElement: element,
     });
   }
 }
