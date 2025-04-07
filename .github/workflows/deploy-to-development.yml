@@ -1,5 +1,4 @@
 name: Deploy to development
-
 on:
   push:
     branches-ignore:
@@ -72,8 +71,9 @@ jobs:
           cache: yarn
       - run: yarn install --frozen-lockfile
 
-      - name: Run tests
-        run: bundle exec rspec
+      - run: bundle exec rspec
+
+      - run: yarn run test
 
   build:
     runs-on: ubuntu-latest

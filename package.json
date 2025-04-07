@@ -41,7 +41,8 @@
   "scripts": {
     "dev": "webpack-dev-server",
     "spec": "jest",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint app/webpacker/src/javascripts spec/javascript --fix"
   },
   "jest": {
     "testEnvironment": "jsdom",

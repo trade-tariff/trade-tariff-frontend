@@ -1,5 +1,5 @@
-import { Application } from '@hotwired/stimulus' ;
-import UkOnlyController from 'uk_only_controller.js' ;
+import {Application} from '@hotwired/stimulus';
+import UkOnlyController from 'uk_only_controller.js';
 
 describe('UkOnlyController', () => {
   const template = `
@@ -10,42 +10,42 @@ describe('UkOnlyController', () => {
         <p class="to-hide">Hidden Content</p>
       </div>
     </div>
-  `
+  `;
 
-  const application = Application.start()
-  application.register('uk-only', UkOnlyController)
+  const application = Application.start();
+  application.register('uk-only', UkOnlyController);
 
-  beforeEach(() => document.body.innerHTML = template)
+  beforeEach(() => document.body.innerHTML = template);
 
   describe('visibility', () => {
     describe('when in UK', () => {
       beforeEach(() => {
         jest.spyOn(UkOnlyController.prototype, 'timeZone')
-            .mockImplementationOnce(() => 'Europe/London')
-      })
+            .mockImplementationOnce(() => 'Europe/London');
+      });
 
       it('shows pre content', () => {
-        expect(document.querySelector('p.pre').textContent).toBe('Some Content')
-      })
+        expect(document.querySelector('p.pre').textContent).toBe('Some Content');
+      });
 
       it('shows content to hide', () => {
-        expect(document.querySelector('p.to-hide').textContent).toBe('Hidden Content')
-      })
-    })
+        expect(document.querySelector('p.to-hide').textContent).toBe('Hidden Content');
+      });
+    });
 
     describe('when outside UK', () => {
       beforeEach(() => {
         jest.spyOn(UkOnlyController.prototype, 'timeZone')
-            .mockImplementationOnce(() => 'Europe/Paris')
-      })
+            .mockImplementationOnce(() => 'Europe/Paris');
+      });
 
       it('shows pre content', () => {
-        expect(document.querySelector('p.pre').textContent).toBe('Some Content')
-      })
+        expect(document.querySelector('p.pre').textContent).toBe('Some Content');
+      });
 
       it('hides content to hide', () => {
-        expect(document.querySelector('p.to-hide')).toBeNull()
-      })
-    })
-  })
-})
+        expect(document.querySelector('p.to-hide')).toBeNull();
+      });
+    });
+  });
+});

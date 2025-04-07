@@ -31,15 +31,12 @@ require('jquery-roving-tabindex/jquery.rovingtabindex');
 require('jquery-tabs/jquery.tabs');
 require('mark.js/dist/jquery.mark');
 
-require('../src/javascripts/datepicker-day.js');
-require('../src/javascripts/calendar-button.js');
-require('../src/javascripts/datepicker.js');
 require('../src/javascripts/help_popup.js');
 require('../src/javascripts/commodities.js');
+
 // TODO test:
 require('../src/javascripts/country-autocomplete.js');
 require('../src/javascripts/quota-search.js');
-require('../src/javascripts/stop-scrolling-at-footer.js');
 
 import debounce from '../src/javascripts/debounce.js';
 import Utility from '../src/javascripts/utility.js';
@@ -51,7 +48,7 @@ window.GOVUK.debounce = debounce;
 window.GOVUK.accessibleAutocomplete = accessibleAutocomplete;
 
 require.context('govuk-frontend/dist/govuk/assets');
-import {initAll} from 'govuk-frontend/dist/govuk/govuk-frontend.min.js';
+import { initAll } from 'govuk-frontend/dist/govuk/govuk-frontend.min.js';
 initAll();
 
 // load Stimulus controllers

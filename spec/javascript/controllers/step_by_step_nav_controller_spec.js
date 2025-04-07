@@ -1,8 +1,8 @@
-import jQuery from 'jquery'
-window.jQuery = jQuery
+import jQuery from 'jquery';
+window.jQuery = jQuery;
 
-import { Application } from '@hotwired/stimulus' ;
-import StepByStepNavController from 'step_by_step_nav_controller.js' ;
+import {Application} from '@hotwired/stimulus';
+import StepByStepNavController from 'step_by_step_nav_controller.js';
 
 
 describe('StepByStepNavController', () => {
@@ -107,24 +107,24 @@ describe('StepByStepNavController', () => {
         </li>
       </ol>
     </div>
-  `
+  `;
 
-  const application = Application.start()
-  application.register('step-by-step-nav', StepByStepNavController) ;
+  const application = Application.start();
+  application.register('step-by-step-nav', StepByStepNavController);
 
-  beforeEach(() => document.body.innerHTML = template)
+  beforeEach(() => document.body.innerHTML = template);
 
   describe('initial state', () => {
-    it("instantiates the step by step nav library", () => {
-      const el = document.getElementById('step-by-step-navigation')
+    it('instantiates the step by step nav library', () => {
+      const el = document.getElementById('step-by-step-navigation');
 
-      expect(el.classList).toContain('app-step-nav--active')
-    })
+      expect(el.classList).toContain('app-step-nav--active');
+    });
 
-    it("adds the show/hide controls", () => {
-      const el = document.getElementById('step-by-step-navigation')
+    it('adds the show/hide controls', () => {
+      const el = document.getElementById('step-by-step-navigation');
 
-      expect(el.querySelector('.app-step-nav__controls')).not.toBeNull()
-    })
-  })
-})
+      expect(el.querySelector('.app-step-nav__controls')).not.toBeNull();
+    });
+  });
+});

@@ -20,7 +20,7 @@ describe('CookiePolicyController', () => {
 
   beforeEach(() => {
     // Mock the scrollIntoView method on the HTMLElement prototype - JSDOM does not support it
-    window.HTMLElement.prototype.scrollIntoView = function () {}
+    window.HTMLElement.prototype.scrollIntoView = function() {};
     cookieManager = new CookieManager();
 
     element = document.createElement('div');
