@@ -72,4 +72,15 @@ yarn cache clean
 bin/rails setup
 ```
 
+### Disabling Continuous Deployments
+
+We continuously deploy our frontend application to production after a staging deployment passes some end-to-end tests.
+
+You can disable this by:
+
+- Navigating to the [production environment deployment rule][production] page
+- Updating the `Required Reviewers` section to the reviewers you want to control production deployments
+- Hit the `Save protection rules` button
+
 [backend]: https://github.com/trade-tariff/trade-tariff-backend
+[production]: https://github.com/trade-tariff/trade-tariff-frontend/settings/environments/6229078129/edit

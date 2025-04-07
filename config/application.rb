@@ -50,9 +50,6 @@ module TradeTariffFrontend
     # Tells Rails to serve error pages from the app itself, rather than using static error pages in public/
     config.exceptions_app = routes
 
-    # Trade Tariff Backend API Version
-    config.x.backend.api_version = ENV['TARIFF_API_VERSION'] || 1
-
     config.grouped_measure_types = config_for(:grouped_measure_types)
 
     config.x.http.retry_options = {}
