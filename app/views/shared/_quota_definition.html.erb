@@ -30,12 +30,8 @@
               <%= quota_definition.measurement_unit %>
               <% unless @search.date.today? %>
                 <br>
-                <%= link_to params.permit(QuotaSearchForm::PERMITTED_PARAMS)
-                                  .merge(day: Date.today.day,
-                                         month: Date.today.month,
-                                         year: Date.today.year,
-                                         anchor: "order-number-#{order_number.number}") do %>
-                  View balance for <%= Date.today.to_formatted_s :short %>
+                <%= link_to quota_search_today_params(order_number) do %>
+                  View balance for <%= Time.zone.today.to_formatted_s :short %>
                 <% end %>
               <% end %>
             </td>

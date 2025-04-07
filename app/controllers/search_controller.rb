@@ -55,7 +55,7 @@ class SearchController < ApplicationController
       raise TradeTariffFrontend::FeatureUnavailable
     end
 
-    form = QuotaSearchForm.new(params.permit(*QuotaSearchForm::PERMITTED_PARAMS))
+    form = QuotaSearchForm.new(quota_search_params)
     @result = QuotaSearchPresenter.new(form)
 
     # Test the search date to check if it's valid
@@ -106,6 +106,6 @@ class SearchController < ApplicationController
   end
 
   def quota_search_params
-    params.permit(:day, :month, :year, :order_number, :goods_nomenclature_item_id, :geographical_area_id, :critical, :status)
+    params.permit(QuotaSearchForm::PERMITTED_PARAMS)
   end
 end
