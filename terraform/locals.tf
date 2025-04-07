@@ -1,8 +1,10 @@
 locals {
-  api_service_backend_url_options = {
-    uk = "http://backend-uk.tariff.internal:8080"
-    xi = "http://backend-xi.tariff.internal:8080"
-  }
-
-  govuk_app_domain = var.environment != "production" ? var.environment == "development" ? "tariff-frontend-dev" : "tariff-frontend-staging" : "tariff-frontend"
+  secret_value = try(data.aws_secretsmanager_secret_version.this.secret_string, "{}")
+  secret_map   = jsondecode(local.secret_value)
+  secret_env_vars = [
+    for key, value in local.secret_map : {
+      name  = key
+      value = value
+    }
+  ]
 }
