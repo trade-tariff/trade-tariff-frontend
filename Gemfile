@@ -16,6 +16,7 @@ gem 'faraday-retry'
 gem 'multi_json'
 gem 'net-http-persistent'
 gem 'newrelic_rpm'
+gem 'rack-attack'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
 
 # Assets
