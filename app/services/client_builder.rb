@@ -33,6 +33,7 @@ class ClientBuilder
         conn.response :raise_error
         conn.adapter :net_http_persistent
         conn.response :json, content_type: /\bjson$/
+        conn.headers['User-Agent'] = user_agent
       end
     end
   end
@@ -41,5 +42,9 @@ class ClientBuilder
 
   def host
     TradeTariffFrontend::ServiceChooser.public_send("#{@service}_host")
+  end
+
+  def user_agent
+    @user_agent ||= "TradeTariffFrontend/#{TradeTariffFrontend.revision}"
   end
 end
