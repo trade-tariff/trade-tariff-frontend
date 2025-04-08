@@ -86,17 +86,21 @@ class SearchController < ApplicationController
   def missing_search_query_fallback_url
     return sections_path(anchor:) if request.referer.blank?
 
-    back_url = Addressable::URI.parse(request.referer)
+    back_url = URI(request.referer)
     if back_url.host.present? && back_url.host != request.host
       return sections_path(anchor:)
     end
 
-    back_url.query_values ||= {}
-    back_url.query_values = back_url.query_values.merge(@search.query_attributes)
-    back_url.query_values = back_url.query_values.tap { |qv| qv.delete('invalid_date') }
-    if @search.date.today?
-      back_url.query_values = back_url.query_values.except('year', 'month', 'day')
-    end
+    query_values = CGI.parse(back_url.query || '')
+    query_values = query_values.transform_values { |v| v.many? ? v : v.first }
+    query_values = query_values.merge(@search.query_attributes)
+    query_values = query_values.tap { |qv| qv.delete('invalid_date') }
+
+    back_url.query = if @search.date.today?
+                       CGI.unescape(query_values.except('year', 'month', 'day').to_query)
+                     else
+                       CGI.unescape(query_values.to_query)
+                     end
     back_url.fragment = anchor
     back_url.to_s
   end
