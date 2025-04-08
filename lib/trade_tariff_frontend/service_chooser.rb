@@ -64,14 +64,6 @@ module TradeTariffFrontend
       end
     end
 
-    def api_client_with_forwarding
-      if xi?
-        Rails.application.config.http_client_xi_forwarding
-      else
-        Rails.application.config.http_client_uk_forwarding
-      end
-    end
-
     def api_host
       host = service_choices[service_choice]
 

@@ -9,8 +9,7 @@ end
 
 gem 'rails', '~> 8.0'
 
-gem 'addressable'
-gem 'faraday', '~> 2'
+gem 'faraday'
 gem 'faraday-http-cache'
 gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
@@ -19,7 +18,6 @@ gem 'net-http-persistent'
 gem 'newrelic_rpm'
 gem 'rack-attack'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
-gem 'yajl-ruby'
 
 # Assets
 gem 'bootsnap', require: false
@@ -28,10 +26,10 @@ gem 'webpacker'
 
 # gov UK
 gem 'govspeak'
+gem 'govuk_design_system_formbuilder'
 gem 'nokogiri'
 gem 'plek'
-
-gem 'connection_pool'
+gem 'wizard_steps'
 
 # Logging
 gem 'lograge'
@@ -48,23 +46,19 @@ gem 'redis'
 gem 'aws-actionmailer-ses'
 gem 'aws-sdk-rails'
 
-# For MeursingLookup functionality
-gem 'govuk_design_system_formbuilder'
-gem 'wizard_steps'
-
 group :development do
   gem 'letter_opener'
   gem 'rubocop-capybara'
   gem 'rubocop-govuk'
-  gem 'solargraph'
-  gem 'web-console'
+  gem 'ruby-lsp-rails'
+  gem 'ruby-lsp-rspec'
 end
 
 group :development, :test do
+  gem 'amazing_print'
   gem 'dotenv-rails'
-  gem 'guard-rspec', '~> 4.7'
+  gem 'guard-rspec'
   gem 'guard-rubocop'
-  gem 'pry-byebug'
   gem 'pry-rails'
 end
 
@@ -76,10 +70,9 @@ group :test do
   gem 'forgery'
   gem 'rack-test'
   gem 'rails-controller-testing', github: 'rails/rails-controller-testing', branch: 'master'
-  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-  gem 'simplecov', require: false
+  gem 'simplecov'
   gem 'vcr'
   gem 'webmock'
 end

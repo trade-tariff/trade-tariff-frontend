@@ -19,38 +19,25 @@ class ClientBuilder
     ),
   }.freeze
 
-  def initialize(service, forwarding: false, cache: Rails.cache)
+  def initialize(service, cache: Rails.cache)
     @service = service
-    @forwarding = forwarding
     @cache = cache
   end
 
   def call
-    return nil if TradeTariffFrontend::ServiceChooser.service_choices.blank?
-
-    return forwarding_client if @forwarding
-
-    resource_client
+    if TradeTariffFrontend::ServiceChooser.service_choices.present?
+      Faraday.new(host) do |conn|
+        conn.request :url_encoded
+        conn.request :retry, RETRY_DEFAULTS.merge(Rails.configuration.x.http.retry_options)
+        conn.use :http_cache, store: @cache, logger: Rails.logger if @cache
+        conn.response :raise_error
+        conn.adapter :net_http_persistent
+        conn.response :json, content_type: /\bjson$/
+      end
+    end
   end
 
   private
-
-  def forwarding_client
-    Faraday.new(host) do |conn|
-      conn.adapter :net_http_persistent
-    end
-  end
-
-  def resource_client
-    Faraday.new(host) do |conn|
-      conn.request :url_encoded
-      conn.request :retry, RETRY_DEFAULTS.merge(Rails.configuration.x.http.retry_options)
-      conn.use :http_cache, store: @cache, logger: Rails.logger if @cache
-      conn.response :raise_error
-      conn.adapter :net_http_persistent
-      conn.response :json, content_type: /\bjson$/
-    end
-  end
 
   def host
     TradeTariffFrontend::ServiceChooser.public_send("#{@service}_host")

@@ -85,26 +85,6 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
     end
   end
 
-  describe '.api_client_with_forwarding' do
-    before do
-      Thread.current[:service_choice] = choice
-    end
-
-    context 'when the service choice is xi' do
-      let(:choice) { 'xi' }
-
-      it { expect(described_class.api_client_with_forwarding).to eq(Rails.application.config.http_client_xi_forwarding) }
-      it { expect(described_class.api_client_with_forwarding).to be_a(Faraday::Connection) }
-    end
-
-    context 'when the service choice is not xi' do
-      let(:choice) { nil }
-
-      it { expect(described_class.api_client_with_forwarding).to eq(Rails.application.config.http_client_uk_forwarding) }
-      it { expect(described_class.api_client_with_forwarding).to be_a(Faraday::Connection) }
-    end
-  end
-
   describe '.currency' do
     context 'when the service is xi' do
       include_context 'with XI service'

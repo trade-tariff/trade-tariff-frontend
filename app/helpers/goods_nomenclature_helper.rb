@@ -43,7 +43,7 @@ module GoodsNomenclatureHelper
   end
 
   def referer
-    @referer ||= Addressable::URI.parse(request.referer) if request.referer.present?
+    @referer ||= URI(request.referer) if request.referer.present?
   end
 
   def goods_nomenclature_path_opts
