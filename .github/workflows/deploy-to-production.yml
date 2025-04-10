@@ -66,6 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy
     steps:
+      - uses: actions/checkout@v4
       - id: docker-tag
         run: echo "DOCKER_TAG=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
       - name: New Relic Application Deployment Marker
