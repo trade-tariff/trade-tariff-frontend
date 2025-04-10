@@ -72,9 +72,10 @@ jobs:
         uses: newrelic/deployment-marker-action@v2.5.1
         with:
           apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
+          region: "EU"
           guid: ${{ secrets.NEW_RELIC_APPLICATION_GUID }}
-          version: ${{ steps.docker-tag.outputs.DOCKER_TAG }}
-          user: ${{ github.actor }}
+          version: ${{ inputs.ref || steps.docker-tag.outputs.DOCKER_TAG }}
+          user: "${{ github.actor }}"
 
   post-deploy:
     uses: trade-tariff/trade-tariff-tools/.github/workflows/e2e-tests.yml@main
