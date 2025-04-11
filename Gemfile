@@ -10,7 +10,6 @@ end
 gem 'rails', '~> 8.0'
 
 gem 'faraday'
-gem 'faraday-http-cache'
 gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
 gem 'multi_json'
