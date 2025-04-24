@@ -20,7 +20,7 @@ permissions:
 
 env:
   AWS_REGION: eu-west-2
-  ECR_URL: 382373577178.dkr.ecr.eu-west-2.amazonaws.com/tariff-admin-production
+  ECR_URL: 382373577178.dkr.ecr.eu-west-2.amazonaws.com/tariff-frontend-production
   ENVIRONMENT: production
   IAM_ROLE_ARN: arn:aws:iam::382373577178:role/GithubActions-ECS-Deployments-Role
 
