@@ -7,11 +7,6 @@ on:
     types:
       - completed
   workflow_dispatch:
-    inputs:
-      ref:
-        description: 'The git ref to deploy'
-        required: true
-        default: 'main'
 
 permissions:
   contents: read
@@ -20,7 +15,7 @@ permissions:
 
 env:
   AWS_REGION: eu-west-2
-  ECR_URL: 382373577178.dkr.ecr.eu-west-2.amazonaws.com/tariff-admin-production
+  ECR_URL: 382373577178.dkr.ecr.eu-west-2.amazonaws.com/tariff-frontend-production
   ENVIRONMENT: production
   IAM_ROLE_ARN: arn:aws:iam::382373577178:role/GithubActions-ECS-Deployments-Role
 
@@ -34,7 +29,7 @@ jobs:
       - uses: trade-tariff/trade-tariff-tools/.github/actions/build-and-push@main
         with:
           ecr-url: ${{ env.ECR_URL }}
-          ref: ${{ inputs.ref || steps.docker-tag.outputs.DOCKER_TAG }}
+          ref: ${{ steps.docker-tag.outputs.DOCKER_TAG }}
 
   deploy:
     environment: production
@@ -48,7 +43,7 @@ jobs:
       - uses: trade-tariff/trade-tariff-tools/.github/actions/terraform-apply@main
         with:
           environment: ${{ env.ENVIRONMENT }}
-          ref: ${{ inputs.ref || steps.docker-tag.outputs.DOCKER_TAG }}
+          ref: ${{ steps.docker-tag.outputs.DOCKER_TAG }}
           ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
 
   tag:
@@ -61,7 +56,7 @@ jobs:
       - uses: trade-tariff/trade-tariff-tools/.github/actions/tag-production@main
         with:
           ecr-url: ${{ env.ECR_URL }}
-          ref: ${{ inputs.ref || steps.docker-tag.outputs.DOCKER_TAG }}
+          ref: ${{ steps.docker-tag.outputs.DOCKER_TAG }}
 
   newrelic:
     runs-on: ubuntu-latest
@@ -76,7 +71,7 @@ jobs:
           apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
           region: "EU"
           guid: ${{ secrets.NEW_RELIC_APPLICATION_GUID }}
-          version: ${{ inputs.ref || steps.docker-tag.outputs.DOCKER_TAG }}
+          version: ${{ steps.docker-tag.outputs.DOCKER_TAG }}
           user: "${{ github.actor }}"
 
   post-deploy:
