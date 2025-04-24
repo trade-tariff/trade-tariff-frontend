@@ -57,7 +57,6 @@ module TradeTariffFrontend
     config.guide_links = config_for(:guide_links)
     # Prevent invalid queries from causing an error, e.g., `/api/v2/search_references.json?query[letter]=%`
     config.middleware.use TradeTariffFrontend::FilterBadURLEncoding
-    config.middleware.insert_before ActionDispatch::Static, Rack::Deflater
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
