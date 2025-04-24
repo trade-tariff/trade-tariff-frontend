@@ -23,8 +23,8 @@ RSpec.describe SimplifiedProceduralCodeMeasureFetcherService do
       let(:params) { { simplified_procedural_code: '2.120.1' } }
 
       it { expect(result.measures).to all(be_a(SimplifiedProceduralCodeMeasure)) }
-      it { expect(result.goods_nomenclature_label).to eq('Apples') }
-      it { expect(result.goods_nomenclature_item_ids).to eq('0808108010, 0808108020, 0808108090') }
+      it { expect(result.goods_nomenclature_label).to eq('Plums') }
+      it { expect(result.goods_nomenclature_item_ids).to eq('0809400500') }
       it { expect(result.validity_start_date).to be_nil }
       it { expect(result.validity_end_date).to be_nil }
       it { expect(result.validity_start_dates).to be_nil }
@@ -47,6 +47,18 @@ RSpec.describe SimplifiedProceduralCodeMeasureFetcherService do
       it { expect(result.by_code).to be(false) }
       it { expect(result.simplified_procedural_code).to be_nil }
       it { expect(result.no_data).to be_nil }
+    end
+
+    context 'when no measures are returned by code' do
+      let(:params) { { simplified_procedural_code: 'nonexistent-code' } }
+
+      before do
+        allow(SimplifiedProceduralCodeMeasure).to receive(:by_code).and_return([])
+      end
+
+      it 'does not raise an error' do
+        expect { result }.not_to raise_error
+      end
     end
   end
 end
