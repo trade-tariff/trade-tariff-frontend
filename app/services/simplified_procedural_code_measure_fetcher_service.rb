@@ -36,8 +36,10 @@ class SimplifiedProceduralCodeMeasureFetcherService
 
   def by_code
     result.measures = SimplifiedProceduralCodeMeasure.by_code(simplified_procedural_code)
-    result.goods_nomenclature_label = result.measures.first.goods_nomenclature_label
-    result.goods_nomenclature_item_ids = result.measures.first.goods_nomenclature_item_ids
+    first_measure = result.measures.first
+
+    result.goods_nomenclature_label = first_measure&.goods_nomenclature_label
+    result.goods_nomenclature_item_ids = first_measure&.goods_nomenclature_item_ids
     result.by_code = true
     result.no_data = result.measures.all?(&:no_data?)
     result.simplified_procedural_code = simplified_procedural_code
