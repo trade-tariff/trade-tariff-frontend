@@ -78,7 +78,7 @@ module GreenLanesHelper
   end
 
   def format_pseudo_code_for_exemption(exemption)
-    exemption.code.start_with?('WFE') ? exemption.formatted_description.to_s : "#{exemption.code} #{exemption.formatted_description}"
+    sanitize(exemption.code.start_with?('WFE') ? exemption.formatted_description.to_s : "#{exemption.code} #{exemption.formatted_description}")
   end
 
   def unique_exemptions(assessments)
