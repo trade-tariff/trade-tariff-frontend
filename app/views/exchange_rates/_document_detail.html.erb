@@ -2,9 +2,9 @@
   <section class="attachment exchange-rates-attachment">
     <div class="attachment-thumb">
       <% if period.has_exchange_rates %>
-        <%= link_to(image_pack_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}"), class: 'govuk-link') %>
+        <%= link_to(image_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}"), class: 'govuk-link') %>
       <% else %>
-        <%= image_pack_tag("spreadsheet.png", alt: "") %>
+        <%= image_tag("spreadsheet.png", alt: "") %>
       <% end %>
     </div>
     <div class="attachment-details">
