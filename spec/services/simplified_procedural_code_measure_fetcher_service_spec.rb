@@ -23,8 +23,8 @@ RSpec.describe SimplifiedProceduralCodeMeasureFetcherService do
       let(:params) { { simplified_procedural_code: '2.120.1' } }
 
       it { expect(result.measures).to all(be_a(SimplifiedProceduralCodeMeasure)) }
-      it { expect(result.goods_nomenclature_label).to eq('Plums') }
-      it { expect(result.goods_nomenclature_item_ids).to eq('0809400500') }
+      it { expect(result.goods_nomenclature_label).to eq('Apples') }
+      it { expect(result.goods_nomenclature_item_ids).to eq('0808108010, 0808108020, 0808108090') }
       it { expect(result.validity_start_date).to be_nil }
       it { expect(result.validity_end_date).to be_nil }
       it { expect(result.validity_start_dates).to be_nil }
