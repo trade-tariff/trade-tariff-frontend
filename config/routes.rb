@@ -59,6 +59,12 @@ Rails.application.routes.draw do
   get '/news/stories/:id', to: 'news_items#show', as: :news_item
   resources :news_items, only: %i[index show], path: '/news'
 
+  if TradeTariffFrontend.myott?
+    namespace :myott, path: 'subscriptions' do
+      get '/', to: 'subscriptions#dashboard'
+    end
+  end
+
   namespace :rules_of_origin, path: nil do
     with_options constraints: { commodity: /\d{10}/ } do
       get '/rules_of_origin/:commodity/:country', to: 'steps#index', as: :steps
