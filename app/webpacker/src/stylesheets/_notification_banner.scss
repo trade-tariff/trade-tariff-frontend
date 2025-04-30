@@ -1,3 +1,20 @@
 .govuk-notification-banner--error {
   border-color: $govuk-error-colour;
 }
+
+.govuk-button--blue {
+  background-color:   $govuk-brand-colour;
+  border-color:  $govuk-brand-colour;
+  color: govuk-colour("white");
+  &,
+    &:link,
+    &:visited,
+    &:active,
+    &:hover {
+      color: govuk-colour("white");
+    }
+
+    &:hover {
+      background-color: $govuk-link-hover-colour;
+    }
+}
