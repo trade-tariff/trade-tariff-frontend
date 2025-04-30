@@ -3,18 +3,18 @@
 }
 
 .govuk-button--blue {
-  background-color:   $govuk-brand-colour !important;
-  border-color:  $govuk-brand-colour !important;
-  color: govuk-colour("white") !important;
+  background-color:   $govuk-brand-colour;
+  border-color:  $govuk-brand-colour;
+  color: govuk-colour("white");
   &,
     &:link,
     &:visited,
     &:active,
     &:hover {
-      color: govuk-colour("white") !important;
+      color: govuk-colour("white");
     }
 
     &:hover {
-      background-color: $govuk-link-hover-colour !important;
+      background-color: $govuk-link-hover-colour;
     }
 }
