@@ -1179,7 +1179,8 @@ en:
             question: When must I start categorising my goods?
             answer: |
                     <p>
-                    These simplified processes are introduced as part of the new arrangements for parcels and freight under the Windsor Framework. <u><a href="https://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland" target="_blank"> Find out more about Internal Market Movements.</a></u>
+                    These simplified processes are introduced as part of the new arrangements for parcels and freight under the Windsor Framework.
+                    <a href="https://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland" target="_blank"> Find out more about Internal Market Movements.</a>
                     </p>
                     <p>
                     You can start categorising your goods now using tool we have introduced in the Northern Ireland Online Tariff: <a href="%{green_lanes_start_path}" target="_blank">UK Integrated Online Tariff: Look up commodity codes, duty and VAT rates - GOV.UK</a>
