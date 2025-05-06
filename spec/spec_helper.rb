@@ -1,6 +1,8 @@
 ENV['RAILS_ENV'] ||= 'test'
 
 require 'simplecov'
+require 'axe-watir'
+
 
 SimpleCov.start 'rails'
 SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
