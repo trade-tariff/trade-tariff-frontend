@@ -22,8 +22,11 @@ gem 'routing-filter', github: 'trade-tariff/routing-filter'
 
 # Assets
 gem 'bootsnap', require: false
+gem 'dartsass-rails'
+gem 'importmap-rails'
 gem 'kaminari'
-gem 'webpacker'
+gem 'sprockets-rails'
+gem 'stimulus-rails'
 
 # gov UK
 gem 'govspeak'
