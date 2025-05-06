@@ -101,6 +101,4 @@ Rails.application.configure do
   }
 
   config.action_mailer.delivery_method = :ses_v2
-
-  config.webpacker.check_yarn_integrity = false
 end
