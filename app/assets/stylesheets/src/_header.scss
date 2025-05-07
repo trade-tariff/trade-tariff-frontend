@@ -1,4 +1,3 @@
-
 .search-button {
   display: block;
   position: relative;
@@ -12,7 +11,7 @@
   -moz-box-shadow: none;
   box-shadow: none;
   text-indent: -5000px;
-  background-image: url('../images/search-button.png');
+  background-image: url('/search-button.png');
   background-repeat: no-repeat;
   background-position: 1px -17px;
 }
@@ -31,14 +30,17 @@
   border: 2px solid #0b0c0c !important;
   border-radius: 0 !important;
 
-  .select2-selection__placeholder, .select2-selection__rendered {
+  .select2-selection__placeholder,
+  .select2-selection__rendered {
     width: 100%;
     padding: 0;
     line-height: 40px;
   }
+
   .select2-selection__placeholder {
     height: 40px;
   }
+
   .select2-selection__rendered {
     height: 40px;
     @include govuk-font(19);
@@ -89,14 +91,18 @@ a.back-to-previous {
   text-decoration: none;
   border-bottom: #0b0c0c 1px solid;
   width: 2.25em;
-  background: url('../images/icon-caret-left.png') left 0.2em no-repeat;
+  background: url('/icon-caret-left.png') left 0.2em no-repeat;
   padding-left: 0.75em;
   text-align: right;
   margin: 2em 0 0 0;
   overflow: hidden;
-  &:active, &:hover, &:focus {
+
+  &:active,
+  &:hover,
+  &:focus {
     color: $govuk-text-colour;
   }
+
   @media (min-width: $desktop-min-width) {
     font-size: 16px;
   }

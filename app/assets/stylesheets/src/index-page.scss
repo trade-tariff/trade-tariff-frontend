@@ -34,7 +34,7 @@
   .steps {
     overflow: hidden;
 
-    & > li {
+    &>li {
       margin: 0.25em 0;
       padding: 0.75em 0 0.75em 2.2em;
       background-position: 0 0.87em;
@@ -43,10 +43,10 @@
 
       @for $i from 1 through 14 {
         &:nth-child(#{$i}) {
-          background-image: image-url("../../../vendor/assets/images/icon-steps/icon-step-#{$i}.png");
+          background-image: image-url("icon-steps/icon-step-#{$i}.png");
 
           @include govuk-device-pixel-ratio() {
-            background-image: image-url("../../../vendor/assets/images/icon-steps/icon-step-#{$i}-2x.png");
+            background-image: image-url("icon-steps/icon-step-#{$i}-2x.png");
             background-size: 24px 24px;
           }
         }

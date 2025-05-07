@@ -8,10 +8,11 @@
   margin: 20px 0 40px 0;
 
   background-color: govuk-colour("light-grey", "grey-4");
+
   &::after {
-    content:"";
-    display:block;
-    clear:both;
+    content: "";
+    display: block;
+    clear: both;
   }
 
   .full-code {
@@ -33,9 +34,11 @@
       list-style: none;
       padding-left: $breadcrumb-indent;
       margin: 5px 0 0;
+
       @media (min-width: $desktop-min-width) {
         padding-left: $breadcrumb-indent-desktop;
       }
+
       li {
         position: relative;
         display: block;
@@ -75,23 +78,27 @@
           }
         }
 
-        &::before, &::after {
+        &::before,
+        &::after {
           content: "";
           position: absolute;
           left: -12px;
         }
+
         &::before {
           border-top: 1px solid #000;
           top: 15px;
           width: 8px;
           height: 0;
         }
+
         &::after {
           border-left: 1px solid #000;
           height: 100%;
           width: 0px;
           top: 7px;
         }
+
         &:last-child::after {
           height: 8px;
         }
@@ -102,21 +109,25 @@
 
         ul.commodities {
           padding-left: $breadcrumb-indent;
+
           @media (min-width: $desktop-min-width) {
             padding-left: $breadcrumb-indent-desktop;
           }
         }
+
         h1 {
           display: inline;
         }
+
         p {
           display: inline;
           margin-bottom: 0;
         }
       }
     }
+
     @media (max-width: $mobile-max-width) {
-      .chapter-code ~ ul ul {
+      .chapter-code~ul ul {
         padding-left: 0;
       }
     }
@@ -131,20 +142,24 @@
       &::before {
         content: '(';
       }
+
       &::after {
         content: ')';
       }
+
       @media (min-width: $desktop-min-width) {
         float: right;
         margin-top: 2em;
 
-        &::before, &::after {
+        &::before,
+        &::after {
           content: '';
           display: none;
         }
       }
+
       a {
-        background-image: url('../images/feed-icon-black.png');
+        background-image: url('/feed-icon-black.png');
         background-position: 0.2em center;
         background-repeat: no-repeat;
         padding-left: 20px;
@@ -154,7 +169,7 @@
         min-height: 0 !important;
 
         @media (min-width: $desktop-min-width) {
-          background-image: url('../images/feed-icon-black.png');
+          background-image: url('/feed-icon-black.png');
           background-position: 0.2em center;
           background-repeat: no-repeat;
           padding-left: 25px;
@@ -178,7 +193,7 @@
     top: 0;
   }
 
-  > div {
+  >div {
     margin-top: 0;
     vertical-align: top;
     display: inline-block;
