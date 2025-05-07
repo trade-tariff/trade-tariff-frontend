@@ -1,9 +1,12 @@
+$govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
+$govuk-fonts-path: '/govuk-frontend/dist/govuk/assets/fonts/';
+
 @import "govuk-frontend/dist/govuk/all";
 
-@import "./src/legacy-grid-layout-conditionals";
-@import "./src/colors";
-@import "./src/variables";
-@import "./src/functions";
+@import "src/legacy-grid-layout-conditionals";
+@import "src/colors";
+@import "src/variables";
+@import "src/functions";
 
 caption {
   margin: 0 0 2em;
