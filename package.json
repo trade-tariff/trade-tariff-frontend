@@ -26,6 +26,7 @@
     "jquery-tabs": "^0.5.3",
     "js-cookie": "^3.0.5",
     "mark.js": "^8.11.1",
+    "sass": "^1.87.0",
     "select2": "^4.1.0-rc.0",
     "stimulus": "^3.2.2"
   },
@@ -40,7 +41,8 @@
     "dev": "webpack-dev-server",
     "spec": "jest",
     "test": "jest",
-    "lint": "eslint app/webpacker/src/javascripts spec/javascript --fix"
+    "lint": "eslint app/webpacker/src/javascripts spec/javascript --fix",
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   },
   "jest": {
     "testEnvironment": "jsdom",

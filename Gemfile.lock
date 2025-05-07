@@ -144,6 +144,8 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    cssbundling-rails (1.4.3)
+      railties (>= 6.0.0)
     cuprite (0.17)
       capybara (~> 3.0)
       ferrum (~> 0.17.0)
@@ -586,6 +588,11 @@ GEM
     prism (1.4.0)
     prometheus_exporter (2.2.0)
       webrick
+    propshaft (1.1.0)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
+      railties (>= 7.0.0)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -732,14 +739,6 @@ GEM
     sanitize (7.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.16.8)
-    sass-embedded (1.87.0-arm64-darwin)
-      google-protobuf (~> 4.30)
-    sass-embedded (1.87.0-x86_64-darwin)
-      google-protobuf (~> 4.30)
-    sass-embedded (1.87.0-x86_64-linux-gnu)
-      google-protobuf (~> 4.30)
-    sass-embedded (1.87.0-x86_64-linux-musl)
-      google-protobuf (~> 4.30)
     securerandom (0.4.1)
     sentry-rails (5.23.0)
       railties (>= 5.0)
@@ -808,8 +807,8 @@ DEPENDENCIES
   bootsnap
   brakeman
   capybara
+  cssbundling-rails
   cuprite
-  dartsass-rails
   dotenv-rails
   factory_bot_rails
   faraday
@@ -832,6 +831,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri
   plek
+  propshaft
   pry-rails
   puma
   rack-attack
@@ -848,7 +848,6 @@ DEPENDENCIES
   ruby-lsp-rspec
   shoulda-matchers
   simplecov
-  sprockets-rails
   stimulus-rails
   vcr
   webmock

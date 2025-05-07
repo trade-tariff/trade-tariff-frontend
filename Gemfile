@@ -14,6 +14,7 @@ gem 'faraday-http-cache'
 gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
 gem 'jwt'
+gem 'kaminari'
 gem 'multi_json'
 gem 'net-http-persistent'
 gem 'newrelic_rpm'
@@ -22,10 +23,9 @@ gem 'routing-filter', github: 'trade-tariff/routing-filter'
 
 # Assets
 gem 'bootsnap', require: false
-gem 'dartsass-rails'
+gem 'cssbundling-rails'
 gem 'importmap-rails'
-gem 'kaminari'
-gem 'sprockets-rails'
+gem 'propshaft'
 gem 'stimulus-rails'
 
 # gov UK
