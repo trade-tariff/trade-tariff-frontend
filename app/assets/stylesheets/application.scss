@@ -1,7 +1,7 @@
 $govuk-global-styles: true;
 $govuk-new-typography-scale: true;
-$govuk-fonts-path: '~govuk-frontend/dist/govuk/assets/fonts/';
-$govuk-images-path: '~govuk-frontend/dist/govuk/assets/images/';
+$govuk-fonts-path: 'assets/';
+$govuk-images-path: 'assets/';
 
 @import 'govuk-frontend/dist/govuk/all';
 

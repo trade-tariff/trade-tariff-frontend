@@ -2,14 +2,14 @@
   font-family: 'Azeret Mono';
   font-style: normal;
   font-weight: 400;
-  src: url("../fonts/azeret-mono-v6-latin-regular.eot");
+  src: url("../../fonts/azeret-mono-v6-latin-regular.eot");
   /* IE9 Compat Modes */
   src: local(""),
-       url("../fonts/azeret-mono-v6-latin-regular.eot?#iefix") format("embedded-opentype"),
-       url("../fonts/azeret-mono-v6-latin-regular.woff2") format("woff2"),
-       url("../fonts/azeret-mono-v6-latin-regular.woff") format("woff"),
-       url("../fonts/azeret-mono-v6-latin-regular.ttf") format("truetype"),
-       url("../fonts/azeret-mono-v6-latin-regular.svg#AzeretMono") format("svg");
+    url("assets/azeret-mono-v6-latin-regular.eot?#iefix") format("embedded-opentype"),
+    url("assets/azeret-mono-v6-latin-regular.woff2") format("woff2"),
+    url("assets/azeret-mono-v6-latin-regular.woff") format("woff"),
+    url("assets/azeret-mono-v6-latin-regular.ttf") format("truetype"),
+    url("assets/azeret-mono-v6-latin-regular.svg#AzeretMono") format("svg");
   /* Legacy iOS */
 }
 
@@ -18,7 +18,7 @@
 }
 
 blockquote {
-  @extend .govuk-body ;
+  @extend .govuk-body;
 
   padding: govuk-spacing(2);
   margin-left: 0;
@@ -27,11 +27,13 @@ blockquote {
 }
 
 .tariff-body-subtext {
-  @extend .govuk-body-s ;
+  @extend .govuk-body-s;
 
   color: $govuk-secondary-text-colour;
 
-  a, a:visited, a:hover {
+  a,
+  a:visited,
+  a:hover {
     color: $govuk-secondary-text-colour;
   }
 }
