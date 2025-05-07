@@ -11,6 +11,7 @@
     "@stimulus/polyfills": "^2.0.0",
     "accessible-autocomplete": "^3.0.1",
     "alphagov-static": "github:alphagov/static.git#release_3463",
+    "datepicker": "^0.0.0",
     "govuk-frontend": "^5.10.0",
     "html-escaper": "^3.0.3",
     "imask": "^7.6.1",
@@ -42,7 +43,7 @@
     "spec": "jest",
     "test": "jest",
     "lint": "eslint app/webpacker/src/javascripts spec/javascript --fix",
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/print.sass.scss:./app/assets/builds/print.css --no-source-map --load-path=node_modules"
   },
   "jest": {
     "testEnvironment": "jsdom",

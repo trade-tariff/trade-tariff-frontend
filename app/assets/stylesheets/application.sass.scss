@@ -5,10 +5,10 @@ $govuk-fonts-path: '/govuk-frontend/dist/govuk/assets/fonts/';
 $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 
 @import 'govuk-frontend/dist/govuk/index';
+@import 'select2/dist/css/select2.min';
+@import 'datepicker/src/calendar/supercalendar';
+@import "accessible-autocomplete/dist/accessible-autocomplete.min";
 
-@import 'src/vendor/select2';
-@import 'src/vendor/datepicker';
-@import 'src/vendor/accessible-autocomplete';
 @import 'src/vendor/govuk_publishing_components/contents-list';
 @import 'src/vendor/govuk_publishing_components/metadata';
 @import 'src/vendor/govuk_publishing_components/print-link';
