@@ -12,11 +12,7 @@ concurrency: preevy-${{ github.event.number }}
 
 env:
   AWS_REGION: eu-west-2
-  PROFILE_STORE: s3://preevy-profile-store
   PREEVY_PROFILE_URL: s3://preevy-profile-store/preevy-profile.json
-  SSH_USER: ubuntu
-  DOMAIN: preview.trade-tariff.service.gov.uk
-  LIGHTSAIL_IP: 3.9.172.134
   IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-ECS-Deployments-Role
 
 jobs:
