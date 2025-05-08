@@ -45,7 +45,6 @@ jobs:
         with:
           install: gh-release
           profile-url: "${{ env.PREEVY_PROFILE_URL }}"
-          docker-compose-yaml-paths: "./docker/docker-compose.yaml"
         env:
           GITHUB_TOKEN: ${{ github.token }}
      
