@@ -1,12 +1,13 @@
 name: ci
 
 on:
-  push:
-    branches-ignore:
-      - main
-  pull_request:
-    branches-ignore:
-      - main
+  ## Uncomment when testing is done
+  # push:
+  #   branches-ignore:
+  #     - main
+  # pull_request:
+  #   branches-ignore:
+  #     - main
   workflow_dispatch:
 
 permissions:

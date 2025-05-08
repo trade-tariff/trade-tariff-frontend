@@ -1,0 +1,48 @@
+name: Deploy Preevy environment
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches-ignore:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+env:
+  AWS_REGION: eu-west-2
+  IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-ECS-Deployments-Role
+  PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
+  # DOMAIN: preview.trade-tariff.service.gov.uk
+  # HOST: preview.trade-tariff.service.gov.uk
+  ENVIRONMENT: development
+  # PREEVY_PREVIEW: 'true' # set to true to enable preview mode and stop the redirect to the prod url
+
+# allow a single job to run per PR
+concurrency: preevy-${{ github.event.number }}
+
+jobs:
+  deploy:
+    environment:
+          name: pr-${{ github.event.number }}
+          # url: ${{ fromJson(steps.preevy_up.outputs.urls-map).frontend[3000] }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: actions/checkout@v4
+
+      - uses: livecycle/preevy-up-action@v2.4.0
+        id: preevy_up
+        with:
+          args: "--debug"
+          install: gh-release
+          profile-url: "${{ env.PREEVY_PROFILE_URL }}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          BUILDX_BAKE_ENTITLEMENTS_FS: 0

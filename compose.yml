@@ -1,0 +1,29 @@
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - GOVUK_APP_DOMAIN="localhost"
+      - GOVUK_WEBSITE_ROOT=http://localhost/
+      - RAILS_ENV=production
+      - PREVIEW_MODE=true # Set to true to enable preview mode and prevent redirecting to the https://www.gov.uk/trade-tariff
+
+      - API_SERVICE_BACKEND_URL_OPTIONS={"uk":"https://dev.trade-tariff.service.gov.uk","xi":"https://dev.trade-tariff.service.gov.uk/xi"}
+    depends_on:
+      - hmrc-redis
+      
+  hmrc-redis:
+    container_name: redis
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - hmrc-redis:/data
+
+volumes:
+  hmrc-redis:
+    driver: local
