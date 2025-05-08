@@ -1,0 +1,97 @@
+name: Preevy Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches-ignore:
+      - main
+      
+env:
+  AWS_REGION: eu-west-2
+  PROFILE_STORE: s3://preevy-profile-store
+  SSH_USER: ubuntu
+  DOMAIN: preview.trade-tariff.service.gov.uk
+  LIGHTSAIL_IP: 3.9.172.134
+  IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-ECS-Deployments-Role
+
+jobs:
+  deploy-preview:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Preevy CLI
+        run: npm install -g @preevy/cli
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Create SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Deploy preview with Preevy
+        run: |
+          preevy up \
+            --driver ssh \
+            --ssh-host ${{ env.LIGHTSAIL_IP }} \
+            --ssh-user ${{ env.SSH_USER }} \
+            --profile-store ${{ env.PROFILE_STORE }} \
+            --domain ${{ env.DOMAIN }} \
+            --env API_URL=https://api.${{ env.DOMAIN }}
+
+      - name: Comment on PR with preview link
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const branchSafe = github.head_ref.replace(new RegExp("[^a-zA-Z0-9-]", "g"), "-");
+            const previewUrl = `https://${branchSafe}--${{ github.event.repository.name }}--${{ github.run_id }}.${process.env.DOMAIN}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🧪 **Preevy Preview Deployed**\n\n🔗 [Preview URL](${previewUrl})\n\n_Backend API: https://api.${process.env.DOMAIN}_`
+            });
+
+  delete-preview:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Preevy CLI
+        run: npm install -g @preevy/cli
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Create SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Tear down preview with Preevy
+        run: |
+          preevy down \
+            --driver ssh \
+            --ssh-host ${{ env.LIGHTSAIL_IP }} \
+            --ssh-user ${{ env.SSH_USER }} \
+            --profile-store ${{ env.PROFILE_STORE }} \
+            --domain ${{ env.DOMAIN }}
