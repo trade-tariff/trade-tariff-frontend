@@ -16,7 +16,7 @@ permissions:
 
 env:
   AWS_REGION: eu-west-2
-  PREEVY_PROFILE_URL: s3://preevy-profile-store
+  PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
   SSH_USER: ubuntu
   DOMAIN: preview.trade-tariff.service.gov.uk
   LIGHTSAIL_IP: 3.9.172.134
