@@ -1,6 +1,7 @@
 name: ci
 
 on:
+  ## Uncomment when testing is done
   # push:
   #   branches-ignore:
   #     - main

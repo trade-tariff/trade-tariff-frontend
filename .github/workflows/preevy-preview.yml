@@ -5,7 +5,12 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches-ignore:
       - main
-      
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
 env:
   AWS_REGION: eu-west-2
   PROFILE_STORE: s3://preevy-profile-store
@@ -57,13 +62,13 @@ jobs:
         with:
           script: |
             const branchSafe = github.head_ref.replace(new RegExp("[^a-zA-Z0-9-]", "g"), "-");
-            const previewUrl = `https://${branchSafe}--${{ github.event.repository.name }}--${{ github.run_id }}.${process.env.DOMAIN}`;
+            const domain = process.env.DOMAIN;
+            const previewUrl = `https://${branchSafe}--${{ github.event.repository.name }}--${{ github.run_id }}.${domain}`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `🧪 **Preevy Preview Deployed**\n\n🔗 [Preview URL](${previewUrl})\n\n_Backend API: https://api.${process.env.DOMAIN}_`
-            });
+              body: `🧪 **Preevy Preview Deployed**\n\n🔗 [Preview URL](${previewUrl})\n\n_Backend API: https://api.${domain}_`
 
   delete-preview:
     if: github.event.action == 'closed'
