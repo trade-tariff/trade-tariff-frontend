@@ -20,6 +20,8 @@ env:
   PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
   DOMAIN: preview.trade-tariff.service.gov.uk
   HOST: preview.trade-tariff.service.gov.uk
+  RAILS_ENV: production
+  ENVIRONMENT: development
 
    # allow a single job to run per PR
 concurrency: preevy-${{ github.event.number }}
@@ -44,8 +46,6 @@ jobs:
         with:
           install: gh-release
           profile-url: "${{ env.PREEVY_PROFILE_URL }}"
-          tunel-url: "${{ env.PREEVY_PROFILE_URL }}"
-          docker-compose: "docker-compose.yml"
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BUILDX_BAKE_ENTITLEMENTS: fs.read=/usr/local/lib/preevy/node_modules/@preevy/compose-tunnel-agent
