@@ -10,6 +10,7 @@ services:
       - "8080:8080"  # exposed to Preevy
     environment:
       RAILS_ENV: production
+      PREEVY_PREVIEW: 'true' 
       GOVUK_APP_DOMAIN: localhost
       GOVUK_WEBSITE_ROOT: http://localhost/
       DATABASE_URL: postgres://postgres:postgres@hmrc-postgres:5432/postgres
