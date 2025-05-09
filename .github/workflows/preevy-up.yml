@@ -1,9 +1,9 @@
 name: Deploy Preevy environment
 
 on:
-  push:
-    branches-ignore:
-      - main
+  # push:
+  #   branches-ignore:
+  #     - main
   pull_request:
     types: [opened, synchronize, reopened]
     branches-ignore:
