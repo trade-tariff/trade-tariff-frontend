@@ -20,7 +20,6 @@ env:
   PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
   DOMAIN: preview.trade-tariff.service.gov.uk
   HOST: preview.trade-tariff.service.gov.uk
-  RAILS_ENV: production
   ENVIRONMENT: development
 
    # allow a single job to run per PR
