@@ -18,10 +18,11 @@ env:
   AWS_REGION: eu-west-2
   IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-ECS-Deployments-Role
   PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
-  DOMAIN: preview.trade-tariff.service.gov.uk
-  HOST: preview.trade-tariff.service.gov.uk
+  # DOMAIN: preview.trade-tariff.service.gov.uk
+  # HOST: preview.trade-tariff.service.gov.uk
   RAILS_ENV: production
   ENVIRONMENT: development
+  DISABLE_ROOT_REDIRECT: 'true'
 
    # allow a single job to run per PR
 concurrency: preevy-${{ github.event.number }}
