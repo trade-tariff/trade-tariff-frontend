@@ -21,7 +21,7 @@ env:
   # DOMAIN: preview.trade-tariff.service.gov.uk
   # HOST: preview.trade-tariff.service.gov.uk
   ENVIRONMENT: development
-  PREVIEW_MODE: true # set to true to enable preview mode and stop the redirect to the prod url
+  PREEVY_PREVIEW: 'true' # set to true to enable preview mode and stop the redirect to the prod url
 
    # allow a single job to run per PR
 concurrency: preevy-${{ github.event.number }}
