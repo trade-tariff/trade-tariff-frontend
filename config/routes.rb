@@ -177,7 +177,7 @@ Rails.application.routes.draw do
       defaults: { format: :json }
 
   # The following routes are how gov.uk links to the trade tariff
-  get '/', to: redirect(TradeTariffFrontend.production? && ENV['DISABLE_ROOT_REDIRECT'] != 'true') ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
+  get '/', to: redirect(TradeTariffFrontend.production? ? 'https://www.gov.uk/trade-tariff' : '/find_commodity', status: 302)
   get '/trade-tariff/sections', to: redirect('/find_commodity', status: 301)
   get '/trade-tariff/headings', to: redirect('/find_commodity', status: 301)
   get '/trade-tariff/headings/:heading_id', to: redirect('/headings/%{heading_id}', status: 301), constraints: { heading_id: /\d+/ }
