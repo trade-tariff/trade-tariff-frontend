@@ -271,6 +271,8 @@ GEM
       reline (>= 0.4.2)
     jmespath (1.6.2)
     json (2.12.0)
+    jwt (2.10.1)
+      base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -807,6 +809,7 @@ DEPENDENCIES
   govuk_design_system_formbuilder
   guard-rspec
   guard-rubocop
+  jwt
   kaminari
   letter_opener
   lograge
