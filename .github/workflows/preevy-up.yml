@@ -48,7 +48,8 @@ jobs:
           profile-url: "${{ env.PREEVY_PROFILE_URL }}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          BUILDX_BAKE_ENTITLEMENTS: fs.read=/usr/local/lib/preevy/node_modules/@preevy/compose-tunnel-agent
+          # BUILDX_BAKE_ENTITLEMENTS: fs.read=/usr/local/lib/preevy/node_modules/@preevy/compose-tunnel-agent
+          BUILDX_BAKE_ENTITLEMENTS_FS: 0
      
       # - name: Comment on PR with preview link
       #   uses: actions/github-script@v6
