@@ -193,7 +193,7 @@ RSpec.describe RulesOfOrigin::Scheme do
         schemes # trigger the query
 
         expect(api_instance).to have_received(:get)
-          .with('/api/v2/rules_of_origin_schemes',
+          .with('api/v2/rules_of_origin_schemes',
                 heading_code: '190531',
                 country_code: 'FR',
                 page: 1)
