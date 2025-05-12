@@ -26,6 +26,7 @@ gem 'cssbundling-rails'
 gem 'importmap-rails'
 gem 'propshaft'
 gem 'stimulus-rails'
+gem 'turbo-rails'
 
 # gov UK
 gem 'govspeak'
