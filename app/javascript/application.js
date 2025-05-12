@@ -7,6 +7,7 @@ import "@hotwired/turbo-rails"
 import "controllers"
 
 import 'core-js/stable'
+
 import { initAll } from 'govuk-frontend';
 initAll();
 
