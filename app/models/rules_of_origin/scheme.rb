@@ -3,7 +3,7 @@ require 'api_entity'
 class RulesOfOrigin::Scheme
   include ApiEntity
 
-  set_collection_path '/api/v2/rules_of_origin_schemes'
+  set_collection_path 'api/v2/rules_of_origin_schemes'
 
   attr_accessor :scheme_code,
                 :title,
