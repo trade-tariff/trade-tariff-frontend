@@ -62,6 +62,9 @@ Rails.application.routes.draw do
   if TradeTariffFrontend.myott?
     namespace :myott, path: 'subscriptions' do
       get '/', to: 'subscriptions#dashboard'
+      get '/chapter_selection', to: 'subscriptions#chapter_selection'
+      post '/check_your_answers', to: 'subscriptions#check_your_answers'
+      post '/remove_chapter_selection', to: 'subscriptions#remove_chapter_selection'
     end
   end
 

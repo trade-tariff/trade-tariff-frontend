@@ -25,7 +25,7 @@ class Section
 
   def chapters_title
     if chapter_from == chapter_to
-      chapter_from
+      chapter_from.to_s
     else
       "#{chapter_from} to #{chapter_to}"
     end
