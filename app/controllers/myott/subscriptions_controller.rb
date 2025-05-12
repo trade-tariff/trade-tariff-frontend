@@ -5,10 +5,11 @@ module Myott
                   :disable_last_updated_footnote,
                   :cache_sections_chapters
 
+    before_action :clear_stale_flash_error, only: %i[dashboard check_your_answers]
+
     def dashboard
       @email = 'test@email.com'
       session[:chapter_ids] = nil
-      flash[:error] = nil
     end
 
     def chapter_selection
@@ -25,8 +26,6 @@ module Myott
         @selected_chapters = []
         render :chapter_selection
         return
-      else
-        flash[:error] = nil
       end
 
       session[:chapter_ids] = params[:chapter_ids]
@@ -49,6 +48,10 @@ module Myott
           hash[section] = chapters
         end
       end
+    end
+
+    def clear_stale_flash_error
+      flash[:error] = nil
     end
   end
 end
