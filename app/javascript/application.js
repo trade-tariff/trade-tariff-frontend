@@ -18,3 +18,5 @@ window.GOVUK = window.GOVUK || {};
 window.GOVUK.Utility = Utility;
 window.GOVUK.debounce = debounce;
 window.GOVUK.accessibleAutocomplete = accessibleAutocomplete;
+
+import 'quota-search'

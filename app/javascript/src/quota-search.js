@@ -1,7 +1,8 @@
 import accessibleAutocomplete from 'accessible-autocomplete';
+import jQuery from 'jquery';
 
 (function(global) {
-  const $ = global.jQuery;
+  const $ = jQuery;
   const fieldset = $('.js-quota-country-picker');
 
   $('.js-quota-country-picker-select').each((_, element) => {
