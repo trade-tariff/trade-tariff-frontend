@@ -32,7 +32,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 1
   scenario 'Journey 1: Direct to category 1' do
-    fill_moving_requirments_form(commodity_codes[:category_1], countries[:us])
+    fill_moving_requirements_form(commodity_codes[:category_1], countries[:us])
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
     expect(page).not_to have_css('govuk-summary-card')
     click_on 'Continue'
@@ -41,7 +41,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 2
   scenario 'Journey 2: Direct to category 2' do
-    fill_moving_requirments_form(commodity_codes[:category_2], countries[:morocco])
+    fill_moving_requirements_form(commodity_codes[:category_2], countries[:morocco])
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
     expect(page).not_to have_css('govuk-summary-card')
     click_on 'Continue'
@@ -50,7 +50,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 3
   scenario 'Journey 3: Direct to standard category' do
-    fill_moving_requirments_form(commodity_codes[:category_3], countries[:bangladesh])
+    fill_moving_requirements_form(commodity_codes[:category_3], countries[:bangladesh])
     expect(page).to have_current_path(green_lanes_check_your_answers_path, ignore_query: true)
     expect(page).not_to have_css('govuk-summary-card')
     click_on 'Continue'
@@ -59,7 +59,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 4: Cat 1 via Cat 1 failed exemptions only
   scenario 'Given the commodity has Cat1 exemptions when Cat1 exemptions dont apply it results in Category 1' do
-    fill_moving_requirments_form(commodity_codes[:cat1_exemptions], countries[:ukraine])
+    fill_moving_requirements_form(commodity_codes[:cat1_exemptions], countries[:ukraine])
 
     check 'exemptions-category-assessment-a6b633a7b098132ec45c036d0e14713a-none-field'
     check 'exemptions-category-assessment-18fcbb5b75781f8a676bd84dae9c170e-none-field'
@@ -79,7 +79,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 5: Cat 2 after Cat 1 passed exemptions only
   scenario 'Given the commodity has Cat1 exemptions and at least 1 CA without exemptions when Cat1 exemptions apply it results in Category 2' do
-    fill_moving_requirments_form(commodity_codes[:cat1_exemptions_no_cat_2_exemptions], countries[:ukraine])
+    fill_moving_requirements_form(commodity_codes[:cat1_exemptions_no_cat_2_exemptions], countries[:ukraine])
 
     expect(page).to have_text('Your goods will be Category 1')
 
@@ -102,7 +102,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 6: Cat 3 after Cat 1 passed exemptions only
   scenario 'Given the commodity has Cat1 exemptions and no Cat2 CAs, When exemptions apply to Cat1 Then it results in Category 3' do
-    fill_moving_requirments_form(commodity_codes[:cat1_exemptions], countries[:ukraine])
+    fill_moving_requirements_form(commodity_codes[:cat1_exemptions], countries[:ukraine])
 
     expect(page).to have_text('Your goods will be Category 1')
 
@@ -123,7 +123,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 7: Cat 2 via Cat 1 exemptions passed and 2 exemptions failed
   scenario 'Given the commodity has both Cat1 and Cat2 exemptions when exemptions for Cat1 apply and exemptions for Cat2 do not apply it results in Category 2', skip: 'need new data for these examples' do
-    fill_moving_requirments_form(commodity_codes[:both_exemptions], countries[:iran])
+    fill_moving_requirements_form(commodity_codes[:both_exemptions], countries[:iran])
 
     expect(page).to have_text('Your goods will be Category 1')
 
@@ -152,7 +152,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 8: Cat 3 via Cat 1 exemptions passed and 2 exemptions passed
   scenario 'Given the commodity has Cat1 and Cat2 exemptions when exemptions for Cat1 and Cat2 apply it results in Category 3', skip: 'need new data for these examples' do
-    fill_moving_requirments_form(commodity_codes[:both_exemptions], countries[:iran])
+    fill_moving_requirements_form(commodity_codes[:both_exemptions], countries[:iran])
 
     expect(page).to have_text('Your goods will be Category 1')
 
@@ -195,7 +195,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 9: Cat 2 via Cat 2 exemptions failed only
   scenario 'Given the commodity has only Cat2 exemptions when exemptions for Cat2 does not apply then it results in Category 2', skip: 'need new data for these examples' do
-    fill_moving_requirments_form(commodity_codes[:cat2_exemptions], countries[:greenland])
+    fill_moving_requirements_form(commodity_codes[:cat2_exemptions], countries[:greenland])
 
     expect(page).to have_text('Your goods will be Category 2')
 
@@ -219,7 +219,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
 
   # Journey 10: Cat 3 via Cat 2 exemptions passed only
   scenario 'Given the commodity has only Cat2 exemptions when exemptions for Cat2 apply then it results in Category 3', skip: 'need new data for these examples' do
-    fill_moving_requirments_form(commodity_codes[:cat2_exemptions], countries[:greenland])
+    fill_moving_requirements_form(commodity_codes[:cat2_exemptions], countries[:greenland])
 
     expect(page).to have_text('Your goods will be Category 2')
 
@@ -263,7 +263,7 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
     end
   end
 
-  def fill_moving_requirments_form(commodity_code, country)
+  def fill_moving_requirements_form(commodity_code, country)
     visit new_green_lanes_moving_requirements_path
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
 
