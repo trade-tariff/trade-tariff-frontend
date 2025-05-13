@@ -1,0 +1,35 @@
+<% content_for :back_link do %>
+  <% back_link myott_chapter_selection_path %>
+<% end %>
+
+<div class="govuk-body myott-subscriptions">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Check your answer<%= @selected_chapters.count > 1 ? "s" : "" %></h1>
+        <p>You have selected these chapters to get email updates about.  You can change your preferences at any time.</p>
+        <h2 class="govuk-heading-m">Chapters you selected</h2>
+        <div data-controller="chapter-selection">
+          <%= form_with url: myott_path, method: :get, local: true do %><!--TODO THIS WILL NEED TO POST BACK TO CONTROLLER SELECTED CHAPTERS AND SHOW ON DASHBOARD-->
+            <table class="govuk-table">
+              <tbody class="govuk-table__body">
+                <% @selected_chapters.each do |chapter| %>
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell section-id-col">
+                      <div class="chapter-code">
+                        <span class="code-text"><%= chapter.short_code %></span>
+                      </div>
+                    </td>
+                    <td class="govuk-table__cell">
+                      <p><%= chapter.to_s %></p>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <%= link_to "Change selections", myott_chapter_selection_path, class: "link_button" %>
+            <p><%= submit_tag "Save and continue", class: "govuk-button govuk-!-margin-top-4" %></p>
+          <% end %>
+        </div>
+    </div>
+  </div>
+</div>

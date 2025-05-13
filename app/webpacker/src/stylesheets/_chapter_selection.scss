@@ -1,0 +1,31 @@
+.myott-subscriptions{
+  .set_checkbox_width {
+      width: 30px;
+  }
+
+  .no_border {
+      border: none;
+  }
+
+  .link_button {
+      color: $govuk-link-colour;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none!important;
+      border: none;
+      font: weight 400px;
+      font-size: 1rem;
+
+      &:hover {
+        color: $govuk-link-hover-colour;
+      }
+
+      &:active {
+        color: $govuk-link-colour;
+      }
+
+      &:visited {
+      color: $govuk-link-colour;
+      }
+    }
+}

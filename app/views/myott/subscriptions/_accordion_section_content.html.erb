@@ -1,0 +1,32 @@
+<div id="section-chapter-accordion-sections-content-<%=section.resource_id%>" class="govuk-accordion__section-content">
+    <table class="govuk-table">
+    <tbody class="govuk-table__body">
+        <% chapters.each do |chapter| %>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-padding-top-0 govuk-!-padding-right-1 set_checkbox_width no_border">
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input"
+                    id="chapter_<%= chapter.to_param %>"
+                    name="chapter_ids[]"
+                    type="checkbox"
+                    data-chapter-selection-target="chapterCheckbox"
+                    value="<%= chapter.to_param %>"
+                    <%= "checked" if selected_chapters.any? { |c| c.to_param == chapter.to_param } %>>
+                <label class="govuk-checkboxes__label" for="chapter_<%= chapter.to_param %>"></label>
+                </div>
+            </div>
+            </td>
+            <td class="govuk-table__cell section-id-col govuk-!-padding-top-2 no_border">
+            <div class="chapter-code">
+                <span class="code-text"><%= chapter.short_code %></span>
+            </div>
+            </td>
+            <td class="govuk-table__cell govuk-!-padding-top-2 no_border">
+            <p><%= chapter.to_s %></p>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+    </table>
+</div>

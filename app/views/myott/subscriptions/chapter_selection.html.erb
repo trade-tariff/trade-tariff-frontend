@@ -1,0 +1,27 @@
+<% content_for :back_link do %>
+  <% back_link myott_path %>
+<% end %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+  <%= render 'error' if flash.now[:error] %>
+    <h1 class="govuk-heading-l">Select the chapters you want tariff updates about</h1>
+    <div data-controller="chapter-selection">
+      <div class="govuk-body myott-subscriptions">
+        <p>If you only want to receive updates on specific areas, you can select the relevant chapters below.  These can be updated at any time.</p>
+        <p>If you don't select any chapters below, you will continue to receive all tariff updates.</p>
+        <%= render partial: 'checkbox_toggles' %>
+        <%= form_with url: myott_check_your_answers_path, method: :post, local: true do %>
+          <div class="govuk-accordion" data-module="govuk-accordion" id="section-chapter-accordion">
+            <% @sections_chapters.each do |section, chapters| %>
+              <div class="govuk-accordion__section <%= section.resource_id == "1" ? 'govuk-accordion__section--expanded' : ''%>" id="accordion-section-<%=section.resource_id%>">
+                <%= render 'accordion_header', section: %>
+                <%= render 'accordion_section_content', section:, chapters:, selected_chapters: @selected_chapters %>
+              </div>
+            <% end %>
+          </div>
+          <%= submit_tag "Continue", class: "govuk-button govuk-!-margin-top-4" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
