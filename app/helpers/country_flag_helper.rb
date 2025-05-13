@@ -4,5 +4,7 @@ module CountryFlagHelper
 
     image_tag "flags/#{two_letter_country_code}.png",
               **kwargs.merge(class: 'country-flag')
+  rescue Propshaft::MissingAssetError
+    nil
   end
 end
