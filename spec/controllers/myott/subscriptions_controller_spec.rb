@@ -12,7 +12,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
   end
 
   before do
-    allow(Rails.cache).to receive(:fetch).with('sections_chapters', expires_in: 1.hour)
+    allow(Rails.cache).to receive(:fetch).with('sections_chapters', expires_in: 1.day)
       .and_return({ section => [chapter] })
   end
 
@@ -22,7 +22,6 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
     it { is_expected.to respond_with(:success) }
     it { expect(assigns(:email)).to be_present }
     it { expect(session[:chapter_ids]).to be_nil }
-    it { expect(flash[:error]).to be_nil }
   end
 
   describe 'GET #chapter_selection' do
@@ -44,7 +43,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         post :check_your_answers, params: { chapter_ids: %w[01] }
       end
 
-      it { expect(flash[:error]).to be_nil }
+      it { expect(flash.now[:error]).to be_nil }
 
       it { is_expected.to respond_with(:success) }
 
@@ -69,23 +68,6 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       it 'sets a flash error message' do
         expect(flash.now[:error]).to eq('Select the chapters you want tariff updates about.')
       end
-    end
-  end
-
-  describe 'POST #remove_chapter_selection' do
-    let(:chapter_id_to_remove) { '01' }
-
-    before do
-      session[:chapter_ids] = %w[01 02]
-      post :remove_chapter_selection, params: { chapter_id: chapter_id_to_remove }
-    end
-
-    it 'removes the chapter ID from the session' do
-      expect(session[:chapter_ids]).not_to include(chapter_id_to_remove)
-    end
-
-    it 'responds with 200 OK' do
-      expect(response).to have_http_status(:ok)
     end
   end
 end

@@ -2,7 +2,7 @@
   <% back_link myott_chapter_selection_path %>
 <% end %>
 
-<div class="govuk-body">
+<div class="govuk-body myott-subscriptions">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Check your answer<%= @selected_chapters.count > 1 ? "s" : "" %></h1>
@@ -21,10 +21,6 @@
                     </td>
                     <td class="govuk-table__cell">
                       <p><%= chapter.to_s %></p>
-                    </td>
-                    <td class="govuk-table__cell">
-                      <!-- TODO: Remove chapter currently hidden as functionality not fully defined yet -->
-                      <button hidden class="link_button" data-action="click->chapter-selection#removeChapter" data-chapter-id="<%= chapter.to_param %>" value="true">Remove</button>
                     </td>
                   </tr>
                 <% end %>
