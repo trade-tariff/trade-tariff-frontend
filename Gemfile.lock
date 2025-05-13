@@ -144,9 +144,9 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
-    cuprite (0.15.1)
+    cuprite (0.17)
       capybara (~> 3.0)
-      ferrum (~> 0.15.0)
+      ferrum (~> 0.17.0)
     date (3.4.1)
     diff-lcs (1.6.1)
     docile (1.4.1)
@@ -174,8 +174,9 @@ GEM
       net-http-persistent (>= 4.0.4, < 5)
     faraday-retry (2.3.1)
       faraday (~> 2.0)
-    ferrum (0.15)
+    ferrum (0.17.1)
       addressable (~> 2.5)
+      base64 (~> 0.2)
       concurrent-ruby (~> 1.1)
       webrick (~> 1.7)
       websocket-driver (~> 0.7)
