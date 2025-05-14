@@ -3,7 +3,6 @@ import Utility from 'utility';
 import accessibleAutocomplete from 'accessible-autocomplete';
 import jQuery from 'jquery';
 
-import "@hotwired/turbo-rails"
 import "controllers"
 
 import 'core-js/stable'

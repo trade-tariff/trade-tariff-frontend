@@ -6,7 +6,7 @@ RSpec.describe PagesHelper, type: :helper do
 
     let(:expected_file_info) do
       [
-        'cn2021_2022/CorrelationCN2021toCN2022Rev21Oct.xls',
+        'CorrelationCN2021toCN2022Rev21Oct.xls',
         '127 KB',
         'Download UK Goods classification 2021 to 2022 correlation table (changes to 8-digit commodity codes)',
       ]
