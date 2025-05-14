@@ -13,7 +13,7 @@ Terraform to deploy the service into AWS.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.94.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.97.0 |
 
 ## Modules
 

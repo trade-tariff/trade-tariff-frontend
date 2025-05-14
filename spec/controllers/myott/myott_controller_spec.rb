@@ -19,4 +19,3 @@ RSpec.describe Myott::MyottController, type: :controller do
     end
   end
 end
-

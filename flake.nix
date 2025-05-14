@@ -35,9 +35,11 @@
           "--with-libyaml-include=${libyaml.dev}/include"
           "--with-libyaml-lib=${libyaml.out}/lib"
         ];
+        init = pkgs.writeScriptBin "init" ''
+          cd terraform && terraform init -backend=false
+        '';
         update-providers = pkgs.writeScriptBin "update-providers" ''
-          cd terraform
-          terraform init -backend=false -reconfigure -upgrade
+          cd terraform && terraform init -backend=false -reconfigure -upgrade
         '';
       in {
         devShells.default = pkgs.mkShell {
@@ -55,9 +57,9 @@
 
           buildInputs = [
             chrome
+            init
             lint
             pkgs.nodejs_latest
-            pkgs.circleci-cli
             pkgs.rufo
             pkgs.yarn
             ruby
