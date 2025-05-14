@@ -1,5 +1,5 @@
 module Myott
-  class SubscriptionsController < ApplicationController
+  class SubscriptionsController < MyottController
     before_action :disable_search_form,
                   :disable_switch_service_banner,
                   :disable_last_updated_footnote
@@ -7,7 +7,7 @@ module Myott
     before_action :sections_chapters, only: %i[chapter_selection]
 
     def dashboard
-      @email = 'test@email.com'
+      @email = current_user&.fetch('email') || 'not_logged_in@email.com'
       session[:chapter_ids] = nil
     end
 
