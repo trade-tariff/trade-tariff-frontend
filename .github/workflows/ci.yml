@@ -18,7 +18,8 @@ env:
   ECR_URL: 382373577178.dkr.ecr.eu-west-2.amazonaws.com/tariff-frontend-production
   ENVIRONMENT: development
   IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-ECS-Deployments-Role
-  SKIP: terraform_docs,actionlint-docker
+  TERRAFORM_VERSION: 1.11.0
+  PYTHON_VERSION: 3
 
 jobs:
   lint:
@@ -33,7 +34,7 @@ jobs:
             ${{ runner.os }}-pre-commit-
       - uses: actions/setup-python@v5
         with:
-          python-version: '3'
+          python-version: ${{ env.PYTHON_VERSION }}
       - id: ruby-version
         run: echo "RUBY_VERSION=$(cat .ruby-version)" >> "$GITHUB_OUTPUT"
       - uses: ruby/setup-ruby@v1
@@ -42,12 +43,15 @@ jobs:
           bundler-cache: true
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.11.0
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
       - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-tflint@main
+      - run: GOBIN=/usr/local/bin/ go install github.com/terraform-docs/terraform-docs@v0.20.0
       - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-ssh@main
         with:
           ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
       - run: bundle exec brakeman
+      - run: pip install pre-commit
+      - run: pre-commit run --all-files
 
   test:
     runs-on: ubuntu-latest
