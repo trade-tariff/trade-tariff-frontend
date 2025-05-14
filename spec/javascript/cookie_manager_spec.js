@@ -1,4 +1,4 @@
-import CookieManager from 'cookie-manager';
+import CookieManager from '../../app/javascript/src/cookie-manager';
 import Cookies from 'js-cookie';
 
 describe('CookieManager', () => {

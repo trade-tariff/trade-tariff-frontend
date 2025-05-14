@@ -1,6 +1,6 @@
 import {Application} from '@hotwired/stimulus';
-import AnchorController from 'anchor_controller';
-import ModalController from 'modal_controller';
+import AnchorController from '../../../app/javascript/controllers/anchor_controller';
+import ModalController from '../../../app/javascript/controllers/modal_controller';
 
 describe('AnchorController', () => {
   let application;

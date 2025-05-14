@@ -1,5 +1,5 @@
 import {Application} from '@hotwired/stimulus';
-import CookieBannerController from 'cookie_banner_controller';
+import CookieBannerController from '../../../app/javascript/controllers/cookie_banner_controller';
 import CookieManager from 'cookie-manager';
 import Cookies from 'js-cookie';
 
