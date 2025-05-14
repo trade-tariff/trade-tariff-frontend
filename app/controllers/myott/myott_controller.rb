@@ -19,7 +19,7 @@ module Myott
         raw_token = cookies[:id_token]
         return nil if raw_token.blank?
 
-        EncryptionService.decrypt_string(raw_token)
+        EncryptionService.decrypt_string(CGI.unescape(raw_token))
       end
     end
   end
