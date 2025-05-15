@@ -10,7 +10,8 @@ module Myott
       @current_user ||= begin
         return nil if id_token.nil?
 
-        JWT.decode(id_token, nil, false)
+        jwt = JWT.decode(id_token, nil, false)
+        jwt.is_a?(Array) ? jwt.first : jwt
       end
     end
 
@@ -19,7 +20,7 @@ module Myott
         raw_token = cookies[:id_token]
         return nil if raw_token.blank?
 
-        EncryptionService.decrypt_string(CGI.unescape(raw_token))
+        EncryptionService.decrypt_string(raw_token)
       end
     end
   end
