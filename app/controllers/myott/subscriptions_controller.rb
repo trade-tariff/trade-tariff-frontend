@@ -4,7 +4,7 @@ module Myott
                   :disable_switch_service_banner,
                   :disable_last_updated_footnote
 
-    before_action :sections_chapters, only: %i[chapter_selection]
+    before_action :sections_chapters, only: %i[chapter_selection check_your_answers]
 
     def dashboard
       @email = current_user&.fetch('email') || 'not_logged_in@email.com'
