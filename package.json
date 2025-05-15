@@ -11,8 +11,10 @@
     "@stimulus/polyfills": "^2.0.0",
     "accessible-autocomplete": "^3.0.1",
     "alphagov-static": "github:alphagov/static.git#release_3463",
+    "base64-img": "^1.0.4",
     "govuk-frontend": "5.10.0",
     "html-escaper": "^3.0.3",
+    "html-pdf-node": "^1.0.8",
     "imask": "^7.6.1",
     "jquery": "3.7.1",
     "jquery-common-keydown": "^1.0.1",
@@ -30,8 +32,13 @@
     "stimulus": "^3.2.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
+    "@playwright/test": "^1.52.0",
     "@webpack-cli/serve": "^3.0.1",
+    "axe-core": "^4.10.3",
+    "axe-playwright": "^2.1.0",
     "babel-jest": "^29.7.0",
+    "dotenv": "^16.5.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "webpack-dev-server": "^5.2.1"
@@ -40,7 +47,8 @@
     "dev": "webpack-dev-server",
     "spec": "jest",
     "test": "jest",
-    "lint": "eslint app/webpacker/src/javascripts spec/javascript --fix"
+    "lint": "eslint app/webpacker/src/javascripts spec/javascript --fix",
+    "test:accessibility": "playwright test tests/accessibility"
   },
   "jest": {
     "testEnvironment": "jsdom",
