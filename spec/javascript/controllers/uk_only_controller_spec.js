@@ -1,5 +1,5 @@
 import {Application} from '@hotwired/stimulus';
-import UkOnlyController from 'uk_only_controller.js';
+import UkOnlyController from '../../../app/javascript/controllers/uk_only_controller';
 
 describe('UkOnlyController', () => {
   const template = `

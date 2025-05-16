@@ -1,0 +1,227 @@
+.tariff-ancestors-breadcrumbs__link {
+  color: $govuk-text-colour !important;
+}
+
+.tariff-breadcrumbs {
+  position: relative;
+  padding: 1em;
+  margin: 20px 0 40px 0;
+
+  background-color: govuk-colour("light-grey", "grey-4");
+
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  .full-code {
+    width: 171px;
+    margin-top: 5px;
+
+    @media (min-width: $desktop-min-width) {
+      margin-top: 0;
+    }
+
+    .commodity-code {
+      width: 101px;
+    }
+  }
+
+  nav {
+    ul {
+      position: relative;
+      list-style: none;
+      padding-left: $breadcrumb-indent;
+      margin: 5px 0 0;
+
+      @media (min-width: $desktop-min-width) {
+        padding-left: $breadcrumb-indent-desktop;
+      }
+
+      li {
+        position: relative;
+        display: block;
+        line-height: 30px;
+        word-wrap: break-word;
+        font-size: 16px;
+        min-height: 30px;
+
+        p,
+        a,
+        .line-text {
+          display: block !important;
+          padding-top: 2px;
+          line-height: 1.3;
+
+
+          &.show-full-tree-link {
+            padding-top: 0 !important;
+          }
+
+          @media (min-width: $desktop-min-width) {
+            font-size: 1em;
+            min-height: 30px;
+            padding-right: 200px;
+          }
+        }
+
+        p.full-width,
+        a.full-width {
+          padding-right: 2px;
+        }
+
+        .feed {
+          a {
+            padding-right: 0 !important;
+            display: inline-block !important;
+          }
+        }
+
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          left: -12px;
+        }
+
+        &::before {
+          border-top: 1px solid #000;
+          top: 15px;
+          width: 8px;
+          height: 0;
+        }
+
+        &::after {
+          border-left: 1px solid #000;
+          height: 100%;
+          width: 0px;
+          top: 7px;
+        }
+
+        &:last-child::after {
+          height: 8px;
+        }
+
+        .line-text {
+          min-height: 30px;
+        }
+
+        ul.commodities {
+          padding-left: $breadcrumb-indent;
+
+          @media (min-width: $desktop-min-width) {
+            padding-left: $breadcrumb-indent-desktop;
+          }
+        }
+
+        h1 {
+          display: inline;
+        }
+
+        p {
+          display: inline;
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    @media (max-width: $mobile-max-width) {
+      .chapter-code~ul ul {
+        padding-left: 0;
+      }
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .feed {
+      margin-top: 10px;
+
+      &::before {
+        content: '(';
+      }
+
+      &::after {
+        content: ')';
+      }
+
+      @media (min-width: $desktop-min-width) {
+        float: right;
+        margin-top: 2em;
+
+        &::before,
+        &::after {
+          content: '';
+          display: none;
+        }
+      }
+
+      a {
+        background-image: url('/feed-icon-black.png');
+        background-position: 0.2em center;
+        background-repeat: no-repeat;
+        padding-left: 20px;
+        max-width: none;
+        display: inline-block !important;
+        padding-right: 0 !important;
+        min-height: 0 !important;
+
+        @media (min-width: $desktop-min-width) {
+          background-image: url('/feed-icon-black.png');
+          background-position: 0.2em center;
+          background-repeat: no-repeat;
+          padding-left: 25px;
+          font-size: 1rem;
+          padding-top: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+.full-code {
+  width: 181px;
+  height: 30px;
+  font-size: 16px;
+  font-size: 1rem;
+
+  @media (min-width: $desktop-min-width) {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  >div {
+    margin-top: 0;
+    vertical-align: top;
+    display: inline-block;
+  }
+
+  .chapter-code,
+  .heading-code {
+    width: 30px;
+    height: 30px;
+    //margin-right: 2px !important;
+  }
+
+  .commodity-code {
+    width: 111px;
+    height: 30px;
+
+    .code-text {
+      width: 30px;
+      height: 30px;
+      display: inline-block;
+      text-align: center;
+      line-height: 30px;
+      //margin: 0 !important;
+
+      &:nth-child(2) {
+        //margin-left: 2px !important;
+        //margin-right: 2px !important;
+      }
+    }
+  }
+}

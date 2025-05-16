@@ -7,7 +7,7 @@ RSpec.describe CountryFlagHelper, type: :helper do
 
       it 'includes the relevant flag' do
         expect(rendered).to \
-          have_css('img.country-flag[src*="media/images/flags/gb"]')
+          have_css('img.country-flag[src*="flags/gb"]')
       end
     end
 

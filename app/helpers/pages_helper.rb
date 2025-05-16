@@ -1,8 +1,7 @@
 module PagesHelper
   def cn2021_cn2022_8_digit_file
-    file = 'public/cn2021_2022/CorrelationCN2021toCN2022Rev21Oct.xls'
-    asset = 'cn2021_2022/CorrelationCN2021toCN2022Rev21Oct.xls'
-    asset_size = number_to_human_size(File.size(file))
+    asset = 'CorrelationCN2021toCN2022Rev21Oct.xls'
+    asset_size = '127 KB'
     link_text = 'Download UK Goods classification 2021 to 2022 correlation table (changes to 8-digit commodity codes)'
 
     [asset, asset_size, link_text]

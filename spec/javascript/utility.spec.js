@@ -1,6 +1,6 @@
 /* eslint-env node, jest */
 
-import Utility from 'utility';
+import Utility from '../../app/javascript/src/utility';
 
 describe('Utility.countrySelectorOnConfirm', () => {
   let selectElement;

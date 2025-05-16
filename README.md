@@ -48,6 +48,8 @@ To run the spec use the following command:
 bundle exec rspec
 ```
 
+Note that lots of tests will fail without the assets being compiled. In order to run the tests you need to run `bin/rails assets:precompile` first.
+
 ### Guard
 
 We use [Guard](https://github.com/guard/guard) to run the test suite automatically when files are changed.

@@ -71,6 +71,6 @@ jobs:
           cache: yarn
       - run: yarn install --frozen-lockfile
 
-      - run: bundle exec rspec
+      - run: bin/rails assets:precompile
 
-      - run: yarn run test
+      - run: bundle exec rspec

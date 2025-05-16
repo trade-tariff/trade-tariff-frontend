@@ -11,7 +11,8 @@
     "@stimulus/polyfills": "^2.0.0",
     "accessible-autocomplete": "^3.0.1",
     "alphagov-static": "github:alphagov/static.git#release_3463",
-    "govuk-frontend": "5.10.0",
+    "datepicker": "^0.0.0",
+    "govuk-frontend": "^5.10.0",
     "html-escaper": "^3.0.3",
     "imask": "^7.6.1",
     "jquery": "3.7.1",
@@ -26,21 +27,21 @@
     "jquery-tabs": "^0.5.3",
     "js-cookie": "^3.0.5",
     "mark.js": "^8.11.1",
+    "sass": "^1.87.0",
     "select2": "^4.1.0-rc.0",
     "stimulus": "^3.2.2"
   },
   "devDependencies": {
     "@webpack-cli/serve": "^3.0.1",
     "babel-jest": "^29.7.0",
+    "esbuild": "^0.25.4",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "webpack-dev-server": "^5.2.1"
+    "webpack": "^5.99.8",
+    "webpack-cli": "^6.0.1"
   },
   "scripts": {
-    "dev": "webpack-dev-server",
-    "spec": "jest",
-    "test": "jest",
-    "lint": "eslint app/webpacker/src/javascripts spec/javascript --fix"
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/print.sass.scss:./app/assets/builds/print.css --no-source-map --load-path=node_modules"
   },
   "jest": {
     "testEnvironment": "jsdom",
