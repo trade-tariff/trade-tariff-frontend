@@ -19,10 +19,6 @@ concurrency: preevy-${{ github.event.number }}
 
 jobs:
   deploy:
-    environment:
-          name: pr-${{ github.event.number }}
-          # url: ${{ fromJson(steps.preevy_up.outputs.urls-map).frontend[3000] }}
-
     runs-on: ubuntu-latest
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
