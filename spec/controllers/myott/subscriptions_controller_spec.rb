@@ -17,6 +17,8 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
   end
 
   describe 'GET #dashboard' do
+    let(:user) { build(:user) }
+
     before { get :dashboard }
 
     it { is_expected.to respond_with(:success) }
@@ -25,12 +27,12 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
     context 'when current_user exists' do
       before do
-        allow(controller).to receive(:current_user).and_return({ 'email' => 'test@example.com' })
+        allow(controller).to receive(:current_user).and_return(user)
       end
 
       it 'assigns @email with current_user email' do
         get :dashboard
-        expect(assigns(:email)).to eq('test@example.com')
+        expect(assigns(:email)).to eq(user.email)
       end
     end
   end
