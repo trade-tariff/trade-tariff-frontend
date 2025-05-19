@@ -10,6 +10,14 @@ class ExchangeRates::File
 
   delegate :year, :month, to: :publication_date, allow_nil: true
 
+  def adjusted_file_path
+    url = TradeTariffFrontend.backend_base_domain
+
+    return file_path if url.blank?
+
+    File.join(url, file_path)
+  end
+
   def file_size_label
     "#{format.upcase} file (#{file_size_in_kb} KB)"
   end

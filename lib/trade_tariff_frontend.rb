@@ -43,6 +43,10 @@ module TradeTariffFrontend
     ENV.fetch('FRONTEND_HOST', 'http://localhost')
   end
 
+  def backend_base_domain
+    ENV['BACKEND_BASE_DOMAIN']
+  end
+
   def single_trade_window_url
     ENV.fetch(
       'STW_URI',

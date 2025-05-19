@@ -1,0 +1,22 @@
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - API_SERVICE_BACKEND_URL_OPTIONS={"uk":"https://dev.trade-tariff.service.gov.uk","xi":"https://dev.trade-tariff.service.gov.uk/xi"}
+      - BACKEND_BASE_DOMAIN=https://dev.trade-tariff.service.gov.uk/
+      - DUTY_CALCULATOR_BASE_URL=https://dev.trade-tariff.service.gov.uk/duty-calculator
+      - ENVIRONMENT=review
+      - GOVUK_APP_DOMAIN="localhost"
+      - GOVUK_WEBSITE_ROOT=http://localhost/
+      - RAILS_ENV=production
+    extra_hosts:
+      - "telemetry.preevy.dev:127.0.0.1" # Disables telemetry
+volumes:
+
+  hmrc-redis:
+    driver: local
