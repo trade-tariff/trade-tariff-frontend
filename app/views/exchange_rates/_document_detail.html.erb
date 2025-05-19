@@ -19,7 +19,7 @@
 
         <% if period.files.any? %>
           <% period.files.each do |file| %>
-            <a title="Download <%= period.month%> <%= period.year %> monthly exchange rates in <%= file.format.upcase %> format" href="<%= file.file_path %>">
+            <a title="Download <%= period.month%> <%= period.year %> monthly exchange rates in <%= file.format.upcase %> format" href="<%= file.adjusted_file_path %>">
               <strong><%= file.format.upcase %></strong> <%= file.file_size_in_kb %> KB
             </a>
           <% end %>

@@ -8,7 +8,7 @@
 <dt class="gem-c-metadata__term">Download:</dt>
 <dd class="gem-c-metadata__definition">
   <% files.each_with_index do |file, index| %>
-    <%= link_to file.file_size_label, file.file_path %>
+    <%= link_to file.file_size_label, file.adjusted_file_path %>
     <% unless index + 1 == files.length %>
       |
     <% end %>
