@@ -6,7 +6,7 @@ module TradeTariffFrontend
   module_function
 
   def production?
-    environment == 'production' && ENV['PREVIEW_MODE'] == 'false'
+    environment == 'production'
   end
 
   def environment

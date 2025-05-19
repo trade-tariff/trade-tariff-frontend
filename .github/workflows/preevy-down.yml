@@ -1,4 +1,4 @@
-name: Teardown Preevy environment
+name: Preview App Down
 
 on:
   pull_request:
