@@ -1,5 +1,5 @@
 import {Application} from '@hotwired/stimulus';
-import CountrySelectBoxController from 'country_select_box_controller';
+import CountrySelectBoxController from '../../../app/javascript/controllers/country_select_box_controller';
 
 describe('CountrySelectBoxController', () => {
   let application;

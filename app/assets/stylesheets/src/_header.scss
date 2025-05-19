@@ -1,0 +1,113 @@
+.search-button {
+  display: block;
+  position: relative;
+  bottom: 0;
+  left: -30px;
+  right: 0;
+  height: 40px;
+  width: 40px;
+  overflow: visible;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  text-indent: -5000px;
+  background-image: url('/search-button.png');
+  background-repeat: no-repeat;
+  background-position: 1px -17px;
+}
+
+.select2-selection {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  font-size: 1rem !important;
+  line-height: 1.25 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 40px !important;
+  height: 2.5rem !important;
+  margin-top: 0 !important;
+  padding: 0 5px !important;
+  border: 2px solid #0b0c0c !important;
+  border-radius: 0 !important;
+
+  .select2-selection__placeholder,
+  .select2-selection__rendered {
+    width: 100%;
+    padding: 0;
+    line-height: 40px;
+  }
+
+  .select2-selection__placeholder {
+    height: 40px;
+  }
+
+  .select2-selection__rendered {
+    height: 40px;
+    @include govuk-font(19);
+    color: $govuk-text-colour !important;
+  }
+}
+
+.select2-selection__arrow {
+  height: 100% !important;
+  right: 10px !important;
+
+  b {
+    border-color: $govuk-input-border-colour transparent transparent transparent !important;
+    border-width: 8px 7px 0 7px !important;
+  }
+}
+
+.select2-search__field {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  font-size: 1rem !important;
+  line-height: 1.25 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 40px !important;
+  height: 2.5rem !important;
+  margin-top: 0 !important;
+  padding: 0 5px !important;
+  border: 2px solid #0b0c0c !important;
+  border-radius: 0 !important;
+}
+
+.select2-selection__rendered {
+  line-height: 38px !important;
+  height: auto !important;
+  max-width: calc(100% - 2em);
+}
+
+.select2-container--open .select2-dropdown--below {
+  border-width: 2px !important;
+  border-color: #0b0c0c !important;
+}
+
+a.back-to-previous {
+  color: $govuk-text-colour;
+  font-size: 14px;
+  display: block;
+  text-decoration: none;
+  border-bottom: #0b0c0c 1px solid;
+  width: 2.25em;
+  background: url('/icon-caret-left.png') left 0.2em no-repeat;
+  padding-left: 0.75em;
+  text-align: right;
+  margin: 2em 0 0 0;
+  overflow: hidden;
+
+  &:active,
+  &:hover,
+  &:focus {
+    color: $govuk-text-colour;
+  }
+
+  @media (min-width: $desktop-min-width) {
+    font-size: 16px;
+  }
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: $govuk-secondary-text-colour !important;
+}

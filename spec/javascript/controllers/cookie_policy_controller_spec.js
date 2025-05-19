@@ -1,6 +1,6 @@
-import {Application} from '@hotwired/stimulus';
-import CookiePolicyController from 'cookie_policy_controller';
-import CookieManager from 'cookie-manager';
+import { Application } from '@hotwired/stimulus';
+import CookiePolicyController from '../../../app/javascript/controllers/cookie_policy_controller';
+import CookieManager from '../../../app/javascript/src/cookie-manager';
 import Cookies from 'js-cookie';
 
 describe('CookiePolicyController', () => {

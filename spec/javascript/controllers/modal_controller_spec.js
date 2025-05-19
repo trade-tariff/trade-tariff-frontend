@@ -1,5 +1,5 @@
 import {Application} from '@hotwired/stimulus';
-import ModalController from 'modal_controller';
+import ModalController from '../../../app/javascript/controllers/modal_controller';
 
 describe('ModalController', () => {
   let application;
