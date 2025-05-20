@@ -16,11 +16,11 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-        exclude: ^spec/vcr|vendor/
+        exclude: ^spec/vcr|vendor/|app/assets/images
       - id: end-of-file-fixer
-        exclude: ^spec/vcr|vendor/
+        exclude: ^spec/vcr|vendor/|app/assets/images
       - id: check-yaml
-        exclude: ^spec/vcr|vendor/
+        exclude: ^spec/vcr|vendor/|app/assets/images
 
   - repo: https://github.com/trufflesecurity/trufflehog
     rev: v3.88.29
