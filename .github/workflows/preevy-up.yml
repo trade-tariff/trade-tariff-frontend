@@ -1,7 +1,7 @@
 name: Preview App Up
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 permissions:
   contents: read
@@ -19,6 +19,7 @@ concurrency: preevy-${{ github.event.number }}
 
 jobs:
   deploy:
+    if: contains(github.event.pull_request.labels.*.name, 'needs-preview')
     runs-on: ubuntu-latest
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
