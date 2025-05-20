@@ -12,7 +12,7 @@
     "accessible-autocomplete": "^3.0.1",
     "alphagov-static": "github:alphagov/static.git#release_3463",
     "datepicker": "^0.0.0",
-    "govuk-frontend": "^5.10.0",
+    "govuk-frontend": "^5.10.1",
     "html-escaper": "^3.0.3",
     "imask": "^7.6.1",
     "jquery": "3.7.1",
