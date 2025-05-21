@@ -17,11 +17,11 @@
           <div id="select-hint" class="govuk-hint">
             Select an option below. You can change your subscription preferences at any time.
           </div>
-          <%if flash.now[:error] %>
+          <% if flash.now[:error] %>
             <p class="govuk-error-message">
               Please select an option
             </p>
-          <%end%>
+          <% end %>
           <div class="govuk-radios" data-module="govuk-radios">
             <div class="govuk-radios__item">
               <input class="govuk-radios__input" id="selectChapters" name="preference" type="radio" value="selectChapters">
