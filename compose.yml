@@ -14,6 +14,7 @@ services:
       - GOVUK_APP_DOMAIN="localhost"
       - GOVUK_WEBSITE_ROOT=http://localhost/
       - RAILS_ENV=production
+      - MYOTT_ENABLED=true
     extra_hosts:
       - "telemetry.preevy.dev:127.0.0.1" # Disables telemetry
 volumes:
