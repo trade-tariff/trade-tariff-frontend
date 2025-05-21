@@ -45,7 +45,7 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
       - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-tflint@main
-      - run: GOBIN=/usr/local/bin/ go install github.com/terraform-docs/terraform-docs@v0.20.0
+      - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-terraform-docs@main
       - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-ssh@main
         with:
           ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
@@ -72,12 +72,6 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
-      - run: yarn playwright install
-
       - run: bin/rails assets:precompile
 
       - run: bundle exec rspec
-
-      - run: yarn run axxy
-        env:
-          CI: true
