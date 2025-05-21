@@ -36,12 +36,12 @@ module Myott
 
     def set_preferences
       selection = params[:preference]
-      if selection
-        if selection == 'selectChapters'
-          redirect_to myott_chapter_selection_path
-        elsif selection == 'allChapters'
-          redirect_to myott_check_your_answers_path(all_tariff_updates: true)
-        end
+
+      case selection
+      when 'selectChapters'
+        redirect_to myott_chapter_selection_path
+      when 'allChapters'
+        redirect_to myott_check_your_answers_path(all_tariff_updates: true)
       else
         flash.now[:error] = 'Please select an option.'
         render :preference_selection
