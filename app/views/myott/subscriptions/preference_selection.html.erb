@@ -1,0 +1,44 @@
+<div class="govuk-body">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Set subscription preferences</h1>
+      <p>Along with general updates from the UK Trade Tariff Service,
+        you can choose to receive updates on all tariff chapters,
+        or select specific tariff chapters you want to be updated about.</p>
+      <p>You can change what tariff chapters you receive updates about at any time
+        by following the link the tariff update emails.</p>
+
+      <%= form_with url: myott_set_preferences_path, method: :post, local: true do %>
+        <fieldset class="govuk-fieldset" aria-describedby="select-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h2 class="govuk-fieldset__heading govuk-heading-m">What tariff updates would you like to receive?</h2>
+          </legend>
+          <div id="select-hint" class="govuk-hint">
+            Select an option below. You can change your subscription preferences at any time.
+          </div>
+          <%if flash.now[:error] %>
+            <p class="govuk-error-message">
+              Please select an option
+            </p>
+          <%end%>
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="selectChapters" name="preference" type="radio" value="selectChapters">
+              <label class="govuk-label govuk-radios__label" for="selectChapters">
+                Select the tariff chapters I am interested in
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="allChapters" name="preference" type="radio" value="allChapters">
+              <label class="govuk-label govuk-radios__label" for="allChapters">
+                All tariff chapter updates
+              </label>
+            </div>
+          </div>
+        </fieldset>
+        <%= submit_tag "Continue", class: "govuk-button govuk-!-margin-top-4" %>
+      <% end %>
+    </div>
+  </div>
+</div>
