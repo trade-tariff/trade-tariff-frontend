@@ -1,10 +1,3 @@
-/* global $ */
-/* jslint
- white: true */
-
-// import IMask from 'imask';
-// import debounce from "./debounce";
-
 'use strict';
 
 (function() {
