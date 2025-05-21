@@ -4,7 +4,6 @@ pin 'application'
 pin '@hotwired/stimulus', to: 'stimulus.min.js'
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js'
 
-pin 'core-js/stable', to: 'https://ga.jspm.io/npm:core-js@3.42.0/stable/index.js'
 pin 'govuk-frontend', to: 'https://cdn.jsdelivr.net/npm/govuk-frontend@5.10.0/+esm'
 
 pin 'mark.js' # @8.11.1

@@ -1,7 +1,7 @@
 import accessibleAutocomplete from 'accessible-autocomplete';
 import jQuery from 'jquery';
 
-(function(global) {
+document.addEventListener('DOMContentLoaded', () => {
   const $ = jQuery;
   const fieldset = $('.js-quota-country-picker');
 
@@ -32,4 +32,4 @@ import jQuery from 'jquery';
   $('form.quota-search#new_search').on('submit', (event) => {
     $(event.currentTarget).find(':input[type=submit]').prop('disabled', true);
   });
-})(window);
+});

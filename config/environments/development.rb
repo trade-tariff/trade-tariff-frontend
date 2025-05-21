@@ -65,4 +65,6 @@ Rails.application.configure do
 
   # Allow all preview subdomains from livecycle.run
   config.hosts << /[a-z0-9-]+\.livecycle\.run/
+
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end
