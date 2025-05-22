@@ -1,5 +1,6 @@
 
 import { Controller } from "@hotwired/stimulus"
+import 'step-by-step-nav'
 
 export default class extends Controller {
   connect() {
