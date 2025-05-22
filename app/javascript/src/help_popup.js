@@ -1,5 +1,8 @@
 const HELP_POPUP_TIMEOUT = 20000;
 
+document.addEventListener('DOMContentLoaded', function() {
+$ = window.jQuery;
+
 $('#close_box').on('click', function(event) {
   hideHelpPopup();
 });
@@ -46,3 +49,4 @@ function getCookie(cname) {
   }
   return '';
 }
+});
