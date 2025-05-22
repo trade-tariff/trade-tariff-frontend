@@ -1,5 +1,5 @@
 <% content_for :back_link do %>
-  <% back_link myott_chapter_selection_path %>
+  <% back_link @all_tariff_updates ? myott_preference_selection_path : myott_chapter_selection_path %>
 <% end %>
 
 <div class="govuk-body myott-subscriptions">

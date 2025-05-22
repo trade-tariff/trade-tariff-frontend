@@ -62,8 +62,11 @@ Rails.application.routes.draw do
   if TradeTariffFrontend.myott?
     namespace :myott, path: 'subscriptions' do
       get '/', to: 'subscriptions#dashboard'
+      get '/preference_selection', to: 'subscriptions#preference_selection'
       get '/chapter_selection', to: 'subscriptions#chapter_selection'
+      get '/check_your_answers', to: 'subscriptions#check_your_answers' # for when user selects all chapters
       post '/check_your_answers', to: 'subscriptions#check_your_answers'
+      post '/set_preferences', to: 'subscriptions#set_preferences'
     end
   end
 
