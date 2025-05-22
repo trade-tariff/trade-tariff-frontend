@@ -2,18 +2,18 @@ require 'spec_helper'
 
 RSpec.describe Myott::MyottController, type: :controller do
   describe '#current_user' do
+    let(:user) { build(:user) }
     let(:id_token) { 'encrypted_token' }
     let(:decrypted_token) { 'decrypted_token' }
 
     before do
       allow(controller).to receive(:cookies).and_return(id_token: id_token)
-      allow(EncryptionService).to receive(:decrypt_string).with(id_token).and_return(decrypted_token)
-      allow(JWT).to receive(:decode).with(decrypted_token, nil, false).and_return('user_data')
+      allow(User).to receive(:find).and_return(user)
     end
 
-    it 'decodes the ID token and returns the current user' do
+    it 'returns the current user' do
       result = controller.send(:current_user)
-      expect(result).to eq('user_data')
+      expect(result).to eq(user)
     end
   end
 end

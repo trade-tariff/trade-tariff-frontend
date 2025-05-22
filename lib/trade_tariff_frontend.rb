@@ -82,10 +82,6 @@ module TradeTariffFrontend
     ENV['MYOTT_ENABLED'].to_s == 'true'
   end
 
-  def myott_encryption_secret
-    ENV['MYOTT_ENCRYPTION_SECRET']
-  end
-
   def webchat_enabled?
     webchat_url.present?
   end

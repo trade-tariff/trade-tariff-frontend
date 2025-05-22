@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs-ruby = {
       url = "github:bobvanderlinden/nixpkgs-ruby";
@@ -9,13 +10,17 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, nixpkgs-ruby }:
+  outputs = { self, nixpkgs, flake-utils, nixpkgs-stable, nixpkgs-ruby }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           system = system;
           config.allowUnfree = true;
           overlays = [nixpkgs-ruby.overlays.default];
+        };
+        pkgs-stable = import nixpkgs-stable {
+          system = system;
+          config.allowUnfree = true;
         };
 
         rubyVersion = builtins.head (builtins.split "\n" (builtins.readFile ./.ruby-version));
@@ -44,6 +49,8 @@
       in {
         devShells.default = pkgs.mkShell {
           shellHook = ''
+            export PLAYWRIGHT_BROWSERS_PATH=${pkgs-stable.playwright-driver.browsers.outPath};
+            export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true;
             export GEM_HOME=$PWD/.nix/ruby/$(${ruby}/bin/ruby -e "puts RUBY_VERSION")
             mkdir -p $GEM_HOME
 
@@ -55,15 +62,15 @@
             }"
           '';
 
-          buildInputs = [
+          buildInputs = with pkgs; [
             chrome
             init
             lint
-            pkgs.nodejs_latest
-            pkgs.rufo
-            pkgs.yarn
+            nodejs_latest
+            pkgs-stable.playwright-driver.browsers
             ruby
             update-providers
+            yarn
           ];
         };
       });

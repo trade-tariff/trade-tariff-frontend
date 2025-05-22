@@ -7,8 +7,7 @@ module Myott
     before_action :sections_chapters, only: %i[chapter_selection check_your_answers]
 
     def dashboard
-      # TODO: Persist the user object
-      @email = current_user&.fetch('email') || 'not_logged_in@email.com'
+      @email = current_user&.email || 'not_logged_in@email.com'
       session[:chapter_ids] = nil
     end
 
