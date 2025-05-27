@@ -6,54 +6,56 @@
 # It has two modes of operation:
 #   1. LPA-based (where the other components are LPA we will use the LPA answer)
 #   2. ASVX-based (where the other components are ASVX we will use the ASVX answer)
-module ExpressionEvaluators
-  class Spq < ExpressionEvaluators::Base
-    include MeasureUnitPresentable
+module DutyCalculator
+  module ExpressionEvaluators
+    class Spq < ExpressionEvaluators::Base
+      include MeasureUnitPresentable
 
-    def call
-      {
-        calculation: measure_condition.duty_expression,
-        value:,
-        formatted_value: number_to_currency(value),
-      }
-    end
-
-    private
-
-    def value
-      @value ||= begin
-        candidate_value = if measure_condition.lpa_based?
-                            lpa_value
-                          elsif measure_condition.asvx_based?
-                            asvx_value
-                          end
-
-        candidate_value.present? ? candidate_value.to_f.floor(2) : 0.0
+      def call
+        {
+          calculation: measure_condition.duty_expression,
+          value:,
+          formatted_value: number_to_currency(value),
+        }
       end
-    end
 
-    def lpa_value
-      component.duty_amount * lpa_answer * spr_answer
-    end
+      private
 
-    def asvx_value
-      component.duty_amount * asv_answer * hlt_answer * spr_answer
-    end
+      def value
+        @value ||= begin
+          candidate_value = if measure_condition.lpa_based?
+                              lpa_value
+                            elsif measure_condition.asvx_based?
+                              asvx_value
+                            end
 
-    def asv_answer
-      coerced_answer_for(applicable_units[Api::BaseComponent::ALCOHOL_UNIT])
-    end
+          candidate_value.present? ? candidate_value.to_f.floor(2) : 0.0
+        end
+      end
 
-    def hlt_answer
-      coerced_answer_for(applicable_units[Api::BaseComponent::HECTOLITERS_UNIT])
-    end
+      def lpa_value
+        component.duty_amount * lpa_answer * spr_answer
+      end
 
-    def spr_answer
-      coerced_answer_for(applicable_units[Api::BaseComponent::SPR_DISCOUNT_UNIT])
-    end
+      def asvx_value
+        component.duty_amount * asv_answer * hlt_answer * spr_answer
+      end
 
-    def lpa_answer
-      coerced_answer_for(applicable_units[Api::BaseComponent::LITERS_PURE_ALCOHOL_UNIT])
+      def asv_answer
+        coerced_answer_for(applicable_units[Api::BaseComponent::ALCOHOL_UNIT])
+      end
+
+      def hlt_answer
+        coerced_answer_for(applicable_units[Api::BaseComponent::HECTOLITERS_UNIT])
+      end
+
+      def spr_answer
+        coerced_answer_for(applicable_units[Api::BaseComponent::SPR_DISCOUNT_UNIT])
+      end
+
+      def lpa_answer
+        coerced_answer_for(applicable_units[Api::BaseComponent::LITERS_PURE_ALCOHOL_UNIT])
+      end
     end
   end
 end

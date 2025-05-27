@@ -1,4 +1,4 @@
-<%= render 'steps/duty/calculations/options_summary' %>
+<%= render 'duty_calculator/steps/duty/calculations/options_summary' %>
 
 <% @duty_options.each.with_index(1) do |option, index| %>
   <h2 id=<%= option.type %> class="govuk-heading-m govuk-!-margin-bottom-7"><%= t("duty_calculations.options.heading.#{option.category}.#{option.type}", option_no: index, geographical_area_description: option.geographical_area_description, order_number:  option.order_number) %></h2>
@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        <%= render partial: 'steps/duty/calculations/option_row', collection: option.values, as: :row %>
+        <%= render partial: 'duty_calculator/steps/duty/calculations/option_row', collection: option.values, as: :row %>
       </tbody>
     </table>
   <% end %>
@@ -22,6 +22,6 @@
   </div>
 
   <% if option.show_rules_of_origin? && scheme_for(option, @rules_of_origin_schemes).present? %>
-    <%= render partial: 'steps/duty/calculations/rules_of_origin_scheme', locals: { scheme: scheme_for(option, @rules_of_origin_schemes) } %>
+    <%= render partial: 'duty_calculator/steps/duty/calculations/rules_of_origin_scheme', locals: { scheme: scheme_for(option, @rules_of_origin_schemes) } %>
   <% end %>
 <% end %>

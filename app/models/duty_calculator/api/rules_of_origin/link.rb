@@ -1,8 +1,10 @@
-module Api
-  module RulesOfOrigin
-    class Link < Api::Base
-      attributes :text,
-                 :url
+module DutyCalculator
+  module Api
+    module RulesOfOrigin
+      class Link < Api::Base
+        attributes :text,
+                   :url
+      end
     end
   end
 end

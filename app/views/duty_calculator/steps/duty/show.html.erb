@@ -12,8 +12,8 @@
 <% else %>
   <h1 class="govuk-heading-xl">Import duty calculation</h1>
   <p class="govuk-body">You are importing commodity <%= link_to(commodity.formatted_commodity_code(user_session.additional_codes), commodity_url(commodity.code), class: 'govuk-link') %> from <strong><%= country_of_origin_description %> </strong> on <strong><%= l user_session.import_date %></strong>.</p>
-  <%= render 'steps/duty/calculations/trade_details' %>
-  <%= render 'steps/duty/calculations/options' %>
+  <%= render 'duty_calculator/steps/duty/calculations/trade_details' %>
+  <%= render 'duty_calculator/steps/duty/calculations/options' %>
 
   <% if @gbp_to_eur_exchange_rate.present? %>
     <p class="govuk-body-s">Please note - the current page uses an exchange rate of <strong><%= @gbp_to_eur_exchange_rate %> GBP to EUR</strong>.</p>

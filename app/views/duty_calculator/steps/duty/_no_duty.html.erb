@@ -9,7 +9,7 @@
     An import declaration is not required.
   </p>
 <% elsif @user_session.gb_to_ni_route? %>
-  <%= render 'steps/duty/gb_to_ni/no_duty' %>
+  <%= render 'duty_calculator/steps/duty/gb_to_ni/no_duty' %>
 <% end %>
 
 <%= link_to('Start again', import_date_path(referred_service: user_session.referred_service, commodity_code: user_session.commodity_code), class: 'govuk-button') %>
