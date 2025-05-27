@@ -1,0 +1,23 @@
+<%= form_for @step, builder: GOVUKDesignSystemFormBuilder::FormBuilder, url: country_of_origin_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+      <h1 class="govuk-fieldset__heading">
+        Which country are the goods coming from?
+      </h1>
+    </legend>
+    <div class="govuk-form-group ">
+      <div id="destination-hint" class="govuk-hint">
+        The duty you are charged may be dependent on the country from which the goods are coming.
+      </div>
+      <%= f.govuk_collection_select :country_of_origin, Steps::CountryOfOrigin.options_for(commodity_source), :id, :name, options: { prompt: true }, label: { text: 'Where are the goods coming from?' } %>
+
+      <p class="govuk-!-margin-top-3 govuk-hint">When autocomplete results are available, use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</p>
+    </div>
+
+    <%= f.govuk_submit %>
+  </fieldset>
+<% end %>
+
+
+<%= javascript_pack_tag 'country-of-origin' %>

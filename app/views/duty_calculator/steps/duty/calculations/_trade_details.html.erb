@@ -1,0 +1,46 @@
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Details of your trade
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-body-s">
+          Origin:
+        </dt>
+        <dd class="govuk-summary-list__value govuk-body-s">
+          <%= country_of_origin_description %>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-body-s">
+          Commodity:
+        </dt>
+        <dd class="govuk-summary-list__value govuk-body-s">
+          <%= commodity.formatted_commodity_code(user_session.additional_codes) %>
+          <br>
+          <%= commodity.description %>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-body-s">
+          Import date:
+        </dt>
+        <dd class="govuk-summary-list__value govuk-body-s">
+          <%= l user_session.import_date %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-body-s">
+          Valuation of import:
+        </dt>
+        <dd class="govuk-summary-list__value govuk-body-s">
+          <%= number_to_currency(user_session.total_amount) %>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</details>

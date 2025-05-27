@@ -1,0 +1,21 @@
+<%= render 'steps/shared/back_link' %>
+
+<span class="govuk-caption-xl">Calculate import duties</span>
+<h1 class="govuk-heading-xl">Declared subheading not allowed</h1>
+
+<p class="govuk-body">
+  You have chosen a commodity code (<%= link_to(commodity.formatted_commodity_code, commodity_url(commodity.code), class: 'govuk-link')%>) for which you do not have the necessary documentation to proceed.
+</p>
+
+<h2 class="govuk-heading-m">What's next</h2>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>
+    Go back to the previous screen and <%= link_to('select the correct document code', @step.previous_step_path) %>
+  </li>
+  <li>
+    Try another commodity code
+  </li>
+</ul>
+
+<%= render 'shared/commodity_details' %>

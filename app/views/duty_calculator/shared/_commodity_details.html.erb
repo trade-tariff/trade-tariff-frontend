@@ -1,0 +1,10 @@
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+    About this commodity code
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    Commodity code <strong><%= commodity.formatted_commodity_code %></strong><br><%= commodity.description %><br><br><a class="govuk-link" href="<%= commodity_url(commodity.code) %>">View commodity <%= commodity.code %></a>
+  </div>
+</details>

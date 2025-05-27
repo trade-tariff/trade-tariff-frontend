@@ -20,6 +20,8 @@ gem 'net-http-persistent'
 gem 'newrelic_rpm'
 gem 'rack-attack'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
+gem 'uktt', git: 'https://github.com/trade-tariff/uktt.git'
+
 # Assets
 gem 'bootsnap', require: false
 gem 'cssbundling-rails'
