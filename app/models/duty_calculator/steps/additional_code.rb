@@ -19,7 +19,7 @@ module DutyCalculator
         super || user_session.additional_code_xi[measure_type_id]
       end
 
-      def save
+      def save!
         user_session.additional_code_uk = { measure_type_id => additional_code_uk }
         user_session.additional_code_xi = { measure_type_id => additional_code_xi }
       end

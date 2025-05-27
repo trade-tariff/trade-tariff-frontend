@@ -68,7 +68,6 @@ module DutyCalculator
           resource = "Uktt::#{name.demodulize}".constantize
           resource = resource.new(client)
 
-          # raise resource.inspect
           resource.retrieve(id, query)
 
           new(resource.response)
@@ -102,9 +101,9 @@ module DutyCalculator
         end
 
         def http_client_for(service)
-          return Rails.application.config.http_client_uk if service.to_sym == :uk
+          return Rails.application.config.duty_calculator_http_client_uk if service.to_sym == :uk
 
-          Rails.application.config.http_client_xi
+          Rails.application.config.duty_calculator_http_client_xi
         end
 
         def user_session

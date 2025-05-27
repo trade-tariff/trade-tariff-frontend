@@ -70,7 +70,7 @@ module DutyCalculator
         end
       end
 
-      def save
+      def save!
         user_session.measure_amount = answers if answers.present?
       end
 

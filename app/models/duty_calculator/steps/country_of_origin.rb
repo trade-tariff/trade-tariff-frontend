@@ -30,7 +30,7 @@ module DutyCalculator
         super || user_session.country_of_origin
       end
 
-      def save
+      def save!
         user_session.country_of_origin = country_of_origin
         user_session.other_country_of_origin = other_country_of_origin
         user_session.trade_defence = trade_defence

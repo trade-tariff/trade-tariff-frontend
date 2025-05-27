@@ -24,7 +24,7 @@ module DutyCalculator
         super || user_session.trader_scheme
       end
 
-      def save
+      def save!
         user_session.trader_scheme = trader_scheme
       end
 

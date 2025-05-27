@@ -18,7 +18,7 @@ module DutyCalculator
     def meursing_lookup_link
       link_to(
         t('meursing_additional_code.link_text'),
-        meursing_lookup_url,
+        meursing_lookup_step_path(:start),
         class: 'govuk-link',
         target: '_blank',
         rel: 'noopener norefferer',

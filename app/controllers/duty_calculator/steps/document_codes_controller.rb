@@ -14,9 +14,9 @@ module DutyCalculator
       private
 
       def permitted_params
-        return params.permit(:measure_type_id) if params[:steps_document_code].blank?
+        return params.permit(:measure_type_id) if params[:duty_calculator_steps_document_code].blank?
 
-        params.require(:steps_document_code).permit(
+        params.require(:duty_calculator_steps_document_code).permit(
           :document_code_uk,
           :document_code_xi,
         ).merge(

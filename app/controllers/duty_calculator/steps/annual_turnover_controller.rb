@@ -14,7 +14,7 @@ module DutyCalculator
       private
 
       def permitted_params
-        params.require(:steps_annual_turnover).permit(
+        params.require(:duty_calculator_steps_annual_turnover).permit(
           :annual_turnover,
         )
       end

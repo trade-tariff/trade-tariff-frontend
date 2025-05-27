@@ -20,7 +20,7 @@ module DutyCalculator
       private
 
       def permitted_params
-        params.require(:steps_trader_scheme).permit(
+        params.require(:duty_calculator_steps_trader_scheme).permit(
           :trader_scheme,
         )
       end

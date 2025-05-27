@@ -21,9 +21,9 @@ module DutyCalculator
       end
 
       def measure_amount_answers
-        return {} unless params.key?(:steps_measure_amount)
+        return {} unless params.key?(:duty_calculator_steps_measure_amount)
 
-        params.require(:steps_measure_amount).permit(*applicable_measure_unit_keys).to_h
+        params.require(:duty_calculator_steps_measure_amount).permit(*applicable_measure_unit_keys).to_h
       end
     end
   end

@@ -517,7 +517,7 @@ module DutyCalculator
         super || user_session.meursing_additional_code
       end
 
-      def save
+      def save!
         user_session.meursing_additional_code = meursing_additional_code
       end
 

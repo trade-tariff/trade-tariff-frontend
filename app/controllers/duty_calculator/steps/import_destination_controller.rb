@@ -2,11 +2,11 @@ module DutyCalculator
   module Steps
     class ImportDestinationController < BaseController
       def show
-        @step = Steps::ImportDestination.new
+        @step = ImportDestination.new
       end
 
       def create
-        @step = Steps::ImportDestination.new(permitted_params)
+        @step = ImportDestination.new(permitted_params)
 
         validate(@step)
       end
@@ -14,7 +14,7 @@ module DutyCalculator
       private
 
       def permitted_params
-        params.require(:steps_import_destination).permit(
+        params.require(:duty_calculator_steps_import_destination).permit(
           :import_destination,
         )
       end

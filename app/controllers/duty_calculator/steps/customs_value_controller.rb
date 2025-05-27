@@ -14,7 +14,7 @@ module DutyCalculator
       private
 
       def permitted_params
-        params.require(:steps_customs_value).permit(
+        params.require(:duty_calculator_steps_customs_value).permit(
           :monetary_value,
           :shipping_cost,
           :insurance_cost,

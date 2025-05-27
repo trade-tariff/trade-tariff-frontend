@@ -14,9 +14,9 @@ module DutyCalculator
       private
 
       def permitted_params
-        return {} unless params.key?(:steps_planned_processing)
+        return {} unless params.key?(:duty_calculator_steps_planned_processing)
 
-        params.require(:steps_planned_processing).permit(
+        params.require(:duty_calculator_steps_planned_processing).permit(
           :planned_processing,
         )
       end

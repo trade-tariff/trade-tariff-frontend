@@ -13,7 +13,7 @@ module DutyCalculator
         super || user_session.excise_additional_code[measure_type_id]
       end
 
-      def save
+      def save!
         user_session.excise_additional_code = { measure_type_id => additional_code }
       end
 

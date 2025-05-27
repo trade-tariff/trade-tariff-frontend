@@ -14,7 +14,7 @@ module DutyCalculator
       private
 
       def permitted_params
-        params.require(:steps_certificate_of_origin).permit(
+        params.require(:duty_calculator_steps_certificate_of_origin).permit(
           :certificate_of_origin,
         )
       end

@@ -1,15 +1,15 @@
-<%= render 'steps/shared/back_link' %>
+<%= render 'duty_calculator/steps/shared/back_link' %>
 
 <%= form_for @step, url: import_destination_path do |f| %>
   <%= f.govuk_error_summary %>
   <span class="govuk-caption-xl">Calculate import duties</span>
 
-  <%= f.govuk_collection_radio_buttons :import_destination, Steps::ImportDestination::OPTIONS, :id, :name, legend: { text: 'Which part of the UK are you importing into?', size: 'xl', tag: 'h1' }, hint: { text: 'The duty you are charged may be dependent on the part of the UK to which you are importing.' }, include_hidden: true %>
+  <%= f.govuk_collection_radio_buttons :import_destination, DutyCalculator::Steps::ImportDestination::OPTIONS, :id, :name, legend: { text: 'Which part of the UK are you importing into?', size: 'xl', tag: 'h1' }, hint: { text: 'The duty you are charged may be dependent on the part of the UK to which you are importing.' }, include_hidden: true %>
 
   <%= f.govuk_submit %>
 <% end %>
 
-<%= render 'shared/commodity_details' %>
+<%= render 'duty_calculator/shared/commodity_details' %>
 
 <div class="explore-topics-section">
   <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>

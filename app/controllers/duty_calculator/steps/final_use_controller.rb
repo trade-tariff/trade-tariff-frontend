@@ -14,7 +14,7 @@ module DutyCalculator
       private
 
       def permitted_params
-        params.require(:steps_final_use).permit(
+        params.require(:duty_calculator_steps_final_use).permit(
           :final_use,
         )
       end

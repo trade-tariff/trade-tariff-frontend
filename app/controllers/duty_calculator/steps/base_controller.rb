@@ -9,8 +9,7 @@ module DutyCalculator
       rescue_from StandardError, with: :handle_exception
 
       default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
-      before_action :ensure_session_integrity
-      before_action :initialize_commodity_context_service
+      before_action :ensure_session_integrity, :initialize_commodity_context_service
 
       helper_method :commodity_code,
                     :commodity_source,
@@ -29,7 +28,7 @@ module DutyCalculator
 
       def validate(step)
         if step.valid?
-          step.save
+          step.save!
 
           redirect_to step.next_step_path
         else

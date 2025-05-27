@@ -15,7 +15,7 @@ module DutyCalculator
         super || user_session.planned_processing
       end
 
-      def save
+      def save!
         user_session.planned_processing = planned_processing
       end
 

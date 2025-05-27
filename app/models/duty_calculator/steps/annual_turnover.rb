@@ -17,7 +17,7 @@ module DutyCalculator
         super || user_session.annual_turnover
       end
 
-      def save
+      def save!
         user_session.annual_turnover = annual_turnover
       end
 

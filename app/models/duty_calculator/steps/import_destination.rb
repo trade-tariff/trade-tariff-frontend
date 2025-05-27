@@ -26,7 +26,7 @@ module DutyCalculator
         super || user_session.import_destination
       end
 
-      def save
+      def save!
         user_session.import_destination = import_destination
 
         update_commodity_source

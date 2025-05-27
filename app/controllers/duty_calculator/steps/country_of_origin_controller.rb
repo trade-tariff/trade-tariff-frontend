@@ -14,9 +14,9 @@ module DutyCalculator
       private
 
       def permitted_params
-        return {} unless params.key?(:steps_country_of_origin)
+        return {} unless params.key?(:duty_calculator_steps_country_of_origin)
 
-        params.require(:steps_country_of_origin).permit(
+        params.require(:duty_calculator_steps_country_of_origin).permit(
           :country_of_origin,
           :other_country_of_origin,
         )

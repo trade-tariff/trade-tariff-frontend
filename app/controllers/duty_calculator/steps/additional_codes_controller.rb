@@ -14,7 +14,7 @@ module DutyCalculator
       private
 
       def permitted_params
-        params.require(:steps_additional_code).permit(
+        params.require(:duty_calculator_steps_additional_code).permit(
           :additional_code_uk,
           :additional_code_xi,
         ).merge(measure_type_id)

@@ -1,4 +1,4 @@
-<%= render 'steps/shared/back_link' %>
+<%= render 'duty_calculator/steps/shared/back_link' %>
 
 <%= form_for @step, url: document_codes_path do |f| %>
   <%= f.govuk_error_summary %>
@@ -37,5 +37,5 @@
 
   <%= f.govuk_submit %>
 
-  <%= render 'shared/commodity_details' %>
+  <%= render 'duty_calculator/shared/commodity_details' %>
 <% end %>

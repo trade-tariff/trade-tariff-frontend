@@ -19,7 +19,7 @@ module DutyCalculator
         super || user_session.final_use
       end
 
-      def save
+      def save!
         user_session.final_use = final_use
       end
 

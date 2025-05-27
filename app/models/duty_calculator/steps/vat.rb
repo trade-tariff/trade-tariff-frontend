@@ -9,7 +9,7 @@ module DutyCalculator
         super || user_session.vat
       end
 
-      def save
+      def save!
         user_session.vat = vat
       end
 

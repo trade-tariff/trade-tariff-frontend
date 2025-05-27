@@ -16,7 +16,7 @@ module DutyCalculator
       private
 
       def permitted_params
-        params.require(:steps_import_date).permit(
+        params.require(:duty_calculator_steps_import_date).permit(
           :'import_date(3i)',
           :'import_date(2i)',
           :'import_date(1i)',

@@ -14,7 +14,7 @@ module DutyCalculator
       private
 
       def permitted_params
-        params.require(:steps_vat).permit(
+        params.require(:duty_calculator_steps_vat).permit(
           :vat,
         )
       end

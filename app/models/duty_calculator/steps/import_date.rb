@@ -33,7 +33,7 @@ module DutyCalculator
         super || user_session.import_date
       end
 
-      def save
+      def save!
         user_session.import_date = input_date.strftime('%Y-%m-%d')
       end
 

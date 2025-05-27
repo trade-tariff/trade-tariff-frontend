@@ -23,7 +23,7 @@ module DutyCalculator
         end
       end
 
-      def save
+      def save!
         user_session.document_code_uk = { measure_type_id => document_code_uk } unless document_code_uk.nil?
         user_session.document_code_xi = { measure_type_id => document_code_xi } unless document_code_xi.nil?
 

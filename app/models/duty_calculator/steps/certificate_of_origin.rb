@@ -16,7 +16,7 @@ module DutyCalculator
         super || user_session.certificate_of_origin
       end
 
-      def save
+      def save!
         user_session.certificate_of_origin = certificate_of_origin
       end
 

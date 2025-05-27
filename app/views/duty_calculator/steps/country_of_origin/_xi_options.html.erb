@@ -5,7 +5,7 @@
     <%= f.govuk_radio_button :country_of_origin, 'GB', label: { text: 'England, Scotland or Wales (GB)' } %>
     <%= f.govuk_radio_button :country_of_origin, 'EU', label: { text: 'Ireland or other EU member states' } %>
     <%= f.govuk_radio_button :country_of_origin, 'OTHER', label: { text: 'Countries outside of GB and European Union' } do %>
-      <%= f.govuk_collection_select :other_country_of_origin, Steps::CountryOfOrigin.options_for(commodity_source, include_eu_members: false), :id, :name, options: { prompt: true }, label: { text: 'Where are the goods coming from?' } %>
+      <%= f.govuk_collection_select :other_country_of_origin, DutyCalculator::Steps::CountryOfOrigin.options_for(commodity_source, include_eu_members: false), :id, :name, options: { prompt: true }, label: { text: 'Where are the goods coming from?' } %>
       <div class="govuk-hint">
         When autocomplete results are available, use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.
       </div>

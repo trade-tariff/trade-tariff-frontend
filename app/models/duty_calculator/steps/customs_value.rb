@@ -24,7 +24,7 @@ module DutyCalculator
         super || user_session.insurance_cost
       end
 
-      def save
+      def save!
         user_session.customs_value = {
           'monetary_value' => monetary_value,
           'shipping_cost' => shipping_cost,
