@@ -2,7 +2,7 @@ class LoginPage {
   constructor(relativeUrl, page) {
     this.page = page;
     this.url = relativeUrl;
-    this.password = process.env.BASIC_PASSWORD
+    this.password = process.env.BASIC_PASSWORD;
   }
 
   async login() {
