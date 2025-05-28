@@ -148,6 +148,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         expect(flash.now[:select_error]).to eq('Select an option to continue')
         expect(flash.now[:error]).to eq('Select a subscription preference to continue')
       end
+       # rubocop:enable RSpec/MultipleExpectations
     end
   end
 
