@@ -2,7 +2,7 @@ module DutyCalculator
   module InterstitialHelper
     def interstitial_partial_options
       {
-        partial: 'steps/interstitial/shared/context',
+        partial: 'duty_calculator/steps/interstitial/shared/context',
         locals: partial_locals,
       }
     end
