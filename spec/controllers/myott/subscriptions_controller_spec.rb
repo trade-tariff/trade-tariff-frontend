@@ -52,8 +52,6 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
     end
   end
 
-  # need to add test for 'subscribe' action
-
   describe 'GET #chapter_selection' do
     before do
       session[:subscription_in_progress] = true
@@ -182,17 +180,23 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         expect(response).to render_template(:subscription_confirmation)
       end
 
-      it 'clears the session' do
+      it 'clears the session chapter ids' do
         expect(session[:chapter_ids]).to be_nil
-        expect(session[:all_tariff_updates]).to be_nil
+      end
+
+      it 'clears the session subscription_in_progress flag' do
         expect(session[:subscription_in_progress]).to be false
+      end
+
+      it 'clears the session all_tariff_updates flag' do
+        expect(session[:all_tariff_updates]).to be_nil
       end
     end
 
     context 'when the update fails' do
       before do
         stub_api_request('/user/users', :put)
-          .and_return(jsonapi_error_response(401)) # or nil if update returns nil
+          .and_return(jsonapi_error_response(401))
 
         post :subscribe
       end
@@ -201,8 +205,11 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         expect(response).not_to render_template(:subscription_confirmation)
       end
 
-      it 'does not clear the session' do
+      it 'does not clear the session chapter ids' do
         expect(session[:chapter_ids]).to eq(%w[01 03])
+      end
+
+      it 'does not clear the session subscription_in_progress flag' do
         expect(session[:subscription_in_progress]).to be true
       end
     end
