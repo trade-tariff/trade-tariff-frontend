@@ -67,6 +67,7 @@ Rails.application.routes.draw do
       get '/check_your_answers', to: 'subscriptions#check_your_answers' # for when user selects all chapters
       post '/check_your_answers', to: 'subscriptions#check_your_answers'
       post '/set_preferences', to: 'subscriptions#set_preferences'
+      post '/subscribe', to: 'subscriptions#subscribe'
     end
   end
 

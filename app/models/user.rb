@@ -13,6 +13,19 @@ class User
     nil
   end
 
+  def self.update(token, attributes)
+    return nil if token.nil?
+
+    json_api_params = {
+      data: {
+        attributes: attributes,
+      },
+    }
+    super(json_api_params, headers(token))
+  rescue Faraday::UnauthorizedError
+    nil
+  end
+
   def self.headers(token)
     {
       authorization: "Bearer #{token}",
