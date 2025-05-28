@@ -143,12 +143,13 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         expect(response).to render_template(:preference_selection)
       end
 
-      # rubocop:disable RSpec/MultipleExpectations
       it 'sets a flash error message' do
-        expect(flash.now[:select_error]).to eq('Select an option to continue')
         expect(flash.now[:error]).to eq('Select a subscription preference to continue')
       end
-       # rubocop:enable RSpec/MultipleExpectations
+
+      it 'sets a flash select_error message' do
+        expect(flash.now[:select_error]).to eq('Select an option to continue')
+      end
     end
   end
 
