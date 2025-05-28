@@ -177,7 +177,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       it { is_expected.to respond_with(:redirect) }
 
       it { is_expected.to redirect_to(myott_subscription_confirmation_path) }
-     
+
       it 'clears the session chapter ids' do
         expect(session[:chapter_ids]).to be_nil
       end
