@@ -69,7 +69,7 @@ module Myott
         session.delete(:chapter_ids)
         session.delete(:all_tariff_updates)
         session[:subscription_in_progress] = false
-        render :subscription_confirmation
+        redirect_to myott_subscription_confirmation_path
       else
         flash.now[:error] = 'There was an error updating your subscription. Please try again.'
         @selected_chapters = get_selected_chapters(Array(session[:chapter_ids]))

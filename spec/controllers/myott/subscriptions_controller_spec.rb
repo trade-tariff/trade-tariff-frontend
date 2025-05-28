@@ -174,12 +174,10 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         post :subscribe
       end
 
-      it { is_expected.to respond_with(:success) }
+      it { is_expected.to respond_with(:redirect) }
 
-      it 'renders the confirmation template' do
-        expect(response).to render_template(:subscription_confirmation)
-      end
-
+      it { is_expected.to redirect_to(myott_subscription_confirmation_path) }
+     
       it 'clears the session chapter ids' do
         expect(session[:chapter_ids]).to be_nil
       end
