@@ -75,7 +75,9 @@ module Myott
       end
     end
 
-    def subscription_confirmation; end
+    def subscription_confirmation
+      @email = current_user&.email
+    end
 
     private
 
