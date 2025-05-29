@@ -66,9 +66,13 @@ module Myott
         session.delete(:all_tariff_updates)
         redirect_to myott_subscription_confirmation_path
       else
-        flash.now[:error] = 'There was an error updating your subscription. Please try again.'
+        flash[:error] = 'There was an error updating your subscription. Please try again.'
         @selected_chapters = get_selected_chapters(Array(session[:chapter_ids]))
-        render :check_your_answers
+        if params[:all_tariff_updates] == 'true'
+          redirect_to myott_check_your_answers_path(all_tariff_updates: 'true')
+        else
+          render :check_your_answers
+        end
       end
     end
 

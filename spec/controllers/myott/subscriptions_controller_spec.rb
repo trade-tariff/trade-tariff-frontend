@@ -200,6 +200,22 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       it 'does not clear the session chapter ids' do
         expect(session[:chapter_ids]).to eq(%w[01 03])
       end
+
+      it 'sets a flash error message' do
+        expect(flash[:error]).to eq('There was an error updating your subscription. Please try again.')
+      end
+
+      context 'when all chapters are selected' do
+        before do
+          session[:all_tariff_updates] = true
+          stub_api_request('/user/users', :put)
+            .and_return(jsonapi_error_response(401))
+
+          post :subscribe, params: { all_tariff_updates: 'true' }
+        end
+
+        it { is_expected.to redirect_to(myott_check_your_answers_path(all_tariff_updates: true)) }
+      end
     end
   end
 end
