@@ -9,7 +9,6 @@ module Myott
     before_action :ensure_subscription_in_progress, only: %i[chapter_selection check_your_answers subscribe]
 
     def dashboard
-      session[:subscription_in_progress] = true
       @email = current_user&.email || 'not_logged_in@email.com'
       subscribed_to_stop_press = current_user&.stop_press_subscription || false
 
@@ -68,7 +67,6 @@ module Myott
       if updated_user
         session.delete(:chapter_ids)
         session.delete(:all_tariff_updates)
-        session[:subscription_in_progress] = false
         redirect_to myott_subscription_confirmation_path
       else
         flash.now[:error] = 'There was an error updating your subscription. Please try again.'
@@ -95,7 +93,7 @@ module Myott
     end
 
     def ensure_subscription_in_progress
-      redirect_to myott_path unless session[:subscription_in_progress]
+      redirect_to myott_path if session[:chapter_ids].blank?
     end
 
     def get_selected_chapters(selected_chapter_ids)
