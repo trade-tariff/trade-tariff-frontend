@@ -93,7 +93,7 @@ module Myott
     end
 
     def ensure_subscription_in_progress
-      redirect_to myott_path if session[:chapter_ids].blank?
+      redirect_to myott_path if session[:chapter_ids].nil?
     end
 
     def get_selected_chapters(selected_chapter_ids)
