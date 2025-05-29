@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :definition, class: 'OrderNumber::Definition' do
+  factory :duty_calculator_definition, class: 'OrderNumber::Definition' do
     transient do
       number { Forgery(:basic).number(exactly: 6).to_s }
     end

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :order_number do
+  factory :duty_calculator_order_number, class: 'DutyCalculator::Api::OrderNumber' do
     number { Forgery(:basic).number(exactly: 6).to_s }
 
     trait :with_definition do

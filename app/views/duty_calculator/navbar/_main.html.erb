@@ -1,0 +1,30 @@
+<div class="govuk-header__content">
+  <a href="<%= sections_url %>" class="govuk-header__link govuk-header__service-name" id="proposition-name">
+    <%= header %>
+  </a>
+  <nav id="proposition-menu" class="govuk-header__navigation" aria-label="Top Level Navigation">
+    <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="proposition-links" hidden>
+      Menu
+    </button>
+    <ul id="proposition-links" class="govuk-header__navigation-list">
+      <li class="govuk-header__navigation-item">
+        <%= link_to 'Search', find_commodity_path, class: "govuk-header__link" %>
+      </li>
+      <li class="govuk-header__navigation-item">
+        <%= link_to 'Browse', sections_path, class: "govuk-header__link" %>
+      </li>
+      <li class="govuk-header__navigation-item">
+        <%= link_to "A-Z", a_to_z_path, class: "govuk-header__link" %>
+      </li>
+      <li class="govuk-header__navigation-item">
+        <%= link_to "Tools", tools_path, class: "govuk-header__link" %>
+      </li>
+      <li class="govuk-header__navigation-item">
+        <%= link_to "News", news_path, class: "govuk-header__link" %>
+      </li>
+      <li class="govuk-header__navigation-item">
+        <%= link_to "Help", help_path, class: "govuk-header__link" %>
+      </li>
+    </ul>
+  </nav>
+</div>

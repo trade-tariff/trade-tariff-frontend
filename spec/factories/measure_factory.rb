@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :measure do
+  factory :duty_calculator_measure, class: 'DutyCalculator::Measure' do
     transient do
       measure_type_description { Forgery(:basic).text }
       measure_type_id { Forgery(:basic).text }

@@ -1,0 +1,37 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<%= form_for @step, url: measure_amount_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl">Calculate import duties</span>
+
+  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+    <h1 class="govuk-fieldset__heading">
+      Enter import quantity
+    </h1>
+  </legend>
+
+  <p class='govuk-body'>
+  The duties payable on this commodity are dependent on the quantity, weight or volume of goods that you are importing. Enter the units of the goods that you are importing in the boxes below.
+  </p>
+
+  <% f.object.applicable_measure_units.each do |key, values| %>
+    <% if key.upcase == Api::BaseComponent::RETAIL_PRICE_UNIT %>
+      <%= f.govuk_text_field key.downcase.to_sym, width: 'one-quarter', label: { text: values['unit_question'], class: 'govuk-label govuk-label--s' }, hint: { text: values['unit_hint'] }, prefix_text: values['unit']  %>
+    <% else %>
+      <%= f.govuk_text_field key.downcase.to_sym, width: 'one-quarter', label: { text: values['unit_question'], class: 'govuk-label govuk-label--s' }, hint: { text: values['unit_hint'] }, suffix_text: values['unit']  %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_submit %>
+<% end %>
+
+<%= render 'duty_calculator/shared/commodity_details' %>
+
+<div class="explore-topics-section">
+  <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
+  <ul class="govuk-list">
+    <li>
+      <%= link_to('Valuation of imported goods for customs purposes, VAT and trade statistics ', 'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics', class: 'govuk-link') %>
+    </li>
+  </ul>
+</div>

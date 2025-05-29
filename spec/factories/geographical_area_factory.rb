@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :geographical_area do
+  factory :duty_calculator_geographical_area, class: 'DutyCalculator::GeographicalArea' do
     transient do
       child_area_ids { [] }
     end

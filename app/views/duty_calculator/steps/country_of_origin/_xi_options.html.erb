@@ -1,0 +1,16 @@
+<%= form_for @step, builder: GOVUKDesignSystemFormBuilder::FormBuilder, url: country_of_origin_path do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <%= f.govuk_radio_buttons_fieldset(:country_of_origin, legend: { text: 'Which country are the goods coming from?', size: 'xl', tag: 'h1' }, hint: { text: 'The duty you are charged may be dependent on the country from which the goods are coming.' }) do %>
+    <%= f.govuk_radio_button :country_of_origin, 'GB', label: { text: 'England, Scotland or Wales (GB)' } %>
+    <%= f.govuk_radio_button :country_of_origin, 'EU', label: { text: 'Ireland or other EU member states' } %>
+    <%= f.govuk_radio_button :country_of_origin, 'OTHER', label: { text: 'Countries outside of GB and European Union' } do %>
+      <%= f.govuk_collection_select :other_country_of_origin, DutyCalculator::Steps::CountryOfOrigin.options_for(commodity_source, include_eu_members: false), :id, :name, options: { prompt: true }, label: { text: 'Where are the goods coming from?' } %>
+      <div class="govuk-hint">
+        When autocomplete results are available, use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.
+      </div>
+    <% end %>
+
+  <% end %>
+  <%= f.govuk_submit %>
+<% end %>

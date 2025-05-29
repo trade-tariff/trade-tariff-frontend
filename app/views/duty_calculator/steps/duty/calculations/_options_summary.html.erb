@@ -1,0 +1,22 @@
+<% if @duty_options.size > 1 %>
+  <nav>
+    <p class="govuk-body govuk-!-margin-bottom-3">See below for the options for paying duties on this import:</p>
+    <ul class="app-contents govuk-!-margin-bottom-9">
+      <% @duty_options.each.with_index(1) do |option, index| %>
+        <li class="govuk-!-margin-bottom-2">
+          <%= link_to(t("duty_calculations.options.heading.#{option.category}.#{option.type}", option_no: index, geographical_area_description: option.geographical_area_description, order_number:  option.order_number), "##{option.type}", class: 'govuk-body') %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+<% else %>
+  <% if @duty_options.third_country_tariff_option.present? %>
+    <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-visually-hidden">Information</span>
+        <%= @duty_options.third_country_tariff_option.warning_text %>
+      </strong>
+    </div>
+  <% end %>
+<% end %>

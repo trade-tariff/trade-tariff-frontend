@@ -1,0 +1,12 @@
+<main role="main" class="govuk-main-wrapper" id="main-content">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full-width">
+      <h1 class="govuk-heading-xl"><%= header %></h1>
+      <p class="govuk-body"><%= message %></p>
+
+      <% if user_session.commodity_code.present? %>
+        <p class="govuk-body">Click here to <%= link_to('start again', import_date_path(referred_service: user_session.referred_service, commodity_code: user_session.commodity_code), class: 'govuk-link') %>.</p>
+      <% end %>
+    </div>
+  </div>
+</main>

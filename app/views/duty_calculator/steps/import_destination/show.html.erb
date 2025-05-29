@@ -1,0 +1,25 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<%= form_for @step, url: import_destination_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl">Calculate import duties</span>
+
+  <%= f.govuk_collection_radio_buttons :import_destination, DutyCalculator::Steps::ImportDestination::OPTIONS, :id, :name, legend: { text: 'Which part of the UK are you importing into?', size: 'xl', tag: 'h1' }, hint: { text: 'The duty you are charged may be dependent on the part of the UK to which you are importing.' }, include_hidden: true %>
+
+  <%= f.govuk_submit %>
+<% end %>
+
+<%= render 'duty_calculator/shared/commodity_details' %>
+
+<div class="explore-topics-section">
+  <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
+  <ul class="govuk-list">
+    <li>
+      <%= link_to('Import goods into the UK: step by step', 'https://www.gov.uk/import-goods-into-uk', class: 'govuk-link') %>
+    </li>
+    <li>
+      <%= link_to('Trading
+      and moving goods in and out of Northern Ireland', 'https://www.gov.uk/guidance/trading-and-moving-goods-in-and-out-of-northern-ireland-from-1-january-2021', class: 'govuk-link') %>
+    </li>
+  </ul>
+</div>

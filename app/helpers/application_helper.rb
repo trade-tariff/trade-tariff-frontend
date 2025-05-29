@@ -169,7 +169,7 @@ module ApplicationHelper
   end
 
   def duty_calculator_link(service_choice, declarable_code)
-    url = ENV.fetch('DUTY_CALCULATOR_BASE_URL', '/duty-calculator')
+    url = '/duty-calculator'
     code = divide_commodity_code(declarable_code).join(' ')
 
     link_description = "work out the duties and taxes applicable to the import of commodity #{code}"

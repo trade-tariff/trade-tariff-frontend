@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :duty_expression do
+  factory :duty_calculator_duty_expression, class: 'DutyCalculator::DutyExpression' do
     base { '80.50 EUR / Hectokilogram' }
     verbose_duty { '£7.80 / 100 kg, drained net weight (kg/net eda)' }
     formatted_base { '£7.80 / 100 kg, drained net weight (kg/net eda)' }
