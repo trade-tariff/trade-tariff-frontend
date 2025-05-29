@@ -8,7 +8,14 @@
 
     <h2 class="govuk-heading-m">Subscription preferences</h2>
     <p class="govuk-body">You are subscribed to updates on chapters you selected and general updates from the service.</p>
-
+<table class="govuk-table myott-subscriptions">
+  <tbody class="govuk-table__body">
+  <tr class="govuk-table__row">
+    <td scope="col" class="govuk-table__cell no_border"><b>Subscribed chapters</b></td>
+    <td scope="col" class="govuk-table__cell no_border"><%= @selected_chapters.count %> chapter<%= @selected_chapters.count > 1 ? "s" : "" %></td>
+  </tr>
+  </tbody>
+  </table>
     <%= render 'details_selected_chapters', selected_chapters: @selected_chapters %>
 
     <p class="govuk-body"><a href=<%= myott_chapter_selection_path %>>Edit subscription preferences</a></p>

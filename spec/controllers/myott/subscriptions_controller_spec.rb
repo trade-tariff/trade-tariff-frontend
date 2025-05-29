@@ -95,13 +95,6 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         expect(flash.now[:error]).to eq('Select the chapters you want tariff updates about.')
       end
     end
-
-    context 'when session[:chapter_ids] is missing' do
-      it 'redirects to the myott dashboard' do
-        post :check_your_answers, params: {}
-        expect(response).to redirect_to(myott_path)
-      end
-    end
   end
 
   describe 'GET #check_your_answers' do

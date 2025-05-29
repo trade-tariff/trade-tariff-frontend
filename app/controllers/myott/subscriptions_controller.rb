@@ -5,9 +5,6 @@ module Myott
                   :disable_last_updated_footnote
 
     before_action :sections_chapters, only: %i[chapter_selection check_your_answers]
-
-    before_action :ensure_subscription_in_progress, only: %i[chapter_selection check_your_answers subscribe]
-
     def dashboard
       @email = current_user&.email || 'not_logged_in@email.com'
       subscribed_to_stop_press = current_user&.stop_press_subscription || false
