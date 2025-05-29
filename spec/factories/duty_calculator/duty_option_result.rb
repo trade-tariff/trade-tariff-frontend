@@ -14,7 +14,7 @@ FactoryBot.define do
     source { 'uk' }
 
     initialize_with do
-      DutyOptionResult.new(
+      DutyCalculator::DutyOptionResult.new(
         attributes.slice(
           :type,
           :footnote,
@@ -32,56 +32,56 @@ FactoryBot.define do
   end
 
   trait :third_country_tariff do
-    type { DutyOptions::ThirdCountryTariff.id }
-    category { DutyOptions::ThirdCountryTariff::CATEGORY }
-    priority { DutyOptions::ThirdCountryTariff::PRIORITY }
+    type { DutyCalculator::DutyOptions::ThirdCountryTariff.id }
+    category { DutyCalculator::DutyOptions::ThirdCountryTariff::CATEGORY }
+    priority { DutyCalculator::DutyOptions::ThirdCountryTariff::PRIORITY }
     measure_type_id { '103' }
   end
 
   trait :tariff_preference do
-    type { DutyOptions::TariffPreference.id }
-    category { DutyOptions::TariffPreference::CATEGORY }
+    type { DutyCalculator::DutyOptions::TariffPreference.id }
+    category { DutyCalculator::DutyOptions::TariffPreference::CATEGORY }
     measure_type_id { '142' }
-    priority { DutyOptions::TariffPreference::PRIORITY }
+    priority { DutyCalculator::DutyOptions::TariffPreference::PRIORITY }
     scheme_code { 'eu' }
   end
 
   trait :preferential_quota do
-    type { DutyOptions::Quota::Preferential.id }
-    category { DutyOptions::Quota::Base::CATEGORY }
+    type { DutyCalculator::DutyOptions::Quota::Preferential.id }
+    category { DutyCalculator::DutyOptions::Quota::Base::CATEGORY }
     measure_type_id { '143' }
-    priority { DutyOptions::Quota::Base::PRIORITY }
+    priority { DutyCalculator::DutyOptions::Quota::Base::PRIORITY }
     scheme_code { 'albania' }
   end
 
   trait :preferential_quota_end_use do
-    type { DutyOptions::Quota::PreferentialEndUse.id }
-    category { DutyOptions::Quota::Base::CATEGORY }
+    type { DutyCalculator::DutyOptions::Quota::PreferentialEndUse.id }
+    category { DutyCalculator::DutyOptions::Quota::Base::CATEGORY }
     measure_type_id { '146' }
-    priority { DutyOptions::Quota::Base::PRIORITY }
+    priority { DutyCalculator::DutyOptions::Quota::Base::PRIORITY }
     scheme_code { 'andean' }
   end
 
   trait :suspension do
-    type { DutyOptions::Suspension::Autonomous.id }
-    category { DutyOptions::Suspension::Base::CATEGORY }
+    type { DutyCalculator::DutyOptions::Suspension::Autonomous.id }
+    category { DutyCalculator::DutyOptions::Suspension::Base::CATEGORY }
     measure_type_id { '112' }
-    priority { DutyOptions::Suspension::Base::PRIORITY }
+    priority { DutyCalculator::DutyOptions::Suspension::Base::PRIORITY }
   end
 
   trait :quota do
-    type { DutyOptions::Quota::NonPreferential.id }
-    category { DutyOptions::Quota::Base::CATEGORY }
+    type { DutyCalculator::DutyOptions::Quota::NonPreferential.id }
+    category { DutyCalculator::DutyOptions::Quota::Base::CATEGORY }
     measure_type_id { '122' }
-    priority { DutyOptions::Quota::Base::PRIORITY }
+    priority { DutyCalculator::DutyOptions::Quota::Base::PRIORITY }
     source { 'uk' }
   end
 
   trait :additional_duty do
     type { DutyOptions::AdditionalDuty::Excise.id }
-    category { DutyOptions::AdditionalDuty::Excise::CATEGORY }
+    category { DutyCalculator::DutyOptions::AdditionalDuty::Excise::CATEGORY }
     measure_type_id { '306' }
-    priority { DutyOptions::AdditionalDuty::Excise::PRIORITY }
+    priority { DutyCalculator::DutyOptions::AdditionalDuty::Excise::PRIORITY }
 
     value { 300.0 }
     values do

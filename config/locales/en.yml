@@ -333,7 +333,7 @@ en:
   activemodel:
     errors:
       models:
-        steps/import_date:
+        duty_calculator/steps/import_date:
           attributes:
             import_date:
               invalid_date: Enter a valid date, no earlier than 1st January 2021
