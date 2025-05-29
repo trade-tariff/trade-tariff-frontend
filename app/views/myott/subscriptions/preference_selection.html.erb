@@ -1,7 +1,7 @@
 <div class="govuk-body">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-
+      <%= render 'error' if flash.now[:error] %>
       <h1 class="govuk-heading-l">Set subscription preferences</h1>
       <p>Along with general updates from the UK Trade Tariff Service,
         you can choose to receive updates on all tariff chapters,
@@ -17,9 +17,9 @@
           <div id="select-hint" class="govuk-hint">
             Select an option below. You can change your subscription preferences at any time.
           </div>
-          <% if flash.now[:error] %>
+          <% if flash.now[:select_error] %>
             <p class="govuk-error-message">
-              Please select an option
+              <%= flash.now[:select_error] %>
             </p>
           <% end %>
           <div class="govuk-radios" data-module="govuk-radios">

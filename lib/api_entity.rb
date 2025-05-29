@@ -87,6 +87,11 @@ private
   module ClassMethods
     delegate :get, :post, to: :api
 
+    def update(params = {}, headers = {})
+      response = api.put(singular_path, params, headers)
+      new parse_jsonapi(response)
+    end
+
     def relationships
       @relationships ||= superclass.include?(ApiEntity) ? superclass.relationships.dup : []
     end
