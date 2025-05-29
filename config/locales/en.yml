@@ -33,6 +33,13 @@ en:
 
   meta_description: "Search for import and export commodity codes and for tax, duty and licences that apply to your goods"
 
+  title:
+    uk: UK Integrated Online Tariff
+    xi: Northern Ireland Online Tariff
+  header:
+    uk: UK Integrated Online Tariff
+    xi: Northern Ireland Online Tariff
+    
   feed:
     news_item_title: "Online Trade Tariff News Items"
   news_item:

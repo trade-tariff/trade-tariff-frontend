@@ -7,14 +7,13 @@ module DutyCalculator
 
       def create
         @step = Steps::AdditionalCode.new(permitted_params)
-
         validate(@step)
       end
 
       private
 
       def permitted_params
-        params.require(:duty_calculator_steps_additional_code).permit(
+        params.require(:steps_additional_code).permit(
           :additional_code_uk,
           :additional_code_xi,
         ).merge(measure_type_id)
