@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::Suspension::CertainCategoryGoods, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::Suspension::CertainCategoryGoods, :user_session do
   include_context 'with a standard duty option setup', :certain_category_goods
 
   describe '#call' do

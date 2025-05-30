@@ -1,4 +1,4 @@
-RSpec.describe ApplicableDocumentCodesService, :user_session do
+RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
   subject(:service) { described_class.new }
 
   describe '#call' do

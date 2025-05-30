@@ -1,4 +1,4 @@
-RSpec.describe ExpressionEvaluators::RetailPrice, :user_session do
+RSpec.describe DutyCalculator::ExpressionEvaluators::RetailPrice, :user_session do
   subject(:evaluator) { described_class.new(measure, measure_component) }
 
   include_context 'with a fake commodity'

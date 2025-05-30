@@ -1,4 +1,4 @@
-RSpec.describe NumberWithHighPrecisionFormatter do
+RSpec.describe DutyCalculator::NumberWithHighPrecisionFormatter do
   subject(:formatter) { described_class.new(number) }
 
   context 'with an integer number' do

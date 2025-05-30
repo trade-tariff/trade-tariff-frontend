@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::AdditionalDuty::Excise, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::AdditionalDuty::Excise, :user_session do
   include_context 'with a standard duty option setup', :excise
 
   describe '#call' do

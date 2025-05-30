@@ -1,4 +1,4 @@
-RSpec.describe CommodityContextService do
+RSpec.describe DutyCalculator::CommodityContextService do
   subject(:service) { described_class.new }
 
   let(:commodity_source) { 'uk' }

@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::Quota::NonPreferentialEndUse, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::Quota::NonPreferentialEndUse, :user_session do
   include_context 'with a standard duty option setup', :non_preferential_end_use
 
   describe '#call' do

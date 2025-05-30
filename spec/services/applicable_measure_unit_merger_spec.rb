@@ -1,4 +1,4 @@
-RSpec.describe ApplicableMeasureUnitMerger, :user_session do
+RSpec.describe DutyCalculator::ApplicableMeasureUnitMerger, :user_session do
   subject(:service) { described_class.new }
 
   include_context 'with a fake commodity'

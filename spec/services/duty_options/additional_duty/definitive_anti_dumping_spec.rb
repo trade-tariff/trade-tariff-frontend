@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::AdditionalDuty::DefinitiveAntiDumping, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::AdditionalDuty::DefinitiveAntiDumping, :user_session do
   include_context 'with a standard duty option setup', :definitive_anti_dumping
 
   describe '#call' do

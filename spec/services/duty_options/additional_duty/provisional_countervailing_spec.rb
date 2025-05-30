@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::AdditionalDuty::ProvisionalCountervailing, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::AdditionalDuty::ProvisionalCountervailing, :user_session do
   include_context 'with a standard duty option setup', :provisional_countervailing
 
   describe '#call' do

@@ -1,4 +1,4 @@
-RSpec.describe ExpressionEvaluators::Compound, :user_session do
+RSpec.describe DutyCalculator::ExpressionEvaluators::Compound, :user_session do
   subject(:evaluator) { described_class.new(measure, nil) }
 
   let(:measure) do

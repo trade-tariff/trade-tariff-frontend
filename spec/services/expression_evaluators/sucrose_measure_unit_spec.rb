@@ -1,4 +1,4 @@
-RSpec.describe ExpressionEvaluators::SucroseMeasureUnit, :user_session do
+RSpec.describe DutyCalculator::ExpressionEvaluators::SucroseMeasureUnit, :user_session do
   subject(:evaluator) { described_class.new(measure, measure.component) }
 
   include_context 'with a fake commodity'

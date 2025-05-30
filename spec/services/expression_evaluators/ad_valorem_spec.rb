@@ -1,4 +1,4 @@
-RSpec.describe ExpressionEvaluators::AdValorem, :user_session do
+RSpec.describe DutyCalculator::ExpressionEvaluators::AdValorem, :user_session do
   subject(:evaluator) { described_class.new(measure, component) }
 
   let(:measure) do

@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::Chooser do
+RSpec.describe DutyCalculator::DutyOptions::Chooser do
   subject(:service) { described_class.new(uk_option, xi_option, 100) }
 
   describe '#call' do

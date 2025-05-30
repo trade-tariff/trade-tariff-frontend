@@ -68,6 +68,8 @@ module DutyCalculator
           resource = "Uktt::#{name.demodulize}".constantize
           resource = resource.new(client)
 
+          raise resource.inspect
+
           resource.retrieve(id, query)
 
           new(resource.response)

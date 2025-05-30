@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::TariffPreference, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::TariffPreference, :user_session do
   include_context 'with a standard duty option setup', :tariff_preference
 
   describe '#call' do

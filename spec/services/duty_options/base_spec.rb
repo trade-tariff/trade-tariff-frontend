@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::Base, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
   subject(:service) { described_class.new(measure, additional_duty_options, vat_measure) }
 
   let(:measure) { build(:measure, :third_country_tariff) }

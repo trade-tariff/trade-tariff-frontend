@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::Quota::NonPreferential, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::Quota::NonPreferential, :user_session do
   include_context 'with a standard duty option setup', :non_preferential
 
   describe '#call' do

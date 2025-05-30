@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::Suspension::Airworthiness, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::Suspension::Airworthiness, :user_session do
   include_context 'with a standard duty option setup', :airworthiness
 
   describe '#call' do

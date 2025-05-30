@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::ThirdCountryTariff, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::ThirdCountryTariff, :user_session do
   include_context 'with a standard duty option setup', :third_country_tariff
 
   describe '#call' do

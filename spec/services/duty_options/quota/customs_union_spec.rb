@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::Quota::CustomsUnion, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::Quota::CustomsUnion, :user_session do
   include_context 'with a standard duty option setup', :customs_union
 
   describe '#call' do

@@ -1,4 +1,4 @@
-RSpec.describe ExpressionEvaluators::AlcoholVolumeMeasureUnit, :user_session do
+RSpec.describe DutyCalculator::ExpressionEvaluators::AlcoholVolumeMeasureUnit, :user_session do
   subject(:evaluator) { described_class.new(measure, measure.component) }
 
   include_context 'with a fake commodity'

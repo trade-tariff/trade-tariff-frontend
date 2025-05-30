@@ -1,4 +1,4 @@
-RSpec.describe AdditionalDutyApplicableMeasuresMerger, :user_session do
+RSpec.describe DutyCalculator::AdditionalDutyApplicableMeasuresMerger, :user_session do
   subject(:service) { described_class.new }
 
   let(:uk_filtered_commodity) { Api::Commodity.build('uk', '0103921100') }

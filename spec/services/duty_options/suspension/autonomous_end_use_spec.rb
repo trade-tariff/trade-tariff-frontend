@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::Suspension::AutonomousEndUse, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::Suspension::AutonomousEndUse, :user_session do
   include_context 'with a standard duty option setup', :autonomous_end_use
 
   describe '#call' do

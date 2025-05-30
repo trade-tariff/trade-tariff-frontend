@@ -1,4 +1,4 @@
-RSpec.describe ExpressionEvaluators::Vat, :user_session do
+RSpec.describe DutyCalculator::ExpressionEvaluators::Vat, :user_session do
   subject(:evaluator) do
     described_class.new(measure, component, duty_total)
   end

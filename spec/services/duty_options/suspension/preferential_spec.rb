@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::Suspension::Preferential, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::Suspension::Preferential, :user_session do
   include_context 'with a standard duty option setup', :preferential_suspension
 
   describe '#call' do

@@ -1,4 +1,4 @@
-RSpec.describe DutyOptions::AdditionalDuty::AdditionalDuties, :user_session do
+RSpec.describe DutyCalculator::DutyOptions::AdditionalDuty::AdditionalDuties, :user_session do
   include_context 'with a standard duty option setup', :additional_duties
 
   describe '#call' do
