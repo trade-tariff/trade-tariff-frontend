@@ -2,7 +2,7 @@
 RSpec.describe DutyCalculator::Steps::CustomsValue, :step, :user_session do
   subject(:step) do
     build(
-      :customs_value,
+      :duty_calculator_customs_value,
       user_session:,
       monetary_value:,
       insurance_cost:,
@@ -10,7 +10,7 @@ RSpec.describe DutyCalculator::Steps::CustomsValue, :step, :user_session do
     )
   end
 
-  let(:user_session) { build(:user_session, import_date: '2022-01-01') }
+  let(:user_session) { build(:duty_calculator_user_session, import_date: '2022-01-01') }
   let(:monetary_value) { '12_500' }
   let(:insurance_cost) { '1_200' }
   let(:shipping_cost) { '340' }
@@ -158,7 +158,7 @@ RSpec.describe DutyCalculator::Steps::CustomsValue, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     it 'saves the monetary_value on to the session' do
       step.save!
 
@@ -180,61 +180,61 @@ RSpec.describe DutyCalculator::Steps::CustomsValue, :step, :user_session do
 
   describe '#previous_step_path' do
     context 'when there is a trade defence and on the GB to NI route' do
-      let(:user_session) { build(:user_session, :with_gb_to_ni_route, :with_non_meursing_commodity, trade_defence: true) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, :with_non_meursing_commodity, trade_defence: true) }
 
       it { expect(step.previous_step_path).to eq(interstitial_path) }
     end
 
     context 'when there is no trade defence and on the GB to NI route' do
-      let(:user_session) { build(:user_session, :with_gb_to_ni_route, :with_non_meursing_commodity, trade_defence: false) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, :with_non_meursing_commodity, trade_defence: false) }
 
       it { expect(step.previous_step_path).to eq(certificate_of_origin_path) }
     end
 
     context 'when there are applicable meursing codes on the GB to NI route' do
-      let(:user_session) { build(:user_session, :with_gb_to_ni_route, :with_meursing_commodity) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, :with_meursing_commodity) }
 
       it { expect(step.previous_step_path).to eq(meursing_additional_codes_path) }
     end
 
     context 'when on RoW to GB route' do
-      let(:user_session) { build(:user_session, :with_row_to_gb_route, :with_non_meursing_commodity) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_gb_route, :with_non_meursing_commodity) }
 
       it { expect(step.previous_step_path).to eq(country_of_origin_path) }
     end
 
     context 'when there is a zero mfn duty and on the Row to NI route' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, zero_mfn_duty: true) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, zero_mfn_duty: true) }
 
       it { expect(step.previous_step_path).to eq(country_of_origin_path) }
     end
 
     context 'when the planned processing question has been answered and on the Row to NI route' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_non_meursing_commodity, planned_processing: 'commercial_processing') }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_non_meursing_commodity, planned_processing: 'commercial_processing') }
 
       it { expect(step.previous_step_path).to eq(planned_processing_path) }
     end
 
     context 'when the annual turnover question has been answered and on the Row to NI route' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_non_meursing_commodity, :with_small_turnover) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_non_meursing_commodity, :with_small_turnover) }
 
       it { expect(step.previous_step_path).to eq(annual_turnover_path) }
     end
 
     context 'when the goods are not for final use and on the Row to NI route' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_non_meursing_commodity, final_use: 'no') }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_non_meursing_commodity, final_use: 'no') }
 
       it { expect(step.previous_step_path).to eq(final_use_path) }
     end
 
     context 'when there are applicable meursing codes on the Row to NI route' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_meursing_commodity) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_meursing_commodity) }
 
       it { expect(step.previous_step_path).to eq(meursing_additional_codes_path) }
     end
 
     context 'when on the Row to NI route' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_non_meursing_commodity) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_non_meursing_commodity) }
 
       it { expect(step.previous_step_path).to eq(trader_scheme_path) }
     end
@@ -279,7 +279,7 @@ RSpec.describe DutyCalculator::Steps::CustomsValue, :step, :user_session do
         }
       end
 
-      it 'calls the ApplicableMeasureUnitMerger service' do
+      it 'calls the DutyCalculator::ApplicableMeasureUnitMerger service' do
         step.next_step_path
 
         expect(DutyCalculator::ApplicableMeasureUnitMerger).to have_received(:new)

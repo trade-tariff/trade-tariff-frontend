@@ -3,7 +3,7 @@ RSpec.describe DutyCalculator::Steps::MeasureAmountController, :user_session do
     allow(DutyCalculator::Steps::MeasureAmount).to receive(:new).and_call_original
   end
 
-  let(:user_session) { build(:user_session, :with_commodity_information) }
+  let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
 
   let(:expected_applicable_measure_units) do
     {

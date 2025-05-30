@@ -1,14 +1,14 @@
 RSpec.describe DutyCalculator::Steps::CertificateOfOrigin, :step, :user_session do
   subject(:step) do
     build(
-      :certificate_of_origin,
+      :duty_calculator_certificate_of_origin,
       user_session:,
       certificate_of_origin:,
     )
   end
 
   let(:session_attributes) { {} }
-  let(:user_session) { build(:user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
   let(:certificate_of_origin) { '' }
 
   describe 'STEPS_TO_REMOVE_FROM_SESSION' do
@@ -47,7 +47,7 @@ RSpec.describe DutyCalculator::Steps::CertificateOfOrigin, :step, :user_session 
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:certificate_of_origin) { 'yes' }
 
     it 'saves the certificate_of_origin to the session' do
@@ -59,13 +59,13 @@ RSpec.describe DutyCalculator::Steps::CertificateOfOrigin, :step, :user_session 
 
   describe '#next_step_path' do
     context 'when there is a certificate of origin' do
-      let(:user_session) { build(:user_session, :with_gb_to_ni_route, certificate_of_origin: 'yes') }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, certificate_of_origin: 'yes') }
 
       it { expect(step.next_step_path).to eq(duty_path) }
     end
 
     context 'when there is no certificate of origin' do
-      let(:user_session) { build(:user_session, :with_gb_to_ni_route, certificate_of_origin: 'no') }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, certificate_of_origin: 'no') }
 
       it { expect(step.next_step_path).to eq(interstitial_path) }
     end

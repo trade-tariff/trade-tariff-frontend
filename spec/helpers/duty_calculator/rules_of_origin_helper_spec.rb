@@ -1,5 +1,5 @@
 RSpec.describe RulesOfOriginHelper, :user_session do
-  let(:user_session) { build(:user_session) }
+  let(:user_session) { build(:duty_calculator_user_session) }
 
   describe '#scheme_for' do
     subject { helper.scheme_for(option, schemes) }
@@ -12,13 +12,13 @@ RSpec.describe RulesOfOriginHelper, :user_session do
     end
 
     context 'when there is a matching scheme' do
-      let(:option) { build(:duty_option_result, scheme_code: 'foo') }
+      let(:option) { build(:duty_calculator_duty_option_result, scheme_code: 'foo') }
 
       it { is_expected.to eq(schemes.first) }
     end
 
     context 'when there is no matching scheme' do
-      let(:option) { build(:duty_option_result, scheme_code: 'qux') }
+      let(:option) { build(:duty_calculator_duty_option_result, scheme_code: 'qux') }
 
       it { is_expected.to be_nil }
     end

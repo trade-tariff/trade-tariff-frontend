@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :duty_calculator_measure_condition, class: 'DutyCalculator::MeasureCondition' do
+  factory :measure_condition do
     sequence(:resource_id)
     condition_code { Forgery(:basic).text(exactly: 1) }
     condition { Forgery(:basic).text }

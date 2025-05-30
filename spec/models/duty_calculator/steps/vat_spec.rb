@@ -1,9 +1,9 @@
 RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
-  subject(:step) { build(:vat, user_session:, vat:) }
+  subject(:step) { build(:duty_calculator_vat, user_session:, vat:) }
 
   let(:vat) { nil }
 
-  let(:user_session) { build(:user_session, :with_commodity_information) }
+  let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
 
   describe 'STEPS_TO_REMOVE_FROM_SESSION' do
     it 'returns the correct list of steps' do
@@ -37,7 +37,7 @@ RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:vat) { 'VATZ' }
 
     it 'saves the vat_code to the session' do
@@ -46,7 +46,7 @@ RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
   end
 
   describe '#vat_options' do
-    let(:user_session) { build(:user_session, commodity_code: '0809400500', commodity_source: 'uk') }
+    let(:user_session) { build(:duty_calculator_user_session, commodity_code: '0809400500', commodity_source: 'uk') }
 
     let(:expected_options) do
       [
@@ -84,7 +84,7 @@ RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
     context 'when there are additional codes on the session' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_commodity_information,
           :with_additional_codes,
         )
@@ -102,7 +102,7 @@ RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
     context 'when there are excise additional codes' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_commodity_information,
           :with_excise_additional_codes,
         )
@@ -114,7 +114,7 @@ RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
     context 'when there are document codes on the session' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_commodity_information,
           :with_document_codes,
         )

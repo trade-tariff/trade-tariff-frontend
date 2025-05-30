@@ -39,7 +39,7 @@ en:
   header:
     uk: UK Integrated Online Tariff
     xi: Northern Ireland Online Tariff
-    
+
   feed:
     news_item_title: "Online Trade Tariff News Items"
   news_item:
@@ -337,32 +337,32 @@ en:
           attributes:
             import_date:
               invalid_date: Enter a valid date, no earlier than 1st January 2021
-        steps/import_destination:
+        duty_calculator/steps/import_destination:
           attributes:
             import_destination:
               blank: Select a destination
-        steps/country_of_origin:
+        duty_calculator/steps/country_of_origin:
           attributes:
             country_of_origin:
               blank: Enter a valid origin for this import
-        steps/trader_scheme:
+        duty_calculator/steps/trader_scheme:
           attributes:
             trader_scheme:
               blank: Select one of the two options
-        steps/final_use:
+        duty_calculator/steps/final_use:
           attributes:
             final_use:
               blank: Select one of the two options
-        steps/certificate_of_origin:
+        duty_calculator/steps/certificate_of_origin:
           attributes:
             certificate_of_origin:
               blank: Select one of the two options
-        steps/meursing_additional_code:
+        duty_calculator/steps/meursing_additional_code:
           attributes:
             meursing_additional_code:
               invalid: Specify a valid 3-digit Meursing additional code
               inclusion: Enter a valid Meursing code
-        steps/customs_value:
+        duty_calculator/steps/customs_value:
           attributes:
             monetary_value:
               blank: Enter a valid monetary value
@@ -374,15 +374,15 @@ en:
             insurance_cost:
               greater_than_or_equal_to: Enter a insurance cost value greater than or equal to zero
               not_a_number: Enter a numeric insurance cost or leave the field blank
-        steps/annual_turnover:
+        duty_calculator/steps/annual_turnover:
           attributes:
             annual_turnover:
               blank: Select one of the two options
-        steps/planned_processing:
+        duty_calculator/steps/planned_processing:
           attributes:
             planned_processing:
               blank: Select one of the available options
-        steps/additional_code:
+        duty_calculator/steps/additional_code:
           attributes:
             measure_type_id:
               blank: Enter a valid measure type id
@@ -390,13 +390,13 @@ en:
               blank: Specify a valid additional code
             additional_code_xi:
               blank: Specify a valid additional code
-        steps/excise:
+        duty_calculator/steps/excise:
           attributes:
             measure_type_id:
               blank: Enter a valid measure type id
             additional_code:
               blank: Select an excise class
-        steps/measure_amount:
+        duty_calculator/steps/measure_amount:
           attributes:
             answers:
               blank: Enter a valid import quantity.
@@ -404,11 +404,11 @@ en:
               greater_than: Enter an import quantity value greater than zero.
               max: Enter an import quantity value less than or equal too
               min: Enter an import quantity value more than or equal too
-        steps/vat:
+        duty_calculator/steps/vat:
           attributes:
             vat:
               blank: Select one of the available options
-        steps/document_code:
+        duty_calculator/steps/document_code:
           attributes:
             measure_type_id:
               blank: Enter a valid measure type id

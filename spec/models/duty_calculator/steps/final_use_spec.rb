@@ -1,8 +1,8 @@
 RSpec.describe DutyCalculator::Steps::FinalUse, :step, :user_session do
-  subject(:step) { build(:final_use, user_session:, final_use:) }
+  subject(:step) { build(:duty_calculator_final_use, user_session:, final_use:) }
 
   let(:session_attributes) { {} }
-  let(:user_session) { build(:user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
   let(:final_use) { '' }
 
   describe 'STEPS_TO_REMOVE_FROM_SESSION' do
@@ -45,7 +45,7 @@ RSpec.describe DutyCalculator::Steps::FinalUse, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:final_use) { 'yes' }
 
     it 'saves the trader_scheme to the session' do

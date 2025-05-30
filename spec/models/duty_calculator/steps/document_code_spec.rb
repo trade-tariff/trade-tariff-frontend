@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
-  subject(:step) { build(:document_code, measure_type_id:) }
+  subject(:step) { build(:duty_calculator_document_code, measure_type_id:) }
 
-  let(:user_session) { build(:user_session, :with_commodity_information) }
+  let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
   let(:commodity_source) { :uk }
   let(:commodity_code) { '7202999000' }
   let(:measure_type_id) { 117 }
@@ -30,13 +30,13 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     it 'saves the document codes for uk on to the session' do
-      expect { step.save }.to change(user_session, :document_code_uk).from({}).to('117' => 'C644')
+      expect { step.save! }.to change(user_session, :document_code_uk).from({}).to('117' => 'C644')
     end
 
     it 'saves the document codes for xi on to the session' do
-      expect { step.save }.to change(user_session, :document_code_xi).from({}).to('117' => 'N851')
+      expect { step.save! }.to change(user_session, :document_code_xi).from({}).to('117' => 'N851')
     end
   end
 
@@ -75,7 +75,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
     context 'when there is no document code being passed in, but the value is on the session' do
       subject(:step) do
         build(
-          :document_code,
+          :duty_calculator_document_code,
           user_session:,
           document_code_uk: nil,
           measure_type_id:,
@@ -85,7 +85,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
       let(:measure_type_id) { '105' }
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_document_codes,
           :with_commodity_information,
         )
@@ -106,7 +106,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
     context 'when there is no document code being passed in, but the value is on the session' do
       subject(:step) do
         build(
-          :document_code,
+          :duty_calculator_document_code,
           user_session:,
           document_code_xi: nil,
           measure_type_id:,
@@ -117,7 +117,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
 
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_document_codes,
           :with_commodity_information,
         )
@@ -140,12 +140,12 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
     it { is_expected.to be_valid }
 
     context 'when both document_code_uk and document_code_xi are not present' do
-      let(:user_session) { build(:user_session, :with_commodity_information, :deltas_applicable) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, :deltas_applicable) }
 
       context 'when the uk and xi service return the same document codes' do
         subject(:step) do
           build(
-            :document_code,
+            :duty_calculator_document_code,
             document_code_uk: nil,
             document_code_xi: nil,
           )
@@ -186,7 +186,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
       context 'when the uk service returns the document codes the xi service does not' do
         subject(:step) do
           build(
-            :document_code,
+            :duty_calculator_document_code,
             document_code_uk: nil,
             document_code_xi: nil,
           )
@@ -221,7 +221,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
       context 'when the xi service returns document codes the uk service does not have' do
         subject(:step) do
           build(
-            :document_code,
+            :duty_calculator_document_code,
             document_code_uk: nil,
             document_code_xi: nil,
           )
@@ -257,12 +257,12 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
     context 'when the document_code_uk is not present' do
       subject(:step) do
         build(
-          :document_code,
+          :duty_calculator_document_code,
           document_code_uk: nil,
         )
       end
 
-      let(:user_session) { build(:user_session, :with_commodity_information, commodity_source: 'uk') }
+      let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, commodity_source: 'uk') }
 
       it { is_expected.not_to be_valid }
 
@@ -276,12 +276,12 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
     context 'when the document_code_xi is not present' do
       subject(:step) do
         build(
-          :document_code,
+          :duty_calculator_document_code,
           document_code_xi: nil,
         )
       end
 
-      let(:user_session) { build(:user_session, :with_commodity_information, commodity_source: 'xi') }
+      let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, commodity_source: 'xi') }
 
       it { is_expected.not_to be_valid }
 
@@ -298,7 +298,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
 
     before do
       allow(filtered_commodity).to receive(:applicable_measure_units).and_return(applicable_measure_units)
-      allow(ApplicableMeasureUnitMerger).to receive(:new).and_call_original
+      allow(DutyCalculator::ApplicableMeasureUnitMerger).to receive(:new).and_call_original
     end
 
     context 'when there is just one measure type id available and measure units are available' do
@@ -319,10 +319,10 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
 
       it { expect(step.previous_step_path).to eq(measure_amount_path) }
 
-      it 'calls the ApplicableMeasureUnitMerger service' do
+      it 'calls the DutyCalculator::ApplicableMeasureUnitMerger service' do
         step.previous_step_path
 
-        expect(ApplicableMeasureUnitMerger).to have_received(:new)
+        expect(DutyCalculator::ApplicableMeasureUnitMerger).to have_received(:new)
       end
     end
 
@@ -337,7 +337,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
     context 'when there are multiple measure type ids on the applicable_additional_codes hash' do
       subject(:step) do
         build(
-          :document_code,
+          :duty_calculator_document_code,
           user_session:,
           measure_type_id:,
         )
@@ -376,7 +376,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
     context 'when there are multiple measure type ids on the applicable_document_codes hash' do
       subject(:step) do
         build(
-          :document_code,
+          :duty_calculator_document_code,
           user_session:,
           measure_type_id:,
         )

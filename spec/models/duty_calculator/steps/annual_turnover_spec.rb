@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::AnnualTurnover, :step, :user_session do
-  subject(:step) { build(:annual_turnover, user_session:, annual_turnover:) }
+  subject(:step) { build(:duty_calculator_annual_turnover, user_session:, annual_turnover:) }
 
-  let(:user_session) { build(:user_session) }
+  let(:user_session) { build(:duty_calculator_user_session) }
   let(:annual_turnover) { '' }
 
   describe 'STEPS_TO_REMOVE_FROM_SESSION' do
@@ -44,41 +44,41 @@ RSpec.describe DutyCalculator::Steps::AnnualTurnover, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:annual_turnover) { 'yes' }
 
     it 'saves the annual_turnover to the session' do
-      expect { step.save }.to change(user_session, :annual_turnover).from(nil).to('yes')
+      expect { step.save! }.to change(user_session, :annual_turnover).from(nil).to('yes')
     end
   end
 
   describe '#next_step_path' do
     context 'when annual_turnover is less than 500k and on the gb to ni route' do
-      let(:user_session) { build(:user_session, :with_gb_to_ni_route, :with_small_turnover) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, :with_small_turnover) }
 
       it { expect(step.next_step_path).to eq(duty_path) }
     end
 
     context 'when annual_turnover is more than 500k and on the gb to ni route' do
-      let(:user_session) { build(:user_session, :with_gb_to_ni_route, :with_large_turnover) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, :with_large_turnover) }
 
       it { expect(step.next_step_path).to eq(planned_processing_path) }
     end
 
     context 'when annual_turnover is less than 500k and on the row to ni route with no meursing codes' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_small_turnover, :with_non_meursing_commodity) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_small_turnover, :with_non_meursing_commodity) }
 
       it { expect(step.next_step_path).to eq(customs_value_path) }
     end
 
     context 'when annual_turnover is less than 500k and on the row to ni route with meursing codes' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_small_turnover, :with_meursing_commodity) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_small_turnover, :with_meursing_commodity) }
 
       it { expect(step.next_step_path).to eq(meursing_additional_codes_path) }
     end
 
     context 'when annual_turnover is more than 500k and on the row to ni route' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_large_turnover) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_large_turnover) }
 
       it { expect(step.next_step_path).to eq(planned_processing_path) }
     end

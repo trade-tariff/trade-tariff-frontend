@@ -1,9 +1,9 @@
 RSpec.describe DutyCalculator::Steps::MeursingAdditionalCode, :step, :user_session do
-  subject(:step) { build(:meursing_additional_code, meursing_additional_code:) }
+  subject(:step) { build(:duty_calculator_meursing_additional_code, meursing_additional_code:) }
 
   let(:meursing_additional_code) { nil }
 
-  let(:user_session) { build(:user_session) }
+  let(:user_session) { build(:duty_calculator_user_session) }
 
   describe 'STEPS_TO_REMOVE_FROM_SESSION' do
     it 'returns the correct list of steps' do
@@ -37,7 +37,7 @@ RSpec.describe DutyCalculator::Steps::MeursingAdditionalCode, :step, :user_sessi
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:meursing_additional_code) { '000' }
 
     it 'saves the meursing_additional_code_code to the session' do
@@ -51,25 +51,25 @@ RSpec.describe DutyCalculator::Steps::MeursingAdditionalCode, :step, :user_sessi
 
   describe '#previous_step_path' do
     context 'when annual_turnover is less than 500k' do
-      let(:user_session) { build(:user_session, :with_small_turnover) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_small_turnover) }
 
       it { expect(step.previous_step_path).to eq(annual_turnover_path) }
     end
 
     context 'when the planned processing is acceptable' do
-      let(:user_session) { build(:user_session, planned_processing: 'without_any_processing') }
+      let(:user_session) { build(:duty_calculator_user_session, planned_processing: 'without_any_processing') }
 
       it { expect(step.previous_step_path).to eq(planned_processing_path) }
     end
 
     context 'when the planned processing is unacceptable' do
-      let(:user_session) { build(:user_session, planned_processing: 'commercial_purposes') }
+      let(:user_session) { build(:duty_calculator_user_session, planned_processing: 'commercial_purposes') }
 
       it { expect(step.previous_step_path).to eq(interstitial_path) }
     end
 
     context 'when the planned processing is not answered' do
-      let(:user_session) { build(:user_session) }
+      let(:user_session) { build(:duty_calculator_user_session) }
 
       it { expect(step.previous_step_path).to eq(interstitial_path) }
     end

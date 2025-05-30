@@ -1,7 +1,7 @@
 FactoryBot.define do
-  factory :country_of_origin, class: 'DutyCalculator::Steps::CountryOfOrigin' do
+  factory :duty_calculator_country_of_origin, class: 'DutyCalculator::Steps::CountryOfOrigin' do
     transient do
-      user_session { build(:user_session) }
+      user_session { build(:duty_calculator_user_session) }
     end
     country_of_origin { '' }
     zero_mfn_duty { '' }

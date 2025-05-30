@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :duty_calculator_measure_type, class: 'DutyCalculator::MeasureType' do
+  factory :measure_type do
     id { Forgery(:basic).text(exactly: 3) }
     description { Forgery(:basic).text }
 

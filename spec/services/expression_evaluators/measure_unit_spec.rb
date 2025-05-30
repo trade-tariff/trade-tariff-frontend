@@ -6,8 +6,8 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::MeasureUnit, :user_session 
   let(:measure) { commodity.import_measures.first }
 
   context 'when passing a measure component with a multiplier' do
-    let(:user_session) { build(:user_session, :with_coerced_measure_amount) }
-    let(:commodity) { build(:commodity, :with_measure_units_with_multiplier) }
+    let(:user_session) { build(:duty_calculator_user_session, :with_coerced_measure_amount) }
+    let(:commodity) { build(:duty_calculator_commodity, :with_measure_units_with_multiplier) }
     let(:component) { measure.measure_components.first }
 
     let(:expected_evaluation) do
@@ -29,8 +29,8 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::MeasureUnit, :user_session 
   end
 
   context 'when passing a measure component that is in euros' do
-    let(:user_session) { build(:user_session, :with_measure_amount) }
-    let(:commodity) { build(:commodity, :with_euro_measure_unit_measure_component) }
+    let(:user_session) { build(:duty_calculator_user_session, :with_measure_amount) }
+    let(:commodity) { build(:duty_calculator_commodity, :with_euro_measure_unit_measure_component) }
     let(:component) { measure.measure_components.first }
 
     let(:expected_evaluation) do
@@ -50,8 +50,8 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::MeasureUnit, :user_session 
   end
 
   context 'when passing a measure component that is in pounds' do
-    let(:user_session) { build(:user_session, :with_measure_amount) }
-    let(:commodity) { build(:commodity, :with_pounds_measure_unit_measure_component) }
+    let(:user_session) { build(:duty_calculator_user_session, :with_measure_amount) }
+    let(:commodity) { build(:duty_calculator_commodity, :with_pounds_measure_unit_measure_component) }
     let(:component) { measure.measure_components.first }
 
     let(:expected_evaluation) do
@@ -71,8 +71,8 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::MeasureUnit, :user_session 
   end
 
   context 'when passing a measure condition component' do
-    let(:user_session) { build(:user_session, :with_measure_amount) }
-    let(:commodity) { build(:commodity, :with_condition_measure_units) }
+    let(:user_session) { build(:duty_calculator_user_session, :with_measure_amount) }
+    let(:commodity) { build(:duty_calculator_commodity, :with_condition_measure_units) }
     let(:component) { measure.measure_conditions.first.measure_condition_components.first }
 
     let(:expected_evaluation) do

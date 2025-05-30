@@ -1,5 +1,5 @@
 RSpec.describe DutyCalculator::Steps::CountryOfOriginController, :user_session do
-  let(:user_session) { build(:user_session, :with_commodity_information, import_destination: 'XI') }
+  let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, import_destination: 'XI') }
 
   describe 'GET #show' do
     subject(:response) { get :show }

@@ -2,7 +2,7 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::AdValorem, :user_session do
   subject(:evaluator) { described_class.new(measure, component) }
 
   let(:measure) do
-    Api::Measure.new(
+    DutyCalculator::Api::Measure.new(
       'id' => 20_001_033,
       'duty_expression' => {
         'base' => '8.00 %',
@@ -17,7 +17,7 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::AdValorem, :user_session do
     )
   end
   let(:component) do
-    Api::MeasureComponent.new(
+    DutyCalculator::Api::MeasureComponent.new(
       {
         'duty_expression_id' => '01',
         'duty_amount' => 8.0,
@@ -52,7 +52,7 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::AdValorem, :user_session do
     }
   end
 
-  let(:user_session) { build(:user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
 
   it 'returns a properly calculated evaluation' do
     expect(evaluator.call).to eq(expected_evaluation)

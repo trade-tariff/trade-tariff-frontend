@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::ImportDate, :step, :user_session do
   subject(:step) do
     build(
-      :import_date,
+      :duty_calculator_import_date,
       user_session:,
       day:,
       month:,
@@ -9,7 +9,7 @@ RSpec.describe DutyCalculator::Steps::ImportDate, :step, :user_session do
     )
   end
 
-  let(:user_session) { build(:user_session) }
+  let(:user_session) { build(:duty_calculator_user_session) }
   let(:session) { user_session.session }
   let(:day) { '12' }
   let(:month) { '12' }
@@ -144,7 +144,7 @@ RSpec.describe DutyCalculator::Steps::ImportDate, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:expected_date) { Date.parse("#{1.year.from_now.year}-12-12") }
 
     it 'saves the import_date to the session' do

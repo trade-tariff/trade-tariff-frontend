@@ -3,13 +3,13 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
 
   describe '#call' do
     before do
-      allow(Api::Commodity).to receive(:build).and_call_original
+      allow(DutyCalculator::Api::Commodity).to receive(:build).and_call_original
     end
 
     context 'when on the deltas route' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_commodity_information,
           :with_customs_value,
           :with_measure_amount,
@@ -50,7 +50,7 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
       it 'fetches the xi commodity' do
         service.call
 
-        expect(Api::Commodity).to have_received(:build).with(
+        expect(DutyCalculator::Api::Commodity).to have_received(:build).with(
           'xi',
           '7202999000',
           anything,
@@ -60,7 +60,7 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
       it 'fetches the uk commodity' do
         service.call
 
-        expect(Api::Commodity).to have_received(:build).with(
+        expect(DutyCalculator::Api::Commodity).to have_received(:build).with(
           'uk',
           '7202999000',
           anything,
@@ -73,7 +73,7 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
     context 'when on an xi route' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_commodity_information,
           :with_customs_value,
           :with_measure_amount,
@@ -102,7 +102,7 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
       it 'does not fetch the uk commodity' do
         service.call
 
-        expect(Api::Commodity).not_to have_received(:build).with(
+        expect(DutyCalculator::Api::Commodity).not_to have_received(:build).with(
           'uk',
           '7202999000',
           anything,
@@ -112,7 +112,7 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
       it 'fetches the xi commodity' do
         service.call
 
-        expect(Api::Commodity).to have_received(:build).with(
+        expect(DutyCalculator::Api::Commodity).to have_received(:build).with(
           'xi',
           '7202999000',
           anything,
@@ -125,7 +125,7 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
     context 'when on a uk route' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_commodity_information,
           :with_customs_value,
           :with_measure_amount,
@@ -154,7 +154,7 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
       it 'does not fetch the xi commodity' do
         service.call
 
-        expect(Api::Commodity).not_to have_received(:build).with(
+        expect(DutyCalculator::Api::Commodity).not_to have_received(:build).with(
           'xi',
           '7202999000',
           anything,
@@ -164,7 +164,7 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
       it 'fetches the uk commodity' do
         service.call
 
-        expect(Api::Commodity).to have_received(:build).with(
+        expect(DutyCalculator::Api::Commodity).to have_received(:build).with(
           'uk',
           '7202999000',
           anything,
@@ -179,14 +179,14 @@ RSpec.describe DutyCalculator::ApplicableDocumentCodesService, :user_session do
 
       include_context 'with a fake commodity'
 
-      let(:commodity) { build :commodity, import_measures: }
+      let(:commodity) { build :duty_calculator_commodity, import_measures: }
 
       let :import_measures do
-        attributes_for_list(:measure, 1, :authorised_use_provisions_submission)
+        attributes_for_list(:duty_calculator_measure, 1, :authorised_use_provisions_submission)
       end
 
       let :user_session do
-        build(:user_session, :with_commodity_information, :with_customs_value)
+        build(:duty_calculator_user_session, :with_commodity_information, :with_customs_value)
       end
 
       let :four_six_four_declaration do

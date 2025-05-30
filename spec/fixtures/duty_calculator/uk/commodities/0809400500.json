@@ -1,0 +1,5954 @@
+{
+  "meta": {
+    "duty_calculator": {
+      "zero_mfn_duty": false,
+      "trade_defence": false,
+      "applicable_measure_units": {
+      },
+      "applicable_additional_codes": {
+        "105": {
+          "measure_type_description": "Non preferential duty under authorised use",
+          "heading": {
+            "overlay": "Describe your goods in more detail",
+            "hint": "To trade this commodity, you need to specify an additional 4 digits, known as an additional code"
+          },
+          "additional_codes": [
+            {
+              "code": "2600",
+              "overlay": "The product I am importing is COVID-19 critical",
+              "hint": "Read more about the <a target='_blank' href='https://www.gov.uk/government/news/hmg-suspends-import-tariffs-on-covid-19-products-to-fight-virus'>suspension of tariffs on COVID-19 critical goods [opens in a new browser window]</a>",
+              "measure_sid": 20126513
+            },
+            {
+              "code": "2601",
+              "overlay": "The product I am importing is not COVID-19 critical",
+              "hint": "",
+              "measure_sid": 20126512
+            }
+          ]
+        },
+        "306": {
+          "measure_type_description": "Excises",
+          "heading": null,
+          "additional_codes": [
+            {
+              "code": "X520",
+              "overlay": "520 - Light oil: unrebated (unmarked) – other unrebated light oil",
+              "hint": "",
+              "measure_sid": -485461
+            },
+            {
+              "code": "X522",
+              "overlay": "522 - Light oil: rebated – unleaded petrol",
+              "hint": "",
+              "measure_sid": -485453
+            },
+            {
+              "code": "X541",
+              "overlay": "541 - Heavy oil: unrebated (unmarked, including Diesel Engine Road Vehicle (DERV) or road fuel extender and unmarked kerosene or unmarked gas oil for which no marking waiver has been granted)",
+              "hint": "",
+              "measure_sid": -485455
+            },
+            {
+              "code": "X542",
+              "overlay": "542 - Heavy oil: kerosene to be used as motor fuel off road or in an excepted vehicle",
+              "hint": "",
+              "measure_sid": -485456
+            },
+            {
+              "code": "X551",
+              "overlay": "551 - Heavy oil: kerosene (marked or unmarked under marking waiver, including heavy oil aviation turbine fuel) to be used other than as motor fuel off-road or in an excepted vehicle",
+              "hint": "",
+              "measure_sid": -485457
+            },
+            {
+              "code": "X556",
+              "overlay": "556 - Heavy oil: gas oil (marked or unmarked under marking waiver)",
+              "hint": "",
+              "measure_sid": -485458
+            },
+            {
+              "code": "X561",
+              "overlay": "561 - Heavy oil: fuel oil (unmarked)",
+              "hint": "",
+              "measure_sid": -485459
+            },
+            {
+              "code": "X570",
+              "overlay": "570 - Heavy oil: other (unmarked)",
+              "hint": "",
+              "measure_sid": -485460
+            }
+          ]
+        }
+      },
+      "applicable_vat_options": {
+        "VATR": "VAT reduced rate 5% (5.0)",
+        "VATZ": "VAT zero rate (0.0)",
+        "VAT": "Value added tax (20.0)"
+      },
+      "meursing_code": false,
+      "source": "uk"
+    }
+  },
+  "import_measures": [
+    {
+      "meta": {
+        "duty_calculator": {
+          "source": "uk"
+        }
+      },
+      "measure_conditions": [
+        {
+          "id": "1480608",
+          "action": "Apply the amount of the action",
+          "action_code": "01",
+          "certificate_description": null,
+          "condition": "V: Import price must be equal to or greater than the entry price (see components)",
+          "condition_code": "V",
+          "condition_duty_amount": 52.6,
+          "condition_measurement_unit_code": "DTN",
+          "condition_measurement_unit_qualifier_code": null,
+          "condition_monetary_unit_code": "EUR",
+          "document_code": "",
+          "duty_expression": "<span>14.40</span> %",
+          "monetary_unit_abbreviation": null,
+          "requirement": "<span>52.60</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "measure_condition_components": [
+            {
+              "id": "1480608-01",
+              "duty_expression_id": "01",
+              "duty_amount": 14.4,
+              "monetary_unit_code": null,
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": null,
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "% or amount",
+              "duty_expression_abbreviation": "%",
+              "meta": null
+            }
+          ],
+          "meta": null
+        },
+        {
+          "id": "1480609",
+          "action": "Apply the amount of the action",
+          "action_code": "01",
+          "certificate_description": null,
+          "condition": "V: Import price must be equal to or greater than the entry price (see components)",
+          "condition_code": "V",
+          "condition_duty_amount": 51.5,
+          "condition_measurement_unit_code": "DTN",
+          "condition_measurement_unit_qualifier_code": null,
+          "condition_monetary_unit_code": "EUR",
+          "document_code": "",
+          "duty_expression": "<span>14.40</span> % + <span>1.10</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "monetary_unit_abbreviation": null,
+          "requirement": "<span>51.50</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "measure_condition_components": [
+            {
+              "id": "1480609-01",
+              "duty_expression_id": "01",
+              "duty_amount": 14.4,
+              "monetary_unit_code": null,
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": null,
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "% or amount",
+              "duty_expression_abbreviation": "%",
+              "meta": null
+            },
+            {
+              "id": "1480609-04",
+              "duty_expression_id": "04",
+              "duty_amount": 1.1,
+              "monetary_unit_code": "EUR",
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": "DTN",
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "+ % or amount",
+              "duty_expression_abbreviation": "+",
+              "meta": null
+            }
+          ],
+          "meta": null
+        },
+        {
+          "id": "1480610",
+          "action": "Apply the amount of the action",
+          "action_code": "01",
+          "certificate_description": null,
+          "condition": "V: Import price must be equal to or greater than the entry price (see components)",
+          "condition_code": "V",
+          "condition_duty_amount": 50.5,
+          "condition_measurement_unit_code": "DTN",
+          "condition_measurement_unit_qualifier_code": null,
+          "condition_monetary_unit_code": "EUR",
+          "document_code": "",
+          "duty_expression": "<span>14.40</span> % + <span>2.10</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "monetary_unit_abbreviation": null,
+          "requirement": "<span>50.50</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "measure_condition_components": [
+            {
+              "id": "1480610-01",
+              "duty_expression_id": "01",
+              "duty_amount": 14.4,
+              "monetary_unit_code": null,
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": null,
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "% or amount",
+              "duty_expression_abbreviation": "%",
+              "meta": null
+            },
+            {
+              "id": "1480610-04",
+              "duty_expression_id": "04",
+              "duty_amount": 2.1,
+              "monetary_unit_code": "EUR",
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": "DTN",
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "+ % or amount",
+              "duty_expression_abbreviation": "+",
+              "meta": null
+            }
+          ],
+          "meta": null
+        },
+        {
+          "id": "1480611",
+          "action": "Apply the amount of the action",
+          "action_code": "01",
+          "certificate_description": null,
+          "condition": "V: Import price must be equal to or greater than the entry price (see components)",
+          "condition_code": "V",
+          "condition_duty_amount": 49.4,
+          "condition_measurement_unit_code": "DTN",
+          "condition_measurement_unit_qualifier_code": null,
+          "condition_monetary_unit_code": "EUR",
+          "document_code": "",
+          "duty_expression": "<span>14.40</span> % + <span>3.20</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "monetary_unit_abbreviation": null,
+          "requirement": "<span>49.40</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "measure_condition_components": [
+            {
+              "id": "1480611-01",
+              "duty_expression_id": "01",
+              "duty_amount": 14.4,
+              "monetary_unit_code": null,
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": null,
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "% or amount",
+              "duty_expression_abbreviation": "%",
+              "meta": null
+            },
+            {
+              "id": "1480611-04",
+              "duty_expression_id": "04",
+              "duty_amount": 3.2,
+              "monetary_unit_code": "EUR",
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": "DTN",
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "+ % or amount",
+              "duty_expression_abbreviation": "+",
+              "meta": null
+            }
+          ],
+          "meta": null
+        },
+        {
+          "id": "1480612",
+          "action": "Apply the amount of the action",
+          "action_code": "01",
+          "certificate_description": null,
+          "condition": "V: Import price must be equal to or greater than the entry price (see components)",
+          "condition_code": "V",
+          "condition_duty_amount": 48.4,
+          "condition_measurement_unit_code": "DTN",
+          "condition_measurement_unit_qualifier_code": null,
+          "condition_monetary_unit_code": "EUR",
+          "document_code": "",
+          "duty_expression": "<span>14.40</span> % + <span>4.20</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "monetary_unit_abbreviation": null,
+          "requirement": "<span>48.40</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "measure_condition_components": [
+            {
+              "id": "1480612-01",
+              "duty_expression_id": "01",
+              "duty_amount": 14.4,
+              "monetary_unit_code": null,
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": null,
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "% or amount",
+              "duty_expression_abbreviation": "%",
+              "meta": null
+            },
+            {
+              "id": "1480612-04",
+              "duty_expression_id": "04",
+              "duty_amount": 4.2,
+              "monetary_unit_code": "EUR",
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": "DTN",
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "+ % or amount",
+              "duty_expression_abbreviation": "+",
+              "meta": null
+            }
+          ],
+          "meta": null
+        },
+        {
+          "id": "1480613",
+          "action": "Apply the amount of the action",
+          "action_code": "01",
+          "certificate_description": null,
+          "condition": "V: Import price must be equal to or greater than the entry price (see components)",
+          "condition_code": "V",
+          "condition_duty_amount": 0.0,
+          "condition_measurement_unit_code": "DTN",
+          "condition_measurement_unit_qualifier_code": null,
+          "condition_monetary_unit_code": "EUR",
+          "document_code": "",
+          "duty_expression": "<span>14.40</span> % + <span>29.80</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "monetary_unit_abbreviation": null,
+          "requirement": "<span>0.00</span> EUR / <abbr title='Hectokilogram'>100 kg</abbr>",
+          "measure_condition_components": [
+            {
+              "id": "1480613-01",
+              "duty_expression_id": "01",
+              "duty_amount": 14.4,
+              "monetary_unit_code": null,
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": null,
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "% or amount",
+              "duty_expression_abbreviation": "%",
+              "meta": null
+            },
+            {
+              "id": "1480613-04",
+              "duty_expression_id": "04",
+              "duty_amount": 29.8,
+              "monetary_unit_code": "EUR",
+              "monetary_unit_abbreviation": null,
+              "measurement_unit_code": "DTN",
+              "measurement_unit_qualifier_code": null,
+              "duty_expression_description": "+ % or amount",
+              "duty_expression_abbreviation": "+",
+              "meta": null
+            }
+          ],
+          "meta": null
+        }
+      ],
+      "measure_components": [
+
+      ],
+      "measure_type": {
+        "id": "103",
+        "description": "Third country duty",
+        "national": null,
+        "measure_type_series_id": "C",
+        "meta": null
+      },
+      "geographical_area": {
+        "id": "1011",
+        "description": "ERGA OMNES",
+        "geographical_area_id": "1011",
+        "children_geographical_areas": [
+          {
+            "id": "AD",
+            "description": "Andorra",
+            "geographical_area_id": "AD",
+            "meta": null
+          },
+          {
+            "id": "AE",
+            "description": "United Arab Emirates",
+            "geographical_area_id": "AE",
+            "meta": null
+          },
+          {
+            "id": "AF",
+            "description": "Afghanistan",
+            "geographical_area_id": "AF",
+            "meta": null
+          },
+          {
+            "id": "AG",
+            "description": "Antigua and Barbuda",
+            "geographical_area_id": "AG",
+            "meta": null
+          },
+          {
+            "id": "AI",
+            "description": "Anguilla",
+            "geographical_area_id": "AI",
+            "meta": null
+          },
+          {
+            "id": "AL",
+            "description": "Albania",
+            "geographical_area_id": "AL",
+            "meta": null
+          },
+          {
+            "id": "AM",
+            "description": "Armenia",
+            "geographical_area_id": "AM",
+            "meta": null
+          },
+          {
+            "id": "AO",
+            "description": "Angola",
+            "geographical_area_id": "AO",
+            "meta": null
+          },
+          {
+            "id": "AQ",
+            "description": "Antarctica",
+            "geographical_area_id": "AQ",
+            "meta": null
+          },
+          {
+            "id": "AR",
+            "description": "Argentina",
+            "geographical_area_id": "AR",
+            "meta": null
+          },
+          {
+            "id": "AS",
+            "description": "American Samoa",
+            "geographical_area_id": "AS",
+            "meta": null
+          },
+          {
+            "id": "AU",
+            "description": "Australia",
+            "geographical_area_id": "AU",
+            "meta": null
+          },
+          {
+            "id": "AW",
+            "description": "Aruba",
+            "geographical_area_id": "AW",
+            "meta": null
+          },
+          {
+            "id": "AZ",
+            "description": "Azerbaijan",
+            "geographical_area_id": "AZ",
+            "meta": null
+          },
+          {
+            "id": "BA",
+            "description": "Bosnia and Herzegovina",
+            "geographical_area_id": "BA",
+            "meta": null
+          },
+          {
+            "id": "BB",
+            "description": "Barbados",
+            "geographical_area_id": "BB",
+            "meta": null
+          },
+          {
+            "id": "BD",
+            "description": "Bangladesh",
+            "geographical_area_id": "BD",
+            "meta": null
+          },
+          {
+            "id": "BF",
+            "description": "Burkina Faso",
+            "geographical_area_id": "BF",
+            "meta": null
+          },
+          {
+            "id": "BH",
+            "description": "Bahrain",
+            "geographical_area_id": "BH",
+            "meta": null
+          },
+          {
+            "id": "BI",
+            "description": "Burundi",
+            "geographical_area_id": "BI",
+            "meta": null
+          },
+          {
+            "id": "BJ",
+            "description": "Benin",
+            "geographical_area_id": "BJ",
+            "meta": null
+          },
+          {
+            "id": "BL",
+            "description": "Saint Barthélemy",
+            "geographical_area_id": "BL",
+            "meta": null
+          },
+          {
+            "id": "BM",
+            "description": "Bermuda",
+            "geographical_area_id": "BM",
+            "meta": null
+          },
+          {
+            "id": "BN",
+            "description": "Brunei",
+            "geographical_area_id": "BN",
+            "meta": null
+          },
+          {
+            "id": "BO",
+            "description": "Bolivia",
+            "geographical_area_id": "BO",
+            "meta": null
+          },
+          {
+            "id": "BQ",
+            "description": "Bonaire, Sint Eustatius and Saba",
+            "geographical_area_id": "BQ",
+            "meta": null
+          },
+          {
+            "id": "BR",
+            "description": "Brazil",
+            "geographical_area_id": "BR",
+            "meta": null
+          },
+          {
+            "id": "BS",
+            "description": "Bahamas",
+            "geographical_area_id": "BS",
+            "meta": null
+          },
+          {
+            "id": "BT",
+            "description": "Bhutan",
+            "geographical_area_id": "BT",
+            "meta": null
+          },
+          {
+            "id": "BV",
+            "description": "Bouvet Island",
+            "geographical_area_id": "BV",
+            "meta": null
+          },
+          {
+            "id": "BW",
+            "description": "Botswana",
+            "geographical_area_id": "BW",
+            "meta": null
+          },
+          {
+            "id": "BY",
+            "description": "Belarus",
+            "geographical_area_id": "BY",
+            "meta": null
+          },
+          {
+            "id": "BZ",
+            "description": "Belize",
+            "geographical_area_id": "BZ",
+            "meta": null
+          },
+          {
+            "id": "CA",
+            "description": "Canada",
+            "geographical_area_id": "CA",
+            "meta": null
+          },
+          {
+            "id": "CC",
+            "description": "Cocos Islands (or Keeling Islands)",
+            "geographical_area_id": "CC",
+            "meta": null
+          },
+          {
+            "id": "CD",
+            "description": "Congo, Democratic Republic of",
+            "geographical_area_id": "CD",
+            "meta": null
+          },
+          {
+            "id": "CF",
+            "description": "Central African Republic",
+            "geographical_area_id": "CF",
+            "meta": null
+          },
+          {
+            "id": "CG",
+            "description": "Congo (Republic of)",
+            "geographical_area_id": "CG",
+            "meta": null
+          },
+          {
+            "id": "CH",
+            "description": "Switzerland",
+            "geographical_area_id": "CH",
+            "meta": null
+          },
+          {
+            "id": "CI",
+            "description": "Ivory Coast",
+            "geographical_area_id": "CI",
+            "meta": null
+          },
+          {
+            "id": "CK",
+            "description": "Cook Islands",
+            "geographical_area_id": "CK",
+            "meta": null
+          },
+          {
+            "id": "CL",
+            "description": "Chile",
+            "geographical_area_id": "CL",
+            "meta": null
+          },
+          {
+            "id": "CM",
+            "description": "Cameroon",
+            "geographical_area_id": "CM",
+            "meta": null
+          },
+          {
+            "id": "CN",
+            "description": "China",
+            "geographical_area_id": "CN",
+            "meta": null
+          },
+          {
+            "id": "CO",
+            "description": "Colombia",
+            "geographical_area_id": "CO",
+            "meta": null
+          },
+          {
+            "id": "CR",
+            "description": "Costa Rica",
+            "geographical_area_id": "CR",
+            "meta": null
+          },
+          {
+            "id": "CU",
+            "description": "Cuba",
+            "geographical_area_id": "CU",
+            "meta": null
+          },
+          {
+            "id": "CV",
+            "description": "Cabo Verde",
+            "geographical_area_id": "CV",
+            "meta": null
+          },
+          {
+            "id": "CW",
+            "description": "Curaçao",
+            "geographical_area_id": "CW",
+            "meta": null
+          },
+          {
+            "id": "CX",
+            "description": "Christmas Island",
+            "geographical_area_id": "CX",
+            "meta": null
+          },
+          {
+            "id": "DJ",
+            "description": "Djibouti",
+            "geographical_area_id": "DJ",
+            "meta": null
+          },
+          {
+            "id": "DM",
+            "description": "Dominica",
+            "geographical_area_id": "DM",
+            "meta": null
+          },
+          {
+            "id": "DO",
+            "description": "Dominican Republic",
+            "geographical_area_id": "DO",
+            "meta": null
+          },
+          {
+            "id": "DZ",
+            "description": "Algeria",
+            "geographical_area_id": "DZ",
+            "meta": null
+          },
+          {
+            "id": "EC",
+            "description": "Ecuador",
+            "geographical_area_id": "EC",
+            "meta": null
+          },
+          {
+            "id": "EG",
+            "description": "Egypt",
+            "geographical_area_id": "EG",
+            "meta": null
+          },
+          {
+            "id": "EH",
+            "description": "Western Sahara",
+            "geographical_area_id": "EH",
+            "meta": null
+          },
+          {
+            "id": "ER",
+            "description": "Eritrea",
+            "geographical_area_id": "ER",
+            "meta": null
+          },
+          {
+            "id": "ET",
+            "description": "Ethiopia",
+            "geographical_area_id": "ET",
+            "meta": null
+          },
+          {
+            "id": "EU",
+            "description": "European Union",
+            "geographical_area_id": "EU",
+            "meta": null
+          },
+          {
+            "id": "FJ",
+            "description": "Fiji",
+            "geographical_area_id": "FJ",
+            "meta": null
+          },
+          {
+            "id": "FK",
+            "description": "Falkland Islands",
+            "geographical_area_id": "FK",
+            "meta": null
+          },
+          {
+            "id": "FM",
+            "description": "Micronesia, Federated States of",
+            "geographical_area_id": "FM",
+            "meta": null
+          },
+          {
+            "id": "FO",
+            "description": "Faroe Islands",
+            "geographical_area_id": "FO",
+            "meta": null
+          },
+          {
+            "id": "GA",
+            "description": "Gabon",
+            "geographical_area_id": "GA",
+            "meta": null
+          },
+          {
+            "id": "GB",
+            "description": "United Kingdom (excluding Northern Ireland)",
+            "geographical_area_id": "GB",
+            "meta": null
+          },
+          {
+            "id": "GD",
+            "description": "Grenada",
+            "geographical_area_id": "GD",
+            "meta": null
+          },
+          {
+            "id": "GE",
+            "description": "Georgia",
+            "geographical_area_id": "GE",
+            "meta": null
+          },
+          {
+            "id": "GH",
+            "description": "Ghana",
+            "geographical_area_id": "GH",
+            "meta": null
+          },
+          {
+            "id": "GI",
+            "description": "Gibraltar",
+            "geographical_area_id": "GI",
+            "meta": null
+          },
+          {
+            "id": "GL",
+            "description": "Greenland",
+            "geographical_area_id": "GL",
+            "meta": null
+          },
+          {
+            "id": "GM",
+            "description": "Gambia",
+            "geographical_area_id": "GM",
+            "meta": null
+          },
+          {
+            "id": "GN",
+            "description": "Guinea",
+            "geographical_area_id": "GN",
+            "meta": null
+          },
+          {
+            "id": "GQ",
+            "description": "Equatorial Guinea",
+            "geographical_area_id": "GQ",
+            "meta": null
+          },
+          {
+            "id": "GS",
+            "description": "South Georgia and South Sandwich Islands",
+            "geographical_area_id": "GS",
+            "meta": null
+          },
+          {
+            "id": "GT",
+            "description": "Guatemala",
+            "geographical_area_id": "GT",
+            "meta": null
+          },
+          {
+            "id": "GU",
+            "description": "Guam",
+            "geographical_area_id": "GU",
+            "meta": null
+          },
+          {
+            "id": "GW",
+            "description": "Guinea-Bissau",
+            "geographical_area_id": "GW",
+            "meta": null
+          },
+          {
+            "id": "GY",
+            "description": "Guyana",
+            "geographical_area_id": "GY",
+            "meta": null
+          },
+          {
+            "id": "HK",
+            "description": "Hong Kong",
+            "geographical_area_id": "HK",
+            "meta": null
+          },
+          {
+            "id": "HM",
+            "description": "Heard Island and McDonald Islands",
+            "geographical_area_id": "HM",
+            "meta": null
+          },
+          {
+            "id": "HN",
+            "description": "Honduras",
+            "geographical_area_id": "HN",
+            "meta": null
+          },
+          {
+            "id": "HT",
+            "description": "Haiti",
+            "geographical_area_id": "HT",
+            "meta": null
+          },
+          {
+            "id": "ID",
+            "description": "Indonesia",
+            "geographical_area_id": "ID",
+            "meta": null
+          },
+          {
+            "id": "IL",
+            "description": "Israel",
+            "geographical_area_id": "IL",
+            "meta": null
+          },
+          {
+            "id": "IN",
+            "description": "India",
+            "geographical_area_id": "IN",
+            "meta": null
+          },
+          {
+            "id": "IO",
+            "description": "British Indian Ocean Territory",
+            "geographical_area_id": "IO",
+            "meta": null
+          },
+          {
+            "id": "IQ",
+            "description": "Iraq",
+            "geographical_area_id": "IQ",
+            "meta": null
+          },
+          {
+            "id": "IR",
+            "description": "Iran, Islamic Republic of",
+            "geographical_area_id": "IR",
+            "meta": null
+          },
+          {
+            "id": "IS",
+            "description": "Iceland",
+            "geographical_area_id": "IS",
+            "meta": null
+          },
+          {
+            "id": "JM",
+            "description": "Jamaica",
+            "geographical_area_id": "JM",
+            "meta": null
+          },
+          {
+            "id": "JO",
+            "description": "Jordan",
+            "geographical_area_id": "JO",
+            "meta": null
+          },
+          {
+            "id": "JP",
+            "description": "Japan",
+            "geographical_area_id": "JP",
+            "meta": null
+          },
+          {
+            "id": "KE",
+            "description": "Kenya",
+            "geographical_area_id": "KE",
+            "meta": null
+          },
+          {
+            "id": "KG",
+            "description": "Kyrgyzstan",
+            "geographical_area_id": "KG",
+            "meta": null
+          },
+          {
+            "id": "KH",
+            "description": "Cambodia (Kampuchea)",
+            "geographical_area_id": "KH",
+            "meta": null
+          },
+          {
+            "id": "KI",
+            "description": "Kiribati",
+            "geographical_area_id": "KI",
+            "meta": null
+          },
+          {
+            "id": "KM",
+            "description": "Comoros (excluding Mayotte)",
+            "geographical_area_id": "KM",
+            "meta": null
+          },
+          {
+            "id": "KN",
+            "description": "St Kitts and Nevis",
+            "geographical_area_id": "KN",
+            "meta": null
+          },
+          {
+            "id": "KP",
+            "description": "North Korea (Democratic People’s Republic of Korea)",
+            "geographical_area_id": "KP",
+            "meta": null
+          },
+          {
+            "id": "KR",
+            "description": "Korea, Republic of (South Korea)",
+            "geographical_area_id": "KR",
+            "meta": null
+          },
+          {
+            "id": "KW",
+            "description": "Kuwait",
+            "geographical_area_id": "KW",
+            "meta": null
+          },
+          {
+            "id": "KY",
+            "description": "Cayman Islands",
+            "geographical_area_id": "KY",
+            "meta": null
+          },
+          {
+            "id": "KZ",
+            "description": "Kazakhstan",
+            "geographical_area_id": "KZ",
+            "meta": null
+          },
+          {
+            "id": "LA",
+            "description": "Laos",
+            "geographical_area_id": "LA",
+            "meta": null
+          },
+          {
+            "id": "LB",
+            "description": "Lebanon",
+            "geographical_area_id": "LB",
+            "meta": null
+          },
+          {
+            "id": "LC",
+            "description": "St Lucia",
+            "geographical_area_id": "LC",
+            "meta": null
+          },
+          {
+            "id": "LI",
+            "description": "Liechtenstein",
+            "geographical_area_id": "LI",
+            "meta": null
+          },
+          {
+            "id": "LK",
+            "description": "Sri Lanka",
+            "geographical_area_id": "LK",
+            "meta": null
+          },
+          {
+            "id": "LR",
+            "description": "Liberia",
+            "geographical_area_id": "LR",
+            "meta": null
+          },
+          {
+            "id": "LS",
+            "description": "Lesotho",
+            "geographical_area_id": "LS",
+            "meta": null
+          },
+          {
+            "id": "LY",
+            "description": "Libya",
+            "geographical_area_id": "LY",
+            "meta": null
+          },
+          {
+            "id": "MA",
+            "description": "Morocco",
+            "geographical_area_id": "MA",
+            "meta": null
+          },
+          {
+            "id": "MD",
+            "description": "Moldova, Republic of",
+            "geographical_area_id": "MD",
+            "meta": null
+          },
+          {
+            "id": "ME",
+            "description": "Montenegro",
+            "geographical_area_id": "ME",
+            "meta": null
+          },
+          {
+            "id": "MG",
+            "description": "Madagascar",
+            "geographical_area_id": "MG",
+            "meta": null
+          },
+          {
+            "id": "MH",
+            "description": "Marshall Islands, Republic of",
+            "geographical_area_id": "MH",
+            "meta": null
+          },
+          {
+            "id": "MK",
+            "description": "Macedonia (Former Yugoslav Republic of)",
+            "geographical_area_id": "MK",
+            "meta": null
+          },
+          {
+            "id": "ML",
+            "description": "Mali",
+            "geographical_area_id": "ML",
+            "meta": null
+          },
+          {
+            "id": "MM",
+            "description": "Myanmar",
+            "geographical_area_id": "MM",
+            "meta": null
+          },
+          {
+            "id": "MN",
+            "description": "Mongolia",
+            "geographical_area_id": "MN",
+            "meta": null
+          },
+          {
+            "id": "MO",
+            "description": "Macao",
+            "geographical_area_id": "MO",
+            "meta": null
+          },
+          {
+            "id": "MP",
+            "description": "Northern Mariana Islands",
+            "geographical_area_id": "MP",
+            "meta": null
+          },
+          {
+            "id": "MR",
+            "description": "Mauritania",
+            "geographical_area_id": "MR",
+            "meta": null
+          },
+          {
+            "id": "MS",
+            "description": "Montserrat",
+            "geographical_area_id": "MS",
+            "meta": null
+          },
+          {
+            "id": "MU",
+            "description": "Mauritius",
+            "geographical_area_id": "MU",
+            "meta": null
+          },
+          {
+            "id": "MV",
+            "description": "Maldives",
+            "geographical_area_id": "MV",
+            "meta": null
+          },
+          {
+            "id": "MW",
+            "description": "Malawi",
+            "geographical_area_id": "MW",
+            "meta": null
+          },
+          {
+            "id": "MX",
+            "description": "Mexico",
+            "geographical_area_id": "MX",
+            "meta": null
+          },
+          {
+            "id": "MY",
+            "description": "Malaysia",
+            "geographical_area_id": "MY",
+            "meta": null
+          },
+          {
+            "id": "MZ",
+            "description": "Mozambique",
+            "geographical_area_id": "MZ",
+            "meta": null
+          },
+          {
+            "id": "NA",
+            "description": "Namibia",
+            "geographical_area_id": "NA",
+            "meta": null
+          },
+          {
+            "id": "NC",
+            "description": "New Caledonia and dependencies",
+            "geographical_area_id": "NC",
+            "meta": null
+          },
+          {
+            "id": "NE",
+            "description": "Niger",
+            "geographical_area_id": "NE",
+            "meta": null
+          },
+          {
+            "id": "NF",
+            "description": "Norfolk Island",
+            "geographical_area_id": "NF",
+            "meta": null
+          },
+          {
+            "id": "NG",
+            "description": "Nigeria",
+            "geographical_area_id": "NG",
+            "meta": null
+          },
+          {
+            "id": "NI",
+            "description": "Nicaragua",
+            "geographical_area_id": "NI",
+            "meta": null
+          },
+          {
+            "id": "NO",
+            "description": "Norway",
+            "geographical_area_id": "NO",
+            "meta": null
+          },
+          {
+            "id": "NP",
+            "description": "Nepal",
+            "geographical_area_id": "NP",
+            "meta": null
+          },
+          {
+            "id": "NR",
+            "description": "Nauru",
+            "geographical_area_id": "NR",
+            "meta": null
+          },
+          {
+            "id": "NU",
+            "description": "Niue Island",
+            "geographical_area_id": "NU",
+            "meta": null
+          },
+          {
+            "id": "NZ",
+            "description": "New Zealand",
+            "geographical_area_id": "NZ",
+            "meta": null
+          },
+          {
+            "id": "OM",
+            "description": "Oman",
+            "geographical_area_id": "OM",
+            "meta": null
+          },
+          {
+            "id": "PA",
+            "description": "Panama",
+            "geographical_area_id": "PA",
+            "meta": null
+          },
+          {
+            "id": "PE",
+            "description": "Peru",
+            "geographical_area_id": "PE",
+            "meta": null
+          },
+          {
+            "id": "PF",
+            "description": "French Polynesia",
+            "geographical_area_id": "PF",
+            "meta": null
+          },
+          {
+            "id": "PG",
+            "description": "Papua New Guinea",
+            "geographical_area_id": "PG",
+            "meta": null
+          },
+          {
+            "id": "PH",
+            "description": "Philippines",
+            "geographical_area_id": "PH",
+            "meta": null
+          },
+          {
+            "id": "PK",
+            "description": "Pakistan",
+            "geographical_area_id": "PK",
+            "meta": null
+          },
+          {
+            "id": "PM",
+            "description": "St Pierre and Miquelon",
+            "geographical_area_id": "PM",
+            "meta": null
+          },
+          {
+            "id": "PN",
+            "description": "Pitcairn",
+            "geographical_area_id": "PN",
+            "meta": null
+          },
+          {
+            "id": "PS",
+            "description": "Occupied palestinian Territory",
+            "geographical_area_id": "PS",
+            "meta": null
+          },
+          {
+            "id": "PW",
+            "description": "Palau",
+            "geographical_area_id": "PW",
+            "meta": null
+          },
+          {
+            "id": "PY",
+            "description": "Paraguay",
+            "geographical_area_id": "PY",
+            "meta": null
+          },
+          {
+            "id": "QA",
+            "description": "Qatar",
+            "geographical_area_id": "QA",
+            "meta": null
+          },
+          {
+            "id": "QP",
+            "description": "High seas (Maritime domain outside of territorial waters)",
+            "geographical_area_id": "QP",
+            "meta": null
+          },
+          {
+            "id": "QQ",
+            "description": "Stores and provisions",
+            "geographical_area_id": "QQ",
+            "meta": null
+          },
+          {
+            "id": "QS",
+            "description": "Stores and provisions within the framework of trade with Third Countries",
+            "geographical_area_id": "QS",
+            "meta": null
+          },
+          {
+            "id": "QU",
+            "description": "Countries and territories not specified",
+            "geographical_area_id": "QU",
+            "meta": null
+          },
+          {
+            "id": "QW",
+            "description": "Countries and territories not specified within the framework of trade with third countries",
+            "geographical_area_id": "QW",
+            "meta": null
+          },
+          {
+            "id": "RU",
+            "description": "Russian Federation",
+            "geographical_area_id": "RU",
+            "meta": null
+          },
+          {
+            "id": "RW",
+            "description": "Rwanda",
+            "geographical_area_id": "RW",
+            "meta": null
+          },
+          {
+            "id": "SA",
+            "description": "Saudi Arabia",
+            "geographical_area_id": "SA",
+            "meta": null
+          },
+          {
+            "id": "SB",
+            "description": "Solomon Islands",
+            "geographical_area_id": "SB",
+            "meta": null
+          },
+          {
+            "id": "SC",
+            "description": "Seychelles and dependencies",
+            "geographical_area_id": "SC",
+            "meta": null
+          },
+          {
+            "id": "SD",
+            "description": "Sudan",
+            "geographical_area_id": "SD",
+            "meta": null
+          },
+          {
+            "id": "SG",
+            "description": "Singapore",
+            "geographical_area_id": "SG",
+            "meta": null
+          },
+          {
+            "id": "SH",
+            "description": "Saint Helena, Ascension and Tristan da Cunha",
+            "geographical_area_id": "SH",
+            "meta": null
+          },
+          {
+            "id": "SL",
+            "description": "Sierra Leone",
+            "geographical_area_id": "SL",
+            "meta": null
+          },
+          {
+            "id": "SM",
+            "description": "San Marino",
+            "geographical_area_id": "SM",
+            "meta": null
+          },
+          {
+            "id": "SN",
+            "description": "Senegal",
+            "geographical_area_id": "SN",
+            "meta": null
+          },
+          {
+            "id": "SO",
+            "description": "Somalia",
+            "geographical_area_id": "SO",
+            "meta": null
+          },
+          {
+            "id": "SR",
+            "description": "Suriname",
+            "geographical_area_id": "SR",
+            "meta": null
+          },
+          {
+            "id": "SS",
+            "description": "South Sudan",
+            "geographical_area_id": "SS",
+            "meta": null
+          },
+          {
+            "id": "ST",
+            "description": "Sao Tome and Principe",
+            "geographical_area_id": "ST",
+            "meta": null
+          },
+          {
+            "id": "SV",
+            "description": "El Salvador",
+            "geographical_area_id": "SV",
+            "meta": null
+          },
+          {
+            "id": "SX",
+            "description": "Sint Maarten (Dutch part)",
+            "geographical_area_id": "SX",
+            "meta": null
+          },
+          {
+            "id": "SY",
+            "description": "Syria",
+            "geographical_area_id": "SY",
+            "meta": null
+          },
+          {
+            "id": "SZ",
+            "description": "Swaziland",
+            "geographical_area_id": "SZ",
+            "meta": null
+          },
+          {
+            "id": "TC",
+            "description": "Turks and Caicos Islands",
+            "geographical_area_id": "TC",
+            "meta": null
+          },
+          {
+            "id": "TD",
+            "description": "Chad",
+            "geographical_area_id": "TD",
+            "meta": null
+          },
+          {
+            "id": "TF",
+            "description": "French Southern Territories",
+            "geographical_area_id": "TF",
+            "meta": null
+          },
+          {
+            "id": "TG",
+            "description": "Togo",
+            "geographical_area_id": "TG",
+            "meta": null
+          },
+          {
+            "id": "TH",
+            "description": "Thailand",
+            "geographical_area_id": "TH",
+            "meta": null
+          },
+          {
+            "id": "TJ",
+            "description": "Tajikistan",
+            "geographical_area_id": "TJ",
+            "meta": null
+          },
+          {
+            "id": "TK",
+            "description": "Tokelau",
+            "geographical_area_id": "TK",
+            "meta": null
+          },
+          {
+            "id": "TL",
+            "description": "Timor-Leste",
+            "geographical_area_id": "TL",
+            "meta": null
+          },
+          {
+            "id": "TM",
+            "description": "Turkmenistan",
+            "geographical_area_id": "TM",
+            "meta": null
+          },
+          {
+            "id": "TN",
+            "description": "Tunisia",
+            "geographical_area_id": "TN",
+            "meta": null
+          },
+          {
+            "id": "TO",
+            "description": "Tonga",
+            "geographical_area_id": "TO",
+            "meta": null
+          },
+          {
+            "id": "TR",
+            "description": "Turkey",
+            "geographical_area_id": "TR",
+            "meta": null
+          },
+          {
+            "id": "TT",
+            "description": "Trinidad and Tobago",
+            "geographical_area_id": "TT",
+            "meta": null
+          },
+          {
+            "id": "TV",
+            "description": "Tuvalu",
+            "geographical_area_id": "TV",
+            "meta": null
+          },
+          {
+            "id": "TW",
+            "description": "Taiwan",
+            "geographical_area_id": "TW",
+            "meta": null
+          },
+          {
+            "id": "TZ",
+            "description": "Tanzania, United Republic of",
+            "geographical_area_id": "TZ",
+            "meta": null
+          },
+          {
+            "id": "UA",
+            "description": "Ukraine",
+            "geographical_area_id": "UA",
+            "meta": null
+          },
+          {
+            "id": "UG",
+            "description": "Uganda",
+            "geographical_area_id": "UG",
+            "meta": null
+          },
+          {
+            "id": "UM",
+            "description": "United States Minor Outlying Islands",
+            "geographical_area_id": "UM",
+            "meta": null
+          },
+          {
+            "id": "US",
+            "description": "United States",
+            "geographical_area_id": "US",
+            "meta": null
+          },
+          {
+            "id": "UY",
+            "description": "Uruguay",
+            "geographical_area_id": "UY",
+            "meta": null
+          },
+          {
+            "id": "UZ",
+            "description": "Uzbekistan",
+            "geographical_area_id": "UZ",
+            "meta": null
+          },
+          {
+            "id": "VA",
+            "description": "Vatican City State",
+            "geographical_area_id": "VA",
+            "meta": null
+          },
+          {
+            "id": "VC",
+            "description": "St Vincent and the Grenadines",
+            "geographical_area_id": "VC",
+            "meta": null
+          },
+          {
+            "id": "VE",
+            "description": "Venezuela",
+            "geographical_area_id": "VE",
+            "meta": null
+          },
+          {
+            "id": "VG",
+            "description": "Virgin Islands, British",
+            "geographical_area_id": "VG",
+            "meta": null
+          },
+          {
+            "id": "VI",
+            "description": "Virgin Islands, United States",
+            "geographical_area_id": "VI",
+            "meta": null
+          },
+          {
+            "id": "VN",
+            "description": "Viet Nam",
+            "geographical_area_id": "VN",
+            "meta": null
+          },
+          {
+            "id": "VU",
+            "description": "Vanuatu",
+            "geographical_area_id": "VU",
+            "meta": null
+          },
+          {
+            "id": "WF",
+            "description": "Wallis and Futuna Islands",
+            "geographical_area_id": "WF",
+            "meta": null
+          },
+          {
+            "id": "WS",
+            "description": "Samoa",
+            "geographical_area_id": "WS",
+            "meta": null
+          },
+          {
+            "id": "XC",
+            "description": "Ceuta",
+            "geographical_area_id": "XC",
+            "meta": null
+          },
+          {
+            "id": "XK",
+            "description": "Kosovo",
+            "geographical_area_id": "XK",
+            "meta": null
+          },
+          {
+            "id": "XL",
+            "description": "Melilla",
+            "geographical_area_id": "XL",
+            "meta": null
+          },
+          {
+            "id": "XS",
+            "description": "Serbia",
+            "geographical_area_id": "XS",
+            "meta": null
+          },
+          {
+            "id": "YE",
+            "description": "Yemen",
+            "geographical_area_id": "YE",
+            "meta": null
+          },
+          {
+            "id": "ZA",
+            "description": "South Africa",
+            "geographical_area_id": "ZA",
+            "meta": null
+          },
+          {
+            "id": "ZM",
+            "description": "Zambia",
+            "geographical_area_id": "ZM",
+            "meta": null
+          },
+          {
+            "id": "ZW",
+            "description": "Zimbabwe",
+            "geographical_area_id": "ZW",
+            "meta": null
+          }
+        ],
+        "meta": null
+      },
+      "duty_expression": {
+        "id": "3788670-duty_expression",
+        "base": "",
+        "formatted_base": "",
+        "meta": null
+      },
+      "order_number": null,
+      "additional_code": null,
+      "suspension_legal_act": null,
+      "id": 3788670,
+      "effective_end_date": "2021-09-30T00:00:00.000Z",
+      "effective_start_date": "2021-06-01T00:00:00.000Z",
+      "excise": false,
+      "excluded_countries": [
+
+      ],
+      "footnotes": [
+        {
+          "id": "PB001",
+          "code": "PB001",
+          "description": "Duty rate linked to entry prices system",
+          "formatted_description": "Duty rate linked to entry prices system",
+          "meta": null
+        }
+      ],
+      "import": true,
+      "legal_acts": [
+        {
+          "id": "R2015772",
+          "validity_start_date": "2021-01-01T00:00:00.000Z",
+          "validity_end_date": null,
+          "officialjournal_number": "L 361",
+          "officialjournal_page": 1,
+          "published_date": "2020-10-30",
+          "regulation_code": "R1577/20",
+          "regulation_url": "http://eur-lex.europa.eu/search.html?whOJ=NO_OJ%3D361,YEAR_OJ%3D2020,PAGE_FIRST%3D0001&DB_COLL_OJ=oj-l&type=advanced&lang=en",
+          "description": "CN 2021 - Entry prices",
+          "meta": null
+        },
+        {
+          "id": "R8726580",
+          "validity_start_date": "1988-01-01T00:00:00.000Z",
+          "validity_end_date": null,
+          "officialjournal_number": "L 256",
+          "officialjournal_page": 1,
+          "published_date": "1987-09-07",
+          "regulation_code": "R2658/87",
+          "regulation_url": "http://eur-lex.europa.eu/search.html?whOJ=NO_OJ%3D256,YEAR_OJ%3D1987,PAGE_FIRST%3D0001&DB_COLL_OJ=oj-l&type=advanced&lang=en",
+          "description": "NC - 1988",
+          "meta": null
+        }
+      ],
+      "national_measurement_units": [
+
+      ],
+      "origin": "eu",
+      "reduction_indicator": null,
+      "vat": false,
+      "resolved_measure_components": [
+
+      ],
+      "resolved_duty_expression": ""
+    },
+    {
+      "meta": {
+        "duty_calculator": {
+          "source": "uk"
+        }
+      },
+      "id": -1009503019,
+      "origin": "uk",
+      "effective_start_date": "2019-09-01T00:00:00.000Z",
+      "effective_end_date": null,
+      "import": true,
+      "excise": false,
+      "vat": true,
+      "duty_expression": {
+        "base": "0.00 %",
+        "formatted_base": "<span>0.00</span> %"
+      },
+      "measure_type": {
+        "description": "Value added tax",
+        "national": null,
+        "measure_type_series_id": "P",
+        "id": "305"
+      },
+      "legal_acts": [
+        {
+          "validity_start_date": "1970-01-01T00:00:00.000Z",
+          "validity_end_date": null,
+          "officialjournal_number": null,
+          "officialjournal_page": null,
+          "published_date": "1970-01-01",
+          "regulation_code": "V70AT/19",
+          "regulation_url": "http://eur-lex.europa.eu/search.html?instInvStatus=ALL&or0=DN%3D32019V70AT*,DN-old%3D32019V70AT*&DTC=false&type=advanced"
+        }
+      ],
+      "measure_conditions": [
+
+      ],
+      "measure_components": [
+        {
+          "duty_expression_id": "01",
+          "duty_amount": 0.0,
+          "monetary_unit_code": null,
+          "monetary_unit_abbreviation": null,
+          "measurement_unit_code": null,
+          "duty_expression_description": "% or amount",
+          "duty_expression_abbreviation": "%",
+          "measurement_unit_qualifier_code": null
+        }
+      ],
+      "national_measurement_units": [
+
+      ],
+      "geographical_area": {
+        "id": "1011",
+        "description": "ERGA OMNES",
+        "geographical_area_id": "1011",
+        "children_geographical_areas": [
+          {
+            "id": "AD",
+            "description": "Andorra",
+            "geographical_area_id": "AD"
+          },
+          {
+            "id": "AE",
+            "description": "United Arab Emirates",
+            "geographical_area_id": "AE"
+          },
+          {
+            "id": "AF",
+            "description": "Afghanistan",
+            "geographical_area_id": "AF"
+          },
+          {
+            "id": "AG",
+            "description": "Antigua and Barbuda",
+            "geographical_area_id": "AG"
+          },
+          {
+            "id": "AI",
+            "description": "Anguilla",
+            "geographical_area_id": "AI"
+          },
+          {
+            "id": "AL",
+            "description": "Albania",
+            "geographical_area_id": "AL"
+          },
+          {
+            "id": "AM",
+            "description": "Armenia",
+            "geographical_area_id": "AM"
+          },
+          {
+            "id": "AO",
+            "description": "Angola",
+            "geographical_area_id": "AO"
+          },
+          {
+            "id": "AQ",
+            "description": "Antarctica",
+            "geographical_area_id": "AQ"
+          },
+          {
+            "id": "AR",
+            "description": "Argentina",
+            "geographical_area_id": "AR"
+          },
+          {
+            "id": "AS",
+            "description": "American Samoa",
+            "geographical_area_id": "AS"
+          },
+          {
+            "id": "AT",
+            "description": "Austria",
+            "geographical_area_id": "AT"
+          },
+          {
+            "id": "AU",
+            "description": "Australia",
+            "geographical_area_id": "AU"
+          },
+          {
+            "id": "AW",
+            "description": "Aruba",
+            "geographical_area_id": "AW"
+          },
+          {
+            "id": "AZ",
+            "description": "Azerbaijan",
+            "geographical_area_id": "AZ"
+          },
+          {
+            "id": "BA",
+            "description": "Bosnia and Herzegovina",
+            "geographical_area_id": "BA"
+          },
+          {
+            "id": "BB",
+            "description": "Barbados",
+            "geographical_area_id": "BB"
+          },
+          {
+            "id": "BD",
+            "description": "Bangladesh",
+            "geographical_area_id": "BD"
+          },
+          {
+            "id": "BE",
+            "description": "Belgium",
+            "geographical_area_id": "BE"
+          },
+          {
+            "id": "BF",
+            "description": "Burkina Faso",
+            "geographical_area_id": "BF"
+          },
+          {
+            "id": "BG",
+            "description": "Bulgaria",
+            "geographical_area_id": "BG"
+          },
+          {
+            "id": "BH",
+            "description": "Bahrain",
+            "geographical_area_id": "BH"
+          },
+          {
+            "id": "BI",
+            "description": "Burundi",
+            "geographical_area_id": "BI"
+          },
+          {
+            "id": "BJ",
+            "description": "Benin",
+            "geographical_area_id": "BJ"
+          },
+          {
+            "id": "BL",
+            "description": "Saint Barthélemy",
+            "geographical_area_id": "BL"
+          },
+          {
+            "id": "BM",
+            "description": "Bermuda",
+            "geographical_area_id": "BM"
+          },
+          {
+            "id": "BN",
+            "description": "Brunei",
+            "geographical_area_id": "BN"
+          },
+          {
+            "id": "BO",
+            "description": "Bolivia",
+            "geographical_area_id": "BO"
+          },
+          {
+            "id": "BQ",
+            "description": "Bonaire, Sint Eustatius and Saba",
+            "geographical_area_id": "BQ"
+          },
+          {
+            "id": "BR",
+            "description": "Brazil",
+            "geographical_area_id": "BR"
+          },
+          {
+            "id": "BS",
+            "description": "The Bahamas",
+            "geographical_area_id": "BS"
+          },
+          {
+            "id": "BT",
+            "description": "Bhutan",
+            "geographical_area_id": "BT"
+          },
+          {
+            "id": "BV",
+            "description": "Bouvet Island",
+            "geographical_area_id": "BV"
+          },
+          {
+            "id": "BW",
+            "description": "Botswana",
+            "geographical_area_id": "BW"
+          },
+          {
+            "id": "BY",
+            "description": "Belarus",
+            "geographical_area_id": "BY"
+          },
+          {
+            "id": "BZ",
+            "description": "Belize",
+            "geographical_area_id": "BZ"
+          },
+          {
+            "id": "CA",
+            "description": "Canada",
+            "geographical_area_id": "CA"
+          },
+          {
+            "id": "CC",
+            "description": "Cocos (Keeling) Islands",
+            "geographical_area_id": "CC"
+          },
+          {
+            "id": "CD",
+            "description": "Congo (Democratic Republic)",
+            "geographical_area_id": "CD"
+          },
+          {
+            "id": "CF",
+            "description": "Central African Republic",
+            "geographical_area_id": "CF"
+          },
+          {
+            "id": "CG",
+            "description": "Congo",
+            "geographical_area_id": "CG"
+          },
+          {
+            "id": "CH",
+            "description": "Switzerland",
+            "geographical_area_id": "CH"
+          },
+          {
+            "id": "CI",
+            "description": "Ivory Coast",
+            "geographical_area_id": "CI"
+          },
+          {
+            "id": "CK",
+            "description": "Cook Islands",
+            "geographical_area_id": "CK"
+          },
+          {
+            "id": "CL",
+            "description": "Chile",
+            "geographical_area_id": "CL"
+          },
+          {
+            "id": "CM",
+            "description": "Cameroon",
+            "geographical_area_id": "CM"
+          },
+          {
+            "id": "CN",
+            "description": "China",
+            "geographical_area_id": "CN"
+          },
+          {
+            "id": "CO",
+            "description": "Colombia",
+            "geographical_area_id": "CO"
+          },
+          {
+            "id": "CR",
+            "description": "Costa Rica",
+            "geographical_area_id": "CR"
+          },
+          {
+            "id": "CU",
+            "description": "Cuba",
+            "geographical_area_id": "CU"
+          },
+          {
+            "id": "CV",
+            "description": "Cabo Verde",
+            "geographical_area_id": "CV"
+          },
+          {
+            "id": "CW",
+            "description": "Curaçao",
+            "geographical_area_id": "CW"
+          },
+          {
+            "id": "CX",
+            "description": "Christmas Island",
+            "geographical_area_id": "CX"
+          },
+          {
+            "id": "CY",
+            "description": "Cyprus",
+            "geographical_area_id": "CY"
+          },
+          {
+            "id": "CZ",
+            "description": "Czechia",
+            "geographical_area_id": "CZ"
+          },
+          {
+            "id": "DE",
+            "description": "Germany",
+            "geographical_area_id": "DE"
+          },
+          {
+            "id": "DJ",
+            "description": "Djibouti",
+            "geographical_area_id": "DJ"
+          },
+          {
+            "id": "DK",
+            "description": "Denmark",
+            "geographical_area_id": "DK"
+          },
+          {
+            "id": "DM",
+            "description": "Dominica",
+            "geographical_area_id": "DM"
+          },
+          {
+            "id": "DO",
+            "description": "Dominican Republic",
+            "geographical_area_id": "DO"
+          },
+          {
+            "id": "DZ",
+            "description": "Algeria",
+            "geographical_area_id": "DZ"
+          },
+          {
+            "id": "EC",
+            "description": "Ecuador",
+            "geographical_area_id": "EC"
+          },
+          {
+            "id": "EE",
+            "description": "Estonia",
+            "geographical_area_id": "EE"
+          },
+          {
+            "id": "EG",
+            "description": "Egypt",
+            "geographical_area_id": "EG"
+          },
+          {
+            "id": "EH",
+            "description": "Western Sahara",
+            "geographical_area_id": "EH"
+          },
+          {
+            "id": "ER",
+            "description": "Eritrea",
+            "geographical_area_id": "ER"
+          },
+          {
+            "id": "ES",
+            "description": "Spain",
+            "geographical_area_id": "ES"
+          },
+          {
+            "id": "ET",
+            "description": "Ethiopia",
+            "geographical_area_id": "ET"
+          },
+          {
+            "id": "EU",
+            "description": "European Union",
+            "geographical_area_id": "EU"
+          },
+          {
+            "id": "FI",
+            "description": "Finland",
+            "geographical_area_id": "FI"
+          },
+          {
+            "id": "FJ",
+            "description": "Fiji",
+            "geographical_area_id": "FJ"
+          },
+          {
+            "id": "FK",
+            "description": "Falkland Islands",
+            "geographical_area_id": "FK"
+          },
+          {
+            "id": "FM",
+            "description": "Micronesia",
+            "geographical_area_id": "FM"
+          },
+          {
+            "id": "FO",
+            "description": "Faroe Islands",
+            "geographical_area_id": "FO"
+          },
+          {
+            "id": "FR",
+            "description": "France",
+            "geographical_area_id": "FR"
+          },
+          {
+            "id": "GA",
+            "description": "Gabon",
+            "geographical_area_id": "GA"
+          },
+          {
+            "id": "GB",
+            "description": "United Kingdom",
+            "geographical_area_id": "GB"
+          },
+          {
+            "id": "GD",
+            "description": "Grenada",
+            "geographical_area_id": "GD"
+          },
+          {
+            "id": "GE",
+            "description": "Georgia",
+            "geographical_area_id": "GE"
+          },
+          {
+            "id": "GH",
+            "description": "Ghana",
+            "geographical_area_id": "GH"
+          },
+          {
+            "id": "GI",
+            "description": "Gibraltar",
+            "geographical_area_id": "GI"
+          },
+          {
+            "id": "GL",
+            "description": "Greenland",
+            "geographical_area_id": "GL"
+          },
+          {
+            "id": "GM",
+            "description": "The Gambia",
+            "geographical_area_id": "GM"
+          },
+          {
+            "id": "GN",
+            "description": "Guinea",
+            "geographical_area_id": "GN"
+          },
+          {
+            "id": "GQ",
+            "description": "Equatorial Guinea",
+            "geographical_area_id": "GQ"
+          },
+          {
+            "id": "GR",
+            "description": "Greece",
+            "geographical_area_id": "GR"
+          },
+          {
+            "id": "GS",
+            "description": "South Georgia and South Sandwich Islands",
+            "geographical_area_id": "GS"
+          },
+          {
+            "id": "GT",
+            "description": "Guatemala",
+            "geographical_area_id": "GT"
+          },
+          {
+            "id": "GU",
+            "description": "Guam",
+            "geographical_area_id": "GU"
+          },
+          {
+            "id": "GW",
+            "description": "Guinea-Bissau",
+            "geographical_area_id": "GW"
+          },
+          {
+            "id": "GY",
+            "description": "Guyana",
+            "geographical_area_id": "GY"
+          },
+          {
+            "id": "HK",
+            "description": "Hong Kong",
+            "geographical_area_id": "HK"
+          },
+          {
+            "id": "HM",
+            "description": "Heard Island and McDonald Islands",
+            "geographical_area_id": "HM"
+          },
+          {
+            "id": "HN",
+            "description": "Honduras",
+            "geographical_area_id": "HN"
+          },
+          {
+            "id": "HR",
+            "description": "Croatia",
+            "geographical_area_id": "HR"
+          },
+          {
+            "id": "HT",
+            "description": "Haiti",
+            "geographical_area_id": "HT"
+          },
+          {
+            "id": "HU",
+            "description": "Hungary",
+            "geographical_area_id": "HU"
+          },
+          {
+            "id": "ID",
+            "description": "Indonesia",
+            "geographical_area_id": "ID"
+          },
+          {
+            "id": "IE",
+            "description": "Ireland",
+            "geographical_area_id": "IE"
+          },
+          {
+            "id": "IL",
+            "description": "Israel",
+            "geographical_area_id": "IL"
+          },
+          {
+            "id": "IN",
+            "description": "India",
+            "geographical_area_id": "IN"
+          },
+          {
+            "id": "IO",
+            "description": "British Indian Ocean Territory",
+            "geographical_area_id": "IO"
+          },
+          {
+            "id": "IQ",
+            "description": "Iraq",
+            "geographical_area_id": "IQ"
+          },
+          {
+            "id": "IR",
+            "description": "Iran",
+            "geographical_area_id": "IR"
+          },
+          {
+            "id": "IS",
+            "description": "Iceland",
+            "geographical_area_id": "IS"
+          },
+          {
+            "id": "IT",
+            "description": "Italy",
+            "geographical_area_id": "IT"
+          },
+          {
+            "id": "JM",
+            "description": "Jamaica",
+            "geographical_area_id": "JM"
+          },
+          {
+            "id": "JO",
+            "description": "Jordan",
+            "geographical_area_id": "JO"
+          },
+          {
+            "id": "JP",
+            "description": "Japan",
+            "geographical_area_id": "JP"
+          },
+          {
+            "id": "KE",
+            "description": "Kenya",
+            "geographical_area_id": "KE"
+          },
+          {
+            "id": "KG",
+            "description": "Kyrgyzstan",
+            "geographical_area_id": "KG"
+          },
+          {
+            "id": "KH",
+            "description": "Cambodia",
+            "geographical_area_id": "KH"
+          },
+          {
+            "id": "KI",
+            "description": "Kiribati",
+            "geographical_area_id": "KI"
+          },
+          {
+            "id": "KM",
+            "description": "Comoros",
+            "geographical_area_id": "KM"
+          },
+          {
+            "id": "KN",
+            "description": "St Kitts and Nevis",
+            "geographical_area_id": "KN"
+          },
+          {
+            "id": "KP",
+            "description": "North Korea",
+            "geographical_area_id": "KP"
+          },
+          {
+            "id": "KR",
+            "description": "South Korea",
+            "geographical_area_id": "KR"
+          },
+          {
+            "id": "KW",
+            "description": "Kuwait",
+            "geographical_area_id": "KW"
+          },
+          {
+            "id": "KY",
+            "description": "Cayman Islands",
+            "geographical_area_id": "KY"
+          },
+          {
+            "id": "KZ",
+            "description": "Kazakhstan",
+            "geographical_area_id": "KZ"
+          },
+          {
+            "id": "LA",
+            "description": "Laos",
+            "geographical_area_id": "LA"
+          },
+          {
+            "id": "LB",
+            "description": "Lebanon",
+            "geographical_area_id": "LB"
+          },
+          {
+            "id": "LC",
+            "description": "St Lucia",
+            "geographical_area_id": "LC"
+          },
+          {
+            "id": "LI",
+            "description": "Liechtenstein",
+            "geographical_area_id": "LI"
+          },
+          {
+            "id": "LK",
+            "description": "Sri Lanka",
+            "geographical_area_id": "LK"
+          },
+          {
+            "id": "LR",
+            "description": "Liberia",
+            "geographical_area_id": "LR"
+          },
+          {
+            "id": "LS",
+            "description": "Lesotho",
+            "geographical_area_id": "LS"
+          },
+          {
+            "id": "LT",
+            "description": "Lithuania",
+            "geographical_area_id": "LT"
+          },
+          {
+            "id": "LU",
+            "description": "Luxembourg",
+            "geographical_area_id": "LU"
+          },
+          {
+            "id": "LV",
+            "description": "Latvia",
+            "geographical_area_id": "LV"
+          },
+          {
+            "id": "LY",
+            "description": "Libya",
+            "geographical_area_id": "LY"
+          },
+          {
+            "id": "MA",
+            "description": "Morocco",
+            "geographical_area_id": "MA"
+          },
+          {
+            "id": "MD",
+            "description": "Moldova",
+            "geographical_area_id": "MD"
+          },
+          {
+            "id": "ME",
+            "description": "Montenegro",
+            "geographical_area_id": "ME"
+          },
+          {
+            "id": "MG",
+            "description": "Madagascar",
+            "geographical_area_id": "MG"
+          },
+          {
+            "id": "MH",
+            "description": "Marshall Islands",
+            "geographical_area_id": "MH"
+          },
+          {
+            "id": "MK",
+            "description": "North Macedonia",
+            "geographical_area_id": "MK"
+          },
+          {
+            "id": "ML",
+            "description": "Mali",
+            "geographical_area_id": "ML"
+          },
+          {
+            "id": "MM",
+            "description": "Myanmar (Burma)",
+            "geographical_area_id": "MM"
+          },
+          {
+            "id": "MN",
+            "description": "Mongolia",
+            "geographical_area_id": "MN"
+          },
+          {
+            "id": "MO",
+            "description": "Macao",
+            "geographical_area_id": "MO"
+          },
+          {
+            "id": "MP",
+            "description": "Northern Mariana Islands",
+            "geographical_area_id": "MP"
+          },
+          {
+            "id": "MR",
+            "description": "Mauritania",
+            "geographical_area_id": "MR"
+          },
+          {
+            "id": "MS",
+            "description": "Montserrat",
+            "geographical_area_id": "MS"
+          },
+          {
+            "id": "MT",
+            "description": "Malta",
+            "geographical_area_id": "MT"
+          },
+          {
+            "id": "MU",
+            "description": "Mauritius",
+            "geographical_area_id": "MU"
+          },
+          {
+            "id": "MV",
+            "description": "Maldives",
+            "geographical_area_id": "MV"
+          },
+          {
+            "id": "MW",
+            "description": "Malawi",
+            "geographical_area_id": "MW"
+          },
+          {
+            "id": "MX",
+            "description": "Mexico",
+            "geographical_area_id": "MX"
+          },
+          {
+            "id": "MY",
+            "description": "Malaysia",
+            "geographical_area_id": "MY"
+          },
+          {
+            "id": "MZ",
+            "description": "Mozambique",
+            "geographical_area_id": "MZ"
+          },
+          {
+            "id": "NA",
+            "description": "Namibia",
+            "geographical_area_id": "NA"
+          },
+          {
+            "id": "NC",
+            "description": "New Caledonia",
+            "geographical_area_id": "NC"
+          },
+          {
+            "id": "NE",
+            "description": "Niger",
+            "geographical_area_id": "NE"
+          },
+          {
+            "id": "NF",
+            "description": "Norfolk Island",
+            "geographical_area_id": "NF"
+          },
+          {
+            "id": "NG",
+            "description": "Nigeria",
+            "geographical_area_id": "NG"
+          },
+          {
+            "id": "NI",
+            "description": "Nicaragua",
+            "geographical_area_id": "NI"
+          },
+          {
+            "id": "NL",
+            "description": "Netherlands",
+            "geographical_area_id": "NL"
+          },
+          {
+            "id": "NO",
+            "description": "Norway",
+            "geographical_area_id": "NO"
+          },
+          {
+            "id": "NP",
+            "description": "Nepal",
+            "geographical_area_id": "NP"
+          },
+          {
+            "id": "NR",
+            "description": "Nauru",
+            "geographical_area_id": "NR"
+          },
+          {
+            "id": "NU",
+            "description": "Niue",
+            "geographical_area_id": "NU"
+          },
+          {
+            "id": "NZ",
+            "description": "New Zealand",
+            "geographical_area_id": "NZ"
+          },
+          {
+            "id": "OM",
+            "description": "Oman",
+            "geographical_area_id": "OM"
+          },
+          {
+            "id": "PA",
+            "description": "Panama",
+            "geographical_area_id": "PA"
+          },
+          {
+            "id": "PE",
+            "description": "Peru",
+            "geographical_area_id": "PE"
+          },
+          {
+            "id": "PF",
+            "description": "French Polynesia",
+            "geographical_area_id": "PF"
+          },
+          {
+            "id": "PG",
+            "description": "Papua New Guinea",
+            "geographical_area_id": "PG"
+          },
+          {
+            "id": "PH",
+            "description": "Philippines",
+            "geographical_area_id": "PH"
+          },
+          {
+            "id": "PK",
+            "description": "Pakistan",
+            "geographical_area_id": "PK"
+          },
+          {
+            "id": "PL",
+            "description": "Poland",
+            "geographical_area_id": "PL"
+          },
+          {
+            "id": "PM",
+            "description": "Saint Pierre and Miquelon",
+            "geographical_area_id": "PM"
+          },
+          {
+            "id": "PN",
+            "description": "Pitcairn, Henderson, Ducie and Oeno Islands",
+            "geographical_area_id": "PN"
+          },
+          {
+            "id": "PS",
+            "description": "Occupied Palestinian Territories",
+            "geographical_area_id": "PS"
+          },
+          {
+            "id": "PT",
+            "description": "Portugal",
+            "geographical_area_id": "PT"
+          },
+          {
+            "id": "PW",
+            "description": "Palau",
+            "geographical_area_id": "PW"
+          },
+          {
+            "id": "PY",
+            "description": "Paraguay",
+            "geographical_area_id": "PY"
+          },
+          {
+            "id": "QA",
+            "description": "Qatar",
+            "geographical_area_id": "QA"
+          },
+          {
+            "id": "QP",
+            "description": "High seas (Maritime domain outside of territorial waters)",
+            "geographical_area_id": "QP"
+          },
+          {
+            "id": "QQ",
+            "description": "Stores and provisions",
+            "geographical_area_id": "QQ"
+          },
+          {
+            "id": "QS",
+            "description": "Stores and provisions within the framework of trade with Third Countries",
+            "geographical_area_id": "QS"
+          },
+          {
+            "id": "QU",
+            "description": "Countries and territories not specified",
+            "geographical_area_id": "QU"
+          },
+          {
+            "id": "QW",
+            "description": "Countries and territories not specified within the framework of trade with third countries",
+            "geographical_area_id": "QW"
+          },
+          {
+            "id": "RO",
+            "description": "Romania",
+            "geographical_area_id": "RO"
+          },
+          {
+            "id": "RU",
+            "description": "Russia",
+            "geographical_area_id": "RU"
+          },
+          {
+            "id": "RW",
+            "description": "Rwanda",
+            "geographical_area_id": "RW"
+          },
+          {
+            "id": "SA",
+            "description": "Saudi Arabia",
+            "geographical_area_id": "SA"
+          },
+          {
+            "id": "SB",
+            "description": "Solomon Islands",
+            "geographical_area_id": "SB"
+          },
+          {
+            "id": "SC",
+            "description": "Seychelles",
+            "geographical_area_id": "SC"
+          },
+          {
+            "id": "SD",
+            "description": "Sudan",
+            "geographical_area_id": "SD"
+          },
+          {
+            "id": "SE",
+            "description": "Sweden",
+            "geographical_area_id": "SE"
+          },
+          {
+            "id": "SG",
+            "description": "Singapore",
+            "geographical_area_id": "SG"
+          },
+          {
+            "id": "SH",
+            "description": "Saint Helena, Ascension and Tristan da Cunha",
+            "geographical_area_id": "SH"
+          },
+          {
+            "id": "SI",
+            "description": "Slovenia",
+            "geographical_area_id": "SI"
+          },
+          {
+            "id": "SK",
+            "description": "Slovakia",
+            "geographical_area_id": "SK"
+          },
+          {
+            "id": "SL",
+            "description": "Sierra Leone",
+            "geographical_area_id": "SL"
+          },
+          {
+            "id": "SM",
+            "description": "San Marino",
+            "geographical_area_id": "SM"
+          },
+          {
+            "id": "SN",
+            "description": "Senegal",
+            "geographical_area_id": "SN"
+          },
+          {
+            "id": "SO",
+            "description": "Somalia",
+            "geographical_area_id": "SO"
+          },
+          {
+            "id": "SR",
+            "description": "Suriname",
+            "geographical_area_id": "SR"
+          },
+          {
+            "id": "SS",
+            "description": "South Sudan",
+            "geographical_area_id": "SS"
+          },
+          {
+            "id": "ST",
+            "description": "Sao Tome and Principe",
+            "geographical_area_id": "ST"
+          },
+          {
+            "id": "SV",
+            "description": "El Salvador",
+            "geographical_area_id": "SV"
+          },
+          {
+            "id": "SX",
+            "description": "Sint Maarten (Dutch part)",
+            "geographical_area_id": "SX"
+          },
+          {
+            "id": "SY",
+            "description": "Syria",
+            "geographical_area_id": "SY"
+          },
+          {
+            "id": "SZ",
+            "description": "Eswatini",
+            "geographical_area_id": "SZ"
+          },
+          {
+            "id": "TC",
+            "description": "Turks and Caicos Islands",
+            "geographical_area_id": "TC"
+          },
+          {
+            "id": "TD",
+            "description": "Chad",
+            "geographical_area_id": "TD"
+          },
+          {
+            "id": "TF",
+            "description": "French Southern Territories",
+            "geographical_area_id": "TF"
+          },
+          {
+            "id": "TG",
+            "description": "Togo",
+            "geographical_area_id": "TG"
+          },
+          {
+            "id": "TH",
+            "description": "Thailand",
+            "geographical_area_id": "TH"
+          },
+          {
+            "id": "TJ",
+            "description": "Tajikistan",
+            "geographical_area_id": "TJ"
+          },
+          {
+            "id": "TK",
+            "description": "Tokelau",
+            "geographical_area_id": "TK"
+          },
+          {
+            "id": "TL",
+            "description": "East Timor",
+            "geographical_area_id": "TL"
+          },
+          {
+            "id": "TM",
+            "description": "Turkmenistan",
+            "geographical_area_id": "TM"
+          },
+          {
+            "id": "TN",
+            "description": "Tunisia",
+            "geographical_area_id": "TN"
+          },
+          {
+            "id": "TO",
+            "description": "Tonga",
+            "geographical_area_id": "TO"
+          },
+          {
+            "id": "TR",
+            "description": "Turkey",
+            "geographical_area_id": "TR"
+          },
+          {
+            "id": "TT",
+            "description": "Trinidad and Tobago",
+            "geographical_area_id": "TT"
+          },
+          {
+            "id": "TV",
+            "description": "Tuvalu",
+            "geographical_area_id": "TV"
+          },
+          {
+            "id": "TW",
+            "description": "Taiwan",
+            "geographical_area_id": "TW"
+          },
+          {
+            "id": "TZ",
+            "description": "Tanzania",
+            "geographical_area_id": "TZ"
+          },
+          {
+            "id": "UA",
+            "description": "Ukraine",
+            "geographical_area_id": "UA"
+          },
+          {
+            "id": "UG",
+            "description": "Uganda",
+            "geographical_area_id": "UG"
+          },
+          {
+            "id": "UM",
+            "description": "United States Minor Outlying Islands",
+            "geographical_area_id": "UM"
+          },
+          {
+            "id": "US",
+            "description": "United States",
+            "geographical_area_id": "US"
+          },
+          {
+            "id": "UY",
+            "description": "Uruguay",
+            "geographical_area_id": "UY"
+          },
+          {
+            "id": "UZ",
+            "description": "Uzbekistan",
+            "geographical_area_id": "UZ"
+          },
+          {
+            "id": "VA",
+            "description": "Vatican City",
+            "geographical_area_id": "VA"
+          },
+          {
+            "id": "VC",
+            "description": "St Vincent",
+            "geographical_area_id": "VC"
+          },
+          {
+            "id": "VE",
+            "description": "Venezuela",
+            "geographical_area_id": "VE"
+          },
+          {
+            "id": "VG",
+            "description": "British Virgin Islands",
+            "geographical_area_id": "VG"
+          },
+          {
+            "id": "VI",
+            "description": "United States Virgin Islands",
+            "geographical_area_id": "VI"
+          },
+          {
+            "id": "VN",
+            "description": "Vietnam",
+            "geographical_area_id": "VN"
+          },
+          {
+            "id": "VU",
+            "description": "Vanuatu",
+            "geographical_area_id": "VU"
+          },
+          {
+            "id": "WF",
+            "description": "Wallis and Futuna",
+            "geographical_area_id": "WF"
+          },
+          {
+            "id": "WS",
+            "description": "Samoa",
+            "geographical_area_id": "WS"
+          },
+          {
+            "id": "XC",
+            "description": "Ceuta",
+            "geographical_area_id": "XC"
+          },
+          {
+            "id": "XK",
+            "description": "Kosovo",
+            "geographical_area_id": "XK"
+          },
+          {
+            "id": "XL",
+            "description": "Melilla",
+            "geographical_area_id": "XL"
+          },
+          {
+            "id": "XS",
+            "description": "Serbia",
+            "geographical_area_id": "XS"
+          },
+          {
+            "id": "YE",
+            "description": "Yemen",
+            "geographical_area_id": "YE"
+          },
+          {
+            "id": "ZA",
+            "description": "South Africa",
+            "geographical_area_id": "ZA"
+          },
+          {
+            "id": "ZB",
+            "description": "Belgian Continental Shelf",
+            "geographical_area_id": "ZB"
+          },
+          {
+            "id": "ZD",
+            "description": "Danish Continental Shelf",
+            "geographical_area_id": "ZD"
+          },
+          {
+            "id": "ZE",
+            "description": "Irish Continental Shelf",
+            "geographical_area_id": "ZE"
+          },
+          {
+            "id": "ZF",
+            "description": "French Continental Shelf",
+            "geographical_area_id": "ZF"
+          },
+          {
+            "id": "ZG",
+            "description": "German Continental Shelf",
+            "geographical_area_id": "ZG"
+          },
+          {
+            "id": "ZH",
+            "description": "Netherlands Continental Shelf",
+            "geographical_area_id": "ZH"
+          },
+          {
+            "id": "ZM",
+            "description": "Zambia",
+            "geographical_area_id": "ZM"
+          },
+          {
+            "id": "ZN",
+            "description": "Norwegian Continental Shelf",
+            "geographical_area_id": "ZN"
+          },
+          {
+            "id": "ZU",
+            "description": "United Kingdom Continental Shelf",
+            "geographical_area_id": "ZU"
+          },
+          {
+            "id": "ZW",
+            "description": "Zimbabwe",
+            "geographical_area_id": "ZW"
+          }
+        ]
+      },
+      "excluded_countries": [
+
+      ],
+      "footnotes": [
+        {
+          "code": "03026",
+          "description": "UK VAT zero rate",
+          "formatted_description": "UK VAT zero rate"
+        }
+      ],
+      "additional_code": {
+        "code": "VATZ",
+        "description": "VAT zero rate",
+        "formatted_description": "VAT zero rate"
+      },
+      "order_number": null,
+      "resolved_measure_components": [
+
+      ],
+      "resolved_duty_expression": ""
+    },
+    {
+      "meta": {
+        "duty_calculator": {
+          "source": "uk"
+        }
+      },
+      "id": 20087819,
+      "origin": "eu",
+      "effective_start_date": "2021-01-01T00:00:00.000Z",
+      "effective_end_date": null,
+      "import": true,
+      "excise": false,
+      "vat": false,
+      "duty_expression": {
+        "base": "",
+        "formatted_base": ""
+      },
+      "measure_type": {
+        "description": "Phytosanitary Certificate (import)",
+        "national": null,
+        "measure_type_series_id": "B",
+        "id": "103"
+      },
+      "legal_acts": [
+        {
+          "validity_start_date": "2021-01-01T00:00:00.000Z",
+          "validity_end_date": null,
+          "officialjournal_number": "1",
+          "officialjournal_page": 1,
+          "published_date": "2021-01-01",
+          "regulation_code": "C0001/21",
+          "regulation_url": "http://eur-lex.europa.eu/search.html?whOJ=NO_OJ%3D,YEAR_OJ%3D2021,PAGE_FIRST%3D0001&DB_COLL_OJ=oj-1&type=advanced&lang=en"
+        }
+      ],
+      "measure_conditions": [
+        {
+          "condition_code": "B",
+          "condition": "B: Presentation of a certificate/licence/document",
+          "document_code": "N851",
+          "requirement": "UN/EDIFACT certificates: Phytosanitary certificate",
+          "action": "Entry into free circulation allowed",
+          "duty_expression": "",
+          "condition_duty_amount": null,
+          "condition_monetary_unit_code": null,
+          "monetary_unit_abbreviation": null,
+          "condition_measurement_unit_code": null,
+          "condition_measurement_unit_qualifier_code": null,
+          "measure_condition_components": [
+
+          ]
+        },
+        {
+          "condition_code": "B",
+          "condition": "B: Presentation of a certificate/licence/document",
+          "document_code": "",
+          "requirement": null,
+          "action": "The entry into free circulation is not allowed",
+          "duty_expression": "",
+          "condition_duty_amount": null,
+          "condition_monetary_unit_code": null,
+          "monetary_unit_abbreviation": null,
+          "condition_measurement_unit_code": null,
+          "condition_measurement_unit_qualifier_code": null,
+          "measure_condition_components": [
+
+          ]
+        }
+      ],
+      "measure_components": [
+
+      ],
+      "national_measurement_units": [
+
+      ],
+      "geographical_area": {
+        "id": "1011",
+        "description": "ERGA OMNES",
+        "geographical_area_id": "1011",
+        "children_geographical_areas": [
+          {
+            "id": "AD",
+            "description": "Andorra",
+            "geographical_area_id": "AD"
+          },
+          {
+            "id": "AE",
+            "description": "United Arab Emirates",
+            "geographical_area_id": "AE"
+          },
+          {
+            "id": "AF",
+            "description": "Afghanistan",
+            "geographical_area_id": "AF"
+          },
+          {
+            "id": "AG",
+            "description": "Antigua and Barbuda",
+            "geographical_area_id": "AG"
+          },
+          {
+            "id": "AI",
+            "description": "Anguilla",
+            "geographical_area_id": "AI"
+          },
+          {
+            "id": "AL",
+            "description": "Albania",
+            "geographical_area_id": "AL"
+          },
+          {
+            "id": "AM",
+            "description": "Armenia",
+            "geographical_area_id": "AM"
+          },
+          {
+            "id": "AO",
+            "description": "Angola",
+            "geographical_area_id": "AO"
+          },
+          {
+            "id": "AQ",
+            "description": "Antarctica",
+            "geographical_area_id": "AQ"
+          },
+          {
+            "id": "AR",
+            "description": "Argentina",
+            "geographical_area_id": "AR"
+          },
+          {
+            "id": "AS",
+            "description": "American Samoa",
+            "geographical_area_id": "AS"
+          },
+          {
+            "id": "AT",
+            "description": "Austria",
+            "geographical_area_id": "AT"
+          },
+          {
+            "id": "AU",
+            "description": "Australia",
+            "geographical_area_id": "AU"
+          },
+          {
+            "id": "AW",
+            "description": "Aruba",
+            "geographical_area_id": "AW"
+          },
+          {
+            "id": "AZ",
+            "description": "Azerbaijan",
+            "geographical_area_id": "AZ"
+          },
+          {
+            "id": "BA",
+            "description": "Bosnia and Herzegovina",
+            "geographical_area_id": "BA"
+          },
+          {
+            "id": "BB",
+            "description": "Barbados",
+            "geographical_area_id": "BB"
+          },
+          {
+            "id": "BD",
+            "description": "Bangladesh",
+            "geographical_area_id": "BD"
+          },
+          {
+            "id": "BE",
+            "description": "Belgium",
+            "geographical_area_id": "BE"
+          },
+          {
+            "id": "BF",
+            "description": "Burkina Faso",
+            "geographical_area_id": "BF"
+          },
+          {
+            "id": "BG",
+            "description": "Bulgaria",
+            "geographical_area_id": "BG"
+          },
+          {
+            "id": "BH",
+            "description": "Bahrain",
+            "geographical_area_id": "BH"
+          },
+          {
+            "id": "BI",
+            "description": "Burundi",
+            "geographical_area_id": "BI"
+          },
+          {
+            "id": "BJ",
+            "description": "Benin",
+            "geographical_area_id": "BJ"
+          },
+          {
+            "id": "BL",
+            "description": "Saint Barthélemy",
+            "geographical_area_id": "BL"
+          },
+          {
+            "id": "BM",
+            "description": "Bermuda",
+            "geographical_area_id": "BM"
+          },
+          {
+            "id": "BN",
+            "description": "Brunei",
+            "geographical_area_id": "BN"
+          },
+          {
+            "id": "BO",
+            "description": "Bolivia",
+            "geographical_area_id": "BO"
+          },
+          {
+            "id": "BQ",
+            "description": "Bonaire, Sint Eustatius and Saba",
+            "geographical_area_id": "BQ"
+          },
+          {
+            "id": "BR",
+            "description": "Brazil",
+            "geographical_area_id": "BR"
+          },
+          {
+            "id": "BS",
+            "description": "The Bahamas",
+            "geographical_area_id": "BS"
+          },
+          {
+            "id": "BT",
+            "description": "Bhutan",
+            "geographical_area_id": "BT"
+          },
+          {
+            "id": "BV",
+            "description": "Bouvet Island",
+            "geographical_area_id": "BV"
+          },
+          {
+            "id": "BW",
+            "description": "Botswana",
+            "geographical_area_id": "BW"
+          },
+          {
+            "id": "BY",
+            "description": "Belarus",
+            "geographical_area_id": "BY"
+          },
+          {
+            "id": "BZ",
+            "description": "Belize",
+            "geographical_area_id": "BZ"
+          },
+          {
+            "id": "CA",
+            "description": "Canada",
+            "geographical_area_id": "CA"
+          },
+          {
+            "id": "CC",
+            "description": "Cocos (Keeling) Islands",
+            "geographical_area_id": "CC"
+          },
+          {
+            "id": "CD",
+            "description": "Congo (Democratic Republic)",
+            "geographical_area_id": "CD"
+          },
+          {
+            "id": "CF",
+            "description": "Central African Republic",
+            "geographical_area_id": "CF"
+          },
+          {
+            "id": "CG",
+            "description": "Congo",
+            "geographical_area_id": "CG"
+          },
+          {
+            "id": "CH",
+            "description": "Switzerland",
+            "geographical_area_id": "CH"
+          },
+          {
+            "id": "CI",
+            "description": "Ivory Coast",
+            "geographical_area_id": "CI"
+          },
+          {
+            "id": "CK",
+            "description": "Cook Islands",
+            "geographical_area_id": "CK"
+          },
+          {
+            "id": "CL",
+            "description": "Chile",
+            "geographical_area_id": "CL"
+          },
+          {
+            "id": "CM",
+            "description": "Cameroon",
+            "geographical_area_id": "CM"
+          },
+          {
+            "id": "CN",
+            "description": "China",
+            "geographical_area_id": "CN"
+          },
+          {
+            "id": "CO",
+            "description": "Colombia",
+            "geographical_area_id": "CO"
+          },
+          {
+            "id": "CR",
+            "description": "Costa Rica",
+            "geographical_area_id": "CR"
+          },
+          {
+            "id": "CU",
+            "description": "Cuba",
+            "geographical_area_id": "CU"
+          },
+          {
+            "id": "CV",
+            "description": "Cabo Verde",
+            "geographical_area_id": "CV"
+          },
+          {
+            "id": "CW",
+            "description": "Curaçao",
+            "geographical_area_id": "CW"
+          },
+          {
+            "id": "CX",
+            "description": "Christmas Island",
+            "geographical_area_id": "CX"
+          },
+          {
+            "id": "CY",
+            "description": "Cyprus",
+            "geographical_area_id": "CY"
+          },
+          {
+            "id": "CZ",
+            "description": "Czechia",
+            "geographical_area_id": "CZ"
+          },
+          {
+            "id": "DE",
+            "description": "Germany",
+            "geographical_area_id": "DE"
+          },
+          {
+            "id": "DJ",
+            "description": "Djibouti",
+            "geographical_area_id": "DJ"
+          },
+          {
+            "id": "DK",
+            "description": "Denmark",
+            "geographical_area_id": "DK"
+          },
+          {
+            "id": "DM",
+            "description": "Dominica",
+            "geographical_area_id": "DM"
+          },
+          {
+            "id": "DO",
+            "description": "Dominican Republic",
+            "geographical_area_id": "DO"
+          },
+          {
+            "id": "DZ",
+            "description": "Algeria",
+            "geographical_area_id": "DZ"
+          },
+          {
+            "id": "EC",
+            "description": "Ecuador",
+            "geographical_area_id": "EC"
+          },
+          {
+            "id": "EE",
+            "description": "Estonia",
+            "geographical_area_id": "EE"
+          },
+          {
+            "id": "EG",
+            "description": "Egypt",
+            "geographical_area_id": "EG"
+          },
+          {
+            "id": "EH",
+            "description": "Western Sahara",
+            "geographical_area_id": "EH"
+          },
+          {
+            "id": "ER",
+            "description": "Eritrea",
+            "geographical_area_id": "ER"
+          },
+          {
+            "id": "ES",
+            "description": "Spain",
+            "geographical_area_id": "ES"
+          },
+          {
+            "id": "ET",
+            "description": "Ethiopia",
+            "geographical_area_id": "ET"
+          },
+          {
+            "id": "EU",
+            "description": "European Union",
+            "geographical_area_id": "EU"
+          },
+          {
+            "id": "FI",
+            "description": "Finland",
+            "geographical_area_id": "FI"
+          },
+          {
+            "id": "FJ",
+            "description": "Fiji",
+            "geographical_area_id": "FJ"
+          },
+          {
+            "id": "FK",
+            "description": "Falkland Islands",
+            "geographical_area_id": "FK"
+          },
+          {
+            "id": "FM",
+            "description": "Micronesia",
+            "geographical_area_id": "FM"
+          },
+          {
+            "id": "FO",
+            "description": "Faroe Islands",
+            "geographical_area_id": "FO"
+          },
+          {
+            "id": "FR",
+            "description": "France",
+            "geographical_area_id": "FR"
+          },
+          {
+            "id": "GA",
+            "description": "Gabon",
+            "geographical_area_id": "GA"
+          },
+          {
+            "id": "GB",
+            "description": "United Kingdom",
+            "geographical_area_id": "GB"
+          },
+          {
+            "id": "GD",
+            "description": "Grenada",
+            "geographical_area_id": "GD"
+          },
+          {
+            "id": "GE",
+            "description": "Georgia",
+            "geographical_area_id": "GE"
+          },
+          {
+            "id": "GH",
+            "description": "Ghana",
+            "geographical_area_id": "GH"
+          },
+          {
+            "id": "GI",
+            "description": "Gibraltar",
+            "geographical_area_id": "GI"
+          },
+          {
+            "id": "GL",
+            "description": "Greenland",
+            "geographical_area_id": "GL"
+          },
+          {
+            "id": "GM",
+            "description": "The Gambia",
+            "geographical_area_id": "GM"
+          },
+          {
+            "id": "GN",
+            "description": "Guinea",
+            "geographical_area_id": "GN"
+          },
+          {
+            "id": "GQ",
+            "description": "Equatorial Guinea",
+            "geographical_area_id": "GQ"
+          },
+          {
+            "id": "GR",
+            "description": "Greece",
+            "geographical_area_id": "GR"
+          },
+          {
+            "id": "GS",
+            "description": "South Georgia and South Sandwich Islands",
+            "geographical_area_id": "GS"
+          },
+          {
+            "id": "GT",
+            "description": "Guatemala",
+            "geographical_area_id": "GT"
+          },
+          {
+            "id": "GU",
+            "description": "Guam",
+            "geographical_area_id": "GU"
+          },
+          {
+            "id": "GW",
+            "description": "Guinea-Bissau",
+            "geographical_area_id": "GW"
+          },
+          {
+            "id": "GY",
+            "description": "Guyana",
+            "geographical_area_id": "GY"
+          },
+          {
+            "id": "HK",
+            "description": "Hong Kong",
+            "geographical_area_id": "HK"
+          },
+          {
+            "id": "HM",
+            "description": "Heard Island and McDonald Islands",
+            "geographical_area_id": "HM"
+          },
+          {
+            "id": "HN",
+            "description": "Honduras",
+            "geographical_area_id": "HN"
+          },
+          {
+            "id": "HR",
+            "description": "Croatia",
+            "geographical_area_id": "HR"
+          },
+          {
+            "id": "HT",
+            "description": "Haiti",
+            "geographical_area_id": "HT"
+          },
+          {
+            "id": "HU",
+            "description": "Hungary",
+            "geographical_area_id": "HU"
+          },
+          {
+            "id": "ID",
+            "description": "Indonesia",
+            "geographical_area_id": "ID"
+          },
+          {
+            "id": "IE",
+            "description": "Ireland",
+            "geographical_area_id": "IE"
+          },
+          {
+            "id": "IL",
+            "description": "Israel",
+            "geographical_area_id": "IL"
+          },
+          {
+            "id": "IN",
+            "description": "India",
+            "geographical_area_id": "IN"
+          },
+          {
+            "id": "IO",
+            "description": "British Indian Ocean Territory",
+            "geographical_area_id": "IO"
+          },
+          {
+            "id": "IQ",
+            "description": "Iraq",
+            "geographical_area_id": "IQ"
+          },
+          {
+            "id": "IR",
+            "description": "Iran",
+            "geographical_area_id": "IR"
+          },
+          {
+            "id": "IS",
+            "description": "Iceland",
+            "geographical_area_id": "IS"
+          },
+          {
+            "id": "IT",
+            "description": "Italy",
+            "geographical_area_id": "IT"
+          },
+          {
+            "id": "JM",
+            "description": "Jamaica",
+            "geographical_area_id": "JM"
+          },
+          {
+            "id": "JO",
+            "description": "Jordan",
+            "geographical_area_id": "JO"
+          },
+          {
+            "id": "JP",
+            "description": "Japan",
+            "geographical_area_id": "JP"
+          },
+          {
+            "id": "KE",
+            "description": "Kenya",
+            "geographical_area_id": "KE"
+          },
+          {
+            "id": "KG",
+            "description": "Kyrgyzstan",
+            "geographical_area_id": "KG"
+          },
+          {
+            "id": "KH",
+            "description": "Cambodia",
+            "geographical_area_id": "KH"
+          },
+          {
+            "id": "KI",
+            "description": "Kiribati",
+            "geographical_area_id": "KI"
+          },
+          {
+            "id": "KM",
+            "description": "Comoros",
+            "geographical_area_id": "KM"
+          },
+          {
+            "id": "KN",
+            "description": "St Kitts and Nevis",
+            "geographical_area_id": "KN"
+          },
+          {
+            "id": "KP",
+            "description": "North Korea",
+            "geographical_area_id": "KP"
+          },
+          {
+            "id": "KR",
+            "description": "South Korea",
+            "geographical_area_id": "KR"
+          },
+          {
+            "id": "KW",
+            "description": "Kuwait",
+            "geographical_area_id": "KW"
+          },
+          {
+            "id": "KY",
+            "description": "Cayman Islands",
+            "geographical_area_id": "KY"
+          },
+          {
+            "id": "KZ",
+            "description": "Kazakhstan",
+            "geographical_area_id": "KZ"
+          },
+          {
+            "id": "LA",
+            "description": "Laos",
+            "geographical_area_id": "LA"
+          },
+          {
+            "id": "LB",
+            "description": "Lebanon",
+            "geographical_area_id": "LB"
+          },
+          {
+            "id": "LC",
+            "description": "St Lucia",
+            "geographical_area_id": "LC"
+          },
+          {
+            "id": "LI",
+            "description": "Liechtenstein",
+            "geographical_area_id": "LI"
+          },
+          {
+            "id": "LK",
+            "description": "Sri Lanka",
+            "geographical_area_id": "LK"
+          },
+          {
+            "id": "LR",
+            "description": "Liberia",
+            "geographical_area_id": "LR"
+          },
+          {
+            "id": "LS",
+            "description": "Lesotho",
+            "geographical_area_id": "LS"
+          },
+          {
+            "id": "LT",
+            "description": "Lithuania",
+            "geographical_area_id": "LT"
+          },
+          {
+            "id": "LU",
+            "description": "Luxembourg",
+            "geographical_area_id": "LU"
+          },
+          {
+            "id": "LV",
+            "description": "Latvia",
+            "geographical_area_id": "LV"
+          },
+          {
+            "id": "LY",
+            "description": "Libya",
+            "geographical_area_id": "LY"
+          },
+          {
+            "id": "MA",
+            "description": "Morocco",
+            "geographical_area_id": "MA"
+          },
+          {
+            "id": "MD",
+            "description": "Moldova",
+            "geographical_area_id": "MD"
+          },
+          {
+            "id": "ME",
+            "description": "Montenegro",
+            "geographical_area_id": "ME"
+          },
+          {
+            "id": "MG",
+            "description": "Madagascar",
+            "geographical_area_id": "MG"
+          },
+          {
+            "id": "MH",
+            "description": "Marshall Islands",
+            "geographical_area_id": "MH"
+          },
+          {
+            "id": "MK",
+            "description": "North Macedonia",
+            "geographical_area_id": "MK"
+          },
+          {
+            "id": "ML",
+            "description": "Mali",
+            "geographical_area_id": "ML"
+          },
+          {
+            "id": "MM",
+            "description": "Myanmar (Burma)",
+            "geographical_area_id": "MM"
+          },
+          {
+            "id": "MN",
+            "description": "Mongolia",
+            "geographical_area_id": "MN"
+          },
+          {
+            "id": "MO",
+            "description": "Macao",
+            "geographical_area_id": "MO"
+          },
+          {
+            "id": "MP",
+            "description": "Northern Mariana Islands",
+            "geographical_area_id": "MP"
+          },
+          {
+            "id": "MR",
+            "description": "Mauritania",
+            "geographical_area_id": "MR"
+          },
+          {
+            "id": "MS",
+            "description": "Montserrat",
+            "geographical_area_id": "MS"
+          },
+          {
+            "id": "MT",
+            "description": "Malta",
+            "geographical_area_id": "MT"
+          },
+          {
+            "id": "MU",
+            "description": "Mauritius",
+            "geographical_area_id": "MU"
+          },
+          {
+            "id": "MV",
+            "description": "Maldives",
+            "geographical_area_id": "MV"
+          },
+          {
+            "id": "MW",
+            "description": "Malawi",
+            "geographical_area_id": "MW"
+          },
+          {
+            "id": "MX",
+            "description": "Mexico",
+            "geographical_area_id": "MX"
+          },
+          {
+            "id": "MY",
+            "description": "Malaysia",
+            "geographical_area_id": "MY"
+          },
+          {
+            "id": "MZ",
+            "description": "Mozambique",
+            "geographical_area_id": "MZ"
+          },
+          {
+            "id": "NA",
+            "description": "Namibia",
+            "geographical_area_id": "NA"
+          },
+          {
+            "id": "NC",
+            "description": "New Caledonia",
+            "geographical_area_id": "NC"
+          },
+          {
+            "id": "NE",
+            "description": "Niger",
+            "geographical_area_id": "NE"
+          },
+          {
+            "id": "NF",
+            "description": "Norfolk Island",
+            "geographical_area_id": "NF"
+          },
+          {
+            "id": "NG",
+            "description": "Nigeria",
+            "geographical_area_id": "NG"
+          },
+          {
+            "id": "NI",
+            "description": "Nicaragua",
+            "geographical_area_id": "NI"
+          },
+          {
+            "id": "NL",
+            "description": "Netherlands",
+            "geographical_area_id": "NL"
+          },
+          {
+            "id": "NO",
+            "description": "Norway",
+            "geographical_area_id": "NO"
+          },
+          {
+            "id": "NP",
+            "description": "Nepal",
+            "geographical_area_id": "NP"
+          },
+          {
+            "id": "NR",
+            "description": "Nauru",
+            "geographical_area_id": "NR"
+          },
+          {
+            "id": "NU",
+            "description": "Niue",
+            "geographical_area_id": "NU"
+          },
+          {
+            "id": "NZ",
+            "description": "New Zealand",
+            "geographical_area_id": "NZ"
+          },
+          {
+            "id": "OM",
+            "description": "Oman",
+            "geographical_area_id": "OM"
+          },
+          {
+            "id": "PA",
+            "description": "Panama",
+            "geographical_area_id": "PA"
+          },
+          {
+            "id": "PE",
+            "description": "Peru",
+            "geographical_area_id": "PE"
+          },
+          {
+            "id": "PF",
+            "description": "French Polynesia",
+            "geographical_area_id": "PF"
+          },
+          {
+            "id": "PG",
+            "description": "Papua New Guinea",
+            "geographical_area_id": "PG"
+          },
+          {
+            "id": "PH",
+            "description": "Philippines",
+            "geographical_area_id": "PH"
+          },
+          {
+            "id": "PK",
+            "description": "Pakistan",
+            "geographical_area_id": "PK"
+          },
+          {
+            "id": "PL",
+            "description": "Poland",
+            "geographical_area_id": "PL"
+          },
+          {
+            "id": "PM",
+            "description": "Saint Pierre and Miquelon",
+            "geographical_area_id": "PM"
+          },
+          {
+            "id": "PN",
+            "description": "Pitcairn, Henderson, Ducie and Oeno Islands",
+            "geographical_area_id": "PN"
+          },
+          {
+            "id": "PS",
+            "description": "Occupied Palestinian Territories",
+            "geographical_area_id": "PS"
+          },
+          {
+            "id": "PT",
+            "description": "Portugal",
+            "geographical_area_id": "PT"
+          },
+          {
+            "id": "PW",
+            "description": "Palau",
+            "geographical_area_id": "PW"
+          },
+          {
+            "id": "PY",
+            "description": "Paraguay",
+            "geographical_area_id": "PY"
+          },
+          {
+            "id": "QA",
+            "description": "Qatar",
+            "geographical_area_id": "QA"
+          },
+          {
+            "id": "QP",
+            "description": "High seas (Maritime domain outside of territorial waters)",
+            "geographical_area_id": "QP"
+          },
+          {
+            "id": "QQ",
+            "description": "Stores and provisions",
+            "geographical_area_id": "QQ"
+          },
+          {
+            "id": "QS",
+            "description": "Stores and provisions within the framework of trade with Third Countries",
+            "geographical_area_id": "QS"
+          },
+          {
+            "id": "QU",
+            "description": "Countries and territories not specified",
+            "geographical_area_id": "QU"
+          },
+          {
+            "id": "QW",
+            "description": "Countries and territories not specified within the framework of trade with third countries",
+            "geographical_area_id": "QW"
+          },
+          {
+            "id": "RO",
+            "description": "Romania",
+            "geographical_area_id": "RO"
+          },
+          {
+            "id": "RU",
+            "description": "Russia",
+            "geographical_area_id": "RU"
+          },
+          {
+            "id": "RW",
+            "description": "Rwanda",
+            "geographical_area_id": "RW"
+          },
+          {
+            "id": "SA",
+            "description": "Saudi Arabia",
+            "geographical_area_id": "SA"
+          },
+          {
+            "id": "SB",
+            "description": "Solomon Islands",
+            "geographical_area_id": "SB"
+          },
+          {
+            "id": "SC",
+            "description": "Seychelles",
+            "geographical_area_id": "SC"
+          },
+          {
+            "id": "SD",
+            "description": "Sudan",
+            "geographical_area_id": "SD"
+          },
+          {
+            "id": "SE",
+            "description": "Sweden",
+            "geographical_area_id": "SE"
+          },
+          {
+            "id": "SG",
+            "description": "Singapore",
+            "geographical_area_id": "SG"
+          },
+          {
+            "id": "SH",
+            "description": "Saint Helena, Ascension and Tristan da Cunha",
+            "geographical_area_id": "SH"
+          },
+          {
+            "id": "SI",
+            "description": "Slovenia",
+            "geographical_area_id": "SI"
+          },
+          {
+            "id": "SK",
+            "description": "Slovakia",
+            "geographical_area_id": "SK"
+          },
+          {
+            "id": "SL",
+            "description": "Sierra Leone",
+            "geographical_area_id": "SL"
+          },
+          {
+            "id": "SM",
+            "description": "San Marino",
+            "geographical_area_id": "SM"
+          },
+          {
+            "id": "SN",
+            "description": "Senegal",
+            "geographical_area_id": "SN"
+          },
+          {
+            "id": "SO",
+            "description": "Somalia",
+            "geographical_area_id": "SO"
+          },
+          {
+            "id": "SR",
+            "description": "Suriname",
+            "geographical_area_id": "SR"
+          },
+          {
+            "id": "SS",
+            "description": "South Sudan",
+            "geographical_area_id": "SS"
+          },
+          {
+            "id": "ST",
+            "description": "Sao Tome and Principe",
+            "geographical_area_id": "ST"
+          },
+          {
+            "id": "SV",
+            "description": "El Salvador",
+            "geographical_area_id": "SV"
+          },
+          {
+            "id": "SX",
+            "description": "Sint Maarten (Dutch part)",
+            "geographical_area_id": "SX"
+          },
+          {
+            "id": "SY",
+            "description": "Syria",
+            "geographical_area_id": "SY"
+          },
+          {
+            "id": "SZ",
+            "description": "Eswatini",
+            "geographical_area_id": "SZ"
+          },
+          {
+            "id": "TC",
+            "description": "Turks and Caicos Islands",
+            "geographical_area_id": "TC"
+          },
+          {
+            "id": "TD",
+            "description": "Chad",
+            "geographical_area_id": "TD"
+          },
+          {
+            "id": "TF",
+            "description": "French Southern Territories",
+            "geographical_area_id": "TF"
+          },
+          {
+            "id": "TG",
+            "description": "Togo",
+            "geographical_area_id": "TG"
+          },
+          {
+            "id": "TH",
+            "description": "Thailand",
+            "geographical_area_id": "TH"
+          },
+          {
+            "id": "TJ",
+            "description": "Tajikistan",
+            "geographical_area_id": "TJ"
+          },
+          {
+            "id": "TK",
+            "description": "Tokelau",
+            "geographical_area_id": "TK"
+          },
+          {
+            "id": "TL",
+            "description": "East Timor",
+            "geographical_area_id": "TL"
+          },
+          {
+            "id": "TM",
+            "description": "Turkmenistan",
+            "geographical_area_id": "TM"
+          },
+          {
+            "id": "TN",
+            "description": "Tunisia",
+            "geographical_area_id": "TN"
+          },
+          {
+            "id": "TO",
+            "description": "Tonga",
+            "geographical_area_id": "TO"
+          },
+          {
+            "id": "TR",
+            "description": "Turkey",
+            "geographical_area_id": "TR"
+          },
+          {
+            "id": "TT",
+            "description": "Trinidad and Tobago",
+            "geographical_area_id": "TT"
+          },
+          {
+            "id": "TV",
+            "description": "Tuvalu",
+            "geographical_area_id": "TV"
+          },
+          {
+            "id": "TW",
+            "description": "Taiwan",
+            "geographical_area_id": "TW"
+          },
+          {
+            "id": "TZ",
+            "description": "Tanzania",
+            "geographical_area_id": "TZ"
+          },
+          {
+            "id": "UA",
+            "description": "Ukraine",
+            "geographical_area_id": "UA"
+          },
+          {
+            "id": "UG",
+            "description": "Uganda",
+            "geographical_area_id": "UG"
+          },
+          {
+            "id": "UM",
+            "description": "United States Minor Outlying Islands",
+            "geographical_area_id": "UM"
+          },
+          {
+            "id": "US",
+            "description": "United States",
+            "geographical_area_id": "US"
+          },
+          {
+            "id": "UY",
+            "description": "Uruguay",
+            "geographical_area_id": "UY"
+          },
+          {
+            "id": "UZ",
+            "description": "Uzbekistan",
+            "geographical_area_id": "UZ"
+          },
+          {
+            "id": "VA",
+            "description": "Vatican City",
+            "geographical_area_id": "VA"
+          },
+          {
+            "id": "VC",
+            "description": "St Vincent",
+            "geographical_area_id": "VC"
+          },
+          {
+            "id": "VE",
+            "description": "Venezuela",
+            "geographical_area_id": "VE"
+          },
+          {
+            "id": "VG",
+            "description": "British Virgin Islands",
+            "geographical_area_id": "VG"
+          },
+          {
+            "id": "VI",
+            "description": "United States Virgin Islands",
+            "geographical_area_id": "VI"
+          },
+          {
+            "id": "VN",
+            "description": "Vietnam",
+            "geographical_area_id": "VN"
+          },
+          {
+            "id": "VU",
+            "description": "Vanuatu",
+            "geographical_area_id": "VU"
+          },
+          {
+            "id": "WF",
+            "description": "Wallis and Futuna",
+            "geographical_area_id": "WF"
+          },
+          {
+            "id": "WS",
+            "description": "Samoa",
+            "geographical_area_id": "WS"
+          },
+          {
+            "id": "XC",
+            "description": "Ceuta",
+            "geographical_area_id": "XC"
+          },
+          {
+            "id": "XK",
+            "description": "Kosovo",
+            "geographical_area_id": "XK"
+          },
+          {
+            "id": "XL",
+            "description": "Melilla",
+            "geographical_area_id": "XL"
+          },
+          {
+            "id": "XS",
+            "description": "Serbia",
+            "geographical_area_id": "XS"
+          },
+          {
+            "id": "YE",
+            "description": "Yemen",
+            "geographical_area_id": "YE"
+          },
+          {
+            "id": "ZA",
+            "description": "South Africa",
+            "geographical_area_id": "ZA"
+          },
+          {
+            "id": "ZB",
+            "description": "Belgian Continental Shelf",
+            "geographical_area_id": "ZB"
+          },
+          {
+            "id": "ZD",
+            "description": "Danish Continental Shelf",
+            "geographical_area_id": "ZD"
+          },
+          {
+            "id": "ZE",
+            "description": "Irish Continental Shelf",
+            "geographical_area_id": "ZE"
+          },
+          {
+            "id": "ZF",
+            "description": "French Continental Shelf",
+            "geographical_area_id": "ZF"
+          },
+          {
+            "id": "ZG",
+            "description": "German Continental Shelf",
+            "geographical_area_id": "ZG"
+          },
+          {
+            "id": "ZH",
+            "description": "Netherlands Continental Shelf",
+            "geographical_area_id": "ZH"
+          },
+          {
+            "id": "ZM",
+            "description": "Zambia",
+            "geographical_area_id": "ZM"
+          },
+          {
+            "id": "ZN",
+            "description": "Norwegian Continental Shelf",
+            "geographical_area_id": "ZN"
+          },
+          {
+            "id": "ZU",
+            "description": "United Kingdom Continental Shelf",
+            "geographical_area_id": "ZU"
+          },
+          {
+            "id": "ZW",
+            "description": "Zimbabwe",
+            "geographical_area_id": "ZW"
+          }
+        ]
+      },
+      "excluded_countries": [
+
+      ],
+      "footnotes": [
+        {
+          "code": "PR009",
+          "description": "Contact Details for lead Government Department are as follows: <P> <P>Plant and Plant products <P>Plant Health and Seeds Inspectorate <P>Defra <P>Foss House , <P>Kings Pool <P>1-2 Peasholme Green <P>York . <P>YO1 7PX <P>Telephone: 01904 455174 <P>Email: planthealth.info&#64;defra.gsi.gov.uk",
+          "formatted_description": "Contact Details for lead Government Department are as follows: <P> <P>Plant and Plant products <P>Plant Health and Seeds Inspectorate <P>Defra <P>Foss House , <P>Kings Pool <P>1-2 Peasholme Green <P>York . <P>YO1 7PX <P>Telephone: 01904 455174 <P>Email: planthealth.info&#64;defra.gsi.gov.uk"
+        }
+      ],
+      "order_number": null,
+      "resolved_measure_components": [
+
+      ],
+      "resolved_duty_expression": ""
+    },
+    {
+      "meta": {
+        "duty_calculator": {
+          "source": "uk"
+        }
+      },
+      "id": 20097836,
+      "origin": "eu",
+      "effective_start_date": "2021-01-01T00:00:00.000Z",
+      "effective_end_date": null,
+      "import": true,
+      "excise": false,
+      "vat": false,
+      "duty_expression": {
+        "base": "",
+        "formatted_base": ""
+      },
+      "measure_type": {
+        "description": "Import control of organic products",
+        "national": null,
+        "measure_type_series_id": "B",
+        "id": "105"
+      },
+      "legal_acts": [
+        {
+          "validity_start_date": "2021-01-01T00:00:00.000Z",
+          "validity_end_date": null,
+          "officialjournal_number": "1",
+          "officialjournal_page": 1,
+          "published_date": "2019-03-26",
+          "regulation_code": "X0693/19",
+          "regulation_url": "http://eur-lex.europa.eu/search.html?whOJ=NO_OJ%3D,YEAR_OJ%3D2019,PAGE_FIRST%3D0001&DB_COLL_OJ=oj-1&type=advanced&lang=en"
+        }
+      ],
+      "measure_conditions": [
+        {
+          "condition_code": "B",
+          "condition": "B: Presentation of a certificate/licence/document",
+          "document_code": "C644",
+          "requirement": "Other certificates: Certificate of inspection for organic products",
+          "action": "Import/export allowed after control",
+          "duty_expression": "",
+          "condition_duty_amount": null,
+          "condition_monetary_unit_code": null,
+          "monetary_unit_abbreviation": null,
+          "condition_measurement_unit_code": null,
+          "condition_measurement_unit_qualifier_code": null,
+          "measure_condition_components": [
+
+          ]
+        },
+        {
+          "condition_code": "B",
+          "condition": "B: Presentation of a certificate/licence/document",
+          "document_code": "Y929",
+          "requirement": "Particular provisions: Goods not concerned by Regulation (EC) No 834/2007 (organic products)",
+          "action": "Import/export allowed after control",
+          "duty_expression": "",
+          "condition_duty_amount": null,
+          "condition_monetary_unit_code": null,
+          "monetary_unit_abbreviation": null,
+          "condition_measurement_unit_code": null,
+          "condition_measurement_unit_qualifier_code": null,
+          "measure_condition_components": [
+
+          ]
+        },
+        {
+          "condition_code": "B",
+          "condition": "B: Presentation of a certificate/licence/document",
+          "document_code": "",
+          "requirement": null,
+          "action": "Import/export not allowed after control",
+          "duty_expression": "",
+          "condition_duty_amount": null,
+          "condition_monetary_unit_code": null,
+          "monetary_unit_abbreviation": null,
+          "condition_measurement_unit_code": null,
+          "condition_measurement_unit_qualifier_code": null,
+          "measure_condition_components": [
+
+          ]
+        }
+      ],
+      "measure_components": [
+
+      ],
+      "national_measurement_units": [
+
+      ],
+      "geographical_area": {
+        "id": "1011",
+        "description": "ERGA OMNES",
+        "geographical_area_id": "1011",
+        "children_geographical_areas": [
+          {
+            "id": "AD",
+            "description": "Andorra",
+            "geographical_area_id": "AD"
+          },
+          {
+            "id": "AE",
+            "description": "United Arab Emirates",
+            "geographical_area_id": "AE"
+          },
+          {
+            "id": "AF",
+            "description": "Afghanistan",
+            "geographical_area_id": "AF"
+          },
+          {
+            "id": "AG",
+            "description": "Antigua and Barbuda",
+            "geographical_area_id": "AG"
+          },
+          {
+            "id": "AI",
+            "description": "Anguilla",
+            "geographical_area_id": "AI"
+          },
+          {
+            "id": "AL",
+            "description": "Albania",
+            "geographical_area_id": "AL"
+          },
+          {
+            "id": "AM",
+            "description": "Armenia",
+            "geographical_area_id": "AM"
+          },
+          {
+            "id": "AO",
+            "description": "Angola",
+            "geographical_area_id": "AO"
+          },
+          {
+            "id": "AQ",
+            "description": "Antarctica",
+            "geographical_area_id": "AQ"
+          },
+          {
+            "id": "AR",
+            "description": "Argentina",
+            "geographical_area_id": "AR"
+          },
+          {
+            "id": "AS",
+            "description": "American Samoa",
+            "geographical_area_id": "AS"
+          },
+          {
+            "id": "AT",
+            "description": "Austria",
+            "geographical_area_id": "AT"
+          },
+          {
+            "id": "AU",
+            "description": "Australia",
+            "geographical_area_id": "AU"
+          },
+          {
+            "id": "AW",
+            "description": "Aruba",
+            "geographical_area_id": "AW"
+          },
+          {
+            "id": "AZ",
+            "description": "Azerbaijan",
+            "geographical_area_id": "AZ"
+          },
+          {
+            "id": "BA",
+            "description": "Bosnia and Herzegovina",
+            "geographical_area_id": "BA"
+          },
+          {
+            "id": "BB",
+            "description": "Barbados",
+            "geographical_area_id": "BB"
+          },
+          {
+            "id": "BD",
+            "description": "Bangladesh",
+            "geographical_area_id": "BD"
+          },
+          {
+            "id": "BE",
+            "description": "Belgium",
+            "geographical_area_id": "BE"
+          },
+          {
+            "id": "BF",
+            "description": "Burkina Faso",
+            "geographical_area_id": "BF"
+          },
+          {
+            "id": "BG",
+            "description": "Bulgaria",
+            "geographical_area_id": "BG"
+          },
+          {
+            "id": "BH",
+            "description": "Bahrain",
+            "geographical_area_id": "BH"
+          },
+          {
+            "id": "BI",
+            "description": "Burundi",
+            "geographical_area_id": "BI"
+          },
+          {
+            "id": "BJ",
+            "description": "Benin",
+            "geographical_area_id": "BJ"
+          },
+          {
+            "id": "BL",
+            "description": "Saint Barthélemy",
+            "geographical_area_id": "BL"
+          },
+          {
+            "id": "BM",
+            "description": "Bermuda",
+            "geographical_area_id": "BM"
+          },
+          {
+            "id": "BN",
+            "description": "Brunei",
+            "geographical_area_id": "BN"
+          },
+          {
+            "id": "BO",
+            "description": "Bolivia",
+            "geographical_area_id": "BO"
+          },
+          {
+            "id": "BQ",
+            "description": "Bonaire, Sint Eustatius and Saba",
+            "geographical_area_id": "BQ"
+          },
+          {
+            "id": "BR",
+            "description": "Brazil",
+            "geographical_area_id": "BR"
+          },
+          {
+            "id": "BS",
+            "description": "The Bahamas",
+            "geographical_area_id": "BS"
+          },
+          {
+            "id": "BT",
+            "description": "Bhutan",
+            "geographical_area_id": "BT"
+          },
+          {
+            "id": "BV",
+            "description": "Bouvet Island",
+            "geographical_area_id": "BV"
+          },
+          {
+            "id": "BW",
+            "description": "Botswana",
+            "geographical_area_id": "BW"
+          },
+          {
+            "id": "BY",
+            "description": "Belarus",
+            "geographical_area_id": "BY"
+          },
+          {
+            "id": "BZ",
+            "description": "Belize",
+            "geographical_area_id": "BZ"
+          },
+          {
+            "id": "CA",
+            "description": "Canada",
+            "geographical_area_id": "CA"
+          },
+          {
+            "id": "CC",
+            "description": "Cocos (Keeling) Islands",
+            "geographical_area_id": "CC"
+          },
+          {
+            "id": "CD",
+            "description": "Congo (Democratic Republic)",
+            "geographical_area_id": "CD"
+          },
+          {
+            "id": "CF",
+            "description": "Central African Republic",
+            "geographical_area_id": "CF"
+          },
+          {
+            "id": "CG",
+            "description": "Congo",
+            "geographical_area_id": "CG"
+          },
+          {
+            "id": "CH",
+            "description": "Switzerland",
+            "geographical_area_id": "CH"
+          },
+          {
+            "id": "CI",
+            "description": "Ivory Coast",
+            "geographical_area_id": "CI"
+          },
+          {
+            "id": "CK",
+            "description": "Cook Islands",
+            "geographical_area_id": "CK"
+          },
+          {
+            "id": "CL",
+            "description": "Chile",
+            "geographical_area_id": "CL"
+          },
+          {
+            "id": "CM",
+            "description": "Cameroon",
+            "geographical_area_id": "CM"
+          },
+          {
+            "id": "CN",
+            "description": "China",
+            "geographical_area_id": "CN"
+          },
+          {
+            "id": "CO",
+            "description": "Colombia",
+            "geographical_area_id": "CO"
+          },
+          {
+            "id": "CR",
+            "description": "Costa Rica",
+            "geographical_area_id": "CR"
+          },
+          {
+            "id": "CU",
+            "description": "Cuba",
+            "geographical_area_id": "CU"
+          },
+          {
+            "id": "CV",
+            "description": "Cabo Verde",
+            "geographical_area_id": "CV"
+          },
+          {
+            "id": "CW",
+            "description": "Curaçao",
+            "geographical_area_id": "CW"
+          },
+          {
+            "id": "CX",
+            "description": "Christmas Island",
+            "geographical_area_id": "CX"
+          },
+          {
+            "id": "CY",
+            "description": "Cyprus",
+            "geographical_area_id": "CY"
+          },
+          {
+            "id": "CZ",
+            "description": "Czechia",
+            "geographical_area_id": "CZ"
+          },
+          {
+            "id": "DE",
+            "description": "Germany",
+            "geographical_area_id": "DE"
+          },
+          {
+            "id": "DJ",
+            "description": "Djibouti",
+            "geographical_area_id": "DJ"
+          },
+          {
+            "id": "DK",
+            "description": "Denmark",
+            "geographical_area_id": "DK"
+          },
+          {
+            "id": "DM",
+            "description": "Dominica",
+            "geographical_area_id": "DM"
+          },
+          {
+            "id": "DO",
+            "description": "Dominican Republic",
+            "geographical_area_id": "DO"
+          },
+          {
+            "id": "DZ",
+            "description": "Algeria",
+            "geographical_area_id": "DZ"
+          },
+          {
+            "id": "EC",
+            "description": "Ecuador",
+            "geographical_area_id": "EC"
+          },
+          {
+            "id": "EE",
+            "description": "Estonia",
+            "geographical_area_id": "EE"
+          },
+          {
+            "id": "EG",
+            "description": "Egypt",
+            "geographical_area_id": "EG"
+          },
+          {
+            "id": "EH",
+            "description": "Western Sahara",
+            "geographical_area_id": "EH"
+          },
+          {
+            "id": "ER",
+            "description": "Eritrea",
+            "geographical_area_id": "ER"
+          },
+          {
+            "id": "ES",
+            "description": "Spain",
+            "geographical_area_id": "ES"
+          },
+          {
+            "id": "ET",
+            "description": "Ethiopia",
+            "geographical_area_id": "ET"
+          },
+          {
+            "id": "EU",
+            "description": "European Union",
+            "geographical_area_id": "EU"
+          },
+          {
+            "id": "FI",
+            "description": "Finland",
+            "geographical_area_id": "FI"
+          },
+          {
+            "id": "FJ",
+            "description": "Fiji",
+            "geographical_area_id": "FJ"
+          },
+          {
+            "id": "FK",
+            "description": "Falkland Islands",
+            "geographical_area_id": "FK"
+          },
+          {
+            "id": "FM",
+            "description": "Micronesia",
+            "geographical_area_id": "FM"
+          },
+          {
+            "id": "FO",
+            "description": "Faroe Islands",
+            "geographical_area_id": "FO"
+          },
+          {
+            "id": "FR",
+            "description": "France",
+            "geographical_area_id": "FR"
+          },
+          {
+            "id": "GA",
+            "description": "Gabon",
+            "geographical_area_id": "GA"
+          },
+          {
+            "id": "GB",
+            "description": "United Kingdom",
+            "geographical_area_id": "GB"
+          },
+          {
+            "id": "GD",
+            "description": "Grenada",
+            "geographical_area_id": "GD"
+          },
+          {
+            "id": "GE",
+            "description": "Georgia",
+            "geographical_area_id": "GE"
+          },
+          {
+            "id": "GH",
+            "description": "Ghana",
+            "geographical_area_id": "GH"
+          },
+          {
+            "id": "GI",
+            "description": "Gibraltar",
+            "geographical_area_id": "GI"
+          },
+          {
+            "id": "GL",
+            "description": "Greenland",
+            "geographical_area_id": "GL"
+          },
+          {
+            "id": "GM",
+            "description": "The Gambia",
+            "geographical_area_id": "GM"
+          },
+          {
+            "id": "GN",
+            "description": "Guinea",
+            "geographical_area_id": "GN"
+          },
+          {
+            "id": "GQ",
+            "description": "Equatorial Guinea",
+            "geographical_area_id": "GQ"
+          },
+          {
+            "id": "GR",
+            "description": "Greece",
+            "geographical_area_id": "GR"
+          },
+          {
+            "id": "GS",
+            "description": "South Georgia and South Sandwich Islands",
+            "geographical_area_id": "GS"
+          },
+          {
+            "id": "GT",
+            "description": "Guatemala",
+            "geographical_area_id": "GT"
+          },
+          {
+            "id": "GU",
+            "description": "Guam",
+            "geographical_area_id": "GU"
+          },
+          {
+            "id": "GW",
+            "description": "Guinea-Bissau",
+            "geographical_area_id": "GW"
+          },
+          {
+            "id": "GY",
+            "description": "Guyana",
+            "geographical_area_id": "GY"
+          },
+          {
+            "id": "HK",
+            "description": "Hong Kong",
+            "geographical_area_id": "HK"
+          },
+          {
+            "id": "HM",
+            "description": "Heard Island and McDonald Islands",
+            "geographical_area_id": "HM"
+          },
+          {
+            "id": "HN",
+            "description": "Honduras",
+            "geographical_area_id": "HN"
+          },
+          {
+            "id": "HR",
+            "description": "Croatia",
+            "geographical_area_id": "HR"
+          },
+          {
+            "id": "HT",
+            "description": "Haiti",
+            "geographical_area_id": "HT"
+          },
+          {
+            "id": "HU",
+            "description": "Hungary",
+            "geographical_area_id": "HU"
+          },
+          {
+            "id": "ID",
+            "description": "Indonesia",
+            "geographical_area_id": "ID"
+          },
+          {
+            "id": "IE",
+            "description": "Ireland",
+            "geographical_area_id": "IE"
+          },
+          {
+            "id": "IL",
+            "description": "Israel",
+            "geographical_area_id": "IL"
+          },
+          {
+            "id": "IN",
+            "description": "India",
+            "geographical_area_id": "IN"
+          },
+          {
+            "id": "IO",
+            "description": "British Indian Ocean Territory",
+            "geographical_area_id": "IO"
+          },
+          {
+            "id": "IQ",
+            "description": "Iraq",
+            "geographical_area_id": "IQ"
+          },
+          {
+            "id": "IR",
+            "description": "Iran",
+            "geographical_area_id": "IR"
+          },
+          {
+            "id": "IS",
+            "description": "Iceland",
+            "geographical_area_id": "IS"
+          },
+          {
+            "id": "IT",
+            "description": "Italy",
+            "geographical_area_id": "IT"
+          },
+          {
+            "id": "JM",
+            "description": "Jamaica",
+            "geographical_area_id": "JM"
+          },
+          {
+            "id": "JO",
+            "description": "Jordan",
+            "geographical_area_id": "JO"
+          },
+          {
+            "id": "JP",
+            "description": "Japan",
+            "geographical_area_id": "JP"
+          },
+          {
+            "id": "KE",
+            "description": "Kenya",
+            "geographical_area_id": "KE"
+          },
+          {
+            "id": "KG",
+            "description": "Kyrgyzstan",
+            "geographical_area_id": "KG"
+          },
+          {
+            "id": "KH",
+            "description": "Cambodia",
+            "geographical_area_id": "KH"
+          },
+          {
+            "id": "KI",
+            "description": "Kiribati",
+            "geographical_area_id": "KI"
+          },
+          {
+            "id": "KM",
+            "description": "Comoros",
+            "geographical_area_id": "KM"
+          },
+          {
+            "id": "KN",
+            "description": "St Kitts and Nevis",
+            "geographical_area_id": "KN"
+          },
+          {
+            "id": "KP",
+            "description": "North Korea",
+            "geographical_area_id": "KP"
+          },
+          {
+            "id": "KR",
+            "description": "South Korea",
+            "geographical_area_id": "KR"
+          },
+          {
+            "id": "KW",
+            "description": "Kuwait",
+            "geographical_area_id": "KW"
+          },
+          {
+            "id": "KY",
+            "description": "Cayman Islands",
+            "geographical_area_id": "KY"
+          },
+          {
+            "id": "KZ",
+            "description": "Kazakhstan",
+            "geographical_area_id": "KZ"
+          },
+          {
+            "id": "LA",
+            "description": "Laos",
+            "geographical_area_id": "LA"
+          },
+          {
+            "id": "LB",
+            "description": "Lebanon",
+            "geographical_area_id": "LB"
+          },
+          {
+            "id": "LC",
+            "description": "St Lucia",
+            "geographical_area_id": "LC"
+          },
+          {
+            "id": "LI",
+            "description": "Liechtenstein",
+            "geographical_area_id": "LI"
+          },
+          {
+            "id": "LK",
+            "description": "Sri Lanka",
+            "geographical_area_id": "LK"
+          },
+          {
+            "id": "LR",
+            "description": "Liberia",
+            "geographical_area_id": "LR"
+          },
+          {
+            "id": "LS",
+            "description": "Lesotho",
+            "geographical_area_id": "LS"
+          },
+          {
+            "id": "LT",
+            "description": "Lithuania",
+            "geographical_area_id": "LT"
+          },
+          {
+            "id": "LU",
+            "description": "Luxembourg",
+            "geographical_area_id": "LU"
+          },
+          {
+            "id": "LV",
+            "description": "Latvia",
+            "geographical_area_id": "LV"
+          },
+          {
+            "id": "LY",
+            "description": "Libya",
+            "geographical_area_id": "LY"
+          },
+          {
+            "id": "MA",
+            "description": "Morocco",
+            "geographical_area_id": "MA"
+          },
+          {
+            "id": "MD",
+            "description": "Moldova",
+            "geographical_area_id": "MD"
+          },
+          {
+            "id": "ME",
+            "description": "Montenegro",
+            "geographical_area_id": "ME"
+          },
+          {
+            "id": "MG",
+            "description": "Madagascar",
+            "geographical_area_id": "MG"
+          },
+          {
+            "id": "MH",
+            "description": "Marshall Islands",
+            "geographical_area_id": "MH"
+          },
+          {
+            "id": "MK",
+            "description": "North Macedonia",
+            "geographical_area_id": "MK"
+          },
+          {
+            "id": "ML",
+            "description": "Mali",
+            "geographical_area_id": "ML"
+          },
+          {
+            "id": "MM",
+            "description": "Myanmar (Burma)",
+            "geographical_area_id": "MM"
+          },
+          {
+            "id": "MN",
+            "description": "Mongolia",
+            "geographical_area_id": "MN"
+          },
+          {
+            "id": "MO",
+            "description": "Macao",
+            "geographical_area_id": "MO"
+          },
+          {
+            "id": "MP",
+            "description": "Northern Mariana Islands",
+            "geographical_area_id": "MP"
+          },
+          {
+            "id": "MR",
+            "description": "Mauritania",
+            "geographical_area_id": "MR"
+          },
+          {
+            "id": "MS",
+            "description": "Montserrat",
+            "geographical_area_id": "MS"
+          },
+          {
+            "id": "MT",
+            "description": "Malta",
+            "geographical_area_id": "MT"
+          },
+          {
+            "id": "MU",
+            "description": "Mauritius",
+            "geographical_area_id": "MU"
+          },
+          {
+            "id": "MV",
+            "description": "Maldives",
+            "geographical_area_id": "MV"
+          },
+          {
+            "id": "MW",
+            "description": "Malawi",
+            "geographical_area_id": "MW"
+          },
+          {
+            "id": "MX",
+            "description": "Mexico",
+            "geographical_area_id": "MX"
+          },
+          {
+            "id": "MY",
+            "description": "Malaysia",
+            "geographical_area_id": "MY"
+          },
+          {
+            "id": "MZ",
+            "description": "Mozambique",
+            "geographical_area_id": "MZ"
+          },
+          {
+            "id": "NA",
+            "description": "Namibia",
+            "geographical_area_id": "NA"
+          },
+          {
+            "id": "NC",
+            "description": "New Caledonia",
+            "geographical_area_id": "NC"
+          },
+          {
+            "id": "NE",
+            "description": "Niger",
+            "geographical_area_id": "NE"
+          },
+          {
+            "id": "NF",
+            "description": "Norfolk Island",
+            "geographical_area_id": "NF"
+          },
+          {
+            "id": "NG",
+            "description": "Nigeria",
+            "geographical_area_id": "NG"
+          },
+          {
+            "id": "NI",
+            "description": "Nicaragua",
+            "geographical_area_id": "NI"
+          },
+          {
+            "id": "NL",
+            "description": "Netherlands",
+            "geographical_area_id": "NL"
+          },
+          {
+            "id": "NO",
+            "description": "Norway",
+            "geographical_area_id": "NO"
+          },
+          {
+            "id": "NP",
+            "description": "Nepal",
+            "geographical_area_id": "NP"
+          },
+          {
+            "id": "NR",
+            "description": "Nauru",
+            "geographical_area_id": "NR"
+          },
+          {
+            "id": "NU",
+            "description": "Niue",
+            "geographical_area_id": "NU"
+          },
+          {
+            "id": "NZ",
+            "description": "New Zealand",
+            "geographical_area_id": "NZ"
+          },
+          {
+            "id": "OM",
+            "description": "Oman",
+            "geographical_area_id": "OM"
+          },
+          {
+            "id": "PA",
+            "description": "Panama",
+            "geographical_area_id": "PA"
+          },
+          {
+            "id": "PE",
+            "description": "Peru",
+            "geographical_area_id": "PE"
+          },
+          {
+            "id": "PF",
+            "description": "French Polynesia",
+            "geographical_area_id": "PF"
+          },
+          {
+            "id": "PG",
+            "description": "Papua New Guinea",
+            "geographical_area_id": "PG"
+          },
+          {
+            "id": "PH",
+            "description": "Philippines",
+            "geographical_area_id": "PH"
+          },
+          {
+            "id": "PK",
+            "description": "Pakistan",
+            "geographical_area_id": "PK"
+          },
+          {
+            "id": "PL",
+            "description": "Poland",
+            "geographical_area_id": "PL"
+          },
+          {
+            "id": "PM",
+            "description": "Saint Pierre and Miquelon",
+            "geographical_area_id": "PM"
+          },
+          {
+            "id": "PN",
+            "description": "Pitcairn, Henderson, Ducie and Oeno Islands",
+            "geographical_area_id": "PN"
+          },
+          {
+            "id": "PS",
+            "description": "Occupied Palestinian Territories",
+            "geographical_area_id": "PS"
+          },
+          {
+            "id": "PT",
+            "description": "Portugal",
+            "geographical_area_id": "PT"
+          },
+          {
+            "id": "PW",
+            "description": "Palau",
+            "geographical_area_id": "PW"
+          },
+          {
+            "id": "PY",
+            "description": "Paraguay",
+            "geographical_area_id": "PY"
+          },
+          {
+            "id": "QA",
+            "description": "Qatar",
+            "geographical_area_id": "QA"
+          },
+          {
+            "id": "QP",
+            "description": "High seas (Maritime domain outside of territorial waters)",
+            "geographical_area_id": "QP"
+          },
+          {
+            "id": "QQ",
+            "description": "Stores and provisions",
+            "geographical_area_id": "QQ"
+          },
+          {
+            "id": "QS",
+            "description": "Stores and provisions within the framework of trade with Third Countries",
+            "geographical_area_id": "QS"
+          },
+          {
+            "id": "QU",
+            "description": "Countries and territories not specified",
+            "geographical_area_id": "QU"
+          },
+          {
+            "id": "QW",
+            "description": "Countries and territories not specified within the framework of trade with third countries",
+            "geographical_area_id": "QW"
+          },
+          {
+            "id": "RO",
+            "description": "Romania",
+            "geographical_area_id": "RO"
+          },
+          {
+            "id": "RU",
+            "description": "Russia",
+            "geographical_area_id": "RU"
+          },
+          {
+            "id": "RW",
+            "description": "Rwanda",
+            "geographical_area_id": "RW"
+          },
+          {
+            "id": "SA",
+            "description": "Saudi Arabia",
+            "geographical_area_id": "SA"
+          },
+          {
+            "id": "SB",
+            "description": "Solomon Islands",
+            "geographical_area_id": "SB"
+          },
+          {
+            "id": "SC",
+            "description": "Seychelles",
+            "geographical_area_id": "SC"
+          },
+          {
+            "id": "SD",
+            "description": "Sudan",
+            "geographical_area_id": "SD"
+          },
+          {
+            "id": "SE",
+            "description": "Sweden",
+            "geographical_area_id": "SE"
+          },
+          {
+            "id": "SG",
+            "description": "Singapore",
+            "geographical_area_id": "SG"
+          },
+          {
+            "id": "SH",
+            "description": "Saint Helena, Ascension and Tristan da Cunha",
+            "geographical_area_id": "SH"
+          },
+          {
+            "id": "SI",
+            "description": "Slovenia",
+            "geographical_area_id": "SI"
+          },
+          {
+            "id": "SK",
+            "description": "Slovakia",
+            "geographical_area_id": "SK"
+          },
+          {
+            "id": "SL",
+            "description": "Sierra Leone",
+            "geographical_area_id": "SL"
+          },
+          {
+            "id": "SM",
+            "description": "San Marino",
+            "geographical_area_id": "SM"
+          },
+          {
+            "id": "SN",
+            "description": "Senegal",
+            "geographical_area_id": "SN"
+          },
+          {
+            "id": "SO",
+            "description": "Somalia",
+            "geographical_area_id": "SO"
+          },
+          {
+            "id": "SR",
+            "description": "Suriname",
+            "geographical_area_id": "SR"
+          },
+          {
+            "id": "SS",
+            "description": "South Sudan",
+            "geographical_area_id": "SS"
+          },
+          {
+            "id": "ST",
+            "description": "Sao Tome and Principe",
+            "geographical_area_id": "ST"
+          },
+          {
+            "id": "SV",
+            "description": "El Salvador",
+            "geographical_area_id": "SV"
+          },
+          {
+            "id": "SX",
+            "description": "Sint Maarten (Dutch part)",
+            "geographical_area_id": "SX"
+          },
+          {
+            "id": "SY",
+            "description": "Syria",
+            "geographical_area_id": "SY"
+          },
+          {
+            "id": "SZ",
+            "description": "Eswatini",
+            "geographical_area_id": "SZ"
+          },
+          {
+            "id": "TC",
+            "description": "Turks and Caicos Islands",
+            "geographical_area_id": "TC"
+          },
+          {
+            "id": "TD",
+            "description": "Chad",
+            "geographical_area_id": "TD"
+          },
+          {
+            "id": "TF",
+            "description": "French Southern Territories",
+            "geographical_area_id": "TF"
+          },
+          {
+            "id": "TG",
+            "description": "Togo",
+            "geographical_area_id": "TG"
+          },
+          {
+            "id": "TH",
+            "description": "Thailand",
+            "geographical_area_id": "TH"
+          },
+          {
+            "id": "TJ",
+            "description": "Tajikistan",
+            "geographical_area_id": "TJ"
+          },
+          {
+            "id": "TK",
+            "description": "Tokelau",
+            "geographical_area_id": "TK"
+          },
+          {
+            "id": "TL",
+            "description": "East Timor",
+            "geographical_area_id": "TL"
+          },
+          {
+            "id": "TM",
+            "description": "Turkmenistan",
+            "geographical_area_id": "TM"
+          },
+          {
+            "id": "TN",
+            "description": "Tunisia",
+            "geographical_area_id": "TN"
+          },
+          {
+            "id": "TO",
+            "description": "Tonga",
+            "geographical_area_id": "TO"
+          },
+          {
+            "id": "TR",
+            "description": "Turkey",
+            "geographical_area_id": "TR"
+          },
+          {
+            "id": "TT",
+            "description": "Trinidad and Tobago",
+            "geographical_area_id": "TT"
+          },
+          {
+            "id": "TV",
+            "description": "Tuvalu",
+            "geographical_area_id": "TV"
+          },
+          {
+            "id": "TW",
+            "description": "Taiwan",
+            "geographical_area_id": "TW"
+          },
+          {
+            "id": "TZ",
+            "description": "Tanzania",
+            "geographical_area_id": "TZ"
+          },
+          {
+            "id": "UA",
+            "description": "Ukraine",
+            "geographical_area_id": "UA"
+          },
+          {
+            "id": "UG",
+            "description": "Uganda",
+            "geographical_area_id": "UG"
+          },
+          {
+            "id": "UM",
+            "description": "United States Minor Outlying Islands",
+            "geographical_area_id": "UM"
+          },
+          {
+            "id": "US",
+            "description": "United States",
+            "geographical_area_id": "US"
+          },
+          {
+            "id": "UY",
+            "description": "Uruguay",
+            "geographical_area_id": "UY"
+          },
+          {
+            "id": "UZ",
+            "description": "Uzbekistan",
+            "geographical_area_id": "UZ"
+          },
+          {
+            "id": "VA",
+            "description": "Vatican City",
+            "geographical_area_id": "VA"
+          },
+          {
+            "id": "VC",
+            "description": "St Vincent",
+            "geographical_area_id": "VC"
+          },
+          {
+            "id": "VE",
+            "description": "Venezuela",
+            "geographical_area_id": "VE"
+          },
+          {
+            "id": "VG",
+            "description": "British Virgin Islands",
+            "geographical_area_id": "VG"
+          },
+          {
+            "id": "VI",
+            "description": "United States Virgin Islands",
+            "geographical_area_id": "VI"
+          },
+          {
+            "id": "VN",
+            "description": "Vietnam",
+            "geographical_area_id": "VN"
+          },
+          {
+            "id": "VU",
+            "description": "Vanuatu",
+            "geographical_area_id": "VU"
+          },
+          {
+            "id": "WF",
+            "description": "Wallis and Futuna",
+            "geographical_area_id": "WF"
+          },
+          {
+            "id": "WS",
+            "description": "Samoa",
+            "geographical_area_id": "WS"
+          },
+          {
+            "id": "XC",
+            "description": "Ceuta",
+            "geographical_area_id": "XC"
+          },
+          {
+            "id": "XK",
+            "description": "Kosovo",
+            "geographical_area_id": "XK"
+          },
+          {
+            "id": "XL",
+            "description": "Melilla",
+            "geographical_area_id": "XL"
+          },
+          {
+            "id": "XS",
+            "description": "Serbia",
+            "geographical_area_id": "XS"
+          },
+          {
+            "id": "YE",
+            "description": "Yemen",
+            "geographical_area_id": "YE"
+          },
+          {
+            "id": "ZA",
+            "description": "South Africa",
+            "geographical_area_id": "ZA"
+          },
+          {
+            "id": "ZB",
+            "description": "Belgian Continental Shelf",
+            "geographical_area_id": "ZB"
+          },
+          {
+            "id": "ZD",
+            "description": "Danish Continental Shelf",
+            "geographical_area_id": "ZD"
+          },
+          {
+            "id": "ZE",
+            "description": "Irish Continental Shelf",
+            "geographical_area_id": "ZE"
+          },
+          {
+            "id": "ZF",
+            "description": "French Continental Shelf",
+            "geographical_area_id": "ZF"
+          },
+          {
+            "id": "ZG",
+            "description": "German Continental Shelf",
+            "geographical_area_id": "ZG"
+          },
+          {
+            "id": "ZH",
+            "description": "Netherlands Continental Shelf",
+            "geographical_area_id": "ZH"
+          },
+          {
+            "id": "ZM",
+            "description": "Zambia",
+            "geographical_area_id": "ZM"
+          },
+          {
+            "id": "ZN",
+            "description": "Norwegian Continental Shelf",
+            "geographical_area_id": "ZN"
+          },
+          {
+            "id": "ZU",
+            "description": "United Kingdom Continental Shelf",
+            "geographical_area_id": "ZU"
+          },
+          {
+            "id": "ZW",
+            "description": "Zimbabwe",
+            "geographical_area_id": "ZW"
+          }
+        ]
+      },
+      "excluded_countries": [
+
+      ],
+      "footnotes": [
+        {
+          "code": "CD808",
+          "description": "If goods bear a reference to organic production in the labelling, advertising or accompanying documents, the declarant has to present the certificate of inspection C644 as referred to in the Article 33(1)(d) of the Regulation (EC) No 834/2007 (equivalent products). If the goods are not equivalent products, code Y929 must be declared.<br>Without prejudice to any measures or actions taken in accordance with Article 30 of Regulation (EC) No 834/2007 and/or Article 85 of Regulation (EC) No 889/2008, the release for free circulation in the Community of products not in conformity with the requirements of that Regulation shall be conditional on the removal of references to organic production from the labelling, advertising and accompanying documents.<br>",
+          "formatted_description": "If goods bear a reference to organic production in the labelling, advertising or accompanying documents, the declarant has to present the certificate of inspection C644 as referred to in the Article 33(1)(d) of the Regulation (EC) No 834/2007 (equivalent products). If the goods are not equivalent products, code Y929 must be declared.<br>Without prejudice to any measures or actions taken in accordance with Article 30 of Regulation (EC) No 834/2007 and/or Article 85 of Regulation (EC) No 889/2008, the release for free circulation in the Community of products not in conformity with the requirements of that Regulation shall be conditional on the removal of references to organic production from the labelling, advertising and accompanying documents.<br>"
+        }
+      ],
+      "order_number": null,
+      "resolved_measure_components": [
+
+      ],
+      "resolved_duty_expression": ""
+    },
+    {
+      "meta": {
+        "duty_calculator": {
+          "source": "uk"
+        }
+      },
+      "id": 20104713,
+      "origin": "eu",
+      "effective_start_date": "2021-01-01T00:00:00.000Z",
+      "effective_end_date": "2021-06-10T00:00:00.000Z",
+      "import": true,
+      "excise": false,
+      "vat": false,
+      "duty_expression": {
+        "base": "4.20 %",
+        "formatted_base": "<span>4.20</span> %"
+      },
+      "measure_type": {
+        "description": "Tariff preference",
+        "national": null,
+        "measure_type_series_id": "C",
+        "id": "142"
+      },
+      "legal_acts": [
+        {
+          "validity_start_date": "2021-01-01T00:00:00.000Z",
+          "validity_end_date": null,
+          "officialjournal_number": "1",
+          "officialjournal_page": 1,
+          "published_date": "2021-01-01",
+          "regulation_code": "C0000/21",
+          "regulation_url": "http://eur-lex.europa.eu/search.html?whOJ=NO_OJ%3D,YEAR_OJ%3D2021,PAGE_FIRST%3D0001&DB_COLL_OJ=oj-1&type=advanced&lang=en"
+        }
+      ],
+      "measure_conditions": [
+
+      ],
+      "measure_components": [
+        {
+          "duty_expression_id": "01",
+          "duty_amount": 4.2,
+          "monetary_unit_code": null,
+          "monetary_unit_abbreviation": null,
+          "measurement_unit_code": null,
+          "duty_expression_description": "% or amount",
+          "duty_expression_abbreviation": "%",
+          "measurement_unit_qualifier_code": null
+        }
+      ],
+      "national_measurement_units": [
+
+      ],
+      "geographical_area": {
+        "id": "SG",
+        "description": "Singapore",
+        "geographical_area_id": "SG"
+      },
+      "excluded_countries": [
+
+      ],
+      "footnotes": [
+
+      ],
+      "order_number": null,
+      "resolved_measure_components": [
+
+      ],
+      "resolved_duty_expression": ""
+    }
+  ],
+  "export_measures": [
+
+  ],
+  "producline_suffix": "80",
+  "number_indents": 2,
+  "description": "Plums",
+  "goods_nomenclature_item_id": "0809400500",
+  "bti_url": "https://www.gov.uk/guidance/check-what-youll-need-to-get-a-legally-binding-decision-on-a-commodity-code",
+  "formatted_description": "Plums",
+  "description_plain": "Plums",
+  "consigned": false,
+  "consigned_from": null,
+  "basic_duty_rate": "<span>6.00</span> %",
+  "meursing_code": false,
+  "declarable": true,
+  "footnotes": [
+    {
+      "code": "PN001",
+      "description": "Products to which an entry price applies",
+      "formatted_description": "Products to which an entry price applies"
+    },
+    {
+      "code": "TN701",
+      "description": "According to the Council Regulation (EU) No 692/2014 (OJ L183, p. 9) it shall be prohibited to import into European Union goods originating in Crimea or Sevastopol.<br>The prohibition shall not apply in respect of: <br>(a) the execution until 26 September 2014, of trade contracts concluded before 25 June 2014, or of ancillary contracts necessary for the execution of such contracts, provided that the natural or legal persons, entity or body seeking to perform the contract have notified, at least 10 working days in advance, the activity or transaction to the competent authority of the Member State in which they are established. <br>(b) goods originating in Crimea or Sevastopol which have been made available to the Ukrainian authorities for examination, for which compliance with the conditions conferring entitlement to preferential origin has been verified and for which a certificate of origin has been issued in accordance with Regulation (EU) No 978/2012 and Regulation (EU) No 374/2014 or in accordance with the EU-Ukraine Association Agreement.",
+      "formatted_description": "According to the Council Regulation (EU) No 692/2014 (OJ L183, p. 9) it shall be prohibited to import into European Union goods originating in Crimea or Sevastopol.<br>The prohibition shall not apply in respect of: <br>(a) the execution until 26 September 2014, of trade contracts concluded before 25 June 2014, or of ancillary contracts necessary for the execution of such contracts, provided that the natural or legal persons, entity or body seeking to perform the contract have notified, at least 10 working days in advance, the activity or transaction to the competent authority of the Member State in which they are established. <br>(b) goods originating in Crimea or Sevastopol which have been made available to the Ukrainian authorities for examination, for which compliance with the conditions conferring entitlement to preferential origin has been verified and for which a certificate of origin has been issued in accordance with Regulation (EU) No 978/2012 and Regulation (EU) No 374/2014 or in accordance with the EU-Ukraine Association Agreement."
+    }
+  ],
+  "section": {
+    "numeral": "II",
+    "title": "Vegetable products",
+    "position": 2,
+    "section_note": "* 1\\. In this section the term 'pellets' means products which have been agglomerated either directly by compression or by the addition of a binder in a proportion not exceeding 3% by weight."
+  },
+  "chapter": {
+    "goods_nomenclature_item_id": "0800000000",
+    "description": "EDIBLE FRUIT AND NUTS; PEEL OF CITRUS FRUIT OR MELONS",
+    "formatted_description": "Edible fruit and nuts; peel of citrus fruit or melons",
+    "chapter_note": "* 1\\. This chapter does not cover inedible nuts or fruits.\r\n\r\n* 2\\. Chilled fruits and nuts are to be classified in the same headings as the corresponding fresh fruits and nuts.\r\n\r\n* 3\\. Dried fruit or dried nuts of this chapter may be partially rehydrated, or treated for the following purposes:\r\n  * (a) for additional preservation or stabilisation (for example, by moderate heat treatment, sulphuring, the addition of sorbic acid or potassium sorbate),\r\n  * (b) to improve or maintain their appearance (for example, by the addition of vegetable oil or small quantities of glucose syrup), provided that they retain the character of dried fruit or dried nuts.\r\n\r\n## Additional chapter notes ##\r\n\r\n* 1\\. The content of various sugars expressed as sucrose (sugar content) of the products classified in this chapter corresponds to the figure indicated by a refractometer at a temperature of 20C and multiplied by the factor 0.95.\r\n\r\n* 2\\. For the purposes of subheadings 0811 90 11, 0811 90 31 and 0811 90 85 'tropical fruit' means guavas, mangoes, mangosteens, papaws (papayas), tamarinds, cashew apples, lychees, jackfruit, sapodillo plums, passion fruit, carambola and pitahaya.\r\n\r\n* 3\\. For the purposes of subheadings 0811 90 11, 0811 90 31, 0811 90 85, 0812 90 70 and 0813 50 31 'tropical nuts' means coconuts, cashew nuts, Brazil nuts, areca (or betel), cola and macadamia nuts.\r\n",
+    "guides": [
+      {
+        "title": "Edible fruits, nuts and peel",
+        "url": "https://www.gov.uk/guidance/classifying-edible-fruits-nuts-and-peel"
+      }
+    ]
+  },
+  "heading": {
+    "goods_nomenclature_item_id": "0809000000",
+    "description": "Apricots, cherries, peaches (including nectarines), plums and sloes, fresh",
+    "formatted_description": "Apricots, cherries, peaches (including nectarines), plums and sloes, fresh",
+    "description_plain": "Apricots, cherries, peaches (including nectarines), plums and sloes, fresh"
+  },
+  "ancestors": [
+    {
+      "producline_suffix": "80",
+      "description": "Plums and sloes",
+      "number_indents": 1,
+      "goods_nomenclature_item_id": "0809400000",
+      "formatted_description": "Plums and sloes",
+      "description_plain": "Plums and sloes"
+    }
+  ]
+}

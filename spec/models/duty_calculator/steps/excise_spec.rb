@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::Excise, :step, :user_session do
-  subject(:step) { build(:excise) }
+  subject(:step) { build(:duty_calculator_excise) }
 
-  let(:user_session) { build(:user_session, :with_commodity_information) }
+  let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
   let(:filtered_commodity) { instance_double(DutyCalculator::Api::Commodity) }
   let(:applicable_vat_options) { {} }
 
@@ -83,7 +83,7 @@ RSpec.describe DutyCalculator::Steps::Excise, :step, :user_session do
     context 'when measure_type_id is missing' do
       subject(:step) do
         build(
-          :excise,
+          :duty_calculator_excise,
           user_session:,
           measure_type_id: nil,
         )
@@ -105,13 +105,13 @@ RSpec.describe DutyCalculator::Steps::Excise, :step, :user_session do
     context 'when the additional_code is not present' do
       subject(:step) do
         build(
-          :excise,
+          :duty_calculator_excise,
           user_session:,
           additional_code: nil,
         )
       end
 
-      let(:user_session) { build(:user_session, :with_commodity_information) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
 
       it 'is not a valid object' do
         expect(step).not_to be_valid
@@ -125,9 +125,9 @@ RSpec.describe DutyCalculator::Steps::Excise, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     it 'saves the additional codes on to the session' do
-      expect { step.save }.to change(user_session, :excise_additional_code).from({}).to('306' => '444')
+      expect { step.save! }.to change(user_session, :excise_additional_code).from({}).to('306' => '444')
     end
   end
 
@@ -200,7 +200,7 @@ RSpec.describe DutyCalculator::Steps::Excise, :step, :user_session do
     context 'when there is no additional codes being passed in, but the value is on the session' do
       subject(:step) do
         build(
-          :excise,
+          :duty_calculator_excise,
           user_session:,
           additional_code: nil,
         )
@@ -208,7 +208,7 @@ RSpec.describe DutyCalculator::Steps::Excise, :step, :user_session do
 
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_excise_additional_codes,
           :with_commodity_information,
         )
@@ -227,7 +227,7 @@ RSpec.describe DutyCalculator::Steps::Excise, :step, :user_session do
 
     before do
       allow(filtered_commodity).to receive(:applicable_measure_units).and_return(applicable_measure_units)
-      allow(ApplicableMeasureUnitMerger).to receive(:new).and_call_original
+      allow(DutyCalculator::ApplicableMeasureUnitMerger).to receive(:new).and_call_original
     end
 
     context 'when there is just one measure type id available and measure units are available' do
@@ -257,10 +257,10 @@ RSpec.describe DutyCalculator::Steps::Excise, :step, :user_session do
 
       it { expect(step.previous_step_path).to eq(measure_amount_path) }
 
-      it 'calls the ApplicableMeasureUnitMerger service' do
+      it 'calls the DutyCalculator::ApplicableMeasureUnitMerger service' do
         step.previous_step_path
 
-        expect(ApplicableMeasureUnitMerger).to have_received(:new)
+        expect(DutyCalculator::ApplicableMeasureUnitMerger).to have_received(:new)
       end
     end
 

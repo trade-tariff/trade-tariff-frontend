@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :measure_type, class: 'DutyCalculator::Api::MeasureType' do
+  factory :duty_calculator_measure_type, class: 'DutyCalculator::Api::MeasureType' do
     id {}
     description {}
     national { false }

@@ -22,7 +22,7 @@ module DutyCalculator
       attr_reader :applicable_measure_units
 
       validates_each :answers do |record, _attr, _value|
-        validation_messages = I18n.t('activemodel.errors.models.steps/measure_amount.attributes.answers')
+        validation_messages = I18n.t('activemodel.errors.models.duty_calculator/steps/measure_amount.attributes.answers')
 
         record.applicable_measure_units.each do |key, values|
           type = values['measurement_unit_type'].presence || DEFAULT_MEASUREMENT_UNIT_TYPE

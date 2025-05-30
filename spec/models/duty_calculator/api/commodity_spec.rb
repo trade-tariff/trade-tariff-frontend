@@ -3,7 +3,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
 
   let(:commodity_code) { '0702000007' }
   let(:service) { :uk }
-  let(:user_session) { build(:user_session) }
+  let(:user_session) { build(:duty_calculator_user_session) }
 
   before do
     allow(Uktt::Commodity).to receive(:new).and_call_original
@@ -55,7 +55,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
 
   describe '#import_measures' do
     it 'returns a list of measures' do
-      all_are_measures = commodity.import_measures.all? { |resource| resource.is_a?(Api::Measure) }
+      all_are_measures = commodity.import_measures.all? { |resource| resource.is_a?(DutyCalculator::Api::Measure) }
 
       expect(all_are_measures).to be(true)
     end
@@ -63,7 +63,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
 
   describe '#export_measures' do
     it 'returns a list of measures' do
-      all_are_measures = commodity.export_measures.all? { |resource| resource.is_a?(Api::Measure) }
+      all_are_measures = commodity.export_measures.all? { |resource| resource.is_a?(DutyCalculator::Api::Measure) }
 
       expect(all_are_measures).to be(true)
     end
@@ -146,7 +146,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
 
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           additional_code: { 'xi' => { '103' => picked_additional_code } },
           excise: { '306' => '419' },
         )
@@ -253,22 +253,22 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
     end
 
     context 'when the user session has no origin country code in it' do
-      let(:user_session) { build(:user_session) }
+      let(:user_session) { build(:duty_calculator_user_session) }
 
       it { expect { commodity.rules_of_origin_schemes }.to raise_error(DutyCalculator::Errors::SessionIntegrityError, /origin_country_code/) }
     end
 
     context 'when the user session has an origin country code in it' do
-      let(:user_session) { build(:user_session, :with_row_to_gb_route) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_gb_route) }
 
       it 'passes the correct arguments to the RulesOfOriginScheme collection builder' do
         commodity.rules_of_origin_schemes
 
-        expect(Api::RulesOfOriginScheme).to have_received(:build_collection).with('uk', nil, { country_code: 'AR', heading_code: '070200' })
+        expect(DutyCalculator::Api::RulesOfOriginScheme).to have_received(:build_collection).with('uk', nil, { country_code: 'AR', heading_code: '070200' })
       end
 
       it 'returns a collection of RulesOfOriginScheme records' do
-        expect(commodity.rules_of_origin_schemes.first).to be_a(Api::RulesOfOriginScheme)
+        expect(commodity.rules_of_origin_schemes.first).to be_a(DutyCalculator::Api::RulesOfOriginScheme)
       end
     end
   end
@@ -277,7 +277,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
     context 'when all measures have an applicable stopping condition' do
       subject(:commodity) { build(:duty_calculator_commodity, :with_multiple_stopping_condition_measures) }
 
-      let(:user_session) { build(:user_session, :with_multiple_stopping_condition_document_answers) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_multiple_stopping_condition_document_answers) }
 
       it { is_expected.to be_stopping_conditions_met }
     end
@@ -285,7 +285,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
     context 'when one of the measures have an applicable stopping condition' do
       subject(:commodity) { build(:duty_calculator_commodity, :with_multiple_stopping_condition_measures) }
 
-      let(:user_session) { build(:user_session, :with_a_single_stopping_condition_document_answer) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_a_single_stopping_condition_document_answer) }
 
       it { is_expected.to be_stopping_conditions_met }
     end
@@ -293,7 +293,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
     context 'when none of the measures have an applicable stopping condition' do
       subject(:commodity) { build(:duty_calculator_commodity, :with_multiple_stopping_condition_measures) }
 
-      let(:user_session) { build(:user_session) }
+      let(:user_session) { build(:duty_calculator_user_session) }
 
       it { is_expected.not_to be_stopping_conditions_met }
     end
@@ -301,7 +301,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
     context 'when there are no stopping measures' do
       subject(:commodity) { build(:duty_calculator_commodity, :with_measures) }
 
-      let(:user_session) { build(:user_session) }
+      let(:user_session) { build(:duty_calculator_user_session) }
 
       it { is_expected.not_to be_stopping_conditions_met }
     end
@@ -309,7 +309,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
     context 'when there are no measures' do
       subject(:commodity) { build(:duty_calculator_commodity, :without_measures) }
 
-      let(:user_session) { build(:user_session) }
+      let(:user_session) { build(:duty_calculator_user_session) }
 
       it { is_expected.not_to be_stopping_conditions_met }
     end

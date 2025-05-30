@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :definition, class: 'DutyCalculator::Api::Definition' do
+  factory :duty_calculator_definition, class: 'DutyCalculator::Api::Definition' do
     id { '20857' }
     initial_volume { '46544000.0' }
     validity_start_date { '2021-04-01T00:00:00.000Z' }

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :rules_of_origin_scheme, class: 'DutyCalculator::Api::RulesOfOriginScheme' do
+  factory :duty_calculator_rules_of_origin_scheme, class: 'DutyCalculator::Api::RulesOfOriginScheme' do
     scheme_code { 'albania' }
     title { 'UK-Albania partnership Trade and Cooperation Agreement' }
     countries { %w[AL] }

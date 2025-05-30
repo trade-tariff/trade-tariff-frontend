@@ -1,5 +1,5 @@
 RSpec.describe DutyCalculator::Steps::DocumentCodesController, :user_session do
-  let(:user_session) { build(:user_session, :with_commodity_information, commodity_code: '1516209821') }
+  let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, commodity_code: '1516209821') }
 
   describe 'GET #show' do
     subject(:response) { get :show, params: { measure_type_id: '117' } }

@@ -49,7 +49,7 @@ RSpec.describe DutyCalculator::DutyOptionResult do
   end
 
   describe '#footnote' do
-    subject(:result) { build(:duty_option_result, :third_country_tariff) }
+    subject(:result) { build(:duty_calculator_duty_option_result, :third_country_tariff) }
 
     context 'when there is a suffix' do
       let(:expected_footnote) do
@@ -78,7 +78,7 @@ RSpec.describe DutyCalculator::DutyOptionResult do
 
   describe '#show_rules_of_origin?' do
     shared_examples_for 'an option result that shows rules of origin' do |option_type|
-      subject(:result) { build(:duty_option_result, :uk, option_type) }
+      subject(:result) { build(:duty_calculator_duty_option_result, :uk, option_type) }
 
       it { is_expected.to be_show_rules_of_origin }
     end
@@ -88,13 +88,13 @@ RSpec.describe DutyCalculator::DutyOptionResult do
     it_behaves_like 'an option result that shows rules of origin', :preferential_quota_end_use
 
     context 'when not on the uk service' do
-      subject(:result) { build(:duty_option_result, :xi, :tariff_preference) }
+      subject(:result) { build(:duty_calculator_duty_option_result, :xi, :tariff_preference) }
 
       it { is_expected.not_to be_show_rules_of_origin }
     end
 
     context 'when there is no scheme code' do
-      subject(:result) { build(:duty_option_result, :uk, :third_country_tariff) }
+      subject(:result) { build(:duty_calculator_duty_option_result, :uk, :third_country_tariff) }
 
       it { is_expected.not_to be_show_rules_of_origin }
     end

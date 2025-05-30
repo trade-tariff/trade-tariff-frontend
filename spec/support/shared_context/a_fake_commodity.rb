@@ -1,7 +1,7 @@
 RSpec.shared_context 'with a fake commodity' do
   let(:commodity_context_service) { instance_double(DutyCalculator::CommodityContextService) }
 
-  let(:commodity) { build(:commodity) }
+  let(:commodity) { build(:duty_calculator_commodity) }
   let(:uk_commodity) { nil }
   let(:xi_commodity) { nil }
 

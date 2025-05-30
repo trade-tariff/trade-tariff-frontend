@@ -1,10 +1,10 @@
 RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
   before do
     allow(DutyCalculator).to receive(:new).and_return(duty_calculator)
-    allow(Api::MonetaryExchangeRate).to receive(:for).with('GBP').and_call_original
+    allow(DutyCalculator::Api::MonetaryExchangeRate).to receive(:for).with('GBP').and_call_original
   end
 
-  let(:user_session) { build(:user_session, import_destination: 'XI', commodity_code: '0103921100', country_of_origin: 'AF') }
+  let(:user_session) { build(:duty_calculator_user_session, import_destination: 'XI', commodity_code: '0103921100', country_of_origin: 'AF') }
   let(:duty_calculator) { instance_double(DutyCalculator, options: []) }
 
   describe 'GET #show' do
@@ -12,7 +12,7 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
 
     it 'assigns the correct rules of origin' do
       response
-      expect(assigns[:rules_of_origin_schemes].first).to be_a(Api::RulesOfOriginScheme)
+      expect(assigns[:rules_of_origin_schemes].first).to be_a(DutyCalculator::Api::RulesOfOriginScheme)
     end
 
     it 'assigns the correct duty options' do
@@ -27,7 +27,7 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
 
     it 'calls the ExchangeRate api' do
       response
-      expect(Api::MonetaryExchangeRate).to have_received(:for)
+      expect(DutyCalculator::Api::MonetaryExchangeRate).to have_received(:for)
     end
 
     it { expect(response).to have_http_status(:ok) }
@@ -39,7 +39,7 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
     end
 
     context 'when on ROW to NI' do
-      let(:user_session) { build(:user_session, :with_commodity_information, :deltas_applicable, commodity_code: '0103921100') }
+      let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, :deltas_applicable, commodity_code: '0103921100') }
       let(:row_to_ni_duty_calculator) { instance_double(RowToNiDutyCalculator, options: []) }
 
       it 'calls the RowToNiDutyCalculator' do
@@ -58,7 +58,7 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
     end
 
     context 'when there are duty options available' do
-      let(:duty_options) { build_list(:duty_option_result, 1) }
+      let(:duty_options) { build_list(:duty_calculator_duty_option_result, 1) }
 
       it { expect(controller.helpers.title).to eq('Import duty calculation - Online Tariff Duty calculator') }
     end

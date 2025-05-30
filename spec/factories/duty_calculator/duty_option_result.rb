@@ -1,11 +1,11 @@
 FactoryBot.define do
-  factory :duty_option_result, class: 'DutyCalculator::DutyOptionResult' do
+  factory :duty_calculator_duty_option_result, class: 'DutyCalculator::DutyOptionResult' do
     transient do
       measure_type_id { '103' }
     end
 
-    type { DutyOptions::ThirdCountryTariff.id }
-    category { DutyOptions::ThirdCountryTariff::CATEGORY }
+    type { DutyCalculator::DutyOptions::ThirdCountryTariff.id }
+    category { DutyCalculator::DutyOptions::ThirdCountryTariff::CATEGORY }
     footnote { I18n.t("measure_type_footnotes.#{measure_type_id}") }
     measure_sid { generate(:measure_sid) }
     warning_text {}
@@ -78,7 +78,7 @@ FactoryBot.define do
   end
 
   trait :additional_duty do
-    type { DutyOptions::AdditionalDuty::Excise.id }
+    type { DutyCalculator::DutyOptions::AdditionalDuty::Excise.id }
     category { DutyCalculator::DutyOptions::AdditionalDuty::Excise::CATEGORY }
     measure_type_id { '306' }
     priority { DutyCalculator::DutyOptions::AdditionalDuty::Excise::PRIORITY }

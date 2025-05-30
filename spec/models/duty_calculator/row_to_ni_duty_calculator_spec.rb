@@ -3,7 +3,7 @@ RSpec.describe DutyCalculator::RowToNiDutyCalculator, :user_session do
 
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       :with_commodity_information,
       :with_import_date,
       :with_import_destination,
@@ -27,21 +27,21 @@ RSpec.describe DutyCalculator::RowToNiDutyCalculator, :user_session do
   describe '#call' do
     let(:unhandled_option) do
       build(
-        :duty_option_result,
+        :duty_calculator_duty_option_result,
         :unhandled,
       )
     end
 
     context 'when there are unhandled options' do
       let(:uk_options) do
-        OptionCollection.new(
+        DutyCalculator::OptionCollection.new(
           [
             unhandled_option,
           ],
         )
       end
       let(:xi_options) do
-        OptionCollection.new(
+        DutyCalculator::OptionCollection.new(
           [
             unhandled_option,
           ],

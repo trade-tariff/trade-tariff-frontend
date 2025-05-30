@@ -1,7 +1,7 @@
 FactoryBot.define do
   sequence(:monetary_exchange_rate_id)
 
-  factory :monetary_exchange_rate, class: 'DutyCalculator::Api::MonetaryExchangeRate' do
+  factory :duty_calculator_monetary_exchange_rate, class: 'DutyCalculator::Api::MonetaryExchangeRate' do
     id { generate(:monetary_exchange_rate_id) }
     child_monetary_unit_code { 'GBP' }
     exchange_rate { '0.7298' }

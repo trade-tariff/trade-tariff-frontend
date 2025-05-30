@@ -1,7 +1,7 @@
 FactoryBot.define do
   sequence(:measure_condition_sid, &:to_s)
 
-  factory :measure_condition, class: 'DutyCalculator::Api::MeasureCondition' do
+  factory :duty_calculator_measure_condition, class: 'DutyCalculator::Api::MeasureCondition' do
     id { generate(:measure_condition_sid) }
     action {}
     action_code {}
@@ -26,7 +26,7 @@ FactoryBot.define do
       measure_condition_components do
         [
           attributes_for(
-            :measure_condition_component,
+            :duty_calculator_measure_condition_component,
             :with_measure_units,
             measure_condition_sid: id,
           ),

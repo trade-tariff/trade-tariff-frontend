@@ -4,7 +4,7 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Vat, :user_session do
   end
 
   let(:measure) do
-    Api::Measure.new(
+    DutyCalculator::Api::Measure.new(
       'id' => 20_001_033,
       'duty_expression' => {
         'base' => '8.00 %',
@@ -19,7 +19,7 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Vat, :user_session do
     )
   end
   let(:component) do
-    Api::MeasureComponent.new(
+    DutyCalculator::Api::MeasureComponent.new(
       {
         'duty_expression_id' => '01',
         'duty_amount' => 8.0,
@@ -54,7 +54,7 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Vat, :user_session do
     }
   end
 
-  let(:user_session) { build(:user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
 
   let(:duty_total) { 1000.0 }
 

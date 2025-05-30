@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :duty_calculator_rules_of_origin_scheme, class: 'DutyCalculator::RulesOfOrigin::Scheme' do
+  factory :rules_of_origin_scheme, class: 'RulesOfOrigin::Scheme' do
     transient do
       rule_count { 3 }
       link_count { 2 }

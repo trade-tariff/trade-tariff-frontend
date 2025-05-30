@@ -5,7 +5,7 @@ RSpec.describe DutyCalculator::ConfirmationDecorator, :user_session do
 
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       :with_commodity_information,
       :with_import_date,
       :with_import_destination,
@@ -76,7 +76,7 @@ RSpec.describe DutyCalculator::ConfirmationDecorator, :user_session do
     end
 
     context 'when no document code has been selected' do
-      let(:user_session) { build(:user_session, :with_no_document_code_selected) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_no_document_code_selected) }
 
       let(:expected) do
         [

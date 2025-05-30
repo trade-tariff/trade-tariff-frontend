@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :meursing_additional_code, class: 'DutyCalculator::Steps::MeursingAdditionalCode', parent: :step do
+  factory :duty_calculator_meursing_additional_code, class: 'DutyCalculator::Steps::MeursingAdditionalCode', parent: :duty_calculator_step do
     transient do
       possible_attributes { { meursing_additional_code: 'meursing_additional_code' } }
     end

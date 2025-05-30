@@ -87,8 +87,8 @@ RSpec.configure do |config|
 
     Thread.current[:commodity_context_service] = DutyCalculator::CommodityContextService.new
 
-    Rails.application.config.http_client_uk = FakeUkttHttp.new(nil, 'uk', nil, nil)
-    Rails.application.config.http_client_xi = FakeUkttHttp.new(nil, 'xi', nil, nil)
+    Rails.application.config.duty_calculator_http_client_uk = FakeUkttHttp.new(nil, 'uk', nil, nil)
+    Rails.application.config.duty_calculator_http_client_xi = FakeUkttHttp.new(nil, 'xi', nil, nil)
 
     stub_const('Uktt::Http', FakeUkttHttp)
   end

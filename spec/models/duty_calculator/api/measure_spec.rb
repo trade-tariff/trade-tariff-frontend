@@ -1,9 +1,9 @@
 RSpec.describe DutyCalculator::Api::Measure, :user_session do
-  subject(:measure) { build(:measure) }
+  subject(:measure) { build(:duty_calculator_measure) }
 
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       :with_commodity_information,
       :with_document_codes,
       :with_excise_additional_codes,
@@ -53,7 +53,7 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
                                                     resolved_duty_expression: ''
 
   describe '#evaluator' do
-    subject(:measure) { build(:measure, :third_country_tariff, source: 'xi', measure_components:) }
+    subject(:measure) { build(:duty_calculator_measure, :third_country_tariff, source: 'xi', measure_components:) }
 
     shared_examples_for 'a measure evaluator' do |expected_evaluator|
       it 'instantiates the correct evaluator' do
@@ -66,27 +66,27 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
     end
 
     it_behaves_like 'a measure evaluator', DutyCalculator::ExpressionEvaluators::AdValorem do
-      let(:measure_components) { [attributes_for(:measure_component, :ad_valorem)] }
+      let(:measure_components) { [attributes_for(:duty_calculator_measure_component, :ad_valorem)] }
     end
 
     it_behaves_like 'a measure evaluator', DutyCalculator::ExpressionEvaluators::MeasureUnit do
-      let(:measure_components) { [attributes_for(:measure_component, :with_measure_units, :single_measure_unit)] }
+      let(:measure_components) { [attributes_for(:duty_calculator_measure_component, :with_measure_units, :single_measure_unit)] }
     end
 
     it_behaves_like 'a measure evaluator', DutyCalculator::ExpressionEvaluators::AlcoholVolumeMeasureUnit do
-      let(:measure_components) { [attributes_for(:measure_component, :with_measure_units, :alcohol_volume)] }
+      let(:measure_components) { [attributes_for(:duty_calculator_measure_component, :with_measure_units, :alcohol_volume)] }
     end
 
     it_behaves_like 'a measure evaluator', DutyCalculator::ExpressionEvaluators::SucroseMeasureUnit do
-      let(:measure_components) { [attributes_for(:measure_component, :with_measure_units, :sucrose)] }
+      let(:measure_components) { [attributes_for(:duty_calculator_measure_component, :with_measure_units, :sucrose)] }
     end
 
     it_behaves_like 'a measure evaluator', DutyCalculator::ExpressionEvaluators::RetailPrice do
-      let(:measure_components) { [attributes_for(:measure_component, :with_retail_price_measure_units)] }
+      let(:measure_components) { [attributes_for(:duty_calculator_measure_component, :with_retail_price_measure_units)] }
     end
 
     it_behaves_like 'a measure evaluator', DutyCalculator::ExpressionEvaluators::Compound do
-      let(:measure_components) { [attributes_for(:measure_component, :with_measure_units), attributes_for(:measure_component, :ad_valorem)] }
+      let(:measure_components) { [attributes_for(:duty_calculator_measure_component, :with_measure_units), attributes_for(:duty_calculator_measure_component, :ad_valorem)] }
     end
   end
 
@@ -406,7 +406,7 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
 
     context 'when there are document measure conditions with a matching document answer' do
       let(:user_session) do
-        build(:user_session, document_code: { 'uk' => { '117' => 'C990' } })
+        build(:duty_calculator_user_session, document_code: { 'uk' => { '117' => 'C990' } })
       end
 
       let(:matching_condition) do
@@ -568,7 +568,7 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
     context 'when the matching document condition is applicable' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           document_code: { 'uk' => { '117' => 'C990' } },
         )
       end
@@ -599,7 +599,7 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
     context 'when the matching document condition is not applicable' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           document_code: { 'uk' => { '117' => 'None' } },
         )
       end
@@ -630,7 +630,7 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
     context 'when the matching threshold condition is applicable' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           measure_amount: { 'asv' => 10.42 },
         )
       end
@@ -685,22 +685,22 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
   describe '#all_units' do
     subject(:measure) do
       build(
-        :measure,
+        :duty_calculator_measure,
         measure_components:,
         resolved_measure_components:,
         measure_conditions:,
       )
     end
 
-    let(:measure_components) { [attributes_for(:measure_component, :with_measure_units)] }
-    let(:resolved_measure_components) { [attributes_for(:measure_component, :with_retail_price_measure_units)] }
+    let(:measure_components) { [attributes_for(:duty_calculator_measure_component, :with_measure_units)] }
+    let(:resolved_measure_components) { [attributes_for(:duty_calculator_measure_component, :with_retail_price_measure_units)] }
     let(:measure_conditions) do
       [
         attributes_for(
-          :measure_condition,
+          :duty_calculator_measure_condition,
           measure_condition_components: [
             attributes_for(
-              :measure_condition_component,
+              :duty_calculator_measure_condition_component,
               :with_measure_units,
             ),
           ],
@@ -713,25 +713,25 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
 
   describe '#stopping_condition_met?' do
     context 'when there is a stopping condition with a stopping user session answer' do
-      subject(:measure) { build(:measure, :third_country_tariff_authorised_use, :with_stopping_conditions) }
+      subject(:measure) { build(:duty_calculator_measure, :third_country_tariff_authorised_use, :with_stopping_conditions) }
 
-      let(:user_session) { build(:user_session, :with_multiple_stopping_condition_document_answers) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_multiple_stopping_condition_document_answers) }
 
       it { is_expected.to be_stopping_condition_met }
     end
 
     context 'when there is a stopping condition with no stopping user session answer' do
-      subject(:measure) { build(:measure, :third_country_tariff_authorised_use, :with_stopping_conditions) }
+      subject(:measure) { build(:duty_calculator_measure, :third_country_tariff_authorised_use, :with_stopping_conditions) }
 
-      let(:user_session) { build(:user_session, :with_a_single_stopping_condition_document_answer) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_a_single_stopping_condition_document_answer) }
 
       it { is_expected.not_to be_stopping_condition_met }
     end
 
     context 'when there are no stopping conditions' do
-      subject(:measure) { build(:measure, :third_country_tariff_authorised_use) }
+      subject(:measure) { build(:duty_calculator_measure, :third_country_tariff_authorised_use) }
 
-      let(:user_session) { build(:user_session, :with_a_single_stopping_condition_document_answer) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_a_single_stopping_condition_document_answer) }
 
       it { is_expected.not_to be_stopping_condition_met }
     end
@@ -739,13 +739,13 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
 
   describe '#stopping?' do
     context 'when the measure has a measure condition that is stopping' do
-      subject(:measure) { build(:measure, :with_stopping_conditions) }
+      subject(:measure) { build(:duty_calculator_measure, :with_stopping_conditions) }
 
       it { is_expected.to be_stopping }
     end
 
     context 'when the measure does not have a measure condition that is stopping' do
-      subject(:measure) { build(:measure) }
+      subject(:measure) { build(:duty_calculator_measure) }
 
       it { is_expected.not_to be_stopping }
     end

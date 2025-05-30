@@ -15,49 +15,49 @@ RSpec.describe DutyCalculator::OptionCollection do
 
   let(:third_country_tariff_option) do
     build(
-      :duty_option_result,
+      :duty_calculator_duty_option_result,
       :third_country_tariff,
       value: 0.2,
     )
   end
   let(:tariff_preference_option) do
     build(
-      :duty_option_result,
+      :duty_calculator_duty_option_result,
       :tariff_preference,
       value: 100,
     )
   end
   let(:cheapest_tariff_preference_option) do
     build(
-      :duty_option_result,
+      :duty_calculator_duty_option_result,
       :tariff_preference,
       value: 0.5,
     )
   end
   let(:suspension_option) do
     build(
-      :duty_option_result,
+      :duty_calculator_duty_option_result,
       :suspension,
       value: 100,
     )
   end
   let(:cheapest_suspension_option) do
     build(
-      :duty_option_result,
+      :duty_calculator_duty_option_result,
       :suspension,
       value: 0.5,
     )
   end
   let(:quota_option) do
     build(
-      :duty_option_result,
+      :duty_calculator_duty_option_result,
       :quota,
       value: 100,
     )
   end
   let(:cheapest_quota_option) do
     build(
-      :duty_option_result,
+      :duty_calculator_duty_option_result,
       :quota,
       value: 0.5,
     )

@@ -1,5 +1,5 @@
 RSpec.describe DutyCalculator::UserSession do
-  subject(:user_session) { build(:user_session, commodity_source: nil) }
+  subject(:user_session) { build(:duty_calculator_user_session, commodity_source: nil) }
 
   let(:session) { user_session.session }
 
@@ -24,14 +24,14 @@ RSpec.describe DutyCalculator::UserSession do
   it_behaves_like 'a user session dual route attribute', :additional_code, { '142' => '2340', '353' => '2601' }
 
   describe '#import_date' do
-    subject(:user_session) { build(:user_session) }
+    subject(:user_session) { build(:duty_calculator_user_session) }
 
     it 'returns nil if the key is not on the session' do
       expect(user_session.import_date).to be_nil
     end
 
     context 'when the key is present on the session' do
-      subject(:user_session) { build(:user_session, import_date: '2025-01-01') }
+      subject(:user_session) { build(:duty_calculator_user_session, import_date: '2025-01-01') }
 
       let(:expected_date) { Date.parse('2025-01-01') }
 
@@ -47,12 +47,12 @@ RSpec.describe DutyCalculator::UserSession do
     it 'sets the key on the session' do
       user_session.import_date = '2025-01-01'
 
-      expect(session['answers'][Steps::ImportDate.id]).to eq(expected_date)
+      expect(session['answers'][DutyCalculator::Steps::ImportDate.id]).to eq(expected_date)
     end
   end
 
   describe '#insurance_cost' do
-    subject(:user_session) { build(:user_session, customs_value: { 'insurance_cost' => '340' }) }
+    subject(:user_session) { build(:duty_calculator_user_session, customs_value: { 'insurance_cost' => '340' }) }
 
     it 'returns the correct value from the session' do
       expect(user_session.insurance_cost).to eq('340')
@@ -60,7 +60,7 @@ RSpec.describe DutyCalculator::UserSession do
   end
 
   describe '#shipping_cost' do
-    subject(:user_session) { build(:user_session, customs_value: { 'shipping_cost' => '1_200' }) }
+    subject(:user_session) { build(:duty_calculator_user_session, customs_value: { 'shipping_cost' => '1_200' }) }
 
     it 'returns the correct value from the session' do
       expect(user_session.shipping_cost).to eq('1_200')
@@ -68,7 +68,7 @@ RSpec.describe DutyCalculator::UserSession do
   end
 
   describe '#monetary_value' do
-    subject(:user_session) { build(:user_session, customs_value: { 'monetary_value' => '12000' }) }
+    subject(:user_session) { build(:duty_calculator_user_session, customs_value: { 'monetary_value' => '12000' }) }
 
     it 'returns the correct value from the session' do
       expect(user_session.monetary_value).to eq('12000')
@@ -92,7 +92,7 @@ RSpec.describe DutyCalculator::UserSession do
   end
 
   describe '#measure_amount' do
-    subject(:user_session) { build(:user_session, measure_amount: { foo: :bar }) }
+    subject(:user_session) { build(:duty_calculator_user_session, measure_amount: { foo: :bar }) }
 
     it 'returns the correct value from the session' do
       expect(user_session.measure_amount).to eq(foo: :bar)
@@ -112,7 +112,7 @@ RSpec.describe DutyCalculator::UserSession do
   describe '#additional_code_measure_type_ids' do
     subject(:user_session) do
       build(
-        :user_session,
+        :duty_calculator_user_session,
         :with_additional_codes,
         :with_commodity_information,
       )
@@ -125,7 +125,7 @@ RSpec.describe DutyCalculator::UserSession do
     context 'when on the deltas applicable route' do
       subject(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_additional_codes,
           :with_commodity_information,
           :deltas_applicable,
@@ -141,7 +141,7 @@ RSpec.describe DutyCalculator::UserSession do
   describe '#document_code_measure_type_ids' do
     subject(:user_session) do
       build(
-        :user_session,
+        :duty_calculator_user_session,
         :with_document_codes,
         :with_commodity_information,
       )
@@ -154,7 +154,7 @@ RSpec.describe DutyCalculator::UserSession do
     context 'when on the deltas applicable route' do
       subject(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_document_codes,
           :with_commodity_information,
           :deltas_applicable,
@@ -170,7 +170,7 @@ RSpec.describe DutyCalculator::UserSession do
   describe '#excise_additional_code' do
     subject(:user_session) do
       build(
-        :user_session,
+        :duty_calculator_user_session,
         :with_commodity_information,
         :with_excise_additional_codes,
       )
@@ -211,7 +211,7 @@ RSpec.describe DutyCalculator::UserSession do
   describe '#excise_measure_type_ids' do
     subject(:user_session) do
       build(
-        :user_session,
+        :duty_calculator_user_session,
         :with_excise_additional_codes,
         :with_commodity_information,
       )
@@ -224,7 +224,7 @@ RSpec.describe DutyCalculator::UserSession do
 
   describe '#ni_to_gb_route?' do
     context 'when import country is GB and origin country is NI' do
-      subject(:user_session) { build(:user_session, import_destination: 'UK', country_of_origin: 'XI') }
+      subject(:user_session) { build(:duty_calculator_user_session, import_destination: 'UK', country_of_origin: 'XI') }
 
       it 'returns true' do
         expect(user_session.ni_to_gb_route?).to be true
@@ -238,7 +238,7 @@ RSpec.describe DutyCalculator::UserSession do
 
   describe '#eu_to_ni_route?' do
     context 'when import country is NI and origin country is a EU Member' do
-      subject(:user_session) { build(:user_session, import_destination: 'XI', country_of_origin: 'RO') }
+      subject(:user_session) { build(:duty_calculator_user_session, import_destination: 'XI', country_of_origin: 'RO') }
 
       it 'returns true' do
         expect(user_session.eu_to_ni_route?).to be true
@@ -252,7 +252,7 @@ RSpec.describe DutyCalculator::UserSession do
 
   describe '#gb_to_ni_route?' do
     context 'when import country is XI and origin country is GB' do
-      subject(:user_session) { build(:user_session, import_destination: 'XI', country_of_origin: 'GB') }
+      subject(:user_session) { build(:duty_calculator_user_session, import_destination: 'XI', country_of_origin: 'GB') }
 
       it 'returns true' do
         expect(user_session.gb_to_ni_route?).to be true
@@ -266,7 +266,7 @@ RSpec.describe DutyCalculator::UserSession do
 
   describe '#row_to_gb_route?' do
     context 'when import country is UK and origin country is anything but XI' do
-      subject(:user_session) { build(:user_session, import_destination: 'UK', country_of_origin: 'RO') }
+      subject(:user_session) { build(:duty_calculator_user_session, import_destination: 'UK', country_of_origin: 'RO') }
 
       it 'returns true' do
         expect(user_session.row_to_gb_route?).to be true
@@ -282,7 +282,7 @@ RSpec.describe DutyCalculator::UserSession do
     context 'when import country is XI and origin country is anything but GB or any EU member' do
       subject(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           import_destination: 'XI',
           country_of_origin: 'OTHER',
           other_country_of_origin: 'AR',
@@ -301,13 +301,13 @@ RSpec.describe DutyCalculator::UserSession do
 
   describe '#acceptable_processing?' do
     context 'when the planned_processing answer is `commercial_purposes`' do
-      subject(:user_session) { build(:user_session, planned_processing: 'commercial_purposes') }
+      subject(:user_session) { build(:duty_calculator_user_session, planned_processing: 'commercial_purposes') }
 
       it { is_expected.not_to be_acceptable_processing }
     end
 
     context 'when the planned_processing answer is not `commercial_purposes`' do
-      subject(:user_session) { build(:user_session, planned_processing: 'foo') }
+      subject(:user_session) { build(:duty_calculator_user_session, planned_processing: 'foo') }
 
       it { is_expected.to be_acceptable_processing }
     end
@@ -315,13 +315,13 @@ RSpec.describe DutyCalculator::UserSession do
 
   describe '#unacceptable_processing?' do
     context 'when the planned_processing answer is `commercial_purposes`' do
-      subject(:user_session) { build(:user_session, planned_processing: 'commercial_purposes') }
+      subject(:user_session) { build(:duty_calculator_user_session, planned_processing: 'commercial_purposes') }
 
       it { is_expected.to be_unacceptable_processing }
     end
 
     context 'when the planned_processing answer is not `commercial_purposes`' do
-      subject(:user_session) { build(:user_session, planned_processing: 'foo') }
+      subject(:user_session) { build(:duty_calculator_user_session, planned_processing: 'foo') }
 
       it { is_expected.not_to be_unacceptable_processing }
     end
@@ -329,49 +329,49 @@ RSpec.describe DutyCalculator::UserSession do
 
   describe '#deltas_applicable?' do
     context 'when on a deltas applicable route with unnacceptable commercial purposes and a small turnover' do
-      subject(:user_session) { build(:user_session, :deltas_applicable, :with_small_turnover, planned_processing: 'commercial_purposes') }
+      subject(:user_session) { build(:duty_calculator_user_session, :deltas_applicable, :with_small_turnover, planned_processing: 'commercial_purposes') }
 
       it { is_expected.to be_deltas_applicable }
     end
 
     context 'when on a deltas applicable route with acceptable commercial processing and a high turnover' do
-      subject(:user_session) { build(:user_session, :deltas_applicable, :with_large_turnover, planned_processing: 'without_any_processing') }
+      subject(:user_session) { build(:duty_calculator_user_session, :deltas_applicable, :with_large_turnover, planned_processing: 'without_any_processing') }
 
       it { is_expected.to be_deltas_applicable }
     end
 
     context 'when non commercial purposes is false' do
-      subject(:user_session) { build(:user_session, :deltas_applicable, planned_processing: 'commercial_purposes') }
+      subject(:user_session) { build(:duty_calculator_user_session, :deltas_applicable, planned_processing: 'commercial_purposes') }
 
       it { is_expected.not_to be_deltas_applicable }
     end
 
     context 'when not final use in ni' do
-      subject(:user_session) { build(:user_session, :deltas_applicable, final_use: 'no') }
+      subject(:user_session) { build(:duty_calculator_user_session, :deltas_applicable, final_use: 'no') }
 
       it { is_expected.not_to be_deltas_applicable }
     end
 
     context 'when not trader scheme' do
-      subject(:user_session) { build(:user_session, :deltas_applicable, trader_scheme: 'no') }
+      subject(:user_session) { build(:duty_calculator_user_session, :deltas_applicable, trader_scheme: 'no') }
 
       it { is_expected.not_to be_deltas_applicable }
     end
 
     context 'when zero mfn duties' do
-      subject(:user_session) { build(:user_session, :deltas_applicable, zero_mfn_duty: true) }
+      subject(:user_session) { build(:duty_calculator_user_session, :deltas_applicable, zero_mfn_duty: true) }
 
       it { is_expected.not_to be_deltas_applicable }
     end
 
     context 'when there are trade defences in place' do
-      subject(:user_session) { build(:user_session, :deltas_applicable, trade_defence: true) }
+      subject(:user_session) { build(:duty_calculator_user_session, :deltas_applicable, trade_defence: true) }
 
       it { is_expected.not_to be_deltas_applicable }
     end
 
     context 'when not on the row to ni route' do
-      subject(:user_session) { build(:user_session, :deltas_applicable, import_destination: 'GB') }
+      subject(:user_session) { build(:duty_calculator_user_session, :deltas_applicable, import_destination: 'GB') }
 
       it { is_expected.not_to be_deltas_applicable }
     end
@@ -379,13 +379,13 @@ RSpec.describe DutyCalculator::UserSession do
 
   describe '#meursing_route?' do
     shared_examples_for 'a meursing route' do |route_trait|
-      subject(:user_session) { build(:user_session, route_trait) }
+      subject(:user_session) { build(:duty_calculator_user_session, route_trait) }
 
       it { is_expected.to be_meursing_route }
     end
 
     shared_examples_for 'a non-meursing route' do |route_trait|
-      subject(:user_session) { build(:user_session, route_trait) }
+      subject(:user_session) { build(:duty_calculator_user_session, route_trait) }
 
       it { is_expected.not_to be_meursing_route }
     end
@@ -400,7 +400,7 @@ RSpec.describe DutyCalculator::UserSession do
   end
 
   describe '#import_into_gb?' do
-    subject(:user_session) { build(:user_session, import_destination:) }
+    subject(:user_session) { build(:duty_calculator_user_session, import_destination:) }
 
     context 'when the import_destination is UK' do
       let(:import_destination) { 'UK' }
@@ -417,13 +417,13 @@ RSpec.describe DutyCalculator::UserSession do
 
   describe '#no_duty_to_pay?' do
     context 'when on a no duty route into ni' do
-      subject(:user_session) { build(:user_session, :with_no_duty_route_eu) }
+      subject(:user_session) { build(:duty_calculator_user_session, :with_no_duty_route_eu) }
 
       it { is_expected.to be_no_duty_to_pay }
     end
 
     context 'when on a no duty route into gb' do
-      subject(:user_session) { build(:user_session, :with_no_duty_route_gb) }
+      subject(:user_session) { build(:duty_calculator_user_session, :with_no_duty_route_gb) }
 
       it { is_expected.to be_no_duty_to_pay }
     end
@@ -431,27 +431,27 @@ RSpec.describe DutyCalculator::UserSession do
     context 'when on a possible duty_route' do
       %i[with_possible_duty_route_into_gb with_possible_duty_route_into_ni].each do |route_trait|
         context 'when with zero_mfn_duty' do
-          subject(:user_session) { build(:user_session, route_trait, :zero_mfn_duty) }
+          subject(:user_session) { build(:duty_calculator_user_session, route_trait, :zero_mfn_duty) }
 
           it { is_expected.to be_no_duty_to_pay }
         end
 
         context 'when no duty applies' do
           %w[without_any_processing commercial_processing].each do |processing|
-            subject(:user_session) { build(:user_session, route_trait, planned_processing: processing) }
+            subject(:user_session) { build(:duty_calculator_user_session, route_trait, planned_processing: processing) }
 
             it { is_expected.to be_no_duty_to_pay }
           end
         end
 
         context 'when trader has small turnover' do
-          subject(:user_session) { build(:user_session, route_trait, annual_turnover: 'yes') }
+          subject(:user_session) { build(:duty_calculator_user_session, route_trait, annual_turnover: 'yes') }
 
           it { is_expected.to be_no_duty_to_pay }
         end
 
         context 'when the trader has a certificate of origin' do
-          subject(:user_session) { build(:user_session, route_trait, :with_certificate_of_origin) }
+          subject(:user_session) { build(:duty_calculator_user_session, route_trait, :with_certificate_of_origin) }
 
           it { is_expected.to be_no_duty_to_pay }
         end
@@ -560,27 +560,27 @@ RSpec.describe DutyCalculator::UserSession do
   describe '#additional_codes' do
     context 'when additional code answers have been stored' do
       subject(:user_session) do
-        build(:user_session, :with_additional_codes, :with_commodity_information)
+        build(:duty_calculator_user_session, :with_additional_codes, :with_commodity_information)
       end
 
       it { expect(user_session.additional_codes).to eq('2340, 2600, 2340, 2600, 2601') }
     end
 
     context 'when additional code answers have not been stored' do
-      subject(:user_session) { build(:user_session, :with_commodity_information) }
+      subject(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
 
       it { expect(user_session.additional_codes).to eq('') }
     end
   end
 
   describe '#document_code_for' do
-    subject(:user_session) { build(:user_session, :with_document_codes) }
+    subject(:user_session) { build(:duty_calculator_user_session, :with_document_codes) }
 
     it { expect(user_session.document_code_for('103', 'uk')).to eq('N851') }
   end
 
   describe '#additional_code_for' do
-    subject(:user_session) { build(:user_session, :with_additional_codes) }
+    subject(:user_session) { build(:duty_calculator_user_session, :with_additional_codes) }
 
     context 'with a corresponding answer on the session' do
       it { expect(user_session.additional_code_for('103', 'uk')).to eq('2600') }
@@ -592,7 +592,7 @@ RSpec.describe DutyCalculator::UserSession do
   end
 
   describe '#excise_additional_code_for' do
-    subject(:user_session) { build(:user_session, :with_excise_additional_codes) }
+    subject(:user_session) { build(:duty_calculator_user_session, :with_excise_additional_codes) }
 
     context 'with a corresponding answer on the session' do
       it { expect(user_session.excise_additional_code_for('306')).to eq('444') }
@@ -604,26 +604,26 @@ RSpec.describe DutyCalculator::UserSession do
   end
 
   describe '#measure_amount_for' do
-    subject(:user_session) { build(:user_session, measure_amount: { 'asvx' => :bar }) }
+    subject(:user_session) { build(:duty_calculator_user_session, measure_amount: { 'asvx' => :bar }) }
 
     it { expect(user_session.measure_amount_for('ASVX')).to eq(:bar) }
   end
 
   describe '#origin_country_code' do
     context 'when country of origin is OTHER' do
-      subject(:origin_country_code) { build(:user_session, country_of_origin: 'OTHER', other_country_of_origin: 'AD').origin_country_code }
+      subject(:origin_country_code) { build(:duty_calculator_user_session, country_of_origin: 'OTHER', other_country_of_origin: 'AD').origin_country_code }
 
       it { is_expected.to eq('AD') }
     end
 
     context 'when country of origin is not OTHER' do
-      subject(:origin_country_code) { build(:user_session, country_of_origin: 'AR').origin_country_code }
+      subject(:origin_country_code) { build(:duty_calculator_user_session, country_of_origin: 'AR').origin_country_code }
 
       it { is_expected.to eq('AR') }
     end
 
     context 'when country of origin is not set' do
-      subject(:origin_country_code) { build(:user_session).origin_country_code }
+      subject(:origin_country_code) { build(:duty_calculator_user_session).origin_country_code }
 
       it { is_expected.to be_nil }
     end

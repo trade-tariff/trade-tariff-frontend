@@ -2,7 +2,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
   before do
     allow(UserSession).to receive(:get).and_return(user_session)
     allow(helper).to receive(:user_session).and_return(user_session)
-    allow(Api::Commodity).to receive(:build).and_call_original
+    allow(DutyCalculator::Api::Commodity).to receive(:build).and_call_original
     allow(commodity_context_service).to receive(:call).and_call_original
   end
 
@@ -13,7 +13,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
 
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       import_destination:,
       country_of_origin: 'GB',
       commodity_source:,
@@ -38,7 +38,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
       it 'uses the passed commodity source' do
         helper.filtered_commodity(source: 'uk')
 
-        expect(Api::Commodity).to have_received(:build).with(
+        expect(DutyCalculator::Api::Commodity).to have_received(:build).with(
           'uk',
           commodity_code,
           expected_query,
@@ -49,7 +49,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
     context 'when `OTHER` is used as the country_of_origin' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           import_destination:,
           country_of_origin: 'OTHER',
           commodity_source:,
@@ -61,7 +61,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
       it 'uses the other_country_of_origin value for the filter' do
         helper.filtered_commodity
 
-        expect(Api::Commodity).to have_received(:build).with(
+        expect(DutyCalculator::Api::Commodity).to have_received(:build).with(
           commodity_source,
           commodity_code,
           { 'filter[geographical_area_id]' => 'AR' },
@@ -72,7 +72,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
     context 'when the source is xi and a meursing_additional_code is set' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_gb_to_ni_route,
           :with_commodity_information,
           :with_meursing_additional_code,
@@ -83,7 +83,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
       it 'passes the correct query filter to the commodity context service' do
         helper.filtered_commodity
 
-        expect(Api::Commodity).to have_received(:build).with(
+        expect(DutyCalculator::Api::Commodity).to have_received(:build).with(
           'xi',
           '0702000007',
           'filter[geographical_area_id]' => 'GB', 'filter[meursing_additional_code_id]' => '000',
@@ -108,7 +108,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
     context 'when a meursing_additional_code is set' do
       let(:user_session) do
         build(
-          :user_session,
+          :duty_calculator_user_session,
           :with_gb_to_ni_route,
           :with_commodity_information,
           :with_meursing_additional_code,
@@ -127,7 +127,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
   describe '#commodity' do
     let(:user_session) do
       build(
-        :user_session,
+        :duty_calculator_user_session,
         import_destination:,
         commodity_source:,
         commodity_code:,
@@ -145,7 +145,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
     it 'returns an unfiltered commodity' do
       helper.commodity
 
-      expect(Api::Commodity).to have_received(:build).with(
+      expect(DutyCalculator::Api::Commodity).to have_received(:build).with(
         commodity_source,
         commodity_code,
         expected_query,
@@ -159,7 +159,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
     it 'passes xi to the Commodity builder' do
       helper.applicable_meursing_codes?
 
-      expect(Api::Commodity).to have_received(:build).with('xi', anything, anything)
+      expect(DutyCalculator::Api::Commodity).to have_received(:build).with('xi', anything, anything)
     end
   end
 
@@ -179,7 +179,7 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
     it 'always fetches data from the uk source' do
       helper.applicable_vat_options
 
-      expect(Api::Commodity).to have_received(:build).with(
+      expect(DutyCalculator::Api::Commodity).to have_received(:build).with(
         'uk',
         commodity_code,
         expected_query,
@@ -317,18 +317,18 @@ RSpec.describe DutyCalculator::CommodityHelper, :user_session do
 
   describe '#applicable_measure_units' do
     before do
-      allow(ApplicableMeasureUnitMerger).to receive(:new).and_call_original
+      allow(DutyCalculator::ApplicableMeasureUnitMerger).to receive(:new).and_call_original
     end
 
-    it 'calls the ApplicableMeasureUnitMerger service' do
+    it 'calls the DutyCalculator::ApplicableMeasureUnitMerger service' do
       helper.applicable_measure_units
 
-      expect(ApplicableMeasureUnitMerger).to have_received(:new)
+      expect(DutyCalculator::ApplicableMeasureUnitMerger).to have_received(:new)
     end
   end
 
   describe '#applicable_measure_unit_keys' do
-    let(:user_session) { build(:user_session, :with_commodity_information) }
+    let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
 
     it 'returns the keys of the applicable_measure_units' do
       expect(helper.applicable_measure_unit_keys).to eq(%w[dtn])

@@ -1,7 +1,7 @@
 FactoryBot.define do
   sequence(:additional_code_sid)
 
-  factory :api_additional_code, class: 'DutyCalculator::Api::AdditionalCode' do
+  factory :duty_calculator_additional_code, class: 'DutyCalculator::Api::AdditionalCode' do
     id { generate(:additional_code_sid) }
     code {}
     description {}

@@ -3,7 +3,7 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Compound, :user_session do
 
   let(:measure) do
     build(
-      :measure,
+      :duty_calculator_measure,
       :third_country_tariff,
       id: 3_211_138,
       measure_components:,
@@ -57,7 +57,7 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Compound, :user_session do
 
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       :with_commodity_information,
       :with_customs_value,
       :with_measure_amount,
@@ -78,7 +78,7 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Compound, :user_session do
   context 'when a resolved duty expression is returned' do
     let(:measure) do
       build(
-        :measure,
+        :duty_calculator_measure,
         :third_country_tariff,
         :with_resolved_duty_expression,
         id: 3_211_138,

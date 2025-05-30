@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::ConfirmationController, :user_session do
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       :with_commodity_information,
       :with_import_date,
       :with_import_destination,

@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::CountryOfOrigin, :step, :user_session do
   subject(:step) do
     build(
-      :country_of_origin,
+      :duty_calculator_country_of_origin,
       user_session:,
       country_of_origin:,
       other_country_of_origin:,
@@ -10,7 +10,7 @@ RSpec.describe DutyCalculator::Steps::CountryOfOrigin, :step, :user_session do
     )
   end
 
-  let(:user_session) { build(:user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
   let(:session_attributes) { {} }
   let(:country_of_origin) { '' }
   let(:other_country_of_origin) { '' }
@@ -87,7 +87,7 @@ RSpec.describe DutyCalculator::Steps::CountryOfOrigin, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:country_of_origin) { 'GB' }
 
     it 'saves the country_of_origin to the session' do

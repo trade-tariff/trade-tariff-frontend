@@ -153,16 +153,16 @@ RSpec.describe DutyCalculator::Api::MeasureCondition do
   end
 
   describe '#lpa_based?' do
-    subject(:measure_condition) { build(:measure_condition, measure_condition_components:) }
+    subject(:measure_condition) { build(:duty_calculator_measure_condition, measure_condition_components:) }
 
     context 'when the measure condition components include an LPA component' do
-      let(:measure_condition_components) { [attributes_for(:measure_condition_component, :spq_lpa)] }
+      let(:measure_condition_components) { [attributes_for(:duty_calculator_measure_condition_component, :spq_lpa)] }
 
       it { is_expected.to be_lpa_based }
     end
 
     context 'when the measure condition components do not include an LPA component' do
-      let(:measure_condition_components) { [attributes_for(:measure_condition_component, :spq)] }
+      let(:measure_condition_components) { [attributes_for(:duty_calculator_measure_condition_component, :spq)] }
 
       it { is_expected.not_to be_lpa_based }
     end
@@ -175,16 +175,16 @@ RSpec.describe DutyCalculator::Api::MeasureCondition do
   end
 
   describe '#asvx_based?' do
-    subject(:measure_condition) { build(:measure_condition, measure_condition_components:) }
+    subject(:measure_condition) { build(:duty_calculator_measure_condition, measure_condition_components:) }
 
     context 'when the measure condition components include an ASVX component' do
-      let(:measure_condition_components) { [attributes_for(:measure_condition_component, :spq_asvx)] }
+      let(:measure_condition_components) { [attributes_for(:duty_calculator_measure_condition_component, :spq_asvx)] }
 
       it { is_expected.to be_asvx_based }
     end
 
     context 'when the measure condition components do not include an ASVX component' do
-      let(:measure_condition_components) { [attributes_for(:measure_condition_component, :spq)] }
+      let(:measure_condition_components) { [attributes_for(:duty_calculator_measure_condition_component, :spq)] }
 
       it { is_expected.not_to be_asvx_based }
     end

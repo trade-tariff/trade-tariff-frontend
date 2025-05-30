@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :customs_value, class: 'DutyCalculator::Steps::CustomsValue', parent: :step do
+  factory :duty_calculator_customs_value, class: 'DutyCalculator::Steps::CustomsValue', parent: :duty_calculator_step do
     transient do
       possible_attributes do
         {

@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::TraderScheme, :step, :user_session do
-  subject(:step) { build(:trader_scheme, user_session:, trader_scheme:) }
+  subject(:step) { build(:duty_calculator_trader_scheme, user_session:, trader_scheme:) }
 
-  let(:user_session) { build(:user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
   let(:session_attributes) { {} }
   let(:trader_scheme) { '' }
 
@@ -47,7 +47,7 @@ RSpec.describe DutyCalculator::Steps::TraderScheme, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:trader_scheme) { 'yes' }
 
     it 'saves the trader_scheme to the session' do

@@ -66,9 +66,8 @@ module DutyCalculator
           query = default_query.merge(query)
 
           resource = "Uktt::#{name.demodulize}".constantize
-          resource = resource.new(client)
 
-          raise resource.inspect
+          resource = resource.new(client)
 
           resource.retrieve(id, query)
 

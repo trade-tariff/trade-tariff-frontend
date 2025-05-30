@@ -1,13 +1,13 @@
 RSpec.describe DutyCalculator::Steps::MeasureAmount, :step, :user_session do
   subject(:step) do
     build(
-      :measure_amount,
+      :duty_calculator_measure_amount,
       user_session:,
       measure_amount:,
     )
   end
 
-  let(:user_session) { build(:user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
   let(:measure_amount) { { 'dtn' => 500.42, 'hlt' => 204.64 } }
 
   let(:session_attributes) do
@@ -28,7 +28,7 @@ RSpec.describe DutyCalculator::Steps::MeasureAmount, :step, :user_session do
   describe '#validations' do
     subject(:step) do
       build(
-        :measure_amount,
+        :duty_calculator_measure_amount,
         user_session:,
         measure_amount:,
         applicable_measure_units: commodity.applicable_measure_units,
@@ -132,7 +132,7 @@ RSpec.describe DutyCalculator::Steps::MeasureAmount, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     it 'saves the measure_amount to the session' do
       step.save!
 

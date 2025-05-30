@@ -1,8 +1,8 @@
 RSpec.describe DutyCalculator::Steps::PlannedProcessing, :step, :user_session do
-  subject(:step) { build(:planned_processing, user_session:, planned_processing:) }
+  subject(:step) { build(:duty_calculator_planned_processing, user_session:, planned_processing:) }
 
   let(:session_attributes) { {} }
-  let(:user_session) { build(:user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
   let(:planned_processing) { '' }
 
   describe '#validations' do
@@ -33,7 +33,7 @@ RSpec.describe DutyCalculator::Steps::PlannedProcessing, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:planned_processing) { 'without_any_processing' }
 
     it 'saves the planned_processing to the session' do
@@ -67,13 +67,13 @@ RSpec.describe DutyCalculator::Steps::PlannedProcessing, :step, :user_session do
 
     context 'when on RoW to NI route' do
       shared_examples_for 'a step with a next step as customs_value' do |answer, meursing_trait|
-        let(:user_session) { build(:user_session, meursing_trait, :with_row_to_ni_route, planned_processing: answer) }
+        let(:user_session) { build(:duty_calculator_user_session, meursing_trait, :with_row_to_ni_route, planned_processing: answer) }
 
         it { expect(step.next_step_path).to eq(customs_value_path) }
       end
 
       shared_examples_for 'a step with a next step as meursing_additional_codes' do |answer, meursing_trait|
-        let(:user_session) { build(:user_session, meursing_trait, :with_row_to_ni_route, planned_processing: answer) }
+        let(:user_session) { build(:duty_calculator_user_session, meursing_trait, :with_row_to_ni_route, planned_processing: answer) }
 
         it { expect(step.next_step_path).to eq(meursing_additional_codes_path) }
       end
@@ -85,7 +85,7 @@ RSpec.describe DutyCalculator::Steps::PlannedProcessing, :step, :user_session do
       it_behaves_like 'a step with a next step as meursing_additional_codes', 'without_any_processing', :with_meursing_commodity
 
       context 'when the answer is commercial_purposes' do
-        let(:user_session) { build(:user_session, planned_processing: 'commercial_purposes') }
+        let(:user_session) { build(:duty_calculator_user_session, planned_processing: 'commercial_purposes') }
 
         it { expect(step.next_step_path).to eq(interstitial_path) }
       end

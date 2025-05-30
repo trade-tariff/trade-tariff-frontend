@@ -49,19 +49,19 @@ FactoryBot.define do
     heading {}
     ancestors {}
 
-    import_measures { [attributes_for(:measure)] }
+    import_measures { [attributes_for(:duty_calculator_measure)] }
     export_measures { [] }
 
     trait :with_multiple_stopping_condition_measures do
       import_measures do
         [
           attributes_for(
-            :measure,
+            :duty_calculator_measure,
             :third_country_tariff,
             :with_stopping_conditions,
           ),
           attributes_for(
-            :measure,
+            :duty_calculator_measure,
             :third_country_tariff_authorised_use,
             :with_stopping_conditions,
           ),
@@ -70,7 +70,7 @@ FactoryBot.define do
     end
 
     trait :with_measures do
-      import_measures { [attributes_for(:measure, :third_country_tariff)] }
+      import_measures { [attributes_for(:duty_calculator_measure, :third_country_tariff)] }
     end
 
     trait :without_measures do
@@ -81,7 +81,7 @@ FactoryBot.define do
       import_measures do
         [
           attributes_for(
-            :measure,
+            :duty_calculator_measure,
             :third_country_tariff,
             :with_compound_measure_components,
           ),
@@ -122,7 +122,7 @@ FactoryBot.define do
       import_measures do
         [
           attributes_for(
-            :measure,
+            :duty_calculator_measure,
             :third_country_tariff,
             :with_sucrose_measure_components,
           ),
@@ -158,7 +158,7 @@ FactoryBot.define do
       import_measures do
         [
           attributes_for(
-            :measure,
+            :duty_calculator_measure,
             :third_country_tariff,
             :with_compound_measure_components,
           ),
@@ -182,7 +182,7 @@ FactoryBot.define do
     end
 
     trait :with_measure_units_with_multiplier do
-      import_measures { [attributes_for(:measure, :third_country_tariff, :with_pounds_measure_unit_measure_component)] }
+      import_measures { [attributes_for(:duty_calculator_measure, :third_country_tariff, :with_pounds_measure_unit_measure_component)] }
 
       applicable_measure_units do
         {
@@ -221,7 +221,7 @@ FactoryBot.define do
     end
 
     trait :with_euro_measure_unit_measure_component do
-      import_measures { [attributes_for(:measure, :third_country_tariff, :with_euro_measure_unit_measure_component)] }
+      import_measures { [attributes_for(:duty_calculator_measure, :third_country_tariff, :with_euro_measure_unit_measure_component)] }
 
       applicable_measure_units do
         {
@@ -235,7 +235,7 @@ FactoryBot.define do
     end
 
     trait :with_pounds_measure_unit_measure_component do
-      import_measures { [attributes_for(:measure, :third_country_tariff, :with_pounds_measure_unit_measure_component)] }
+      import_measures { [attributes_for(:duty_calculator_measure, :third_country_tariff, :with_pounds_measure_unit_measure_component)] }
 
       applicable_measure_units do
         {
@@ -249,7 +249,7 @@ FactoryBot.define do
     end
 
     trait :with_condition_measure_units do
-      import_measures { [attributes_for(:measure, :third_country_tariff, :with_condition_measure_units)] }
+      import_measures { [attributes_for(:duty_calculator_measure, :third_country_tariff, :with_condition_measure_units)] }
 
       applicable_measure_units do
         {
@@ -265,7 +265,7 @@ FactoryBot.define do
     trait :with_excise_measures do
       import_measures do
         [
-          attributes_for(:measure, :excise, :with_excise_measure_components),
+          attributes_for(:duty_calculator_measure, :excise, :with_excise_measure_components),
         ]
       end
     end
@@ -452,25 +452,25 @@ FactoryBot.define do
       import_measures do
         [
           attributes_for(
-            :measure,
+            :duty_calculator_measure,
             :third_country_tariff,
             id: 20_041_389,
-            additional_code: attributes_for(:api_additional_code, code: 'B107'),
+            additional_code: attributes_for(:duty_calculator_additional_code, code: 'B107'),
           ),
           attributes_for(
-            :measure,
+            :duty_calculator_measure,
             :third_country_tariff,
             id: 20_041_402,
             additional_code: nil,
           ),
           attributes_for(
-            :measure,
+            :duty_calculator_measure,
             :excise,
-            additional_code: attributes_for(:api_additional_code, code: 'X419'),
+            additional_code: attributes_for(:duty_calculator_additional_code, code: 'X419'),
             id: 20_041_452,
           ),
           attributes_for(
-            :measure,
+            :duty_calculator_measure,
             :autonomous,
             id: 20_041_462,
           ),

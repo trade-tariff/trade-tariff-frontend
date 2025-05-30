@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::ExciseController, :user_session do
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       :with_commodity_information,
       commodity_code: '0809400500',
     )

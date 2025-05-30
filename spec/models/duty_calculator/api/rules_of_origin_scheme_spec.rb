@@ -1,5 +1,5 @@
 RSpec.describe DutyCalculator::Api::RulesOfOriginScheme do
-  subject(:rules_of_origin_scheme) { build(:rules_of_origin_scheme) }
+  subject(:rules_of_origin_scheme) { build(:duty_calculator_rules_of_origin_scheme) }
 
   it_behaves_like 'a has_many relationship', :rules
   it_behaves_like 'a has_many relationship', :links

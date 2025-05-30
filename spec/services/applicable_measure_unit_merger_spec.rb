@@ -3,12 +3,12 @@ RSpec.describe DutyCalculator::ApplicableMeasureUnitMerger, :user_session do
 
   include_context 'with a fake commodity'
 
-  let(:uk_commodity) { build(:commodity, :with_uk_complex_measure_units) }
-  let(:xi_commodity) { build(:commodity, :with_xi_simple_measure_units) }
+  let(:uk_commodity) { build(:duty_calculator_commodity, :with_uk_complex_measure_units) }
+  let(:xi_commodity) { build(:duty_calculator_commodity, :with_xi_simple_measure_units) }
 
   describe '#call' do
     context 'when on the deltas route' do
-      let(:user_session) { build(:user_session, :deltas_applicable) }
+      let(:user_session) { build(:duty_calculator_user_session, :deltas_applicable) }
 
       let(:expected_units) do
         {
@@ -73,7 +73,7 @@ RSpec.describe DutyCalculator::ApplicableMeasureUnitMerger, :user_session do
     end
 
     context 'when on an xi route' do
-      let(:user_session) { build(:user_session, commodity_source: 'xi') }
+      let(:user_session) { build(:duty_calculator_user_session, commodity_source: 'xi') }
 
       let(:expected_units) do
         {
@@ -130,7 +130,7 @@ RSpec.describe DutyCalculator::ApplicableMeasureUnitMerger, :user_session do
     end
 
     context 'when on a uk route' do
-      let(:user_session) { build(:user_session, commodity_source: 'uk') }
+      let(:user_session) { build(:duty_calculator_user_session, commodity_source: 'uk') }
 
       let(:expected_units) do
         {
@@ -201,7 +201,7 @@ RSpec.describe DutyCalculator::ApplicableMeasureUnitMerger, :user_session do
         end
       end
 
-      let(:user_session) { build(:user_session, :deltas_applicable) }
+      let(:user_session) { build(:duty_calculator_user_session, :deltas_applicable) }
 
       let(:expected_units) do
         {
@@ -247,7 +247,7 @@ RSpec.describe DutyCalculator::ApplicableMeasureUnitMerger, :user_session do
         end
       end
 
-      let(:user_session) { build(:user_session, :deltas_applicable) }
+      let(:user_session) { build(:duty_calculator_user_session, :deltas_applicable) }
 
       let(:expected_units) do
         {
@@ -293,7 +293,7 @@ RSpec.describe DutyCalculator::ApplicableMeasureUnitMerger, :user_session do
         end
       end
 
-      let(:user_session) { build(:user_session, :deltas_applicable) }
+      let(:user_session) { build(:duty_calculator_user_session, :deltas_applicable) }
 
       let(:expected_units) do
         {

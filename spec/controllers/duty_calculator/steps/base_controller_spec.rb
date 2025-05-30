@@ -11,7 +11,7 @@ RSpec.describe DutyCalculator::Steps::BaseController, :user_session do
     end
   end
 
-  let(:user_session) { build(:user_session, :with_import_date, :with_commodity_information, session_id: 'foo') }
+  let(:user_session) { build(:duty_calculator_user_session, :with_import_date, :with_commodity_information, session_id: 'foo') }
   let(:trade_tariff_host) { 'https://dev.trade-tariff.service.gov.uk' }
 
   let(:expected_tracked_attributes) do
@@ -36,13 +36,13 @@ RSpec.describe DutyCalculator::Steps::BaseController, :user_session do
     end
 
     context 'when commodity_code is not set' do
-      let(:user_session) { build(:user_session) }
+      let(:user_session) { build(:duty_calculator_user_session) }
 
       it { expect(response).not_to redirect_to(trade_tariff_host) }
     end
 
     context 'when commodity_code is set' do
-      let(:user_session) { build(:user_session, :with_commodity_information) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
 
       it { expect(response).not_to redirect_to(trade_tariff_host) }
     end

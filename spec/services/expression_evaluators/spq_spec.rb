@@ -3,11 +3,11 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Spq, :user_session do
 
   include_context 'with a fake commodity'
 
-  let(:commodity) { build(:commodity, :with_spq_measurement_units) }
+  let(:commodity) { build(:duty_calculator_commodity, :with_spq_measurement_units) }
 
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       :with_excise_additional_codes,
       :with_commodity_information,
       measure_amount: {
@@ -21,12 +21,12 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Spq, :user_session do
 
   let(:measure) do
     build(
-      :measure,
+      :duty_calculator_measure,
       :excise,
-      additional_code: attributes_for(:additional_code, :excise_spq),
+      additional_code: attributes_for(:duty_calculator_additional_code, :excise_spq),
       measure_conditions: [
         attributes_for(
-          :measure_condition,
+          :duty_calculator_measure_condition,
           :spq_positive,
           id: '-1010137394',
           measure_condition_components:,
@@ -46,8 +46,8 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Spq, :user_session do
   context 'when the measure is LPA-based' do
     let(:measure_condition_components) do
       [
-        attributes_for(:measure_condition_component, :spq_lpa, id: '-1010137394-01'),
-        attributes_for(:measure_condition_component, :spq, id: '-1010137394-02'),
+        attributes_for(:duty_calculator_measure_condition_component, :spq_lpa, id: '-1010137394-01'),
+        attributes_for(:duty_calculator_measure_condition_component, :spq, id: '-1010137394-02'),
       ]
     end
 
@@ -66,12 +66,12 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::Spq, :user_session do
     let(:measure_condition_components) do
       [
         attributes_for(
-          :measure_condition_component,
+          :duty_calculator_measure_condition_component,
           :spq_asvx,
           id: '-1010137394-01',
         ),
         attributes_for(
-          :measure_condition_component,
+          :duty_calculator_measure_condition_component,
           :spq,
           id: '-1010137394-02',
         ),

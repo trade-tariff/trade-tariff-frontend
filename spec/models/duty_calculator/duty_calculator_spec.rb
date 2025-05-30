@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::DutyCalculator, :user_session do
   subject(:calculator) { described_class.new(commodity) }
 
-  let(:user_session) { build(:user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
   let(:commodity_source) { :uk }
   let(:commodity_code) { '7202118000' }
   let(:session_attributes) do

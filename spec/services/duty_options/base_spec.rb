@@ -1,8 +1,8 @@
 RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
   subject(:service) { described_class.new(measure, additional_duty_options, vat_measure) }
 
-  let(:measure) { build(:measure, :third_country_tariff) }
-  let(:evaluator) { instance_double(ExpressionEvaluators::AdValorem, call: duty_evaluation) }
+  let(:measure) { build(:duty_calculator_measure, :third_country_tariff) }
+  let(:evaluator) { instance_double(DutyCalculator::ExpressionEvaluators::AdValorem, call: duty_evaluation) }
   let(:duty_evaluation) do
     {
       calculation: '8.00% * £1200.00',
@@ -11,12 +11,12 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
     }
   end
 
-  let(:additional_duty_options) { [build(:duty_option_result, :additional_duty)] }
+  let(:additional_duty_options) { [build(:duty_calculator_duty_option_result, :additional_duty)] }
 
-  let(:vat_measure) { build(:measure, :vat) }
+  let(:vat_measure) { build(:duty_calculator_measure, :vat) }
   let(:vat_evaluator) do
     instance_double(
-      ExpressionEvaluators::Vat,
+      DutyCalculator::ExpressionEvaluators::Vat,
       call: vat_evaluation,
     )
   end
@@ -28,11 +28,11 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
     }
   end
 
-  let(:user_session) { build(:user_session, :with_commodity_information, :with_customs_value) }
+  let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, :with_customs_value) }
 
   before do
     allow(measure).to receive(:evaluator).and_return(evaluator)
-    allow(ExpressionEvaluators::Vat).to receive(:new).and_return(vat_evaluator)
+    allow(DutyCalculator::ExpressionEvaluators::Vat).to receive(:new).and_return(vat_evaluator)
   end
 
   describe '#call' do
@@ -52,7 +52,7 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
     end
 
     context 'when the measure is a simple ad valorem measure' do
-      let(:evaluator) { instance_double(ExpressionEvaluators::AdValorem, call: duty_evaluation) }
+      let(:evaluator) { instance_double(DutyCalculator::ExpressionEvaluators::AdValorem, call: duty_evaluation) }
 
       let(:duty_evaluation) do
         {
@@ -79,7 +79,7 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
     end
 
     context 'when the measure is a simple measure unit measure' do
-      let(:evaluator) { instance_double(ExpressionEvaluators::MeasureUnit, call: duty_evaluation) }
+      let(:evaluator) { instance_double(DutyCalculator::ExpressionEvaluators::MeasureUnit, call: duty_evaluation) }
 
       let(:duty_evaluation) do
         {
@@ -109,7 +109,7 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
     end
 
     context 'when the measure is a compound measure' do
-      let(:evaluator) { instance_double(ExpressionEvaluators::Compound, call: duty_evaluation) }
+      let(:evaluator) { instance_double(DutyCalculator::ExpressionEvaluators::Compound, call: duty_evaluation) }
 
       let(:duty_evaluation) do
         {

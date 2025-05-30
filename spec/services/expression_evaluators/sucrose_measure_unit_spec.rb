@@ -8,13 +8,13 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::SucroseMeasureUnit, :user_s
 
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       :with_commodity_information,
       :with_customs_value,
       :with_sucrose_measure_amount,
     )
   end
-  let(:commodity) { build(:commodity, :with_sucrose_measure_units) }
+  let(:commodity) { build(:duty_calculator_commodity, :with_sucrose_measure_units) }
 
   let(:expected_evaluation) do
     {

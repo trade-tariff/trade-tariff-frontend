@@ -3,7 +3,7 @@ RSpec.describe DutyCalculator::InterstitialHelper, :user_session do
     subject(:partial_options) { helper.interstitial_partial_options }
 
     context 'when on no particular route' do
-      let(:user_session) { build(:user_session) }
+      let(:user_session) { build(:duty_calculator_user_session) }
 
       it 'returns fallback partial options' do
         expected_options = {
@@ -19,7 +19,7 @@ RSpec.describe DutyCalculator::InterstitialHelper, :user_session do
     end
 
     context 'when on a gb to ni route with a trade defence in place' do
-      let(:user_session) { build(:user_session, :with_gb_to_ni_route, :with_trade_defence) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, :with_trade_defence) }
 
       it 'returns correct partial options' do
         expected_options = {
@@ -35,7 +35,7 @@ RSpec.describe DutyCalculator::InterstitialHelper, :user_session do
     end
 
     context 'when on a gb to ni route without proof of origin' do
-      let(:user_session) { build(:user_session, :with_gb_to_ni_route, :without_certificate_of_origin) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, :without_certificate_of_origin) }
 
       it 'returns correct partial options' do
         expected_options = {
@@ -51,7 +51,7 @@ RSpec.describe DutyCalculator::InterstitialHelper, :user_session do
     end
 
     context 'when on a row to ni route with a trade defence in place' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_trade_defence) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_trade_defence) }
 
       it 'returns correct partial options' do
         expected_options = {
@@ -67,7 +67,7 @@ RSpec.describe DutyCalculator::InterstitialHelper, :user_session do
     end
 
     context 'when on a row to ni route and not on the trusted trader scheme' do
-      let(:user_session) { build(:user_session, :with_import_date, :with_row_to_ni_route, :without_trader_scheme) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_import_date, :with_row_to_ni_route, :without_trader_scheme) }
 
       it 'returns correct partial options' do
         expected_options = {
@@ -83,7 +83,7 @@ RSpec.describe DutyCalculator::InterstitialHelper, :user_session do
     end
 
     context 'when on a row to ni route and not for final use in ni' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :without_final_use) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :without_final_use) }
 
       it 'returns correct partial options' do
         expected_options = {
@@ -99,7 +99,7 @@ RSpec.describe DutyCalculator::InterstitialHelper, :user_session do
     end
 
     context 'when on a row to ni route and further processing is unacceptable' do
-      let(:user_session) { build(:user_session, :with_row_to_ni_route, :with_unacceptable_processing) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, :with_unacceptable_processing) }
 
       it 'returns correct partial options' do
         expected_options = {

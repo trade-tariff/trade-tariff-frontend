@@ -1,0 +1,672 @@
+[
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.7298",
+      "operation_date": "2016-01-29",
+      "validity_start_date": "2016-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.75965",
+      "operation_date": "2016-02-26",
+      "validity_start_date": "2016-02-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.7892",
+      "operation_date": "2016-03-30",
+      "validity_start_date": "2016-03-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.7845",
+      "operation_date": "2016-04-28",
+      "validity_start_date": "2016-04-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.77475",
+      "operation_date": "2016-05-27",
+      "validity_start_date": "2016-05-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.76245",
+      "operation_date": "2016-06-29",
+      "validity_start_date": "2016-06-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8272",
+      "operation_date": "2016-07-29",
+      "validity_start_date": "2016-07-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.844",
+      "operation_date": "2016-08-30",
+      "validity_start_date": "2016-08-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.85476",
+      "operation_date": "2016-09-29",
+      "validity_start_date": "2016-09-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.86208",
+      "operation_date": "2016-10-28",
+      "validity_start_date": "2016-10-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.89905",
+      "operation_date": "2016-11-30",
+      "validity_start_date": "2016-11-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.85303",
+      "operation_date": "2016-12-30",
+      "validity_start_date": "2016-12-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.853",
+      "operation_date": "2017-01-27",
+      "validity_start_date": "2017-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8517",
+      "operation_date": "2017-02-27",
+      "validity_start_date": "2017-02-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.84503",
+      "operation_date": "2017-03-30",
+      "validity_start_date": "2017-03-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.86385",
+      "operation_date": "2017-04-28",
+      "validity_start_date": "2017-04-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.84473",
+      "operation_date": "2017-05-30",
+      "validity_start_date": "2017-05-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.87093",
+      "operation_date": "2017-06-29",
+      "validity_start_date": "2017-06-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.88525",
+      "operation_date": "2017-07-28",
+      "validity_start_date": "2017-07-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.89568",
+      "operation_date": "2017-08-30",
+      "validity_start_date": "2017-08-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.92965",
+      "operation_date": "2017-09-29",
+      "validity_start_date": "2017-09-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.87635",
+      "operation_date": "2017-10-30",
+      "validity_start_date": "2017-10-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.88633",
+      "operation_date": "2017-11-29",
+      "validity_start_date": "2017-11-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.89538",
+      "operation_date": "2017-12-28",
+      "validity_start_date": "2017-12-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.88723",
+      "operation_date": "2018-01-31",
+      "validity_start_date": "2018-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8794",
+      "operation_date": "2018-02-27",
+      "validity_start_date": "2018-02-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8782",
+      "operation_date": "2018-03-29",
+      "validity_start_date": "2018-03-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8749",
+      "operation_date": "2018-04-30",
+      "validity_start_date": "2018-04-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.877",
+      "operation_date": "2018-05-30",
+      "validity_start_date": "2018-05-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.87143",
+      "operation_date": "2018-06-29",
+      "validity_start_date": "2018-06-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8852",
+      "operation_date": "2018-07-30",
+      "validity_start_date": "2018-07-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.88823",
+      "operation_date": "2018-08-30",
+      "validity_start_date": "2018-08-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.905",
+      "operation_date": "2018-09-28",
+      "validity_start_date": "2018-09-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8873",
+      "operation_date": "2018-10-30",
+      "validity_start_date": "2018-10-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.88788",
+      "operation_date": "2018-11-29",
+      "validity_start_date": "2018-11-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.88245",
+      "operation_date": "2018-12-31",
+      "validity_start_date": "2018-12-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.90273",
+      "operation_date": "2019-01-30",
+      "validity_start_date": "2019-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.86735",
+      "operation_date": "2019-02-27",
+      "validity_start_date": "2019-02-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.86055",
+      "operation_date": "2019-03-29",
+      "validity_start_date": "2019-03-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8583",
+      "operation_date": "2019-04-29",
+      "validity_start_date": "2019-04-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8634",
+      "operation_date": "2019-05-31",
+      "validity_start_date": "2019-05-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.88225",
+      "operation_date": "2019-06-28",
+      "validity_start_date": "2019-06-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.89655",
+      "operation_date": "2019-07-30",
+      "validity_start_date": "2019-07-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.90443",
+      "operation_date": "2019-08-30",
+      "validity_start_date": "2019-08-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.90531",
+      "operation_date": "2019-09-27",
+      "validity_start_date": "2019-09-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.88778",
+      "operation_date": "2019-10-30",
+      "validity_start_date": "2019-10-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.86328",
+      "operation_date": "2019-11-29",
+      "validity_start_date": "2019-11-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8518",
+      "operation_date": "2019-12-31",
+      "validity_start_date": "2019-12-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8513",
+      "operation_date": "2020-01-30",
+      "validity_start_date": "2020-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8458",
+      "operation_date": "2020-02-27",
+      "validity_start_date": "2020-02-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.84995",
+      "operation_date": "2020-03-30",
+      "validity_start_date": "2020-03-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.89743",
+      "operation_date": "2020-04-29",
+      "validity_start_date": "2020-04-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.87078",
+      "operation_date": "2020-05-29",
+      "validity_start_date": "2020-05-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.90088",
+      "operation_date": "2020-06-29",
+      "validity_start_date": "2020-06-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.90575",
+      "operation_date": "2020-07-30",
+      "validity_start_date": "2020-07-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.90385",
+      "operation_date": "2020-08-31",
+      "validity_start_date": "2020-08-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.89468",
+      "operation_date": "2020-09-29",
+      "validity_start_date": "2020-09-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.90508",
+      "operation_date": "2020-10-30",
+      "validity_start_date": "2020-10-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.9043",
+      "operation_date": "2020-11-30",
+      "validity_start_date": "2020-11-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.89442",
+      "operation_date": "2020-12-30",
+      "validity_start_date": "2020-12-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.90863",
+      "operation_date": "2021-01-29",
+      "validity_start_date": "2021-01-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.88383",
+      "operation_date": "2021-02-26",
+      "validity_start_date": "2021-02-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.87053",
+      "operation_date": "2021-03-30",
+      "validity_start_date": "2021-03-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8512",
+      "operation_date": "2021-04-29",
+      "validity_start_date": "2021-04-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.8571",
+      "operation_date": "2021-06-29",
+      "validity_start_date": "2021-07-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.86988",
+      "operation_date": "2021-05-28",
+      "validity_start_date": "2021-05-01T00:00:00.000Z"
+    }
+  },
+  {
+    "attributes": {
+      "meta": null,
+      "id": null,
+      "child_monetary_unit_code": "GBP",
+      "exchange_rate": "0.85765",
+      "operation_date": "2021-06-29",
+      "validity_start_date": "2021-06-01T00:00:00.000Z"
+    }
+  }
+]

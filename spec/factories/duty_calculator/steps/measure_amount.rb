@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :measure_amount, class: 'DutyCalculator::Steps::MeasureAmount', parent: :step do
+  factory :duty_calculator_measure_amount, class: 'DutyCalculator::Steps::MeasureAmount', parent: :duty_calculator_step do
     transient do
       possible_attributes { { measure_amount: 'measure_amount', applicable_measure_units: 'applicable_measure_units' } }
       measure_amount { {} }

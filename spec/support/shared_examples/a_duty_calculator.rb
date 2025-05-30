@@ -2,7 +2,7 @@ RSpec.shared_examples 'a duty calculator' do |config|
   describe '#options' do
     let(:uk_third_country_tariff_option) do
       build(
-        :duty_option_result,
+        :duty_calculator_duty_option_result,
         :third_country_tariff,
         :uk,
         value: 0.2,
@@ -11,7 +11,7 @@ RSpec.shared_examples 'a duty calculator' do |config|
 
     let(:xi_third_country_tariff_option) do
       build(
-        :duty_option_result,
+        :duty_calculator_duty_option_result,
         :third_country_tariff,
         :xi,
         value: 1.2,
@@ -20,7 +20,7 @@ RSpec.shared_examples 'a duty calculator' do |config|
 
     let("uk_#{config[:category]}_option") do
       build(
-        :duty_option_result,
+        :duty_calculator_duty_option_result,
         config[:category],
         :uk,
         value: 100,
@@ -28,7 +28,7 @@ RSpec.shared_examples 'a duty calculator' do |config|
     end
     let("xi_#{config[:category]}_option") do
       build(
-        :duty_option_result,
+        :duty_calculator_duty_option_result,
         config[:category],
         :xi,
         value: 101,
@@ -37,7 +37,7 @@ RSpec.shared_examples 'a duty calculator' do |config|
 
     let("xi_cheapest_#{config[:category]}_option") do
       build(
-        :duty_option_result,
+        :duty_calculator_duty_option_result,
         config[:category],
         :xi,
         value: 0.4,
@@ -62,12 +62,12 @@ RSpec.shared_examples 'a duty calculator' do |config|
         )
       end
 
-      it { expect(calculator.options).to be_a(OptionCollection) }
+      it { expect(calculator.options).to be_a(DutyCalculator::OptionCollection) }
 
       it 'passes the uk preference option and the xi preference option' do
         calculator.options
 
-        expect(DutyOptions::Chooser).to have_received(:new).with(public_send("uk_#{config[:category]}_option"), public_send("xi_#{config[:category]}_option"), user_session.total_amount)
+        expect(DutyCalculator::DutyOptions::Chooser).to have_received(:new).with(public_send("uk_#{config[:category]}_option"), public_send("xi_#{config[:category]}_option"), user_session.total_amount)
       end
     end
 
@@ -88,12 +88,12 @@ RSpec.shared_examples 'a duty calculator' do |config|
         )
       end
 
-      it { expect(calculator.options).to be_a(OptionCollection) }
+      it { expect(calculator.options).to be_a(DutyCalculator::OptionCollection) }
 
       it 'passes the uk preference option and the xi mfn option' do
         calculator.options
 
-        expect(DutyOptions::Chooser).to have_received(:new).with(
+        expect(DutyCalculator::DutyOptions::Chooser).to have_received(:new).with(
           public_send("uk_#{config[:category]}_option"),
           xi_third_country_tariff_option,
           user_session.total_amount,
@@ -122,7 +122,7 @@ RSpec.shared_examples 'a duty calculator' do |config|
         )
       end
 
-      it { expect(calculator.options).to be_a(OptionCollection) }
+      it { expect(calculator.options).to be_a(DutyCalculator::OptionCollection) }
 
       it 'returns the correct options' do
         expect(calculator.options.to_a).to eq([uk_third_country_tariff_option, public_send("xi_#{config[:category]}_option")])
@@ -149,7 +149,7 @@ RSpec.shared_examples 'a duty calculator' do |config|
         )
       end
 
-      it { expect(calculator.options).to be_a(OptionCollection) }
+      it { expect(calculator.options).to be_a(DutyCalculator::OptionCollection) }
 
       it 'returns the correct options' do
         expect(calculator.options.to_a).to eq([uk_third_country_tariff_option, public_send("xi_cheapest_#{config[:category]}_option")])
@@ -158,7 +158,7 @@ RSpec.shared_examples 'a duty calculator' do |config|
       it 'passes the uk tariff preferences and the cheapest xi preference' do
         calculator.options
 
-        expect(DutyOptions::Chooser).to have_received(:new).with(
+        expect(DutyCalculator::DutyOptions::Chooser).to have_received(:new).with(
           public_send("uk_#{config[:category]}_option"),
           public_send("xi_cheapest_#{config[:category]}_option"),
           user_session.total_amount,
@@ -184,7 +184,7 @@ RSpec.shared_examples 'a duty calculator' do |config|
         )
       end
 
-      it { expect(calculator.options).to be_a(OptionCollection) }
+      it { expect(calculator.options).to be_a(DutyCalculator::OptionCollection) }
 
       it 'returns the correct options' do
         expect(calculator.options.to_a).to eq(

@@ -8,7 +8,7 @@ RSpec.describe DutyCalculator::UkimsHelper, :user_session do
 
   let(:user_session) do
     build(
-      :user_session,
+      :duty_calculator_user_session,
       import_date:,
     )
   end

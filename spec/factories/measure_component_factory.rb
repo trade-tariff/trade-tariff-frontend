@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :duty_calculator_measure_component, class: 'DutyCalculator::MeasureComponent' do
+  factory :measure_component do
     trait :with_supplementary_measurement_unit do
       duty_expression do
         attributes_for(:duty_expression, base: 'p/st')

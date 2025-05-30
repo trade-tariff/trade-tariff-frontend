@@ -1,7 +1,7 @@
 FactoryBot.define do
   sequence(:measure_condition_component_sid)
 
-  factory :measure_condition_component, class: 'DutyCalculator::Api::MeasureConditionComponent' do
+  factory :duty_calculator_measure_condition_component, class: 'DutyCalculator::Api::MeasureConditionComponent' do
     transient do
       measure_condition_sid {}
     end

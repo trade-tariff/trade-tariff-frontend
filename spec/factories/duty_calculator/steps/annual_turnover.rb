@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :annual_turnover, class: 'DutyCalculator::Steps::AnnualTurnover', parent: :step do
+  factory :duty_calculator_annual_turnover, class: 'DutyCalculator::Steps::AnnualTurnover', parent: :duty_calculator_step do
     transient do
       possible_attributes { { annual_turnover: 'annual_turnover' } }
     end

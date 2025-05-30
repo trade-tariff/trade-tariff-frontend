@@ -1,7 +1,7 @@
 RSpec.shared_examples_for 'a user session dual route attribute' do |attribute, value|
   %i[uk xi].each do |service|
     describe "##{attribute}_#{service}=" do
-      subject(:user_session) { build(:user_session) }
+      subject(:user_session) { build(:duty_calculator_user_session) }
 
       let(:initial_value) { { '105' => ['C644', 'Y929', ''] } }
       let(:expected_value) { value.merge(initial_value) }
@@ -18,13 +18,13 @@ RSpec.shared_examples_for 'a user session dual route attribute' do |attribute, v
 
     describe "#{attribute}_#{service}" do
       context 'when the session already specifies a value' do
-        subject(:user_session) { build(:user_session, attribute => { service.to_s => value }) }
+        subject(:user_session) { build(:duty_calculator_user_session, attribute => { service.to_s => value }) }
 
         it { expect(user_session.public_send("#{attribute}_#{service}")).to eq(value) }
       end
 
       context 'when the session specifies no value' do
-        subject(:user_session) { build(:user_session) }
+        subject(:user_session) { build(:duty_calculator_user_session) }
 
         it { expect(user_session.public_send("#{attribute}_#{service}")).to eq({}) }
       end

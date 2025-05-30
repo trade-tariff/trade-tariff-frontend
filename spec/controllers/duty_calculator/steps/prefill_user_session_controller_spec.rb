@@ -1,5 +1,5 @@
 RSpec.describe DutyCalculator::Steps::PrefillUserSessionController, :user_session do
-  let(:user_session) { build(:user_session) }
+  let(:user_session) { build(:duty_calculator_user_session) }
 
   describe 'GET #show' do
     subject(:response) { get :show, params: }

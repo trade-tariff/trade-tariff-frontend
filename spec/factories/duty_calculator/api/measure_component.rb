@@ -1,7 +1,7 @@
 FactoryBot.define do
   sequence(:measure_component_sid)
 
-  factory :measure_component, class: 'DutyCalculator::Api::MeasureComponent' do
+  factory :duty_calculator_measure_component, class: 'DutyCalculator::Api::MeasureComponent' do
     id { generate(:measure_component_sid) }
     duty_expression_id {}
     duty_amount {}

@@ -1,5 +1,5 @@
 RSpec.describe DutyCalculator::Api::AdditionalCode do
-  subject(:additional_code) { build(:api_additional_code, :company) }
+  subject(:additional_code) { build(:duty_calculator_additional_code, :company) }
 
   it_behaves_like 'a resource that has attributes',
                   id: 'flibble',
@@ -9,13 +9,13 @@ RSpec.describe DutyCalculator::Api::AdditionalCode do
 
   describe '#excise?' do
     context 'when the additional code type is `excise`' do
-      subject(:additional_code) { build(:api_additional_code, :excise) }
+      subject(:additional_code) { build(:duty_calculator_additional_code, :excise) }
 
       it { is_expected.to be_excise }
     end
 
     context 'when the additional code type is not `excise`' do
-      subject(:additional_code) { build(:api_additional_code, :company) }
+      subject(:additional_code) { build(:duty_calculator_additional_code, :company) }
 
       it { is_expected.not_to be_excise }
     end
@@ -31,13 +31,13 @@ RSpec.describe DutyCalculator::Api::AdditionalCode do
 
   describe '#formatted_additional_code' do
     context 'when the additional code type is `excise`' do
-      subject(:additional_code) { build(:api_additional_code, :excise) }
+      subject(:additional_code) { build(:duty_calculator_additional_code, :excise) }
 
       it { expect(additional_code.formatted_code).to eq('99A') }
     end
 
     context 'when the additional code type is not `excise`' do
-      subject(:additional_code) { build(:api_additional_code, :company) }
+      subject(:additional_code) { build(:duty_calculator_additional_code, :company) }
 
       it { expect(additional_code.formatted_code).to eq('C490') }
     end

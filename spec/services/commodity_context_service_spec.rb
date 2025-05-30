@@ -13,34 +13,34 @@ RSpec.describe DutyCalculator::CommodityContextService do
 
   context 'when a commodity has not already been fetched' do
     before do
-      allow(Api::Commodity).to receive(:build).and_call_original
+      allow(DutyCalculator::Api::Commodity).to receive(:build).and_call_original
     end
 
     it 'returns a commodity' do
-      expect(service.call(commodity_source, commodity_code, query)).to be_a(Api::Commodity)
+      expect(service.call(commodity_source, commodity_code, query)).to be_a(DutyCalculator::Api::Commodity)
     end
 
     it 'calls the api builder with the passed arguments' do
       service.call(commodity_source, commodity_code, query)
 
-      expect(Api::Commodity).to have_received(:build).with(commodity_source, commodity_code, query)
+      expect(DutyCalculator::Api::Commodity).to have_received(:build).with(commodity_source, commodity_code, query)
     end
   end
 
   context 'when a commodity has already been fetched' do
     before do
       service.call(commodity_source, commodity_code, query)
-      allow(Api::Commodity).to receive(:build)
+      allow(DutyCalculator::Api::Commodity).to receive(:build)
     end
 
     it 'returns the commodity' do
-      expect(service.call(commodity_source, commodity_code, query)).to be_a(Api::Commodity)
+      expect(service.call(commodity_source, commodity_code, query)).to be_a(DutyCalculator::Api::Commodity)
     end
 
     it 'does not call the api builder' do
       service.call(commodity_source, commodity_code, query)
 
-      expect(Api::Commodity).not_to have_received(:build)
+      expect(DutyCalculator::Api::Commodity).not_to have_received(:build)
     end
   end
 end

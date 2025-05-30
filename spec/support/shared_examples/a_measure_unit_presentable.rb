@@ -6,7 +6,7 @@ RSpec.shared_examples_for 'a measure unit presentable' do
   end
 
   describe '#applicable_unit' do
-    it 'returns the merged units from the ApplicableMeasureUnitMerger service' do
+    it 'returns the merged units from the DutyCalculator::ApplicableMeasureUnitMerger service' do
       expect(evaluator.applicable_unit).to eq(expected_applicable_unit)
     end
   end

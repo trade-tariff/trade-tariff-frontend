@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
-  subject(:step) { build(:import_destination, import_destination:) }
+  subject(:step) { build(:duty_calculator_import_destination, import_destination:) }
 
-  let(:user_session) { build(:user_session, commodity_source: nil) }
+  let(:user_session) { build(:duty_calculator_user_session, commodity_source: nil) }
   let(:import_destination) { '' }
 
   describe 'STEPS_TO_REMOVE_FROM_SESSION' do
@@ -49,7 +49,7 @@ RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
     end
   end
 
-  describe '#save' do
+  describe '#save!' do
     let(:import_destination) { 'XI' }
 
     it 'saves the import_destination to the session' do
@@ -84,7 +84,7 @@ RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
   describe '#previous_step_path' do
     let(:user_session) do
       build(
-        :user_session,
+        :duty_calculator_user_session,
         commodity_code: '100000000',
         commodity_source: nil,
         referred_service: 'uk',

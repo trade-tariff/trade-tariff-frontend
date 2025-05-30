@@ -4,7 +4,7 @@ POSSIBLE_STEPS = DutyCalculator::Steps.constants.reject { |step| step =~ /Contro
 POSSIBLE_ANSWERS = POSSIBLE_STEPS.map { |step| "DutyCalculator::Steps::#{step}".constantize.id }
 
 FactoryBot.define do
-  factory :user_session, class: 'DutyCalculator::UserSession' do
+  factory :duty_calculator_user_session, class: 'DutyCalculator::UserSession' do
     commodity_code   { nil }
     commodity_source { 'uk' }
     referred_service { nil }

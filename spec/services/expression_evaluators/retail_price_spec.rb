@@ -3,21 +3,21 @@ RSpec.describe DutyCalculator::ExpressionEvaluators::RetailPrice, :user_session 
 
   include_context 'with a fake commodity'
 
-  let(:user_session) { build(:user_session, :with_retail_price_measure_amount, commodity_code: commodity.code) }
+  let(:user_session) { build(:duty_calculator_user_session, :with_retail_price_measure_amount, commodity_code: commodity.code) }
 
   let(:measure) { commodity.import_measures.first }
   let(:measure_component) { measure.measure_components.first }
 
   let(:commodity) do
     build(
-      :commodity,
+      :duty_calculator_commodity,
       :with_retail_price_measure_units,
       import_measures: [
         attributes_for(
-          :measure,
+          :duty_calculator_measure,
           :excise,
           measure_components: [
-            attributes_for(:measure_component, :with_retail_price_measure_units),
+            attributes_for(:duty_calculator_measure_component, :with_retail_price_measure_units),
           ],
         ),
       ],

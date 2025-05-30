@@ -1,5 +1,5 @@
 RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
-  let(:user_session) { build(:user_session, :with_country_of_origin, commodity_source: nil) }
+  let(:user_session) { build(:duty_calculator_user_session, :with_country_of_origin, commodity_source: nil) }
   let(:commodity_code) { '01234567890' }
   let(:referred_service) { 'uk' }
 

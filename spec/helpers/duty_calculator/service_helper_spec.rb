@@ -15,7 +15,7 @@ RSpec.describe ServiceHelper, :user_session do
 
   let(:frontend_url) { 'https://dev.trade-tariff.service.gov.uk' }
 
-  let(:user_session) { build(:user_session) }
+  let(:user_session) { build(:duty_calculator_user_session) }
 
   describe '#title' do
     context 'when referred_service is xi' do
@@ -91,10 +91,10 @@ RSpec.describe ServiceHelper, :user_session do
 
   describe '#previous_service_url' do
     let(:commodity_code) { '0702000007' }
-    let(:user_session) { build(:user_session) }
+    let(:user_session) { build(:duty_calculator_user_session) }
 
     context 'when redirect_to is set' do
-      let(:user_session) { build(:user_session, redirect_to: 'https://example.com/chieg') }
+      let(:user_session) { build(:duty_calculator_user_session, redirect_to: 'https://example.com/chieg') }
 
       it { expect(helper.previous_service_url(commodity_code)).to eq('https://example.com/chieg') }
     end
@@ -190,7 +190,7 @@ RSpec.describe ServiceHelper, :user_session do
 
     context 'when the service comes from the session' do
       let(:params) { ActionController::Parameters.new(referred_service: nil).permit(:referred_service) }
-      let(:user_session) { build(:user_session, referred_service:) }
+      let(:user_session) { build(:duty_calculator_user_session, referred_service:) }
 
       context 'when the session value is the exact uk service' do
         let(:referred_service) { 'uk' }
@@ -213,7 +213,7 @@ RSpec.describe ServiceHelper, :user_session do
 
     context 'when the service is not present on the url params or the session' do
       let(:params) { ActionController::Parameters.new(referred_service: nil).permit(:referred_service) }
-      let(:user_session) { build(:user_session, referred_service: nil) }
+      let(:user_session) { build(:duty_calculator_user_session, referred_service: nil) }
 
       it { is_expected.to eq('uk') }
     end

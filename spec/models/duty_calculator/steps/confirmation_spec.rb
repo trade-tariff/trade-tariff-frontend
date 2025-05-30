@@ -1,5 +1,5 @@
 RSpec.describe DutyCalculator::Steps::Confirmation, :step, :user_session do
-  subject(:step) { build(:confirmation) }
+  subject(:step) { build(:duty_calculator_confirmation) }
 
   let(:filtered_commodity) do
     instance_double(
@@ -11,7 +11,7 @@ RSpec.describe DutyCalculator::Steps::Confirmation, :step, :user_session do
 
   let(:applicable_vat_options) { {} }
   let(:applicable_additional_codes) { {} }
-  let(:user_session) { build(:user_session) }
+  let(:user_session) { build(:duty_calculator_user_session) }
 
   before do
     allow(DutyCalculator::Api::Commodity).to receive(:build).and_return(filtered_commodity)
@@ -56,25 +56,25 @@ RSpec.describe DutyCalculator::Steps::Confirmation, :step, :user_session do
     end
 
     context 'when there are additional codes on the session' do
-      let(:user_session) { build(:user_session, :with_additional_codes) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_additional_codes) }
 
       it { expect(step.previous_step_path).to eq(additional_codes_path('103')) }
     end
 
     context 'when there are excise additional codes' do
-      let(:user_session) { build(:user_session, :with_excise_additional_codes) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_excise_additional_codes) }
 
       it { expect(step.previous_step_path).to eq(excise_path('DBC')) }
     end
 
     context 'when there are measure amounts on the session' do
-      let(:user_session) { build(:user_session, :with_measure_amount) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_measure_amount) }
 
       it { expect(step.previous_step_path).to eq(measure_amount_path) }
     end
 
     context 'when there are no measure amounts on the session' do
-      let(:user_session) { build(:user_session) }
+      let(:user_session) { build(:duty_calculator_user_session) }
 
       it { expect(step.previous_step_path).to eq(customs_value_path) }
     end

@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::Prefill, :step, :user_session do
-  subject(:step) { build(:prefill) }
+  subject(:step) { build(:duty_calculator_prefill) }
 
-  let(:user_session) { build(:user_session, **session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, **session_attributes) }
 
   describe '#next_step_path' do
     context 'when on NI to GB route' do

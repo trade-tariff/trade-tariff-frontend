@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Api::MonetaryExchangeRate, :user_session, type: :model do
-  subject(:monetary_exchange_rate) { build(:monetary_exchange_rate) }
+  subject(:monetary_exchange_rate) { build(:duty_calculator_monetary_exchange_rate) }
 
-  let(:user_session) { build(:user_session) }
+  let(:user_session) { build(:duty_calculator_user_session) }
 
   it_behaves_like 'a resource that has attributes',
                   id: 'flibble',
@@ -20,7 +20,7 @@ RSpec.describe DutyCalculator::Api::MonetaryExchangeRate, :user_session, type: :
     let(:currency) { 'GBP' }
 
     context 'when the import date is not set on the session' do
-      let(:user_session) { build(:user_session) }
+      let(:user_session) { build(:duty_calculator_user_session) }
 
       it 'returns the latest exchange rate' do
         expect(described_class.for(currency).as_json).to eq(
@@ -35,7 +35,7 @@ RSpec.describe DutyCalculator::Api::MonetaryExchangeRate, :user_session, type: :
     end
 
     context 'when the import date is set on the session' do
-      let(:user_session) { build(:user_session, import_date: '2021-04-01') }
+      let(:user_session) { build(:duty_calculator_user_session, import_date: '2021-04-01') }
 
       it 'returns the exchange rate matching the month and year of the import date' do
         expect(described_class.for(currency).as_json).to eq(
