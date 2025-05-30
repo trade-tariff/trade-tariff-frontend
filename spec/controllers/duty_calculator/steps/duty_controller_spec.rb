@@ -1,11 +1,11 @@
 RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
   before do
-    allow(DutyCalculator).to receive(:new).and_return(duty_calculator)
+    allow(DutyCalculator::DutyCalculator).to receive(:new).and_return(duty_calculator)
     allow(DutyCalculator::Api::MonetaryExchangeRate).to receive(:for).with('GBP').and_call_original
   end
 
   let(:user_session) { build(:duty_calculator_user_session, import_destination: 'XI', commodity_code: '0103921100', country_of_origin: 'AF') }
-  let(:duty_calculator) { instance_double(DutyCalculator, options: []) }
+  let(:duty_calculator) { instance_double(DutyCalculator::DutyCalculator, options: []) }
 
   describe 'GET #show' do
     subject(:response) { get :show }
@@ -35,19 +35,19 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
 
     it 'calls the DutyCalculator' do
       response
-      expect(DutyCalculator).to have_received(:new)
+      expect(DutyCalculator::DutyCalculator).to have_received(:new)
     end
 
     context 'when on ROW to NI' do
       let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, :deltas_applicable, commodity_code: '0103921100') }
-      let(:row_to_ni_duty_calculator) { instance_double(RowToNiDutyCalculator, options: []) }
+      let(:row_to_ni_duty_calculator) { instance_double(DutyCalculator::RowToNiDutyCalculator, options: []) }
 
       it 'calls the RowToNiDutyCalculator' do
-        allow(RowToNiDutyCalculator).to receive(:new).and_return(row_to_ni_duty_calculator)
+        allow(DutyCalculator::RowToNiDutyCalculator).to receive(:new).and_return(row_to_ni_duty_calculator)
 
         response
 
-        expect(RowToNiDutyCalculator).to have_received(:new)
+        expect(DutyCalculator::RowToNiDutyCalculator).to have_received(:new)
       end
     end
   end
