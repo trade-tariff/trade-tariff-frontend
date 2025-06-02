@@ -4,7 +4,7 @@ module Myott
                   :disable_switch_service_banner,
                   :disable_last_updated_footnote
 
-    before_action :sections_chapters, only: %i[chapter_selection check_your_answers]
+    before_action :all_sections_chapters, only: %i[chapter_selection check_your_answers]
 
     def start; end
 
