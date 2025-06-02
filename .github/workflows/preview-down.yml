@@ -4,7 +4,6 @@ on:
   pull_request:
     types: [closed, unlabeled]
 
-
 permissions:
   contents: read
   id-token: write
