@@ -5,6 +5,9 @@ module Myott
                   :disable_last_updated_footnote
 
     before_action :sections_chapters, only: %i[chapter_selection check_your_answers]
+
+    def start; end
+
     def dashboard
       @email = current_user&.email || 'not_logged_in@email.com'
       subscribed_to_stop_press = current_user&.stop_press_subscription || false
