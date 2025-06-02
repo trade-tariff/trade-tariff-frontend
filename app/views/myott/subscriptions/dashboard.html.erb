@@ -2,28 +2,19 @@
   <div class="govuk-grid-column-two-thirds">
 
     <h1 class="govuk-heading-l">Manage your subscription</h1>
-    <p class="govuk-body">Subscription for <strong><%= @email %></strong></p>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-    <h2 class="govuk-heading-m">Subscription preferences</h2>
-    <p class="govuk-body">You are subscribed to updates on chapters you selected and general updates from the service.</p>
-<table class="govuk-table myott-subscriptions">
-  <tbody class="govuk-table__body">
-  <tr class="govuk-table__row">
-    <td scope="col" class="govuk-table__cell no_border"><b>Subscribed chapters</b></td>
-    <td scope="col" class="govuk-table__cell no_border"><%= @selected_chapters.count %> chapter<%= @selected_chapters.count > 1 ? "s" : "" %></td>
-  </tr>
-  </tbody>
-  </table>
-    <%= render 'details_selected_chapters', selected_chapters: @selected_chapters %>
+    <h2 class="govuk-heading-m">You have selected <%= @amount_of_selected_chapters %> chapter<%= @amount_of_selected_chapters == 1 ? "" : "s" %></h2>
+    <p class="govuk-body">You can edit your chapter preference at any time.</p>
 
-    <p class="govuk-body"><a href=<%= myott_chapter_selection_path %>>Edit subscription preferences</a></p>
+    <%= render 'details_selected_sections_chapters', selected_sections_chapters: @selected_sections_chapters %>
+
+    <p class="govuk-body"><a href=<%= myott_chapter_selection_path %>>Edit your chapter preferences</a></p>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-    <h2 class="govuk-heading-m">Unsubscribe from all updates</h2>
-    <p class="govuk-body">This stops all tariff update emails from being sent to you.</p>
+    <h2 class="govuk-heading-m">Unsubscribe</h2>
     <p class="govuk-body"><a href="">Unsubscribe from all updates</a></p>
   </div>
 </div>

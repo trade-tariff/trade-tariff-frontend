@@ -12,7 +12,7 @@
         <%= render partial: 'checkbox_toggles' %>
         <%= form_with url: myott_check_your_answers_path, method: :post, local: true do %>
           <div class="govuk-accordion" data-module="govuk-accordion" id="section-chapter-accordion">
-            <% @sections_chapters.each do |section, chapters| %>
+            <% @all_sections_chapters.each do |section, chapters| %>
               <div class="govuk-accordion__section <%= section.resource_id == "1" ? 'govuk-accordion__section--expanded' : ''%>" id="accordion-section-<%=section.resource_id%>">
                 <%= render 'accordion_header', section: %>
                 <%= render 'accordion_section_content', section:, chapters:, selected_chapters: @selected_chapters %>

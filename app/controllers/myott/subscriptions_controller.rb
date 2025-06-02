@@ -4,9 +4,8 @@ module Myott
                   :disable_switch_service_banner,
                   :disable_last_updated_footnote
 
-    before_action :sections_chapters, only: %i[chapter_selection check_your_answers]
+    before_action :all_sections_chapters, only: %i[chapter_selection check_your_answers]
     def dashboard
-      @email = current_user&.email || 'not_logged_in@email.com'
       subscribed_to_stop_press = current_user&.stop_press_subscription || false
 
       return redirect_to myott_preference_selection_path unless subscribed_to_stop_press
@@ -16,7 +15,9 @@ module Myott
                               else
                                 all_chapters.map(&:to_param)
                               end
-      @selected_chapters = get_selected_chapters(Array(session[:chapter_ids]))
+
+      @amount_of_selected_chapters = get_amount_of_selected_chapters(Array(session[:chapter_ids]))
+      @selected_sections_chapters = get_selected_sections_chapters(Array(session[:chapter_ids]))
     end
 
     def set_preferences
@@ -50,7 +51,8 @@ module Myott
       end
 
       session[:chapter_ids] = selected_ids
-      @selected_chapters =  get_selected_chapters(Array(session[:chapter_ids]))
+      @amount_of_selected_chapters = get_amount_of_selected_chapters(Array(session[:chapter_ids]))
+      @selected_sections_chapters = get_selected_sections_chapters(Array(session[:chapter_ids]))
     end
 
     def preference_selection; end
@@ -83,11 +85,11 @@ module Myott
     private
 
     def all_chapters
-      sections_chapters.values.flatten
+      all_sections_chapters.values.flatten
     end
 
-    def sections_chapters
-      @sections_chapters ||= Rails.cache.fetch('sections_chapters', expires_in: 1.day) do
+    def all_sections_chapters
+      @all_sections_chapters ||= Rails.cache.fetch('all_sections_chapters', expires_in: 1.day) do
         Section.all.each_with_object({}) do |section, hash|
           chapters = Section.find(section.resource_id).chapters
           hash[section] = chapters
@@ -95,12 +97,27 @@ module Myott
       end
     end
 
-    def ensure_subscription_in_progress
-      redirect_to myott_path if session[:chapter_ids].nil?
+    def get_selected_chapters(selected_chapter_ids)
+      get_selected_sections_chapters(selected_chapter_ids).values.flatten
     end
 
-    def get_selected_chapters(selected_chapter_ids)
-      all_chapters.select { |chapter| selected_chapter_ids.include?(chapter.to_param) }
+    def get_selected_sections_chapters(selected_chapter_ids)
+      all_sections_chapters.each_with_object({}) do |(section, chapters), hash|
+        selected_chapters = chapters.select do |chapter|
+          selected_chapter_ids.include?(chapter.to_param)
+        end
+
+        hash[section] = selected_chapters if selected_chapters.any?
+      end
+    end
+
+    def get_amount_of_selected_chapters(selected_chapter_ids)
+      count = get_selected_chapters(selected_chapter_ids).count
+      if count.zero? || count == all_chapters.count
+        'all'
+      else
+        count
+      end
     end
   end
 end

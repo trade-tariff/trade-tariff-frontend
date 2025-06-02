@@ -7,7 +7,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
   let(:chapter3) { instance_double(Chapter, to_param: '03', short_code: '03', to_s: 'Fish and crustaceans, molluscs and other aquatic invertebrates') }
 
   before do
-    allow(Rails.cache).to receive(:fetch).with('sections_chapters', expires_in: 1.day)
+    allow(Rails.cache).to receive(:fetch).with('all_sections_chapters', expires_in: 1.day)
       .and_return({ section => [chapter1, chapter2, chapter3] })
   end
 
@@ -22,12 +22,14 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'assigns @email with current_user email' do
-        expect(assigns(:email)).to eq(user.email)
+      it 'assigns the correct amount of selected chapters' do
+        expect(assigns(:amount_of_selected_chapters)).to eq('all')
       end
 
-      it 'assigns the selected chapters' do
-        expect(assigns(:selected_chapters)).to eq([chapter1, chapter2, chapter3])
+      it 'assigns selected sections and chapters' do
+        expect(assigns(:selected_sections_chapters)).to eq(
+          section => [chapter1, chapter2, chapter3],
+        )
       end
     end
 
@@ -38,8 +40,14 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         session[:chapter_ids] = %w[01,03]
       end
 
-      it 'assigns the selected chapters' do
-        expect(assigns(:selected_chapters)).to eq([chapter1, chapter3])
+      it 'assigns the correct amount of selected chapters' do
+        expect(assigns(:amount_of_selected_chapters)).to eq(2)
+      end
+
+      it 'assigns selected sections and chapters' do
+        expect(assigns(:selected_sections_chapters)).to eq(
+          section => [chapter1, chapter3],
+        )
       end
     end
 
@@ -76,8 +84,14 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'assigns the selected chapters' do
-        expect(assigns(:selected_chapters)).to eq([chapter1, chapter3])
+      it 'assigns the correct amount of selected chapters' do
+        expect(assigns(:amount_of_selected_chapters)).to eq(2)
+      end
+
+      it 'assigns selected sections and chapters' do
+        expect(assigns(:selected_sections_chapters)).to eq(
+          section => [chapter1, chapter3],
+        )
       end
     end
 
@@ -108,8 +122,14 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'assigns the selected chapters' do
-        expect(assigns(:selected_chapters)).to eq([chapter1, chapter2, chapter3])
+      it 'assigns the correct amount of selected chapters' do
+        expect(assigns(:amount_of_selected_chapters)).to eq('all')
+      end
+
+      it 'assigns selected sections and chapters' do
+        expect(assigns(:selected_sections_chapters)).to eq(
+          section => [chapter1, chapter2, chapter3],
+        )
       end
     end
   end
