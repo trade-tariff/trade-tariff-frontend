@@ -13,6 +13,7 @@ env:
   IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-ECS-Deployments-Role
   PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
   ENVIRONMENT: development
+  SECRET_NAME: frontend-configuration
 
 # allow a single job to run per PR
 concurrency: preevy-${{ github.event.number }}
@@ -28,6 +29,15 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - uses: actions/checkout@v4
+
+      - name: Parse frontend configuration secrets
+        id: parse-secrets
+        run: |
+          aws secretsmanager get-secret-value \
+            --secret-id "${{ env.SECRET_NAME }}" \
+            --query "SecretString" \
+            --output text \
+            | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
 
       - uses: livecycle/preevy-up-action@v2.4.0
         id: preevy_up
