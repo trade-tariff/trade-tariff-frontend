@@ -1,0 +1,28 @@
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+    Show chapters selected
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <% selected_sections_chapters.each do |section, selected_chapters| %>
+    <p><b>Section <%= section.numeral %>: <%= section.to_s %></b></p>
+      <table class="govuk-table">
+        <tbody class="govuk-table__body">
+          <% selected_chapters.each do |chapter| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell section-id-col">
+                <div class="chapter-code">
+                  <span class="code-text"><%= chapter.short_code %></span>
+                </div>
+              </td>
+              <td class="govuk-table__cell">
+                <p><%= chapter.to_s %></p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</details>
