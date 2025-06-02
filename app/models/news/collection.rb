@@ -29,5 +29,9 @@ module News
         false
       end
     end
+
+    def stop_press?
+      slug == 'tariff_stop_press'
+    end
   end
 end

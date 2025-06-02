@@ -89,4 +89,20 @@ RSpec.describe News::Collection do
       it { is_expected.to be false }
     end
   end
+
+  describe '#stop_press?' do
+    subject { collection.stop_press? }
+
+    let(:collection) { build :news_collection, slug: 'tariff_stop_press' }
+
+    context 'when slug is tariff_stop_press' do
+      it { is_expected.to be true }
+    end
+
+    context 'when slug is not tariff_stop_press' do
+      let(:collection) { build :news_collection, slug: 'other_slug' }
+
+      it { is_expected.to be false }
+    end
+  end
 end
