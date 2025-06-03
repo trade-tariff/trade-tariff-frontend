@@ -9,6 +9,8 @@ module Myott
 
     def start; end
 
+    def invalid; end
+
     def dashboard
       subscribed_to_stop_press = current_user.stop_press_subscription
 
