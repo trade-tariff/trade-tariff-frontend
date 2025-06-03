@@ -6,7 +6,7 @@
   </summary>
   <div class="govuk-details__text">
     <% selected_sections_chapters.each do |section, selected_chapters| %>
-    <p><b>Section <%= section.numeral %>: <%= section.to_s %></b></p>
+    <h3>Section <%= section.numeral %>: <%= section.to_s %></h3>
       <table class="govuk-table">
         <tbody class="govuk-table__body">
           <% selected_chapters.each do |chapter| %>
