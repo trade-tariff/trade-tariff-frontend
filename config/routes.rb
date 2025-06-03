@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   if TradeTariffFrontend.myott?
     namespace :myott, path: 'subscriptions' do
       get '/start', to: 'subscriptions#start'
+      get '/invalid', to: 'subscriptions#invalid'
       get '/', to: 'subscriptions#dashboard'
       get '/preference_selection', to: 'subscriptions#preference_selection'
       get '/chapter_selection', to: 'subscriptions#chapter_selection'
