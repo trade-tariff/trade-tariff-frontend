@@ -5,16 +5,17 @@ module Myott
                   :disable_last_updated_footnote
 
     before_action :all_sections_chapters, only: %i[chapter_selection check_your_answers]
+    before_action :authenticate, except: %i[start]
 
     def start; end
 
     def dashboard
-      subscribed_to_stop_press = current_user&.stop_press_subscription || false
+      subscribed_to_stop_press = current_user.stop_press_subscription
 
       return redirect_to myott_preference_selection_path unless subscribed_to_stop_press
 
-      session[:chapter_ids] = if current_user&.chapter_ids&.split(',')&.any?
-                                current_user&.chapter_ids&.split(',')
+      session[:chapter_ids] = if current_user.chapter_ids&.split(',')&.any?
+                                current_user.chapter_ids&.split(',')
                               else
                                 all_chapters.map(&:to_param)
                               end

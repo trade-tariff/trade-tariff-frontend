@@ -43,6 +43,10 @@ module TradeTariffFrontend
     ENV.fetch('FRONTEND_HOST', 'http://localhost')
   end
 
+  def identity_base_url
+    ENV.fetch('IDENTITY_BASE_URL', 'http://localhost:3005')
+  end
+
   def backend_base_domain
     ENV['BACKEND_BASE_DOMAIN']
   end

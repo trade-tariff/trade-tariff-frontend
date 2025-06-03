@@ -6,6 +6,12 @@ module Myott
 
   private
 
+    def authenticate
+      if current_user.nil?
+        redirect_to(URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s, allow_other_host: true)
+      end
+    end
+
     def current_user
       @current_user ||= User.find(cookies[:id_token])
     end

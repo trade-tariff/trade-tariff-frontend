@@ -6,7 +6,7 @@ class User
   attr_accessor :email, :chapter_ids, :stop_press_subscription
 
   def self.find(token)
-    return nil if token.nil?
+    return nil if token.nil? && !Rails.env.development?
 
     super(nil, {}, headers(token))
   rescue Faraday::UnauthorizedError
@@ -14,7 +14,7 @@ class User
   end
 
   def self.update(token, attributes)
-    return nil if token.nil?
+    return nil if token.nil? && !Rails.env.development?
 
     json_api_params = {
       data: {
