@@ -12,6 +12,13 @@ module News
                   :description,
                   :priority
 
+    enum :id, {
+      trade_news: [1],
+      tariff_notices: [2],
+      tariff_stop_press: [3],
+      service_updates: [4],
+    }
+
     def id
       @id ||= resource_id.presence&.to_i
     end
@@ -28,10 +35,6 @@ module News
       else
         false
       end
-    end
-
-    def stop_press?
-      slug == 'tariff_stop_press'
     end
   end
 end

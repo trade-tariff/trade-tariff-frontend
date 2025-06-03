@@ -70,7 +70,7 @@
         <%= link_to t('navigation.back_to_top'), '#content', class: 'govuk-!-display-none-print' %>
       </p>
 
-      <% if TradeTariffFrontend.myott? && @news_collection.stop_press?%>
+      <% if TradeTariffFrontend.myott? && @news_collection.tariff_stop_press?%>
         <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-bottom-2" />
         <%= format_news_item_content "## Subscribe and manage Stop Press alerts\n\nSubscribe to Stop Press alerts to stay up-to-date with the latest tariff updates, or manage your existing subscription.\n" %>
         <%= link_to 'Start now', myott_start_path, class: 'govuk-button govuk-button--secondary' %>
