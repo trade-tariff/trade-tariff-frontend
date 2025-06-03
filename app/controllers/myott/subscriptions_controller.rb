@@ -5,7 +5,7 @@ module Myott
                   :disable_last_updated_footnote
 
     before_action :all_sections_chapters, only: %i[chapter_selection check_your_answers]
-    before_action :authenticate, except: %i[start]
+    before_action :authenticate, except: %i[start invalid]
 
     def start; end
 

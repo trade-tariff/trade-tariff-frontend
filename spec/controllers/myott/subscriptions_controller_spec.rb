@@ -13,6 +13,24 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       .and_return({ section => [chapter1, chapter2, chapter3] })
   end
 
+  describe 'GET #start' do
+    it 'does not authenticate the user' do
+      allow(controller).to receive(:authenticate)
+
+      get :start
+      expect(controller).not_to have_received(:authenticate)
+    end
+  end
+
+  describe 'GET #invalid' do
+    it 'does not authenticate the user' do
+      allow(controller).to receive(:authenticate)
+
+      get :invalid
+      expect(controller).not_to have_received(:authenticate)
+    end
+  end
+
   describe 'GET #dashboard' do
     context 'when current_user is not valid' do
       before do
