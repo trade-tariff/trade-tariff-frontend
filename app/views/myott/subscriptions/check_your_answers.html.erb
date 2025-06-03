@@ -4,7 +4,7 @@
 
 <div class="govuk-body myott-subscriptions">
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
     <%= render 'error' if flash.now[:error] %>
       <h1 class="govuk-heading-l">Review chapter selection</h1>
         <h2 class="govuk-heading-m">You have selected <%= @amount_of_selected_chapters %> chapter<%= @amount_of_selected_chapters == 1 ? "" : "s" %></h2>
