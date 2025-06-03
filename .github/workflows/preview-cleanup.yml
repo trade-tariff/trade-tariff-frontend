@@ -8,7 +8,7 @@ on:
       dry_run:
         description: 'Dry run only (true/false)'
         required: false
-        default: 'true'  
+        default: 'true'
 
 permissions:
   contents: read
@@ -41,7 +41,7 @@ jobs:
           set -euo pipefail
           PROFILE_URL="s3://preevy-profile-store?region=eu-west-2"
           destroyed_envs="[]"
-          
+
           # Simplified dry-run logic
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
             DRY_RUN="false"
@@ -99,9 +99,9 @@ jobs:
         id: set-outputs
         run: |
           {
-            echo "destroyed_envs=$DESTROYED_ENVS" 
-            echo "dry_run=$DRY_RUN" 
-            echo "run_mode=$RUN_MODE" 
+            echo "destroyed_envs=$DESTROYED_ENVS"
+            echo "dry_run=$DRY_RUN"
+            echo "run_mode=$RUN_MODE"
           }>> "$GITHUB_OUTPUT"
 
   notifications:
