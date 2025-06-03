@@ -10,7 +10,7 @@ permissions:
 
 env:
   AWS_REGION: eu-west-2
-  IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-ECS-Deployments-Role
+  IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-Preview-App-Role
   PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
   ENVIRONMENT: development
   SECRET_NAME: frontend-configuration
