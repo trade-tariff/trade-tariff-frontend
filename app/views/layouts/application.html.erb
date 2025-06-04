@@ -22,7 +22,7 @@
 
   <%= yield :head %>
 
-  <script async src="https://ga.jspm.io/npm:es-module-shims@2.5.1/dist/es-module-shims.js"></script>
+  <script async src="/javascripts/es-module-shims.js?v=<%= CURRENT_REVISION %>"></script>
   <script type="esms-options">
     {
       "noLoadEventRetriggers": true
