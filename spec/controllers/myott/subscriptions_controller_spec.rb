@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe Myott::SubscriptionsController, type: :controller do
   let(:section) { instance_double(Section, title: 'Section 1', resource_id: 1) }
   let(:chapter1) { instance_double(Chapter, to_param: '01', short_code: '01', to_s: 'Live animals') }
@@ -334,4 +333,3 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

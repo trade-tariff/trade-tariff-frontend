@@ -1,4 +1,3 @@
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe DutyCalculator::Steps::CustomsValue, :step, :user_session do
   subject(:step) do
     build(
@@ -389,4 +388,3 @@ RSpec.describe DutyCalculator::Steps::CustomsValue, :step, :user_session do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers
