@@ -1,0 +1,26 @@
+<%= link_to('Back', @step.previous_step_path, class: "govuk-back-link") %>
+
+<%= form_for @step, url: trader_scheme_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl">Calculate import duties</span>
+
+
+  <%= f.govuk_collection_radio_buttons :trader_scheme, @step.options, :id, :name, legend: { text: "#{trader_scheme_header}?", size: 'xl', tag: 'h1' }, hint: { text: "#{trader_scheme_body}" }, include_hidden: true %>
+
+  <%= internal_market_scheme_note.html_safe %>
+
+  <%= f.govuk_submit %>
+<% end %>
+
+<p class='govuk-body'>If you are not yet authorised, then you can <%= link_to("find out more about applying for authorisation for the UK Internal Market Scheme", 'https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland', class: 'govuk-link') %>.</p>
+
+<%= render 'duty_calculator/shared/commodity_details' %>
+
+<div class="explore-topics-section">
+  <h2 class="govuk-heading-m govuk-!-margin-top-3"><%= explore_topic_title %></h2>
+  <ul class="govuk-list">
+    <li>
+      <%= link_to("Apply for authorisation for the #{market_scheme_type}", 'https://www.gov.uk/government/news/windsor-framework-unveiled-to-fix-problems-of-the-northern-ireland-protocol', class: 'govuk-link') %>
+    </li>
+  </ul>
+</div>

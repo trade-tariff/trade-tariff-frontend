@@ -1,0 +1,35 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<%= form_for @step, url: customs_value_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl">Calculate import duties</span>
+  <h1 class="govuk-heading-xl">What is the customs value of this import?</h1>
+  <p class="govuk-hint">
+    The amount of duty you may have to pay will depend on the customs value of your goods.
+    The rules for arriving at the customs value are based on the
+    World Trade Organisation (WTO) Valuation Agreement.
+  </p>
+  <p class="govuk-hint govuk-!-margin-bottom-7">
+    <%= link_to(
+      'How to calculate the customs value of your goods.',
+      'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics',
+      class: 'govuk-link',
+      target: '_blank',
+      rel: 'noopener norefferer',
+    ) %>
+  </p>
+  <%= f.govuk_text_field :monetary_value, width: 'one-quarter', label: { text: 'What is the value in GBP of the goods being imported?', class: 'govuk-label govuk-label--s' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :shipping_cost, width: 'one-quarter', label: { text: 'Optionally, what is the shipping cost?', class: 'govuk-label govuk-label--s' },  hint: { text: 'Only costs up to the place of introduction of the imported goods into the UK border need to be included.' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :insurance_cost, width: 'one-quarter', label: { text: 'Optionally, what is the cost of insuring the goods?', class: 'govuk-label govuk-label--s' },  hint: { text: 'Only insurance costs up to the place of introduction of the imported goods into the UK border need to be included.' }, prefix_text: '£' %>
+
+  <%= f.govuk_submit %>
+<% end %>
+<%= render 'duty_calculator/shared/commodity_details' %>
+<div class="explore-topics-section">
+  <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
+  <ul class="govuk-list">
+    <li>
+      <%= link_to('Valuation of imported goods for customs purposes, VAT and trade statistics', 'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics', class: 'govuk-link') %>
+    </li>
+  </ul>
+</div>

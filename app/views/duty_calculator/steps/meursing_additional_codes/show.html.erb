@@ -1,0 +1,26 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<span class="govuk-caption-xl">Calculate import duties</span>
+
+<%= form_for @step, url: meursing_additional_codes_path do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+    <h1 class="govuk-fieldset__heading govuk-!-margin-bottom-7">
+      Enter a 'Meursing code' to work out applicable duties
+    </h1>
+  </legend>
+
+  <p class="govuk-body govuk-!-margin-bottom-5">
+    This commodity code features duties which may be dependent on the sugar, flour, milk fat and milk protein content. To fully define the applicable duties, you need to specify the additional code that defines the content of these ingredients.
+  </p>
+
+  <%= f.govuk_text_field :meursing_additional_code,
+    width: 'one-quarter',
+    label: { text: 'Enter the 3-digit additional code', class: 'govuk-label govuk-label--s' },
+    hint: { text:  meursing_lookup_hint_text }, prefix_text: '7'  %>
+
+  <%= f.govuk_submit %>
+<% end %>
+
+<%= render 'duty_calculator/shared/commodity_details' %>

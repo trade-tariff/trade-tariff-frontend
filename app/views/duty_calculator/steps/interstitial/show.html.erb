@@ -1,0 +1,7 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<span class="govuk-caption-xl">Calculate import duties</span>
+
+<%= render interstitial_partial_options %>
+
+<%= link_to('Continue', @step.next_step_path, class: 'govuk-button') %>

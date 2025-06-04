@@ -1,0 +1,20 @@
+<div class="feedback-useful-banner govuk-width-container">
+  <div class="feedback-useful-container">
+    <div class="govuk-footer__meta">
+      <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+        <p>is this page useful?</p>
+        <li class="govuk-footer__inline-list-item">
+          <%= link_to('Yes', feedback_url('yes'), class:'govuk-button govuk-button--secondary') %>
+        </li>
+        <li class="govuk-footer__inline-list-item">
+          <%= link_to('No', feedback_url('no'), class:'govuk-button govuk-button--secondary') %>
+        </li>
+      </div>
+      <div class="govuk-footer__meta-item">
+        <li class="govuk-footer__inline-list-item">
+            <%= link_to('Report a problem with this page', feedback_url, class:'govuk-button govuk-button--secondary report-problem') %>
+        </li>
+      </div>
+    </div>
+  </div>
+</div>

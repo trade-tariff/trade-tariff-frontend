@@ -1,0 +1,12 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<%= form_for @step, url: vat_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl">Calculate import duties</span>
+
+  <%= f.govuk_collection_radio_buttons :vat, @step.vat_options, :id, :name, legend: { text: 'Which VAT rate is applicable to your trade?', size: 'xl', tag: 'h1' }, hint: { text: "There are #{applicable_vat_options.keys.count} VAT rates applicable to the trade in this commodity code. Select which rate applies to your trade. For guidance on applicable VAT rates, please see the document <a href='https://www.gov.uk/guidance/rates-of-vat-on-different-goods-and-services' target='_blank' class='govuk-link'>VAT rates on different goods and services (opens in new browser window)</a>.".html_safe }, include_hidden: true %>
+
+  <%= f.govuk_submit %>
+<% end %>
+
+<%= render 'duty_calculator/shared/commodity_details' %>
