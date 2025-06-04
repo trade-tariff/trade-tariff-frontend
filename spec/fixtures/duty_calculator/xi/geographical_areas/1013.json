@@ -1,0 +1,260 @@
+{
+  "meta": null,
+  "children_geographical_areas": [
+    {
+      "id": "AT",
+      "description": "Austria",
+      "geographical_area_id": "AT",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "BE",
+      "description": "Belgium",
+      "geographical_area_id": "BE",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "BG",
+      "description": "Bulgaria",
+      "geographical_area_id": "BG",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "CY",
+      "description": "Cyprus",
+      "geographical_area_id": "CY",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "CZ",
+      "description": "Czechia",
+      "geographical_area_id": "CZ",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "DE",
+      "description": "Germany",
+      "geographical_area_id": "DE",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "DK",
+      "description": "Denmark",
+      "geographical_area_id": "DK",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "EE",
+      "description": "Estonia",
+      "geographical_area_id": "EE",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "ES",
+      "description": "Spain",
+      "geographical_area_id": "ES",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "EU",
+      "description": "European Union",
+      "geographical_area_id": "EU",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "FI",
+      "description": "Finland",
+      "geographical_area_id": "FI",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "FR",
+      "description": "France",
+      "geographical_area_id": "FR",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "GR",
+      "description": "Greece",
+      "geographical_area_id": "GR",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "HR",
+      "description": "Croatia",
+      "geographical_area_id": "HR",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "HU",
+      "description": "Hungary",
+      "geographical_area_id": "HU",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "IE",
+      "description": "Ireland",
+      "geographical_area_id": "IE",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "IT",
+      "description": "Italy",
+      "geographical_area_id": "IT",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "LT",
+      "description": "Lithuania",
+      "geographical_area_id": "LT",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "LU",
+      "description": "Luxembourg",
+      "geographical_area_id": "LU",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "LV",
+      "description": "Latvia",
+      "geographical_area_id": "LV",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "MT",
+      "description": "Malta",
+      "geographical_area_id": "MT",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "NL",
+      "description": "Netherlands",
+      "geographical_area_id": "NL",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "PL",
+      "description": "Poland",
+      "geographical_area_id": "PL",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "PT",
+      "description": "Portugal",
+      "geographical_area_id": "PT",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "RO",
+      "description": "Romania",
+      "geographical_area_id": "RO",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "SE",
+      "description": "Sweden",
+      "geographical_area_id": "SE",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "SI",
+      "description": "Slovenia",
+      "geographical_area_id": "SI",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    },
+    {
+      "id": "SK",
+      "description": "Slovakia",
+      "geographical_area_id": "SK",
+      "children_geographical_areas": [
+
+      ],
+      "meta": null
+    }
+  ],
+  "id": "1013",
+  "geographical_area_id": "1013",
+  "description": "European Union"
+}
