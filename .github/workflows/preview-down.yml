@@ -2,7 +2,7 @@ name: Preview App Down
 
 on:
   pull_request:
-    types: [closed, unlabeled]
+    types: [unlabeled]
 
 permissions:
   contents: read
