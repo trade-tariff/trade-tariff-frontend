@@ -16,6 +16,17 @@ GIT
       actionpack (>= 7.1)
       activesupport (>= 7.1)
 
+GIT
+  remote: https://github.com/trade-tariff/uktt.git
+  revision: c0ad361f2753527fddbc72b3448553cca0ef3d57
+  specs:
+    uktt (2.6.0)
+      faraday
+      faraday-follow_redirects
+      faraday-net_http_persistent
+      faraday-retry
+      net-http-persistent
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -168,6 +179,8 @@ GEM
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
+    faraday-follow_redirects (0.3.0)
+      faraday (>= 1, < 3)
     faraday-http-cache (2.5.1)
       faraday (>= 0.8)
     faraday-net_http (3.4.0)
@@ -853,6 +866,7 @@ DEPENDENCIES
   simplecov
   stimulus-rails
   turbo-rails
+  uktt!
   vcr
   webmock
   wizard_steps
