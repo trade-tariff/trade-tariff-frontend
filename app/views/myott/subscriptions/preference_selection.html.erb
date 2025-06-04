@@ -3,10 +3,8 @@
     <div class="govuk-grid-column-two-thirds">
       <%= render 'error' if flash.now[:error] %>
       <h1 class="govuk-heading-l">Set subscription preferences</h1>
-      <p>Along with general updates from the UK Trade Tariff Service,
-        you can choose to receive updates on all tariff chapters,
-        or select specific tariff chapters you want to be updated about.</p>
-      <p>You can change what tariff chapters you receive updates about at any time
+      <p>You can choose to receive updates on all tariff chapters, or  select specific tariff chapters you are interested in.</p>
+      <p class="govuk-inset-text">You can change what tariff chapters you receive updates about at any time
         by following the link the tariff update emails.</p>
 
       <%= form_with url: myott_set_preferences_path, method: :post, local: true do %>
@@ -15,7 +13,7 @@
             <h2 class="govuk-fieldset__heading govuk-heading-m">What tariff updates would you like to receive?</h2>
           </legend>
           <div id="select-hint" class="govuk-hint">
-            Select an option below. You can change your subscription preferences at any time.
+            If you want to select specific chapters, you should have a list of all the chapters you want before starting.
           </div>
           <% if flash.now[:select_error] %>
             <p class="govuk-error-message">
