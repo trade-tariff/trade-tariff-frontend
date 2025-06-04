@@ -83,12 +83,27 @@ jobs:
         with:
           cache: yarn
       - run: yarn install --frozen-lockfile
-      - run: yarn playwright install
+      - run: yarn playwright install --with-deps chromium
       - run: yarn run axxy
         env:
           BASE_URL: https://dev.trade-tariff.service.gov.uk
           BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
           CI: true
+      - run: |
+          yarn run gh-pages \
+            --dist dist \
+            --user "trade-tariff-infrastructure-continuity<hmrc-trade-tariff-support-g@digital.hmrc.gov.uk>" \
+            --silent \
+            --nojekyll
+      - uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: "non-production-alerts"
+          SLACK_USERNAME: "Accessibility Report"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_ICON_EMOJI: ":alphabet-yellow-s:"
+          SLACK_COLOR: success
+          SLACK_TITLE: New Accessibility report generated
+          SLACK_MESSAGE: https://trade-tariff.github.io/trade-tariff-frontend/accessibility-report.html
 
   notifications:
     if: contains(github.event.pull_request.labels.*.name, 'needs-deployment') || github.event_name == 'workflow_dispatch'
