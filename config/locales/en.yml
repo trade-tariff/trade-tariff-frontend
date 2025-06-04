@@ -10,7 +10,56 @@ en:
     formats:
       ordinal: "%-d %b %Y"
 
+  number:
+    # Used in NumberHelper.number_to_percentage()
+    percentage:
+      format:
+        precision: 2
+        separator: "."
+        delimiter: ","
+    # Used in NumberHelper.number_to_currency()
+    currency:
+      format:
+        # Where is the currency sign? %u is the currency unit, %n is the number (default: $5.00)
+        format: "%u%n"
+        unit: "£"
+        # These six are to override number.format and are optional
+        separator: "."
+        delimiter: ","
+        precision: 2
+        # round_mode:
+        significant: false
+        strip_insignificant_zeros: false
+
   meta_description: "Search for import and export commodity codes and for tax, duty and licences that apply to your goods"
+
+  title:
+    uk: UK Integrated Online Tariff
+    xi: Northern Ireland Online Tariff
+    default: "%{service_name}: %{service_description} - GOV.UK"
+    goods_nomenclature: "%{goods_description} - %{service_name} - GOV.UK"
+    trading_partner: "%{service_name} - Set country filter - GOV.UK"
+    import_export_date: "%{service_name} - When will your goods be traded - GOV.UK"
+    additional_code: "%{service_name} - Search for additional codes - GOV.UK"
+    commodity:
+      uk: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
+      xi: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
+    service_description: "Look up commodity codes, duty and VAT rates"
+    service_name:
+      uk: "UK Integrated Online Tariff"
+      xi: "Northern Ireland Online Tariff"
+    region_name:
+      uk: the UK
+      xi: Northern Ireland
+    howtos:
+      commodity-codes: "Classifying your goods"
+      quotas: "How to use quotas"
+      valuation: "How to value your goods for import or export"
+      trade-remedies: "What are trade remedies, safeguards and retaliatory duties"
+      origin: "What is origin and why is it important for international trade"
+  header:
+    uk: UK Integrated Online Tariff
+    xi: Northern Ireland Online Tariff
 
   feed:
     news_item_title: "Online Trade Tariff News Items"
@@ -105,29 +154,6 @@ en:
     xi:
       import: Importing into Northern Ireland
       export: Exporting from Northern Ireland
-
-  title:
-    default: "%{service_name}: %{service_description} - GOV.UK"
-    goods_nomenclature: "%{goods_description} - %{service_name} - GOV.UK"
-    trading_partner: "%{service_name} - Set country filter - GOV.UK"
-    import_export_date: "%{service_name} - When will your goods be traded - GOV.UK"
-    additional_code: "%{service_name} - Search for additional codes - GOV.UK"
-    commodity:
-      uk: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
-      xi: "Commodity code %{commodity_code}: %{commodity_description} - %{service_name} - GOV.UK"
-    service_description: "Look up commodity codes, duty and VAT rates"
-    service_name:
-      uk: "UK Integrated Online Tariff"
-      xi: "Northern Ireland Online Tariff"
-    region_name:
-      uk: the UK
-      xi: Northern Ireland
-    howtos:
-      commodity-codes: "Classifying your goods"
-      quotas: "How to use quotas"
-      valuation: "How to value your goods for import or export"
-      trade-remedies: "What are trade remedies, safeguards and retaliatory duties"
-      origin: "What is origin and why is it important for international trade"
 
   h1:
     service_description: "Look up commodity codes, duty and VAT rates"
@@ -305,6 +331,89 @@ en:
   activemodel:
     errors:
       models:
+        duty_calculator/steps/import_date:
+          attributes:
+            import_date:
+              invalid_date: Enter a valid date, no earlier than 1st January 2021
+        duty_calculator/steps/import_destination:
+          attributes:
+            import_destination:
+              blank: Select a destination
+        duty_calculator/steps/country_of_origin:
+          attributes:
+            country_of_origin:
+              blank: Enter a valid origin for this import
+        duty_calculator/steps/trader_scheme:
+          attributes:
+            trader_scheme:
+              blank: Select one of the two options
+        duty_calculator/steps/final_use:
+          attributes:
+            final_use:
+              blank: Select one of the two options
+        duty_calculator/steps/certificate_of_origin:
+          attributes:
+            certificate_of_origin:
+              blank: Select one of the two options
+        duty_calculator/steps/meursing_additional_code:
+          attributes:
+            meursing_additional_code:
+              invalid: Specify a valid 3-digit Meursing additional code
+              inclusion: Enter a valid Meursing code
+        duty_calculator/steps/customs_value:
+          attributes:
+            monetary_value:
+              blank: Enter a valid monetary value
+              not_a_number: Enter a numeric monetary value
+              greater_than: Enter a monetary value greater than zero
+            shipping_cost:
+              not_a_number: Enter a numeric shipping cost or leave the field blank
+              greater_than_or_equal_to: Enter a shipping cost value greater than or equal to zero
+            insurance_cost:
+              greater_than_or_equal_to: Enter a insurance cost value greater than or equal to zero
+              not_a_number: Enter a numeric insurance cost or leave the field blank
+        duty_calculator/steps/annual_turnover:
+          attributes:
+            annual_turnover:
+              blank: Select one of the two options
+        duty_calculator/steps/planned_processing:
+          attributes:
+            planned_processing:
+              blank: Select one of the available options
+        duty_calculator/steps/additional_code:
+          attributes:
+            measure_type_id:
+              blank: Enter a valid measure type id
+            additional_code_uk:
+              blank: Specify a valid additional code
+            additional_code_xi:
+              blank: Specify a valid additional code
+        duty_calculator/steps/excise:
+          attributes:
+            measure_type_id:
+              blank: Enter a valid measure type id
+            additional_code:
+              blank: Select an excise class
+        duty_calculator/steps/measure_amount:
+          attributes:
+            answers:
+              blank: Enter a valid import quantity.
+              not_a_number: Enter a numeric import quantity.
+              greater_than: Enter an import quantity value greater than zero.
+              max: Enter an import quantity value less than or equal too
+              min: Enter an import quantity value more than or equal too
+        duty_calculator/steps/vat:
+          attributes:
+            vat:
+              blank: Select one of the available options
+        duty_calculator/steps/document_code:
+          attributes:
+            measure_type_id:
+              blank: Enter a valid measure type id
+            document_code_uk:
+              blank: Specify a valid option
+            document_code_xi:
+              blank: Specify a valid option
         meursing_lookup/steps/starch:
           attributes:
             starch:
@@ -417,6 +526,7 @@ en:
           attributes:
             password:
               inclusion: "Incorrect password"
+
   helpers:
     legend:
       rules_of_origin_steps_scheme:
@@ -1147,18 +1257,17 @@ en:
       "=>_html": "The percentage ABV is equal to or exceeds %{requirement_duty_expression}"
       ">_html": "The percentage ABV exceeds %{requirement_duty_expression}"
   green_lanes_faq:
-
     page_title: "Internal Market Movements from Great Britain to Northern Ireland: your questions answered"
     page_description: "Find answers to questions on using the simplified processes for Internal Market Movements under the Windsor Framework."
     page_info: "For additional help and support, contact the <a href='https://www.gov.uk/guidance/trader-support-service' target='_blank'>Trader Support Service (TSS)</a> on 0800 060 8888, or call HMRC Customs and International Trade helpline on 0300 322 9434 (textphone 0300 200 3719)."
 
     related_links:
       link_1: |
-              <a href="%{green_lanes_start_path}" target="_blank">Check if you are eligible for the simplified processes for Internal Market Movements</a>
+        <a href="%{green_lanes_start_path}" target="_blank">Check if you are eligible for the simplified processes for Internal Market Movements</a>
       link_2: |
-              <a href="https://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland" target="_blank">Find out about moving goods from Great Britain to Northern Ireland under the Windsor Framework</a>
+        <a href="https://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland" target="_blank">Find out about moving goods from Great Britain to Northern Ireland under the Windsor Framework</a>
       link_3: |
-              <a href="https://www.gov.uk/guidance/categorising-goods-for-internal-market-movements-from-great-britain-to-northern-ireland" target="_blank">How to categorise goods for Internal Market Movements</a>
+        <a href="https://www.gov.uk/guidance/categorising-goods-for-internal-market-movements-from-great-britain-to-northern-ireland" target="_blank">How to categorise goods for Internal Market Movements</a>
 
     faq_categories:
       category_1:
@@ -1167,220 +1276,417 @@ en:
           question_1:
             question: What is Categorisation and why is it important?
             answer: |
-                    <p>
-                    When the full Windsor Framework is implemented, we will introduce simplified processes for Internal Market Movements. Goods will need to be categorised to determine if they are eligible to move under the simplified processes, where:
-                      <ul>
-                        <li>Category 1 goods are not eligible for using the simplified processes for Internal Market Movements</li>
-                        <li>Category 2 and Standard goods are eligible for using the simplified processes for Internal Market Movements</li>
-                      </ul>
-                    Categorisation of goods is based on legal regulations, and the specific composition and origin of the goods. These regulations and the goods they cover may alter over time so the categorisation of your goods can also be subject to change.  The categorisation of the goods also has a bearing on how the internal market movement information (IMMI) should be completed.
-                    </p>
+              <p>
+              When the full Windsor Framework is implemented, we will introduce simplified processes for Internal Market Movements. Goods will need to be categorised to determine if they are eligible to move under the simplified processes, where:
+                <ul>
+                  <li>Category 1 goods are not eligible for using the simplified processes for Internal Market Movements</li>
+                  <li>Category 2 and Standard goods are eligible for using the simplified processes for Internal Market Movements</li>
+                </ul>
+              Categorisation of goods is based on legal regulations, and the specific composition and origin of the goods. These regulations and the goods they cover may alter over time so the categorisation of your goods can also be subject to change.  The categorisation of the goods also has a bearing on how the internal market movement information (IMMI) should be completed.
+              </p>
           question_2:
             question: When must I start categorising my goods?
             answer: |
-                    <p>
-                    These simplified processes are introduced as part of the new arrangements for parcels and freight under the Windsor Framework.
-                    <a href="https://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland" target="_blank"> Find out more about Internal Market Movements.</a>
-                    </p>
-                    <p>
-                    You can start categorising your goods now using tool we have introduced in the Northern Ireland Online Tariff: <a href="%{green_lanes_start_path}" target="_blank">UK Integrated Online Tariff: Look up commodity codes, duty and VAT rates - GOV.UK</a>
-                    </p>
+              <p>
+              These simplified processes are introduced as part of the new arrangements for parcels and freight under the Windsor Framework.
+              <a href="https://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland" target="_blank"> Find out more about Internal Market Movements.</a>
+              </p>
+              <p>
+              You can start categorising your goods now using tool we have introduced in the Northern Ireland Online Tariff: <a href="%{green_lanes_start_path}" target="_blank">UK Integrated Online Tariff: Look up commodity codes, duty and VAT rates - GOV.UK</a>
+              </p>
           question_3:
             question: How many goods categories are there and what does each mean for the processes I need to follow?
             answer: |
-                    <p>
-                    There are three goods categories as follows:
-                      <ul>
-                        <li>Category 1 goods are not eligible for the simplified processes and must follow full customs processes. These goods include those where there are prohibitions and restrictions – for example, total bans in the case of trade sanctions - and where there are quotas restricting volume of imports. Goods covered by EU trade defence measures also fall into Category 1.</li>
-                        <li>Category 2 goods include excise products or goods subject to EU enforced special health, licensing or environmental controls. They are usually subject to licensing and documentary controls and may need to meet certain requirements and conditions to be moved. Category 2 goods are eligible for the simplified processes and can use a 8 digit commodity code when using IMMI.</li>
-                        <li>Standard goods have no restrictions and traders can use a 6 digit commodity code when making movements using the IMMI.</li>
-                      </ul>
-                    </p>
-                    <p>
-                    Some category 2 goods can be treated as standard goods with the appropriate authorisation; for example if traders are moving food products and have UKIMS and NIRMS together then the additional requirements are waived.
-                    </p>
-                    <p>
-                    More information can be found in <a href="https://www.gov.uk/government/publications/simplified-process-for-internal-market-movements-spimm-category-of-goods-guidance" target="_blank">HMRC guidance</a>.
-                    </p>
+              <p>
+              There are three goods categories as follows:
+                <ul>
+                  <li>Category 1 goods are not eligible for the simplified processes and must follow full customs processes. These goods include those where there are prohibitions and restrictions – for example, total bans in the case of trade sanctions - and where there are quotas restricting volume of imports. Goods covered by EU trade defence measures also fall into Category 1.</li>
+                  <li>Category 2 goods include excise products or goods subject to EU enforced special health, licensing or environmental controls. They are usually subject to licensing and documentary controls and may need to meet certain requirements and conditions to be moved. Category 2 goods are eligible for the simplified processes and can use a 8 digit commodity code when using IMMI.</li>
+                  <li>Standard goods have no restrictions and traders can use a 6 digit commodity code when making movements using the IMMI.</li>
+                </ul>
+              </p>
+              <p>
+              Some category 2 goods can be treated as standard goods with the appropriate authorisation; for example if traders are moving food products and have UKIMS and NIRMS together then the additional requirements are waived.
+              </p>
+              <p>
+              More information can be found in <a href="https://www.gov.uk/government/publications/simplified-process-for-internal-market-movements-spimm-category-of-goods-guidance" target="_blank">HMRC guidance</a>.
+              </p>
           question_4:
             question: How do I categorise my goods and what support is available to me?
             answer: |
-                    <p>
-                    There are three routes where traders can find support to categorise their goods.
-                    </p>
-                    <p>
-                    <strong>Using the Northern Ireland Online Tariff Tool</strong>
-                    <br />
-                    You are able to use the <a href="%{green_lanes_start_path}" target="_blank">eligibility tool</a> within the online tariff tool to help identify which categories apply to your goods.  The tool can also be accessed via an API which will be made available separately.
-                    </p>
-                    <p>
-                    <strong>Using the Trader Goods Profile</strong>
-                    <br />
-                    A Trader Goods Profile is automatically created when you register for the UK Internal Market Scheme (UKIMS). Your profile can be used to maintain a list of your business’s commonly transported goods and their categorisation, which can be used by you or your intermediaries to submit your Internal Market Movement Information.
-                    <br />
-                    More information on the Trader Goods Profile and Internal Market Movement Information will be published soon.
-                    </p>
-                    <p>
-                    <strong>Using the Trader Support Service</strong>
-                    <br />
-                    If you use the Trader Support Service to make movements into Northern Ireland, you will be able to also get support to find your goods category in the TSS portal. The TSS will provide information about your goods category and support you to complete your declarations and provide the relevant procedure code.
-                    </p>
+              <p>
+              There are three routes where traders can find support to categorise their goods.
+              </p>
+              <p>
+              <strong>Using the Northern Ireland Online Tariff Tool</strong>
+              <br />
+              You are able to use the <a href="%{green_lanes_start_path}" target="_blank">eligibility tool</a> within the online tariff tool to help identify which categories apply to your goods.  The tool can also be accessed via an API which will be made available separately.
+              </p>
+              <p>
+              <strong>Using the Trader Goods Profile</strong>
+              <br />
+              A Trader Goods Profile is automatically created when you register for the UK Internal Market Scheme (UKIMS). Your profile can be used to maintain a list of your business’s commonly transported goods and their categorisation, which can be used by you or your intermediaries to submit your Internal Market Movement Information.
+              <br />
+              More information on the Trader Goods Profile and Internal Market Movement Information will be published soon.
+              </p>
+              <p>
+              <strong>Using the Trader Support Service</strong>
+              <br />
+              If you use the Trader Support Service to make movements into Northern Ireland, you will be able to also get support to find your goods category in the TSS portal. The TSS will provide information about your goods category and support you to complete your declarations and provide the relevant procedure code.
+              </p>
           question_5:
             question: What is the difference between Categorisation and Classification?
             answer: |
-                    <p>
-                    Classification’ describes what the good is, whereas the ‘categorisation’ informs the obligations that need to be fulfilled in relation to that good.
-                    </p>
-                    <p>
-                    Therefore, you have to determine the classification of the good before you can determine which category it sits in.
-                    </p>
-                    <p>
-                    For example, if a trader is moving pencils, the trader must establish the relevant classification of the good: this is classification. Once this is done so they can proceed to establish the Windsor Framework category the commodity belongs to, taking into account any licenses or exemptions which may apply to that commodity under the Windsor Framework. This can be done via the Northern Ireland Online Tariff Tool, via the TGP or with the support of the Trader Support Service.
-                    </p>
+              <p>
+              Classification’ describes what the good is, whereas the ‘categorisation’ informs the obligations that need to be fulfilled in relation to that good.
+              </p>
+              <p>
+              Therefore, you have to determine the classification of the good before you can determine which category it sits in.
+              </p>
+              <p>
+              For example, if a trader is moving pencils, the trader must establish the relevant classification of the good: this is classification. Once this is done so they can proceed to establish the Windsor Framework category the commodity belongs to, taking into account any licenses or exemptions which may apply to that commodity under the Windsor Framework. This can be done via the Northern Ireland Online Tariff Tool, via the TGP or with the support of the Trader Support Service.
+              </p>
           question_6:
             question: What is the <a href="%{green_lanes_start_path}" target="_blank">‘Eligibility Tool’ for the simplified processes for Internal Market Movements from Great Britain to Northern Ireland</a>, and how can it help me?
             answer: |
-                    <p>
-                    This tool helps you to check:
-                      <ul>
-                        <li>what is required to use the simplified processes for Internal Market Movements</li>
-                        <li>the category of your goods</li>
-                        <li>what to do next after obtaining a categorisation recommendation</li>
-                      </ul>
-                    </p>
-                    <p>
-                    The tool cannot save or download category results.
-                    </p>
+              <p>
+              This tool helps you to check:
+                <ul>
+                  <li>what is required to use the simplified processes for Internal Market Movements</li>
+                  <li>the category of your goods</li>
+                  <li>what to do next after obtaining a categorisation recommendation</li>
+                </ul>
+              </p>
+              <p>
+              The tool cannot save or download category results.
+              </p>
           question_7:
             question: Can I save or download a PDF copy of my commodity category results?
             answer: |
-                    <p>
-                    If you need to save or download your category results direct from the tool, you can take a screen capture or print the category results page.
-                    </p>
+              <p>
+              If you need to save or download your category results direct from the tool, you can take a screen capture or print the category results page.
+              </p>
       category_2:
         heading: "Commodity codes"
         questions:
           question_1:
             question: I cannot seem to use my 6 digit HS code on the user interface of the categorisation tool?
             answer: |
-                    <p>
-                    The tool is designed to work best when reading a 10 digit commodity code. There are two known issues which you might encounter:
-                    <ul>
-                      <li>You will need to enter 10 digits on the UI. The tool is designed to look for a 10 digit number. Where you only have the 6 digit code, you can add extra zeros to pass this validation.</li>
-                      <li>Some issues with a 6 digit codes. In some instances, the tool will not recognise the 6 digit HS code because of overlap between header codes and actually commodity codes. You should be able to overcome this by providing the 8 or 10 digit code.</li>
-                    </ul>
-                    <strong>Traders should note that even if you have to input your 10 digit commodity code on the tool in order to categorise, you can still use a 6 digit or 8 digit commodity code when making IMMI declarations if your goods are eligible for SPIMM.</strong>
-                    </p>
+              <p>
+              The tool is designed to work best when reading a 10 digit commodity code. There are two known issues which you might encounter:
+              <ul>
+                <li>You will need to enter 10 digits on the UI. The tool is designed to look for a 10 digit number. Where you only have the 6 digit code, you can add extra zeros to pass this validation.</li>
+                <li>Some issues with a 6 digit codes. In some instances, the tool will not recognise the 6 digit HS code because of overlap between header codes and actually commodity codes. You should be able to overcome this by providing the 8 or 10 digit code.</li>
+              </ul>
+              <strong>Traders should note that even if you have to input your 10 digit commodity code on the tool in order to categorise, you can still use a 6 digit or 8 digit commodity code when making IMMI declarations if your goods are eligible for SPIMM.</strong>
+              </p>
           question_2:
             question: Can I move my Category 2 goods via EIDR?
             answer: |
-                    <p>
-                    It will be possible to use the Entry in Declarant’s Records (EIDR) process to move goods into Northern Ireland under the simplified processes. As well as the existing SCDP-EIDR authorisation, HMRC is introducing the UKIMS-EIDR authorisation to enable businesses to use the entry in declarant’s record process for certain goods moving from Great Britain to Northern Ireland.
-                    </p>
-                    <p>
-                    Category 2 goods can move under EIDR where they are not subject to documentary controls that need to be presented upon entry to NI. <strong>In most cases, Additional Procedure Code 1EN should be declared in DE1/11.</strong>
-                    </p>
-                    <p>
-                    Where Additional Procedure Codes 1EL or 1LG are declared in DE1/11, use of EIDR is not permitted.
-                    </p>
-                    <p>
-                    The goods must meet certain other requirements to move using EIDR under the simplified processes, i.e.:
-                      <ul>
-                        <li>meet the criteria to be moved as <a href="https://www.gov.uk/guidance/check-if-you-can-bring-your-goods-into-northern-ireland-from-great-britain-without-paying-duty" target="_blank">‘not at risk’</a> using UKIMS authorisation</li>
-                        <li>have UK domestic status</li>
-                        <li>not have any import controls</li>
-                        <li>not have any licensing requirements.</li>
-                        <li>not be subject to prohibitions or restrictions</li>
-                        <li>not be in excise duty suspense</li>
-                        <li>not be entering a customs duty suspense procedure</li>
-                      </ul>
-                    </p>
+              <p>
+              It will be possible to use the Entry in Declarant’s Records (EIDR) process to move goods into Northern Ireland under the simplified processes. As well as the existing SCDP-EIDR authorisation, HMRC is introducing the UKIMS-EIDR authorisation to enable businesses to use the entry in declarant’s record process for certain goods moving from Great Britain to Northern Ireland.
+              </p>
+              <p>
+              Category 2 goods can move under EIDR where they are not subject to documentary controls that need to be presented upon entry to NI. <strong>In most cases, Additional Procedure Code 1EN should be declared in DE1/11.</strong>
+              </p>
+              <p>
+              Where Additional Procedure Codes 1EL or 1LG are declared in DE1/11, use of EIDR is not permitted.
+              </p>
+              <p>
+              The goods must meet certain other requirements to move using EIDR under the simplified processes, i.e.:
+                <ul>
+                  <li>meet the criteria to be moved as <a href="https://www.gov.uk/guidance/check-if-you-can-bring-your-goods-into-northern-ireland-from-great-britain-without-paying-duty" target="_blank">‘not at risk’</a> using UKIMS authorisation</li>
+                  <li>have UK domestic status</li>
+                  <li>not have any import controls</li>
+                  <li>not have any licensing requirements.</li>
+                  <li>not be subject to prohibitions or restrictions</li>
+                  <li>not be in excise duty suspense</li>
+                  <li>not be entering a customs duty suspense procedure</li>
+                </ul>
+              </p>
       category_3:
         heading: "Exemptions"
         questions:
           question_1:
             question: Must I meet all exemption requirements or just one?
             answer: |
-                    <p>
-                    The eligibility provides the conditions under which your goods might be exempt from a measure.
-                    </p>
-                    <p>
-                    </p>
-                    <p>
-                    You might be presented with a list of category exemptions which might apply to your goods. In most cases, the trader should select at least one exemption that applies. These are likely to correspond to codes businesses already supply when making goods declarations.
-                    </p>
-                    <p>
-                    You only need to select one exemption even if all apply.
-                    </p>
-                    <p>
-                    For example, if moving multi-component integrated circuits originating from Brazil with the commodity code 8542 3211 00 from Great Britain (England, Scotland and Wales) to Northern Ireland, you might be presented with two exemptions. In this case, traders only need to select one exemption.
-                    </p>
+              <p>
+              The eligibility provides the conditions under which your goods might be exempt from a measure.
+              </p>
+              <p>
+              </p>
+              <p>
+              You might be presented with a list of category exemptions which might apply to your goods. In most cases, the trader should select at least one exemption that applies. These are likely to correspond to codes businesses already supply when making goods declarations.
+              </p>
+              <p>
+              You only need to select one exemption even if all apply.
+              </p>
+              <p>
+              For example, if moving multi-component integrated circuits originating from Brazil with the commodity code 8542 3211 00 from Great Britain (England, Scotland and Wales) to Northern Ireland, you might be presented with two exemptions. In this case, traders only need to select one exemption.
+              </p>
           question_2:
             question: Why have I been presented with both Category 1 and Category 2 exemption requirements?
             answer: |
-                    <p>
-                    The tool will identify any possible exemptions which apply against both Category 1 and Category 2, and you will be asked whether the exemptions apply.
-                    </p>
-                    <p>
-                    Category 1 takes precedence and, if no exemptions are met against Category 1, a user will not be asked about possible Category 2 exemptions. If Category 1 exemptions are met, you will be asked about Category 2 exemptions.
-                    </p>
+              <p>
+              The tool will identify any possible exemptions which apply against both Category 1 and Category 2, and you will be asked whether the exemptions apply.
+              </p>
+              <p>
+              Category 1 takes precedence and, if no exemptions are met against Category 1, a user will not be asked about possible Category 2 exemptions. If Category 1 exemptions are met, you will be asked about Category 2 exemptions.
+              </p>
           question_3:
             question: Where can I find legislation relating to a particular exemption requirement?
             answer: |
-                    <p>
-                    When using the tool you will be presented with questions relating to your goods. Once you have answered these questions you will be presented with the relevant legislation associated with any exemptions which may apply. Here you will be asked to confirm which exemption applies according to the legislation.
-                    </p>
+              <p>
+              When using the tool you will be presented with questions relating to your goods. Once you have answered these questions you will be presented with the relevant legislation associated with any exemptions which may apply. Here you will be asked to confirm which exemption applies according to the legislation.
+              </p>
           question_4:
             question: I was presented with a different exemption to the one I was expecting.
             answer: |
-                    <p>
-                    Goods exemptions might change alongside the tariff, you can use the eligibility tool or refer to your TGP for support. Where you are presented with an exemption that alters your goods category this is likely to be the most up to date exemption applicable to your good.
-                    </p>
+              <p>
+              Goods exemptions might change alongside the tariff, you can use the eligibility tool or refer to your TGP for support. Where you are presented with an exemption that alters your goods category this is likely to be the most up to date exemption applicable to your good.
+              </p>
           question_5:
             question: Why does the categorisation tool only use exemption codes to categorise my goods?
             answer: |
-                    <p>
-                    The eligibility tool only shows exemption codes as it needs to determine which rules under Annex IV of the Windsor Framework your goods are exempt from.
-                    </p>
-                    <p>
-                    For example, Common Health Entry Document (CHED) certificates do not appear in the list of exemptions as they are not considered exemptions. If you are using a CHED, it means you are not utilising an available exemption, and therefore you should select 'none of the above' from the listed options in the tool.
-                    </p>
+              <p>
+              The eligibility tool only shows exemption codes as it needs to determine which rules under Annex IV of the Windsor Framework your goods are exempt from.
+              </p>
+              <p>
+              For example, Common Health Entry Document (CHED) certificates do not appear in the list of exemptions as they are not considered exemptions. If you are using a CHED, it means you are not utilising an available exemption, and therefore you should select 'none of the above' from the listed options in the tool.
+              </p>
       category_4:
         heading: "Procedure codes"
         questions:
           question_1:
             question: I know the category of my goods but OTT hasn’t told me which APCs to use.
             answer: |
-                    <p>
-                    The categorisation guidance on GOV.UK will list the relevant procedure codes for moving goods into NI, the TSS will also support traders select the relevant procedure codes needed for movements into NI.
-                    </p>
-                    <p>
-                    In March, the declaration completion instructions will be published on GOV.UK with more details on which procedure code and additional procedure code applies when.
-                    </p>
-                    <p>
-                    <strong>There are 4 new SPIMM APCs that will apply depending on the goods being moved</strong>
-                    </p>
-                    <p><strong>
-                    Depending on the type of goods being moved, the trader selects an appropriate APC
-                      <ul>
-                        <li>1SG –Standard Goods (Non-Excise)</li>
-                        <li>1LG – Licensable goods (Non-Excise)</li>
-                        <li>1EN –Excise Non-Licensable</li>
-                        <li>1EL – Excise Licensable</li>
-                      </ul>
-                    </strong></p>
+              <p>
+              The categorisation guidance on GOV.UK will list the relevant procedure codes for moving goods into NI, the TSS will also support traders select the relevant procedure codes needed for movements into NI.
+              </p>
+              <p>
+              In March, the declaration completion instructions will be published on GOV.UK with more details on which procedure code and additional procedure code applies when.
+              </p>
+              <p>
+              <strong>There are 4 new SPIMM APCs that will apply depending on the goods being moved</strong>
+              </p>
+              <p><strong>
+              Depending on the type of goods being moved, the trader selects an appropriate APC
+                <ul>
+                  <li>1SG –Standard Goods (Non-Excise)</li>
+                  <li>1LG – Licensable goods (Non-Excise)</li>
+                  <li>1EN –Excise Non-Licensable</li>
+                  <li>1EL – Excise Licensable</li>
+                </ul>
+              </strong></p>
       category_5:
         heading: "Excise"
         questions:
           question_1:
             question: How do I work out if my goods are excise goods and therefore category 2?
             answer: |
-                    <p>
-                    In most cases it will be clear if the goods are category 2 excise goods because they are subject to UK excise duty (e.g. alcohol, tobacco, fuels). Some goods may or may not be excisable depending, for example, on how they are to be used.
-                    </p>
-                    <p>
-                    The tool will return that these are potentially excise goods and a categorisation decision will need to be taken based on the circumstances applicable to the particular goods.
-                    </p>
-                    <p>
-                    Excise duty will never be payable through customs forms or processes on a GB to NI movement. In the rare circumstances that excise duty is payable on GB to NI movements separate excise accounting arrangements exist.
-                    </p>
+              <p>
+              In most cases it will be clear if the goods are category 2 excise goods because they are subject to UK excise duty (e.g. alcohol, tobacco, fuels). Some goods may or may not be excisable depending, for example, on how they are to be used.
+              </p>
+              <p>
+              The tool will return that these are potentially excise goods and a categorisation decision will need to be taken based on the circumstances applicable to the particular goods.
+              </p>
+              <p>
+              Excise duty will never be payable through customs forms or processes on a GB to NI movement. In the rare circumstances that excise duty is payable on GB to NI movements separate excise accounting arrangements exist.
+              </p>
+
+  page_titles:
+    vat  :: Which VAT rate is applicable to your trade - Online Tariff Duty Calculator
+    excise: Which class of excise is applicable to your trade - Online Tariff Duty Calculator
+    final_use: Are your goods for final use in the UK - Online Tariff Duty calculator
+    import_date: When will the good be imported - Online Tariff Duty calculator
+    confirmation: Check your answers - Online Tariff Duty calculator
+    meursing_additional_code: Enter a 'Meursing Code' for this commodity - Online Tariff Duty calculator
+    customs_value: What is the customs value of this import - Online Tariff Duty calculator
+    document_code: Do you have any of the following documents - Online Tariff Duty Calculator
+    trader_scheme: Are you authorised under the %{market_scheme_type} - Online Tariff Duty calculator
+    measure_amount: Enter import quantity - Online Tariff Duty calculator
+    additional_code: Describe your goods in more detail - Online Tariff Duty Calculator
+    country_of_origin: Which country are the goods dispatched from - Online Tariff Duty calculator
+    import_destination: Which part of the UK are you importing into - Online Tariff Duty calculator
+    annual_turnover: What was your annual turnover - Online Tariff Duty Calculator
+    planned_processing: How will your goods be processed - Online Tariff Duty calculator
+    certificate_of_origin: Do you have a valid proof of origin - Online Tariff Duty calculator
+    stopping: Declared subheading not allowed - Online Tariff Duty calculator
+    interstitial:
+      gb_to_ni: Duties apply to this import - Online Tariff Duty calculator
+      default: EU duties apply to this import - Online Tariff Duty calculator
+    duty_calculation: Import duty calculation - Online Tariff Duty calculator
+    no_duty: There is no import duty to pay - Online Tariff Duty calculator
+
+  duty_calculations:
+    options:
+      mfn:
+        warning_text: Third-country duty will apply as there is no preferential agreement in place for the import of this commodity.
+      import_valuation: Valuation for import
+      customs_value: Value of goods + freight + insurance costs
+      duty_total_html: <strong>Duty Total</strong>
+      import_duty_html: Import duty%{additional_code}<br><span class="govuk-green govuk-body-xs"> %{option_type} (%{commodity_source})</span>
+      excise_duty_html: Excise<br><span class="govuk-green govuk-body-xs">%{additional_code_description}</span>
+      vat_duty_html: VAT <br><span class="govuk-green govuk-body-xs"> %{option_type}</span>
+      import_quantity: Import quantity
+      vat_html: Import duty<br><span class="govuk-green govuk-body-xs"> VAT (UK)</span>
+      option_type:
+        third_country_tariff:
+          third_country_tariff: Third-country duty
+        tariff_preference:
+          tariff_preference: Tariff preference
+        suspension:
+          autonomous: Autonomous tariff suspension
+          airworthiness: Airworthiness tariff suspension
+          autonomous_end_use: Autonomous suspension under end-use
+          certain_category_goods: Suspension - goods for certain categories of ships, boats and other vessels and for drilling or production platforms
+          preferential: Preferential Suspension
+        quota:
+          customs_union: Customs Union Quota
+          preferential: Preferential Quota
+          preferential_end_use: Preferential Quota Under End Use
+          non_preferential: Non Preferential Quota
+          non_preferential_end_use: Non Preferential Quota Under End Use
+        additional_duty:
+          definitive_anti_dumping: Definitive anti-dumping duty
+          definitive_countervailing: Definitive countervailing  duty
+          provisional_anti_dumping: Provisional anti-dumping duty
+          provisional_countervailing: Provisional countervailing duty
+          additional_duties: Additional Duties
+          additional_duties_safeguard: Additional duties (safeguard)
+          excise: Excise
+        default:
+          base: Please implement a concrete option class
+        vat_type:
+          vate: VAT exempt
+          vatz: Zero rate
+          vatr: Reduced rate
+          vat: Standard rate
+        autonomous: "-"
+      heading:
+        third_country_tariff:
+          third_country_tariff: "Option %{option_no}: Third-country duty"
+        tariff_preference:
+          tariff_preference: "Option %{option_no}: Tariff preference - %{geographical_area_description}"
+        suspension:
+          autonomous: "Option %{option_no}: Autonomous tariff suspension"
+          airworthiness: "Option %{option_no}: Airworthiness tariff suspension"
+          autonomous_end_use: "Option %{option_no}: Autonomous suspension under end-use"
+          certain_category_goods: "Option %{option_no}: Suspension - goods for certain categories of ships, boats and other vessels and for drilling or production platforms"
+          preferential: "Option %{option_no}: Preferential suspension"
+        quota:
+          customs_union: "Option %{option_no}: Customs Union quota %{order_number}"
+          preferential: "Option %{option_no}: Preferential tariff quota %{order_number}"
+          preferential_end_use: "Option %{option_no}: Preferential tariff quota under end-use %{order_number}"
+          non_preferential: "Option %{option_no}: Non-preferential quota %{order_number}"
+          non_preferential_end_use: "Option %{option_no}: Non-preferential tariff quota under end-use %{order_number}"
+        waiver:
+          waiver: "Option %{option_no}: Claiming a waiver – Exchange rate"
+  interstitial:
+    gb_to_ni:
+      trade_defence:
+        heading: EU duties apply to this import
+        body: As this commodity attracts a trade defence measure, imports of this commodity are treated as 'at risk' under all circumstances.
+      certificate_of_origin:
+        heading: EU duties apply to this import
+        body: As you have no valid proof of origin, imports of this commodity are subject to EU import duties.
+
+    row_to_ni:
+      trade_defence:
+        heading: EU duties apply to this import
+        body: As this commodity attracts a trade defence measure, imports of this commodity are treated as 'at risk'.
+      trader_scheme:
+        heading: EU duties apply to this import
+        body_html: As you are not authorised under the %{market_scheme_type}, imports of this commodity are treated as 'at risk'. <a href='https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-trader-scheme-if-you-bring-goods-into-northern-ireland' class='govuk-link' target='_blank'>Find out more about applying for authorisation for the %{market_scheme_type}</a>.
+      final_use:
+        heading: EU duties apply to this import
+        body: As your goods are not for final use in Northern Ireland, imports of this commodity are treated as 'at risk'.
+      commercial_purposes:
+        heading: EU duties apply to this import
+        body: As your goods are subject to commercial processing, imports of this commodity are treated as 'at risk'.
+    fallback:
+      heading: Oops. You were not meant to get here
+      body: Please give feedback %{link}
+  final_use:
+    row_to_ni:
+      heading: Are your goods for sale to, or final use by, end-consumers located in Northern Ireland?
+      yes_option: Yes, I am moving these goods into Northern Ireland for its sale to, or final use by, end-consumers located in Northern Ireland
+      no_option: No, these goods will not be for final use in Northern Ireland
+    gb_to_ni:
+      heading: Are your goods for sale to, or final use by, end-consumers located in the United Kingdom?
+      yes_option: Yes, I am moving these goods into Northern Ireland for its sale to, or final use by, end-consumers located in the United Kingdom
+      no_option: No, these goods will not be for final use in the United Kingdom
+  confirmation_page:
+    import_date: Date of import
+    import_destination: Destination
+    country_of_origin: Coming from
+    trader_scheme: Trader scheme
+    final_use: Final use
+    annual_turnover: Annual turnover
+    planned_processing: Processing
+    certificate_of_origin: Certificate of origin
+    meursing_additional_code: Meursing Code
+    customs_value: Customs value
+    measure_amount: Import quantity
+    additional_code: Additional code(s)
+    document_code: Document(s)
+    vat: Applicable VAT rate
+    excise: Excise additional code
+  excise_page:
+    hint_html: >
+      <p>Excise duty applies to trade in this commodity code. Select which class of excise duty applies to your trade</p>
+      <p>For more information on excise duty classes, please see %{excise_link}</p>
+    link_text: "UK Trade: excise, duties, reliefs, drawbacks and allowances (opens in new browser window)"
+
+  annual_turnover:
+    fieldset_hint_text:
+      row_to_ni_html: >
+        <p class="govuk-hint">
+          If the turnover of your company was less than %{turnover_amount} in the latest complete financial year, then your goods will not be considered to be subject to commercial processing. This influences whether or not the goods are seen to be 'at risk' of subsequently being moved into Ireland.
+        </p>
+      gb_to_ni_html: >
+        <p class="govuk-hint">
+          If the turnover of your company was less than %{turnover_amount} in the latest complete financial year, then your goods will not be considered to be subject to commercial processing, and therefore 'not at risk' of subsequently being moved into Ireland.
+        </p>
+    fieldset_legend_text: >
+      What was your annual turnover in the most recent complete financial year?
+  planned_processing:
+    fieldset_hint_text_html: >
+      <p class="govuk-hint">
+        If your goods are for sale to, or final use by, end consumers in the United Kingdom, you may be able to declare goods as 'not at risk', and pay no duty on those goods.
+      </p>
+      <p class="govuk-hint">
+        You will not be able to declare your goods 'not at risk' if your goods are for commercial processing in Northern Ireland, unless they meet one of these exemptions.
+      </p>
+    fieldset_legend_text: >
+      How will these goods be processed after they are moved into Northern Ireland?
+    without_any_processing:
+      label_text_html: >
+        The goods <strong>will not be subject to processing in Northern Ireland<strong>
+    commercial_processing:
+      label_text_html: >
+        The goods will undergo <strong>commercial processing</strong> for one of these purposes:
+      hint_text_html:
+        after_windsor_framework_html: >
+          <ul>
+            <li>the sale of <strong>food</strong> to end consumers in the UK</li>
+            <li><strong>construction</strong>, where the processed goods form a permanent part of a structure that is constructed and located in Northern Ireland by the importer or one subsequent entity</li>
+            <li>direct provision to the recipient of <strong>health or care services</strong> in Northern Ireland by the importer or one subsequent entity</li>
+            <li><strong>not for profit</strong> activities in Northern Ireland by the importer or one subsequent entity, where there is no subsequent sale of the processed goods</li>
+            <li>the final use of <strong>animal feed</strong> on premises located in Northern Ireland by the importer or one subsequent entity.</li>
+          </ul>
+        before_windsor_framework_html: >
+          <ul>
+            <li>the sale of <strong>food</strong> to end consumers in the UK</li>
+            <li><strong>construction</strong>, where the processed goods form a permanent part of a structure that is constructed and located in NI by the importer</li>
+            <li>direct provision of <strong>health or care services</strong> by the importer in NI</li>
+            <li><strong>not for profit</strong> activities in NI, where there is no subsequent sale of the processed good by the importer</li>
+            <li>the final use of <strong>animal feed</strong> on premises located in NI by the importer.</li>
+          </ul>
+    commercial_purposes:
+      label_text_html: >
+        The goods will be processed for <strong>commercial purposes other than those listed above</strong>
+  meursing_additional_code:
+    link_text: Meursing code finder (opens in new tab)
+    hint_text: >
+      If you know the additional code for your commodity, enter it in the box below. If you do not know the code, then use the %{link} to find the additional code.
