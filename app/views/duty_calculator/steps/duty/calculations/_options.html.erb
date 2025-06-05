@@ -1,0 +1,27 @@
+<%= render 'duty_calculator/steps/duty/calculations/options_summary' %>
+
+<% @duty_options.each.with_index(1) do |option, index| %>
+  <h2 id=<%= option.type %> class="govuk-heading-m govuk-!-margin-bottom-7"><%= t("duty_calculations.options.heading.#{option.category}.#{option.type}", option_no: index, geographical_area_description: option.geographical_area_description, order_number:  option.order_number) %></h2>
+  <% if option.values.present? %>
+    <table class="govuk-table govuk-table--m govuk-!-margin-bottom-9">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Data</th>
+          <th scope="col" class="govuk-table__header">Calculation</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Value</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <%= render partial: 'duty_calculator/steps/duty/calculations/option_row', collection: option.values, as: :row %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <div class="govuk-!-margin-bottom-5">
+    <%= option.footnote.html_safe if option.footnote.present? %>
+  </div>
+
+  <% if option.show_rules_of_origin? && scheme_for(option, @rules_of_origin_schemes).present? %>
+    <%= render partial: 'duty_calculator/steps/duty/calculations/rules_of_origin_scheme', locals: { scheme: scheme_for(option, @rules_of_origin_schemes) } %>
+  <% end %>
+<% end %>

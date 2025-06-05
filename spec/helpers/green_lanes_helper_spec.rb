@@ -247,7 +247,6 @@ RSpec.describe GreenLanesHelper, type: :helper do
     end
   end
 
-  # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe '#unique_exemptions' do
     let(:assessment1) { instance_double(GreenLanes::CategoryAssessment, exemptions: [exemption1, exemption2]) }
     let(:assessment2) { instance_double(GreenLanes::CategoryAssessment, exemptions: [exemption3, exemption2]) }
@@ -273,7 +272,6 @@ RSpec.describe GreenLanesHelper, type: :helper do
       expect(result).not_to include([exemption2, assessment2])
     end
   end
-  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe '#exemption_status' do
     let(:exemption) { instance_double(GreenLanes::Exemption, code: 'E001') }

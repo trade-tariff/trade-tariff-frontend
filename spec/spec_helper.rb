@@ -38,6 +38,10 @@ Capybara.register_driver(:cuprite) do |app|
   Capybara::Cuprite::Driver.new(app, **opts)
 end
 
+VCR.configure do |c|
+  c.allow_http_connections_when_no_cassette = true # add this line
+end
+
 VCR.use_cassette('geographical_areas#1013') do
   GeographicalArea.european_union
 end
@@ -57,6 +61,10 @@ RSpec.configure do |config|
   config.raise_errors_for_deprecations!
   config.order = :random
   config.infer_base_class_for_anonymous_controllers = false
+  config.use_transactional_fixtures = true
+  config.infer_spec_type_from_file_location!
+  config.filter_rails_from_backtrace!
+
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.file_fixture_path = 'spec/fixtures'
@@ -64,6 +72,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include Rails.application.routes.url_helpers
+  config.include Rails.application.routes.url_helpers, :step
   config.include Capybara::DSL
   config.include ApiResponsesHelper
   config.include Shoulda::Matchers::ActiveModel
@@ -75,9 +84,20 @@ RSpec.configure do |config|
     allow(TariffUpdate).to receive(:all).and_return([OpenStruct.new(applied_at: Time.zone.today)])
     allow(News::Item).to receive(:latest_banner).and_return build(:news_item, :banner)
     Thread.current[:service_choice] = nil
+
+    Thread.current[:commodity_context_service] = DutyCalculator::CommodityContextService.new
+
+    Rails.application.config.duty_calculator_http_client_uk = FakeUkttHttp.new(nil, 'uk', nil, nil)
+    Rails.application.config.duty_calculator_http_client_xi = FakeUkttHttp.new(nil, 'xi', nil, nil)
+
+    stub_const('Uktt::Http', FakeUkttHttp)
   end
 
   config.after(:each, type: :feature, js: true) do
     Thread.current[:service_choice] = nil
+  end
+
+  config.before :each, :user_session do
+    allow(DutyCalculator::UserSession).to receive_messages(build: user_session, build_from_params: user_session, get: user_session)
   end
 end

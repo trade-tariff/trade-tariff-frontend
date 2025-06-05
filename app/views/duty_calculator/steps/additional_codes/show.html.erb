@@ -1,0 +1,18 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<%= form_for @step, url: additional_codes_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl">Calculate import duties</span>
+  <h1 class="govuk-heading-xl">Describe your goods in more detail</h1>
+
+  <% if @step.applicable_additional_codes.dig('uk', @step.measure_type_id).present? %>
+    <%= f.govuk_collection_select :additional_code_uk, @step.options_for_select_for(source: 'uk'), :id, :name, options: { prompt: true }, label: { text: 'Select Additional code', class: 'govuk-label govuk-label--s' }, hint: { text: "To trade this commodity in the United Kingdom, you need to specify an additional 4 digits, known as an additional code. This affects the #{@step.measure_type_description_for(source: 'uk')}." } %>
+  <% end %>
+
+  <% if @step.applicable_additional_codes.dig('xi', @step.measure_type_id).present? %>
+    <%= f.govuk_collection_select :additional_code_xi, @step.options_for_select_for(source: 'xi'), :id, :name, options: { prompt: true }, label: { text: 'Select Additional code', class: 'govuk-label govuk-label--s' }, hint: { text: "To trade this commodity in Northern Ireland, you need to specify an additional 4 digits, known as an additional code. This affects the #{@step.measure_type_description_for(source: 'xi')}." } %>
+  <% end %>
+  <%= f.govuk_submit %>
+
+  <%= render 'duty_calculator/shared/commodity_details' %>
+<% end %>

@@ -1,0 +1,23 @@
+<%= link_to('Back', commodity_path(commodity.code), class: "govuk-back-link") %>
+
+<%= form_for @step, url: import_date_path, html: { novalidate: true } do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl">Calculate import duties</span>
+  <%= f.govuk_date_field :import_date,
+    legend: { text: 'When will the goods be imported?', size: 'xl', tag: 'h1' },
+    hint: { text: 'As duties and quotas change over time, it may be important to enter the date you think your goods your goods will be imported.<br>
+      Enter a date from 1 January 2021, or later.<br>
+      Use the format day, month, year. For example, 27 3 2021.'.html_safe } %>
+  <%= f.govuk_submit %>
+<% end %>
+
+<p class="govuk-body">The duties shown in this service are dependent on both of these:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>the data you enter</li>
+  <li>the tariff information that has been supplied</li>
+</ul>
+
+<p class="govuk-body">It is possible that this data will change over time.</p>
+
+<%= render 'duty_calculator/shared/commodity_details' %>

@@ -1,0 +1,41 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<%= form_for @step, url: document_codes_path do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <span class="govuk-caption-xl">Calculate import duties</span>
+  <h1 class="govuk-heading-xl">Do you have any of the following documents?</h1>
+  <div class="govuk-hint govuk-!-margin-bottom-7">
+    You may be able to reduce the duty applicable if you possess and can present one of the following documents.
+  </div>
+
+  <% if @step.options_for('uk').present? %>
+    <%= f.govuk_collection_radio_buttons(
+      :document_code_uk,
+      @step.options_for('uk'),
+      :id,
+      :name,
+      legend: { text: '', hidden: true },
+      hint: { text: '' },
+      include_hidden: true
+    )
+    %>
+  <% end %>
+
+  <% if @step.options_for('xi').present? %>
+    <%= f.govuk_collection_radio_buttons(
+      :document_code_xi,
+      @step.options_for('xi'),
+      :id,
+      :name,
+      legend: { text: '', hidden: true },
+      hint: { text: '' },
+      include_hidden: true
+    )
+    %>
+  <% end %>
+
+  <%= f.govuk_submit %>
+
+  <%= render 'duty_calculator/shared/commodity_details' %>
+<% end %>

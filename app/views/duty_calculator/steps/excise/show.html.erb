@@ -1,0 +1,24 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<%= form_for @step, url: excise_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl">Calculate import duties</span>
+  <h1 class="govuk-heading-xl">Which class of excise is applicable to your trade?</h1>
+
+  <%=
+    f.govuk_radio_buttons_fieldset(
+      :additional_code,
+      legend: { text: '', hidden: true },
+      hint: {
+        text: excise_hint,
+      },
+    ) do %>
+    <%- @step.options.each do |option| %>
+      <%= f.govuk_radio_button :additional_code, option.id, label: { text: option.name }, link_errors: true, disabled: option.disabled %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_submit %>
+<% end %>
+
+<%= render 'duty_calculator/shared/commodity_details' %>

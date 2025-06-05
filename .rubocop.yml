@@ -51,12 +51,15 @@ Rails/HelperInstanceVariable:
 Rails/FindEach:
   Enabled: false
 
+RSpec/MultipleMemoizedHelpers:
+  Max: 13
+
 RSpec/MultipleExpectations:
   Exclude:
     - spec/features/**/*_spec.rb
 
 RSpec/NestedGroups:
-  Max: 4
+  Max: 5
 
 Style/Documentation:
   Enabled: false

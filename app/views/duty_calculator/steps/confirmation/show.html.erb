@@ -1,0 +1,15 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<span class="govuk-caption-xl">Calculate import duties</span>
+<h1 class="govuk-heading-xl">Check your answers</h1>
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Commodity code</dt>
+    <dd class="govuk-summary-list__value"><%= commodity.formatted_commodity_code %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to('Change', sections_url, class: 'govuk-link') %>
+    </dd>
+  </div>
+  <%= render partial: 'entry', collection: @decorated_step.user_answers, as: :entry %>
+</dl>
+<%= link_to('Calculate import duties', @decorated_step.next_step_path, class: 'govuk-button') %>
