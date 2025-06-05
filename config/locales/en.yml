@@ -8,6 +8,7 @@ en:
 
   date:
     formats:
+      default: "%d %B %Y"
       ordinal: "%-d %b %Y"
 
   number:
@@ -1495,7 +1496,7 @@ en:
               </p>
 
   page_titles:
-    vat  :: Which VAT rate is applicable to your trade - Online Tariff Duty Calculator
+    vat: Which VAT rate is applicable to your trade - Online Tariff Duty Calculator
     excise: Which class of excise is applicable to your trade - Online Tariff Duty Calculator
     final_use: Are your goods for final use in the UK - Online Tariff Duty calculator
     import_date: When will the good be imported - Online Tariff Duty calculator

@@ -15,7 +15,7 @@
   </p>
 
   <% f.object.applicable_measure_units.each do |key, values| %>
-    <% if key.upcase == Api::BaseComponent::RETAIL_PRICE_UNIT %>
+    <% if key.upcase == DutyCalculator::Api::BaseComponent::RETAIL_PRICE_UNIT %>
       <%= f.govuk_text_field key.downcase.to_sym, width: 'one-quarter', label: { text: values['unit_question'], class: 'govuk-label govuk-label--s' }, hint: { text: values['unit_hint'] }, prefix_text: values['unit']  %>
     <% else %>
       <%= f.govuk_text_field key.downcase.to_sym, width: 'one-quarter', label: { text: values['unit_question'], class: 'govuk-label govuk-label--s' }, hint: { text: values['unit_hint'] }, suffix_text: values['unit']  %>
