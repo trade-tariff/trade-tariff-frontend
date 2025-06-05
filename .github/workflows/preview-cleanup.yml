@@ -13,17 +13,20 @@ on:
 permissions:
   contents: read
   id-token: write
-
-env:
-  AWS_REGION: eu-west-2
-  IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-Preview-App-Role
+  pull-requests: write
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     outputs:
-      destroyed_envs: ${{ steps.set-outputs.outputs.destroyed_envs }}
-      dry_run: ${{ steps.set-outputs.outputs.dry_run }}
-      run_mode: ${{ steps.set-outputs.outputs.run_mode }}
+      destroyed_envs: ${{ steps.cleanup-step.outputs.destroyed_envs }}
+      dry_run: ${{ steps.cleanup-step.outputs.dry_run }}
+      run_mode: ${{ steps.cleanup-step.outputs.run_mode }}
+
+    env:
+      AWS_REGION: eu-west-2
+      IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-Preview-App-Role
+      PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,15 +42,15 @@ jobs:
         id: cleanup-step
         run: |
           set -euo pipefail
+
           PROFILE_URL="s3://preevy-profile-store?region=eu-west-2"
           destroyed_envs="[]"
 
-          # Simplified dry-run logic
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
             DRY_RUN="false"
             RUN_MODE="scheduled"
           else
-            DRY_RUN="${{ github.event.inputs.dry_run || 'true' }}"
+            DRY_RUN="${{ github.event.inputs.dry_run }}"
             RUN_MODE="manual"
           fi
 
@@ -56,17 +59,21 @@ jobs:
 
           envs_json=$(preevy ls --json --profile "$PROFILE_URL") || {
             echo "⚠️ Failed to list environments"
-            echo "DESTROYED_ENVS=[]" >> "$GITHUB_ENV"
-            echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
-            echo "run_mode=$RUN_MODE" >> "$GITHUB_OUTPUT"
+            {
+              echo "destroyed_envs=[]"
+              echo "dry_run=$DRY_RUN"
+              echo "run_mode=$RUN_MODE"
+            } >> "$GITHUB_OUTPUT"
             exit 0
           }
 
           if [[ -z "$envs_json" || "$envs_json" == "null" ]]; then
             echo "⚠️ No environments found"
-            echo "DESTROYED_ENVS=[]" >> "$GITHUB_ENV"
-            echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
-            echo "run_mode=$RUN_MODE" >> "$GITHUB_OUTPUT"
+            {
+              echo "destroyed_envs=[]"
+              echo "dry_run=$DRY_RUN"
+              echo "run_mode=$RUN_MODE"
+            } >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -82,8 +89,25 @@ jobs:
               destroyed_envs=$(jq -n --argjson arr "$destroyed_envs" --arg id "$env_id" '$arr + [$id + " (DRY RUN)"]')
             else
               echo "🔥 Destroying: $env_id"
-              if preevy down --force "$env_id" --profile "$PROFILE_URL"; then
+              if preevy down --id "$env_id" --force --wait --profile "$PROFILE_URL"; then
                 destroyed_envs=$(jq -n --argjson arr "$destroyed_envs" --arg id "$env_id" '$arr + [$id]')
+
+                # Try to find the related PR by matching the env_id to PR branch names
+                branch_name="${env_id#trade-tariff-frontend-}"
+                branch_name="${branch_name,,}"  # Lowercase
+
+                for pr in $(gh pr list --state open --json number,headRefName -q '.[].number'); do
+                head_branch=$(gh pr view "$pr" --json headRefName -q '.headRefName')
+                head_branch_lower="${head_branch,,}"  # Lowercase
+
+                echo "🔍 Checking PR #$pr (branch: $head_branch_lower) against env branch: $branch_name"
+
+                if [[ "$head_branch_lower" == "$branch_name" ]]; then
+                  echo "✅ Match found. Removing 'needs-preview' label from PR #$pr"
+                  gh pr edit "$pr" --remove-label "needs-preview" || echo "⚠️ Failed to remove label"
+                  break
+                fi
+              done
               else
                 echo "❌ Failed to destroy: $env_id"
                 destroyed_envs=$(jq -n --argjson arr "$destroyed_envs" --arg id "$env_id" '$arr + [$id + " (FAILED)"]')
@@ -91,18 +115,11 @@ jobs:
             fi
           done < <(echo "$envs_json" | jq -r '.[].envId')
 
-          echo "DESTROYED_ENVS='$destroyed_envs'" >> "$GITHUB_ENV"
-          echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
-          echo "run_mode=$RUN_MODE" >> "$GITHUB_OUTPUT"
-
-      - name: Set outputs
-        id: set-outputs
-        run: |
           {
-            echo "destroyed_envs=$DESTROYED_ENVS"
+            echo "destroyed_envs=$(jq -c <<< "$destroyed_envs")"
             echo "dry_run=$DRY_RUN"
             echo "run_mode=$RUN_MODE"
-          }>> "$GITHUB_OUTPUT"
+          } >> "$GITHUB_OUTPUT"
 
   notifications:
     if: always()
@@ -115,10 +132,10 @@ jobs:
         env:
           SLACK_CHANNEL: 'deployments'
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_TITLE: 'Preevy Cleanup Report'
+          SLACK_TITLE: 'Preview Cleanup Report'
           SLACK_MESSAGE: |
-            :recycle: *Preevy Cleanup finished*
+            :recycle: *Cleanup finished*
             *Run Mode:* `${{ needs.cleanup.outputs.run_mode }}`
             *Dry Run:* `${{ needs.cleanup.outputs.dry_run }}`
             *Cleaned Environments:*
-            ${{ join(fromJson(needs.cleanup.outputs.destroyed_envs || '["None"]'), '\n') }}
+            ${{ join(fromJson(needs.cleanup.outputs.destroyed_envs || '["None"]'), ', ') }}
