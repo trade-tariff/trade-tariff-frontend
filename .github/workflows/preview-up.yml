@@ -42,7 +42,6 @@ jobs:
       - uses: livecycle/preevy-up-action@v2.4.0
         id: preevy_up
         with:
-          args: "--debug"
           install: gh-release
           profile-url: "${{ env.PREEVY_PROFILE_URL }}"
         env:
