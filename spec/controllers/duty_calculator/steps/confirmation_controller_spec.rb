@@ -25,7 +25,7 @@ RSpec.describe DutyCalculator::Steps::ConfirmationController, :user_session do
     let(:expected_links) do
       [
         '/sections',
-        '/duty-calculator/uk/0702000007/import-date',
+        '/duty-calculator/0702000007/import-date',
         '/duty-calculator/import-destination',
         '/duty-calculator/country-of-origin',
         '/duty-calculator/trader-scheme',

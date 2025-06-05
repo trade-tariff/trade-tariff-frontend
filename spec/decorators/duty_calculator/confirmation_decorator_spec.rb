@@ -103,7 +103,7 @@ RSpec.describe DutyCalculator::ConfirmationDecorator, :user_session do
     it_behaves_like 'a valid path_for call', :document_code, '/duty-calculator/document-codes/103'
     it_behaves_like 'a valid path_for call', :excise, '/duty-calculator/excise/306'
     it_behaves_like 'a valid path_for call', :final_use, '/duty-calculator/final-use'
-    it_behaves_like 'a valid path_for call', :import_date, '/duty-calculator/uk/0103921100/import-date'
+    it_behaves_like 'a valid path_for call', :import_date, '/duty-calculator/0103921100/import-date'
     it_behaves_like 'a valid path_for call', :import_destination, '/duty-calculator/import-destination'
     it_behaves_like 'a valid path_for call', :measure_amount, '/duty-calculator/measure-amount'
     it_behaves_like 'a valid path_for call', :meursing_additional_code, '/duty-calculator/meursing-additional-codes'

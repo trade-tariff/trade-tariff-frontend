@@ -33,8 +33,8 @@ module DutyCalculator
 
       def persist_commodity_data
         user_session.commodity_code = commodity_code
-        user_session.commodity_source = params[:referred_service]
-        user_session.referred_service = params[:referred_service]
+        user_session.commodity_source = TradeTariffFrontend::ServiceChooser.service_name
+        user_session.referred_service = TradeTariffFrontend::ServiceChooser.service_name
         user_session.import_date = @step.import_date.strftime('%Y-%m-%d')
       end
 

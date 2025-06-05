@@ -5,7 +5,7 @@
       <p class="govuk-body"><%= message %></p>
 
       <% if user_session.commodity_code.present? %>
-        <p class="govuk-body">Click here to <%= link_to('start again', import_date_path(referred_service: user_session.referred_service, commodity_code: user_session.commodity_code), class: 'govuk-link') %>.</p>
+        <p class="govuk-body">Click here to <%= link_to('start again', import_date_path(commodity_code: user_session.commodity_code), class: 'govuk-link') %>.</p>
       <% end %>
     </div>
   </div>

@@ -1,4 +1,4 @@
-scope path: '/duty-calculator/:referred_service/:commodity_code/' do
+scope path: '/duty-calculator/:commodity_code/' do
   get 'import-date', to: 'duty_calculator/steps/import_date#show'
   post 'import-date', to: 'duty_calculator/steps/import_date#create'
 end

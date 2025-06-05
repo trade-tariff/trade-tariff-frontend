@@ -42,7 +42,7 @@ module DutyCalculator
   private
 
     def import_date_path
-      super(referred_service: user_session.referred_service, commodity_code: user_session.commodity_code)
+      super(commodity_code: user_session.commodity_code)
     end
 
     def additional_code_path

@@ -445,9 +445,20 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe '#duty_calculator_link' do
-    subject { helper.duty_calculator_link 'uk', '1704909991' }
+    subject { helper.duty_calculator_link('1704909991') }
 
-    it { is_expected.to have_css 'a', text: 'work out the duties and taxes applicable to the import of commodity 1704 9099 91' }
-    it { is_expected.to have_css 'a[href="/duty-calculator/uk/1704909991/import-date"]' }
+    context 'when the service is uk' do
+      include_context 'with UK service'
+
+      it { is_expected.to have_css 'a', text: 'work out the duties and taxes applicable to the import of commodity 1704 9099 91' }
+      it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date"]' }
+    end
+
+    context 'when the service is xi' do
+      include_context 'with XI service'
+
+      it { is_expected.to have_css 'a', text: 'work out the duties and taxes applicable to the import of commodity 1704 9099 91' }
+      it { is_expected.to have_css 'a[href="/xi/duty-calculator/1704909991/import-date"]' }
+    end
   end
 end

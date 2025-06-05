@@ -92,14 +92,7 @@ RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
     end
 
     it 'returns import_date_path' do
-      expect(
-        step.previous_step_path,
-      ).to eq(
-        import_date_path(
-          commodity_code: '100000000',
-          referred_service: 'uk',
-        ),
-      )
+      expect(step.previous_step_path).to eq(import_date_path(commodity_code: '100000000'))
     end
   end
 end

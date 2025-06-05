@@ -168,14 +168,10 @@ module ApplicationHelper
     end
   end
 
-  def duty_calculator_link(referred_service, declarable_code)
+  def duty_calculator_link(declarable_code)
     code = divide_commodity_code(declarable_code).join(' ')
     link_description = "work out the duties and taxes applicable to the import of commodity #{code}"
-    link_url = import_date_path(referred_service: referred_service, commodity_code: declarable_code)
-
-    params.slice(:day, :month, :year).to_unsafe_hash.to_query.tap do |query|
-      link_url += "?#{query}" if query.present?
-    end
+    link_url = import_date_path(commodity_code: declarable_code)
 
     link_to link_description, link_url, id: 'duty-calculator-link'
   end

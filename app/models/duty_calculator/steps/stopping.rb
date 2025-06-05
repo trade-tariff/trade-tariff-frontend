@@ -4,10 +4,7 @@ module DutyCalculator
       def previous_step_path
         return document_codes_path(previous_measure_type_id) if stopping_document_codes?
 
-        import_date_path(
-          referred_service: user_session.referred_service,
-          commodity_code: user_session.commodity_code,
-        )
+        import_date_path(commodity_code: user_session.commodity_code)
       end
 
       private

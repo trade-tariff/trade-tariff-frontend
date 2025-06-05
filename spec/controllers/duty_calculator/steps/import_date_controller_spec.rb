@@ -1,10 +1,11 @@
 RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
   let(:user_session) { build(:duty_calculator_user_session, :with_country_of_origin, commodity_source: nil) }
   let(:commodity_code) { '01234567890' }
-  let(:referred_service) { 'uk' }
+
+  include_context 'with UK service'
 
   describe 'GET #show' do
-    subject(:response) { get :show, params: { commodity_code:, referred_service: } }
+    subject(:response) { get :show, params: { commodity_code: } }
 
     it 'assigns the correct step' do
       response
@@ -14,8 +15,8 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
     it { expect(response).to have_http_status(:ok) }
     it { expect(response).to render_template('import_date/show') }
     it { expect { response }.to change(user_session, :commodity_code).from(nil).to(commodity_code) }
-    it { expect { response }.to change(user_session, :commodity_source).from(nil).to(referred_service) }
-    it { expect { response }.to change(user_session, :referred_service).from(nil).to(referred_service) }
+    it { expect { response }.to change(user_session, :commodity_source).from(nil).to('uk') }
+    it { expect { response }.to change(user_session, :referred_service).from(nil).to('uk') }
     it { expect { response }.to change(user_session, :country_of_origin).from('GB').to(nil) }
     it { expect { response }.to change(user_session, :import_date).from(nil).to(Time.zone.today) }
 
@@ -23,7 +24,6 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
       subject(:response) do
         get :show, params: {
           commodity_code:,
-          referred_service:,
           day:,
           month:,
           year:,
@@ -41,7 +41,7 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
   end
 
   describe 'POST #create' do
-    subject(:response) { post :create, params: { commodity_code:, referred_service: }.merge(answers) }
+    subject(:response) { post :create, params: { commodity_code: }.merge(answers) }
 
     let(:answers) do
       {
