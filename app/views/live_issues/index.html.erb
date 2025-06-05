@@ -4,6 +4,10 @@
   </h1>
 <% end %>
 
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs t('breadcrumb.live_issues'), [[t('breadcrumb.news'), '/news']] %>
+<% end %>
+
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
