@@ -67,12 +67,14 @@ module DutyCalculator
       end
 
       def title
-        t("page_titles.#{@step.class.try(:id)}", default: super)
+        t("page_titles.#{@step.class.try(:id)}", default: t("title.#{service_name}"))
       end
 
       def with_session_tracking
         yield
       end
+
+      delegate :service_name, to: ::TradeTariffFrontend::ServiceChooser
     end
   end
 end

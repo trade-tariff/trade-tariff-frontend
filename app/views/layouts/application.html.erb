@@ -6,7 +6,13 @@
 <head>
   <%= render 'shared/gtm', part: 'head' if analytics_allowed? %>
   <meta charset="utf-8">
-  <title><%= yield :pageTitle %></title>
+  <title>
+    <% if respond_to?(:title) %>
+      <%= title %>
+    <% else %>
+      <%= yield :pageTitle %>
+    <% end %>
+  </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0c0c">
 
