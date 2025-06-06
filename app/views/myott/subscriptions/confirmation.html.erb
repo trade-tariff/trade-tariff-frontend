@@ -4,12 +4,12 @@
       <div class="govuk-grid-column-two-thirds">
         <div class="govuk-panel govuk-panel--confirmation">
           <h1 class="govuk-panel__title">
-            You have updated your subscription
+            <%= @header %>
           </h1>
         </div>
         <h2 class="govuk-heading-m">What happens next</h2>
         <p class="govuk-body">
-          When Stop Press updates are published by the UK Trade Tariff Service which relate to the chapters you have chosen, an email will be sent to <strong><%= @email %></strong>
+          <%= @message.html_safe %>
         </p>
         <p class="govuk-body">
           You can now close this window.

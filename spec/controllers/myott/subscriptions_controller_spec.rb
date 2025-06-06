@@ -332,4 +332,39 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #unsubscribe_action' do
+    context 'when current_user is not valid' do
+      before do
+        allow(controller).to receive(:current_user).and_return(nil)
+        post :dashboard
+      end
+
+      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
+    end
+
+    context 'when the delete request fails' do
+      before do
+        allow(controller).to receive(:current_user).and_return(user)
+        allow(User).to receive(:delete).and_return(false)
+        post :unsubscribe_action
+      end
+
+      it { is_expected.to render_template(:unsubscribe) }
+
+      it 'sets a flash error message' do
+        expect(flash.now[:error]).to eq('There was an error unsubscribing you. Please try again.')
+      end
+    end
+
+    context 'when the delete request is successful' do
+      before do
+        allow(controller).to receive(:current_user).and_return(user)
+        allow(User).to receive(:delete).and_return(true)
+        post :unsubscribe_action
+      end
+
+      it { is_expected.to redirect_to(myott_unsubscribe_confirmation_path) }
+    end
+  end
 end
