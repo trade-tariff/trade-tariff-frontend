@@ -3,7 +3,7 @@
 <%= form_for @step, url: certificate_of_origin_path do |f| %>
   <%= f.govuk_error_summary %>
   <span class="govuk-caption-xl">Calculate import duties</span>
-  <%= f.govuk_collection_radio_buttons :certificate_of_origin, Steps::CertificateOfOrigin::OPTIONS, :id, :name, legend: { text: 'Do you have a valid proof of preferential origin?', size: 'xl', tag: 'h1' }, hint: { text: 'If you have a valid Certificate of Origin proving that your goods were materially manufactured in the UK, then you are eligible to take advantage of the 0% import duties made available under the UK / EU Trade and Cooperation Agreement.' }, include_hidden: true %>
+  <%= f.govuk_collection_radio_buttons :certificate_of_origin, DutyCalculator::Steps::CertificateOfOrigin::OPTIONS, :id, :name, legend: { text: 'Do you have a valid proof of preferential origin?', size: 'xl', tag: 'h1' }, hint: { text: 'If you have a valid Certificate of Origin proving that your goods were materially manufactured in the UK, then you are eligible to take advantage of the 0% import duties made available under the UK / EU Trade and Cooperation Agreement.' }, include_hidden: true %>
   <%= f.govuk_submit %>
 <% end %>
 

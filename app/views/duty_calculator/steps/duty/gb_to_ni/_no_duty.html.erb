@@ -3,21 +3,21 @@
 <% elsif @user_session.planned_processing == 'without_any_processing' %>
   <p class="govuk-body-m govuk-!-margin-top-5">There is <strong>no import duty to pay</strong> because:</p>
   <ul class="govuk-list govuk-list--bullet">
-    <%= render('steps/duty/gb_to_ni/shared/no_duty_bullet_points') %>
+    <%= render('duty_calculator/steps/duty/gb_to_ni/shared/no_duty_bullet_points') %>
     <li>You <strong>do not intend to further process</strong> the goods on arrival in Northern Ireland</li>
   </ul>
   <%= render('steps/duty/gb_to_ni/shared/note') %>
 <% elsif @user_session.annual_turnover == 'yes' %>
   <p class="govuk-body-m govuk-!-margin-top-5">There is <strong>no import duty to pay</strong> because:</p>
   <ul class="govuk-list govuk-list--bullet">
-    <%= render('steps/duty/gb_to_ni/shared/no_duty_bullet_points') %>
+    <%= render('duty_calculator/steps/duty/gb_to_ni/shared/no_duty_bullet_points') %>
     <li>The importer had a total <strong>annual turnover</strong> of less than <strong><%= ukims_annual_turnover %></strong> in its most recent complete financial year</li>
   </ul>
   <%= render('steps/duty/gb_to_ni/shared/note') %>
 <% elsif @user_session.planned_processing == 'commercial_processing' %>
   <p class="govuk-body-m govuk-!-margin-top-5">There is <strong>no import duty to pay</strong> because:</p>
   <ul class="govuk-list govuk-list--bullet">
-    <%= render('steps/duty/gb_to_ni/shared/no_duty_bullet_points') %>
+    <%= render('duty_calculator/steps/duty/gb_to_ni/shared/no_duty_bullet_points') %>
     <li>You will be undertaking <strong>permitted commercial processing</strong> on the goods on arrival in Northern Ireland</li>
   </ul>
   <%= render('steps/duty/gb_to_ni/shared/note') %>
