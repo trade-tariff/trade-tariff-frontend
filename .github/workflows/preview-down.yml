@@ -28,6 +28,7 @@ jobs:
           role-to-assume: ${{ env.IAM_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - run: touch .env
       - uses: livecycle/preevy-down-action@v1.4.0
         id: preevy_down
         with:
