@@ -59,7 +59,7 @@ Rails.application.routes.draw do
   get '/news/stories/:id', to: 'news_items#show', as: :news_item
   resources :news_items, only: %i[index show], path: '/news'
 
-  get '/live_issues', to: 'live_issues#index', as: :live_issues
+  get '/live_issues', to: 'live_issues#index'
 
   if TradeTariffFrontend.myott?
     namespace :myott, path: 'subscriptions' do
