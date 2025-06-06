@@ -33,11 +33,15 @@ jobs:
       - name: Parse frontend configuration secrets
         id: parse-secrets
         run: |
-          aws secretsmanager get-secret-value \
+          SECRET_JSON=$(aws secretsmanager get-secret-value \
             --secret-id "${{ env.SECRET_NAME }}" \
             --query "SecretString" \
-            --output text \
-            | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
+            --output text)
+
+          # Mask each secret value in GitHub Actions logs
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "::add-mask::\(.value)"'
+
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
 
       - uses: livecycle/preevy-up-action@v2.4.0
         id: preevy_up
