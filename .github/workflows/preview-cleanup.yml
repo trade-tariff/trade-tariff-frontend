@@ -30,6 +30,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - run: touch .env
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
