@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: touch .env # To prevent preevy from failing due to missing .env file
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:

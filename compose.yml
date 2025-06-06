@@ -8,22 +8,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    env_file:
+      - .env 
     environment:
       - ENVIRONMENT=review
-      - API_SERVICE_BACKEND_URL_OPTIONS=${API_SERVICE_BACKEND_URL_OPTIONS}
       - BACKEND_BASE_DOMAIN=https://dev.trade-tariff.service.gov.uk/
-      - DUTY_CALCULATOR_BASE_URL=${DUTY_CALCULATOR_BASE_URL}
-      - GOVUK_APP_DOMAIN="localhost"
-      - GOVUK_WEBSITE_ROOT=http://localhost/
-      - RAILS_ENV=production
       - MYOTT_ENABLED=true
-      - AWS_REGION=eu-west-2
-      - TARIFF_FROM_EMAIL=${TARIFF_FROM_EMAIL}
-      - TARIFF_SUPPORT_EMAIL=${TARIFF_SUPPORT_EMAIL}
-      - TARIFF_TO_EMAIL=${TARIFF_TO_EMAIL}
       - USE_SMTP=true
-      - SMTP_USERNAME=${SMTP_USERNAME}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
     extra_hosts:
       - "telemetry.preevy.dev:127.0.0.1" # Disables telemetry
 volumes:
