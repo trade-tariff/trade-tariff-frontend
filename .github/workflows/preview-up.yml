@@ -30,19 +30,21 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Parse frontend configuration secrets
-        id: parse-secrets
+      - name: Fetch frontend-configuration secrets and mask values
         run: |
-          aws secretsmanager get-secret-value \
+          set -euo pipefail
+
+          SECRET_JSON=$(aws secretsmanager get-secret-value \
             --secret-id "${{ env.SECRET_NAME }}" \
             --query "SecretString" \
-            --output text \
-            | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
+            --output text)
+
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "::add-mask::\(.value)"'
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> .env
 
       - uses: livecycle/preevy-up-action@v2.4.0
         id: preevy_up
         with:
-          args: "--debug"
           install: gh-release
           profile-url: "${{ env.PREEVY_PROFILE_URL }}"
         env:
