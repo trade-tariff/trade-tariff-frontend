@@ -41,7 +41,7 @@ jobs:
           # Mask each secret value in GitHub Actions logs
           echo "$SECRET_JSON" | jq -r 'to_entries[] | "::add-mask::\(.value)"'
 
-          echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> .env
 
       - uses: livecycle/preevy-up-action@v2.4.0
         id: preevy_up
