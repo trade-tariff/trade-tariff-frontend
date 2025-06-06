@@ -70,7 +70,7 @@ Rails.application.routes.draw do
       get '/subscription_confirmation', to: 'subscriptions#subscription_confirmation'
       get '/unsubscribe_confirmation', to: 'subscriptions#unsubscribe_confirmation'
       get '/unsubscribe', to: 'subscriptions#unsubscribe'
-      get '/unsubscribe_action', to: 'subscriptions#unsubscribe_action'
+      post '/unsubscribe_action', to: 'subscriptions#unsubscribe_action'
       post '/check_your_answers', to: 'subscriptions#check_your_answers'
       post '/set_preferences', to: 'subscriptions#set_preferences'
       post '/subscribe', to: 'subscriptions#subscribe'
