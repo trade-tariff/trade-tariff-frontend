@@ -9,7 +9,7 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - .env 
+      - .env
     environment:
       - ENVIRONMENT=review
       - BACKEND_BASE_DOMAIN=https://dev.trade-tariff.service.gov.uk/
@@ -25,4 +25,4 @@ x-preevy:
   driver: lightsail
   drivers:
     lightsail:
-      bundle-id: small_3_0  # change to medium_3_0 if you see preevy up failing 
+      bundle-id: small_3_0  # change to medium_3_0 if you see preevy up failing
