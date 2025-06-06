@@ -462,4 +462,60 @@ RSpec.describe ApiEntity do
       expect(result.age).to eq(111)
     end
   end
+
+  describe '#delete' do
+    subject(:result) do
+      mock_entity.delete(
+        { 'Authorization' => 'Bearer abc123' },
+      )
+    end
+
+    let(:mock_response) { instance_double(Faraday::Response, status: 200, body: nil) }
+    let(:api_double) { instance_double(Faraday::Connection, delete: mock_response) }
+
+    before do
+      allow(mock_entity).to receive_messages(
+        api: api_double,
+        singular_path: '/api/v2/mock_entities/1',
+      )
+    end
+
+    context 'when the delete request is successful' do
+      it 'calls the delete endpoint with headers' do
+        allow(api_double).to receive(:delete)
+          .with('/api/v2/mock_entities/1', { 'Authorization' => 'Bearer abc123' })
+          .and_return(mock_response)
+
+        result
+      end
+
+      it 'returns a 200 OK response' do
+        expect(result.status).to eq(200)
+      end
+
+      it 'returns an empty body' do
+        expect(result.body).to be_nil
+      end
+    end
+
+    context 'when the delete request fails' do
+      let(:mock_response) { instance_double(Faraday::Response, status: 500, body: nil) }
+
+      it 'calls the delete endpoint with no headers' do
+        allow(api_double).to receive(:delete)
+          .with('/api/v2/mock_entities/1')
+          .and_return(mock_response)
+
+        result
+      end
+
+      it 'returns a 500 OK response' do
+        expect(result.status).to eq(500)
+      end
+
+      it 'returns an empty body' do
+        expect(result.body).to be_nil
+      end
+    end
+  end
 end

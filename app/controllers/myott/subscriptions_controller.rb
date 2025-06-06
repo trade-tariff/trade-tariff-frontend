@@ -85,7 +85,27 @@ module Myott
     end
 
     def subscription_confirmation
-      @email = current_user&.email
+      @header = 'You have updated your subscription'
+      @message = "When Stop Press updates are published by the UK Trade Tariff Service which relate to the chapters you have chosen, an email will be sent to <strong>#{current_user&.email}</strong>"
+      render :confirmation
+    end
+
+    def unsubscribe_confirmation
+      @header = 'You have unsubscribed'
+      @message = 'You will no longer receive any Stop Press emails from the UK Trade Tariff Service.'
+      render :confirmation
+    end
+
+    def unsubscribe; end
+
+    def unsubscribe_action
+      success = User.delete(cookies[:id_token])
+      if success
+        redirect_to myott_unsubscribe_confirmation_path
+      else
+        flash.now[:error] = 'There was an error unsubscribing you. Please try again.'
+        render :unsubscribe
+      end
     end
 
     private
