@@ -12,7 +12,7 @@
      <p>
       If you do not want to unsubscribe, close this page.
     </p>
-    <%= form_with url: myott_unsubscribe_action_path, method: :post, local: true do %>
+    <%= form_with url: myott_unsubscribe_path, method: :post, local: true do %>
       <%= submit_tag "Unsubscribe", class: "govuk-button govuk-button--warning govuk-!-margin-top-4" %>
     <% end %>
   </div>
