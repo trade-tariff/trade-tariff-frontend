@@ -68,43 +68,4 @@ RSpec.describe User do
       it { is_expected.to be_nil }
     end
   end
-
-  describe '.delete' do
-    subject(:response) { described_class.delete(token) }
-
-    let(:token) { 'valid-jwt-token' }
-
-    context 'when token is nil' do
-      let(:token) { nil }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'when the request is successful' do
-      before do
-        stub_api_request('/user/users', :delete)
-          .and_return(status: 200)
-      end
-
-      it { is_expected.to be true }
-    end
-
-    context 'when response is unauthorised' do
-      before do
-        stub_api_request('/user/users', :delete)
-        .and_return(status: 401)
-      end
-
-      it { is_expected.to be false }
-    end
-
-    context 'when response errors' do
-      before do
-        stub_api_request('/user/users', :delete)
-        .and_return(status: 500)
-      end
-
-      it { is_expected.to be false }
-    end
-  end
 end

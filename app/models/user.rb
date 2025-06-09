@@ -26,18 +26,6 @@ class User
     nil
   end
 
-  def self.delete(token)
-    return nil if token.nil? && !Rails.env.development?
-
-    response = super(headers(token))
-    response.status == 200
-  rescue Faraday::UnauthorizedError
-    false
-  rescue Faraday::Error => e
-    Rails.logger.error("Failed to delete user: #{e.message}")
-    false
-  end
-
   def self.headers(token)
     {
       authorization: "Bearer #{token}",

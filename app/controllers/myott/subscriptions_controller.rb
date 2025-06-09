@@ -1,20 +1,13 @@
 module Myott
   class SubscriptionsController < MyottController
-    before_action :disable_search_form,
-                  :disable_switch_service_banner,
-                  :disable_last_updated_footnote
-
     before_action :all_sections_chapters, only: %i[chapter_selection check_your_answers]
     before_action :authenticate, except: %i[start invalid]
 
     def start; end
-
     def invalid; end
 
     def dashboard
-      subscribed_to_stop_press = current_user.stop_press_subscription
-
-      return redirect_to myott_preference_selection_path unless subscribed_to_stop_press
+      return redirect_to myott_preference_selection_path unless current_user.stop_press_subscription
 
       session[:chapter_ids] = if current_user.chapter_ids&.split(',')&.any?
                                 current_user.chapter_ids&.split(',')
@@ -88,24 +81,6 @@ module Myott
       @header = 'You have updated your subscription'
       @message = "When Stop Press updates are published by the UK Trade Tariff Service which relate to the chapters you have chosen, an email will be sent to <strong>#{current_user&.email}</strong>"
       render :confirmation
-    end
-
-    def unsubscribe_confirmation
-      @header = 'You have unsubscribed'
-      @message = 'You will no longer receive any Stop Press emails from the UK Trade Tariff Service.'
-      render :confirmation
-    end
-
-    def unsubscribe; end
-
-    def unsubscribe_action
-      success = User.delete(cookies[:id_token])
-      if success
-        redirect_to myott_unsubscribe_confirmation_path
-      else
-        flash.now[:error] = 'There was an error unsubscribing you. Please try again.'
-        render :unsubscribe
-      end
     end
 
     private
