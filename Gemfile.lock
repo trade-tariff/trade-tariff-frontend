@@ -18,9 +18,9 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/uktt.git
-  revision: 0d4c39441df66a6b162d6d4f9c0b927cbb2b17aa
+  revision: 5597912b1fa9ddc52e3e3611b510ac98567fe69f
   specs:
-    uktt (2.6.0)
+    uktt (3.0.0)
       faraday
       faraday-follow_redirects
       faraday-net_http_persistent
