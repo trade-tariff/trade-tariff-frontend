@@ -16,4 +16,18 @@ RSpec.describe Myott::MyottController, type: :controller do
       expect(result).to eq(user)
     end
   end
+
+  describe '#current_subscription' do
+    let(:subscription) { build(:subscription) }
+
+    before do
+      allow(Subscription).to receive(:find).and_return(subscription)
+      allow(controller).to receive(:params).and_return(id: subscription.uuid)
+    end
+
+    it 'returns the current subscription' do
+      result = controller.send(:current_subscription)
+      expect(result).to eq(subscription)
+    end
+  end
 end

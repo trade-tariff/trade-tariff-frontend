@@ -68,12 +68,15 @@ Rails.application.routes.draw do
       get '/chapter_selection', to: 'subscriptions#chapter_selection'
       get '/check_your_answers', to: 'subscriptions#check_your_answers' # for when user selects all chapters
       get '/subscription_confirmation', to: 'subscriptions#subscription_confirmation'
-      get '/unsubscribe_confirmation', to: 'subscriptions#unsubscribe_confirmation'
-      get '/unsubscribe', to: 'subscriptions#unsubscribe'
-      post '/unsubscribe', to: 'subscriptions#unsubscribe_action'
       post '/check_your_answers', to: 'subscriptions#check_your_answers'
       post '/set_preferences', to: 'subscriptions#set_preferences'
       post '/subscribe', to: 'subscriptions#subscribe'
+
+      resources :unsubscribes, only: %i[show destroy], path: 'unsubscribe' do
+        collection do
+          get '/confirmation', to: 'unsubscribes#confirmation'
+        end
+      end
     end
   end
 

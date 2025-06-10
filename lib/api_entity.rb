@@ -92,12 +92,6 @@ private
       new parse_jsonapi(response)
     end
 
-    def delete(headers = {})
-      api.delete(singular_path) do |req|
-        req.headers = headers
-      end
-    end
-
     def relationships
       @relationships ||= superclass.include?(ApiEntity) ? superclass.relationships.dup : []
     end
@@ -109,6 +103,11 @@ private
       response = api.get(path, opts, headers)
 
       new parse_jsonapi(response)
+    end
+
+    def delete(id)
+      path = singular_path.sub(':id', id.to_s)
+      api.delete(path)
     end
 
     def all(opts = {})

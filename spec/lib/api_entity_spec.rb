@@ -464,11 +464,7 @@ RSpec.describe ApiEntity do
   end
 
   describe '#delete' do
-    subject(:result) do
-      mock_entity.delete(
-        { 'Authorization' => 'Bearer abc123' },
-      )
-    end
+    subject(:result) { mock_entity.delete(123) }
 
     let(:mock_response) { instance_double(Faraday::Response, status: 200, body: nil) }
     let(:api_double) { instance_double(Faraday::Connection, delete: mock_response) }
@@ -482,11 +478,7 @@ RSpec.describe ApiEntity do
 
     context 'when the delete request is successful' do
       it 'calls the delete endpoint with headers' do
-        allow(api_double).to receive(:delete)
-          .with('/api/v2/mock_entities/1', { 'Authorization' => 'Bearer abc123' })
-          .and_return(mock_response)
-
-        result
+        expect(result).to eq(mock_response)
       end
 
       it 'returns a 200 OK response' do
@@ -502,11 +494,7 @@ RSpec.describe ApiEntity do
       let(:mock_response) { instance_double(Faraday::Response, status: 500, body: nil) }
 
       it 'calls the delete endpoint with no headers' do
-        allow(api_double).to receive(:delete)
-          .with('/api/v2/mock_entities/1')
-          .and_return(mock_response)
-
-        result
+        expect(result).to eq(mock_response)
       end
 
       it 'returns a 500 OK response' do
