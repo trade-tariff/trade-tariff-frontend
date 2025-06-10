@@ -1,18 +1,13 @@
 module DutyCalculator
   class ClientBuilder
     DEFAULT_VERSION = 'v2'.freeze
-    DEFAULT_FORMAT = 'jsonapi'.freeze
 
     def initialize(service)
       @service = service
     end
 
     def call
-      Uktt::Http.build(
-        host,
-        DEFAULT_VERSION,
-        DEFAULT_FORMAT,
-      )
+      Uktt::Http.build(host, DEFAULT_VERSION)
     end
 
   private
