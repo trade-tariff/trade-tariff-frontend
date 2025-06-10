@@ -97,7 +97,8 @@ jobs:
             --dist dist \
             --user "trade-tariff-infrastructure-continuity<hmrc-trade-tariff-support-g@digital.hmrc.gov.uk>" \
             --silent \
-            --nojekyll
+            --nojekyll \
+            --no-history
       - uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_CHANNEL: "non-production-alerts"
