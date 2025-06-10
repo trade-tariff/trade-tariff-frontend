@@ -89,6 +89,9 @@ jobs:
           BASE_URL: https://dev.trade-tariff.service.gov.uk
           BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
           CI: true
+      - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-ssh@main
+        with:
+          ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
       - run: |
           yarn run gh-pages \
             --dist dist \
