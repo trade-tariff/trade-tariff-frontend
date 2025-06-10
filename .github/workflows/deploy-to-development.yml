@@ -78,17 +78,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           cache: yarn
       - run: yarn install --frozen-lockfile
-      - run: yarn playwright install
+      - run: yarn playwright install --with-deps chromium
       - run: yarn run axxy
         env:
           BASE_URL: https://dev.trade-tariff.service.gov.uk
           BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
           CI: true
+      - run: cp node_modules/govuk-frontend/dist/govuk/assets/images/favicon.ico dist/favicon.ico
+      - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-ssh@main
+        with:
+          ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
+      - run: |
+          yarn run gh-pages \
+            --dist dist \
+            --user "trade-tariff-infrastructure-continuity<hmrc-trade-tariff-support-g@digital.hmrc.gov.uk>" \
+            --silent \
+            --nojekyll \
+            --no-history
+      - uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: "non-production-alerts"
+          SLACK_USERNAME: "Accessibility Report"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_ICON_EMOJI: ":playwright:"
+          SLACK_COLOR: success
+          SLACK_TITLE: New Accessibility report generated
+          SLACK_MESSAGE: https://trade-tariff.github.io/trade-tariff-frontend/accessibility-report.html
 
   notifications:
     if: contains(github.event.pull_request.labels.*.name, 'needs-deployment') || github.event_name == 'workflow_dispatch'

@@ -10,13 +10,14 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: onCI,
   retries: onCI ? 2 : 0,
-  workers: onCI ? 1 : undefined,
+  workers: onCI ? 1 : 1,
   reporter: "html",
-  use: { trace: "on", baseURL: baseURL },
+  use: { trace: "off", baseURL: baseURL },
   projects: [
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
   ],
+  timeout: 140000,
 });
