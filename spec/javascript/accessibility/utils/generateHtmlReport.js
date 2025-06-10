@@ -70,6 +70,7 @@ function generateHTML(pageResults) {
   <html lang="en">
     <head>
       <meta charset="utf-8" />
+      <link rel="icon" type="image/x-icon" href="/trade-tariff-frontend/favicon.ico" sizes="48x48">
       <title>Accessibility Report</title>
       <style>
         body { font-family: Arial, sans-serif; padding: 2em; background: #eee; line-height: 1.6; }
