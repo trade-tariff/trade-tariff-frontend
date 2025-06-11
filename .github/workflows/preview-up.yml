@@ -50,3 +50,31 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
+
+      - name: Sanity check - validate preview app is up
+        run: |
+          echo "🔍 Fetching URL from preevy profile..."
+          PREVIEW_URL=$(preevy urls --json --profile "s3://preevy-profile-store?region=eu-west-2" | jq -r '.[].url')
+
+          echo "🌐 Preview URL: $PREVIEW_URL"
+
+          echo "⚙️ Checking HTTP status code"
+          curl -s -o /dev/null -w "%{http_code}" "$PREVIEW_URL" | grep -q 200 || {
+            echo "❌ Home route not returning 200"
+            exit 1
+          }
+
+          echo "🔎 Checking homepage contains expected text"
+          curl -s "$PREVIEW_URL" | grep -q "UK Integrated Online Tariff" || {
+            echo "❌ Content check failed"
+            exit 1
+          }
+
+          echo "📦 Checking CSS asset loads"
+          curl -I "$PREVIEW_URL/assets/application.css" | grep -q "200 OK" || {
+            echo "❌ Asset check failed"
+            exit 1
+          }
+
+          echo "✅ Sanity check passed!"
+
