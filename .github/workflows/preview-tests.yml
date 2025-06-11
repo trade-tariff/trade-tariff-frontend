@@ -1,0 +1,60 @@
+name: Playwright Preview Tests
+
+on:
+  workflow_run:
+    workflows:
+      - 'Preview App Up'
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+env:
+    AWS_REGION: eu-west-2
+    IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-Preview-App-Role
+    PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
+    BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
+    CI: true
+
+jobs:
+  playwright-test:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+         cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      - run: npx playwright install --with-deps chromium
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Lock Docker Compose to v2.36.0
+        run: |
+          mkdir -p ~/.docker/cli-plugins/
+          curl -sSL https://github.com/docker/compose/releases/download/v2.36.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+          chmod +x ~/.docker/cli-plugins/docker-compose
+          docker compose version
+
+      - name: Get preview environment URL
+        id: get-preview-url
+        run: |
+          touch .env
+          PREVIEW_URL=$(npx preevy urls --json --wait --profile "$PREEVY_PROFILE_URL" | jq -r '.[].url')
+          echo "✅ Using preview URL: $PREVIEW_URL"
+          echo "BASE_URL=$PREVIEW_URL" >> "$GITHUB_ENV"
+
+      - name: Run Playwright tests
+        run: npx playwright test spec/javascript/accessibility/preview-check.spec.js
