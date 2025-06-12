@@ -51,30 +51,48 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
 
-      - name: Sanity check - validate preview app is up
+  sanity-check:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract preview URL
         run: |
           echo "🔍 Fetching URL from preevy profile..."
-          PREVIEW_URL=$(preevy urls --json --profile "s3://preevy-profile-store?region=eu-west-2" | jq -r '.[].url')
-
+          PREVIEW_URL=$(preevy urls --json --profile "${{ env.PREEVY_PROFILE_URL }}" | jq -r '.[].url')
           echo "🌐 Preview URL: $PREVIEW_URL"
+          echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
 
-          echo "⚙️ Checking HTTP status code"
+      - name: Wait for app to be ready
+        run: |
+          echo "⏳ Waiting for app to start (max 60s)..."
+          timeout 60 bash -c '
+            until curl -s -f -o /dev/null "$PREVIEW_URL"; do
+              sleep 5
+              echo "Retrying..."
+            done
+          ' || {
+            echo "❌ App did not start in time"
+            exit 1
+          }
+
+      - name: Run sanity checks
+        run: |
+          echo "⚙️ Checking HTTP 200 status..."
           curl -s -o /dev/null -w "%{http_code}" "$PREVIEW_URL" | grep -q 200 || {
-            echo "❌ Home route not returning 200"
+            echo "❌ Homepage did not return 200"
             exit 1
           }
 
-          echo "🔎 Checking homepage contains expected text"
+          echo "🔎 Checking content..."
           curl -s "$PREVIEW_URL" | grep -q "UK Integrated Online Tariff" || {
-            echo "❌ Content check failed"
+            echo "❌ Expected text not found"
             exit 1
           }
 
-          echo "📦 Checking CSS asset loads"
+          echo "📦 Checking CSS asset..."
           curl -I "$PREVIEW_URL/assets/application.css" | grep -q "200 OK" || {
-            echo "❌ Asset check failed"
+            echo "❌ CSS asset failed to load"
             exit 1
           }
 
-          echo "✅ Sanity check passed!"
-
+          echo "✅ All checks passed!"
