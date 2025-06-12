@@ -15,7 +15,7 @@ module Myott
     end
 
     def confirmation
-      cookies.delete(:id_token, domain: ".#{request.domain}")
+      cookies.delete(:id_token, domain: ".#{request.host}")
       @header = 'You have unsubscribed'
       @message = 'You will no longer receive any Stop Press emails from the UK Trade Tariff Service.'
     end
