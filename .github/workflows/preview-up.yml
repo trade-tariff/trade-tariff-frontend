@@ -58,7 +58,7 @@ jobs:
       - name: Extract preview URL
         run: |
           echo "🔍 Fetching URL from preevy profile..."
-          PREVIEW_URL="https://frontend-trade-tariff-frontend-hmrc-1151-add-tests-tuu97fpl.livecycle.run/"
+          PREVIEW_URL=$(preevy urls --json --profile "${{ env.PREEVY_PROFILE_URL }}" | jq -r '.[].url')
           echo "🌐 Preview URL: $PREVIEW_URL"
           echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
 
