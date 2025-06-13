@@ -55,6 +55,7 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
+      - run: npm install -g preevy
       - name: Extract preview URL
         run: |
           echo "🔍 Fetching URL from preevy profile..."
