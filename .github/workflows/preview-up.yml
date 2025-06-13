@@ -20,7 +20,7 @@ concurrency: preevy-${{ github.event.number }}
 
 jobs:
   deploy:
-    if: contains(github.event.pull_request.labels.*.name, 'needs-preview')
+    if: contains(github.event.pull_request.labels.*.name, 'needs-preview') || contains(github.event.pull_request.labels.*.name, 'keep-preview')
     runs-on: ubuntu-latest
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
