@@ -70,13 +70,7 @@ jobs:
           curl -sSL https://github.com/docker/compose/releases/download/v2.36.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
           chmod +x ~/.docker/cli-plugins/docker-compose
           docker compose version
-      - name: Debug
-        run: |
-          echo "ℹ️ Listing Preevy environments:"
-          preevy ls --profile "${{ env.PREEVY_PROFILE_URL }}" --json | jq .
-          echo "ℹ️ Raw URLs output:"
-          preevy urls --json --profile "${{ env.PREEVY_PROFILE_URL }}" | jq .
-
+          
       - name: Extract preview URL
         run: |
           echo "🔍 Fetching URL from preevy profile..."
@@ -117,25 +111,14 @@ jobs:
 
       - name: Run Sanity Checks
         run: |
-          # Check the final destination after redirects
-          echo "🔍 Checking redirected page content..."
+          echo "🔍 Checking page content (following redirects)..."
           curl -L -s "$PREVIEW_URL" | grep -q "UK Integrated Online Tariff" || {
-            echo "❌ Content check failed after redirect"
+            echo "❌ Content check failed"
             exit 1
           }
-            
-          # Check CSS asset
+
           echo "📦 Checking CSS asset..."
-          curl -I "$PREVIEW_URL/assets/application-" | grep -q "200 OK" || {
+          curl -I "$PREVIEW_URL/assets/application-"* | grep -q "200 OK" || {
             echo "❌ CSS asset failed to load"
             exit 1
           }
-          
-          # # Check JavaScript asset (if needed)
-          # echo "3️⃣ Checking JS asset..."
-          # curl -I "$PREVIEW_URL/assets/application.js" | grep -q "200 OK" || {
-          #   echo "❌ JS asset check failed"
-          #   exit 1
-          # }
-          
-          echo "✅ All sanity checks passed!"
