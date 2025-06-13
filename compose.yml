@@ -25,4 +25,4 @@ x-preevy:
   driver: lightsail
   drivers:
     lightsail:
-      bundle-id: medium_3_0  # change to medium_3_0 if you see preevy up failing
+      bundle-id: small_3_0  # change to medium_3_0 if you see preevy up failing

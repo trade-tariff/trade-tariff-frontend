@@ -55,11 +55,25 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - run: npm install -g preevy
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+
+      - name: Debug
+        run: |
+          preevy urls --profile "${{ env.PREEVY_PROFILE_URL }}"
+          ************
+          preevy urls --json --profile "$PREEVY_PROFILE_URL" --id YOUR_ENV_ID | jq -r '.[].url'
+
       - name: Extract preview URL
         run: |
           echo "🔍 Fetching URL from preevy profile..."
-          PREVIEW_URL=$(preevy urls --json --profile "${{ env.PREEVY_PROFILE_URL }}" | jq -r '.[].url')
+          PREVIEW_URL=$(preevy urls --json --wait --profile "${{ env.PREEVY_PROFILE_URL }}" | jq -r '.[].url')
           echo "🌐 Preview URL: $PREVIEW_URL"
           echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
 
