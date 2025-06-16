@@ -1,104 +1,180 @@
 <%= page_header do %>
-  <h1 class="govuk-heading-xl">
+  <h1 class="govuk-heading-xl govuk-!-margin-bottom-0">
     Live Issues Log
   </h1>
 <% end %>
 
 <% content_for :top_breadcrumbs do %>
-  <%= generate_breadcrumbs t('breadcrumb.live_issues'), [[t('breadcrumb.news'), '/news']] %>
+  <%= generate_breadcrumbs t('breadcrumb.live_issues'), [
+    [t('breadcrumb.home'), '/find_commodity'],
+    [t('breadcrumb.news'), '/news']
+  ] %>
 <% end %>
 
-<table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Issue</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-third">Description</th>
-      <th scope="col" class="govuk-table__header">Affected commodities</th>
-      <th scope="col" class="govuk-table__header">Status</th>
-      <th scope="col" class="govuk-table__header">Dates affected</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-third">Suggested action</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Incorrect Supplementary Unit measures
-        <div class="govuk-!-font-size-14 govuk-!-margin-top-5 govuk-!-text-colour-muted">
-          Last updated: <br>
-          30 January 2025
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <h2 class="govuk-heading-m">
+          Filter Issues
+        </h2>
+        <div class="govuk-form-group filter-background">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              <h3 class="govuk-heading-s">
+                Status
+              </h3>
+            </legend>
+            <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="changedName" name="changedName" type="radio" value="all" checked>
+                <label class="govuk-label govuk-radios__label" for="changedName">
+                  Active or Resolved
+                </label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="changedName-2" name="changedName" type="radio" value="Active">
+                <label class="govuk-label govuk-radios__label" for="changedName-2">
+                  Active
+                </label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="changedName-2" name="changedName" type="radio" value="Resolved">
+                <label class="govuk-label govuk-radios__label" for="changedName-2">
+                  Resolved
+                </label>
+              </div>
+            </div>
+          </fieldset>
         </div>
-      </th>
-      <td class="govuk-table__cell">Supplementary Unit measures have been incorrectly added to some
-      commodity codes (as part of End of Year commodity code changes) and
-      HMRC are aware this is causing issues with declarations.</td>
-      <td class="govuk-table__cell">
-        <details class="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
-              41 commodities affected
-            </span>
-          </summary>
-          <div class="govuk-details__text">
-            <% ["2009897390", "2009897999", "2009899720", "2009899790",
-                "3903909090", "3920791000", "3921131000", "5402490090",
-                "5603929090", "5603939090", "7006009000", "7320901090",
-                "7605290000", "7613000090", "7616999099", "8207191000",
-                "8409910090", "8414900090", "8415900099", "8421210090",
-                "8421999099", "8479899790", "8481805990", "8482101090",
-                "8482109000", "8482500090", "8483405190", "8512200090",
-                "8512309090", "8516900099", "8537109899", "8538909999",
-                "8543709099", "8544300089", "8544429090", "8547200000",
-                "8708301090", "8708309190", "8708809990", "8708942000",
-                "8708943500", "9025804089"].each do |commodity_code| %>
-              <p class="govuk-body">
-                <a href="/commodities/<%= commodity_code %>" class="govuk-link">
-                  <%= commodity_code %>
-                </a>
-              </p>
-            <% end %>
+      </div>
+      <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Live Issues</h2>
+        <p class="govuk-body">Showing <b>2</b> live issues</p>
+        <p class="govuk-body"> Filters applied: <li class="govuk-body">Status: Active or resolved</li></p>
+        <div class="govuk-summary-card">
+          <div class="govuk-summary-card__title-wrapper">
+            <p class="govuk-body govuk-!-margin-bottom-0">
+              <b> Missing commodity codes </b>
+              <br>
+              Codes under the below commodity code are not showing information on Vietnam Preference
+            </p>
           </div>
-        </details>
-      </td>
-      <td class="govuk-table__cell">Resolved</td>
-      <td class="govuk-table__cell">10/01/2025 to 31/01/2025</td>
-      <td class="govuk-table__cell">Review Stop Press (<a href="https://www.trade-tariff.service.gov.uk/news/stories/tariff-stop-press-notice---30-january-2025" class="govuk-link">Tariff Stop Press Notice - 30 January 2025</a>) for specific information on the affected commodities.</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Tariff Suspension on plywood
-        <div class="govuk-!-font-size-14 govuk-!-margin-top-5 govuk-!-text-colour-muted">
-          Last updated: <br>
-          29 May 2025
+          <div class="govuk-summary-card__content">
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Dates affected
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  10 January 2025
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Commodities
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  <a href="/commodities/8712003010" class="govuk-link">
+                    8712003010
+                  </a>
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Status
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  <span class="status-tag">
+                    Active, last updated 30 January 2025
+                  </span>
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Suggested action
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  Wait for DBT (Department of Business and Trade) to update the preferences or follow repayment process
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
-      </th>
-      <td class="govuk-table__cell">Potential issue concerning the classification of the tariff suspension on plywood with an outer ply of eucalyptus (eucalyptus spp.). This product description may have been assigned to an incorrect commodity code</td>
-      <td class="govuk-table__cell">
-        <p class="govuk-body">
-          <a href="/commodities/4412339090" class="govuk-link">
-            4412339090
-          </a>
-        </p>
-      </td>
-      <td class="govuk-table__cell">Active</td>
-      <td class="govuk-table__cell">12/05/2025 to Current</td>
-      <td class="govuk-table__cell">Please classify this commodity code as a Tariff Suspension and follow the repayment process.</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Missing commodity codes
-        <div class="govuk-!-font-size-14 govuk-!-margin-top-5 govuk-!-text-colour-muted">
-          Last updated: <br>
-          29 May 2025
+        <div class="govuk-summary-card">
+          <div class="govuk-summary-card__title-wrapper">
+            <p class="govuk-body govuk-!-margin-bottom-0">
+              <b> Incorrect Supplementary Unit measures </b>
+              <br>
+                Supplementary Unit measures have been incorrectly added to some commodity codes (as part of End of Year commodity code changes) and HMRC are aware this is causing issues with declarations.
+            </p>
+          </div>
+          <div class="govuk-summary-card__content">
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Dates affected
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  10 to 21 May 2025
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Commodities
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  <details class="govuk-details">
+                    <summary class="govuk-details__summary">
+                      <span class="govuk-details__summary-text">
+                        41 commodities
+                      </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                      <% ["2009897390", "2009897999", "2009899720", "2009899790",
+                          "3903909090", "3920791000", "3921131000", "5402490090",
+                          "5603929090", "5603939090", "7006009000", "7320901090",
+                          "7605290000", "7613000090", "7616999099", "8207191000",
+                          "8409910090", "8414900090", "8415900099", "8421210090",
+                          "8421999099", "8479899790", "8481805990", "8482101090",
+                          "8482109000", "8482500090", "8483405190", "8512200090",
+                          "8512309090", "8516900099", "8537109899", "8538909999",
+                          "8543709099", "8544300089", "8544429090", "8547200000",
+                          "8708301090", "8708309190", "8708809990", "8708942000",
+                          "8708943500", "9025804089"].each do |commodity_code| %>
+                        <p class="govuk-body">
+                          <a href="/commodities/<%= commodity_code %>" class="govuk-link">
+                            <%= commodity_code %>
+                          </a>
+                        </p>
+                      <% end %>
+                    </div>
+                  </details>
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Status
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  <span class="status-tag govuk-tag--green">
+                    Resolved on 21 May 2025
+                  </span>
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Suggested action
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  Review Stop Press <a href="https://www.trade-tariff.service.gov.uk/news/stories/tariff-stop-press-notice---30-january-2025" class="govuk-link">Tariff Stop Press Notice - 30 January 2025</a>
+                  for specific information on the affected commodities.
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
-      </th>
-      <td class="govuk-table__cell">Codes under the below commodity code are not showing information on Vietnam Preference</td>
-      <td class="govuk-table__cell">
-        <p class="govuk-body">
-          <a href="/commodities/8712003010" class="govuk-link">
-            8712003010
-          </a>
-        </p>
-      </td>
-      <td class="govuk-table__cell">Active</td>
-      <td class="govuk-table__cell">17/03/2025 to Current</td>
-      <td class="govuk-table__cell">Wait for DBT (Department of Business and Trade) to update the preferences or follow repayment process.</td>
-    </tr>
-  </tbody>
-</table>
+      </div>
+    </div>
+  </main>
+</div>
