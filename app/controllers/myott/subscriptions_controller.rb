@@ -4,7 +4,13 @@ module Myott
     before_action :authenticate, except: %i[start invalid]
 
     def start; end
-    def invalid; end
+
+    def invalid
+      # HMRC-1259 user re-using token could still be valid
+      if cookies[:id_token].present?
+        redirect_to myott_path
+      end
+    end
 
     def dashboard
       return redirect_to myott_preference_selection_path unless current_user.stop_press_subscription
@@ -54,7 +60,10 @@ module Myott
       @selected_sections_chapters = get_selected_sections_chapters(Array(session[:chapter_ids]))
     end
 
-    def preference_selection; end
+    def preference_selection
+      Rails.logger.info("cookies[:id_token]: #{cookies[:id_token].inspect}")
+      Rails.logger.info("authenticate: #{authenticate.inspect}")
+    end
 
     def subscribe
       if params[:all_tariff_updates] == 'true'
