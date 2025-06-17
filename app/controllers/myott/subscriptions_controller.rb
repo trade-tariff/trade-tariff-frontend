@@ -60,10 +60,7 @@ module Myott
       @selected_sections_chapters = get_selected_sections_chapters(Array(session[:chapter_ids]))
     end
 
-    def preference_selection
-      Rails.logger.info("cookies[:id_token]: #{cookies[:id_token].inspect}")
-      Rails.logger.info("authenticate: #{authenticate.inspect}")
-    end
+    def preference_selection; end
 
     def subscribe
       if params[:all_tariff_updates] == 'true'
