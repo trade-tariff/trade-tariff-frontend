@@ -7,6 +7,7 @@ module Myott
     def invalid; end
 
     def dashboard
+      session.delete(:chapter_ids)
       return redirect_to myott_preference_selection_path unless current_user.stop_press_subscription
 
       session[:chapter_ids] = if current_user.chapter_ids&.split(',')&.any?
