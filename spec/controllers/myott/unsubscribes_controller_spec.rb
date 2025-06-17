@@ -60,6 +60,18 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
         get :confirmation
         expect(assigns(:message)).to eq('You will no longer receive any Stop Press emails from the UK Trade Tariff Service.')
       end
+
+      context 'when request host contains www' do
+        before do
+          request.host = 'www.example.com'
+          allow(cookies).to receive(:delete).and_call_original
+        end
+
+        it 'deletes the id_token cookie with the correct domain' do
+          expect_any_instance_of(ActionDispatch::Cookies::CookieJar).to receive(:delete).with(:id_token, hash_including(domain: '.example.com')) # rubocop:disable RSpec/AnyInstance
+          get :confirmation
+        end
+      end
     end
   end
 
