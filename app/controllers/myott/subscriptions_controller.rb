@@ -4,7 +4,12 @@ module Myott
     before_action :authenticate, except: %i[start invalid]
 
     def start; end
-    def invalid; end
+
+    def invalid
+      if current_user.present?
+        redirect_to myott_path
+      end
+    end
 
     def dashboard
       return redirect_to myott_preference_selection_path unless current_user.stop_press_subscription

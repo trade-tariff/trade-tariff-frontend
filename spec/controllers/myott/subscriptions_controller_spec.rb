@@ -28,6 +28,24 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       get :invalid
       expect(controller).not_to have_received(:authenticate)
     end
+
+    context 'when a user does exist' do
+      before do
+        allow(controller).to receive(:current_user).and_return(user)
+        get :invalid
+      end
+
+      it { is_expected.to redirect_to myott_path }
+    end
+
+    context 'when a user does not exist' do
+      before do
+        allow(controller).to receive(:current_user).and_return(nil)
+        get :invalid
+      end
+
+      it { is_expected.not_to redirect_to myott_path }
+    end
   end
 
   describe 'GET #dashboard' do
