@@ -6,7 +6,7 @@ module Myott
     def start; end
 
     def invalid
-      unless current_user.nil?
+      if current_user.present?
         redirect_to myott_path
       end
     end
