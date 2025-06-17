@@ -29,18 +29,18 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       expect(controller).not_to have_received(:authenticate)
     end
 
-    context 'when a cookie with id_token exists' do
+    context 'when a user does exist' do
       before do
-        cookies[:id_token] = 'valid-jwt-token'
+        allow(controller).to receive(:current_user).and_return(user)
         get :invalid
       end
 
       it { is_expected.to redirect_to myott_path }
     end
 
-    context 'when a cookie with id_token does not exist' do
+    context 'when a user does not exist' do
       before do
-        cookies[:id_token] = nil
+        allow(controller).to receive(:current_user).and_return(nil)
         get :invalid
       end
 

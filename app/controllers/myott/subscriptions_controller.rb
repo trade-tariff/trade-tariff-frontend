@@ -6,8 +6,7 @@ module Myott
     def start; end
 
     def invalid
-      # HMRC-1259 user re-using token could still be valid
-      if cookies[:id_token].present?
+      unless current_user.nil?
         redirect_to myott_path
       end
     end
