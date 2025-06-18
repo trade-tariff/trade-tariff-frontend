@@ -12,6 +12,7 @@ services:
       - .env
     environment:
       - ENVIRONMENT=review
+      - API_SERVICE_BACKEND_URL_OPTIONS={"uk":"https://staging.trade-tariff.service.gov.uk","xi":"https://staging.trade-tariff.service.gov.uk/xi"}
       - BACKEND_BASE_DOMAIN=https://dev.trade-tariff.service.gov.uk/
       - MYOTT_ENABLED=true
       - USE_SMTP=true

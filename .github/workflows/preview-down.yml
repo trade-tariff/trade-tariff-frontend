@@ -24,9 +24,6 @@ jobs:
       - uses: actions/checkout@v4
       - run: touch .env # To prevent preevy from failing due to missing .env file
 
-      - name: Lock Docker Compose to v2.36.0
-        uses: trade-tariff/trade-tariff-tools/.github/actions/lock-docker-compose@main
-
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.IAM_ROLE_ARN }}
