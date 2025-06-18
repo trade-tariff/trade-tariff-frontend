@@ -1,6 +1,7 @@
 <% content_for :back_link do %>
-  <% back_link myott_preference_selection_path %>
+  <% back_link session[:all_tariff_updates] ? myott_check_your_answers_path : myott_path %>
 <% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
   <%= render 'error' if flash.now[:error] %>
@@ -9,7 +10,7 @@
       <div class="govuk-body myott-subscriptions">
         <p>Products are broken down into sections and chapters. Sections broadly group products, while chapters get more specific. You can choose to be updated about as many chapters as you like.</p>
         <%= render partial: 'checkbox_toggles' %>
-        <%= form_with url: myott_check_your_answers_path, method: :post, local: true do %>
+        <%= form_with url: myott_preferences_path, method: :patch, local: true do %>
           <div class="govuk-accordion" data-module="govuk-accordion" id="section-chapter-accordion">
             <% @all_sections_chapters.each do |section, chapters| %>
               <div class="govuk-accordion__section <%= section.resource_id == "1" ? 'govuk-accordion__section--expanded' : ''%>" id="accordion-section-<%=section.resource_id%>">
