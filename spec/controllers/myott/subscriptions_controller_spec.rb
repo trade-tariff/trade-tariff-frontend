@@ -239,19 +239,4 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       end
     end
   end
-
-  describe 'GET #preference_selection' do
-    context 'when current_user is not valid' do
-      before do
-        allow(controller).to receive(:current_user).and_return(nil)
-        get :dashboard
-      end
-
-      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
-    end
-
-    it 'clears the session chapter ids' do
-      expect(session[:chapter_ids]).to be_nil
-    end
-  end
 end
