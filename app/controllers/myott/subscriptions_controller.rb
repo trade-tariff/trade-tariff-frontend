@@ -4,8 +4,22 @@ module Myott
 
     def start; end
 
+<<<<<<< HEAD
     def invalid
       redirect_to myott_path if current_user.present?
+=======
+    def dashboard
+      return redirect_to myott_preference_selection_path unless current_user.stop_press_subscription
+
+      session[:chapter_ids] = if current_user.chapter_ids&.split(',')&.any?
+                                current_user.chapter_ids&.split(',')
+                              else
+                                all_chapters.map(&:to_param)
+                              end
+
+      @amount_of_selected_chapters = get_amount_of_selected_chapters(Array(session[:chapter_ids]))
+      @selected_sections_chapters = get_selected_sections_chapters(Array(session[:chapter_ids]))
+>>>>>>> df54b1ef (Clear session chapter IDs in preference selection)
     end
 
     def show
@@ -23,6 +37,13 @@ module Myott
       set_selected_chapters
     end
 
+<<<<<<< HEAD
+=======
+    def preference_selection
+      session.delete(:chapter_ids)
+    end
+
+>>>>>>> df54b1ef (Clear session chapter IDs in preference selection)
     def subscribe
       chapter_ids = if session[:all_tariff_updates]
                       ''
