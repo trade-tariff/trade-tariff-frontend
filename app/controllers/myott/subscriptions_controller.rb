@@ -7,7 +7,6 @@ module Myott
     def invalid; end
 
     def dashboard
-      session.delete(:chapter_ids)
       return redirect_to myott_preference_selection_path unless current_user.stop_press_subscription
 
       session[:chapter_ids] = if current_user.chapter_ids&.split(',')&.any?
@@ -55,7 +54,9 @@ module Myott
       @selected_sections_chapters = get_selected_sections_chapters(Array(session[:chapter_ids]))
     end
 
-    def preference_selection; end
+    def preference_selection
+      session.delete(:chapter_ids)
+    end
 
     def subscribe
       if params[:all_tariff_updates] == 'true'
