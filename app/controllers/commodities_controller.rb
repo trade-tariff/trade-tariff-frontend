@@ -18,9 +18,13 @@ class CommoditiesController < GoodsNomenclaturesController
     end
 
     if params[:country].present? && @search.geographical_area
-      @rules_of_origin_schemes = declarable.rules_of_origin(params[:country])
+      @rules_of_origin_schemes = Rails.cache.fetch([@tariff_last_updated, 'declarable.rules_of_origin', params[:country]]) do
+        declarable.rules_of_origin(params[:country])
+      end
     else
-      @roo_all_schemes = RulesOfOrigin::Scheme.all
+      @roo_all_schemes = Rails.cache.fetch(['RulesOfOrigin::Scheme.all', @tariff_last_updated]) do
+        RulesOfOrigin::Scheme.all
+      end
     end
   end
 
@@ -69,26 +73,34 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def uk_heading
-    @uk_heading ||= TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-      HeadingPresenter.new(Heading.find(heading_id, query_params))
+    @uk_heading ||= Rails.cache.fetch([@tariff_last_updated, heading_id, query_params]) do
+      TradeTariffFrontend::ServiceChooser.with_source(:uk) do
+        HeadingPresenter.new(Heading.find(heading_id, query_params))
+      end
     end
   end
 
   def xi_heading
-    @xi_heading ||= TradeTariffFrontend::ServiceChooser.with_source(:xi) do
-      HeadingPresenter.new(Heading.find(heading_id, query_params))
+    @xi_heading ||= Rails.cache.fetch([@tariff_last_updated, heading_id, query_params]) do
+      TradeTariffFrontend::ServiceChooser.with_source(:xi) do
+        HeadingPresenter.new(Heading.find(heading_id, query_params))
+      end
     end
   end
 
   def uk_commodity
-    @uk_commodity ||= TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-      CommodityPresenter.new(Commodity.find(params[:id], query_params))
+    @uk_commodity ||= Rails.cache.fetch([@tariff_last_updated, params[:id], query_params]) do
+      TradeTariffFrontend::ServiceChooser.with_source(:uk) do
+        CommodityPresenter.new(Commodity.find(params[:id], query_params))
+      end
     end
   end
 
   def xi_commodity
-    @xi_commodity ||= TradeTariffFrontend::ServiceChooser.with_source(:xi) do
-      CommodityPresenter.new(Commodity.find(params[:id], query_params))
+    @xi_commodity ||= Rails.cache.fetch([@tariff_last_updated, params[:id], query_params]) do
+      TradeTariffFrontend::ServiceChooser.with_source(:xi) do
+        CommodityPresenter.new(Commodity.find(params[:id], query_params))
+      end
     end
   end
 
