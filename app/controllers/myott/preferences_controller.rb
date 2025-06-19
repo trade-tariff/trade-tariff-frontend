@@ -3,7 +3,7 @@ module Myott
     before_action :authenticate
 
     def new
-      delete_session_data
+      session_chapters.delete
     end
 
     def create
@@ -28,23 +28,18 @@ module Myott
     end
 
     def update
-      session[:all_tariff_updates] = false
-
       if params[:chapter_ids].blank?
-        session[:chapter_ids] = []
+        session_chapters.delete
         flash[:error] = 'Select the chapters you want tariff updates about.'
         redirect_to edit_myott_preferences_path and return
       else
+        session[:all_tariff_updates] = false
         session[:chapter_ids] = params[:chapter_ids]
         redirect_to myott_check_your_answers_path
       end
     end
 
   private
-
-    def delete_session_data
-      session_chapters.delete
-    end
 
     def session_chapters
       @session_chapters ||= SessionChaptersDecorator.new(session)

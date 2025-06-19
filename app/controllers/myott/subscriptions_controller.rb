@@ -12,7 +12,7 @@ module Myott
       return redirect_to new_myott_preferences_path unless current_user.stop_press_subscription
 
       session[:chapter_ids] = current_user.chapter_ids&.split(',')
-      session[:chapter_ids] ||= session_chapters.all_chapters.map(&:to_param)
+      session[:chapter_ids] = session_chapters.all_chapters.map(&:to_param) if session[:chapter_ids].blank?
 
       set_selected_chapters
     end
