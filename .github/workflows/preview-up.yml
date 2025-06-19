@@ -53,6 +53,7 @@ jobs:
         with:
           install: gh-release
           profile-url: "${{ env.PREEVY_PROFILE_URL }}"
+          node-cache: true
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
@@ -72,6 +73,7 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+          
       - name: Get preview environment URL
         id: get-url
         run: |
