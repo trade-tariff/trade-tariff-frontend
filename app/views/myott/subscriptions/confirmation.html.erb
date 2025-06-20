@@ -14,22 +14,10 @@
         <p class="govuk-body">
           You can now close this window.
         </p>
-        <p class="govuk-body govuk-!-display-none"><!-- remove govuk-!-display-none for MyOTT public beta -->
+        <p class="govuk-body">
           <%= link_to 'What did you think of this service?', feedback_path, class: 'govuk-link' %>
           (takes 30 seconds)
         </p>
-      </div>
-    </div>
-    <!-- Call to action section to be deleted for MyOTT public beta-->
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <div class="call-to-action">
-          <h2 class="govuk-heading-m">What did you think of this pilot service?</h2>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfNf37-MVrHE6g93JJv4xbDChcMLc81b_CAFhStINEad2ER3g/viewform" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
-            Complete the survey
-            <%= render 'shared/start_arrow' %>
-          </a>
-        </div>
       </div>
     </div>
   </main>
