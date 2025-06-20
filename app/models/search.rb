@@ -43,11 +43,11 @@ class Search
   end
 
   def countries
-    @countries ||= Rails.cache.fetch([@tariff_last_updated, 'GeographicalArea.all']) { GeographicalArea.all.compact }
+    @countries ||= GeographicalArea.all.compact
   end
 
   def geographical_area
-    @geographical_area ||= Rails.cache.fetch([@tariff_last_updated, country]) { GeographicalArea.find(country) } if country.present?
+    @geographical_area ||= GeographicalArea.find(country) if country.present?
   end
 
   def country_description
