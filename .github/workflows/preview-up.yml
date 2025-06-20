@@ -22,6 +22,9 @@ jobs:
   deploy:
     if: contains(github.event.pull_request.labels.*.name, 'needs-preview') || contains(github.event.pull_request.labels.*.name, 'keep-preview')
     runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.get-url.outputs.preview_url }}
+
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -30,11 +33,12 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Lock Docker Compose to v2.36.0 manually
+      - name: Lock Docker Compose to v2.36.0
         run: |
           mkdir -p ~/.docker/cli-plugins/
           curl -sSL https://github.com/docker/compose/releases/download/v2.36.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
           chmod +x ~/.docker/cli-plugins/docker-compose
+          docker compose version
 
       - name: Fetch frontend-configuration secrets and mask values
         run: |
@@ -53,6 +57,24 @@ jobs:
         with:
           install: gh-release
           profile-url: "${{ env.PREEVY_PROFILE_URL }}"
+          node-cache: true
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
+          
+      - name: Get preview environment URL
+        id: get-url
+        run: |
+          touch .env
+          PREVIEW_URL=$(npx preevy urls --json --wait --profile "$PREEVY_PROFILE_URL" | jq -r '.[0].url')
+          echo "✅ Using preview URL: $PREVIEW_URL"
+          echo "preview_url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+
+  e2e-tests:
+    needs: deploy
+    uses: trade-tariff/trade-tariff-tools/.github/workflows/e2e-tests.yml@main
+    with:
+      test-url: "${{ needs.deploy.outputs.preview_url }}"
+      admin-test-url: "https://admin.dev.trade-tariff.service.gov.uk"
+    secrets:
+      basic_password: ${{ secrets.BASIC_PASSWORD }}
