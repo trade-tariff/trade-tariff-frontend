@@ -5,16 +5,7 @@ RSpec.describe Myott::SessionChaptersDecorator do
 
   let(:session) { {} }
 
-  let(:section1) { instance_double(Section, title: 'Section 1', resource_id: 1) }
-  let(:section2) { instance_double(Section, title: 'Section 1', resource_id: 1) }
-  let(:chapter1) { instance_double(Chapter, to_param: '01', short_code: '01', to_s: 'Live animals') }
-  let(:chapter2) { instance_double(Chapter, to_param: '02', short_code: '02', to_s: 'Meat') }
-  let(:chapter3) { instance_double(Chapter, to_param: '03', short_code: '03', to_s: 'Fish and crustaceans, molluscs and other aquatic invertebrates') }
-
-  before do
-    allow(Rails.cache).to receive(:fetch).with('all_sections_chapters', expires_in: 1.day)
-      .and_return({ section1 => [chapter1, chapter2], section2 => [chapter3] })
-  end
+  include_context 'with cached chapters'
 
   describe '#all_chapters' do
     it 'returns flattened list of all chapters from all sections' do

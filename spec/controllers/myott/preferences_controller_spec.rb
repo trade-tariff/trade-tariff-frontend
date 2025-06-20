@@ -1,16 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe Myott::PreferencesController, type: :controller do
-  let(:section) { instance_double(Section, title: 'Section 1', resource_id: 1) }
-  let(:chapter1) { instance_double(Chapter, to_param: '01', short_code: '01', to_s: 'Live animals') }
-  let(:chapter2) { instance_double(Chapter, to_param: '02', short_code: '02', to_s: 'Meat') }
-  let(:chapter3) { instance_double(Chapter, to_param: '03', short_code: '03', to_s: 'Fish and crustaceans, molluscs and other aquatic invertebrates') }
-  let(:user) { build(:user, chapter_ids: '', stop_press_subscription: false) }
+  include_context 'with cached chapters'
 
-  before do
-    allow(Rails.cache).to receive(:fetch).with('all_sections_chapters', expires_in: 1.day)
-      .and_return({ section => [chapter1, chapter2, chapter3] })
-  end
+  let(:user) { build(:user, chapter_ids: '', stop_press_subscription: false) }
 
   describe 'GET #new' do
     context 'when current_user is not valid' do
