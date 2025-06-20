@@ -1,16 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe Myott::SubscriptionsController, type: :controller do
-  let(:section) { instance_double(Section, title: 'Section 1', resource_id: 1) }
-  let(:chapter1) { instance_double(Chapter, to_param: '01', short_code: '01', to_s: 'Live animals') }
-  let(:chapter2) { instance_double(Chapter, to_param: '02', short_code: '02', to_s: 'Meat') }
-  let(:chapter3) { instance_double(Chapter, to_param: '03', short_code: '03', to_s: 'Fish and crustaceans, molluscs and other aquatic invertebrates') }
-  let(:user) { build(:user, chapter_ids: '', stop_press_subscription: true) }
+  include_context 'with cached chapters'
 
-  before do
-    allow(Rails.cache).to receive(:fetch).with('all_sections_chapters', expires_in: 1.day)
-      .and_return({ section => [chapter1, chapter2, chapter3] })
-  end
+  let(:user) { build(:user, chapter_ids: '', stop_press_subscription: true) }
 
   describe 'GET #start' do
     it 'does not authenticate the user' do
@@ -73,7 +66,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
         it 'assigns selected sections and chapters' do
           expect(assigns(:selected_sections_chapters)).to eq(
-            section => [chapter1, chapter2, chapter3],
+            section1 => [chapter1, chapter2], section2 => [chapter3],
           )
         end
       end
@@ -91,7 +84,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
         it 'assigns selected sections and chapters' do
           expect(assigns(:selected_sections_chapters)).to eq(
-            section => [chapter1, chapter3],
+            section1 => [chapter1], section2 => [chapter3],
           )
         end
       end
@@ -136,7 +129,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
         it 'assigns selected sections and chapters' do
           expect(assigns(:selected_sections_chapters)).to eq(
-            section => [chapter1, chapter2, chapter3],
+            section1 => [chapter1, chapter2], section2 => [chapter3],
           )
         end
       end

@@ -9,16 +9,15 @@ module Myott
     end
 
     def show
-      return redirect_to new_myott_preferences_path unless current_user.stop_press_subscription
+      redirect_to new_myott_preferences_path and return unless current_user.stop_press_subscription
 
       session[:chapter_ids] = current_user.chapter_ids&.split(',')
-      session[:chapter_ids] = session_chapters.all_chapters.map(&:to_param) if session[:chapter_ids].blank?
 
       set_selected_chapters
     end
 
     def check_your_answers
-      redirect_to myott_path and return if session[:chapter_ids].blank?
+      redirect_to myott_path and return if session[:chapter_ids].blank? && !session[:all_tariff_updates]
 
       set_selected_chapters
     end
@@ -46,6 +45,8 @@ module Myott
   private
 
     def set_selected_chapters
+      session[:chapter_ids] = session_chapters.all_chapters.map(&:to_param) if session[:chapter_ids].blank?
+
       @selected_chapters_heading = session_chapters.selected_chapters_heading
       @selected_sections_chapters = session_chapters.selected_sections_chapters
     end
