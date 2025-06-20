@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Lock Docker Compose to v2.36.0 manually
+      - name: Lock Docker Compose to v2.36.0
         run: |
           mkdir -p ~/.docker/cli-plugins/
           curl -sSL https://github.com/docker/compose/releases/download/v2.36.0/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
@@ -56,3 +56,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
+
+      - name: Capture frontend logs
+        if: always()
+        run: .github/workflows/scripts/capture-log.sh
+        env:
+          PREEVY_PROFILE_URL: ${{ env.PREEVY_PROFILE_URL }}
+
+      - name: Upload logs as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preevy-logs-${{ github.run_id }}
+          path: logs/
+          retention-days: 7
+          if-no-files-found: warn
