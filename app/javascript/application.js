@@ -16,7 +16,6 @@ window.GOVUK.accessibleAutocomplete = accessibleAutocomplete;
 
 import Utility from 'utility';
 import 'quota-search'
-import 'trading-partner-autocomplete'
 import 'country-of-origin'
 import 'other-country-of-origin'
 import 'help_popup'

@@ -1,12 +1,12 @@
 export default class Utility {
-  static countrySelectorOnConfirm(confirmed, selectElement) {
+  static countrySelectorOnConfirm(confirmed, selectElement) {  
     const commodityCode = document.querySelector('.commodity-header').dataset.commCode;
-    const service = document.getElementById('trading_partner_service').value;
+    const service = document.getElementById('service').value;
 
     if (confirmed === 'All countries') {
       const selectedTab = window.location.hash.substring(1);
       if (service === 'xi') {
-        const url = `${window.location.origin}/${service}/commodities/${commodityCode}#${selectedTab}`;
+        const url = `/${service}/commodities/${commodityCode}#${selectedTab}`;
         window.location.href = url;
       } else {
         const url = `/commodities/${commodityCode}#${selectedTab}`;
@@ -19,6 +19,8 @@ export default class Utility {
       anchorInput.value = window.location.hash.substring(1);
       selectElement.closest('form').submit();
     }
+
+
   }
 
   static async fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults) {
