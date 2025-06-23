@@ -61,7 +61,6 @@
     </div>
     <%= render 'news_items/header_banner', news_item: News::Item.latest_banner unless @skip_news_banner %>
     <%= render 'shared/feedback_banner' %>
-    <%= csrf_meta_tags %>
   </header>
 
   <div class="tariff service govuk-width-container">
@@ -78,6 +77,7 @@
       <%= yield %>
 
       <%= render 'shared/switch_banner_bottom' if is_switch_service_banner_enabled? %>
+
       <%= render 'shared/webchat_message/footer' if webchat_visible_in_footer? %>
 
       <% if @tariff_last_updated %>
