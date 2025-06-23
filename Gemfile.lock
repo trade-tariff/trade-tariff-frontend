@@ -218,7 +218,7 @@ GEM
       rake (>= 13)
     googleapis-common-protos-types (1.20.0)
       google-protobuf (>= 3.18, < 5.a)
-    govspeak (10.3.0)
+    govspeak (10.4.0)
       actionview (>= 6, < 8.0.3)
       addressable (>= 2.3.8, < 2.8.8)
       govuk_publishing_components (>= 43)
@@ -228,10 +228,10 @@ GEM
       nokogiri (~> 1.12)
       rinku (~> 2.0)
       sanitize (>= 6, < 8)
-    govuk_app_config (9.17.10)
+    govuk_app_config (9.17.12)
       logstasher (~> 2.1)
       opentelemetry-exporter-otlp (>= 0.25, < 0.31)
-      opentelemetry-instrumentation-all (>= 0.39.1, < 0.78.0)
+      opentelemetry-instrumentation-all (>= 0.39.1, < 0.79.0)
       opentelemetry-sdk (~> 1.2)
       plek (>= 4, < 6)
       prometheus_exporter (~> 2.0)
@@ -248,7 +248,7 @@ GEM
     govuk_personalisation (1.1.0)
       plek (>= 1.9.0)
       rails (>= 6, < 9)
-    govuk_publishing_components (57.2.0)
+    govuk_publishing_components (57.3.1)
       govuk_app_config
       govuk_personalisation (>= 0.7.0)
       kramdown
@@ -352,7 +352,7 @@ GEM
       uri
     net-http-persistent (4.0.6)
       connection_pool (~> 2.2, >= 2.2.4)
-    net-imap (0.5.8)
+    net-imap (0.5.9)
       date
       net-protocol
     net-pop (0.1.2)
@@ -395,7 +395,7 @@ GEM
       opentelemetry-api (~> 1.0)
       opentelemetry-instrumentation-active_support (~> 0.7)
       opentelemetry-instrumentation-base (~> 0.23.0)
-    opentelemetry-instrumentation-action_pack (0.12.2)
+    opentelemetry-instrumentation-action_pack (0.12.3)
       opentelemetry-api (~> 1.0)
       opentelemetry-instrumentation-base (~> 0.23.0)
       opentelemetry-instrumentation-rack (~> 0.21)
@@ -420,7 +420,7 @@ GEM
     opentelemetry-instrumentation-active_support (0.8.0)
       opentelemetry-api (~> 1.0)
       opentelemetry-instrumentation-base (~> 0.23.0)
-    opentelemetry-instrumentation-all (0.77.0)
+    opentelemetry-instrumentation-all (0.78.0)
       opentelemetry-instrumentation-active_model_serializers (~> 0.22.0)
       opentelemetry-instrumentation-aws_lambda (~> 0.3.0)
       opentelemetry-instrumentation-aws_sdk (~> 0.8.0)
@@ -435,7 +435,7 @@ GEM
       opentelemetry-instrumentation-graphql (~> 0.29.0)
       opentelemetry-instrumentation-grpc (~> 0.2.0)
       opentelemetry-instrumentation-gruf (~> 0.3.0)
-      opentelemetry-instrumentation-http (~> 0.24.0)
+      opentelemetry-instrumentation-http (~> 0.25.0)
       opentelemetry-instrumentation-http_client (~> 0.23.0)
       opentelemetry-instrumentation-koala (~> 0.21.0)
       opentelemetry-instrumentation-lmdb (~> 0.23.0)
@@ -500,7 +500,7 @@ GEM
     opentelemetry-instrumentation-gruf (0.3.0)
       opentelemetry-api (>= 1.0.0)
       opentelemetry-instrumentation-base (~> 0.23.0)
-    opentelemetry-instrumentation-http (0.24.0)
+    opentelemetry-instrumentation-http (0.25.0)
       opentelemetry-api (~> 1.0)
       opentelemetry-instrumentation-base (~> 0.23.0)
     opentelemetry-instrumentation-http_client (0.23.0)
@@ -590,7 +590,7 @@ GEM
       opentelemetry-semantic_conventions
     opentelemetry-semantic_conventions (1.11.0)
       opentelemetry-api (~> 1.0)
-    ostruct (0.6.1)
+    ostruct (0.6.2)
     parallel (1.27.0)
     parser (3.3.8.0)
       ast (~> 2.4.1)
@@ -670,7 +670,7 @@ GEM
       ffi (~> 1.0)
     rbs (3.9.4)
       logger
-    rdoc (6.14.0)
+    rdoc (6.14.1)
       erb
       psych (>= 4.0.0)
     redis (5.4.0)
