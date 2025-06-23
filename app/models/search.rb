@@ -2,6 +2,7 @@ require 'api_entity'
 
 class Search
   include ApiEntity
+  include CacheHelper
 
   class InvalidDate < StandardError; end
 
@@ -43,11 +44,11 @@ class Search
   end
 
   def countries
-    @countries ||= Rails.cache.fetch([@tariff_last_updated, 'GeographicalArea.all']) { GeographicalArea.all.compact }
+    @countries ||= Rails.cache.fetch([cache_key, 'GeographicalArea.all']) { GeographicalArea.all.compact }
   end
 
   def geographical_area
-    @geographical_area ||= Rails.cache.fetch([@tariff_last_updated, country]) { GeographicalArea.find(country) } if country.present?
+    @geographical_area ||= Rails.cache.fetch([cache_key, country]) { GeographicalArea.find(country) } if country.present?
   end
 
   def country_description
