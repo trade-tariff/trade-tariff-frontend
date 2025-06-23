@@ -1,13 +1,11 @@
 <%= form_tag '#', method: 'get', html: { class: 'govuk-!-margin-bottom-7' } do |f| %>
-  <%= hidden_field_tag :goods_nomenclature_code, current_goods_nomenclature_code %>
-  <%= hidden_field_tag :anchor, nil %>
-  <%= hidden_field_tag :service, TradeTariffFrontend::ServiceChooser.service_name %>
 
   <fieldset class="govuk-fieldset country-picker  govuk-!-font-size-16">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <p class="govuk-heading-m">Select a country<p>
-        <% (params.keys - ['controller', 'action']).each do |p| %>
+
+        <% (params.keys - ['controller', 'action', 'country', 'service', 'id']).each do |p| %>
           <% if params.has_key?(p) %>
             <%= hidden_field_tag p, params[p] %>
           <% end %>
@@ -18,7 +16,7 @@
           <div class="govuk-grid-column-two-thirds">
             <div data-controller="country-select-box">
               <div data-country-select-box-target="countrySelect">
-                  <%= select_tag :country, options_for_select(GeographicalArea.country_options), data: { action: "focus->country-select-box#clearSelect" }, "aria-label": "Filter measures by country" %>
+                  <%= select_tag :country, options_for_select(GeographicalArea.country_options, params[:country]), data: { action: "focus->country-select-box#clearSelect" }, "aria-label": "Filter measures by country" %>
               </div>
             </div>
           </div>
