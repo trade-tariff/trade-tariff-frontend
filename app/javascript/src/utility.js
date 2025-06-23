@@ -1,5 +1,5 @@
 export default class Utility {
-  static countrySelectorOnConfirm(confirmed, selectElement) {  
+  static countrySelectorOnConfirm(confirmed, selectElement) {
     const commodityCode = document.querySelector('.commodity-header').dataset.commCode;
 
     if (confirmed === 'All countries') {
