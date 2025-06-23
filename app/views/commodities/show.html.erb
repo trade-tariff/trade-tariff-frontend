@@ -1,4 +1,4 @@
-<%= cache [@tariff_last_updated, params.to_json] do %>
+<%= cache [cache_key, params.to_json] do %>
   <% content_for :head do %>
     <meta name="description" content="<%= declarable.description_plain %>">
   <% end %>

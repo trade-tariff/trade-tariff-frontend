@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include TradeTariffFrontend::ViewContext::Controller
   include ApplicationHelper
   include BasicSessionAuth
+  include CacheHelper
 
   before_action :maintenance_mode_if_active
 
