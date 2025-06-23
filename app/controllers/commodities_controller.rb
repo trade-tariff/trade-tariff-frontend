@@ -18,13 +18,9 @@ class CommoditiesController < GoodsNomenclaturesController
     end
 
     if params[:country].present? && @search.geographical_area
-      @rules_of_origin_schemes = Rails.cache.fetch([cache_key, 'declarable.rules_of_origin', params[:country]]) do
-        declarable.rules_of_origin(params[:country])
-      end
+      @rules_of_origin_schemes = declarable.rules_of_origin(params[:country])
     else
-      @roo_all_schemes = Rails.cache.fetch(['RulesOfOrigin::Scheme.all', cache_key]) do
-        RulesOfOrigin::Scheme.all
-      end
+      @roo_all_schemes = RulesOfOrigin::Scheme.all
     end
   end
 
