@@ -14,8 +14,6 @@ export default class Utility {
     } else {
       const code = /\((\w\w)\)/.test(confirmed) ? /\((\w\w)\)/.exec(confirmed)[1] : null;
       selectElement.value = code;
-      // const anchorInput = document.querySelector('#anchor')
-      // anchorInput.value = window.location.hash.substring(1);
       selectElement.closest('form').submit();
     }
 
