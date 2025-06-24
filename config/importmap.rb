@@ -15,5 +15,4 @@ pin 'jquery-migrate' # @3.5.2
 pin 'js-cookie' # @3.0.5
 
 pin_all_from 'app/javascript/src', to: 'src'
-
 pin_all_from 'app/javascript/controllers', under: 'controllers'
