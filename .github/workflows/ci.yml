@@ -9,10 +9,6 @@ permissions:
   id-token: write
 
 env:
-  AWS_REGION: eu-west-2
-  ECR_URL: 382373577178.dkr.ecr.eu-west-2.amazonaws.com/tariff-frontend-production
-  ENVIRONMENT: development
-  IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-ECS-Deployments-Role
   TERRAFORM_VERSION: 1.11.0
   PYTHON_VERSION: 3
 
