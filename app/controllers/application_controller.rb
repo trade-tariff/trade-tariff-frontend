@@ -172,6 +172,7 @@ class ApplicationController < ActionController::Base
   alias_method :handle_params_parse_error, :bad_request
 
   def raise_internal_server_error(exception)
+    NewRelic::Agent.notice_error(exception)
     Rails.logger.error(exception.message)
     redirect_to '/500', status: :internal_server_error
   end
