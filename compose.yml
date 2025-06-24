@@ -25,4 +25,26 @@ x-preevy:
   driver: lightsail
   drivers:
     lightsail:
-      bundle-id: small_3_0  # change to medium_3_0 if you see preevy up failing
+      bundle-id: small_3_0  # change to medium_3_0 if you see "out of memory" errors
+
+  plugins:
+    - module: '@preevy/plugin-github'
+      commentTemplate: |
+        {% if urls %}[Preevy](https://preevy.dev) has created a preview environment for this PR.
+
+        Here is how to access it:
+
+        | Service | Port | URL |
+        |---------|------|-----|
+        {% for url in urls %}| {{ url.service }} | {{ url.port }} | {{ url.url }} |
+        {% endfor %}
+        {% else %}The [Preevy](https://preevy.dev) preview environment for this PR has been deleted.
+        {% endif %}
+
+        💸 **Preview Environment Estimated Cost**: £0.50/day
+        *(AWS Lightsail small_3_0, $12/mo, eu-west-2 — 2025)*
+
+        **Environment Cleanup Policy**
+        🕛 Nightly cleanup: All preview environments with the `needs-preview` label are removed automatically at midnight.
+        ❌ Immediate teardown: When a PR is closed or the `needs-preview`/`keep-preview` label is removed, the associated environment is destroyed immediately.
+        📌 Retention override: Add the `keep-preview` label to retain a preview environment beyond the nightly cleanup.

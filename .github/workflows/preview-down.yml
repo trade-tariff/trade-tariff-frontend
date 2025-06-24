@@ -17,12 +17,15 @@ env:
 
 jobs:
   teardown:
-    if: github.event.action == 'closed' || (github.event.action == 'unlabeled' && github.event.label.name == 'needs-preview')
+    if: github.event.action == 'closed' || (github.event.action == 'unlabeled' && (github.event.label.name == 'needs-preview' || github.event.label.name == 'keep-preview'))
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: touch .env # To prevent preevy from failing due to missing .env file
+
+      - name: Lock Docker Compose to v2.36.0
+        uses: trade-tariff/trade-tariff-tools/.github/actions/lock-docker-compose@main
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
