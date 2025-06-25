@@ -1,25 +1,27 @@
-<% content_for :title, goods_nomenclature_title(@heading) %>
+<%= cache ['headings#show', cache_key, params.values.sort.join('/')] do %>
+  <% content_for :title, goods_nomenclature_title(@heading) %>
 
-<% content_for :head do %>
-  <meta name="description" content="<%= @heading %>">
-<% end %>
-
-<%= page_header do %>
-  <% @heading.critical_footnotes.each do |footnote| %>
-    <%= render 'footnotes/critical_warning', footnote: footnote %>
+  <% content_for :head do %>
+    <meta name="description" content="<%= @heading %>">
   <% end %>
-  <h1 class="<%= css_heading_size(@heading.page_heading) %>">
-    <%= sanitize @heading.page_heading %>
-  </h1>
+
+  <%= page_header do %>
+    <% @heading.critical_footnotes.each do |footnote| %>
+      <%= render 'footnotes/critical_warning', footnote: footnote %>
+    <% end %>
+    <h1 class="<%= css_heading_size(@heading.page_heading) %>">
+      <%= sanitize @heading.page_heading %>
+    </h1>
+  <% end %>
+
+  <%= render 'shared/context_tables/heading' %>
+  <%= render 'shared/callouts/heading', leaf_commodity_count: @commodities.leaf_commodities_count,
+                                        section_note: @heading.section.section_note,
+                                        chapter_note: @heading.chapter.chapter_note %>
+
+  <%= render 'shared/commodity_tree', commodities: @commodities.root_commodities %>
+  <%= render 'shared/footnote', footnotes: @heading.footnotes %>
+
+  <%= render 'shared/notes', section_note: @heading.section.section_note,
+                            chapter_note: @heading.chapter.chapter_note %>
 <% end %>
-
-<%= render 'shared/context_tables/heading' %>
-<%= render 'shared/callouts/heading', leaf_commodity_count: @commodities.leaf_commodities_count,
-                                      section_note: @heading.section.section_note,
-                                      chapter_note: @heading.chapter.chapter_note %>
-
-<%= render 'shared/commodity_tree', commodities: @commodities.root_commodities %>
-<%= render 'shared/footnote', footnotes: @heading.footnotes %>
-
-<%= render 'shared/notes', section_note: @heading.section.section_note,
-                           chapter_note: @heading.chapter.chapter_note %>
