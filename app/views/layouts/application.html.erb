@@ -38,7 +38,7 @@
   <%= javascript_importmap_tags %>
 </head>
 
-<body class="govuk-template__body <%= service_choice || service_default %>-service">
+<body class="govuk-template__body govuk-template--rebranded <%= service_choice || service_default %>-service">
   <%= render 'shared/gtm', part: 'body' if analytics_allowed? %>
   <%= content_tag :div, class: 'path_info', data: @path_info do %>
   <% end %>
