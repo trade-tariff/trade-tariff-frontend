@@ -6,7 +6,7 @@
   <div class="govuk-error-summary__body">
     <ul class="govuk-list govuk-error-summary__list">
       <li>
-        <a href="#"><%= flash.now[:error] %></a>
+        <a href="<%= local_assigns[:div_id].present? ? "##{div_id}" : '#' %>"><%= flash.now[:error] %></a>
       </li>
     </ul>
   </div>

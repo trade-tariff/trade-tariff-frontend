@@ -30,7 +30,7 @@ module Myott
     def update
       if params[:chapter_ids].blank?
         session_chapters.delete
-        flash[:error] = 'Select the chapters you want tariff updates about.'
+        flash[:error] = 'You must select at least one chapter.'
         redirect_to edit_myott_preferences_path and return
       else
         session[:all_tariff_updates] = false

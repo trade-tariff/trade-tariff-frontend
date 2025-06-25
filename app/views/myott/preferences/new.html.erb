@@ -1,7 +1,7 @@
 <div class="govuk-body">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= render 'error' if flash.now[:error] %>
+      <%= render 'error', div_id: 'radio-buttons' if flash.now[:error] %>
       <h1 class="govuk-heading-l">Set subscription preferences</h1>
       <p>You can choose to receive updates on all tariff chapters, or  select specific tariff chapters you are interested in.</p>
       <p class="govuk-inset-text">You can change what tariff chapters you receive updates about at any time
@@ -20,7 +20,7 @@
               <%= flash.now[:select_error] %>
             </p>
           <% end %>
-          <div class="govuk-radios" data-module="govuk-radios">
+          <div class="govuk-radios" data-module="govuk-radios" id="radio-buttons">
             <div class="govuk-radios__item">
               <input class="govuk-radios__input" id="selectChapters" name="preference" type="radio" value="selectChapters">
               <label class="govuk-label govuk-radios__label" for="selectChapters">
