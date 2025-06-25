@@ -69,7 +69,7 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def uk_heading
-    @uk_heading ||= Rails.cache.fetch([cache_key, heading_id, query_params]) do
+    @uk_heading ||= Rails.cache.fetch(['commodities#uk_heading', cache_key, heading_id, query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:uk) do
         HeadingPresenter.new(Heading.find(heading_id, query_params))
       end
@@ -77,7 +77,7 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def xi_heading
-    @xi_heading ||= Rails.cache.fetch([cache_key, heading_id, query_params]) do
+    @xi_heading ||= Rails.cache.fetch(['commodities#xi_heading', cache_key, heading_id, query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:xi) do
         HeadingPresenter.new(Heading.find(heading_id, query_params))
       end
@@ -85,7 +85,7 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def uk_commodity
-    @uk_commodity ||= Rails.cache.fetch([cache_key, params[:id], query_params]) do
+    @uk_commodity ||= Rails.cache.fetch(['commodities#uk_commodity', cache_key, params[:id], query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:uk) do
         CommodityPresenter.new(Commodity.find(params[:id], query_params))
       end
@@ -93,7 +93,7 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def xi_commodity
-    @xi_commodity ||= Rails.cache.fetch([cache_key, params[:id], query_params]) do
+    @xi_commodity ||= Rails.cache.fetch(['commodities#xi_commodity', cache_key, params[:id], query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:xi) do
         CommodityPresenter.new(Commodity.find(params[:id], query_params))
       end

@@ -18,6 +18,10 @@ RSpec.describe Commodity do
       ]
     end
 
+    before do
+      allow(Rails.cache).to receive(:fetch).and_call_original
+    end
+
     it { expect(described_class.relationships).to match_array(expected_relationships) }
   end
 
