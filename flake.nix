@@ -49,7 +49,7 @@
       in {
         devShells.default = pkgs.mkShell {
           shellHook = ''
-            export PLAYWRIGHT_BROWSERS_PATH=${pkgs-stable.playwright-driver.browsers.outPath};
+            export PLAYWRIGHT_BROWSERS_PATH=${pkgs.playwright-driver.browsers.outPath};
             export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true;
             export GEM_HOME=$PWD/.nix/ruby/$(${ruby}/bin/ruby -e "puts RUBY_VERSION")
             mkdir -p $GEM_HOME

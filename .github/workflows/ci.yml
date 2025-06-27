@@ -33,6 +33,8 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
       - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-tflint@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-terraform-docs@main
       - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-ssh@main
         with:

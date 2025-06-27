@@ -1,0 +1,56 @@
+{
+  "tariffPages": [
+    {
+      "name": "Quota Search",
+      "path": "/quota_search?order_number=052012",
+      "threshold": 5
+    },
+    {
+      "name": "Find Commodity",
+      "path": "/find_commodity",
+      "threshold": 5
+    },
+    {
+      "name": "Browse Tariff",
+      "path": "/browse",
+      "threshold": 5
+    },
+    {
+      "name": "A-Z Index",
+      "path": "/a-z-index/a",
+      "threshold": 5
+    },
+    {
+      "name": "Commodities",
+      "path": "/commodities/0409000010",
+      "threshold": 9
+    },
+    {
+      "name": "Duty Calculator",
+      "path": "/duty-calculator/0702001007/import-date",
+      "threshold": 5
+    },
+    {
+      "name": "Exchange Rates",
+      "path": "/exchange_rates",
+      "threshold": 9
+    }
+  ],
+  "adminPages": [
+    {
+      "name": "Admin Section Notes",
+      "path": "/",
+      "threshold": 9
+    },
+    {
+      "name": "Admin Search References",
+      "path": "/search_references/sections",
+      "threshold": 9
+    },
+    {
+      "name": "Admin Tariff Updates",
+      "path": "/tariff_updates",
+      "threshold": 9
+    }
+  ]
+}
