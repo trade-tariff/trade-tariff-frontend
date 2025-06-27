@@ -110,6 +110,7 @@ test.describe("Accessibility", () => {
   });
 
   // Admin
+
   test("Notes", async ({ page }, testInfo) => {
     // Step 1: Login
     await new LoginPage(process.env.ADMIN_URL, page, testInfo, true).login();
