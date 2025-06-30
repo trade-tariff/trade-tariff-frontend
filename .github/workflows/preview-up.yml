@@ -56,7 +56,7 @@ jobs:
 
       - name: Capture frontend logs
         if: always()
-        run: .github/workflows/scripts/capture-log.sh
+        run: .github/workflows/scripts/capture-log
         env:
           PREEVY_PROFILE_URL: ${{ env.PREEVY_PROFILE_URL }}
 
