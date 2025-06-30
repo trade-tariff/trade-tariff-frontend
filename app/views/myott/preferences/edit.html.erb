@@ -1,3 +1,5 @@
+<% myott_page_title "Select chapters", error: flash.now[:error] %>
+
 <% content_for :back_link do %>
   <% back_link session[:all_tariff_updates] ? myott_check_your_answers_path : myott_path %>
 <% end %>

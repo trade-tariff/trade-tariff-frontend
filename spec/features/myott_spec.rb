@@ -15,11 +15,13 @@ RSpec.describe 'Myott subscriptions', type: :feature do
     describe 'subscribing to all chapters' do
       it 'allows a user to subscribe to all chapters' do
         visit myott_path
+        expect(page).to have_title('Set preferences')
 
         choose 'All tariff chapter updates'
         click_button 'Continue'
 
         expect(page).to have_content('You have selected all chapters')
+        expect(page).to have_title('Review selection')
 
         find('span', text: 'Show chapters selected').click
         expect(page).to have_content(chapter1.to_s)
@@ -28,6 +30,7 @@ RSpec.describe 'Myott subscriptions', type: :feature do
 
         click_button 'Continue'
 
+        expect(page).to have_title('Subscription updated')
         expect(page).to have_content('You have updated your subscription')
       end
     end
@@ -35,6 +38,7 @@ RSpec.describe 'Myott subscriptions', type: :feature do
     describe 'subscribing to specific chapters' do
       it 'allows a user to subscribe to specific chapters' do
         visit myott_path
+        expect(page).to have_title('Set preferences')
 
         choose 'Select the tariff chapters I am interested in'
         click_button 'Continue'
@@ -67,6 +71,7 @@ RSpec.describe 'Myott subscriptions', type: :feature do
 
       it 'shows the user their current subscription' do
         visit myott_path
+        expect(page).to have_title('Manage subscription')
 
         expect(page).to have_content('Manage your subscription')
         expect(page).to have_content('You have selected 2 chapters')
