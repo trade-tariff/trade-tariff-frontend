@@ -17,9 +17,6 @@ services:
       - USE_SMTP=true
     extra_hosts:
       - "telemetry.preevy.dev:127.0.0.1" # Disables telemetry
-volumes:
-  hmrc-redis:
-    driver: local
 
 x-preevy:
   driver: lightsail
