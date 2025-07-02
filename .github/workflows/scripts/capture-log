@@ -2,7 +2,7 @@
 set -euo pipefail
 
 echo "📄 Starting log capture process..."
-LOG_DIR="log"
+LOG_DIR="logs"
 SERVICE_NAME="frontend"
 DRIVER="lightsail"
 mkdir -p "$LOG_DIR"

@@ -73,7 +73,6 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
-          
       - name: Get preview environment URL
         id: get-url
         run: |
@@ -86,7 +85,4 @@ jobs:
     needs: deploy
     uses: trade-tariff/trade-tariff-tools/.github/workflows/e2e-tests.yml@main
     with:
-      test-url: "${{ needs.deploy.outputs.preview_url }}"
-      admin-test-url: "https://admin.dev.trade-tariff.service.gov.uk"
-    secrets:
-      basic_password: ${{ secrets.BASIC_PASSWORD }}
+      test-environment: development
