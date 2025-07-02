@@ -81,8 +81,10 @@ jobs:
           echo "✅ Using preview URL: $PREVIEW_URL"
           echo "preview_url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
 
-  e2e-tests:
+  e2e-test:
     needs: deploy
     uses: trade-tariff/trade-tariff-tools/.github/workflows/e2e-tests.yml@main
     with:
       test-environment: development
+      base-url: ${{ needs.deploy.outputs.preview_url }}
+      
