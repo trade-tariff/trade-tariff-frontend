@@ -87,4 +87,7 @@ jobs:
     with:
       test-environment: development
       base-url: ${{ needs.deploy.outputs.preview_url }}
+    secrets:
+      basic_password: ${{ secrets.BASIC_PASSWORD }}
+
       
