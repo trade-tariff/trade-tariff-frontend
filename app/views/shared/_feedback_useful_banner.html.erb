@@ -3,17 +3,22 @@
     <div class="govuk-footer__meta">
       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
         <p>Is this page useful?</p>
-        <li class="govuk-footer__inline-list-item">
-          <%= link_to 'Yes', feedback_path(page_useful: 'yes'), class: 'govuk-button govuk-button--secondary' %>
-        </li>
-        <li class="govuk-footer__inline-list-item">
-          <%= link_to 'No', feedback_path(page_useful: 'no'), class: 'govuk-button govuk-button--secondary' %>
-        </li>
+
+        <ul class="govuk-footer__inline-list">
+          <li class="govuk-footer__inline-list-item">
+            <%= link_to 'Yes', feedback_path(page_useful: 'yes'), class: 'govuk-button govuk-button--secondary' %>
+          </li>
+          <li class="govuk-footer__inline-list-item">
+            <%= link_to 'No', feedback_path(page_useful: 'no'), class: 'govuk-button govuk-button--secondary' %>
+          </li>
+        </ul>
       </div>
       <div class="govuk-footer__meta-item">
-        <li class="govuk-footer__inline-list-item">
-            <%= link_to 'Report a problem with this page', feedback_path, class: 'govuk-button govuk-button--secondary report-problem' %>
-        </li>
+        <ul class="govuk-footer__inline-list">
+          <li class="govuk-footer__inline-list-item">
+              <%= link_to 'Report a problem with this page', feedback_path, class: 'govuk-button govuk-button--secondary report-problem' %>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
