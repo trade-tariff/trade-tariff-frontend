@@ -44,3 +44,17 @@ jobs:
       ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
       basic-password: ${{ secrets.BASIC_PASSWORD }}
+
+  axxy:
+    needs: deploy-full-stack
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.pull_request.labels.*.name, 'needs-full-deployment')
+    uses: trade-tariff/trade-tariff-tools/.github/workflows/axxy-tests.yml@main
+    with:
+      base-url: https://dev.trade-tariff.service.gov.uk
+      admin-url: https://admin.dev.trade-tariff.service.gov.uk
+    secrets:
+      basic-password: ${{ secrets.BASIC_PASSWORD }}
+      slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+      ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
