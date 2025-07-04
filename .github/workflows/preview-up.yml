@@ -45,8 +45,8 @@ jobs:
           echo "$SECRET_JSON" | jq -r 'to_entries[] | "::add-mask::\(.value)"'
           echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> .env
 
-      - name: Lock Docker Compose to v2.36.0
-        uses: trade-tariff/trade-tariff-tools/.github/actions/lock-docker-compose@main
+      # - name: Lock Docker Compose to v2.36.0
+      #   uses: trade-tariff/trade-tariff-tools/.github/actions/lock-docker-compose@main
 
       - uses: livecycle/preevy-up-action@v2.4.0
         id: preevy_up
