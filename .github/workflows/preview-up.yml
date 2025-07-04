@@ -22,6 +22,9 @@ jobs:
   deploy:
     if: contains(github.event.pull_request.labels.*.name, 'needs-preview') || contains(github.event.pull_request.labels.*.name, 'keep-preview')
     runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.get-url.outputs.preview_url }}
+
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -42,14 +45,15 @@ jobs:
           echo "$SECRET_JSON" | jq -r 'to_entries[] | "::add-mask::\(.value)"'
           echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> .env
 
-      - name: Lock Docker Compose to v2.36.0
-        uses: trade-tariff/trade-tariff-tools/.github/actions/lock-docker-compose@main
+      # - name: Lock Docker Compose to v2.36.0
+      #   uses: trade-tariff/trade-tariff-tools/.github/actions/lock-docker-compose@main
 
       - uses: livecycle/preevy-up-action@v2.4.0
         id: preevy_up
         with:
           install: gh-release
           profile-url: "${{ env.PREEVY_PROFILE_URL }}"
+          node-cache: true
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
@@ -68,3 +72,23 @@ jobs:
           path: logs/
           retention-days: 7
           if-no-files-found: warn
+
+      - name: Get preview environment URL
+        id: get-url
+        run: |
+          touch .env
+          PREVIEW_URL=$(npx preevy urls --json --wait --profile "$PREEVY_PROFILE_URL" | jq -r '.[0].url')
+          echo "✅ Using preview URL: $PREVIEW_URL"
+          echo "preview_url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Print free memory (debug)
+        run: free -h
+
+  e2e-test:
+    needs: deploy
+    uses: trade-tariff/trade-tariff-tools/.github/workflows/e2e-tests.yml@main
+    with:
+      test-environment: development
+      base-url: ${{ needs.deploy.outputs.preview_url }}
+    secrets:
+      basic_password: ${{ secrets.BASIC_PASSWORD }}
