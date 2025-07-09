@@ -12,43 +12,33 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">Issue</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-third">Description</th>
-      <th scope="col" class="govuk-table__header">Affected commodities</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Description</th>
+      <th scope="col" class="govuk-table__header">Commodities</th>
       <th scope="col" class="govuk-table__header">Status</th>
-      <th scope="col" class="govuk-table__header">Dates affected</th>
-      <th scope="col" class="govuk-table__header govuk-!-width-one-third">Suggested action</th>
+      <th scope="col" class="govuk-table__header">Dates</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Suggested action</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
+  <% @live_issues&.each do |live_issue| %>
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Incorrect Supplementary Unit measures
+      <th scope="row" class="govuk-table__header"> <%= live_issue.title %>
         <div class="govuk-!-font-size-14 govuk-!-margin-top-5 govuk-!-text-colour-muted">
           Last updated: <br>
-          30 January 2025
+            <%= live_issue.updated_at.to_date.to_formatted_s(:long) %>
         </div>
       </th>
-      <td class="govuk-table__cell">Supplementary Unit measures have been incorrectly added to some
-      commodity codes (as part of End of Year commodity code changes) and
-      HMRC are aware this is causing issues with declarations.</td>
+      <td class="govuk-table__cell"> <%= live_issue.description %> </td>
       <td class="govuk-table__cell">
+        <% if live_issue.commodities.size > 1 %>
         <details class="govuk-details">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">
-              41 commodities affected
+              <%= live_issue.commodities.count %> commodities affected
             </span>
           </summary>
           <div class="govuk-details__text">
-            <% ["2009897390", "2009897999", "2009899720", "2009899790",
-                "3903909090", "3920791000", "3921131000", "5402490090",
-                "5603929090", "5603939090", "7006009000", "7320901090",
-                "7605290000", "7613000090", "7616999099", "8207191000",
-                "8409910090", "8414900090", "8415900099", "8421210090",
-                "8421999099", "8479899790", "8481805990", "8482101090",
-                "8482109000", "8482500090", "8483405190", "8512200090",
-                "8512309090", "8516900099", "8537109899", "8538909999",
-                "8543709099", "8544300089", "8544429090", "8547200000",
-                "8708301090", "8708309190", "8708809990", "8708942000",
-                "8708943500", "9025804089"].each do |commodity_code| %>
+            <% live_issue.commodities.each do |commodity_code| %>
               <p class="govuk-body">
                 <a href="/commodities/<%= commodity_code %>" class="govuk-link">
                   <%= commodity_code %>
@@ -57,48 +47,18 @@
             <% end %>
           </div>
         </details>
-      </td>
-      <td class="govuk-table__cell">Resolved</td>
-      <td class="govuk-table__cell">10/01/2025 to 31/01/2025</td>
-      <td class="govuk-table__cell">Review Stop Press (<a href="https://www.trade-tariff.service.gov.uk/news/stories/tariff-stop-press-notice---30-january-2025" class="govuk-link">Tariff Stop Press Notice - 30 January 2025</a>) for specific information on the affected commodities.</td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Tariff Suspension on plywood
-        <div class="govuk-!-font-size-14 govuk-!-margin-top-5 govuk-!-text-colour-muted">
-          Last updated: <br>
-          29 May 2025
-        </div>
-      </th>
-      <td class="govuk-table__cell">Potential issue concerning the classification of the tariff suspension on plywood with an outer ply of eucalyptus (eucalyptus spp.). This product description may have been assigned to an incorrect commodity code</td>
-      <td class="govuk-table__cell">
+        <% else %>
         <p class="govuk-body">
-          <a href="/commodities/4412339090" class="govuk-link">
-            4412339090
+          <a href="/commodities/<%= live_issue.commodities.first %>" class="govuk-link">
+            <%= live_issue.commodities.first %>
           </a>
         </p>
+        <% end %>
       </td>
-      <td class="govuk-table__cell">Active</td>
-      <td class="govuk-table__cell">12/05/2025 to Current</td>
-      <td class="govuk-table__cell">Please classify this commodity code as a Tariff Suspension and follow the repayment process.</td>
+      <td class="govuk-table__cell"><%= live_issue.status %></td>
+      <td class="govuk-table__cell"><%= live_issue.date_discovered.to_date.to_formatted_s(:long) %> to <%= live_issue.date_resolved ? live_issue.date_resolved&.to_date&.to_formatted_s(:long): 'Present' %></td>
+      <td class="govuk-table__cell"><%= live_issue.suggested_action %></td>
     </tr>
-    <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header">Missing commodity codes
-        <div class="govuk-!-font-size-14 govuk-!-margin-top-5 govuk-!-text-colour-muted">
-          Last updated: <br>
-          29 May 2025
-        </div>
-      </th>
-      <td class="govuk-table__cell">Codes under the below commodity code are not showing information on Vietnam Preference</td>
-      <td class="govuk-table__cell">
-        <p class="govuk-body">
-          <a href="/commodities/8712003010" class="govuk-link">
-            8712003010
-          </a>
-        </p>
-      </td>
-      <td class="govuk-table__cell">Active</td>
-      <td class="govuk-table__cell">17/03/2025 to Current</td>
-      <td class="govuk-table__cell">Wait for DBT (Department of Business and Trade) to update the preferences or follow repayment process.</td>
-    </tr>
+  <% end %>
   </tbody>
 </table>
