@@ -4,6 +4,7 @@ class LiveIssuesController < ApplicationController
                 :disable_search_form
 
   def index
+    @live_issues = LiveIssue.all
     render :index
   end
 end
