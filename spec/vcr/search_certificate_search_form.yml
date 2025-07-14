@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3018/api/uk/certificate_types
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - TradeTariffFrontend/ebeb57f3
+      Accept:
+      - application/vnd.hmrc.2.0+json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
+      Etag:
+      - W/"5e948dabd9ac0a6fce9a9496f26cb0ae"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 7ebf55a9-8a9f-4d96-83c6-7611392f97e7
+      X-Runtime:
+      - '0.009610'
+      Server-Timing:
+      - start_processing.action_controller;dur=0.00, sql.sequel;dur=0.68, process_action.action_controller;dur=2.09
+      Content-Length:
+      - '2089'
+    body:
+      encoding: UTF-8
+      string: '{"data":[{"id":"K","type":"certificate_type","attributes":{"certificate_type_code":"K","description":"Tariff
+        quota"}},{"id":"I","type":"certificate_type","attributes":{"certificate_type_code":"I","description":"Surveillance
+        certificate/licence/ document issued by one of the Member States"}},{"id":"C","type":"certificate_type","attributes":{"certificate_type_code":"C","description":"Other
+        certificates"}},{"id":"P","type":"certificate_type","attributes":{"certificate_type_code":"P","description":"Ingredients"}},{"id":"Z","type":"certificate_type","attributes":{"certificate_type_code":"Z","description":"More
+        certificates"}},{"id":"T","type":"certificate_type","attributes":{"certificate_type_code":"T","description":"T-Document"}},{"id":"L","type":"certificate_type","attributes":{"certificate_type_code":"L","description":"Import
+        certificate/licence/document"}},{"id":"U","type":"certificate_type","attributes":{"certificate_type_code":"U","description":"Proofs
+        of origin"}},{"id":"X","type":"certificate_type","attributes":{"certificate_type_code":"X","description":"Export
+        licence"}},{"id":"Y","type":"certificate_type","attributes":{"certificate_type_code":"Y","description":"Particular
+        provisions"}},{"id":"N","type":"certificate_type","attributes":{"certificate_type_code":"N","description":"UN/EDIFACT
+        certificates"}},{"id":"D","type":"certificate_type","attributes":{"certificate_type_code":"D","description":"Anti-dumping/countervailing
+        document"}},{"id":"A","type":"certificate_type","attributes":{"certificate_type_code":"A","description":"Certificate
+        of authenticity"}},{"id":"H","type":"certificate_type","attributes":{"certificate_type_code":"H","description":"HANDI,
+        LOOMS certificate"}},{"id":"R","type":"certificate_type","attributes":{"certificate_type_code":"R","description":"Export
+        refunds"}},{"id":"E","type":"certificate_type","attributes":{"certificate_type_code":"E","description":"Export
+        certificate/licence/document from country of origin"}},{"id":"9","type":"certificate_type","attributes":{"certificate_type_code":"9","description":"National
+        Document"}}]}'
+  recorded_at: Mon, 14 Jul 2025 15:48:50 GMT
+recorded_with: VCR 6.3.1
