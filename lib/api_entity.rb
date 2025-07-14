@@ -34,7 +34,7 @@ module ApiEntity
     end
 
     def resource_path
-      "api/v2/#{self.class.name.underscore.pluralize}/#{to_param}"
+      "#{self.class.nested_name}/#{to_param}"
     end
 
     def to_param
@@ -236,7 +236,7 @@ private
     end
 
     def singular_path
-      @singular_path ||= "api/v2/#{name.pluralize.underscore}/:id"
+      @singular_path ||= "#{nested_name}/:id"
     end
 
     def set_singular_path(path)
@@ -244,7 +244,7 @@ private
     end
 
     def collection_path
-      @collection_path ||= "api/v2/#{name.pluralize.underscore}"
+      @collection_path ||= nested_name
     end
 
     def set_collection_path(path)
@@ -253,6 +253,15 @@ private
 
     def api
       TradeTariffFrontend::ServiceChooser.api_client
+    end
+
+    def nested_name
+      @nested_name ||= begin
+        parts = name.split('::').map(&:underscore)
+        *namespaces, resource = parts
+        resource = resource.pluralize
+        (namespaces + [resource]).join('/')
+      end
     end
 
     def parse_jsonapi(resp)

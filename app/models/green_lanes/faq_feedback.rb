@@ -6,7 +6,7 @@ module GreenLanes
 
     def send_feedback_to_backend(feedback_params, session_id)
       response = self.class.post(
-        '/api/v2/green_lanes/faq_feedback',
+        'green_lanes/faq_feedback',
         {
           data: {
             attributes: {
@@ -33,7 +33,7 @@ module GreenLanes
 
     def get_faq_feedback
       response = self.class.get(
-        '/api/v2/green_lanes/faq_feedback',
+        'green_lanes/faq_feedback',
         {},
         headers,
       )
@@ -48,6 +48,7 @@ module GreenLanes
 
     def headers
       {
+        'Accept' => ClientBuilder::ACCEPT,
         'Content-Type' => 'application/json',
         authorization: TradeTariffFrontend.green_lanes_api_token,
       }

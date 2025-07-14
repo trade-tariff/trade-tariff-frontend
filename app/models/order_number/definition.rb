@@ -6,7 +6,7 @@ class OrderNumber
     include ApiEntity
     include HasGoodsNomenclature
 
-    set_collection_path 'api/v2/quotas'
+    set_collection_path 'quotas'
 
     DATE_FIELDS = %w[
       blocking_period_start_date

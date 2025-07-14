@@ -1,4 +1,6 @@
 class ClientBuilder
+  ACCEPT = 'application/vnd.hmrc.2.0+json'.freeze
+
   RETRY_DEFAULTS = {
     methods: %i[get head],
     max: 1,
@@ -34,6 +36,7 @@ class ClientBuilder
         conn.adapter :net_http_persistent
         conn.response :json, content_type: /\bjson$/
         conn.headers['User-Agent'] = user_agent
+        conn.headers['Accept'] = ACCEPT
       end
     end
   end
