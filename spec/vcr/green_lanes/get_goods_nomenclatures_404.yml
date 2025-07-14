@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/v2/goods_nomenclatures/1234567890?as_of=2022-02-03
+    uri: http://localhost:3018/api/uk/goods_nomenclatures/1234567890?as_of=2022-02-03
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Faraday v2.8.1
+      - TradeTariffFrontend/a4d021c2
+      Accept:
+      - application/vnd.hmrc.2.0+json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -36,18 +36,20 @@ http_interactions:
       - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - cbe5ab4b-79b1-44ba-86a0-dd8c5ca0c860
+      - 737185b4-5a77-4be4-b86f-f65f88300144
       X-Runtime:
-      - '0.010367'
+      - '0.010078'
       Server-Timing:
-      - start_processing.action_controller;dur=0.01, sql.sequel;dur=0.74, process_action.action_controller;dur=2.12
+      - start_processing.action_controller;dur=0.00, sql.sequel;dur=0.83, process_action.action_controller;dur=2.16
       Content-Length:
       - '106'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/api/v2/goods_nomenclatures/1234567890?as_of=2022-02-03"}'
-  recorded_at: Tue, 11 Feb 2025 16:43:55 GMT
-recorded_with: VCR 6.2.0
+      string: '{"error":"not found","url":"http://localhost:3018/api/uk/goods_nomenclatures/1234567890?as_of=2022-02-03"}'
+  recorded_at: Mon, 14 Jul 2025 14:56:05 GMT
+recorded_with: VCR 6.3.1

@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/v2/geographical_areas/IT
+    uri: http://localhost:3018/api/uk/geographical_areas/IT
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Faraday v2.8.1
+      - TradeTariffFrontend/a4d021c2
+      Accept:
+      - application/vnd.hmrc.2.0+json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -36,20 +36,22 @@ http_interactions:
       - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
       Etag:
       - W/"1ed567abba198443b2871745522d6590"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - de62e35b-77ce-4a39-b19d-253f7838727e
+      - a85a70f4-24c2-46ae-9300-efd6dc510f40
       X-Runtime:
-      - '0.018231'
+      - '0.011160'
       Server-Timing:
-      - start_processing.action_controller;dur=0.01, sql.sequel;dur=1.86, process_action.action_controller;dur=11.57
+      - start_processing.action_controller;dur=0.00, sql.sequel;dur=1.26, process_action.action_controller;dur=3.07
       Content-Length:
       - '209'
     body:
       encoding: UTF-8
       string: '{"data":{"id":"IT","type":"geographical_area","attributes":{"id":"IT","description":"Italy","geographical_area_id":"IT","hjid":23767},"relationships":{"children_geographical_areas":{"data":[]}}},"included":[]}'
-  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
-recorded_with: VCR 6.2.0
+  recorded_at: Mon, 14 Jul 2025 14:56:14 GMT
+recorded_with: VCR 6.3.1

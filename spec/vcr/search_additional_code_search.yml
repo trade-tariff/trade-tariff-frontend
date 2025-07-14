@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/v2/additional_code_types
+    uri: http://localhost:3018/api/uk/additional_code_types
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Faraday v2.8.1
+      - TradeTariffFrontend/a4d021c2
+      Accept:
+      - application/vnd.hmrc.2.0+json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -36,16 +36,18 @@ http_interactions:
       - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
       Etag:
       - W/"2e7cf478c3c6ada49c4deb83665d2d32"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - bb81f9b0-14f1-42ac-b93e-d1c0928ab3a8
+      - '03247183-dd5d-4246-88d6-6b011276dab3'
       X-Runtime:
-      - '0.048378'
+      - '0.028369'
       Server-Timing:
-      - start_processing.action_controller;dur=0.01, sql.sequel;dur=11.53, process_action.action_controller;dur=30.38
+      - start_processing.action_controller;dur=0.00, sql.sequel;dur=5.68, process_action.action_controller;dur=17.71
       Content-Length:
       - '1881'
     body:
@@ -58,20 +60,20 @@ http_interactions:
         Tables (non-Meursing)"}},{"id":"9","type":"additional_code_type","attributes":{"additional_code_type_id":"9","description":"Export
         Refunds"}},{"id":"A","type":"additional_code_type","attributes":{"additional_code_type_id":"A","description":"Anti-dumping/countervailing"}},{"id":"4","type":"additional_code_type","attributes":{"additional_code_type_id":"4","description":"Restrictions"}},{"id":"C","type":"additional_code_type","attributes":{"additional_code_type_id":"C","description":"Anti-dumping/countervailing"}},{"id":"V","type":"additional_code_type","attributes":{"additional_code_type_id":"V","description":"VAT"}},{"id":"X","type":"additional_code_type","attributes":{"additional_code_type_id":"X","description":"EXCISE"}},{"id":"2","type":"additional_code_type","attributes":{"additional_code_type_id":"2","description":"Tariff
         preference"}}]}'
-  recorded_at: Tue, 11 Feb 2025 16:09:45 GMT
+  recorded_at: Mon, 14 Jul 2025 14:55:47 GMT
 - request:
     method: get
-    uri: http://localhost:3018/api/v2/additional_codes/search?code=119&description&type=4
+    uri: http://localhost:3018/api/uk/additional_codes/search?code=119&description&type=4
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Faraday v2.8.1
+      - TradeTariffFrontend/a4d021c2
+      Accept:
+      - application/vnd.hmrc.2.0+json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -95,21 +97,23 @@ http_interactions:
       - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
       Etag:
       - W/"42f8104a18754db6b114ef6672fc4f0e"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - d6dcc085-4895-4e1f-a69c-a2132e6c1656
+      - 794bd39b-a11d-4aca-baa9-ed15b2b448b0
       X-Runtime:
-      - '0.026549'
+      - '0.018619'
       Server-Timing:
-      - start_processing.action_controller;dur=0.01, unpermitted_parameters.action_controller;dur=0.31,
-        sql.sequel;dur=2.68, process_action.action_controller;dur=16.52
+      - start_processing.action_controller;dur=0.00, unpermitted_parameters.action_controller;dur=0.02,
+        sql.sequel;dur=0.99, process_action.action_controller;dur=4.30
       Content-Length:
       - '25'
     body:
       encoding: UTF-8
       string: '{"data":[],"included":[]}'
-  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
-recorded_with: VCR 6.2.0
+  recorded_at: Mon, 14 Jul 2025 14:55:47 GMT
+recorded_with: VCR 6.3.1
