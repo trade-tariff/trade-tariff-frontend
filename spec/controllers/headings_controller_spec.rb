@@ -48,7 +48,7 @@ RSpec.describe HeadingsController, type: :controller do
       end
 
       before do
-        stub_api_request("/api/v2/headings/#{heading_id}/validity_periods")
+        stub_api_request("headings/#{heading_id}/validity_periods")
           .to_return periods_api
 
         get :show, params: { id: heading_id }
@@ -94,7 +94,7 @@ RSpec.describe HeadingsController, type: :controller do
         let(:heading_id) { '0110' } # heading 0110 does not exist
 
         before do
-          stub_api_request("/api/v2/headings/#{heading_id}/validity_periods")
+          stub_api_request("headings/#{heading_id}/validity_periods")
             .to_return jsonapi_error_response(404)
           TradeTariffFrontend::ServiceChooser.service_choice = nil
           get :show, params: { id: heading_id }

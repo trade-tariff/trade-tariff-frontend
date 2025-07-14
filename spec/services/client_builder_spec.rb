@@ -16,7 +16,7 @@ RSpec.describe ClientBuilder do
       it 'passes the correct configuration' do
         builder.call
 
-        expect(Faraday).to have_received(:new).with('http://localhost:3018')
+        expect(Faraday).to have_received(:new).with('http://localhost:3018/api/uk')
       end
     end
 
@@ -26,7 +26,7 @@ RSpec.describe ClientBuilder do
       it 'passes the correct configuration' do
         builder.call
 
-        expect(Faraday).to have_received(:new).with('http://localhost:3019')
+        expect(Faraday).to have_received(:new).with('http://localhost:3019/api/xi')
       end
     end
 

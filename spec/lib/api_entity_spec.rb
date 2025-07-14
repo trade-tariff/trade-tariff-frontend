@@ -1,11 +1,9 @@
-require 'spec_helper'
-
 RSpec.describe ApiEntity do
   let :mock_entity do
     Class.new do
       include ApiEntity
 
-      set_collection_path '/api/v2/mock_entities'
+      set_collection_path 'mock_entities'
 
       attr_accessor :name, :age
 
@@ -75,13 +73,13 @@ RSpec.describe ApiEntity do
     subject(:request) { mock_entity.find(123) }
 
     before do
-      stub_request(:get, "#{api_endpoint}/mock_entities/123").and_return \
+      stub_request(:get, "#{host}/mock_entities/123").and_return \
         status:,
         headers:,
         body:
     end
 
-    let(:api_endpoint) { "#{TradeTariffFrontend::ServiceChooser.uk_host}/api/v2" }
+    let(:host) { TradeTariffFrontend::ServiceChooser.uk_host }
     let(:status) { 200 }
     let(:headers) { { 'content-type' => 'application/json; charset=utf-8' } }
 
@@ -132,7 +130,7 @@ RSpec.describe ApiEntity do
 
       it 'raises descriptive exception' do
         expect { request }
-          .to raise_exception UnparseableResponseError, %r{Error parsing #{api_endpoint}/mock_entities/123 with headers:}
+          .to raise_exception UnparseableResponseError, %r{Error parsing #{host}/mock_entities/123 with headers:}
       end
     end
   end
@@ -141,13 +139,13 @@ RSpec.describe ApiEntity do
     subject(:request) { mock_entity.all }
 
     before do
-      stub_request(:get, "#{api_endpoint}/mock_entities").and_return \
+      stub_request(:get, "#{host}/mock_entities").and_return \
         status:,
         headers:,
         body:
     end
 
-    let(:api_endpoint) { "#{TradeTariffFrontend::ServiceChooser.uk_host}/api/v2" }
+    let(:host) { TradeTariffFrontend::ServiceChooser.uk_host }
     let(:status) { 200 }
     let(:headers) { { 'content-type' => 'application/json; charset=utf-8' } }
 
@@ -192,7 +190,7 @@ RSpec.describe ApiEntity do
       end
 
       it 'raises descriptive exception' do
-        expect { request }.to raise_exception UnparseableResponseError, %r{Error parsing #{api_endpoint}/mock_entities with headers:}
+        expect { request }.to raise_exception UnparseableResponseError, %r{Error parsing #{host}/mock_entities with headers:}
       end
     end
 
@@ -201,7 +199,7 @@ RSpec.describe ApiEntity do
 
       context 'with one failure' do
         before do
-          stub_request(:get, "#{api_endpoint}/mock_entities")
+          stub_request(:get, "#{host}/mock_entities")
             .to_timeout
             .then.to_return status:,
                             headers:,
@@ -215,7 +213,7 @@ RSpec.describe ApiEntity do
 
       context 'with multiple failures' do
         before do
-          stub_request(:get, "#{api_endpoint}/mock_entities")
+          stub_request(:get, "#{host}/mock_entities")
             .to_timeout
             .then.to_timeout
             .then.to_return status:,
@@ -240,7 +238,7 @@ RSpec.describe ApiEntity do
 
     let :first_entity do
       Class.new(parent_entity) do
-        set_collection_path '/api/v2/first_entities'
+        set_collection_path 'first_entities'
         has_many :parts, class_name: 'Part'
         has_one :part, class_name: 'Part'
 
@@ -252,7 +250,7 @@ RSpec.describe ApiEntity do
 
     let :second_entity do
       Class.new(parent_entity) do
-        set_collection_path '/api/v2/second_entities'
+        set_collection_path 'second_entities'
         has_many :parts, class_name: 'Part'
 
         def self.name
@@ -445,7 +443,7 @@ RSpec.describe ApiEntity do
     before do
       allow(mock_entity).to receive_messages(
         api: api_double,
-        singular_path: '/api/v2/mock_entities/1',
+        singular_path: '/api/uk/mock_entities/1',
       )
       allow(mock_entity).to receive(:parse_jsonapi).with(mock_response).and_return(parsed_data)
     end
@@ -472,7 +470,7 @@ RSpec.describe ApiEntity do
     before do
       allow(mock_entity).to receive_messages(
         api: api_double,
-        singular_path: '/api/v2/mock_entities/1',
+        singular_path: '/api/uk/mock_entities/1',
       )
     end
 

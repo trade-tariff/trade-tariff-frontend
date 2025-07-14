@@ -27,7 +27,7 @@ RSpec.describe CommoditiesController, type: :controller do
         before do
           chemicals = [attributes_for(:chemical_substance, goods_nomenclature_sid: 101_368)]
 
-          stub_api_request('/api/v2/chemical_substances?filter[goods_nomenclature_sid]=101368')
+          stub_api_request('chemical_substances?filter[goods_nomenclature_sid]=101368')
             .and_return(jsonapi_response(:chemical_substance, chemicals))
 
           do_request
@@ -42,7 +42,7 @@ RSpec.describe CommoditiesController, type: :controller do
         subject(:do_request) { get :show, params: { id: '0101999999' } }
 
         before do
-          stub_api_request('/api/v2/commodities/0101999999/validity_periods')
+          stub_api_request('commodities/0101999999/validity_periods')
             .and_return jsonapi_error_response(404)
         end
 
@@ -58,7 +58,7 @@ RSpec.describe CommoditiesController, type: :controller do
             filter: { meursing_additional_code_id: nil },
           }
 
-          stub_api_request('/api/v2/headings/0101')
+          stub_api_request('headings/0101')
             .with(query: query_params)
             .and_return \
               jsonapi_response :heading,
@@ -79,7 +79,7 @@ RSpec.describe CommoditiesController, type: :controller do
             filter: { meursing_additional_code_id: nil },
           }
 
-          stub_api_request('/api/v2/subheadings/0101999999-80')
+          stub_api_request('subheadings/0101999999-80')
             .with(query: query_params)
             .and_return \
               jsonapi_response :subheading,
@@ -134,7 +134,7 @@ RSpec.describe CommoditiesController, type: :controller do
       context 'with non existing commodity id provided and validity_periods api',
               vcr: { cassette_name: 'commodities#show_0101999999' } do
         before do
-          stub_api_request("/api/v2/commodities/#{commodity_id}/validity_periods")
+          stub_api_request("commodities/#{commodity_id}/validity_periods")
             .to_return jsonapi_response(:validity_periods, validity_periods)
 
           TradeTariffFrontend::ServiceChooser.service_choice = nil
@@ -153,7 +153,7 @@ RSpec.describe CommoditiesController, type: :controller do
       context 'with non existing commodity id provided and no validity_periods api',
               vcr: { cassette_name: 'commodities#show_0101999999' } do
         before do
-          stub_api_request("/api/v2/commodities/#{commodity_id}/validity_periods")
+          stub_api_request("commodities/#{commodity_id}/validity_periods")
             .to_return jsonapi_error_response(404)
 
           TradeTariffFrontend::ServiceChooser.service_choice = nil
@@ -170,7 +170,7 @@ RSpec.describe CommoditiesController, type: :controller do
         let(:commodity_id) { '0101210000' } # commodity 0101210000 does not exist at 1st of Jan, 2000
 
         before do
-          stub_api_request("/api/v2/commodities/#{commodity_id}/validity_periods")
+          stub_api_request("commodities/#{commodity_id}/validity_periods")
             .to_return jsonapi_response(:validity_periods, validity_periods)
 
           TradeTariffFrontend::ServiceChooser.service_choice = nil

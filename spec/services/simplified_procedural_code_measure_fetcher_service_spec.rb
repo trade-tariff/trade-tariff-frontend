@@ -40,8 +40,8 @@ RSpec.describe SimplifiedProceduralCodeMeasureFetcherService do
       it { expect(result.measures).to all(be_a(SimplifiedProceduralCodeMeasure)) }
       it { expect(result.goods_nomenclature_label).to be_nil }
       it { expect(result.goods_nomenclature_item_ids).to be_nil }
-      it { expect(result.validity_start_date).to eq('2025-01-31') }
-      it { expect(result.validity_end_date).to eq('2025-02-13') }
+      it { expect(result.validity_start_date).to eq('2025-07-04') }
+      it { expect(result.validity_end_date).to eq('2025-07-17') }
       it { expect(result.validity_start_dates).to all(match(/\d{4}-\d{2}-\d{2}/)) }
       it { expect(result.by_date_options).to be_a(Array) }
       it { expect(result.by_code).to be(false) }
