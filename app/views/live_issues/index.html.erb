@@ -1,0 +1,64 @@
+<%= page_header do %>
+  <h1 class="govuk-heading-xl">
+    Live Issues Log
+  </h1>
+<% end %>
+
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs t('breadcrumb.live_issues'), [[t('breadcrumb.news'), '/news']] %>
+<% end %>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Issue</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Description</th>
+      <th scope="col" class="govuk-table__header">Commodities</th>
+      <th scope="col" class="govuk-table__header">Status</th>
+      <th scope="col" class="govuk-table__header">Dates</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Suggested action</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @live_issues&.each do |live_issue| %>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header"> <%= live_issue.title %>
+        <div class="govuk-!-font-size-14 govuk-!-margin-top-5 govuk-!-text-colour-muted">
+          Last updated: <br>
+            <%= live_issue.updated_at.to_date.to_formatted_s(:long) %>
+        </div>
+      </th>
+      <td class="govuk-table__cell"> <%= live_issue.description %> </td>
+      <td class="govuk-table__cell">
+        <% if live_issue.commodities.size > 1 %>
+        <details class="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              <%= live_issue.commodities.count %> commodities affected
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <% live_issue.commodities.each do |commodity_code| %>
+              <p class="govuk-body">
+                <a href="/commodities/<%= commodity_code %>" class="govuk-link">
+                  <%= commodity_code %>
+                </a>
+              </p>
+            <% end %>
+          </div>
+        </details>
+        <% else %>
+        <p class="govuk-body">
+          <a href="/commodities/<%= live_issue.commodities.first %>" class="govuk-link">
+            <%= live_issue.commodities.first %>
+          </a>
+        </p>
+        <% end %>
+      </td>
+      <td class="govuk-table__cell"><%= live_issue.status %></td>
+      <td class="govuk-table__cell"><%= live_issue.date_discovered.to_date.to_formatted_s(:long) %> to <%= live_issue.date_resolved ? live_issue.date_resolved&.to_date&.to_formatted_s(:long): 'Present' %></td>
+      <td class="govuk-table__cell"><%= live_issue.suggested_action %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
