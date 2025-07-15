@@ -55,7 +55,7 @@ module TradeTariffFrontend
     config.x.http.retry_options = {}
 
     config.guide_links = config_for(:guide_links)
-    # Prevent invalid queries from causing an error, e.g., `/api/v2/search_references.json?query[letter]=%`
+    # Prevent invalid queries from causing an error, e.g., `/api/uk/search_references.json?query[letter]=%`
     config.middleware.use TradeTariffFrontend::FilterBadURLEncoding
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

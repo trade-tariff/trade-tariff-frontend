@@ -54,14 +54,14 @@ RSpec.describe 'Search', :js do
           expect(page).to have_content('Quotas')
 
           page.find('#order_number').set('050088')
-          page.find('#day').set('16')
-          page.find('#month').set('03')
-          page.find('#year').set('2022')
+          page.find('#day').set('14')
+          page.find('#month').set('7')
+          page.find('#year').set('2025')
           page.find('input[name="new_search"]').click
 
           expect(page).to have_content('Quota search results')
           expect(page).to have_content('050088')
-          expect(page).to have_link('2106909800', href: '/subheadings/2106909800-80?day=16&month=03&year=2022')
+          expect(page).to have_link('2106909800', href: '/subheadings/2106909800-80?day=14&month=7&year=2025')
           expect(page).to have_content('All countries (1011)')
         end
       end

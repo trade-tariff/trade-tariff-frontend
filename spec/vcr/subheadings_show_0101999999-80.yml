@@ -2,17 +2,17 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/v2/subheadings/0101999999-80?as_of=2025-02-11
+    uri: http://localhost:3018/api/uk/subheadings/0101999999-80?as_of=2025-07-14
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Faraday v2.8.1
+      - TradeTariffFrontend/a4d021c2
+      Accept:
+      - application/vnd.hmrc.2.0+json
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -36,87 +36,37 @@ http_interactions:
       - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 64bdfa53-70f3-4730-be79-985c4158bad3
+      - 3afb3677-20d6-4a99-9c67-57792d878d25
       X-Runtime:
-      - '0.014988'
+      - '0.013348'
       Server-Timing:
-      - start_processing.action_controller;dur=0.01, sql.sequel;dur=1.11, process_action.action_controller;dur=4.94
+      - start_processing.action_controller;dur=0.00, sql.sequel;dur=0.42, process_action.action_controller;dur=2.54
       Content-Length:
       - '101'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/api/v2/subheadings/0101999999-80?as_of=2025-02-11"}'
-  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
-- request:
-    method: get
-    uri: http://localhost:3018/api/v2/subheadings/0101999999-80/validity_periods
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Faraday v2.8.1
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      Connection:
-      - keep-alive
-      Keep-Alive:
-      - '30'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - '0'
-      X-Content-Type-Options:
-      - nosniff
-      X-Download-Options:
-      - noopen
-      X-Permitted-Cross-Domain-Policies:
-      - none
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"42f8104a18754db6b114ef6672fc4f0e"
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      X-Request-Id:
-      - d4fc73c1-f02f-4d09-8d50-e2d25a5bb364
-      X-Runtime:
-      - '0.011283'
-      Server-Timing:
-      - start_processing.action_controller;dur=0.01, sql.sequel;dur=0.44, process_action.action_controller;dur=2.19
-      Content-Length:
-      - '25'
-    body:
-      encoding: UTF-8
-      string: '{"data":[],"included":[]}'
-  recorded_at: Tue, 11 Feb 2025 16:10:43 GMT
+      string: '{"error":"not found","url":"http://localhost:3018/api/uk/subheadings/0101999999-80?as_of=2025-07-14"}'
+  recorded_at: Mon, 14 Jul 2025 14:55:32 GMT
 - request:
     method: post
-    uri: http://localhost:3018/api/v2/search
+    uri: http://localhost:3018/api/uk/search
     body:
       encoding: UTF-8
-      string: as_of=2025-02-11&q=0101999999-80&resource_id
+      string: as_of=2025-07-14&q=0101999999-80&resource_id
     headers:
       User-Agent:
-      - Faraday v2.8.1
+      - TradeTariffFrontend/a4d021c2
+      Accept:
+      - application/vnd.hmrc.2.0+json
       Content-Type:
       - application/x-www-form-urlencoded
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
       Connection:
       - keep-alive
       Keep-Alive:
@@ -140,20 +90,22 @@ http_interactions:
       - strict-origin-when-cross-origin
       Content-Type:
       - application/json; charset=utf-8
+      X-Path-Transformed:
+      - ''
       Etag:
       - W/"950231491983260c3114d301178e0116"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - d40069e5-9730-4dd3-a605-0766c983dd58
+      - 1a7e31a3-a80b-4dd6-8426-b3b13e597e4a
       X-Runtime:
-      - '0.107665'
+      - '0.057660'
       Server-Timing:
-      - start_processing.action_controller;dur=0.01, sql.sequel;dur=23.46, process_action.action_controller;dur=89.37
+      - start_processing.action_controller;dur=0.00, sql.sequel;dur=2.54, process_action.action_controller;dur=44.03
       Content-Length:
       - '244'
     body:
       encoding: UTF-8
       string: '{"data":{"id":"1","type":"fuzzy_search","attributes":{"type":"fuzzy_match","goods_nomenclature_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]},"reference_match":{"chapters":[],"commodities":[],"headings":[],"sections":[]}}}}'
-  recorded_at: Tue, 11 Feb 2025 17:01:31 GMT
-recorded_with: VCR 6.2.0
+  recorded_at: Mon, 14 Jul 2025 14:55:32 GMT
+recorded_with: VCR 6.3.1

@@ -23,13 +23,7 @@ class ValidityPeriod
 
   class << self
     def all(parent_class, parent_id, *args)
-      collection collection_path(parent_class, parent_id), *args
-    end
-
-    private
-
-    def collection_path(parent_class, parent_id)
-      "#{parent_class.collection_path}/#{parent_id}/validity_periods"
+      collection "#{parent_class.collection_path}/#{parent_id}/validity_periods", *args
     end
   end
 end

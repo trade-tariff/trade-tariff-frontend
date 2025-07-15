@@ -133,7 +133,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject(:schemes) { described_class.for_heading_and_country('1905310101', 'FR') }
 
       before do
-        stub_api_request('/api/v2/rules_of_origin_schemes')
+        stub_api_request('rules_of_origin_schemes')
           .with(query: { heading_code: '190531', country_code: 'FR' })
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
@@ -182,7 +182,7 @@ RSpec.describe RulesOfOrigin::Scheme do
         allow(described_class).to receive(:api).and_return api_instance
         allow(api_instance).to receive(:get).and_call_original
 
-        stub_api_request('/api/v2/rules_of_origin_schemes')
+        stub_api_request('rules_of_origin_schemes')
           .with(query: { heading_code: '190531', country_code: 'FR', page: 1 })
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
@@ -193,7 +193,7 @@ RSpec.describe RulesOfOrigin::Scheme do
         schemes # trigger the query
 
         expect(api_instance).to have_received(:get)
-          .with('api/v2/rules_of_origin_schemes',
+          .with('rules_of_origin_schemes',
                 heading_code: '190531',
                 country_code: 'FR',
                 page: 1)
@@ -204,7 +204,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject { described_class.for_heading_and_country('1905310101', 'FR') }
 
       before do
-        stub_api_request('/api/v2/rules_of_origin_schemes')
+        stub_api_request('rules_of_origin_schemes')
           .with(query: { heading_code: '190531', country_code: 'FR' })
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
@@ -263,7 +263,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject { described_class.with_rules_for_commodity commodity }
 
       before do
-        stub_api_request("/api/v2/rules_of_origin_schemes/#{commodity.to_param}")
+        stub_api_request("rules_of_origin_schemes/#{commodity.to_param}")
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
 
@@ -277,7 +277,7 @@ RSpec.describe RulesOfOrigin::Scheme do
       subject { described_class.with_duty_drawback_articles }
 
       before do
-        stub_api_request('/api/v2/rules_of_origin_schemes?filter[has_article]=duty-drawback')
+        stub_api_request('rules_of_origin_schemes?filter[has_article]=duty-drawback')
           .to_return(body: response_data.to_json, status: 200, headers: response_headers)
       end
 

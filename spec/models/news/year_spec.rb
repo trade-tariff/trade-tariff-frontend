@@ -7,7 +7,7 @@ RSpec.describe News::Year do
     subject { described_class.all }
 
     before do
-      stub_api_request('/api/v2/news/years', backend: 'uk')
+      stub_api_request('news/years', backend: 'uk')
           .to_return jsonapi_response :news_year, attributes_for_list(:news_year, 2)
     end
 

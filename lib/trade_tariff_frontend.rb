@@ -63,7 +63,7 @@ module TradeTariffFrontend
   end
 
   def revision
-    `cat REVISION 2>/dev/null || git rev-parse --short HEAD`.strip
+    @revision ||= `cat REVISION 2>/dev/null || echo 'development'`.strip
   end
 
   def self.check_duties_service_url

@@ -45,7 +45,7 @@ RSpec.describe Search do
     subject(:perform_search) { described_class.new(q: 'abc').perform }
 
     before do
-      stub_api_request('/api/v2/search', :post).to_return jsonapi_error_response
+      stub_api_request('search', :post).to_return jsonapi_error_response
     end
 
     it 'search' do

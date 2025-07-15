@@ -21,6 +21,8 @@ repos:
         exclude: ^spec/vcr|vendor/|app/assets/images
       - id: check-yaml
         exclude: ^spec/vcr|vendor/|app/assets/images
+      - id: file-contents-sorter
+        files: '.env.development|.env.test'
 
   - repo: https://github.com/trufflesecurity/trufflehog
     rev: v3.88.29

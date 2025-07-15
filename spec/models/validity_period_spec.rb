@@ -54,7 +54,7 @@ RSpec.describe ValidityPeriod do
       subject { described_class.all Commodity, '0101012345' }
 
       before do
-        stub_api_request('/api/v2/commodities/0101012345/validity_periods')
+        stub_api_request('commodities/0101012345/validity_periods')
           .to_return jsonapi_response(:validity_periods, validity_periods)
       end
 
@@ -73,7 +73,7 @@ RSpec.describe ValidityPeriod do
       subject { described_class.all Heading, '0101' }
 
       before do
-        stub_api_request('/api/v2/headings/0101/validity_periods')
+        stub_api_request('headings/0101/validity_periods')
           .to_return jsonapi_response(:validity_periods, validity_periods)
       end
 
@@ -92,7 +92,7 @@ RSpec.describe ValidityPeriod do
       subject { described_class.all Commodity, '0101012345', page: 3 }
 
       before do
-        stub_api_request('/api/v2/commodities/0101012345/validity_periods?page=3')
+        stub_api_request('commodities/0101012345/validity_periods?page=3')
           .to_return jsonapi_response(:validity_periods, validity_periods)
       end
 
