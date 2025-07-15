@@ -1,74 +1,69 @@
-# Build compilation image
 ARG RUBY_VERSION=3.4.4
 ARG ALPINE_VERSION=3.21
 
+#### Build image #####
+
 FROM ruby:${RUBY_VERSION}-alpine${ALPINE_VERSION} AS builder
 
-# The application runs from /app
-WORKDIR /app
+WORKDIR /build
 
-# build-base: compilation tools for bundle
-# git: used to pull gems from git
-# yarn: node package manager
-RUN apk add --update --no-cache build-base git yarn tzdata yaml-dev && \
-  cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
-  echo "Europe/London" > /etc/timezone
+RUN apk add --no-cache build-base git yarn tzdata yaml-dev && \
+    cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
+    echo "Europe/London" > /etc/timezone
 
-# Install gems defined in Gemfile
-COPY .ruby-version Gemfile Gemfile.lock /app/
-RUN bundle config set without 'development test'
-RUN bundle install --jobs=4 --no-binstubs --retry=3
+COPY .ruby-version Gemfile Gemfile.lock .
+RUN bundle config set without 'development test' && \
+    bundle install --jobs=4 --no-binstubs --retry=3 --deployment
 
-# Install node packages defined in package.json, including webpack
-COPY package.json yarn.lock /app/
+COPY package.json yarn.lock .
+
 RUN yarn install --frozen-lockfile
 
-# Copy all files to /app (except what is defined in .dockerignore)
-COPY . /app/
+COPY . .
 
 ENV GOVUK_APP_DOMAIN="localhost" \
-  GOVUK_WEBSITE_ROOT="http://localhost/" \
-  RAILS_ENV=production \
-  NODE_OPTIONS="--openssl-legacy-provider"
+    GOVUK_WEBSITE_ROOT="http://localhost/" \
+    RAILS_ENV=production \
+    NODE_OPTIONS="--openssl-legacy-provider"
 
 RUN bundle exec rails assets:precompile
 
-# Cleanup to save space in the production image
-RUN rm -rf node_modules log tmp && \
-  rm -rf /usr/local/bundle/cache && \
-  rm -rf .env && \
-  find /usr/local/bundle/gems -name "*.c" -delete && \
-  find /usr/local/bundle/gems -name "*.h" -delete && \
-  find /usr/local/bundle/gems -name "*.o" -delete && \
-  find /usr/local/bundle/gems -name "*.html" -delete
+RUN rm -rf node_modules log tmp /usr/local/bundle/cache /yarn/cache .env && \
+    find /usr/local/bundle/gems -name "*.c" -delete && \
+    find /usr/local/bundle/gems -name "*.h" -delete && \
+    find /usr/local/bundle/gems -name "*.o" -delete && \
+    find /usr/local/bundle/gems -name "*.html" -delete && \
+    rm -rf vendor/bundle/ruby/*/cache/*
 
-# Build runtime image
+#### End build image #####
+
+#### Production image #####
+
 FROM ruby:${RUBY_VERSION}-alpine${ALPINE_VERSION} AS production
 
-RUN apk add --update --no-cache tzdata && \
-  cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
-  echo "Europe/London" > /etc/timezone
-
-# The application runs from /app
-WORKDIR /app
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
+    echo "Europe/London" > /etc/timezone
 
 ENV RAILS_SERVE_STATIC_FILES=true \
-  RAILS_ENV=production \
-  PORT=8080
-
-RUN bundle config set without 'development test'
-
-# Copy files generated in the builder image
-COPY --from=builder /app /app
-COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+    RAILS_ENV=production \
+    PORT=8080 \
+    TZ=Europe/London
 
 RUN addgroup -S tariff && \
-  adduser -S tariff -G tariff && \
-  chown -R tariff:tariff /app && \
-  chown -R tariff:tariff /usr/local/bundle
+    adduser -S tariff -G tariff
 
-HEALTHCHECK CMD nc -z 0.0.0.0 $PORT
+WORKDIR /home/tariff
 
 USER tariff
 
+COPY --chown=tariff:tariff --from=builder /build .
+COPY --chown=tariff:tariff --from=builder /usr/local/bundle/ /usr/local/bundle/
+
+EXPOSE 8080
+
+HEALTHCHECK CMD nc -z 0.0.0.0 $PORT
+
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+
+#### End production image #####
