@@ -1,13 +1,11 @@
 module DutyCalculator
   class ClientBuilder
-    DEFAULT_VERSION = 'v2'.freeze
-
     def initialize(service)
       @service = service
     end
 
     def call
-      Uktt::Http.build(host, DEFAULT_VERSION)
+      Uktt::Http.build(host)
     end
 
   private
