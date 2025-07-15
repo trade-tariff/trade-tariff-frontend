@@ -1,8 +1,6 @@
 class LiveIssue
   include UkOnlyApiEntity
 
-  set_collection_path 'api/v2/live_issues'
-
   attr_accessor :title,
                 :description,
                 :status,
