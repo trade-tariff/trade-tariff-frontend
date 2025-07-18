@@ -47,6 +47,10 @@
             <% end %>
           </div>
         </details>
+        <% elsif live_issue.commodities.empty? %>
+          <p class="govuk-body">
+            None affected
+          </p>
         <% else %>
         <p class="govuk-body">
           <a href="/commodities/<%= live_issue.commodities.first %>" class="govuk-link">
