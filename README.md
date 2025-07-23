@@ -1,6 +1,6 @@
 # Trade Tariff Frontend
 
-<https://www.trade-tariff.service.gov.uk/trade-tariff/sections>
+<https://www.trade-tariff.service.gov.uk/find_commodity>
 
 This is the front-end application for [Trade Tariff Backend][backend],
 which provides the Backend APIs.
