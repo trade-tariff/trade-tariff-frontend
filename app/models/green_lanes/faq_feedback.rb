@@ -1,4 +1,5 @@
 require 'api_entity'
+
 module GreenLanes
   class FaqFeedback
     include XiOnlyApiEntity

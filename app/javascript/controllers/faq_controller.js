@@ -1,9 +1,6 @@
-import {Controller} from '@hotwired/stimulus';
+import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  connect() {
-  }
-
   saveFeedback(event) {
     const categoryId = event.currentTarget.value.split('|')[0].split('_')[1].trim();
     const questionId = event.currentTarget.value.split('|')[1].split('_')[1].trim();
