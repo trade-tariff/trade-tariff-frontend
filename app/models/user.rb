@@ -1,7 +1,7 @@
 class User
-  include ApiEntity
+  include UkOnlyApiEntity
 
-  set_singular_path 'user/users'
+  set_singular_path '/uk/user/users'
 
   attr_accessor :email, :chapter_ids, :stop_press_subscription
 

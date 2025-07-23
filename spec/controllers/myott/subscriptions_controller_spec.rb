@@ -158,7 +158,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
       context 'when the update is successful' do
         before do
-          stub_api_request('/user/users', :put)
+          stub_api_request('http://localhost:3018/uk/user/users', :put)
             .with(body: {
               data: {
                 attributes: attributes,
@@ -184,7 +184,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
       context 'when the update fails' do
         before do
-          stub_api_request('/user/users', :put)
+          stub_api_request('http://localhost:3018/uk/user/users', :put)
             .and_return(jsonapi_error_response(401))
 
           post :subscribe

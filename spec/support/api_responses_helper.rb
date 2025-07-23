@@ -11,8 +11,13 @@ module ApiResponsesHelper
                     TradeTariffFrontend::ServiceChooser.api_host
                   end
 
-    endpoint = "/#{endpoint}" unless endpoint.starts_with?('/')
-    url = "#{backend_url}#{endpoint}"
+    url = if endpoint.starts_with?('http')
+            endpoint
+          elsif endpoint.starts_with?('/')
+            "#{backend_url}#{endpoint}"
+          else
+            "#{backend_url}/#{endpoint}"
+          end
 
     stub_request(method, url)
   end

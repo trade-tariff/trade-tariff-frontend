@@ -12,7 +12,7 @@ RSpec.describe User do
 
     context 'when response is successful' do
       before do
-        stub_api_request('/user/users').and_return(jsonapi_response(:user, attributes_for(:user)))
+        stub_api_request('http://localhost:3018/uk/user/users').and_return(jsonapi_response(:user, attributes_for(:user)))
       end
 
       it { is_expected.to be_a described_class }
@@ -20,7 +20,7 @@ RSpec.describe User do
 
     context 'when response is unauthorised' do
       before do
-        stub_api_request('/user/users').and_return(jsonapi_error_response(401))
+        stub_api_request('http://localhost:3018/uk/user/users').and_return(jsonapi_error_response(401))
       end
 
       it { is_expected.to be_nil }
@@ -41,7 +41,7 @@ RSpec.describe User do
 
     context 'when the request is successful' do
       before do
-        stub_api_request('/user/users', :put)
+        stub_api_request('http://localhost:3018/uk/user/users', :put)
           .with(body: {
             data: {
               attributes: attributes,
@@ -57,7 +57,7 @@ RSpec.describe User do
 
     context 'when response is unauthorised' do
       before do
-        stub_api_request('/user/users', :put)
+        stub_api_request('http://localhost:3018/uk/user/users', :put)
         .with(body: {
           data: {
             attributes: attributes,
