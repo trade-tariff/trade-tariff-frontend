@@ -1,10 +1,6 @@
 module ApiResponsesHelper
   # Wrapper around WebMock's stub_request with defaults that apply to all our api requests
   def stub_api_request(endpoint, method = :get, backend: nil)
-    unless %i[head get post patch put delete].include?(method)
-      raise "Stubbing unknown HTTP method, '#{method}'"
-    end
-
     backend_url = if backend
                     TradeTariffFrontend::ServiceChooser.service_choices[backend]
                   else

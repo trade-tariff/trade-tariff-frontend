@@ -33,7 +33,7 @@
         <%= render partial: 'commodities', locals: { live_issue: live_issue } %>
       </td>
       <td class="govuk-table__cell"><%= live_issue.status %></td>
-      <td class="govuk-table__cell"><%= live_issue.date_discovered.to_date.to_formatted_s(:long) %> to <%= live_issue.date_resolved ? live_issue.date_resolved&.to_date&.to_formatted_s(:long): 'Present' %></td>
+      <td class="govuk-table__cell"><%= live_issue_from_to_date(live_issue) %></td>
       <td class="govuk-table__cell"><%= markdown_field(live_issue.suggested_action) %></td>
     </tr>
   <% end %>

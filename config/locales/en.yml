@@ -191,6 +191,7 @@ en:
       import_controls_xi: ""
 
   breadcrumb:
+    live_issues: Live issues
     monthly_exchange_rates: Monthly exchange rates
     average_exchange_rates: Average exchange rates
     spot_exchange_rates: Spot exchange rates
