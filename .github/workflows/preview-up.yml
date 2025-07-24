@@ -42,7 +42,11 @@ jobs:
             --query "SecretString" \
             --output text)
 
-          echo "$SECRET_JSON" | jq -r 'to_entries[] | "::add-mask::\(.value)"'
+          for key in BASIC_PASSWORD GREEN_LANES_API_TOKEN MYOTT_ENCRYPTION_SECRET \
+                     NEW_RELIC_LICENSE_KEY SECRET_KEY_BASE SMTP_PASSWORD SMTP_USERNAME; do
+              value=$(echo "$SECRET_JSON" | jq -r --arg k "$key" '.[$k]')
+              [[ "$value" != "null" ]] && echo "::add-mask::$value"
+          done
           echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> .env
 
       - uses: livecycle/preevy-up-action@v2.4.0
@@ -54,6 +58,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
+
       - name: Get preview environment URL
         id: get-url
         run: |
@@ -61,6 +66,27 @@ jobs:
           PREVIEW_URL=$(npx preevy urls --json --wait --profile "$PREEVY_PROFILE_URL" | jq -r '.[0].url')
           echo "✅ Using preview URL: $PREVIEW_URL"
           echo "preview_url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Run health check
+        id: check
+        run: |
+          URL="${{ steps.get-url.outputs.preview_url }}"
+
+          for i in {1..10}; do
+            STATUS=$(curl -L -s -o /dev/null -w "%{http_code}" "$URL")
+            echo "Attempt $i: HTTP $STATUS"
+
+            if [[ "$STATUS" -ge 200 && "$STATUS" -lt 400 ]]; then
+              echo "✅ Health check passed"
+              echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            sleep 6
+          done
+
+          echo "❌ Health check failed after retries"
+          exit 1
 
   e2e-test:
     needs: deploy
@@ -72,3 +98,24 @@ jobs:
       skip-api: true
     secrets:
       basic_password: ${{ secrets.BASIC_PASSWORD }}
+
+  notification:
+      needs: [deploy, e2e-test]
+      if: failure()
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Notify Slack
+          uses: rtCamp/action-slack-notify@v2
+          env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_USERNAME: GitHub Actions
+            SLACK_CHANNEL: '#deployments'
+            SLACK_TITLE: 'Preview Deploy or E2E Test Failed'
+            SLACK_ICON_EMOJI: ':warning:'
+            SLACK_MESSAGE: |
+              *Repository:* ${{ github.repository }}
+              *PR:* <${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}>
+              *Commit:* <https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>
+              *Preview URL:* <${{ needs.deploy.outputs.preview_url }}|View Preview>
+            SLACK_COLOR: danger
