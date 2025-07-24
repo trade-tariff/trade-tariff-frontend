@@ -54,6 +54,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           BUILDX_BAKE_ENTITLEMENTS_FS: 0
+
       - name: Get preview environment URL
         id: get-url
         run: |
@@ -62,8 +63,43 @@ jobs:
           echo "✅ Using preview URL: $PREVIEW_URL"
           echo "preview_url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
 
+  health-check:
+      runs-on: ubuntu-latest
+      needs: deploy
+      if: always() # run regardless of deploy outcome
+      steps:
+        - name: Run health check
+          id: check
+          run: |
+            echo "Checking preview URL: ${{ needs.deploy.outputs.preview_url }}"
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ needs.deploy.outputs.preview_url }}")
+            echo "HTTP status: $STATUS"
+            echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+
+            if [[ "$STATUS" -lt 200 || "$STATUS" -ge 400 ]]; then
+              echo "❌ Health check failed"
+              exit 1
+            else
+              echo "✅ Health check passed"
+            fi
+
+
+        - name: Notify Slack on Preview Deploy Failure
+          if: failure()
+          uses: rtCamp/action-slack-notify@v2
+          env:
+            SLACK_CHANNEL: "#non-production-alerts"
+            SLACK_USERNAME: "Preview Deploy Bot"
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_ICON_EMOJI: ":rotating_light:"
+            SLACK_COLOR: danger
+            SLACK_TITLE: "Health check failed"
+            SLACK_MESSAGE: |
+              Health check failed for preview env:
+              URL: ${{ needs.deploy.outputs.preview_url }}
+
   e2e-test:
-    needs: deploy
+    needs: [deploy, health-check]
     uses: trade-tariff/trade-tariff-tools/.github/workflows/e2e-tests.yml@main
     with:
       test-environment: development
