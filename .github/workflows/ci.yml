@@ -9,7 +9,7 @@ permissions:
   id-token: write
 
 env:
-  TERRAFORM_VERSION: 1.11.0
+  TERRAFORM_VERSION: 1.12.2
   PYTHON_VERSION: 3
 
 jobs:
