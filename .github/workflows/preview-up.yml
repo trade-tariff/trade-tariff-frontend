@@ -59,15 +59,26 @@ jobs:
         id: get-url
         run: |
           touch .env
+          export PREEVY_PROFILE_URL="${{ env.PREEVY_PROFILE_URL }}"
           PREVIEW_URL=$(npx preevy urls --json --wait --profile "$PREEVY_PROFILE_URL" | jq -r '.[0].url')
           echo "✅ Using preview URL: $PREVIEW_URL"
-          echo "preview_url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+          echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Print output variable
+        run: |
+          echo "Output URL: ${{ steps.get-url.outputs.preview_url }}"
+
 
   health-check:
     needs: deploy
     runs-on: ubuntu-latest
     
     steps:
+      - name: Debug Output
+        run: |
+          echo "preview_url from deploy: ${{ needs.deploy.outputs.preview_url }}"
+
       - name: Verify URL exists
         id: verify-url
         run: |
@@ -95,19 +106,19 @@ jobs:
             echo "✅ Health check passed"
           fi
 
-      - name: Notify Slack on Preview Deploy Failure
-        if: failure()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_CHANNEL: "#non-production-alerts"
-          SLACK_USERNAME: "Preview Deploy Bot"
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_ICON_EMOJI: ":rotating_light:"
-          SLACK_COLOR: danger
-          SLACK_TITLE: "Health check failed"
-          SLACK_MESSAGE: |
-            Health check failed for preview env:
-            URL: ${{ needs.deploy.outputs.preview_url }}
+      # - name: Notify Slack on Preview Deploy Failure
+      #   if: failure()
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_CHANNEL: "#non-production-alerts"
+      #     SLACK_USERNAME: "Preview Deploy Bot"
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      #     SLACK_ICON_EMOJI: ":rotating_light:"
+      #     SLACK_COLOR: danger
+      #     SLACK_TITLE: "Health check failed"
+      #     SLACK_MESSAGE: |
+      #       Health check failed for preview env:
+      #       URL: ${{ needs.deploy.outputs.preview_url }}
 
   e2e-test:
     needs: [deploy, health-check]
