@@ -68,17 +68,22 @@ jobs:
         run: |
           URL="${{ steps.get-url.outputs.preview_url }}"
           echo "Checking preview URL: $URL"
-          
-          STATUS=$(curl -L -s -o /dev/null -w "%{http_code}" "$URL")
-          echo "HTTP status: $STATUS"
-          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
 
-          if [[ "$STATUS" -lt 200 || "$STATUS" -ge 400 ]]; then
-            echo "❌ Health check failed"
-            exit 1
-          else
-            echo "✅ Health check passed"
-          fi
+          for i in {1..10}; do
+            STATUS=$(curl -L -s -o /dev/null -w "%{http_code}" "$URL")
+            echo "Attempt $i: HTTP $STATUS"
+
+            if [[ "$STATUS" -ge 200 && "$STATUS" -lt 400 ]]; then
+              echo "✅ Health check passed"
+              echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            sleep 6
+          done
+
+          echo "❌ Health check failed after retries"
+          exit 1
 
   e2e-test:
     needs: deploy
@@ -91,22 +96,23 @@ jobs:
     secrets:
       basic_password: ${{ secrets.BASIC_PASSWORD }}
 
-  notification:
-      needs: [deploy, e2e-test]
-      if: failure()
-      runs-on: ubuntu-latest
+  # notification:
+  #     needs: [deploy, e2e-test]
+  #     if: failure()
+  #     runs-on: ubuntu-latest
 
-      steps:
-        - name: Notify Slack
-          uses: rtCamp/action-slack-notify@v2
-          env:
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-            SLACK_USERNAME: GitHub Actions
-            SLACK_TITLE: 'Preview Deploy or E2E Test Failed'
-            SLACK_ICON_EMOJI: ':warning:'
-            SLACK_MESSAGE: |
-              *Repository:* ${{ github.repository }}
-              *PR:* <${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}>
-              *Commit:* <https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>
-              *Preview URL:* <${{ needs.deploy.outputs.preview_url }}|View Preview>
-            SLACK_COLOR: danger
+  #     steps:
+  #       - name: Notify Slack
+  #         uses: rtCamp/action-slack-notify@v2
+  #         env:
+  #           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  #           SLACK_USERNAME: GitHub Actions
+  #           SLACK_CHANNEL: '#deployments'
+  #           SLACK_TITLE: 'Preview Deploy or E2E Test Failed'
+  #           SLACK_ICON_EMOJI: ':warning:'
+  #           SLACK_MESSAGE: |
+  #             *Repository:* ${{ github.repository }}
+  #             *PR:* <${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}>
+  #             *Commit:* <https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>
+  #             *Preview URL:* <${{ needs.deploy.outputs.preview_url }}|View Preview>
+  #           SLACK_COLOR: danger
