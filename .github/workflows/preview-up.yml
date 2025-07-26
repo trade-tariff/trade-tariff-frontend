@@ -42,7 +42,7 @@ jobs:
             --query "SecretString" \
             --output text)
 
-          echo "$SECRET_JSON" | jq -r 'to_entries[] | "::add-mask::\(.value)"'
+          # echo "$SECRET_JSON" | jq -r 'to_entries[] | "::add-mask::\(.value)"'
           echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> .env
 
       - uses: livecycle/preevy-up-action@v2.4.0
