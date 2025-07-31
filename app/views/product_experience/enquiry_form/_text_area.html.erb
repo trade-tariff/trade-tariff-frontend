@@ -1,0 +1,11 @@
+<div class="govuk-form-group">
+  <label class="govuk-label govuk-label--l" for="<%= field %>">
+    <%= field_label(field) %>
+  </label>
+  <% if field_hint(field) %>
+    <div id="<%= "#{field}-hint" %>" class="govuk-hint">
+      <%= field_hint(field) %>
+    </div>
+  <% end %>
+  <%= text_area_tag field, field_value(field), class: "govuk-textarea", rows: 5, id: field, 'aria-describedby': "#{field}-hint" %>
+ </div>

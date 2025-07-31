@@ -3,6 +3,40 @@
     {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
+      "fingerprint": "5efd108c1631877792f54bea0f66a343922b2124acf63162cd66159c6463b44e",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/product_experience/enquiry_form/form.html.erb",
+      "line": 14,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(partial => partial_for_field(params[:field]), { :locals => ({ :field => params[:field] }) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ProductExperience::EnquiryFormController",
+          "method": "form",
+          "line": 19,
+          "file": "app/controllers/product_experience/enquiry_form_controller.rb",
+          "rendered": {
+            "name": "product_experience/enquiry_form/form",
+            "file": "app/views/product_experience/enquiry_form/form.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "product_experience/enquiry_form/form"
+      },
+      "user_input": "params[:field]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": "Added whitelisting for fields and partials in enquiry_form_helper.rb to mitigate risk"
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
       "fingerprint": "9aa4b8ea1cb0cbf42c4ae7028b7eff401ae772e33f00cfc291fbfe2d85e547cc",
       "check_name": "Render",
       "message": "Render path contains parameter value",
@@ -15,7 +49,7 @@
           "type": "controller",
           "class": "PagesController",
           "method": "howto",
-          "line": 58,
+          "line": 61,
           "file": "app/controllers/pages_controller.rb",
           "rendered": {
             "name": "pages/howto",
@@ -33,8 +67,30 @@
         22
       ],
       "note": "We're restricting this by limiting to a certain allowed list"
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "b493fd5fe63a3cff49875840e380105e9b0b7612a9852861239fff07a9348b74",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "node_modules/alphagov-static/app/controllers/root_controller.rb",
+      "line": 20,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => params[:template], { :layout => \"govuk_template\" })",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "RootController",
+        "method": "template"
+      },
+      "user_input": "params[:template]",
+      "confidence": "High",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
     }
   ],
-  "updated": "2023-11-08 16:12:58 +0000",
-  "brakeman_version": "6.0.1"
+  "brakeman_version": "7.1.0"
 }
