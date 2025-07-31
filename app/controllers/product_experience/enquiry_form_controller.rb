@@ -34,7 +34,7 @@ module ProductExperience
       end
 
       session[:enquiry_data][@field] = value
-      redirect_to next_field_path(@field)
+      next_field_path_redirect(@field)
     end
 
     def submit_form
@@ -55,14 +55,15 @@ module ProductExperience
       session[:enquiry_data] ||= {}
     end
 
-    def next_field_path(current)
+    def next_field_path_redirect(current)
       current_index = EnquiryFormHelper.fields.index(current)
       next_field = EnquiryFormHelper.fields[current_index + 1]
 
       if next_field
-        url_for(controller: 'product_experience/enquiry_form', action: 'form', field: next_field)
+        redirect_to controller: 'product_experience/enquiry_form', action: 'form', field: next_field
+
       else
-        product_experience_enquiry_form_check_your_answers_path
+        redirect_to product_experience_enquiry_form_check_your_answers_path
       end
     end
 
