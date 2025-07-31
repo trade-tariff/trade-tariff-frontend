@@ -11,8 +11,9 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render 'error' if flash.now[:error] %>
     <%= form_with url: "/enquiry_form/#{@field}", method: :post, local: true do %>
-    <%= render partial: partial_for_field(@field), locals: { field: @field } %>
-    <%= submit_tag "Continue", class: "govuk-button" %>
+      <%= hidden_field_tag :editing, params[:editing] if params[:editing].present? %>
+      <%= render partial: partial_for_field(@field), locals: { field: @field } %>
+      <%= submit_tag "Continue", class: "govuk-button" %>
     <% end %>
   </div>
 </div>

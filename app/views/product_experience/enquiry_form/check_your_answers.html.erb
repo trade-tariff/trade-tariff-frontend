@@ -18,7 +18,7 @@
                 <%= display_value_for(field, value) %>
               </dd>
               <dd class="govuk-summary-list__actions">
-                <%= link_to 'Change', url_for(controller: 'product_experience/enquiry_form', action: 'form', field: field), class: 'govuk-link' %>
+                <%= link_to 'Change', url_for(controller: 'product_experience/enquiry_form', action: 'form', field: field,  editing: true), class: 'govuk-link' %>
               </dd>
             </div>
           <% end %>

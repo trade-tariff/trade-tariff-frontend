@@ -22,6 +22,7 @@ module ProductExperience
     def submit
       @field = params[:field]
       value = params[@field]
+      editing = params[:editing]
 
       if value.blank? && required_field?(@field)
         flash.now[:error] = error_message_for(@field)
@@ -34,7 +35,7 @@ module ProductExperience
       end
 
       session[:enquiry_data][@field] = value
-      next_field_path_redirect(@field)
+      next_field_path_redirect(@field, editing: editing)
     end
 
     def submit_form
@@ -55,7 +56,11 @@ module ProductExperience
       session[:enquiry_data] ||= {}
     end
 
-    def next_field_path_redirect(current)
+    def next_field_path_redirect(current, editing: false)
+      if editing
+        redirect_to product_experience_enquiry_form_check_your_answers_path and return
+      end
+
       current_index = EnquiryFormHelper.fields.index(current)
       next_field = EnquiryFormHelper.fields[current_index + 1]
 
