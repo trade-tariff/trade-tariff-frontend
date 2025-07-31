@@ -1,0 +1,18 @@
+<% enquiry_form_page_title "Enquiry Form #{params[:field].humanize}" %>
+<% content_for :back_link do %>
+  <% if @prev_field %>
+    <%= back_link url_for(controller: 'product_experience/enquiry_form', action: 'form', field: @prev_field) %>
+  <% else %>
+    <%= back_link product_experience_enquiry_form_path %>
+  <% end %>
+<% end %>
+<pre><% session[:enquiry_data].inspect %></pre> <!--for debugging-->
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render 'error' if flash.now[:error] %>
+    <%= form_with url: "/enquiry_form/#{@field}", method: :post, local: true do %>
+    <%= render partial: "#{field_type(@field)}", locals: { field: @field } %>
+    <%= submit_tag "Continue", class: "govuk-button" %>
+    <% end %>
+  </div>
+</div>

@@ -79,6 +79,19 @@ Rails.application.routes.draw do
     end
   end
 
+  if TradeTariffFrontend.enquiry_form?
+    namespace :product_experience, path: '', as: 'product_experience' do
+      scope path: 'enquiry_form', as: 'enquiry_form', controller: 'enquiry_form' do
+        get '/', action: 'show'
+        get 'check_your_answers'
+        post 'submit', action: 'submit_form', as: 'submit_form'
+        get 'confirmation'
+        get ':field', action: 'form'
+        post ':field', action: 'submit'
+      end
+    end
+  end
+
   namespace :rules_of_origin, path: nil do
     with_options constraints: { commodity: /\d{10}/ } do
       get '/rules_of_origin/:commodity/:country', to: 'steps#index', as: :steps

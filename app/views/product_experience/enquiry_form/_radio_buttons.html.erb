@@ -1,0 +1,35 @@
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <%= field_label(field) %>
+    </legend>
+
+    <% if field_hint(field) %>
+      <div id="<%= "#{field}-hint" %>" class="govuk-hint">
+        <%= field_hint(field) %>
+      </div>
+    <% end %>
+
+    <div class="govuk-radios">
+      <% category_options.each do |label, value| %>
+        <div class="govuk-radios__item">
+          <%= radio_button_tag field, value, field_value(field) == value, class: "govuk-radios__input", id: "#{field}_#{value}" %>
+          <label class="govuk-label govuk-radios__label" for="<%= "#{field}_#{value}" %>">
+            <%= label %>
+          </label>
+        </div>
+      <% end %>
+
+      <label class="govuk-label govuk-!-padding-left-2">
+        Or
+      </label>
+
+      <div class="govuk-radios__item"><div class="govuk-radios__item">
+        <%= radio_button_tag field, 'n/a', field_value(field) == 'n/a', class: "govuk-radios__input", id: "None" %>
+        <label class="govuk-label govuk-radios__label" for="<%= "#{field}_None" %>">
+          None of the above
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
