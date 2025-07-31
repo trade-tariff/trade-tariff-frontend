@@ -1,12 +1,20 @@
 module EnquiryFormHelper
-  FIELDS = %w[
-    full_name
-    company_name
-    occupation
-    email_address
-    category
-    query
-  ].freeze
+  FIELD_CONFIG = {
+    'full_name' => 'text_field',
+    'company_name' => 'text_field',
+    'occupation' => 'text_field',
+    'email_address' => 'text_field',
+    'category' => 'radio_buttons',
+    'query' => 'text_area',
+  }.freeze
+
+  def self.fields
+    FIELD_CONFIG.keys
+  end
+
+  def partial_for_field(field)
+    FIELD_CONFIG.fetch(field, 'unknown_field')
+  end
 
   def enquiry_form_page_title(title = nil, error: false)
     default = 'UK Online Trade Tariff'

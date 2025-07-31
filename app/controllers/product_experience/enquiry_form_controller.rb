@@ -46,7 +46,7 @@ module ProductExperience
 
     def check_your_answers
       @enquiry_data = session[:enquiry_data]
-      @prev_field = EnquiryFormHelper::FIELDS.last
+      @prev_field = EnquiryFormHelper.fields.last
     end
 
     private
@@ -56,8 +56,8 @@ module ProductExperience
     end
 
     def next_field_path(current)
-      current_index = EnquiryFormHelper::FIELDS.index(current)
-      next_field = EnquiryFormHelper::FIELDS[current_index + 1]
+      current_index = EnquiryFormHelper.fields.index(current)
+      next_field = EnquiryFormHelper.fields[current_index + 1]
 
       if next_field
         url_for(controller: 'product_experience/enquiry_form', action: 'form', field: next_field)
@@ -67,15 +67,15 @@ module ProductExperience
     end
 
     def validate_field
-      if EnquiryFormHelper::FIELDS.exclude?(params[:field])
+      if EnquiryFormHelper.fields.exclude?(params[:field])
         Rails.logger.warn "Invalid field: #{params[:field]}"
         redirect_to product_experience_enquiry_form_path
       end
     end
 
     def previous_field(current)
-      current_index = EnquiryFormHelper::FIELDS.index(current)
-      prev_field = EnquiryFormHelper::FIELDS[current_index - 1] if current_index && current_index.positive?
+      current_index = EnquiryFormHelper.fields.index(current)
+      prev_field = EnquiryFormHelper.fields[current_index - 1] if current_index && current_index.positive?
 
       prev_field
     end
