@@ -100,23 +100,23 @@ jobs:
     secrets:
       basic_password: ${{ secrets.BASIC_PASSWORD }}
 
-  # notification:
-  #     needs: [deploy, e2e-test]
-  #     if: failure()
-  #     runs-on: ubuntu-latest
+  notification:
+      needs: [deploy, e2e-test]
+      if: failure()
+      runs-on: ubuntu-latest
 
-  #     steps:
-  #       - name: Notify Slack
-  #         uses: rtCamp/action-slack-notify@v2
-  #         env:
-  #           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  #           SLACK_USERNAME: GitHub Actions
-  #           SLACK_CHANNEL: '#deployments'
-  #           SLACK_TITLE: 'Preview Deploy or E2E Test Failed'
-  #           SLACK_ICON_EMOJI: ':warning:'
-  #           SLACK_MESSAGE: |
-  #             *Repository:* ${{ github.repository }}
-  #             *PR:* <${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}>
-  #             *Commit:* <https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>
-  #             *Preview URL:* <${{ needs.deploy.outputs.preview_url }}|View Preview>
-  #           SLACK_COLOR: danger
+      steps:
+        - name: Notify Slack
+          uses: rtCamp/action-slack-notify@v2
+          env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_USERNAME: GitHub Actions
+            SLACK_CHANNEL: '#deployments'
+            SLACK_TITLE: 'Preview Deploy or E2E Test Failed'
+            SLACK_ICON_EMOJI: ':warning:'
+            SLACK_MESSAGE: |
+              *Repository:* ${{ github.repository }}
+              *PR:* <${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}>
+              *Commit:* <https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>
+              *Preview URL:* <${{ needs.deploy.outputs.preview_url }}|View Preview>
+            SLACK_COLOR: danger
