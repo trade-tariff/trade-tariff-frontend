@@ -9,7 +9,7 @@
     "alphagov-static": "github:alphagov/static.git#release_3463",
     "babel-jest": "^30.0.5",
     "datepicker": "^0.0.0",
-    "dotenv": "^17.2.0",
+    "dotenv": "^17.2.1",
     "gh-pages": "^6.3.0",
     "govuk-frontend": "^5.11.0",
     "html-escaper": "^3.0.3",
