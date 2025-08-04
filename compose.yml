@@ -40,9 +40,12 @@ x-preevy:
         {% endif %}
 
         💸 **Preview Environment Estimated Cost**: £0.50/day
-        *(AWS Lightsail small_3_0, $12/mo, eu-west-2 — 2025)*
+         *(AWS Lightsail small_3_0, $12/mo, eu-west-2 — 2025)*
 
-        **Environment Cleanup Policy**
-        🕛 Nightly cleanup: All preview environments with the `needs-preview` label are removed automatically at midnight.
-        ❌ Immediate teardown: When a PR is closed or the `needs-preview`/`keep-preview` label is removed, the associated environment is destroyed immediately.
-        📌 Retention override: Add the `keep-preview` label to retain a preview environment beyond the nightly cleanup.
+        🧹**Environment Cleanup Policy**
+         - Nightly cleanup: All preview environments with the `needs-preview` label are removed automatically at midnight.
+         - Immediate teardown: When a PR is closed or the `needs-preview`/`keep-preview` label is removed, the associated environment is destroyed immediately.
+         - Retention override: Add the `keep-preview` label to retain a preview environment beyond the nightly cleanup.
+
+        📘 **How to manage preview environments**
+         [View internal doc](https://docs.trade-tariff.service.gov.uk/manual/how-to-manage-review-apps.html)
