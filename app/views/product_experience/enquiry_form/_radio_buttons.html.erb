@@ -11,7 +11,7 @@
     <% end %>
 
     <div class="govuk-radios">
-      <% category_options.each do |label, value| %>
+      <% radio_button_category_options.each do |label, value| %>
         <div class="govuk-radios__item">
           <%= radio_button_tag field, value, field_value(field) == value, class: "govuk-radios__input", id: "#{field}_#{value}" %>
           <label class="govuk-label govuk-radios__label" for="<%= "#{field}_#{value}" %>">

@@ -73,7 +73,7 @@ def field_hint(field)
   }[field]
 end
 
-def category_options
+def radio_button_category_options
   [
     ['Classification (identify the correct commodity code)', 'classification'],
     ['Customs Valuation', 'customs_valuation'],
@@ -89,13 +89,13 @@ end
 def display_value_for(field, value)
   # for displaying the category label in the summary page.
   if field == 'category'
-    match = category_options.find { |_label, val| val == value }
+    match = radio_button_category_options.find { |_label, val| val == value }
     match ? match.first : value
   else
     value
   end
 end
 
-def field_value(field)
-  session[:enquiry_data][field]
+def field_value(field, session_data = session[:enquiry_data])
+  session_data[field]
 end
