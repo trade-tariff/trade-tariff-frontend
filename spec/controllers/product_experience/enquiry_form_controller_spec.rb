@@ -4,19 +4,6 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
   before do
     allow(controller).to receive(:set_path_info)
 
-    routes.draw do
-      namespace :product_experience, path: '', as: 'product_experience' do
-        scope path: 'enquiry_form', as: 'enquiry_form', controller: 'enquiry_form' do
-          get '/', action: 'show'
-          get 'check_your_answers'
-          post 'submit', action: 'submit_form', as: 'submit_form'
-          get 'confirmation'
-          get ':field', action: 'form'
-          post ':field', action: 'submit'
-        end
-      end
-    end
-
     allow(EnquiryFormHelper).to receive(:fields).and_return(%w[full_name email_address query])
   end
 

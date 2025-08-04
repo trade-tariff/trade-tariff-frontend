@@ -1,5 +1,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 
+ENV['ENQUIRY_FORM_ENABLED'] = 'true'
+
 require 'simplecov'
 
 SimpleCov.start 'rails'
