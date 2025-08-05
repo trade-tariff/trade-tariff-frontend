@@ -28,7 +28,7 @@
 
     <p>
       <% if @period_list.monthly? %>
-        Check foreign currency exchange rates to calculate customs value on imported goods.
+        Check which foreign currency exchange rates to use when working out the customs value of your goods
       <% else %>
         <div class="govuk-body-l">
           Check the official HMRC foreign currency exchange <%= @period_list.type %> rates.
@@ -42,16 +42,11 @@
       </p>
       <p>
         <ul>
-          <li><p><a href="https://www.gov.uk/guidance/foreign-currency-transactions-vat-and-tour-operators" target="_blank">which rates of exchange to use to work out the customs value of your imported goods (open in new tab)</a></p></li>
-
           <li><p><a href="https://www.gov.uk/guidance/converting-foreign-currency-amounts-to-include-in-the-customs-value" target="_blank">converting foreign currency amounts to include in the customs value (open in new tab)</a></p></li>
         </ul>
       </p>
       <p>
         Exchange rates are published by HMRC on the penultimate Thursday of every month (as per section 18 of Notices made under the Taxation (Cross-border Trade) Act 2018). These exchange rates apply to the following calendar month, and represent rates as of midday the day before publication.
-      </p>
-      <p>
-        For goods being imported into Northern Ireland the Customs Declaration Service (CDS) will use exchange rate set by the European Central Bank (as per Article 48 of the Implementing Regulation (EU) 2015/2447).
       </p>
       <p>
         <%= t("exchange_rates.period_list.description.#{@period_list.type}_html") %>
