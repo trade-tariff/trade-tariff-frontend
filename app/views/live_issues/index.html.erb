@@ -20,7 +20,7 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-  <% @live_issues&.each do |live_issue| %>
+  <% @live_issues.sort{|l| l.updated_at.to_date}.each do |live_issue| %>
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header"> <%= live_issue.title %>
         <div class="govuk-!-font-size-14 govuk-!-margin-top-5 govuk-!-text-colour-muted">

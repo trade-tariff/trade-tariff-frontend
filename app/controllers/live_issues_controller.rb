@@ -5,6 +5,5 @@ class LiveIssuesController < ApplicationController
 
   def index
     @live_issues = LiveIssue.all
-    render :index
   end
 end
