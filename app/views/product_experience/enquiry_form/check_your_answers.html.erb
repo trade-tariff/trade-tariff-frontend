@@ -8,6 +8,7 @@
       <%= render 'error' if flash.now[:error] %>
       <h1 class="govuk-heading-l">Check your answers before submitting your form</h1>
       <%= form_with url: product_experience_enquiry_form_submit_form_path, method: :post, local: true do %>
+      <%= hidden_field_tag :submission_token, session[:submission_token] %>
         <dl class="govuk-summary-list">
           <% @enquiry_data.each do |field, value| %>
             <div class="govuk-summary-list__row">

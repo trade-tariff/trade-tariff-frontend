@@ -39,13 +39,45 @@ module ProductExperience
     end
 
     def submit_form
-      Rails.logger.info "Submitting form with data: #{session[:enquiry_data].inspect}"
-      redirect_to product_experience_enquiry_form_confirmation_path
+      if params[:submission_token] != session[:submission_token]
+        return redirect_to product_experience_enquiry_form_path
+      end
+
+      session.delete(:submission_token)
+
+      form_data = session[:enquiry_data].transform_keys(&:to_s)
+
+      attributes = {
+        name: form_data['full_name'],
+        company_name: form_data['company_name'],
+        job_title: form_data['occupation'],
+        email: form_data['email_address'],
+        enquiry_category: form_data['category'],
+        enquiry_description: form_data['query'],
+      }
+
+      begin
+        response = EnquiryForm.create!(attributes)
+
+        if response['reference_number']
+          session.delete(:enquiry_data)
+          redirect_to product_experience_enquiry_form_confirmation_path(reference_number: response['reference_number'])
+        else
+          flash[:error] = 'There was a problem submitting your enquiry. Please try again later.'
+          redirect_to product_experience_enquiry_form_check_your_answers_path
+        end
+      rescue Faraday::Error
+        flash[:error] = 'There was a problem submitting your enquiry. Please try again later.'
+        redirect_to product_experience_enquiry_form_check_your_answers_path
+      end
     end
 
-    def confirmation; end
+    def confirmation
+      @reference_number = params[:reference_number]
+    end
 
     def check_your_answers
+      session[:submission_token] = SecureRandom.uuid # ensures user can't submit_form multiple times
       @enquiry_data = session[:enquiry_data]
       @prev_field = EnquiryFormHelper.fields.last
     end
