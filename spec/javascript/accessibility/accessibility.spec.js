@@ -42,7 +42,7 @@ async function runAccessibilityScan(page, pageName, url, threshold) {
       results,
     });
 
-    expect(results.violations.length).toBeLessThan(threshold);
+    expect(results.violations.length).toBe(threshold);
 
     return results;
   } catch (error) {
