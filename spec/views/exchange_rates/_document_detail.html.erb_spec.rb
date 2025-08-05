@@ -12,7 +12,7 @@ RSpec.describe 'exchange_rates/_document_detail', type: :view do
 
   it { is_expected.to have_css 'h3', text: "June #{period.year} spot exchange rates" }
 
-  it { is_expected.to have_link('CSV', href: '/exchange_rates/csv/exrates-monthly-0623.csv'), count: 2 }
+  it { is_expected.to have_link('CSV', href: '/exchange_rates/view/files/exrates-monthly-0623.csv'), count: 2 }
 
   it { is_expected.to have_link('View online', href: "/exchange_rates/view/#{period.year}-#{period.month}?type=spot") }
 end

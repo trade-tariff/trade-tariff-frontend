@@ -128,8 +128,8 @@ Rails.application.routes.draw do
 
   scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
     get 'exchange_rates(/:type)', to: 'exchange_rates#index', as: 'exchange_rates'
-
     get 'exchange_rates/view/:id', to: 'exchange_rates#show', as: 'exchange_rate_collection'
+    get 'exchange_rates/view/files/:id', to: 'exchange_rates#files', as: 'exchange_rate_file'
   end
 
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
