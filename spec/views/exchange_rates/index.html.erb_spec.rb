@@ -11,7 +11,7 @@ RSpec.describe 'exchange_rates/index', type: :view do
 
   it { is_expected.to have_css 'h1', text: 'Check foreign currency exchange rates' }
 
-  it { is_expected.to have_css 'p', text: 'Check foreign currency exchange rates to calculate customs value on imported goods.' }
+  it { is_expected.to have_css 'p', text: 'Check which foreign currency exchange rates to use when working out the customs value of your goods' }
 
   it { is_expected.to render_template(partial: '_document_detail') }
 
