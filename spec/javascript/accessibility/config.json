@@ -23,7 +23,7 @@
     {
       "name": "Commodities",
       "path": "/commodities/0409000010",
-      "threshold": 4
+      "threshold": 3
     },
     {
       "name": "Duty Calculator",
