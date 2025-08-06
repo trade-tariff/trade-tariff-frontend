@@ -16,8 +16,5 @@ class EnquiryForm
     headers = { 'Content-Type' => 'application/json' }
 
     super(body, headers)
-  rescue Faraday::ClientError => e
-    Rails.logger.error("EnquiryForm.create! failed: #{e.class} - #{e.message}")
-    nil
   end
 end
