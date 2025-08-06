@@ -97,6 +97,7 @@ jobs:
       base-url: ${{ needs.deploy.outputs.preview_url }}
       skip-admin: true
       skip-api: true
+      skip-passwordless: true
     secrets:
       basic_password: ${{ secrets.BASIC_PASSWORD }}
 
