@@ -1,5 +1,5 @@
 class EnquiryForm
-  include UkOnlyApiEntity
+  include ApiEntity
 
   set_singular_path 'enquiry_form/submissions'
 
