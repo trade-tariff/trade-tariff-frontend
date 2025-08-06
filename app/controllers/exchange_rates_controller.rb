@@ -11,6 +11,10 @@ class ExchangeRatesController < ApplicationController
     render :show_404, status: :not_found if @period_list.exchange_rate_periods.blank?
   end
 
+  def files
+    redirect_to "/uk/api/exchange_rates/files/#{params[:id]}" and return true
+  end
+
   def show
     @exchange_rate_collection = ExchangeRateCollection.find(
       "#{year}-#{month}",
