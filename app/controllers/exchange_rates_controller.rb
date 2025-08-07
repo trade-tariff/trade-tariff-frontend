@@ -12,7 +12,7 @@ class ExchangeRatesController < ApplicationController
   end
 
   def files
-    redirect_to "/uk/api/exchange_rates/files/#{params[:id]}" and return true
+    redirect_to "/uk/api/exchange_rates/files/#{params[:id]}.#{params[:format]}" and return true
   end
 
   def show
