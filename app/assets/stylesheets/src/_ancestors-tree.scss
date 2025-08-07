@@ -72,3 +72,10 @@
     }
   }
 }
+
+.commodity-ancestors__identifier a:link,
+.commodity-ancestors__identifier a.govuk-link:link {
+  color: $shaded-panel-text-colour !important;
+}
+
+
