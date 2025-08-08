@@ -12,7 +12,6 @@ env:
   AWS_REGION: eu-west-2
   IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-Preview-App-Role
   PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
-  ENVIRONMENT: development
   SECRET_NAME: frontend-configuration
 
 # allow a single job to run per PR
@@ -82,7 +81,6 @@ jobs:
               echo "status=$STATUS" >> "$GITHUB_OUTPUT"
               exit 0
             fi
-
             sleep 6
           done
 
@@ -93,10 +91,11 @@ jobs:
     needs: deploy
     uses: trade-tariff/trade-tariff-tools/.github/workflows/e2e-tests.yml@main
     with:
-      test-environment: development
+      test-environment: staging
       base-url: ${{ needs.deploy.outputs.preview_url }}
       skip-admin: true
       skip-api: true
+      skip-passwordless: true
     secrets:
       basic_password: ${{ secrets.BASIC_PASSWORD }}
 
@@ -104,14 +103,13 @@ jobs:
       needs: [deploy, e2e-test]
       if: failure()
       runs-on: ubuntu-latest
-
       steps:
         - name: Notify Slack
           uses: rtCamp/action-slack-notify@v2
           env:
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
             SLACK_USERNAME: GitHub Actions
-            SLACK_CHANNEL: '#deployments'
+            SLACK_CHANNEL: '#non-production-alerts'
             SLACK_TITLE: 'Preview Deploy or E2E Test Failed'
             SLACK_ICON_EMOJI: ':warning:'
             SLACK_MESSAGE: |
@@ -119,4 +117,3 @@ jobs:
               *PR:* <${{ github.event.pull_request.html_url }}|#${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}>
               *Commit:* <https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>
               *Preview URL:* <${{ needs.deploy.outputs.preview_url }}|View Preview>
-            SLACK_COLOR: danger
