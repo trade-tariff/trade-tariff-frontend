@@ -452,11 +452,44 @@ RSpec.describe ApiEntity do
       expect(result).to be_a(mock_entity)
     end
 
-    it 'returns the correct chapter_ids' do
+    it 'returns the correct name' do
       expect(result.name).to eq('Bilbo Baggins')
     end
 
-    it 'returns the correct stop_press_subscription' do
+    it 'returns the correct age' do
+      expect(result.age).to eq(111)
+    end
+  end
+
+  describe '#create!' do
+    subject(:result) do
+      mock_entity.create!(
+        { name: 'Bilbo Baggins', age: 111 },
+        { 'Content-Type' => 'application/json' },
+      )
+    end
+
+    let(:mock_response) { instance_double(Faraday::Response) }
+    let(:parsed_data) { { name: 'Bilbo Baggins', age: 111 } }
+    let(:api_double) { instance_double(Faraday::Connection, post: mock_response) }
+
+    before do
+      allow(mock_entity).to receive_messages(
+        api: api_double,
+        singular_path: '/api/uk/mock_entities/1',
+      )
+      allow(mock_entity).to receive(:parse_jsonapi).with(mock_response).and_return(parsed_data)
+    end
+
+    it 'returns an instance of the entity' do
+      expect(result).to be_a(mock_entity)
+    end
+
+    it 'returns the correct name' do
+      expect(result.name).to eq('Bilbo Baggins')
+    end
+
+    it 'returns the correct age' do
       expect(result.age).to eq(111)
     end
   end
