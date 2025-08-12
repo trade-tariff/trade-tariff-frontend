@@ -1,7 +1,7 @@
-<% enquiry_form_page_title "Enquiry Form #{params[:field].humanize}" %>
+<% content_for :title, "#{enquiry_form_title(@field)}" %>
 <% content_for :back_link do %>
   <% if @prev_field %>
-    <%= back_link url_for(controller: 'product_experience/enquiry_form', action: 'form', field: @prev_field) %>
+    <%= back_link product_experience_enquiry_form_field_path(@prev_field) %>
   <% else %>
     <%= back_link product_experience_enquiry_form_path %>
   <% end %>

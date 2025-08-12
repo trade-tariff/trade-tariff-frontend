@@ -44,12 +44,6 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
 
       it { expect(response).to render_template(:form) }
     end
-
-    context 'with invalid field' do
-      before { get :form, params: { field: 'unknown_field' } }
-
-      it { expect(response).to redirect_to(product_experience_enquiry_form_path) }
-    end
   end
 
   describe 'POST #submit' do

@@ -118,6 +118,11 @@ module ServiceHelper
     doc.to_html.html_safe
   end
 
+  def enquiry_form_title(field)
+    title_prefix = flash.now[:error].present? ? enquiry_form_error_title : ''
+    "#{title_prefix}#{enquiry_form_page_name} #{enquiry_field_title(field)}"
+  end
+
 private
 
   def service_name
@@ -148,5 +153,19 @@ private
 
   def locale_path_prefix
     I18n.locale == I18n.default_locale ? '' : "/#{I18n.locale}"
+  end
+
+  def enquiry_form_error_title
+    t('title.enquiry_form.error', service_name:)
+  end
+
+  def enquiry_form_page_name
+    t('title.enquiry_form.page_name', service_name:)
+  end
+
+  def enquiry_field_title(field)
+    if field.present?
+      "| #{field_label(field)}"
+    end
   end
 end

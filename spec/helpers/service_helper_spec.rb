@@ -441,4 +441,30 @@ RSpec.describe ServiceHelper, type: :helper do
       it { is_expected.to eq('') }
     end
   end
+
+  describe '#enquiry_form_title' do
+    let(:field) { 'query' }
+
+    before do
+      allow(helper).to receive(:service_name).and_return('UK Integrated Online Tariff')
+    end
+
+    context 'when there is a flash error' do
+      it 'includes the error title prefix' do
+        helper.flash.now[:error] = 'Something went wrong'
+
+        expect(helper.enquiry_form_title(field))
+          .to eq('Error: Enquiry Form | How can we help?')
+      end
+    end
+
+    context 'when there is no flash error' do
+      it 'does not include the error title prefix' do
+        helper.flash.now[:error] = nil
+
+        expect(helper.enquiry_form_title(field))
+          .to eq('Enquiry Form | How can we help?')
+      end
+    end
+  end
 end

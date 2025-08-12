@@ -1,6 +1,6 @@
-<% enquiry_form_page_title "Enquiry Form Check Your Answers" %>
+<% content_for :title, "#{enquiry_form_title('Check Your Answers')}" %>
 <% content_for :back_link do %>
-  <%= back_link url_for(controller: 'product_experience/enquiry_form', action: 'form', field: @prev_field) %>
+  <%= back_link product_experience_enquiry_form_field_path(@prev_field) %>
 <% end %>
 <div class="govuk-body">
   <div class="govuk-grid-row">

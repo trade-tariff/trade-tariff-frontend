@@ -86,8 +86,12 @@ Rails.application.routes.draw do
         get 'check_your_answers'
         post 'submit', action: 'submit_form', as: 'submit_form'
         get 'confirmation'
-        get ':field', action: 'form'
-        post ':field', action: 'submit'
+        get ':field', action: 'form', as: 'field', constraints: {
+          field: /full_name|company_name|occupation|email_address|category|query/,
+        }
+        post ':field', action: 'submit', constraints: {
+          field: /full_name|company_name|occupation|email_address|category|query/,
+        }
       end
     end
   end

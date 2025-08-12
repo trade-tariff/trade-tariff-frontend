@@ -19,22 +19,6 @@ RSpec.describe EnquiryFormHelper, type: :helper do
     end
   end
 
-  describe '#enquiry_form_page_title' do
-    it 'sets page title without error' do
-      helper.enquiry_form_page_title('My Title')
-      expect(helper.content_for(:title)).to eq('My Title | UK Online Trade Tariff')
-    end
-
-    it 'sets page title with error' do
-      helper.enquiry_form_page_title('My Title', error: true)
-      expect(helper.content_for(:title)).to eq('Error: My Title | UK Online Trade Tariff')
-    end
-
-    it 'returns default if no title is set' do
-      expect(helper.enquiry_form_page_title).to eq('UK Online Trade Tariff')
-    end
-  end
-
   describe '#required_field?' do
     it 'returns false for optional fields' do
       expect(required_field?('company_name')).to be false
