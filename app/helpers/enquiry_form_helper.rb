@@ -67,7 +67,6 @@ def radio_button_category_options
     ['Quotas', 'quotas'],
     ['Tariff Preferences', 'preferences'],
     ['Stop Press Subscription', 'stop_press_subscription'],
-    ['Other', 'other'],
   ]
 end
 

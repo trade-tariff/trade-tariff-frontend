@@ -25,9 +25,9 @@
       </label>
 
       <div class="govuk-radios__item"><div class="govuk-radios__item">
-        <%= radio_button_tag field, 'n/a', field_value(field) == 'n/a', class: "govuk-radios__input", id: "None" %>
-        <label class="govuk-label govuk-radios__label" for="<%= "#{field}_None" %>">
-          None of the above
+        <%= radio_button_tag field, 'Other', field_value(field) == 'Other', class: "govuk-radios__input", id: "Other" %>
+        <label class="govuk-label govuk-radios__label" for="<%= "#{field}_Other" %>">
+          Other
         </label>
       </div>
     </div>
