@@ -1,4 +1,4 @@
-<%= cache ['commodities#show', cache_key, params.values.sort.join('/')] do %>
+<%= cache ['commodities#show', cache_key, params.values.compact.sort.join('/')] do %>
   <% content_for :head do %>
     <meta name="description" content="<%= declarable.description_plain %>">
   <% end %>
