@@ -2,7 +2,7 @@ RSpec.describe EnquiryForm do
   describe '.create!' do
     subject(:response) { described_class.create!(attributes) }
 
-    let(:id) { 'R1M5X8LU' }
+    let(:resource_id) { 'R1M5X8LU' }
     let(:attributes) { attributes_for(:enquiry_form) }
 
     context 'when the request is successful' do
@@ -16,13 +16,13 @@ RSpec.describe EnquiryForm do
             ),
             headers: { 'Content-Type' => 'application/json' },
           )
-          .and_return(jsonapi_response(:enquiry_form_submission, { id: id }))
+          .and_return(jsonapi_response(:enquiry_form_submission, { resource_id: resource_id }))
       end
 
       it { is_expected.to be_a described_class }
 
-      it 'returns the reference number' do
-        expect(response['id']).to eq(id)
+      it 'returns the resource id' do
+        expect(response['resource_id']).to eq(resource_id)
       end
     end
   end

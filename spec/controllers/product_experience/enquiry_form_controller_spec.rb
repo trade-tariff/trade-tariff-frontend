@@ -93,7 +93,7 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
   end
 
   describe 'POST #submit_form' do
-    let(:id) { 'R1M5X8LU' }
+    let(:resource_id) { 'R1M5X8LU' }
     let(:submission_token) { SecureRandom.uuid }
 
     before do
@@ -108,14 +108,14 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
             body: hash_including(data: { attributes: attributes }),
             headers: { 'Content-Type' => 'application/json' },
           )
-          .and_return(jsonapi_response(:enquiry_form_submission, { id: id }))
+          .and_return(jsonapi_response(:enquiry_form_submission, { resource_id: resource_id }))
       end
 
       it 'redirects to the confirmation page' do
         post :submit_form, params: { submission_token: submission_token }
 
         expect(response).to redirect_to(
-          product_experience_enquiry_form_confirmation_path(reference_number: id),
+          product_experience_enquiry_form_confirmation_path(reference_number: resource_id),
         )
       end
 

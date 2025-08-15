@@ -59,9 +59,9 @@ module ProductExperience
       begin
         response = EnquiryForm.create!(attributes)
 
-        if response['id']
+        if response['resource_id']
           session.delete(:enquiry_data)
-          redirect_to product_experience_enquiry_form_confirmation_path(reference_number: response['id'])
+          redirect_to product_experience_enquiry_form_confirmation_path(reference_number: response['resource_id'])
         else
           flash[:error] = 'There was a problem submitting your enquiry. Please try again later.'
           redirect_to product_experience_enquiry_form_check_your_answers_path
