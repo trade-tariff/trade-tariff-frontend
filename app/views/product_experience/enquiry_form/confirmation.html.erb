@@ -1,0 +1,21 @@
+<% content_for :title, "#{enquiry_form_title('Confirmation')}" %>
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper govuk-main-wrapper--l" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-panel govuk-panel--confirmation">
+          <h1 class="govuk-panel__title">
+            Your form has been submitted
+          </h1>
+          <div class="govuk-panel__body">
+            Your form reference number is:<br><strong><%= @reference_number %></strong>
+          </div>
+        </div>
+        <h2 class="govuk-heading-m">What happens next</h2>
+        <p class="govuk-body">
+          We respond to the majority of queries inside 5 working days. Please be aware that if your query relates to Valuation, Origin and some areas of complex classification, it may take up to 10.
+        </p>
+      </div>
+    </div>
+  </main>
+</div>
