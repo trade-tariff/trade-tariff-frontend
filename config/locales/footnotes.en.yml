@@ -1,70 +1,71 @@
 ---
 en:
   default_option_footnotes:
-    waiver: >- # Claiming a waiver due to Exchange Rate - special case waiver option from GB to NI
+    waiver:
+      >- # Claiming a waiver due to Exchange Rate - special case waiver option from GB to NI
       <p class="govuk-body">
-        A claim for a customs duty waiver for duty on goods that would otherwise incur “at risk” tariffs is provided as “de minimis aid”. The maximum allowance for most sectors is €200,000 across a rolling three tax year period. This allowance includes all de minimis aid you have claimed over a 3 tax year period.
+        A claim for a customs duty waiver for duty on goods that would otherwise incur “at risk” tariffs is provided as “de minimis aid”. The maximum allowance for most sectors is €300,000 across a rolling three tax year period. This allowance includes all de minimis aid you have claimed over a 3 tax year period.
       </p>
       <p class="govuk-body">
         This type of aid is measured in euros, so it is important to convert any aid received in pound sterling into euros. You can use this <a target="_blank" href="https://ec.europa.eu/info/funding-tenders/procedures-guidelines-tenders/information-contractors-and-beneficiaries/exchange-rate-inforeuro_en" class="govuk-link">exchange rate tool</a> to calculate the applicable euro equivalent of the value of the aid for the month you were awarded the aid.
       </p>
 
   measure_type_footnotes:
-    '046': >- # Tariff quota/ceiling
+    "046": >- # Tariff quota/ceiling
       <p class="govuk-body">
       </p>
 
-    '072': >- # Import licence
+    "072": >- # Import licence
       <p class="govuk-body">
       </p>
 
-    '081': >- # MOB
+    "081": >- # MOB
       <p class="govuk-body">
       </p>
 
-    '082': >- # MOB+MCM
+    "082": >- # MOB+MCM
       <p class="govuk-body">
       </p>
 
-    '083': >- # MOB+MCM+ACA
+    "083": >- # MOB+MCM+ACA
       <p class="govuk-body">
       </p>
 
-    '084': >- # MOB+ACA
+    "084": >- # MOB+ACA
       <p class="govuk-body">
       </p>
 
-    '086': >- # MCM + ACA
+    "086": >- # MCM + ACA
       <p class="govuk-body">
       </p>
 
-    '089': >- # The Washington Convention
+    "089": >- # The Washington Convention
       <p class="govuk-body">
       </p>
 
-    '092': >- # The Washington Convention (export)
+    "092": >- # The Washington Convention (export)
       <p class="govuk-body">
       </p>
 
-    '102': >- # Autonomous duty
+    "102": >- # Autonomous duty
       <p class="govuk-body">
       </p>
 
-    '103': >- # Third country duty
+    "103": >- # Third country duty
       <p class="govuk-body">
         A ‘Third country’ duty is the tariff charged where there isn’t a trade agreement or a customs union available. It can also be referred to as the Most Favoured Nation (<abbr title="Most Favoured Nation">MFN</abbr>) rate.
       </p>
 
-    '104': >- # Conventional duty
+    "104": >- # Conventional duty
       <p class="govuk-body">
       </p>
 
-    '105': >- # Non preferential duty under end-use
+    "105": >- # Non preferential duty under end-use
       <p class="govuk-body">
         This commodity has a reduced duty rate where the goods are being imported for certain uses. In order to benefit from this you have to first be authorised. <a target="_blank" href="https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses" class="govuk-link">Apply to pay less duty on goods you import for specific uses</a>.
       </p>
 
-    '106': >- # Customs Union Duty
+    "106": >- # Customs Union Duty
       <p class="govuk-body">
         The EU has entered into a Customs Union with Turkey, Andorra and San Marino for the import of certain commodities, to reduce or remove import duties for these goods. To take advantage of these reduced duties, you will need to provide a valid <a target="_blank" href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin" class="govuk-link">valid proof of origin</a>.
       </p>
@@ -72,24 +73,24 @@ en:
         To use the Customs Union duty, if you are using CHIEF, enter "400" on your import declaration in box 36 (preference). If you are using CDS, enter "400" in data element 4/17.
       </p>
 
-    '109': >- # Supplementary unit
+    "109": >- # Supplementary unit
       <p class="govuk-body">
       </p>
 
-    '110': >- # Supplementary unit import
+    "110": >- # Supplementary unit import
       <p class="govuk-body">
       </p>
 
-    '111': >- # Supplementary unit export
+    "111": >- # Supplementary unit export
       <p class="govuk-body">
       </p>
 
-    '112': >- # Autonomous tariff suspension
+    "112": >- # Autonomous tariff suspension
       <p class="govuk-body">
         Certain goods under this commodity code can benefit from a zero MFN through this duty suspension – you'll need to claim this on your declaration.
       </p>
 
-    '115': >- # Autonomous suspension under end-use
+    "115": >- # Autonomous suspension under end-use
       <p class="govuk-body">
         Certain goods under this commodity code can benefit from a zero MFN – you'll need to claim this  on  your  declaration.  This  suspension  is  available  for  goods  used  in  the  construction, maintenance and repair of aircraft of an unladen weight exceeding 2,000 kilograms and of ground-flying trainers for civil use.
       </p>
@@ -97,12 +98,13 @@ en:
         You  can  apply  for  Authorised Use relief to reduce your payments when you import goods from outside the UK for a specific use, including repairs, maintenance or processing. <a target="_blank" href="https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses" class="govuk-link">Apply to pay less duty on goods you import for specific uses</a>.
       </p>
 
-    '117': >- # Suspension - goods for certain categories of ships, boats and other vessels and for drilling or production platforms
+    "117":
+      >- # Suspension - goods for certain categories of ships, boats and other vessels and for drilling or production platforms
       <p class="govuk-body">
         Certain goods under this commodity code can benefit from a zero MFN – you'll need to claim this on your declaration.
       </p>
 
-    '119': >- # Airworthiness tariff suspension
+    "119": >- # Airworthiness tariff suspension
       <p class="govuk-body">
         Certain goods under this commodity code can benefit from a zero MFN – you'll need to claim this on your declaration.
       </p>
@@ -110,12 +112,12 @@ en:
         In order to benefit from the suspension, you must provide an Authorised Release Certificate or an <a target="_blank" href="https://www.gov.uk/guidance/changes-to-customs-tariff-rules-on-imported-aircraft-parts-cip13" class="govuk-link">equivalent certificate</a>.
       </p>
 
-    '122': >- # Non preferential tariff quota
+    "122": >- # Non preferential tariff quota
       <p class="govuk-body">
         A Tariff Rate Quota (TRQ) applies to this commodity code. A quota allows you to import goods into the UK at a reduced or zero customs duty rate. Read more about <a target="_blank" href="https://www.gov.uk/government/publications/notice-375-tariff-quotas/notice-375-tariff-quotas" class="govuk-link"> claiming quotas to reduce your duty liability</a>.
       </p>
 
-    '123': >- # Non preferential tariff quota under end-use
+    "123": >- # Non preferential tariff quota under end-use
       <p class="govuk-body">
         A Tariff Rate Quota (TRQ) applies to this commodity code. A quota allows you to import goods into the UK at a reduced or zero customs duty rate. Read more about <a target="_blank" href="https://www.gov.uk/government/publications/notice-375-tariff-quotas/notice-375-tariff-quotas" class="govuk-link">claiming quotas to reduce your duty liability<a>.
       </p>
@@ -123,29 +125,29 @@ en:
         This reduced duty rate applies only when the goods are being imported for certain uses. In order to benefit from this you have to first be authorised. <a target="_blank" href="https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses" class="govuk-link">Apply to pay less duty on goods you import for specific uses</a>.
       </p>
 
-    '140': >- # Outward processing tariff preference
+    "140": >- # Outward processing tariff preference
       <p class="govuk-body">
       </p>
 
-    '141': >- # Preferential suspension
+    "141": >- # Preferential suspension
       <p class="govuk-body">
       </p>
 
-    '142': >- # Tariff preference
+    "142": >- # Tariff preference
       <p class="govuk-body">
         A tariff preference is the rate available if a free trade agreement or another arrangement is in place between the UK and an overseas country. Goods will need to comply with the <a target="_blank" href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin" class="govuk-link">rules of origin</a> to benefit from this rate and you will need to provide evidence of compliance with your shipment.
       </p>
 
-    '143': >- # Preferential tariff quota
+    "143": >- # Preferential tariff quota
       <p class="govuk-body">
         A Tariff Rate Quota (TRQ) applies to this commodity code. A quota allows you to import goods into the UK at a reduced or zero customs duty rate. Read more about <a target="_blank" href="https://www.gov.uk/government/publications/notice-375-tariff-quotas/notice-375-tariff-quotas" class="govuk-link"> claiming quotas to reduce your duty liability</a>.
       </p>
 
-    '144': >- # Preferential ceiling
+    "144": >- # Preferential ceiling
       <p class="govuk-body">
       </p>
 
-    '145': >- # Preference under end-use
+    "145": >- # Preference under end-use
       <p class="govuk-body">
         A tariff preference is the rate available if a free trade agreement or another arrangement is in place between the UK and an overseas country. Goods will need to comply with the <a target="_blank" href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin" class="govuk-link">rules of origin</a> to benefit from this rate and you will need to provide evidence of compliance with your shipment.
       </p>
@@ -153,7 +155,7 @@ en:
         This reduced duty rate applies only when the goods are being imported for certain uses. In order to benefit from this you have to first be authorised. <a href="https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses" class="govuk-link" target="_blank">Apply to pay less duty on goods you import for specific uses</a>.
       </p>
 
-    '146': >- # Preferential tariff quota under end-use
+    "146": >- # Preferential tariff quota under end-use
       <p class="govuk-body">
         A Tariff Rate Quota (TRQ) applies to this commodity code. A quota allows you to import goods into the UK at a reduced or zero customs duty rate. Read more about <a target="_blank" href="https://www.gov.uk/government/publications/notice-375-tariff-quotas/notice-375-tariff-quotas" class="govuk-link">claiming quotas to reduce your duty liability<a>.
       </p>
@@ -161,251 +163,256 @@ en:
         This reduced duty rate applies only when the goods are being imported for certain uses. In order to benefit from this you have to first be authorised. <a target="_blank" href="https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses" class="govuk-link">Apply to pay less duty on goods you import for specific uses</a>.
       </p>
 
-    '147': >- # Customs Union Quota
+    "147": >- # Customs Union Quota
       <p class="govuk-body">
         A Customs Union Quota (CUQ) applies to this commodity code. A quota allows you to import goods into the UK at a reduced or zero customs duty rate. Read more about <a target="_blank" href="https://www.gov.uk/government/publications/notice-375-tariff-quotas/notice-375-tariff-quotas" class="govuk-link"> claiming quotas to reduce your duty liability</a>.
       </p>
 
-    '166': >- # Provisional exclusion
+    "166": >- # Provisional exclusion
       <p class="govuk-body">
       </p>
 
-    '277': >- # Import prohibition
+    "277": >- # Import prohibition
       <p class="govuk-body">
       </p>
 
-    '278': >- # Export prohibition
+    "278": >- # Export prohibition
       <p class="govuk-body">
       </p>
 
-    '305': >- # Value added tax
+    "305": >- # Value added tax
       <p class="govuk-body">
       </p>
 
-    '306': >- # Excises
+    "306": >- # Excises
       <p class="govuk-body">
       </p>
 
-    '350': >- # Animal Health Certificate
+    "350": >- # Animal Health Certificate
       <p class="govuk-body">
       </p>
 
-    '351': >- # Health and Safety Executive Import Licensing Firearms and Ammunition
+    "351":
+      >- # Health and Safety Executive Import Licensing Firearms and Ammunition
       <p class="govuk-body">
       </p>
 
-    '352': >- # Attestation Document (horticulture and potatoes)
+    "352": >- # Attestation Document (horticulture and potatoes)
       <p class="govuk-body">
       </p>
 
-    '353': >- # DCMS Open General Export Licence
+    "353": >- # DCMS Open General Export Licence
       <p class="govuk-body">
       </p>
 
-    '354': >- # Home Office Controlled Drugs (export)
+    "354": >- # Home Office Controlled Drugs (export)
       <p class="govuk-body">
       </p>
 
-    '355': >- # HMI Conformity Certificate (fruit and veg) issued in UK
+    "355": >- # HMI Conformity Certificate (fruit and veg) issued in UK
       <p class="govuk-body">
       </p>
 
-    '356': >- # Common Veterinary Entry Document (CVED)
+    "356": >- # Common Veterinary Entry Document (CVED)
       <p class="govuk-body">
       </p>
 
-    '357': >- # Certificate of Conformity
+    "357": >- # Certificate of Conformity
       <p class="govuk-body">
       </p>
 
-    '358': >- # Home Office pre-cursor chemical authorisation
+    "358": >- # Home Office pre-cursor chemical authorisation
       <p class="govuk-body">
       </p>
 
-    '359': >- # Health and Safety Executive (imports)
+    "359": >- # Health and Safety Executive (imports)
       <p class="govuk-body">
       </p>
 
-    '360': >- # Phytosanitary Certificate (import)
+    "360": >- # Phytosanitary Certificate (import)
       <p class="govuk-body">
       </p>
 
-    '361': >- # Home Office Pre-cursor chemicals
+    "361": >- # Home Office Pre-cursor chemicals
       <p class="govuk-body">
       </p>
 
-    '362': >- # Home Office Controlled Drugs (import)
+    "362": >- # Home Office Controlled Drugs (import)
       <p class="govuk-body">
       </p>
 
-    '363': >- # Quarantine Release Certificate
+    "363": >- # Quarantine Release Certificate
       <p class="govuk-body">
       </p>
 
-    '410': >- # Veterinary control
+    "410": >- # Veterinary control
       <p class="govuk-body">
       </p>
 
-    '420': >- # Entry into free circulation (prior surveillance)
+    "420": >- # Entry into free circulation (prior surveillance)
       <p class="govuk-body">
       </p>
 
-    '430': >- # Control of particulars of the declaration (suspicious value/net weight or value/supplementary
-      <p class="govuk-body">
-      </p>
-
-      unit)
-    '431': >- # Control of particulars of the declaration (suspicious net weight/supplementary
-      <p class="govuk-body">
-      </p>
-
-      unit)
-    '440': >- # Public Import Monitoring
-      <p class="govuk-body">
-      </p>
-
-    '442': >- # Confidential Import Monitoring
-      <p class="govuk-body">
-      </p>
-
-    '445': >- # Public Export Monitoring
-      <p class="govuk-body">
-      </p>
-
-    '447': >- # Confidential Export Monitoring
-      <p class="govuk-body">
-      </p>
-
-    '450': >- # Statistical surveillance - all imports, except Regulation 1555/96
-      <p class="govuk-body">
-      </p>
-
-    '455': >- # Confidential Surveillance (Tariff classification)
-      <p class="govuk-body">
-      </p>
-
-    '456': >- # Confidential Surveillance (Other)
-      <p class="govuk-body">
-      </p>
-
-    '457': >- # Confidential Surveillance (Licence TQs)
-      <p class="govuk-body">
-      </p>
-
-    '460': >- # Computer surveillance
-      <p class="govuk-body">
-      </p>
-
-    '461': >- # Community surveillance - reference quantities
-      <p class="govuk-body">
-      </p>
-
-    '462': >- # Posterior import surveillance
-      <p class="govuk-body">
-      </p>
-
-    '463': >- # Posterior export surveillance
-      <p class="govuk-body">
-      </p>
-
-    '464': >- # Declaration of subheading submitted to end-use provisions
-      <p class="govuk-body">
-      </p>
-
-    '465': >- # Restriction on entry into free circulation
-      <p class="govuk-body">
-      </p>
-
-    '466': >- # Outward processing post. surveillance
-      <p class="govuk-body">
-      </p>
-
-    '467': >- # Restriction on export
-      <p class="govuk-body">
-      </p>
-
-    '468': >- # GSP Confidential Surveillance
-      <p class="govuk-body">
-      </p>
-
-    '469': >- # Confidential surveillance other than GSP
-      <p class="govuk-body">
-      </p>
-
-    '470': >- # Export surveillance
-      <p class="govuk-body">
-      </p>
-
-    '471': >- # Export surveillance (TQS)
-      <p class="govuk-body">
-      </p>
-
-    '472': >- # Export surveillance
-      <p class="govuk-body">
-      </p>
-
-    '473': >- # Export authorization
-      <p class="govuk-body">
-      </p>
-
-    '474': >- # Entry into free circulation (quantitative limitation)
-      <p class="govuk-body">
-      </p>
-
-    '475': >- # Restriction on entry into free circulation
-      <p class="govuk-body">
-      </p>
-
-    '476': >- # Restriction on export
-      <p class="govuk-body">
-      </p>
-
-    '477': >- # Entry into free circulation (outward processing traffic)
-      <p class="govuk-body">
-      </p>
-
-    '478': >- # Export authorization (Dual use)
-      <p class="govuk-body">
-      </p>
-
-    '479': >- # Export control on dangerous chemicals
-      <p class="govuk-body">
-      </p>
-
-    '481': >- # Declaration of subheading submitted to restrictions (import)
-      <p class="govuk-body">
-      </p>
-
-    '482': >- # Declaration of subheading submitted to restrictions (net weight/supplementary
+    "430":
+      >- # Control of particulars of the declaration (suspicious value/net weight or value/supplementary
       <p class="govuk-body">
       </p>
 
       unit)
-    '483': >- # Declaration of subheading submitted to restrictions (value)
+    "431":
+      >- # Control of particulars of the declaration (suspicious net weight/supplementary
       <p class="govuk-body">
       </p>
 
-    '485': >- # Declaration of subheading submitted to restrictions (export)
+      unit)
+    "440": >- # Public Import Monitoring
       <p class="govuk-body">
       </p>
 
-    '487': >- # Representative price (poultry)
+    "442": >- # Confidential Import Monitoring
       <p class="govuk-body">
       </p>
 
-    '488': >- # Unit price
+    "445": >- # Public Export Monitoring
       <p class="govuk-body">
       </p>
 
-    '489': >- # Representative price
+    "447": >- # Confidential Export Monitoring
       <p class="govuk-body">
       </p>
 
-    '490': >- # Standard import value
+    "450":
+      >- # Statistical surveillance - all imports, except Regulation 1555/96
       <p class="govuk-body">
       </p>
 
-    '551': >- # Provisional anti-dumping duty
+    "455": >- # Confidential Surveillance (Tariff classification)
+      <p class="govuk-body">
+      </p>
+
+    "456": >- # Confidential Surveillance (Other)
+      <p class="govuk-body">
+      </p>
+
+    "457": >- # Confidential Surveillance (Licence TQs)
+      <p class="govuk-body">
+      </p>
+
+    "460": >- # Computer surveillance
+      <p class="govuk-body">
+      </p>
+
+    "461": >- # Community surveillance - reference quantities
+      <p class="govuk-body">
+      </p>
+
+    "462": >- # Posterior import surveillance
+      <p class="govuk-body">
+      </p>
+
+    "463": >- # Posterior export surveillance
+      <p class="govuk-body">
+      </p>
+
+    "464": >- # Declaration of subheading submitted to end-use provisions
+      <p class="govuk-body">
+      </p>
+
+    "465": >- # Restriction on entry into free circulation
+      <p class="govuk-body">
+      </p>
+
+    "466": >- # Outward processing post. surveillance
+      <p class="govuk-body">
+      </p>
+
+    "467": >- # Restriction on export
+      <p class="govuk-body">
+      </p>
+
+    "468": >- # GSP Confidential Surveillance
+      <p class="govuk-body">
+      </p>
+
+    "469": >- # Confidential surveillance other than GSP
+      <p class="govuk-body">
+      </p>
+
+    "470": >- # Export surveillance
+      <p class="govuk-body">
+      </p>
+
+    "471": >- # Export surveillance (TQS)
+      <p class="govuk-body">
+      </p>
+
+    "472": >- # Export surveillance
+      <p class="govuk-body">
+      </p>
+
+    "473": >- # Export authorization
+      <p class="govuk-body">
+      </p>
+
+    "474": >- # Entry into free circulation (quantitative limitation)
+      <p class="govuk-body">
+      </p>
+
+    "475": >- # Restriction on entry into free circulation
+      <p class="govuk-body">
+      </p>
+
+    "476": >- # Restriction on export
+      <p class="govuk-body">
+      </p>
+
+    "477": >- # Entry into free circulation (outward processing traffic)
+      <p class="govuk-body">
+      </p>
+
+    "478": >- # Export authorization (Dual use)
+      <p class="govuk-body">
+      </p>
+
+    "479": >- # Export control on dangerous chemicals
+      <p class="govuk-body">
+      </p>
+
+    "481": >- # Declaration of subheading submitted to restrictions (import)
+      <p class="govuk-body">
+      </p>
+
+    "482":
+      >- # Declaration of subheading submitted to restrictions (net weight/supplementary
+      <p class="govuk-body">
+      </p>
+
+      unit)
+    "483": >- # Declaration of subheading submitted to restrictions (value)
+      <p class="govuk-body">
+      </p>
+
+    "485": >- # Declaration of subheading submitted to restrictions (export)
+      <p class="govuk-body">
+      </p>
+
+    "487": >- # Representative price (poultry)
+      <p class="govuk-body">
+      </p>
+
+    "488": >- # Unit price
+      <p class="govuk-body">
+      </p>
+
+    "489": >- # Representative price
+      <p class="govuk-body">
+      </p>
+
+    "490": >- # Standard import value
+      <p class="govuk-body">
+      </p>
+
+    "551": >- # Provisional anti-dumping duty
       <p class="govuk-body">
         Anti-dumping  duty  is an import duty charged in addition to normal Customs Duty. It is designed to allow a domestic trading nation to take action against goods that are sold at less than their normal value – that being defined as the price for ‘like goods’ sold in the exporter’s home market.
       </p>
@@ -416,7 +423,7 @@ en:
         Read more about <a target="_blank" href="https://www.gov.uk/government/publications/uk-trade-tariff-anti-dumping-and-countervailing-duties/uk-trade-tariff-anti-dumping-and-countervailing-duties" class="govuk-link">equivalent certificate</a>anti-dumping and countervailing duties</a>.
       </p>
 
-    '552': >- # Definitive anti-dumping duty
+    "552": >- # Definitive anti-dumping duty
       <p class="govuk-body">
         Anti-dumping  duty  is an import duty charged in addition to normal Customs Duty. It is designed to allow a domestic trading nation to take action against goods that are sold at less than their normal value – that being defined as the price for ‘like goods’ sold in the exporter’s home market.
       </p>
@@ -427,7 +434,7 @@ en:
         Read more about <a target="_blank" href="https://www.gov.uk/government/publications/uk-trade-tariff-anti-dumping-and-countervailing-duties/uk-trade-tariff-anti-dumping-and-countervailing-duties" class="govuk-link">equivalent certificate</a>anti-dumping and countervailing duties</a>.
       </p>
 
-    '553': >- # Provisional countervailing duty
+    "553": >- # Provisional countervailing duty
       <p class="govuk-body">
         Countervailing duty, also known as anti-subsidy duty, is a customs duty imposed on goods which have received illicit government subsidies in the originating or exporting country.
       </p>
@@ -438,7 +445,7 @@ en:
         Read more about <a target="_blank" href="https://www.gov.uk/government/publications/uk-trade-tariff-anti-dumping-and-countervailing-duties/uk-trade-tariff-anti-dumping-and-countervailing-duties" class="govuk-link">equivalent certificate</a>anti-dumping and countervailing duties</a>.
       </p>
 
-    '554': >- # Definitive countervailing duty
+    "554": >- # Definitive countervailing duty
       <p class="govuk-body">
         Countervailing duty, also known as anti-subsidy duty, is a customs duty imposed on goods which have received illicit government subsidies in the originating or exporting country.
       </p>
@@ -449,169 +456,172 @@ en:
         Read more about <a target="_blank" href="https://www.gov.uk/government/publications/uk-trade-tariff-anti-dumping-and-countervailing-duties/uk-trade-tariff-anti-dumping-and-countervailing-duties" class="govuk-link">equivalent certificate</a>anti-dumping and countervailing duties</a>.
       </p>
 
-    '555': >- # Anti-dumping/countervailing duty - Pending collection
+    "555": >- # Anti-dumping/countervailing duty - Pending collection
       <p class="govuk-body">
       </p>
 
-    '561': >- # Notice of initiation of an anti-dumping or countervailing proceeding
+    "561":
+      >- # Notice of initiation of an anti-dumping or countervailing proceeding
       <p class="govuk-body">
       </p>
 
-    '562': >- # Suspended anti-dumping or countervailing duty
+    "562": >- # Suspended anti-dumping or countervailing duty
       <p class="govuk-body">
       </p>
 
-    '563': >- # Dump Undertakings
+    "563": >- # Dump Undertakings
       <p class="govuk-body">
       </p>
 
-    '564': >- # Anti-dumping or countervailing registration
+    "564": >- # Anti-dumping or countervailing registration
       <p class="govuk-body">
       </p>
 
-    '565': >- # Anti-dumping/countervailing review
+    "565": >- # Anti-dumping/countervailing review
       <p class="govuk-body">
       </p>
 
-    '566': >- # Anti-dumping/countervailing statistic
+    "566": >- # Anti-dumping/countervailing statistic
       <p class="govuk-body">
       </p>
 
-    '570': >- # Anti-dumping/countervailing duty - Control
+    "570": >- # Anti-dumping/countervailing duty - Control
       <p class="govuk-body">
       </p>
 
-    '624': >- # Reference price
+    "624": >- # Reference price
       <p class="govuk-body">
       </p>
 
-    '625': >- # Statistic - reference price fish
+    "625": >- # Statistic - reference price fish
       <p class="govuk-body">
       </p>
 
-    '630': >- # Differences in prices for basic products
+    "630": >- # Differences in prices for basic products
       <p class="govuk-body">
       </p>
 
-    '651': >- # Security based on representative price
+    "651": >- # Security based on representative price
       <p class="govuk-body">
       </p>
 
-    '652': >- # Additional duty based on cif price
+    "652": >- # Additional duty based on cif price
       <p class="govuk-body">
       </p>
 
-    '653': >- # Security based on representative price, reduced under the benefit of a tariff
+    "653":
+      >- # Security based on representative price, reduced under the benefit of a tariff
       <p class="govuk-body">
       </p>
 
       quota
-    '654': >- # Additional duty based on CIF price, reduced under the benefit of a tariff quota
+    "654":
+      >- # Additional duty based on CIF price, reduced under the benefit of a tariff quota
       <p class="govuk-body">
       </p>
 
-    '655': >- # Security (poultry) based on representative price
+    "655": >- # Security (poultry) based on representative price
       <p class="govuk-body">
       </p>
 
-    '656': >- # Additional duty (poultry) based on cif price
+    "656": >- # Additional duty (poultry) based on cif price
       <p class="govuk-body">
       </p>
 
-    '657': >- # Reduced security based on representative price
+    "657": >- # Reduced security based on representative price
       <p class="govuk-body">
       </p>
 
-    '658': >- # Reduced additional duty based on CIF price
+    "658": >- # Reduced additional duty based on CIF price
       <p class="govuk-body">
       </p>
 
-    '670': >- # Amount of levy
+    "670": >- # Amount of levy
       <p class="govuk-body">
       </p>
 
-    '672': >- # Amount of additional duty on sugar
+    "672": >- # Amount of additional duty on sugar
       <p class="govuk-body">
       </p>
 
-    '673': >- # Amount of additional duty on flour
+    "673": >- # Amount of additional duty on flour
       <p class="govuk-body">
       </p>
 
-    '674': >- # Agricultural component
+    "674": >- # Agricultural component
       <p class="govuk-body">
       </p>
 
-    '676': >- # Monetary compen. amount - import
+    "676": >- # Monetary compen. amount - import
       <p class="govuk-body">
       </p>
 
-    '677': >- # Accesion compensatory amount (ACA) import
+    "677": >- # Accesion compensatory amount (ACA) import
       <p class="govuk-body">
       </p>
 
-    '678': >- # Monetary compel. amount for export
+    "678": >- # Monetary compel. amount for export
       <p class="govuk-body">
       </p>
 
-    '679': >- # Accession comp. amount (ACA) export
+    "679": >- # Accession comp. amount (ACA) export
       <p class="govuk-body">
       </p>
 
-    '680': >- # Export refund (basic products)
+    "680": >- # Export refund (basic products)
       <p class="govuk-body">
       </p>
 
-    '681': >- # Export refund (ingredients - information)
+    "681": >- # Export refund (ingredients - information)
       <p class="govuk-body">
       </p>
 
-    '682': >- # Export tax
+    "682": >- # Export tax
       <p class="govuk-body">
       </p>
 
-    '683': >- # Export refund (ingredients - amounts)
+    "683": >- # Export refund (ingredients - amounts)
       <p class="govuk-body">
       </p>
 
-    '684': >- # Export refunds for cereal contents
+    "684": >- # Export refunds for cereal contents
       <p class="govuk-body">
       </p>
 
-    '685': >- # Export refunds for rice contents
+    "685": >- # Export refunds for rice contents
       <p class="govuk-body">
       </p>
 
-    '686': >- # Export refund for eggs contents
+    "686": >- # Export refund for eggs contents
       <p class="govuk-body">
       </p>
 
-    '687': >- # Export refunds for sugar contents
+    "687": >- # Export refunds for sugar contents
       <p class="govuk-body">
       </p>
 
-    '688': >- # Export refunds for milk products contents
+    "688": >- # Export refunds for milk products contents
       <p class="govuk-body">
       </p>
 
-    '690': >- # Countervailing charge
+    "690": >- # Countervailing charge
       <p class="govuk-body">
       </p>
 
-    '691': >- # Suplementary amount
+    "691": >- # Suplementary amount
       <p class="govuk-body">
       </p>
 
-    '692': >- # Supplementary trade mechanism
+    "692": >- # Supplementary trade mechanism
       <p class="govuk-body">
       </p>
 
-    '695': >- # Additional duties
+    "695": >- # Additional duties
       <p class="govuk-body">
         Additional duties are applied in retaliation for existing trade disputes and must be added to the underlying customs duties. Where such retaliatory duties are due, the additional duty will be added to the duty liability.
       </p>
 
-    '696': >- # Additional duties (safeguard)
+    "696": >- # Additional duties (safeguard)
       <p class="govuk-body">
         Additional 'safeguard' duties are applied to the import of certain steel products to protect the UK against an influx of cheap goods from overseas. Where such duties are due, the additional duty will be added to the liability.
       </p>
@@ -619,161 +629,168 @@ en:
         The impact of the safeguard duties may be waived via the application of a tariff rate quota. Please check that the quota is not exhausted before attempting to use it.
       </p>
 
-    '705': >- # Import prohibition on goods for torture and repression
+    "705": >- # Import prohibition on goods for torture and repression
       <p class="govuk-body">
       </p>
 
-    '706': >- # Goods for torture and repression, export prohibition
+    "706": >- # Goods for torture and repression, export prohibition
       <p class="govuk-body">
       </p>
 
-    '707': >- # Import control
+    "707": >- # Import control
       <p class="govuk-body">
       </p>
 
-    '708': >- # Goods for torture and repression, export restriction
+    "708": >- # Goods for torture and repression, export restriction
       <p class="govuk-body">
       </p>
 
-    '709': >- # Export control
+    "709": >- # Export control
       <p class="govuk-body">
       </p>
 
-    '710': >- # Import control - CITES
+    "710": >- # Import control - CITES
       <p class="govuk-body">
       </p>
 
-    '711': >- # Import control on restricted goods and technologies
+    "711": >- # Import control on restricted goods and technologies
       <p class="govuk-body">
       </p>
 
-    '712': >- # Import control - IAS
+    "712": >- # Import control - IAS
       <p class="govuk-body">
       </p>
 
-    '713': >- # Import control on genetically modified organisms (GMO) and products containing
+    "713":
+      >- # Import control on genetically modified organisms (GMO) and products containing
       <p class="govuk-body">
       </p>
 
       GMOs
-    '714': >- # Import control
+    "714": >- # Import control
       <p class="govuk-body">
       </p>
 
-    '715': >- # Export control - CITES
+    "715": >- # Export control - CITES
       <p class="govuk-body">
       </p>
 
-    '716': >- # Export control measure for fish
+    "716": >- # Export control measure for fish
       <p class="govuk-body">
       </p>
 
-    '717': >- # Export control on restricted goods and technologies
+    "717": >- # Export control on restricted goods and technologies
       <p class="govuk-body">
       </p>
 
-    '718': >- # Export control on luxury goods
+    "718": >- # Export control on luxury goods
       <p class="govuk-body">
       </p>
 
-    '719': >- # Control on illegal, unreported and unregulated fishing
+    "719": >- # Control on illegal, unreported and unregulated fishing
       <p class="govuk-body">
       </p>
 
-    '722': >- # Entry into free circulation (restriction - feed and food)
+    "722": >- # Entry into free circulation (restriction - feed and food)
       <p class="govuk-body">
       </p>
 
-    '724': >- # Import control of fluorinated greenhouse gases
+    "724": >- # Import control of fluorinated greenhouse gases
       <p class="govuk-body">
       </p>
 
-    '725': >- # Export control on ozone-depleting substances
+    "725": >- # Export control on ozone-depleting substances
       <p class="govuk-body">
       </p>
 
-    '728': >- # Import control on luxury goods
+    "728": >- # Import control on luxury goods
       <p class="govuk-body">
       </p>
 
-    '730': >- # Compliance with the pre-export checks requirements
+    "730": >- # Compliance with the pre-export checks requirements
       <p class="govuk-body">
       </p>
 
-    '735': >- # Export control on cultural goods
+    "735": >- # Export control on cultural goods
       <p class="govuk-body">
       </p>
 
-    '740': >- # Export control on cat and dog fur
+    "740": >- # Export control on cat and dog fur
       <p class="govuk-body">
       </p>
 
-    '745': >- # Import control on cat and dog fur
+    "745": >- # Import control on cat and dog fur
       <p class="govuk-body">
       </p>
 
-    '746': >- # Import control on seal products
+    "746": >- # Import control on seal products
       <p class="govuk-body">
       </p>
 
-    '747': >- # Import control of timber and timber products subject to the FLEGT licensing
+    "747":
+      >- # Import control of timber and timber products subject to the FLEGT licensing
       <p class="govuk-body">
       </p>
 
       scheme
-    '748': >- # Import control of mercury
+    "748": >- # Import control of mercury
       <p class="govuk-body">
       </p>
 
-    '749': >- # Export control of mercury
+    "749": >- # Export control of mercury
       <p class="govuk-body">
       </p>
 
-    '750': >- # Import control of organic products
+    "750": >- # Import control of organic products
       <p class="govuk-body">
       </p>
 
-    '751': >- # Export control - Waste
+    "751": >- # Export control - Waste
       <p class="govuk-body">
       </p>
 
-    '755': >- # Import control - waste
+    "755": >- # Import control - waste
       <p class="govuk-body">
       </p>
 
-    '760': >- # Import control
+    "760": >- # Import control
       <p class="govuk-body">
       </p>
 
-    '761': >- # Import control on REACH
+    "761": >- # Import control on REACH
       <p class="govuk-body">
       </p>
 
-    '766': >- # Export control
+    "766": >- # Export control
       <p class="govuk-body">
       </p>
 
-    '770': >- # Import control of timber and timber products subject to the FLEGT licensing
+    "770":
+      >- # Import control of timber and timber products subject to the FLEGT licensing
       <p class="govuk-body">
       </p>
 
       scheme-Ghana
-    '771': >- # Import control of timber and timber products subject to the FLEGT licensing
+    "771":
+      >- # Import control of timber and timber products subject to the FLEGT licensing
       <p class="govuk-body">
       </p>
 
       scheme-Cameroon
-    '772': >- # Import control of timber and timber products subject to the FLEGT licensing
+    "772":
+      >- # Import control of timber and timber products subject to the FLEGT licensing
       <p class="govuk-body">
       </p>
 
       scheme-Republic of Congo
-    '773': >- # Import control of timber and timber products subject to the FLEGT licensing
+    "773":
+      >- # Import control of timber and timber products subject to the FLEGT licensing
       <p class="govuk-body">
       </p>
 
       scheme-Central Africa Republic
-    '774': >- # Import control of timber and timber products subject to the FLEGT licensing
+    "774":
+      >- # Import control of timber and timber products subject to the FLEGT licensing
       <p class="govuk-body">
       </p>
 
@@ -782,7 +799,8 @@ en:
       <p class="govuk-body">
       </p>
 
-    AIL: >- # Health and Safety Executive Import Licensing Firearms and Ammunition
+    AIL:
+      >- # Health and Safety Executive Import Licensing Firearms and Ammunition
       <p class="govuk-body">
       </p>
 
@@ -810,12 +828,14 @@ en:
       <p class="govuk-body">
       </p>
 
-    DAA: >- # EXCISE - FULL, 411, SPARKLING WINE OF FRESH GRAPE, 8.5% AND ABOVE, BUT NOT EXCEEDING
+    DAA:
+      >- # EXCISE - FULL, 411, SPARKLING WINE OF FRESH GRAPE, 8.5% AND ABOVE, BUT NOT EXCEEDING
       <p class="govuk-body">
       </p>
 
       15%
-    DAB: >- # EXCISE - FULL, 412, SPARKLING WINE OF FRESH GRAPE, EXCEEDING 5.5% BUT LESS THAN
+    DAB:
+      >- # EXCISE - FULL, 412, SPARKLING WINE OF FRESH GRAPE, EXCEEDING 5.5% BUT LESS THAN
       <p class="govuk-body">
       </p>
 
@@ -832,12 +852,14 @@ en:
       <p class="govuk-body">
       </p>
 
-    DBA: >- # EXCISE - FULL, 421, SPARKLING MADE-WINE EXC 8.5% AND ABOVE BUT NOT EXCEEDING
+    DBA:
+      >- # EXCISE - FULL, 421, SPARKLING MADE-WINE EXC 8.5% AND ABOVE BUT NOT EXCEEDING
       <p class="govuk-body">
       </p>
 
       15%
-    DBB: >- # EXCISE - FULL, 422, SPARKLING MADE-WINE EXCEEDING 5.5% BUT LESS THAN 8.5%
+    DBB:
+      >- # EXCISE - FULL, 422, SPARKLING MADE-WINE EXCEEDING 5.5% BUT LESS THAN 8.5%
       <p class="govuk-body">
       </p>
 
@@ -925,11 +947,13 @@ en:
       <p class="govuk-body">
       </p>
 
-    DHC: >- # EXCISE - FULL, 483, CIDER AND PERRY EXCEEDING 7.5% BUT LESS THAN 8.5%
+    DHC:
+      >- # EXCISE - FULL, 483, CIDER AND PERRY EXCEEDING 7.5% BUT LESS THAN 8.5%
       <p class="govuk-body">
       </p>
 
-    DHE: >- # EXCISE - FULL, 485, SPARKLING CIDER and PERRY, STRENGTH EXCEEDING 5.5% BUT LESS
+    DHE:
+      >- # EXCISE - FULL, 485, SPARKLING CIDER and PERRY, STRENGTH EXCEEDING 5.5% BUT LESS
       <p class="govuk-body">
       </p>
 
@@ -978,7 +1002,8 @@ en:
       <p class="govuk-body">
       </p>
 
-    EDJ: >- # EXCISE – FULL, 540, OTHER (UNMARKED) HEAVY OIL (OTHER THAN KEROSENE)
+    EDJ:
+      >- # EXCISE – FULL, 540, OTHER (UNMARKED) HEAVY OIL (OTHER THAN KEROSENE)
       <p class="govuk-body">
       </p>
 
@@ -1026,12 +1051,14 @@ en:
       <p class="govuk-body">
       </p>
 
-    EIC: >- # EXCISE - FULL, 593, OTHER RCT EX DTY SULPH FREE DIESEL AND RPT EX DTY SULPH FREE
+    EIC:
+      >- # EXCISE - FULL, 593, OTHER RCT EX DTY SULPH FREE DIESEL AND RPT EX DTY SULPH FREE
       <p class="govuk-body">
       </p>
 
       DIESEL
-    EID: >- # EXCISE - FULL, 594, OTHER RCT EX DTY SULPH FREE PETROL AND RPT EX DTY SULPH FREE
+    EID:
+      >- # EXCISE - FULL, 594, OTHER RCT EX DTY SULPH FREE PETROL AND RPT EX DTY SULPH FREE
       <p class="govuk-body">
       </p>
 
@@ -1180,72 +1207,57 @@ en:
       <p class="govuk-body">
       </p>
 
-
   row_to_ni_measure_type_footnotes_suffixes:
     third_country_tariff:
-      uk_html:
-        <p class="govuk-body">
-          UK import duties apply, as the difference between the UK third country duty and the EU third country duty is lower than 3% of the customs value of your trade.
+      uk_html: <p class="govuk-body">
+        UK import duties apply, as the difference between the UK third country duty and the EU third country duty is lower than 3% of the customs value of your trade.
         </p>
-      xi_html:
-        <p class="govuk-body">
-          EU import duties apply, as the difference between the UK third country duty and the EU third country duty exceeds 3% of the customs value of your trade.
+      xi_html: <p class="govuk-body">
+        EU import duties apply, as the difference between the UK third country duty and the EU third country duty exceeds 3% of the customs value of your trade.
         </p>
     tariff_preference:
       xi_only:
-        xi_html:
-          <p class="govuk-body">
-            EU preferential duties may be applied.
+        xi_html: <p class="govuk-body">
+          EU preferential duties may be applied.
           </p>
       uk_only:
-        uk_html:
-          <p class="govuk-body">
-            UK preferential duties may be applied, as the difference between the UK preferential duty and the EU third-country duty is lower than 3% of the customs value of your trade.
+        uk_html: <p class="govuk-body">
+          UK preferential duties may be applied, as the difference between the UK preferential duty and the EU third-country duty is lower than 3% of the customs value of your trade.
           </p>
-        xi_html:
-          <p class="govuk-body">
-            The UK preference is not available, as the difference between the UK preferential duty and the EU third-country duty exceeds 3% of the customs value of your trade.
+        xi_html: <p class="govuk-body">
+          The UK preference is not available, as the difference between the UK preferential duty and the EU third-country duty exceeds 3% of the customs value of your trade.
           </p>
-      uk_html:
-        <p class="govuk-body">
-          UK preferential duties may be applied, as the difference between the UK preferential duty and the EU preferential duty is lower than 3% of the customs value of your trade.
+      uk_html: <p class="govuk-body">
+        UK preferential duties may be applied, as the difference between the UK preferential duty and the EU preferential duty is lower than 3% of the customs value of your trade.
         </p>
-      xi_html:
-        <p class="govuk-body">
-          EU preferential duties may be applied, as the difference between the UK preferential duty and the EU preferential duty exceeds 3% of the customs value of your trade.
+      xi_html: <p class="govuk-body">
+        EU preferential duties may be applied, as the difference between the UK preferential duty and the EU preferential duty exceeds 3% of the customs value of your trade.
         </p>
     suspension:
       xi_only:
-        xi_html:
-          <p class="govuk-body">
-            EU suspension duties may be applied.
+        xi_html: <p class="govuk-body">
+          EU suspension duties may be applied.
           </p>
       uk_only:
-        uk_html:
-          <p class="govuk-body">
-            UK suspension duties may be applied, as the difference between the UK suspension duty and the EU third-country duty is lower than 3% of the customs value of your trade.
+        uk_html: <p class="govuk-body">
+          UK suspension duties may be applied, as the difference between the UK suspension duty and the EU third-country duty is lower than 3% of the customs value of your trade.
           </p>
-        xi_html:
-          <p class="govuk-body">
-            The UK %{uk_only_text} is not available, as the difference between the UK suspended duty and the EU third-country duty exceeds 3% of the customs value of your trade.
+        xi_html: <p class="govuk-body">
+          The UK %{uk_only_text} is not available, as the difference between the UK suspended duty and the EU third-country duty exceeds 3% of the customs value of your trade.
           </p>
-      uk_html:
-        <p class="govuk-body">
-          UK suspensions may be applied, as the difference between the UK suspension duty and the EU suspension duty is lower than 3% of the customs value of your trade.
+      uk_html: <p class="govuk-body">
+        UK suspensions may be applied, as the difference between the UK suspension duty and the EU suspension duty is lower than 3% of the customs value of your trade.
         </p>
-      xi_html:
-        <p class="govuk-body">
-          EU suspensions may be applied, as the difference between the UK suspension duty and the EU suspension duty exceeds 3% of the customs value of your trade.
+      xi_html: <p class="govuk-body">
+        EU suspensions may be applied, as the difference between the UK suspension duty and the EU suspension duty exceeds 3% of the customs value of your trade.
         </p>
     quota:
       uk_only:
-        uk_html:
-          <p class="govuk-body">
-            UK quotas may be used, as the difference between the UK in-quota duty and the EU third-country duty is lower than 3% of the customs value of your trade.
+        uk_html: <p class="govuk-body">
+          UK quotas may be used, as the difference between the UK in-quota duty and the EU third-country duty is lower than 3% of the customs value of your trade.
           </p>
-        xi_html:
-          <p class="govuk-body">
-            The UK quota %{uk_only_text} is not available, as the difference between the UK quota duty and the EU third-country duty exceeds 3% of the customs value of your trade.
+        xi_html: <p class="govuk-body">
+          The UK quota %{uk_only_text} is not available, as the difference between the UK quota duty and the EU third-country duty exceeds 3% of the customs value of your trade.
           </p>
       xi_only:
         xi_html: "-"
