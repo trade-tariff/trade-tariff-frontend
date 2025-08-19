@@ -1,4 +1,4 @@
-<% myott_page_title "Review selection" %>
+<% myott_page_title "Review selection", error: flash.now[:alert] %>
 
 <% content_for :back_link do %>
   <% back_link session[:all_tariff_updates] ? new_myott_preferences_path : edit_myott_preferences_path %>
@@ -7,8 +7,6 @@
 <div class="govuk-body myott-subscriptions">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <%= render 'error' if flash.now[:error] %>
-
       <h1 class="govuk-heading-l">Review chapter selection</h1>
       <h2 class="govuk-heading-m"><%= @selected_chapters_heading %></h2>
       <p>

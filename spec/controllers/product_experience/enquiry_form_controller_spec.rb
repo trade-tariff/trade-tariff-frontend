@@ -50,14 +50,15 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
     context 'with missing required field' do
       before { post :submit, params: { field: 'full_name', full_name: '' } }
 
-      it { expect(flash.now[:error]).to be_present }
+      it { expect(assigns(:alert)).to be_present }
+
       it { expect(response).to render_template(:form) }
     end
 
     context 'with invalid email' do
       before { post :submit, params: { field: 'email_address', email_address: 'bad-email' } }
 
-      it { expect(flash.now[:error]).to eq('Please enter a valid email address.') }
+      it { expect(assigns(:alert)).to eq('Please enter a valid email address.') }
       it { expect(response).to render_template(:form) }
     end
 
@@ -137,7 +138,7 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
 
       it 'creates error message' do
         post :submit_form, params: { submission_token: submission_token }
-        expect(flash[:error]).to eq('There was a problem submitting your enquiry. Please try again later.')
+        expect(flash[:alert]).to eq('There was a problem submitting your enquiry. Please try again later.')
       end
 
       it 'redirects to check your answers' do
@@ -153,7 +154,7 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
 
       it 'creates error message' do
         post :submit_form, params: { submission_token: submission_token }
-        expect(flash[:error]).to eq('There was a problem submitting your enquiry. Please try again later.')
+        expect(flash[:alert]).to eq('There was a problem submitting your enquiry. Please try again later.')
       end
 
       it 'redirects to check your answers' do

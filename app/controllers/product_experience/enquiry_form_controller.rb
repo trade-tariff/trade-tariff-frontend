@@ -25,12 +25,12 @@ module ProductExperience
       editing = params[:editing]
 
       if value.blank? && required_field?(@field)
-        flash.now[:error] = error_message_for(@field)
+        @alert = error_message_for(@field)
         return render :form
       end
 
       if @field == 'email_address' && !value.match?(URI::MailTo::EMAIL_REGEXP)
-        flash.now[:error] = 'Please enter a valid email address.'
+        @alert = 'Please enter a valid email address.'
         return render :form
       end
 
@@ -63,11 +63,11 @@ module ProductExperience
           session.delete(:enquiry_data)
           redirect_to product_experience_enquiry_form_confirmation_path(reference_number: response['resource_id'])
         else
-          flash[:error] = 'There was a problem submitting your enquiry. Please try again later.'
+          flash[:alert] = 'There was a problem submitting your enquiry. Please try again later.'
           redirect_to product_experience_enquiry_form_check_your_answers_path
         end
       rescue Faraday::Error
-        flash[:error] = 'There was a problem submitting your enquiry. Please try again later.'
+        flash[:alert] = 'There was a problem submitting your enquiry. Please try again later.'
         redirect_to product_experience_enquiry_form_check_your_answers_path
       end
     end
@@ -97,8 +97,7 @@ module ProductExperience
       next_field = EnquiryFormHelper.fields[current_index + 1]
 
       if next_field
-        redirect_to controller: 'product_experience/enquiry_form', action: 'form', field: next_field
-
+        redirect_to product_experience_enquiry_form_field_path(next_field)
       else
         redirect_to product_experience_enquiry_form_check_your_answers_path
       end

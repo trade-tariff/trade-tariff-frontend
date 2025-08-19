@@ -451,7 +451,7 @@ RSpec.describe ServiceHelper, type: :helper do
 
     context 'when there is a flash error' do
       it 'includes the error title prefix' do
-        helper.flash.now[:error] = 'Something went wrong'
+        helper.flash.now[:alert] = 'Something went wrong'
 
         expect(helper.enquiry_form_title(field))
           .to eq('Error: Enquiry Form | How can we help?')

@@ -34,7 +34,7 @@ module Myott
         redirect_to myott_confirmation_path and return
       end
 
-      flash[:error] = 'There was an error updating your subscription. Please try again.'
+      flash[:alert] = 'There was an error updating your subscription. Please try again.'
       redirect_to myott_check_your_answers_path
     end
 

@@ -9,7 +9,6 @@
 <pre><% session[:enquiry_data].inspect %></pre> <!--for debugging-->
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render 'error' if flash.now[:error] %>
     <%= form_with url: "/enquiry_form/#{@field}", method: :post, local: true do %>
       <%= hidden_field_tag :editing, params[:editing] if params[:editing].present? %>
       <%= render partial: partial_for_field(@field), locals: { field: @field } %>

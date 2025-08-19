@@ -5,7 +5,6 @@
 <div class="govuk-body">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <%= render 'error' if flash.now[:error] %>
       <h1 class="govuk-heading-l">Check your answers before submitting your form</h1>
       <%= form_with url: product_experience_enquiry_form_submit_form_path, method: :post, local: true do %>
       <%= hidden_field_tag :submission_token, session[:submission_token] %>
@@ -19,7 +18,7 @@
                 <%= display_value_for(field, value) %>
               </dd>
               <dd class="govuk-summary-list__actions">
-                <%= link_to 'Change', url_for(controller: 'product_experience/enquiry_form', action: 'form', field: field,  editing: true), class: 'govuk-link' %>
+                <%= link_to 'Change', product_experience_enquiry_form_field_path(field, editing: true), class: 'govuk-link' %>
               </dd>
             </div>
           <% end %>

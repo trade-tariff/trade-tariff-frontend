@@ -199,7 +199,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         end
 
         it 'sets a flash error message' do
-          expect(flash[:error]).to eq('There was an error updating your subscription. Please try again.')
+          expect(flash[:alert]).to eq('There was an error updating your subscription. Please try again.')
         end
       end
     end

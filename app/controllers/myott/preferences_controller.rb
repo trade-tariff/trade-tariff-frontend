@@ -16,7 +16,8 @@ module Myott
         session[:all_tariff_updates] = true
         redirect_to myott_check_your_answers_path
       else
-        flash.now[:error] = 'Select a subscription preference to continue'
+        @alert = 'Select a subscription preference to continue'
+        @div_id = 'radio-buttons'
         flash.now[:select_error] = 'Select an option to continue'
         render :new
       end
@@ -30,7 +31,7 @@ module Myott
     def update
       if params[:chapter_ids].blank?
         session_chapters.delete
-        flash[:error] = 'You must select at least one chapter.'
+        flash[:alert] = 'You must select at least one chapter.'
         redirect_to edit_myott_preferences_path and return
       else
         session[:all_tariff_updates] = false
