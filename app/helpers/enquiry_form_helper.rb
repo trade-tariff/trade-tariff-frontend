@@ -81,5 +81,23 @@ def display_value_for(field, value)
 end
 
 def field_value(field, session_data = session[:enquiry_data])
-  session_data[field]
+  if session_data[field].present?
+    if field == 'query'
+      Rails.cache.read(session_data[field])
+    else
+      session_data[field]
+    end
+  end
+end
+
+def validate_value(field, value)
+  if value.blank? && required_field?(field)
+    @alert = error_message_for(field)
+  end
+  if field == 'email_address' && !value.match?(URI::MailTo::EMAIL_REGEXP)
+    @alert = 'Please enter a valid email address.'
+  end
+  if (field == 'query') && (value.length > 5004) # add some tolerance as GDS javascript char count is problematic known issue: https://github.com/alphagov/govuk-frontend/issues/1104
+    @alert = 'Please limit your query to 5000 characters or less.'
+  end
 end

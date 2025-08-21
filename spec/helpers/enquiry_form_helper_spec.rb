@@ -90,9 +90,76 @@ RSpec.describe EnquiryFormHelper, type: :helper do
   end
 
   describe '#field_value' do
-    it 'returns field value from session data hash' do
-      session_data = { 'query' => 'My question' }
-      expect(field_value('query', session_data)).to eq('My question')
+    let(:session_data) { { 'query' => 'cache_key', 'full_name' => 'Alice' } }
+
+    it 'returns field value from provided session data' do
+      expect(field_value('full_name', session_data)).to eq('Alice')
+    end
+
+    it 'uses Rails.cache for query field' do
+      allow(Rails.cache).to receive(:read).with('cache_key').and_return('Cached question')
+      expect(field_value('query', session_data)).to eq('Cached question')
+    end
+
+    it 'falls back to session[:enquiry_data] when session_data not passed' do
+      session[:enquiry_data] = { 'full_name' => 'Bob' }
+      expect(field_value('full_name')).to eq('Bob')
+    end
+  end
+
+  describe '#validate_value' do
+    subject(:validate) { validate_value(field, value) }
+
+    let(:alert) { instance_variable_get(:@alert) }
+
+    context 'when required field is blank' do
+      let(:field) { 'full_name' }
+      let(:value) { '' }
+
+      it 'sets alert to the correct message' do
+        validate
+        expect(alert).to eq('Please enter your full name.')
+      end
+    end
+
+    context 'when email is invalid' do
+      let(:field) { 'email_address' }
+      let(:value) { 'not-an-email' }
+
+      it 'sets alert to invalid email message' do
+        validate
+        expect(alert).to eq('Please enter a valid email address.')
+      end
+    end
+
+    context 'when email is valid' do
+      let(:field) { 'email_address' }
+      let(:value) { 'user@example.com' }
+
+      it 'does not set alert' do
+        validate
+        expect(alert).to be_nil
+      end
+    end
+
+    context 'when query exceeds character limit' do
+      let(:field) { 'query' }
+      let(:value) { 'a' * 5005 }
+
+      it 'sets alert to length message' do
+        validate
+        expect(alert).to eq('Please limit your query to 5000 characters or less.')
+      end
+    end
+
+    context 'when required field has valid value' do
+      let(:field) { 'full_name' }
+      let(:value) { 'Alice' }
+
+      it 'does not set alert' do
+        validate
+        expect(alert).to be_nil
+      end
     end
   end
 end

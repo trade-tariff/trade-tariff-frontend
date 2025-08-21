@@ -39,14 +39,44 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
   end
 
   describe 'GET #form' do
-    context 'with valid field' do
-      before { get :form, params: { field: 'full_name' } }
+    let(:submission_token) { SecureRandom.uuid }
 
-      it { expect(response).to render_template(:form) }
+    before { session[:submission_token] = submission_token }
+
+    context 'with valid field and correct token' do
+      it 'renders the form' do
+        get :form, params: { field: 'full_name', submission_token: submission_token }
+        expect(response).to render_template(:form)
+      end
+    end
+
+    context 'with invalid token' do
+      it 'redirects back to the start' do
+        get :form, params: { field: 'full_name', submission_token: 'wrong-token' }
+        expect(response).to redirect_to(product_experience_enquiry_form_path)
+      end
     end
   end
 
   describe 'POST #submit' do
+    let(:submission_token) { SecureRandom.uuid }
+
+    before { session[:submission_token] = submission_token }
+
+    context 'with valid token' do
+      it 'saves the field value' do
+        post :submit, params: { field: 'full_name', full_name: 'Jane Doe', submission_token: submission_token }
+        expect(session[:enquiry_data]['full_name']).to eq('Jane Doe')
+      end
+    end
+
+    context 'with invalid token' do
+      it 'redirects back to the start' do
+        post :submit, params: { field: 'full_name', full_name: 'Jane Doe', submission_token: 'wrong-token' }
+        expect(response).to redirect_to(product_experience_enquiry_form_path)
+      end
+    end
+
     context 'with missing required field' do
       before { post :submit, params: { field: 'full_name', full_name: '' } }
 
@@ -86,6 +116,7 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
   describe 'GET #check_your_answers' do
     before do
       session[:enquiry_data] = { 'query' => 'Test question' }
+      allow(Rails.cache).to receive(:read).with(session[:enquiry_data]['query']).and_return(session[:enquiry_data]['query'])
       get :check_your_answers
     end
 
@@ -100,6 +131,7 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
     before do
       session[:enquiry_data] = session_data
       session[:submission_token] = submission_token
+      allow(Rails.cache).to receive(:read).with(session[:enquiry_data]['query']).and_return(session[:enquiry_data]['query'])
     end
 
     context 'when submission is successful' do

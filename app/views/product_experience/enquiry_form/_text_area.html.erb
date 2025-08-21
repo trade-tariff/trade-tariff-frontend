@@ -1,11 +1,23 @@
-<div class="govuk-form-group">
+<div class="govuk-form-group govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
   <label class="govuk-label govuk-label--l" for="<%= field %>">
     <%= field_label(field) %>
   </label>
+
   <% if field_hint(field) %>
     <div id="<%= "#{field}-hint" %>" class="govuk-hint">
       <%= field_hint(field) %>
     </div>
   <% end %>
-  <%= text_area_tag field, field_value(field), class: "govuk-textarea", rows: 5, id: field, 'aria-describedby': "#{field}-hint" %>
- </div>
+
+  <%= text_area_tag field,
+                    field_value(field),
+                    class: "govuk-textarea govuk-js-character-count",
+                    rows: 10,
+                    id: field,
+                    'aria-describedby': "#{field}-hint #{field}-info",
+                    maxlength: 5000 %>
+
+  <div id="<%= "#{field}-info" %>" class="govuk-hint govuk-character-count__message">
+    You can enter up to 5,000 characters
+  </div>
+</div>

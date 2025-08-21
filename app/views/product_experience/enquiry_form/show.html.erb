@@ -15,13 +15,16 @@
       <p class="govuk-body">Along with the details of your enquiry, you will be asked for your email address
       so we can reply to you.</p>
 
-    <%= link_to product_experience_enquiry_form_field_path(EnquiryFormHelper.fields.first),
+    <%= link_to product_experience_enquiry_form_field_path(EnquiryFormHelper.fields.first, submission_token: session[:submission_token]),
             role: "button",
             draggable: "false",
             class: "govuk-button govuk-button--start",
-            data: { module: "govuk-button" } do %>
+            data: { module: "govuk-button" },
+            method: :post do %>
         Start
         <%= render 'shared/start_arrow' %>
     <% end %>
+
+
   </div>
 </div>
