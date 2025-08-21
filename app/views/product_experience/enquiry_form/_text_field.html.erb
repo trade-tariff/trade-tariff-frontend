@@ -1,0 +1,11 @@
+<div class="govuk-form-group">
+  <label class="govuk-label govuk-label--l" for="<%= field %>">
+    <%= field_label(field) %>
+  </label>
+  <% if field_hint(field) %>
+    <div id="<%= "#{field}-hint" %>" class="govuk-hint">
+      <%= field_hint(field) %>
+    </div>
+  <% end %>
+  <%= text_field_tag field, nil, class: "govuk-input", id: field, value: field_value(field) %>
+</div>

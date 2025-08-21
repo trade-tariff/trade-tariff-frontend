@@ -1,0 +1,30 @@
+<% content_for :title, "#{enquiry_form_title('Check Your Answers')}" %>
+<% content_for :back_link do %>
+  <%= back_link product_experience_enquiry_form_field_path(@prev_field) %>
+<% end %>
+<div class="govuk-body">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-l">Check your answers before submitting your form</h1>
+      <%= form_with url: product_experience_enquiry_form_submit_form_path, method: :post, local: true do %>
+      <%= hidden_field_tag :submission_token, session[:submission_token] %>
+        <dl class="govuk-summary-list">
+          <% @enquiry_data.each do |field, value| %>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                <%= field_label(field) %>
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <%= simple_format(display_value_for(field, value)) %>
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <%= link_to 'Change', product_experience_enquiry_form_field_path(field, editing: true), class: 'govuk-link' %>
+              </dd>
+            </div>
+          <% end %>
+        </dl>
+        <p><%= submit_tag "Submit", class: "govuk-button govuk-!-margin-top-4" %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

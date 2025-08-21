@@ -58,6 +58,10 @@ en:
       valuation: "How to value your goods for import or export"
       trade-remedies: "What are trade remedies, safeguards and retaliatory duties"
       origin: "What is origin and why is it important for international trade"
+    enquiry_form:
+      page_name: "Enquiry Form"
+      error: "Error: "
+
   header:
     uk: UK Integrated Online Tariff
     xi: Northern Ireland Online Tariff

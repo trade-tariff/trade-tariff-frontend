@@ -1,0 +1,30 @@
+<% content_for :title, "#{enquiry_form_title('')}" %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Trade tariff enquiry form</h1>
+      <p class="govuk-body">Use this service if you have a question for the UK Trade Tariff Service team, or
+      about trade tariffs. We aim to reply to all questions within 10 working days.</p>
+
+    <h2 class="govuk-heading-m">Before you start</h1>
+      <p class="govuk-body">The answer to your question might be in the <a href=<%= help_path %>>help section</a>. If the answer you
+      want is not there, submit the question using the enquiry form.</p>
+
+      <p class="govuk-body">Please also check the <a href=<%= live_issues_path %>>live issues log</a> as your query may be related to a known issue.</p>
+
+    <h2 class="govuk-heading-m">What you’ll need</h1>
+      <p class="govuk-body">Along with the details of your enquiry, you will be asked for your email address
+      so we can reply to you.</p>
+
+    <%= link_to product_experience_enquiry_form_field_path(EnquiryFormHelper.fields.first, submission_token: session[:submission_token]),
+            role: "button",
+            draggable: "false",
+            class: "govuk-button govuk-button--start",
+            data: { module: "govuk-button" },
+            method: :post do %>
+        Start
+        <%= render 'shared/start_arrow' %>
+    <% end %>
+
+
+  </div>
+</div>

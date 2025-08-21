@@ -87,6 +87,11 @@ private
   module ClassMethods
     delegate :get, :post, to: :api
 
+    def create!(params = {}, headers = {})
+      response = api.post(singular_path, params, headers)
+      new parse_jsonapi(response)
+    end
+
     def update(params = {}, headers = {})
       response = api.put(singular_path, params, headers)
       new parse_jsonapi(response)

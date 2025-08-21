@@ -75,9 +75,7 @@ RSpec.describe Myott::PreferencesController, type: :controller do
           expect(response).to render_template(:new)
         end
 
-        it 'sets a flash error message' do
-          expect(flash.now[:error]).to eq('Select a subscription preference to continue')
-        end
+        it { expect(assigns(:alert)).to eq('Select a subscription preference to continue') }
 
         it 'sets a flash select_error message' do
           expect(flash.now[:select_error]).to eq('Select an option to continue')
