@@ -144,11 +144,21 @@ RSpec.describe EnquiryFormHelper, type: :helper do
 
     context 'when query exceeds character limit' do
       let(:field) { 'query' }
-      let(:value) { 'a' * 5005 }
+      let(:value) { 'a' * 5001 }
 
       it 'sets alert to length message' do
         validate
         expect(alert).to eq('Please limit your query to 5000 characters or less.')
+      end
+    end
+
+    context 'when query equals character limit' do
+      let(:field) { 'query' }
+      let(:value) { 'a' * 5000 }
+
+      it 'sets alert to length message' do
+        validate
+        expect(alert).not_to eq('Please limit your query to 5000 characters or less.')
       end
     end
 

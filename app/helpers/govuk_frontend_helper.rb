@@ -1,4 +1,6 @@
 module GovukFrontendHelper
+  module_function
+
   def contents_list_item(text, target, classes = [], &_block)
     list_item_classes = %w[
       gem-c-contents-list__list-item
@@ -43,5 +45,15 @@ module GovukFrontendHelper
     tag.nav(**nav_options) do
       heading + list_html
     end
+  end
+
+  # Count UTF-16 code units (how JS .length / maxlength measure length)
+  def utf16_code_units_length(str)
+    normalize_newlines(str).encode('UTF-16LE').bytesize / 2
+  end
+
+  # remove extra characters from newlines so it matches frontend character count
+  def normalize_newlines(str)
+    str.to_s.gsub("\r\n", "\n").tr("\r", "\n")
   end
 end

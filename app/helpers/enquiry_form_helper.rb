@@ -97,7 +97,9 @@ def validate_value(field, value)
   if field == 'email_address' && !value.match?(URI::MailTo::EMAIL_REGEXP)
     @alert = 'Please enter a valid email address.'
   end
-  if (field == 'query') && (value.length > 5004) # add some tolerance as GDS javascript char count is problematic known issue: https://github.com/alphagov/govuk-frontend/issues/1104
-    @alert = 'Please limit your query to 5000 characters or less.'
+
+  max = 5000
+  if field == 'query' && GovukFrontendHelper.utf16_code_units_length(value) > max
+    @alert = "Please limit your query to #{max} characters or less."
   end
 end
