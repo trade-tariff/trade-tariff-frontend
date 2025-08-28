@@ -210,7 +210,9 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
 
     context 'when reference number is present' do
       before do
-        session[:reference_number] = reference_number
+        session[:product_experience_enquiry] = {
+          'reference_number' => reference_number,
+        }
         get :confirmation
       end
 
