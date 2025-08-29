@@ -83,4 +83,26 @@ RSpec.describe GovukFrontendHelper, type: :helper do
       it { is_expected.to have_link 'First section', href: '/page/section1' }
     end
   end
+
+  describe '#utf16_code_units_length' do
+    it 'counts simple ASCII correctly' do
+      expect(described_class.utf16_code_units_length('abc')).to eq(3)
+    end
+
+    it 'normalises CRLF newlines to LF and counts them as one' do
+      str = "a\r\nb\r\nc"
+      expect(described_class.utf16_code_units_length(str)).to eq(5) # "a\nb\nc"
+    end
+
+    it 'counts emoji (outside BMP) as 2 code units each' do
+      str = 'a💩b' # "💩" is U+1F4A9
+      expect(described_class.utf16_code_units_length(str)).to eq(4) # "a"(1) + "💩"(2) + "b"(1)
+    end
+
+    it 'counts multiple lines with mixed endings consistently' do
+      str = "line1\r\nline2\nline3\rline4"
+      normalized = "line1\nline2\nline3\nline4"
+      expect(described_class.utf16_code_units_length(str)).to eq(normalized.length)
+    end
+  end
 end
