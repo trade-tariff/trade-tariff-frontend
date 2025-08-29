@@ -6,7 +6,7 @@ module ProductExperience
                   :initialize_enquiry_data
 
     before_action :validate_field, except: %i[show check_your_answers submit_form confirmation]
-    before_action :verify_submission_token, only: %i[form submit submit_form]
+    before_action :verify_submission_token, only: %i[submit submit_form]
 
     helper EnquiryFormHelper
 
@@ -103,7 +103,7 @@ module ProductExperience
 
     def verify_submission_token
       token_param = params[:submission_token]
-      if token_param.present? && token_param != session[:submission_token]
+      if token_param != session[:submission_token]
         redirect_to product_experience_enquiry_form_path
       end
     end
