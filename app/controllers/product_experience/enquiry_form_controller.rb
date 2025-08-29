@@ -64,7 +64,10 @@ module ProductExperience
         if response['resource_id']
           Rails.cache.delete(form_data['query']) if form_data['query'].present?
           session.delete(:enquiry_data)
-          redirect_to product_experience_enquiry_form_confirmation_path(reference_number: response['resource_id'])
+          session[:product_experience_enquiry] = {
+            reference_number: response['resource_id'],
+          }
+          redirect_to product_experience_enquiry_form_confirmation_path
         else
           flash[:alert] = 'There was a problem submitting your enquiry. Please try again later.'
           redirect_to product_experience_enquiry_form_check_your_answers_path
@@ -76,7 +79,8 @@ module ProductExperience
     end
 
     def confirmation
-      @reference_number = params[:reference_number]
+      @reference_number = session.delete(:product_experience_enquiry)['reference_number'] if session[:product_experience_enquiry].present?
+      redirect_to product_experience_enquiry_form_path if @reference_number.blank?
     end
 
     def check_your_answers

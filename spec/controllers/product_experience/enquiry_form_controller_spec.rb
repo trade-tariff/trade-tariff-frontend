@@ -142,13 +142,14 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
             headers: { 'Content-Type' => 'application/json' },
           )
           .and_return(jsonapi_response(:enquiry_form_submission, { resource_id: resource_id }))
+        session[:reference_number] = resource_id
       end
 
       it 'redirects to the confirmation page' do
         post :submit_form, params: { submission_token: submission_token }
 
         expect(response).to redirect_to(
-          product_experience_enquiry_form_confirmation_path(reference_number: resource_id),
+          product_experience_enquiry_form_confirmation_path,
         )
       end
 
@@ -207,14 +208,31 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
   describe 'GET #confirmation' do
     let(:reference_number) { 'R1M5X8LU' }
 
-    before { get :confirmation, params: { reference_number: reference_number } }
+    context 'when reference number is present' do
+      before do
+        session[:product_experience_enquiry] = {
+          'reference_number' => reference_number,
+        }
+        get :confirmation
+      end
 
-    it 'assigns the reference number' do
-      expect(assigns(:reference_number)).to eq(reference_number)
+      it 'assigns the reference number' do
+        expect(assigns(:reference_number)).to eq(reference_number)
+      end
+
+      it 'renders the confirmation page' do
+        expect(response).to be_successful
+      end
     end
 
-    it 'renders the confirmation page' do
-      expect(response).to be_successful
+    context 'when reference number is not present' do
+      before do
+        get :confirmation
+      end
+
+      it 'redirects to the start page' do
+        expect(response).to redirect_to(product_experience_enquiry_form_path)
+      end
     end
   end
 end
