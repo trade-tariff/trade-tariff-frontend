@@ -49,13 +49,6 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
         expect(response).to render_template(:form)
       end
     end
-
-    context 'with invalid token' do
-      it 'redirects back to the start' do
-        get :form, params: { field: 'full_name', submission_token: 'wrong-token' }
-        expect(response).to redirect_to(product_experience_enquiry_form_path)
-      end
-    end
   end
 
   describe 'POST #submit' do
@@ -78,7 +71,7 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
     end
 
     context 'with missing required field' do
-      before { post :submit, params: { field: 'full_name', full_name: '' } }
+      before { post :submit, params: { field: 'full_name', full_name: '', submission_token: submission_token } }
 
       it { expect(assigns(:alert)).to be_present }
 
@@ -86,14 +79,14 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
     end
 
     context 'with invalid email' do
-      before { post :submit, params: { field: 'email_address', email_address: 'bad-email' } }
+      before { post :submit, params: { field: 'email_address', email_address: 'bad-email', submission_token: submission_token } }
 
       it { expect(assigns(:alert)).to eq('Please enter a valid email address.') }
       it { expect(response).to render_template(:form) }
     end
 
     context 'with valid submission' do
-      before { post :submit, params: { field: 'full_name', full_name: 'John Doe' } }
+      before { post :submit, params: { field: 'full_name', full_name: 'John Doe', submission_token: submission_token } }
 
       it { expect(session[:enquiry_data]['full_name']).to eq('John Doe') }
 
@@ -107,9 +100,15 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
     end
 
     context 'when editing' do
-      before { post :submit, params: { field: 'query', query: 'Some question?', editing: 'true' } }
+      before { post :submit, params: { field: 'query', query: 'Some question?', editing: 'true', submission_token: submission_token } }
 
       it { expect(response).to redirect_to(product_experience_enquiry_form_check_your_answers_path) }
+    end
+
+    context 'when editing and no submission token' do
+      before { post :submit, params: { field: 'query', query: 'Some question?', editing: 'true', submission_token: nil } }
+
+      it { expect(response).to redirect_to(product_experience_enquiry_form_path) }
     end
   end
 
