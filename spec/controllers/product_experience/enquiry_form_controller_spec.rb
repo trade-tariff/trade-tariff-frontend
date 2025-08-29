@@ -49,13 +49,6 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
         expect(response).to render_template(:form)
       end
     end
-
-    # context 'with invalid token' do
-    #   it 'redirects back to the start' do
-    #     get :form, params: { field: 'full_name', submission_token: 'wrong-token' }
-    #     expect(response).to redirect_to(product_experience_enquiry_form_path)
-    #   end
-    # end
   end
 
   describe 'POST #submit' do
