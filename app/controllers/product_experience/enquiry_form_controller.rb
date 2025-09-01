@@ -35,7 +35,10 @@ module ProductExperience
       end
 
       validate_value(@field, value)
-      return render :form if @alert.present?
+      if @alert.present?
+        @prev_field = previous_field(@field)
+        return render :form
+      end
 
       next_field_path_redirect(@field, editing:)
     end
