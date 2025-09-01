@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   before_action :disable_search_form,
                 :disable_last_updated_footnote
-  before_action :disable_switch_service_banner, only: [:changes_999l]
+  before_action :disable_switch_service_banner, only: %i[changes_999l terms privacy]
 
   def glossary
     @glossary = Pages::Glossary.find(params[:id])
