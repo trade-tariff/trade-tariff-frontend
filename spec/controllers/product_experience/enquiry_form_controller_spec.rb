@@ -75,13 +75,19 @@ RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
 
       it { expect(assigns(:alert)).to be_present }
 
+      it { expect(assigns(:prev_field)).to be_nil }
+
       it { expect(response).to render_template(:form) }
     end
 
     context 'with invalid email' do
-      before { post :submit, params: { field: 'email_address', email_address: 'bad-email', submission_token: submission_token } }
+      before do
+        allow(controller).to receive(:previous_field).with('email_address').and_return('occupation')
+        post :submit, params: { field: 'email_address', email_address: 'bad-email', submission_token: submission_token }
+      end
 
       it { expect(assigns(:alert)).to eq('Please enter a valid email address.') }
+      it { expect(assigns(:prev_field)).to eq('occupation') }
       it { expect(response).to render_template(:form) }
     end
 

@@ -80,6 +80,8 @@ RSpec.describe 'Enquiry Form Entry', type: :feature do
         fill_in_full_name name: ''
       end
 
+      let(:expected_back_path) { product_experience_enquiry_form_path }
+
       include_examples 'a validation error', 'Please enter your full name'
     end
 
@@ -91,6 +93,8 @@ RSpec.describe 'Enquiry Form Entry', type: :feature do
         fill_in_job_title
         fill_in_email email: ''
       end
+
+      let(:expected_back_path) { product_experience_enquiry_form_field_path('occupation') }
 
       include_examples 'a validation error', 'Please enter a valid email address'
     end
@@ -104,6 +108,8 @@ RSpec.describe 'Enquiry Form Entry', type: :feature do
         fill_in_email email: 'a'
       end
 
+      let(:expected_back_path) { product_experience_enquiry_form_field_path('occupation') }
+
       include_examples 'a validation error', 'Please enter a valid email address'
     end
 
@@ -116,6 +122,8 @@ RSpec.describe 'Enquiry Form Entry', type: :feature do
         fill_in_email
         choose_category category: nil
       end
+
+      let(:expected_back_path) { product_experience_enquiry_form_field_path('email_address') }
 
       include_examples 'a validation error', 'Please select a category'
     end
@@ -131,6 +139,8 @@ RSpec.describe 'Enquiry Form Entry', type: :feature do
         fill_in_query query: ''
       end
 
+      let(:expected_back_path) { product_experience_enquiry_form_field_path('category') }
+
       include_examples 'a validation error', 'Please enter your query'
     end
 
@@ -144,6 +154,8 @@ RSpec.describe 'Enquiry Form Entry', type: :feature do
         choose_category
         fill_in_query query: 'A' * 5001
       end
+
+      let(:expected_back_path) { product_experience_enquiry_form_field_path('category') }
 
       include_examples 'a validation error', 'Please limit your query to 5000 characters or less.'
     end
@@ -161,6 +173,8 @@ RSpec.describe 'Enquiry Form Entry', type: :feature do
         fill_in_query
         click_button 'Submit'
       end
+
+      let(:expected_back_path) { product_experience_enquiry_form_field_path('query') }
 
       include_examples 'a validation error', 'There was a problem submitting your enquiry. Please try again later.'
     end
