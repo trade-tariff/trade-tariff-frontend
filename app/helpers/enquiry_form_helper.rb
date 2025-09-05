@@ -65,7 +65,6 @@ def radio_button_category_options
     ['Import Duties', 'import_duties'],
     ['Origin (Preferential and non-preferential)', 'origin'],
     ['Quotas', 'quotas'],
-    ['Tariff Preferences', 'preferences'],
     ['Stop Press Subscription', 'stop_press_subscription'],
   ]
 end
