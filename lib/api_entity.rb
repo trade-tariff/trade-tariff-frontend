@@ -88,12 +88,14 @@ private
     delegate :get, :post, to: :api
 
     def create!(params = {}, headers = {})
-      response = api.post(singular_path, params, headers)
+      request = prepare_json_request(params, headers)
+      response = api.post(singular_path, request[:body], request[:headers])
       new parse_jsonapi(response)
     end
 
     def update(params = {}, headers = {})
-      response = api.put(singular_path, params, headers)
+      request = prepare_json_request(params, headers)
+      response = api.put(singular_path, request[:body], request[:headers])
       new parse_jsonapi(response)
     end
 
@@ -273,6 +275,13 @@ private
       TariffJsonapiParser.new(resp.body).parse
     rescue TariffJsonapiParser::ParsingError
       raise UnparseableResponseError, resp
+    end
+
+    def prepare_json_request(params, headers)
+      {
+        body: MultiJson.dump(params),
+        headers: headers.merge('Content-Type' => 'application/json'),
+      }
     end
   end
 end

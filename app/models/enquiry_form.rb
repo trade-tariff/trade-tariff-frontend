@@ -12,9 +12,6 @@ class EnquiryForm
       },
     }
 
-    body = json_api_params.to_json
-    headers = { 'Content-Type' => 'application/json' }
-
-    super(body, headers)
+    super(json_api_params, { 'Content-Type' => 'application/json' })
   end
 end
