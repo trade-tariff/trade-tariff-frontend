@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v5
       - id: docker-tag
         run: echo "DOCKER_TAG=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
-      - uses: newrelic/deployment-marker-action@v2.6.0
+      - uses: newrelic/deployment-marker-action@v2.6.1
         with:
           apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
           region: "EU"
