@@ -19,7 +19,7 @@ Terraform to deploy the service into AWS.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | aws/ecs-service-v1.17.0 |
+| <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | aws/ecs-service-v1.18.1 |
 
 ## Resources
 
