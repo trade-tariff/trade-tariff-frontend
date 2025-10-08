@@ -33,9 +33,7 @@ common:
       - 'Faraday::ResourceNotFound'
       - 'DutyCalculator::Errors::SessionIntegrityError'
       - 'ActionController::InvalidAuthenticityToken'
-      - 'ArgumentError'
       - 'Search::InvalidDate'
-      - 'ActionView::Template::Error'
 
   application_logging:
     # If `true`, all logging-related features for the agent can be enabled or disabled
