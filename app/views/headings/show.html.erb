@@ -1,4 +1,6 @@
-<%= cache ['headings#show', cache_key, params.values.sort.join('/')] do %>
+<% cacheable = params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
+
+<% content = capture do %>
   <% content_for :title, goods_nomenclature_title(@heading) %>
 
   <% content_for :head do %>
@@ -24,4 +26,11 @@
 
   <%= render 'shared/notes', section_note: @heading.section.section_note,
                             chapter_note: @heading.chapter.chapter_note %>
+<% end %>
+
+<% if cacheable %>
+  <% heading_cache_key = ['headings#show', cache_key, params.values.compact.map(&:to_s).sort.join('/')] %>
+  <%= cache(heading_cache_key) { concat(content) } %>
+<% else %>
+  <%= content %>
 <% end %>
