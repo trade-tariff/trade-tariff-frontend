@@ -32,7 +32,7 @@ class SubheadingsController < GoodsNomenclaturesController
   end
 
   def show_validity_periods
-    @validity_periods = ValidityPeriod.all(Subheading, params[:id], query_params)
+    @validity_periods = ValidityPeriod.all(Subheading, params[:id], as_of: query_params[:as_of])
     @subheading_code = params[:id].first(10)
     @commodity_code = @subheading_code
     @chapter_code = params[:id].first(2)
