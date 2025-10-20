@@ -43,7 +43,7 @@ RSpec.describe CommoditiesController, type: :controller do
 
         before do
           stub_api_request('commodities/0101999999/validity_periods')
-            .with(query: {as_of: Time.zone.today})
+            .with(query: { as_of: Time.zone.today })
             .and_return jsonapi_error_response(404)
         end
 
@@ -136,7 +136,7 @@ RSpec.describe CommoditiesController, type: :controller do
               vcr: { cassette_name: 'commodities#show_0101999999' } do
         before do
           stub_api_request("commodities/#{commodity_id}/validity_periods")
-            .with(query: {as_of: Time.zone.today})
+            .with(query: { as_of: Time.zone.today })
             .to_return jsonapi_response(:validity_periods, validity_periods)
 
           TradeTariffFrontend::ServiceChooser.service_choice = nil
@@ -156,7 +156,7 @@ RSpec.describe CommoditiesController, type: :controller do
               vcr: { cassette_name: 'commodities#show_0101999999' } do
         before do
           stub_api_request("commodities/#{commodity_id}/validity_periods")
-            .with(query: {as_of: Time.zone.today})
+            .with(query: { as_of: Time.zone.today })
             .to_return jsonapi_error_response(404)
 
           TradeTariffFrontend::ServiceChooser.service_choice = nil
@@ -174,7 +174,7 @@ RSpec.describe CommoditiesController, type: :controller do
 
         before do
           stub_api_request("commodities/#{commodity_id}/validity_periods")
-            .with(query: {as_of: '2000-01-01'})
+            .with(query: { as_of: '2000-01-01' })
             .to_return jsonapi_response(:validity_periods, validity_periods)
 
           TradeTariffFrontend::ServiceChooser.service_choice = nil

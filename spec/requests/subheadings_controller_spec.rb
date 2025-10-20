@@ -30,7 +30,7 @@ RSpec.describe SubheadingsController, type: :request do
     context 'when the validity periods are present' do
       before do
         stub_api_request('subheadings/0101999999-80/validity_periods')
-          .with(query: {as_of: Time.zone.today})
+          .with(query: { as_of: Time.zone.today })
           .to_return jsonapi_response(:validity_periods, validity_periods)
 
         get subheading_path('0101999999-80')
@@ -44,7 +44,7 @@ RSpec.describe SubheadingsController, type: :request do
     context 'when the validity periods returns not found' do
       before do
         stub_api_request('subheadings/0101999999-80/validity_periods')
-          .with(query: {as_of: Time.zone.today})
+          .with(query: { as_of: Time.zone.today })
           .to_return jsonapi_not_found_response
 
         get subheading_path('0101999999-80')
