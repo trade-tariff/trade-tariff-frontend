@@ -1,5 +1,4 @@
 import {Controller} from '@hotwired/stimulus';
-import CookieManager from 'cookie-manager';
 
 export default class extends Controller {
   static targets = [
@@ -11,9 +10,6 @@ export default class extends Controller {
   ];
 
   connect() {
-    this.cookieManager = new CookieManager();
-    this.#initializeTree();
-
     if (this.hasCommodityInfoTargets) {
       window.addEventListener('resize', () => {
         return this.#adjustCommodityInfoHeights();
@@ -43,23 +39,13 @@ export default class extends Controller {
 
   openAll(event) {
     event.preventDefault();
-
-    if (this.cookieManager.rememberSettings()) {
-      this.cookieManager.setCookiesTreeOpenClosedDefault({'value': 'open'});
-    }
-
-    this.#doOpenAll();
+    this.#doOpenAllRecursive();
     this.#adjustCommodityInfoHeights();
   }
 
   closeAll(event) {
     event.preventDefault();
-
-    if (this.cookieManager.rememberSettings()) {
-      this.cookieManager.setCookiesTreeOpenClosedDefault({'value': 'close'});
-    }
-
-    this.#doCloseAll();
+    this.#doCloseAllRecursive();
     this.#adjustCommodityInfoHeights();
   }
 
@@ -89,34 +75,27 @@ export default class extends Controller {
     }
   }
 
-  #initializeTree() {
-    if (this.cookieManager.getCookiesTreeOpenClosedDefault()) {
-      const value = this.cookieManager.getCookiesTreeOpenClosedDefault();
-
-      if (value === 'open') {
-        this.#doOpenAll();
-      } else {
-        this.#doCloseAll();
+  #doOpenAllRecursive() {
+    // Find all nodes with children (not just top-level targets) and open them recursively
+    const allParentNodes = this.element.querySelectorAll('[data-tree-target="parentNode"]');
+    allParentNodes.forEach((parentNode) => {
+      const commodityNode = parentNode.querySelector('[data-tree-target="commodityNode"]');
+      const childList = parentNode.querySelector('ul');
+      if (commodityNode && childList) {
+        this.#openBranch(commodityNode, childList);
       }
-    }
-  }
-
-
-  #doOpenAll() {
-    this.parentNodeTargets.forEach((parentNode, idx) => {
-      this.#openBranch(
-          this.commodityNodeTargets[idx],
-          parentNode.querySelector('ul'),
-      );
     });
   }
 
-  #doCloseAll() {
-    this.parentNodeTargets.forEach((parentNode, idx) => {
-      this.#closeBranch(
-          this.commodityNodeTargets[idx],
-          parentNode.querySelector('ul'),
-      );
+  #doCloseAllRecursive() {
+    // Find all nodes with children (not just top-level targets) and close them recursively
+    const allParentNodes = this.element.querySelectorAll('[data-tree-target="parentNode"]');
+    allParentNodes.forEach((parentNode) => {
+      const commodityNode = parentNode.querySelector('[data-tree-target="commodityNode"]');
+      const childList = parentNode.querySelector('ul');
+      if (commodityNode && childList) {
+        this.#closeBranch(commodityNode, childList);
+      }
     });
   }
 
