@@ -2,7 +2,7 @@
   "name": "trade-tariff-frontend",
   "private": true,
   "devDependencies": {
-    "@axe-core/playwright": "^4.10.2",
+    "@axe-core/playwright": "^4.11.0",
     "@playwright/test": "^1.56.1",
     "@stimulus/polyfills": "^2.0.0",
     "accessible-autocomplete": "^3.0.1",
