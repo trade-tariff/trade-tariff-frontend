@@ -11,7 +11,7 @@ describe('Utility.countrySelectorOnConfirm', () => {
   beforeEach(() => {
     // Create a mock location object with a setter that captures href assignments
     mockLocationHref = 'http://localhost/commodities/1234#origin';
-    
+
     delete window.location;
     window.location = {
       get href() {
