@@ -41,9 +41,6 @@ x-preevy:
         {% else %}The [Preevy](https://preevy.dev) preview environment for this PR has been deleted.
         {% endif %}
 
-        💸 **Preview Environment Estimated Cost**: £0.50/day
-         *(AWS Lightsail small_3_0, $12/mo, eu-west-2 — 2025)*
-
         🧹**Environment Cleanup Policy**
          - Nightly cleanup: All preview environments with the `needs-preview` label are removed automatically at midnight.
          - Immediate teardown: When a PR is closed or the `needs-preview`/`keep-preview` label is removed, the associated environment is destroyed immediately.
