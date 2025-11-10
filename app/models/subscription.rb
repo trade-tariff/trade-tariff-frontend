@@ -1,5 +1,5 @@
 class Subscription
-  include ApiEntity
+  include AuthenticatableApiEntity
 
   set_singular_path '/uk/user/subscriptions/:id'
 
