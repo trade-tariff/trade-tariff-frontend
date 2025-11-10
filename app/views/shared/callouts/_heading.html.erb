@@ -1,7 +1,10 @@
 <div class="panel panel-border-wide govuk-panel">
   <p>
     There are <strong><%= pluralize leaf_commodity_count, 'commodity' %></strong> in this category.
-    Please select the category that best matches your goods, to then see the related commodity codes (an import needs 10 digits and export needs 8 digits).
+    Choose the commodity code that best matches your goods to see more information. If your item is not listed by name, it may be shown under what it's used for, what it's made from or 'Other'.
+  </p>
+  <p>
+    Headings in the tariff are closed to help you navigate the top-level commodity description more easily. Open headings to explore commodities in more depth and find the relevant 8 or 10 digit code for the commodity.
   </p>
 
   <% if section_note.present? || chapter_note.present? %>

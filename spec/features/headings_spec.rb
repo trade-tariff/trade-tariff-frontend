@@ -7,7 +7,8 @@ RSpec.describe 'JS behaviour', :js, vcr: { cassette_name: 'headings#8501' } do
     find(:button, 'Accept additional cookies', visible: true).click
     find(:button, 'Hide this message', visible: true).click
 
-    expect(page).to have_content('Please select the category that best matches your goods')
+    expect(page).to have_content('Choose the commodity code that best matches your goods to see more information')
+    expect(page).to have_content('Headings in the tariff are closed to help you navigate')
     expect(page.find_all('.tree-controls').length).to eq(2)
 
     # Verify nodes are closed by default
