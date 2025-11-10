@@ -13,7 +13,7 @@ module Myott
     end
 
     def current_user
-      @current_user ||= User.find(cookies[:id_token])
+      @current_user ||= User.find(nil, cookies[:id_token])
     end
     helper_method :current_user
 
