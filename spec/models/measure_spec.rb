@@ -232,32 +232,6 @@ RSpec.describe Measure do
     end
   end
 
-  describe '#excluded_country_list', vcr: { cassette_name: 'geographical_areas#1013' } do
-    context 'when the excluded_countries include all eu members' do
-      subject(:measure) { build(:measure, :with_eu_member_exclusions) }
-
-      let(:expected_list) { 'European Union, Switzerland, Iceland, Liechtenstein, Norway' }
-
-      it { expect(measure.excluded_country_list).to eq(expected_list) }
-    end
-
-    context 'when the excluded_countries do not include all eu members' do
-      subject(:measure) { build(:measure, :with_exclusions) }
-
-      let(:expected_list) { 'Switzerland, Cyprus, Czechia' }
-
-      it { expect(measure.excluded_country_list).to eq(expected_list) }
-    end
-
-    context 'when there are no excluded countries' do
-      subject(:measure) { build(:measure) }
-
-      let(:expected_list) { '' }
-
-      it { expect(measure.excluded_country_list).to eq(expected_list) }
-    end
-  end
-
   describe '#measure_conditions_with_guidance' do
     context 'with a condition guidance' do
       subject(:measure) { build :measure, :with_conditions_with_guidance }

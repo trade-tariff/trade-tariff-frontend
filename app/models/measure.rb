@@ -2,6 +2,7 @@ require 'api_entity'
 
 class Measure
   include ApiEntity
+  include HasExcludedCountries
 
   attr_accessor :id,
                 :origin,
@@ -51,21 +52,6 @@ class Measure
   end
 
   delegate :grouped_measure_types, :all_grouped_types, to: :class
-
-  def excluded_country_list
-    countries = if exclusions_include_european_union?
-                  # Replace EU members with the EU geographical_area
-                  [GeographicalArea.european_union] + excluded_countries.delete_if(&:eu_member?)
-                else
-                  excluded_countries
-                end
-
-    countries.map(&:description).join(', ').html_safe
-  end
-
-  def exclusions_include_european_union?
-    GeographicalArea.eu_members_ids.all? { |eu_member| eu_member.in?(excluded_country_ids) }
-  end
 
   def national?
     origin == 'uk'
@@ -211,11 +197,5 @@ class Measure
 
     schemes.select(&:cds_proof_info?)
            .select { |s| s.applies_to_geographical_area_or_its_children? geographical_area }
-  end
-
-  private
-
-  def excluded_country_ids
-    @excluded_country_ids ||= excluded_countries.map(&:id)
   end
 end
