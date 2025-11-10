@@ -1,6 +1,6 @@
 RSpec.describe User do
   describe '.find' do
-    subject(:response) { described_class.find(token) }
+    subject(:response) { described_class.find(nil, token) }
 
     let(:token) { 'valid jwt' }
 

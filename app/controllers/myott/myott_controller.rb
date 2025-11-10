@@ -13,12 +13,16 @@ module Myott
     end
 
     def current_user
-      @current_user ||= User.find(cookies[:id_token])
+      @current_user ||= User.find(nil, user_id_token)
     end
     helper_method :current_user
 
     def current_subscription
-      @current_subscription ||= Subscription.find(params[:id])
+      @current_subscription ||= Subscription.find(params[:id], user_id_token)
+    end
+
+    def user_id_token
+      cookies[:id_token]
     end
   end
 end
