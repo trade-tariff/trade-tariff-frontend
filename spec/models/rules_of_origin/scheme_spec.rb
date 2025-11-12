@@ -194,9 +194,12 @@ RSpec.describe RulesOfOrigin::Scheme do
 
         expect(api_instance).to have_received(:get)
           .with('rules_of_origin_schemes',
-                heading_code: '190531',
-                country_code: 'FR',
-                page: 1)
+                {
+                  heading_code: '190531',
+                  country_code: 'FR',
+                  page: 1,
+                },
+                any_args)
       end
     end
 

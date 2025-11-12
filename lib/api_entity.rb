@@ -125,8 +125,8 @@ private
       collection("#{collection_path}/search", opts)
     end
 
-    def collection(collection_path, opts = {})
-      resp = api.get(collection_path, opts)
+    def collection(collection_path, opts = {}, headers = {})
+      resp = api.get(collection_path, opts, headers)
       collection = parse_jsonapi(resp)
       collection = collection.map { |entry_data| new(entry_data) }
       if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
