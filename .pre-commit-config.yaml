@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.102.0
+    rev: v1.103.0
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
@@ -24,11 +24,6 @@ repos:
       - id: file-contents-sorter
         files: '.env.development|.env.test'
 
-  - repo: https://github.com/trufflesecurity/trufflehog
-    rev: v3.90.11
-    hooks:
-      - id: trufflehog
-
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.45.0
     hooks:
@@ -48,3 +43,12 @@ repos:
     rev: v1.7.8
     hooks:
       - id: actionlint-docker
+
+  - repo: local
+    hooks:
+      - id: trufflehog
+        name: TruffleHog
+        description: Detect secrets in your repo
+        entry: bash -c '.github/bin/trufflehog'
+        language: system
+        stages: ["pre-commit", "pre-push"]
