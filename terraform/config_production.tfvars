@@ -3,5 +3,5 @@ environment   = "production"
 cpu           = 2048
 memory        = 4096
 service_count = 4
-min_capacity  = 3
+min_capacity  = 4
 max_capacity  = 16
