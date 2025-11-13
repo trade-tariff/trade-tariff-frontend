@@ -1,0 +1,55 @@
+<% myott_page_title "#{@category} commodities", error: @alert %>
+<% content_for :back_link do %>
+  <%= back_link myott_mycommodities_path %>
+<% end %>
+<div class="govuk-body myott-mycommodities">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-l"><%=@category%> commodities: <%= number_with_delimiter(@total_commodities_count, :delimeter => ',') %></h1>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+          <div class="govuk-form-group">
+            <div id="search-hint" class="govuk-hint">
+              Search your commodities
+            </div>
+            <input class="govuk-input govuk-input--width-10" id="search-commodity" type="text" aria-describedby="search-hint" inputmode="numeric">
+          </div>
+        </div>
+        <div class="govuk-grid-column-one-third govuk-!-text-align-left">
+          <%= link_to "Upload and update commodities", new_myott_mycommodity_path, class: "govuk-button govuk-!-margin-top-7" %>
+        </div>
+        <div class="govuk-grid-column-one-third govuk-!-text-align-left">
+          <%= link_to "Add a commodity", new_myott_mycommodity_path, class: "govuk-button govuk-button--secondary govuk-!-margin-top-7" %>
+        </div>
+      </div>
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th class="govuk-table__header">Chapter</th>
+            <th class="govuk-table__header">Commodity</th>
+            <th class="govuk-table__header">Classification</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            <% @commodities.each do |commodity| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+
+                <strong><%= commodity.try(:chapter_short_code) %></strong>
+              </td>
+              <td class="govuk-table__cell">
+                <div class="">
+                  <%= commodity.try(:goods_nomenclature_item_id) %>
+                </div>
+              </td>
+               <td class="govuk-table__cell">
+                <%= commodity.try(:hierarchical_description) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= paginate @commodities %>
+    </div>
+  </div>
+</div>
