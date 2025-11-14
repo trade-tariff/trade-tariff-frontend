@@ -25,9 +25,9 @@ module Myott
       cookies[:id_token]
     end
 
-    def get_subscription(subscription_type)
+    def get_subscription(subscription_type, token)
       subscription_id = current_user[:subscriptions]&.find { |s| s['subscription_type'] == subscription_type }&.fetch('id', nil)
-      Subscription.find(subscription_id) if subscription_id
+      Subscription.find(subscription_id, token) if subscription_id
     end
     helper_method :get_subscription
   end

@@ -30,7 +30,7 @@ module Myott
     end
 
     def index
-      my_commodities_subscription = get_subscription('my_commodities')
+      my_commodities_subscription = get_subscription('my_commodities', cookies[:id_token])
       redirect_to new_myott_mycommodity_path and return unless my_commodities_subscription
 
       meta = my_commodities_subscription[:meta]
@@ -69,10 +69,10 @@ module Myott
     end
 
     def update_user_commodity_codes(commodity_codes)
-      subscription = get_subscription('my_commodities')
+      subscription = get_subscription('my_commodities', cookies[:id_token])
 
       subscription_id = if subscription.nil? && User.update(cookies[:id_token], my_commodities_subscription: 'true')
-                          get_subscription('my_commodities').resource_id
+                          get_subscription('my_commodities', cookies[:id_token]).resource_id
                         else
                           subscription.resource_id
                         end
@@ -127,7 +127,7 @@ module Myott
     end
 
     def get_subscription_targets(category)
-      subscription_id = get_subscription('my_commodities').resource_id
+      subscription_id = get_subscription('my_commodities', cookies[:id_token]).resource_id
 
       page = params[:page].presence || 1
       per_page = params[:per_page].presence || 10
