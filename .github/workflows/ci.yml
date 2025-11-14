@@ -61,3 +61,5 @@ jobs:
       - run: bin/rails assets:precompile
 
       - run: bundle exec rspec
+
+      - run: yarn run test
