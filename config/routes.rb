@@ -71,6 +71,16 @@ Rails.application.routes.draw do
 
       resource :preferences, only: %i[new create edit update]
 
+      if TradeTariffFrontend.my_commodities?
+        resources :mycommodities, only: %i[index new create] do
+          collection do
+            get :active
+            get :expired
+            get :invalid
+          end
+        end
+      end
+
       resources :unsubscribes, only: %i[show destroy], path: 'unsubscribe' do
         collection do
           get 'confirmation'

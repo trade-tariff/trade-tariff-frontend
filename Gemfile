@@ -9,6 +9,7 @@ end
 
 gem 'rails', '~> 8.0'
 
+gem 'csv'
 gem 'faraday'
 gem 'faraday-http-cache'
 gem 'faraday-net_http_persistent'
@@ -19,6 +20,7 @@ gem 'multi_json'
 gem 'net-http-persistent'
 gem 'newrelic_rpm'
 gem 'rack-attack'
+gem 'roo'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
 gem 'uktt', git: 'https://github.com/trade-tariff/uktt.git'
 

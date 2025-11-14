@@ -86,6 +86,10 @@ module TradeTariffFrontend
     ENV['MYOTT_ENABLED'].to_s == 'true'
   end
 
+  def my_commodities?
+    ENV['MY_COMMODITIES_ENABLED'].to_s == 'true'
+  end
+
   def enquiry_form?
     ENV['ENQUIRY_FORM_ENABLED'].to_s == 'true'
   end
