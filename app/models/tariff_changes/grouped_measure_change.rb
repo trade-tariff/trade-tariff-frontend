@@ -4,6 +4,7 @@ module TariffChanges
     include HasExcludedCountries
 
     set_collection_path '/uk/user/grouped_measure_changes'
+    set_singular_path '/uk/user/grouped_measure_changes/:id'
 
     attr_accessor :trade_direction, :count
 
