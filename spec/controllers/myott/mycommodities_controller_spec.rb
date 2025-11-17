@@ -29,7 +29,6 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
     context 'when current_user is valid' do
       before do
-        # session[:commodity_codes_key] = 'submission:commodity_codes:123abc'
         session[:subscription_key] = 'subscription:123abc'
         session[:subscription_meta_key] = 'subscription_meta:123abc'
         Rails.cache.write('subscription_meta:123abc', {
