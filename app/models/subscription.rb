@@ -5,7 +5,7 @@ class Subscription
 
   attr_accessor :active, :uuid, :meta
 
-  def self.batch(token, attributes)
+  def self.batch(id, token, attributes)
     return nil if token.nil? && !Rails.env.development?
 
     json_api_params = {
@@ -13,14 +13,8 @@ class Subscription
         attributes: attributes,
       },
     }
-    super(json_api_params, headers(token))
+    super(id, json_api_params, headers(token))
   rescue Faraday::UnauthorizedError
     nil
-  end
-
-  def self.headers(token)
-    {
-      authorization: "Bearer #{token}",
-    }
   end
 end

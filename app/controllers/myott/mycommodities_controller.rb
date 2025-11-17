@@ -18,19 +18,19 @@ module Myott
     end
 
     def active
-      get_subscription_targets __method__.to_s
+      get_subscription_targets 'active'
     end
 
     def expired
-      get_subscription_targets __method__.to_s
+      get_subscription_targets 'expired'
     end
 
     def invalid
-      get_subscription_targets __method__.to_s
+      get_subscription_targets 'invalid'
     end
 
     def index
-      my_commodities_subscription = get_subscription('my_commodities', cookies[:id_token])
+      my_commodities_subscription = get_subscription('my_commodities')
       redirect_to new_myott_mycommodity_path and return unless my_commodities_subscription
 
       meta = my_commodities_subscription[:meta]
@@ -69,14 +69,15 @@ module Myott
     end
 
     def update_user_commodity_codes(commodity_codes)
-      subscription = get_subscription('my_commodities', cookies[:id_token])
+      subscription = get_subscription('my_commodities')
 
       subscription_id = if subscription.nil? && User.update(cookies[:id_token], my_commodities_subscription: 'true')
-                          get_subscription('my_commodities', cookies[:id_token]).resource_id
+                          get_subscription('my_commodities').resource_id
                         else
                           subscription.resource_id
                         end
       Subscription.batch(subscription_id,
+                         user_id_token,
                          targets: TariffJsonapiParser.new(commodity_codes.uniq).parse,
                          subscription_type: 'my_commodities')
     end
@@ -109,7 +110,7 @@ module Myott
     end
 
     def candidate_commodity_code?(code)
-      code.present? && code.length.between?(8, 10)
+      code.present? && code.length.between?(1, 20)
     end
 
     def validate_file(file)
@@ -127,13 +128,15 @@ module Myott
     end
 
     def get_subscription_targets(category)
-      subscription_id = get_subscription('my_commodities', cookies[:id_token]).resource_id
+      subscription_id = get_subscription('my_commodities').resource_id
 
       page = params[:page].presence || 1
       per_page = params[:per_page].presence || 10
 
-      my_commodities = SubscriptionTarget.all(subscription_id, category, page:, per_page:)
-
+      params = { filter: { active_commodities_type: category },
+                 page: page,
+                 per_page: per_page }
+      my_commodities = SubscriptionTarget.all(subscription_id, params)
       @commodities = my_commodities
       @total_commodities_count = my_commodities.total_count
       @category = category.capitalize

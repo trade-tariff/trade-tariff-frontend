@@ -1,8 +1,8 @@
 RSpec.shared_examples 'a valid commodity file upload' do |fixture_path, content_type|
   let(:valid_file) { fixture_file_upload(fixture_path, content_type) }
+  let(:token) { 'valid-jwt-token' }
 
   before do
-    token = 'valid-jwt-token'
     cookies[:id_token] = token
 
     allow(Subscription).to receive(:batch)
@@ -18,6 +18,7 @@ RSpec.shared_examples 'a valid commodity file upload' do |fixture_path, content_
   it 'calls Subscription.batch with parsed commodity codes' do
     expect(Subscription).to have_received(:batch).with(
       subscription.resource_id,
+      token,
       hash_including(
         targets: kind_of(Array),
         subscription_type: 'my_commodities',

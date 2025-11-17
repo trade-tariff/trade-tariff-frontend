@@ -1,18 +1,26 @@
 RSpec.shared_examples 'a commodity category page' do |action, category|
   subject { response }
 
+  let(:page) { '2' }
+  let(:per_page) { '20' }
+
   before do
     allow(controller).to receive(:get_subscription).and_return(subscription)
 
     targets = build_list(:subscription_target, 3)
+    allow(targets).to receive(:total_count).and_return(3)
 
-    targets.define_singleton_method(:total_count) { 3 }
+    expected_params = {
+      filter: { active_commodities_type: category },
+      page: page,
+      per_page: per_page,
+    }
 
     allow(SubscriptionTarget).to receive(:all)
-   .with(subscription.resource_id, category, page: '2', per_page: '20')
-   .and_return(targets)
+      .with(subscription.resource_id, expected_params)
+      .and_return(targets)
 
-    get action, params: { page: '2', per_page: '20' }
+    get action, params: { page: page, per_page: per_page }
   end
 
   it { is_expected.to render_template(:list) }
