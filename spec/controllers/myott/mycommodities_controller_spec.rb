@@ -43,6 +43,10 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
       it { is_expected.to respond_with(:success) }
       it { expect(session[:subscription_key]).to be_nil }
       it { expect(session[:subscription_meta_key]).to be_nil }
+
+      it 'deletes the meta from the session' do
+        expect(session[:subscription_meta_key]).to be_nil
+      end
     end
   end
 
