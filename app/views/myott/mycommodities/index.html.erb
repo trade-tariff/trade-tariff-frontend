@@ -5,7 +5,7 @@
       <h1 class="govuk-heading-l">Your commodity watchlist</h1>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-          <h2>Total commodities uploaded: <%= number_with_delimiter(@total_commodity_codes, :delimeter => ',') %></h2>
+          <h2 class="govuk-heading-m">Total commodities uploaded: <%= number_with_delimiter(@total_commodity_codes, :delimeter => ',') %></h2>
         </div>
         <div class="govuk-grid-column-one-third">
           <%= link_to "Upload and update commodities", new_myott_mycommodity_path, class: "govuk-button govuk-!-margin-top-4" %>
