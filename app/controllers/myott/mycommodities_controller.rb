@@ -73,7 +73,7 @@ module Myott
     def update_user_commodity_codes(commodity_codes)
       subscription = get_subscription('my_commodities')
 
-      subscription_id = if subscription.nil? && User.update(cookies[:id_token], my_commodities_subscription: 'true')
+      subscription_id = if subscription.nil? && User.update(user_id_token, my_commodities_subscription: 'true')
                           get_subscription('my_commodities').resource_id
                         else
                           subscription.resource_id
@@ -150,7 +150,8 @@ module Myott
       params = { filter: { active_commodities_type: category },
                  page: page,
                  per_page: per_page }
-      my_commodities = SubscriptionTarget.all(subscription_id, params)
+
+      my_commodities = SubscriptionTarget.all(subscription_id, user_id_token, params)
       @commodities = my_commodities
       @total_commodities_count = my_commodities.total_count
       @category = category.capitalize

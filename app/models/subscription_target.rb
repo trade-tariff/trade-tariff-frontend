@@ -7,11 +7,11 @@ class SubscriptionTarget
                 :hierarchical_description,
                 :meta
 
-  def self.all(token, params)
+  def self.all(id, token, params)
     return nil if token.nil? && !Rails.env.development?
 
-    set_collection_path "/uk/user/subscription_targets/#{token}"
-    super(params)
+    path = "/uk/user/subscription_targets/#{id}"
+    collection(path, params, headers(token))
   rescue Faraday::UnauthorizedError
     nil
   end

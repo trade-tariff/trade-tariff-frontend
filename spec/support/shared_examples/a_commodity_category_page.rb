@@ -3,9 +3,10 @@ RSpec.shared_examples 'a commodity category page' do |action, category|
 
   let(:page) { '2' }
   let(:per_page) { '20' }
+  let(:user_id_token) { 'valid-jwt-token' }
 
   before do
-    allow(controller).to receive(:get_subscription).and_return(subscription)
+    allow(controller).to receive_messages(get_subscription: subscription, user_id_token: user_id_token)
 
     targets = build_list(:subscription_target, 3)
     allow(targets).to receive(:total_count).and_return(3)
@@ -17,7 +18,7 @@ RSpec.shared_examples 'a commodity category page' do |action, category|
     }
 
     allow(SubscriptionTarget).to receive(:all)
-      .with(subscription.resource_id, expected_params)
+      .with(subscription.resource_id, user_id_token, expected_params)
       .and_return(targets)
 
     get action, params: { page: page, per_page: per_page }
