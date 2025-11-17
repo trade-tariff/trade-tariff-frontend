@@ -29,25 +29,21 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
     context 'when current_user is valid' do
       before do
-        session[:commodity_codes_key] = 'submission:commodity_codes:123abc'
-        Rails.cache.write('submission:commodity_codes:123abc', {
-          'active_commodity_codes' => subscription.meta[:active],
-          'expired_commodity_codes' => subscription.meta[:expired],
-          'invalid_commodity_codes' => subscription.meta[:invalid],
+        # session[:commodity_codes_key] = 'submission:commodity_codes:123abc'
+        session[:subscription_key] = 'subscription:123abc'
+        session[:subscription_meta_key] = 'subscription_meta:123abc'
+        Rails.cache.write('subscription_meta:123abc', {
+          'active' => subscription.meta[:active],
+          'expired' => subscription.meta[:expired],
+          'invalid' => subscription.meta[:invalid],
         })
         allow(controller).to receive(:current_user).and_return(user)
         get :new
       end
 
       it { is_expected.to respond_with(:success) }
-
-      it 'deletes commodity_codes_key from the session' do
-        expect(session[:commodity_codes_key]).to be_nil
-      end
-
-      it 'deletes any commodity codes from the redis cache' do
-        expect(Rails.cache.read('submission:commodity_codes:123abc')).to be_nil
-      end
+      it { expect(session[:subscription_key]).to be_nil }
+      it { expect(session[:subscription_meta_key]).to be_nil }
     end
   end
 
@@ -81,9 +77,9 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
       context 'when commodity codes are present' do
         before do
           allow(Rails.cache).to receive(:read).and_return({
-            'active_commodity_codes' => subscription.meta[:active],
-            'expired_commodity_codes' => subscription.meta[:expired],
-            'invalid_commodity_codes' => subscription.meta[:invalid],
+            'active' => subscription.meta[:active],
+            'expired' => subscription.meta[:expired],
+            'invalid' => subscription.meta[:invalid],
           })
 
           get :index

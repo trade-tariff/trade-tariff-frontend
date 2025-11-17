@@ -13,8 +13,10 @@ module Myott
     ].freeze
 
     def new
-      Rails.cache.delete(session[:commodity_codes_key]) if session[:commodity_codes_key].present?
-      session.delete(:commodity_codes_key)
+      Rails.cache.delete(session[:subscription_key]) if session[:subscription_key].present?
+      Rails.cache.delete(session[:subscription_meta_key]) if session[:subscription_meta_key].present?
+      session.delete(:subscription_key)
+      session.delete(:subscription_meta_key)
     end
 
     def active
@@ -30,22 +32,21 @@ module Myott
     end
 
     def index
-      my_commodities_subscription = get_subscription('my_commodities')
-      redirect_to new_myott_mycommodity_path and return unless my_commodities_subscription
+      meta = Rails.cache.read(session[:subscription_meta_key]) if session[:subscription_meta_key].present?
+      unless meta
+        subscription = get_subscription('my_commodities')
+        redirect_to new_myott_mycommodity_path and return unless subscription
 
-      meta = my_commodities_subscription[:meta]
+        refresh_subscription_cache(subscription.resource_id)
 
-      cache_session_commodity_codes({ 'active_commodity_codes' => meta['active'],
-                                      'expired_commodity_codes' => meta['expired'],
-                                      'invalid_commodity_codes' => meta['invalid'] })
+        meta = Rails.cache.read(session[:subscription_meta_key]) if session[:subscription_meta_key].present?
+      end
 
-      codes = Rails.cache.read(session[:commodity_codes_key])
+      @active_commodity_codes  = meta['active']
+      @expired_commodity_codes = meta['expired']
+      @invalid_commodity_codes = meta['invalid']
 
-      @active_commodity_codes ||= codes['active_commodity_codes']
-      @expired_commodity_codes ||= codes['expired_commodity_codes']
-      @invalid_commodity_codes ||= codes['invalid_commodity_codes']
-
-      @total_commodity_codes = codes.values.flatten.size
+      @total_commodity_codes = meta.values.flatten.size
     end
 
     def create
@@ -65,7 +66,8 @@ module Myott
     private
 
     def initialize_subscription_data
-      session[:commodity_codes_key] ||= {}
+      session[:subscription_key] ||= {}
+      session[:subscription_meta_key] ||= {}
     end
 
     def update_user_commodity_codes(commodity_codes)
@@ -76,10 +78,28 @@ module Myott
                         else
                           subscription.resource_id
                         end
+
       Subscription.batch(subscription_id,
                          user_id_token,
                          targets: TariffJsonapiParser.new(commodity_codes.uniq).parse,
                          subscription_type: 'my_commodities')
+
+      refresh_subscription_cache(subscription_id)
+    end
+
+    def refresh_subscription_cache(subscription_id)
+      subscription = Subscription.find(subscription_id, user_id_token)
+
+      subscription_cache_key = "subscription:#{session.id}"
+      subscription_meta_cache_key = "subscription_meta:#{session.id}"
+
+      Rails.cache.write(subscription_cache_key, subscription, expires_in: 1.hour)
+
+      meta = subscription[:meta]
+      Rails.cache.write(subscription_meta_cache_key, meta, expires_in: 1.hour)
+
+      session[:subscription_key] = subscription_cache_key
+      session[:subscription_meta_key] = subscription_meta_cache_key
     end
 
     def extract_codes_from_file(file)
@@ -97,12 +117,6 @@ module Myott
         code = parse_numbers_only(value.to_s)
         code if candidate_commodity_code?(code)
       end
-    end
-
-    def cache_session_commodity_codes(commodity_codes)
-      redis_key = "submission:commodity_codes:#{session.id}"
-      Rails.cache.write(redis_key, commodity_codes, expires_in: 1.hour)
-      session[:commodity_codes_key] = redis_key
     end
 
     def parse_numbers_only(string)
