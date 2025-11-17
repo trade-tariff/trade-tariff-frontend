@@ -41,7 +41,7 @@
             <% if @invalid_commodity_codes.count == 0 %>
               0
             <% else %>
-              <%= link_to link_to  number_with_delimiter(@invalid_commodity_codes.count, :delimeter => ','), invalid_myott_mycommodities_path %>
+              <%= link_to number_with_delimiter(@invalid_commodity_codes.count, :delimeter => ','), invalid_myott_mycommodities_path %>
             <% end %>
           </div>
         </div>
