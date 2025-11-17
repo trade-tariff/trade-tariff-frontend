@@ -44,8 +44,8 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
       it { expect(session[:subscription_key]).to be_nil }
       it { expect(session[:subscription_meta_key]).to be_nil }
 
-      it 'deletes the meta from the session' do
-        expect(session[:subscription_meta_key]).to be_nil
+      it 'deletes the meta from the cache' do
+        expect(Rails.cache.read('subscription_meta:123abc')).to be_nil
       end
     end
   end
