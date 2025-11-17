@@ -30,7 +30,7 @@
              <% if @expired_commodity_codes.count == 0 %>
               0
             <% else %>
-              <%= link_to link_to  number_with_delimiter(@expired_commodity_codes.count, :delimeter => ','), expired_myott_mycommodities_path %>
+              <%= link_to number_with_delimiter(@expired_commodity_codes.count, :delimeter => ','), expired_myott_mycommodities_path %>
             <% end %>
           </div>
         </div>
