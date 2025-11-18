@@ -21,7 +21,6 @@ RSpec.shared_examples 'a valid commodity file upload' do |fixture_path, content_
       token,
       hash_including(
         targets: kind_of(Array),
-        subscription_type: 'my_commodities',
       ),
     )
   end
