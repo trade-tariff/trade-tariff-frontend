@@ -151,7 +151,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
         end
 
         it 'sets an alert' do
-          expect(assigns(:alert)).to eq('please upload a csv/excel file')
+          expect(assigns(:alert)).to eq('Please upload a csv/excel file')
         end
 
         it 'renders the new template again' do
