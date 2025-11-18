@@ -29,24 +29,11 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
     context 'when current_user is valid' do
       before do
-        session[:subscription_key] = 'subscription:123abc'
-        session[:subscription_meta_key] = 'subscription_meta:123abc'
-        Rails.cache.write('subscription_meta:123abc', {
-          'active' => subscription.meta[:active],
-          'expired' => subscription.meta[:expired],
-          'invalid' => subscription.meta[:invalid],
-        })
         allow(controller).to receive(:current_user).and_return(user)
         get :new
       end
 
       it { is_expected.to respond_with(:success) }
-      it { expect(session[:subscription_key]).to be_nil }
-      it { expect(session[:subscription_meta_key]).to be_nil }
-
-      it 'deletes the meta from the cache' do
-        expect(Rails.cache.read('subscription_meta:123abc')).to be_nil
-      end
     end
   end
 
@@ -79,12 +66,6 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
       context 'when commodity codes are present' do
         before do
-          allow(Rails.cache).to receive(:read).and_return({
-            'active' => subscription.meta[:active],
-            'expired' => subscription.meta[:expired],
-            'invalid' => subscription.meta[:invalid],
-          })
-
           get :index
         end
 

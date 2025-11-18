@@ -1,7 +1,6 @@
 module Myott
   class MycommoditiesController < MyottController
     before_action :authenticate, only: %i[new create index]
-    before_action :initialize_subscription_data
 
     require 'csv'
     require 'roo'
@@ -12,12 +11,7 @@ module Myott
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     ].freeze
 
-    def new
-      Rails.cache.delete(session[:subscription_key]) if session[:subscription_key].present?
-      Rails.cache.delete(session[:subscription_meta_key]) if session[:subscription_meta_key].present?
-      session.delete(:subscription_key)
-      session.delete(:subscription_meta_key)
-    end
+    def new; end
 
     def active
       get_subscription_targets 'active'
@@ -32,19 +26,14 @@ module Myott
     end
 
     def index
-      meta = Rails.cache.read(session[:subscription_meta_key]) if session[:subscription_meta_key].present?
-      unless meta
-        subscription = get_subscription('my_commodities')
-        redirect_to new_myott_mycommodity_path and return unless subscription
+      subscription = get_subscription('my_commodities')
+      redirect_to new_myott_mycommodity_path and return unless subscription
 
-        refresh_subscription_cache(subscription.resource_id)
+      meta = subscription[:meta]
 
-        meta = Rails.cache.read(session[:subscription_meta_key]) if session[:subscription_meta_key].present?
-      end
-
-      @active_commodity_codes  = meta['active']
-      @expired_commodity_codes = meta['expired']
-      @invalid_commodity_codes = meta['invalid']
+      @active_commodity_codes  ||= meta['active']
+      @expired_commodity_codes ||= meta['expired']
+      @invalid_commodity_codes ||= meta['invalid']
 
       @total_commodity_codes = meta.values.flatten.size
     end
@@ -65,15 +54,11 @@ module Myott
 
     private
 
-    def initialize_subscription_data
-      session[:subscription_key] ||= {}
-      session[:subscription_meta_key] ||= {}
-    end
-
     def update_user_commodity_codes(commodity_codes)
       subscription = get_subscription('my_commodities')
 
       subscription_id = if subscription.nil? && User.update(user_id_token, my_commodities_subscription: 'true')
+                          @current_user = nil # force a reload of memoized user or subscription will not be found
                           get_subscription('my_commodities').resource_id
                         else
                           subscription.resource_id
@@ -83,23 +68,6 @@ module Myott
                          user_id_token,
                          targets: TariffJsonapiParser.new(commodity_codes.uniq).parse,
                          subscription_type: 'my_commodities')
-
-      refresh_subscription_cache(subscription_id)
-    end
-
-    def refresh_subscription_cache(subscription_id)
-      subscription = Subscription.find(subscription_id, user_id_token)
-
-      subscription_cache_key = "subscription:#{session.id}"
-      subscription_meta_cache_key = "subscription_meta:#{session.id}"
-
-      Rails.cache.write(subscription_cache_key, subscription, expires_in: 1.hour)
-
-      meta = subscription[:meta]
-      Rails.cache.write(subscription_meta_cache_key, meta, expires_in: 1.hour)
-
-      session[:subscription_key] = subscription_cache_key
-      session[:subscription_meta_key] = subscription_meta_cache_key
     end
 
     def extract_codes_from_file(file)
