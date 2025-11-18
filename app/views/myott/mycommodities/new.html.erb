@@ -1,0 +1,37 @@
+<% myott_page_title "Upload commodities", error: @alert %>
+<div class="govuk-body">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Upload your preferred commodities</h1>
+      <p>You will receive updates when there are changes to these commodities.</p>
+      <p class="govuk-inset-text">You can upload a new file or replace an existing file.</p>
+
+      <%= form_with url:  myott_mycommodities_path, method: :post, local: true, :multipart => true do %>
+        <fieldset class="govuk-fieldset" aria-describedby="select-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h2 class="govuk-fieldset__heading govuk-heading-m">What commodities do you want to upload?</h2>
+          </legend>
+          <div id="select-hint" class="govuk-hint">
+            You can upload a CSV or Excel file. The file should contain a list of commodity codes, one per row.  Please note duplicates will be ignored.
+          </div>
+          <% if flash.now[:select_error] %>
+            <p class="govuk-error-message">
+              <%= flash.now[:select_error] %>
+            </p>
+          <% end %>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="file-upload-1">
+                Upload a file
+            </label>
+            <div
+              class="govuk-drop-zone"
+              data-module="govuk-file-upload">
+              <input class="govuk-file-upload" id="file-upload-1" name="fileUpload1" type="file">
+            </div>
+          </div>
+        </fieldset>
+        <%= submit_tag "Continue", class: "govuk-button govuk-!-margin-top-4" %>
+      <% end %>
+    </div>
+  </div>
+</div>

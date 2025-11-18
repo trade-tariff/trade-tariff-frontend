@@ -461,6 +461,42 @@ RSpec.describe ApiEntity do
     end
   end
 
+  describe '#batch' do
+    subject(:result) do
+      mock_entity.batch(
+        { targets: %w[1234567890 1234567891], subscription_type: 'my_commodities' },
+        { authorization: 'Bearer abc123' },
+      )
+    end
+
+    let(:mock_response) { instance_double(Faraday::Response) }
+    let(:parsed_data) do
+      {
+        meta: {
+          active: %w[1234567890],
+          expired: %w[1234567891],
+          invalid: [],
+        },
+      }
+    end
+    let(:api_double) { instance_double(Faraday::Connection, post: mock_response) }
+
+    before do
+      allow(mock_entity).to receive_messages(
+        api: api_double,
+        singular_path: '/api/uk/mock_entities/:id',
+      )
+      allow(mock_entity).to receive(:parse_jsonapi).with(mock_response).and_return(parsed_data)
+    end
+
+    it 'returns an instance of the entity' do
+      expect(result).to be_a(mock_entity)
+    end
+
+    it { expect(result[:meta][:active]).to eq %w[1234567890] }
+    it { expect(result[:meta][:expired]).to eq %w[1234567891] }
+  end
+
   describe '#create!' do
     subject(:result) do
       mock_entity.create!(

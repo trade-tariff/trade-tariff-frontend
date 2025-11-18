@@ -30,4 +30,27 @@ RSpec.describe Myott::MyottController, type: :controller do
       expect(result).to eq(subscription)
     end
   end
+
+  describe '#get_subscription' do
+    let(:subscription) { build(:subscription) }
+    let(:subscription_type) { 'my_commodities' }
+    let(:user_subscription_hash) do
+      [{
+        'subscription_type' => subscription_type,
+        'id' => subscription.uuid,
+      }]
+    end
+
+    before do
+      allow(controller).to receive(:cookies).and_return(id_token: 'token123')
+      allow(User).to receive(:find).and_return({ subscriptions: user_subscription_hash })
+      allow(Subscription).to receive(:find).with(subscription.uuid, 'token123')
+                                          .and_return(subscription)
+    end
+
+    it 'returns the subscription for the matching subscription_type' do
+      result = controller.send(:get_subscription, subscription_type)
+      expect(result).to eq(subscription)
+    end
+  end
 end

@@ -93,6 +93,13 @@ private
       new parse_jsonapi(response)
     end
 
+    def batch(id, params = {}, headers = {})
+      request = prepare_json_request(params, headers)
+      batch_path = "#{singular_path.sub(':id', id)}/batch"
+      response = api.post(batch_path, request[:body], request[:headers])
+      new parse_jsonapi(response)
+    end
+
     def update(params = {}, headers = {})
       request = prepare_json_request(params, headers)
       response = api.put(singular_path, request[:body], request[:headers])
