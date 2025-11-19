@@ -71,9 +71,10 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
         it { is_expected.to respond_with(:success) }
 
-        it { expect(assigns(:active_commodity_codes)).to eq(subscription.meta[:active]) }
-        it { expect(assigns(:expired_commodity_codes)).to eq(subscription.meta[:expired]) }
-        it { expect(assigns(:invalid_commodity_codes)).to eq(subscription.meta[:invalid]) }
+        it { expect(assigns(:meta).total).to eq(subscription.meta.values.flatten.size) }
+        it { expect(assigns(:meta).active).to eq(subscription.meta[:active].count) }
+        it { expect(assigns(:meta).expired).to eq(subscription.meta[:expired].count) }
+        it { expect(assigns(:meta).invalid).to eq(subscription.meta[:invalid].count) }
       end
 
       context 'when user does not have a my commodities subscription' do
