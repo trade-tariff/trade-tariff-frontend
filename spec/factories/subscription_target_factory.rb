@@ -3,7 +3,7 @@ FactoryBot.define do
     target_type { 'my_commodities' }
     chapter_short_code { '11' }
     goods_nomenclature_item_id { '1234567890' }
-    hierarchical_description { 'Food and Tobacco' }
+    classification_description { 'Food and Tobacco' }
     meta do
       {
         pagination: {
