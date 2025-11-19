@@ -464,7 +464,7 @@ RSpec.describe ApiEntity do
   describe '#batch' do
     subject(:result) do
       mock_entity.batch(
-        { targets: %w[1234567890 1234567891], subscription_type: 'my_commodities' },
+        { targets: %w[1234567890 1234567891] },
         { authorization: 'Bearer abc123' },
       )
     end

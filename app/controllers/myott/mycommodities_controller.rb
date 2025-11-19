@@ -55,8 +55,7 @@ module Myott
 
       Subscription.batch(subscription_id,
                          user_id_token,
-                         targets: TariffJsonapiParser.new(commodity_codes.uniq).parse,
-                         subscription_type: 'my_commodities')
+                         targets: TariffJsonapiParser.new(commodity_codes.uniq).parse)
     end
 
     def get_subscription_targets(category)
