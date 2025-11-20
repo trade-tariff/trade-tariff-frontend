@@ -65,7 +65,10 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
       end
 
       context 'when commodity codes are present' do
+        let(:grouped_measure_changes) { [TariffChanges::GroupedMeasureChange.new] }
+
         before do
+          allow(TariffChanges::GroupedMeasureChange).to receive(:all).and_return(grouped_measure_changes)
           get :index
         end
 
@@ -75,6 +78,10 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
         it { expect(assigns(:meta).active).to eq(subscription.meta[:active].count) }
         it { expect(assigns(:meta).expired).to eq(subscription.meta[:expired].count) }
         it { expect(assigns(:meta).invalid).to eq(subscription.meta[:invalid].count) }
+
+        it 'assigns @grouped_measure_changes' do
+          expect(assigns(:grouped_measure_changes)).to eq(grouped_measure_changes)
+        end
       end
 
       context 'when user does not have a my commodities subscription' do
