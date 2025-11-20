@@ -4,7 +4,7 @@ class SubscriptionTarget
   attr_accessor :target_type,
                 :chapter_short_code,
                 :goods_nomenclature_item_id,
-                :hierarchical_description,
+                :classification_description,
                 :meta
 
   def self.all(id, token, params)
