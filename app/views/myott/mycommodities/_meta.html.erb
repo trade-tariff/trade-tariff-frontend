@@ -1,0 +1,43 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">Total commodities uploaded: <%= number_with_delimiter(meta.total) %></h2>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <%= link_to "Upload and update commodities", new_myott_mycommodity_path, class: "govuk-button govuk-!-margin-top-4" %>
+  </div>
+</div>
+<div class="govuk-grid-row summary_background">
+  <div class="govuk-grid-column-one-third">
+    <div class='summary_container'>
+      <strong>Active commodities:</strong>
+      <br />
+      <% if meta.active.zero? %>
+        0
+      <% else %>
+        <%= link_to number_with_delimiter(meta.active), active_myott_mycommodities_path %>
+      <% end %>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <div class="summary_container">
+      <strong>Expired commodity codes:</strong>
+      <br />
+        <% if meta.expired.zero? %>
+        0
+      <% else %>
+        <%= link_to number_with_delimiter(meta.expired), expired_myott_mycommodities_path %>
+      <% end %>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <div class="summary_container">
+      <strong>Upload errors:</strong>
+      <br />
+      <% if meta.invalid.zero? %>
+        0
+      <% else %>
+        <%= link_to number_with_delimiter(meta.invalid), invalid_myott_mycommodities_path %>
+      <% end %>
+    </div>
+  </div>
+</div>

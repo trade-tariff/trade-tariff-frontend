@@ -17,16 +17,9 @@ module Myott
     end
 
     def index
-      subscription = get_subscription('my_commodities')
-      redirect_to new_myott_mycommodity_path and return unless subscription
+      redirect_to new_myott_mycommodity_path and return unless current_subscription
 
-      meta = subscription[:meta]
-
-      @active_commodity_codes  ||= meta['active']
-      @expired_commodity_codes ||= meta['expired']
-      @invalid_commodity_codes ||= meta['invalid']
-
-      @total_commodity_codes = meta.values.flatten.size
+      @meta = metadata_from_subscription
     end
 
     def create
@@ -44,23 +37,18 @@ module Myott
     private
 
     def update_user_commodity_codes(commodity_codes)
-      subscription = get_subscription('my_commodities')
+      if current_subscription.nil? && User.update(user_id_token, my_commodities_subscription: 'true')
+        # force a reload of memoized user and subscription
+        @current_user = nil
+        @current_subscription = nil
+      end
 
-      subscription_id = if subscription.nil? && User.update(user_id_token, my_commodities_subscription: 'true')
-                          @current_user = nil # force a reload of memoized user or subscription will not be found
-                          get_subscription('my_commodities').resource_id
-                        else
-                          subscription.resource_id
-                        end
-
-      Subscription.batch(subscription_id,
+      Subscription.batch(current_subscription.resource_id,
                          user_id_token,
                          targets: TariffJsonapiParser.new(commodity_codes.uniq).parse)
     end
 
     def get_subscription_targets(category)
-      subscription_id = get_subscription('my_commodities').resource_id
-
       page = params[:page].presence || 1
       per_page = params[:per_page].presence || 10
 
@@ -68,12 +56,27 @@ module Myott
                  page: page,
                  per_page: per_page }
 
-      my_commodities = SubscriptionTarget.all(subscription_id, user_id_token, params)
+      my_commodities = SubscriptionTarget.all(current_subscription.resource_id, user_id_token, params)
       @commodities = my_commodities
       @total_commodities_count = my_commodities.total_count
       @category = category.capitalize
 
       render :list
+    end
+
+    def metadata_from_subscription
+      meta = current_subscription[:meta]
+
+      OpenStruct.new(
+        active: meta['active'].count,
+        expired: meta['expired'].count,
+        invalid: meta['invalid'].count,
+        total: meta.values.flatten.size,
+      )
+    end
+
+    def current_subscription
+      @current_subscription ||= get_subscription('my_commodities')
     end
   end
 end

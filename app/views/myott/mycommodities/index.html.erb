@@ -3,49 +3,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-l">Your commodity watchlist</h1>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-          <h2 class="govuk-heading-m">Total commodities uploaded: <%= number_with_delimiter(@total_commodity_codes, :delimeter => ',') %></h2>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <%= link_to "Upload and update commodities", new_myott_mycommodity_path, class: "govuk-button govuk-!-margin-top-4" %>
-        </div>
-      </div>
-      <div class="govuk-grid-row summary_background">
-        <div class="govuk-grid-column-one-third">
-          <div class='summary_container'>
-            <strong>Active commodities:</strong>
-            <br />
-            <% if @active_commodity_codes.count == 0 %>
-              0
-            <% else %>
-              <%= link_to  number_with_delimiter(@active_commodity_codes.count, :delimeter => ','), active_myott_mycommodities_path %>
-            <% end %>
-          </div>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <div class="summary_container">
-            <strong>Expired commodity codes:</strong>
-            <br />
-             <% if @expired_commodity_codes.count == 0 %>
-              0
-            <% else %>
-              <%= link_to number_with_delimiter(@expired_commodity_codes.count, :delimeter => ','), expired_myott_mycommodities_path %>
-            <% end %>
-          </div>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <div class="summary_container">
-            <strong>Upload errors:</strong>
-            <br />
-            <% if @invalid_commodity_codes.count == 0 %>
-              0
-            <% else %>
-              <%= link_to number_with_delimiter(@invalid_commodity_codes.count, :delimeter => ','), invalid_myott_mycommodities_path %>
-            <% end %>
-          </div>
-        </div>
-      </div>
+      <%= render partial: 'meta', locals: { meta: @meta } %>
     </div>
   </div>
 </div>
