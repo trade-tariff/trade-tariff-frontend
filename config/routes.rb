@@ -79,6 +79,7 @@ Rails.application.routes.draw do
             get :invalid
           end
         end
+        resources :grouped_measure_changes, only: %i[show]
       end
 
       resources :unsubscribes, only: %i[show destroy], path: 'unsubscribe' do

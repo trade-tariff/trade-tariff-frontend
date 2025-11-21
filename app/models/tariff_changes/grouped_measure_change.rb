@@ -10,6 +10,7 @@ module TariffChanges
 
     has_one :geographical_area
     has_many :excluded_countries, class_name: 'GeographicalArea'
+    has_many :grouped_measure_commodity_changes, class_name: 'TariffChanges::GroupedMeasureCommodityChange'
 
     def self.all(token, params = {})
       if token.nil? && !Rails.env.development?
@@ -37,6 +38,14 @@ module TariffChanges
       end
 
       description
+    end
+
+    def trade_direction_description
+      if trade_direction == 'both'
+        'Imports and exports'
+      else
+        "#{trade_direction.capitalize}s"
+      end
     end
   end
 end
