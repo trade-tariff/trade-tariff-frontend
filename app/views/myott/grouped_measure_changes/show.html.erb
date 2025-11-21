@@ -22,7 +22,7 @@
             <tr class="govuk-table__row">
               <td class="govuk-table__cell"><%= measure_change.commodity.goods_nomenclature_item_id %></td>
               <td class="govuk-table__cell"><%= measure_change.commodity.classification_description %></td>
-              <td class="govuk-table__cell"><%= link_to(pluralize(measure_change.count, 'change'), myott_grouped_measure_commodity_change_path(measure_change.resource_id, as_of: as_of)) %></td>
+              <td class="govuk-table__cell"><%= link_to(pluralize(measure_change.count, 'change'), myott_grouped_measure_commodity_change_path(measure_change.resource_id, as_of: params[:as_of])) %></td>
             </tr>
           <% end %>
         </tbody>
