@@ -25,7 +25,7 @@ x-preevy:
   driver: lightsail
   drivers:
     lightsail:
-      bundle-id: small_3_0  # change to medium_3_0 if you see "out of memory" errors
+      bundle-id: large_3_0  # change to medium_3_0 if you see "out of memory" errors
 
   plugins:
     - module: '@preevy/plugin-github'
