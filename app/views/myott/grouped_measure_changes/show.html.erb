@@ -1,0 +1,32 @@
+<% myott_page_title "Changes to your watchlist" %>
+<div class="govuk-body myott-mycommodities">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <span class="govuk-caption-l">
+        <span class="switch-service-control__caption">
+          Changes to your watchlist
+        </span>
+      </span>
+      <h1 class="govuk-heading-xl"><%= @grouped_measure_changes.trade_direction_description %> from <%= @grouped_measure_changes.geographical_area_description %></h1>
+
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th class="govuk-table__header">Commodity code</th>
+            <th class="govuk-table__header">Classification</th>
+            <th class="govuk-table__header">Number of changes</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% @grouped_measure_changes.grouped_measure_commodity_changes.each do |measure_change| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><%= measure_change.commodity.goods_nomenclature_item_id %></td>
+              <td class="govuk-table__cell"><%= measure_change.commodity.classification_description %></td>
+              <td class="govuk-table__cell"><%= measure_change.count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
