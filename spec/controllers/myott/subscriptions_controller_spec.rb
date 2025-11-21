@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Myott::SubscriptionsController, type: :controller do
   include_context 'with cached chapters'
 
-  let(:user) { build(:user, chapter_ids: '', stop_press_subscription: true) }
+  let(:user) { build(:user, chapter_ids: '') }
 
   describe 'GET #start' do
     it 'does not authenticate the user' do
@@ -53,7 +53,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
     context 'when current_user is valid' do
       before do
-        allow(controller).to receive(:current_user).and_return(user)
+        allow(controller).to receive_messages(current_user: user, current_subscription: build(:subscription, subscription_type: 'stop_press'))
         get :show
       end
 
@@ -72,7 +72,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       end
 
       context 'with subscribed user to some chapters' do
-        let(:user) { build(:user, stop_press_subscription: true, chapter_ids: '01,03') }
+        let(:user) { build(:user, chapter_ids: '01,03') }
 
         before do
           session[:chapter_ids] = %w[01,03]
@@ -90,7 +90,13 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       end
 
       context 'with unsubscribed user' do
-        let(:user) { build(:user, stop_press_subscription: false) }
+        let(:user) { build(:user) }
+
+        before do
+          allow(controller).to receive(:current_subscription).with('stop_press').and_return(nil)
+
+          get :show
+        end
 
         it 'redirects to sign up page' do
           expect(response).to redirect_to(new_myott_preferences_path)
@@ -216,15 +222,23 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
     end
 
     context 'when current_user is valid' do
+      let(:subscription) { build(:subscription, subscription_type: 'stop_press') }
+
       before do
         allow(controller).to receive(:current_user).and_return(user)
+        allow(controller).to receive(:current_subscription).with('stop_press').and_return(subscription)
         get :confirmation
       end
 
       it { is_expected.to respond_with(:success) }
 
       context 'when user is not subscribed' do
-        let(:user) { build(:user, stop_press_subscription: false) }
+        let(:user) { build(:user) }
+
+        before do
+          allow(controller).to receive(:current_subscription).with('stop_press').and_return(nil)
+          get :confirmation
+        end
 
         it 'redirects' do
           expect(response).to redirect_to(myott_path)

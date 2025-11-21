@@ -4,9 +4,7 @@ class User
   set_singular_path '/uk/user/users'
 
   attr_accessor :email,
-                :chapter_ids,
-                :stop_press_subscription,
-                :my_commodities_subscription
+                :chapter_ids
 
   def self.update(token, attributes)
     return nil if token.nil? && !Rails.env.development?

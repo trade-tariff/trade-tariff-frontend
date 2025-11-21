@@ -17,7 +17,7 @@ module Myott
     end
 
     def index
-      redirect_to new_myott_mycommodity_path and return unless current_subscription
+      redirect_to new_myott_mycommodity_path and return unless current_subscription('my_commodities')
 
       @meta = metadata_from_subscription
       @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
@@ -38,13 +38,13 @@ module Myott
     private
 
     def update_user_commodity_codes(commodity_codes)
-      if current_subscription.nil? && User.update(user_id_token, my_commodities_subscription: 'true')
+      if current_subscription('my_commodities').nil? && User.update(user_id_token, my_commodities_subscription: 'true')
         # force a reload of memoized user and subscription
         @current_user = nil
         @current_subscription = nil
       end
 
-      Subscription.batch(current_subscription.resource_id,
+      Subscription.batch(current_subscription('my_commodities').resource_id,
                          user_id_token,
                          targets: TariffJsonapiParser.new(commodity_codes.uniq).parse)
     end
@@ -57,7 +57,7 @@ module Myott
                  page: page,
                  per_page: per_page }
 
-      my_commodities = SubscriptionTarget.all(current_subscription.resource_id, user_id_token, params)
+      my_commodities = SubscriptionTarget.all(current_subscription('my_commodities').resource_id, user_id_token, params)
       @commodities = my_commodities
       @total_commodities_count = my_commodities.total_count
       @category = category.capitalize
@@ -66,7 +66,7 @@ module Myott
     end
 
     def metadata_from_subscription
-      meta = current_subscription[:meta]
+      meta = current_subscription('my_commodities')[:meta]
 
       OpenStruct.new(
         active: meta['active'].count,
@@ -74,10 +74,6 @@ module Myott
         invalid: meta['invalid'].count,
         total: meta.values.flatten.size,
       )
-    end
-
-    def current_subscription
-      @current_subscription ||= get_subscription('my_commodities')
     end
 
     def as_of

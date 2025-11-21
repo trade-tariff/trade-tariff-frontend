@@ -24,7 +24,7 @@ module Myott
   private
 
     def authentication
-      if params[:id].nil? || current_subscription.nil?
+      if params[:id].nil? || current_subscription('stop_press').nil?
         redirect_to myott_start_path
       end
     end

@@ -15,6 +15,6 @@
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
     <h2 class="govuk-heading-m">Unsubscribe</h2>
-    <p class="govuk-body"><a href=<%= myott_unsubscribe_path(current_user.stop_press_subscription) %>>Unsubscribe from all updates</a></p>
+    <p class="govuk-body"><a href=<%= myott_unsubscribe_path(@current_subscription.resource_id) %>>Unsubscribe from all updates</a></p>
   </div>
 </div>
