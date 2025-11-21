@@ -30,7 +30,7 @@ module DutyCalculator
       end
 
       def import_date
-        super || user_session.import_date
+        super || user_session.import_date || Time.zone.now.strftime('%Y-%m-%d')
       end
 
       def save!
