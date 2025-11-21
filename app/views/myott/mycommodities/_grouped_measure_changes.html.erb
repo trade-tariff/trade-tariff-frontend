@@ -1,0 +1,26 @@
+<h4 class="govuk-heading-s">Changes to your measures</h4>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header">Import/Export</th>
+      <th class="govuk-table__header">Country</th>
+      <th class="govuk-table__header">Commodities Affected</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+      <% @grouped_measure_changes.each do |change| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= change.trade_direction.capitalize %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= change.geographical_area_description %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= link_to(pluralize(change.count, 'commodity'), myott_grouped_measure_change_path(change.resource_id, as_of: params[:as_of])) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

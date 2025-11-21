@@ -20,6 +20,7 @@ module Myott
       redirect_to new_myott_mycommodity_path and return unless current_subscription('my_commodities')
 
       @meta = metadata_from_subscription
+      @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
     end
 
     def create
@@ -74,5 +75,14 @@ module Myott
         total: meta.values.flatten.size,
       )
     end
+    
+    def as_of
+      if params[:as_of].present?
+        Date.parse(params[:as_of])
+      else
+        Time.zone.yesterday
+      end
+    end
+    helper_method :as_of
   end
 end
