@@ -9,10 +9,10 @@ module Myott
     end
 
     def show
-      redirect_to new_myott_preferences_path and return unless current_user.stop_press_subscription
+      redirect_to new_myott_preferences_path and return unless current_subscription('stop_press')
 
+      @current_subscription = current_subscription('stop_press')
       session[:chapter_ids] = current_user.chapter_ids&.split(',')
-
       set_selected_chapters
     end
 
@@ -39,7 +39,7 @@ module Myott
     end
 
     def confirmation
-      redirect_to myott_path unless current_user.stop_press_subscription
+      redirect_to myott_path unless current_subscription('stop_press')
     end
 
   private

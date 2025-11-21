@@ -4,12 +4,25 @@ RSpec.describe 'Myott subscriptions', type: :feature do
   include_context 'with cached chapters'
 
   describe 'new subscriber' do
-    let(:user) { build(:user, stop_press_subscription: false) }
-    let(:updated_user) { build(:user, stop_press_subscription: true) }
+    let(:user) do
+      build(:user,
+            subscriptions: [
+              { 'id' => '123', 'subscription_type' => 'stop_press', 'active' => false },
+            ])
+    end
+
+    let(:updated_user) do
+      build(:user,
+            subscriptions: [
+              { 'id' => '123', 'subscription_type' => 'stop_press', 'active' => true },
+            ])
+    end
+    let(:subscription) { build(:subscription, active: true, subscription_type: 'stop_press') }
 
     before do
       allow(User).to receive(:find).and_return(user, updated_user)
       allow(User).to receive(:update).and_return(true)
+      allow(Subscription).to receive(:find).and_return(subscription)
     end
 
     describe 'subscribing to all chapters' do
@@ -60,10 +73,31 @@ RSpec.describe 'Myott subscriptions', type: :feature do
   end
 
   describe 'returning subscriber' do
-    let(:user) { build(:user, chapter_ids:, stop_press_subscription: true) }
+    let(:subscription_hash) do
+      {
+        'id' => '123',
+        'uuid' => '123',
+        'resource_id' => '123',
+        'subscription_type' => 'stop_press',
+        'active' => true,
+      }
+    end
+
+    let(:user) do
+      User.new(
+        email: 'user@example.com',
+        chapter_ids: chapter_ids,
+        subscriptions: [subscription_hash],
+      )
+    end
+
+    let(:subscription) do
+      Subscription.new(subscription_hash)
+    end
 
     before do
       allow(User).to receive_messages(find: user, update: true)
+      allow(Subscription).to receive(:find).and_return(subscription)
     end
 
     context 'with selected chapters' do

@@ -19,27 +19,36 @@ RSpec.describe Myott::MyottController, type: :controller do
 
   describe '#current_subscription' do
     let(:subscription) { build(:subscription) }
+    let(:subscription_type) { 'my_commodities' }
 
-    before do
-      allow(Subscription).to receive(:find).and_return(subscription)
-      allow(controller).to receive(:params).and_return(id: subscription.uuid)
+    context 'when a subscription is found' do
+      before do
+        allow(controller).to receive(:current_user).and_return(build(:user))
+        allow(controller).to receive(:get_subscription).with(subscription_type).and_return(subscription)
+      end
+
+      it 'returns the current subscription' do
+        result = controller.send(:current_subscription, subscription_type)
+        expect(result).to eq(subscription)
+      end
     end
 
-    it 'returns the current subscription' do
-      result = controller.send(:current_subscription)
-      expect(result).to eq(subscription)
+    context 'when a subscription is not found' do
+      before do
+        allow(controller).to receive(:current_user).and_return(build(:user))
+        allow(controller).to receive(:get_subscription).with(subscription_type).and_return(nil)
+      end
+
+      it 'returns nil' do
+        result = controller.send(:current_subscription, subscription_type)
+        expect(result).to be_nil
+      end
     end
   end
 
   describe '#get_subscription' do
     let(:subscription) { build(:subscription) }
     let(:subscription_type) { 'my_commodities' }
-    let(:user_subscription_hash) do
-      [{
-        'subscription_type' => subscription_type,
-        'id' => subscription.uuid,
-      }]
-    end
 
     before do
       allow(controller).to receive(:cookies).and_return(id_token: 'token123')
@@ -48,9 +57,34 @@ RSpec.describe Myott::MyottController, type: :controller do
                                           .and_return(subscription)
     end
 
-    it 'returns the subscription for the matching subscription_type' do
-      result = controller.send(:get_subscription, subscription_type)
-      expect(result).to eq(subscription)
+    context 'when the user has an active subscription' do
+      let(:user_subscription_hash) do
+        [{
+          'subscription_type' => subscription_type,
+          'id' => subscription.uuid,
+          'active' => true,
+        }]
+      end
+
+      it 'returns the subscription for the matching subscription_type' do
+        result = controller.send(:get_subscription, subscription_type)
+        expect(result).to eq(subscription)
+      end
+    end
+
+    context 'when the user does not have an active subscription' do
+      let(:user_subscription_hash) do
+        [{
+          'subscription_type' => subscription_type,
+          'id' => subscription.uuid,
+          'active' => false,
+        }]
+      end
+
+      it 'returns nil' do
+        result = controller.send(:get_subscription, subscription_type)
+        expect(result).to be_nil
+      end
     end
   end
 end
