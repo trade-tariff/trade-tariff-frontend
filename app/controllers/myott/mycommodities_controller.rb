@@ -75,7 +75,7 @@ module Myott
         total: meta.values.flatten.size,
       )
     end
-    
+
     def as_of
       if params[:as_of].present?
         Date.parse(params[:as_of])
