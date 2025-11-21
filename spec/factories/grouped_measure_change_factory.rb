@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :grouped_measure_change, class: 'TariffChanges::GroupedMeasureChange' do
+    resource_id { 'import_UK__default' }
     trade_direction { 'import' }
     count { 1 }
 
