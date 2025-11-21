@@ -197,5 +197,28 @@ RSpec.describe TariffChanges::GroupedMeasureChange do
     it 'has many excluded_countries' do
       expect(instance).to respond_to(:excluded_countries)
     end
+
+    it 'has many grouped_measure_commodity_changes' do
+      expect(instance).to respond_to(:grouped_measure_commodity_changes)
+    end
+  end
+
+  describe '#trade_direction_description' do
+    let(:instance) { build(:grouped_measure_change) }
+
+    it 'returns Imports and exports for both' do
+      instance.trade_direction = 'both'
+      expect(instance.trade_direction_description).to eq('Imports and exports')
+    end
+
+    it 'returns Imports for import' do
+      instance.trade_direction = 'import'
+      expect(instance.trade_direction_description).to eq('Imports')
+    end
+
+    it 'returns Exports for export' do
+      instance.trade_direction = 'export'
+      expect(instance.trade_direction_description).to eq('Exports')
+    end
   end
 end

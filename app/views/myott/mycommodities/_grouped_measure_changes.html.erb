@@ -18,7 +18,7 @@
           <%= change.geographical_area_description %>
         </td>
         <td class="govuk-table__cell">
-          <%= pluralize(change.count, 'commodity') %>
+          <%= link_to(pluralize(change.count, 'commodity'), myott_grouped_measure_change_path(change.resource_id, as_of: params[:as_of])) %>
         </td>
       </tr>
     <% end %>
