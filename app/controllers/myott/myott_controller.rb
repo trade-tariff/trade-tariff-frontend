@@ -22,8 +22,6 @@ module Myott
       @current_subscriptions[subscription_type] ||= get_subscription(subscription_type)
     end
 
-    helper_method :current_subscription
-
     def user_id_token
       cookies[:id_token]
     end
