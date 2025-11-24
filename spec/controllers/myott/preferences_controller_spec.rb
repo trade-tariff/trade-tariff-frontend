@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Myott::PreferencesController, type: :controller do
   include_context 'with cached chapters'
 
-  let(:user) { build(:user, chapter_ids: '', stop_press_subscription: false) }
+  let(:user) { build(:user, chapter_ids: '') }
 
   describe 'GET #new' do
     context 'when current_user is not valid' do

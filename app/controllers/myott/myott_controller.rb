@@ -17,8 +17,9 @@ module Myott
     end
     helper_method :current_user
 
-    def current_subscription
-      @current_subscription ||= Subscription.find(params[:id], user_id_token)
+    def current_subscription(subscription_type)
+      @current_subscriptions ||= {}
+      @current_subscriptions[subscription_type] ||= get_subscription(subscription_type)
     end
 
     def user_id_token
@@ -26,9 +27,8 @@ module Myott
     end
 
     def get_subscription(subscription_type)
-      subscription_id = current_user[:subscriptions]&.find { |s| s['subscription_type'] == subscription_type }&.fetch('id', nil)
+      subscription_id = current_user[:subscriptions]&.find { |s| s['subscription_type'] == subscription_type && s['active'] }&.fetch('id', nil)
       Subscription.find(subscription_id, user_id_token) if subscription_id
     end
-    helper_method :get_subscription
   end
 end

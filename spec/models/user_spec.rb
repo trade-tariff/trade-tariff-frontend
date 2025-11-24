@@ -31,7 +31,7 @@ RSpec.describe User do
     subject(:response) { described_class.update(token, attributes) }
 
     let(:token) { 'valid-jwt-token' }
-    let(:attributes) { { chapter_ids: '01,02', stop_press_subscription: 'true' } }
+    let(:attributes) { { chapter_ids: '01,02' } }
 
     context 'when token is nil' do
       let(:token) { nil }
@@ -52,7 +52,6 @@ RSpec.describe User do
 
       it { is_expected.to be_a described_class }
       it { expect(response.chapter_ids).to eq('01,02') }
-      it { expect(response.stop_press_subscription).to eq('true') }
     end
 
     context 'when response is unauthorised' do
