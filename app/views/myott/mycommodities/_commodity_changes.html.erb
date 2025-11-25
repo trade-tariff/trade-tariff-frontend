@@ -1,0 +1,26 @@
+<h4 class="govuk-heading-s">Changes to your commodities</h4>
+
+<% if changes.empty? %>
+  <p class="govuk-body">No changes to commodities on this date</p>
+<% else %>
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header">Change type</th>
+        <th class="govuk-table__header">Commodities Affected</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        <% changes.each do |change| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <%= change.description %>
+          </td>
+          <td class="govuk-table__cell">
+            <%= change.count %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

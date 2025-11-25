@@ -9,7 +9,9 @@
         <h2 class="govuk-heading-l">Changes affecting your commodity watchlist:</h2>
         <h3 class="govuk-heading-m">Changes published: <%= as_of.strftime("%d/%m/%Y") %></h3>
 
-        <%= render partial: 'grouped_measure_changes', locals: { grouped_measure_changes: @grouped_measure_changes } %>
+        <%= render partial: 'commodity_changes', locals: { changes: @commodity_changes } %>
+
+        <%= render partial: 'grouped_measure_changes', locals: { changes: @grouped_measure_changes } %>
       </div>
     </div>
   </div>

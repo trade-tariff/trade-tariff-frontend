@@ -15,7 +15,7 @@ RSpec.describe 'myott/mycommodities/_grouped_measure_changes.html.erb', type: :v
     allow(change).to receive(:geographical_area_description).and_return('United Kingdom')
     assign(:grouped_measure_changes, [change])
     allow(view).to receive(:params).and_return(as_of: '2025-11-21')
-    render partial: 'myott/mycommodities/grouped_measure_changes', locals: { grouped_measure_changes: [change] }
+    render partial: 'myott/mycommodities/grouped_measure_changes', locals: { changes: [change] }
   end
 
   it 'renders the trade direction' do

@@ -66,9 +66,11 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
       context 'when commodity codes are present' do
         let(:grouped_measure_changes) { [TariffChanges::GroupedMeasureChange.new] }
+        let(:commodity_changes) { [TariffChanges::CommodityChange.new] }
 
         before do
           allow(TariffChanges::GroupedMeasureChange).to receive(:all).and_return(grouped_measure_changes)
+          allow(TariffChanges::CommodityChange).to receive(:all).and_return(commodity_changes)
           get :index
         end
 
@@ -81,6 +83,10 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
         it 'assigns @grouped_measure_changes' do
           expect(assigns(:grouped_measure_changes)).to eq(grouped_measure_changes)
+        end
+
+        it 'assigns @commodity_changes' do
+          expect(assigns(:commodity_changes)).to eq(commodity_changes)
         end
       end
 

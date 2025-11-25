@@ -1,6 +1,6 @@
 <h4 class="govuk-heading-s">Changes to your measures</h4>
 
-<% if @grouped_measure_changes.empty? %>
+<% if changes.empty? %>
   <p class="govuk-body">No changes to measure on this date</p>
 <% else %>
   <table class="govuk-table">
@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-        <% @grouped_measure_changes.each do |change| %>
+        <% changes.each do |change| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <%= change.trade_direction.capitalize %>

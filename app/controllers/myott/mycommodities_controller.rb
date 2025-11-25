@@ -21,6 +21,7 @@ module Myott
 
       @meta = metadata_from_subscription
       @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
+      @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
     end
 
     def create
