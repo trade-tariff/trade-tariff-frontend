@@ -11,6 +11,16 @@ module AuthenticatableApiEntity
       nil
     end
 
+    def all(token, params = {})
+      if token.nil? && !Rails.env.development?
+        return []
+      end
+
+      collection(collection_path, params, headers(token))
+    rescue Faraday::UnauthorizedError
+      []
+    end
+
     def headers(token)
       {
         authorization: "Bearer #{token}",

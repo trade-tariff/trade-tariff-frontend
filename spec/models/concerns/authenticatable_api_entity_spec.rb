@@ -152,6 +152,99 @@ RSpec.describe AuthenticatableApiEntity do
     end
   end
 
+  describe '.all' do
+    let(:token) { 'test-auth-token' }
+    let(:mock_api) { instance_spy(Faraday::Connection) }
+    let(:mock_response) { instance_double(Faraday::Response, body: api_response) }
+    let(:api_response) do
+      [
+        { 'id' => '1', 'type' => 'test_entity', 'attributes' => { 'name' => 'Entity 1' } },
+        { 'id' => '2', 'type' => 'test_entity', 'attributes' => { 'name' => 'Entity 2' } },
+      ]
+    end
+
+    before do
+      allow(test_class).to receive_messages(
+        api: mock_api,
+        parse_jsonapi: api_response,
+      )
+      allow(mock_api).to receive(:get).and_return(mock_response)
+      allow(test_class).to receive(:collection_path).and_return('/test')
+    end
+
+    context 'with valid token' do
+      it 'makes authenticated API call' do
+        test_class.all(token)
+        expect(mock_api).to have_received(:get)
+          .with('/test', {}, { authorization: "Bearer #{token}" })
+      end
+
+      it 'returns array of entity instances' do
+        result = test_class.all(token)
+        expect(result.map(&:name)).to eq(['Entity 1', 'Entity 2'])
+      end
+
+      it 'passes options to API call' do
+        options = { include: 'related_entity' }
+        test_class.all(token, options)
+        expect(mock_api).to have_received(:get)
+          .with('/test', options, { authorization: "Bearer #{token}" })
+      end
+    end
+
+    context 'when development environment' do
+      before do
+        allow(Rails.env).to receive(:development?).and_return(true)
+      end
+
+      it 'makes API call even with nil token' do
+        test_class.all(nil)
+        expect(mock_api).to have_received(:get)
+          .with('/test', {}, { authorization: 'Bearer ' })
+      end
+    end
+
+    context 'when non-development environment' do
+      before do
+        allow(Rails.env).to receive(:development?).and_return(false)
+      end
+
+      it 'returns empty array with nil token' do
+        result = test_class.all(nil)
+        expect(result).to eq([])
+      end
+
+      it 'does not make API call with nil token' do
+        test_class.all(nil)
+        expect(mock_api).not_to have_received(:get)
+      end
+    end
+
+    context 'when API returns unauthorized error' do
+      before do
+        allow(mock_api).to receive(:get)
+          .and_raise(Faraday::UnauthorizedError.new('Unauthorized'))
+      end
+
+      it 'returns empty array' do
+        result = test_class.all(token)
+        expect(result).to eq([])
+      end
+    end
+
+    context 'when API returns other errors' do
+      before do
+        allow(mock_api).to receive(:get)
+          .and_raise(Faraday::ServerError.new('Server Error'))
+      end
+
+      it 'allows error to bubble up' do
+        expect { test_class.all(token) }
+          .to raise_error(Faraday::ServerError)
+      end
+    end
+  end
+
   describe 'concern behavior' do
     it 'includes UkOnlyApiEntity' do
       expect(test_class.included_modules).to include(UkOnlyApiEntity)
