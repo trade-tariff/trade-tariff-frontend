@@ -42,7 +42,6 @@
 <% end %>
 
 <% if cacheable %>
-  <% commodity_cache_key = ['commodities#show', cache_key, params.values.compact.map(&:to_s).sort.join('/')] %>
   <%= cache(commodity_cache_key) { concat(content) } %>
 <% else %>
   <%= content %>
