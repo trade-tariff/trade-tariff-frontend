@@ -30,7 +30,7 @@ jobs:
           role-to-assume: ${{ env.IAM_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Fetch frontend-configuration secrets and mask values
         run: |
