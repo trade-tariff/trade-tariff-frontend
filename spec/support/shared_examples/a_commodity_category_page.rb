@@ -27,7 +27,7 @@ RSpec.shared_examples 'a commodity category page' do |action, category|
   it { is_expected.to render_template(:list) }
 
   it 'assigns the category' do
-    expect(assigns(:category)).to eq(category.capitalize)
+    expect(assigns(:category)).to eq(category)
   end
 
   it 'assigns commodities as SubscriptionTarget instances' do
@@ -40,5 +40,14 @@ RSpec.shared_examples 'a commodity category page' do |action, category|
 
   it 'assigns the total commodities count' do
     expect(assigns(:total_commodities_count)).to eq(3)
+  end
+
+  case category
+  when 'active'
+    it { is expected.to assign(:heading).to eq('Active commodities: 3') }
+  when 'expired'
+    it { is expected.to assign(:heading).to eq('Expired commodities') }
+  when 'invalid'
+    it { is expected.to assign(:heading).to eq('Errors from commodity uploads') }
   end
 end
