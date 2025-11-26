@@ -5,7 +5,8 @@ class SubscriptionTarget
                 :chapter_short_code,
                 :goods_nomenclature_item_id,
                 :classification_description,
-                :meta
+                :meta,
+                :validity_end_date
 
   def self.all(id, token, params)
     return nil if token.nil? && !Rails.env.development?

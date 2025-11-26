@@ -1,0 +1,41 @@
+<% myott_page_title 'Errors from commodity uploads', error: @alert %>
+<% content_for :back_link do %>
+  <%= back_link myott_mycommodities_path %>
+<% end %>
+<div class="govuk-body myott-mycommodities">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl">Errors from commodity uploads</h1>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <p>On this page are errors from the spreadsheet you uploaded for your watch list.<br>These can include:</p>
+          <ul>
+            <li>The spreadsheet removing the first 0 in the codes for chapter 1 to 9</li>
+            <li>Commodity codes not 10 digits long</li>
+            <li>Commodity codes which have expired and are no longer in use</li>
+          </ul>
+          <p>You can choose to remove all these errors, remove them individually, or upload a new spreadsheet.</p>
+          <h3>Total input errors: <%= number_with_delimiter(@commodities.total_count) %></h3>
+          <p>You should remove invalid inputs if they have been actioned</p>
+        </div>
+      </div>
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th class="govuk-table__header">Invalid input</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% @commodities.each do |commodity| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <%= commodity.try(:goods_nomenclature_item_id) %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <%= paginate @commodities %>
+    </div>
+  </div>
+</div>
