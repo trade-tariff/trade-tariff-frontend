@@ -5,15 +5,15 @@ module Myott
     def new; end
 
     def active
-      get_subscription_targets 'active'
+      @commodities = get_subscription_targets('active')
     end
 
     def expired
-      get_subscription_targets 'expired'
+      @commodities = get_subscription_targets('expired')
     end
 
     def invalid
-      get_subscription_targets 'invalid'
+      @commodities = get_subscription_targets('invalid')
     end
 
     def index
@@ -56,13 +56,7 @@ module Myott
       params = { filter: { active_commodities_type: category },
                  page: page,
                  per_page: per_page }
-
-      my_commodities = SubscriptionTarget.all(current_subscription('my_commodities').resource_id, user_id_token, params)
-      @commodities = my_commodities
-      @total_commodities_count = my_commodities.total_count
-      @category = category
-
-      render :list
+      SubscriptionTarget.all(current_subscription('my_commodities').resource_id, user_id_token, params)
     end
 
     def metadata_from_subscription
