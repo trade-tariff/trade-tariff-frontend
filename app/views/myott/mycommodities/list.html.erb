@@ -5,7 +5,6 @@
 <div class="govuk-body myott-mycommodities">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl"><%= my_commodities_page_heading(@category, @total_commodities_count) %></h1>
       <%= render @category, total_commodities_count: @total_commodities_count, commodities: @commodities %>
     </div>
   </div>

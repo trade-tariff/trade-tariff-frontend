@@ -41,19 +41,4 @@ RSpec.shared_examples 'a commodity category page' do |action, category|
   it 'assigns the total commodities count' do
     expect(assigns(:total_commodities_count)).to eq(3)
   end
-
-  case category
-  when 'active'
-    it 'assigns the heading for active' do
-      expect(assigns(:heading)).to eq('Active commodities: 3')
-    end
-  when 'expired'
-    it 'assigns the heading for expired' do
-      expect(assigns(:heading)).to eq('Expired commodities')
-    end
-  when 'invalid'
-    it 'assigns the heading for invalid' do
-      expect(assigns(:heading)).to eq('Errors from commodity uploads')
-    end
-  end
 end

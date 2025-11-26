@@ -1,6 +1,5 @@
 module Myott
   class MycommoditiesController < MyottController
-    include MyottHelper
     before_action :authenticate, only: %i[new create index]
 
     def new; end
@@ -62,7 +61,6 @@ module Myott
       @commodities = my_commodities
       @total_commodities_count = my_commodities.total_count
       @category = category
-      @heading = my_commodities_page_heading(category, my_commodities.total_count)
 
       render :list
     end

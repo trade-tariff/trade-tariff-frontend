@@ -1,3 +1,4 @@
+<h1 class="govuk-heading-xl">Errors from commodity uploads</h1>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p>On this page are errors from the spreadsheet you uploaded for your watch list.<br>These can include:</p>
@@ -19,7 +20,7 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-      <% @commodities.each do |commodity| %>
+      <% commodities.each do |commodity| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           <%= commodity.try(:goods_nomenclature_item_id) %>

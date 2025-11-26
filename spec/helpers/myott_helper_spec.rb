@@ -38,27 +38,4 @@ RSpec.describe MyottHelper, type: :helper do
       end
     end
   end
-
-  describe '#my_commodities_page_heading' do
-    subject { helper.my_commodities_page_heading(category, total_commodities_count) }
-
-    let(:category) { 'active' }
-    let(:total_commodities_count) { 10 }
-
-    context 'when category is active' do
-      it { is_expected.to eq('Active commodities: 10') }
-    end
-
-    context 'when category is expired' do
-      let(:category) { 'expired' }
-
-      it { is_expected.to eq('Expired commodities') }
-    end
-
-    context 'when category is invalid' do
-      let(:category) { 'invalid' }
-
-      it { is_expected.to eq('Errors from commodity uploads') }
-    end
-  end
 end

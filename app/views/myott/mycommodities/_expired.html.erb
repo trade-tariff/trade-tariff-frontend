@@ -1,3 +1,4 @@
+<h1 class="govuk-heading-xl">Expired commodities</h1>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p>When commodity codes expire they’re no longer usable. The codes might have been removed or absorbed into different commodity codes.</p>
@@ -16,7 +17,7 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-      <% @commodities.each do |commodity| %>
+      <% commodities.each do |commodity| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           <strong><%= commodity.try(:goods_nomenclature_item_id) %></strong>
