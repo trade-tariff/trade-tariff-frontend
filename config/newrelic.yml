@@ -13,12 +13,11 @@
 common:
   &default_settings # Required license key associated with your New Relic account.
   attributes:
-    error_collector:
-      include:
-        - request.parameters.*
-      exclude:
-        - request.parameters.password
-        - request.parameters.token
+    include:
+      - request.parameters.*
+    exclude:
+      - request.parameters.password
+      - request.parameters.token
   license_key: <%= ENV['NEW_RELIC_LICENSE_KEY'] %>
 
   # Your application name. Renaming here affects where data displays in New
