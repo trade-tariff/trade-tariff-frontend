@@ -11,7 +11,9 @@ RSpec.describe SubheadingsController, type: :request do
     it { expect(page).to have_link 'Search', href: '/find_commodity' }
     it { expect(page).to have_link 'Browse', href: '/browse' }
 
-    it { expect(page).to have_content "There are 3 commodities in this category. Choose the commodity code that best matches your goods to see more information. If your item is not listed by name, it may be shown under what it's used for, what it's made from or 'Other'." }
+    it { expect(page).to have_content 'There are 3 commodities in this category. Choose the commodity code that best matches your goods to see more information.' }
+    it { expect(page).to have_content 'Headings in the tariff are closed to help you navigate the top-level commodity description more easily.' }
+    it { expect(page).to have_content 'There are important notes for classifying your goods shown further down this page' }
 
     it { expect(page).to have_link 'Section I', href: '/sections/1' }
     it { expect(page).to have_link 'Chapter 01', href: '/chapters/01' }
