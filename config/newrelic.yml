@@ -18,6 +18,13 @@ common:
     exclude:
       - request.parameters.password
       - request.parameters.token
+    transaction_events:
+      exclude: request.parameters.*
+    transaction_tracer:
+      exclude: request.parameters.*
+    span_events:
+      exclude: request.parameters.*
+
   license_key: <%= ENV['NEW_RELIC_LICENSE_KEY'] %>
 
   # Your application name. Renaming here affects where data displays in New
