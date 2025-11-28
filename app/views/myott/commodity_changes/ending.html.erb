@@ -1,0 +1,56 @@
+<% myott_page_title "Changes to your end date" %>
+<div class="govuk-body myott-mycommodities">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <span class="govuk-caption-l">
+        <span class="switch-service-control__caption">
+          Changes to your commodities
+        </span>
+      </span>
+      <h1 class="govuk-heading-xl">Changes to end date</h1>
+
+      <div class="govuk-inset-text">
+        Changes published: <%= as_of.strftime("%d/%m/%Y") %>
+      </div>
+
+      <p class="govuk-body">
+        Commodity codes can expire and be removed from the tariff entirely or
+        absorbed into other codes. This is called an end date.
+        Sometimes end dates can change.
+      </p>
+
+      <p class="govuk-body">
+        On this page you will find the new end dates for when these specific commodities expire.
+      </p>
+
+      <h2 class="govuk-heading-m">Total commodities affected: <%= @change.count %></h2>
+
+      <% if @change.count.positive? %>
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header">Commodity code</th>
+              <th class="govuk-table__header govuk-!-width-two-thirds">Classification</th>
+              <th class="govuk-table__header">New end date</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+              <% @change.tariff_changes.each do |change| %>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                  <%= change.goods_nomenclature_item_id %>
+                </td>
+                <td class="govuk-table__cell">
+                  <%= change.classification_description %>
+                </td>
+                <td class="govuk-table__cell">
+                  <%= change.date_of_effect %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>

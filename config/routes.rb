@@ -80,6 +80,13 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :commodity_changes, only: [] do
+          collection do
+            get :ending
+            get :classification
+          end
+        end
+
         resources :grouped_measure_changes, only: %i[show]
         resources :grouped_measure_commodity_changes, only: %i[show]
       end
