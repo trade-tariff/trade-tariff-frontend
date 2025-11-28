@@ -12,24 +12,20 @@
 
 common:
   &default_settings # Required license key associated with your New Relic account.
-  attributes:
-    include:
-      - request.parameters.*
-    exclude:
-      - request.parameters.password
-      - request.parameters.token
-    transaction_events:
-      exclude: request.parameters.*
-    transaction_tracer:
-      exclude: request.parameters.*
-    span_events:
-      exclude: request.parameters.*
-
   license_key: <%= ENV['NEW_RELIC_LICENSE_KEY'] %>
 
   # Your application name. Renaming here affects where data displays in New
   # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
   app_name: "tariff-frontend"
+
+  attributes:
+    enabled: true
+    error_collector:
+      include:
+        - request.parameters.*
+      exclude:
+        - request.parameters.password
+        - request.parameters.token
 
   distributed_tracing:
     enabled: true
