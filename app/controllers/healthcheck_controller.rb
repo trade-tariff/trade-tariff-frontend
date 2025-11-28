@@ -7,12 +7,14 @@ class HealthcheckController < ActionController::Base
   end
 
   def check
+    NewRelic::Agent.ignore_transaction
     # Check API connectivity
     Section.all(headers: original_ua_headers)
     render json: { git_sha1: CURRENT_REVISION }
   end
 
   def checkz
+    NewRelic::Agent.ignore_transaction
     render json: { git_sha1: CURRENT_REVISION }
   end
 
