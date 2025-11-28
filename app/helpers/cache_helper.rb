@@ -8,7 +8,7 @@ module CacheHelper
       'commodities#show',
       cache_key,
       meursing_lookup_result.meursing_additional_code_id,
-      params.values.compact.map(&:to_s).sort.join('/'),
+      params.to_unsafe_h.sort.map { |_, v| v }.compact.join('/'),
     ].compact
   end
 end
