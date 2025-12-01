@@ -6,6 +6,30 @@ RSpec.describe TariffChanges::CommodityChange do
   let(:collection_path) { '/uk/user/commodity_changes' }
   let(:headers) { { authorization: "Bearer #{token}" } }
 
+  describe 'attributes and associations' do
+    it 'sets and gets description' do
+      change = described_class.new
+      change.description = 'desc'
+      expect(change.description).to eq('desc')
+    end
+
+    it 'gets default count' do
+      change = described_class.new
+      expect(change.count).to eq(0)
+    end
+
+    it 'sets and gets count' do
+      change = described_class.new
+      change.count = 5
+      expect(change.count).to eq(5)
+    end
+
+    it 'has many tariff_changes' do
+      change = described_class.new
+      expect(change.tariff_changes).to be_a(Array)
+    end
+  end
+
   describe '.all' do
     context 'when token is provided' do
       let(:collection_data) do
