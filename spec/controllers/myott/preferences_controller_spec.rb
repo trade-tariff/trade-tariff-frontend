@@ -55,7 +55,7 @@ RSpec.describe Myott::PreferencesController, type: :controller do
           post :create, params: { preference: 'selectChapters' }
         end
 
-        it { is_expected.to redirect_to(edit_myott_preferences_path) }
+        it { is_expected.to redirect_to(edit_myott_stop_press_preferences_path) }
       end
 
       context 'when allChapters is selected' do
@@ -63,7 +63,7 @@ RSpec.describe Myott::PreferencesController, type: :controller do
           post :create, params: { preference: 'allChapters' }
         end
 
-        it { is_expected.to redirect_to(myott_check_your_answers_path) }
+        it { is_expected.to redirect_to(check_your_answers_myott_stop_press_path) }
       end
 
       context 'when no option is selected' do

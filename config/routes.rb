@@ -61,15 +61,18 @@ Rails.application.routes.draw do
   get '/live_issues', to: 'live_issues#index'
 
   if TradeTariffFrontend.myott?
-    namespace :myott, path: 'subscriptions', controller: 'subscriptions' do
-      get '/', action: 'show'
-      get 'start'
-      get 'invalid'
-      get 'check_your_answers'
-      get 'confirmation'
-      post 'subscribe'
+    namespace :myott, path: 'subscriptions' do
+      get '/', to: 'subscriptions#index'
+      get 'start', to: 'subscriptions#start'
+      get 'invalid', to: 'subscriptions#invalid'
 
-      resource :preferences, only: %i[new create edit update]
+      resource :stop_press, only: %i[show] do
+        get 'check_your_answers'
+        post 'subscribe'
+        get 'confirmation'
+
+        resource :preferences, only: %i[new create edit update]
+      end
 
       if TradeTariffFrontend.my_commodities?
         resources :mycommodities, only: %i[index new create] do
