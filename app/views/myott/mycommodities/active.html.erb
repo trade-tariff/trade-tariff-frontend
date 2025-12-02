@@ -14,13 +14,13 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% @targets.each do |commodity| %>
+          <% @targets.each do |target| %>
           <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-              <strong><%= commodity.target_object.goods_nomenclature_item_id %></strong>
+              <strong><%= target.target_object.goods_nomenclature_item_id %></strong>
             </td>
             <td class="govuk-table__cell">
-              <%= commodity.target_object.classification_description %>
+              <%= target.target_object.classification_description %>
             </td>
           </tr>
           <% end %>

@@ -8,7 +8,7 @@
       <h1 class="govuk-heading-xl">Expired commodities</h1>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-          <p>When commodity codes expire they’re no longer usable. The codes might have been removed or absorbed into different commodity codes.</p>
+          <p>When target codes expire they’re no longer usable. The codes might have been removed or absorbed into different target codes.</p>
           <p>On this page you can review the changes for commodities. If you want you can also remove these codes from your watch list.</p>
           <h3>Total expired commodities: <%= number_with_delimiter(@targets.total_count) %></h3>
         </div>
@@ -16,29 +16,29 @@
       <table class="govuk-table">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th class="govuk-table__header">Commodity</th>
+            <th class="govuk-table__header">target</th>
             <th class="govuk-table__header">Classification</th>
             <th class="govuk-table__header">End date</th>
             <th class="govuk-table__header">Action</th>
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% @targets.each do |commodity| %>
+          <% @targets.each do |target| %>
           <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-              <strong><%= commodity.target_object.goods_nomenclature_item_id %></strong>
+              <strong><%= target.target_object.goods_nomenclature_item_id %></strong>
             </td>
             <td class="govuk-table__cell">
-              <%= commodity.target_object.classification_description %>
+              <%= target.target_object.classification_description %>
             </td>
             <td class="govuk-table__cell">
-              <%= commodity.target_object.validity_end_date.to_date.to_formatted_s(:long) %>
+              <%= target.target_object.validity_end_date.to_date.to_formatted_s(:long) %>
             </td>
             <td class="govuk-table__cell">
-              <%= link_to('Review on tariff', commodity_path(commodity.target_object.goods_nomenclature_item_id,
-                          day: commodity.target_object.validity_end_date.to_date.day,
-                          month: commodity.target_object.validity_end_date.to_date.month,
-                          year: commodity.target_object.validity_end_date.to_date.year),
+              <%= link_to('Review on tariff', commodity_path(target.target_object.goods_nomenclature_item_id,
+                          day: target.target_object.validity_end_date.to_date.day,
+                          month: target.target_object.validity_end_date.to_date.month,
+                          year: target.target_object.validity_end_date.to_date.year),
                           target: '_blank')%></td>
             </td>
           </tr>
