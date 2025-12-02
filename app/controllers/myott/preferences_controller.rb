@@ -10,11 +10,11 @@ module Myott
       case params[:preference]
       when 'selectChapters'
         session[:all_tariff_updates] = false
-        redirect_to edit_myott_preferences_path
+        redirect_to edit_myott_stop_press_preferences_path
       when 'allChapters'
         session_chapters.delete
         session[:all_tariff_updates] = true
-        redirect_to myott_check_your_answers_path
+        redirect_to check_your_answers_myott_stop_press_path
       else
         @alert = 'Select a subscription preference to continue'
         @div_id = 'radio-buttons'
@@ -32,11 +32,11 @@ module Myott
       if params[:chapter_ids].blank?
         session_chapters.delete
         flash[:alert] = 'You must select at least one chapter.'
-        redirect_to edit_myott_preferences_path and return
+        redirect_to edit_myott_stop_press_preferences_path and return
       else
         session[:all_tariff_updates] = false
         session[:chapter_ids] = params[:chapter_ids]
-        redirect_to myott_check_your_answers_path
+        redirect_to check_your_answers_myott_stop_press_path and return
       end
     end
 

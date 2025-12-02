@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Myott subscriptions', type: :feature do
+RSpec.describe 'Myott stop press subscription', type: :feature do
   include_context 'with cached chapters'
 
   describe 'new subscriber' do
@@ -22,12 +22,15 @@ RSpec.describe 'Myott subscriptions', type: :feature do
     before do
       allow(User).to receive(:find).and_return(user, updated_user)
       allow(User).to receive(:update).and_return(true)
-      allow(Subscription).to receive(:find).and_return(subscription)
+      allow(Subscription).to receive(:find).and_return(nil, subscription)
     end
 
     describe 'subscribing to all chapters' do
       it 'allows a user to subscribe to all chapters' do
         visit myott_path
+        expect(page).to have_content('Your tariff watch lists')
+        click_link 'Create a Stop Press watch list'
+
         expect(page).to have_title('Set preferences')
 
         choose 'All tariff chapter updates'
@@ -51,6 +54,9 @@ RSpec.describe 'Myott subscriptions', type: :feature do
     describe 'subscribing to specific chapters' do
       it 'allows a user to subscribe to specific chapters' do
         visit myott_path
+        expect(page).to have_content('Your tariff watch lists')
+        click_link 'Create a Stop Press watch list'
+
         expect(page).to have_title('Set preferences')
 
         choose 'Select the tariff chapters I am interested in'
@@ -105,6 +111,9 @@ RSpec.describe 'Myott subscriptions', type: :feature do
 
       it 'shows the user their current subscription' do
         visit myott_path
+        expect(page).to have_content('Your tariff watch lists')
+        click_link 'View Stop Press watch list'
+
         expect(page).to have_title('Manage subscription')
 
         expect(page).to have_content('Manage your subscription')
@@ -122,6 +131,7 @@ RSpec.describe 'Myott subscriptions', type: :feature do
 
       it 'shows the user their current subscription' do
         visit myott_path
+        click_link 'View Stop Press watch list'
 
         expect(page).to have_content('Manage your subscription')
         expect(page).to have_content('You have selected all chapters')
