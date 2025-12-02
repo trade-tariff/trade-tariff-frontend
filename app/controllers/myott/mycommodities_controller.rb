@@ -5,15 +5,15 @@ module Myott
     def new; end
 
     def active
-      @commodities = get_subscription_targets('active')
+      @targets = get_subscription_targets('active')
     end
 
     def expired
-      @commodities = get_subscription_targets('expired')
+      @targets = get_subscription_targets('expired')
     end
 
     def invalid
-      @commodities = get_subscription_targets('invalid')
+      @targets = get_subscription_targets('invalid')
     end
 
     def index

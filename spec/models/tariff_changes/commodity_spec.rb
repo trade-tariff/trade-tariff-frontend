@@ -11,5 +11,9 @@ RSpec.describe TariffChanges::Commodity do
     it 'responds to goods_nomenclature_item_id' do
       expect(commodity).to respond_to(:goods_nomenclature_item_id)
     end
+
+    it 'responds to validity_end_date' do
+      expect(commodity).to respond_to(:validity_end_date)
+    end
   end
 end

@@ -1,17 +1,14 @@
 class SubscriptionTarget
   include AuthenticatableApiEntity
 
-  attr_accessor :target_type,
-                :chapter_short_code,
-                :goods_nomenclature_item_id,
-                :classification_description,
-                :meta,
-                :validity_end_date
+  attr_accessor :target_type, :target_object
+
+  has_one :target_object, class_name: 'TariffChanges::Commodity'
 
   def self.all(id, token, params)
     return nil if token.nil? && !Rails.env.development?
 
-    path = "/uk/user/subscription_targets/#{id}"
+    path = "/uk/user/subscriptions/#{id}/targets"
     collection(path, params, headers(token))
   rescue Faraday::UnauthorizedError
     nil
