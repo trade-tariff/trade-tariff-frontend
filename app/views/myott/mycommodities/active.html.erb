@@ -5,28 +5,28 @@
 <div class="govuk-body myott-mycommodities">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl">Active commodities: <%= number_with_delimiter(@commodities.total_count) %></h1>
-      <table class="govuk-table">
+      <h1 class="govuk-heading-xl">Active commodities: <%= number_with_delimiter(@targets.total_count) %></h1>
+       <table class="govuk-table">
         <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th class="govuk-table__header">Commodity</th>
-              <th class="govuk-table__header">Classification</th>
-            </tr>
+          <tr class="govuk-table__row">
+            <th class="govuk-table__header">Commodity</th>
+            <th class="govuk-table__header">Classification</th>
+          </tr>
         </thead>
         <tbody class="govuk-table__body">
-            <% @commodities.each do |commodity| %>
-            <tr class="govuk-table__row">
-                <td class="govuk-table__cell">
-                <strong><%= commodity.try(:goods_nomenclature_item_id) %></strong>
-                </td>
-                <td class="govuk-table__cell">
-                    <%= commodity.try(:classification_description) %>
-                </td>
-            </tr>
-            <% end %>
+          <% @targets.each do |target| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <strong><%= target.target_object.goods_nomenclature_item_id %></strong>
+            </td>
+            <td class="govuk-table__cell">
+              <%= target.target_object.classification_description %>
+            </td>
+          </tr>
+          <% end %>
         </tbody>
       </table>
-      <%= paginate @commodities %>
+      <%= paginate @targets %>
     </div>
   </div>
 </div>

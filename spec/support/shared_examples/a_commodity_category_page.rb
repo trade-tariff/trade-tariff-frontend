@@ -9,7 +9,7 @@ RSpec.shared_examples 'a commodity category page' do |action, category|
     allow(controller).to receive_messages(get_subscription: subscription, user_id_token: user_id_token)
 
     targets = build_list(:subscription_target, 3)
-    allow(targets).to receive(:total_count).and_return(3)
+    allow(targets).to receive(:count).and_return(3)
 
     expected_params = {
       filter: { active_commodities_type: category },
@@ -24,11 +24,11 @@ RSpec.shared_examples 'a commodity category page' do |action, category|
     get action, params: { page: page, per_page: per_page }
   end
 
-  it 'assigns commodities as SubscriptionTarget instances' do
-    expect(assigns(:commodities)).to all(be_a(SubscriptionTarget))
+  it 'assigns targets as SubscriptionTarget instances' do
+    expect(assigns(:targets)).to all(be_a(SubscriptionTarget))
   end
 
-  it 'assigns the correct number of commodities' do
-    expect(assigns(:commodities).size).to eq(3)
+  it 'assigns the correct number of targets' do
+    expect(assigns(:targets).count).to eq(3)
   end
 end

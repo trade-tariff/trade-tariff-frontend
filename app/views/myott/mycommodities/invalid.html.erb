@@ -15,7 +15,7 @@
             <li>Commodity codes which have expired and are no longer in use</li>
           </ul>
           <p>You can choose to remove all these errors, remove them individually, or upload a new spreadsheet.</p>
-          <h3>Total input errors: <%= number_with_delimiter(@commodities.total_count) %></h3>
+          <h3>Total input errors: <%= number_with_delimiter(@targets.total_count) %></h3>
           <p>You should remove invalid inputs if they have been actioned</p>
         </div>
       </div>
@@ -26,16 +26,16 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% @commodities.each do |commodity| %>
+          <% @targets.each do |target| %>
           <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-              <%= commodity.try(:goods_nomenclature_item_id) %>
+              <%= target.target_object.goods_nomenclature_item_id %>
             </td>
           </tr>
         <% end %>
         </tbody>
       </table>
-      <%= paginate @commodities %>
+      <%= paginate @targets %>
     </div>
   </div>
 </div>
