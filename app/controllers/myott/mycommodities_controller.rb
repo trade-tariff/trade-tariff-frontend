@@ -1,6 +1,6 @@
 module Myott
   class MycommoditiesController < MyottController
-    before_action :authenticate, only: %i[new create index]
+    before_action :authenticate, only: %i[new create index confirmation]
 
     def new; end
 
@@ -25,6 +25,7 @@ module Myott
     end
 
     def create
+      new_subscriber = current_subscription('my_commodities').nil?
       result = CommodityCodesExtractionService.new(params[:fileUpload1]).call
 
       unless result.success?
@@ -33,7 +34,12 @@ module Myott
       end
 
       update_user_commodity_codes(result.codes)
-      redirect_to myott_mycommodities_path
+      redirect_to confirmation_myott_mycommodities_path params: { new_subscriber: new_subscriber } and return
+    end
+
+    def confirmation
+      @new_subscriber = params[:new_subscriber] == 'true'
+      redirect_to myott_path unless current_subscription('my_commodities')
     end
 
     private

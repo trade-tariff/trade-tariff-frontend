@@ -80,6 +80,7 @@ Rails.application.routes.draw do
             get :active
             get :expired
             get :invalid
+            get :confirmation
           end
         end
 
