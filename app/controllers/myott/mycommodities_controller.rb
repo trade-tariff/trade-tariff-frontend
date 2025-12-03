@@ -1,6 +1,9 @@
 module Myott
   class MycommoditiesController < MyottController
-    before_action :authenticate, only: %i[new create index confirmation]
+    before_action :authenticate
+    before_action except: %i[new create] do
+      redirect_to myott_path unless current_subscription('my_commodities')
+    end
 
     def new; end
 
@@ -17,8 +20,6 @@ module Myott
     end
 
     def index
-      redirect_to new_myott_mycommodity_path and return unless current_subscription('my_commodities')
-
       @meta = metadata_from_subscription
       @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
       @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
@@ -39,7 +40,6 @@ module Myott
 
     def confirmation
       @new_subscriber = params[:new_subscriber] == 'true'
-      redirect_to myott_path unless current_subscription('my_commodities')
     end
 
     private
