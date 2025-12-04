@@ -1,0 +1,24 @@
+<% myott_page_title "Commodity code watch list #{@new_subscriber ? "created" : "updated"}" %>
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper govuk-main-wrapper--l" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-panel govuk-panel--confirmation">
+          <h1 class="govuk-panel__title">
+            Commodity code watch list <%= @new_subscriber ? "created" : "updated" %>
+          </h1>
+        </div>
+        <h2 class="govuk-heading-m">What happens next</h2>
+        <p class="govuk-body">
+          When updates are published by the UK Trade Tariff Service which relate to the commodities you have chosen, an email will be sent to <strong><%= current_user&.email %></strong>
+        </p>
+        <p class="govuk-body">
+          You can also view your subscription to access these updates.
+        </p>
+        <p class="govuk-body">
+          <%= link_to "View your commodity watch list", myott_mycommodities_path, class: "govuk-button govuk-!-margin-top-4" %>
+        </p>
+      </div>
+    </div>
+  </main>
+</div>

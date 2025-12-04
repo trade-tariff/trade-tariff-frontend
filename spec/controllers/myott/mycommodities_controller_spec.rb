@@ -38,14 +38,26 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
   end
 
   describe 'GET #active' do
+    before do
+      allow(controller).to receive_messages(current_user: user, get_subscription: subscription)
+    end
+
     it_behaves_like 'a commodity category page', :active, 'active'
   end
 
   describe 'GET #expired' do
+    before do
+      allow(controller).to receive_messages(current_user: user, get_subscription: subscription)
+    end
+
     it_behaves_like 'a commodity category page', :expired, 'expired'
   end
 
   describe 'GET #invalid' do
+    before do
+      allow(controller).to receive_messages(current_user: user, get_subscription: subscription)
+    end
+
     it_behaves_like 'a commodity category page', :invalid, 'invalid'
   end
 

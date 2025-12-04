@@ -1,6 +1,9 @@
 module Myott
   class MycommoditiesController < MyottController
-    before_action :authenticate, only: %i[new create index]
+    before_action :authenticate
+    before_action except: %i[new create] do
+      redirect_to new_myott_mycommodity_path unless current_subscription('my_commodities')
+    end
 
     def new; end
 
@@ -17,14 +20,13 @@ module Myott
     end
 
     def index
-      redirect_to new_myott_mycommodity_path and return unless current_subscription('my_commodities')
-
       @meta = metadata_from_subscription
       @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
       @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
     end
 
     def create
+      new_subscriber = current_subscription('my_commodities').nil?
       result = CommodityCodesExtractionService.new(params[:fileUpload1]).call
 
       unless result.success?
@@ -33,7 +35,11 @@ module Myott
       end
 
       update_user_commodity_codes(result.codes)
-      redirect_to myott_mycommodities_path
+      redirect_to confirmation_myott_mycommodities_path params: { new_subscriber: new_subscriber } and return
+    end
+
+    def confirmation
+      @new_subscriber = params[:new_subscriber] == 'true'
     end
 
     private
