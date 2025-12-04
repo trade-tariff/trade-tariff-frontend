@@ -2,7 +2,7 @@ module Myott
   class MycommoditiesController < MyottController
     before_action :authenticate
     before_action except: %i[new create] do
-      redirect_to myott_path unless current_subscription('my_commodities')
+      redirect_to new_myott_mycommodity_path unless current_subscription('my_commodities')
     end
 
     def new; end

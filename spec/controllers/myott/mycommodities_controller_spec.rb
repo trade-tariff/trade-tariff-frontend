@@ -108,7 +108,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
           get :index
         end
 
-        it { is_expected.to redirect_to(myott_path) }
+        it { is_expected.to redirect_to(new_myott_mycommodity_path) }
       end
     end
   end
