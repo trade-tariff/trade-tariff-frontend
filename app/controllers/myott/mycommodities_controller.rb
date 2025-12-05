@@ -42,6 +42,17 @@ module Myott
       @new_subscriber = params[:new_subscriber] == 'true'
     end
 
+    def download
+      file_data = TariffChanges::TariffChange.download_file(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
+
+      headers['Content-Disposition'] = file_data[:content_disposition]
+      headers['Content-Type'] = file_data[:content_type]
+      headers['Content-Transfer-Encoding'] = 'binary'
+      headers['Cache-Control'] = 'no-cache'
+
+      self.response_body = file_data[:body]
+    end
+
     private
 
     def update_user_commodity_codes(commodity_codes)

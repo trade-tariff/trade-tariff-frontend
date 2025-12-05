@@ -81,6 +81,7 @@ Rails.application.routes.draw do
             get :expired
             get :invalid
             get :confirmation
+            get :download
           end
         end
 

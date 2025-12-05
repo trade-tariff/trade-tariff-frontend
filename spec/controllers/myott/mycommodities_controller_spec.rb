@@ -186,4 +186,70 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
       end
     end
   end
+
+  describe 'GET #download' do
+    let(:file_data) do
+      {
+        content_disposition: 'attachment; filename="commodity_watch_list_changes_2025-12-05.xlsx"',
+        content_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        body: 'file content',
+      }
+    end
+    let(:user_id_token) { 'test-token' }
+
+    context 'when current_user is not valid' do
+      before do
+        allow(controller).to receive(:current_user).and_return(nil)
+        get :download
+      end
+
+      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
+    end
+
+    context 'when current_user is valid' do
+      before do
+        allow(controller).to receive_messages(current_user: user, get_subscription: subscription, user_id_token: user_id_token)
+        allow(TariffChanges::TariffChange).to receive(:download_file).and_return(file_data)
+        get :download
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'sets Content-Disposition header' do
+        expect(response.headers['Content-Disposition']).to eq('attachment; filename="commodity_watch_list_changes_2025-12-05.xlsx"')
+      end
+
+      it 'sets Content-Type header' do
+        expect(response.headers['Content-Type']).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      end
+
+      it 'sets Content-Transfer-Encoding header' do
+        expect(response.headers['Content-Transfer-Encoding']).to eq('binary')
+      end
+
+      it 'sets Cache-Control header' do
+        expect(response.headers['Cache-Control']).to eq('no-cache')
+      end
+
+      it 'calls TariffChange.download_file with correct params' do
+        expect(TariffChanges::TariffChange).to have_received(:download_file).with(
+          user_id_token,
+          hash_including(as_of: anything),
+        )
+      end
+
+      it 'returns file body' do
+        expect(response.body).to eq(file_data[:body])
+      end
+    end
+
+    context 'when user does not have a my commodities subscription' do
+      before do
+        allow(controller).to receive_messages(current_user: user, get_subscription: nil)
+        get :download
+      end
+
+      it { is_expected.to redirect_to(new_myott_mycommodity_path) }
+    end
+  end
 end

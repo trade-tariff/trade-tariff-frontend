@@ -2,12 +2,13 @@
 <div class="govuk-body myott-mycommodities">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl">Your commodity watchlist</h1>
+      <h1 class="govuk-heading-xl">Your commodity watch list</h1>
       <%= render partial: 'meta', locals: { meta: @meta } %>
 
       <div class="govuk-grid-row">
-        <h2 class="govuk-heading-l">Changes affecting your commodity watchlist:</h2>
+        <h2 class="govuk-heading-l">Changes affecting your commodity watch list:</h2>
         <h3 class="govuk-heading-m">Changes published: <%= as_of.strftime("%d/%m/%Y") %></h3>
+        <%= render partial: 'download' if @commodity_changes.any? || @grouped_measure_changes.any? %>
 
         <%= render partial: 'commodity_changes', locals: { changes: @commodity_changes } %>
 
