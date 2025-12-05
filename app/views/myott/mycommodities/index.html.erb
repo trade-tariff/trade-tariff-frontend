@@ -8,6 +8,7 @@
       <div class="govuk-grid-row">
         <h2 class="govuk-heading-l">Changes affecting your commodity watch list:</h2>
         <h3 class="govuk-heading-m">Changes published: <%= as_of.strftime("%d/%m/%Y") %></h3>
+        <%= render partial: 'download' if @commodity_changes.any? || @grouped_measure_changes.any? %>
 
         <%= render partial: 'commodity_changes', locals: { changes: @commodity_changes } %>
 
