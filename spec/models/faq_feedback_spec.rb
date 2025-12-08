@@ -1,5 +1,5 @@
 RSpec.describe FaqFeedback, type: :model do
-  let(:faq_feedback) { build(:green_lanes_faq_feedback) }
+  let(:faq_feedback) { build(:faq_feedback) }
 
   describe '#send_feedback_to_backend' do
     let(:feedback_params) do
