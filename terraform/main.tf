@@ -1,5 +1,5 @@
 module "service" {
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.18.2"
+  source = "git::https://github.com/trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=HMRC-1766-edit-scaling"
 
   region = var.region
 
@@ -30,5 +30,26 @@ module "service" {
   min_capacity   = var.min_capacity
   max_capacity   = var.max_capacity
 
+  enable_target_tracking_cpu    = true
+  enable_target_tracking_memory = false
+
+  scale_out_cooldown = 120
+  scale_in_cooldown  = 300
+
   sns_topic_arns = [data.aws_sns_topic.slack_topic.arn]
+
+
+  scheduled_actions_enabled = true
+  scheduled_scaling_actions = {
+    weekday_0700 = {
+      schedule     = "cron(0 7 ? * MON-FRI *)"  # 07:00 UTC on weekdays
+      min_capacity = 3
+      max_capacity = 20
+    }
+    weekend_0700 = {
+      schedule     = "cron(0 7 ? * SAT,SUN *)"  # 07:00 UTC on weekends
+      min_capacity = 1
+      max_capacity = 10
+    }
+  }
 }
