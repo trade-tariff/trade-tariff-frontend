@@ -19,7 +19,7 @@ Terraform to deploy the service into AWS.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | aws/ecs-service-v1.18.2 |
+| <a name="module_service"></a> [service](#module\_service) | git::https://github.com/trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | HMRC-1766-edit-scaling |
 
 ## Resources
 
