@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :green_lanes_faq_feedback, class: 'FaqFeedback' do
+  factory :faq_feedback, class: 'FaqFeedback' do
     initialize_with { new }
 
     transient do
