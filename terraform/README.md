@@ -46,6 +46,7 @@ Terraform to deploy the service into AWS.
 | <a name="input_memory"></a> [memory](#input\_memory) | Memory to allocate in MB. Powers of 2 only. | `number` | n/a | yes |
 | <a name="input_min_capacity"></a> [min\_capacity](#input\_min\_capacity) | Smallest number of tasks the service can scale-in to. | `number` | `1` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS region to use. | `string` | n/a | yes |
+| <a name="input_scheduled_actions_enabled"></a> [scheduled\_actions\_enabled](#input\_scheduled\_actions\_enabled) | Enable scheduled scaling actions. | `bool` | `false` | no |
 | <a name="input_service_count"></a> [service\_count](#input\_service\_count) | Number of services to use. | `number` | `2` | no |
 
 ## Outputs

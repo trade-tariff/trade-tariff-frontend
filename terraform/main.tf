@@ -36,9 +36,6 @@ module "service" {
   scale_out_cooldown = 120
   scale_in_cooldown  = 300
 
-  sns_topic_arns = [data.aws_sns_topic.slack_topic.arn]
-
-
   scheduled_actions_enabled = true
   scheduled_scaling_actions = {
     weekday_0700 = {
@@ -52,4 +49,6 @@ module "service" {
       max_capacity = 10
     }
   }
+
+  sns_topic_arns = [data.aws_sns_topic.slack_topic.arn]
 }
