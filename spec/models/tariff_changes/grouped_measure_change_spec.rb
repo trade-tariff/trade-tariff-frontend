@@ -6,6 +6,130 @@ RSpec.describe TariffChanges::GroupedMeasureChange do
   let(:collection_path) { '/uk/user/grouped_measure_changes' }
   let(:headers) { { authorization: "Bearer #{token}" } }
 
+  describe '.find' do
+    let(:id) { 'export_RU_' }
+    let(:singular_path) { '/uk/user/grouped_measure_changes/:id' }
+    let(:api_client) { instance_double(Faraday::Connection) }
+    let(:commodity_changes) do
+      [
+        build(:grouped_measure_commodity_change),
+        build(:grouped_measure_commodity_change),
+        build(:grouped_measure_commodity_change),
+      ]
+    end
+
+    before do
+      allow(described_class).to receive(:api).and_return(api_client)
+      allow(described_class).to receive(:headers).with(token).and_return(headers)
+    end
+
+    context 'when token is nil and not in development' do
+      before do
+        allow(Rails.env).to receive(:development?).and_return(false)
+      end
+
+      it 'returns nil' do
+        expect(described_class.find(id, nil, {})).to be_nil
+      end
+    end
+
+    context 'when token is provided' do
+      let(:faraday_response) { instance_double(Faraday::Response, body: response_body) }
+
+      before do
+        allow(api_client).to receive(:get).and_return(faraday_response)
+      end
+
+      context 'without pagination metadata' do
+        let(:response_body) do
+          {
+            'data' => {
+              'id' => id,
+              'type' => 'grouped_measure_change',
+              'attributes' => {},
+              'relationships' => {
+                'grouped_measure_commodity_changes' => {
+                  'data' => commodity_changes.map { |c| { 'id' => c.resource_id, 'type' => 'grouped_measure_commodity_change' } },
+                },
+              },
+            },
+            'included' => commodity_changes.map do |c|
+              {
+                'id' => c.resource_id,
+                'type' => 'grouped_measure_commodity_change',
+                'attributes' => {
+                  'count' => c.count,
+                  'impacted_measures' => c.impacted_measures,
+                },
+              }
+            end,
+          }
+        end
+
+        it 'returns the record' do
+          result = described_class.find(id, token, {})
+          expect(result).to be_a(described_class)
+        end
+
+        it 'does not paginate the collection', :aggregate_failures do
+          result = described_class.find(id, token, {})
+          expect(result.grouped_measure_commodity_changes).to be_an(Array)
+          expect(result.grouped_measure_commodity_changes).not_to be_a(Kaminari::PaginatableArray)
+        end
+      end
+
+      context 'with pagination metadata' do
+        let(:response_body) do
+          {
+            'data' => {
+              'id' => id,
+              'type' => 'grouped_measure_change',
+              'attributes' => {},
+              'relationships' => {
+                'grouped_measure_commodity_changes' => {
+                  'data' => commodity_changes.map { |c| { 'id' => c.resource_id, 'type' => 'grouped_measure_commodity_change' } },
+                },
+              },
+            },
+            'meta' => {
+              'pagination' => {
+                'page' => 2,
+                'per_page' => 10,
+                'total_count' => 150,
+              },
+            },
+            'included' => commodity_changes.map do |c|
+              {
+                'id' => c.resource_id,
+                'type' => 'grouped_measure_commodity_change',
+                'attributes' => {
+                  'count' => c.count,
+                  'impacted_measures' => c.impacted_measures,
+                },
+              }
+            end,
+          }
+        end
+
+        it 'paginates the collection with metadata', :aggregate_failures do
+          result = described_class.find(id, token, { page: 2, per_page: 10 })
+          expect(result.grouped_measure_commodity_changes).to be_a(Kaminari::PaginatableArray)
+          expect(result.grouped_measure_commodity_changes.current_page).to eq(2)
+          expect(result.grouped_measure_commodity_changes.total_count).to eq(150)
+        end
+
+        it 'calls API with correct path and options' do
+          described_class.find(id, token, { page: 2, per_page: 10 })
+          expect(api_client).to have_received(:get).with(
+            '/uk/user/grouped_measure_changes/export_RU_',
+            { page: 2, per_page: 10 },
+            headers,
+          )
+        end
+      end
+    end
+  end
+
   describe '.all' do
     context 'when token is provided' do
       let(:collection_data) do

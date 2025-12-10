@@ -1,21 +1,22 @@
 require 'spec_helper'
 
 RSpec.describe 'myott/grouped_measure_changes/show.html.erb', type: :view do
-  let(:measure_change_attrs) { attributes_for(:grouped_measure_commodity_change, count: 2, resource_id: 'import_IL__0807190050') }
-  let(:grouped_measure_changes) do
-    build(
-      :grouped_measure_change,
-      trade_direction: 'import',
-      geographical_area: { 'long_description' => 'United Kingdom' },
-      grouped_measure_commodity_changes: [measure_change_attrs],
-      count: 2,
-      resource_id: 99,
-    )
+  let(:commodity_changes) do
+    Kaminari.paginate_array(
+      [build(:grouped_measure_commodity_change, count: 2, resource_id: 'import_IL__0807190050')],
+      total_count: 1,
+    ).page(1).per(10)
   end
+  let(:grouped_measure_changes) { instance_double(TariffChanges::GroupedMeasureChange) }
 
   before do
-    allow(grouped_measure_changes).to receive_messages(trade_direction_description: 'Imports', geographical_area_description: 'United Kingdom')
+    allow(grouped_measure_changes).to receive_messages(
+      trade_direction_description: 'Imports',
+      geographical_area_description: 'United Kingdom',
+      grouped_measure_commodity_changes: commodity_changes,
+    )
     assign(:grouped_measure_changes, grouped_measure_changes)
+    assign(:commodity_changes, commodity_changes)
     allow(view).to receive(:params).and_return(as_of: '2025-11-21')
     render
   end

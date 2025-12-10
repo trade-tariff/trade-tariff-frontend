@@ -12,6 +12,26 @@ module TariffChanges
     has_many :excluded_countries, class_name: 'GeographicalArea'
     has_many :grouped_measure_commodity_changes, class_name: 'TariffChanges::GroupedMeasureCommodityChange'
 
+    def self.find(id, token, opts = {})
+      return nil if token.nil? && !Rails.env.development?
+
+      path = singular_path.sub(':id', id)
+      resp = api.get(path, opts, headers(token))
+      record = new parse_jsonapi(resp)
+      collection = record.grouped_measure_commodity_changes
+
+      if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
+        collection = paginate_collection(collection, resp.body.dig('meta', 'pagination'))
+      end
+
+      record.instance_variable_set(:@grouped_measure_commodity_changes, collection)
+      record
+    end
+
+    def grouped_measure_commodity_changes
+      @grouped_measure_commodity_changes || super
+    end
+
     def self.all(token, params = {})
       if token.nil? && !Rails.env.development?
         return []
