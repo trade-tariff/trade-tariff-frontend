@@ -9,6 +9,8 @@
       </span>
       <h1 class="govuk-heading-xl"><%= @grouped_measure_changes.trade_direction_description %> from <%= @grouped_measure_changes.geographical_area_description %></h1>
 
+      <h2 class="govuk-heading-m">Total commodities affected: <%= @commodity_changes.total_count %></h2>
+
       <table class="govuk-table">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
@@ -18,15 +20,16 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% @grouped_measure_changes.grouped_measure_commodity_changes.each do |measure_change| %>
+          <% @commodity_changes.each do |commodity_change| %>
             <tr class="govuk-table__row">
-              <td class="govuk-table__cell"><%= measure_change.commodity.goods_nomenclature_item_id %></td>
-              <td class="govuk-table__cell"><%= measure_change.commodity.classification_description %></td>
-              <td class="govuk-table__cell"><%= link_to(pluralize(measure_change.count, 'change'), myott_grouped_measure_commodity_change_path(measure_change.resource_id, as_of: params[:as_of])) %></td>
+              <td class="govuk-table__cell"><%= commodity_change.commodity.goods_nomenclature_item_id %></td>
+              <td class="govuk-table__cell"><%= commodity_change.commodity.classification_description %></td>
+              <td class="govuk-table__cell"><%= link_to(pluralize(commodity_change.count, 'change'), myott_grouped_measure_commodity_change_path(commodity_change.resource_id, as_of: params[:as_of])) %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
+      <%= paginate @commodity_changes %>
     </div>
   </div>
 </div>

@@ -3,11 +3,16 @@ module Myott
     before_action :authenticate
 
     def show
+      opts = { page: (params[:page].presence || 1).to_i,
+               per_page: (params[:per_page].presence || 10).to_i,
+               as_of: as_of.strftime('%Y-%m-%d') }
+
       @grouped_measure_changes = TariffChanges::GroupedMeasureChange.find(
         params[:id],
         user_id_token,
-        { as_of: as_of.strftime('%Y-%m-%d') },
+        opts,
       )
+      @commodity_changes = @grouped_measure_changes.grouped_measure_commodity_changes
     end
   end
 end
