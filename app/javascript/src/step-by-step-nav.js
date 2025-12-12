@@ -268,7 +268,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 
           if ($showOrHideAllButton.text() === actions.showAllText) {
             $showOrHideAllButton.text(actions.hideAllText);
-            $element.find('.js-toggle-link').html(actions.hideText);
+            $element.find('.js-toggle-link').text(actions.hideText);
             shouldshowAll = true;
 
             stepNavTracker.track('pageElementInteraction', 'stepNavAllShown', {
@@ -276,7 +276,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
             });
           } else {
             $showOrHideAllButton.text(actions.showAllText);
-            $element.find('.js-toggle-link').html(actions.showText);
+            $element.find('.js-toggle-link').text(actions.showText);
             shouldshowAll = false;
 
             stepNavTracker.track('pageElementInteraction', 'stepNavAllHidden', {
