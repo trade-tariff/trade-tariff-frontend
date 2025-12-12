@@ -66,4 +66,31 @@ RSpec.describe 'myott/grouped_measure_commodity_changes/show.html.erb', type: :v
   it 'renders the link to the commodity' do
     expect(rendered).to have_link('View commodity on 01/12/2025', href: '/commodities/1234567890?day=1&month=12&year=2025')
   end
+
+  it 'does not render an additional code column when none are present' do
+    expect(rendered).not_to include('Additional code')
+  end
+
+  context 'when additional code values are present' do
+    let(:impacted_measures) do
+      {
+        'Preferential tariff quota' => [
+          { 'date_of_effect' => '2025-12-01', 'change_type' => 'Measure will begin', 'additional_code' => 'AC01' },
+          { 'date_of_effect' => '2025-12-02', 'change_type' => 'Measure will change', 'additional_code' => nil },
+        ],
+      }
+    end
+
+    it 'shows the additional code column' do
+      expect(rendered).to include('Additional code')
+    end
+
+    it 'shows the additional code value when present' do
+      expect(rendered).to include('AC01')
+    end
+
+    it 'shows N/A when the additional code is missing' do
+      expect(rendered).to include('N/A')
+    end
+  end
 end
