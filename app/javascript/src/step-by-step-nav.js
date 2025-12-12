@@ -334,7 +334,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
         $stepElement.toggleClass('step-is-shown', isShown);
         $stepContent.toggleClass('js-hidden', !isShown);
         $titleLink.attr('aria-expanded', isShown);
-        $stepElement.find('.js-toggle-link').html(isShown ? actions.hideText : actions.showText);
+        $stepElement.find('.js-toggle-link').text(isShown ? actions.hideText : actions.showText);
       }
 
       function isShown() {
