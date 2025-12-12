@@ -1,0 +1,29 @@
+<% has_additional_code = changes.any? { |change| change['additional_code'].present? } %>
+
+<h3 class="govuk-heading-m"><%= measure_type %></h3>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header">Change type</th>
+      <% if has_additional_code %>
+        <th class="govuk-table__header">Additional code</th>
+      <% end %>
+      <th class="govuk-table__header">Date of effect</th>
+      <th class="govuk-table__header">Action
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% changes.each do |change| %>
+      <% date = Date.parse(change['date_of_effect']) %>
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header"><%= change['change_type'] %></th>
+        <% if has_additional_code %>
+          <td class="govuk-table__cell"><%= change['additional_code'].presence || 'N/A' %></td>
+        <% end %>
+        <td class="govuk-table__cell"><%= date.strftime("%d/%m/%Y") %></td>
+        <td class="govuk-table__cell"><%= link_to("View commodity on #{date.strftime("%d/%m/%Y")}", commodity_path(@grouped_measure_commodity_changes.goods_nomenclature_item_id, day: date.day, month: date.month, year: date.year)) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
