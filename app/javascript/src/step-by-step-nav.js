@@ -62,7 +62,13 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
       }
 
       function addShowHideAllButton() {
-        $element.prepend('<div class="app-step-nav__controls"><button aria-expanded="false" class="app-step-nav__button app-step-nav__button--controls js-step-controls-button">' + actions.showAllText + '</button></div>');
+        var $controlsDiv = $('<div>').addClass('app-step-nav__controls');
+        var $button = $('<button>')
+          .attr('aria-expanded', 'false')
+          .addClass('app-step-nav__button app-step-nav__button--controls js-step-controls-button')
+          .text(actions.showAllText);
+        $controlsDiv.append($button);
+        $element.prepend($controlsDiv);
       }
 
       function addShowHideToggle() {
