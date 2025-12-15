@@ -2254,10 +2254,10 @@ jquery-linear-navigation@^1.0.2:
   resolved "https://registry.yarnpkg.com/jquery-linear-navigation/-/jquery-linear-navigation-1.0.2.tgz#cd0a63d7e90bf1a1cd96d6b70d8d0cefa8fb5db2"
   integrity sha512-KImjGdfIw9jJhkL9Tw5qWcnMS1l4qTkQF9Axwn6w688boN6k3XvZE0WJdH0J0OyuKUM6ORxfUQRVzPFELhrL0A==
 
-jquery-migrate@3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/jquery-migrate/-/jquery-migrate-3.5.2.tgz#c9631702e1a5c93c5e7a0bbba54b82883c4ac47d"
-  integrity sha512-GGvcVWK3aei2/98r7pA4UkOYvs4xVeCGvquNXADFUp9+Sr6VeOw0ktlQ9z4YlBbEFpsXBlRioAgpH/fLWinj4Q==
+jquery-migrate@3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/jquery-migrate/-/jquery-migrate-3.6.0.tgz#9bbad8e222cef02091b3842568dde261f517a77a"
+  integrity sha512-2k3GMQXXEellCOkj8tczgCd/Y0KMm7LErz4rE6CkHIZV1JTUDlgs7XFN+GpwGKXDQtw/HsjtJuE+CS8IfEOnPg==
 
 jquery-next-id@^1.0.1:
   version "1.0.1"
