@@ -60,28 +60,7 @@
 
       <h2 class="govuk-heading-l">Impacted measures</h2>
       <% @grouped_measure_commodity_changes.impacted_measures.each do |measure_type, changes| %>
-        <h3 class="govuk-heading-m"><%= measure_type %></h3>
-        <table class="govuk-table">
-          <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th class="govuk-table__header">Change type</th>
-              <th class="govuk-table__header">Date of effect</th>
-              <th class="govuk-table__header">Action
-            </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            <% changes.each do |change| %>
-              <%
-                date = Date.parse(change['date_of_effect'])
-              %>
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><%= change['change_type'] %></td>
-                <td class="govuk-table__cell"><%= date.strftime("%d/%m/%Y") %></td>
-                <td class="govuk-table__cell"><%= link_to("View commodity on #{date.strftime("%d/%m/%Y")}", commodity_path(@grouped_measure_commodity_changes.goods_nomenclature_item_id, day: date.day, month: date.month, year: date.year)) %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <%= render 'impacted_measures', measure_type: measure_type, changes: changes %>
       <% end %>
     </div>
   </div>
