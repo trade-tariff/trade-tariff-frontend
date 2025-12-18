@@ -160,11 +160,9 @@ Rails.application.routes.draw do
     resources :results, param: :category, only: %i[create], path: 'result'
 
     get 'faq', to: 'faq#index'
-
-    get 'get_feedback', to: 'faq#get_feedback'
-
-    post 'send_feedback', to: 'faq#send_feedback', as: :send_feedback
   end
+
+  resources :faq_feedback, only: %i[index create]
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
 
