@@ -2,7 +2,9 @@ module Myott
   class SubscriptionsController < MyottController
     before_action :authenticate, except: %i[start invalid]
 
-    def start; end
+    def start
+      render :start_old and return unless TradeTariffFrontend.my_commodities?
+    end
 
     def invalid
       redirect_to myott_path if current_user.present?
