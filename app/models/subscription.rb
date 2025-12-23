@@ -3,7 +3,7 @@ class Subscription
 
   set_singular_path '/uk/user/subscriptions/:id'
 
-  attr_accessor :active, :uuid, :meta
+  attr_accessor :active, :uuid, :meta, :subscription_type
 
   def self.batch(id, token, attributes)
     return nil if token.nil? && !Rails.env.development?
