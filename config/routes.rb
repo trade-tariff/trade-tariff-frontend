@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   namespace :meursing_lookup do
     resources :steps, only: %i[show update]
-    resources :results, only: %i[show create]
+    resource :result, only: %i[show create]
   end
 
   namespace :feed, defaults: { format: 'atom' } do
