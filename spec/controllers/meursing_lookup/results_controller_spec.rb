@@ -7,7 +7,7 @@ RSpec.describe MeursingLookup::ResultsController, type: :controller do
 
   describe 'GET #show' do
     subject(:do_response) do
-      get :show, params: { id: 'foo', goods_nomenclature_code: }
+      get :show, params: { goods_nomenclature_code: }
     end
 
     it { expect { do_response }.to change { session[:current_meursing_additional_code_id] }.from('706').to(nil) }
