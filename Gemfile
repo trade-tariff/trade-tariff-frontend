@@ -19,7 +19,6 @@ gem 'kaminari'
 gem 'multi_json'
 gem 'net-http-persistent'
 gem 'newrelic_rpm'
-gem 'rack-attack'
 gem 'roo'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
 gem 'uktt', git: 'https://github.com/trade-tariff/uktt.git'
@@ -83,4 +82,9 @@ group :test do
   gem 'simplecov'
   gem 'vcr'
   gem 'webmock'
+end
+
+group :production do
+  gem 'rack-attack'
+  gem 'rack-timeout'
 end
