@@ -22,7 +22,7 @@ module Myott
       content = unsubscribe_confirmation_content(@subscription_type)
       @header = content[:header]
       @message = content[:message]
-      delete_cookie_for_stop_press if params[:subscription_type] == 'stop_press'
+      delete_cookie
     end
 
   private
@@ -45,7 +45,7 @@ module Myott
       subscription_type == SUBSCRIPTION_TYPES[:my_commodities]
     end
 
-    def delete_cookie_for_stop_press
+    def delete_cookie
       domain = ".#{request.host.sub(/^www\./, '')}"
       cookies.delete(:id_token, domain:)
     end
