@@ -17,7 +17,7 @@ RSpec.describe 'myott/grouped_measure_changes/show.html.erb', type: :view do
     )
     assign(:grouped_measure_changes, grouped_measure_changes)
     assign(:commodity_changes, commodity_changes)
-    allow(view).to receive(:params).and_return(as_of: '2025-11-21')
+    allow(view).to receive(:as_of).and_return(Date.new(2025, 11, 21))
     render
   end
 

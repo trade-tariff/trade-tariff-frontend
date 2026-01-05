@@ -7,7 +7,7 @@ RSpec.describe 'myott/mycommodities/_commodity_changes.html.erb', type: :view do
 
   before do
     assign(:commodity_change, [change])
-    allow(view).to receive(:params).and_return(as_of: '2025-11-21')
+    allow(view).to receive(:as_of).and_return(Date.new(2025, 11, 21))
     render partial: 'myott/mycommodities/commodity_changes', locals: { changes: [change] }
   end
 

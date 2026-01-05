@@ -1,7 +1,16 @@
 <% myott_page_title 'Active commodities', error: @alert %>
-<% content_for :back_link do %>
-  <%= back_link myott_mycommodities_path %>
+
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+      t('breadcrumb.myott.active'),
+      [
+        [t('breadcrumb.myott.watchlists'), myott_path],
+        [t('breadcrumb.myott.mycommodities'), myott_mycommodities_path],
+      ]
+    )
+  %>
 <% end %>
+
 <div class="govuk-body myott-mycommodities">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">

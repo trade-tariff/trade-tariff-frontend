@@ -1,13 +1,29 @@
 <% myott_page_title "Changes to your watchlist" %>
+
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+      "#{@grouped_measure_changes.trade_direction_description} from #{@grouped_measure_changes.geographical_area_description}",
+      [
+        [t('breadcrumb.myott.watchlists'), myott_path],
+        [t('breadcrumb.myott.mycommodities'), myott_mycommodities_path(as_of:)],
+      ]
+    )
+  %>
+<% end %>
+
 <div class="govuk-body myott-mycommodities">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <span class="govuk-caption-l">
         <span class="switch-service-control__caption">
-          Changes to your watchlist
+          Changes to your measures
         </span>
       </span>
       <h1 class="govuk-heading-xl"><%= @grouped_measure_changes.trade_direction_description %> from <%= @grouped_measure_changes.geographical_area_description %></h1>
+
+      <div class="govuk-inset-text">
+        Changes published: <%= as_of.strftime("%d/%m/%Y") %>
+      </div>
 
       <h2 class="govuk-heading-m">Total commodities affected: <%= @commodity_changes.total_count %></h2>
 
@@ -24,7 +40,7 @@
             <tr class="govuk-table__row">
               <td class="govuk-table__cell"><%= commodity_change.commodity.goods_nomenclature_item_id %></td>
               <td class="govuk-table__cell"><%= commodity_change.commodity.classification_description %></td>
-              <td class="govuk-table__cell"><%= link_to(pluralize(commodity_change.count, 'change'), myott_grouped_measure_commodity_change_path(commodity_change.resource_id, as_of: params[:as_of])) %></td>
+              <td class="govuk-table__cell"><%= link_to(pluralize(commodity_change.count, 'change'), myott_grouped_measure_commodity_change_path(commodity_change.resource_id, as_of:)) %></td>
             </tr>
           <% end %>
         </tbody>
