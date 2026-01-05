@@ -8,7 +8,7 @@ module UnsubscribesHelper
     else
       {
         header: 'You have unsubscribed from your commodity watch list',
-        message: 'You will no longer have access to your commodity watch list dashboard or receive email notifications.<br><br>If you have other UK Trade Tariff subscriptions, they will continue',
+        message: 'You will no longer have access to your commodity watch list dashboard or receive email notifications.<br><br>If you have other UK Trade Tariff subscriptions, they will continue'.html_safe,
       }
     end
   end
