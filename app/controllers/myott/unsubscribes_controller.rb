@@ -10,7 +10,7 @@ module Myott
     }.freeze
 
     def show
-      render template: "myott/unsubscribes/#{subscription_type}"
+      render subscription_type
     end
 
     def destroy
