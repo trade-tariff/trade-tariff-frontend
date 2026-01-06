@@ -11,15 +11,17 @@
         </div>
         <h2 class="govuk-heading-m">What happens next</h2>
         <p class="govuk-body">
-          <%= @message.html_safe %>
+          <%= @message %>
         </p>
-        <p class="govuk-body">
-          You can now close this window.
-        </p>
-        <p class="govuk-body">
-          <%= link_to 'What did you think of this service?', feedback_path, class: 'govuk-link' %>
-          (takes 30 seconds)
-        </p>
+        <% if @subscription_type == 'stop_press' %>
+          <p class="govuk-body">
+            You can now close this window.
+          </p>
+          <p class="govuk-body">
+            <%= link_to 'What did you think of this service?', feedback_path, class: 'govuk-link' %>
+            (takes 30 seconds)
+          </p>
+        <% end %>
       </div>
     </div>
   </main>
