@@ -1,4 +1,15 @@
 <% myott_page_title "Commodity Watch List", error: @alert %>
+
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+      t('breadcrumb.myott.mycommodities'),
+      [
+        [t('breadcrumb.myott.watchlists'), myott_path]
+      ]
+    )
+  %>
+<% end %>
+
 <div class="govuk-body myott-mycommodities">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">

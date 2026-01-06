@@ -1,4 +1,17 @@
 <% myott_page_title "Changes to your watchlist" %>
+
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+      "Commodity #{@grouped_measure_commodity_changes.goods_nomenclature_item_id}",
+      [
+        [t('breadcrumb.myott.watchlists'), myott_path],
+        [t('breadcrumb.myott.mycommodities'), myott_mycommodities_path(as_of:)],
+        ["#{@grouped_measure_commodity_changes.trade_direction_description} from #{@grouped_measure_commodity_changes.geographical_area_description}", myott_grouped_measure_change_path(@grouped_measure_commodity_changes.grouped_measure_change.resource_id, as_of:)],
+      ]
+    )
+  %>
+<% end %>
+
 <div class="govuk-body myott-mycommodities">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">

@@ -235,6 +235,14 @@ en:
       valuation: "How to value your goods for import or export"
       trade-remedies: "What are trade remedies, safeguards and retaliatory duties?"
       origin: "What is origin?"
+    myott:
+      watchlists: Your watch lists
+      mycommodities: Commodity watch list
+      active: Active commodities
+      expired: Expired commodities
+      invalid: Errors from commodity uploads
+      ending: Changes to end date
+      classification: Changes to classification
 
   navigation:
     back: Back

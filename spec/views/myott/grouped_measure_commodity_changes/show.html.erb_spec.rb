@@ -9,15 +9,22 @@ RSpec.describe 'myott/grouped_measure_commodity_changes/show.html.erb', type: :v
     }
   end
 
+  let(:grouped_measure_change) do
+    instance_double(TariffChanges::GroupedMeasureChange, resource_id: 'export_RU_')
+  end
+
   let(:grouped_measure_commodity_change) do
-    OpenStruct.new(
+    instance_double(
+      TariffChanges::GroupedMeasureCommodityChange,
       goods_nomenclature_item_id: '1234567890',
       classification_description: 'Test Classification',
       trade_direction: 'import',
+      trade_direction_description: 'Import',
       geographical_area_description: 'United Kingdom',
       chapter: '01',
       heading: '0101',
       impacted_measures: impacted_measures,
+      grouped_measure_change: grouped_measure_change,
     )
   end
 

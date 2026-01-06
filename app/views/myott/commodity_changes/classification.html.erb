@@ -1,4 +1,16 @@
 <% myott_page_title "Changes to your classification" %>
+
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs(
+      t('breadcrumb.myott.classification'),
+      [
+        [t('breadcrumb.myott.watchlists'), myott_path],
+        [t('breadcrumb.myott.mycommodities'), myott_mycommodities_path(as_of:)],
+      ]
+    )
+  %>
+<% end %>
+
 <div class="govuk-body myott-mycommodities">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
