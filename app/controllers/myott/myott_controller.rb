@@ -31,10 +31,5 @@ module Myott
       subscription_id = current_user[:subscriptions]&.find { |s| s['subscription_type'] == subscription_type && s['active'] }&.fetch('id', nil)
       Subscription.find(subscription_id, user_id_token) if subscription_id
     end
-
-    def get_subscription_type_by_id(subscription_id)
-      subscription = Subscription.find(subscription_id, user_id_token)
-      subscription['subscription_type'] if subscription
-    end
   end
 end

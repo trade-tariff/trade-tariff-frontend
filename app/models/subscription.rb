@@ -17,4 +17,8 @@ class Subscription
   rescue Faraday::UnauthorizedError
     nil
   end
+
+  def subscription_type_name
+    subscription_type&.[]('name')
+  end
 end

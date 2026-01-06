@@ -34,7 +34,7 @@ module Myott
     end
 
     def subscription_type
-      @subscription_type ||= get_subscription_type_by_id(params[:id])['name']
+      @subscription_type ||= Subscription.find(params[:id], user_id_token)&.subscription_type_name
     end
 
     def stop_press_subscription?

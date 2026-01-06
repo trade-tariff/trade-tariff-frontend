@@ -87,34 +87,4 @@ RSpec.describe Myott::MyottController, type: :controller do
       end
     end
   end
-
-  describe '#get_subscription_type_by_id' do
-    let(:subscription) { build(:subscription, subscription_type: 'my_commodities') }
-
-    context 'when the subscription is found' do
-      before do
-        allow(controller).to receive(:cookies).and_return(id_token: 'token123')
-        allow(Subscription).to receive(:find).with(subscription.uuid, 'token123')
-                                            .and_return(subscription)
-      end
-
-      it 'returns the subscription type' do
-        result = controller.send(:get_subscription_type_by_id, subscription.uuid)
-        expect(result).to eq(subscription.subscription_type)
-      end
-    end
-
-    context 'when the subscription is not found' do
-      before do
-        allow(controller).to receive(:cookies).and_return(id_token: 'token123')
-        allow(Subscription).to receive(:find).with(subscription.uuid, 'token123')
-                                              .and_return(nil)
-      end
-
-      it 'returns nil' do
-        result = controller.send(:get_subscription_type_by_id, subscription.uuid)
-        expect(result).to be_nil
-      end
-    end
-  end
 end
