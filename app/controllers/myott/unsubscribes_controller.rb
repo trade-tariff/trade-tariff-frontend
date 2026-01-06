@@ -4,11 +4,6 @@ module Myott
 
     before_action :authentication, except: :confirmation
 
-    SUBSCRIPTION_TYPES = {
-      stop_press: 'stop_press',
-      my_commodities: 'my_commodities',
-    }.freeze
-
     def show
       render subscription_type
     end
@@ -37,12 +32,8 @@ module Myott
       @subscription_type ||= Subscription.find(params[:id], user_id_token)&.subscription_type_name
     end
 
-    def stop_press_subscription?
-      subscription_type == SUBSCRIPTION_TYPES[:stop_press]
-    end
-
     def my_commodities_subscription?
-      subscription_type == SUBSCRIPTION_TYPES[:my_commodities]
+      subscription_type == Subscription::SUBSCRIPTION_TYPES[:my_commodities]
     end
 
     def delete_cookie
@@ -85,13 +76,13 @@ module Myott
       errors = unsubscribe_error_messages
       @alert = errors[:confirmation]
       flash.now[:select_error] = @alert
-      render template: "myott/unsubscribes/#{subscription_type}"
+      render subscription_type
     end
 
     def show_deletion_error
       errors = unsubscribe_error_messages
       @alert = errors[:deletion]
-      render template: "myott/unsubscribes/#{subscription_type}"
+      render subscription_type
     end
   end
 end

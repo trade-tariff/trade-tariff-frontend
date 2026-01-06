@@ -1,6 +1,11 @@
 class Subscription
   include AuthenticatableApiEntity
 
+  SUBSCRIPTION_TYPES = {
+    stop_press: 'stop_press',
+    my_commodities: 'my_commodities',
+  }.freeze
+
   set_singular_path '/uk/user/subscriptions/:id'
 
   attr_accessor :active, :uuid, :meta, :subscription_type
