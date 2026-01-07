@@ -1,6 +1,6 @@
-require 'spec_helper'
-
 RSpec.describe Myott::GroupedMeasureCommodityChangesController, type: :controller do
+  include MyottAuthenticationHelpers
+
   let(:user_id_token) { 'test-token' }
   let(:id) { 'import_IL__0807190050' }
   let(:as_of) { Time.zone.today.strftime('%Y-%m-%d') }
@@ -12,17 +12,10 @@ RSpec.describe Myott::GroupedMeasureCommodityChangesController, type: :controlle
     change.grouped_measure_change = grouped_measure_change_hash
     change
   end
-  let(:subscription) do
-    build(:subscription,
-          active: true,
-          subscription_type: 'my_commodities',
-          metadata: { commodity_codes: %w[1111111111 22222222222 3333333333 4444444444 5555555555] },
-          meta: { active: %w[1111111111 22222222222], expired: %w[33333333333 44444444444], invalid: %w[55555555555] })
-  end
 
   before do
-    allow(controller).to receive_messages(user_id_token: user_id_token, as_of: Time.zone.today, authenticate: true)
-    allow(controller).to receive(:current_subscription).and_return(subscription)
+    subscription = setup_mycommodities_context(user_id_token: user_id_token, as_of: Time.zone.today)
+    stub_current_subscription('my_commodities', subscription)
   end
 
   describe 'GET #show' do

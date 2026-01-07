@@ -1,25 +1,17 @@
-require 'spec_helper'
-
 RSpec.describe Myott::PreferencesController, type: :controller do
+  include MyottAuthenticationHelpers
   include_context 'with cached chapters'
 
   let(:user) { build(:user, chapter_ids: '') }
 
   describe 'GET #new' do
-    context 'when current_user is not valid' do
-      before do
-        allow(controller).to receive(:current_user).and_return(nil)
-        get :new
-      end
-
-      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
-    end
+    it_behaves_like 'a protected myott page', :new
 
     context 'when current_user is valid' do
       before do
         session[:chapter_ids] = %w[01 02]
         session[:all_tariff_updates] = true
-        allow(controller).to receive(:current_user).and_return(user)
+        stub_authenticated_user(user)
         get :new
       end
 
@@ -38,7 +30,7 @@ RSpec.describe Myott::PreferencesController, type: :controller do
   describe 'POST #create' do
     context 'when current_user is not valid' do
       before do
-        allow(controller).to receive(:current_user).and_return(nil)
+        stub_unauthenticated_user
         post :create, params: { preference: 'selectChapters' }
       end
 
@@ -47,7 +39,7 @@ RSpec.describe Myott::PreferencesController, type: :controller do
 
     context 'when current_user is valid' do
       before do
-        allow(controller).to receive(:current_user).and_return(user)
+        stub_authenticated_user(user)
       end
 
       context 'when selectChapters is selected' do
@@ -85,18 +77,11 @@ RSpec.describe Myott::PreferencesController, type: :controller do
   end
 
   describe 'GET #edit' do
-    context 'when current_user is not valid' do
-      before do
-        allow(controller).to receive(:current_user).and_return(nil)
-        get :edit
-      end
-
-      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
-    end
+    it_behaves_like 'a protected myott page', :edit
 
     context 'when current_user is valid' do
       before do
-        allow(controller).to receive(:current_user).and_return(user)
+        stub_authenticated_user(user)
         session[:chapter_ids] = %w[01]
         get :edit
       end

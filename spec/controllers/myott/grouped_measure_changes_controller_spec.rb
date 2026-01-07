@@ -1,6 +1,6 @@
-require 'spec_helper'
-
 RSpec.describe Myott::GroupedMeasureChangesController, type: :controller do
+  include MyottAuthenticationHelpers
+
   describe 'GET #show' do
     let(:user_id_token) { 'token' }
     let(:as_of) { Time.zone.today }
@@ -9,17 +9,9 @@ RSpec.describe Myott::GroupedMeasureChangesController, type: :controller do
       instance_double(TariffChanges::GroupedMeasureChange,
                       grouped_measure_commodity_changes: commodity_changes)
     end
-    let(:subscription) do
-      build(:subscription,
-            active: true,
-            subscription_type: 'my_commodities',
-            metadata: { commodity_codes: %w[1111111111 22222222222 3333333333 4444444444 5555555555] },
-            meta: { active: %w[1111111111 22222222222], expired: %w[33333333333 44444444444], invalid: %w[55555555555] })
-    end
 
     before do
-      allow(controller).to receive_messages(user_id_token: user_id_token, as_of: as_of, authenticate: true)
-      allow(controller).to receive(:current_subscription).and_return(subscription)
+      setup_mycommodities_context(user_id_token: user_id_token, as_of: as_of)
     end
 
     it 'assigns @grouped_measure_changes' do

@@ -1,14 +1,17 @@
-require 'spec_helper'
-
 RSpec.describe Myott::StopPressesController, type: :controller do
+  include MyottAuthenticationHelpers
+
   include_context 'with cached chapters'
 
   let(:user) { build(:user, chapter_ids: '') }
 
   describe 'GET #show' do
-    context 'when current_user is not valid' do
+    it_behaves_like 'a protected myott page', :show
+
+    context 'when user does not have a subscription' do
       before do
-        allow(controller).to receive_messages(current_user: nil, current_subscription: nil)
+        stub_authenticated_user
+        stub_current_subscription('stop_press', nil)
         get :show
       end
 
@@ -18,12 +21,16 @@ RSpec.describe Myott::StopPressesController, type: :controller do
     end
 
     context 'when current_user is valid' do
+      let(:subscription) { build(:subscription, subscription_type: 'stop_press') }
+
       before do
-        allow(controller).to receive_messages(current_user: user, current_subscription: build(:subscription, subscription_type: 'stop_press'))
-        get :show
+        stub_authenticated_user(user)
+        stub_current_subscription('stop_press', subscription)
       end
 
       context 'with user subscribed to all chapters' do
+        before { get :show }
+
         it { is_expected.to respond_with(:success) }
 
         it 'assigns the correct amount of selected chapters' do
@@ -41,7 +48,8 @@ RSpec.describe Myott::StopPressesController, type: :controller do
         let(:user) { build(:user, chapter_ids: '01,03') }
 
         before do
-          session[:chapter_ids] = %w[01,03]
+          session[:chapter_ids] = %w[01 03]
+          get :show
         end
 
         it 'assigns the correct amount of selected chapters' do
@@ -59,8 +67,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
         let(:user) { build(:user) }
 
         before do
-          allow(controller).to receive(:current_subscription).with('stop_press').and_return(nil)
-
+          stub_current_subscription('stop_press', nil)
           get :show
         end
 
@@ -74,7 +81,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
   describe 'GET #check_your_answers' do
     context 'when current_user is not valid' do
       before do
-        allow(controller).to receive(:current_user).and_return(nil)
+        stub_unauthenticated_user_with_bypass
         session[:all_tariff_updates] = true
         get :check_your_answers
       end
@@ -84,7 +91,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
 
     context 'when current_user is valid' do
       before do
-        allow(controller).to receive(:current_user).and_return(user)
+        stub_authenticated_user(user)
         session[:chapter_ids] = %w[01 02 03]
         session[:all_tariff_updates] = true
         get :check_your_answers
@@ -111,7 +118,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
   describe 'POST #subscribe' do
     context 'when current_user is not valid' do
       before do
-        allow(controller).to receive(:current_user).and_return(nil)
+        stub_unauthenticated_user
         session[:chapter_ids] = %w[01 03]
         post :subscribe
       end
@@ -125,7 +132,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
       let(:attributes) { { chapter_ids: '01,03', stop_press_subscription: 'true' } }
 
       before do
-        allow(controller).to receive(:current_user).and_return(user)
+        stub_authenticated_user(user)
         token = 'valid-jwt-token'
         cookies[:id_token] = token
         session[:chapter_ids] = %w[01 03]
@@ -181,23 +188,14 @@ RSpec.describe Myott::StopPressesController, type: :controller do
   end
 
   describe 'GET #confirmation' do
-    context 'when current_user is not valid' do
-      before do
-        allow(controller).to receive_messages(current_user: nil, current_subscription: nil)
-        get :confirmation
-      end
-
-      it 'redirects to myott path' do
-        expect(response).to redirect_to(myott_path)
-      end
-    end
+    it_behaves_like 'a protected myott page', :confirmation
 
     context 'when current_user is valid' do
       let(:subscription) { build(:subscription, subscription_type: 'stop_press') }
 
       before do
-        allow(controller).to receive(:current_user).and_return(user)
-        allow(controller).to receive(:current_subscription).with('stop_press').and_return(subscription)
+        stub_authenticated_user(user)
+        stub_current_subscription('stop_press', subscription)
         get :confirmation
       end
 
@@ -207,7 +205,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
         let(:user) { build(:user) }
 
         before do
-          allow(controller).to receive(:current_subscription).with('stop_press').and_return(nil)
+          stub_current_subscription('stop_press', nil)
           get :confirmation
         end
 

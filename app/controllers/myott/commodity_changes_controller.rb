@@ -1,7 +1,5 @@
 module Myott
   class CommodityChangesController < MycommoditiesController
-    before_action :authenticate
-
     def ending
       @change = changes('ending')
     end

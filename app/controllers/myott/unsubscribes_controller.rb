@@ -2,7 +2,7 @@ module Myott
   class UnsubscribesController < MyottController
     include UnsubscribesHelper
 
-    before_action :authentication, except: :confirmation
+    skip_before_action :authenticate, only: :confirmation
 
     def show
       render subscription_type
@@ -22,7 +22,7 @@ module Myott
 
   private
 
-    def authentication
+    def authenticate
       if params[:id].nil? || subscription_type.nil?
         redirect_to myott_start_path
       end

@@ -1,7 +1,5 @@
 module Myott
   class GroupedMeasureCommodityChangesController < MycommoditiesController
-    before_action :authenticate
-
     def show
       @grouped_measure_commodity_changes = TariffChanges::GroupedMeasureCommodityChange.find(
         params[:id],
