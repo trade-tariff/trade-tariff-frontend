@@ -47,6 +47,26 @@ module TradeTariffFrontend
     ENV.fetch('IDENTITY_BASE_URL', 'http://localhost:3005')
   end
 
+  def identity_cookie_domain
+    @identity_cookie_domain ||= if Rails.env.production?
+                                  ".#{base_domain}"
+                                else
+                                  :all
+                                end
+  end
+
+  def base_domain
+    @base_domain ||= begin
+      domain = ENV['GOVUK_APP_DOMAIN']
+
+      unless /(http(s?):).*/.match(domain)
+        domain = "https://#{domain}"
+      end
+
+      URI.parse(domain).host
+    end
+  end
+
   def backend_base_domain
     ENV['BACKEND_BASE_DOMAIN']
   end
