@@ -23,6 +23,11 @@ RSpec.describe MeursingLookup::ResultsController, type: :controller do
       end
 
       it { expect { do_response }.to change { session[:current_meursing_additional_code_id] }.from('706').to(nil) }
+
+      it 'redirects to find_commodity page' do
+        do_response
+        expect(response).to redirect_to(find_commodity_path)
+      end
     end
   end
 
