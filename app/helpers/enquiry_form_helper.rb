@@ -60,6 +60,7 @@ end
 
 def radio_button_category_options
   [
+    ['API & Dev Portal Support', 'api_dev_portal_support'],
     ['Classification (identify the correct commodity code)', 'classification'],
     ['Customs Valuation', 'customs_valuation'],
     ['Import Duties', 'import_duties'],
