@@ -9,7 +9,10 @@ module Myott
 
     def authenticate
       if current_user.nil?
+        session[:myott_return_url] = request.fullpath
         redirect_to(URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s, allow_other_host: true)
+      elsif session[:myott_return_url]
+        redirect_to(session.delete(:myott_return_url))
       end
     end
 

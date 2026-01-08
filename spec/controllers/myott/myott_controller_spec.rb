@@ -87,4 +87,71 @@ RSpec.describe Myott::MyottController, type: :controller do
       end
     end
   end
+
+  describe '#authenticate' do
+    let(:request_fullpath) { '/myott/commodities/123' }
+    let(:identity_base_url) { 'https://auth.example.com' }
+    let(:expected_redirect_url) { 'https://auth.example.com/myott' }
+
+    before do
+      allow(controller).to receive(:request).and_return(instance_double(ActionDispatch::Request, fullpath: request_fullpath))
+      allow(TradeTariffFrontend).to receive(:identity_base_url).and_return(identity_base_url)
+      allow(controller).to receive(:redirect_to)
+    end
+
+    context 'when current_user is nil' do
+      before do
+        allow(controller).to receive(:current_user).and_return(nil)
+      end
+
+      it 'stores the current URL in session' do
+        controller.send(:authenticate)
+
+        expect(controller.session[:myott_return_url]).to eq(request_fullpath)
+      end
+
+      it 'redirects to identity service' do
+        controller.send(:authenticate)
+
+        expect(controller).to have_received(:redirect_to).with(expected_redirect_url, allow_other_host: true)
+      end
+    end
+
+    context 'when current_user exists and myott_return_url is in session' do
+      let(:user) { build(:user) }
+      let(:return_url) { '/myott/commodities/456' }
+
+      before do
+        allow(controller).to receive(:current_user).and_return(user)
+        controller.session[:myott_return_url] = return_url
+      end
+
+      it 'redirects to the stored return URL' do
+        controller.send(:authenticate)
+
+        expect(controller).to have_received(:redirect_to).with(return_url)
+      end
+
+      it 'removes the return URL from session' do
+        controller.send(:authenticate)
+
+        expect(controller.session[:myott_return_url]).to be_nil
+      end
+    end
+
+    context 'when current_user exists and no myott_return_url is in session' do
+      let(:user) { build(:user) }
+
+      before do
+        allow(controller).to receive(:current_user).and_return(user)
+        controller.session[:myott_return_url] = nil
+      end
+
+      it 'does not redirect' do
+        controller.send(:authenticate)
+
+        expect(controller).not_to have_received(:redirect_to)
+      end
+    end
+  end
 end
