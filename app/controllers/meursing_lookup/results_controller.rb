@@ -25,8 +25,11 @@ module MeursingLookup
     end
 
     def set_goods_nomenclature_code
-      @goods_nomenclature_code = params[:goods_nomenclature_code] || # Set by the link to show action query param
-        result_params[:goods_nomenclature_code] # Set by the update form submission
+      @goods_nomenclature_code = if params[:goods_nomenclature_code].present?
+                                   params[:goods_nomenclature_code]
+                                 elsif params[:meursing_lookup_result].present?
+                                   result_params[:goods_nomenclature_code]
+                                 end
     end
   end
 end

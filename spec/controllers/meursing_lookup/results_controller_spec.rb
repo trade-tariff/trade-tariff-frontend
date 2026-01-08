@@ -12,6 +12,23 @@ RSpec.describe MeursingLookup::ResultsController, type: :controller do
 
     it { expect { do_response }.to change { session[:current_meursing_additional_code_id] }.from('706').to(nil) }
     it { is_expected.to redirect_to(commodity_path(goods_nomenclature_code)) }
+
+    context 'when goods_nomenclature_code parameter is missing' do
+      subject(:do_response) do
+        get :show, params: {}
+      end
+
+      it 'does not raise ParameterMissing error' do
+        expect { do_response }.not_to raise_error
+      end
+
+      it { expect { do_response }.to change { session[:current_meursing_additional_code_id] }.from('706').to(nil) }
+
+      it 'redirects to find_commodity page' do
+        do_response
+        expect(response).to redirect_to(find_commodity_path)
+      end
+    end
   end
 
   describe 'POST #create' do
