@@ -1,14 +1,12 @@
 .myott-mycommodities{
-  .summary_container {
+  .category_container {
     background-color: govuk-colour("white");
-    padding: 10px;
+    padding: govuk-spacing(1);
     border: 2px solid  $govuk-border-colour
   }
 
-  .summary_background{
-    position: relative;
-    padding: 1em;
-    margin: 20px 0 40px 0;
-    background-color: govuk-colour("light-grey");
+  .watch-list-container{
+    padding: govuk-spacing(3);
+    background-color: #d2e2f1;
   }
 }
