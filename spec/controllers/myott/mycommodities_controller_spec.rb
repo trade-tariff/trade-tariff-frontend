@@ -1,6 +1,11 @@
-require 'spec_helper'
-
 RSpec.describe Myott::MycommoditiesController, type: :controller do
+  include MyottAuthenticationHelpers
+
+  def stub_get_subscription(subscription_type, subscription = nil)
+    allow(controller).to receive(:get_subscription).with(subscription_type).and_return(subscription)
+    subscription
+  end
+
   let(:user) do
     build(:user,
           my_commodities_subscription: true)
@@ -18,62 +23,43 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
   end
 
   describe 'GET #new' do
-    context 'when current_user is not valid' do
-      before do
-        allow(controller).to receive(:current_user).and_return(nil)
-        get :new
-      end
-
-      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
-    end
-
-    context 'when current_user is valid' do
-      before do
-        allow(controller).to receive(:current_user).and_return(user)
-        get :new
-      end
-
-      it { is_expected.to respond_with(:success) }
-    end
+    it_behaves_like 'a protected myott page', :new
   end
 
   describe 'GET #active' do
     before do
-      allow(controller).to receive_messages(current_user: user, get_subscription: subscription)
+      stub_authenticated_user(user)
+      stub_get_subscription('my_commodities', subscription)
     end
 
-    it_behaves_like 'a commodity category page', :active, 'active'
+    it_behaves_like 'a commodity category page', :active
   end
 
   describe 'GET #expired' do
     before do
-      allow(controller).to receive_messages(current_user: user, get_subscription: subscription)
+      stub_authenticated_user(user)
+      stub_get_subscription('my_commodities', subscription)
     end
 
-    it_behaves_like 'a commodity category page', :expired, 'expired'
+    it_behaves_like 'a commodity category page', :expired
   end
 
   describe 'GET #invalid' do
     before do
-      allow(controller).to receive_messages(current_user: user, get_subscription: subscription)
+      stub_authenticated_user(user)
+      stub_get_subscription('my_commodities', subscription)
     end
 
-    it_behaves_like 'a commodity category page', :invalid, 'invalid'
+    it_behaves_like 'a commodity category page', :invalid
   end
 
   describe 'GET #index' do
-    context 'when current_user is not valid' do
-      before do
-        allow(controller).to receive(:current_user).and_return(nil)
-        get :new
-      end
-
-      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
-    end
+    it_behaves_like 'a protected myott page', :index
 
     context 'when current_user is valid' do
       before do
-        allow(controller).to receive_messages(current_user: user, get_subscription: subscription)
+        stub_authenticated_user(user)
+        stub_get_subscription('my_commodities', subscription)
       end
 
       context 'when commodity codes are present' do
@@ -104,7 +90,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
       context 'when user does not have a my commodities subscription' do
         before do
-          allow(controller).to receive(:get_subscription).and_return(nil)
+          stub_get_subscription('my_commodities', nil)
           get :index
         end
 
@@ -114,20 +100,11 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
   end
 
   describe 'POST #create' do
-    context 'when current_user is not valid' do
-      before do
-        allow(controller).to receive(:current_user).and_return(nil)
-        post :create, params: { fileUpload1: nil }
-      end
-
-      it 'redirects to the identity login page' do
-        expect(response).to redirect_to('http://localhost:3005/myott')
-      end
-    end
+    it_behaves_like 'a protected myott page', :create
 
     context 'when current_user is valid' do
       before do
-        allow(controller).to receive(:current_user).and_return(user)
+        stub_authenticated_user(user)
         cookies[:id_token] = 'valid-jwt-token'
       end
 
@@ -197,18 +174,13 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
     end
     let(:user_id_token) { 'test-token' }
 
-    context 'when current_user is not valid' do
-      before do
-        allow(controller).to receive(:current_user).and_return(nil)
-        get :download
-      end
-
-      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
-    end
+    it_behaves_like 'a protected myott page', :download
 
     context 'when current_user is valid' do
       before do
-        allow(controller).to receive_messages(current_user: user, get_subscription: subscription, user_id_token: user_id_token)
+        stub_authenticated_user(user)
+        stub_get_subscription('my_commodities', subscription)
+        allow(controller).to receive(:user_id_token).and_return(user_id_token)
         allow(TariffChanges::TariffChange).to receive(:download_file).and_return(file_data)
         get :download
       end
@@ -245,7 +217,8 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
     context 'when user does not have a my commodities subscription' do
       before do
-        allow(controller).to receive_messages(current_user: user, get_subscription: nil)
+        stub_authenticated_user(user)
+        stub_get_subscription('my_commodities', nil)
         get :download
       end
 

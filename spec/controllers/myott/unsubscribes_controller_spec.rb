@@ -1,6 +1,6 @@
-require 'spec_helper'
-
 RSpec.describe Myott::UnsubscribesController, type: :controller do
+  include MyottAuthenticationHelpers
+
   let(:subscription) { build(:subscription, subscription_type: 'stop_press') }
 
   describe 'GET #show' do

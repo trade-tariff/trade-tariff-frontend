@@ -1,6 +1,6 @@
 module Myott
   class SubscriptionsController < MyottController
-    before_action :authenticate, except: %i[start invalid]
+    skip_before_action :authenticate, only: %i[start invalid]
 
     def start
       render :start_old and return unless TradeTariffFrontend.my_commodities?

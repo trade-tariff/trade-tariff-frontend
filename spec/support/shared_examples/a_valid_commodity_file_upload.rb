@@ -38,8 +38,8 @@ RSpec.shared_examples 'a valid commodity file upload' do |fixture_path, content_
       allow(Subscription).to receive(:batch)
 
       allow(controller).to receive(:current_subscription)
-      .with('my_commodities')
-      .and_return(nil, subscription)
+                       .with('my_commodities')
+                       .and_return(nil, subscription)
 
       post :create, params: { fileUpload1: valid_file }
     end

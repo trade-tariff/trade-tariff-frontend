@@ -1,7 +1,5 @@
 module Myott
   class GroupedMeasureChangesController < MycommoditiesController
-    before_action :authenticate
-
     def show
       opts = { page: (params[:page].presence || 1).to_i,
                per_page: (params[:per_page].presence || 10).to_i,

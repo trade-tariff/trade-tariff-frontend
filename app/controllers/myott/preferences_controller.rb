@@ -1,7 +1,5 @@
 module Myott
   class PreferencesController < MyottController
-    before_action :authenticate
-
     def new
       session_chapters.delete
     end

@@ -1,6 +1,6 @@
-require 'spec_helper'
-
 RSpec.describe Myott::MyottController, type: :controller do
+  include MyottAuthenticationHelpers
+
   describe '#current_user' do
     let(:user) { build(:user) }
     let(:id_token) { 'encrypted_token' }

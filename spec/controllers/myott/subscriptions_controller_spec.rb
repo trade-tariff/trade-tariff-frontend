@@ -1,6 +1,6 @@
-require 'spec_helper'
-
 RSpec.describe Myott::SubscriptionsController, type: :controller do
+  include MyottAuthenticationHelpers
+
   include_context 'with cached chapters'
 
   let(:user) { build(:user, chapter_ids: '') }
@@ -24,7 +24,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
     context 'when a user does exist' do
       before do
-        allow(controller).to receive(:current_user).and_return(user)
+        stub_authenticated_user(user)
         get :invalid
       end
 
@@ -33,7 +33,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
     context 'when a user does not exist' do
       before do
-        allow(controller).to receive(:current_user).and_return(nil)
+        stub_unauthenticated_user
         get :invalid
       end
 
@@ -42,18 +42,11 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
   end
 
   describe 'GET #index' do
-    context 'when current_user is not valid' do
-      before do
-        allow(controller).to receive(:current_user).and_return(nil)
-        get :index
-      end
-
-      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
-    end
+    it_behaves_like 'a protected myott page', :index
 
     context 'when current_user is valid' do
       before do
-        allow(controller).to receive(:current_user).and_return(user)
+        stub_authenticated_user(user)
       end
 
       context 'when my_commodities is not enabled' do
@@ -73,8 +66,8 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
 
         before do
           allow(TradeTariffFrontend).to receive(:my_commodities?).and_return(true)
-          allow(controller).to receive(:current_subscription).with('stop_press').and_return(stop_press_subscription)
-          allow(controller).to receive(:current_subscription).with('my_commodities').and_return(my_commodities_subscription)
+          stub_current_subscription('stop_press', stop_press_subscription)
+          stub_current_subscription('my_commodities', my_commodities_subscription)
           get :index
         end
 
