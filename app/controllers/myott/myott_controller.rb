@@ -5,6 +5,8 @@ module Myott
                   :disable_switch_service_banner,
                   :disable_last_updated_footnote
 
+    rescue_from AuthenticationError, with: :handle_authentication_error
+
   private
 
     def authenticate
@@ -14,6 +16,18 @@ module Myott
       elsif session[:myott_return_url]
         redirect_to(session.delete(:myott_return_url))
       end
+    end
+
+    def handle_authentication_error(error)
+      clear_authentication_cookies if error.should_clear_cookies?
+
+      session[:myott_return_url] = request.fullpath
+      redirect_to(URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s, allow_other_host: true)
+    end
+
+    def clear_authentication_cookies
+      cookies.delete(:id_token, domain: TradeTariffFrontend.identity_cookie_domain)
+      cookies.delete(:refresh_token, domain: TradeTariffFrontend.identity_cookie_domain)
     end
 
     def current_user

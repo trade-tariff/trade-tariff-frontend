@@ -127,15 +127,61 @@ RSpec.describe AuthenticatableApiEntity do
     end
 
     context 'when API returns unauthorized error' do
-      before do
-        allow(mock_api).to receive(:get)
-          .and_raise(Faraday::UnauthorizedError.new('Unauthorized'))
+      context 'with error reason in response' do
+        let(:error_response) do
+          {
+            body: '{"errors":[{"code":"invalid_token","detail":"Token is invalid"}]}',
+            status: 401,
+          }
+        end
+
+        before do
+          error = Faraday::UnauthorizedError.new('Unauthorized')
+          allow(error).to receive(:response).and_return(error_response)
+          allow(mock_api).to receive(:get).and_raise(error)
+        end
+
+        it 'raises AuthenticationError with reason', :aggregate_failures do
+          expect { test_class.find(entity_id, token) }
+            .to raise_error(AuthenticationError) do |error|
+              expect(error.reason).to eq('invalid_token')
+              expect(error.message).to eq('Unauthorized')
+            end
+        end
       end
 
-      it 'returns nil' do
-        result = test_class.find(entity_id, token)
+      context 'without error reason in response' do
+        before do
+          allow(mock_api).to receive(:get)
+            .and_raise(Faraday::UnauthorizedError.new('Unauthorized'))
+        end
 
-        expect(result).to be_nil
+        it 'returns nil' do
+          result = test_class.find(entity_id, token)
+
+          expect(result).to be_nil
+        end
+      end
+
+      context 'with malformed JSON in response' do
+        let(:error_response) do
+          {
+            body: 'not valid json',
+            status: 401,
+          }
+        end
+
+        before do
+          error = Faraday::UnauthorizedError.new('Unauthorized')
+          allow(error).to receive(:response).and_return(error_response)
+          allow(mock_api).to receive(:get).and_raise(error)
+        end
+
+        it 'returns nil' do
+          result = test_class.find(entity_id, token)
+
+          expect(result).to be_nil
+        end
       end
     end
 
@@ -221,14 +267,59 @@ RSpec.describe AuthenticatableApiEntity do
     end
 
     context 'when API returns unauthorized error' do
-      before do
-        allow(mock_api).to receive(:get)
-          .and_raise(Faraday::UnauthorizedError.new('Unauthorized'))
+      context 'with error reason in response' do
+        let(:error_response) do
+          {
+            body: '{"errors":[{"code":"not_in_group","detail":"User not in required group"}]}',
+            status: 401,
+          }
+        end
+
+        before do
+          error = Faraday::UnauthorizedError.new('Unauthorized')
+          allow(error).to receive(:response).and_return(error_response)
+          allow(mock_api).to receive(:get).and_raise(error)
+        end
+
+        it 'raises AuthenticationError with reason', :aggregate_failures do
+          expect { test_class.all(token) }
+            .to raise_error(AuthenticationError) do |error|
+              expect(error.reason).to eq('not_in_group')
+              expect(error.message).to eq('Unauthorized')
+            end
+        end
       end
 
-      it 'returns empty array' do
-        result = test_class.all(token)
-        expect(result).to eq([])
+      context 'without error reason in response' do
+        before do
+          allow(mock_api).to receive(:get)
+            .and_raise(Faraday::UnauthorizedError.new('Unauthorized'))
+        end
+
+        it 'returns empty array' do
+          result = test_class.all(token)
+          expect(result).to eq([])
+        end
+      end
+
+      context 'with malformed JSON in response' do
+        let(:error_response) do
+          {
+            body: 'not valid json',
+            status: 401,
+          }
+        end
+
+        before do
+          error = Faraday::UnauthorizedError.new('Unauthorized')
+          allow(error).to receive(:response).and_return(error_response)
+          allow(mock_api).to receive(:get).and_raise(error)
+        end
+
+        it 'returns empty array' do
+          result = test_class.all(token)
+          expect(result).to eq([])
+        end
       end
     end
 
@@ -259,6 +350,164 @@ RSpec.describe AuthenticatableApiEntity do
     it 'is included in GroupedMeasureChange' do
       expect(TariffChanges::GroupedMeasureChange.included_modules)
         .to include(described_class)
+    end
+  end
+
+  describe '.handle_unauthorized_error' do
+    let(:default_return_value) { 'default_value' }
+
+    context 'when error has extractable reason' do
+      let(:error_response) do
+        {
+          body: '{"errors":[{"code":"expired","detail":"Token has expired"}]}',
+          status: 401,
+        }
+      end
+      let(:error) do
+        error = Faraday::UnauthorizedError.new('Token expired')
+        allow(error).to receive(:response).and_return(error_response)
+        error
+      end
+
+      it 'raises AuthenticationError with extracted reason', :aggregate_failures do
+        expect { test_class.send(:handle_unauthorized_error, error) }
+          .to raise_error(AuthenticationError) do |raised_error|
+            expect(raised_error.reason).to eq('expired')
+            expect(raised_error.message).to eq('Token expired')
+          end
+      end
+
+      it 'raises AuthenticationError regardless of default_return value' do
+        expect { test_class.send(:handle_unauthorized_error, error, default_return: default_return_value) }
+          .to raise_error(AuthenticationError)
+      end
+    end
+
+    context 'when error has no extractable reason' do
+      let(:error) { Faraday::UnauthorizedError.new('Generic error') }
+
+      it 'returns nil when no default_return specified' do
+        result = test_class.send(:handle_unauthorized_error, error)
+
+        expect(result).to be_nil
+      end
+
+      it 'returns default_return value when specified' do
+        result = test_class.send(:handle_unauthorized_error, error, default_return: default_return_value)
+
+        expect(result).to eq(default_return_value)
+      end
+    end
+  end
+
+  describe '.extract_error_reason' do
+    context 'with valid error response containing code' do
+      let(:error_response) do
+        {
+          body: '{"errors":[{"code":"missing_jwks_keys","detail":"JWKS keys are missing"}]}',
+          status: 401,
+        }
+      end
+      let(:error) do
+        error = Faraday::UnauthorizedError.new('Error')
+        allow(error).to receive(:response).and_return(error_response)
+        error
+      end
+
+      it 'extracts the error code' do
+        reason = test_class.send(:extract_error_reason, error)
+
+        expect(reason).to eq('missing_jwks_keys')
+      end
+    end
+
+    context 'with response containing multiple errors' do
+      let(:error_response) do
+        {
+          body: '{"errors":[{"code":"first_error","detail":"First"},{"code":"second_error","detail":"Second"}]}',
+          status: 401,
+        }
+      end
+      let(:error) do
+        error = Faraday::UnauthorizedError.new('Error')
+        allow(error).to receive(:response).and_return(error_response)
+        error
+      end
+
+      it 'extracts the first error code' do
+        reason = test_class.send(:extract_error_reason, error)
+
+        expect(reason).to eq('first_error')
+      end
+    end
+
+    context 'with response containing no code field' do
+      let(:error_response) do
+        {
+          body: '{"errors":[{"detail":"No code field"}]}',
+          status: 401,
+        }
+      end
+      let(:error) do
+        error = Faraday::UnauthorizedError.new('Error')
+        allow(error).to receive(:response).and_return(error_response)
+        error
+      end
+
+      it 'returns nil' do
+        reason = test_class.send(:extract_error_reason, error)
+
+        expect(reason).to be_nil
+      end
+    end
+
+    context 'with malformed JSON response' do
+      let(:error_response) do
+        {
+          body: 'not valid json',
+          status: 401,
+        }
+      end
+      let(:error) do
+        error = Faraday::UnauthorizedError.new('Error')
+        allow(error).to receive(:response).and_return(error_response)
+        error
+      end
+
+      it 'returns nil' do
+        reason = test_class.send(:extract_error_reason, error)
+
+        expect(reason).to be_nil
+      end
+    end
+
+    context 'with nil response' do
+      let(:error) do
+        error = Faraday::UnauthorizedError.new('Error')
+        allow(error).to receive(:response).and_return(nil)
+        error
+      end
+
+      it 'returns nil' do
+        reason = test_class.send(:extract_error_reason, error)
+
+        expect(reason).to be_nil
+      end
+    end
+
+    context 'with response missing body' do
+      let(:error_response) { { status: 401 } }
+      let(:error) do
+        error = Faraday::UnauthorizedError.new('Error')
+        allow(error).to receive(:response).and_return(error_response)
+        error
+      end
+
+      it 'returns nil' do
+        reason = test_class.send(:extract_error_reason, error)
+
+        expect(reason).to be_nil
+      end
     end
   end
 end
