@@ -17,7 +17,7 @@ module Myott
       content = unsubscribe_confirmation_content(@subscription_type)
       @header = content[:header]
       @message = content[:message]
-      delete_cookie
+      clear_authentication_cookies
     end
 
   private
@@ -34,11 +34,6 @@ module Myott
 
     def my_commodities_subscription?
       subscription_type == Subscription::SUBSCRIPTION_TYPES[:my_commodities]
-    end
-
-    def delete_cookie
-      domain = ".#{request.host.sub(/^www\./, '')}"
-      cookies.delete(:id_token, domain:)
     end
 
     def unsubscribe
