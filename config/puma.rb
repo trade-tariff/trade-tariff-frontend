@@ -38,3 +38,9 @@ plugin :tmp_restart
 # Specify the PID file. Defaults to tmp/pids/server.pid in development.
 # In other environments, only set the PID file if requested.
 pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
+
+if ENV.fetch("WEB_CONCURRENCY", "1").to_i > 1
+  on_worker_boot do
+    Rails.configuration.ld_client.postfork if Rails.configuration.ld_client
+  end
+end
