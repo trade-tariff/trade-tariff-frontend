@@ -15,7 +15,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
           active: true,
           subscription_type: 'my_commodities',
           metadata: { commodity_codes: %w[1111111111 22222222222 3333333333 4444444444 5555555555] },
-          meta: { active: %w[1111111111 22222222222], expired: %w[33333333333 44444444444], invalid: %w[55555555555] })
+          meta: { active: 2, expired: 2, invalid: 1 })
   end
 
   before do
@@ -74,10 +74,10 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
         it { is_expected.to respond_with(:success) }
 
-        it { expect(assigns(:meta).total).to eq(subscription.meta.values.flatten.size) }
-        it { expect(assigns(:meta).active).to eq(subscription.meta[:active].count) }
-        it { expect(assigns(:meta).expired).to eq(subscription.meta[:expired].count) }
-        it { expect(assigns(:meta).invalid).to eq(subscription.meta[:invalid].count) }
+        it { expect(assigns(:meta).total).to eq(subscription.meta.values.sum) }
+        it { expect(assigns(:meta).active).to eq(subscription.meta[:active]) }
+        it { expect(assigns(:meta).expired).to eq(subscription.meta[:expired]) }
+        it { expect(assigns(:meta).invalid).to eq(subscription.meta[:invalid]) }
 
         it 'assigns @grouped_measure_changes' do
           expect(assigns(:grouped_measure_changes)).to eq(grouped_measure_changes)

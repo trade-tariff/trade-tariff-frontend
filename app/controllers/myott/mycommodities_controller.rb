@@ -80,10 +80,10 @@ module Myott
       meta = current_subscription('my_commodities')[:meta]
 
       OpenStruct.new(
-        active: meta['active'].count,
-        expired: meta['expired'].count,
-        invalid: meta['invalid'].count,
-        total: meta.values.flatten.size,
+        active: meta['active'],
+        expired: meta['expired'],
+        invalid: meta['invalid'],
+        total: meta.values.sum,
       )
     end
 
