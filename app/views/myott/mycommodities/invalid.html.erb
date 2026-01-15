@@ -19,36 +19,39 @@
         <div class="govuk-grid-column-two-thirds">
           <p>On this page are errors from the spreadsheet you uploaded for your watch list.<br>These can include:</p>
           <ul class="govuk-list govuk-list--bullet">
-            <li>The spreadsheet removing the first 0 in the codes for chapter 1 to 9</li>
+            <li>The spreadsheet removing the first 0 in the codes for chapter 01 to 09</li>
             <li>Commodity codes not 10 digits long</li>
           </ul>
-          <p>You can choose to remove all these errors, remove them individually, or upload a new spreadsheet.</p>
+          <% if @targets.total_count.positive? %>
+            <p>If you want to correct or remove these errors from your watch list, you should amend these errors in your own spreadsheet and upload it to replace all commodities.</p>
+          <% end %>
           <h2 class="govuk-heading-m">Total input errors: <%= number_with_delimiter(@targets.total_count) %></h2>
-          <p>You should remove invalid inputs if they have been actioned</p>
         </div>
       </div>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-third">
-          <%= link_to "Replace all commodities (upload)", new_myott_mycommodity_path, class: "govuk-button govuk-button--secondary" %>
+      <% if @targets.total_count.positive? %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-third">
+            <%= link_to "Replace all commodities (upload)", new_myott_mycommodity_path, class: "govuk-button govuk-button--secondary" %>
+          </div>
         </div>
-      </div>
-      <table class="govuk-table">
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th class="govuk-table__header">Invalid input</th>
-          </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-          <% @targets.each do |target| %>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
-              <%= target.target_object.goods_nomenclature_item_id %>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-      <%= paginate @targets %>
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header">Invalid input</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <% @targets.each do |target| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <%= target.target_object.goods_nomenclature_item_id %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <%= paginate @targets %>
+      <% end %>
     </div>
   </div>
 </div>
