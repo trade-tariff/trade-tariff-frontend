@@ -17,7 +17,7 @@
             <%= change.description %>
           </td>
           <td class="govuk-table__cell">
-            <%= link_to "#{change.count} commodities", send("#{change.resource_id}_myott_commodity_changes_path", as_of:) %>
+            <%= link_to "#{pluralize(change.count, 'commodity')}", send("#{change.resource_id}_myott_commodity_changes_path", as_of:) %>
           </td>
         </tr>
       <% end %>
