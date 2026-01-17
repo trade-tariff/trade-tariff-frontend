@@ -78,6 +78,9 @@
       <%= render 'shared/flashes' %>
       <%= yield :before_main_content %>
 
+      <h1><%= feature_enabled?('sample-feature') %></h1>
+      <p><%= session_identifier %></p>
+
       <%= render 'shared/search/search_form' unless @no_shared_search %>
 
       <%= yield %>
