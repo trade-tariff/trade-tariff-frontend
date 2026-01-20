@@ -22,7 +22,7 @@
           <% if @targets.total_count.positive? %>
             <p>If you want to replace or remove these expired codes from your watch list, you should amend these expired codes in your own spreadsheet and upload it to replace all commodities.</p>
           <% end %>
-          <h3>Total expired commodities: <%= number_with_delimiter(@targets.total_count) %></h3>
+          <h2 class="govuk-heading-m">Total expired commodities: <%= number_with_delimiter(@targets.total_count) %></h2>
         </div>
       </div>
       <% if @targets.total_count.positive? %>
