@@ -40,9 +40,3 @@ variable "memory" {
   description = "Memory to allocate in MB. Powers of 2 only."
   type        = number
 }
-
-# variable "scheduled_actions_enabled" {
-#   description = "Enable scheduled scaling actions."
-#   type        = bool
-#   default     = false
-# }
