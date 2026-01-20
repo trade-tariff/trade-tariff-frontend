@@ -26,8 +26,8 @@ module Myott
     end
 
     def clear_authentication_cookies
-      cookies.delete(:id_token, domain: TradeTariffFrontend.identity_cookie_domain)
-      cookies.delete(:refresh_token, domain: TradeTariffFrontend.identity_cookie_domain)
+      cookies.delete(id_token_cookie_name, domain: TradeTariffFrontend.identity_cookie_domain)
+      cookies.delete(refresh_token_cookie_name, domain: TradeTariffFrontend.identity_cookie_domain)
     end
 
     def current_user
@@ -42,7 +42,15 @@ module Myott
     helper_method :current_subscription
 
     def user_id_token
-      cookies[:id_token]
+      cookies[id_token_cookie_name]
+    end
+
+    def id_token_cookie_name
+      TradeTariffFrontend.id_token_cookie_name
+    end
+
+    def refresh_token_cookie_name
+      TradeTariffFrontend.refresh_token_cookie_name
     end
 
     def get_subscription(subscription_type)
