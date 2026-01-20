@@ -3,8 +3,7 @@ FactoryBot.define do
     active { true }
     uuid { SecureRandom.uuid }
     resource_id { uuid }
-    subscription_type { 'my_commodities' }
-    metadata { { commodity_codes: %w[1234567890 1234567891 1234567892 1234567893] } }
-    meta { { active: %w[1234567890], expired: %w[1234567891], invalid: %w[1234567892] } }
+    meta { { active: 1, expired: 1, invalid: 1 } }
+    subscription_type { { 'name' => Subscription::SUBSCRIPTION_TYPES[:my_commodities] } }
   end
 end
