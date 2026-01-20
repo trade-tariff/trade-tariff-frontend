@@ -365,7 +365,8 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    newrelic_rpm (9.24.0)
+    newrelic_rpm (10.0.0)
+      logger
     nio4r (2.7.5)
     nokogiri (1.19.0-arm64-darwin)
       racc (~> 1.4)
