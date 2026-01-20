@@ -3,7 +3,7 @@ module Myott
     def show
       opts = { page: (params[:page].presence || 1).to_i,
                per_page: (params[:per_page].presence || 10).to_i,
-               as_of: as_of.strftime('%Y-%m-%d') }
+               as_of: as_of.to_fs(:dashed) }
 
       @grouped_measure_changes = TariffChanges::GroupedMeasureChange.find(
         params[:id],

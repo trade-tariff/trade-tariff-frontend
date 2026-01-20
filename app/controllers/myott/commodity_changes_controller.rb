@@ -12,7 +12,7 @@ module Myott
       TariffChanges::CommodityChange.find(
         id,
         user_id_token,
-        { as_of: as_of.strftime('%Y-%m-%d') },
+        { as_of: as_of.to_fs(:dashed) },
       )
     end
   end
