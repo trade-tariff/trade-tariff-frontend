@@ -13,7 +13,10 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
               { 'id' => '123', 'subscription_type' => 'my_commodities', 'active' => true },
             ])
     end
-    let(:subscription) { build(:subscription, active: true, meta: { active: 1, expired: 1, invalid: 1 }) }
+    let(:subscription) do
+      build(:subscription, active: true, meta: { active: 1, expired: 1, invalid: 1 },
+                           subscription_type: { 'name' => Subscription::SUBSCRIPTION_TYPES[:my_commodities] })
+    end
 
     before do
       allow(User).to receive(:find).and_return(user, user, updated_user)
@@ -23,61 +26,39 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
     end
 
     describe 'creating a commodity watch list' do
-      it 'allows user to create a commodity watch list for the first time' do
+      def go_to_upload_page
         visit myott_path
         expect(page).to have_content('Your tariff watch lists')
         click_link 'Create a commodity watch list'
-
         expect(page).to have_title('Upload commodities')
+      end
 
+      it 'allows user to create a commodity watch list for the first time' do
+        go_to_upload_page
         attach_file 'fileUpload1', Rails.root.join('spec/fixtures/myott/mycommodities_files/valid_csv_file.csv')
-
         click_button 'Continue'
-
         expect(page).to have_content('Commodity code watch list created')
-
         click_link 'View your commodity watch list'
-
         expect(page).to have_content('Your commodity watch list')
       end
 
       it 'returns an error if there is no file attached' do
-        visit myott_path
-        expect(page).to have_content('Your tariff watch lists')
-        click_link 'Create a commodity watch list'
-
-        expect(page).to have_title('Upload commodities')
-
+        go_to_upload_page
         click_button 'Continue'
-
         expect(page).to have_content('Please upload a file using the Choose file button or drag and drop.')
       end
 
       it 'returns an error if the file type is invalid' do
-        visit myott_path
-        expect(page).to have_content('Your tariff watch lists')
-        click_link 'Create a commodity watch list'
-
-        expect(page).to have_title('Upload commodities')
-
+        go_to_upload_page
         attach_file 'fileUpload1', Rails.root.join('spec/fixtures/myott/mycommodities_files/invalid_file_type.txt')
-
         click_button 'Continue'
-
         expect(page).to have_content('Please upload a csv/excel file')
       end
 
       it 'returns an error if there are no commodity codes in the file' do
-        visit myott_path
-        expect(page).to have_content('Your tariff watch lists')
-        click_link 'Create a commodity watch list'
-
-        expect(page).to have_title('Upload commodities')
-
+        go_to_upload_page
         attach_file 'fileUpload1', Rails.root.join('spec/fixtures/myott/mycommodities_files/invalid_csv_file.csv')
-
         click_button 'Continue'
-
         expect(page).to have_content('No commodities uploaded, please ensure valid commodity codes are in column A')
       end
     end
@@ -90,43 +71,147 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
               { 'id' => '123', 'subscription_type' => 'my_commodities', 'active' => true },
             ])
     end
-    let(:subscription) { build(:subscription, active: true, meta: { active: 1, expired: 1, invalid: 1 }) }
+    let(:subscription) do
+      build(:subscription, active: true, meta: { active: 1, expired: 1, invalid: 1 },
+                           subscription_type: { 'name' => Subscription::SUBSCRIPTION_TYPES[:my_commodities] })
+    end
     let(:targets) do
       target_collection = build_list(:subscription_target, 1)
       build(:kaminari, collection: target_collection)
     end
 
-    before do
-      allow(User).to receive_messages(find: user, update: true)
-      allow(Subscription).to receive_messages(find: subscription, batch: true)
-      allow(SubscriptionTarget).to receive(:all).and_return(targets)
+    def go_to_watch_list
+      visit myott_path
+      expect(page).to have_content('Your tariff watch lists')
+      click_link 'View commodity watch list'
+      expect(page).to have_title('Commodity Watch List')
+      expect(page).to have_content('Your commodity watch list')
+    end
+
+    def go_to_active_commodities
+      go_to_watch_list
+      click_link '1', href: active_myott_mycommodities_path
+      expect(page).to have_title('Active commodities')
+      expect(page).to have_content('Active commodities: 1')
     end
 
     describe 'updating a commodity watch list' do
+      before do
+        allow(User).to receive_messages(find: user, update: true)
+        allow(Subscription).to receive_messages(find: subscription, batch: true)
+        allow(SubscriptionTarget).to receive(:all).and_return(targets)
+      end
+
       it 'allows user to update a commodity watch list' do
-        visit myott_path
-        expect(page).to have_content('Your tariff watch lists')
-        click_link 'View commodity watch list'
-
-        expect(page).to have_title('Commodity Watch List')
-
-        expect(page).to have_content('Your commodity watch list')
-
-        click_link '1', href: active_myott_mycommodities_path
-
-        expect(page).to have_title('Active commodities')
-
-        expect(page).to have_content('Active commodities: 1')
-
+        go_to_active_commodities
         click_link 'Replace all commodities (upload)'
-
         expect(page).to have_content('Replace all commodities')
-
         attach_file 'fileUpload1', Rails.root.join('spec/fixtures/myott/mycommodities_files/valid_csv_file.csv')
-
         click_button 'Continue'
-
         expect(page).to have_content('Commodity code watch list updated')
+      end
+    end
+
+    describe 'unsubscribing from a commodity watch list' do
+      before do
+        allow(User).to receive(:find).and_return(user)
+        allow(Subscription).to receive_messages(find: subscription, delete: true)
+      end
+
+      it 'allows user to unsubscribe from a commodity watch list' do
+        go_to_watch_list
+        click_link 'Unsubscribe from commodity watch list'
+        expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
+        choose('yes')
+        click_button 'Confirm'
+        expect(page).to have_content('You have unsubscribed from your commodity watch list')
+      end
+
+      it 'returns to Your tariff watch lists if user declines to unsubscribe' do
+        go_to_watch_list
+        click_link 'Unsubscribe from commodity watch list'
+        expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
+        choose('no')
+        click_button 'Confirm'
+        expect(page).to have_content('Your tariff watch lists')
+      end
+
+      it 'errors if user attempts to unsubscribe without selecting an option' do
+        go_to_watch_list
+        click_link 'Unsubscribe from commodity watch list'
+        expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
+        click_button 'Confirm'
+        expect(page).to have_content('Select yes if you want to unsubscribe from your commodity watch list')
+      end
+
+      it 'errors if unsubscription fails' do
+        allow(Subscription).to receive_messages(find: subscription, delete: false)
+        go_to_watch_list
+        click_link 'Unsubscribe from commodity watch list'
+        expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
+        choose('yes')
+        click_button 'Confirm'
+        expect(page).to have_content('There was an error unsubscribing you. Please try again.')
+      end
+    end
+
+    describe 'when there are current measures changes in the tariff' do
+      let(:as_of) { Date.current - 1.day }
+      let(:measure_change) { build_paginated_measure_change.first }
+      let(:grouped_measure_commodity_change) { build_paginated_measure_change.last }
+      let(:measure_changes) { [measure_change] }
+
+      def build_paginated_measure_change
+        measure_change = build(
+          :grouped_measure_change, :import, :with_uk_area,
+          grouped_measure_commodity_changes: [attributes_for(:grouped_measure_commodity_change)]
+        )
+
+        paginated_children = build(:kaminari, collection: measure_change.grouped_measure_commodity_changes)
+        measure_change.instance_variable_set(:@grouped_measure_commodity_changes, paginated_children)
+
+        commodity_change = build(:grouped_measure_commodity_change)
+        commodity_change.instance_variable_set(:@grouped_measure_change, measure_change)
+
+        [measure_change, commodity_change]
+      end
+
+      before do
+        allow(User).to receive(:find).and_return(user)
+        allow(Subscription).to receive(:find).and_return(subscription)
+        allow(TariffChanges::GroupedMeasureChange).to receive_messages(all: measure_changes, find: measure_change)
+        allow(TariffChanges::GroupedMeasureCommodityChange).to receive(:find).and_return(grouped_measure_commodity_change)
+
+        go_to_watch_list
+      end
+
+      it 'has a link to download tariff changes as a spreadsheet' do
+        expect(page).to have_link('Download tariff changes as spreadsheet', href: %r{/subscriptions/mycommodities/download\?as_of=#{as_of}})
+      end
+
+      it 'no commodity changes are shown' do
+        heading = page.find('h4', text: 'Changes to your commodities:')
+        expect(heading.sibling('p')).to have_content('No changes published')
+      end
+
+      it 'shows a measures table row with a 1 commodity link' do
+        measures_heading = page.find('h4', text: 'Changes to your measures:')
+        measures_table = measures_heading.sibling('table.govuk-table')
+
+        within(measures_table) do
+          expect(page).to have_css('td.govuk-table__cell', text: 'Import')
+          expect(page).to have_link('1 commodity', href: %r{/subscriptions/grouped_measure_changes/.+\?as_of=#{as_of}})
+        end
+      end
+
+      it 'drills down to the measure change' do
+        click_link '1 commodity', href: %r{/subscriptions/grouped_measure_changes/.+\?as_of=#{as_of}}
+        expect(page).to have_content('Imports from')
+        expect(page).to have_content('Total commodities affected: 1')
+        click_link '2 changes'
+        expect(page).to have_content('1234567890')
+        expect(page).to have_content('Impacted trades')
+        expect(page).to have_content('Impacted measures')
       end
     end
   end
