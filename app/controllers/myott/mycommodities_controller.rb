@@ -20,8 +20,8 @@ module Myott
 
     def index
       @meta = metadata_from_subscription
-      @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
-      @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
+      @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+      @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
     end
 
     def create
@@ -42,7 +42,7 @@ module Myott
     end
 
     def download
-      file_data = TariffChanges::TariffChange.download_file(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
+      file_data = TariffChanges::TariffChange.download_file(user_id_token, { as_of: as_of.to_fs(:dashed) })
 
       headers['Content-Disposition'] = file_data[:content_disposition]
       headers['Content-Type'] = file_data[:content_type]
