@@ -41,8 +41,8 @@ variable "memory" {
   type        = number
 }
 
-variable "scheduled_actions_enabled" {
-  description = "Enable scheduled scaling actions."
-  type        = bool
-  default     = false
-}
+# variable "scheduled_actions_enabled" {
+#   description = "Enable scheduled scaling actions."
+#   type        = bool
+#   default     = false
+# }
