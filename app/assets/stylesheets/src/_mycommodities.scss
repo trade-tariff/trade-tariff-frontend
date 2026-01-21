@@ -13,7 +13,6 @@
   .clickable-area {
     cursor: pointer;
     padding: govuk-spacing(1);
-    margin: -#{govuk-spacing(1)};
 
     &.disabled {
       cursor: default;
