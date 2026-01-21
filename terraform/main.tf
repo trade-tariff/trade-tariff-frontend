@@ -30,6 +30,17 @@ module "service" {
   min_capacity   = var.min_capacity
   max_capacity   = var.max_capacity
 
+  autoscaling_metrics = {
+    cpu = {
+      metric_type  = "ECSServiceAverageCPUUtilization"
+      target_value = 50
+    }
+    memory = {
+      metric_type  = "ECSServiceAverageMemoryUtilization"
+      target_value = 65
+    }
+  }
+
   enable_target_tracking_cpu    = true
   enable_target_tracking_memory = false
 
