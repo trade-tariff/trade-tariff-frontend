@@ -77,13 +77,13 @@ module Myott
     end
 
     def metadata_from_subscription
-      meta = current_subscription('my_commodities')[:meta]
+      counts = current_subscription('my_commodities')[:meta][:counts]
 
       OpenStruct.new(
-        active: meta['active'],
-        expired: meta['expired'],
-        invalid: meta['invalid'],
-        total: meta.values.sum,
+        active: counts['active'],
+        expired: counts['expired'],
+        invalid: counts['invalid'],
+        total: counts['total'],
       )
     end
 
