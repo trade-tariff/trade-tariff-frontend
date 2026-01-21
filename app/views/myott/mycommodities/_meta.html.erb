@@ -3,19 +3,21 @@
     <h2 class="govuk-heading-l">Total commodities uploaded: <%= number_with_delimiter(meta.total) %></h2>
   </div>
 </div>
-<div class="govuk-grid-row ">
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-one-third">
     <div class="category_container">
       <strong>Errors from commodity upload:</strong>
-      <br />
-      <%= link_to number_with_delimiter(meta.invalid), invalid_myott_mycommodities_path %>
+      <div class="clickable-area" onclick="window.location.href='<%= invalid_myott_mycommodities_path %>'">
+        <%= number_with_delimiter(meta.invalid) %>
+      </div>
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
     <div class="category_container">
       <strong>Expired commodity codes:</strong>
-      <br />
-      <%= link_to number_with_delimiter(meta.expired), expired_myott_mycommodities_path %>
+      <div class="clickable-area" onclick="window.location.href='<%= expired_myott_mycommodities_path %>'">
+        <%= number_with_delimiter(meta.expired) %>
+      </div>
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
@@ -25,7 +27,9 @@
       <% if meta.active.zero? %>
         0
       <% else %>
-        <%= link_to number_with_delimiter(meta.active), active_myott_mycommodities_path %>
+        <div class="clickable-area"onclick="window.location.href='<%= active_myott_mycommodities_path %>'">
+          <%= number_with_delimiter(meta.active) %>
+        </div>
       <% end %>
     </div>
   </div>

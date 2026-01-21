@@ -89,8 +89,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
     end
 
     def go_to_active_commodities
-      go_to_watch_list
-      click_link '1', href: active_myott_mycommodities_path
+      visit active_myott_mycommodities_path
       expect(page).to have_title('Active commodities')
       expect(page).to have_content('Active commodities: 1')
     end
