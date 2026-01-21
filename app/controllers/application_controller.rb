@@ -5,11 +5,9 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include BasicSessionAuth
   include CacheHelper
-  include FeatureHelper
   include TradeTariffFrontend::ViewContext::Controller
 
   before_action :maintenance_mode_if_active
-  before_action :set_identifier
   before_action :set_cache
   before_action :set_last_updated
   before_action :set_path_info
@@ -45,14 +43,9 @@ class ApplicationController < ActionController::Base
                 :feature_enabled?,
                 :session_identifier
 
-  def set_identifier
-    unless session && session.key?('id')
-      session['id'] = SecureRandom.uuid
-    end
-  end
-
   def session_identifier
-    request.session['id']
+    # At some point this may well become a user ID when behind auth
+    request.session['id'] ||= SecureRandom.uuid
   end
 
   def set_last_updated
