@@ -19,7 +19,7 @@ module Myott
     end
 
     def index
-      @meta = metadata_from_subscription
+      @meta = counts_from_subscription_metadata
       @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
       @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
     end
@@ -76,14 +76,15 @@ module Myott
       SubscriptionTarget.all(current_subscription('my_commodities').resource_id, user_id_token, params)
     end
 
-    def metadata_from_subscription
-      counts = current_subscription('my_commodities')[:meta][:counts]
+    def counts_from_subscription_metadata
+      subscription = current_subscription('my_commodities')
+      counts = subscription&.dig(:meta, :counts) || {}
 
       OpenStruct.new(
-        active: counts['active'],
-        expired: counts['expired'],
-        invalid: counts['invalid'],
-        total: counts['total'],
+        active: counts['active'] || 0,
+        expired: counts['expired'] || 0,
+        invalid: counts['invalid'] || 0,
+        total: counts['total'] || 0,
       )
     end
 
