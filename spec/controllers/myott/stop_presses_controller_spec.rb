@@ -21,7 +21,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
     end
 
     context 'when current_user is valid' do
-      let(:subscription) { build(:subscription, subscription_type: 'stop_press') }
+      let(:subscription) { build(:subscription, :stop_press) }
 
       before do
         stub_authenticated_user(user)
@@ -191,7 +191,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
     it_behaves_like 'a protected myott page', :confirmation
 
     context 'when current_user is valid' do
-      let(:subscription) { build(:subscription, subscription_type: 'stop_press') }
+      let(:subscription) { build(:subscription, :stop_press) }
 
       before do
         stub_authenticated_user(user)

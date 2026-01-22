@@ -19,7 +19,7 @@ module Myott
     end
 
     def index
-      @meta = counts_from_subscription_metadata
+      @commodity_code_counts = counts_from_subscription_metadata
       @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
       @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
     end

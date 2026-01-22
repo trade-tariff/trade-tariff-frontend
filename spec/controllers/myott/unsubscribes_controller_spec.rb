@@ -1,22 +1,22 @@
 RSpec.describe Myott::UnsubscribesController, type: :controller do
   include MyottAuthenticationHelpers
 
-  let(:subscription) { build(:subscription, subscription_type: 'stop_press') }
+  let(:subscription) { build(:subscription, :stop_press) }
 
   describe 'GET #show' do
     before do
-      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription['subscription_type'])
-      get :show, params: { id: subscription.uuid, subscription_type: subscription['subscription_type'] }
+      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription.subscription_type_name)
+      get :show, params: { id: subscription.uuid, subscription_type: subscription.subscription_type_name }
     end
 
     it 'renders the subscription-specific template' do
-      expect(response).to render_template("myott/unsubscribes/#{subscription['subscription_type']}")
+      expect(response).to render_template("myott/unsubscribes/#{subscription.subscription_type_name}")
     end
   end
 
   describe 'DELETE #destroy' do
     before do
-      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription['subscription_type'])
+      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription.subscription_type_name)
     end
 
     context 'when subscription_type is stop_press' do
@@ -24,20 +24,20 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
         it 'redirects to the confirmation page' do
           allow(Subscription).to receive(:delete).with(subscription.uuid).and_return(true)
           delete :destroy, params: { id: subscription.uuid }
-          expect(response).to redirect_to(confirmation_myott_unsubscribes_path(subscription_type: subscription['subscription_type']))
+          expect(response).to redirect_to(confirmation_myott_unsubscribes_path(subscription_type: subscription.subscription_type_name))
         end
       end
     end
 
     context 'when subscription_type is my_commodities' do
-      let(:subscription) { build(:subscription, subscription_type: 'my_commodities') }
+      let(:subscription) { build(:subscription, :my_commodities) }
 
       context 'when user confirms' do
         it 'redirects to the confirmation page' do
           allow(Subscription).to receive(:delete).with(subscription.uuid).and_return(true)
           allow(controller).to receive_messages(user_declined?: false, user_confirmed?: true)
           delete :destroy, params: { id: subscription.uuid }
-          expect(response).to redirect_to(confirmation_myott_unsubscribes_path(subscription_type: subscription['subscription_type']))
+          expect(response).to redirect_to(confirmation_myott_unsubscribes_path(subscription_type: subscription.subscription_type_name))
         end
       end
 
@@ -89,11 +89,11 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
   describe 'GET #confirmation' do
     before do
       cookies[:id_token] = 'test_uuid'
-      get :confirmation, params: { subscription_type: subscription['subscription_type'] }
+      get :confirmation, params: { subscription_type: subscription.subscription_type_name }
     end
 
     it 'assigns the subscription_type' do
-      expect(assigns(:subscription_type)).to eq(subscription['subscription_type'])
+      expect(assigns(:subscription_type)).to eq(subscription.subscription_type_name)
     end
 
     it 'deletes the subscription_uuid cookie' do
@@ -112,7 +112,7 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
       cookies_spy = instance_spy(ActionDispatch::Cookies::CookieJar)
       allow(controller).to receive(:cookies).and_return(cookies_spy)
 
-      get :confirmation, params: { subscription_type: subscription['subscription_type'] }
+      get :confirmation, params: { subscription_type: subscription.subscription_type_name }
 
       expect(cookies_spy).to have_received(:delete).with(:id_token, hash_including(domain: :all))
       expect(cookies_spy).to have_received(:delete).with(:refresh_token, hash_including(domain: :all))

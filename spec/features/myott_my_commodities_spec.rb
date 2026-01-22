@@ -1,25 +1,21 @@
 require 'spec_helper'
 
 RSpec.describe 'Myott my commodities subscription', type: :feature do
+  let(:subscription_hash) do
+    {
+      'id' => '123',
+      'subscription_type' => 'my_commodities',
+      'active' => true,
+    }
+  end
+
+  let(:new_user) { build(:user, subscriptions: []) }
+  let(:subscribed_user) { build(:user, subscriptions: [subscription_hash]) }
+  let(:subscription) { build(:subscription, :my_commodities) }
+
   describe 'new subscriber' do
-    let(:user) do
-      build(:user,
-            subscriptions: [])
-    end
-
-    let(:updated_user) do
-      build(:user,
-            subscriptions: [
-              { 'id' => '123', 'subscription_type' => 'my_commodities', 'active' => true },
-            ])
-    end
-    let(:subscription) do
-      build(:subscription, active: true, meta: { active: 1, expired: 1, invalid: 1 },
-                           subscription_type: { 'name' => Subscription::SUBSCRIPTION_TYPES[:my_commodities] })
-    end
-
     before do
-      allow(User).to receive(:find).and_return(user, user, updated_user)
+      allow(User).to receive(:find).and_return(new_user, new_user, subscribed_user)
       allow(User).to receive(:update).and_return(true)
       allow(Subscription).to receive(:find).and_return(nil, subscription)
       allow(Subscription).to receive(:batch).and_return(true)
@@ -65,16 +61,6 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
   end
 
   describe 'returning subscriber' do
-    let(:user) do
-      build(:user,
-            subscriptions: [
-              { 'id' => '123', 'subscription_type' => 'my_commodities', 'active' => true },
-            ])
-    end
-    let(:subscription) do
-      build(:subscription, active: true, meta: { active: 1, expired: 1, invalid: 1 },
-                           subscription_type: { 'name' => Subscription::SUBSCRIPTION_TYPES[:my_commodities] })
-    end
     let(:targets) do
       target_collection = build_list(:subscription_target, 1)
       build(:kaminari, collection: target_collection)
@@ -90,14 +76,14 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
 
     def go_to_active_commodities
       go_to_watch_list
-      click_link '1', href: active_myott_mycommodities_path
+      click_link '3', href: active_myott_mycommodities_path
       expect(page).to have_title('Active commodities')
       expect(page).to have_content('Active commodities: 1')
     end
 
     describe 'updating a commodity watch list' do
       before do
-        allow(User).to receive_messages(find: user, update: true)
+        allow(User).to receive_messages(find: subscribed_user, update: true)
         allow(Subscription).to receive_messages(find: subscription, batch: true)
         allow(SubscriptionTarget).to receive(:all).and_return(targets)
       end
@@ -114,7 +100,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
 
     describe 'unsubscribing from a commodity watch list' do
       before do
-        allow(User).to receive(:find).and_return(user)
+        allow(User).to receive_messages(find: subscribed_user, update: true)
         allow(Subscription).to receive_messages(find: subscription, delete: true)
       end
 
@@ -177,7 +163,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
       end
 
       before do
-        allow(User).to receive(:find).and_return(user)
+        allow(User).to receive(:find).and_return(subscribed_user)
         allow(Subscription).to receive(:find).and_return(subscription)
         allow(TariffChanges::GroupedMeasureChange).to receive_messages(all: measure_changes, find: measure_change)
         allow(TariffChanges::GroupedMeasureCommodityChange).to receive(:find).and_return(grouped_measure_commodity_change)
