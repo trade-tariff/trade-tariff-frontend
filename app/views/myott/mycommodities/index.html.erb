@@ -28,9 +28,7 @@
           <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Manage your commodity subscription</h2>
           <div class="gouk-body">
             <p>
-              You are subscribed to revieve email notifications about your selected commodities.
-              <br />
-              Notifications will be sent to <strong><%= @current_user.email %></strong>
+              You are subscribed to email notifications sent to <strong><%= @current_user.email %></strong>
             </p>
             <p>
               <a href="<%= myott_unsubscribe_path(current_subscription('my_commodities').resource_id) %>">
