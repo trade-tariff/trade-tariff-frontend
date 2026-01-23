@@ -35,7 +35,8 @@ class CommodityCodesExtractionService
       when 'text/csv'
         CSV.parse(file.read).map { |row| row[0] }
       else
-        Roo::Spreadsheet.open(file).sheet(0).map { |row| row[0] }
+        sheet = Roo::Spreadsheet.open(file).sheet(0)
+        sheet.last_row ? sheet.map { |row| row[0] } : []
       end
 
     rows.filter_map do |value|
