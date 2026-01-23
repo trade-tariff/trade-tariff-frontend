@@ -49,7 +49,7 @@ RSpec.describe CommodityCodesExtractionService do
 
       it { is_expected.not_to be_success }
       it { expect(result.codes).to eq([]) }
-      it { expect(result.error_message).to eq('No commodities uploaded, please ensure valid commodity codes are in column A') }
+      it { expect(result.error_message).to eq('Selected file has no valid commodity codes in column A') }
     end
 
     context 'when the file is a valid Excel file with valid codes' do
@@ -76,7 +76,7 @@ RSpec.describe CommodityCodesExtractionService do
 
       it { is_expected.not_to be_success }
       it { expect(result.codes).to eq([]) }
-      it { expect(result.error_message).to eq('No commodities uploaded, please ensure valid commodity codes are in column A') }
+      it { expect(result.error_message).to eq('Selected file has no valid commodity codes in column A') }
     end
   end
 
@@ -90,6 +90,6 @@ RSpec.describe CommodityCodesExtractionService do
 
     it { is_expected.not_to be_success }
     it { expect(result.codes).to eq([]) }
-    it { expect(result.error_message).to eq('No commodities uploaded, please ensure valid commodity codes are in column A') }
+    it { expect(result.error_message).to eq('Selected file has no valid commodity codes in column A') }
   end
 end

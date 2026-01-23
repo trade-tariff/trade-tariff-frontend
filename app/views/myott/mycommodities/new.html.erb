@@ -1,45 +1,51 @@
-<% myott_page_title "Upload commodities", error: @alert %>
+<% myott_page_title "Upload commodities", error: @upload_form&.errors&.any? %>
 <div class="govuk-body">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <% if current_subscription('my_commodities') %>
-        <h1 class="govuk-heading-l">Replace all commodities</h1>
-        <h2 class="govuk-heading-m">Do not just upload the new commodity codes you’re interested in.</h2>
-        <p>You must upload a spreadsheet of all the commodity codes you want on your watch list.</p>
-      <% else %>
-        <h1 class="govuk-heading-l">Upload the commodity codes you want tariff updates about</h1>
-      <% end %>
-      <p>Before uploading, make sure the file meets the following criteria:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>Spreadsheet in a CSV or XLSX format</li>
-        <li>10 digit Commodity codes listed in column A, with no data in any other columns</li>
-        <li>No headings or additional information, like commodity name</li>
-      </ul>
-      <p>There is no limit on how many commodity codes can be added to your watch list.</p>
+      <%= form_with model: @upload_form,
+                    url: myott_mycommodities_path,
+                    method: :post,
+                    local: true,
+                    multipart: true,
+                    builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
 
-      <p class="govuk-inset-text">You can add or remove commodities from your watch list at any time</p>
+        <%= f.govuk_error_summary %>
 
-      <%= form_with url: myott_mycommodities_path, method: :post, local: true, :multipart => true do %>
-        <fieldset class="govuk-fieldset">
-          <% if flash.now[:select_error] %>
+        <% if current_subscription('my_commodities') %>
+          <h1 class="govuk-heading-l">Replace all commodities</h1>
+          <h2 class="govuk-heading-m">Do not just upload the new commodity codes you’re interested in.</h2>
+          <p>You must upload a spreadsheet of all the commodity codes you want on your watch list.</p>
+        <% else %>
+          <h1 class="govuk-heading-l">Upload the commodity codes you want tariff updates about</h1>
+        <% end %>
+        <p>Before uploading, make sure the file meets the following criteria:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Spreadsheet in a CSV or XLSX format</li>
+          <li>10 digit Commodity codes listed in column A, with no data in any other columns</li>
+          <li>No headings or additional information, like commodity name</li>
+        </ul>
+        <p>There is no limit on how many commodity codes can be added to your watch list.</p>
+
+        <p class="govuk-inset-text">You can add or remove commodities from your watch list at any time</p>
+
+        <div class="govuk-form-group <%= 'govuk-form-group--error' if @upload_form.errors[:file].any? %>">
+          <h2 class="govuk-label-wrapper">
+            <label class="govuk-label govuk-label--m" for="fileUpload1">
+              Upload a file
+            </label>
+          </h2>
+          <% if @upload_form.errors[:file].any? %>
             <p class="govuk-error-message">
-              <%= flash.now[:select_error] %>
+              <span class="govuk-visually-hidden">Error:</span> <%= @upload_form.errors[:file].first %>
             </p>
           <% end %>
-          <div class="govuk-form-group">
-            <label class="govuk-label" for="file-upload-1">
-              <h2 class="govuk-heading-m">Upload a file</h2>
-            </label>
-            <div
-              class="govuk-drop-zone"
-              data-module="govuk-file-upload">
-              <input class="govuk-file-upload" id="file-upload-1" name="fileUpload1" type="file">
-            </div>
+          <div class="govuk-drop-zone" data-module="govuk-file-upload">
+            <%= f.file_field :file, class: "govuk-file-upload #{'govuk-file-upload--error' if @upload_form.errors[:file].any?}", id: "fileUpload1" %>
           </div>
-        </fieldset>
+        </div>
 
         <div class="govuk-button-group">
-          <%= submit_tag "Continue", class: "govuk-button govuk-!-margin-top-4" %>
+          <%= f.submit "Continue", class: "govuk-button govuk-!-margin-top-4" %>
           <% if current_subscription('my_commodities') %>
             <%= link_to('Cancel', myott_mycommodities_path, class: 'govuk-link govuk-!-margin-left-4') %>
           <% else %>

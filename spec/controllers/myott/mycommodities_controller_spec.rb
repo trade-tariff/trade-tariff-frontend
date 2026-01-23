@@ -173,11 +173,11 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
       context 'when there is no file' do
         before do
-          post :create, params: { fileUpload1: nil }
+          post :create, params: { myott_commodity_upload_form: { file: nil } }
         end
 
-        it 'sets an alert' do
-          expect(assigns(:alert)).to eq('Please upload a file using the Choose file button or drag and drop.')
+        it 'adds a validation error to the form' do
+          expect(assigns(:upload_form).errors[:file]).to include('Select a file in a CSV or XLSX format')
         end
 
         it 'renders the new template again' do
@@ -189,11 +189,11 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
         let(:invalid_file) { fixture_file_upload('myott/mycommodities_files/invalid_file_type.txt', 'text/plain') }
 
         before do
-          post :create, params: { fileUpload1: invalid_file }
+          post :create, params: { myott_commodity_upload_form: { file: invalid_file } }
         end
 
-        it 'sets an alert' do
-          expect(assigns(:alert)).to eq('Please upload a csv/excel file')
+        it 'adds a validation error to the form' do
+          expect(assigns(:upload_form).errors[:file]).to include('Selected file must be in a CSV or XLSX format')
         end
 
         it 'renders the new template again' do
