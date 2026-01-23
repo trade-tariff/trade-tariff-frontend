@@ -61,8 +61,8 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       end
 
       context 'when my_commodities is enabled' do
-        let(:stop_press_subscription) { build(:subscription, subscription_type: 'stop_press') }
-        let(:my_commodities_subscription) { build(:subscription, subscription_type: 'my_commodities') }
+        let(:stop_press_subscription) { build(:subscription, :stop_press) }
+        let(:my_commodities_subscription) { build(:subscription, :my_commodities) }
 
         before do
           allow(TradeTariffFrontend).to receive(:my_commodities?).and_return(true)

@@ -6,9 +6,7 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
   describe 'new subscriber' do
     let(:user) do
       build(:user,
-            subscriptions: [
-              { 'id' => '123', 'subscription_type' => 'stop_press', 'active' => false },
-            ])
+            subscriptions: [])
     end
 
     let(:updated_user) do
@@ -17,7 +15,7 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
               { 'id' => '123', 'subscription_type' => 'stop_press', 'active' => true },
             ])
     end
-    let(:subscription) { build(:subscription, active: true, subscription_type: 'stop_press') }
+    let(:subscription) { build(:subscription, :stop_press) }
 
     before do
       allow(User).to receive(:find).and_return(user, updated_user)
@@ -98,11 +96,16 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
     end
 
     let(:subscription) do
-      Subscription.new(subscription_hash)
+      build(:subscription, :stop_press,
+            meta: {
+              published: { yesterday: 3 },
+              chapters: chapter_ids.present? ? chapter_ids.split(',').length : 0,
+            })
     end
 
     before do
-      allow(User).to receive_messages(find: user, update: true)
+      allow(User).to receive_messages(update: true)
+      allow(User).to receive(:find).with(nil, any_args).and_return(user)
       allow(Subscription).to receive(:find).and_return(subscription)
     end
 
