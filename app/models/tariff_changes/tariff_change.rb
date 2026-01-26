@@ -4,7 +4,7 @@ module TariffChanges
 
     set_collection_path '/uk/user/tariff_changes'
 
-    attr_accessor :classification_description, :goods_nomenclature_item_id, :date_of_effect
+    attr_accessor :classification_description, :goods_nomenclature_item_id, :date_of_effect, :date_of_effect_visible
 
     def self.download_file(token, opts = {})
       path = "#{collection_path}/download"
