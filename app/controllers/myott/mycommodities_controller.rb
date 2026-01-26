@@ -4,7 +4,9 @@ module Myott
       redirect_to new_myott_mycommodity_path unless current_subscription('my_commodities')
     end
 
-    def new; end
+    def new
+      @upload_form = Myott::CommodityUploadForm.new
+    end
 
     def active
       @targets = get_subscription_targets('active')
@@ -25,11 +27,17 @@ module Myott
     end
 
     def create
+      @upload_form = Myott::CommodityUploadForm.new(upload_params)
+
+      unless @upload_form.valid?
+        render :new and return
+      end
+
       new_subscriber = current_subscription('my_commodities').nil?
-      result = CommodityCodesExtractionService.new(params[:fileUpload1]).call
+      result = CommodityCodesExtractionService.new(@upload_form.file).call
 
       unless result.success?
-        @alert = result.error_message
+        @upload_form.errors.add(:file, result.error_message)
         render :new and return
       end
 
@@ -86,6 +94,10 @@ module Myott
         invalid: counts['invalid'] || 0,
         total: counts['total'] || 0,
       )
+    end
+
+    def upload_params
+      params.fetch(:myott_commodity_upload_form, {}).permit(:file)
     end
 
     def as_of

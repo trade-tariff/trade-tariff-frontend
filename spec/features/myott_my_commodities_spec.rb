@@ -41,21 +41,21 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
       it 'returns an error if there is no file attached' do
         go_to_upload_page
         click_button 'Continue'
-        expect(page).to have_content('Please upload a file using the Choose file button or drag and drop.')
+        expect(page).to have_content('Select a file in a CSV or XLSX format')
       end
 
       it 'returns an error if the file type is invalid' do
         go_to_upload_page
         attach_file 'fileUpload1', Rails.root.join('spec/fixtures/myott/mycommodities_files/invalid_file_type.txt')
         click_button 'Continue'
-        expect(page).to have_content('Please upload a csv/excel file')
+        expect(page).to have_content('Selected file must be in a CSV or XLSX format')
       end
 
       it 'returns an error if there are no commodity codes in the file' do
         go_to_upload_page
         attach_file 'fileUpload1', Rails.root.join('spec/fixtures/myott/mycommodities_files/invalid_csv_file.csv')
         click_button 'Continue'
-        expect(page).to have_content('No commodities uploaded, please ensure valid commodity codes are in column A')
+        expect(page).to have_content('Selected file has no valid commodity codes in column A')
       end
     end
   end
