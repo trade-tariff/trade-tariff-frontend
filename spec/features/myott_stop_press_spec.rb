@@ -44,8 +44,8 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
 
         click_button 'Continue'
 
-        expect(page).to have_title('Subscription updated')
-        expect(page).to have_content('You have updated your subscription')
+        expect(page).to have_title('Stop Press watch list updated')
+        expect(page).to have_content('You have updated your Stop Press watch list')
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
         expect(page).not_to have_content(chapter3.to_s)
         click_button 'Continue'
 
-        expect(page).to have_content('You have updated your subscription')
+        expect(page).to have_content('You have updated your Stop Press watch list')
       end
     end
   end
