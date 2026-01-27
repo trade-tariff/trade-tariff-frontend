@@ -15,7 +15,8 @@ class GoodsNomenclature
                 :heading_id,
                 :chapter_id,
                 :description_plain,
-                :declarable
+                :declarable,
+                :score
 
   has_many :ancestors, polymorphic: true
 

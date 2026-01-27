@@ -1,8 +1,11 @@
 module ApiResponsesHelper
   # Wrapper around WebMock's stub_request with defaults that apply to all our api requests
-  def stub_api_request(endpoint, method = :get, backend: nil)
+  def stub_api_request(endpoint, method = :get, backend: nil, internal: false)
     backend_url = if backend
                     TradeTariffFrontend::ServiceChooser.service_choices[backend]
+                  elsif internal
+                    TradeTariffFrontend::ServiceChooser.api_host
+                      .sub(%r{/api\b}, '/internal')
                   else
                     TradeTariffFrontend::ServiceChooser.api_host
                   end

@@ -138,6 +138,10 @@ class ApplicationController < ActionController::Base
   def set_path_info
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
                    faq_send_feedback_path: green_lanes_send_feedback_path }
+
+    if TradeTariffFrontend.internal_search_enabled?
+      @path_info[:internal_search_suggestions_path] = internal_search_suggestions_path(format: :json)
+    end
   end
 
   def country
