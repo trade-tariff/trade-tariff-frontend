@@ -238,11 +238,13 @@ en:
     myott:
       watchlists: Your watch lists
       mycommodities: Commodity watch list
+      stop_press: Stop Press watch list
       active: Active commodities
       expired: Expired commodities
       invalid: Errors from commodity uploads
       ending: Changes to end date
       classification: Changes to classification
+      unsubscribe: Unsubscribe
 
   navigation:
     back: Back
