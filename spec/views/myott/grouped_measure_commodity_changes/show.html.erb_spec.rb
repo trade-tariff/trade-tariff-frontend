@@ -4,7 +4,7 @@ RSpec.describe 'myott/grouped_measure_commodity_changes/show.html.erb', type: :v
   let(:impacted_measures) do
     {
       'Preferential tariff quota' => [
-        { 'date_of_effect' => '2025-12-01', 'change_type' => 'Measure will begin' },
+        { 'date_of_effect' => '2025-12-01', 'date_of_effect_visible' => '2025-12-02', 'change_type' => 'Measure will begin' },
       ],
     }
   end
@@ -30,7 +30,10 @@ RSpec.describe 'myott/grouped_measure_commodity_changes/show.html.erb', type: :v
 
   before do
     assign(:grouped_measure_commodity_changes, grouped_measure_commodity_change)
-    allow(view).to receive_messages(as_of: Date.new(2025, 11, 21), commodity_path: '/commodities/1234567890?day=1&month=12&year=2025')
+    allow(view).to receive(:as_of).and_return(Date.new(2025, 11, 21))
+    allow(view).to receive(:commodity_path) do |id, params|
+      "/commodities/#{id}?day=#{params[:day]}&month=#{params[:month]}&year=#{params[:year]}"
+    end
     render
   end
 
@@ -71,7 +74,7 @@ RSpec.describe 'myott/grouped_measure_commodity_changes/show.html.erb', type: :v
   end
 
   it 'renders the link to the commodity' do
-    expect(rendered).to have_link('View commodity on 01/12/2025', href: '/commodities/1234567890?day=1&month=12&year=2025')
+    expect(rendered).to have_link('View commodity on 02/12/2025', href: '/commodities/1234567890?day=2&month=12&year=2025')
   end
 
   it 'does not render an additional code column when none are present' do
@@ -82,8 +85,8 @@ RSpec.describe 'myott/grouped_measure_commodity_changes/show.html.erb', type: :v
     let(:impacted_measures) do
       {
         'Preferential tariff quota' => [
-          { 'date_of_effect' => '2025-12-01', 'change_type' => 'Measure will begin', 'additional_code' => 'AC01' },
-          { 'date_of_effect' => '2025-12-02', 'change_type' => 'Measure will change', 'additional_code' => nil },
+          { 'date_of_effect' => '2025-12-01', 'date_of_effect_visible' => '2025-12-02', 'change_type' => 'Measure will begin', 'additional_code' => 'AC01' },
+          { 'date_of_effect' => '2025-12-02', 'date_of_effect_visible' => '2025-12-03', 'change_type' => 'Measure will change', 'additional_code' => nil },
         ],
       }
     end
