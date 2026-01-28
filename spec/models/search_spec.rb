@@ -172,4 +172,108 @@ RSpec.describe Search do
       it { is_expected.to be false }
     end
   end
+
+  describe '#perform' do
+    context 'when internal_search is true and INTERNAL_SEARCH_ENABLED is true' do
+      subject(:perform_search) do
+        search = described_class.new(q: 'horses')
+        search.internal_search = true
+        search.perform
+      end
+
+      let(:internal_response_body) do
+        {
+          'data' => [
+            {
+              'id' => '123',
+              'type' => 'commodity',
+              'attributes' => {
+                'goods_nomenclature_item_id' => '0101210000',
+                'producline_suffix' => '80',
+                'goods_nomenclature_class' => 'Commodity',
+                'description' => 'Pure-bred breeding animals',
+                'formatted_description' => 'Pure-bred breeding animals',
+                'declarable' => true,
+                'score' => 12.5,
+              },
+            },
+          ],
+        }
+      end
+
+      before do
+        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(true)
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'returns an InternalSearchResult' do
+        expect(perform_search).to be_a(Search::InternalSearchResult)
+      end
+
+      it 'contains results' do
+        expect(perform_search).to be_any
+      end
+    end
+
+    context 'when internal_search is true and response is empty' do
+      subject(:perform_search) do
+        search = described_class.new(q: 'xyznonexistent')
+        search.internal_search = true
+        search.perform
+      end
+
+      before do
+        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(true)
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: { 'data' => [] }.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'returns an InternalSearchResult with none? true' do
+        expect(perform_search).to be_none
+      end
+    end
+
+    context 'when internal_search is false even though INTERNAL_SEARCH_ENABLED is true' do
+      subject(:perform_search) { described_class.new(q: 'horses').perform }
+
+      before do
+        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(true)
+        stub_api_request('search', :post).to_return(
+          jsonapi_response(:search, {
+            type: 'fuzzy_match',
+            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+          }),
+        )
+      end
+
+      it 'returns a Search::Outcome (falls back to V2)' do
+        expect(perform_search).to be_a(Search::Outcome)
+      end
+    end
+
+    context 'when INTERNAL_SEARCH_ENABLED is false' do
+      subject(:perform_search) { described_class.new(q: 'horses').perform }
+
+      before do
+        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(false)
+        stub_api_request('search', :post).to_return(
+          jsonapi_response(:search, {
+            type: 'fuzzy_match',
+            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+          }),
+        )
+      end
+
+      it 'returns a Search::Outcome' do
+        expect(perform_search).to be_a(Search::Outcome)
+      end
+    end
+  end
 end

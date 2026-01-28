@@ -8,6 +8,7 @@ class SearchController < ApplicationController
 
   def search
     @search.q = params[:q] if params[:q]
+    @search.internal_search = params[:internal_search] == 'true'
 
     @results = @search.perform
 
@@ -37,6 +38,34 @@ class SearchController < ApplicationController
   def suggestions
     search_term = Regexp.escape(params[:term].to_s.strip)
     matched_suggestions = SearchSuggestion.all(q: search_term)
+    results = matched_suggestions.map do |s|
+      {
+        id: s.value,
+        text: s.value,
+        query: s.query,
+        resource_id: s.resource_id,
+        formatted_suggestion_type: s.formatted_suggestion_type,
+      }
+    end
+
+    render json: { results: }
+  end
+
+  def internal_suggestions
+    unless TradeTariffFrontend.internal_search_enabled?
+      return suggestions
+    end
+
+    search_term = Regexp.escape(params[:term].to_s.strip)
+
+    api_host = TradeTariffFrontend::ServiceChooser.api_host
+    path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search_suggestions"
+
+    response = TradeTariffFrontend::ServiceChooser.api_client.get(path, q: search_term)
+    parsed = TariffJsonapiParser.new(response.body).parse
+    parsed = [] unless parsed.is_a?(Array)
+
+    matched_suggestions = parsed.map { |attrs| SearchSuggestion.new(attrs) }
     results = matched_suggestions.map do |s|
       {
         id: s.value,

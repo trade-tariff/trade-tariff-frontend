@@ -14,7 +14,8 @@ class Search
   attr_accessor :day,
                 :month,
                 :year,
-                :resource_id
+                :resource_id,
+                :internal_search
 
   delegate :today?, to: :date
 
@@ -28,15 +29,11 @@ class Search
   end
 
   def perform
-    response = self.class.post(
-      'search',
-      q:,
-      as_of: date.to_fs(:db),
-      resource_id:,
-    )
-    response = TariffJsonapiParser.new(response.body).parse
-
-    Outcome.new(response)
+    if internal_search && TradeTariffFrontend.internal_search_enabled?
+      perform_internal_search
+    else
+      perform_v2_search
+    end
   end
 
   def q=(term)
@@ -107,5 +104,30 @@ class Search
 
   def id
     q
+  end
+
+  private
+
+  def perform_v2_search
+    response = self.class.post(
+      'search',
+      q:,
+      as_of: date.to_fs(:db),
+      resource_id:,
+    )
+    response = TariffJsonapiParser.new(response.body).parse
+
+    Outcome.new(response)
+  end
+
+  def perform_internal_search
+    api_host = TradeTariffFrontend::ServiceChooser.api_host
+    path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
+
+    response = self.class.api.post(path, q:, as_of: date.to_fs(:db))
+    parsed = TariffJsonapiParser.new(response.body).parse
+    parsed = [] unless parsed.is_a?(Array)
+
+    InternalSearchResult.new(parsed)
   end
 end

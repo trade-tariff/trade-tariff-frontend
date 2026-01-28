@@ -147,6 +147,10 @@ module TradeTariffFrontend
     ENV['GREEN_LANES_ENABLED'].to_s == 'true'
   end
 
+  def internal_search_enabled?
+    !production?
+  end
+
   def green_lanes_api_token
     "Bearer #{ENV['GREEN_LANES_API_TOKEN']}"
   end
