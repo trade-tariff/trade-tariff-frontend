@@ -1,4 +1,4 @@
-<% myott_page_title "Subscription updated" %>
+<% myott_page_title "Stop Press watch list updated" %>
 
 <div class="govuk-width-container">
   <main class="govuk-main-wrapper govuk-main-wrapper--l" id="main-content" role="main">
@@ -6,7 +6,7 @@
       <div class="govuk-grid-column-two-thirds">
         <div class="govuk-panel govuk-panel--confirmation">
           <h1 class="govuk-panel__title">
-            You have updated your subscription
+            You have updated your Stop Press watch list
           </h1>
         </div>
         <h2 class="govuk-heading-m">What happens next</h2>
@@ -14,24 +14,8 @@
           When Stop Press updates are published by the UK Trade Tariff Service which relate to the chapters you have chosen, an email will be sent to <strong><%= current_user&.email %></strong>
         </p>
         <p class="govuk-body">
-          You can now close this window.
+          <%= link_to "View your tariff watch lists", myott_path, class: "govuk-button govuk-!-margin-top-4" %>
         </p>
-        <p class="govuk-body govuk-!-display-none"><!-- remove govuk-!-display-none for MyOTT public beta -->
-          <%= link_to 'What did you think of this service?', feedback_path, class: 'govuk-link' %>
-          (takes 30 seconds)
-        </p>
-      </div>
-    </div>
-    <!-- Call to action section to be deleted for MyOTT public beta-->
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <div class="call-to-action">
-          <h2 class="govuk-heading-m">What did you think of this pilot service?</h2>
-          <a href="https://forms.office.com/pages/responsepage.aspx?id=PPdSrBr9mkqOekokjzE54X0kqBRefDRFuf1EImP7KcNUMkxKNEhBWThHVzQwSExTVDZRT1pYU0pFRy4u&route=shorturl" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
-            Complete the survey
-            <%= render 'shared/start_arrow' %>
-          </a>
-        </div>
       </div>
     </div>
   </main>

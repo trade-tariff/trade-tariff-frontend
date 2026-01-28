@@ -22,7 +22,7 @@ module Myott
                       session[:chapter_ids].join(',')
                     end
 
-      if User.update(cookies[:id_token], chapter_ids: chapter_ids, stop_press_subscription: 'true')
+      if User.update(user_id_token, chapter_ids: chapter_ids, stop_press_subscription: 'true')
         session_chapters.delete
         redirect_to confirmation_myott_stop_press_path and return
       end

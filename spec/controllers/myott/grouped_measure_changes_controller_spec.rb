@@ -29,7 +29,7 @@ RSpec.describe Myott::GroupedMeasureChangesController, type: :controller do
         hash_including(
           page: 1,
           per_page: 10,
-          as_of: as_of.strftime('%Y-%m-%d'),
+          as_of: as_of.to_fs(:dashed),
         ),
       )
     end
@@ -43,7 +43,7 @@ RSpec.describe Myott::GroupedMeasureChangesController, type: :controller do
         hash_including(
           page: 3,
           per_page: 25,
-          as_of: as_of.strftime('%Y-%m-%d'),
+          as_of: as_of.to_fs(:dashed),
         ),
       )
     end

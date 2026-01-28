@@ -3,7 +3,7 @@ RSpec.describe Myott::GroupedMeasureCommodityChangesController, type: :controlle
 
   let(:user_id_token) { 'test-token' }
   let(:id) { 'import_IL__0807190050' }
-  let(:as_of) { Time.zone.today.strftime('%Y-%m-%d') }
+  let(:as_of) { Time.zone.today.to_fs(:dashed) }
   let(:commodity_hash) { { goods_nomenclature_item_id: '0807190050', classification_description: 'Test commodity' } }
   let(:grouped_measure_change_hash) { { trade_direction: 'import', geographical_area_description: 'Israel' } }
   let(:mock_change) do

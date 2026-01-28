@@ -10,6 +10,10 @@ on:
       - labeled
       - unlabeled
 
+concurrency:
+  group: deploy-development-full
+  cancel-in-progress: true
+
 permissions:
   contents: read
   id-token: write

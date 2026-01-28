@@ -31,10 +31,10 @@
           <% @targets.each do |target| %>
           <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-              <strong><%= target.target_object.goods_nomenclature_item_id %></strong>
+              <strong><%= target.goods_nomenclature_item_id %></strong>
             </td>
             <td class="govuk-table__cell">
-              <%= target.target_object.classification_description %>
+              <%= target.classification_description %>
             </td>
           </tr>
           <% end %>

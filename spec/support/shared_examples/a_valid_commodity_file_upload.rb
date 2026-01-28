@@ -9,7 +9,7 @@ RSpec.shared_examples 'a valid commodity file upload' do |fixture_path, content_
       allow(Subscription).to receive(:batch)
       allow(controller).to receive(:get_subscription).and_return(subscription)
 
-      post :create, params: { fileUpload1: valid_file }
+      post :create, params: { myott_commodity_upload_form: { file: valid_file } }
     end
 
     it 'does not set an alert' do
@@ -41,7 +41,7 @@ RSpec.shared_examples 'a valid commodity file upload' do |fixture_path, content_
                        .with('my_commodities')
                        .and_return(nil, subscription)
 
-      post :create, params: { fileUpload1: valid_file }
+      post :create, params: { myott_commodity_upload_form: { file: valid_file } }
     end
 
     it 'does not set an alert' do

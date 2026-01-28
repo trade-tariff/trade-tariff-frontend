@@ -14,13 +14,13 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full watch-list-container">
       <h1 class="govuk-heading-xl">Your commodity watch list</h1>
-      <%= render 'meta',  meta: @meta %>
+      <%= render 'counts',  commodity_codes: @commodity_code_counts %>
     </div>
 
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <h2 class="govuk-heading-l govuk-!-margin-top-3">Changes to your commodities and measures</h2>
-          <h3 class="govuk-heading-m">Changes published: <%= as_of.strftime("%d/%m/%Y") %></h3>
+          <h3 class="govuk-heading-m">Changes published: <%= as_of.to_fs %></h3>
           <%= render 'download' if @commodity_changes.any? || @grouped_measure_changes.any? %>
           <%= render 'commodity_changes', changes: @commodity_changes %>
           <%= render 'grouped_measure_changes', changes: @grouped_measure_changes %>
@@ -28,9 +28,7 @@
           <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Manage your commodity subscription</h2>
           <div class="gouk-body">
             <p>
-              You are subscribed to revieve email notifications about your selected commodities.
-              <br />
-              Notifications will be sent to <strong><%= @current_user.email %></strong>
+              You are subscribed to email notifications sent to <strong><%= @current_user.email %></strong>
             </p>
             <p>
               <a href="<%= myott_unsubscribe_path(current_subscription('my_commodities').resource_id) %>">

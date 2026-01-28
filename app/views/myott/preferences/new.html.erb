@@ -3,6 +3,10 @@
 <div class="govuk-body">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <% content_for :back_link do %>
+        <% back_link myott_path %>
+      <% end %>
+
       <h1 class="govuk-heading-l">Set subscription preferences</h1>
       <p>You can choose to receive updates on all tariff chapters, or  select specific tariff chapters you are interested in.</p>
       <p class="govuk-inset-text">You can change what tariff chapters you receive updates about at any time

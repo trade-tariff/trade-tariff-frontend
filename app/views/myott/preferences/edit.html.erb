@@ -1,7 +1,7 @@
 <% myott_page_title "Select chapters", error: flash.now[:alert] %>
 
 <% content_for :back_link do %>
-  <% back_link session[:all_tariff_updates] ? myott_stop_press_check_your_answers_path : myott_path %>
+  <% back_link session[:all_tariff_updates] ? check_your_answers_myott_stop_press_path : myott_stop_press_path %>
 <% end %>
 
 <div class="govuk-grid-row">

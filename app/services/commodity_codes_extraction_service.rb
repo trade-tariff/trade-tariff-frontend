@@ -21,7 +21,7 @@ class CommodityCodesExtractionService
     codes = extract_codes_from_file(@file)
 
     if codes.blank?
-      return Result.new(false, [], 'No commodities uploaded, please ensure valid commodity codes are in column A')
+      return Result.new(false, [], 'Selected file has no valid commodity codes in column A')
     end
 
     Result.new(true, codes, nil)
@@ -35,7 +35,8 @@ class CommodityCodesExtractionService
       when 'text/csv'
         CSV.parse(file.read).map { |row| row[0] }
       else
-        Roo::Spreadsheet.open(file).sheet(0).map { |row| row[0] }
+        sheet = Roo::Spreadsheet.open(file).sheet(0)
+        sheet.last_row.present? ? sheet.map { |row| row[0] } : []
       end
 
     rows.filter_map do |value|

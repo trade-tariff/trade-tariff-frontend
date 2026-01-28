@@ -10,13 +10,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
     build(:user,
           my_commodities_subscription: true)
   end
-  let(:subscription) do
-    build(:subscription,
-          active: true,
-          subscription_type: 'my_commodities',
-          metadata: { commodity_codes: %w[1111111111 22222222222 3333333333 4444444444 5555555555] },
-          meta: { active: %w[1111111111 22222222222], expired: %w[33333333333 44444444444], invalid: %w[55555555555] })
-  end
+  let(:subscription) { build(:subscription, :my_commodities) }
 
   before do
     allow(Subscription).to receive(:find).and_return(subscription)
@@ -74,10 +68,10 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
         it { is_expected.to respond_with(:success) }
 
-        it { expect(assigns(:meta).total).to eq(subscription.meta.values.flatten.size) }
-        it { expect(assigns(:meta).active).to eq(subscription.meta[:active].count) }
-        it { expect(assigns(:meta).expired).to eq(subscription.meta[:expired].count) }
-        it { expect(assigns(:meta).invalid).to eq(subscription.meta[:invalid].count) }
+        it { expect(assigns(:commodity_code_counts).total).to eq(subscription.meta[:counts]['total']) }
+        it { expect(assigns(:commodity_code_counts).active).to eq(subscription.meta[:counts]['active']) }
+        it { expect(assigns(:commodity_code_counts).expired).to eq(subscription.meta[:counts]['expired']) }
+        it { expect(assigns(:commodity_code_counts).invalid).to eq(subscription.meta[:counts]['invalid']) }
 
         it 'assigns @grouped_measure_changes' do
           expect(assigns(:grouped_measure_changes)).to eq(grouped_measure_changes)
@@ -95,6 +89,51 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
         end
 
         it { is_expected.to redirect_to(new_myott_mycommodity_path) }
+      end
+
+      context 'when subscription meta is nil' do
+        let(:subscription_with_nil_meta) do
+          build(:subscription, :my_commodities, meta: nil)
+        end
+
+        before do
+          stub_get_subscription('my_commodities', subscription_with_nil_meta)
+          allow(TariffChanges::GroupedMeasureChange).to receive(:all).and_return([])
+          allow(TariffChanges::CommodityChange).to receive(:all).and_return([])
+          get :index
+        end
+
+        it { is_expected.to respond_with(:success) }
+
+        it 'assigns default meta values', :aggregate_failures do
+          expect(assigns(:commodity_code_counts).total).to eq(0)
+          expect(assigns(:commodity_code_counts).active).to eq(0)
+          expect(assigns(:commodity_code_counts).expired).to eq(0)
+          expect(assigns(:commodity_code_counts).invalid).to eq(0)
+        end
+      end
+
+      context 'when subscription counts is missing' do
+        let(:subscription_without_counts) do
+          build(:subscription, :my_commodities,
+                meta: { some_other_key: 'value' })
+        end
+
+        before do
+          stub_get_subscription('my_commodities', subscription_without_counts)
+          allow(TariffChanges::GroupedMeasureChange).to receive(:all).and_return([])
+          allow(TariffChanges::CommodityChange).to receive(:all).and_return([])
+          get :index
+        end
+
+        it { is_expected.to respond_with(:success) }
+
+        it 'assigns default meta values', :aggregate_failures do
+          expect(assigns(:commodity_code_counts).total).to eq(0)
+          expect(assigns(:commodity_code_counts).active).to eq(0)
+          expect(assigns(:commodity_code_counts).expired).to eq(0)
+          expect(assigns(:commodity_code_counts).invalid).to eq(0)
+        end
       end
     end
   end
@@ -134,11 +173,11 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
       context 'when there is no file' do
         before do
-          post :create, params: { fileUpload1: nil }
+          post :create, params: { myott_commodity_upload_form: { file: nil } }
         end
 
-        it 'sets an alert' do
-          expect(assigns(:alert)).to eq('Please upload a file using the Choose file button or drag and drop.')
+        it 'adds a validation error to the form' do
+          expect(assigns(:upload_form).errors[:file]).to include('Select a file in a CSV or XLSX format')
         end
 
         it 'renders the new template again' do
@@ -150,11 +189,11 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
         let(:invalid_file) { fixture_file_upload('myott/mycommodities_files/invalid_file_type.txt', 'text/plain') }
 
         before do
-          post :create, params: { fileUpload1: invalid_file }
+          post :create, params: { myott_commodity_upload_form: { file: invalid_file } }
         end
 
-        it 'sets an alert' do
-          expect(assigns(:alert)).to eq('Please upload a csv/excel file')
+        it 'adds a validation error to the form' do
+          expect(assigns(:upload_form).errors[:file]).to include('Selected file must be in a CSV or XLSX format')
         end
 
         it 'renders the new template again' do

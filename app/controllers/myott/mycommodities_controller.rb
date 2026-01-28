@@ -4,7 +4,9 @@ module Myott
       redirect_to new_myott_mycommodity_path unless current_subscription('my_commodities')
     end
 
-    def new; end
+    def new
+      @upload_form = Myott::CommodityUploadForm.new
+    end
 
     def active
       @targets = get_subscription_targets('active')
@@ -19,17 +21,23 @@ module Myott
     end
 
     def index
-      @meta = metadata_from_subscription
-      @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
-      @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
+      @commodity_code_counts = counts_from_subscription_metadata
+      @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+      @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
     end
 
     def create
+      @upload_form = Myott::CommodityUploadForm.new(upload_params)
+
+      unless @upload_form.valid?
+        render :new and return
+      end
+
       new_subscriber = current_subscription('my_commodities').nil?
-      result = CommodityCodesExtractionService.new(params[:fileUpload1]).call
+      result = CommodityCodesExtractionService.new(@upload_form.file).call
 
       unless result.success?
-        @alert = result.error_message
+        @upload_form.errors.add(:file, result.error_message)
         render :new and return
       end
 
@@ -42,7 +50,7 @@ module Myott
     end
 
     def download
-      file_data = TariffChanges::TariffChange.download_file(user_id_token, { as_of: as_of.strftime('%Y-%m-%d') })
+      file_data = TariffChanges::TariffChange.download_file(user_id_token, { as_of: as_of.to_fs(:dashed) })
 
       headers['Content-Disposition'] = file_data[:content_disposition]
       headers['Content-Type'] = file_data[:content_type]
@@ -76,15 +84,20 @@ module Myott
       SubscriptionTarget.all(current_subscription('my_commodities').resource_id, user_id_token, params)
     end
 
-    def metadata_from_subscription
-      meta = current_subscription('my_commodities')[:meta]
+    def counts_from_subscription_metadata
+      subscription = current_subscription('my_commodities')
+      counts = subscription&.dig(:meta, :counts) || {}
 
       OpenStruct.new(
-        active: meta['active'].count,
-        expired: meta['expired'].count,
-        invalid: meta['invalid'].count,
-        total: meta.values.flatten.size,
+        active: counts['active'] || 0,
+        expired: counts['expired'] || 0,
+        invalid: counts['invalid'] || 0,
+        total: counts['total'] || 0,
       )
+    end
+
+    def upload_params
+      params.fetch(:myott_commodity_upload_form, {}).permit(:file)
     end
 
     def as_of
