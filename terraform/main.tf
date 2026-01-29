@@ -41,21 +41,18 @@ module "service" {
     }
   }
 
-  enable_target_tracking_cpu    = true
-  enable_target_tracking_memory = false
-
   scale_out_cooldown = 120
   scale_in_cooldown  = 300
 
   scheduled_actions_enabled = true
   scheduled_scaling_actions = {
     weekday_0700 = {
-      schedule     = "cron(0 7 ? * MON-FRI *)"  # 07:00 UTC on weekdays
+      schedule     = "cron(0 7 ? * MON-FRI *)" # 07:00 UTC on weekdays
       min_capacity = 3
       max_capacity = 20
     }
     weekend_0700 = {
-      schedule     = "cron(0 7 ? * SAT,SUN *)"  # 07:00 UTC on weekends
+      schedule     = "cron(0 7 ? * SAT,SUN *)" # 07:00 UTC on weekends
       min_capacity = 1
       max_capacity = 10
     }
