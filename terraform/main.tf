@@ -30,26 +30,16 @@ module "service" {
   min_capacity   = var.min_capacity
   max_capacity   = var.max_capacity
 
-  autoscaling_metrics = {
-    cpu = {
-      metric_type  = "ECSServiceAverageCPUUtilization"
-      target_value = 50
-    }
-    memory = {
-      metric_type  = "ECSServiceAverageMemoryUtilization"
-      target_value = 65
-    }
-  }
-
-  scale_out_cooldown = 120
-  scale_in_cooldown  = 300
+  scale_out_cooldown      = 90
+  scale_in_cooldown       = 300
+  step_scale_out_cooldown = 120
 
   scheduled_actions_enabled = true
   scheduled_scaling_actions = {
     weekday_0700 = {
       schedule     = "cron(0 7 ? * MON-FRI *)" # 07:00 UTC on weekdays
-      min_capacity = 3
-      max_capacity = 20
+      min_capacity = var.min_capacity
+      max_capacity = var.max_capacity
     }
     weekend_0700 = {
       schedule     = "cron(0 7 ? * SAT,SUN *)" # 07:00 UTC on weekends

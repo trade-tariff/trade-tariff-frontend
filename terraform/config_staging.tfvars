@@ -4,6 +4,6 @@ cpu           = 1024
 memory        = 2048
 service_count = 4
 min_capacity  = 3
-max_capacity  = 8
+max_capacity  = 10
 
 scheduled_actions_enabled = true
