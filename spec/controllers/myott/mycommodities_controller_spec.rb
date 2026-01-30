@@ -186,7 +186,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
       end
 
       context 'when the file is an invalid file type' do
-        let(:invalid_file) { fixture_file_upload('myott/mycommodities_files/invalid_file_type.txt', 'text/plain') }
+        let(:invalid_file) { fixture_file_upload('myott/mycommodities_files/invalid_file_type.xls', 'application/vnd.ms-excel') }
 
         before do
           post :create, params: { myott_commodity_upload_form: { file: invalid_file } }

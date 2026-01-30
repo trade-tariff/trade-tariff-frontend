@@ -20,7 +20,6 @@ module Myott
 
       allowed_types = [
         'text/csv',
-        'application/vnd.ms-excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       ]
 
