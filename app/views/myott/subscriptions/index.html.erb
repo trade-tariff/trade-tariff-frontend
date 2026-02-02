@@ -13,8 +13,8 @@
       <div class="app-card">
         <h2 class="govuk-heading-m app-card__heading">Commodity watch list</h2>
         <% if @my_commodities.present? %>
-          <p class="govuk-body govuk-!-static-margin-bottom-0"><strong>Changes published yesterday: <%= @my_commodities[:meta][:published][:yesterday] %></strong></p>
-          <p class="govuk-body">Total commodities selected: <%= @my_commodities[:meta][:counts][:total] %></p>
+          <p class="govuk-body govuk-!-static-margin-bottom-0"><strong>Changes published yesterday: <%= number_with_delimiter(@my_commodities[:meta][:published][:yesterday]) %></strong></p>
+          <p class="govuk-body">Total commodities selected: <%= number_with_delimiter(@my_commodities[:meta][:counts][:total]) %></p>
           <%= link_to 'View commodity watch list', myott_mycommodities_path %>
         <% else %>
           <p class="govuk-body govuk-!-static-margin-bottom-0"><strong>No commodities selected</strong></p>
