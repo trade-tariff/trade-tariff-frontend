@@ -1,7 +1,7 @@
 region        = "eu-west-2"
 environment   = "staging"
-cpu           = 1024
-memory        = 2048
+cpu           = 2048
+memory        = 4096
 service_count = 4
 min_capacity  = 3
 max_capacity  = 8
