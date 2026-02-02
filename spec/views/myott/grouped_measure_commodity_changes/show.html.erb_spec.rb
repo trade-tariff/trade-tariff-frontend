@@ -38,7 +38,7 @@ RSpec.describe 'myott/grouped_measure_commodity_changes/show.html.erb', type: :v
   end
 
   it 'renders the commodity code' do
-    expect(rendered).to match(/Commodity 1234567890/)
+    expect(rendered).to match(/Commodity: 1234567890/)
   end
 
   it 'renders the classification description' do
