@@ -46,7 +46,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
 
       it 'returns an error if the file type is invalid' do
         go_to_upload_page
-        attach_file 'fileUpload1', Rails.root.join('spec/fixtures/myott/mycommodities_files/invalid_file_type.txt')
+        attach_file 'fileUpload1', Rails.root.join('spec/fixtures/myott/mycommodities_files/invalid_file_type.xls')
         click_button 'Continue'
         expect(page).to have_content('Selected file must be in a CSV or XLSX format')
       end
