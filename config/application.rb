@@ -33,6 +33,7 @@ module TradeTariffFrontend
       #{config.root}/app/presenters
       #{config.root}/app/serializers
       #{config.root}/app/forms
+      #{config.root}/app/services
     ]
 
     config.middleware.insert_before 0, Rack::Cors do
