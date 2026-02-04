@@ -119,7 +119,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
         expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
         choose('no')
         click_button 'Confirm'
-        expect(page).to have_content('Your tariff watch lists')
+        expect(page).to have_content('Your commodity watch list')
       end
 
       it 'errors if user attempts to unsubscribe without selecting an option' do
@@ -128,6 +128,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
         expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
         click_button 'Confirm'
         expect(page).to have_content('Select yes if you want to unsubscribe from your commodity watch list')
+        expect(page).to have_link('Select yes if you want to unsubscribe from your commodity watch list', href: '#radio-buttons')
       end
 
       it 'errors if unsubscription fails' do
