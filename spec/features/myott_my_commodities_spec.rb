@@ -195,9 +195,9 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
         expect(page).to have_content('Imports from')
         expect(page).to have_content('Total commodities affected: 1')
         click_link '2 changes'
-        expect(page).to have_content('1234567890')
-        expect(page).to have_content('Impacted trades')
-        expect(page).to have_content('Impacted measures')
+        expect(page).to have_selector('h1', text: 'Commodity: 1234567890')
+        expect(page).to have_selector('h2', text: 'Trades affected')
+        expect(page).to have_selector('h2', text: 'Preferential tariff quota')
       end
     end
   end
