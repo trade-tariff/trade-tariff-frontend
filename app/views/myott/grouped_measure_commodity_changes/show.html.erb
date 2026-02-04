@@ -26,7 +26,7 @@
         Changes published: <%= as_of.to_fs %>
       </div>
 
-      <h2 class="govuk-heading-l">Impacted trades</h2>
+      <h2 class="govuk-heading-l">Trades affected</h2>
 
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
@@ -71,7 +71,6 @@
         </div>
       </dl>
 
-      <h2 class="govuk-heading-l">Impacted measures</h2>
       <% @grouped_measure_commodity_changes.impacted_measures.each do |measure_type, changes| %>
         <%= render 'impacted_measures', measure_type: measure_type, changes: changes %>
       <% end %>
