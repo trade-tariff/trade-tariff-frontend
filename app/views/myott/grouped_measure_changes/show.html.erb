@@ -22,7 +22,7 @@
       <h1 class="govuk-heading-xl"><%= @grouped_measure_changes.trade_direction_description %> from <%= @grouped_measure_changes.geographical_area_description %></h1>
 
       <div class="govuk-inset-text">
-        Changes published: <%= as_of.to_fs %>
+        Changes published: <strong><%= as_of.to_fs %></strong>
       </div>
 
       <h2 class="govuk-heading-m">Total commodities affected: <%= @commodity_changes.total_count %></h2>
