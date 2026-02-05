@@ -15,7 +15,9 @@ class Search
                 :month,
                 :year,
                 :resource_id,
-                :internal_search
+                :internal_search,
+                :answers,
+                :request_id
 
   delegate :today?, to: :date
 
@@ -124,10 +126,15 @@ class Search
     api_host = TradeTariffFrontend::ServiceChooser.api_host
     path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
 
-    response = self.class.api.post(path, q:, as_of: date.to_fs(:db))
-    parsed = TariffJsonapiParser.new(response.body).parse
-    parsed = [] unless parsed.is_a?(Array)
+    params = { q:, as_of: date.to_fs(:db) }
+    params[:answers] = answers if answers.present?
+    params[:request_id] = request_id if request_id.present?
 
-    InternalSearchResult.new(parsed)
+    response = self.class.api.post(path, MultiJson.dump(params), 'Content-Type' => 'application/json')
+    body = response.body.is_a?(Hash) ? response.body : JSON.parse(response.body)
+    parsed_data = TariffJsonapiParser.new(body).parse
+    parsed_data = [] unless parsed_data.is_a?(Array)
+
+    InternalSearchResult.new(parsed_data, body['meta'])
   end
 end

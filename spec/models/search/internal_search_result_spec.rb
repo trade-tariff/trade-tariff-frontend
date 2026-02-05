@@ -243,4 +243,174 @@ RSpec.describe Search::InternalSearchResult do
       expect(result.all.first).to be_a(GoodsNomenclature)
     end
   end
+
+  describe '#interactive_search?' do
+    context 'with interactive_search meta' do
+      subject { described_class.new([commodity_attrs], meta) }
+
+      let(:meta) { { 'interactive_search' => { 'query' => 'test', 'request_id' => 'abc-123' } } }
+
+      it { is_expected.to be_interactive_search }
+    end
+
+    context 'without meta' do
+      subject { described_class.new([commodity_attrs]) }
+
+      it { is_expected.not_to be_interactive_search }
+    end
+
+    context 'with nil meta' do
+      subject { described_class.new([commodity_attrs], nil) }
+
+      it { is_expected.not_to be_interactive_search }
+    end
+  end
+
+  describe '#has_pending_question?' do
+    context 'when last answer has nil answer' do
+      subject { described_class.new([commodity_attrs], meta) }
+
+      let(:meta) do
+        {
+          'interactive_search' => {
+            'answers' => [
+              { 'question' => 'Q1?', 'options' => %w[A B], 'answer' => 'A' },
+              { 'question' => 'Q2?', 'options' => %w[C D], 'answer' => nil },
+            ],
+          },
+        }
+      end
+
+      it { is_expected.to have_pending_question }
+    end
+
+    context 'when all answers are filled' do
+      subject { described_class.new([commodity_attrs], meta) }
+
+      let(:meta) do
+        {
+          'interactive_search' => {
+            'answers' => [
+              { 'question' => 'Q1?', 'options' => %w[A B], 'answer' => 'A' },
+            ],
+          },
+        }
+      end
+
+      it { is_expected.not_to have_pending_question }
+    end
+
+    context 'when answers is empty' do
+      subject { described_class.new([commodity_attrs], meta) }
+
+      let(:meta) { { 'interactive_search' => { 'answers' => [] } } }
+
+      it { is_expected.not_to have_pending_question }
+    end
+
+    context 'without interactive_search meta' do
+      subject { described_class.new([commodity_attrs]) }
+
+      it { is_expected.not_to have_pending_question }
+    end
+  end
+
+  describe '#current_question' do
+    context 'when has pending question' do
+      subject { described_class.new([commodity_attrs], meta).current_question }
+
+      let(:pending_question) { { 'question' => 'Q2?', 'options' => %w[C D], 'answer' => nil } }
+      let(:meta) do
+        {
+          'interactive_search' => {
+            'answers' => [
+              { 'question' => 'Q1?', 'options' => %w[A B], 'answer' => 'A' },
+              pending_question,
+            ],
+          },
+        }
+      end
+
+      it { is_expected.to eq(pending_question) }
+    end
+
+    context 'when no pending question' do
+      subject { described_class.new([commodity_attrs], meta).current_question }
+
+      let(:meta) do
+        {
+          'interactive_search' => {
+            'answers' => [
+              { 'question' => 'Q1?', 'options' => %w[A B], 'answer' => 'A' },
+            ],
+          },
+        }
+      end
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#request_id' do
+    subject { described_class.new([commodity_attrs], meta).request_id }
+
+    let(:meta) { { 'interactive_search' => { 'request_id' => 'abc-123' } } }
+
+    it { is_expected.to eq('abc-123') }
+  end
+
+  describe '#answered_questions' do
+    subject(:answered) { described_class.new([commodity_attrs], meta).answered_questions }
+
+    let(:meta) do
+      {
+        'interactive_search' => {
+          'answers' => [
+            { 'question' => 'Q1?', 'options' => %w[A B], 'answer' => 'A' },
+            { 'question' => 'Q2?', 'options' => %w[C D], 'answer' => nil },
+          ],
+        },
+      }
+    end
+
+    it 'returns correct count' do
+      expect(answered.size).to eq(1)
+    end
+
+    it 'includes only answered questions' do
+      expect(answered.first['question']).to eq('Q1?')
+    end
+  end
+
+  describe '#result_limit' do
+    context 'when set in meta' do
+      subject { described_class.new([commodity_attrs], meta).result_limit }
+
+      let(:meta) { { 'interactive_search' => { 'result_limit' => 3 } } }
+
+      it { is_expected.to eq(3) }
+    end
+
+    context 'when not set in meta' do
+      subject { described_class.new([commodity_attrs], meta).result_limit }
+
+      let(:meta) { { 'interactive_search' => {} } }
+
+      it { is_expected.to eq(5) }
+    end
+
+    context 'without meta' do
+      subject { described_class.new([commodity_attrs]).result_limit }
+
+      it { is_expected.to eq(5) }
+    end
+  end
+
+  describe '#query' do
+    subject { described_class.new([commodity_attrs], meta).query }
+
+    let(:meta) { { 'interactive_search' => { 'query' => 'leather handbag' } } }
+
+    it { is_expected.to eq('leather handbag') }
+  end
 end

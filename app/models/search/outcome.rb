@@ -103,6 +103,10 @@ class Search
 
     delegate :size, to: :all
 
+    def interactive_search? = false
+
+    def has_pending_question? = false
+
     private
 
     def reference_commodities

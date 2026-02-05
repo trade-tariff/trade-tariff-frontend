@@ -9,6 +9,8 @@ class SearchController < ApplicationController
   def search
     @search.q = params[:q] if params[:q]
     @search.internal_search = params[:internal_search] == 'true'
+    @search.answers = params[:answers] if params[:answers].present?
+    @search.request_id = params[:request_id] if params[:request_id].present?
 
     @results = @search.perform
 
@@ -18,6 +20,15 @@ class SearchController < ApplicationController
           redirect_to missing_search_query_fallback_url
         elsif @results.exact_match?
           redirect_to url_for @results.to_param.merge(url_options).merge(only_path: true)
+        elsif skip_questions?
+          render_interactive_results
+        elsif @results.has_pending_question?
+          disable_switch_service_banner
+          disable_last_updated_footnote
+          disable_search_form
+          render :interactive_question
+        elsif @results.interactive_search?
+          render_interactive_results
         elsif @results.none? && @search.search_term_is_commodity_code?
           redirect_to commodity_path(@search.q)
         elsif @results.none? && @search.search_term_is_heading_code?
@@ -140,5 +151,16 @@ class SearchController < ApplicationController
 
   def quota_search_params
     params.permit(QuotaSearchForm::PERMITTED_PARAMS)
+  end
+
+  def skip_questions?
+    params[:skip_questions] == 'true' && @results.interactive_search?
+  end
+
+  def render_interactive_results
+    disable_switch_service_banner
+    disable_last_updated_footnote
+    disable_search_form
+    render :interactive_results
   end
 end

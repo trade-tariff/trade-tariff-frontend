@@ -10,13 +10,16 @@ class GoodsNomenclature
                 :formatted_description,
                 :description,
                 :description_indexed,
+                :full_description,
+                :heading_description,
                 :producline_suffix,
                 :search_references,
                 :heading_id,
                 :chapter_id,
                 :description_plain,
                 :declarable,
-                :score
+                :score,
+                :confidence
 
   has_many :ancestors, polymorphic: true
 
