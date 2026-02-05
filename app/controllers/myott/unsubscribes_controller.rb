@@ -15,6 +15,7 @@ module Myott
     def confirmation
       @subscription_type = params[:subscription_type]
       content = unsubscribe_confirmation_content(@subscription_type)
+      @title = content[:title]
       @header = content[:header]
       @message = content[:message]
       clear_authentication_cookies
@@ -45,7 +46,7 @@ module Myott
     end
 
     def handle_my_commodities_unsubscribe
-      return redirect_to myott_path if user_declined?
+      return redirect_to myott_mycommodities_path if user_declined?
       return show_confirmation_error unless user_confirmed?
 
       delete_subscription
@@ -71,6 +72,7 @@ module Myott
       errors = unsubscribe_error_messages
       @alert = errors[:confirmation]
       flash.now[:select_error] = @alert
+      @div_id = 'radio-buttons'
       render subscription_type
     end
 

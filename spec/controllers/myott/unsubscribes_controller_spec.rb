@@ -45,7 +45,7 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
         it 'redirects to myott_path' do
           allow(controller).to receive_messages(user_declined?: true)
           delete :destroy, params: { id: subscription.uuid }
-          expect(response).to redirect_to(myott_path)
+          expect(response).to redirect_to(myott_mycommodities_path)
         end
       end
 
