@@ -1,25 +1,34 @@
+// Uses GOV.UK footer meta structure for layout; styles scoped so we don't affect main footer
 .feedback-useful-banner {
   border-top: 1px solid $govuk-border-colour;
 
-  .feedback-useful-container {
-    position: relative;
+  &__inner {
     background-color: govuk-colour("light-grey");
-    height: 36px;
-    padding-top: 17px;
-  }
+    border-bottom: 1px solid $govuk-border-colour;
+    padding: govuk-spacing(4);
+    // Reapply footer meta flex layout (normally scoped under .govuk-footer)
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: govuk-spacing(4);
 
-  p {
-    font-weight: bold;
-    float: left;
-    padding-top: 7px;
-    padding-left: 11px;
-    padding-right: 15px;
-  }
+    .govuk-footer__meta-item {
+      margin-right: 0;
+      margin-left: 0;
+      margin-bottom: 0;
+    }
 
-  .govuk-button {
-    border: 1px solid govuk-colour("black");
-    box-shadow: 0 2px 0 govuk-colour("black");
-    min-width: 6em;
+    .govuk-footer__meta-item--grow {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .govuk-button {
+      border: 1px solid govuk-colour("black");
+      box-shadow: 0 2px 0 govuk-colour("black");
+      min-width: 6em;
+    }
   }
 }
 
@@ -27,47 +36,14 @@
   border-top: 10px solid govuk-colour("blue");
 }
 
-@media (max-width: 900px) {
-  .feedback-useful-banner {
-    .report-problem {
-      display: none;
-    }
-    .govuk-footer__meta-item {
-      margin-right: 0 !important;
-    }
-    .govuk-footer__inline-list-item{
-      margin-right: 0 !important;
-    }
-  }
-}
-
 @include govuk-media-query($until: tablet) {
-  .feedback-useful-banner {
-    p {
-      padding-top: 9px;
-    }
+  .feedback-useful-banner__inner {
+    flex-direction: column;
+    align-items: stretch;
 
-    .govuk-button {
-      min-width: 3.5em;
-    }
-  }
-}
-
-// for the older devices with smaller screens show the buttons as a block
-@media (max-width: 384px) {
-  .feedback-useful-banner {
-    .feedback-useful-container {
-      height: auto;
-      padding-bottom: 20px;
-    }
-
-    .govuk-footer__inline-list-item {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .govuk-button {
+    .govuk-footer__meta-item .govuk-button {
       width: 100%;
+      min-width: 0;
     }
   }
 }
