@@ -1,0 +1,5 @@
+// Modifier for panel: blue left border and light blue background (GOV.UK notice style)
+.panel--feedback {
+  border-left-color: govuk-colour("blue");
+  background-color: govuk-tint(govuk-colour("blue"), 90%);
+}
