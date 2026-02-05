@@ -1,0 +1,79 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body-l">
+      Based on your answers, here are the most likely commodity classification matches for your goods.
+    </p>
+
+    <% display_results = @results.result_limit.zero? ? @results.all : @results.all.first(@results.result_limit) %>
+    <% confident_count = display_results.count { |r| r.try(:confidence).present? } %>
+
+    <h2 class="govuk-heading-m">
+      <% if confident_count > 0 %>
+        Based on your answers, we found <%= confident_count %> likely <%= 'match'.pluralize(confident_count) %>
+      <% else %>
+        Based on your answers, here are the top <%= display_results.size %> results
+      <% end %>
+    </h2>
+
+    <div class="interactive-results">
+      <% display_results.each do |result| %>
+        <div class="interactive-result">
+          <div class="interactive-result__content">
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+              <%= result.full_description.presence || result.formatted_description %>
+            </h3>
+            <p class="govuk-body-s govuk-!-margin-bottom-2 govuk-!-text-colour-secondary">
+              <%= result.heading_description %>
+            </p>
+            <%= link_to "View this commodity code",
+                commodity_path(result.goods_nomenclature_item_id),
+                class: "govuk-link" %>
+          </div>
+          <div class="interactive-result__confidence">
+            <%= render_confidence_meter(result.try(:confidence)) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <details class="govuk-details govuk-!-margin-top-6">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">How we calculate confidence</span>
+      </summary>
+      <div class="govuk-details__text">
+        <p>Our system analyses your search term and answers to find the most relevant commodity codes.</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li><strong>Strong match</strong> - High confidence this is the correct classification</li>
+          <li><strong>Good match</strong> - Likely correct but you may want to verify</li>
+          <li><strong>Possible match</strong> - Worth considering but less certain</li>
+          <li><strong>Unlikely match</strong> - Low confidence, included for completeness</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <aside class="app-related-items">
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Help and guidance</h2>
+      <ul class="govuk-list govuk-list--spaced">
+        <li><%= link_to "What are commodity codes?", "https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports", class: "govuk-link", target: "_blank" %></li>
+        <li><%= link_to "Guidance on difficult to classify goods", "https://www.gov.uk/guidance/classifying-goods-in-the-uk-trade-tariff", class: "govuk-link", target: "_blank" %></li>
+        <li><%= link_to "How to import goods", "https://www.gov.uk/import-goods-into-uk", class: "govuk-link", target: "_blank" %></li>
+        <li><%= link_to "How to export goods", "https://www.gov.uk/export-goods", class: "govuk-link", target: "_blank" %></li>
+        <li><%= link_to "Ask for help on classifying your goods", "https://www.gov.uk/guidance/apply-for-an-advance-tariff-ruling", class: "govuk-link", target: "_blank" %></li>
+      </ul>
+
+      <details class="govuk-details govuk-!-margin-top-4">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">Contact details</span>
+        </summary>
+        <div class="govuk-details__text">
+          <p class="govuk-body-s">
+            For help with commodity codes, contact the Tariff Classification Service:<br>
+            <a href="mailto:classification.enquiries@hmrc.gov.uk" class="govuk-link">classification.enquiries@hmrc.gov.uk</a>
+          </p>
+        </div>
+      </details>
+    </aside>
+  </div>
+</div>

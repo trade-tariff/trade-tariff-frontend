@@ -1,0 +1,89 @@
+<%= page_header "Search for a commodity" %>
+
+<div data-controller="interactive-question">
+
+  <p class="govuk-body-l">We need to ask you some questions about the products.</p>
+
+  <div data-interactive-question-target="form">
+    <%= form_tag perform_search_path, method: :get, id: "interactive_search_form" do %>
+      <%= hidden_field_tag :q, @search.q %>
+      <%= hidden_field_tag :internal_search, 'true' %>
+      <%= hidden_field_tag :request_id, @results.request_id %>
+
+      <% @results.answered_questions.each do |qa| %>
+        <%= hidden_field_tag "answers[][question]", qa['question'] %>
+        <%= hidden_field_tag "answers[][options]", normalize_options_to_json(qa['options']) %>
+        <%= hidden_field_tag "answers[][answer]", qa['answer'] %>
+      <% end %>
+
+      <% question = @results.current_question %>
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <%= question['question'] %>
+          </legend>
+
+          <div class="govuk-radios" data-module="govuk-radios">
+            <% question['options'].each_with_index do |option, i| %>
+              <div class="govuk-radios__item">
+                <%= radio_button_tag "answers[][answer]", option, false,
+                    id: "answer_option_#{i}", class: "govuk-radios__input" %>
+                <%= label_tag "answer_option_#{i}", option, class: "govuk-label govuk-radios__label" %>
+              </div>
+            <% end %>
+
+            <div class="govuk-radios__divider">or</div>
+
+            <div class="govuk-radios__item">
+              <%= radio_button_tag "answers[][answer]", "I don't know", false,
+                  id: "answer_option_unknown",
+                  class: "govuk-radios__input",
+                  data: { action: "change->interactive-question#selectUnknown" } %>
+              <%= label_tag "answer_option_unknown", "I don't know", class: "govuk-label govuk-radios__label" %>
+            </div>
+          </div>
+
+          <%= hidden_field_tag "answers[][question]", question['question'] %>
+          <%= hidden_field_tag "answers[][options]", normalize_options_to_json(question['options']) %>
+        </fieldset>
+      </div>
+
+      <div class="govuk-button-group">
+        <%= submit_tag "Submit", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= link_to "Cancel", sections_path, class: "govuk-link" %>
+      </div>
+    <% end %>
+
+    <% if @results.answered_questions.any? %>
+      <div class="govuk-!-margin-top-6">
+        <h2 class="govuk-heading-s">Skip to results</h2>
+        <p class="govuk-body">
+          If you have answered a few questions, you can skip forward to see what results
+          have already been found. If you need to come back and refine the results, you
+          will have that chance.
+        </p>
+        <%= link_to "Skip to results page", "#",
+            class: "govuk-button govuk-button--secondary",
+            data: { action: "click->interactive-question#skipToResults" } %>
+      </div>
+    <% end %>
+
+    <% if @results.result_limit.positive? && @results.any? %>
+      <div class="govuk-!-margin-top-6">
+        <h2 class="govuk-heading-s">Current best matches (<%= @results.size %> results)</h2>
+        <ul class="govuk-list govuk-list--bullet">
+          <% @results.all.first(@results.result_limit).each do |result| %>
+            <li>
+              <%= result.formatted_description %>
+              (<%= result.goods_nomenclature_item_id %>)
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <div data-interactive-question-target="results" class="govuk-!-display-none">
+    <%= render 'search/interactive_results_content' %>
+  </div>
+</div>

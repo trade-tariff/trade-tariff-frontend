@@ -1,0 +1,46 @@
+// Interactive search Q&A styles
+
+.interactive-results .interactive-result {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  border-bottom: 1px solid #b1b4b6;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.interactive-result__content {
+  flex: 1;
+}
+
+.interactive-result__confidence {
+  flex-shrink: 0;
+  text-align: center;
+  min-width: 120px;
+}
+
+.confidence-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.confidence-gauge {
+  width: 100px;
+  height: auto;
+}
+
+.confidence-label {
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #0b0c0c;
+}
+
+.app-related-items {
+  border-top: 2px solid #1d70b8;
+  padding-top: 15px;
+}

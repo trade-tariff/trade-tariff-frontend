@@ -223,6 +223,130 @@ RSpec.describe SearchController, type: :controller do
       end
     end
 
+    context 'with internal interactive search' do
+      subject(:do_response) { get :search, params: }
+
+      let(:commodity_data) do
+        {
+          'id' => '123',
+          'type' => 'commodity',
+          'attributes' => {
+            'goods_nomenclature_item_id' => '0101210000',
+            'producline_suffix' => '80',
+            'goods_nomenclature_class' => 'Commodity',
+            'description' => 'Pure-bred breeding animals',
+            'formatted_description' => 'Pure-bred breeding animals',
+            'declarable' => true,
+            'score' => 12.5,
+          },
+        }
+      end
+
+      before do
+        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(true)
+      end
+
+      context 'when backend returns a pending question' do
+        let(:params) { { q: 'horses', internal_search: 'true' } }
+
+        before do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [commodity_data],
+              'meta' => {
+                'interactive_search' => {
+                  'query' => 'horses',
+                  'request_id' => 'abc-123',
+                  'result_limit' => 5,
+                  'answers' => [
+                    { 'question' => 'What type of horse?', 'options' => %w[Racing Breeding], 'answer' => nil },
+                  ],
+                },
+              },
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:interactive_question) }
+      end
+
+      context 'when all questions are answered' do
+        let(:params) do
+          {
+            q: 'horses',
+            internal_search: 'true',
+            request_id: 'abc-123',
+            answers: [
+              { question: 'What type of horse?', options: %w[Racing Breeding], answer: 'Breeding' },
+            ],
+          }
+        end
+
+        before do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [commodity_data],
+              'meta' => {
+                'interactive_search' => {
+                  'query' => 'horses',
+                  'request_id' => 'abc-123',
+                  'result_limit' => 5,
+                  'answers' => [
+                    { 'question' => 'What type of horse?', 'options' => %w[Racing Breeding], 'answer' => 'Breeding' },
+                  ],
+                },
+              },
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:interactive_results) }
+      end
+
+      context 'when skip_questions is true' do
+        let(:params) do
+          {
+            q: 'horses',
+            internal_search: 'true',
+            skip_questions: 'true',
+            request_id: 'abc-123',
+          }
+        end
+
+        before do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [commodity_data],
+              'meta' => {
+                'interactive_search' => {
+                  'query' => 'horses',
+                  'request_id' => 'abc-123',
+                  'result_limit' => 5,
+                  'answers' => [
+                    { 'question' => 'What type of horse?', 'options' => %w[Racing Breeding], 'answer' => nil },
+                  ],
+                },
+              },
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:interactive_results) }
+      end
+    end
+
     describe 'header for crawlers', vcr: { cassette_name: 'search#blank_match' } do
       context 'when non historical' do
         before { get :search }
