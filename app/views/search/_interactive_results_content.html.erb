@@ -26,7 +26,7 @@
               <%= result.heading_description %>
             </p>
             <%= link_to "View this commodity code",
-                commodity_path(result.goods_nomenclature_item_id),
+                commodity_path(result.goods_nomenclature_item_id, request_id: @search.request_id),
                 class: "govuk-link" %>
           </div>
           <div class="interactive-result__confidence">

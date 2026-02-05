@@ -1,6 +1,6 @@
 <tr class="govuk-table__row">
   <td class="govuk-table__cell commodity-result">
-    <a href="<%= commodity_path(commodity) %>" aria-describedby="code-for-commodity-<%= commodity.id %>">
+    <a href="<%= commodity_path(commodity, request_id: @search.request_id) %>" aria-describedby="code-for-commodity-<%= commodity.id %>">
       <% if commodity.ancestor_descriptions.present? %>
         <%= descriptions_with_other_handling(commodity) %>
       <% else %>

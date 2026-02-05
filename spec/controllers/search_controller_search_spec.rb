@@ -9,9 +9,33 @@ RSpec.describe SearchController, type: :controller do
 
       let(:params) { { q: '01' } }
 
-      it { is_expected.to redirect_to chapter_path('01') }
+      it { is_expected.to have_http_status(:redirect) }
       it { expect(assigns(:search)).to be_a(Search) }
       it { expect(assigns[:search].q).to eq '01' }
+
+      it { expect(response.location).to include(chapter_path('01')) }
+      it { expect(response.location).to include('request_id=') }
+    end
+
+    describe 'request_id propagation' do
+      context 'when request_id is not provided', vcr: { cassette_name: 'search#search_fuzzy' } do
+        let(:params) { { q: 'horses', day: '11', month: '05', year: '2023' } }
+
+        before { do_response }
+
+        it { expect(assigns(:search).request_id).to be_present }
+        it { expect(assigns(:search).request_id).to match(/\A[0-9a-f-]{36}\z/) }
+      end
+
+      context 'when request_id is provided', vcr: { cassette_name: 'search#search_fuzzy' } do
+        let(:params) { { q: 'horses', day: '11', month: '05', year: '2023', request_id: 'existing-uuid-123' } }
+
+        before { do_response }
+
+        it 'preserves the provided request_id' do
+          expect(assigns(:search).request_id).to eq('existing-uuid-123')
+        end
+      end
     end
 
     context 'with fuzzy match query', vcr: { cassette_name: 'search#search_fuzzy' } do
@@ -41,7 +65,10 @@ RSpec.describe SearchController, type: :controller do
 
       let(:params) { { q: '0123456789' } }
 
-      it { is_expected.to redirect_to commodity_path('0123456789') }
+      it { is_expected.to have_http_status(:redirect) }
+
+      it { expect(response.location).to include(commodity_path('0123456789')) }
+      it { expect(response.location).to include('request_id=') }
     end
 
     context 'with heading code', vcr: { cassette_name: 'search#blank_match' } do
@@ -49,7 +76,10 @@ RSpec.describe SearchController, type: :controller do
 
       let(:params) { { q: '0123' } }
 
-      it { is_expected.to redirect_to heading_path('0123') }
+      it { is_expected.to have_http_status(:redirect) }
+
+      it { expect(response.location).to include(heading_path('0123')) }
+      it { expect(response.location).to include('request_id=') }
     end
 
     context 'with nested search term', vcr: { cassette_name: 'search#search_exact' } do
@@ -58,7 +88,10 @@ RSpec.describe SearchController, type: :controller do
       before { do_response }
 
       it { expect(assigns[:search]).to have_attributes q: '01' }
-      it { is_expected.to redirect_to chapter_path('01') }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { expect(response.location).to include(chapter_path('01')) }
+      it { expect(response.location).to include('request_id=') }
     end
 
     context 'without search term', vcr: { cassette_name: 'search#blank_match' } do
@@ -120,7 +153,7 @@ RSpec.describe SearchController, type: :controller do
       end
     end
 
-    context 'with JSON format', vcr: { cassette_name: 'search#search_fuzzy', match_requests_on: %i[uri body] } do
+    context 'with JSON format', vcr: { cassette_name: 'search#search_fuzzy', match_requests_on: %i[uri body_without_request_id] } do
       let(:day) { '5' }
       let(:month) { '4' }
       let(:year) { '2019' }
@@ -201,7 +234,7 @@ RSpec.describe SearchController, type: :controller do
       end
     end
 
-    context 'with ATOM format', vcr: { cassette_name: 'search#search_fuzzy', match_requests_on: %i[uri body] } do
+    context 'with ATOM format', vcr: { cassette_name: 'search#search_fuzzy', match_requests_on: %i[uri body_without_request_id] } do
       render_views
 
       let(:query) { 'horses' }

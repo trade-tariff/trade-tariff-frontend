@@ -111,12 +111,10 @@ class Search
   private
 
   def perform_v2_search
-    response = self.class.post(
-      'search',
-      q:,
-      as_of: date.to_fs(:db),
-      resource_id:,
-    )
+    params = { q:, as_of: date.to_fs(:db), resource_id: }
+    params[:request_id] = request_id if request_id.present?
+
+    response = self.class.post('search', params)
     response = TariffJsonapiParser.new(response.body).parse
 
     Outcome.new(response)

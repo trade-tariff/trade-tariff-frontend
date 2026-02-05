@@ -173,6 +173,25 @@ RSpec.describe Search do
     end
   end
 
+  describe '#perform_v2_search request_id' do
+    it 'sends request_id to the V2 search endpoint' do
+      search = described_class.new(q: 'horses')
+      search.request_id = 'test-uuid-456'
+
+      stub = stub_api_request('search', :post).to_return(
+        jsonapi_response(:search, {
+          type: 'fuzzy_match',
+          goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+          reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+        }),
+      )
+
+      search.perform
+
+      expect(stub).to have_been_requested
+    end
+  end
+
   describe '#perform' do
     context 'when internal_search is true and INTERNAL_SEARCH_ENABLED is true' do
       subject(:perform_search) do
