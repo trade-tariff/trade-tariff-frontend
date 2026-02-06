@@ -51,8 +51,7 @@ module InteractiveSearchable
 
     return if @form.valid?(:answer)
 
-    @search.answers = completed_answers
-    @results = @search.perform
+    @results = build_result_from_params
     :invalid
   end
 
@@ -83,6 +82,29 @@ module InteractiveSearchable
       h = a.respond_to?(:to_unsafe_h) ? a.to_unsafe_h : a.to_h
       h.stringify_keys['answer'].present?
     end
+  end
+
+  def build_result_from_params
+    answers = completed_answers.map { |a| a.respond_to?(:to_unsafe_h) ? a.to_unsafe_h : a.to_h }
+    current = { 'question' => params[:current_question], 'options' => parse_options(params[:current_options]), 'answer' => nil }
+
+    meta = {
+      'interactive_search' => {
+        'request_id' => params[:request_id],
+        'query' => params[:q],
+        'answers' => answers + [current],
+      },
+    }
+
+    Search::InternalSearchResult.new([], meta)
+  end
+
+  def parse_options(value)
+    return [] if value.blank?
+
+    JSON.parse(value)
+  rescue JSON::ParserError
+    []
   end
 
   def skip_questions?
