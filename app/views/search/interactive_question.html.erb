@@ -5,7 +5,16 @@
   <p class="govuk-body-l">We need to ask you some questions about the products.</p>
 
   <div data-interactive-question-target="form">
-    <%= form_tag perform_search_path, method: :get, id: "interactive_search_form" do %>
+    <% question = @results.current_question %>
+
+    <%= form_with model: (@form || InteractiveSearchForm.new),
+                  url: perform_search_path,
+                  method: :get,
+                  builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+                  id: "interactive_search_form" do |f| %>
+
+      <%= f.govuk_error_summary %>
+
       <%= hidden_field_tag :q, @search.q %>
       <%= hidden_field_tag :internal_search, 'true' %>
       <%= hidden_field_tag :request_id, @results.request_id %>
@@ -16,40 +25,24 @@
         <%= hidden_field_tag "answers[][answer]", qa['answer'] %>
       <% end %>
 
-      <% question = @results.current_question %>
-      <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset">
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-            <%= question['question'] %>
-          </legend>
+      <%= hidden_field_tag :current_question, question['question'] %>
+      <%= hidden_field_tag :current_options, normalize_options_to_json(question['options']) %>
 
-          <div class="govuk-radios" data-module="govuk-radios">
-            <% question['options'].each_with_index do |option, i| %>
-              <div class="govuk-radios__item">
-                <%= radio_button_tag "answers[][answer]", option, false,
-                    id: "answer_option_#{i}", class: "govuk-radios__input" %>
-                <%= label_tag "answer_option_#{i}", option, class: "govuk-label govuk-radios__label" %>
-              </div>
-            <% end %>
+      <%= f.govuk_radio_buttons_fieldset :answer,
+          legend: { text: question['question'], size: 'm' } do %>
+        <% question['options'].each do |option| %>
+          <%= f.govuk_radio_button :answer, option, label: { text: option } %>
+        <% end %>
 
-            <div class="govuk-radios__divider">or</div>
+        <%= f.govuk_radio_divider %>
 
-            <div class="govuk-radios__item">
-              <%= radio_button_tag "answers[][answer]", "I don't know", false,
-                  id: "answer_option_unknown",
-                  class: "govuk-radios__input",
-                  data: { action: "change->interactive-question#selectUnknown" } %>
-              <%= label_tag "answer_option_unknown", "I don't know", class: "govuk-label govuk-radios__label" %>
-            </div>
-          </div>
-
-          <%= hidden_field_tag "answers[][question]", question['question'] %>
-          <%= hidden_field_tag "answers[][options]", normalize_options_to_json(question['options']) %>
-        </fieldset>
-      </div>
+        <%= f.govuk_radio_button :answer, "I don't know",
+            label: { text: "I don't know" },
+            data: { action: "change->interactive-question#selectUnknown" } %>
+      <% end %>
 
       <div class="govuk-button-group">
-        <%= submit_tag "Submit", class: "govuk-button", data: { module: "govuk-button" } %>
+        <%= f.govuk_submit "Submit" %>
         <%= link_to "Cancel", sections_path, class: "govuk-link" %>
       </div>
     <% end %>
