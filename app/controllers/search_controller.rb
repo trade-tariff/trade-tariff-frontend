@@ -2,6 +2,8 @@ require 'addressable/uri'
 
 class SearchController < ApplicationController
   include GoodsNomenclatureHelper
+  include ClassicSearchable
+  include InteractiveSearchable
 
   before_action :disable_switch_service_banner, only: [:quota_search]
   before_action :disable_search_form, except: [:search]
@@ -12,35 +14,10 @@ class SearchController < ApplicationController
     @search.answers = params[:answers] if params[:answers].present?
     @search.request_id = params[:request_id] if params[:request_id].present?
 
-    @results = @search.perform
-
-    respond_to do |format|
-      format.html do
-        if @search.missing_search_term?
-          redirect_to missing_search_query_fallback_url
-        elsif @results.exact_match?
-          redirect_to url_for @results.to_param.merge(url_options).merge(only_path: true)
-        elsif skip_questions?
-          render_interactive_results
-        elsif @results.has_pending_question?
-          disable_switch_service_banner
-          disable_last_updated_footnote
-          disable_search_form
-          render :interactive_question
-        elsif @results.interactive_search?
-          render_interactive_results
-        elsif @results.none? && @search.search_term_is_commodity_code?
-          redirect_to commodity_path(@search.q)
-        elsif @results.none? && @search.search_term_is_heading_code?
-          redirect_to heading_path(@search.q)
-        end
-      end
-
-      format.json do
-        render json: SearchPresenter.new(@search, @results)
-      end
-
-      format.atom
+    if internal_search?
+      perform_interactive_search
+    else
+      perform_classic_search
     end
   rescue Search::InvalidDate
     redirect_to find_commodity_path(search_params.merge(invalid_date: true))
@@ -151,16 +128,5 @@ class SearchController < ApplicationController
 
   def quota_search_params
     params.permit(QuotaSearchForm::PERMITTED_PARAMS)
-  end
-
-  def skip_questions?
-    params[:skip_questions] == 'true' && @results.interactive_search?
-  end
-
-  def render_interactive_results
-    disable_switch_service_banner
-    disable_last_updated_footnote
-    disable_search_form
-    render :interactive_results
   end
 end

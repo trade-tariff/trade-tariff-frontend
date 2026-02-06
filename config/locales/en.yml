@@ -347,6 +347,14 @@ en:
   activemodel:
     errors:
       models:
+        internal_search_form:
+          attributes:
+            q:
+              blank: Enter a search term
+              too_short: Search term must be at least 2 characters
+              too_long: Search term must be 100 characters or fewer
+            answer:
+              blank: Select an option
         duty_calculator/steps/import_date:
           attributes:
             import_date:
