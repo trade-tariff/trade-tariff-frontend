@@ -122,6 +122,25 @@ class SearchController < ApplicationController
     back_url.to_s
   end
 
+  def search_attributes
+    params.fetch(:search, params).permit(
+      :q,
+      :resource_id,
+      :country,
+      :day,
+      :month,
+      :year,
+      :as_of,
+      :internal_search,
+      :request_id,
+      :current_question,
+      :current_options,
+      :skip_questions,
+      answers: %i[question options answer],
+      internal_search_form: [:answer],
+    ).to_h
+  end
+
   def search_params
     params.permit(:q, :day, :month, :year)
   end
