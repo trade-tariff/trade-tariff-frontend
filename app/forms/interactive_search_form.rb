@@ -1,4 +1,4 @@
-class InternalSearchForm
+class InteractiveSearchForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 

@@ -347,7 +347,7 @@ en:
   activemodel:
     errors:
       models:
-        internal_search_form:
+        interactive_search_form:
           attributes:
             q:
               blank: Enter a search term

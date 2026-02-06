@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe InternalSearchForm, type: :model do
+RSpec.describe InteractiveSearchForm, type: :model do
   describe 'query validations' do
     context 'with a valid query' do
       subject(:form) { described_class.new(q: 'horse') }

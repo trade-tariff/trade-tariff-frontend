@@ -7,7 +7,7 @@
   <div data-interactive-question-target="form">
     <% question = @results.current_question %>
 
-    <%= form_with model: (@form || InternalSearchForm.new),
+    <%= form_with model: (@form || InteractiveSearchForm.new),
                   url: perform_search_path,
                   method: :get,
                   builder: GOVUKDesignSystemFormBuilder::FormBuilder,

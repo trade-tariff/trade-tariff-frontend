@@ -4,7 +4,7 @@ module InteractiveSearchable
   private
 
   def perform_interactive_search
-    return if validate_internal_search == :invalid
+    return if validate_interactive_search == :invalid
     return render_interactive_question if validate_interactive_answer == :invalid
 
     merge_current_answer
@@ -28,8 +28,8 @@ module InteractiveSearchable
     end
   end
 
-  def validate_internal_search
-    @form = InternalSearchForm.new(q: params[:q], request_id: params[:request_id])
+  def validate_interactive_search
+    @form = InteractiveSearchForm.new(q: params[:q], request_id: params[:request_id])
 
     unless @form.valid?
       @results = Search::InternalSearchResult.new([], nil)
@@ -43,9 +43,9 @@ module InteractiveSearchable
   def validate_interactive_answer
     return if params[:current_question].blank?
 
-    @form = InternalSearchForm.new(
+    @form = InteractiveSearchForm.new(
       q: params[:q],
-      answer: params.dig(:internal_search_form, :answer),
+      answer: params.dig(:interactive_search_form, :answer),
       request_id: params[:request_id],
     )
 
@@ -60,7 +60,7 @@ module InteractiveSearchable
   end
 
   def merge_current_answer
-    answer = params.dig(:internal_search_form, :answer)
+    answer = params.dig(:interactive_search_form, :answer)
     return if answer.blank?
 
     current_question = params[:current_question]

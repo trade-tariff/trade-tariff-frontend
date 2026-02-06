@@ -137,7 +137,7 @@ class SearchController < ApplicationController
       :current_options,
       :skip_questions,
       answers: %i[question options answer],
-      internal_search_form: [:answer],
+      interactive_search_form: [:answer],
     ).to_h
   end
 
