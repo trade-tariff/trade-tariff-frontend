@@ -79,16 +79,16 @@ RSpec.describe GreenLanesHelper, type: :helper do
   describe '#render_exemptions' do
     let(:assessments) { double }
     let(:result) { '3' }
+    let(:cas_without_exemptions) { instance_double(Array, present?: false) }
 
     before do
       allow(helper).to receive(:render_exemptions_or_no_card)
+      helper.instance_variable_set(:@cas_without_exemptions, cas_without_exemptions)
     end
 
-    # rubocop:disable RSpec/InstanceVariable
     context 'when result is 3' do
       before do
         allow(assessments).to receive_messages(cat_1_exemptions: [1], cat_2_exemptions: [1])
-        allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
       it 'renders exemptions or no card for category 1 and 2', :aggregate_failures do
@@ -101,7 +101,6 @@ RSpec.describe GreenLanesHelper, type: :helper do
     context 'when result is 1 and cat_1_exemptions is not empty' do
       before do
         allow(assessments).to receive(:cat_1_exemptions).and_return([1])
-        allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
       it 'renders exemptions or no card for category 1 only', :aggregate_failures do
@@ -112,9 +111,10 @@ RSpec.describe GreenLanesHelper, type: :helper do
     end
 
     context 'when result is 1 and @cas_without_exemptions is present' do
+      let(:cas_without_exemptions) { instance_double(Array, present?: true) }
+
       before do
         allow(assessments).to receive(:cat_1_exemptions).and_return([])
-        allow(@cas_without_exemptions).to receive(:present?).and_return(true)
       end
 
       it 'renders exemptions or no card for category 1 only', :aggregate_failures do
@@ -127,7 +127,6 @@ RSpec.describe GreenLanesHelper, type: :helper do
     context 'when result is 2 and cat_1_exemptions is not empty' do
       before do
         allow(assessments).to receive_messages(cat_1_exemptions: [1], cat_2_exemptions: [])
-        allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
       it 'renders exemptions or no card for category 1 only', :aggregate_failures do
@@ -140,7 +139,6 @@ RSpec.describe GreenLanesHelper, type: :helper do
     context 'when result is 2 and cat_2_exemptions is not empty' do
       before do
         allow(assessments).to receive_messages(cat_1_exemptions: [], cat_2_exemptions: [1])
-        allow(@cas_without_exemptions).to receive(:present?).and_return(false)
       end
 
       it 'renders exemptions or no card for category 2 only', :aggregate_failures do
@@ -151,9 +149,10 @@ RSpec.describe GreenLanesHelper, type: :helper do
     end
 
     context 'when result is 2 and @cas_without_exemptions is present' do
+      let(:cas_without_exemptions) { instance_double(Array, present?: true) }
+
       before do
         allow(assessments).to receive_messages(cat_1_exemptions: [1], cat_2_exemptions: [1])
-        allow(@cas_without_exemptions).to receive(:present?).and_return(true)
       end
 
       it 'renders exemptions or no card for both categories', :aggregate_failures do
@@ -194,8 +193,6 @@ RSpec.describe GreenLanesHelper, type: :helper do
         it { is_expected.to be(false) }
       end
     end
-
-    # rubocop:enable RSpec/InstanceVariable
   end
 
   describe '#exemption_checkbox_checked?' do
