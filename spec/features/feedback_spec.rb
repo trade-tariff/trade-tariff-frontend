@@ -35,25 +35,22 @@ RSpec.feature 'Feedback', type: :feature do
 
   scenario 'feedback bottom banner is not shown on feedback page' do
     visit '/404'
-    expect(page).to have_css 'a', text: 'Yes'
-    expect(page).to have_css 'a', text: 'No'
-    expect(page).to have_css 'a', text: 'Report a problem with this page'
-    expect(page).to have_css 'p', text: 'Is this page useful?'
+    expect(page).to have_css 'a', text: 'Share your feedback'
+    expect(page).to have_css 'p', text: 'Give feedback about this service'
+    expect(page).to have_text 'Tell us about your experience using this service to help us improve it.'
 
-    click_on 'Yes'
-    expect(page).not_to have_css 'a', text: 'Yes'
-    expect(page).not_to have_css 'a', text: 'No'
-    expect(page).not_to have_css 'a', text: 'Report a problem with this page'
-    expect(page).not_to have_css 'p', text: 'Is this page useful?'
+    click_on 'Feedback'
+    expect(page).not_to have_css '.feedback-useful-banner'
+    expect(page).not_to have_css 'a', text: 'Share your feedback'
   end
 
   scenario 'feedback banner is not shown on feedback page' do
     visit '/404'
-    expect(page).to have_css 'a', exact_text: 'feedback'
-    expect(page).to have_css 'p', text: 'Tell us what you think - your feedback will help us improve.'
+    expect(page).to have_css 'a', text: 'give your feedback (opens in new tab)'
+    expect(page).to have_text 'Help us improve this service'
 
-    click_on 'feedback'
-    expect(page).not_to have_css 'a', exact_text: 'feedback'
-    expect(page).not_to have_css 'p', text: 'Tell us what you think - your feedback will help us improve.'
+    click_on 'Feedback'
+    expect(page).not_to have_css '.tariff-feedback-banner'
+    expect(page).not_to have_css 'a', text: 'give your feedback (opens in new tab)'
   end
 end
