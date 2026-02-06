@@ -12,7 +12,7 @@ class SearchController < ApplicationController
     @search.q = params[:q] if params[:q]
     @search.internal_search = params[:internal_search] == 'true'
     @search.answers = params[:answers] if params[:answers].present?
-    @search.request_id = params[:request_id] if params[:request_id].present?
+    @search.request_id = params[:request_id].presence || SecureRandom.uuid
 
     if internal_search?
       perform_interactive_search

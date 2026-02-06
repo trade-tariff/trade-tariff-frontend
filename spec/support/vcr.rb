@@ -11,6 +11,11 @@ VCR.configure do |c|
     record: :new_episodes,
   }
   c.configure_rspec_metadata!
+  c.register_request_matcher :body_without_request_id do |request_1, request_2|
+    body_1 = request_1.body.to_s.gsub(/&?request_id=[^&]*/, '')
+    body_2 = request_2.body.to_s.gsub(/&?request_id=[^&]*/, '')
+    body_1 == body_2
+  end
   c.ignore_request do |request|
     chrome_urls = [
       'https://chromedriver.storage.googleapis.com',

@@ -1,7 +1,10 @@
 RSpec.describe 'search/_commodity', type: :view do
   subject { render }
 
-  before { allow(view).to receive(:commodity).and_return(commodity) }
+  before do
+    assign(:search, build(:search, q: 'test'))
+    allow(view).to receive(:commodity).and_return(commodity)
+  end
 
   context 'when there are ancestor descriptions' do
     let(:commodity) { build(:commodity, :with_other_ancestor_descriptions) }

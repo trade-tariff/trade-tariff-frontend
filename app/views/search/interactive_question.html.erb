@@ -17,7 +17,7 @@
 
       <%= hidden_field_tag :q, @search.q %>
       <%= hidden_field_tag :internal_search, 'true' %>
-      <%= hidden_field_tag :request_id, @results.request_id %>
+      <%= hidden_field_tag :request_id, @search.request_id %>
 
       <% @results.answered_questions.each do |qa| %>
         <%= hidden_field_tag "answers[][question]", qa['question'] %>
