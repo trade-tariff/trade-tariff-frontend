@@ -58,7 +58,7 @@
             Heading
           </dt>
           <dd class="govuk-summary-list__value">
-            <%= @grouped_measure_commodity_changes.heading %>
+            <%= sanitize @grouped_measure_commodity_changes.heading %>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -66,7 +66,7 @@
             Classification
           </dt>
           <dd class="govuk-summary-list__value">
-            <%= @grouped_measure_commodity_changes.classification_description %>
+            <%= sanitize @grouped_measure_commodity_changes.classification_description %>
           </dd>
         </div>
       </dl>

@@ -34,7 +34,7 @@
               <strong><%= target.goods_nomenclature_item_id %></strong>
             </td>
             <td class="govuk-table__cell">
-              <%= target.classification_description %>
+              <%= sanitize target.classification_description %>
             </td>
           </tr>
           <% end %>
