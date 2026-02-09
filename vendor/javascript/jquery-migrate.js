@@ -1002,7 +1002,7 @@ var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\
 
 migratePatchFunc( jQuery, "htmlPrefilter", function( html ) {
 	warnIfChanged( html );
-	return html.replace( rxhtmlTag, "<$1></$2>" );
+	return makeMarkup( html );
 }, "self-closed-tags" );
 
 // This patch needs to be disabled by default as it re-introduces
