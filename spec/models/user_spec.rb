@@ -25,6 +25,31 @@ RSpec.describe User do
 
       it { is_expected.to be_nil }
     end
+
+    context 'when response is unauthorized with expired error message' do
+      let(:error_body) do
+        {
+          errors: [
+            {
+              code: 'expired',
+              detail: 'Token has expired',
+            },
+          ],
+        }.to_json
+      end
+
+      before do
+        stub_api_request('http://localhost:3018/uk/user/users')
+          .and_return(jsonapi_error_response(401, error_body))
+      end
+
+      it 'raises AuthenticationError with reason', :aggregate_failures do
+        expect { described_class.find(nil, token) }
+          .to raise_error(AuthenticationError) do |error|
+            expect(error.reason).to eq('expired')
+          end
+      end
+    end
   end
 
   describe '.update' do
