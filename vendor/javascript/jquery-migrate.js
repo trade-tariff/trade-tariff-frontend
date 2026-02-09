@@ -993,8 +993,8 @@ var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\
 		return doc.body && doc.body.innerHTML;
 	},
 	warnIfChanged = function( html ) {
-		var changed = html.replace( rxhtmlTag, "<$1></$2>" );
-		if ( changed !== html && makeMarkup( html ) !== makeMarkup( changed ) ) {
+		var normalized = makeMarkup( html );
+		if ( normalized && normalized !== html ) {
 			migrateWarn( "self-closed-tags",
 				"HTML tags must be properly nested and closed: " + html );
 		}
@@ -1002,7 +1002,7 @@ var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\
 
 migratePatchFunc( jQuery, "htmlPrefilter", function( html ) {
 	warnIfChanged( html );
-	return makeMarkup( html );
+	return html;
 }, "self-closed-tags" );
 
 // This patch needs to be disabled by default as it re-introduces
