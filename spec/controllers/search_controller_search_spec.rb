@@ -343,41 +343,6 @@ RSpec.describe SearchController, type: :controller do
         it { is_expected.to have_http_status(:ok) }
         it { is_expected.to render_template(:interactive_results) }
       end
-
-      context 'when skip_questions is true' do
-        let(:params) do
-          {
-            q: 'horses',
-            internal_search: 'true',
-            skip_questions: 'true',
-            request_id: 'abc-123',
-          }
-        end
-
-        before do
-          stub_api_request('search', :post, internal: true).to_return(
-            status: 200,
-            body: {
-              'data' => [commodity_data],
-              'meta' => {
-                'interactive_search' => {
-                  'query' => 'horses',
-                  'request_id' => 'abc-123',
-                  'result_limit' => 5,
-                  'answers' => [
-                    { 'question' => 'What type of horse?', 'options' => %w[Racing Breeding], 'answer' => nil },
-                  ],
-                },
-              },
-            }.to_json,
-            headers: { 'content-type' => 'application/json; charset=utf-8' },
-          )
-          do_response
-        end
-
-        it { is_expected.to have_http_status(:ok) }
-        it { is_expected.to render_template(:interactive_results) }
-      end
     end
 
     describe 'header for crawlers', vcr: { cassette_name: 'search#blank_match' } do

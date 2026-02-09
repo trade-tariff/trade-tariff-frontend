@@ -3,11 +3,6 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   static targets = ['form', 'results']
 
-  skipToResults(event) {
-    event.preventDefault()
-    this.#showResults()
-  }
-
   selectUnknown(event) {
     // When "I don't know" is selected, show pre-rendered results
     // Use a small delay to show the selection before transitioning

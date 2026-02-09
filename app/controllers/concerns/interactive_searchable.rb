@@ -19,9 +19,7 @@ module InteractiveSearchable
   end
 
   def route_interactive_results
-    if skip_questions?
-      render_interactive_results
-    elsif @results.has_pending_question?
+    if @results.has_pending_question?
       render_interactive_question
     else
       render_interactive_results
@@ -105,10 +103,6 @@ module InteractiveSearchable
     JSON.parse(value)
   rescue JSON::ParserError
     []
-  end
-
-  def skip_questions?
-    params[:skip_questions] == 'true' && @results.interactive_search?
   end
 
   def render_interactive_question
