@@ -127,6 +127,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
         click_link 'Unsubscribe from commodity watch list'
         expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
         click_button 'Confirm'
+        expect(page).to have_title('Error: Unsubscribe from commodity watch list | UK Online Trade Tariff')
         expect(page).to have_content('Select yes if you want to unsubscribe from your commodity watch list')
         expect(page).to have_link('Select yes if you want to unsubscribe from your commodity watch list', href: '#radio-buttons')
       end
