@@ -33,5 +33,12 @@ RSpec.describe CacheHelper, type: :helper do
 
       it { expect(instance.commodity_cache_key).not_to eq(instance2.commodity_cache_key) }
     end
+
+    context 'when request_id is present, it is excluded from the cache key' do
+      let(:without_request_id) { cacheable.new('2025-01-01', { day: '04', month: '01', year: '2025', id: '2008605010' }) }
+      let(:with_request_id) { cacheable.new('2025-01-01', { day: '04', month: '01', year: '2025', id: '2008605010', request_id: SecureRandom.uuid }) }
+
+      it { expect(with_request_id.commodity_cache_key).to eq(without_request_id.commodity_cache_key) }
+    end
   end
 end

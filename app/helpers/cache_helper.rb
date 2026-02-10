@@ -1,4 +1,6 @@
 module CacheHelper
+  CACHE_EXCLUDED_PARAMS = %w[request_id].freeze
+
   def cache_key
     [TradeTariffFrontend::ServiceChooser.cache_prefix, @tariff_last_updated, TradeTariffFrontend.revision].join('/')
   end
@@ -8,7 +10,11 @@ module CacheHelper
       'commodities#show',
       cache_key,
       meursing_lookup_result.meursing_additional_code_id,
-      params.to_unsafe_h.sort.map { |_, v| v }.compact.join('/'),
+      cache_params.sort.map { |_, v| v }.compact.join('/'),
     ].compact
+  end
+
+  def cache_params
+    params.to_unsafe_h.except(*CACHE_EXCLUDED_PARAMS)
   end
 end
