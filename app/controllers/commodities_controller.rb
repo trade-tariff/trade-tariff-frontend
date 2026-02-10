@@ -65,13 +65,13 @@ class CommoditiesController < GoodsNomenclaturesController
   end
 
   def subheading
-    Subheading.find("#{params[:id]}-80", query_params)
+    Subheading.find("#{params[:id]}-80", query_params, search_tracking_headers)
   end
 
   def uk_heading
     @uk_heading ||= Rails.cache.fetch(['commodities#uk_heading', cache_key, heading_id, query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-        HeadingPresenter.new(Heading.find(heading_id, query_params))
+        HeadingPresenter.new(Heading.find(heading_id, query_params, search_tracking_headers))
       end
     end
   end
@@ -79,7 +79,7 @@ class CommoditiesController < GoodsNomenclaturesController
   def xi_heading
     @xi_heading ||= Rails.cache.fetch(['commodities#xi_heading', cache_key, heading_id, query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:xi) do
-        HeadingPresenter.new(Heading.find(heading_id, query_params))
+        HeadingPresenter.new(Heading.find(heading_id, query_params, search_tracking_headers))
       end
     end
   end
@@ -87,7 +87,7 @@ class CommoditiesController < GoodsNomenclaturesController
   def uk_commodity
     @uk_commodity ||= Rails.cache.fetch(['commodities#uk_commodity', cache_key, params[:id], query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-        CommodityPresenter.new(Commodity.find(params[:id], query_params))
+        CommodityPresenter.new(Commodity.find(params[:id], query_params, search_tracking_headers))
       end
     end
   end
@@ -95,7 +95,7 @@ class CommoditiesController < GoodsNomenclaturesController
   def xi_commodity
     @xi_commodity ||= Rails.cache.fetch(['commodities#xi_commodity', cache_key, params[:id], query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:xi) do
-        CommodityPresenter.new(Commodity.find(params[:id], query_params))
+        CommodityPresenter.new(Commodity.find(params[:id], query_params, search_tracking_headers))
       end
     end
   end
