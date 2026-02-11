@@ -20,7 +20,7 @@
       <tr class="govuk-table__row">
         <th class="govuk-table__header"><%= change['change_type'] %></th>
         <% if has_additional_code %>
-          <td class="govuk-table__cell"><%= change['additional_code'].presence || 'N/A' %></td>
+          <td class="govuk-table__cell"><%= sanitize change['additional_code'].presence || 'N/A' %></td>
         <% end %>
         <td class="govuk-table__cell"><%= date.to_fs %></td>
         <td class="govuk-table__cell"><%= link_to("View commodity on #{date_visible.to_fs}", commodity_path(@grouped_measure_commodity_changes.goods_nomenclature_item_id, day: date_visible.day, month: date_visible.month, year: date_visible.year)) %></td>
