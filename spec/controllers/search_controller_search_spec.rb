@@ -338,7 +338,7 @@ RSpec.describe SearchController, type: :controller do
       end
 
       context 'when backend returns a single exact match' do
-        let(:params) { { q: '0101210000', internal_search: 'true' } }
+        let(:params) { { q: '0101210000', interactive_search: 'true' } }
 
         let(:exact_match_data) do
           {
