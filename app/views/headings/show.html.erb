@@ -29,7 +29,7 @@
 <% end %>
 
 <% if cacheable %>
-  <% heading_cache_key = ['headings#show', cache_key, params.values.compact.map(&:to_s).sort.join('/')] %>
+  <% heading_cache_key = ['headings#show', cache_key, cache_params.values.compact.map(&:to_s).sort.join('/')] %>
   <%= cache(heading_cache_key) { concat(content) } %>
 <% else %>
   <%= content %>

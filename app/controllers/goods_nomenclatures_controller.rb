@@ -28,4 +28,10 @@ class GoodsNomenclaturesController < ApplicationController
   def set_goods_nomenclature_code
     @goods_nomenclature_code = goods_code_id
   end
+
+  def search_tracking_headers
+    return {} if params[:request_id].blank?
+
+    { 'X-Search-Request-Id' => params[:request_id] }
+  end
 end

@@ -22,7 +22,7 @@ class CommodityCodesExtractionService
     rows =
       case file.content_type
       when 'text/csv'
-        CSV.parse(file.read).map { |row| row[0] }
+        file.read.lines.map { |line| line.split(',').first&.strip }
       else
         sheet = Roo::Spreadsheet.open(file).sheet(0)
         sheet.last_row.present? ? sheet.column(COMMODITY_CODES_COLUMN).compact : []

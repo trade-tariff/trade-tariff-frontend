@@ -19,8 +19,8 @@ module InteractiveSearchable
   end
 
   def route_interactive_results
-    if skip_questions?
-      render_interactive_results
+    if @results.exact_match?
+      redirect_to url_for @results.to_param.merge(url_options).merge(request_id: @search.request_id, only_path: true)
     elsif @results.has_pending_question?
       render_interactive_question
     else
@@ -55,8 +55,8 @@ module InteractiveSearchable
     :invalid
   end
 
-  def internal_search?
-    @search.internal_search && TradeTariffFrontend.internal_search_enabled?
+  def interactive_search?
+    @search.interactive_search && TradeTariffFrontend.interactive_search_enabled?
   end
 
   def merge_current_answer
@@ -105,10 +105,6 @@ module InteractiveSearchable
     JSON.parse(value)
   rescue JSON::ParserError
     []
-  end
-
-  def skip_questions?
-    params[:skip_questions] == 'true' && @results.interactive_search?
   end
 
   def render_interactive_question

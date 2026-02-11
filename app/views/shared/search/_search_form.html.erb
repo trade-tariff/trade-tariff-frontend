@@ -6,22 +6,22 @@
 <%= hidden_field_tag :day, @search.day %>
 <% end %>
 
-<% if TradeTariffFrontend.internal_search_enabled? %>
-<div data-controller="internal-search"
-     data-internal-search-v2-suggestions-path-value="<%= search_suggestions_path(format: :json) %>"
-     data-internal-search-internal-suggestions-path-value="<%= internal_search_suggestions_path(format: :json) %>">
+<% if TradeTariffFrontend.interactive_search_enabled? %>
+<div data-controller="interactive-search"
+     data-interactive-search-v2-suggestions-path-value="<%= search_suggestions_path(format: :json) %>"
+     data-interactive-search-interactive-suggestions-path-value="<%= interactive_search_suggestions_path(format: :json) %>">
   <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-bottom-2">
     <div class="govuk-checkboxes__item">
-      <input class="govuk-checkboxes__input" id="internal_search_toggle" type="checkbox"
-             data-internal-search-target="toggle"
-             data-action="internal-search#toggle">
-      <label class="govuk-label govuk-checkboxes__label" for="internal_search_toggle">
+      <input class="govuk-checkboxes__input" id="interactive_search_toggle" type="checkbox"
+             data-interactive-search-target="toggle"
+             data-action="interactive-search#toggle">
+      <label class="govuk-label govuk-checkboxes__label" for="interactive_search_toggle">
         Use new search
       </label>
     </div>
   </div>
-  <input type="hidden" name="internal_search" value="false"
-         data-internal-search-target="hiddenField">
+  <input type="hidden" name="interactive_search" value="false"
+         data-interactive-search-target="hiddenField">
 </div>
 <% end %>
 

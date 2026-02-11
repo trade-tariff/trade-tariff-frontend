@@ -9,7 +9,6 @@ describe('InteractiveQuestionController', () => {
       <div data-controller="interactive-question">
         <div data-interactive-question-target="form" id="form">
           <input type="radio" id="unknown" data-action="change->interactive-question#selectUnknown">
-          <a href="#" data-action="click->interactive-question#skipToResults">Skip</a>
         </div>
         <div data-interactive-question-target="results" id="results" class="govuk-!-display-none">
           <p>Pre-rendered results</p>
@@ -24,31 +23,6 @@ describe('InteractiveQuestionController', () => {
   afterEach(() => {
     application.stop();
     jest.useRealTimers();
-  });
-
-  describe('#skipToResults', () => {
-    it('hides the form', () => {
-      const form = document.querySelector('#form');
-      const skipLink = document.querySelector('a[data-action]');
-
-      const event = new Event('click', {bubbles: true});
-      jest.spyOn(event, 'preventDefault');
-
-      skipLink.dispatchEvent(event);
-
-      expect(event.preventDefault).toHaveBeenCalled();
-      expect(form.classList.contains('govuk-!-display-none')).toBe(true);
-    });
-
-    it('shows the results', () => {
-      const results = document.querySelector('#results');
-      const skipLink = document.querySelector('a[data-action]');
-
-      const event = new Event('click', {bubbles: true});
-      skipLink.dispatchEvent(event);
-
-      expect(results.classList.contains('govuk-!-display-none')).toBe(false);
-    });
   });
 
   describe('#selectUnknown', () => {

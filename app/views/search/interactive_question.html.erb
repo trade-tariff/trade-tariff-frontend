@@ -16,7 +16,7 @@
       <%= f.govuk_error_summary %>
 
       <%= hidden_field_tag :q, @search.q %>
-      <%= hidden_field_tag :internal_search, 'true' %>
+      <%= hidden_field_tag :interactive_search, 'true' %>
       <%= hidden_field_tag :request_id, @search.request_id %>
 
       <% @results.answered_questions.each do |qa| %>
@@ -47,19 +47,6 @@
       </div>
     <% end %>
 
-    <% if @results.answered_questions.any? %>
-      <div class="govuk-!-margin-top-6">
-        <h2 class="govuk-heading-s">Skip to results</h2>
-        <p class="govuk-body">
-          If you have answered a few questions, you can skip forward to see what results
-          have already been found. If you need to come back and refine the results, you
-          will have that chance.
-        </p>
-        <%= link_to "Skip to results page", "#",
-            class: "govuk-button govuk-button--secondary",
-            data: { action: "click->interactive-question#skipToResults" } %>
-      </div>
-    <% end %>
 
     <% if @results.result_limit.positive? && @results.any? %>
       <div class="govuk-!-margin-top-6">

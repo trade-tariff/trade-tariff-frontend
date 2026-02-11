@@ -40,9 +40,11 @@ module AuthenticatableApiEntity
     end
 
     def extract_error_reason(error)
-      return nil unless error.response&.dig(:body)
+      body = error.response&.dig(:body)
 
-      body = JSON.parse(error.response[:body])
+      return nil if body.nil?
+
+      body = JSON.parse(body) if body.is_a?(String)
       body.dig('errors', 0, 'code')
     rescue JSON::ParserError
       nil
