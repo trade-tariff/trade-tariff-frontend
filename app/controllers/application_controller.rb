@@ -2,13 +2,12 @@ require 'api_entity'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  include TradeTariffFrontend::ViewContext::Controller
   include ApplicationHelper
   include BasicSessionAuth
   include CacheHelper
+  include TradeTariffFrontend::ViewContext::Controller
 
   before_action :maintenance_mode_if_active
-
   before_action :set_cache
   before_action :set_last_updated
   before_action :set_path_info
@@ -40,7 +39,14 @@ class ApplicationController < ActionController::Base
 
   helper_method :cookies_policy,
                 :meursing_lookup_result,
-                :is_switch_service_banner_enabled?
+                :is_switch_service_banner_enabled?,
+                :feature_enabled?,
+                :session_identifier
+
+  def session_identifier
+    # At some point this may well become a user ID when behind auth
+    request.session['id'] ||= SecureRandom.uuid
+  end
 
   def set_last_updated
     # rubocop:disable Naming/MemoizedInstanceVariableName
