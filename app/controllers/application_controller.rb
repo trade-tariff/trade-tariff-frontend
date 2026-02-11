@@ -139,8 +139,8 @@ class ApplicationController < ActionController::Base
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
                    faq_send_feedback_path: green_lanes_send_feedback_path }
 
-    if TradeTariffFrontend.internal_search_enabled?
-      @path_info[:internal_search_suggestions_path] = internal_search_suggestions_path(format: :json)
+    if TradeTariffFrontend.interactive_search_enabled?
+      @path_info[:interactive_search_suggestions_path] = interactive_search_suggestions_path(format: :json)
     end
   end
 

@@ -175,7 +175,7 @@ Rails.application.routes.draw do
   end
 
   get 'search_suggestions', to: 'search#suggestions', as: :search_suggestions
-  get 'internal_search_suggestions', to: 'search#internal_suggestions', as: :internal_search_suggestions
+  get 'internal_search_suggestions', to: 'search#interactive_suggestions', as: :interactive_search_suggestions
   get 'quota_search', to: 'search#quota_search', as: :quota_search
   get 'simplified_procedure_value', to: 'simplified_procedural_values#index', as: :simplified_procedural_values
   get 'additional_code_search', to: 'additional_code_search#new', as: :additional_code_search

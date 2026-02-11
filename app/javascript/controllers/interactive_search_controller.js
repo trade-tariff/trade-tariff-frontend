@@ -5,11 +5,11 @@ export default class extends Controller {
   static targets = ['toggle', 'hiddenField']
   static values = {
     v2SuggestionsPath: String,
-    internalSuggestionsPath: String,
+    interactiveSuggestionsPath: String,
   }
 
   connect() {
-    const enabled = Cookies.get('internal_search') === 'true'
+    const enabled = Cookies.get('interactive_search') === 'true'
     this.toggleTarget.checked = enabled
     this.hiddenFieldTarget.value = enabled.toString()
     this.#updateSuggestionsPath(enabled)
@@ -19,7 +19,7 @@ export default class extends Controller {
     const enabled = this.toggleTarget.checked
     const isSecure = location.protocol === 'https:'
 
-    Cookies.set('internal_search', enabled.toString(), {
+    Cookies.set('interactive_search', enabled.toString(), {
       expires: 365,
       secure: isSecure,
       sameSite: 'Strict',
@@ -34,7 +34,7 @@ export default class extends Controller {
 
     if (pathInfoEl) {
       pathInfoEl.dataset.searchSuggestionsPath = enabled
-        ? this.internalSuggestionsPathValue
+        ? this.interactiveSuggestionsPathValue
         : this.v2SuggestionsPathValue
     }
   }

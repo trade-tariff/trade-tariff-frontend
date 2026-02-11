@@ -55,8 +55,8 @@ module InteractiveSearchable
     :invalid
   end
 
-  def internal_search?
-    @search.internal_search && TradeTariffFrontend.internal_search_enabled?
+  def interactive_search?
+    @search.interactive_search && TradeTariffFrontend.interactive_search_enabled?
   end
 
   def merge_current_answer

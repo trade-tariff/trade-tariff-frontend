@@ -16,7 +16,7 @@
       <%= f.govuk_error_summary %>
 
       <%= hidden_field_tag :q, @search.q %>
-      <%= hidden_field_tag :internal_search, 'true' %>
+      <%= hidden_field_tag :interactive_search, 'true' %>
       <%= hidden_field_tag :request_id, @search.request_id %>
 
       <% @results.answered_questions.each do |qa| %>
