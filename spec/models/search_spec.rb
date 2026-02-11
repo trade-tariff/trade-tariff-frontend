@@ -193,10 +193,10 @@ RSpec.describe Search do
   end
 
   describe '#perform' do
-    context 'when internal_search is true and INTERNAL_SEARCH_ENABLED is true' do
+    context 'when interactive_search is true and interactive search is enabled' do
       subject(:perform_search) do
         search = described_class.new(q: 'horses')
-        search.internal_search = true
+        search.interactive_search = true
         search.perform
       end
 
@@ -221,7 +221,7 @@ RSpec.describe Search do
       end
 
       before do
-        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(true)
+        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
         stub_api_request('search', :post, internal: true)
           .to_return(status: 200,
                      body: internal_response_body.to_json,
@@ -237,15 +237,15 @@ RSpec.describe Search do
       end
     end
 
-    context 'when internal_search is true and response is empty' do
+    context 'when interactive_search is true and response is empty' do
       subject(:perform_search) do
         search = described_class.new(q: 'xyznonexistent')
-        search.internal_search = true
+        search.interactive_search = true
         search.perform
       end
 
       before do
-        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(true)
+        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
         stub_api_request('search', :post, internal: true)
           .to_return(status: 200,
                      body: { 'data' => [] }.to_json,
@@ -257,11 +257,11 @@ RSpec.describe Search do
       end
     end
 
-    context 'when internal_search is false even though INTERNAL_SEARCH_ENABLED is true' do
+    context 'when interactive_search is false even though interactive search is enabled' do
       subject(:perform_search) { described_class.new(q: 'horses').perform }
 
       before do
-        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(true)
+        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
         stub_api_request('search', :post).to_return(
           jsonapi_response(:search, {
             type: 'fuzzy_match',
@@ -276,11 +276,11 @@ RSpec.describe Search do
       end
     end
 
-    context 'when INTERNAL_SEARCH_ENABLED is false' do
+    context 'when interactive search is disabled' do
       subject(:perform_search) { described_class.new(q: 'horses').perform }
 
       before do
-        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(false)
+        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(false)
         stub_api_request('search', :post).to_return(
           jsonapi_response(:search, {
             type: 'fuzzy_match',

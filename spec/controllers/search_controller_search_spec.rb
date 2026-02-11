@@ -256,6 +256,36 @@ RSpec.describe SearchController, type: :controller do
       end
     end
 
+    describe 'rack-timeout extension for interactive search' do
+      context 'when interactive_search is true' do
+        let(:params) { { q: 'horses', interactive_search: 'true' } }
+
+        before do
+          allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: { 'data' => [], 'meta' => {} }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it 'sets rack-timeout service_timeout to 50' do
+          expect(request.env['rack-timeout.service_timeout']).to eq(50)
+        end
+      end
+
+      context 'when interactive_search is not set', vcr: { cassette_name: 'search#search_fuzzy' } do
+        let(:params) { { q: 'horses', day: '11', month: '05', year: '2023' } }
+
+        before { do_response }
+
+        it 'does not set rack-timeout service_timeout' do
+          expect(request.env['rack-timeout.service_timeout']).to be_nil
+        end
+      end
+    end
+
     context 'with internal interactive search' do
       subject(:do_response) { get :search, params: }
 
@@ -276,11 +306,11 @@ RSpec.describe SearchController, type: :controller do
       end
 
       before do
-        allow(TradeTariffFrontend).to receive(:internal_search_enabled?).and_return(true)
+        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
       end
 
       context 'when backend returns a pending question' do
-        let(:params) { { q: 'horses', internal_search: 'true' } }
+        let(:params) { { q: 'horses', interactive_search: 'true' } }
 
         before do
           stub_api_request('search', :post, internal: true).to_return(
@@ -308,7 +338,7 @@ RSpec.describe SearchController, type: :controller do
       end
 
       context 'when backend returns a single exact match' do
-        let(:params) { { q: '0101210000', internal_search: 'true' } }
+        let(:params) { { q: '0101210000', interactive_search: 'true' } }
 
         let(:exact_match_data) do
           {
@@ -352,7 +382,7 @@ RSpec.describe SearchController, type: :controller do
         let(:params) do
           {
             q: 'horses',
-            internal_search: 'true',
+            interactive_search: 'true',
             request_id: 'abc-123',
             answers: [
               { question: 'What type of horse?', options: %w[Racing Breeding], answer: 'Breeding' },

@@ -15,7 +15,7 @@ class Search
                 :month,
                 :year,
                 :resource_id,
-                :internal_search,
+                :interactive_search,
                 :answers,
                 :request_id
 
@@ -31,7 +31,7 @@ class Search
   end
 
   def perform
-    if internal_search && TradeTariffFrontend.internal_search_enabled?
+    if interactive_search && TradeTariffFrontend.interactive_search_enabled?
       perform_internal_search
     else
       perform_v2_search

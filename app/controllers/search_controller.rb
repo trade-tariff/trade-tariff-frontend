@@ -7,14 +7,15 @@ class SearchController < ApplicationController
 
   before_action :disable_switch_service_banner, only: [:quota_search]
   before_action :disable_search_form, except: [:search]
+  before_action :extend_timeout_for_interactive_search, only: [:search]
 
   def search
     @search.q = params[:q] if params[:q]
-    @search.internal_search = params[:internal_search] == 'true'
+    @search.interactive_search = params[:interactive_search] == 'true'
     @search.answers = params[:answers] if params[:answers].present?
     @search.request_id = params[:request_id].presence || SecureRandom.uuid
 
-    if internal_search?
+    if interactive_search?
       perform_interactive_search
     else
       perform_classic_search
@@ -39,8 +40,8 @@ class SearchController < ApplicationController
     render json: { results: }
   end
 
-  def internal_suggestions
-    unless TradeTariffFrontend.internal_search_enabled?
+  def interactive_suggestions
+    unless TradeTariffFrontend.interactive_search_enabled?
       return suggestions
     end
 
@@ -96,6 +97,12 @@ class SearchController < ApplicationController
 
   private
 
+  def extend_timeout_for_interactive_search
+    return unless params[:interactive_search] == 'true'
+
+    request.env['rack-timeout.service_timeout'] = 50
+  end
+
   def anchor
     params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_-]/, '').presence
   end
@@ -131,7 +138,7 @@ class SearchController < ApplicationController
       :month,
       :year,
       :as_of,
-      :internal_search,
+      :interactive_search,
       :request_id,
       :current_question,
       :current_options,
