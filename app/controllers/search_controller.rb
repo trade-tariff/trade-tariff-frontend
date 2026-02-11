@@ -7,7 +7,6 @@ class SearchController < ApplicationController
 
   before_action :disable_switch_service_banner, only: [:quota_search]
   before_action :disable_search_form, except: [:search]
-  before_action :extend_timeout_for_interactive_search, only: [:search]
 
   def search
     @search.q = params[:q] if params[:q]
@@ -96,12 +95,6 @@ class SearchController < ApplicationController
   end
 
   private
-
-  def extend_timeout_for_interactive_search
-    return unless params[:interactive_search] == 'true'
-
-    request.env['rack-timeout.service_timeout'] = 50
-  end
 
   def anchor
     params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_-]/, '').presence

@@ -256,36 +256,6 @@ RSpec.describe SearchController, type: :controller do
       end
     end
 
-    describe 'rack-timeout extension for interactive search' do
-      context 'when interactive_search is true' do
-        let(:params) { { q: 'horses', interactive_search: 'true' } }
-
-        before do
-          allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
-          stub_api_request('search', :post, internal: true).to_return(
-            status: 200,
-            body: { 'data' => [], 'meta' => {} }.to_json,
-            headers: { 'content-type' => 'application/json; charset=utf-8' },
-          )
-          do_response
-        end
-
-        it 'sets rack-timeout service_timeout to 50' do
-          expect(request.env['rack-timeout.service_timeout']).to eq(50)
-        end
-      end
-
-      context 'when interactive_search is not set', vcr: { cassette_name: 'search#search_fuzzy' } do
-        let(:params) { { q: 'horses', day: '11', month: '05', year: '2023' } }
-
-        before { do_response }
-
-        it 'does not set rack-timeout service_timeout' do
-          expect(request.env['rack-timeout.service_timeout']).to be_nil
-        end
-      end
-    end
-
     context 'with internal interactive search' do
       subject(:do_response) { get :search, params: }
 
