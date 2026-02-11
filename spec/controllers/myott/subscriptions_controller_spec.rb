@@ -38,6 +38,7 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       end
 
       it { is_expected.not_to redirect_to myott_path }
+      it { is_expected.to render_template(:invalid) }
     end
   end
 
