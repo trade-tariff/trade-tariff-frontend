@@ -19,7 +19,9 @@ module InteractiveSearchable
   end
 
   def route_interactive_results
-    if @results.has_pending_question?
+    if @results.exact_match?
+      redirect_to url_for @results.to_param.merge(url_options).merge(request_id: @search.request_id, only_path: true)
+    elsif @results.has_pending_question?
       render_interactive_question
     else
       render_interactive_results
