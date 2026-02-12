@@ -7,40 +7,22 @@
         <% back_link myott_path %>
       <% end %>
 
-      <h1 class="govuk-heading-l">Set subscription preferences</h1>
-      <p>You can choose to receive updates on all tariff chapters, or  select specific tariff chapters you are interested in.</p>
-      <p class="govuk-inset-text">You can change what tariff chapters you receive updates about at any time
-        by following the link in the tariff update emails.</p>
+      <%= form_with model: @form, url: myott_stop_press_preferences_path, method: :post, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+        <%= f.govuk_error_summary %>
 
-      <%= form_with url: myott_stop_press_preferences_path, method: :post, local: true do %>
-        <fieldset class="govuk-fieldset" aria-describedby="select-hint">
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-            <h2 class="govuk-fieldset__heading govuk-heading-m">What tariff updates would you like to receive?</h2>
-          </legend>
-          <div id="select-hint" class="govuk-hint">
-            If you want to select specific chapters, you should have a list of all the chapters you want before starting.
-          </div>
-          <% if flash.now[:select_error] %>
-            <p class="govuk-error-message">
-              <%= flash.now[:select_error] %>
-            </p>
-          <% end %>
-          <div class="govuk-radios" data-module="govuk-radios" id="radio-buttons">
-            <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="selectChapters" name="preference" type="radio" value="selectChapters">
-              <label class="govuk-label govuk-radios__label" for="selectChapters">
-                Select the tariff chapters I am interested in
-              </label>
-            </div>
-            <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="allChapters" name="preference" type="radio" value="allChapters">
-              <label class="govuk-label govuk-radios__label" for="allChapters">
-                All tariff chapter updates
-              </label>
-            </div>
-          </div>
-        </fieldset>
-        <%= submit_tag "Continue", class: "govuk-button govuk-!-margin-top-4" %>
+        <h1 class="govuk-heading-l">Set subscription preferences</h1>
+        <p>You can choose to receive updates on all tariff chapters, or  select specific tariff chapters you are interested in.</p>
+        <p class="govuk-inset-text">You can change what tariff chapters you receive updates about at any time
+          by following the link in the tariff update emails.</p>
+
+        <%= f.govuk_radio_buttons_fieldset :preference,
+            id: "myott-stop-press-preference-form-preference-field-error",
+            legend: { text: "What tariff updates would you like to receive?", size: "m" },
+            hint: { text: "If you want to select specific chapters, you should have a list of all the chapters you want before starting." } do %>
+          <%= f.govuk_radio_button :preference, Myott::StopPressPreferenceForm::SELECT_CHAPTERS, label: { text: "Select the tariff chapters I am interested in" } %>
+          <%= f.govuk_radio_button :preference, Myott::StopPressPreferenceForm::ALL_CHAPTERS, label: { text: "All tariff chapter updates" } %>
+        <% end %>
+        <%= f.submit "Continue", class: "govuk-button govuk-!-margin-top-4" %>
       <% end %>
     </div>
   </div>
