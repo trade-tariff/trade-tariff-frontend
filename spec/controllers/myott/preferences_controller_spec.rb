@@ -44,7 +44,7 @@ RSpec.describe Myott::PreferencesController, type: :controller do
 
       context 'when selectChapters is selected' do
         before do
-          post :create, params: { preference: 'selectChapters' }
+          post :create, params: { myott_stop_press_preference_form: { preference: 'selectChapters' } }
         end
 
         it { is_expected.to redirect_to(edit_myott_stop_press_preferences_path) }
@@ -52,7 +52,7 @@ RSpec.describe Myott::PreferencesController, type: :controller do
 
       context 'when allChapters is selected' do
         before do
-          post :create, params: { preference: 'allChapters' }
+          post :create, params: { myott_stop_press_preference_form: { preference: 'allChapters' } }
         end
 
         it { is_expected.to redirect_to(check_your_answers_myott_stop_press_path) }
@@ -67,10 +67,8 @@ RSpec.describe Myott::PreferencesController, type: :controller do
           expect(response).to render_template(:new)
         end
 
-        it { expect(assigns(:alert)).to eq('Select a subscription preference to continue') }
-
-        it 'sets a flash select_error message' do
-          expect(flash.now[:select_error]).to eq('Select an option to continue')
+        it 'displays validation errors' do
+          expect(assigns(:form).errors[:preference]).to be_present
         end
       end
     end
