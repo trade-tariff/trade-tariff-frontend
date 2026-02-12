@@ -91,9 +91,11 @@ Rails.application.configure do
   end
 
   config.lograge.ignore_actions = [
-    'HealthcheckController#index',
+    'HealthcheckController#check',
     'HealthcheckController#checkz',
   ]
+
+  config.silence_healthcheck_path = '/healthcheckz'
 
   # set default_url_options
   config.action_controller.default_url_options = {
