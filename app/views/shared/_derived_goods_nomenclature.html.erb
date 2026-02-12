@@ -12,7 +12,7 @@
     <tr class="govuk-table__row">
       <td class="govuk-table__cell"><%= link_to(goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature)) %></th>
       <td class="govuk-table__cell">
-        <%= sanitize sanitize_quotes(goods_nomenclature.formatted_description) %>
+        <%= sanitize sanitize_quotes(goods_nomenclature.formatted_description) unless goods_nomenclature.formatted_description.nil? %>
       </td>
       <td class="govuk-table__cell"><%= goods_nomenclature.validity_start_date&.to_formatted_s(:long) %></td>
     </tr>
