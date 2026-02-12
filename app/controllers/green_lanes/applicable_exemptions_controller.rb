@@ -145,7 +145,7 @@ module GreenLanes
       uri = URI(next_page)
       path = uri.path
       next_page_query = if uri.query
-                          Rack::Utils.parse_query(uri.query)
+                          CGI.parse(uri.query).transform_values(&:first)
                         else
                           {}
                         end
