@@ -130,6 +130,20 @@ RSpec.describe SearchController, type: :controller do
         it { is_expected.to redirect_to("#{chapter_path('01')}?") }
       end
 
+      context 'when referer has existing query params' do
+        let(:request_referer) { "http://test.host#{chapter_path('01')}?q=apples&country=GB" }
+        let(:year)    { now.year - 1 }
+        let(:month)   { now.month }
+        let(:day)     { now.day }
+
+        it 'preserves referer query params in the redirect' do
+          redirect_uri = URI(response.location)
+          params = Rack::Utils.parse_query(redirect_uri.query)
+
+          expect(params).to include('q' => 'apples', 'country' => 'GB')
+        end
+      end
+
       context 'when date param is a string' do
         subject(:do_response) do
           post :search, params: { date: '2012-10-1' }

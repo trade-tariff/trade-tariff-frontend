@@ -1,5 +1,4 @@
 require 'addressable/uri'
-require 'cgi'
 
 class SearchController < ApplicationController
   include GoodsNomenclatureHelper
