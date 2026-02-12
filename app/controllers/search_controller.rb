@@ -1,4 +1,5 @@
 require 'addressable/uri'
+require 'cgi'
 
 class SearchController < ApplicationController
   include GoodsNomenclatureHelper
@@ -108,8 +109,7 @@ class SearchController < ApplicationController
       return sections_path(anchor:)
     end
 
-    query_values = CGI.parse(back_url.query || '')
-    query_values = query_values.transform_values { |v| v.many? ? v : v.first }
+    query_values = Rack::Utils.parse_query(back_url.query || '')
     query_values = query_values.merge(@search.query_attributes)
     query_values = query_values.tap { |qv| qv.delete('invalid_date') }
 
