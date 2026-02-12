@@ -6,6 +6,7 @@ class GeographicalArea
   ERGA_OMNES = '1011'.freeze
 
   include ApiEntity
+  extend CacheHelper
 
   enum :id, {
     channel_islands: '1080',
@@ -23,7 +24,7 @@ class GeographicalArea
 
   class << self
     def european_union
-      @european_union ||= Rails.cache.fetch("european_union", EUROPEAN_UNION_ID) do
+      @european_union ||= Rails.cache.fetch(["european_union", cache_key, EUROPEAN_UNION_ID]) do
         find(EUROPEAN_UNION_ID).tap do |eu|
           if eu.description != 'European Union'
             info = {
