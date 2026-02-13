@@ -16,8 +16,6 @@ module Myott
         session[:all_tariff_updates] = true
         redirect_to check_your_answers_myott_stop_press_path and return
       else
-        @alert = @form.errors[:preference].first
-        @div_id = 'myott-stop-press-preference-form-preference-field'
         render :new
       end
     end

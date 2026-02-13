@@ -1,4 +1,4 @@
-<% myott_page_title "Set preferences", error: @alert %>
+<% myott_page_title "Set preferences", error: @form.errors.any? %>
 
 <div class="govuk-body">
   <div class="govuk-grid-row">
@@ -8,13 +8,14 @@
       <% end %>
 
       <%= form_with model: @form, url: myott_stop_press_preferences_path, method: :post, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+        <%= f.govuk_error_summary %>
         <h1 class="govuk-heading-l">Set subscription preferences</h1>
         <p>You can choose to receive updates on all tariff chapters, or  select specific tariff chapters you are interested in.</p>
         <p class="govuk-inset-text">You can change what tariff chapters you receive updates about at any time
           by following the link in the tariff update emails.</p>
 
         <%= f.govuk_radio_buttons_fieldset :preference,
-            id: "myott-stop-press-preference-form-preference-field",
+            id: "myott-stop-press-preference-form-preference-field-error",
             legend: { text: "What tariff updates would you like to receive?", size: "m" },
             hint: { text: "If you want to select specific chapters, you should have a list of all the chapters you want before starting." } do %>
           <%= f.govuk_radio_button :preference, Myott::StopPressPreferenceForm::SELECT_CHAPTERS, label: { text: "Select the tariff chapters I am interested in" } %>

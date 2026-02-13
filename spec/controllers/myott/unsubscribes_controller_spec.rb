@@ -61,13 +61,11 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
           }
         end
 
-        let(:error_message) { 'Select yes if you want to unsubscribe from your commodity watch list' }
-
-        it 'assigns the alert message' do
-          expect(assigns(:alert)).to eq(error_message)
+        it 'displays validation errors' do
+          expect(assigns(:form).errors[:decision]).to be_present
         end
 
-        it 'renders the show template with an error' do
+        it 'renders the my_commodities template again' do
           expect(response).to render_template(:my_commodities)
         end
       end

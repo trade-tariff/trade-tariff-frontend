@@ -82,7 +82,7 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
         click_button 'Continue'
         expect(page).to have_title('Error: Set preferences | UK Online Trade Tariff')
         expect(page).to have_content('Select a subscription preference to continue')
-        expect(page).to have_link('Select a subscription preference to continue', href: '#myott-stop-press-preference-form-preference-field')
+        expect(page).to have_link('Select a subscription preference to continue', href: '#myott-stop-press-preference-form-preference-field-error')
       end
     end
   end

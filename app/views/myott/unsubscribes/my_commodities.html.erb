@@ -1,4 +1,4 @@
-<% myott_page_title "Unsubscribe from commodity watch list", error: @alert %>
+<% myott_page_title "Unsubscribe from commodity watch list", error: @form.errors.any? %>
 
 <% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs(
@@ -14,10 +14,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds govuk-body">
     <%= form_with model: @form, url: myott_unsubscribe_path(params[:id]), method: :delete, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
-       <%= f.govuk_radio_buttons_fieldset :decision,
-       id: "myott-unsubscribe-my-commodities-form-decision-field",
-          legend: { text: 'Are you sure you want to unsubscribe from your commodity watch list?', size: 'l' },
-          hint: { text: "You will no longer have access to your commodity watch list dashboard or receive email notifications" } do %>
+      <%= f.govuk_error_summary %>
+      <%= f.govuk_radio_buttons_fieldset :decision,
+        id: "myott-unsubscribe-my-commodities-form-decision-field-error",
+        legend: { text: 'Are you sure you want to unsubscribe from your commodity watch list?', size: 'l' },
+        hint: { text: "You will no longer have access to your commodity watch list dashboard or receive email notifications" } do %>
         <%= f.govuk_radio_button :decision, 'true', label: { text: "Yes" } %>
         <%= f.govuk_radio_button :decision, 'false', label: { text: "No" } %>
       <% end %>

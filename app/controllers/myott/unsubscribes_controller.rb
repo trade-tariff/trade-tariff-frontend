@@ -52,8 +52,6 @@ module Myott
       return redirect_to myott_mycommodities_path if @form.declined?
       return delete_subscription if @form.confirmed?
 
-      @alert = @form.errors[:decision].first
-      @div_id = 'myott-unsubscribe-my-commodities-form-decision-field'
       render subscription_type
     end
 
