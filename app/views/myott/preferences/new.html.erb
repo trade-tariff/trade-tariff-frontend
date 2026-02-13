@@ -1,4 +1,4 @@
-<% myott_page_title "Set preferences", error: @alert %>
+<% myott_page_title "Set preferences", error: @form.errors.any? %>
 
 <div class="govuk-body">
   <div class="govuk-grid-row">
@@ -9,7 +9,6 @@
 
       <%= form_with model: @form, url: myott_stop_press_preferences_path, method: :post, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
         <%= f.govuk_error_summary %>
-
         <h1 class="govuk-heading-l">Set subscription preferences</h1>
         <p>You can choose to receive updates on all tariff chapters, or  select specific tariff chapters you are interested in.</p>
         <p class="govuk-inset-text">You can change what tariff chapters you receive updates about at any time

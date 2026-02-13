@@ -14,11 +14,4 @@ module UnsubscribesHelper
       }
     end
   end
-
-  def unsubscribe_error_messages
-    {
-      confirmation: 'Select yes if you want to unsubscribe from your commodity watch list',
-      deletion: 'There was an error unsubscribing you. Please try again.',
-    }
-  end
 end

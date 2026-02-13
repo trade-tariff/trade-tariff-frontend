@@ -74,6 +74,17 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
         expect(page).to have_content('You have updated your Stop Press watch list')
       end
     end
+
+    describe 'subscribing with no selection' do
+      it 'returns an error if no subscription option is selected' do
+        visit myott_path
+        click_link 'Create a Stop Press watch list'
+        click_button 'Continue'
+        expect(page).to have_title('Error: Set preferences | UK Online Trade Tariff')
+        expect(page).to have_content('Select a subscription preference to continue')
+        expect(page).to have_link('Select a subscription preference to continue', href: '#myott-stop-press-preference-form-preference-field-error')
+      end
+    end
   end
 
   describe 'returning subscriber' do
