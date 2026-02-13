@@ -13,27 +13,15 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds govuk-body">
-    <%= form_with url: myott_unsubscribe_path(params[:id]), method: :delete, local: true do %>
-      <fieldset class="govuk-fieldset" aria-describedby="select-hint">
-        <h1 class="govuk-heading-l">Are you sure you want to unsubscribe from your commodity watch list?</h1>
-        <div id="select-hint" class="govuk-hint">
-          You will no longer have access to your commodity watch list dashboard or receive email notifications
-        </div>
-        <% if flash.now[:select_error] %>
-          <p class="govuk-error-message"><%= flash.now[:select_error] %></p>
-        <% end %>
-        <div class="govuk-radios" data-module="govuk-radios" id="radio-buttons">
-          <div class="govuk-radios__item">
-            <input class="govuk-radios__input" id="yes" name="decision" type="radio" value="true">
-            <label class="govuk-label govuk-radios__label" for="yes">Yes</label>
-          </div>
-          <div class="govuk-radios__item">
-            <input class="govuk-radios__input" id="no" name="decision" type="radio" value="false">
-            <label class="govuk-label govuk-radios__label" for="no">No</label>
-          </div>
-        </div>
-      </fieldset>
-      <%= submit_tag "Confirm", class: "govuk-button govuk-!-margin-top-4" %>
+    <%= form_with model: @form, url: myott_unsubscribe_path(params[:id]), method: :delete, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+       <%= f.govuk_radio_buttons_fieldset :decision,
+       id: "myott-unsubscribe-my-commodities-form-decision-field",
+          legend: { text: 'Are you sure you want to unsubscribe from your commodity watch list?', size: 'l' },
+          hint: { text: "You will no longer have access to your commodity watch list dashboard or receive email notifications" } do %>
+        <%= f.govuk_radio_button :decision, 'true', label: { text: "Yes" } %>
+        <%= f.govuk_radio_button :decision, 'false', label: { text: "No" } %>
+      <% end %>
+      <%= f.submit "Confirm", class: "govuk-button" %>
     <% end %>
   </div>
 </div>

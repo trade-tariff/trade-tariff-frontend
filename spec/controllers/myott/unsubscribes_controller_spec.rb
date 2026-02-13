@@ -35,34 +35,36 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
       context 'when user confirms' do
         it 'redirects to the confirmation page' do
           allow(Subscription).to receive(:delete).with(subscription.uuid).and_return(true)
-          allow(controller).to receive_messages(user_declined?: false, user_confirmed?: true)
-          delete :destroy, params: { id: subscription.uuid }
+          delete :destroy, params: {
+            id: subscription.uuid,
+            myott_unsubscribe_my_commodities_form: { decision: 'true' },
+          }
           expect(response).to redirect_to(confirmation_myott_unsubscribes_path(subscription_type: subscription.subscription_type_name))
         end
       end
 
       context 'when user declines' do
         it 'redirects to myott_path' do
-          allow(controller).to receive_messages(user_declined?: true)
-          delete :destroy, params: { id: subscription.uuid }
+          delete :destroy, params: {
+            id: subscription.uuid,
+            myott_unsubscribe_my_commodities_form: { decision: 'false' },
+          }
           expect(response).to redirect_to(myott_mycommodities_path)
         end
       end
 
       context 'when user neither confirms nor declines' do
         before do
-          allow(controller).to receive_messages(user_declined?: false, user_confirmed?: false)
-          delete :destroy, params: { id: subscription.uuid }
+          delete :destroy, params: {
+            id: subscription.uuid,
+            myott_unsubscribe_my_commodities_form: { decision: nil },
+          }
         end
 
         let(:error_message) { 'Select yes if you want to unsubscribe from your commodity watch list' }
 
         it 'assigns the alert message' do
           expect(assigns(:alert)).to eq(error_message)
-        end
-
-        it 'sets the flash error message' do
-          expect(flash.now[:select_error]).to eq(error_message)
         end
 
         it 'renders the show template with an error' do
