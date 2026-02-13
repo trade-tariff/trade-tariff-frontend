@@ -1,5 +1,5 @@
-ARG RUBY_VERSION=3.4.7
-ARG ALPINE_VERSION=3.22
+ARG RUBY_VERSION=4.0.1
+ARG ALPINE_VERSION=3.23
 
 #### Build image #####
 
@@ -13,7 +13,7 @@ RUN apk add --no-cache build-base git yarn tzdata yaml-dev && \
 
 COPY .ruby-version Gemfile Gemfile.lock .
 RUN bundle config set without 'development test' && \
-    bundle install --jobs=4 --no-binstubs --retry=3 --deployment
+    bundle install --jobs=4 --retry=3
 
 COPY package.json yarn.lock .
 

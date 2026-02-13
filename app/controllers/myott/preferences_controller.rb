@@ -2,21 +2,20 @@ module Myott
   class PreferencesController < MyottController
     def new
       session_chapters.delete
+      @form = Myott::StopPressPreferenceForm.new
     end
 
     def create
-      case params[:preference]
-      when 'selectChapters'
+      @form = Myott::StopPressPreferenceForm.new(preference_params)
+
+      if @form.select_chapters?
         session[:all_tariff_updates] = false
-        redirect_to edit_myott_stop_press_preferences_path
-      when 'allChapters'
+        redirect_to edit_myott_stop_press_preferences_path and return
+      elsif @form.all_chapters?
         session_chapters.delete
         session[:all_tariff_updates] = true
-        redirect_to check_your_answers_myott_stop_press_path
+        redirect_to check_your_answers_myott_stop_press_path and return
       else
-        @alert = 'Select a subscription preference to continue'
-        @div_id = 'radio-buttons'
-        flash.now[:select_error] = 'Select an option to continue'
         render :new
       end
     end
@@ -39,6 +38,10 @@ module Myott
     end
 
   private
+
+    def preference_params
+      params.fetch(:myott_stop_press_preference_form, {}).permit(:preference)
+    end
 
     def session_chapters
       @session_chapters ||= SessionChaptersDecorator.new(session)

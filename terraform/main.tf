@@ -30,5 +30,16 @@ module "service" {
   min_capacity   = var.min_capacity
   max_capacity   = var.max_capacity
 
+  autoscaling_metrics = {
+    cpu = {
+      metric_type  = "ECSServiceAverageCPUUtilization"
+      target_value = 55
+    }
+    memory = {
+      metric_type  = "ECSServiceAverageMemoryUtilization"
+      target_value = 70
+    }
+  }
+
   sns_topic_arns = [data.aws_sns_topic.slack_topic.arn]
 }

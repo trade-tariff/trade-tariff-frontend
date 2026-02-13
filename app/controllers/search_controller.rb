@@ -7,7 +7,6 @@ class SearchController < ApplicationController
 
   before_action :disable_switch_service_banner, only: [:quota_search]
   before_action :disable_search_form, except: [:search]
-  before_action :extend_timeout_for_interactive_search, only: [:search]
 
   def search
     @search.q = params[:q] if params[:q]
@@ -97,12 +96,6 @@ class SearchController < ApplicationController
 
   private
 
-  def extend_timeout_for_interactive_search
-    return unless params[:interactive_search] == 'true'
-
-    request.env['rack-timeout.service_timeout'] = 50
-  end
-
   def anchor
     params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_-]/, '').presence
   end
@@ -115,8 +108,7 @@ class SearchController < ApplicationController
       return sections_path(anchor:)
     end
 
-    query_values = CGI.parse(back_url.query || '')
-    query_values = query_values.transform_values { |v| v.many? ? v : v.first }
+    query_values = Rack::Utils.parse_query(back_url.query || '')
     query_values = query_values.merge(@search.query_attributes)
     query_values = query_values.tap { |qv| qv.delete('invalid_date') }
 

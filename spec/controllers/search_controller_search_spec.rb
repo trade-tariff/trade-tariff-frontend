@@ -130,6 +130,20 @@ RSpec.describe SearchController, type: :controller do
         it { is_expected.to redirect_to("#{chapter_path('01')}?") }
       end
 
+      context 'when referer has existing query params' do
+        let(:request_referer) { "http://test.host#{chapter_path('01')}?q=apples&country=GB" }
+        let(:year)    { now.year - 1 }
+        let(:month)   { now.month }
+        let(:day)     { now.day }
+
+        it 'preserves referer query params in the redirect' do
+          redirect_uri = URI(response.location)
+          params = Rack::Utils.parse_query(redirect_uri.query)
+
+          expect(params).to include('q' => 'apples', 'country' => 'GB')
+        end
+      end
+
       context 'when date param is a string' do
         subject(:do_response) do
           post :search, params: { date: '2012-10-1' }
@@ -253,36 +267,6 @@ RSpec.describe SearchController, type: :controller do
 
       specify 'includes links to commodity pages' do
         expect(response.body).to include '/commodities/0206809100'
-      end
-    end
-
-    describe 'rack-timeout extension for interactive search' do
-      context 'when interactive_search is true' do
-        let(:params) { { q: 'horses', interactive_search: 'true' } }
-
-        before do
-          allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
-          stub_api_request('search', :post, internal: true).to_return(
-            status: 200,
-            body: { 'data' => [], 'meta' => {} }.to_json,
-            headers: { 'content-type' => 'application/json; charset=utf-8' },
-          )
-          do_response
-        end
-
-        it 'sets rack-timeout service_timeout to 50' do
-          expect(request.env['rack-timeout.service_timeout']).to eq(50)
-        end
-      end
-
-      context 'when interactive_search is not set', vcr: { cassette_name: 'search#search_fuzzy' } do
-        let(:params) { { q: 'horses', day: '11', month: '05', year: '2023' } }
-
-        before { do_response }
-
-        it 'does not set rack-timeout service_timeout' do
-          expect(request.env['rack-timeout.service_timeout']).to be_nil
-        end
       end
     end
 
