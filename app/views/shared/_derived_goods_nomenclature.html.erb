@@ -1,21 +1,23 @@
-<table class="govuk-table">
-  <p>Goods previously classified under commodity <%= @commodity_code %> have been moved to the following codes:</p>
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Classification</th>
-      <th scope="col" class="govuk-table__header">Description</th>
-      <th scope="col" class="govuk-table__header non-breaking-heading">Transfer date</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <% deriving_goods_nomenclatures.each do |goods_nomenclature| %>
-    <tr class="govuk-table__row">
-      <td class="govuk-table__cell"><%= link_to(goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature)) %></th>
-      <td class="govuk-table__cell">
-        <%= sanitize sanitize_quotes(goods_nomenclature.formatted_description) unless goods_nomenclature.formatted_description.nil? %>
-      </td>
-      <td class="govuk-table__cell"><%= goods_nomenclature.validity_start_date&.to_formatted_s(:long) %></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+<% unless deriving_goods_nomenclatures.empty? %>
+  <table class="govuk-table">
+    <p>Goods previously classified under commodity <%= @commodity_code %> have been moved to the following codes:</p>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Classification</th>
+        <th scope="col" class="govuk-table__header">Description</th>
+        <th scope="col" class="govuk-table__header non-breaking-heading">Transfer date</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% deriving_goods_nomenclatures.each do |goods_nomenclature| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell"><%= link_to(goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature)) %></th>
+        <td class="govuk-table__cell">
+          <%= sanitize sanitize_quotes(goods_nomenclature.formatted_description) unless goods_nomenclature.formatted_description.nil? %>
+        </td>
+        <td class="govuk-table__cell"><%= goods_nomenclature.validity_start_date&.to_formatted_s(:long) %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
