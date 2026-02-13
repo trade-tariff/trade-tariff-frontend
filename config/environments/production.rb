@@ -35,7 +35,12 @@ Rails.application.configure do
   config.assume_ssl = ENV.fetch('RAILS_ASSUME_SSL', 'true') == 'true'
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = false
+  config.force_ssl = true
+
+  # HSTS should only be set over HTTPS
+  config.action_dispatch.default_headers.merge!(
+    "Strict-Transport-Security" => "max-age=31536000; includeSubDomains",
+    )
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new($stdout)
