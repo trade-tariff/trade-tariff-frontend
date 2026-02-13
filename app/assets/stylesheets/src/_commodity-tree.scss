@@ -389,6 +389,10 @@ li:not(.has_children) .description {
   position: relative;
   /* to give z-index */
 
+  p {
+    color: inherit;
+  }
+
   @media (min-width: 641px) {
     float: left;
     width: calc(100% - 165px);
