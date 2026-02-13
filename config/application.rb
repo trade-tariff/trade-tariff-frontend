@@ -51,7 +51,7 @@ module TradeTariffFrontend
       'X-Frame-Options' => 'SAMEORIGIN',
       'X-XSS-Protection' => '0',
       'X-Content-Type-Options' => 'nosniff',
-      )
+    )
 
     # Tells Rails to serve error pages from the app itself, rather than using static error pages in public/
     config.exceptions_app = routes

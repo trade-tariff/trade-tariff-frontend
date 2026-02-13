@@ -39,8 +39,8 @@ Rails.application.configure do
 
   # HSTS should only be set over HTTPS
   config.action_dispatch.default_headers.merge!(
-    "Strict-Transport-Security" => "max-age=31536000; includeSubDomains",
-    )
+    'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains',
+  )
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new($stdout)

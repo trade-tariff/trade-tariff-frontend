@@ -243,7 +243,7 @@ Rails.application.routes.draw do
 
   draw('duty_calculator')
 
-  post "/csp-violation-report", to: "csp_reports#create"
+  post '/csp-violation-report', to: 'csp_reports#create'
 
   get '/robots.:format', to: 'pages#robots'
   match '/400', to: 'errors#bad_request', via: :all
