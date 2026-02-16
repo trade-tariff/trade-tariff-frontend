@@ -11,6 +11,14 @@ module InteractiveSearchable
 
     @results = @search.perform
 
+    if @search.errors.any?
+      @no_shared_search = true
+      @hero_story = nil
+      @recent_stories = []
+      render 'find_commodities/show'
+      return
+    end
+
     respond_to do |format|
       format.html { route_interactive_results }
       format.json { render json: SearchPresenter.new(@search, @results) }

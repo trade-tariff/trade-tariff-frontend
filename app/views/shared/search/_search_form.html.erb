@@ -1,5 +1,20 @@
 <%= form_tag perform_search_path, method: :get, id: "new_search" do |f| %>
 
+<% if @search.errors.any? %>
+<div class="govuk-error-summary" data-module="govuk-error-summary">
+  <div role="alert">
+    <h2 class="govuk-error-summary__title">There is a problem</h2>
+    <div class="govuk-error-summary__body">
+      <ul class="govuk-list govuk-error-summary__list">
+        <% @search.errors.each do |error| %>
+          <li><a href="#q"><%= error.message %></a></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+<% end %>
+
 <% if @search.day_month_and_year_set? %>
 <%= hidden_field_tag :year, @search.year %>
 <%= hidden_field_tag :month, @search.month %>
@@ -25,25 +40,29 @@
 </div>
 <% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-  </div>
-
-  <div class="govuk-grid-column-three-quarters column-three-quarters-mobile-only">
-    <%= render 'shared/search/autocomplete' %>
-    <%= render 'shared/search/datepicker' if use_date_picker ||= false %>
-  </div>
-
-  <% if @no_shared_search %>
-  <div class="govuk-grid-column-three-quarters">
-    <%= submit_tag 'Search for a commodity', class: 'govuk-button govuk-!-margin-top-6'  %>
-    <hr>
-  </div>
-  <% else %>
-  <div class="govuk-grid-column-one-quarter column-one-quarter-mobile-only">
-    <%= submit_tag 'Search', class: 'govuk-button search-button' %>
-  </div>
+<div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
+  <%= label_tag :q, search_label_text, class: 'govuk-label' %>
+  <% if @search.errors.any? %>
+    <p class="govuk-error-message" id="q-error">
+      <span class="govuk-visually-hidden">Error:</span> <%= @search.errors.map(&:message).join('. ') %>
+    </p>
   <% end %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters column-three-quarters-mobile-only">
+      <%= render 'shared/search/autocomplete' %>
+      <%= render 'shared/search/datepicker' if use_date_picker ||= false %>
+    </div>
+
+    <% if @no_shared_search %>
+    <div class="govuk-grid-column-three-quarters">
+      <%= submit_tag 'Search for a commodity', class: 'govuk-button govuk-!-margin-top-6'  %>
+      <hr>
+    </div>
+    <% else %>
+    <div class="govuk-grid-column-one-quarter column-one-quarter-mobile-only">
+      <%= submit_tag 'Search', class: 'govuk-button search-button' %>
+    </div>
+    <% end %>
+  </div>
 </div>
 <% end %>
