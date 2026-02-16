@@ -8,6 +8,7 @@ module ApiEntity
 
   included do
     include ActiveModel::Conversion
+    include ActiveModel::Validations
     extend  ActiveModel::Naming
 
     include Faraday
@@ -70,7 +71,30 @@ module ApiEntity
     true
   end
 
+  def hydrate_errors_from_response(error)
+    body = error.response&.dig(:body)
+    return if body.nil?
+
+    body = JSON.parse(body) if body.is_a?(String)
+    api_errors = body['errors']
+    return unless api_errors.is_a?(Array)
+
+    api_errors.each do |api_error|
+      attribute = attribute_from_pointer(api_error.dig('source', 'pointer'))
+      detail = api_error['detail'] || api_error['title'] || 'is invalid'
+      errors.add(attribute, detail)
+    end
+  rescue JSON::ParserError
+    errors.add(:base, 'The service returned an invalid response')
+  end
+
 private
+
+  def attribute_from_pointer(pointer)
+    return :base if pointer.blank?
+
+    pointer.split('/').last.to_sym
+  end
 
   def attributes_for_inspect
     @attributes.except(*(relationships.to_a + [:casted_by]))

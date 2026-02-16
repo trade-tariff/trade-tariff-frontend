@@ -11,6 +11,11 @@ module InteractiveSearchable
 
     @results = @search.perform
 
+    if @search.errors.any?
+      @results = Search::InternalSearchResult.new([], nil)
+      return
+    end
+
     respond_to do |format|
       format.html { route_interactive_results }
       format.json { render json: SearchPresenter.new(@search, @results) }
