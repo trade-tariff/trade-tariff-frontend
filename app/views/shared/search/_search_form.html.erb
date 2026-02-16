@@ -40,30 +40,29 @@
 </div>
 <% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
-    <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-    <% if @search.errors.any? %>
-      <p class="govuk-error-message" id="q-error">
-        <span class="govuk-visually-hidden">Error:</span> <%= @search.errors.map(&:message).join('. ') %>
-      </p>
+<div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
+  <%= label_tag :q, search_label_text, class: 'govuk-label' %>
+  <% if @search.errors.any? %>
+    <p class="govuk-error-message" id="q-error">
+      <span class="govuk-visually-hidden">Error:</span> <%= @search.errors.map(&:message).join('. ') %>
+    </p>
+  <% end %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters column-three-quarters-mobile-only">
+      <%= render 'shared/search/autocomplete' %>
+      <%= render 'shared/search/datepicker' if use_date_picker ||= false %>
+    </div>
+
+    <% if @no_shared_search %>
+    <div class="govuk-grid-column-three-quarters">
+      <%= submit_tag 'Search for a commodity', class: 'govuk-button govuk-!-margin-top-6'  %>
+      <hr>
+    </div>
+    <% else %>
+    <div class="govuk-grid-column-one-quarter column-one-quarter-mobile-only">
+      <%= submit_tag 'Search', class: 'govuk-button search-button' %>
+    </div>
     <% end %>
   </div>
-
-  <div class="govuk-grid-column-three-quarters column-three-quarters-mobile-only">
-    <%= render 'shared/search/autocomplete' %>
-    <%= render 'shared/search/datepicker' if use_date_picker ||= false %>
-  </div>
-
-  <% if @no_shared_search %>
-  <div class="govuk-grid-column-three-quarters">
-    <%= submit_tag 'Search for a commodity', class: 'govuk-button govuk-!-margin-top-6'  %>
-    <hr>
-  </div>
-  <% else %>
-  <div class="govuk-grid-column-one-quarter column-one-quarter-mobile-only">
-    <%= submit_tag 'Search', class: 'govuk-button search-button' %>
-  </div>
-  <% end %>
 </div>
 <% end %>
