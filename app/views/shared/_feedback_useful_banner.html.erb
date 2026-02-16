@@ -1,25 +1,11 @@
 <div class="feedback-useful-banner govuk-width-container">
-  <div class="feedback-useful-container govuk-!-padding-4">
-    <div class="govuk-footer__meta">
-      <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-        <p>Is this page useful?</p>
-
-        <ul class="govuk-footer__inline-list">
-          <li class="govuk-footer__inline-list-item">
-            <%= link_to 'Yes', feedback_path(page_useful: 'yes'), class: 'govuk-button govuk-button--secondary' %>
-          </li>
-          <li class="govuk-footer__inline-list-item">
-            <%= link_to 'No', feedback_path(page_useful: 'no'), class: 'govuk-button govuk-button--secondary' %>
-          </li>
-        </ul>
-      </div>
-      <div class="govuk-footer__meta-item">
-        <ul class="govuk-footer__inline-list">
-          <li class="govuk-footer__inline-list-item">
-              <%= link_to 'Report a problem with this page', feedback_path, class: 'govuk-button govuk-button--secondary report-problem' %>
-          </li>
-        </ul>
-      </div>
+  <div class="feedback-useful-banner__inner govuk-footer__meta">
+    <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+      <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-1">Give feedback about this service</p>
+      <p class="govuk-body govuk-!-margin-bottom-0">Tell us about your experience using this service to help us improve it.</p>
+    </div>
+    <div class="govuk-footer__meta-item">
+      <%= link_to 'Share your feedback', 'https://surveys.transformuk.com/s3/17fead99a348', class: 'govuk-button govuk-button--secondary', target: '_blank', rel: 'noopener' %>
     </div>
   </div>
 </div>
