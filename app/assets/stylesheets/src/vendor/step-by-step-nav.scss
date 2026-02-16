@@ -7,7 +7,7 @@ $stroke-width: 2px;
 $stroke-width-large: 3px;
 $number-circle-size: 26px;
 $number-circle-size-large: 35px;
-$top-border: solid 2px govuk-colour("mid-grey", $legacy: "grey-3");
+$top-border: solid 2px govuk-colour("black", $variant: "tint-80");
 
 @mixin step-nav-vertical-line ($line-style: solid) {
   content: "";
@@ -15,7 +15,7 @@ $top-border: solid 2px govuk-colour("mid-grey", $legacy: "grey-3");
   z-index: 2;
   width: 0;
   height: 100%;
-  border-left: $line-style $stroke-width govuk-colour("mid-grey", $legacy: "grey-2");
+  border-left: $line-style $stroke-width govuk-colour("black", $variant: "tint-80");
   background: govuk-colour("white");
 }
 
@@ -65,7 +65,7 @@ $top-border: solid 2px govuk-colour("mid-grey", $legacy: "grey-3");
 }
 
 .app-step-nav__button {
-  color: $govuk-link-colour;
+  color: govuk-functional-colour(link);
   cursor: pointer;
   background: none;
   border: 0;
@@ -95,14 +95,14 @@ $top-border: solid 2px govuk-colour("mid-grey", $legacy: "grey-3");
 }
 
 .app-step-nav__button--controls {
-  @include step-nav-font(14, $line-height: 1);
+  @include step-nav-font(16, $line-height: 1);
   @include govuk-link-common;
   position: relative;
   z-index: 1; // this and relative position stops focus outline underlap with border of accordion
   padding: .5em 0;
 
   .app-step-nav--large & {
-    @include step-nav-font(14, $tablet-size: 16, $line-height: 1);
+    @include step-nav-font(16, $tablet-size: 16, $line-height: 1);
   }
 }
 
@@ -146,7 +146,7 @@ $top-border: solid 2px govuk-colour("mid-grey", $legacy: "grey-3");
     margin-left: math.div($number-circle-size, 4);
     width: math.div($number-circle-size, 2);
     height: 0;
-    border-bottom: solid $stroke-width govuk-colour("mid-grey", $legacy: "grey-2");
+    border-bottom: solid $stroke-width govuk-colour("black", $variant: "tint-80");
   }
 
   &:after {
@@ -210,7 +210,7 @@ $top-border: solid 2px govuk-colour("mid-grey", $legacy: "grey-3");
 
 .app-step-nav__circle--number {
   @include step-nav-font(16, $weight: bold, $line-height: 23px);
-  border: solid $stroke-width govuk-colour("mid-grey", $legacy: "grey-2");
+  border: solid $stroke-width govuk-colour("black", $variant: "tint-80");
 
   .app-step-nav--large & {
     @include step-nav-font(16, $tablet-size: 19, $weight: bold, $line-height: 23px, $tablet-line-height: 30px);
@@ -269,7 +269,7 @@ $top-border: solid 2px govuk-colour("mid-grey", $legacy: "grey-3");
   &:hover {
     .app-step-nav__button:not(:focus),
     .app-step-nav__circle {
-      color: $govuk-link-colour;
+      color: govuk-functional-colour(link);
     }
 
     .app-step-nav__toggle-link {
@@ -296,13 +296,13 @@ $top-border: solid 2px govuk-colour("mid-grey", $legacy: "grey-3");
 }
 
 .app-step-nav__toggle-link {
-  @include step-nav-font(14, $line-height: 1.2);
+  @include step-nav-font(16, $line-height: 1.2);
   display: block;
-  color: $govuk-link-colour;
+  color: govuk-functional-colour(link);
   text-transform: capitalize;
 
   .app-step-nav--large & {
-    @include step-nav-font(14, $tablet-size: 16, $line-height: 1.2);
+    @include step-nav-font(16, $tablet-size: 16, $line-height: 1.2);
   }
 }
 
@@ -422,7 +422,7 @@ $top-border: solid 2px govuk-colour("mid-grey", $legacy: "grey-3");
 .app-step-nav__context {
   display: inline-block;
   font-weight: normal;
-  color: govuk-colour("dark-grey", $legacy: "grey-1");
+  color: govuk-colour("black", $variant: "tint-25");
 
   &:before {
     content: " \2013\00a0"; // dash followed by &nbsp;

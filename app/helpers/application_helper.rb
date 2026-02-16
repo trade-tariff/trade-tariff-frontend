@@ -57,6 +57,13 @@ module ApplicationHelper
     tag.li(class: "#{base_class_name} #{active_class_name}", &block)
   end
 
+  def govuk_service_navigation_item(active_class: '', &block)
+    base_class_name = 'govuk-service-navigation__item'
+    active_class_name = active_class.present? ? "#{base_class_name}--active" : ''
+
+    tag.li(class: "#{base_class_name} #{active_class_name}", &block)
+  end
+
   def search_active_class
     'active' if action_name == 'search' ||
       (controller_name == 'sections' && action_name == 'index') ||

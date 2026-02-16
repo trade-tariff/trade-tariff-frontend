@@ -23,17 +23,17 @@ blockquote {
   padding: govuk-spacing(2);
   margin-left: 0;
   margin-right: 0;
-  background-color: govuk-colour("light-grey");
+  background-color: govuk-colour("black", $variant: "tint-95");
 }
 
 .tariff-body-subtext {
   @extend .govuk-body-s;
 
-  color: $govuk-secondary-text-colour;
+  color: govuk-functional-colour(secondary-text);
 
   a,
   a:visited,
   a:hover {
-    color: $govuk-secondary-text-colour;
+    color: govuk-functional-colour(secondary-text);
   }
 }

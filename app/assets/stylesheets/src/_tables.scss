@@ -1,7 +1,7 @@
 table.small-table {
   margin: 0 0 30px 0;
   p {
-    @include govuk-font($size: 14, $weight: normal);
+    @include govuk-font($size: 16, $weight: normal);
   }
   th,
   td {
@@ -47,7 +47,7 @@ table.small-table {
       tr {
         border-width: 0 1px 1px 1px;
         border-style: solid;
-        border-color: $govuk-border-colour;
+        border-color: govuk-functional-colour(border);
         &:first-of-type {
           border-top-width: 1px;
         }
@@ -105,19 +105,19 @@ table.small-table {
 
         &.has_children {
           padding-left: 25px;
-          color: $govuk-link-colour;
+          color: govuk-functional-colour(link);
           text-decoration: underline;
 
           &:hover {
-            color: $govuk-link-hover-colour;
+            color: govuk-functional-colour(link-hover);
           }
 
           &:focus {
             outline: 3px solid transparent;
-            color: $govuk-link-focus-colour;
-            background-color: $govuk-link-focus-background;
-            box-shadow: 0 -2px $govuk-link-focus-background,
-              0 4px $govuk-link-focus-colour;
+            color: govuk-functional-colour(focus-text);
+            background-color: govuk-functional-colour(focus);
+            box-shadow: 0 -2px govuk-functional-colour(focus),
+              0 4px govuk-functional-colour(focus-text);
             text-decoration: none;
           }
 
@@ -198,7 +198,7 @@ table.section-browser {
         display: block;
         border-width: 0 0 1px 0;
         border-style: solid;
-        border-color: $govuk-border-colour;
+        border-color: govuk-functional-colour(border);
 
         &:first-of-type {
           border-top-width: 2px;

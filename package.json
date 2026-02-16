@@ -11,7 +11,7 @@
     "datepicker": "^0.0.0",
     "dotenv": "^17.2.4",
     "gh-pages": "^6.3.0",
-    "govuk-frontend": "^5.14.0",
+    "govuk-frontend": "6.0.0",
     "html-escaper": "^3.0.3",
     "imask": "^7.6.1",
     "jest": "^30.2.0",
