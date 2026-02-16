@@ -134,7 +134,7 @@ class Search
     parsed_data = [] unless parsed_data.is_a?(Array)
 
     InternalSearchResult.new(parsed_data, body['meta'])
-  rescue Faraday::UnprocessableEntity => e
+  rescue Faraday::UnprocessableContentError => e
     hydrate_errors_from_response(e)
     InternalSearchResult.new([], nil)
   end
