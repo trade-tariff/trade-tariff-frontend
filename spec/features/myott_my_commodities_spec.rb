@@ -108,7 +108,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
         go_to_watch_list
         click_link 'Unsubscribe from commodity watch list'
         expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
-        choose('yes')
+        choose('myott-unsubscribe-my-commodities-form-decision-true-field')
         click_button 'Confirm'
         expect(page).to have_content('You have unsubscribed from your commodity watch list')
       end
@@ -117,7 +117,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
         go_to_watch_list
         click_link 'Unsubscribe from commodity watch list'
         expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
-        choose('no')
+        choose('myott-unsubscribe-my-commodities-form-decision-false-field')
         click_button 'Confirm'
         expect(page).to have_content('Your commodity watch list')
       end
@@ -129,7 +129,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
         click_button 'Confirm'
         expect(page).to have_title('Error: Unsubscribe from commodity watch list | UK Online Trade Tariff')
         expect(page).to have_content('Select yes if you want to unsubscribe from your commodity watch list')
-        expect(page).to have_link('Select yes if you want to unsubscribe from your commodity watch list', href: '#radio-buttons')
+        expect(page).to have_link('Select yes if you want to unsubscribe from your commodity watch list', href: '#myott-unsubscribe-my-commodities-form-decision-field-error')
       end
 
       it 'errors if unsubscription fails' do
@@ -137,7 +137,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
         go_to_watch_list
         click_link 'Unsubscribe from commodity watch list'
         expect(page).to have_content('Are you sure you want to unsubscribe from your commodity watch list?')
-        choose('yes')
+        choose('myott-unsubscribe-my-commodities-form-decision-true-field')
         click_button 'Confirm'
         expect(page).to have_content('There was an error unsubscribing you. Please try again.')
       end

@@ -16,6 +16,9 @@
         pkgs = import nixpkgs {
           system = system;
           config.allowUnfree = true;
+          config.permittedInsecurePackages = [
+            "google-chrome-144.0.7559.97"
+          ];
           overlays = [nixpkgs-ruby.overlays.default];
         };
         pkgs-stable = import nixpkgs-stable {
@@ -26,7 +29,7 @@
         rubyVersion = builtins.head (builtins.split "\n" (builtins.readFile ./.ruby-version));
         ruby = pkgs."ruby-${rubyVersion}";
 
-        lint = pkgs.writeScriptBin "lint" ''
+        lint = pkgs.writeShellScriptBin "lint" ''
           changed_files=$(git diff --name-only --diff-filter=ACM --merge-base main)
 
           bundle exec rubocop --autocorrect-all --force-exclusion $changed_files Gemfile
@@ -40,10 +43,10 @@
           "--with-libyaml-include=${libyaml.dev}/include"
           "--with-libyaml-lib=${libyaml.out}/lib"
         ];
-        init = pkgs.writeScriptBin "init" ''
+        init = pkgs.writeShellScriptBin "init" ''
           cd terraform && terraform init -backend=false
         '';
-        update-providers = pkgs.writeScriptBin "update-providers" ''
+        update-providers = pkgs.writeShellScriptBin "update-providers" ''
           cd terraform && terraform init -backend=false -reconfigure -upgrade
         '';
       in {

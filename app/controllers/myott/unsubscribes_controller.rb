@@ -5,6 +5,7 @@ module Myott
     skip_before_action :authenticate, only: :confirmation
 
     def show
+      @form = Myott::UnsubscribeMyCommoditiesForm.new if my_commodities_subscription?
       render subscription_type
     end
 
@@ -46,10 +47,12 @@ module Myott
     end
 
     def handle_my_commodities_unsubscribe
-      return redirect_to myott_mycommodities_path if user_declined?
-      return show_confirmation_error unless user_confirmed?
+      @form = Myott::UnsubscribeMyCommoditiesForm.new(unsubscribe_params)
 
-      delete_subscription
+      return redirect_to myott_mycommodities_path if @form.declined?
+      return delete_subscription if @form.confirmed?
+
+      render subscription_type
     end
 
     def delete_subscription
@@ -60,25 +63,12 @@ module Myott
       end
     end
 
-    def user_declined?
-      params[:decision] == 'false'
-    end
-
-    def user_confirmed?
-      params[:decision] == 'true'
-    end
-
-    def show_confirmation_error
-      errors = unsubscribe_error_messages
-      @alert = errors[:confirmation]
-      flash.now[:select_error] = @alert
-      @div_id = 'radio-buttons'
-      render subscription_type
+    def unsubscribe_params
+      params.fetch(:myott_unsubscribe_my_commodities_form, {}).permit(:decision)
     end
 
     def show_deletion_error
-      errors = unsubscribe_error_messages
-      @alert = errors[:deletion]
+      @alert = 'There was an error unsubscribing you. Please try again.'
       render subscription_type
     end
   end
