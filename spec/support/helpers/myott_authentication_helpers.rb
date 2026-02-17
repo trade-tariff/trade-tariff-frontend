@@ -55,22 +55,18 @@ module MyottAuthenticationHelpers
 
   def setup_mycommodities_context(
     user: nil,
-    subscription_type: 'my_commodities',
     user_id_token: 'test_token',
     as_of: Time.zone.today
   )
     user ||= build(:user, my_commodities_subscription: true)
 
     subscription = build(:subscription,
-                         active: true,
-                         subscription_type: subscription_type,
-                         metadata: { commodity_codes: %w[1111111111 22222222222 3333333333 4444444444 5555555555] },
-                         meta: { active: %w[1111111111 22222222222], expired: %w[33333333333 44444444444], invalid: %w[55555555555] })
+                         :my_commodities)
 
     setup_myott_authentication(
       user: user,
       user_id_token: user_id_token,
-      subscription_type: subscription_type,
+      subscription_type: subscription.subscription_type.name,
       subscription: subscription,
       as_of: as_of,
       bypass_auth: true,

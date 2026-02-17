@@ -1,14 +1,11 @@
 class Subscription
   include AuthenticatableApiEntity
 
-  SUBSCRIPTION_TYPES = {
-    stop_press: 'stop_press',
-    my_commodities: 'my_commodities',
-  }.freeze
-
   set_singular_path '/uk/user/subscriptions/:id'
 
-  attr_accessor :active, :uuid, :meta, :subscription_type
+  has_one :subscription_type, class_name: 'SubscriptionType'
+
+  attr_accessor :active, :uuid, :meta
 
   def self.batch(id, token, attributes)
     return nil if token.nil? && !Rails.env.development?
@@ -21,9 +18,5 @@ class Subscription
     super(id, json_api_params, headers(token))
   rescue Faraday::UnauthorizedError
     nil
-  end
-
-  def subscription_type_name
-    subscription_type&.[]('name')
   end
 end

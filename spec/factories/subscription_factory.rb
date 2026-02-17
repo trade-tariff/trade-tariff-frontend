@@ -3,24 +3,36 @@ FactoryBot.define do
     active { true }
     uuid { SecureRandom.uuid }
     resource_id { uuid }
-    subscription_type { { name: Subscription::SUBSCRIPTION_TYPES[:my_commodities] } }
+    subscription_type do
+      {
+        id: SecureRandom.uuid,
+        name: SubscriptionType::SUBSCRIPTION_TYPE_NAMES[:my_commodities],
+        resource_type: 'subscription_type',
+      }
+    end
 
     trait :stop_press do
-      subscription_type { { name: Subscription::SUBSCRIPTION_TYPES[:stop_press] } }
-      meta do
+      subscription_type do
         {
-          published: { yesterday: 5 },
-          chapters: 10,
+          id: SecureRandom.uuid,
+          name: SubscriptionType::SUBSCRIPTION_TYPE_NAMES[:stop_press],
+          resource_type: 'subscription_type',
         }
       end
     end
 
     trait :my_commodities do
-      subscription_type { { name: Subscription::SUBSCRIPTION_TYPES[:my_commodities] } }
+      subscription_type do
+        {
+          id: SecureRandom.uuid,
+          name: SubscriptionType::SUBSCRIPTION_TYPE_NAMES[:my_commodities],
+          resource_type: 'subscription_type',
+        }
+      end
       meta do
         {
-          published: { yesterday: 3 },
-          counts: { 'active' => 3, 'expired' => 2, 'invalid' => 1, 'total' => 5 },
+          'counts' => { 'active' => 3, 'expired' => 0, 'invalid' => 4, 'total' => 3 },
+          'published' => { 'yesterday' => 0 },
         }
       end
     end

@@ -5,18 +5,18 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
 
   describe 'GET #show' do
     before do
-      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription.subscription_type_name)
-      get :show, params: { id: subscription.uuid, subscription_type: subscription.subscription_type_name }
+      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription.subscription_type)
+      get :show, params: { id: subscription.uuid, subscription_type: subscription.subscription_type.name }
     end
 
     it 'renders the subscription-specific template' do
-      expect(response).to render_template("myott/unsubscribes/#{subscription.subscription_type_name}")
+      expect(response).to render_template("myott/unsubscribes/#{subscription.subscription_type.name}")
     end
   end
 
   describe 'DELETE #destroy' do
     before do
-      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription.subscription_type_name)
+      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription.subscription_type)
     end
 
     context 'when subscription_type is stop_press' do
@@ -24,7 +24,7 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
         it 'redirects to the confirmation page' do
           allow(Subscription).to receive(:delete).with(subscription.uuid).and_return(true)
           delete :destroy, params: { id: subscription.uuid }
-          expect(response).to redirect_to(confirmation_myott_unsubscribes_path(subscription_type: subscription.subscription_type_name))
+          expect(response).to redirect_to(confirmation_myott_unsubscribes_path(subscription_type: subscription.subscription_type.name))
         end
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
             id: subscription.uuid,
             myott_unsubscribe_my_commodities_form: { decision: 'true' },
           }
-          expect(response).to redirect_to(confirmation_myott_unsubscribes_path(subscription_type: subscription.subscription_type_name))
+          expect(response).to redirect_to(confirmation_myott_unsubscribes_path(subscription_type: subscription.subscription_type.name))
         end
       end
 
@@ -89,11 +89,11 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
   describe 'GET #confirmation' do
     before do
       cookies[:id_token] = 'test_uuid'
-      get :confirmation, params: { subscription_type: subscription.subscription_type_name }
+      get :confirmation, params: { subscription_type: subscription.subscription_type.name }
     end
 
     it 'assigns the subscription_type' do
-      expect(assigns(:subscription_type)).to eq(subscription.subscription_type_name)
+      expect(assigns(:subscription_type)).to eq(subscription.subscription_type.name)
     end
 
     it 'deletes the subscription_uuid cookie' do
@@ -112,7 +112,7 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
       cookies_spy = instance_spy(ActionDispatch::Cookies::CookieJar)
       allow(controller).to receive(:cookies).and_return(cookies_spy)
 
-      get :confirmation, params: { subscription_type: subscription.subscription_type_name }
+      get :confirmation, params: { subscription_type: subscription.subscription_type.name }
 
       expect(cookies_spy).to have_received(:delete).with(:id_token, hash_including(domain: :all))
       expect(cookies_spy).to have_received(:delete).with(:refresh_token, hash_including(domain: :all))
