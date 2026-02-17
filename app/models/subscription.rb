@@ -5,7 +5,13 @@ class Subscription
 
   has_one :subscription_type, class_name: 'SubscriptionType'
 
+  delegate :my_commodities_subscription?, :stop_press_subscription?, to: :subscription_type
+
   attr_accessor :active, :uuid, :meta
+
+  def subscription_type_name
+    subscription_type&.name
+  end
 
   def self.batch(id, token, attributes)
     return nil if token.nil? && !Rails.env.development?

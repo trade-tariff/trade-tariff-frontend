@@ -86,5 +86,3 @@ You can disable this by:
 
 [backend]: https://github.com/trade-tariff/trade-tariff-backend
 [production]: https://github.com/trade-tariff/trade-tariff-frontend/settings/environments/6229078129/edit
-
-TEST CHECK IN

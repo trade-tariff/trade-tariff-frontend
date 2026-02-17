@@ -5,8 +5,8 @@ module Myott
     skip_before_action :authenticate, only: :confirmation
 
     def show
-      @form = Myott::UnsubscribeMyCommoditiesForm.new if subscription_type.my_commodities_subscription?
-      render subscription_type&.name
+      @form = Myott::UnsubscribeMyCommoditiesForm.new if subscription.my_commodities_subscription?
+      render subscription.subscription_type_name
     end
 
     def destroy
@@ -25,17 +25,19 @@ module Myott
   private
 
     def authenticate
-      if params[:id].nil? || subscription_type.nil?
+      if subscription.nil?
         redirect_to myott_start_path
       end
     end
 
-    def subscription_type
-      @subscription_type ||= Subscription.find(params[:id], user_id_token).subscription_type
+    def subscription
+      if params[:id]
+        @subscription ||= Subscription.find(params[:id], user_id_token)
+      end
     end
 
     def unsubscribe
-      if subscription_type.my_commodities_subscription?
+      if subscription.my_commodities_subscription?
         handle_my_commodities_unsubscribe
       else
         delete_subscription
@@ -48,12 +50,12 @@ module Myott
       return redirect_to myott_mycommodities_path if @form.declined?
       return delete_subscription if @form.confirmed?
 
-      render subscription_type&.name
+      render subscription.subscription_type_name
     end
 
     def delete_subscription
       if Subscription.delete(params[:id])
-        redirect_to confirmation_myott_unsubscribes_path(subscription_type: subscription_type&.name)
+        redirect_to confirmation_myott_unsubscribes_path(subscription_type: subscription.subscription_type_name)
       else
         show_deletion_error
       end
@@ -65,7 +67,7 @@ module Myott
 
     def show_deletion_error
       @alert = 'There was an error unsubscribing you. Please try again.'
-      render subscription_type&.name
+      render subscription.subscription_type_name
     end
   end
 end
