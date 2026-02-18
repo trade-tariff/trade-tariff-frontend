@@ -14,9 +14,6 @@ services:
       - ENVIRONMENT=review
       - API_SERVICE_BACKEND_URL_OPTIONS={"uk":"https://staging.trade-tariff.service.gov.uk/uk/api","xi":"https://staging.trade-tariff.service.gov.uk/xi/api"}
       - BACKEND_BASE_DOMAIN=https://staging.trade-tariff.service.gov.uk/
-      - MYOTT_ENABLED=true
-      - MY_COMMODITIES_ENABLED=true
-      - ENQUIRY_FORM_ENABLED=true
       - USE_SMTP=true
     extra_hosts:
       - "telemetry.preevy.dev:127.0.0.1" # Disables telemetry

@@ -21,16 +21,10 @@
       <%= f.govuk_text_area :message,
                             label: nil,
                             max_chars: 500 %>
-
-      <% if TradeTariffFrontend.enquiry_form? %>
+      
         <p class="form-hint">
           If you have any questions or need assistance, use our <%= link_to 'enquiry form', product_experience_enquiry_form_path %>.
         </p>
-      <% else %>
-        <p class="form-hint">
-          If you have any questions or need assistance, email <a href="mailto:online.tariff.feedback@hmrc.gov.uk">online.tariff.feedback@hmrc.gov.uk</a>
-        </p>
-      <% end %>
 
       <div style="display: none;">
         <%= f.govuk_phone_field :telephone,

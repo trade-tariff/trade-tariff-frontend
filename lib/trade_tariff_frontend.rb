@@ -119,10 +119,6 @@ module TradeTariffFrontend
     ENV['BASIC_AUTH'].to_s == 'true'
   end
 
-  def enquiry_form?
-    ENV['ENQUIRY_FORM_ENABLED'].to_s == 'true'
-  end
-
   def webchat_enabled?
     webchat_url.present?
   end

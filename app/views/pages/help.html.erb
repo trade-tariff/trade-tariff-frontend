@@ -56,11 +56,9 @@
         <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#rules-of-origin">Rules
         of origin</a>
       </li>
-      <% if TradeTariffFrontend.enquiry_form? %>
-        <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-          <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#ask-a-question">Ask a question</a>
-        </li>
-      <% end %>
+      <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
+        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#ask-a-question">Ask a question</a>
+      </li>
     </ol>
 
     <h2 class="govuk-heading-s" id="leave-feedback">Leave feedback</h2>
@@ -105,10 +103,8 @@
         Agreements that include it
       </li>
     </ul>
-    <% if TradeTariffFrontend.enquiry_form? %>
-      <h2 class="govuk-heading-s" id="ask-a-question">Ask a question</h2>
-      <p>If you are unable to find the information you need, you can submit a question using our <%= link_to 'enquiry form', product_experience_enquiry_form_path %>.</p>
-    <% end %>
+    <h2 class="govuk-heading-s" id="ask-a-question">Ask a question</h2>
+    <p>If you are unable to find the information you need, you can submit a question using our <%= link_to 'enquiry form', product_experience_enquiry_form_path %>.</p>
   </div>
   <div class="govuk-grid-column-one-third">
     <div class="gem-c-related-navigation">
