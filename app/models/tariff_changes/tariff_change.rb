@@ -11,9 +11,9 @@ module TariffChanges
       response = api.get(path, opts, headers(token))
 
       {
-        content_disposition: response.headers['content-disposition'],
-        content_type: response.headers['content-type'],
         body: response.body,
+        filename: response.headers['content-disposition'][/filename="?([^"]*)"?/, 1],
+        type: response.headers['content-type'],
       }
     end
   end

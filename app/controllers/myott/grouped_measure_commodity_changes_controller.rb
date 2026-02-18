@@ -4,8 +4,14 @@ module Myott
       @grouped_measure_commodity_changes = TariffChanges::GroupedMeasureCommodityChange.find(
         params[:id],
         user_id_token,
-        { as_of: as_of.to_fs(:dashed) },
+        options,
       )
+    end
+
+    private
+
+    def options
+      { as_of: as_of.to_fs(:dashed) }
     end
   end
 end

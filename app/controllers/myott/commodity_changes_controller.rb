@@ -1,19 +1,28 @@
 module Myott
   class CommodityChangesController < MycommoditiesController
+    ENDING = 'ending'.freeze
+    CLASSIFICATION = 'classification'.freeze
+
     def ending
-      @change = changes('ending')
+      @change = changes(ENDING)
     end
 
     def classification
-      @change = changes('classification')
+      @change = changes(CLASSIFICATION)
     end
+
+    private
 
     def changes(id)
       TariffChanges::CommodityChange.find(
         id,
         user_id_token,
-        { as_of: as_of.to_fs(:dashed) },
+        options,
       )
+    end
+
+    def options
+      { as_of: as_of.to_fs(:dashed) }
     end
   end
 end

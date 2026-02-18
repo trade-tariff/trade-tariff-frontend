@@ -1,8 +1,6 @@
 module Myott
   class MycommoditiesController < MyottController
-    before_action except: %i[new create] do
-      redirect_to new_myott_mycommodity_path unless current_subscription('my_commodities')
-    end
+    before_action :ensure_subscription, except: %i[new create]
 
     def new
       @upload_form = Myott::CommodityUploadForm.new
@@ -33,7 +31,6 @@ module Myott
         render :new and return
       end
 
-      new_subscriber = current_subscription('my_commodities').nil?
       result = CommodityCodesExtractionService.new(@upload_form.file).call
 
       unless result.success?
@@ -41,6 +38,7 @@ module Myott
         render :new and return
       end
 
+      new_subscriber = subscription.nil?
       update_user_commodity_codes(result.codes)
       redirect_to confirmation_myott_mycommodities_path params: { new_subscriber: new_subscriber } and return
     end
@@ -52,47 +50,51 @@ module Myott
     def download
       file_data = TariffChanges::TariffChange.download_file(user_id_token, { as_of: as_of.to_fs(:dashed) })
 
-      headers['Content-Disposition'] = file_data[:content_disposition]
-      headers['Content-Type'] = file_data[:content_type]
-      headers['Content-Transfer-Encoding'] = 'binary'
-      headers['Cache-Control'] = 'no-cache'
-
-      self.response_body = file_data[:body]
+      send_data(
+        file_data[:body],
+        filename: file_data[:filename],
+        type: file_data[:type],
+        disposition: 'attachment',
+      )
+      response.headers['Cache-Control'] = 'no-cache'
     end
 
     private
 
-    def update_user_commodity_codes(commodity_codes)
-      if current_subscription('my_commodities').nil? && User.update(user_id_token, my_commodities_subscription: 'true')
-        # force a reload of memoized user and subscription
-        @current_user = nil
-        @current_subscription = nil
-      end
+    def subscription
+      @subscription ||= current_subscription(SubscriptionType::SUBSCRIPTION_TYPE_NAMES[:my_commodities])
+    end
 
-      Subscription.batch(current_subscription('my_commodities').resource_id,
+    def ensure_subscription
+      unless subscription
+        redirect_to new_myott_mycommodity_path and return
+      end
+    end
+
+    def update_user_commodity_codes(commodity_codes)
+      User.update(user_id_token, my_commodities_subscription: 'true') if subscription.nil?
+
+      Subscription.batch(subscription.resource_id,
                          user_id_token,
                          targets: TariffJsonapiParser.new(commodity_codes.uniq).parse)
     end
 
     def get_subscription_targets(category)
-      page = params[:page].presence || 1
-      per_page = params[:per_page].presence || 10
+      filters = { filter: { active_commodities_type: category },
+                  page: params.fetch(:page, 1),
+                  per_page: params.fetch(:per_page, 10) }
 
-      params = { filter: { active_commodities_type: category },
-                 page: page,
-                 per_page: per_page }
-      SubscriptionTarget.all(current_subscription('my_commodities').resource_id, user_id_token, params)
+      SubscriptionTarget.all(subscription.resource_id, user_id_token, filters)
     end
 
     def counts_from_subscription_metadata
-      subscription = current_subscription('my_commodities')
       counts = subscription&.dig(:meta, :counts) || {}
 
       OpenStruct.new(
-        active: counts['active'] || 0,
-        expired: counts['expired'] || 0,
-        invalid: counts['invalid'] || 0,
-        total: counts['total'] || 0,
+        active: counts.fetch('active', 0),
+        expired: counts.fetch('expired', 0),
+        invalid: counts.fetch('invalid', 0),
+        total: counts.fetch('total', 0),
       )
     end
 
