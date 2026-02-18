@@ -377,7 +377,8 @@ ul {
 }
 
 .commodity-tree-note em {
-  @include govuk-font($size: 16, $weight: normal);
+  @include govuk-font($size: false, $weight: normal);
+  font-size: 14px;
 }
 
 li:not(.has_children) .description {
