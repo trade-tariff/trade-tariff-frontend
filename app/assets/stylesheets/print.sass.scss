@@ -1,7 +1,7 @@
 $govuk-fonts-path: '/govuk-frontend/dist/govuk/assets/fonts/';
 $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 
-@import "govuk-frontend/dist/govuk/all";
+@import "govuk-frontend/dist/govuk";
 
 @import "src/legacy-grid-layout-conditionals";
 @import "src/colors";
@@ -205,7 +205,7 @@ article.tariff {
     left: 0;
     right: 0;
     margin: 15px;
-    color: $govuk-secondary-text-colour;
+    color: govuk-functional-colour(secondary-text);
     font-size: 14px;
 
     &:after {
@@ -380,7 +380,7 @@ article.tariff {
           display: none;
           float: left;
           margin-right: 15px;
-          color: $govuk-text-colour;
+          color: govuk-functional-colour(text);
           font-weight: normal;
           font-size: 14px;
           display: block;
@@ -508,7 +508,7 @@ li.open {
 }
 
 li:not(.has_children) .description {
-  color: $govuk-link-colour;
+  color: govuk-functional-colour(link);
   padding-left: px($expand-arrow-space);
   margin-left: -1 * px($expand-arrow-space);
   cursor: pointer;
@@ -526,7 +526,7 @@ li:not(.has_children) .description {
 
 li.has_children {
   .description {
-    color: $govuk-link-colour;
+    color: govuk-functional-colour(link);
     padding-left: px($expand-arrow-space);
     margin-left: -1 * px($expand-arrow-space);
     background-image: url("../images/expand-collapse-transparent_commodity-tree.png");
@@ -548,7 +548,7 @@ li.has_children {
 
   .description:hover,
   .description-hover {
-    color: $govuk-link-hover-colour;
+    color: govuk-functional-colour(link-hover);
   }
 
   a .description {

@@ -50,23 +50,11 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         stub_authenticated_user(user)
       end
 
-      context 'when my_commodities is not enabled' do
-        before do
-          allow(TradeTariffFrontend).to receive(:my_commodities?).and_return(false)
-          get :index
-        end
-
-        it 'redirects to stop press' do
-          expect(response).to redirect_to(myott_stop_press_path)
-        end
-      end
-
       context 'when my_commodities is enabled' do
         let(:stop_press_subscription) { build(:subscription, :stop_press) }
         let(:my_commodities_subscription) { build(:subscription, :my_commodities) }
 
         before do
-          allow(TradeTariffFrontend).to receive(:my_commodities?).and_return(true)
           stub_current_subscription('stop_press', stop_press_subscription)
           stub_current_subscription('my_commodities', my_commodities_subscription)
           get :index

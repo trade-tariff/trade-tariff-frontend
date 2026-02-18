@@ -1,9 +1,9 @@
 .corrected-search-results {
-  color: $govuk-secondary-text-colour;
+  color: govuk-functional-colour(secondary-text);
 }
 
 .non-corrected-search-results {
-  color: $govuk-secondary-text-colour;
+  color: govuk-functional-colour(secondary-text);
 }
 
 .search-results {
@@ -109,7 +109,7 @@
 
         li {
           padding: 0;
-          border-bottom: 1px solid $govuk-border-colour;
+          border-bottom: 1px solid govuk-functional-colour(border);
           min-height: 30px;
           margin-right: 1em;
 

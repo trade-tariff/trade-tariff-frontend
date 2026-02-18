@@ -10,7 +10,7 @@
   }
 
   &--grey {
-    background-color: govuk-colour("light-grey");
+    background-color: govuk-colour("black", $variant: "tint-95");
   }
 
   .govuk-warning-text {
@@ -20,5 +20,5 @@
 
 .panel-border-wide {
   border-width: 0 0 0 $govuk-border-width-wide;
-  border-color: $govuk-border-colour;
+  border-color: govuk-functional-colour(border);
 }

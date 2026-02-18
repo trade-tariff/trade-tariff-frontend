@@ -1,5 +1,5 @@
 .tariff-ancestors-breadcrumbs__link {
-  color: $govuk-text-colour !important;
+  color: govuk-functional-colour(text) !important;
 }
 
 .tariff-breadcrumbs {
@@ -7,7 +7,7 @@
   padding: 1em;
   margin: 20px 0 40px 0;
 
-  background-color: govuk-colour("light-grey", "grey-4");
+  background-color: govuk-colour("black", $variant: "tint-95");
 
   &::after {
     content: "";

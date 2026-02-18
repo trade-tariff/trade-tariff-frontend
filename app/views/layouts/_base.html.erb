@@ -12,39 +12,43 @@
   <% content_for :before_main_content %>
 <% end %>
 
-<% content_for :header_class, 'with-proposition' %>
-<% content_for :proposition_header do %>
-  <div class="govuk-header__content">
-    <a href="<%= home_path %>" class="govuk-header__link govuk-header__service-name" id="proposition-name">
-      <%= trade_tariff_heading %>
-    </a>
-    <nav id="proposition-menu" aria-label="Top Level Navigation" class="govuk-header__navigation">
-      <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="proposition-links" hidden>
-        Menu
-      </button>
-
-      <ul id="proposition-links" class="govuk-header__navigation-list">
-        <%= govuk_header_navigation_item(active_class: search_active_class) do %>
-          <%= link_to 'Search', home_path, class: "govuk-header__link" %>
-        <% end %>
-        <%= govuk_header_navigation_item(active_class: browse_active_class) do %>
-          <%= link_to 'Browse', browse_sections_path, class: "govuk-header__link" %>
-        <% end %>
-        <%= govuk_header_navigation_item(active_class: a_z_active_class) do %>
-          <%= link_to "A-Z", a_z_index_path(letter: "a"), class: "govuk-header__link" %>
-        <% end %>
-        <%= govuk_header_navigation_item(active_class: tools_active_class) do %>
-          <%= link_to "Tools", tools_path, class: "govuk-header__link" %>
-        <% end %>
-        <%= govuk_header_navigation_item(active_class: updates_active_class) do %>
-          <%= link_to "News", news_items_path, class: "govuk-header__link" %>
-        <% end %>
-        <%= govuk_header_navigation_item(active_class: help_active_class) do %>
-          <%= link_to "Help", help_path, class: "govuk-header__link" %>
-        <% end %>
-      </ul>
-    </nav>
-  </div>
+<% content_for :service_navigation do %>
+  <section class="govuk-service-navigation" data-module="govuk-service-navigation" aria-label="Service">
+    <div class="govuk-width-container">
+      <div class="govuk-service-navigation__container">
+        <span class="govuk-service-navigation__service-name">
+          <a href="<%= home_path %>" class="govuk-service-navigation__link" id="proposition-name">
+            <%= trade_tariff_heading %>
+          </a>
+        </span>
+        <nav aria-label="Top Level Navigation" class="govuk-service-navigation__wrapper">
+          <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="proposition-links" hidden>
+            Menu
+          </button>
+          <ul id="proposition-links" class="govuk-service-navigation__list">
+            <%= govuk_service_navigation_item(active_class: search_active_class) do %>
+              <%= link_to 'Search', home_path, class: "govuk-service-navigation__link" %>
+            <% end %>
+            <%= govuk_service_navigation_item(active_class: browse_active_class) do %>
+              <%= link_to 'Browse', browse_sections_path, class: "govuk-service-navigation__link" %>
+            <% end %>
+            <%= govuk_service_navigation_item(active_class: a_z_active_class) do %>
+              <%= link_to "A-Z", a_z_index_path(letter: "a"), class: "govuk-service-navigation__link" %>
+            <% end %>
+            <%= govuk_service_navigation_item(active_class: tools_active_class) do %>
+              <%= link_to "Tools", tools_path, class: "govuk-service-navigation__link" %>
+            <% end %>
+            <%= govuk_service_navigation_item(active_class: updates_active_class) do %>
+              <%= link_to "News", news_items_path, class: "govuk-service-navigation__link" %>
+            <% end %>
+            <%= govuk_service_navigation_item(active_class: help_active_class) do %>
+              <%= link_to "Help", help_path, class: "govuk-service-navigation__link" %>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </section>
 <% end %>
 
 <% content_for :footer_top do %>

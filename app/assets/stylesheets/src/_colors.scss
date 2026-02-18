@@ -8,7 +8,7 @@ $chapter-code-bg: #d1d2e6;
 $heading-code-bg: #b3d9ee;
 $commodity-code-bg: #abeae5;
 $table-header-bg: #e1e8e8;
-$table-sub-border: tint($govuk-border-colour);
+$table-sub-border: govuk-colour("black", $variant: "tint-95");
 
 $tariff-inset-background-color-meursing: #e9f4f9;
 $tariff-inset-border-left-color-meursing: #098dc1;

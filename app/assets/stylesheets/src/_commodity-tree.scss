@@ -72,7 +72,7 @@ article.tariff {
     left: 0;
     right: 0;
     margin: 15px;
-    color: $govuk-secondary-text-colour;
+    color: govuk-functional-colour(secondary-text);
     font-size: 14px;
 
     @media (max-width: $mobile-max-width) {
@@ -287,7 +287,7 @@ article.tariff {
       display: none;
       float: left;
       margin-right: 15px;
-      color: $govuk-text-colour;
+      color: govuk-functional-colour(text);
       font-weight: normal;
       font-size: 0.9em;
 
@@ -324,7 +324,7 @@ article.tariff {
     margin-top: 0.5em;
 
     @media (min-width: $desktop-min-width) {
-      color: $govuk-text-colour;
+      color: govuk-functional-colour(text);
       position: absolute;
       right: 0;
       top: -.05em;
@@ -377,12 +377,13 @@ ul {
 }
 
 .commodity-tree-note em {
-  @include govuk-font($size: 14, $weight: normal);
+  @include govuk-font($size: false, $weight: normal);
+  font-size: 14px;
 }
 
 li:not(.has_children) .description {
   @include govuk-font($size: 16, $weight: normal);
-  color: $govuk-link-colour;
+  color: govuk-functional-colour(link);
   padding-left: px($expand-arrow-space);
   margin-left: -1 * px($expand-arrow-space);
   cursor: pointer;
@@ -406,7 +407,7 @@ li:not(.has_children) .description {
 li.has_children {
   .description {
     @include govuk-font($size: 16, $weight: normal);
-    color: $govuk-link-colour;
+    color: govuk-functional-colour(link);
     padding-left: px($expand-arrow-space);
     margin-left: -1 * px($expand-arrow-space);
     position: relative;
@@ -450,7 +451,7 @@ li.has_children {
 
   .description:hover,
   .description-hover {
-    color: $govuk-link-hover-colour;
+    color: govuk-functional-colour(link-hover);
   }
 
   a .description {
@@ -502,7 +503,7 @@ li.has_children {
 }
 
 .additional-code-table {
-  @include govuk-font($size: 14);
+  @include govuk-font($size: 16);
   @include govuk-responsive-margin(2, "bottom");
 
   .govuk-table__body .govuk-table__cell {

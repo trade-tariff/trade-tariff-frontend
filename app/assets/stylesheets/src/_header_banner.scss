@@ -1,6 +1,6 @@
 .govuk-header .tariff-header-banner {
   padding: govuk-spacing(2) 0;
-  border-top: govuk-spacing(2) solid $govuk-brand-colour;
+  border-top: govuk-spacing(2) solid govuk-functional-colour(brand);
 
   > .govuk-width-container > *:first-child {
     margin-top: 0;

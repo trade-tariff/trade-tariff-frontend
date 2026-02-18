@@ -276,6 +276,48 @@ RSpec.describe Search do
       end
     end
 
+    context 'when internal API returns 422 validation error' do
+      let(:search) do
+        s = described_class.new(q: 'a' * 501)
+        s.interactive_search = true
+        s
+      end
+
+      let(:error_body) do
+        {
+          'errors' => [
+            {
+              'status' => '422',
+              'title' => 'Invalid query',
+              'detail' => 'Query exceeds maximum length of 500 characters',
+              'source' => { 'pointer' => '/data/attributes/q' },
+            },
+          ],
+        }
+      end
+
+      before do
+        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 422,
+                     body: error_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'returns an InternalSearchResult' do
+        expect(search.perform).to be_a(Search::InternalSearchResult)
+      end
+
+      it 'returns empty results' do
+        expect(search.perform).to be_none
+      end
+
+      it 'hydrates errors on the search model' do
+        search.perform
+        expect(search.errors[:q]).to include('Query exceeds maximum length of 500 characters')
+      end
+    end
+
     context 'when interactive search is disabled' do
       subject(:perform_search) { described_class.new(q: 'horses').perform }
 

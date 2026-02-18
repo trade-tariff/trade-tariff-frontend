@@ -1,5 +1,5 @@
 .chapter-code, .heading-code, .commodity-code {
-  @include govuk-font($size: 14, $weight: normal);
+  @include govuk-font($size: 16, $weight: normal);
   display: inline-block;
   position: relative;
   height: 1.5625em;
@@ -12,7 +12,7 @@
     top: 0;
     width: 100%;
     text-align: center;
-    color: $govuk-text-colour;
+    color: govuk-functional-colour(text);
     line-height: 30px;
   }
 }
@@ -97,11 +97,12 @@
     }
 
     &--coloured {
-      @include govuk-font($size: 14);
+      @include govuk-font($size: false);
+      font-size: 14px;
       font-family: 'Azeret Mono', 'Courier New', Courier, monospace;
 
       span {
-        color: $govuk-text-colour;
+        color: govuk-functional-colour(text);
         padding: 0.17em 0.25em;
         margin-right: 0.16em;
 

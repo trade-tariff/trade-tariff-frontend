@@ -1,10 +1,10 @@
 .govuk-notification-banner--error {
-  border-color: $govuk-error-colour;
+  border-color: govuk-functional-colour(error);
 }
 
 .govuk-button--blue {
-  background-color:   $govuk-brand-colour;
-  border-color:  $govuk-brand-colour;
+  background-color:   govuk-functional-colour(brand);
+  border-color:  govuk-functional-colour(brand);
   color: govuk-colour("white");
   &,
     &:link,
@@ -15,6 +15,6 @@
     }
 
     &:hover {
-      background-color: $govuk-link-hover-colour;
+      background-color: govuk-functional-colour(link-hover);
     }
 }

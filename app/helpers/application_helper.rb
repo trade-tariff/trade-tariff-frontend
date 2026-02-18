@@ -50,8 +50,8 @@ module ApplicationHelper
            extra_content:
   end
 
-  def govuk_header_navigation_item(active_class: '', &block)
-    base_class_name = 'govuk-header__navigation-item'
+  def govuk_service_navigation_item(active_class: '', &block)
+    base_class_name = 'govuk-service-navigation__item'
     active_class_name = active_class.present? ? "#{base_class_name}--active" : ''
 
     tag.li(class: "#{base_class_name} #{active_class_name}", &block)

@@ -37,7 +37,7 @@ module TradeTariffFrontend
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins ENV['CORS_HOST'] || '*'
+        origins ENV.fetch('CORS_HOST')
         resource '*',
                  headers: :any,
                  methods: %i[get options]
@@ -46,6 +46,12 @@ module TradeTariffFrontend
 
     # Disable Rack::Cache.
     config.action_dispatch.rack_cache = nil
+
+    config.action_dispatch.default_headers.merge!(
+      'X-Frame-Options' => 'SAMEORIGIN',
+      'X-XSS-Protection' => '0',
+      'X-Content-Type-Options' => 'nosniff',
+    )
 
     # Tells Rails to serve error pages from the app itself, rather than using static error pages in public/
     config.exceptions_app = routes
