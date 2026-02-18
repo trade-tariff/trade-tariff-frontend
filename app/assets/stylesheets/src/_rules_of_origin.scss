@@ -40,7 +40,7 @@
 
 .rules-of-origin-met-message {
   padding: govuk-spacing(3);
-  background-color: govuk-colour("light-grey");
+  background-color: govuk-colour("black", $variant: "tint-95");
   margin-bottom: 2em;
 
   p {

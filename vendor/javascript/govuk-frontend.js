@@ -1,1 +1,2704 @@
-const version="5.10.2";function getFragmentFromUrl(t){if(t.includes("#"))return t.split("#").pop()}function getBreakpoint(t){const e=`--govuk-frontend-breakpoint-${t}`;return{property:e,value:window.getComputedStyle(document.documentElement).getPropertyValue(e)||void 0}}function setFocus(t,e={}){var i;const n=t.getAttribute("tabindex");function onBlur(){var i;null==(i=e.onBlur)||i.call(t),n||t.removeAttribute("tabindex")}n||t.setAttribute("tabindex","-1"),t.addEventListener("focus",(function(){t.addEventListener("blur",onBlur,{once:!0})}),{once:!0}),null==(i=e.onBeforeFocus)||i.call(t),t.focus()}function isSupported(t=document.body){return!!t&&t.classList.contains("govuk-frontend-supported")}function isObject(t){return!!t&&"object"==typeof t&&!function(t){return Array.isArray(t)}(t)}function formatErrorMessage(Component,t){return`${Component.moduleName}: ${t}`}class GOVUKFrontendError extends Error{constructor(...t){super(...t),this.name="GOVUKFrontendError"}}class SupportError extends GOVUKFrontendError{constructor(t=document.body){const e="noModule"in HTMLScriptElement.prototype?'GOV.UK Frontend initialised without `<body class="govuk-frontend-supported">` from template `<script>` snippet':"GOV.UK Frontend is not supported in this browser";super(t?e:'GOV.UK Frontend initialised without `<script type="module">`'),this.name="SupportError"}}class ConfigError extends GOVUKFrontendError{constructor(...t){super(...t),this.name="ConfigError"}}class ElementError extends GOVUKFrontendError{constructor(t){let e="string"==typeof t?t:"";if("object"==typeof t){const{component:i,identifier:n,element:s,expectedType:o}=t;e=n,e+=s?` is not of type ${null!=o?o:"HTMLElement"}`:" not found",e=formatErrorMessage(i,e)}super(e),this.name="ElementError"}}class InitError extends GOVUKFrontendError{constructor(t){super("string"==typeof t?t:formatErrorMessage(t,"Root element (`$root`) already initialised")),this.name="InitError"}}class Component{get $root(){return this._$root}constructor(t){this._$root=void 0;const e=this.constructor;if("string"!=typeof e.moduleName)throw new InitError("`moduleName` not defined in component");if(!(t instanceof e.elementType))throw new ElementError({element:t,component:e,identifier:"Root element (`$root`)",expectedType:e.elementType.name});this._$root=t,e.checkSupport(),this.checkInitialised();const i=e.moduleName;this.$root.setAttribute(`data-${i}-init`,"")}checkInitialised(){const t=this.constructor,e=t.moduleName;if(e&&function(t,e){return t instanceof HTMLElement&&t.hasAttribute(`data-${e}-init`)}(this.$root,e))throw new InitError(t)}static checkSupport(){if(!isSupported())throw new SupportError}}Component.elementType=HTMLElement;const t=Symbol.for("configOverride");class ConfigurableComponent extends Component{[t](t){return{}}get config(){return this._config}constructor(e,i){super(e),this._config=void 0;const n=this.constructor;if(!isObject(n.defaults))throw new ConfigError(formatErrorMessage(n,"Config passed as parameter into constructor but no defaults defined"));const s=function(Component,t){if(!isObject(Component.schema))throw new ConfigError(formatErrorMessage(Component,"Config passed as parameter into constructor but no schema defined"));const e={},i=Object.entries(Component.schema.properties);for(const n of i){const[i,s]=n,o=i.toString();o in t&&(e[o]=normaliseString(t[o],s)),"object"===(null==s?void 0:s.type)&&(e[o]=extractConfigByNamespace(Component.schema,t,i))}return e}(n,this._$root.dataset);this._config=mergeConfigs(n.defaults,null!=i?i:{},this[t](s),s)}}function normaliseString(t,e){const i=t?t.trim():"";let n,s=null==e?void 0:e.type;switch(s||(["true","false"].includes(i)&&(s="boolean"),i.length>0&&isFinite(Number(i))&&(s="number")),s){case"boolean":n="true"===i;break;case"number":n=Number(i);break;default:n=t}return n}function mergeConfigs(...t){const e={};for(const i of t)for(const t of Object.keys(i)){const n=e[t],s=i[t];isObject(n)&&isObject(s)?e[t]=mergeConfigs(n,s):e[t]=s}return e}function extractConfigByNamespace(t,e,i){const n=t.properties[i];if("object"!==(null==n?void 0:n.type))return;const s={[i]:{}};for(const[o,r]of Object.entries(e)){let t=s;const e=o.split(".");for(const[n,s]of e.entries())isObject(t)&&(n<e.length-1?(isObject(t[s])||(t[s]={}),t=t[s]):o!==i&&(t[s]=normaliseString(r)))}return s[i]}class I18n{constructor(t={},e={}){var i;this.translations=void 0,this.locale=void 0,this.translations=t,this.locale=null!=(i=e.locale)?i:document.documentElement.lang||"en"}t(t,e){if(!t)throw new Error("i18n: lookup key missing");let i=this.translations[t];if("number"==typeof(null==e?void 0:e.count)&&"object"==typeof i){const n=i[this.getPluralSuffix(t,e.count)];n&&(i=n)}if("string"==typeof i){if(i.match(/%{(.\S+)}/)){if(!e)throw new Error("i18n: cannot replace placeholders in string if no option data provided");return this.replacePlaceholders(i,e)}return i}return t}replacePlaceholders(t,e){const i=Intl.NumberFormat.supportedLocalesOf(this.locale).length?new Intl.NumberFormat(this.locale):void 0;return t.replace(/%{(.\S+)}/g,(function(t,n){if(Object.prototype.hasOwnProperty.call(e,n)){const t=e[n];return!1===t||"number"!=typeof t&&"string"!=typeof t?"":"number"==typeof t?i?i.format(t):`${t}`:t}throw new Error(`i18n: no data found to replace ${t} placeholder in string`)}))}hasIntlPluralRulesSupport(){return Boolean("PluralRules"in window.Intl&&Intl.PluralRules.supportedLocalesOf(this.locale).length)}getPluralSuffix(t,e){if(e=Number(e),!isFinite(e))return"other";const i=this.translations[t],n=this.hasIntlPluralRulesSupport()?new Intl.PluralRules(this.locale).select(e):this.selectPluralFormUsingFallbackRules(e);if("object"==typeof i){if(n in i)return n;if("other"in i)return console.warn(`i18n: Missing plural form ".${n}" for "${this.locale}" locale. Falling back to ".other".`),"other"}throw new Error(`i18n: Plural form ".other" is required for "${this.locale}" locale`)}selectPluralFormUsingFallbackRules(t){t=Math.abs(Math.floor(t));const e=this.getPluralRulesForLocale();return e?I18n.pluralRules[e](t):"other"}getPluralRulesForLocale(){const t=this.locale.split("-")[0];for(const e in I18n.pluralRulesMap){const i=I18n.pluralRulesMap[e];if(i.includes(this.locale)||i.includes(t))return e}}}I18n.pluralRulesMap={arabic:["ar"],chinese:["my","zh","id","ja","jv","ko","ms","th","vi"],french:["hy","bn","fr","gu","hi","fa","pa","zu"],german:["af","sq","az","eu","bg","ca","da","nl","en","et","fi","ka","de","el","hu","lb","no","so","sw","sv","ta","te","tr","ur"],irish:["ga"],russian:["ru","uk"],scottish:["gd"],spanish:["pt-PT","it","es"],welsh:["cy"]},I18n.pluralRules={arabic:t=>0===t?"zero":1===t?"one":2===t?"two":t%100>=3&&t%100<=10?"few":t%100>=11&&t%100<=99?"many":"other",chinese:()=>"other",french:t=>0===t||1===t?"one":"other",german:t=>1===t?"one":"other",irish:t=>1===t?"one":2===t?"two":t>=3&&t<=6?"few":t>=7&&t<=10?"many":"other",russian(t){const e=t%100,i=e%10;return 1===i&&11!==e?"one":i>=2&&i<=4&&!(e>=12&&e<=14)?"few":0===i||i>=5&&i<=9||e>=11&&e<=14?"many":"other"},scottish:t=>1===t||11===t?"one":2===t||12===t?"two":t>=3&&t<=10||t>=13&&t<=19?"few":"other",spanish:t=>1===t?"one":t%1e6==0&&0!==t?"many":"other",welsh:t=>0===t?"zero":1===t?"one":2===t?"two":3===t?"few":6===t?"many":"other"};class Accordion extends ConfigurableComponent{constructor(t,e={}){super(t,e),this.i18n=void 0,this.controlsClass="govuk-accordion__controls",this.showAllClass="govuk-accordion__show-all",this.showAllTextClass="govuk-accordion__show-all-text",this.sectionClass="govuk-accordion__section",this.sectionExpandedClass="govuk-accordion__section--expanded",this.sectionButtonClass="govuk-accordion__section-button",this.sectionHeaderClass="govuk-accordion__section-header",this.sectionHeadingClass="govuk-accordion__section-heading",this.sectionHeadingDividerClass="govuk-accordion__section-heading-divider",this.sectionHeadingTextClass="govuk-accordion__section-heading-text",this.sectionHeadingTextFocusClass="govuk-accordion__section-heading-text-focus",this.sectionShowHideToggleClass="govuk-accordion__section-toggle",this.sectionShowHideToggleFocusClass="govuk-accordion__section-toggle-focus",this.sectionShowHideTextClass="govuk-accordion__section-toggle-text",this.upChevronIconClass="govuk-accordion-nav__chevron",this.downChevronIconClass="govuk-accordion-nav__chevron--down",this.sectionSummaryClass="govuk-accordion__section-summary",this.sectionSummaryFocusClass="govuk-accordion__section-summary-focus",this.sectionContentClass="govuk-accordion__section-content",this.$sections=void 0,this.$showAllButton=null,this.$showAllIcon=null,this.$showAllText=null,this.i18n=new I18n(this.config.i18n);const i=this.$root.querySelectorAll(`.${this.sectionClass}`);if(!i.length)throw new ElementError({component:Accordion,identifier:`Sections (\`<div class="${this.sectionClass}">\`)`});this.$sections=i,this.initControls(),this.initSectionHeaders(),this.updateShowAllButton(this.areAllSectionsOpen())}initControls(){this.$showAllButton=document.createElement("button"),this.$showAllButton.setAttribute("type","button"),this.$showAllButton.setAttribute("class",this.showAllClass),this.$showAllButton.setAttribute("aria-expanded","false"),this.$showAllIcon=document.createElement("span"),this.$showAllIcon.classList.add(this.upChevronIconClass),this.$showAllButton.appendChild(this.$showAllIcon);const t=document.createElement("div");t.setAttribute("class",this.controlsClass),t.appendChild(this.$showAllButton),this.$root.insertBefore(t,this.$root.firstChild),this.$showAllText=document.createElement("span"),this.$showAllText.classList.add(this.showAllTextClass),this.$showAllButton.appendChild(this.$showAllText),this.$showAllButton.addEventListener("click",(()=>this.onShowOrHideAllToggle())),"onbeforematch"in document&&document.addEventListener("beforematch",(t=>this.onBeforeMatch(t)))}initSectionHeaders(){this.$sections.forEach(((t,e)=>{const i=t.querySelector(`.${this.sectionHeaderClass}`);if(!i)throw new ElementError({component:Accordion,identifier:`Section headers (\`<div class="${this.sectionHeaderClass}">\`)`});this.constructHeaderMarkup(i,e),this.setExpanded(this.isExpanded(t),t),i.addEventListener("click",(()=>this.onSectionToggle(t))),this.setInitialState(t)}))}constructHeaderMarkup(t,e){const i=t.querySelector(`.${this.sectionButtonClass}`),n=t.querySelector(`.${this.sectionHeadingClass}`),s=t.querySelector(`.${this.sectionSummaryClass}`);if(!n)throw new ElementError({component:Accordion,identifier:`Section heading (\`.${this.sectionHeadingClass}\`)`});if(!i)throw new ElementError({component:Accordion,identifier:`Section button placeholder (\`<span class="${this.sectionButtonClass}">\`)`});const o=document.createElement("button");o.setAttribute("type","button"),o.setAttribute("aria-controls",`${this.$root.id}-content-${e+1}`);for(const d of Array.from(i.attributes))"id"!==d.name&&o.setAttribute(d.name,d.value);const r=document.createElement("span");r.classList.add(this.sectionHeadingTextClass),r.id=i.id;const a=document.createElement("span");a.classList.add(this.sectionHeadingTextFocusClass),r.appendChild(a),Array.from(i.childNodes).forEach((t=>a.appendChild(t)));const l=document.createElement("span");l.classList.add(this.sectionShowHideToggleClass),l.setAttribute("data-nosnippet","");const c=document.createElement("span");c.classList.add(this.sectionShowHideToggleFocusClass),l.appendChild(c);const u=document.createElement("span"),h=document.createElement("span");if(h.classList.add(this.upChevronIconClass),c.appendChild(h),u.classList.add(this.sectionShowHideTextClass),c.appendChild(u),o.appendChild(r),o.appendChild(this.getButtonPunctuationEl()),s){const t=document.createElement("span"),e=document.createElement("span");e.classList.add(this.sectionSummaryFocusClass),t.appendChild(e);for(const i of Array.from(s.attributes))t.setAttribute(i.name,i.value);Array.from(s.childNodes).forEach((t=>e.appendChild(t))),s.remove(),o.appendChild(t),o.appendChild(this.getButtonPunctuationEl())}o.appendChild(l),n.removeChild(i),n.appendChild(o)}onBeforeMatch(t){const e=t.target;if(!(e instanceof Element))return;const i=e.closest(`.${this.sectionClass}`);i&&this.setExpanded(!0,i)}onSectionToggle(t){const e=!this.isExpanded(t);this.setExpanded(e,t),this.storeState(t,e)}onShowOrHideAllToggle(){const t=!this.areAllSectionsOpen();this.$sections.forEach((e=>{this.setExpanded(t,e),this.storeState(e,t)})),this.updateShowAllButton(t)}setExpanded(t,e){const i=e.querySelector(`.${this.upChevronIconClass}`),n=e.querySelector(`.${this.sectionShowHideTextClass}`),s=e.querySelector(`.${this.sectionButtonClass}`),o=e.querySelector(`.${this.sectionContentClass}`);if(!o)throw new ElementError({component:Accordion,identifier:`Section content (\`<div class="${this.sectionContentClass}">\`)`});if(!i||!n||!s)return;const r=t?this.i18n.t("hideSection"):this.i18n.t("showSection");n.textContent=r,s.setAttribute("aria-expanded",`${t}`);const a=[],l=e.querySelector(`.${this.sectionHeadingTextClass}`);l&&a.push(`${l.textContent}`.trim());const c=e.querySelector(`.${this.sectionSummaryClass}`);c&&a.push(`${c.textContent}`.trim());const u=t?this.i18n.t("hideSectionAriaLabel"):this.i18n.t("showSectionAriaLabel");a.push(u),s.setAttribute("aria-label",a.join(" , ")),t?(o.removeAttribute("hidden"),e.classList.add(this.sectionExpandedClass),i.classList.remove(this.downChevronIconClass)):(o.setAttribute("hidden","until-found"),e.classList.remove(this.sectionExpandedClass),i.classList.add(this.downChevronIconClass)),this.updateShowAllButton(this.areAllSectionsOpen())}isExpanded(t){return t.classList.contains(this.sectionExpandedClass)}areAllSectionsOpen(){return Array.from(this.$sections).every((t=>this.isExpanded(t)))}updateShowAllButton(t){this.$showAllButton&&this.$showAllText&&this.$showAllIcon&&(this.$showAllButton.setAttribute("aria-expanded",t.toString()),this.$showAllText.textContent=t?this.i18n.t("hideAllSections"):this.i18n.t("showAllSections"),this.$showAllIcon.classList.toggle(this.downChevronIconClass,!t))}getIdentifier(t){const e=t.querySelector(`.${this.sectionButtonClass}`);return null==e?void 0:e.getAttribute("aria-controls")}storeState(t,e){if(!this.config.rememberExpanded)return;const i=this.getIdentifier(t);if(i)try{window.sessionStorage.setItem(i,e.toString())}catch(n){}}setInitialState(t){if(!this.config.rememberExpanded)return;const e=this.getIdentifier(t);if(e)try{const i=window.sessionStorage.getItem(e);null!==i&&this.setExpanded("true"===i,t)}catch(i){}}getButtonPunctuationEl(){const t=document.createElement("span");return t.classList.add("govuk-visually-hidden",this.sectionHeadingDividerClass),t.textContent=", ",t}}Accordion.moduleName="govuk-accordion",Accordion.defaults=Object.freeze({i18n:{hideAllSections:"Hide all sections",hideSection:"Hide",hideSectionAriaLabel:"Hide this section",showAllSections:"Show all sections",showSection:"Show",showSectionAriaLabel:"Show this section"},rememberExpanded:!0}),Accordion.schema=Object.freeze({properties:{i18n:{type:"object"},rememberExpanded:{type:"boolean"}}});class Button extends ConfigurableComponent{constructor(t,e={}){super(t,e),this.debounceFormSubmitTimer=null,this.$root.addEventListener("keydown",(t=>this.handleKeyDown(t))),this.$root.addEventListener("click",(t=>this.debounce(t)))}handleKeyDown(t){const e=t.target;" "===t.key&&e instanceof HTMLElement&&"button"===e.getAttribute("role")&&(t.preventDefault(),e.click())}debounce(t){if(this.config.preventDoubleClick)return this.debounceFormSubmitTimer?(t.preventDefault(),!1):void(this.debounceFormSubmitTimer=window.setTimeout((()=>{this.debounceFormSubmitTimer=null}),1e3))}}function closestAttributeValue(t,e){const i=t.closest(`[${e}]`);return i?i.getAttribute(e):null}Button.moduleName="govuk-button",Button.defaults=Object.freeze({preventDoubleClick:!1}),Button.schema=Object.freeze({properties:{preventDoubleClick:{type:"boolean"}}});class CharacterCount extends ConfigurableComponent{[t](t){let e={};return("maxwords"in t||"maxlength"in t)&&(e={maxlength:void 0,maxwords:void 0}),e}constructor(t,e={}){var i,n;super(t,e),this.$textarea=void 0,this.$visibleCountMessage=void 0,this.$screenReaderCountMessage=void 0,this.lastInputTimestamp=null,this.lastInputValue="",this.valueChecker=null,this.i18n=void 0,this.maxLength=void 0;const s=this.$root.querySelector(".govuk-js-character-count");if(!(s instanceof HTMLTextAreaElement||s instanceof HTMLInputElement))throw new ElementError({component:CharacterCount,element:s,expectedType:"HTMLTextareaElement or HTMLInputElement",identifier:"Form field (`.govuk-js-character-count`)"});const o=function(t,e){const i=[];for(const[n,s]of Object.entries(t)){const t=[];if(Array.isArray(s)){for(const{required:i,errorMessage:n}of s)i.every((t=>!!e[t]))||t.push(n);"anyOf"!==n||s.length-t.length>=1||i.push(...t)}}return i}(CharacterCount.schema,this.config);if(o[0])throw new ConfigError(formatErrorMessage(CharacterCount,o[0]));this.i18n=new I18n(this.config.i18n,{locale:closestAttributeValue(this.$root,"lang")}),this.maxLength=null!=(i=null!=(n=this.config.maxwords)?n:this.config.maxlength)?i:1/0,this.$textarea=s;const r=`${this.$textarea.id}-info`,a=document.getElementById(r);if(!a)throw new ElementError({component:CharacterCount,element:a,identifier:`Count message (\`id="${r}"\`)`});this.$errorMessage=this.$root.querySelector(".govuk-error-message"),`${a.textContent}`.match(/^\s*$/)&&(a.textContent=this.i18n.t("textareaDescription",{count:this.maxLength})),this.$textarea.insertAdjacentElement("afterend",a);const l=document.createElement("div");l.className="govuk-character-count__sr-status govuk-visually-hidden",l.setAttribute("aria-live","polite"),this.$screenReaderCountMessage=l,a.insertAdjacentElement("afterend",l);const c=document.createElement("div");c.className=a.className,c.classList.add("govuk-character-count__status"),c.setAttribute("aria-hidden","true"),this.$visibleCountMessage=c,a.insertAdjacentElement("afterend",c),a.classList.add("govuk-visually-hidden"),this.$textarea.removeAttribute("maxlength"),this.bindChangeEvents(),window.addEventListener("pageshow",(()=>this.updateCountMessage())),this.updateCountMessage()}bindChangeEvents(){this.$textarea.addEventListener("keyup",(()=>this.handleKeyUp())),this.$textarea.addEventListener("focus",(()=>this.handleFocus())),this.$textarea.addEventListener("blur",(()=>this.handleBlur()))}handleKeyUp(){this.updateVisibleCountMessage(),this.lastInputTimestamp=Date.now()}handleFocus(){this.valueChecker=window.setInterval((()=>{(!this.lastInputTimestamp||Date.now()-500>=this.lastInputTimestamp)&&this.updateIfValueChanged()}),1e3)}handleBlur(){this.valueChecker&&window.clearInterval(this.valueChecker)}updateIfValueChanged(){this.$textarea.value!==this.lastInputValue&&(this.lastInputValue=this.$textarea.value,this.updateCountMessage())}updateCountMessage(){this.updateVisibleCountMessage(),this.updateScreenReaderCountMessage()}updateVisibleCountMessage(){const t=this.maxLength-this.count(this.$textarea.value)<0;this.$visibleCountMessage.classList.toggle("govuk-character-count__message--disabled",!this.isOverThreshold()),this.$errorMessage||this.$textarea.classList.toggle("govuk-textarea--error",t),this.$visibleCountMessage.classList.toggle("govuk-error-message",t),this.$visibleCountMessage.classList.toggle("govuk-hint",!t),this.$visibleCountMessage.textContent=this.getCountMessage()}updateScreenReaderCountMessage(){this.isOverThreshold()?this.$screenReaderCountMessage.removeAttribute("aria-hidden"):this.$screenReaderCountMessage.setAttribute("aria-hidden","true"),this.$screenReaderCountMessage.textContent=this.getCountMessage()}count(t){if(this.config.maxwords){var e;return(null!=(e=t.match(/\S+/g))?e:[]).length}return t.length}getCountMessage(){const t=this.maxLength-this.count(this.$textarea.value),e=this.config.maxwords?"words":"characters";return this.formatCountMessage(t,e)}formatCountMessage(t,e){if(0===t)return this.i18n.t(`${e}AtLimit`);const i=t<0?"OverLimit":"UnderLimit";return this.i18n.t(`${e}${i}`,{count:Math.abs(t)})}isOverThreshold(){if(!this.config.threshold)return!0;const t=this.count(this.$textarea.value);return this.maxLength*this.config.threshold/100<=t}}CharacterCount.moduleName="govuk-character-count",CharacterCount.defaults=Object.freeze({threshold:0,i18n:{charactersUnderLimit:{one:"You have %{count} character remaining",other:"You have %{count} characters remaining"},charactersAtLimit:"You have 0 characters remaining",charactersOverLimit:{one:"You have %{count} character too many",other:"You have %{count} characters too many"},wordsUnderLimit:{one:"You have %{count} word remaining",other:"You have %{count} words remaining"},wordsAtLimit:"You have 0 words remaining",wordsOverLimit:{one:"You have %{count} word too many",other:"You have %{count} words too many"},textareaDescription:{other:""}}}),CharacterCount.schema=Object.freeze({properties:{i18n:{type:"object"},maxwords:{type:"number"},maxlength:{type:"number"},threshold:{type:"number"}},anyOf:[{required:["maxwords"],errorMessage:'Either "maxlength" or "maxwords" must be provided'},{required:["maxlength"],errorMessage:'Either "maxlength" or "maxwords" must be provided'}]});class Checkboxes extends Component{constructor(t){super(t),this.$inputs=void 0;const e=this.$root.querySelectorAll('input[type="checkbox"]');if(!e.length)throw new ElementError({component:Checkboxes,identifier:'Form inputs (`<input type="checkbox">`)'});this.$inputs=e,this.$inputs.forEach((t=>{const e=t.getAttribute("data-aria-controls");if(e){if(!document.getElementById(e))throw new ElementError({component:Checkboxes,identifier:`Conditional reveal (\`id="${e}"\`)`});t.setAttribute("aria-controls",e),t.removeAttribute("data-aria-controls")}})),window.addEventListener("pageshow",(()=>this.syncAllConditionalReveals())),this.syncAllConditionalReveals(),this.$root.addEventListener("click",(t=>this.handleClick(t)))}syncAllConditionalReveals(){this.$inputs.forEach((t=>this.syncConditionalRevealWithInputState(t)))}syncConditionalRevealWithInputState(t){const e=t.getAttribute("aria-controls");if(!e)return;const i=document.getElementById(e);if(null!=i&&i.classList.contains("govuk-checkboxes__conditional")){const e=t.checked;t.setAttribute("aria-expanded",e.toString()),i.classList.toggle("govuk-checkboxes__conditional--hidden",!e)}}unCheckAllInputsExcept(t){document.querySelectorAll(`input[type="checkbox"][name="${t.name}"]`).forEach((e=>{t.form===e.form&&e!==t&&(e.checked=!1,this.syncConditionalRevealWithInputState(e))}))}unCheckExclusiveInputs(t){document.querySelectorAll(`input[data-behaviour="exclusive"][type="checkbox"][name="${t.name}"]`).forEach((e=>{t.form===e.form&&(e.checked=!1,this.syncConditionalRevealWithInputState(e))}))}handleClick(t){const e=t.target;if(!(e instanceof HTMLInputElement)||"checkbox"!==e.type)return;if(e.getAttribute("aria-controls")&&this.syncConditionalRevealWithInputState(e),!e.checked)return;"exclusive"===e.getAttribute("data-behaviour")?this.unCheckAllInputsExcept(e):this.unCheckExclusiveInputs(e)}}Checkboxes.moduleName="govuk-checkboxes";class ErrorSummary extends ConfigurableComponent{constructor(t,e={}){super(t,e),this.config.disableAutoFocus||setFocus(this.$root),this.$root.addEventListener("click",(t=>this.handleClick(t)))}handleClick(t){const e=t.target;e&&this.focusTarget(e)&&t.preventDefault()}focusTarget(t){if(!(t instanceof HTMLAnchorElement))return!1;const e=getFragmentFromUrl(t.href);if(!e)return!1;const i=document.getElementById(e);if(!i)return!1;const n=this.getAssociatedLegendOrLabel(i);return!!n&&(n.scrollIntoView(),i.focus({preventScroll:!0}),!0)}getAssociatedLegendOrLabel(t){var e;const i=t.closest("fieldset");if(i){const e=i.getElementsByTagName("legend");if(e.length){const i=e[0];if(t instanceof HTMLInputElement&&("checkbox"===t.type||"radio"===t.type))return i;const n=i.getBoundingClientRect().top,s=t.getBoundingClientRect();if(s.height&&window.innerHeight){if(s.top+s.height-n<window.innerHeight/2)return i}}}return null!=(e=document.querySelector(`label[for='${t.getAttribute("id")}']`))?e:t.closest("label")}}ErrorSummary.moduleName="govuk-error-summary",ErrorSummary.defaults=Object.freeze({disableAutoFocus:!1}),ErrorSummary.schema=Object.freeze({properties:{disableAutoFocus:{type:"boolean"}}});class ExitThisPage extends ConfigurableComponent{constructor(t,e={}){super(t,e),this.i18n=void 0,this.$button=void 0,this.$skiplinkButton=null,this.$updateSpan=null,this.$indicatorContainer=null,this.$overlay=null,this.keypressCounter=0,this.lastKeyWasModified=!1,this.timeoutTime=5e3,this.keypressTimeoutId=null,this.timeoutMessageId=null;const i=this.$root.querySelector(".govuk-exit-this-page__button");if(!(i instanceof HTMLAnchorElement))throw new ElementError({component:ExitThisPage,element:i,expectedType:"HTMLAnchorElement",identifier:"Button (`.govuk-exit-this-page__button`)"});this.i18n=new I18n(this.config.i18n),this.$button=i;const n=document.querySelector(".govuk-js-exit-this-page-skiplink");n instanceof HTMLAnchorElement&&(this.$skiplinkButton=n),this.buildIndicator(),this.initUpdateSpan(),this.initButtonClickHandler(),"govukFrontendExitThisPageKeypress"in document.body.dataset||(document.addEventListener("keyup",this.handleKeypress.bind(this),!0),document.body.dataset.govukFrontendExitThisPageKeypress="true"),window.addEventListener("pageshow",this.resetPage.bind(this))}initUpdateSpan(){this.$updateSpan=document.createElement("span"),this.$updateSpan.setAttribute("role","status"),this.$updateSpan.className="govuk-visually-hidden",this.$root.appendChild(this.$updateSpan)}initButtonClickHandler(){this.$button.addEventListener("click",this.handleClick.bind(this)),this.$skiplinkButton&&this.$skiplinkButton.addEventListener("click",this.handleClick.bind(this))}buildIndicator(){this.$indicatorContainer=document.createElement("div"),this.$indicatorContainer.className="govuk-exit-this-page__indicator",this.$indicatorContainer.setAttribute("aria-hidden","true");for(let t=0;t<3;t++){const t=document.createElement("div");t.className="govuk-exit-this-page__indicator-light",this.$indicatorContainer.appendChild(t)}this.$button.appendChild(this.$indicatorContainer)}updateIndicator(){if(!this.$indicatorContainer)return;this.$indicatorContainer.classList.toggle("govuk-exit-this-page__indicator--visible",this.keypressCounter>0);this.$indicatorContainer.querySelectorAll(".govuk-exit-this-page__indicator-light").forEach(((t,e)=>{t.classList.toggle("govuk-exit-this-page__indicator-light--on",e<this.keypressCounter)}))}exitPage(){this.$updateSpan&&(this.$updateSpan.textContent="",document.body.classList.add("govuk-exit-this-page-hide-content"),this.$overlay=document.createElement("div"),this.$overlay.className="govuk-exit-this-page-overlay",this.$overlay.setAttribute("role","alert"),document.body.appendChild(this.$overlay),this.$overlay.textContent=this.i18n.t("activated"),window.location.href=this.$button.href)}handleClick(t){t.preventDefault(),this.exitPage()}handleKeypress(t){this.$updateSpan&&("Shift"!==t.key||this.lastKeyWasModified?this.keypressTimeoutId&&this.resetKeypressTimer():(this.keypressCounter+=1,this.updateIndicator(),this.timeoutMessageId&&(window.clearTimeout(this.timeoutMessageId),this.timeoutMessageId=null),this.keypressCounter>=3?(this.keypressCounter=0,this.keypressTimeoutId&&(window.clearTimeout(this.keypressTimeoutId),this.keypressTimeoutId=null),this.exitPage()):1===this.keypressCounter?this.$updateSpan.textContent=this.i18n.t("pressTwoMoreTimes"):this.$updateSpan.textContent=this.i18n.t("pressOneMoreTime"),this.setKeypressTimer()),this.lastKeyWasModified=t.shiftKey)}setKeypressTimer(){this.keypressTimeoutId&&window.clearTimeout(this.keypressTimeoutId),this.keypressTimeoutId=window.setTimeout(this.resetKeypressTimer.bind(this),this.timeoutTime)}resetKeypressTimer(){if(!this.$updateSpan)return;this.keypressTimeoutId&&(window.clearTimeout(this.keypressTimeoutId),this.keypressTimeoutId=null);const t=this.$updateSpan;this.keypressCounter=0,t.textContent=this.i18n.t("timedOut"),this.timeoutMessageId=window.setTimeout((()=>{t.textContent=""}),this.timeoutTime),this.updateIndicator()}resetPage(){document.body.classList.remove("govuk-exit-this-page-hide-content"),this.$overlay&&(this.$overlay.remove(),this.$overlay=null),this.$updateSpan&&(this.$updateSpan.setAttribute("role","status"),this.$updateSpan.textContent=""),this.updateIndicator(),this.keypressTimeoutId&&window.clearTimeout(this.keypressTimeoutId),this.timeoutMessageId&&window.clearTimeout(this.timeoutMessageId)}}ExitThisPage.moduleName="govuk-exit-this-page",ExitThisPage.defaults=Object.freeze({i18n:{activated:"Loading.",timedOut:"Exit this page expired.",pressTwoMoreTimes:"Shift, press 2 more times to exit.",pressOneMoreTime:"Shift, press 1 more time to exit."}}),ExitThisPage.schema=Object.freeze({properties:{i18n:{type:"object"}}});class FileUpload extends ConfigurableComponent{constructor(t,e={}){super(t,e),this.$input=void 0,this.$button=void 0,this.$status=void 0,this.i18n=void 0,this.id=void 0,this.$announcements=void 0,this.enteredAnotherElement=void 0;const i=this.$root.querySelector("input");if(null===i)throw new ElementError({component:FileUpload,identifier:'File inputs (`<input type="file">`)'});if("file"!==i.type)throw new ElementError(formatErrorMessage(FileUpload,'File input (`<input type="file">`) attribute (`type`) is not `file`'));if(this.$input=i,this.$input.setAttribute("hidden","true"),!this.$input.id)throw new ElementError({component:FileUpload,identifier:'File input (`<input type="file">`) attribute (`id`)'});this.id=this.$input.id,this.i18n=new I18n(this.config.i18n,{locale:closestAttributeValue(this.$root,"lang")});const n=this.findLabel();n.id||(n.id=`${this.id}-label`),this.$input.id=`${this.id}-input`;const s=document.createElement("button");s.classList.add("govuk-file-upload-button"),s.type="button",s.id=this.id,s.classList.add("govuk-file-upload-button--empty");const o=this.$input.getAttribute("aria-describedby");o&&s.setAttribute("aria-describedby",o);const r=document.createElement("span");r.className="govuk-body govuk-file-upload-button__status",r.setAttribute("aria-live","polite"),r.innerText=this.i18n.t("noFileChosen"),s.appendChild(r);const a=document.createElement("span");a.className="govuk-visually-hidden",a.innerText=", ",a.id=`${this.id}-comma`,s.appendChild(a);const l=document.createElement("span");l.className="govuk-file-upload-button__pseudo-button-container";const c=document.createElement("span");c.className="govuk-button govuk-button--secondary govuk-file-upload-button__pseudo-button",c.innerText=this.i18n.t("chooseFilesButton"),l.appendChild(c),l.insertAdjacentText("beforeend"," ");const u=document.createElement("span");u.className="govuk-body govuk-file-upload-button__instruction",u.innerText=this.i18n.t("dropInstruction"),l.appendChild(u),s.appendChild(l),s.setAttribute("aria-labelledby",`${n.id} ${a.id} ${s.id}`),s.addEventListener("click",this.onClick.bind(this)),s.addEventListener("dragover",(t=>{t.preventDefault()})),this.$root.insertAdjacentElement("afterbegin",s),this.$input.setAttribute("tabindex","-1"),this.$input.setAttribute("aria-hidden","true"),this.$button=s,this.$status=r,this.$input.addEventListener("change",this.onChange.bind(this)),this.updateDisabledState(),this.observeDisabledState(),this.$announcements=document.createElement("span"),this.$announcements.classList.add("govuk-file-upload-announcements"),this.$announcements.classList.add("govuk-visually-hidden"),this.$announcements.setAttribute("aria-live","assertive"),this.$root.insertAdjacentElement("afterend",this.$announcements),this.$button.addEventListener("drop",this.onDrop.bind(this)),document.addEventListener("dragenter",this.updateDropzoneVisibility.bind(this)),document.addEventListener("dragenter",(()=>{this.enteredAnotherElement=!0})),document.addEventListener("dragleave",(()=>{this.enteredAnotherElement||this.$button.disabled||(this.hideDraggingState(),this.$announcements.innerText=this.i18n.t("leftDropZone")),this.enteredAnotherElement=!1}))}updateDropzoneVisibility(t){this.$button.disabled||t.target instanceof Node&&(this.$root.contains(t.target)?t.dataTransfer&&isContainingFiles(t.dataTransfer)&&(this.$button.classList.contains("govuk-file-upload-button--dragging")||(this.showDraggingState(),this.$announcements.innerText=this.i18n.t("enteredDropZone"))):this.$button.classList.contains("govuk-file-upload-button--dragging")&&(this.hideDraggingState(),this.$announcements.innerText=this.i18n.t("leftDropZone")))}showDraggingState(){this.$button.classList.add("govuk-file-upload-button--dragging")}hideDraggingState(){this.$button.classList.remove("govuk-file-upload-button--dragging")}onDrop(t){t.preventDefault(),t.dataTransfer&&isContainingFiles(t.dataTransfer)&&(this.$input.files=t.dataTransfer.files,this.$input.dispatchEvent(new CustomEvent("change")),this.hideDraggingState())}onChange(){const t=this.$input.files.length;0===t?(this.$status.innerText=this.i18n.t("noFileChosen"),this.$button.classList.add("govuk-file-upload-button--empty")):(this.$status.innerText=1===t?this.$input.files[0].name:this.i18n.t("multipleFilesChosen",{count:t}),this.$button.classList.remove("govuk-file-upload-button--empty"))}findLabel(){const t=document.querySelector(`label[for="${this.$input.id}"]`);if(!t)throw new ElementError({component:FileUpload,identifier:`Field label (\`<label for=${this.$input.id}>\`)`});return t}onClick(){this.$input.click()}observeDisabledState(){new MutationObserver((t=>{for(const e of t)"attributes"===e.type&&"disabled"===e.attributeName&&this.updateDisabledState()})).observe(this.$input,{attributes:!0})}updateDisabledState(){this.$button.disabled=this.$input.disabled,this.$root.classList.toggle("govuk-drop-zone--disabled",this.$button.disabled)}}function isContainingFiles(t){const e=0===t.types.length,i=t.types.some((t=>"Files"===t));return e||i}FileUpload.moduleName="govuk-file-upload",FileUpload.defaults=Object.freeze({i18n:{chooseFilesButton:"Choose file",dropInstruction:"or drop file",noFileChosen:"No file chosen",multipleFilesChosen:{one:"%{count} file chosen",other:"%{count} files chosen"},enteredDropZone:"Entered drop zone",leftDropZone:"Left drop zone"}}),FileUpload.schema=Object.freeze({properties:{i18n:{type:"object"}}});class Header extends Component{constructor(t){super(t),this.$menuButton=void 0,this.$menu=void 0,this.menuIsOpen=!1,this.mql=null;const e=this.$root.querySelector(".govuk-js-header-toggle");if(!e)return this;this.$root.classList.add("govuk-header--with-js-navigation");const i=e.getAttribute("aria-controls");if(!i)throw new ElementError({component:Header,identifier:'Navigation button (`<button class="govuk-js-header-toggle">`) attribute (`aria-controls`)'});const n=document.getElementById(i);if(!n)throw new ElementError({component:Header,element:n,identifier:`Navigation (\`<ul id="${i}">\`)`});this.$menu=n,this.$menuButton=e,this.setupResponsiveChecks(),this.$menuButton.addEventListener("click",(()=>this.handleMenuButtonClick()))}setupResponsiveChecks(){const t=getBreakpoint("desktop");if(!t.value)throw new ElementError({component:Header,identifier:`CSS custom property (\`${t.property}\`) on pseudo-class \`:root\``});this.mql=window.matchMedia(`(min-width: ${t.value})`),"addEventListener"in this.mql?this.mql.addEventListener("change",(()=>this.checkMode())):this.mql.addListener((()=>this.checkMode())),this.checkMode()}checkMode(){this.mql&&this.$menu&&this.$menuButton&&(this.mql.matches?(this.$menu.removeAttribute("hidden"),this.$menuButton.setAttribute("hidden","")):(this.$menuButton.removeAttribute("hidden"),this.$menuButton.setAttribute("aria-expanded",this.menuIsOpen.toString()),this.menuIsOpen?this.$menu.removeAttribute("hidden"):this.$menu.setAttribute("hidden","")))}handleMenuButtonClick(){this.menuIsOpen=!this.menuIsOpen,this.checkMode()}}Header.moduleName="govuk-header";class NotificationBanner extends ConfigurableComponent{constructor(t,e={}){super(t,e),"alert"!==this.$root.getAttribute("role")||this.config.disableAutoFocus||setFocus(this.$root)}}NotificationBanner.moduleName="govuk-notification-banner",NotificationBanner.defaults=Object.freeze({disableAutoFocus:!1}),NotificationBanner.schema=Object.freeze({properties:{disableAutoFocus:{type:"boolean"}}});class PasswordInput extends ConfigurableComponent{constructor(t,e={}){super(t,e),this.i18n=void 0,this.$input=void 0,this.$showHideButton=void 0,this.$screenReaderStatusMessage=void 0;const i=this.$root.querySelector(".govuk-js-password-input-input");if(!(i instanceof HTMLInputElement))throw new ElementError({component:PasswordInput,element:i,expectedType:"HTMLInputElement",identifier:"Form field (`.govuk-js-password-input-input`)"});if("password"!==i.type)throw new ElementError("Password input: Form field (`.govuk-js-password-input-input`) must be of type `password`.");const n=this.$root.querySelector(".govuk-js-password-input-toggle");if(!(n instanceof HTMLButtonElement))throw new ElementError({component:PasswordInput,element:n,expectedType:"HTMLButtonElement",identifier:"Button (`.govuk-js-password-input-toggle`)"});if("button"!==n.type)throw new ElementError("Password input: Button (`.govuk-js-password-input-toggle`) must be of type `button`.");this.$input=i,this.$showHideButton=n,this.i18n=new I18n(this.config.i18n,{locale:closestAttributeValue(this.$root,"lang")}),this.$showHideButton.removeAttribute("hidden");const s=document.createElement("div");s.className="govuk-password-input__sr-status govuk-visually-hidden",s.setAttribute("aria-live","polite"),this.$screenReaderStatusMessage=s,this.$input.insertAdjacentElement("afterend",s),this.$showHideButton.addEventListener("click",this.toggle.bind(this)),this.$input.form&&this.$input.form.addEventListener("submit",(()=>this.hide())),window.addEventListener("pageshow",(t=>{t.persisted&&"password"!==this.$input.type&&this.hide()})),this.hide()}toggle(t){t.preventDefault(),"password"!==this.$input.type?this.hide():this.show()}show(){this.setType("text")}hide(){this.setType("password")}setType(t){if(t===this.$input.type)return;this.$input.setAttribute("type",t);const e="password"===t,i=e?"show":"hide",n=e?"passwordHidden":"passwordShown";this.$showHideButton.innerText=this.i18n.t(`${i}Password`),this.$showHideButton.setAttribute("aria-label",this.i18n.t(`${i}PasswordAriaLabel`)),this.$screenReaderStatusMessage.innerText=this.i18n.t(`${n}Announcement`)}}PasswordInput.moduleName="govuk-password-input",PasswordInput.defaults=Object.freeze({i18n:{showPassword:"Show",hidePassword:"Hide",showPasswordAriaLabel:"Show password",hidePasswordAriaLabel:"Hide password",passwordShownAnnouncement:"Your password is visible",passwordHiddenAnnouncement:"Your password is hidden"}}),PasswordInput.schema=Object.freeze({properties:{i18n:{type:"object"}}});class Radios extends Component{constructor(t){super(t),this.$inputs=void 0;const e=this.$root.querySelectorAll('input[type="radio"]');if(!e.length)throw new ElementError({component:Radios,identifier:'Form inputs (`<input type="radio">`)'});this.$inputs=e,this.$inputs.forEach((t=>{const e=t.getAttribute("data-aria-controls");if(e){if(!document.getElementById(e))throw new ElementError({component:Radios,identifier:`Conditional reveal (\`id="${e}"\`)`});t.setAttribute("aria-controls",e),t.removeAttribute("data-aria-controls")}})),window.addEventListener("pageshow",(()=>this.syncAllConditionalReveals())),this.syncAllConditionalReveals(),this.$root.addEventListener("click",(t=>this.handleClick(t)))}syncAllConditionalReveals(){this.$inputs.forEach((t=>this.syncConditionalRevealWithInputState(t)))}syncConditionalRevealWithInputState(t){const e=t.getAttribute("aria-controls");if(!e)return;const i=document.getElementById(e);if(null!=i&&i.classList.contains("govuk-radios__conditional")){const e=t.checked;t.setAttribute("aria-expanded",e.toString()),i.classList.toggle("govuk-radios__conditional--hidden",!e)}}handleClick(t){const e=t.target;if(!(e instanceof HTMLInputElement)||"radio"!==e.type)return;const i=document.querySelectorAll('input[type="radio"][aria-controls]'),n=e.form,s=e.name;i.forEach((t=>{const e=t.form===n;t.name===s&&e&&this.syncConditionalRevealWithInputState(t)}))}}Radios.moduleName="govuk-radios";class ServiceNavigation extends Component{constructor(t){super(t),this.$menuButton=void 0,this.$menu=void 0,this.menuIsOpen=!1,this.mql=null;const e=this.$root.querySelector(".govuk-js-service-navigation-toggle");if(!e)return this;const i=e.getAttribute("aria-controls");if(!i)throw new ElementError({component:ServiceNavigation,identifier:'Navigation button (`<button class="govuk-js-service-navigation-toggle">`) attribute (`aria-controls`)'});const n=document.getElementById(i);if(!n)throw new ElementError({component:ServiceNavigation,element:n,identifier:`Navigation (\`<ul id="${i}">\`)`});this.$menu=n,this.$menuButton=e,this.setupResponsiveChecks(),this.$menuButton.addEventListener("click",(()=>this.handleMenuButtonClick()))}setupResponsiveChecks(){const t=getBreakpoint("tablet");if(!t.value)throw new ElementError({component:ServiceNavigation,identifier:`CSS custom property (\`${t.property}\`) on pseudo-class \`:root\``});this.mql=window.matchMedia(`(min-width: ${t.value})`),"addEventListener"in this.mql?this.mql.addEventListener("change",(()=>this.checkMode())):this.mql.addListener((()=>this.checkMode())),this.checkMode()}checkMode(){this.mql&&this.$menu&&this.$menuButton&&(this.mql.matches?(this.$menu.removeAttribute("hidden"),this.$menuButton.setAttribute("hidden","")):(this.$menuButton.removeAttribute("hidden"),this.$menuButton.setAttribute("aria-expanded",this.menuIsOpen.toString()),this.menuIsOpen?this.$menu.removeAttribute("hidden"):this.$menu.setAttribute("hidden","")))}handleMenuButtonClick(){this.menuIsOpen=!this.menuIsOpen,this.checkMode()}}ServiceNavigation.moduleName="govuk-service-navigation";class SkipLink extends Component{constructor(t){var e;super(t);const i=this.$root.hash,n=null!=(e=this.$root.getAttribute("href"))?e:"";let s;try{s=new window.URL(this.$root.href)}catch(a){throw new ElementError(`Skip link: Target link (\`href="${n}"\`) is invalid`)}if(s.origin!==window.location.origin||s.pathname!==window.location.pathname)return;const o=getFragmentFromUrl(i);if(!o)throw new ElementError(`Skip link: Target link (\`href="${n}"\`) has no hash fragment`);const r=document.getElementById(o);if(!r)throw new ElementError({component:SkipLink,element:r,identifier:`Target content (\`id="${o}"\`)`});this.$root.addEventListener("click",(()=>setFocus(r,{onBeforeFocus(){r.classList.add("govuk-skip-link-focused-element")},onBlur(){r.classList.remove("govuk-skip-link-focused-element")}})))}}SkipLink.elementType=HTMLAnchorElement,SkipLink.moduleName="govuk-skip-link";class Tabs extends Component{constructor(t){super(t),this.$tabs=void 0,this.$tabList=void 0,this.$tabListItems=void 0,this.jsHiddenClass="govuk-tabs__panel--hidden",this.changingHash=!1,this.boundTabClick=void 0,this.boundTabKeydown=void 0,this.boundOnHashChange=void 0,this.mql=null;const e=this.$root.querySelectorAll("a.govuk-tabs__tab");if(!e.length)throw new ElementError({component:Tabs,identifier:'Links (`<a class="govuk-tabs__tab">`)'});this.$tabs=e,this.boundTabClick=this.onTabClick.bind(this),this.boundTabKeydown=this.onTabKeydown.bind(this),this.boundOnHashChange=this.onHashChange.bind(this);const i=this.$root.querySelector(".govuk-tabs__list"),n=this.$root.querySelectorAll("li.govuk-tabs__list-item");if(!i)throw new ElementError({component:Tabs,identifier:'List (`<ul class="govuk-tabs__list">`)'});if(!n.length)throw new ElementError({component:Tabs,identifier:'List items (`<li class="govuk-tabs__list-item">`)'});this.$tabList=i,this.$tabListItems=n,this.setupResponsiveChecks()}setupResponsiveChecks(){const t=getBreakpoint("tablet");if(!t.value)throw new ElementError({component:Tabs,identifier:`CSS custom property (\`${t.property}\`) on pseudo-class \`:root\``});this.mql=window.matchMedia(`(min-width: ${t.value})`),"addEventListener"in this.mql?this.mql.addEventListener("change",(()=>this.checkMode())):this.mql.addListener((()=>this.checkMode())),this.checkMode()}checkMode(){var t;null!=(t=this.mql)&&t.matches?this.setup():this.teardown()}setup(){var t;this.$tabList.setAttribute("role","tablist"),this.$tabListItems.forEach((t=>{t.setAttribute("role","presentation")})),this.$tabs.forEach((t=>{this.setAttributes(t),t.addEventListener("click",this.boundTabClick,!0),t.addEventListener("keydown",this.boundTabKeydown,!0),this.hideTab(t)}));const e=null!=(t=this.getTab(window.location.hash))?t:this.$tabs[0];this.showTab(e),window.addEventListener("hashchange",this.boundOnHashChange,!0)}teardown(){this.$tabList.removeAttribute("role"),this.$tabListItems.forEach((t=>{t.removeAttribute("role")})),this.$tabs.forEach((t=>{t.removeEventListener("click",this.boundTabClick,!0),t.removeEventListener("keydown",this.boundTabKeydown,!0),this.unsetAttributes(t)})),window.removeEventListener("hashchange",this.boundOnHashChange,!0)}onHashChange(){const t=window.location.hash,e=this.getTab(t);if(!e)return;if(this.changingHash)return void(this.changingHash=!1);const i=this.getCurrentTab();i&&(this.hideTab(i),this.showTab(e),e.focus())}hideTab(t){this.unhighlightTab(t),this.hidePanel(t)}showTab(t){this.highlightTab(t),this.showPanel(t)}getTab(t){return this.$root.querySelector(`a.govuk-tabs__tab[href="${t}"]`)}setAttributes(t){const e=getFragmentFromUrl(t.href);if(!e)return;t.setAttribute("id",`tab_${e}`),t.setAttribute("role","tab"),t.setAttribute("aria-controls",e),t.setAttribute("aria-selected","false"),t.setAttribute("tabindex","-1");const i=this.getPanel(t);i&&(i.setAttribute("role","tabpanel"),i.setAttribute("aria-labelledby",t.id),i.classList.add(this.jsHiddenClass))}unsetAttributes(t){t.removeAttribute("id"),t.removeAttribute("role"),t.removeAttribute("aria-controls"),t.removeAttribute("aria-selected"),t.removeAttribute("tabindex");const e=this.getPanel(t);e&&(e.removeAttribute("role"),e.removeAttribute("aria-labelledby"),e.classList.remove(this.jsHiddenClass))}onTabClick(t){const e=this.getCurrentTab(),i=t.currentTarget;e&&i instanceof HTMLAnchorElement&&(t.preventDefault(),this.hideTab(e),this.showTab(i),this.createHistoryEntry(i))}createHistoryEntry(t){const e=this.getPanel(t);if(!e)return;const i=e.id;e.id="",this.changingHash=!0,window.location.hash=i,e.id=i}onTabKeydown(t){switch(t.key){case"ArrowLeft":case"Left":this.activatePreviousTab(),t.preventDefault();break;case"ArrowRight":case"Right":this.activateNextTab(),t.preventDefault()}}activateNextTab(){const t=this.getCurrentTab();if(null==t||!t.parentElement)return;const e=t.parentElement.nextElementSibling;if(!e)return;const i=e.querySelector("a.govuk-tabs__tab");i&&(this.hideTab(t),this.showTab(i),i.focus(),this.createHistoryEntry(i))}activatePreviousTab(){const t=this.getCurrentTab();if(null==t||!t.parentElement)return;const e=t.parentElement.previousElementSibling;if(!e)return;const i=e.querySelector("a.govuk-tabs__tab");i&&(this.hideTab(t),this.showTab(i),i.focus(),this.createHistoryEntry(i))}getPanel(t){const e=getFragmentFromUrl(t.href);return e?this.$root.querySelector(`#${e}`):null}showPanel(t){const e=this.getPanel(t);e&&e.classList.remove(this.jsHiddenClass)}hidePanel(t){const e=this.getPanel(t);e&&e.classList.add(this.jsHiddenClass)}unhighlightTab(t){t.parentElement&&(t.setAttribute("aria-selected","false"),t.parentElement.classList.remove("govuk-tabs__list-item--selected"),t.setAttribute("tabindex","-1"))}highlightTab(t){t.parentElement&&(t.setAttribute("aria-selected","true"),t.parentElement.classList.add("govuk-tabs__list-item--selected"),t.setAttribute("tabindex","0"))}getCurrentTab(){return this.$root.querySelector(".govuk-tabs__list-item--selected a.govuk-tabs__tab")}}function initAll(t){var e;if(t=void 0!==t?t:{},!isSupported())return void(t.onError?t.onError(new SupportError,{config:t}):console.log(new SupportError));const i=[[Accordion,t.accordion],[Button,t.button],[CharacterCount,t.characterCount],[Checkboxes],[ErrorSummary,t.errorSummary],[ExitThisPage,t.exitThisPage],[FileUpload,t.fileUpload],[Header],[NotificationBanner,t.notificationBanner],[PasswordInput,t.passwordInput],[Radios],[ServiceNavigation],[SkipLink],[Tabs]],n={scope:null!=(e=t.scope)?e:document,onError:t.onError};i.forEach((([Component,t])=>{createAll(Component,t,n)}))}function createAll(Component,t,e){let i,n=document;var s;"object"==typeof e&&(n=null!=(s=e.scope)?s:n,i=e.onError);"function"==typeof e&&(i=e),e instanceof HTMLElement&&(n=e);const o=n.querySelectorAll(`[data-module="${Component.moduleName}"]`);return isSupported()?Array.from(o).map((e=>{try{return void 0!==t?new Component(e,t):new Component(e)}catch(n){return i?i(n,{element:e,component:Component,config:t}):console.log(n),null}})).filter(Boolean):(i?i(new SupportError,{component:Component,config:t}):console.log(new SupportError),[])}Tabs.moduleName="govuk-tabs";export{Accordion,Button,CharacterCount,Checkboxes,Component,ConfigurableComponent,ErrorSummary,ExitThisPage,FileUpload,Header,NotificationBanner,PasswordInput,Radios,ServiceNavigation,SkipLink,Tabs,createAll,initAll,isSupported,version};//# sourceMappingURL=govuk-frontend-5.10.2.min.js.map
+const version = '6.0.0';
+
+function getBreakpoint(name) {
+  const property = `--govuk-breakpoint-${name}`;
+  const value = window.getComputedStyle(document.documentElement).getPropertyValue(property);
+  return {
+    property,
+    value: value || undefined
+  };
+}
+function setFocus($element, options = {}) {
+  var _options$onBeforeFocu;
+  const isFocusable = $element.getAttribute('tabindex');
+  if (!isFocusable) {
+    $element.setAttribute('tabindex', '-1');
+  }
+  function onFocus() {
+    $element.addEventListener('blur', onBlur, {
+      once: true
+    });
+  }
+  function onBlur() {
+    var _options$onBlur;
+    (_options$onBlur = options.onBlur) == null || _options$onBlur.call($element);
+    if (!isFocusable) {
+      $element.removeAttribute('tabindex');
+    }
+  }
+  $element.addEventListener('focus', onFocus, {
+    once: true
+  });
+  (_options$onBeforeFocu = options.onBeforeFocus) == null || _options$onBeforeFocu.call($element);
+  $element.focus();
+}
+function isInitialised($root, moduleName) {
+  return $root instanceof HTMLElement && $root.hasAttribute(`data-${moduleName}-init`);
+}
+
+/**
+ * Checks if GOV.UK Frontend is supported on this page
+ *
+ * Some browsers will load and run our JavaScript but GOV.UK Frontend
+ * won't be supported.
+ *
+ * @param {HTMLElement | null} [$scope] - (internal) `<body>` HTML element checked for browser support
+ * @returns {boolean} Whether GOV.UK Frontend is supported on this page
+ */
+function isSupported($scope = document.body) {
+  if (!$scope) {
+    return false;
+  }
+  return $scope.classList.contains('govuk-frontend-supported');
+}
+function isArray(option) {
+  return Array.isArray(option);
+}
+function isObject(option) {
+  return !!option && typeof option === 'object' && !isArray(option);
+}
+function isScope($scope) {
+  return !!$scope && ($scope instanceof Element || $scope instanceof Document);
+}
+function formatErrorMessage(Component, message) {
+  return `${Component.moduleName}: ${message}`;
+}
+/**
+ * @typedef ComponentWithModuleName
+ * @property {string} moduleName - Name of the component
+ */
+
+class GOVUKFrontendError extends Error {
+  constructor(...args) {
+    super(...args);
+    this.name = 'GOVUKFrontendError';
+  }
+}
+class SupportError extends GOVUKFrontendError {
+  /**
+   * Checks if GOV.UK Frontend is supported on this page
+   *
+   * @param {HTMLElement | null} [$scope] - HTML element `<body>` checked for browser support
+   */
+  constructor($scope = document.body) {
+    const supportMessage = 'noModule' in HTMLScriptElement.prototype ? 'GOV.UK Frontend initialised without `<body class="govuk-frontend-supported">` from template `<script>` snippet' : 'GOV.UK Frontend is not supported in this browser';
+    super($scope ? supportMessage : 'GOV.UK Frontend initialised without `<script type="module">`');
+    this.name = 'SupportError';
+  }
+}
+class ConfigError extends GOVUKFrontendError {
+  constructor(...args) {
+    super(...args);
+    this.name = 'ConfigError';
+  }
+}
+class ElementError extends GOVUKFrontendError {
+  constructor(messageOrOptions) {
+    let message = typeof messageOrOptions === 'string' ? messageOrOptions : '';
+    if (isObject(messageOrOptions)) {
+      const {
+        component,
+        identifier,
+        element,
+        expectedType
+      } = messageOrOptions;
+      message = identifier;
+      message += element ? ` is not of type ${expectedType != null ? expectedType : 'HTMLElement'}` : ' not found';
+      if (component) {
+        message = formatErrorMessage(component, message);
+      }
+    }
+    super(message);
+    this.name = 'ElementError';
+  }
+}
+class InitError extends GOVUKFrontendError {
+  constructor(componentOrMessage) {
+    const message = typeof componentOrMessage === 'string' ? componentOrMessage : formatErrorMessage(componentOrMessage, `Root element (\`$root\`) already initialised`);
+    super(message);
+    this.name = 'InitError';
+  }
+}
+/**
+ * @import { ComponentWithModuleName } from '../common/index.mjs'
+ */
+
+class Component {
+  /**
+   * Returns the root element of the component
+   *
+   * @protected
+   * @returns {RootElementType} - the root element of component
+   */
+  get $root() {
+    return this._$root;
+  }
+  constructor($root) {
+    this._$root = void 0;
+    const childConstructor = this.constructor;
+    if (typeof childConstructor.moduleName !== 'string') {
+      throw new InitError(`\`moduleName\` not defined in component`);
+    }
+    if (!($root instanceof childConstructor.elementType)) {
+      throw new ElementError({
+        element: $root,
+        component: childConstructor,
+        identifier: 'Root element (`$root`)',
+        expectedType: childConstructor.elementType.name
+      });
+    } else {
+      this._$root = $root;
+    }
+    childConstructor.checkSupport();
+    this.checkInitialised();
+    const moduleName = childConstructor.moduleName;
+    this.$root.setAttribute(`data-${moduleName}-init`, '');
+  }
+  checkInitialised() {
+    const constructor = this.constructor;
+    const moduleName = constructor.moduleName;
+    if (moduleName && isInitialised(this.$root, moduleName)) {
+      throw new InitError(constructor);
+    }
+  }
+  static checkSupport() {
+    if (!isSupported()) {
+      throw new SupportError();
+    }
+  }
+}
+
+/**
+ * @typedef ChildClass
+ * @property {string} moduleName - The module name that'll be looked for in the DOM when initialising the component
+ */
+
+/**
+ * @typedef {typeof Component & ChildClass} ChildClassConstructor
+ */
+Component.elementType = HTMLElement;
+
+const configOverride = Symbol.for('configOverride');
+class ConfigurableComponent extends Component {
+  [configOverride](param) {
+    return {};
+  }
+
+  /**
+   * Returns the root element of the component
+   *
+   * @protected
+   * @returns {ConfigurationType} - the root element of component
+   */
+  get config() {
+    return this._config;
+  }
+  constructor($root, config) {
+    super($root);
+    this._config = void 0;
+    const childConstructor = this.constructor;
+    if (!isObject(childConstructor.defaults)) {
+      throw new ConfigError(formatErrorMessage(childConstructor, 'Config passed as parameter into constructor but no defaults defined'));
+    }
+    const datasetConfig = normaliseDataset(childConstructor, this._$root.dataset);
+    this._config = mergeConfigs(childConstructor.defaults, config != null ? config : {}, this[configOverride](datasetConfig), datasetConfig);
+  }
+}
+function normaliseString(value, property) {
+  const trimmedValue = value ? value.trim() : '';
+  let output;
+  let outputType = property == null ? void 0 : property.type;
+  if (!outputType) {
+    if (['true', 'false'].includes(trimmedValue)) {
+      outputType = 'boolean';
+    }
+    if (trimmedValue.length > 0 && isFinite(Number(trimmedValue))) {
+      outputType = 'number';
+    }
+  }
+  switch (outputType) {
+    case 'boolean':
+      output = trimmedValue === 'true';
+      break;
+    case 'number':
+      output = Number(trimmedValue);
+      break;
+    default:
+      output = value;
+  }
+  return output;
+}
+function normaliseDataset(Component, dataset) {
+  if (!isObject(Component.schema)) {
+    throw new ConfigError(formatErrorMessage(Component, 'Config passed as parameter into constructor but no schema defined'));
+  }
+  const out = {};
+  const entries = Object.entries(Component.schema.properties);
+  for (const entry of entries) {
+    const [namespace, property] = entry;
+    const field = namespace.toString();
+    if (field in dataset) {
+      out[field] = normaliseString(dataset[field], property);
+    }
+    if ((property == null ? void 0 : property.type) === 'object') {
+      out[field] = extractConfigByNamespace(Component.schema, dataset, namespace);
+    }
+  }
+  return out;
+}
+function normaliseOptions(scopeOrOptions) {
+  let $scope = document;
+  let onError;
+  if (isObject(scopeOrOptions)) {
+    const options = scopeOrOptions;
+    if (isScope(options.scope) || options.scope === null) {
+      $scope = options.scope;
+    }
+    if (typeof options.onError === 'function') {
+      onError = options.onError;
+    }
+  }
+  if (isScope(scopeOrOptions)) {
+    $scope = scopeOrOptions;
+  } else if (scopeOrOptions === null) {
+    $scope = null;
+  } else if (typeof scopeOrOptions === 'function') {
+    onError = scopeOrOptions;
+  }
+  return {
+    scope: $scope,
+    onError
+  };
+}
+function mergeConfigs(...configObjects) {
+  const formattedConfigObject = {};
+  for (const configObject of configObjects) {
+    for (const key of Object.keys(configObject)) {
+      const option = formattedConfigObject[key];
+      const override = configObject[key];
+      if (isObject(option) && isObject(override)) {
+        formattedConfigObject[key] = mergeConfigs(option, override);
+      } else {
+        formattedConfigObject[key] = override;
+      }
+    }
+  }
+  return formattedConfigObject;
+}
+function validateConfig(schema, config) {
+  const validationErrors = [];
+  for (const [name, conditions] of Object.entries(schema)) {
+    const errors = [];
+    if (Array.isArray(conditions)) {
+      for (const {
+        required,
+        errorMessage
+      } of conditions) {
+        if (!required.every(key => !!config[key])) {
+          errors.push(errorMessage);
+        }
+      }
+      if (name === 'anyOf' && !(conditions.length - errors.length >= 1)) {
+        validationErrors.push(...errors);
+      }
+    }
+  }
+  return validationErrors;
+}
+function extractConfigByNamespace(schema, dataset, namespace) {
+  const property = schema.properties[namespace];
+  if ((property == null ? void 0 : property.type) !== 'object') {
+    return;
+  }
+  const newObject = {
+    [namespace]: {}
+  };
+  for (const [key, value] of Object.entries(dataset)) {
+    let current = newObject;
+    const keyParts = key.split('.');
+    for (const [index, name] of keyParts.entries()) {
+      if (isObject(current)) {
+        if (index < keyParts.length - 1) {
+          if (!isObject(current[name])) {
+            current[name] = {};
+          }
+          current = current[name];
+        } else if (key !== namespace) {
+          current[name] = normaliseString(value);
+        }
+      }
+    }
+  }
+  return newObject[namespace];
+}
+/**
+ * Schema for component config
+ *
+ * @template {Partial<Record<keyof ConfigurationType, unknown>>} ConfigurationType
+ * @typedef {object} Schema
+ * @property {Record<keyof ConfigurationType, SchemaProperty | undefined>} properties - Schema properties
+ * @property {SchemaCondition<ConfigurationType>[]} [anyOf] - List of schema conditions
+ */
+/**
+ * Schema property for component config
+ *
+ * @typedef {object} SchemaProperty
+ * @property {'string' | 'boolean' | 'number' | 'object'} type - Property type
+ */
+/**
+ * Schema condition for component config
+ *
+ * @template {Partial<Record<keyof ConfigurationType, unknown>>} ConfigurationType
+ * @typedef {object} SchemaCondition
+ * @property {(keyof ConfigurationType)[]} required - List of required config fields
+ * @property {string} errorMessage - Error message when required config fields not provided
+ */
+/**
+ * @template {Partial<Record<keyof ConfigurationType, unknown>>} [ConfigurationType=ObjectNested]
+ * @typedef ChildClass
+ * @property {string} moduleName - The module name that'll be looked for in the DOM when initialising the component
+ * @property {Schema<ConfigurationType>} [schema] - The schema of the component configuration
+ * @property {ConfigurationType} [defaults] - The default values of the configuration of the component
+ */
+/**
+ * @template {Partial<Record<keyof ConfigurationType, unknown>>} [ConfigurationType=ObjectNested]
+ * @typedef {typeof Component & ChildClass<ConfigurationType>} ChildClassConstructor<ConfigurationType>
+ */
+/**
+ * @import { CompatibleClass, Config, CreateAllOptions, OnErrorCallback } from '../init.mjs'
+ */
+
+class I18n {
+  constructor(translations = {}, config = {}) {
+    var _config$locale;
+    this.translations = void 0;
+    this.locale = void 0;
+    this.translations = translations;
+    this.locale = (_config$locale = config.locale) != null ? _config$locale : document.documentElement.lang || 'en';
+  }
+  t(lookupKey, options) {
+    if (!lookupKey) {
+      throw new Error('i18n: lookup key missing');
+    }
+    let translation = this.translations[lookupKey];
+    if (typeof (options == null ? void 0 : options.count) === 'number' && isObject(translation)) {
+      const translationPluralForm = translation[this.getPluralSuffix(lookupKey, options.count)];
+      if (translationPluralForm) {
+        translation = translationPluralForm;
+      }
+    }
+    if (typeof translation === 'string') {
+      if (translation.match(/%{(.\S+)}/)) {
+        if (!options) {
+          throw new Error('i18n: cannot replace placeholders in string if no option data provided');
+        }
+        return this.replacePlaceholders(translation, options);
+      }
+      return translation;
+    }
+    return lookupKey;
+  }
+  replacePlaceholders(translationString, options) {
+    const formatter = Intl.NumberFormat.supportedLocalesOf(this.locale).length ? new Intl.NumberFormat(this.locale) : undefined;
+    return translationString.replace(/%{(.\S+)}/g, function (placeholderWithBraces, placeholderKey) {
+      if (Object.prototype.hasOwnProperty.call(options, placeholderKey)) {
+        const placeholderValue = options[placeholderKey];
+        if (placeholderValue === false || typeof placeholderValue !== 'number' && typeof placeholderValue !== 'string') {
+          return '';
+        }
+        if (typeof placeholderValue === 'number') {
+          return formatter ? formatter.format(placeholderValue) : `${placeholderValue}`;
+        }
+        return placeholderValue;
+      }
+      throw new Error(`i18n: no data found to replace ${placeholderWithBraces} placeholder in string`);
+    });
+  }
+  hasIntlPluralRulesSupport() {
+    return Boolean('PluralRules' in window.Intl && Intl.PluralRules.supportedLocalesOf(this.locale).length);
+  }
+  getPluralSuffix(lookupKey, count) {
+    count = Number(count);
+    if (!isFinite(count)) {
+      return 'other';
+    }
+    const translation = this.translations[lookupKey];
+    const preferredForm = this.hasIntlPluralRulesSupport() ? new Intl.PluralRules(this.locale).select(count) : 'other';
+    if (isObject(translation)) {
+      if (preferredForm in translation) {
+        return preferredForm;
+      } else if ('other' in translation) {
+        console.warn(`i18n: Missing plural form ".${preferredForm}" for "${this.locale}" locale. Falling back to ".other".`);
+        return 'other';
+      }
+    }
+    throw new Error(`i18n: Plural form ".other" is required for "${this.locale}" locale`);
+  }
+}
+
+/**
+ * Accordion component
+ *
+ * This allows a collection of sections to be collapsed by default, showing only
+ * their headers. Sections can be expanded or collapsed individually by clicking
+ * their headers. A "Show all sections" button is also added to the top of the
+ * accordion, which switches to "Hide all sections" when all the sections are
+ * expanded.
+ *
+ * The state of each section is saved to the DOM via the `aria-expanded`
+ * attribute, which also provides accessibility.
+ *
+ * @preserve
+ * @augments ConfigurableComponent<AccordionConfig>
+ */
+class Accordion extends ConfigurableComponent {
+  /**
+   * @param {Element | null} $root - HTML element to use for accordion
+   * @param {AccordionConfig} [config] - Accordion config
+   */
+  constructor($root, config = {}) {
+    super($root, config);
+    this.i18n = void 0;
+    this.controlsClass = 'govuk-accordion__controls';
+    this.showAllClass = 'govuk-accordion__show-all';
+    this.showAllTextClass = 'govuk-accordion__show-all-text';
+    this.sectionClass = 'govuk-accordion__section';
+    this.sectionExpandedClass = 'govuk-accordion__section--expanded';
+    this.sectionButtonClass = 'govuk-accordion__section-button';
+    this.sectionHeaderClass = 'govuk-accordion__section-header';
+    this.sectionHeadingClass = 'govuk-accordion__section-heading';
+    this.sectionHeadingDividerClass = 'govuk-accordion__section-heading-divider';
+    this.sectionHeadingTextClass = 'govuk-accordion__section-heading-text';
+    this.sectionHeadingTextFocusClass = 'govuk-accordion__section-heading-text-focus';
+    this.sectionShowHideToggleClass = 'govuk-accordion__section-toggle';
+    this.sectionShowHideToggleFocusClass = 'govuk-accordion__section-toggle-focus';
+    this.sectionShowHideTextClass = 'govuk-accordion__section-toggle-text';
+    this.upChevronIconClass = 'govuk-accordion-nav__chevron';
+    this.downChevronIconClass = 'govuk-accordion-nav__chevron--down';
+    this.sectionSummaryClass = 'govuk-accordion__section-summary';
+    this.sectionSummaryFocusClass = 'govuk-accordion__section-summary-focus';
+    this.sectionContentClass = 'govuk-accordion__section-content';
+    this.$sections = void 0;
+    this.$showAllButton = null;
+    this.$showAllIcon = null;
+    this.$showAllText = null;
+    this.i18n = new I18n(this.config.i18n);
+    const $sections = this.$root.querySelectorAll(`.${this.sectionClass}`);
+    if (!$sections.length) {
+      throw new ElementError({
+        component: Accordion,
+        identifier: `Sections (\`<div class="${this.sectionClass}">\`)`
+      });
+    }
+    this.$sections = $sections;
+    this.initControls();
+    this.initSectionHeaders();
+    this.updateShowAllButton(this.areAllSectionsOpen());
+  }
+  initControls() {
+    this.$showAllButton = document.createElement('button');
+    this.$showAllButton.setAttribute('type', 'button');
+    this.$showAllButton.setAttribute('class', this.showAllClass);
+    this.$showAllButton.setAttribute('aria-expanded', 'false');
+    this.$showAllIcon = document.createElement('span');
+    this.$showAllIcon.classList.add(this.upChevronIconClass);
+    this.$showAllButton.appendChild(this.$showAllIcon);
+    const $accordionControls = document.createElement('div');
+    $accordionControls.setAttribute('class', this.controlsClass);
+    $accordionControls.appendChild(this.$showAllButton);
+    this.$root.insertBefore($accordionControls, this.$root.firstChild);
+    this.$showAllText = document.createElement('span');
+    this.$showAllText.classList.add(this.showAllTextClass);
+    this.$showAllButton.appendChild(this.$showAllText);
+    this.$showAllButton.addEventListener('click', () => this.onShowOrHideAllToggle());
+    if ('onbeforematch' in document) {
+      document.addEventListener('beforematch', event => this.onBeforeMatch(event));
+    }
+  }
+  initSectionHeaders() {
+    this.$sections.forEach(($section, i) => {
+      const $header = $section.querySelector(`.${this.sectionHeaderClass}`);
+      if (!$header) {
+        throw new ElementError({
+          component: Accordion,
+          identifier: `Section headers (\`<div class="${this.sectionHeaderClass}">\`)`
+        });
+      }
+      this.constructHeaderMarkup($header, i);
+      this.setExpanded(this.isExpanded($section), $section);
+      $header.addEventListener('click', () => this.onSectionToggle($section));
+      this.setInitialState($section);
+    });
+  }
+  constructHeaderMarkup($header, index) {
+    const $span = $header.querySelector(`.${this.sectionButtonClass}`);
+    const $heading = $header.querySelector(`.${this.sectionHeadingClass}`);
+    const $summary = $header.querySelector(`.${this.sectionSummaryClass}`);
+    if (!$heading) {
+      throw new ElementError({
+        component: Accordion,
+        identifier: `Section heading (\`.${this.sectionHeadingClass}\`)`
+      });
+    }
+    if (!$span) {
+      throw new ElementError({
+        component: Accordion,
+        identifier: `Section button placeholder (\`<span class="${this.sectionButtonClass}">\`)`
+      });
+    }
+    const $button = document.createElement('button');
+    $button.setAttribute('type', 'button');
+    $button.setAttribute('aria-controls', `${this.$root.id}-content-${index + 1}`);
+    for (const attr of Array.from($span.attributes)) {
+      if (attr.name !== 'id') {
+        $button.setAttribute(attr.name, attr.value);
+      }
+    }
+    const $headingText = document.createElement('span');
+    $headingText.classList.add(this.sectionHeadingTextClass);
+    $headingText.id = $span.id;
+    const $headingTextFocus = document.createElement('span');
+    $headingTextFocus.classList.add(this.sectionHeadingTextFocusClass);
+    $headingText.appendChild($headingTextFocus);
+    Array.from($span.childNodes).forEach($child => $headingTextFocus.appendChild($child));
+    const $showHideToggle = document.createElement('span');
+    $showHideToggle.classList.add(this.sectionShowHideToggleClass);
+    $showHideToggle.setAttribute('data-nosnippet', '');
+    const $showHideToggleFocus = document.createElement('span');
+    $showHideToggleFocus.classList.add(this.sectionShowHideToggleFocusClass);
+    $showHideToggle.appendChild($showHideToggleFocus);
+    const $showHideText = document.createElement('span');
+    const $showHideIcon = document.createElement('span');
+    $showHideIcon.classList.add(this.upChevronIconClass);
+    $showHideToggleFocus.appendChild($showHideIcon);
+    $showHideText.classList.add(this.sectionShowHideTextClass);
+    $showHideToggleFocus.appendChild($showHideText);
+    $button.appendChild($headingText);
+    $button.appendChild(this.getButtonPunctuationEl());
+    if ($summary) {
+      const $summarySpan = document.createElement('span');
+      const $summarySpanFocus = document.createElement('span');
+      $summarySpanFocus.classList.add(this.sectionSummaryFocusClass);
+      $summarySpan.appendChild($summarySpanFocus);
+      for (const attr of Array.from($summary.attributes)) {
+        $summarySpan.setAttribute(attr.name, attr.value);
+      }
+      Array.from($summary.childNodes).forEach($child => $summarySpanFocus.appendChild($child));
+      $summary.remove();
+      $button.appendChild($summarySpan);
+      $button.appendChild(this.getButtonPunctuationEl());
+    }
+    $button.appendChild($showHideToggle);
+    $heading.removeChild($span);
+    $heading.appendChild($button);
+  }
+  onBeforeMatch(event) {
+    const $fragment = event.target;
+    if (!($fragment instanceof Element)) {
+      return;
+    }
+    const $section = $fragment.closest(`.${this.sectionClass}`);
+    if ($section) {
+      this.setExpanded(true, $section);
+    }
+  }
+  onSectionToggle($section) {
+    const nowExpanded = !this.isExpanded($section);
+    this.setExpanded(nowExpanded, $section);
+    this.storeState($section, nowExpanded);
+  }
+  onShowOrHideAllToggle() {
+    const nowExpanded = !this.areAllSectionsOpen();
+    this.$sections.forEach($section => {
+      this.setExpanded(nowExpanded, $section);
+      this.storeState($section, nowExpanded);
+    });
+    this.updateShowAllButton(nowExpanded);
+  }
+  setExpanded(expanded, $section) {
+    const $showHideIcon = $section.querySelector(`.${this.upChevronIconClass}`);
+    const $showHideText = $section.querySelector(`.${this.sectionShowHideTextClass}`);
+    const $button = $section.querySelector(`.${this.sectionButtonClass}`);
+    const $content = $section.querySelector(`.${this.sectionContentClass}`);
+    if (!$content) {
+      throw new ElementError({
+        component: Accordion,
+        identifier: `Section content (\`<div class="${this.sectionContentClass}">\`)`
+      });
+    }
+    if (!$showHideIcon || !$showHideText || !$button) {
+      return;
+    }
+    const newButtonText = expanded ? this.i18n.t('hideSection') : this.i18n.t('showSection');
+    $showHideText.textContent = newButtonText;
+    $button.setAttribute('aria-expanded', `${expanded}`);
+    const ariaLabelParts = [];
+    const $headingText = $section.querySelector(`.${this.sectionHeadingTextClass}`);
+    if ($headingText) {
+      ariaLabelParts.push($headingText.textContent.trim());
+    }
+    const $summary = $section.querySelector(`.${this.sectionSummaryClass}`);
+    if ($summary) {
+      ariaLabelParts.push($summary.textContent.trim());
+    }
+    const ariaLabelMessage = expanded ? this.i18n.t('hideSectionAriaLabel') : this.i18n.t('showSectionAriaLabel');
+    ariaLabelParts.push(ariaLabelMessage);
+    $button.setAttribute('aria-label', ariaLabelParts.join(' , '));
+    if (expanded) {
+      $content.removeAttribute('hidden');
+      $section.classList.add(this.sectionExpandedClass);
+      $showHideIcon.classList.remove(this.downChevronIconClass);
+    } else {
+      $content.setAttribute('hidden', 'until-found');
+      $section.classList.remove(this.sectionExpandedClass);
+      $showHideIcon.classList.add(this.downChevronIconClass);
+    }
+    this.updateShowAllButton(this.areAllSectionsOpen());
+  }
+  isExpanded($section) {
+    return $section.classList.contains(this.sectionExpandedClass);
+  }
+  areAllSectionsOpen() {
+    return Array.from(this.$sections).every($section => this.isExpanded($section));
+  }
+  updateShowAllButton(expanded) {
+    if (!this.$showAllButton || !this.$showAllText || !this.$showAllIcon) {
+      return;
+    }
+    this.$showAllButton.setAttribute('aria-expanded', expanded.toString());
+    this.$showAllText.textContent = expanded ? this.i18n.t('hideAllSections') : this.i18n.t('showAllSections');
+    this.$showAllIcon.classList.toggle(this.downChevronIconClass, !expanded);
+  }
+
+  /**
+   * Get the identifier for a section
+   *
+   * We need a unique way of identifying each content in the Accordion.
+   * Since an `#id` should be unique and an `id` is required for `aria-`
+   * attributes `id` can be safely used.
+   *
+   * @param {Element} $section - Section element
+   * @returns {string | undefined | null} Identifier for section
+   */
+  getIdentifier($section) {
+    const $button = $section.querySelector(`.${this.sectionButtonClass}`);
+    return $button == null ? void 0 : $button.getAttribute('aria-controls');
+  }
+  storeState($section, isExpanded) {
+    if (!this.config.rememberExpanded) {
+      return;
+    }
+    const id = this.getIdentifier($section);
+    if (id) {
+      try {
+        window.sessionStorage.setItem(id, isExpanded.toString());
+      } catch (_unused) {}
+    }
+  }
+  setInitialState($section) {
+    if (!this.config.rememberExpanded) {
+      return;
+    }
+    const id = this.getIdentifier($section);
+    if (id) {
+      try {
+        const state = window.sessionStorage.getItem(id);
+        if (state !== null) {
+          this.setExpanded(state === 'true', $section);
+        }
+      } catch (_unused2) {}
+    }
+  }
+  getButtonPunctuationEl() {
+    const $punctuationEl = document.createElement('span');
+    $punctuationEl.classList.add('govuk-visually-hidden', this.sectionHeadingDividerClass);
+    $punctuationEl.textContent = ', ';
+    return $punctuationEl;
+  }
+}
+
+/**
+ * Accordion config
+ *
+ * @see {@link Accordion.defaults}
+ * @typedef {object} AccordionConfig
+ * @property {AccordionTranslations} [i18n=Accordion.defaults.i18n] - Accordion translations
+ * @property {boolean} [rememberExpanded] - Whether the expanded and collapsed
+ *   state of each section is remembered and restored when navigating.
+ */
+
+/**
+ * Accordion translations
+ *
+ * @see {@link Accordion.defaults.i18n}
+ * @typedef {object} AccordionTranslations
+ *
+ * Messages used by the component for the labels of its buttons. This includes
+ * the visible text shown on screen, and text to help assistive technology users
+ * for the buttons toggling each section.
+ * @property {string} [hideAllSections] - The text content for the 'Hide all
+ *   sections' button, used when at least one section is expanded.
+ * @property {string} [hideSection] - The text content for the 'Hide'
+ *   button, used when a section is expanded.
+ * @property {string} [hideSectionAriaLabel] - The text content appended to the
+ *   'Hide' button's accessible name when a section is expanded.
+ * @property {string} [showAllSections] - The text content for the 'Show all
+ *   sections' button, used when all sections are collapsed.
+ * @property {string} [showSection] - The text content for the 'Show'
+ *   button, used when a section is collapsed.
+ * @property {string} [showSectionAriaLabel] - The text content appended to the
+ *   'Show' button's accessible name when a section is expanded.
+ */
+
+/**
+ * @import { Schema } from '../../common/configuration.mjs'
+ */
+Accordion.moduleName = 'govuk-accordion';
+Accordion.defaults = Object.freeze({
+  i18n: {
+    hideAllSections: 'Hide all sections',
+    hideSection: 'Hide',
+    hideSectionAriaLabel: 'Hide this section',
+    showAllSections: 'Show all sections',
+    showSection: 'Show',
+    showSectionAriaLabel: 'Show this section'
+  },
+  rememberExpanded: true
+});
+Accordion.schema = Object.freeze({
+  properties: {
+    i18n: {
+      type: 'object'
+    },
+    rememberExpanded: {
+      type: 'boolean'
+    }
+  }
+});
+
+const DEBOUNCE_TIMEOUT_IN_SECONDS = 1;
+
+/**
+ * JavaScript enhancements for the Button component
+ *
+ * @preserve
+ * @augments ConfigurableComponent<ButtonConfig>
+ */
+class Button extends ConfigurableComponent {
+  /**
+   * @param {Element | null} $root - HTML element to use for button
+   * @param {ButtonConfig} [config] - Button config
+   */
+  constructor($root, config = {}) {
+    super($root, config);
+    this.debounceFormSubmitTimer = null;
+    this.$root.addEventListener('keydown', event => this.handleKeyDown(event));
+    this.$root.addEventListener('click', event => this.debounce(event));
+  }
+  handleKeyDown(event) {
+    const $target = event.target;
+    if (event.key !== ' ') {
+      return;
+    }
+    if ($target instanceof HTMLElement && $target.getAttribute('role') === 'button') {
+      event.preventDefault();
+      $target.click();
+    }
+  }
+  debounce(event) {
+    if (!this.config.preventDoubleClick) {
+      return;
+    }
+    if (this.debounceFormSubmitTimer) {
+      event.preventDefault();
+      return false;
+    }
+    this.debounceFormSubmitTimer = window.setTimeout(() => {
+      this.debounceFormSubmitTimer = null;
+    }, DEBOUNCE_TIMEOUT_IN_SECONDS * 1000);
+  }
+}
+
+/**
+ * Button config
+ *
+ * @typedef {object} ButtonConfig
+ * @property {boolean} [preventDoubleClick=false] - Prevent accidental double
+ *   clicks on submit buttons from submitting forms multiple times.
+ */
+
+/**
+ * @import { Schema } from '../../common/configuration.mjs'
+ */
+Button.moduleName = 'govuk-button';
+Button.defaults = Object.freeze({
+  preventDoubleClick: false
+});
+Button.schema = Object.freeze({
+  properties: {
+    preventDoubleClick: {
+      type: 'boolean'
+    }
+  }
+});
+
+function closestAttributeValue($element, attributeName) {
+  const $closestElementWithAttribute = $element.closest(`[${attributeName}]`);
+  return $closestElementWithAttribute ? $closestElementWithAttribute.getAttribute(attributeName) : null;
+}
+
+/**
+ * Character count component
+ *
+ * Tracks the number of characters or words in the `.govuk-js-character-count`
+ * `<textarea>` inside the element. Displays a message with the remaining number
+ * of characters/words available, or the number of characters/words in excess.
+ *
+ * You can configure the message to only appear after a certain percentage
+ * of the available characters/words has been entered.
+ *
+ * @preserve
+ * @augments ConfigurableComponent<CharacterCountConfig>
+ */
+class CharacterCount extends ConfigurableComponent {
+  [configOverride](datasetConfig) {
+    let configOverrides = {};
+    if ('maxwords' in datasetConfig || 'maxlength' in datasetConfig) {
+      configOverrides = {
+        maxlength: undefined,
+        maxwords: undefined
+      };
+    }
+    return configOverrides;
+  }
+
+  /**
+   * @param {Element | null} $root - HTML element to use for character count
+   * @param {CharacterCountConfig} [config] - Character count config
+   */
+  constructor($root, config = {}) {
+    var _ref, _this$config$maxwords;
+    super($root, config);
+    this.$textarea = void 0;
+    this.count = 0;
+    this.$visibleCountMessage = void 0;
+    this.$screenReaderCountMessage = void 0;
+    this.lastInputTimestamp = null;
+    this.lastInputValue = '';
+    this.valueChecker = null;
+    this.i18n = void 0;
+    this.maxLength = void 0;
+    const $textarea = this.$root.querySelector('.govuk-js-character-count');
+    if (!($textarea instanceof HTMLTextAreaElement || $textarea instanceof HTMLInputElement)) {
+      throw new ElementError({
+        component: CharacterCount,
+        element: $textarea,
+        expectedType: 'HTMLTextareaElement or HTMLInputElement',
+        identifier: 'Form field (`.govuk-js-character-count`)'
+      });
+    }
+    const errors = validateConfig(CharacterCount.schema, this.config);
+    if (errors[0]) {
+      throw new ConfigError(formatErrorMessage(CharacterCount, errors[0]));
+    }
+    this.i18n = new I18n(this.config.i18n, {
+      locale: closestAttributeValue(this.$root, 'lang')
+    });
+    this.maxLength = (_ref = (_this$config$maxwords = this.config.maxwords) != null ? _this$config$maxwords : this.config.maxlength) != null ? _ref : Infinity;
+    this.$textarea = $textarea;
+    const textareaDescriptionId = `${this.$textarea.id}-info`;
+    const $textareaDescription = document.getElementById(textareaDescriptionId);
+    if (!$textareaDescription) {
+      throw new ElementError({
+        component: CharacterCount,
+        element: $textareaDescription,
+        identifier: `Count message (\`id="${textareaDescriptionId}"\`)`
+      });
+    }
+    this.$errorMessage = this.$root.querySelector('.govuk-error-message');
+    if ($textareaDescription.textContent.match(/^\s*$/)) {
+      $textareaDescription.textContent = this.i18n.t('textareaDescription', {
+        count: this.maxLength
+      });
+    }
+    this.$textarea.insertAdjacentElement('afterend', $textareaDescription);
+    const $screenReaderCountMessage = document.createElement('div');
+    $screenReaderCountMessage.className = 'govuk-character-count__sr-status govuk-visually-hidden';
+    $screenReaderCountMessage.setAttribute('aria-live', 'polite');
+    this.$screenReaderCountMessage = $screenReaderCountMessage;
+    $textareaDescription.insertAdjacentElement('afterend', $screenReaderCountMessage);
+    const $visibleCountMessage = document.createElement('div');
+    $visibleCountMessage.className = $textareaDescription.className;
+    $visibleCountMessage.classList.add('govuk-character-count__status');
+    $visibleCountMessage.setAttribute('aria-hidden', 'true');
+    this.$visibleCountMessage = $visibleCountMessage;
+    $textareaDescription.insertAdjacentElement('afterend', $visibleCountMessage);
+    $textareaDescription.classList.add('govuk-visually-hidden');
+    this.$textarea.removeAttribute('maxlength');
+    this.bindChangeEvents();
+    window.addEventListener('pageshow', () => {
+      if (this.$textarea.value !== this.$textarea.textContent) {
+        this.updateCount();
+        this.updateCountMessage();
+      }
+    });
+    this.updateCount();
+    this.updateCountMessage();
+  }
+  bindChangeEvents() {
+    this.$textarea.addEventListener('input', () => this.handleInput());
+    this.$textarea.addEventListener('focus', () => this.handleFocus());
+    this.$textarea.addEventListener('blur', () => this.handleBlur());
+  }
+  handleInput() {
+    this.updateCount();
+    this.updateVisibleCountMessage();
+    this.lastInputTimestamp = Date.now();
+  }
+  handleFocus() {
+    this.valueChecker = window.setInterval(() => {
+      if (!this.lastInputTimestamp || Date.now() - 500 >= this.lastInputTimestamp) {
+        this.updateIfValueChanged();
+      }
+    }, 1000);
+  }
+  handleBlur() {
+    if (this.valueChecker) {
+      window.clearInterval(this.valueChecker);
+    }
+  }
+  updateIfValueChanged() {
+    if (this.$textarea.value !== this.lastInputValue) {
+      this.lastInputValue = this.$textarea.value;
+      this.updateCountMessage();
+    }
+  }
+  updateCountMessage() {
+    this.updateVisibleCountMessage();
+    this.updateScreenReaderCountMessage();
+  }
+  updateVisibleCountMessage() {
+    const remainingNumber = this.maxLength - this.count;
+    const isError = remainingNumber < 0;
+    this.$visibleCountMessage.classList.toggle('govuk-character-count__message--disabled', !this.isOverThreshold());
+    if (!this.$errorMessage) {
+      this.$textarea.classList.toggle('govuk-textarea--error', isError);
+    }
+    this.$visibleCountMessage.classList.toggle('govuk-error-message', isError);
+    this.$visibleCountMessage.classList.toggle('govuk-hint', !isError);
+    this.$visibleCountMessage.textContent = this.getCountMessage();
+  }
+  updateScreenReaderCountMessage() {
+    if (this.isOverThreshold()) {
+      this.$screenReaderCountMessage.removeAttribute('aria-hidden');
+    } else {
+      this.$screenReaderCountMessage.setAttribute('aria-hidden', 'true');
+    }
+    this.$screenReaderCountMessage.textContent = this.getCountMessage();
+  }
+  updateCount() {
+    const text = this.$textarea.value;
+    if (this.config.maxwords) {
+      var _text$match;
+      const tokens = (_text$match = text.match(/\S+/g)) != null ? _text$match : [];
+      this.count = tokens.length;
+      return;
+    }
+    this.count = text.length;
+  }
+  getCountMessage() {
+    const remainingNumber = this.maxLength - this.count;
+    const countType = this.config.maxwords ? 'words' : 'characters';
+    return this.formatCountMessage(remainingNumber, countType);
+  }
+  formatCountMessage(remainingNumber, countType) {
+    if (remainingNumber === 0) {
+      return this.i18n.t(`${countType}AtLimit`);
+    }
+    const translationKeySuffix = remainingNumber < 0 ? 'OverLimit' : 'UnderLimit';
+    return this.i18n.t(`${countType}${translationKeySuffix}`, {
+      count: Math.abs(remainingNumber)
+    });
+  }
+  isOverThreshold() {
+    if (!this.config.threshold) {
+      return true;
+    }
+    const currentLength = this.count;
+    const maxLength = this.maxLength;
+    const thresholdValue = maxLength * this.config.threshold / 100;
+    return thresholdValue <= currentLength;
+  }
+}
+
+/**
+ * Character count config
+ *
+ * @see {@link CharacterCount.defaults}
+ * @typedef {object} CharacterCountConfig
+ * @property {number} [maxlength] - The maximum number of characters.
+ *   If maxwords is provided, the maxlength option will be ignored.
+ * @property {number} [maxwords] - The maximum number of words. If maxwords is
+ *   provided, the maxlength option will be ignored.
+ * @property {number} [threshold=0] - The percentage value of the limit at
+ *   which point the count message is displayed. If this attribute is set, the
+ *   count message will be hidden by default.
+ * @property {CharacterCountTranslations} [i18n=CharacterCount.defaults.i18n] - Character count translations
+ */
+
+/**
+ * Character count translations
+ *
+ * @see {@link CharacterCount.defaults.i18n}
+ * @typedef {object} CharacterCountTranslations
+ *
+ * Messages shown to users as they type. It provides feedback on how many words
+ * or characters they have remaining or if they are over the limit. This also
+ * includes a message used as an accessible description for the textarea.
+ * @property {TranslationPluralForms} [charactersUnderLimit] - Message displayed
+ *   when the number of characters is under the configured maximum, `maxlength`.
+ *   This message is displayed visually and through assistive technologies. The
+ *   component will replace the `%{count}` placeholder with the number of
+ *   remaining characters. This is a [pluralised list of
+ *   messages](https://frontend.design-system.service.gov.uk/localise-govuk-frontend).
+ * @property {string} [charactersAtLimit] - Message displayed when the number of
+ *   characters reaches the configured maximum, `maxlength`. This message is
+ *   displayed visually and through assistive technologies.
+ * @property {TranslationPluralForms} [charactersOverLimit] - Message displayed
+ *   when the number of characters is over the configured maximum, `maxlength`.
+ *   This message is displayed visually and through assistive technologies. The
+ *   component will replace the `%{count}` placeholder with the number of
+ *   remaining characters. This is a [pluralised list of
+ *   messages](https://frontend.design-system.service.gov.uk/localise-govuk-frontend).
+ * @property {TranslationPluralForms} [wordsUnderLimit] - Message displayed when
+ *   the number of words is under the configured maximum, `maxlength`. This
+ *   message is displayed visually and through assistive technologies. The
+ *   component will replace the `%{count}` placeholder with the number of
+ *   remaining words. This is a [pluralised list of
+ *   messages](https://frontend.design-system.service.gov.uk/localise-govuk-frontend).
+ * @property {string} [wordsAtLimit] - Message displayed when the number of
+ *   words reaches the configured maximum, `maxlength`. This message is
+ *   displayed visually and through assistive technologies.
+ * @property {TranslationPluralForms} [wordsOverLimit] - Message displayed when
+ *   the number of words is over the configured maximum, `maxlength`. This
+ *   message is displayed visually and through assistive technologies. The
+ *   component will replace the `%{count}` placeholder with the number of
+ *   remaining words. This is a [pluralised list of
+ *   messages](https://frontend.design-system.service.gov.uk/localise-govuk-frontend).
+ * @property {TranslationPluralForms} [textareaDescription] - Message made
+ *   available to assistive technologies, if none is already present in the
+ *   HTML, to describe that the component accepts only a limited amount of
+ *   content. It is visible on the page when JavaScript is unavailable. The
+ *   component will replace the `%{count}` placeholder with the value of the
+ *   `maxlength` or `maxwords` parameter.
+ */
+
+/**
+ * @import { Schema } from '../../common/configuration.mjs'
+ * @import { TranslationPluralForms } from '../../i18n.mjs'
+ */
+CharacterCount.moduleName = 'govuk-character-count';
+CharacterCount.defaults = Object.freeze({
+  threshold: 0,
+  i18n: {
+    charactersUnderLimit: {
+      one: 'You have %{count} character remaining',
+      other: 'You have %{count} characters remaining'
+    },
+    charactersAtLimit: 'You have 0 characters remaining',
+    charactersOverLimit: {
+      one: 'You have %{count} character too many',
+      other: 'You have %{count} characters too many'
+    },
+    wordsUnderLimit: {
+      one: 'You have %{count} word remaining',
+      other: 'You have %{count} words remaining'
+    },
+    wordsAtLimit: 'You have 0 words remaining',
+    wordsOverLimit: {
+      one: 'You have %{count} word too many',
+      other: 'You have %{count} words too many'
+    },
+    textareaDescription: {
+      other: ''
+    }
+  }
+});
+CharacterCount.schema = Object.freeze({
+  properties: {
+    i18n: {
+      type: 'object'
+    },
+    maxwords: {
+      type: 'number'
+    },
+    maxlength: {
+      type: 'number'
+    },
+    threshold: {
+      type: 'number'
+    }
+  },
+  anyOf: [{
+    required: ['maxwords'],
+    errorMessage: 'Either "maxlength" or "maxwords" must be provided'
+  }, {
+    required: ['maxlength'],
+    errorMessage: 'Either "maxlength" or "maxwords" must be provided'
+  }]
+});
+
+/**
+ * Checkboxes component
+ *
+ * @preserve
+ */
+class Checkboxes extends Component {
+  /**
+   * Checkboxes can be associated with a 'conditionally revealed' content block
+   * – for example, a checkbox for 'Phone' could reveal an additional form field
+   * for the user to enter their phone number.
+   *
+   * These associations are made using a `data-aria-controls` attribute, which
+   * is promoted to an aria-controls attribute during initialisation.
+   *
+   * We also need to restore the state of any conditional reveals on the page
+   * (for example if the user has navigated back), and set up event handlers to
+   * keep the reveal in sync with the checkbox state.
+   *
+   * @param {Element | null} $root - HTML element to use for checkboxes
+   */
+  constructor($root) {
+    super($root);
+    this.$inputs = void 0;
+    const $inputs = this.$root.querySelectorAll('input[type="checkbox"]');
+    if (!$inputs.length) {
+      throw new ElementError({
+        component: Checkboxes,
+        identifier: 'Form inputs (`<input type="checkbox">`)'
+      });
+    }
+    this.$inputs = $inputs;
+    this.$inputs.forEach($input => {
+      const targetId = $input.getAttribute('data-aria-controls');
+      if (!targetId) {
+        return;
+      }
+      if (!document.getElementById(targetId)) {
+        throw new ElementError({
+          component: Checkboxes,
+          identifier: `Conditional reveal (\`id="${targetId}"\`)`
+        });
+      }
+      $input.setAttribute('aria-controls', targetId);
+      $input.removeAttribute('data-aria-controls');
+    });
+    window.addEventListener('pageshow', () => this.syncAllConditionalReveals());
+    this.syncAllConditionalReveals();
+    this.$root.addEventListener('click', event => this.handleClick(event));
+  }
+  syncAllConditionalReveals() {
+    this.$inputs.forEach($input => this.syncConditionalRevealWithInputState($input));
+  }
+  syncConditionalRevealWithInputState($input) {
+    const targetId = $input.getAttribute('aria-controls');
+    if (!targetId) {
+      return;
+    }
+    const $target = document.getElementById(targetId);
+    if ($target != null && $target.classList.contains('govuk-checkboxes__conditional')) {
+      const inputIsChecked = $input.checked;
+      $input.setAttribute('aria-expanded', inputIsChecked.toString());
+      $target.classList.toggle('govuk-checkboxes__conditional--hidden', !inputIsChecked);
+    }
+  }
+  unCheckAllInputsExcept($input) {
+    const allInputsWithSameName = document.querySelectorAll(`input[type="checkbox"][name="${$input.name}"]`);
+    allInputsWithSameName.forEach($inputWithSameName => {
+      const hasSameFormOwner = $input.form === $inputWithSameName.form;
+      if (hasSameFormOwner && $inputWithSameName !== $input) {
+        $inputWithSameName.checked = false;
+        this.syncConditionalRevealWithInputState($inputWithSameName);
+      }
+    });
+  }
+  unCheckExclusiveInputs($input) {
+    const allInputsWithSameNameAndExclusiveBehaviour = document.querySelectorAll(`input[data-behaviour="exclusive"][type="checkbox"][name="${$input.name}"]`);
+    allInputsWithSameNameAndExclusiveBehaviour.forEach($exclusiveInput => {
+      const hasSameFormOwner = $input.form === $exclusiveInput.form;
+      if (hasSameFormOwner) {
+        $exclusiveInput.checked = false;
+        this.syncConditionalRevealWithInputState($exclusiveInput);
+      }
+    });
+  }
+  handleClick(event) {
+    const $clickedInput = event.target;
+    if (!($clickedInput instanceof HTMLInputElement) || $clickedInput.type !== 'checkbox') {
+      return;
+    }
+    const hasAriaControls = $clickedInput.getAttribute('aria-controls');
+    if (hasAriaControls) {
+      this.syncConditionalRevealWithInputState($clickedInput);
+    }
+    if (!$clickedInput.checked) {
+      return;
+    }
+    const hasBehaviourExclusive = $clickedInput.getAttribute('data-behaviour') === 'exclusive';
+    if (hasBehaviourExclusive) {
+      this.unCheckAllInputsExcept($clickedInput);
+    } else {
+      this.unCheckExclusiveInputs($clickedInput);
+    }
+  }
+}
+Checkboxes.moduleName = 'govuk-checkboxes';
+
+/**
+ * Error summary component
+ *
+ * Takes focus on initialisation for accessible announcement, unless disabled in
+ * configuration.
+ *
+ * @preserve
+ * @augments ConfigurableComponent<ErrorSummaryConfig>
+ */
+class ErrorSummary extends ConfigurableComponent {
+  /**
+   * @param {Element | null} $root - HTML element to use for error summary
+   * @param {ErrorSummaryConfig} [config] - Error summary config
+   */
+  constructor($root, config = {}) {
+    super($root, config);
+    if (!this.config.disableAutoFocus) {
+      setFocus(this.$root);
+    }
+    this.$root.addEventListener('click', event => this.handleClick(event));
+  }
+  handleClick(event) {
+    const $target = event.target;
+    if ($target && this.focusTarget($target)) {
+      event.preventDefault();
+    }
+  }
+  focusTarget($target) {
+    if (!($target instanceof HTMLAnchorElement)) {
+      return false;
+    }
+    const inputId = $target.hash.replace('#', '');
+    if (!inputId) {
+      return false;
+    }
+    const $input = document.getElementById(inputId);
+    if (!$input) {
+      return false;
+    }
+    const $legendOrLabel = this.getAssociatedLegendOrLabel($input);
+    if (!$legendOrLabel) {
+      return false;
+    }
+    $legendOrLabel.scrollIntoView();
+    $input.focus({
+      preventScroll: true
+    });
+    return true;
+  }
+  getAssociatedLegendOrLabel($input) {
+    var _document$querySelect;
+    const $fieldset = $input.closest('fieldset');
+    if ($fieldset) {
+      const $legends = $fieldset.getElementsByTagName('legend');
+      if ($legends.length) {
+        const $candidateLegend = $legends[0];
+        if ($input instanceof HTMLInputElement && ($input.type === 'checkbox' || $input.type === 'radio')) {
+          return $candidateLegend;
+        }
+        const legendTop = $candidateLegend.getBoundingClientRect().top;
+        const inputRect = $input.getBoundingClientRect();
+        if (inputRect.height && window.innerHeight) {
+          const inputBottom = inputRect.top + inputRect.height;
+          if (inputBottom - legendTop < window.innerHeight / 2) {
+            return $candidateLegend;
+          }
+        }
+      }
+    }
+    return (_document$querySelect = document.querySelector(`label[for='${$input.getAttribute('id')}']`)) != null ? _document$querySelect : $input.closest('label');
+  }
+}
+
+/**
+ * Error summary config
+ *
+ * @typedef {object} ErrorSummaryConfig
+ * @property {boolean} [disableAutoFocus=false] - If set to `true` the error
+ *   summary will not be focussed when the page loads.
+ */
+
+/**
+ * @import { Schema } from '../../common/configuration.mjs'
+ */
+ErrorSummary.moduleName = 'govuk-error-summary';
+ErrorSummary.defaults = Object.freeze({
+  disableAutoFocus: false
+});
+ErrorSummary.schema = Object.freeze({
+  properties: {
+    disableAutoFocus: {
+      type: 'boolean'
+    }
+  }
+});
+
+/**
+ * Exit this page component
+ *
+ * @preserve
+ * @augments ConfigurableComponent<ExitThisPageConfig>
+ */
+class ExitThisPage extends ConfigurableComponent {
+  /**
+   * @param {Element | null} $root - HTML element that wraps the Exit This Page button
+   * @param {ExitThisPageConfig} [config] - Exit This Page config
+   */
+  constructor($root, config = {}) {
+    super($root, config);
+    this.i18n = void 0;
+    this.$button = void 0;
+    this.$skiplinkButton = null;
+    this.$updateSpan = null;
+    this.$indicatorContainer = null;
+    this.$overlay = null;
+    this.keypressCounter = 0;
+    this.lastKeyWasModified = false;
+    this.timeoutTime = 5000;
+    this.keypressTimeoutId = null;
+    this.timeoutMessageId = null;
+    const $button = this.$root.querySelector('.govuk-exit-this-page__button');
+    if (!($button instanceof HTMLAnchorElement)) {
+      throw new ElementError({
+        component: ExitThisPage,
+        element: $button,
+        expectedType: 'HTMLAnchorElement',
+        identifier: 'Button (`.govuk-exit-this-page__button`)'
+      });
+    }
+    this.i18n = new I18n(this.config.i18n);
+    this.$button = $button;
+    const $skiplinkButton = document.querySelector('.govuk-js-exit-this-page-skiplink');
+    if ($skiplinkButton instanceof HTMLAnchorElement) {
+      this.$skiplinkButton = $skiplinkButton;
+    }
+    this.buildIndicator();
+    this.initUpdateSpan();
+    this.initButtonClickHandler();
+    if (!('govukFrontendExitThisPageKeypress' in document.body.dataset)) {
+      document.addEventListener('keyup', this.handleKeypress.bind(this), true);
+      document.body.dataset.govukFrontendExitThisPageKeypress = 'true';
+    }
+    window.addEventListener('pageshow', this.resetPage.bind(this));
+  }
+  initUpdateSpan() {
+    this.$updateSpan = document.createElement('span');
+    this.$updateSpan.setAttribute('role', 'status');
+    this.$updateSpan.className = 'govuk-visually-hidden';
+    this.$root.appendChild(this.$updateSpan);
+  }
+  initButtonClickHandler() {
+    this.$button.addEventListener('click', this.handleClick.bind(this));
+    if (this.$skiplinkButton) {
+      this.$skiplinkButton.addEventListener('click', this.handleClick.bind(this));
+    }
+  }
+  buildIndicator() {
+    this.$indicatorContainer = document.createElement('div');
+    this.$indicatorContainer.className = 'govuk-exit-this-page__indicator';
+    this.$indicatorContainer.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 3; i++) {
+      const $indicator = document.createElement('div');
+      $indicator.className = 'govuk-exit-this-page__indicator-light';
+      this.$indicatorContainer.appendChild($indicator);
+    }
+    this.$button.appendChild(this.$indicatorContainer);
+  }
+  updateIndicator() {
+    if (!this.$indicatorContainer) {
+      return;
+    }
+    this.$indicatorContainer.classList.toggle('govuk-exit-this-page__indicator--visible', this.keypressCounter > 0);
+    const $indicators = this.$indicatorContainer.querySelectorAll('.govuk-exit-this-page__indicator-light');
+    $indicators.forEach(($indicator, index) => {
+      $indicator.classList.toggle('govuk-exit-this-page__indicator-light--on', index < this.keypressCounter);
+    });
+  }
+  exitPage() {
+    if (!this.$updateSpan) {
+      return;
+    }
+    this.$updateSpan.textContent = '';
+    document.body.classList.add('govuk-exit-this-page-hide-content');
+    this.$overlay = document.createElement('div');
+    this.$overlay.className = 'govuk-exit-this-page-overlay';
+    this.$overlay.setAttribute('role', 'alert');
+    document.body.appendChild(this.$overlay);
+    this.$overlay.textContent = this.i18n.t('activated');
+    window.location.href = this.$button.href;
+  }
+  handleClick(event) {
+    event.preventDefault();
+    this.exitPage();
+  }
+  handleKeypress(event) {
+    if (!this.$updateSpan) {
+      return;
+    }
+    if (event.key === 'Shift' && !this.lastKeyWasModified) {
+      this.keypressCounter += 1;
+      this.updateIndicator();
+      if (this.timeoutMessageId) {
+        window.clearTimeout(this.timeoutMessageId);
+        this.timeoutMessageId = null;
+      }
+      if (this.keypressCounter >= 3) {
+        this.keypressCounter = 0;
+        if (this.keypressTimeoutId) {
+          window.clearTimeout(this.keypressTimeoutId);
+          this.keypressTimeoutId = null;
+        }
+        this.exitPage();
+      } else {
+        if (this.keypressCounter === 1) {
+          this.$updateSpan.textContent = this.i18n.t('pressTwoMoreTimes');
+        } else {
+          this.$updateSpan.textContent = this.i18n.t('pressOneMoreTime');
+        }
+      }
+      this.setKeypressTimer();
+    } else if (this.keypressTimeoutId) {
+      this.resetKeypressTimer();
+    }
+    this.lastKeyWasModified = event.shiftKey;
+  }
+  setKeypressTimer() {
+    if (this.keypressTimeoutId) {
+      window.clearTimeout(this.keypressTimeoutId);
+    }
+    this.keypressTimeoutId = window.setTimeout(this.resetKeypressTimer.bind(this), this.timeoutTime);
+  }
+  resetKeypressTimer() {
+    if (!this.$updateSpan) {
+      return;
+    }
+    if (this.keypressTimeoutId) {
+      window.clearTimeout(this.keypressTimeoutId);
+      this.keypressTimeoutId = null;
+    }
+    const $updateSpan = this.$updateSpan;
+    this.keypressCounter = 0;
+    $updateSpan.textContent = this.i18n.t('timedOut');
+    this.timeoutMessageId = window.setTimeout(() => {
+      $updateSpan.textContent = '';
+    }, this.timeoutTime);
+    this.updateIndicator();
+  }
+  resetPage() {
+    document.body.classList.remove('govuk-exit-this-page-hide-content');
+    if (this.$overlay) {
+      this.$overlay.remove();
+      this.$overlay = null;
+    }
+    if (this.$updateSpan) {
+      this.$updateSpan.setAttribute('role', 'status');
+      this.$updateSpan.textContent = '';
+    }
+    this.updateIndicator();
+    if (this.keypressTimeoutId) {
+      window.clearTimeout(this.keypressTimeoutId);
+    }
+    if (this.timeoutMessageId) {
+      window.clearTimeout(this.timeoutMessageId);
+    }
+  }
+}
+
+/**
+ * Exit this Page config
+ *
+ * @see {@link ExitThisPage.defaults}
+ * @typedef {object} ExitThisPageConfig
+ * @property {ExitThisPageTranslations} [i18n=ExitThisPage.defaults.i18n] - Exit this page translations
+ */
+
+/**
+ * Exit this Page translations
+ *
+ * @see {@link ExitThisPage.defaults.i18n}
+ * @typedef {object} ExitThisPageTranslations
+ *
+ * Messages used by the component programatically inserted text, including
+ * overlay text and screen reader announcements.
+ * @property {string} [activated] - Screen reader announcement for when EtP
+ *   keypress functionality has been successfully activated.
+ * @property {string} [timedOut] - Screen reader announcement for when the EtP
+ *   keypress functionality has timed out.
+ * @property {string} [pressTwoMoreTimes] - Screen reader announcement informing
+ *   the user they must press the activation key two more times.
+ * @property {string} [pressOneMoreTime] - Screen reader announcement informing
+ *   the user they must press the activation key one more time.
+ */
+
+/**
+ * @import { Schema } from '../../common/configuration.mjs'
+ */
+ExitThisPage.moduleName = 'govuk-exit-this-page';
+ExitThisPage.defaults = Object.freeze({
+  i18n: {
+    activated: 'Loading.',
+    timedOut: 'Exit this page expired.',
+    pressTwoMoreTimes: 'Shift, press 2 more times to exit.',
+    pressOneMoreTime: 'Shift, press 1 more time to exit.'
+  }
+});
+ExitThisPage.schema = Object.freeze({
+  properties: {
+    i18n: {
+      type: 'object'
+    }
+  }
+});
+
+/**
+ * File upload component
+ *
+ * @preserve
+ * @augments ConfigurableComponent<FileUploadConfig>
+ */
+class FileUpload extends ConfigurableComponent {
+  /**
+   * @param {Element | null} $root - File input element
+   * @param {FileUploadConfig} [config] - File Upload config
+   */
+  constructor($root, config = {}) {
+    super($root, config);
+    this.$input = void 0;
+    this.$button = void 0;
+    this.$status = void 0;
+    this.i18n = void 0;
+    this.id = void 0;
+    this.$announcements = void 0;
+    this.enteredAnotherElement = void 0;
+    const $input = this.$root.querySelector('input');
+    if ($input === null) {
+      throw new ElementError({
+        component: FileUpload,
+        identifier: 'File inputs (`<input type="file">`)'
+      });
+    }
+    if ($input.type !== 'file') {
+      throw new ElementError(formatErrorMessage(FileUpload, 'File input (`<input type="file">`) attribute (`type`) is not `file`'));
+    }
+    this.$input = $input;
+    if (!this.$input.id) {
+      throw new ElementError({
+        component: FileUpload,
+        identifier: 'File input (`<input type="file">`) attribute (`id`)'
+      });
+    }
+    this.id = this.$input.id;
+    this.i18n = new I18n(this.config.i18n, {
+      locale: closestAttributeValue(this.$root, 'lang')
+    });
+    const $label = this.findLabel();
+    if (!$label.id) {
+      $label.id = `${this.id}-label`;
+    }
+    this.$input.id = `${this.id}-input`;
+    this.$input.setAttribute('hidden', 'true');
+    const $button = document.createElement('button');
+    $button.classList.add('govuk-file-upload-button');
+    $button.type = 'button';
+    $button.id = this.id;
+    $button.classList.add('govuk-file-upload-button--empty');
+    const ariaDescribedBy = this.$input.getAttribute('aria-describedby');
+    if (ariaDescribedBy) {
+      $button.setAttribute('aria-describedby', ariaDescribedBy);
+    }
+    const $status = document.createElement('span');
+    $status.className = 'govuk-body govuk-file-upload-button__status';
+    $status.setAttribute('aria-live', 'polite');
+    $status.innerText = this.i18n.t('noFileChosen');
+    $button.appendChild($status);
+    const commaSpan = document.createElement('span');
+    commaSpan.className = 'govuk-visually-hidden';
+    commaSpan.innerText = ', ';
+    commaSpan.id = `${this.id}-comma`;
+    $button.appendChild(commaSpan);
+    const containerSpan = document.createElement('span');
+    containerSpan.className = 'govuk-file-upload-button__pseudo-button-container';
+    const buttonSpan = document.createElement('span');
+    buttonSpan.className = 'govuk-button govuk-button--secondary govuk-file-upload-button__pseudo-button';
+    buttonSpan.innerText = this.i18n.t('chooseFilesButton');
+    containerSpan.appendChild(buttonSpan);
+    containerSpan.insertAdjacentText('beforeend', ' ');
+    const instructionSpan = document.createElement('span');
+    instructionSpan.className = 'govuk-body govuk-file-upload-button__instruction';
+    instructionSpan.innerText = this.i18n.t('dropInstruction');
+    containerSpan.appendChild(instructionSpan);
+    $button.appendChild(containerSpan);
+    $button.setAttribute('aria-labelledby', `${$label.id} ${commaSpan.id} ${$button.id}`);
+    $button.addEventListener('click', this.onClick.bind(this));
+    $button.addEventListener('dragover', event => {
+      event.preventDefault();
+    });
+    this.$root.insertAdjacentElement('afterbegin', $button);
+    this.$input.setAttribute('tabindex', '-1');
+    this.$input.setAttribute('aria-hidden', 'true');
+    this.$button = $button;
+    this.$status = $status;
+    this.$input.addEventListener('change', this.onChange.bind(this));
+    this.updateDisabledState();
+    this.observeDisabledState();
+    this.$announcements = document.createElement('span');
+    this.$announcements.classList.add('govuk-file-upload-announcements');
+    this.$announcements.classList.add('govuk-visually-hidden');
+    this.$announcements.setAttribute('aria-live', 'assertive');
+    this.$root.insertAdjacentElement('afterend', this.$announcements);
+    this.$button.addEventListener('drop', this.onDrop.bind(this));
+    document.addEventListener('dragenter', this.updateDropzoneVisibility.bind(this));
+    document.addEventListener('dragenter', () => {
+      this.enteredAnotherElement = true;
+    });
+    document.addEventListener('dragleave', () => {
+      if (!this.enteredAnotherElement && !this.$button.disabled) {
+        this.hideDraggingState();
+        this.$announcements.innerText = this.i18n.t('leftDropZone');
+      }
+      this.enteredAnotherElement = false;
+    });
+  }
+  updateDropzoneVisibility(event) {
+    if (this.$button.disabled) return;
+    if (event.target instanceof Node) {
+      if (this.$root.contains(event.target)) {
+        if (event.dataTransfer && this.canDrop(event.dataTransfer)) {
+          if (!this.$button.classList.contains('govuk-file-upload-button--dragging')) {
+            this.showDraggingState();
+            this.$announcements.innerText = this.i18n.t('enteredDropZone');
+          }
+        }
+      } else {
+        if (this.$button.classList.contains('govuk-file-upload-button--dragging')) {
+          this.hideDraggingState();
+          this.$announcements.innerText = this.i18n.t('leftDropZone');
+        }
+      }
+    }
+  }
+  showDraggingState() {
+    this.$button.classList.add('govuk-file-upload-button--dragging');
+  }
+  hideDraggingState() {
+    this.$button.classList.remove('govuk-file-upload-button--dragging');
+  }
+  onDrop(event) {
+    event.preventDefault();
+    if (event.dataTransfer && this.canFillInput(event.dataTransfer)) {
+      this.$input.files = event.dataTransfer.files;
+      this.$input.dispatchEvent(new CustomEvent('change'));
+      this.hideDraggingState();
+    }
+  }
+  canFillInput(dataTransfer) {
+    return this.matchesInputCapacity(dataTransfer.files.length);
+  }
+  canDrop(dataTransfer) {
+    if (dataTransfer.items.length) {
+      return this.matchesInputCapacity(countFileItems(dataTransfer.items));
+    }
+    if (dataTransfer.types.length) {
+      return dataTransfer.types.includes('Files');
+    }
+    return true;
+  }
+  matchesInputCapacity(numberOfFiles) {
+    if (this.$input.multiple) {
+      return numberOfFiles > 0;
+    }
+    return numberOfFiles === 1;
+  }
+  onChange() {
+    const fileCount = this.$input.files.length;
+    if (fileCount === 0) {
+      this.$status.innerText = this.i18n.t('noFileChosen');
+      this.$button.classList.add('govuk-file-upload-button--empty');
+    } else {
+      if (fileCount === 1) {
+        this.$status.innerText = this.$input.files[0].name;
+      } else {
+        this.$status.innerText = this.i18n.t('multipleFilesChosen', {
+          count: fileCount
+        });
+      }
+      this.$button.classList.remove('govuk-file-upload-button--empty');
+    }
+  }
+  findLabel() {
+    const $label = document.querySelector(`label[for="${this.$input.id}"]`);
+    if (!$label) {
+      throw new ElementError({
+        component: FileUpload,
+        identifier: `Field label (\`<label for=${this.$input.id}>\`)`
+      });
+    }
+    return $label;
+  }
+  onClick() {
+    this.$input.click();
+  }
+  observeDisabledState() {
+    const observer = new MutationObserver(mutationList => {
+      for (const mutation of mutationList) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
+          this.updateDisabledState();
+        }
+      }
+    });
+    observer.observe(this.$input, {
+      attributes: true
+    });
+  }
+  updateDisabledState() {
+    this.$button.disabled = this.$input.disabled;
+    this.$root.classList.toggle('govuk-drop-zone--disabled', this.$button.disabled);
+  }
+}
+
+/**
+ * Counts the number of `DataTransferItem` whose kind is `file`
+ *
+ * @param {DataTransferItemList} list - The list
+ * @returns {number} - The number of items whose kind is `file` in the list
+ */
+FileUpload.moduleName = 'govuk-file-upload';
+FileUpload.defaults = Object.freeze({
+  i18n: {
+    chooseFilesButton: 'Choose file',
+    dropInstruction: 'or drop file',
+    noFileChosen: 'No file chosen',
+    multipleFilesChosen: {
+      one: '%{count} file chosen',
+      other: '%{count} files chosen'
+    },
+    enteredDropZone: 'Entered drop zone',
+    leftDropZone: 'Left drop zone'
+  }
+});
+FileUpload.schema = Object.freeze({
+  properties: {
+    i18n: {
+      type: 'object'
+    }
+  }
+});
+function countFileItems(list) {
+  let result = 0;
+  for (let i = 0; i < list.length; i++) {
+    if (list[i].kind === 'file') {
+      result++;
+    }
+  }
+  return result;
+}
+
+/**
+ * @typedef {HTMLInputElement & {files: FileList}} HTMLFileInputElement
+ */
+
+/**
+ * File upload config
+ *
+ * @see {@link FileUpload.defaults}
+ * @typedef {object} FileUploadConfig
+ * @property {FileUploadTranslations} [i18n=FileUpload.defaults.i18n] - File upload translations
+ */
+
+/**
+ * File upload translations
+ *
+ * @see {@link FileUpload.defaults.i18n}
+ * @typedef {object} FileUploadTranslations
+ *
+ * Messages used by the component
+ * @property {string} [chooseFile] - The text of the button that opens the file picker
+ * @property {string} [dropInstruction] - The text informing users they can drop files
+ * @property {TranslationPluralForms} [multipleFilesChosen] - The text displayed when multiple files
+ *   have been chosen by the user
+ * @property {string} [noFileChosen] - The text to displayed when no file has been chosen by the user
+ * @property {string} [enteredDropZone] - The text announced by assistive technology
+ *   when user drags files and enters the drop zone
+ * @property {string} [leftDropZone] - The text announced by assistive technology
+ *   when user drags files and leaves the drop zone without dropping
+ */
+
+/**
+ * @import { Schema } from '../../common/configuration.mjs'
+ * @import { TranslationPluralForms } from '../../i18n.mjs'
+ */
+
+/**
+ * Notification Banner component
+ *
+ * @preserve
+ * @augments ConfigurableComponent<NotificationBannerConfig>
+ */
+class NotificationBanner extends ConfigurableComponent {
+  /**
+   * @param {Element | null} $root - HTML element to use for notification banner
+   * @param {NotificationBannerConfig} [config] - Notification banner config
+   */
+  constructor($root, config = {}) {
+    super($root, config);
+    if (this.$root.getAttribute('role') === 'alert' && !this.config.disableAutoFocus) {
+      setFocus(this.$root);
+    }
+  }
+}
+
+/**
+ * Notification banner config
+ *
+ * @typedef {object} NotificationBannerConfig
+ * @property {boolean} [disableAutoFocus=false] - If set to `true` the
+ *   notification banner will not be focussed when the page loads. This only
+ *   applies if the component has a `role` of `alert` – in other cases the
+ *   component will not be focused on page load, regardless of this option.
+ */
+
+/**
+ * @import { Schema } from '../../common/configuration.mjs'
+ */
+NotificationBanner.moduleName = 'govuk-notification-banner';
+NotificationBanner.defaults = Object.freeze({
+  disableAutoFocus: false
+});
+NotificationBanner.schema = Object.freeze({
+  properties: {
+    disableAutoFocus: {
+      type: 'boolean'
+    }
+  }
+});
+
+/**
+ * Password input component
+ *
+ * @preserve
+ * @augments ConfigurableComponent<PasswordInputConfig>
+ */
+class PasswordInput extends ConfigurableComponent {
+  /**
+   * @param {Element | null} $root - HTML element to use for password input
+   * @param {PasswordInputConfig} [config] - Password input config
+   */
+  constructor($root, config = {}) {
+    super($root, config);
+    this.i18n = void 0;
+    this.$input = void 0;
+    this.$showHideButton = void 0;
+    this.$screenReaderStatusMessage = void 0;
+    const $input = this.$root.querySelector('.govuk-js-password-input-input');
+    if (!($input instanceof HTMLInputElement)) {
+      throw new ElementError({
+        component: PasswordInput,
+        element: $input,
+        expectedType: 'HTMLInputElement',
+        identifier: 'Form field (`.govuk-js-password-input-input`)'
+      });
+    }
+    if ($input.type !== 'password') {
+      throw new ElementError('Password input: Form field (`.govuk-js-password-input-input`) must be of type `password`.');
+    }
+    const $showHideButton = this.$root.querySelector('.govuk-js-password-input-toggle');
+    if (!($showHideButton instanceof HTMLButtonElement)) {
+      throw new ElementError({
+        component: PasswordInput,
+        element: $showHideButton,
+        expectedType: 'HTMLButtonElement',
+        identifier: 'Button (`.govuk-js-password-input-toggle`)'
+      });
+    }
+    if ($showHideButton.type !== 'button') {
+      throw new ElementError('Password input: Button (`.govuk-js-password-input-toggle`) must be of type `button`.');
+    }
+    this.$input = $input;
+    this.$showHideButton = $showHideButton;
+    this.i18n = new I18n(this.config.i18n, {
+      locale: closestAttributeValue(this.$root, 'lang')
+    });
+    this.$showHideButton.removeAttribute('hidden');
+    const $screenReaderStatusMessage = document.createElement('div');
+    $screenReaderStatusMessage.className = 'govuk-password-input__sr-status govuk-visually-hidden';
+    $screenReaderStatusMessage.setAttribute('aria-live', 'polite');
+    this.$screenReaderStatusMessage = $screenReaderStatusMessage;
+    this.$input.insertAdjacentElement('afterend', $screenReaderStatusMessage);
+    this.$showHideButton.addEventListener('click', this.toggle.bind(this));
+    if (this.$input.form) {
+      this.$input.form.addEventListener('submit', () => this.hide());
+    }
+    window.addEventListener('pageshow', event => {
+      if (event.persisted && this.$input.type !== 'password') {
+        this.hide();
+      }
+    });
+    this.hide();
+  }
+  toggle(event) {
+    event.preventDefault();
+    if (this.$input.type === 'password') {
+      this.show();
+      return;
+    }
+    this.hide();
+  }
+  show() {
+    this.setType('text');
+  }
+  hide() {
+    this.setType('password');
+  }
+  setType(type) {
+    if (type === this.$input.type) {
+      return;
+    }
+    this.$input.setAttribute('type', type);
+    const isHidden = type === 'password';
+    const prefixButton = isHidden ? 'show' : 'hide';
+    const prefixStatus = isHidden ? 'passwordHidden' : 'passwordShown';
+    this.$showHideButton.innerText = this.i18n.t(`${prefixButton}Password`);
+    this.$showHideButton.setAttribute('aria-label', this.i18n.t(`${prefixButton}PasswordAriaLabel`));
+    this.$screenReaderStatusMessage.innerText = this.i18n.t(`${prefixStatus}Announcement`);
+  }
+}
+
+/**
+ * Password input config
+ *
+ * @typedef {object} PasswordInputConfig
+ * @property {PasswordInputTranslations} [i18n=PasswordInput.defaults.i18n] - Password input translations
+ */
+
+/**
+ * Password input translations
+ *
+ * @see {@link PasswordInput.defaults.i18n}
+ * @typedef {object} PasswordInputTranslations
+ *
+ * Messages displayed to the user indicating the state of the show/hide toggle.
+ * @property {string} [showPassword] - Visible text of the button when the
+ *   password is currently hidden. Plain text only.
+ * @property {string} [hidePassword] - Visible text of the button when the
+ *   password is currently visible. Plain text only.
+ * @property {string} [showPasswordAriaLabel] - aria-label of the button when
+ *   the password is currently hidden. Plain text only.
+ * @property {string} [hidePasswordAriaLabel] - aria-label of the button when
+ *   the password is currently visible. Plain text only.
+ * @property {string} [passwordShownAnnouncement] - Screen reader
+ *   announcement to make when the password has just become visible.
+ *   Plain text only.
+ * @property {string} [passwordHiddenAnnouncement] - Screen reader
+ *   announcement to make when the password has just been hidden.
+ *   Plain text only.
+ */
+
+/**
+ * @import { Schema } from '../../common/configuration.mjs'
+ */
+PasswordInput.moduleName = 'govuk-password-input';
+PasswordInput.defaults = Object.freeze({
+  i18n: {
+    showPassword: 'Show',
+    hidePassword: 'Hide',
+    showPasswordAriaLabel: 'Show password',
+    hidePasswordAriaLabel: 'Hide password',
+    passwordShownAnnouncement: 'Your password is visible',
+    passwordHiddenAnnouncement: 'Your password is hidden'
+  }
+});
+PasswordInput.schema = Object.freeze({
+  properties: {
+    i18n: {
+      type: 'object'
+    }
+  }
+});
+
+/**
+ * Radios component
+ *
+ * @preserve
+ */
+class Radios extends Component {
+  /**
+   * Radios can be associated with a 'conditionally revealed' content block –
+   * for example, a radio for 'Phone' could reveal an additional form field for
+   * the user to enter their phone number.
+   *
+   * These associations are made using a `data-aria-controls` attribute, which
+   * is promoted to an aria-controls attribute during initialisation.
+   *
+   * We also need to restore the state of any conditional reveals on the page
+   * (for example if the user has navigated back), and set up event handlers to
+   * keep the reveal in sync with the radio state.
+   *
+   * @param {Element | null} $root - HTML element to use for radios
+   */
+  constructor($root) {
+    super($root);
+    this.$inputs = void 0;
+    const $inputs = this.$root.querySelectorAll('input[type="radio"]');
+    if (!$inputs.length) {
+      throw new ElementError({
+        component: Radios,
+        identifier: 'Form inputs (`<input type="radio">`)'
+      });
+    }
+    this.$inputs = $inputs;
+    this.$inputs.forEach($input => {
+      const targetId = $input.getAttribute('data-aria-controls');
+      if (!targetId) {
+        return;
+      }
+      if (!document.getElementById(targetId)) {
+        throw new ElementError({
+          component: Radios,
+          identifier: `Conditional reveal (\`id="${targetId}"\`)`
+        });
+      }
+      $input.setAttribute('aria-controls', targetId);
+      $input.removeAttribute('data-aria-controls');
+    });
+    window.addEventListener('pageshow', () => this.syncAllConditionalReveals());
+    this.syncAllConditionalReveals();
+    this.$root.addEventListener('click', event => this.handleClick(event));
+  }
+  syncAllConditionalReveals() {
+    this.$inputs.forEach($input => this.syncConditionalRevealWithInputState($input));
+  }
+  syncConditionalRevealWithInputState($input) {
+    const targetId = $input.getAttribute('aria-controls');
+    if (!targetId) {
+      return;
+    }
+    const $target = document.getElementById(targetId);
+    if ($target != null && $target.classList.contains('govuk-radios__conditional')) {
+      const inputIsChecked = $input.checked;
+      $input.setAttribute('aria-expanded', inputIsChecked.toString());
+      $target.classList.toggle('govuk-radios__conditional--hidden', !inputIsChecked);
+    }
+  }
+  handleClick(event) {
+    const $clickedInput = event.target;
+    if (!($clickedInput instanceof HTMLInputElement) || $clickedInput.type !== 'radio') {
+      return;
+    }
+    const $allInputs = document.querySelectorAll('input[type="radio"][aria-controls]');
+    const $clickedInputForm = $clickedInput.form;
+    const $clickedInputName = $clickedInput.name;
+    $allInputs.forEach($input => {
+      const hasSameFormOwner = $input.form === $clickedInputForm;
+      const hasSameName = $input.name === $clickedInputName;
+      if (hasSameName && hasSameFormOwner) {
+        this.syncConditionalRevealWithInputState($input);
+      }
+    });
+  }
+}
+Radios.moduleName = 'govuk-radios';
+
+/**
+ * Service Navigation component
+ *
+ * @preserve
+ */
+class ServiceNavigation extends Component {
+  /**
+   * @param {Element | null} $root - HTML element to use for header
+   */
+  constructor($root) {
+    super($root);
+    this.$menuButton = void 0;
+    this.$menu = void 0;
+    this.menuIsOpen = false;
+    this.mql = null;
+    const $menuButton = this.$root.querySelector('.govuk-js-service-navigation-toggle');
+    if (!$menuButton) {
+      return this;
+    }
+    const menuId = $menuButton.getAttribute('aria-controls');
+    if (!menuId) {
+      throw new ElementError({
+        component: ServiceNavigation,
+        identifier: 'Navigation button (`<button class="govuk-js-service-navigation-toggle">`) attribute (`aria-controls`)'
+      });
+    }
+    const $menu = document.getElementById(menuId);
+    if (!$menu) {
+      throw new ElementError({
+        component: ServiceNavigation,
+        element: $menu,
+        identifier: `Navigation (\`<ul id="${menuId}">\`)`
+      });
+    }
+    this.$menu = $menu;
+    this.$menuButton = $menuButton;
+    this.setupResponsiveChecks();
+    this.$menuButton.addEventListener('click', () => this.handleMenuButtonClick());
+  }
+  setupResponsiveChecks() {
+    const breakpoint = getBreakpoint('tablet');
+    if (!breakpoint.value) {
+      throw new ElementError({
+        component: ServiceNavigation,
+        identifier: `CSS custom property (\`${breakpoint.property}\`) on pseudo-class \`:root\``
+      });
+    }
+    this.mql = window.matchMedia(`(min-width: ${breakpoint.value})`);
+    if ('addEventListener' in this.mql) {
+      this.mql.addEventListener('change', () => this.checkMode());
+    } else {
+      this.mql.addListener(() => this.checkMode());
+    }
+    this.checkMode();
+  }
+  checkMode() {
+    if (!this.mql || !this.$menu || !this.$menuButton) {
+      return;
+    }
+    if (this.mql.matches) {
+      this.$menu.removeAttribute('hidden');
+      setAttributes(this.$menuButton, attributesForHidingButton);
+    } else {
+      removeAttributes(this.$menuButton, Object.keys(attributesForHidingButton));
+      this.$menuButton.setAttribute('aria-expanded', this.menuIsOpen.toString());
+      if (this.menuIsOpen) {
+        this.$menu.removeAttribute('hidden');
+      } else {
+        this.$menu.setAttribute('hidden', '');
+      }
+    }
+  }
+  handleMenuButtonClick() {
+    this.menuIsOpen = !this.menuIsOpen;
+    this.checkMode();
+  }
+}
+ServiceNavigation.moduleName = 'govuk-service-navigation';
+const attributesForHidingButton = {
+  hidden: '',
+  'aria-hidden': 'true'
+};
+
+/**
+ * Sets a group of attributes on the given element
+ *
+ * @param {Element} $element - The element to set the attribute on
+ * @param {{[attributeName: string]: string}} attributes - The attributes to set
+ */
+function setAttributes($element, attributes) {
+  for (const attributeName in attributes) {
+    $element.setAttribute(attributeName, attributes[attributeName]);
+  }
+}
+
+/**
+ * Removes a list of attributes from the given element
+ *
+ * @param {Element} $element - The element to remove the attributes from
+ * @param {string[]} attributeNames - The names of the attributes to remove
+ */
+function removeAttributes($element, attributeNames) {
+  for (const attributeName of attributeNames) {
+    $element.removeAttribute(attributeName);
+  }
+}
+
+/**
+ * Skip link component
+ *
+ * @preserve
+ * @augments Component<HTMLAnchorElement>
+ */
+class SkipLink extends Component {
+  /**
+   * @param {Element | null} $root - HTML element to use for skip link
+   * @throws {ElementError} when $root is not set or the wrong type
+   * @throws {ElementError} when $root.hash does not contain a hash
+   * @throws {ElementError} when the linked element is missing or the wrong type
+   */
+  constructor($root) {
+    var _this$$root$getAttrib;
+    super($root);
+    const hash = this.$root.hash;
+    const href = (_this$$root$getAttrib = this.$root.getAttribute('href')) != null ? _this$$root$getAttrib : '';
+    if (this.$root.origin !== window.location.origin || this.$root.pathname !== window.location.pathname) {
+      return;
+    }
+    const linkedElementId = hash.replace('#', '');
+    if (!linkedElementId) {
+      throw new ElementError(`Skip link: Target link (\`href="${href}"\`) has no hash fragment`);
+    }
+    const $linkedElement = document.getElementById(linkedElementId);
+    if (!$linkedElement) {
+      throw new ElementError({
+        component: SkipLink,
+        element: $linkedElement,
+        identifier: `Target content (\`id="${linkedElementId}"\`)`
+      });
+    }
+    this.$root.addEventListener('click', () => setFocus($linkedElement, {
+      onBeforeFocus() {
+        $linkedElement.classList.add('govuk-skip-link-focused-element');
+      },
+      onBlur() {
+        $linkedElement.classList.remove('govuk-skip-link-focused-element');
+      }
+    }));
+  }
+}
+SkipLink.elementType = HTMLAnchorElement;
+SkipLink.moduleName = 'govuk-skip-link';
+
+/**
+ * Tabs component
+ *
+ * @preserve
+ */
+class Tabs extends Component {
+  /**
+   * @param {Element | null} $root - HTML element to use for tabs
+   */
+  constructor($root) {
+    super($root);
+    this.$tabs = void 0;
+    this.$tabList = void 0;
+    this.$tabListItems = void 0;
+    this.jsHiddenClass = 'govuk-tabs__panel--hidden';
+    this.changingHash = false;
+    this.boundTabClick = void 0;
+    this.boundTabKeydown = void 0;
+    this.boundOnHashChange = void 0;
+    this.mql = null;
+    const $tabs = this.$root.querySelectorAll('a.govuk-tabs__tab');
+    if (!$tabs.length) {
+      throw new ElementError({
+        component: Tabs,
+        identifier: 'Links (`<a class="govuk-tabs__tab">`)'
+      });
+    }
+    this.$tabs = $tabs;
+    this.boundTabClick = this.onTabClick.bind(this);
+    this.boundTabKeydown = this.onTabKeydown.bind(this);
+    this.boundOnHashChange = this.onHashChange.bind(this);
+    const $tabList = this.$root.querySelector('.govuk-tabs__list');
+    const $tabListItems = this.$root.querySelectorAll('li.govuk-tabs__list-item');
+    if (!$tabList) {
+      throw new ElementError({
+        component: Tabs,
+        identifier: 'List (`<ul class="govuk-tabs__list">`)'
+      });
+    }
+    if (!$tabListItems.length) {
+      throw new ElementError({
+        component: Tabs,
+        identifier: 'List items (`<li class="govuk-tabs__list-item">`)'
+      });
+    }
+    this.$tabList = $tabList;
+    this.$tabListItems = $tabListItems;
+    this.setupResponsiveChecks();
+  }
+  setupResponsiveChecks() {
+    const breakpoint = getBreakpoint('tablet');
+    if (!breakpoint.value) {
+      throw new ElementError({
+        component: Tabs,
+        identifier: `CSS custom property (\`${breakpoint.property}\`) on pseudo-class \`:root\``
+      });
+    }
+    this.mql = window.matchMedia(`(min-width: ${breakpoint.value})`);
+    if ('addEventListener' in this.mql) {
+      this.mql.addEventListener('change', () => this.checkMode());
+    } else {
+      this.mql.addListener(() => this.checkMode());
+    }
+    this.checkMode();
+  }
+  checkMode() {
+    var _this$mql;
+    if ((_this$mql = this.mql) != null && _this$mql.matches) {
+      this.setup();
+    } else {
+      this.teardown();
+    }
+  }
+  setup() {
+    var _this$getTab;
+    this.$tabList.setAttribute('role', 'tablist');
+    this.$tabListItems.forEach($item => {
+      $item.setAttribute('role', 'presentation');
+    });
+    this.$tabs.forEach($tab => {
+      this.setAttributes($tab);
+      $tab.addEventListener('click', this.boundTabClick, true);
+      $tab.addEventListener('keydown', this.boundTabKeydown, true);
+      this.hideTab($tab);
+    });
+    const $activeTab = (_this$getTab = this.getTab(window.location.hash)) != null ? _this$getTab : this.$tabs[0];
+    this.showTab($activeTab);
+    window.addEventListener('hashchange', this.boundOnHashChange, true);
+  }
+  teardown() {
+    this.$tabList.removeAttribute('role');
+    this.$tabListItems.forEach($item => {
+      $item.removeAttribute('role');
+    });
+    this.$tabs.forEach($tab => {
+      $tab.removeEventListener('click', this.boundTabClick, true);
+      $tab.removeEventListener('keydown', this.boundTabKeydown, true);
+      this.unsetAttributes($tab);
+    });
+    window.removeEventListener('hashchange', this.boundOnHashChange, true);
+  }
+  onHashChange() {
+    const hash = window.location.hash;
+    const $tabWithHash = this.getTab(hash);
+    if (!$tabWithHash) {
+      return;
+    }
+    if (this.changingHash) {
+      this.changingHash = false;
+      return;
+    }
+    const $previousTab = this.getCurrentTab();
+    if (!$previousTab) {
+      return;
+    }
+    this.hideTab($previousTab);
+    this.showTab($tabWithHash);
+    $tabWithHash.focus();
+  }
+  hideTab($tab) {
+    this.unhighlightTab($tab);
+    this.hidePanel($tab);
+  }
+  showTab($tab) {
+    this.highlightTab($tab);
+    this.showPanel($tab);
+  }
+  getTab(hash) {
+    return this.$root.querySelector(`a.govuk-tabs__tab[href="${hash}"]`);
+  }
+  setAttributes($tab) {
+    const panelId = $tab.hash.replace('#', '');
+    if (!panelId) {
+      return;
+    }
+    $tab.setAttribute('id', `tab_${panelId}`);
+    $tab.setAttribute('role', 'tab');
+    $tab.setAttribute('aria-controls', panelId);
+    $tab.setAttribute('aria-selected', 'false');
+    $tab.setAttribute('tabindex', '-1');
+    const $panel = this.getPanel($tab);
+    if (!$panel) {
+      return;
+    }
+    $panel.setAttribute('role', 'tabpanel');
+    $panel.setAttribute('aria-labelledby', $tab.id);
+    $panel.classList.add(this.jsHiddenClass);
+  }
+  unsetAttributes($tab) {
+    $tab.removeAttribute('id');
+    $tab.removeAttribute('role');
+    $tab.removeAttribute('aria-controls');
+    $tab.removeAttribute('aria-selected');
+    $tab.removeAttribute('tabindex');
+    const $panel = this.getPanel($tab);
+    if (!$panel) {
+      return;
+    }
+    $panel.removeAttribute('role');
+    $panel.removeAttribute('aria-labelledby');
+    $panel.classList.remove(this.jsHiddenClass);
+  }
+  onTabClick(event) {
+    const $currentTab = this.getCurrentTab();
+    const $nextTab = event.currentTarget;
+    if (!$currentTab || !($nextTab instanceof HTMLAnchorElement)) {
+      return;
+    }
+    event.preventDefault();
+    this.hideTab($currentTab);
+    this.showTab($nextTab);
+    this.createHistoryEntry($nextTab);
+  }
+  createHistoryEntry($tab) {
+    const $panel = this.getPanel($tab);
+    if (!$panel) {
+      return;
+    }
+    const panelId = $panel.id;
+    $panel.id = '';
+    this.changingHash = true;
+    window.location.hash = panelId;
+    $panel.id = panelId;
+  }
+  onTabKeydown(event) {
+    switch (event.key) {
+      case 'ArrowLeft':
+      case 'Left':
+        this.activatePreviousTab();
+        event.preventDefault();
+        break;
+      case 'ArrowRight':
+      case 'Right':
+        this.activateNextTab();
+        event.preventDefault();
+        break;
+    }
+  }
+  activateNextTab() {
+    const $currentTab = this.getCurrentTab();
+    if (!($currentTab != null && $currentTab.parentElement)) {
+      return;
+    }
+    const $nextTabListItem = $currentTab.parentElement.nextElementSibling;
+    if (!$nextTabListItem) {
+      return;
+    }
+    const $nextTab = $nextTabListItem.querySelector('a.govuk-tabs__tab');
+    if (!$nextTab) {
+      return;
+    }
+    this.hideTab($currentTab);
+    this.showTab($nextTab);
+    $nextTab.focus();
+    this.createHistoryEntry($nextTab);
+  }
+  activatePreviousTab() {
+    const $currentTab = this.getCurrentTab();
+    if (!($currentTab != null && $currentTab.parentElement)) {
+      return;
+    }
+    const $previousTabListItem = $currentTab.parentElement.previousElementSibling;
+    if (!$previousTabListItem) {
+      return;
+    }
+    const $previousTab = $previousTabListItem.querySelector('a.govuk-tabs__tab');
+    if (!$previousTab) {
+      return;
+    }
+    this.hideTab($currentTab);
+    this.showTab($previousTab);
+    $previousTab.focus();
+    this.createHistoryEntry($previousTab);
+  }
+  getPanel($tab) {
+    const panelId = $tab.hash.replace('#', '');
+    if (!panelId) {
+      return null;
+    }
+    return this.$root.querySelector(`#${panelId}`);
+  }
+  showPanel($tab) {
+    const $panel = this.getPanel($tab);
+    if (!$panel) {
+      return;
+    }
+    $panel.classList.remove(this.jsHiddenClass);
+  }
+  hidePanel($tab) {
+    const $panel = this.getPanel($tab);
+    if (!$panel) {
+      return;
+    }
+    $panel.classList.add(this.jsHiddenClass);
+  }
+  unhighlightTab($tab) {
+    if (!$tab.parentElement) {
+      return;
+    }
+    $tab.setAttribute('aria-selected', 'false');
+    $tab.parentElement.classList.remove('govuk-tabs__list-item--selected');
+    $tab.setAttribute('tabindex', '-1');
+  }
+  highlightTab($tab) {
+    if (!$tab.parentElement) {
+      return;
+    }
+    $tab.setAttribute('aria-selected', 'true');
+    $tab.parentElement.classList.add('govuk-tabs__list-item--selected');
+    $tab.setAttribute('tabindex', '0');
+  }
+  getCurrentTab() {
+    return this.$root.querySelector('.govuk-tabs__list-item--selected a.govuk-tabs__tab');
+  }
+}
+Tabs.moduleName = 'govuk-tabs';
+
+/**
+ * Initialise all components
+ *
+ * Use the `data-module` attributes to find, instantiate and init all of the
+ * components provided as part of GOV.UK Frontend.
+ *
+ * @param {Config | Element | Document | null} [scopeOrConfig] - Scope of the document to search within or config for all components (with optional scope)
+ */
+function initAll(scopeOrConfig = {}) {
+  const config = isObject(scopeOrConfig) ? scopeOrConfig : {};
+  const options = normaliseOptions(scopeOrConfig);
+  try {
+    if (!isSupported()) {
+      throw new SupportError();
+    }
+    if (options.scope === null) {
+      throw new ElementError({
+        element: options.scope,
+        identifier: 'GOV.UK Frontend scope element (`$scope`)'
+      });
+    }
+  } catch (error) {
+    if (options.onError) {
+      options.onError(error, {
+        config
+      });
+    } else {
+      console.log(error);
+    }
+    return;
+  }
+  const components = [[Accordion, config.accordion], [Button, config.button], [CharacterCount, config.characterCount], [Checkboxes], [ErrorSummary, config.errorSummary], [ExitThisPage, config.exitThisPage], [FileUpload, config.fileUpload], [NotificationBanner, config.notificationBanner], [PasswordInput, config.passwordInput], [Radios], [ServiceNavigation], [SkipLink], [Tabs]];
+  components.forEach(([Component, componentConfig]) => {
+    createAll(Component, componentConfig, options);
+  });
+}
+
+/**
+ * Create all instances of a specific component on the page
+ *
+ * Uses the `data-module` attribute to find all elements matching the specified
+ * component on the page, creating instances of the component object for each
+ * of them.
+ *
+ * Any component errors will be caught and logged to the console.
+ *
+ * @template {CompatibleClass} ComponentClass
+ * @param {ComponentClass} Component - class of the component to create
+ * @param {ComponentConfig<ComponentClass>} [config] - Config supplied to component
+ * @param {OnErrorCallback<ComponentClass> | Element | Document | null | CreateAllOptions<ComponentClass>} [scopeOrOptions] - options for createAll including scope of the document to search within and callback function if error throw by component on init
+ * @returns {Array<InstanceType<ComponentClass>>} - array of instantiated components
+ */
+function createAll(Component, config, scopeOrOptions) {
+  let $elements;
+  const options = normaliseOptions(scopeOrOptions);
+  try {
+    var _options$scope;
+    if (!isSupported()) {
+      throw new SupportError();
+    }
+    if (options.scope === null) {
+      throw new ElementError({
+        element: options.scope,
+        component: Component,
+        identifier: 'Scope element (`$scope`)'
+      });
+    }
+    $elements = (_options$scope = options.scope) == null ? void 0 : _options$scope.querySelectorAll(`[data-module="${Component.moduleName}"]`);
+  } catch (error) {
+    if (options.onError) {
+      options.onError(error, {
+        component: Component,
+        config
+      });
+    } else {
+      console.log(error);
+    }
+    return [];
+  }
+  return Array.from($elements != null ? $elements : []).map($element => {
+    try {
+      return typeof config !== 'undefined' ? new Component($element, config) : new Component($element);
+    } catch (error) {
+      if (options.onError) {
+        options.onError(error, {
+          element: $element,
+          component: Component,
+          config
+        });
+      } else {
+        console.log(error);
+      }
+      return null;
+    }
+  }).filter(Boolean);
+}
+/**
+ * @typedef {{new (...args: any[]): any, moduleName: string}} CompatibleClass
+ */
+/**
+ * Config for all components via `initAll()`
+ *
+ * @typedef {object} Config
+ * @property {Element | Document | null} [scope] - Scope of the document to search within
+ * @property {OnErrorCallback<CompatibleClass>} [onError] - Initialisation error callback
+ * @property {AccordionConfig} [accordion] - Accordion config
+ * @property {ButtonConfig} [button] - Button config
+ * @property {CharacterCountConfig} [characterCount] - Character Count config
+ * @property {ErrorSummaryConfig} [errorSummary] - Error Summary config
+ * @property {ExitThisPageConfig} [exitThisPage] - Exit This Page config
+ * @property {FileUploadConfig} [fileUpload] - File Upload config
+ * @property {NotificationBannerConfig} [notificationBanner] - Notification Banner config
+ * @property {PasswordInputConfig} [passwordInput] - Password input config
+ */
+/**
+ * Config for individual components
+ *
+ * @import { AccordionConfig } from './components/accordion/accordion.mjs'
+ * @import { ButtonConfig } from './components/button/button.mjs'
+ * @import { CharacterCountConfig } from './components/character-count/character-count.mjs'
+ * @import { ErrorSummaryConfig } from './components/error-summary/error-summary.mjs'
+ * @import { ExitThisPageConfig } from './components/exit-this-page/exit-this-page.mjs'
+ * @import { NotificationBannerConfig } from './components/notification-banner/notification-banner.mjs'
+ * @import { PasswordInputConfig } from './components/password-input/password-input.mjs'
+ * @import { FileUploadConfig } from './components/file-upload/file-upload.mjs'
+ */
+/**
+ * Component config keys, e.g. `accordion` and `characterCount`
+ *
+ * @typedef {keyof Omit<Config, 'scope' | 'onError'>} ConfigKey
+ */
+/**
+ * @template {CompatibleClass} ComponentClass
+ * @typedef {ConstructorParameters<ComponentClass>[1]} ComponentConfig
+ */
+/**
+ * @template {CompatibleClass} ComponentClass
+ * @typedef {object} ErrorContext
+ * @property {Element} [element] - Element used for component module initialisation
+ * @property {ComponentClass} [component] - Class of component
+ * @property {Config | ComponentConfig<ComponentClass>} [config] - Config supplied to components
+ */
+/**
+ * @template {CompatibleClass} ComponentClass
+ * @callback OnErrorCallback
+ * @param {unknown} error - Thrown error
+ * @param {ErrorContext<ComponentClass>} context - Object containing the element, component class and configuration
+ */
+/**
+ * @template {CompatibleClass} ComponentClass
+ * @typedef {object} CreateAllOptions
+ * @property {Element | Document | null} [scope] - scope of the document to search within
+ * @property {OnErrorCallback<ComponentClass>} [onError] - callback function if error throw by component on init
+ */
+
+export { Accordion, Button, CharacterCount, Checkboxes, Component, ConfigurableComponent, ErrorSummary, ExitThisPage, FileUpload, NotificationBanner, PasswordInput, Radios, ServiceNavigation, SkipLink, Tabs, createAll, initAll, isSupported, version };
+//# sourceMappingURL=all.bundle.mjs.map

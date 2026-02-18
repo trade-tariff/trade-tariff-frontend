@@ -14,11 +14,11 @@
     padding-bottom: 1em;
 
     svg {
-      fill        : $govuk-border-colour;
-      stroke      : $govuk-border-colour;
+      fill        : govuk-functional-colour(border);
+      stroke      : govuk-functional-colour(border);
       margin-right: 0.5em;
-      border      : 1px solid $govuk-border-colour;
-      box-shadow  : 4px 4px darken($govuk-border-colour, 15%);
+      border      : 1px solid govuk-functional-colour(border);
+      box-shadow  : 4px 4px govuk-colour("black", $variant: "tint-25");
       max-width   : 64px;
       max-height  : 80px;
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="govuk-template govuk-template--rebranded">
+<html lang="en" class="govuk-template">
 
 <%= render partial: 'layouts/base' %>
 
@@ -57,16 +57,18 @@
     data-module="govuk-header">
     <div class="govuk-header__container govuk-width-container">
       <%= render 'shared/govuk_logo' %>
-      <%= yield :proposition_header %>
     </div>
 
     <%= Rails.cache.fetch(['news_items/header_banner', cache_key, expires_in: 1.hour]) do %>
       <%= render 'news_items/header_banner', news_item: News::Item.latest_banner unless @skip_news_banner %>
     <% end %>
 
-    <%= render 'shared/feedback_banner' %>
     <%= csrf_meta_tags %>
   </header>
+
+  <%= yield :service_navigation %>
+
+  <%= render 'shared/feedback_banner' %>
 
   <div class="tariff service govuk-width-container">
     <%= render 'shared/top_breadcrumbs' %>

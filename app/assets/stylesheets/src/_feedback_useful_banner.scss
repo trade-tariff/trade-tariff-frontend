@@ -1,9 +1,9 @@
 .feedback-useful-banner {
-  border-top: 1px solid $govuk-border-colour;
+  border-top: 1px solid govuk-functional-colour(border);
 
   .feedback-useful-container {
     position: relative;
-    background-color: govuk-colour("light-grey");
+    background-color: govuk-colour("black", $variant: "tint-95");
     height: 36px;
     padding-top: 17px;
   }

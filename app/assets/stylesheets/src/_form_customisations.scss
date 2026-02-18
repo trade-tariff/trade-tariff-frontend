@@ -36,8 +36,8 @@
   }
 
   &:focus {
-    background: $govuk-focus-colour;
-    border-color: $govuk-input-border-colour;
+    background: govuk-functional-colour(focus);
+    border-color: govuk-functional-colour(input-border);
   }
 }
 
