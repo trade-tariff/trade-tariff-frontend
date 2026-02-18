@@ -60,46 +60,42 @@ Rails.application.routes.draw do
 
   get '/live_issues', to: 'live_issues#index'
 
-  if TradeTariffFrontend.myott?
-    namespace :myott, path: 'subscriptions' do
-      get '/', to: 'subscriptions#index'
-      get 'start', to: 'subscriptions#start'
-      get 'invalid', to: 'subscriptions#invalid'
+  namespace :myott, path: 'subscriptions' do
+    get '/', to: 'subscriptions#index'
+    get 'start', to: 'subscriptions#start'
+    get 'invalid', to: 'subscriptions#invalid'
 
-      resource :stop_press, only: %i[show] do
-        get 'check_your_answers'
-        post 'subscribe'
+    resource :stop_press, only: %i[show] do
+      get 'check_your_answers'
+      post 'subscribe'
+      get 'confirmation'
+
+      resource :preferences, only: %i[new create edit update]
+    end
+
+    resources :mycommodities, only: %i[index new create] do
+      collection do
+        get :active
+        get :expired
+        get :invalid
+        get :confirmation
+        get :download
+      end
+    end
+
+    resources :commodity_changes, only: [] do
+      collection do
+        get :ending
+        get :classification
+      end
+    end
+
+    resources :grouped_measure_changes, only: %i[show]
+    resources :grouped_measure_commodity_changes, only: %i[show]
+
+    resources :unsubscribes, only: %i[show destroy], path: 'unsubscribe' do
+      collection do
         get 'confirmation'
-
-        resource :preferences, only: %i[new create edit update]
-      end
-
-      if TradeTariffFrontend.my_commodities?
-        resources :mycommodities, only: %i[index new create] do
-          collection do
-            get :active
-            get :expired
-            get :invalid
-            get :confirmation
-            get :download
-          end
-        end
-
-        resources :commodity_changes, only: [] do
-          collection do
-            get :ending
-            get :classification
-          end
-        end
-
-        resources :grouped_measure_changes, only: %i[show]
-        resources :grouped_measure_commodity_changes, only: %i[show]
-      end
-
-      resources :unsubscribes, only: %i[show destroy], path: 'unsubscribe' do
-        collection do
-          get 'confirmation'
-        end
       end
     end
   end

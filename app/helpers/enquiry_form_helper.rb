@@ -59,7 +59,7 @@ def field_hint(field)
 end
 
 def radio_button_category_options
-  options = [
+  [
     ['API & Dev Portal Support', 'api_dev_portal_support'],
     ['Classification (identify the correct commodity code)', 'classification'],
     ['Customs Valuation', 'customs_valuation'],
@@ -67,9 +67,8 @@ def radio_button_category_options
     ['Origin (Preferential and non-preferential)', 'origin'],
     ['Quotas', 'quotas'],
     ['Stop Press Subscription', 'stop_press_subscription'],
+    ['Tariff Watch Lists (Private Beta)', 'tariff_watch_lists'],
   ]
-  options << ['Tariff Watch Lists (Private Beta)', 'tariff_watch_lists'] if TradeTariffFrontend.my_commodities?
-  options
 end
 
 def display_value_for(field, value)
