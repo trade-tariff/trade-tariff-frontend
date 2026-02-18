@@ -68,9 +68,7 @@
         <li class="govuk-footer__list-item"><a class="govuk-footer__link" target="_blank" href="https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods">Ask HMRC for advice on classifying your goods</a></li>
         <li class="govuk-footer__list-item"><a class="govuk-footer__link" target="_blank" href="https://www.gov.uk/government/organisations/hm-revenue-customs/contact/customs-international-trade-and-excise-enquiries">Imports and exports: general enquiries</a></li>
         <li class="govuk-footer__list-item"><%= link_to 'Feedback', feedback_path, class: "govuk-footer__link" %></li>
-        <% if TradeTariffFrontend.enquiry_form? %>
-          <li class="govuk-footer__list-item"><%= link_to 'Enquiry Form', product_experience_enquiry_form_path, class: "govuk-footer__link" %></li>
-        <% end %>
+        <li class="govuk-footer__list-item"><%= link_to 'Enquiry Form', product_experience_enquiry_form_path, class: "govuk-footer__link" %></li>
       </ul>
     </div>
 
