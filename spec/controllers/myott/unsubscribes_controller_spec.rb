@@ -5,8 +5,8 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
 
   describe 'GET #show' do
     before do
-      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription.subscription_type_name)
-      get :show, params: { id: subscription.uuid, subscription_type: subscription.subscription_type_name }
+      allow(controller).to receive(:subscription).and_return(subscription)
+      get :show, params: { id: subscription.uuid }
     end
 
     it 'renders the subscription-specific template' do
@@ -16,7 +16,7 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
 
   describe 'DELETE #destroy' do
     before do
-      allow(controller).to receive_messages(current_subscription: subscription, subscription_type: subscription.subscription_type_name)
+      allow(controller).to receive(:subscription).and_return(subscription)
     end
 
     context 'when subscription_type is stop_press' do
@@ -120,9 +120,9 @@ RSpec.describe Myott::UnsubscribesController, type: :controller do
   end
 
   describe 'before_action :authenticate' do
-    context 'when current_subscription is nil' do
+    context 'when subscription is nil' do
       before do
-        allow(controller).to receive_messages(current_subscription: nil, subscription_type: nil)
+        allow(controller).to receive(:subscription).and_return(nil)
       end
 
       it 'redirects to myott_start_path' do

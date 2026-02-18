@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Myott my commodities subscription', type: :feature do
-  let(:subscription_hash) do
+  let(:user_subscription_hash) do
     {
       'id' => '123',
       'subscription_type' => 'my_commodities',
@@ -10,7 +10,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
   end
 
   let(:new_user) { build(:user, subscriptions: []) }
-  let(:subscribed_user) { build(:user, subscriptions: [subscription_hash]) }
+  let(:subscribed_user) { build(:user, subscriptions: [user_subscription_hash]) }
   let(:subscription) { build(:subscription, :my_commodities) }
 
   describe 'new subscriber' do
