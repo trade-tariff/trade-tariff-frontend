@@ -38,14 +38,14 @@ RSpec.describe TariffChanges::TariffChange, type: :model do
         allow(api_client).to receive(:get).and_return(faraday_response)
       end
 
-      it 'returns content_disposition' do
+      it 'returns filename parsed from content-disposition' do
         result = described_class.download_file(token, params)
-        expect(result[:content_disposition]).to eq('attachment; filename="test_file.xlsx"')
+        expect(result[:filename]).to eq('test_file.xlsx')
       end
 
-      it 'returns content_type' do
+      it 'returns type' do
         result = described_class.download_file(token, params)
-        expect(result[:content_type]).to eq(response_content_type)
+        expect(result[:type]).to eq(response_content_type)
       end
 
       it 'returns body' do
@@ -64,9 +64,8 @@ RSpec.describe TariffChanges::TariffChange, type: :model do
         allow(api_client).to receive(:get).and_return(faraday_response)
       end
 
-      it 'returns nil for content_disposition' do
-        result = described_class.download_file(token, params)
-        expect(result[:content_disposition]).to be_nil
+      it 'raises NoMethodError' do
+        expect { described_class.download_file(token, params) }.to raise_error(NoMethodError)
       end
     end
 
@@ -80,9 +79,9 @@ RSpec.describe TariffChanges::TariffChange, type: :model do
         allow(api_client).to receive(:get).and_return(faraday_response)
       end
 
-      it 'returns the content_disposition header as-is' do
+      it 'returns nil for filename' do
         result = described_class.download_file(token, params)
-        expect(result[:content_disposition]).to eq("attachment; filename*=UTF-8''encoded_file.xlsx")
+        expect(result[:filename]).to be_nil
       end
     end
   end

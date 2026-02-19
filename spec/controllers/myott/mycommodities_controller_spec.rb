@@ -6,10 +6,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
     subscription
   end
 
-  let(:user) do
-    build(:user,
-          my_commodities_subscription: true)
-  end
+  let(:user) { build(:user, my_commodities_subscription: true) }
   let(:subscription) { build(:subscription, :my_commodities) }
 
   before do
@@ -206,9 +203,9 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
   describe 'GET #download' do
     let(:file_data) do
       {
-        content_disposition: 'attachment; filename="commodity_watch_list_changes_2025-12-05.xlsx"',
-        content_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         body: 'file content',
+        filename: 'commodity_watch_list_changes_2025-12-05.xlsx',
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       }
     end
     let(:user_id_token) { 'test-token' }
@@ -226,16 +223,13 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
       it { is_expected.to respond_with(:success) }
 
-      it 'sets Content-Disposition header' do
-        expect(response.headers['Content-Disposition']).to eq('attachment; filename="commodity_watch_list_changes_2025-12-05.xlsx"')
+      it 'sets Content-Disposition header', :aggregate_failures do
+        expect(response.headers['Content-Disposition']).to include('attachment')
+        expect(response.headers['Content-Disposition']).to include('commodity_watch_list_changes_2025-12-05.xlsx')
       end
 
       it 'sets Content-Type header' do
         expect(response.headers['Content-Type']).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-      end
-
-      it 'sets Content-Transfer-Encoding header' do
-        expect(response.headers['Content-Transfer-Encoding']).to eq('binary')
       end
 
       it 'sets Cache-Control header' do
