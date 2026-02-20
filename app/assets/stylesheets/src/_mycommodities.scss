@@ -9,4 +9,53 @@
     padding: govuk-spacing(3);
     background-color: #d2e2f1;
   }
+
+  .download_link {
+    display: flex;
+    gap: 4px;
+    cursor: pointer;
+
+    &:hover {
+      color: govuk-functional-colour(link-hover);
+    }
+
+    &:active,
+    &:visited {
+      color: govuk-functional-colour(link);
+    }
+
+    &.download_link--black-icon {
+      color: govuk-functional-colour(link);
+
+      &:hover {
+        color: govuk-functional-colour(link-hover);
+      }
+
+      &:active,
+      &:visited {
+        color: govuk-functional-colour(link);
+      }
+
+      .download_icon {
+        color: govuk-colour(black);
+      }
+    }
+
+    &.download_link--white {
+      color: govuk-colour(white);
+
+      &:hover {
+        color: govuk-colour(white);
+      }
+
+      &:active,
+      &:visited {
+        color: govuk-colour(white);
+      }
+
+      .download_icon {
+        color: govuk-colour(white);
+      }
+    }
+  }
 }
