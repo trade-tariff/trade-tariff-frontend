@@ -13,11 +13,11 @@ locals {
 
   ecs_tls_env_vars = [
     {
-      name      = "SSL_KEY_PEM"
+      name  = "SSL_KEY_PEM"
       value = local.tls_secret.private_key
     },
     {
-      name      = "SSL_CERT_PEM"
+      name  = "SSL_CERT_PEM"
       value = local.tls_secret.certificate
     },
     {
