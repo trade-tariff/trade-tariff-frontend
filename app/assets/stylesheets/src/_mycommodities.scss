@@ -25,7 +25,6 @@
     }
 
     &.download_link--black-icon {
-      color: govuk-functional-colour(link);
 
       &:hover {
         color: govuk-functional-colour(link-hover);
@@ -41,9 +40,8 @@
       }
     }
 
-    &.download_link--white {
-      color: govuk-colour(white);
-
+    &.govuk-link--inverse {
+      
       &:hover {
         color: govuk-colour(white);
       }
