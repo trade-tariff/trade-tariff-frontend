@@ -17,12 +17,15 @@ locals {
     {
       name      = "SSL_CERT_PEM"
       valueFrom = "${data.aws_secretsmanager_secret.ecs_tls_certificate.arn}:certificate::"
-    },
+    }
+  ]
+
+  ssl_port = [
     {
       name  = "SSL_PORT"
       value = "8443"
     }
   ]
 
-  frontend_service_env_vars = concat(local.secret_env_vars, local.ecs_tls_env_vars)
+  frontend_service_env_vars = concat(local.secret_env_vars, local.ecs_tls_env_vars, local.ssl_port)
 }
