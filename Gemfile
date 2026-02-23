@@ -7,7 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 8.0'
+gem 'rails', '~> 8.1'
 
 gem 'csv'
 gem 'faraday'
@@ -20,7 +20,7 @@ gem 'multi_json'
 gem 'net-http-persistent'
 gem 'newrelic_rpm'
 gem 'roo'
-gem 'routing-filter', github: 'trade-tariff/routing-filter'
+gem 'routing-filter', github: 'trade-tariff/routing-filter', branch: 'feature/rails-8-1-compatibility'
 gem 'uktt', git: 'https://github.com/trade-tariff/uktt.git'
 
 # Assets
