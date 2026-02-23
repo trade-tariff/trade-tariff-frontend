@@ -9,6 +9,8 @@ module AuthenticatableApiEntity
       super(id, options, headers(token))
     rescue Faraday::UnauthorizedError => e
       handle_unauthorized_error(e)
+    rescue StandardError => e
+      raise AuthenticationError.new(e.message, reason: 'invalid_token')
     end
 
     def all(token, params = {})
