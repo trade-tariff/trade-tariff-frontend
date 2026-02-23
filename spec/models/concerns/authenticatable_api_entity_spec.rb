@@ -191,9 +191,12 @@ RSpec.describe AuthenticatableApiEntity do
           .and_raise(Faraday::ServerError.new('Server Error'))
       end
 
-      it 'allows error to bubble up' do
+      it 'raises invalid token error', :aggregate_failures do
         expect { test_class.find(entity_id, token) }
-          .to raise_error(Faraday::ServerError)
+          .to raise_error(AuthenticationError) do |error|
+            expect(error.reason).to eq('invalid_token')
+            expect(error.message).to eq('Server Error')
+          end
       end
     end
   end
