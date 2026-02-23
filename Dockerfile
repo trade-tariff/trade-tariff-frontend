@@ -48,7 +48,7 @@ RUN apk add --no-cache tzdata && \
 
 ENV RAILS_SERVE_STATIC_FILES=true \
     RAILS_ENV=production \
-    PORT=8081 \
+    PORT=8080 \
     TZ=Europe/London
 
 RUN addgroup -S tariff && \
@@ -61,7 +61,7 @@ USER tariff
 COPY --chown=tariff:tariff --from=builder /build .
 COPY --chown=tariff:tariff --from=builder /usr/local/bundle/ /usr/local/bundle/
 
-EXPOSE 8081
+EXPOSE 8080
 
 HEALTHCHECK CMD nc -z 0.0.0.0 $PORT
 
