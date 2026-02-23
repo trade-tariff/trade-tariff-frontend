@@ -10,8 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/routing-filter.git
-  revision: 520fbc9dd003ebeb9f9f3233fbe2298a76931637
-  branch: feature/rails-8-1-compatibility
+  revision: 0be4828e0004571a36fb74fb087beb9001d85ac5
   specs:
     routing-filter (1.0.0)
       actionpack (>= 7.1)

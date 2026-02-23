@@ -20,7 +20,7 @@ gem 'multi_json'
 gem 'net-http-persistent'
 gem 'newrelic_rpm'
 gem 'roo'
-gem 'routing-filter', github: 'trade-tariff/routing-filter', branch: 'feature/rails-8-1-compatibility'
+gem 'routing-filter', github: 'trade-tariff/routing-filter'
 gem 'uktt', git: 'https://github.com/trade-tariff/uktt.git'
 
 # Assets
