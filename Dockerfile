@@ -48,7 +48,7 @@ RUN apk add --no-cache tzdata && \
 
 ENV RAILS_SERVE_STATIC_FILES=true \
     RAILS_ENV=production \
-    PORT=8080 \
+    PORT=8082 \
     TZ=Europe/London
 
 RUN addgroup -S tariff && \
