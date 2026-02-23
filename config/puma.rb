@@ -29,17 +29,14 @@ workers Integer(ENV['WEB_CONCURRENCY'] || 1)
 threads_count = ENV.fetch('MAX_THREADS', 3)
 threads threads_count, threads_count
 
-# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch('PORT', 3000)
 environment ENV['RACK_ENV'] || 'development'
 
+# Explicit HTTP bind,  default is 3000.
+bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3000)}"
+
+# Explicit HTTPS bind
 cert = ENV['SSL_CERT_PEM']&.gsub("\\n", "\n")
 key  = ENV['SSL_KEY_PEM']&.gsub("\\n", "\n")
-
-puts "SSL_CERT present? #{ENV['SSL_CERT_PEM'].present?}"
-puts "SSL_KEY present? #{ENV['SSL_KEY_PEM'].present?}"
-puts "SSL_PORT: #{ENV['SSL_PORT']}"
-
 if cert.present? && key.present?
   ssl_bind '0.0.0.0', ENV.fetch('SSL_PORT', 8443),
            cert_pem: cert,
