@@ -37,7 +37,12 @@ bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3000)}"
 # Explicit HTTPS bind
 cert = ENV['SSL_CERT_PEM']&.gsub("\\n", "\n")
 key  = ENV['SSL_KEY_PEM']&.gsub("\\n", "\n")
+
 if cert.present? && key.present?
+  puts "SSL_CERT present? #{cert.present?}"
+  puts "SSL_KEY present? #{key.present?}"
+  puts "SSL_PORT: #{ENV['SSL_PORT']}"
+
   ssl_bind '0.0.0.0', ENV.fetch('SSL_PORT', 8443),
            cert_pem: cert,
            key_pem: key
