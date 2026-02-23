@@ -32,17 +32,13 @@ threads threads_count, threads_count
 environment ENV['RACK_ENV'] || 'development'
 
 # Explicit HTTP bind,  default is 3000.
-bind "tcp://0.0.0.0:8080"
+bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 8080)}"
 
 # Explicit HTTPS bind
 cert = ENV['SSL_CERT_PEM']&.gsub("\\n", "\n")
 key  = ENV['SSL_KEY_PEM']&.gsub("\\n", "\n")
 
-if cert.present? && key.present?
-  puts "SSL_CERT present? #{cert.present?}"
-  puts "SSL_KEY present? #{key.present?}"
-  puts "SSL_PORT: #{ENV['SSL_PORT']}"
-
+if cert.to_s != "" && key.to_s != ""
   ssl_bind '0.0.0.0', ENV.fetch('SSL_PORT', 8443),
            cert_pem: cert,
            key_pem: key
