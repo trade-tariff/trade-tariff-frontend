@@ -1,32 +1,38 @@
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l">Total commodities uploaded: <%= number_with_delimiter(commodity_codes.total) %></h2>
+  <div class="govuk-grid-column-one-half ">
+    <h2 class="govuk-heading-l myott-mycommodities__counts-heading">Your commodities</h2>
+  </div>
+  <div class="govuk-grid-column-one-half download-commodities-top govuk-!-text-align-right">
+    <%= render 'download_commodities' %>
   </div>
 </div>
-<div class="govuk-grid-row ">
+<div class="govuk-grid-row govuk-!-font-weight-bold">
   <div class="govuk-grid-column-one-third">
     <div class="category_container">
-      <strong>Errors from upload:</strong>
+      Errors from upload:
       <br />
-      <%= link_to number_with_delimiter(commodity_codes.invalid), invalid_myott_mycommodities_path %>
+      <%= link_to number_with_delimiter(commodity_codes.invalid), invalid_myott_mycommodities_path, class:"govuk-link--no-visited-state" %>
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
     <div class="category_container">
-      <strong>Expired commodity codes:</strong>
+      Expired commodity codes:
       <br />
-      <%= link_to number_with_delimiter(commodity_codes.expired), expired_myott_mycommodities_path %>
+      <%= link_to number_with_delimiter(commodity_codes.expired), expired_myott_mycommodities_path, class:"govuk-link--no-visited-state" %>
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
     <div class='category_container'>
-      <strong>Active commodities:</strong>
+      Active commodities:
       <br />
       <% if commodity_codes.active.zero? %>
         0
       <% else %>
-        <%= link_to number_with_delimiter(commodity_codes.active), active_myott_mycommodities_path %>
+        <%= link_to number_with_delimiter(commodity_codes.active), active_myott_mycommodities_path, class:"govuk-link--no-visited-state" %>
       <% end %>
     </div>
+  </div>
+  <div class="govuk-grid-column-one-half download-commodities-bottom">
+    <%= render 'download_commodities' %>
   </div>
 </div>
