@@ -27,7 +27,7 @@ module DeclarableHelper
       tradeType: 'import',
       destinationCountry: 'GB',
       importDeclarations: 'yes',
-      importOrigin: nil,
+      importOrigin: '',
       importDateDay: search.day.presence || today.day,
       importDateMonth: search.month.presence || today.month,
       importDateYear: search.year.presence || today.year,
