@@ -21,7 +21,7 @@
         <div class="govuk-grid-column-full">
           <h2 class="govuk-heading-l govuk-!-margin-top-3">Changes to your commodities and measures</h2>
           <h3 class="govuk-heading-m">Changes published: <%= as_of.to_fs %></h3>
-          <%= render 'download' if @commodity_changes.any? || @grouped_measure_changes.any? %>
+          <%= render 'download_changes' if @commodity_changes.any? || @grouped_measure_changes.any? %>
           <%= render 'commodity_changes', changes: @commodity_changes %>
           <%= render 'grouped_measure_changes', changes: @grouped_measure_changes %>
 

@@ -9,4 +9,19 @@
     padding: govuk-spacing(3);
     background-color: #d2e2f1;
   }
+
+  .download_link {
+    display: flex;
+    gap: 4px;
+  }
+
+  .download_icon {
+    color: govuk-colour(black);
+  }
+
+  .govuk-link--inverse {
+    .download_icon {
+      color: govuk-colour(white);
+    }
+  }
 }

@@ -1,0 +1,10 @@
+<div class="govuk-!-margin-bottom-6">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-!-font-weight-bold">
+      <%= link_to download_myott_mycommodities_path(as_of: as_of.to_fs(:dashed)), class: "download-link govuk-link--inverse" do %>
+        <%= inline_svg_tag("download_icon.svg", class: "download_icon", aria: { hidden: true }) %>
+        <span>Download all your commodities as spreadsheet</span>
+      <% end %>
+    </div>
+  </div>
+</div>
