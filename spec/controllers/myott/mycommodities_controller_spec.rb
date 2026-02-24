@@ -200,7 +200,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
     end
   end
 
-  describe 'GET #download' do
+  describe 'GET #download_changes' do
     let(:file_data) do
       {
         body: 'file content',
@@ -210,7 +210,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
     end
     let(:user_id_token) { 'test-token' }
 
-    it_behaves_like 'a protected myott page', :download
+    it_behaves_like 'a protected myott page', :download_changes
 
     context 'when current_user is valid' do
       before do
@@ -218,7 +218,7 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
         stub_get_subscription('my_commodities', subscription)
         allow(controller).to receive(:user_id_token).and_return(user_id_token)
         allow(TariffChanges::TariffChange).to receive(:download_file).and_return(file_data)
-        get :download
+        get :download_changes
       end
 
       it { is_expected.to respond_with(:success) }
@@ -252,7 +252,63 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
       before do
         stub_authenticated_user(user)
         stub_get_subscription('my_commodities', nil)
-        get :download
+        get :download_changes
+      end
+
+      it { is_expected.to redirect_to(new_myott_mycommodity_path) }
+    end
+  end
+
+  describe 'GET #download_commodities' do
+    let(:file_data) do
+      {
+        body: 'file content',
+        filename: 'my_commodity_watch_list.xlsx',
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      }
+    end
+    let(:user_id_token) { 'test-token' }
+
+    it_behaves_like 'a protected myott page', :download_commodities
+
+    context 'when current_user is valid' do
+      before do
+        stub_authenticated_user(user)
+        stub_get_subscription('my_commodities', subscription)
+        allow(controller).to receive(:user_id_token).and_return(user_id_token)
+        allow(SubscriptionTarget).to receive(:download_file).and_return(file_data)
+        get :download_commodities
+      end
+
+      it { is_expected.to respond_with(:success) }
+
+      it 'sets Content-Disposition header', :aggregate_failures do
+        expect(response.headers['Content-Disposition']).to include('attachment')
+        expect(response.headers['Content-Disposition']).to include('my_commodity_watch_list.xlsx')
+      end
+
+      it 'sets Content-Type header' do
+        expect(response.headers['Content-Type']).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      end
+
+      it 'sets Cache-Control header' do
+        expect(response.headers['Cache-Control']).to eq('no-cache')
+      end
+
+      it 'calls SubscriptionTarget.download_file with correct params' do
+        expect(SubscriptionTarget).to have_received(:download_file).with(subscription.resource_id, user_id_token)
+      end
+
+      it 'returns file body' do
+        expect(response.body).to eq(file_data[:body])
+      end
+    end
+
+    context 'when user does not have a my commodities subscription' do
+      before do
+        stub_authenticated_user(user)
+        stub_get_subscription('my_commodities', nil)
+        get :download_commodities
       end
 
       it { is_expected.to redirect_to(new_myott_mycommodity_path) }

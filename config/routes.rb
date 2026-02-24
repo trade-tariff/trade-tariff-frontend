@@ -79,7 +79,8 @@ Rails.application.routes.draw do
         get :expired
         get :invalid
         get :confirmation
-        get :download
+        get :download_changes
+        get :download_commodities
       end
     end
 
