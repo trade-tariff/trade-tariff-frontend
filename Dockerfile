@@ -67,7 +67,7 @@ EXPOSE 8080
 
 HEALTHCHECK CMD nc -z 0.0.0.0 $PORT
 
-#CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+#CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
 #### End production image #####
