@@ -23,6 +23,9 @@ Rails.application.configure do
     'Cache-Control' => "public, max-age=#{1.hour.to_i}",
   }
 
+  # Raise exceptions instead of rendering exception templates.
+  config.action_dispatch.show_exceptions = true
+
   # Show full error reports and disable caching.
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = false
