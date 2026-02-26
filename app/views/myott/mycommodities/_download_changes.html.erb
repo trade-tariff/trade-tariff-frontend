@@ -1,7 +1,7 @@
 <div class="govuk-!-margin-bottom-6">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full govuk-!-font-weight-bold">
-      <%= link_to download_myott_mycommodities_path(as_of: as_of.to_fs(:dashed)), class: "download_link govuk-link--no-visited-state" do %>
+      <%= link_to download_changes_myott_mycommodities_path(as_of: as_of.to_fs(:dashed)), class: "download_link govuk-link--no-visited-state" do %>
         <%= inline_svg_tag("download_icon.svg", class: "download_icon", aria: { hidden: true }) %>
         <span>Download tariff changes as spreadsheet</span>
       <% end %>

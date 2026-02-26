@@ -174,7 +174,7 @@ RSpec.describe 'Myott my commodities subscription', type: :feature do
       end
 
       it 'has a link to download tariff changes as a spreadsheet' do
-        expect(page).to have_link('Download tariff changes as spreadsheet', href: %r{/subscriptions/mycommodities/download\?as_of=#{as_of}})
+        expect(page).to have_link('Download tariff changes as spreadsheet', href: %r{/subscriptions/mycommodities/download_changes\?as_of=#{as_of}})
       end
 
       it 'no commodity changes are shown' do

@@ -47,8 +47,20 @@ module Myott
       @new_subscriber = params[:new_subscriber] == 'true'
     end
 
-    def download
+    def download_changes
       file_data = TariffChanges::TariffChange.download_file(user_id_token, { as_of: as_of.to_fs(:dashed) })
+
+      send_data(
+        file_data[:body],
+        filename: file_data[:filename],
+        type: file_data[:type],
+        disposition: 'attachment',
+      )
+      response.headers['Cache-Control'] = 'no-cache'
+    end
+
+    def download_commodities
+      file_data = SubscriptionTarget.download_file(subscription.resource_id, user_id_token)
 
       send_data(
         file_data[:body],

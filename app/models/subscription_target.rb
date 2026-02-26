@@ -15,4 +15,21 @@ class SubscriptionTarget
   rescue Faraday::UnauthorizedError
     nil
   end
+
+  def self.download_file(id, token)
+    return nil if token.nil? && !Rails.env.development?
+
+    path = "/uk/user/subscriptions/#{id}/targets/download"
+    get(path, headers(token))
+
+    response = api.get(path, {}, headers(token))
+
+    {
+      body: response.body,
+      filename: response.headers['content-disposition'][/filename="?([^"]*)"?/, 1],
+      type: response.headers['content-type'],
+    }
+  rescue Faraday::UnauthorizedError
+    nil
+  end
 end
