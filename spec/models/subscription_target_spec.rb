@@ -25,7 +25,6 @@ RSpec.describe SubscriptionTarget, type: :model do
       it 'calls endpoints with auth headers', :aggregate_failures do
         described_class.download_file(subscription_id, token)
 
-        expect(described_class).to have_received(:get).with(path, described_class.headers(token))
         expect(api_client).to have_received(:get).with(path, {}, described_class.headers(token))
       end
 

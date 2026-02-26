@@ -20,8 +20,6 @@ class SubscriptionTarget
     return nil if token.nil? && !Rails.env.development?
 
     path = "/uk/user/subscriptions/#{id}/targets/download"
-    get(path, headers(token))
-
     response = api.get(path, {}, headers(token))
 
     {
