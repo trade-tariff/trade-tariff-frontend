@@ -34,7 +34,7 @@ RSpec.describe Myott::PreferencesController, type: :controller do
         post :create, params: { preference: 'selectChapters' }
       end
 
-      it { is_expected.to redirect_to 'http://localhost:3005/myott' }
+      it { is_expected.to redirect_to myott_start_path }
     end
 
     context 'when current_user is valid' do

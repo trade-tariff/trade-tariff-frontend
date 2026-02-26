@@ -5,6 +5,6 @@ RSpec.shared_examples 'a protected myott page' do |action|
       get action
     end
 
-    it { is_expected.to redirect_to 'http://localhost:3005/myott' }
+    it { is_expected.to redirect_to myott_start_path }
   end
 end
