@@ -24,7 +24,7 @@ module "service" {
   task_role_policy_arns = [aws_iam_policy.task.arn]
   enable_ecs_exec       = true
 
-  service_environment_config = local.secret_env_vars
+  service_environment_config = local.frontend_service_env_vars
 
   has_autoscaler = local.has_autoscaler
   min_capacity   = var.min_capacity

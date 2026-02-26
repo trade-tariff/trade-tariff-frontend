@@ -7,7 +7,7 @@ FROM ruby:${RUBY_VERSION}-alpine${ALPINE_VERSION} AS builder
 
 WORKDIR /build
 
-RUN apk add --no-cache build-base git yarn tzdata yaml-dev && \
+RUN apk add --no-cache build-base git yarn tzdata yaml-dev openssl-dev && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone
 
@@ -42,7 +42,8 @@ RUN rm -rf node_modules log tmp /usr/local/bundle/cache /yarn/cache .env && \
 
 FROM ruby:${RUBY_VERSION}-alpine${ALPINE_VERSION} AS production
 
-RUN apk add --no-cache tzdata && \
+RUN apk add --no-cache \
+    tzdata && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone
 
@@ -65,6 +66,7 @@ EXPOSE 8080
 
 HEALTHCHECK CMD nc -z 0.0.0.0 $PORT
 
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+#CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
 #### End production image #####
