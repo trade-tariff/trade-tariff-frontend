@@ -12,6 +12,29 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
       get :start
       expect(controller).not_to have_received(:authenticate)
     end
+
+    context 'when a user is authenticated' do
+      before do
+        stub_authenticated_user(user)
+        get :start
+      end
+
+      it 'assigns @continue_url to myott_path' do
+        expect(assigns(:continue_url)).to eq(myott_path)
+      end
+    end
+
+    context 'when a user is not authenticated' do
+      before do
+        stub_unauthenticated_user
+        get :start
+      end
+
+      it 'assigns @continue_url to the identity base url' do
+        expected_url = URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s
+        expect(assigns(:continue_url)).to eq(expected_url)
+      end
+    end
   end
 
   describe 'GET #invalid' do
