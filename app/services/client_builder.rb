@@ -31,12 +31,14 @@ class ClientBuilder
       Faraday.new(host) do |conn|
         conn.request :url_encoded
         conn.request :retry, RETRY_DEFAULTS.merge(Rails.configuration.x.http.retry_options)
-        # conn.use :http_cache, store: @cache, logger: Rails.logger if @cache
+        conn.use :http_cache, store: @cache, logger: Rails.logger if @cache
         conn.response :raise_error
         conn.adapter :net_http_persistent
         conn.response :json, content_type: /\bjson$/
         conn.headers['User-Agent'] = user_agent
-        # conn.headers['Accept'] = ACCEPT
+        conn.headers['Accept'] = ACCEPT
+        conn.options.timeout = 10
+        conn.options.open_timeout = 5
       end
     end
   end
