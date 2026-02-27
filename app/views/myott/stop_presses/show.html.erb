@@ -20,11 +20,11 @@
 
     <%= render 'details_selected_sections_chapters', selected_sections_chapters: @selected_sections_chapters %>
 
-    <p class="govuk-body"><a href=<%= edit_myott_stop_press_preferences_path %>>Edit your chapter preferences</a></p>
+    <p class="govuk-body"><%= link_to 'Edit your chapter preferences', edit_myott_stop_press_preferences_path, class: 'govuk-link--no-visited-state' %></p>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
     <h2 class="govuk-heading-m">Unsubscribe</h2>
-    <p class="govuk-body"><a href=<%= myott_unsubscribe_path(@current_subscription.resource_id) %>>Unsubscribe from all updates</a></p>
+    <p class="govuk-body"><%= link_to 'Unsubscribe from all updates', myott_unsubscribe_path(@current_subscription.resource_id) %></p>
   </div>
 </div>

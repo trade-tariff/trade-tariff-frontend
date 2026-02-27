@@ -15,11 +15,11 @@
         <% if @my_commodities.present? %>
           <p class="govuk-body govuk-!-static-margin-bottom-0"><strong>Changes published yesterday: <%= number_with_delimiter(@my_commodities[:meta][:published][:yesterday]) %></strong></p>
           <p class="govuk-body">Total commodities selected: <%= number_with_delimiter(@my_commodities[:meta][:counts][:total]) %></p>
-          <%= link_to 'View commodity watch list', myott_mycommodities_path %>
+          <%= link_to 'View commodity watch list', myott_mycommodities_path, class: 'govuk-link--no-visited-state' %>
         <% else %>
           <p class="govuk-body govuk-!-static-margin-bottom-0"><strong>No commodities selected</strong></p>
           <p class="govuk-body">You will receive updates on specific commodities</p>
-          <%= link_to 'Create a commodity watch list',  new_myott_mycommodity_path %>
+          <%= link_to 'Create a commodity watch list',  new_myott_mycommodity_path, class: 'govuk-link--no-visited-state' %>
         <% end %>
       </div>
     </div>
@@ -30,11 +30,11 @@
         <% if @stop_press.present? %>
           <p class="govuk-body govuk-!-static-margin-bottom-0"><strong>Updates published yesterday: <%= @stop_press[:meta][:published][:yesterday] %></strong></p>
           <p class="govuk-body">Total chapters selected: <%= @stop_press[:meta][:chapters] %></p>
-          <%= link_to 'View Stop Press watch list', myott_stop_press_path %>
+          <%= link_to 'View Stop Press watch list', myott_stop_press_path, class: 'govuk-link--no-visited-state' %>
         <% else %>
           <p class="govuk-body govuk-!-static-margin-bottom-0"><strong>No chapters selected</strong></p>
           <p class="govuk-body">You will receive updates on specific chapters</p>
-          <%= link_to 'Create a Stop Press watch list', myott_stop_press_path %>
+          <%= link_to 'Create a Stop Press watch list', myott_stop_press_path, class: 'govuk-link--no-visited-state' %>
         <% end %>
       </div>
     </div>

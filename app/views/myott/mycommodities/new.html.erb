@@ -47,9 +47,9 @@
         <div class="govuk-button-group">
           <%= f.submit "Continue", class: "govuk-button govuk-!-margin-top-4" %>
           <% if current_subscription('my_commodities') %>
-            <%= link_to('Cancel', myott_mycommodities_path, class: 'govuk-link govuk-!-margin-left-4') %>
+            <%= link_to 'Cancel', myott_mycommodities_path, class: 'govuk-link govuk-!-margin-left-4 govuk-link--no-visited-state' %>
           <% else %>
-            <%= link_to('Cancel', myott_path, class: 'govuk-link govuk-!-margin-left-4') %>
+            <%= link_to 'Cancel', myott_path, class: 'govuk-link govuk-!-margin-left-4 govuk-link--no-visited-state' %>
           <% end %>
         </div>
       <% end %>
