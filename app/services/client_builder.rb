@@ -37,6 +37,8 @@ class ClientBuilder
         conn.response :json, content_type: /\bjson$/
         conn.headers['User-Agent'] = user_agent
         conn.headers['Accept'] = ACCEPT
+        conn.options.timeout = 10
+        conn.options.open_timeout = 5
       end
     end
   end
