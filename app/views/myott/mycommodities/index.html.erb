@@ -12,11 +12,11 @@
 
 <div class="govuk-body myott-mycommodities">
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full watch-list-container">
+    <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-xl">Your commodity watch list</h1>
-      <%= render 'counts',  commodity_codes: @commodity_code_counts %>
-    </div>
-
+      <div class="watch-list-container">
+        <%= render 'counts',  commodity_codes: @commodity_code_counts %>
+      </div>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <h2 class="govuk-heading-l govuk-!-margin-top-3">Changes to your commodities and measures</h2>
@@ -38,5 +38,6 @@
           </div>
         </div>
       </div>
+    </div>
   </div>
 </div>

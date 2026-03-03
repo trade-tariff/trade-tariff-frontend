@@ -21,7 +21,7 @@
         <p>Before uploading, make sure the file meets the following criteria:</p>
         <ul class="govuk-list govuk-list--bullet">
           <li>Spreadsheet in a CSV or XLSX format</li>
-          <li>10 digit Commodity codes listed in column A, with no data in any other columns</li>
+          <li>10 digit Commodity codes listed in column A</li>
           <li>No headings or additional information, like commodity name</li>
         </ul>
         <p>There is no limit on how many commodity codes can be added to your watch list.</p>
@@ -47,9 +47,9 @@
         <div class="govuk-button-group">
           <%= f.submit "Continue", class: "govuk-button govuk-!-margin-top-4" %>
           <% if current_subscription('my_commodities') %>
-            <%= link_to('Cancel', myott_mycommodities_path, class: 'govuk-link govuk-!-margin-left-4') %>
+            <%= link_to 'Cancel', myott_mycommodities_path, class: 'govuk-link govuk-!-margin-left-4 govuk-link--no-visited-state' %>
           <% else %>
-            <%= link_to('Cancel', myott_path, class: 'govuk-link govuk-!-margin-left-4') %>
+            <%= link_to 'Cancel', myott_path, class: 'govuk-link govuk-!-margin-left-4 govuk-link--no-visited-state' %>
           <% end %>
         </div>
       <% end %>

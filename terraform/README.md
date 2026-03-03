@@ -19,7 +19,7 @@ Terraform to deploy the service into AWS.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | aws/ecs-service-v1.18.2 |
+| <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | aws/ecs-service-v1.19.2 |
 
 ## Resources
 
@@ -44,6 +44,7 @@ Terraform to deploy the service into AWS.
 | <a name="input_container_port"></a> [container\_port](#input\_container\_port) | Listening port. | `number` | `8080` | no |
 | <a name="input_cpu"></a> [cpu](#input\_cpu) | CPU units to use. | `number` | n/a | yes |
 | <a name="input_docker_tag"></a> [docker\_tag](#input\_docker\_tag) | Image tag to use. | `string` | n/a | yes |
+| <a name="input_enable_service_count_alarm"></a> [enable\_service\_count\_alarm](#input\_enable\_service\_count\_alarm) | Whether to create a CloudWatch alarm for the service that alarms when there are no running tasks for the service. Defaults to `true`. | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Deployment environment. | `string` | n/a | yes |
 | <a name="input_max_capacity"></a> [max\_capacity](#input\_max\_capacity) | Largest number of tasks the service can scale-out to. | `number` | `5` | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | Memory to allocate in MB. Powers of 2 only. | `number` | n/a | yes |

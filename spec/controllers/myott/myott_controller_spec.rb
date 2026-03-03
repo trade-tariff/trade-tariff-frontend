@@ -89,13 +89,7 @@ RSpec.describe Myott::MyottController, type: :controller do
   end
 
   describe '#authenticate' do
-    let(:request_fullpath) { '/myott/commodities/123' }
-    let(:identity_base_url) { 'https://auth.example.com' }
-    let(:expected_redirect_url) { 'https://auth.example.com/myott' }
-
     before do
-      allow(controller).to receive(:request).and_return(instance_double(ActionDispatch::Request, fullpath: request_fullpath))
-      allow(TradeTariffFrontend).to receive(:identity_base_url).and_return(identity_base_url)
       allow(controller).to receive(:redirect_to)
     end
 
@@ -104,16 +98,10 @@ RSpec.describe Myott::MyottController, type: :controller do
         allow(controller).to receive(:current_user).and_return(nil)
       end
 
-      it 'stores the current URL in session' do
+      it 'redirects to the start page' do
         controller.send(:authenticate)
 
-        expect(controller.session[:myott_return_url]).to eq(request_fullpath)
-      end
-
-      it 'redirects to identity service' do
-        controller.send(:authenticate)
-
-        expect(controller).to have_received(:redirect_to).with(expected_redirect_url, allow_other_host: true)
+        expect(controller).to have_received(:redirect_to).with(myott_start_path)
       end
     end
 
