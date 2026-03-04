@@ -1,15 +1,17 @@
 export default class Utility {
+  static navigate(url) {
+    window.location.href = url;
+  }
+
   static countrySelectorOnConfirm(confirmed, selectElement) {
     const commodityCode = document.querySelector('.commodity-header').dataset.commCode;
 
     if (confirmed === 'All countries') {
       const selectedTab = window.location.hash.substring(1);
       if (window.location.pathname.split('/')[1] === 'xi') {
-        const url = `/xi/commodities/${commodityCode}#${selectedTab}`;
-        window.location.href = url;
+        Utility.navigate(`/xi/commodities/${commodityCode}#${selectedTab}`);
       } else {
-        const url = `/commodities/${commodityCode}#${selectedTab}`;
-        window.location.href = url;
+        Utility.navigate(`/commodities/${commodityCode}#${selectedTab}`);
       }
     } else {
       const code = /\((\w\w)\)/.test(confirmed) ? /\((\w\w)\)/.exec(confirmed)[1] : null;

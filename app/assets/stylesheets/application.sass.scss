@@ -4,8 +4,6 @@ $govuk-fonts-path: '/govuk-frontend/dist/govuk/assets/fonts/';
 $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 
 @import 'govuk-frontend/dist/govuk/index';
-@import 'select2/dist/css/select2.min';
-@import 'datepicker/src/calendar/supercalendar';
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
 
 @import 'src/vendor/govuk_publishing_components/contents-list';

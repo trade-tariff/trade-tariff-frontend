@@ -34,11 +34,6 @@ module TradeTariffFrontend
     { url: ENV['REDIS_URL'], db: 0, id: nil }
   end
 
-  # Number of suggestions returned to select2
-  def suggestions_count
-    10
-  end
-
   # Email of the user who receives all info/error notifications, feedback
   def from_email
     ENV['TARIFF_FROM_EMAIL']
