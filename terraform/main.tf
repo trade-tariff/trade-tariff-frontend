@@ -1,5 +1,5 @@
 module "service" {
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.18.2"
+  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v1.19.2"
 
   region = var.region
 
@@ -40,6 +40,8 @@ module "service" {
       target_value = 70
     }
   }
+
+  enable_service_count_alarm = var.enable_service_count_alarm
 
   sns_topic_arns = [data.aws_sns_topic.slack_topic.arn]
 }
