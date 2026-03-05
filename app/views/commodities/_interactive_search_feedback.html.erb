@@ -1,4 +1,4 @@
-<% if params[:request_id].present? %>
+<% if TradeTariffFrontend.interactive_search_enabled? && params[:request_id].present? %>
   <div class="app-feedback-banner">
     <h2 class="govuk-heading-m govuk-!-margin-bottom-0 app-feedback-banner__heading">Give feedback about this service</h2>
     <%= link_to "Share your feedback",

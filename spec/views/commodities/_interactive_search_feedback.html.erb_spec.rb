@@ -4,6 +4,7 @@ RSpec.describe 'commodities/_interactive_search_feedback', type: :view do
   context 'when request_id is present' do
     before do
       controller.params[:request_id] = 'test-uuid-123'
+      allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
     end
 
     it { is_expected.to have_css('.app-feedback-banner') }
@@ -26,6 +27,15 @@ RSpec.describe 'commodities/_interactive_search_feedback', type: :view do
   context 'when request_id is absent' do
     before do
       controller.params[:request_id] = nil
+    end
+
+    it { is_expected.not_to have_css('.app-feedback-banner') }
+  end
+
+  context 'when interactive search is disabled' do
+    before do
+      controller.params[:request_id] = 'test-uuid-123'
+      allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(false)
     end
 
     it { is_expected.not_to have_css('.app-feedback-banner') }
