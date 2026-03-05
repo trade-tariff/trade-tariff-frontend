@@ -48,7 +48,7 @@
               <%= result.self_text.presence || result.full_description.presence || result.heading_description %>
             </h3>
             <p class="govuk-body-s govuk-!-margin-bottom-2 govuk-!-text-colour-secondary">
-              <%= result.heading_description %>
+              <%= result.self_text.presence || result.full_description.presence || result.heading_description %>
             </p>
             <%= link_to "View this commodity code (opens in new tab)",
                 commodity_path(result.goods_nomenclature_item_id, request_id: @search.request_id),
