@@ -62,8 +62,8 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
     it { is_expected.to have_css('h2', text: 'Top search results') }
   end
 
-  describe 'result description fallback' do
-    context 'when self_text is present' do
+  describe 'result descriptions' do
+    context 'when self_text and full_description are present' do
       let(:results) do
         Search::InternalSearchResult.new(
           [
@@ -85,14 +85,11 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
         )
       end
 
-      it { is_expected.to have_css('h3', text: 'Citrus fruit jam, sugar content below 70%') }
-    end
-
-    context 'when self_text is absent' do
       it { is_expected.to have_css('h3', text: 'Citrus fruit jam with less than 70% sugar') }
+      it { is_expected.to have_css('p.govuk-body-s', text: 'Citrus fruit jam, sugar content below 70%') }
     end
 
-    context 'when self_text and full_description are both absent' do
+    context 'when full_description is absent' do
       let(:results) do
         Search::InternalSearchResult.new(
           [
