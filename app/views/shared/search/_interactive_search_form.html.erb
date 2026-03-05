@@ -1,4 +1,4 @@
-<%= form_tag perform_search_path, method: :get, id: "new_search" do |f| %>
+<%= form_tag perform_search_path, method: :get, id: "new_search" do %>
 
 <% if @search.errors.any? %>
 <div class="govuk-error-summary" data-module="govuk-error-summary">
@@ -24,53 +24,107 @@
 <div data-controller="interactive-search-radio"
      data-interactive-search-radio-v2-suggestions-path-value="<%= search_suggestions_path(format: :json) %>"
      data-interactive-search-radio-interactive-suggestions-path-value="<%= interactive_search_suggestions_path(format: :json) %>">
-  <div class="govuk-radios govuk-radios--small govuk-!-margin-bottom-4">
-    <div class="govuk-radios__item">
-      <input class="govuk-radios__input" id="search_type_keyword" type="radio"
-             name="search_type" value="keyword"
-             data-interactive-search-radio-target="toggle"
-             data-action="interactive-search-radio#toggle">
-      <label class="govuk-label govuk-radios__label" for="search_type_keyword">
-        Keyword or commodity code search
-      </label>
+
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+      <h2 class="govuk-fieldset__heading">What type of search are you doing?</h2>
+    </legend>
+
+    <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="search_type_guided" type="radio"
+               name="search_type" value="guided"
+               data-aria-controls="conditional-guided"
+               data-interactive-search-radio-target="toggle"
+               data-action="interactive-search-radio#toggle">
+        <label class="govuk-label govuk-radios__label" for="search_type_guided">
+          Guided search
+        </label>
+      </div>
+
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-guided">
+        <details class="govuk-details govuk-!-margin-bottom-4">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">Tips for using guided search</span>
+          </summary>
+          <div class="govuk-details__text">
+            <p>Guided search asks you questions about your product to narrow down the commodity code.</p>
+            <p>Answer each question as specifically as you can. If you are unsure, select "I don't know" and the system will show you the best results based on what you have provided.</p>
+          </div>
+        </details>
+
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="guided_q">
+            Describe the products you are trading
+          </label>
+          <div class="govuk-hint" id="guided-q-hint">
+            For example, 55" 4K Ultra HD OLED Smart TV
+          </div>
+          <textarea class="govuk-textarea" id="guided_q" name="q" rows="5"
+                    aria-describedby="guided-q-hint"
+                    data-interactive-search-radio-target="guidedInput"></textarea>
+        </div>
+      </div>
+
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="search_type_keyword" type="radio"
+               name="search_type" value="keyword"
+               data-aria-controls="conditional-keyword"
+               data-interactive-search-radio-target="toggle"
+               data-action="interactive-search-radio#toggle">
+        <label class="govuk-label govuk-radios__label" for="search_type_keyword">
+          Keyword or commodity code search
+        </label>
+      </div>
+
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-keyword">
+        <details class="govuk-details govuk-!-margin-bottom-4">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">Tips for using keyword or commodity code search</span>
+          </summary>
+          <div class="govuk-details__text">
+            <p>To find a commodity code, you must specify what the item is. If the item is a gift, you must still specify the product.</p>
+            <p>Do not use brand names. It is best to use general terms like trainers or sports footwear instead of 'Nike trainers'.</p>
+            <p>Expect technical language. Commodity code descriptions can be quite formal. For example, a laptop might be described as a "Portable automatic data-processing machines, weighing not more than 10 kg, consisting of at least a central processing unit, a keyboard and a display."</p>
+            <p>Use plain English and avoid using foreign words or special characters. The search is also unable to pick up on any spelling mistakes.</p>
+            <p>Make sure you're using the correct country's classification. Commodity codes can vary between countries. Make sure you're using the right code for the country you're importing to or from.</p>
+            <p>If you are struggling to understand the duty you may need to pay then this guidance may help you: <%= link_to "Tax and customs for goods sent from abroad: Tax and duty - GOV.UK", "https://www.gov.uk/goods-sent-from-abroad/tax-and-duty" %></p>
+
+            <h3 class="govuk-heading-s">Steps for searching the tariff</h3>
+            <ol class="special-numbered-list govuk-!-margin-bottom-0">
+              <li>Be specific about the product you are looking for. It's often not enough to describe a product as 'clothing' or 'electronics'. You must specify what the product is, for example, 'cotton shirt', 'car tyres', or 'laptop'.</li>
+              <li>For raw materials and manufactured products, it can be useful to search for products by the material or what they are made from. For example, steel, wood, stone or glass.</li>
+              <li>The search tool will suggest a number of sections. Select the section which best describes the product you are importing or exporting.</li>
+              <li>You will be shown the relevant commodities based on your section. Choose the one which most closely matches your product.</li>
+            </ol>
+          </div>
+        </details>
+
+        <div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
+          <label class="govuk-label" for="keyword_q">
+            Enter the name of the products or commodity code
+          </label>
+          <div class="govuk-hint" id="keyword-q-hint">
+            For example, tomatoes or 1234 5678 90
+          </div>
+          <% if @search.errors.any? %>
+            <p class="govuk-error-message" id="q-error">
+              <span class="govuk-visually-hidden">Error:</span> <%= @search.errors.map(&:message).join('. ') %>
+            </p>
+          <% end %>
+          <%= render 'shared/search/autocomplete' %>
+        </div>
+      </div>
     </div>
-    <div class="govuk-radios__item">
-      <input class="govuk-radios__input" id="search_type_guided" type="radio"
-             name="search_type" value="guided"
-             data-interactive-search-radio-target="toggle"
-             data-action="interactive-search-radio#toggle">
-      <label class="govuk-label govuk-radios__label" for="search_type_guided">
-        Guided search
-      </label>
-    </div>
-  </div>
+  </fieldset>
+
   <input type="hidden" name="interactive_search" value="false"
          data-interactive-search-radio-target="hiddenField">
 </div>
 
-<div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
-  <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-  <% if @search.errors.any? %>
-    <p class="govuk-error-message" id="q-error">
-      <span class="govuk-visually-hidden">Error:</span> <%= @search.errors.map(&:message).join('. ') %>
-    </p>
-  <% end %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-three-quarters column-three-quarters-mobile-only">
-      <%= render 'shared/search/autocomplete' %>
-      <%= render 'shared/search/datepicker' if use_date_picker ||= false %>
-    </div>
+<%= render 'shared/search/interactive_datepicker' %>
 
-    <% if @no_shared_search %>
-    <div class="govuk-grid-column-three-quarters">
-      <%= submit_tag 'Search for a commodity', class: 'govuk-button govuk-!-margin-top-6'  %>
-      <hr>
-    </div>
-    <% else %>
-    <div class="govuk-grid-column-one-quarter column-one-quarter-mobile-only">
-      <%= submit_tag 'Search', class: 'govuk-button search-button' %>
-    </div>
-    <% end %>
-  </div>
+<div class="govuk-!-margin-top-6">
+  <%= submit_tag 'Search for a commodity', class: 'govuk-button' %>
 </div>
 <% end %>

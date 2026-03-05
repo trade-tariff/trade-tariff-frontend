@@ -9,6 +9,7 @@
     <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
       <h2 class="govuk-heading-m">Search for a commodity</h2>
       <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
+      <p>These codes can be very specific, so you need to be very clear about what you're importing or exporting. This will help avoid any delays at customs.</p>
 
       <details class="govuk-details">
         <summary class="govuk-details__summary">
@@ -21,48 +22,23 @@
         </div>
       </details>
 
-      <details class="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">Tips for using keyword or commodity code search</span>
-        </summary>
-        <div class="govuk-details__text">
-          <p>Be specific about the product you are looking for. Use general terms like trainers or sports footwear instead of brand names like 'Nike trainers'.</p>
-          <p>Use plain English and avoid using foreign words or special characters.</p>
-          <p>If you already know the commodity code, you can enter it directly in the search box.</p>
-        </div>
-      </details>
+      <%= render 'shared/search/interactive_search_form' %>
 
-      <details class="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">Tips for using guided search</span>
-        </summary>
-        <div class="govuk-details__text">
-          <p>Guided search asks you questions about your product to narrow down the commodity code.</p>
-          <p>Answer each question as specifically as you can. If you are unsure, select "I don't know" and the system will show you the best results based on what you have provided.</p>
-        </div>
-      </details>
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-      <%= render 'shared/search/interactive_search_form', use_date_picker: true %>
+      <h2 class="govuk-heading-m">Other ways to search for a commodity</h2>
 
-      <h2 class="govuk-heading-m govuk-!-margin-top-6">Other ways to find a commodity code</h2>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-half">
-          <div class="govuk-card">
-            <h3 class="govuk-heading-s">
-              <%= link_to 'Browse the goods classification', browse_sections_path, class: 'govuk-link' %>
-            </h3>
-            <p class="govuk-body-s">Browse through sections and chapters to find your commodity code.</p>
-          </div>
-        </div>
-        <div class="govuk-grid-column-one-half">
-          <div class="govuk-card">
-            <h3 class="govuk-heading-s">
-              <%= link_to 'A-Z of classified goods', a_z_index_path('a'), class: 'govuk-link' %>
-            </h3>
-            <p class="govuk-body-s">Look up your product alphabetically.</p>
-          </div>
-        </div>
-      </div>
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        <%= link_to 'Browse the tariff', browse_sections_path, class: 'govuk-link' %>
+      </h3>
+      <p class="govuk-body-s">Browse the goods classification</p>
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+        <%= link_to 'A-Z of classified goods', a_z_index_path('a'), class: 'govuk-link' %>
+      </h3>
+      <p class="govuk-body-s">Look for your product in the A-Z</p>
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
     </div>
   </div>
