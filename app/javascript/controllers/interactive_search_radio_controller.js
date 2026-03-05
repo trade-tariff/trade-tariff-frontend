@@ -2,48 +2,65 @@ import { Controller } from '@hotwired/stimulus'
 import Cookies from 'js-cookie'
 
 export default class extends Controller {
-  static targets = ['toggle', 'hiddenField']
+  static targets = ['toggle', 'hiddenField', 'guidedInput']
   static values = {
     v2SuggestionsPath: String,
     interactiveSuggestionsPath: String,
   }
 
   connect() {
-    const enabled = Cookies.get('interactive_search') === 'true'
+    const guided = Cookies.get('interactive_search') === 'true'
 
     this.toggleTargets.forEach((radio) => {
-      if (radio.value === 'guided') {
-        radio.checked = enabled
-      } else {
-        radio.checked = !enabled
-      }
+      radio.checked = guided ? radio.value === 'guided' : radio.value === 'keyword'
     })
 
-    this.hiddenFieldTarget.value = enabled.toString()
-    this.#updateSuggestionsPath(enabled)
+    this.hiddenFieldTarget.value = guided.toString()
+    this.#updateSuggestionsPath(guided)
+    this.#syncInputs(guided)
+
+    // Trigger GOV.UK conditional reveal by dispatching a click on the checked radio
+    const checkedRadio = this.toggleTargets.find((r) => r.checked)
+    if (checkedRadio) {
+      checkedRadio.dispatchEvent(new Event('click', { bubbles: true }))
+    }
   }
 
   toggle(event) {
-    const enabled = event.target.value === 'guided'
+    const guided = event.target.value === 'guided'
     const isSecure = location.protocol === 'https:'
 
-    Cookies.set('interactive_search', enabled.toString(), {
+    Cookies.set('interactive_search', guided.toString(), {
       expires: 365,
       secure: isSecure,
       sameSite: 'Strict',
     })
 
-    this.hiddenFieldTarget.value = enabled.toString()
-    this.#updateSuggestionsPath(enabled)
+    this.hiddenFieldTarget.value = guided.toString()
+    this.#updateSuggestionsPath(guided)
+    this.#syncInputs(guided)
   }
 
-  #updateSuggestionsPath(enabled) {
+  #updateSuggestionsPath(guided) {
     const pathInfoEl = document.querySelector('.path_info')
 
     if (pathInfoEl) {
-      pathInfoEl.dataset.searchSuggestionsPath = enabled
+      pathInfoEl.dataset.searchSuggestionsPath = guided
         ? this.interactiveSuggestionsPathValue
         : this.v2SuggestionsPathValue
+    }
+  }
+
+  #syncInputs(guided) {
+    // Disable the inactive input so only one q value submits
+    const autocompleteInput = document.querySelector('#autocomplete input[name="q"], #q')
+
+    if (this.hasGuidedInputTarget) {
+      this.guidedInputTarget.disabled = !guided
+    }
+
+    if (autocompleteInput) {
+      autocompleteInput.disabled = guided
     }
   }
 }
