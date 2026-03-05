@@ -84,7 +84,21 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'sidebar' do
-    it { is_expected.to have_css('h2', text: 'Help and guidance') }
-    it { is_expected.to have_css('.govuk-details__summary-text', text: 'Get support') }
+    it { is_expected.to have_text('Help and guidance') }
+    it { is_expected.to have_link('What are commodity codes?') }
+    it { is_expected.to have_link('Guidance on difficult to classify goods') }
+    it { is_expected.to have_link('Ask for help on classifying your goods') }
+
+    context 'when webchat is enabled' do
+      before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(true) }
+
+      it { is_expected.to have_css('.govuk-details__summary-text', text: 'Get support') }
+    end
+
+    context 'when webchat is disabled' do
+      before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(false) }
+
+      it { is_expected.not_to have_css('.govuk-details__summary-text', text: 'Get support') }
+    end
   end
 end

@@ -29,29 +29,19 @@
 
 <h2 class="govuk-heading-m">Other ways to search for a commodity</h2>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-third">
-    <div class="govuk-card">
-      <h3 class="govuk-heading-s">
-        <%= link_to "Keyword or commodity code search", find_commodity_path, class: "govuk-link" %>
-      </h3>
-      <p class="govuk-body-s">Search by keyword or enter a commodity code directly.</p>
-    </div>
-  </div>
-  <div class="govuk-grid-column-one-third">
-    <div class="govuk-card">
-      <h3 class="govuk-heading-s">
-        <%= link_to "Goods classifications guidance", "https://www.gov.uk/guidance/classifying-goods-in-the-uk-trade-tariff", class: "govuk-link", target: "_blank", rel: "noopener noreferrer" %>
-      </h3>
-      <p class="govuk-body-s">Read guidance on classifying difficult goods.</p>
-    </div>
-  </div>
-  <div class="govuk-grid-column-one-third">
-    <div class="govuk-card">
-      <h3 class="govuk-heading-s">
-        <%= link_to "A-Z product index", a_z_index_path(letter: 'a'), class: "govuk-link" %>
-      </h3>
-      <p class="govuk-body-s">Browse commodities alphabetically.</p>
-    </div>
-  </div>
-</div>
+<h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+  <%= link_to "Keyword or commodity code search", find_commodity_path, class: "govuk-link" %>
+</h3>
+<p class="govuk-body-s">Search by keyword or enter a commodity code directly.</p>
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+  <%= link_to "Goods classifications guidance", "https://www.gov.uk/guidance/classifying-goods-in-the-uk-trade-tariff", class: "govuk-link", target: "_blank", rel: "noopener noreferrer" %>
+</h3>
+<p class="govuk-body-s">Read guidance on classifying difficult goods.</p>
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+  <%= link_to "A-Z product index", a_z_index_path(letter: 'a'), class: "govuk-link" %>
+</h3>
+<p class="govuk-body-s">Browse commodities alphabetically.</p>
