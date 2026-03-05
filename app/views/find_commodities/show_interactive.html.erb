@@ -1,0 +1,74 @@
+<%= page_header 'Look up commodity codes, import duties, taxes and controls' %>
+
+<%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
+
+<%= render 'find_commodities/devolved_nations' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
+      <h2 class="govuk-heading-m">Search for a commodity</h2>
+      <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
+
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">What are keyword, commodity code and guided searches?</span>
+        </summary>
+        <div class="govuk-details__text">
+          <p><strong>Keyword search</strong> lets you type a description of your product and see matching commodity codes.</p>
+          <p><strong>Commodity code search</strong> lets you enter a code directly if you already know it.</p>
+          <p><strong>Guided search</strong> asks you questions about your product to help find the right commodity code.</p>
+        </div>
+      </details>
+
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">Tips for using keyword or commodity code search</span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>Be specific about the product you are looking for. Use general terms like trainers or sports footwear instead of brand names like 'Nike trainers'.</p>
+          <p>Use plain English and avoid using foreign words or special characters.</p>
+          <p>If you already know the commodity code, you can enter it directly in the search box.</p>
+        </div>
+      </details>
+
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">Tips for using guided search</span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>Guided search asks you questions about your product to narrow down the commodity code.</p>
+          <p>Answer each question as specifically as you can. If you are unsure, select "I don't know" and the system will show you the best results based on what you have provided.</p>
+        </div>
+      </details>
+
+      <%= render 'shared/search/interactive_search_form', use_date_picker: true %>
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-6">Other ways to find a commodity code</h2>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half">
+          <div class="govuk-card">
+            <h3 class="govuk-heading-s">
+              <%= link_to 'Browse the goods classification', browse_sections_path, class: 'govuk-link' %>
+            </h3>
+            <p class="govuk-body-s">Browse through sections and chapters to find your commodity code.</p>
+          </div>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <div class="govuk-card">
+            <h3 class="govuk-heading-s">
+              <%= link_to 'A-Z of classified goods', a_z_index_path('a'), class: 'govuk-link' %>
+            </h3>
+            <p class="govuk-body-s">Look up your product alphabetically.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="govuk-grid-column-one-third" id="recent-news">
+    <%= render partial: "/pages/howto_sidebar_links" %>
+    <%= render 'news_items/recent_news', news_items: @recent_stories %>
+  </div>
+</div>

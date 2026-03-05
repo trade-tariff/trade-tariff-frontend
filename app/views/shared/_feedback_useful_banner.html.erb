@@ -1,13 +1,3 @@
-<% unless @feedback %>
-<% if @interactive_search_page %>
-<div class="feedback-useful-banner govuk-width-container">
-  <div class="feedback-useful-container govuk-!-padding-4">
-    <h2 class="govuk-heading-m">Give feedback about this service</h2>
-    <p class="govuk-body">Tell us about your experience using this service to help us improve it.</p>
-    <%= link_to 'Share your feedback', feedback_path, class: 'govuk-button', target: '_blank', rel: 'noopener noreferrer' %>
-  </div>
-</div>
-<% else %>
 <div class="feedback-useful-banner govuk-width-container">
   <div class="feedback-useful-container govuk-!-padding-4">
     <div class="govuk-footer__meta">
@@ -33,5 +23,3 @@
     </div>
   </div>
 </div>
-<% end %>
-<% end %>

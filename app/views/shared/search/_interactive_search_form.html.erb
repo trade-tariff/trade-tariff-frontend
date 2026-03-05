@@ -21,24 +21,32 @@
 <%= hidden_field_tag :day, @search.day %>
 <% end %>
 
-<% if TradeTariffFrontend.interactive_search_enabled? %>
-<div data-controller="interactive-search"
-     data-interactive-search-v2-suggestions-path-value="<%= search_suggestions_path(format: :json) %>"
-     data-interactive-search-interactive-suggestions-path-value="<%= interactive_search_suggestions_path(format: :json) %>">
-  <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-bottom-2">
-    <div class="govuk-checkboxes__item">
-      <input class="govuk-checkboxes__input" id="interactive_search_toggle" type="checkbox"
-             data-interactive-search-target="toggle"
-             data-action="interactive-search#toggle">
-      <label class="govuk-label govuk-checkboxes__label" for="interactive_search_toggle">
-        Use new search
+<div data-controller="interactive-search-radio"
+     data-interactive-search-radio-v2-suggestions-path-value="<%= search_suggestions_path(format: :json) %>"
+     data-interactive-search-radio-interactive-suggestions-path-value="<%= interactive_search_suggestions_path(format: :json) %>">
+  <div class="govuk-radios govuk-radios--small govuk-!-margin-bottom-4">
+    <div class="govuk-radios__item">
+      <input class="govuk-radios__input" id="search_type_keyword" type="radio"
+             name="search_type" value="keyword"
+             data-interactive-search-radio-target="toggle"
+             data-action="interactive-search-radio#toggle">
+      <label class="govuk-label govuk-radios__label" for="search_type_keyword">
+        Keyword or commodity code search
+      </label>
+    </div>
+    <div class="govuk-radios__item">
+      <input class="govuk-radios__input" id="search_type_guided" type="radio"
+             name="search_type" value="guided"
+             data-interactive-search-radio-target="toggle"
+             data-action="interactive-search-radio#toggle">
+      <label class="govuk-label govuk-radios__label" for="search_type_guided">
+        Guided search
       </label>
     </div>
   </div>
   <input type="hidden" name="interactive_search" value="false"
-         data-interactive-search-target="hiddenField">
+         data-interactive-search-radio-target="hiddenField">
 </div>
-<% end %>
 
 <div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
   <%= label_tag :q, search_label_text, class: 'govuk-label' %>
