@@ -1,19 +1,44 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body-l">
-      Based on your answers, here are the most likely commodity classification matches for your goods.
+      The results below are based on the details you supplied with the strongest result first.
+      You can view search details to see your initial search term and following questions and answers.
+      This information might be helpful if you need to contact HMRC for more information.
     </p>
 
-    <% display_results = @results.result_limit.zero? ? @results.all : @results.all.first(@results.result_limit) %>
-    <% confident_count = display_results.count { |r| r.try(:confidence).present? } %>
+    <details class="govuk-details" data-controller="copy-search-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">View search details</span>
+      </summary>
+      <div class="govuk-details__text">
+        <p class="govuk-body-s"><strong>Search term:</strong> <%= @search.q %></p>
+        <% if @results.answered_questions.any? %>
+          <% @results.answered_questions.each do |qa| %>
+            <p class="govuk-body-s govuk-!-margin-bottom-1">
+              <strong><%= qa['question'] %></strong><br>
+              <%= qa['answer'] %>
+            </p>
+          <% end %>
+        <% end %>
+        <button class="govuk-button govuk-button--secondary govuk-!-margin-top-2"
+                data-action="copy-search-details#copy"
+                data-copy-search-details-target="button">
+          Copy search details
+        </button>
+      </div>
+    </details>
 
-    <h2 class="govuk-heading-m">
-      <% if confident_count > 0 %>
-        Based on your answers, we found <%= confident_count %> likely <%= 'match'.pluralize(confident_count) %>
-      <% else %>
-        Based on your answers, here are the top <%= display_results.size %> results
-      <% end %>
-    </h2>
+    <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-visually-hidden">Warning</span>
+        You are responsible for using the correct commodity codes and complying with customs rules.
+      </strong>
+    </div>
+
+    <% display_results = @results.result_limit.zero? ? @results.all : @results.all.first(@results.result_limit) %>
+
+    <h2 class="govuk-heading-m">Top search results</h2>
 
     <div class="interactive-results">
       <% display_results.each do |result| %>
@@ -45,10 +70,10 @@
       <div class="govuk-details__text">
         <p>Our system analyses your search term and answers to find the most relevant commodity codes.</p>
         <ul class="govuk-list govuk-list--bullet">
-          <li><strong>Strong match</strong> - High confidence this is the correct classification</li>
-          <li><strong>Good match</strong> - Likely correct but you may want to verify</li>
-          <li><strong>Possible match</strong> - Worth considering but less certain</li>
-          <li><strong>Unlikely match</strong> - Low confidence, included for completeness</li>
+          <li><strong>Strong result</strong> - High confidence this is the correct classification</li>
+          <li><strong>Good result</strong> - Likely correct but you may want to verify</li>
+          <li><strong>Possible result</strong> - Worth considering but less certain</li>
+          <li><strong>Unlikely result</strong> - Low confidence, included for completeness</li>
         </ul>
       </div>
     </details>
@@ -67,7 +92,7 @@
 
       <details class="govuk-details govuk-!-margin-top-4">
         <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">Contact details</span>
+          <span class="govuk-details__summary-text">Get support</span>
         </summary>
         <div class="govuk-details__text">
           <p class="govuk-body-s">
