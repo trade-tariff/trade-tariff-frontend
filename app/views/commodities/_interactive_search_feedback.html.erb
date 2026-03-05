@@ -1,19 +1,11 @@
 <% if params[:request_id].present? %>
-  <div class="govuk-notification-banner" role="region" aria-labelledby="interactive-search-feedback-title" data-module="govuk-notification-banner">
-    <div class="govuk-notification-banner__header">
-      <h2 class="govuk-notification-banner__title" id="interactive-search-feedback-title">
-        Feedback
-      </h2>
-    </div>
-    <div class="govuk-notification-banner__content">
-      <p class="govuk-body">
-        You arrived at this page using our guided search.
-        <%= link_to "Tell us if this was the right commodity code (opens in new tab)",
-            feedback_path(request_id: params[:request_id]),
-            class: "govuk-notification-banner__link",
-            target: "_blank",
-            rel: "noopener noreferrer" %>
-      </p>
-    </div>
+  <div class="app-feedback-banner">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-0 app-feedback-banner__heading">Give feedback about this service</h2>
+    <%= link_to "Share your feedback",
+        feedback_path(request_id: params[:request_id]),
+        class: "govuk-button app-feedback-banner__button",
+        target: "_blank",
+        rel: "noopener noreferrer",
+        role: "button" %>
   </div>
 <% end %>

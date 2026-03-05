@@ -46,8 +46,9 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
 
   describe 'other ways to search' do
     it { is_expected.to have_css('h2', text: 'Other ways to search for a commodity') }
-    it { is_expected.to have_link('Browse the tariff') }
-    it { is_expected.to have_link('A-Z of classified goods') }
+    it { is_expected.to have_link('Keyword or commodity code') }
+    it { is_expected.to have_link('Goods classifications') }
+    it { is_expected.to have_link('A-Z product index') }
     it { is_expected.to have_text('Browse the goods classification') }
     it { is_expected.to have_text('Look for your product in the A-Z') }
   end

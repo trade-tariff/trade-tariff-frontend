@@ -6,9 +6,9 @@ RSpec.describe 'commodities/_interactive_search_feedback', type: :view do
       controller.params[:request_id] = 'test-uuid-123'
     end
 
-    it { is_expected.to have_css('.govuk-notification-banner') }
-    it { is_expected.to have_text('You arrived at this page using our guided search') }
-    it { is_expected.to have_link('Tell us if this was the right commodity code (opens in new tab)') }
+    it { is_expected.to have_css('.app-feedback-banner') }
+    it { is_expected.to have_css('h2', text: 'Give feedback about this service') }
+    it { is_expected.to have_link('Share your feedback') }
 
     it 'opens feedback link in a new tab' do
       render partial: 'commodities/interactive_search_feedback'
@@ -28,6 +28,6 @@ RSpec.describe 'commodities/_interactive_search_feedback', type: :view do
       controller.params[:request_id] = nil
     end
 
-    it { is_expected.not_to have_css('.govuk-notification-banner') }
+    it { is_expected.not_to have_css('.app-feedback-banner') }
   end
 end

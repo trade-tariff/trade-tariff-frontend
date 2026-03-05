@@ -7,6 +7,10 @@ describe('InteractiveQuestionController', () => {
   beforeEach(() => {
     document.body.innerHTML = `
       <div data-controller="interactive-question">
+        <div data-interactive-question-target="header" id="header">
+          <h1>Search for a commodity</h1>
+          <p>We need to ask you some questions about the products.</p>
+        </div>
         <div data-interactive-question-target="form" id="form">
           <form data-action="submit->interactive-question#submitWithThinking">
             <input type="radio" id="unknown" data-action="change->interactive-question#selectUnknown">
@@ -37,16 +41,19 @@ describe('InteractiveQuestionController', () => {
       jest.useFakeTimers();
     });
 
-    it('hides the form after delay', () => {
+    it('hides the header and form after delay', () => {
+      const header = document.querySelector('#header');
       const form = document.querySelector('#form');
       const radio = document.querySelector('#unknown');
 
       const event = new Event('change', {bubbles: true});
       radio.dispatchEvent(event);
 
+      expect(header.classList.contains('govuk-!-display-none')).toBe(false);
       expect(form.classList.contains('govuk-!-display-none')).toBe(false);
 
       jest.advanceTimersByTime(150);
+      expect(header.classList.contains('govuk-!-display-none')).toBe(true);
       expect(form.classList.contains('govuk-!-display-none')).toBe(true);
     });
 
@@ -69,7 +76,8 @@ describe('InteractiveQuestionController', () => {
       jest.useFakeTimers();
     });
 
-    it('hides the dont know page and shows the form', () => {
+    it('hides the dont know page and shows the header and form', () => {
+      const header = document.querySelector('#header');
       const form = document.querySelector('#form');
       const dontKnow = document.querySelector('#dont-know');
       const radio = document.querySelector('#unknown');
@@ -79,6 +87,7 @@ describe('InteractiveQuestionController', () => {
       radio.dispatchEvent(changeEvent);
       jest.advanceTimersByTime(150);
 
+      expect(header.classList.contains('govuk-!-display-none')).toBe(true);
       expect(form.classList.contains('govuk-!-display-none')).toBe(true);
       expect(dontKnow.classList.contains('govuk-!-display-none')).toBe(false);
 
@@ -86,6 +95,7 @@ describe('InteractiveQuestionController', () => {
       const goBackButton = dontKnow.querySelector('button');
       goBackButton.click();
 
+      expect(header.classList.contains('govuk-!-display-none')).toBe(false);
       expect(form.classList.contains('govuk-!-display-none')).toBe(false);
       expect(dontKnow.classList.contains('govuk-!-display-none')).toBe(true);
     });
