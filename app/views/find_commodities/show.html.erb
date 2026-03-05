@@ -2,51 +2,112 @@
 
 <%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
 
-<%= render 'news_items/hero_spimm'%>
+<% if TradeTariffFrontend.interactive_search_enabled? %>
+  <%= render 'find_commodities/devolved_nations' %>
+<% else %>
+  <%= render 'news_items/hero_spimm' %>
+<% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
       <h2 class="govuk-heading-m">Search for a commodity</h2>
       <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
-      <details class="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">Tips on searching for products</span>
-        </summary>
-        <div class="govuk-details__text">
-          <p>Commodity codes can be very specific, so you need to be very clear about what you're importing or exporting. This will help avoid any delays at customs.</p>
-          <h3 class="govuk-heading-s">Helpful tips</h3>
-          <p>To find a commodity code, you must specify what the item is. If the item is a gift, you must still specify the product.</p>
-          <p>Do not use brand names. It is best to use general terms like  trainers or sports footwear instead of 'Nike trainers'.</p>
-          <p>Expect technical language. Commodity code descriptions can be quite formal. For example, a laptop might be described as a "Portable automatic data-processing machines, weighing not more than 10 kg, consisting of at least a central processing unit, a keyboard and a display."</p>
-          <p>Use plain English and avoid using foreign words or special characters. The search is also unable to pick up on any spelling mistakes.</p>
-          <p>Make sure you're using the correct country's classification. Commodity codes can vary between countries. Make sure you're using the right code for the country you're importing to or from.</p>
-          <p>If you are struggling to understand the duty you may need to pay then this guidance may help you: <%= link_to "Tax and customs for goods sent from abroad: Tax and duty - GOV.UK", "https://www.gov.uk/goods-sent-from-abroad/tax-and-duty" %></p>
 
-          <h3 class="govuk-heading-s">If you're stuck</h3>
-          <p>If you can't find what you're looking for:</p>
-          <ul class="govuk-list--bullet govuk-list">
-            <li><%= link_to "Try searching using the A to Z", a_z_index_path('a') %></li>
-            <li><%= link_to "Browse the goods classification", browse_sections_path %></li>
-          </ul>
+      <% if TradeTariffFrontend.interactive_search_enabled? %>
+        <details class="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">What are keyword, commodity code and guided searches?</span>
+          </summary>
+          <div class="govuk-details__text">
+            <p><strong>Keyword search</strong> lets you type a description of your product and see matching commodity codes.</p>
+            <p><strong>Commodity code search</strong> lets you enter a code directly if you already know it.</p>
+            <p><strong>Guided search</strong> asks you questions about your product to help find the right commodity code.</p>
+          </div>
+        </details>
 
-          <h3 class="govuk-heading-s">Steps for searching the tariff</h3>
-          <ol class="special-numbered-list govuk-!-margin-bottom-0">
-            <li>Be specific about the product you are looking for. It's often not enough to describe a product as 'clothing' or 'electronics'. You must specify what the product is, for example, 'cotton shirt', 'car tyres', or 'laptop'.</li>
-            <li>For raw materials and manufactured products, it can be useful to search for products by the material or what they are made from. For example, steel, wood, stone or glass.</li>
-            <li>The search tool will suggest a number of sections. Select the section which best describes the product you are importing or exporting.</li>
-            <li>You will be shown the relevant commodities based on your section. Choose the one which most closely matches your product.</li>
-          </ol>
-        </div>
-      </details>
+        <details class="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">Tips for using keyword or commodity code search</span>
+          </summary>
+          <div class="govuk-details__text">
+            <p>Be specific about the product you are looking for. Use general terms like trainers or sports footwear instead of brand names like 'Nike trainers'.</p>
+            <p>Use plain English and avoid using foreign words or special characters.</p>
+            <p>If you already know the commodity code, you can enter it directly in the search box.</p>
+          </div>
+        </details>
+
+        <details class="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">Tips for using guided search</span>
+          </summary>
+          <div class="govuk-details__text">
+            <p>Guided search asks you questions about your product to narrow down the commodity code.</p>
+            <p>Answer each question as specifically as you can. If you are unsure, select "I don't know" and the system will show you the best results based on what you have provided.</p>
+          </div>
+        </details>
+      <% else %>
+        <details class="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">Tips on searching for products</span>
+          </summary>
+          <div class="govuk-details__text">
+            <p>Commodity codes can be very specific, so you need to be very clear about what you're importing or exporting. This will help avoid any delays at customs.</p>
+            <h3 class="govuk-heading-s">Helpful tips</h3>
+            <p>To find a commodity code, you must specify what the item is. If the item is a gift, you must still specify the product.</p>
+            <p>Do not use brand names. It is best to use general terms like  trainers or sports footwear instead of 'Nike trainers'.</p>
+            <p>Expect technical language. Commodity code descriptions can be quite formal. For example, a laptop might be described as a "Portable automatic data-processing machines, weighing not more than 10 kg, consisting of at least a central processing unit, a keyboard and a display."</p>
+            <p>Use plain English and avoid using foreign words or special characters. The search is also unable to pick up on any spelling mistakes.</p>
+            <p>Make sure you're using the correct country's classification. Commodity codes can vary between countries. Make sure you're using the right code for the country you're importing to or from.</p>
+            <p>If you are struggling to understand the duty you may need to pay then this guidance may help you: <%= link_to "Tax and customs for goods sent from abroad: Tax and duty - GOV.UK", "https://www.gov.uk/goods-sent-from-abroad/tax-and-duty" %></p>
+
+            <h3 class="govuk-heading-s">If you're stuck</h3>
+            <p>If you can't find what you're looking for:</p>
+            <ul class="govuk-list--bullet govuk-list">
+              <li><%= link_to "Try searching using the A to Z", a_z_index_path('a') %></li>
+              <li><%= link_to "Browse the goods classification", browse_sections_path %></li>
+            </ul>
+
+            <h3 class="govuk-heading-s">Steps for searching the tariff</h3>
+            <ol class="special-numbered-list govuk-!-margin-bottom-0">
+              <li>Be specific about the product you are looking for. It's often not enough to describe a product as 'clothing' or 'electronics'. You must specify what the product is, for example, 'cotton shirt', 'car tyres', or 'laptop'.</li>
+              <li>For raw materials and manufactured products, it can be useful to search for products by the material or what they are made from. For example, steel, wood, stone or glass.</li>
+              <li>The search tool will suggest a number of sections. Select the section which best describes the product you are importing or exporting.</li>
+              <li>You will be shown the relevant commodities based on your section. Choose the one which most closely matches your product.</li>
+            </ol>
+          </div>
+        </details>
+      <% end %>
 
       <%= render 'shared/search/search_form', use_date_picker: true %>
 
-      <p>Alternatively, you can:</p>
-      <ul class="govuk-list--bullet govuk-list">
-        <li><%= link_to 'browse the goods classification', browse_sections_path %> or</li>
-        <li><%= link_to 'look for your product in the A-Z', a_z_index_path('a') %>.</li>
-      </ul>
+      <% if TradeTariffFrontend.interactive_search_enabled? %>
+        <h2 class="govuk-heading-m govuk-!-margin-top-6">Other ways to find a commodity code</h2>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half">
+            <div class="govuk-card">
+              <h3 class="govuk-heading-s">
+                <%= link_to 'Browse the goods classification', browse_sections_path, class: 'govuk-link' %>
+              </h3>
+              <p class="govuk-body-s">Browse through sections and chapters to find your commodity code.</p>
+            </div>
+          </div>
+          <div class="govuk-grid-column-one-half">
+            <div class="govuk-card">
+              <h3 class="govuk-heading-s">
+                <%= link_to 'A-Z of classified goods', a_z_index_path('a'), class: 'govuk-link' %>
+              </h3>
+              <p class="govuk-body-s">Look up your product alphabetically.</p>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <p>Alternatively, you can:</p>
+        <ul class="govuk-list--bullet govuk-list">
+          <li><%= link_to 'browse the goods classification', browse_sections_path %> or</li>
+          <li><%= link_to 'look for your product in the A-Z', a_z_index_path('a') %>.</li>
+        </ul>
+      <% end %>
 
     </div>
   </div>
