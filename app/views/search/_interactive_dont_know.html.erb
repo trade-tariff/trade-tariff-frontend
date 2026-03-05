@@ -1,0 +1,57 @@
+<h1 class="govuk-heading-l">We can't suggest a tariff code yet</h1>
+
+<p class="govuk-body">
+  We need more information to narrow down the right commodity code for your goods.
+</p>
+
+<h2 class="govuk-heading-m">Where can I find this information?</h2>
+
+<p class="govuk-body">You can find details about your goods from:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>invoices or billing documents</li>
+  <li>product packaging or labelling</li>
+  <li>manufacturer specifications or data sheets</li>
+</ul>
+
+<div class="govuk-button-group">
+  <button class="govuk-button" data-action="interactive-question#goBack">
+    Go back and add more details
+  </button>
+  <%= link_to "Start search again", find_commodity_path, class: "govuk-button govuk-button--secondary" %>
+</div>
+
+<p class="govuk-body">
+  <%= link_to "Cancel", sections_path, class: "govuk-link" %>
+</p>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<h2 class="govuk-heading-m">Other ways to search for a commodity</h2>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    <div class="govuk-card">
+      <h3 class="govuk-heading-s">
+        <%= link_to "Keyword or commodity code search", find_commodity_path, class: "govuk-link" %>
+      </h3>
+      <p class="govuk-body-s">Search by keyword or enter a commodity code directly.</p>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <div class="govuk-card">
+      <h3 class="govuk-heading-s">
+        <%= link_to "Goods classifications guidance", "https://www.gov.uk/guidance/classifying-goods-in-the-uk-trade-tariff", class: "govuk-link", target: "_blank", rel: "noopener noreferrer" %>
+      </h3>
+      <p class="govuk-body-s">Read guidance on classifying difficult goods.</p>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <div class="govuk-card">
+      <h3 class="govuk-heading-s">
+        <%= link_to "A-Z product index", a_z_index_path(letter: 'a'), class: "govuk-link" %>
+      </h3>
+      <p class="govuk-body-s">Browse commodities alphabetically.</p>
+    </div>
+  </div>
+</div>

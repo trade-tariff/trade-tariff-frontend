@@ -16,8 +16,9 @@ describe('InteractiveQuestionController', () => {
         <div data-interactive-question-target="thinking" id="thinking" class="govuk-!-display-none">
           <p>Collecting information...</p>
         </div>
-        <div data-interactive-question-target="results" id="results" class="govuk-!-display-none">
-          <p>Pre-rendered results</p>
+        <div data-interactive-question-target="dontKnow" id="dont-know" class="govuk-!-display-none">
+          <p>We can't suggest a tariff code yet</p>
+          <button data-action="interactive-question#goBack">Go back</button>
         </div>
       </div>
     `;
@@ -43,27 +44,50 @@ describe('InteractiveQuestionController', () => {
       const event = new Event('change', {bubbles: true});
       radio.dispatchEvent(event);
 
-      // Before timeout
       expect(form.classList.contains('govuk-!-display-none')).toBe(false);
 
-      // After timeout
       jest.advanceTimersByTime(150);
       expect(form.classList.contains('govuk-!-display-none')).toBe(true);
     });
 
-    it('shows the results after delay', () => {
-      const results = document.querySelector('#results');
+    it('shows the dont know page after delay', () => {
+      const dontKnow = document.querySelector('#dont-know');
       const radio = document.querySelector('#unknown');
 
       const event = new Event('change', {bubbles: true});
       radio.dispatchEvent(event);
 
-      // Before timeout
-      expect(results.classList.contains('govuk-!-display-none')).toBe(true);
+      expect(dontKnow.classList.contains('govuk-!-display-none')).toBe(true);
 
-      // After timeout
       jest.advanceTimersByTime(150);
-      expect(results.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(dontKnow.classList.contains('govuk-!-display-none')).toBe(false);
+    });
+  });
+
+  describe('#goBack', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    it('hides the dont know page and shows the form', () => {
+      const form = document.querySelector('#form');
+      const dontKnow = document.querySelector('#dont-know');
+      const radio = document.querySelector('#unknown');
+
+      // First trigger "I don't know"
+      const changeEvent = new Event('change', {bubbles: true});
+      radio.dispatchEvent(changeEvent);
+      jest.advanceTimersByTime(150);
+
+      expect(form.classList.contains('govuk-!-display-none')).toBe(true);
+      expect(dontKnow.classList.contains('govuk-!-display-none')).toBe(false);
+
+      // Now go back
+      const goBackButton = dontKnow.querySelector('button');
+      goBackButton.click();
+
+      expect(form.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(dontKnow.classList.contains('govuk-!-display-none')).toBe(true);
     });
   });
 
