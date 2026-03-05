@@ -25,9 +25,11 @@
             <p class="govuk-body-s govuk-!-margin-bottom-2 govuk-!-text-colour-secondary">
               <%= result.heading_description %>
             </p>
-            <%= link_to "View this commodity code",
+            <%= link_to "View this commodity code (opens in new tab)",
                 commodity_path(result.goods_nomenclature_item_id, request_id: @search.request_id),
-                class: "govuk-link" %>
+                class: "govuk-link",
+                target: "_blank",
+                rel: "noopener noreferrer" %>
           </div>
           <div class="interactive-result__confidence">
             <%= render_confidence_meter(result.try(:confidence)) %>
