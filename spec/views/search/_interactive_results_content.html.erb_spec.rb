@@ -62,6 +62,60 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
     it { is_expected.to have_css('h2', text: 'Top search results') }
   end
 
+  describe 'result description fallback' do
+    context 'when self_text is present' do
+      let(:results) do
+        Search::InternalSearchResult.new(
+          [
+            {
+              'goods_nomenclature_item_id' => '2007919930',
+              'producline_suffix' => '80',
+              'goods_nomenclature_class' => 'Commodity',
+              'description' => 'Containing less than 70% by weight of sugar',
+              'formatted_description' => 'Containing less than 70% by weight of sugar',
+              'self_text' => 'Citrus fruit jam, sugar content below 70%',
+              'full_description' => 'Citrus fruit jam with less than 70% sugar',
+              'heading_description' => 'Jams and marmalades',
+              'declarable' => true,
+              'score' => 15.5,
+              'confidence' => 'strong',
+            },
+          ],
+          meta,
+        )
+      end
+
+      it { is_expected.to have_css('h3', text: 'Citrus fruit jam, sugar content below 70%') }
+    end
+
+    context 'when self_text is absent' do
+      it { is_expected.to have_css('h3', text: 'Citrus fruit jam with less than 70% sugar') }
+    end
+
+    context 'when self_text and full_description are both absent' do
+      let(:results) do
+        Search::InternalSearchResult.new(
+          [
+            {
+              'goods_nomenclature_item_id' => '2007919930',
+              'producline_suffix' => '80',
+              'goods_nomenclature_class' => 'Commodity',
+              'description' => 'Containing less than 70% by weight of sugar',
+              'formatted_description' => 'Containing less than 70% by weight of sugar',
+              'heading_description' => 'Jams and marmalades',
+              'declarable' => true,
+              'score' => 15.5,
+              'confidence' => 'strong',
+            },
+          ],
+          meta,
+        )
+      end
+
+      it { is_expected.to have_css('h3', text: 'Jams and marmalades') }
+    end
+  end
+
   describe 'commodity links' do
     it { is_expected.to have_link('View this commodity code (opens in new tab)', href: /2007919930/) }
 
