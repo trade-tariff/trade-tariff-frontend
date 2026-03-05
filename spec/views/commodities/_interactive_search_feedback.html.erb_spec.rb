@@ -7,9 +7,10 @@ RSpec.describe 'commodities/_interactive_search_feedback', type: :view do
       allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
     end
 
-    it { is_expected.to have_css('.app-feedback-banner') }
+    it { is_expected.to have_css('.govuk-inset-text') }
     it { is_expected.to have_css('h2', text: 'Give feedback about this service') }
-    it { is_expected.to have_link('Share your feedback') }
+    it { is_expected.to have_text('Help us improve this service by') }
+    it { is_expected.to have_link('giving your feedback (opens in a new tab)') }
 
     it 'opens feedback link in a new tab' do
       render partial: 'commodities/interactive_search_feedback'
@@ -29,7 +30,7 @@ RSpec.describe 'commodities/_interactive_search_feedback', type: :view do
       controller.params[:request_id] = nil
     end
 
-    it { is_expected.not_to have_css('.app-feedback-banner') }
+    it { is_expected.not_to have_css('.govuk-inset-text') }
   end
 
   context 'when interactive search is disabled' do
@@ -38,6 +39,6 @@ RSpec.describe 'commodities/_interactive_search_feedback', type: :view do
       allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(false)
     end
 
-    it { is_expected.not_to have_css('.app-feedback-banner') }
+    it { is_expected.not_to have_css('.govuk-inset-text') }
   end
 end
