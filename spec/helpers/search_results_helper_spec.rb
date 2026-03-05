@@ -10,7 +10,7 @@ RSpec.describe SearchResultsHelper do
       end
 
       it 'renders with correct label' do
-        expect(html).to include('Strong match')
+        expect(html).to include('Strong result')
       end
     end
 
@@ -22,7 +22,7 @@ RSpec.describe SearchResultsHelper do
       end
 
       it 'renders with correct label' do
-        expect(html).to include('Good match')
+        expect(html).to include('Good result')
       end
     end
 
@@ -34,7 +34,7 @@ RSpec.describe SearchResultsHelper do
       end
 
       it 'renders with correct label' do
-        expect(html).to include('Possible match')
+        expect(html).to include('Possible result')
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe SearchResultsHelper do
       end
 
       it 'renders with correct label' do
-        expect(html).to include('Unlikely match')
+        expect(html).to include('Unlikely result')
       end
     end
 
