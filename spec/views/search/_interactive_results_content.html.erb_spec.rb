@@ -31,6 +31,8 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
           'goods_nomenclature_class' => 'Commodity',
           'description' => 'Containing less than 70% by weight of sugar',
           'formatted_description' => 'Containing less than 70% by weight of sugar',
+          'self_text' => 'Citrus marmalade and jam products',
+          'classification_description' => 'Citrus fruit jam with less than 70% sugar',
           'full_description' => 'Citrus fruit jam with less than 70% sugar',
           'heading_description' => 'Jams and marmalades',
           'declarable' => true,
@@ -63,54 +65,8 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'result descriptions' do
-    context 'when self_text and full_description are present' do
-      let(:results) do
-        Search::InternalSearchResult.new(
-          [
-            {
-              'goods_nomenclature_item_id' => '2007919930',
-              'producline_suffix' => '80',
-              'goods_nomenclature_class' => 'Commodity',
-              'description' => 'Containing less than 70% by weight of sugar',
-              'formatted_description' => 'Containing less than 70% by weight of sugar',
-              'self_text' => 'Citrus fruit jam, sugar content below 70%',
-              'full_description' => 'Citrus fruit jam with less than 70% sugar',
-              'heading_description' => 'Jams and marmalades',
-              'declarable' => true,
-              'score' => 15.5,
-              'confidence' => 'strong',
-            },
-          ],
-          meta,
-        )
-      end
-
-      it { is_expected.to have_css('h3', text: 'Citrus fruit jam with less than 70% sugar') }
-      it { is_expected.to have_css('p.govuk-body-s', text: 'Citrus fruit jam, sugar content below 70%') }
-    end
-
-    context 'when full_description is absent' do
-      let(:results) do
-        Search::InternalSearchResult.new(
-          [
-            {
-              'goods_nomenclature_item_id' => '2007919930',
-              'producline_suffix' => '80',
-              'goods_nomenclature_class' => 'Commodity',
-              'description' => 'Containing less than 70% by weight of sugar',
-              'formatted_description' => 'Containing less than 70% by weight of sugar',
-              'heading_description' => 'Jams and marmalades',
-              'declarable' => true,
-              'score' => 15.5,
-              'confidence' => 'strong',
-            },
-          ],
-          meta,
-        )
-      end
-
-      it { is_expected.to have_css('h3', text: 'Jams and marmalades') }
-    end
+    it { is_expected.to have_css('h3', text: 'Citrus fruit jam with less than 70% sugar') }
+    it { is_expected.to have_css('p.govuk-body-s', text: 'Citrus marmalade and jam products') }
   end
 
   describe 'commodity links' do
