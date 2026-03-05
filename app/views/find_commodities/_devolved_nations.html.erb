@@ -1,17 +1,9 @@
-<div class="govuk-notification-banner" role="region" aria-labelledby="devolved-nations-title" data-module="govuk-notification-banner">
-  <div class="govuk-notification-banner__header">
-    <h2 class="govuk-notification-banner__title" id="devolved-nations-title">
-      Devolved nations
-    </h2>
-  </div>
-  <div class="govuk-notification-banner__content">
-    <p class="govuk-body">
-      <% if TradeTariffFrontend::ServiceChooser.xi? %>
-        You are viewing the Northern Ireland Online Tariff. Commodity codes and duty rates may differ from the UK Integrated Online Tariff.
-      <% else %>
-        You are viewing the UK Integrated Online Tariff.
-        For Northern Ireland, use the <%= link_to 'Northern Ireland Online Tariff', '/xi/find_commodity', class: 'govuk-notification-banner__link' %>.
-      <% end %>
-    </p>
-  </div>
+<div class="app-devolved-nations">
+  <% if TradeTariffFrontend::ServiceChooser.xi? %>
+    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-1">Applies to Northern Ireland</p>
+    <p class="govuk-body govuk-!-margin-bottom-0"><%= link_to 'Guidance for England, Scotland and Wales', '/find_commodity', class: 'govuk-link' %></p>
+  <% else %>
+    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-1">Applies to England, Scotland and Wales</p>
+    <p class="govuk-body govuk-!-margin-bottom-0"><%= link_to 'Guidance for Northern Ireland', '/xi/find_commodity', class: 'govuk-link' %></p>
+  <% end %>
 </div>

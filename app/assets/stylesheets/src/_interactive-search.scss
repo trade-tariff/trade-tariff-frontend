@@ -44,3 +44,21 @@
   border-top: 2px solid #1d70b8;
   padding-top: 15px;
 }
+
+// Interactive feedback useful banner - replaces fixed-height original
+.app-feedback-useful-banner {
+  background: govuk-colour("black", $variant: "tint-95");
+  border-top: 1px solid $govuk-border-colour;
+}
+
+// Devolved nations panel - grey background matching gem-c-devolved-nations
+.app-devolved-nations {
+  background: govuk-colour("black", $variant: "tint-95");
+  margin-bottom: govuk-spacing(3);
+  padding: govuk-spacing(3);
+
+  @include govuk-media-query($from: desktop) {
+    margin-bottom: govuk-spacing(8);
+    padding: govuk-spacing(4) govuk-spacing(6);
+  }
+}
