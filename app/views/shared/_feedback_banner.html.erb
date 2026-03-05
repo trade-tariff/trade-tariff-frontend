@@ -3,10 +3,14 @@
   <div class="govuk-phase-banner govuk-width-container">
     <p class="govuk-phase-banner__content">
       <strong class="govuk-tag govuk-phase-banner__content__tag">
-        FEEDBACK
+        <%= @interactive_search_page ? 'BETA' : 'FEEDBACK' %>
       </strong>
       <span class="govuk-phase-banner__text">
-        Tell us what you think - your <%= link_to 'feedback', feedback_path, class: 'govuk-link' %> will help us improve.
+        <% if @interactive_search_page %>
+          Help us improve this service and <%= link_to 'give your feedback', feedback_path, class: 'govuk-link', target: '_blank', rel: 'noopener noreferrer' %> (opens in a new tab).
+        <% else %>
+          Tell us what you think - your <%= link_to 'feedback', feedback_path, class: 'govuk-link' %> will help us improve.
+        <% end %>
       </span>
     </p>
   </div>

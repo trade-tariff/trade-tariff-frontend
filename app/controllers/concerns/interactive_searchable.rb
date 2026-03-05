@@ -119,6 +119,7 @@ module InteractiveSearchable
     disable_switch_service_banner
     disable_last_updated_footnote
     disable_search_form
+    mark_interactive_search_page
     render :interactive_question
   end
 
@@ -126,6 +127,11 @@ module InteractiveSearchable
     disable_switch_service_banner
     disable_last_updated_footnote
     disable_search_form
+    mark_interactive_search_page
     render :interactive_results
+  end
+
+  def mark_interactive_search_page
+    @interactive_search_page = true
   end
 end
