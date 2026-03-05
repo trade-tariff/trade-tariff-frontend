@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['form', 'dontKnow', 'thinking']
+  static targets = ['header', 'form', 'dontKnow', 'thinking']
 
   submitWithThinking(event) {
     if (this.hasThinkingTarget && this.hasFormTarget) {
@@ -20,12 +20,18 @@ export default class extends Controller {
     if (this.hasDontKnowTarget) {
       this.dontKnowTarget.classList.add('govuk-!-display-none')
     }
+    if (this.hasHeaderTarget) {
+      this.headerTarget.classList.remove('govuk-!-display-none')
+    }
     if (this.hasFormTarget) {
       this.formTarget.classList.remove('govuk-!-display-none')
     }
   }
 
   #showDontKnow() {
+    if (this.hasHeaderTarget) {
+      this.headerTarget.classList.add('govuk-!-display-none')
+    }
     if (this.hasFormTarget) {
       this.formTarget.classList.add('govuk-!-display-none')
     }

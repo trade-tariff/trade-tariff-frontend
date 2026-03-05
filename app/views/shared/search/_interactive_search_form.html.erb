@@ -7,7 +7,7 @@
     <div class="govuk-error-summary__body">
       <ul class="govuk-list govuk-error-summary__list">
         <% @search.errors.each do |error| %>
-          <li><a href="#q"><%= error.message %></a></li>
+          <li><a href="#guided_q"><%= error.message %></a></li>
         <% end %>
       </ul>
     </div>
@@ -53,16 +53,21 @@
           </div>
         </details>
 
-        <div class="govuk-form-group">
+        <div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
           <label class="govuk-label" for="guided_q">
             Describe the products you are trading
           </label>
           <div class="govuk-hint" id="guided-q-hint">
             For example, 55" 4K Ultra HD OLED Smart TV
           </div>
-          <textarea class="govuk-textarea" id="guided_q" name="q" rows="5"
-                    aria-describedby="guided-q-hint"
-                    data-interactive-search-radio-target="guidedInput"></textarea>
+          <% if @search.errors.any? %>
+            <p class="govuk-error-message" id="guided-q-error">
+              <span class="govuk-visually-hidden">Error:</span> <%= @search.errors.map(&:message).join('. ') %>
+            </p>
+          <% end %>
+          <textarea class="govuk-textarea<%= ' govuk-textarea--error' if @search.errors.any? %>" id="guided_q" name="q" rows="5"
+                    aria-describedby="guided-q-hint<%= ' guided-q-error' if @search.errors.any? %>"
+                    data-interactive-search-radio-target="guidedInput"><%= @search.q %></textarea>
         </div>
       </div>
 
@@ -100,18 +105,13 @@
           </div>
         </details>
 
-        <div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
+        <div class="govuk-form-group">
           <label class="govuk-label" for="keyword_q">
             Enter the name of the products or commodity code
           </label>
           <div class="govuk-hint" id="keyword-q-hint">
             For example, tomatoes or 1234 5678 90
           </div>
-          <% if @search.errors.any? %>
-            <p class="govuk-error-message" id="q-error">
-              <span class="govuk-visually-hidden">Error:</span> <%= @search.errors.map(&:message).join('. ') %>
-            </p>
-          <% end %>
           <%= render 'shared/search/autocomplete' %>
         </div>
       </div>

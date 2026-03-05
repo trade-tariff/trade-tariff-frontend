@@ -4,7 +4,11 @@ module InteractiveSearchable
   private
 
   def perform_interactive_search
-    return if validate_interactive_search == :invalid
+    if validate_interactive_search == :invalid
+      render_interactive_search_page
+      return
+    end
+
     return render_interactive_question if validate_interactive_answer == :invalid
 
     merge_current_answer
@@ -12,10 +16,7 @@ module InteractiveSearchable
     @results = @search.perform
 
     if @search.errors.any?
-      @no_shared_search = true
-      @hero_story = nil
-      @recent_stories = []
-      render 'find_commodities/show'
+      render_interactive_search_page
       return
     end
 
@@ -40,6 +41,7 @@ module InteractiveSearchable
     @form = InteractiveSearchForm.new(q: params[:q], request_id: params[:request_id])
 
     unless @form.valid?
+      @form.errors.each { |error| @search.errors.add(error.attribute, error.message) }
       @results = Search::InternalSearchResult.new([], nil)
       return :invalid
     end
@@ -129,6 +131,13 @@ module InteractiveSearchable
     disable_search_form
     mark_interactive_search_page
     render :interactive_results
+  end
+
+  def render_interactive_search_page
+    @no_shared_search = true
+    @hero_story = nil
+    @recent_stories = []
+    render 'find_commodities/show_interactive'
   end
 
   def mark_interactive_search_page

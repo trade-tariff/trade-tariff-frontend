@@ -1,8 +1,11 @@
-<%= page_header "Search for a commodity" %>
+<%= page_header %>
 
 <div data-controller="interactive-question">
 
-  <p class="govuk-body-l">We need to ask you some questions about the products.</p>
+  <div data-interactive-question-target="header">
+    <h1 class="govuk-heading-l">Search for a commodity</h1>
+    <p class="govuk-body-l">We need to ask you some questions about the products.</p>
+  </div>
 
   <div data-interactive-question-target="form">
     <% question = @results.current_question %>

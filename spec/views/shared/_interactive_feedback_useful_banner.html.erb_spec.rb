@@ -1,9 +1,10 @@
 RSpec.describe 'shared/_interactive_feedback_useful_banner', type: :view do
   subject { render partial: 'shared/interactive_feedback_useful_banner' }
 
+  it { is_expected.to have_css('.app-feedback-useful-banner') }
   it { is_expected.to have_css('h2', text: 'Give feedback about this service') }
   it { is_expected.to have_text('Tell us about your experience using this service') }
-  it { is_expected.to have_link('Share your feedback') }
+  it { is_expected.to have_link('Share your feedback', class: 'app-feedback-useful-banner__button') }
 
   it 'opens feedback link in a new tab' do
     render partial: 'shared/interactive_feedback_useful_banner'
