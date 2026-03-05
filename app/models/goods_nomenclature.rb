@@ -11,6 +11,7 @@ class GoodsNomenclature
                 :description,
                 :description_indexed,
                 :self_text,
+                :classification_description,
                 :full_description,
                 :heading_description,
                 :producline_suffix,
