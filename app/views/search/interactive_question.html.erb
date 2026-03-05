@@ -11,7 +11,8 @@
                   url: perform_search_path,
                   method: :get,
                   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-                  id: "interactive_search_form" do |f| %>
+                  id: "interactive_search_form",
+                  data: { action: "submit->interactive-question#submitWithThinking" } do |f| %>
 
       <%= f.govuk_error_summary %>
 
@@ -61,6 +62,10 @@
         </ul>
       </div>
     <% end %>
+  </div>
+
+  <div data-interactive-question-target="thinking" class="govuk-!-display-none">
+    <p class="govuk-body-l">Collecting information...</p>
   </div>
 
   <div data-interactive-question-target="results" class="govuk-!-display-none">
