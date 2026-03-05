@@ -1,3 +1,8 @@
+// Blue left-border variant of govuk-inset-text for interactive search feedback
+.app-inset-text--blue {
+  border-left-color: $govuk-brand-colour;
+}
+
 // Interactive search Q&A styles
 
 .interactive-results .interactive-result {
