@@ -1,0 +1,61 @@
+<h1 class="govuk-heading-l">We can't suggest a tariff code yet</h1>
+
+<p class="govuk-body">
+  To find the relevant commodity code, we need more information about the product.
+</p>
+
+<h2 class="govuk-heading-m">Where can I find this information?</h2>
+
+<p class="govuk-body">This information might be found on:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>invoice or other billing documents</li>
+  <li>online listings</li>
+  <li>product information documents included in the packaging</li>
+</ul>
+
+<h2 class="govuk-heading-m">Next steps</h2>
+
+<p class="govuk-body govuk-!-margin-bottom-6">
+  Go back and add more details so we can find the relevant commodity code with the highest accuracy.
+</p>
+
+<div class="govuk-button-group">
+  <button class="govuk-button" data-action="interactive-question#goBack">
+    Go back and add more details
+  </button>
+  <%= link_to "Start search again", find_commodity_path, class: "govuk-button govuk-button--secondary" %>
+  <%= link_to "Cancel", sections_path, class: "govuk-link" %>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible app-section-break--thick">
+
+<div class="gem-c-cards">
+  <h2 class="gem-c-cards__heading govuk-heading-m gem-c-cards__heading--underline">Other ways to search for a commodity</h2>
+  <ul class="gem-c-cards__list gem-c-cards__list--one-column">
+    <li class="gem-c-cards__list-item">
+      <div class="gem-c-cards__list-item-wrapper">
+        <h3 class="gem-c-cards__sub-heading govuk-heading-s">
+          <%= link_to "Keyword or commodity code", find_commodity_path, class: "govuk-link gem-c-cards__link" %>
+        </h3>
+        <p class="govuk-body gem-c-cards__description">Search using keywords or use a known commodity code</p>
+      </div>
+    </li>
+    <li class="gem-c-cards__list-item">
+      <div class="gem-c-cards__list-item-wrapper">
+        <h3 class="gem-c-cards__sub-heading govuk-heading-s">
+          <%= link_to "Goods classifications", browse_sections_path, class: "govuk-link gem-c-cards__link" %>
+        </h3>
+        <p class="govuk-body gem-c-cards__description">Browse the goods classification</p>
+      </div>
+    </li>
+    <li class="gem-c-cards__list-item">
+      <div class="gem-c-cards__list-item-wrapper">
+        <h3 class="gem-c-cards__sub-heading govuk-heading-s">
+          <%= link_to "A-Z product index", a_z_index_path(letter: 'a'), class: "govuk-link gem-c-cards__link" %>
+        </h3>
+        <p class="govuk-body gem-c-cards__description">Look for your product in the A-Z</p>
+      </div>
+    </li>
+  </ul>
+</div>

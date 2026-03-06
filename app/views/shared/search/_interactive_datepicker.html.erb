@@ -1,0 +1,13 @@
+<%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
+<legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
+  <h1 class="govuk-fieldset__heading">When are you planning to trade the products?</h1>
+</legend>
+<p class="govuk-body">
+  You can enter the date your products will be traded. This is important, as
+  commodities, duties and quotas change over time. If you don't enter a date,
+  today's date is used.
+</p>
+<div class="govuk-hint" id="find-commodity-hint">
+  For example 27&nbsp;3&nbsp;2021
+</div>
+<% end %>

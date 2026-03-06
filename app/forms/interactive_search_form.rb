@@ -9,7 +9,7 @@ class InteractiveSearchForm
   attribute :answer, :string
   attribute :request_id, :string
 
-  validates :q, presence: true, length: { minimum: MIN_QUERY_LENGTH, maximum: MAX_QUERY_LENGTH }
+  validates :q, presence: true, length: { minimum: MIN_QUERY_LENGTH, maximum: MAX_QUERY_LENGTH, allow_blank: true }
   validates :answer, presence: true, on: :answer
 
   def initialize(attributes = {})

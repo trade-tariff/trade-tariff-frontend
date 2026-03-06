@@ -1,0 +1,47 @@
+<div class="gem-c-contextual-sidebar govuk-!-margin-bottom-0">
+  <div class="gem-c-related-navigation">
+    <h2 class="gem-c-related-navigation__main-heading">
+      Help and guidance
+    </h2>
+
+    <nav role="navigation" class="gem-c-related-navigation__nav-section">
+      <ul class="gem-c-related-navigation__link-list">
+        <li class="gem-c-related-navigation__link">
+          <%= link_to "What are commodity codes?", "https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods", class: "govuk-link gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other" %>
+        </li>
+        <li class="gem-c-related-navigation__link">
+          <%= link_to "Guidance on difficult to classify goods", "https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports", class: "govuk-link gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other" %>
+        </li>
+        <li class="gem-c-related-navigation__link">
+          <%= link_to "How to import goods", "https://www.gov.uk/import-goods-into-uk", class: "govuk-link gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other" %>
+        </li>
+        <li class="gem-c-related-navigation__link">
+          <%= link_to "How to export goods", "https://www.gov.uk/export-goods", class: "govuk-link gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other" %>
+        </li>
+        <li class="gem-c-related-navigation__link">
+          <%= link_to "Ask for help on classifying your goods", "https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods", class: "govuk-link gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other" %>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <% if TradeTariffFrontend.webchat_enabled? %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">Get support</span>
+      </summary>
+      <div class="govuk-details__text">
+        <p class="govuk-body">
+          <strong>Webchat</strong><br>
+          <%= webchat_link 'Ask HMRC online' %>
+        </p>
+        <p class="govuk-body">
+          <strong>Email</strong><br>
+          <a href="mailto:classification.enquiries@hmrc.gov.uk" class="govuk-link">classification.enquiries@hmrc.gov.uk</a>
+        </p>
+      </div>
+    </details>
+  <% end %>
+</div>
