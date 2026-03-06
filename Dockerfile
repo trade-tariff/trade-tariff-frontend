@@ -25,7 +25,8 @@ ENV CORS_HOST="localhost" \
     GOVUK_APP_DOMAIN="localhost" \
     GOVUK_WEBSITE_ROOT="http://localhost/" \
     RAILS_ENV=production \
-    NODE_OPTIONS="--openssl-legacy-provider"
+    NODE_OPTIONS="--openssl-legacy-provider" \
+    SECRET_TOKEN="secret-token"
 
 RUN bundle exec rails assets:precompile
 
