@@ -1,0 +1,64 @@
+<%= page_header 'Look up commodity codes, import duties, taxes and controls' %>
+
+<%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
+
+<%= render 'find_commodities/devolved_nations' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
+      <h2 class="govuk-heading-m">Search for a commodity</h2>
+      <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
+      <p>These codes can be very specific, so you need to be very clear about what you're importing or exporting. This will help avoid any delays at customs.</p>
+
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">What are keyword, commodity code and guided searches?</span>
+        </summary>
+        <div class="govuk-details__text">
+          <p><strong>Keyword search</strong> lets you type a description of your product and see matching commodity codes.</p>
+          <p><strong>Commodity code search</strong> lets you enter a code directly if you already know it.</p>
+          <p><strong>Guided search</strong> asks you questions about your product to help find the right commodity code.</p>
+        </div>
+      </details>
+
+      <%= render 'shared/search/interactive_search_form' %>
+
+      <div class="gem-c-cards">
+        <h2 class="gem-c-cards__heading govuk-heading-m gem-c-cards__heading--underline">Other ways to search for a commodity</h2>
+        <ul class="gem-c-cards__list gem-c-cards__list--one-column">
+          <li class="gem-c-cards__list-item">
+            <div class="gem-c-cards__list-item-wrapper">
+              <h3 class="gem-c-cards__sub-heading govuk-heading-s">
+                <%= link_to 'Keyword or commodity code', find_commodity_path, class: 'govuk-link gem-c-cards__link' %>
+              </h3>
+              <p class="govuk-body gem-c-cards__description">Search using keywords or use a known commodity code</p>
+            </div>
+          </li>
+          <li class="gem-c-cards__list-item">
+            <div class="gem-c-cards__list-item-wrapper">
+              <h3 class="gem-c-cards__sub-heading govuk-heading-s">
+                <%= link_to 'Goods classifications', browse_sections_path, class: 'govuk-link gem-c-cards__link' %>
+              </h3>
+              <p class="govuk-body gem-c-cards__description">Browse the goods classification</p>
+            </div>
+          </li>
+          <li class="gem-c-cards__list-item">
+            <div class="gem-c-cards__list-item-wrapper">
+              <h3 class="gem-c-cards__sub-heading govuk-heading-s">
+                <%= link_to 'A-Z product index', a_z_index_path('a'), class: 'govuk-link gem-c-cards__link' %>
+              </h3>
+              <p class="govuk-body gem-c-cards__description">Look for your product in the A-Z</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="govuk-grid-column-one-third" id="recent-news">
+    <%= render partial: "/pages/howto_sidebar_links" %>
+    <%= render 'news_items/recent_news', news_items: @recent_stories %>
+  </div>
+</div>

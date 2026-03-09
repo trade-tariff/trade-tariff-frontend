@@ -1,8 +1,15 @@
-<%= page_header "Search for a commodity" %>
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs "Search", [["Home", home_path]] %>
+<% end %>
+
+<%= page_header %>
 
 <div data-controller="interactive-question">
 
-  <p class="govuk-body-l">We need to ask you some questions about the products.</p>
+  <div data-interactive-question-target="header">
+    <h1 class="govuk-heading-l">Search for a commodity</h1>
+    <p class="govuk-body-l">We need to ask you some questions about the products.</p>
+  </div>
 
   <div data-interactive-question-target="form">
     <% question = @results.current_question %>
@@ -11,7 +18,8 @@
                   url: perform_search_path,
                   method: :get,
                   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
-                  id: "interactive_search_form" do |f| %>
+                  id: "interactive_search_form",
+                  data: { action: "submit->interactive-question#submitWithThinking" } do |f| %>
 
       <%= f.govuk_error_summary %>
 
@@ -63,7 +71,11 @@
     <% end %>
   </div>
 
-  <div data-interactive-question-target="results" class="govuk-!-display-none">
-    <%= render 'search/interactive_results_content' %>
+  <div data-interactive-question-target="thinking" class="govuk-!-display-none">
+    <p class="govuk-body-l">Collecting information...</p>
+  </div>
+
+  <div data-interactive-question-target="dontKnow" class="govuk-!-display-none">
+    <%= render 'search/interactive_dont_know' %>
   </div>
 </div>

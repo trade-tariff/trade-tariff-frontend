@@ -1,0 +1,10 @@
+<% if TradeTariffFrontend.interactive_search_enabled? && params[:request_id].present? %>
+  <div class="govuk-inset-text app-inset-text--blue">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Give feedback about this service</h2>
+    <p class="govuk-body">Help us improve this service by <%= link_to "giving your feedback (opens in a new tab)",
+        feedback_path(request_id: params[:request_id]),
+        class: "govuk-link",
+        target: "_blank",
+        rel: "noopener noreferrer" %>.</p>
+  </div>
+<% end %>

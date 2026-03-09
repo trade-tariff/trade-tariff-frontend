@@ -32,4 +32,13 @@ RSpec.describe 'find_commodities/show', type: :view do
   describe 'recent news stories' do
     it { is_expected.to have_css 'h2', text: 'Latest news' }
   end
+
+  describe 'search tips' do
+    it { is_expected.to have_css('.govuk-details__summary-text', text: 'Tips on searching for products') }
+  end
+
+  describe 'browse and A-Z links' do
+    it { is_expected.to have_text('browse the goods classification') }
+    it { is_expected.to have_text('look for your product in the A-Z') }
+  end
 end
