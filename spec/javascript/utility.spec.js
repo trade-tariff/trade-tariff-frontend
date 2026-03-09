@@ -5,27 +5,21 @@ import Utility from '../../app/javascript/src/utility';
 describe('Utility.countrySelectorOnConfirm', () => {
   let selectElement;
   let form;
-  let anchorInput;
-  let originalLocation;
+  let navigateSpy;
 
   beforeEach(() => {
-    // Save the original location so we can restore it after the test
-    originalLocation = window.location;
+    // Spy on Utility.navigate so we can assert where it navigated without
+    // triggering jsdom's "Not implemented: navigation" error
+    navigateSpy = jest.spyOn(Utility, 'navigate').mockImplementation(() => {});
 
-    // Mock the window location
-    delete window.location;
-    window.location = {
-      href: '',
-      hash: '#origin',
-    };
+    // Use history.pushState to control window.location.hash and .pathname —
+    // jsdom supports this without triggering navigation
+    window.history.pushState({}, '', '/#origin');
 
-    // Create a mock select element and other necessary DOM elements
     document.body.innerHTML = `
       <div class="commodity-header" data-comm-code="1234"></div>
       <form>
         <div class="govuk-fieldset">
-          <input value="uk" autocomplete="off" type="hidden" name="trading_partner[service]" id="trading_partner_service" />
-          <input autocomplete="off" type="hidden" name="trading_partner[anchor]" id="trading_partner_anchor" />
           <select>
             <option value="AF">(AF)</option>
             <option value="ZW">(ZW)</option>
@@ -36,48 +30,34 @@ describe('Utility.countrySelectorOnConfirm', () => {
 
     selectElement = document.querySelector('select');
     form = selectElement.closest('form');
-    anchorInput = selectElement
-        .closest('.govuk-fieldset')
-        .querySelector('input[name$="[anchor]"]');
   });
 
   afterEach(() => {
-    // Restore the original location
-    window.location = originalLocation;
+    jest.restoreAllMocks();
+    window.history.pushState({}, '', '/');
   });
 
   it('navigates to the URL for "All countries"', () => {
-    const confirmed = 'All countries';
+    Utility.countrySelectorOnConfirm('All countries', selectElement);
 
-    Utility.countrySelectorOnConfirm(confirmed, selectElement);
-
-    expect(window.location.href).toBe('/commodities/1234#origin');
+    expect(navigateSpy).toHaveBeenCalledWith('/commodities/1234#origin');
   });
 
   it('sets the select element value and submits the form for a specific country', () => {
-    // Check if form.submit is called
     form.submit = jest.fn();
 
-    const confirmed = 'Afghanistan (AF)';
-
-    Utility.countrySelectorOnConfirm(confirmed, selectElement);
+    Utility.countrySelectorOnConfirm('Afghanistan (AF)', selectElement);
 
     expect(selectElement.value).toBe('AF');
-    expect(anchorInput.value).toBe('origin');
     expect(form.submit).toHaveBeenCalled();
   });
 
   it('navigates to the URL with service "xi" for "All countries"', () => {
-    // Set the service to 'xi'
-    document.getElementById('trading_partner_service').value = 'xi';
+    window.history.pushState({}, '', '/xi/commodities/1234#origin');
 
-    const confirmed = 'All countries';
+    Utility.countrySelectorOnConfirm('All countries', selectElement);
 
-    Utility.countrySelectorOnConfirm(confirmed, selectElement);
-
-    expect(window.location.href).toBe(
-        `${window.location.origin}/xi/commodities/1234#origin`,
-    );
+    expect(navigateSpy).toHaveBeenCalledWith('/xi/commodities/1234#origin');
   });
 });
 
