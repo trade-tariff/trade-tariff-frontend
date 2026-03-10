@@ -68,7 +68,7 @@
 
   <%= yield :service_navigation %>
 
-  <%= render 'shared/feedback_banner' %>
+  <%= render @interactive_search_page ? 'shared/interactive_feedback_banner' : 'shared/feedback_banner' %>
 
   <div class="tariff service govuk-width-container">
     <%= render 'shared/top_breadcrumbs' %>
@@ -96,7 +96,9 @@
     </main>
   </div>
 
-  <%= render 'shared/feedback_useful_banner' unless @feedback %>
+  <% unless @feedback %>
+    <%= render @interactive_search_page ? 'shared/interactive_feedback_useful_banner' : 'shared/feedback_useful_banner' %>
+  <% end %>
 
   <footer id="footer" class="govuk-footer govuk-!-display-none-print" role="contentinfo">
     <div class="govuk-width-container">

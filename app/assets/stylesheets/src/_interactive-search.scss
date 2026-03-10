@@ -1,3 +1,8 @@
+// Blue left-border variant of govuk-inset-text for interactive search feedback
+.app-inset-text--blue {
+  border-left-color: $govuk-brand-colour;
+}
+
 // Interactive search Q&A styles
 
 .interactive-results .interactive-result {
@@ -43,4 +48,100 @@
 .app-related-items {
   border-top: 2px solid #1d70b8;
   padding-top: 15px;
+}
+
+// Interactive feedback useful banner - full-width grey banner with blue bottom border
+.app-feedback-useful-banner {
+  background: govuk-colour("black", $variant: "tint-95");
+  border-bottom: 4px solid $govuk-brand-colour;
+
+  .app-feedback-useful-banner__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .app-feedback-useful-banner__text {
+    flex: 1;
+  }
+
+  .app-feedback-useful-banner__button {
+    width: auto;
+    margin-bottom: 0;
+    background-color: govuk-colour("white");
+    color: $govuk-text-colour;
+    border: 1px solid $govuk-text-colour;
+    border-bottom-width: 3px;
+    box-shadow: none;
+    flex-shrink: 0;
+
+    &:link,
+    &:visited,
+    &:active {
+      color: $govuk-text-colour;
+      background-color: govuk-colour("white");
+    }
+
+    &:hover {
+      color: $govuk-text-colour;
+      background-color: darken(govuk-colour("black", $variant: "tint-95"), 3%);
+    }
+  }
+}
+
+// Feedback banner - thin blue top line, heading and button on same line
+.app-feedback-banner {
+  border-top: 2px solid $govuk-brand-colour;
+  padding-top: govuk-spacing(4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-feedback-banner__heading {
+  flex: 1;
+}
+
+.app-feedback-banner__button {
+  width: auto;
+  margin-bottom: 0;
+  background-color: govuk-colour("white");
+  color: $govuk-text-colour;
+  border: 1px solid $govuk-text-colour;
+  border-bottom-width: 3px;
+  box-shadow: none;
+  flex-shrink: 0;
+
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    color: $govuk-text-colour;
+  }
+
+  &:hover {
+    background-color: govuk-colour("black", $variant: "tint-95");
+  }
+
+  &:active {
+    border-bottom-width: 1px;
+    top: 2px;
+  }
+}
+
+// Thick blue section break matching GOV.UK prototype kit style
+.app-section-break--thick {
+  border-bottom: 4px solid $govuk-brand-colour;
+}
+
+// Devolved nations panel - grey background matching gem-c-devolved-nations
+.app-devolved-nations {
+  background: govuk-colour("black", $variant: "tint-95");
+  margin-bottom: govuk-spacing(3);
+  padding: govuk-spacing(3);
+
+  @include govuk-media-query($from: desktop) {
+    margin-bottom: govuk-spacing(8);
+    padding: govuk-spacing(4) govuk-spacing(6);
+  }
 }

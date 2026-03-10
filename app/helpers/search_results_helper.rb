@@ -1,9 +1,9 @@
 module SearchResultsHelper
   CONFIDENCE_LEVELS = {
-    'Strong' => { label: 'Strong match', css_class: 'confidence-strong', needle: 'M124.48 44.35L77.91 68.35L74.58 60.31L124.48 44.35Z' },
-    'Good' => { label: 'Good match', css_class: 'confidence-good', needle: 'M91.72 11.59L75.75 61.49L67.72 58.16L91.72 11.59Z' },
-    'Possible' => { label: 'Possible match', css_class: 'confidence-possible', needle: 'M45.38 11.59L69.38 58.16L61.34 61.49L45.38 11.59Z' },
-    'Unlikely' => { label: 'Unlikely match', css_class: 'confidence-unlikely', needle: 'M12.57 44.35L62.47 60.31L59.14 68.35L12.57 44.35Z' },
+    'Strong' => { label: 'Strong result', css_class: 'confidence-strong', needle: 'M124.48 44.35L77.91 68.35L74.58 60.31L124.48 44.35Z' },
+    'Good' => { label: 'Good result', css_class: 'confidence-good', needle: 'M91.72 11.59L75.75 61.49L67.72 58.16L91.72 11.59Z' },
+    'Possible' => { label: 'Possible result', css_class: 'confidence-possible', needle: 'M45.38 11.59L69.38 58.16L61.34 61.49L45.38 11.59Z' },
+    'Unlikely' => { label: 'Unlikely result', css_class: 'confidence-unlikely', needle: 'M12.57 44.35L62.47 60.31L59.14 68.35L12.57 44.35Z' },
   }.freeze
 
   UNKNOWN_CONFIDENCE = { label: 'Unknown', css_class: 'confidence-unknown', needle: 'M68.55 10L68.55 60L68.55 60L68.55 10Z' }.freeze

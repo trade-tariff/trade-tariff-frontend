@@ -4,8 +4,6 @@ $govuk-fonts-path: '/govuk-frontend/dist/govuk/assets/fonts/';
 $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 
 @import 'govuk-frontend/dist/govuk/index';
-@import 'select2/dist/css/select2.min';
-@import 'datepicker/src/calendar/supercalendar';
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
 
 @import 'src/vendor/govuk_publishing_components/contents-list';
@@ -63,6 +61,7 @@ $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 @import 'src/govuk-frontend-extensions';
 @import 'src/exchange_rates';
 @import 'src/feedback_useful_banner';
+@import 'src/feedback_banner_beta';
 @import 'src/feedback_banner';
 @import 'src/notification_banner';
 @import 'src/modal';
@@ -70,3 +69,4 @@ $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 @import 'src/chapter_selection';
 @import 'src/mycommodities';
 @import 'src/app-card';
+@import 'src/cards';

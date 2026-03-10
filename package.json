@@ -3,37 +3,25 @@
   "private": true,
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",
+    "@babel/preset-env": "^7.29.0",
+    "@hotwired/stimulus": "^3.2.2",
     "@playwright/test": "^1.58.2",
-    "@stimulus/polyfills": "^2.0.0",
     "accessible-autocomplete": "^3.0.1",
-    "alphagov-static": "github:alphagov/static.git#release_3463",
     "babel-jest": "^30.2.0",
-    "datepicker": "^0.0.0",
     "dotenv": "^17.3.1",
-    "gh-pages": "^6.3.0",
     "govuk-frontend": "6.1.0",
-    "html-escaper": "^3.0.3",
-    "imask": "^7.6.1",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "jquery": "4.0.0",
-    "jquery-common-keydown": "^1.0.1",
-    "jquery-focus-exit": "^1.0.1",
     "jquery-grid-navigation": "^1.0.1",
     "jquery-linear-navigation": "^1.0.2",
-    "jquery-migrate": "4.0.2",
-    "jquery-next-id": "^1.0.1",
     "jquery-prevent-scroll-keys": "^1.0.1",
-    "jquery-roving-tabindex": "^1.0.1",
-    "jquery-tabs": "^0.5.3",
     "js-cookie": "^3.0.5",
     "mark.js": "^8.11.1",
-    "sass": "^1.97.3",
-    "select2": "^4.1.0-rc.0",
-    "stimulus": "^3.2.2"
+    "sass": "^1.97.3"
   },
   "scripts": {
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/print.sass.scss:./app/assets/builds/print.css --no-source-map --load-path=node_modules",
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/print.sass.scss:./app/assets/builds/print.css --no-source-map --load-path=node_modules --load-path=app/assets/stylesheets",
     "axxy": "playwright test"
   },
   "jest": {
@@ -43,15 +31,19 @@
     ],
     "testRegex": ".*[_\\.]spec.js",
     "roots": [
+      "spec/javascript/controllers",
       "spec/javascript"
+    ],
+    "testPathIgnorePatterns": [
+      "/spec/javascript/accessibility/"
     ],
     "moduleDirectories": [
       "node_modules",
-      "app/webpacker/src/javascripts",
-      "app/webpacker/controllers"
+      "app/javascript/src",
+      "app/javascript/controllers"
     ],
     "transformIgnorePatterns": [
-      "/node_modules/(?!stimulus)",
+      "/node_modules/(?!@hotwired/stimulus)",
       "\\.pnp\\.[^\\/]+$"
     ]
   }

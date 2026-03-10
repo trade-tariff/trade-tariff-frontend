@@ -1,20 +1,42 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['form', 'results']
+  static targets = ['header', 'form', 'dontKnow', 'thinking']
 
-  selectUnknown(event) {
-    // When "I don't know" is selected, show pre-rendered results
-    // Use a small delay to show the selection before transitioning
-    setTimeout(() => this.#showResults(), 150)
+  submitWithThinking(event) {
+    if (this.hasThinkingTarget && this.hasFormTarget) {
+      this.formTarget.classList.add('govuk-!-display-none')
+      this.thinkingTarget.classList.remove('govuk-!-display-none')
+    }
   }
 
-  #showResults() {
+  selectUnknown(event) {
+    // When "I don't know" is selected, show the dedicated page
+    // Use a small delay to show the selection before transitioning
+    setTimeout(() => this.#showDontKnow(), 150)
+  }
+
+  goBack() {
+    if (this.hasDontKnowTarget) {
+      this.dontKnowTarget.classList.add('govuk-!-display-none')
+    }
+    if (this.hasHeaderTarget) {
+      this.headerTarget.classList.remove('govuk-!-display-none')
+    }
+    if (this.hasFormTarget) {
+      this.formTarget.classList.remove('govuk-!-display-none')
+    }
+  }
+
+  #showDontKnow() {
+    if (this.hasHeaderTarget) {
+      this.headerTarget.classList.add('govuk-!-display-none')
+    }
     if (this.hasFormTarget) {
       this.formTarget.classList.add('govuk-!-display-none')
     }
-    if (this.hasResultsTarget) {
-      this.resultsTarget.classList.remove('govuk-!-display-none')
+    if (this.hasDontKnowTarget) {
+      this.dontKnowTarget.classList.remove('govuk-!-display-none')
     }
   }
 }

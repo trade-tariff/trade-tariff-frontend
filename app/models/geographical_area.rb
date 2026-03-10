@@ -31,7 +31,6 @@ class GeographicalArea
               id: eu.id,
               description: eu.description,
               messages: "EU description is '#{eu.description}' instead of 'European Union'",
-              cache: from_cache,
             }
             Rails.logger.warn info.to_json
           end
