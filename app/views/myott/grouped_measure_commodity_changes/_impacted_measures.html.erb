@@ -1,6 +1,7 @@
 <% has_additional_code = changes.any? { |change| change['additional_code'].present? } %>
 
 <h2 class="govuk-heading-l">Measure affected: <%= measure_type %></h2>
+<p>The following links open in a new tab</p>
 
 <table class="govuk-table">
   <thead class="govuk-table__head">
@@ -23,7 +24,11 @@
           <td class="govuk-table__cell"><%= sanitize change['additional_code'].presence || 'N/A' %></td>
         <% end %>
         <td class="govuk-table__cell"><%= date.to_fs %></td>
-        <td class="govuk-table__cell"><%= link_to("View commodity on #{date_visible.to_fs}", commodity_path(@grouped_measure_commodity_changes.goods_nomenclature_item_id, day: date_visible.day, month: date_visible.month, year: date_visible.year)) %></td>
+        <td class="govuk-table__cell">
+          <%= link_to(commodity_path(@grouped_measure_commodity_changes.goods_nomenclature_item_id, day: date_visible.day, month: date_visible.month, year: date_visible.year), target: '_blank', rel: 'noopener') do %>
+            View commodity on <%= date_visible.to_fs %> <span class="govuk-visually-hidden">(opens in new tab)</span>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
