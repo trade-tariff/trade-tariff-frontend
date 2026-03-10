@@ -1,0 +1,30 @@
+.manage-tariff-button {
+  display: inline-flex;
+  align-items: center;
+  color: rgb(29, 112, 184);
+  cursor: pointer;
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.25;
+  padding: 10px;
+  margin: 0px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(80, 90, 95);
+  border-image: initial;
+  background: none;
+}
+
+.manage-tariff-button:hover {
+  background-color: rgb(243, 242, 241);
+  color: rgb(0, 48, 120);
+  text-decoration: none
+}
+
+.manage-tariff-button__icon {
+  color: #0b0c0c;
+  vertical-align: top;
+  margin-right: 5px;
+}
