@@ -1,4 +1,8 @@
-<%= form_tag perform_search_path, method: :get, id: "new_search" do %>
+<%= form_tag perform_search_path, method: :get, id: "new_search",
+    data: { controller: "guided-search-validation",
+            action: "submit->guided-search-validation#validateAndSubmit" } do %>
+
+<div data-guided-search-validation-target="formContent">
 
 <% if @search.errors.any? %>
 <div class="govuk-error-summary" data-module="govuk-error-summary">
@@ -53,7 +57,8 @@
           </div>
         </details>
 
-        <div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
+        <div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>"
+             data-guided-search-validation-target="formGroup">
           <label class="govuk-label" for="guided_q">
             Describe the products you are trading
           </label>
@@ -67,7 +72,8 @@
           <% end %>
           <textarea class="govuk-textarea<%= ' govuk-textarea--error' if @search.errors.any? %>" id="guided_q" name="q" rows="5"
                     aria-describedby="guided-q-hint<%= ' guided-q-error' if @search.errors.any? %>"
-                    data-interactive-search-radio-target="guidedInput"><%= @search.q %></textarea>
+                    data-interactive-search-radio-target="guidedInput"
+                    data-guided-search-validation-target="textarea"><%= @search.q %></textarea>
         </div>
       </div>
 
@@ -119,12 +125,19 @@
   </fieldset>
 
   <input type="hidden" name="interactive_search" value="false"
-         data-interactive-search-radio-target="hiddenField">
+         data-interactive-search-radio-target="hiddenField"
+         data-guided-search-validation-target="hiddenField">
 </div>
 
 <%= render 'shared/search/interactive_datepicker' %>
 
 <div class="govuk-!-margin-top-6">
   <%= submit_tag 'Search for a commodity', class: 'govuk-button' %>
+</div>
+
+</div>
+
+<div data-guided-search-validation-target="thinking" class="govuk-!-display-none">
+  <p class="govuk-body-l">Collecting information...</p>
 </div>
 <% end %>
