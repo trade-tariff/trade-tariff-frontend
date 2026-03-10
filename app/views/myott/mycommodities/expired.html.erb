@@ -18,11 +18,16 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <p>When commodity codes expire they’re no longer usable. The codes might have been removed or absorbed into different commodity codes.</p>
-          <p>On this page you can see what codes have expired and review on the tariff.</p>
           <% if @targets.total_count.positive? %>
+            <p>On this page you can see what codes have expired and review them on the tariff. These links will open in a new tab.</p>
             <p>If you want to replace or remove these expired codes from your watch list, you should amend these expired codes in your own spreadsheet and upload it to replace all commodities.</p>
+          <% else %>
+            <p>On this page you can see any codes that have expired and review them on the tariff.</p>
           <% end %>
           <h2 class="govuk-heading-m">Total expired commodities: <%= number_with_delimiter(@targets.total_count) %></h2>
+          <% if @targets.total_count.positive? %>
+            <p>All links will open in a new tab.</p>
+          <% end %>
         </div>
       </div>
       <% if @targets.total_count.positive? %>
@@ -53,7 +58,9 @@
                 <%= target.validity_end_date.to_fs %>
               </td>
               <td class="govuk-table__cell">
-                <%= link_to('Review on tariff', commodity_path(target.goods_nomenclature_item_id, target: '_blank')) %></td>
+                <%= link_to(commodity_path(target.goods_nomenclature_item_id), target: '_blank', rel: 'noopener') do %>
+                  Review on tariff <span class="govuk-visually-hidden">(opens in new tab)</span>
+                <% end %>
               </td>
             </tr>
             <% end %>
