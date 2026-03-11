@@ -9,6 +9,25 @@ RSpec.describe FeedbackController, type: :request do
     before { get new_feedback_path }
 
     it { is_expected.to have_http_status :success }
+
+    context 'with HTTP_REFERER set' do
+      before do
+        get new_feedback_path, headers: { 'HTTP_REFERER' => 'http://test.host/404' }
+        post feedbacks_path, params: {
+          feedback: { message: },
+          authenticity_token: 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw',
+        }
+        follow_redirect!
+      end
+
+      it 'shows the thanks page with Return to page link' do
+        expect(response.body).to include('Return to page')
+      end
+
+      it 'links Return to page at the referrer URL' do
+        expect(response.body).to include('http://test.host/404')
+      end
+    end
   end
 
   describe 'POST #create' do

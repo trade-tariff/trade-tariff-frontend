@@ -18,10 +18,10 @@ RSpec.describe 'commodities/_interactive_search_feedback', type: :view do
       expect(rendered).to have_css('a[target="_blank"][rel="noopener noreferrer"]')
     end
 
-    it 'passes request_id to the feedback form' do
+    it 'links to the feedback survey' do
       render partial: 'commodities/interactive_search_feedback'
 
-      expect(rendered).to have_link(href: /request_id=test-uuid-123/)
+      expect(rendered).to have_link('giving your feedback (opens in a new tab)', href: 'https://surveys.transformuk.com/s3/17fead99a348')
     end
   end
 
