@@ -47,6 +47,12 @@ variable "container_port" {
   default     = 8080
 }
 
+variable "container_protocol" {
+  description = "Protocol the application exposes."
+  type        = string
+  default     = "http"
+}
+
 variable "enable_service_count_alarm" {
   description = "Whether to create a CloudWatch alarm for the service that alarms when there are no running tasks for the service. Defaults to `true`."
   type        = bool
