@@ -1,13 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-  $('#copy_comm_code').on('click', function(event) {
+  const copyCodeButton = $('#copy_code');
+  const copyCodeLabel = copyCodeButton.find('.commodity-action-button__copy-label');
+  const defaultCopyCodeLabel = copyCodeLabel.text();
+  const copiedCopyCodeLabel = copyCodeButton.data('copied-label');
+  let resetLabelTimeout;
+
+  copyCodeButton.on('click', function(event) {
     navigator.clipboard.writeText($(this).attr('comm-code'));
-    $('.copied').css('text-indent', '0');
-          $('.copied')
-            .delay(500)
-            .fadeOut(750, function() {
-              $('.copied').css('text-indent', '-999em');
-              $('.copied').css('display', 'block');
-            });
+    copyCodeLabel.text(copiedCopyCodeLabel);
+    copyCodeButton.addClass('commodity-action-button--copied');
+    clearTimeout(resetLabelTimeout);
+    resetLabelTimeout = setTimeout(() => {
+      copyCodeLabel.text(defaultCopyCodeLabel);
+    }, 5000);
     event.preventDefault();
   });
 });

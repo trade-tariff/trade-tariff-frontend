@@ -1,4 +1,4 @@
-.manage-tariff-button {
+.commodity-action-button {
   display: inline-flex;
   align-items: center;
   color: rgb(29, 112, 184);
@@ -17,14 +17,66 @@
   background: none;
 }
 
-.manage-tariff-button:hover {
+.commodity-action-button:link,
+.commodity-action-button:visited {
+  color: rgb(29, 112, 184);
+  text-decoration: none;
+}
+
+.commodity-action-button + .commodity-action-button {
+  margin-left: 20px;
+}
+
+.commodity-action-button:hover {
   background-color: rgb(243, 242, 241);
   color: rgb(0, 48, 120);
   text-decoration: none
 }
 
-.manage-tariff-button__icon {
+.commodity-action-button:active {
+  background-color: rgb(243, 242, 241);
+  box-shadow: inset 0 -4px 0 #0b0c0c;
+  color: #0b0c0c;
+}
+
+.commodity-action-button:focus,
+.commodity-action-button:focus-visible {
+  outline: 3px solid transparent;
+  background-color: #fd0;
+  box-shadow: inset 0 -4px 0 #0b0c0c;
+  color: #0b0c0c;
+  text-decoration: none;
+}
+
+.commodity-action-button--copied,
+.commodity-action-button--copied:focus,
+.commodity-action-button--copied:focus-visible {
+  background-color: #fd0;
+  box-shadow: inset 0 -4px 0 #0b0c0c;
+  color: #0b0c0c;
+}
+
+.commodity-action-button--copied:hover,
+.commodity-action-button--copied:active {
+  background-color: rgb(243, 242, 241);
+  box-shadow: inset 0 -4px 0 #0b0c0c;
+  color: #0b0c0c;
+}
+
+.commodity-action-button__icon {
   color: #0b0c0c;
   vertical-align: top;
   margin-right: 5px;
+}
+
+.commodity-action-button__copy-trigger {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.commodity-action-button__copy-label {
+  display: inline-block;
+  width: 11em;
 }
