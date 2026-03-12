@@ -172,6 +172,7 @@ private
     rescue Faraday::Error => e
       Rails.logger.error("Faraday error: #{e.class} - #{e.message}")
       Rails.logger.error(e.backtrace.join("\n"))
+      raise
     end
 
     def has_one(association, opts = {})
