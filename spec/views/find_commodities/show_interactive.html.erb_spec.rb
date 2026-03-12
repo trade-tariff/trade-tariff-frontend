@@ -39,9 +39,9 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
     it { is_expected.to have_text('Steps for searching the tariff') }
   end
 
-  describe 'devolved nations banner' do
-    it { is_expected.to have_css('.app-devolved-nations', text: /Applies to England, Scotland and Wales/) }
-    it { is_expected.to have_link('Guidance for Northern Ireland') }
+  describe 'hero spimm banner' do
+    it { is_expected.to have_css('.govuk-notification-banner', text: /Importing goods into Northern Ireland/) }
+    it { is_expected.to have_link('Check eligibility') }
   end
 
   describe 'other ways to search' do
