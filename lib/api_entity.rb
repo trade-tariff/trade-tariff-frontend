@@ -157,13 +157,21 @@ private
     end
 
     def collection(collection_path, opts = {}, headers = {})
-      resp = api.get(collection_path, opts, headers)
+      begin
+        resp = api.get(collection_path, opts, headers)
+      rescue Faraday::TimeoutError => e
+        Rails.logger.error("Timeout calling #{collection_path}: #{e.message}")
+        raise
+      end
       collection = parse_jsonapi(resp)
       collection = collection.map { |entry_data| new(entry_data) }
       if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
         collection = paginate_collection(collection, resp.body.dig('meta', 'pagination'))
       end
       collection
+    rescue Faraday::Error => e
+      Rails.logger.error("Faraday error: #{e.class} - #{e.message}")
+      Rails.logger.error(e.backtrace.join("\n"))
     end
 
     def has_one(association, opts = {})
