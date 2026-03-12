@@ -110,10 +110,6 @@ module TradeTariffFrontend
     ENV['ROO_WIZARD'] == 'true' && TradeTariffFrontend::ServiceChooser.uk?
   end
 
-  def basic_auth?
-    ENV['BASIC_AUTH'].to_s == 'true'
-  end
-
   def webchat_enabled?
     webchat_url.present?
   end
@@ -131,7 +127,7 @@ module TradeTariffFrontend
   end
 
   def interactive_search_enabled?
-    !production?
+    !production? && !ServiceChooser.xi?
   end
 
   def green_lanes_api_token
@@ -148,6 +144,10 @@ module TradeTariffFrontend
 
   def basic_session_password
     @basic_session_password ||= ENV['BASIC_PASSWORD']
+  end
+
+  def basic_session_passwords
+    @basic_session_passwords ||= basic_session_password.to_s.split(',').map(&:strip).reject(&:blank?)
   end
 
   class FilterBadURLEncoding
