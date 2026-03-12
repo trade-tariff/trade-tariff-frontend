@@ -6,7 +6,7 @@
         FEEDBACK
       </strong>
       <span class="govuk-phase-banner__text">
-        Help us improve this service and <%= link_to 'give your feedback (opens in new tab)', 'https://surveys.transformuk.com/s3/d95fad286fcd', class: 'govuk-link', target: '_blank' %>.
+        Help us improve this service and <%= link_to 'give your feedback (opens in new tab)', feedback_link_url, class: 'govuk-link', **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener noreferrer' }) %>.
       </span>
     </p>
   </div>

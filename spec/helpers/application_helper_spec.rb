@@ -461,4 +461,38 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to have_css 'a[href="/xi/duty-calculator/1704909991/import-date"]' }
     end
   end
+
+  describe '#subscriptions_page?' do
+    context 'when request path starts with /subscriptions' do
+      before { allow(helper).to receive(:request).and_return(double(path: '/subscriptions')) }
+
+      it { expect(helper.subscriptions_page?).to be true }
+    end
+
+    context 'when request path is /subscriptions/start' do
+      before { allow(helper).to receive(:request).and_return(double(path: '/subscriptions/start')) }
+
+      it { expect(helper.subscriptions_page?).to be true }
+    end
+
+    context 'when request path is not under /subscriptions' do
+      before { allow(helper).to receive(:request).and_return(double(path: '/feedback')) }
+
+      it { expect(helper.subscriptions_page?).to be false }
+    end
+  end
+
+  describe '#feedback_link_url' do
+    context 'when on a subscriptions page' do
+      before { allow(helper).to receive(:subscriptions_page?).and_return(true) }
+
+      it { expect(helper.feedback_link_url).to eq(feedback_path) }
+    end
+
+    context 'when not on a subscriptions page' do
+      before { allow(helper).to receive(:subscriptions_page?).and_return(false) }
+
+      it { expect(helper.feedback_link_url).to eq('https://surveys.transformuk.com/s3/17fead99a348') }
+    end
+  end
 end
