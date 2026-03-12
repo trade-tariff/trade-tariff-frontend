@@ -158,6 +158,7 @@ private
 
     def collection(collection_path, opts = {}, headers = {})
       begin
+        Rails.logger.info("Calling #{collection_path}:#{opts}:#{headers}")
         resp = api.get(collection_path, opts, headers)
       rescue Faraday::TimeoutError => e
         Rails.logger.error("Timeout calling #{collection_path}: #{e.message}")
