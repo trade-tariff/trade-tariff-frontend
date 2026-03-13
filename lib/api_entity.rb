@@ -160,7 +160,7 @@ private
       begin
         Rails.logger.info("Calling #{collection_path}:#{opts}:#{headers}")
         resp = api.get(collection_path, opts, headers)
-      rescue Faraday::TimeoutError, Timeout::ExitException => e
+      rescue Faraday::TimeoutError => e
         Rails.logger.error("Timeout calling #{collection_path}: #{e.message}")
         raise
       rescue StandardError => e
