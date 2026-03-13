@@ -2,8 +2,8 @@
   <div class="govuk-grid-column-one-half ">
     <h2 class="govuk-heading-l myott-mycommodities__counts-heading">Your commodities</h2>
   </div>
-  <div class="govuk-grid-column-one-half download-commodities-top govuk-!-text-align-right">
-      <%= render 'download_commodities' if @commodity_code_counts.total <= 5000 %>
+  <div class="govuk-grid-column-one-half myott-mycommodities__download-desktop govuk-!-text-align-right">
+      <%= render 'download_commodities' %>
   </div>
 </div>
 <div class="govuk-grid-row govuk-!-font-weight-bold">
@@ -11,14 +11,14 @@
     <div class="category_container">
       Errors from upload:
       <br />
-      <%= link_to number_with_delimiter(commodity_codes.invalid), invalid_myott_mycommodities_path, class:"govuk-link--no-visited-state" %>
+      <%= link_to number_with_delimiter(commodity_codes.invalid), invalid_myott_mycommodities_path, class: "govuk-link--no-visited-state" %>
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
     <div class="category_container">
       Expired commodities:
       <br />
-      <%= link_to number_with_delimiter(commodity_codes.expired), expired_myott_mycommodities_path, class:"govuk-link--no-visited-state" %>
+      <%= link_to number_with_delimiter(commodity_codes.expired), expired_myott_mycommodities_path, class: "govuk-link--no-visited-state" %>
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
@@ -28,11 +28,11 @@
       <% if commodity_codes.active.zero? %>
         0
       <% else %>
-        <%= link_to number_with_delimiter(commodity_codes.active), active_myott_mycommodities_path, class:"govuk-link--no-visited-state" %>
+        <%= link_to number_with_delimiter(commodity_codes.active), active_myott_mycommodities_path, class: "govuk-link--no-visited-state" %>
       <% end %>
     </div>
   </div>
-  <div class="govuk-grid-column-one-half download-commodities-bottom">
-    <%= render 'download_commodities' if @commodity_code_counts.total <= 5000 %>
+  <div class="govuk-grid-column-one-half myott-mycommodities__download-mobile">
+    <%= render 'download_commodities' %>
   </div>
 </div>
