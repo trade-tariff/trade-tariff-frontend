@@ -164,7 +164,7 @@ private
         Rails.logger.error("Timeout calling #{collection_path}: #{e.message}")
         raise
       rescue StandardError => e
-        Rails.logger.error("Standard error #{collection_path}: #{e.message}")
+        Rails.logger.error(e.backtrace.join("\n"))
         raise
       end
 
