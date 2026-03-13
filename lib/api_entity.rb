@@ -157,13 +157,7 @@ private
     end
 
     def collection(collection_path, opts = {}, headers = {})
-      begin
-        resp = api.get(collection_path, opts, headers)
-      rescue Faraday::TimeoutError, Timeout::ExitException => e
-        Rails.logger.error("Timeout calling #{collection_path}: #{e.message}")
-        Rails.logger.error(e.backtrace.join("\n"))
-        raise
-      end
+      resp = api.get(collection_path, opts, headers)
 
       collection = parse_jsonapi(resp)
       collection = collection.map { |entry_data| new(entry_data) }
@@ -173,7 +167,6 @@ private
       collection
     rescue Faraday::Error => e
       Rails.logger.error("Faraday error: #{e.class} - #{e.message}")
-      Rails.logger.error(e.backtrace.join("\n"))
       raise
     end
 
