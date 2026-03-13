@@ -160,10 +160,14 @@ private
       begin
         Rails.logger.info("Calling #{collection_path}:#{opts}:#{headers}")
         resp = api.get(collection_path, opts, headers)
-      rescue Faraday::TimeoutError => e
+      rescue Faraday::TimeoutError, Timeout::ExitException => e
         Rails.logger.error("Timeout calling #{collection_path}: #{e.message}")
         raise
+      rescue StandardError => e
+        Rails.logger.error("Standard error #{collection_path}: #{e.message}")
+        raise
       end
+
       collection = parse_jsonapi(resp)
       collection = collection.map { |entry_data| new(entry_data) }
       if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
