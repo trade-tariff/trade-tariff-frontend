@@ -4,5 +4,5 @@ cpu                        = 1024
 memory                     = 2048
 max_capacity               = 1
 container_port             = "8443"
-container_protocol         = "https"
+container_protocol         = "http"
 enable_service_count_alarm = false
