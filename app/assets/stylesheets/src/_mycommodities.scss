@@ -31,13 +31,13 @@
     }
   }
 
-  .download-commodities-top {
+  .myott-mycommodities__download-desktop {
     @include govuk-media-query($until: tablet) {
       display: none;
     }
   }
 
-  .download-commodities-bottom {
+  .myott-mycommodities__download-mobile {
     display: none;
     @include govuk-media-query($until: tablet) {
       display: block;
