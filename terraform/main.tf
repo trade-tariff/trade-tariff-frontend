@@ -16,7 +16,7 @@ module "service" {
   docker_tag   = var.docker_tag
   skip_destroy = true
 
-  container_port = 8080
+  container_port = var.container_port
 
   cpu    = var.cpu
   memory = var.memory

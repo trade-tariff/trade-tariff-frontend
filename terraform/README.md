@@ -41,6 +41,8 @@ Terraform to deploy the service into AWS.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_container_port"></a> [container\_port](#input\_container\_port) | Listening port. | `number` | `8080` | no |
+| <a name="input_container_protocol"></a> [container\_protocol](#input\_container\_protocol) | Protocol the application exposes. | `string` | `"http"` | no |
 | <a name="input_cpu"></a> [cpu](#input\_cpu) | CPU units to use. | `number` | n/a | yes |
 | <a name="input_docker_tag"></a> [docker\_tag](#input\_docker\_tag) | Image tag to use. | `string` | n/a | yes |
 | <a name="input_enable_service_count_alarm"></a> [enable\_service\_count\_alarm](#input\_enable\_service\_count\_alarm) | Whether to create a CloudWatch alarm for the service that alarms when there are no running tasks for the service. Defaults to `true`. | `bool` | `true` | no |
