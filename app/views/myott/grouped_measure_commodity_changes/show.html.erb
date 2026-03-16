@@ -72,7 +72,7 @@
       </dl>
 
       <% @grouped_measure_commodity_changes.impacted_measures.each do |measure_type, changes| %>
-        <%= render 'impacted_measures', measure_type: measure_type, changes: changes %>
+        <%= render 'impacted_measures', measure_type: measure_type, presenter: Myott::ImpactedMeasuresPresenter.new(changes) %>
       <% end %>
     </div>
   </div>
