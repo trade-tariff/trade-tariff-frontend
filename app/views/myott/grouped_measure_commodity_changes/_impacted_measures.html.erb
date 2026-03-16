@@ -17,20 +17,18 @@
   </thead>
   <tbody class="govuk-table__body">
     <% presenter.each do |change| %>
-      <% date = Date.parse(change['date_of_effect']) %>
-      <% date_visible = Date.parse(change['date_of_effect_visible']) %>
       <tr class="govuk-table__row">
-        <th class="govuk-table__header"><%= change['change_type'] %></th>
+        <th class="govuk-table__header"><%= change.change_type %></th>
         <% if presenter.has_additional_code? %>
-          <td class="govuk-table__cell"><%= sanitize change['additional_code'].presence || 'N/A' %></td>
+          <td class="govuk-table__cell"><%= sanitize change.additional_code %></td>
         <% end %>
         <% if presenter.has_quota_order_number? %>
-          <td class="govuk-table__cell"><%= sanitize change['quota_order_number'].presence || 'N/A' %></td>
+          <td class="govuk-table__cell"><%= sanitize change.quota_order_number %></td>
         <% end %>
-        <td class="govuk-table__cell"><%= date.to_fs %></td>
+        <td class="govuk-table__cell"><%= change.date_of_effect %></td>
         <td class="govuk-table__cell">
-          <%= link_to(commodity_path(@grouped_measure_commodity_changes.goods_nomenclature_item_id, day: date_visible.day, month: date_visible.month, year: date_visible.year), target: '_blank', rel: 'noopener') do %>
-            View commodity on <%= date_visible.to_fs %> <span class="govuk-visually-hidden">(opens in new tab)</span>
+          <%= link_to(commodity_path(@grouped_measure_commodity_changes.goods_nomenclature_item_id, **change.commodity_link_params), target: '_blank', rel: 'noopener') do %>
+            View commodity on <%= change.date_of_effect_visible %> <span class="govuk-visually-hidden">(opens in new tab)</span>
           <% end %>
         </td>
       </tr>
