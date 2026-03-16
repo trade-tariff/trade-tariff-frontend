@@ -1,5 +1,3 @@
-<% has_additional_code = changes.any? { |change| change['additional_code'].present? } %>
-
 <h2 class="govuk-heading-l">Measure affected: <%= measure_type %></h2>
 <p>The following links open in a new tab</p>
 
@@ -7,21 +5,27 @@
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th class="govuk-table__header">Change type</th>
-      <% if has_additional_code %>
+      <% if presenter.has_additional_code? %>
         <th class="govuk-table__header">Additional code</th>
+      <% end %>
+      <% if presenter.has_quota_order_number? %>
+        <th class="govuk-table__header">Quota order number</th>
       <% end %>
       <th class="govuk-table__header">Date of effect</th>
       <th class="govuk-table__header">Action
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    <% changes.each do |change| %>
+    <% presenter.each do |change| %>
       <% date = Date.parse(change['date_of_effect']) %>
       <% date_visible = Date.parse(change['date_of_effect_visible']) %>
       <tr class="govuk-table__row">
         <th class="govuk-table__header"><%= change['change_type'] %></th>
-        <% if has_additional_code %>
+        <% if presenter.has_additional_code? %>
           <td class="govuk-table__cell"><%= sanitize change['additional_code'].presence || 'N/A' %></td>
+        <% end %>
+        <% if presenter.has_quota_order_number? %>
+          <td class="govuk-table__cell"><%= sanitize change['quota_order_number'].presence || 'N/A' %></td>
         <% end %>
         <td class="govuk-table__cell"><%= date.to_fs %></td>
         <td class="govuk-table__cell">
