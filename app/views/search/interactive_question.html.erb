@@ -62,7 +62,7 @@
         <ul class="govuk-list govuk-list--bullet">
           <% @results.all.first(@results.result_limit).each do |result| %>
             <li>
-              <%= result.formatted_description %>
+              <%= sanitize result.formatted_description %>
               (<%= result.goods_nomenclature_item_id %>)
             </li>
           <% end %>
