@@ -127,7 +127,7 @@ module TradeTariffFrontend
   end
 
   def interactive_search_enabled?
-    !production?
+    !production? && !ServiceChooser.xi?
   end
 
   def green_lanes_api_token

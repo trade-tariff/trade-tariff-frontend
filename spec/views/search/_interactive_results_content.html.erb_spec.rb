@@ -32,7 +32,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
           'description' => 'Containing less than 70% by weight of sugar',
           'formatted_description' => 'Containing less than 70% by weight of sugar',
           'self_text' => 'Citrus marmalade and jam products',
-          'classification_description' => 'Citrus fruit jam with less than 70% sugar',
+          'classification_description' => 'Citrus fruit jam<br>with less than 70% sugar',
           'full_description' => 'Citrus fruit jam with less than 70% sugar',
           'heading_description' => 'Jams and marmalades',
           'declarable' => true,
@@ -65,8 +65,14 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'result descriptions' do
-    it { is_expected.to have_css('h3', text: 'Citrus fruit jam with less than 70% sugar') }
+    it { is_expected.to have_css('h3', text: /Citrus fruit jam.*with less than 70% sugar/) }
     it { is_expected.to have_css('p.govuk-body-s', text: 'Citrus marmalade and jam products') }
+
+    it 'renders br tags as HTML rather than escaping them' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered).not_to include('&lt;br&gt;')
+    end
   end
 
   describe 'commodity links' do
