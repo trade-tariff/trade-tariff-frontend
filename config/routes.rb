@@ -81,6 +81,9 @@ Rails.application.routes.draw do
         get :confirmation
         get :download_changes
         get :download_commodities
+        get :create_data_export
+        get :download_data_export
+        get :get_data_export_status
       end
     end
 

@@ -60,8 +60,36 @@ module Myott
     end
 
     def download_commodities
-      file_data = SubscriptionTarget.download_file(subscription.resource_id, user_id_token)
+      if TradeTariffFrontend.myott_data_export_enabled?
+        redirect_to create_data_export_myott_mycommodities_path(export_type: 'ccwl') and return
+      else
+        file_data = SubscriptionTarget.download_file(subscription.resource_id, user_id_token)
+        send_file_to_browser(file_data)
+      end
+    end
 
+    def create_data_export
+      export_type = params[:export_type] || 'ccwl'
+      @data_export = DataExport.create!(subscription.resource_id, user_id_token, { export_type: export_type })
+    end
+
+    def get_data_export_status
+      data_export = DataExport.find(subscription.resource_id, params[:export_id], user_id_token)
+      return render json: { status: 'not_found' }, status: :not_found if data_export.blank?
+
+      render json: { status: data_export.status, export_id: data_export.resource_id }
+    end
+
+    def download_data_export
+      file_data = DataExport.download_file(subscription.resource_id, params[:export_id], user_id_token)
+      return head :not_found if file_data.blank?
+
+      send_file_to_browser(file_data)
+    end
+
+    private
+
+    def send_file_to_browser(file_data)
       send_data(
         file_data[:body],
         filename: file_data[:filename],
@@ -70,8 +98,6 @@ module Myott
       )
       response.headers['Cache-Control'] = 'no-cache'
     end
-
-    private
 
     def subscription
       @subscription ||= current_subscription(SubscriptionType::SUBSCRIPTION_TYPE_NAMES[:my_commodities])

@@ -1,0 +1,38 @@
+<% myott_page_title "Downloading File", error: @alert %>
+
+<div data-controller="data-export" data-data-export-status-url-value="<%= get_data_export_status_myott_mycommodities_path(export_id: @data_export.resource_id) %>" data-data-export-poll-interval-value="2000">
+  <div class="govuk-body myott-mycommodities">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">Downloading Data</h1>
+
+        <div class="watch-list-container govuk-white-text" data-data-export-target="dataExportStatus">
+          Status: <%= @data_export.status %>
+        </div>
+
+        <div class="myott-spinner govuk-!-margin-top-3" data-data-export-target="spinner" <%= "hidden" if @data_export.status == "completed" %>>
+          <div class="myott-spinner__icon"></div>
+          <div class="govuk-body-s govuk-!-margin-bottom-0"data-data-export-target="spinnerStatus">
+            <%= @data_export.status.to_s.humanize %>...
+          </div>
+          <%= link_to 'cancel', myott_mycommodities_path, class: 'govuk-link govuk-!-margin-left-4 govuk-link--no-visited-state' %>
+        </div>
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full" data-data-export-target="downloadContainer" <%= "hidden" unless @data_export.status == "completed" %>>
+            <div class="govuk-button-group">
+              <%= link_to download_data_export_myott_mycommodities_path(export_id: @data_export.resource_id), class: "govuk-button govuk-!-margin-top-4" do %>
+                <span>Download file</span>
+              <% end %>
+              <%= link_to 'Go to commodity watch list', myott_mycommodities_path, class: 'govuk-link govuk-!-margin-left-4 govuk-link--no-visited-state' %>
+            </div>
+          </div>
+
+          <div class="govuk-grid-column-full govuk-!-margin-top-4" data-data-export-target="failedContainer" hidden>
+            <%= link_to 'Go to commodity watch list', myott_mycommodities_path, class: 'govuk-link govuk-link--no-visited-state' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
