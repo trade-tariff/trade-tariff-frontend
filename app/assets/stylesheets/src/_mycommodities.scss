@@ -34,7 +34,7 @@
   .govuk-white-text {
     color: govuk-colour(white);
   }
-  
+
   .myott-mycommodities__download-desktop {
     @include govuk-media-query($until: tablet) {
       display: none;
@@ -47,7 +47,7 @@
       display: block;
     }
   }
-  
+
   .myott-spinner {
     display: inline-flex;
     align-items: center;
