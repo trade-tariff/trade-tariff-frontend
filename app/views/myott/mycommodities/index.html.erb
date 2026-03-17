@@ -21,9 +21,25 @@
         <div class="govuk-grid-column-full">
           <h2 class="govuk-heading-l govuk-!-margin-top-3">Changes to your commodities and measures</h2>
           <h3 class="govuk-heading-m">Changes published: <%= as_of.to_fs %></h3>
-          <%= render 'download_changes' if @commodity_changes.any? || @grouped_measure_changes.any? %>
-          <%= render 'commodity_changes', changes: @commodity_changes %>
-          <%= render 'grouped_measure_changes', changes: @grouped_measure_changes %>
+          <% if @last_change_date < as_of %>
+            <div class="no-changes-box">
+              <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                  <span class="govuk-visually-hidden">Warning</span>
+                  Changes are not yet available for this date.
+                  <p class="govuk-!-font-weight-regular">
+                    You will be notified by email if changes to your active codes are available.<br>
+                    Most recent changes published on: <%= @last_change_date.to_fs %>
+                  </p>
+                </strong>
+              </div>
+            </div>
+          <% else %>
+            <%= render 'download_changes' if @commodity_changes.any? || @grouped_measure_changes.any? %>
+            <%= render 'commodity_changes', changes: @commodity_changes %>
+            <%= render 'grouped_measure_changes', changes: @grouped_measure_changes %>
+          <% end %>
 
           <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Manage your commodity subscription</h2>
           <div class="gouk-body">
