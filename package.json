@@ -18,7 +18,7 @@
     "jquery-prevent-scroll-keys": "^1.0.1",
     "js-cookie": "^3.0.5",
     "mark.js": "^8.11.1",
-    "sass": "^1.97.3"
+    "sass": "^1.98.0"
   },
   "scripts": {
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/print.sass.scss:./app/assets/builds/print.css --no-source-map --load-path=node_modules --load-path=app/assets/stylesheets",
