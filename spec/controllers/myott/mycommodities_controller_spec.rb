@@ -65,17 +65,17 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
 
         it { is_expected.to respond_with(:success) }
 
-        it { expect(assigns(:commodity_code_counts).total).to eq(subscription.meta[:counts]['total']) }
-        it { expect(assigns(:commodity_code_counts).active).to eq(subscription.meta[:counts]['active']) }
-        it { expect(assigns(:commodity_code_counts).expired).to eq(subscription.meta[:counts]['expired']) }
-        it { expect(assigns(:commodity_code_counts).invalid).to eq(subscription.meta[:counts]['invalid']) }
+        it { expect(controller.send(:commodity_code_counts).total).to eq(subscription.meta[:counts]['total']) }
+        it { expect(controller.send(:commodity_code_counts).active).to eq(subscription.meta[:counts]['active']) }
+        it { expect(controller.send(:commodity_code_counts).expired).to eq(subscription.meta[:counts]['expired']) }
+        it { expect(controller.send(:commodity_code_counts).invalid).to eq(subscription.meta[:counts]['invalid']) }
 
-        it 'assigns @grouped_measure_changes' do
-          expect(assigns(:grouped_measure_changes)).to eq(grouped_measure_changes)
+        it 'exposes grouped_measure_changes' do
+          expect(controller.send(:grouped_measure_changes)).to eq(grouped_measure_changes)
         end
 
-        it 'assigns @commodity_changes' do
-          expect(assigns(:commodity_changes)).to eq(commodity_changes)
+        it 'exposes commodity_changes' do
+          expect(controller.send(:commodity_changes)).to eq(commodity_changes)
         end
       end
 
@@ -103,10 +103,10 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
         it { is_expected.to respond_with(:success) }
 
         it 'assigns default meta values', :aggregate_failures do
-          expect(assigns(:commodity_code_counts).total).to eq(0)
-          expect(assigns(:commodity_code_counts).active).to eq(0)
-          expect(assigns(:commodity_code_counts).expired).to eq(0)
-          expect(assigns(:commodity_code_counts).invalid).to eq(0)
+          expect(controller.send(:commodity_code_counts).total).to eq(0)
+          expect(controller.send(:commodity_code_counts).active).to eq(0)
+          expect(controller.send(:commodity_code_counts).expired).to eq(0)
+          expect(controller.send(:commodity_code_counts).invalid).to eq(0)
         end
       end
 
@@ -126,10 +126,10 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
         it { is_expected.to respond_with(:success) }
 
         it 'assigns default meta values', :aggregate_failures do
-          expect(assigns(:commodity_code_counts).total).to eq(0)
-          expect(assigns(:commodity_code_counts).active).to eq(0)
-          expect(assigns(:commodity_code_counts).expired).to eq(0)
-          expect(assigns(:commodity_code_counts).invalid).to eq(0)
+          expect(controller.send(:commodity_code_counts).total).to eq(0)
+          expect(controller.send(:commodity_code_counts).active).to eq(0)
+          expect(controller.send(:commodity_code_counts).expired).to eq(0)
+          expect(controller.send(:commodity_code_counts).invalid).to eq(0)
         end
       end
     end

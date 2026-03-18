@@ -18,11 +18,7 @@ module Myott
       @targets = get_subscription_targets('invalid')
     end
 
-    def index
-      @commodity_code_counts = counts_from_subscription_metadata
-      @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
-      @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
-    end
+    def index; end
 
     def create
       @upload_form = Myott::CommodityUploadForm.new(upload_params)
@@ -121,6 +117,28 @@ module Myott
         Time.zone.yesterday
       end
     end
-    helper_method :as_of
+
+    def commodity_code_counts
+      @commodity_code_counts ||= counts_from_subscription_metadata
+    end
+
+    def last_change_date
+      date = subscription&.dig(:meta, :published, :last_change_date)
+
+      return if date.blank?
+
+      change_date = Date.parse(date)
+      change_date if change_date < as_of
+    end
+
+    def grouped_measure_changes
+      @grouped_measure_changes ||= TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+    end
+
+    def commodity_changes
+      @commodity_changes ||= TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+    end
+
+    helper_method :as_of, :commodity_code_counts, :last_change_date, :grouped_measure_changes, :commodity_changes
   end
 end
