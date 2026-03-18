@@ -1,4 +1,21 @@
 .myott-mycommodities{
+  .no-changes-box {
+    background: #f3f2f1;
+    margin: 0px govuk-spacing(3);
+    padding: govuk-spacing(3) govuk-spacing(3) 0 govuk-spacing(3);
+    border-radius: 2px;
+    box-sizing: border-box;
+    clear: both;
+
+    @include govuk-media-query($until: tablet) {
+      margin: govuk-spacing(2) 0;
+      padding: govuk-spacing(2) govuk-spacing(2) 0 govuk-spacing(2);
+    }
+
+    .govuk-warning-text {
+      margin-bottom: 0;
+    }
+  }
 
   .myott-mycommodities__counts-heading {
     color: govuk-colour(white);
