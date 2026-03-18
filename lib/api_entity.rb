@@ -158,12 +158,16 @@ private
 
     def collection(collection_path, opts = {}, headers = {})
       resp = api.get(collection_path, opts, headers)
+
       collection = parse_jsonapi(resp)
       collection = collection.map { |entry_data| new(entry_data) }
       if resp.body.is_a?(Hash) && resp.body.dig('meta', 'pagination').present?
         collection = paginate_collection(collection, resp.body.dig('meta', 'pagination'))
       end
       collection
+    rescue Faraday::Error => e
+      Rails.logger.error("Faraday error: #{e.class} - #{e.message}")
+      raise
     end
 
     def has_one(association, opts = {})

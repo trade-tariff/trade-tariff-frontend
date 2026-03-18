@@ -17,6 +17,10 @@ data "aws_lb_target_group" "this" {
   name = "frontend"
 }
 
+data "aws_lb_target_group" "this_https" {
+  name = "frontend-https"
+}
+
 data "aws_security_group" "this" {
   name = "trade-tariff-ecs-security-group-${var.environment}"
 }
