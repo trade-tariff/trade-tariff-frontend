@@ -39,7 +39,10 @@ module Myott
       end
 
       new_subscriber = subscription.nil?
-      update_user_commodity_codes(result.codes)
+      unless update_user_commodity_codes(result.codes, new_subscriber)
+        @upload_form.errors.add(:file, 'We could not create your subscription. Please try again.')
+        return render(:new)
+      end
       redirect_to confirmation_myott_mycommodities_path params: { new_subscriber: new_subscriber } and return
     end
 
@@ -109,12 +112,19 @@ module Myott
       end
     end
 
-    def update_user_commodity_codes(commodity_codes)
-      User.update(user_id_token, my_commodities_subscription: 'true') if subscription.nil?
+    def update_user_commodity_codes(commodity_codes, new_subscriber)
+      if new_subscriber
+        User.update(user_id_token, my_commodities_subscription: 'true')
+        reload_subscription
+      end
+      return false if subscription.nil?
 
       Subscription.batch(subscription.resource_id,
                          user_id_token,
                          targets: TariffJsonapiParser.new(commodity_codes.uniq).parse)
+      true
+    rescue StandardError
+      false
     end
 
     def get_subscription_targets(category)

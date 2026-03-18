@@ -10,7 +10,7 @@
     border: 2px solid  govuk-functional-colour(border);
     @include govuk-media-query($until: tablet) {
       margin-top: govuk-spacing(5) - 1px;
-      margin-bottom: govuk-spacing(5) - 1px;
+      margin-bottom: govuk-spacing(4) - 1px;
     }
   }
 
@@ -33,6 +33,11 @@
 
   .govuk-white-text {
     color: govuk-colour(white);
+    
+  }
+  
+  .myott-mycommodities__download-link-text {
+    text-decoration: underline;
   }
 
   .myott-mycommodities__download-desktop {
@@ -42,9 +47,16 @@
   }
 
   .myott-mycommodities__download-mobile {
+    font-size: govuk-font-size(16);
     display: none;
     @include govuk-media-query($until: tablet) {
       display: block;
+    }
+
+    .myott-mycommodities__download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25em;
     }
   }
 
