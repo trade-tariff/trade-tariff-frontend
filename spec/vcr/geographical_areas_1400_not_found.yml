@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3019/api/xi/geographical_areas/1400
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - TradeTariffFrontend/a4d021c2
+      Accept:
+      - application/vnd.hmrc.2.0+json
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"title":"The resource you were looking for was not found."}]}'
+  recorded_at: Wed, 18 Mar 2026 10:00:00 GMT
+- request:
+    method: get
+    uri: http://localhost:3018/api/uk/geographical_areas/1400
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - TradeTariffFrontend/a4d021c2
+      Accept:
+      - application/vnd.hmrc.2.0+json
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"title":"The resource you were looking for was not found."}]}'
+  recorded_at: Wed, 18 Mar 2026 10:00:00 GMT
+recorded_with: VCR 6.3.1
