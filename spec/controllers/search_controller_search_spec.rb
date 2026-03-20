@@ -270,8 +270,8 @@ RSpec.describe SearchController, type: :controller do
       end
     end
 
-    context 'with internal interactive search' do
-      subject(:do_response) { get :search, params: }
+    context 'with internal interactive search via POST' do
+      subject(:do_response) { post :search, params: }
 
       let(:commodity_data) do
         {
