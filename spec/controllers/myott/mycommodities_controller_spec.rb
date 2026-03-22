@@ -276,31 +276,48 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
         stub_authenticated_user(user)
         stub_get_subscription('my_commodities', subscription)
         allow(controller).to receive(:user_id_token).and_return(user_id_token)
-        allow(SubscriptionTarget).to receive(:download_file).and_return(file_data)
-        get :download_commodities
       end
 
-      it { is_expected.to respond_with(:success) }
+      context 'when myott_data_export_enabled is true' do
+        before do
+          allow(TradeTariffFrontend).to receive(:myott_data_export_enabled?).and_return(true)
+          get :download_commodities
+        end
 
-      it 'sets Content-Disposition header', :aggregate_failures do
-        expect(response.headers['Content-Disposition']).to include('attachment')
-        expect(response.headers['Content-Disposition']).to include('my_commodity_watch_list.xlsx')
+        it 'redirects to create_data_export with ccwl export type' do
+          expect(response).to redirect_to(create_data_export_myott_mycommodities_path(export_type: 'ccwl'))
+        end
       end
 
-      it 'sets Content-Type header' do
-        expect(response.headers['Content-Type']).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-      end
+      context 'when myott_data_export_enabled is false' do
+        before do
+          allow(TradeTariffFrontend).to receive(:myott_data_export_enabled?).and_return(false)
+          allow(SubscriptionTarget).to receive(:download_file).and_return(file_data)
+          get :download_commodities
+        end
 
-      it 'sets Cache-Control header' do
-        expect(response.headers['Cache-Control']).to eq('no-cache')
-      end
+        it { is_expected.to respond_with(:success) }
 
-      it 'calls SubscriptionTarget.download_file with correct params' do
-        expect(SubscriptionTarget).to have_received(:download_file).with(subscription.resource_id, user_id_token)
-      end
+        it 'sets Content-Disposition header', :aggregate_failures do
+          expect(response.headers['Content-Disposition']).to include('attachment')
+          expect(response.headers['Content-Disposition']).to include('my_commodity_watch_list.xlsx')
+        end
 
-      it 'returns file body' do
-        expect(response.body).to eq(file_data[:body])
+        it 'sets Content-Type header' do
+          expect(response.headers['Content-Type']).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        end
+
+        it 'sets Cache-Control header' do
+          expect(response.headers['Cache-Control']).to eq('no-cache')
+        end
+
+        it 'calls SubscriptionTarget.download_file with correct params' do
+          expect(SubscriptionTarget).to have_received(:download_file).with(subscription.resource_id, user_id_token)
+        end
+
+        it 'returns file body' do
+          expect(response.body).to eq(file_data[:body])
+        end
       end
     end
 
@@ -312,6 +329,130 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
       end
 
       it { is_expected.to redirect_to(new_myott_mycommodity_path) }
+    end
+  end
+
+  describe 'GET #create_data_export' do
+    let(:user_id_token) { 'test-token' }
+    let(:data_export) { instance_double(DataExport, status: 'queued', resource_id: '5') }
+
+    it_behaves_like 'a protected myott page', :create_data_export
+
+    context 'when current_user is valid' do
+      before do
+        stub_authenticated_user(user)
+        stub_get_subscription('my_commodities', subscription)
+        allow(controller).to receive(:user_id_token).and_return(user_id_token)
+        allow(DataExport).to receive(:create!).and_return(data_export)
+      end
+
+      it 'creates a ccwl export by default' do
+        get :create_data_export
+        expect(assigns(:data_export)).to eq(data_export)
+      end
+
+      it 'uses export_type from params when provided' do
+        get :create_data_export, params: { export_type: 'custom_type' }
+
+        expect(DataExport).to have_received(:create!).with(
+          subscription.resource_id,
+          user_id_token,
+          { export_type: 'custom_type' },
+        )
+      end
+    end
+  end
+
+  describe 'GET #get_data_export_status' do
+    let(:user_id_token) { 'test-token' }
+
+    it_behaves_like 'a protected myott page', :get_data_export_status
+
+    context 'when current_user is valid' do
+      before do
+        stub_authenticated_user(user)
+        stub_get_subscription('my_commodities', subscription)
+        allow(controller).to receive(:user_id_token).and_return(user_id_token)
+      end
+
+      context 'when data export exists' do
+        let(:data_export) { instance_double(DataExport, status: 'processing', resource_id: '5') }
+
+        before do
+          allow(DataExport).to receive(:find).and_return(data_export)
+          get :get_data_export_status, params: { export_id: '5' }, format: :json
+        end
+
+        it 'returns json status payload', :aggregate_failures do
+          expect(response).to have_http_status(:ok)
+          expect(JSON.parse(response.body)).to eq(
+            'status' => 'processing',
+            'export_id' => '5',
+          )
+        end
+      end
+
+      context 'when data export is not found' do
+        before do
+          allow(DataExport).to receive(:find).and_return(nil)
+          get :get_data_export_status, params: { export_id: '5' }, format: :json
+        end
+
+        it 'returns not_found json', :aggregate_failures do
+          expect(response).to have_http_status(:not_found)
+          expect(JSON.parse(response.body)).to eq('status' => 'not_found')
+        end
+      end
+    end
+  end
+
+  describe 'GET #download_data_export' do
+    let(:user_id_token) { 'test-token' }
+    let(:file_data) do
+      {
+        body: 'file content',
+        filename: 'commodity_watch_list-your_codes.xlsx',
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      }
+    end
+
+    it_behaves_like 'a protected myott page', :download_data_export
+
+    context 'when current_user is valid' do
+      before do
+        stub_authenticated_user(user)
+        stub_get_subscription('my_commodities', subscription)
+        allow(controller).to receive(:user_id_token).and_return(user_id_token)
+      end
+
+      context 'when file exists' do
+        before do
+          allow(DataExport).to receive(:download_file).and_return(file_data)
+          get :download_data_export, params: { export_id: '5' }
+        end
+
+        it 'calls DataExport.download_file with correct params' do
+          expect(DataExport).to have_received(:download_file).with(subscription.resource_id, '5', user_id_token)
+        end
+
+        it 'returns file download response', :aggregate_failures do
+          expect(response).to have_http_status(:ok)
+          expect(response.headers['Content-Disposition']).to include('attachment')
+          expect(response.headers['Content-Disposition']).to include('commodity_watch_list-your_codes.xlsx')
+          expect(response.headers['Content-Type']).to eq('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+          expect(response.headers['Cache-Control']).to eq('no-cache')
+          expect(response.body).to eq(file_data[:body])
+        end
+      end
+
+      context 'when file is missing' do
+        before do
+          allow(DataExport).to receive(:download_file).and_return(nil)
+          get :download_data_export, params: { export_id: '5' }
+        end
+
+        it { expect(response).to have_http_status(:not_found) }
+      end
     end
   end
 end

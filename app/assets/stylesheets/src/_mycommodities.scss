@@ -48,6 +48,11 @@
     }
   }
 
+  .govuk-white-text {
+    color: govuk-colour(white);
+
+  }
+
   .myott-mycommodities__download-link-text {
     text-decoration: underline;
   }
@@ -70,5 +75,36 @@
       align-items: center;
       gap: 0.25em;
     }
+  }
+
+  .myott-spinner {
+    display: inline-flex;
+    align-items: center;
+    gap: govuk-spacing(2);
+  }
+
+  .myott-spinner[hidden] {
+    display: none;
+  }
+
+  .myott-spinner__icon {
+    width: 24px;
+    height: 24px;
+    border: 3px solid govuk-colour('mid-grey');
+    border-top-color: govuk-colour('blue');
+    border-radius: 50%;
+    animation: myott-spinner-rotate 0.8s linear infinite;
+  }
+}
+
+@keyframes myott-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .myott-mycommodities .myott-spinner__icon {
+    animation: none;
   }
 }
