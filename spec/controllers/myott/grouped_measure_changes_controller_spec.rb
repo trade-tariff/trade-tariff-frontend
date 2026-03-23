@@ -53,5 +53,18 @@ RSpec.describe Myott::GroupedMeasureChangesController, type: :controller do
       get :show, params: { id: '1' }
       expect(assigns(:commodity_changes)).to eq(commodity_changes)
     end
+
+    it 'falls back to yesterday when as_of is invalid' do
+      allow(controller).to receive(:as_of).and_call_original
+      allow(TariffChanges::GroupedMeasureChange).to receive(:find).and_return(grouped_measure_change)
+
+      get :show, params: { id: '1', as_of: 'not-a-date' }
+
+      expect(TariffChanges::GroupedMeasureChange).to have_received(:find).with(
+        '1',
+        user_id_token,
+        hash_including(as_of: Time.zone.yesterday.to_fs(:dashed)),
+      )
+    end
   end
 end
