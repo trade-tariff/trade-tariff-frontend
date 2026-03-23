@@ -77,6 +77,14 @@ class GoodsNomenclature
     goods_nomenclature_item_id
   end
 
+  def formatted_self_text
+    format_description(self_text)
+  end
+
+  def formatted_classification_description
+    format_description(classification_description)
+  end
+
   def rules_of_origin(*args, **kwargs)
     return nil unless declarable?
 
@@ -89,5 +97,11 @@ class GoodsNomenclature
 
   def self.is_heading_id?(goods_nomenclature_item_id)
     goods_nomenclature_item_id.ends_with?('000000') && goods_nomenclature_item_id.slice(2, 2) != '00'
+  end
+
+  private
+
+  def format_description(text)
+    GoodsNomenclature::DescriptionFormatter.new(text).to_html
   end
 end

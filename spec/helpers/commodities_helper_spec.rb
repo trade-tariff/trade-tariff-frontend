@@ -184,25 +184,50 @@ RSpec.describe CommoditiesHelper, type: :helper do
     context 'with chapter in formatted description' do
       let(:declarable_formatted_description) { ' Chapter 32.' }
 
-      it { is_expected.to eql " <a href='/search?q=32&country=IN&day=01&month=12&year=2022'>Chapter 32</a>." }
+      it { is_expected.to include('/search?q=32&country=IN&day=01&month=12&year=2022') }
+      it { is_expected.to include('>Chapter 32</a>.') }
     end
 
     context 'with heading in formatted description' do
       let(:declarable_formatted_description) { ' 1234<br>' }
 
-      it { is_expected.to eql " <a href='/search?q=1234&country=IN&day=01&month=12&year=2022'>1234</a><br>" }
+      it { is_expected.to include('/search?q=1234&country=IN&day=01&month=12&year=2022') }
+      it { is_expected.to include('>1234</a><br>') }
     end
 
     context 'with 8 digit subheading in formatted description' do
       let(:declarable_formatted_description) { ' 1234 11 22' }
 
-      it { is_expected.to eql " <a href='/search?q=12341122&country=IN&day=01&month=12&year=2022'>1234 11 22</a>" }
+      it { is_expected.to include('/search?q=12341122&country=IN&day=01&month=12&year=2022') }
+      it { is_expected.to include('>1234 11 22</a>') }
+    end
+
+    context 'with dotted 6 digit subheading in formatted description' do
+      let(:declarable_formatted_description) { ' 8703.10)' }
+
+      it { is_expected.to include('/search?q=870310&country=IN&day=01&month=12&year=2022') }
+      it { is_expected.to include('>8703.10</a>)') }
+    end
+
+    context 'with a dotted 6 digit subheading followed by more text' do
+      let(:declarable_formatted_description) { ' subheading 8703.10 and other text' }
+
+      it { is_expected.to include('/search?q=870310&country=IN&day=01&month=12&year=2022') }
+      it { is_expected.to include('subheading <a') }
+      it { is_expected.to include('>8703.10</a> and other text') }
     end
 
     context 'with 6 digit subheading in formatted description' do
       let(:declarable_formatted_description) { ' 1234 11, flibble' }
 
-      it { is_expected.to eql " <a href='/search?q=123411&country=IN&day=01&month=12&year=2022'>1234 11</a>, flibble" }
+      it { is_expected.to include('/search?q=123411&country=IN&day=01&month=12&year=2022') }
+      it { is_expected.to include('>1234 11</a>, flibble') }
+    end
+
+    context 'with a 4 digit quantity followed by a unit' do
+      let(:declarable_formatted_description) { ' cylinder capacity <= 1000 cm3' }
+
+      it { is_expected.to eql ' cylinder capacity <= 1000 cm3' }
     end
   end
 

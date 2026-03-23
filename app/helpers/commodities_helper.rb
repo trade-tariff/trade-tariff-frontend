@@ -49,25 +49,18 @@ module CommoditiesHelper
   end
 
   def convert_text_to_links(text)
-    starting_characters = /(\s|^|\A|<br>|<\/br>)/
-    terminating_characters = /(\s|;|,|$|\.|\z|<br>|<\/br>)/
+    fragment = Nokogiri::HTML::DocumentFragment.parse(text.to_s)
 
-    text = text.gsub( # Match subheading longer-syntax
-      /#{starting_characters}(\d{4})\s(\d{2})\s(\d{2})#{terminating_characters}/,
-      " <a href='/search?q=\\2\\3\\4#{query}'>\\2 \\3 \\4</a>\\5",
-    )
-    text = text.gsub( # Match subheading short syntax
-      /#{starting_characters}(\d{4})\s(\d{2})#{terminating_characters}/,
-      " <a href='/search?q=\\2\\3#{query}'>\\2 \\3</a>\\4",
-    )
-    text = text.gsub( # Match heading short syntax
-      /#{starting_characters}(\d{4})#{terminating_characters}/,
-      " <a href='/search?q=\\2#{query}'>\\2</a>\\3",
-    )
-    text.gsub( # Match chapter short syntax
-      /(chapter)\s(\d{2})#{terminating_characters}/i,
-      "<a href='/search?q=\\2#{query}'>\\1 \\2</a>\\3",
-    )
+    fragment.xpath('.//text()[normalize-space()] | ./text()[normalize-space()]').each do |node|
+      next if node.ancestors.any? { |ancestor| ancestor.name == 'a' }
+
+      replacement = linkify_code_references(node.text)
+      next if replacement == node.text
+
+      node.replace(Nokogiri::HTML::DocumentFragment.parse(replacement))
+    end
+
+    CGI.unescapeHTML(fragment.to_html)
   end
 
   def query
@@ -154,6 +147,33 @@ module CommoditiesHelper
   end
 
   private
+
+  def linkify_code_references(text)
+    starting_characters = /(\s|^|\A)/
+    punctuation_terminators = /(;|,|$|\)|\z)/
+    spaced_terminators = /(\s|;|,|$|\.|\)|\z)/
+
+    text = text.gsub( # Match subheading dotted short syntax
+      /#{starting_characters}(\d{4})\.(\d{2})(?=#{spaced_terminators})/,
+      " <a href='/search?q=\\2\\3#{query}'>\\2.\\3</a>",
+    )
+    text = text.gsub( # Match subheading longer-syntax
+      /#{starting_characters}(\d{4})\s(\d{2})\s(\d{2})(?=#{spaced_terminators})/,
+      " <a href='/search?q=\\2\\3\\4#{query}'>\\2 \\3 \\4</a>",
+    )
+    text = text.gsub( # Match subheading short syntax
+      /#{starting_characters}(\d{4})\s(\d{2})(?=#{spaced_terminators})/,
+      " <a href='/search?q=\\2\\3#{query}'>\\2 \\3</a>",
+    )
+    text = text.gsub( # Match heading short syntax
+      /#{starting_characters}(\d{4})(?=#{punctuation_terminators}|<br>|<\/br>)/,
+      " <a href='/search?q=\\2#{query}'>\\2</a>",
+    )
+    text.gsub( # Match chapter short syntax
+      /(chapter)\s(\d{2})(?=#{spaced_terminators})/i,
+      "<a href='/search?q=\\2#{query}'>\\1 \\2</a>",
+    )
+  end
 
   def chapter_and_heading_codes(code)
     "<div class='chapter-code'>

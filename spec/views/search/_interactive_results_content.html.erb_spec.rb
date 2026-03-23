@@ -31,8 +31,8 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
           'goods_nomenclature_class' => 'Commodity',
           'description' => 'Containing less than 70% by weight of sugar',
           'formatted_description' => 'Containing less than 70% by weight of sugar',
-          'self_text' => 'Citrus marmalade and jam products',
-          'classification_description' => 'Citrus fruit jam<br>with less than 70% sugar',
+          'self_text' => 'Citrus marmalade and jam products with 8703.10 and 1000 cm<sup>3</sup>',
+          'classification_description' => 'Citrus fruit jam<br>with less than 70% sugar and 5 cm<sub>3</sub>',
           'full_description' => 'Citrus fruit jam with less than 70% sugar',
           'heading_description' => 'Jams and marmalades',
           'declarable' => true,
@@ -66,12 +66,48 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
 
   describe 'result descriptions' do
     it { is_expected.to have_css('h3', text: /Citrus fruit jam.*with less than 70% sugar/) }
-    it { is_expected.to have_css('p.govuk-body-s', text: 'Citrus marmalade and jam products') }
+    it { is_expected.to have_css('p.govuk-body-s', text: /Citrus marmalade and jam products with 8703\.10 and 1000 cm3/) }
 
     it 'renders br tags as HTML rather than escaping them' do
       render partial: 'search/interactive_results_content'
 
       expect(rendered).not_to include('&lt;br&gt;')
+    end
+
+    it 'renders sub and sup tags as HTML rather than escaping them' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered).to include('<sup>3</sup>')
+    end
+
+    it 'renders sub tags as HTML rather than escaping them' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered).to include('<sub>3</sub>')
+    end
+
+    it 'does not escape sup tags' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered).not_to include('&lt;sup&gt;')
+    end
+
+    it 'does not escape sub tags' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered).not_to include('&lt;sub&gt;')
+    end
+
+    it 'linkifies recognised goods codes in self text' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered).to have_link('8703.10', href: '/search?q=870310')
+    end
+
+    it 'opens linkified goods code references in a new tab' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered).to have_css('p.govuk-body-s a[target="_blank"][rel="noopener noreferrer"]', text: '8703.10')
     end
   end
 
