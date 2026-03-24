@@ -9,76 +9,70 @@ class ErrorsController < ApplicationController
                 :disable_switch_service_banner,
                 :skip_news_banner
 
+  ERROR_RESPONSES = {
+    unprocessable_entity: {
+      status: :unprocessable_entity,
+      header: 'Unprocessable entity',
+      message: "We're sorry, but we cannot process your request at this time.<br>
+               Please contact support for assistance or try a different request.",
+      html_safe: true,
+      json_error: 'Unprocessable entity',
+    },
+    internal_server_error: {
+      status: :internal_server_error,
+      header: 'We are experiencing technical difficulties',
+      message: 'We are experiencing technical difficulties',
+      json_error: 'Internal server error',
+    },
+    bad_request: {
+      status: :bad_request,
+      header: 'Bad request',
+      message: "The request you made is not valid.<br>
+               Please contact support for assistance or try a different request.",
+      html_safe: true,
+      json_error: 'Bad request',
+    },
+    method_not_allowed: {
+      status: :method_not_allowed,
+      header: 'Method not allowed',
+      message: "We're sorry, but this request method is not supported.<br>
+               Please contact support for assistance or try a different request.",
+      html_safe: true,
+      json_error: 'Method not allowed',
+    },
+    not_acceptable: {
+      status: :not_acceptable,
+      header: 'Not acceptable',
+      message: "Unfortunately, we cannot fulfill your request as it is not in a format we can accept.<br>
+               Please contact support for assistance or try a different request.",
+      html_safe: true,
+      json_error: 'Not acceptable',
+    },
+    not_implemented: {
+      status: :not_implemented,
+      header: 'Not implemented',
+      message: "We're sorry, but the requested action is not supported by our server at this time.<br>
+               Please contact support for assistance or try a different request.",
+      html_safe: true,
+      json_error: 'Not implemented',
+    },
+    too_many_requests: {
+      status: :too_many_requests,
+      header: 'Too Many Requests',
+      message: 'You are rate limited. Please try again later.',
+      json_error: 'Too many requests',
+    },
+  }.freeze
+
+  ERROR_RESPONSES.each_key do |action|
+    define_method(action) { render_error(**ERROR_RESPONSES[action]) }
+  end
+
   def not_found
     respond_to do |format|
       format.html { render status: :not_found }
       format.json { render json: { error: 'Resource not found' }, status: :not_found }
       format.all { render status: :not_found, plain: 'Resource not found' }
-    end
-  end
-
-  def unprocessable_entity
-    message = "We're sorry, but we cannot process your request at this time.<br>
-               Please contact support for assistance or try a different request.".html_safe
-
-    respond_to do |format|
-      format.html { render 'error', status: :unprocessable_entity, locals: { header: 'Unprocessable entity', message: } }
-      format.json { render json: { error: 'Unprocessable entity' }, status: :unprocessable_entity }
-      format.all { render status: :unprocessable_entity, plain: 'Unprocessable entity' }
-    end
-  end
-
-  def internal_server_error
-    message = 'We are experiencing technical difficulties'
-
-    respond_to do |format|
-      format.html { render 'error', status: :internal_server_error, locals: { header: 'We are experiencing technical difficulties', message: } }
-      format.json { render json: { error: 'Internal server error' }, status: :internal_server_error }
-      format.all { render status: :internal_server_error, plain: 'Internal server error' }
-    end
-  end
-
-  def bad_request
-    message = "The request you made is not valid.<br>
-               Please contact support for assistance or try a different request.".html_safe
-
-    respond_to do |format|
-      format.html { render 'error', status: :bad_request, locals: { header: 'Bad request', message: } }
-      format.json { render json: { error: 'Bad request' }, status: :bad_request }
-      format.all { render status: :bad_request, plain: 'Bad request' }
-    end
-  end
-
-  def method_not_allowed
-    message = "We're sorry, but this request method is not supported.<br>
-               Please contact support for assistance or try a different request.".html_safe
-
-    respond_to do |format|
-      format.html { render 'error', status: :method_not_allowed, locals: { header: 'Method not allowed', message: } }
-      format.json { render json: { error: 'Method not allowed' }, status: :method_not_allowed }
-      format.all { render status: :method_not_allowed, plain: 'Method not allowed' }
-    end
-  end
-
-  def not_acceptable
-    message = "Unfortunately, we cannot fulfill your request as it is not in a format we can accept.<br>
-               Please contact support for assistance or try a different request.".html_safe
-
-    respond_to do |format|
-      format.html { render 'error', status: :not_acceptable, locals: { header: 'Not acceptable', message: } }
-      format.json { render json: { error: 'Not acceptable' }, status: :not_acceptable }
-      format.all { render status: :not_acceptable, plain: 'Not acceptable' }
-    end
-  end
-
-  def not_implemented
-    message = 'We\'re sorry, but the requested action is not supported by our server at this time.<br>
-               Please contact support for assistance or try a different request.'.html_safe
-
-    respond_to do |format|
-      format.html { render 'error', status: :not_implemented, locals: { header: 'Not implemented', message: } }
-      format.json { render json: { error: 'Not implemented' }, status: :not_implemented }
-      format.all { render status: :not_implemented, plain: 'Not implemented' }
     end
   end
 
@@ -90,14 +84,19 @@ class ErrorsController < ApplicationController
     end
   end
 
-  def too_many_requests
-    respond_to do |format|
-      format.html { render 'errors/error', status: :too_many_requests, locals: { header: 'Too Many Requests', message: 'You are rate limited. Please try again later.' } }
-      format.json { render json: { error: 'Too many requests' }, status: :too_many_requests }
-    end
-  end
-
   def search_invoked?
     false
+  end
+
+  private
+
+  def render_error(status:, header:, message:, json_error:, html_safe: false)
+    message = message.html_safe if html_safe
+
+    respond_to do |format|
+      format.html { render 'error', status:, locals: { header:, message: } }
+      format.json { render json: { error: json_error }, status: }
+      format.all { render status:, plain: json_error }
+    end
   end
 end
