@@ -121,11 +121,11 @@ module Myott
     end
 
     def as_of
-      if params[:as_of].present?
-        Date.parse(params[:as_of])
-      else
-        Time.zone.yesterday
-      end
+      return Time.zone.yesterday if params[:as_of].blank?
+
+      Date.parse(params[:as_of])
+    rescue ArgumentError, TypeError
+      Time.zone.yesterday
     end
 
     def commodity_code_counts

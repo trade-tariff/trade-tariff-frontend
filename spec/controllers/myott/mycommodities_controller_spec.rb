@@ -246,6 +246,15 @@ RSpec.describe Myott::MycommoditiesController, type: :controller do
       it 'returns file body' do
         expect(response.body).to eq(file_data[:body])
       end
+
+      it 'falls back to yesterday when as_of is invalid' do
+        get :download_changes, params: { as_of: 'not-a-date' }
+
+        expect(TariffChanges::TariffChange).to have_received(:download_file).with(
+          user_id_token,
+          hash_including(as_of: Time.zone.yesterday.to_fs(:dashed)),
+        ).at_least(:once)
+      end
     end
 
     context 'when user does not have a my commodities subscription' do
