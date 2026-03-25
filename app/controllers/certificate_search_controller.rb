@@ -1,26 +1,9 @@
 class CertificateSearchController < ApplicationController
-  def new
-    @form = CertificateSearchForm.new
-    @query = {}
-    @certificates = []
+  include CodeSearchable
 
-    render 'search/certificate_search'
-  end
-
-  def create
-    @form = CertificateSearchForm.new(certificate_search_params)
-    @query = @form.to_params
-
-    @certificates = if @form.valid?
-                      Certificate.search(@query)
-                    else
-                      []
-                    end
-
-    render 'search/certificate_search'
-  end
-
-  def certificate_search_params
-    params.fetch(:certificate_search_form, {}).permit(:code, :description)
-  end
+  def self.form_class = CertificateSearchForm
+  def self.model_class = Certificate
+  def self.results_ivar = :@certificates
+  def self.search_template = 'search/certificate_search'
+  def self.form_param_key = :certificate_search_form
 end
