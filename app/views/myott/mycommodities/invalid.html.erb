@@ -22,10 +22,10 @@
             <li>The spreadsheet removing the first 0 in the codes for chapter 01 to 09</li>
             <li>Commodity codes not 10 digits long</li>
           </ul>
+          <h2 class="govuk-heading-l">Total input errors: <%= number_with_delimiter(@targets.total_count) %></h2>
           <% if @targets.total_count.positive? %>
             <p>If you want to correct or remove these errors from your watch list, you should amend these errors in your own spreadsheet and upload it to replace all commodities.</p>
           <% end %>
-          <h2 class="govuk-heading-m">Total input errors: <%= number_with_delimiter(@targets.total_count) %></h2>
         </div>
       </div>
       <% if @targets.total_count.positive? %>
@@ -34,6 +34,7 @@
             <%= link_to "Replace all commodities (upload)", new_myott_mycommodity_path, class: "govuk-button govuk-button--secondary" %>
           </div>
         </div>
+        <h3 class="govuk-heading-m govuk-!-margin-top-4">Input errors from your watch list</h3>
         <table class="govuk-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">

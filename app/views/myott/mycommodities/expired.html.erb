@@ -18,15 +18,10 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <p>When commodity codes expire they’re no longer usable. The codes might have been removed or absorbed into different commodity codes.</p>
+          <p>On this page you can see what codes have expired and review on the tariff.</p>
+          <h2 class="govuk-heading-l">Total expired commodities: <%= number_with_delimiter(@targets.total_count) %></h2>
           <% if @targets.total_count.positive? %>
-            <p>On this page you can see what codes have expired and review them on the tariff. These links will open in a new tab.</p>
             <p>If you want to replace or remove these expired codes from your watch list, you should amend these expired codes in your own spreadsheet and upload it to replace all commodities.</p>
-          <% else %>
-            <p>On this page you can see any codes that have expired and review them on the tariff.</p>
-          <% end %>
-          <h2 class="govuk-heading-m">Total expired commodities: <%= number_with_delimiter(@targets.total_count) %></h2>
-          <% if @targets.total_count.positive? %>
-            <p>All links will open in a new tab.</p>
           <% end %>
         </div>
       </div>
@@ -36,6 +31,8 @@
             <%= link_to "Replace all commodities (upload)", new_myott_mycommodity_path, class: "govuk-button govuk-button--secondary" %>
           </div>
         </div>
+        <h3 class="govuk-heading-m govuk-!-margin-top-4">Your expired commodities</h3>
+        <p>All links will open in a new tab.</p>
         <table class="govuk-table govuk-table--small-text-until-tablet">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
