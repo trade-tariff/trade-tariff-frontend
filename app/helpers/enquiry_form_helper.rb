@@ -67,7 +67,7 @@ def radio_button_category_options
     ['Origin (Preferential and non-preferential)', 'origin'],
     ['Quotas', 'quotas'],
     ['Stop Press Subscription', 'stop_press_subscription'],
-    ['Tariff Watch Lists (Private Beta)', 'tariff_watch_lists'],
+    ['Tariff Watch Lists', 'tariff_watch_lists'],
   ]
 end
 

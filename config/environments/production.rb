@@ -1,6 +1,9 @@
 require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
+  force_ssl_enabled = ENV.fetch('RAILS_FORCE_SSL', 'true') == 'true'
+  assume_ssl_enabled = force_ssl_enabled && ENV.fetch('RAILS_ASSUME_SSL', 'true') == 'true'
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -32,10 +35,10 @@ Rails.application.configure do
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
-  config.assume_ssl = ENV.fetch('RAILS_ASSUME_SSL', 'true') == 'true'
+  config.assume_ssl = assume_ssl_enabled
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = force_ssl_enabled
 
   # force_ssl = true does the following:
   #   Redirects HTTP → HTTPS

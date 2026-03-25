@@ -18,11 +18,7 @@ module Myott
       @targets = get_subscription_targets('invalid')
     end
 
-    def index
-      @commodity_code_counts = counts_from_subscription_metadata
-      @grouped_measure_changes = TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
-      @commodity_changes = TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
-    end
+    def index; end
 
     def create
       @upload_form = Myott::CommodityUploadForm.new(upload_params)
@@ -39,7 +35,10 @@ module Myott
       end
 
       new_subscriber = subscription.nil?
-      update_user_commodity_codes(result.codes)
+      unless update_user_commodity_codes(result.codes, new_subscriber)
+        @upload_form.errors.add(:file, 'We could not create your subscription. Please try again.')
+        return render(:new)
+      end
       redirect_to confirmation_myott_mycommodities_path params: { new_subscriber: new_subscriber } and return
     end
 
@@ -83,12 +82,19 @@ module Myott
       end
     end
 
-    def update_user_commodity_codes(commodity_codes)
-      User.update(user_id_token, my_commodities_subscription: 'true') if subscription.nil?
+    def update_user_commodity_codes(commodity_codes, new_subscriber)
+      if new_subscriber
+        User.update(user_id_token, my_commodities_subscription: 'true')
+        reload_subscription
+      end
+      return false if subscription.nil?
 
       Subscription.batch(subscription.resource_id,
                          user_id_token,
                          targets: TariffJsonapiParser.new(commodity_codes.uniq).parse)
+      true
+    rescue StandardError
+      false
     end
 
     def get_subscription_targets(category)
@@ -115,12 +121,34 @@ module Myott
     end
 
     def as_of
-      if params[:as_of].present?
-        Date.parse(params[:as_of])
-      else
-        Time.zone.yesterday
-      end
+      return Time.zone.yesterday if params[:as_of].blank?
+
+      Date.parse(params[:as_of])
+    rescue ArgumentError, TypeError
+      Time.zone.yesterday
     end
-    helper_method :as_of
+
+    def commodity_code_counts
+      @commodity_code_counts ||= counts_from_subscription_metadata
+    end
+
+    def last_change_date
+      date = subscription&.dig(:meta, :published, :last_change_date)
+
+      return if date.blank?
+
+      change_date = Date.parse(date)
+      change_date if change_date < as_of
+    end
+
+    def grouped_measure_changes
+      @grouped_measure_changes ||= TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+    end
+
+    def commodity_changes
+      @commodity_changes ||= TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+    end
+
+    helper_method :as_of, :commodity_code_counts, :last_change_date, :grouped_measure_changes, :commodity_changes
   end
 end

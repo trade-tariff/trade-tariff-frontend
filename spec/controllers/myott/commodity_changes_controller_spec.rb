@@ -26,6 +26,18 @@ RSpec.describe Myott::CommodityChangesController, type: :controller do
         get :ending
         expect(response).to render_template(:ending)
       end
+
+      it 'falls back to yesterday when as_of is invalid' do
+        allow(controller).to receive(:as_of).and_call_original
+
+        get :ending, params: { as_of: 'not-a-date' }
+
+        expect(TariffChanges::CommodityChange).to have_received(:find).with(
+          'ending',
+          anything,
+          hash_including(as_of: Time.zone.yesterday.to_fs(:dashed)),
+        )
+      end
     end
   end
 

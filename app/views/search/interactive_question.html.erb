@@ -16,7 +16,7 @@
 
     <%= form_with model: (@form || InteractiveSearchForm.new),
                   url: perform_search_path,
-                  method: :get,
+                  method: :post,
                   builder: GOVUKDesignSystemFormBuilder::FormBuilder,
                   id: "interactive_search_form",
                   data: { action: "submit->interactive-question#submitWithThinking" } do |f| %>
@@ -62,7 +62,7 @@
         <ul class="govuk-list govuk-list--bullet">
           <% @results.all.first(@results.result_limit).each do |result| %>
             <li>
-              <%= result.formatted_description %>
+              <%= sanitize result.formatted_description %>
               (<%= result.goods_nomenclature_item_id %>)
             </li>
           <% end %>

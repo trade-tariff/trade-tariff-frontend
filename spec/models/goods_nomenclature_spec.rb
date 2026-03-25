@@ -192,4 +192,77 @@ RSpec.describe GoodsNomenclature do
       it { is_expected.not_to be_is_other }
     end
   end
+
+  describe '#formatted_self_text' do
+    subject(:formatted_self_text) { goods_nomenclature.formatted_self_text }
+
+    let(:goods_nomenclature) do
+      described_class.new(
+        'self_text' => self_text,
+      )
+    end
+
+    context 'when the text contains safe inline html and embedded goods codes' do
+      let(:self_text) do
+        'Motor cars for <= 10 persons, cylinder capacity <= 1000 cm<sup>3</sup>, used (excl. vehicles of subheading 8703.10)' \
+          '<script>alert(1)</script>'
+      end
+
+      it 'renders sup tags' do
+        expect(formatted_self_text).to include('cm<sup>3</sup>')
+      end
+
+      it 'strips unsafe tags' do
+        expect(formatted_self_text).not_to include('<script>')
+      end
+
+      it 'linkifies dotted goods codes to a new tab search link' do
+        expect(formatted_self_text).to include('href="/search?q=870310"')
+      end
+
+      it 'opens linkified goods codes in a new tab' do
+        expect(formatted_self_text).to include('target="_blank"')
+      end
+
+      it 'adds a safe rel attribute to generated goods code links' do
+        expect(formatted_self_text).to include('rel="noopener noreferrer"')
+      end
+
+      it 'preserves the displayed dotted goods code text' do
+        expect(formatted_self_text).to include('>8703.10</a>')
+      end
+
+      it 'does not link unrelated numeric values' do
+        expect(formatted_self_text).not_to include('href="/search?q=1000"')
+      end
+
+      it 'keeps dotted goods codes linked to the full code' do
+        expect(formatted_self_text).not_to include('href="/search?q=8703"')
+      end
+    end
+  end
+
+  describe '#formatted_classification_description' do
+    subject(:formatted_classification_description) { goods_nomenclature.formatted_classification_description }
+
+    let(:goods_nomenclature) do
+      described_class.new(
+        'classification_description' => classification_description,
+      )
+    end
+
+    let(:classification_description) { 'Engine output in cm<sub>3</sub><br>chapter 87' }
+
+    it 'renders allowed formatting tags' do
+      expect(formatted_classification_description).to include('cm<sub>3</sub><br>')
+    end
+
+    it 'linkifies recognised code references' do
+      expect(formatted_classification_description).to include('href="/search?q=87"')
+    end
+
+    it 'preserves the displayed chapter reference text' do
+      expect(formatted_classification_description).to include('>chapter 87</a>')
+    end
+  end
 end
