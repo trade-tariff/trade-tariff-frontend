@@ -25,6 +25,21 @@ module MeasuresHelper
     sanitize(link, attributes: %w[href target role rel class title])
   end
 
+  def measure_geographical_area_path(measure, service: nil)
+    path_options = {
+      id: measure.geographical_area.id,
+      goods_nomenclature_code: current_goods_nomenclature_code,
+    }
+
+    if service.present?
+      TradeTariffFrontend::ServiceChooser.with_source(service) do
+        geographical_area_path(path_options)
+      end
+    else
+      geographical_area_path(path_options)
+    end
+  end
+
   def measure_type_description_or_link(measure)
     description = measure.measure_type.description
 

@@ -31,6 +31,31 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
     it { expect(rendered).to match(/Hectokilogram/) }
   end
 
+  context 'when rendering a UK geographical area link override on the XI service' do
+    let(:measure) do
+      build(
+        :measure,
+        :eu,
+        geographical_area: attributes_for(:geographical_area, id: '1013', geographical_area_id: '1013', description: 'European Union', child_area_ids: %w[FR DE]),
+      )
+    end
+
+    before do
+      TradeTariffFrontend::ServiceChooser.with_source(:xi) do
+        render 'measures/measure',
+               measure: MeasurePresenter.new(measure),
+               roo_schemes: [],
+               geographical_area_link_service: :uk
+      end
+    end
+
+    it 'links to the UK geographical area page' do
+      href = Capybara.string(rendered).find('td.country-col a.govuk-link', text: 'European Union', match: :first).native['href']
+
+      expect(href).to eq('/geographical_areas/1013')
+    end
+  end
+
   context 'with a prohibitive measure that has an additional code' do
     let(:measure) { build(:measure, :prohibitive, :with_additional_code) }
 

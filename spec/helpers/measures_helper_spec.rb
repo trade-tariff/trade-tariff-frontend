@@ -57,6 +57,37 @@ RSpec.describe MeasuresHelper, type: :helper do
     end
   end
 
+  describe '#measure_geographical_area_path' do
+    let(:measure) do
+      build(
+        :measure,
+        geographical_area: attributes_for(:geographical_area, id: '1013', geographical_area_id: '1013', child_area_ids: %w[FR DE]),
+      )
+    end
+
+    context 'when a geographical area link service override is provided' do
+      before do
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).and_call_original
+      end
+
+      it 'uses the override service when building the path' do
+        helper.measure_geographical_area_path(measure, service: :uk)
+
+        expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk)
+      end
+
+      it 'returns the overridden service path' do
+        expect(helper.measure_geographical_area_path(measure, service: :uk)).to eq('/geographical_areas/1013')
+      end
+    end
+
+    context 'when no geographical area link service override is provided' do
+      it 'uses the current service path' do
+        expect(helper.measure_geographical_area_path(measure)).to eq('/geographical_areas/1013')
+      end
+    end
+  end
+
   describe '#measure_type_description_or_link' do
     context 'when preference code is present' do
       before do

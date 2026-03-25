@@ -16,12 +16,12 @@ RSpec.describe 'Commodity page', type: :request do
 
   shared_examples_for 'loads the correct uk declarables' do
     it { expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:xi) }
-    it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk) }
+    it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk).at_least(:once) }
   end
 
   shared_examples_for 'loads the correct xi declarables' do
-    it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:xi) }
-    it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk) }
+    it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:xi).at_least(:once) }
+    it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk).at_least(:once) }
   end
 
   it_behaves_like 'loads the correct uk declarables' do

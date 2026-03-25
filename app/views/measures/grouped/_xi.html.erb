@@ -47,6 +47,7 @@
     css_id: 'vat_excise',
     uk_declarable: uk_declarable,
     vat_excise: true,
+    geographical_area_link_service: :uk,
     roo_schemes: rules_of_origin_schemes } %>
 <% end %>
 
@@ -65,5 +66,6 @@
     collection: uk_import_measures.import_controls.sort_by(&:key),
     hide_duty_rate: true,
     css_id: 'uk_import_controls',
+    geographical_area_link_service: :uk,
     roo_schemes: rules_of_origin_schemes } %>
 <% end %>
