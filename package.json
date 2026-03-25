@@ -10,6 +10,7 @@
     "babel-jest": "^30.3.0",
     "dotenv": "^17.3.1",
     "govuk-frontend": "6.1.0",
+    "gh-pages": "^6.3.0",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "jquery": "4.0.0",
