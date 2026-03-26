@@ -3,12 +3,12 @@
     {
       "name": "Quota Search",
       "path": "/quota_search?order_number=052012",
-      "threshold": 1
+      "threshold": 4
     },
     {
       "name": "Find Commodity",
       "path": "/find_commodity",
-      "threshold": 2
+      "threshold": 4
     },
     {
       "name": "Browse Tariff",
@@ -23,7 +23,7 @@
     {
       "name": "Commodities",
       "path": "/commodities/0409000010",
-      "threshold": 3
+      "threshold": 4
     },
     {
       "name": "Duty Calculator",

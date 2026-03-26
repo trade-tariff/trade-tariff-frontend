@@ -9,7 +9,7 @@ RSpec.describe 'shared/_interactive_feedback_useful_banner', type: :view do
   it 'opens feedback link in a new tab' do
     render partial: 'shared/interactive_feedback_useful_banner'
 
-    expect(rendered).to have_css('a[target="_blank"][rel="noopener noreferrer"]')
+    expect(rendered).to have_css('a[target="_blank"][rel="noopener"]')
   end
 
   context 'when @feedback is set' do

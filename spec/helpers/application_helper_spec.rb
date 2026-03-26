@@ -490,9 +490,14 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
 
     context 'when not on a subscriptions page' do
-      before { allow(helper).to receive(:subscriptions_page?).and_return(false) }
+      before do
+        allow(helper).to receive_messages(
+          subscriptions_page?: false,
+          request: double(path: '/search'),
+        )
+      end
 
-      it { expect(helper.feedback_link_url).to eq('https://surveys.transformuk.com/s3/17fead99a348') }
+      it { expect(helper.feedback_link_url).to eq('https://surveys.transformuk.com/s3/17fead99a348?page_context=%2Fsearch') }
     end
   end
 end

@@ -51,4 +51,6 @@ repos:
         description: Detect secrets in your repo
         entry: bash -c '.github/bin/trufflehog'
         language: system
+        pass_filenames: false
+        require_serial: true
         stages: ["pre-commit", "pre-push"]
