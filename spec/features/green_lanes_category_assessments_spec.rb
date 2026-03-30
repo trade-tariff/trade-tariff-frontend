@@ -268,7 +268,9 @@ RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'g
     expect(page).to have_selector('#new_green_lanes_moving_requirements_form')
 
     fill_in 'green-lanes-moving-requirements-form-commodity-code-field', with: commodity_code
-    select country, from: 'green-lanes-moving-requirements-form-country-of-origin-field'
+    fill_in 'green-lanes-moving-requirements-form-country-of-origin-field', with: country
+    option = find('.autocomplete__option', text: country, exact_text: true)
+    execute_script('arguments[0].click()', option)
     fill_in 'green_lanes_moving_requirements_form_moving_date_3', with: date[:day]
     fill_in 'green_lanes_moving_requirements_form_moving_date_2', with: date[:month]
     fill_in 'green_lanes_moving_requirements_form_moving_date_1', with: date[:year]
