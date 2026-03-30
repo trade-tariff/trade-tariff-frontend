@@ -1,9 +1,9 @@
 <%= form_tag '#', method: 'get', html: { class: 'govuk-!-margin-bottom-7' } do |f| %>
 
-  <fieldset class="govuk-fieldset country-picker  govuk-!-font-size-16">
+  <fieldset class="govuk-fieldset country-picker govuk-!-font-size-16">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-heading-m">Select a country<p>
+        <p class="govuk-heading-m">Select a country</p>
 
         <% (params.keys - ['controller', 'action', 'country', 'service', 'id']).each do |p| %>
           <% if params.has_key?(p) %>
@@ -11,18 +11,20 @@
           <% end %>
         <% end %>
 
-        <%= label_tag :country, country_picker_text %>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <div data-controller="country-select-box">
-              <div data-country-select-box-target="countrySelect">
-                  <%= select_tag :country, options_for_select(GeographicalArea.country_options, params[:country]), data: { action: "focus->country-select-box#clearSelect" }, "aria-label": "Filter measures by country" %>
+        <div class="govuk-form-group">
+          <%= label_tag :country, country_picker_text, class: 'govuk-label' %>
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+              <div data-controller="country-select-box">
+                <div data-country-select-box-target="countrySelect">
+                  <%= select_tag :country, options_for_select(GeographicalArea.country_options, params[:country]), class: 'govuk-select', data: { action: "focus->country-select-box#clearSelect" }, "aria-label": "Filter measures by country" %>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="govuk-grid-column-one-third govuk-!-padding-top-2">
-            <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil), class: 'govuk-link') %>
+            <div class="govuk-grid-column-one-third govuk-!-padding-top-2">
+              <%= link_to('Reset to all countries', goods_nomenclature_path(country: nil), class: 'govuk-link') %>
+            </div>
           </div>
         </div>
       </div>
