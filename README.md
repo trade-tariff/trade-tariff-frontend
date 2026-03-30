@@ -74,6 +74,10 @@ yarn cache clean
 bin/rails setup
 ```
 
+### Debugging Locally with Pry
+
+To drop into a debugger mid-request, add `binding.pry` to any Ruby file and run the server with `bin/rails server`. The terminal where the server is running will pause at that line and drop into a Pry REPL, where you can inspect state and step through logic interactively.
+
 ### Disabling Continuous Deployments
 
 We continuously deploy our frontend application to production after a staging deployment passes some end-to-end tests.
