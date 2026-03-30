@@ -1,24 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-base_commit=""
-for ref in origin/main origin/master main master; do
-  if git rev-parse --verify "$ref" >/dev/null 2>&1; then
-    base_commit="$(git merge-base HEAD "$ref")"
-    break
-  fi
-done
+tmp_file="$(mktemp)"
+trap 'rm -f "$tmp_file"' EXIT
 
-if [ -z "$base_commit" ]; then
-  base_commit="$(git rev-list --max-parents=0 HEAD | awk 'END { print }')"
-fi
+curl -fsSL \
+  https://raw.githubusercontent.com/trade-tariff/trade-tariff-tools/main/scripts/trufflehog-pre-commit.sh \
+  -o "$tmp_file"
 
-docker run --rm -i \
-  -v "$(pwd):/workdir" \
-  trufflesecurity/trufflehog:3.94.1 \
-  git file:///workdir \
-  --since-commit "$base_commit" \
-  --branch HEAD \
-  --exclude-paths /workdir/.trufflehog-exclude-paths.txt \
-  --results=verified,unknown \
-  --fail
+bash "$tmp_file" "$(pwd)"
