@@ -5,6 +5,7 @@ import Utility from 'utility';
 
 export default class extends Controller {
   static targets = ['countrySelect'];
+  static values = { autoSubmit: { type: Boolean, default: true } };
 
   clearSelect(event) {
     event.currentTarget.value = '';
@@ -56,7 +57,14 @@ export default class extends Controller {
       source: function(query, populateResults) {
         populateResults(matcher(query, element));
       },
-      onConfirm: (confirmed) => Utility.countrySelectorOnConfirm(confirmed, this.selectElement),
+      onConfirm: (confirmed) => {
+        if (this.autoSubmitValue) {
+          Utility.countrySelectorOnConfirm(confirmed, this.selectElement);
+        } else {
+          const matchedOption = [...this.selectElement.options].find((o) => o.text === confirmed);
+          if (matchedOption) this.selectElement.value = matchedOption.value;
+        }
+      },
     });
   }
 
