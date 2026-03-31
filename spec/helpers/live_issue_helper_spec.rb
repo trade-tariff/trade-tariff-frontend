@@ -1,4 +1,4 @@
-RSpec.describe LiveIssue, type: :helper do
+RSpec.describe LiveIssueHelper, type: :helper do
   describe '#markdown_field' do
     subject(:markdown_field) { helper.markdown_field(markdown) }
 
@@ -25,6 +25,46 @@ RSpec.describe LiveIssue, type: :helper do
       let(:date_resolved) { nil }
 
       it { is_expected.to eq('15 July 2025 - Present') }
+    end
+  end
+
+  describe '#live_issue_status_sort_link' do
+    subject(:sort_link) { Capybara.string(helper.live_issue_status_sort_link(sort_direction)) }
+
+    context 'when the status column is sorted ascending' do
+      let(:sort_direction) { 'asc' }
+
+      it 'links to the descending sort direction' do
+        expect(sort_link).to have_link(href: live_issues_path(sort: 'desc'))
+      end
+
+      it 'shows the status label' do
+        expect(sort_link).to have_link('Status', href: live_issues_path(sort: 'desc'))
+      end
+
+      it 'shows the ascending arrow' do
+        expect(sort_link).to have_css('span[aria-hidden="true"]', text: '↑')
+      end
+
+      it 'shows the ascending helper text' do
+        expect(sort_link).to have_css('.govuk-visually-hidden', text: 'sorted ascending')
+      end
+    end
+
+    context 'when the status column is sorted descending' do
+      let(:sort_direction) { 'desc' }
+
+      it 'links to the ascending sort direction' do
+        expect(sort_link).to have_link(href: live_issues_path(sort: 'asc'))
+      end
+
+      it 'shows the descending arrow' do
+        expect(sort_link).to have_css('span[aria-hidden="true"]', text: '↓')
+      end
+
+      it 'shows the descending helper text' do
+        expect(sort_link).to have_css('.govuk-visually-hidden', text: 'sorted descending')
+      end
     end
   end
 end
