@@ -22,7 +22,7 @@ module PagesHelper
   private
 
   def chapter_for(short_code, chapters)
-    goods_nomenclature_item_id = "#{short_code}00000000"
+    goods_nomenclature_item_id = "#{short_code}#{GoodsNomenclature::CHAPTER_SUFFIX}"
 
     chapters.find { |chapter| chapter.goods_nomenclature_item_id == goods_nomenclature_item_id }
   end

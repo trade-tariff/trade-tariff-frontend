@@ -3,8 +3,10 @@ require 'null_object'
 
 class GoodsNomenclature
   include ApiEntity
-
   include Classifiable
+
+  CHAPTER_SUFFIX = '00000000'.freeze
+  HEADING_SUFFIX = '000000'.freeze
 
   attr_accessor :goods_nomenclature_item_id,
                 :formatted_description,
@@ -24,6 +26,10 @@ class GoodsNomenclature
                 :confidence
 
   has_many :ancestors, polymorphic: true
+
+  def self.is_heading_id?(goods_nomenclature_item_id)
+    goods_nomenclature_item_id.ends_with?(HEADING_SUFFIX) && !goods_nomenclature_item_id.ends_with?(CHAPTER_SUFFIX)
+  end
 
   def validity_start_date=(validity_start_date)
     return if validity_start_date.blank?
@@ -46,7 +52,7 @@ class GoodsNomenclature
   end
 
   def chapter?
-    goods_nomenclature_item_id.ends_with?('00000000')
+    goods_nomenclature_item_id.ends_with?(CHAPTER_SUFFIX)
   end
 
   def heading?
@@ -54,7 +60,7 @@ class GoodsNomenclature
   end
 
   def commodity?
-    !goods_nomenclature_item_id.ends_with?('000000')
+    !goods_nomenclature_item_id.ends_with?(HEADING_SUFFIX)
   end
 
   def declarable?
@@ -93,10 +99,6 @@ class GoodsNomenclature
 
   def rules_of_origin_rules(...)
     rules_of_origin(...).flat_map(&:rules)
-  end
-
-  def self.is_heading_id?(goods_nomenclature_item_id)
-    goods_nomenclature_item_id.ends_with?('000000') && goods_nomenclature_item_id.slice(2, 2) != '00'
   end
 
   private
