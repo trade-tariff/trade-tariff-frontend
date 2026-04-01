@@ -8,12 +8,12 @@ FactoryBot.define do
 
     chapter do
       attributes_for :chapter,
-                     goods_nomenclature_item_id: "#{goods_nomenclature_item_id.first(2)}00000000"
+                     goods_nomenclature_item_id: "#{goods_nomenclature_item_id.first(2)}#{GoodsNomenclature::CHAPTER_SUFFIX}"
     end
 
     heading do
       attributes_for :heading,
-                     goods_nomenclature_item_id: "#{goods_nomenclature_item_id.first(4)}000000"
+                     goods_nomenclature_item_id: "#{goods_nomenclature_item_id.first(4)}#{GoodsNomenclature::HEADING_SUFFIX}"
     end
 
     goods_nomenclature_item_id { '0101100000' }
