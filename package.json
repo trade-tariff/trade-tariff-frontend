@@ -5,7 +5,7 @@
     "@axe-core/playwright": "^4.11.1",
     "@babel/preset-env": "^7.29.2",
     "@hotwired/stimulus": "^3.2.2",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.59.1",
     "accessible-autocomplete": "^3.0.1",
     "babel-jest": "^30.3.0",
     "dotenv": "^17.3.1",
