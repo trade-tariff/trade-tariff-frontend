@@ -9,7 +9,7 @@ module HasExcludedCountries
                   excluded_countries
                 end
 
-    countries.map(&:description).join(', ').html_safe
+    countries.map(&:description).sort.join(', ').html_safe
   end
 
   def exclusions_include_european_union?

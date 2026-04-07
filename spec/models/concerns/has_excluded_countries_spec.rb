@@ -25,6 +25,25 @@ RSpec.describe HasExcludedCountries do
 
       it { expect(measure.excluded_country_list).to eq(expected_list) }
     end
+
+    context 'when excluded countries are not in alphabetical order' do
+      subject(:measure) { build(:measure) }
+
+      before do
+        allow(measure).to receive(:exclusions_include_european_union?).and_return(false)
+        allow(measure).to receive(:excluded_countries).and_return(
+          [
+            instance_double(GeographicalArea, description: 'Switzerland'),
+            instance_double(GeographicalArea, description: 'Cyprus'),
+            instance_double(GeographicalArea, description: 'Czechia'),
+          ],
+        )
+      end
+
+      it 'sorts the country descriptions alphabetically' do
+        expect(measure.excluded_country_list).to eq('Cyprus, Czechia, Switzerland')
+      end
+    end
   end
 
   describe '#exclusions_include_european_union?' do
