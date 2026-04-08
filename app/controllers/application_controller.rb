@@ -44,7 +44,9 @@ class ApplicationController < ActionController::Base
 
   def set_last_updated
     # rubocop:disable Naming/MemoizedInstanceVariableName
-    @tariff_last_updated ||= TariffUpdate.latest_applied_import_date
+    @tariff_last_updated ||= Rails.cache.fetch('tariff_last_updated', expires_in: 1.day) do
+      TariffUpdate.latest_applied_import_date
+    end
     # rubocop:enable Naming/MemoizedInstanceVariableName
   end
 
