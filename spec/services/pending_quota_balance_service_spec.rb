@@ -3,10 +3,9 @@ require 'spec_helper'
 RSpec.describe PendingQuotaBalanceService do
   describe '#call' do
     subject :pending_balance do
-      described_class.new(commodity.short_code, '1010', chosen_period).call
+      described_class.new(commodity.short_code, '1010', Time.zone.today).call
     end
 
-    let(:chosen_period) { start_date.to_date }
     let(:start_date) { 5.days.ago }
 
     let :current_definition do
@@ -27,7 +26,7 @@ RSpec.describe PendingQuotaBalanceService do
       before do
         allow(Commodity).to receive(:find) do |_id, options = {}|
           case options[:as_of]
-          when chosen_period then commodity
+          when Time.zone.today then commodity
           when start_date.to_date - 1.day then previous_commodity
           end
         end
@@ -118,7 +117,7 @@ RSpec.describe PendingQuotaBalanceService do
 
       context 'without current declarable' do
         before do
-          allow(Commodity).to receive(:find).with(commodity.id, as_of: chosen_period)
+          allow(Commodity).to receive(:find).with(commodity.id, as_of: Time.zone.today)
                                             .and_raise(Faraday::ResourceNotFound, 'unknown')
         end
 
@@ -142,12 +141,12 @@ RSpec.describe PendingQuotaBalanceService do
     end
 
     context 'with declarable Heading' do
-      subject { described_class.new(heading.short_code, '1010', chosen_period).call }
+      subject { described_class.new(heading.short_code, '1010', Time.zone.today).call }
 
       before do
         allow(Heading).to receive(:find) do |_id, options = {}|
           case options[:as_of]
-          when chosen_period then heading
+          when Time.zone.today then heading
           when start_date.to_date - 1.day then previous_heading
           end
         end
@@ -207,12 +206,12 @@ RSpec.describe PendingQuotaBalanceService do
     end
 
     context 'with no import measures' do
-      subject { described_class.new(heading.short_code, '1010', chosen_period).call }
+      subject { described_class.new(heading.short_code, '1010', Time.zone.today).call }
 
       let(:heading) { build :heading }
 
       before do
-        allow(Heading).to receive(:find).with(heading.short_code, as_of: chosen_period)
+        allow(Heading).to receive(:find).with(heading.short_code, as_of: Time.zone.today)
                                         .and_return heading
       end
 
