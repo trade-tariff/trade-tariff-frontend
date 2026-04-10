@@ -178,7 +178,12 @@ private
 
       relationships << association
 
-      attr_reader association.to_sym
+      define_method(association) do
+        cache_ivar = "@_#{association}"
+        return instance_variable_get(cache_ivar) if instance_variable_defined?(cache_ivar)
+
+        instance_variable_set(cache_ivar, instance_variable_get("@#{association}"))
+      end
 
       define_method("#{association}=") do |attributes|
         entity = if attributes.nil?
@@ -195,6 +200,7 @@ private
                  end
 
         instance_variable_set("@#{association}", entity)
+        remove_instance_variable("@_#{association}") if instance_variable_defined?("@_#{association}")
       end
     end
 
@@ -207,14 +213,14 @@ private
       relationships << association
 
       define_method(association) do
+        cache_ivar = "@_#{association}"
+        return instance_variable_get(cache_ivar) if instance_variable_defined?(cache_ivar)
+
         collection = instance_variable_get("@#{association}").presence || []
         collection = options[:wrapper].new(collection) if options[:wrapper]
+        collection = collection.public_send(options[:filter]) if options[:filter].present?
 
-        if options[:filter].present?
-          collection.public_send(options[:filter])
-        else
-          collection
-        end
+        instance_variable_set(cache_ivar, collection)
       end
 
       define_method("#{association}=") do |data|
@@ -239,11 +245,13 @@ private
         end
 
         instance_variable_set("@#{association}", collection)
+        remove_instance_variable("@_#{association}") if instance_variable_defined?("@_#{association}")
       end
 
       define_method("add_#{association.to_s.singularize}") do |entity|
         instance_variable_set("@#{association}", []) unless instance_variable_defined?("@#{association}")
         instance_variable_get("@#{association}").public_send('<<', entity)
+        remove_instance_variable("@_#{association}") if instance_variable_defined?("@_#{association}")
       end
     end
 
