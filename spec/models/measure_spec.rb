@@ -326,6 +326,18 @@ RSpec.describe Measure do
     end
   end
 
+  describe '#key' do
+    subject(:measure) { build(:measure) }
+
+    it 'returns a consistent sort key' do
+      expect(measure.key).to eq(measure.key)
+    end
+
+    it 'memoizes the result' do
+      expect(measure.key).to equal(measure.key)
+    end
+  end
+
   describe '#cds_proofs_of_origin' do
     subject { measure.cds_proofs_of_origin schemes }
 
