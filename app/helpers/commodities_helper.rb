@@ -239,6 +239,21 @@ module CommoditiesHelper
     end
   end
 
+  def abbreviate_code(code)
+    only_code = code.to_s.split('-').first
+
+    case only_code.gsub(/0*\z/, '').length
+    when 9..10
+      only_code
+    when 7..8
+      only_code.slice(0, 8)
+    when 5..6
+      only_code.slice(0, 6)
+    else
+      only_code
+    end
+  end
+
   def divide_commodity_code(code)
     return if code.blank?
 
