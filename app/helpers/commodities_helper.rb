@@ -4,7 +4,7 @@ module CommoditiesHelper
   end
 
   def leaf_position(commodity)
-    ' last-child' if commodity.last_child?
+    commodity.leaf_position
   end
 
   def commodity_level(commodity, initial_indent)

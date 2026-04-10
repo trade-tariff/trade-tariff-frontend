@@ -37,22 +37,32 @@ RSpec.describe DeclarablePresenter do
   describe '#format_full_code' do
     subject(:presenter) { CommodityPresenter.new(build(:commodity, goods_nomenclature_item_id: '0101300000')) }
 
-    it 'returns html-safe formatted code with commodity-code structure' do
-      result = presenter.format_full_code
-      expect(result).to be_html_safe
-      expect(result).to include('chapter-code')
-      expect(result).to include('heading-code')
-      expect(result).to include('commodity-code')
+    it 'returns an html-safe string' do
+      expect(presenter.format_full_code).to be_html_safe
+    end
+
+    it 'includes chapter-code markup' do
+      expect(presenter.format_full_code).to include('chapter-code')
+    end
+
+    it 'includes heading-code markup' do
+      expect(presenter.format_full_code).to include('heading-code')
+    end
+
+    it 'includes commodity-code markup' do
+      expect(presenter.format_full_code).to include('commodity-code')
     end
   end
 
   describe '#format_commodity_code' do
     subject(:presenter) { CommodityPresenter.new(build(:commodity, goods_nomenclature_item_id: '0101300000')) }
 
-    it 'returns html-safe short code with non-breaking spaces' do
-      result = presenter.format_commodity_code
-      expect(result).to be_html_safe
-      expect(result).to include('&nbsp;')
+    it 'returns an html-safe string' do
+      expect(presenter.format_commodity_code).to be_html_safe
+    end
+
+    it 'includes non-breaking spaces' do
+      expect(presenter.format_commodity_code).to include('&nbsp;')
     end
   end
 
@@ -76,10 +86,12 @@ RSpec.describe DeclarablePresenter do
         )
       end
 
-      it 'returns html-safe formatted code' do
-        result = presenter.format_commodity_code_based_on_level
-        expect(result).to be_html_safe
-        expect(result).to include('chapter-code')
+      it 'returns an html-safe string' do
+        expect(presenter.format_commodity_code_based_on_level).to be_html_safe
+      end
+
+      it 'includes chapter-code markup' do
+        expect(presenter.format_commodity_code_based_on_level).to include('chapter-code')
       end
     end
 

@@ -3,17 +3,21 @@ require 'spec_helper'
 RSpec.describe CommodityPresenter do
   describe '#leaf_position' do
     context 'when the commodity is not the last child' do
-      subject(:presenter) { described_class.new(build(:commodity)) }
+      subject(:presenter) { described_class.new(commodity) }
 
-      before { allow(presenter).to receive(:last_child?).and_return(false) }
+      let(:commodity) { build(:commodity) }
+
+      before { allow(commodity).to receive(:last_child?).and_return(false) }
 
       it { expect(presenter.leaf_position).to be_nil }
     end
 
     context 'when the commodity is the last child' do
-      subject(:presenter) { described_class.new(build(:commodity)) }
+      subject(:presenter) { described_class.new(commodity) }
 
-      before { allow(presenter).to receive(:last_child?).and_return(true) }
+      let(:commodity) { build(:commodity) }
+
+      before { allow(commodity).to receive(:last_child?).and_return(true) }
 
       it { expect(presenter.leaf_position).to eq(' last-child') }
     end
