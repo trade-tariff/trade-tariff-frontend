@@ -1,10 +1,10 @@
 module CommoditiesHelper
   def footnote_heading(declarable)
-    declarable.footnote_heading
+    as_declarable_presenter(declarable).footnote_heading
   end
 
   def leaf_position(commodity)
-    commodity.leaf_position
+    as_commodity_presenter(commodity).leaf_position
   end
 
   def commodity_level(commodity, initial_indent)
@@ -26,15 +26,15 @@ module CommoditiesHelper
   end
 
   def format_full_code(commodity)
-    commodity.format_full_code
+    as_declarable_presenter(commodity).format_full_code
   end
 
   def format_commodity_code(commodity)
-    commodity.format_commodity_code
+    as_declarable_presenter(commodity).format_commodity_code
   end
 
   def format_commodity_code_based_on_level(commodity)
-    commodity.format_commodity_code_based_on_level
+    as_declarable_presenter(commodity).format_commodity_code_based_on_level
   end
 
   def convert_text_to_links(text)
@@ -246,10 +246,18 @@ module CommoditiesHelper
   end
 
   def abbreviate_commodity_code(commodity)
-    commodity.abbreviate_commodity_code
+    as_commodity_presenter(commodity).abbreviate_commodity_code
   end
 
   def commodity_ancestor_id(index)
     "commodity-ancestors__ancestor-#{index}"
+  end
+
+  def as_declarable_presenter(commodity)
+    commodity.is_a?(DeclarablePresenter) ? commodity : DeclarablePresenter.new(commodity)
+  end
+
+  def as_commodity_presenter(commodity)
+    commodity.is_a?(CommodityPresenter) ? commodity : CommodityPresenter.new(commodity)
   end
 end
