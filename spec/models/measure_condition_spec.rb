@@ -41,6 +41,47 @@ RSpec.describe MeasureCondition do
     end
   end
 
+  describe '#guidance_cds_html' do
+    context 'when guidance_cds is a plain string' do
+      subject(:condition) { build(:measure_condition, :with_guidance) }
+
+      it 'returns an HTML-safe string' do
+        expect(condition.guidance_cds_html).to be_html_safe
+      end
+
+      it 'returns a non-empty string' do
+        expect(condition.guidance_cds_html).to be_present
+      end
+
+      it 'memoizes the result so the same object is returned on repeated calls' do
+        first_call = condition.guidance_cds_html
+        expect(condition.guidance_cds_html).to equal(first_call)
+      end
+    end
+
+    context 'when guidance_cds is nil' do
+      subject(:condition) { build(:measure_condition) }
+
+      it 'returns an empty html-safe string' do
+        expect(condition.guidance_cds_html).to eq('')
+        expect(condition.guidance_cds_html).to be_html_safe
+      end
+    end
+
+    context 'when guidance_cds is a Hash with a content key' do
+      subject(:condition) { build(:measure_condition, guidance_cds: { 'content' => 'Some **bold** text' }) }
+
+      it 'extracts the content and returns an HTML string' do
+        expect(condition.guidance_cds_html).to include('<strong>')
+      end
+
+      it 'memoizes the result so the same object is returned on repeated calls' do
+        first_call = condition.guidance_cds_html
+        expect(condition.guidance_cds_html).to equal(first_call)
+      end
+    end
+  end
+
   describe '#measure_condition_class' do
     subject { condition.measure_condition_class }
 
