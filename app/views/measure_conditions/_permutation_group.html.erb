@@ -1,6 +1,8 @@
+<% permutations = permutation_group.permutations %>
+<% conditions_with_guidance = permutations.flat_map(&:measure_conditions).select(&:has_guidance?).uniq(&:resource_id) %>
 <div class="permutation-group">
   <p>
-    <% if permutation_group.permutations.many? %>
+    <% if permutations.many? %>
       Meet one of the following conditions
     <% else %>
       Meet the following condition
@@ -20,15 +22,11 @@
 
     <tbody class="govuk-table__body">
       <%= render partial: 'measure_conditions/permutation',
-                 collection: permutation_group.permutations %>
+                 collection: permutations %>
     </tbody>
   </table>
 
   <%= render 'measures/guidance_table',
              include_chief_guidance: anchor == 'export',
-             measure_conditions_with_guidance: permutation_group
-                                                 .permutations
-                                                 .flat_map(&:measure_conditions)
-                                                 .select(&:has_guidance?)
-                                                 .uniq(&:resource_id) %>
+             measure_conditions_with_guidance: conditions_with_guidance %>
 </div>
