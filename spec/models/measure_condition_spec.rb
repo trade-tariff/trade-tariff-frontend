@@ -62,8 +62,11 @@ RSpec.describe MeasureCondition do
     context 'when guidance_cds is nil' do
       subject(:condition) { build(:measure_condition) }
 
-      it 'returns an empty html-safe string' do
+      it 'returns an empty string' do
         expect(condition.guidance_cds_html).to eq('')
+      end
+
+      it 'returns an html-safe string' do
         expect(condition.guidance_cds_html).to be_html_safe
       end
     end
