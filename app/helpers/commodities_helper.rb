@@ -26,24 +26,15 @@ module CommoditiesHelper
   end
 
   def format_full_code(commodity)
-    code = commodity.code.to_s
-    tree_code(code, klass: nil)
+    commodity.format_full_code
   end
 
   def format_commodity_code(commodity)
-    code = commodity.display_short_code.to_s
-    "#{code[0..1]}&nbsp;#{code[2..3]}&nbsp;#{code[4..]}".html_safe
+    commodity.format_commodity_code
   end
 
   def format_commodity_code_based_on_level(commodity)
-    code = commodity.code.to_s
-    display_full_code = commodity.producline_suffix == '80'
-
-    if commodity.number_indents > 1 || display_full_code
-      # remove trailing pairs of zeros for non declarable
-      code = code.gsub(/0{2}+$/, '') if commodity.has_children?
-      tree_code(code, klass: nil)
-    end
+    commodity.format_commodity_code_based_on_level
   end
 
   def convert_text_to_links(text)
@@ -255,31 +246,10 @@ module CommoditiesHelper
   end
 
   def abbreviate_commodity_code(commodity)
-    code = commodity.code.to_s
-
-    commodity.declarable? ? code : abbreviate_code(code)
-  end
-
-  def abbreviate_code(code)
-    only_code = code_without_subheading(code)
-
-    case only_code.gsub(/0*\z/, '').length
-    when 9..10
-      only_code
-    when 7..8
-      only_code.slice(0, 8)
-    when 5..6
-      only_code.slice(0, 6)
-    else
-      only_code
-    end
+    commodity.abbreviate_commodity_code
   end
 
   def commodity_ancestor_id(index)
     "commodity-ancestors__ancestor-#{index}"
-  end
-
-  def code_without_subheading(code)
-    code.split('-').first
   end
 end
