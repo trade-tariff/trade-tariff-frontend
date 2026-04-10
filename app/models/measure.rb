@@ -150,7 +150,7 @@ class Measure
   end
 
   def key
-    "#{third_country_duties? ? 0 : 1}
+    @key ||= "#{third_country_duties? ? 0 : 1}
      #{tariff_preferences? ? 0 : 1}
      #{supplementary? ? 0 : 1}
      #{vat? ? 0 : 1}
