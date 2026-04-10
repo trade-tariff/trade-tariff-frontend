@@ -1,3 +1,5 @@
+<% declarable_import_measures = declarable.import_measures %>
+<% uk_import_measures = uk_declarable&.import_measures %>
 <div class="govuk-tabs govuk-!-margin-top-0" data-module="govuk-tabs">
   <ul class="govuk-tabs__list">
     <li class="govuk-tabs__list-item">
@@ -32,7 +34,7 @@
 
     <%= render 'declarables/consigned', declarable: declarable %>
 
-    <% if declarable.import_measures.any? %>
+    <% if declarable_import_measures.any? %>
       <%= render 'measures/grouped/navigation',
                  uk_declarable: uk_declarable,
                  xi_declarable: xi_declarable %>
@@ -120,7 +122,7 @@
 
   <div id="import-measure-references">
     <%= render partial: 'measures/measure_references',
-               collection: declarable.import_measures,
+               collection: declarable_import_measures,
                as: 'measure',
                locals: {
                  declarable: declarable,
@@ -130,7 +132,7 @@
 
     <% if TradeTariffFrontend::ServiceChooser.xi? && uk_declarable.present? %>
       <%= render partial: 'measures/measure_references',
-                 collection: uk_declarable.import_measures.import_controls,
+                 collection: uk_import_measures.import_controls,
                  as: 'measure',
                  locals: {
                    declarable: declarable,
@@ -139,7 +141,7 @@
                  } %>
 
       <%= render partial: 'measures/measure_references',
-                 collection: uk_declarable.import_measures.vat_excise,
+                 collection: uk_import_measures.vat_excise,
                  as: 'measure',
                  locals: {
                    declarable: declarable,
