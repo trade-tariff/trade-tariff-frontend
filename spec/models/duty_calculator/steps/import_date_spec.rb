@@ -144,6 +144,69 @@ RSpec.describe DutyCalculator::Steps::ImportDate, :step, :user_session do
     end
   end
 
+  describe '#import_date' do
+    context 'when super returns a Date (form params present)' do
+      it 'returns the Date unchanged' do
+        date = Date.new(2024, 6, 15)
+        expect(step.import_date).to be_a(Date)
+      end
+    end
+
+    context 'when super is nil and the session holds a String date' do
+      subject(:step) do
+        build(:duty_calculator_import_date, user_session:, day: '', month: '', year: '')
+      end
+
+      before do
+        allow(user_session).to receive(:import_date).and_return('2023-06-19')
+      end
+
+      it 'returns a Date' do
+        expect(step.import_date).to be_a(Date)
+      end
+
+      it 'returns the correct date' do
+        expect(step.import_date).to eq(Date.new(2023, 6, 19))
+      end
+    end
+
+    context 'when both super and session are nil' do
+      subject(:step) do
+        build(:duty_calculator_import_date, user_session:, day: '', month: '', year: '')
+      end
+
+      before do
+        allow(user_session).to receive(:import_date).and_return(nil)
+      end
+
+      it 'returns a Date' do
+        expect(step.import_date).to be_a(Date)
+      end
+
+      it 'returns today' do
+        expect(step.import_date).to eq(Time.zone.today)
+      end
+    end
+
+    context 'when the session holds an unparseable string' do
+      subject(:step) do
+        build(:duty_calculator_import_date, user_session:, day: '', month: '', year: '')
+      end
+
+      before do
+        allow(user_session).to receive(:import_date).and_return('not-a-date')
+      end
+
+      it 'returns a Date' do
+        expect(step.import_date).to be_a(Date)
+      end
+
+      it 'falls back to today' do
+        expect(step.import_date).to eq(Time.zone.today)
+      end
+    end
+  end
+
   describe '#save!' do
     let(:expected_date) { Date.parse("#{1.year.from_now.year}-12-12") }
 
