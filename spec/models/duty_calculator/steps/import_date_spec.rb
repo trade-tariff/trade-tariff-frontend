@@ -147,7 +147,6 @@ RSpec.describe DutyCalculator::Steps::ImportDate, :step, :user_session do
   describe '#import_date' do
     context 'when super returns a Date (form params present)' do
       it 'returns the Date unchanged' do
-        date = Date.new(2024, 6, 15)
         expect(step.import_date).to be_a(Date)
       end
     end

@@ -32,7 +32,7 @@ module DutyCalculator
       def import_date
         date = super || user_session.import_date || Time.zone.today
         date.is_a?(Date) ? date : Date.parse(date.to_s)
-      rescue Date::Error, ArgumentError
+      rescue ArgumentError
         Time.zone.today
       end
 
