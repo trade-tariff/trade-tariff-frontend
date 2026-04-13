@@ -1,0 +1,26 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3019/api/xi/geographical_areas/1013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - TradeTariffFrontend/a4d021c2
+      Accept:
+      - application/vnd.hmrc.2.0+json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":"1013","type":"geographical_area","attributes":{"id":"1013","description":"European
+        Union","geographical_area_id":"1013","hjid":23537},"relationships":{"children_geographical_areas":{"data":[{"id":"DE","type":"geographical_area"},{"id":"FR","type":"geographical_area"}]}}},"included":[{"id":"DE","type":"geographical_area","attributes":{"id":"DE","description":"Germany","geographical_area_id":"DE","hjid":23726},"relationships":{"children_geographical_areas":{"data":[]}}},{"id":"FR","type":"geographical_area","attributes":{"id":"FR","description":"France","geographical_area_id":"FR","hjid":23621},"relationships":{"children_geographical_areas":{"data":[]}}}]}'
+  recorded_at: Wed, 18 Mar 2026 10:00:00 GMT
+recorded_with: VCR 6.3.1
