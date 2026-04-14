@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus'
 import Cookies from 'js-cookie'
 
 export default class extends Controller {
-  static targets = ['toggle', 'hiddenField', 'guidedInput']
+  static targets = ['toggle', 'hiddenField', 'guidedInput', 'guidedSection', 'keywordSection']
   static values = {
     v2SuggestionsPath: String,
     interactiveSuggestionsPath: String,
@@ -18,12 +18,7 @@ export default class extends Controller {
     this.hiddenFieldTarget.value = guided.toString()
     this.#updateSuggestionsPath(guided)
     this.#syncInputs(guided)
-
-    // Trigger GOV.UK conditional reveal by dispatching a click on the checked radio
-    const checkedRadio = this.toggleTargets.find((r) => r.checked)
-    if (checkedRadio) {
-      checkedRadio.dispatchEvent(new Event('click', { bubbles: true }))
-    }
+    this.#syncConditionals(guided)
   }
 
   toggle(event) {
@@ -39,6 +34,7 @@ export default class extends Controller {
     this.hiddenFieldTarget.value = guided.toString()
     this.#updateSuggestionsPath(guided)
     this.#syncInputs(guided)
+    this.#syncConditionals(guided)
   }
 
   #updateSuggestionsPath(guided) {
@@ -62,5 +58,15 @@ export default class extends Controller {
     if (autocompleteInput) {
       autocompleteInput.disabled = guided
     }
+  }
+
+  #syncConditionals(guided) {
+    this.#toggleSection(this.guidedSectionTarget, guided)
+    this.#toggleSection(this.keywordSectionTarget, !guided)
+  }
+
+  #toggleSection(section, visible) {
+    section.classList.toggle('govuk-radios__conditional--hidden', !visible)
+    section.toggleAttribute('hidden', !visible)
   }
 }

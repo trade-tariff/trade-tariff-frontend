@@ -10,71 +10,71 @@ class MeasureCollection < SimpleDelegator
   end
 
   def without_supplementary_unit
-    new(reject(&:supplementary?))
+    @without_supplementary_unit ||= new(reject(&:supplementary?))
   end
 
   def without_excluded
-    new(reject(&:excluded?))
+    @without_excluded ||= new(reject(&:excluded?))
   end
 
   def suspensions
-    new(select(&:suspension?))
+    @suspensions ||= new(select(&:suspension?))
   end
 
   def credibility_checks
-    new(select(&:credibility_check?))
+    @credibility_checks ||= new(select(&:credibility_check?))
   end
 
   def vat_excise
-    new(select(&:vat_excise?))
+    @vat_excise ||= new(select(&:vat_excise?))
   end
 
   def import_controls
-    new(select(&:import_controls?) + select(&:unclassified_import_controls?))
+    @import_controls ||= new(select(&:import_controls?) + select(&:unclassified_import_controls?))
   end
 
   def customs_duties
-    new(third_country_duties + tariff_preferences + other_customs_duties + unclassified_customs_duties)
+    @customs_duties ||= new(third_country_duties + tariff_preferences + other_customs_duties + unclassified_customs_duties)
   end
 
   def trade_remedies
-    new(select(&:trade_remedies?))
+    @trade_remedies ||= new(select(&:trade_remedies?))
   end
 
   def quotas
-    new(select(&:quotas?))
+    @quotas ||= new(select(&:quotas?))
   end
 
   def third_country_duties
-    new(select(&:third_country_duties?))
+    @third_country_duties ||= new(select(&:third_country_duties?))
   end
 
   def unique_third_country_overview_measures
-    if third_country_duties.many?
-      new([third_country_duties.find(&:mfn_no_authorized_use?)])
-    else
-      third_country_duties
-    end
+    @unique_third_country_overview_measures ||= if third_country_duties.many?
+                                                  new([third_country_duties.find(&:mfn_no_authorized_use?)])
+                                                else
+                                                  third_country_duties
+                                                end
   end
 
   def with_additional_code
-    new(select { |measure| measure.additional_code.present? })
+    @with_additional_code ||= new(select { |measure| measure.additional_code.present? })
   end
 
   def erga_omnes
-    new(select(&:erga_omnes?))
+    @erga_omnes ||= new(select(&:erga_omnes?))
   end
 
   def channel_islands
-    new(select(&:channel_islands?))
+    @channel_islands ||= new(select(&:channel_islands?))
   end
 
   def excluding_channel_islands
-    new(reject(&:channel_islands?))
+    @excluding_channel_islands ||= new(reject(&:channel_islands?))
   end
 
   def vat
-    new(select(&:vat?).sort_by(&:amount).reverse)
+    @vat ||= new(select(&:vat?).sort_by(&:amount).reverse)
   end
 
   def measure_with_highest_vat_rate_erga_omnes
@@ -86,11 +86,11 @@ class MeasureCollection < SimpleDelegator
   end
 
   def excise
-    new(select(&:excise?))
+    @excise ||= new(select(&:excise?))
   end
 
   def unit
-    new(select(&:provides_unit_context?))
+    @unit ||= new(select(&:provides_unit_context?))
   end
 
   def excise?
@@ -98,11 +98,11 @@ class MeasureCollection < SimpleDelegator
   end
 
   def national
-    new(select(&:national?))
+    @national ||= new(select(&:national?))
   end
 
   def supplementary
-    new(select(&:supplementary?))
+    @supplementary ||= new(select(&:supplementary?))
   end
 
   def find_by_quota_order_number(number)

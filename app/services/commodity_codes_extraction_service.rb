@@ -29,8 +29,17 @@ class CommodityCodesExtractionService
       end
 
     rows.filter_map do |value|
-      code = value.to_s.gsub(/[^0-9]/, '')
+      code = normalize_code_value(value)
       code if code.present? && code.length.between?(1, 20)
+    end
+  end
+
+  def normalize_code_value(value)
+    case value
+    when Numeric
+      value.floor.to_s if value.finite?
+    else
+      value.to_s.sub(/\.0+\z/, '').gsub(/[^0-9]/, '') # Remove trailing .0 and any non-numeric characters
     end
   end
 end

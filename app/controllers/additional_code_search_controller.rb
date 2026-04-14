@@ -1,25 +1,9 @@
 class AdditionalCodeSearchController < ApplicationController
-  def new
-    @form = AdditionalCodeSearchForm.new
-    @query = {}
-    @additional_codes = []
+  include CodeSearchable
 
-    render 'search/additional_code_search'
-  end
-
-  def create
-    @form = AdditionalCodeSearchForm.new(additional_code_search_params)
-    @query = @form.to_params
-    @additional_codes = if @form.valid?
-                          AdditionalCode.search(@query)
-                        else
-                          []
-                        end
-
-    render 'search/additional_code_search'
-  end
-
-  def additional_code_search_params
-    params.fetch(:additional_code_search_form, {}).permit(:code, :description)
-  end
+  def self.form_class = AdditionalCodeSearchForm
+  def self.model_class = AdditionalCode
+  def self.results_ivar = :@additional_codes
+  def self.search_template = 'search/additional_code_search'
+  def self.form_param_key = :additional_code_search_form
 end

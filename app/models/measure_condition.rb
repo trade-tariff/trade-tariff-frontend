@@ -39,9 +39,12 @@ class MeasureCondition
   end
 
   def guidance_cds_html
-    return ''.html_safe unless guidance_cds.present?
+    @guidance_cds_html ||= begin
+      text = guidance_cds.is_a?(Hash) ? guidance_cds['content'] || guidance_cds[:content] : guidance_cds
+      return ''.html_safe if text.nil?
 
-    @guidance_cds_html ||= Govspeak::Document.new(guidance_cds, sanitize: true).to_html.html_safe
+      Govspeak::Document.new(text, sanitize: true).to_html.html_safe
+    end
   end
 
   def presented_action

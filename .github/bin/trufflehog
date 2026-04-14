@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-docker run --rm -v "$(pwd):/workdir" \
-  -i \
-  --rm trufflesecurity/trufflehog:latest \
-  git file:///workdir --since-commit HEAD --results=verified,unknown --fail
+tmp_file="$(mktemp)"
+trap 'rm -f "$tmp_file"' EXIT
+
+curl -fsSL \
+  https://raw.githubusercontent.com/trade-tariff/trade-tariff-tools/main/scripts/trufflehog-pre-commit.sh \
+  -o "$tmp_file"
+
+bash "$tmp_file" "$(pwd)"

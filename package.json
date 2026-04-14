@@ -5,11 +5,12 @@
     "@axe-core/playwright": "^4.11.1",
     "@babel/preset-env": "^7.29.2",
     "@hotwired/stimulus": "^3.2.2",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.59.1",
     "accessible-autocomplete": "^3.0.1",
     "babel-jest": "^30.3.0",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.2",
     "govuk-frontend": "6.1.0",
+    "gh-pages": "^6.3.0",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "jquery": "4.0.0",
@@ -18,7 +19,7 @@
     "jquery-prevent-scroll-keys": "^1.0.1",
     "js-cookie": "^3.0.5",
     "mark.js": "^8.11.1",
-    "sass": "^1.98.0"
+    "sass": "^1.99.0"
   },
   "scripts": {
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/print.sass.scss:./app/assets/builds/print.css --no-source-map --load-path=node_modules --load-path=app/assets/stylesheets",

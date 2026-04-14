@@ -189,7 +189,8 @@ module ApplicationHelper
     if subscriptions_page?
       feedback_path
     else
-      'https://surveys.transformuk.com/s3/17fead99a348'
+      page_context = ERB::Util.url_encode(request.path)
+      "https://surveys.transformuk.com/s3/17fead99a348?page_context=#{page_context}"
     end
   end
 end

@@ -34,11 +34,11 @@
       <h2 class="govuk-fieldset__heading">What type of search are you doing?</h2>
     </legend>
 
-    <div class="govuk-radios" data-module="govuk-radios">
+    <div class="govuk-radios">
       <div class="govuk-radios__item">
         <input class="govuk-radios__input" id="search_type_guided" type="radio"
                name="search_type" value="guided"
-               data-aria-controls="conditional-guided"
+               aria-controls="conditional-guided"
                data-interactive-search-radio-target="toggle"
                data-action="interactive-search-radio#toggle">
         <label class="govuk-label govuk-radios__label" for="search_type_guided">
@@ -46,7 +46,7 @@
         </label>
       </div>
 
-      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-guided">
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-guided" hidden data-interactive-search-radio-target="guidedSection">
         <details class="govuk-details govuk-!-margin-bottom-4">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">Tips for using guided search</span>
@@ -80,7 +80,7 @@
       <div class="govuk-radios__item">
         <input class="govuk-radios__input" id="search_type_keyword" type="radio"
                name="search_type" value="keyword"
-               data-aria-controls="conditional-keyword"
+               aria-controls="conditional-keyword"
                data-interactive-search-radio-target="toggle"
                data-action="interactive-search-radio#toggle">
         <label class="govuk-label govuk-radios__label" for="search_type_keyword">
@@ -88,7 +88,7 @@
         </label>
       </div>
 
-      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-keyword">
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-keyword" hidden data-interactive-search-radio-target="keywordSection">
         <details class="govuk-details govuk-!-margin-bottom-4">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">Tips for using keyword or commodity code search</span>
@@ -112,7 +112,7 @@
         </details>
 
         <div class="govuk-form-group">
-          <label class="govuk-label" for="keyword_q">
+          <label class="govuk-label" for="q">
             Enter the name of the products or commodity code
           </label>
           <div class="govuk-hint" id="keyword-q-hint">

@@ -6,10 +6,20 @@ class GeographicalAreasController < ApplicationController
 
   def show
     render 'errors/not_found', status: :not_found if params[:id] == 'countries'
-    @geographical_area = GeographicalArea.find(params[:id], query_params)
+    @geographical_area = find_geographical_area
   end
 
   private
+
+  def find_geographical_area
+    GeographicalArea.find(params[:id], query_params)
+  rescue Faraday::ResourceNotFound
+    raise if TradeTariffFrontend::ServiceChooser.uk?
+
+    TradeTariffFrontend::ServiceChooser.with_source(:uk) do
+      GeographicalArea.find(params[:id], query_params)
+    end
+  end
 
   def set_goods_nomenclature_code
     @goods_nomenclature_code = params[:goods_nomenclature_code]

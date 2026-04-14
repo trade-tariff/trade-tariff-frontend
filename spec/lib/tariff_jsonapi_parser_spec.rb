@@ -131,5 +131,60 @@ RSpec.describe TariffJsonapiParser do
         end
       end
     end
+
+    context 'with a large included array referenced many times' do
+      # Builds a response with 100 included resources and a data array of 50
+      # items each referencing the same single included resource (id "1",
+      # type "shared_thing"). This exercises both the O(1) index (finding
+      # the right resource among 100) and the memoisation of its parsed form.
+      subject(:parsed) { described_class.new(payload).parse }
+
+      let(:shared_included_resource) do
+        {
+          'id' => '1',
+          'type' => 'shared_thing',
+          'attributes' => { 'label' => 'erga omnes' },
+        }
+      end
+
+      let(:other_included_resources) do
+        (2..100).map do |n|
+          { 'id' => n.to_s, 'type' => 'shared_thing', 'attributes' => { 'label' => "other #{n}" } }
+        end
+      end
+
+      let(:data_items) do
+        (1..50).map do |n|
+          {
+            'id' => n.to_s,
+            'type' => 'measure',
+            'attributes' => { 'description' => "measure #{n}" },
+            'relationships' => {
+              'shared_thing' => { 'data' => { 'id' => '1', 'type' => 'shared_thing' } },
+            },
+          }
+        end
+      end
+
+      let(:payload) do
+        {
+          'data' => data_items,
+          'included' => [shared_included_resource] + other_included_resources,
+        }
+      end
+
+      it 'resolves the shared relationship correctly for every data item' do
+        expect(parsed).to all(include('shared_thing' => include('label' => 'erga omnes')))
+      end
+
+      it 'returns the identical parsed object for every reference to the same included resource' do
+        # All 50 measures reference the same included resource. With memoisation
+        # every call to find_and_parse_included for ["shared_thing","1"] must
+        # return the exact same Ruby object (not just an equal one).
+        shared_things = parsed.map { |item| item['shared_thing'] }
+        first = shared_things.first
+        expect(shared_things).to all(equal(first))
+      end
+    end
   end
 end
