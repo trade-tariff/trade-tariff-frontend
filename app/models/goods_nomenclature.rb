@@ -5,6 +5,7 @@ class GoodsNomenclature
   include ApiEntity
   include Classifiable
 
+  NON_GROUPING_PRODUCTLINE_SUFFIX = '80'.freeze
   CHAPTER_SUFFIX = '00000000'.freeze
   HEADING_SUFFIX = '000000'.freeze
 
