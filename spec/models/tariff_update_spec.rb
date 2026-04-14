@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe TariffUpdate do
+  before do
+    allow(described_class).to receive(:all).and_return([build(:tariff_update)])
+  end
+
   describe '#applied_at' do
     subject(:applied_at) { build(:tariff_update).applied_at }
 
