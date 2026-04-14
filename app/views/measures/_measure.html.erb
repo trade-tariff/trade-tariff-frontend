@@ -69,7 +69,7 @@
   </td>
 
   <td class="footnotes-col govuk-table__cell govuk-table__header--numeric">
-    <% if measure.has_measure_footnotes? %>
+    <% if footnotes.any? %>
       <div data-controller="anchor">
         <%= link_to footnotes.size == 1 ? footnotes.first.code : "Footnotes", "#", class: 'reference', data: { action: "click->anchor#launchModal", modal_ref: "#{measure.destination}-#{measure.id}-footnotes" }, "aria-label": "Click to open a dialog with the footnotes for this measure", role: "button" %>
         <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
