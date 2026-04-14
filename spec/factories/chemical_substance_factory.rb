@@ -5,7 +5,7 @@ FactoryBot.define do
     cas_rn { '102-28-3' }
     goods_nomenclature_sid { 101_368 }
     goods_nomenclature_item_id { '2924297099' }
-    producline_suffix { '80' }
+    producline_suffix { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
     name { "3'-aminoacetanilide" }
     nomen { 'INN' }
   end

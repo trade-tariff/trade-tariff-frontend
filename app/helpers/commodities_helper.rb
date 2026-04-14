@@ -39,7 +39,7 @@ module CommoditiesHelper
 
   def format_commodity_code_based_on_level(commodity)
     code = commodity.code.to_s
-    display_full_code = commodity.producline_suffix == '80'
+    display_full_code = commodity.producline_suffix == GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX
 
     if commodity.number_indents > 1 || display_full_code
       # remove trailing pairs of zeros for non declarable

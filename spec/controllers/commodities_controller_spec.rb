@@ -86,7 +86,7 @@ RSpec.describe CommoditiesController, type: :controller do
               jsonapi_response :subheading,
                                attributes_for(:subheading,
                                               goods_nomenclature_item_id: '0101999999',
-                                              producline_suffix: '80')
+                                              producline_suffix: GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX)
         end
 
         it { is_expected.to redirect_to subheading_path('0101999999-80') }
