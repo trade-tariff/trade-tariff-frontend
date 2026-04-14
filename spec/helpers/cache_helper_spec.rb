@@ -3,10 +3,9 @@ RSpec.describe CacheHelper, type: :helper do
     let(:cacheable) do
       Class.new do
         include CacheHelper
-        attr_accessor :tariff_last_updated, :params
+        attr_accessor :params
 
-        def initialize(last_updated, params_hash)
-          @tariff_last_updated = last_updated
+        def initialize(params_hash)
           @params = ActionController::Parameters.new(params_hash)
         end
 
@@ -22,21 +21,21 @@ RSpec.describe CacheHelper, type: :helper do
     end
 
     context 'when date params are available, builds the correct commodity cache key' do
-      let(:instance) { cacheable.new('2025-01-01', { day: '04', month: '01', year: '2025', id: '2008605010' }) }
+      let(:instance) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010' }) }
 
-      it { expect(instance.commodity_cache_key).to eq(%w[commodities#show uk/2025-01-01/1 100 04/2008605010/01/2025]) }
+      it { expect(instance.commodity_cache_key).to eq(%w[commodities#show uk/1 100 04/2008605010/01/2025]) }
     end
 
     context 'when date and month swapped for subsequent requests, cache keys are different' do
-      let(:instance) { cacheable.new('2025-01-01', { day: '04', month: '01', year: '2025', id: '2008605010' }) }
-      let(:instance2) { cacheable.new('2025-01-01', { day: '01', month: '04', year: '2025', id: '2008605010' }) }
+      let(:instance) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010' }) }
+      let(:instance2) { cacheable.new({ day: '01', month: '04', year: '2025', id: '2008605010' }) }
 
       it { expect(instance.commodity_cache_key).not_to eq(instance2.commodity_cache_key) }
     end
 
     context 'when request_id is present, it is excluded from the cache key' do
-      let(:without_request_id) { cacheable.new('2025-01-01', { day: '04', month: '01', year: '2025', id: '2008605010' }) }
-      let(:with_request_id) { cacheable.new('2025-01-01', { day: '04', month: '01', year: '2025', id: '2008605010', request_id: SecureRandom.uuid }) }
+      let(:without_request_id) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010' }) }
+      let(:with_request_id) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010', request_id: SecureRandom.uuid }) }
 
       it { expect(with_request_id.commodity_cache_key).to eq(without_request_id.commodity_cache_key) }
     end

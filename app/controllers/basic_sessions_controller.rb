@@ -2,7 +2,6 @@ class BasicSessionsController < ApplicationController
   skip_before_action :require_authentication, only: %i[new create]
 
   before_action :disable_switch_service_banner,
-                :disable_last_updated_footnote,
                 :disable_search_form
 
   def new

@@ -121,7 +121,6 @@ module InteractiveSearchable
 
   def render_interactive_question
     disable_switch_service_banner
-    disable_last_updated_footnote
     disable_search_form
     mark_interactive_search_page
     render :interactive_question
@@ -129,7 +128,6 @@ module InteractiveSearchable
 
   def render_interactive_no_results
     disable_switch_service_banner
-    disable_last_updated_footnote
     disable_search_form
     mark_interactive_search_page
     render :interactive_no_results
@@ -137,7 +135,6 @@ module InteractiveSearchable
 
   def render_interactive_results
     disable_switch_service_banner
-    disable_last_updated_footnote
     disable_search_form
     mark_interactive_search_page
     render :interactive_results

@@ -4,8 +4,7 @@ module Myott
 
     before_action :authenticate,
                   :disable_search_form,
-                  :disable_switch_service_banner,
-                  :disable_last_updated_footnote
+                  :disable_switch_service_banner
 
     rescue_from AuthenticationError, with: :handle_authentication_error
 
