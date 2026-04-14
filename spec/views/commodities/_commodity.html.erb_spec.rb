@@ -10,7 +10,7 @@ RSpec.describe 'commodities/_commodity', type: :view do
     let(:commodity) { build(:heading, :with_subheading_and_commodity, producline_suffix:).commodities.first }
 
     context 'with producline_suffix of 80' do
-      let(:producline_suffix) { '80' }
+      let(:producline_suffix) { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
 
       it 'shows the commodity code' do
         expect(rendered_page).to have_css \

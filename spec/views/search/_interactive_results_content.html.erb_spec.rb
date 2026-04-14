@@ -27,7 +27,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
       [
         {
           'goods_nomenclature_item_id' => '2007919930',
-          'producline_suffix' => '80',
+          'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
           'goods_nomenclature_class' => 'Commodity',
           'description' => 'Containing less than 70% by weight of sugar',
           'formatted_description' => 'Containing less than 70% by weight of sugar',

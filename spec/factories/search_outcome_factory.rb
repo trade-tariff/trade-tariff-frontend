@@ -13,7 +13,7 @@ FactoryBot.define do
               "_source": {
                 "id": 54_631,
                 "goods_nomenclature_item_id": '9603210000',
-                "producline_suffix": '80',
+                "producline_suffix": GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
                 "validity_start_date": '1972-01-01T00:00:00.000Z',
                 "validity_end_date": nil,
                 "description": 'Toothbrushes, including dental-plate brushes',
@@ -34,7 +34,7 @@ FactoryBot.define do
                 "chapter": {
                   "goods_nomenclature_sid": 54_615,
                   "goods_nomenclature_item_id": '9600000000',
-                  "producline_suffix": '80',
+                  "producline_suffix": GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
                   "validity_start_date": '1971-12-31T00:00:00.000Z',
                   "validity_end_date": nil,
                   "description": 'Miscellaneous manufactured articles',
@@ -43,7 +43,7 @@ FactoryBot.define do
                 "heading": {
                   "goods_nomenclature_sid": 54_628,
                   "goods_nomenclature_item_id": '9603000000',
-                  "producline_suffix": '80',
+                  "producline_suffix": GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
                   "validity_start_date": '1972-01-01T00:00:00.000Z',
                   "validity_end_date": nil,
                   "description": 'Brooms, brushes (including brushes constituting parts of machines, appliances or vehicles), hand-operated mechanical floor sweepers, not motorised, mops and feather dusters; prepared knots and tufts for broom or brush making; paint pads and rollers; squeegees (other than roller squeegees)',
@@ -72,7 +72,7 @@ FactoryBot.define do
                 "reference": {
                   "id": 49_912,
                   "goods_nomenclature_item_id": '8509800000',
-                  "producline_suffix": '80',
+                  "producline_suffix": GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
                   "validity_start_date": '1972-01-01T00:00:00.000Z',
                   "validity_end_date": nil,
                   "description": 'Other appliances',
@@ -92,7 +92,7 @@ FactoryBot.define do
                   "chapter": {
                     "goods_nomenclature_sid": 49_496,
                     "goods_nomenclature_item_id": '8500000000',
-                    "producline_suffix": '80',
+                    "producline_suffix": GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
                     "validity_start_date": '1971-12-31T00:00:00.000Z',
                     "validity_end_date": nil,
                     "description": 'Electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles',
@@ -101,7 +101,7 @@ FactoryBot.define do
                   "heading": {
                     "goods_nomenclature_sid": 49_905,
                     "goods_nomenclature_item_id": '8509000000',
-                    "producline_suffix": '80',
+                    "producline_suffix": GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
                     "validity_start_date": '1972-01-01T00:00:00.000Z',
                     "validity_end_date": nil,
                     "description": 'Electromechanical domestic appliances, with self-contained electric motor, other than vacuum cleaners of heading 8508',

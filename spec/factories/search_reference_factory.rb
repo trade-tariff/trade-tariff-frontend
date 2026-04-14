@@ -9,13 +9,13 @@ FactoryBot.define do
     trait :with_chapter do
       referenced_id { '20' }
       referenced_class { 'Chapter' }
-      productline_suffix { '80' }
+      productline_suffix { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
     end
 
     trait :with_heading do
       referenced_id { '2001' }
       referenced_class { 'Heading' }
-      productline_suffix { '80' }
+      productline_suffix { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
     end
 
     trait :with_subheading do
@@ -27,7 +27,7 @@ FactoryBot.define do
     trait :with_commodity do
       referenced_id { '8418690000' }
       referenced_class { 'Commodity' }
-      productline_suffix { '80' }
+      productline_suffix { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
     end
   end
 end

@@ -28,7 +28,7 @@ FactoryBot.define do
     end
 
     trait :redirect do
-      direct_hit { attributes_for(:heading, goods_nomenclature_item_id: '0101000000', producline_suffix: '80') }
+      direct_hit { attributes_for(:heading, goods_nomenclature_item_id: '0101000000', producline_suffix: GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX) }
     end
 
     trait :multiple_headings_view do

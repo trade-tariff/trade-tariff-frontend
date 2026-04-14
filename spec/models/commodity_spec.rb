@@ -185,7 +185,7 @@ RSpec.describe Commodity do
       end
 
       context 'with producline_suffix of 80' do
-        let(:producline_suffix) { '80' }
+        let(:producline_suffix) { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
 
         it { is_expected.to be false }
       end
@@ -201,7 +201,7 @@ RSpec.describe Commodity do
       end
 
       context 'with producline_suffix of 80' do
-        let(:producline_suffix) { '80' }
+        let(:producline_suffix) { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
 
         it { is_expected.to be false }
       end
