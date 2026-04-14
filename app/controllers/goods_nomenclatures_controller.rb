@@ -10,12 +10,7 @@ class GoodsNomenclaturesController < ApplicationController
   end
 
   def find_relevant_goods_code_or_fallback
-    @search = Search.new(
-      q: goods_code_id,
-      day: @tariff_last_updated.try(:day),
-      month: @tariff_last_updated.try(:month),
-      year: @tariff_last_updated.try(:year),
-    )
+    @search = Search.new(q: goods_code_id)
     results = @search.perform
 
     if results.exact_match?
