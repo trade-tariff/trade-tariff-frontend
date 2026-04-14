@@ -18,4 +18,10 @@ class Certificate
   def to_s
     code
   end
+
+  def guidance_cds_html
+    return ''.html_safe unless guidance_cds.present?
+
+    @guidance_cds_html ||= Govspeak::Document.new(guidance_cds, sanitize: true).to_html.html_safe
+  end
 end

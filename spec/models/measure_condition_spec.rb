@@ -110,6 +110,33 @@ RSpec.describe MeasureCondition do
     end
   end
 
+  describe '#guidance_cds_html' do
+    context 'when guidance_cds is present' do
+      subject(:condition) { build(:measure_condition, :with_guidance) }
+
+      it 'returns rendered HTML' do
+        expect(condition.guidance_cds_html).to include('<p>')
+      end
+
+      it 'returns an html_safe string' do
+        expect(condition.guidance_cds_html).to be_html_safe
+      end
+
+      it 'memoizes the result' do
+        expect(Govspeak::Document).to receive(:new).once.and_call_original
+
+        2.times { condition.guidance_cds_html }
+      end
+    end
+
+    context 'when guidance_cds is absent' do
+      subject(:condition) { build(:measure_condition, guidance_cds: nil) }
+
+      it { expect(condition.guidance_cds_html).to eq('') }
+      it { expect(condition.guidance_cds_html).to be_html_safe }
+    end
+  end
+
   describe '#presented_action' do
     context 'when action_code is 01' do
       subject(:presented_action) { build(:measure_condition, action_code: '01').presented_action }

@@ -6,5 +6,9 @@ FactoryBot.define do
     description { Forgery(:basic).text }
     formatted_description { Forgery(:basic).text }
     measures { [attributes_for(:measure)] }
+
+    trait :with_guidance do
+      guidance_cds { 'Guidance CDS' }
+    end
   end
 end

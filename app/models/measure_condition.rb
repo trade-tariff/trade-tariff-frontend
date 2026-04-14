@@ -38,6 +38,12 @@ class MeasureCondition
     guidance_cds.present?
   end
 
+  def guidance_cds_html
+    return ''.html_safe unless guidance_cds.present?
+
+    @guidance_cds_html ||= Govspeak::Document.new(guidance_cds, sanitize: true).to_html.html_safe
+  end
+
   def presented_action
     OVERRIDDEN_ACTION_CODES.fetch(action_code.to_s, action)
   end
