@@ -1,5 +1,3 @@
-require 'active_model'
-
 class GreenLanes::CategoryAssessmentSearch
   include ActiveModel::Model
 

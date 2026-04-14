@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class GreenLanes::GoodsNomenclature
   include XiOnlyApiEntity
   include Classifiable

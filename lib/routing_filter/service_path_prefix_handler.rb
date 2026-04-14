@@ -1,5 +1,3 @@
-require 'trade_tariff_frontend'
-
 module RoutingFilter
   class ServicePathPrefixHandler < Filter
     SERVICE_CHOICE_PREFIXES =

@@ -1,6 +1,3 @@
-require 'api_entity'
-require 'order_number/definition'
-
 class OrderNumber
   include ApiEntity
 

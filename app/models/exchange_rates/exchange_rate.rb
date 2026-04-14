@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class ExchangeRates::ExchangeRate
   include ApiEntity
 

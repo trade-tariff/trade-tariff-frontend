@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class ChemicalSubstance
   include ApiEntity
 

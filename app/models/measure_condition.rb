@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class MeasureCondition
   OVERRIDDEN_ACTION_CODES = {
     '01' => 'Apply the duty',
