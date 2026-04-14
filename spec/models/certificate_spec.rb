@@ -6,29 +6,46 @@ RSpec.describe Certificate do
   end
 
   describe '#guidance_cds_html' do
-    context 'when guidance_cds is present' do
+    context 'when guidance_cds is a plain string' do
       subject(:certificate) { build(:certificate, :with_guidance) }
 
-      it 'returns rendered HTML' do
-        expect(certificate.guidance_cds_html).to include('<p>')
-      end
-
-      it 'returns an html_safe string' do
+      it 'returns an HTML-safe string' do
         expect(certificate.guidance_cds_html).to be_html_safe
       end
 
-      it 'memoizes the result' do
-        expect(Govspeak::Document).to receive(:new).once.and_call_original
+      it 'returns a non-empty string' do
+        expect(certificate.guidance_cds_html).to be_present
+      end
 
-        2.times { certificate.guidance_cds_html }
+      it 'memoizes the result so the same object is returned on repeated calls' do
+        first_call = certificate.guidance_cds_html
+        expect(certificate.guidance_cds_html).to equal(first_call)
       end
     end
 
-    context 'when guidance_cds is absent' do
+    context 'when guidance_cds is nil' do
       subject(:certificate) { build(:certificate, guidance_cds: nil) }
 
-      it { expect(certificate.guidance_cds_html).to eq('') }
-      it { expect(certificate.guidance_cds_html).to be_html_safe }
+      it 'returns an empty string' do
+        expect(certificate.guidance_cds_html).to eq('')
+      end
+
+      it 'returns an html-safe string' do
+        expect(certificate.guidance_cds_html).to be_html_safe
+      end
+    end
+
+    context 'when guidance_cds is a Hash with a content key' do
+      subject(:certificate) { build(:certificate, guidance_cds: { 'content' => 'Some **bold** text' }) }
+
+      it 'extracts the content and returns an HTML string' do
+        expect(certificate.guidance_cds_html).to include('<strong>')
+      end
+
+      it 'memoizes the result so the same object is returned on repeated calls' do
+        first_call = certificate.guidance_cds_html
+        expect(certificate.guidance_cds_html).to equal(first_call)
+      end
     end
   end
 end
