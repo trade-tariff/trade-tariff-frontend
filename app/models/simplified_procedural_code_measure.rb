@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class SimplifiedProceduralCodeMeasure
   include ApiEntity
 

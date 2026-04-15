@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'trade_tariff_frontend/service_timeout'
 
 RSpec.describe TradeTariffFrontend::ServiceTimeout do
   subject(:middleware) { described_class.new(app) }

@@ -1,4 +1,3 @@
-require 'api_entity'
 require 'digest'
 
 class RulesOfOrigin::Link

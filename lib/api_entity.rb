@@ -1,8 +1,3 @@
-require 'multi_json'
-require 'active_model'
-require 'tariff_jsonapi_parser'
-require 'unparseable_response_error'
-
 module ApiEntity
   extend ActiveSupport::Concern
 

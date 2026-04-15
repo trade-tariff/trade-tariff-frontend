@@ -1,5 +1,3 @@
-require 'action_view/helpers'
-
 module Myott
   class SessionChaptersDecorator < SimpleDelegator
     include ActionView::Helpers::TextHelper

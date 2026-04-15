@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class MeasureType
   RENDERED_MEASURE_TYPE_DETAILS = { 'xi' => {}, 'uk' => {} }.freeze
 

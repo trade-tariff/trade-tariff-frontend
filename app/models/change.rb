@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class Change
   include ApiEntity
   extend  ActiveModel::Naming
