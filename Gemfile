@@ -9,7 +9,6 @@ end
 
 gem 'rails', '~> 8.1'
 
-gem 'csv'
 gem 'faraday'
 gem 'faraday-http-cache'
 gem 'faraday-net_http_persistent'
@@ -18,7 +17,6 @@ gem 'inline_svg'
 gem 'jwt'
 gem 'kaminari'
 gem 'multi_json'
-gem 'net-http-persistent'
 gem 'newrelic_rpm'
 gem 'roo'
 gem 'routing-filter', github: 'trade-tariff/routing-filter'
@@ -36,7 +34,6 @@ gem 'turbo-rails'
 gem 'govspeak'
 gem 'govuk_design_system_formbuilder'
 gem 'nokogiri'
-gem 'plek'
 gem 'wizard_steps'
 
 # Logging
@@ -52,11 +49,9 @@ gem 'redis'
 
 # AWS
 gem 'aws-actionmailer-ses'
-gem 'aws-sdk-rails'
 
 group :development do
   gem 'letter_opener'
-  gem 'rubocop-capybara'
   gem 'rubocop-govuk'
   gem 'ruby-lsp-rails'
   gem 'ruby-lsp-rspec'
@@ -76,7 +71,6 @@ group :test do
   gem 'cuprite'
   gem 'factory_bot_rails'
   gem 'forgery'
-  gem 'rack-test'
   gem 'rails-controller-testing', github: 'rails/rails-controller-testing', branch: 'master'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
