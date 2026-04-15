@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include TradeTariffFrontend::ViewContext::Controller
@@ -10,7 +8,6 @@ class ApplicationController < ActionController::Base
   before_action :maintenance_mode_if_active
 
   before_action :set_cache
-  before_action :set_last_updated
   before_action :set_path_info
   before_action :set_search
   before_action :bots_no_index_if_historical
@@ -42,12 +39,6 @@ class ApplicationController < ActionController::Base
                 :meursing_lookup_result,
                 :is_switch_service_banner_enabled?
 
-  def set_last_updated
-    # rubocop:disable Naming/MemoizedInstanceVariableName
-    @tariff_last_updated ||= TariffUpdate.latest_applied_import_date
-    # rubocop:enable Naming/MemoizedInstanceVariableName
-  end
-
   def disable_switch_service_banner
     @disable_switch_service_banner = true
   end
@@ -62,10 +53,6 @@ class ApplicationController < ActionController::Base
 
   def skip_news_banner
     @skip_news_banner = true
-  end
-
-  def disable_last_updated_footnote
-    @tariff_last_updated = nil
   end
 
   def search_invoked?

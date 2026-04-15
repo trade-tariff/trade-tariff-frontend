@@ -40,7 +40,7 @@ FactoryBot.define do
 
     trait :subheading do
       goods_nomenclature_item_id { '0101999999' }
-      producline_suffix { '80' }
+      producline_suffix { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
       goods_nomenclature_class { 'Subheading' }
 
       to_param { "#{goods_nomenclature_item_id}-#{producline_suffix}" }
@@ -48,7 +48,7 @@ FactoryBot.define do
 
     trait :commodity do
       goods_nomenclature_item_id { '0101999999' }
-      producline_suffix { '80' }
+      producline_suffix { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
       goods_nomenclature_class { 'Commodity' }
 
       to_param { goods_nomenclature_item_id }

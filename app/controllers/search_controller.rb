@@ -25,24 +25,11 @@ class SearchController < ApplicationController
 
   def suggestions
     search_term = Regexp.escape(params[:term].to_s.strip)
-    matched_suggestions = SearchSuggestion.all(q: search_term)
-    results = matched_suggestions.map do |s|
-      {
-        id: s.value,
-        text: s.value,
-        query: s.query,
-        resource_id: s.resource_id,
-        formatted_suggestion_type: s.formatted_suggestion_type,
-      }
-    end
-
-    render json: { results: }
+    render_suggestions(SearchSuggestion.all(q: search_term))
   end
 
   def interactive_suggestions
-    unless TradeTariffFrontend.interactive_search_enabled?
-      return suggestions
-    end
+    return suggestions unless TradeTariffFrontend.interactive_search_enabled?
 
     search_term = Regexp.escape(params[:term].to_s.strip)
 
@@ -53,18 +40,7 @@ class SearchController < ApplicationController
     parsed = TariffJsonapiParser.new(response.body).parse
     parsed = [] unless parsed.is_a?(Array)
 
-    matched_suggestions = parsed.map { |attrs| SearchSuggestion.new(attrs) }
-    results = matched_suggestions.map do |s|
-      {
-        id: s.value,
-        text: s.value,
-        query: s.query,
-        resource_id: s.resource_id,
-        formatted_suggestion_type: s.formatted_suggestion_type,
-      }
-    end
-
-    render json: { results: }
+    render_suggestions(parsed.map { |attrs| SearchSuggestion.new(attrs) })
   end
 
   def quota_search
@@ -95,6 +71,20 @@ class SearchController < ApplicationController
   end
 
   private
+
+  def render_suggestions(suggestions)
+    results = suggestions.map do |s|
+      {
+        id: s.value,
+        text: s.value,
+        query: s.query,
+        resource_id: s.resource_id,
+        formatted_suggestion_type: s.formatted_suggestion_type,
+      }
+    end
+
+    render json: { results: }
+  end
 
   def anchor
     params.dig(:search, :anchor).to_s.gsub(/[^a-zA-Z_-]/, '').presence

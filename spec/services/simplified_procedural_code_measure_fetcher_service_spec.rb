@@ -21,6 +21,19 @@ RSpec.describe SimplifiedProceduralCodeMeasureFetcherService do
 
     context 'when fetching by code' do
       let(:params) { { simplified_procedural_code: '2.120.1' } }
+      let(:measure) do
+        SimplifiedProceduralCodeMeasure.new(
+          goods_nomenclature_label: 'Apples',
+          goods_nomenclature_item_ids: '0808108010, 0808108020, 0808108090',
+          duty_amount: 123.45,
+          validity_start_date: '2022-11-25',
+          validity_end_date: '2022-12-08',
+        )
+      end
+
+      before do
+        allow(SimplifiedProceduralCodeMeasure).to receive(:by_code).with('2.120.1').and_return([measure])
+      end
 
       it { expect(result.measures).to all(be_a(SimplifiedProceduralCodeMeasure)) }
       it { expect(result.goods_nomenclature_label).to eq('Apples') }

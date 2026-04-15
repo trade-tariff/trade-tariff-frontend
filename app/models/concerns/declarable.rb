@@ -72,7 +72,7 @@ module Declarable
   end
 
   def heading?
-    code && code.last(6) == Heading::HEADING_PATTERN
+    code && code.last(6) == GoodsNomenclature::HEADING_SUFFIX
   end
 
   def code

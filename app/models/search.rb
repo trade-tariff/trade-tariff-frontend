@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class Search
   include ApiEntity
   include CacheHelper
@@ -61,7 +59,7 @@ class Search
   end
 
   def filtered_by_date?
-    date != TariffUpdate.latest_applied_import_date
+    date != Time.zone.today
   end
 
   def day_month_and_year_set?

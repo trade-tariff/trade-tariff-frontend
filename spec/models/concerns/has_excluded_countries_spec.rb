@@ -5,7 +5,7 @@ RSpec.describe HasExcludedCountries do
     context 'when the excluded_countries include all eu members' do
       subject(:measure) { build(:measure, :with_eu_member_exclusions) }
 
-      let(:expected_list) { 'European Union, Switzerland, Iceland, Liechtenstein, Norway' }
+      let(:expected_list) { 'European Union, Iceland, Liechtenstein, Norway, Switzerland' }
 
       it { expect(measure.excluded_country_list).to eq(expected_list) }
     end
@@ -13,7 +13,7 @@ RSpec.describe HasExcludedCountries do
     context 'when the excluded_countries do not include all eu members' do
       subject(:measure) { build(:measure, :with_exclusions) }
 
-      let(:expected_list) { 'Switzerland, Cyprus, Czechia' }
+      let(:expected_list) { 'Cyprus, Czechia, Switzerland' }
 
       it { expect(measure.excluded_country_list).to eq(expected_list) }
     end

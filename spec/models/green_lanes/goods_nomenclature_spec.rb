@@ -45,7 +45,7 @@ RSpec.describe GreenLanes::GoodsNomenclature do
     subject { goods_nomenclature.declarable? }
 
     context 'when producline_suffix is 80' do
-      before { goods_nomenclature.producline_suffix = '80' }
+      before { goods_nomenclature.producline_suffix = GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
 
       it { is_expected.to be true }
     end
@@ -61,7 +61,7 @@ RSpec.describe GreenLanes::GoodsNomenclature do
     subject { goods_nomenclature.get_declarable }
 
     context 'when the goods_nomenclature is declarable' do
-      before { goods_nomenclature.producline_suffix = '80' }
+      before { goods_nomenclature.producline_suffix = GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
 
       it { is_expected.to eq(goods_nomenclature) }
     end

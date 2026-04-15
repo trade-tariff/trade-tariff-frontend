@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class Search
   class Outcome
     include ApiEntity

@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class GreenLanes::GoodsNomenclature
   include XiOnlyApiEntity
   include Classifiable
@@ -34,7 +32,7 @@ class GreenLanes::GoodsNomenclature
   end
 
   def declarable?
-    producline_suffix == '80'
+    producline_suffix == ::GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX
   end
 
   def get_declarable

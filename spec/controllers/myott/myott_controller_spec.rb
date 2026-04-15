@@ -1,6 +1,8 @@
 RSpec.describe Myott::MyottController, type: :controller do
   include MyottAuthenticationHelpers
 
+  let(:return_key) { described_class::RETURN_KEY }
+
   describe '#current_user' do
     let(:user) { build(:user) }
     let(:id_token) { 'encrypted_token' }
@@ -94,8 +96,17 @@ RSpec.describe Myott::MyottController, type: :controller do
     end
 
     context 'when current_user is nil' do
+      let(:request_fullpath) { '/myott/commodities/123' }
+
       before do
         allow(controller).to receive(:current_user).and_return(nil)
+        allow(controller.request).to receive(:fullpath).and_return(request_fullpath)
+      end
+
+      it 'stores the current path in session' do
+        controller.send(:authenticate)
+
+        expect(controller.session[return_key]).to eq(request_fullpath)
       end
 
       it 'redirects to the start page' do
@@ -111,7 +122,7 @@ RSpec.describe Myott::MyottController, type: :controller do
 
       before do
         allow(controller).to receive(:current_user).and_return(user)
-        controller.session[:myott_return_url] = return_url
+        controller.session[return_key] = return_url
       end
 
       it 'redirects to the stored return URL' do
@@ -123,7 +134,7 @@ RSpec.describe Myott::MyottController, type: :controller do
       it 'removes the return URL from session' do
         controller.send(:authenticate)
 
-        expect(controller.session[:myott_return_url]).to be_nil
+        expect(controller.session[return_key]).to be_nil
       end
     end
 
@@ -132,7 +143,7 @@ RSpec.describe Myott::MyottController, type: :controller do
 
       before do
         allow(controller).to receive(:current_user).and_return(user)
-        controller.session[:myott_return_url] = nil
+        controller.session[return_key] = nil
       end
 
       it 'does not redirect' do
@@ -149,7 +160,7 @@ RSpec.describe Myott::MyottController, type: :controller do
     let(:error) { AuthenticationError.new('Authentication failed', reason: error_reason) }
 
     before do
-      allow(controller).to receive(:request).and_return(instance_double(ActionDispatch::Request, fullpath: request_fullpath))
+      allow(controller.request).to receive(:fullpath).and_return(request_fullpath)
       allow(TradeTariffFrontend).to receive(:identity_base_url).and_return(identity_base_url)
       allow(controller).to receive(:redirect_to)
       allow(controller).to receive(:clear_authentication_cookies)
@@ -167,7 +178,7 @@ RSpec.describe Myott::MyottController, type: :controller do
       it 'stores the current URL in session' do
         controller.send(:handle_authentication_error, error)
 
-        expect(controller.session[:myott_return_url]).to eq(request_fullpath)
+        expect(controller.session[return_key]).to eq(request_fullpath)
       end
 
       it 'redirects to identity service' do
@@ -190,7 +201,7 @@ RSpec.describe Myott::MyottController, type: :controller do
       it 'stores the current URL in session' do
         controller.send(:handle_authentication_error, error)
 
-        expect(controller.session[:myott_return_url]).to eq(request_fullpath)
+        expect(controller.session[return_key]).to eq(request_fullpath)
       end
 
       it 'redirects to identity service' do

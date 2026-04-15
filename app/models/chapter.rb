@@ -1,5 +1,3 @@
-require 'api_entity'
-
 class Chapter < GoodsNomenclature
   include ApiEntity
   include Changeable

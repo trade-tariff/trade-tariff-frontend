@@ -3,7 +3,6 @@ class ImportExportDatesController < ApplicationController
 
   before_action :disable_search_form,
                 :disable_switch_service_banner,
-                :disable_last_updated_footnote,
                 :set_goods_nomenclature_code
 
   def show

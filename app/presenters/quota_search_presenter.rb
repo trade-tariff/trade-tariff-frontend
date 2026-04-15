@@ -1,11 +1,4 @@
-class QuotaSearchPresenter
-  attr_reader :search_form, :search_result, :with_errors
-
-  def initialize(search_form)
-    @with_errors = false
-    @search_form = search_form
-    @search_result = search_form.present? ? OrderNumber::Definition.search(search_form.to_params) : []
-  rescue StandardError
-    @with_errors = true
-  end
+class QuotaSearchPresenter < SearchResultsPresenter
+  def self.model_class = OrderNumber::Definition
+  def self.empty_result = []
 end

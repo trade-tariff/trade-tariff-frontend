@@ -4,7 +4,7 @@ RSpec.describe Search::InternalSearchResult do
   def commodity_attrs(overrides = {})
     {
       'goods_nomenclature_item_id' => '0101210000',
-      'producline_suffix' => '80',
+      'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
       'goods_nomenclature_class' => 'Commodity',
       'description' => 'Pure-bred breeding animals',
       'formatted_description' => 'Pure-bred breeding animals',
@@ -16,7 +16,7 @@ RSpec.describe Search::InternalSearchResult do
   def heading_attrs(overrides = {})
     {
       'goods_nomenclature_item_id' => '0101000000',
-      'producline_suffix' => '80',
+      'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
       'goods_nomenclature_class' => 'Heading',
       'description' => 'Live horses',
       'formatted_description' => 'Live horses',
@@ -28,7 +28,7 @@ RSpec.describe Search::InternalSearchResult do
   def chapter_attrs(overrides = {})
     {
       'goods_nomenclature_item_id' => '0100000000',
-      'producline_suffix' => '80',
+      'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
       'goods_nomenclature_class' => 'Chapter',
       'description' => 'Live animals',
       'formatted_description' => 'Live animals',

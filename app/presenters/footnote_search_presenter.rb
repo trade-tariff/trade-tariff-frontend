@@ -1,11 +1,3 @@
-class FootnoteSearchPresenter
-  attr_reader :search_form, :search_result, :with_errors
-
-  def initialize(search_form)
-    @with_errors = false
-    @search_form = search_form
-    @search_result = Footnote.search(search_form.to_params) if search_form.present?
-  rescue StandardError
-    @with_errors = true
-  end
+class FootnoteSearchPresenter < SearchResultsPresenter
+  def self.model_class = Footnote
 end

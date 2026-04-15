@@ -1,4 +1,3 @@
-require 'api_entity'
 # rubocop:disable Rails/ApplicationController
 class HealthcheckController < ActionController::Base
   # rubocop:enable Rails/ApplicationController

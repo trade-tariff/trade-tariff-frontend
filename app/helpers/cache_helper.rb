@@ -2,7 +2,7 @@ module CacheHelper
   CACHE_EXCLUDED_PARAMS = %w[request_id].freeze
 
   def cache_key
-    [TradeTariffFrontend::ServiceChooser.cache_prefix, @tariff_last_updated, TradeTariffFrontend.revision].join('/')
+    [TradeTariffFrontend::ServiceChooser.cache_prefix, TradeTariffFrontend.revision].join('/')
   end
 
   def commodity_cache_key

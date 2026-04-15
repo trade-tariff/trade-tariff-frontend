@@ -6,11 +6,11 @@ RSpec.describe 'shared/_interactive_feedback_banner', type: :view do
   it { is_expected.to have_link('give your feedback') }
 
   it 'opens feedback link in a new tab when not on a subscriptions page' do
-    allow(view).to receive_messages(subscriptions_page?: false, feedback_link_url: 'https://surveys.transformuk.com/s3/17fead99a348')
+    allow(view).to receive_messages(subscriptions_page?: false, feedback_link_url: 'https://surveys.transformuk.com/s3/17fead99a348?page_context=%2Fsearch')
 
     render partial: 'shared/interactive_feedback_banner'
 
-    expect(rendered).to have_css('a[target="_blank"][rel="noopener noreferrer"]')
+    expect(rendered).to have_css('a[target="_blank"][rel="noopener"]')
   end
 
   context 'when on a subscriptions page' do

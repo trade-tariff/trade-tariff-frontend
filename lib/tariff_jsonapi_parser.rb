@@ -85,14 +85,21 @@ class TariffJsonapiParser
   def find_and_parse_included(name, id, type)
     return nil if id.blank? || type.blank?
 
+    key = [type.to_s, id.to_s]
+    return parsed_included_cache[key] if parsed_included_cache.key?(key)
+
     found_resource = find_included(id, type)
+    result = found_resource.blank? ? {} : parse_resource(found_resource)
 
-    return {} if found_resource.blank?
-
-    parse_resource(found_resource)
+    parsed_included_cache[key] = result
+    result
   rescue NoMethodError
     raise ParsingError,
-          "Error finding relationship - '#{name}', '#{id}', '#{type}': #{record.inspect}"
+          "Error finding relationship - '#{name}', '#{id}', '#{type}'"
+  end
+
+  def parsed_included_cache
+    @parsed_included_cache ||= {}
   end
 
   def parse_meta!(resource, parent)
@@ -100,6 +107,12 @@ class TariffJsonapiParser
   end
 
   def find_included(id, type)
-    @attributes['included']&.find { |r| r['id'].to_s == id.to_s && r['type'].to_s == type.to_s } || {}
+    included_index[[type.to_s, id.to_s]] || {}
+  end
+
+  def included_index
+    @included_index ||= (@attributes['included'] || []).index_by do |resource|
+      [resource['type'].to_s, resource['id'].to_s]
+    end
   end
 end

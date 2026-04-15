@@ -1,7 +1,6 @@
 class FeedbackController < ApplicationController
   before_action :disable_search_form,
-                :disable_switch_service_banner,
-                :disable_last_updated_footnote
+                :disable_switch_service_banner
 
   def new
     session[:feedback_referrer] = request.referer

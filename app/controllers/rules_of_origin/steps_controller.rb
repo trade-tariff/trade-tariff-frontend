@@ -7,7 +7,6 @@ module RulesOfOrigin
 
     before_action do
       disable_search_form
-      disable_last_updated_footnote
       disable_switch_service_banner
     end
 

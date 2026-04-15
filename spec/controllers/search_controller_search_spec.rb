@@ -279,7 +279,7 @@ RSpec.describe SearchController, type: :controller do
           'type' => 'commodity',
           'attributes' => {
             'goods_nomenclature_item_id' => '0101210000',
-            'producline_suffix' => '80',
+            'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
             'goods_nomenclature_class' => 'Commodity',
             'description' => 'Pure-bred breeding animals',
             'formatted_description' => 'Pure-bred breeding animals',
@@ -330,7 +330,7 @@ RSpec.describe SearchController, type: :controller do
             'type' => 'commodity',
             'attributes' => {
               'goods_nomenclature_item_id' => '0101210000',
-              'producline_suffix' => '80',
+              'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
               'goods_nomenclature_class' => 'Commodity',
               'description' => 'Pure-bred breeding animals',
               'formatted_description' => 'Pure-bred breeding animals',

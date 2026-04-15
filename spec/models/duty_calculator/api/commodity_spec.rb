@@ -11,7 +11,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
 
   it_behaves_like 'a resource that has attributes',
                   id: 'flibble',
-                  producline_suffix: '80',
+                  producline_suffix: GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
                   number_indents: 1,
                   description: 'Cherry Tomatoes',
                   goods_nomenclature_item_id: '0702000007',

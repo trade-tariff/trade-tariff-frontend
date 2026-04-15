@@ -31,7 +31,7 @@ FactoryBot.define do
     end
 
     id { generate(:goods_nomenclature_sid) }
-    producline_suffix { '80' }
+    producline_suffix { GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX }
     number_indents { 4 }
     description { 'Cherry tomatoes' }
     goods_nomenclature_item_id { '0702000007' }

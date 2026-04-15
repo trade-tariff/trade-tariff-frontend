@@ -11,7 +11,7 @@ RSpec.describe InternalResultsPresenter do
         Search::InternalSearchResult.new([
           {
             'goods_nomenclature_item_id' => '0101210000',
-            'producline_suffix' => '80',
+            'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
             'goods_nomenclature_class' => 'Commodity',
             'description' => 'Pure-bred breeding animals',
             'formatted_description' => 'Pure-bred breeding animals',
@@ -20,7 +20,7 @@ RSpec.describe InternalResultsPresenter do
           },
           {
             'goods_nomenclature_item_id' => '0101000000',
-            'producline_suffix' => '80',
+            'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
             'goods_nomenclature_class' => 'Heading',
             'description' => 'Live horses',
             'formatted_description' => 'Live horses',

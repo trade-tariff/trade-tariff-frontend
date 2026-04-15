@@ -1,5 +1,3 @@
-require 'api_entity'
-
 module News
   class Collection
     include UkOnlyApiEntity

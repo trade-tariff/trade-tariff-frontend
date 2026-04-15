@@ -1,5 +1,3 @@
-require 'active_model'
-
 class Feedback
   TOKEN_TRACKING_PREFIX = 'feedback-delivery'.freeze
   TOKEN_TRACKING_LIFETIME = 1.hour
