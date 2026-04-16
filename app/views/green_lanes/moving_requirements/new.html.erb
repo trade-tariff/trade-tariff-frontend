@@ -26,17 +26,21 @@
                                    },
                              style: "width:330px" %>
 
-      <%= f.govuk_collection_select :country_of_origin,
-                              GreenLanes::CategoryAssessmentSearch.country_options,
-                              :long_description,
-                              :long_description,
-                              options: { include_blank: '' },
-                              label: { text: "What is the non-preferential origin of your goods?", size: 'm' },
-                              hint: { text: "The non-preferential origin will affect the category your goods are assigned. " \
-                                            "If you are unsure, <a href='https://www.trade-tariff.service.gov.uk/howto/origin' target='_blank' rel='noopener noreferrer'>" \
-                                            "find out how to determine the non-preferential origin of goods (opens in a new tab).</a>".html_safe
-                                    },
-                              style: "width:330px" %>
+      <div data-controller="country-select-box" data-country-select-box-auto-submit-value="false">
+        <div data-country-select-box-target="countrySelect">
+          <%= f.govuk_collection_select :country_of_origin,
+                                  GreenLanes::CategoryAssessmentSearch.country_options,
+                                  :long_description,
+                                  :long_description,
+                                  options: { include_blank: '' },
+                                  label: { text: "What is the non-preferential origin of your goods?", size: 'm' },
+                                  hint: { text: "The non-preferential origin will affect the category your goods are assigned. " \
+                                                "If you are unsure, <a href='https://www.trade-tariff.service.gov.uk/howto/origin' target='_blank' rel='noopener noreferrer'>" \
+                                                "find out how to determine the non-preferential origin of goods (opens in a new tab).</a>".html_safe
+                                        },
+                                  style: "width:330px" %>
+        </div>
+      </div>
 
       <%= f.label :commodity_code, "When is the internal movement of goods taking place?", class: 'govuk-heading-m',
                   for: 'green_lanes_moving_requirements_form_moving_date_3' %>
