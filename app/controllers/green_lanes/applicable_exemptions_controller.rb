@@ -26,7 +26,7 @@ module GreenLanes
       else
         @back_link_path = back_link_path_for_current_page
 
-        render_exemptions_questions(:unprocessable_entity)
+        render_exemptions_questions(:unprocessable_content)
       end
     end
 

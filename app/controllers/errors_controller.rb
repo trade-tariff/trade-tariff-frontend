@@ -9,62 +9,37 @@ class ErrorsController < ApplicationController
                 :skip_news_banner
 
   ERROR_RESPONSES = {
-    unprocessable_entity: {
-      status: :unprocessable_entity,
-      header: 'Unprocessable entity',
+    unprocessable_content: {
       message: "We're sorry, but we cannot process your request at this time.<br>
-               Please contact support for assistance or try a different request.",
-      html_safe: true,
-      json_error: 'Unprocessable entity',
+               Please contact support for assistance or try a different request.".html_safe,
     },
     internal_server_error: {
-      status: :internal_server_error,
       header: 'We are experiencing technical difficulties',
       message: 'We are experiencing technical difficulties',
-      json_error: 'Internal server error',
     },
     bad_request: {
-      status: :bad_request,
-      header: 'Bad request',
       message: "The request you made is not valid.<br>
-               Please contact support for assistance or try a different request.",
-      html_safe: true,
-      json_error: 'Bad request',
+               Please contact support for assistance or try a different request.".html_safe,
     },
     method_not_allowed: {
-      status: :method_not_allowed,
-      header: 'Method not allowed',
       message: "We're sorry, but this request method is not supported.<br>
-               Please contact support for assistance or try a different request.",
-      html_safe: true,
-      json_error: 'Method not allowed',
+               Please contact support for assistance or try a different request.".html_safe,
     },
     not_acceptable: {
-      status: :not_acceptable,
-      header: 'Not acceptable',
       message: "Unfortunately, we cannot fulfill your request as it is not in a format we can accept.<br>
-               Please contact support for assistance or try a different request.",
-      html_safe: true,
-      json_error: 'Not acceptable',
+               Please contact support for assistance or try a different request.".html_safe,
     },
     not_implemented: {
-      status: :not_implemented,
-      header: 'Not implemented',
       message: "We're sorry, but the requested action is not supported by our server at this time.<br>
-               Please contact support for assistance or try a different request.",
-      html_safe: true,
-      json_error: 'Not implemented',
+               Please contact support for assistance or try a different request.".html_safe,
     },
     too_many_requests: {
-      status: :too_many_requests,
-      header: 'Too Many Requests',
       message: 'You are rate limited. Please try again later.',
-      json_error: 'Too many requests',
     },
   }.freeze
 
   ERROR_RESPONSES.each_key do |action|
-    define_method(action) { render_error(**ERROR_RESPONSES[action]) }
+    define_method(action) { render_error(status: action, **ERROR_RESPONSES[action]) }
   end
 
   def not_found
@@ -89,8 +64,9 @@ class ErrorsController < ApplicationController
 
   private
 
-  def render_error(status:, header:, message:, json_error:, html_safe: false)
-    message = message.html_safe if html_safe
+  def render_error(status:, message:, header: nil, json_error: nil)
+    header ||= status.to_s.humanize
+    json_error ||= status.to_s.humanize
 
     respond_to do |format|
       format.html { render 'error', status:, locals: { header:, message: } }

@@ -73,7 +73,7 @@ RSpec.describe ErrorsController, type: :request do
   describe 'GET /429' do
     let(:make_request) { get '/429' }
 
-    it { expect(body).to include 'Too Many Requests' }
+    it { expect(body).to include 'Too many requests' }
   end
 
   describe 'GET /500' do
