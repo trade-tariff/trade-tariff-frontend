@@ -512,5 +512,123 @@ RSpec.describe AuthenticatableApiEntity do
         expect(reason).to be_nil
       end
     end
+
+    describe '.create!' do
+      let(:token) { 'test-auth-token' }
+      let(:entity_id) { '123' }
+      let(:attributes) { { export_type: 'ccwl' } }
+      let(:mock_api) { instance_spy(Faraday::Connection) }
+      let(:api_response) do
+        {
+          'resource_id' => entity_id,
+          'name' => 'Created Entity',
+        }
+      end
+      let(:mock_response) { instance_double(Faraday::Response, body: api_response) }
+
+      before do
+        allow(test_class).to receive_messages(
+          api: mock_api,
+          parse_jsonapi: api_response,
+        )
+        allow(mock_api).to receive(:post).and_return(mock_response)
+      end
+
+      context 'with valid token' do
+        it 'makes authenticated API post to id-substituted singular path' do
+          test_class.create!(entity_id, token, attributes)
+
+          expect(mock_api).to have_received(:post).with(
+            '/test/123',
+            MultiJson.dump(data: { attributes: attributes }),
+            {
+              authorization: "Bearer #{token}",
+              'Content-Type' => 'application/json',
+            },
+          )
+        end
+
+        it 'returns entity instance' do
+          result = test_class.create!(entity_id, token, attributes)
+
+          expect(result).to be_a(test_class)
+        end
+      end
+
+      context 'when development environment' do
+        before do
+          allow(Rails.env).to receive(:development?).and_return(true)
+        end
+
+        it 'makes API call even with nil token' do
+          test_class.create!(entity_id, nil, attributes)
+
+          expect(mock_api).to have_received(:post).with(
+            '/test/123',
+            MultiJson.dump(data: { attributes: attributes }),
+            {
+              authorization: 'Bearer ',
+              'Content-Type' => 'application/json',
+            },
+          )
+        end
+      end
+
+      context 'when non-development environment' do
+        before do
+          allow(Rails.env).to receive(:development?).and_return(false)
+        end
+
+        it 'returns nil with nil token' do
+          result = test_class.create!(entity_id, nil, attributes)
+
+          expect(result).to be_nil
+        end
+
+        it 'does not make API call with nil token' do
+          test_class.create!(entity_id, nil, attributes)
+
+          expect(mock_api).not_to have_received(:post)
+        end
+      end
+
+      context 'when API returns unauthorized error' do
+        context 'with error reason in response' do
+          let(:error_response) do
+            {
+              body: '{"errors":[{"code":"invalid_token","detail":"Token is invalid"}]}',
+              status: 401,
+            }
+          end
+
+          before do
+            error = Faraday::UnauthorizedError.new('Unauthorized')
+            allow(error).to receive(:response).and_return(error_response)
+            allow(mock_api).to receive(:post).and_raise(error)
+          end
+
+          it 'raises AuthenticationError with reason', :aggregate_failures do
+            expect { test_class.create!(entity_id, token, attributes) }
+              .to raise_error(AuthenticationError) do |error|
+                expect(error.reason).to eq('invalid_token')
+                expect(error.message).to eq('Unauthorized')
+              end
+          end
+        end
+
+        context 'without error reason in response' do
+          before do
+            allow(mock_api).to receive(:post)
+              .and_raise(Faraday::UnauthorizedError.new('Unauthorized'))
+          end
+
+          it 'returns nil' do
+            result = test_class.create!(entity_id, token, attributes)
+
+            expect(result).to be_nil
+          end
+        end
+      end
+    end
   end
 end
