@@ -428,6 +428,73 @@ RSpec.describe ApiEntity do
     end
   end
 
+  describe 'association memoization' do
+    before do
+      stub_const 'Part', (Class.new do
+        include ApiEntity
+
+        attr_accessor :name
+
+        def self.name = 'Part'
+      end)
+    end
+
+    describe 'has_many getter' do
+      subject(:instance) { mock_entity.new(parts: [{ name: 'wheel' }]) }
+
+      it 'returns the same object on repeated calls' do
+        expect(instance.parts).to equal(instance.parts)
+      end
+
+      it 'invalidates the cache when the setter is called' do
+        original = instance.parts
+        instance.parts = [{ name: 'door' }]
+
+        expect(instance.parts).not_to equal(original)
+      end
+
+      it 'reflects the new values after the setter is called' do
+        instance.parts = [{ name: 'door' }]
+
+        expect(instance.parts.first.name).to eq('door')
+      end
+
+      it 'includes the added item after add_part is called' do
+        instance.add_part(Part.new(name: 'mirror'))
+
+        expect(instance.parts.map(&:name)).to include('mirror')
+      end
+    end
+
+    describe 'has_one getter' do
+      subject(:instance) { mock_entity.new(part: { name: 'engine' }) }
+
+      it 'returns the same object on repeated calls' do
+        expect(instance.part).to equal(instance.part)
+      end
+
+      it 'invalidates the cache when the setter is called' do
+        original = instance.part
+        instance.part = { name: 'gearbox' }
+
+        expect(instance.part).not_to equal(original)
+      end
+
+      it 'reflects the new value after the setter is called' do
+        instance.part = { name: 'gearbox' }
+
+        expect(instance.part.name).to eq('gearbox')
+      end
+
+      it 'accepts nil and invalidates the cache' do
+        instance.part
+        instance.part = nil
+
+        expect(instance.part).to be_nil
+      end
+    end
+  end
+
   describe '#update' do
     subject(:result) do
       mock_entity.update(
