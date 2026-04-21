@@ -92,7 +92,7 @@ RSpec.configure do |config|
     stub_const('Uktt::Http', FakeUkttHttp)
   end
 
-  config.after(:each, type: :feature, js: true) do
+  config.after(:each, :js, type: :feature) do
     Thread.current[:service_choice] = nil
   end
 

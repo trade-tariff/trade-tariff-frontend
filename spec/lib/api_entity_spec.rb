@@ -433,14 +433,12 @@ RSpec.describe ApiEntity do
       stub_const 'Part', (Class.new do
         include ApiEntity
 
-        attr_accessor :name
-
-        def self.name = 'Part'
+        attr_accessor :label
       end)
     end
 
     describe 'has_many getter' do
-      subject(:instance) { mock_entity.new(parts: [{ name: 'wheel' }]) }
+      subject(:instance) { mock_entity.new(parts: [{ label: 'wheel' }]) }
 
       it 'returns the same object on repeated calls' do
         expect(instance.parts).to equal(instance.parts)
@@ -448,26 +446,26 @@ RSpec.describe ApiEntity do
 
       it 'invalidates the cache when the setter is called' do
         original = instance.parts
-        instance.parts = [{ name: 'door' }]
+        instance.parts = [{ label: 'door' }]
 
         expect(instance.parts).not_to equal(original)
       end
 
       it 'reflects the new values after the setter is called' do
-        instance.parts = [{ name: 'door' }]
+        instance.parts = [{ label: 'door' }]
 
-        expect(instance.parts.first.name).to eq('door')
+        expect(instance.parts.first.label).to eq('door')
       end
 
       it 'includes the added item after add_part is called' do
-        instance.add_part(Part.new(name: 'mirror'))
+        instance.add_part(Part.new(label: 'mirror'))
 
-        expect(instance.parts.map(&:name)).to include('mirror')
+        expect(instance.parts.map(&:label)).to include('mirror')
       end
     end
 
     describe 'has_one getter' do
-      subject(:instance) { mock_entity.new(part: { name: 'engine' }) }
+      subject(:instance) { mock_entity.new(part: { label: 'engine' }) }
 
       it 'returns the same object on repeated calls' do
         expect(instance.part).to equal(instance.part)
@@ -475,15 +473,15 @@ RSpec.describe ApiEntity do
 
       it 'invalidates the cache when the setter is called' do
         original = instance.part
-        instance.part = { name: 'gearbox' }
+        instance.part = { label: 'gearbox' }
 
         expect(instance.part).not_to equal(original)
       end
 
       it 'reflects the new value after the setter is called' do
-        instance.part = { name: 'gearbox' }
+        instance.part = { label: 'gearbox' }
 
-        expect(instance.part.name).to eq('gearbox')
+        expect(instance.part.label).to eq('gearbox')
       end
 
       it 'accepts nil and invalidates the cache' do
