@@ -49,7 +49,7 @@ RUN apk add --no-cache \
 
 ENV RAILS_SERVE_STATIC_FILES=true \
     RAILS_ENV=production \
-    PORT=8080 \
+    SSL_PORT=8443 \
     TZ=Europe/London
 
 RUN addgroup -S tariff && \
@@ -62,11 +62,8 @@ USER tariff
 COPY --chown=tariff:tariff --from=builder /build .
 COPY --chown=tariff:tariff --from=builder /usr/local/bundle/ /usr/local/bundle/
 
-EXPOSE 8080
+HEALTHCHECK CMD nc -z 0.0.0.0 $SSL_PORT
 
-HEALTHCHECK CMD nc -z 0.0.0.0 $PORT
-
-#CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
 #### End production image #####

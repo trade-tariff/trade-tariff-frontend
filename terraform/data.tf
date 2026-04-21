@@ -13,10 +13,6 @@ data "aws_subnets" "private" {
   }
 }
 
-data "aws_lb_target_group" "this" {
-  name = "frontend"
-}
-
 data "aws_lb_target_group" "this_https" {
   name = "frontend-https"
 }
