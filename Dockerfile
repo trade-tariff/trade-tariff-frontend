@@ -62,8 +62,6 @@ USER tariff
 COPY --chown=tariff:tariff --from=builder /build .
 COPY --chown=tariff:tariff --from=builder /usr/local/bundle/ /usr/local/bundle/
 
-EXPOSE 8443
-
 HEALTHCHECK CMD nc -z 0.0.0.0 $SSL_PORT
 
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
