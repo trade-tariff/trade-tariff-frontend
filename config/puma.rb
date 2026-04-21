@@ -35,10 +35,10 @@ environment ENV['RACK_ENV'] || 'development'
 bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3000)}"
 
 # Explicit HTTPS bind
-cert = ENV['SSL_CERT_PEM']&.gsub("\\n", "\n")
-key  = ENV['SSL_KEY_PEM']&.gsub("\\n", "\n")
+cert = ENV['SSL_CERT_PEM']&.gsub('\\n', "\n")
+key  = ENV['SSL_KEY_PEM']&.gsub('\\n', "\n")
 
-if cert.to_s != "" && key.to_s != ""
+if cert.to_s != '' && key.to_s != ''
   ssl_bind '0.0.0.0', ENV.fetch('SSL_PORT', 8443),
            cert_pem: cert,
            key_pem: key
