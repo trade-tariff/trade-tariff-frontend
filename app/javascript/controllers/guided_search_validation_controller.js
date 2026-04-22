@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 
-const MAX_QUERY_LENGTH = 100
+const MAX_QUERY_LENGTH = 500
 const MIN_QUERY_LENGTH = 2
 
 export default class extends Controller {
