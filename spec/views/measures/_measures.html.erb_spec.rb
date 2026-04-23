@@ -71,7 +71,6 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
   it { is_expected.to render_template('measures/grouped/_tariff_duty_calculator_link') }
   it { is_expected.to render_template('measures/grouped/_vat_excise') }
   it { is_expected.to render_template('measures/grouped/_uk') }
-  it { is_expected.to render_template('measures/grouped/_uk_navigation') }
   it { is_expected.to render_template('rules_of_origin/_without_country_uk') }
   it { is_expected.to render_template('shared/_notes') }
   it { is_expected.to render_template('shared/_stw_link') }

@@ -38,20 +38,18 @@
     <%= render 'declarables/consigned', declarable: declarable %>
 
     <% if declarable_import_measures.any? %>
-      <%= render 'measures/grouped/navigation',
-                 uk_declarable: uk_declarable,
-                 xi_declarable: xi_declarable %>
+      <% grouped_measures_presenter = GroupedMeasuresPresenter.new(
+        uk_declarable: uk_declarable,
+        xi_declarable: xi_declarable,
+        rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes,
+        search: @search,
+      ) %>
+      <%= render 'measures/grouped/navigation', grouped_measures_presenter: %>
 
       <% if TradeTariffFrontend::ServiceChooser.xi? %>
-        <%= render 'measures/grouped/xi',
-                   uk_declarable: uk_declarable,
-                   xi_declarable: xi_declarable,
-                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes %>
+        <%= render 'measures/grouped/xi', grouped_measures_presenter: %>
       <% else %>
-        <%= render 'measures/grouped/uk',
-                   uk_declarable: uk_declarable,
-                   xi_declarable: xi_declarable,
-                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes %>
+        <%= render 'measures/grouped/uk', grouped_measures_presenter: %>
       <% end %>
 
     <% else %>

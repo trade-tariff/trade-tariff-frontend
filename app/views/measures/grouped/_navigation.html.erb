@@ -3,10 +3,10 @@
     Measure groups
   </h3>
   <ul class="measure-list-item govuk-!-margin-bottom-0">
-    <% if TradeTariffFrontend::ServiceChooser.xi? %>
-      <%= render partial: 'measures/grouped/xi_navigation', locals: { uk_declarable: uk_declarable, xi_declarable: xi_declarable } %>
-    <% else %>
-      <%= render partial: 'measures/grouped/uk_navigation', locals: { uk_declarable: uk_declarable } %>
+    <% grouped_measures_presenter.navigation_items.each do |item| %>
+      <li class="govuk-!-margin-bottom-2">
+        <%= link_to(item[:text], item[:anchor], class: 'govuk-link') %>
+      </li>
     <% end %>
   </ul>
 </nav>
