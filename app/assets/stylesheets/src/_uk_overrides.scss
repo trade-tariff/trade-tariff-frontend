@@ -1,4 +1,4 @@
-body.uk-service {
+body.uk-service:not(.uk-legal-base-column-enabled) {
   table.measures {
     th.legal-base-col {
       display: none;
