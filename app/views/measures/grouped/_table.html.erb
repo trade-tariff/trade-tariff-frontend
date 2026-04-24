@@ -4,7 +4,7 @@
 
 <% if local_assigns[:information] %>
   <div class="govuk-inset-text tariff-inset-information">
-    <%= local_assigns[:information] %>
+    <%= sanitize local_assigns[:information] %>
   </div>
 <% end %>
 
