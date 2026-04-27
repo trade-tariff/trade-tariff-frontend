@@ -265,7 +265,7 @@ article.tariff {
   .commodity__info {
     font-size: 16px;
 
-    @media (min-width: 641px) {
+    @media (min-width: $desktop-min-width) {
       float: right;
       width: 514px;
     }
@@ -390,7 +390,7 @@ li:not(.has_children) .description {
   position: relative;
   /* to give z-index */
 
-  @media (min-width: 641px) {
+  @media (min-width: $desktop-min-width) {
     float: left;
     width: calc(100% - 165px);
   }
@@ -413,7 +413,7 @@ li.has_children {
     position: relative;
     /* to give z-index */
 
-    @media (min-width: 641px) {
+    @media (min-width: $desktop-min-width) {
       float: left;
       width: calc(100% - 165px);
     }
