@@ -27,7 +27,7 @@
   height: 2.5rem !important;
   margin-top: 0 !important;
   padding: 0 5px !important;
-  border: 2px solid #0b0c0c !important;
+  border: 2px solid govuk-functional-colour(input-border) !important;
   border-radius: 0 !important;
 
   .select2-selection__placeholder,
@@ -69,7 +69,7 @@
   height: 2.5rem !important;
   margin-top: 0 !important;
   padding: 0 5px !important;
-  border: 2px solid #0b0c0c !important;
+  border: 2px solid govuk-functional-colour(input-border) !important;
   border-radius: 0 !important;
 }
 
@@ -81,7 +81,7 @@
 
 .select2-container--open .select2-dropdown--below {
   border-width: 2px !important;
-  border-color: #0b0c0c !important;
+  border-color: govuk-functional-colour(input-border) !important;
 }
 
 a.back-to-previous {
@@ -89,7 +89,7 @@ a.back-to-previous {
   font-size: 14px;
   display: block;
   text-decoration: none;
-  border-bottom: #0b0c0c 1px solid;
+  border-bottom: govuk-colour("black") 1px solid;
   width: 2.25em;
   background: url('/icon-caret-left.png') left 0.2em no-repeat;
   padding-left: 0.75em;

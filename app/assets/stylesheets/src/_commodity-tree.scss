@@ -496,7 +496,7 @@ li.has_children {
   padding: px($top-level-padding);
   z-index: 1;
   font-size: em(14, 16);
-  background: #fff;
+  background: govuk-functional-colour(body-background);
   border: solid 1px #bbb;
 
   p {

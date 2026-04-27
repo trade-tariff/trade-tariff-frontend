@@ -44,11 +44,11 @@
   font-family: "GDS Transport", arial, sans-serif;
   font-size: 14px;
   font-weight: bold;
-  color: #0b0c0c;
+  color: govuk-functional-colour(text);
 }
 
 .app-related-items {
-  border-top: 2px solid #1d70b8;
+  border-top: 2px solid govuk-functional-colour(brand);
   padding-top: 15px;
 }
 
@@ -70,7 +70,7 @@
   .app-feedback-useful-banner__button {
     width: auto;
     margin-bottom: 0;
-    background-color: govuk-colour("white");
+    background-color: govuk-functional-colour(body-background);
     color: $govuk-text-colour;
     border: 1px solid $govuk-text-colour;
     border-bottom-width: 3px;
@@ -81,7 +81,7 @@
     &:visited,
     &:active {
       color: $govuk-text-colour;
-      background-color: govuk-colour("white");
+      background-color: govuk-functional-colour(body-background);
     }
 
     &:hover {
@@ -107,7 +107,7 @@
 .app-feedback-banner__button {
   width: auto;
   margin-bottom: 0;
-  background-color: govuk-colour("white");
+  background-color: govuk-functional-colour(body-background);
   color: $govuk-text-colour;
   border: 1px solid $govuk-text-colour;
   border-bottom-width: 3px;

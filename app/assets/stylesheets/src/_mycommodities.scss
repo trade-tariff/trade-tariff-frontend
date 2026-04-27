@@ -22,7 +22,7 @@
   }
 
   .category_container {
-    background-color: govuk-colour(white);
+    background-color: govuk-functional-colour(body-background);
     padding: govuk-spacing(3) + 1px;
     border: 2px solid  govuk-functional-colour(border);
     @include govuk-media-query($until: tablet) {
@@ -39,7 +39,7 @@
   .download_icon {
     margin: govuk-spacing(1) - 1px;
     vertical-align: middle;
-    color: govuk-colour(black);
+    color: govuk-functional-colour(text);
   }
 
   .govuk-link--inverse {

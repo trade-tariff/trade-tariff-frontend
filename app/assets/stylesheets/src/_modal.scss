@@ -41,7 +41,7 @@
   zoom: 1;
   z-index: 1050;
   overflow-y: scroll;
-  background-color: #fff;
+  background-color: govuk-functional-colour(body-background);
   border-radius: 5px;
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
 
@@ -88,7 +88,7 @@
   }
 
   .info-content {
-    background-color: #fff;
+    background-color: govuk-functional-colour(body-background);
     padding: 2.4em px($top-level-padding) px($top-level-padding) px($top-level-padding);
   }
 
