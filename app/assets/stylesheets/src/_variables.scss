@@ -6,7 +6,10 @@ $mobile-max-width: $desktop-min-width - 1;
 $headings-large-viewport: 1100px;
 
 $standard-margin: 16px;
+<<<<<<< HEAD
 $small-margin: math.div($standard-margin, 2);
+=======
+>>>>>>> 0b157e8de (Remove unused)
 
 $token-width: 20;
 $token-padding: 5;
@@ -14,8 +17,6 @@ $token-space: $token-width+$token-padding;
 /* Uses above values */
 $top-level-padding: 10;
 
-$commodity-padding: $token-width;
-$expand-arrow-width: 11;
 $expand-arrow-space: 11+$token-padding;
 
 $chapter-code-width: 30px;
@@ -24,10 +25,8 @@ $heading-code-width: $chapter-code-width;
 $commodity-code-width: 110px;
 $commodity-code-width-desktop: 110px;
 
-$breadcrumb-v-margin: 5px;
 $breadcrumb-indent: 15px;
 $breadcrumb-indent-desktop: 25px;
-$breadcrumb-changes-link-width: 70px;
 
 $vat-width-desktop: 105px;
 $duty-width-desktop: 145px;
@@ -42,6 +41,5 @@ $table-row-standard-height: 1.31579em;
 $small-table-breakpoint: 840px;
 
 // deprecated colours
-$page-colour: #fff;
 $highlight-colour: #f8f8f8;
 $panel-colour: #dee0e2;
