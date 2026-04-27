@@ -1,7 +1,7 @@
 .country-picker {
   margin-bottom: 30px;
   .country-picker-container {
-    @media (min-width: $desktop-min-width) {
+    @media (min-width: 641px) {
       display: table;
       label {
         display: table-cell;
@@ -19,7 +19,7 @@
     .autocomplete__wrapper {
       margin-bottom: 10px;
 
-      @media (min-width: $desktop-min-width) {
+      @media (min-width: 641px) {
         margin-bottom: 0;
       }
     }
