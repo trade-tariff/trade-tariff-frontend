@@ -38,7 +38,7 @@
   <%= javascript_importmap_tags %>
 </head>
 
-<body class="govuk-template__body <%= service_choice || service_default %>-service<%= ' uk-legal-base-column-enabled' if TradeTariffFrontend.uk_legal_base_column_enabled? %>">
+<body class="govuk-template__body <%= service_choice || service_default %>-service">
   <%= render 'shared/gtm', part: 'body' if analytics_allowed? %>
   <%= content_tag :div, class: 'path_info', data: @path_info do %>
   <% end %>

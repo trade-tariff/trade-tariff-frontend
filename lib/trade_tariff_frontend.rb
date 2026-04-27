@@ -126,10 +126,6 @@ module TradeTariffFrontend
     ENV['GREEN_LANES_ENABLED'].to_s == 'true'
   end
 
-  def uk_legal_base_column_enabled?
-    !production?
-  end
-
   def interactive_search_enabled?
     !production? && !ServiceChooser.xi?
   end
