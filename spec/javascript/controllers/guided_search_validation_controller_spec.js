@@ -49,6 +49,7 @@ function buildHTML({hiddenFieldValue = 'true', textareaValue = '', serverErrors 
 
 describe('GuidedSearchValidationController', () => {
   let application;
+  let submitSpy;
 
   async function setup(options) {
     document.body.innerHTML = buildHTML(options);
@@ -65,8 +66,13 @@ describe('GuidedSearchValidationController', () => {
     return form;
   }
 
+  beforeEach(() => {
+    submitSpy = jest.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {});
+  });
+
   afterEach(() => {
     if (application) application.stop();
+    submitSpy.mockRestore();
   });
 
   describe('keyword search', () => {
@@ -106,11 +112,11 @@ describe('GuidedSearchValidationController', () => {
       expect(document.querySelector('.govuk-error-summary').textContent).toContain('Search term must be at least 2 characters');
     });
 
-    it('shows error when input exceeds 100 characters', async () => {
-      await setup({textareaValue: 'a'.repeat(101)});
+    it('shows error when input exceeds 500 characters', async () => {
+      await setup({textareaValue: 'a'.repeat(501)});
       submitForm();
 
-      expect(document.querySelector('.govuk-error-summary').textContent).toContain('Search term must be 100 characters or fewer');
+      expect(document.querySelector('.govuk-error-summary').textContent).toContain('Search term must be 500 characters or fewer');
     });
 
     it('accepts exactly 2 characters', async () => {
@@ -121,8 +127,8 @@ describe('GuidedSearchValidationController', () => {
       expect(form.querySelector('[data-guided-search-validation-target="formContent"]').classList.contains('govuk-!-display-none')).toBe(true);
     });
 
-    it('accepts exactly 100 characters', async () => {
-      await setup({textareaValue: 'a'.repeat(100)});
+    it('accepts exactly 500 characters', async () => {
+      await setup({textareaValue: 'a'.repeat(500)});
       submitForm();
 
       expect(document.querySelector('.govuk-error-summary')).toBeNull();

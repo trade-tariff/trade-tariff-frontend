@@ -32,7 +32,7 @@ export default class extends Controller {
     } else if (value.length < MIN_QUERY_LENGTH) {
       errors.push('Search term must be at least 2 characters')
     } else if (value.length > MAX_QUERY_LENGTH) {
-      errors.push('Search term must be 100 characters or fewer')
+      errors.push(`Search term must be ${MAX_QUERY_LENGTH} characters or fewer`)
     }
 
     return errors
