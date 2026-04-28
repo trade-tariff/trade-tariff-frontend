@@ -1,9 +1,12 @@
-<tr id="measure-<%= measure.id %>" class=" govuk-table__row <%= measure.geographical_area.id %>" tabIndex="-1">
+<% geo_area = measure.geographical_area %>
+<% measure_type = measure.measure_type %>
+<% footnotes = measure.footnotes %>
+<tr id="measure-<%= measure.id %>" class=" govuk-table__row <%= geo_area.id %>" tabIndex="-1">
   <td class="country-col govuk-table__cell">
     <% if measure.has_children_geographical_areas? %>
-      <%= link_to measure.geographical_area.long_description, geographical_area_path(id: measure.geographical_area.id, goods_nomenclature_code: current_goods_nomenclature_code), class: 'govuk-link' %>
+      <%= link_to geo_area.long_description, geographical_area_path(id: geo_area.id, goods_nomenclature_code: current_goods_nomenclature_code), class: 'govuk-link' %>
     <% else %>
-      <%= measure.geographical_area.long_description %>
+      <%= geo_area.long_description %>
     <% end %>
 
     <% if measure.excluded_country_list.present? %>
@@ -14,7 +17,7 @@
     <% end %>
   </td>
 
-  <td class="measure-type-col govuk-table__cell <%= measure.measure_type.id %>">
+  <td class="measure-type-col govuk-table__cell <%= measure_type.id %>">
     <span class='table-line'><%= measure_type_description_or_link(measure) %></span>
 
     <% if measure.order_number.present? %>
@@ -26,7 +29,7 @@
       </span>
     <% end %>
     <% if measure.additional_code.present? %>
-      <% if measure.measure_type.prohibitive? %>
+      <% if measure_type.prohibitive? %>
         <%= render 'measures/additional_codes/prohibitive', measure: measure %>
       <% else %>
         <%= render 'measures/additional_codes/regular', measure: measure %>
@@ -66,9 +69,9 @@
   </td>
 
   <td class="footnotes-col govuk-table__cell govuk-table__header--numeric">
-    <% if measure.has_measure_footnotes? %>
+    <% if footnotes.any? %>
       <div data-controller="anchor">
-        <%= link_to measure.footnotes.size == 1 ? measure.footnotes.first.code : "Footnotes", "#", class: 'reference', data: { action: "click->anchor#launchModal", modal_ref: "#{measure.destination}-#{measure.id}-footnotes" }, "aria-label": "Click to open a dialog with the footnotes for this measure", role: "button" %>
+        <%= link_to footnotes.size == 1 ? footnotes.first.code : "Footnotes", "#", class: 'reference', data: { action: "click->anchor#launchModal", modal_ref: "#{measure.destination}-#{measure.id}-footnotes" }, "aria-label": "Click to open a dialog with the footnotes for this measure", role: "button" %>
         <div id="modal" class="modal tariff-info" data-controller="modal" data-anchor-target="modal"></div>
       </div>
     <% end %>
