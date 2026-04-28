@@ -1,12 +1,10 @@
 module CommoditiesHelper
   def footnote_heading(declarable)
-    t('tabs.footnote.heading', goods_nomenclature_item_id: declarable.id, declarable_type: declarable.model_name.singular)
+    as_declarable_presenter(declarable).footnote_heading
   end
 
   def leaf_position(commodity)
-    if commodity.last_child?
-      ' last-child'
-    end
+    as_commodity_presenter(commodity).leaf_position
   end
 
   def commodity_level(commodity, initial_indent)
@@ -28,24 +26,15 @@ module CommoditiesHelper
   end
 
   def format_full_code(commodity)
-    code = commodity.code.to_s
-    tree_code(code, klass: nil)
+    as_declarable_presenter(commodity).format_full_code
   end
 
   def format_commodity_code(commodity)
-    code = commodity.display_short_code.to_s
-    "#{code[0..1]}&nbsp;#{code[2..3]}&nbsp;#{code[4..]}".html_safe
+    as_declarable_presenter(commodity).format_commodity_code
   end
 
   def format_commodity_code_based_on_level(commodity)
-    code = commodity.code.to_s
-    display_full_code = commodity.producline_suffix == GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX
-
-    if commodity.number_indents > 1 || display_full_code
-      # remove trailing pairs of zeros for non declarable
-      code = code.gsub(/0{2}+$/, '') if commodity.has_children?
-      tree_code(code, klass: nil)
-    end
+    as_declarable_presenter(commodity).format_commodity_code_based_on_level
   end
 
   def convert_text_to_links(text)
@@ -250,20 +239,8 @@ module CommoditiesHelper
     end
   end
 
-  def divide_commodity_code(code)
-    return if code.blank?
-
-    code.to_s.gsub(/[^\d]/, '').split('').each_slice(4).map(&:join)
-  end
-
-  def abbreviate_commodity_code(commodity)
-    code = commodity.code.to_s
-
-    commodity.declarable? ? code : abbreviate_code(code)
-  end
-
   def abbreviate_code(code)
-    only_code = code_without_subheading(code)
+    only_code = code.to_s.split('-').first
 
     case only_code.gsub(/0*\z/, '').length
     when 9..10
@@ -277,11 +254,25 @@ module CommoditiesHelper
     end
   end
 
+  def divide_commodity_code(code)
+    return if code.blank?
+
+    code.to_s.gsub(/[^\d]/, '').split('').each_slice(4).map(&:join)
+  end
+
+  def abbreviate_commodity_code(commodity)
+    as_commodity_presenter(commodity).abbreviate_commodity_code
+  end
+
   def commodity_ancestor_id(index)
     "commodity-ancestors__ancestor-#{index}"
   end
 
-  def code_without_subheading(code)
-    code.split('-').first
+  def as_declarable_presenter(commodity)
+    commodity.is_a?(DeclarablePresenter) ? commodity : DeclarablePresenter.new(commodity)
+  end
+
+  def as_commodity_presenter(commodity)
+    commodity.is_a?(CommodityPresenter) ? commodity : CommodityPresenter.new(commodity)
   end
 end

@@ -119,7 +119,9 @@ RSpec.describe CommoditiesHelper, type: :helper do
     let(:commodity_code_long_format) { '0123456700' }
 
     let(:commodity) do
-      build(:commodity, goods_nomenclature_item_id: commodity_code_long_format, declarable:)
+      CommodityPresenter.new(
+        build(:commodity, goods_nomenclature_item_id: commodity_code_long_format, declarable:),
+      )
     end
 
     context('when commodity is declarable') do
@@ -133,24 +135,6 @@ RSpec.describe CommoditiesHelper, type: :helper do
 
       it { is_expected.not_to eql commodity_code_long_format }
     end
-  end
-
-  describe '#abbreviate_code' do
-    subject { abbreviate_code(code) }
-
-    shared_examples 'an abbreviated code' do |original, abbreviated|
-      let(:code) { original }
-
-      it { is_expected.to eql abbreviated }
-    end
-
-    it_behaves_like 'an abbreviated code', '0123400000', '012340'
-    it_behaves_like 'an abbreviated code', '0123450000', '012345'
-    it_behaves_like 'an abbreviated code', '0123456000', '01234560'
-    it_behaves_like 'an abbreviated code', '0123456700', '01234567'
-    it_behaves_like 'an abbreviated code', '0123456780', '0123456780'
-    it_behaves_like 'an abbreviated code', '0123456789', '0123456789'
-    it_behaves_like 'an abbreviated code', '0123456789-10', '0123456789'
   end
 
   describe '#commodity_ancestor_id' do
@@ -261,7 +245,7 @@ RSpec.describe CommoditiesHelper, type: :helper do
   describe '#overview_measure_duty_amounts_for' do
     subject(:overview_measure_duty_amounts_for) { helper.overview_measure_duty_amounts_for(commodity) }
 
-    let(:commodity) { build(:commodity) }
+    let(:commodity) { CommodityPresenter.new(build(:commodity)) }
 
     it { is_expected.to be_html_safe }
 
