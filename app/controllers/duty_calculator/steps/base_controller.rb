@@ -6,6 +6,11 @@ module DutyCalculator
       include UkimsHelper
 
       rescue_from Errors::SessionIntegrityError, with: :handle_session_integrity_error
+      # Must be declared before rescue_from StandardError so it is matched first.
+      # Rails stores handlers in definition order and picks the first match. A missing
+      # commodity is an expected condition — the API returns 404 when a code doesn't
+      # exist or isn't declarable. We redirect silently rather than surfacing it in NewRelic.
+      rescue_from Faraday::ResourceNotFound, with: :handle_commodity_not_found
       rescue_from StandardError, with: :handle_exception
 
       default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
@@ -56,6 +61,10 @@ module DutyCalculator
           NewRelic::Agent.notice_error(exception)
           redirect_to sections_url, allow_other_host: true
         end
+      end
+
+      def handle_commodity_not_found(_exception)
+        redirect_to sections_url, allow_other_host: true
       end
 
       def ensure_session_integrity

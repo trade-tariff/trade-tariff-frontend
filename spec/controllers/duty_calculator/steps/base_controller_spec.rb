@@ -27,6 +27,39 @@ RSpec.describe DutyCalculator::Steps::BaseController, :user_session do
     allow(Rails.configuration).to receive(:trade_tariff_frontend_url).and_return(trade_tariff_host)
   end
 
+  describe 'Faraday::ResourceNotFound rescue_from registration' do
+    it 'is registered as the rescue handler for Faraday::ResourceNotFound' do
+      registered = described_class.rescue_handlers.detect { |klass, _| klass == 'Faraday::ResourceNotFound' }
+
+      expect(registered).not_to be_nil
+    end
+
+    it 'delegates to handle_commodity_not_found' do
+      registered = described_class.rescue_handlers.detect { |klass, _| klass == 'Faraday::ResourceNotFound' }
+
+      expect(registered[1]).to eq(:handle_commodity_not_found)
+    end
+
+    it 'is positioned before the StandardError handler so it takes priority' do
+      handlers = described_class.rescue_handlers
+      not_found_index = handlers.index { |klass, _| klass == 'Faraday::ResourceNotFound' }
+      standard_error_index = handlers.index { |klass, _| klass == 'StandardError' }
+
+      expect(not_found_index).to be < standard_error_index
+    end
+
+    it 'does not notify NewRelic for a commodity not found error' do
+      exception = Faraday::ResourceNotFound.new('commodity not found')
+      allow(NewRelic::Agent).to receive(:notice_error)
+      allow(controller).to receive(:sections_url).and_return('/sections')
+      allow(controller).to receive(:redirect_to)
+
+      controller.rescue_with_handler(exception)
+
+      expect(NewRelic::Agent).not_to have_received(:notice_error)
+    end
+  end
+
   describe 'GET #index' do
     subject(:response) { get :index }
 
