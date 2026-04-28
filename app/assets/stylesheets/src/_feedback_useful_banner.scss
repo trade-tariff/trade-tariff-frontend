@@ -4,7 +4,7 @@
 
   &__inner {
     background-color: govuk-colour("black", $variant: "tint-95");
-    border-bottom: 1px solid $govuk-border-colour;
+    border-bottom: 1px solid govuk-functional-colour(border);
     padding: govuk-spacing(4);
     // Reapply footer meta flex layout (normally scoped under .govuk-footer)
     display: flex;

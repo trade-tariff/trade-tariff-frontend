@@ -2,7 +2,7 @@
 
 // Blue left-border variant of govuk-inset-text for interactive search feedback
 .app-inset-text--blue {
-  border-left-color: $govuk-brand-colour;
+  border-left-color: govuk-functional-colour(brand);
 }
 
 // Interactive search Q&A styles
@@ -55,7 +55,7 @@
 // Interactive feedback useful banner - full-width grey banner with blue bottom border
 .app-feedback-useful-banner {
   background: govuk-colour("black", $variant: "tint-95");
-  border-bottom: 4px solid $govuk-brand-colour;
+  border-bottom: 4px solid govuk-functional-colour(brand);
 
   .app-feedback-useful-banner__content {
     display: flex;
@@ -71,8 +71,8 @@
     width: auto;
     margin-bottom: 0;
     background-color: govuk-functional-colour(body-background);
-    color: $govuk-text-colour;
-    border: 1px solid $govuk-text-colour;
+    color: govuk-functional-colour(text);
+    border: 1px solid govuk-functional-colour(text);
     border-bottom-width: 3px;
     box-shadow: none;
     flex-shrink: 0;
@@ -80,12 +80,12 @@
     &:link,
     &:visited,
     &:active {
-      color: $govuk-text-colour;
+      color: govuk-functional-colour(text);
       background-color: govuk-functional-colour(body-background);
     }
 
     &:hover {
-      color: $govuk-text-colour;
+      color: govuk-functional-colour(text);
       background-color: color.adjust(govuk-colour("black", $variant: "tint-95"), $lightness: -3%);
     }
   }
@@ -93,7 +93,7 @@
 
 // Feedback banner - thin blue top line, heading and button on same line
 .app-feedback-banner {
-  border-top: 2px solid $govuk-brand-colour;
+  border-top: 2px solid govuk-functional-colour(brand);
   padding-top: govuk-spacing(4);
   display: flex;
   justify-content: space-between;
@@ -108,8 +108,8 @@
   width: auto;
   margin-bottom: 0;
   background-color: govuk-functional-colour(body-background);
-  color: $govuk-text-colour;
-  border: 1px solid $govuk-text-colour;
+  color: govuk-functional-colour(text);
+  border: 1px solid govuk-functional-colour(text);
   border-bottom-width: 3px;
   box-shadow: none;
   flex-shrink: 0;
@@ -118,7 +118,7 @@
   &:visited,
   &:hover,
   &:active {
-    color: $govuk-text-colour;
+    color: govuk-functional-colour(text);
   }
 
   &:hover {
@@ -133,7 +133,7 @@
 
 // Thick blue section break matching GOV.UK prototype kit style
 .app-section-break--thick {
-  border-bottom: 4px solid $govuk-brand-colour;
+  border-bottom: 4px solid govuk-functional-colour(brand);
 }
 
 // Devolved nations panel - grey background matching gem-c-devolved-nations
