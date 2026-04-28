@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Blue left-border variant of govuk-inset-text for interactive search feedback
 .app-inset-text--blue {
   border-left-color: $govuk-brand-colour;
@@ -84,7 +86,7 @@
 
     &:hover {
       color: $govuk-text-colour;
-      background-color: darken(govuk-colour("black", $variant: "tint-95"), 3%);
+      background-color: color.adjust(govuk-colour("black", $variant: "tint-95"), $lightness: -3%);
     }
   }
 }

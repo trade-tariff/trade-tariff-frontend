@@ -1,4 +1,6 @@
-$govuk-grid-widths: map-merge($govuk-grid-widths, (one-eighth: 12.5%, seven-eighth: 87.5%));
+@use "sass:map";
+
+$govuk-grid-widths: map.merge($govuk-grid-widths, (one-eighth: 12.5%, seven-eighth: 87.5%));
 
 .column-two-quarters {
   @include govuk-grid-column(one-half);

@@ -1,3 +1,6 @@
+@use "sass:list";
+@use "sass:math";
+
 @mixin indented-item($level) {
   $left-pos: -984px;
 
@@ -12,8 +15,8 @@
   }
 
   @else {
-    margin-left: px(($token-width * 2) + (($token-width / 3) * ($level - 2))) * -1;
-    padding-left: px(($token-width * 2) + (($token-width / 3) * ($level - 1)));
+    margin-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 2))) * -1;
+    padding-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 1)));
     font-weight: normal;
 
     @media (min-width: $desktop-min-width) {
@@ -215,8 +218,8 @@ article.tariff {
           );
 
         @for $number_of_dashes from 1 through $i - 1 {
-          $url_list: append($url_list, url("/hyphen-6px.png"), comma);
-          $position_list: append($position_list,
+          $url_list: list.append($url_list, url("/hyphen-6px.png"), comma);
+          $position_list: list.append($position_list,
               top 20px left 25px + $number_of_dashes * $dashes_spacing,
               comma);
         }

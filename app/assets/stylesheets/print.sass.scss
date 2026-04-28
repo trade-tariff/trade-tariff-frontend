@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $govuk-fonts-path: '/govuk-frontend/dist/govuk/assets/fonts/';
 $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 
@@ -149,8 +151,8 @@ table.measures {
   }
 
   @else {
-    margin-left: px(($token-width * 2) + (($token-width / 3) * ($level - 2))) * -1;
-    padding-left: px(($token-width * 2) + (($token-width / 3) * ($level - 1)));
+    margin-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 2))) * -1;
+    padding-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 1)));
     font-weight: normal;
 
     @media (min-width: $desktop-min-width) {

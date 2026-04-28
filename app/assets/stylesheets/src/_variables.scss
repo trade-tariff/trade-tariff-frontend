@@ -1,10 +1,12 @@
+@use "sass:math";
+
 /* global variables */
 $desktop-min-width: 641px;
 $mobile-max-width: $desktop-min-width - 1;
 $headings-large-viewport: 1100px;
 
 $standard-margin: 16px;
-$small-margin: $standard-margin / 2;
+$small-margin: math.div($standard-margin, 2);
 
 $token-width: 20;
 $token-padding: 5;
