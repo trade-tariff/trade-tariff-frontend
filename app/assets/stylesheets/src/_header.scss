@@ -103,7 +103,7 @@ a.back-to-previous {
     color: govuk-functional-colour(text);
   }
 
-  @media (min-width: $desktop-min-width) {
+  @include govuk-media-query($from: tablet) {
     font-size: 16px;
   }
 }

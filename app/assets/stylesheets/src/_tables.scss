@@ -23,13 +23,13 @@ table.small-table {
       }
     }
 
-    @media (min-width: $small-table-breakpoint) {
+    @include govuk-media-query($from: $small-table-breakpoint) {
       .measure-type-col {
         min-width: 40%;
       }
     }
 
-    @media (max-width: $small-table-breakpoint - 1) {
+    @include govuk-media-query(false, $small-table-breakpoint - 1) {
       caption,
       thead,
       tbody,

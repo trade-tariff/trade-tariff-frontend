@@ -2,7 +2,7 @@
   ol.index {
     margin-bottom: 1.25em;
 
-    @media (max-width: $mobile-max-width) {
+    @include govuk-media-query($until: tablet) {
       margin-bottom: govuk-spacing(6);
     }
 

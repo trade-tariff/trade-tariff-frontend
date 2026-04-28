@@ -6,7 +6,7 @@
     font-weight: 700;
     margin: 1.2em 0 0.4em 0;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       font-size: 24px;
       line-height: 1.25;
     }
@@ -19,7 +19,7 @@
     line-height: 1.25;
     margin-bottom: 0.75em;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       font-size: 19px;
       line-height: 1.31579;
     }

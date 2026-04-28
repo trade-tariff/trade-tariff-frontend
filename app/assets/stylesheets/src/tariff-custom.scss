@@ -2,7 +2,7 @@
   display: none;
 }
 
-@media (min-width: $desktop-min-width) {
+@include govuk-media-query($from: tablet) {
   .mobile-only {
     display: none;
   }

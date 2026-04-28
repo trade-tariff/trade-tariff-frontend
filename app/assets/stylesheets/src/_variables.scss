@@ -1,12 +1,9 @@
 @use "sass:math";
 
 /* global variables */
-$desktop-min-width: 641px;
-$mobile-max-width: $desktop-min-width - 1;
 $headings-large-viewport: 1100px;
 
 $standard-margin: 16px;
-$small-margin: math.div($standard-margin, 2);
 
 $token-width: 20;
 $token-padding: 5;
@@ -14,8 +11,6 @@ $token-space: $token-width+$token-padding;
 /* Uses above values */
 $top-level-padding: 10;
 
-$commodity-padding: $token-width;
-$expand-arrow-width: 11;
 $expand-arrow-space: 11+$token-padding;
 
 $chapter-code-width: 30px;
@@ -24,14 +19,13 @@ $heading-code-width: $chapter-code-width;
 $commodity-code-width: 110px;
 $commodity-code-width-desktop: 110px;
 
-$breadcrumb-v-margin: 5px;
 $breadcrumb-indent: 15px;
 $breadcrumb-indent-desktop: 25px;
-$breadcrumb-changes-link-width: 70px;
 
 $vat-width-desktop: 105px;
 $duty-width-desktop: 145px;
 $supplementary-units-width-desktop: 120px;
+$commodity-tree-info-width-desktop: 514px;
 
 $identifier-width: $chapter-code-width+$heading-code-width+$commodity-code-width + 10px;
 $identifier-width-desktop: $chapter-code-width+$heading-code-width+$commodity-code-width-desktop+$vat-width-desktop+$duty-width-desktop+$supplementary-units-width-desktop;
@@ -42,6 +36,5 @@ $table-row-standard-height: 1.31579em;
 $small-table-breakpoint: 840px;
 
 // deprecated colours
-$page-colour: #fff;
 $highlight-colour: #f8f8f8;
 $panel-colour: #dee0e2;

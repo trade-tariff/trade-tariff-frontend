@@ -1,7 +1,7 @@
 .country-picker {
   margin-bottom: 30px;
   .country-picker-container {
-    @media (min-width: 641px) {
+    @include govuk-media-query($from: tablet) {
       display: table;
       label {
         display: table-cell;
@@ -10,7 +10,7 @@
         vertical-align: middle;
         padding-right: 0.5em;
         float: left;
-        @media (min-width: $desktop-min-width) {
+        @include govuk-media-query($from: tablet) {
           float: none;
         }
       }
@@ -19,7 +19,7 @@
     .autocomplete__wrapper {
       margin-bottom: 10px;
 
-      @media (min-width: 641px) {
+      @include govuk-media-query($from: tablet) {
         margin-bottom: 0;
       }
     }
@@ -36,7 +36,7 @@
       vertical-align: bottom;
       margin-top: 10px;
 
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         padding-left: 1em;
         padding-bottom: 0;
         vertical-align: middle;
@@ -44,7 +44,7 @@
       }
       .long-text {
         display: none;
-        @media (min-width: 540px) {
+        @include govuk-media-query($from: 540px) {
           display: inline;
         }
       }

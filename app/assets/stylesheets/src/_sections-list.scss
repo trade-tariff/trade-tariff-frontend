@@ -1,5 +1,5 @@
 .sections {
-  @media (max-width: $mobile-max-width) {
+  @include govuk-media-query($until: tablet) {
     tr {
       display: block;
       padding-top: 0.63158em;
@@ -37,7 +37,7 @@
 }
 
 .all-sections {
-  @media (max-width: $mobile-max-width) {
+  @include govuk-media-query($until: tablet) {
     margin-bottom: 5px;
   }
 }

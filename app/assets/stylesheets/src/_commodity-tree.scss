@@ -8,7 +8,7 @@
     padding-left: 0;
     font-weight: bold;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       padding-left: 0;
       background-position: $left-pos + $token-width 1em;
     }
@@ -19,7 +19,7 @@
     padding-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 1)));
     font-weight: normal;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       margin-left: px(($token-width * 2) + ($token-width * ($level - 2))) * -1;
       padding-left: px(($token-width * 2) + ($token-width * ($level - 1)));
       background-position: $left-pos + ($token-width * $level) 1em;
@@ -47,7 +47,7 @@ article.tariff {
     font-size: 14px;
     padding: 6px 16px;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       font-size: 16px;
       padding: 8px 16px;
     }
@@ -57,7 +57,7 @@ article.tariff {
       margin: 5px 0 0 0.5em;
       font-size: 14px;
 
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         margin: 5px 0 0 0.5em;
       }
     }
@@ -78,7 +78,7 @@ article.tariff {
     color: govuk-functional-colour(secondary-text);
     font-size: 14px;
 
-    @media (max-width: $mobile-max-width) {
+    @include govuk-media-query($until: tablet) {
       margin-bottom: 0;
     }
 
@@ -102,7 +102,7 @@ article.tariff {
       width: px(($token-width - $token-padding) + $token-space);
       display: none;
 
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         display: block;
       }
     }
@@ -110,7 +110,7 @@ article.tariff {
 
   .commodity-tree__additional-info {
     float: right;
-    width: 514px;
+    width: $commodity-tree-info-width-desktop;
 
     em {
       font-style: normal;
@@ -123,42 +123,42 @@ article.tariff {
     }
 
     .vat {
-      width: 80px;
+      width: $vat-width-desktop;
       display: none;
       text-align: left;
 
-      @media (min-width: $headings-large-viewport) {
+      @include govuk-media-query($from: $headings-large-viewport) {
         display: block;
       }
     }
 
     .duty {
-      width: 145px;
+      width: $duty-width-desktop;
       display: none;
       text-align: left;
 
-      @media (min-width: $headings-large-viewport) {
+      @include govuk-media-query($from: $headings-large-viewport) {
         display: block;
       }
     }
 
     .supplementary-units {
-      width: 120px;
+      width: $supplementary-units-width-desktop;
       display: none;
       text-align: left;
 
-      @media (min-width: $headings-large-viewport) {
+      @include govuk-media-query($from: $headings-large-viewport) {
         display: block;
       }
     }
 
     .commcode {
-      width: 110px;
+      width: $commodity-code-width-desktop;
       float: left;
       text-align: left;
       display: none;
 
-      @media (min-width: $headings-large-viewport) {
+      @include govuk-media-query($from: $headings-large-viewport) {
         display: block;
       }
     }
@@ -175,7 +175,7 @@ article.tariff {
       display: inline-block;
       font-size: 14px;
 
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         font-size: 16px;
       }
     }
@@ -188,11 +188,11 @@ article.tariff {
     position: relative;
     font-size: 14px;
 
-    @media(min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       font-size: 16px;
     }
 
-    @media(max-width: $mobile-max-width) {
+    @include govuk-media-query($until: tablet) {
       margin-top: 1.5em;
       margin-bottom: 1.5em;
     }
@@ -206,7 +206,7 @@ article.tariff {
       word-wrap: break-word;
 
       // Create Hyphen sequences for the commodity tree views
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         $max_level: 20;
         $dashes_spacing: $token-width;
 
@@ -244,7 +244,7 @@ article.tariff {
   a {
     padding-top: 0.5em;
 
-    @media (max-width: $mobile-max-width) {
+    @include govuk-media-query($until: tablet) {
       &:first-child {
         padding-top: 0;
       }
@@ -268,9 +268,9 @@ article.tariff {
   .commodity__info {
     font-size: 16px;
 
-    @media (min-width: 641px) {
+    @include govuk-media-query($from: tablet) {
       float: right;
-      width: 514px;
+      width: $commodity-tree-info-width-desktop;
     }
 
     .lte-ie8 & {
@@ -294,7 +294,7 @@ article.tariff {
       font-weight: normal;
       font-size: 0.9em;
 
-      @media (min-width: $headings-large-viewport) {
+      @include govuk-media-query($from: $headings-large-viewport) {
         display: block;
       }
     }
@@ -326,7 +326,7 @@ article.tariff {
     padding: 0;
     margin-top: 0.5em;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       color: govuk-functional-colour(text);
       position: absolute;
       right: 0;
@@ -341,14 +341,14 @@ article.tariff {
 
   // service-uk includes a vat column so needs to be shunted further right by its width
   .service-uk.identifier {
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       width: $identifier-width-desktop-uk;
     }
   }
 
   // service-xi excludes a vat column so needs to be shunted further right by its width
   .service-xi.identifier {
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       width: $identifier-width-desktop-xi;
     }
   }
@@ -393,12 +393,12 @@ li:not(.has_children) .description {
   position: relative;
   /* to give z-index */
 
-  @media (min-width: 641px) {
+  @include govuk-media-query($from: tablet) {
     float: left;
     width: calc(100% - 165px);
   }
 
-  @media (min-width: $headings-large-viewport) {
+  @include govuk-media-query($from: $headings-large-viewport) {
     width: calc(100% - #{$identifier-width-desktop - 10px});
   }
 
@@ -416,12 +416,12 @@ li.has_children {
     position: relative;
     /* to give z-index */
 
-    @media (min-width: 641px) {
+    @include govuk-media-query($from: tablet) {
       float: left;
       width: calc(100% - 165px);
     }
 
-    @media (min-width: $headings-large-viewport) {
+    @include govuk-media-query($from: $headings-large-viewport) {
       width: calc(100% - #{$identifier-width-desktop - 10px});
     }
 
