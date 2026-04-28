@@ -110,7 +110,7 @@ article.tariff {
 
   .commodity-tree__additional-info {
     float: right;
-    width: 514px;
+    width: $commodity-tree-info-width-desktop;
 
     em {
       font-style: normal;
@@ -270,7 +270,7 @@ article.tariff {
 
     @media (min-width: 641px) {
       float: right;
-      width: 514px;
+      width: $commodity-tree-info-width-desktop;
     }
 
     .lte-ie8 & {
