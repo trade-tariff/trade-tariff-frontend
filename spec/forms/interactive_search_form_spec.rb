@@ -29,14 +29,28 @@ RSpec.describe InteractiveSearchForm, type: :model do
       it { is_expected.to be_valid }
     end
 
-    context 'when query exceeds maximum length' do
+    context 'when query is over 100 characters' do
       subject(:form) { described_class.new(q: 'a' * 150) }
 
-      it 'truncates to 100 characters' do
-        expect(form.q.length).to eq(100)
-      end
+      it { is_expected.to be_valid }
+    end
+
+    context 'when query is at maximum length' do
+      subject(:form) { described_class.new(q: 'a' * 500) }
 
       it { is_expected.to be_valid }
+    end
+
+    context 'when query exceeds maximum length' do
+      subject(:form) { described_class.new(q: 'a' * 501) }
+
+      it { is_expected.not_to be_valid }
+
+      it 'adds a length error' do
+        form.valid?
+
+        expect(form.errors[:q]).to include('Search term must be 500 characters or fewer')
+      end
     end
   end
 
@@ -53,8 +67,10 @@ RSpec.describe InteractiveSearchForm, type: :model do
       expect(described_class.new(q: '  [leather] bag  ').q).to eq('leather bag')
     end
 
-    it 'truncates to 100 characters' do
-      expect(described_class.new(q: 'x' * 200).q.length).to eq(100)
+    it 'does not truncate long queries before validation' do
+      query = 'x' * 501
+
+      expect(described_class.new(q: query).q).to eq(query)
     end
   end
 

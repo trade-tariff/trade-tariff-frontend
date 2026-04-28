@@ -352,7 +352,7 @@ en:
             q:
               blank: Enter a search term
               too_short: Search term must be at least 2 characters
-              too_long: Search term must be 100 characters or fewer
+              too_long: Search term must be 500 characters or fewer
             answer:
               blank: Select an option
         duty_calculator/steps/import_date:

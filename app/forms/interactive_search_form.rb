@@ -2,7 +2,7 @@ class InteractiveSearchForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  MAX_QUERY_LENGTH = 100
+  MAX_QUERY_LENGTH = 500
   MIN_QUERY_LENGTH = 2
 
   attribute :q, :string
@@ -22,6 +22,6 @@ class InteractiveSearchForm
   def sanitise_query(value)
     return nil if value.blank?
 
-    value.to_s.strip.gsub(/[\[\]]/, '').first(MAX_QUERY_LENGTH)
+    value.to_s.strip.gsub(/[\[\]]/, '')
   end
 end
