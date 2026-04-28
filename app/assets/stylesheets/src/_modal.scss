@@ -45,7 +45,7 @@
   border-radius: 5px;
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
 
-  @media (min-width: $desktop-min-width) {
+  @include govuk-media-query($from: tablet) {
     top: 30px;
     width: 80%;
   }
@@ -101,7 +101,7 @@
     min-height: 0;
     overflow: hidden;
 
-    @media(max-width: $mobile-max-width) {
+    @include govuk-media-query($until: tablet) {
       overflow-x: scroll;
     }
 

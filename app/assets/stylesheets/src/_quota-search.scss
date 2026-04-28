@@ -2,7 +2,7 @@
   .govuk-grid-row {
     margin-bottom: 0.5em;
 
-    @media (min-width: 641px) {
+    @include govuk-media-query($from: tablet) {
       margin-bottom: 1em;
     }
   }
@@ -19,7 +19,7 @@
   input[type="submit"] {
     margin-top: 1.5em;
 
-    @media (min-width: 641px) {
+    @include govuk-media-query($from: tablet) {
       margin-top: 0;
     }
   }

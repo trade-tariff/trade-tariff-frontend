@@ -4,7 +4,7 @@
   position: relative;
   height: 1.5625em;
   float: left;
-  @media (min-width: $desktop-min-width) {
+  @include govuk-media-query($from: tablet) {
     font-size: 16px;
   }
   > .code-text {

@@ -19,31 +19,31 @@ $govuk-grid-widths: map.merge($govuk-grid-widths, (one-eighth: 12.5%, seven-eigh
 }
 
 .column-one-quarter-desktop-only {
-  @media (min-width: $desktop-min-width) {
+  @include govuk-media-query($from: tablet) {
     @include govuk-grid-column(one-quarter, $at: desktop);
   }
 }
 
 .column-three-quarters-desktop-only {
-  @media (min-width: $desktop-min-width) {
+  @include govuk-media-query($from: tablet) {
     @include govuk-grid-column(three-quarters, $at: desktop);
   }
 }
 
 .column-full-mobile-only {
-  @include govuk-media-query(false, $desktop-min-width - 1px) {
+  @include govuk-media-query($until: tablet) {
     @include govuk-grid-column(full, $at: mobile);
   }
 }
 
 .column-one-quarter-mobile-only {
-  @include govuk-media-query(false, $desktop-min-width - 1px) {
+  @include govuk-media-query($until: tablet) {
     @include govuk-grid-column(one-quarter, $at: mobile);
   }
 }
 
 .column-three-quarters-mobile-only {
-  @include govuk-media-query(false, $desktop-min-width - 1px) {
+  @include govuk-media-query($until: tablet) {
     @include govuk-grid-column(three-quarters, $at: mobile);
   }
 }

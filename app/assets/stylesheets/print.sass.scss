@@ -129,15 +129,6 @@ table.measures {
   }
 }
 
-
-
-
-
-
-
-
-
-
 @mixin indented-item($level) {
   $left-pos: -984px;
 
@@ -145,7 +136,7 @@ table.measures {
     padding-left: 0;
     font-weight: bold;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       background-position: $left-pos + $token-width 1em;
     }
   }
@@ -155,7 +146,7 @@ table.measures {
     padding-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 1)));
     font-weight: normal;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       margin-left: px(($token-width * 2) + ($token-width * ($level - 2))) * -1;
       padding-left: px(($token-width * 2) + ($token-width * ($level - 1)));
       background-position: $left-pos + ($token-width * $level) 1em;
@@ -183,7 +174,7 @@ article.tariff {
     font-size: 14px;
     padding: 6px 16px;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       font-size: 16px;
       padding: 8px 16px;
     }
@@ -193,7 +184,7 @@ article.tariff {
       margin: 5px 0 0 0.5em;
       font-size: 14px;
 
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         margin: 5px 0 0 0.5em;
       }
     }
@@ -230,7 +221,7 @@ article.tariff {
       width: px(($token-width - $token-padding) + $token-space);
       display: none;
 
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         display: block;
       }
     }
@@ -299,7 +290,7 @@ article.tariff {
       display: inline-block;
       font-size: 14px;
 
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         font-size: 16px;
       }
     }
@@ -311,7 +302,7 @@ article.tariff {
     position: relative;
     font-size: 14px;
 
-    @media(min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       font-size: 16px;
     }
 

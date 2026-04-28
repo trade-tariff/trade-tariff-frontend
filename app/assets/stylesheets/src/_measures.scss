@@ -1,5 +1,5 @@
 .import-and-export-boxes {
-  @media (min-width: $desktop-min-width) {
+  @include govuk-media-query($from: tablet) {
     display: flex;
     .column-one-half {
       margin-bottom: 45px;
@@ -8,7 +8,7 @@
   .import, .export {
     height: 100%;
     background-color: $highlight-colour;
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       margin-bottom: -30px;
     }
   }
@@ -26,7 +26,7 @@
     margin: 1em 0;
     padding: 0 0 0 1.25em;
     list-style: none;
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       padding: 0 0 0 2.5em;
     }
   }

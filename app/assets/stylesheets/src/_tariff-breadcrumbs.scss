@@ -19,7 +19,7 @@
     width: 171px;
     margin-top: 5px;
 
-    @media (min-width: $desktop-min-width) {
+    @include govuk-media-query($from: tablet) {
       margin-top: 0;
     }
 
@@ -35,7 +35,7 @@
       padding-left: $breadcrumb-indent;
       margin: 5px 0 0;
 
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         padding-left: $breadcrumb-indent-desktop;
       }
 
@@ -59,7 +59,7 @@
             padding-top: 0 !important;
           }
 
-          @media (min-width: $desktop-min-width) {
+          @include govuk-media-query($from: tablet) {
             font-size: 1em;
             min-height: 30px;
             padding-right: 200px;
@@ -110,7 +110,7 @@
         ul.commodities {
           padding-left: $breadcrumb-indent;
 
-          @media (min-width: $desktop-min-width) {
+          @include govuk-media-query($from: tablet) {
             padding-left: $breadcrumb-indent-desktop;
           }
         }
@@ -126,7 +126,7 @@
       }
     }
 
-    @media (max-width: $mobile-max-width) {
+    @include govuk-media-query($until: tablet) {
       .chapter-code~ul ul {
         padding-left: 0;
       }
@@ -147,7 +147,7 @@
         content: ')';
       }
 
-      @media (min-width: $desktop-min-width) {
+      @include govuk-media-query($from: tablet) {
         float: right;
         margin-top: 2em;
 
@@ -168,7 +168,7 @@
         padding-right: 0 !important;
         min-height: 0 !important;
 
-        @media (min-width: $desktop-min-width) {
+        @include govuk-media-query($from: tablet) {
           background-image: url('/feed-icon-black.png');
           background-position: 0.2em center;
           background-repeat: no-repeat;
@@ -187,7 +187,7 @@
   font-size: 16px;
   font-size: 1rem;
 
-  @media (min-width: $desktop-min-width) {
+  @include govuk-media-query($from: tablet) {
     position: absolute;
     right: 0;
     top: 0;
