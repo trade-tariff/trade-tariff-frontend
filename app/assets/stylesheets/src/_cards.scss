@@ -16,7 +16,7 @@
 }
 
 .gem-c-cards__list-item {
-  border-bottom: 1px solid $govuk-border-colour;
+  border-bottom: 1px solid govuk-functional-colour(border);
   padding: govuk-spacing(1) 0 govuk-spacing(4) 0;
 }
 
@@ -43,8 +43,8 @@
     $dimension: 7px;
     $width: 3px;
 
-    border-right: $width solid $govuk-brand-colour;
-    border-top: $width solid $govuk-brand-colour;
+    border-right: $width solid govuk-functional-colour(brand);
+    border-top: $width solid govuk-functional-colour(brand);
     content: "";
     display: block;
     height: $dimension;
@@ -57,11 +57,11 @@
   }
 
   &:hover::before {
-    border-color: $govuk-link-hover-colour;
+    border-color: govuk-functional-colour(link-hover);
   }
 
   &:focus::before {
-    border-color: $govuk-focus-text-colour;
+    border-color: govuk-functional-colour(focus-text);
   }
 }
 

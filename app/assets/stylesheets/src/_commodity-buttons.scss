@@ -1,7 +1,7 @@
 .commodity-action-button {
   display: inline-flex;
   align-items: center;
-  color: rgb(29, 112, 184);
+  color: govuk-colour("blue");
   cursor: pointer;
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -19,7 +19,7 @@
 
 .commodity-action-button:link,
 .commodity-action-button:visited {
-  color: rgb(29, 112, 184);
+  color: govuk-colour("blue");
   text-decoration: none;
 }
 
@@ -35,36 +35,36 @@
 
 .commodity-action-button:active {
   background-color: rgb(243, 242, 241);
-  box-shadow: inset 0 -4px 0 #0b0c0c;
-  color: #0b0c0c;
+  box-shadow: inset 0 -4px 0 govuk-colour("black");
+  color: govuk-functional-colour(text);
 }
 
 .commodity-action-button:focus,
 .commodity-action-button:focus-visible {
   outline: 3px solid transparent;
-  background-color: #fd0;
-  box-shadow: inset 0 -4px 0 #0b0c0c;
-  color: #0b0c0c;
+  background-color: govuk-functional-colour(focus);
+  box-shadow: inset 0 -4px 0 govuk-colour("black");
+  color: govuk-functional-colour(focus-text);
   text-decoration: none;
 }
 
 .commodity-action-button--copied,
 .commodity-action-button--copied:focus,
 .commodity-action-button--copied:focus-visible {
-  background-color: #fd0;
-  box-shadow: inset 0 -4px 0 #0b0c0c;
-  color: #0b0c0c;
+  background-color: govuk-functional-colour(focus);
+  box-shadow: inset 0 -4px 0 govuk-colour("black");
+  color: govuk-functional-colour(focus-text);
 }
 
 .commodity-action-button--copied:hover,
 .commodity-action-button--copied:active {
   background-color: rgb(243, 242, 241);
-  box-shadow: inset 0 -4px 0 #0b0c0c;
-  color: #0b0c0c;
+  box-shadow: inset 0 -4px 0 govuk-colour("black");
+  color: govuk-functional-colour(text);
 }
 
 .commodity-action-button__icon {
-  color: #0b0c0c;
+  color: govuk-functional-colour(text);
   vertical-align: top;
   margin-right: 5px;
 }

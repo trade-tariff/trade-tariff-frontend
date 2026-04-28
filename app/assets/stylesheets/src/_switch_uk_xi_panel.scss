@@ -8,13 +8,13 @@
 
   .arrow:before {
     content: "\2192";
-    color: govuk-colour("blue");
+    color: govuk-functional-colour(brand);
   }
 
   @include govuk-media-query($from: tablet) {
     display: inline-block;
     padding-left: 0.75em;
-    background-color: govuk-colour("blue");
+    background-color: govuk-functional-colour(brand);
 
     a {
       color: govuk-colour("white");
