@@ -182,7 +182,7 @@ article.tariff {
   }
 
   ul.commodities {
-    @include contain-float;
+    @include govuk-clearfix;
     padding: 0;
     margin: 1em;
     position: relative;
@@ -198,7 +198,7 @@ article.tariff {
     }
 
     li {
-      @include contain-float;
+      @include govuk-clearfix;
       @include indented-list(13);
       display: block;
       margin: 0;
@@ -267,6 +267,7 @@ article.tariff {
 
   .commodity__info {
     font-size: 16px;
+    @include govuk-clearfix;
 
     @include govuk-media-query($from: tablet) {
       float: right;
@@ -275,13 +276,6 @@ article.tariff {
 
     .lte-ie8 & {
       float: none !important;
-    }
-
-    &:after {
-      clear: both;
-      content: " ";
-      display: table;
-      zoom: 1;
     }
 
     .vat,
@@ -365,7 +359,7 @@ article.tariff {
   article & a,
   .js-enabled article & a {
     display: block;
-    @include contain-float;
+    @include govuk-clearfix;
     margin-left: 0;
     padding-left: 0;
     min-height: 1.6rem;
