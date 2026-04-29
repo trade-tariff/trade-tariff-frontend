@@ -5,7 +5,7 @@
 }
 
 .call-to-action p {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .gem-c-related-navigation {
@@ -14,7 +14,7 @@
 }
 
 .gem-c-related-navigation__nav-section {
-  margin-bottom: 30px;
+  margin-bottom: govuk-spacing(6);
 }
 
 .gem-c-related-navigation__link-list {
@@ -24,7 +24,7 @@
   margin-bottom: 1.25em;
 
   li {
-    margin-top: 15px;
+    margin-top: govuk-spacing(3);
   }
 }
 

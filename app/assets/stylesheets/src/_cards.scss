@@ -51,7 +51,7 @@
     position: absolute;
     right: govuk-spacing(1);
     top: 50%;
-    margin-top: 5px;
+    margin-top: govuk-spacing(1);
     transform: rotate(45deg);
     width: $dimension;
   }

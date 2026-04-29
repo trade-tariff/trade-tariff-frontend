@@ -181,11 +181,11 @@ article.tariff {
 
     .key-text {
       float: right;
-      margin: 5px 0 0 0.5em;
+      margin: govuk-spacing(1) 0 0 0.5em;
       font-size: 14px;
 
       @include govuk-media-query($from: tablet) {
-        margin: 5px 0 0 0.5em;
+        margin: govuk-spacing(1) 0 0 0.5em;
       }
     }
   }
@@ -197,7 +197,7 @@ article.tariff {
   .commodity-tree-note {
     left: 0;
     right: 0;
-    margin: 15px;
+    margin: govuk-spacing(3);
     color: govuk-functional-colour(secondary-text);
     font-size: 14px;
 
@@ -234,7 +234,7 @@ article.tariff {
     em {
       font-style: normal;
       float: left;
-      margin-left: 15px;
+      margin-left: govuk-spacing(3);
 
       &:first-of-type {
         margin-left: 0;
@@ -372,7 +372,7 @@ article.tariff {
         .supplementary-units {
           display: none;
           float: left;
-          margin-right: 15px;
+          margin-right: govuk-spacing(3);
           color: govuk-functional-colour(text);
           font-weight: normal;
           font-size: 14px;
@@ -589,7 +589,7 @@ li.has_children {
 .commodity-tree-note {
   background: $table-header-bg;
   margin: 0 !important;
-  padding: 15px;
+  padding: govuk-spacing(3);
 }
 
 .pagination {
