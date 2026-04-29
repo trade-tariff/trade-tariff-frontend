@@ -77,15 +77,10 @@ article.tariff {
     margin: 15px;
     color: govuk-functional-colour(secondary-text);
     font-size: 14px;
+    @include govuk-clearfix;
 
     @include govuk-media-query($until: tablet) {
       margin-bottom: 0;
-    }
-
-    &:after {
-      content: "";
-      display: block;
-      clear: both;
     }
 
     span {
