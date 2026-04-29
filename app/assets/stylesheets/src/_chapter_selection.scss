@@ -8,24 +8,6 @@
   }
 
   .link_button {
-      color: govuk-functional-colour(link);
-      text-decoration: underline;
-      cursor: pointer;
-      background: none!important;
-      border: none;
-      font: weight 400px;
-      font-size: 1rem;
-
-      &:hover {
-        color: govuk-functional-colour(link-hover);
-      }
-
-      &:active {
-        color: govuk-functional-colour(link);
-      }
-
-      &:visited {
-      color: govuk-functional-colour(link);
-      }
+      @include govuk-link-button-reset;
     }
 }
