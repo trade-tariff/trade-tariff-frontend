@@ -41,8 +41,8 @@ variable "memory" {
   type        = number
 }
 
-variable "enable_service_count_alarm" {
-  description = "Whether to create a CloudWatch alarm for the service that alarms when there are no running tasks for the service. Defaults to `true`."
+variable "enable_alarms" {
+  description = "Whether to enable CloudWatch alarms for the service. Defaults to `true`."
   type        = bool
   default     = true
 }
