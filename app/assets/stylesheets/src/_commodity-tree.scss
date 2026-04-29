@@ -41,29 +41,6 @@
   }
 }
 
-article.tariff {
-  .tree-key {
-    float: right;
-    font-size: 14px;
-    padding: 6px 16px;
-
-    @include govuk-media-query($from: tablet) {
-      font-size: 16px;
-      padding: 8px 16px;
-    }
-
-    .key-text {
-      float: right;
-      margin: 5px 0 0 0.5em;
-      font-size: 14px;
-
-      @include govuk-media-query($from: tablet) {
-        margin: 5px 0 0 0.5em;
-      }
-    }
-  }
-}
-
 .commodity-tree {
   border: 1px solid $panel-colour;
 
@@ -483,26 +460,6 @@ li.has_children {
 .additional-codes {
   display: none;
   clear: both;
-}
-
-.date-filter-search {
-  display: none;
-}
-
-.tooltip-description {
-  display: none;
-  position: absolute;
-  width: 200px;
-  padding: px($top-level-padding);
-  z-index: 1;
-  font-size: em(14, 16);
-  background: govuk-functional-colour(body-background);
-  border: solid 1px #bbb;
-
-  p {
-    margin: 0;
-    padding: $top-level-padding;
-  }
 }
 
 .additional-code-table {

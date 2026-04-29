@@ -1,7 +1,3 @@
-.tariff-ancestors-breadcrumbs__link {
-  color: govuk-functional-colour(text) !important;
-}
-
 .tariff-breadcrumbs {
   position: relative;
   padding: 1em;
@@ -55,9 +51,7 @@
           line-height: 1.3;
 
 
-          &.show-full-tree-link {
-            padding-top: 0 !important;
-          }
+
 
           @include govuk-media-query($from: tablet) {
             font-size: 1em;

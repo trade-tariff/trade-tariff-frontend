@@ -1,57 +1,8 @@
 .country-picker {
-  margin-bottom: 30px;
-  .country-picker-container {
-    @include govuk-media-query($from: tablet) {
-      display: table;
-      label {
-        display: table-cell;
-        width: 1%;
-        white-space: nowrap;
-        vertical-align: middle;
-        padding-right: 0.5em;
-        float: left;
-        @include govuk-media-query($from: tablet) {
-          float: none;
-        }
-      }
-    }
+  margin-bottom: govuk-spacing(5);
 
-    .autocomplete__wrapper {
-      margin-bottom: 10px;
-
-      @include govuk-media-query($from: tablet) {
-        margin-bottom: 0;
-      }
-    }
-
-    .search-submit {
-      margin-top: 1em;
-      display: block;
-    }
-    .reset-country-picker {
-      display: none; /* TODO: Do not depend on javascript to show this */
-      width: 1%;
-      white-space: nowrap;
-      padding-bottom: 5px;
-      vertical-align: bottom;
-      margin-top: 10px;
-
-      @include govuk-media-query($from: tablet) {
-        padding-left: 1em;
-        padding-bottom: 0;
-        vertical-align: middle;
-        margin-top: 0;
-      }
-      .long-text {
-        display: none;
-        @include govuk-media-query($from: 540px) {
-          display: inline;
-        }
-      }
-    }
-  }
   .search-submit {
     width: auto;
-    margin-top: 0.5em;
+    margin-top: govuk-spacing(2);
   }
 }
