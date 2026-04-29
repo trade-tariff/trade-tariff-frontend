@@ -286,7 +286,7 @@ $top-border: solid 2px govuk-colour("black", $variant: "tint-80");
 }
 
 .app-step-nav__title {
-  @include govuk-text-colour;
+  color: govuk-functional-colour(text);
   @include step-nav-font(19, $weight: bold, $line-height: 1.4);
   margin: 0;
 
@@ -307,7 +307,7 @@ $top-border: solid 2px govuk-colour("black", $variant: "tint-80");
 }
 
 .app-step-nav__panel {
-  @include govuk-text-colour;
+  color: govuk-functional-colour(text);
   @include step-nav-font(16);
 
   .app-step-nav--large & {
