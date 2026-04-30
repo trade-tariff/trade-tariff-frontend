@@ -327,7 +327,7 @@ $top-border: solid 2px govuk-colour("black", $variant: "tint-80");
   font-size: inherit;
 
   + .app-step-nav__list {
-    margin-top: -5px;
+    margin-top: govuk-spacing(-1);
 
     .app-step-nav--large & {
       @include govuk-media-query($from: tablet) {
@@ -345,12 +345,12 @@ $top-border: solid 2px govuk-colour("black", $variant: "tint-80");
 
 .app-step-nav__list {
   padding: 0;
-  padding-bottom: 10px;
+  padding-bottom: govuk-spacing(2);
   list-style: none;
 
   .app-step-nav--large & {
     @include govuk-media-query($from: tablet) {
-      padding-bottom: 20px;
+      padding-bottom: govuk-spacing(4);
     }
   }
 }
@@ -375,7 +375,7 @@ $top-border: solid 2px govuk-colour("black", $variant: "tint-80");
 }
 
 .app-step-nav__list-item {
-  margin-bottom: 10px;
+  margin-bottom: govuk-spacing(2);
 }
 
 .app-step-nav__link {

@@ -5,14 +5,14 @@
 .tariff-breadcrumbs {
   position: relative;
   padding: 1em;
-  margin: 20px 0 40px 0;
+  margin: govuk-spacing(4) 0 govuk-spacing(7) 0;
   @include govuk-clearfix;
 
   background-color: govuk-colour("black", $variant: "tint-95");
 
   .full-code {
     width: 171px;
-    margin-top: 5px;
+    margin-top: govuk-spacing(1);
 
     @include govuk-media-query($from: tablet) {
       margin-top: 0;
@@ -28,7 +28,7 @@
       position: relative;
       list-style: none;
       padding-left: $breadcrumb-indent;
-      margin: 5px 0 0;
+      margin: govuk-spacing(1) 0 0;
 
       @include govuk-media-query($from: tablet) {
         padding-left: $breadcrumb-indent-desktop;
@@ -132,7 +132,7 @@
     }
 
     .feed {
-      margin-top: 10px;
+      margin-top: govuk-spacing(2);
 
       &::before {
         content: '(';
@@ -157,7 +157,7 @@
         background-image: url('/feed-icon-black.png');
         background-position: 0.2em center;
         background-repeat: no-repeat;
-        padding-left: 20px;
+        padding-left: govuk-spacing(4);
         max-width: none;
         display: inline-block !important;
         padding-right: 0 !important;
@@ -167,7 +167,7 @@
           background-image: url('/feed-icon-black.png');
           background-position: 0.2em center;
           background-repeat: no-repeat;
-          padding-left: 25px;
+          padding-left: govuk-spacing(5);
           font-size: 1rem;
           padding-top: 0 !important;
         }

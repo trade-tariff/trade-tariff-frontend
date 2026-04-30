@@ -1,8 +1,8 @@
 .app-card {
   background-color: #f8f8f8;
   display: block;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: govuk-spacing(4);
+  margin-bottom: govuk-spacing(4);
   @include govuk-media-query(desktop) {
     min-height: 160px;
   }

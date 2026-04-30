@@ -1,5 +1,5 @@
 .country-picker {
-  margin-bottom: 30px;
+  margin-bottom: govuk-spacing(6);
   .country-picker-container {
     @include govuk-media-query($from: tablet) {
       display: table;
@@ -17,7 +17,7 @@
     }
 
     .autocomplete__wrapper {
-      margin-bottom: 10px;
+      margin-bottom: govuk-spacing(2);
 
       @include govuk-media-query($from: tablet) {
         margin-bottom: 0;
@@ -32,9 +32,9 @@
       display: none; /* TODO: Do not depend on javascript to show this */
       width: 1%;
       white-space: nowrap;
-      padding-bottom: 5px;
+      padding-bottom: govuk-spacing(1);
       vertical-align: bottom;
-      margin-top: 10px;
+      margin-top: govuk-spacing(2);
 
       @include govuk-media-query($from: tablet) {
         padding-left: 1em;

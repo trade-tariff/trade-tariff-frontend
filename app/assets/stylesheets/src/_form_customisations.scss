@@ -12,7 +12,7 @@
 
 #tariff_date_date {
   width: 140px;
-  margin-left: 15px;
+  margin-left: govuk-spacing(3);
 }
 
 #search-datepicker-button {
@@ -24,7 +24,7 @@
   display: inline-block;
   position: relative;
   top: 5px;
-  margin-right: 15px;
+  margin-right: govuk-spacing(3);
   cursor: pointer;
   border: 2px solid transparent;
   padding: 3px 6px;

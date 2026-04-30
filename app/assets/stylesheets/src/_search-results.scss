@@ -42,7 +42,7 @@
 
   .results-subset {
     position: relative;
-    margin-bottom: 60px;
+    margin-bottom: govuk-spacing(9);
     list-style-type: none;
     padding: 0;
     font-size: 1.25em;
@@ -80,7 +80,7 @@
       position: relative;
       display: block;
       line-height: 30px;
-      margin-top: 5px;
+      margin-top: govuk-spacing(1);
       word-wrap: break-word;
       font-size: 1rem;
       min-height: 30px;

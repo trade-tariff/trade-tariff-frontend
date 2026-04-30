@@ -23,14 +23,14 @@
     @for $i from 2 through 16 {
       &:nth-of-type(#{$i}) {
         .commodity-ancestors__descriptor {
-          margin-left: ($i - 2) * 10 + 10px;
+          margin-left: ($i - 2) * 10 + govuk-spacing(2);
 
           &::before {
             left: ($i - 2) * 10 - 2px;
           }
 
           @include govuk-media-query($from: tablet) {
-            margin-left: ($i - 2) * 20 + 20px;
+            margin-left: ($i - 2) * 20 + govuk-spacing(4);
 
             &::before {
               left: ($i - 2) * 20 + 4px;

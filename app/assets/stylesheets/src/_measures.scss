@@ -9,14 +9,14 @@
     height: 100%;
     background-color: $highlight-colour;
     @include govuk-media-query($from: tablet) {
-      margin-bottom: -30px;
+      margin-bottom: govuk-spacing(-6);
     }
   }
 }
 
 .notes {
   @include govuk-font($size: 19, $weight: normal);
-  margin-bottom: 60px;
+  margin-bottom: govuk-spacing(9);
 
   h2, li {
     margin-bottom: 1em;
@@ -63,8 +63,8 @@ dt.has_children + dd[aria-hidden="true"] {
 }
 
 .meursing-form-textual-button {
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: govuk-spacing(3);
+  margin-right: govuk-spacing(3);
   top: 9px !important;
   position: relative;
 }
