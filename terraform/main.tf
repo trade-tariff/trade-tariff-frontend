@@ -34,7 +34,7 @@ module "service" {
   autoscaling_metrics = {
     cpu = {
       metric_type  = "ECSServiceAverageCPUUtilization"
-      target_value = 55
+      target_value = 50
     }
     memory = {
       metric_type  = "ECSServiceAverageMemoryUtilization"
