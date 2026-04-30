@@ -3,15 +3,15 @@
 }
 
 .govuk-back-link + .govuk-main-wrapper {
-  padding-top: 20px !important;
+  padding-top: govuk-spacing(4) !important;
 
   header h1 {
-    margin-bottom: 30px !important;
+    margin-bottom: govuk-spacing(6) !important;
   }
 
   .search-header fieldset {
-    margin-top: 5px !important;
-    margin-bottom: 10px !important;
+    margin-top: govuk-spacing(1) !important;
+    margin-bottom: govuk-spacing(2) !important;
   }
 }
 
@@ -24,7 +24,7 @@
 }
 
 #last-updated-at {
-  margin-top: 30px;
+  margin-top: govuk-spacing(6);
 }
 
 .pull-left {
@@ -47,7 +47,7 @@
 // terms
 .govuk-warning-text {
   p {
-    margin-top: 10px;
+    margin-top: govuk-spacing(2);
   }
 }
 

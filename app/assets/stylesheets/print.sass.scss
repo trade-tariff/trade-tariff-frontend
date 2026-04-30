@@ -169,15 +169,10 @@ table.measures {
   .commodity-tree-note {
     left: 0;
     right: 0;
-    margin: 15px;
+    margin: govuk-spacing(3);
     color: govuk-functional-colour(secondary-text);
     font-size: 14px;
-
-    &:after {
-      content: "";
-      display: block;
-      clear: both;
-    }
+    @include govuk-clearfix;
 
     span {
       position: absolute;
@@ -206,7 +201,7 @@ table.measures {
     em {
       font-style: normal;
       float: left;
-      margin-left: 15px;
+      margin-left: govuk-spacing(3);
 
       &:first-of-type {
         margin-left: 0;
@@ -269,7 +264,7 @@ table.measures {
   }
 
   ul.commodities {
-    @include contain-float;
+    @include govuk-clearfix;
     margin: 1em;
     position: relative;
     font-size: 14px;
@@ -279,7 +274,7 @@ table.measures {
     }
 
     li {
-      @include contain-float;
+      @include govuk-clearfix;
       @include indented-list(13);
       display: block;
       margin: 0;
@@ -322,6 +317,7 @@ table.measures {
         position: absolute;
         right: 0;
         bottom: 0;
+        @include govuk-clearfix;
 
         @media (orientation: portrait) {
           width: 200px;
@@ -332,19 +328,12 @@ table.measures {
           float: none !important;
         }
 
-        &:after {
-          clear: both;
-          content: " ";
-          display: table;
-          zoom: 1;
-        }
-
         .vat,
         .duty,
         .supplementary-units {
           display: none;
           float: left;
-          margin-right: 15px;
+          margin-right: govuk-spacing(3);
           color: govuk-functional-colour(text);
           font-weight: normal;
           font-size: 14px;
@@ -396,7 +385,7 @@ table.measures {
       article & a,
       .js-enabled article & a {
         display: block;
-        @include contain-float;
+        @include govuk-clearfix;
         margin-left: 0;
         padding-left: 0;
       }
@@ -523,7 +512,7 @@ li.has_children {
 .commodity-tree-note {
   background: $table-header-bg;
   margin: 0 !important;
-  padding: 15px;
+  padding: govuk-spacing(3);
 }
 
 .pagination {

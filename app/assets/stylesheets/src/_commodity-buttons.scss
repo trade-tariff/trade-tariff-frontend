@@ -8,8 +8,8 @@
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.25;
-  padding: 10px;
-  margin: 0px;
+  padding: govuk-spacing(2);
+  margin: 0;
   border-width: 1px;
   border-style: solid;
   border-color: rgb(80, 90, 95);
@@ -24,7 +24,7 @@
 }
 
 .commodity-action-button + .commodity-action-button {
-  margin-left: 20px;
+  margin-left: govuk-spacing(4);
 }
 
 .commodity-action-button:hover {
@@ -66,7 +66,7 @@
 .commodity-action-button__icon {
   color: govuk-functional-colour(text);
   vertical-align: top;
-  margin-right: 5px;
+  margin-right: govuk-spacing(1);
 }
 
 .commodity-action-button__copy-trigger {

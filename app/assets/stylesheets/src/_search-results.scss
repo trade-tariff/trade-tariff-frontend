@@ -14,7 +14,7 @@
 
   .results-subset {
     position: relative;
-    margin-bottom: 60px;
+    margin-bottom: govuk-spacing(9);
     list-style-type: none;
     padding: 0;
     font-size: 1.25em;
@@ -29,13 +29,7 @@
     .full-code {
       right: 1em;
       height: 30px;
-
-      &:after {
-        content: " ";
-        display: table;
-        clear: both;
-        zoom: 1;
-      }
+      @include govuk-clearfix;
     }
 
     .line-text {
@@ -53,7 +47,7 @@
       position: relative;
       display: block;
       line-height: 30px;
-      margin-top: 5px;
+      margin-top: govuk-spacing(1);
       word-wrap: break-word;
       font-size: 1rem;
       min-height: 30px;
@@ -116,10 +110,9 @@
       a {
         display: block;
         padding-top: 3px;
-        text-decoration: none;
-        &:hover {
-          text-decoration: underline;
-        }
+        @include govuk-link-common;
+        @include govuk-link-style-default;
+        @include govuk-link-style-no-underline;
       }
     }
   }

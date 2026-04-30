@@ -213,11 +213,11 @@ class GroupedMeasuresPresenter
   private
 
   def uk_import_measures
-    uk_declarable&.import_measures
+    @uk_import_measures ||= uk_declarable&.import_measures
   end
 
   def xi_import_measures
-    xi_declarable.import_measures
+    @xi_import_measures ||= xi_declarable.import_measures
   end
 
   def sorted_by_key(measures)

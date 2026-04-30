@@ -20,13 +20,13 @@
   background-color: $chapter-code-bg;
   width: $chapter-code-width;
   height: $chapter-code-height;
-  margin-right: 5px;
+  margin-right: govuk-spacing(1);
 }
 .heading-code {
   background-color: $heading-code-bg;
   width: $heading-code-width;
   height: $chapter-code-height;
-  margin-right: 5px;
+  margin-right: govuk-spacing(1);
 }
 .chapter-heading-code {
   @extend .govuk-tag--grey;
@@ -56,7 +56,7 @@
     line-height: 30px;
 
     & + .code-text {
-      margin-left: 5px;
+      margin-left: govuk-spacing(1);
     }
   }
 }

@@ -22,7 +22,7 @@
 
 .gem-c-contents-list {
   position: relative;
-  margin: 0 0 20px 0;
+  margin: 0 0 govuk-spacing(4) 0;
   z-index: 1;
   background: #fff;
   box-shadow: 0 20px 15px -10px #fff;
@@ -151,7 +151,7 @@
 }
 
 .gem-c-contents-list__list-item {
-  padding-top: 10px;
+  padding-top: govuk-spacing(2);
   line-height: 1.3;
   list-style-type: none;
 }
@@ -164,8 +164,8 @@
 
 .gem-c-contents-list__list-item--dashed {
   position: relative;
-  padding-left: 25px;
-  padding-right: 25px;
+  padding-left: govuk-spacing(5);
+  padding-right: govuk-spacing(5);
 }
 
 .gem-c-contents-list__list-item--dashed:before {

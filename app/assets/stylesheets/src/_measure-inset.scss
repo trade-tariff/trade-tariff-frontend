@@ -4,9 +4,9 @@
 
     border-left: 10px solid $feature-panel-border-left;
 
-    padding: 15px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding: govuk-spacing(3);
+    margin-top: govuk-spacing(4);
+    margin-bottom: govuk-spacing(4);
     clear: both;
 
     img {
@@ -21,15 +21,15 @@
     }
 
     & > img + div {
-      margin-left: 60px;
+      margin-left: govuk-spacing(9);
     }
   }
 
   .vat-excise-panel {
-    padding: 5px;
+    padding: govuk-spacing(1);
 
     li:not(:last-child) {
-      margin-bottom: 5px;
+      margin-bottom: govuk-spacing(1);
     }
 
     ul {

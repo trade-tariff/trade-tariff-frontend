@@ -51,18 +51,13 @@
   .commodity-tree-note {
     left: 0;
     right: 0;
-    margin: 15px;
+    margin: govuk-spacing(3);
     color: govuk-functional-colour(secondary-text);
     font-size: 14px;
+    @include govuk-clearfix;
 
     @include govuk-media-query($until: tablet) {
       margin-bottom: 0;
-    }
-
-    &:after {
-      content: "";
-      display: block;
-      clear: both;
     }
 
     span {
@@ -92,7 +87,7 @@
     em {
       font-style: normal;
       float: left;
-      margin-left: 15px;
+      margin-left: govuk-spacing(3);
 
       &:first-of-type {
         margin-left: 0;
@@ -159,7 +154,7 @@
   }
 
   ul.commodities {
-    @include contain-float;
+    @include govuk-clearfix;
     padding: 0;
     margin: 1em;
     position: relative;
@@ -175,7 +170,7 @@
     }
 
     li {
-      @include contain-float;
+      @include govuk-clearfix;
       @include indented-list(13);
       display: block;
       margin: 0;
@@ -244,6 +239,7 @@
 
   .commodity__info {
     font-size: 16px;
+    @include govuk-clearfix;
 
     @include govuk-media-query($from: tablet) {
       float: right;
@@ -254,19 +250,12 @@
       float: none !important;
     }
 
-    &:after {
-      clear: both;
-      content: " ";
-      display: table;
-      zoom: 1;
-    }
-
     .vat,
     .duty,
     .supplementary-units {
       display: none;
       float: left;
-      margin-right: 15px;
+      margin-right: govuk-spacing(3);
       color: govuk-functional-colour(text);
       font-weight: normal;
       font-size: 0.9em;
@@ -342,7 +331,7 @@
   article & a,
   .js-enabled article & a {
     display: block;
-    @include contain-float;
+    @include govuk-clearfix;
     margin-left: 0;
     padding-left: 0;
     min-height: 1.6rem;
