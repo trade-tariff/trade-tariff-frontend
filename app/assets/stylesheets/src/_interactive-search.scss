@@ -1,10 +1,5 @@
 @use "sass:color";
 
-// Blue left-border variant of govuk-inset-text for interactive search feedback
-.app-inset-text--blue {
-  border-left-color: govuk-functional-colour(brand);
-}
-
 // Interactive search Q&A styles
 
 .interactive-results .interactive-result {
@@ -88,46 +83,6 @@
       color: govuk-functional-colour(text);
       background-color: color.adjust(govuk-colour("black", $variant: "tint-95"), $lightness: -3%);
     }
-  }
-}
-
-// Feedback banner - thin blue top line, heading and button on same line
-.app-feedback-banner {
-  border-top: 2px solid govuk-functional-colour(brand);
-  padding-top: govuk-spacing(4);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.app-feedback-banner__heading {
-  flex: 1;
-}
-
-.app-feedback-banner__button {
-  width: auto;
-  margin-bottom: 0;
-  background-color: govuk-functional-colour(body-background);
-  color: govuk-functional-colour(text);
-  border: 1px solid govuk-functional-colour(text);
-  border-bottom-width: 3px;
-  box-shadow: none;
-  flex-shrink: 0;
-
-  &:link,
-  &:visited,
-  &:hover,
-  &:active {
-    color: govuk-functional-colour(text);
-  }
-
-  &:hover {
-    background-color: govuk-colour("black", $variant: "tint-95");
-  }
-
-  &:active {
-    border-bottom-width: 1px;
-    top: 2px;
   }
 }
 
