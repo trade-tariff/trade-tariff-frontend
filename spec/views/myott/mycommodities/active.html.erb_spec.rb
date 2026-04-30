@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'myott/mycommodities/expired.html.erb', type: :view do
+RSpec.describe 'myott/mycommodities/active.html.erb', type: :view do
   subject(:rendered_page) do
     render
     rendered
@@ -10,13 +10,10 @@ RSpec.describe 'myott/mycommodities/expired.html.erb', type: :view do
     build(
       :kaminari,
       collection: [
+        build(:subscription_target),
         build(
           :subscription_target,
-          target_object: build(:tariff_changes_commodity, validity_end_date: Date.new(2026, 4, 1)).attributes.symbolize_keys,
-        ),
-        build(
-          :subscription_target,
-          target_object: build(:tariff_changes_commodity, goods_nomenclature_item_id: '0987654321', validity_end_date: Date.new(2026, 4, 2)).attributes.symbolize_keys,
+          target_object: build(:tariff_changes_commodity, goods_nomenclature_item_id: '0987654321').attributes.symbolize_keys,
         ),
       ],
     )

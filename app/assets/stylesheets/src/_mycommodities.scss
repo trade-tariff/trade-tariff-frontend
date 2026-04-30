@@ -72,13 +72,13 @@
     }
   }
 
-  .myott-mycommodities__expired-table {
+  .myott-mycommodities__responsive-table {
     @include govuk-media-query($until: tablet) {
       display: none;
     }
   }
 
-  .myott-mycommodities__expired-mobile-cards {
+  .myott-mycommodities__responsive-mobile-cards {
     display: none;
 
     @include govuk-media-query($until: tablet) {
