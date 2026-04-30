@@ -57,13 +57,7 @@
     .full-code {
       right: 1em;
       height: 30px;
-
-      &:after {
-        content: " ";
-        display: table;
-        clear: both;
-        zoom: 1;
-      }
+      @include govuk-clearfix;
     }
 
     .line-text {

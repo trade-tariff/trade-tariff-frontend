@@ -200,12 +200,7 @@ article.tariff {
     margin: govuk-spacing(3);
     color: govuk-functional-colour(secondary-text);
     font-size: 14px;
-
-    &:after {
-      content: "";
-      display: block;
-      clear: both;
-    }
+    @include govuk-clearfix;
 
     span {
       position: absolute;
@@ -297,7 +292,7 @@ article.tariff {
   }
 
   ul.commodities {
-    @include contain-float;
+    @include govuk-clearfix;
     margin: 1em;
     position: relative;
     font-size: 14px;
@@ -307,7 +302,7 @@ article.tariff {
     }
 
     li {
-      @include contain-float;
+      @include govuk-clearfix;
       @include indented-list(13);
       display: block;
       margin: 0;
@@ -350,6 +345,7 @@ article.tariff {
         position: absolute;
         right: 0;
         bottom: 0;
+        @include govuk-clearfix;
 
         @media (orientation: portrait) {
           width: 200px;
@@ -358,13 +354,6 @@ article.tariff {
 
         .lte-ie8 & {
           float: none !important;
-        }
-
-        &:after {
-          clear: both;
-          content: " ";
-          display: table;
-          zoom: 1;
         }
 
         .vat,
@@ -424,7 +413,7 @@ article.tariff {
       article & a,
       .js-enabled article & a {
         display: block;
-        @include contain-float;
+        @include govuk-clearfix;
         margin-left: 0;
         padding-left: 0;
       }
