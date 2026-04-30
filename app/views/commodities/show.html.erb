@@ -1,12 +1,13 @@
 <% cacheable = params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
 
-<% content = capture do %>
-  <% content_for :head do %>
-    <meta name="description" content="<%= declarable.description_plain %>">
-  <% end %>
+<%# These are always needed regardless of cache state — set them before the cache block. %>
+<% content_for :title, strip_tags(commodity_title(declarable)) %>
+<% content_for :head do %>
+  <meta name="description" content="<%= declarable.description_plain %>">
+<% end %>
+<% content_for :bodyClasses, "page--wide" %>
 
-  <% content_for :bodyClasses, "page--wide" %>
-
+<% cache_if(cacheable, commodity_cache_key) do %>
   <%= render 'commodities/header', commodity_code: declarable.code %>
 
   <% declarable.critical_footnotes.each do |footnote| %>
@@ -41,10 +42,4 @@
             roo_all_schemes: @roo_all_schemes %>
 
   <%= render 'commodities/help_popup' %>
-<% end %>
-
-<% if cacheable %>
-  <%= cache(commodity_cache_key) { concat(content) } %>
-<% else %>
-  <%= content %>
 <% end %>
