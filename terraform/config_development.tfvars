@@ -4,4 +4,4 @@ cpu          = 1024
 memory       = 2048
 max_capacity = 1
 
-enable_service_count_alarm = false
+enable_alarms = false
