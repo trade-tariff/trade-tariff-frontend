@@ -1,3 +1,19 @@
 @function px($value) {
   @return $value * 1px;
 }
+
+@mixin govuk-link-button-reset {
+  @include govuk-link-common;
+  @include govuk-link-style-default;
+
+  color: govuk-functional-colour(link);
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  border: none;
+  font-size: 1rem;
+
+  &:focus {
+    @include govuk-focused-text;
+  }
+}

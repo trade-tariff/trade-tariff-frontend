@@ -143,10 +143,9 @@
       a {
         display: block;
         padding-top: 3px;
-        text-decoration: none;
-        &:hover {
-          text-decoration: underline;
-        }
+        @include govuk-link-common;
+        @include govuk-link-style-default;
+        @include govuk-link-style-no-underline;
       }
     }
   }
