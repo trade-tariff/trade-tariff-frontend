@@ -4,4 +4,4 @@ cpu          = 1024
 memory       = 2048
 max_capacity = 1
 
-# enable_alarms = false ## UNCOMMENT AFTER TESTING
+enable_alarms = false
