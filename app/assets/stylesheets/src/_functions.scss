@@ -2,17 +2,6 @@
   @return $value * 1px;
 }
 
-@mixin contain-float {
-  zoom: 1;
-  &:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-  }
-}
-
 @mixin govuk-link-button-reset {
   @include govuk-link-common;
   @include govuk-link-style-default;
