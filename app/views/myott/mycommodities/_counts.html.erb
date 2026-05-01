@@ -11,14 +11,14 @@
     <div class="category_container">
       Errors from upload:
       <br />
-      <%= link_to number_with_delimiter(commodity_codes.invalid), invalid_myott_mycommodities_path, class: "govuk-link--no-visited-state" %>
+      <%= govuk_link_to number_with_delimiter(commodity_codes.invalid), invalid_myott_mycommodities_path, no_visited_state: true %>
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
     <div class="category_container">
       Expired commodities:
       <br />
-      <%= link_to number_with_delimiter(commodity_codes.expired), expired_myott_mycommodities_path, class: "govuk-link--no-visited-state" %>
+      <%= govuk_link_to number_with_delimiter(commodity_codes.expired), expired_myott_mycommodities_path, no_visited_state: true %>
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
@@ -28,7 +28,7 @@
       <% if commodity_codes.active.zero? %>
         0
       <% else %>
-        <%= link_to number_with_delimiter(commodity_codes.active), active_myott_mycommodities_path, class: "govuk-link--no-visited-state" %>
+        <%= govuk_link_to number_with_delimiter(commodity_codes.active), active_myott_mycommodities_path, no_visited_state: true %>
       <% end %>
     </div>
   </div>

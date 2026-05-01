@@ -20,58 +20,57 @@
     <h2 class="gem-c-contents-list__title">Contents</h2>
     <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#leave-feedback">Leave feedback</a>
+        <%= govuk_link_to 'Leave feedback', '#leave-feedback', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="/howto/commodity-codes">How to classify your goods: what are commodity codes?</a>
+        <%= govuk_link_to 'How to classify your goods: what are commodity codes?', '/howto/commodity-codes', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="/howto/quotas">A background to quotas</a>
+        <%= govuk_link_to 'A background to quotas', '/howto/quotas', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="/howto/valuation">How to value your goods for import or export</a>
+        <%= govuk_link_to 'How to value your goods for import or export', '/howto/valuation', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="/howto/trade-remedies">What are trade remedies, safeguards and retaliatory duties?</a>
+        <%= govuk_link_to 'What are trade remedies, safeguards and retaliatory duties?', '/howto/trade-remedies', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="/howto/origin">What is origin and why is it important for international trade?</a>
+        <%= govuk_link_to 'What is origin and why is it important for international trade?', '/howto/origin', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#getting-help">Getting help from HMRC if you need to find a commodity code</a>
+        <%= govuk_link_to 'Getting help from HMRC if you need to find a commodity code', '#getting-help', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#consignment">Goods that cannot be imported in a single consignment</a>
+        <%= govuk_link_to 'Goods that cannot be imported in a single consignment', '#consignment', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#sets">Items packaged as a set</a>
+        <%= govuk_link_to 'Items packaged as a set', '#sets', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#made-of">Checking what your goods are made of</a>
+        <%= govuk_link_to 'Checking what your goods are made of', '#made-of', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#difficult-to-classify">Goods that are difficult to classify</a>
+        <%= govuk_link_to 'Goods that are difficult to classify', '#difficult-to-classify', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#rules-of-origin">Rules
-        of origin</a>
+        <%= govuk_link_to 'Rules of origin', '#rules-of-origin', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
       <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-        <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#ask-a-question">Ask a question</a>
+        <%= govuk_link_to 'Ask a question', '#ask-a-question', class: 'gem-c-contents-list__link', no_underline: true %>
       </li>
     </ol>
 
     <h2 class="govuk-heading-s" id="leave-feedback">Leave feedback</h2>
-    <p><%= link_to 'Leave feedback or suggestions for improvements to this service.', feedback_link_url, target: '_blank', rel: 'noopener' %></p>
+    <p><%= govuk_link_to 'Leave feedback or suggestions for improvements to this service.', feedback_link_url, new_tab: govuk_visually_hidden('(opens in new tab)') %></p>
 
     <h2 class="govuk-heading-s" id="getting-help">Getting help from HMRC if you need to find a commodity code</h2>
-    <p>If you <%= link_to 'cannot find the right commodity code for your goods', help_find_commodity_path %>, you can contact HMRC for advice or for a decision on your goods.</p>
+    <p>If you <%= govuk_link_to 'cannot find the right commodity code for your goods', help_find_commodity_path %>, you can contact HMRC for advice or for a decision on your goods.</p>
 
     <%= render 'shared/webchat_message/help' %>
 
     <h2 class="govuk-heading-s" id="consignment">Goods that cannot be imported in a single consignment</h2>
     <p>If you have goods (like large machinery) that cannot be transported in a single consignment, you may need to split them up.</p>
-    <p><a href="https://www.gov.uk/guidance/split-consignments-tariff-classification-and-import-procedures" class="govuk-link">Find out if your goods qualify for import in split consignments</a> and what you need to do to import goods in this way.</p>
+    <p><%= govuk_link_to 'Find out if your goods qualify for import in split consignments', 'https://www.gov.uk/guidance/split-consignments-tariff-classification-and-import-procedures' %> and what you need to do to import goods in this way.</p>
 
     <h2 class="govuk-heading-s" id="sets">Items packaged as a set</h2>
     <p>If your items are packaged in a set to sell and be used together, you should classify them using the most significant item in that set.</p>
@@ -85,7 +84,7 @@
     <h2 class="govuk-heading-s" id="made-of">Checking what your goods are made of</h2>
     <p>For certain types of goods, you may need precise details of what your goods are made up of. For these you may want to get advice from an independent laboratory.</p>
 
-    <p>You can find a list of analysts in the <a rel="external" href="https://www.rsc.org/membership-and-community/directory-of-consultants/" class="govuk-link">directory of consultants for the Royal Society of Chemistry</a>.</p>
+    <p>You can find a list of analysts in the <%= govuk_link_to 'directory of consultants for the Royal Society of Chemistry', 'https://www.rsc.org/membership-and-community/directory-of-consultants/', rel: 'external' %>.</p>
 
     <h2 class="govuk-heading-s" id="difficult-to-classify">Goods that are difficult to classify</h2>
     <p>Some goods are more difficult to classify than others. You can read more on how to classify these goods correctly:</p>
@@ -96,15 +95,15 @@
 
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <%= link_to 'Rules of origin glossary', glossary_terms_path %>
+        <%= govuk_link_to 'Rules of origin glossary', glossary_terms_path %>
       </li>
       <li>
-        <%= link_to 'Duty drawback', rules_of_origin_duty_drawback_path %><br>Find out about duty drawback and the Trade
+        <%= govuk_link_to 'Duty drawback', rules_of_origin_duty_drawback_path %><br>Find out about duty drawback and the Trade
         Agreements that include it
       </li>
     </ul>
     <h2 class="govuk-heading-s" id="ask-a-question">Ask a question</h2>
-    <p>If you are unable to find the information you need, you can submit a question using our <%= link_to 'enquiry form', product_experience_enquiry_form_path %>.</p>
+    <p>If you are unable to find the information you need, you can submit a question using our <%= govuk_link_to 'enquiry form', product_experience_enquiry_form_path %>.</p>
   </div>
   <div class="govuk-grid-column-one-third">
     <div class="gem-c-related-navigation">
@@ -114,7 +113,7 @@
         <p class="govuk-body-s">On 1 January 2022, the UK introduced its 2022 Integrated Tariff, which incorporates the WCO's changes to the Harmonised System Nomenclature.</p>
         <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
           <li class="gem-c-related-navigation__link">
-            <%= link_to('View the correlation of commodity codes, at 8-digit level, from the 2021 Tariff to that of 2022', cn2021_cn2022_path, class: 'govuk-link govuk-link gem-c-related-navigation__section-link govuk-link gem-c-related-navigation__section-link--sidebar  govuk-link gem-c-related-navigation__section-link--other') %>.
+            <%= govuk_link_to('View the correlation of commodity codes, at 8-digit level, from the 2021 Tariff to that of 2022', cn2021_cn2022_path, class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other') %>.
           </li>
         </ul>
       </nav>
@@ -124,7 +123,7 @@
       <nav role="navigation" class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-40a88cdf" data-module="gem-toggle" data-gem-toggle-module-started="true">
         <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
           <li class="gem-c-related-navigation__link">
-            <%= link_to(t('green_lanes_faq.page_title'),  green_lanes_faq_path, class: 'govuk-link govuk-link gem-c-related-navigation__section-link govuk-link gem-c-related-navigation__section-link--sidebar  govuk-link gem-c-related-navigation__section-link--other') %>
+            <%= govuk_link_to(t('green_lanes_faq.page_title'),  green_lanes_faq_path, class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other') %>
           </li>
         </ul>
       </nav>
@@ -135,7 +134,7 @@
         <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
 
           <li class="gem-c-related-navigation__link">
-            <%= link_to "Document Code 999L", help_changes_999l_path %>
+            <%= govuk_link_to 'Document Code 999L', help_changes_999l_path %>
           </li>
 
           <li class="gem-c-related-navigation__link">

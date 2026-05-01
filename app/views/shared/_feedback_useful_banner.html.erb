@@ -5,7 +5,7 @@
       <p class="govuk-body govuk-!-margin-bottom-0">Tell us about your experience using this service to help us improve it.</p>
     </div>
     <div class="govuk-footer__meta-item">
-      <%= link_to 'Share your feedback', feedback_link_url, class: 'govuk-button govuk-button--secondary', **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %>
+      <%= govuk_button_link_to 'Share your feedback', feedback_link_url, secondary: true, **(subscriptions_page? ? {} : { new_tab: govuk_visually_hidden('(opens in new tab)') }) %>
     </div>
   </div>
 </div>

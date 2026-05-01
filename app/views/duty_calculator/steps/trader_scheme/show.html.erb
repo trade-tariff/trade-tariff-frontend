@@ -12,7 +12,7 @@
   <%= f.govuk_submit %>
 <% end %>
 
-<p class='govuk-body'>If you are not yet authorised, then you can <%= link_to("find out more about applying for authorisation for the UK Internal Market Scheme", 'https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland', class: 'govuk-link') %>.</p>
+<p class='govuk-body'>If you are not yet authorised, then you can <%= govuk_link_to("find out more about applying for authorisation for the UK Internal Market Scheme", 'https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland') %>.</p>
 
 <%= render 'duty_calculator/shared/commodity_details' %>
 
@@ -20,7 +20,7 @@
   <h2 class="govuk-heading-m govuk-!-margin-top-3"><%= explore_topic_title %></h2>
   <ul class="govuk-list">
     <li>
-      <%= link_to("Apply for authorisation for the #{market_scheme_type}", 'https://www.gov.uk/government/news/windsor-framework-unveiled-to-fix-problems-of-the-northern-ireland-protocol', class: 'govuk-link') %>
+      <%= govuk_link_to("Apply for authorisation for the #{market_scheme_type}", 'https://www.gov.uk/government/news/windsor-framework-unveiled-to-fix-problems-of-the-northern-ireland-protocol') %>
     </li>
   </ul>
 </div>

@@ -25,9 +25,8 @@
 
           <% if category_assessment.regulation_url.present? %>
           <p>
-            <%= link_to 'View Regulation document',
-                        category_assessment.regulation_url,
-                        class: 'govuk-link', target: '_blank', rel: 'noopener noreferrer'
+            <%= govuk_link_to 'View Regulation document',
+                        category_assessment.regulation_url, new_tab: govuk_visually_hidden('(opens in new tab)')
             %>
           </p>
           <% end %>

@@ -10,12 +10,10 @@
     World Trade Organisation (WTO) Valuation Agreement.
   </p>
   <p class="govuk-hint govuk-!-margin-bottom-7">
-    <%= link_to(
+    <%= govuk_link_to(
       'How to calculate the customs value of your goods.',
       'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics',
-      class: 'govuk-link',
-      target: '_blank',
-      rel: 'noopener norefferer',
+      new_tab: govuk_visually_hidden('(opens in new tab)')
     ) %>
   </p>
   <%= f.govuk_text_field :monetary_value, width: 'one-quarter', label: { text: 'What is the value in GBP of the goods being imported?', class: 'govuk-label govuk-label--s' }, prefix_text: '£' %>
@@ -29,7 +27,7 @@
   <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
   <ul class="govuk-list">
     <li>
-      <%= link_to('Valuation of imported goods for customs purposes, VAT and trade statistics', 'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics', class: 'govuk-link') %>
+      <%= govuk_link_to('Valuation of imported goods for customs purposes, VAT and trade statistics', 'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics') %>
     </li>
   </ul>
 </div>

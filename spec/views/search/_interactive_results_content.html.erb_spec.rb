@@ -117,7 +117,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
     it 'opens commodity links in a new tab' do
       render partial: 'search/interactive_results_content'
 
-      expect(rendered).to have_css('a[target="_blank"][rel="noopener noreferrer"]', text: 'View this commodity code (opens in new tab)')
+      expect(rendered).to have_css('a[target="_blank"][rel="noreferrer noopener"]', text: 'View this commodity code (opens in new tab)')
     end
   end
 

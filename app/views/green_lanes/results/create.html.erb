@@ -14,7 +14,6 @@
 
 <%= render partial: "result_category_#{@category}" %>
 
-<%= link_to 'Check the category of other goods',
-             green_lanes_moving_requirements_path,
-             class: 'govuk-button govuk-button--secondary'
-%>
+<%= govuk_button_link_to 'Check the category of other goods',
+                         green_lanes_moving_requirements_path,
+                         secondary: true %>
