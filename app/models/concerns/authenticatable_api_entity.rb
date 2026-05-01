@@ -23,6 +23,23 @@ module AuthenticatableApiEntity
       handle_unauthorized_error(e, default_return: [])
     end
 
+    def create!(id, token, attributes = {})
+      return nil if token.nil? && !Rails.env.development?
+
+      json_api_params = {
+        data: {
+          attributes: attributes,
+        },
+      }
+
+      path = singular_path.sub(':id', id.to_s)
+      request = prepare_json_request(json_api_params, headers(token))
+      response = api.post(path, request[:body], request[:headers])
+      new(parse_jsonapi(response))
+    rescue Faraday::UnauthorizedError => e
+      handle_unauthorized_error(e)
+    end
+
     def headers(token)
       {
         authorization: "Bearer #{token}",

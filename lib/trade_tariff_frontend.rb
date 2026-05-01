@@ -150,6 +150,10 @@ module TradeTariffFrontend
     @basic_session_passwords ||= basic_session_password.to_s.split(',').map(&:strip).reject(&:blank?)
   end
 
+  def myott_data_export_enabled?
+    ENV['MYOTT_DATA_EXPORT_ENABLED'].to_s == 'true'
+  end
+
   class FilterBadURLEncoding
     def initialize(app)
       @app = app
