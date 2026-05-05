@@ -73,9 +73,9 @@
           <% @targets.each do |target| %>
             <div class="govuk-summary-card">
               <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">
-                  Commodity: <%= segmented_commodity_code(target.goods_nomenclature_item_id) %>
-                </h2>
+                <h3 class="govuk-summary-card__title">
+                  Commodity: <%= target.goods_nomenclature_item_id %>
+                </h3>
                 <ul class="govuk-summary-card__actions">
                   <li class="govuk-summary-card__action">
                     <%= link_to(commodity_path(target.goods_nomenclature_item_id), target: '_blank', rel: 'noopener') do %>
