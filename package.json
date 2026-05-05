@@ -2,7 +2,7 @@
   "name": "trade-tariff-frontend",
   "private": true,
   "devDependencies": {
-    "@axe-core/playwright": "^4.11.2",
+    "@axe-core/playwright": "^4.11.3",
     "@babel/preset-env": "^7.29.3",
     "@hotwired/stimulus": "^3.2.2",
     "@playwright/test": "^1.59.1",
