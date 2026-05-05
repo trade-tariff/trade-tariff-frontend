@@ -74,7 +74,7 @@
       <% if rules_of_origin_schemes.flat_map(&:links).any? %>
         <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
           <li>
-            <%= link_to link.text, link.url %>
+            <%= govuk_link_to link.text, link.url %>
           </li>
         <% end %>
       <% else %>

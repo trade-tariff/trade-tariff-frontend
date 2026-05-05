@@ -13,7 +13,7 @@
     <%= govuk_link_to(
       'How to calculate the customs value of your goods.',
       'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics',
-      new_tab: govuk_visually_hidden('(opens in new tab)')
+      new_tab: govuk_visually_hidden('opens in new tab')
     ) %>
   </p>
   <%= f.govuk_text_field :monetary_value, width: 'one-quarter', label: { text: 'What is the value in GBP of the goods being imported?', class: 'govuk-label govuk-label--s' }, prefix_text: '£' %>

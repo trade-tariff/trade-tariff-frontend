@@ -26,11 +26,11 @@
           <%= goods_nomenclature_link %>
         </li>
         <li>
-          <%= link_to('Start again', meursing_lookup_step_path(:start, goods_nomenclature_code: current_goods_nomenclature_code)) %>
+          <%= govuk_link_to('Start again', meursing_lookup_step_path(:start, goods_nomenclature_code: current_goods_nomenclature_code)) %>
         </li>
       </ul>
     <% else %>
-      <%= link_to('Start again', meursing_lookup_step_path(:start)) %>
+      <%= govuk_link_to('Start again', meursing_lookup_step_path(:start)) %>
     <% end %>
   </div>
 </div>

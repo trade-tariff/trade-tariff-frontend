@@ -34,7 +34,7 @@
     <p><%= category.regulation.description %></p>
     <% if category.regulation.regulation_url.present? %>
     <p>
-      <%= link_to 'Further information', category.regulation.regulation_url, target: '_blank' %>
+      <%= govuk_link_to 'Further information', category.regulation.regulation_url, new_tab: govuk_visually_hidden('opens in new tab') %>
     </p>
     <% end %>
   </div>

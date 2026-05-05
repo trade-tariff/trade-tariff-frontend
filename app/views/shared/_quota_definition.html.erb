@@ -30,7 +30,7 @@
               <%= quota_definition.measurement_unit %>
               <% unless @search.date.today? %>
                 <br>
-                <%= link_to quota_search_today_params(order_number) do %>
+                <%= govuk_link_to quota_search_today_params(order_number) do %>
                   View balance for <%= Time.zone.today.to_formatted_s :short %>
                 <% end %>
               <% end %>

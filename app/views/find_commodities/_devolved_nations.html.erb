@@ -2,12 +2,12 @@
   <% if TradeTariffFrontend::ServiceChooser.xi? %>
     <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Applies to Northern Ireland</h2>
     <ul class="govuk-list govuk-!-margin-top-1 govuk-!-margin-bottom-0">
-      <li><%= govuk_link_to 'Guidance for England, Scotland and Wales', '/find_commodity'  %></li>
+      <li><%= govuk_link_to 'Guidance for England, Scotland and Wales', '/find_commodity' %></li>
     </ul>
   <% else %>
     <h2 class="govuk-heading-s govuk-!-margin-bottom-0">Applies to England, Scotland and Wales</h2>
     <ul class="govuk-list govuk-!-margin-top-1 govuk-!-margin-bottom-0">
-      <li><%= govuk_link_to 'Guidance for Northern Ireland', '/xi/find_commodity'  %></li>
+      <li><%= govuk_link_to 'Guidance for Northern Ireland', '/xi/find_commodity' %></li>
     </ul>
   <% end %>
 </section>

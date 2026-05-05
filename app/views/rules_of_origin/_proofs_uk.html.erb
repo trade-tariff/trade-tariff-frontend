@@ -33,14 +33,14 @@
 
     <p>
 
-        <%= link_to 'Verification for proving the origin for goods coming from ' + country_name,
+        <%= govuk_link_to 'Verification for proving the origin for goods coming from ' + country_name,
                     rules_of_origin_proof_verification_path(
                       "#{commodity_code}-#{country_code}-#{schemes.first.scheme_code}"
                     ) %>
      </p>
 
       <p>
-        <%= link_to 'Requirements for proving the origin for goods coming from ' + country_name,
+        <%= govuk_link_to 'Requirements for proving the origin for goods coming from ' + country_name,
                     rules_of_origin_proof_requirements_path(
                       "#{commodity_code}-#{country_code}-#{schemes.first.scheme_code}"
                     ) %>
@@ -48,7 +48,7 @@
 
   <% end %>
   <p>
-    <%= link_to 'View valid proofs of origin for all trade agreements',
+    <%= govuk_link_to 'View valid proofs of origin for all trade agreements',
                 rules_of_origin_proofs_path %>
   </p>
 </div>

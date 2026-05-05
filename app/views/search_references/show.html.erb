@@ -22,8 +22,8 @@
       <% @search_references.each do |search_reference| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
-            <%= link_to search_reference.link do %>
-              <%= search_reference %><span class="govuk-visually-hidden"> (code: <%= search_reference.referenced_id %>)</span>
+            <%= govuk_link_to search_reference.link do %>
+              <%= search_reference %><%= govuk_visually_hidden " (code: #{search_reference.referenced_id})" %>
             <% end %>
           </td>
           <td class="govuk-table__cell">

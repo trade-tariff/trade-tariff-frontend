@@ -36,7 +36,7 @@
       <% @result.measures.each do |measure| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
-            <%= link_to  measure.resource_id, simplified_procedural_values_path(simplified_procedural_code: measure.resource_id) %>
+            <%= govuk_link_to measure.resource_id, simplified_procedural_values_path(simplified_procedural_code: measure.resource_id) %>
           </td>
           <td class="govuk-table__cell">
             <%= goods_nomenclature_item_id_links_for(measure.goods_nomenclature_item_ids) %>

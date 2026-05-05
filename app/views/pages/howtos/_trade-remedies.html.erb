@@ -33,14 +33,14 @@
 
 <p>Trade remedies are covered by these WTO agreements:</p>
 <ul class="govuk-list govuk-list--bullet">
-  <li><a target="_blank" href="https://www.wto.org/english/tratop_e/adp_e/antidum2_e.htm">the WTO Agreement on the Implementation of Article VI of the GATT (opens in new window)</a></li>
-  <li><a target="_blank" href="https://www.wto.org/english/tratop_e/scm_e/subs_e.htm">the WTO Agreement on Subsidies and Countervailing Measures (opens in new window)</a></li>
-  <li><a target="_blank" href="https://www.wto.org/english/docs_e/legal_e/25-safeg_e.htm">the WTO Agreement on Safeguards (opens in new window)</a></li>
+  <li><%= govuk_link_to 'the WTO Agreement on the Implementation of Article VI of the GATT', 'https://www.wto.org/english/tratop_e/adp_e/antidum2_e.htm', new_tab: true %></li>
+  <li><%= govuk_link_to 'the WTO Agreement on Subsidies and Countervailing Measures', 'https://www.wto.org/english/tratop_e/scm_e/subs_e.htm', new_tab: true %></li>
+  <li><%= govuk_link_to 'the WTO Agreement on Safeguards', 'https://www.wto.org/english/docs_e/legal_e/25-safeg_e.htm', new_tab: true %></li>
 </ul>
 
 <h2 class="govuk-heading-m" id="usage">How does the UK apply trade remedies?</h2>
 
-<p>In the UK, trade remedies investigations are conducted by the Trade Remedies Authority. The <a href="https://www.trade-remedies.service.gov.uk" target="_blank">Trade Remedies Service</a> allows UK companies to participate in ongoing trade remedies cases and request new reviews.</p>
+<p>In the UK, trade remedies investigations are conducted by the Trade Remedies Authority. The <%= govuk_link_to 'Trade Remedies Service', 'https://www.trade-remedies.service.gov.uk', new_tab: govuk_visually_hidden('opens in new tab') %> allows UK companies to participate in ongoing trade remedies cases and request new reviews.</p>
 
 <h2 class="govuk-heading-m" id="impact">How do trade remedies impact UK importers?</h2>
 
@@ -62,7 +62,7 @@
 </ul>
 
 <p class="govuk-!-margin-top-2">In many cases, a safeguard mechanism, which would ordinarily apply a surcharge on your import duties,
-  may be waived via the use of a <a href="/howto/quotas">quota</a>, if the quota has not been exhausted. Quotas are listed in the quota section of the import tab.</p>
+  may be waived via the use of a <%= govuk_link_to 'quota', '/howto/quotas' %>, if the quota has not been exhausted. Quotas are listed in the quota section of the import tab.</p>
 
 <p>For trade remedies, the tariff additionally shows:</p>
 
@@ -75,6 +75,6 @@
       <li>provisional anti-dumping duty</li>
       <li>provisional countervailing duty</li>
     </ul>
-    This notice explains in detail <a href="https://www.gov.uk/government/publications/notice-376-anti-dumping-and-countervailing-duties/notice-376-anti-dumping-and-countervailing-duties" target="_blank">what each remedy measure means (opens in new window)</a>.</li>
+    This notice explains in detail <%= govuk_link_to 'what each remedy measure means', 'https://www.gov.uk/government/publications/notice-376-anti-dumping-and-countervailing-duties/notice-376-anti-dumping-and-countervailing-duties', new_tab: true %>.</li>
   <li>any conditions, such as a requirement for documentation that might influence the duty payable.</li>
 </ul>
