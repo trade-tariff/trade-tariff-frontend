@@ -19,7 +19,8 @@
   <%= render 'rules_of_origin/non_preferential_xi' %>
 <% end %>
 
-<% if rules_of_origin_schemes.flat_map(&:links).any? %>
+<% scheme_links = rules_of_origin_schemes.flat_map(&:links).uniq(&:id) %>
+<% if scheme_links.any? %>
 <div id="rules-of-origin__related-content">
   <h2 class="govuk-heading-m">
     Related content
@@ -27,7 +28,7 @@
 
   <nav role="navigation">
     <ul class="govuk-list govuk-list-s">
-      <% rules_of_origin_schemes.flat_map(&:links).uniq(&:id).each do |link| %>
+      <% scheme_links.each do |link| %>
         <li>
           <%= link_to link.text, link.url %>
         </li>
