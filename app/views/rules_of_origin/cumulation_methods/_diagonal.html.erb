@@ -14,15 +14,10 @@
 </div>
 
 <div class="cumulation_description">
-  <details class="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text"><%= t 'rules_of_origin.cumulation_methods.example_title', cumulation_method: cumulation_method.humanize %></span>
-    </summary>
-    <div class="govuk-details__text">
-      <div class="tariff-markdown">
-        <%= govspeak t '.example_text' %>
-      </div>
-      <p><%= image_tag "cumulation/#{cumulation_method}.png" %></p>
+  <%= govuk_details(summary_text: t('rules_of_origin.cumulation_methods.example_title', cumulation_method: cumulation_method.humanize)) do %>
+    <div class="tariff-markdown">
+      <%= govspeak t '.example_text' %>
     </div>
-  </details>
+    <p><%= image_tag "cumulation/#{cumulation_method}.png" %></p>
+  <% end %>
 </div>
