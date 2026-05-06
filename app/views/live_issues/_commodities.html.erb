@@ -3,22 +3,15 @@
     None affected
   </p>
 <% elsif live_issue.commodities.size > 1 %>
-<details class="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      <%= live_issue.commodities.count %> commodities affected
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <% live_issue.commodities.each do |commodity_code| %>
-      <p class="govuk-body">
-        <a href="/commodities/<%= commodity_code %>" class="govuk-link">
-          <%= commodity_code %>
-        </a>
-      </p>
-    <% end %>
-  </div>
-</details>
+<%= govuk_details(summary_text: "#{live_issue.commodities.count} commodities affected") do %>
+  <% live_issue.commodities.each do |commodity_code| %>
+    <p class="govuk-body">
+      <a href="/commodities/<%= commodity_code %>" class="govuk-link">
+        <%= commodity_code %>
+      </a>
+    </p>
+  <% end %>
+<% end %>
 <% else %>
 <p class="govuk-body">
   <a href="/commodities/<%= live_issue.commodities.first %>" class="govuk-link">

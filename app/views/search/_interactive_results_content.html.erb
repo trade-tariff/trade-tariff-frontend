@@ -6,11 +6,8 @@
       This information might be helpful if you need to contact HMRC for more information.
     </p>
 
-    <details class="govuk-details" data-controller="copy-search-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">View search details</span>
-      </summary>
-      <div class="govuk-details__text">
+    <div data-controller="copy-search-details">
+      <%= govuk_details(summary_text: 'View search details') do %>
         <p class="govuk-body-s"><strong>Search term:</strong> <%= @search.q %></p>
         <% if @results.answered_questions.any? %>
           <% @results.answered_questions.each do |qa| %>
@@ -25,8 +22,8 @@
                 data-copy-search-details-target="button">
           Copy search details
         </button>
-      </div>
-    </details>
+      <% end %>
+    </div>
 
     <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -61,20 +58,15 @@
       <% end %>
     </div>
 
-    <details class="govuk-details govuk-!-margin-top-6">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">How we calculate confidence</span>
-      </summary>
-      <div class="govuk-details__text">
-        <p>Our system analyses your search term and answers to find the most relevant commodity codes.</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li><strong>Strong result</strong> - High confidence this is the correct classification</li>
-          <li><strong>Good result</strong> - Likely correct but you may want to verify</li>
-          <li><strong>Possible result</strong> - Worth considering but less certain</li>
-          <li><strong>Unlikely result</strong> - Low confidence, included for completeness</li>
-        </ul>
-      </div>
-    </details>
+    <%= govuk_details(summary_text: 'How we calculate confidence', classes: 'govuk-!-margin-top-6') do %>
+      <p>Our system analyses your search term and answers to find the most relevant commodity codes.</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><strong>Strong result</strong> - High confidence this is the correct classification</li>
+        <li><strong>Good result</strong> - Likely correct but you may want to verify</li>
+        <li><strong>Possible result</strong> - Worth considering but less certain</li>
+        <li><strong>Unlikely result</strong> - Low confidence, included for completeness</li>
+      </ul>
+    <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">

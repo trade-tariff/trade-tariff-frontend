@@ -1,10 +1,5 @@
-<details class="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">How to read rules of origin</span>
-  </summary>
-
-  <div class="govuk-details__text">
-    <p>The rules of origin table contains:</p>
+<%= govuk_details(summary_text: 'How to read rules of origin') do %>
+  <p>The rules of origin table contains:</p>
 
     <ul class="govuk-list--bullet">
       <li>
@@ -51,8 +46,7 @@
 
     <h2 class="govuk-heading-m">Introductory notes</h2>
 
-    <div class="tariff-markdown">
-      <%= govspeak introductory_notes if introductory_notes.present? %>
-    </div>
+  <div class="tariff-markdown">
+    <%= govspeak introductory_notes if introductory_notes.present? %>
   </div>
-</details>
+<% end %>
