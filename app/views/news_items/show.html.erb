@@ -28,7 +28,7 @@
         <dl>
           <dt class="gem-c-metadata__term">From:</dt>
           <dd class="gem-c-metadata__definition">
-            <%= link_to 'HM Revenue & Customs',
+            <%= govuk_link_to 'HM Revenue & Customs',
                         'https://www.gov.uk/government/organisations/hm-revenue-customs' %>
           </dd>
 
@@ -67,7 +67,7 @@
       </div>
 
       <p>
-        <%= link_to t('navigation.back_to_top'), '#content', class: 'govuk-!-display-none-print' %>
+        <%= govuk_link_to t('navigation.back_to_top'), '#content', class: 'govuk-!-display-none-print' %>
       </p>
 
       <% if @news_collection.description.present? %>
@@ -89,7 +89,7 @@
       <ul class="govuk-list govuk-!-margin-bottom-6">
         <% @collection_items.each do |collection_item| %>
           <li class="govuk-!-padding-top-2">
-            <%= link_to collection_item.title, collection_item %>
+            <%= govuk_link_to collection_item.title, collection_item %>
           </li>
         <% end %>
       </ul>
@@ -102,7 +102,7 @@
     </h3>
 
     <p>
-      <%= link_to @news_collection.name,
+      <%= govuk_link_to @news_collection.name,
                   news_collection_path(collection_id: @news_collection) %>
     <p>
   </div>

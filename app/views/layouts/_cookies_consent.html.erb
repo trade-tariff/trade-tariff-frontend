@@ -7,7 +7,7 @@
         <p>
           You have accepted additional cookies.
 
-          You can <%= link_to('change your cookie settings', cookies_policy_path) %> at any time.
+          You can <%= govuk_link_to('change your cookie settings', cookies_policy_path) %> at any time.
         </p>
 
         <button class="govuk-button hide_cookie_panel" data-action="cookie-banner#hideConfirmCookiesBanner">
@@ -22,7 +22,7 @@
         <p>
           You have rejected additional cookies.
 
-          You can <%= link_to('change your cookie settings', cookies_policy_path) %> at any time.
+          You can <%= govuk_link_to('change your cookie settings', cookies_policy_path) %> at any time.
         </p>
 
         <button class="govuk-button hide_cookie_panel" data-action="cookie-banner#hideConfirmCookiesBanner">
@@ -58,7 +58,7 @@
             Reject additional cookies
           </button>
 
-          <%= link_to('View cookies', cookies_policy_path, class: "govuk-link") %>
+          <%= govuk_link_to('View cookies', cookies_policy_path) %>
         </div>
       </div>
     </div>

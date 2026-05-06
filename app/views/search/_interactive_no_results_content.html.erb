@@ -17,8 +17,8 @@
     <p class="govuk-body">Go back and search again, browse the tariff or look for your product in the A-Z.</p>
 
     <div class="govuk-button-group">
-      <%= link_to "Start search again", find_commodity_path, class: "govuk-button" %>
-      <%= link_to "Cancel", sections_path, class: "govuk-link" %>
+      <%= govuk_button_link_to 'Start search again', find_commodity_path %>
+      <%= govuk_link_to "Cancel", sections_path  %>
     </div>
   </div>
 
@@ -35,7 +35,7 @@
     <li class="gem-c-cards__list-item">
       <div class="gem-c-cards__list-item-wrapper">
         <h3 class="gem-c-cards__sub-heading govuk-heading-s">
-          <%= link_to "Keyword or commodity code", find_commodity_path, class: "govuk-link gem-c-cards__link" %>
+          <%= govuk_link_to "Keyword or commodity code", find_commodity_path, class: 'gem-c-cards__link' %>
         </h3>
         <p class="govuk-body gem-c-cards__description">Search using keywords or use a known commodity code</p>
       </div>
@@ -43,7 +43,7 @@
     <li class="gem-c-cards__list-item">
       <div class="gem-c-cards__list-item-wrapper">
         <h3 class="gem-c-cards__sub-heading govuk-heading-s">
-          <%= link_to "Goods classifications", browse_sections_path, class: "govuk-link gem-c-cards__link" %>
+          <%= govuk_link_to "Goods classifications", browse_sections_path, class: 'gem-c-cards__link' %>
         </h3>
         <p class="govuk-body gem-c-cards__description">Browse the goods classification</p>
       </div>
@@ -51,7 +51,7 @@
     <li class="gem-c-cards__list-item">
       <div class="gem-c-cards__list-item-wrapper">
         <h3 class="gem-c-cards__sub-heading govuk-heading-s">
-          <%= link_to "A-Z product index", a_z_index_path(letter: 'a'), class: "govuk-link gem-c-cards__link" %>
+          <%= govuk_link_to "A-Z product index", a_z_index_path(letter: 'a'), class: 'gem-c-cards__link' %>
         </h3>
         <p class="govuk-body gem-c-cards__description">Look for your product in the A-Z</p>
       </div>

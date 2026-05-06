@@ -5,7 +5,7 @@
     <%# list commodities section %>
     <li id="commodity-ancestors__section"
         aria-owns="commodity-ancestors__chapter">
-      <%= link_to section_path(goods_nomenclature.section) do %>
+      <%= govuk_link_to section_path(goods_nomenclature.section) do %>
         <span class="commodity-ancestors__identifier">
           Section <%= goods_nomenclature.section.numeral %>
         </span>
@@ -19,7 +19,7 @@
     <%# list commodities chapter %>
     <li id="commodity-ancestors__chapter"
         aria-owns="commodity-ancestors__heading">
-      <%= link_to chapter_path(goods_nomenclature.chapter) do %>
+      <%= govuk_link_to chapter_path(goods_nomenclature.chapter) do %>
         <span class="commodity-ancestors__identifier">
           Chapter <%= goods_nomenclature.chapter.short_code %>
         </span>
@@ -51,7 +51,7 @@
       <%# list commodities heading %>
       <li id="commodity-ancestors__heading"
           aria-owns="<%= commodity_ancestor_id 1 %>">
-        <%= link_to heading_path(goods_nomenclature.heading) do %>
+        <%= govuk_link_to heading_path(goods_nomenclature.heading) do %>
           <span class="commodity-ancestors__identifier">
             <%= segmented_commodity_code goods_nomenclature.heading.short_code,
                                          coloured: true %>
@@ -67,7 +67,7 @@
       <% goods_nomenclature.ancestors.each.with_index do |ancestor, index| %>
       <li id="<%= commodity_ancestor_id(index + 1) %>"
           aria-owns="<%= commodity_ancestor_id(index + 2) %>">
-        <%= link_to subheading_path("#{ancestor.code}-#{ancestor.producline_suffix}") do %>
+        <%= govuk_link_to subheading_path("#{ancestor.code}-#{ancestor.producline_suffix}") do %>
           <span class="commodity-ancestors__identifier">
             <%= segmented_commodity_code abbreviate_commodity_code(ancestor), coloured: true %>
           </span>

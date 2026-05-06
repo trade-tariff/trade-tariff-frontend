@@ -24,8 +24,8 @@
   <button class="govuk-button" data-action="interactive-question#goBack">
     Go back and add more details
   </button>
-  <%= link_to "Start search again", find_commodity_path, class: "govuk-button govuk-button--secondary" %>
-  <%= link_to "Cancel", sections_path, class: "govuk-link" %>
+  <%= govuk_button_link_to 'Start search again', find_commodity_path, secondary: true %>
+  <%= govuk_link_to "Cancel", sections_path  %>
 </div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible app-section-break--thick">
@@ -36,7 +36,7 @@
     <li class="gem-c-cards__list-item">
       <div class="gem-c-cards__list-item-wrapper">
         <h3 class="gem-c-cards__sub-heading govuk-heading-s">
-          <%= link_to "Keyword or commodity code", find_commodity_path, class: "govuk-link gem-c-cards__link" %>
+          <%= govuk_link_to "Keyword or commodity code", find_commodity_path, class: 'gem-c-cards__link' %>
         </h3>
         <p class="govuk-body gem-c-cards__description">Search using keywords or use a known commodity code</p>
       </div>
@@ -44,7 +44,7 @@
     <li class="gem-c-cards__list-item">
       <div class="gem-c-cards__list-item-wrapper">
         <h3 class="gem-c-cards__sub-heading govuk-heading-s">
-          <%= link_to "Goods classifications", browse_sections_path, class: "govuk-link gem-c-cards__link" %>
+          <%= govuk_link_to "Goods classifications", browse_sections_path, class: 'gem-c-cards__link' %>
         </h3>
         <p class="govuk-body gem-c-cards__description">Browse the goods classification</p>
       </div>
@@ -52,7 +52,7 @@
     <li class="gem-c-cards__list-item">
       <div class="gem-c-cards__list-item-wrapper">
         <h3 class="gem-c-cards__sub-heading govuk-heading-s">
-          <%= link_to "A-Z product index", a_z_index_path(letter: 'a'), class: "govuk-link gem-c-cards__link" %>
+          <%= govuk_link_to "A-Z product index", a_z_index_path(letter: 'a'), class: 'gem-c-cards__link' %>
         </h3>
         <p class="govuk-body gem-c-cards__description">Look for your product in the A-Z</p>
       </div>

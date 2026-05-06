@@ -25,29 +25,28 @@
 
   <% if schemes.many? || schemes.none? %>
     <p>
-      <%= link_to 'See valid proofs of origin for all trade agreements',
-                  rules_of_origin_proofs_path %>
+      <%= govuk_link_to 'See valid proofs of origin for all trade agreements', rules_of_origin_proofs_path %>
     </p>
   <% else %>
     <p>Find out more about proofs of origin:</p>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <%= link_to 'How proofs are verified',
+        <%= govuk_link_to 'How proofs are verified',
                     rules_of_origin_proof_verification_path(
                       "#{commodity_code}-#{country_code}-#{schemes.first.scheme_code}"
                     ) %>
       </li>
 
       <li>
-        <%= link_to 'Detailed processes and requirements for proving the origin for goods',
+        <%= govuk_link_to 'Detailed processes and requirements for proving the origin for goods',
                     rules_of_origin_proof_requirements_path(
                       "#{commodity_code}-#{country_code}-#{schemes.first.scheme_code}"
                     ) %>
       </li>
 
       <li>
-        <%= link_to 'See valid proofs of origin for all trade agreements',
+        <%= govuk_link_to 'See valid proofs of origin for all trade agreements',
                     rules_of_origin_proofs_path %>
       </li>
     </ul>

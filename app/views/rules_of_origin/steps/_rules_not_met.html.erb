@@ -28,7 +28,7 @@
   </p>
 
   <p>
-    <%= link_to t('.tolerances.link'), step_path(:tolerances) %>
+    <%= govuk_link_to t('.tolerances.link'), step_path(:tolerances) %>
   </p>
 </div>
 <% end %>
@@ -74,8 +74,7 @@
   </p>
 
   <p>
-    <%= link_to t('.cumulation.link', scheme_title: current_step.scheme_title),
-                step_path(:cumulation) %>.
+    <%= govuk_link_to t('.cumulation.link', scheme_title: current_step.scheme_title), step_path(:cumulation) %>.
   </p>
 </div>
 <% end %>

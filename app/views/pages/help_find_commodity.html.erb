@@ -22,7 +22,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">Informal advice</h2>
-    <p>You can <%= link_to "use HMRC's Tariff Classification Service", "https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods", target: '_blank' %> to get non-legally binding classification advice.</p>
+    <p>You can <%= govuk_link_to "use HMRC's Tariff Classification Service", "https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods", new_tab: govuk_visually_hidden("opens in new tab") %> to get non-legally binding classification advice.</p>
     <p>HMRC will try to respond to your email within 5 working days.</p>
 
     <div class="govuk-inset-text">
@@ -41,7 +41,7 @@
     </ul>
 
     <div class="call-to-action">
-      <p>Check what you’ll need to <a href="https://www.gov.uk/guidance/check-what-youll-need-to-get-a-legally-binding-decision-on-a-commodity-code" class="govuk-link">get a legally binding decision</a>.</p>
+      <p>Check what you’ll need to <%= govuk_link_to 'get a legally binding decision', 'https://www.gov.uk/guidance/check-what-youll-need-to-get-a-legally-binding-decision-on-a-commodity-code' %>.</p>
     </div>
 
     <p>If you want to check if a decision has already been made on goods that are similar to yours you can search for previous:</p>

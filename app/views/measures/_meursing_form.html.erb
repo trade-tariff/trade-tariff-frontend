@@ -1,5 +1,5 @@
-<% meursing_finder_link = link_to 'Meursing code finder', meursing_lookup_step_path('start', goods_nomenclature_code: current_goods_nomenclature_code), class: 'govuk-link' %>
-<% meursing_clear_link = link_to 'Clear additional code', meursing_lookup_result_path(goods_nomenclature_code: current_goods_nomenclature_code), class: 'govuk-link meursing-form-textual-button' %>
+<% meursing_finder_link = govuk_link_to 'Meursing code finder', meursing_lookup_step_path('start', goods_nomenclature_code: current_goods_nomenclature_code) %>
+<% meursing_clear_link = govuk_link_to 'Clear additional code', meursing_lookup_result_path(goods_nomenclature_code: current_goods_nomenclature_code), class: 'meursing-form-textual-button' %>
 
 <div id="meursing" class="govuk-inset-text govuk-inset-text--s no-inset tariff-inset-meursing">
   <%= form_for MeursingLookup::Result.new, url: meursing_lookup_result_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>

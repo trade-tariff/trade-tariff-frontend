@@ -27,8 +27,8 @@
         <% end %>
         <td class="govuk-table__cell"><%= change.date_of_effect %></td>
         <td class="govuk-table__cell">
-          <%= link_to(commodity_path(@grouped_measure_commodity_changes.goods_nomenclature_item_id, **change.commodity_link_params), target: '_blank', rel: 'noopener') do %>
-            View commodity on <%= change.date_of_effect_visible %> <span class="govuk-visually-hidden">(opens in new tab)</span>
+          <%= govuk_link_to(commodity_path(@grouped_measure_commodity_changes.goods_nomenclature_item_id, **change.commodity_link_params), target: '_blank', rel: 'noopener') do %>
+            View commodity on <%= change.date_of_effect_visible %> <%= govuk_visually_hidden("(opens in new tab)") %>
           <% end %>
         </td>
       </tr>

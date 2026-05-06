@@ -42,7 +42,7 @@
       </p>
       <p>
         <ul>
-          <li><p><a href="https://www.gov.uk/guidance/converting-foreign-currency-amounts-to-include-in-the-customs-value" target="_blank">converting foreign currency amounts to include in the customs value (open in new tab)</a></p></li>
+          <li><p><%= govuk_link_to 'converting foreign currency amounts to include in the customs value', 'https://www.gov.uk/guidance/converting-foreign-currency-amounts-to-include-in-the-customs-value', new_tab: true %></p></li>
         </ul>
       </p>
       <p>
@@ -122,7 +122,7 @@
           <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
             <% filter_years(@period_list.exchange_rate_years, @period_list.year).each do |year| %>
               <li class="gem-c-related-navigation__link">
-                <%= link_to "#{year.year}", exchange_rates_path(type: @period_list.type, year: year.year) %><br>
+                <%= govuk_link_to year.year, exchange_rates_path(type: @period_list.type, year: year.year) %><br>
               </li>
             <% end %>
           </ul>

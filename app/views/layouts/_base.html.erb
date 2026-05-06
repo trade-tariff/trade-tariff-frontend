@@ -27,22 +27,22 @@
           </button>
           <ul id="proposition-links" class="govuk-service-navigation__list">
             <%= govuk_service_navigation_item(active_class: search_active_class) do %>
-              <%= link_to 'Search', home_path, class: "govuk-service-navigation__link" %>
+              <%= govuk_link_to 'Search', home_path, class: "govuk-service-navigation__link" %>
             <% end %>
             <%= govuk_service_navigation_item(active_class: browse_active_class) do %>
-              <%= link_to 'Browse', browse_sections_path, class: "govuk-service-navigation__link" %>
+              <%= govuk_link_to 'Browse', browse_sections_path, class: "govuk-service-navigation__link" %>
             <% end %>
             <%= govuk_service_navigation_item(active_class: a_z_active_class) do %>
-              <%= link_to "A-Z", a_z_index_path(letter: "a"), class: "govuk-service-navigation__link" %>
+              <%= govuk_link_to "A-Z", a_z_index_path(letter: "a"), class: "govuk-service-navigation__link" %>
             <% end %>
             <%= govuk_service_navigation_item(active_class: tools_active_class) do %>
-              <%= link_to "Tools", tools_path, class: "govuk-service-navigation__link" %>
+              <%= govuk_link_to "Tools", tools_path, class: "govuk-service-navigation__link" %>
             <% end %>
             <%= govuk_service_navigation_item(active_class: updates_active_class) do %>
-              <%= link_to "News", news_items_path, class: "govuk-service-navigation__link" %>
+              <%= govuk_link_to "News", news_items_path, class: "govuk-service-navigation__link" %>
             <% end %>
             <%= govuk_service_navigation_item(active_class: help_active_class) do %>
-              <%= link_to "Help", help_path, class: "govuk-service-navigation__link" %>
+              <%= govuk_link_to "Help", help_path, class: "govuk-service-navigation__link" %>
             <% end %>
           </ul>
         </nav>
@@ -67,8 +67,8 @@
       <ul class="govuk-footer__list">
         <li class="govuk-footer__list-item"><a class="govuk-footer__link" target="_blank" href="https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods">Ask HMRC for advice on classifying your goods</a></li>
         <li class="govuk-footer__list-item"><a class="govuk-footer__link" target="_blank" href="https://www.gov.uk/government/organisations/hm-revenue-customs/contact/customs-international-trade-and-excise-enquiries">Imports and exports: general enquiries</a></li>
-        <li class="govuk-footer__list-item"><%= link_to 'Feedback', feedback_link_url, class: "govuk-footer__link", **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %></li>
-        <li class="govuk-footer__list-item"><%= link_to 'Enquiry Form', product_experience_enquiry_form_path, class: "govuk-footer__link" %></li>
+        <li class="govuk-footer__list-item"><%= govuk_link_to 'Feedback', feedback_link_url, class: "govuk-footer__link", **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %></li>
+        <li class="govuk-footer__list-item"><%= govuk_link_to 'Enquiry Form', product_experience_enquiry_form_path, class: "govuk-footer__link" %></li>
       </ul>
     </div>
 
@@ -100,13 +100,13 @@
       <h2 class="govuk-visually-hidden">Support links</h2>
       <ul class="govuk-footer__inline-list">
         <li class="govuk-footer__inline-list-item">
-          <%= link_to 'Privacy', privacy_path, class: 'govuk-footer__link' %>
+          <%= govuk_link_to 'Privacy', privacy_path, class: 'govuk-footer__link' %>
         </li>
         <li class="govuk-footer__inline-list-item">
-          <%= link_to 'Cookies', cookies_policy_path, class: 'govuk-footer__link' %>
+          <%= govuk_link_to 'Cookies', cookies_policy_path, class: 'govuk-footer__link' %>
         </li>
         <li class="govuk-footer__inline-list-item">
-          <%= link_to 'Terms and conditions', terms_path, class: 'govuk-footer__link' %>
+          <%= govuk_link_to 'Terms and conditions', terms_path, class: 'govuk-footer__link' %>
         </li>
       </ul>
 

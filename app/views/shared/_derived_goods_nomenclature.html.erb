@@ -11,7 +11,7 @@
     <tbody class="govuk-table__body">
       <% deriving_goods_nomenclatures.each do |goods_nomenclature| %>
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><%= link_to(goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature)) %></th>
+        <td class="govuk-table__cell"><%= govuk_link_to(goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature)) %></th>
         <td class="govuk-table__cell">
           <%= sanitize sanitize_quotes(goods_nomenclature.formatted_description) unless goods_nomenclature.formatted_description.nil? %>
         </td>
