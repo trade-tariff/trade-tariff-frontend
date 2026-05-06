@@ -64,7 +64,8 @@
       </li>
 
       <%# list each of commodities ancestors %>
-      <% goods_nomenclature.ancestors.each.with_index do |ancestor, index| %>
+      <% ancestors = goods_nomenclature.ancestors %>
+      <% ancestors.each.with_index do |ancestor, index| %>
       <li id="<%= commodity_ancestor_id(index + 1) %>"
           aria-owns="<%= commodity_ancestor_id(index + 2) %>">
         <%= govuk_link_to subheading_path("#{ancestor.code}-#{ancestor.producline_suffix}") do %>
@@ -80,7 +81,7 @@
       <% end %>
 
       <%# list current commodity %>
-      <li id="<%= commodity_ancestor_id(goods_nomenclature.ancestors.length + 1) %>">
+      <li id="<%= commodity_ancestor_id(ancestors.length + 1) %>">
         <span>
           <span class="commodity-ancestors__identifier">
             <%= segmented_commodity_code goods_nomenclature.code,
