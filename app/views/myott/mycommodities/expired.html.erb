@@ -33,36 +33,82 @@
         </div>
         <h3 class="govuk-heading-m govuk-!-margin-top-4">Your expired commodities</h3>
         <p>All links will open in a new tab.</p>
-        <table class="govuk-table govuk-table--small-text-until-tablet">
-          <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th class="govuk-table__header">Commodity</th>
-              <th class="govuk-table__header">Classification</th>
-              <th class="govuk-table__header">End date</th>
-              <th class="govuk-table__header">Action</th>
-            </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            <% @targets.each do |target| %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">
-                <strong><%= target.goods_nomenclature_item_id %></strong>
-              </td>
-              <td class="govuk-table__cell">
-                <%= sanitize target.classification_description %>
-              </td>
-              <td class="govuk-table__cell">
-                <%= target.validity_end_date.to_fs %>
-              </td>
-              <td class="govuk-table__cell">
-                <%= link_to(commodity_path(target.goods_nomenclature_item_id), target: '_blank', rel: 'noopener') do %>
-                  Review on tariff <span class="govuk-visually-hidden">(opens in new tab)</span>
-                <% end %>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
+
+        <!-- Desktop table -->
+        <div class="myott-mycommodities__responsive-table">
+          <table class="govuk-table govuk-table--small-text-until-tablet">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th class="govuk-table__header">Commodity</th>
+                <th class="govuk-table__header">Classification</th>
+                <th class="govuk-table__header">End date</th>
+                <th class="govuk-table__header">Action</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <% @targets.each do |target| %>
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    <strong><%= target.goods_nomenclature_item_id %></strong>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <%= sanitize target.classification_description %>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <%= target.validity_end_date.to_fs %>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <%= link_to(commodity_path(target.goods_nomenclature_item_id), target: '_blank', rel: 'noopener') do %>
+                      Review on tariff <span class="govuk-visually-hidden">(opens in new tab)</span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile cards -->
+        <div class="myott-mycommodities__responsive-mobile-cards">
+          <% @targets.each do |target| %>
+            <div class="govuk-summary-card">
+              <div class="govuk-summary-card__title-wrapper">
+                <h3 class="govuk-summary-card__title">
+                  Commodity: <%= target.goods_nomenclature_item_id %>
+                </h3>
+                <ul class="govuk-summary-card__actions">
+                  <li class="govuk-summary-card__action">
+                    <%= link_to(commodity_path(target.goods_nomenclature_item_id), target: '_blank', rel: 'noopener') do %>
+                      Review on tariff <span class="govuk-visually-hidden">(opens in new tab)</span>
+                    <% end %>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Classification
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <%= sanitize target.classification_description %>
+                    </dd>
+                  </div>
+
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      End date
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <%= target.validity_end_date.to_fs %>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          <% end %>
+        </div>
         <%= paginate @targets %>
       <% end %>
     </div>

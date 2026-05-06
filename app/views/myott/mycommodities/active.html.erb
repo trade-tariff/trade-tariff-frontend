@@ -15,31 +15,63 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-xl">Active commodities: <%= number_with_delimiter(@targets.total_count) %></h1>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-third">
-          <%= link_to "Replace all commodities (upload)", new_myott_mycommodity_path, class: "govuk-button govuk-button--secondary" %>
+      <% if @targets.total_count.positive? %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-third">
+            <%= link_to "Replace all commodities (upload)", new_myott_mycommodity_path, class: "govuk-button govuk-button--secondary" %>
+          </div>
         </div>
-      </div>
-       <table class="govuk-table govuk-table--small-text-until-tablet">
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th class="govuk-table__header">Commodity</th>
-            <th class="govuk-table__header">Classification</th>
-          </tr>
-        </thead>
-        <tbody class="govuk-table__body">
+
+        <!-- Desktop table -->
+        <div class="myott-mycommodities__responsive-table">
+          <table class="govuk-table govuk-table--small-text-until-tablet">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th class="govuk-table__header">Commodity</th>
+                <th class="govuk-table__header">Classification</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <% @targets.each do |target| %>
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    <strong><%= target.goods_nomenclature_item_id %></strong>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <%= sanitize target.classification_description %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile cards -->
+        <div class="myott-mycommodities__responsive-mobile-cards">
           <% @targets.each do |target| %>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
-              <strong><%= target.goods_nomenclature_item_id %></strong>
-            </td>
-            <td class="govuk-table__cell">
-              <%= sanitize target.classification_description %>
-            </td>
-          </tr>
+            <div class="govuk-summary-card">
+              <div class="govuk-summary-card__title-wrapper">
+                <h2 class="govuk-summary-card__title">
+                  Commodity: <%= target.goods_nomenclature_item_id %>
+                </h2>
+              </div>
+              <div class="govuk-summary-card__content">
+                <dl class="govuk-summary-list">
+                  <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                      Classification
+                    </dt>
+                    <dd class="govuk-summary-list__value">
+                      <%= sanitize target.classification_description %>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
           <% end %>
-        </tbody>
-      </table>
+        </div>
+      <% end %>
+
       <%= paginate @targets %>
     </div>
   </div>
