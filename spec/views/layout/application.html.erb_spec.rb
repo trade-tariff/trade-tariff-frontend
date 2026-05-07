@@ -9,5 +9,5 @@ RSpec.describe 'layouts/application', type: :view do
     assign :search, Search.new
   end
 
-  it { is_expected.to have_css 'header.govuk-header > .tariff-header-banner' }
+  it { is_expected.to have_css 'header.govuk-header .govuk-width-container > .tariff-header-banner' }
 end
