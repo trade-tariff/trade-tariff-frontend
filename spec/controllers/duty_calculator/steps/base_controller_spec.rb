@@ -60,6 +60,51 @@ RSpec.describe DutyCalculator::Steps::BaseController, :user_session do
     end
   end
 
+  describe 'ActionView::Template::Error rescue_from registration' do
+    it 'is registered as the rescue handler for ActionView::Template::Error' do
+      registered = described_class.rescue_handlers.detect { |klass, _| klass == 'ActionView::Template::Error' }
+
+      expect(registered).not_to be_nil
+    end
+
+    it 'delegates to handle_template_error' do
+      registered = described_class.rescue_handlers.detect { |klass, _| klass == 'ActionView::Template::Error' }
+
+      expect(registered[1]).to eq(:handle_template_error)
+    end
+
+    it 'is positioned before the StandardError handler so it takes priority' do
+      handlers = described_class.rescue_handlers
+      template_error_index = handlers.index { |klass, _| klass == 'ActionView::Template::Error' }
+      standard_error_index = handlers.index { |klass, _| klass == 'StandardError' }
+
+      expect(template_error_index).to be < standard_error_index
+    end
+
+    it 'redirects to sections and does not notify NewRelic when the cause is Faraday::ResourceNotFound' do
+      cause = Faraday::ResourceNotFound.new('commodity not found')
+      exception = double('ActionView::Template::Error', cause: cause)
+      allow(NewRelic::Agent).to receive(:notice_error)
+      allow(controller).to receive(:sections_url).and_return('/sections')
+      allow(controller).to receive(:redirect_to)
+
+      controller.send(:handle_template_error, exception)
+
+      expect(controller).to have_received(:redirect_to).with('/sections', allow_other_host: true)
+      expect(NewRelic::Agent).not_to have_received(:notice_error)
+    end
+
+    it 'delegates to handle_exception when the cause is not Faraday::ResourceNotFound' do
+      cause = RuntimeError.new('something else broke')
+      exception = double('ActionView::Template::Error', cause: cause)
+      allow(controller).to receive(:handle_exception)
+
+      controller.send(:handle_template_error, exception)
+
+      expect(controller).to have_received(:handle_exception).with(exception)
+    end
+  end
+
   describe 'GET #index' do
     subject(:response) { get :index }
 

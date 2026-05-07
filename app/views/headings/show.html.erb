@@ -1,6 +1,5 @@
 <% cacheable = params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
 
-<%# Always set content_for outside the cache block so it is populated on cache hits too. %>
 <% content_for :title, goods_nomenclature_title(@heading) %>
 <% content_for :head do %>
   <meta name="description" content="<%= @heading %>">

@@ -1,6 +1,5 @@
 <% cacheable = params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
 
-<%# These are always needed regardless of cache state — set them before the cache block. %>
 <% content_for :title, strip_tags(commodity_title(declarable)) %>
 <% content_for :head do %>
   <meta name="description" content="<%= declarable.description_plain %>">
