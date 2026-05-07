@@ -91,6 +91,30 @@ RSpec.describe DutyCalculator::UserSession do
     end
   end
 
+  describe '#total_amount' do
+    context 'when customs_value has been set' do
+      subject(:user_session) do
+        build(:duty_calculator_user_session, customs_value: {
+          'monetary_value' => '12000',
+          'shipping_cost' => '1200',
+          'insurance_cost' => '340',
+        })
+      end
+
+      it 'returns the sum of all customs value components' do
+        expect(user_session.total_amount).to eq(13_540.0)
+      end
+    end
+
+    context 'when customs_value has not been set (routes that skip the customs value step)' do
+      subject(:user_session) { build(:duty_calculator_user_session) }
+
+      it 'returns 0' do
+        expect(user_session.total_amount).to eq(0)
+      end
+    end
+  end
+
   describe '#measure_amount' do
     subject(:user_session) { build(:duty_calculator_user_session, measure_amount: { foo: :bar }) }
 
