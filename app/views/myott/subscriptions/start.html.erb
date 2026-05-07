@@ -30,10 +30,7 @@
     </p>
 
 
-    <a href="<%= @continue_url %>" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
-      Start now
-      <%= render 'shared/start_arrow' %>
-    </a>
+    <%= govuk_start_button(text: 'Start now', href: @continue_url) %>
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
