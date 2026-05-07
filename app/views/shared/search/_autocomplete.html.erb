@@ -1,5 +1,5 @@
 <div class="govuk-fieldset" id='autocomplete'>
-  <script>
+  <%= javascript_tag nonce: true do %>
     document.addEventListener('DOMContentLoaded', function() {
       try {
         let tempQuery = '';
@@ -43,7 +43,7 @@
         node.innerHTML = '<div class="autocomplete__wrapper"><input autocomplete="off" class="autocomplete__input autocomplete__input--default" id="q" name="q" placeholder="Enter the name of the goods or commodity code" type="text" role="combobox" required=""></div>'
       }
     })
-  </script>
+  <% end %>
 
   <noscript>
     <div class="autocomplete__wrapper">
