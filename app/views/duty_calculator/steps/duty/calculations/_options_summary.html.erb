@@ -11,12 +11,9 @@
   </nav>
 <% else %>
   <% if @duty_options.third_country_tariff_option.present? %>
-    <div class="govuk-warning-text">
-      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-      <strong class="govuk-warning-text__text">
-        <span class="govuk-visually-hidden">Information</span>
-        <%= @duty_options.third_country_tariff_option.warning_text %>
-      </strong>
-    </div>
+    <%= govuk_warning_text(
+      text: @duty_options.third_country_tariff_option.warning_text,
+      icon_fallback_text: 'Information',
+    ) %>
   <% end %>
 <% end %>

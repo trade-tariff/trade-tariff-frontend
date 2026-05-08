@@ -80,17 +80,11 @@
 <% end %>
 
 <div id="whats-next-section" class="panel panel--coloured">
-  <div class="govuk-warning-text">
-    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-    <strong class="govuk-warning-text__text">
-      <span class="govuk-visually-hidden"><%= t 'generic.warning' %></span>
-      <%= t '.whats_next.title' %>
-    </strong>
+  <%= govuk_warning_text(text: t('.whats_next.title')) %>
 
-    <div class="govuk-warning-text__text">
-      <%= govspeak t('.whats_next.content',
-                     proofs_link: step_path(:proofs_of_origin),
-                     start_link: step_path(current_step.first_step)) %>
-    </div>
+  <div class="govuk-warning-text__text">
+    <%= govspeak t('.whats_next.content',
+                   proofs_link: step_path(:proofs_of_origin),
+                   start_link: step_path(current_step.first_step)) %>
   </div>
 </div>

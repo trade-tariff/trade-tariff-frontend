@@ -55,13 +55,7 @@
                                                  article_match: find_article_reference(form.object.scheme_details) if find_article_reference(form.object.scheme_details) %>
 
 
-  <div class="govuk-warning-text">
-    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-    <strong class="govuk-warning-text__text">
-      <span class="govuk-visually-hidden"><%= t 'generic.warning' %></span>
-      <%= t '.cumulation.warning' %>
-    </strong>
-  </div>
+  <%= govuk_warning_text(text: t('.cumulation.warning')) %>
 
   <h3 class="govuk-heading-s">
     <%= t 'rules_of_origin.steps.common.next_step' %>

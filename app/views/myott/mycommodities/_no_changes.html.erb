@@ -1,13 +1,9 @@
 <div class="govuk-grid-column-three-quarters-from-desktop no-changes-box">
-  <div class="govuk-warning-text">
-    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-    <strong class="govuk-warning-text__text">
-      <span class="govuk-visually-hidden">Warning</span>
-      Changes are not yet available for this date.
-      <p class="govuk-!-font-weight-regular">
-        You will be notified by email if changes to your active codes are available.<br>
-        Most recent changes published on: <%= last_change_date.to_fs %>
-      </p>
-    </strong>
-  </div>
+  <%= govuk_warning_text do %>
+    Changes are not yet available for this date.
+    <span class="govuk-!-font-weight-regular">
+      You will be notified by email if changes to your active codes are available.<br>
+      Most recent changes published on: <%= last_change_date.to_fs %>
+    </span>
+  <% end %>
 </div>
