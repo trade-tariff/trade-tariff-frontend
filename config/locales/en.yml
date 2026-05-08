@@ -359,6 +359,7 @@ en:
           attributes:
             import_date:
               invalid_date: Enter a valid date, no earlier than 1st January 2021
+              commodity_not_available_on_date: The commodity code could not be found for this date. Enter a different date.
         duty_calculator/steps/import_destination:
           attributes:
             import_destination:
