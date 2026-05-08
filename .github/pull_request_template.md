@@ -8,6 +8,7 @@
 <!-- Link to the relevant Jira/ticket, or 'N/A' if not applicable -->
 
 ## Risk:
+
 **Risk level:** 🟢 / 🟠 / 🔴 <!-- delete as appropriate -->
 
 **Reason for rating:**
@@ -27,6 +28,7 @@ Rate the overall risk of deploying this change:
 
 🟢 GREEN – things that are typically low risk:
 ───────────────────────────────────────────────────
+
 - Copy or content changes to GOV.UK Frontend components (labels, hint text, page titles)
 - Adding or updating GOV.UK Design System components with no behaviour change
 - New tests or improved test coverage with no production code changes
@@ -39,6 +41,7 @@ Rate the overall risk of deploying this change:
 
 🟠 AMBER – things that need a team conversation first:
 ───────────────────────────────────────────────────
+
 - Changes to page layout or navigation that affect all or many user journeys
 - Modifications to how commodity data or tariff information is presented to traders
 - New or modified API calls to the backend or admin services
@@ -53,6 +56,7 @@ Rate the overall risk of deploying this change:
 
 🔴 RED – requires explicit approval from Thor or Neil:
 ───────────────────────────────────────────────────
+
 - Changes to how legally significant content is surfaced (trade remedies, prohibitions, licensing, sanctions)
 - Modifications to the declarable goods flow or any trader-facing regulatory journey
 - Any change to how the service integrates with the identity/authentication layer
