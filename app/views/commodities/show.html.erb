@@ -20,9 +20,7 @@
 
   <%= render 'shared/context_tables/commodity' %>
 
-  <strong class="govuk-tag govuk-tag--green--wide">
-    You are currently using the <%= service_name %>
-  </strong>
+  <%= govuk_tag(text: "You are currently using the #{service_name}", colour: 'green', classes: 'govuk-tag--wide') %>
 
   <p class="govuk-body govuk-!-margin-top-6">
     Use this page to find:
