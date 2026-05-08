@@ -1,30 +1,8 @@
 <% declarable_import_measures = declarable.import_measures %>
 <% uk_import_measures = uk_declarable&.import_measures %>
-<div class="govuk-tabs govuk-!-margin-top-0" data-module="govuk-tabs">
-  <ul class="govuk-tabs__list">
-    <li class="govuk-tabs__list-item">
-      <a class="govuk-tabs__tab" href="#import">Import</a>
-    </li>
-    <li class="govuk-tabs__list-item">
-      <a class="govuk-tabs__tab" href="#export">Export</a>
-    </li>
-    <li class="govuk-tabs__list-item">
-      <a class="govuk-tabs__tab" href="#rules-of-origin">Origin</a>
-    </li>
-    <% if declarable.has_chemicals? %>
-      <div data-controller="chemicals">
-        <li class="govuk-tabs__list-item">
-          <a class="govuk-tabs__tab" data-action="click->chemicals#populate" href="#chemicals">Chemicals</a>
-        </li>
-      </div>
-    <% end %>
-    <li class="govuk-tabs__list-item">
-      <a class="govuk-tabs__tab" href="#footnotes">Notes</a>
-    </li>
-  </ul>
 
-  <!-- Import tab -->
-  <div class="govuk-tabs__panel" id="import">
+<%= govuk_tabs(classes: 'govuk-!-margin-top-0') do |component| %>
+  <% component.with_tab(label: 'Import', id: 'import') do %>
     <h2 class="govuk-heading-m"><%= measures_heading(anchor: 'import') %></h2>
 
     <% declarable.critical_footnotes.each do |footnote| %>
@@ -55,10 +33,9 @@
     <% else %>
       <p>There are no import measures for this commodity on this date.</p>
     <% end %>
-  </div>
+  <% end %>
 
-  <!-- Export tab -->
-  <div class="govuk-tabs__panel" id="export">
+  <% component.with_tab(label: 'Export', id: 'export') do %>
     <h2 class="govuk-heading-m"><%= measures_heading(anchor: 'export') %></h2>
 
     <% declarable.critical_footnotes.each do |footnote| %>
@@ -83,10 +60,9 @@
                 country_code: @search.country,
                 country_name: @search.geographical_area&.description,
                 eu_member: @search.geographical_area&.eu_member? %>
-  </div>
+  <% end %>
 
-  <!-- Rules of Origin tab -->
-  <div class="govuk-tabs__panel" id="rules-of-origin">
+  <% component.with_tab(label: 'Origin', id: 'rules-of-origin') do %>
   <% tariff_tab = TradeTariffFrontend::ServiceChooser.uk? ? 'uk' : 'xi' %>
     <%- if @search.filtered_by_country? && @search.geographical_area -%>
       <%= render (TradeTariffFrontend.roo_wizard? ? 'rules_of_origin/tab_' + tariff_tab : 'rules_of_origin/legacy/tab'),
@@ -98,15 +74,15 @@
     <%- else -%>
       <%= render 'rules_of_origin/without_country_' + tariff_tab %>
     <%- end -%>
-  </div>
-
-  <!-- Chemicals tab -->
-  <% if declarable.has_chemicals? %>
-    <%= render 'chemicals/tab',  has_pharma_suspsension_measures: declarable.has_pharma_suspsension_measures? %>
   <% end %>
 
-  <!-- Footnotes tab -->
-  <div class="govuk-tabs__panel" id="footnotes">
+  <% if declarable.has_chemicals? %>
+    <% component.with_tab(label: 'Chemicals', id: 'chemicals') do %>
+      <%= render 'chemicals/tab', has_pharma_suspsension_measures: declarable.has_pharma_suspsension_measures? %>
+    <% end %>
+  <% end %>
+
+  <% component.with_tab(label: 'Notes', id: 'footnotes') do %>
     <h2 class="govuk-heading-m"><%= footnote_heading(declarable) %></h2>
     <%= render 'shared/notes', section_note: declarable.section.section_note, chapter_note: declarable.chapter.chapter_note %>
     <table class="govuk-table govuk-!-margin-top-8">
@@ -124,60 +100,60 @@
         <%= render partial: 'footnotes/footnote', collection: declarable.footnotes %>
       </tbody>
     </table>
-  </div>
+  <% end %>
+<% end %>
 
-  <div id="import-measure-references">
+<div id="import-measure-references">
+  <%= render partial: 'measures/measure_references',
+              collection: declarable_import_measures,
+              as: 'measure',
+              locals: {
+                declarable: declarable,
+                anchor: 'import',
+                rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+              } %>
+
+  <% if TradeTariffFrontend::ServiceChooser.xi? && uk_declarable.present? %>
     <%= render partial: 'measures/measure_references',
-               collection: declarable_import_measures,
-               as: 'measure',
-               locals: {
-                 declarable: declarable,
-                 anchor: 'import',
-                 rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
-               } %>
-
-    <% if TradeTariffFrontend::ServiceChooser.xi? && uk_declarable.present? %>
-      <%= render partial: 'measures/measure_references',
-                 collection: uk_import_measures.import_controls,
-                 as: 'measure',
-                 locals: {
-                   declarable: declarable,
-                   anchor: 'import',
-                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
-                 } %>
-
-      <%= render partial: 'measures/measure_references',
-                 collection: uk_import_measures.vat_excise,
-                 as: 'measure',
-                 locals: {
-                   declarable: declarable,
-                   anchor: 'import',
-                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
-                 } %>
-    <% end %>
-  </div>
-
-  <div id="export-measure-references">
-    <% if uk_declarable&.export_measures&.any? %>
-        <%= render partial: 'measures/measure_references',
-                collection: uk_declarable.export_measures,
+                collection: uk_import_measures.import_controls,
                 as: 'measure',
                 locals: {
-                  declarable: uk_declarable,
-                  anchor: 'export',
+                  declarable: declarable,
+                  anchor: 'import',
                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
                 } %>
-    <% end %>
 
-    <% if xi_declarable&.export_measures&.any? %>
-      <%= render partial: 'measures/measure_references',
-                 collection: xi_declarable.export_measures,
-                 as: 'measure',
-                 locals: {
-                   declarable: xi_declarable,
-                   anchor: 'export',
-                   rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+    <%= render partial: 'measures/measure_references',
+                collection: uk_import_measures.vat_excise,
+                as: 'measure',
+                locals: {
+                  declarable: declarable,
+                  anchor: 'import',
+                  rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
                 } %>
-    <% end %>
-  </div>
+  <% end %>
+</div>
+
+<div id="export-measure-references">
+  <% if uk_declarable&.export_measures&.any? %>
+      <%= render partial: 'measures/measure_references',
+              collection: uk_declarable.export_measures,
+              as: 'measure',
+              locals: {
+                declarable: uk_declarable,
+                anchor: 'export',
+                rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+              } %>
+  <% end %>
+
+  <% if xi_declarable&.export_measures&.any? %>
+    <%= render partial: 'measures/measure_references',
+                collection: xi_declarable.export_measures,
+                as: 'measure',
+                locals: {
+                  declarable: xi_declarable,
+                  anchor: 'export',
+                  rules_of_origin_schemes: rules_of_origin_schemes || roo_all_schemes
+              } %>
+  <% end %>
 </div>
