@@ -34,7 +34,7 @@
     <p><%= category.regulation.description %></p>
     <% if category.regulation.regulation_url.present? %>
     <p>
-      <%= govuk_link_to 'Further information', category.regulation.regulation_url, new_tab: govuk_visually_hidden('opens in new tab') %>
+      <%= govuk_link_to 'Further information', category.regulation.regulation_url, new_tab: "", visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text %>
     </p>
     <% end %>
   </div>
