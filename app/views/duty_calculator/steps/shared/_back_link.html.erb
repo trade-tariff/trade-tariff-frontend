@@ -1,1 +1,1 @@
-<%= link_to('Back', @step.previous_step_path, class: "govuk-back-link") if @step.present? %>
+<%= govuk_back_link(href: @step.previous_step_path) if @step.present? %>

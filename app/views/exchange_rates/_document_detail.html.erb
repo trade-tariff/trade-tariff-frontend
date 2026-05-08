@@ -2,7 +2,7 @@
   <section class="attachment exchange-rates-attachment">
     <div class="attachment-thumb">
       <% if period.has_exchange_rates %>
-        <%= link_to(image_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}"), class: 'govuk-link') %>
+        <%= govuk_link_to(image_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}")) %>
       <% else %>
         <%= image_tag("spreadsheet.png", alt: "") %>
       <% end %>
@@ -14,7 +14,7 @@
 
       <p class="document-download">
         <% if period.has_exchange_rates %>
-          <%= link_to "<strong>View online</strong>".html_safe, exchange_rate_collection_path("#{period.year}-#{period.month}", type: type), title: "View #{period.month} #{period.year} monthly exchange rates online", class: 'govuk-link' %>
+          <%= govuk_link_to "<strong>View online</strong>".html_safe, exchange_rate_collection_path("#{period.year}-#{period.month}", type: type), title: "View #{period.month} #{period.year} monthly exchange rates online"  %>
         <% end %>
 
         <% if period.files.any? %>
@@ -35,7 +35,7 @@
           </span>
         </summary>
         <div class="govuk-details__text">
-          If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <a href="mailto:different.format@hmrc.gov.uk">different.format@hmrc.gov.uk</a>. Please tell us what format you need. It will help us if you say what assistive technology you use.
+          If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <%= govuk_mail_to 'different.format@hmrc.gov.uk' %>. Please tell us what format you need. It will help us if you say what assistive technology you use.
         </div>
       </details>
     </div>

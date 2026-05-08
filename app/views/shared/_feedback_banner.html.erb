@@ -1,14 +1,7 @@
 <% unless @feedback %>
-<div class="tariff-feedback-banner">
-  <div class="govuk-phase-banner govuk-width-container">
-    <p class="govuk-phase-banner__content">
-      <strong class="govuk-tag govuk-phase-banner__content__tag">
-        FEEDBACK
-      </strong>
-      <span class="govuk-phase-banner__text">
-        Help us improve this service and <%= link_to 'give your feedback (opens in new tab)', feedback_link_url, class: 'govuk-link', **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %>.
-      </span>
-    </p>
+  <div class="tariff-feedback-banner">
+    <%= govuk_phase_banner(tag: { text: local_assigns.fetch(:tag_text, 'FEEDBACK') }) do %>
+      Help us improve this service and <%= govuk_link_to 'give your feedback (opens in new tab)', feedback_link_url, **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %>.
+    <% end %>
   </div>
-</div>
 <% end %>

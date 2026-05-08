@@ -13,42 +13,21 @@
 <% end %>
 
 <% content_for :service_navigation do %>
-  <section class="govuk-service-navigation" data-module="govuk-service-navigation" aria-label="Service">
-    <div class="govuk-width-container">
-      <div class="govuk-service-navigation__container">
-        <span class="govuk-service-navigation__service-name">
-          <a href="<%= home_path %>" class="govuk-service-navigation__link" id="proposition-name">
-            <%= trade_tariff_heading %>
-          </a>
-        </span>
-        <nav aria-label="Top Level Navigation" class="govuk-service-navigation__wrapper">
-          <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="proposition-links" hidden>
-            Menu
-          </button>
-          <ul id="proposition-links" class="govuk-service-navigation__list">
-            <%= govuk_service_navigation_item(active_class: search_active_class) do %>
-              <%= link_to 'Search', home_path, class: "govuk-service-navigation__link" %>
-            <% end %>
-            <%= govuk_service_navigation_item(active_class: browse_active_class) do %>
-              <%= link_to 'Browse', browse_sections_path, class: "govuk-service-navigation__link" %>
-            <% end %>
-            <%= govuk_service_navigation_item(active_class: a_z_active_class) do %>
-              <%= link_to "A-Z", a_z_index_path(letter: "a"), class: "govuk-service-navigation__link" %>
-            <% end %>
-            <%= govuk_service_navigation_item(active_class: tools_active_class) do %>
-              <%= link_to "Tools", tools_path, class: "govuk-service-navigation__link" %>
-            <% end %>
-            <%= govuk_service_navigation_item(active_class: updates_active_class) do %>
-              <%= link_to "News", news_items_path, class: "govuk-service-navigation__link" %>
-            <% end %>
-            <%= govuk_service_navigation_item(active_class: help_active_class) do %>
-              <%= link_to "Help", help_path, class: "govuk-service-navigation__link" %>
-            <% end %>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </section>
+  <%= govuk_service_navigation(
+    service_name: trade_tariff_heading,
+    service_url: home_path,
+    current_path: request.path,
+    aria_label: 'Service',
+    navigation_id: 'proposition-links',
+    navigation_items: [
+      { text: 'Search', href: home_path, active_when: service_navigation_active_when('search', 'find_commodity') },
+      { text: 'Browse', href: browse_sections_path, active_when: service_navigation_active_when('browse') },
+      { text: 'A-Z', href: a_z_index_path(letter: 'a'), active_when: service_navigation_active_when('a-z-index') },
+      { text: 'Tools', href: tools_path, active_when: service_navigation_active_when('tools') },
+      { text: 'News', href: news_items_path, active_when: service_navigation_active_when('news') },
+      { text: 'Help', href: help_path, active_when: service_navigation_active_when('help', 'howto') },
+    ]
+  ) %>
 <% end %>
 
 <% content_for :footer_top do %>
@@ -67,8 +46,8 @@
       <ul class="govuk-footer__list">
         <li class="govuk-footer__list-item"><a class="govuk-footer__link" target="_blank" href="https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods">Ask HMRC for advice on classifying your goods</a></li>
         <li class="govuk-footer__list-item"><a class="govuk-footer__link" target="_blank" href="https://www.gov.uk/government/organisations/hm-revenue-customs/contact/customs-international-trade-and-excise-enquiries">Imports and exports: general enquiries</a></li>
-        <li class="govuk-footer__list-item"><%= link_to 'Feedback', feedback_link_url, class: "govuk-footer__link", **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %></li>
-        <li class="govuk-footer__list-item"><%= link_to 'Enquiry Form', product_experience_enquiry_form_path, class: "govuk-footer__link" %></li>
+        <li class="govuk-footer__list-item"><%= govuk_link_to 'Feedback', feedback_link_url, class: "govuk-footer__link", **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %></li>
+        <li class="govuk-footer__list-item"><%= govuk_link_to 'Enquiry Form', product_experience_enquiry_form_path, class: "govuk-footer__link" %></li>
       </ul>
     </div>
 
@@ -100,13 +79,13 @@
       <h2 class="govuk-visually-hidden">Support links</h2>
       <ul class="govuk-footer__inline-list">
         <li class="govuk-footer__inline-list-item">
-          <%= link_to 'Privacy', privacy_path, class: 'govuk-footer__link' %>
+          <%= govuk_link_to 'Privacy', privacy_path, class: 'govuk-footer__link' %>
         </li>
         <li class="govuk-footer__inline-list-item">
-          <%= link_to 'Cookies', cookies_policy_path, class: 'govuk-footer__link' %>
+          <%= govuk_link_to 'Cookies', cookies_policy_path, class: 'govuk-footer__link' %>
         </li>
         <li class="govuk-footer__inline-list-item">
-          <%= link_to 'Terms and conditions', terms_path, class: 'govuk-footer__link' %>
+          <%= govuk_link_to 'Terms and conditions', terms_path, class: 'govuk-footer__link' %>
         </li>
       </ul>
 

@@ -18,7 +18,7 @@
                 <%= simple_format(display_value_for(field, value)) %>
               </dd>
               <dd class="govuk-summary-list__actions">
-                <%= link_to 'Change', product_experience_enquiry_form_field_path(field, editing: true), class: 'govuk-link' %>
+                <%= govuk_link_to 'Change', product_experience_enquiry_form_field_path(field, editing: true)  %>
               </dd>
             </div>
           <% end %>

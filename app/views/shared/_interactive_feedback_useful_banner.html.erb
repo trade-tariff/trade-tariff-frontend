@@ -6,7 +6,7 @@
         <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Give feedback about this service</h2>
         <p class="govuk-body govuk-!-margin-bottom-0">Tell us about your experience using this service to help us improve it.</p>
       </div>
-      <%= link_to 'Share your feedback', feedback_link_url, class: 'govuk-button app-feedback-useful-banner__button', **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %>
+      <%= govuk_link_to 'Share your feedback', feedback_link_url, class: 'app-feedback-useful-banner__button', **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %>
     </div>
   </div>
 </div>

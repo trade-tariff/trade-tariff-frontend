@@ -46,7 +46,7 @@
 
   <%= image_tag(asset_path(form.object.map_path)) %>
 
-  <p><%= link_to "View cumulation map in a new browser window", asset_path(form.object.map_path), target: "_blank" %></p>
+  <p><%= govuk_link_to "View cumulation map", asset_path(form.object.map_path), new_tab: true %></p>
 
   <h2 class="govuk-heading-s" id="agreement_text"><%= t '.agreement_title' %></h2>
 

@@ -16,9 +16,9 @@
       <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
         <% for term in @terms %>
           <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-            <%= link_to term.term_and_title,
+            <%= govuk_link_to term.term_and_title,
                         { anchor: "glossary-#{term.key.dasherize}" },
-                        class: 'gem-c-contents-list__link govuk-link--no-underline' %>
+                        class: 'gem-c-contents-list__link', no_underline: true %>
           </li>
         <% end %>
       </ol>
@@ -42,10 +42,10 @@
       <nav class="gem-c-related-navigation__nav-section">
         <ul class="gem-c-related-navigation__link-list">
           <li class="gem-c-related-navigation__link">
-            <%= link_to 'Rules of origin glossary', glossary_terms_path %>
+            <%= govuk_link_to 'Rules of origin glossary', glossary_terms_path %>
           </li>
           <li class="gem-c-related-navigation__link">
-            <%= link_to 'Duty drawback', rules_of_origin_duty_drawback_path %>
+            <%= govuk_link_to 'Duty drawback', rules_of_origin_duty_drawback_path %>
           </li>
         </ul>
       </nav>

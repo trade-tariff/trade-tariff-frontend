@@ -2,22 +2,22 @@
 
 <ol class="gem-c-contents-list__list govuk-!-margin-bottom-6">
   <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-    <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#whatarecommoditycodes">What are commodity codes?</a>
+    <%= govuk_link_to 'What are commodity codes?', '#whatarecommoditycodes', class: 'gem-c-contents-list__link', no_underline: true %>
   </li>
   <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-    <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#worldwide">Are commodity codes the same worldwide?</a>
+    <%= govuk_link_to 'Are commodity codes the same worldwide?', '#worldwide', class: 'gem-c-contents-list__link', no_underline: true %>
   </li>
   <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-    <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#digits">How many digits does a commodity code have?</a>
+    <%= govuk_link_to 'How many digits does a commodity code have?', '#digits', class: 'gem-c-contents-list__link', no_underline: true %>
   </li>
   <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-    <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#components">What does the commodity code comprise of and what do the components do?</a>
+    <%= govuk_link_to 'What does the commodity code comprise of and what do the components do?', '#components', class: 'gem-c-contents-list__link', no_underline: true %>
   </li>
   <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-    <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#responsibility">Who is responsible for classifying products?</a>
+    <%= govuk_link_to 'Who is responsible for classifying products?', '#responsibility', class: 'gem-c-contents-list__link', no_underline: true %>
   </li>
   <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed">
-    <a class="gem-c-contents-list__link govuk-link govuk-link--no-underline" href="#identifying">How is the right commodity code identified?</a>
+    <%= govuk_link_to 'How is the right commodity code identified?', '#identifying', class: 'gem-c-contents-list__link', no_underline: true %>
   </li>
 </ol>
 
@@ -115,11 +115,11 @@
 
 <p>The classification process takes account of the characteristics using a series of six legally binding rules, known as the General Interpretative Rules (GIRs), which were set down by the World Customs Organisation (WCO) and are applied by its member countries.</p>
 
-<p>Read the <a href="https://www.wcoomd.org/-/media/wco/public/global/pdf/topics/nomenclature/instruments-and-tools/hs-interpretation-general-rules/0001_2012e_gir.pdf?la=en" target="_blank">full text of the General Interpretative Rules rules</a>, with a simple description of what they do.</p>
+<p>Read the <%= govuk_link_to 'full text of the General Interpretative Rules rules', 'https://www.wcoomd.org/-/media/wco/public/global/pdf/topics/nomenclature/instruments-and-tools/hs-interpretation-general-rules/0001_2012e_gir.pdf?la=en', new_tab: govuk_visually_hidden('opens in new tab') %>, with a simple description of what they do.</p>
 
 <p>As most types of goods have been classified before and many are referred to within the text of the tariff and its notes, the right codes can often be identified using the search function on this service. Although you should always check associated notes and rules to ensure you are content that the proposed classification is correct, this aims to help you through this process by using knowledge and tips from HMRC's classification experts to direct you based on the search terms you have used.</p>
 
-<p>If you find that your goods are difficult to classify, HMRC has published <a href="https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports">a series of guides for certain types of challenging goods</a>
+<p>If you find that your goods are difficult to classify, HMRC has published <%= govuk_link_to 'a series of guides for certain types of challenging goods', 'https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports' %>
   and provides a classification advice service.</p>
 
 <p>You can access this help by:</p>
@@ -128,9 +128,9 @@
     Using the <%= webchat_link("webchat function") %>, when offered in this service
   </li>
   <li>
-    Sending an <a href="mailto:classification.enquiries@hmrc.gov.uk">email to our classification enquiry team</a>
+    Sending an <%= govuk_mail_to 'classification.enquiries@hmrc.gov.uk', 'email to our classification enquiry team' %>
   </li>
   <li>
-    <a href="https://www.gov.uk/guidance/apply-for-an-advance-tariff-ruling">Applying for a formal ruling</a>, if you want legal certainty
+    <%= govuk_link_to 'Applying for a formal ruling', 'https://www.gov.uk/guidance/apply-for-an-advance-tariff-ruling' %>, if you want legal certainty
   </li>
 </ul>

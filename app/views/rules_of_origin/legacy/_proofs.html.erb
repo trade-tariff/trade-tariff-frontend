@@ -31,7 +31,7 @@
     <% proofs.each do |proof| %>
       <ul class="govuk-list govuk-list--bullet govuk-list--spaced rules-of-origin__proofs__content">
         <li>
-          <%= link_to proof.summary, proof.url %>
+          <%= govuk_link_to proof.summary, proof.url %>
         </li>
 
         <% if proof.subtext.present? %>

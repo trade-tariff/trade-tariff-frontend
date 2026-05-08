@@ -25,9 +25,7 @@
 
   <p>
     This is not a legal binding decision. For certainty, you can
-    <%= link_to 'https://www.gov.uk/guidance/apply-for-an-advance-origin-ruling' do %>
-      apply for an advanced origin ruling (opens in new window)
-    <% end %>.
+    <%= govuk_link_to 'apply for an advanced origin ruling', 'https://www.gov.uk/guidance/apply-for-an-advance-origin-ruling', new_tab: true %>.
   </p>
 
   <%= form_with model: RulesOfOrigin::Wizard.steps.first,

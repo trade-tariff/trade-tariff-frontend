@@ -40,7 +40,7 @@
             <tr class="govuk-table__row">
               <td class="govuk-table__cell"><%= commodity_change.commodity.goods_nomenclature_item_id %></td>
               <td class="govuk-table__cell"><%= sanitize commodity_change.commodity.classification_description %></td>
-              <td class="govuk-table__cell"><%= link_to(pluralize(commodity_change.count, 'change'), myott_grouped_measure_commodity_change_path(commodity_change.resource_id, as_of:)) %></td>
+              <td class="govuk-table__cell"><%= govuk_link_to(pluralize(commodity_change.count, 'change'), myott_grouped_measure_commodity_change_path(commodity_change.resource_id, as_of:)) %></td>
             </tr>
           <% end %>
         </tbody>

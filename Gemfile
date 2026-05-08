@@ -32,6 +32,7 @@ gem 'turbo-rails'
 
 # gov UK
 gem 'govspeak'
+gem 'govuk-components'
 gem 'govuk_design_system_formbuilder'
 gem 'nokogiri'
 gem 'wizard_steps'

@@ -34,18 +34,19 @@
       <li>sucrose, invert sugar, isoglucose</li>
     </ul>
 
-    <a href=<%= meursing_lookup_step_path('starch', goods_nomenclature_code: current_goods_nomenclature_code) %> role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
-      Start now
-      <%= render 'shared/start_arrow' %>
-    </a>
+    <%= govuk_start_button(
+          text: 'Start now',
+          href: meursing_lookup_step_path('starch', goods_nomenclature_code: current_goods_nomenclature_code),
+          classes: 'govuk-!-margin-top-2 govuk-!-margin-bottom-8'
+        ) %>
 
     <h2 class="govuk-heading-m">Documents to download</h2>
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <%= link_to('Meursing table (PDF) [opens in new window]', asset_path('Meursing_table.pdf'), target: '_blank', class: 'govuk-link') %>
+        <%= govuk_link_to('Meursing table (PDF)', asset_path('Meursing_table.pdf'), new_tab: true) %>
       </li>
       <li>
-        <%= link_to('Meursing table (ODT) [opens in new window]', asset_path('Meursing_table.odt'), target: '_blank', class: 'govuk-link') %>
+        <%= govuk_link_to('Meursing table (ODT)', asset_path('Meursing_table.odt'), new_tab: true) %>
       </li>
     </ul>
   </div>

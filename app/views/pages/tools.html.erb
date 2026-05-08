@@ -15,7 +15,7 @@
       <% if TradeTariffFrontend::ServiceChooser.uk? %>
         <li>
           <p>
-            <%= link_to t('breadcrumb.exchange_rates'), exchange_rates_path %>
+            <%= govuk_link_to t('breadcrumb.exchange_rates'), exchange_rates_path %>
             <br>
             View official monthly, average and spot exchange rates online, or download in CSV or XML. You can also request accessible formats.
           </p>
@@ -23,7 +23,7 @@
       <% end %>
       <li>
         <p>
-          <%= link_to t('breadcrumb.simplified_procedural_values'), simplified_procedural_values_path %>
+          <%= govuk_link_to t('breadcrumb.simplified_procedural_values'), simplified_procedural_values_path %>
           <br>
           Use simplified procedure value rates for fresh fruit and vegetable goods that you import.
         </p>
@@ -31,7 +31,7 @@
       <% if TradeTariffFrontend::ServiceChooser.uk? %>
         <li>
           <p>
-            <%= link_to t('breadcrumb.quotas'), quota_search_path %>
+            <%= govuk_link_to t('breadcrumb.quotas'), quota_search_path %>
             <br>
             Search for tariff quotas, including daily updated balances.
           </p>
@@ -39,34 +39,34 @@
       <% end %>
       <li>
         <p>
-          <%= link_to "Certificates, licences and documents", certificate_search_path %>
+          <%= govuk_link_to "Certificates, licences and documents", certificate_search_path %>
           <br>
           Search for certificates, licences and other document codes.
         </p>
       </li>
       <li>
         <p>
-          <%= link_to t('breadcrumb.additional_codes'), additional_code_search_path %>
+          <%= govuk_link_to t('breadcrumb.additional_codes'), additional_code_search_path %>
           <br>
           Search for additional codes. Additional codes are used on the tariff for a number of purposes to help you to classify goods accurately on your customs declaration.
         </p>
       </li>
       <li>
         <p>
-          <%= link_to 'Footnotes', footnote_search_path %>
+          <%= govuk_link_to 'Footnotes', footnote_search_path %>
           <br>Search the tariff for footnotes.
         </p>
       </li>
       <li>
         <p>
-          <%= link_to t('breadcrumb.chemicals'), chemical_search_path %>
+          <%= govuk_link_to t('breadcrumb.chemicals'), chemical_search_path %>
           <br>Search the tariff for chemicals by <abbr title="Chemical Abstracts Service">CAS</abbr> Registry Number (RN).
         </p>
       </li>
       <% if TradeTariffFrontend::ServiceChooser.xi? %>
         <li>
           <p>
-            <%= link_to t('breadcrumb.meursing_lookup'), meursing_lookup_step_path('start') %>
+            <%= govuk_link_to t('breadcrumb.meursing_lookup'), meursing_lookup_step_path('start') %>
             <br>
             Find the Meursing code for your composite agrifood.
           </p>

@@ -21,7 +21,7 @@
     <%= t("rules_of_origin.steps.sections.import_or_export_options.#{current_step.trade_direction}_html",
           trade_country: current_step.trade_country_name,
           service_country: current_step.service_country_name,
-          commodity_link: link_to(current_step.commodity_code, return_to_commodity_path),
+          commodity_link: govuk_link_to(current_step.commodity_code, return_to_commodity_path),
           default: nil) if current_step.trade_direction_chosen? %>
 
     <ol class="app-step-nav__list " data-length="<%= sidebar_section.steps.length %>">

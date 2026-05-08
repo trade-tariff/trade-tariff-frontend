@@ -1,6 +1,6 @@
 <% if @user_session.ni_to_gb_route? %>
   <p class="govuk-body govuk-!-margin-top-5">There are no import duties applicable to the movement of goods from Northern Ireland to England, Scotland and Wales.</p>
-  <p class="govuk-body">Find out more about <%= link_to('trading and moving goods in and out of Northern Ireland (opens in a new window)', 'https://www.gov.uk/guidance/trading-and-moving-goods-in-and-out-of-northern-ireland', class: 'govuk-link', target: '_blank') %>.</p>
+  <p class="govuk-body">Find out more about <%= govuk_link_to('trading and moving goods in and out of Northern Ireland', 'https://www.gov.uk/guidance/trading-and-moving-goods-in-and-out-of-northern-ireland', new_tab: true) %>.</p>
 <% elsif @user_session.eu_to_ni_route? %>
   <p class="govuk-body govuk-!-margin-top-5">
   There is no import duty to pay when importing goods into Northern Ireland from a European Union member state.
@@ -12,4 +12,4 @@
   <%= render 'duty_calculator/steps/duty/gb_to_ni/no_duty' %>
 <% end %>
 
-<%= link_to('Start again', import_date_path(commodity_code: user_session.commodity_code), class: 'govuk-button') %>
+<%= govuk_button_link_to('Start again', import_date_path(commodity_code: user_session.commodity_code)) %>

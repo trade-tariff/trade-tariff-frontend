@@ -21,13 +21,13 @@
           <p>Expect technical language. Commodity code descriptions can be quite formal. For example, a laptop might be described as a "Portable automatic data-processing machines, weighing not more than 10 kg, consisting of at least a central processing unit, a keyboard and a display."</p>
           <p>Use plain English and avoid using foreign words or special characters. The search is also unable to pick up on any spelling mistakes.</p>
           <p>Make sure you're using the correct country's classification. Commodity codes can vary between countries. Make sure you're using the right code for the country you're importing to or from.</p>
-          <p>If you are struggling to understand the duty you may need to pay then this guidance may help you: <%= link_to "Tax and customs for goods sent from abroad: Tax and duty - GOV.UK", "https://www.gov.uk/goods-sent-from-abroad/tax-and-duty" %></p>
+          <p>If you are struggling to understand the duty you may need to pay then this guidance may help you: <%= govuk_link_to "Tax and customs for goods sent from abroad: Tax and duty - GOV.UK", "https://www.gov.uk/goods-sent-from-abroad/tax-and-duty" %></p>
 
           <h3 class="govuk-heading-s">If you're stuck</h3>
           <p>If you can't find what you're looking for:</p>
           <ul class="govuk-list--bullet govuk-list">
-            <li><%= link_to "Try searching using the A to Z", a_z_index_path('a') %></li>
-            <li><%= link_to "Browse the goods classification", browse_sections_path %></li>
+            <li><%= govuk_link_to "Try searching using the A to Z", a_z_index_path('a') %></li>
+            <li><%= govuk_link_to "Browse the goods classification", browse_sections_path %></li>
           </ul>
 
           <h3 class="govuk-heading-s">Steps for searching the tariff</h3>
@@ -44,8 +44,8 @@
 
       <p>Alternatively, you can:</p>
       <ul class="govuk-list--bullet govuk-list">
-        <li><%= link_to 'browse the goods classification', browse_sections_path %> or</li>
-        <li><%= link_to 'look for your product in the A-Z', a_z_index_path('a') %>.</li>
+        <li><%= govuk_link_to 'browse the goods classification', browse_sections_path %> or</li>
+        <li><%= govuk_link_to 'look for your product in the A-Z', a_z_index_path('a') %>.</li>
       </ul>
 
     </div>

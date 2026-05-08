@@ -4,7 +4,7 @@
     <ul class="app-contents govuk-!-margin-bottom-9">
       <% @duty_options.each.with_index(1) do |option, index| %>
         <li class="govuk-!-margin-bottom-2">
-          <%= link_to(t("duty_calculations.options.heading.#{option.category}.#{option.type}", option_no: index, geographical_area_description: option.geographical_area_description, order_number:  option.order_number), "##{option.type}", class: 'govuk-body') %>
+          <%= govuk_link_to(t("duty_calculations.options.heading.#{option.category}.#{option.type}", option_no: index, geographical_area_description: option.geographical_area_description, order_number:  option.order_number), "##{option.type}") %>
         </li>
       <% end %>
     </ul>

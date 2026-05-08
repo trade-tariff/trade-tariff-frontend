@@ -5,8 +5,8 @@
     </div>
   </td>
   <td class="govuk-table__cell">
-    <%= link_to chapter_path(chapter, request.query_parameters.symbolize_keys) do %>
-      <span class="govuk-visually-hidden">Chapter <%= chapter.short_code %>: </span> <%= chapter %>
+    <%= govuk_link_to chapter_path(chapter, request.query_parameters.symbolize_keys) do %>
+      <%= govuk_visually_hidden "Chapter #{chapter.short_code}: " %> <%= chapter %>
     <% end %>
     <%= render partial: 'chapters/chapter_guides', locals: {chapter: chapter} %>
   </td>

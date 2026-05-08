@@ -50,37 +50,18 @@ module ApplicationHelper
            extra_content:
   end
 
-  def govuk_service_navigation_item(active_class: '', &block)
-    base_class_name = 'govuk-service-navigation__item'
-    active_class_name = active_class.present? ? "#{base_class_name}--active" : ''
+  def service_navigation_active_when(*prefixes)
+    normalized_prefixes = prefixes.flatten.compact.filter_map do |prefix|
+      cleaned_prefix = prefix.to_s.sub(%r{\A/}, '')
+      Regexp.escape(cleaned_prefix) if cleaned_prefix.present?
+    end
 
-    tag.li(class: "#{base_class_name} #{active_class_name}", &block)
-  end
-
-  def search_active_class
-    'active' if action_name == 'search' ||
-      (controller_name == 'sections' && action_name == 'index') ||
-      controller_name == 'find_commodities'
-  end
-
-  def browse_active_class
-    'active' if controller_name == 'browse_sections'
-  end
-
-  def a_z_active_class
-    'active' if controller_name == 'search_references'
-  end
-
-  def tools_active_class
-    'active' if action_name == 'tools'
-  end
-
-  def help_active_class
-    'active' if %w[help howto].include?(action_name)
-  end
-
-  def updates_active_class
-    'active' if controller_name == 'news_items'
+    # if prefix is news this regex will match:
+    # /news
+    # /xi/news
+    # /uk/news
+    # /news/anything-else
+    %r{\A/(?:(?:xi|uk)/)?(?:#{normalized_prefixes.join('|')})}
   end
 
   def currency_options

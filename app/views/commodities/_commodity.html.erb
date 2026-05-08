@@ -14,7 +14,7 @@
   </li>
 <% else %>
   <li class="<%= commodity_level(commodity, initial_indent) %><%= leaf_position(commodity) %>">
-    <%= link_to commodity_path(commodity, request.query_parameters.symbolize_keys), title: "View complete information for this commodity", "aria-label" => commodity.aria_label do %>
+    <%= govuk_link_to commodity_path(commodity, request.query_parameters.symbolize_keys), title: "View complete information for this commodity", "aria-label" => commodity.aria_label do %>
       <div class="description open" id="commodity-<%= commodity.short_code %>"><%= commodity.to_s.html_safe %></div>
 
       <%= overview_measure_duty_amounts_for(commodity) %>

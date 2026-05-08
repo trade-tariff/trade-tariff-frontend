@@ -5,6 +5,6 @@
     </span>
   </summary>
   <div class="govuk-details__text">
-    Commodity code <strong><%= commodity.formatted_commodity_code %></strong><br><%= commodity.description %><br><br><a class="govuk-link" href="<%= commodity_url(commodity.code) %>">View commodity <%= commodity.code %></a>
+    Commodity code <strong><%= commodity.formatted_commodity_code %></strong><br><%= commodity.description %><br><br><%= govuk_link_to "View commodity #{commodity.code}", commodity_url(commodity.code) %>
   </div>
 </details>

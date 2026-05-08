@@ -65,7 +65,7 @@
       <%= render "footnotes/critical_warning", footnote: footnote %>
     <% end %>
 
-    <p>The commodity code for exporting and <%= link_to 'Intrastat reporting', 'https://www.gov.uk/intrastat', target: "_blank" %> is <%= declarable.display_export_code %>.</p>
+    <p>The commodity code for exporting and <%= govuk_link_to 'Intrastat reporting', 'https://www.gov.uk/intrastat', new_tab: govuk_visually_hidden("opens in new tab") %> is <%= declarable.display_export_code %>.</p>
 
     <%= render 'declarables/consigned', declarable: declarable %>
 

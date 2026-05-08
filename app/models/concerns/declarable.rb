@@ -64,7 +64,7 @@ module Declarable
   end
 
   def critical_footnotes
-    @critical_footnotes = footnotes.select(&:critical_warning?)
+    @critical_footnotes ||= footnotes.select(&:critical_warning?)
   end
 
   def meursing_code?

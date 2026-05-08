@@ -180,6 +180,8 @@ module DutyCalculator
     end
 
     def total_amount
+      return 0 if customs_value.blank?
+
       customs_value.values.map(&:to_f).reduce(:+)
     end
 

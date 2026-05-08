@@ -1,5 +1,5 @@
 <div class="govuk-grid-column-two-thirds">
-  <%= link_to("Back", simplified_procedural_values_path, class: 'govuk-back-link') %>
+  <%= govuk_back_link(href: simplified_procedural_values_path) %>
   <%= page_header "Simplified procedure value rates for code #{@result.simplified_procedural_code} - #{@result.goods_nomenclature_label}" %>
 
   <% if @result.no_data %>
