@@ -28,16 +28,9 @@
 
       <p>This file may not be suitable for users of assistive technology</p>
 
-      <details class="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            Request an accessible format.
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <%= govuk_mail_to 'different.format@hmrc.gov.uk' %>. Please tell us what format you need. It will help us if you say what assistive technology you use.
-        </div>
-      </details>
+      <%= govuk_details(summary_text: 'Request an accessible format.') do %>
+        If you use assistive technology (such as a screen reader) and need a version of this document in a more accessible format, please email <%= govuk_mail_to 'different.format@hmrc.gov.uk' %>. Please tell us what format you need. It will help us if you say what assistive technology you use.
+      <% end %>
     </div>
   </section>
 </div>

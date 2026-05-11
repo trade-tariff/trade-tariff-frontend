@@ -47,15 +47,10 @@
       </div>
 
       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-guided" hidden data-interactive-search-radio-target="guidedSection">
-        <details class="govuk-details govuk-!-margin-bottom-4">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">Tips for using guided search</span>
-          </summary>
-          <div class="govuk-details__text">
-            <p>Guided search asks you questions about your product to narrow down the commodity code.</p>
-            <p>Answer each question as specifically as you can. If you are unsure, select "I don't know" and the system will show you the best results based on what you have provided.</p>
-          </div>
-        </details>
+        <%= govuk_details(summary_text: 'Tips for using guided search', classes: 'govuk-!-margin-bottom-4') do %>
+          <p>Guided search asks you questions about your product to narrow down the commodity code.</p>
+          <p>Answer each question as specifically as you can. If you are unsure, select "I don't know" and the system will show you the best results based on what you have provided.</p>
+        <% end %>
 
         <div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>"
              data-guided-search-validation-target="formGroup">
@@ -89,27 +84,22 @@
       </div>
 
       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-keyword" hidden data-interactive-search-radio-target="keywordSection">
-        <details class="govuk-details govuk-!-margin-bottom-4">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">Tips for using keyword or commodity code search</span>
-          </summary>
-          <div class="govuk-details__text">
-            <p>To find a commodity code, you must specify what the item is. If the item is a gift, you must still specify the product.</p>
-            <p>Do not use brand names. It is best to use general terms like trainers or sports footwear instead of 'Nike trainers'.</p>
-            <p>Expect technical language. Commodity code descriptions can be quite formal. For example, a laptop might be described as a "Portable automatic data-processing machines, weighing not more than 10 kg, consisting of at least a central processing unit, a keyboard and a display."</p>
-            <p>Use plain English and avoid using foreign words or special characters. The search is also unable to pick up on any spelling mistakes.</p>
-            <p>Make sure you're using the correct country's classification. Commodity codes can vary between countries. Make sure you're using the right code for the country you're importing to or from.</p>
-            <p>If you are struggling to understand the duty you may need to pay then this guidance may help you: <%= govuk_link_to "Tax and customs for goods sent from abroad: Tax and duty - GOV.UK", "https://www.gov.uk/goods-sent-from-abroad/tax-and-duty" %></p>
+        <%= govuk_details(summary_text: 'Tips for using keyword or commodity code search', classes: 'govuk-!-margin-bottom-4') do %>
+          <p>To find a commodity code, you must specify what the item is. If the item is a gift, you must still specify the product.</p>
+          <p>Do not use brand names. It is best to use general terms like trainers or sports footwear instead of 'Nike trainers'.</p>
+          <p>Expect technical language. Commodity code descriptions can be quite formal. For example, a laptop might be described as a "Portable automatic data-processing machines, weighing not more than 10 kg, consisting of at least a central processing unit, a keyboard and a display."</p>
+          <p>Use plain English and avoid using foreign words or special characters. The search is also unable to pick up on any spelling mistakes.</p>
+          <p>Make sure you're using the correct country's classification. Commodity codes can vary between countries. Make sure you're using the right code for the country you're importing to or from.</p>
+          <p>If you are struggling to understand the duty you may need to pay then this guidance may help you: <%= govuk_link_to "Tax and customs for goods sent from abroad: Tax and duty - GOV.UK", "https://www.gov.uk/goods-sent-from-abroad/tax-and-duty" %></p>
 
-            <h3 class="govuk-heading-s">Steps for searching the tariff</h3>
-            <ol class="special-numbered-list govuk-!-margin-bottom-0">
-              <li>Be specific about the product you are looking for. It's often not enough to describe a product as 'clothing' or 'electronics'. You must specify what the product is, for example, 'cotton shirt', 'car tyres', or 'laptop'.</li>
-              <li>For raw materials and manufactured products, it can be useful to search for products by the material or what they are made from. For example, steel, wood, stone or glass.</li>
-              <li>The search tool will suggest a number of sections. Select the section which best describes the product you are importing or exporting.</li>
-              <li>You will be shown the relevant commodities based on your section. Choose the one which most closely matches your product.</li>
-            </ol>
-          </div>
-        </details>
+          <h3 class="govuk-heading-s">Steps for searching the tariff</h3>
+          <ol class="special-numbered-list govuk-!-margin-bottom-0">
+            <li>Be specific about the product you are looking for. It's often not enough to describe a product as 'clothing' or 'electronics'. You must specify what the product is, for example, 'cotton shirt', 'car tyres', or 'laptop'.</li>
+            <li>For raw materials and manufactured products, it can be useful to search for products by the material or what they are made from. For example, steel, wood, stone or glass.</li>
+            <li>The search tool will suggest a number of sections. Select the section which best describes the product you are importing or exporting.</li>
+            <li>You will be shown the relevant commodities based on your section. Choose the one which most closely matches your product.</li>
+          </ol>
+        <% end %>
 
         <div class="govuk-form-group">
           <label class="govuk-label" for="q">

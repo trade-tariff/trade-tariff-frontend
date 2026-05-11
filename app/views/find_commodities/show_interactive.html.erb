@@ -11,16 +11,11 @@
       <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
       <p>These codes can be very specific, so you need to be very clear about what you're importing or exporting. This will help avoid any delays at customs.</p>
 
-      <details class="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">What are keyword, commodity code and guided searches?</span>
-        </summary>
-        <div class="govuk-details__text">
-          <p><strong>Keyword search</strong> lets you type a description of your product and see matching commodity codes.</p>
-          <p><strong>Commodity code search</strong> lets you enter a code directly if you already know it.</p>
-          <p><strong>Guided search</strong> asks you questions about your product to help find the right commodity code.</p>
-        </div>
-      </details>
+      <%= govuk_details(summary_text: 'What are keyword, commodity code and guided searches?') do %>
+        <p><strong>Keyword search</strong> lets you type a description of your product and see matching commodity codes.</p>
+        <p><strong>Commodity code search</strong> lets you enter a code directly if you already know it.</p>
+        <p><strong>Guided search</strong> asks you questions about your product to help find the right commodity code.</p>
+      <% end %>
 
       <%= render 'shared/search/interactive_search_form' %>
 

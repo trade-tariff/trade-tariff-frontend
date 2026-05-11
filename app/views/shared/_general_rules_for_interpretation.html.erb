@@ -1,8 +1,4 @@
-<details class="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">General Rules for the Interpretation of goods</span>
-  </summary>
-  <div class="govuk-details__text">
+<%= govuk_details(summary_text: 'General Rules for the Interpretation of goods') do %>
     <p>Classification of goods in the Tariff shall be governed by the following principles: </p>
 
     <h3 class="govuk-heading-s" id="rule-1">Rule 1</h3>
@@ -35,5 +31,4 @@
 
     <h3 class="govuk-heading-s" class="govuk-heading-s" id="rule-6">Rule 6</h3>
     <p>For legal purposes, the classification of goods in the subheadings of a heading shall be determined according to the terms of those subheadings and any related subheading notes and, mutatis mutandis, to the above rules, on the understanding that only subheadings at the same level are comparable. For the purposes of this rule, the relative section and chapter notes also apply, unless the context requires otherwise.</p>
-  </div>
-</details>
+<% end %>

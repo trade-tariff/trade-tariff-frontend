@@ -9,13 +9,8 @@
 </div>
 
 <div class="cumulation_description">
-  <details class="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text"><%= t 'rules_of_origin.cumulation_methods.example_title', cumulation_method: cumulation_method.humanize %></span>
-    </summary>
-    <div class="govuk-details__text">
-      <%= t '.description_html' %>
-      <p><%= image_tag "cumulation/#{cumulation_method}.png" %></p>
-    </div>
-  </details>
+  <%= govuk_details(summary_text: t('rules_of_origin.cumulation_methods.example_title', cumulation_method: cumulation_method.humanize)) do %>
+    <%= t '.description_html' %>
+    <p><%= image_tag "cumulation/#{cumulation_method}.png" %></p>
+  <% end %>
 </div>
