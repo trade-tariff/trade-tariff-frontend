@@ -4,3 +4,9 @@
 .govuk-div--with-border {
   border: 1px solid  govuk-functional-colour(border)
 }
+
+.govuk-tag {
+  &--wide {
+    max-width: none;
+  }
+}
