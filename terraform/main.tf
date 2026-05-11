@@ -1,5 +1,5 @@
 module "service" {
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v2.0.1"
+  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v3.0.1"
 
   region = var.region
 
@@ -27,9 +27,11 @@ module "service" {
 
   service_environment_config = local.frontend_service_env_vars
 
-  has_autoscaler = local.has_autoscaler
-  min_capacity   = var.min_capacity
-  max_capacity   = var.max_capacity
+  has_autoscaler     = local.has_autoscaler
+  min_capacity       = var.min_capacity
+  max_capacity       = var.max_capacity
+  scale_in_cooldown  = var.scale_in_cooldown
+  scale_out_cooldown = var.scale_out_cooldown
 
   autoscaling_metrics = {
     cpu = {
@@ -43,7 +45,7 @@ module "service" {
   }
 
   enable_alarms       = var.enable_alarms
-  cpu_alarm_threshold = 70
+  cpu_alarm_threshold = 85
 
   sns_topic_arns = [data.aws_sns_topic.slack_topic.arn]
 }
