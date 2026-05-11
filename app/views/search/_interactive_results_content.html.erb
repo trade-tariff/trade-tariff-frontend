@@ -25,13 +25,7 @@
       <% end %>
     </div>
 
-    <div class="govuk-warning-text">
-      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-      <strong class="govuk-warning-text__text">
-        <span class="govuk-visually-hidden">Warning</span>
-        You are responsible for using the correct commodity codes and complying with customs rules.
-      </strong>
-    </div>
+    <%= govuk_warning_text(text: 'You are responsible for using the correct commodity codes and complying with customs rules.') %>
 
     <% display_results = @results.result_limit.zero? ? @results.all : @results.all.first(@results.result_limit) %>
 

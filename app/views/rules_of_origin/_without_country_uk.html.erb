@@ -1,12 +1,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <div class="govuk-warning-text">
-      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-      <strong class="govuk-warning-text__text">
-        <span class="govuk-visually-hidden">Warning</span>
-          Select a country to check which tariff treatments apply.
-      </strong>
-    </div>
+    <%= govuk_warning_text(text: 'Select a country to check which tariff treatments apply.') %>
     <%= render 'rules_of_origin/find_out_more' %>
     <%= render 'rules_of_origin/preferential',
                 country_name: '' %>

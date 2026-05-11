@@ -9,13 +9,7 @@
         <h2 class="govuk-heading-m">Quota order number <%= order_number.number %></h2>
 
         <% if order_number.show_warning? %>
-          <div class="govuk-warning-text">
-          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-          <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
-            <%= quota_definition.warning_text %>
-          </strong>
-          </div>
+          <%= govuk_warning_text(text: quota_definition.warning_text) %>
         <% end %>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
