@@ -127,13 +127,23 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
       it { expect(response).to render_template('import_date/show') }
       it { expect { response }.not_to change(user_session, :import_date).from(nil) }
 
-      it 'adds a date error with validity periods' do
+      it 'adds a date error' do
         response
 
         expect(assigns(:step).errors[:import_date]).to include(
           'The commodity code could not be found for this date. Enter a different date.',
         )
+      end
+
+      it 'assigns validity period start dates' do
+        response
+
         expect(assigns(:commodity_validity_periods).map(&:start_date)).to eq([first_start_date, second_start_date])
+      end
+
+      it 'assigns validity period end dates' do
+        response
+
         expect(assigns(:commodity_validity_periods).map(&:end_date)).to eq([first_end_date, nil])
       end
     end
