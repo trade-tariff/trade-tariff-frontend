@@ -50,9 +50,11 @@ variable "enable_alarms" {
 variable "scale_in_cooldown" {
   description = "Prevents aggressive scale-in by enforcing a waiting period after tasks are removed."
   type        = number
+  default     = 300
 }
 
 variable "scale_out_cooldown" {
   description = "Minimum time to wait after a scale-out before allowing another scale-out, giving new tasks time to start contributing capacity."
   type        = number
+  default     = 60
 }
