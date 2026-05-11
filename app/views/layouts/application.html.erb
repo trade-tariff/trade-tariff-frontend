@@ -29,7 +29,7 @@
   <%= yield :head %>
 
   <script async src="/javascripts/es-module-shims.js?v=<%= CURRENT_REVISION %>"></script>
-  <script type="esms-options">
+  <script type="esms-options" nonce="<%= content_security_policy_nonce %>">
     {
       "noLoadEventRetriggers": true
     }
