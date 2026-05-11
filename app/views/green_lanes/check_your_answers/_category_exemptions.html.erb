@@ -7,17 +7,13 @@
       </div>
     </div>
     <div class="govuk-summary-card__content">
-      <dl class="govuk-summary-list">
-        <% unique_exemptions(assessments).each do |exemption, category_assessment| %>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key"><%= hide_pseudo_code(exemption.code)  %></dt>
-            <dd class="govuk-summary-list__value"><%= exemption.formatted_description %></dd>
-            <dd class="govuk-summary-list__actions">
-              <%= exemption_status(exemption, category, category_assessment) %>
-            </dd>
-          </div>
-        <% end %>
-      </dl>
+      <%= govuk_summary_list(rows: unique_exemptions(assessments).map { |exemption, category_assessment|
+        {
+          key: { text: hide_pseudo_code(exemption.code) },
+          value: { text: exemption.formatted_description },
+          actions: [{ href: (edit_path.presence || '#'), text: exemption_status(exemption, category, category_assessment) }],
+        }
+      }) %>
     </div>
   </div>
 <% end %>

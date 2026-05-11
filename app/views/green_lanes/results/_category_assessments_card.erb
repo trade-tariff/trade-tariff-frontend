@@ -6,26 +6,18 @@
   </div>
 
   <div class="govuk-summary-card__content">
-    <dl class="govuk-summary-list">
-      <% assessments = @cas_without_exemptions.present? ? @cas_without_exemptions : @assessments.public_send("cat_#{category}_exemptions_not_met") %>
-
-      <% assessments.each do |category_assessment| %>
-        <div class="govuk-summary-list__row">
-          <dd class="govuk-summary-list__value">
-            <p>
-              Annex IV of the Windsor Framework: "<%= category_assessment.theme.to_s %>"
-            </p>
-
-            <% if category_assessment.regulation_url.present? %>
-              <%= govuk_link_to 'View Regulation document', category_assessment.regulation_url %>
-            <% end %>
-
-            <p class='govuk-!-margin-top-4'>
-              <%= @cas_without_exemptions.present? ? 'No exemptions available' : (category_assessment.exemptions.none? ? 'No exemptions available' : 'Exemptions not met') %>
-            </p>
-          </dd>
-        </div>
-      <% end %>
-    </dl>
+    <% assessments = @cas_without_exemptions.present? ? @cas_without_exemptions : @assessments.public_send("cat_#{category}_exemptions_not_met") %>
+    <%= govuk_summary_list(rows: assessments.map { |category_assessment|
+      {
+        key: { text: '' },
+        value: {
+          text: capture do
+            concat(tag.p(%(Annex IV of the Windsor Framework: "#{category_assessment.theme}")))
+            concat(govuk_link_to('View Regulation document', category_assessment.regulation_url)) if category_assessment.regulation_url.present?
+            concat(tag.p(@cas_without_exemptions.present? ? 'No exemptions available' : (category_assessment.exemptions.none? ? 'No exemptions available' : 'Exemptions not met'), class: 'govuk-!-margin-top-4'))
+          end,
+        },
+      }
+    }) %>
   </div>
 </div>

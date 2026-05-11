@@ -47,7 +47,6 @@ RSpec.describe 'meursing_lookup/steps/show', type: :view do
     it { expect(rendered).to render_template('meursing_lookup/steps/show') }
     it { expect(rendered).to render_template('meursing_lookup/steps/_form') }
     it { expect(rendered).to render_template('meursing_lookup/steps/_review_answers') }
-    it { expect(rendered).to render_template('meursing_lookup/steps/_review_answer') }
   end
 
   context 'when the current step is the end step' do

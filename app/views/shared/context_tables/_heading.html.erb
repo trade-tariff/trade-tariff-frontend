@@ -1,34 +1,23 @@
-<dl class="govuk-summary-list">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Heading
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @heading.short_code %>
-    </dd>
-    <dd class="govuk-summary-list__actions"></dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Classification
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= sanitize @heading.to_s %>
-    </dd>
-    <dd class="govuk-summary-list__actions"></dd>
-  </div>
-  <% if @heading.declarable? %>
-    <%= render 'shared/context_tables/supplementary_unit_row', declarable: @heading %>
-  <% end %>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Date of trade
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @search.date.to_formatted_s(:long) %>
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <%= govuk_link_to('Change', import_export_dates_path(goods_nomenclature_code: current_goods_nomenclature_code)) %>
-    </dd>
-  </div>
-</dl>
+<% rows = [
+  { key: { text: 'Heading' }, value: { text: @heading.short_code } },
+  { key: { text: 'Classification' }, value: { text: sanitize(@heading.to_s) } },
+] %>
+<% if @heading.declarable? %>
+  <% rows << {
+    key: { text: @heading.supplementary_unit_description.to_s },
+    value: {
+      text: capture do
+        concat(tag.p(supplementary_unit_for(uk_declarable, xi_declarable, @search.country)))
+        concat(govuk_details(summary_text: 'What are supplementary units?') do
+          tag.div('Supplementary units are used when an additional measurement unit is needed on customs declarations. For example: the quantity of the products as well as the weight in kilograms.<br>'.html_safe, class: 'govuk-!-font-size-16')
+        end)
+      end,
+    },
+  } %>
+<% end %>
+<% rows << {
+  key: { text: 'Date of trade' },
+  value: { text: @search.date.to_formatted_s(:long) },
+  actions: [{ href: import_export_dates_path(goods_nomenclature_code: current_goods_nomenclature_code) }],
+} %>
+<%= govuk_summary_list(rows:) %>

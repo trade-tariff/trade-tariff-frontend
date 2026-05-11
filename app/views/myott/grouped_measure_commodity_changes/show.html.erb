@@ -28,48 +28,13 @@
 
       <h2 class="govuk-heading-l">Trades affected</h2>
 
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Import/Export
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= @grouped_measure_commodity_changes.trade_direction.capitalize %>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Country
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= @grouped_measure_commodity_changes.geographical_area_description %>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Chapter
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= @grouped_measure_commodity_changes.chapter %>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Heading
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= sanitize @grouped_measure_commodity_changes.heading %>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Classification
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <%= sanitize @grouped_measure_commodity_changes.classification_description %>
-          </dd>
-        </div>
-      </dl>
+      <%= govuk_summary_list(rows: [
+        { key: { text: 'Import/Export' }, value: { text: @grouped_measure_commodity_changes.trade_direction.capitalize } },
+        { key: { text: 'Country' }, value: { text: @grouped_measure_commodity_changes.geographical_area_description } },
+        { key: { text: 'Chapter' }, value: { text: @grouped_measure_commodity_changes.chapter } },
+        { key: { text: 'Heading' }, value: { text: sanitize(@grouped_measure_commodity_changes.heading) } },
+        { key: { text: 'Classification' }, value: { text: sanitize(@grouped_measure_commodity_changes.classification_description) } },
+      ]) %>
 
       <% @grouped_measure_commodity_changes.impacted_measures.each do |measure_type, changes| %>
         <%= render 'impacted_measures', measure_type: measure_type, presenter: Myott::ImpactedMeasuresPresenter.new(changes, trade_direction: @grouped_measure_commodity_changes.trade_direction) %>

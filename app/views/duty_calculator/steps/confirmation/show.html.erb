@@ -2,14 +2,18 @@
 
 <span class="govuk-caption-xl">Calculate import duties</span>
 <h1 class="govuk-heading-xl">Check your answers</h1>
-<dl class="govuk-summary-list">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Commodity code</dt>
-    <dd class="govuk-summary-list__value"><%= commodity.formatted_commodity_code %></dd>
-    <dd class="govuk-summary-list__actions">
-      <%= govuk_link_to('Change', sections_url) %>
-    </dd>
-  </div>
-  <%= render partial: 'entry', collection: @decorated_step.user_answers, as: :entry %>
-</dl>
+<%= govuk_summary_list(rows: [
+  {
+    key: { text: 'Commodity code' },
+    value: { text: commodity.formatted_commodity_code },
+    actions: [{ href: sections_url }],
+  },
+  *@decorated_step.user_answers.map do |entry|
+    {
+      key: { text: entry[:label] },
+      value: { text: entry[:value] },
+      actions: [{ href: @decorated_step.path_for(key: entry[:key]) }],
+    }
+  end,
+]) %>
 <%= govuk_button_link_to('Calculate import duties', @decorated_step.next_step_path) %>

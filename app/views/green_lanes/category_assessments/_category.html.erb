@@ -46,19 +46,15 @@
     <% if category.exemptions.any? %>
       <td class="govuk-table__cell">
         <% category.exemptions.each do |ex| %>
-          <dl class="govuk-summary-list">
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                <%= ex.code %>
-              </dt>
-              <dd class="govuk-summary-list__value">
-                <%= ex.description %>
-              </dd>
-              <dd class="govuk-summary-list__actions">
-                <%= ex.class.model_name.human %>
-              </dd>
-            </div>
-          </dl>
+          <%= govuk_summary_list(rows: [{
+            key: { text: ex.code },
+            value: {
+              text: capture do
+                concat(ex.description)
+                concat(tag.span(ex.class.model_name.human, class: 'govuk-hint govuk-!-margin-bottom-0'))
+              end,
+            },
+          }]) %>
         <% end %>
       </td>
     <% else %>
