@@ -9,8 +9,12 @@ module DutyCalculator
 
       def create
         @step = Steps::ImportDate.new(permitted_params)
+        validate_commodity_validity! if @step.valid?
 
         validate(@step)
+      rescue Faraday::ResourceNotFound
+        add_commodity_unavailable_error
+        render 'show'
       end
 
       private
@@ -36,6 +40,21 @@ module DutyCalculator
         user_session.commodity_source = TradeTariffFrontend::ServiceChooser.service_name
         user_session.referred_service = TradeTariffFrontend::ServiceChooser.service_name
         user_session.import_date = @step.import_date.strftime('%Y-%m-%d')
+      end
+
+      def validate_commodity_validity!
+        Commodity.find(commodity_code, as_of: @step.import_date)
+      end
+
+      def add_commodity_unavailable_error
+        @commodity_validity_periods = fetch_validity_periods
+        @step.errors.add(:import_date, :commodity_not_available_on_date)
+      end
+
+      def fetch_validity_periods
+        ValidityPeriod.all(Commodity, commodity_code, as_of: @step.import_date)
+      rescue Faraday::ResourceNotFound
+        []
       end
 
       def day

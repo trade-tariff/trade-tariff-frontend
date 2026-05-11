@@ -8,6 +8,22 @@
     hint: { text: 'As duties and quotas change over time, it may be important to enter the date you think your goods your goods will be imported.<br>
       Enter a date from 1 January 2021, or later.<br>
       Use the format day, month, year. For example, 27 3 2021.'.html_safe } %>
+  <% if @commodity_validity_periods.present? %>
+    <p class="govuk-body">
+      This commodity code is available for these periods:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <% @commodity_validity_periods.each do |period| %>
+        <li>
+          <% if period.end_date.present? %>
+            From <%= period.start_date.to_formatted_s(:long) %> to <%= period.end_date.to_formatted_s(:long) %>
+          <% else %>
+            From <%= period.start_date.to_formatted_s(:long) %> onwards
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
   <%= f.govuk_submit %>
 <% end %>
 
