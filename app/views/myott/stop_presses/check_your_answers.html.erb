@@ -18,7 +18,7 @@
       <div data-controller="chapter-selection">
         <%= form_with url: subscribe_myott_stop_press_path, method: :post, local: true do %>
           <%= render 'details_selected_sections_chapters', selected_sections_chapters: @selected_sections_chapters %>
-          <%= link_to "Edit your chapter preferences", edit_myott_stop_press_preferences_path, class: "link_button", style: "font-size: 19px;" %>
+          <%= govuk_link_to "Edit your chapter preferences", edit_myott_stop_press_preferences_path %>
           <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
           <h2 class="govuk-heading-m">Confirm your selection</h2>
