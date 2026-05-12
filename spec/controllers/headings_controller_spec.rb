@@ -84,11 +84,16 @@ RSpec.describe HeadingsController, type: :controller do
         expect(response.status).to redirect_to commodity_url(id: '0903000000')
       end
 
-      it 'redirects without double-rendering when a country param is present and the geographical area lookup raises a 404' do
-        allow_any_instance_of(Search).to receive(:geographical_area).and_raise(Faraday::ResourceNotFound)
+      context 'when a country param is also present' do
+        it 'does not raise a double-render error' do
+          expect { get :show, params: { id: '0903', country: 'XY' } }.not_to raise_error
+        end
 
-        expect { get :show, params: { id: '0903', country: 'XY' } }.not_to raise_error
-        expect(response.status).to redirect_to commodity_url(id: '0903000000', country: 'XY')
+        it 'redirects to the relevant commodity' do
+          get :show, params: { id: '0903', country: 'XY' }
+
+          expect(response.status).to redirect_to commodity_url(id: '0903000000', country: 'XY')
+        end
       end
     end
 
