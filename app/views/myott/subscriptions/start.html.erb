@@ -41,8 +41,6 @@
       change your preferences or unsubscribe from all emails.
     </p>
 
-    <a href="<%= @continue_url %>" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-      Continue
-    </a>
+    <%= govuk_button_link_to 'Continue', @continue_url, secondary: true %>
   </div>
 </div>
