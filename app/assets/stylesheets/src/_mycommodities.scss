@@ -71,4 +71,18 @@
       gap: 0.25em;
     }
   }
+
+  .myott-mycommodities__responsive-table {
+    @include govuk-media-query($until: tablet) {
+      display: none;
+    }
+  }
+
+  .myott-mycommodities__responsive-mobile-cards {
+    display: none;
+
+    @include govuk-media-query($until: tablet) {
+      display: block;
+    }
+  }
 }
