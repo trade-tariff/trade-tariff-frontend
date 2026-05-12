@@ -6,6 +6,7 @@
     background-color: govuk-colour("black", $variant: "tint-95");
     border-bottom: 1px solid govuk-functional-colour(border);
     padding: govuk-spacing(4);
+    margin: 0;
     // Reapply footer meta flex layout (normally scoped under .govuk-footer)
     display: flex;
     flex-wrap: wrap;
@@ -30,16 +31,16 @@
       min-width: 6em;
     }
   }
-}
 
-@include govuk-media-query($until: tablet) {
-  .feedback-useful-banner__inner {
-    flex-direction: column;
-    align-items: stretch;
+  @include govuk-media-query($until: tablet) {
+    &__inner {
+      flex-direction: column;
+      align-items: stretch;
 
-    .govuk-footer__meta-item .govuk-button {
-      width: 100%;
-      min-width: 0;
+      .govuk-footer__meta-item .govuk-button {
+        width: 100%;
+        min-width: 0;
+      }
     }
   }
 }
