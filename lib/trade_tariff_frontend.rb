@@ -55,6 +55,10 @@ module TradeTariffFrontend
     ENV.fetch('FRONTEND_HOST', 'http://localhost')
   end
 
+  def developer_portal_url
+    ENV.fetch('DEVELOPER_PORTAL_URL') { "https://hub.#{base_domain}/" }
+  end
+
   def identity_base_url
     ENV.fetch('IDENTITY_BASE_URL', 'http://localhost:3005')
   end

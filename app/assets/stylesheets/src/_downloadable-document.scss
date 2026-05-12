@@ -18,7 +18,7 @@
       stroke      : govuk-functional-colour(border);
       margin-right: 0.5em;
       border      : 1px solid govuk-functional-colour(border);
-      box-shadow  : 4px 4px govuk-colour("black", $variant: "tint-25");
+      box-shadow  : 4px 4px govuk-tint(govuk-colour("black"), 25%);
       max-width   : 64px;
       max-height  : 80px;
     }

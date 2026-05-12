@@ -29,6 +29,10 @@
   margin: 0 govuk-spacing(6) govuk-spacing(2) 0;
 }
 
+.gem-c-cards__status {
+  margin-bottom: govuk-spacing(2);
+}
+
 .gem-c-cards__link {
   &::after {
     bottom: 0;

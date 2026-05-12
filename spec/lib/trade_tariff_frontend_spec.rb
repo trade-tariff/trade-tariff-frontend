@@ -1,6 +1,37 @@
 require 'spec_helper'
 
 RSpec.describe TradeTariffFrontend do
+  describe '.developer_portal_url' do
+    around do |example|
+      described_class.instance_variable_set(:@base_domain, nil)
+      example.run
+      described_class.instance_variable_set(:@base_domain, nil)
+    end
+
+    context 'without DEVELOPER_PORTAL_URL configured' do
+      before do
+        stub_const(
+          'ENV',
+          ENV.to_hash.except('DEVELOPER_PORTAL_URL').merge('GOVUK_APP_DOMAIN' => 'dev.trade-tariff.service.gov.uk'),
+        )
+      end
+
+      it 'returns the Developer Portal URL for the current app domain' do
+        expect(described_class.developer_portal_url).to eq('https://hub.dev.trade-tariff.service.gov.uk/')
+      end
+    end
+
+    context 'with DEVELOPER_PORTAL_URL configured' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('DEVELOPER_PORTAL_URL' => 'http://dev.localhost:9080/'))
+      end
+
+      it 'returns the configured Developer Portal URL' do
+        expect(described_class.developer_portal_url).to eq('http://dev.localhost:9080/')
+      end
+    end
+  end
+
   describe '.identity_cookie_domain' do
     around do |example|
       # Clear cached values before and after each test to prevent contamination
