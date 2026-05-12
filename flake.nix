@@ -72,6 +72,7 @@
             nodejs_latest
             pkgs-stable.playwright-driver.browsers
             ruby
+            terraform-docs
             update-providers
             yarn
           ];
