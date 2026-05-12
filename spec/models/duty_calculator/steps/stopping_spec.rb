@@ -15,9 +15,13 @@ RSpec.describe DutyCalculator::Steps::Stopping, :step, :user_session do
     end
 
     context 'when there are no document codes' do
-      let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, :with_import_date) }
 
-      it { is_expected.to eq(import_date_path(commodity_code: user_session.commodity_code)) }
+      it {
+        expect(step).to eq(
+          import_date_path(commodity_code: user_session.commodity_code, day: 1, month: 1, year: 2025),
+        )
+      }
     end
   end
 end
