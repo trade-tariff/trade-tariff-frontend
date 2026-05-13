@@ -8,6 +8,12 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
   describe 'GET #show' do
     subject(:response) { get :show, params: { commodity_code: } }
 
+    before do
+      stub_api_request("commodities/#{commodity_code}")
+        .with(query: { as_of: Time.zone.today })
+        .to_return(jsonapi_response(:commodity, commodity))
+    end
+
     it 'assigns the correct step' do
       response
       expect(assigns[:step]).to be_a(DutyCalculator::Steps::ImportDate)
@@ -37,7 +43,33 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
 
       let(:expected) { Date.new(year.to_i, month.to_i, day.to_i) }
 
+      before do
+        stub_api_request("commodities/#{commodity_code}")
+          .with(query: { as_of: expected })
+          .to_return(jsonapi_response(:commodity, commodity))
+      end
+
       it { expect { response }.to change(user_session, :import_date).from(nil).to(expected) }
+    end
+
+    context 'when the session already has an import date' do
+      let(:user_session) do
+        build(
+          :duty_calculator_user_session,
+          :with_country_of_origin,
+          :with_import_date,
+          commodity_source: nil,
+        )
+      end
+      let(:stored_date) { Date.parse('2025-01-01') }
+
+      before do
+        stub_api_request("commodities/#{commodity_code}")
+          .with(query: { as_of: stored_date })
+          .to_return(jsonapi_response(:commodity, commodity))
+      end
+
+      it { expect { response }.not_to change(user_session, :import_date).from(stored_date) }
     end
   end
 

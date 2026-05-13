@@ -37,7 +37,7 @@ module DutyCalculator
       end
 
       def previous_step_path
-        import_date_path(commodity_code: user_session.commodity_code)
+        import_date_step_path
       end
 
       private

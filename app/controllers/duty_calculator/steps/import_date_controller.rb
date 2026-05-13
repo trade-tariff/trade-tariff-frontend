@@ -58,15 +58,27 @@ module DutyCalculator
       end
 
       def day
-        params[:day] || now.day
+        reference_date_components[0].to_s
       end
 
       def month
-        params[:month] || now.month
+        reference_date_components[1].to_s
       end
 
       def year
-        params[:year] || now.year
+        reference_date_components[2].to_s
+      end
+
+      def reference_date_components
+        @reference_date_components ||=
+          if params[:day].present? && params[:month].present? && params[:year].present?
+            [params[:day].to_i, params[:month].to_i, params[:year].to_i]
+          elsif user_session.import_date.present?
+            d = user_session.import_date
+            [d.day, d.month, d.year]
+          else
+            [now.day, now.month, now.year]
+          end
       end
 
       def now

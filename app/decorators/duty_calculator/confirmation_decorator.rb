@@ -42,7 +42,13 @@ module DutyCalculator
   private
 
     def import_date_path
-      super(commodity_code: user_session.commodity_code)
+      params_hash = { commodity_code: user_session.commodity_code }
+      if user_session.import_date.present?
+        params_hash[:day] = user_session.import_date.day
+        params_hash[:month] = user_session.import_date.month
+        params_hash[:year] = user_session.import_date.year
+      end
+      super(**params_hash)
     end
 
     def additional_code_path

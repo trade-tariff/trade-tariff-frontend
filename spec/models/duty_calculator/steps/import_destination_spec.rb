@@ -82,17 +82,37 @@ RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
   end
 
   describe '#previous_step_path' do
-    let(:user_session) do
-      build(
-        :duty_calculator_user_session,
-        commodity_code: '100000000',
-        commodity_source: nil,
-        referred_service: 'uk',
-      )
+    context 'when import date is not set on the session' do
+      let(:user_session) do
+        build(
+          :duty_calculator_user_session,
+          commodity_code: '100000000',
+          commodity_source: nil,
+          referred_service: 'uk',
+        )
+      end
+
+      it 'returns import_date_path with commodity code only' do
+        expect(step.previous_step_path).to eq(import_date_path(commodity_code: '100000000'))
+      end
     end
 
-    it 'returns import_date_path' do
-      expect(step.previous_step_path).to eq(import_date_path(commodity_code: '100000000'))
+    context 'when import date is set on the session' do
+      let(:user_session) do
+        build(
+          :duty_calculator_user_session,
+          :with_import_date,
+          commodity_code: '100000000',
+          commodity_source: nil,
+          referred_service: 'uk',
+        )
+      end
+
+      it 'returns import_date_path including the session import date' do
+        expect(step.previous_step_path).to eq(
+          import_date_path(commodity_code: '100000000', day: 1, month: 1, year: 2025),
+        )
+      end
     end
   end
 end

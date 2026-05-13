@@ -37,7 +37,22 @@ module DutyCalculator
         UserSession.get
       end
 
+      def import_date_step_path
+        import_date_path(import_date_path_params_for_session)
+      end
+
       private
+
+      def import_date_path_params_for_session
+        params_hash = { commodity_code: user_session.commodity_code }
+        return params_hash if user_session.import_date.blank?
+
+        params_hash.merge(
+          day: user_session.import_date.day,
+          month: user_session.import_date.month,
+          year: user_session.import_date.year,
+        )
+      end
 
       def clean_user_session
         user_session.remove_step_ids(self.class::STEPS_TO_REMOVE_FROM_SESSION) unless user_session.nil?
