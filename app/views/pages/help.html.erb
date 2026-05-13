@@ -61,7 +61,7 @@
     </ol>
 
     <h2 class="govuk-heading-s" id="leave-feedback">Leave feedback</h2>
-    <p><%= govuk_link_to 'Leave feedback or suggestions for improvements to this service.', feedback_link_url, new_tab: "", visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text %></p>
+    <p><%= govuk_link_to 'Leave feedback or suggestions for improvements to this service.', feedback_link_url, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text %></p>
 
     <h2 class="govuk-heading-s" id="getting-help">Getting help from HMRC if you need to find a commodity code</h2>
     <p>If you <%= govuk_link_to 'cannot find the right commodity code for your goods', help_find_commodity_path %>, you can contact HMRC for advice or for a decision on your goods.</p>
@@ -138,13 +138,13 @@
           </li>
 
           <li class="gem-c-related-navigation__link">
-            <a href="https://www.gov.uk/government/collections/uk-trade-tariff-volume-3-for-cds--2#imports:-guidance-on-completing-an-import-declaration-for-the-customs-declaration-service">UK Trade Tariff: volume 3 for CDS</a>
+            <%= govuk_link_to('UK Trade Tariff: volume 3 for CDS', 'https://www.gov.uk/government/collections/uk-trade-tariff-volume-3-for-cds--2#imports:-guidance-on-completing-an-import-declaration-for-the-customs-declaration-service') %>
           </li>
           <li class="gem-c-related-navigation__link">
-            <a href="https://www.gov.uk/government/publications/customs-declaration-completion-requirements-for-great-britain">Customs Declaration Completion Requirements for Great Britain</a>
+            <%= govuk_link_to('Customs Declaration Completion Requirements for Great Britain', 'https://www.gov.uk/government/publications/customs-declaration-completion-requirements-for-great-britain') %>
           </li>
           <li class="gem-c-related-navigation__link">
-            <a href="https://www.gov.uk/government/publications/customs-declaration-completion-requirements-for-the-northern-ireland-protocol">Customs Declaration Completion Requirements for The Northern Ireland Protocol</a>
+            <%= govuk_link_to('Customs Declaration Completion Requirements for The Northern Ireland Protocol', 'https://www.gov.uk/government/publications/customs-declaration-completion-requirements-for-the-northern-ireland-protocol') %>
           </li>
         </ul>
       </nav>
@@ -154,10 +154,10 @@
       <nav role="navigation" class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-40a88cdf" data-module="gem-toggle" data-gem-toggle-module-started="true">
         <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
           <li class="gem-c-related-navigation__link">
-            <a href="https://www.gov.uk/government/collections/uk-trade-tariff-volume-3-for-chief">UK Trade Tariff: volume 3 for CHIEF</a>
+            <%= govuk_link_to('UK Trade Tariff: volume 3 for CHIEF', 'https://www.gov.uk/government/collections/uk-trade-tariff-volume-3-for-chief') %>
           </li>
           <li class="gem-c-related-navigation__link">
-            <a href="https://www.gov.uk/government/publications/customs-declaration-completion-requirements-for-great-britain">Customs Declaration Completion Requirements for Great Britain</a>
+            <%= govuk_link_to('Customs Declaration Completion Requirements for Great Britain', 'https://www.gov.uk/government/publications/customs-declaration-completion-requirements-for-great-britain') %>
           </li>
         </ul>
       </nav>

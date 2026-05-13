@@ -43,7 +43,7 @@
             <% else %>
               <tr class="govuk-table__row">
                 <td colspan="2" class="govuk-table__cell">
-                  No valid commodities are associated with additional code <a class="inline" href="<%= additional_code_search_path(type: additional_code.additional_code_type_id, code: additional_code.additional_code) %>"><%= additional_code.code %></a>.
+                  No valid commodities are associated with additional code <%= govuk_link_to(additional_code.code, additional_code_search_path(type: additional_code.additional_code_type_id, code: additional_code.additional_code)) %>.
                 </td>
               </tr>
             <% end %>

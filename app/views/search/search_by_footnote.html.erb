@@ -30,7 +30,7 @@
           <% if goods_nomenclatures.empty? %>
             <tr class="govuk-table__row">
               <td colspan="2" class="govuk-table__cell">
-                No valid commodities are associated with footnote <a class="inline" href="<%= footnote_search_path(code: footnote.code) %>"><%= footnote.code %></a>.
+                No valid commodities are associated with footnote <%= govuk_link_to(footnote.code, footnote_search_path(code: footnote.code)) %>.
               </td>
             </tr>
           <% else %>

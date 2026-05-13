@@ -11,7 +11,7 @@
     <div class="govuk-error-summary__body">
       <ul class="govuk-list govuk-error-summary__list">
         <% @search.errors.each do |error| %>
-          <li><a href="#guided_q"><%= error.message %></a></li>
+          <li><%= govuk_link_to(error.message, '#guided_q') %></li>
         <% end %>
       </ul>
     </div>

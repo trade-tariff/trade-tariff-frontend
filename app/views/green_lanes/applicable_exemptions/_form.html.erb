@@ -26,7 +26,7 @@
           <% if category_assessment.regulation_url.present? %>
           <p>
             <%= govuk_link_to 'View Regulation document',
-                        category_assessment.regulation_url, new_tab: "", visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text
+                        category_assessment.regulation_url, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text
             %>
           </p>
           <% end %>

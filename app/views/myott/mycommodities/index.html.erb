@@ -39,9 +39,7 @@
               You are subscribed to email notifications sent to <strong><%= current_user.email %></strong>
             </p>
             <p>
-              <a href="<%= myott_unsubscribe_path(current_subscription('my_commodities').resource_id) %>">
-                Unsubscribe from commodity watch list
-              </a>
+              <%= govuk_link_to('Unsubscribe from commodity watch list', myott_unsubscribe_path(current_subscription('my_commodities').resource_id)) %>
             </p>
           </div>
         </div>

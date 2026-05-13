@@ -22,6 +22,6 @@
 
 <% if @referrer.present? %>
   <p>
-    <a href=<%= @referrer %>>Return to page</a>
+    <%= govuk_link_to('Return to page', @referrer) %>
   </p>
 <% end %>
