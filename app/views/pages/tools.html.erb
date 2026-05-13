@@ -11,66 +11,61 @@
   <div class="govuk-grid-column-full">
     <%= page_header 'Tariff tools' %>
 
-    <ul class="govuk-list">
+    <ul class="gem-c-cards__list gem-c-cards__list--one-column">
       <% if TradeTariffFrontend::ServiceChooser.uk? %>
-        <li>
-          <p>
-            <%= govuk_link_to t('breadcrumb.exchange_rates'), exchange_rates_path %>
-            <br>
-            View official monthly, average and spot exchange rates online, or download in CSV or XML. You can also request accessible formats.
-          </p>
-        </li>
+        <%= render 'tool_card',
+                   title: 'Exchange rates',
+                   url: exchange_rates_path,
+                   description: 'Use official exchange rates for customs values. View average monthly exchange rates, or download in CSV or XML' %>
       <% end %>
-      <li>
-        <p>
-          <%= govuk_link_to t('breadcrumb.simplified_procedural_values'), simplified_procedural_values_path %>
-          <br>
-          Use simplified procedure value rates for fresh fruit and vegetable goods that you import.
-        </p>
-      </li>
+      <%= render 'tool_card',
+                 title: 'Simplified procedure value rates',
+                 url: simplified_procedural_values_path,
+                 description: 'Check simplified procedure value rates for fresh fruit and vegetables' %>
       <% if TradeTariffFrontend::ServiceChooser.uk? %>
-        <li>
-          <p>
-            <%= govuk_link_to t('breadcrumb.quotas'), quota_search_path %>
-            <br>
-            Search for tariff quotas, including daily updated balances.
-          </p>
-        </li>
+        <%= render 'tool_card',
+                   title: t('breadcrumb.quotas'),
+                   url: quota_search_path,
+                   description: 'Search tariff quotas. Balances are updated daily' %>
       <% end %>
-      <li>
-        <p>
-          <%= govuk_link_to "Certificates, licences and documents", certificate_search_path %>
-          <br>
-          Search for certificates, licences and other document codes.
-        </p>
-      </li>
-      <li>
-        <p>
-          <%= govuk_link_to t('breadcrumb.additional_codes'), additional_code_search_path %>
-          <br>
-          Search for additional codes. Additional codes are used on the tariff for a number of purposes to help you to classify goods accurately on your customs declaration.
-        </p>
-      </li>
-      <li>
-        <p>
-          <%= govuk_link_to 'Footnotes', footnote_search_path %>
-          <br>Search the tariff for footnotes.
-        </p>
-      </li>
-      <li>
-        <p>
-          <%= govuk_link_to t('breadcrumb.chemicals'), chemical_search_path %>
-          <br>Search the tariff for chemicals by <abbr title="Chemical Abstracts Service">CAS</abbr> Registry Number (RN).
-        </p>
-      </li>
+      <%= render 'tool_card',
+                 title: 'Certificates, licences and documents',
+                 url: certificate_search_path,
+                 description: 'Find document codes and guidance for importing and exporting goods' %>
+      <% if TradeTariffFrontend::ServiceChooser.uk? %>
+        <%= render 'tool_card',
+                   title: 'Developer Portal (opens in new tab)',
+                   url: TradeTariffFrontend.developer_portal_url,
+                   description: 'Access official trade tariff data from HMRC and create and manage API keys',
+                   status: 'New',
+                   link_options: {
+                     id: 'developer-portal-tools-link',
+                     target: '_blank',
+                     rel: 'noopener noreferrer',
+                     data: {
+                       controller: 'analytics',
+                       action: 'click->analytics#track',
+                       analytics_event: 'developer_portal_tools_link_click',
+                     },
+                   } %>
+      <% end %>
+      <%= render 'tool_card',
+                 title: t('breadcrumb.additional_codes'),
+                 url: additional_code_search_path,
+                 description: 'Find additional codes for use on customs declarations' %>
+      <%= render 'tool_card',
+                 title: 'Footnotes',
+                 url: footnote_search_path,
+                 description: 'Search footnotes applying to a commodity code' %>
+      <%= render 'tool_card',
+                 title: t('breadcrumb.chemicals'),
+                 url: chemical_search_path,
+                 description: safe_join(['Look up chemicals by ', tag.abbr('CAS', title: 'Chemical Abstracts Service'), ' Registry Number (RN)']) %>
       <% if TradeTariffFrontend::ServiceChooser.xi? %>
-        <li>
-          <p>
-            <%= govuk_link_to t('breadcrumb.meursing_lookup'), meursing_lookup_step_path('start') %>
-            <br>
-            Find the Meursing code for your composite agrifood.
-          </p>
-        </li>
+        <%= render 'tool_card',
+                   title: t('breadcrumb.meursing_lookup'),
+                   url: meursing_lookup_step_path('start'),
+                   description: 'Find the Meursing code for your composite agrifood' %>
       <% end %>
     </ul>
   </div>

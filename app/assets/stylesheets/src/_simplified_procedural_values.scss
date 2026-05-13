@@ -1,4 +1,4 @@
 .simplified-procedural-values-form {
-  background-color: govuk-colour("black", $variant: "tint-95");
+  background-color: govuk-tint(govuk-colour("black"), 95%);
   padding: govuk-spacing(2);
 }

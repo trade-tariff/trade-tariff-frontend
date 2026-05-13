@@ -1,5 +1,3 @@
-@use "sass:color";
-
 // Interactive search Q&A styles
 
 .interactive-results .interactive-result {
@@ -49,7 +47,7 @@
 
 // Interactive feedback useful banner - full-width grey banner with blue bottom border
 .app-feedback-useful-banner {
-  background: govuk-colour("black", $variant: "tint-95");
+  background: govuk-tint(govuk-colour("black"), 95%);
   border-bottom: 4px solid govuk-functional-colour(brand);
 
   .app-feedback-useful-banner__content {
@@ -81,7 +79,7 @@
 
     &:hover {
       color: govuk-functional-colour(text);
-      background-color: color.adjust(govuk-colour("black", $variant: "tint-95"), $lightness: -3%);
+      background-color: govuk-tint(govuk-colour("black"), 92%);
     }
   }
 }
@@ -93,7 +91,7 @@
 
 // Devolved nations panel - grey background matching gem-c-devolved-nations
 .app-devolved-nations {
-  background: govuk-colour("black", $variant: "tint-95");
+  background: govuk-tint(govuk-colour("black"), 95%);
   margin-bottom: govuk-spacing(3);
   padding: govuk-spacing(3);
 
