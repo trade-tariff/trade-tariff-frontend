@@ -22,7 +22,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">Informal advice</h2>
-    <p>You can <%= govuk_link_to "use HMRC's Tariff Classification Service", "https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods", new_tab: "", visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text %> to get non-legally binding classification advice.</p>
+    <p>You can <%= govuk_link_to "use HMRC's Tariff Classification Service", "https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods", new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text %> to get non-legally binding classification advice.</p>
     <p>HMRC will try to respond to your email within 5 working days.</p>
 
     <div class="govuk-inset-text">
@@ -47,8 +47,8 @@
     <p>If you want to check if a decision has already been made on goods that are similar to yours you can search for previous:</p>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li><a href="https://www.tax.service.gov.uk/search-for-advance-tariff-rulings/search?enableTrackingConsent=true">Advance Tariff Rulings for Great Britain (England, Wales and Scotland)</a></li>
-      <li><a href="https://ec.europa.eu/taxation_customs/dds2/ebti/ebti_home.jsp?Lang=en">European Binding Tariff Information decisions for Northern Ireland</a></li>
+      <li><%= govuk_link_to('Advance Tariff Rulings for Great Britain (England, Wales and Scotland)', 'https://www.tax.service.gov.uk/search-for-advance-tariff-rulings/search?enableTrackingConsent=true') %></li>
+      <li><%= govuk_link_to('European Binding Tariff Information decisions for Northern Ireland', 'https://ec.europa.eu/taxation_customs/dds2/ebti/ebti_home.jsp?Lang=en') %></li>
     </ul>
   </div>
 </div>

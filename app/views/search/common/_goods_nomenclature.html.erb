@@ -1,17 +1,10 @@
 <tr class="govuk-table__row">
   <td class="govuk-table__cell">
     <% if goods_nomenclature.instance_of?(GoodsNomenclature) %>
-      <a href="<%= commodity_path(goods_nomenclature, day: nil, month: nil, year: nil) %>" aria-describedby="code-for-commodity-<%= goods_nomenclature.id %>">
+      <%= govuk_link_to(goods_nomenclature.description.html_safe, commodity_path(goods_nomenclature, day: nil, month: nil, year: nil), aria_describedby: "code-for-commodity-#{goods_nomenclature.id}", visually_hidden_suffix: "(code #{goods_nomenclature.code})") %>
     <% else %>
-      <a href="<%= polymorphic_path(goods_nomenclature, day: nil, month: nil, year: nil) %>" aria-describedby="code-for-commodity-<%= goods_nomenclature.id %>">
+      <%= govuk_link_to(goods_nomenclature.description.html_safe, polymorphic_path(goods_nomenclature, day: nil, month: nil, year: nil), aria_describedby: "code-for-commodity-#{goods_nomenclature.id}", visually_hidden_suffix: "(code #{goods_nomenclature.code})") %>
     <% end  %>
-
-    <%= goods_nomenclature.description.html_safe %>
-
-    <span class="govuk-visually-hidden">
-      (code <%= goods_nomenclature.code %>)
-    </span>
-    </a>
   </td>
 
   <td class="govuk-table__cell text-right" id="code-for-commodity-<%= goods_nomenclature.id %>">

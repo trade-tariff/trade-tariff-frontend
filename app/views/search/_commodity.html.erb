@@ -1,16 +1,12 @@
 <tr class="govuk-table__row">
   <td class="govuk-table__cell commodity-result">
-    <a href="<%= commodity_path(commodity, request_id: @search.request_id) %>" aria-describedby="code-for-commodity-<%= commodity.id %>">
+    <%= govuk_link_to('', commodity_path(commodity, request_id: @search.request_id), aria_describedby: "code-for-commodity-#{commodity.id}", visually_hidden_suffix: "(code #{commodity.code})") do %>
       <% if commodity.ancestor_descriptions.present? %>
         <%= descriptions_with_other_handling(commodity) %>
       <% else %>
         <%= sanitize commodity.description %>
       <% end %>
-
-      <span class="govuk-visually-hidden">
-        (code <%= commodity.code %>)
-      </span>
-    </a>
+    <% end %>
   </td>
 
   <td class="govuk-table__cell text-right" id="code-for-commodity-<%= commodity.id %>">

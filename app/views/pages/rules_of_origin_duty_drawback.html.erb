@@ -62,11 +62,11 @@
               <td class="govuk-table__cell">
                 <ul class="govuk-list">
                   <li>
-                    <a href=<%= scheme.agreement_link %> target="_blank" rel="noopener noreferrer">View agreement details</a>
+                    <%= govuk_link_to('View agreement details', scheme.agreement_link, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text) %>
                   </li>
                   <% if scheme.origin_reference_document&.ord_original&.present? %>
                     <li>
-                      <a href=<%= scheme.origin_reference_document.document_path %> target="_blank" rel="noopener noreferrer">View origin reference document</a>
+                      <%= govuk_link_to('View origin reference document', scheme.origin_reference_document.document_path, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text) %>
                     </li>
                   <% end %>
                 </ul>

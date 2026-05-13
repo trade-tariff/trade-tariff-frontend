@@ -16,7 +16,7 @@
     </p>
     <p>
       These simplified processes are introduced as part of the new arrangements for parcels and freight under the Windsor Framework.
-     <a href='http://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland' target='_blank' rel='noopener noreferrer'> Find out more about Internal Market Movements (opens in new tab)</a>.
+     <%= govuk_link_to('Find out more about Internal Market Movements', 'http://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland', new_tab: true) %>.
     <p>
 
     <p>
@@ -65,14 +65,10 @@
     <p>You'll need to know:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <a href='https://www.trade-tariff.service.gov.uk/find_commodity'>
-          the commodity code for your goods
-        </a>
+        <%= govuk_link_to('the commodity code for your goods', 'https://www.trade-tariff.service.gov.uk/find_commodity') %>
       </li>
       <li>
-        <a href='https://www.trade-tariff.service.gov.uk/howto/origin'>
-          the non-preferential origin of your goods
-        </a>
+        <%= govuk_link_to('the non-preferential origin of your goods', 'https://www.trade-tariff.service.gov.uk/howto/origin') %>
       </li>
       <li>when the internal movement of goods is likely to take place</li>
     </ul>

@@ -6,16 +6,12 @@
 <%= govuk_details(summary_text: "#{live_issue.commodities.count} commodities affected") do %>
   <% live_issue.commodities.each do |commodity_code| %>
     <p class="govuk-body">
-      <a href="/commodities/<%= commodity_code %>" class="govuk-link">
-        <%= commodity_code %>
-      </a>
+      <%= govuk_link_to(commodity_code, "/commodities/#{commodity_code}") %>
     </p>
   <% end %>
 <% end %>
 <% else %>
 <p class="govuk-body">
-  <a href="/commodities/<%= live_issue.commodities.first %>" class="govuk-link">
-    <%= live_issue.commodities.first %>
-  </a>
+  <%= govuk_link_to(live_issue.commodities.first, "/commodities/#{live_issue.commodities.first}") %>
 </p>
 <% end %>

@@ -42,7 +42,7 @@
       <%= render "footnotes/critical_warning", footnote: footnote %>
     <% end %>
 
-    <p>The commodity code for exporting and <%= govuk_link_to 'Intrastat reporting', 'https://www.gov.uk/intrastat', new_tab: "", visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text %> is <%= declarable.display_export_code %>.</p>
+    <p>The commodity code for exporting and <%= govuk_link_to 'Intrastat reporting', 'https://www.gov.uk/intrastat', new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text %> is <%= declarable.display_export_code %>.</p>
 
     <%= render 'declarables/consigned', declarable: declarable %>
 
