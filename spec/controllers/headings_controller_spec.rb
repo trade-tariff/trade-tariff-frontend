@@ -83,6 +83,18 @@ RSpec.describe HeadingsController, type: :controller do
 
         expect(response.status).to redirect_to commodity_url(id: '0903000000')
       end
+
+      context 'when a country param is also present' do
+        it 'does not raise a double-render error' do
+          expect { get :show, params: { id: '0903', country: 'XY' } }.not_to raise_error
+        end
+
+        it 'redirects to the relevant commodity' do
+          get :show, params: { id: '0903', country: 'XY' }
+
+          expect(response.status).to redirect_to commodity_url(id: '0903000000', country: 'XY')
+        end
+      end
     end
 
     context 'with UK site' do

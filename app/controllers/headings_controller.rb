@@ -4,7 +4,7 @@ class HeadingsController < GoodsNomenclaturesController
   def show
     fetch_heading
 
-    redirect_to commodity_path(id: heading.id) if heading.declarable?
+    return redirect_to commodity_path(id: heading.id) if heading.declarable?
 
     @commodities = HeadingCommodityPresenter.new(heading.commodities)
     @meursing_additional_code = session[:meursing_lookup].try(:[], 'result')
