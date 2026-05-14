@@ -67,35 +67,18 @@
         <!-- Mobile cards -->
         <div class="myott-mycommodities__responsive-mobile-cards">
           <% @change.tariff_changes.each do |change| %>
-            <div class="govuk-summary-card">
-              <div class="govuk-summary-card__title-wrapper">
-                <h3 class="govuk-summary-card__title">
-                  Commodity: <%= change.goods_nomenclature_item_id %>
-                </h3>
-              </div>
-
-              <div class="govuk-summary-card__content">
-                <dl class="govuk-summary-list">
-                  <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                      Classification
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                      <%= sanitize change.classification_description %>
-                    </dd>
-                  </div>
-
-                  <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                      New end date
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                      <%= change.date_of_effect %>
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
+            <%= govuk_summary_card(title: "Commodity: #{change.goods_nomenclature_item_id}", heading_level: 3) do %>
+              <%= govuk_summary_list(rows: [
+                {
+                  key: { text: 'Classification' },
+                  value: { text: sanitize(change.classification_description) },
+                },
+                {
+                  key: { text: 'New end date' },
+                  value: { text: change.date_of_effect },
+                },
+              ]) %>
+            <% end %>
           <% end %>
         </div>
       <% end %>

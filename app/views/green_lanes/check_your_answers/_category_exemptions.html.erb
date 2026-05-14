@@ -1,19 +1,15 @@
 <% if assessments.flat_map(&:exemptions).any? %>
-  <div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-      <h2 class="govuk-summary-card__title"><%= title %></h2>
-      <div class="govuk-summary-card__actions">
-        <%= govuk_link_to('', edit_path) %>
-      </div>
-    </div>
-    <div class="govuk-summary-card__content">
-      <%= govuk_summary_list(rows: unique_exemptions(assessments).map { |exemption, category_assessment|
-        {
-          key: { text: hide_pseudo_code(exemption.code) },
-          value: { text: exemption.formatted_description },
-          actions: [{ href: (edit_path.presence || '#'), text: exemption_status(exemption, category, category_assessment) }],
-        }
-      }) %>
-    </div>
-  </div>
+  <%= govuk_summary_card(title:) do |card| %>
+    <% card.with_action do %>
+      <%= govuk_link_to('', edit_path) %>
+    <% end %>
+
+    <%= govuk_summary_list(rows: unique_exemptions(assessments).map { |exemption, category_assessment|
+      {
+        key: { text: hide_pseudo_code(exemption.code) },
+        value: { text: exemption.formatted_description },
+        actions: [{ href: (edit_path.presence || '#'), text: exemption_status(exemption, category, category_assessment) }],
+      }
+    }) %>
+  <% end %>
 <% end %>
