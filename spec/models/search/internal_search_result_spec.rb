@@ -406,6 +406,26 @@ RSpec.describe Search::InternalSearchResult do
     end
   end
 
+  describe '#all_unknown_confidence?' do
+    context 'when every result has unknown confidence' do
+      subject { described_class.new([commodity_attrs('confidence' => 'unknown'), heading_attrs('confidence' => nil)]) }
+
+      it { is_expected.to be_all_unknown_confidence }
+    end
+
+    context 'when any result has recognised confidence' do
+      subject { described_class.new([commodity_attrs('confidence' => 'possible'), heading_attrs('confidence' => 'unknown')]) }
+
+      it { is_expected.not_to be_all_unknown_confidence }
+    end
+
+    context 'when there are no results' do
+      subject { described_class.new([]) }
+
+      it { is_expected.not_to be_all_unknown_confidence }
+    end
+  end
+
   describe '#query' do
     subject { described_class.new([commodity_attrs], meta).query }
 

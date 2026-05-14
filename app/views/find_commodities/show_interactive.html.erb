@@ -19,35 +19,7 @@
 
       <%= render 'shared/search/interactive_search_form' %>
 
-      <div class="gem-c-cards">
-        <h2 class="gem-c-cards__heading govuk-heading-m gem-c-cards__heading--underline">Other ways to search for a commodity</h2>
-        <ul class="gem-c-cards__list gem-c-cards__list--one-column">
-          <li class="gem-c-cards__list-item">
-            <div class="gem-c-cards__list-item-wrapper">
-              <h3 class="gem-c-cards__sub-heading govuk-heading-s">
-                <%= govuk_link_to 'Keyword or commodity code', find_commodity_path, class: 'gem-c-cards__link' %>
-              </h3>
-              <p class="govuk-body gem-c-cards__description">Search using keywords or use a known commodity code</p>
-            </div>
-          </li>
-          <li class="gem-c-cards__list-item">
-            <div class="gem-c-cards__list-item-wrapper">
-              <h3 class="gem-c-cards__sub-heading govuk-heading-s">
-                <%= govuk_link_to 'Goods classifications', browse_sections_path, class: 'gem-c-cards__link' %>
-              </h3>
-              <p class="govuk-body gem-c-cards__description">Browse the goods classification</p>
-            </div>
-          </li>
-          <li class="gem-c-cards__list-item">
-            <div class="gem-c-cards__list-item-wrapper">
-              <h3 class="gem-c-cards__sub-heading govuk-heading-s">
-                <%= govuk_link_to 'A-Z product index', a_z_index_path('a'), class: 'gem-c-cards__link' %>
-              </h3>
-              <p class="govuk-body gem-c-cards__description">Look for your product in the A-Z</p>
-            </div>
-          </li>
-        </ul>
-      </div>
+      <%= render 'search/other_ways_to_search' %>
 
     </div>
   </div>

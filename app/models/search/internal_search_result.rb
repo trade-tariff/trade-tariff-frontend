@@ -6,6 +6,7 @@ class Search
       'Commodity' => 'commodities',
       'Subheading' => 'subheadings',
     }.freeze
+    KNOWN_CONFIDENCE_LEVELS = %w[strong good possible unlikely].freeze
 
     attr_reader :type, :meta
 
@@ -49,6 +50,12 @@ class Search
 
     def confident_results
       @results.select { |r| r.try(:confidence).present? }
+    end
+
+    def all_unknown_confidence?
+      any? && @results.none? do |result|
+        KNOWN_CONFIDENCE_LEVELS.include?(result.try(:confidence).to_s.downcase)
+      end
     end
 
     def interactive_search?

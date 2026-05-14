@@ -26,17 +26,10 @@
   </div>
 
   <% if TradeTariffFrontend.webchat_enabled? %>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <%= govuk_section_break(size: 'm', visible: true) %>
 
     <%= govuk_details(summary_text: 'Get support') do %>
-      <p class="govuk-body">
-        <strong>Webchat</strong><br>
-        <%= webchat_link 'Ask HMRC online' %>
-      </p>
-      <p class="govuk-body">
-        <strong>Email</strong><br>
-        <%= govuk_mail_to 'classification.enquiries@hmrc.gov.uk' %>
-      </p>
+      <%= render 'search/interactive_support_links' %>
     <% end %>
   <% end %>
 </div>

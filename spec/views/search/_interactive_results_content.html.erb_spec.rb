@@ -142,6 +142,10 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
       before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(true) }
 
       it { is_expected.to have_css('.govuk-details__summary-text', text: 'Get support') }
+      it { is_expected.to have_css('p.govuk-body', text: 'Webchat: Ask HMRC online') }
+      it { is_expected.to have_css('p.govuk-body', text: 'Email: classification.enquiries@hmrc.gov.uk') }
+      it { is_expected.to have_link('Ask HMRC online') }
+      it { is_expected.to have_link('classification.enquiries@hmrc.gov.uk', href: 'mailto:classification.enquiries@hmrc.gov.uk') }
     end
 
     context 'when webchat is disabled' do
