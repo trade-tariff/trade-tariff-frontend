@@ -4,26 +4,10 @@
 
 <article class="search-results govuk-!-padding-top-1">
   <% if @goods_nomenclature.present? %>
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Goods Nomenclature Item Id
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @goods_nomenclature.goods_nomenclature_item_id %>
-        </dd>
-        <dd class="govuk-summary-list__actions"></dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Description
-        </dt>
-        <dd class="govuk-summary-list__value">
-          <%= @goods_nomenclature.formatted_description %>
-        </dd>
-        <dd class="govuk-summary-list__actions"></dd>
-      </div>
-    </dl>
+    <%= govuk_summary_list(actions: false, rows: [
+      { key: { text: 'Goods Nomenclature Item Id' }, value: { text: @goods_nomenclature.goods_nomenclature_item_id } },
+      { key: { text: 'Description' }, value: { text: @goods_nomenclature.formatted_description } },
+    ]) %>
 
     <%= render 'green_lanes/category_assessments/categories',
                assessments: @goods_nomenclature.grouped_assessments %>

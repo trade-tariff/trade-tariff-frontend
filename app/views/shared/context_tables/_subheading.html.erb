@@ -1,31 +1,9 @@
-<dl class="govuk-summary-list">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Subheading
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @subheading.code %>
-    </dd>
-    <dd class="govuk-summary-list__actions"></dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Classification
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= sanitize @subheading.to_s %>
-    </dd>
-    <dd class="govuk-summary-list__actions"></dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Date of trade
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @search.date.to_formatted_s(:long) %>
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <%= govuk_link_to('Change', import_export_dates_path(goods_nomenclature_code: current_goods_nomenclature_code)) %>
-    </dd>
-  </div>
-</dl>
+<%= govuk_summary_list(rows: [
+  { key: { text: 'Subheading' }, value: { text: @subheading.code } },
+  { key: { text: 'Classification' }, value: { text: sanitize(@subheading.to_s) } },
+  {
+    key: { text: 'Date of trade' },
+    value: { text: @search.date.to_formatted_s(:long) },
+    actions: [{ href: import_export_dates_path(goods_nomenclature_code: current_goods_nomenclature_code) }],
+  },
+]) %>

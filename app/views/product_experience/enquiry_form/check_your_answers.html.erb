@@ -8,21 +8,13 @@
       <h1 class="govuk-heading-l">Check your answers before submitting your form</h1>
       <%= form_with url: product_experience_enquiry_form_submit_form_path, method: :post, local: true do %>
       <%= hidden_field_tag :submission_token, session[:submission_token] %>
-        <dl class="govuk-summary-list">
-          <% @enquiry_data.each do |field, value| %>
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                <%= field_label(field) %>
-              </dt>
-              <dd class="govuk-summary-list__value">
-                <%= simple_format(display_value_for(field, value)) %>
-              </dd>
-              <dd class="govuk-summary-list__actions">
-                <%= govuk_link_to 'Change', product_experience_enquiry_form_field_path(field, editing: true)  %>
-              </dd>
-            </div>
-          <% end %>
-        </dl>
+        <%= govuk_summary_list(rows: @enquiry_data.map { |field, value|
+          {
+            key: { text: field_label(field) },
+            value: { text: simple_format(display_value_for(field, value)) },
+            actions: [{ href: product_experience_enquiry_form_field_path(field, editing: true) }],
+          }
+        }) %>
         <p><%= submit_tag "Submit", class: "govuk-button govuk-!-margin-top-4" %></p>
       <% end %>
     </div>

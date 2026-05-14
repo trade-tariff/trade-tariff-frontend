@@ -6,19 +6,13 @@
   </div>
 
   <div class="govuk-summary-card__content">
-    <div class="govuk-summary-list">
-      <% @assessments.public_send("cat#{category}_with_exemptions").each do |category_assessment| %>
-        <% category_assessment.answered_exemptions(@answers).each do |exemption| %>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              <%= hide_pseudo_code(exemption.code) %>
-            </dt>
-            <dd class="govuk-summary-list__value">
-              <%= exemption.formatted_description %>
-            </dd>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
+    <%= govuk_summary_list(rows: @assessments.public_send("cat#{category}_with_exemptions").flat_map { |category_assessment|
+      category_assessment.answered_exemptions(@answers).map { |exemption|
+        {
+          key: { text: hide_pseudo_code(exemption.code) },
+          value: { text: exemption.formatted_description },
+        }
+      }
+    }) %>
   </div>
 </div>

@@ -1,49 +1,43 @@
-<dl class="govuk-summary-list govuk-!-margin-bottom-6">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Commodity
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= segmented_commodity_code(declarable.code) %>
-    </dd>
-    <dd class="govuk-summary-list__actions"></dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Classification
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= render '/shared/classification', goods_nomenclature: declarable %>
-    </dd>
-    <dd class="govuk-summary-list__actions"></dd>
-  </div>
-  <% if declarable.validity_start_date.present? && declarable.validity_end_date.present? %>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Commodity valid between</dt>
-      <dd class="govuk-summary-list__value">
-        <%= declarable.validity_start_date.to_formatted_s(:long) %> and <%= declarable.validity_end_date.to_formatted_s(:long) %>
-      </dd>
-      <dd class="govuk-summary-list__actions"></dd>
-    </div>
-  <% elsif declarable.validity_start_date.present? %>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Commodity valid from</dt>
-      <dd class="govuk-summary-list__value">
-        <%= declarable.validity_start_date.to_formatted_s(:long) %>
-      </dd>
-      <dd class="govuk-summary-list__actions"></dd>
-    </div>
+<%= govuk_summary_list(classes: 'govuk-!-margin-bottom-6') do |summary_list| %>
+  <% summary_list.with_row do |row| %>
+    <% row.with_key { 'Commodity' } %>
+    <% row.with_value { segmented_commodity_code(declarable.code) } %>
   <% end %>
-  <%= render 'shared/context_tables/supplementary_unit_row', declarable: declarable %>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Date of trade
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <%= @search.date.to_formatted_s(:long) %>
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <%= govuk_link_to('Change', import_export_dates_path(goods_nomenclature_code: current_goods_nomenclature_code)) %>
-    </dd>
-  </div>
-</dl>
+  <% summary_list.with_row do |row| %>
+    <% row.with_key { 'Classification' } %>
+    <% row.with_value do %>
+      <%= render '/shared/classification', goods_nomenclature: declarable %>
+    <% end %>
+  <% end %>
+  <% if declarable.validity_start_date.present? && declarable.validity_end_date.present? %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { 'Commodity valid between' } %>
+      <% row.with_value { "#{declarable.validity_start_date.to_formatted_s(:long)} and #{declarable.validity_end_date.to_formatted_s(:long)}" } %>
+    <% end %>
+  <% elsif declarable.validity_start_date.present? %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { 'Commodity valid from' } %>
+      <% row.with_value { declarable.validity_start_date.to_formatted_s(:long) } %>
+    <% end %>
+  <% end %>
+  <% if declarable.supplementary_unit_description.present? %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { declarable.supplementary_unit_description } %>
+      <% row.with_value do %>
+        <p>
+          <%= supplementary_unit_for(uk_declarable, xi_declarable, @search.country) %>
+        </p>
+        <%= govuk_details(summary_text: 'What are supplementary units?') do %>
+          <div class="govuk-!-font-size-16">
+            Supplementary units are used when an additional measurement unit is needed on customs declarations. For example: the quantity of the products as well as the weight in kilograms.<br>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% summary_list.with_row do |row| %>
+    <% row.with_key { 'Date of trade' } %>
+    <% row.with_value { @search.date.to_formatted_s(:long) } %>
+    <% row.with_action(href: import_export_dates_path(goods_nomenclature_code: current_goods_nomenclature_code)) %>
+  <% end %>
+<% end %>
