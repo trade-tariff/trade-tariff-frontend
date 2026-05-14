@@ -1,7 +1,7 @@
-<div data-controller="cookie-banner">
-  <div id="banner" data-cookie-banner-target="banner">
+<div data-controller="site-preferences">
+  <div id="banner" data-site-preferences-target="banner">
   </div>
-  <div data-cookie-banner-target="hideThisMessageBannerAccepted" hidden="hidden">
+  <div data-site-preferences-target="hideThisMessageBannerAccepted" hidden="hidden">
     <div class="govuk-cookie-banner " data-nosnippet="" role="region" aria-label="Cookies on the Online Tariff">
       <div class="govuk-cookie-banner__message govuk-width-container" id="cookies_accepted">
         <p>
@@ -10,13 +10,13 @@
           You can <%= govuk_link_to('change your cookie settings', cookies_policy_path) %> at any time.
         </p>
 
-        <button class="govuk-button hide_cookie_panel" data-action="cookie-banner#hideConfirmCookiesBanner">
+        <button class="govuk-button hide_cookie_panel" data-action="site-preferences#hideConfirmCookiesBanner">
           Hide this message
         </button>
       </div>
     </div>
   </div>
-  <div data-cookie-banner-target="hideThisMessageBannerRejected" hidden="hidden">
+  <div data-site-preferences-target="hideThisMessageBannerRejected" hidden="hidden">
     <div class="govuk-cookie-banner " data-nosnippet="" role="region" aria-label="Cookies on the Online Tariff">
       <div class="govuk-cookie-banner__message govuk-width-container" id="cookies_rejected">
         <p>
@@ -25,13 +25,13 @@
           You can <%= govuk_link_to('change your cookie settings', cookies_policy_path) %> at any time.
         </p>
 
-        <button class="govuk-button hide_cookie_panel" data-action="cookie-banner#hideConfirmCookiesBanner">
+        <button class="govuk-button hide_cookie_panel" data-action="site-preferences#hideConfirmCookiesBanner">
           Hide this message
         </button>
       </div>
     </div>
   </div>
-  <div data-cookie-banner-target="acceptRejectCookiesBanner" hidden="hidden">
+  <div data-site-preferences-target="acceptRejectCookiesBanner" hidden="hidden">
     <div class="govuk-cookie-banner govuk-!-display-none-print" data-nosnippet role="region" aria-label="Cookies on the Online Tariff">
       <div class="govuk-cookie-banner__message govuk-width-container">
 
@@ -51,10 +51,10 @@
         </div>
 
         <div class="govuk-button-group">
-          <button class="govuk-button cookie_accept_all" data-action="cookie-banner#acceptCookies">
+          <button class="govuk-button cookie_accept_all" data-action="site-preferences#acceptCookies">
             Accept additional cookies
           </button>
-          <button class="govuk-button cookie_reject_all" data-action="cookie-banner#rejectCookies">
+          <button class="govuk-button cookie_reject_all" data-action="site-preferences#rejectCookies">
             Reject additional cookies
           </button>
 
