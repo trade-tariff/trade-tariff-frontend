@@ -71,7 +71,7 @@
       </p>
 
       <% if @news_collection.description.present? %>
-        <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible govuk-!-margin-bottom-2" />
+        <%= govuk_section_break(size: 'xl', visible: true, classes: ['govuk-!-margin-bottom-2']) %>
 
         <div class="tariff-markdown">
           <%= format_news_item_content @news_collection.description %>
@@ -95,7 +95,7 @@
       </ul>
     </div>
 
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+    <%= govuk_section_break(size: 'm', visible: true) %>
 
     <h3 class="govuk-heading-s">
       Collection
