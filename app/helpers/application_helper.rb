@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include InterceptGuidanceHelper
+
   def home_path(*args, &block)
     find_commodity_path(*args, &block)
   end

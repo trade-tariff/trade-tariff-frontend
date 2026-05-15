@@ -1,0 +1,7 @@
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs "Search", [["Home", home_path]] %>
+<% end %>
+
+<%= page_header @results.description_intercept_message_header.presence || "Search blocked" %>
+
+<%= render 'search/interactive_blocking_content' %>
