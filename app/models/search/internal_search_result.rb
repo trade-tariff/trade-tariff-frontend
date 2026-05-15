@@ -93,6 +93,31 @@ class Search
       meta&.dig('interactive_search', 'query')
     end
 
+    def description_intercept
+      meta&.dig('description_intercept')
+    end
+
+    def blocking_guidance?
+      di = description_intercept
+      return false unless di
+
+      ActiveModel::Type::Boolean.new.cast(di['excluded']) &&
+        di['message_header'].present? &&
+        di['message'].present?
+    end
+
+    def description_intercept_message_header
+      description_intercept&.dig('message_header')
+    end
+
+    def description_intercept_message
+      description_intercept&.dig('message')
+    end
+
+    def description_intercept_term
+      description_intercept&.dig('term')
+    end
+
     private
 
     def build_model(entry)

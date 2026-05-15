@@ -14,6 +14,7 @@ module InteractiveSearchable
     merge_current_answer
 
     @results = @search.perform
+    sync_interactive_request_id
 
     if @search.errors.any?
       render_interactive_search_page
@@ -32,6 +33,10 @@ module InteractiveSearchable
       redirect_to url_for @results.to_param.merge(url_options).merge(request_id: @search.request_id, only_path: true)
     elsif @results.has_pending_question?
       render_interactive_question
+    elsif @results.blocking_guidance?
+      return redirect_to_interactive_blocking if redirectable_interactive_blocking?
+
+      render_interactive_blocking
     elsif @results.all_unknown_confidence?
       render_interactive_unknown_results
     elsif @results.none?
@@ -71,6 +76,22 @@ module InteractiveSearchable
 
   def interactive_search?
     @search.interactive_search && TradeTariffFrontend.interactive_search_enabled?
+  end
+
+  def sync_interactive_request_id
+    return unless @results.respond_to?(:request_id) && @results.request_id.present?
+
+    @search.request_id = @results.request_id
+  end
+
+  def redirectable_interactive_blocking?
+    request.post? && params[:request_id].blank?
+  end
+
+  def redirect_to_interactive_blocking
+    redirect_to perform_search_path(
+      search_params.to_h.merge(interactive_search: 'true', request_id: @search.request_id),
+    )
   end
 
   def merge_current_answer
@@ -140,6 +161,13 @@ module InteractiveSearchable
     disable_search_form
     mark_interactive_search_page
     render :interactive_unknown_results
+  end
+
+  def render_interactive_blocking
+    disable_switch_service_banner
+    disable_search_form
+    mark_interactive_search_page
+    render :interactive_blocking
   end
 
   def render_interactive_results

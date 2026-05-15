@@ -1,6 +1,58 @@
 require 'spec_helper'
 
 RSpec.describe TradeTariffFrontend do
+  describe '.enquiries_email' do
+    it 'returns the default classification enquiries email' do
+      expect(described_class.enquiries_email).to eq('classification.enquiries@hmrc.gov.uk')
+    end
+  end
+
+  describe '.support_email' do
+    context 'with TARIFF_SUPPORT_EMAIL configured' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('TARIFF_SUPPORT_EMAIL' => 'configured@example.com'))
+      end
+
+      it 'returns the configured support email' do
+        expect(described_class.support_email).to eq('configured@example.com')
+      end
+    end
+
+    context 'without TARIFF_SUPPORT_EMAIL configured' do
+      before do
+        stub_const('ENV', ENV.to_hash.except('TARIFF_SUPPORT_EMAIL'))
+      end
+
+      it 'returns the default classification enquiries email' do
+        expect(described_class.support_email).to eq('classification.enquiries@hmrc.gov.uk')
+      end
+    end
+  end
+
+  describe '.webchat_url' do
+    context 'with WEBCHAT_URL configured as a full URL' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('WEBCHAT_URL' => 'https://example.com/webchat'))
+      end
+
+      it 'returns the configured URL' do
+        expect(described_class.webchat_url).to eq('https://example.com/webchat')
+      end
+    end
+
+    context 'with WEBCHAT_URL configured as a webchat slug' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('WEBCHAT_URL' => 'test-online-services-helpdesk'))
+      end
+
+      it 'returns the HMRC webchat URL for the slug' do
+        expect(described_class.webchat_url).to eq(
+          'https://www.tax.service.gov.uk/ask-hmrc/chat/test-online-services-helpdesk',
+        )
+      end
+    end
+  end
+
   describe '.developer_portal_url' do
     around do |example|
       described_class.instance_variable_set(:@base_domain, nil)

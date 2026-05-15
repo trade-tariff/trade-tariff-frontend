@@ -449,6 +449,90 @@ RSpec.describe SearchController, type: :controller do
         it { expect(response.body).to include('Search cannot suggest a code') }
       end
 
+      context 'when backend returns a blocking description intercept' do
+        render_views
+
+        let(:params) { { q: 'exampleterm', interactive_search: 'true' } }
+        let(:backend_meta) do
+          {
+            'interactive_search' => {
+              'query' => 'exampleterm',
+              'request_id' => 'stable-request-id',
+              'answers' => [],
+            },
+            'description_intercept' => {
+              'excluded' => true,
+              'message_header' => 'Example guidance header',
+              'message' => 'Example guidance message body {{request_id}} {{enquiries_email}} [Ask HMRC online]({{webchat_url}}).',
+            },
+          }
+        end
+
+        before do
+          allow(SecureRandom).to receive(:uuid).and_return('generated-request-id')
+          allow(TradeTariffFrontend).to receive_messages(
+            enquiries_email: 'classification.enquiries@hmrc.gov.uk',
+            webchat_url: 'https://example.com/webchat',
+          )
+
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [],
+              'meta' => backend_meta,
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to redirect_to(perform_search_path(q: 'exampleterm', interactive_search: 'true', request_id: 'stable-request-id')) }
+      end
+
+      context 'when rendering a blocking description intercept with request_id in the URL' do
+        render_views
+
+        subject(:do_response) { get :search, params: }
+
+        let(:params) { { q: 'exampleterm', interactive_search: 'true', request_id: 'stable-request-id' } }
+
+        before do
+          allow(SecureRandom).to receive(:uuid).and_return('generated-request-id')
+          allow(TradeTariffFrontend).to receive_messages(
+            enquiries_email: 'classification.enquiries@hmrc.gov.uk',
+            webchat_url: 'https://example.com/webchat',
+          )
+
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [],
+              'meta' => {
+                'description_intercept' => {
+                  'excluded' => true,
+                  'message_header' => 'Example guidance header',
+                  'message' => 'Example guidance message body {{request_id}} {{enquiries_email}} [Ask HMRC online]({{webchat_url}}).',
+                },
+              },
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:interactive_blocking) }
+        it { expect(response.body).to include('Example guidance header') }
+        it { expect(response.body).to include('Example guidance message body') }
+        it { expect(response.body).to include('<strong>stable-request-id</strong>') }
+        it { expect(response.body).not_to include('generated-request-id') }
+        it { expect(response.body).to include('classification.enquiries@hmrc.gov.uk') }
+        it { expect(response.body).to include('href="https://example.com/webchat"') }
+        it { expect(response.body).to include('exampleterm') }
+        it { expect(response.body).not_to include('style=') }
+        it { expect(response.body).not_to include('app-section-break--thick') }
+      end
+
       context 'when backend returns no results' do
         render_views
 
