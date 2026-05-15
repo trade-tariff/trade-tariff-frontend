@@ -118,6 +118,8 @@
               WT_ID=$(${worktree.id})
               export GEM_HOME="$HOME/.local/share/gem/worktrees/$WT_ID"
               export BUNDLE_PATH=".bundle"
+              export BUNDLE_APP_CONFIG=".bundle"
+              export BUNDLE_IGNORE_CONFIG=1
               mkdir -p "$GEM_HOME" ".bundle"
               echo "Worktree Bundler isolation enabled (ID: $WT_ID)"
             else
@@ -153,15 +155,17 @@
               if [ ! -f "$MARKER" ]; then
                 echo ""
                 echo "==> First time in this worktree (ID: $WT_ID)"
-                echo "    Running yarn install + bin/rails assets:precompile..."
+                echo "    Installing gems + running yarn + assets:precompile..."
                 echo ""
 
-                yarn install --frozen-lockfile 2>&1 | tail -8 || true
-                bin/rails assets:precompile 2>&1 | tail -10 || true
+                rm -rf .bundle
+                bundle install 2>&1 | tail -5 || true
+                yarn install --frozen-lockfile 2>&1 | tail -5 || true
+                bin/rails assets:precompile 2>&1 | tail -8 || true
 
                 touch "$MARKER"
                 echo ""
-                echo "==> Frontend assets ready."
+                echo "==> Frontend ready."
                 echo ""
               fi
             fi
