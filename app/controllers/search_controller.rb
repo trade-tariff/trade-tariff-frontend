@@ -91,11 +91,11 @@ class SearchController < ApplicationController
   end
 
   def missing_search_query_fallback_url
-    return sections_path(anchor:) if request.referer.blank?
+    return find_commodity_path(anchor:) if request.referer.blank?
 
     back_url = URI(request.referer)
     if back_url.host.present? && back_url.host != request.host
-      return sections_path(anchor:)
+      return find_commodity_path(anchor:)
     end
 
     query_values = Rack::Utils.parse_query(back_url.query || '')

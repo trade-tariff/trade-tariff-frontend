@@ -1,0 +1,74 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= govuk_inset_text(html_attributes: { data: { controller: 'copy-search-details' } }) do %>
+      <div data-copy-search-details-target="content">
+        <%= tag.p('These are the details you supplied:', class: 'govuk-body') %>
+
+        <%= tag.p(class: 'govuk-body') do %>
+          <%= tag.strong('Initial search term') %><br>
+          <%= @search.q %>
+        <% end %>
+
+        <% @results.answered_questions.each do |qa| %>
+          <%= tag.p(class: 'govuk-body govuk-!-margin-bottom-3') do %>
+            <%= tag.strong(qa['question']) %><br>
+            <%= qa['answer'] %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <%= tag.p(class: 'govuk-body') do %>
+        Copy details to clipboard if you want to save them or use them if you need to contact HMRC for more information.
+      <% end %>
+
+      <%= tag.button(class: "#{govuk_button_classes(secondary: true)} govuk-!-margin-bottom-0",
+                     type: 'button',
+                     data: { action: 'copy-search-details#copy',
+                             copy_search_details_target: 'button' }) do %>
+        Copy results to clipboard
+      <% end %>
+    <% end %>
+
+    <%= tag.p(class: 'govuk-body') do %>
+      Something about what you searched for has caused a problem and we're unable to suggest a commodity code.
+    <% end %>
+
+    <h2 class="govuk-heading-m">What information is needed?</h2>
+    <%= tag.p('The kind of details about the product you should include are:', class: 'govuk-body') %>
+    <%= govuk_list [
+      'the type of product',
+      'what the product is used for',
+      'the materials used to make it',
+      'how it is produced',
+      'how it is packaged',
+    ], type: :bullet %>
+
+    <h2 class="govuk-heading-m">Where can I find this information?</h2>
+    <%= tag.p('This information might be found on:', class: 'govuk-body') %>
+    <%= govuk_list [
+      'invoice or other billing documents',
+      'online listings',
+      'product information documents included in the packaging',
+    ], type: :bullet %>
+
+    <h2 class="govuk-heading-m">Next steps</h2>
+    <%= tag.p(class: 'govuk-body') do %>
+      Check your answers and start your search again. If you think your search is accurate, copy results to clipboard and contact HMRC.
+    <% end %>
+
+    <%= render 'search/interactive_support_links' %>
+
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to 'Start search again', find_commodity_path %>
+      <%= govuk_link_to "Cancel", find_commodity_path  %>
+    </div>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render 'search/interactive_error_sidebar' %>
+  </div>
+</div>
+
+<%= govuk_section_break(size: 'l', visible: true, classes: 'app-section-break--thick') %>
+
+<%= render 'search/other_ways_to_search' %>

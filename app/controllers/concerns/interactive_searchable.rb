@@ -32,6 +32,8 @@ module InteractiveSearchable
       redirect_to url_for @results.to_param.merge(url_options).merge(request_id: @search.request_id, only_path: true)
     elsif @results.has_pending_question?
       render_interactive_question
+    elsif @results.all_unknown_confidence?
+      render_interactive_unknown_results
     elsif @results.none?
       render_interactive_no_results
     else
@@ -131,6 +133,13 @@ module InteractiveSearchable
     disable_search_form
     mark_interactive_search_page
     render :interactive_no_results
+  end
+
+  def render_interactive_unknown_results
+    disable_switch_service_banner
+    disable_search_form
+    mark_interactive_search_page
+    render :interactive_unknown_results
   end
 
   def render_interactive_results
