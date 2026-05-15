@@ -3,7 +3,7 @@
     <%= govuk_inset_text do %>
       <%= tag.p(class: 'govuk-body') do %>
         <%= tag.strong('You searched for') %><br>
-        <%= @results.description_intercept_term.presence || @search.q %>
+        <%= @search.q %>
       <% end %>
     <% end %>
 

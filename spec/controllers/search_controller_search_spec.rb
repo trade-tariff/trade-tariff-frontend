@@ -510,6 +510,7 @@ RSpec.describe SearchController, type: :controller do
               'meta' => {
                 'description_intercept' => {
                   'excluded' => true,
+                  'term' => 'canonical intercept term',
                   'message_header' => 'Example guidance header',
                   'message' => 'Example guidance message body {{request_id}} {{enquiries_email}} [Ask HMRC online]({{webchat_url}}).',
                 },
@@ -529,6 +530,8 @@ RSpec.describe SearchController, type: :controller do
         it { expect(response.body).to include('classification.enquiries@hmrc.gov.uk') }
         it { expect(response.body).to include('href="https://example.com/webchat"') }
         it { expect(response.body).to include('exampleterm') }
+        it { expect(Capybara.string(response.body).find('.govuk-inset-text')).to have_text(/You searched for\s+exampleterm/) }
+        it { expect(Capybara.string(response.body).find('.govuk-inset-text')).not_to have_text('canonical intercept term') }
         it { expect(response.body).not_to include('style=') }
         it { expect(response.body).not_to include('app-section-break--thick') }
       end
