@@ -1,4 +1,8 @@
 module TradeTariffFrontend
+  DEFAULT_ENQUIRIES_EMAIL = 'classification.enquiries@hmrc.gov.uk'.freeze
+  DEFAULT_SUPPORT_EMAIL = DEFAULT_ENQUIRIES_EMAIL
+  WEBCHAT_BASE_URL = 'https://www.tax.service.gov.uk/ask-hmrc/chat/'.freeze
+
   autoload :Presenter,      'trade_tariff_frontend/presenter'
   autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
   autoload :ViewContext,    'trade_tariff_frontend/view_context'
@@ -44,7 +48,11 @@ module TradeTariffFrontend
   end
 
   def support_email
-    ENV['TARIFF_SUPPORT_EMAIL']
+    ENV['TARIFF_SUPPORT_EMAIL'].presence || DEFAULT_SUPPORT_EMAIL
+  end
+
+  def enquiries_email
+    DEFAULT_ENQUIRIES_EMAIL
   end
 
   def currency_default
@@ -119,7 +127,11 @@ module TradeTariffFrontend
   end
 
   def webchat_url
-    ENV['WEBCHAT_URL']
+    configured_url = ENV['WEBCHAT_URL']
+    return if configured_url.blank?
+    return configured_url if configured_url.match?(%r{\Ahttps?://})
+
+    URI.join(WEBCHAT_BASE_URL, configured_url).to_s
   end
 
   def legacy_results_to_show

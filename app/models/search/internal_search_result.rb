@@ -6,6 +6,7 @@ class Search
       'Commodity' => 'commodities',
       'Subheading' => 'subheadings',
     }.freeze
+    KNOWN_CONFIDENCE_LEVELS = %w[strong good possible unlikely].freeze
 
     attr_reader :type, :meta
 
@@ -51,6 +52,12 @@ class Search
       @results.select { |r| r.try(:confidence).present? }
     end
 
+    def all_unknown_confidence?
+      any? && @results.none? do |result|
+        KNOWN_CONFIDENCE_LEVELS.include?(result.try(:confidence).to_s.downcase)
+      end
+    end
+
     def interactive_search?
       meta&.dig('interactive_search').present?
     end
@@ -84,6 +91,31 @@ class Search
 
     def query
       meta&.dig('interactive_search', 'query')
+    end
+
+    def description_intercept
+      meta&.dig('description_intercept')
+    end
+
+    def blocking_guidance?
+      di = description_intercept
+      return false unless di
+
+      ActiveModel::Type::Boolean.new.cast(di['excluded']) &&
+        di['message_header'].present? &&
+        di['message'].present?
+    end
+
+    def description_intercept_message_header
+      description_intercept&.dig('message_header')
+    end
+
+    def description_intercept_message
+      description_intercept&.dig('message')
+    end
+
+    def description_intercept_term
+      description_intercept&.dig('term')
     end
 
     private

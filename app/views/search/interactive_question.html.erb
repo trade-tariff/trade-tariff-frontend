@@ -26,6 +26,11 @@
       <%= hidden_field_tag :q, @search.q %>
       <%= hidden_field_tag :interactive_search, 'true' %>
       <%= hidden_field_tag :request_id, @search.request_id %>
+      <% if @search.day_month_and_year_set? %>
+        <%= hidden_field_tag :year, @search.year %>
+        <%= hidden_field_tag :month, @search.month %>
+        <%= hidden_field_tag :day, @search.day %>
+      <% end %>
 
       <% @results.answered_questions.each do |qa| %>
         <%= hidden_field_tag "answers[][question]", qa['question'] %>
@@ -51,7 +56,7 @@
 
       <div class="govuk-button-group">
         <%= f.govuk_submit "Submit" %>
-        <%= govuk_link_to "Cancel", sections_path %>
+        <%= govuk_link_to "Cancel", find_commodity_path %>
       </div>
     <% end %>
 

@@ -153,7 +153,7 @@ RSpec.describe SearchController, type: :controller do
 
         it { is_expected.to have_http_status(:redirect) }
         it { expect(assigns(:search)).to be_a(Search) }
-        it { is_expected.to redirect_to(sections_path) }
+        it { is_expected.to redirect_to(find_commodity_path) }
       end
 
       context 'when date param does not have all components present' do
@@ -163,7 +163,7 @@ RSpec.describe SearchController, type: :controller do
 
         it { is_expected.to have_http_status(:redirect) }
         it { expect(assigns(:search)).to be_a(Search) }
-        it { is_expected.to redirect_to(sections_path) }
+        it { is_expected.to redirect_to(find_commodity_path) }
       end
     end
 
@@ -285,6 +285,7 @@ RSpec.describe SearchController, type: :controller do
             'formatted_description' => 'Pure-bred breeding animals',
             'declarable' => true,
             'score' => 12.5,
+            'confidence' => 'strong',
           },
         }
       end
@@ -397,6 +398,170 @@ RSpec.describe SearchController, type: :controller do
 
         it { is_expected.to have_http_status(:ok) }
         it { is_expected.to render_template(:interactive_results) }
+      end
+
+      context 'when backend returns only unknown confidence results' do
+        render_views
+
+        let(:params) do
+          {
+            q: 'citrus jam',
+            interactive_search: 'true',
+            request_id: 'abc-123',
+            answers: [
+              { question: 'What type of fruit?', options: %w[Citrus Berry], answer: 'Citrus' },
+            ],
+          }
+        end
+
+        let(:unknown_commodity_data) do
+          commodity_data.deep_merge(
+            'attributes' => {
+              'confidence' => 'unknown',
+              'score' => 12.5,
+            },
+          )
+        end
+
+        before do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [unknown_commodity_data],
+              'meta' => {
+                'interactive_search' => {
+                  'query' => 'citrus jam',
+                  'request_id' => 'abc-123',
+                  'result_limit' => 5,
+                  'answers' => [
+                    { 'question' => 'What type of fruit?', 'options' => %w[Citrus Berry], 'answer' => 'Citrus' },
+                  ],
+                },
+              },
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:interactive_unknown_results) }
+        it { expect(response.body).to include('Search cannot suggest a code') }
+      end
+
+      context 'when backend returns a blocking description intercept' do
+        render_views
+
+        let(:params) { { q: 'exampleterm', interactive_search: 'true' } }
+        let(:backend_meta) do
+          {
+            'interactive_search' => {
+              'query' => 'exampleterm',
+              'request_id' => 'stable-request-id',
+              'answers' => [],
+            },
+            'description_intercept' => {
+              'excluded' => true,
+              'message_header' => 'Example guidance header',
+              'message' => 'Example guidance message body {{request_id}} {{enquiries_email}} [Ask HMRC online]({{webchat_url}}).',
+            },
+          }
+        end
+
+        before do
+          allow(SecureRandom).to receive(:uuid).and_return('generated-request-id')
+          allow(TradeTariffFrontend).to receive_messages(
+            enquiries_email: 'classification.enquiries@hmrc.gov.uk',
+            webchat_url: 'https://example.com/webchat',
+          )
+
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [],
+              'meta' => backend_meta,
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to redirect_to(perform_search_path(q: 'exampleterm', interactive_search: 'true', request_id: 'stable-request-id')) }
+      end
+
+      context 'when rendering a blocking description intercept with request_id in the URL' do
+        render_views
+
+        subject(:do_response) { get :search, params: }
+
+        let(:params) { { q: 'exampleterm', interactive_search: 'true', request_id: 'stable-request-id' } }
+
+        before do
+          allow(SecureRandom).to receive(:uuid).and_return('generated-request-id')
+          allow(TradeTariffFrontend).to receive_messages(
+            enquiries_email: 'classification.enquiries@hmrc.gov.uk',
+            webchat_url: 'https://example.com/webchat',
+          )
+
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [],
+              'meta' => {
+                'description_intercept' => {
+                  'excluded' => true,
+                  'term' => 'canonical intercept term',
+                  'message_header' => 'Example guidance header',
+                  'message' => 'Example guidance message body {{request_id}} {{enquiries_email}} [Ask HMRC online]({{webchat_url}}).',
+                },
+              },
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:interactive_blocking) }
+        it { expect(response.body).to include('Example guidance header') }
+        it { expect(response.body).to include('Example guidance message body') }
+        it { expect(response.body).to include('<strong>stable-request-id</strong>') }
+        it { expect(response.body).not_to include('generated-request-id') }
+        it { expect(response.body).to include('classification.enquiries@hmrc.gov.uk') }
+        it { expect(response.body).to include('href="https://example.com/webchat"') }
+        it { expect(response.body).to include('exampleterm') }
+        it { expect(Capybara.string(response.body).find('.govuk-inset-text')).to have_text(/You searched for\s+exampleterm/) }
+        it { expect(Capybara.string(response.body).find('.govuk-inset-text')).not_to have_text('canonical intercept term') }
+        it { expect(response.body).not_to include('style=') }
+        it { expect(response.body).not_to include('app-section-break--thick') }
+      end
+
+      context 'when backend returns no results' do
+        render_views
+
+        let(:params) { { q: 'flimflammagoo', interactive_search: 'true' } }
+
+        before do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [],
+              'meta' => {
+                'interactive_search' => {
+                  'query' => 'flimflammagoo',
+                  'request_id' => 'abc-123',
+                  'answers' => [],
+                },
+              },
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:interactive_no_results) }
+        it { expect(response.body).to include('No search results could be found') }
       end
     end
 

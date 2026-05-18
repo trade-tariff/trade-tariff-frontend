@@ -406,11 +406,88 @@ RSpec.describe Search::InternalSearchResult do
     end
   end
 
+  describe '#all_unknown_confidence?' do
+    context 'when every result has unknown confidence' do
+      subject { described_class.new([commodity_attrs('confidence' => 'unknown'), heading_attrs('confidence' => nil)]) }
+
+      it { is_expected.to be_all_unknown_confidence }
+    end
+
+    context 'when any result has recognised confidence' do
+      subject { described_class.new([commodity_attrs('confidence' => 'possible'), heading_attrs('confidence' => 'unknown')]) }
+
+      it { is_expected.not_to be_all_unknown_confidence }
+    end
+
+    context 'when there are no results' do
+      subject { described_class.new([]) }
+
+      it { is_expected.not_to be_all_unknown_confidence }
+    end
+  end
+
   describe '#query' do
     subject { described_class.new([commodity_attrs], meta).query }
 
     let(:meta) { { 'interactive_search' => { 'query' => 'leather handbag' } } }
 
     it { is_expected.to eq('leather handbag') }
+  end
+
+  describe '#description_intercept' do
+    it 'returns the description_intercept hash from meta when present' do
+      meta = { 'description_intercept' => { 'excluded' => true, 'message_header' => 'Sending a set', 'message' => 'Sets...' } }
+      result = described_class.new([], meta)
+      expect(result.description_intercept).to eq(meta['description_intercept'])
+    end
+
+    it 'returns nil when no description_intercept in meta' do
+      result = described_class.new([], { 'interactive_search' => {} })
+      expect(result.description_intercept).to be_nil
+    end
+  end
+
+  describe '#blocking_guidance?' do
+    it 'returns true when excluded is true and both message_header and message are present' do
+      meta = { 'description_intercept' => { 'excluded' => true, 'message_header' => 'Sending a set', 'message' => 'Sets should be...' } }
+      result = described_class.new([], meta)
+      expect(result.blocking_guidance?).to be true
+    end
+
+    it 'returns false when excluded is false even if message present' do
+      meta = { 'description_intercept' => { 'excluded' => false, 'message_header' => 'Foo', 'message' => 'Bar' } }
+      result = described_class.new([], meta)
+      expect(result.blocking_guidance?).to be false
+    end
+
+    it 'returns false when message_header is missing' do
+      meta = { 'description_intercept' => { 'excluded' => true, 'message' => 'Only body' } }
+      result = described_class.new([], meta)
+      expect(result.blocking_guidance?).to be false
+    end
+  end
+
+  describe '#description_intercept_message_header' do
+    it 'returns the message_header from the intercept' do
+      meta = { 'description_intercept' => { 'message_header' => 'Sending a set' } }
+      result = described_class.new([], meta)
+      expect(result.description_intercept_message_header).to eq('Sending a set')
+    end
+  end
+
+  describe '#description_intercept_message' do
+    it 'returns the raw message from the intercept' do
+      meta = { 'description_intercept' => { 'message' => 'Sets should be classified...' } }
+      result = described_class.new([], meta)
+      expect(result.description_intercept_message).to eq('Sets should be classified...')
+    end
+  end
+
+  describe '#description_intercept_term' do
+    it 'returns the matched term from the intercept' do
+      meta = { 'description_intercept' => { 'term' => 'toiletries set' } }
+      result = described_class.new([], meta)
+      expect(result.description_intercept_term).to eq('toiletries set')
+    end
   end
 end

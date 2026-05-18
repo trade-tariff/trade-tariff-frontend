@@ -1,0 +1,25 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= govuk_inset_text do %>
+      <%= tag.p(class: 'govuk-body') do %>
+        <%= tag.strong('You searched for') %><br>
+        <%= @search.q %>
+      <% end %>
+    <% end %>
+
+    <%= render_intercept_message(@results.description_intercept_message, search: @search) %>
+
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to 'Start search again', find_commodity_path %>
+      <%= govuk_link_to 'Cancel', find_commodity_path %>
+    </div>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render 'search/interactive_error_sidebar' %>
+  </div>
+</div>
+
+<%= govuk_section_break(size: 'l', visible: true) %>
+
+<%= render 'search/other_ways_to_search' %>

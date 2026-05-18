@@ -11,7 +11,7 @@ RSpec.describe 'search/_interactive_dont_know', type: :view do
   it { is_expected.to have_text('Go back and add more details so we can find the relevant commodity code with the highest accuracy.') }
   it { is_expected.to have_css('button', text: 'Go back and add more details') }
   it { is_expected.to have_link('Start search again') }
-  it { is_expected.to have_link('Cancel') }
+  it { is_expected.to have_link('Cancel', href: find_commodity_path) }
 
   describe 'alternative search cards' do
     it { is_expected.to have_css('h2', text: 'Other ways to search for a commodity') }
