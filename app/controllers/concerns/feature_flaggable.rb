@@ -5,6 +5,24 @@ module FeatureFlaggable
     helper_method :feature_enabled?, :feature_disabled?
   end
 
+  module ClassMethods
+    # Declares that this controller (or specific actions) requires a feature flag
+    # to be enabled. Sets up a before_action that raises FeatureUnavailable when
+    # the flag is off. Accepts the same options as before_action.
+    #
+    # Examples:
+    #   class GreenLanesController < ApplicationController
+    #     feature_gate :green_lanes
+    #   end
+    #
+    #   class MyController < ApplicationController
+    #     feature_gate :my_feature, only: :new_action
+    #   end
+    def feature_gate(flag, **options)
+      before_action(**options) { require_feature!(flag) }
+    end
+  end
+
   # Returns true when the named flag is enabled. Available in views.
   #
   # Example:
@@ -19,10 +37,7 @@ module FeatureFlaggable
   end
 
   # Raises FeatureUnavailable when the named flag is disabled.
-  # Use in before_action to gate controller actions behind a feature flag.
-  #
-  # Example:
-  #   before_action { require_feature!(:green_lanes) }
+  # Use directly in a before_action block, or prefer the feature_gate class macro.
   def require_feature!(flag)
     raise TradeTariffFrontend::FeatureUnavailable unless feature_enabled?(flag)
   end
