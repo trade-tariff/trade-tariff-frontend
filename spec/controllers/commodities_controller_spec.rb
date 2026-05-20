@@ -102,8 +102,11 @@ RSpec.describe CommoditiesController, type: :controller do
           expect(response).to render_template 'show_404'
         end
 
-        it 'looks up validity periods using the 4-digit heading id, not the full 10-digit code' do
+        it 'looks up validity periods using the 4-digit heading id' do
           expect(WebMock).to have_requested(:get, /headings\/9919\/validity_periods/)
+        end
+
+        it 'does not look up validity periods using the full 10-digit code' do
           expect(WebMock).not_to have_requested(:get, /headings\/9919000000\/validity_periods/)
         end
       end
