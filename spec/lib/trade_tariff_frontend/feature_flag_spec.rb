@@ -54,79 +54,106 @@ RSpec.describe TradeTariffFrontend::FeatureFlag do
     end
 
     context 'when building the evaluation context without a user_key' do
-      it 'sends a single application context (not a multi-context) to LaunchDarkly' do
-        expect(ld_client).to receive(:variation) do |_flag, context, _default|
-          expect(context.multi_kind?).to be false
-          expect(context.kind).to eq('application')
-          false
-        end
-
+      before do
+        allow(ld_client).to receive(:variation).and_return(false)
         feature_flag.enabled?(:green_lanes)
       end
 
-      it 'passes the current service to LaunchDarkly' do
+      it 'does not build a multi-context' do
+        expect(ld_client).to have_received(:variation).with(
+          anything,
+          satisfy { |ctx| !ctx.multi_kind? },
+          anything,
+        )
+      end
+
+      it 'uses the application kind' do
+        expect(ld_client).to have_received(:variation).with(
+          anything,
+          satisfy { |ctx| ctx.kind == 'application' },
+          anything,
+        )
+      end
+    end
+
+    context 'when the current service is xi' do
+      before do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('xi')
-
-        expect(ld_client).to receive(:variation) do |_flag, context, _default|
-          expect(context.get_value('service')).to eq('xi')
-          false
-        end
-
+        allow(ld_client).to receive(:variation).and_return(false)
         feature_flag.enabled?(:green_lanes)
       end
 
-      it 'passes the current environment to LaunchDarkly' do
+      it 'passes the xi service to LaunchDarkly in the context' do
+        expect(ld_client).to have_received(:variation).with(
+          anything,
+          satisfy { |ctx| ctx.get_value('service') == 'xi' },
+          anything,
+        )
+      end
+    end
+
+    context 'when the environment is staging' do
+      before do
         allow(TradeTariffFrontend).to receive(:environment).and_return('staging')
-
-        expect(ld_client).to receive(:variation) do |_flag, context, _default|
-          expect(context.get_value('environment')).to eq('staging')
-          false
-        end
-
+        allow(ld_client).to receive(:variation).and_return(false)
         feature_flag.enabled?(:green_lanes)
+      end
+
+      it 'passes the staging environment to LaunchDarkly in the context' do
+        expect(ld_client).to have_received(:variation).with(
+          anything,
+          satisfy { |ctx| ctx.get_value('environment') == 'staging' },
+          anything,
+        )
       end
     end
 
     context 'when building the evaluation context with a user_key' do
       let(:user_key) { 'test-anonymous-uuid' }
 
+      before do
+        allow(ld_client).to receive(:variation).and_return(false)
+        feature_flag.enabled?(:green_lanes, user_key:)
+      end
+
       it 'sends a multi-context to LaunchDarkly' do
-        expect(ld_client).to receive(:variation) do |_flag, context, _default|
-          expect(context.multi_kind?).to be true
-          false
-        end
-
-        feature_flag.enabled?(:green_lanes, user_key:)
+        expect(ld_client).to have_received(:variation).with(
+          anything,
+          satisfy(&:multi_kind?),
+          anything,
+        )
       end
 
-      it 'includes the application context in the multi-context' do
-        expect(ld_client).to receive(:variation) do |_flag, context, _default|
-          app = context.individual_context('application')
-          expect(app).not_to be_nil
-          expect(app.key).to eq('trade-tariff-frontend')
-          false
-        end
-
-        feature_flag.enabled?(:green_lanes, user_key:)
+      it 'includes the application context with the correct key' do
+        expect(ld_client).to have_received(:variation).with(
+          anything,
+          satisfy { |ctx| ctx.individual_context('application')&.key == 'trade-tariff-frontend' },
+          anything,
+        )
       end
 
-      it 'includes an anonymous user context carrying the key' do
-        expect(ld_client).to receive(:variation) do |_flag, context, _default|
-          user = context.individual_context('user')
-          expect(user).not_to be_nil
-          expect(user.key).to eq(user_key)
-          expect(user.get_value('anonymous')).to be true
-          false
-        end
+      it 'includes a user context with the provided key' do
+        expect(ld_client).to have_received(:variation).with(
+          anything,
+          satisfy { |ctx| ctx.individual_context('user')&.key == user_key },
+          anything,
+        )
+      end
 
-        feature_flag.enabled?(:green_lanes, user_key:)
+      it 'marks the user context as anonymous' do
+        expect(ld_client).to have_received(:variation).with(
+          anything,
+          satisfy { |ctx| ctx.individual_context('user')&.get_value('anonymous') == true },
+          anything,
+        )
       end
     end
   end
 
   describe '.disabled?' do
+    before { allow(ld_client).to receive(:variation).and_return(true) }
+
     it 'is the inverse of enabled?' do
-      allow(ld_client).to receive(:variation).and_return(true)
       expect(feature_flag.disabled?(:green_lanes)).to be false
     end
 
@@ -137,13 +164,13 @@ RSpec.describe TradeTariffFrontend::FeatureFlag do
   end
 
   describe 'REGISTRY' do
-    it 'declares all flags with boolean defaults' do
-      expect(TradeTariffFrontend::FeatureFlag::REGISTRY).to be_a(Hash)
-      expect(TradeTariffFrontend::FeatureFlag::REGISTRY).not_to be_empty
+    it 'is a non-empty hash' do
+      expect(TradeTariffFrontend::FeatureFlag::REGISTRY).to be_a(Hash).and(be_present)
+    end
 
-      TradeTariffFrontend::FeatureFlag::REGISTRY.each do |flag, default|
-        expect([true, false]).to include(default), "Expected #{flag} to have a boolean default"
-      end
+    it 'has boolean defaults for every flag' do
+      non_boolean = TradeTariffFrontend::FeatureFlag::REGISTRY.reject { |_, v| [true, false].include?(v) }
+      expect(non_boolean).to be_empty
     end
   end
 end
