@@ -51,6 +51,9 @@ gem 'redis'
 # AWS
 gem 'aws-actionmailer-ses'
 
+# Feature flags
+gem 'launchdarkly-server-sdk'
+
 group :development do
   gem 'letter_opener'
   gem 'rubocop-govuk'

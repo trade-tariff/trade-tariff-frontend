@@ -3,6 +3,7 @@ module TradeTariffFrontend
   DEFAULT_SUPPORT_EMAIL = DEFAULT_ENQUIRIES_EMAIL
   WEBCHAT_BASE_URL = 'https://www.tax.service.gov.uk/ask-hmrc/chat/'.freeze
 
+  autoload :FeatureFlag,    'trade_tariff_frontend/feature_flag'
   autoload :Presenter,      'trade_tariff_frontend/presenter'
   autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
   autoload :ViewContext,    'trade_tariff_frontend/view_context'

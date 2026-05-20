@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include BasicSessionAuth
   include CacheHelper
+  include FeatureFlaggable
 
   before_action :maintenance_mode_if_active
 
