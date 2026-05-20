@@ -251,12 +251,8 @@ en:
     back_to_top: Back to top
 
   measure_type_descriptions:
-    1400:
-      103: "Channel Islands duty"
-      105: "Channel Islands duty"
     1080:
       103: "UK-CD Customs Union"
-      105: "UK-CD Customs Union"
   measure_type_duties:
     1080:
       103: "n/a"
