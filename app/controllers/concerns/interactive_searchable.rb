@@ -30,7 +30,7 @@ module InteractiveSearchable
 
   def route_interactive_results
     if @results.exact_match?
-      redirect_to url_for @results.to_param.merge(url_options).merge(request_id: @search.request_id, only_path: true)
+      render_interactive_results
     elsif @results.has_pending_question?
       render_interactive_question
     elsif @results.blocking_guidance?

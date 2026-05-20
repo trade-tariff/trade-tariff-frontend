@@ -112,11 +112,11 @@ describe('GuidedSearchValidationController', () => {
       expect(document.querySelector('.govuk-error-summary').textContent).toContain('Search term must be at least 2 characters');
     });
 
-    it('shows error when input exceeds 500 characters', async () => {
-      await setup({textareaValue: 'a'.repeat(501)});
+    it('shows error when input exceeds 1000 characters', async () => {
+      await setup({textareaValue: 'a'.repeat(1001)});
       submitForm();
 
-      expect(document.querySelector('.govuk-error-summary').textContent).toContain('Search term must be 500 characters or fewer');
+      expect(document.querySelector('.govuk-error-summary').textContent).toContain('Search term must be 1000 characters or fewer');
     });
 
     it('accepts exactly 2 characters', async () => {
@@ -127,8 +127,8 @@ describe('GuidedSearchValidationController', () => {
       expect(form.querySelector('[data-guided-search-validation-target="formContent"]').classList.contains('govuk-!-display-none')).toBe(true);
     });
 
-    it('accepts exactly 500 characters', async () => {
-      await setup({textareaValue: 'a'.repeat(500)});
+    it('accepts exactly 1000 characters', async () => {
+      await setup({textareaValue: 'a'.repeat(1000)});
       submitForm();
 
       expect(document.querySelector('.govuk-error-summary')).toBeNull();
