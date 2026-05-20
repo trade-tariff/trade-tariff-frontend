@@ -131,7 +131,9 @@ class Search
       params[:answers] = answers if answers.present?
       params[:request_id] = request_id if request_id.present?
 
-      response = self.class.api.post(path, MultiJson.dump(params), 'Content-Type' => 'application/json')
+      response = self.class.api.post(path, MultiJson.dump(params), 'Content-Type' => 'application/json') do |request|
+        request.options.timeout = TradeTariffFrontend::ServiceTimeout.timeout_for('/internal/search')
+      end
       body = response.body.is_a?(Hash) ? response.body : JSON.parse(response.body)
       parsed_data = TariffJsonapiParser.new(body).parse
       parsed_data = [] unless parsed_data.is_a?(Array)
