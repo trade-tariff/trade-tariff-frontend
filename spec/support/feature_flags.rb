@@ -10,7 +10,7 @@ module FeatureFlagHelpers
     # Only stub the named flag. Calls for any other flag are not intercepted and
     # fall through to the real implementation (which returns REGISTRY defaults in
     # offline mode), so multiple stub_feature_flag calls in one example compose cleanly.
-    allow(TradeTariffFrontend::FeatureFlag).to receive(:enabled?).with(flag.to_sym).and_return(enabled)
+    allow(TradeTariffFrontend::FeatureFlag).to receive(:enabled?).with(flag.to_sym, any_args).and_return(enabled)
   end
 end
 

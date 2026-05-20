@@ -92,16 +92,39 @@ end
 `FeatureFlag.enabled?` calls `LDClient#variation` with:
 
 1. **Flag key** — the symbol name as a string, e.g. `"my_new_feature"`.
-2. **Evaluation context** — an application-level LaunchDarkly context (not
-   user-level, since this is a public service). It carries two custom
-   attributes that can be used in LaunchDarkly targeting rules:
-   - `service` — `"uk"` or `"xi"`, reflecting the active service variant.
-   - `environment` — the value of the `ENVIRONMENT` env var (e.g.
-     `"production"`, `"staging"`, `"development"`).
+2. **Evaluation context** — see below.
 3. **Default value** — the value from `REGISTRY` for that flag.
 
 The default is returned whenever LaunchDarkly cannot be reached (network error,
 slow start-up, or offline mode — see below).
+
+### Evaluation context
+
+Every flag evaluation sends a **multi-context** to LaunchDarkly carrying two
+independent dimensions:
+
+**`application` context** — fixed attributes about the deployment:
+- `service` — `"uk"` or `"xi"`, reflecting the active service variant.
+- `environment` — the value of the `ENVIRONMENT` env var (e.g. `"production"`,
+  `"staging"`, `"development"`).
+
+Use this context in LaunchDarkly targeting rules to scope a flag to a specific
+environment or service without encoding that logic into the flag name itself,
+e.g. "enable this flag only when `environment` is `staging`".
+
+**`user` context** — an anonymous, session-scoped identifier:
+- A UUID generated once per session and stored in `session[:ld_anonymous_id]`.
+- Marked `anonymous: true`; carries no PII.
+- Stable for the lifetime of the session, so the same visitor consistently lands
+  in the same percentage bucket on every request.
+
+Use this context in LaunchDarkly targeting rules for **percentage rollouts** —
+e.g. "enable for 10% of users". LaunchDarkly hashes the user key into a bucket,
+so rollout decisions are consistent per visitor rather than random per request.
+
+When `FeatureFlag.enabled?` is called outside a request context (e.g. from a
+background job or a Rake task), pass `user_key: nil` (the default) and only the
+`application` context is sent — no multi-context is built.
 
 ### Offline mode
 
@@ -150,9 +173,12 @@ expected baseline for most tests.
 
 1. Create the flag in the LaunchDarkly dashboard with the same key used in
    `REGISTRY` (snake_case, e.g. `my_new_feature`).
-2. Configure targeting rules using the `service` and `environment` context
-   attributes if needed (e.g. "on for environment = staging only").
-3. The application polls LaunchDarkly continuously; changes take effect within
+2. To target by environment or service, add rules on the **`application`**
+   context kind using the `environment` or `service` attributes.
+3. To do a percentage rollout, add a rule on the **`user`** context kind and
+   set the percentage. LaunchDarkly will consistently hash each anonymous
+   session UUID into the same bucket.
+4. The application polls LaunchDarkly continuously; changes take effect within
    seconds without a deploy.
 
 ### Environment variable

@@ -91,4 +91,23 @@ RSpec.describe FeatureFlaggable, type: :controller do
       expect(controller.feature_disabled?(:green_lanes)).to be true
     end
   end
+
+  describe '#ld_anonymous_user_key' do
+    # Use the gated action: feature_gate :green_lanes calls require_feature!
+    # which calls feature_enabled? which calls ld_anonymous_user_key.
+    before { stub_feature_flag(:green_lanes, enabled: true) }
+
+    it 'generates a UUID and stores it in the session on the first flag check' do
+      get :gated
+      expect(session[:ld_anonymous_id]).to match(/\A[0-9a-f-]{36}\z/)
+    end
+
+    it 'reuses the same key across requests within the same session' do
+      get :gated
+      first_key = session[:ld_anonymous_id]
+
+      get :gated
+      expect(session[:ld_anonymous_id]).to eq(first_key)
+    end
+  end
 end

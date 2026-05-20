@@ -24,21 +24,32 @@ module FeatureFlaggable
   end
 
   # Returns true when the named flag is enabled. Available in views.
+  # Passes an anonymous session key to LaunchDarkly so percentage rollout rules
+  # hash the same visitor into the same bucket on every request.
   #
   # Example:
   #   <% if feature_enabled?(:green_lanes) %>
   def feature_enabled?(flag)
-    TradeTariffFrontend::FeatureFlag.enabled?(flag)
+    TradeTariffFrontend::FeatureFlag.enabled?(flag, user_key: ld_anonymous_user_key)
   end
 
   # Returns true when the named flag is disabled. Available in views.
   def feature_disabled?(flag)
-    TradeTariffFrontend::FeatureFlag.disabled?(flag)
+    TradeTariffFrontend::FeatureFlag.disabled?(flag, user_key: ld_anonymous_user_key)
   end
 
   # Raises FeatureUnavailable when the named flag is disabled.
   # Use directly in a before_action block, or prefer the feature_gate class macro.
   def require_feature!(flag)
     raise TradeTariffFrontend::FeatureUnavailable unless feature_enabled?(flag)
+  end
+
+  private
+
+  # Stable anonymous identifier for this visitor's session.
+  # Generated once on first flag evaluation and stored in the session for
+  # the lifetime of that session. Carries no PII.
+  def ld_anonymous_user_key
+    session[:ld_anonymous_id] ||= SecureRandom.uuid
   end
 end

@@ -53,12 +53,22 @@ RSpec.describe TradeTariffFrontend::FeatureFlag do
       end
     end
 
-    context 'when building the evaluation context' do
+    context 'when building the evaluation context without a user_key' do
+      it 'sends a single application context (not a multi-context) to LaunchDarkly' do
+        expect(ld_client).to receive(:variation) do |_flag, context, _default|
+          expect(context.multi_kind?).to be false
+          expect(context.kind).to eq('application')
+          false
+        end
+
+        feature_flag.enabled?(:green_lanes)
+      end
+
       it 'passes the current service to LaunchDarkly' do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choice).and_return('xi')
 
         expect(ld_client).to receive(:variation) do |_flag, context, _default|
-          expect(context.individual_context(0).get_value('service')).to eq('xi')
+          expect(context.get_value('service')).to eq('xi')
           false
         end
 
@@ -69,11 +79,47 @@ RSpec.describe TradeTariffFrontend::FeatureFlag do
         allow(TradeTariffFrontend).to receive(:environment).and_return('staging')
 
         expect(ld_client).to receive(:variation) do |_flag, context, _default|
-          expect(context.individual_context(0).get_value('environment')).to eq('staging')
+          expect(context.get_value('environment')).to eq('staging')
           false
         end
 
         feature_flag.enabled?(:green_lanes)
+      end
+    end
+
+    context 'when building the evaluation context with a user_key' do
+      let(:user_key) { 'test-anonymous-uuid' }
+
+      it 'sends a multi-context to LaunchDarkly' do
+        expect(ld_client).to receive(:variation) do |_flag, context, _default|
+          expect(context.multi_kind?).to be true
+          false
+        end
+
+        feature_flag.enabled?(:green_lanes, user_key:)
+      end
+
+      it 'includes the application context in the multi-context' do
+        expect(ld_client).to receive(:variation) do |_flag, context, _default|
+          app = context.individual_context('application')
+          expect(app).not_to be_nil
+          expect(app.key).to eq('trade-tariff-frontend')
+          false
+        end
+
+        feature_flag.enabled?(:green_lanes, user_key:)
+      end
+
+      it 'includes an anonymous user context carrying the key' do
+        expect(ld_client).to receive(:variation) do |_flag, context, _default|
+          user = context.individual_context('user')
+          expect(user).not_to be_nil
+          expect(user.key).to eq(user_key)
+          expect(user.get_value('anonymous')).to be true
+          false
+        end
+
+        feature_flag.enabled?(:green_lanes, user_key:)
       end
     end
   end

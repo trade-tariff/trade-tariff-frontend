@@ -43,34 +43,56 @@ module TradeTariffFrontend
     # Returns true when the named flag is enabled in LaunchDarkly.
     # Falls back to the REGISTRY default when LD is offline or unavailable.
     # Raises UnknownFlagError for flag names not in REGISTRY (catches typos early).
-    def self.enabled?(flag)
+    #
+    # Pass user_key to enable percentage-based rollouts. LaunchDarkly hashes the
+    # key into a bucket so the same visitor consistently sees the same result.
+    # The FeatureFlaggable concern supplies this automatically from the session;
+    # callers outside a request context can omit it (application context only).
+    def self.enabled?(flag, user_key: nil)
       flag = flag.to_sym
       raise UnknownFlagError, flag unless REGISTRY.key?(flag)
 
-      client.variation(flag.to_s, evaluation_context, REGISTRY[flag])
+      client.variation(flag.to_s, evaluation_context(user_key:), REGISTRY[flag])
     end
 
-    def self.disabled?(flag)
-      !enabled?(flag)
+    def self.disabled?(flag, user_key: nil)
+      !enabled?(flag, user_key:)
     end
 
     private_class_method def self.client
       Rails.application.config.launch_darkly_client
     end
 
-    # Application-level context sent to LaunchDarkly with each flag evaluation.
-    # Includes service (uk/xi) and environment as custom attributes so LD targeting
-    # rules can target specific environments or service variants without encoding
-    # that logic into flag names.
+    # Builds the LaunchDarkly evaluation context for a flag check.
     #
-    # This is rebuilt per-call because service_choice is thread-local (set per request).
-    private_class_method def self.evaluation_context
-      LaunchDarkly::LDContext.create(
+    # Always includes an application context carrying service (uk/xi) and
+    # environment, so targeting rules can scope flags to specific deployments
+    # without encoding that logic into flag names.
+    #
+    # When user_key is present a second anonymous user context is added, forming
+    # a multi-context. LaunchDarkly uses the user key to hash visitors into
+    # percentage buckets, enabling consistent gradual rollouts to a fraction of
+    # real users. The key carries no PII — it is an anonymous UUID generated
+    # once per session by the FeatureFlaggable concern.
+    #
+    # Rebuilt per-call because service_choice is thread-local (set per request).
+    private_class_method def self.evaluation_context(user_key: nil)
+      app_context = LaunchDarkly::LDContext.create(
         kind: 'application',
         key: 'trade-tariff-frontend',
         service: TradeTariffFrontend::ServiceChooser.service_choice&.to_s || 'uk',
         environment: TradeTariffFrontend.environment,
       )
+
+      return app_context if user_key.nil?
+
+      user_context = LaunchDarkly::LDContext.create(
+        kind: 'user',
+        key: user_key,
+        anonymous: true,
+      )
+
+      LaunchDarkly::LDContext.create_multi([app_context, user_context])
     end
   end
 end
