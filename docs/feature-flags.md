@@ -43,19 +43,41 @@ is included in `ApplicationController`):
 
 ```ruby
 # app/controllers/my_controller.rb
-before_action { require_feature!(:my_new_feature) }
+feature_gate :my_new_feature
 ```
 
-`require_feature!` raises `TradeTariffFrontend::FeatureUnavailable` when the
-flag is off, which prevents the action from running.
+`feature_gate` sets up a `before_action` that raises
+`TradeTariffFrontend::FeatureUnavailable` when the flag is off, preventing the
+action from running. It accepts the same options as `before_action`:
+
+```ruby
+feature_gate :my_new_feature, only: :show
+feature_gate :my_new_feature, except: %i[index show]
+```
 
 ### Guarding a whole controller
 
 ```ruby
 class MyNewController < ApplicationController
-  before_action { require_feature!(:my_new_feature) }
+  feature_gate :my_new_feature
 
   def index
+    # only reached when my_new_feature is on
+  end
+end
+```
+
+### Guarding specific actions
+
+```ruby
+class MyController < ApplicationController
+  feature_gate :my_new_feature, only: :new_action
+
+  def existing_action
+    # always reachable
+  end
+
+  def new_action
     # only reached when my_new_feature is on
   end
 end
