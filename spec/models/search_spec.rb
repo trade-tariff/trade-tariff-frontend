@@ -235,6 +235,29 @@ RSpec.describe Search do
       it 'contains results' do
         expect(perform_search).to be_any
       end
+
+      it 'uses the shared service timeout for the internal search request' do
+        captured_env = nil
+        connection = Faraday.new(url: TradeTariffFrontend::ServiceChooser.api_host) do |faraday|
+          faraday.options.timeout = 10
+          faraday.adapter :test do |stub|
+            stub.post('/internal/uk/search') do |env|
+              captured_env = env
+              [
+                200,
+                { 'content-type' => 'application/json; charset=utf-8' },
+                internal_response_body.to_json,
+              ]
+            end
+          end
+        end
+
+        allow(described_class).to receive(:api).and_return(connection)
+
+        perform_search
+
+        expect(captured_env.request.timeout).to eq(50)
+      end
     end
 
     context 'when interactive_search is true and response is empty' do

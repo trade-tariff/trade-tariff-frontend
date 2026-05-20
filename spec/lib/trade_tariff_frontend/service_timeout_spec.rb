@@ -40,6 +40,11 @@ RSpec.describe TradeTariffFrontend::ServiceTimeout do
         expect(Timeout).to have_received(:timeout).with(50)
       end
 
+      it 'applies 50s timeout to /internal/search' do
+        middleware.call('PATH_INFO' => '/internal/search')
+        expect(Timeout).to have_received(:timeout).with(50)
+      end
+
       it 'applies default timeout to non-search paths' do
         middleware.call('PATH_INFO' => '/uk/commodities/1234')
         expect(Timeout).to have_received(:timeout).with(15)
