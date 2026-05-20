@@ -46,7 +46,7 @@
                 new_tab: true %>
           </div>
           <div class="interactive-result__confidence">
-            <%= render_confidence_meter(result.try(:confidence)) %>
+            <%= render_confidence_meter(@results.display_confidence_for(result)) %>
           </div>
         </div>
       <% end %>

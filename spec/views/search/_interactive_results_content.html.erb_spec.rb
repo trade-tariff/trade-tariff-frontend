@@ -123,6 +123,32 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
 
   describe 'confidence meter' do
     it { is_expected.to have_css('.confidence-indicator') }
+
+    context 'when the only exact match has no confidence ranking' do
+      let(:results) do
+        Search::InternalSearchResult.new(
+          [
+            {
+              'goods_nomenclature_item_id' => '2007919930',
+              'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+              'goods_nomenclature_class' => 'Commodity',
+              'description' => 'Containing less than 70% by weight of sugar',
+              'formatted_description' => 'Containing less than 70% by weight of sugar',
+              'self_text' => 'Citrus marmalade and jam products',
+              'classification_description' => 'Citrus fruit jam',
+              'full_description' => 'Citrus fruit jam with less than 70% sugar',
+              'heading_description' => 'Jams and marmalades',
+              'declarable' => true,
+              'score' => nil,
+              'confidence' => nil,
+            },
+          ],
+          meta,
+        )
+      end
+
+      it { is_expected.to have_css('.confidence-indicator.confidence-strong', text: 'Strong result') }
+    end
   end
 
   describe 'confidence explainer' do

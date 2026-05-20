@@ -7,6 +7,7 @@ class Search
       'Subheading' => 'subheadings',
     }.freeze
     KNOWN_CONFIDENCE_LEVELS = %w[strong good possible unlikely].freeze
+    HIGHEST_CONFIDENCE_LEVEL = KNOWN_CONFIDENCE_LEVELS.first
 
     attr_reader :type, :meta
 
@@ -50,6 +51,13 @@ class Search
 
     def confident_results
       @results.select { |r| r.try(:confidence).present? }
+    end
+
+    def display_confidence_for(result)
+      confidence = result.try(:confidence).to_s.downcase
+      return confidence if KNOWN_CONFIDENCE_LEVELS.include?(confidence)
+
+      HIGHEST_CONFIDENCE_LEVEL if exact_match? && result == @results.first
     end
 
     def all_unknown_confidence?

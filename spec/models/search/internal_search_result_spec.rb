@@ -203,6 +203,34 @@ RSpec.describe Search::InternalSearchResult do
     end
   end
 
+  describe '#display_confidence_for' do
+    subject(:display_confidence) { result.display_confidence_for(result.all.first) }
+
+    context 'when the result has a known confidence' do
+      let(:result) { described_class.new([commodity_attrs('confidence' => 'Good')]) }
+
+      it { is_expected.to eq('good') }
+    end
+
+    context 'when an exact match has no confidence' do
+      let(:result) { described_class.new([commodity_attrs('score' => nil, 'confidence' => nil)]) }
+
+      it { is_expected.to eq('strong') }
+    end
+
+    context 'when an exact match has unknown confidence' do
+      let(:result) { described_class.new([commodity_attrs('score' => nil, 'confidence' => 'unknown')]) }
+
+      it { is_expected.to eq('strong') }
+    end
+
+    context 'when a scored result has unknown confidence' do
+      let(:result) { described_class.new([commodity_attrs('confidence' => 'unknown')]) }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '#size' do
     it 'delegates to all' do
       result = described_class.new([commodity_attrs, heading_attrs, chapter_attrs])
