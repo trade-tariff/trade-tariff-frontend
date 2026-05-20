@@ -70,46 +70,6 @@ RSpec.describe CommoditiesController, type: :controller do
         it { is_expected.to redirect_to heading_path('0101') }
       end
 
-      context 'with a heading-level commodity code for an expired heading (e.g. 9919000000)' do
-        subject(:do_request) { get :show, params: { id: '9919000000' } }
-
-        let(:validity_periods) do
-          attributes_for_list :validity_period, 1, goods_nomenclature_item_id: '9919000000'
-        end
-
-        before do
-          query_params = {
-            as_of: Time.zone.today,
-            filter: { meursing_additional_code_id: nil },
-          }
-
-          stub_api_request('headings/9919')
-            .with(query: query_params)
-            .and_return jsonapi_error_response(404)
-
-          stub_api_request('headings/9919/validity_periods')
-            .with(query: { as_of: Time.zone.today })
-            .and_return jsonapi_response(:validity_period, validity_periods)
-
-          do_request
-        end
-
-        it 'responds with 404' do
-          expect(response).to have_http_status :not_found
-        end
-
-        it 'renders the custom 404 page' do
-          expect(response).to render_template 'show_404'
-        end
-
-        it 'looks up validity periods using the 4-digit heading id' do
-          expect(WebMock).to have_requested(:get, /headings\/9919\/validity_periods/)
-        end
-
-        it 'does not look up validity periods using the full 10-digit code' do
-          expect(WebMock).not_to have_requested(:get, /headings\/9919000000\/validity_periods/)
-        end
-      end
 
       context 'with non-declarable commodity id provided',
               vcr: { cassette_name: 'commodities#show_0101999999' } do
@@ -154,6 +114,35 @@ RSpec.describe CommoditiesController, type: :controller do
         get :show, params: { id: '0101210000' }
 
         expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:uk)
+      end
+
+      context 'with a heading-level commodity code for an expired heading (e.g. 9919000000)' do
+        let(:validity_periods) do
+          [ValidityPeriod.new('goods_nomenclature_item_id' => '9919000000')]
+        end
+
+        before do
+          allow(Heading).to receive(:find)
+            .with('9919', anything, anything)
+            .and_raise(Faraday::ResourceNotFound)
+
+          allow(ValidityPeriod).to receive(:all)
+            .with(Heading, '9919', anything)
+            .and_return(validity_periods)
+
+          get :show, params: { id: '9919000000' }
+        end
+
+        it { expect(response).to have_http_status(:not_found) }
+        it { expect(response).to render_template('show_404') }
+
+        it 'fetches validity periods using the 4-digit heading id, not the full commodity code' do
+          expect(ValidityPeriod).to have_received(:all).with(Heading, '9919', anything)
+        end
+
+        it 'does not fetch validity periods using the full 10-digit commodity code' do
+          expect(ValidityPeriod).not_to have_received(:all).with(Heading, '9919000000', anything)
+        end
       end
     end
 
