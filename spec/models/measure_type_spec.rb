@@ -116,7 +116,7 @@ RSpec.describe MeasureType do
   end
 
   describe '#description' do
-    shared_examples_for 'a Channel Island measure type description' do |measure_type_id, geographical_area_id|
+    shared_examples_for 'an overridden measure type description' do |measure_type_id, geographical_area_id, expected_description|
       subject(:description) { measure.measure_type.description }
 
       let(:measure) do
@@ -124,11 +124,10 @@ RSpec.describe MeasureType do
                         geographical_area_id:)
       end
 
-      it { is_expected.to eq('Channel Islands duty') }
+      it { is_expected.to eq(expected_description) }
     end
 
-    it_behaves_like 'a Channel Island measure type description', '103', '1400'
-    it_behaves_like 'a Channel Island measure type description', '105', '1400'
+    it_behaves_like 'an overridden measure type description', '103', '1080', 'UK-CD Customs Union'
 
     context 'when the measure type is loaded without a measure and no geographical_area_id is set' do
       subject(:description) { measure_type.description }
@@ -141,9 +140,9 @@ RSpec.describe MeasureType do
     context 'when the measure type is loaded without a measure and a geographical_area_id is set' do
       subject(:description) { measure_type.description }
 
-      let(:measure_type) { build(:measure_type, id: '103', description: 'Foo', geographical_area_id: '1400') }
+      let(:measure_type) { build(:measure_type, id: '103', description: 'Foo', geographical_area_id: '1080') }
 
-      it { is_expected.to eq('Channel Islands duty') }
+      it { is_expected.to eq('UK-CD Customs Union') }
     end
 
     context 'when there are no matching locales' do
@@ -152,6 +151,18 @@ RSpec.describe MeasureType do
       let(:measure) { build(:measure, measure_type_description: 'Bar') }
 
       it { is_expected.to eq('Bar') }
+    end
+
+    context 'when a removed Crown Dependencies override would previously have matched' do
+      subject(:description) { measure.measure_type.description }
+
+      let(:measure) do
+        build(:measure, measure_type_id: '103',
+                        geographical_area_id: '1400',
+                        measure_type_description: 'Third country duty')
+      end
+
+      it { is_expected.to eq('Third country duty') }
     end
   end
 
