@@ -41,6 +41,8 @@ module DutyCalculator
         faraday.use Faraday::FollowRedirects::Middleware
         faraday.response :logger if ENV['DEBUG_REQUESTS']
         faraday.request :retry, RETRY_DEFAULTS.merge(Rails.configuration.x.http.retry_options)
+        faraday.options.open_timeout = 5
+        faraday.options.timeout = 10
         faraday.ssl.verify = false
         faraday.ssl.ca_file = cert_path
         faraday.adapter :net_http_persistent
