@@ -36,6 +36,8 @@ class ClientBuilder
         conn.request :retry, RETRY_DEFAULTS.merge(Rails.configuration.x.http.retry_options)
         conn.use :http_cache, store: @cache, logger: Rails.logger if @cache
         conn.response :raise_error
+        conn.options.open_timeout = 5
+        conn.options.timeout = 10
         conn.ssl.verify = false
         conn.ssl.ca_file = cert_path
         conn.adapter :net_http_persistent
