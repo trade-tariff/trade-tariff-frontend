@@ -2,7 +2,7 @@ class InteractiveSearchForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  MAX_QUERY_LENGTH = 500
+  MAX_QUERY_LENGTH = 1000
   MIN_QUERY_LENGTH = 2
 
   attribute :q, :string

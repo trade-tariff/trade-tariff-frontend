@@ -358,9 +358,9 @@ RSpec.describe SearchController, type: :controller do
           do_response
         end
 
-        it { is_expected.to have_http_status(:redirect) }
-        it { expect(response.location).to include(commodity_path('0101210000')) }
-        it { expect(response.location).to include('request_id=') }
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:interactive_results) }
+        it { expect(assigns(:results).all).to contain_exactly(an_object_having_attributes(goods_nomenclature_item_id: '0101210000')) }
       end
 
       context 'when all questions are answered' do

@@ -278,7 +278,7 @@ RSpec.describe Search do
 
     context 'when internal API returns 422 validation error' do
       let(:search) do
-        s = described_class.new(q: 'a' * 501)
+        s = described_class.new(q: 'a' * 1001)
         s.interactive_search = true
         s
       end
@@ -289,7 +289,7 @@ RSpec.describe Search do
             {
               'status' => '422',
               'title' => 'Invalid query',
-              'detail' => 'Query exceeds maximum length of 500 characters',
+              'detail' => 'Query exceeds maximum length of 1000 characters',
               'source' => { 'pointer' => '/data/attributes/q' },
             },
           ],
@@ -314,7 +314,7 @@ RSpec.describe Search do
 
       it 'hydrates errors on the search model' do
         search.perform
-        expect(search.errors[:q]).to include('Query exceeds maximum length of 500 characters')
+        expect(search.errors[:q]).to include('Query exceeds maximum length of 1000 characters')
       end
     end
 
