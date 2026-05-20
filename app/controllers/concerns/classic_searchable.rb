@@ -18,6 +18,8 @@ module ClassicSearchable
       redirect_to missing_search_query_fallback_url
     elsif @results.exact_match?
       redirect_to url_for @results.to_param.merge(url_options).merge(request_id: @search.request_id, only_path: true)
+    elsif @results.none? && @search.search_term_is_heading_level_commodity_code?
+      redirect_to heading_path(@search.q.first(4), request_id: @search.request_id)
     elsif @results.none? && @search.search_term_is_commodity_code?
       redirect_to commodity_path(@search.q, request_id: @search.request_id)
     elsif @results.none? && @search.search_term_is_heading_code?

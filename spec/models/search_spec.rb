@@ -173,6 +173,46 @@ RSpec.describe Search do
     end
   end
 
+  describe '#search_term_is_heading_level_commodity_code?' do
+    subject { described_class.new(q: search_term).search_term_is_heading_level_commodity_code? }
+
+    context 'with a heading-level commodity code (10 digits ending in 000000)' do
+      let(:search_term) { '9919000000' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with another heading-level commodity code' do
+      let(:search_term) { '0101000000' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'with a real commodity code (not heading-level)' do
+      let(:search_term) { '0101191919' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with a 4-digit heading code' do
+      let(:search_term) { '9919' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with a chapter-level code (XX00000000)' do
+      let(:search_term) { '0100000000' }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with no search term' do
+      let(:search_term) { ' ' }
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe '#perform_v2_search request_id' do
     it 'sends request_id to the V2 search endpoint' do
       search = described_class.new(q: 'horses')

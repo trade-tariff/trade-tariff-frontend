@@ -70,6 +70,7 @@ RSpec.describe CommoditiesController, type: :controller do
         it { is_expected.to redirect_to heading_path('0101') }
       end
 
+
       context 'with non-declarable commodity id provided',
               vcr: { cassette_name: 'commodities#show_0101999999' } do
         subject(:do_request) { get :show, params: { id: '0101999999' } }
@@ -113,6 +114,35 @@ RSpec.describe CommoditiesController, type: :controller do
         get :show, params: { id: '0101210000' }
 
         expect(TradeTariffFrontend::ServiceChooser).not_to have_received(:with_source).with(:uk)
+      end
+
+      context 'with a heading-level commodity code for an expired heading (e.g. 9919000000)' do
+        let(:validity_periods) do
+          [ValidityPeriod.new('goods_nomenclature_item_id' => '9919000000')]
+        end
+
+        before do
+          allow(Heading).to receive(:find)
+            .with('9919', anything, anything)
+            .and_raise(Faraday::ResourceNotFound)
+
+          allow(ValidityPeriod).to receive(:all)
+            .with(Heading, '9919', anything)
+            .and_return(validity_periods)
+
+          get :show, params: { id: '9919000000' }
+        end
+
+        it { expect(response).to have_http_status(:not_found) }
+        it { expect(response).to render_template('show_404') }
+
+        it 'fetches validity periods using the 4-digit heading id, not the full commodity code' do
+          expect(ValidityPeriod).to have_received(:all).with(Heading, '9919', anything)
+        end
+
+        it 'does not fetch validity periods using the full 10-digit commodity code' do
+          expect(ValidityPeriod).not_to have_received(:all).with(Heading, '9919000000', anything)
+        end
       end
     end
 

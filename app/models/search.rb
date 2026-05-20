@@ -90,6 +90,10 @@ class Search
     HEADING_CODE.match? q
   end
 
+  def search_term_is_heading_level_commodity_code?
+    search_term_is_commodity_code? && GoodsNomenclature.is_heading_id?(q)
+  end
+
   def query_attributes
     {
       'day' => date.day,
