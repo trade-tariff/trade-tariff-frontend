@@ -71,6 +71,20 @@ RSpec.describe SearchController, type: :controller do
       it { expect(response.location).to include('request_id=') }
     end
 
+    context 'with heading-level commodity code (10 digits ending in 000000)', vcr: { cassette_name: 'search#blank_match' } do
+      before { do_response }
+
+      let(:params) { { q: '9919000000' } }
+
+      it { is_expected.to have_http_status(:redirect) }
+
+      it 'redirects to the 4-digit heading path, not the commodity path' do
+        expect(response.location).to include(heading_path('9919'))
+      end
+
+      it { expect(response.location).to include('request_id=') }
+    end
+
     context 'with heading code', vcr: { cassette_name: 'search#blank_match' } do
       before { do_response }
 

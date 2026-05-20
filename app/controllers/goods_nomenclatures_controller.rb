@@ -10,6 +10,10 @@ class GoodsNomenclaturesController < ApplicationController
   end
 
   def find_relevant_goods_code_or_fallback
+    if GoodsNomenclature.is_heading_id?(goods_code_id)
+      return redirect_to heading_path(goods_code_id.first(4))
+    end
+
     @search = Search.new(q: goods_code_id)
     results = @search.perform
 
