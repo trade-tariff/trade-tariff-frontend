@@ -185,6 +185,21 @@ RSpec.describe AuthenticatableApiEntity do
       end
     end
 
+    context 'when API returns not found error' do
+      before do
+        allow(mock_api).to receive(:get)
+          .and_raise(Faraday::ResourceNotFound.new('Not Found'))
+      end
+
+      it 'raises AuthenticationError with not_found reason', :aggregate_failures do
+        expect { test_class.find(entity_id, token) }
+          .to raise_error(AuthenticationError) do |error|
+            expect(error.reason).to eq('not_found')
+            expect(error.message).to eq('Not Found')
+          end
+      end
+    end
+
     context 'when API returns other errors' do
       before do
         allow(mock_api).to receive(:get)
