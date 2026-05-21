@@ -2,9 +2,10 @@
   <%= generate_breadcrumbs "Search", [["Home", home_path]] %>
 <% end %>
 
-<%= page_header %>
-
 <div data-controller="interactive-question">
+  <div data-interactive-question-target="pageHeader">
+    <%= page_header %>
+  </div>
 
   <div data-interactive-question-target="header">
     <h1 class="govuk-heading-l">Search for a commodity</h1>
@@ -50,8 +51,7 @@
         <%= f.govuk_radio_divider %>
 
         <%= f.govuk_radio_button :answer, "I don't know",
-            label: { text: "I don't know" },
-            data: { action: "change->interactive-question#selectUnknown" } %>
+            label: { text: "I don't know" } %>
       <% end %>
 
       <div class="govuk-button-group">
@@ -77,7 +77,7 @@
   </div>
 
   <div data-interactive-question-target="thinking" class="govuk-!-display-none">
-    <p class="govuk-body-l">Collecting information...</p>
+    <%= render 'search/interactive_search_thinking' %>
   </div>
 
   <div data-interactive-question-target="dontKnow" class="govuk-!-display-none">

@@ -1,5 +1,10 @@
 // Interactive search Q&A styles
 
+.app-guided-search-loading {
+  max-width: 640px;
+  padding-top: govuk-spacing(2);
+}
+
 .interactive-results .interactive-result {
   display: flex;
   flex-direction: row;
@@ -19,6 +24,11 @@
   flex-shrink: 0;
   text-align: center;
   min-width: 120px;
+}
+
+.interactive-results__other-heading {
+  border-top: 1px solid govuk-tint(govuk-colour("black"), 80%);
+  padding-top: govuk-spacing(4);
 }
 
 .confidence-indicator {
@@ -45,44 +55,6 @@
   padding-top: govuk-spacing(3);
 }
 
-// Interactive feedback useful banner - full-width grey banner with blue bottom border
-.app-feedback-useful-banner {
-  background: govuk-tint(govuk-colour("black"), 95%);
-  border-bottom: 4px solid govuk-functional-colour(brand);
-
-  .app-feedback-useful-banner__content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .app-feedback-useful-banner__text {
-    flex: 1;
-  }
-
-  .app-feedback-useful-banner__button {
-    width: auto;
-    margin-bottom: 0;
-    background-color: govuk-functional-colour(body-background);
-    color: govuk-functional-colour(text);
-    border: 1px solid govuk-functional-colour(text);
-    border-bottom-width: 3px;
-    box-shadow: none;
-    flex-shrink: 0;
-
-    &:link,
-    &:visited,
-    &:active {
-      color: govuk-functional-colour(text);
-      background-color: govuk-functional-colour(body-background);
-    }
-
-    &:hover {
-      color: govuk-functional-colour(text);
-      background-color: govuk-tint(govuk-colour("black"), 92%);
-    }
-  }
-}
 
 // Thick blue section break matching GOV.UK prototype kit style
 .app-section-break--thick {

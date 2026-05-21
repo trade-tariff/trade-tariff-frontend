@@ -21,8 +21,8 @@
   <%= favicon_link_tag image_path('govuk-icon-mask.svg'), rel: 'mask-icon', type: 'image/svg', color: "#0b0c0c" %>
   <%= favicon_link_tag image_path('govuk-icon-180.png'), rel: 'apple-touch-icon', type: 'image/png' %>
 
-  <%= stylesheet_link_tag :application, "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag :print, media: "print", "data-turbo-track": "reload"  %>
+  <%= stylesheet_link_tag :application, "data-turbo-track": "reload", preload_links_header: false %>
+  <%= stylesheet_link_tag :print, media: "print", "data-turbo-track": "reload", preload_links_header: false %>
 
   <meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
 
@@ -92,7 +92,7 @@
   </div>
 
   <% unless @feedback %>
-    <%= render @interactive_search_page ? 'shared/interactive_feedback_useful_banner' : 'shared/feedback_useful_banner' %>
+    <%= render 'shared/feedback_useful_banner', show_divider: @interactive_search_page %>
   <% end %>
 
   <footer id="footer" class="govuk-footer govuk-!-display-none-print" role="contentinfo">

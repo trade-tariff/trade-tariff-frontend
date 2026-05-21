@@ -65,6 +65,16 @@ RSpec.describe InterceptGuidanceHelper do
       expect(html).not_to include('style=')
     end
 
+    it 'opens rendered markdown links in a new tab', :aggregate_failures do
+      html = render_intercept_message('[Ask HMRC online](https://example.com/webchat)', search:)
+
+      expect(html).to have_css(
+        'a.govuk-link[href="https://example.com/webchat"][target="_blank"][rel~="noopener"][rel~="noreferrer"]',
+        text: 'Ask HMRC online',
+      )
+      expect(html).not_to have_css('a .govuk-visually-hidden', text: '(opens in new tab)')
+    end
+
     it 'linkifies goods nomenclature code references like the admin preview', :aggregate_failures do
       msg = 'Review Chapter 71, headings 3207 to 3210, subheading 8703.10 and commodity 0101210000.'
       html = render_intercept_message(msg, search:)

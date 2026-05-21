@@ -1,3 +1,9 @@
+<% if local_assigns[:show_divider] %>
+  <div class="govuk-width-container">
+    <%= govuk_section_break(size: 'l', visible: true, classes: 'feedback-useful-banner__divider') %>
+  </div>
+<% end %>
+
 <div class="feedback-useful-banner govuk-width-container">
   <div class="feedback-useful-banner__inner govuk-footer__meta">
     <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
