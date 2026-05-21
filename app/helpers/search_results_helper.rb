@@ -1,9 +1,8 @@
 module SearchResultsHelper
   CONFIDENCE_LEVELS = {
-    'Strong' => { label: 'Strong result', css_class: 'confidence-strong', needle: 'M124.48 44.35L77.91 68.35L74.58 60.31L124.48 44.35Z' },
-    'Good' => { label: 'Good result', css_class: 'confidence-good', needle: 'M91.72 11.59L75.75 61.49L67.72 58.16L91.72 11.59Z' },
-    'Possible' => { label: 'Possible result', css_class: 'confidence-possible', needle: 'M45.38 11.59L69.38 58.16L61.34 61.49L45.38 11.59Z' },
-    'Unlikely' => { label: 'Unlikely result', css_class: 'confidence-unlikely', needle: 'M12.57 44.35L62.47 60.31L59.14 68.35L12.57 44.35Z' },
+    'Strong' => { label: 'Strong result', css_class: 'confidence-strong', needle: 'M118.78 38.52L77.73 67.42L73.23 59.62Z' },
+    'Good' => { label: 'Good result', css_class: 'confidence-good', needle: 'M68.55 9.52L73.05 59.52L64.05 59.52Z' },
+    'Possible' => { label: 'Possible result', css_class: 'confidence-possible', needle: 'M18.32 38.52L63.87 59.62L59.37 67.42Z' },
   }.freeze
 
   UNKNOWN_CONFIDENCE = { label: 'Unknown', css_class: 'confidence-unknown', needle: 'M68.55 10L68.55 60L68.55 60L68.55 10Z' }.freeze
@@ -21,18 +20,16 @@ module SearchResultsHelper
     content_tag(:svg, width: '100', height: '56', viewBox: '0 0 138 78', fill: 'none',
                       xmlns: 'http://www.w3.org/2000/svg', class: 'confidence-gauge',
                       aria: { label: 'Confidence gauge' }) do
-      # Red section (left)
-      content_tag(:path, nil, d: 'M33.78 34.49L19.72 20.43C7.64 32.69 0.14 49.48 0 68.02H19.88C20.01 54.97 25.29 43.15 33.78 34.49Z', fill: '#D4351C') +
+      # Orange, yellow and green each fill one third of the semicircle.
+      content_tag(:path, nil, d: 'M0.53 68.02A68.02 68.02 0 0 1 32.5 10.34L43.04 27.19A48.14 48.14 0 0 0 20.41 68.02Z', fill: '#FF9F00', data: { confidence_segment: true }) +
+        # Yellow section (centre)
+        content_tag(:path, nil, d: 'M36.62 7.96A68.02 68.02 0 0 1 100.48 7.96L91.15 25.51A48.14 48.14 0 0 0 45.95 25.51Z', fill: '#EADD00', data: { confidence_segment: true }) +
         # Green section (right)
-        content_tag(:path, nil, d: 'M117.17 68.02H137.05C136.91 49.48 129.41 32.69 117.33 20.43L103.27 34.49C111.75 43.15 117.03 54.97 117.17 68.02Z', fill: '#00703C') +
-        # Yellow section (top right)
-        content_tag(:path, nil, d: 'M69.03 0V19.88C82.09 20.01 93.91 25.28 102.57 33.77L116.63 19.71C104.37 7.63 87.57 0.13 69.03 0Z', fill: '#EADD00') +
-        # Orange section (top left)
-        content_tag(:path, nil, d: 'M34.48 33.78C43.14 25.29 54.96 20.02 68.02 19.89V0C49.47 0.13 32.68 7.63 20.42 19.72L34.48 33.78Z', fill: '#FF9F00') +
-        # Center pivot
-        content_tag(:circle, nil, cx: '68.55', cy: '67.52', r: '9.5', fill: 'black') +
+        content_tag(:path, nil, d: 'M104.6 10.34A68.02 68.02 0 0 1 136.57 68.02L116.69 68.02A48.14 48.14 0 0 0 94.06 27.19Z', fill: '#00703C', data: { confidence_segment: true }) +
         # Needle
-        content_tag(:path, nil, d: needle_path, fill: 'black')
+        content_tag(:path, nil, d: needle_path, fill: 'black') +
+        # Center pivot
+        content_tag(:circle, nil, cx: '68.55', cy: '67.52', r: '9.5', fill: 'black')
     end
   end
 

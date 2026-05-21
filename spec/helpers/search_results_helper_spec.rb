@@ -38,16 +38,37 @@ RSpec.describe SearchResultsHelper do
       end
     end
 
-    context 'when confidence is unlikely' do
-      let(:html) { helper.render_confidence_meter('unlikely') }
+    it 'renders three coloured meter segments', :aggregate_failures do
+      fragment = Capybara.string(helper.render_confidence_meter('strong'))
 
-      it 'renders with correct class' do
-        expect(html).to include('confidence-unlikely')
-      end
+      expect(fragment).to have_css('svg.confidence-gauge path[data-confidence-segment]', count: 3)
+      expect(fragment).to have_css('svg.confidence-gauge path[fill="#FF9F00"]', count: 1)
+      expect(fragment).to have_css('svg.confidence-gauge path[fill="#EADD00"]', count: 1)
+      expect(fragment).to have_css('svg.confidence-gauge path[fill="#00703C"]', count: 1)
+      expect(fragment).not_to have_css('svg.confidence-gauge path[fill="#D4351C"]')
+    end
 
-      it 'renders with correct label' do
-        expect(html).to include('Unlikely result')
+    it 'positions each confidence needle on the three-part meter', :aggregate_failures do
+      expected_tip_ranges = {
+        'possible' => { x: 0..30, y: 30..50 },
+        'good' => { x: 55..82, y: 0..20 },
+        'strong' => { x: 105..135, y: 35..55 },
+      }
+
+      expected_tip_ranges.each do |confidence, ranges|
+        needle_path = Capybara.string(helper.render_confidence_meter(confidence)).find('svg.confidence-gauge path[fill="black"]', match: :first)[:d]
+        x, y = needle_path.match(/\AM(?<x>\d+(?:\.\d+)?) (?<y>\d+(?:\.\d+)?)/).captures.map(&:to_f)
+
+        expect(ranges[:x]).to cover(x), "#{confidence} needle x-position #{x} is outside #{ranges[:x]}"
+        expect(ranges[:y]).to cover(y), "#{confidence} needle y-position #{y} is outside #{ranges[:y]}"
       end
+    end
+
+    it 'does not render an unlikely meter option', :aggregate_failures do
+      html = helper.render_confidence_meter('unlikely')
+
+      expect(html).to include('confidence-unknown')
+      expect(html).not_to include('Unlikely result')
     end
 
     context 'when confidence is nil' do

@@ -6,7 +6,7 @@ const MIN_QUERY_LENGTH = 2
 export default class extends Controller {
   static targets = ['hiddenField', 'textarea', 'formGroup', 'formContent', 'thinking']
 
-  validateAndSubmit(event) {
+  async validateAndSubmit(event) {
     if (this.hiddenFieldTarget.value !== 'true') return
 
     event.preventDefault()
@@ -20,7 +20,7 @@ export default class extends Controller {
       this.#showErrors(errors)
     } else {
       this.#showThrobber()
-      this.element.submit()
+      this.#submitForm(event.target.closest('form'))
     }
   }
 
@@ -82,7 +82,21 @@ export default class extends Controller {
   }
 
   #showThrobber() {
+    const pageContent = document.querySelector('[data-guided-search-validation-page-content]')
+    const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]')
+
     this.formContentTarget.classList.add('govuk-!-display-none')
-    this.thinkingTarget.classList.remove('govuk-!-display-none')
+
+    if (this.hasThinkingTarget) {
+      this.thinkingTarget.classList.remove('govuk-!-display-none')
+    }
+    if (pageContent && loadingPage) {
+      pageContent.classList.add('govuk-!-display-none')
+      loadingPage.classList.remove('govuk-!-display-none')
+    }
+  }
+
+  #submitForm(form) {
+    window.setTimeout(() => HTMLFormElement.prototype.submit.call(form), 0)
   }
 }

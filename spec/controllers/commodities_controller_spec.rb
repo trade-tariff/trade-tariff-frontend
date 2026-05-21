@@ -70,7 +70,6 @@ RSpec.describe CommoditiesController, type: :controller do
         it { is_expected.to redirect_to heading_path('0101') }
       end
 
-
       context 'with non-declarable commodity id provided',
               vcr: { cassette_name: 'commodities#show_0101999999' } do
         subject(:do_request) { get :show, params: { id: '0101999999' } }

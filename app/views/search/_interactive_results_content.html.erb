@@ -28,28 +28,27 @@
     <%= govuk_warning_text(text: 'You are responsible for using the correct commodity codes and complying with customs rules.') %>
 
     <% display_results = @results.result_limit.zero? ? @results.all : @results.all.first(@results.result_limit) %>
+    <% strong_results, other_results = display_results.partition { |result| result.try(:confidence).to_s.casecmp('strong').zero? } %>
 
     <h2 class="govuk-heading-m">Top search results</h2>
 
     <div class="interactive-results">
-      <% display_results.each do |result| %>
-        <div class="interactive-result">
-          <div class="interactive-result__content">
-            <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
-              <%= result.formatted_classification_description %>
-            </h3>
-            <p class="govuk-body-s govuk-!-margin-bottom-2 govuk-!-text-colour-secondary">
-              <%= result.formatted_self_text %>
-            </p>
-            <%= govuk_link_to "View this commodity code",
-                commodity_path(result.goods_nomenclature_item_id, request_id: @search.request_id),
-                new_tab: true %>
-          </div>
-          <div class="interactive-result__confidence">
-            <%= render_confidence_meter(result.try(:confidence)) %>
-          </div>
-        </div>
+      <% strong_results.each do |result| %>
+        <%= render 'search/interactive_result', result: result %>
       <% end %>
+
+      <% if strong_results.any? && other_results.any? %>
+        <h3 class="interactive-results__other-heading govuk-heading-m">Other search results</h3>
+      <% end %>
+
+      <% other_results.each do |result| %>
+        <%= render 'search/interactive_result', result: result %>
+      <% end %>
+    </div>
+
+    <div class="govuk-button-group govuk-!-margin-top-6">
+      <%= govuk_button_link_to 'Start search again', find_commodity_path, secondary: true %>
+      <%= govuk_link_to 'Cancel', find_commodity_path %>
     </div>
 
     <%= govuk_details(summary_text: 'How we calculate confidence', classes: 'govuk-!-margin-top-6') do %>
@@ -58,7 +57,6 @@
         <li><strong>Strong result</strong> - High confidence this is the correct classification</li>
         <li><strong>Good result</strong> - Likely correct but you may want to verify</li>
         <li><strong>Possible result</strong> - Worth considering but less certain</li>
-        <li><strong>Unlikely result</strong> - Low confidence, included for completeness</li>
       </ul>
     <% end %>
   </div>
@@ -67,3 +65,7 @@
     <%= render 'search/interactive_results_sidebar' %>
   </div>
 </div>
+
+<%= govuk_section_break(size: 'l', visible: true, classes: 'app-section-break--thick') %>
+
+<%= render 'search/other_ways_to_search' %>
