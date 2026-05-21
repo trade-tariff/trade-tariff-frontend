@@ -23,40 +23,60 @@ function buildHTML({hiddenFieldValue = 'true', textareaValue = '', serverErrors 
   const ariaDescribedBy = serverErrors ? 'guided-q-hint guided-q-error' : 'guided-q-hint';
 
   return `
-    <form data-controller="guided-search-validation"
-          data-action="submit->guided-search-validation#validateAndSubmit"
-          id="new_search">
-      <div data-guided-search-validation-target="formContent">
-        ${errorSummary}
-        <div class="govuk-form-group${errorClass}" data-guided-search-validation-target="formGroup">
-          <label class="govuk-label" for="guided_q">Describe the products you are trading</label>
-          <div class="govuk-hint" id="guided-q-hint">For example, 55" 4K Ultra HD OLED Smart TV</div>
-          ${inlineError}
-          <textarea class="govuk-textarea${textareaErrorClass}" id="guided_q" name="q" rows="5"
-                    aria-describedby="${ariaDescribedBy}"
-                    data-guided-search-validation-target="textarea">${textareaValue}</textarea>
+    <main id="content">
+    <div>
+      <div data-guided-search-validation-page-content>
+        <section id="find-commodity-intro">
+          <h1>Look up commodity codes, import duties, taxes and controls</h1>
+          <p>Search for a commodity</p>
+        </section>
+        <aside id="recent-news">Latest news</aside>
+        <form data-controller="guided-search-validation"
+              data-action="submit->guided-search-validation#validateAndSubmit"
+              id="new_search"
+              action="/search"
+              method="post">
+          <div data-guided-search-validation-target="formContent">
+            ${errorSummary}
+            <div class="govuk-form-group${errorClass}" data-guided-search-validation-target="formGroup">
+              <label class="govuk-label" for="guided_q">Describe the products you are trading</label>
+              <div class="govuk-hint" id="guided-q-hint">For example, 55" 4K Ultra HD OLED Smart TV</div>
+              ${inlineError}
+              <textarea class="govuk-textarea${textareaErrorClass}" id="guided_q" name="q" rows="5"
+                        aria-describedby="${ariaDescribedBy}"
+                        data-guided-search-validation-target="textarea">${textareaValue}</textarea>
+            </div>
+            <input type="hidden" name="interactive_search" value="${hiddenFieldValue}"
+                   data-guided-search-validation-target="hiddenField">
+            <button type="submit">Search for a commodity</button>
+          </div>
+        </form>
+        <section id="other-ways">Other ways to search for a commodity</section>
+      </div>
+      <div data-guided-search-validation-loading-page class="govuk-!-display-none">
+        <div role="status">
+          <span>UK Integrated Online Tariff</span>
+          <h1>Search for a commodity</h1>
+          <p>Collecting information...</p>
         </div>
-        <input type="hidden" name="interactive_search" value="${hiddenFieldValue}"
-               data-guided-search-validation-target="hiddenField">
-        <button type="submit">Search for a commodity</button>
       </div>
-      <div data-guided-search-validation-target="thinking" class="govuk-!-display-none">
-        <p class="govuk-body-l">Collecting information...</p>
-      </div>
-    </form>
+    </div>
+    </main>
   `;
 }
 
 describe('GuidedSearchValidationController', () => {
   let application;
   let submitSpy;
+  let fetchSpy;
+  let setTimeoutSpy;
 
   async function setup(options) {
     document.body.innerHTML = buildHTML(options);
     application = Application.start();
     application.register('guided-search-validation', GuidedSearchValidationController);
     // Wait for Stimulus MutationObserver to connect the controller
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await Promise.resolve();
   }
 
   function submitForm() {
@@ -68,11 +88,20 @@ describe('GuidedSearchValidationController', () => {
 
   beforeEach(() => {
     submitSpy = jest.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {});
+    setTimeoutSpy = jest.spyOn(window, 'setTimeout').mockImplementation(() => {});
+    global.fetch = jest.fn();
+    fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValue({
+      redirected: false,
+      text: () => Promise.resolve('<html><head><title>Results</title></head><body><main id="content"><h1>Search results</h1></main></body></html>'),
+    });
   });
 
   afterEach(() => {
     if (application) application.stop();
     submitSpy.mockRestore();
+    setTimeoutSpy.mockRestore();
+    fetchSpy.mockRestore();
+    delete global.fetch;
   });
 
   describe('keyword search', () => {
@@ -124,7 +153,7 @@ describe('GuidedSearchValidationController', () => {
       const form = submitForm();
 
       expect(document.querySelector('.govuk-error-summary')).toBeNull();
-      expect(form.querySelector('[data-guided-search-validation-target="formContent"]').classList.contains('govuk-!-display-none')).toBe(true);
+      expect(form.querySelector('[data-guided-search-validation-target~="formContent"]').classList.contains('govuk-!-display-none')).toBe(true);
     });
 
     it('accepts exactly 1000 characters', async () => {
@@ -232,22 +261,50 @@ describe('GuidedSearchValidationController', () => {
       await setup({textareaValue: 'televisions'});
       submitForm();
 
-      const formContent = document.querySelector('[data-guided-search-validation-target="formContent"]');
-      const thinking = document.querySelector('[data-guided-search-validation-target="thinking"]');
+      const formContent = document.querySelector('[data-guided-search-validation-target~="formContent"]');
+      const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]');
 
       expect(formContent.classList.contains('govuk-!-display-none')).toBe(true);
-      expect(thinking.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(loadingPage.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(loadingPage.textContent).toContain('Search for a commodity');
+      expect(loadingPage.textContent).toContain('Collecting information...');
+      expect(loadingPage.textContent).not.toContain('Searching for commodity codes');
+    });
+
+    it('hides the rest of the find commodity page on valid submit', async () => {
+      await setup({textareaValue: 'televisions'});
+      submitForm();
+
+      expect(document.querySelector('[data-guided-search-validation-page-content]').classList.contains('govuk-!-display-none')).toBe(true);
     });
 
     it('does not show throbber when validation fails', async () => {
       await setup({textareaValue: ''});
       submitForm();
 
-      const formContent = document.querySelector('[data-guided-search-validation-target="formContent"]');
-      const thinking = document.querySelector('[data-guided-search-validation-target="thinking"]');
+      const formContent = document.querySelector('[data-guided-search-validation-target~="formContent"]');
+      const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]');
 
       expect(formContent.classList.contains('govuk-!-display-none')).toBe(false);
-      expect(thinking.classList.contains('govuk-!-display-none')).toBe(true);
+      expect(loadingPage.classList.contains('govuk-!-display-none')).toBe(true);
+    });
+
+    it('submits the form after rendering the loading page', async () => {
+      await setup({textareaValue: 'televisions'});
+      const form = submitForm();
+
+      window.setTimeout.mock.calls[0][0]();
+
+      expect(submitSpy).toHaveBeenCalledWith();
+      expect(form.querySelector('[data-guided-search-validation-target~="formContent"]').classList.contains('govuk-!-display-none')).toBe(true);
+    });
+
+    it('does not submit the form before the loading page renders', async () => {
+      await setup({textareaValue: 'televisions'});
+      submitForm();
+
+      expect(submitSpy).not.toHaveBeenCalled();
+      expect(document.querySelector('[data-guided-search-validation-loading-page]').classList.contains('govuk-!-display-none')).toBe(false);
     });
   });
 });

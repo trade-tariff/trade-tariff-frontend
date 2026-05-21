@@ -64,4 +64,21 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
   describe 'submit button' do
     it { is_expected.to have_css('input[type="submit"][value="Search for a commodity"]') }
   end
+
+  describe 'guided search loading state' do
+    it { is_expected.to have_css('[data-guided-search-validation-loading-page]') }
+    it { is_expected.not_to have_css('[data-guided-search-validation-target="thinking"]', visible: :all) }
+
+    context 'when the guided search has validation errors' do
+      let(:search) do
+        build(:search, :with_search_date, q: '', search_date: Time.zone.today).tap do |search|
+          search.errors.add(:q, 'Enter a search term')
+        end
+      end
+
+      it { is_expected.to have_css('.govuk-error-summary', text: 'Enter a search term') }
+      it { is_expected.to have_css('#guided-q-error', text: 'Enter a search term') }
+      it { is_expected.not_to have_css('[data-guided-search-validation-target="thinking"]', visible: :all) }
+    end
+  end
 end
