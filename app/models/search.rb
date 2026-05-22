@@ -15,7 +15,8 @@ class Search
                 :resource_id,
                 :interactive_search,
                 :answers,
-                :request_id
+                :request_id,
+                :expanded_query
 
   delegate :today?, to: :date
 
@@ -130,6 +131,7 @@ class Search
       params = { q:, as_of: date.to_fs(:db) }
       params[:answers] = answers if answers.present?
       params[:request_id] = request_id if request_id.present?
+      params[:expanded_query] = expanded_query if expanded_query.present?
 
       response = self.class.api.post(path, MultiJson.dump(params), 'Content-Type' => 'application/json') do |request|
         request.options.timeout = TradeTariffFrontend::ServiceTimeout.timeout_for('/internal/search')
@@ -146,7 +148,7 @@ class Search
   end
 
   def interactive_search_cache_key
-    digest = Digest::SHA256.hexdigest(MultiJson.dump({ q:, answers:, as_of: date.to_fs(:db) }))
+    digest = Digest::SHA256.hexdigest(MultiJson.dump({ q:, answers:, as_of: date.to_fs(:db), expanded_query: }))
     "interactive_search/#{digest}"
   end
 end

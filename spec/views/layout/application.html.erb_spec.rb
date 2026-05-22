@@ -21,11 +21,11 @@ RSpec.describe 'layouts/application', type: :view do
   context 'when rendering an interactive search page' do
     before { assign(:interactive_search_page, true) }
 
-    it 'uses the standard feedback useful banner with a divider', :aggregate_failures do
+    it 'uses the standard feedback useful banner without an extra divider', :aggregate_failures do
       render
 
       expect(rendered).to have_css('.feedback-useful-banner')
-      expect(rendered).to have_css('.feedback-useful-banner__divider')
+      expect(rendered).not_to have_css('.feedback-useful-banner__divider')
       expect(rendered).not_to have_css('.app-feedback-useful-banner')
     end
   end

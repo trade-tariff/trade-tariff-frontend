@@ -298,6 +298,20 @@ RSpec.describe Search do
 
         expect(captured_env.request.timeout).to eq(50)
       end
+
+      it 'sends the cached expanded query to internal search when present' do
+        stub = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['expanded_query'] == 'portable data processing machine' }
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        search = described_class.new(q: 'laptop', expanded_query: 'portable data processing machine')
+        search.interactive_search = true
+        search.perform
+
+        expect(stub).to have_been_requested
+      end
     end
 
     context 'when interactive_search is true and response is empty' do

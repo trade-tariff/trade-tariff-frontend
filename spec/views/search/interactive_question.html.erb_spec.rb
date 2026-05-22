@@ -16,12 +16,22 @@ RSpec.describe 'search/interactive_question', type: :view do
         'answers' => [
           { 'question' => 'What type of fruit?', 'options' => %w[Citrus Berry], 'answer' => nil },
         ],
+        'expanded_query' => 'citrus fruit jam marmalade preserve',
       },
     }
   end
 
   it { is_expected.to have_css('h1', text: 'Search for a commodity') }
   it { is_expected.to have_link('Cancel', href: find_commodity_path) }
+
+  it 'carries the expanded query into the answer submission form' do
+    render
+
+    expect(rendered).to have_css(
+      'input[type="hidden"][name="expanded_query"][value="citrus fruit jam marmalade preserve"]',
+      visible: :hidden,
+    )
+  end
 
   context 'when the guided search was started for a historical date' do
     let(:search) do
