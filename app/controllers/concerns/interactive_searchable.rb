@@ -131,8 +131,9 @@ module InteractiveSearchable
       'interactive_search' => {
         'request_id' => params[:request_id],
         'query' => params[:q],
+        'expanded_query' => params[:expanded_query],
         'answers' => answers + [current],
-      },
+      }.compact,
     }
 
     Search::InternalSearchResult.new([], meta)

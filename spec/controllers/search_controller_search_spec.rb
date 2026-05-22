@@ -416,6 +416,34 @@ RSpec.describe SearchController, type: :controller do
         it { expect(assigns(:search).expanded_query).to eq('pure-bred breeding horses') }
       end
 
+      context 'when answer validation fails after query expansion' do
+        render_views
+
+        let(:params) do
+          {
+            q: 'horses',
+            expanded_query: 'pure-bred breeding horses',
+            interactive_search: 'true',
+            request_id: 'abc-123',
+            current_question: 'What type of horse?',
+            current_options: %w[Racing Breeding].to_json,
+            interactive_search_form: { answer: '' },
+          }
+        end
+
+        before { do_response }
+
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:interactive_question) }
+
+        it 'preserves the expanded query for the next answer submission' do
+          expect(response.body).to have_css(
+            'input[type="hidden"][name="expanded_query"][value="pure-bred breeding horses"]',
+            visible: :hidden,
+          )
+        end
+      end
+
       context 'when backend returns only unknown confidence results' do
         render_views
 
