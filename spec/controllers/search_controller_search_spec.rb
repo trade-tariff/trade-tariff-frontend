@@ -381,6 +381,7 @@ RSpec.describe SearchController, type: :controller do
         let(:params) do
           {
             q: 'horses',
+            expanded_query: 'pure-bred breeding horses',
             interactive_search: 'true',
             request_id: 'abc-123',
             answers: [
@@ -412,6 +413,7 @@ RSpec.describe SearchController, type: :controller do
 
         it { is_expected.to have_http_status(:ok) }
         it { is_expected.to render_template(:interactive_results) }
+        it { expect(assigns(:search).expanded_query).to eq('pure-bred breeding horses') }
       end
 
       context 'when backend returns only unknown confidence results' do

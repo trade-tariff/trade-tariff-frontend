@@ -27,6 +27,7 @@
       <%= hidden_field_tag :q, @search.q %>
       <%= hidden_field_tag :interactive_search, 'true' %>
       <%= hidden_field_tag :request_id, @search.request_id %>
+      <%= hidden_field_tag :expanded_query, @results.expanded_query if @results.expanded_query.present? %>
       <% if @search.day_month_and_year_set? %>
         <%= hidden_field_tag :year, @search.year %>
         <%= hidden_field_tag :month, @search.month %>

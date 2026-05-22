@@ -90,7 +90,11 @@ module InteractiveSearchable
 
   def redirect_to_interactive_blocking
     redirect_to perform_search_path(
-      search_params.to_h.merge(interactive_search: 'true', request_id: @search.request_id),
+      search_params.to_h.merge(
+        interactive_search: 'true',
+        request_id: @search.request_id,
+        expanded_query: @results.expanded_query,
+      ).compact,
     )
   end
 

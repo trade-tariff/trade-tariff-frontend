@@ -434,6 +434,14 @@ RSpec.describe Search::InternalSearchResult do
     it { is_expected.to eq('leather handbag') }
   end
 
+  describe '#expanded_query' do
+    subject { described_class.new([commodity_attrs], meta).expanded_query }
+
+    let(:meta) { { 'interactive_search' => { 'expanded_query' => 'leather handbag travel bag' } } }
+
+    it { is_expected.to eq('leather handbag travel bag') }
+  end
+
   describe '#description_intercept' do
     it 'returns the description_intercept hash from meta when present' do
       meta = { 'description_intercept' => { 'excluded' => true, 'message_header' => 'Sending a set', 'message' => 'Sets...' } }
