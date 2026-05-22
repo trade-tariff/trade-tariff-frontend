@@ -26,13 +26,14 @@
           If you have any questions or need assistance, use our <%= govuk_link_to 'enquiry form', product_experience_enquiry_form_path %>.
         </p>
 
-      <div style="display: none;">
+      <div hidden>
         <%= f.govuk_phone_field :telephone,
                              label: { text: 'Telephone (Do not fill out)',
                                       hidden: true },
                              width: 20,
                              max_chars: 100 %>
       </div>
+
 
       <%= f.hidden_field :page_useful %>
 

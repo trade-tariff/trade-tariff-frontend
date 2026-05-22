@@ -1,13 +1,9 @@
-/* global $ */
-
 import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
   static targets = ['modal'];
 
   initialize() {
-    // All the HTML for modal pop-ups are generated already and need to be hidden on the page
-    $('#import-measure-references, #export-measure-references').hide();
     document.addEventListener('click', this.handleClickOutsideOpenModal.bind(this));
     document.addEventListener('keydown', this.handleEscapePressWithOpenModal.bind(this));
     this.isModalOpen = false;
