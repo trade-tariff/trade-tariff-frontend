@@ -30,6 +30,16 @@
       box-shadow: 0 2px 0 govuk-colour("black");
       min-width: 6em;
     }
+
+    .govuk-footer__inline-list-item {
+      margin-right: govuk-spacing(2);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .report-problem {
+      display: none;
+    }
   }
 
   @include govuk-media-query($until: tablet) {
