@@ -59,6 +59,22 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
 
   describe 'date picker' do
     it { is_expected.to have_text('When are you planning to trade the products?') }
+
+    context 'with an invalid date flag' do
+      before do
+        view.params[:invalid_date] = 'true'
+        view.params[:day] = '22'
+        view.params[:month] = '0'
+        view.params[:year] = '2026'
+      end
+
+      it { is_expected.to have_css('.govuk-error-summary', text: 'You must enter a valid date') }
+      it { is_expected.to have_css('.govuk-error-summary a[href="#day"]', text: 'You must enter a valid date') }
+      it { is_expected.to have_css('.govuk-form-group--error #day.govuk-input--error') }
+      it { is_expected.to have_css('#day[value="22"]') }
+      it { is_expected.to have_css('#month[value="0"]') }
+      it { is_expected.to have_css('#year[value="2026"]') }
+    end
   end
 
   describe 'submit button' do

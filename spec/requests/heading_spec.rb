@@ -11,6 +11,32 @@ RSpec.describe 'Heading page', type: :request do
   end
 
   context 'when requesting as as HTML' do
+    context 'with invalid date query parameters' do
+      before do
+        get heading_path('0101', day: ')', month: '5', year: '2026')
+      end
+
+      it 'redirects back to the heading with the invalid date flag' do
+        expect(response).to redirect_to('/headings/0101?invalid_date=true')
+      end
+
+      it 'loads the heading after redirect' do
+        VCR.use_cassette('headings#show') do
+          follow_redirect!
+        end
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not show the invalid date form error after redirect' do
+        VCR.use_cassette('headings#show') do
+          follow_redirect!
+        end
+
+        expect(response.body).not_to include('You must enter a valid date')
+      end
+    end
+
     context 'with a regular heading' do
       before do
         VCR.use_cassette('geographical_areas#countries') do

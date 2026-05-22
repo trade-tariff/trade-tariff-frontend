@@ -4,6 +4,8 @@
 
 <div data-guided-search-validation-target="formContent">
 
+<%= render 'shared/invalid_date_error_summary' if params[:invalid_date].present? %>
+
 <% if @search.errors.any? %>
 <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
