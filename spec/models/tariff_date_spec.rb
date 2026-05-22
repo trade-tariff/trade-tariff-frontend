@@ -36,6 +36,34 @@ RSpec.describe TariffDate do
 
       it { is_expected.to eq(Time.zone.today) }
     end
+
+    context 'when passing impossible date attributes' do
+      let(:date_attributes) do
+        {
+          'year' => '2026',
+          'month' => '02',
+          'day' => '31',
+        }
+      end
+
+      it 'raises an invalid date error' do
+        expect { tariff_date }.to raise_error(Date::Error)
+      end
+    end
+
+    context 'when passing non-numeric date attributes' do
+      let(:date_attributes) do
+        {
+          'year' => '2026',
+          'month' => 'May',
+          'day' => '22',
+        }
+      end
+
+      it 'raises an invalid date error' do
+        expect { tariff_date }.to raise_error(Date::Error)
+      end
+    end
   end
 
   describe '#to_param' do

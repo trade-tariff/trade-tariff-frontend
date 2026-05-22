@@ -1,5 +1,6 @@
 <%= form_tag quota_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
   <%= page_header 'Search for quotas' %>
+  <%= render 'shared/invalid_date_error_summary' if params[:invalid_date].present? %>
 
   <div class="govuk-form-group govuk-!-margin-top-6">
     <div class="govuk-inset-text govuk-grid-column-one-half govuk-!-margin-top-0 govuk-!-margin-bottom-0">

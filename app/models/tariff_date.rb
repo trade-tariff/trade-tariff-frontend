@@ -3,8 +3,10 @@ class TariffDate < SimpleDelegator
 
   class << self
     def build(date_attributes)
-      date = if valid_date_attributes?(date_attributes)
-               Date.parse(date_attributes.slice(*DATE_KEYS).values.join('-'))
+      date = if complete_date_attributes?(date_attributes)
+               raise Date::Error unless valid_date_attributes?(date_attributes)
+
+               Date.new(*date_attributes.slice(*DATE_KEYS).values.map(&:to_i))
              else
                Time.zone.today
              end
@@ -14,9 +16,17 @@ class TariffDate < SimpleDelegator
 
     private
 
-    def valid_date_attributes?(date_param)
+    def complete_date_attributes?(date_param)
       date_param.present? && date_param.is_a?(Hash) &&
-        DATE_KEYS.all? { |k| date_param[k].present? }
+        DATE_KEYS.all? { |key| date_param[key].present? }
+    end
+
+    def valid_date_attributes?(date_param)
+      DATE_KEYS.all? { |key| numeric_date_attribute?(date_param[key]) }
+    end
+
+    def numeric_date_attribute?(value)
+      value.to_s.match?(/\A\d+\z/)
     end
   end
 
