@@ -103,7 +103,7 @@
   <% end %>
 <% end %>
 
-<div id="import-measure-references">
+<div id="import-measure-references" hidden>
   <%= render partial: 'measures/measure_references',
               collection: declarable_import_measures,
               as: 'measure',
@@ -134,7 +134,7 @@
   <% end %>
 </div>
 
-<div id="export-measure-references">
+<div id="export-measure-references" hidden>
   <% if uk_declarable&.export_measures&.any? %>
       <%= render partial: 'measures/measure_references',
               collection: uk_declarable.export_measures,
