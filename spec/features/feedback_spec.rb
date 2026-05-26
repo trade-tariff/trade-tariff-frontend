@@ -13,15 +13,14 @@ RSpec.feature 'Feedback', type: :feature do
     visit '/404'
     expect(page).to have_css 'h1', text: 'Page not found'
 
-    visit feedback_path
+    click_on 'Feedback'
     expect(page).to have_css 'h1', text: 'Give feedback on Online Trade Tariff'
     fill_in 'feedback[message]', with: 'Some random feedback'
     click_button 'Submit feedback'
 
     expect(page).to have_css 'h1', text: 'Feedback submitted'
-    expect(page).to have_text 'Thank you for your valuable feedback'
-    # "Return to page" link only appears when referrer was set (e.g. when user clicked through from another page).
-    # Feature test driver does not send Referer on visit(), so we don't assert the link here; see request spec.
+    expect(page).to have_css 'a', text: 'Return to page'
+    expect(page).to have_link nil, href: /404/
   end
 
   scenario 'when original page is feedback page' do
@@ -36,22 +35,25 @@ RSpec.feature 'Feedback', type: :feature do
 
   scenario 'feedback bottom banner is not shown on feedback page' do
     visit '/404'
-    expect(page).to have_css 'a', text: 'Share your feedback'
-    expect(page).to have_css 'p', text: 'Give feedback about this service'
-    expect(page).to have_text 'Tell us about your experience using this service to help us improve it.'
+    expect(page).to have_css 'a', text: 'Yes'
+    expect(page).to have_css 'a', text: 'No'
+    expect(page).to have_css 'a', text: 'Report a problem with this page'
+    expect(page).to have_css 'p', text: 'Is this page useful?'
 
-    visit feedback_path
-    expect(page).not_to have_css '.feedback-useful-banner'
-    expect(page).not_to have_css 'a', text: 'Share your feedback'
+    click_on 'Yes'
+    expect(page).not_to have_css 'a', text: 'Yes'
+    expect(page).not_to have_css 'a', text: 'No'
+    expect(page).not_to have_css 'a', text: 'Report a problem with this page'
+    expect(page).not_to have_css 'p', text: 'Is this page useful?'
   end
 
   scenario 'feedback banner is not shown on feedback page' do
     visit '/404'
-    expect(page).to have_css 'a', text: 'give your feedback (opens in new tab)'
-    expect(page).to have_text 'Help us improve this service'
+    expect(page).to have_css 'a', exact_text: 'feedback'
+    expect(page).to have_text 'Tell us what you think - your feedback will help us improve.'
 
-    visit feedback_path
-    expect(page).not_to have_css '.tariff-feedback-banner'
-    expect(page).not_to have_css 'a', text: 'give your feedback (opens in new tab)'
+    click_on 'feedback'
+    expect(page).not_to have_css 'a', exact_text: 'feedback'
+    expect(page).not_to have_text 'Tell us what you think - your feedback will help us improve.'
   end
 end
