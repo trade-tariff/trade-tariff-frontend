@@ -1,0 +1,39 @@
+<div class="govuk-form-group <%= field_error_class('has_commodity_code') %>">
+  <fieldset class="govuk-fieldset" aria-describedby="has_commodity_code-hint<%= ' has_commodity_code-error' if field_error('has_commodity_code') %>">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <h1 class="govuk-fieldset__heading">Do you already have a possible commodity code?</h1>
+    </legend>
+
+    <div id="has_commodity_code-hint" class="govuk-hint">
+      This is optional. If you have already found a possible commodity code, enter it here so we can check it as part of your enquiry.
+    </div>
+
+    <% if field_error('has_commodity_code') %>
+      <p id="has_commodity_code-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> <%= field_error('has_commodity_code') %>
+      </p>
+    <% end %>
+
+    <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios__item">
+        <%= radio_button_tag :has_commodity_code,
+                             'yes',
+                             field_value('has_commodity_code') == 'yes',
+                             class: 'govuk-radios__input',
+                             id: 'has_commodity_code_yes',
+                             data: { aria_controls: 'conditional-commodity-code' } %>
+        <label class="govuk-label govuk-radios__label" for="has_commodity_code_yes">Yes</label>
+      </div>
+      <div class="govuk-radios__conditional <%= 'govuk-radios__conditional--hidden' unless field_value('has_commodity_code') == 'yes' %>" id="conditional-commodity-code">
+        <%= render 'product_experience/enquiry_form/text_input',
+                   field: 'commodity_code',
+                   label: 'Possible commodity code',
+                   hint: 'Enter the 10-digit code, if you know it' %>
+      </div>
+      <div class="govuk-radios__item">
+        <%= radio_button_tag :has_commodity_code, 'no', field_value('has_commodity_code') == 'no', class: 'govuk-radios__input', id: 'has_commodity_code_no' %>
+        <label class="govuk-label govuk-radios__label" for="has_commodity_code_no">No</label>
+      </div>
+    </div>
+  </fieldset>
+</div>

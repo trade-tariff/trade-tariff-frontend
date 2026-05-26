@@ -1,0 +1,25 @@
+<div class="govuk-form-group govuk-character-count <%= field_error_class('query') %>" data-module="govuk-character-count" data-maxlength="5000">
+  <h1 class="govuk-label-wrapper">
+    <label class="govuk-label govuk-label--l" for="query">
+      How can we help you?
+    </label>
+  </h1>
+  <div id="query-hint" class="govuk-hint">
+    Explain what problem you're having and what help you need to review it.
+  </div>
+  <% if field_error('query') %>
+    <p id="query-error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> <%= field_error('query') %>
+    </p>
+  <% end %>
+  <%= text_area_tag :query,
+                    field_value('query'),
+                    class: 'govuk-textarea govuk-js-character-count',
+                    rows: 5,
+                    id: 'query',
+                    maxlength: 5000,
+                    'aria-describedby': 'query-hint query-info' %>
+  <div id="query-info" class="govuk-hint govuk-character-count__message">
+    You can enter up to 5,000 characters
+  </div>
+</div>

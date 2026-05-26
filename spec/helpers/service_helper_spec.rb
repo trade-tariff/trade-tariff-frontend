@@ -454,7 +454,7 @@ RSpec.describe ServiceHelper, type: :helper do
         helper.flash.now[:alert] = 'Something went wrong'
 
         expect(helper.enquiry_form_title(field))
-          .to eq('Error: Enquiry Form | How can we help?')
+          .to eq('Error: Enquiry Form | How can we help you?')
       end
     end
 
@@ -463,7 +463,7 @@ RSpec.describe ServiceHelper, type: :helper do
         helper.flash.now[:error] = nil
 
         expect(helper.enquiry_form_title(field))
-          .to eq('Enquiry Form | How can we help?')
+          .to eq('Enquiry Form | How can we help you?')
       end
     end
   end

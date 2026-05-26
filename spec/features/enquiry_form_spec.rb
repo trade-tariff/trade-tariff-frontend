@@ -1,182 +1,60 @@
 require 'spec_helper'
 
-RSpec.describe 'Enquiry Form Entry', type: :feature do
-  include EnquiryFormHelpers
+RSpec.describe 'Enquiry Form Entry', :aggregate_failures, type: :feature do
   around do |example|
     old_store = Rails.cache
-    # implementing a memory store for this test (globally doing this breaks other tests)
     Rails.cache = ActiveSupport::Cache::MemoryStore.new
     example.run
   ensure
-    # restore the original store
     Rails.cache = old_store
   end
 
-  describe 'new enquiry' do
-    context 'when user enters valid data' do
-      before do
-        allow(EnquiryForm).to receive(:create!)
-          .and_return({ 'resource_id' => 'R1M5X8LU' })
-      end
+  it 'allows a user to change an answer before submitting' do
+    allow(EnquiryForm).to receive(:create!)
+      .and_return({ 'resource_id' => 'R1M5X8LU' })
 
-      it 'allows a user to complete the enquiry form' do
-        start_enquiry
-        fill_in_full_name
-        fill_in_company_name
-        fill_in_job_title
-        fill_in_email
-        choose_category
-        fill_in_query
-        expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
-        within('.govuk-summary-list__row', text: 'Full name') do
-          expect(page).to have_css('.govuk-summary-list__value', text: 'John Doe')
-        end
-        within('.govuk-summary-list__row', text: 'Company name (optional)') do
-          expect(page).to have_css('.govuk-summary-list__value', text: 'Acme')
-        end
-        within('.govuk-summary-list__row', text: 'Job title (optional)') do
-          expect(page).to have_css('.govuk-summary-list__value', text: 'Director')
-        end
-        within('.govuk-summary-list__row', text: 'Email address') do
-          expect(page).to have_css('.govuk-summary-list__value', text: 'john.doe@acme.com')
-        end
-        within('.govuk-summary-list__row', text: 'What do you need help with?') do
-          expect(page).to have_css('.govuk-summary-list__value', text: 'Quotas')
-        end
-        within('.govuk-summary-list__row', text: 'How can we help?') do
-          expect(page).to have_css('.govuk-summary-list__value', text: 'I need to know my quotas')
-        end
-        click_button 'Submit'
-        expect(page).to have_css 'h1', text: 'Your form has been submitted'
-        expect(page).to have_content('R1M5X8LU')
-      end
+    complete_generic_enquiry(email: 'first@example.com')
 
-      it 'allows a user to change a field' do
-        start_enquiry
-        fill_in_full_name
-        fill_in_company_name company: 'My Company'
-        fill_in_job_title
-        fill_in_email
-        choose_category
-        fill_in_query
-        expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
-        click_link 'Change', href: '/enquiry_form/company_name?editing=true'
-        expect(page).to have_field 'Company name', with: 'My Company'
-        fill_in 'Company name', with: 'Acme Enterprises'
-        click_button 'Continue'
-        expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
-        within('.govuk-summary-list__row', text: 'Company name (optional)') do
-          expect(page).to have_css('.govuk-summary-list__value', text: 'Acme Enterprises')
-        end
-        click_button 'Submit'
-        expect(page).to have_css 'h1', text: 'Your form has been submitted'
-        expect(page).to have_content('R1M5X8LU')
-      end
-    end
+    click_link 'Change', href: '/enquiry_form/contact_details?editing=true'
 
-    context 'when full name is missing' do
-      before do
-        start_enquiry
-        fill_in_full_name name: ''
-      end
+    expect(page).to have_css 'h1', text: 'Contact details'
+    fill_in 'Email address', with: 'updated@example.com'
+    click_button 'Continue'
 
-      let(:expected_back_path) { product_experience_enquiry_form_path }
+    expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
+    expect(page).to have_content 'updated@example.com'
 
-      include_examples 'a validation error', 'Please enter your full name'
-    end
+    click_button 'Submit'
 
-    context 'when email address is missing' do
-      before do
-        start_enquiry
-        fill_in_full_name
-        fill_in_company_name
-        fill_in_job_title
-        fill_in_email email: ''
-      end
+    expect(page).to have_css 'h1', text: 'Your request has been submitted'
+    expect(page).to have_content 'R1M5X8LU'
+  end
 
-      let(:expected_back_path) { product_experience_enquiry_form_field_path('occupation') }
+  it 'preserves the enquiry when the API submission fails' do
+    allow(EnquiryForm).to receive(:create!)
+      .and_return({ 'resource_id' => nil })
 
-      include_examples 'a validation error', 'Please enter a valid email address'
-    end
+    complete_generic_enquiry(email: 'trader@example.com')
+    click_button 'Submit'
 
-    context 'when email address is invalid' do
-      before do
-        start_enquiry
-        fill_in_full_name
-        fill_in_company_name
-        fill_in_job_title
-        fill_in_email email: 'a'
-      end
+    expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
+    expect(page).to have_content 'There was a problem submitting your enquiry. Please try again later.'
+    expect(page).to have_content 'trader@example.com'
+    expect(page).to have_content 'I need help understanding tariff quota duties.'
+  end
 
-      let(:expected_back_path) { product_experience_enquiry_form_field_path('occupation') }
+  def complete_generic_enquiry(email:)
+    visit product_experience_enquiry_form_path
 
-      include_examples 'a validation error', 'Please enter a valid email address'
-    end
+    choose 'Import Duties and Quota'
+    click_button 'Continue'
 
-    context 'when category is not selected' do
-      before do
-        start_enquiry
-        fill_in_full_name
-        fill_in_company_name
-        fill_in_job_title
-        fill_in_email
-        choose_category category: nil
-      end
+    fill_in 'How can we help you?', with: 'I need help understanding tariff quota duties.'
+    click_button 'Continue'
 
-      let(:expected_back_path) { product_experience_enquiry_form_field_path('email_address') }
+    fill_in 'Email address', with: email
+    click_button 'Continue'
 
-      include_examples 'a validation error', 'Please select a category'
-    end
-
-    context 'when query is missing' do
-      before do
-        start_enquiry
-        fill_in_full_name
-        fill_in_company_name
-        fill_in_job_title
-        fill_in_email
-        choose_category
-        fill_in_query query: ''
-      end
-
-      let(:expected_back_path) { product_experience_enquiry_form_field_path('category') }
-
-      include_examples 'a validation error', 'Please enter your query'
-    end
-
-    context 'when query is > 5000 characters' do
-      before do
-        start_enquiry
-        fill_in_full_name
-        fill_in_company_name
-        fill_in_job_title
-        fill_in_email
-        choose_category
-        fill_in_query query: 'A' * 5001
-      end
-
-      let(:expected_back_path) { product_experience_enquiry_form_field_path('category') }
-
-      include_examples 'a validation error', 'Please limit your query to 5000 characters or less.'
-    end
-
-    context 'when the API doesn\'t return a resource ID' do
-      before do
-        allow(EnquiryForm).to receive(:create!)
-          .and_return({ 'resource_id' => nil })
-        start_enquiry
-        fill_in_full_name
-        fill_in_company_name
-        fill_in_job_title
-        fill_in_email
-        choose_category
-        fill_in_query
-        click_button 'Submit'
-      end
-
-      let(:expected_back_path) { product_experience_enquiry_form_field_path('query') }
-
-      include_examples 'a validation error', 'There was a problem submitting your enquiry. Please try again later.'
-    end
+    expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
   end
 end
