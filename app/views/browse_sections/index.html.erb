@@ -18,42 +18,26 @@
 </p>
 
 <section class="sections">
-  <table class="tariff-table govuk-table">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">
-          Section
-        </th>
-
-        <th scope="col" class="govuk-table__header">
-          Section title
-        </th>
-
-        <th scope="col" class="govuk-table__header">
-          Chapters
-        </th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <% @sections.each do |section| %>
-      <tr class="govuk-table__row">
-        <td class="numeral govuk-table__cell">
-          <span class="govuk-visually-hidden">Section </span>
-          <%= section.numeral %>
-        </td>
-
-        <td class="title govuk-table__cell">
-          <%= govuk_link_to section_path(section, request.query_parameters.symbolize_keys) do %>
-            <%= govuk_visually_hidden "Section #{section.position}:" %>
-            <%= section.title %>
-          <% end %>
-        </td>
-
-        <td class="chapters govuk-table__cell">
-          <%= section.chapters_title %>
-        </td>
-      </tr>
+  <%= govuk_table(classes: 'tariff-table') do |table| %>
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: 'Section') %>
+        <% row.with_cell(text: 'Section title') %>
+        <% row.with_cell(text: 'Chapters') %>
       <% end %>
-    </tbody>
-  </table>
+    <% end %>
+
+    <% table.with_body do |body| %>
+      <% @sections.each do |section| %>
+        <% body.with_row do |row| %>
+          <% row.with_cell(classes: 'numeral') do %>
+            <%= govuk_visually_hidden 'Section ' %>
+            <%= section.numeral %>
+          <% end %>
+            <% row.with_cell(text: govuk_link_to(section.title, section_path(section, request.query_parameters.symbolize_keys), visually_hidden_prefix: "Section #{section.position}:"), classes: 'title') %>
+          <% row.with_cell(text: section.chapters_title, classes: 'chapters') %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 </section>

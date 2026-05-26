@@ -1,9 +1,0 @@
-<tr class="govuk-table__row">
-  <td class="title govuk-table__cell">
-    <%= govuk_link_to section_path(section, request.query_parameters.symbolize_keys) do %>
-      <%= govuk_visually_hidden "Section #{section.position}: " %> <%= section %>
-    <% end %>
-  </td>
-  <td class="numeral govuk-table__cell"><span class="govuk-visually-hidden">Section </span><%= section.numeral %></td>
-  <td class="chapters govuk-table__cell"><%= section.chapters_title %></td>
-</tr>

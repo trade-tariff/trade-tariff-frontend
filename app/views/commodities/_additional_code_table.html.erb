@@ -1,17 +1,12 @@
-<table class="govuk-table additional-code-table">
-  <caption>Depends on additional code</caption>
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Code</th>
-      <th scope="col" class="govuk-table__header">Duty</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-  <% measures.each do |m| %>
-    <tr class="govuk-table__row">
-      <td class="govuk-table__cell" id="additional-code"><%= m.additional_code&.code.presence || 'No code' %></td>
-      <td class="govuk-table__cell"><%= m.duty_expression.formatted_base.html_safe %></td>
-    </tr>
+<%= govuk_table(classes: 'additional-code-table') do |table| %>
+  <% table.with_caption(text: 'Depends on additional code') %>
+  <% table.with_head(rows: [['Code', 'Duty']]) %>
+  <% table.with_body do |body| %>
+    <% measures.each do |m| %>
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: (m.additional_code&.code.presence || 'No code'), html_attributes: { id: 'additional-code' }) %>
+        <% row.with_cell { m.duty_expression.formatted_base.html_safe } %>
+      <% end %>
+    <% end %>
   <% end %>
-  </tbody>
-</table>
+<% end %>
