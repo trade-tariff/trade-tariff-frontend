@@ -23,7 +23,8 @@ module ProductExperience
 
     def submit
       @field = params[:field]
-      @enquiry_data = enquiry_data.merge(permitted_answers_for(@field))
+      previous_data = enquiry_data
+      @enquiry_data = normalized_enquiry_data(@field, previous_data, permitted_answers_for(@field))
       @errors = errors_for(@field, @enquiry_data)
 
       write_enquiry_data(@enquiry_data)
@@ -34,17 +35,27 @@ module ProductExperience
         @prev_field = previous_field(@field)
         render :form
       else
-        next_field_path_redirect(@field, editing: params[:editing].present?, data: @enquiry_data)
+        next_field_path_redirect(
+          @field,
+          editing: params[:editing].present?,
+          data: @enquiry_data,
+          previous_data:,
+        )
       end
     end
 
     def check_your_answers
       @enquiry_data = enquiry_data
+      redirect_to_first_incomplete_field(@enquiry_data) and return
+
       @prev_field = 'contact_details'
     end
 
     def submit_form
-      response = EnquiryForm.create!(submission_attributes)
+      data = enquiry_data
+      redirect_to_first_incomplete_field(data) and return
+
+      response = EnquiryForm.create!(submission_attributes(data))
 
       if response['resource_id'].present?
         clear_enquiry_data
@@ -70,6 +81,7 @@ module ProductExperience
     private
 
     def start_new_enquiry
+      session.delete(:product_experience_enquiry)
       clear_enquiry_data
       session[:enquiry_form_draft_id] = SecureRandom.uuid
       session[:submission_token] = SecureRandom.uuid
@@ -80,8 +92,22 @@ module ProductExperience
       @hide_feedback_useful_banner = true
     end
 
+    def search_attributes
+      {}
+    end
+
     def ensure_submission_started
-      return if session[:submission_token].present? && session[:enquiry_form_draft_id].present?
+      if session[:submission_token].present? &&
+          session[:enquiry_form_draft_id].present? &&
+          ProductExperience::EnquiryFormDraftStore.exists?(session[:enquiry_form_draft_id])
+        return
+      end
+
+      if session[:enquiry_form_draft_id].present?
+        Rails.logger.warn "Missing enquiry form draft for session draft id #{session[:enquiry_form_draft_id]}"
+      end
+
+      clear_enquiry_data
 
       redirect_to product_experience_enquiry_form_path
     end
@@ -107,7 +133,7 @@ module ProductExperience
     end
 
     def enquiry_data
-      ProductExperience::EnquiryFormDraftStore.read(session[:enquiry_form_draft_id])
+      ProductExperience::EnquiryFormDraftStore.read(session[:enquiry_form_draft_id]).to_h
     end
 
     def write_enquiry_data(data)
@@ -122,11 +148,13 @@ module ProductExperience
 
     def permitted_answers_for(field)
       permitted_fields = EnquiryFormHelper::FIELD_PARAMS.fetch(field)
-      params.slice(*permitted_fields).permit(*permitted_fields).to_h
+      permitted_fields.each_with_object({}) do |param, answers|
+        answers[param] = params[param].to_s if params.key?(param)
+      end
     end
 
-    def next_field_path_redirect(current, editing: false, data: enquiry_data)
-      if editing
+    def next_field_path_redirect(current, editing: false, data: enquiry_data, previous_data: enquiry_data)
+      if editing && !continue_after_edit?(current, previous_data, data)
         redirect_to product_experience_enquiry_form_check_your_answers_path and return
       end
 
@@ -136,6 +164,56 @@ module ProductExperience
         redirect_to product_experience_enquiry_form_field_path(next_field)
       else
         redirect_to product_experience_enquiry_form_check_your_answers_path
+      end
+    end
+
+    def normalized_enquiry_data(field, previous_data, answers)
+      data = previous_data.merge(answers)
+      field == 'category' ? data_for_category(data) : data
+    end
+
+    def data_for_category(data)
+      data = data.except('other_category') unless field_value('category', data) == 'other'
+
+      case route_for_category(field_value('category', data))
+      when :classification
+        data.except(*EnquiryFormHelper::GENERIC_FIELDS)
+      when :generic
+        data.except(*EnquiryFormHelper::CLASSIFICATION_FIELDS)
+      else
+        data
+      end
+    end
+
+    def continue_after_edit?(field, previous_data, data)
+      field == 'category' && route_for_category(previous_data['category']) != route_for_category(data['category'])
+    end
+
+    def route_for_category(category)
+      return if category.blank?
+
+      category == 'classification' ? :classification : :generic
+    end
+
+    def redirect_to_first_incomplete_field(data)
+      field = first_incomplete_field(data)
+      return false if field.blank?
+
+      redirect_to product_experience_enquiry_form_field_path(field)
+    end
+
+    def first_incomplete_field(data)
+      active_fields(data).find { |field| errors_for(field, data).present? }
+    end
+
+    def active_fields(data)
+      case route_for_category(field_value('category', data))
+      when :classification
+        %w[category goods_details commodity_code contact_details]
+      when :generic
+        %w[category query contact_details]
+      else
+        %w[category]
       end
     end
 
@@ -219,26 +297,35 @@ module ProductExperience
       { field:, message: }
     end
 
-    def submission_attributes
-      data = enquiry_data
-
-      {
+    def submission_attributes(data = enquiry_data)
+      common_attributes = {
         name: data['full_name'],
         company_name: data['company_name'],
         job_title: data['occupation'],
         email: data['email_address'],
         enquiry_category: data['category'],
-        enquiry_description: data['query'],
-        other_category: data['other_category'],
-        goods_product: data['goods_product'],
-        goods_made_of: data['goods_made_of'],
-        goods_used_for: data['goods_used_for'],
-        goods_function: data['goods_function'],
-        goods_processed: data['goods_processed'],
-        goods_packaged: data['goods_packaged'],
-        has_commodity_code: data['has_commodity_code'],
-        commodity_code: data['commodity_code'],
-      }.compact
+      }
+      common_attributes[:other_category] = data['other_category'] if data['category'] == 'other'
+
+      route_attributes =
+        if data['category'] == 'classification'
+          {
+            goods_product: data['goods_product'],
+            goods_made_of: data['goods_made_of'],
+            goods_used_for: data['goods_used_for'],
+            goods_function: data['goods_function'],
+            goods_processed: data['goods_processed'],
+            goods_packaged: data['goods_packaged'],
+            has_commodity_code: data['has_commodity_code'],
+            commodity_code: data['commodity_code'],
+          }
+        else
+          {
+            enquiry_description: data['query'],
+          }
+        end
+
+      common_attributes.merge(route_attributes).compact
     end
   end
 end

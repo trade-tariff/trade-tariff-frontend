@@ -43,7 +43,11 @@
                   <span class="govuk-visually-hidden">Error:</span> <%= field_error('other_category') %>
                 </p>
               <% end %>
-              <%= text_field_tag :other_category, field_value('other_category'), class: 'govuk-input', id: 'other_category' %>
+              <%= text_field_tag :other_category,
+                                 field_value('other_category'),
+                                 class: class_names('govuk-input', 'govuk-input--error': field_error('other_category').present?),
+                                 id: 'other_category',
+                                 'aria-describedby': ('other_category-error' if field_error('other_category')) %>
             </div>
           </div>
         <% end %>

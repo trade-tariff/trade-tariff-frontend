@@ -1,3 +1,9 @@
+<% described_by = [
+  'query-hint',
+  ('query-error' if field_error('query')),
+  'query-info',
+].compact.join(' ') %>
+
 <div class="govuk-form-group govuk-character-count <%= field_error_class('query') %>" data-module="govuk-character-count" data-maxlength="5000">
   <h1 class="govuk-label-wrapper">
     <label class="govuk-label govuk-label--l" for="query">
@@ -14,11 +20,11 @@
   <% end %>
   <%= text_area_tag :query,
                     field_value('query'),
-                    class: 'govuk-textarea govuk-js-character-count',
+                    class: class_names('govuk-textarea govuk-js-character-count', 'govuk-textarea--error': field_error('query').present?),
                     rows: 5,
                     id: 'query',
                     maxlength: 5000,
-                    'aria-describedby': 'query-hint query-info' %>
+                    'aria-describedby': described_by %>
   <div id="query-info" class="govuk-hint govuk-character-count__message">
     You can enter up to 5,000 characters
   </div>

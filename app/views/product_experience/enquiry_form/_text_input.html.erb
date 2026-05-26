@@ -1,3 +1,8 @@
+<% described_by = [
+  ("#{field}-hint" if hint.present?),
+  ("#{field}-error" if field_error(field)),
+].compact.join(' ') %>
+
 <div class="govuk-form-group <%= field_error_class(field) %>">
   <label class="govuk-label govuk-label--m" for="<%= field %>">
     <%= label %>
@@ -12,5 +17,9 @@
       <span class="govuk-visually-hidden">Error:</span> <%= field_error(field) %>
     </p>
   <% end %>
-  <%= text_field_tag field, field_value(field), class: 'govuk-input', id: field %>
+  <%= text_field_tag field,
+                     field_value(field),
+                     class: class_names('govuk-input', 'govuk-input--error': field_error(field).present?),
+                     id: field,
+                     'aria-describedby': (described_by if described_by.present?) %>
 </div>

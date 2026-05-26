@@ -59,4 +59,36 @@ RSpec.describe EnquiryFormHelper, :aggregate_failures, type: :helper do
       expect(helper.field_value('email_address', { 'email_address' => 'trader@example.com' })).to eq('trader@example.com')
     end
   end
+
+  describe '#check_your_answers_row' do
+    before do
+      helper.instance_variable_set(
+        :@enquiry_data,
+        {
+          'email_address' => 'trader@example.com',
+          'full_name' => 'Joan Georgia',
+          'company_name' => 'Fabulous Embroidery Ltd.',
+          'occupation' => 'Director',
+        },
+      )
+    end
+
+    it 'groups contact details into a single row with one change action' do
+      row = helper.check_your_answers_row(
+        'contact_details',
+        %w[email_address full_name company_name occupation],
+      )
+
+      expect(row[:key]).to eq(text: 'Contact details')
+      expect(row[:value][:text]).to include('Email')
+      expect(row[:value][:text]).to include('trader@example.com')
+      expect(row[:value][:text]).to include('Joan Georgia')
+      expect(row[:actions]).to contain_exactly(
+        {
+          href: product_experience_enquiry_form_field_path('contact_details', editing: true),
+          visually_hidden_text: 'Contact details',
+        },
+      )
+    end
+  end
 end

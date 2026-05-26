@@ -15,6 +15,9 @@ module EnquiryFormHelper
     'contact_details' => %w[email_address full_name company_name occupation],
   }.freeze
 
+  CLASSIFICATION_FIELDS = FIELD_PARAMS.values_at('goods_details', 'commodity_code').flatten.freeze
+  GENERIC_FIELDS = FIELD_PARAMS.fetch('query').freeze
+
   def self.fields
     FIELD_CONFIG.keys
   end
@@ -101,17 +104,20 @@ module EnquiryFormHelper
     category_options.find { |option| option[:value] == value }&.fetch(:label, value) || value
   end
 
-  def check_your_answers_rows(fields)
-    fields.filter_map do |field|
-      value = field_value(field)
-      next if value.blank?
+  def check_your_answers_row(step, fields, labelled_fields: fields)
+    answers = check_your_answers_values(fields)
+    return if answers.blank?
 
-      {
-        key: { text: check_your_answers_label(field) },
-        value: { text: simple_format(display_value_for(field, value)) },
-        actions: [{ href: change_link_for(field) }],
-      }
-    end
+    {
+      key: { text: check_your_answers_step_label(step) },
+      value: { text: check_your_answers_value(answers, labelled_fields:) },
+      actions: [
+        {
+          href: product_experience_enquiry_form_field_path(step, editing: true),
+          visually_hidden_text: check_your_answers_step_label(step),
+        },
+      ],
+    }
   end
 
   def check_your_answers_label(field)
@@ -133,21 +139,46 @@ module EnquiryFormHelper
     }[field] || field.humanize
   end
 
-  def change_link_for(field)
-    step = case field
-           when 'category'
-             'category'
-           when 'query'
-             'query'
-           when 'goods_product', 'goods_made_of', 'goods_used_for', 'goods_function', 'goods_processed', 'goods_packaged'
-             'goods_details'
-           when 'has_commodity_code', 'commodity_code'
-             'commodity_code'
-           else
-             'contact_details'
-           end
+  def check_your_answers_step_label(step)
+    {
+      'category' => 'What do you need help with?',
+      'goods_details' => 'Tell us about your goods',
+      'commodity_code' => 'Do you already have a possible commodity code?',
+      'query' => 'How can we help?',
+      'contact_details' => 'Contact details',
+    }[step] || step.humanize
+  end
 
-    product_experience_enquiry_form_field_path(step, editing: true)
+  def check_your_answers_values(fields)
+    fields.filter_map do |field|
+      value = field_value(field)
+      next if value.blank?
+
+      [field, display_value_for(field, value)]
+    end
+  end
+
+  def check_your_answers_value(answers, labelled_fields:)
+    safe_join(
+      answers.map do |field, value|
+        if labelled_fields.include?(field)
+          labelled_check_your_answers_value(field, value)
+        else
+          simple_format(value, { class: 'govuk-!-margin-bottom-0' })
+        end
+      end,
+    )
+  end
+
+  def labelled_check_your_answers_value(field, value)
+    tag.div(class: 'govuk-!-margin-bottom-3') do
+      safe_join(
+        [
+          tag.p(tag.strong(check_your_answers_label(field)), class: 'govuk-!-font-weight-bold govuk-!-margin-bottom-0'),
+          simple_format(value, { class: 'govuk-!-margin-bottom-0' }),
+        ],
+      )
+    end
   end
 
   def text_too_long?(value, max)

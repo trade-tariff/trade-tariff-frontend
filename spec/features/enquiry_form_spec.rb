@@ -1,14 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe 'Enquiry Form Entry', :aggregate_failures, type: :feature do
-  around do |example|
-    old_store = Rails.cache
-    Rails.cache = ActiveSupport::Cache::MemoryStore.new
-    example.run
-  ensure
-    Rails.cache = old_store
-  end
-
   it 'allows a user to change an answer before submitting' do
     allow(EnquiryForm).to receive(:create!)
       .and_return({ 'resource_id' => 'R1M5X8LU' })

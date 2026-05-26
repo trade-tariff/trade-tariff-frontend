@@ -9,22 +9,20 @@
       <%= form_with url: product_experience_enquiry_form_submit_form_path, method: :post, local: true do %>
         <%= hidden_field_tag :submission_token, session[:submission_token] %>
 
-        <h2 class="govuk-heading-m">What do you need help with?</h2>
-        <%= govuk_summary_list(rows: check_your_answers_rows(%w[category other_category])) %>
+        <% rows = [
+          check_your_answers_row('category', %w[category other_category], labelled_fields: []),
+        ] %>
 
         <% if @enquiry_data['category'] == 'classification' %>
-          <h2 class="govuk-heading-m">Tell us about your goods</h2>
-          <%= govuk_summary_list(rows: check_your_answers_rows(%w[goods_product goods_made_of goods_used_for goods_function goods_processed goods_packaged])) %>
-
-          <h2 class="govuk-heading-m">Do you already have a possible commodity code?</h2>
-          <%= govuk_summary_list(rows: check_your_answers_rows(%w[has_commodity_code commodity_code])) %>
+          <% rows << check_your_answers_row('goods_details', %w[goods_product goods_made_of goods_used_for goods_function goods_processed goods_packaged]) %>
+          <% rows << check_your_answers_row('commodity_code', %w[has_commodity_code commodity_code], labelled_fields: %w[commodity_code]) %>
         <% else %>
-          <h2 class="govuk-heading-m">How can we help?</h2>
-          <%= govuk_summary_list(rows: check_your_answers_rows(%w[query])) %>
+          <% rows << check_your_answers_row('query', %w[query], labelled_fields: []) %>
         <% end %>
 
-        <h2 class="govuk-heading-m">Contact details</h2>
-        <%= govuk_summary_list(rows: check_your_answers_rows(%w[email_address full_name company_name occupation])) %>
+        <% rows << check_your_answers_row('contact_details', %w[email_address full_name company_name occupation]) %>
+
+        <%= govuk_summary_list(rows: rows.compact) %>
 
         <p><%= submit_tag "Submit", class: "govuk-button govuk-!-margin-top-4" %></p>
       <% end %>

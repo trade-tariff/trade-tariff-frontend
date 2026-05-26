@@ -2,14 +2,15 @@ require 'spec_helper'
 
 RSpec.describe ProductExperience::EnquiryFormController, :aggregate_failures, type: :controller do
   let(:draft_id) { SecureRandom.uuid }
+  let(:redis) { MockRedis.new }
   let(:submission_token) { SecureRandom.uuid }
 
   around do |example|
-    old_store = Rails.cache
-    Rails.cache = ActiveSupport::Cache::MemoryStore.new
+    old_client = ProductExperience::EnquiryFormDraftStore.instance_variable_get(:@client)
+    ProductExperience::EnquiryFormDraftStore.client = redis
     example.run
   ensure
-    Rails.cache = old_store
+    ProductExperience::EnquiryFormDraftStore.client = old_client
   end
 
   before do
@@ -24,6 +25,14 @@ RSpec.describe ProductExperience::EnquiryFormController, :aggregate_failures, ty
       expect(session[:enquiry_form_draft_id]).to be_present
       expect(response).to render_template(:form)
       expect(assigns(:field)).to eq('category')
+    end
+
+    it 'clears any stale confirmation reference when starting again' do
+      session[:product_experience_enquiry] = { reference_number: 'HDJ2123F' }
+
+      get :show
+
+      expect(session[:product_experience_enquiry]).to be_nil
     end
   end
 
@@ -58,6 +67,18 @@ RSpec.describe ProductExperience::EnquiryFormController, :aggregate_failures, ty
       expect(response).to redirect_to(product_experience_enquiry_form_field_path('query'))
     end
 
+    it 'ignores answers that do not belong to the current step' do
+      post :submit, params: {
+        field: 'category',
+        category: 'origin',
+        query: 'Do not store me yet',
+        submission_token: submission_token,
+      }
+
+      expect(enquiry_data).to include('category' => 'origin')
+      expect(enquiry_data).not_to include('query')
+    end
+
     it 'shows both required goods detail errors' do
       ProductExperience::EnquiryFormDraftStore.write(draft_id, { category: 'classification' })
 
@@ -75,6 +96,23 @@ RSpec.describe ProductExperience::EnquiryFormController, :aggregate_failures, ty
 
       expect(enquiry_data['query']).to eq('Updated query')
       expect(response).to redirect_to(product_experience_enquiry_form_check_your_answers_path)
+    end
+  end
+
+  describe 'GET #check_your_answers' do
+    it 'restarts the journey when the active draft has expired' do
+      session[:enquiry_form_draft_id] = draft_id
+      session[:submission_token] = submission_token
+      allow(Rails.logger).to receive(:warn)
+
+      get :check_your_answers
+
+      expect(response).to redirect_to(product_experience_enquiry_form_path)
+      expect(session[:enquiry_form_draft_id]).to be_nil
+      expect(session[:submission_token]).to be_nil
+      expect(Rails.logger).to have_received(:warn).with(
+        "Missing enquiry form draft for session draft id #{draft_id}",
+      )
     end
   end
 
@@ -106,7 +144,7 @@ RSpec.describe ProductExperience::EnquiryFormController, :aggregate_failures, ty
       )
       expect(response).to redirect_to(product_experience_enquiry_form_confirmation_path)
       expect(session[:submission_token]).to be_nil
-      expect(ProductExperience::EnquiryFormDraftStore.read(draft_id)).to eq({})
+      expect(ProductExperience::EnquiryFormDraftStore.read(draft_id)).to be_nil
     end
 
     it 'preserves the draft when the API does not return a reference' do
