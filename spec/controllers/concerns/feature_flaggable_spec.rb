@@ -22,9 +22,9 @@ RSpec.describe FeatureFlaggable, type: :controller do
 
   before do
     routes.draw do
-      get 'gated'     => 'anonymous#gated'
+      get 'gated' => 'anonymous#gated'
       get 'welsh_only' => 'anonymous#welsh_only'
-      get 'open'      => 'anonymous#open'
+      get 'open' => 'anonymous#open'
     end
   end
 

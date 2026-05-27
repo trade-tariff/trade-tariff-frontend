@@ -77,7 +77,7 @@ module TradeTariffFrontend
     #
     # Rebuilt per-call because service_choice is thread-local (set per request).
     private_class_method def self.evaluation_context(user_key: nil)
-      app_context = LaunchDarkly::LDContext.create(
+      app_context = LaunchDarkly::LDContext.create( # rubocop:disable Rails/SaveBang
         kind: 'application',
         key: 'trade-tariff-frontend',
         service: TradeTariffFrontend::ServiceChooser.service_choice&.to_s || 'uk',
@@ -86,7 +86,7 @@ module TradeTariffFrontend
 
       return app_context if user_key.nil?
 
-      user_context = LaunchDarkly::LDContext.create(
+      user_context = LaunchDarkly::LDContext.create( # rubocop:disable Rails/SaveBang
         kind: 'user',
         key: user_key,
         anonymous: true,
