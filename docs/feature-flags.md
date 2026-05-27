@@ -185,9 +185,9 @@ expected baseline for most tests.
 
 ### Environment variable
 
-| Variable | Required | Description |
-|---|---|---|
-| `LAUNCHDARKLY_SDK_KEY` | No | Server-side SDK key. When absent, offline mode is used and all flags return their `REGISTRY` defaults. |
+| Variable              | Required | Description                                                                                           |
+| --------------------- | -------- | ----------------------------------------------------------------------------------------------------- |
+| `LAUNCHDARKLY_SDK_KEY` | No       | Server-side SDK key. When absent, offline mode is used and all flags return their `REGISTRY` defaults. |
 
 ### Migrating an existing ENV-based flag
 
