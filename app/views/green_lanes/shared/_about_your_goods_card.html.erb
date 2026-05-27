@@ -1,25 +1,21 @@
-<div class="govuk-summary-card">
-  <div class="govuk-summary-card__title-wrapper">
-    <h2 class="govuk-summary-card__title"><%= title %></h2>
-    <div class="govuk-summary-card__actions">
-      <%= govuk_link_to('', edit_path) %>
-    </div>
-  </div>
-  <div class="govuk-summary-card__content">
-    <% rows = [] %>
-    <% if defined?(optional_rows) && optional_rows.include?(:category) %>
-      <% rows << {
-        key: { text: 'Category' },
-        value: { text: (@category == '3' ? 'Standard goods' : "Category #{@category}") },
-      } %>
-    <% end %>
-    <% rows << { key: { text: 'Commodity' }, value: { text: @commodity_code } } %>
+<%= govuk_summary_card(title:) do |card| %>
+  <% card.with_action do %>
+    <%= govuk_link_to('', edit_path) %>
+  <% end %>
+
+  <% rows = [] %>
+  <% if defined?(optional_rows) && optional_rows.include?(:category) %>
     <% rows << {
-      key: { text: 'Classification' },
-      value: { text: render('/shared/classification', goods_nomenclature: @goods_nomenclature.get_declarable) },
+      key: { text: 'Category' },
+      value: { text: (@category == '3' ? 'Standard goods' : "Category #{@category}") },
     } %>
-    <% rows << { key: { text: 'Non-preferential origin' }, value: { text: @country_of_origin } } %>
-    <% rows << { key: { text: 'Date of movement' }, value: { text: @moving_date } } %>
-    <%= govuk_summary_list(rows:) %>
-  </div>
-</div>
+  <% end %>
+  <% rows << { key: { text: 'Commodity' }, value: { text: @commodity_code } } %>
+  <% rows << {
+    key: { text: 'Classification' },
+    value: { text: render('/shared/classification', goods_nomenclature: @goods_nomenclature.get_declarable) },
+  } %>
+  <% rows << { key: { text: 'Non-preferential origin' }, value: { text: @country_of_origin } } %>
+  <% rows << { key: { text: 'Date of movement' }, value: { text: @moving_date } } %>
+  <%= govuk_summary_list(rows:) %>
+<% end %>
