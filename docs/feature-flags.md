@@ -104,6 +104,7 @@ Every flag evaluation sends a **multi-context** to LaunchDarkly carrying two
 independent dimensions:
 
 **`application` context** — fixed attributes about the deployment:
+
 - `service` — `"uk"` or `"xi"`, reflecting the active service variant.
 - `environment` — the value of the `ENVIRONMENT` env var (e.g. `"production"`,
   `"staging"`, `"development"`).
@@ -113,6 +114,7 @@ environment or service without encoding that logic into the flag name itself,
 e.g. "enable this flag only when `environment` is `staging`".
 
 **`user` context** — an anonymous, session-scoped identifier:
+
 - A UUID generated once per session and stored in `session[:ld_anonymous_id]`.
 - Marked `anonymous: true`; carries no PII.
 - Stable for the lifetime of the session, so the same visitor consistently lands
