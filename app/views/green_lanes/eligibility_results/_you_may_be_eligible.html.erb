@@ -9,14 +9,14 @@
       To use the simplified processes for Internal Market Movements you must:
     </p>
 
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>be a <%= govuk_link_to 'UK Internal Market Scheme (UKIMS) authorised trader', 'https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland', new_tab: true %></li>
-      <li>be transporting goods directly from Great Britain to Northern Ireland</li>
-      <li>confirm goods are in free circulation in the UK</li>
-      <li>confirm goods are intended to be sold to, or used by, end consumers in the UK, and therefore deemed <%= govuk_link_to "'not at risk' of moving to the EU", 'https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu', new_tab: true %>, including the Republic of Ireland</li>
-      <li>check the category of your goods</li>
-    </ul>
+    <% items = [
+      safe_join(['be a ', govuk_link_to('UK Internal Market Scheme (UKIMS) authorised trader', 'https://www.gov.uk/guidance/apply-for-authorisation-for-the-uk-internal-market-scheme-if-you-bring-goods-into-northern-ireland', new_tab: true)]),
+      'be transporting goods directly from Great Britain to Northern Ireland',
+      'confirm goods are in free circulation in the UK',
+      safe_join(['confirm goods are intended to be sold to, or used by, end consumers in the UK, and therefore deemed ', govuk_link_to("'not at risk' of moving to the EU", 'https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu', new_tab: true), ', including the Republic of Ireland']),
+      'check the category of your goods'
+    ] %>
+    <%= govuk_list items, type: :bullet %>
 
     <p>
       Based on the information you have provided, you can now check the category of your goods.
@@ -26,17 +26,10 @@
       This tool will help determine if your specific goods are:
     </p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <span class="govuk-!-font-weight-bold">Category 1:</span>
-        not eligible for simplified processes and subject to full customs duties and checks
-      </li>
-      <li>
-        <span class="govuk-!-font-weight-bold">Category 2</span> or
-        <span class="govuk-!-font-weight-bold">Standard goods:</span>
-        eligible for simplified processes
-      </li>
-    </ul>
+    <%= govuk_list [
+      safe_join([tag.span('Category 1:', class: 'govuk-!-font-weight-bold'), ' not eligible for simplified processes and subject to full customs duties and checks']),
+      safe_join([tag.span('Category 2', class: 'govuk-!-font-weight-bold'), ' or ', tag.span('Standard goods:', class: 'govuk-!-font-weight-bold'), ' eligible for simplified processes'])
+    ], type: :bullet %>
 
     <p>
       Depending on the specific composition and origin of your goods, you may need to check if exemptions apply before your category can be determined.

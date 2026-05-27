@@ -9,13 +9,9 @@
 
 <h2 class="govuk-heading-m">What's next</h2>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>
-    Go back to the previous screen and <%= govuk_link_to('select the correct document code', @step.previous_step_path) %>
-  </li>
-  <li>
-    Try another commodity code
-  </li>
-</ul>
+<%= govuk_list [
+  safe_join(['Go back to the previous screen and ', govuk_link_to('select the correct document code', @step.previous_step_path)]),
+  'Try another commodity code'
+], type: :bullet %>
 
 <%= render 'duty_calculator/shared/commodity_details' %>

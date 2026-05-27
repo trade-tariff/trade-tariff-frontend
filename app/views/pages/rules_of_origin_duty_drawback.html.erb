@@ -30,13 +30,11 @@
       product which you then export under a preferential tariff, you can apply for a refund of those duties.</p>
 
       <h3 class="govuk-heading-m" id="example">Duty drawback - an example</h3>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>A car engine originating in country A is imported into country B and a 10% import duty is charged.</li>
-        <li>The car engine is assembled into a complete car in country B and then exported to country C, meeting the
-        rules of origin requirements.</li>
-        <li>Using duty drawback, the car manufacturer in country B could 'draw&nbsp;back' the 10% duties paid on the
-        car engine originating in country A.</li>
-      </ul>
+      <%= govuk_list [
+        'A car engine originating in country A is imported into country B and a 10% import duty is charged.',
+        'The car engine is assembled into a complete car in country B and then exported to country C, meeting the rules of origin requirements.',
+        "Using duty drawback, the car manufacturer in country B could 'draw back' the 10% duties paid on the car engine originating in country A."
+      ], type: :bullet %>
 
       <div class="cumulation_description">
         <%= image_tag('roo/drawback.png') %>
@@ -60,16 +58,11 @@
             <tr class="govuk-table__row">
               <td class="govuk-table__cell"><%= scheme.title %></td>
               <td class="govuk-table__cell">
-                <ul class="govuk-list">
-                  <li>
-                    <%= govuk_link_to('View agreement details', scheme.agreement_link, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text) %>
-                  </li>
-                  <% if scheme.origin_reference_document&.ord_original&.present? %>
-                    <li>
-                      <%= govuk_link_to('View origin reference document', scheme.origin_reference_document.document_path, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text) %>
-                    </li>
-                  <% end %>
-                </ul>
+                <% scheme_links = [govuk_link_to('View agreement details', scheme.agreement_link, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text)] %>
+                <% if scheme.origin_reference_document&.ord_original&.present? %>
+                  <% scheme_links << govuk_link_to('View origin reference document', scheme.origin_reference_document.document_path, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text) %>
+                <% end %>
+                <%= govuk_list scheme_links %>
               </td>
             </tr>
             <% end %>

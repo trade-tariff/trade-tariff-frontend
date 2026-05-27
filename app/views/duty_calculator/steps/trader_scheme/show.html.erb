@@ -18,9 +18,7 @@
 
 <div class="explore-topics-section">
   <h2 class="govuk-heading-m govuk-!-margin-top-3"><%= explore_topic_title %></h2>
-  <ul class="govuk-list">
-    <li>
-      <%= govuk_link_to("Apply for authorisation for the #{market_scheme_type}", 'https://www.gov.uk/government/news/windsor-framework-unveiled-to-fix-problems-of-the-northern-ireland-protocol') %>
-    </li>
-  </ul>
+  <%= govuk_list [
+    govuk_link_to("Apply for authorisation for the #{market_scheme_type}", 'https://www.gov.uk/government/news/windsor-framework-unveiled-to-fix-problems-of-the-northern-ireland-protocol'),
+  ] %>
 </div>

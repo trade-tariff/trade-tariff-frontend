@@ -55,15 +55,10 @@
           into CDS in Data Element 4/17 and in CHIEF in Box 36. A preference code
           is mandatory for all imports where the goods are:
         </p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>
-            entering a free circulation regime (including authorised use)
-          </li>
-          <li>
-            where a claim to tariff preference or quotas is established upon entry
-            to the customs procedure
-          </li>
-        </ul>
+        <%= govuk_list [
+          'entering a free circulation regime (including authorised use)',
+          'where a claim to tariff preference or quotas is established upon entry to the customs procedure'
+        ], type: :bullet %>
         <p>
           The 3-digit code indicates whether a reduction in, or relief from,
           import duty applies. This includes specific duties and other equivalent

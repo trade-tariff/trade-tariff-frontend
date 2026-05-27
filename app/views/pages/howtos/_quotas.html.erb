@@ -49,11 +49,11 @@
 
 <p>First-come, first-serve Tariff Rate Quotas can only be claimed at the point the goods are imported into the UK. When that claim is made, it will be assessed against the available balance and either:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>granted completely, because there is sufficient quota available</li>
-  <li>granted partially, where more goods are imported on the same day than there is quota available for</li>
-  <li>or rejected, because there is no quota available for which the goods are eligible</li>
-</ul>
+<%= govuk_list [
+  'granted completely, because there is sufficient quota available',
+  'granted partially, where more goods are imported on the same day than there is quota available for',
+  'or rejected, because there is no quota available for which the goods are eligible'
+], type: :bullet %>
 
 <p>It is not possible to assure allocation of first-come, first-serve quota in advance, as it will be dependent on how much quota is available at the time your goods are submitted to customs for clearance to free circulation.</p>
 
@@ -67,20 +67,20 @@
 
 <p>Quotas can be:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li><strong>Open</strong> - the quota is not expected to exhaust for some time and a lower rate of duty can be given automatically to any valid claim</li>
-  <li><strong>Critical</strong> - the quota may be nearing exhaustion or there is no information to base a prediction of how quickly it will be used up</li>
-  <li><strong>Quota exhausted</strong> - all claims will be rejected</li>
-</ul>
+<%= govuk_list [
+  safe_join([tag.strong('Open'), ' - the quota is not expected to exhaust for some time and a lower rate of duty can be given automatically to any valid claim']),
+  safe_join([tag.strong('Critical'), ' - the quota may be nearing exhaustion or there is no information to base a prediction of how quickly it will be used up']),
+  safe_join([tag.strong('Quota exhausted'), ' - all claims will be rejected'])
+], type: :bullet %>
 
 <h2 class="govuk-heading-m" id="using">How to use the available Tariff Rate Quota to reduce your import duties?</h2>
 
 <p><abbr title="Tariff rate quotas">TRQs</abbr> are not applied automatically. To benefit from them you or someone acting on your behalf is required to make a claim on the import declaration. This is done by quoting the 6-digit tariff quota order number on the declaration in:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>Box 39 if you're using Customs Handling of Import and Export Freight (CHIEF)</li>
-  <li>Data Element 8/1 if you're using the Customs Declaration Service</li>
-</ul>
+<%= govuk_list [
+  "Box 39 if you're using Customs Handling of Import and Export Freight (CHIEF)",
+  "Data Element 8/1 if you're using the Customs Declaration Service"
+], type: :bullet %>
 
 <p>You must also indicate on your declaration that the documents required to support the claim are available (box 44 or Data Element 2/3).</p>
 
@@ -95,16 +95,14 @@
 <%= image_tag "howtos/quotas 001.png", class: 'howto-image', alt: "Quotas on a sample commodity code page" %>
 
 <p>For each quota, you will see:</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li>the country or countries to which the quota applies.</li>
-  <li>the type of quota. There are two main types of quota: non-preferential (open to many countries) or preferential (restricted to a particular trading partner).
-    Each of these may also be available on goods that are for <%= govuk_link_to('authorised use only', 'https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses') %>.</li>
-  <li>the 6-digit quota order number. Most tariff quotas operate on a first come first serve basis, but some are licence based. You can tell if a
-    quota requires a licence, because it has starts with the characters '054'. All other quotas are first-come, first-serve.</li>
-  <li>the in-quota duty rate, i.e. the duty rate that applies when you request usage of the quota on your import declaration and the quota is not exhausted.</li>
-  <li>any conditions you need to fulfil to use the quota</li>
-  <li>footnotes that help you to understand how to use the quota</li>
-</ul>
+<%= govuk_list [
+  'the country or countries to which the quota applies.',
+  safe_join(['the type of quota. There are two main types of quota: non-preferential (open to many countries) or preferential (restricted to a particular trading partner). Each of these may also be available on goods that are for ', govuk_link_to('authorised use only', 'https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses'), '.']),
+  "the 6-digit quota order number. Most tariff quotas operate on a first come first serve basis, but some are licence based. You can tell if a quota requires a licence, because it has starts with the characters '054'. All other quotas are first-come, first-serve.",
+  'the in-quota duty rate, i.e. the duty rate that applies when you request usage of the quota on your import declaration and the quota is not exhausted.',
+  'any conditions you need to fulfil to use the quota',
+  'footnotes that help you to understand how to use the quota'
+], type: :bullet %>
 
 <h3 class="govuk-heading-s" id="popup">Checking the detail of a first-come, first-serve quota</h3>
 
@@ -113,13 +111,13 @@
 <%= image_tag "howtos/quotas 002.png", class: "howto-image", alt: "Example quota popup" %>
 
 <p>You will then see:</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li>the current quota balance. Balances are updated daily, so you will see the balance that is available at 00:00 (midnight) at the start of the given day.</li>
-  <li>the quota's opening balance.</li>
-  <li>the start and end dates of the quota's active definition period.</li>
-  <li>the last date on which allocations were made against this quota.</li>
-  <li>any suspension or blocking periods for the quota. A quota may be suspended for a variety of reasons, for example, if the associated third country duty is 0.00%. A quota may be blocked for a period of around two weeks from its introduction while demand for the quota is ascertained.</li>
-</ul>
+<%= govuk_list [
+  'the current quota balance. Balances are updated daily, so you will see the balance that is available at 00:00 (midnight) at the start of the given day.',
+  "the quota's opening balance.",
+  "the start and end dates of the quota's active definition period.",
+  'the last date on which allocations were made against this quota.',
+  'any suspension or blocking periods for the quota. A quota may be suspended for a variety of reasons, for example, if the associated third country duty is 0.00%. A quota may be blocked for a period of around two weeks from its introduction while demand for the quota is ascertained.'
+], type: :bullet %>
 
 <p>For some quotas, notably the UK's safeguard quotas, you will see if any quota balance is carried over from one period into the next. Balance is carried over on safeguard quotas around 20 days after the start of the new period. Carryover periods start on 1st October, 1st January and 1st April.</p>
 

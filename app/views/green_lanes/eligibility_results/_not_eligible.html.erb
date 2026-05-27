@@ -8,12 +8,12 @@
       The simplified processes for Internal Market Movements are only available for:
     </p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>goods in direct transport from Great Britain to Northern Ireland</li>
-      <li>goods in free circulation in the United Kingdom</li>
-      <li>goods intended to be sold to, or used by, end consumers in the UK, and therefore deemed 'not at risk' of onward movement to the EU</li>
-      <li>UK internal market scheme (UKIMS) authorised traders</li>
-    </ul>
+    <%= govuk_list [
+      'goods in direct transport from Great Britain to Northern Ireland',
+      'goods in free circulation in the United Kingdom',
+      "goods intended to be sold to, or used by, end consumers in the UK, and therefore deemed 'not at risk' of onward movement to the EU",
+      'UK internal market scheme (UKIMS) authorised traders'
+    ], type: :bullet %>
 
     <p class="govuk-body">
       <%= govuk_link_to 'Find out more about Internal Market Movements', 'http://www.gov.uk/guidance/internal-market-movements-from-great-britain-to-northern-ireland', new_tab: true %>

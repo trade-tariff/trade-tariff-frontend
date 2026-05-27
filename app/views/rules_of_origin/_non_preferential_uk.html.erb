@@ -5,14 +5,14 @@
 
   <p>Products with non-preferential rules of origin may incur commercial policy measures, such as:</p>
 
-  <ul class="govuk-list govuk-list--bullet">
-    <li>anti-dumping duties</li>
-    <li>countervailing duties</li>
-    <li>trade embargoes</li>
-    <li>safeguarding measures</li>
-    <li>quantitative restrictions</li>
-    <li>tariff quotas</li>
-  </ul>
+  <%= govuk_list [
+    'anti-dumping duties',
+    'countervailing duties',
+    'trade embargoes',
+    'safeguarding measures',
+    'quantitative restrictions',
+    'tariff quotas'
+  ], type: :bullet %>
 
   <p><%= govuk_link_to 'View rules for determining non-preferential origin', 'https://www.gov.uk/government/publications/reference-document-for-the-customs-origin-of-chargeable-goods-eu-exit-regulations-2020', new_tab: true %></p>
 

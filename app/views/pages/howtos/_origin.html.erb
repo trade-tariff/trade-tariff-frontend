@@ -53,10 +53,10 @@
 
 <p>In general, non-preferential rules of origin are based on two criteria:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>Are the goods wholly obtained: similarly to preferential rules, wholly obtained products are goods obtained entirely in the territory of one country without the addition of any non-originating materials.</li>
-  <li>What was the last substantial transformation: in a case where more than one country was involved in the production of the good, the country where the last substantial transformation took place determines the origin of the good. </li>
-</ul>
+<%= govuk_list [
+  'Are the goods wholly obtained: similarly to preferential rules, wholly obtained products are goods obtained entirely in the territory of one country without the addition of any non-originating materials.',
+  'What was the last substantial transformation: in a case where more than one country was involved in the production of the good, the country where the last substantial transformation took place determines the origin of the good.'
+], type: :bullet %>
 
 <p>Find <%= govuk_link_to('more information about non-preferential rules of origin', 'https://www.gov.uk/government/publications/reference-document-for-the-customs-origin-of-chargeable-goods-eu-exit-regulations-2020') %>.</p>
 
@@ -89,8 +89,8 @@
   rules of origin to see how the rules apply to your trade.</p>
 
 <p>To see the preferential rules of origin associated with a trading partner with which the UK has a trade agreement, select the country with which you are trading the goods. Once you have selected the country, you will see:</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li>the product-specific rules for trading that commodity with the selected country</li>
-  <li>the proofs of origin that are accepted for that trade</li>
-  <li>the rules of origin assessment tool, to help you to identify if your trade meets all of the requirements to be considered as originating according to the content of the relevant origin reference document.</li>
-</ul>
+<%= govuk_list [
+  'the product-specific rules for trading that commodity with the selected country',
+  'the proofs of origin that are accepted for that trade',
+  'the rules of origin assessment tool, to help you to identify if your trade meets all of the requirements to be considered as originating according to the content of the relevant origin reference document.'
+], type: :bullet %>

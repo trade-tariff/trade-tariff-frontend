@@ -27,11 +27,11 @@
       Use this tool to help you check:
     </p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>what is required to use the simplified processes for Internal Market Movements</li>
-      <li>the category of your goods</li>
-      <li>what to do next</li>
-    </ul>
+    <%= govuk_list [
+      'what is required to use the simplified processes for Internal Market Movements',
+      'the category of your goods',
+      'what to do next'
+    ], type: :bullet %>
 
     <p>
       This tool sits on the UK tariff due to legal requirements set out in the Windsor Framework.
@@ -48,30 +48,19 @@
     </p>
 
     <p>Goods can be:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <span class="govuk-!-font-weight-bold">Category 1:</span>
-        not eligible for simplified processes and subject to full customs duties and checks
-      </li>
-      <li>
-        <span class="govuk-!-font-weight-bold">Category 2</span> or
-        <span class="govuk-!-font-weight-bold">Standard goods:</span>
-        eligible for simplified processes
-      </li>
-    </ul>
+    <%= govuk_list [
+      safe_join([tag.span('Category 1:', class: 'govuk-!-font-weight-bold'), ' not eligible for simplified processes and subject to full customs duties and checks']),
+      safe_join([tag.span('Category 2', class: 'govuk-!-font-weight-bold'), ' or ', tag.span('Standard goods:', class: 'govuk-!-font-weight-bold'), ' eligible for simplified processes'])
+    ], type: :bullet %>
 
     <h3 class="govuk-heading-m">Before you start</h3>
 
     <p>You'll need to know:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <%= govuk_link_to('the commodity code for your goods', 'https://www.trade-tariff.service.gov.uk/find_commodity') %>
-      </li>
-      <li>
-        <%= govuk_link_to('the non-preferential origin of your goods', 'https://www.trade-tariff.service.gov.uk/howto/origin') %>
-      </li>
-      <li>when the internal movement of goods is likely to take place</li>
-    </ul>
+    <%= govuk_list [
+      govuk_link_to('the commodity code for your goods', 'https://www.trade-tariff.service.gov.uk/find_commodity'),
+      govuk_link_to('the non-preferential origin of your goods', 'https://www.trade-tariff.service.gov.uk/howto/origin'),
+      'when the internal movement of goods is likely to take place'
+    ], type: :bullet %>
 
     <%= govuk_start_button(
           text: 'Start now',
