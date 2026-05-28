@@ -48,14 +48,14 @@
   <%= t('live_issues.results.showing', count: @live_issues_count) %>
 </p>
 
-<% if @applied_sort.present? || @status_filters.present? %>
+<% if @sort.present? || @status_filters.present? %>
   <div class="live-issues__active-filters">
     <h2 class="govuk-heading-s live-issues__active-filters-heading"><%= t('live_issues.filters.active_heading') %></h2>
 
     <ul class="live-issues__active-filter-list">
-      <% if @applied_sort.present? %>
+      <% if @sort.present? %>
         <li>
-          <%= link_to t('live_issues.filters.sort_chip', label: live_issue_sort_label(@applied_sort)), live_issue_filter_path_without_sort, class: 'live-issues__active-filter govuk-link govuk-link--no-visited-state' %>
+          <%= link_to t('live_issues.filters.sort_chip', label: live_issue_sort_label(@sort)), live_issue_filter_path_without_sort, class: 'live-issues__active-filter govuk-link govuk-link--no-visited-state' %>
         </li>
       <% end %>
 

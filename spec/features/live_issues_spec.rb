@@ -37,7 +37,7 @@ RSpec.describe 'Live issues log', :js, type: :feature do
     allow(LiveIssue).to receive(:all).and_return(live_issues)
   end
 
-  it 'renders card results with closed filters by default' do
+  it 'renders card results with the default sort in the active filters summary' do
     visit live_issues_path
 
     expect(page).to have_content('Live issues log')
@@ -46,7 +46,8 @@ RSpec.describe 'Live issues log', :js, type: :feature do
     expect(page).to have_checked_field('Last updated (newest)')
     expect(page).to have_unchecked_field('Active')
     expect(page).to have_css('.live-issues__result-count', text: '3 results')
-    expect(page).to have_no_css('.live-issues__active-filter')
+    expect(page).to have_css('.live-issues__active-filters-heading', text: 'Active filters and sorting')
+    expect(page).to have_css('.live-issues__active-filter', text: 'Sort by: Last updated (newest)')
   end
 
   it 'applies status filters and last updated sorting through the form' do
