@@ -4,7 +4,7 @@
   </p>
 <% elsif live_issue.commodities.size > 1 %>
   <%= govuk_details(summary_text: t('live_issues.commodities.count', count: live_issue.commodities.count)) do %>
-    <ul class="live-issues__commodity-list">
+    <ul class="govuk-list govuk-!-margin-bottom-0 live-issues__commodity-list">
       <% live_issue.commodities.each do |commodity_code| %>
         <li>
           <%= govuk_link_to(commodity_code, "/commodities/#{commodity_code}") %>

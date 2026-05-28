@@ -1,10 +1,10 @@
-<details class="govuk-details live-issues__filter-panel" <%= 'open' if @status_filters.present? || @applied_sort.present? %>>
+<details class="govuk-details govuk-!-margin-bottom-4 live-issues__filter-panel" <%= 'open' if @status_filters.present? || @applied_sort.present? %>>
   <summary class="govuk-details__summary">
     <span class="govuk-details__summary-text"><%= t('live_issues.filters.summary') %></span>
-    <span class="live-issues__result-count"><%= t('live_issues.results.count', count: @live_issues_count) %></span>
+    <span class="govuk-!-margin-left-3 live-issues__result-count"><%= t('live_issues.results.count', count: @live_issues_count) %></span>
   </summary>
 
-  <div class="govuk-details__text live-issues__filter-panel-content">
+  <div class="govuk-details__text">
     <%= form_with url: live_issues_path, method: :get, local: true do %>
       <fieldset class="govuk-fieldset govuk-!-margin-bottom-4">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
@@ -36,7 +36,7 @@
         </div>
       </fieldset>
 
-      <div class="live-issues__filter-actions">
+      <div class="govuk-button-group">
         <%= button_tag t('live_issues.filters.apply'), type: 'submit', name: nil, class: 'govuk-button govuk-!-margin-bottom-0', data: { module: 'govuk-button' } %>
         <%= govuk_link_to t('live_issues.filters.clear'), live_issues_path, no_visited_state: true %>
       </div>
@@ -49,10 +49,10 @@
 </p>
 
 <% if @sort.present? || @status_filters.present? %>
-  <div class="live-issues__active-filters">
-    <h2 class="govuk-heading-s live-issues__active-filters-heading"><%= t('live_issues.filters.active_heading') %></h2>
+  <div class="govuk-!-margin-bottom-4 live-issues__active-filters">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2 live-issues__active-filters-heading"><%= t('live_issues.filters.active_heading') %></h2>
 
-    <ul class="live-issues__active-filter-list">
+    <ul class="govuk-list govuk-!-margin-bottom-2 live-issues__active-filter-list">
       <% if @sort.present? %>
         <li>
           <%= link_to t('live_issues.filters.sort_chip', label: live_issue_sort_label(@sort)), live_issue_filter_path_without_sort, class: 'live-issues__active-filter govuk-link govuk-link--no-visited-state' %>
