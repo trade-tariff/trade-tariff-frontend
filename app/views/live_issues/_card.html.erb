@@ -1,0 +1,43 @@
+<article class="govuk-summary-card live-issues__card">
+  <div class="govuk-summary-card__title-wrapper">
+    <h2 class="govuk-summary-card__title">
+      <span class="live-issues__card-meta"><%= t('live_issues.card.last_updated', date: live_issue_updated_at(live_issue)) %></span>
+      <span class="live-issues__card-issue"><%= t('live_issues.card.issue', title: live_issue.title) %></span>
+    </h2>
+  </div>
+
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><%= t('live_issues.card.description') %></dt>
+        <dd class="govuk-summary-list__value live-issues__markdown"><%= markdown_field(live_issue.description) %></dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><%= t('live_issues.card.commodities_affected') %></dt>
+        <dd class="govuk-summary-list__value">
+          <%= render partial: 'commodities', locals: { live_issue: live_issue } %>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><%= t('live_issues.card.status') %></dt>
+        <dd class="govuk-summary-list__value">
+          <strong class="govuk-tag <%= live_issue_status_tag_class(live_issue.status) %>">
+            <%= live_issue_status_label(live_issue.status) %>
+          </strong>
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><%= t('live_issues.card.recommendation') %></dt>
+        <dd class="govuk-summary-list__value live-issues__markdown"><%= markdown_field(live_issue.suggested_action) %></dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><%= t('live_issues.card.date_of_effect') %></dt>
+        <dd class="govuk-summary-list__value"><%= live_issue_from_to_date(live_issue) %></dd>
+      </div>
+    </dl>
+  </div>
+</article>
