@@ -1,0 +1,76 @@
+.live-issues__filter-panel {
+  margin-bottom: govuk-spacing(4);
+}
+
+.live-issues__result-count {
+  color: govuk-colour("black");
+  display: inline-block;
+  margin-left: govuk-spacing(3);
+  text-decoration: none;
+}
+
+.live-issues__filter-panel-content {
+  padding-top: govuk-spacing(3);
+}
+
+.live-issues__filter-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: govuk-spacing(3);
+}
+
+.live-issues__active-filters {
+  margin-bottom: govuk-spacing(4);
+}
+
+.live-issues__active-filters-heading {
+  margin-bottom: govuk-spacing(2);
+}
+
+.live-issues__active-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: govuk-spacing(2);
+  list-style: none;
+  margin: 0 0 govuk-spacing(2);
+  padding: 0;
+}
+
+.live-issues__active-filter {
+  background: govuk-colour("black", $variant: "tint-95");
+  border: 1px solid govuk-colour("black", $variant: "tint-80");
+  display: inline-block;
+  padding: govuk-spacing(1) govuk-spacing(2);
+  text-decoration: none;
+}
+
+.live-issues__card {
+  margin-bottom: govuk-spacing(4);
+}
+
+.live-issues__card-meta,
+.live-issues__card-issue {
+  display: block;
+}
+
+.live-issues__card-meta {
+  @include govuk-font($size: 16, $weight: regular);
+}
+
+.live-issues__commodity-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: govuk-spacing(1) govuk-spacing(2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.live-issues__markdown {
+  p:last-child,
+  ul:last-child,
+  ol:last-child {
+    margin-bottom: 0;
+  }
+}
