@@ -1,17 +1,12 @@
-<table class="small-table govuk-table govuk-!-margin-bottom-2">
-  <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-3"><%= condition_group[:condition] %></caption>
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Requirement</th>
-      <th scope="col" class="govuk-table__header">Action</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
+<%= govuk_table(classes: 'small-table govuk-!-margin-bottom-2') do |table| %>
+  <% table.with_caption(text: condition_group[:condition], classes: 'govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-3') %>
+  <% table.with_head(rows: [['Requirement', 'Action']]) %>
+  <% table.with_body do |body| %>
     <% conditions.each do |condition| %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">Greater than or equal to <%= condition.requirement.to_s.html_safe %></td>
-        <td class="govuk-table__cell"><%= condition.action %></td>
-      </tr>
+      <% body.with_row do |row| %>
+        <% row.with_cell { safe_join(['Greater than or equal to ', condition.requirement.to_s.html_safe]) } %>
+        <% row.with_cell(text: condition.action) %>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
+  <% end %>
+<% end %>

@@ -11,11 +11,11 @@
 <%= render 'shared/callouts/chapter', chapter: @chapter %>
 
 <section class="headings">
-  <table class="section-browser govuk-table">
-    <tbody>
+  <%= govuk_table(classes: 'section-browser') do |table| %>
+    <% table.with_body do %>
       <%= render @headings %>
-    </tbody>
-  </table>
+    <% end %>
+  <% end %>
 </section>
 
 <%= render 'shared/notes', section_note: @chapter.section.section_note, chapter_note: @chapter.chapter_note %>
