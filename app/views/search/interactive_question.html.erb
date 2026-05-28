@@ -65,14 +65,9 @@
     <% if @results.result_limit.positive? && @results.any? %>
       <div class="govuk-!-margin-top-6">
         <h2 class="govuk-heading-s">Current best matches (<%= @results.size %> results)</h2>
-        <ul class="govuk-list govuk-list--bullet">
-          <% @results.all.first(@results.result_limit).each do |result| %>
-            <li>
-              <%= sanitize result.formatted_description %>
-              (<%= result.goods_nomenclature_item_id %>)
-            </li>
-          <% end %>
-        </ul>
+        <%= govuk_list @results.all.first(@results.result_limit).map { |result|
+          safe_join([sanitize(result.formatted_description), ' (', result.goods_nomenclature_item_id, ')'])
+        }, type: :bullet %>
       </div>
     <% end %>
   </div>

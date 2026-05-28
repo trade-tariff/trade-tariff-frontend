@@ -21,10 +21,10 @@
 
         <h3 class="govuk-heading-s">If you're stuck</h3>
         <p>If you can't find what you're looking for:</p>
-        <ul class="govuk-list--bullet govuk-list">
-          <li><%= govuk_link_to "Try searching using the A to Z", a_z_index_path('a') %></li>
-          <li><%= govuk_link_to "Browse the goods classification", browse_sections_path %></li>
-        </ul>
+        <%= govuk_list [
+          govuk_link_to("Try searching using the A to Z", a_z_index_path('a')),
+          govuk_link_to("Browse the goods classification", browse_sections_path),
+        ], type: :bullet %>
 
         <h3 class="govuk-heading-s">Steps for searching the tariff</h3>
         <ol class="special-numbered-list govuk-!-margin-bottom-0">
@@ -38,10 +38,10 @@
       <%= render 'shared/search/search_form', use_date_picker: true %>
 
       <p>Alternatively, you can:</p>
-      <ul class="govuk-list--bullet govuk-list">
-        <li><%= govuk_link_to 'browse the goods classification', browse_sections_path %> or</li>
-        <li><%= govuk_link_to 'look for your product in the A-Z', a_z_index_path('a') %>.</li>
-      </ul>
+      <%= govuk_list [
+        safe_join([govuk_link_to('browse the goods classification', browse_sections_path), ' or']),
+        safe_join([govuk_link_to('look for your product in the A-Z', a_z_index_path('a')), '.']),
+      ], type: :bullet %>
 
     </div>
   </div>

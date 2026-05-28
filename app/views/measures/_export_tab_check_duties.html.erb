@@ -11,11 +11,11 @@
 
   <p>Use this service to check:</p>
 
-  <ul class="govuk-list govuk-list--bullet">
-    <li>rules and restrictions</li>
-    <li>tax and duty rates</li>
-    <li>what exporting documents you need</li>
-  </ul>
+  <%= govuk_list [
+    'rules and restrictions',
+    'tax and duty rates',
+    'what exporting documents you need'
+  ], type: :bullet %>
 
   <p>
     This service is only available in the UK due to licencing restrictions;

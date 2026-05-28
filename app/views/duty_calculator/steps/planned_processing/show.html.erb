@@ -21,12 +21,8 @@
 
 <div class="explore-topics-section">
   <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
-  <ul class="govuk-list">
-    <li>
-      <%= govuk_link_to('Additional requirements for when you bring goods into Northern Ireland for processing', 'https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021#processing') %>
-    </li>
-    <li>
-      <%= govuk_link_to('Apply to pay less duty on goods you import for specific uses', 'https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses') %>
-    </li>
-  </ul>
+  <%= govuk_list [
+    govuk_link_to('Additional requirements for when you bring goods into Northern Ireland for processing', 'https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021#processing'),
+    govuk_link_to('Apply to pay less duty on goods you import for specific uses', 'https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses'),
+  ] %>
 </div>

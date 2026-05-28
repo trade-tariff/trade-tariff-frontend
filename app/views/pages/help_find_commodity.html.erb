@@ -35,10 +35,10 @@
     <h2 class="govuk-heading-m">Formal legally binding decision</h2>
     <p>You can ask HMRC to give you a legally binding decision on your goods. You may want to consider this if your goods are:</p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>hard to classify and informal advice is not suitable for you or your business</li>
-      <li>a new type of product (this will be the first time the product will have ever been classified)</li>
-    </ul>
+    <%= govuk_list [
+      'hard to classify and informal advice is not suitable for you or your business',
+      'a new type of product (this will be the first time the product will have ever been classified)',
+    ], type: :bullet %>
 
     <div class="call-to-action">
       <p>Check what you’ll need to <%= govuk_link_to 'get a legally binding decision', 'https://www.gov.uk/guidance/check-what-youll-need-to-get-a-legally-binding-decision-on-a-commodity-code' %>.</p>
@@ -46,9 +46,9 @@
 
     <p>If you want to check if a decision has already been made on goods that are similar to yours you can search for previous:</p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li><%= govuk_link_to('Advance Tariff Rulings for Great Britain (England, Wales and Scotland)', 'https://www.tax.service.gov.uk/search-for-advance-tariff-rulings/search?enableTrackingConsent=true') %></li>
-      <li><%= govuk_link_to('European Binding Tariff Information decisions for Northern Ireland', 'https://ec.europa.eu/taxation_customs/dds2/ebti/ebti_home.jsp?Lang=en') %></li>
-    </ul>
+    <%= govuk_list [
+      govuk_link_to('Advance Tariff Rulings for Great Britain (England, Wales and Scotland)', 'https://www.tax.service.gov.uk/search-for-advance-tariff-rulings/search?enableTrackingConsent=true'),
+      govuk_link_to('European Binding Tariff Information decisions for Northern Ireland', 'https://ec.europa.eu/taxation_customs/dds2/ebti/ebti_home.jsp?Lang=en')
+    ], type: :bullet %>
   </div>
 </div>

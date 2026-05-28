@@ -24,11 +24,11 @@
     Use this page to find:
   </p>
 
-  <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
-    <li>import and export measures, conditions and exemptions</li>
-    <li>reduced or zero duty rates based on preferential rules of origin</li>
-    <li>chapter notes and references</li>
-  </ul>
+  <%= govuk_list [
+    'import and export measures, conditions and exemptions',
+    'reduced or zero duty rates based on preferential rules of origin',
+    'chapter notes and references',
+  ], type: :bullet, classes: 'govuk-!-margin-bottom-6' %>
 
   <%= render 'declarables/declarable',
             declarable: declarable,

@@ -18,16 +18,16 @@
 
 <p>This is a quick guide. You should still read the full terms and conditions below.</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>You are responsible for using the correct commodity codes and complying with customs rules.</li>
-  <li>The law takes priority over any information in the Online Trade Tariff.</li>
-  <li>Notifications such as Stop Press are for information only — you must still check and act on any relevant changes.</li>
-  <li>If you use the Trade Tariff APIs, you must follow published guidance and usage limits.</li>
-  <li>We will give at least 6 months’ notice of major or breaking changes to stable APIs, unless urgent changes are needed for security, legal or operational reasons.</li>
-  <li>We collect and process your personal data in line with the Online Trade Tariff Privacy Notice, including information provided in customer support enquiries.</li>
-  <li>HMRC may change or withdraw services when needed for legal, security or operational reasons.</li>
-  <li>These terms are governed by the laws of England and Wales.</li>
-</ul>
+<%= govuk_list [
+  'You are responsible for using the correct commodity codes and complying with customs rules.',
+  'The law takes priority over any information in the Online Trade Tariff.',
+  'Notifications such as Stop Press are for information only — you must still check and act on any relevant changes.',
+  'If you use the Trade Tariff APIs, you must follow published guidance and usage limits.',
+  'We will give at least 6 months’ notice of major or breaking changes to stable APIs, unless urgent changes are needed for security, legal or operational reasons.',
+  'We collect and process your personal data in line with the Online Trade Tariff Privacy Notice, including information provided in customer support enquiries.',
+  'HMRC may change or withdraw services when needed for legal, security or operational reasons.',
+  'These terms are governed by the laws of England and Wales.'
+], type: :bullet %>
 
 
 <h2 class="govuk-heading-m">Who we are</h2>
@@ -53,12 +53,12 @@
   The service includes, but is not limited to:
 </p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>the Online Trade Tariff browsing platform at <a href="https://www.trade-tariff.service.gov.uk"></a></li>
-  <li>subscription-based tariff notifications such as Stop Press</li>
-  <li>Trade Tariff APIs, including (but not limited to) the Commodities API, the Categorisation API, and the Fast Parcel Operator (FPO) Commodity Code Identification Tool API</li>
-  <li>any additional services made available through the Online Trade Tariff in the future</li>
-</ul>
+<%= govuk_list [
+  safe_join(['the Online Trade Tariff browsing platform at ', govuk_link_to('trade-tariff.service.gov.uk', 'https://www.trade-tariff.service.gov.uk')]),
+  'subscription-based tariff notifications such as Stop Press',
+  'Trade Tariff APIs, including (but not limited to) the Commodities API, the Categorisation API, and the Fast Parcel Operator (FPO) Commodity Code Identification Tool API',
+  'any additional services made available through the Online Trade Tariff in the future'
+], type: :bullet %>
 
 <p>Some services may require you to register, create an account, or provide personal or business information.</p>
 
@@ -70,22 +70,22 @@
 
 <p>You are responsible for:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-    <li>verifying the accuracy of commodity codes and trade data before using them in customs declarations or other processes</li>
-    <li>complying with customs requirements</li>
-    <li>paying any applicable duties</li>
-</ul>
+<%= govuk_list [
+  'verifying the accuracy of commodity codes and trade data before using them in customs declarations or other processes',
+  'complying with customs requirements',
+  'paying any applicable duties'
+], type: :bullet %>
 
 <p>Failure to use correct codes may result in penalties, delayed clearance, or seizure of goods.</p>
 
 <h2 class="govuk-heading-m">Tariff Notifications</h2>
 <p>If you subscribe to tariff notifications, you agree that:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>notifications are provided for convenience and may not include every relevant update</li>
-  <li>delivery times are not guaranteed</li>
-  <li>you remain responsible for checking and acting on relevant changes</li>
-</ul>
+<%= govuk_list [
+  'notifications are provided for convenience and may not include every relevant update',
+  'delivery times are not guaranteed',
+  'you remain responsible for checking and acting on relevant changes'
+], type: :bullet %>
 
 <p>You can update your preferences or unsubscribe at any time using the links in notification emails.</p>
 
@@ -93,11 +93,11 @@
 
 <p>By using the Trade Tariff APIs, you agree to:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>follow any published technical specifications, usage limits and guidance</li>
-  <li>use the APIs only for lawful purposes related to customs and trade</li>
-  <li>avoid any use that could damage, disable or compromise the service or HMRC systems</li>
-</ul>
+<%= govuk_list [
+  'follow any published technical specifications, usage limits and guidance',
+  'use the APIs only for lawful purposes related to customs and trade',
+  'avoid any use that could damage, disable or compromise the service or HMRC systems'
+], type: :bullet %>
 
 <p>For stable APIs, we will give at least 6 months’ notice of any major or breaking changes that require you to update your systems. This notice period does not apply where changes are required urgently for security, legal or operational reasons.</p>
 
@@ -105,11 +105,11 @@
 
 <p>You must not:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>introduce viruses, trojans or malicious code into the service</li>
-  <li>try to gain unauthorised access to the service or related systems</li>
-  <li>use automated tools to extract or scrape data outside permitted use limits</li>
-</ul>
+<%= govuk_list [
+  'introduce viruses, trojans or malicious code into the service',
+  'try to gain unauthorised access to the service or related systems',
+  'use automated tools to extract or scrape data outside permitted use limits'
+], type: :bullet %>
 
 <p>We follow government security guidelines and will report suspected criminal activity to law enforcement.</p>
 
@@ -119,11 +119,11 @@
   We collect and process information in line with the <%= govuk_link_to "Online Trade Tariff Privacy Notice", privacy_path %> and UK data protection law. This may include:
 </p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>contact details for notifications</li>
-  <li>service usage logs (including API requests)</li>
-  <li>personal information you provide when contacting us for customer support or enquiries, such as your name, contact details and details of your enquiry</li>
-</ul>
+<%= govuk_list [
+  'contact details for notifications',
+  'service usage logs (including API requests)',
+  'personal information you provide when contacting us for customer support or enquiries, such as your name, contact details and details of your enquiry'
+], type: :bullet %>
 
 <p>Your data will be used only to provide, operate and support the service, including responding to your enquiries.</p>
 
@@ -134,21 +134,21 @@
 
 <p>For registered or subscribed services, we will notify you of:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>material changes that affect your use of the service</li>
-  <li>planned service withdrawal or replacement</li>
-  <li>major changes to these terms that alter your rights or obligations</li>
-</ul>
+<%= govuk_list [
+  'material changes that affect your use of the service',
+  'planned service withdrawal or replacement',
+  'major changes to these terms that alter your rights or obligations'
+], type: :bullet %>
 
 <h2 class="govuk-heading-m">Changes to these terms</h2>
 
 <p>We can update these terms at any time. We will notify registered users of significant changes where they:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>affect how we process your data</li>
-  <li>alter your rights or obligations under the service</li>
-  <li>require changes to your systems or processes</li>
-</ul>
+<%= govuk_list [
+  'affect how we process your data',
+  'alter your rights or obligations under the service',
+  'require changes to your systems or processes'
+], type: :bullet %>
 
 <p>Continued use of the service after updates means you accept the new terms.</p>
 
@@ -156,11 +156,11 @@
 
 <p>We do not guarantee that the service will always be available, uninterrupted or error-free. We are not liable for:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>losses or penalties arising from reliance solely on the service</li>
-  <li>business costs from misclassification, missed updates or integration changes</li>
-  <li>damage caused by third-party sites or tools linked to from the service</li>
-</ul>
+<%= govuk_list [
+  'losses or penalties arising from reliance solely on the service',
+  'business costs from misclassification, missed updates or integration changes',
+  'damage caused by third-party sites or tools linked to from the service'
+], type: :bullet %>
 
 <p>We remain liable for death or personal injury caused by our negligence, fraudulent misrepresentation, or any liability that cannot be excluded by law.</p>
 

@@ -21,14 +21,10 @@
     </p>
 
     <% if current_goods_nomenclature_code.present? %>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>
-          <%= goods_nomenclature_link %>
-        </li>
-        <li>
-          <%= govuk_link_to('Start again', meursing_lookup_step_path(:start, goods_nomenclature_code: current_goods_nomenclature_code)) %>
-        </li>
-      </ul>
+      <%= govuk_list [
+        goods_nomenclature_link,
+        govuk_link_to('Start again', meursing_lookup_step_path(:start, goods_nomenclature_code: current_goods_nomenclature_code))
+      ], type: :bullet %>
     <% else %>
       <%= govuk_link_to('Start again', meursing_lookup_step_path(:start)) %>
     <% end %>

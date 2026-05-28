@@ -27,12 +27,12 @@
       In order to correctly identify the Meursing code for your commodity, you
       will need to know the percentage content by weight of:
     </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>milk fat</li>
-      <li>milk proteins</li>
-      <li>starch or glucose</li>
-      <li>sucrose, invert sugar, isoglucose</li>
-    </ul>
+    <%= govuk_list [
+      'milk fat',
+      'milk proteins',
+      'starch or glucose',
+      'sucrose, invert sugar, isoglucose'
+    ], type: :bullet %>
 
     <%= govuk_start_button(
           text: 'Start now',
@@ -41,13 +41,9 @@
         ) %>
 
     <h2 class="govuk-heading-m">Documents to download</h2>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <%= govuk_link_to('Meursing table (PDF)', asset_path('Meursing_table.pdf'), new_tab: true) %>
-      </li>
-      <li>
-        <%= govuk_link_to('Meursing table (ODT)', asset_path('Meursing_table.odt'), new_tab: true) %>
-      </li>
-    </ul>
+    <%= govuk_list [
+      govuk_link_to('Meursing table (PDF)', asset_path('Meursing_table.pdf'), new_tab: true),
+      govuk_link_to('Meursing table (ODT)', asset_path('Meursing_table.odt'), new_tab: true)
+    ], type: :bullet %>
   </div>
 </div>

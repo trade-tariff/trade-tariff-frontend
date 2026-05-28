@@ -45,15 +45,11 @@
 
 <p>where:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>VC is the regional value content, expressed as a percentage;</li>
-  <li>AV is the adjusted value (the value for customs purposes), and</li>
-  <li>
-    VNM is the value of non-originating materials that are acquired and used by
-    the producer in the production of the good. VNM does not include the value
-    of a material that is self-produced
-  </li>
-</ul>
+<%= govuk_list [
+  'VC is the regional value content, expressed as a percentage;',
+  'AV is the adjusted value (the value for customs purposes), and',
+  'VNM is the value of non-originating materials that are acquired and used by the producer in the production of the good. VNM does not include the value of a material that is self-produced'
+], type: :bullet %>
 
 <h3 class="govuk-heading-m">Build-up Method</h3>
 
@@ -61,11 +57,8 @@
 
 <p>where:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>RVC is the regional value content, expressed as a percentage;</li>
-  <li>AV is the adjusted value (the value for customs purposes); and</li>
-  <li>
-    VOM is the value of originating materials that are acquired or self
-    produced, and used by the producer in the production of the good.
-  </li>
-</ul>
+<%= govuk_list [
+  'RVC is the regional value content, expressed as a percentage;',
+  'AV is the adjusted value (the value for customs purposes); and',
+  'VOM is the value of originating materials that are acquired or self produced, and used by the producer in the production of the good.'
+], type: :bullet %>

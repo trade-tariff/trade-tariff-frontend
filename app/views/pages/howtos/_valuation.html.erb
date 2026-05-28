@@ -51,13 +51,13 @@
 <h2 class="govuk-heading-m" id="methods">Valuation methods</h2>
 
 <p>Check detailed information on the different valuation methods to work out the customs value of your imports.</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li><%= govuk_link_to('Valuing imported goods using Method 1 (transaction value)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-1-transaction-value') %></li>
-  <li><%= govuk_link_to('Valuing imported goods using Method 2 (transaction value of identical goods)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-2-transaction-value-of-identical-goods') %></li>
-  <li><%= govuk_link_to('Valuing imported goods using Method 3 (transaction value of similar goods)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-3-transaction-value-of-similar-goods') %></li>
-  <li><%= govuk_link_to('Adjusting for level and quantity when using Methods 2 or 3', 'https://www.gov.uk/guidance/adjusting-for-level-and-quantity-when-using-methods-2-or-3') %></li>
-  <li><%= govuk_link_to('Valuing imported goods using Method 4 (deductive method)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-4-deductive-method') %></li>
-  <li><%= govuk_link_to('Valuing imported fruit and vegetables using simplified procedure values with Method 4', 'https://www.gov.uk/guidance/valuing-imported-fruit-and-vegetables-using-simplified-procedure-values-with-method-4') %></li>
-  <li><%= govuk_link_to('Valuing imported goods using Method 5 (computed value)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-5-computed-value') %></li>
-  <li><%= govuk_link_to('Valuing imported goods using Method 6 (fall-back method)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-6-fall-back-method') %></li>
-</ul>
+<%= govuk_list [
+  govuk_link_to('Valuing imported goods using Method 1 (transaction value)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-1-transaction-value'),
+  govuk_link_to('Valuing imported goods using Method 2 (transaction value of identical goods)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-2-transaction-value-of-identical-goods'),
+  govuk_link_to('Valuing imported goods using Method 3 (transaction value of similar goods)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-3-transaction-value-of-similar-goods'),
+  govuk_link_to('Adjusting for level and quantity when using Methods 2 or 3', 'https://www.gov.uk/guidance/adjusting-for-level-and-quantity-when-using-methods-2-or-3'),
+  govuk_link_to('Valuing imported goods using Method 4 (deductive method)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-4-deductive-method'),
+  govuk_link_to('Valuing imported fruit and vegetables using simplified procedure values with Method 4', 'https://www.gov.uk/guidance/valuing-imported-fruit-and-vegetables-using-simplified-procedure-values-with-method-4'),
+  govuk_link_to('Valuing imported goods using Method 5 (computed value)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-5-computed-value'),
+  govuk_link_to('Valuing imported goods using Method 6 (fall-back method)', 'https://www.gov.uk/guidance/valuing-imported-goods-using-method-6-fall-back-method'),
+], type: :bullet %>

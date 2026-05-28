@@ -39,10 +39,10 @@
 
 <p>The length of a commodity code can vary by both country and the use it is being put to. In the UK:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>10-digits are needed for import</li>
-  <li>8-digits for export</li>
-</ul>
+<%= govuk_list [
+  '10-digits are needed for import',
+  '8-digits for export'
+], type: :bullet %>
 
 <h2 class="govuk-heading-m" id="components">What does the commodity code comprise of and what do the components do?</h2>
 
@@ -75,28 +75,26 @@
 
 <p>When a 10-digit commodity code is declared as part of an import declaration it determines:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>the rate of customs duty and import VAT</li>
-  <li>the rate of other applicable taxes</li>
-  <li>any preferential rates which may apply if the goods are covered by a trade agreement </li>
-  <li>whether you need a licence to move your goods</li>
-  <li>whether your goods are affected by any:
-    <ul class="govuk-list govuk-list--bullet">
-      <li>agricultural policy</li>
-      <li>anti-dumping duties</li>
-      <li>safeguarding measures</li>
-      <li>tariff quotas</li>
-      <li>duty suspensions</li>
-    </ul>
-  </li>
-</ul>
+<%= govuk_list [
+  'the rate of customs duty and import VAT',
+  'the rate of other applicable taxes',
+  'any preferential rates which may apply if the goods are covered by a trade agreement',
+  'whether you need a licence to move your goods',
+  safe_join(['whether your goods are affected by any:', govuk_list([
+    'agricultural policy',
+    'anti-dumping duties',
+    'safeguarding measures',
+    'tariff quotas',
+    'duty suspensions'
+  ], type: :bullet)])
+], type: :bullet %>
 
 <p>For exports, it will determine:</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li>which rules of origin may apply if the goods are covered by a trade agreement</li>
-  <li>whether there are any restrictions to exports</li>
-  <li>whether you need a licence to move your goods</li>
-</ul>
+<%= govuk_list [
+  'which rules of origin may apply if the goods are covered by a trade agreement',
+  'whether there are any restrictions to exports',
+  'whether you need a licence to move your goods'
+], type: :bullet %>
 
 <h2 class="govuk-heading-m" id="responsibility">Who is responsible for classifying products?</h2>
 
@@ -106,12 +104,12 @@
 
 <p>The process of finding the right commodity code is called 'classification' and it takes account of the specific characteristics of the goods in question, particularly:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>the type of product</li>
-  <li>what it is made of</li>
-  <li>its function</li>
-  <li>how it is presented or packaged</li>
-</ul>
+<%= govuk_list [
+  'the type of product',
+  'what it is made of',
+  'its function',
+  'how it is presented or packaged'
+], type: :bullet %>
 
 <p>The classification process takes account of the characteristics using a series of six legally binding rules, known as the General Interpretative Rules (GIRs), which were set down by the World Customs Organisation (WCO) and are applied by its member countries.</p>
 
@@ -123,14 +121,8 @@
   and provides a classification advice service.</p>
 
 <p>You can access this help by:</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li>
-    Using the <%= webchat_link("webchat function") %>, when offered in this service
-  </li>
-  <li>
-    Sending an <%= govuk_mail_to 'classification.enquiries@hmrc.gov.uk', 'email to our classification enquiry team' %>
-  </li>
-  <li>
-    <%= govuk_link_to 'Applying for a formal ruling', 'https://www.gov.uk/guidance/apply-for-an-advance-tariff-ruling' %>, if you want legal certainty
-  </li>
-</ul>
+<%= govuk_list [
+  safe_join(['Using the ', webchat_link('webchat function'), ', when offered in this service']),
+  safe_join(['Sending an ', govuk_mail_to('classification.enquiries@hmrc.gov.uk', 'email to our classification enquiry team')]),
+  safe_join([govuk_link_to('Applying for a formal ruling', 'https://www.gov.uk/guidance/apply-for-an-advance-tariff-ruling'), ', if you want legal certainty'])
+], type: :bullet %>

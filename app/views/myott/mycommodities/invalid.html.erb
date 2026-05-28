@@ -18,10 +18,10 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <p>On this page are errors from the spreadsheet you uploaded for your watch list.<br>These can include:</p>
-          <ul class="govuk-list govuk-list--bullet">
-            <li>The spreadsheet removing the first 0 in the codes for chapter 01 to 09</li>
-            <li>Commodity codes not 10 digits long</li>
-          </ul>
+          <%= govuk_list [
+            'The spreadsheet removing the first 0 in the codes for chapter 01 to 09',
+            'Commodity codes not 10 digits long'
+          ], type: :bullet %>
           <h2 class="govuk-heading-l">Total input errors: <%= number_with_delimiter(@targets.total_count) %></h2>
           <% if @targets.total_count.positive? %>
             <p>If you want to correct or remove these errors from your watch list, you should amend these errors in your own spreadsheet and upload it to replace all commodities.</p>

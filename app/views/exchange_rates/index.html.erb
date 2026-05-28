@@ -40,11 +40,7 @@
       <p>
         Find guidance on:
       </p>
-      <p>
-        <ul>
-          <li><p><%= govuk_link_to 'converting foreign currency amounts to include in the customs value', 'https://www.gov.uk/guidance/converting-foreign-currency-amounts-to-include-in-the-customs-value', new_tab: true %></p></li>
-        </ul>
-      </p>
+      <%= govuk_list [govuk_link_to('converting foreign currency amounts to include in the customs value', 'https://www.gov.uk/guidance/converting-foreign-currency-amounts-to-include-in-the-customs-value', new_tab: true)] %>
       <p>
         Exchange rates are published by HMRC on the penultimate Thursday of every month (as per section 18 of Notices made under the Taxation (Cross-border Trade) Act 2018). These exchange rates apply to the following calendar month, and represent rates as of midday the day before publication.
       </p>

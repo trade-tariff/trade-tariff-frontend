@@ -11,12 +11,12 @@
 
 <p>Category 2 goods are eligible for the simplified processes for Internal Market Movements if they are:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>in direct transport from Great Britain to Northern Ireland</li>
-  <li>intended to be sold to, or used by, end consumers in the UK, and therefore deemed 'not at risk' of onward movement to the EU, including the Republic of Ireland</li>
-  <li>in free circulation in the UK</li>
-  <li>excise products and goods subject to special health, licensing or environmental controls</li>
-</ul>
+<%= govuk_list [
+  'in direct transport from Great Britain to Northern Ireland',
+  'intended to be sold to, or used by, end consumers in the UK, and therefore deemed \'not at risk\' of onward movement to the EU, including the Republic of Ireland',
+  'in free circulation in the UK',
+  'excise products and goods subject to special health, licensing or environmental controls',
+], type: :bullet %>
 
 <p>
   <%= govuk_link_to 'Find out more about Internal Market Movements',

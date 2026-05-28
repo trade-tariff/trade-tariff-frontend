@@ -53,11 +53,11 @@
 
     <%= govuk_details(summary_text: 'How we calculate confidence', classes: 'govuk-!-margin-top-6') do %>
       <p>Our system analyses your search term and answers to find the most relevant commodity codes.</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li><strong>Strong result</strong> - High confidence this is the correct classification</li>
-        <li><strong>Good result</strong> - Likely correct but you may want to verify</li>
-        <li><strong>Possible result</strong> - Worth considering but less certain</li>
-      </ul>
+      <%= govuk_list [
+        safe_join([tag.strong('Strong result'), ' - High confidence this is the correct classification']),
+        safe_join([tag.strong('Good result'), ' - Likely correct but you may want to verify']),
+        safe_join([tag.strong('Possible result'), ' - Worth considering but less certain'])
+      ], type: :bullet %>
     <% end %>
   </div>
 

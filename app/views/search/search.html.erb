@@ -65,12 +65,12 @@
     <h2 class="govuk-heading-m">There are no results matching your query.</h2>
     <div class="panel govuk-panel">
       <p><strong>Please search again and consider:</strong></p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>Searching what the item is used for or made from</li>
-        <li>Broadening your search criteria</li>
-        <li>Checking your spelling</li>
-        <li>Browsing the <%= govuk_link_to 'A-Z of Classified Goods', a_z_index_path(letter: 'a') %></li>
-      </ul>
+      <%= govuk_list [
+        'Searching what the item is used for or made from',
+        'Broadening your search criteria',
+        'Checking your spelling',
+        safe_join(['Browsing the ', govuk_link_to('A-Z of Classified Goods', a_z_index_path(letter: 'a'))]),
+      ], type: :bullet %>
     </div>
   <% end %>
 
