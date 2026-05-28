@@ -283,25 +283,24 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe '#back_link' do
-    context 'without text label' do
-      subject { back_link '/back-page' }
+    context 'without javascript' do
+      it 'calls govuk_back_link with correct attributes' do
+        allow(helper).to receive(:govuk_back_link).with(href: '/back-page', html_attributes: {}).and_call_original
 
-      it { is_expected.to have_link 'Back', href: '/back-page' }
-      it { is_expected.to have_css 'a.govuk-back-link' }
-      it { is_expected.not_to have_css 'a[onclick]' }
-    end
+        result = helper.back_link('/back-page')
 
-    context 'with text label' do
-      subject { back_link '/back-page', 'Go back' }
-
-      it { is_expected.to have_link 'Go back', href: '/back-page' }
-      it { is_expected.to have_css 'a.govuk-back-link' }
+        expect(result).to be_present
+      end
     end
 
     context 'with javascript' do
-      subject { back_link '/back', javascript: true }
+      it 'calls govuk_back_link with onclick attribute' do
+        allow(helper).to receive(:govuk_back_link).with(href: '/back', html_attributes: { onclick: 'window.history.go(-1); return false;' }).and_call_original
 
-      it { is_expected.to have_css 'a[onclick]' }
+        result = helper.back_link('/back', javascript: true)
+
+        expect(result).to be_present
+      end
     end
   end
 

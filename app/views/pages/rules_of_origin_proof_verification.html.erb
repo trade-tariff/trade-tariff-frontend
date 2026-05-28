@@ -1,4 +1,6 @@
-<%= back_link request.referer || find_commodity_path, javascript: true %>
+<% content_for :back_link do %>
+  <%= back_link request.referer || find_commodity_path, javascript: true %>
+<% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

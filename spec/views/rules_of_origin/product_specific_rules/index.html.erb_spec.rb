@@ -19,8 +19,6 @@ RSpec.describe 'rules_of_origin/product_specific_rules/index', type: :view do
     }.index_by(&:id)
   end
 
-  it { is_expected.to have_link 'Back' }
-
   it { is_expected.to have_css 'h1', text: %r{Commodity \d{10}} }
   it { is_expected.not_to have_css '.govuk-caption-xl' }
 
