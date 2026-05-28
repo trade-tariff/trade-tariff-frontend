@@ -156,7 +156,7 @@ module ApplicationHelper
     link_description = "work out the duties and taxes applicable to the import of commodity #{code}"
     link_url = import_date_path(commodity_code: declarable_code)
 
-    link_to link_description, link_url, id: 'duty-calculator-link'
+    govuk_link_to link_description, link_url, id: 'duty-calculator-link'
   end
 
   def month_name_and_year(month, year)
