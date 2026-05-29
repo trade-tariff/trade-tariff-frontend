@@ -36,6 +36,8 @@ Rails.application.routes.draw do
     resources :preference_codes, only: [:show]
   end
 
+  resources :feature_opt_ins, only: %i[create destroy]
+
   resources :feedbacks, controller: 'feedback', only: %i[new create]
 
   get 'feedback', to: 'feedback#new'
