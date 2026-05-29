@@ -45,37 +45,37 @@ module EnquiryFormHelper
       {
         label: 'Classification',
         value: 'classification',
-        hint: 'Help identifying the correct commodity code for your goods',
+        hint: 'Help finding the correct commodity code for your goods.',
       },
       {
-        label: 'Import Duties and Quota',
+        label: 'Import duties and quotas',
         value: 'import_duties_and_quota',
-        hint: 'Help understanding the tariff related duties payable and quota queries',
+        hint: 'Get information about duties and quotas.',
       },
       {
         label: 'Origin',
         value: 'origin',
-        hint: 'Help with free trade agreements and preferential, non-preferential and proof of origin',
+        hint: 'Ask about preferential and non-preferential origin.',
       },
       {
         label: 'Valuation',
         value: 'valuation',
-        hint: 'Help in understanding how to apply the six customs valuation methods for determining the customs value of your goods.',
+        hint: 'Help with determining the customs value of your goods.',
       },
       {
-        label: 'Developer Portal',
+        label: 'API support and Developer Portal',
         value: 'developer_portal',
-        hint: "Help with technical aspects of API's or the Developer Portal",
+        hint: 'Get help on using the Trade Tariff APIs and the Developer Portal.',
       },
       {
-        label: 'Stop Press and Commodity Code watch lists',
+        label: 'Stop Press and commodity code watch lists',
         value: 'stop_press_and_commodity_code_watch_lists',
-        hint: 'Help with creating or managing your subscriptions',
+        hint: 'Assistance with creating and managing watch lists.',
       },
       {
         label: 'Other',
         value: 'other',
-        hint: 'Questions about the tariff or online tariff tool features that do not fit the options above',
+        hint: 'Any other questions relating to the Online Trade Tariff.',
       },
     ]
   end

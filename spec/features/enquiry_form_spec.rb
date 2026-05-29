@@ -38,7 +38,7 @@ RSpec.describe 'Enquiry Form Entry', :aggregate_failures, type: :feature do
   def complete_generic_enquiry(email:)
     visit product_experience_enquiry_form_path
 
-    choose 'Import Duties and Quota'
+    choose 'Import duties and quotas'
     click_button 'Continue'
 
     fill_in 'How can we help you?', with: 'I need help understanding tariff quota duties.'

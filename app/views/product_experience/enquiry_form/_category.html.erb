@@ -24,7 +24,7 @@
                                class: 'govuk-radios__input',
                                id: "category_#{option[:value]}",
                                data: ({ aria_controls: 'conditional-other-category' } if option[:value] == 'other') %>
-          <label class="govuk-label govuk-radios__label" for="category_<%= option[:value] %>">
+          <label class="govuk-label govuk-radios__label govuk-!-font-weight-bold" for="category_<%= option[:value] %>">
             <%= option[:label] %>
           </label>
           <div class="govuk-hint govuk-radios__hint">

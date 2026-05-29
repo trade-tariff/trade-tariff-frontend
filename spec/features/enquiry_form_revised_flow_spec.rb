@@ -21,6 +21,8 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
 
     expect(page).to have_css 'h1', text: 'What do you need help with?'
     expect(page).not_to have_css '.feedback-useful-banner'
+    expect(page).to have_css 'label.govuk-radios__label.govuk-\\!-font-weight-bold', text: 'Classification'
+    expect(page).to have_css '.govuk-radios__hint', text: 'Help finding the correct commodity code for your goods.'
 
     click_button 'Continue'
     expect(page).to have_content 'Please select what you need help with.'
@@ -104,7 +106,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
   it 'lets a user complete the generic enquiry journey' do
     visit product_experience_enquiry_form_path
 
-    choose 'Import Duties and Quota'
+    choose 'Import duties and quotas'
     click_button 'Continue'
 
     expect(page).to have_css 'h1', text: 'How can we help you?'
@@ -118,7 +120,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     click_button 'Continue'
 
     expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
-    expect(page).to have_content 'Import Duties and Quota'
+    expect(page).to have_content 'Import duties and quotas'
     expect(page).to have_content 'I need help understanding tariff quota duties.'
     expect(page).to have_content 'trader@example.com'
 
@@ -241,7 +243,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
   it 'marks the generic query textarea as invalid using GOV.UK error attributes' do
     visit product_experience_enquiry_form_path
 
-    choose 'Import Duties and Quota'
+    choose 'Import duties and quotas'
     click_button 'Continue'
     click_button 'Continue'
 
@@ -255,7 +257,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
 
     visit product_experience_enquiry_form_path
 
-    choose 'Import Duties and Quota'
+    choose 'Import duties and quotas'
     click_button 'Continue'
     fill_in 'How can we help you?', with: 'I need help understanding duties.'
     click_button 'Continue'

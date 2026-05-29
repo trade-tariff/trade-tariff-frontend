@@ -28,16 +28,44 @@ RSpec.describe EnquiryFormHelper, :aggregate_failures, type: :helper do
   end
 
   describe '#category_options' do
-    it 'contains the agreed category labels' do
-      expect(helper.category_options.pluck(:label)).to eq(
+    it 'contains the agreed category labels and descriptions' do
+      expect(helper.category_options).to eq(
         [
-          'Classification',
-          'Import Duties and Quota',
-          'Origin',
-          'Valuation',
-          'Developer Portal',
-          'Stop Press and Commodity Code watch lists',
-          'Other',
+          {
+            label: 'Classification',
+            value: 'classification',
+            hint: 'Help finding the correct commodity code for your goods.',
+          },
+          {
+            label: 'Import duties and quotas',
+            value: 'import_duties_and_quota',
+            hint: 'Get information about duties and quotas.',
+          },
+          {
+            label: 'Origin',
+            value: 'origin',
+            hint: 'Ask about preferential and non-preferential origin.',
+          },
+          {
+            label: 'Valuation',
+            value: 'valuation',
+            hint: 'Help with determining the customs value of your goods.',
+          },
+          {
+            label: 'API support and Developer Portal',
+            value: 'developer_portal',
+            hint: 'Get help on using the Trade Tariff APIs and the Developer Portal.',
+          },
+          {
+            label: 'Stop Press and commodity code watch lists',
+            value: 'stop_press_and_commodity_code_watch_lists',
+            hint: 'Assistance with creating and managing watch lists.',
+          },
+          {
+            label: 'Other',
+            value: 'other',
+            hint: 'Any other questions relating to the Online Trade Tariff.',
+          },
         ],
       )
     end
