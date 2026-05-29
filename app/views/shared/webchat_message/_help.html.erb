@@ -1,4 +1,4 @@
-<% if feature_enabled?(:webchat) %>
+<% if feature_enabled?(:webchat) && TradeTariffFrontend.webchat_url.present? %>
     <p id="webchat-link">
     Alternatively, you can use our <%= webchat_link %>
     to get help on classifying your goods.

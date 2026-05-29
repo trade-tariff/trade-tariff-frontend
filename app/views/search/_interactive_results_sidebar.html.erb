@@ -25,7 +25,7 @@
     </nav>
   </div>
 
-  <% if feature_enabled?(:webchat) %>
+  <% if feature_enabled?(:webchat) && TradeTariffFrontend.webchat_url.present? %>
     <%= govuk_section_break(size: 'm', visible: true) %>
 
     <%= govuk_details(summary_text: 'Get support') do %>

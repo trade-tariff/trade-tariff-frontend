@@ -1,4 +1,4 @@
-<% if feature_enabled?(:webchat) %>
+<% if feature_enabled?(:webchat) && TradeTariffFrontend.webchat_url.present? %>
   <%= tag.p(class: 'govuk-body govuk-!-margin-bottom-1') do %><%= tag.strong('Webchat:') %> <%= webchat_link 'Ask HMRC online' %><% end %>
 <% end %>
 

@@ -1,4 +1,4 @@
-<% if feature_enabled?(:webchat) %>
+<% if feature_enabled?(:webchat) && TradeTariffFrontend.webchat_url.present? %>
     <div id="webchat-link">
         Use our
         <%= webchat_link %>
