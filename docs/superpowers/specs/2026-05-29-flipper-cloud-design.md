@@ -148,26 +148,27 @@ Migration is idempotent. After the cookie is cleared, subsequent authenticated r
 
 ## Flag Interface
 
-`TradeTariffFrontend` module methods become thin Flipper delegates. All existing call sites — controllers, views, helpers — remain unchanged.
-
-The actor is threaded implicitly via `CurrentAttributes` so module-level methods have request context without being passed it explicitly:
+A single `feature_enabled?(flag)` helper is added to `ApplicationController` and exposed to views via `helper_method`. No per-flag method needs to be created — adding a new flag in Flipper Cloud just works. All call sites use the same interface regardless of whether the flag is global, percentage-based, or actor-targeted.
 
 ```ruby
-# app/models/current.rb
-class Current < ActiveSupport::CurrentAttributes
-  attribute :flipper_actor
-end
-
 # ApplicationController
-before_action { Current.flipper_actor = current_flipper_actor }
+helper_method :feature_enabled?
 
-# lib/trade_tariff_frontend.rb
-def green_lanes_enabled?
-  Flipper.enabled?(:green_lanes, Current.flipper_actor)
+def feature_enabled?(flag)
+  Flipper.enabled?(flag.to_sym, current_flipper_actor)
 end
 ```
 
-If `Current.flipper_actor` is nil (rake tasks, tests that do not set it), Flipper performs a global check — the flag is only considered enabled if it is on for everyone.
+Usage in controllers and views:
+
+```ruby
+feature_enabled?(:green_lanes)
+feature_enabled?(:roo_wizard)
+```
+
+The existing per-flag methods on `TradeTariffFrontend` (`green_lanes_enabled?`, `roo_wizard?`, etc.) are removed entirely. All call sites are updated to use `feature_enabled?` instead.
+
+If called outside a request context (rake tasks, background jobs), `current_flipper_actor` returns nil and Flipper performs a global check — the flag is only considered enabled if it is on for everyone.
 
 ---
 
@@ -178,17 +179,17 @@ All existing ENV-based flags are migrated to Flipper Cloud. The ENV vars are rem
 **Migration sequence (to avoid disabling live features):**
 
 1. Create each flag in Flipper Cloud and set it to match its current production state before deploying any code changes
-2. Deploy the Flipper integration with updated `TradeTariffFrontend` methods
+2. Deploy the Flipper integration — remove `TradeTariffFrontend` flag methods, update all call sites to `feature_enabled?`
 3. Remove the now-unused ENV vars from infrastructure config in a follow-up
 
-| Current method | ENV var | Flipper flag |
-|---|---|---|
-| `green_lanes_enabled?` | `GREEN_LANES_ENABLED` | `:green_lanes` |
-| `roo_wizard?` | `ROO_WIZARD` | `:roo_wizard` |
-| `interactive_search_enabled?` | *(logic-based)* | `:interactive_search` |
-| `single_trade_window_linking_enabled?` | `STW_ENABLED` | `:single_trade_window` |
-| `webchat_enabled?` | `WEBCHAT_URL` | `:webchat` |
-| `welsh?` | `WELSH` | `:welsh` |
+| Old call site | ENV var | Flipper flag | New call site |
+|---|---|---|---|
+| `TradeTariffFrontend.green_lanes_enabled?` | `GREEN_LANES_ENABLED` | `:green_lanes` | `feature_enabled?(:green_lanes)` |
+| `TradeTariffFrontend.roo_wizard?` | `ROO_WIZARD` | `:roo_wizard` | `feature_enabled?(:roo_wizard)` |
+| `TradeTariffFrontend.interactive_search_enabled?` | *(logic-based)* | `:interactive_search` | `feature_enabled?(:interactive_search)` |
+| `TradeTariffFrontend.single_trade_window_linking_enabled?` | `STW_ENABLED` | `:single_trade_window` | `feature_enabled?(:single_trade_window)` |
+| `TradeTariffFrontend.webchat_enabled?` | `WEBCHAT_URL` | `:webchat` | `feature_enabled?(:webchat)` |
+| `TradeTariffFrontend.welsh?` | `WELSH` | `:welsh` | `feature_enabled?(:welsh)` |
 
 ---
 
@@ -256,4 +257,4 @@ before { Flipper.enable(:green_lanes) }
 before { Flipper.enable_actor(:new_feature, Flipper::UserActor.new('user-123')) }
 ```
 
-Existing specs that stub `TradeTariffFrontend.green_lanes_enabled?` directly are updated to use `Flipper.enable` instead. Behaviour is identical.
+Existing specs that stub `TradeTariffFrontend.green_lanes_enabled?` directly are updated to use `Flipper.enable` instead. Behaviour is identical. Specs that test `feature_enabled?` through a controller or view need no special setup beyond enabling the relevant flag.
