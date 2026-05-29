@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :set_path_info
   before_action :set_search
   before_action :bots_no_index_if_historical
+  before_action :set_current_flipper_actor
 
   layout :set_layout
 
@@ -171,4 +172,42 @@ class ApplicationController < ActionController::Base
   alias_method :handle_connection_failed, :raise_internal_server_error
   alias_method :handle_timeout_error, :raise_internal_server_error
   alias_method :handle_server_error, :raise_internal_server_error
+
+  def set_current_flipper_actor
+    Current.flipper_actor = current_flipper_actor
+  end
+
+  def current_flipper_actor
+    if authenticated?
+      Flipper::UserActor.new(current_user_id)
+    else
+      Flipper::AnonymousActor.new(anonymous_flipper_id)
+    end
+  end
+
+  def authenticated?
+    cookies[TradeTariffFrontend.id_token_cookie_name].present?
+  end
+
+  def current_user_id
+    return nil unless authenticated?
+
+    token = cookies[TradeTariffFrontend.id_token_cookie_name]
+    payload, = JWT.decode(token, nil, false)
+    payload['email'] || payload['sub']
+  rescue JWT::DecodeError, ArgumentError
+    nil
+  end
+
+  def anonymous_flipper_id
+    return cookies[:flipper_anonymous_id] if cookies[:flipper_anonymous_id].present?
+
+    uuid = SecureRandom.uuid
+    cookies[:flipper_anonymous_id] = {
+      value: uuid,
+      max_age: 1.year.seconds.to_i,
+      httponly: true,
+    }
+    uuid
+  end
 end
