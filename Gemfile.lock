@@ -205,9 +205,6 @@ GEM
       concurrent-ruby (< 2)
     flipper-cloud (1.4.2)
       flipper (~> 1.4.2)
-    flipper-rails (0.1.0)
-      flipper
-      railties
     flipper-redis (1.4.2)
       flipper (~> 1.4.2)
       redis (>= 3.0, < 6)
@@ -634,7 +631,6 @@ DEPENDENCIES
   faraday-net_http_persistent
   faraday-retry
   flipper-cloud
-  flipper-rails
   flipper-redis
   forgery
   govspeak
