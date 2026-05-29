@@ -15,6 +15,24 @@ RSpec.describe FeatureOptInsController, type: :request do
         expect(Flipper.enabled?(:test_flag, actor)).to be true
         expect(response).to redirect_to(root_path)
       end
+
+      it 'redirects to return_to when it is a valid local path' do
+        post feature_opt_ins_path, params: { feature: 'test_flag', return_to: '/commodities/1234' }
+
+        expect(response).to redirect_to('/commodities/1234')
+      end
+
+      it 'ignores return_to when it is an absolute URL (open redirect prevention)' do
+        post feature_opt_ins_path, params: { feature: 'test_flag', return_to: 'http://evil.com' }
+
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'ignores return_to when it is a protocol-relative URL (open redirect prevention)' do
+        post feature_opt_ins_path, params: { feature: 'test_flag', return_to: '//evil.com/steal' }
+
+        expect(response).to redirect_to(root_path)
+      end
     end
 
     context 'with an unknown flag' do
@@ -37,6 +55,18 @@ RSpec.describe FeatureOptInsController, type: :request do
 
         actor = Flipper::AnonymousActor.new(anonymous_uuid)
         expect(Flipper.enabled?(:test_flag, actor)).to be false
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'redirects to return_to when it is a valid local path' do
+        delete feature_opt_in_path('test_flag'), params: { return_to: '/commodities/1234' }
+
+        expect(response).to redirect_to('/commodities/1234')
+      end
+
+      it 'ignores return_to when it is an absolute URL (open redirect prevention)' do
+        delete feature_opt_in_path('test_flag'), params: { return_to: 'http://evil.com' }
+
         expect(response).to redirect_to(root_path)
       end
     end
