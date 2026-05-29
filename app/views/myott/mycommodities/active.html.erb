@@ -49,25 +49,14 @@
         <!-- Mobile cards -->
         <div class="myott-mycommodities__responsive-mobile-cards">
           <% @targets.each do |target| %>
-            <div class="govuk-summary-card">
-              <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">
-                  Commodity: <%= target.goods_nomenclature_item_id %>
-                </h2>
-              </div>
-              <div class="govuk-summary-card__content">
-                <dl class="govuk-summary-list">
-                  <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                      Classification
-                    </dt>
-                    <dd class="govuk-summary-list__value">
-                      <%= sanitize target.classification_description %>
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
+            <%= govuk_summary_card(title: "Commodity: #{target.goods_nomenclature_item_id}") do %>
+              <%= govuk_summary_list(rows: [
+                {
+                  key: { text: 'Classification' },
+                  value: { text: sanitize(target.classification_description) },
+                },
+              ]) %>
+            <% end %>
           <% end %>
         </div>
       <% end %>

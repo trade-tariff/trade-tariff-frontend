@@ -1,23 +1,27 @@
 <% unless deriving_goods_nomenclatures.empty? %>
-  <table class="govuk-table">
-    <p>Goods previously classified under commodity <%= @commodity_code %> have been moved to the following codes:</p>
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Classification</th>
-        <th scope="col" class="govuk-table__header">Description</th>
-        <th scope="col" class="govuk-table__header non-breaking-heading">Transfer date</th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <% deriving_goods_nomenclatures.each do |goods_nomenclature| %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><%= govuk_link_to(goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature)) %></th>
-        <td class="govuk-table__cell">
-          <%= sanitize sanitize_quotes(goods_nomenclature.formatted_description) unless goods_nomenclature.formatted_description.nil? %>
-        </td>
-        <td class="govuk-table__cell"><%= goods_nomenclature.validity_start_date&.to_formatted_s(:long) %></td>
-      </tr>
+  <p>Goods previously classified under commodity <%= @commodity_code %> have been moved to the following codes:</p>
+
+  <%= govuk_table do |table| %>
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: 'Classification') %>
+        <% row.with_cell(text: 'Description') %>
+        <% row.with_cell(text: 'Transfer date') %>
       <% end %>
-    </tbody>
-  </table>
+    <% end %>
+
+    <% table.with_body do |body| %>
+      <% deriving_goods_nomenclatures.each do |goods_nomenclature| %>
+        <% body.with_row do |row| %>
+          <% row.with_cell do %>
+            <%= govuk_link_to(goods_nomenclature.goods_nomenclature_item_id, polymorphic_path(goods_nomenclature)) %>
+          <% end %>
+          <% row.with_cell do %>
+            <%= sanitize sanitize_quotes(goods_nomenclature.formatted_description) unless goods_nomenclature.formatted_description.nil? %>
+          <% end %>
+          <% row.with_cell(text: goods_nomenclature.validity_start_date&.to_formatted_s(:long)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

@@ -1,7 +1,7 @@
 <% unless @feedback %>
   <div class="tariff-feedback-banner">
     <%= govuk_phase_banner(tag: { text: local_assigns.fetch(:tag_text, 'FEEDBACK') }) do %>
-      Help us improve this service and <%= govuk_link_to 'give your feedback (opens in new tab)', feedback_link_url, **(subscriptions_page? ? {} : { target: '_blank', rel: 'noopener' }) %>.
+      Tell us what you think - your <%= govuk_link_to 'feedback', feedback_path %> will help us improve.
     <% end %>
   </div>
 <% end %>

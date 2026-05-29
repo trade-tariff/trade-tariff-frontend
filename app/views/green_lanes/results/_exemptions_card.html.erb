@@ -1,18 +1,10 @@
-<div class="govuk-summary-card">
-  <div class="govuk-summary-card__title-wrapper">
-    <h2 class="govuk-summary-card__title">
-      Your goods are exempt from Category <%= category %> because you meet these exemptions
-    </h2>
-  </div>
-
-  <div class="govuk-summary-card__content">
-    <%= govuk_summary_list(rows: @assessments.public_send("cat#{category}_with_exemptions").flat_map { |category_assessment|
-      category_assessment.answered_exemptions(@answers).map { |exemption|
-        {
-          key: { text: hide_pseudo_code(exemption.code) },
-          value: { text: exemption.formatted_description },
-        }
+<%= govuk_summary_card(title: "Your goods are exempt from Category #{category} because you meet these exemptions") do %>
+  <%= govuk_summary_list(rows: @assessments.public_send("cat#{category}_with_exemptions").flat_map { |category_assessment|
+    category_assessment.answered_exemptions(@answers).map { |exemption|
+      {
+        key: { text: hide_pseudo_code(exemption.code) },
+        value: { text: exemption.formatted_description },
       }
-    }) %>
-  </div>
-</div>
+    }
+  }) %>
+<% end %>

@@ -23,32 +23,29 @@
 
   <p>Click on the simplified procedure code to see the applicable rate for that code over time.</p>
 
-  <table class="govuk-table">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Simplified procedure code</th>
-        <th scope="col" class="govuk-table__header">Commodity code(s)</th>
-        <th scope="col" class="govuk-table__header">Description of goods</th>
-        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Value per 100 kg</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @result.measures.each do |measure| %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
-            <%= govuk_link_to measure.resource_id, simplified_procedural_values_path(simplified_procedural_code: measure.resource_id) %>
-          </td>
-          <td class="govuk-table__cell">
-            <%= goods_nomenclature_item_id_links_for(measure.goods_nomenclature_item_ids) %>
-          </td>
-          <td class="govuk-table__cell">
-            <%= measure.goods_nomenclature_label %>
-          </td>
-          <td class="govuk-table__cell govuk-table__cell--numeric">
-            <%= presented_duty_amount(measure) %>
-          </td>
-        </tr>
+  <%= govuk_table do |table| %>
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: 'Simplified procedure code') %>
+        <% row.with_cell(text: 'Commodity code(s)') %>
+        <% row.with_cell(text: 'Description of goods') %>
+        <% row.with_cell(text: 'Value per 100 kg', numeric: true) %>
       <% end %>
-    </tbody>
-  </table>
+    <% end %>
+
+    <% table.with_body do |body| %>
+      <% @result.measures.each do |measure| %>
+        <% body.with_row do |row| %>
+          <% row.with_cell do %>
+            <%= govuk_link_to measure.resource_id, simplified_procedural_values_path(simplified_procedural_code: measure.resource_id) %>
+          <% end %>
+          <% row.with_cell do %>
+            <%= goods_nomenclature_item_id_links_for(measure.goods_nomenclature_item_ids) %>
+          <% end %>
+          <% row.with_cell(text: measure.goods_nomenclature_label) %>
+          <% row.with_cell(text: presented_duty_amount(measure), numeric: true) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 </div>

@@ -6,9 +6,7 @@
       </div>
     </td>
     <td class="govuk-table__cell">
-      <%= govuk_link_to heading_path(heading, request.query_parameters.symbolize_keys) do %>
-        <%= govuk_visually_hidden "Heading #{heading.display_short_code}: " %> <%= heading.formatted_description.html_safe %>
-      <% end %>
+      <%= govuk_link_to heading.formatted_description.html_safe, heading_path(heading, request.query_parameters.symbolize_keys), visually_hidden_prefix: "Heading #{heading.display_short_code}:" %>
     </td>
   </tr>
 <% else %>

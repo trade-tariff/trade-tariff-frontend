@@ -1,38 +1,19 @@
 <%= govuk_details(summary_text: 'How to read rules of origin') do %>
   <p>The rules of origin table contains:</p>
 
-    <ul class="govuk-list--bullet">
-      <li>
-        the product classification heading ('HS heading') or chapter number
-        (column 1)
-      </li>
+  <%= govuk_list [
+    'the product classification heading (\'HS heading\') or chapter number (column 1)',
+    'a description of the product, or the headings / subheadings covered by the rules (column 2)',
+    'a description of how non-originating materials must be worked or processed to get country of origin status (column 3)',
+  ], type: :bullet %>
 
-      <li>
-        a description of the product, or the headings / subheadings covered by
-        the rules (column 2)
-      </li>
+  <p>For each row:</p>
 
-      <li>
-        a description of how non-originating materials must be worked or
-        processed to get country of origin status (column 3)
-      </li>
-    </ul>
-
-    <p>For each row:</p>
-
-    <ul class="govuk-list--bullet">
-      <li>
-        check column 1 to find the product classification heading or chapter
-        number for the product being exported
-      </li>
-
-      <li>check column 2 to find the description that applies to the product</li>
-
-      <li>
-        check column 3 to see how the product must
-        be worked or processed to gain country of origin status
-      </li>
-    </ul>
+  <%= govuk_list [
+    'check column 1 to find the product classification heading or chapter number for the product being exported',
+    'check column 2 to find the description that applies to the product',
+    'check column 3 to see how the product must be worked or processed to gain country of origin status',
+  ], type: :bullet %>
 
     <p>
       Unless preceded by ‘ex’, the rules in column 3 apply to all products that

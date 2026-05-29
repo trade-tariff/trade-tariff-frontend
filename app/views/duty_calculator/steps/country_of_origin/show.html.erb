@@ -11,9 +11,7 @@
 <%= render 'duty_calculator/shared/commodity_details' %>
 <div class="explore-topics-section">
   <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
-  <ul class="govuk-list">
-    <li>
-      <%= govuk_link_to('Check your goods meet the rules of origin', 'https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin') %>
-    </li>
-  </ul>
+  <%= govuk_list [
+    govuk_link_to('Check your goods meet the rules of origin', 'https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin'),
+  ] %>
 </div>

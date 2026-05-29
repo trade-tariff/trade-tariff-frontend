@@ -132,7 +132,7 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.3.0)
     bigdecimal (4.1.2)
-    bootsnap (1.24.3)
+    bootsnap (1.24.4)
       msgpack (~> 1.2)
     brakeman (8.0.4)
       racc
@@ -360,7 +360,7 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    newrelic_rpm (10.4.0)
+    newrelic_rpm (10.5.0)
       logger
     nio4r (2.7.5)
     nokogiri (1.19.3-arm64-darwin)
@@ -673,7 +673,7 @@ DEPENDENCIES
   wizard_steps
 
 RUBY VERSION
-  ruby 4.0.3
+  ruby 4.0.5
 
 BUNDLED WITH
   4.0.3

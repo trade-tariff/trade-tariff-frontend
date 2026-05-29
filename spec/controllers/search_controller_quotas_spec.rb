@@ -112,5 +112,25 @@ RSpec.describe SearchController, type: :controller, vcr: { cassette_name: 'searc
         expect(response.body).to match(/Sorry, there is a problem with the search query. Please specify one or more search criteria./)
       end
     end
+
+    context 'with an invalid date flag' do
+      render_views
+
+      before do
+        get :quota_search, params: { invalid_date: true }, format: :html
+      end
+
+      it 'renders a GOV.UK error summary' do
+        expect(response.body).to match(/govuk-error-summary.*You must enter a valid date/m)
+      end
+
+      it 'links the error summary to the date input' do
+        expect(response.body).to match(/govuk-error-summary.*href="#day"/m)
+      end
+
+      it 'marks the date input as invalid' do
+        expect(response.body).to match(/govuk-form-group--error.*id="day".*govuk-input--error/m)
+      end
+    end
   end
 end

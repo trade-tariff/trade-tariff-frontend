@@ -13,13 +13,13 @@
 
 <p>Category 1 goods are not eligible for the simplified processes for Internal Market Movements as they are subject to one or more of the following:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>restrictions enforced by Article 215 of The Treaty of the Functioning of the European Union (TFEU)</li>
-  <li>total bans or prohibitions</li>
-  <li>trade defence measures</li>
-  <li>union tariff rate quotas when claimed by the importer</li>
-  <li>union quotas other than tariff rate quotas</li>
-</ul>
+<%= govuk_list [
+  'restrictions enforced by Article 215 of The Treaty of the Functioning of the European Union (TFEU)',
+  'total bans or prohibitions',
+  'trade defence measures',
+  'union tariff rate quotas when claimed by the importer',
+  'union quotas other than tariff rate quotas',
+], type: :bullet %>
 
 <p>
   <%= govuk_link_to 'Find out more about Internal Market Movements',

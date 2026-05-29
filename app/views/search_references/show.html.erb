@@ -16,30 +16,28 @@
       <%= a_z_index(letter) %>
     </ol>
 
-    <table class="govuk-table">
-      <caption class="govuk-table__caption"><span class="govuk-visually-hidden">Classified Goods starting with letter </span><%= letter.upcase %></caption>
-      <tbody class="govuk-table__body">
-      <% @search_references.each do |search_reference| %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
-            <%= govuk_link_to search_reference.link do %>
-              <%= search_reference %><%= govuk_visually_hidden " (code: #{search_reference.referenced_id})" %>
-            <% end %>
-          </td>
-          <td class="govuk-table__cell">
-            <span class="govuk-visually-hidden">Class: </span><%= search_reference.referenced_class %>
-          </td>
-          <td class="govuk-table__cell govuk-table__cell--numeric">
-           <span class="govuk-visually-hidden">Code: </span>
-            <% if search_reference.referenced_class == "Commodity" %>
-              <%= segmented_commodity_code search_reference.referenced_id %>
-            <% else %>
-              <%= segmented_commodity_code abbreviate_code(search_reference.referenced_id) %>
-            <% end %>
-          </td>
-        </tr>
+    <%= govuk_table do |table| %>
+      <% table.with_caption do %>
+        <%= govuk_visually_hidden 'Classified Goods starting with letter ' %><%= letter.upcase %>
       <% end %>
-      </tbody>
-    </table>
+      <% table.with_body do |body| %>
+        <% @search_references.each do |search_reference| %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: govuk_link_to(search_reference, search_reference.link, visually_hidden_suffix: "(code: #{search_reference.referenced_id})")) %>
+            <% row.with_cell do %>
+              <%= govuk_visually_hidden 'Class: ' %><%= search_reference.referenced_class %>
+            <% end %>
+            <% row.with_cell(numeric: true) do %>
+              <%= govuk_visually_hidden 'Code: ' %>
+              <% if search_reference.referenced_class == "Commodity" %>
+                <%= segmented_commodity_code search_reference.referenced_id %>
+              <% else %>
+                <%= segmented_commodity_code abbreviate_code(search_reference.referenced_id) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
 </section>

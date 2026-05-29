@@ -6,6 +6,16 @@ class User
   attr_accessor :email,
                 :chapter_ids
 
+  def self.find(id, token, options = {})
+    return nil if token.nil? && !Rails.env.development?
+
+    super
+  rescue AuthenticationError => e
+    raise unless e.not_found?
+
+    create!({}, headers(token))
+  end
+
   def self.update(token, attributes)
     return nil if token.nil? && !Rails.env.development?
 

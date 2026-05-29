@@ -2,9 +2,10 @@
   <%= generate_breadcrumbs "Search", [["Home", home_path]] %>
 <% end %>
 
-<%= page_header %>
-
 <div data-controller="interactive-question">
+  <div data-interactive-question-target="pageHeader">
+    <%= page_header %>
+  </div>
 
   <div data-interactive-question-target="header">
     <h1 class="govuk-heading-l">Search for a commodity</h1>
@@ -26,6 +27,7 @@
       <%= hidden_field_tag :q, @search.q %>
       <%= hidden_field_tag :interactive_search, 'true' %>
       <%= hidden_field_tag :request_id, @search.request_id %>
+      <%= hidden_field_tag :expanded_query, @results.expanded_query if @results.expanded_query.present? %>
       <% if @search.day_month_and_year_set? %>
         <%= hidden_field_tag :year, @search.year %>
         <%= hidden_field_tag :month, @search.month %>
@@ -50,8 +52,7 @@
         <%= f.govuk_radio_divider %>
 
         <%= f.govuk_radio_button :answer, "I don't know",
-            label: { text: "I don't know" },
-            data: { action: "change->interactive-question#selectUnknown" } %>
+            label: { text: "I don't know" } %>
       <% end %>
 
       <div class="govuk-button-group">
@@ -64,20 +65,15 @@
     <% if @results.result_limit.positive? && @results.any? %>
       <div class="govuk-!-margin-top-6">
         <h2 class="govuk-heading-s">Current best matches (<%= @results.size %> results)</h2>
-        <ul class="govuk-list govuk-list--bullet">
-          <% @results.all.first(@results.result_limit).each do |result| %>
-            <li>
-              <%= sanitize result.formatted_description %>
-              (<%= result.goods_nomenclature_item_id %>)
-            </li>
-          <% end %>
-        </ul>
+        <%= govuk_list @results.all.first(@results.result_limit).map { |result|
+          safe_join([sanitize(result.formatted_description), ' (', result.goods_nomenclature_item_id, ')'])
+        }, type: :bullet %>
       </div>
     <% end %>
   </div>
 
   <div data-interactive-question-target="thinking" class="govuk-!-display-none">
-    <p class="govuk-body-l">Collecting information...</p>
+    <%= render 'search/interactive_search_thinking' %>
   </div>
 
   <div data-interactive-question-target="dontKnow" class="govuk-!-display-none">

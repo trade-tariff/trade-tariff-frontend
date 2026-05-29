@@ -13,6 +13,7 @@ class SearchController < ApplicationController
     @search.interactive_search = params[:interactive_search] == 'true'
     @search.answers = params[:answers] if params[:answers].present?
     @search.request_id = params[:request_id].presence || SecureRandom.uuid
+    @search.expanded_query = params[:expanded_query].presence
 
     if interactive_search?
       perform_interactive_search
@@ -122,6 +123,7 @@ class SearchController < ApplicationController
       :as_of,
       :interactive_search,
       :request_id,
+      :expanded_query,
       :current_question,
       :current_options,
       answers: %i[question options answer],

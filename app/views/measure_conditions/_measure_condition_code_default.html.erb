@@ -1,25 +1,14 @@
-<table class="govuk-table govuk-!-margin-bottom-2">
-  <caption class="govuk-table__caption govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-3"><%= condition_group[:condition] %></caption>
-  <thead class="govuk-table__head">
-  <tr class="govuk-table__row">
-    <th scope="col" class="govuk-table__header">Document code</th>
-    <th scope="col" class="govuk-table__header">Requirement</th>
-    <th scope="col" class="govuk-table__header">Action</th>
-    <th scope="col" class="govuk-table__header">Duty expression</th>
-  </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-  <% conditions.each do |condition| %>
-    <tr class="govuk-table__row">
-      <td class="govuk-table__cell numerical"><%= condition.document_code %></td>
-      <td class="govuk-table__cell">
-        <%= condition.requirement_text %>
-      </td>
-      <td class="govuk-table__cell"><%= condition.action %></td>
-      <td class="govuk-table__cell numerical">
-        <%= condition.duty_expression.to_s.html_safe %>
-      </td>
-    </tr>
+<%= govuk_table(classes: 'govuk-!-margin-bottom-2') do |table| %>
+  <% table.with_caption(text: condition_group[:condition], classes: 'govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-3') %>
+  <% table.with_head(rows: [['Document code', 'Requirement', 'Action', 'Duty expression']]) %>
+  <% table.with_body do |body| %>
+    <% conditions.each do |condition| %>
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: condition.document_code, numeric: true) %>
+        <% row.with_cell(text: condition.requirement_text) %>
+        <% row.with_cell(text: condition.action) %>
+        <% row.with_cell(numeric: true) { condition.duty_expression.to_s.html_safe } %>
+      <% end %>
+    <% end %>
   <% end %>
-  </tbody>
-</table>
+<% end %>

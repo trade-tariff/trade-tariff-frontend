@@ -50,6 +50,28 @@ RSpec.describe User do
           end
       end
     end
+
+    context 'when response is not found' do
+      before do
+        stub_api_request('http://localhost:3018/uk/user/users').and_return(jsonapi_error_response(404))
+        stub_api_request('http://localhost:3018/uk/user/users', :post).and_return(jsonapi_response(:user, attributes_for(:user)))
+      end
+
+      it 'creates the user and returns it' do
+        expect(response).to be_a(described_class)
+      end
+    end
+
+    context 'when response is not found but create fails' do
+      before do
+        stub_api_request('http://localhost:3018/uk/user/users').and_return(jsonapi_error_response(404))
+        stub_api_request('http://localhost:3018/uk/user/users', :post).and_return(jsonapi_error_response(401))
+      end
+
+      it 'raises the unauthorized error from create' do
+        expect { response }.to raise_error(Faraday::UnauthorizedError)
+      end
+    end
   end
 
   describe '.update' do

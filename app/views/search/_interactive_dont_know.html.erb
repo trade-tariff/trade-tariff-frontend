@@ -8,11 +8,11 @@
 
 <p class="govuk-body">This information might be found on:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>invoice or other billing documents</li>
-  <li>online listings</li>
-  <li>product information documents included in the packaging</li>
-</ul>
+<%= govuk_list [
+  'invoice or other billing documents',
+  'online listings',
+  'product information documents included in the packaging'
+], type: :bullet %>
 
 <h2 class="govuk-heading-m">Next steps</h2>
 
@@ -28,6 +28,6 @@
   <%= govuk_link_to "Cancel", find_commodity_path  %>
 </div>
 
-<%= govuk_section_break(size: 'l', visible: true, classes: 'app-section-break--thick') %>
+<%= govuk_section_break(size: 'l', visible: true, classes: ['app-section-break--thick']) %>
 
 <%= render 'search/other_ways_to_search' %>

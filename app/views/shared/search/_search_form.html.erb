@@ -1,15 +1,16 @@
-<%= form_tag perform_search_path, method: :get, id: "new_search" do |f| %>
+<%= form_tag perform_search_path, method: :post, id: "new_search" do |f| %>
+
+<% if params[:invalid_date].present? && local_assigns[:use_date_picker] %>
+  <%= render 'shared/invalid_date_error_summary' %>
+<% end %>
 
 <% if @search.errors.any? %>
 <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">There is a problem</h2>
     <div class="govuk-error-summary__body">
-      <ul class="govuk-list govuk-error-summary__list">
-        <% @search.errors.each do |error| %>
-          <li><%= govuk_link_to(error.message, '#q') %></li>
-        <% end %>
-      </ul>
+      <% error_items = @search.errors.map { |error| govuk_link_to(error.message, '#q') } %>
+      <%= govuk_list error_items, classes: 'govuk-error-summary__list' %>
     </div>
   </div>
 </div>

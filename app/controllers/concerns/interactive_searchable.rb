@@ -90,7 +90,11 @@ module InteractiveSearchable
 
   def redirect_to_interactive_blocking
     redirect_to perform_search_path(
-      search_params.to_h.merge(interactive_search: 'true', request_id: @search.request_id),
+      search_params.to_h.merge(
+        interactive_search: 'true',
+        request_id: @search.request_id,
+        expanded_query: @results.expanded_query,
+      ).compact,
     )
   end
 
@@ -127,8 +131,9 @@ module InteractiveSearchable
       'interactive_search' => {
         'request_id' => params[:request_id],
         'query' => params[:q],
+        'expanded_query' => params[:expanded_query],
         'answers' => answers + [current],
-      },
+      }.compact,
     }
 
     Search::InternalSearchResult.new([], meta)

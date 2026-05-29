@@ -16,14 +16,7 @@
 
 <p>where:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>
-    <%= glossary_term 'VNM' %> means the value of non-originating materials used
-    in the production of the product
-  </li>
-
-  <li>
-    <%= glossary_term 'EXW' %> means the price paid for the product ex-works
-    (i.e. when it leaves the factory)
-  </li>
-</ul>
+<%= govuk_list [
+  safe_join([glossary_term('VNM'), ' means the value of non-originating materials used in the production of the product']),
+  safe_join([glossary_term('EXW'), ' means the price paid for the product ex-works (i.e. when it leaves the factory)'])
+], type: :bullet %>

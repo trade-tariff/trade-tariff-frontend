@@ -61,7 +61,7 @@
     </ol>
 
     <h2 class="govuk-heading-s" id="leave-feedback">Leave feedback</h2>
-    <p><%= govuk_link_to 'Leave feedback or suggestions for improvements to this service.', feedback_link_url, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text %></p>
+    <p><%= govuk_link_to 'Leave feedback or suggestions for improvements to this service.', feedback_path %></p>
 
     <h2 class="govuk-heading-s" id="getting-help">Getting help from HMRC if you need to find a commodity code</h2>
     <p>If you <%= govuk_link_to 'cannot find the right commodity code for your goods', help_find_commodity_path %>, you can contact HMRC for advice or for a decision on your goods.</p>
@@ -76,10 +76,10 @@
     <p>If your items are packaged in a set to sell and be used together, you should classify them using the most significant item in that set.</p>
     <p>If you cannot work out which item is the most significant, use the commodity code that has the largest numerical value.</p>
     <p>You must classify the items separately if they’re either:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>not packaged as a set for retail sale</li>
-      <li>not to be used together</li>
-    </ul>
+    <%= govuk_list [
+      'not packaged as a set for retail sale',
+      'not to be used together'
+    ], type: :bullet %>
 
     <h2 class="govuk-heading-s" id="made-of">Checking what your goods are made of</h2>
     <p>For certain types of goods, you may need precise details of what your goods are made up of. For these you may want to get advice from an independent laboratory.</p>
@@ -88,20 +88,24 @@
 
     <h2 class="govuk-heading-s" id="difficult-to-classify">Goods that are difficult to classify</h2>
     <p>Some goods are more difficult to classify than others. You can read more on how to classify these goods correctly:</p>
-    <%= help_guide_links %>
+    <%= govuk_list(
+      Rails.application.config.guide_links.map do |link_text, url|
+        govuk_link_to link_text, url, no_underline: true, new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text
+      end,
+      type: :bullet
+    ) %>
 
     <h2 class="govuk-heading-s" id="rules-of-origin">Rules of origin</h2>
     <p>Find out about the key concepts involved in determining a product's origin.</p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <%= govuk_link_to 'Rules of origin glossary', glossary_terms_path %>
-      </li>
-      <li>
-        <%= govuk_link_to 'Duty drawback', rules_of_origin_duty_drawback_path %><br>Find out about duty drawback and the Trade
-        Agreements that include it
-      </li>
-    </ul>
+    <%= govuk_list [
+      govuk_link_to('Rules of origin glossary', glossary_terms_path),
+      safe_join([
+        govuk_link_to('Duty drawback', rules_of_origin_duty_drawback_path),
+        tag.br,
+        'Find out about duty drawback and the Trade Agreements that include it'
+      ])
+    ], type: :bullet %>
     <h2 class="govuk-heading-s" id="ask-a-question">Ask a question</h2>
     <p>If you are unable to find the information you need, you can submit a question using our <%= govuk_link_to 'enquiry form', product_experience_enquiry_form_path %>.</p>
   </div>

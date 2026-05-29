@@ -1,27 +1,25 @@
 <% if measure_conditions_with_guidance.any? %>
   <%= govuk_details(summary_text: 'Guidance for completing CDS Data Element 2/3') do %>
     <div class="govuk-!-font-size-16">
-      <table class="govuk-table govuk-!-margin-bottom-2">
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">Document code</th>
-            <th scope="col" class="govuk-table__header">CDS guidance</th>
-          </tr>
-        </thead>
-
-        <tbody class="govuk-table__body">
-          <% measure_conditions_with_guidance.each do |mc| %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">
-                <%= mc.document_code %>
-              </td>
-              <td class="govuk-table__cell tariff-markdown">
-                <%= mc.guidance_cds_html %>
-              </td>
-            </tr>
+      <%= govuk_table(classes: 'govuk-!-margin-bottom-2') do |table| %>
+        <% table.with_head do |head| %>
+          <% head.with_row do |row| %>
+            <% row.with_cell(text: 'Document code') %>
+            <% row.with_cell(text: 'CDS guidance') %>
           <% end %>
-        </tbody>
-      </table>
+        <% end %>
+
+        <% table.with_body do |body| %>
+          <% measure_conditions_with_guidance.each do |mc| %>
+            <% body.with_row do |row| %>
+              <% row.with_cell(text: mc.document_code) %>
+              <% row.with_cell(classes: 'tariff-markdown') do %>
+                <%= mc.guidance_cds_html %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
     </div>
   <% end %>
 <% end %>

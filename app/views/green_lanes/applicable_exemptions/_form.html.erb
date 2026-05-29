@@ -54,7 +54,7 @@
                                   checked: exemption_checkbox_none?(category_assessment.id) %>
 
           <% if index < @category_assessments.length - 1 %>
-            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+            <%= govuk_section_break(size: 'l', visible: true) %>
           <% end %>
 
         <% end %>

@@ -4,10 +4,10 @@
 
     <p class="govuk-body">This could be because:</p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>the verification link has expired</li>
-      <li>you have switched web browser</li>
-    </ul>
+    <%= govuk_list [
+      'the verification link has expired',
+      'you have switched web browser'
+    ], type: :bullet %>
 
     <p class="govuk-body">
       To resend the verification email, continue to create and manage your tariff watch lists.

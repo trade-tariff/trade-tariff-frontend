@@ -93,6 +93,10 @@ class Search
       meta&.dig('interactive_search', 'query')
     end
 
+    def expanded_query
+      meta&.dig('interactive_search', 'expanded_query')
+    end
+
     def description_intercept
       meta&.dig('description_intercept')
     end

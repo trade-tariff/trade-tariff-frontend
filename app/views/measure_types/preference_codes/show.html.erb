@@ -10,43 +10,37 @@
         About <%= @measure_type.description %> measures
       </h2>
 
-      <table class="govuk-table">
-        <tbody class="govuk-table__body">
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header nw">Measure type</th>
-            <td class="govuk-table__cell">
-              <%= @measure_type.id %>
-            </td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header nw">Description</th>
-            <td class="govuk-table__cell">
+      <%= govuk_table do |table| %>
+        <% table.with_body do |body| %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: 'Measure type', header: true, classes: 'nw') %>
+            <% row.with_cell(text: @measure_type.id) %>
+          <% end %>
+
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: 'Description', header: true, classes: 'nw') %>
+            <% row.with_cell do %>
               <p><%= @measure_type.description %></p>
               <p class="tariff-markdown"><%= @measure_type.details_text %></p>
-            </td>
-          </tr>
+            <% end %>
+          <% end %>
 
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header nw">Trade direction</th>
-            <td class="govuk-table__cell">
-              Import only
-            </td>
-          </tr>
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: 'Trade direction', header: true, classes: 'nw') %>
+            <% row.with_cell(text: 'Import only') %>
+          <% end %>
 
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header nw">Preference code</th>
-            <td class="govuk-table__cell"><%= @preference_code.code %></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">
-              Preference code description
-            </th>
-            <td class="govuk-table__cell">
-              <%= @preference_code.description %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: 'Preference code', header: true, classes: 'nw') %>
+            <% row.with_cell(text: @preference_code.code) %>
+          <% end %>
+
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: 'Preference code description', header: true) %>
+            <% row.with_cell(text: @preference_code.description) %>
+          <% end %>
+        <% end %>
+      <% end %>
 
       <h2 class="govuk-heading-m">About preference codes</h2>
       <div class="govuk-inset-text">
@@ -55,15 +49,10 @@
           into CDS in Data Element 4/17 and in CHIEF in Box 36. A preference code
           is mandatory for all imports where the goods are:
         </p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>
-            entering a free circulation regime (including authorised use)
-          </li>
-          <li>
-            where a claim to tariff preference or quotas is established upon entry
-            to the customs procedure
-          </li>
-        </ul>
+        <%= govuk_list [
+          'entering a free circulation regime (including authorised use)',
+          'where a claim to tariff preference or quotas is established upon entry to the customs procedure'
+        ], type: :bullet %>
         <p>
           The 3-digit code indicates whether a reduction in, or relief from,
           import duty applies. This includes specific duties and other equivalent

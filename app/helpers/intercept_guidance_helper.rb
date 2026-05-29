@@ -44,11 +44,17 @@ private
     GOVUK_MARKDOWN_CLASSES.each do |selector, classes|
       fragment.css(selector).each { |node| append_classes(node, classes) }
     end
+    fragment.css('a').each { |node| apply_new_tab_standard(node) }
 
     fragment.to_html.html_safe
   end
 
   def append_classes(node, classes)
     node['class'] = (node['class'].to_s.split + classes).uniq.join(' ')
+  end
+
+  def apply_new_tab_standard(node)
+    node['target'] = '_blank'
+    node['rel'] = (node['rel'].to_s.split + %w[noopener noreferrer]).uniq.join(' ')
   end
 end

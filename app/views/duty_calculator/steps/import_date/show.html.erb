@@ -12,27 +12,23 @@
     <p class="govuk-body">
       This commodity code is available for these periods:
     </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <% @commodity_validity_periods.each do |period| %>
-        <li>
-          <% if period.end_date.present? %>
-            From <%= period.start_date.to_formatted_s(:long) %> to <%= period.end_date.to_formatted_s(:long) %>
-          <% else %>
-            From <%= period.start_date.to_formatted_s(:long) %> onwards
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
+    <%= govuk_list @commodity_validity_periods.map { |period|
+      if period.end_date.present?
+        safe_join(['From ', period.start_date.to_formatted_s(:long), ' to ', period.end_date.to_formatted_s(:long)])
+      else
+        safe_join(['From ', period.start_date.to_formatted_s(:long), ' onwards'])
+      end
+    }, type: :bullet %>
   <% end %>
   <%= f.govuk_submit %>
 <% end %>
 
 <p class="govuk-body">The duties shown in this service are dependent on both of these:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>the data you enter</li>
-  <li>the tariff information that has been supplied</li>
-</ul>
+<%= govuk_list [
+  'the data you enter',
+  'the tariff information that has been supplied'
+], type: :bullet %>
 
 <p class="govuk-body">It is possible that this data will change over time.</p>
 

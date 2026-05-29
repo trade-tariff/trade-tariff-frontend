@@ -32,11 +32,11 @@
 <p>Trade remedies are an internationally recognised trade policy tool. The WTO sets out rules and guidelines to ensure that countries apply such measures only in justifiable cases where there is a genuine threat to the domestic industry. In most cases, the domestic authorities are required to undertake an investigation to demonstrate and quantify the impact before applying a measure.</p>
 
 <p>Trade remedies are covered by these WTO agreements:</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li><%= govuk_link_to 'the WTO Agreement on the Implementation of Article VI of the GATT', 'https://www.wto.org/english/tratop_e/adp_e/antidum2_e.htm', new_tab: true %></li>
-  <li><%= govuk_link_to 'the WTO Agreement on Subsidies and Countervailing Measures', 'https://www.wto.org/english/tratop_e/scm_e/subs_e.htm', new_tab: true %></li>
-  <li><%= govuk_link_to 'the WTO Agreement on Safeguards', 'https://www.wto.org/english/docs_e/legal_e/25-safeg_e.htm', new_tab: true %></li>
-</ul>
+<%= govuk_list [
+  govuk_link_to('the WTO Agreement on the Implementation of Article VI of the GATT', 'https://www.wto.org/english/tratop_e/adp_e/antidum2_e.htm', new_tab: true),
+  govuk_link_to('the WTO Agreement on Subsidies and Countervailing Measures', 'https://www.wto.org/english/tratop_e/scm_e/subs_e.htm', new_tab: true),
+  govuk_link_to('the WTO Agreement on Safeguards', 'https://www.wto.org/english/docs_e/legal_e/25-safeg_e.htm', new_tab: true),
+], type: :bullet %>
 
 <h2 class="govuk-heading-m" id="usage">How does the UK apply trade remedies?</h2>
 
@@ -56,25 +56,29 @@
 
 <p class="govuk-!-margin-top-2">For safeguards, the tariff shows:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>the country (or countries) to which the anti-dumping or countervailing duty applies</li>
-  <li>the duty liable on top of the standard customs duties and import VAT.</li>
-</ul>
+<%= govuk_list [
+  'the country (or countries) to which the anti-dumping or countervailing duty applies',
+  'the duty liable on top of the standard customs duties and import VAT.'
+], type: :bullet %>
 
 <p class="govuk-!-margin-top-2">In many cases, a safeguard mechanism, which would ordinarily apply a surcharge on your import duties,
   may be waived via the use of a <%= govuk_link_to 'quota', '/howto/quotas' %>, if the quota has not been exhausted. Quotas are listed in the quota section of the import tab.</p>
 
 <p>For trade remedies, the tariff additionally shows:</p>
 
-<ul class="govuk-list govuk-list--bullet">
-  <li>optionally, the exporting company or companies within the affected countries. Duties may be specific to the company, depending on the result of the relevant trade remedy adjudication. Companies are identified by a 4-character additional code. You will need to enter this code onto your declaration.</li>
-  <li>the measure type. The four possible options are:
-    <ul class="govuk-list govuk-list--bullet">
-      <li>definitive anti-dumping duty</li>
-      <li>definitive countervailing duty</li>
-      <li>provisional anti-dumping duty</li>
-      <li>provisional countervailing duty</li>
-    </ul>
-    This notice explains in detail <%= govuk_link_to 'what each remedy measure means', 'https://www.gov.uk/government/publications/notice-376-anti-dumping-and-countervailing-duties/notice-376-anti-dumping-and-countervailing-duties', new_tab: true %>.</li>
-  <li>any conditions, such as a requirement for documentation that might influence the duty payable.</li>
-</ul>
+<%= govuk_list [
+  'optionally, the exporting company or companies within the affected countries. Duties may be specific to the company, depending on the result of the relevant trade remedy adjudication. Companies are identified by a 4-character additional code. You will need to enter this code onto your declaration.',
+  safe_join([
+    'the measure type. The four possible options are:',
+    govuk_list([
+      'definitive anti-dumping duty',
+      'definitive countervailing duty',
+      'provisional anti-dumping duty',
+      'provisional countervailing duty'
+    ], type: :bullet),
+    ' This notice explains in detail ',
+    govuk_link_to('what each remedy measure means', 'https://www.gov.uk/government/publications/notice-376-anti-dumping-and-countervailing-duties/notice-376-anti-dumping-and-countervailing-duties', new_tab: true),
+    '.'
+  ]),
+  'any conditions, such as a requirement for documentation that might influence the duty payable.'
+], type: :bullet %>

@@ -45,6 +45,30 @@ RSpec.describe AuthenticationError do
     end
   end
 
+  describe '#not_found?' do
+    context 'when reason is "not_found"' do
+      it 'returns true' do
+        error = described_class.new('Not found', reason: 'not_found')
+
+        expect(error.not_found?).to be true
+      end
+    end
+
+    context 'when reason is not "not_found"' do
+      it 'returns false for invalid_token' do
+        error = described_class.new('Invalid token', reason: 'invalid_token')
+
+        expect(error.not_found?).to be false
+      end
+
+      it 'returns false for nil' do
+        error = described_class.new('Error', reason: nil)
+
+        expect(error.not_found?).to be false
+      end
+    end
+  end
+
   describe '#should_clear_cookies?' do
     context 'when reason requires cookie clearing' do
       it 'returns true for not_in_group' do

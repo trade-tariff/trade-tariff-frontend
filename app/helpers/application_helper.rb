@@ -156,25 +156,12 @@ module ApplicationHelper
     link_description = "work out the duties and taxes applicable to the import of commodity #{code}"
     link_url = import_date_path(commodity_code: declarable_code)
 
-    link_to link_description, link_url, id: 'duty-calculator-link'
+    govuk_link_to link_description, link_url, id: 'duty-calculator-link'
   end
 
   def month_name_and_year(month, year)
     # Output examples: "March 2022", "2022"
     month.present? ? "#{Date::MONTHNAMES[month.to_i]} #{year}" : year.to_s
-  end
-
-  def subscriptions_page?
-    request.path.start_with?('/subscriptions')
-  end
-
-  def feedback_link_url
-    if subscriptions_page?
-      feedback_path
-    else
-      page_context = ERB::Util.url_encode(request.path)
-      "https://surveys.transformuk.com/s3/17fead99a348?page_context=#{page_context}"
-    end
   end
 
   # Checks whether a Flipper feature flag is enabled for the current actor.

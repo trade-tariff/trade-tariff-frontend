@@ -4,19 +4,19 @@
 
 <div data-guided-search-validation-target="formContent">
 
+<%= render 'shared/invalid_date_error_summary' if params[:invalid_date].present? %>
+
 <% if @search.errors.any? %>
 <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
     <h2 class="govuk-error-summary__title">There is a problem</h2>
     <div class="govuk-error-summary__body">
-      <ul class="govuk-list govuk-error-summary__list">
-        <% @search.errors.each do |error| %>
-          <li><%= govuk_link_to(error.message, '#guided_q') %></li>
-        <% end %>
-      </ul>
+      <% error_items = @search.errors.map { |error| govuk_link_to(error.message, '#guided_q') } %>
+      <%= govuk_list error_items, classes: 'govuk-error-summary__list' %>
     </div>
   </div>
 </div>
+
 <% end %>
 
 <% if @search.day_month_and_year_set? %>
@@ -127,7 +127,4 @@
 
 </div>
 
-<div data-guided-search-validation-target="thinking" class="govuk-!-display-none">
-  <p class="govuk-body-l">Collecting information...</p>
-</div>
 <% end %>

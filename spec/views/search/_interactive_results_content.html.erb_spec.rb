@@ -1,5 +1,5 @@
 RSpec.describe 'search/_interactive_results_content', type: :view do
-  subject { render partial: 'search/interactive_results_content' }
+  subject(:rendered_partial) { render partial: 'search/interactive_results_content' }
 
   before do
     assign(:results, results)
@@ -24,27 +24,33 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
   let(:results) do
     Search::InternalSearchResult.new(
-      [
-        {
-          'goods_nomenclature_item_id' => '2007919930',
-          'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
-          'goods_nomenclature_class' => 'Commodity',
-          'description' => 'Containing less than 70% by weight of sugar',
-          'formatted_description' => 'Containing less than 70% by weight of sugar',
-          'self_text' => 'Citrus marmalade and jam products with 8703.10 and 1000 cm<sup>3</sup>',
-          'classification_description' => 'Citrus fruit jam<br>with less than 70% sugar and 5 cm<sub>3</sub>',
-          'full_description' => 'Citrus fruit jam with less than 70% sugar',
-          'heading_description' => 'Jams and marmalades',
-          'declarable' => true,
-          'score' => 15.5,
-          'confidence' => 'strong',
-        },
-      ],
+      [result_attrs],
       meta,
     )
   end
+  let(:result_attrs) do
+    {
+      'goods_nomenclature_item_id' => '2007919930',
+      'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+      'goods_nomenclature_class' => 'Commodity',
+      'description' => 'Containing less than 70% by weight of sugar',
+      'formatted_description' => 'Containing less than 70% by weight of sugar',
+      'self_text' => 'Citrus marmalade and jam products with 8703.10 and 1000 cm<sup>3</sup>',
+      'classification_description' => 'Citrus fruit jam<br>with less than 70% sugar and 5 cm<sub>3</sub>',
+      'full_description' => 'Citrus fruit jam with less than 70% sugar',
+      'heading_description' => 'Jams and marmalades',
+      'declarable' => true,
+      'score' => 15.5,
+      'confidence' => 'strong',
+    }
+  end
 
-  it { is_expected.to have_text('The results below are based on the details you supplied') }
+  it do
+    expect(rendered_partial).to have_text(
+      'The results below are based on the details you supplied. View search details to see initial search term and following questions and answers. This information is helpful if you need to contact HMRC for more information.',
+      normalize_ws: true,
+    )
+  end
 
   describe 'search playback' do
     it { is_expected.to have_css('details .govuk-details__summary-text', text: 'View search details') }
@@ -125,11 +131,69 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
     it { is_expected.to have_css('.confidence-indicator') }
   end
 
+  describe 'other results divider' do
+    context 'when strong results are followed by other results' do
+      let(:results) do
+        Search::InternalSearchResult.new(
+          [
+            result_attrs,
+            result_attrs.merge(
+              'goods_nomenclature_item_id' => '2007919940',
+              'classification_description' => 'Other citrus fruit jam',
+              'confidence' => 'good',
+            ),
+          ],
+          meta,
+        )
+      end
+
+      it 'separates the remaining results with an Other search results heading', :aggregate_failures do
+        render partial: 'search/interactive_results_content'
+
+        expect(rendered).to have_css('.interactive-results__other-heading', text: 'Other search results')
+        expect(rendered.index('Citrus fruit jam')).to be < rendered.index('Other search results')
+        expect(rendered.index('Other search results')).to be < rendered.index('Other citrus fruit jam')
+      end
+    end
+
+    context 'when every result is strong' do
+      it 'does not render the divider' do
+        render partial: 'search/interactive_results_content'
+
+        expect(rendered).not_to have_css('.interactive-results__other-heading')
+      end
+    end
+  end
+
   describe 'confidence explainer' do
     it { is_expected.to have_text('Strong result') }
     it { is_expected.to have_text('Good result') }
     it { is_expected.to have_text('Possible result') }
-    it { is_expected.to have_text('Unlikely result') }
+    it { is_expected.not_to have_text('Low confidence, included for completeness') }
+  end
+
+  describe 'actions' do
+    it { is_expected.to have_link('Start search again', href: find_commodity_path) }
+    it { is_expected.to have_link('Cancel', href: find_commodity_path) }
+
+    it 'renders the actions before the confidence explainer' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered.index('Start search again')).to be < rendered.index('How we calculate confidence')
+    end
+  end
+
+  describe 'other ways to search' do
+    it { is_expected.to have_css('h2', text: 'Other ways to search for a commodity') }
+    it { is_expected.to have_link('Keyword or commodity code', href: find_commodity_path) }
+    it { is_expected.to have_link('Goods classifications', href: browse_sections_path) }
+    it { is_expected.to have_link('A-Z product index', href: a_z_index_path(letter: 'a')) }
+
+    it 'renders after the confidence explainer' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered.index('How we calculate confidence')).to be < rendered.index('Other ways to search for a commodity')
+    end
   end
 
   describe 'sidebar' do

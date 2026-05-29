@@ -10,6 +10,10 @@ class AuthenticationError < StandardError
     reason == 'expired'
   end
 
+  def not_found?
+    reason == 'not_found'
+  end
+
   def should_clear_cookies?
     %w[not_in_group invalid_token missing_jwks_keys].include?(reason)
   end

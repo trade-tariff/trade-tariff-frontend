@@ -42,64 +42,30 @@
       <%= render partial: 'exchange_rates/download_files', locals: { files: @exchange_rate_collection.exchange_rate_files } %>
     <% end %>
 
-    <table class="govuk-table govuk-!-margin-top-6">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">
-            Country/territory
-          </th>
-
-          <th scope="col" class="govuk-table__header">
-            Currency
-          </th>
-
-          <th scope="col" class="govuk-table__header">
-            Currency code
-          </th>
-
-          <th scope="col" class="govuk-table__header govuk-table__header">
-            Currency units per £1
-          </th>
-
-          <th scope="col" class="govuk-table__header">
-            Start date
-          </th>
-
-          <th scope="col" class="govuk-table__header">
-            End date
-          </th>
-        </tr>
-      </thead>
-
-      <tbody class="govuk-table__body">
-        <% @exchange_rate_collection.exchange_rates.each do |exchange_rate| %>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
-              <%= exchange_rate.country %>
-            </td>
-
-            <td class="govuk-table__cell">
-              <%= exchange_rate.currency_description %>
-            </td>
-
-            <td class="govuk-table__cell">
-              <%= exchange_rate.currency_code.upcase %>
-            </td>
-
-            <td class="govuk-table__cell govuk-table__cell">
-              <%= exchange_rate.rate %>
-            </td>
-
-            <td class="govuk-table__cell">
-              <%= exchange_rate.formatted_validity_start_date %>
-            </td>
-
-            <td class="govuk-table__cell">
-              <%= exchange_rate.formatted_validity_end_date %>
-            </td>
-          </tr>
+    <%= govuk_table(classes: 'govuk-!-margin-top-6') do |table| %>
+      <% table.with_head do |head| %>
+        <% head.with_row do |row| %>
+          <% row.with_cell(text: 'Country/territory') %>
+          <% row.with_cell(text: 'Currency') %>
+          <% row.with_cell(text: 'Currency code') %>
+          <% row.with_cell(text: 'Currency units per £1') %>
+          <% row.with_cell(text: 'Start date') %>
+          <% row.with_cell(text: 'End date') %>
         <% end %>
-      </tbody>
-    </table>
+      <% end %>
+
+      <% table.with_body do |body| %>
+        <% @exchange_rate_collection.exchange_rates.each do |exchange_rate| %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: exchange_rate.country) %>
+            <% row.with_cell(text: exchange_rate.currency_description) %>
+            <% row.with_cell(text: exchange_rate.currency_code.upcase) %>
+            <% row.with_cell(text: exchange_rate.rate) %>
+            <% row.with_cell(text: exchange_rate.formatted_validity_start_date) %>
+            <% row.with_cell(text: exchange_rate.formatted_validity_end_date) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
 </div>
