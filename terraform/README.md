@@ -1,6 +1,7 @@
 # trade-tariff-frontend terraform
 
 Terraform to deploy the service into AWS.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -19,7 +20,7 @@ Terraform to deploy the service into AWS.
 
 | Name | Source | Version |
 | ---- | ------ | ------- |
-| <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | aws/ecs-service-v3.0.1 |
+| <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | HMRC-2248-add-slack-observability-topic |
 
 ## Resources
 
@@ -33,6 +34,7 @@ Terraform to deploy the service into AWS.
 | [aws_secretsmanager_secret_version.ecs_tls_certificate](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
 | [aws_secretsmanager_secret_version.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
 | [aws_security_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_group) | data source |
+| [aws_sns_topic.slack_observability_topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/sns_topic) | data source |
 | [aws_sns_topic.slack_topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/sns_topic) | data source |
 | [aws_subnets.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnets) | data source |
 | [aws_vpc.vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
@@ -44,6 +46,7 @@ Terraform to deploy the service into AWS.
 | <a name="input_cpu"></a> [cpu](#input\_cpu) | CPU units to use. | `number` | n/a | yes |
 | <a name="input_docker_tag"></a> [docker\_tag](#input\_docker\_tag) | Image tag to use. | `string` | n/a | yes |
 | <a name="input_enable_alarms"></a> [enable\_alarms](#input\_enable\_alarms) | Whether to enable CloudWatch alarms for the service. Defaults to `true`. | `bool` | `true` | no |
+| <a name="input_enable_observability_alerts"></a> [enable\_observability\_alerts](#input\_enable\_observability\_alerts) | n/a | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Deployment environment. | `string` | n/a | yes |
 | <a name="input_max_capacity"></a> [max\_capacity](#input\_max\_capacity) | Largest number of tasks the service can scale-out to. | `number` | `5` | no |
 | <a name="input_memory"></a> [memory](#input\_memory) | Memory to allocate in MB. Powers of 2 only. | `number` | n/a | yes |
