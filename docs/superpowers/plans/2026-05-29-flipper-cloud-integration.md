@@ -60,9 +60,10 @@
 
   ```ruby
   gem 'flipper-cloud'
-  gem 'flipper-rails'
   gem 'flipper-redis'
   ```
+
+  Note: `flipper-rails` (0.1.0) is an old third-party gem incompatible with flipper-cloud 1.4.2 — do not add it. The `flipper` gem handles its own Rails lifecycle via the initializer in Task 7.
 
 - [ ] **Step 2: Install**
 
