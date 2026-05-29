@@ -16,14 +16,14 @@
       </p>
 
       <div data-controller="chapter-selection">
-        <%= form_with url: subscribe_myott_stop_press_path, method: :post, local: true do %>
+        <%= form_with url: subscribe_myott_stop_press_path, method: :post, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
           <%= render 'details_selected_sections_chapters', selected_sections_chapters: @selected_sections_chapters %>
           <%= govuk_link_to "Edit your chapter preferences", edit_myott_stop_press_preferences_path %>
           <%= govuk_section_break(size: 'l', visible: true) %>
 
           <h2 class="govuk-heading-m">Confirm your selection</h2>
           <p>If you are happy with the selected chapters, continue to confirm your selection.</p>
-          <p><%= submit_tag "Continue", class: "govuk-button govuk-!-margin-top-4" %></p>
+          <p><%= f.govuk_submit class: "govuk-!-margin-top-4" %></p>
         <% end %>
       </div>
     </div>
