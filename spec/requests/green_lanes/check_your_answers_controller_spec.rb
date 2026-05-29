@@ -1,6 +1,8 @@
 RSpec.describe GreenLanes::CheckYourAnswersController,
                type: :request,
                vcr: { cassette_name: 'green_lanes/check_your_answers', record: :new_episodes } do
+  before { Flipper.enable(:green_lanes) }
+
   describe 'GET #new' do
     before { make_request }
 

@@ -9,6 +9,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     allow(GeographicalArea).to receive(:find).with('JP').and_return japan
     allow(RulesOfOrigin::Scheme).to receive(:for_heading_and_country).with(commodity.code, 'JP')
                                                  .and_return schemes
+    Flipper.enable(:roo_wizard)
   end
 
   let(:commodity) { build(:commodity, :with_import_trade_summary) }

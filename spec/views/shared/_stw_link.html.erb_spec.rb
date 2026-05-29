@@ -5,8 +5,7 @@ RSpec.describe 'shared/_stw_link', type: :view do
 
   before do
     assign :search, Search.new
-
-    allow(TradeTariffFrontend).to receive(:single_trade_window_linking_enabled?).and_return(single_trade_window_linking_enabled?)
+    Flipper.enable(:single_trade_window) if single_trade_window_linking_enabled?
   end
 
   let :render_page do

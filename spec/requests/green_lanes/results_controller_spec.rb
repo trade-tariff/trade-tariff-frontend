@@ -4,7 +4,7 @@ RSpec.describe GreenLanes::ResultsController, type: :request do
   subject { make_request && response }
 
   before do
-    allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return true
+    Flipper.enable(:green_lanes)
   end
 
   describe 'when users try to directly access the result page it redirects to the start page' do

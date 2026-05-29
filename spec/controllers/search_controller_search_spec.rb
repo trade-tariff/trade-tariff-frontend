@@ -305,7 +305,7 @@ RSpec.describe SearchController, type: :controller do
       end
 
       before do
-        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
+        Flipper.enable(:interactive_search)
       end
 
       context 'when backend returns a pending question' do

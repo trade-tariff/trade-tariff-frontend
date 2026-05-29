@@ -11,6 +11,7 @@ RSpec.describe 'webchat_message/_footer', type: :view do
     context 'when ENV WEBCHAT_URL is set' do
       before do
         allow(TradeTariffFrontend).to receive(:webchat_url).and_return('http://webchat_url_test')
+        Flipper.enable(:webchat)
       end
 
       it 'displays the webchat link' do

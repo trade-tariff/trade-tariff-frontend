@@ -139,7 +139,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
     it { is_expected.to have_link('Ask for help on classifying your goods') }
 
     context 'when webchat is enabled' do
-      before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(true) }
+      before { Flipper.enable(:webchat) }
 
       it { is_expected.to have_css('.govuk-details__summary-text', text: 'Get support') }
       it { is_expected.to have_css('p.govuk-body', text: 'Webchat: Ask HMRC online') }
@@ -149,8 +149,6 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
     end
 
     context 'when webchat is disabled' do
-      before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(false) }
-
       it { is_expected.not_to have_css('.govuk-details__summary-text', text: 'Get support') }
     end
   end

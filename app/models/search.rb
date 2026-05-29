@@ -29,7 +29,7 @@ class Search
   end
 
   def perform
-    if interactive_search && TradeTariffFrontend.interactive_search_enabled?
+    if interactive_search && Flipper.enabled?(:interactive_search, Current.flipper_actor)
       perform_internal_search
     else
       perform_v2_search

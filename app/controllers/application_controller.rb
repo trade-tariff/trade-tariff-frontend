@@ -128,7 +128,7 @@ class ApplicationController < ActionController::Base
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
                    faq_send_feedback_path: green_lanes_send_feedback_path }
 
-    if TradeTariffFrontend.interactive_search_enabled?
+    if feature_enabled?(:interactive_search)
       @path_info[:interactive_search_suggestions_path] = interactive_search_suggestions_path(format: :json)
     end
   end
@@ -138,7 +138,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_green_lanes_enabled
-    unless TradeTariffFrontend.green_lanes_enabled?
+    unless feature_enabled?(:green_lanes)
       raise TradeTariffFrontend::FeatureUnavailable
     end
   end

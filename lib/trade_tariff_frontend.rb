@@ -102,10 +102,6 @@ module TradeTariffFrontend
     )
   end
 
-  def single_trade_window_linking_enabled?
-    ENV.fetch('STW_ENABLED', 'false') == 'true'
-  end
-
   def revision
     @revision ||= `cat REVISION 2>/dev/null || echo 'development'`.strip
   end
@@ -118,14 +114,6 @@ module TradeTariffFrontend
     ENV['WELSH'].to_s == 'true'
   end
 
-  def roo_wizard?
-    ENV['ROO_WIZARD'] == 'true' && TradeTariffFrontend::ServiceChooser.uk?
-  end
-
-  def webchat_enabled?
-    webchat_url.present?
-  end
-
   def webchat_url
     configured_url = ENV['WEBCHAT_URL']
     return if configured_url.blank?
@@ -136,14 +124,6 @@ module TradeTariffFrontend
 
   def legacy_results_to_show
     ENV.fetch('LEGACY_RESULTS_TO_SHOW', '5').to_i
-  end
-
-  def green_lanes_enabled?
-    ENV['GREEN_LANES_ENABLED'].to_s == 'true'
-  end
-
-  def interactive_search_enabled?
-    !production? && !ServiceChooser.xi?
   end
 
   def green_lanes_api_token

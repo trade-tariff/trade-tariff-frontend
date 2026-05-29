@@ -3,6 +3,7 @@ require 'spec_helper'
 RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'green_lanes/wizard', record: :new_episodes } do
   before do
     allow(TradeTariffFrontend::ServiceChooser).to receive(:xi?).and_return(true)
+    Flipper.enable(:green_lanes)
   end
 
   let(:date) { { day: '21', month: '10', year: '2024' } }

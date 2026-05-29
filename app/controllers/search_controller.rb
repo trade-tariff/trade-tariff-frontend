@@ -29,7 +29,7 @@ class SearchController < ApplicationController
   end
 
   def interactive_suggestions
-    return suggestions unless TradeTariffFrontend.interactive_search_enabled?
+    return suggestions unless feature_enabled?(:interactive_search)
 
     search_term = Regexp.escape(params[:term].to_s.strip)
 

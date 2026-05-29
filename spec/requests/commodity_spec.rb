@@ -11,6 +11,9 @@ RSpec.describe 'Commodity page', type: :request do
     allow(GeographicalArea).to receive(:all).and_return([build(:geographical_area, id: 'AD', description: 'Andorra')])
     allow(RulesOfOrigin::Scheme).to receive_messages(for_heading_and_country: [], all: build_list(:rules_of_origin_scheme, 1))
 
+    Flipper.enable(:webchat)
+    allow(TradeTariffFrontend).to receive(:webchat_url).and_return('https://www.tax.service.gov.uk/ask-hmrc/chat/online-services-helpdesk')
+
     TradeTariffFrontend::ServiceChooser.service_choice = nil
   end
 

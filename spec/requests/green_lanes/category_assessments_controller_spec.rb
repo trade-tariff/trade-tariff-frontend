@@ -4,7 +4,8 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
   subject { make_request && response }
 
   before do
-    allow(TradeTariffFrontend).to receive_messages(green_lanes_enabled?: true, green_lanes_api_token: '')
+    Flipper.enable(:green_lanes)
+    allow(TradeTariffFrontend).to receive(:green_lanes_api_token).and_return('')
     allow(GeographicalArea).to receive(:all).and_return countries
   end
 
@@ -92,9 +93,7 @@ RSpec.describe GreenLanes::CategoryAssessmentsController, type: :request do
     end
 
     context 'when green lanes is not allowed' do
-      before do
-        allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return false
-      end
+      before { Flipper.disable(:green_lanes) }
 
       let(:make_request) { get green_lanes_category_assessments_path }
 

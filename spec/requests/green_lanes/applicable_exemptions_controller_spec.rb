@@ -5,6 +5,8 @@ RSpec.describe GreenLanes::ApplicableExemptionsController,
                vcr: { cassette_name: 'green_lanes/applicable_exemptions', record: :new_episodes } do
   subject { make_request && response }
 
+  before { Flipper.enable(:green_lanes) }
+
   let(:commodity_code) { '4114109000' }
   let(:country_of_origin) { 'UA' }
   let(:moving_date) { '2024-05-29' }
