@@ -88,4 +88,46 @@ RSpec.describe ApplicationController, type: :controller do
       expect(captured_actor).to be_a(Flipper::AnonymousActor)
     end
   end
+
+  describe '#migrate_anonymous_flipper_actor' do
+    let(:anonymous_uuid) { 'anon-uuid-999' }
+    let(:user_id)        { 'user@example.com' }
+    let(:anonymous_actor) { Flipper::AnonymousActor.new(anonymous_uuid) }
+    let(:user_actor)      { Flipper::UserActor.new(user_id) }
+
+    before do
+      cookies[:flipper_anonymous_id] = anonymous_uuid
+      allow(controller).to receive(:current_user_id).and_return(user_id)
+    end
+
+    context 'when the anonymous actor has opted into a feature' do
+      before { Flipper.enable_actor(:some_feature, anonymous_actor) }
+
+      it 'enables the feature for the user actor' do
+        get :index
+        expect(Flipper.enabled?(:some_feature, user_actor)).to be true
+      end
+
+      it 'clears the anonymous cookie' do
+        get :index
+        expect(cookies[:flipper_anonymous_id]).to be_blank
+      end
+    end
+
+    context 'when the anonymous actor has no opt-ins' do
+      it 'clears the anonymous cookie' do
+        get :index
+        expect(cookies[:flipper_anonymous_id]).to be_blank
+      end
+    end
+
+    context 'when current_user_id is nil (anonymous request)' do
+      before { allow(controller).to receive(:current_user_id).and_return(nil) }
+
+      it 'does not clear the anonymous cookie' do
+        get :index
+        expect(cookies[:flipper_anonymous_id]).to eq(anonymous_uuid)
+      end
+    end
+  end
 end

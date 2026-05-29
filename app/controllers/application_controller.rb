@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   before_action :set_search
   before_action :bots_no_index_if_historical
   before_action :set_current_flipper_actor
+  before_action :migrate_anonymous_flipper_actor
 
   layout :set_layout
 
@@ -177,6 +178,20 @@ class ApplicationController < ActionController::Base
 
   def set_current_flipper_actor
     Current.flipper_actor = current_flipper_actor
+  end
+
+  def migrate_anonymous_flipper_actor
+    return unless current_user_id
+    return unless cookies[:flipper_anonymous_id].present?
+
+    anonymous_actor = Flipper::AnonymousActor.new(cookies[:flipper_anonymous_id])
+    user_actor      = Flipper::UserActor.new(current_user_id)
+
+    Flipper.features.each do |feature|
+      feature.enable_actor(user_actor) if feature.enabled?(anonymous_actor)
+    end
+
+    cookies.delete(:flipper_anonymous_id)
   end
 
   def current_flipper_actor
