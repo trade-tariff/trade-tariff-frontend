@@ -391,4 +391,36 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { expect(helper.feedback_link_url).to eq('https://surveys.transformuk.com/s3/17fead99a348?page_context=%2Fsearch') }
     end
   end
+
+  describe '#feature_enabled?' do
+    context 'when the flag is disabled' do
+      it 'returns false' do
+        expect(helper.feature_enabled?(:my_feature)).to be false
+      end
+    end
+
+    context 'when the flag is enabled for everyone' do
+      before { Flipper.enable(:my_feature) }
+
+      it 'returns true' do
+        expect(helper.feature_enabled?(:my_feature)).to be true
+      end
+    end
+
+    context 'when the flag is enabled only for a specific actor' do
+      let(:actor) { Flipper::UserActor.new('user-42') }
+
+      before { Flipper.enable_actor(:my_feature, actor) }
+
+      it 'returns false when Current.flipper_actor is nil' do
+        Current.flipper_actor = nil
+        expect(helper.feature_enabled?(:my_feature)).to be false
+      end
+
+      it 'returns true when Current.flipper_actor matches' do
+        Current.flipper_actor = actor
+        expect(helper.feature_enabled?(:my_feature)).to be true
+      end
+    end
+  end
 end

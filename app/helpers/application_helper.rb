@@ -176,4 +176,8 @@ module ApplicationHelper
       "https://surveys.transformuk.com/s3/17fead99a348?page_context=#{page_context}"
     end
   end
+
+  def feature_enabled?(flag)
+    Flipper.enabled?(flag.to_sym, Current.flipper_actor)
+  end
 end
