@@ -50,6 +50,7 @@ gem 'redis'
 
 # Feature Flags
 gem 'flipper-cloud'
+gem 'flipper-rails', require: false
 gem 'flipper-redis'
 
 # AWS
