@@ -173,26 +173,26 @@ class ApplicationController < ActionController::Base
   alias_method :handle_timeout_error, :raise_internal_server_error
   alias_method :handle_server_error, :raise_internal_server_error
 
+  private
+
   def set_current_flipper_actor
     Current.flipper_actor = current_flipper_actor
   end
 
   def current_flipper_actor
-    if authenticated?
-      Flipper::UserActor.new(current_user_id)
+    user_id = current_user_id
+    if user_id
+      Flipper::UserActor.new(user_id)
     else
       Flipper::AnonymousActor.new(anonymous_flipper_id)
     end
   end
 
-  def authenticated?
-    cookies[TradeTariffFrontend.id_token_cookie_name].present?
-  end
-
   def current_user_id
-    return nil unless authenticated?
-
     token = cookies[TradeTariffFrontend.id_token_cookie_name]
+    return nil if token.blank?
+
+    # Signature verification is done by the identity provider; we only need the claims.
     payload, = JWT.decode(token, nil, false)
     payload['email'] || payload['sub']
   rescue JWT::DecodeError, ArgumentError
@@ -205,8 +205,9 @@ class ApplicationController < ActionController::Base
     uuid = SecureRandom.uuid
     cookies[:flipper_anonymous_id] = {
       value: uuid,
-      max_age: 1.year.seconds.to_i,
+      max_age: 1.year.to_i,
       httponly: true,
+      secure: Rails.env.production?,
     }
     uuid
   end
