@@ -246,6 +246,7 @@ en:
       classification: Changes to classification
       unsubscribe: Unsubscribe
   live_issues:
+    page_title: Live Issues log
     title: Live issues log
     empty: No live issues match the selected filters.
     results:
@@ -260,7 +261,7 @@ en:
       sort_by: Sort by
       status: Status
       apply: Apply
-      clear: Clear filters
+      clear: Clear all
       active_heading: Active filters and sorting
       sort_chip: "× Sort by: %{label}"
       status_chip: "× Status: %{label}"
@@ -282,6 +283,7 @@ en:
       recommendation: Recommendation
       date_of_effect: Date of effect
       not_available: Not available
+      none: None
     commodities:
       none: None
       count:

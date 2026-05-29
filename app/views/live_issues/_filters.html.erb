@@ -1,14 +1,14 @@
-<details class="govuk-details govuk-!-margin-bottom-4 live-issues__filter-panel" <%= 'open' if @status_filters.present? || @applied_sort.present? %>>
+<details class="govuk-details govuk-!-margin-bottom-4 live-issues__filter-panel">
   <summary class="govuk-details__summary">
     <span class="govuk-details__summary-text"><%= t('live_issues.filters.summary') %></span>
     <span class="govuk-!-margin-left-3 live-issues__result-count"><%= t('live_issues.results.count', count: @live_issues_count) %></span>
   </summary>
 
-  <div class="govuk-details__text">
+  <div class="govuk-details__text app-c-filter-panel__content">
     <%= form_with url: live_issues_path, method: :get, local: true do %>
       <fieldset class="govuk-fieldset govuk-!-margin-bottom-4">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-          <%= t('live_issues.filters.sort_by') %>
+          <h2 class="govuk-fieldset__heading"><%= t('live_issues.filters.sort_by') %></h2>
         </legend>
 
         <div class="govuk-radios govuk-radios--small">
@@ -23,7 +23,7 @@
 
       <fieldset class="govuk-fieldset govuk-!-margin-bottom-4">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-          <%= t('live_issues.filters.status') %>
+          <h2 class="govuk-fieldset__heading"><%= t('live_issues.filters.status') %></h2>
         </legend>
 
         <div class="govuk-checkboxes govuk-checkboxes--small">
@@ -36,17 +36,13 @@
         </div>
       </fieldset>
 
-      <div class="govuk-button-group">
-        <%= button_tag t('live_issues.filters.apply'), type: 'submit', name: nil, class: 'govuk-button govuk-!-margin-bottom-0', data: { module: 'govuk-button' } %>
+      <div class="govuk-button-group live-issues__filter-actions">
+        <%= button_tag t('live_issues.filters.apply'), type: 'submit', name: nil, class: 'govuk-button', data: { module: 'govuk-button' } %>
         <%= govuk_link_to t('live_issues.filters.clear'), live_issues_path, no_visited_state: true %>
       </div>
     <% end %>
   </div>
 </details>
-
-<p class="govuk-body-s live-issues__showing-count">
-  <%= t('live_issues.results.showing', count: @live_issues_count) %>
-</p>
 
 <% if @sort.present? || @status_filters.present? %>
   <div class="govuk-!-margin-bottom-4 live-issues__active-filters">

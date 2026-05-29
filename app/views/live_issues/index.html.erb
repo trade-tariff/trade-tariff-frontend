@@ -1,3 +1,5 @@
+<% content_for :title, "#{t('live_issues.page_title')} | #{default_title}" %>
+
 <%= page_header do %>
   <h1 class="govuk-heading-xl">
     <%= t('live_issues.title') %>
@@ -18,7 +20,7 @@
       <% end %>
     </div>
 
-    <%= paginate @live_issues %>
+    <%= paginate @live_issues, window: 0 %>
   <% else %>
     <p class="govuk-body"><%= t('live_issues.empty') %></p>
   <% end %>

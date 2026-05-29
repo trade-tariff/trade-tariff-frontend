@@ -46,6 +46,7 @@ RSpec.describe 'Live issues log', :js, type: :feature do
     expect(page).to have_checked_field('Last updated (newest)')
     expect(page).to have_unchecked_field('Active')
     expect(page).to have_css('.live-issues__result-count', text: '3 results')
+    expect(page).to have_no_css('.live-issues__showing-count')
     expect(page).to have_css('.live-issues__active-filters-heading', text: 'Active filters and sorting')
     expect(page).to have_css('.live-issues__active-filter', text: 'Sort by: Last updated (newest)')
   end
@@ -59,10 +60,12 @@ RSpec.describe 'Live issues log', :js, type: :feature do
     click_button 'Apply'
 
     expect(page).to have_current_path(live_issues_path(sort: 'updated_asc', status: %w[active]), ignore_query: false)
+    expect(page).to have_no_css('details.live-issues__filter-panel[open]')
     expect(page).to have_checked_field('Last updated (oldest)')
     expect(page).to have_checked_field('Active')
     expect(page).to have_css('.live-issues__active-filter', text: 'Sort by: Last updated (oldest)')
     expect(page).to have_css('.live-issues__active-filter', text: 'Status: Active issue')
+    expect(page).to have_link('Clear all', href: live_issues_path)
     expect(page).to have_css('.govuk-summary-card', count: 2)
     expect(page).to have_css('.govuk-summary-card:first-of-type', text: 'Active older')
     expect(page).to have_no_content('Resolved issue')
@@ -70,7 +73,7 @@ RSpec.describe 'Live issues log', :js, type: :feature do
 
   context 'with more than one page of live issues' do
     let(:live_issues) do
-      (1..5).map do |index|
+      (1..20).map do |index|
         build(
           :live_issue,
           title: "Issue #{index}",
@@ -83,15 +86,16 @@ RSpec.describe 'Live issues log', :js, type: :feature do
     it 'paginates the card results' do
       visit live_issues_path
 
-      expect(page).to have_css('.live-issues__result-count', text: '5 results')
+      expect(page).to have_css('.live-issues__result-count', text: '20 results')
       expect(page).to have_css('.govuk-summary-card', count: 4)
       expect(page).to have_css('.govuk-pagination')
+      expect(page).to have_css('.govuk-pagination__item--ellipsis', text: '⋯')
 
       click_link 'Next'
 
       expect(page).to have_current_path(live_issues_path(page: 2), ignore_query: false)
-      expect(page).to have_css('.govuk-summary-card', count: 1)
-      expect(page).to have_content('Issue 1')
+      expect(page).to have_css('.govuk-summary-card', count: 4)
+      expect(page).to have_css('.govuk-pagination__item--ellipsis', text: '⋯')
     end
   end
 end

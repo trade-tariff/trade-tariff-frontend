@@ -15,7 +15,13 @@ module LiveIssueHelper
   }.freeze
 
   def markdown_field(markdown)
-    govspeak(markdown)
+    govuk_linkified_html(govspeak(markdown))
+  end
+
+  def live_issue_recommendation(live_issue)
+    return t('live_issues.card.none') if live_issue.suggested_action.blank?
+
+    markdown_field(live_issue.suggested_action)
   end
 
   def live_issue_from_to_date(live_issue)
@@ -83,5 +89,17 @@ module LiveIssueHelper
     remaining_statuses = Array(@status_filters) - [status]
 
     live_issues_path(sort: @applied_sort, status: remaining_statuses.presence)
+  end
+
+private
+
+  def govuk_linkified_html(html)
+    fragment = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
+
+    fragment.css('a').each do |link|
+      link['class'] = (link['class'].to_s.split | %w[govuk-link govuk-link--no-visited-state]).join(' ')
+    end
+
+    fragment.to_html.html_safe
   end
 end

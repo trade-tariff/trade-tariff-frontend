@@ -4,6 +4,26 @@
   text-decoration: none;
 }
 
+.app-c-filter-panel__content {
+  background: govuk-colour("black", $variant: "tint-95");
+  padding: govuk-spacing(4);
+}
+
+.live-issues__filter-actions.govuk-button-group {
+  .govuk-button {
+    margin-bottom: 24px;
+  }
+}
+
+@include govuk-media-query($from: tablet) {
+  .live-issues__filter-actions.govuk-button-group {
+    .govuk-button {
+      margin-bottom: 0;
+      margin-right: 24px;
+    }
+  }
+}
+
 .live-issues__active-filter-list {
   display: flex;
   flex-wrap: wrap;
@@ -34,6 +54,10 @@
 }
 
 .live-issues__markdown {
+  a.govuk-link {
+    color: govuk-colour("blue");
+  }
+
   p:last-child,
   ul:last-child,
   ol:last-child {

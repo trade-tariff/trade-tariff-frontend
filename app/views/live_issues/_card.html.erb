@@ -1,4 +1,4 @@
-<article class="govuk-summary-card govuk-!-margin-bottom-4 live-issues__card">
+<div class="govuk-summary-card govuk-!-margin-bottom-4 live-issues__card">
   <div class="govuk-summary-card__title-wrapper">
     <h2 class="govuk-summary-card__title">
       <span class="live-issues__card-meta"><%= t('live_issues.card.last_updated', date: live_issue_updated_at(live_issue)) %></span>
@@ -31,7 +31,7 @@
 
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key"><%= t('live_issues.card.recommendation') %></dt>
-        <dd class="govuk-summary-list__value live-issues__markdown"><%= markdown_field(live_issue.suggested_action) %></dd>
+        <dd class="govuk-summary-list__value live-issues__markdown"><%= live_issue_recommendation(live_issue) %></dd>
       </div>
 
       <div class="govuk-summary-list__row">
@@ -40,4 +40,4 @@
       </div>
     </dl>
   </div>
-</article>
+</div>
