@@ -22,6 +22,12 @@ RSpec.describe FeatureOptInsController, type: :request do
         expect(response).to redirect_to('/commodities/1234')
       end
 
+      it 'preserves the query string in return_to' do
+        post feature_opt_ins_path, params: { feature: 'test_flag', return_to: '/search?q=widgets' }
+
+        expect(response).to redirect_to('/search?q=widgets')
+      end
+
       it 'ignores return_to when it is an absolute URL (open redirect prevention)' do
         post feature_opt_ins_path, params: { feature: 'test_flag', return_to: 'http://evil.com' }
 
@@ -30,6 +36,12 @@ RSpec.describe FeatureOptInsController, type: :request do
 
       it 'ignores return_to when it is a protocol-relative URL (open redirect prevention)' do
         post feature_opt_ins_path, params: { feature: 'test_flag', return_to: '//evil.com/steal' }
+
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'ignores return_to when it has no leading slash' do
+        post feature_opt_ins_path, params: { feature: 'test_flag', return_to: 'javascript:alert(1)' }
 
         expect(response).to redirect_to(root_path)
       end
@@ -69,6 +81,7 @@ RSpec.describe FeatureOptInsController, type: :request do
 
         expect(response).to redirect_to(root_path)
       end
+
     end
   end
 end
