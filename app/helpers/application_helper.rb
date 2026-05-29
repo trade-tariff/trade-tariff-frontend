@@ -177,6 +177,10 @@ module ApplicationHelper
     end
   end
 
+  # Checks whether a Flipper feature flag is enabled for the current actor.
+  # Current.flipper_actor is set per-request by ApplicationController.
+  # When nil (rake tasks, background jobs), Flipper performs a global check —
+  # the flag returns true only if enabled for everyone.
   def feature_enabled?(flag)
     Flipper.enabled?(flag.to_sym, Current.flipper_actor)
   end
