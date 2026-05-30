@@ -201,7 +201,7 @@ class ApplicationController < ActionController::Base
 
   def migrate_anonymous_flipper_actor
     return unless current_user_id
-    return unless cookies[:flipper_anonymous_id].present?
+    return if cookies[:flipper_anonymous_id].blank?
 
     anonymous_actor = Flipper::AnonymousActor.new(cookies[:flipper_anonymous_id])
     user_actor      = Flipper::UserActor.new(current_user_id)

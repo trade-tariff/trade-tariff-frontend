@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Configure Flipper to use Redis as the local adapter.
 #
 # When FLIPPER_CLOUD_TOKEN is present, Flipper::Engine (loaded automatically

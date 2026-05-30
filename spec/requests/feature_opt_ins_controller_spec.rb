@@ -8,11 +8,16 @@ RSpec.describe FeatureOptInsController, type: :request do
 
   describe 'POST /feature_opt_ins' do
     context 'with a known opt-in-able flag' do
-      it 'enables the actor for the flag and redirects' do
+      it 'enables the actor for the flag' do
         post feature_opt_ins_path, params: { feature: 'test_flag' }
 
         actor = Flipper::AnonymousActor.new(anonymous_uuid)
         expect(Flipper.enabled?(:test_flag, actor)).to be true
+      end
+
+      it 'redirects to root when no return_to is given' do
+        post feature_opt_ins_path, params: { feature: 'test_flag' }
+
         expect(response).to redirect_to(root_path)
       end
 
@@ -62,11 +67,16 @@ RSpec.describe FeatureOptInsController, type: :request do
         Flipper.enable_actor(:test_flag, actor)
       end
 
-      it 'disables the actor for the flag and redirects' do
+      it 'disables the actor for the flag' do
         delete feature_opt_in_path('test_flag')
 
         actor = Flipper::AnonymousActor.new(anonymous_uuid)
         expect(Flipper.enabled?(:test_flag, actor)).to be false
+      end
+
+      it 'redirects to root when no return_to is given' do
+        delete feature_opt_in_path('test_flag')
+
         expect(response).to redirect_to(root_path)
       end
 
@@ -81,7 +91,6 @@ RSpec.describe FeatureOptInsController, type: :request do
 
         expect(response).to redirect_to(root_path)
       end
-
     end
   end
 end
