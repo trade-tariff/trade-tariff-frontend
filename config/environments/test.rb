@@ -64,4 +64,13 @@ Rails.application.configure do
     interval_randomness: 0,
     backoff_factor: 0,
   }
+
+  # Disable Flipper's per-request Memoizer middleware in the test environment.
+  # The Memoizer caches flag lookups in a thread-local per-request cache; in
+  # Capybara JS tests the Puma server runs in a separate thread, so the cache
+  # can prevent flag changes made in the test thread from being visible to
+  # server threads during POST requests. With memoize disabled every
+  # Flipper.enabled? call reads directly from the shared Memory adapter, which
+  # is always correct in tests.
+  config.flipper.memoize = false
 end
