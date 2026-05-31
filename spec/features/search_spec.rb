@@ -22,7 +22,14 @@ RSpec.describe 'Search', :js do
 
     context 'when using guided search' do
       before do
-        Flipper.enable(:interactive_search)
+        # Stub Flipper.enabled? at the module level so the flag is visible to
+        # the Puma server thread as well as the test thread. Using
+        # Flipper.enable writes to the shared Memory adapter but each Puma
+        # thread holds its own thread-local Flipper.instance, which can
+        # produce timing-sensitive cross-thread visibility issues in JS tests.
+        # A module-level stub avoids that entirely.
+        allow(Flipper).to receive(:enabled?).and_call_original
+        allow(Flipper).to receive(:enabled?).with(:interactive_search, anything).and_return(true)
         allow(TradeTariffFrontend).to receive_messages(
           enquiries_email: 'classification.enquiries@hmrc.gov.uk',
           webchat_url: 'https://example.com/webchat',
