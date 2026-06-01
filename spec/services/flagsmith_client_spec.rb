@@ -17,7 +17,7 @@ RSpec.describe FlagsmithClient do
 
   describe '.instance=' do
     it 'replaces the singleton' do
-      replacement = double(:client)
+      replacement = instance_double(described_class)
       original = described_class.instance
       described_class.instance = replacement
       expect(described_class.instance).to equal(replacement)

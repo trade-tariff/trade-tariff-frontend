@@ -19,9 +19,7 @@ class FlagsmithClient
       )
     end
 
-    def instance=(client)
-      @instance = client
-    end
+    attr_writer :instance
 
     def configure(environment_key:, api_url:, admin_api_key:)
       @instance = new(environment_key:, api_url:, admin_api_key:)
@@ -36,8 +34,14 @@ class FlagsmithClient
       environment_key: @environment_key,
       api_url: "#{@api_url}/",
       # Return a disabled default flag rather than raising for unknown features.
-      default_flag_handler: ->(name) { Flagsmith::Flags::DefaultFlag.new(enabled: false, value: nil) },
+      default_flag_handler: ->(_name) { Flagsmith::Flags::DefaultFlag.new(enabled: false, value: nil) },
     )
+    @admin_connection = Faraday.new(url: "#{@api_url}/") do |conn|
+      conn.request :json
+      conn.response :json
+      conn.headers['Authorization'] = "Token #{@admin_api_key}"
+      conn.adapter :net_http
+    end
   end
 
   # Returns a Flagsmith::Flags::Collection for the given identity.
@@ -117,6 +121,8 @@ class FlagsmithClient
       end
     else
       feature_id = fetch_feature_id(flag_name)
+      raise ArgumentError, "Flag '#{flag_name}' not found in Flagsmith environment '#{@environment_key}'" if feature_id.nil?
+
       admin_connection.post(featurestates_url) do |req|
         req.body = { feature: feature_id, enabled: }.to_json
       end
@@ -129,12 +135,5 @@ class FlagsmithClient
       .body.fetch('results', []).first&.dig('feature')
   end
 
-  def admin_connection
-    @admin_connection ||= Faraday.new(url: "#{@api_url}/") do |conn|
-      conn.request :json
-      conn.response :json
-      conn.headers['Authorization'] = "Token #{@admin_api_key}"
-      conn.adapter :net_http
-    end
-  end
+  attr_reader :admin_connection
 end
