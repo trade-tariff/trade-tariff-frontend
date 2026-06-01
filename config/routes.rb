@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   end
 
   resources :feedbacks, controller: 'feedback', only: %i[new create]
+  resources :feature_opt_ins, only: %i[create destroy]
 
   get 'feedback', to: 'feedback#new'
   get 'feedback/thanks', to: 'feedback#thanks'
