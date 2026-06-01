@@ -1,5 +1,3 @@
-<% content_for :back_link do %>
-  <% back_link green_lanes_eligibility_path %>
-<% end %>
+<% content_for :back_link, back_link(green_lanes_eligibility_path) %>
 
 <%= render @result %>

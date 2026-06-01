@@ -1,12 +1,10 @@
 <% myott_page_title "Set preferences", error: @form.errors.any? %>
 
+<% content_for :back_link, back_link(myott_path) %>
+
 <div class="govuk-body">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <% content_for :back_link do %>
-        <% back_link myott_path %>
-      <% end %>
-
       <%= form_with model: @form, url: myott_stop_press_preferences_path, method: :post, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
         <%= f.govuk_error_summary %>
         <h1 class="govuk-heading-l">Set subscription preferences</h1>

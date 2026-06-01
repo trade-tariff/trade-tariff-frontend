@@ -126,13 +126,13 @@ module ApplicationHelper
     tag.p(content) if content.present?
   end
 
-  def back_link(url, text = t('navigation.back'), **options)
-    options = options.merge(class: 'govuk-back-link')
+  def back_link(url, **options)
+    html_attributes = {}
     if options.delete(:javascript)
-      options[:onclick] = 'window.history.go(-1); return false;'
+      html_attributes[:onclick] = 'window.history.go(-1); return false;'
     end
 
-    link_to text, url, **options
+    govuk_back_link(href: url, html_attributes:)
   end
 
   def glossary_term(term)

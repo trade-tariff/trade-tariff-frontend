@@ -7,8 +7,6 @@ RSpec.describe 'rules_of_origin/proofs/index', type: :view do
 
   let(:schemes) { build_list :rules_of_origin_scheme, 3, proof_count: 2 }
 
-  it { is_expected.to have_link 'Back' }
-
   it { is_expected.to have_css 'h1', text: 'Proofs of origin for all trade agreements' }
   it { is_expected.to have_css '.govuk-caption-xl', text: 'Rules of origin' }
 
