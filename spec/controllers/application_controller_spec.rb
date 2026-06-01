@@ -84,6 +84,55 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
+  describe '#migrate_anonymous_flagsmith_identity' do
+    controller do
+      def index
+        render plain: 'ok'
+      end
+    end
+
+    context 'with no JWT cookie (anonymous user)' do
+      it 'does not call delete_identity' do
+        allow(TEST_FLAGSMITH_CLIENT).to receive(:delete_identity).and_call_original
+        get :index
+        expect(TEST_FLAGSMITH_CLIENT).not_to have_received(:delete_identity)
+      end
+    end
+
+    context 'with a JWT cookie but no anonymous cookie' do
+      before do
+        payload = { 'email' => 'neil@example.com' }
+        token = JWT.encode(payload, nil, 'none')
+        cookies[TradeTariffFrontend.id_token_cookie_name] = token
+      end
+
+      it 'does not delete the anonymous cookie (nothing to migrate)' do
+        get :index
+        expect(cookies[:flipper_anonymous_id]).to be_nil
+      end
+    end
+
+    context 'with a JWT cookie AND an anonymous cookie' do
+      before do
+        payload = { 'email' => 'neil@example.com' }
+        token = JWT.encode(payload, nil, 'none')
+        cookies[TradeTariffFrontend.id_token_cookie_name] = token
+        cookies[:flipper_anonymous_id] = 'anon-uuid-123'
+      end
+
+      it 'deletes the anonymous cookie after migration' do
+        get :index
+        expect(cookies[:flipper_anonymous_id]).to be_nil
+      end
+
+      it 'calls delete_identity on the Flagsmith client for the anonymous identifier' do
+        allow(TEST_FLAGSMITH_CLIENT).to receive(:delete_identity).and_call_original
+        get :index
+        expect(TEST_FLAGSMITH_CLIENT).to have_received(:delete_identity).with('Anonymous:anon-uuid-123')
+      end
+    end
+  end
+
   describe '#check_green_lanes_enabled' do
     controller do
       before_action :check_green_lanes_enabled

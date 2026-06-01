@@ -6,13 +6,12 @@ class ApplicationController < ActionController::Base
   include CacheHelper
 
   before_action :maintenance_mode_if_active
-
   before_action :set_cache
+  before_action :set_current_flagsmith_identity
+  before_action :migrate_anonymous_flagsmith_identity
   before_action :set_path_info
   before_action :set_search
   before_action :bots_no_index_if_historical
-  before_action :set_current_flagsmith_identity
-  before_action :migrate_anonymous_flagsmith_identity
 
   layout :set_layout
 
@@ -178,13 +177,18 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user_id
+    return @current_user_id if defined?(@current_user_id)
+
     token = cookies[TradeTariffFrontend.id_token_cookie_name]
-    return nil if token.blank?
+    if token.blank?
+      @current_user_id = nil
+      return @current_user_id
+    end
 
     payload, = JWT.decode(token, nil, false)
-    payload['email'] || payload['sub']
+    @current_user_id = payload['email'] || payload['sub']
   rescue JWT::DecodeError, ArgumentError
-    nil
+    @current_user_id = nil
   end
 
   def anonymous_flagsmith_id
