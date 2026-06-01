@@ -50,15 +50,15 @@ RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
 
     let(:expected_options) do
       [
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: 'VATR',
           name: 'VAT reduced rate 5% (5.0)',
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: 'VATZ',
           name: 'VAT zero rate (0.0)',
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: 'VAT',
           name: 'Value added tax (20.0)',
         ),

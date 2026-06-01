@@ -47,11 +47,11 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
       let(:source) { 'uk' }
       let(:expected_options) do
         [
-          OpenStruct.new(
+          DutyCalculator::Option.new(
             id: 'C990',
             name: 'C990 - ',
           ),
-          OpenStruct.new(
+          DutyCalculator::Option.new(
             id: 'None',
             name: 'None of the above',
           ),

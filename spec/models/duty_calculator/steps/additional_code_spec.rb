@@ -173,11 +173,11 @@ RSpec.describe DutyCalculator::Steps::AdditionalCode, :step, :user_session do
   describe '#options_for_select' do
     let(:expected_options) do
       [
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '2600',
           name: '2600 - The product I am importing is COVID-19 critical',
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '2601',
           name: '2601 - The product I am importing is not COVID-19 critical',
         ),

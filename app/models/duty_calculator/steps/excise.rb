@@ -22,7 +22,7 @@ module DutyCalculator
           code = additional_code['code'].sub('X', '')
           overlay = "#{additional_code['overlay']} (X#{code})".html_safe
 
-          OpenStruct.new(
+          Option.new(
             id: code,
             name: overlay,
             disabled: code.in?(DISABLED_ADDITIONAL_CODES),

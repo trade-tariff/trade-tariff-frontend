@@ -1,57 +1,65 @@
 class SimplifiedProceduralCodeMeasureFetcherService
+  Result = Data.define(
+    :measures,
+    :goods_nomenclature_label,
+    :goods_nomenclature_item_ids,
+    :validity_start_date,
+    :validity_end_date,
+    :validity_start_dates,
+    :by_date_options,
+    :by_code,
+    :simplified_procedural_code,
+    :no_data,
+  )
+
   def initialize(params)
     @simplified_procedural_code = params[:simplified_procedural_code]
     @validity_start_date = params[:validity_start_date]
-    @result = OpenStruct.new do
-      attr_accessor :measures,
-                    :goods_nomenclature_label,
-                    :goods_nomenclature_item_ids,
-                    :validity_start_date,
-                    :validity_end_date,
-                    :validity_start_dates,
-                    :by_date_options,
-                    :by_code,
-                    :simplified_procedural_code,
-                    :no_data
-    end
   end
 
   def call
-    if simplified_procedural_code
-      by_code
-    else
-      by_date
-    end
-
-    result
+    simplified_procedural_code ? by_code : by_date
   end
 
   private
 
-  attr_reader :simplified_procedural_code, :result
+  attr_reader :simplified_procedural_code
 
   def all
     @all ||= SimplifiedProceduralCodeMeasure.all
   end
 
   def by_code
-    result.measures = SimplifiedProceduralCodeMeasure.by_code(simplified_procedural_code)
-    first_measure = result.measures.first
+    measures = SimplifiedProceduralCodeMeasure.by_code(simplified_procedural_code)
+    first_measure = measures.first
 
-    result.goods_nomenclature_label = first_measure&.goods_nomenclature_label
-    result.goods_nomenclature_item_ids = first_measure&.goods_nomenclature_item_ids
-    result.by_code = true
-    result.no_data = result.measures.all?(&:no_data?)
-    result.simplified_procedural_code = simplified_procedural_code
+    Result.new(
+      measures:,
+      goods_nomenclature_label: first_measure&.goods_nomenclature_label,
+      goods_nomenclature_item_ids: first_measure&.goods_nomenclature_item_ids,
+      validity_start_date: nil,
+      validity_end_date: nil,
+      validity_start_dates: nil,
+      by_date_options: nil,
+      by_code: true,
+      simplified_procedural_code:,
+      no_data: measures.all?(&:no_data?),
+    )
   end
 
   def by_date
-    result.measures = SimplifiedProceduralCodeMeasure.by_validity_start_and_end_date(validity_start_date, validity_end_date)
-    result.validity_start_dates = validity_start_dates
-    result.validity_start_date = validity_start_date
-    result.validity_end_date = validity_end_date
-    result.by_date_options = by_date_options
-    result.by_code = false
+    Result.new(
+      measures: SimplifiedProceduralCodeMeasure.by_validity_start_and_end_date(validity_start_date, validity_end_date),
+      goods_nomenclature_label: nil,
+      goods_nomenclature_item_ids: nil,
+      validity_start_date:,
+      validity_end_date:,
+      validity_start_dates:,
+      by_date_options:,
+      by_code: false,
+      simplified_procedural_code: nil,
+      no_data: nil,
+    )
   end
 
   def validity_start_date

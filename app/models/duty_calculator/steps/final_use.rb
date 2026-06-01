@@ -36,8 +36,8 @@ module DutyCalculator
 
       def options
         [
-          OpenStruct.new(id: 'yes', name: I18n.t("final_use.#{current_route}.yes_option")),
-          OpenStruct.new(id: 'no', name: I18n.t("final_use.#{current_route}.no_option")),
+          Option.new(id: 'yes', name: I18n.t("final_use.#{current_route}.yes_option")),
+          Option.new(id: 'no', name: I18n.t("final_use.#{current_route}.no_option")),
         ]
       end
 
