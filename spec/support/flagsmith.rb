@@ -12,7 +12,7 @@ class TestFlagsmithClient
       @flags.fetch(flag_name.to_s, false)
     end
 
-    def get_feature_value(flag_name)
+    def get_feature_value(_flag_name)
       nil
     end
   end
