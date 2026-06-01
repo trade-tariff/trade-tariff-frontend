@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
   end
 
   def search_attributes
-    params.fetch(:search, params).permit(
+    search_attribute_params.permit(
       :q,
       :resource_id,
       :country,
@@ -74,6 +74,12 @@ class ApplicationController < ActionController::Base
       :year,
       :as_of,
     ).to_h
+  end
+
+  def search_attribute_params
+    search_params = params[:search]
+
+    search_params.respond_to?(:permit) ? search_params : params
   end
 
   def set_layout
