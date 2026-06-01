@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
   rescue_from Faraday::ConnectionFailed, with: :handle_connection_failed
   rescue_from Faraday::TimeoutError, with: :handle_timeout_error
   rescue_from Faraday::ServerError, with: :handle_server_error
-  rescue_from ActionDispatch::Http::Parameters::ParseError, with: :handle_params_parse_error
   rescue_from Search::InvalidDate, with: :handle_invalid_search_date
 
   def url_options
@@ -160,8 +159,6 @@ class ApplicationController < ActionController::Base
     Rails.logger.info(exception.message)
     redirect_to '/400', status: :bad_request
   end
-
-  alias_method :handle_params_parse_error, :bad_request
 
   def handle_invalid_search_date(exception)
     return bad_request(exception) unless request.get? && request.format.html?
