@@ -25,7 +25,7 @@ module RulesOfOrigin
     private
 
       def none_option
-        Struct.new(:resource_id, :rule, :footnotes)
+        Data.define(:resource_id, :rule, :footnotes)
               .new('none', none_option_text, [])
       end
 

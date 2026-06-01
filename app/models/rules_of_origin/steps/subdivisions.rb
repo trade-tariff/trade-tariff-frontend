@@ -53,7 +53,7 @@ module RulesOfOrigin
       end
 
       def other_option
-        Struct.new(:resource_id, :subdivision).new('other', other_option_text)
+        Data.define(:resource_id, :subdivision).new('other', other_option_text)
       end
 
       def other_option_text
