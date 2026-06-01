@@ -1,6 +1,7 @@
 class NewsItemsController < ApplicationController
   before_action :disable_search_form,
                 :disable_switch_service_banner
+  rescue_from Faraday::ResourceNotFound, with: :handle_resource_not_found
 
   def index
     @news_collections = News::Collection.all
@@ -33,4 +34,8 @@ private
           .symbolize_keys
   end
   helper_method :news_index_params
+
+  def handle_resource_not_found
+    redirect_to not_found_path
+  end
 end

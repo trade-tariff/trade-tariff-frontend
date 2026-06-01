@@ -39,6 +39,18 @@ RSpec.describe NewsItemsController, type: :request do
 
       it { is_expected.to have_http_status :ok }
     end
+
+    context 'when the backend returns not found' do
+      before do
+        allow(News::Item).to receive(:updates_page)
+          .with(no_args)
+          .and_raise(Faraday::ResourceNotFound, 'not found')
+      end
+
+      let(:make_request) { get news_items_path }
+
+      it { is_expected.to redirect_to(not_found_path) }
+    end
   end
 
   describe 'GET #show' do
@@ -56,5 +68,15 @@ RSpec.describe NewsItemsController, type: :request do
 
     it { is_expected.to have_http_status :ok }
     it { is_expected.to have_attributes content_type: %r{text/html} }
+
+    context 'when the backend returns not found' do
+      before do
+        allow(News::Item).to receive(:find)
+          .with(news_item.slug)
+          .and_raise(Faraday::ResourceNotFound, 'not found')
+      end
+
+      it { is_expected.to redirect_to(not_found_path) }
+    end
   end
 end
