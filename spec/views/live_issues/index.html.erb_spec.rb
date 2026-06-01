@@ -6,8 +6,8 @@ RSpec.describe 'live_issues/index', type: :view do
   let(:live_issues) { [active_issue, resolved_issue] }
   let(:live_issues_count) { live_issues.size }
   let(:sort) { 'updated_desc' }
-  let(:applied_sort) { 'updated_desc' }
-  let(:status_filters) { %w[active] }
+  let(:applied_sort) { nil }
+  let(:status_filters) { [] }
 
   let(:active_issue) do
     build(
@@ -65,14 +65,34 @@ RSpec.describe 'live_issues/index', type: :view do
     expect(rendered_page).to have_css('legend h2.govuk-fieldset__heading', text: 'Status')
     expect(rendered_page).to have_field('Last updated (newest)', type: 'radio', checked: true)
     expect(rendered_page).to have_field('Last updated (oldest)', type: 'radio', checked: false)
-    expect(rendered_page).to have_field('Active', type: 'checkbox', checked: true)
+    expect(rendered_page).to have_field('Active', type: 'checkbox', checked: false)
     expect(rendered_page).to have_field('Resolved', type: 'checkbox', checked: false)
   end
 
-  it 'renders applied filter tags', :aggregate_failures do
-    expect(rendered_page).to have_css('.live-issues__active-filter', text: '× Sort by: Last updated (newest)')
-    expect(rendered_page).to have_css('.live-issues__active-filter', text: 'Status: Active issue')
-    expect(rendered_page).to have_link('Clear all', href: live_issues_path)
+  it 'does not render active filters for the default sort' do
+    expect(rendered_page).to have_no_css('.live-issues__active-filters')
+  end
+
+  context 'when only status filters are applied' do
+    let(:status_filters) { %w[active] }
+
+    it 'renders status filter tags without a default sort tag', :aggregate_failures do
+      expect(rendered_page).to have_no_css('.live-issues__active-filter', text: '× Sort by: Last updated (newest)')
+      expect(rendered_page).to have_css('.live-issues__active-filter', text: 'Status: Active issue')
+      expect(rendered_page).to have_link('Clear all', href: live_issues_path)
+    end
+  end
+
+  context 'when non-default sort and status filters are applied' do
+    let(:sort) { 'updated_asc' }
+    let(:applied_sort) { 'updated_asc' }
+    let(:status_filters) { %w[active] }
+
+    it 'renders applied filter tags', :aggregate_failures do
+      expect(rendered_page).to have_css('.live-issues__active-filter', text: '× Sort by: Last updated (oldest)')
+      expect(rendered_page).to have_css('.live-issues__active-filter', text: 'Status: Active issue')
+      expect(rendered_page).to have_link('Clear all', href: live_issues_path)
+    end
   end
 
   it 'renders live issues as summary cards', :aggregate_failures do

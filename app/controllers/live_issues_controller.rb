@@ -18,7 +18,10 @@ class LiveIssuesController < ApplicationController
 private
 
   def applied_sort
-    LiveIssue::SUPPORTED_SORTS.include?(params[:sort]) ? params[:sort] : nil
+    return unless LiveIssue::SUPPORTED_SORTS.include?(params[:sort])
+    return if params[:sort] == LiveIssue::DEFAULT_SORT
+
+    params[:sort]
   end
 
   def sort

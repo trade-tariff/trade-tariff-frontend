@@ -95,12 +95,21 @@ RSpec.describe LiveIssueHelper, type: :helper do
       expect(
         helper.live_issue_active_filter_labels(
           status_filters: %w[active],
-          sort: 'updated_desc',
+          sort: 'updated_asc',
         ),
       ).to eq([
-        'Sort by: Last updated (newest)',
+        'Sort by: Last updated (oldest)',
         'Status: Active issue',
       ])
+    end
+
+    it 'omits the sort label when the default sort is applied' do
+      expect(
+        helper.live_issue_active_filter_labels(
+          status_filters: %w[resolved],
+          sort: 'updated_desc',
+        ),
+      ).to eq(['Status: Issue resolved'])
     end
 
     it 'omits the sort label when no sort has been applied' do

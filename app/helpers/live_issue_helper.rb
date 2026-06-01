@@ -56,7 +56,9 @@ module LiveIssueHelper
 
   def live_issue_active_filter_labels(status_filters:, sort:)
     labels = []
-    labels << t('live_issues.filters.sort_chip', label: live_issue_sort_label(sort)).delete_prefix('× ') if sort.present?
+    if sort.present? && sort != LiveIssue::DEFAULT_SORT
+      labels << t('live_issues.filters.sort_chip', label: live_issue_sort_label(sort)).delete_prefix('× ')
+    end
 
     Array(status_filters).each do |status|
       labels << t('live_issues.filters.status_chip', label: live_issue_status_label(status)).delete_prefix('× ')
