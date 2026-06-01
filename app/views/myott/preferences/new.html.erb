@@ -19,7 +19,7 @@
           <%= f.govuk_radio_button :preference, Myott::StopPressPreferenceForm::SELECT_CHAPTERS, label: { text: "Select the tariff chapters I am interested in" } %>
           <%= f.govuk_radio_button :preference, Myott::StopPressPreferenceForm::ALL_CHAPTERS, label: { text: "All tariff chapter updates" } %>
         <% end %>
-        <%= f.submit "Continue", class: "govuk-button govuk-!-margin-top-4" %>
+        <%= f.govuk_submit class: "govuk-!-margin-top-4" %>
       <% end %>
     </div>
   </div>

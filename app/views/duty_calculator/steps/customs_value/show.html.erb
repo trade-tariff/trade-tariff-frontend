@@ -16,9 +16,9 @@
       new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text
     ) %>
   </p>
-  <%= f.govuk_text_field :monetary_value, width: 'one-quarter', label: { text: 'What is the value in GBP of the goods being imported?', class: 'govuk-label govuk-label--s' }, prefix_text: '£' %>
-  <%= f.govuk_text_field :shipping_cost, width: 'one-quarter', label: { text: 'Optionally, what is the shipping cost?', class: 'govuk-label govuk-label--s' },  hint: { text: 'Only costs up to the place of introduction of the imported goods into the UK border need to be included.' }, prefix_text: '£' %>
-  <%= f.govuk_text_field :insurance_cost, width: 'one-quarter', label: { text: 'Optionally, what is the cost of insuring the goods?', class: 'govuk-label govuk-label--s' },  hint: { text: 'Only insurance costs up to the place of introduction of the imported goods into the UK border need to be included.' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :monetary_value, width: 'one-quarter', label: { text: 'What is the value in GBP of the goods being imported?', size: 's' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :shipping_cost, width: 'one-quarter', label: { text: 'Optionally, what is the shipping cost?', size: 's' },  hint: { text: 'Only costs up to the place of introduction of the imported goods into the UK border need to be included.' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :insurance_cost, width: 'one-quarter', label: { text: 'Optionally, what is the cost of insuring the goods?', size: 's' },  hint: { text: 'Only insurance costs up to the place of introduction of the imported goods into the UK border need to be included.' }, prefix_text: '£' %>
 
   <%= f.govuk_submit %>
 <% end %>

@@ -19,8 +19,8 @@
     <p>It can take up to 24 hours to remove this email address from our system.</p>
     <p>If you do not want to unsubscribe, close this page.</p>
 
-    <%= form_with url: myott_unsubscribe_path(params[:id]), method: :delete, local: true do %>
-      <%= submit_tag "Unsubscribe", class: "govuk-button govuk-button--warning govuk-!-margin-top-4" %>
+    <%= form_with url: myott_unsubscribe_path(params[:id]), method: :delete, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_submit "Unsubscribe", class: "govuk-button--warning govuk-!-margin-top-4" %>
     <% end %>
   </div>
 </div>

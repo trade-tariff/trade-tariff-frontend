@@ -11,7 +11,7 @@
       <div class="govuk-body myott-subscriptions">
         <p>Products are broken down into sections and chapters. Sections broadly group products, while chapters get more specific. You can choose to be updated about as many chapters as you like.</p>
         <%= render partial: 'checkbox_toggles' %>
-        <%= form_with url: myott_stop_press_preferences_path, method: :patch, local: true do %>
+        <%= form_with url: myott_stop_press_preferences_path, method: :patch, local: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
           <div class="govuk-accordion" data-module="govuk-accordion" id="section-chapter-accordion">
             <% @all_sections_chapters.each do |section, chapters| %>
               <div class="govuk-accordion__section <%= section.resource_id == "1" ? 'govuk-accordion__section--expanded' : ''%>" id="accordion-section-<%=section.resource_id%>">
@@ -20,7 +20,7 @@
               </div>
             <% end %>
           </div>
-          <%= submit_tag "Continue", class: "govuk-button govuk-!-margin-top-4" %>
+          <%= f.govuk_submit class: "govuk-!-margin-top-4" %>
         <% end %>
       </div>
     </div>
