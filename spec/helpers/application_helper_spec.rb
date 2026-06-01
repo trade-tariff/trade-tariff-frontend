@@ -351,4 +351,50 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to have_css 'a[href="/xi/duty-calculator/1704909991/import-date"]' }
     end
   end
+
+  describe '#feature_enabled?' do
+    before do
+      Current.flagsmith_identity = Flagsmith::UserIdentity.new('neil@example.com')
+    end
+
+    context 'when the flag is on' do
+      before { enable_feature(:green_lanes) }
+
+      it 'returns true' do
+        expect(helper.feature_enabled?(:green_lanes)).to be true
+      end
+    end
+
+    context 'when the flag is off' do
+      it 'returns false' do
+        expect(helper.feature_enabled?(:green_lanes)).to be false
+      end
+    end
+
+    it 'accepts a string flag name' do
+      enable_feature(:green_lanes)
+      expect(helper.feature_enabled?('green_lanes')).to be true
+    end
+  end
+
+  describe '#feature_value' do
+    before do
+      Current.flagsmith_identity = Flagsmith::UserIdentity.new('neil@example.com')
+    end
+
+    it 'returns nil when no value is set' do
+      expect(helper.feature_value(:webchat)).to be_nil
+    end
+  end
+
+  describe '#webchat_enabled?' do
+    before do
+      Current.flagsmith_identity = Flagsmith::UserIdentity.new('neil@example.com')
+    end
+
+    it 'delegates to feature_enabled?(:webchat)' do
+      enable_feature(:webchat)
+      expect(helper.webchat_enabled?).to be true
+    end
+  end
 end
