@@ -22,6 +22,12 @@ RSpec.describe AnalyticsHelper, type: :helper do
 
         it { expect(helper.analytics_allowed?).to be false }
       end
+
+      context 'when the consent cookie is malformed' do
+        let(:value) { '{"usage":true"' }
+
+        it { expect(helper.analytics_allowed?).to be false }
+      end
     end
   end
 end

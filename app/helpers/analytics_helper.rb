@@ -3,10 +3,14 @@ module AnalyticsHelper
   COOKIES_POLICY_NAME = 'cookies_policy'.freeze
 
   def analytics_allowed?
-    if cookies[COOKIES_POLICY_NAME].nil?
-      false
-    else
-      !!JSON.parse(cookies[COOKIES_POLICY_NAME]).fetch('usage', false)
-    end
+    cookie = cookies[COOKIES_POLICY_NAME]
+    return false if cookie.nil?
+
+    policy = JSON.parse(cookie)
+    return false unless policy.is_a?(Hash)
+
+    !!policy.fetch('usage', false)
+  rescue JSON::ParserError
+    false
   end
 end
