@@ -11,7 +11,7 @@
   <h2 class="govuk-heading-s">Rates for period <%= date_range_message(@result.validity_start_date, @result.validity_end_date) %></h2>
   <p>Simplified procedure value rates change every 14 days. You may only use the rate that applies to the produce you are importing within the correct 14-day period.</p>
 
-  <div class="govuk-form-group.simplified-procedural-values-form">
+  <div class="govuk-form-group simplified-procedural-values-form">
     <p>Select unit price period start date</p>
     <%= form_with(url: simplified_procedural_values_path, method: "get") do |f| %>
       <%= f.select :validity_start_date, @result.by_date_options, { selected: @result.validity_start_date }, { class: "govuk-select" } %>

@@ -4,7 +4,7 @@
   margin: govuk-spacing(4) 0 govuk-spacing(7) 0;
   @include govuk-clearfix;
 
-  background-color: govuk-colour("light-grey");
+  background-color: govuk-colour("black", $variant: "tint-95");
 
   .full-code {
     width: 171px;
