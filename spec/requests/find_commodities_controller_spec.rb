@@ -14,6 +14,12 @@ RSpec.describe FindCommoditiesController, type: :request do
     it { is_expected.to have_http_status :ok }
     it { is_expected.to have_attributes content_type: %r{text/html} }
 
+    context 'with a malformed search param' do
+      let(:params) { { search: 'coffee beans' } }
+
+      it { is_expected.to have_http_status :ok }
+    end
+
     context 'with an invalid date flag' do
       let(:params) { { invalid_date: true, day: '22', month: '0', year: '2026' } }
 

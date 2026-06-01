@@ -113,7 +113,7 @@ class SearchController < ApplicationController
   end
 
   def search_attributes
-    params.fetch(:search, params).permit(
+    search_attribute_params.permit(
       :q,
       :resource_id,
       :country,
