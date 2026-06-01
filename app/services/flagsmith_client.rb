@@ -22,6 +22,10 @@ class FlagsmithClient
     def instance=(client)
       @instance = client
     end
+
+    def configure(environment_key:, api_url:, admin_api_key:)
+      @instance = new(environment_key:, api_url:, admin_api_key:)
+    end
   end
 
   def initialize(environment_key:, api_url:, admin_api_key:)
