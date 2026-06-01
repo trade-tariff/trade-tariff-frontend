@@ -29,6 +29,7 @@ Treat these areas as high risk and verify behaviour with source-backed tests and
 
 - commodity, heading, subheading, and section rendering
 - measure, duty, quota, certificate, and preference display
+- duty calculator route decisions, formula evaluation, and UK/XI comparison logic
 - rules of origin and Green Lanes journeys
 - search and autocomplete behaviour
 - backend API request/response handling

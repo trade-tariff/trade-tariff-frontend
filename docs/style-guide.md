@@ -88,6 +88,7 @@ Needs team discussion:
 
 - search result behaviour, autocomplete, or navigation changes
 - changes to commodity, measure, duty, quota, or certificate display
+- duty calculator route branching, option construction, or rendered explanations
 - backend API call changes
 - broad Sass/layout changes
 - error pages, header, footer, cookies, auth/session, analytics, or accessibility changes

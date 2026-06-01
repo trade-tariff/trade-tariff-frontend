@@ -24,4 +24,5 @@ Useful docs:
 - `docs/architecture/system-overview.md`
 - `docs/architecture/request-routing.md`
 - `docs/architecture/backend-api-client.md`
+- `docs/architecture/duty-calculator.md`
 - `docs/architecture/frontend-rendering.md`

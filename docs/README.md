@@ -5,6 +5,7 @@ This directory is the starting point for understanding the Trade Tariff Frontend
 ## Start Here
 
 - [Architecture](architecture/README.md) explains the main runtime boundaries and where to read the code.
+- [Duty calculator architecture](architecture/duty-calculator.md) maps the import duty calculation journey, option construction, and high-risk decision points.
 - [Development and delivery](development-and-delivery.md) summarises local setup, checks, PR, and deployment conventions.
 - [Style guide](style-guide.md) covers Ruby/Rails, tests, GOV.UK Frontend components, and PR review expectations.
 - [Code Wiki guide](code-wiki.md) explains how to use generated repository documentation safely.

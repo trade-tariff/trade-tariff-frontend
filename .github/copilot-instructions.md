@@ -21,4 +21,5 @@ Guidance:
 - Prefer `govuk-components`, `govuk_design_system_formbuilder`, and GOV.UK Sass helpers before custom markup or CSS.
 - Do not add explicit `require` statements for application constants in normal Rails app code when Zeitwerk can autoload them.
 - Treat commodity display, measures, duties, quotas, Green Lanes, rules of origin, subscriptions, auth/session handling, and backend API calls as high-risk.
+- For duty calculator changes, read `docs/architecture/duty-calculator.md` and verify claims against `app/models/duty_calculator/`, `app/services/duty_calculator/`, and `config/routes/duty_calculator.rb`.
 - Verify generated documentation or Code Wiki output against source files before relying on it.

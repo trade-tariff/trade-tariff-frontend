@@ -7,6 +7,7 @@ These pages give a code-level map of the Trade Tariff Frontend. They describe st
 - [System overview](system-overview.md)
 - [Request routing](request-routing.md)
 - [Backend API client](backend-api-client.md)
+- [Duty calculator](duty-calculator.md)
 - [Frontend rendering](frontend-rendering.md)
 
 ## Source Anchors
@@ -19,6 +20,8 @@ Start from these files when verifying architecture claims:
 - `config/routes/duty_calculator.rb`
 - `config/initializers/backend.rb`
 - `app/services/client_builder.rb`
+- `app/models/duty_calculator/`
+- `app/services/duty_calculator/`
 - `lib/api_entity.rb`
 - `lib/trade_tariff_frontend.rb`
 - `lib/trade_tariff_frontend/service_chooser.rb`

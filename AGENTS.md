@@ -8,6 +8,7 @@ Read these first:
 
 - `docs/README.md`
 - `docs/architecture/README.md`
+- `docs/architecture/duty-calculator.md` when changing duty calculator journeys or calculation display
 - `docs/development-and-delivery.md`
 - `docs/style-guide.md`
 - `README.md`
@@ -34,6 +35,7 @@ The application is a Rails 8 frontend for the Trade Tariff service. It renders t
 - Application shell: `app/views/layouts/application.html.erb`, `app/views/layouts/_base.html.erb`
 - Backend clients: `config/initializers/backend.rb`, `app/services/client_builder.rb`, `lib/api_entity.rb`
 - Service selection: `lib/routing_filter/service_path_prefix_handler.rb`, `lib/trade_tariff_frontend/service_chooser.rb`
+- Duty calculator: `config/routes/duty_calculator.rb`, `app/controllers/duty_calculator/`, `app/models/duty_calculator/`, `app/services/duty_calculator/`
 - Controllers: `app/controllers/`
 - API-backed models: `app/models/`
 - Presenters/decorators: `app/presenters/`, `app/decorators/`
