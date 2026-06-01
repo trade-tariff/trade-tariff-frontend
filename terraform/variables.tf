@@ -47,6 +47,11 @@ variable "enable_alarms" {
   default     = true
 }
 
+variable "enable_observability_alerts" {
+  type    = bool
+  default = false
+}
+
 variable "scale_in_cooldown" {
   description = "Prevents aggressive scale-in by enforcing a waiting period after tasks are removed."
   type        = number
