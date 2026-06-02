@@ -1,0 +1,67 @@
+<%= govuk_details(classes: 'govuk-!-margin-bottom-4 live-issues__filter-panel') do |details| %>
+  <% details.with_summary_html do %>
+    <%= t('live_issues.filters.summary') %>
+    <span class="govuk-!-margin-left-3 live-issues__result-count"><%= t('live_issues.results.count', count: @live_issues_count) %></span>
+  <% end %>
+
+  <div class="app-c-filter-panel__content">
+    <%= form_with url: live_issues_path, method: :get, local: true do %>
+      <fieldset class="govuk-fieldset govuk-!-margin-bottom-4">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+          <h2 class="govuk-fieldset__heading"><%= t('live_issues.filters.sort_by') %></h2>
+        </legend>
+
+        <div class="govuk-radios govuk-radios--small">
+          <% LiveIssue::SUPPORTED_SORTS.each do |sort| %>
+            <div class="govuk-radios__item">
+              <%= radio_button_tag :sort, sort, @sort == sort, class: 'govuk-radios__input', id: "sort_#{sort}" %>
+              <%= label_tag "sort_#{sort}", live_issue_sort_label(sort), class: 'govuk-label govuk-radios__label' %>
+            </div>
+          <% end %>
+        </div>
+      </fieldset>
+
+      <fieldset class="govuk-fieldset govuk-!-margin-bottom-4">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+          <h2 class="govuk-fieldset__heading"><%= t('live_issues.filters.status') %></h2>
+        </legend>
+
+        <div class="govuk-checkboxes govuk-checkboxes--small">
+          <% LiveIssue::SUPPORTED_STATUSES.each do |status| %>
+            <div class="govuk-checkboxes__item">
+              <%= check_box_tag 'status[]', status, live_issue_status_filter_selected?(@status_filters, status), class: 'govuk-checkboxes__input', id: "status_#{status}" %>
+              <%= label_tag "status_#{status}", live_issue_status_filter_label(status), class: 'govuk-label govuk-checkboxes__label' %>
+            </div>
+          <% end %>
+        </div>
+      </fieldset>
+
+      <div class="govuk-button-group live-issues__filter-actions">
+        <%= button_tag t('live_issues.filters.apply'), type: 'submit', name: nil, class: 'govuk-button', data: { module: 'govuk-button' } %>
+        <%= govuk_link_to t('live_issues.filters.clear'), live_issues_path, no_visited_state: true %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @applied_sort.present? || @status_filters.present? %>
+  <div class="govuk-!-margin-bottom-4 live-issues__active-filters">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2 live-issues__active-filters-heading"><%= t('live_issues.filters.active_heading') %></h2>
+
+    <ul class="govuk-list govuk-!-margin-bottom-2 live-issues__active-filter-list">
+      <% if @applied_sort.present? %>
+        <li>
+          <%= link_to t('live_issues.filters.sort_chip', label: live_issue_sort_label(@applied_sort)), live_issue_filter_path_without_sort, class: 'live-issues__active-filter govuk-link govuk-link--no-visited-state' %>
+        </li>
+      <% end %>
+
+      <% @status_filters.each do |status| %>
+        <li>
+          <%= link_to t('live_issues.filters.status_chip', label: live_issue_status_label(status)), live_issue_filter_path_without_status(status), class: 'live-issues__active-filter govuk-link govuk-link--no-visited-state' %>
+        </li>
+      <% end %>
+    </ul>
+
+    <%= govuk_link_to t('live_issues.filters.clear'), live_issues_path, no_visited_state: true %>
+  </div>
+<% end %>

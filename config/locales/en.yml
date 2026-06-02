@@ -245,6 +245,50 @@ en:
       ending: Changes to end date
       classification: Changes to classification
       unsubscribe: Unsubscribe
+  live_issues:
+    page_title: Live Issues log
+    title: Live issues log
+    empty: No live issues match the selected filters.
+    results:
+      count:
+        one: 1 result
+        other: "%{count} results"
+      showing:
+        one: Showing 1 issue logged
+        other: "Showing %{count} issues logged"
+    filters:
+      summary: Filter and sort
+      sort_by: Sort by
+      status: Status
+      apply: Apply
+      clear: Clear all
+      active_heading: Active filters and sorting
+      sort_chip: "× Sort by: %{label}"
+      status_chip: "× Status: %{label}"
+    sort:
+      updated_desc: Last updated (newest)
+      updated_asc: Last updated (oldest)
+    status_filters:
+      active: Active
+      resolved: Resolved
+    status_labels:
+      active: Active issue
+      resolved: Issue resolved
+    card:
+      last_updated: "Last updated: %{date}"
+      issue: "Issue: %{title}"
+      description: Description
+      commodities_affected: Commodities affected
+      status: Status
+      recommendation: Recommendation
+      date_of_effect: Date of effect
+      not_available: Not available
+      none: None
+    commodities:
+      none: None
+      count:
+        one: 1 commodity
+        other: "%{count} commodities"
 
   navigation:
     back: Back
