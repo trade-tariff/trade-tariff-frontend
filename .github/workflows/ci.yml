@@ -13,6 +13,25 @@ env:
   PYTHON_VERSION: 3
 
 jobs:
+  check-pr-lines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: trade-tariff/trade-tariff-tools/.github/actions/check-pr-lines@main
+        with:
+          threshold: 600
+          exclude-paths: |
+            .github/**
+            **/*.lock
+            spec/
+            db/
+            data/
+            docs/
+            *.md
+
   lint:
     runs-on: ubuntu-latest
     steps:
