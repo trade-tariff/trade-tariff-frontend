@@ -46,8 +46,8 @@ module DutyCalculator
 
       def options
         [
-          OpenStruct.new(id: 'yes', name: "My company's turnover was less than #{ukims_annual_turnover}"),
-          OpenStruct.new(id: 'no', name: "My company's turnover was #{ukims_annual_turnover} or more"),
+          Option.new(id: 'yes', name: "My company's turnover was less than #{ukims_annual_turnover}"),
+          Option.new(id: 'no', name: "My company's turnover was #{ukims_annual_turnover} or more"),
         ]
       end
     end

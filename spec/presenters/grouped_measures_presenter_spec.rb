@@ -46,8 +46,8 @@ RSpec.describe GroupedMeasuresPresenter do
   end
 
   let(:service_chooser) { class_double(TradeTariffFrontend::ServiceChooser, uk?: true) }
-  let(:measure_a) { OpenStruct.new(key: 'a') }
-  let(:measure_b) { OpenStruct.new(key: 'b') }
+  let(:measure_a) { Data.define(:key).new('a') }
+  let(:measure_b) { Data.define(:key).new('b') }
 
   describe '#uk_sections' do
     it 'returns UK sections in display order' do

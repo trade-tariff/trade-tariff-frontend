@@ -2,8 +2,8 @@ module DutyCalculator
   module Steps
     class CertificateOfOrigin < Steps::Base
       OPTIONS = [
-        OpenStruct.new(id: 'yes', name: 'Yes, I have a valid Certificate of Origin'),
-        OpenStruct.new(id: 'no', name: 'No, I do not have a valid Certificate of Origin'),
+        Option.new(id: 'yes', name: 'Yes, I have a valid Certificate of Origin'),
+        Option.new(id: 'no', name: 'No, I do not have a valid Certificate of Origin'),
       ].freeze
 
       STEPS_TO_REMOVE_FROM_SESSION = %w[document_code excise].freeze

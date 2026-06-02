@@ -15,8 +15,8 @@ module DutyCalculator
 
       def options
         [
-          OpenStruct.new(id: 'yes', name: trader_scheme_bullet_point_true.to_s),
-          OpenStruct.new(id: 'no', name: trader_scheme_bullet_point_no.to_s),
+          Option.new(id: 'yes', name: trader_scheme_bullet_point_true.to_s),
+          Option.new(id: 'no', name: trader_scheme_bullet_point_no.to_s),
         ].freeze
       end
 

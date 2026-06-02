@@ -32,8 +32,8 @@ RSpec.describe GreenLanesHelper, type: :helper do
                       cat_1_assessments: [assessment_1, assessment_2])
     end
 
-    let(:assessment_1) { OpenStruct.new(category_assessment_id: 1) }
-    let(:assessment_2) { OpenStruct.new(category_assessment_id: 2) }
+    let(:assessment_1) { { resource_id: 1 } }
+    let(:assessment_2) { { resource_id: 2 } }
 
     context 'when result is "3"' do
       it 'renders exemptions_card' do

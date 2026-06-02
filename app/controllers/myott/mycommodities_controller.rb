@@ -1,5 +1,7 @@
 module Myott
   class MycommoditiesController < MyottController
+    CommodityCodeCounts = Data.define(:active, :expired, :invalid, :total)
+
     before_action :ensure_subscription, except: %i[new create]
 
     def new
@@ -108,7 +110,7 @@ module Myott
     def counts_from_subscription_metadata
       counts = subscription&.dig(:meta, :counts) || {}
 
-      OpenStruct.new(
+      CommodityCodeCounts.new(
         active: counts.fetch('active', 0),
         expired: counts.fetch('expired', 0),
         invalid: counts.fetch('invalid', 0),

@@ -1,8 +1,6 @@
-require 'ostruct'
-
 class Search
   class GoodsNomenclatureMatch < BaseMatch
-    BLANK_RESULT = OpenStruct.new(
+    BLANK_RESULT = Search::BlankResult.new(
       sections: [], chapters: [], headings: [], commodities: [],
     )
 

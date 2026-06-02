@@ -58,7 +58,7 @@ module DutyCalculator
       end
 
       def build_option(code, overlay)
-        OpenStruct.new(
+        Option.new(
           id: code,
           name: "#{code} - #{overlay}".html_safe,
         )
