@@ -1,17 +1,15 @@
 RSpec.describe FlagsmithClient do
   describe '.instance' do
-    # Reset before each example so we test the real lazy-init, not the
-    # TEST_FLAGSMITH_CLIENT double that before(:suite) installs.
-    before { described_class.instance = nil }
-
-    after { described_class.instance = TEST_FLAGSMITH_CLIENT }
-
-    it 'returns the singleton' do
-      expect(described_class.instance).to be_a(described_class)
+    it 'raises if not configured' do
+      original = described_class.instance
+      described_class.instance = nil
+      expect { described_class.instance }.to raise_error(RuntimeError, /not configured/)
+    ensure
+      described_class.instance = original
     end
 
-    it 'returns the same object on repeated calls' do
-      expect(described_class.instance).to equal(described_class.instance)
+    it 'returns the configured singleton' do
+      expect(described_class.instance).to eq(TEST_FLAGSMITH_CLIENT)
     end
   end
 

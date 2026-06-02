@@ -4,7 +4,7 @@ class FeatureOptInsController < ApplicationController
   MANAGEABLE_FEATURES = %i[].freeze
 
   def create
-    flag = params[:feature].to_sym
+    flag = params[:feature].to_s.to_sym
     return head :forbidden unless MANAGEABLE_FEATURES.include?(flag)
 
     FlagsmithClient.instance.enable_for_identity(flag, Current.flagsmith_identity)
@@ -12,7 +12,7 @@ class FeatureOptInsController < ApplicationController
   end
 
   def destroy
-    flag = params[:id].to_sym
+    flag = params[:id].to_s.to_sym
     return head :forbidden unless MANAGEABLE_FEATURES.include?(flag)
 
     FlagsmithClient.instance.disable_for_identity(flag, Current.flagsmith_identity)

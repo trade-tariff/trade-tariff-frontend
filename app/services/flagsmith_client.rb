@@ -12,11 +12,7 @@
 class FlagsmithClient
   class << self
     def instance
-      @instance ||= new(
-        environment_key: ENV.fetch('FLAGSMITH_ENVIRONMENT_KEY', nil),
-        api_url: ENV.fetch('FLAGSMITH_API_URL', nil),
-        admin_api_key: ENV.fetch('FLAGSMITH_ADMIN_API_KEY', nil),
-      )
+      @instance || raise('FlagsmithClient not configured — call FlagsmithClient.configure first or set instance= in tests')
     end
 
     attr_writer :instance

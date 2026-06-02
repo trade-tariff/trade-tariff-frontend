@@ -1,5 +1,12 @@
 RSpec.describe 'FeatureOptIns', type: :request do
   describe 'POST /feature_opt_ins' do
+    context 'with no feature param' do
+      it 'returns 403 (empty symbol never in MANAGEABLE_FEATURES)' do
+        post '/feature_opt_ins'
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
     context 'with a flag not in MANAGEABLE_FEATURES' do
       it 'returns 403' do
         post '/feature_opt_ins', params: { feature: 'green_lanes' }
