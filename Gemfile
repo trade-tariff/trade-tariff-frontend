@@ -63,7 +63,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'guard-rspec'
   gem 'guard-rubocop'
-  gem 'mock_redis'
   gem 'pry-rails'
 end
 

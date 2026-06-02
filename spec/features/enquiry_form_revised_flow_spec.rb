@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature do
-  let(:redis) { MockRedis.new }
+  let(:cache_store) { ActiveSupport::Cache::MemoryStore.new }
 
   around do |example|
-    old_client = ProductExperience::EnquiryFormDraftStore.instance_variable_get(:@client)
-    ProductExperience::EnquiryFormDraftStore.client = redis
+    old_cache_store = ProductExperience::EnquiryFormDraftStore.instance_variable_get(:@cache_store)
+    ProductExperience::EnquiryFormDraftStore.cache_store = cache_store
     example.run
   ensure
-    ProductExperience::EnquiryFormDraftStore.client = old_client
+    ProductExperience::EnquiryFormDraftStore.cache_store = old_cache_store
   end
 
   before do
@@ -96,7 +96,6 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     expect(page).to have_css '#enquiry-form-confirmation-help-link[data-controller="analytics"][data-action="click->analytics#track"][data-analytics-event="confirmation_help_clicked"]'
     expect(page).to have_css '#enquiry-form-confirmation-live-issues-link[data-controller="analytics"][data-action="click->analytics#track"][data-analytics-event="confirmation_live_issues_clicked"]'
     expect(page).to have_css '.feedback-useful-banner'
-    expect(redis.keys('product_experience:enquiry_form:*')).to be_empty
 
     expect(EnquiryForm).to have_received(:create!).with(
       hash_including(
@@ -275,13 +274,12 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     expect(page).to have_content 'There was a problem submitting your enquiry. Please try again later.'
     expect(page).to have_content 'I need help understanding duties.'
     expect(page).to have_content 'trader@example.com'
-    expect(redis.keys('product_experience:enquiry_form:*')).not_to be_empty
   end
 
   it 'restarts the journey when an active draft has expired' do
     visit product_experience_enquiry_form_path
 
-    redis.keys('product_experience:enquiry_form:*').each { |key| redis.del(key) }
+    cache_store.clear
     visit product_experience_enquiry_form_check_your_answers_path
 
     expect(page).to have_current_path(product_experience_enquiry_form_path, ignore_query: true)

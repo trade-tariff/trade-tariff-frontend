@@ -15,9 +15,6 @@ module EnquiryFormHelper
     'contact_details' => %w[email_address full_name company_name occupation],
   }.freeze
 
-  CLASSIFICATION_FIELDS = FIELD_PARAMS.values_at('goods_details', 'commodity_code').flatten.freeze
-  GENERIC_FIELDS = FIELD_PARAMS.fetch('query').freeze
-
   def self.fields
     FIELD_CONFIG.keys
   end
@@ -179,9 +176,5 @@ module EnquiryFormHelper
         ],
       )
     end
-  end
-
-  def text_too_long?(value, max)
-    GovukFrontendHelper.utf16_code_units_length(value.to_s) > max
   end
 end

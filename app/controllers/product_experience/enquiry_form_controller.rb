@@ -10,8 +10,6 @@ module ProductExperience
     before_action :validate_field, only: %i[form submit]
     before_action :verify_submission_token, only: %i[submit submit_form]
 
-    helper EnquiryFormHelper
-
     def show
       start_new_enquiry
       render_step('category')
@@ -24,15 +22,19 @@ module ProductExperience
     def submit
       @field = params[:field]
       previous_data = enquiry_data
-      @enquiry_data = normalized_enquiry_data(@field, previous_data, permitted_answers_for(@field))
-      @errors = errors_for(@field, @enquiry_data)
+      @enquiry_data = ProductExperience::EnquiryFormJourney.normalized_data(
+        @field,
+        previous_data,
+        permitted_answers_for(@field),
+      )
+      @errors = ProductExperience::EnquiryFormValidator.errors_for(@field, @enquiry_data)
 
       write_enquiry_data(@enquiry_data)
 
       if @errors.present?
         @alert = @errors.first[:message]
         @div_id = @errors.first[:field]
-        @prev_field = previous_field(@field)
+        @prev_field = ProductExperience::EnquiryFormJourney.previous_field(@field, @enquiry_data)
         render :form
       else
         next_field_path_redirect(
@@ -115,7 +117,7 @@ module ProductExperience
     def render_step(field)
       @field = field
       @enquiry_data = enquiry_data
-      @prev_field = previous_field(field)
+      @prev_field = ProductExperience::EnquiryFormJourney.previous_field(field, @enquiry_data)
       render :form
     end
 
@@ -154,45 +156,17 @@ module ProductExperience
     end
 
     def next_field_path_redirect(current, editing: false, data: enquiry_data, previous_data: enquiry_data)
-      if editing && !continue_after_edit?(current, previous_data, data)
+      if editing && !ProductExperience::EnquiryFormJourney.continue_journey_after_edit?(current, previous_data, data)
         redirect_to product_experience_enquiry_form_check_your_answers_path and return
       end
 
-      next_field = next_field(current, data)
+      next_field = ProductExperience::EnquiryFormJourney.next_field(current, data)
 
       if next_field
         redirect_to product_experience_enquiry_form_field_path(next_field)
       else
         redirect_to product_experience_enquiry_form_check_your_answers_path
       end
-    end
-
-    def normalized_enquiry_data(field, previous_data, answers)
-      data = previous_data.merge(answers)
-      field == 'category' ? data_for_category(data) : data
-    end
-
-    def data_for_category(data)
-      data = data.except('other_category') unless field_value('category', data) == 'other'
-
-      case route_for_category(field_value('category', data))
-      when :classification
-        data.except(*EnquiryFormHelper::GENERIC_FIELDS)
-      when :generic
-        data.except(*EnquiryFormHelper::CLASSIFICATION_FIELDS)
-      else
-        data
-      end
-    end
-
-    def continue_after_edit?(field, previous_data, data)
-      field == 'category' && route_for_category(previous_data['category']) != route_for_category(data['category'])
-    end
-
-    def route_for_category(category)
-      return if category.blank?
-
-      category == 'classification' ? :classification : :generic
     end
 
     def redirect_to_first_incomplete_field(data)
@@ -203,98 +177,9 @@ module ProductExperience
     end
 
     def first_incomplete_field(data)
-      active_fields(data).find { |field| errors_for(field, data).present? }
-    end
-
-    def active_fields(data)
-      case route_for_category(field_value('category', data))
-      when :classification
-        %w[category goods_details commodity_code contact_details]
-      when :generic
-        %w[category query contact_details]
-      else
-        %w[category]
+      ProductExperience::EnquiryFormJourney.active_fields(data).find do |field|
+        ProductExperience::EnquiryFormValidator.errors_for(field, data).present?
       end
-    end
-
-    def next_field(current, data = enquiry_data)
-      case current
-      when 'category'
-        field_value('category', data) == 'classification' ? 'goods_details' : 'query'
-      when 'goods_details'
-        'commodity_code'
-      when 'commodity_code', 'query'
-        'contact_details'
-      end
-    end
-
-    def previous_field(current)
-      case current
-      when 'goods_details', 'query'
-        'category'
-      when 'commodity_code'
-        'goods_details'
-      when 'contact_details'
-        field_value('category', enquiry_data) == 'classification' ? 'commodity_code' : 'query'
-      end
-    end
-
-    def errors_for(field, data)
-      case field
-      when 'category'
-        category_errors(data)
-      when 'goods_details'
-        goods_detail_errors(data)
-      when 'commodity_code'
-        commodity_code_errors(data)
-      when 'query'
-        query_errors(data)
-      when 'contact_details'
-        contact_detail_errors(data)
-      else
-        []
-      end
-    end
-
-    def category_errors(data)
-      errors = []
-      errors << error('category', 'Please select what you need help with.') if data['category'].blank?
-      errors << error('other_category', 'Please add a short label.') if data['category'] == 'other' && data['other_category'].blank?
-      errors
-    end
-
-    def goods_detail_errors(data)
-      errors = []
-      errors << error('goods_product', 'Please describe the product.') if data['goods_product'].blank?
-      errors << error('goods_made_of', 'Please say what the product is made of.') if data['goods_made_of'].blank?
-      errors
-    end
-
-    def commodity_code_errors(data)
-      errors = []
-      errors << error('has_commodity_code', 'Please select whether you have a possible commodity code.') if data['has_commodity_code'].blank?
-      errors << error('commodity_code', 'Please enter the possible commodity code.') if data['has_commodity_code'] == 'yes' && data['commodity_code'].blank?
-      errors
-    end
-
-    def query_errors(data)
-      errors = []
-      errors << error('query', 'Please explain how we can help.') if data['query'].blank?
-      errors << error('query', 'You can enter up to 5,000 characters.') if text_too_long?(data['query'], 5000)
-      errors
-    end
-
-    def contact_detail_errors(data)
-      errors = []
-      errors << error('email_address', 'Please enter your email address.') if data['email_address'].blank?
-      if data['email_address'].present? && !data['email_address'].match?(URI::MailTo::EMAIL_REGEXP)
-        errors << error('email_address', 'Please enter a valid email address.')
-      end
-      errors
-    end
-
-    def error(field, message)
-      { field:, message: }
     end
 
     def submission_attributes(data = enquiry_data)

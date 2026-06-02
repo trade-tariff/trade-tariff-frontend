@@ -2,15 +2,15 @@ require 'spec_helper'
 
 RSpec.describe ProductExperience::EnquiryFormController, :aggregate_failures, type: :controller do
   let(:draft_id) { SecureRandom.uuid }
-  let(:redis) { MockRedis.new }
+  let(:cache_store) { ActiveSupport::Cache::MemoryStore.new }
   let(:submission_token) { SecureRandom.uuid }
 
   around do |example|
-    old_client = ProductExperience::EnquiryFormDraftStore.instance_variable_get(:@client)
-    ProductExperience::EnquiryFormDraftStore.client = redis
+    old_cache_store = ProductExperience::EnquiryFormDraftStore.instance_variable_get(:@cache_store)
+    ProductExperience::EnquiryFormDraftStore.cache_store = cache_store
     example.run
   ensure
-    ProductExperience::EnquiryFormDraftStore.client = old_client
+    ProductExperience::EnquiryFormDraftStore.cache_store = old_cache_store
   end
 
   before do

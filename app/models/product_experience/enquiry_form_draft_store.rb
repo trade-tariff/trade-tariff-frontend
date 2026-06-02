@@ -4,49 +4,39 @@ module ProductExperience
     EXPIRES_IN = 4.hours
 
     class << self
-      attr_writer :client
+      attr_writer :cache_store
 
       def read(draft_id)
         return if draft_id.blank?
 
-        raw_draft = with_client { |redis| redis.get(cache_key(draft_id)) }
-        return if raw_draft.blank?
-
-        JSON.parse(raw_draft).to_h.stringify_keys
+        cache_store.read(cache_key(draft_id))&.to_h&.stringify_keys
       end
 
       def write(draft_id, data)
         return if draft_id.blank?
 
-        key = cache_key(draft_id)
-        with_client do |redis|
-          redis.set(key, data.to_h.stringify_keys.to_json, ex: EXPIRES_IN.to_i)
-        end
+        cache_store.write(cache_key(draft_id), data.to_h.stringify_keys, expires_in: EXPIRES_IN)
       end
 
       def exists?(draft_id)
-        draft_id.present? && with_client { |redis| redis.exists?(cache_key(draft_id)) }
+        draft_id.present? && cache_store.exist?(cache_key(draft_id))
       end
 
       def delete(draft_id)
-        with_client { |redis| redis.del(cache_key(draft_id)) } if draft_id.present?
+        cache_store.delete(cache_key(draft_id)) if draft_id.present?
       end
 
-      def client
-        @client ||= build_client
+      def cache_store
+        @cache_store ||= build_cache_store
       end
 
       private
 
-      def build_client
-        return Redis.new(url: ENV.fetch('REDIS_URL')) if ENV['REDIS_URL'].present?
-        return MockRedis.new if Rails.env.local? || Rails.env.test?
+      def build_cache_store
+        return ActiveSupport::Cache::MemoryStore.new if Rails.env.local? || Rails.env.test?
+        return Rails.cache unless Rails.cache.is_a?(ActiveSupport::Cache::NullStore)
 
-        raise 'REDIS_URL is required for enquiry form draft storage'
-      end
-
-      def with_client
-        yield client
+        raise 'A real cache store is required for enquiry form draft storage'
       end
 
       def cache_key(draft_id)
