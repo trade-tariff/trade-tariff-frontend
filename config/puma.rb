@@ -31,10 +31,10 @@ threads threads_count, threads_count
 
 environment ENV['RACK_ENV'] || 'development'
 
-rails_env = ENV.fetch("RAILS_ENV", "development")
+rails_env = ENV.fetch('RAILS_ENV', 'development')
 
 # Explicit HTTP bind,  default is 3000.
-if rails_env == "development"
+if rails_env == 'development'
   bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3000)}"
 end
 
