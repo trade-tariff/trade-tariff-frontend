@@ -33,4 +33,3 @@ jobs:
       stale_days: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.stale_days != '' && fromJSON(github.event.inputs.stale_days) || 14 }}
       keep_label: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.keep_label != '' && github.event.inputs.keep_label || 'keep' }}
       dry_run: ${{ github.event_name != 'schedule' && (github.event.inputs.dry_run != 'false') }}
-
