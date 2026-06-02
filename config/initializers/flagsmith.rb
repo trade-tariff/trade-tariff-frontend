@@ -9,10 +9,19 @@
 #
 # In the test environment the singleton is replaced by a TestFlagsmithClient
 # double (see spec/support/flagsmith.rb) so these env vars are not required there.
-unless Rails.env.test?
-  FlagsmithClient.configure(
-    environment_key: ENV.fetch('FLAGSMITH_ENVIRONMENT_KEY'),
-    api_url: ENV.fetch('FLAGSMITH_API_URL'),
-    admin_api_key: ENV.fetch('FLAGSMITH_ADMIN_API_KEY'),
-  )
+#
+# Guarded on FLAGSMITH_ENVIRONMENT_KEY so environments without credentials
+# (CI asset precompilation, test) boot cleanly without raising.
+#
+# Wrapped in to_prepare so the autoloaded FlagsmithClient constant resolves
+# correctly: initializers run before eager loading, and referencing an app/
+# constant at the top level here raises NameError during asset precompilation.
+if ENV['FLAGSMITH_ENVIRONMENT_KEY'].present?
+  Rails.application.config.to_prepare do
+    FlagsmithClient.configure(
+      environment_key: ENV.fetch('FLAGSMITH_ENVIRONMENT_KEY'),
+      api_url: ENV.fetch('FLAGSMITH_API_URL'),
+      admin_api_key: ENV.fetch('FLAGSMITH_ADMIN_API_KEY'),
+    )
+  end
 end

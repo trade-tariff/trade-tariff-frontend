@@ -87,7 +87,7 @@ FlagsmithClient.instance.disable_for_identity(flag, Current.flagsmith_identity)
 Three environment variables:
 
 | Variable | Purpose | Required |
-|---|---|---|
+| --- | --- | --- |
 | `FLAGSMITH_ENVIRONMENT_KEY` | SDK key for flag evaluation and trait writes | Yes |
 | `FLAGSMITH_API_URL` | Base URL of the self-hosted instance (e.g. `https://flagsmith.example.com/api/v1`) | Yes (no default for self-hosted) |
 | `FLAGSMITH_ADMIN_API_KEY` | Server-side key for Admin API mutations | Yes (for opt-in and migration) |
@@ -137,7 +137,7 @@ This avoids the Puma thread-local state problem encountered in the Flipper branc
 Replace env-var checks and `TradeTariffFrontend` flag methods with `feature_enabled?`:
 
 | Before | After |
-|---|---|
+| --- | --- |
 | `ENV['GREEN_LANES_ENABLED'].present?` | `feature_enabled?(:green_lanes)` |
 | `TradeTariffFrontend.webchat_url.present?` | `feature_enabled?(:webchat)` |
 | `ENV['STW_ENABLED'].present?` | `feature_enabled?(:stw)` |
