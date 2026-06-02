@@ -1,10 +1,10 @@
-<details class="govuk-details govuk-!-margin-bottom-4 live-issues__filter-panel">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text"><%= t('live_issues.filters.summary') %></span>
+<%= govuk_details(classes: 'govuk-!-margin-bottom-4 live-issues__filter-panel') do |details| %>
+  <% details.with_summary_html do %>
+    <%= t('live_issues.filters.summary') %>
     <span class="govuk-!-margin-left-3 live-issues__result-count"><%= t('live_issues.results.count', count: @live_issues_count) %></span>
-  </summary>
+  <% end %>
 
-  <div class="govuk-details__text app-c-filter-panel__content">
+  <div class="app-c-filter-panel__content">
     <%= form_with url: live_issues_path, method: :get, local: true do %>
       <fieldset class="govuk-fieldset govuk-!-margin-bottom-4">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
@@ -42,7 +42,7 @@
       </div>
     <% end %>
   </div>
-</details>
+<% end %>
 
 <% if @applied_sort.present? || @status_filters.present? %>
   <div class="govuk-!-margin-bottom-4 live-issues__active-filters">

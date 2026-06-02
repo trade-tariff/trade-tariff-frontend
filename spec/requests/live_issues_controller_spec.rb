@@ -1,47 +1,46 @@
-RSpec.describe LiveIssuesController, type: :controller do
-  subject(:perform_request) { get :index, params: params }
+require 'spec_helper'
+
+RSpec.describe LiveIssuesController, type: :request do
+  subject(:perform_request) { get live_issues_path, params: params }
 
   let(:params) { {} }
   let(:filtered_live_issues) { build_list(:live_issue, 2) }
+  let(:rendered_page) { Capybara.string(response.body) }
 
   before do
     allow(LiveIssue).to receive(:filtered).and_return(filtered_live_issues)
     perform_request
   end
 
-  it 'returns a successful response' do
+  it 'returns a successful HTML response', :aggregate_failures do
     expect(response).to have_http_status(:success)
+    expect(response.content_type).to include('text/html')
+    expect(rendered_page).to have_css('h1', text: 'Live issues log')
   end
 
-  it 'renders the index template' do
-    expect(response).to render_template(:index)
-  end
-
-  it 'assigns filtered live issues with default filter state', :aggregate_failures do
-    expect(assigns(:live_issues).to_a).to eq(filtered_live_issues)
-    expect(assigns(:live_issues_count)).to eq(2)
-    expect(assigns(:sort)).to eq('updated_desc')
-    expect(assigns(:applied_sort)).to be_nil
-    expect(assigns(:status_filters)).to eq([])
+  it 'requests live issues with default filter state', :aggregate_failures do
     expect(LiveIssue).to have_received(:filtered).with(statuses: [], sort: 'updated_desc')
+    expect(rendered_page).to have_checked_field('Last updated (newest)')
+    expect(rendered_page).to have_no_css('.live-issues__active-filters')
   end
 
   context 'when sorting by oldest updated first' do
     let(:params) { { sort: 'updated_asc' } }
 
-    it 'passes the sort to the model', :aggregate_failures do
-      expect(assigns(:sort)).to eq('updated_asc')
-      expect(assigns(:applied_sort)).to eq('updated_asc')
+    it 'passes the sort to the model and renders the applied sort chip', :aggregate_failures do
       expect(LiveIssue).to have_received(:filtered).with(statuses: [], sort: 'updated_asc')
+      expect(rendered_page).to have_checked_field('Last updated (oldest)')
+      expect(rendered_page).to have_css('.live-issues__active-filter', text: 'Sort by: Last updated (oldest)')
     end
   end
 
   context 'when filtering by status' do
     let(:params) { { status: %w[active resolved] } }
 
-    it 'passes selected statuses to the model', :aggregate_failures do
-      expect(assigns(:status_filters)).to eq(%w[active resolved])
+    it 'passes selected statuses to the model and keeps the checkboxes selected', :aggregate_failures do
       expect(LiveIssue).to have_received(:filtered).with(statuses: %w[active resolved], sort: 'updated_desc')
+      expect(rendered_page).to have_checked_field('Active')
+      expect(rendered_page).to have_checked_field('Resolved')
     end
   end
 
@@ -49,8 +48,8 @@ RSpec.describe LiveIssuesController, type: :controller do
     let(:params) { { status: 'active' } }
 
     it 'normalizes the status to an array', :aggregate_failures do
-      expect(assigns(:status_filters)).to eq(%w[active])
       expect(LiveIssue).to have_received(:filtered).with(statuses: %w[active], sort: 'updated_desc')
+      expect(rendered_page).to have_checked_field('Active')
     end
   end
 
@@ -58,10 +57,9 @@ RSpec.describe LiveIssuesController, type: :controller do
     let(:params) { { sort: 'sideways' } }
 
     it 'falls back to default filter state', :aggregate_failures do
-      expect(assigns(:sort)).to eq('updated_desc')
-      expect(assigns(:applied_sort)).to be_nil
-      expect(assigns(:status_filters)).to eq([])
       expect(LiveIssue).to have_received(:filtered).with(statuses: [], sort: 'updated_desc')
+      expect(rendered_page).to have_checked_field('Last updated (newest)')
+      expect(rendered_page).to have_no_css('.live-issues__active-filters')
     end
   end
 
@@ -69,8 +67,9 @@ RSpec.describe LiveIssuesController, type: :controller do
     let(:params) { { status: %w[active archived] } }
 
     it 'ignores unsupported statuses', :aggregate_failures do
-      expect(assigns(:status_filters)).to eq(%w[active])
       expect(LiveIssue).to have_received(:filtered).with(statuses: %w[active], sort: 'updated_desc')
+      expect(rendered_page).to have_checked_field('Active')
+      expect(rendered_page).to have_no_field('Archived')
     end
   end
 end

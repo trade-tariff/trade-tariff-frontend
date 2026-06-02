@@ -7,13 +7,13 @@
     <ul class="govuk-list govuk-!-margin-bottom-0 live-issues__commodity-list">
       <% live_issue.commodities.each do |commodity_code| %>
         <li>
-          <%= govuk_link_to(commodity_code, "/commodities/#{commodity_code}") %>
+          <%= govuk_link_to(commodity_code, commodity_path(commodity_code)) %>
         </li>
       <% end %>
     </ul>
   <% end %>
 <% else %>
   <p class="govuk-body">
-    <%= govuk_link_to(live_issue.commodities.first, "/commodities/#{live_issue.commodities.first}") %>
+    <%= govuk_link_to(live_issue.commodities.first, commodity_path(live_issue.commodities.first)) %>
   </p>
 <% end %>

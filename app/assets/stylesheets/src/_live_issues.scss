@@ -11,7 +11,7 @@
 
 .live-issues__filter-actions.govuk-button-group {
   .govuk-button {
-    margin-bottom: 24px;
+    margin-bottom: govuk-spacing(4);
   }
 }
 
@@ -19,7 +19,7 @@
   .live-issues__filter-actions.govuk-button-group {
     .govuk-button {
       margin-bottom: 0;
-      margin-right: 24px;
+      margin-right: govuk-spacing(4);
     }
   }
 }

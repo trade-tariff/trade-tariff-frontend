@@ -116,10 +116,11 @@ RSpec.describe 'live_issues/index', type: :view do
     expect(rendered_page).to have_css('.govuk-summary-list__value strong', text: 'MFN')
   end
 
-  it 'renders None for missing recommendations' do
+  it 'renders None for missing recommendations', :aggregate_failures do
     resolved_card = rendered_page.all('.govuk-summary-card')[1]
 
-    expect(resolved_card).to have_css('.govuk-summary-list__row', text: /Recommendation\s+None/)
+    expect(resolved_card).to have_css('.govuk-summary-list__key', text: 'Recommendation')
+    expect(resolved_card).to have_css('.govuk-summary-list__value', text: 'None')
   end
 
   it 'does not repeat the visible result count outside the filter summary' do

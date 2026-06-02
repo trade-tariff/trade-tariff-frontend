@@ -1,43 +1,35 @@
-<div class="govuk-summary-card govuk-!-margin-bottom-4 live-issues__card">
-  <div class="govuk-summary-card__title-wrapper">
-    <h2 class="govuk-summary-card__title">
-      <span class="live-issues__card-meta"><%= t('live_issues.card.last_updated', date: live_issue_updated_at(live_issue)) %></span>
-      <span class="live-issues__card-issue"><%= t('live_issues.card.issue', title: live_issue.title) %></span>
-    </h2>
-  </div>
-
-  <div class="govuk-summary-card__content">
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key"><%= t('live_issues.card.description') %></dt>
-        <dd class="govuk-summary-list__value live-issues__markdown"><%= markdown_field(live_issue.description) %></dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key"><%= t('live_issues.card.commodities_affected') %></dt>
-        <dd class="govuk-summary-list__value">
-          <%= render partial: 'commodities', locals: { live_issue: live_issue } %>
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key"><%= t('live_issues.card.status') %></dt>
-        <dd class="govuk-summary-list__value">
-          <strong class="govuk-tag <%= live_issue_status_tag_class(live_issue.status) %>">
-            <%= live_issue_status_label(live_issue.status) %>
-          </strong>
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key"><%= t('live_issues.card.recommendation') %></dt>
-        <dd class="govuk-summary-list__value live-issues__markdown"><%= live_issue_recommendation(live_issue) %></dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key"><%= t('live_issues.card.date_of_effect') %></dt>
-        <dd class="govuk-summary-list__value"><%= live_issue_from_to_date(live_issue) %></dd>
-      </div>
-    </dl>
-  </div>
-</div>
+<%= govuk_summary_card(
+      title: safe_join([
+        tag.span(t('live_issues.card.last_updated', date: live_issue_updated_at(live_issue)), class: 'live-issues__card-meta'),
+        tag.span(t('live_issues.card.issue', title: live_issue.title), class: 'live-issues__card-issue'),
+      ]),
+      classes: 'govuk-!-margin-bottom-4 live-issues__card',
+    ) do %>
+  <%= govuk_summary_list(rows: [
+    {
+      key: { text: t('live_issues.card.description') },
+      value: { text: markdown_field(live_issue.description), classes: 'live-issues__markdown' },
+    },
+    {
+      key: { text: t('live_issues.card.commodities_affected') },
+      value: { text: render(partial: 'commodities', locals: { live_issue: live_issue }) },
+    },
+    {
+      key: { text: t('live_issues.card.status') },
+      value: {
+        text: tag.strong(
+          live_issue_status_label(live_issue.status),
+          class: "govuk-tag #{live_issue_status_tag_class(live_issue.status)}",
+        ),
+      },
+    },
+    {
+      key: { text: t('live_issues.card.recommendation') },
+      value: { text: live_issue_recommendation(live_issue), classes: 'live-issues__markdown' },
+    },
+    {
+      key: { text: t('live_issues.card.date_of_effect') },
+      value: { text: live_issue_from_to_date(live_issue) },
+    },
+  ]) %>
+<% end %>
