@@ -18,6 +18,19 @@ module LiveIssueHelper
     govuk_linkified_html(govspeak(markdown))
   end
 
+  def live_issue_status_sort_link(sort_direction)
+    current_direction = sort_direction == 'desc' ? 'desc' : 'asc'
+    next_direction = current_direction == 'asc' ? 'desc' : 'asc'
+
+    link_to live_issues_path(sort: next_direction), class: 'govuk-link govuk-link--no-visited-state' do
+      safe_join([
+        'Status',
+        tag.span(sort_arrow(current_direction), aria: { hidden: true }),
+        tag.span("sorted #{sort_direction_label(current_direction)}", class: 'govuk-visually-hidden'),
+      ], ' ')
+    end
+  end
+
   def live_issue_recommendation(live_issue)
     return t('live_issues.card.none') if live_issue.suggested_action.blank?
 
@@ -54,19 +67,6 @@ module LiveIssueHelper
     Array(status_filters).include?(status)
   end
 
-  def live_issue_active_filter_labels(status_filters:, sort:)
-    labels = []
-    if sort.present? && sort != LiveIssue::DEFAULT_SORT
-      labels << t('live_issues.filters.sort_chip', label: live_issue_sort_label(sort)).delete_prefix('× ')
-    end
-
-    Array(status_filters).each do |status|
-      labels << t('live_issues.filters.status_chip', label: live_issue_status_label(status)).delete_prefix('× ')
-    end
-
-    labels
-  end
-
   def live_issue_status_label(status)
     normalized_status = status.to_s.downcase
     return t(STATUS_LABELS.fetch('active')) if normalized_status.start_with?('active')
@@ -94,6 +94,14 @@ module LiveIssueHelper
   end
 
 private
+
+  def sort_arrow(direction)
+    (direction == 'desc' ? '&#8595;' : '&#8593;').html_safe
+  end
+
+  def sort_direction_label(direction)
+    direction == 'desc' ? 'descending' : 'ascending'
+  end
 
   def govuk_linkified_html(html)
     fragment = Nokogiri::HTML::DocumentFragment.parse(html.to_s)

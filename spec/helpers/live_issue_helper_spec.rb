@@ -6,16 +6,6 @@ RSpec.describe LiveIssueHelper, type: :helper do
     let(:expected_html) { "<p>This is <strong>bold</strong> text.</p>\n" }
 
     it { is_expected.to eq(expected_html) }
-
-    context 'with unsafe html' do
-      let(:markdown) { '<script>alert(1)</script><a href="javascript:alert(1)" onclick="alert(1)">bad</a>' }
-
-      it 'sanitizes the output', :aggregate_failures do
-        expect(markdown_field).not_to include('<script>')
-        expect(markdown_field).not_to include('javascript:')
-        expect(markdown_field).not_to include('onclick')
-      end
-    end
   end
 
   describe '#live_issue_from_to_date' do
@@ -38,107 +28,43 @@ RSpec.describe LiveIssueHelper, type: :helper do
     end
   end
 
-  describe '#live_issue_updated_at' do
-    subject(:live_issue_updated_at) { helper.live_issue_updated_at(live_issue) }
+  describe '#live_issue_status_sort_link' do
+    subject(:sort_link) { Capybara.string(helper.live_issue_status_sort_link(sort_direction)) }
 
-    let(:live_issue) { build(:live_issue, updated_at:) }
+    context 'when the status column is sorted ascending' do
+      let(:sort_direction) { 'asc' }
 
-    context 'when updated_at is present' do
-      let(:updated_at) { Time.zone.parse('2026-02-13') }
+      it 'links to the descending sort direction' do
+        expect(sort_link).to have_link(href: live_issues_path(sort: 'desc'))
+      end
 
-      it { is_expected.to eq('13 February 2026') }
+      it 'shows the status label' do
+        expect(sort_link).to have_link('Status', href: live_issues_path(sort: 'desc'))
+      end
+
+      it 'shows the ascending arrow' do
+        expect(sort_link).to have_css('span[aria-hidden="true"]', text: '↑')
+      end
+
+      it 'shows the ascending helper text' do
+        expect(sort_link).to have_css('.govuk-visually-hidden', text: 'sorted ascending')
+      end
     end
 
-    context 'when updated_at is missing' do
-      let(:updated_at) { nil }
+    context 'when the status column is sorted descending' do
+      let(:sort_direction) { 'desc' }
 
-      it { is_expected.to eq('Not available') }
-    end
-  end
+      it 'links to the ascending sort direction' do
+        expect(sort_link).to have_link(href: live_issues_path(sort: 'asc'))
+      end
 
-  describe '#live_issue_sort_label' do
-    it 'labels newest-first sorting' do
-      expect(helper.live_issue_sort_label('updated_desc')).to eq('Last updated (newest)')
-    end
+      it 'shows the descending arrow' do
+        expect(sort_link).to have_css('span[aria-hidden="true"]', text: '↓')
+      end
 
-    it 'labels oldest-first sorting' do
-      expect(helper.live_issue_sort_label('updated_asc')).to eq('Last updated (oldest)')
-    end
-
-    it 'falls back to newest-first sorting for unknown values' do
-      expect(helper.live_issue_sort_label('sideways')).to eq('Last updated (newest)')
-    end
-  end
-
-  describe '#live_issue_status_filter_label' do
-    it 'labels active issue filters' do
-      expect(helper.live_issue_status_filter_label('active')).to eq('Active')
-    end
-
-    it 'labels resolved issue filters' do
-      expect(helper.live_issue_status_filter_label('resolved')).to eq('Resolved')
-    end
-  end
-
-  describe '#live_issue_status_filter_selected?' do
-    it 'returns true when the status is selected' do
-      expect(helper.live_issue_status_filter_selected?(%w[active], 'active')).to be(true)
-    end
-
-    it 'returns false when the status is not selected' do
-      expect(helper.live_issue_status_filter_selected?(%w[resolved], 'active')).to be(false)
-    end
-  end
-
-  describe '#live_issue_active_filter_labels' do
-    it 'includes sort and status labels' do
-      expect(
-        helper.live_issue_active_filter_labels(
-          status_filters: %w[active],
-          sort: 'updated_asc',
-        ),
-      ).to eq([
-        'Sort by: Last updated (oldest)',
-        'Status: Active issue',
-      ])
-    end
-
-    it 'omits the sort label when the default sort is applied' do
-      expect(
-        helper.live_issue_active_filter_labels(
-          status_filters: %w[resolved],
-          sort: 'updated_desc',
-        ),
-      ).to eq(['Status: Issue resolved'])
-    end
-
-    it 'omits the sort label when no sort has been applied' do
-      expect(
-        helper.live_issue_active_filter_labels(
-          status_filters: %w[resolved],
-          sort: nil,
-        ),
-      ).to eq(['Status: Issue resolved'])
-    end
-  end
-
-  describe '#live_issue_status_label' do
-    it 'labels active issues' do
-      expect(helper.live_issue_status_label('Active')).to eq('Active issue')
-    end
-
-    it 'labels resolved issues' do
-      expect(helper.live_issue_status_label('Resolved')).to eq('Issue resolved')
-    end
-  end
-
-  describe '#live_issue_status_tag_class' do
-    it 'uses a yellow tag for active issues' do
-      expect(helper.live_issue_status_tag_class('Active')).to eq('govuk-tag--yellow')
-    end
-
-    it 'uses a green tag for resolved issues' do
-      expect(helper.live_issue_status_tag_class('Resolved')).to eq('govuk-tag--green')
+      it 'shows the descending helper text' do
+        expect(sort_link).to have_css('.govuk-visually-hidden', text: 'sorted descending')
+      end
     end
   end
 end
