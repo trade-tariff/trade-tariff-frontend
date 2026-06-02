@@ -31,7 +31,7 @@ module GreenLanes
     end
 
     def check_allowed
-      raise TradeTariffFrontend::FeatureUnavailable unless TradeTariffFrontend.green_lanes_enabled?
+      raise TradeTariffFrontend::FeatureUnavailable unless feature_enabled?(:green_lanes)
     end
   end
 end

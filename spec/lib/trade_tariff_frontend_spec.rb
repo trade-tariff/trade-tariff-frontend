@@ -29,30 +29,6 @@ RSpec.describe TradeTariffFrontend do
     end
   end
 
-  describe '.webchat_url' do
-    context 'with WEBCHAT_URL configured as a full URL' do
-      before do
-        stub_const('ENV', ENV.to_hash.merge('WEBCHAT_URL' => 'https://example.com/webchat'))
-      end
-
-      it 'returns the configured URL' do
-        expect(described_class.webchat_url).to eq('https://example.com/webchat')
-      end
-    end
-
-    context 'with WEBCHAT_URL configured as a webchat slug' do
-      before do
-        stub_const('ENV', ENV.to_hash.merge('WEBCHAT_URL' => 'test-online-services-helpdesk'))
-      end
-
-      it 'returns the HMRC webchat URL for the slug' do
-        expect(described_class.webchat_url).to eq(
-          'https://www.tax.service.gov.uk/ask-hmrc/chat/test-online-services-helpdesk',
-        )
-      end
-    end
-  end
-
   describe '.developer_portal_url' do
     around do |example|
       described_class.instance_variable_set(:@base_domain, nil)

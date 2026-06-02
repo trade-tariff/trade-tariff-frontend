@@ -1,7 +1,7 @@
 # In-memory stand-in for the real FlagsmithClient. Holds a simple hash of
-# flag_name => enabled. All flags default to false. Shared across threads
-# (it is a constant, not thread-local), so Puma server threads in JS tests
-# see the same state as the test thread.
+# flag_name => { enabled, value }. All flags default to disabled with nil value.
+# Shared across threads (it is a constant, not thread-local), so Puma server
+# threads in JS tests see the same state as the test thread.
 class TestFlagsmithClient
   class TestFlags
     def initialize(flags)
@@ -9,11 +9,11 @@ class TestFlagsmithClient
     end
 
     def is_feature_enabled(flag_name)
-      @flags.fetch(flag_name.to_s, false)
+      @flags.dig(flag_name.to_s, :enabled) || false
     end
 
-    def get_feature_value(_flag_name)
-      nil
+    def get_feature_value(flag_name)
+      @flags.dig(flag_name.to_s, :value)
     end
   end
 
@@ -22,7 +22,13 @@ class TestFlagsmithClient
   end
 
   def set_flag(flag, enabled)
-    @flags[flag.to_s] = enabled
+    @flags[flag.to_s] ||= {}
+    @flags[flag.to_s][:enabled] = enabled
+  end
+
+  def set_feature_value(flag, value)
+    @flags[flag.to_s] ||= {}
+    @flags[flag.to_s][:value] = value
   end
 
   def reset!
@@ -77,4 +83,10 @@ end
 
 def disable_feature(flag)
   TEST_FLAGSMITH_CLIENT.set_flag(flag, false)
+end
+
+# Sets the remote config value for a feature flag (e.g. the webchat URL stored
+# in the :webchat flag's value field).
+def set_feature_value(flag, value)
+  TEST_FLAGSMITH_CLIENT.set_feature_value(flag, value)
 end

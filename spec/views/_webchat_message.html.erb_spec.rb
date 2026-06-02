@@ -8,9 +8,10 @@ RSpec.describe 'webchat_message/_footer', type: :view do
       rendered
     end
 
-    context 'when ENV WEBCHAT_URL is set' do
+    context 'when the webchat feature is enabled' do
       before do
-        allow(TradeTariffFrontend).to receive(:webchat_url).and_return('http://webchat_url_test')
+        enable_feature(:webchat)
+        set_feature_value(:webchat, 'http://webchat_url_test')
       end
 
       it 'displays the webchat link' do
@@ -18,11 +19,7 @@ RSpec.describe 'webchat_message/_footer', type: :view do
       end
     end
 
-    context 'when ENV WEBCHAT_URL is not set' do
-      before do
-        allow(TradeTariffFrontend).to receive(:webchat_url).and_return(nil)
-      end
-
+    context 'when the webchat feature is disabled' do
       it { is_expected.not_to have_css '#webchat-link' }
     end
   end

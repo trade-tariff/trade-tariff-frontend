@@ -30,7 +30,7 @@ class Search
   end
 
   def perform
-    if interactive_search && TradeTariffFrontend.interactive_search_enabled?
+    if interactive_search && interactive_search_enabled?
       perform_internal_search
     else
       perform_v2_search
@@ -112,6 +112,11 @@ class Search
   end
 
   private
+
+  def interactive_search_enabled?
+    flags = Current.flagsmith_flags || FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
+    flags.is_feature_enabled('interactive_search')
+  end
 
   def perform_v2_search
     params = { q:, as_of: date.to_fs(:db), resource_id: }

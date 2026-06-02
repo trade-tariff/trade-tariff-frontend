@@ -261,7 +261,7 @@ RSpec.describe Search do
       end
 
       before do
-        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
+        enable_feature(:interactive_search)
         stub_api_request('search', :post, internal: true)
           .to_return(status: 200,
                      body: internal_response_body.to_json,
@@ -322,7 +322,7 @@ RSpec.describe Search do
       end
 
       before do
-        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
+        enable_feature(:interactive_search)
         stub_api_request('search', :post, internal: true)
           .to_return(status: 200,
                      body: { 'data' => [] }.to_json,
@@ -338,7 +338,7 @@ RSpec.describe Search do
       subject(:perform_search) { described_class.new(q: 'horses').perform }
 
       before do
-        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
+        enable_feature(:interactive_search)
         stub_api_request('search', :post).to_return(
           jsonapi_response(:search, {
             type: 'fuzzy_match',
@@ -374,7 +374,7 @@ RSpec.describe Search do
       end
 
       before do
-        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
+        enable_feature(:interactive_search)
         stub_api_request('search', :post, internal: true)
           .to_return(status: 422,
                      body: error_body.to_json,
@@ -399,7 +399,7 @@ RSpec.describe Search do
       subject(:perform_search) { described_class.new(q: 'horses').perform }
 
       before do
-        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(false)
+        disable_feature(:interactive_search)
         stub_api_request('search', :post).to_return(
           jsonapi_response(:search, {
             type: 'fuzzy_match',

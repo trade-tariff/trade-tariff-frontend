@@ -2,6 +2,7 @@ require 'spec_helper'
 
 RSpec.feature 'Rules of Origin wizard', type: :feature do
   before do
+    enable_feature(:roo_wizard)
     allow(Commodity).to receive(:find).and_return commodity
 
     allow(DeclarableUnitService).to receive(:new).and_return(instance_double(DeclarableUnitService, call: ''))

@@ -4,7 +4,7 @@ RSpec.describe GreenLanes::EligibilityResultsController, type: :request do
   subject { make_request && response }
 
   before do
-    allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return true
+    enable_feature(:green_lanes)
   end
 
   describe 'GET #new' do

@@ -2,6 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'Green lanes category assessments', :js, vcr: { cassette_name: 'green_lanes/wizard', record: :new_episodes } do
   before do
+    enable_feature(:green_lanes)
     allow(TradeTariffFrontend::ServiceChooser).to receive(:xi?).and_return(true)
   end
 

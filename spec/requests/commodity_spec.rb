@@ -134,7 +134,12 @@ RSpec.describe 'Commodity page', type: :request do
     end
 
     it 'displays Webchat link' do
-      # ENV['WEBCHAT_URL'] = 'https://webchat_url_test'
+      enable_feature(:webchat)
+      set_feature_value(:webchat, 'https://webchat_url_test')
+
+      VCR.use_cassette('commodities#0101300000.html') do
+        visit commodity_path('0101300000')
+      end
 
       expect(page).to have_css '#webchat-link'
     end

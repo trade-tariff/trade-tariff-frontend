@@ -97,14 +97,14 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
       let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
       context 'with roo_wizard feature flag' do
+        before { enable_feature(:roo_wizard) }
+
         it_behaves_like 'measures with rules of origin tab'
         it_behaves_like 'roo_wizard_uk tab'
         it { is_expected.to have_css '#rules-of-origin h2', text: 'Trading with' }
       end
 
       context 'without roo_wizard feature flag' do
-        before { allow(TradeTariffFrontend).to receive(:roo_wizard?).and_return false }
-
         it_behaves_like 'legacy roo tab'
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
       let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
       context 'with roo_wizard feature flag' do
-        before { allow(TradeTariffFrontend).to receive(:roo_wizard?).and_return true }
+        before { enable_feature(:roo_wizard) }
 
         it_behaves_like 'measures with rules of origin tab'
         it_behaves_like 'roo_wizard_xi tab'
@@ -138,8 +138,6 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
       end
 
       context 'without roo_wizard feature flag' do
-        before { allow(TradeTariffFrontend).to receive(:roo_wizard?).and_return false }
-
         it_behaves_like 'legacy roo tab'
       end
     end
