@@ -87,6 +87,8 @@ end
 
 # Sets the remote config value for a feature flag (e.g. the webchat URL stored
 # in the :webchat flag's value field).
+# rubocop:disable Rails/Delegate
 def set_feature_value(flag, value)
   TEST_FLAGSMITH_CLIENT.set_feature_value(flag, value)
 end
+# rubocop:enable Rails/Delegate
