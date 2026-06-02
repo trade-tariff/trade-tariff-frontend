@@ -19,13 +19,17 @@ module Myott
 
     def date_of_effect
       Date.parse(self['date_of_effect']).to_fs
+    rescue Date::Error # date can be text
+      self['date_of_effect']
     end
 
     def date_of_effect_visible
-      parsed_date_of_effect_visible.to_fs
+      parsed_date_of_effect_visible&.to_fs
     end
 
     def commodity_link_params
+      return {} if parsed_date_of_effect_visible.nil?
+
       {
         day: parsed_date_of_effect_visible.day,
         month: parsed_date_of_effect_visible.month,
@@ -41,7 +45,10 @@ module Myott
     private
 
     def parsed_date_of_effect_visible
-      @parsed_date_of_effect_visible ||= Date.parse(self['date_of_effect_visible'])
+      date = self['date_of_effect_visible']
+      return if date.blank?
+
+      @parsed_date_of_effect_visible ||= Date.parse(date)
     end
   end
 end
