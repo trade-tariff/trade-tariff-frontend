@@ -1,0 +1,43 @@
+<%= govuk_details(classes:) do |details| %>
+  <% details.with_summary_html do %>
+    <%= title %>
+    <% if result_count.present? %>
+      <span class="govuk-!-margin-left-3 app-c-filter__count"><%= result_count %></span>
+    <% end %>
+  <% end %>
+
+  <div class="app-c-filter__content">
+    <%= form_with url: action, method:, local: true do %>
+      <%= form_content %>
+
+      <div class="govuk-button-group app-c-filter__actions">
+        <%= button_tag submit_text, type: 'submit', name: nil, class: 'govuk-button', data: { module: 'govuk-button' } %>
+        <% if clear_path.present? %>
+          <%= govuk_link_to clear_text, clear_path, no_visited_state: true %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if selected_filters.present? %>
+  <div class="govuk-!-margin-bottom-4 app-c-selected-filters">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2"><%= selected_filters_heading %></h2>
+
+    <ul class="govuk-list govuk-!-margin-bottom-2 app-c-selected-filters__list">
+      <% selected_filters.each do |filter| %>
+        <li>
+          <%= link_to filter.fetch(:remove_path), class: 'app-c-selected-filters__tag govuk-link govuk-link--no-visited-state' do %>
+            <span aria-hidden="true">×</span>
+            <span class="govuk-visually-hidden"><%= t('components.filter.remove_filter') %> </span>
+            <%= filter.fetch(:label) %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+
+    <% if clear_path.present? %>
+      <%= govuk_link_to clear_text, clear_path, no_visited_state: true %>
+    <% end %>
+  </div>
+<% end %>

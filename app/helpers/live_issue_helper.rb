@@ -93,6 +93,26 @@ module LiveIssueHelper
     live_issues_path(sort: @applied_sort, status: remaining_statuses.presence)
   end
 
+  def live_issue_selected_filters
+    selected_filters = []
+
+    if @applied_sort.present?
+      selected_filters << {
+        label: t('live_issues.filters.sort_chip', label: live_issue_sort_label(@applied_sort)),
+        remove_path: live_issue_filter_path_without_sort,
+      }
+    end
+
+    @status_filters.each do |status|
+      selected_filters << {
+        label: t('live_issues.filters.status_chip', label: live_issue_status_label(status)),
+        remove_path: live_issue_filter_path_without_status(status),
+      }
+    end
+
+    selected_filters
+  end
+
 private
 
   def sort_arrow(direction)

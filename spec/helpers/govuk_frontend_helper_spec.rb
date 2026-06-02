@@ -84,6 +84,46 @@ RSpec.describe GovukFrontendHelper, type: :helper do
     end
   end
 
+  describe '#app_filter' do
+    subject(:filter) { Capybara.string(rendered_filter) }
+
+    let(:rendered_filter) do
+      app_filter(
+        title: 'Filter and sort',
+        action: '/live_issues',
+        result_count: '20 results',
+        clear_path: '/live_issues',
+        selected_filters: [
+          { label: 'Sort by: Last updated (oldest)', remove_path: '/live_issues?status%5B%5D=active' },
+          { label: 'Status: Active issue', remove_path: '/live_issues?sort=updated_asc' },
+        ],
+        selected_filters_heading: 'Active filters and sorting',
+        submit_text: 'Apply',
+        clear_text: 'Clear all',
+        classes: 'live-issues__filter-panel',
+      ) do
+        tag.div('Filter controls', class: 'filter-controls')
+      end
+    end
+
+    it 'renders a GOV.UK details filter panel with count and form content', :aggregate_failures do
+      expect(filter).to have_css('details.app-c-filter.live-issues__filter-panel')
+      expect(filter).to have_css('summary', text: 'Filter and sort')
+      expect(filter).to have_css('.app-c-filter__count', text: '20 results')
+      expect(filter).to have_css('form[action="/live_issues"][method="get"] .filter-controls', text: 'Filter controls')
+      expect(filter).to have_button('Apply')
+    end
+
+    it 'renders selected filter remove links and clear action', :aggregate_failures do
+      expect(filter).to have_css('.app-c-selected-filters h2', text: 'Active filters and sorting')
+      expect(filter).to have_link('Sort by: Last updated (oldest)', href: '/live_issues?status%5B%5D=active')
+      expect(filter).to have_link('Status: Active issue', href: '/live_issues?sort=updated_asc')
+      expect(filter).to have_css('.app-c-selected-filters__tag span[aria-hidden="true"]', text: '×', count: 2)
+      expect(filter).to have_css('.govuk-visually-hidden', text: 'Remove this filter:', count: 2)
+      expect(filter).to have_link('Clear all', href: '/live_issues')
+    end
+  end
+
   describe '#utf16_code_units_length' do
     it 'counts simple ASCII correctly' do
       expect(described_class.utf16_code_units_length('abc')).to eq(3)

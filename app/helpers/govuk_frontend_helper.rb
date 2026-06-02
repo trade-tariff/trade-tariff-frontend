@@ -21,6 +21,33 @@ module GovukFrontendHelper
     link_to t('navigation.back_to_top'), '#content', class: 'govuk-!-display-none-print'
   end
 
+  def app_filter(title:,
+                 action:,
+                 result_count: nil,
+                 clear_path: nil,
+                 selected_filters: [],
+                 selected_filters_heading: I18n.t('components.filter.selected_filters'),
+                 submit_text: I18n.t('components.filter.apply'),
+                 clear_text: I18n.t('components.filter.clear'),
+                 classes: nil,
+                 method: :get,
+                 &block)
+    render(
+      'shared/components/filter',
+      title:,
+      action:,
+      method:,
+      result_count:,
+      clear_path:,
+      selected_filters:,
+      selected_filters_heading:,
+      submit_text:,
+      clear_text:,
+      classes: (['govuk-!-margin-bottom-4', 'app-c-filter'] + Array(classes)).join(' '),
+      form_content: block_given? ? capture(&block) : nil,
+    )
+  end
+
   def contents_list(list_items,
                     title: I18n.t('generic.contents'),
                     classes: [],

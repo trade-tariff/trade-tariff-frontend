@@ -245,6 +245,12 @@ en:
       ending: Changes to end date
       classification: Changes to classification
       unsubscribe: Unsubscribe
+  components:
+    filter:
+      apply: Apply filters
+      clear: Clear all filters
+      selected_filters: Selected filters
+      remove_filter: "Remove this filter:"
   live_issues:
     page_title: Live Issues log
     title: Live issues log
@@ -253,9 +259,6 @@ en:
       count:
         one: 1 result
         other: "%{count} results"
-      showing:
-        one: Showing 1 issue logged
-        other: "Showing %{count} issues logged"
     filters:
       summary: Filter and sort
       sort_by: Sort by
@@ -263,8 +266,8 @@ en:
       apply: Apply
       clear: Clear all
       active_heading: Active filters and sorting
-      sort_chip: "× Sort by: %{label}"
-      status_chip: "× Status: %{label}"
+      sort_chip: "Sort by: %{label}"
+      status_chip: "Status: %{label}"
     sort:
       updated_desc: Last updated (newest)
       updated_asc: Last updated (oldest)
