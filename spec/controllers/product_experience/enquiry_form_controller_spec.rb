@@ -147,6 +147,34 @@ RSpec.describe ProductExperience::EnquiryFormController, :aggregate_failures, ty
       expect(ProductExperience::EnquiryFormDraftStore.read(draft_id)).to be_nil
     end
 
+    it 'does not submit a stale commodity code when the user has answered no' do
+      start_draft(
+        category: 'classification',
+        goods_product: 'Steel bar',
+        goods_made_of: 'Steel',
+        has_commodity_code: 'no',
+        commodity_code: '9403208090',
+        email_address: 'trader@example.com',
+      )
+      allow(EnquiryForm).to receive(:create!)
+        .and_return({ 'resource_id' => 'HDJ2123F' })
+
+      post :submit_form, params: { submission_token: submission_token }
+
+      expect(EnquiryForm).to have_received(:create!).with(
+        satisfy do |attributes|
+          expect(attributes).to include(
+            email: 'trader@example.com',
+            enquiry_category: 'classification',
+            goods_product: 'Steel bar',
+            goods_made_of: 'Steel',
+            has_commodity_code: 'no',
+          )
+          expect(attributes).not_to include(:commodity_code)
+        end,
+      )
+    end
+
     it 'preserves the draft when the API does not return a reference' do
       allow(EnquiryForm).to receive(:create!)
         .and_return({ 'resource_id' => nil })

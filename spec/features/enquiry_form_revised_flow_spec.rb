@@ -142,6 +142,48 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     )
   end
 
+  it 'clears a possible commodity code when the user changes their answer to no' do
+    visit product_experience_enquiry_form_path
+
+    choose 'Classification'
+    click_button 'Continue'
+
+    fill_in 'What is the product?', with: 'Steel bar'
+    fill_in 'What is it made of?', with: 'Steel'
+    click_button 'Continue'
+
+    choose 'Yes'
+    fill_in 'Possible commodity code', with: '9403208090'
+    choose 'No'
+    click_button 'Continue'
+
+    fill_in 'Email address', with: 'trader@example.com'
+    click_button 'Continue'
+
+    expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
+    expect(page).to have_content 'Do you already have a possible commodity code?'
+    expect(page).to have_content 'No'
+    expect(page).not_to have_content 'Possible commodity code'
+    expect(page).not_to have_content '9403208090'
+
+    click_button 'Submit'
+
+    expect(page).to have_css 'h1', text: 'Your request has been submitted'
+
+    expect(EnquiryForm).to have_received(:create!).with(
+      satisfy do |attributes|
+        expect(attributes).to include(
+          email: 'trader@example.com',
+          enquiry_category: 'classification',
+          goods_product: 'Steel bar',
+          goods_made_of: 'Steel',
+          has_commodity_code: 'no',
+        )
+        expect(attributes).not_to include(:commodity_code)
+      end,
+    )
+  end
+
   it 'clears route-specific answers and collects required answers when the category route changes from check answers' do
     visit product_experience_enquiry_form_path
 
