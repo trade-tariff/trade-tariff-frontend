@@ -5,5 +5,7 @@
 # See the ActiveSupport::ParameterFilter documentation for supported notations and behaviors.
 Rails.application.config.filter_parameters += [
   :passw, :email, :secret, :token, :_key, :crypt, :salt, :certificate, :otp, :ssn, :cvv, :cvc, :ssn, :email,
-  'feedback.name', 'feedback.message'
+  'feedback.name', 'feedback.message',
+  :query, :other_category, :goods_product, :goods_made_of, :goods_used_for, :goods_function,
+  :goods_processed, :goods_packaged, :commodity_code, :full_name, :company_name, :occupation
 ]

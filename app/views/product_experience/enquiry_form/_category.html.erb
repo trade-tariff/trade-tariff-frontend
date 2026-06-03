@@ -1,0 +1,56 @@
+<div class="govuk-form-group <%= field_error_class('category') %>">
+  <fieldset class="govuk-fieldset" aria-describedby="category-hint<%= ' category-error' if field_error('category') %>">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <h1 class="govuk-fieldset__heading">What do you need help with?</h1>
+    </legend>
+
+    <div id="category-hint" class="govuk-hint">
+      Use this form if you need help from the HMRC Trade Tariff team. Choose the option that best matches your question so it goes to the right team.
+    </div>
+
+    <% if field_error('category') %>
+      <p id="category-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> <%= field_error('category') %>
+      </p>
+    <% end %>
+
+    <div class="govuk-radios" data-module="govuk-radios">
+      <% category_options.each do |option| %>
+        <div class="govuk-radios__item">
+          <%= radio_button_tag :category,
+                               option[:value],
+                               field_value('category') == option[:value],
+                               class: 'govuk-radios__input',
+                               id: "category_#{option[:value]}",
+                               data: ({ aria_controls: 'conditional-other-category' } if option[:value] == 'other') %>
+          <label class="govuk-label govuk-radios__label govuk-!-font-weight-bold" for="category_<%= option[:value] %>">
+            <%= option[:label] %>
+          </label>
+          <div class="govuk-hint govuk-radios__hint">
+            <%= option[:hint] %>
+          </div>
+        </div>
+
+        <% if option[:value] == 'other' %>
+          <div class="govuk-radios__conditional <%= 'govuk-radios__conditional--hidden' unless field_value('category') == 'other' %>" id="conditional-other-category">
+            <div class="govuk-form-group <%= field_error_class('other_category') %>">
+              <label class="govuk-label" for="other_category">
+                Add a short label. You can explain it fully on the next page
+              </label>
+              <% if field_error('other_category') %>
+                <p id="other_category-error" class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> <%= field_error('other_category') %>
+                </p>
+              <% end %>
+              <%= text_field_tag :other_category,
+                                 field_value('other_category'),
+                                 class: class_names('govuk-input', 'govuk-input--error': field_error('other_category').present?),
+                                 id: 'other_category',
+                                 'aria-describedby': ('other_category-error' if field_error('other_category')) %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </fieldset>
+</div>

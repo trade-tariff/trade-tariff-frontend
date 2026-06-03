@@ -5,16 +5,41 @@
       <div class="govuk-grid-column-two-thirds">
         <div class="govuk-panel govuk-panel--confirmation">
           <h1 class="govuk-panel__title">
-            Your form has been submitted
+            Your request has been submitted
           </h1>
           <div class="govuk-panel__body">
-            Your form reference number is:<br><strong><%= @reference_number %></strong>
+            Your reference number<br><strong><%= @reference_number %></strong>
           </div>
         </div>
         <h2 class="govuk-heading-m">What happens next?</h2>
+        <p class="govuk-body">Please make a note of your reference number.</p>
         <p class="govuk-body">
-          Make a note of your reference number. We aim to respond to the majority of queries inside 5 working days. However, if your query relates to valuation, origin and in some areas of complex classification, it can take up to 10 working days.
+          We aim to respond to the majority of queries inside 5 working days. However, if your query relates to valuation, origin and in some areas of complex classification, it can take up to 10 working days.
         </p>
+        <h2 class="govuk-heading-m">Other ways to find information</h2>
+        <p class="govuk-body">While we look into your question, you may also find it helpful to:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            check the <%= govuk_link_to 'Help section',
+                                        help_path,
+                                        id: 'enquiry-form-confirmation-help-link',
+                                        data: {
+                                          controller: 'analytics',
+                                          action: 'click->analytics#track',
+                                          analytics_event: 'confirmation_help_clicked',
+                                        } %>
+          </li>
+          <li>
+            look at the <%= govuk_link_to 'Live issues log',
+                                          live_issues_path,
+                                          id: 'enquiry-form-confirmation-live-issues-link',
+                                          data: {
+                                            controller: 'analytics',
+                                            action: 'click->analytics#track',
+                                            analytics_event: 'confirmation_live_issues_clicked',
+                                          } %> to see if your issue is already known
+          </li>
+        </ul>
       </div>
     </div>
   </main>

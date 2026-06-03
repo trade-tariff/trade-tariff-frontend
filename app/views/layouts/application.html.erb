@@ -91,7 +91,7 @@
     </main>
   </div>
 
-  <% unless @feedback %>
+  <% unless @feedback || @hide_feedback_useful_banner %>
     <%= render 'shared/feedback_useful_banner' %>
   <% end %>
 

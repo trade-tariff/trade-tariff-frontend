@@ -4,17 +4,26 @@
 <% end %>
 <div class="govuk-body">
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Check your answers before submitting your form</h1>
       <%= form_with url: product_experience_enquiry_form_submit_form_path, method: :post, local: true do %>
-      <%= hidden_field_tag :submission_token, session[:submission_token] %>
-        <%= govuk_summary_list(rows: @enquiry_data.map { |field, value|
-          {
-            key: { text: field_label(field) },
-            value: { text: simple_format(display_value_for(field, value)) },
-            actions: [{ href: product_experience_enquiry_form_field_path(field, editing: true) }],
-          }
-        }) %>
+        <%= hidden_field_tag :submission_token, session[:submission_token] %>
+
+        <% rows = [
+          check_your_answers_row('category', %w[category other_category], labelled_fields: []),
+        ] %>
+
+        <% if @enquiry_data['category'] == 'classification' %>
+          <% rows << check_your_answers_row('goods_details', %w[goods_product goods_made_of goods_used_for goods_function goods_processed goods_packaged]) %>
+          <% rows << check_your_answers_row('commodity_code', %w[has_commodity_code commodity_code], labelled_fields: %w[commodity_code]) %>
+        <% else %>
+          <% rows << check_your_answers_row('query', %w[query], labelled_fields: []) %>
+        <% end %>
+
+        <% rows << check_your_answers_row('contact_details', %w[email_address full_name company_name occupation]) %>
+
+        <%= govuk_summary_list(rows: rows.compact) %>
+
         <p><%= submit_tag "Submit", class: "govuk-button govuk-!-margin-top-4" %></p>
       <% end %>
     </div>

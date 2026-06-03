@@ -1,106 +1,180 @@
 module EnquiryFormHelper
   FIELD_CONFIG = {
-    'full_name' => 'text_field',
-    'company_name' => 'text_field',
-    'occupation' => 'text_field',
-    'email_address' => 'text_field',
-    'category' => 'radio_buttons',
-    'query' => 'text_area',
+    'category' => 'category',
+    'goods_details' => 'goods_details',
+    'commodity_code' => 'commodity_code',
+    'query' => 'query',
+    'contact_details' => 'contact_details',
+  }.freeze
+
+  FIELD_PARAMS = {
+    'category' => %w[category other_category],
+    'goods_details' => %w[goods_product goods_made_of goods_used_for goods_function goods_processed goods_packaged],
+    'commodity_code' => %w[has_commodity_code commodity_code],
+    'query' => %w[query],
+    'contact_details' => %w[email_address full_name company_name occupation],
   }.freeze
 
   def self.fields
     FIELD_CONFIG.keys
   end
 
+  def self.permitted_fields
+    FIELD_PARAMS.values.flatten
+  end
+
   def partial_for_field(field)
     FIELD_CONFIG.fetch(field, 'unknown_field')
   end
-end
 
-def required_field?(field)
-  !%w[company_name occupation].include?(field)
-end
-
-def error_message_for(field)
-  {
-    'full_name' => 'Please enter your full name.',
-    'email_address' => 'Please enter your email address.',
-    'query' => 'Please enter your query.',
-    'category' => 'Please select a category.',
-  }[field] || 'Please enter a value.'
-end
-
-def field_type(field)
-  case field
-  when 'query'
-    :text_area
-  when 'category'
-    :radio_buttons
-  else
-    :text_field
+  def field_label(field)
+    {
+      'category' => 'What do you need help with?',
+      'goods_details' => 'Tell us about your goods',
+      'commodity_code' => 'Do you already have a possible commodity code?',
+      'query' => 'How can we help you?',
+      'contact_details' => 'Contact details',
+    }[field] || check_your_answers_label(field)
   end
-end
 
-def field_label(field)
-  {
-    'company_name' => 'Company name (optional)',
-    'occupation' => 'Job title (optional)',
-    'category' => 'What do you need help with?',
-    'query' => 'How can we help?',
-  }[field] || field.humanize
-end
+  def category_options
+    [
+      {
+        label: 'Classification',
+        value: 'classification',
+        hint: 'Help finding the correct commodity code for your goods.',
+      },
+      {
+        label: 'Import duties and quotas',
+        value: 'import_duties_and_quota',
+        hint: 'Get information about duties and quotas.',
+      },
+      {
+        label: 'Origin',
+        value: 'origin',
+        hint: 'Ask about preferential and non-preferential origin.',
+      },
+      {
+        label: 'Valuation',
+        value: 'valuation',
+        hint: 'Help with determining the customs value of your goods.',
+      },
+      {
+        label: 'API support and Developer Portal',
+        value: 'developer_portal',
+        hint: 'Get help on using the Trade Tariff APIs and the Developer Portal.',
+      },
+      {
+        label: 'Stop Press and commodity code watch lists',
+        value: 'stop_press_and_commodity_code_watch_lists',
+        hint: 'Assistance with creating and managing watch lists.',
+      },
+      {
+        label: 'Other',
+        value: 'other',
+        hint: 'Any other questions relating to the Online Trade Tariff.',
+      },
+    ]
+  end
 
-def field_hint(field)
-  {
-    'email_address' => "We'll only use this to contact you about your enquiry.",
-    'query' => "Explain what problem you're having and what help you need to resolve it.",
-    'category' => 'Select one option.',
-  }[field]
-end
+  def display_value_for(field, value)
+    return category_label(value) if field == 'category'
+    return 'Yes' if field == 'has_commodity_code' && value == 'yes'
+    return 'No' if field == 'has_commodity_code' && value == 'no'
 
-def radio_button_category_options
-  [
-    ['API & Dev Portal Support', 'api_dev_portal_support'],
-    ['Classification (identify the correct commodity code)', 'classification'],
-    ['Customs Valuation', 'customs_valuation'],
-    ['Import Duties', 'import_duties'],
-    ['Origin (Preferential and non-preferential)', 'origin'],
-    ['Quotas', 'quotas'],
-    ['Stop Press Subscription', 'stop_press_subscription'],
-    ['Tariff Watch Lists', 'tariff_watch_lists'],
-  ]
-end
-
-def display_value_for(field, value)
-  # for displaying the category label in the summary page.
-  if field == 'category'
-    match = radio_button_category_options.find { |_label, val| val == value }
-    match ? match.first : value
-  else
     value
   end
-end
 
-def field_value(field, session_data = session[:enquiry_data])
-  if session_data[field].present?
-    if field == 'query'
-      Rails.cache.read(session_data[field])
-    else
-      session_data[field]
+  def field_value(field, data = @enquiry_data)
+    data.to_h[field]
+  end
+
+  def field_error(field)
+    @errors.to_a.find { |error| error[:field] == field }&.fetch(:message)
+  end
+
+  def field_error_class(field)
+    'govuk-form-group--error' if field_error(field).present?
+  end
+
+  def category_label(value)
+    category_options.find { |option| option[:value] == value }&.fetch(:label, value) || value
+  end
+
+  def check_your_answers_row(step, fields, labelled_fields: fields)
+    answers = check_your_answers_values(fields)
+    return if answers.blank?
+
+    {
+      key: { text: check_your_answers_step_label(step) },
+      value: { text: check_your_answers_value(answers, labelled_fields:) },
+      actions: [
+        {
+          href: product_experience_enquiry_form_field_path(step, editing: true),
+          visually_hidden_text: check_your_answers_step_label(step),
+        },
+      ],
+    }
+  end
+
+  def check_your_answers_label(field)
+    {
+      'category' => 'What do you need help with?',
+      'query' => 'How can we help?',
+      'goods_product' => 'What is the product?',
+      'goods_made_of' => 'What is it made of?',
+      'goods_used_for' => 'What is it used for?',
+      'goods_function' => 'How does it work or function?',
+      'goods_processed' => 'Has it been processed, prepared or treated in any way?',
+      'goods_packaged' => 'How is it presented or packaged?',
+      'has_commodity_code' => 'Do you already have a possible commodity code?',
+      'commodity_code' => 'Possible commodity code',
+      'email_address' => 'Email',
+      'full_name' => 'Name',
+      'company_name' => 'Company name',
+      'occupation' => 'Role',
+    }[field] || field.humanize
+  end
+
+  def check_your_answers_step_label(step)
+    {
+      'category' => 'What do you need help with?',
+      'goods_details' => 'Tell us about your goods',
+      'commodity_code' => 'Do you already have a possible commodity code?',
+      'query' => 'How can we help?',
+      'contact_details' => 'Contact details',
+    }[step] || step.humanize
+  end
+
+  def check_your_answers_values(fields)
+    fields.filter_map do |field|
+      value = field_value(field)
+      next if value.blank?
+
+      [field, display_value_for(field, value)]
     end
   end
-end
 
-def validate_value(field, value)
-  if value.blank? && required_field?(field)
-    @alert = error_message_for(field)
-  end
-  if field == 'email_address' && !value.match?(URI::MailTo::EMAIL_REGEXP)
-    @alert = 'Please enter a valid email address.'
+  def check_your_answers_value(answers, labelled_fields:)
+    safe_join(
+      answers.map do |field, value|
+        if labelled_fields.include?(field)
+          labelled_check_your_answers_value(field, value)
+        else
+          simple_format(value, { class: 'govuk-!-margin-bottom-0' })
+        end
+      end,
+    )
   end
 
-  max = 5000
-  if field == 'query' && GovukFrontendHelper.utf16_code_units_length(value) > max
-    @alert = "Please limit your query to #{max} characters or less."
+  def labelled_check_your_answers_value(field, value)
+    tag.div(class: 'govuk-!-margin-bottom-3') do
+      safe_join(
+        [
+          tag.p(tag.strong(check_your_answers_label(field)), class: 'govuk-!-font-weight-bold govuk-!-margin-bottom-0'),
+          simple_format(value, { class: 'govuk-!-margin-bottom-0' }),
+        ],
+      )
+    end
   end
 end

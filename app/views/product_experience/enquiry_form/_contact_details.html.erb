@@ -1,0 +1,28 @@
+<h1 class="govuk-heading-l">Contact details</h1>
+
+<p class="govuk-body">We'll only use these to contact you directly about your enquiry.</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>we'll use your email to reply</li>
+  <li>the other details are optional and help us understand who is contacting us</li>
+</ul>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'email_address',
+           label: 'Email address',
+           hint: nil %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'full_name',
+           label: 'Name (optional)',
+           hint: nil %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'company_name',
+           label: 'Company name (optional)',
+           hint: nil %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'occupation',
+           label: 'Job title (optional)',
+           hint: nil %>
