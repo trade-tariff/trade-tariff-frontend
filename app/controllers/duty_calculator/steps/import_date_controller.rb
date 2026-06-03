@@ -5,6 +5,7 @@ module DutyCalculator
         @step = Steps::ImportDate.new(initial_date_params)
 
         persist_commodity_data
+        add_commodity_unavailable_error if commodity.nil?
       end
 
       def create

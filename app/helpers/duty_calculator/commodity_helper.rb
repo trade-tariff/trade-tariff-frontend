@@ -22,6 +22,8 @@ module DutyCalculator
       query = {}
 
       commodity_context_service.call(commodity_source, commodity_code, query)
+    rescue Faraday::ResourceNotFound
+      nil
     end
 
     def applicable_meursing_codes?
