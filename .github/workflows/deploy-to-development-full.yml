@@ -35,11 +35,13 @@ jobs:
           {
             "name": "tariff-backend",
             "repo": "trade-tariff/trade-tariff-backend",
+            "migrate": true,
             "service-names": ["backend-uk", "backend-xi", "worker-uk", "worker-xi"]
           },
           {
             "name": "tariff-admin",
             "repo": "trade-tariff/trade-tariff-admin",
+            "migrate": true,
             "service-names": ["admin"]
           },
           {
@@ -49,6 +51,7 @@ jobs:
           }
         ]
       test-flavour: tariff
+      migrate: true
     secrets:
       ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
