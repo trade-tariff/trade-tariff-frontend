@@ -125,6 +125,8 @@ class ApplicationController < ActionController::Base
 
   def append_info_to_payload(payload)
     super
+    payload[:request_id] = request.request_id
+    payload[:search_request_id] = @search&.request_id
     payload[:user_agent] = request.env['HTTP_USER_AGENT']
   end
 
