@@ -55,6 +55,24 @@ RSpec.describe ProductExperience::EnquiryFormJourney, :aggregate_failures do
 
       expect(data).to eq('category' => 'origin')
     end
+
+    it 'removes the possible commodity code when the user changes their answer to no' do
+      data = described_class.normalized_data(
+        'commodity_code',
+        {
+          'category' => 'classification',
+          'has_commodity_code' => 'yes',
+          'commodity_code' => '9403208090',
+        },
+        { 'has_commodity_code' => 'no' },
+      )
+
+      expect(data).to include(
+        'category' => 'classification',
+        'has_commodity_code' => 'no',
+      )
+      expect(data).not_to include('commodity_code')
+    end
   end
 
   describe '.next_field' do

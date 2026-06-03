@@ -194,16 +194,7 @@ module ProductExperience
 
       route_attributes =
         if data['category'] == 'classification'
-          {
-            goods_product: data['goods_product'],
-            goods_made_of: data['goods_made_of'],
-            goods_used_for: data['goods_used_for'],
-            goods_function: data['goods_function'],
-            goods_processed: data['goods_processed'],
-            goods_packaged: data['goods_packaged'],
-            has_commodity_code: data['has_commodity_code'],
-            commodity_code: data['commodity_code'],
-          }
+          classification_submission_attributes(data)
         else
           {
             enquiry_description: data['query'],
@@ -211,6 +202,20 @@ module ProductExperience
         end
 
       common_attributes.merge(route_attributes).compact
+    end
+
+    def classification_submission_attributes(data)
+      attributes = {
+        goods_product: data['goods_product'],
+        goods_made_of: data['goods_made_of'],
+        goods_used_for: data['goods_used_for'],
+        goods_function: data['goods_function'],
+        goods_processed: data['goods_processed'],
+        goods_packaged: data['goods_packaged'],
+        has_commodity_code: data['has_commodity_code'],
+      }
+      attributes[:commodity_code] = data['commodity_code'] if data['has_commodity_code'] == 'yes'
+      attributes
     end
   end
 end

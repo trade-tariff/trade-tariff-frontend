@@ -7,7 +7,15 @@ module ProductExperience
     class << self
       def normalized_data(field, previous_data, answers)
         data = previous_data.to_h.merge(answers.to_h).stringify_keys
-        field == 'category' ? data_for_category(data) : data
+
+        case field
+        when 'category'
+          data_for_category(data)
+        when 'commodity_code'
+          data_for_commodity_code(data)
+        else
+          data
+        end
       end
 
       def next_field(current, data = {})
@@ -61,6 +69,12 @@ module ProductExperience
         else
           data
         end
+      end
+
+      def data_for_commodity_code(data)
+        return data if data['has_commodity_code'] == 'yes'
+
+        data.except('commodity_code')
       end
 
       def classification?(data)
