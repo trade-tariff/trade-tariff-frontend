@@ -17,9 +17,9 @@ RSpec.describe 'Live issues log', :js, type: :feature do
   it 'renders, paginates, filters and sorts card results', :aggregate_failures do
     visit live_issues_path
 
-    expect(page).to have_css('.live-issues__result-count', text: '20 results')
+    expect(page).to have_css('.app-c-filter__count', text: '20 results')
     expect(page).to have_css('.govuk-summary-card', count: 4)
-    expect(page).to have_no_css('.live-issues__active-filters')
+    expect(page).to have_no_css('.app-c-selected-filters')
     expect(page).to have_css('.govuk-pagination__item--ellipsis', text: '⋯')
 
     find('summary', text: 'Filter and sort').click
@@ -29,8 +29,8 @@ RSpec.describe 'Live issues log', :js, type: :feature do
 
     expect(page).to have_current_path(live_issues_path(sort: 'updated_asc', status: %w[active]), ignore_query: false)
     expect(page).to have_no_css('details.live-issues__filter-panel[open]')
-    expect(page).to have_css('.live-issues__active-filter', text: 'Sort by: Last updated (oldest)')
-    expect(page).to have_css('.live-issues__active-filter', text: 'Status: Active issue')
+    expect(page).to have_css('.app-c-selected-filters__tag', text: 'Sort by: Last updated (oldest)')
+    expect(page).to have_css('.app-c-selected-filters__tag', text: 'Status: Active issue')
     expect(page).to have_css('.govuk-summary-card:first-of-type', text: 'Issue 2')
     expect(page).to have_no_content('Issue 1')
   end
