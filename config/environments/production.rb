@@ -106,6 +106,12 @@ Rails.application.configure do
       search_request_id: event.payload[:search_request_id],
       user_agent: event.payload[:user_agent],
       params: event.payload[:params].except('controller', 'action', 'format', 'utf8'),
+      exception_class: event.payload[:exception_class],
+      exception_message: event.payload[:exception_message],
+      backend_status: event.payload[:backend_status],
+      backend_url: event.payload[:backend_url],
+      backend_response_body: event.payload[:backend_response_body],
+      backend_response_body_truncated: event.payload[:backend_response_body_truncated],
     }.compact
   end
 
