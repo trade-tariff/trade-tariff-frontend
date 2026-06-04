@@ -1,7 +1,7 @@
 class EnquiryForm
   include ApiEntity
 
-  set_singular_path 'enquiry_form/revised_submissions'
+  set_singular_path 'enquiry_form/submissions'
 
   attr_accessor :name, :company_name, :job_title, :email, :enquiry_category, :enquiry_description
 
