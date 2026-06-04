@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/uktt.git
-  revision: c662f80b72030f5637176ab338167d756462a206
+  revision: 2e8760c6e03913ee9f12c8f2a1a4add99efe43e9
   specs:
     uktt (4.0.0)
       faraday
@@ -184,7 +184,7 @@ GEM
       faraday (>= 1, < 3)
     faraday-http-cache (2.7.0)
       faraday (>= 0.8)
-    faraday-net_http (3.4.2)
+    faraday-net_http (3.4.4)
       net-http (~> 0.5)
     faraday-net_http_persistent (2.3.1)
       faraday (~> 2.5)
@@ -281,7 +281,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.19.5)
+    json (2.19.8)
     jwt (3.2.0)
       base64
     kaminari (1.2.2)
