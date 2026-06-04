@@ -29,6 +29,16 @@ The application is a Rails 8 frontend for the Trade Tariff service. It renders t
 - Use `rg` for code search.
 - Treat commodity display, measures, duties, quotas, rules of origin, Green Lanes, subscriptions, auth/session handling, and backend API calls as high-risk areas.
 
+## PR Risk Labels
+
+When opening a PR, use `.github/pull_request_template.md` as the canonical risk decision tree. Fill in the Risk section and apply exactly one matching GitHub label:
+
+- `low-risk` for green changes: standard review. Typical examples include GOV.UK copy/content changes, GOV.UK component updates with no behaviour change, tests-only changes, dependency bumps with no API changes, additive config with safe defaults, covered refactors with no behaviour change, read-only observability, Terraform changes with no resource recreation, and static asset changes with no layout impact.
+- `medium-risk` for amber changes: socialise with the team before merging. Typical examples include page layout or navigation changes affecting many journeys, commodity or tariff presentation changes, new or modified backend/admin API calls, live feature flags, error page, accessibility markup, service header/footer, search UI, cross-browser Sass/CSS, networking, security group, IAM, resource replacement, CI/CD, deployment ordering, and route/action/partial deprecation changes.
+- `high-risk` for red changes: requires explicit approval from Thor or Neil before merging. Typical examples include legally significant content changes, declarable goods or trader-facing regulatory journey changes, identity/authentication integration changes, production AWS changes that cannot be easily rolled back, secrets or credential handling changes, significant architectural shifts, and GOV.UK service compliance, WCAG 2.2 AA, or design-system conformance changes.
+
+Do not apply more than one risk label to the same PR. If the risk rating changes during review, remove the old risk label and apply the new one.
+
 ## Key Entry Points
 
 - Routes: `config/routes.rb`, `config/routes/duty_calculator.rb`

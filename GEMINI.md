@@ -17,6 +17,15 @@ Before changing code:
 - Run project commands directly by default. If you use Nix/direnv locally, `direnv exec <repo-path> <command>` is also fine.
 - Use `rg` for code search.
 
+Before opening a PR:
+
+- Use `.github/pull_request_template.md` as the canonical risk decision tree.
+- Fill in the Risk section and apply exactly one matching GitHub label: `low-risk` for green, `medium-risk` for amber, or `high-risk` for red.
+- Treat GOV.UK copy/content changes, GOV.UK component updates with no behaviour change, tests-only changes, dependency bumps with no API changes, additive config with safe defaults, covered refactors with no behaviour change, read-only observability, Terraform changes with no resource recreation, and static asset changes with no layout impact as typical `low-risk` changes.
+- Treat page layout or navigation changes affecting many journeys, commodity or tariff presentation changes, backend/admin API calls, live feature flags, error page, accessibility markup, service header/footer, search UI, cross-browser Sass/CSS, networking, security group, IAM, resource replacement, CI/CD, deployment ordering, and route/action/partial deprecation changes as typical `medium-risk` changes that need a team conversation before merging.
+- Treat legally significant content, declarable goods or trader-facing regulatory journeys, identity/authentication integration, hard-to-rollback production AWS, secrets or credential handling, significant architecture, and GOV.UK service compliance, WCAG 2.2 AA, or design-system conformance changes as typical `high-risk` changes that require explicit approval from Thor or Neil.
+- If the risk rating changes during review, remove the old risk label and apply the new one.
+
 Useful docs:
 
 - `docs/development-and-delivery.md`
