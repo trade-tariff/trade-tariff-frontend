@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/routing-filter.git
-  revision: 0be4828e0004571a36fb74fb087beb9001d85ac5
+  revision: 555e172ae6f695f33043813ea5a68a8522537ac1
   specs:
     routing-filter (1.0.0)
       actionpack (>= 7.1)
