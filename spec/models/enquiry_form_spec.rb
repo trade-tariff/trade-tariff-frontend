@@ -7,7 +7,7 @@ RSpec.describe EnquiryForm do
 
     context 'when the request is successful' do
       before do
-        stub_api_request('enquiry_form/revised_submissions', :post)
+        stub_api_request('enquiry_form/submissions', :post)
           .with(
             body: hash_including(
               data: {
