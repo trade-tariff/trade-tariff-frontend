@@ -78,6 +78,26 @@ module ApplicationHelper
     request.base_url + request.path
   end
 
+  def feedback_path_with_context(options = {})
+    feedback_path(feedback_context_params.merge(options))
+  end
+
+  def feedback_context_params
+    {
+      feedback_url: request.original_url,
+      feedback_query: feedback_search_query,
+      feedback_request_id: feedback_search_request_id,
+    }.compact
+  end
+
+  def feedback_search_query
+    @search&.q.presence || params[:q].presence
+  end
+
+  def feedback_search_request_id
+    @search&.request_id.presence || params[:request_id].presence
+  end
+
   def pretty_date_range(start_date, end_date)
     pretty_end_date = end_date ? "<br>to #{end_date.to_formatted_s(:rfc822)}" : ''
 

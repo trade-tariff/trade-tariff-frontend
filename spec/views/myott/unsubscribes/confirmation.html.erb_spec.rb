@@ -11,7 +11,7 @@ RSpec.describe 'myott/unsubscribes/confirmation.html.erb', type: :view do
     end
 
     it 'links "What did you think of this service?" to the in-app feedback path' do
-      expect(rendered).to have_link('What did you think of this service?', href: feedback_path)
+      expect(rendered).to have_link('What did you think of this service?', href: %r{\A/feedback\?})
     end
   end
 end

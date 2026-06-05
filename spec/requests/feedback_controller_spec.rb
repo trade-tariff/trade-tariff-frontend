@@ -113,4 +113,53 @@ RSpec.describe FeedbackController, type: :request do
       end
     end
   end
+
+  describe 'feedback from POST search results' do
+    let(:message) { 'Search feedback with context' }
+    let(:authenticity_token) { 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw' }
+
+    before do
+      stub_api_request('search', :post).to_return(
+        jsonapi_response(:search, {
+          type: 'fuzzy_match',
+          goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+          reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+        }),
+      )
+    end
+
+    it 'sends the search URL, query and request id to support when the URL has no query param', :aggregate_failures do
+      post perform_search_path, params: { q: 'leather handbags', request_id: 'search-request-123' }
+
+      expect(response).to have_http_status(:ok)
+      expect(request.original_url).to eq('http://www.example.com/search')
+
+      feedback_hrefs = Nokogiri::HTML(response.body)
+                              .css('a[href^="/feedback?"]')
+                              .map { |link| link['href'] }
+
+      expect(feedback_hrefs).not_to be_empty
+      feedback_hrefs.each do |href|
+        feedback_params = Rack::Utils.parse_query(URI.parse(href).query)
+
+        expect(feedback_params).to include(
+          'feedback_url' => 'http://www.example.com/search',
+          'feedback_query' => 'leather handbags',
+          'feedback_request_id' => 'search-request-123',
+        )
+      end
+
+      get feedback_hrefs.first
+      post feedbacks_path, params: {
+        feedback: { message: },
+        authenticity_token:,
+      }
+
+      email_body = ActionMailer::Base.deliveries.last.body.to_s
+
+      expect(email_body).to include('URL: http://www.example.com/search')
+      expect(email_body).to include('Query: leather handbags')
+      expect(email_body).to include('Request ID: search-request-123')
+    end
+  end
 end

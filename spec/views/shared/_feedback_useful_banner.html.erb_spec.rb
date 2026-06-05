@@ -2,9 +2,9 @@ RSpec.describe 'shared/_feedback_useful_banner', type: :view do
   subject { render partial: 'shared/feedback_useful_banner' }
 
   it { is_expected.to have_text('Is this page useful?') }
-  it { is_expected.to have_link('Yes', href: feedback_path(page_useful: 'yes')) }
-  it { is_expected.to have_link('No', href: feedback_path(page_useful: 'no')) }
-  it { is_expected.to have_link('Report a problem with this page', href: feedback_path) }
+  it { is_expected.to have_link('Yes', href: %r{\A/feedback\?.*page_useful=yes}) }
+  it { is_expected.to have_link('No', href: %r{\A/feedback\?.*page_useful=no}) }
+  it { is_expected.to have_link('Report a problem with this page', href: %r{\A/feedback\?}) }
 
   it 'does not render a divider by default' do
     render partial: 'shared/feedback_useful_banner'
