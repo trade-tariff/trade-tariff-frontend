@@ -11,17 +11,17 @@
 
       <ul class="govuk-footer__inline-list">
         <li class="govuk-footer__inline-list-item">
-          <%= govuk_button_link_to 'Yes', feedback_path(page_useful: 'yes'), secondary: true %>
+          <%= govuk_button_link_to 'Yes', feedback_path_with_context(page_useful: 'yes'), secondary: true %>
         </li>
         <li class="govuk-footer__inline-list-item">
-          <%= govuk_button_link_to 'No', feedback_path(page_useful: 'no'), secondary: true %>
+          <%= govuk_button_link_to 'No', feedback_path_with_context(page_useful: 'no'), secondary: true %>
         </li>
       </ul>
     </div>
     <div class="govuk-footer__meta-item">
       <ul class="govuk-footer__inline-list">
         <li class="govuk-footer__inline-list-item">
-          <%= govuk_button_link_to 'Report a problem with this page', feedback_path, secondary: true, class: 'report-problem' %>
+          <%= govuk_button_link_to 'Report a problem with this page', feedback_path_with_context, secondary: true, class: 'report-problem' %>
         </li>
       </ul>
     </div>

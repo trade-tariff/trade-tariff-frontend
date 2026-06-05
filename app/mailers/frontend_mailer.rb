@@ -8,6 +8,8 @@ class FrontendMailer < ActionMailer::Base
   def new_feedback(feedback)
     @message = feedback.message
     @url = feedback.referrer
+    @query = feedback.query
+    @request_id = feedback.request_id
     @page_useful = feedback.page_useful
 
     mail subject: 'Trade Tariff Feedback'

@@ -6,4 +6,12 @@
   <p>URL: <%= @url %></p>
 <% end %>
 
+<% if @query %>
+  <p>Query: <%= @query %></p>
+<% end %>
+
+<% if @request_id %>
+  <p>Request ID: <%= @request_id %></p>
+<% end %>
+
 <p>Found this page useful: <%= @page_useful if @page_useful %></p>
