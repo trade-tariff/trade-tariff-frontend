@@ -1,5 +1,6 @@
-^node_modules/
-^public/packs/
-^terraform/\.terraform/
-^vendor/bundle/
-^tmp/
+(^|/)node_modules/
+(^|/)public/packs/
+(^|/)terraform/\.terraform/
+(^|/)vendor/bundle/
+(^|/)tmp/
+(^|/)public/roo_origin_reference_documents/

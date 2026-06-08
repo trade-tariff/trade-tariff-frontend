@@ -1,1 +1,2 @@
+--require ./spec/parallel_rspec
 --require spec_helper

@@ -81,4 +81,8 @@ jobs:
 
       - run: bin/rails assets:precompile
 
-      - run: bundle exec rspec
+      - name: Run tests
+        env:
+          PARALLEL_TEST_PROCESSORS: "5"
+          SKIP_PARALLEL_TEST_PREPARE: "true"
+        run: bundle exec rspec
