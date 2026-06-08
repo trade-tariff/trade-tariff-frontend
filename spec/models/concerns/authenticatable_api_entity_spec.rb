@@ -124,6 +124,27 @@ RSpec.describe AuthenticatableApiEntity do
 
         expect(mock_api).not_to have_received(:get)
       end
+
+      context 'with allow_nil_token option' do
+        it 'makes API call with nil token when option is enabled' do
+          test_class.find(entity_id, nil, allow_nil_token: true)
+
+          expect(mock_api).to have_received(:get)
+            .with('/test/123', { allow_nil_token: true }, { authorization: 'Bearer ' })
+        end
+
+        it 'returns entity instance when option is enabled' do
+          result = test_class.find(entity_id, nil, allow_nil_token: true)
+
+          expect(result).to be_a(test_class)
+        end
+
+        it 'still returns nil when option is disabled' do
+          test_class.find(entity_id, nil, allow_nil_token: false)
+
+          expect(mock_api).not_to have_received(:get)
+        end
+      end
     end
 
     context 'when API returns unauthorized error' do
