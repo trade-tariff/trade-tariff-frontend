@@ -7,7 +7,10 @@ RSpec.describe FindCommoditiesController, type: :request do
     include_context 'with latest news stubbed'
     include_context 'with news updates stubbed'
 
-    before { get find_commodity_path(params) }
+    before do
+      allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(false)
+      get find_commodity_path(params)
+    end
 
     let(:params) { {} }
 
@@ -22,6 +25,8 @@ RSpec.describe FindCommoditiesController, type: :request do
 
     context 'with an invalid date flag' do
       let(:params) { { invalid_date: true, day: '22', month: '0', year: '2026' } }
+
+      it { is_expected.to have_http_status :ok }
 
       it 'renders a GOV.UK error summary' do
         expect(response.body).to match(/govuk-error-summary.*You must enter a valid date/m)

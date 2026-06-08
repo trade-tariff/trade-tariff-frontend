@@ -5,7 +5,7 @@ class Feedback
 
   include ActiveModel::Model
 
-  attr_accessor :message, :telephone, :authenticity_token, :referrer, :page_useful, :query, :request_id
+  attr_accessor :message, :telephone, :authenticity_token, :referrer, :page_useful, :query, :request_id, :date
 
   validates :message, presence: true,
                       length: { minimum: 10, maximum: 500 }
