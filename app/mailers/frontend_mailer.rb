@@ -10,6 +10,7 @@ class FrontendMailer < ActionMailer::Base
     @url = feedback.referrer
     @query = feedback.query
     @request_id = feedback.request_id
+    @date = feedback.date
     @page_useful = feedback.page_useful
 
     mail subject: 'Trade Tariff Feedback'

@@ -128,8 +128,8 @@ RSpec.describe FeedbackController, type: :request do
       )
     end
 
-    it 'sends the search URL, query and request id to support when the URL has no query param', :aggregate_failures do
-      post perform_search_path, params: { q: 'leather handbags', request_id: 'search-request-123' }
+    it 'sends the search URL, query, request id and date of trade to support when the URL has no query param', :aggregate_failures do
+      post perform_search_path, params: { q: 'leather handbags', request_id: 'search-request-123', day: '5', month: '6', year: '2026' }
 
       expect(response).to have_http_status(:ok)
       expect(request.original_url).to eq('http://www.example.com/search')
@@ -146,6 +146,7 @@ RSpec.describe FeedbackController, type: :request do
           'feedback_url' => 'http://www.example.com/search',
           'feedback_query' => 'leather handbags',
           'feedback_request_id' => 'search-request-123',
+          'feedback_date' => '2026-06-05',
         )
       end
 
@@ -160,6 +161,7 @@ RSpec.describe FeedbackController, type: :request do
       expect(email_body).to include('URL: http://www.example.com/search')
       expect(email_body).to include('Query: leather handbags')
       expect(email_body).to include('Request ID: search-request-123')
+      expect(email_body).to include('Date of trade: 2026-06-05')
     end
   end
 end
