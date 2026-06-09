@@ -17,7 +17,7 @@
     "jquery-grid-navigation": "^1.0.1",
     "jquery-linear-navigation": "^1.0.2",
     "jquery-prevent-scroll-keys": "^1.0.1",
-    "js-cookie": "^3.0.7",
+    "js-cookie": "^3.0.8",
     "mark.js": "^8.11.1",
     "sass": "^1.100.0"
   },
