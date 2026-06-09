@@ -1,6 +1,6 @@
 <%= render 'duty_calculator/steps/shared/back_link' %>
 
-<span class="govuk-caption-xl">Calculate import duties</span>
+<span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
 
 <% if @user_session.import_destination == 'UK' %>
   <%= render 'gb_options' %>
@@ -10,7 +10,7 @@
 
 <%= render 'duty_calculator/shared/commodity_details' %>
 <div class="explore-topics-section">
-  <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
+  <h2 class="govuk-heading-m govuk-!-margin-top-3"><%= t('duty_calculator.shared.explore_topic_title') %></h2>
   <%= govuk_list [
     govuk_link_to('Check your goods meet the rules of origin', 'https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin'),
   ] %>

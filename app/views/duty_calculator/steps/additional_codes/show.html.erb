@@ -2,7 +2,7 @@
 
 <%= form_for @step, url: additional_codes_path do |f| %>
   <%= f.govuk_error_summary %>
-  <span class="govuk-caption-xl">Calculate import duties</span>
+  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
   <h1 class="govuk-heading-xl">Describe your goods in more detail</h1>
 
   <% if @step.applicable_additional_codes.dig('uk', @step.measure_type_id).present? %>

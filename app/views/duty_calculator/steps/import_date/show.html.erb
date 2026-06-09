@@ -2,7 +2,7 @@
 
 <%= form_for @step, url: import_date_path, html: { novalidate: true } do |f| %>
   <%= f.govuk_error_summary %>
-  <span class="govuk-caption-xl">Calculate import duties</span>
+  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
   <%= f.govuk_date_field :import_date,
     legend: { text: 'When will the goods be imported?', size: 'xl', tag: 'h1' },
     hint: { text: 'As duties and quotas change over time, it may be important to enter the date you think your goods your goods will be imported.<br>

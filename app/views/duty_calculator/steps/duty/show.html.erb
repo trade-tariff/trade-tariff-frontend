@@ -1,6 +1,6 @@
 <%= govuk_back_link(href: :back) %>
 
-<span class="govuk-caption-xl">Calculate import duties</span>
+<span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
 
 <% if @duty_options.nil? %>
   <fieldset class="govuk-fieldset">

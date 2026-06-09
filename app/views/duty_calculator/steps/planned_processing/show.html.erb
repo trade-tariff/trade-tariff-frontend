@@ -2,14 +2,16 @@
 
 <%= form_for @step, url: planned_processing_path do |f| %>
   <%= f.govuk_error_summary %>
-  <span class="govuk-caption-xl">Calculate import duties</span>
+  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
 
   <%= f.govuk_radio_buttons_fieldset :planned_processing,
       legend: { text: t('planned_processing.fieldset_legend_text'), size: 'xl', tag: 'h1' },
       hint: { text: t('planned_processing.fieldset_hint_text_html') } do %>
-    <%= f.govuk_radio_button :planned_processing,
-        'without_any_processing',
-        label: { text: t('planned_processing.without_any_processing.label_text_html') } %>
+    <div class="govuk-!-margin-top-6 govuk-!-margin-bottom-3">
+      <%= f.govuk_radio_button :planned_processing,
+          'without_any_processing',
+          label: { text: t('planned_processing.without_any_processing.label_text_html') } %>
+    </div>
     <%= f.govuk_radio_button :planned_processing,
         'commercial_processing',
         label: { text: t('planned_processing.commercial_processing.label_text_html') },
@@ -26,7 +28,7 @@
 <%= render 'duty_calculator/shared/commodity_details' %>
 
 <div class="explore-topics-section">
-  <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
+  <h2 class="govuk-heading-m govuk-!-margin-top-3"><%= t('duty_calculator.shared.explore_topic_title') %></h2>
   <%= govuk_list [
     govuk_link_to('Additional requirements for when you bring goods into Northern Ireland for processing', 'https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu-from-1-january-2021#processing'),
     govuk_link_to('Apply to pay less duty on goods you import for specific uses', 'https://www.gov.uk/guidance/apply-to-pay-less-duty-on-goods-you-import-for-specific-uses'),
