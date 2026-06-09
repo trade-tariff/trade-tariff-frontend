@@ -1,243 +1,199 @@
 require 'spec_helper'
 
-RSpec.describe ProductExperience::EnquiryFormController, type: :controller do
-  let(:reference_number) { 'R1M5X8LU' }
-  let(:enquiry_form) { build(:enquiry_form, reference_number: reference_number) }
+RSpec.describe ProductExperience::EnquiryFormController, :aggregate_failures, type: :controller do
+  let(:draft_id) { SecureRandom.uuid }
+  let(:cache_store) { ActiveSupport::Cache::MemoryStore.new }
+  let(:submission_token) { SecureRandom.uuid }
 
-  let(:session_data) do
-    {
-      'full_name' => enquiry_form.name,
-      'company_name' => enquiry_form.company_name,
-      'occupation' => enquiry_form.job_title,
-      'email_address' => enquiry_form.email,
-      'category' => enquiry_form.enquiry_category,
-      'query' => enquiry_form.enquiry_description,
-    }
-  end
-
-  let(:attributes) do
-    {
-      name: session_data['full_name'],
-      company_name: session_data['company_name'],
-      job_title: session_data['occupation'],
-      email: session_data['email_address'],
-      enquiry_category: session_data['category'],
-      enquiry_description: session_data['query'],
-    }
+  around do |example|
+    old_cache_store = ProductExperience::EnquiryFormDraftStore.instance_variable_get(:@cache_store)
+    ProductExperience::EnquiryFormDraftStore.cache_store = cache_store
+    example.run
+  ensure
+    ProductExperience::EnquiryFormDraftStore.cache_store = old_cache_store
   end
 
   before do
     allow(controller).to receive(:set_path_info)
-    allow(EnquiryFormHelper).to receive(:fields).and_return(%w[full_name email_address query])
   end
 
   describe 'GET #show' do
-    it 'resets enquiry_data session' do
+    it 'starts a new enquiry and renders the category step' do
       get :show
-      expect(session[:enquiry_data]).to eq({})
+
+      expect(session[:submission_token]).to be_present
+      expect(session[:enquiry_form_draft_id]).to be_present
+      expect(response).to render_template(:form)
+      expect(assigns(:field)).to eq('category')
     end
-  end
 
-  describe 'GET #form' do
-    let(:submission_token) { SecureRandom.uuid }
+    it 'clears any stale confirmation reference when starting again' do
+      session[:product_experience_enquiry] = { reference_number: 'HDJ2123F' }
 
-    before { session[:submission_token] = submission_token }
+      get :show
 
-    context 'with valid field and correct token' do
-      it 'renders the form' do
-        get :form, params: { field: 'full_name', submission_token: submission_token }
-        expect(response).to render_template(:form)
-      end
+      expect(session[:product_experience_enquiry]).to be_nil
     end
   end
 
   describe 'POST #submit' do
-    let(:submission_token) { SecureRandom.uuid }
+    before { start_draft }
 
-    before { session[:submission_token] = submission_token }
+    it 'redirects to the start when the submission token is invalid' do
+      post :submit, params: { field: 'category', category: 'classification', submission_token: 'wrong-token' }
 
-    context 'with valid token' do
-      it 'saves the field value' do
-        post :submit, params: { field: 'full_name', full_name: 'Jane Doe', submission_token: submission_token }
-        expect(session[:enquiry_data]['full_name']).to eq('Jane Doe')
-      end
+      expect(response).to redirect_to(product_experience_enquiry_form_path)
+      expect(enquiry_data['category']).to be_nil
     end
 
-    context 'with invalid token' do
-      it 'redirects back to the start' do
-        post :submit, params: { field: 'full_name', full_name: 'Jane Doe', submission_token: 'wrong-token' }
-        expect(response).to redirect_to(product_experience_enquiry_form_path)
-      end
+    it 'validates the category selection' do
+      post :submit, params: { field: 'category', submission_token: submission_token }
+
+      expect(response).to render_template(:form)
+      expect(assigns(:errors)).to include(field: 'category', message: 'Please select what you need help with.')
     end
 
-    context 'with missing required field' do
-      before { post :submit, params: { field: 'full_name', full_name: '', submission_token: submission_token } }
+    it 'stores classification and redirects to goods details' do
+      post :submit, params: { field: 'category', category: 'classification', submission_token: submission_token }
 
-      it { expect(assigns(:alert)).to be_present }
-
-      it { expect(assigns(:prev_field)).to be_nil }
-
-      it { expect(response).to render_template(:form) }
+      expect(enquiry_data['category']).to eq('classification')
+      expect(response).to redirect_to(product_experience_enquiry_form_field_path('goods_details'))
     end
 
-    context 'with invalid email' do
-      before do
-        allow(controller).to receive(:previous_field).with('email_address').and_return('occupation')
-        post :submit, params: { field: 'email_address', email_address: 'bad-email', submission_token: submission_token }
-      end
+    it 'stores generic categories and redirects to the query page' do
+      post :submit, params: { field: 'category', category: 'origin', submission_token: submission_token }
 
-      it { expect(assigns(:alert)).to eq('Please enter a valid email address.') }
-      it { expect(assigns(:prev_field)).to eq('occupation') }
-      it { expect(response).to render_template(:form) }
+      expect(enquiry_data['category']).to eq('origin')
+      expect(response).to redirect_to(product_experience_enquiry_form_field_path('query'))
     end
 
-    context 'with valid submission' do
-      before { post :submit, params: { field: 'full_name', full_name: 'John Doe', submission_token: submission_token } }
-
-      it { expect(session[:enquiry_data]['full_name']).to eq('John Doe') }
-
-      it {
-        expect(response).to redirect_to(
-          controller: 'product_experience/enquiry_form',
-          action: 'form',
-          field: 'email_address',
-        )
+    it 'ignores answers that do not belong to the current step' do
+      post :submit, params: {
+        field: 'category',
+        category: 'origin',
+        query: 'Do not store me yet',
+        submission_token: submission_token,
       }
+
+      expect(enquiry_data).to include('category' => 'origin')
+      expect(enquiry_data).not_to include('query')
     end
 
-    context 'when editing' do
-      before { post :submit, params: { field: 'query', query: 'Some question?', editing: 'true', submission_token: submission_token } }
+    it 'shows both required goods detail errors' do
+      ProductExperience::EnquiryFormDraftStore.write(draft_id, { category: 'classification' })
 
-      it { expect(response).to redirect_to(product_experience_enquiry_form_check_your_answers_path) }
+      post :submit, params: { field: 'goods_details', submission_token: submission_token }
+
+      expect(response).to render_template(:form)
+      expect(assigns(:errors)).to contain_exactly(
+        { field: 'goods_product', message: 'Please describe the product.' },
+        { field: 'goods_made_of', message: 'Please say what the product is made of.' },
+      )
     end
 
-    context 'when editing and no submission token' do
-      before { post :submit, params: { field: 'query', query: 'Some question?', editing: 'true', submission_token: nil } }
+    it 'redirects to check answers when editing' do
+      post :submit, params: { field: 'query', query: 'Updated query', editing: 'true', submission_token: submission_token }
 
-      it { expect(response).to redirect_to(product_experience_enquiry_form_path) }
+      expect(enquiry_data['query']).to eq('Updated query')
+      expect(response).to redirect_to(product_experience_enquiry_form_check_your_answers_path)
     end
   end
 
   describe 'GET #check_your_answers' do
-    before do
-      session[:enquiry_data] = { 'query' => 'Test question' }
-      allow(Rails.cache).to receive(:read).with(session[:enquiry_data]['query']).and_return(session[:enquiry_data]['query'])
-      get :check_your_answers
-    end
+    it 'restarts the journey when the active draft has expired' do
+      session[:enquiry_form_draft_id] = draft_id
+      session[:submission_token] = submission_token
+      allow(Rails.logger).to receive(:warn)
 
-    it { expect(assigns(:enquiry_data)).to eq({ 'query' => 'Test question' }) }
-    it { expect(response).to be_successful }
+      get :check_your_answers
+
+      expect(response).to redirect_to(product_experience_enquiry_form_path)
+      expect(session[:enquiry_form_draft_id]).to be_nil
+      expect(session[:submission_token]).to be_nil
+      expect(Rails.logger).to have_received(:warn).with(
+        "Missing enquiry form draft for session draft id #{draft_id}",
+      )
+    end
   end
 
   describe 'POST #submit_form' do
-    let(:resource_id) { 'R1M5X8LU' }
-    let(:submission_token) { SecureRandom.uuid }
-
     before do
-      session[:enquiry_data] = session_data
-      session[:submission_token] = submission_token
-      allow(Rails.cache).to receive(:read).with(session[:enquiry_data]['query']).and_return(session[:enquiry_data]['query'])
+      start_draft(
+        category: 'classification',
+        goods_product: 'Embroidery floss',
+        goods_made_of: 'Cotton',
+        has_commodity_code: 'yes',
+        commodity_code: '5204200010',
+        email_address: 'trader@example.com',
+      )
     end
 
-    context 'when submission is successful' do
-      before do
-        stub_api_request('enquiry_form/submissions', :post)
-          .with(
-            body: hash_including(data: { attributes: attributes }),
-            headers: { 'Content-Type' => 'application/json' },
+    it 'submits the enquiry and clears the draft' do
+      allow(EnquiryForm).to receive(:create!)
+        .and_return({ 'resource_id' => 'HDJ2123F' })
+
+      post :submit_form, params: { submission_token: submission_token }
+
+      expect(EnquiryForm).to have_received(:create!).with(
+        hash_including(
+          email: 'trader@example.com',
+          enquiry_category: 'classification',
+          goods_product: 'Embroidery floss',
+          commodity_code: '5204200010',
+        ),
+      )
+      expect(response).to redirect_to(product_experience_enquiry_form_confirmation_path)
+      expect(session[:submission_token]).to be_nil
+      expect(ProductExperience::EnquiryFormDraftStore.read(draft_id)).to be_nil
+    end
+
+    it 'does not submit a stale commodity code when the user has answered no' do
+      start_draft(
+        category: 'classification',
+        goods_product: 'Steel bar',
+        goods_made_of: 'Steel',
+        has_commodity_code: 'no',
+        commodity_code: '9403208090',
+        email_address: 'trader@example.com',
+      )
+      allow(EnquiryForm).to receive(:create!)
+        .and_return({ 'resource_id' => 'HDJ2123F' })
+
+      post :submit_form, params: { submission_token: submission_token }
+
+      expect(EnquiryForm).to have_received(:create!).with(
+        satisfy do |attributes|
+          expect(attributes).to include(
+            email: 'trader@example.com',
+            enquiry_category: 'classification',
+            goods_product: 'Steel bar',
+            goods_made_of: 'Steel',
+            has_commodity_code: 'no',
           )
-          .and_return(jsonapi_response(:enquiry_form_submission, { resource_id: resource_id }))
-        session[:reference_number] = resource_id
-      end
-
-      it 'redirects to the confirmation page' do
-        post :submit_form, params: { submission_token: submission_token }
-
-        expect(response).to redirect_to(
-          product_experience_enquiry_form_confirmation_path,
-        )
-      end
-
-      it 'clears the session token' do
-        post :submit_form, params: { submission_token: submission_token }
-        expect(session[:submission_token]).to be_nil
-      end
+          expect(attributes).not_to include(:commodity_code)
+        end,
+      )
     end
 
-    context 'when API succeeds but no reference number returned' do
-      before do
-        stub_api_request('enquiry_form/submissions', :post)
-          .with(
-            body: hash_including(data: { attributes: attributes }),
-            headers: { 'Content-Type' => 'application/json' },
-          )
-          .and_return(jsonapi_response(:enquiry_form_submission, {}))
-      end
+    it 'preserves the draft when the API does not return a reference' do
+      allow(EnquiryForm).to receive(:create!)
+        .and_return({ 'resource_id' => nil })
 
-      it 'creates error message' do
-        post :submit_form, params: { submission_token: submission_token }
-        expect(flash[:alert]).to eq('There was a problem submitting your enquiry. Please try again later.')
-      end
+      post :submit_form, params: { submission_token: submission_token }
 
-      it 'redirects to check your answers' do
-        post :submit_form, params: { submission_token: submission_token }
-        expect(response).to redirect_to(product_experience_enquiry_form_check_your_answers_path)
-      end
-    end
-
-    context 'when API call raises an error' do
-      before do
-        allow(EnquiryForm).to receive(:create!).and_raise(Faraday::TimeoutError.new('Timeout'))
-      end
-
-      it 'creates error message' do
-        post :submit_form, params: { submission_token: submission_token }
-        expect(flash[:alert]).to eq('There was a problem submitting your enquiry. Please try again later.')
-      end
-
-      it 'redirects to check your answers' do
-        post :submit_form, params: { submission_token: submission_token }
-        expect(response).to redirect_to(product_experience_enquiry_form_check_your_answers_path)
-      end
-    end
-
-    context 'when the submission token is invalid or missing' do
-      it 'does not submit and redirects with an error' do
-        post :submit_form, params: { submission_token: 'invalid-token' }
-
-        expect(response).to redirect_to(product_experience_enquiry_form_path)
-      end
+      expect(response).to redirect_to(product_experience_enquiry_form_check_your_answers_path)
+      expect(flash[:alert]).to eq('There was a problem submitting your enquiry. Please try again later.')
+      expect(enquiry_data['goods_product']).to eq('Embroidery floss')
     end
   end
 
-  describe 'GET #confirmation' do
-    let(:reference_number) { 'R1M5X8LU' }
+  def start_draft(data = {})
+    session[:enquiry_form_draft_id] = draft_id
+    session[:submission_token] = submission_token
+    ProductExperience::EnquiryFormDraftStore.write(draft_id, data)
+  end
 
-    context 'when reference number is present' do
-      before do
-        session[:product_experience_enquiry] = {
-          'reference_number' => reference_number,
-        }
-        get :confirmation
-      end
-
-      it 'assigns the reference number' do
-        expect(assigns(:reference_number)).to eq(reference_number)
-      end
-
-      it 'renders the confirmation page' do
-        expect(response).to be_successful
-      end
-    end
-
-    context 'when reference number is not present' do
-      before do
-        get :confirmation
-      end
-
-      it 'redirects to the start page' do
-        expect(response).to redirect_to(product_experience_enquiry_form_path)
-      end
-    end
+  def enquiry_data
+    ProductExperience::EnquiryFormDraftStore.read(draft_id)
   end
 end

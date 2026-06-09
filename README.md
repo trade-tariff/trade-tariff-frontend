@@ -62,6 +62,10 @@ bundle exec guard
 
 This will run the appropriate test suite for the file you are working on.
 
+## Understanding the codebase
+
+Start with [docs/README.md](docs/README.md) for the documentation map, [docs/architecture/README.md](docs/architecture/README.md) for the main runtime boundaries, and [docs/style-guide.md](docs/style-guide.md) for Ruby, Rails, GOV.UK Frontend, testing, and PR conventions.
+
 ## Troubleshooting
 
 Sometimes, when trying to load the front page, you get the error:

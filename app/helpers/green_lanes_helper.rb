@@ -1,4 +1,6 @@
 module GreenLanesHelper
+  Option = Data.define(:id, :name)
+
   def exemption_checkbox_checked?(resource_id, exemption_code)
     params.dig(:exemptions, resource_id.to_s)
           &.include?(exemption_code)
@@ -57,11 +59,11 @@ module GreenLanesHelper
   end
 
   def yes_no_options
-    [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No')]
+    [Option.new(id: 'yes', name: 'Yes'), Option.new(id: 'no', name: 'No')]
   end
 
   def yes_no_not_sure_options
-    [OpenStruct.new(id: 'yes', name: 'Yes'), OpenStruct.new(id: 'no', name: 'No'), OpenStruct.new(id: 'not_sure', name: 'Not sure')]
+    [Option.new(id: 'yes', name: 'Yes'), Option.new(id: 'no', name: 'No'), Option.new(id: 'not_sure', name: 'Not sure')]
   end
 
   def prettify_category(category)

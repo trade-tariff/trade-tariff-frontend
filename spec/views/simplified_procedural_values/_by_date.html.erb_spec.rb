@@ -6,7 +6,7 @@ RSpec.describe 'simplified_procedural_values/_by_date', type: :view do
   let(:measure) { build(:simplified_procedural_code_measure, validity_start_date: '2023-01-01', validity_end_date: '2023-01-31') }
 
   before do
-    result = OpenStruct.new(
+    result = Data.define(:measures, :validity_start_date, :validity_end_date, :validity_start_dates, :by_date_options).new(
       measures: [measure],
       validity_start_date: measure.validity_start_date,
       validity_end_date: measure.validity_end_date,

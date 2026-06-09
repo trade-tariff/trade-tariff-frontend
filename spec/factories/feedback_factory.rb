@@ -3,6 +3,9 @@ FactoryBot.define do
     message { 'Hello world' }
     referrer { 'https://example.com' }
     page_useful { 'yes' }
+    query { 'leather handbags' }
+    request_id { 'test-request-id' }
+    date { '2026-06-05' }
 
     trait :with_authenticity_token do
       authenticity_token do

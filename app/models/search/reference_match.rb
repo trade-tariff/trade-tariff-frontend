@@ -1,10 +1,8 @@
-require 'ostruct'
-
 class Search
   include ApiEntity
 
   class ReferenceMatch < BaseMatch
-    BLANK_RESULT = OpenStruct.new(
+    BLANK_RESULT = Search::BlankResult.new(
       sections: [], chapters: [], headings: [], commodities: [],
     )
 

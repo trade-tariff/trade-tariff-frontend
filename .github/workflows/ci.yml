@@ -13,10 +13,29 @@ env:
   PYTHON_VERSION: 3
 
 jobs:
+  check-pr-lines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - uses: trade-tariff/trade-tariff-tools/.github/actions/check-pr-lines@main
+        with:
+          threshold: 600
+          exclude-paths: |
+            db/
+            data/
+            docs/
+            terraform/versions.tf
+            *.md
+            *.lock
+            .github
+
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
       - uses: actions/cache@v5
         with:
           path: ~/.cache/pre-commit
@@ -48,7 +67,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
       - uses: ruby/setup-ruby@v1.310.0
         with:
@@ -62,4 +81,8 @@ jobs:
 
       - run: bin/rails assets:precompile
 
-      - run: bundle exec rspec
+      - name: Run tests
+        env:
+          PARALLEL_TEST_PROCESSORS: "5"
+          SKIP_PARALLEL_TEST_PREPARE: "true"
+        run: bundle exec rspec

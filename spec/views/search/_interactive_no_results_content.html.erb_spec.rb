@@ -31,7 +31,7 @@ RSpec.describe 'search/_interactive_no_results_content', type: :view do
   describe 'sidebar' do
     it { is_expected.to have_text('Help and guidance') }
     it { is_expected.to have_link('What are commodity codes?') }
-    it { is_expected.to have_link('Guidance on difficult to classify goods') }
+    it { is_expected.to have_link('Guidance on difficult to classify goods', href: 'https://www.trade-tariff.service.gov.uk/help') }
     it { is_expected.to have_link('Ask for help on classifying your goods') }
   end
 

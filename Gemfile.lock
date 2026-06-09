@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/routing-filter.git
-  revision: 0be4828e0004571a36fb74fb087beb9001d85ac5
+  revision: 555e172ae6f695f33043813ea5a68a8522537ac1
   specs:
     routing-filter (1.0.0)
       actionpack (>= 7.1)
@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/uktt.git
-  revision: c662f80b72030f5637176ab338167d756462a206
+  revision: 2e8760c6e03913ee9f12c8f2a1a4add99efe43e9
   specs:
     uktt (4.0.0)
       faraday
@@ -108,13 +108,13 @@ GEM
       public_suffix (>= 2.0.2, < 8.0)
     amazing_print (2.0.0)
     ast (2.4.3)
-    aws-actionmailer-ses (1.1.0)
+    aws-actionmailer-ses (1.2.0)
       actionmailer (>= 7.1.0)
       aws-sdk-ses (~> 1, >= 1.50.0)
       aws-sdk-sesv2 (~> 1, >= 1.34.0)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1235.0)
-    aws-sdk-core (3.244.0)
+    aws-partitions (1.1257.0)
+    aws-sdk-core (3.251.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -122,17 +122,17 @@ GEM
       bigdecimal
       jmespath (~> 1, >= 1.6.1)
       logger
-    aws-sdk-ses (1.97.0)
-      aws-sdk-core (~> 3, >= 3.244.0)
+    aws-sdk-ses (1.101.0)
+      aws-sdk-core (~> 3, >= 3.248.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-sesv2 (1.97.0)
-      aws-sdk-core (~> 3, >= 3.244.0)
+    aws-sdk-sesv2 (1.102.0)
+      aws-sdk-core (~> 3, >= 3.248.0)
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.3.0)
     bigdecimal (4.1.2)
-    bootsnap (1.24.4)
+    bootsnap (1.24.5)
       msgpack (~> 1.2)
     brakeman (8.0.4)
       racc
@@ -184,7 +184,7 @@ GEM
       faraday (>= 1, < 3)
     faraday-http-cache (2.7.0)
       faraday (>= 0.8)
-    faraday-net_http (3.4.2)
+    faraday-net_http (3.4.4)
       net-http (~> 0.5)
     faraday-net_http_persistent (2.3.1)
       faraday (~> 2.5)
@@ -285,7 +285,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.19.5)
+    json (2.19.8)
     jwt (3.2.0)
       base64
     kaminari (1.2.2)
@@ -341,7 +341,7 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    msgpack (1.8.0)
+    msgpack (1.8.1)
     multi_json (1.21.1)
     nenv (0.3.0)
     net-http (0.9.1)
@@ -374,6 +374,8 @@ GEM
     ostruct (0.6.3)
     pagy (9.4.0)
     parallel (1.28.0)
+    parallel_tests (5.7.0)
+      parallel
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
@@ -396,7 +398,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (8.0.1)
+    puma (8.0.2)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.6)
@@ -645,6 +647,7 @@ DEPENDENCIES
   multi_json
   newrelic_rpm
   nokogiri
+  parallel_tests
   propshaft
   pry-rails
   puma

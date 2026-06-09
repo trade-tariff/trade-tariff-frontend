@@ -85,8 +85,8 @@ RSpec.describe DutyCalculator::Steps::FinalUse, :step, :user_session do
   describe '#options' do
     let(:expected) do
       [
-        OpenStruct.new(id: 'yes', name: I18n.t("final_use.#{locale_key}.yes_option")),
-        OpenStruct.new(id: 'no', name: I18n.t("final_use.#{locale_key}.no_option")),
+        DutyCalculator::Option.new(id: 'yes', name: I18n.t("final_use.#{locale_key}.yes_option")),
+        DutyCalculator::Option.new(id: 'no', name: I18n.t("final_use.#{locale_key}.no_option")),
       ]
     end
 

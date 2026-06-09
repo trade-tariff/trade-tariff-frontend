@@ -4,8 +4,8 @@ RSpec.describe HeadingCommodityPresenter do
   describe '#root_commodities' do
     subject(:root_commodities) { described_class.new(commodities).root_commodities }
 
-    let(:root_commodity) { OpenStruct.new(root: true) }
-    let(:non_root_commodity) { OpenStruct.new(root: false) }
+    let(:root_commodity) { Data.define(:root).new(true) }
+    let(:non_root_commodity) { Data.define(:root).new(false) }
     let(:commodities) { [root_commodity, non_root_commodity] }
 
     it 'returns commodities that have root identication' do

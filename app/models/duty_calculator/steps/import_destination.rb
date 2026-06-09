@@ -3,8 +3,8 @@ module DutyCalculator
     class ImportDestination < Steps::Base
       # We call England, Scotland or Wales (GB) as UK beacuse that is how we named the backend source when the service is the UK version
       OPTIONS = [
-        OpenStruct.new(id: 'UK', name: 'England, Scotland or Wales (GB)'),
-        OpenStruct.new(id: 'XI', name: 'Northern Ireland'),
+        Option.new(id: 'UK', name: 'England, Scotland or Wales (GB)'),
+        Option.new(id: 'XI', name: 'Northern Ireland'),
       ].freeze
 
       STEPS_TO_REMOVE_FROM_SESSION = %w[

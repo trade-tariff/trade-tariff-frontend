@@ -4,7 +4,7 @@ module AuthenticatableApiEntity
 
   module ClassMethods
     def find(id, token, options = {})
-      return nil if token.nil? && !Rails.env.development?
+      return nil if token.nil? && !options[:allow_nil_token] && !Rails.env.development?
 
       super(id, options, headers(token))
     rescue Faraday::UnauthorizedError => e

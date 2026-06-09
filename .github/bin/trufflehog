@@ -1,11 +1,59 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-tmp_file="$(mktemp)"
-trap 'rm -f "$tmp_file"' EXIT
+if ! command -v docker >/dev/null 2>&1; then
+  echo "Error: docker is required to run the TruffleHog pre-commit scan." >&2
+  exit 1
+fi
 
-curl -fsSL \
-  https://raw.githubusercontent.com/trade-tariff/trade-tariff-tools/main/scripts/trufflehog-pre-commit.sh \
-  -o "$tmp_file"
+scan_dir="${1:-$(pwd)}"
+image="${TRUFFLEHOG_IMAGE:-}"
+exclude_detectors="${TRUFFLEHOG_EXCLUDE_DETECTORS:-Box}"
 
-bash "$tmp_file" "$(pwd)"
+if [ -z "${image:-}" ]; then
+  image="trufflesecurity/trufflehog:latest"
+fi
+
+if [ -z "$image" ]; then
+  echo "Error: TruffleHog image is not set" >&2
+  exit 1
+fi
+
+if [ ! -d "$scan_dir" ]; then
+  echo "Error: scan directory does not exist: $scan_dir" >&2
+  exit 1
+fi
+
+scan_dir="$(cd "$scan_dir" && pwd)"
+exclude_file="$(mktemp)"
+trap 'rm -f "$exclude_file"' EXIT
+
+cat > "$exclude_file" <<'PATTERNS'
+(^|/).git(/|$)
+(^|/).terraform(/|$)
+(^|/).terragrunt-cache(/|$)
+PATTERNS
+
+if [ -f "$scan_dir/.trufflehog-exclude-paths.txt" ]; then
+  cat "$scan_dir/.trufflehog-exclude-paths.txt" >> "$exclude_file"
+fi
+
+docker_args=(
+  run
+  --rm
+  -v "$scan_dir:/workdir:ro"
+  -v "$exclude_file:/trufflehog-exclude-paths.txt:ro"
+  -w /workdir
+  -i
+  "$image"
+  filesystem /workdir
+  --exclude-paths=/trufflehog-exclude-paths.txt
+  --results=verified,unknown
+  --fail
+)
+
+if [ -n "$exclude_detectors" ]; then
+  docker_args+=(--exclude-detectors="$exclude_detectors")
+fi
+
+exec docker "${docker_args[@]}"

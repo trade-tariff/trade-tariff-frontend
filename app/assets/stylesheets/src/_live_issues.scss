@@ -1,0 +1,26 @@
+.live-issues__card-meta,
+.live-issues__card-issue {
+  display: block;
+}
+
+.live-issues__card-meta {
+  @include govuk-font($size: 16, $weight: regular);
+}
+
+.live-issues__commodity-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: govuk-spacing(1) govuk-spacing(2);
+}
+
+.live-issues__markdown {
+  a.govuk-link {
+    color: govuk-colour("blue");
+  }
+
+  p:last-child,
+  ul:last-child,
+  ol:last-child {
+    margin-bottom: 0;
+  }
+}

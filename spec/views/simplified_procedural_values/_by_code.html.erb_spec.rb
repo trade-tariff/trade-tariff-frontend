@@ -4,7 +4,7 @@ RSpec.describe 'simplified_procedural_values/_by_code', type: :view do
   subject { render }
 
   before do
-    result = OpenStruct.new(
+    result = Data.define(:measures, :simplified_procedural_code, :goods_nomenclature_label, :goods_nomenclature_item_ids, :no_data).new(
       measures: [measure],
       simplified_procedural_code: measure.resource_id,
       goods_nomenclature_label: measure.goods_nomenclature_label,

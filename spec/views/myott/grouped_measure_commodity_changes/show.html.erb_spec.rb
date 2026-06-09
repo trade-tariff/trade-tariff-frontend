@@ -31,8 +31,12 @@ RSpec.describe 'myott/grouped_measure_commodity_changes/show.html.erb', type: :v
   before do
     assign(:grouped_measure_commodity_changes, grouped_measure_commodity_change)
     allow(view).to receive(:as_of).and_return(Date.new(2025, 11, 21))
-    allow(view).to receive(:commodity_path) do |id, params|
-      "/commodities/#{id}?day=#{params[:day]}&month=#{params[:month]}&year=#{params[:year]}"
+    allow(view).to receive(:commodity_path) do |id, params = {}|
+      if params.present?
+        "/commodities/#{id}?day=#{params[:day]}&month=#{params[:month]}&year=#{params[:year]}"
+      else
+        "/commodities/#{id}"
+      end
     end
     render
   end
@@ -101,6 +105,20 @@ RSpec.describe 'myott/grouped_measure_commodity_changes/show.html.erb', type: :v
 
     it 'shows N/A when the additional code is missing' do
       expect(rendered).to include('N/A')
+    end
+  end
+
+  context 'when date_of_effect_visible is nil' do
+    let(:impacted_measures) do
+      {
+        'Preferential tariff quota' => [
+          { 'date_of_effect' => '2025-12-01', 'date_of_effect_visible' => nil, 'change_type' => 'Measure will begin' },
+        ],
+      }
+    end
+
+    it 'renders the link without the word on' do
+      expect(rendered).to have_link('View commodity', href: '/commodities/1234567890')
     end
   end
 end

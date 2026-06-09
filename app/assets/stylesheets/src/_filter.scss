@@ -1,0 +1,39 @@
+.app-c-filter__count {
+  color: govuk-colour("black");
+  display: inline-block;
+  text-decoration: none;
+}
+
+.app-c-filter__content {
+  background: govuk-colour("black", $variant: "tint-95");
+  padding: govuk-spacing(4);
+}
+
+.app-c-filter__actions.govuk-button-group {
+  .govuk-button {
+    margin-bottom: govuk-spacing(4);
+  }
+}
+
+@include govuk-media-query($from: tablet) {
+  .app-c-filter__actions.govuk-button-group {
+    .govuk-button {
+      margin-bottom: 0;
+      margin-right: govuk-spacing(4);
+    }
+  }
+}
+
+.app-c-selected-filters__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: govuk-spacing(2);
+}
+
+.app-c-selected-filters__tag {
+  background: govuk-colour("black", $variant: "tint-95");
+  border: 1px solid govuk-colour("black", $variant: "tint-80");
+  display: inline-block;
+  padding: govuk-spacing(1) govuk-spacing(2);
+  text-decoration: none;
+}

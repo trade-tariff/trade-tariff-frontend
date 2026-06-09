@@ -126,7 +126,10 @@ class ApplicationController < ActionController::Base
 
   def append_info_to_payload(payload)
     super
+    payload[:request_id] = request.request_id
+    payload[:search_request_id] = @search&.request_id
     payload[:user_agent] = request.env['HTTP_USER_AGENT']
+    payload.merge!(@handled_exception_log_context) if defined?(@handled_exception_log_context) && @handled_exception_log_context.present?
   end
 
   def set_path_info
@@ -242,9 +245,42 @@ class ApplicationController < ActionController::Base
   end
 
   def raise_internal_server_error(exception)
-    NewRelic::Agent.notice_error(exception)
-    Rails.logger.error(exception.message)
+    @handled_exception_log_context = handled_exception_log_context(exception)
+    NewRelic::Agent.notice_error(exception, custom_params: @handled_exception_log_context)
+    Rails.logger.error(@handled_exception_log_context.to_json)
     redirect_to '/500', status: :internal_server_error
+  end
+
+  def handled_exception_log_context(exception)
+    {
+      exception_class: exception.class.name,
+      exception_message: exception.message,
+      search_request_id: @search&.request_id,
+    }.merge(faraday_response_log_context(exception)).compact
+  end
+
+  def faraday_response_log_context(exception)
+    response = exception.respond_to?(:response) ? exception.response : nil
+    return {} unless response
+
+    response = response[:response] || response['response'] || response
+    body, body_truncated = truncated_backend_response_body(response[:body] || response['body'])
+
+    {
+      backend_status: response[:status] || response['status'],
+      backend_url: (response[:url] || response['url'])&.to_s,
+      backend_response_body: body,
+      backend_response_body_truncated: body_truncated,
+    }.compact
+  end
+
+  def truncated_backend_response_body(body)
+    return [nil, nil] if body.nil?
+
+    value = body.is_a?(String) ? body : body.to_json
+    return [nil, nil] if value.blank?
+
+    [value.first(500), value.length > 500]
   end
 
   alias_method :handle_connection_failed, :raise_internal_server_error

@@ -19,7 +19,7 @@ module DutyCalculator
 
       def options_for(source)
         send("#{source}_available_documents").map do |doc|
-          OpenStruct.new(id: doc[:code], name: doc[:description])
+          Option.new(id: doc[:code], name: doc[:description])
         end
       end
 

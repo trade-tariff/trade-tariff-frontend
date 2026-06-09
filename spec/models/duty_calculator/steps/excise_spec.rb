@@ -138,47 +138,47 @@ RSpec.describe DutyCalculator::Steps::Excise, :step, :user_session do
   describe '#options' do
     let(:expected_options) do
       [
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '520',
           name: 'Light oil: unrebated (unmarked) – other unrebated light oil (X520)',
           disabled: false,
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '522',
           name: 'Light oil: rebated – unleaded petrol (X522)',
           disabled: false,
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '541',
           name: 'Heavy oil: unrebated (unmarked, including Diesel Engine Road Vehicle (DERV) or road fuel extender and unmarked kerosene or unmarked gas oil for which no marking waiver has been granted) (X541)',
           disabled: false,
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '542',
           name: 'Heavy oil: kerosene to be used as motor fuel off road or in an excepted vehicle (X542)',
           disabled: false,
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '551',
           name: 'Heavy oil: kerosene (marked or unmarked under marking waiver, including heavy oil aviation turbine fuel) to be used other than as motor fuel off-road or in an excepted vehicle (X551)',
           disabled: false,
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '556',
           name: 'Heavy oil: gas oil (marked or unmarked under marking waiver) (X556)',
           disabled: false,
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '561',
           name: 'Heavy oil: fuel oil (unmarked) (X561)',
           disabled: false,
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '570',
           name: 'Heavy oil: other (unmarked) (X570)',
           disabled: false,
         ),
-        OpenStruct.new(
+        DutyCalculator::Option.new(
           id: '441',
           name: 'Heavy oil: fuel oil (unmarked) (X441)',
           disabled: true,

@@ -73,6 +73,7 @@ group :test do
   gem 'cuprite'
   gem 'factory_bot_rails'
   gem 'forgery'
+  gem 'parallel_tests'
   gem 'rails-controller-testing', github: 'rails/rails-controller-testing', branch: 'master'
   gem 'rspec-rails'
   gem 'shoulda-matchers'

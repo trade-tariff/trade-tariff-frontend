@@ -1,7 +1,9 @@
 RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
   let(:user_session) { build(:duty_calculator_user_session, :with_country_of_origin, commodity_source: nil) }
   let(:commodity_code) { '01234567890' }
-  let(:commodity) { attributes_for(:commodity, goods_nomenclature_item_id: commodity_code) }
+  let(:commodity_attributes) { attributes_for(:commodity, goods_nomenclature_item_id: commodity_code) }
+  let(:commodity) { DutyCalculator::Api::Commodity.new(commodity_attributes) }
+  let(:now) { Date.current }
 
   include_context 'with UK service'
 
@@ -9,9 +11,11 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
     subject(:response) { get :show, params: { commodity_code: } }
 
     before do
+      allow(controller).to receive(:commodity).and_return(commodity)
+
       stub_api_request("commodities/#{commodity_code}")
         .with(query: { as_of: Time.zone.today })
-        .to_return(jsonapi_response(:commodity, commodity))
+        .to_return(jsonapi_response(:commodity, commodity_attributes))
     end
 
     it 'assigns the correct step' do
@@ -46,7 +50,7 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
       before do
         stub_api_request("commodities/#{commodity_code}")
           .with(query: { as_of: expected })
-          .to_return(jsonapi_response(:commodity, commodity))
+          .to_return(jsonapi_response(:commodity, commodity_attributes))
       end
 
       it { expect { response }.to change(user_session, :import_date).from(nil).to(expected) }
@@ -66,10 +70,70 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
       before do
         stub_api_request("commodities/#{commodity_code}")
           .with(query: { as_of: stored_date })
-          .to_return(jsonapi_response(:commodity, commodity))
+          .to_return(jsonapi_response(:commodity, commodity_attributes))
       end
 
       it { expect { response }.not_to change(user_session, :import_date).from(stored_date) }
+    end
+
+    context 'when the selected date is invalid for the commodity and validity periods are available' do
+      let(:year) { now.year }
+      let(:month) { now.month }
+      let(:day) { now.day }
+      let(:first_start_date) { Date.new(2024, 1, 1) }
+      let(:first_end_date) { Date.new(2024, 12, 31) }
+      let(:second_start_date) { Date.new(2025, 1, 1) }
+      let(:validity_periods) do
+        [
+          attributes_for(
+            :validity_period,
+            goods_nomenclature_item_id: commodity_code,
+            validity_start_date: first_start_date,
+            validity_end_date: first_end_date,
+          ),
+          attributes_for(
+            :validity_period,
+            goods_nomenclature_item_id: commodity_code,
+            validity_start_date: second_start_date,
+            validity_end_date: nil,
+          ),
+        ]
+      end
+
+      before do
+        allow(controller).to receive(:commodity).and_return(nil)
+
+        stub_api_request("commodities/#{commodity_code}")
+          .with(query: { as_of: now })
+          .to_return(jsonapi_error_response(404))
+        stub_api_request("commodities/#{commodity_code}/validity_periods")
+          .with(query: { as_of: now })
+          .to_return(jsonapi_response(:validity_periods, validity_periods))
+      end
+
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response).to render_template('import_date/show') }
+      it { expect { response }.to change(user_session, :import_date).from(nil).to(now) }
+
+      it 'adds a date error' do
+        response
+
+        expect(assigns(:step).errors[:import_date]).to include(
+          'The commodity code could not be found for this date. Enter a different date.',
+        )
+      end
+
+      it 'assigns validity period start dates' do
+        response
+
+        expect(assigns(:commodity_validity_periods).map(&:start_date)).to eq([first_start_date, second_start_date])
+      end
+
+      it 'assigns validity period end dates' do
+        response
+
+        expect(assigns(:commodity_validity_periods).map(&:end_date)).to eq([first_end_date, nil])
+      end
     end
   end
 
@@ -86,8 +150,6 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
       }
     end
 
-    let(:now) { Date.current }
-
     context 'when the step answers are valid' do
       let(:year) { now.year }
       let(:month) { now.month }
@@ -96,7 +158,7 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
       before do
         stub_api_request("commodities/#{commodity_code}")
           .with(query: { as_of: now })
-          .to_return(jsonapi_response(:commodity, commodity))
+          .to_return(jsonapi_response(:commodity, commodity_attributes))
       end
 
       it 'assigns the correct step' do

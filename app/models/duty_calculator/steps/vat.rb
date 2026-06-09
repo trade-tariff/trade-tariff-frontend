@@ -15,7 +15,7 @@ module DutyCalculator
 
       def vat_options
         applicable_vat_options.map do |k, v|
-          OpenStruct.new(id: k, name: v)
+          Option.new(id: k, name: v)
         end
       end
 

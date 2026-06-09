@@ -6,7 +6,7 @@ RSpec.describe 'simplified_procedural_values/index', type: :view do
   let(:measure) { build(:simplified_procedural_code_measure) }
 
   before do
-    result = OpenStruct.new(
+    result = SimplifiedProceduralCodeMeasureFetcherService::Result.new(
       measures: [measure],
       goods_nomenclature_label: measure.goods_nomenclature_label,
       goods_nomenclature_item_ids: measure.goods_nomenclature_item_ids,

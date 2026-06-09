@@ -1,0 +1,41 @@
+<%= app_filter(
+      title: t('live_issues.filters.summary'),
+      action: live_issues_path,
+      result_count: t('live_issues.results.count', count: @live_issues_count),
+      clear_path: live_issues_path,
+      selected_filters: live_issue_selected_filters,
+      selected_filters_heading: t('live_issues.filters.active_heading'),
+      submit_text: t('live_issues.filters.apply'),
+      clear_text: t('live_issues.filters.clear'),
+      classes: 'live-issues__filter-panel',
+    ) do %>
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-4">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+      <h2 class="govuk-fieldset__heading"><%= t('live_issues.filters.sort_by') %></h2>
+    </legend>
+
+    <div class="govuk-radios govuk-radios--small">
+      <% LiveIssue::SUPPORTED_SORTS.each do |sort| %>
+        <div class="govuk-radios__item">
+          <%= radio_button_tag :sort, sort, @sort == sort, class: 'govuk-radios__input', id: "sort_#{sort}" %>
+          <%= label_tag "sort_#{sort}", live_issue_sort_label(sort), class: 'govuk-label govuk-radios__label' %>
+        </div>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <fieldset class="govuk-fieldset govuk-!-margin-bottom-4">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+      <h2 class="govuk-fieldset__heading"><%= t('live_issues.filters.status') %></h2>
+    </legend>
+
+    <div class="govuk-checkboxes govuk-checkboxes--small">
+      <% LiveIssue::SUPPORTED_STATUSES.each do |status| %>
+        <div class="govuk-checkboxes__item">
+          <%= check_box_tag 'status[]', status, live_issue_status_filter_selected?(@status_filters, status), class: 'govuk-checkboxes__input', id: "status_#{status}" %>
+          <%= label_tag "status_#{status}", live_issue_status_filter_label(status), class: 'govuk-label govuk-checkboxes__label' %>
+        </div>
+      <% end %>
+    </div>
+  </fieldset>
+<% end %>

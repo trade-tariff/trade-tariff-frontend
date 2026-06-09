@@ -32,7 +32,7 @@ module Myott
 
     def subscription
       if params[:id]
-        @subscription ||= Subscription.find(params[:id], user_id_token)
+        @subscription ||= Subscription.find(params[:id], nil, { allow_nil_token: true })
       end
     end
 

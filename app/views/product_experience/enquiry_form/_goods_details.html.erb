@@ -1,0 +1,35 @@
+<h1 class="govuk-heading-l">Tell us about your goods</h1>
+
+<p class="govuk-body">
+  Give as much detail as you can. This helps HMRC understand the goods and reduces the need to come back for more information.
+</p>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'goods_product',
+           label: 'What is the product?',
+           hint: 'Describe the product, not just its name.' %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'goods_made_of',
+           label: 'What is it made of?',
+           hint: 'Include the main material or ingredients, if known' %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'goods_used_for',
+           label: 'What is it used for? (optional)',
+           hint: 'What does it do, or what is it for?' %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'goods_function',
+           label: 'How does it work or function? (optional)',
+           hint: 'Only include this if it helps explain the goods' %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'goods_processed',
+           label: 'Has it been processed, prepared or treated in any way? (optional)',
+           hint: 'For example, cooked, frozen, mixed, coated, dyed or assembled' %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'goods_packaged',
+           label: 'How is it presented or packaged? (optional)',
+           hint: 'For example, bottled, boxed, wrapped, presented in a set or sold as a kit' %>

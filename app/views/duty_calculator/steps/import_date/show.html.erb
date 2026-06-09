@@ -1,4 +1,4 @@
-<%= govuk_back_link(href: commodity_path(commodity.code)) %>
+<%= govuk_back_link(href: commodity_path(user_session.commodity_code)) %>
 
 <%= form_for @step, url: import_date_path, html: { novalidate: true } do |f| %>
   <%= f.govuk_error_summary %>

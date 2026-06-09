@@ -1,3 +1,5 @@
-<%= govuk_details(summary_text: 'About this commodity code') do %>
-  Commodity code <strong><%= commodity.formatted_commodity_code %></strong><br><%= commodity.description %><br><br><%= govuk_link_to "View commodity #{commodity.code}", commodity_url(commodity.code) %>
+<%- if commodity.present? %>
+  <%= govuk_details(summary_text: 'About this commodity code') do %>
+    Commodity code <strong><%= commodity.formatted_commodity_code %></strong><br><%= commodity.description %><br><br><%= govuk_link_to "View commodity #{commodity.code}", commodity_url(commodity.code) %>
+  <% end %>
 <% end %>

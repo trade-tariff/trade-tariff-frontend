@@ -1,5 +1,5 @@
 class CommodityCodesExtractionService
-  Result = Struct.new(:success?, :codes, :error_message)
+  Result = Data.define(:success?, :codes, :error_message)
   COMMODITY_CODES_COLUMN = 'A'.freeze
 
   def initialize(file)

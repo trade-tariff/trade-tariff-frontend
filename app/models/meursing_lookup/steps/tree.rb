@@ -1,6 +1,8 @@
 module MeursingLookup
   module Steps
     module Tree
+      Option = Data.define(:id, :name)
+
       extend ActiveSupport::Concern
 
       included do
@@ -19,7 +21,7 @@ module MeursingLookup
 
       def options
         current_meursing_code_level.each_key.map do |key|
-          OpenStruct.new(id: key, name: key)
+          Option.new(id: key, name: key)
         end
       end
 

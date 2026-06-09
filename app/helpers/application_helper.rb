@@ -104,6 +104,42 @@ module ApplicationHelper
     request.base_url + request.path
   end
 
+  def feedback_path_with_context(options = {})
+    feedback_path(feedback_context_params.merge(options))
+  end
+
+  def feedback_context_params
+    {
+      feedback_url: request.original_url,
+      feedback_query: feedback_search_query,
+      feedback_request_id: feedback_search_request_id,
+      feedback_date: feedback_search_date,
+    }.compact
+  end
+
+  def feedback_search_query
+    @search&.q.presence || params[:q].presence
+  end
+
+  def feedback_search_request_id
+    @search&.request_id.presence || params[:request_id].presence
+  end
+
+  def feedback_search_date
+    return if params[:invalid_date].present?
+    return @search.date.to_fs(:db) if @search&.filtered_by_date?
+
+    feedback_date_from_day_month_year
+  end
+
+  def feedback_date_from_day_month_year
+    return unless params.values_at(:day, :month, :year).all?(&:present?)
+
+    TariffDate.build(params.permit(:year, :month, :day).to_h).to_fs(:db)
+  rescue Date::Error
+    nil
+  end
+
   def pretty_date_range(start_date, end_date)
     pretty_end_date = end_date ? "<br>to #{end_date.to_formatted_s(:rfc822)}" : ''
 
