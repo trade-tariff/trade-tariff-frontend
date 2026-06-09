@@ -175,6 +175,20 @@ en:
     uk: "UK Integrated Online Tariff"
     xi: "Northern Ireland Online Tariff"
 
+  cookies:
+    policies:
+      show:
+        saved_heading: "Your cookie settings were saved"
+        submit: "Save Changes"
+        usage:
+          legend: "Do you consent to cookies that measure website use?"
+          yes_label: "Use cookies that measure my website use"
+          no_label: "No, do not use cookies that measure my website use"
+        remember_settings:
+          legend: "Do you consent to cookies that remember your settings?"
+          yes_label: "Yes, use cookies that remember my settings on the site"
+          no_label: "No, do not use cookies that remember my settings on the site"
+
   tabs:
     footnote:
       heading: Notes for %{declarable_type} %{goods_nomenclature_item_id}

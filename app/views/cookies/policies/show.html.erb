@@ -22,7 +22,7 @@
         </div>
         <div class="govuk-notification-banner__content">
           <h3 class="govuk-notification-banner__heading">
-            Your cookie settings were saved
+            <%= t('.saved_heading') %>
           </h3>
           <p>You can update these settings at any time.</p>
         </div>
@@ -83,11 +83,11 @@
         <br>
         <%= f.govuk_radio_buttons_fieldset :usage,
               legend: {
-                text: 'Do you consent to cookies that measure website use?',
+                text: t('.usage.legend'),
                 size: 's',
               } do %>
-          <%= f.govuk_radio_button :usage, true, label: { text: 'Use cookies that measure my website use' } %>
-          <%= f.govuk_radio_button :usage, false, label: { text: 'No, do not use cookies that measure my website use' } %>
+          <%= f.govuk_radio_button :usage, true, label: { text: t('.usage.yes_label') } %>
+          <%= f.govuk_radio_button :usage, false, label: { text: t('.usage.no_label') } %>
         <% end %>
         <h3 class="govuk-heading-s">Cookies that remember your settings</h3>
         <p>These cookies do things like remember your preferences and the choices you make, to personalise your
@@ -114,11 +114,11 @@
         <br>
         <%= f.govuk_radio_buttons_fieldset :remember_settings,
               legend: {
-                text: 'Do you consent to cookies that remember your settings?',
+                text: t('.remember_settings.legend'),
                 size: 's',
               } do %>
-          <%= f.govuk_radio_button :remember_settings, true, label: { text: 'Yes, use cookies that remember my settings on the site' } %>
-          <%= f.govuk_radio_button :remember_settings, false, label: { text: 'No, do not use cookies that remember my settings on the site' } %>
+          <%= f.govuk_radio_button :remember_settings, true, label: { text: t('.remember_settings.yes_label') } %>
+          <%= f.govuk_radio_button :remember_settings, false, label: { text: t('.remember_settings.no_label') } %>
         <% end %>
         <h3 class="govuk-heading-s">Strictly necessary cookies</h3>
         <p>These essential cookies do things like remember your progress through the application.
@@ -165,7 +165,7 @@
           </tbody>
         </table>
 
-        <%= f.govuk_submit 'Save Changes', class: 'cookies_save_changes' %>
+        <%= f.govuk_submit t('.submit'), class: 'cookies_save_changes' %>
         <p>Last updated 16 Mar 2021</p>
       </div>
       <div class="govuk-grid-column-two-thirds"></div>
