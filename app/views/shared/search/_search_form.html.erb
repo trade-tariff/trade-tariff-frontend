@@ -4,17 +4,7 @@
   <%= render 'shared/invalid_date_error_summary' %>
 <% end %>
 
-<% if @search.errors.any? %>
-<div class="govuk-error-summary" data-module="govuk-error-summary">
-  <div role="alert">
-    <h2 class="govuk-error-summary__title">There is a problem</h2>
-    <div class="govuk-error-summary__body">
-      <% error_items = @search.errors.map { |error| govuk_link_to(error.message, '#q') } %>
-      <%= govuk_list error_items, classes: 'govuk-error-summary__list' %>
-    </div>
-  </div>
-</div>
-<% end %>
+<%= search_error_summary(@search, anchor: 'q') %>
 
 <% if @search.day_month_and_year_set? %>
 <%= hidden_field_tag :year, @search.year %>
@@ -23,13 +13,9 @@
 <% end %>
 
 
-<div class="govuk-form-group<%= ' govuk-form-group--error' if @search.errors.any? %>">
+<div class="govuk-form-group<%= search_field_error_class(@search) %>">
   <%= label_tag :q, search_label_text, class: 'govuk-label' %>
-  <% if @search.errors.any? %>
-    <p class="govuk-error-message" id="q-error">
-      <span class="govuk-visually-hidden">Error:</span> <%= @search.errors.map(&:message).join('. ') %>
-    </p>
-  <% end %>
+  <%= search_inline_error(@search, id: 'q-error') %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters column-three-quarters-mobile-only">
       <%= render 'shared/search/autocomplete' %>

@@ -1,4 +1,43 @@
 module SearchResultsHelper
+  def search_error_messages(search)
+    search.errors.map(&:message)
+  end
+
+  def search_error_summary(search, anchor:)
+    return unless search.errors.any?
+
+    content_tag(:div, class: 'govuk-error-summary', data: { module: 'govuk-error-summary' }) do
+      content_tag(:div, role: 'alert') do
+        safe_join([
+                    content_tag(:h2, 'There is a problem', class: 'govuk-error-summary__title'),
+                    content_tag(:div, class: 'govuk-error-summary__body') do
+                      error_items = search_error_messages(search).map { |message| govuk_link_to(message, "##{anchor}") }
+                      govuk_list(error_items, classes: 'govuk-error-summary__list')
+                    end,
+                  ])
+      end
+    end
+  end
+
+  def search_field_error_class(search)
+    ' govuk-form-group--error' if search.errors.any?
+  end
+
+  def search_textarea_error_class(search)
+    ' govuk-textarea--error' if search.errors.any?
+  end
+
+  def search_inline_error(search, id:)
+    return unless search.errors.any?
+
+    content_tag(:p, class: 'govuk-error-message', id:) do
+      safe_join([
+                  content_tag(:span, 'Error:', class: 'govuk-visually-hidden'),
+                  " #{search_error_messages(search).join('. ')}",
+                ])
+    end
+  end
+endmodule SearchResultsHelper
   CONFIDENCE_LEVELS = {
     'Strong' => {
       label: 'Strong result',
