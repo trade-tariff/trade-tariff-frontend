@@ -64,7 +64,7 @@ RSpec.feature 'Cookies management', :js do
     expect(cookie_for('cookies_policy')).to eq('remember_settings' => true, 'usage' => true)
     expect(cookie_for('cookies_preferences_set')).to be_nil
     expect(page).to have_css '.govuk-notification-banner h3', text: 'Your cookie settings were saved'
-    expect(page).to have_css '#cookies_accepted'
+    expect(page).to have_css '#cookies_accepted', text: 'You have accepted additional cookies.'
 
     visit cookies_path
     find(:button, 'Hide this message', visible: true).click
