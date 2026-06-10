@@ -35,14 +35,24 @@
                             maxlength_enabled: true if local_assigns.fetch(:use_date_picker, false) %>
     </div>
 
-    <div class="govuk-grid-column-three-quarters">
-      <%= f.govuk_submit 'Search for a commodity',
-                          validate: true,
-                          name: 'new_search',
-                          value: 'Search for a commodity',
-                          class: 'govuk-!-margin-top-6' %>
-      <hr>
-    </div>
+    <% if @no_shared_search %>
+      <div class="govuk-grid-column-three-quarters">
+        <%= f.govuk_submit 'Search for a commodity',
+                            validate: true,
+                            name: 'new_search',
+                            value: 'Search for a commodity',
+                            class: 'govuk-!-margin-top-6' %>
+        <hr>
+      </div>
+    <% else %>
+      <div class="govuk-grid-column-one-quarter column-one-quarter-mobile-only">
+        <%= f.govuk_submit 'Search',
+                            validate: true,
+                            name: 'new_search',
+                            value: 'Search',
+                            class: 'search-button' %>
+      </div>
+    <% end %>
   </div>
 </div>
 <% end %>

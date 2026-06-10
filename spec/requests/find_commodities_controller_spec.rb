@@ -41,7 +41,7 @@ RSpec.describe FindCommoditiesController, type: :request do
       end
 
       it 'keeps the submitted date values in the form' do
-        expect(response.body).to match(/name="search\[as_of\(day\)\]"[^>]*value="22".*name="search\[as_of\(month\)\]"[^>]*value="0".*name="search\[as_of\(year\)\]"[^>]*value="2026"/m)
+        expect(response.body).to match(/name="search\[as_of\(3i\)\]"[^>]*value="22".*name="search\[as_of\(2i\)\]"[^>]*value="0".*name="search\[as_of\(1i\)\]"[^>]*value="2026"/m)
       end
     end
   end

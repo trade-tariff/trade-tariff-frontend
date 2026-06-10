@@ -15,7 +15,7 @@ RSpec.describe 'shared/search/_search_form', type: :view do
   end
 
   it 'renders a govuk submit button that keeps browser validation enabled' do
-    expect(rendered_form).to have_css('button.govuk-button[type="submit"][name="new_search"][value="Search for a commodity"]', text: 'Search for a commodity')
+    expect(rendered_form).to have_css('button.govuk-button[type="submit"][name="new_search"][value="Search"]', text: 'Search')
   end
 
   it 'does not add formnovalidate to the shared search submit button' do

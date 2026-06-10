@@ -59,6 +59,14 @@ class Search
     raise Search::InvalidDate
   end
 
+  def as_of
+    {
+      1 => year.presence || Time.zone.today.year,
+      2 => month.presence || Time.zone.today.month,
+      3 => day.presence || Time.zone.today.day,
+    }
+  end
+
   def filtered_by_date?
     date != Time.zone.today
   end
