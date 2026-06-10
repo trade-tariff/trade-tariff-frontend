@@ -34,19 +34,19 @@ describe('CookiePolicyController', () => {
 
         <div class="govuk-radios govuk-radios--stacked">
           <div class="govuk-radios__item">
-            <input type="radio" value="true" name="cookies_policy[usage]" data-cookie-policy-target="usageRadioTrue">
+            <input id="cookies_policy_usage_true" type="radio" value="true" name="cookies_policy[usage]">
           </div>
           <div class="govuk-radios__item">
-            <input type="radio" value="false" name="cookies_policy[usage]" data-cookie-policy-target="usageRadioFalse">
+            <input id="cookies_policy_usage_false" type="radio" value="false" name="cookies_policy[usage]">
           </div>
         </div>
 
         <div class="govuk-radios govuk-radios--stacked">
           <div class="govuk-radios__item">
-            <input type="radio" value="true" data-cookie-policy-target="rememberSettingsRadioTrue">
+            <input id="cookies_policy_remember_settings_true" type="radio" value="true" name="cookies_policy[remember_settings]">
           </div>
           <div class="govuk-radios__item">
-            <input type="radio" value="false" data-cookie-policy-target="rememberSettingsRadioFalse">
+            <input id="cookies_policy_remember_settings_false" type="radio" value="false" name="cookies_policy[remember_settings]">
           </div>
         </div>
 
@@ -70,11 +70,29 @@ describe('CookiePolicyController', () => {
     it('should set the all options to unchecked by default', () => {
       application.start();
       controllerInstance = application.getControllerForElementAndIdentifier(element, 'cookie-policy');
+      const usageRadioTrue = element.querySelector('#cookies_policy_usage_true');
+      const usageRadioFalse = element.querySelector('#cookies_policy_usage_false');
+      const rememberSettingsRadioTrue = element.querySelector('#cookies_policy_remember_settings_true');
+      const rememberSettingsRadioFalse = element.querySelector('#cookies_policy_remember_settings_false');
 
-      expect(controllerInstance.usageRadioTrueTarget.checked).toEqual(false);
-      expect(controllerInstance.usageRadioFalseTarget.checked).toEqual(false);
-      expect(controllerInstance.rememberSettingsRadioTrueTarget.checked).toEqual(false);
-      expect(controllerInstance.rememberSettingsRadioFalseTarget.checked).toEqual(false);
+      expect(controllerInstance).toBeDefined();
+      expect(usageRadioTrue.checked).toEqual(false);
+      expect(usageRadioFalse.checked).toEqual(false);
+      expect(rememberSettingsRadioTrue.checked).toEqual(false);
+      expect(rememberSettingsRadioFalse.checked).toEqual(false);
+    });
+
+    it('should restore checked options from an existing cookies policy', () => {
+      cookieManager.setCookiesPolicy({usage: false, remember_settings: true});
+
+      controllerInstance = application.getControllerForElementAndIdentifier(element, 'cookie-policy');
+      controllerInstance.connect();
+      const usageRadioFalse = element.querySelector('#cookies_policy_usage_false');
+      const rememberSettingsRadioTrue = element.querySelector('#cookies_policy_remember_settings_true');
+
+      expect(controllerInstance).toBeDefined();
+      expect(usageRadioFalse.checked).toEqual(true);
+      expect(rememberSettingsRadioTrue.checked).toEqual(true);
     });
   });
 
@@ -90,12 +108,30 @@ describe('CookiePolicyController', () => {
       expect(cookieManager.getCookiesPolicy()).toEqual(null);
     });
 
+    it('should set the cookies policy when only one option group is selected and default the other to false', () => {
+      application.start();
+      controllerInstance = application.getControllerForElementAndIdentifier(element, 'cookie-policy');
+      const usageRadioTrue = element.querySelector('#cookies_policy_usage_true');
+      const successMessage = element.querySelector('[data-cookie-policy-target="successMessage"]');
+
+      usageRadioTrue.checked = true;
+
+      const form = element.querySelector('form');
+      const submitEvent = new Event('submit', {bubbles: true, cancelable: true});
+      form.dispatchEvent(submitEvent);
+
+      expect(cookieManager.getCookiesPolicy()).toEqual({usage: true, remember_settings: false});
+      expect(successMessage.hidden).toEqual(false);
+    });
+
     it('should set the cookies policy when we submit the form and the options are picked', () => {
       application.start();
       controllerInstance = application.getControllerForElementAndIdentifier(element, 'cookie-policy');
+      const usageRadioTrue = element.querySelector('#cookies_policy_usage_true');
+      const rememberSettingsRadioTrue = element.querySelector('#cookies_policy_remember_settings_true');
 
-      controllerInstance.usageRadioTrueTarget.checked = true;
-      controllerInstance.rememberSettingsRadioTrueTarget.checked = true;
+      usageRadioTrue.checked = true;
+      rememberSettingsRadioTrue.checked = true;
 
       const form = element.querySelector('form');
       const submitEvent = new Event('submit', {bubbles: true, cancelable: true});

@@ -8,7 +8,11 @@
 <% end %>
 
 <div data-controller="cookie-policy">
-  <form data-action="submit->cookie-policy#updatePolicy">
+  <%= form_with scope: :cookies_policy,
+                url: cookies_policy_path,
+                method: :get,
+                builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+                data: { action: 'submit->cookie-policy#updatePolicy' } do |f| %>
     <div data-cookie-policy-target="successMessage" class="govuk-grid-row" hidden="hidden">
       <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
         <div class="govuk-notification-banner__header">
@@ -18,7 +22,7 @@
         </div>
         <div class="govuk-notification-banner__content">
           <h3 class="govuk-notification-banner__heading">
-            Your cookie settings were saved
+            <%= t('.saved_heading') %>
           </h3>
           <p>You can update these settings at any time.</p>
         </div>
@@ -77,28 +81,14 @@
           </tbody>
         </table>
         <br>
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" aria-describedby="cookie-consent-usage-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xs">
-              Do you consent to cookies that measure website use?
-            </legend>
-            <div id="cookie-consent-usage-hint" class="govuk-hint"></div>
-            <div class="govuk-radios govuk-radios--stacked">
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" value="true" name="cookies_policy[usage]" id="cookies_policy_usage_true" data-cookie-policy-target="usageRadioTrue">
-                <label class="govuk-label govuk-radios__label" for="cookies_policy_usage_true">
-                  Use cookies that measure my website use
-                </label>
-              </div>
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" value="false" name="cookies_policy[usage]" id="cookies_policy_usage_false" data-cookie-policy-target="usageRadioFalse">
-                <label class="govuk-label govuk-radios__label" for="cookies_policy_usage_false">
-                  No, do not use cookies that measure my website use
-                </label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
+        <%= f.govuk_radio_buttons_fieldset :usage,
+              legend: {
+                text: t('.usage.legend'),
+                size: 's',
+              } do %>
+          <%= f.govuk_radio_button :usage, true, label: { text: t('.usage.yes_label') } %>
+          <%= f.govuk_radio_button :usage, false, label: { text: t('.usage.no_label') } %>
+        <% end %>
         <h3 class="govuk-heading-s">Cookies that remember your settings</h3>
         <p>These cookies do things like remember your preferences and the choices you make, to personalise your
           experience of using the site.</p>
@@ -122,25 +112,14 @@
           </tbody>
         </table>
         <br>
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" aria-describedby="cookie-consent-settings-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xs">
-              Do you consent to cookies that remember your settings?
-            </legend>
-            <div id="cookie-consent-settings-hint" class="govuk-hint">
-            </div>
-            <div class="govuk-radios govuk-radios--stacked">
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" value="true" name="cookies_policy[remember_settings]" id="cookies_policy_remember_settings_true" data-cookie-policy-target="rememberSettingsRadioTrue">
-                <label class="govuk-label govuk-radios__label" for="cookies_policy_remember_settings_true">Yes, use cookies that remember my settings on the site</label>
-              </div>
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" value="false" name="cookies_policy[remember_settings]" id="cookies_policy_remember_settings_false" data-cookie-policy-target="rememberSettingsRadioFalse">
-                <label class="govuk-label govuk-radios__label" for="cookies_policy_remember_settings_false">No, do not use cookies that remember my settings on the site</label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
+        <%= f.govuk_radio_buttons_fieldset :remember_settings,
+              legend: {
+                text: t('.remember_settings.legend'),
+                size: 's',
+              } do %>
+          <%= f.govuk_radio_button :remember_settings, true, label: { text: t('.remember_settings.yes_label') } %>
+          <%= f.govuk_radio_button :remember_settings, false, label: { text: t('.remember_settings.no_label') } %>
+        <% end %>
         <h3 class="govuk-heading-s">Strictly necessary cookies</h3>
         <p>These essential cookies do things like remember your progress through the application.
           They always need to be on, or the service will not function.
@@ -186,10 +165,10 @@
           </tbody>
         </table>
 
-        <input type="submit" name="commit" value="Save Changes" class="govuk-button cookies_save_changes">
+        <%= f.govuk_submit t('.submit'), class: 'cookies_save_changes' %>
         <p>Last updated 16 Mar 2021</p>
       </div>
       <div class="govuk-grid-column-two-thirds"></div>
     </div>
-  </form>
+  <% end %>
 </div>

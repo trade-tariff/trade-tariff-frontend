@@ -2,13 +2,12 @@ import {Controller} from '@hotwired/stimulus';
 
 import CookieManager from 'cookie-manager';
 
+const USAGE = 'cookies_policy[usage]';
+const REMEMBER_SETTINGS = 'cookies_policy[remember_settings]';
+
 export default class extends Controller {
   static targets = [
     'successMessage',
-    'usageRadioTrue',
-    'usageRadioFalse',
-    'rememberSettingsRadioTrue',
-    'rememberSettingsRadioFalse',
   ];
 
   connect() {
@@ -22,53 +21,30 @@ export default class extends Controller {
   updatePolicy(event) {
     event.preventDefault();
 
-    if (this.#pickedAllOptions()) {
-      this.cookieManager.setCookiesPolicy({
-        usage: this.#usage(),
-        remember_settings: this.#rememberSettings(),
-      });
-      this.#showSuccessMessage();
-    }
+    if (!this.#anyOptionPicked()) return;
+
+    this.cookieManager.setCookiesPolicy({
+      usage: this.#selectedBoolean(USAGE),
+      remember_settings: this.#selectedBoolean(REMEMBER_SETTINGS),
+    });
+    this.#showSuccessMessage();
   }
 
 
   #updatePolicyBasedOnCookies() {
-    if (this.#hasRadioTargets) {
-      this.#updateUsage();
-      this.#updateRememberSettings();
+    if (this.#hasRadioInputs()) {
+      this.#setRadioSelection(USAGE, this.cookieManager.usage());
+      this.#setRadioSelection(REMEMBER_SETTINGS, this.cookieManager.rememberSettings());
     }
   }
 
-  #usage() {
-    if (this.usageRadioTrueTarget.checked) {
-      return true;
-    } else if (this.usageRadioFalseTarget.checked) {
-      return false;
-    }
+  #selectedBoolean(name) {
+    return this.#selectedRadioValue(name) === 'true';
   }
 
-  #rememberSettings() {
-    if (this.rememberSettingsRadioTrueTarget.checked) {
-      return true;
-    } else if (this.rememberSettingsRadioFalseTarget.checked) {
-      return false;
-    }
-  }
-
-  #updateUsage() {
-    if (this.cookieManager.usage()) {
-      this.usageRadioTrueTarget.checked = true;
-    } else {
-      this.usageRadioFalseTarget.checked = true;
-    }
-  }
-
-  #updateRememberSettings() {
-    if (this.cookieManager.rememberSettings()) {
-      this.rememberSettingsRadioTrueTarget.checked = true;
-    } else {
-      this.rememberSettingsRadioFalseTarget.checked = true;
-    }
+  #setRadioSelection(name, checked) {
+    const value = checked === true ? 'true' : 'false';
+    this.#radioByValue(name, value).checked = true;
   }
 
   #showSuccessMessage() {
@@ -76,30 +52,22 @@ export default class extends Controller {
     this.successMessageTarget.scrollIntoView({behavior: 'smooth', block: 'center'});
   }
 
-  #hasRadioTargets() {
-    const hasTargets = this.hasUsageRadioTrueTarget &&
-      this.hasUsageRadioFalseTarget &&
-      this.hasRememberSettingsRadioTrueTarget &&
-      this.hasRememberSettingsRadioFalseTarget;
-
-    return hasTargets;
+  #hasRadioInputs() {
+    return Boolean(this.#radioByValue(USAGE, 'true')) &&
+      Boolean(this.#radioByValue(USAGE, 'false')) &&
+      Boolean(this.#radioByValue(REMEMBER_SETTINGS, 'true')) &&
+      Boolean(this.#radioByValue(REMEMBER_SETTINGS, 'false'));
   }
 
-  #pickedAllOptions() {
-    const pickedAllOptions = this.#pickedUsageOption() && this.#pickedRememberSettingsOption;
-
-    return pickedAllOptions;
+  #anyOptionPicked() {
+    return this.#selectedRadioValue(USAGE) !== undefined || this.#selectedRadioValue(REMEMBER_SETTINGS) !== undefined;
   }
 
-  #pickedUsageOption() {
-    const pickedUsageOption = this.usageRadioTrueTarget.checked || this.usageRadioFalseTarget.checked;
-
-    return pickedUsageOption;
+  #radioByValue(name, value) {
+    return this.element.querySelector(`input[name="${name}"][value="${value}"]`);
   }
 
-  #pickedRememberSettingsOption() {
-    const pickedRememberSettingsOption = this.rememberSettingsRadioTrueTarget.checked || this.rememberSettingsRadioFalseTarget.checked;
-
-    return pickedRememberSettingsOption;
+  #selectedRadioValue(name) {
+    return this.element.querySelector(`input[name="${name}"]:checked`)?.value;
   }
 }
