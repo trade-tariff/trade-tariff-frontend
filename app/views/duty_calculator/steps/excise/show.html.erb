@@ -2,7 +2,7 @@
 
 <%= form_for @step, url: excise_path do |f| %>
   <%= f.govuk_error_summary %>
-  <span class="govuk-caption-xl">Calculate import duties</span>
+  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
   <h1 class="govuk-heading-xl">Which class of excise is applicable to your trade?</h1>
 
   <%=

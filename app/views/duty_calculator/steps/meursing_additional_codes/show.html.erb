@@ -1,6 +1,6 @@
 <%= render 'duty_calculator/steps/shared/back_link' %>
 
-<span class="govuk-caption-xl">Calculate import duties</span>
+<span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
 
 <%= form_for @step, url: meursing_additional_codes_path do |f| %>
   <%= f.govuk_error_summary %>

@@ -2,7 +2,7 @@
 
 <%= form_for @step, url: final_use_path do |f| %>
   <%= f.govuk_error_summary %>
-  <span class="govuk-caption-xl">Calculate import duties</span>
+  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
 
   <%= f.govuk_collection_radio_buttons :final_use, @step.options, :id, :name, legend: { text: @step.heading, size: 'xl', tag: 'h1' }, include_hidden: true %>
 
@@ -12,7 +12,7 @@
 <%= render 'duty_calculator/shared/commodity_details' %>
 
 <div class="explore-topics-section">
-  <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
+  <h2 class="govuk-heading-m govuk-!-margin-top-3"><%= t('duty_calculator.shared.explore_topic_title') %></h2>
   <%= govuk_list [
     govuk_link_to("Check if you can declare goods you bring into Northern Ireland 'not at risk' of moving to the EU", 'https://www.gov.uk/guidance/check-if-you-can-declare-goods-you-bring-into-northern-ireland-not-at-risk-of-moving-to-the-eu'),
   ] %>

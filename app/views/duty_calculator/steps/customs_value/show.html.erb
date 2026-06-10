@@ -2,7 +2,7 @@
 
 <%= form_for @step, url: customs_value_path do |f| %>
   <%= f.govuk_error_summary %>
-  <span class="govuk-caption-xl">Calculate import duties</span>
+  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
   <h1 class="govuk-heading-xl">What is the customs value of this import?</h1>
   <p class="govuk-hint">
     The amount of duty you may have to pay will depend on the customs value of your goods.
@@ -24,7 +24,7 @@
 <% end %>
 <%= render 'duty_calculator/shared/commodity_details' %>
 <div class="explore-topics-section">
-  <h2 class="govuk-heading-m govuk-!-margin-top-3">Explore the topic</h2>
+  <h2 class="govuk-heading-m govuk-!-margin-top-3"><%= t('duty_calculator.shared.explore_topic_title') %></h2>
   <%= govuk_list [
     govuk_link_to('Valuation of imported goods for customs purposes, VAT and trade statistics', 'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics'),
   ] %>

@@ -67,7 +67,7 @@ NOTE
       if after_cut_off_date?
         'Find out more about the Windsor Framework'
       else
-        'Explore the topic'
+        t('duty_calculator.shared.explore_topic_title')
       end
     end
 

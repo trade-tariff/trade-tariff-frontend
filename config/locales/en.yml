@@ -1586,6 +1586,11 @@ en:
     duty_calculation: Import duty calculation - Online Tariff Duty calculator
     no_duty: There is no import duty to pay - Online Tariff Duty calculator
 
+  duty_calculator:
+    shared:
+      caption: Calculate import duties
+      explore_topic_title: Explore the topic
+
   duty_calculations:
     options:
       mfn:
@@ -1730,7 +1735,7 @@ en:
       How will these goods be processed after they are moved into Northern Ireland?
     without_any_processing:
       label_text_html: >
-        The goods <strong>will not be subject to processing in Northern Ireland<strong>
+        The goods <strong>will not be subject to processing in Northern Ireland</strong>
     commercial_processing:
       label_text_html: >
         The goods will undergo <strong>commercial processing</strong> for one of these purposes:
