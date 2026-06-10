@@ -1,6 +1,11 @@
-<%= form_tag perform_search_path, method: :post, id: "new_search",
-    data: { controller: "guided-search-validation",
-            action: "submit->guided-search-validation#validateAndSubmit" } do %>
+<%= form_with url: perform_search_path,
+              method: :post,
+              scope: nil,
+              local: true,
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              id: "new_search",
+              data: { controller: "guided-search-validation",
+                      action: "submit->guided-search-validation#validateAndSubmit" } do |f| %>
 
 <div data-guided-search-validation-target="formContent">
 
@@ -122,7 +127,7 @@
 <%= render 'shared/search/interactive_datepicker' %>
 
 <div class="govuk-!-margin-top-6">
-  <%= submit_tag 'Search for a commodity', class: 'govuk-button' %>
+  <%= f.govuk_submit 'Search for a commodity' %>
 </div>
 
 </div>
