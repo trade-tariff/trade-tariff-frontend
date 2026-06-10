@@ -1,6 +1,11 @@
-<%= form_tag perform_search_path, method: :post, id: "new_search",
-    data: { controller: "guided-search-validation",
-            action: "submit->guided-search-validation#validateAndSubmit" } do %>
+<%= form_with url: perform_search_path,
+              method: :post,
+              scope: nil,
+              local: true,
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              id: "new_search",
+              data: { controller: "guided-search-validation",
+                      action: "submit->guided-search-validation#validateAndSubmit" } do |f| %>
 
 <div data-guided-search-validation-target="formContent">
 
@@ -29,22 +34,21 @@
      data-interactive-search-radio-v2-suggestions-path-value="<%= search_suggestions_path(format: :json) %>"
      data-interactive-search-radio-interactive-suggestions-path-value="<%= interactive_search_suggestions_path(format: :json) %>">
 
-  <fieldset class="govuk-fieldset">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-      <h2 class="govuk-fieldset__heading">What type of search are you doing?</h2>
-    </legend>
-
-    <div class="govuk-radios">
-      <div class="govuk-radios__item">
-        <input class="govuk-radios__input" id="search_type_guided" type="radio"
-               name="search_type" value="guided"
-               aria-controls="conditional-guided"
-               data-interactive-search-radio-target="toggle"
-               data-action="interactive-search-radio#toggle">
-        <label class="govuk-label govuk-radios__label" for="search_type_guided">
-          Guided search
-        </label>
-      </div>
+  <%= f.govuk_radio_buttons_fieldset :search_type,
+                                      legend: {
+                                        text: 'What type of search are you doing?',
+                                        size: 'm',
+                                        tag: 'h2'
+                                      } do %>
+      <%= f.govuk_radio_button :search_type,
+                               'guided',
+                               id: 'search_type_guided',
+                               label: { text: 'Guided search' },
+                               data: {
+                                 interactive_search_radio_target: 'toggle',
+                                 action: 'interactive-search-radio#toggle'
+                               },
+                               'aria-controls': 'conditional-guided' %>
 
       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-guided" hidden data-interactive-search-radio-target="guidedSection">
         <%= govuk_details(summary_text: 'Tips for using guided search', classes: 'govuk-!-margin-bottom-4') do %>
@@ -65,23 +69,28 @@
               <span class="govuk-visually-hidden">Error:</span> <%= @search.errors.map(&:message).join('. ') %>
             </p>
           <% end %>
-          <textarea class="govuk-textarea<%= ' govuk-textarea--error' if @search.errors.any? %>" id="guided_q" name="q" rows="5"
-                    aria-describedby="guided-q-hint<%= ' guided-q-error' if @search.errors.any? %>"
-                    data-interactive-search-radio-target="guidedInput"
-                    data-guided-search-validation-target="textarea"><%= @search.q %></textarea>
+          <%= f.text_area :q,
+                          value: @search.q,
+                          class: class_names('govuk-textarea', 'govuk-textarea--error': @search.errors.any?),
+                          id: 'guided_q',
+                          rows: 5,
+                          'aria-describedby': "guided-q-hint#{' guided-q-error' if @search.errors.any?}",
+                          data: {
+                            interactive_search_radio_target: 'guidedInput',
+                            guided_search_validation_target: 'textarea'
+                          } %>
         </div>
       </div>
 
-      <div class="govuk-radios__item">
-        <input class="govuk-radios__input" id="search_type_keyword" type="radio"
-               name="search_type" value="keyword"
-               aria-controls="conditional-keyword"
-               data-interactive-search-radio-target="toggle"
-               data-action="interactive-search-radio#toggle">
-        <label class="govuk-label govuk-radios__label" for="search_type_keyword">
-          Keyword or commodity code search
-        </label>
-      </div>
+      <%= f.govuk_radio_button :search_type,
+                               'keyword',
+                               id: 'search_type_keyword',
+                               label: { text: 'Keyword or commodity code search' },
+                               data: {
+                                 interactive_search_radio_target: 'toggle',
+                                 action: 'interactive-search-radio#toggle'
+                               },
+                               'aria-controls': 'conditional-keyword' %>
 
       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-keyword" hidden data-interactive-search-radio-target="keywordSection">
         <%= govuk_details(summary_text: 'Tips for using keyword or commodity code search', classes: 'govuk-!-margin-bottom-4') do %>
@@ -111,8 +120,7 @@
           <%= render 'shared/search/autocomplete' %>
         </div>
       </div>
-    </div>
-  </fieldset>
+  <% end %>
 
   <input type="hidden" name="interactive_search" value="false"
          data-interactive-search-radio-target="hiddenField"
@@ -122,7 +130,7 @@
 <%= render 'shared/search/interactive_datepicker' %>
 
 <div class="govuk-!-margin-top-6">
-  <%= submit_tag 'Search for a commodity', class: 'govuk-button' %>
+  <%= f.govuk_submit 'Search for a commodity' %>
 </div>
 
 </div>

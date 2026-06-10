@@ -78,7 +78,7 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
   end
 
   describe 'submit button' do
-    it { is_expected.to have_css('input[type="submit"][value="Search for a commodity"]') }
+    it { is_expected.to have_button('Search for a commodity') }
   end
 
   describe 'guided search loading state' do
