@@ -2,7 +2,7 @@ module GreenLanes
   class FetchGoodsNomenclature
     def initialize(params)
       @commodity_code = params[:commodity_code]
-      @moving_date = params[:moving_date]
+      @as_of = params[:moving_date]
       @country_of_origin = params[:country_of_origin]
     end
 
@@ -20,9 +20,8 @@ module GreenLanes
       {
         filter: {
           geographical_area_id: country_id,
-          moving_date: @moving_date,
         },
-        as_of: @moving_date,
+        as_of: @as_of,
       }
     end
 
