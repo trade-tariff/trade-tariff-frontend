@@ -1,9 +1,9 @@
 module InterceptGuidanceHelper
   SUPPORTED_PLACEHOLDERS = {
-    'request_id' => ->(search) { "**#{search.request_id}**" },
-    'search_term' => ->(search) { search.q },
-    'enquiries_email' => ->(_) { TradeTariffFrontend.enquiries_email },
-    'webchat_url' => ->(_) { TradeTariffFrontend.webchat_url },
+    'request_id' => ->(search, _view) { "**#{search.request_id}**" },
+    'search_term' => ->(search, _view) { search.q },
+    'enquiries_email' => ->(_search, _view) { TradeTariffFrontend.enquiries_email },
+    'webchat_url' => ->(_search, view) { view.webchat_url },
   }.freeze
 
   GOVUK_MARKDOWN_CLASSES = {
@@ -22,7 +22,7 @@ module InterceptGuidanceHelper
     message.to_s.gsub(/\{\{(\w+)\}\}/) do |match|
       key = ::Regexp.last_match(1)
       resolver = SUPPORTED_PLACEHOLDERS[key]
-      resolver ? resolver.call(search) : match
+      resolver ? resolver.call(search, self) : match
     end
   end
 

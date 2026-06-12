@@ -1,4 +1,4 @@
-<% if TradeTariffFrontend.single_trade_window_linking_enabled? %>
+<% if feature_enabled?(:stw) %>
   <div class="govuk-inset-text govuk-inset-text--s tariff-inset-information">
     <%= sanitize(declarable_stw_html(declarable, @search), tags: %w[a p], attributes: %w[target class rel href]) %>
   </div>

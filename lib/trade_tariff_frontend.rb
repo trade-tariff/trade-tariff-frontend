@@ -1,7 +1,6 @@
 module TradeTariffFrontend
   DEFAULT_ENQUIRIES_EMAIL = 'classification.enquiries@hmrc.gov.uk'.freeze
   DEFAULT_SUPPORT_EMAIL = DEFAULT_ENQUIRIES_EMAIL
-  WEBCHAT_BASE_URL = 'https://www.tax.service.gov.uk/ask-hmrc/chat/'.freeze
 
   autoload :Presenter,      'trade_tariff_frontend/presenter'
   autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
@@ -102,10 +101,6 @@ module TradeTariffFrontend
     )
   end
 
-  def single_trade_window_linking_enabled?
-    ENV.fetch('STW_ENABLED', 'false') == 'true'
-  end
-
   def revision
     @revision ||= `cat REVISION 2>/dev/null || echo 'development'`.strip
   end
@@ -114,36 +109,8 @@ module TradeTariffFrontend
     ENV.fetch('CHECK_DUTIES_SERVICE_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
   end
 
-  def welsh?
-    ENV['WELSH'].to_s == 'true'
-  end
-
-  def roo_wizard?
-    ENV['ROO_WIZARD'] == 'true' && TradeTariffFrontend::ServiceChooser.uk?
-  end
-
-  def webchat_enabled?
-    webchat_url.present?
-  end
-
-  def webchat_url
-    configured_url = ENV['WEBCHAT_URL']
-    return if configured_url.blank?
-    return configured_url if configured_url.match?(%r{\Ahttps?://})
-
-    URI.join(WEBCHAT_BASE_URL, configured_url).to_s
-  end
-
   def legacy_results_to_show
     ENV.fetch('LEGACY_RESULTS_TO_SHOW', '5').to_i
-  end
-
-  def green_lanes_enabled?
-    ENV['GREEN_LANES_ENABLED'].to_s == 'true'
-  end
-
-  def interactive_search_enabled?
-    !production? && !ServiceChooser.xi?
   end
 
   def green_lanes_api_token

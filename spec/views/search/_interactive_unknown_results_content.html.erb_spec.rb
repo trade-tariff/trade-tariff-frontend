@@ -47,7 +47,10 @@ RSpec.describe 'search/_interactive_unknown_results_content', type: :view do
     it { is_expected.to have_link('Cancel', href: find_commodity_path) }
 
     context 'when webchat is enabled' do
-      before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(true) }
+      before do
+        enable_feature(:webchat)
+        set_feature_value(:webchat, 'https://example.com/chat')
+      end
 
       it { is_expected.to have_css('p.govuk-body', text: 'Webchat: Ask HMRC online') }
       it { is_expected.to have_css('p.govuk-body', text: 'Email: classification.enquiries@hmrc.gov.uk') }
@@ -56,8 +59,6 @@ RSpec.describe 'search/_interactive_unknown_results_content', type: :view do
     end
 
     context 'when webchat is disabled' do
-      before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(false) }
-
       it { is_expected.not_to have_link('Ask HMRC online') }
       it { is_expected.to have_css('p.govuk-body', text: 'Email: classification.enquiries@hmrc.gov.uk') }
       it { is_expected.to have_link('classification.enquiries@hmrc.gov.uk', href: 'mailto:classification.enquiries@hmrc.gov.uk') }

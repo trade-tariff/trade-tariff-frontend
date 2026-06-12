@@ -1,6 +1,32 @@
 module ApplicationHelper
   include InterceptGuidanceHelper
 
+  # Returns true if the named flag is enabled for the current identity.
+  # Memoises the flags collection on Current for the request lifetime so
+  # FlagsmithClient is called at most once per request.
+  def feature_enabled?(flag)
+    Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
+    Current.flagsmith_flags.is_feature_enabled(flag.to_s)
+  end
+
+  # Returns the remote config value (string) for a named flag.
+  # Used for flags that carry a value as well as an enabled state, e.g. webchat URL.
+  def feature_value(flag)
+    Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
+    Current.flagsmith_flags.get_feature_value(flag.to_s)
+  end
+
+  # The webchat URL stored as the :webchat flag's remote config value in FlagSmith.
+  # Returns nil when the flag is not set or has no value.
+  def webchat_url
+    feature_value(:webchat)
+  end
+
+  # True when the :webchat flag is enabled in FlagSmith.
+  def webchat_enabled?
+    feature_enabled?(:webchat)
+  end
+
   def home_path(*args, &block)
     find_commodity_path(*args, &block)
   end

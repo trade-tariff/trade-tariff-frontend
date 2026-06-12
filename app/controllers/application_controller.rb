@@ -6,8 +6,9 @@ class ApplicationController < ActionController::Base
   include CacheHelper
 
   before_action :maintenance_mode_if_active
-
   before_action :set_cache
+  before_action :set_current_flagsmith_identity
+  before_action :migrate_anonymous_flagsmith_identity
   before_action :set_path_info
   before_action :set_search
   before_action :bots_no_index_if_historical
@@ -135,7 +136,7 @@ class ApplicationController < ActionController::Base
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
                    faq_send_feedback_path: green_lanes_send_feedback_path }
 
-    if TradeTariffFrontend.interactive_search_enabled?
+    if feature_enabled?(:interactive_search)
       @path_info[:interactive_search_suggestions_path] = interactive_search_suggestions_path(format: :json)
     end
   end
@@ -145,9 +146,65 @@ class ApplicationController < ActionController::Base
   end
 
   def check_green_lanes_enabled
-    unless TradeTariffFrontend.green_lanes_enabled?
+    unless feature_enabled?(:green_lanes)
       raise TradeTariffFrontend::FeatureUnavailable
     end
+  end
+
+  def set_current_flagsmith_identity
+    Current.flagsmith_identity = current_flagsmith_identity
+  end
+
+  def migrate_anonymous_flagsmith_identity
+    return unless current_user_id
+    return if cookies[:flipper_anonymous_id].blank?
+
+    anonymous_id = cookies[:flipper_anonymous_id]
+    user_identity = Flagsmith::UserIdentity.new(current_user_id)
+
+    FlagsmithClient.instance.get_identity_overrides("Anonymous:#{anonymous_id}").each do |flag_name|
+      FlagsmithClient.instance.enable_for_identity(flag_name, user_identity)
+    end
+
+    FlagsmithClient.instance.delete_identity("Anonymous:#{anonymous_id}")
+    cookies.delete(:flipper_anonymous_id)
+  end
+
+  def current_flagsmith_identity
+    user_id = current_user_id
+    if user_id
+      Flagsmith::UserIdentity.new(user_id)
+    else
+      Flagsmith::AnonymousIdentity.new(anonymous_flagsmith_id)
+    end
+  end
+
+  def current_user_id
+    return @current_user_id if defined?(@current_user_id)
+
+    token = cookies[TradeTariffFrontend.id_token_cookie_name]
+    if token.blank?
+      @current_user_id = nil
+      return @current_user_id
+    end
+
+    payload, = JWT.decode(token, nil, false)
+    @current_user_id = payload['email'] || payload['sub']
+  rescue JWT::DecodeError, ArgumentError
+    @current_user_id = nil
+  end
+
+  def anonymous_flagsmith_id
+    return cookies[:flipper_anonymous_id] if cookies[:flipper_anonymous_id].present?
+
+    uuid = SecureRandom.uuid
+    cookies[:flipper_anonymous_id] = {
+      value: uuid,
+      max_age: 1.year.to_i,
+      httponly: true,
+      secure: Rails.env.production?,
+    }
+    uuid
   end
 
   def handle_too_many_requests_error

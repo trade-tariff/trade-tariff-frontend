@@ -27,7 +27,7 @@ RSpec.describe InterceptGuidanceHelper do
 
     it 'replaces {{webchat_url}} with the configured webchat URL' do
       msg = '[Ask HMRC online]({{webchat_url}})'
-      allow(TradeTariffFrontend).to receive(:webchat_url).and_return('https://example.com/webchat')
+      allow(self).to receive(:webchat_url).and_return('https://example.com/webchat')
 
       expect(resolve_intercept_placeholders(msg, search:)).to eq('[Ask HMRC online](https://example.com/webchat)')
     end
