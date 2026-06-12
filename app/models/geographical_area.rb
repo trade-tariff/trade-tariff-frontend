@@ -22,7 +22,7 @@ class GeographicalArea
 
   class << self
     def european_union
-      @european_union ||= Rails.cache.fetch(['european_union', cache_key, EUROPEAN_UNION_ID]) do
+      @european_union ||= Rails.cache.resilient_fetch(['european_union', cache_key, EUROPEAN_UNION_ID]) do
         find(EUROPEAN_UNION_ID).tap do |eu|
           if eu.description != 'European Union'
             info = {
