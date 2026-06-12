@@ -7,11 +7,14 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with url: product_experience_enquiry_form_field_path(@field), method: :post, local: true do %>
+    <%= form_with url: product_experience_enquiry_form_field_path(@field),
+                  method: :post,
+                  local: true,
+                  builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= hidden_field_tag :submission_token, session[:submission_token] %>
       <%= hidden_field_tag :editing, params[:editing] if params[:editing].present? %>
       <%= render partial: partial_for_field(@field), locals: { field: @field } %>
-      <%= submit_tag "Continue", class: "govuk-button" %>
+      <%= f.govuk_submit "Continue" %>
     <% end %>
   </div>
 </div>
