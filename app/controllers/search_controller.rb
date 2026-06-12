@@ -130,11 +130,11 @@ class SearchController < ApplicationController
       :current_options,
       answers: %i[question options answer],
       interactive_search_form: [:answer],
-    ).to_h
+    ).to_h.merge(extract_search_date_parts)
   end
 
   def search_params
-    params.permit(:q, :day, :month, :year)
+    params.permit(:q, :day, :month, :year).to_h.merge(extract_search_date_parts)
   end
 
   def quota_search_params

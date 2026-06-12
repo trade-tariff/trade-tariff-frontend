@@ -108,6 +108,20 @@ RSpec.describe SearchController, type: :controller do
       it { expect(response.location).to include('request_id=') }
     end
 
+    context 'with nested search term and date fields', vcr: { cassette_name: 'search#search_exact' } do
+      let(:params) { { search: { q: '01', 'as_of(3i)': '11', 'as_of(2i)': '5', 'as_of(1i)': '2023' } } }
+
+      before { do_response }
+
+      it { expect(assigns[:search]).to have_attributes q: '01', day: '11', month: '5', year: '2023' }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { expect(response.location).to include(chapter_path('01')) }
+      it { expect(response.location).to include('day=11') }
+      it { expect(response.location).to include('month=5') }
+      it { expect(response.location).to include('year=2023') }
+    end
+
     context 'without search term', vcr: { cassette_name: 'search#blank_match' } do
       subject(:do_response) do
         request.env['HTTP_REFERER'] = request_referer if request_referer.present?
