@@ -5,6 +5,8 @@ class SearchController < ApplicationController
   include ClassicSearchable
   include InteractiveSearchable
 
+  skip_before_action :verify_authenticity_token, only: [:search]
+
   before_action :disable_switch_service_banner, only: [:quota_search]
   before_action :disable_search_form, except: [:search]
 
