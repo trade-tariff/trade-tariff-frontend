@@ -1,5 +1,6 @@
 ActionDispatch::ExceptionWrapper.rescue_responses.merge!(
   'Faraday::ResourceNotFound' => :not_found,
+  'Pages::Glossary::UnknownPage' => :not_found,
   'WizardSteps::UnknownStep' => :not_found,
   'ActionView::MissingTemplate' => :not_found,
   'ActionController::UnknownFormat' => :not_found,
