@@ -22,7 +22,8 @@ RSpec.describe Pages::GlossaryController, type: :request do
         get glossary_term_path('unknown_page')
       end
 
-      it { expect(response).to have_http_status(:internal_server_error) }
+      it { expect(response).to have_http_status(:not_found) }
+      it { expect(response.body).to include('Page not found') }
     end
   end
 end
