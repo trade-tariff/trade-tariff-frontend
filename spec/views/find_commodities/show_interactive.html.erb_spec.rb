@@ -58,7 +58,7 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
   end
 
   describe 'date picker' do
-    it { is_expected.to have_text('When are you planning to trade the products?') }
+    it { is_expected.to have_text('When are you planning to trade the goods?') }
 
     context 'with an invalid date flag' do
       let(:search) do
@@ -76,10 +76,11 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
 
       it { is_expected.to have_css('.govuk-error-summary', text: 'You must enter a valid date') }
       it { is_expected.to have_css('.govuk-error-summary a[href="#search-as-of-field-error"]', text: 'You must enter a valid date') }
-      it { is_expected.to have_css('.govuk-form-group--error #day.govuk-input--error') }
-      it { is_expected.to have_css('#day[value="22"]') }
-      it { is_expected.to have_css('#month[value="0"]') }
-      it { is_expected.to have_css('#year[value="2026"]') }
+      it { is_expected.to have_css('#search-as-of-field-error') }
+      it { is_expected.to have_css('.govuk-form-group--error #search-as-of-field-error.govuk-input--error') }
+      it { is_expected.to have_css('input[name="search[as_of(3i)]"]') }
+      it { is_expected.to have_css('input[name="search[as_of(2i)]"]') }
+      it { is_expected.to have_css('input[name="search[as_of(1i)]"]') }
     end
 
     context 'with stale invalid_date params but no date error' do
@@ -91,7 +92,7 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
       end
 
       it { is_expected.not_to have_css('.govuk-error-summary', text: 'You must enter a valid date') }
-      it { is_expected.not_to have_css('.govuk-form-group--error #day.govuk-input--error') }
+      it { is_expected.not_to have_css('.govuk-form-group--error #search-as-of-field-error.govuk-input--error') }
     end
   end
 

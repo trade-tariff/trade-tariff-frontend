@@ -21,19 +21,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters column-three-quarters-mobile-only">
       <%= render 'shared/search/autocomplete', input_id: q_input_id %>
-      <%= f.govuk_date_field :as_of,
-                              legend: {
-                                text: 'When are you planning to trade the goods?',
-                                size: 's',
-                                tag: 'h1',
-                              },
-                              hint: {
-                                  text: "You can enter the date your goods will be traded. This is important, as commodities, duties and quotas change over time. Use the format day, month, year, for example 27 3 2021. If you don't enter a date, today's date is used.",
-                              },
-                              form_group: {
-                                class: 'govuk-!-margin-top-6',
-                            },
-                            maxlength_enabled: true if local_assigns.fetch(:use_date_picker, false) %>
+      <%= render 'shared/search/datepicker', f: f %>
     </div>
 
     <% if @no_shared_search %>
