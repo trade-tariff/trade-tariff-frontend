@@ -1,4 +1,4 @@
-<%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
+<%= render layout: 'shared/date_picker', locals: { isInvalidDate: @search.errors[:as_of].any? } do %>
 <legend class="govuk-fieldset__legend govuk-fieldset__legend--s b">
   <h1 class="govuk-fieldset__heading">When are you planning to trade the products?</h1>
 </legend>

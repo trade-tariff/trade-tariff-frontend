@@ -42,15 +42,18 @@ export default class extends Controller {
     const summary = this.element.querySelector('.govuk-error-summary')
     if (summary) summary.remove()
 
-    const inlineError = this.element.querySelector('#guided-q-error')
+    const inlineError = this.formGroupTarget.querySelector('.govuk-error-message')
     if (inlineError) inlineError.remove()
 
     this.formGroupTarget.classList.remove('govuk-form-group--error')
     this.textareaTarget.classList.remove('govuk-textarea--error')
-    this.textareaTarget.setAttribute('aria-describedby', 'guided-q-hint')
+    const hint = this.formGroupTarget.querySelector('.govuk-hint')
+    this.textareaTarget.setAttribute('aria-describedby', hint ? hint.id : '')
   }
 
   #showErrors(errors) {
+    const textareaId = this.textareaTarget.id
+
     const summary = document.createElement('div')
     summary.className = 'govuk-error-summary'
     summary.setAttribute('data-module', 'govuk-error-summary')
@@ -59,7 +62,7 @@ export default class extends Controller {
         <h2 class="govuk-error-summary__title">There is a problem</h2>
         <div class="govuk-error-summary__body">
           <ul class="govuk-list govuk-error-summary__list">
-            ${errors.map((msg) => `<li><a href="#guided_q">${msg}</a></li>`).join('')}
+            ${errors.map((msg) => `<li><a href="#${textareaId}">${msg}</a></li>`).join('')}
           </ul>
         </div>
       </div>
@@ -72,11 +75,13 @@ export default class extends Controller {
 
     const inlineError = document.createElement('p')
     inlineError.className = 'govuk-error-message'
-    inlineError.id = 'guided-q-error'
+    inlineError.id = `${textareaId}-inline-error`
     inlineError.innerHTML = `<span class="govuk-visually-hidden">Error:</span> ${errors.join('. ')}`
 
     this.textareaTarget.before(inlineError)
-    this.textareaTarget.setAttribute('aria-describedby', 'guided-q-hint guided-q-error')
+    const hint = this.formGroupTarget.querySelector('.govuk-hint')
+    const hintId = hint ? hint.id : ''
+    this.textareaTarget.setAttribute('aria-describedby', [hintId, inlineError.id].filter(Boolean).join(' '))
 
     summary.focus()
   }

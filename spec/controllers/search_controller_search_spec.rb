@@ -108,6 +108,34 @@ RSpec.describe SearchController, type: :controller do
       it { expect(response.location).to include('request_id=') }
     end
 
+    context 'with nested search term and date fields', vcr: { cassette_name: 'search#search_exact' } do
+      let(:params) { { search: { q: '01', 'as_of(3i)': '11', 'as_of(2i)': '5', 'as_of(1i)': '2023' } } }
+
+      before { do_response }
+
+      it { expect(assigns[:search]).to have_attributes q: '01', day: '11', month: '5', year: '2023' }
+
+      it { is_expected.to have_http_status(:redirect) }
+      it { expect(response.location).to include(chapter_path('01')) }
+      it { expect(response.location).to include('day=11') }
+      it { expect(response.location).to include('month=5') }
+      it { expect(response.location).to include('year=2023') }
+    end
+
+    context 'when an invalid date is submitted under nested search params' do
+      let(:params) { { search: { q: 'horses', 'as_of(3i)': '31', 'as_of(2i)': '2', 'as_of(1i)': '2023' } } }
+
+      before do
+        allow(controller).to receive(:perform_classic_search).and_raise(Search::InvalidDate)
+
+        do_response
+      end
+
+      it 'preserves q and date parts in the invalid-date redirect' do
+        expect(response).to redirect_to(find_commodity_path(q: 'horses', day: '31', month: '2', year: '2023', invalid_date: true))
+      end
+    end
+
     context 'without search term', vcr: { cassette_name: 'search#blank_match' } do
       subject(:do_response) do
         request.env['HTTP_REFERER'] = request_referer if request_referer.present?

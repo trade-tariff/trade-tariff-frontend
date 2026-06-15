@@ -22,7 +22,7 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
   end
 
   describe 'conditional reveal content' do
-    it { is_expected.to have_css('textarea#guided_q[name="q"]') }
+    it { is_expected.to have_css('textarea#search-q-field') }
     it { is_expected.to have_text('Describe the products you are trading') }
     it { is_expected.to have_text('Enter the name of the products or commodity code') }
     it { is_expected.to have_text('For example, tomatoes or 1234 5678 90') }
@@ -61,6 +61,12 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
     it { is_expected.to have_text('When are you planning to trade the products?') }
 
     context 'with an invalid date flag' do
+      let(:search) do
+        build(:search, :with_search_date, q: '0101300000', search_date: Time.zone.today).tap do |s|
+          s.errors.add(:as_of, 'You must enter a valid date')
+        end
+      end
+
       before do
         view.params[:invalid_date] = 'true'
         view.params[:day] = '22'
@@ -69,16 +75,39 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
       end
 
       it { is_expected.to have_css('.govuk-error-summary', text: 'You must enter a valid date') }
-      it { is_expected.to have_css('.govuk-error-summary a[href="#day"]', text: 'You must enter a valid date') }
+      it { is_expected.to have_css('.govuk-error-summary a[href="#search-as-of-field-error"]', text: 'You must enter a valid date') }
       it { is_expected.to have_css('.govuk-form-group--error #day.govuk-input--error') }
       it { is_expected.to have_css('#day[value="22"]') }
       it { is_expected.to have_css('#month[value="0"]') }
       it { is_expected.to have_css('#year[value="2026"]') }
     end
+
+    context 'with stale invalid_date params but no date error' do
+      before do
+        view.params[:invalid_date] = 'true'
+        view.params[:day] = '22'
+        view.params[:month] = '7'
+        view.params[:year] = '2026'
+      end
+
+      it { is_expected.not_to have_css('.govuk-error-summary', text: 'You must enter a valid date') }
+      it { is_expected.not_to have_css('.govuk-form-group--error #day.govuk-input--error') }
+    end
   end
 
   describe 'submit button' do
     it { is_expected.to have_css('input[type="submit"][value="Search for a commodity"]') }
+
+    context 'when invalid date params are present' do
+      before do
+        view.params[:invalid_date] = 'true'
+        view.params[:day] = '22'
+        view.params[:month] = '0'
+        view.params[:year] = '2026'
+      end
+
+      it { is_expected.to have_css('form#new_search[action="/search"]') }
+    end
   end
 
   describe 'guided search loading state' do
@@ -93,7 +122,9 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
       end
 
       it { is_expected.to have_css('.govuk-error-summary', text: 'Enter a search term') }
-      it { is_expected.to have_css('#guided-q-error', text: 'Enter a search term') }
+      it { is_expected.to have_css('.govuk-error-message#search-q-error', text: 'Enter a search term') }
+      it { is_expected.to have_css('label[for="search-q-field-error"]') }
+      it { is_expected.to have_css('.govuk-error-summary a[href="#search-q-field-error"]', text: 'Enter a search term') }
       it { is_expected.not_to have_css('[data-guided-search-validation-target="thinking"]', visible: :all) }
     end
   end

@@ -8,7 +8,7 @@ function buildHTML({hiddenFieldValue = 'true', textareaValue = '', serverErrors 
         <h2 class="govuk-error-summary__title">There is a problem</h2>
         <div class="govuk-error-summary__body">
           <ul class="govuk-list govuk-error-summary__list">
-            <li><a href="#guided_q">Enter a search term</a></li>
+            <li><a href="#search-q-field-error">Enter a search term</a></li>
           </ul>
         </div>
       </div>
@@ -17,10 +17,10 @@ function buildHTML({hiddenFieldValue = 'true', textareaValue = '', serverErrors 
   const errorClass = serverErrors ? ' govuk-form-group--error' : '';
   const textareaErrorClass = serverErrors ? ' govuk-textarea--error' : '';
   const inlineError = serverErrors ? `
-    <p class="govuk-error-message" id="guided-q-error">
+    <p class="govuk-error-message" id="search-q-error">
       <span class="govuk-visually-hidden">Error:</span> Enter a search term
     </p>` : '';
-  const ariaDescribedBy = serverErrors ? 'guided-q-hint guided-q-error' : 'guided-q-hint';
+  const ariaDescribedBy = serverErrors ? 'search-q-hint search-q-error' : 'search-q-hint';
 
   return `
     <main id="content">
@@ -39,10 +39,10 @@ function buildHTML({hiddenFieldValue = 'true', textareaValue = '', serverErrors 
           <div data-guided-search-validation-target="formContent">
             ${errorSummary}
             <div class="govuk-form-group${errorClass}" data-guided-search-validation-target="formGroup">
-              <label class="govuk-label" for="guided_q">Describe the products you are trading</label>
-              <div class="govuk-hint" id="guided-q-hint">For example, 55" 4K Ultra HD OLED Smart TV</div>
+              <label class="govuk-label" for="search-q-field">Describe the products you are trading</label>
+              <div class="govuk-hint" id="search-q-hint">For example, 55" 4K Ultra HD OLED Smart TV</div>
               ${inlineError}
-              <textarea class="govuk-textarea${textareaErrorClass}" id="guided_q" name="q" rows="5"
+              <textarea class="govuk-textarea${textareaErrorClass}" id="search-q-field" name="search[q]" rows="5"
                         aria-describedby="${ariaDescribedBy}"
                         data-guided-search-validation-target="textarea">${textareaValue}</textarea>
             </div>
@@ -122,7 +122,7 @@ describe('GuidedSearchValidationController', () => {
       expect(summary).not.toBeNull();
       expect(summary.textContent).toContain('Enter a search term');
 
-      const inline = document.querySelector('#guided-q-error');
+      const inline = document.querySelector('#search-q-field-inline-error');
       expect(inline).not.toBeNull();
       expect(inline.textContent).toContain('Enter a search term');
     });
@@ -173,7 +173,7 @@ describe('GuidedSearchValidationController', () => {
       expect(summary.getAttribute('data-module')).toBe('govuk-error-summary');
       expect(summary.querySelector('[role="alert"]')).not.toBeNull();
       expect(summary.querySelector('.govuk-error-summary__title').textContent).toContain('There is a problem');
-      expect(summary.querySelector('.govuk-error-summary__list a').getAttribute('href')).toBe('#guided_q');
+      expect(summary.querySelector('.govuk-error-summary__list a').getAttribute('href')).toBe('#search-q-field');
     });
 
     it('adds error classes to form group and textarea', async () => {
@@ -181,7 +181,7 @@ describe('GuidedSearchValidationController', () => {
       submitForm();
 
       const formGroup = document.querySelector('[data-guided-search-validation-target="formGroup"]');
-      const textarea = document.querySelector('#guided_q');
+      const textarea = document.querySelector('#search-q-field');
 
       expect(formGroup.classList.contains('govuk-form-group--error')).toBe(true);
       expect(textarea.classList.contains('govuk-textarea--error')).toBe(true);
@@ -191,10 +191,10 @@ describe('GuidedSearchValidationController', () => {
       await setup({textareaValue: ''});
       submitForm();
 
-      const textarea = document.querySelector('#guided_q');
+      const textarea = document.querySelector('#search-q-field');
       const inlineError = textarea.previousElementSibling;
 
-      expect(inlineError.id).toBe('guided-q-error');
+      expect(inlineError.id).toBe('search-q-field-inline-error');
       expect(inlineError.classList.contains('govuk-error-message')).toBe(true);
       expect(inlineError.querySelector('.govuk-visually-hidden').textContent).toBe('Error:');
     });
@@ -203,8 +203,8 @@ describe('GuidedSearchValidationController', () => {
       await setup({textareaValue: ''});
       submitForm();
 
-      const textarea = document.querySelector('#guided_q');
-      expect(textarea.getAttribute('aria-describedby')).toBe('guided-q-hint guided-q-error');
+      const textarea = document.querySelector('#search-q-field');
+      expect(textarea.getAttribute('aria-describedby')).toBe('search-q-hint search-q-field-inline-error');
     });
   });
 
@@ -216,7 +216,7 @@ describe('GuidedSearchValidationController', () => {
       expect(document.querySelectorAll('.govuk-error-summary').length).toBe(1);
 
       // Submit again with a different value
-      document.querySelector('#guided_q').value = 'x';
+      document.querySelector('#search-q-field').value = 'x';
       submitForm();
 
       // Should only have one error summary (the new one)
@@ -229,13 +229,13 @@ describe('GuidedSearchValidationController', () => {
 
       // Server errors should be present initially
       expect(document.querySelector('.govuk-error-summary')).not.toBeNull();
-      expect(document.querySelector('#guided-q-error')).not.toBeNull();
+      expect(document.querySelector('.govuk-error-message')).not.toBeNull();
 
       submitForm();
 
       // Server errors should be cleared, form should submit (no new errors)
       expect(document.querySelector('.govuk-error-summary')).toBeNull();
-      expect(document.querySelector('#guided-q-error')).toBeNull();
+      expect(document.querySelector('.govuk-error-message')).toBeNull();
     });
 
     it('resets form group and textarea classes on resubmit', async () => {
@@ -243,7 +243,7 @@ describe('GuidedSearchValidationController', () => {
       submitForm();
 
       const formGroup = document.querySelector('[data-guided-search-validation-target="formGroup"]');
-      const textarea = document.querySelector('#guided_q');
+      const textarea = document.querySelector('#search-q-field');
 
       expect(formGroup.classList.contains('govuk-form-group--error')).toBe(true);
 
@@ -252,7 +252,7 @@ describe('GuidedSearchValidationController', () => {
 
       expect(formGroup.classList.contains('govuk-form-group--error')).toBe(false);
       expect(textarea.classList.contains('govuk-textarea--error')).toBe(false);
-      expect(textarea.getAttribute('aria-describedby')).toBe('guided-q-hint');
+      expect(textarea.getAttribute('aria-describedby')).toBe('search-q-hint');
     });
   });
 

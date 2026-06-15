@@ -11,6 +11,8 @@ class SearchController < ApplicationController
   before_action :disable_search_form, except: [:search]
 
   def search
+    params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?
+
     @search.q = params[:q] if params[:q]
     @search.interactive_search = params[:interactive_search] == 'true'
     @search.answers = params[:answers] if params[:answers].present?
@@ -130,11 +132,11 @@ class SearchController < ApplicationController
       :current_options,
       answers: %i[question options answer],
       interactive_search_form: [:answer],
-    ).to_h
+    ).to_h.merge(extract_search_date_parts)
   end
 
   def search_params
-    params.permit(:q, :day, :month, :year)
+    search_attribute_params.permit(:q, :day, :month, :year).to_h.merge(extract_search_date_parts(search_attribute_params))
   end
 
   def quota_search_params

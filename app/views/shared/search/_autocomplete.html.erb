@@ -1,12 +1,14 @@
 <div class="govuk-fieldset" id='autocomplete'>
+  <% input_id = local_assigns.fetch(:input_id, 'q') %>
+  <% input_name = local_assigns.fetch(:input_name, 'q') %>
   <%= javascript_tag nonce: true do %>
     document.addEventListener('DOMContentLoaded', function() {
       try {
         let tempQuery = '';
         window.GOVUK.accessibleAutocomplete({
           element: document.querySelector('#autocomplete'),
-          id: 'q',
-          name: 'q',
+          id: '<%= input_id %>',
+          name: '<%= input_name %>',
           required: 'true',
           className: 'govuk-input',
           placeholder: 'Enter the name of the goods or commodity code',
@@ -29,7 +31,7 @@
           }, 200, false),
           onConfirm: (suggestion) => {
             if (suggestion) {
-              document.querySelector('#q').value = suggestion
+              document.querySelector('#<%= input_id %>').value = suggestion
               document.querySelector("#new_search").submit()
             }
           }
@@ -40,14 +42,14 @@
         });
       } catch(e) {
         var node = document.getElementById('autocomplete');
-        node.innerHTML = '<div class="autocomplete__wrapper"><input autocomplete="off" class="autocomplete__input autocomplete__input--default" id="q" name="q" placeholder="Enter the name of the goods or commodity code" type="text" role="combobox" required=""></div>'
+        node.innerHTML = '<div class="autocomplete__wrapper"><input autocomplete="off" class="autocomplete__input autocomplete__input--default" id="<%= input_id %>" name="<%= input_name %>" placeholder="Enter the name of the goods or commodity code" type="text" role="combobox" required=""></div>'
       }
     })
   <% end %>
 
   <noscript>
     <div class="autocomplete__wrapper">
-      <input autocomplete="off" class="autocomplete__input autocomplete__input--default" id="q" name="q" placeholder="Enter the name of the goods or commodity code" type="text" role="combobox" required="">
+      <input autocomplete="off" class="autocomplete__input autocomplete__input--default" id="<%= input_id %>" name="<%= input_name %>" placeholder="Enter the name of the goods or commodity code" type="text" role="combobox" required="">
     </div>
   </noscript>
 </div>
