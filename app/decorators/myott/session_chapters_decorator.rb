@@ -7,7 +7,7 @@ module Myott
     end
 
     def all_sections_chapters
-      @all_sections_chapters ||= Rails.cache.fetch('all_sections_chapters', expires_in: 1.day) do
+      @all_sections_chapters ||= Rails.cache.resilient_fetch('all_sections_chapters', expires_in: 1.day) do
         Section.all.each_with_object({}) do |section, hash|
           chapters = Section.find(section.resource_id).chapters
           hash[section] = chapters

@@ -42,11 +42,11 @@ class Search
   end
 
   def countries
-    @countries ||= Rails.cache.fetch([cache_key, 'GeographicalArea.all']) { GeographicalArea.all.compact }
+    @countries ||= Rails.cache.resilient_fetch([cache_key, 'GeographicalArea.all']) { GeographicalArea.all.compact }
   end
 
   def geographical_area
-    @geographical_area ||= Rails.cache.fetch([cache_key, country]) { GeographicalArea.find(country) } if country.present?
+    @geographical_area ||= Rails.cache.resilient_fetch([cache_key, country]) { GeographicalArea.find(country) } if country.present?
   end
 
   def country_description
@@ -132,7 +132,7 @@ class Search
   end
 
   def perform_internal_search
-    Rails.cache.fetch(interactive_search_cache_key, expires_in: 30.minutes) do
+    Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: 30.minutes) do
       api_host = TradeTariffFrontend::ServiceChooser.api_host
       path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
 
