@@ -26,9 +26,7 @@ class ApplicationController < ActionController::Base
     return super unless search_invoked?
 
     opt = {}
-    opt.merge!(day: params[:day]) if params.key?(:day)
-    opt.merge!(month: params[:month]) if params.key?(:month)
-    opt.merge!(year: params[:year]) if params.key?(:year)
+    opt.merge!(search_date_query_params) if @search&.day_month_and_year_set?
     opt.merge!(country: params[:country]) if params.key?(:country)
     opt.merge!(super)
   end
@@ -56,11 +54,21 @@ class ApplicationController < ActionController::Base
   end
 
   def search_invoked?
-    params[:q].present? || params[:day].present? || params[:country].present?
+    params[:q].present? || search_attribute_params[:q].present? || params[:day].present? || params[:country].present?
   end
 
   def set_search
-    @search ||= Search.new(search_attributes) # rubocop:disable Naming/MemoizedInstanceVariableName
+    @search ||= Search.new(search_attributes)
+    @search.errors.add(:as_of, 'You must enter a valid date') if invalid_date_for_current_search?
+  end
+
+  def invalid_date_for_current_search?
+    return false unless params[:invalid_date].present? && search_invoked?
+
+    @search.date
+    false
+  rescue Search::InvalidDate
+    true
   end
 
   def search_attributes
@@ -72,13 +80,29 @@ class ApplicationController < ActionController::Base
       :month,
       :year,
       :as_of,
-    ).to_h
+    ).to_h.merge(extract_search_date_parts)
   end
 
   def search_attribute_params
     search_params = params[:search]
 
     search_params.respond_to?(:permit) ? search_params : params
+  end
+
+  def extract_search_date_parts(source = search_attribute_params)
+    {
+      day: source[:day].presence || source['as_of(day)'].presence || source['as_of(3i)'].presence,
+      month: source[:month].presence || source['as_of(month)'].presence || source['as_of(2i)'].presence,
+      year: source[:year].presence || source['as_of(year)'].presence || source['as_of(1i)'].presence,
+    }.compact
+  end
+
+  def search_date_query_params
+    {
+      day: @search.day,
+      month: @search.month,
+      year: @search.year,
+    }
   end
 
   def set_layout
