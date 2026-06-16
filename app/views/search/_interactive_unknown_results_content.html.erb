@@ -9,6 +9,13 @@
           <%= @search.q %>
         <% end %>
 
+        <% if @search.request_id.present? %>
+          <%= tag.p(class: 'govuk-body') do %>
+            <%= tag.strong('Request ID') %><br>
+            <%= @search.request_id %>
+          <% end %>
+        <% end %>
+
         <% @results.answered_questions.each do |qa| %>
           <%= tag.p(class: 'govuk-body govuk-!-margin-bottom-3') do %>
             <%= tag.strong(qa['question']) %><br>
