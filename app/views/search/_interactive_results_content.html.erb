@@ -9,6 +9,9 @@
     <div data-controller="copy-search-details">
       <%= govuk_details(summary_text: 'View search details') do %>
         <p class="govuk-body-s"><strong>Search term:</strong> <%= @search.q %></p>
+        <% if @search.request_id.present? %>
+          <p class="govuk-body-s"><strong>Request ID:</strong> <%= @search.request_id %></p>
+        <% end %>
         <% if @results.answered_questions.any? %>
           <% @results.answered_questions.each do |qa| %>
             <p class="govuk-body-s govuk-!-margin-bottom-1">

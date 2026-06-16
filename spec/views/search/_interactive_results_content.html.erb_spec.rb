@@ -58,6 +58,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
     it { is_expected.to have_text('citrus jam') }
     it { is_expected.to have_text('What type of fruit?') }
     it { is_expected.to have_text('Citrus') }
+    it { is_expected.to have_text('Request ID: test-uuid-123') }
     it { is_expected.to have_css('button', text: 'Copy search details') }
   end
 

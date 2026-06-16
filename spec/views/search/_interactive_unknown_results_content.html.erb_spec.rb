@@ -24,6 +24,8 @@ RSpec.describe 'search/_interactive_unknown_results_content', type: :view do
     it { is_expected.to have_css('.govuk-inset-text', text: 'These are the details you supplied:') }
     it { is_expected.to have_css('.govuk-inset-text', text: 'Initial search term') }
     it { is_expected.to have_css('.govuk-inset-text', text: 'flimflammagoo') }
+    it { is_expected.to have_css('.govuk-inset-text', text: 'Request ID') }
+    it { is_expected.to have_css('.govuk-inset-text', text: 'test-uuid-123') }
     it { is_expected.to have_css('.govuk-inset-text', text: 'Which of these best describes the product?') }
     it { is_expected.to have_css('.govuk-inset-text', text: 'Standard jam / jelly / marmalade / fruit spread for general consumption') }
     it { is_expected.to have_css('button', text: 'Copy results to clipboard') }
