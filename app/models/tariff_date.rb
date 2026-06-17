@@ -2,6 +2,10 @@ class TariffDate < SimpleDelegator
   DATE_KEYS = %w[year month day].freeze
 
   class << self
+    def normalized_date_attributes(date_attributes)
+      normalize_date_attributes(date_attributes).compact
+    end
+
     def build(date_attributes)
       normalized_attributes = normalize_date_attributes(date_attributes)
 
@@ -21,7 +25,11 @@ class TariffDate < SimpleDelegator
     def normalize_date_attributes(date_attributes)
       return {} unless date_attributes.respond_to?(:to_h)
 
-      attributes = date_attributes.to_h
+      attributes = if date_attributes.respond_to?(:to_unsafe_h)
+                     date_attributes.to_unsafe_h
+                   else
+                     date_attributes.to_h
+                   end
 
       {
         'year' => attributes['year'] || attributes[:year] || attributes['as_of(year)'] || attributes[:'as_of(year)'] || attributes['as_of(1i)'] || attributes[:'as_of(1i)'],

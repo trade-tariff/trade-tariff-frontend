@@ -1,4 +1,32 @@
 RSpec.describe TariffDate do
+  describe '.normalized_date_attributes' do
+    subject(:normalized_date_attributes) { described_class.normalized_date_attributes(date_attributes) }
+
+    context 'when passing string date keys' do
+      let(:date_attributes) do
+        {
+          'year' => '2021',
+          'month' => '01',
+          'day' => '02',
+        }
+      end
+
+      it { is_expected.to eq('year' => '2021', 'month' => '01', 'day' => '02') }
+    end
+
+    context 'when passing date picker keys' do
+      let(:date_attributes) do
+        {
+          'as_of(1i)' => '2021',
+          'as_of(2i)' => '01',
+          'as_of(3i)' => '02',
+        }
+      end
+
+      it { is_expected.to eq('year' => '2021', 'month' => '01', 'day' => '02') }
+    end
+  end
+
   describe '.build' do
     subject(:tariff_date) { described_class.build(date_attributes) }
 
