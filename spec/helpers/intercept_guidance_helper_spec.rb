@@ -79,7 +79,7 @@ RSpec.describe InterceptGuidanceHelper do
       msg = 'Review Chapter 71, headings 3207 to 3210, subheading 8703.10 and commodity 0101210000.'
       html = render_intercept_message(msg, search:)
 
-      expect(html).to have_css('a.govuk-link[href="/search?q=71"][target="_blank"][rel="noopener noreferrer"]', text: 'Chapter 71')
+      expect(html).to have_css('a.govuk-link[href="/search?q=71"][target="_blank"][rel="noopener noreferrer"]', text: '71')
       expect(html).to have_css('a.govuk-link[href="/search?q=3207"]', text: '3207')
       expect(html).to have_css('a.govuk-link[href="/search?q=3210"]', text: '3210')
       expect(html).to have_css('a.govuk-link[href="/search?q=870310"]', text: '8703.10')
@@ -91,7 +91,7 @@ RSpec.describe InterceptGuidanceHelper do
       html = render_intercept_message('[Read about 0101](https://example.com/existing) and Chapter 71', search:)
 
       expect(html).to have_css('a.govuk-link[href="https://example.com/existing"]', text: 'Read about 0101')
-      expect(html).to have_css('a.govuk-link[href="/search?q=71"]', text: 'Chapter 71')
+      expect(html).to have_css('a.govuk-link[href="/search?q=71"]', text: '71')
       expect(html).not_to have_css('a[href="https://example.com/existing"] a')
     end
   end

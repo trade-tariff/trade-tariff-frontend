@@ -16,6 +16,13 @@ module ApplicationHelper
     Govspeak::Document.new(text, sanitize: true).to_html.html_safe
   end
 
+  def govspeak_note(text)
+    html = govspeak(text)
+    html = GoodsNomenclatureCodeLinkifier.new(html).render unless TradeTariffFrontend.production?
+
+    insert_service_links(html).html_safe
+  end
+
   def a_z_index(letter = 'a')
     ('a'..'z').map { |index_letter|
       tag.li(class: ('active' if index_letter == letter).to_s) do
