@@ -391,6 +391,22 @@ en:
       footnote_description_label_html: "<strong>Footnote description</strong>"
       footnote_description_hint_text: "Use this field if you know a key phrase included in the footnote description."
       submit: "Search"
+  quota_search:
+    form:
+      page_header: "Search for quotas"
+      inset_text: "Search for tariff quotas, including daily updated balances. Enter data into at least one of the criteria below."
+      order_number_label: "Enter the 6-digit quota order number"
+      goods_nomenclature_item_id_label: "Enter a 10-digit commodity code to search for quotas available on that code"
+      geographical_area_id_label: "Select a country to which the quota applies"
+      geographical_area_id_blank: "All countries"
+      reset_country_picker_title: "Reset country picker"
+      reset_country_picker: "Reset"
+      reset_country_picker_suffix: "to all countries"
+      date_legend: "Enter the date for which you would like to return results"
+      date_hint: "If you leave this field blank, then today's date will be used"
+      critical_label: "Critical state"
+      status_label: "Status"
+      submit: "Search for quotas"
   import_export_date:
     form:
       legend_text: "When are you planning to trade the goods?"

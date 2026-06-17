@@ -155,7 +155,7 @@ RSpec.describe 'Search', :js do
           expect(page.find('#day')).to be_present
           expect(page.find('#month')).to be_present
           expect(page.find('#year')).to be_present
-          expect(page.find('input[name="new_search"]')).to be_present
+          expect(page).to have_css('button[name="new_search"], input[name="new_search"]')
 
           expect(page.find('.autocomplete__wrapper')).to be_present
 
@@ -175,7 +175,7 @@ RSpec.describe 'Search', :js do
           page.find('#day').set('14')
           page.find('#month').set('7')
           page.find('#year').set('2025')
-          page.find('input[name="new_search"]').click
+          page.find('button[name="new_search"], input[name="new_search"]').click
 
           expect(page).to have_content('Quota search results')
           expect(page).to have_content('050088')

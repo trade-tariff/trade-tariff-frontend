@@ -1,4 +1,7 @@
 class QuotaSearchForm
+  extend ActiveModel::Naming
+  include ActiveModel::Conversion
+
   CRITICAL_VALUES = { 'Yes' => 'Y', 'No' => 'N' }.freeze
   STATUS_VALUES = [%w[Blocked blocked],
                    %w[Exhausted exhausted],
@@ -70,6 +73,10 @@ class QuotaSearchForm
       year: year || default_year_value,
       page:,
     }
+  end
+
+  def persisted?
+    false
   end
 
   private
