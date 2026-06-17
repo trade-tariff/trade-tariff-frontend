@@ -7,7 +7,7 @@
               class: "tariff-search quota-search #{@section_css}",
               id: 'new_search' do |f| %>
   <%= page_header t('quota_search.form.page_header') %>
-  <%= render 'shared/invalid_date_error_summary' if params[:invalid_date].present? %>
+  <%= f.govuk_error_summary if search_form.errors.any? %>
 
   <div class="govuk-form-group govuk-!-margin-top-6">
     <div class="govuk-inset-text govuk-grid-column-one-half govuk-!-margin-top-0 govuk-!-margin-bottom-0">
@@ -45,12 +45,11 @@
       <a class="reset-country-picker" href="#reset-country-picker" title="<%= t('quota_search.form.reset_country_picker_title') %>" rel="nofollow"><%= t('quota_search.form.reset_country_picker') %><span class="long-text">&nbsp;<%= t('quota_search.form.reset_country_picker_suffix') %></span></a>
     </div>
   </div>
-  <div class="govuk-form-group govuk-!-margin-top-6">
-    <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
-      <%= content_tag :legend, t('quota_search.form.date_legend'), class: 'govuk-label' %>
-      <%= content_tag :div, t('quota_search.form.date_hint'), class: 'govuk-hint' %>
-    <% end %>
-  </div>
+  <%= f.govuk_date_field :as_of,
+                         legend: { text: t('quota_search.form.date_legend'), size: 's' },
+                         hint: { text: t('quota_search.form.date_hint') },
+                         form_group: { class: 'govuk-!-margin-top-6' },
+                         maxlength_enabled: true %>
   <%= f.govuk_select :critical,
                      QuotaSearchForm::CRITICAL_VALUES,
                      options: { include_blank: true },

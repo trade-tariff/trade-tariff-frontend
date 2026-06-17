@@ -113,11 +113,29 @@ RSpec.describe SearchController, type: :controller, vcr: { cassette_name: 'searc
       end
     end
 
-    context 'with an invalid date flag' do
+    context 'when date is submitted via nested as_of params' do
+      before do
+        get :quota_search,
+            params: {
+              quota_search_form: {
+                'as_of(3i)' => '01',
+                'as_of(2i)' => '01',
+                'as_of(1i)' => '2019',
+              },
+            },
+            format: :html
+      end
+
+      it 'redirects to canonical day, month, year query params' do
+        expect(response).to redirect_to(quota_search_path(day: '01', month: '01', year: '2019'))
+      end
+    end
+
+    context 'with an invalid date' do
       render_views
 
       before do
-        get :quota_search, params: { invalid_date: true }, format: :html
+        get :quota_search, params: { day: '31', month: '2', year: '2023', new_search: 'Submit' }, format: :html
       end
 
       it 'renders a GOV.UK error summary' do
@@ -125,11 +143,11 @@ RSpec.describe SearchController, type: :controller, vcr: { cassette_name: 'searc
       end
 
       it 'links the error summary to the date input' do
-        expect(response.body).to match(/govuk-error-summary.*href="#day"/m)
+        expect(response.body).to match(/govuk-error-summary.*href="#quota-search-form-as-of-field-error"/m)
       end
 
       it 'marks the date input as invalid' do
-        expect(response.body).to match(/govuk-form-group--error.*id="day".*govuk-input--error/m)
+        expect(response.body).to match(/govuk-form-group--error.*id="quota-search-form-as-of-field-error".*govuk-input--error/m)
       end
     end
   end

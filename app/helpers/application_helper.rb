@@ -111,6 +111,8 @@ module ApplicationHelper
     return @search.date.to_fs(:db) if @search&.filtered_by_date?
 
     feedback_date_from_day_month_year
+  rescue Search::InvalidDate
+    nil
   end
 
   def feedback_date_from_day_month_year

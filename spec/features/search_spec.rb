@@ -152,9 +152,9 @@ RSpec.describe 'Search', :js do
           expect(page.find('#order_number')).to be_present
           expect(page.find('#critical')).to be_present
           expect(page.find('#status')).to be_present
-          expect(page.find('#day')).to be_present
-          expect(page.find('#month')).to be_present
-          expect(page.find('#year')).to be_present
+          expect(page.find('#quota_search_form_as_of_3i')).to be_present
+          expect(page.find('#quota_search_form_as_of_2i')).to be_present
+          expect(page.find('#quota_search_form_as_of_1i')).to be_present
           expect(page).to have_css('button[name="new_search"], input[name="new_search"]')
 
           expect(page.find('.autocomplete__wrapper')).to be_present
@@ -172,9 +172,9 @@ RSpec.describe 'Search', :js do
           expect(page).to have_content('Quotas')
 
           page.find('#order_number').set('050088')
-          page.find('#day').set('14')
-          page.find('#month').set('7')
-          page.find('#year').set('2025')
+          page.find('#quota_search_form_as_of_3i').set('14')
+          page.find('#quota_search_form_as_of_2i').set('7')
+          page.find('#quota_search_form_as_of_1i').set('2025')
           page.find('button[name="new_search"], input[name="new_search"]').click
 
           expect(page).to have_content('Quota search results')

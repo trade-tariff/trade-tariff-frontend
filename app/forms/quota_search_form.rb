@@ -7,7 +7,7 @@ class QuotaSearchForm
                    %w[Exhausted exhausted],
                    ['Not blocked', 'not_blocked'],
                    ['Not exhausted', 'not_exhausted']].freeze
-  OPTIONAL_PARAMS = %i[@year @month @day @page].freeze
+  OPTIONAL_PARAMS = %i[@year @month @day @page @errors].freeze
 
   PERMITTED_PARAMS = %i[order_number
                         goods_nomenclature_item_id
@@ -27,6 +27,8 @@ class QuotaSearchForm
     params.each do |key, value|
       public_send("#{key}=", value) if respond_to?("#{key}=") && value.present?
     end
+
+    validate_invalid_date! if date_input_provided?
   end
 
   def page
@@ -46,6 +48,8 @@ class QuotaSearchForm
   end
 
   def present?
+    return false if errors.any?
+
     (instance_variables - OPTIONAL_PARAMS).present?
   end
 
@@ -54,11 +58,35 @@ class QuotaSearchForm
   end
 
   def large_result?
-    blank? && instance_variables.present?
+    blank? && date_input_provided?
   end
 
   def geographical_areas
     GeographicalArea.all
+  end
+
+  def as_of
+    {
+      1 => year,
+      2 => month,
+      3 => day,
+    }
+  end
+
+  def date
+    TariffDate.build(year:, month:, day:)
+  rescue Date::Error
+    raise Search::InvalidDate
+  end
+
+  def validate_invalid_date!
+    date
+  rescue Search::InvalidDate
+    errors.add(:as_of, 'You must enter a valid date')
+  end
+
+  def errors
+    @errors ||= ActiveModel::Errors.new(self)
   end
 
   def to_params
@@ -68,9 +96,9 @@ class QuotaSearchForm
       order_number:,
       critical:,
       status:,
-      day: day || default_day_value,
-      month: month || default_month_value,
-      year: year || default_year_value,
+      day: day,
+      month: month,
+      year: year,
       page:,
     }
   end
@@ -79,7 +107,15 @@ class QuotaSearchForm
     false
   end
 
+  def read_attribute_for_validation(attribute)
+    public_send(attribute)
+  end
+
   private
+
+  def date_input_provided?
+    [@day, @month, @year].any?(&:present?)
+  end
 
   def default_year_value
     Date.current.year.to_s
