@@ -3,10 +3,12 @@ class TariffDate < SimpleDelegator
 
   class << self
     def build(date_attributes)
-      date = if complete_date_attributes?(date_attributes)
-               raise Date::Error unless valid_date_attributes?(date_attributes)
+      normalized_attributes = normalize_date_attributes(date_attributes)
 
-               Date.new(*date_attributes.slice(*DATE_KEYS).values.map(&:to_i))
+      date = if complete_date_attributes?(normalized_attributes)
+               raise Date::Error unless valid_date_attributes?(normalized_attributes)
+
+               Date.new(*normalized_attributes.slice(*DATE_KEYS).values.map(&:to_i))
              else
                Time.zone.today
              end
@@ -15,6 +17,18 @@ class TariffDate < SimpleDelegator
     end
 
     private
+
+    def normalize_date_attributes(date_attributes)
+      return {} unless date_attributes.respond_to?(:to_h)
+
+      attributes = date_attributes.to_h
+
+      {
+        'year' => attributes['year'] || attributes[:year] || attributes['as_of(year)'] || attributes[:'as_of(year)'] || attributes['as_of(1i)'] || attributes[:'as_of(1i)'],
+        'month' => attributes['month'] || attributes[:month] || attributes['as_of(month)'] || attributes[:'as_of(month)'] || attributes['as_of(2i)'] || attributes[:'as_of(2i)'],
+        'day' => attributes['day'] || attributes[:day] || attributes['as_of(day)'] || attributes[:'as_of(day)'] || attributes['as_of(3i)'] || attributes[:'as_of(3i)'],
+      }
+    end
 
     def complete_date_attributes?(date_param)
       date_param.present? && date_param.is_a?(Hash) &&
