@@ -4,7 +4,7 @@
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
     pre-commit-hooks = {
-      url = "github:cachix/git-hooks.nix/3bbec39bc90eadfa031e6f3b77272f3f60803e39";
+      url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-ruby = {
