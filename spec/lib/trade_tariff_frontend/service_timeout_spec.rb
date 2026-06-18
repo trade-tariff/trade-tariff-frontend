@@ -25,24 +25,24 @@ RSpec.describe TradeTariffFrontend::ServiceTimeout do
         ENV.delete('RACK_TIMEOUT_PATH_OVERRIDES')
       end
 
-      it 'applies 50s timeout to /uk/search' do
+      it 'applies 100s timeout to /uk/search' do
         middleware.call('PATH_INFO' => '/uk/search')
-        expect(Timeout).to have_received(:timeout).with(50)
+        expect(Timeout).to have_received(:timeout).with(100)
       end
 
-      it 'applies 50s timeout to /xi/search' do
+      it 'applies 100s timeout to /xi/search' do
         middleware.call('PATH_INFO' => '/xi/search')
-        expect(Timeout).to have_received(:timeout).with(50)
+        expect(Timeout).to have_received(:timeout).with(100)
       end
 
-      it 'applies 50s timeout to /search' do
+      it 'applies 100s timeout to /search' do
         middleware.call('PATH_INFO' => '/search')
-        expect(Timeout).to have_received(:timeout).with(50)
+        expect(Timeout).to have_received(:timeout).with(100)
       end
 
-      it 'applies 50s timeout to /internal/search' do
+      it 'applies 100s timeout to /internal/search' do
         middleware.call('PATH_INFO' => '/internal/search')
-        expect(Timeout).to have_received(:timeout).with(50)
+        expect(Timeout).to have_received(:timeout).with(100)
       end
 
       it 'applies default timeout to non-search paths' do
