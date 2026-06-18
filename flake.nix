@@ -3,6 +3,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
+    pre-commit-hooks = {
+      url = "github:cachix/git-hooks.nix/3bbec39bc90eadfa031e6f3b77272f3f60803e39";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs-ruby = {
       url = "github:bobvanderlinden/nixpkgs-ruby";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -10,19 +14,28 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, nixpkgs-stable, nixpkgs-ruby }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      nixpkgs-stable,
+      pre-commit-hooks,
+      nixpkgs-ruby,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = import nixpkgs {
-          system = system;
+          inherit system;
           config.allowUnfree = true;
           config.permittedInsecurePackages = [
             "google-chrome-144.0.7559.97"
           ];
-          overlays = [nixpkgs-ruby.overlays.default];
+          overlays = [ nixpkgs-ruby.overlays.default ];
         };
         pkgs-stable = import nixpkgs-stable {
-          system = system;
+          inherit system;
           config.allowUnfree = true;
         };
 
@@ -55,12 +68,6 @@
           '';
         };
 
-
-        lint = pkgs.writeShellScriptBin "lint" ''
-          changed_files=$(git diff --name-only --diff-filter=ACM --merge-base main)
-
-          bundle exec rubocop --autocorrect-all --force-exclusion $changed_files Gemfile
-        '';
         chrome = pkgs.writeShellScriptBin "chrome" ''
           binary=$(find ${pkgs.google-chrome.outPath} -type f -name 'google-chrome-stable')
           exec $binary "$@"
@@ -110,7 +117,185 @@
 
           echo "Worktree $WT_ID cleaned (bundle + gem + yarn + assets)."
         '';
-      in {
+
+        preCommitCheck = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          configPath = ".pre-commit-config-nix.yaml";
+          default_stages = [ "pre-commit" ];
+          hooks = {
+            actionlint = {
+              enable = true;
+              stages = [ "pre-commit" ];
+            };
+            check-added-large-files = {
+              enable = true;
+              stages = [ "pre-commit" ];
+            };
+            check-case-conflicts = {
+              enable = true;
+              stages = [ "pre-commit" ];
+            };
+            check-merge-conflicts = {
+              enable = true;
+              stages = [ "pre-commit" ];
+            };
+            check-yaml = {
+              enable = true;
+              excludes = [ "^spec/vcr|^vendor/|^app/assets/images" ];
+              stages = [ "pre-commit" ];
+            };
+            deadnix = {
+              enable = true;
+              stages = [ "pre-commit" ];
+            };
+            detect-private-keys = {
+              enable = true;
+              stages = [ "pre-commit" ];
+            };
+            end-of-file-fixer = {
+              enable = true;
+              excludes = [ "^spec/vcr|^vendor/|^app/assets/images|^app/javascript/src/vendor/" ];
+              stages = [ "pre-commit" ];
+            };
+            nixfmt-rfc-style = {
+              package = pre-commit-hooks.inputs.nixpkgs.legacyPackages.${system}.nixfmt;
+              enable = true;
+              stages = [ "pre-commit" ];
+            };
+            shellcheck = {
+              enable = true;
+              args = [ "--severity=error" ];
+              excludes = [ "^\\.envrc$" ];
+              stages = [ "pre-commit" ];
+            };
+            sort-file-contents = {
+              enable = true;
+              files = "^\\.env\\.(development|test)$";
+              stages = [ "pre-commit" ];
+            };
+            statix = {
+              enable = true;
+              settings.ignore = [ "{.direnv,.nix,.worktrees}/**" ];
+              stages = [ "pre-commit" ];
+            };
+            terraform-format = {
+              enable = true;
+              package = pkgs.terraform;
+              stages = [ "pre-commit" ];
+            };
+            terraform-validate = {
+              enable = true;
+              package = pkgs.terraform;
+              entry = ''
+                bash -c '
+                  set -uo pipefail
+                  status=0
+
+                  while read -r dir; do
+                    lockfile="$dir/.terraform.lock.hcl"
+                    backup=$(mktemp)
+                    had_lockfile=false
+
+                    if [ -f "$lockfile" ]; then
+                      cp "$lockfile" "$backup"
+                      had_lockfile=true
+                    fi
+
+                    ${pkgs.terraform}/bin/terraform -chdir="$dir" init -backend=false
+                    init_status=$?
+
+                    if [ "$init_status" -eq 0 ]; then
+                      ${pkgs.terraform}/bin/terraform -chdir="$dir" validate
+                      validate_status=$?
+                    else
+                      validate_status=$init_status
+                    fi
+
+                    if [ "$had_lockfile" = true ]; then
+                      cp "$backup" "$lockfile"
+                    else
+                      rm -f "$lockfile"
+                    fi
+                    rm -f "$backup"
+
+                    if [ "$validate_status" -ne 0 ]; then
+                      status=$validate_status
+                    fi
+                  done < <(for arg in "$@"; do dirname "$arg"; done | sort | uniq)
+
+                  exit "$status"
+                ' --
+              '';
+              stages = [ "pre-commit" ];
+            };
+            tflint = {
+              enable = true;
+              stages = [ "pre-commit" ];
+            };
+            trim-trailing-whitespace = {
+              enable = true;
+              excludes = [ "^spec/vcr|^vendor/|^app/assets/images" ];
+              stages = [ "pre-commit" ];
+            };
+            trufflehog = {
+              enable = true;
+              stages = [
+                "pre-commit"
+                "pre-push"
+              ];
+            };
+
+            markdownlint = {
+              enable = true;
+              entry = "${pkgs.markdownlint-cli}/bin/markdownlint --fix --ignore terraform";
+              files = "\\.md$";
+              stages = [ "pre-commit" ];
+            };
+            rubocop = {
+              enable = true;
+              name = "rubocop";
+              description = "Run RuboCop through Bundler on changed Ruby files";
+              entry = ''
+                bash -c '
+                  changed_files=$(git diff --name-only --diff-filter=ACM --merge-base main | grep -E "\\.(rb|rake)$|^(Gemfile|Rakefile|config\\.ru)$" || true)
+
+                  if [ -n "$changed_files" ]; then
+                    bundle exec rubocop --autocorrect --force-exclusion $changed_files
+                  fi
+                '
+              '';
+              files = "\\.(rb|rake)$|^(Gemfile|Rakefile|config\\.ru)$";
+              pass_filenames = false;
+              stages = [ "pre-commit" ];
+            };
+          };
+        };
+
+        preCommit = pkgs.writeShellScriptBin "pre-commit" ''
+          set -euo pipefail
+
+          has_config=false
+          for arg in "$@"; do
+            case "$arg" in
+              -c|--config|--config=*)
+                has_config=true
+                ;;
+            esac
+          done
+
+          if [ "$has_config" = true ]; then
+            exec ${preCommitCheck.config.package}/bin/pre-commit "$@"
+          fi
+
+          if [ "''${1:-}" = "run" ]; then
+            shift
+            exec ${preCommitCheck.config.package}/bin/pre-commit run --config .pre-commit-config-nix.yaml "$@"
+          fi
+
+          exec ${preCommitCheck.config.package}/bin/pre-commit "$@"
+        '';
+      in
+      {
         devShells.default = pkgs.mkShell {
           shellHook = ''
             export PLAYWRIGHT_BROWSERS_PATH=${pkgs.playwright-driver.browsers.outPath};
@@ -142,10 +327,10 @@
             export GEM_PATH=$GEM_HOME
             export PATH=${ruby}/bin:$GEM_HOME/bin:$PATH
 
-            export BUNDLE_BUILD__PSYCH="${
-              builtins.concatStringsSep " " psychBuildFlags
-            }"
+            export BUNDLE_BUILD__PSYCH="${builtins.concatStringsSep " " psychBuildFlags}"
 
+            ${preCommitCheck.shellHook}
+            export PATH=${preCommit}/bin:$PATH
             ${worktree-info}/bin/worktree-info
 
             # === Automatic first-time frontend asset setup in worktrees ===
@@ -192,7 +377,7 @@
                 run_setup_step "Installing JS dependencies" yarn install --frozen-lockfile || fail_worktree_setup
                 run_setup_step "Building CSS assets" yarn build:css || fail_worktree_setup
                 run_setup_step "Precompiling assets" bundle exec bin/rails assets:precompile || fail_worktree_setup
-                run_setup_step "Installing pre-commit hooks" pre-commit install --install-hooks || fail_worktree_setup
+                run_setup_step "Installing pre-commit hooks" pre-commit install || fail_worktree_setup
 
                 touch "$MARKER"
                 echo ""
@@ -204,20 +389,21 @@
             fi
           '';
 
-          buildInputs = with pkgs; [
-            chrome
-            init
-            lint
-            nodejs_latest
-            pkgs.pre-commit
-            pkgs-stable.playwright-driver.browsers
-            ruby
-            terraform-docs
-            update-providers
-            worktree-info
-            worktree-clean
-            yarn
-          ];
+          buildInputs =
+            preCommitCheck.enabledPackages
+            ++ (with pkgs; [
+              chrome
+              init
+              nodejs_latest
+              pkgs-stable.playwright-driver.browsers
+              ruby
+              terraform-docs
+              update-providers
+              worktree-info
+              worktree-clean
+              yarn
+            ]);
         };
-      });
+      }
+    );
 }
