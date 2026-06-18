@@ -296,7 +296,7 @@ RSpec.describe Search do
 
         perform_search
 
-        expect(captured_env.request.timeout).to eq(50)
+        expect(captured_env.request.timeout).to eq(100)
       end
 
       it 'sends the cached expanded query to internal search when present' do
