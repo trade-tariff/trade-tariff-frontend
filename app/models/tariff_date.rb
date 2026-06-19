@@ -31,10 +31,20 @@ class TariffDate < SimpleDelegator
                      date_attributes.to_h
                    end
 
+      lookup = lambda do |*keys|
+        keys.filter_map { |key| attributes[key].presence }.first
+      end
+
       {
-        'year' => attributes['year'] || attributes[:year] || attributes['as_of(year)'] || attributes[:'as_of(year)'] || attributes['as_of(1i)'] || attributes[:'as_of(1i)'],
-        'month' => attributes['month'] || attributes[:month] || attributes['as_of(month)'] || attributes[:'as_of(month)'] || attributes['as_of(2i)'] || attributes[:'as_of(2i)'],
-        'day' => attributes['day'] || attributes[:day] || attributes['as_of(day)'] || attributes[:'as_of(day)'] || attributes['as_of(3i)'] || attributes[:'as_of(3i)'],
+        'year' => lookup.call(
+          'year', :year, 'as_of(year)', :'as_of(year)', 'as_of(1i)', :'as_of(1i)'
+        ),
+        'month' => lookup.call(
+          'month', :month, 'as_of(month)', :'as_of(month)', 'as_of(2i)', :'as_of(2i)'
+        ),
+        'day' => lookup.call(
+          'day', :day, 'as_of(day)', :'as_of(day)', 'as_of(3i)', :'as_of(3i)'
+        ),
       }
     end
 

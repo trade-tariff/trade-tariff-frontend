@@ -14,9 +14,36 @@ RSpec.describe TariffDate do
       it { is_expected.to eq('year' => '2021', 'month' => '01', 'day' => '02') }
     end
 
+    context 'when passing symbol date keys' do
+      let(:date_attributes) do
+        {
+          year: '2021',
+          month: '01',
+          day: '02',
+        }
+      end
+
+      it { is_expected.to eq('year' => '2021', 'month' => '01', 'day' => '02') }
+    end
+
     context 'when passing date picker keys' do
       let(:date_attributes) do
         {
+          'as_of(1i)' => '2021',
+          'as_of(2i)' => '01',
+          'as_of(3i)' => '02',
+        }
+      end
+
+      it { is_expected.to eq('year' => '2021', 'month' => '01', 'day' => '02') }
+    end
+
+    context 'when string keys are blank but date picker keys are present' do
+      let(:date_attributes) do
+        {
+          'year' => '',
+          'month' => '',
+          'day' => '',
           'as_of(1i)' => '2021',
           'as_of(2i)' => '01',
           'as_of(3i)' => '02',
