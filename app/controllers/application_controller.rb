@@ -90,11 +90,7 @@ class ApplicationController < ActionController::Base
   end
 
   def extract_search_date_parts(source = search_attribute_params)
-    {
-      day: source[:day].presence || source['as_of(day)'].presence || source['as_of(3i)'].presence,
-      month: source[:month].presence || source['as_of(month)'].presence || source['as_of(2i)'].presence,
-      year: source[:year].presence || source['as_of(year)'].presence || source['as_of(1i)'].presence,
-    }.compact
+    TariffDate.normalized_date_attributes(source)
   end
 
   def search_date_query_params
