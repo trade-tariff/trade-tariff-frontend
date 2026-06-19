@@ -1,13 +1,26 @@
-<%= form_tag chemical_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
-  <%= page_header 'Search by Chemical' %>
+<%= form_with model: search_form,
+              url: chemical_search_path,
+              method: :get,
+              scope: nil,
+              local: true,
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              class: "tariff-search quota-search #{@section_css}",
+              id: 'new_search' do |f| %>
+  <%= page_header t('chemical_search.form.page_header') %>
 
-  <div class="govuk-form-group">
-    <%= label_tag :type, 'CAS number', class: 'govuk-label' %>
-    <%= text_field_tag :cas, search_form.cas, class: "govuk-input govuk-input--width-10" %>
-  </div>
-  <div class="govuk-form-group">
-    <%= label_tag :name, 'Chemical name', class: 'govuk-label' %>
-    <%= text_field_tag :name, search_form.name, class: "govuk-input govuk-input--width-20" %>
-  </div>
-  <input class="button govuk-button" type="submit" name="new_search" value="Search">
+  <%= f.govuk_text_field :cas,
+                         width: 'one-quarter',
+                         id: 'cas',
+                         name: 'cas',
+                         label: { text: t('chemical_search.form.cas_label') } %>
+
+  <%= f.govuk_text_field :name,
+                         width: 'one-half',
+                         id: 'name',
+                         name: 'name',
+                         label: { text: t('chemical_search.form.name_label') } %>
+
+  <%= f.govuk_submit t('chemical_search.form.submit'),
+                     name: 'new_search',
+                     value: t('chemical_search.form.submit') %>
 <% end %>

@@ -1,4 +1,7 @@
 class ChemicalSearchForm
+  extend ActiveModel::Naming
+  include ActiveModel::Conversion
+
   OPTIONAL_PARAMS = [:@page].freeze
 
   attr_accessor :cas, :name
@@ -23,5 +26,9 @@ class ChemicalSearchForm
       name:,
       page:,
     }
+  end
+
+  def persisted?
+    false
   end
 end

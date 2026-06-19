@@ -391,6 +391,12 @@ en:
       footnote_description_label_html: "<strong>Footnote description</strong>"
       footnote_description_hint_text: "Use this field if you know a key phrase included in the footnote description."
       submit: "Search"
+  chemical_search:
+    form:
+      page_header: "Search by Chemical"
+      cas_label: "CAS number"
+      name_label: "Chemical name"
+      submit: "Search"
   quota_search:
     form:
       page_header: "Search for quotas"
