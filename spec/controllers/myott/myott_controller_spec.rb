@@ -1,7 +1,7 @@
 RSpec.describe Myott::MyottController, type: :controller do
   include MyottAuthenticationHelpers
 
-  let(:return_key) { described_class::RETURN_KEY }
+  let(:return_key) { :myott_return_url }
 
   describe '#current_user' do
     let(:user) { build(:user) }
@@ -96,45 +96,39 @@ RSpec.describe Myott::MyottController, type: :controller do
     end
 
     context 'when current_user is nil' do
-      let(:request_fullpath) { '/myott/commodities/123' }
+      let(:request_fullpath) { '/subscriptions/mycommodities?as_of=2025-06-20' }
 
       before do
         allow(controller).to receive(:current_user).and_return(nil)
         allow(controller.request).to receive(:fullpath).and_return(request_fullpath)
       end
 
-      it 'stores the current path in session' do
-        controller.send(:authenticate)
-
-        expect(controller.session[return_key]).to eq(request_fullpath)
-      end
-
       it 'redirects to the start page' do
         controller.send(:authenticate)
 
-        expect(controller).to have_received(:redirect_to).with(myott_start_path)
+        expect(controller).to have_received(:redirect_to).with(myott_start_path(return_to: request_fullpath))
       end
     end
 
     context 'when current_user exists and myott_return_url is in session' do
       let(:user) { build(:user) }
-      let(:return_url) { '/myott/commodities/456' }
+      let(:return_url) { '/subscriptions/mycommodities?as_of=2025-06-20' }
 
       before do
         allow(controller).to receive(:current_user).and_return(user)
         controller.session[return_key] = return_url
       end
 
-      it 'redirects to the stored return URL' do
+      it 'does not redirect to the stored return URL' do
         controller.send(:authenticate)
 
-        expect(controller).to have_received(:redirect_to).with(return_url)
+        expect(controller).not_to have_received(:redirect_to)
       end
 
-      it 'removes the return URL from session' do
+      it 'leaves the stored return URL in session' do
         controller.send(:authenticate)
 
-        expect(controller.session[return_key]).to be_nil
+        expect(controller.session[return_key]).to eq(return_url)
       end
     end
 
@@ -156,7 +150,7 @@ RSpec.describe Myott::MyottController, type: :controller do
 
   describe '#handle_authentication_error' do
     let(:identity_base_url) { 'https://auth.example.com' }
-    let(:request_fullpath) { '/myott/commodities/123' }
+    let(:request_fullpath) { '/subscriptions/mycommodities?as_of=2025-06-20' }
     let(:error) { AuthenticationError.new('Authentication failed', reason: error_reason) }
 
     before do
@@ -175,17 +169,11 @@ RSpec.describe Myott::MyottController, type: :controller do
         expect(controller).to have_received(:clear_authentication_cookies)
       end
 
-      it 'stores the current URL in session' do
-        controller.send(:handle_authentication_error, error)
-
-        expect(controller.session[return_key]).to eq(request_fullpath)
-      end
-
-      it 'redirects to identity service' do
+      it 'redirects to identity service with the current URL as return_to' do
         controller.send(:handle_authentication_error, error)
 
         expect(controller).to have_received(:redirect_to)
-          .with('https://auth.example.com/myott', allow_other_host: true)
+          .with('https://auth.example.com/myott?return_to=%2Fsubscriptions%2Fmycommodities%3Fas_of%3D2025-06-20', allow_other_host: true)
       end
     end
 
@@ -198,17 +186,11 @@ RSpec.describe Myott::MyottController, type: :controller do
         expect(controller).not_to have_received(:clear_authentication_cookies)
       end
 
-      it 'stores the current URL in session' do
-        controller.send(:handle_authentication_error, error)
-
-        expect(controller.session[return_key]).to eq(request_fullpath)
-      end
-
-      it 'redirects to identity service' do
+      it 'redirects to identity service with the current URL as return_to' do
         controller.send(:handle_authentication_error, error)
 
         expect(controller).to have_received(:redirect_to)
-          .with('https://auth.example.com/myott', allow_other_host: true)
+          .with('https://auth.example.com/myott?return_to=%2Fsubscriptions%2Fmycommodities%3Fas_of%3D2025-06-20', allow_other_host: true)
       end
     end
   end
