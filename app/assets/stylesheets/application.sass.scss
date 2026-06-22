@@ -1,8 +1,9 @@
-// Entry point for your Sass build
+// Entry point for the application Sass build
 $govuk-global-styles: true;
 $govuk-fonts-path: '/govuk-frontend/dist/govuk/assets/fonts/';
 $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 
+// GOV.UK Frontend and third-party styles.
 @import 'govuk-frontend/dist/govuk/index';
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
 
@@ -10,60 +11,73 @@ $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 @import 'src/vendor/govuk_publishing_components/metadata';
 @import 'src/vendor/govuk_publishing_components/print-link';
 
-@import 'src/legacy-grid-layout-conditionals';
+// Settings.
+@import 'src/settings/variables';
+@import 'src/settings/colors';
 
-@import 'src/fixes';
+// Tools.
+@import 'src/tools/functions';
 
-@import 'src/variables';
-@import 'src/functions';
-@import 'src/colors';
-@import 'src/typography';
-@import 'src/header';
-@import 'src/form_customisations';
-@import 'src/grid_extensions';
-@import 'src/commodity-buttons';
-@import 'src/commodity-codes';
-@import 'src/tariff-breadcrumbs';
-@import 'src/sections-list';
-@import 'src/tables';
-@import 'src/measures';
-@import 'src/a-z-index';
-@import 'src/country-picker';
-@import 'src/ancestors-tree';
-@import 'src/commodity-tree';
-@import 'src/search-results';
-@import 'src/search';
-@import 'src/interactive-search';
-@import 'src/quota-search';
-@import 'src/panel';
-@import 'src/tariff-custom';
-@import 'src/tariff-inset';
-@import 'src/rules_of_origin';
-@import 'src/simplified_procedural_values';
-@import 'src/news_items';
-@import 'src/markdown';
-@import 'src/feature-panel';
-@import 'src/switch_uk_xi_panel';
-@import 'src/header_banner';
-@import 'src/a-z-index';
-@import 'src/help';
-@import 'src/help_find_commodity';
-@import 'src/measure-inset';
-@import 'src/step-by-step-nav';
-@import 'src/lists';
-@import 'src/images';
-@import 'src/downloadable-document';
-@import 'src/help_popup';
-@import 'src/govuk-frontend-extensions';
-@import 'src/exchange_rates';
-@import 'src/feedback_useful_banner';
-@import 'src/feedback_banner';
-@import 'src/notification_banner';
-@import 'src/modal';
-@import 'src/faq';
-@import 'src/chapter_selection';
-@import 'src/mycommodities';
-@import 'src/app-card';
-@import 'src/cards';
-@import 'src/filter';
-@import 'src/live_issues';
+// Base.
+@import 'src/base/legacy-grid-layout-conditionals';
+@import 'src/base/fixes';
+@import 'src/base/typography';
+@import 'src/base/govuk-frontend-extensions';
+
+// GOV.UK overrides.
+@import 'src/overrides/forms';
+@import 'src/overrides/govuk-components';
+
+// Utilities.
+@import 'src/utilities/grid_extensions';
+@import 'src/utilities/images';
+@import 'src/utilities/lists';
+
+// Patterns.
+@import 'src/patterns/tables';
+
+// Components.
+@import 'src/components/app-card';
+@import 'src/components/cards';
+@import 'src/components/commodity-buttons';
+@import 'src/components/commodity-codes';
+@import 'src/components/commodity-tree';
+@import 'src/components/country-picker';
+@import 'src/components/downloadable-document';
+@import 'src/components/feature-panel';
+@import 'src/components/feedback_banner';
+@import 'src/components/feedback_useful_banner';
+@import 'src/components/filter';
+@import 'src/components/header';
+@import 'src/components/header_banner';
+@import 'src/components/help_popup';
+@import 'src/components/markdown';
+@import 'src/components/measure-inset';
+@import 'src/components/modal';
+@import 'src/components/panel';
+@import 'src/components/related-navigation';
+@import 'src/components/step-by-step-nav';
+@import 'src/components/switch_uk_xi_panel';
+@import 'src/components/tariff-breadcrumbs';
+@import 'src/components/tariff-inset';
+
+// Journeys.
+@import 'src/journeys/a-z-index';
+@import 'src/journeys/ancestors-tree';
+@import 'src/journeys/chapter_selection';
+@import 'src/journeys/exchange_rates';
+@import 'src/journeys/faq';
+@import 'src/journeys/help';
+@import 'src/journeys/help_find_commodity';
+@import 'src/journeys/interactive-search';
+@import 'src/journeys/live_issues';
+@import 'src/journeys/measures';
+@import 'src/journeys/mycommodities';
+@import 'src/journeys/news_items';
+@import 'src/journeys/quota-search';
+@import 'src/journeys/rules_of_origin';
+@import 'src/journeys/search';
+@import 'src/journeys/search-results';
+@import 'src/journeys/sections-list';
+@import 'src/journeys/simplified_procedural_values';
+@import 'src/journeys/tariff-custom';
