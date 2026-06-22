@@ -1,18 +1,55 @@
 module EnquiryFormHelper
+  IMPORT_DUTIES_AND_QUOTAS = 'import_duties_and_quota'.freeze
+
   FIELD_CONFIG = {
     'category' => 'category',
+    'enquiry_type' => 'enquiry_type',
     'goods_details' => 'goods_details',
     'commodity_code' => 'commodity_code',
+    'duty_details' => 'duty_details',
+    'quota_details' => 'quota_details',
+    'postal_or_baggage_details' => 'postal_or_baggage_details',
     'query' => 'query',
     'contact_details' => 'contact_details',
   }.freeze
 
   FIELD_PARAMS = {
     'category' => %w[category other_category],
+    'enquiry_type' => %w[enquiry_type],
     'goods_details' => %w[goods_product goods_made_of goods_used_for goods_function goods_processed goods_packaged],
     'commodity_code' => %w[has_commodity_code commodity_code],
+    'duty_details' => %w[duty_commodity_code customs_value country_of_origin destination query],
+    'quota_details' => %w[
+      quota_reference_type quota_commodity_code quota_order_number movement_reference_number country_of_origin
+      destination query
+    ],
+    'postal_or_baggage_details' => %w[
+      postal_or_baggage postal_commodity_code item purchase_price transport_cost query
+    ],
     'query' => %w[query],
     'contact_details' => %w[email_address full_name company_name occupation],
+  }.freeze
+
+  RADIO_OPTIONS = {
+    'enquiry_type' => [
+      { label: 'Import duties', value: 'import_duties' },
+      { label: 'Quotas', value: 'quotas' },
+      { label: 'Item sent by post or in personal baggage', value: 'postal_or_baggage' },
+    ],
+    'destination' => [
+      { label: 'England, Scotland or Wales', value: 'england_scotland_wales' },
+      { label: 'Northern Ireland', value: 'northern_ireland' },
+    ],
+    'quota_reference_type' => [
+      { label: 'Commodity code', value: 'commodity_code', conditional: ['conditional-quota-commodity-code', 'quota_commodity_code', 'Enter the commodity code'] },
+      { label: 'Quota order number', value: 'quota_order_number', conditional: ['conditional-quota-order-number', 'quota_order_number', 'Enter the quota order number', 'Quota order numbers are usually 6 digits, for example 054010.'] },
+      { label: 'Movement Reference Number (MRN)', value: 'movement_reference_number', conditional: ['conditional-movement-reference-number', 'movement_reference_number', 'Enter the MRN', 'An MRN is an 18-character alphanumeric code.'] },
+      { label: 'No', value: 'no' },
+    ],
+    'postal_or_baggage' => [
+      { label: 'Item sent by post', value: 'sent_by_post' },
+      { label: 'Item brought in personal baggage', value: 'personal_baggage' },
+    ],
   }.freeze
 
   def self.fields
@@ -30,8 +67,12 @@ module EnquiryFormHelper
   def field_label(field)
     {
       'category' => 'What do you need help with?',
+      'enquiry_type' => 'What does your enquiry relate to?',
       'goods_details' => 'Tell us about your goods',
       'commodity_code' => 'Do you already have a possible commodity code?',
+      'duty_details' => 'Tell us about your duty question',
+      'quota_details' => 'Tell us about your quota question',
+      'postal_or_baggage_details' => 'Tell us about your postal or baggage question',
       'query' => 'How can we help you?',
       'contact_details' => 'Contact details',
     }[field] || check_your_answers_label(field)
@@ -46,7 +87,7 @@ module EnquiryFormHelper
       },
       {
         label: 'Import duties and quotas',
-        value: 'import_duties_and_quota',
+        value: IMPORT_DUTIES_AND_QUOTAS,
         hint: 'Get information about duties and quotas.',
       },
       {
@@ -81,8 +122,9 @@ module EnquiryFormHelper
     return category_label(value) if field == 'category'
     return 'Yes' if field == 'has_commodity_code' && value == 'yes'
     return 'No' if field == 'has_commodity_code' && value == 'no'
+    return value == 'no' ? 'No' : 'Yes' if field == 'quota_reference_type' && radio_option_label(field, value)
 
-    value
+    radio_option_label(field, value) || value
   end
 
   def field_value(field, data = @enquiry_data)
@@ -99,6 +141,10 @@ module EnquiryFormHelper
 
   def category_label(value)
     category_options.find { |option| option[:value] == value }&.fetch(:label, value) || value
+  end
+
+  def radio_button_options(field)
+    RADIO_OPTIONS.fetch(field, [])
   end
 
   def check_your_answers_row(step, fields, labelled_fields: fields)
@@ -120,7 +166,21 @@ module EnquiryFormHelper
   def check_your_answers_label(field)
     {
       'category' => 'What do you need help with?',
+      'enquiry_type' => 'What does your enquiry relate to?',
       'query' => 'How can we help?',
+      'duty_commodity_code' => 'Commodity code',
+      'customs_value' => 'Customs value of the goods',
+      'country_of_origin' => 'Country of origin',
+      'destination' => 'Destination',
+      'quota_reference_type' => 'Do you have a commodity code or quota order number?',
+      'quota_commodity_code' => 'Commodity code',
+      'quota_order_number' => 'Quota order number',
+      'movement_reference_number' => 'Movement Reference Number (MRN)',
+      'postal_or_baggage' => 'What are you asking about?',
+      'postal_commodity_code' => 'Commodity code',
+      'item' => 'What is the item?',
+      'purchase_price' => 'Purchase price',
+      'transport_cost' => 'Post, shipping, packaging or insurance costs',
       'goods_product' => 'What is the product?',
       'goods_made_of' => 'What is it made of?',
       'goods_used_for' => 'What is it used for?',
@@ -139,8 +199,12 @@ module EnquiryFormHelper
   def check_your_answers_step_label(step)
     {
       'category' => 'What do you need help with?',
+      'enquiry_type' => 'What does your enquiry relate to?',
       'goods_details' => 'Tell us about your goods',
       'commodity_code' => 'Do you already have a possible commodity code?',
+      'duty_details' => 'Tell us about your duty question',
+      'quota_details' => 'Tell us about your quota question',
+      'postal_or_baggage_details' => 'Tell us about your postal or baggage question',
       'query' => 'How can we help?',
       'contact_details' => 'Contact details',
     }[step] || step.humanize
@@ -176,5 +240,9 @@ module EnquiryFormHelper
         ],
       )
     end
+  end
+
+  def radio_option_label(field, value)
+    radio_button_options(field).find { |option| option[:value] == value }&.fetch(:label)
   end
 end

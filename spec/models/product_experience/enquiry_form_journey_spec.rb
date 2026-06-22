@@ -46,6 +46,29 @@ RSpec.describe ProductExperience::EnquiryFormJourney, :aggregate_failures do
       )
     end
 
+    it 'removes stale duties and quotas route answers' do
+      data = described_class.normalized_data(
+        'category',
+        { 'category' => 'classification', 'goods_product' => 'Embroidery floss', 'query' => 'Old query' },
+        { 'category' => 'import_duties_and_quota' },
+      )
+      expect(data).not_to include('goods_product', 'query')
+
+      data = described_class.normalized_data(
+        'enquiry_type',
+        {
+          'category' => 'import_duties_and_quota',
+          'enquiry_type' => 'import_duties',
+          'duty_commodity_code' => '0101210000',
+          'customs_value' => '100',
+          'query' => 'Can you check the duty?',
+        },
+        { 'enquiry_type' => 'quotas' },
+      )
+      expect(data).to include('category' => 'import_duties_and_quota', 'enquiry_type' => 'quotas', 'query' => 'Can you check the duty?')
+      expect(data).not_to include('duty_commodity_code', 'customs_value')
+    end
+
     it 'removes the other category label when the selected category is not other' do
       data = described_class.normalized_data(
         'category',
@@ -72,6 +95,30 @@ RSpec.describe ProductExperience::EnquiryFormJourney, :aggregate_failures do
         'has_commodity_code' => 'no',
       )
       expect(data).not_to include('commodity_code')
+    end
+
+    it 'removes stale quota reference values when the selected reference type changes' do
+      [
+        ['commodity_code', 'quota_commodity_code', %w[quota_order_number movement_reference_number]],
+        ['quota_order_number', 'quota_order_number', %w[quota_commodity_code movement_reference_number]],
+        ['movement_reference_number', 'movement_reference_number', %w[quota_commodity_code quota_order_number]],
+        ['no', nil, %w[quota_commodity_code quota_order_number movement_reference_number]],
+      ].each do |reference_type, retained_field, stale_fields|
+        data = described_class.normalized_data(
+          'quota_details',
+          {
+            'quota_reference_type' => 'commodity_code',
+            'quota_commodity_code' => '1701991000',
+            'quota_order_number' => '054010',
+            'movement_reference_number' => '24GB12345678901234',
+          },
+          { 'quota_reference_type' => reference_type },
+        )
+
+        expect(data).to include('quota_reference_type' => reference_type)
+        expect(data).to include(retained_field) if retained_field
+        expect(data).not_to include(*stale_fields)
+      end
     end
   end
 

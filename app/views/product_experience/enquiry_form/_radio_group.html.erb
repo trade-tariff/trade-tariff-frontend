@@ -1,0 +1,43 @@
+<% described_by = "#{field}-error" if field_error(field) %>
+<% legend_classes = ['govuk-fieldset__legend', ('govuk-fieldset__legend--l' if local_assigns[:heading]), ("govuk-fieldset__legend--#{legend_size}" if local_assigns[:legend_size])].compact.join(' ') %>
+
+<div class="govuk-form-group <%= field_error_class(field) %>">
+  <fieldset class="govuk-fieldset" aria-describedby="<%= described_by %>">
+    <legend class="<%= legend_classes %>">
+      <% if local_assigns[:heading] %>
+        <h1 class="govuk-fieldset__heading"><%= legend %></h1>
+      <% else %>
+        <%= legend %>
+      <% end %>
+    </legend>
+    <% if field_error(field) %>
+      <p id="<%= described_by %>" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> <%= field_error(field) %>
+      </p>
+    <% end %>
+    <div class="govuk-radios <%= 'govuk-radios--inline' if local_assigns[:inline] %>" data-module="govuk-radios">
+      <% radio_button_options(field).each do |option| %>
+        <% conditional_id, conditional_field, conditional_label, conditional_hint = option[:conditional] %>
+        <div class="govuk-radios__item">
+          <%= radio_button_tag field,
+                               option[:value],
+                               field_value(field) == option[:value],
+                               class: 'govuk-radios__input',
+                               id: "#{field}_#{option[:value]}",
+                               data: ({ aria_controls: conditional_id } if conditional_id) %>
+          <label class="govuk-label govuk-radios__label" for="<%= "#{field}_#{option[:value]}" %>">
+            <%= option[:label] %>
+          </label>
+        </div>
+        <% if conditional_id %>
+          <div class="govuk-radios__conditional <%= 'govuk-radios__conditional--hidden' unless field_value(field) == option[:value] %>" id="<%= conditional_id %>">
+            <%= render 'product_experience/enquiry_form/text_input',
+                       field: conditional_field,
+                       label: conditional_label,
+                       hint: conditional_hint, label_size: 's' %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </fieldset>
+</div>

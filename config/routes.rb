@@ -105,10 +105,10 @@ Rails.application.routes.draw do
       post 'submit', action: 'submit_form', as: 'submit_form'
       get 'confirmation'
       get ':field', action: 'form', as: 'field', constraints: {
-        field: /category|goods_details|commodity_code|query|contact_details/,
+        field: /category|enquiry_type|goods_details|commodity_code|duty_details|quota_details|postal_or_baggage_details|query|contact_details/,
       }
       post ':field', action: 'submit', constraints: {
-        field: /category|goods_details|commodity_code|query|contact_details/,
+        field: /category|enquiry_type|goods_details|commodity_code|duty_details|quota_details|postal_or_baggage_details|query|contact_details/,
       }
     end
   end
