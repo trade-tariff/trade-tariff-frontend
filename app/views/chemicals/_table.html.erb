@@ -11,7 +11,13 @@
     <% end %>
   <% end %>
 
-  <% table.with_body do %>
-    <%= render partial: 'chemicals/chemical', collection: chemicals %>
+  <% table.with_body do |body| %>
+    <% chemicals.each do |chemical| %>
+      <% body.with_row do |row| %>
+        <% row.with_cell(html_attributes: { data: { label: 'CAS RN' } }) { chemical.cas_rn } %>
+        <% row.with_cell(html_attributes: { data: { label: 'CUS number' } }) { chemical.cus } %>
+        <% row.with_cell(classes: 'word-breaking-cell', html_attributes: { data: { label: 'Name' } }) { chemical.name } %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>
