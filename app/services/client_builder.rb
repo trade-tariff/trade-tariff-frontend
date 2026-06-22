@@ -28,8 +28,12 @@ class ClientBuilder
 
   def call
     if TradeTariffFrontend::ServiceChooser.service_choices.present?
-      cert_path = '/tmp/backend.crt'
-      File.write(cert_path, ENV['SSL_CERT_PEM']&.gsub('\\n', "\n"))
+      ssl_cert_pem = ENV['SSL_CERT_PEM']&.gsub('\\n', "\n")
+
+      if ssl_cert_pem.present?
+        cert_path = '/tmp/backend.crt'
+        File.write(cert_path, ssl_cert_pem)
+      end
 
       Faraday.new(host) do |conn|
         conn.request :url_encoded
@@ -39,7 +43,7 @@ class ClientBuilder
         conn.options.open_timeout = 5
         conn.options.timeout = 10
         conn.ssl.verify = false
-        conn.ssl.ca_file = cert_path
+        conn.ssl.ca_file = cert_path if ssl_cert_pem.present?
         conn.adapter :net_http_persistent
         conn.response :json, content_type: /\bjson$/
         conn.headers['User-Agent'] = user_agent
