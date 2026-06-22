@@ -27,10 +27,46 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
     context 'when a user is not authenticated' do
       before do
         stub_unauthenticated_user
-        get :start
+        get :start, params: { return_to: '/subscriptions/mycommodities?as_of=2025-06-20' }
       end
 
       it 'assigns @continue_url to the identity base url' do
+        expected_url = "#{URI.join(TradeTariffFrontend.identity_base_url, '/myott')}?return_to=%2Fsubscriptions%2Fmycommodities%3Fas_of%3D2025-06-20"
+        expect(assigns(:continue_url)).to eq(expected_url)
+      end
+    end
+
+    context 'when a user is not authenticated and the return URL is unsafe' do
+      before do
+        stub_unauthenticated_user
+        get :start, params: { return_to: 'https://example.com/phishing' }
+      end
+
+      it 'assigns @continue_url to the identity base url without a return URL' do
+        expected_url = URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s
+        expect(assigns(:continue_url)).to eq(expected_url)
+      end
+    end
+
+    context 'when a user is not authenticated and the return URL is protocol-relative' do
+      before do
+        stub_unauthenticated_user
+        get :start, params: { return_to: '//example.com/phishing' }
+      end
+
+      it 'assigns @continue_url to the identity base url without a return URL' do
+        expected_url = URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s
+        expect(assigns(:continue_url)).to eq(expected_url)
+      end
+    end
+
+    context 'when a user is not authenticated and the return URL only has the subscriptions prefix' do
+      before do
+        stub_unauthenticated_user
+        get :start, params: { return_to: '/subscriptions.evil/mycommodities?as_of=2025-06-20' }
+      end
+
+      it 'assigns @continue_url to the identity base url without a return URL' do
         expected_url = URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s
         expect(assigns(:continue_url)).to eq(expected_url)
       end
@@ -71,6 +107,38 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
     context 'when current_user is valid' do
       before do
         stub_authenticated_user(user)
+      end
+
+      context 'when return_to is a safe subscriptions path' do
+        before do
+          get :index, params: { return_to: '/subscriptions/mycommodities?as_of=2025-06-20' }
+        end
+
+        it { is_expected.to redirect_to('/subscriptions/mycommodities?as_of=2025-06-20') }
+      end
+
+      context 'when return_to is an unsafe absolute URL' do
+        before do
+          get :index, params: { return_to: 'https://example.com/phishing' }
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context 'when return_to is a protocol-relative URL' do
+        before do
+          get :index, params: { return_to: '//example.com/phishing' }
+        end
+
+        it { is_expected.to respond_with(:success) }
+      end
+
+      context 'when return_to is the subscriptions index path' do
+        before do
+          get :index, params: { return_to: '/subscriptions' }
+        end
+
+        it { is_expected.to respond_with(:success) }
       end
 
       context 'when my_commodities is enabled' do

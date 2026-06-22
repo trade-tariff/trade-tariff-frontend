@@ -1,7 +1,5 @@
 module Myott
   class MyottController < ApplicationController
-    RETURN_KEY = :myott_return_url
-
     before_action :authenticate,
                   :disable_search_form,
                   :disable_switch_service_banner
@@ -12,26 +10,18 @@ module Myott
 
     def authenticate
       if current_user.nil?
-        set_return_url
-        redirect_to myott_start_path
-      elsif (path = return_url)
-        redirect_to(path)
+        redirect_to myott_start_path(return_to: request.fullpath)
       end
     end
 
     def handle_authentication_error(error)
       clear_authentication_cookies if error.should_clear_cookies?
 
-      set_return_url
-      redirect_to(URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s, allow_other_host: true)
+      redirect_to("#{identity_url}?return_to=#{CGI.escape(request.fullpath)}", allow_other_host: true)
     end
 
-    def return_url
-      session.delete(RETURN_KEY)
-    end
-
-    def set_return_url
-      session[RETURN_KEY] = request.fullpath
+    def identity_url
+      URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s
     end
 
     def clear_authentication_cookies
