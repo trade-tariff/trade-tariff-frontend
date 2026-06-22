@@ -7,11 +7,17 @@
 Rails.application.configure do
   config.content_security_policy do |policy|
     policy.default_src :self, :https
-    policy.connect_src :self, :https, :blob
+    policy.connect_src :self, :https, :blob,
+                       'https://www.google-analytics.com',
+                       'https://analytics.google.com',
+                       'https://region1.google-analytics.com'
     policy.font_src    :self, :https, :data
-    policy.img_src     :self, :https, :data
+    policy.img_src     :self, :https, :data,
+                       'https://www.google-analytics.com',
+                       'https://www.googletagmanager.com'
     policy.object_src  :none
-    policy.script_src  :self, :https
+    # unsafe-eval is required by Google Tag Manager
+    policy.script_src  :self, :https, :unsafe_eval
     policy.style_src   :self, :https
     # Specify URI for violation reports
     policy.report_uri '/csp-violation-report'
