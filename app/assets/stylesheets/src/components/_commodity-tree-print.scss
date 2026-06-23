@@ -1,0 +1,249 @@
+.commodity-tree {
+  border: 1px solid $panel-colour;
+
+  .commodity-tree-note {
+    @include commodity-tree-note;
+  }
+
+  .commodity-tree__additional-info {
+    float: right;
+    width: $commodity-tree-info-width-print;
+
+    em {
+      font-style: normal;
+      float: left;
+      margin-left: govuk-spacing(3);
+
+      &:first-of-type {
+        margin-left: 0;
+      }
+    }
+
+    .vat {
+      width: $vat-width-desktop;
+      display: none;
+      text-align: right;
+      display: block;
+
+      @media (orientation: portrait) {
+        display: none;
+      }
+    }
+
+    .duty {
+      width: $duty-width-desktop;
+      display: block;
+
+      @media (orientation: portrait) {
+        display: none;
+      }
+    }
+
+    .supplementary-units {
+      width: $supplementary-units-width-print;
+      text-align: right;
+      display: block;
+
+      @media (orientation: portrait) {
+        display: none;
+      }
+    }
+
+    .commcode {
+      width: $duty-width-desktop;
+      float: right;
+      text-align: right;
+      display: block;
+    }
+  }
+
+  .tree-controls {
+    @include commodity-tree-controls;
+  }
+
+  ul.commodities {
+    @include commodity-tree-list;
+
+    li {
+      @include commodity-tree-item($repeat-top-level-padding: false);
+
+      a {
+        @include commodity-tree-link($include-hover: true);
+      }
+
+      .commodity__info {
+        float: right;
+        width: $commodity-tree-info-width-print;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        @include govuk-clearfix;
+
+        @media (orientation: portrait) {
+          width: $commodity-tree-info-width-print-portrait;
+          text-align: right;
+        }
+
+        .lte-ie8 & {
+          float: none !important;
+        }
+
+        .vat,
+        .duty,
+        .supplementary-units {
+          display: none;
+          float: left;
+          margin-right: govuk-spacing(3);
+          color: govuk-functional-colour(text);
+          font-weight: normal;
+          font-size: 14px;
+          display: block;
+
+          @media (orientation: portrait) {
+            display: none;
+          }
+        }
+
+        .vat {
+          width: $vat-width-desktop;
+          text-align: right;
+        }
+
+        .duty {
+          width: $duty-width-desktop;
+        }
+
+        .supplementary-units {
+          width: $supplementary-units-width-print;
+          text-align: right;
+        }
+      }
+
+      .identifier {
+        @include commodity-tree-identifier-base;
+      }
+
+      .rate {
+        @include commodity-tree-rate;
+      }
+
+      article & a,
+      .js-enabled article & a {
+        @include commodity-tree-article-link;
+      }
+    }
+
+    ul {
+      @include commodity-tree-nested-list;
+    }
+  }
+}
+
+.chapter-code,
+.heading-code,
+.commodity-code {
+  font-size: 14px;
+  display: inline-block;
+  position: relative;
+  height: 1.5625em;
+
+  >.code-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.chapter-code {
+  background-color: $chapter-code-bg;
+  width: $chapter-code-width;
+  height: $chapter-code-height;
+}
+
+.heading-code {
+  background-color: $heading-code-bg;
+  width: $heading-code-width;
+  height: $chapter-code-height;
+}
+
+.commodity-code {
+  background-color: $commodity-code-bg;
+  width: $commodity-code-width-desktop;
+  height: $chapter-code-height;
+
+  >.code-text {
+    position: relative;
+    width: 33.333%;
+  }
+}
+
+li.open {
+  background-position: 0 -100px;
+}
+
+li:not(.has_children) .description {
+  @include commodity-tree-description-base;
+  width: calc(100% - #{$commodity-tree-description-width-offset-print});
+
+  @media (orientation: landscape) {
+    width: calc(100% - #{$identifier-width-desktop + $commodity-tree-leaf-description-width-offset-print-landscape});
+  }
+
+  &.without_right_margin {
+    margin: 0 !important;
+  }
+}
+
+li.has_children {
+  .description {
+    @include commodity-tree-description-base($include-cursor: false, $include-position: false);
+    background-image: url("../images/expand-collapse-transparent_commodity-tree.png");
+    background-position: 0 4px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position: relative;
+    /* to give z-index */
+    width: calc(100% - #{$commodity-tree-description-width-offset-print});
+
+    @media (orientation: landscape) {
+      width: calc(100% - #{$identifier-width-desktop + $commodity-tree-parent-description-width-offset-print-landscape});
+    }
+
+    &.without_right_margin {
+      margin: 0 !important;
+    }
+  }
+
+  .description:hover,
+  .description-hover {
+    color: govuk-functional-colour(link-hover);
+  }
+
+  a .description {
+    margin-left: 0;
+    padding-left: 0;
+    background: none;
+  }
+
+  .open {
+    background-position: 0 -386px;
+  }
+}
+
+.conditions,
+.footnotes,
+.additional-codes {
+  @include commodity-tree-hidden-details;
+}
+
+.tree-controls {
+  display: none;
+}
+
+.commodity-tree-note {
+  background: $table-header-bg;
+  margin: 0 !important;
+  padding: govuk-spacing(3);
+}

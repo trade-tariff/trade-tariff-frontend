@@ -1,45 +1,4 @@
-@use "sass:list";
-@use "sass:math";
-
-@mixin indented-item($level) {
-  $left-pos: -984px;
-
-  @if $level ==1 {
-    padding-left: 0;
-    font-weight: bold;
-
-    @include govuk-media-query($from: tablet) {
-      padding-left: 0;
-      background-position: $left-pos + $token-width 1em;
-    }
-  }
-
-  @else {
-    margin-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 2))) * -1;
-    padding-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 1)));
-    font-weight: normal;
-
-    @include govuk-media-query($from: tablet) {
-      margin-left: px(($token-width * 2) + ($token-width * ($level - 2))) * -1;
-      padding-left: px(($token-width * 2) + ($token-width * ($level - 1)));
-      background-position: $left-pos + ($token-width * $level) 1em;
-    }
-  }
-}
-
-@mixin indented-list($levels) {
-  $indent-level: 1;
-
-  @while $indent-level < $levels {
-
-    &.level-#{$indent-level},
-    &.level-#{$indent-level} a {
-      @include indented-item($indent-level);
-    }
-
-    $indent-level: $indent-level + 1;
-  }
-}
+@import "commodity-tree-shared";
 
 .commodity-tree {
   border: 1px solid $panel-colour;
@@ -49,35 +8,7 @@
   }
 
   .commodity-tree-note {
-    left: 0;
-    right: 0;
-    margin: govuk-spacing(3);
-    color: govuk-functional-colour(secondary-text);
-    font-size: 14px;
-    @include govuk-clearfix;
-
-    @include govuk-media-query($until: tablet) {
-      margin-bottom: 0;
-    }
-
-    span {
-      position: absolute;
-      left: -9999em;
-    }
-
-    em {
-      font-style: normal;
-      float: left;
-    }
-
-    .level {
-      width: px(($token-width - $token-padding) + $token-space);
-      display: none;
-
-      @include govuk-media-query($from: tablet) {
-        display: block;
-      }
-    }
+    @include commodity-tree-note($include-mobile-spacing: true);
   }
 
   .commodity-tree__additional-info {
@@ -137,213 +68,114 @@
   }
 
   .tree-controls {
-    background-color: $panel-colour;
-    padding: 8px 16px;
-    vertical-align: top;
-    min-height: 25px;
-
-    a {
-      margin-right: 1em;
-      display: inline-block;
-      font-size: 14px;
-
-      @include govuk-media-query($from: tablet) {
-        font-size: 16px;
-      }
-    }
+    @include commodity-tree-controls;
   }
 
   ul.commodities {
-    @include govuk-clearfix;
-    padding: 0;
-    margin: 1em;
-    position: relative;
-    font-size: 14px;
-
-    @include govuk-media-query($from: tablet) {
-      font-size: 16px;
-    }
-
-    @include govuk-media-query($until: tablet) {
-      margin-top: 1.5em;
-      margin-bottom: 1.5em;
-    }
+    @include commodity-tree-list($include-padding: true, $include-mobile-spacing: true);
 
     li {
-      @include govuk-clearfix;
-      @include indented-list(13);
-      display: block;
-      margin: 0;
-      position: relative;
-      word-wrap: break-word;
+      @include commodity-tree-item($include-hyphens: true, $include-mobile-padding: true);
 
-      // Create Hyphen sequences for the commodity tree views
-      @include govuk-media-query($from: tablet) {
-        $max_level: 20;
-        $dashes_spacing: $token-width;
+      a {
+        @include commodity-tree-link;
+      }
 
-        @for $i from 2 through $max_level {
-          &.level-#{$i} {
-            $url_list: (
-            );
-          $position_list: (
-          );
+      .commodity__info {
+        font-size: 16px;
+        @include govuk-clearfix;
 
-        @for $number_of_dashes from 1 through $i - 1 {
-          $url_list: list.append($url_list, url("/hyphen-6px.png"), comma);
-          $position_list: list.append($position_list,
-              top 20px left 25px + $number_of_dashes * $dashes_spacing,
-              comma);
+        @include govuk-media-query($from: tablet) {
+          float: right;
+          width: $commodity-tree-info-width-desktop;
         }
 
-        background-image: $url_list;
-        background-repeat: no-repeat;
-        background-position: $position_list;
+        .lte-ie8 & {
+          float: none !important;
+        }
+
+        .vat,
+        .duty,
+        .supplementary-units {
+          display: none;
+          float: left;
+          margin-right: govuk-spacing(3);
+          color: govuk-functional-colour(text);
+          font-weight: normal;
+          font-size: 0.9em;
+
+          @include govuk-media-query($from: $headings-large-viewport) {
+            display: block;
+          }
+        }
+
+        .vat {
+          width: 80px;
+          text-align: left;
+        }
+
+        .duty {
+          width: 170px;
+          text-align: left;
+        }
+
+        .supplementary-units {
+          width: 120px;
+          text-align: left;
+        }
+      }
+
+      .identifier {
+        font-family: ntatabularnumbers, "Helvetica Neue", Arial, Helvetica, sans-serif;
+        font-weight: normal;
+        padding-bottom: 0.2em;
+        display: inline-block;
+        width: $identifier-width;
+        border: 0;
+        padding: 0;
+        margin-top: 0.5em;
+
+        @include govuk-media-query($from: tablet) {
+          color: govuk-functional-colour(text);
+          position: absolute;
+          right: 0;
+          top: -.05em;
+        }
+
+        div {
+          text-align: center;
+          float: left;
+        }
+      }
+
+      // service-uk includes a vat column so needs to be shunted further right by its width
+      .service-uk.identifier {
+        @include govuk-media-query($from: tablet) {
+          width: $identifier-width-desktop-uk;
+        }
+      }
+
+      // service-xi excludes a vat column so needs to be shunted further right by its width
+      .service-xi.identifier {
+        @include govuk-media-query($from: tablet) {
+          width: $identifier-width-desktop-xi;
+        }
+      }
+
+      .rate {
+        @include commodity-tree-rate;
+      }
+
+      article & a,
+      .js-enabled article & a {
+        @include commodity-tree-article-link($include-min-height: true);
       }
     }
-  }
 
-  &:last-child {
-    border-bottom: 0;
-  }
-
-  &:last-child>a,
-  &:last-child>ul {
-    border-bottom: none;
-  }
-
-  &.has_children,
-  a {
-    padding-top: 0.5em;
-
-    @include govuk-media-query($until: tablet) {
-      &:first-child {
-        padding-top: 0;
-      }
-
-      padding-top: 1em;
+    ul {
+      @include commodity-tree-nested-list;
     }
   }
-
-  ul,
-  a {
-    border-bottom: solid 1px #eee;
-  }
-
-  a {
-    margin: 0;
-    text-decoration: none;
-    font-weight: normal;
-    position: relative;
-  }
-
-  .commodity__info {
-    font-size: 16px;
-    @include govuk-clearfix;
-
-    @include govuk-media-query($from: tablet) {
-      float: right;
-      width: $commodity-tree-info-width-desktop;
-    }
-
-    .lte-ie8 & {
-      float: none !important;
-    }
-
-    .vat,
-    .duty,
-    .supplementary-units {
-      display: none;
-      float: left;
-      margin-right: govuk-spacing(3);
-      color: govuk-functional-colour(text);
-      font-weight: normal;
-      font-size: 0.9em;
-
-      @include govuk-media-query($from: $headings-large-viewport) {
-        display: block;
-      }
-    }
-
-    .vat {
-      width: 80px;
-      text-align: left;
-    }
-
-    .duty {
-      width: 170px;
-      text-align: left;
-    }
-
-    .supplementary-units {
-      width: 120px;
-      text-align: left;
-    }
-  }
-
-  .identifier {
-    font-family: ntatabularnumbers, "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-weight: normal;
-
-    padding-bottom: 0.2em;
-    display: inline-block;
-    width: $identifier-width;
-    border: 0;
-    padding: 0;
-    margin-top: 0.5em;
-
-    @include govuk-media-query($from: tablet) {
-      color: govuk-functional-colour(text);
-      position: absolute;
-      right: 0;
-      top: -.05em;
-    }
-
-    div {
-      text-align: center;
-      float: left;
-    }
-  }
-
-  // service-uk includes a vat column so needs to be shunted further right by its width
-  .service-uk.identifier {
-    @include govuk-media-query($from: tablet) {
-      width: $identifier-width-desktop-uk;
-    }
-  }
-
-  // service-xi excludes a vat column so needs to be shunted further right by its width
-  .service-xi.identifier {
-    @include govuk-media-query($from: tablet) {
-      width: $identifier-width-desktop-xi;
-    }
-  }
-
-  .rate {
-    padding-right: em($token-padding, 14);
-    width: em(60, 14);
-    text-align: right;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-
-  article & a,
-  .js-enabled article & a {
-    display: block;
-    @include govuk-clearfix;
-    margin-left: 0;
-    padding-left: 0;
-    min-height: 1.6rem;
-  }
-}
-
-ul {
-  margin: 0;
-  padding-left: 0;
-  clear: both;
-}
-}
 
 .commodity-tree-note em {
   @include govuk-font($size: false, $weight: normal);
@@ -351,12 +183,7 @@ ul {
 }
 
 li:not(.has_children) .description {
-  @include govuk-font($size: 16, $weight: normal);
-  color: govuk-functional-colour(link);
-  padding-left: px($expand-arrow-space);
-  margin-left: -1 * px($expand-arrow-space);
-  cursor: pointer;
-  position: relative;
+  @include commodity-tree-description-base($include-font: true);
   /* to give z-index */
 
   @include govuk-media-query($from: tablet) {
@@ -375,11 +202,7 @@ li:not(.has_children) .description {
 
 li.has_children {
   .description {
-    @include govuk-font($size: 16, $weight: normal);
-    color: govuk-functional-colour(link);
-    padding-left: px($expand-arrow-space);
-    margin-left: -1 * px($expand-arrow-space);
-    position: relative;
+    @include commodity-tree-description-base($include-font: true, $include-cursor: false);
     /* to give z-index */
 
     @include govuk-media-query($from: tablet) {
@@ -447,8 +270,7 @@ li.has_children {
 .conditions,
 .footnotes,
 .additional-codes {
-  display: none;
-  clear: both;
+  @include commodity-tree-hidden-details;
 }
 
 .additional-code-table {

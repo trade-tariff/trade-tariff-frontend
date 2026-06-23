@@ -26,6 +26,12 @@ $vat-width-desktop: 80px;
 $duty-width-desktop: 145px;
 $supplementary-units-width-desktop: 120px;
 $commodity-tree-info-width-desktop: 514px;
+$supplementary-units-width-print: 140px;
+$commodity-tree-info-width-print: 560px;
+$commodity-tree-info-width-print-portrait: 200px;
+$commodity-tree-description-width-offset-print: 200px;
+$commodity-tree-leaf-description-width-offset-print-landscape: 65px;
+$commodity-tree-parent-description-width-offset-print-landscape: 45px;
 
 $identifier-width: $chapter-code-width+$heading-code-width+$commodity-code-width + 10px;
 $identifier-width-desktop: $chapter-code-width+$heading-code-width+$commodity-code-width-desktop+$vat-width-desktop+$duty-width-desktop+$supplementary-units-width-desktop + 25px;
