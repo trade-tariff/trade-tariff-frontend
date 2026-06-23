@@ -5,10 +5,10 @@ $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 
 @import "govuk-frontend/dist/govuk";
 
-@import "src/legacy-grid-layout-conditionals";
-@import "src/colors";
-@import "src/variables";
-@import "src/functions";
+@import "src/settings/colors";
+@import "src/settings/variables";
+@import "src/tools/functions";
+@import "src/base/legacy-grid-layout-conditionals";
 
 caption {
   margin: 0 0 2em;
