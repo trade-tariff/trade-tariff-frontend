@@ -49,12 +49,6 @@ module GreenLanes
                        category_two_assessments_without_exemptions: candidate_categories.cat2_without_exemptions).call
     end
 
-    def parsed_ans(ans_param)
-      return ans_param unless ans_param.is_a?(String)
-
-      JSON.parse(ans_param)
-    end
-
     # Category assessment methods
     def category_assessments
       @category_assessments ||= candidate_categories.public_send("cat#{category}_with_exemptions")

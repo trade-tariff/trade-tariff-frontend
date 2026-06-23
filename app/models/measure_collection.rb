@@ -81,10 +81,6 @@ class MeasureCollection < SimpleDelegator
     vat.erga_omnes.max_by(&:amount)
   end
 
-  def measure_with_highest_vat_rate
-    vat.max_by(&:amount)
-  end
-
   def excise
     @excise ||= new(select(&:excise?))
   end

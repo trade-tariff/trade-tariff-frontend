@@ -28,6 +28,7 @@ jobs:
             data/
             docs/
             terraform/versions.tf
+            config/debride.whitelist
             *.md
             *.lock
             .github
@@ -62,7 +63,8 @@ jobs:
           ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
       - run: bundle exec brakeman
       - run: pip install pre-commit
-      - run: pre-commit run --all-files --show-diff-on-failure
+      - run: pre-commit run --all-files --hook-stage pre-commit --show-diff-on-failure
+      - run: pre-commit run --all-files --hook-stage pre-push --show-diff-on-failure
 
   test:
     runs-on: ubuntu-latest

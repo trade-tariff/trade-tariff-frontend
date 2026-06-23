@@ -58,10 +58,6 @@ module GreenLanes
       exempt_category_assessments(@answers['2'])
     end
 
-    def no_exemptions_met
-      cat_1_exemptions_met.empty? && cat_2_exemptions_met.empty?
-    end
-
     def cat_1_exemptions_not_met
       exemptions_not_met(cat1_with_exemptions, cat_1_exemptions_met)
     end

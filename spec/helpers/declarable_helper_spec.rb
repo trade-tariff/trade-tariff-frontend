@@ -110,20 +110,6 @@ RSpec.describe DeclarableHelper, type: :helper, vcr: { cassette_name: 'geographi
     end
   end
 
-  describe '#trading_partner_country_description' do
-    context 'when the country is a valid country' do
-      subject(:trading_partner_country_description) { helper.trading_partner_country_description('IT') }
-
-      it { is_expected.to eq('Italy') }
-    end
-
-    context 'when the country is nil' do
-      subject(:trading_partner_country_description) { helper.trading_partner_country_description(nil) }
-
-      it { is_expected.to eq('All countries') }
-    end
-  end
-
   describe '#supplementary_unit_for' do
     subject(:supplementary_unit_for) { helper.supplementary_unit_for(uk_declarable, xi_declarable, country) }
 

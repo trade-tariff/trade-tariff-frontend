@@ -32,13 +32,6 @@ module ServiceHelper
     t("trade_tariff_heading.#{service_choice}")
   end
 
-  # TODO: this method will be refactored/removed in the coming ticket: HOTT-1052
-  def switch_service_link
-    return link_to(t('service_banner.service_name.xi'), "/xi#{current_path}") if uk_service_choice?
-
-    link_to(t('service_banner.service_name.uk'), current_path, class: 'govuk-!-display-none-print')
-  end
-
   def switch_service_button
     copy, link = if uk_service_choice?
                    [t('service_banner.service_name.xi'), "/xi#{current_path}"]

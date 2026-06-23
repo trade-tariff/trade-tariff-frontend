@@ -16,14 +16,6 @@ class GreenLanes::GoodsNomenclature
   has_many :ancestors, class_name: 'GreenLanes::GoodsNomenclature'
   has_many :descendants, class_name: 'GreenLanes::GoodsNomenclature'
 
-  def filter_by_category(category)
-    grouped_assessments[category.to_i] || []
-  end
-
-  def primary_assessments_group
-    grouped_assessments.first&.second || []
-  end
-
   def grouped_assessments
     @grouped_assessments ||= \
       Hash[applicable_category_assessments.group_by(&:category)

@@ -44,14 +44,6 @@ module DeclarableHelper
     )
   end
 
-  def trading_partner_country_description(geographical_area_id)
-    if geographical_area_id.present?
-      GeographicalArea.find(geographical_area_id).description
-    else
-      'All countries'
-    end
-  end
-
   def supplementary_unit_for(uk_declarable, xi_declarable, country = nil)
     supplementary_unit = DeclarableUnitService.new(uk_declarable, xi_declarable, country).call
 

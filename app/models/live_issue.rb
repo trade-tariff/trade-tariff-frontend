@@ -22,12 +22,6 @@ class LiveIssue
       sort_by_last_updated(issues, normalized_sort(sort))
     end
 
-    def sorted_by_status(sort_direction = 'asc')
-      all.sort_by do |live_issue|
-        [status_sort_rank(live_issue, sort_direction), -(updated_at_sort_value(live_issue) || 0)]
-      end
-    end
-
   private
 
     def filter_by_status(issues, statuses)
@@ -60,16 +54,6 @@ class LiveIssue
         else
           [missing_timestamp, -comparable_timestamp]
         end
-      end
-    end
-
-    def status_sort_rank(live_issue, sort_direction)
-      active_status = live_issue.status.to_s.casecmp('active').zero?
-
-      if sort_direction == 'desc'
-        active_status ? 1 : 0
-      else
-        active_status ? 0 : 1
       end
     end
 
