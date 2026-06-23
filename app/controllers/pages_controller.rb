@@ -2,21 +2,11 @@ class PagesController < ApplicationController
   before_action :disable_search_form
   before_action :disable_switch_service_banner, only: %i[changes_999l terms privacy]
 
-  def glossary
-    @glossary = Pages::Glossary.find(params[:id])
-  end
-
   def cn2021_cn2022
     @chapters = Chapter.all
   end
 
   def changes_999l; end
-
-  def opensearch
-    respond_to do |format|
-      format.xml
-    end
-  end
 
   def terms; end
   def tools; end
