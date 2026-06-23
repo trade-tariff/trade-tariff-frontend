@@ -25,6 +25,7 @@ The application is a Rails 8 frontend for the Trade Tariff service. It renders t
 - Treat GOV.UK Frontend, accessibility, page titles, labels, hints, validation errors, and focus order as part of the behaviour, not cosmetic detail.
 - Prefer `govuk-components`, `govuk_design_system_formbuilder`, and existing shared partials before hand-rolling GOV.UK markup.
 - Keep Sass changes narrow. Use GOV.UK Sass variables, mixins, spacing, and typography before adding custom values.
+- For Sass structure, selector ownership, or print CSS work, read `docs/css-architecture.md` before editing stylesheets.
 - Run project commands directly by default. If you use Nix/direnv locally, `direnv exec <repo-path> <command>` is also fine.
 - Use `rg` for code search.
 - Treat commodity display, measures, duties, quotas, rules of origin, Green Lanes, subscriptions, auth/session handling, and backend API calls as high-risk areas.
