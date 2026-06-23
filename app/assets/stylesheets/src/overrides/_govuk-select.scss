@@ -1,0 +1,11 @@
+.govuk-select {
+  &.govuk-select--width-10 {
+    @extend .govuk-input--width-10;
+    width: 100% !important;
+  }
+
+  &.govuk-select--width-20 {
+    @extend .govuk-input--width-20;
+    width: 100% !important;
+  }
+}
