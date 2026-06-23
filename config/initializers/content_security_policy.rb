@@ -12,7 +12,7 @@ Rails.application.configure do
                        'https://analytics.google.com',
                        'https://region1.google-analytics.com'
     policy.font_src    :self, :https, :data
-    policy.img_src     :self, :https, :data,
+    policy.img_src     :self, :https, :data, :blob,
                        'https://www.google-analytics.com',
                        'https://www.googletagmanager.com'
     policy.object_src  :none
