@@ -1,0 +1,262 @@
+@use "sass:list";
+@use "sass:math";
+
+@mixin commodity-tree-note($include-mobile-spacing: false) {
+  left: 0;
+  right: 0;
+  margin: govuk-spacing(3);
+  color: govuk-functional-colour(secondary-text);
+  font-size: 14px;
+  @include govuk-clearfix;
+
+  @if $include-mobile-spacing {
+    @include govuk-media-query($until: tablet) {
+      margin-bottom: 0;
+    }
+  }
+
+  span {
+    position: absolute;
+    left: -9999em;
+  }
+
+  em {
+    font-style: normal;
+    float: left;
+  }
+
+  .level {
+    width: px(($token-width - $token-padding) + $token-space);
+    display: none;
+
+    @include govuk-media-query($from: tablet) {
+      display: block;
+    }
+  }
+}
+
+@mixin commodity-tree-controls {
+  background-color: $panel-colour;
+  padding: 8px 16px;
+  vertical-align: top;
+  min-height: 25px;
+
+  a {
+    margin-right: 1em;
+    display: inline-block;
+    font-size: 14px;
+
+    @include govuk-media-query($from: tablet) {
+      font-size: 16px;
+    }
+  }
+}
+
+@mixin indented-item($level, $repeat-top-level-padding: true) {
+  $left-pos: -984px;
+
+  @if $level ==1 {
+    padding-left: 0;
+    font-weight: bold;
+
+    @include govuk-media-query($from: tablet) {
+      @if $repeat-top-level-padding {
+        padding-left: 0;
+      }
+
+      background-position: $left-pos + $token-width 1em;
+    }
+  }
+
+  @else {
+    margin-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 2))) * -1;
+    padding-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 1)));
+    font-weight: normal;
+
+    @include govuk-media-query($from: tablet) {
+      margin-left: px(($token-width * 2) + ($token-width * ($level - 2))) * -1;
+      padding-left: px(($token-width * 2) + ($token-width * ($level - 1)));
+      background-position: $left-pos + ($token-width * $level) 1em;
+    }
+  }
+}
+
+@mixin commodity-tree-item-hyphens {
+  @include govuk-media-query($from: tablet) {
+    $max_level: 20;
+    $dashes_spacing: $token-width;
+
+    @for $i from 2 through $max_level {
+      &.level-#{$i} {
+        $url_list: ();
+        $position_list: ();
+
+        @for $number_of_dashes from 1 through $i - 1 {
+          $url_list: list.append($url_list, url("/hyphen-6px.png"), comma);
+          $position_list: list.append($position_list,
+              top 20px left 25px + $number_of_dashes * $dashes_spacing,
+              comma);
+        }
+
+        background-image: $url_list;
+        background-repeat: no-repeat;
+        background-position: $position_list;
+      }
+    }
+  }
+}
+
+@mixin commodity-tree-list($include-padding: false, $include-mobile-spacing: false) {
+  @include govuk-clearfix;
+
+  @if $include-padding {
+    padding: 0;
+  }
+
+  margin: 1em;
+  position: relative;
+  font-size: 14px;
+
+  @include govuk-media-query($from: tablet) {
+    font-size: 16px;
+  }
+
+  @if $include-mobile-spacing {
+    @include govuk-media-query($until: tablet) {
+      margin-top: 1.5em;
+      margin-bottom: 1.5em;
+    }
+  }
+}
+
+@mixin commodity-tree-item($repeat-top-level-padding: true, $include-hyphens: false, $include-mobile-padding: false) {
+  @include govuk-clearfix;
+  @include indented-list(13, $repeat-top-level-padding);
+  display: block;
+  margin: 0;
+  position: relative;
+  word-wrap: break-word;
+
+  @if $include-hyphens {
+    @include commodity-tree-item-hyphens;
+  }
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:last-child>a,
+  &:last-child>ul {
+    border-bottom: none;
+  }
+
+  &.has_children,
+  a {
+    padding-top: 0.5em;
+
+    @if $include-mobile-padding {
+      @include govuk-media-query($until: tablet) {
+        &:first-child {
+          padding-top: 0;
+        }
+
+        padding-top: 1em;
+      }
+    }
+  }
+
+  ul,
+  a {
+    border-bottom: solid 1px #eee;
+  }
+}
+
+@mixin commodity-tree-link($include-hover: false) {
+  margin: 0;
+  text-decoration: none;
+  font-weight: normal;
+  position: relative;
+
+  @if $include-hover {
+    &:hover {
+      background-color: $highlight-colour;
+    }
+  }
+}
+
+@mixin commodity-tree-identifier-base {
+  font-family: ntatabularnumbers, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  display: inline-block;
+  width: $identifier-width;
+  border: 0;
+  padding: 0;
+
+  div {
+    text-align: center;
+    float: left;
+  }
+}
+
+@mixin commodity-tree-rate {
+  padding-right: em($token-padding, 14);
+  width: em(60, 14);
+  text-align: right;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+@mixin commodity-tree-article-link($include-min-height: false) {
+  display: block;
+  @include govuk-clearfix;
+  margin-left: 0;
+  padding-left: 0;
+
+  @if $include-min-height {
+    min-height: 1.6rem;
+  }
+}
+
+@mixin commodity-tree-nested-list {
+  margin: 0;
+  padding-left: 0;
+  clear: both;
+}
+
+@mixin commodity-tree-hidden-details {
+  display: none;
+  clear: both;
+}
+
+@mixin commodity-tree-description-base($include-font: false, $include-cursor: true, $include-position: true) {
+  @if $include-font {
+    @include govuk-font($size: 16, $weight: normal);
+  }
+
+  color: govuk-functional-colour(link);
+  padding-left: px($expand-arrow-space);
+  margin-left: -1 * px($expand-arrow-space);
+
+  @if $include-cursor {
+    cursor: pointer;
+  }
+
+  @if $include-position {
+    position: relative;
+  }
+}
+
+@mixin indented-list($levels, $repeat-top-level-padding: true) {
+  $indent-level: 1;
+
+  @while $indent-level < $levels {
+
+    &.level-#{$indent-level},
+    &.level-#{$indent-level} a {
+      @include indented-item($indent-level, $repeat-top-level-padding);
+    }
+
+    $indent-level: $indent-level + 1;
+  }
+}
