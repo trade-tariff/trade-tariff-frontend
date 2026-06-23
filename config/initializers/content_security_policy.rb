@@ -18,7 +18,7 @@ Rails.application.configure do
     policy.object_src  :none
     # unsafe-eval and strict-dynamic are required by Google Tag Manager
     policy.script_src  :self, :https, :unsafe_eval, :strict_dynamic
-    policy.style_src   :self, :https, :unsafe_inline
+    policy.style_src   :self, :https, :blob, :unsafe_inline
     # Specify URI for violation reports
     policy.report_uri '/csp-violation-report'
   end
