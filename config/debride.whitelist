@@ -935,6 +935,7 @@ TradeTariffFrontend#google_tag_manager_container_id
 TradeTariffFrontend#redis_config
 TradeTariffFrontend#roo_wizard?
 TradeTariffFrontend#single_trade_window_linking_enabled?
+TradeTariffFrontend#waf_integration_enabled?
 TradeTariffFrontend#webchat_enabled?
 TradeTariffFrontend#welsh?
 TradeTariffFrontend::ServiceChooser#currency
