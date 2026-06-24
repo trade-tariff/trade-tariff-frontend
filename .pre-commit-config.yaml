@@ -51,6 +51,11 @@ repos:
 
   - repo: local
     hooks:
+      - id: check-sass-structure
+        name: Check Sass structure
+        entry: bin/check-sass-structure
+        language: system
+        pass_filenames: false
       - id: trufflehog
         name: TruffleHog
         description: Detect secrets in your repo

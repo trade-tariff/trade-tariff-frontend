@@ -1,0 +1,176 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "pathname"
+require "set"
+
+ROOT = Pathname.new(__dir__).join("..").expand_path
+STYLESHEET_ROOT = ROOT.join("app/assets/stylesheets")
+LOCAL_SOURCE_ROOT = STYLESHEET_ROOT.join("src")
+VENDOR_SOURCE_ROOT = LOCAL_SOURCE_ROOT.join("vendor")
+ENTRYPOINTS = %w[
+  app/assets/stylesheets/application.sass.scss
+  app/assets/stylesheets/print.sass.scss
+].freeze
+
+Finding = Data.define(:path, :line, :message) do
+  def to_s
+    "#{path}:#{line}: #{message}"
+  end
+end
+
+def relative_path(path)
+  Pathname.new(path).relative_path_from(ROOT).to_s
+end
+
+def stylesheet_partials
+  LOCAL_SOURCE_ROOT.glob("**/*.{scss,sass}").reject do |path|
+    path.to_s.start_with?("#{VENDOR_SOURCE_ROOT}/")
+  end
+end
+
+def duplicate_import_findings(path)
+  seen = {}
+  findings = []
+
+  path.each_line.with_index(1) do |line, line_number|
+    next unless line =~ /^\s*@(use|import)\s+(?:url\()?["']([^"']+)["']/
+
+    directive = Regexp.last_match(1)
+    imported_path = Regexp.last_match(2)
+    key = [directive, imported_path]
+
+    if seen.key?(key)
+      findings << Finding.new(
+        path: relative_path(path),
+        line: line_number,
+        message: "duplicate @#{directive} of #{imported_path.inspect} first used on line #{seen[key]}",
+      )
+    else
+      seen[key] = line_number
+    end
+  end
+
+  findings
+end
+
+def selector_block_start?(line)
+  stripped = line.strip
+
+  return false if stripped.start_with?("@", "//", "/*", "*")
+  return false unless stripped.end_with?("{")
+
+  selector = stripped.delete_suffix("{").strip
+
+  selector.include?(".") || selector.include?("#")
+end
+
+def ignorable_empty_block_line?(line)
+  stripped = line.strip
+
+  stripped.empty? ||
+    stripped.start_with?("//") ||
+    stripped.start_with?("/*") ||
+    stripped.start_with?("*") ||
+    stripped.end_with?("*/")
+end
+
+def empty_selector_block_findings(path)
+  lines = path.readlines
+  findings = []
+  index = 0
+
+  while index < lines.length
+    line = lines[index]
+
+    if line.match?(/^\s*[.#][^{]+\{\s*\}\s*(?:\/\/.*)?$/)
+      findings << Finding.new(
+        path: relative_path(path),
+        line: index + 1,
+        message: "empty selector block",
+      )
+      index += 1
+      next
+    end
+
+    unless selector_block_start?(line)
+      index += 1
+      next
+    end
+
+    body_index = index + 1
+    body_empty = true
+
+    while body_index < lines.length
+      body_line = lines[body_index]
+      break if body_line.strip == "}"
+
+      unless ignorable_empty_block_line?(body_line)
+        body_empty = false
+        break
+      end
+
+      body_index += 1
+    end
+
+    if body_empty && body_index < lines.length && lines[body_index].strip == "}"
+      findings << Finding.new(
+        path: relative_path(path),
+        line: index + 1,
+        message: "empty selector block",
+      )
+      index = body_index + 1
+    else
+      index += 1
+    end
+  end
+
+  findings
+end
+
+def commented_out_declaration_findings(path)
+  findings = []
+  content = path.read
+
+  path.each_line.with_index(1) do |line, line_number|
+    next unless line =~ %r{^\s*// ?([a-z-]+)\s*:}
+    next if Regexp.last_match(1).match?(/\Ahttps?\z/)
+
+    findings << Finding.new(
+      path: relative_path(path),
+      line: line_number,
+      message: "commented-out declaration",
+    )
+  end
+
+  content.to_enum(:scan, %r{/\*.*?\*/}m).each do
+    comment = Regexp.last_match(0)
+    next unless comment.match?(/^\s*\/\*+\s*[a-z-]+\s*:/) ||
+                comment.match?(/^\s*\*+\s*[a-z-]+\s*:/)
+
+    line_number = content[0...Regexp.last_match.begin(0)].count("\n") + 1
+    findings << Finding.new(
+      path: relative_path(path),
+      line: line_number,
+      message: "commented-out declaration",
+    )
+  end
+
+  findings
+end
+
+findings = []
+
+ENTRYPOINTS.each do |entrypoint|
+  findings.concat(duplicate_import_findings(ROOT.join(entrypoint)))
+end
+
+stylesheet_partials.each do |path|
+  findings.concat(empty_selector_block_findings(path))
+  findings.concat(commented_out_declaration_findings(path))
+end
+
+if findings.any?
+  warn findings.map(&:to_s).join("\n")
+  exit 1
+end
