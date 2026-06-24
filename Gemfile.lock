@@ -162,6 +162,10 @@ GEM
       capybara (~> 3.0)
       ferrum (~> 0.17.0)
     date (3.5.1)
+    debride (1.15.2)
+      path_expander (~> 2.0)
+      prism (~> 1.7)
+      sexp_processor (~> 4.17)
     diff-lcs (1.6.2)
     docile (1.4.1)
     dotenv (3.2.0)
@@ -375,6 +379,7 @@ GEM
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
+    path_expander (2.0.1)
     plek (5.3.0)
     pp (0.6.3)
       prettyprint
@@ -546,6 +551,7 @@ GEM
     securerandom (0.4.1)
     sentry-raven (3.1.2)
       faraday (>= 1.0)
+    sexp_processor (4.17.5)
     shellany (0.0.1)
     shoulda-matchers (8.0.1)
       activesupport (>= 7.2)
@@ -619,6 +625,7 @@ DEPENDENCIES
   capybara
   cssbundling-rails
   cuprite
+  debride (~> 1.15)
   dotenv-rails
   factory_bot_rails
   faraday

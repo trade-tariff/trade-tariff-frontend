@@ -101,39 +101,6 @@ RSpec.describe ServiceHelper, type: :helper do
     end
   end
 
-  describe '#switch_service_link' do
-    subject(:link) { helper.switch_service_link }
-
-    before { allow(request).to receive(:path).and_return '/some_path' }
-
-    context 'when the selected service choice is uk' do
-      include_context 'with UK service'
-
-      it 'returns the link to the XI service' do
-        expect(link).to have_link 'Northern Ireland Online Tariff', href: '/xi/some_path'
-      end
-    end
-
-    context 'when the selected service choice is xi' do
-      include_context 'with XI service'
-
-      it 'returns the link to the current UK service' do
-        expect(link).to have_link 'UK Integrated Online Tariff', href: '/some_path'
-      end
-    end
-
-    context 'with url parts including service name' do
-      subject(:link) { helper.switch_service_link }
-
-      before { allow(request).to receive(:path).and_return '/some_path/uk-part' }
-
-      it 'switches correctly' do
-        expect(link).to have_link 'Northern Ireland Online Tariff',
-                                  href: '/xi/some_path/uk-part'
-      end
-    end
-  end
-
   describe '#switch_service_button' do
     subject { helper.switch_service_button }
 

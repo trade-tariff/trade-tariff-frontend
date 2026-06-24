@@ -490,12 +490,4 @@ RSpec.describe Search::InternalSearchResult do
       expect(result.description_intercept_message).to eq('Sets should be classified...')
     end
   end
-
-  describe '#description_intercept_term' do
-    it 'returns the matched term from the intercept' do
-      meta = { 'description_intercept' => { 'term' => 'toiletries set' } }
-      result = described_class.new([], meta)
-      expect(result.description_intercept_term).to eq('toiletries set')
-    end
-  end
 end

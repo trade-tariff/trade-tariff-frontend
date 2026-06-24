@@ -70,6 +70,7 @@ group :test do
   gem 'brakeman'
   gem 'capybara'
   gem 'cuprite'
+  gem 'debride', '~> 1.15', require: false
   gem 'factory_bot_rails'
   gem 'forgery'
   gem 'parallel_tests'

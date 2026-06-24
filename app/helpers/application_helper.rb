@@ -73,14 +73,6 @@ module ApplicationHelper
     %r{\A/(?:(?:xi|uk)/)?(?:#{normalized_prefixes.join('|')})}
   end
 
-  def currency_options
-    [['Pound sterling', 'GBP'], %w[Euro EUR]]
-  end
-
-  def chapter_forum_url(chapter)
-    chapter.forum_url.presence || "https://forum.trade-tariff.service.gov.uk/c/classification/chapter-#{chapter.short_code}"
-  end
-
   def current_url_without_parameters
     request.base_url + request.path
   end
@@ -119,12 +111,6 @@ module ApplicationHelper
     TariffDate.build(params.permit(:year, :month, :day).to_h).to_fs(:db)
   rescue Date::Error
     nil
-  end
-
-  def pretty_date_range(start_date, end_date)
-    pretty_end_date = end_date ? "<br>to #{end_date.to_formatted_s(:rfc822)}" : ''
-
-    (start_date.to_formatted_s(:rfc822) + pretty_end_date).html_safe
   end
 
   def breadcrumb_link_or_text(parent, child, caption)

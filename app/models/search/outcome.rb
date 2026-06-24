@@ -49,14 +49,6 @@ class Search
       @reference_match ||= ReferenceMatch.new(entries)
     end
 
-    def all_reference_matches
-      [reference_match.chapters, reference_match.headings].flatten
-    end
-
-    def all_gn_matches
-      [goods_nomenclature_match.chapters, goods_nomenclature_match.resulting_headings].flatten
-    end
-
     def gn_chapters_without_duplicates
       # TODO: - Do we need this if we're removing duplicates below anyway?
       goods_nomenclature_match.chapters.delete_if { |gc| reference_match.chapters.select { |rc| rc.code == gc.code }.any? }

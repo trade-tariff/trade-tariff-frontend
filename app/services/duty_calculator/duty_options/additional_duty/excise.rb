@@ -2,8 +2,6 @@ module DutyCalculator
   module DutyOptions
     module AdditionalDuty
       class Excise < DutyOptions::AdditionalDuty::Base
-        PRIORIY = 6
-
         include CommodityHelper
 
         def duty_calculation_row

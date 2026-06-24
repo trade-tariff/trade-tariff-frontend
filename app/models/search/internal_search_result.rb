@@ -48,10 +48,6 @@ class Search
 
     delegate :size, to: :all
 
-    def confident_results
-      @results.select { |r| r.try(:confidence).present? }
-    end
-
     def all_unknown_confidence?
       any? && @results.none? do |result|
         KNOWN_CONFIDENCE_LEVELS.include?(result.try(:confidence).to_s.downcase)
@@ -116,10 +112,6 @@ class Search
 
     def description_intercept_message
       description_intercept&.dig('message')
-    end
-
-    def description_intercept_term
-      description_intercept&.dig('term')
     end
 
     private

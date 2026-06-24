@@ -32,10 +32,6 @@ module GoodsNomenclatureHelper
     @goods_nomenclature_code
   end
 
-  def referer_goods_nomenclature_code(referer_link)
-    referer_link.match(%r{/commodities/(\d+)})[1] if referer_link.present? && referer_link.match(%r{/commodities/(\d+)}).present?
-  end
-
   private
 
   def anchor

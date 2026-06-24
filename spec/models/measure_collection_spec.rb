@@ -60,16 +60,6 @@ RSpec.describe MeasureCollection do
     end
   end
 
-  describe '#measure_with_highest_vat_rate' do
-    subject(:collection) { described_class.new([vat_measure_zero, vat_measure_standard, vat_measure_reduced]) }
-
-    let(:vat_measure_standard) { build(:measure, :vat_standard) }
-    let(:vat_measure_zero) { build(:measure, :vat_zero) }
-    let(:vat_measure_reduced) { build(:measure, :vat_reduced) }
-
-    it { expect(collection.measure_with_highest_vat_rate).to eq(vat_measure_standard) }
-  end
-
   describe '#measure_with_highest_vat_rate_erga_omnes' do
     subject(:collection) { described_class.new([vat_measure_zero, vat_measure_standard_erga_omnes, vat_measure_reduced]) }
 

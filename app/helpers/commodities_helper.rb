@@ -37,17 +37,6 @@ module CommoditiesHelper
     "#{code[0..1]}&nbsp;#{code[2..3]}&nbsp;#{code[4..]}".html_safe
   end
 
-  def format_commodity_code_based_on_level(commodity)
-    code = commodity.code.to_s
-    display_full_code = commodity.producline_suffix == GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX
-
-    if commodity.number_indents > 1 || display_full_code
-      # remove trailing pairs of zeros for non declarable
-      code = code.gsub(/0{2}+$/, '') if commodity.has_children?
-      tree_code(code, klass: nil)
-    end
-  end
-
   def convert_text_to_links(text)
     fragment = Nokogiri::HTML::DocumentFragment.parse(text.to_s)
 
@@ -214,27 +203,6 @@ module CommoditiesHelper
                 tag.div(format_commodity_code(commodity), class: 'code-text')
               end
       tree_commodity_code(commodity) + tag.p(commodity.to_s.html_safe)
-    end
-  end
-
-  def commodity_heading_full(commodity)
-    tag.li(class: 'commodity-li') do
-      tag.div(title: "Full tariff code: #{commodity.code}",
-              class: 'full-code',
-              'aria-describedby' => "commodity-#{commodity.code}") do
-                tag.div(format_full_code(commodity), class: 'code-text')
-              end
-      tag.p(commodity.to_s.html_safe)
-    end
-  end
-
-  def declarable_heading_full(commodity)
-    tag.li(class: 'commodity-li') do
-      tag.div(format_full_code(commodity),
-              title: "Full tariff code: #{commodity.code}",
-              class: 'full-code',
-              'aria-describedby' => "commodity-#{commodity.code}") +
-        tag.p(commodity.to_s.html_safe)
     end
   end
 
