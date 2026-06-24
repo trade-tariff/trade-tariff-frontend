@@ -43,25 +43,12 @@
   @include govuk.govuk-link-style-text;
 }
 
-#last-updated-at {
-  margin-top: govuk.govuk-spacing(6);
-}
-
 .pull-left {
   float: left;
 }
 
 .pull-right {
   float: right;
-}
-
-#mask {
-  position: fixed;
-  top: 0;
-  background-color: #333;
-  z-index: 5;
-  height: 100%;
-  width: 100%;
 }
 
 // terms

@@ -1,6 +1,6 @@
 @use "src/settings" as settings;
 
-#help_popup {
+.help-popup {
   background-color: settings.$tariff-body-background-colour;
   border: 1px settings.$tariff-heavy-border-colour solid;
   border-radius: 0.5em;
