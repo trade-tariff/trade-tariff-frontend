@@ -20,12 +20,16 @@ $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 
 // Base.
 @import 'src/base/legacy-grid-layout-conditionals';
-@import 'src/base/fixes';
+@import 'src/base/govuk-hint';
+@import 'src/base/gtm';
 @import 'src/base/typography';
 @import 'src/base/govuk-frontend-extensions';
 
 // GOV.UK overrides.
-@import 'src/overrides/forms';
+@import 'src/overrides/govuk-select';
+@import 'src/overrides/datepicker';
+@import 'src/overrides/custom-select';
+@import 'src/overrides/accessible-autocomplete';
 @import 'src/overrides/govuk-components';
 
 // Utilities.

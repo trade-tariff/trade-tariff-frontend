@@ -1,0 +1,5 @@
+// Applied by the GTM anti-flickering tag while the page loads.
+// Using a class avoids injecting a <style> element, which would violate style-src-elem CSP.
+html.abhide {
+  opacity: 0;
+}
