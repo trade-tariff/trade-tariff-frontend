@@ -4,6 +4,23 @@
   display: none;
 }
 
+.hidden-print {
+  display: none !important;
+}
+
+.visible-print {
+  display: initial !important;
+  visibility: visible !important;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
 .tariff-print-grid-column-full-width {
   @extend .govuk-grid-column-full;
 }

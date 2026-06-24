@@ -44,6 +44,16 @@ Use `utilities/` for tiny, explicit classes that are intentionally global. A uti
 
 Use `patterns/` for reusable compositions that are broader than a single component but narrower than base CSS, such as common table treatments.
 
+## Print CSS
+
+Keep `print.sass.scss` as the print entrypoint. It should import print base rules, print-only utilities, and component print partials rather than carrying full component implementations inline.
+
+Print partials should contain deltas over the screen component model. Shared component structure belongs with the screen component, and print partials should only describe what changes for printed output.
+
+Prefer GOV.UK print utilities in markup for simple show/hide behaviour, for example `govuk-!-display-none-print`. Use custom print CSS when the rule is reusable, structural, or cannot be expressed with a GOV.UK utility.
+
+Avoid duplicating complete screen components in print stylesheets. Extract shared Sass mixins or component structure first, then layer print deltas over the shared component.
+
 ## Change Rules
 
 - Prefer moving shared prerequisites into `settings/`, `tools/`, or `base/` rather than making one component depend on another component's import order.

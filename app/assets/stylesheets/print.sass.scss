@@ -6,6 +6,12 @@
 @use "src/settings";
 @use "src/tools";
 @use "src/base/legacy-grid-layout-conditionals";
+
+// Print base and shared print utilities.
 @use "src/print/base";
+
+// Component print deltas.
 @use "src/components/commodity-tree-print";
+
+// Shared print utilities.
 @use "src/print/utilities";
