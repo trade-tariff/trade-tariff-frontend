@@ -1,4 +1,4 @@
-<div class="feature-panel">
+<%= feature_panel do %>
   <h2 class="govuk-heading-m">Advance tariff rulings</h2>
   <p class="govuk-body">
     For more help in classifying your commodity, you can
@@ -17,9 +17,9 @@
   <p class="govuk-body">
     <%= govuk_link_to('Contact HMRC if you need help finding the right commodity code for your goods', 'https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods', new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text) %>.
   </p>
-</div>
+<% end %>
 
-<div class="feature-panel last-feature-panel">
+<%= feature_panel(last: true) do %>
   <h2 class="govuk-heading-m">Check how to import or export goods</h2>
 
   <p class="govuk-body">
@@ -35,4 +35,4 @@
     'how to make declarations for your goods to clear the UK border',
     'which paperwork you need to keep',
   ], type: :bullet %>
-</div>
+<% end %>

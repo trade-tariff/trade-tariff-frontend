@@ -51,8 +51,8 @@
   <h2 class="govuk-heading-s" id="agreement_text"><%= t '.agreement_title' %></h2>
 
   <%= govspeak remove_article_reference(form.object.scheme_details) %>
-  <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
-                                                 article_match: find_article_reference(form.object.scheme_details) if find_article_reference(form.object.scheme_details) %>
+  <%= downloadable_document(origin_reference_document: form.object.origin_reference_document,
+                            article_match: find_article_reference(form.object.scheme_details)) if find_article_reference(form.object.scheme_details) %>
 
 
   <%= govuk_warning_text(text: t('.cumulation.warning')) %>

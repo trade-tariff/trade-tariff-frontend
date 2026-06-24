@@ -1,4 +1,4 @@
-<div class="measure-inset" id="duty-calculator">
+<%= measure_inset(id: 'duty-calculator') do %>
   <%= image_tag('calculator.png', alt: 'Tariff duty calculator') %>
   <div>
     <p>
@@ -14,4 +14,4 @@
 
     <p><%= I18n.t("measure_type_message")%></p>
   </div>
-</div>
+<% end %>

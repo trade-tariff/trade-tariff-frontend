@@ -1,10 +1,11 @@
-<div class="gem-c-contextual-sidebar govuk-!-margin-bottom-0">
-<div class="gem-c-related-navigation">
-  <h2 id="related-nav-related_items-e81f23c1" class="gem-c-related-navigation__main-heading" data-track-count="sidebarrelateditemsection">
-    Latest news
-  </h2>
-
-  <nav role="navigation" class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-e81f23c1" data-module="gem-toggle">
+<%= contextual_sidebar do %>
+  <%= related_navigation do %>
+    <%= related_navigation_section(
+          title: 'Latest news',
+          heading_id: 'related-nav-related_items-e81f23c1',
+          heading_attributes: { data: { track_count: 'sidebarrelateditemsection' } },
+          nav_attributes: { data: { module: 'gem-toggle' } },
+        ) do %>
     <% news_items.each do |news_item| %>
       <article class="news-item">
         <p class="govuk-body-s govuk-!-margin-bottom-2">
@@ -21,6 +22,6 @@
     <% end %>
 
     <%= govuk_link_to 'See all latest news', news_items_path %>
-  </nav>
-</div>
-</div>
+    <% end %>
+  <% end %>
+<% end %>

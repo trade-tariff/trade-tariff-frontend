@@ -12,7 +12,7 @@
   </div>
 </div>
 
-<%= render 'shared/origin_reference_document',
+<%= downloadable_document(
       origin_reference_document: current_step.origin_reference_document,
-      article_match: find_article_reference(current_step.verification_text) \
-      if find_article_reference(current_step.verification_text) %>
+      article_match: find_article_reference(current_step.verification_text),
+    ) if find_article_reference(current_step.verification_text) %>

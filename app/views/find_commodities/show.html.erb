@@ -6,7 +6,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
+    <%= feature_panel(no_bottom_border: true, classes: 'govuk-form-group govuk-!-margin-0 govuk-!-padding-0') do %>
       <h2 class="govuk-heading-m">Search for a commodity</h2>
       <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
       <%= govuk_details(summary_text: 'Tips on searching for products') do %>
@@ -43,7 +43,7 @@
         safe_join([govuk_link_to('look for your product in the A-Z', a_z_index_path('a')), '.']),
       ], type: :bullet %>
 
-    </div>
+    <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third" id="recent-news">

@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe GovukFrontendHelper, type: :helper do
+  include GovukComponentsHelper
+
   describe '#contents_list_item' do
     subject { contents_list_item 'Some link', '#some-link' }
 
@@ -121,6 +123,88 @@ RSpec.describe GovukFrontendHelper, type: :helper do
       expect(filter).to have_css('.app-c-selected-filters__tag span[aria-hidden="true"]', text: '×', count: 2)
       expect(filter).to have_css('.govuk-visually-hidden', text: 'Remove this filter:', count: 2)
       expect(filter).to have_link('Clear all', href: '/live_issues')
+    end
+  end
+
+  describe '#related_navigation' do
+    subject(:navigation) { Capybara.string(rendered_navigation) }
+
+    let(:rendered_navigation) do
+      related_navigation(
+        title: 'Help and guidance',
+        wrapper: true,
+        heading_id: 'related-nav',
+        heading_attributes: { data: { track_count: 'sidebarRelatedItemSection' } },
+        nav_attributes: { data: { module: 'gem-toggle' } },
+        links: [
+          ['Classifying your goods', '/howto/commodity-codes'],
+          { text: 'How to use quotas', href: '/howto/quotas', options: { rel: 'help' } },
+        ],
+      )
+    end
+
+    it 'renders a contextual related navigation link list', :aggregate_failures do
+      expect(navigation).to have_css('.gem-c-contextual-sidebar.govuk-\\!-margin-bottom-0')
+      expect(navigation).to have_css('.gem-c-related-navigation')
+      expect(navigation).to have_css('h2#related-nav.gem-c-related-navigation__main-heading[data-track-count="sidebarRelatedItemSection"]', text: 'Help and guidance')
+      expect(navigation).to have_css('nav.gem-c-related-navigation__nav-section[role="navigation"][aria-labelledby="related-nav"][data-module="gem-toggle"]')
+      expect(navigation).to have_css('ul.gem-c-related-navigation__link-list')
+      expect(navigation).to have_link('Classifying your goods', href: '/howto/commodity-codes')
+      expect(navigation).to have_css('li.gem-c-related-navigation__link', count: 2)
+      expect(navigation).to have_css('a.gem-c-related-navigation__section-link.gem-c-related-navigation__section-link--sidebar.gem-c-related-navigation__section-link--other[rel="help"]', text: 'How to use quotas')
+    end
+
+    it 'uses nav aria-labelledby as the heading id when heading_id is not supplied', :aggregate_failures do
+      navigation = Capybara.string(
+        related_navigation_section(
+          title: 'Related information',
+          links: [],
+          nav_attributes: { aria: { labelledby: 'related-nav-related_items' } },
+        ),
+      )
+
+      expect(navigation).to have_css('h2#related-nav-related_items', text: 'Related information')
+      expect(navigation).to have_css('nav[aria-labelledby="related-nav-related_items"]')
+    end
+  end
+
+  describe '#card_list' do
+    subject(:cards) { Capybara.string(rendered_cards) }
+
+    let(:rendered_cards) do
+      card_list(
+        heading: 'Other ways to search',
+        cards: [
+          {
+            title: 'Keyword or commodity code',
+            href: '/find_commodity',
+            description: 'Search using keywords',
+            status: 'New',
+            heading_level: 3,
+          },
+        ],
+      )
+    end
+
+    it 'renders a GOV.UK Publishing-style card list', :aggregate_failures do
+      expect(cards).to have_css('.gem-c-cards')
+      expect(cards).to have_css('h2.gem-c-cards__heading', text: 'Other ways to search')
+      expect(cards).to have_css('ul.gem-c-cards__list.gem-c-cards__list--one-column')
+      expect(cards).to have_css('li.gem-c-cards__list-item')
+      expect(cards).to have_css('h3.gem-c-cards__sub-heading', text: 'Keyword or commodity code')
+      expect(cards).to have_css('.govuk-tag.gem-c-cards__status', text: 'New')
+      expect(cards).to have_css('.gem-c-cards__description', text: 'Search using keywords')
+    end
+  end
+
+  describe 'component wrapper helpers' do
+    it 'renders app, feature, inset, and measure wrappers with expected classes', :aggregate_failures do
+      expect(Capybara.string(app_card { 'content' })).to have_css('.app-card', text: 'content')
+      expect(Capybara.string(feature_panel(last: true, no_bottom_border: true) { 'content' })).to have_css('.feature-panel.last-feature-panel.no-bottom-border', text: 'content')
+      expect(Capybara.string(shaded_inset_panel(classes: 'explainer') { 'content' })).to have_css('.govuk-inset-text.govuk-inset-text--s.feature-panel--shaded.explainer', text: 'content')
+      expect(Capybara.string(tariff_information_inset(classes: 'residual-inset') { 'content' })).to have_css('.govuk-inset-text.tariff-inset-information.residual-inset', text: 'content')
+      expect(Capybara.string(tariff_meursing_inset(id: 'meursing') { 'content' })).to have_css('#meursing.govuk-inset-text.govuk-inset-text--s.no-inset.tariff-inset-meursing', text: 'content')
+      expect(Capybara.string(measure_inset(id: 'duty-calculator') { 'content' })).to have_css('#duty-calculator.measure-inset', text: 'content')
     end
   end
 

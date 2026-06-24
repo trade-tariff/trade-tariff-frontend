@@ -26,8 +26,7 @@
     <%= govspeak remove_article_reference(current_step.tolerances_text) %>
   </div>
 
-  <%= render 'shared/origin_reference_document',
-             origin_reference_document: current_step.origin_reference_document,
-             article_match: find_article_reference(current_step.tolerances_text) if find_article_reference(current_step.tolerances_text) %>
+  <%= downloadable_document(origin_reference_document: current_step.origin_reference_document,
+                            article_match: find_article_reference(current_step.tolerances_text)) if find_article_reference(current_step.tolerances_text) %>
 
 </div>

@@ -81,11 +81,8 @@
   </div>
 
   <div class="govuk-grid-column-one-third news-item__sidebar govuk-!-display-none-print">
-    <div class="gem-c-related-navigation">
-      <h3 class="gem-c-related-navigation__main-heading">
-        Latest content from this collection
-      </h3>
-
+    <%= related_navigation do %>
+      <%= related_navigation_section(title: 'Latest content from this collection', heading_level: 3) do %>
       <ul class="govuk-list govuk-!-margin-bottom-6">
         <% @collection_items.each do |collection_item| %>
           <li class="govuk-!-padding-top-2">
@@ -93,7 +90,8 @@
           </li>
         <% end %>
       </ul>
-    </div>
+      <% end %>
+    <% end %>
 
     <%= govuk_section_break(size: 'm', visible: true) %>
 

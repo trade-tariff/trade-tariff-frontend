@@ -21,8 +21,8 @@
 
   <div class="tariff-markdown">
     <%= govspeak remove_article_reference(form.object.neutral_elements_text) %>
-    <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
-                                                   article_match: find_article_reference(form.object.neutral_elements_text) if find_article_reference(form.object.neutral_elements_text) %>
+    <%= downloadable_document(origin_reference_document: form.object.origin_reference_document,
+                              article_match: find_article_reference(form.object.neutral_elements_text)) if find_article_reference(form.object.neutral_elements_text) %>
 
     <%= render 'shared/details', summary: t('.neutral_elements.example.summary'),
                                  content: govspeak(t('.neutral_elements.example.content_md')),
@@ -35,14 +35,14 @@
 
   <div class="tariff-markdown">
     <%= govspeak remove_article_reference(form.object.packaging_text) %>
-    <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
-                                                   article_match: find_article_reference(form.object.packaging_text) if find_article_reference(form.object.packaging_text) %>
+    <%= downloadable_document(origin_reference_document: form.object.origin_reference_document,
+                              article_match: find_article_reference(form.object.packaging_text)) if find_article_reference(form.object.packaging_text) %>
   </div>
 
   <div class="tariff-markdown">
     <%= govspeak remove_article_reference(form.object.packaging_retail_text) %>
-    <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
-               article_match: find_article_reference(form.object.packaging_retail_text) if find_article_reference(form.object.packaging_retail_text) %>
+    <%= downloadable_document(origin_reference_document: form.object.origin_reference_document,
+                              article_match: find_article_reference(form.object.packaging_retail_text)) if find_article_reference(form.object.packaging_retail_text) %>
   </div>
 
   <% if form.object.accessories_text %>
@@ -52,8 +52,8 @@
 
     <div class="tariff-markdown">
       <%= govspeak remove_article_reference(govspeak form.object.accessories_text) %>
-      <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
-                                                     article_match: find_article_reference(govspeak form.object.accessories_text) if find_article_reference(form.object.accessories_text) %>
+      <%= downloadable_document(origin_reference_document: form.object.origin_reference_document,
+                                article_match: find_article_reference(govspeak form.object.accessories_text)) if find_article_reference(form.object.accessories_text) %>
     </div>
   <% end %>
 

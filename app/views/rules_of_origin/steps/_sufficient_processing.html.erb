@@ -22,8 +22,8 @@
 
     <div class="tariff-markdown lettered-list">
       <%= govspeak remove_article_reference(form.object.insufficient_processing_text) %>
-      <%= render 'shared/origin_reference_document', origin_reference_document: form.object.origin_reference_document,
-                                                     article_match: find_article_reference(form.object.insufficient_processing_text) if find_article_reference(form.object.insufficient_processing_text) %>
+      <%= downloadable_document(origin_reference_document: form.object.origin_reference_document,
+                                article_match: find_article_reference(form.object.insufficient_processing_text)) if find_article_reference(form.object.insufficient_processing_text) %>
     </div>
   </div>
 

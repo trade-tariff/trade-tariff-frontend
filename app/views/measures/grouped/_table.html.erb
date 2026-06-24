@@ -3,9 +3,9 @@
 </h3>
 
 <% if local_assigns[:information] %>
-  <div class="govuk-inset-text tariff-inset-information">
+  <%= tariff_information_inset do %>
     <%= sanitize local_assigns[:information] %>
-  </div>
+  <% end %>
 <% end %>
 
 <% if local_assigns[:show_stw_text] %>
