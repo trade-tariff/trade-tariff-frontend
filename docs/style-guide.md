@@ -43,6 +43,7 @@ Use `BAU` as the ticket when there is no Jira story.
 
 - Use GOV.UK Sass variables, mixins, spacing, typography, and colour helpers before custom values.
 - Keep Sass scoped to a component, journey, or existing module under `app/assets/stylesheets/src/`.
+- Use [CSS and Sass architecture](css-architecture.md) when deciding stylesheet ownership, selector scope, print CSS structure, or GOV.UK override placement.
 - Do not use colour alone to convey meaning.
 - Check small screens, print styles where relevant, and long tariff descriptions or commodity codes.
 - Avoid broad overrides of GOV.UK classes unless the change is intentional, tested, and called out in the PR.
