@@ -133,6 +133,10 @@ RSpec.describe 'Commodity page', type: :request do
       expect(page).to have_content 'Asses'
     end
 
+    it 'renders the help popup with its styling class' do
+      expect(page).to have_css '#help_popup.help-popup'
+    end
+
     it 'displays Webchat link' do
       # ENV['WEBCHAT_URL'] = 'https://webchat_url_test'
 
