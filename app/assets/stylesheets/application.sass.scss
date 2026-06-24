@@ -27,7 +27,6 @@ $govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
 
 // GOV.UK overrides.
 @import 'src/overrides/govuk-select';
-@import 'src/overrides/datepicker';
 @import 'src/overrides/custom-select';
 @import 'src/overrides/accessible-autocomplete';
 @import 'src/overrides/govuk-components';

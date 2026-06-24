@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   margin: govuk-spacing(3);
-  color: govuk-functional-colour(secondary-text);
+  color: $tariff-secondary-text-colour;
   font-size: 14px;
   @include govuk-clearfix;
 
@@ -167,7 +167,7 @@
 
   ul,
   a {
-    border-bottom: solid 1px #eee;
+    border-bottom: solid 1px $tariff-muted-border-colour;
   }
 }
 
@@ -234,7 +234,7 @@
     @include govuk-font($size: 16, $weight: normal);
   }
 
-  color: govuk-functional-colour(link);
+  color: $tariff-link-colour;
   padding-left: px($expand-arrow-space);
   margin-left: -1 * px($expand-arrow-space);
 
