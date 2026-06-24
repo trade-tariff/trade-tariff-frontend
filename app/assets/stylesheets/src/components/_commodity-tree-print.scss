@@ -1,18 +1,22 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+@use "commodity-tree-shared" as tree;
+
 .commodity-tree {
-  border: 1px solid $panel-colour;
+  border: 1px solid settings.$panel-colour;
 
   .commodity-tree-note {
-    @include commodity-tree-note;
+    @include tree.commodity-tree-note;
   }
 
   .commodity-tree__additional-info {
     float: right;
-    width: $commodity-tree-info-width-print;
+    width: settings.$commodity-tree-info-width-print;
 
     em {
       font-style: normal;
       float: left;
-      margin-left: govuk-spacing(3);
+      margin-left: govuk.govuk-spacing(3);
 
       &:first-of-type {
         margin-left: 0;
@@ -20,7 +24,7 @@
     }
 
     .vat {
-      width: $vat-width-desktop;
+      width: settings.$vat-width-desktop;
       display: none;
       text-align: right;
       display: block;
@@ -31,7 +35,7 @@
     }
 
     .duty {
-      width: $duty-width-desktop;
+      width: settings.$duty-width-desktop;
       display: block;
 
       @media (orientation: portrait) {
@@ -40,7 +44,7 @@
     }
 
     .supplementary-units {
-      width: $supplementary-units-width-print;
+      width: settings.$supplementary-units-width-print;
       text-align: right;
       display: block;
 
@@ -50,7 +54,7 @@
     }
 
     .commcode {
-      width: $duty-width-desktop;
+      width: settings.$duty-width-desktop;
       float: right;
       text-align: right;
       display: block;
@@ -58,29 +62,29 @@
   }
 
   .tree-controls {
-    @include commodity-tree-controls;
+    @include tree.commodity-tree-controls;
   }
 
   ul.commodities {
-    @include commodity-tree-list;
+    @include tree.commodity-tree-list;
 
     li {
-      @include commodity-tree-item($repeat-top-level-padding: false);
+      @include tree.commodity-tree-item($repeat-top-level-padding: false);
 
       a {
-        @include commodity-tree-link($include-hover: true);
+        @include tree.commodity-tree-link($include-hover: true);
       }
 
       .commodity__info {
         float: right;
-        width: $commodity-tree-info-width-print;
+        width: settings.$commodity-tree-info-width-print;
         position: absolute;
         right: 0;
         bottom: 0;
-        @include govuk-clearfix;
+        @include govuk.govuk-clearfix;
 
         @media (orientation: portrait) {
-          width: $commodity-tree-info-width-print-portrait;
+          width: settings.$commodity-tree-info-width-print-portrait;
           text-align: right;
         }
 
@@ -93,8 +97,8 @@
         .supplementary-units {
           display: none;
           float: left;
-          margin-right: govuk-spacing(3);
-          color: govuk-functional-colour(text);
+          margin-right: govuk.govuk-spacing(3);
+          color: govuk.govuk-functional-colour(text);
           font-weight: normal;
           font-size: 14px;
           display: block;
@@ -105,36 +109,36 @@
         }
 
         .vat {
-          width: $vat-width-desktop;
+          width: settings.$vat-width-desktop;
           text-align: right;
         }
 
         .duty {
-          width: $duty-width-desktop;
+          width: settings.$duty-width-desktop;
         }
 
         .supplementary-units {
-          width: $supplementary-units-width-print;
+          width: settings.$supplementary-units-width-print;
           text-align: right;
         }
       }
 
       .identifier {
-        @include commodity-tree-identifier-base;
+        @include tree.commodity-tree-identifier-base;
       }
 
       .rate {
-        @include commodity-tree-rate;
+        @include tree.commodity-tree-rate;
       }
 
       article & a,
       .js-enabled article & a {
-        @include commodity-tree-article-link;
+        @include tree.commodity-tree-article-link;
       }
     }
 
     ul {
-      @include commodity-tree-nested-list;
+      @include tree.commodity-tree-nested-list;
     }
   }
 }
@@ -157,21 +161,21 @@
 }
 
 .chapter-code {
-  background-color: $chapter-code-bg;
-  width: $chapter-code-width;
-  height: $chapter-code-height;
+  background-color: settings.$chapter-code-bg;
+  width: settings.$chapter-code-width;
+  height: settings.$chapter-code-height;
 }
 
 .heading-code {
-  background-color: $heading-code-bg;
-  width: $heading-code-width;
-  height: $chapter-code-height;
+  background-color: settings.$heading-code-bg;
+  width: settings.$heading-code-width;
+  height: settings.$chapter-code-height;
 }
 
 .commodity-code {
-  background-color: $commodity-code-bg;
-  width: $commodity-code-width-desktop;
-  height: $chapter-code-height;
+  background-color: settings.$commodity-code-bg;
+  width: settings.$commodity-code-width-desktop;
+  height: settings.$chapter-code-height;
 
   >.code-text {
     position: relative;
@@ -184,11 +188,11 @@ li.open {
 }
 
 li:not(.has_children) .description {
-  @include commodity-tree-description-base;
-  width: calc(100% - #{$commodity-tree-description-width-offset-print});
+  @include tree.commodity-tree-description-base;
+  width: calc(100% - #{settings.$commodity-tree-description-width-offset-print});
 
   @media (orientation: landscape) {
-    width: calc(100% - #{$identifier-width-desktop + $commodity-tree-leaf-description-width-offset-print-landscape});
+    width: calc(100% - #{settings.$identifier-width-desktop + settings.$commodity-tree-leaf-description-width-offset-print-landscape});
   }
 
   &.without_right_margin {
@@ -198,17 +202,17 @@ li:not(.has_children) .description {
 
 li.has_children {
   .description {
-    @include commodity-tree-description-base($include-cursor: false, $include-position: false);
+    @include tree.commodity-tree-description-base($include-cursor: false, $include-position: false);
     background-image: url("../images/expand-collapse-transparent_commodity-tree.png");
     background-position: 0 4px;
     background-repeat: no-repeat;
     cursor: pointer;
     position: relative;
     /* to give z-index */
-    width: calc(100% - #{$commodity-tree-description-width-offset-print});
+    width: calc(100% - #{settings.$commodity-tree-description-width-offset-print});
 
     @media (orientation: landscape) {
-      width: calc(100% - #{$identifier-width-desktop + $commodity-tree-parent-description-width-offset-print-landscape});
+      width: calc(100% - #{settings.$identifier-width-desktop + settings.$commodity-tree-parent-description-width-offset-print-landscape});
     }
 
     &.without_right_margin {
@@ -218,7 +222,7 @@ li.has_children {
 
   .description:hover,
   .description-hover {
-    color: govuk-functional-colour(link-hover);
+    color: govuk.govuk-functional-colour(link-hover);
   }
 
   a .description {
@@ -235,7 +239,7 @@ li.has_children {
 .conditions,
 .footnotes,
 .additional-codes {
-  @include commodity-tree-hidden-details;
+  @include tree.commodity-tree-hidden-details;
 }
 
 .tree-controls {
@@ -243,7 +247,7 @@ li.has_children {
 }
 
 .commodity-tree-note {
-  background: $table-header-bg;
+  background: settings.$table-header-bg;
   margin: 0 !important;
-  padding: govuk-spacing(3);
+  padding: govuk.govuk-spacing(3);
 }

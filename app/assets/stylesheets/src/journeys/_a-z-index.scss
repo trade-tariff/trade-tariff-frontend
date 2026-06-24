@@ -1,9 +1,11 @@
+@use "src/settings/govuk" as govuk;
+
 .a-z {
   ol.index {
     margin-bottom: 1.25em;
 
-    @include govuk-media-query($until: tablet) {
-      margin-bottom: govuk-spacing(6);
+    @include govuk.govuk-media-query($until: tablet) {
+      margin-bottom: govuk.govuk-spacing(6);
     }
 
     li {

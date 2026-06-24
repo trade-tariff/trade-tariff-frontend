@@ -1,16 +1,20 @@
 @use "sass:list";
 @use "sass:math";
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+@use "src/tools" as tools;
+
 
 @mixin commodity-tree-note($include-mobile-spacing: false) {
   left: 0;
   right: 0;
-  margin: govuk-spacing(3);
-  color: $tariff-secondary-text-colour;
+  margin: govuk.govuk-spacing(3);
+  color: settings.$tariff-secondary-text-colour;
   font-size: 14px;
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
 
   @if $include-mobile-spacing {
-    @include govuk-media-query($until: tablet) {
+    @include govuk.govuk-media-query($until: tablet) {
       margin-bottom: 0;
     }
   }
@@ -26,17 +30,17 @@
   }
 
   .level {
-    width: px(($token-width - $token-padding) + $token-space);
+    width: tools.px((settings.$token-width - settings.$token-padding) + settings.$token-space);
     display: none;
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       display: block;
     }
   }
 }
 
 @mixin commodity-tree-controls {
-  background-color: $panel-colour;
+  background-color: settings.$panel-colour;
   padding: 8px 16px;
   vertical-align: top;
   min-height: 25px;
@@ -46,7 +50,7 @@
     display: inline-block;
     font-size: 14px;
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       font-size: 16px;
     }
   }
@@ -59,32 +63,32 @@
     padding-left: 0;
     font-weight: bold;
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       @if $repeat-top-level-padding {
         padding-left: 0;
       }
 
-      background-position: $left-pos + $token-width 1em;
+      background-position: $left-pos + settings.$token-width 1em;
     }
   }
 
   @else {
-    margin-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 2))) * -1;
-    padding-left: px(($token-width * 2) + (math.div($token-width, 3) * ($level - 1)));
+    margin-left: tools.px((settings.$token-width * 2) + (math.div(settings.$token-width, 3) * ($level - 2))) * -1;
+    padding-left: tools.px((settings.$token-width * 2) + (math.div(settings.$token-width, 3) * ($level - 1)));
     font-weight: normal;
 
-    @include govuk-media-query($from: tablet) {
-      margin-left: px(($token-width * 2) + ($token-width * ($level - 2))) * -1;
-      padding-left: px(($token-width * 2) + ($token-width * ($level - 1)));
-      background-position: $left-pos + ($token-width * $level) 1em;
+    @include govuk.govuk-media-query($from: tablet) {
+      margin-left: tools.px((settings.$token-width * 2) + (settings.$token-width * ($level - 2))) * -1;
+      padding-left: tools.px((settings.$token-width * 2) + (settings.$token-width * ($level - 1)));
+      background-position: $left-pos + (settings.$token-width * $level) 1em;
     }
   }
 }
 
 @mixin commodity-tree-item-hyphens {
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     $max_level: 20;
-    $dashes_spacing: $token-width;
+    $dashes_spacing: settings.$token-width;
 
     @for $i from 2 through $max_level {
       &.level-#{$i} {
@@ -107,7 +111,7 @@
 }
 
 @mixin commodity-tree-list($include-padding: false, $include-mobile-spacing: false) {
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
 
   @if $include-padding {
     padding: 0;
@@ -117,12 +121,12 @@
   position: relative;
   font-size: 14px;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     font-size: 16px;
   }
 
   @if $include-mobile-spacing {
-    @include govuk-media-query($until: tablet) {
+    @include govuk.govuk-media-query($until: tablet) {
       margin-top: 1.5em;
       margin-bottom: 1.5em;
     }
@@ -130,7 +134,7 @@
 }
 
 @mixin commodity-tree-item($repeat-top-level-padding: true, $include-hyphens: false, $include-mobile-padding: false) {
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
   @include indented-list(13, $repeat-top-level-padding);
   display: block;
   margin: 0;
@@ -155,7 +159,7 @@
     padding-top: 0.5em;
 
     @if $include-mobile-padding {
-      @include govuk-media-query($until: tablet) {
+      @include govuk.govuk-media-query($until: tablet) {
         &:first-child {
           padding-top: 0;
         }
@@ -167,7 +171,7 @@
 
   ul,
   a {
-    border-bottom: solid 1px $tariff-muted-border-colour;
+    border-bottom: solid 1px settings.$tariff-muted-border-colour;
   }
 }
 
@@ -179,7 +183,7 @@
 
   @if $include-hover {
     &:hover {
-      background-color: $highlight-colour;
+      background-color: settings.$highlight-colour;
     }
   }
 }
@@ -188,7 +192,7 @@
   font-family: ntatabularnumbers, "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-weight: normal;
   display: inline-block;
-  width: $identifier-width;
+  width: settings.$identifier-width;
   border: 0;
   padding: 0;
 
@@ -199,7 +203,7 @@
 }
 
 @mixin commodity-tree-rate {
-  padding-right: em($token-padding, 14);
+  padding-right: em(settings.$token-padding, 14);
   width: em(60, 14);
   text-align: right;
   position: absolute;
@@ -209,7 +213,7 @@
 
 @mixin commodity-tree-article-link($include-min-height: false) {
   display: block;
-  @include govuk-clearfix;
+  @include govuk.govuk-clearfix;
   margin-left: 0;
   padding-left: 0;
 
@@ -231,12 +235,12 @@
 
 @mixin commodity-tree-description-base($include-font: false, $include-cursor: true, $include-position: true) {
   @if $include-font {
-    @include govuk-font($size: 16, $weight: normal);
+    @include govuk.govuk-font($size: 16, $weight: normal);
   }
 
-  color: $tariff-link-colour;
-  padding-left: px($expand-arrow-space);
-  margin-left: -1 * px($expand-arrow-space);
+  color: settings.$tariff-link-colour;
+  padding-left: tools.px(settings.$expand-arrow-space);
+  margin-left: -1 * tools.px(settings.$expand-arrow-space);
 
   @if $include-cursor {
     cursor: pointer;

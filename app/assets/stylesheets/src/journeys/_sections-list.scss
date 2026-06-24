@@ -1,5 +1,7 @@
+@use "src/settings/govuk" as govuk;
+
 .sections {
-  @include govuk-media-query($until: tablet) {
+  @include govuk.govuk-media-query($until: tablet) {
     tr {
       display: block;
       padding-top: 0.63158em;
@@ -27,10 +29,18 @@
       display: block;
       border-bottom: 0;
     }
-    .govuk-table__row {
-      border-bottom: 1px solid govuk-functional-colour(border);
+    .govuk-table__row,
+    .tariff-markdown table tr {
+      border-bottom: 1px solid govuk.govuk-functional-colour(border);
     }
-    .govuk-table__row:first-child {
+    @at-root .tariff-markdown table .sections tr {
+      border-bottom: 1px solid govuk.govuk-functional-colour(border);
+    }
+    .govuk-table__row:first-child,
+    .tariff-markdown table tr:first-child {
+      padding-top: 0;
+    }
+    @at-root .tariff-markdown table .sections tr:first-child {
       padding-top: 0;
     }
   }

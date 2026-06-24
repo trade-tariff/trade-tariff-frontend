@@ -1,3 +1,5 @@
+@use "src/settings" as settings;
+
 .custom-select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -5,7 +7,7 @@
 
   font-size: 19px;
 
-  border: 2px solid $tariff-input-border-colour;
+  border: 2px solid settings.$tariff-input-border-colour;
   min-width: 8em;
   margin: 0;
   padding: 0.369em 0.25em;
@@ -14,7 +16,7 @@
   border-radius: 0 !important;
   display: inline-block;
 
-  background-color: $tariff-body-background-colour;
+  background-color: settings.$tariff-body-background-colour;
   background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMC8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQnPjxzdmcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjQgMjQiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjAiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHBvbHlsaW5lIGZpbGw9Im5vbmUiIHBvaW50cz0iMjEsOC41IDEyLDE3LjUgMyw4LjUgIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+");
   background-position: calc(100% - 0.5em) center;
   background-repeat: no-repeat;
@@ -22,13 +24,13 @@
 }
 
 .custom-select:focus {
-  outline: 3px solid $tariff-focus-colour;
+  outline: 3px solid settings.$tariff-focus-colour;
   outline-offset: 0;
   box-shadow: inset 0 0 0 2px;
 }
 
 .custom-select:disabled,
 .custom-select[readonly] {
-  background-color: $tariff-border-colour;
-  color: $tariff-text-colour;
+  background-color: settings.$tariff-border-colour;
+  color: settings.$tariff-text-colour;
 }

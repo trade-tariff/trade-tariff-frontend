@@ -1,10 +1,13 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
 
 .govspeak .attachment,
 .gem-c-govspeak .attachment {
-  @include govuk-responsive-margin(6, "top");
-  @include govuk-responsive-margin(6, "bottom");
+  @include govuk.govuk-responsive-margin(6, "top");
+  @include govuk.govuk-responsive-margin(6, "bottom");
 
-  padding: govuk-spacing(3) 0 0 129px;
+  padding: govuk.govuk-spacing(3) 0 0 129px;
   position: relative;
 }
 
@@ -17,11 +20,11 @@
 
   .attachment-thumb {
     img {
-      border: 5px solid $tariff-white;
+      border: 5px solid settings.$tariff-white;
       max-width: 99px;
       width: 100%;
 
-      @include govuk-media-query($until: tablet) {
+      @include govuk.govuk-media-query($until: tablet) {
         max-width: 50px;
       }
     }
@@ -41,18 +44,18 @@ table.commodity-code-exemplar td {
 
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(1),
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(2) {
-  background-color: $coloured-commodity-code--first;
+  background-color: settings.$coloured-commodity-code--first;
 }
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(3),
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(4) {
-  background-color: $coloured-commodity-code--second;
+  background-color: settings.$coloured-commodity-code--second;
 }
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(5) {
-  background-color: $coloured-commodity-code--third;
+  background-color: settings.$coloured-commodity-code--third;
 }
 
 .howto-image {
   max-width: 640px;
-  border: 1px solid $tariff-heavy-border-colour;
+  border: 1px solid settings.$tariff-heavy-border-colour;
   margin-bottom: 1em;
 }

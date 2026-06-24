@@ -1,3 +1,5 @@
+@use "src/tools" as tools;
+
 .faq-feedback-button {
-  @include govuk-link-button-reset;
+  @include tools.govuk-link-button-reset;
 }

@@ -1,24 +1,34 @@
-@import "commodity-tree-shared";
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+@use "commodity-tree-shared" as tree;
+
 
 .commodity-tree {
-  border: 1px solid $panel-colour;
+  border: 1px solid settings.$panel-colour;
 
-  .govuk-list[aria-hidden="true"] {
+  .govuk-list[aria-hidden="true"],
+  .tariff-markdown ol[aria-hidden="true"],
+  .tariff-markdown ul[aria-hidden="true"] {
+    display: none;
+  }
+
+  @at-root .tariff-markdown .commodity-tree ol[aria-hidden="true"],
+    .tariff-markdown .commodity-tree ul[aria-hidden="true"] {
     display: none;
   }
 
   .commodity-tree-note {
-    @include commodity-tree-note($include-mobile-spacing: true);
+    @include tree.commodity-tree-note($include-mobile-spacing: true);
   }
 
   .commodity-tree__additional-info {
     float: right;
-    width: $commodity-tree-info-width-desktop;
+    width: settings.$commodity-tree-info-width-desktop;
 
     em {
       font-style: normal;
       float: left;
-      margin-left: govuk-spacing(3);
+      margin-left: govuk.govuk-spacing(3);
 
       &:first-of-type {
         margin-left: 0;
@@ -26,68 +36,68 @@
     }
 
     .vat {
-      width: $vat-width-desktop;
+      width: settings.$vat-width-desktop;
       display: none;
       text-align: left;
 
-      @include govuk-media-query($from: $headings-large-viewport) {
+      @include govuk.govuk-media-query($from: settings.$headings-large-viewport) {
         display: block;
       }
     }
 
     .duty {
-      width: $duty-width-desktop;
+      width: settings.$duty-width-desktop;
       display: none;
       text-align: left;
 
-      @include govuk-media-query($from: $headings-large-viewport) {
+      @include govuk.govuk-media-query($from: settings.$headings-large-viewport) {
         display: block;
       }
     }
 
     .supplementary-units {
-      width: $supplementary-units-width-desktop;
+      width: settings.$supplementary-units-width-desktop;
       display: none;
       text-align: left;
 
-      @include govuk-media-query($from: $headings-large-viewport) {
+      @include govuk.govuk-media-query($from: settings.$headings-large-viewport) {
         display: block;
       }
     }
 
     .commcode {
-      width: $commodity-code-width-desktop;
+      width: settings.$commodity-code-width-desktop;
       float: left;
       text-align: left;
       display: none;
 
-      @include govuk-media-query($from: $headings-large-viewport) {
+      @include govuk.govuk-media-query($from: settings.$headings-large-viewport) {
         display: block;
       }
     }
   }
 
   .tree-controls {
-    @include commodity-tree-controls;
+    @include tree.commodity-tree-controls;
   }
 
   ul.commodities {
-    @include commodity-tree-list($include-padding: true, $include-mobile-spacing: true);
+    @include tree.commodity-tree-list($include-padding: true, $include-mobile-spacing: true);
 
     li {
-      @include commodity-tree-item($include-hyphens: true, $include-mobile-padding: true);
+      @include tree.commodity-tree-item($include-hyphens: true, $include-mobile-padding: true);
 
       a {
-        @include commodity-tree-link;
+        @include tree.commodity-tree-link;
       }
 
       .commodity__info {
         font-size: 16px;
-        @include govuk-clearfix;
+        @include govuk.govuk-clearfix;
 
-        @include govuk-media-query($from: tablet) {
+        @include govuk.govuk-media-query($from: tablet) {
           float: right;
-          width: $commodity-tree-info-width-desktop;
+          width: settings.$commodity-tree-info-width-desktop;
         }
 
         .lte-ie8 & {
@@ -99,12 +109,12 @@
         .supplementary-units {
           display: none;
           float: left;
-          margin-right: govuk-spacing(3);
-          color: govuk-functional-colour(text);
+          margin-right: govuk.govuk-spacing(3);
+          color: govuk.govuk-functional-colour(text);
           font-weight: normal;
           font-size: 0.9em;
 
-          @include govuk-media-query($from: $headings-large-viewport) {
+          @include govuk.govuk-media-query($from: settings.$headings-large-viewport) {
             display: block;
           }
         }
@@ -130,13 +140,13 @@
         font-weight: normal;
         padding-bottom: 0.2em;
         display: inline-block;
-        width: $identifier-width;
+        width: settings.$identifier-width;
         border: 0;
         padding: 0;
         margin-top: 0.5em;
 
-        @include govuk-media-query($from: tablet) {
-          color: govuk-functional-colour(text);
+        @include govuk.govuk-media-query($from: tablet) {
+          color: govuk.govuk-functional-colour(text);
           position: absolute;
           right: 0;
           top: -.05em;
@@ -150,49 +160,49 @@
 
       // service-uk includes a vat column so needs to be shunted further right by its width
       .service-uk.identifier {
-        @include govuk-media-query($from: tablet) {
-          width: $identifier-width-desktop-uk;
+        @include govuk.govuk-media-query($from: tablet) {
+          width: settings.$identifier-width-desktop-uk;
         }
       }
 
       // service-xi excludes a vat column so needs to be shunted further right by its width
       .service-xi.identifier {
-        @include govuk-media-query($from: tablet) {
-          width: $identifier-width-desktop-xi;
+        @include govuk.govuk-media-query($from: tablet) {
+          width: settings.$identifier-width-desktop-xi;
         }
       }
 
       .rate {
-        @include commodity-tree-rate;
+        @include tree.commodity-tree-rate;
       }
 
       article & a,
       .js-enabled article & a {
-        @include commodity-tree-article-link($include-min-height: true);
+        @include tree.commodity-tree-article-link($include-min-height: true);
       }
     }
 
     ul {
-      @include commodity-tree-nested-list;
+      @include tree.commodity-tree-nested-list;
     }
   }
 
 .commodity-tree-note em {
-  @include govuk-font($size: false, $weight: normal);
+  @include govuk.govuk-font($size: false, $weight: normal);
   font-size: 14px;
 }
 
 li:not(.has_children) .description {
-  @include commodity-tree-description-base($include-font: true);
+  @include tree.commodity-tree-description-base($include-font: true);
   /* to give z-index */
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     float: left;
     width: calc(100% - 165px);
   }
 
-  @include govuk-media-query($from: $headings-large-viewport) {
-    width: calc(100% - #{$identifier-width-desktop - 10px});
+  @include govuk.govuk-media-query($from: settings.$headings-large-viewport) {
+    width: calc(100% - #{settings.$identifier-width-desktop - 10px});
   }
 
   &.without_right_margin {
@@ -202,16 +212,16 @@ li:not(.has_children) .description {
 
 li.has_children {
   .description {
-    @include commodity-tree-description-base($include-font: true, $include-cursor: false);
+    @include tree.commodity-tree-description-base($include-font: true, $include-cursor: false);
     /* to give z-index */
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       float: left;
       width: calc(100% - 165px);
     }
 
-    @include govuk-media-query($from: $headings-large-viewport) {
-      width: calc(100% - #{$identifier-width-desktop - 10px});
+    @include govuk.govuk-media-query($from: settings.$headings-large-viewport) {
+      width: calc(100% - #{settings.$identifier-width-desktop - 10px});
     }
 
     &.without_right_margin {
@@ -243,7 +253,7 @@ li.has_children {
 
   .description:hover,
   .description-hover {
-    color: govuk-functional-colour(link-hover);
+    color: govuk.govuk-functional-colour(link-hover);
   }
 
   a .description {
@@ -270,18 +280,28 @@ li.has_children {
 .conditions,
 .footnotes,
 .additional-codes {
-  @include commodity-tree-hidden-details;
+  @include tree.commodity-tree-hidden-details;
 }
 
 .additional-code-table {
-  @include govuk-font($size: 16);
-  @include govuk-responsive-margin(2, "bottom");
+  @include govuk.govuk-font($size: 16);
+  @include govuk.govuk-responsive-margin(2, "bottom");
 
-  .govuk-table__body .govuk-table__cell {
+  .govuk-table__body .govuk-table__cell,
+  .govuk-table__body .tariff-markdown table td {
     padding: 0.1rem;
   }
 
-  .govuk-table__head .govuk-table__header {
+  @at-root .tariff-markdown table .commodity-tree .additional-code-table .govuk-table__body td {
+    padding: 0.1rem;
+  }
+
+  .govuk-table__head .govuk-table__header,
+  .govuk-table__head .tariff-markdown table th {
+    padding: 0.1rem;
+  }
+
+  @at-root .tariff-markdown table .commodity-tree .additional-code-table .govuk-table__head th {
     padding: 0.1rem;
   }
 }

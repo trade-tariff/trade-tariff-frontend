@@ -1,16 +1,19 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
 .panel {
   text-align: left;
-  padding: govuk-spacing(4) - $govuk-border-width;
-  @include govuk-responsive-margin(6, "top");
-  @include govuk-responsive-margin(6, "bottom");
+  padding: govuk.govuk-spacing(4) - govuk.$govuk-border-width;
+  @include govuk.govuk-responsive-margin(6, "top");
+  @include govuk.govuk-responsive-margin(6, "bottom");
 
 
   &--coloured {
-    background-color: $coloured-panel-background-colour;
+    background-color: settings.$coloured-panel-background-colour;
   }
 
   &--grey {
-    background-color: govuk-colour("black", $variant: "tint-95");
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
   }
 
   .govuk-warning-text {
@@ -19,6 +22,6 @@
 }
 
 .panel-border-wide {
-  border-width: 0 0 0 $govuk-border-width-wide;
-  border-color: govuk-functional-colour(border);
+  border-width: 0 0 0 govuk.$govuk-border-width-wide;
+  border-color: govuk.govuk-functional-colour(border);
 }

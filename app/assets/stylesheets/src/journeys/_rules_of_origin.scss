@@ -1,8 +1,11 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
 .rules-of-origin-heading {
   display: flex;
 
   img.country-flag {
-    box-shadow: 2px 2px 2px $tariff-mid-border-colour;
+    box-shadow: 2px 2px 2px settings.$tariff-mid-border-colour;
     top: 3px;
     position: relative;
     height: 20px;
@@ -14,10 +17,10 @@
 .rules-of-origin-explainer {
   display            : block;
   margin             : 1em 0 0.5em 0;
-  border-left        : 8px $tariff-inset-border-left-color-meursing solid;
+  border-left        : 8px settings.$tariff-inset-border-left-color-meursing solid;
   padding            : 0.25em 0.25em 0.25em 0.5em;
-  color              : $tariff-text-colour;
-  background-color   : $tariff-inset-background-color-meursing;
+  color              : settings.$tariff-text-colour;
+  background-color   : settings.$tariff-inset-background-color-meursing;
   font-size          : 16px;
   line-height        : 1.5em;
 }
@@ -39,8 +42,8 @@
 }
 
 .rules-of-origin-met-message {
-  padding: govuk-spacing(3);
-  background-color: $tariff-muted-background-colour;
+  padding: govuk.govuk-spacing(3);
+  background-color: settings.$tariff-muted-background-colour;
   margin-bottom: 2em;
 
   p {
@@ -53,7 +56,7 @@
     max-width: 75%;
   }
 
-  @include govuk-media-query($until: tablet) {
+  @include govuk.govuk-media-query($until: tablet) {
     img {
       max-width: 100%;
     }

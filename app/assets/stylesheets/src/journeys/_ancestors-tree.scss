@@ -1,13 +1,16 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
 .commodity-ancestors {
   margin-bottom: 1em;
   padding: 1em 0 0.5em 1em;
-  background-color: $shaded-panel-background-colour;
+  background-color: settings.$shaded-panel-background-colour;
 
   ol li {
     margin-bottom: 0.5em;
 
     > * {
-      @include govuk-font($size: 16) ;
+      @include govuk.govuk-font($size: 16) ;
       line-height: 21.05px !important ;
       display: grid;
       grid-auto-flow: dense;
@@ -15,7 +18,7 @@
       grid-column-gap: 10px;
       position: relative;
 
-      @include govuk-media-query($from: tablet) {
+      @include govuk.govuk-media-query($from: tablet) {
         grid-template-columns: [row-start] 7fr [identifier-start] 2fr [row-end];
       }
     }
@@ -23,14 +26,14 @@
     @for $i from 2 through 16 {
       &:nth-of-type(#{$i}) {
         .commodity-ancestors__descriptor {
-          margin-left: ($i - 2) * 10 + govuk-spacing(2);
+          margin-left: ($i - 2) * 10 + govuk.govuk-spacing(2);
 
           &::before {
             left: ($i - 2) * 10 - 2px;
           }
 
-          @include govuk-media-query($from: tablet) {
-            margin-left: ($i - 2) * 20 + govuk-spacing(4);
+          @include govuk.govuk-media-query($from: tablet) {
+            margin-left: ($i - 2) * 20 + govuk.govuk-spacing(4);
 
             &::before {
               left: ($i - 2) * 20 + 4px;
@@ -60,13 +63,13 @@
       display: inline-block;
       padding: 0;
       margin: 0 1em 0 0;
-      color: govuk-functional-colour(text);
+      color: govuk.govuk-functional-colour(text);
       content: '\002514';
       font-size: 12px;
       position: absolute;
       top: 0.125em;
 
-      @include govuk-media-query($from: tablet) {
+      @include govuk.govuk-media-query($from: tablet) {
         top: 0.15em;
       }
     }

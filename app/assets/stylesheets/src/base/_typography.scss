@@ -1,3 +1,6 @@
+@use "src/settings/govuk" as govuk;
+@use "govuk-frontend/dist/govuk" as govuk-frontend;
+
 @font-face {
   font-family: 'Azeret Mono';
   font-style: normal;
@@ -20,20 +23,20 @@
 blockquote {
   @extend .govuk-body;
 
-  padding: govuk-spacing(2);
+  padding: govuk.govuk-spacing(2);
   margin-left: 0;
   margin-right: 0;
-  background-color: govuk-colour("black", $variant: "tint-95");
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
 }
 
 .tariff-body-subtext {
   @extend .govuk-body-s;
 
-  color: govuk-functional-colour(secondary-text);
+  color: govuk.govuk-functional-colour(secondary-text);
 
   a,
   a:visited,
   a:hover {
-    color: govuk-functional-colour(secondary-text);
+    color: govuk.govuk-functional-colour(secondary-text);
   }
 }

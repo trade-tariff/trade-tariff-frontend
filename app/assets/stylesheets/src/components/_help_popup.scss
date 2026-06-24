@@ -1,13 +1,15 @@
+@use "src/settings" as settings;
+
 #help_popup {
-  background-color: $tariff-body-background-colour;
-  border: 1px $tariff-heavy-border-colour solid;
+  background-color: settings.$tariff-body-background-colour;
+  border: 1px settings.$tariff-heavy-border-colour solid;
   border-radius: 0.5em;
   padding: 0.3em 0.5em;
   width: 180px;
   position: fixed;
   right: 50px;
   bottom: 50px;
-  box-shadow: 0 3px 10px $tariff-popup-shadow-colour;
+  box-shadow: 0 3px 10px settings.$tariff-popup-shadow-colour;
   display: none;
   z-index: 1;
 

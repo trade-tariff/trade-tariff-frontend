@@ -1,18 +1,20 @@
 // Uses GOV.UK footer meta structure for layout; styles scoped so we don't affect main footer
+@use "src/settings/govuk" as govuk;
+
 .feedback-useful-banner {
-  border-top: 1px solid govuk-functional-colour(border);
+  border-top: 1px solid govuk.govuk-functional-colour(border);
 
   &__inner {
-    background-color: govuk-colour("black", $variant: "tint-95");
-    border-bottom: 1px solid govuk-functional-colour(border);
-    padding: govuk-spacing(4);
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
+    border-bottom: 1px solid govuk.govuk-functional-colour(border);
+    padding: govuk.govuk-spacing(4);
     margin: 0;
     // Reapply footer meta flex layout (normally scoped under .govuk-footer)
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: govuk-spacing(4);
+    gap: govuk.govuk-spacing(4);
 
     .govuk-footer__meta-item {
       margin-right: 0;
@@ -26,13 +28,13 @@
     }
 
     .govuk-button {
-      border: 1px solid govuk-colour("black");
-      box-shadow: 0 2px 0 govuk-colour("black");
+      border: 1px solid govuk.govuk-colour("black");
+      box-shadow: 0 2px 0 govuk.govuk-colour("black");
       min-width: 6em;
     }
 
     .govuk-footer__inline-list-item {
-      margin-right: govuk-spacing(2);
+      margin-right: govuk.govuk-spacing(2);
     }
   }
 
@@ -42,7 +44,7 @@
     }
   }
 
-  @include govuk-media-query($until: tablet) {
+  @include govuk.govuk-media-query($until: tablet) {
     &__inner {
       flex-direction: column;
       align-items: stretch;

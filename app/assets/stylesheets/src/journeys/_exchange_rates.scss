@@ -1,9 +1,11 @@
+@use "src/settings/govuk" as govuk;
+
 .exchange-rates-period-heading {
   margin-bottom: 0;
 }
 
 .exchange-rates-attachment {
-  margin-bottom: govuk-spacing(3) !important;
+  margin-bottom: govuk.govuk-spacing(3) !important;
 }
 
 .document-download {
@@ -12,7 +14,7 @@
 
 .document-download a {
   margin-right: 0.25em;
-  border-right: 1px govuk-functional-colour(brand) solid;
+  border-right: 1px govuk.govuk-functional-colour(brand) solid;
   padding-right: 0.5em;
 }
 

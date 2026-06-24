@@ -1,86 +1,86 @@
 // Entry point for the application Sass build
-$govuk-global-styles: true;
-$govuk-fonts-path: '/govuk-frontend/dist/govuk/assets/fonts/';
-$govuk-images-path: '/govuk-frontend/dist/govuk/assets/images/';
+@use "govuk-frontend/dist/govuk" as govuk with (
+  $govuk-global-styles: true,
+  $govuk-fonts-path: "/govuk-frontend/dist/govuk/assets/fonts/",
+  $govuk-images-path: "/govuk-frontend/dist/govuk/assets/images/"
+);
 
 // GOV.UK Frontend and third-party styles.
-@import 'govuk-frontend/dist/govuk/index';
-@import "accessible-autocomplete/dist/accessible-autocomplete.min";
+@use "accessible-autocomplete/dist/accessible-autocomplete.min" as accessible-autocomplete-vendor;
 
-@import 'src/vendor/govuk_publishing_components/contents-list';
-@import 'src/vendor/govuk_publishing_components/metadata';
-@import 'src/vendor/govuk_publishing_components/print-link';
+@use "src/vendor/govuk_publishing_components/contents-list";
+@use "src/vendor/govuk_publishing_components/metadata";
+@use "src/vendor/govuk_publishing_components/print-link";
 
 // Settings.
-@import 'src/settings/variables';
-@import 'src/settings/colors';
+@use "src/settings";
 
 // Tools.
-@import 'src/tools/functions';
+@use "src/tools";
 
 // Base.
-@import 'src/base/legacy-grid-layout-conditionals';
-@import 'src/base/govuk-hint';
-@import 'src/base/gtm';
-@import 'src/base/typography';
-@import 'src/base/govuk-frontend-extensions';
+@use "src/base/legacy-grid-layout-conditionals";
+@use "src/base/govuk-hint";
+@use "src/base/gtm";
+@use "src/base/typography";
+@use "src/base/govuk-frontend-extensions";
 
 // GOV.UK overrides.
-@import 'src/overrides/govuk-select';
-@import 'src/overrides/custom-select';
-@import 'src/overrides/accessible-autocomplete';
-@import 'src/overrides/govuk-components';
+@use "src/overrides/govuk-select";
+@use "src/overrides/custom-select";
+@use "src/overrides/accessible-autocomplete";
+@use "src/overrides/govuk-components";
 
 // Utilities.
-@import 'src/utilities/grid_extensions';
-@import 'src/utilities/images';
-@import 'src/utilities/lists';
+@use "src/utilities/grid_extensions";
+@use "src/utilities/images";
+@use "src/utilities/lists";
 
 // Patterns.
-@import 'src/patterns/tables';
+@use "src/patterns/tables";
 
 // Components.
-@import 'src/components/app-card';
-@import 'src/components/cards';
-@import 'src/components/commodity-buttons';
-@import 'src/components/commodity-codes';
-@import 'src/components/commodity-tree';
-@import 'src/components/country-picker';
-@import 'src/components/downloadable-document';
-@import 'src/components/feature-panel';
-@import 'src/components/feedback_banner';
-@import 'src/components/feedback_useful_banner';
-@import 'src/components/filter';
-@import 'src/components/header';
-@import 'src/components/header_banner';
-@import 'src/components/help_popup';
-@import 'src/components/markdown';
-@import 'src/components/measure-inset';
-@import 'src/components/modal';
-@import 'src/components/panel';
-@import 'src/components/related-navigation';
-@import 'src/components/step-by-step-nav';
-@import 'src/components/switch_uk_xi_panel';
-@import 'src/components/tariff-breadcrumbs';
-@import 'src/components/tariff-inset';
+@use "src/components/app-card";
+@use "src/components/cards";
+@use "src/components/commodity-buttons";
+@use "src/components/commodity-codes";
+@use "src/components/commodity-tree";
+@use "src/components/country-picker";
+@use "src/components/downloadable-document";
+@use "src/components/feature-panel";
+@use "src/components/feedback_banner";
+@use "src/components/feedback_useful_banner";
+@use "src/components/filter";
+@use "src/components/header";
+@use "src/components/header_banner";
+@use "src/components/help_popup";
+@use "src/components/markdown";
+@use "src/components/measure-inset";
+@use "src/components/modal";
+@use "src/components/panel";
+@use "src/components/related-navigation";
+@use "src/components/step-by-step-nav";
+@use "src/components/switch_uk_xi_panel";
+@use "src/components/tariff-breadcrumbs";
+@use "src/components/tariff-inset";
 
 // Journeys.
-@import 'src/journeys/a-z-index';
-@import 'src/journeys/ancestors-tree';
-@import 'src/journeys/chapter_selection';
-@import 'src/journeys/exchange_rates';
-@import 'src/journeys/faq';
-@import 'src/journeys/help';
-@import 'src/journeys/help_find_commodity';
-@import 'src/journeys/interactive-search';
-@import 'src/journeys/live_issues';
-@import 'src/journeys/measures';
-@import 'src/journeys/mycommodities';
-@import 'src/journeys/news_items';
-@import 'src/journeys/quota-search';
-@import 'src/journeys/rules_of_origin';
-@import 'src/journeys/search';
-@import 'src/journeys/search-results';
-@import 'src/journeys/sections-list';
-@import 'src/journeys/simplified_procedural_values';
-@import 'src/journeys/tariff-custom';
+@use "src/journeys/a-z-index";
+@use "src/journeys/ancestors-tree";
+@use "src/journeys/chapter_selection";
+@use "src/journeys/exchange_rates";
+@use "src/journeys/faq";
+@use "src/journeys/help";
+@use "src/journeys/help_find_commodity";
+@use "src/journeys/interactive-search";
+@use "src/journeys/live_issues";
+@use "src/journeys/measures";
+@use "src/journeys/mycommodities";
+@use "src/journeys/news_items";
+@use "src/journeys/quota-search";
+@use "src/journeys/rules_of_origin";
+@use "src/journeys/search";
+@use "src/journeys/search-results";
+@use "src/journeys/sections-list";
+@use "src/journeys/simplified_procedural_values";
+@use "src/journeys/tariff-custom";

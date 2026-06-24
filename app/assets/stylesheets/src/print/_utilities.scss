@@ -1,0 +1,9 @@
+@use "govuk-frontend/dist/govuk" as govuk-frontend;
+
+.pagination {
+  display: none;
+}
+
+.tariff-print-grid-column-full-width {
+  @extend .govuk-grid-column-full;
+}

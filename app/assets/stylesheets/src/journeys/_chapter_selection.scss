@@ -1,3 +1,5 @@
+@use "src/tools" as tools;
+
 .myott-subscriptions{
   .set_checkbox_width {
       width: 30px;
@@ -8,6 +10,6 @@
   }
 
   .link_button {
-      @include govuk-link-button-reset;
+      @include tools.govuk-link-button-reset;
     }
 }

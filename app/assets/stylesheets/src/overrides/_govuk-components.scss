@@ -1,20 +1,22 @@
+@use "src/settings/govuk" as govuk;
+
 .govuk-notification-banner--error {
-  border-color: govuk-functional-colour(error);
+  border-color: govuk.govuk-functional-colour(error);
 }
 
 .govuk-button--blue {
-  background-color:   govuk-functional-colour(brand);
-  border-color:  govuk-functional-colour(brand);
-  color: govuk-colour("white");
+  background-color:   govuk.govuk-functional-colour(brand);
+  border-color:  govuk.govuk-functional-colour(brand);
+  color: govuk.govuk-colour("white");
   &,
     &:link,
     &:visited,
     &:active,
     &:hover {
-      color: govuk-colour("white");
+      color: govuk.govuk-colour("white");
     }
 
     &:hover {
-      background-color: govuk-functional-colour(link-hover);
+      background-color: govuk.govuk-functional-colour(link-hover);
     }
 }

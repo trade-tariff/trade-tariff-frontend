@@ -1,8 +1,10 @@
+@use "src/settings/govuk" as govuk;
+
 .stacked-govuk-details details:not([open]):not(:last-of-type) {
-  @include govuk-responsive-margin(1, "bottom");
+  @include govuk.govuk-responsive-margin(1, "bottom");
 }
 .govuk-div--with-border {
-  border: 1px solid  govuk-functional-colour(border)
+  border: 1px solid  govuk.govuk-functional-colour(border)
 }
 
 .govuk-tag {

@@ -1,11 +1,13 @@
+@use "src/settings/govuk" as govuk;
+
 .gem-c-metadata {
-  color: govuk-functional-colour(text);
-  @include govuk-font(16);
-  @include govuk-clearfix;
+  color: govuk.govuk-functional-colour(text);
+  @include govuk.govuk-font(16);
+  @include govuk.govuk-clearfix;
 
   a {
-    @include govuk-link-common;
-    @include govuk-link-style-default;
+    @include govuk.govuk-link-common;
+    @include govuk.govuk-link-style-default;
     font-weight: bold;
   }
 
@@ -20,16 +22,16 @@
 }
 
 .gem-c-metadata--inverse {
-  color: govuk-colour("white");
+  color: govuk.govuk-colour("white");
 
   a:link,
   a:active,
   a:visited {
-    color: govuk-colour("white");
+    color: govuk.govuk-colour("white");
   }
 
   a:focus {
-    color: govuk-colour("black");
+    color: govuk.govuk-colour("black");
   }
 }
 
@@ -41,11 +43,11 @@
 .gem-c-metadata__term {
   margin-top: .5em;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     box-sizing: border-box;
     float: left;
     clear: left;
-    padding-right: govuk-spacing(1);
+    padding-right: govuk.govuk-spacing(1);
     margin-top: 0;
   }
 }
@@ -54,8 +56,8 @@
   float: right;
   clear: right;
 
-  @include govuk-media-query($from: tablet) {
-    padding-left: govuk-spacing(1);
+  @include govuk.govuk-media-query($from: tablet) {
+    padding-left: govuk.govuk-spacing(1);
     padding-right: 0;
   }
 }
@@ -63,9 +65,9 @@
 .gem-c-metadata__definition {
   margin: 0;
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     &:not(:last-of-type) {
-      margin-bottom: govuk-spacing(1);
+      margin-bottom: govuk.govuk-spacing(1);
     }
   }
 }

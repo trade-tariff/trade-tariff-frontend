@@ -1,3 +1,5 @@
+@use "src/settings/govuk" as govuk;
+
 .lettered-list ol,
 ol.lettered-list {
   list-style-type: lower-alpha;
@@ -47,11 +49,11 @@ ol.numbered-then-lettered-list {
 }
 
 .tariff-list--hyphen {
-  padding-left: govuk-spacing(2);
+  padding-left: govuk.govuk-spacing(2);
 
   li {
     list-style-type: "-";
-    padding-left: govuk-spacing(3);
+    padding-left: govuk.govuk-spacing(3);
   }
 }
 
@@ -67,11 +69,11 @@ ol.legislative-list {
   padding: 0;
 
   ol li {
-    color: govuk-functional-colour(text);
+    color: govuk.govuk-functional-colour(text);
     font-weight: 400;
   }
 
   ol li ol {
-    margin-top: govuk-spacing(4);
+    margin-top: govuk.govuk-spacing(4);
   }
 }

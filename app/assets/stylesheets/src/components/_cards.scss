@@ -1,8 +1,10 @@
 // Cards component - matching gem-c-cards from govuk_publishing_components
 // https://components.publishing.service.gov.uk/component-guide/cards/
+@use "src/settings/govuk" as govuk;
+
 
 .gem-c-cards__heading {
-  @include govuk-responsive-margin(6, "bottom");
+  @include govuk.govuk-responsive-margin(6, "bottom");
 }
 
 .gem-c-cards__heading--underline {
@@ -16,8 +18,8 @@
 }
 
 .gem-c-cards__list-item {
-  border-bottom: 1px solid govuk-functional-colour(border);
-  padding: govuk-spacing(1) 0 govuk-spacing(4) 0;
+  border-bottom: 1px solid govuk.govuk-functional-colour(border);
+  padding: govuk.govuk-spacing(1) 0 govuk.govuk-spacing(4) 0;
 }
 
 .gem-c-cards__list-item-wrapper {
@@ -26,11 +28,11 @@
 }
 
 .gem-c-cards__sub-heading {
-  margin: 0 govuk-spacing(6) govuk-spacing(2) 0;
+  margin: 0 govuk.govuk-spacing(6) govuk.govuk-spacing(2) 0;
 }
 
 .gem-c-cards__status {
-  margin-bottom: govuk-spacing(2);
+  margin-bottom: govuk.govuk-spacing(2);
 }
 
 .gem-c-cards__link {
@@ -47,33 +49,33 @@
     $dimension: 7px;
     $width: 3px;
 
-    border-right: $width solid govuk-functional-colour(brand);
-    border-top: $width solid govuk-functional-colour(brand);
+    border-right: $width solid govuk.govuk-functional-colour(brand);
+    border-top: $width solid govuk.govuk-functional-colour(brand);
     content: "";
     display: block;
     height: $dimension;
     position: absolute;
-    right: govuk-spacing(1);
+    right: govuk.govuk-spacing(1);
     top: 50%;
-    margin-top: govuk-spacing(1);
+    margin-top: govuk.govuk-spacing(1);
     transform: rotate(45deg);
     width: $dimension;
   }
 
   &:hover::before {
-    border-color: govuk-functional-colour(link-hover);
+    border-color: govuk.govuk-functional-colour(link-hover);
   }
 
   &:focus::before {
-    border-color: govuk-functional-colour(focus-text);
+    border-color: govuk.govuk-functional-colour(focus-text);
   }
 }
 
 .gem-c-cards__description {
-  margin: 0 govuk-spacing(6) 0 0;
+  margin: 0 govuk.govuk-spacing(6) 0 0;
 }
 
-@include govuk-media-query($media-type: print) {
+@include govuk.govuk-media-query($media-type: print) {
   .gem-c-cards__list-item {
     padding: 0;
   }

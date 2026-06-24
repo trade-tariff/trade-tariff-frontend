@@ -1,7 +1,10 @@
-.feature-panel {
-  @include govuk-responsive-padding(3);
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
 
-  border-bottom: 1px solid $feature-panel-border-colour;
+.feature-panel {
+  @include govuk.govuk-responsive-padding(3);
+
+  border-bottom: 1px solid settings.$feature-panel-border-colour;
   margin-bottom: 1em;
 
   &.last-feature-panel {
@@ -13,6 +16,6 @@
   }
 
   &--shaded {
-    background-color: $feature-panel-shaded-background-colour;
+    background-color: settings.$feature-panel-shaded-background-colour;
   }
 }

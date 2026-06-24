@@ -1,30 +1,50 @@
-.govuk-list + .govuk-list + .govuk-list--number {
+@use "src/settings/govuk" as govuk;
+
+.govuk-list + .govuk-list + .govuk-list--number,
+.tariff-markdown ul + .govuk-list + .govuk-list--number,
+.tariff-markdown ol + .govuk-list + .govuk-list--number,
+.tariff-markdown .govuk-list + ul + .govuk-list--number,
+.tariff-markdown ul + ul + .govuk-list--number,
+.tariff-markdown ol + ul + .govuk-list--number,
+.tariff-markdown .govuk-list + ol + .govuk-list--number,
+.tariff-markdown ul + ol + .govuk-list--number,
+.tariff-markdown ol + ol + .govuk-list--number,
+.tariff-markdown .govuk-list + .govuk-list + ol,
+.tariff-markdown ul + .govuk-list + ol,
+.tariff-markdown ol + .govuk-list + ol,
+.tariff-markdown .govuk-list + ul + ol,
+.tariff-markdown ul + ul + ol,
+.tariff-markdown ol + ul + ol,
+.tariff-markdown .govuk-list + ol + ol,
+.tariff-markdown ul + ol + ol,
+.tariff-markdown ol + ol + ol {
   list-style-type: lower-alpha;
 }
 
 .govuk-back-link + .govuk-main-wrapper {
-  padding-top: govuk-spacing(4) !important;
+  padding-top: govuk.govuk-spacing(4) !important;
 
   header h1 {
-    margin-bottom: govuk-spacing(6) !important;
+    margin-bottom: govuk.govuk-spacing(6) !important;
   }
 
   .search-header fieldset {
-    margin-top: govuk-spacing(1) !important;
-    margin-bottom: govuk-spacing(2) !important;
+    margin-top: govuk.govuk-spacing(1) !important;
+    margin-bottom: govuk.govuk-spacing(2) !important;
   }
 }
 
-.govuk-heading-l a {
+.govuk-heading-l a,
+.tariff-markdown h1 a {
   text-decoration: none;
   &:hover {
     text-decoration: underline;
   }
-  @include govuk-link-style-text;
+  @include govuk.govuk-link-style-text;
 }
 
 #last-updated-at {
-  margin-top: govuk-spacing(6);
+  margin-top: govuk.govuk-spacing(6);
 }
 
 .pull-left {
@@ -47,7 +67,7 @@
 // terms
 .govuk-warning-text {
   p {
-    margin-top: govuk-spacing(2);
+    margin-top: govuk.govuk-spacing(2);
   }
 }
 
@@ -56,5 +76,5 @@
 }
 
 body {
-  font-family: $govuk-font-family !important;
+  font-family: govuk.$govuk-font-family !important;
 }

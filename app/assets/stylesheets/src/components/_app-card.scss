@@ -1,9 +1,12 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
 .app-card {
-  background-color: $highlight-colour;
+  background-color: settings.$highlight-colour;
   display: block;
-  padding: govuk-spacing(4);
-  margin-bottom: govuk-spacing(4);
-  @include govuk-media-query(desktop) {
+  padding: govuk.govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
+  @include govuk.govuk-media-query(desktop) {
     min-height: 160px;
   }
 }
