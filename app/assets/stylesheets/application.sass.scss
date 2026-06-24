@@ -32,6 +32,7 @@
 @use "src/overrides/govuk-components";
 
 // Utilities.
+@use "src/utilities/floats";
 @use "src/utilities/grid_extensions";
 @use "src/utilities/images";
 @use "src/utilities/lists";
