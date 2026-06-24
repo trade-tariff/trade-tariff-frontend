@@ -36,6 +36,10 @@
   </script>
 
   <%= javascript_importmap_tags %>
+
+  <% if TradeTariffFrontend.waf_integration_enabled? %>
+    <script src="<%= TradeTariffFrontend.waf_integration_url %>/challenge.js" defer></script>
+  <% end %>
 </head>
 
 <body class="govuk-template__body <%= service_choice || service_default %>-service">

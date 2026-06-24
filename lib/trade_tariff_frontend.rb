@@ -154,6 +154,14 @@ module TradeTariffFrontend
     ENV.fetch('GOOGLE_TAG_MANAGER_CONTAINER_ID', '')
   end
 
+  def waf_integration_url
+    ENV['WAF_INTEGRATION_URL']
+  end
+
+  def waf_integration_enabled?
+    waf_integration_url.present?
+  end
+
   def basic_session_authentication?
     @basic_session_authentication ||= basic_session_password.present?
   end
