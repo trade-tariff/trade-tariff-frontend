@@ -11,7 +11,7 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
-  border-bottom: 1px solid #b1b4b6;
+  border-bottom: 1px solid $tariff-border-colour;
   padding-bottom: govuk-spacing(4);
   margin-bottom: govuk-spacing(4);
 }
@@ -27,7 +27,7 @@
 }
 
 .interactive-results__other-heading {
-  border-top: 1px solid govuk-colour("black", $variant: "tint-80");
+  border-top: 1px solid $tariff-subtle-border-colour;
   padding-top: govuk-spacing(4);
 }
 
@@ -47,23 +47,17 @@
   font-family: "GDS Transport", arial, sans-serif;
   font-size: 14px;
   font-weight: bold;
-  color: govuk-functional-colour(text);
+  color: $tariff-text-colour;
 }
-
-.app-related-items {
-  border-top: 2px solid govuk-functional-colour(brand);
-  padding-top: govuk-spacing(3);
-}
-
 
 // Thick blue section break matching GOV.UK prototype kit style
 .app-section-break--thick {
-  border-bottom: 4px solid govuk-functional-colour(brand);
+  border-bottom: 4px solid $tariff-brand-colour;
 }
 
 // Devolved nations panel - grey background matching gem-c-devolved-nations
 .app-devolved-nations {
-  background: govuk-colour("black", $variant: "tint-95");
+  background: $tariff-muted-background-colour;
   margin-bottom: govuk-spacing(3);
   padding: govuk-spacing(3);
 

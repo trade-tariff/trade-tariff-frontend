@@ -41,18 +41,18 @@ table.commodity-code-exemplar td {
 
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(1),
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(2) {
-  background-color: #E8E9F3;
+  background-color: $coloured-commodity-code--first;
 }
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(3),
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(4) {
-  background-color: #D9ECF7;
+  background-color: $coloured-commodity-code--second;
 }
 table.commodity-code-exemplar tr.coloured-code td:nth-of-type(5) {
-  background-color: #D5F5F2;
+  background-color: $coloured-commodity-code--third;
 }
 
 .howto-image {
   max-width: 640px;
-  border: 1px solid #333;
+  border: 1px solid $tariff-heavy-border-colour;
   margin-bottom: 1em;
 }

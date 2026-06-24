@@ -1,6 +1,6 @@
 .myott-mycommodities{
   .no-changes-box {
-    background: #f3f2f1;
+    background: $tariff-muted-background-colour;
     margin: 0 govuk-spacing(3);
     padding: govuk-spacing(3) govuk-spacing(3) 0 govuk-spacing(3);
     border-radius: 2px;
@@ -18,13 +18,13 @@
   }
 
   .myott-mycommodities__counts-heading {
-    color: govuk-colour(white);
+    color: $tariff-white-colour;
   }
 
   .category_container {
-    background-color: govuk-functional-colour(body-background);
+    background-color: $tariff-body-background-colour;
     padding: govuk-spacing(3) + 1px;
-    border: 2px solid  govuk-functional-colour(border);
+    border: 2px solid  $tariff-border-colour;
     @include govuk-media-query($until: tablet) {
       margin-top: govuk-spacing(5) - 1px;
       margin-bottom: govuk-spacing(4) - 1px;
@@ -33,18 +33,18 @@
 
   .watch-list-container{
     padding: govuk-spacing(3);
-    background-color: govuk-functional-colour(brand);
+    background-color: $tariff-brand-colour;
   }
 
   .download_icon {
     margin: govuk-spacing(1) - 1px;
     vertical-align: middle;
-    color: govuk-functional-colour(text);
+    color: $tariff-text-colour;
   }
 
   .govuk-link--inverse {
     .download_icon {
-      color: govuk-colour(white);
+      color: $tariff-white-colour;
     }
   }
 
