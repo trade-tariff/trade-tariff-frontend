@@ -12,6 +12,105 @@ ENTRYPOINTS = %w[
   app/assets/stylesheets/application.sass.scss
   app/assets/stylesheets/print.sass.scss
 ].freeze
+ALLOWED_LAYER_DIRECTORIES = %w[
+  base
+  components
+  journeys
+  overrides
+  patterns
+  print
+  settings
+  tools
+  utilities
+  vendor
+].freeze
+ID_SELECTOR_ALLOWLIST = {
+  "app/assets/stylesheets/src/print/_base.scss" => %w[
+    proposition-links
+    proposition-name
+  ],
+}.freeze
+IMPORTANT_ALLOWLIST = {
+  "app/assets/stylesheets/src/components/_commodity-tree-print.scss" => [
+    /float: none !important/,
+    /margin: 0 !important/,
+  ],
+  "app/assets/stylesheets/src/components/_commodity-tree.scss" => [
+    /float: none !important/,
+    /margin: 0 !important/,
+  ],
+  "app/assets/stylesheets/src/components/_modal.scss" => [
+    /display: block !important/,
+  ],
+  "app/assets/stylesheets/src/components/_tariff-breadcrumbs.scss" => [
+    /display: block !important/,
+    /display: inline-block !important/,
+    /min-height: 0 !important/,
+    /padding-right: 0 !important/,
+    /padding-top: 0 !important/,
+  ],
+  "app/assets/stylesheets/src/journeys/_ancestors-tree.scss" => [
+    /line-height: 21\.05px !important/,
+  ],
+  "app/assets/stylesheets/src/journeys/_exchange_rates.scss" => [
+    /margin-bottom: govuk\.govuk-spacing\(3\) !important/,
+  ],
+  "app/assets/stylesheets/src/journeys/_measures.scss" => [
+    /top: 9px !important/,
+  ],
+  "app/assets/stylesheets/src/journeys/_search-results.scss" => [
+    /padding-left: 0 !important/,
+  ],
+  "app/assets/stylesheets/src/journeys/_search.scss" => [
+    /padding-bottom:1\.5em !important/,
+  ],
+  "app/assets/stylesheets/src/journeys/tariff-custom.scss" => [
+    /font-family: govuk\.\$govuk-font-family !important/,
+    /margin-bottom: govuk\.govuk-spacing\(6\) !important/,
+    /margin-bottom: govuk\.govuk-spacing\(2\) !important/,
+    /margin-top: govuk\.govuk-spacing\(1\) !important/,
+    /padding-top: govuk\.govuk-spacing\(4\) !important/,
+  ],
+  "app/assets/stylesheets/src/overrides/_accessible-autocomplete.scss" => [
+    /height: 40px !important/,
+    /margin: 0 !important/,
+    /min-height: 25px !important/,
+    /padding-right: 2em !important/,
+  ],
+  "app/assets/stylesheets/src/overrides/_custom-select.scss" => [
+    /border-radius: 0 !important/,
+  ],
+  "app/assets/stylesheets/src/overrides/_govuk-select.scss" => [
+    /width: 100% !important/,
+  ],
+  "app/assets/stylesheets/src/print/_base.scss" => [
+    /display: block !important/,
+    /display: none !important/,
+    /margin-top: 0\.5em !important/,
+  ],
+  "app/assets/stylesheets/src/print/_utilities.scss" => [
+    /display: initial !important/,
+    /display: none !important/,
+    /visibility: visible !important/,
+  ],
+}.freeze
+BROAD_GOVUK_SELECTOR_ALLOWLIST = {
+  "app/assets/stylesheets/src/journeys/_search.scss" => [
+    ".govuk-accordion__section-content",
+    ".govuk-accordion__section-heading-text",
+    ".govuk-accordion__section-toggle-text",
+    ".govuk-accordion__show-all-text",
+  ],
+  "app/assets/stylesheets/src/journeys/tariff-custom.scss" => [
+    ".govuk-back-link + .govuk-main-wrapper",
+    ".govuk-heading-l a,",
+    ".govuk-list + .govuk-list + .govuk-list--number,",
+    ".govuk-warning-text",
+  ],
+  "app/assets/stylesheets/src/patterns/_tables.scss" => [
+    ".govuk-table--responsive",
+  ],
+}.freeze
 
 Finding = Data.define(:path, :line, :message) do
   def to_s
@@ -26,6 +125,14 @@ end
 def stylesheet_partials
   LOCAL_SOURCE_ROOT.glob("**/*.{scss,sass}").reject do |path|
     path.to_s.start_with?("#{VENDOR_SOURCE_ROOT}/")
+  end
+end
+
+def allowed_line?(allowlist, path, line)
+  relative = relative_path(path)
+
+  Array(allowlist[relative]).any? do |allowed|
+    allowed === line.strip
   end
 end
 
@@ -159,7 +266,110 @@ def commented_out_declaration_findings(path)
   findings
 end
 
+def layer_placement_findings
+  LOCAL_SOURCE_ROOT.glob("*.{scss,sass}").filter_map do |path|
+    Finding.new(
+      path: relative_path(path),
+      line: 1,
+      message: "place local Sass partials under #{ALLOWED_LAYER_DIRECTORIES.join(', ')}",
+    )
+  end
+end
+
+def id_selector_findings(path)
+  findings = []
+  allowed_ids = ID_SELECTOR_ALLOWLIST.fetch(relative_path(path), [])
+
+  path.each_line.with_index(1) do |line, line_number|
+    next unless line =~ /^\s*#([-_a-zA-Z0-9]+)/
+    next if allowed_ids.include?(Regexp.last_match(1))
+
+    findings << Finding.new(
+      path: relative_path(path),
+      line: line_number,
+      message: "avoid styling through ID selectors; add a class or document an allowlist exception",
+    )
+  end
+
+  findings
+end
+
+def important_findings(path)
+  findings = []
+
+  path.each_line.with_index(1) do |line, line_number|
+    next unless line.include?("!important")
+    next if allowed_line?(IMPORTANT_ALLOWLIST, path, line)
+
+    findings << Finding.new(
+      path: relative_path(path),
+      line: line_number,
+      message: "avoid !important; document a narrow allowlist exception if unavoidable",
+    )
+  end
+
+  findings
+end
+
+def broad_govuk_selector_findings(path)
+  relative = relative_path(path)
+  return [] unless relative.match?(%r{\Aapp/assets/stylesheets/src/(journeys|patterns)/})
+
+  findings = []
+
+  path.each_line.with_index(1) do |line, line_number|
+    next unless line == line.lstrip
+
+    stripped = line.strip
+    next unless stripped.start_with?(".govuk-")
+
+    selector = stripped.delete_suffix("{").strip
+    next if BROAD_GOVUK_SELECTOR_ALLOWLIST.fetch(relative, []).include?(selector)
+
+    findings << Finding.new(
+      path: relative,
+      line: line_number,
+      message: "keep broad GOV.UK overrides in base/ or overrides/, or add a narrow allowlist exception",
+    )
+  end
+
+  findings
+end
+
+def print_entrypoint_findings
+  path = STYLESHEET_ROOT.join("print.sass.scss")
+  findings = []
+  in_govuk_configuration = false
+
+  path.each_line.with_index(1) do |line, line_number|
+    stripped = line.strip
+
+    if stripped.start_with?('@use "govuk-frontend/dist/govuk"') && stripped.end_with?("with (")
+      in_govuk_configuration = true
+      next
+    end
+
+    if in_govuk_configuration
+      in_govuk_configuration = false if stripped == ");"
+      next
+    end
+
+    next if stripped.empty? || stripped.start_with?("//") || stripped.start_with?("@use")
+
+    findings << Finding.new(
+      path: relative_path(path),
+      line: line_number,
+      message: "keep print.sass.scss as an entrypoint; move print rules to src/print or component print partials",
+    )
+  end
+
+  findings
+end
+
 findings = []
+
+findings.concat(layer_placement_findings)
+findings.concat(print_entrypoint_findings)
 
 ENTRYPOINTS.each do |entrypoint|
   findings.concat(duplicate_import_findings(ROOT.join(entrypoint)))
@@ -168,6 +378,9 @@ end
 stylesheet_partials.each do |path|
   findings.concat(empty_selector_block_findings(path))
   findings.concat(commented_out_declaration_findings(path))
+  findings.concat(id_selector_findings(path))
+  findings.concat(important_findings(path))
+  findings.concat(broad_govuk_selector_findings(path))
 end
 
 if findings.any?

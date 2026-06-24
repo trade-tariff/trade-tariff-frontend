@@ -63,6 +63,18 @@ Avoid duplicating complete screen components in print stylesheets. Extract share
 - Keep GOV.UK overrides explicit and narrow. Use GOV.UK Sass variables, mixins, spacing, and typography before adding custom values.
 - Treat `print.sass.scss` as print overrides over the screen component model, not a second fork of component CSS.
 
+## Automated Checks
+
+`bin/check-sass-structure` enforces the low-noise CSS structure rules that are now established in this repo:
+
+- local Sass files must live in a layer directory under `app/assets/stylesheets/src/`;
+- Sass entrypoints must not import the same path more than once;
+- local non-vendor partials must not contain empty selector blocks or commented-out declarations;
+- new ID selectors, `!important` declarations, and broad GOV.UK overrides must be avoided unless they have a narrow allowlist entry;
+- `print.sass.scss` must stay as an entrypoint, with print rules kept in `src/print/` or component print partials.
+
+When an exception is genuinely needed, keep it narrow and add it to the allowlist in `bin/check-sass-structure` with validation in the PR. If the allowlist grows quickly, reassess the rule before adding more exceptions.
+
 ## GOV.UK And Vendor Policy
 
 Prefer GOV.UK Frontend, `govuk-components`, GOV.UK Sass helpers, and GOV.UK utility classes before custom CSS. Do not approximate GOV.UK component markup or override broad GOV.UK classes by default.
