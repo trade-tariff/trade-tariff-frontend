@@ -1,5 +1,7 @@
+@use "src/settings/govuk" as govuk;
+
 .govuk-header .tariff-header-banner {
-  padding: govuk-spacing(3) 0 govuk-spacing(5) 0;
+  padding: govuk.govuk-spacing(3) 0 govuk.govuk-spacing(5) 0;
   border-top: 2px solid white;
 
   > .govuk-width-container > *:first-child {
@@ -7,11 +9,11 @@
   }
 
   p, div, h1, h2, h3 {
-    color: govuk-colour("white");
+    color: govuk.govuk-colour("white");
   }
 
   p {
-    @include govuk-font($size: 16);
+    @include govuk.govuk-font($size: 16);
 
     &:last-of-type {
       margin-bottom: 0;
@@ -19,16 +21,16 @@
   }
 
   a {
-    @include govuk-link-style-inverse;
+    @include govuk.govuk-link-style-inverse;
   }
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     .govuk-width-container {
-      padding: govuk-spacing(3) 0 ;
+      padding: govuk.govuk-spacing(3) 0 ;
     }
 
     p {
-      @include govuk-typography-weight-bold;
+      @include govuk.govuk-typography-weight-bold;
     }
   }
 }

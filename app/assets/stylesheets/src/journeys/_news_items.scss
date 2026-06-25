@@ -1,3 +1,5 @@
+@use "src/settings/govuk" as govuk;
+
 /* for use on home page */
 .latest-news-banner {
   .govuk-notification-banner__content {
@@ -13,6 +15,6 @@
 
 /* Fix for headings in sidebar on mobile */
 .news-item__sidebar .gem-c-related-navigation__main-heading {
-  @include govuk-font($size: 19, $weight: bold);
-  @include govuk-responsive-margin(2, "bottom");
+  @include govuk.govuk-font($size: 19, $weight: bold);
+  @include govuk.govuk-responsive-margin(2, "bottom");
 }

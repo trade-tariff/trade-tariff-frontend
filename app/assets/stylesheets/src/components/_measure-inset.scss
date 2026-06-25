@@ -1,12 +1,15 @@
-@include govuk-media-query($from: tablet) {
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
+@include govuk.govuk-media-query($from: tablet) {
   .measure-inset {
-    background-color: $feature-panel-shaded-background-colour;
+    background-color: settings.$feature-panel-shaded-background-colour;
 
-    border-left: 10px solid $feature-panel-border-left;
+    border-left: 10px solid settings.$feature-panel-border-left;
 
-    padding: govuk-spacing(3);
-    margin-top: govuk-spacing(4);
-    margin-bottom: govuk-spacing(4);
+    padding: govuk.govuk-spacing(3);
+    margin-top: govuk.govuk-spacing(4);
+    margin-bottom: govuk.govuk-spacing(4);
     clear: both;
 
     img {
@@ -21,15 +24,15 @@
     }
 
     & > img + div {
-      margin-left: govuk-spacing(9);
+      margin-left: govuk.govuk-spacing(9);
     }
   }
 
   .vat-excise-panel {
-    padding: govuk-spacing(1);
+    padding: govuk.govuk-spacing(1);
 
     li:not(:last-child) {
-      margin-bottom: govuk-spacing(1);
+      margin-bottom: govuk.govuk-spacing(1);
     }
 
     ul {
@@ -38,7 +41,7 @@
   }
 }
 
-@include govuk-media-query($until: tablet) {
+@include govuk.govuk-media-query($until: tablet) {
   .measure-inset img {
     display: none;
   }

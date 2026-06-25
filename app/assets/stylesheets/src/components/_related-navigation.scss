@@ -1,10 +1,12 @@
+@use "src/settings/govuk" as govuk;
+
 .gem-c-related-navigation {
-  color: govuk-functional-colour(text);
-  border-top: 2px solid govuk-functional-colour(brand);
+  color: govuk.govuk-functional-colour(text);
+  border-top: 2px solid govuk.govuk-functional-colour(brand);
 }
 
 .gem-c-related-navigation__nav-section {
-  margin-bottom: govuk-spacing(6);
+  margin-bottom: govuk.govuk-spacing(6);
 }
 
 .gem-c-related-navigation__link-list {
@@ -14,7 +16,7 @@
   margin-bottom: 1.25em;
 
   li {
-    margin-top: govuk-spacing(3);
+    margin-top: govuk.govuk-spacing(3);
   }
 }
 

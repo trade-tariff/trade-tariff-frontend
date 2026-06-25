@@ -1,72 +1,75 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
 .commodity-action-button {
   display: inline-flex;
   align-items: center;
-  color: $tariff-link-colour;
+  color: settings.$tariff-link-colour;
   cursor: pointer;
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.25;
-  padding: govuk-spacing(2);
+  padding: govuk.govuk-spacing(2);
   margin: 0;
   border-width: 1px;
   border-style: solid;
-  border-color: $tariff-secondary-text-colour;
+  border-color: settings.$tariff-secondary-text-colour;
   border-image: initial;
   background: none;
 }
 
 .commodity-action-button:link,
 .commodity-action-button:visited {
-  color: $tariff-link-colour;
+  color: settings.$tariff-link-colour;
   text-decoration: none;
 }
 
 .commodity-action-button + .commodity-action-button {
-  margin-left: govuk-spacing(4);
+  margin-left: govuk.govuk-spacing(4);
 }
 
 .commodity-action-button:hover {
-  background-color: $tariff-muted-background-colour;
-  color: $tariff-link-hover-colour;
+  background-color: settings.$tariff-muted-background-colour;
+  color: settings.$tariff-link-hover-colour;
   text-decoration: none
 }
 
 .commodity-action-button:active {
-  background-color: $tariff-muted-background-colour;
-  box-shadow: inset 0 -4px 0 $tariff-shadow-colour;
-  color: $tariff-text-colour;
+  background-color: settings.$tariff-muted-background-colour;
+  box-shadow: inset 0 -4px 0 settings.$tariff-shadow-colour;
+  color: settings.$tariff-text-colour;
 }
 
 .commodity-action-button:focus,
 .commodity-action-button:focus-visible {
   outline: 3px solid transparent;
-  background-color: $tariff-focus-colour;
-  box-shadow: inset 0 -4px 0 $tariff-shadow-colour;
-  color: $tariff-focus-text-colour;
+  background-color: settings.$tariff-focus-colour;
+  box-shadow: inset 0 -4px 0 settings.$tariff-shadow-colour;
+  color: settings.$tariff-focus-text-colour;
   text-decoration: none;
 }
 
 .commodity-action-button--copied,
 .commodity-action-button--copied:focus,
 .commodity-action-button--copied:focus-visible {
-  background-color: $tariff-focus-colour;
-  box-shadow: inset 0 -4px 0 $tariff-shadow-colour;
-  color: $tariff-focus-text-colour;
+  background-color: settings.$tariff-focus-colour;
+  box-shadow: inset 0 -4px 0 settings.$tariff-shadow-colour;
+  color: settings.$tariff-focus-text-colour;
 }
 
 .commodity-action-button--copied:hover,
 .commodity-action-button--copied:active {
-  background-color: $tariff-muted-background-colour;
-  box-shadow: inset 0 -4px 0 $tariff-shadow-colour;
-  color: $tariff-text-colour;
+  background-color: settings.$tariff-muted-background-colour;
+  box-shadow: inset 0 -4px 0 settings.$tariff-shadow-colour;
+  color: settings.$tariff-text-colour;
 }
 
 .commodity-action-button__icon {
-  color: $tariff-text-colour;
+  color: settings.$tariff-text-colour;
   vertical-align: top;
-  margin-right: govuk-spacing(1);
+  margin-right: govuk.govuk-spacing(1);
 }
 
 .commodity-action-button__copy-trigger {

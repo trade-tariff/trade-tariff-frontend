@@ -1,3 +1,6 @@
+@use "src/settings/govuk" as govuk;
+@use "govuk-frontend/dist/govuk" as govuk-frontend;
+
 /*
   Because we enable $govuk-global-styles the govuk-body-m class is effectively
   applied to all <p> tags. This is incorrect in the case of <p> tags under

@@ -1,3 +1,4 @@
+@use "govuk-frontend/dist/govuk" as govuk-frontend;
 .govuk-select {
   &.govuk-select--width-10 {
     @extend .govuk-input--width-10;

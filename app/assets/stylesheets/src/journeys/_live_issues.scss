@@ -1,21 +1,28 @@
+@use "src/settings/govuk" as govuk;
+
 .live-issues__card-meta,
 .live-issues__card-issue {
   display: block;
 }
 
 .live-issues__card-meta {
-  @include govuk-font($size: 16, $weight: regular);
+  @include govuk.govuk-font($size: 16, $weight: regular);
 }
 
 .live-issues__commodity-list {
   display: flex;
   flex-wrap: wrap;
-  gap: govuk-spacing(1) govuk-spacing(2);
+  gap: govuk.govuk-spacing(1) govuk.govuk-spacing(2);
 }
 
 .live-issues__markdown {
-  a.govuk-link {
-    color: govuk-colour("blue");
+  a.govuk-link,
+  .tariff-markdown a {
+    color: govuk.govuk-colour("blue");
+  }
+
+  @at-root .tariff-markdown .live-issues__markdown a {
+    color: govuk.govuk-colour("blue");
   }
 
   p:last-child,

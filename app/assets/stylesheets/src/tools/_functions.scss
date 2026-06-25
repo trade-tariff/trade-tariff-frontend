@@ -1,12 +1,14 @@
+@use "src/settings/govuk" as govuk;
+
 @function px($value) {
   @return $value * 1px;
 }
 
 @mixin govuk-link-button-reset {
-  @include govuk-link-common;
-  @include govuk-link-style-default;
+  @include govuk.govuk-link-common;
+  @include govuk.govuk-link-style-default;
 
-  color: govuk-functional-colour(link);
+  color: govuk.govuk-functional-colour(link);
   cursor: pointer;
   background: none;
   padding: 0;
@@ -14,6 +16,6 @@
   font-size: 1rem;
 
   &:focus {
-    @include govuk-focused-text;
+    @include govuk.govuk-focused-text;
   }
 }

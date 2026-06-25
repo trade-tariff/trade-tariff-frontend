@@ -1,3 +1,6 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
 .search-results {
   .full-code {
     width: 171px;
@@ -14,13 +17,13 @@
 
   .results-subset {
     position: relative;
-    margin-bottom: govuk-spacing(9);
+    margin-bottom: govuk.govuk-spacing(9);
     list-style-type: none;
     padding: 0;
     font-size: 1.25em;
 
     .chapter > .full-code {
-      @include govuk-media-query($until: tablet) {
+      @include govuk.govuk-media-query($until: tablet) {
         margin: 0 1em;
         padding: 1em 0 0.5em;
       }
@@ -29,7 +32,7 @@
     .full-code {
       right: 1em;
       height: 30px;
-      @include govuk-clearfix;
+      @include govuk.govuk-clearfix;
     }
 
     .line-text {
@@ -47,7 +50,7 @@
       position: relative;
       display: block;
       line-height: 30px;
-      margin-top: govuk-spacing(1);
+      margin-top: govuk.govuk-spacing(1);
       word-wrap: break-word;
       font-size: 1rem;
       min-height: 30px;
@@ -58,7 +61,7 @@
 
       .line-text {
         padding-left: 1em;
-        @include govuk-media-query($from: tablet) {
+        @include govuk.govuk-media-query($from: tablet) {
           padding-right: 200px;
         }
       }
@@ -70,7 +73,7 @@
 
         li {
           padding: 0;
-          border-bottom: 1px solid govuk-functional-colour(border);
+          border-bottom: 1px solid govuk.govuk-functional-colour(border);
           min-height: 30px;
           margin-right: 1em;
 
@@ -81,7 +84,7 @@
           .line-text {
             padding-left: 0 !important;
 
-            @include govuk-media-query($from: tablet) {
+            @include govuk.govuk-media-query($from: tablet) {
               padding-left: 0;
               padding-top: 0em;
               padding-bottom: 0em;
@@ -93,7 +96,7 @@
             bottom: 0;
             right: 0;
 
-            @include govuk-media-query($until: tablet) {
+            @include govuk.govuk-media-query($until: tablet) {
               margin-top: 0.5em;
             }
           }
@@ -103,16 +106,16 @@
 
     .chapter {
       display: block;
-      min-height: $chapter-code-height;
-      background-color: $highlight-colour;
+      min-height: settings.$chapter-code-height;
+      background-color: settings.$highlight-colour;
       position: relative;
 
       a {
         display: block;
         padding-top: 3px;
-        @include govuk-link-common;
-        @include govuk-link-style-default;
-        @include govuk-link-style-no-underline;
+        @include govuk.govuk-link-common;
+        @include govuk.govuk-link-style-default;
+        @include govuk.govuk-link-style-no-underline;
       }
     }
   }

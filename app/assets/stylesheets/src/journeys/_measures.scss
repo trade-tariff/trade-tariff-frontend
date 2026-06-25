@@ -1,16 +1,18 @@
+@use "src/settings/govuk" as govuk;
+
 .notes {
-  @include govuk-font($size: 19, $weight: normal);
-  margin-bottom: govuk-spacing(9);
+  @include govuk.govuk-font($size: 19, $weight: normal);
+  margin-bottom: govuk.govuk-spacing(9);
 
   h2, li {
     margin-bottom: 1em;
-    @include govuk-font($size: 19, $weight: normal);
+    @include govuk.govuk-font($size: 19, $weight: normal);
   }
   ul {
     margin: 1em 0;
     padding: 0 0 0 1.25em;
     list-style: none;
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       padding: 0 0 0 2.5em;
     }
   }
@@ -47,8 +49,8 @@ dt.has_children + dd[aria-hidden="true"] {
 }
 
 .meursing-form-textual-button {
-  margin-left: govuk-spacing(3);
-  margin-right: govuk-spacing(3);
+  margin-left: govuk.govuk-spacing(3);
+  margin-right: govuk.govuk-spacing(3);
   top: 9px !important;
   position: relative;
 }

@@ -1,8 +1,10 @@
+@use "src/settings/govuk" as govuk;
+
 .quota-search {
   .govuk-grid-row {
     margin-bottom: 0.5em;
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       margin-bottom: 1em;
     }
   }
@@ -13,13 +15,13 @@
 
   .multiple-choice--inline {
     clear: none;
-    margin-right: govuk-spacing(2);
+    margin-right: govuk.govuk-spacing(2);
   }
 
   input[type="submit"] {
     margin-top: 1.5em;
 
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       margin-top: 0;
     }
   }

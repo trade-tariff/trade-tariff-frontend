@@ -1,10 +1,14 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+@use "govuk-frontend/dist/govuk" as govuk-frontend;
+
 .chapter-code, .heading-code, .commodity-code {
-  @include govuk-font($size: 16, $weight: normal);
+  @include govuk.govuk-font($size: 16, $weight: normal);
   display: inline-block;
   position: relative;
   height: 1.5625em;
   float: left;
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     font-size: 16px;
   }
   > .code-text {
@@ -12,21 +16,21 @@
     top: 0;
     width: 100%;
     text-align: center;
-    color: govuk-functional-colour(text);
+    color: govuk.govuk-functional-colour(text);
     line-height: 30px;
   }
 }
 .chapter-code {
-  background-color: $chapter-code-bg;
-  width: $chapter-code-width;
-  height: $chapter-code-height;
-  margin-right: govuk-spacing(1);
+  background-color: settings.$chapter-code-bg;
+  width: settings.$chapter-code-width;
+  height: settings.$chapter-code-height;
+  margin-right: govuk.govuk-spacing(1);
 }
 .heading-code {
-  background-color: $heading-code-bg;
-  width: $heading-code-width;
-  height: $chapter-code-height;
-  margin-right: govuk-spacing(1);
+  background-color: settings.$heading-code-bg;
+  width: settings.$heading-code-width;
+  height: settings.$chapter-code-height;
+  margin-right: govuk.govuk-spacing(1);
 }
 .chapter-heading-code {
   @extend .govuk-tag--grey;
@@ -46,17 +50,17 @@
 }
 .commodity-code {
   width: 101px;
-  height: $chapter-code-height;
+  height: settings.$chapter-code-height;
 
   > .code-text {
     position: relative;
     width: 30px;
-    background-color: $commodity-code-bg;
+    background-color: settings.$commodity-code-bg;
     height: 30px;
     line-height: 30px;
 
     & + .code-text {
-      margin-left: govuk-spacing(1);
+      margin-left: govuk.govuk-spacing(1);
     }
   }
 }
@@ -76,31 +80,31 @@
 }
 
 .segmented-commodity-code {
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     span {
       padding: 0 0.12em;
     }
 
     &--coloured {
-      @include govuk-font($size: false);
+      @include govuk.govuk-font($size: false);
       font-size: 14px;
       font-family: 'Azeret Mono', 'Courier New', Courier, monospace;
 
       span {
-        color: govuk-functional-colour(text);
+        color: govuk.govuk-functional-colour(text);
         padding: 0.17em 0.25em;
         margin-right: 0.16em;
 
         &:nth-of-type(1) {
-          background-color: $coloured-commodity-code--first
+          background-color: settings.$coloured-commodity-code--first
         }
 
         &:nth-of-type(2) {
-          background-color: $coloured-commodity-code--second
+          background-color: settings.$coloured-commodity-code--second
         }
 
         &:nth-of-type(3) {
-          background-color: $coloured-commodity-code--third
+          background-color: settings.$coloured-commodity-code--third
         }
       }
     }
@@ -109,7 +113,7 @@
 
 .footnote-list {
   ol {
-    @include govuk-responsive-margin(1);
+    @include govuk.govuk-responsive-margin(1);
   }
 
   ul {

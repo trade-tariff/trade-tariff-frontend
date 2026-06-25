@@ -1,5 +1,7 @@
+@use "src/settings/govuk" as govuk;
+
 .switch-service-control {
-  @include govuk-font($size: 16);
+  @include govuk.govuk-font($size: 16);
   position: relative;
   top: -0.4em;
   white-space: nowrap;
@@ -8,37 +10,37 @@
 
   .arrow:before {
     content: "\2192";
-    color: govuk-functional-colour(brand);
+    color: govuk.govuk-functional-colour(brand);
   }
 
-  @include govuk-media-query($from: tablet) {
+  @include govuk.govuk-media-query($from: tablet) {
     display: inline-block;
     padding-left: 0.75em;
-    background-color: govuk-functional-colour(brand);
+    background-color: govuk.govuk-functional-colour(brand);
 
     a {
-      color: govuk-colour("white");
+      color: govuk.govuk-colour("white");
     }
 
     .arrow:before {
-      color: govuk-colour("white");
+      color: govuk.govuk-colour("white");
     }
   }
 }
 
 header {
   .switch-service-control__caption {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       margin-right: 1.2em;
     }
   }
 
   .switch-service-control {
-    @include govuk-media-query($from: tablet) {
+    @include govuk.govuk-media-query($from: tablet) {
       margin-top: 0.8em;
     }
 
-    @include govuk-media-query($until: tablet) {
+    @include govuk.govuk-media-query($until: tablet) {
       display: block;
       padding: 0;
       margin: 1em 0;

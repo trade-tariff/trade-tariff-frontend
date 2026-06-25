@@ -1,8 +1,11 @@
 // Interactive search Q&A styles
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
 
 .app-guided-search-loading {
   max-width: 640px;
-  padding-top: govuk-spacing(2);
+  padding-top: govuk.govuk-spacing(2);
 }
 
 .interactive-results .interactive-result {
@@ -11,9 +14,9 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
-  border-bottom: 1px solid $tariff-border-colour;
-  padding-bottom: govuk-spacing(4);
-  margin-bottom: govuk-spacing(4);
+  border-bottom: 1px solid settings.$tariff-border-colour;
+  padding-bottom: govuk.govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
 }
 
 .interactive-result__content {
@@ -27,8 +30,8 @@
 }
 
 .interactive-results__other-heading {
-  border-top: 1px solid $tariff-subtle-border-colour;
-  padding-top: govuk-spacing(4);
+  border-top: 1px solid settings.$tariff-subtle-border-colour;
+  padding-top: govuk.govuk-spacing(4);
 }
 
 .confidence-indicator {
@@ -47,22 +50,22 @@
   font-family: "GDS Transport", arial, sans-serif;
   font-size: 14px;
   font-weight: bold;
-  color: $tariff-text-colour;
+  color: settings.$tariff-text-colour;
 }
 
 // Thick blue section break matching GOV.UK prototype kit style
 .app-section-break--thick {
-  border-bottom: 4px solid $tariff-brand-colour;
+  border-bottom: 4px solid settings.$tariff-brand-colour;
 }
 
 // Devolved nations panel - grey background matching gem-c-devolved-nations
 .app-devolved-nations {
-  background: $tariff-muted-background-colour;
-  margin-bottom: govuk-spacing(3);
-  padding: govuk-spacing(3);
+  background: settings.$tariff-muted-background-colour;
+  margin-bottom: govuk.govuk-spacing(3);
+  padding: govuk.govuk-spacing(3);
 
-  @include govuk-media-query($from: desktop) {
-    margin-bottom: govuk-spacing(8);
-    padding: govuk-spacing(4) govuk-spacing(6);
+  @include govuk.govuk-media-query($from: desktop) {
+    margin-bottom: govuk.govuk-spacing(8);
+    padding: govuk.govuk-spacing(4) govuk.govuk-spacing(6);
   }
 }

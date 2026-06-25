@@ -1,8 +1,10 @@
+@use "src/settings/govuk" as govuk;
+
 .country-picker {
-  margin-bottom: govuk-spacing(6);
+  margin-bottom: govuk.govuk-spacing(6);
 
   .search-submit {
     width: auto;
-    margin-top: govuk-spacing(2);
+    margin-top: govuk.govuk-spacing(2);
   }
 }

@@ -1,23 +1,25 @@
+@use "src/settings/govuk" as govuk;
+
 .column-one-half {
-  @include govuk-grid-column(one-half);
+  @include govuk.govuk-grid-column(one-half);
 }
 
 .column-two-thirds {
-  @include govuk-grid-column(two-thirds);
+  @include govuk.govuk-grid-column(two-thirds);
 }
 
 .column-three-quarters {
-  @include govuk-grid-column(three-quarters);
+  @include govuk.govuk-grid-column(three-quarters);
 }
 
 .column-one-quarter-mobile-only {
-  @include govuk-media-query($until: tablet) {
-    @include govuk-grid-column(one-quarter, $at: mobile);
+  @include govuk.govuk-media-query($until: tablet) {
+    @include govuk.govuk-grid-column(one-quarter, $at: mobile);
   }
 }
 
 .column-three-quarters-mobile-only {
-  @include govuk-media-query($until: tablet) {
-    @include govuk-grid-column(three-quarters, $at: mobile);
+  @include govuk.govuk-media-query($until: tablet) {
+    @include govuk.govuk-grid-column(three-quarters, $at: mobile);
   }
 }
