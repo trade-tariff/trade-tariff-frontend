@@ -1,30 +1,14 @@
-<div class="gem-c-contextual-sidebar govuk-!-margin-bottom-0">
-  <div class="gem-c-related-navigation">
-    <h2 class="gem-c-related-navigation__main-heading">
-      Help and guidance
-    </h2>
-
-    <nav role="navigation" class="gem-c-related-navigation__nav-section">
-      <ul class="gem-c-related-navigation__link-list">
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to "What are commodity codes?", "https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods", class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to "Guidance on difficult to classify goods", "https://www.trade-tariff.service.gov.uk/help", class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to "How to import goods", "https://www.gov.uk/import-goods-into-uk", class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to "How to export goods", "https://www.gov.uk/export-goods", class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to "Ask for help on classifying your goods", "https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods", class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-      </ul>
-    </nav>
-  </div>
-
+<%= contextual_sidebar do %>
+  <%= related_navigation(
+        title: 'Help and guidance',
+        links: [
+          ['What are commodity codes?', 'https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods'],
+          ['Guidance on difficult to classify goods', 'https://www.trade-tariff.service.gov.uk/help'],
+          ['How to import goods', 'https://www.gov.uk/import-goods-into-uk'],
+          ['How to export goods', 'https://www.gov.uk/export-goods'],
+          ['Ask for help on classifying your goods', 'https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods'],
+        ],
+      ) %>
   <% if TradeTariffFrontend.webchat_enabled? %>
     <%= govuk_section_break(size: 'm', visible: true) %>
 
@@ -32,4 +16,4 @@
       <%= render 'search/interactive_support_links' %>
     <% end %>
   <% end %>
-</div>
+<% end %>

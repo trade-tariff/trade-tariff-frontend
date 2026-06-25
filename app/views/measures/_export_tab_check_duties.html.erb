@@ -1,4 +1,4 @@
-<div class="govuk-inset-text govuk-inset-text--s feature-panel--shaded explainer" data-controller="uk-only">
+<%= shaded_inset_panel(classes: 'explainer', data: { controller: 'uk-only' }) do %>
   <h3>Check duties and customs procedures for exporting goods</h3>
 
   <p>
@@ -27,4 +27,4 @@
                                        country_name: country_name,
                                        eu_member: eu_member ) %>
   </p>
-</div>
+<% end %>

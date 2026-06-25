@@ -7,7 +7,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-      <div class="app-card">
+      <%= app_card do %>
         <h2 class="govuk-heading-m app-card__heading">Commodity watch list</h2>
         <% if @my_commodities.present? %>
           <p class="govuk-body govuk-!-static-margin-bottom-0"><strong>Changes published yesterday: <%= number_with_delimiter(@my_commodities[:meta][:published][:yesterday]) %></strong></p>
@@ -18,11 +18,11 @@
           <p class="govuk-body">You will receive updates on specific commodities</p>
           <%= govuk_link_to 'Create a commodity watch list',  new_myott_mycommodity_path, no_visited_state: true %>
         <% end %>
-      </div>
+      <% end %>
     </div>
 
     <div class="govuk-grid-column-one-half">
-      <div class="app-card">
+      <%= app_card do %>
         <h2 class="govuk-heading-m app-card__heading">Stop Press watch list</h2>
         <% if @stop_press.present? %>
           <p class="govuk-body govuk-!-static-margin-bottom-0"><strong>Updates published yesterday: <%= @stop_press[:meta][:published][:yesterday] %></strong></p>
@@ -33,6 +33,6 @@
           <p class="govuk-body">You will receive updates on specific chapters</p>
           <%= govuk_link_to 'Create a Stop Press watch list', myott_stop_press_path, no_visited_state: true %>
         <% end %>
-      </div>
+      <% end %>
     </div>
   </div>

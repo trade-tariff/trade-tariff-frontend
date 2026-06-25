@@ -71,19 +71,18 @@
     </div>
 
     <div class="govuk-grid-column-one-third">
-      <div class="gem-c-related-navigation">
-        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Understanding rules of origin</h2>
-
-        <nav role="navigation" class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-40a88cdf" data-module="gem-toggle" data-gem-toggle-module-started="true">
-            <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
-                <li class="gem-c-related-navigation__link">
-                  <%= govuk_link_to 'Rules of origin glossary', glossary_terms_path %>
-                </li>
-                <li class="gem-c-related-navigation__link">
-                  <%= govuk_link_to 'Duty drawback', rules_of_origin_duty_drawback_path %>
-                </li>
-            </ul>
-        </nav>
-      </div>
+      <%= related_navigation(
+            title: 'Understanding rules of origin',
+            heading_attributes: { data: { track_count: 'sidebarRelatedItemSection' } },
+            nav_attributes: {
+              aria: { labelledby: 'related-nav-related_items-40a88cdf' },
+              data: { module: 'gem-toggle', gem_toggle_module_started: true },
+            },
+            list_attributes: { data: { module: 'gem-track-click', gem_track_click_module_started: true } },
+            links: [
+              ['Rules of origin glossary', glossary_terms_path],
+              ['Duty drawback', rules_of_origin_duty_drawback_path],
+            ],
+          ) %>
     </div>
   </div>

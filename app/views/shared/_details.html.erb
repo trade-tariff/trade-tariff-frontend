@@ -2,8 +2,8 @@
   <% if defined?(origin_reference_document) && origin_reference_document %>
     <%  %>
     <%= govspeak remove_article_reference replace_ord_url content, origin_reference_document %>
-    <%= render 'shared/origin_reference_document', origin_reference_document: origin_reference_document,
-                                                  article_match: find_article_reference(content) if find_article_reference(content) %>
+    <%= downloadable_document(origin_reference_document: origin_reference_document,
+                              article_match: find_article_reference(content)) if find_article_reference(content) %>
   <% else %>
     <%= defined?(content) ? content : yield %>
   <% end %>

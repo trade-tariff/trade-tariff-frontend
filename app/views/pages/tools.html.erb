@@ -11,7 +11,7 @@
   <div class="govuk-grid-column-full">
     <%= page_header 'Tariff tools' %>
 
-    <ul class="gem-c-cards__list gem-c-cards__list--one-column">
+    <%= card_list(wrapper: false) do %>
       <% if TradeTariffFrontend::ServiceChooser.uk? %>
         <%= render 'tool_card',
                    title: 'Exchange rates',
@@ -67,6 +67,6 @@
                    url: meursing_lookup_step_path('start'),
                    description: 'Find the Meursing code for your composite agrifood' %>
       <% end %>
-    </ul>
+    <% end %>
   </div>
 </div>

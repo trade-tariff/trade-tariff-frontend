@@ -15,10 +15,10 @@
     <%= govspeak remove_article_reference(current_step.non_alteration_text) %>
   </div>
 
-  <%= render 'shared/origin_reference_document',
-      origin_reference_document: current_step.origin_reference_document,
-      article_match: find_article_reference(current_step.non_alteration_text) \
-      if find_article_reference(current_step.non_alteration_text) %>
+  <%= downloadable_document(
+        origin_reference_document: current_step.origin_reference_document,
+        article_match: find_article_reference(current_step.non_alteration_text),
+      ) if find_article_reference(current_step.non_alteration_text) %>
 <% else %>
   <div class="govuk-inset-text tariff-markdown" id="unavailable">
     <%= govspeak t '.unavailable_md', scheme_title: current_step.scheme_title %>

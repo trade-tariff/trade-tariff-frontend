@@ -1,34 +1,14 @@
-<div class="gem-c-contextual-sidebar govuk-!-margin-bottom-0">
-  <div class="gem-c-related-navigation">
-    <h2 id="related-nav-related_items-e81f23c1" class="gem-c-related-navigation__main-heading" data-track-count="sidebarrelateditemsection">
-      Using the tariff
-    </h2>
-
-    <nav role="navigation" class="gem-c-related-navigation__nav-section" aria-labelledby="related-nav-related_items-e81f23c1" data-module="gem-toggle">
-
-      <ul class="gem-c-related-navigation__link-list">
-
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to 'Classifying your goods', '/howto/commodity-codes', class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to 'How to use quotas', '/howto/quotas', class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to 'How to value your goods for import or export', '/howto/valuation', class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to 'What are trade remedies, safeguards and retaliatory duties?', '/howto/trade-remedies', class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-
-        <li class="gem-c-related-navigation__link">
-          <%= govuk_link_to 'What is origin and why is it important for international trade?', '/howto/origin', class: 'gem-c-related-navigation__section-link gem-c-related-navigation__section-link--sidebar gem-c-related-navigation__section-link--other' %>
-        </li>
-
-      </ul>
-    </nav>
-  </div>
-</div>
+<%= related_navigation(
+      title: 'Using the tariff',
+      wrapper: true,
+      heading_id: 'related-nav-related_items-e81f23c1',
+      heading_attributes: { data: { track_count: 'sidebarrelateditemsection' } },
+      nav_attributes: { data: { module: 'gem-toggle' } },
+      links: [
+        ['Classifying your goods', '/howto/commodity-codes'],
+        ['How to use quotas', '/howto/quotas'],
+        ['How to value your goods for import or export', '/howto/valuation'],
+        ['What are trade remedies, safeguards and retaliatory duties?', '/howto/trade-remedies'],
+        ['What is origin and why is it important for international trade?', '/howto/origin'],
+      ],
+    ) %>

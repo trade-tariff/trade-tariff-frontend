@@ -5,9 +5,8 @@
     <p class="govuk-body-m"><%= t('green_lanes_faq.page_info').html_safe %></p>
   </div>
   <div class="govuk-grid-column-one-third">
-    <div class="gem-c-related-navigation">
-      <h2 class="gem-c-related-navigation__main-heading">Related links</h2>
-      <nav role="navigation" class="gem-c-related-navigation__nav-section">
+    <%= related_navigation do %>
+      <%= related_navigation_section(title: 'Related links') do %>
         <ul class="gem-c-related-navigation__link-list">
           <% related_links.each do |link| %>
             <li class="gem-c-related-navigation__link">
@@ -15,8 +14,8 @@
             </li>
           <% end %>
         </ul>
-      </nav>
-    </div>
+      <% end %>
+    <% end %>
   </div>
 </div>
 
@@ -39,7 +38,7 @@
                   <div id="<%= question[:div_id] %>" class="govuk-accordion__section-content">
                     <p class="govuk-body"><strong><%= question[:question].html_safe %></strong></p>
                     <div class="govuk-body"><%= question[:answer].html_safe %></div>
-                    <div class="govuk-inset-text tariff-inset-information">
+                    <%= tariff_information_inset do %>
                       <p>
                         How was this answer?
                         <button class="faq-feedback-button"
@@ -52,7 +51,7 @@
                                 data-action="click->faq#saveFeedback">Not useful
                         </button>
                       </p>
-                    </div>
+                    <% end %>
                   </div>
                 <% end %>
               </div>

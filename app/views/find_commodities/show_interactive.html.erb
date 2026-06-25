@@ -8,7 +8,7 @@
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <div class="govuk-form-group feature-panel no-bottom-border govuk-!-margin-0 govuk-!-padding-0">
+        <%= feature_panel(no_bottom_border: true, classes: 'govuk-form-group govuk-!-margin-0 govuk-!-padding-0') do %>
           <h2 class="govuk-heading-m">Search for a commodity</h2>
           <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
           <p>These codes can be very specific, so you need to be very clear about what you're importing or exporting. This will help avoid any delays at customs.</p>
@@ -23,7 +23,7 @@
 
           <%= render 'search/other_ways_to_search' %>
 
-        </div>
+        <% end %>
       </div>
 
       <div class="govuk-grid-column-one-third" id="recent-news">

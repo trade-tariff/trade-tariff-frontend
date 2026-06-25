@@ -14,9 +14,9 @@
       </div>
     </div>
 
-    <%= render 'shared/origin_reference_document',
+    <%= downloadable_document(
           origin_reference_document: @chosen_scheme.origin_reference_document,
-          article_match: find_article_reference(@article.content) \
-          if find_article_reference(@article.content) %>
+          article_match: find_article_reference(@article.content),
+        ) if find_article_reference(@article.content) %>
   <div>
 </div>

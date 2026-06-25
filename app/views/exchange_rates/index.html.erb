@@ -93,26 +93,25 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <div class="gem-c-related-navigation">
-      <% if !@period_list.monthly? %>
-        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">Related information</h2>
-      <%else%>
-        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">You can also check</h2>
-      <%end%>
-      <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
+    <%= related_navigation do %>
+      <%= related_navigation_section(
+            title: @period_list.monthly? ? 'You can also check' : 'Related information',
+            heading_attributes: { data: { track_count: 'sidebarRelatedItemSection' } },
+            nav_attributes: { data: { module: 'gem-toggle', gem_toggle_module_started: true } },
+          ) do %>
         <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
           <%= related_information_sidebar_list_items(@period_list.type) %>
         </ul>
-      </nav>
-    </div>
+      <% end %>
+    <% end %>
 
     <% if @period_list.monthly? %>
-      <div class="gem-c-related-navigation">
-        <h2 class="gem-c-related-navigation__main-heading" data-track-count="sidebarRelatedItemSection">
-          Rates from previous years
-        </h2>
-
-        <nav role="navigation" class="gem-c-related-navigation__nav-section" data-module="gem-toggle" data-gem-toggle-module-started="true">
+      <%= related_navigation do %>
+        <%= related_navigation_section(
+              title: 'Rates from previous years',
+              heading_attributes: { data: { track_count: 'sidebarRelatedItemSection' } },
+              nav_attributes: { data: { module: 'gem-toggle', gem_toggle_module_started: true } },
+            ) do %>
           <ul class="gem-c-related-navigation__link-list" data-module="gem-track-click" data-gem-track-click-module-started="true">
             <% filter_years(@period_list.exchange_rate_years, @period_list.year).each do |year| %>
               <li class="gem-c-related-navigation__link">
@@ -120,8 +119,8 @@
               </li>
             <% end %>
           </ul>
-        </nav>
-      </div>
+        <% end %>
+      <% end %>
     <% end %>
 
   </div>

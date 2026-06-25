@@ -1,6 +1,6 @@
 <%- uk_import_measures = uk_declarable&.import_measures %>
 
-<div class="measure-inset vat-excise-panel">
+<%= measure_inset(classes: 'vat-excise-panel') do %>
   <ul>
     <% vat_messages(uk_import_measures).each do |message| %>
       <li><%= message %></li>
@@ -8,4 +8,4 @@
 
     <li><%= excise_message(uk_import_measures, segmented_commodity_code(declarable_code)) %></li>
   </ul>
-</div>
+<% end %>

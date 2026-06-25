@@ -1,11 +1,8 @@
-<li class="gem-c-cards__list-item">
-  <div class="gem-c-cards__list-item-wrapper">
-    <% if local_assigns[:status].present? %>
-      <%= govuk_tag(text: local_assigns[:status], colour: local_assigns.fetch(:status_colour, 'magenta'), classes: 'gem-c-cards__status') %>
-    <% end %>
-    <h2 class="gem-c-cards__sub-heading govuk-heading-s">
-      <%= link_to title, url, { class: 'govuk-link gem-c-cards__link' }.merge(local_assigns.fetch(:link_options, {})) %>
-    </h2>
-    <p class="govuk-body gem-c-cards__description"><%= description %></p>
-  </div>
-</li>
+<%= card(
+      title:,
+      href: url,
+      description:,
+      status: local_assigns[:status],
+      status_colour: local_assigns.fetch(:status_colour, 'magenta'),
+      link_options: local_assigns.fetch(:link_options, {}),
+    ) %>
