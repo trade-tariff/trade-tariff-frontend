@@ -1,5 +1,8 @@
 @use "src/settings/govuk" as govuk;
 
+// Mixed legacy rules used across GOV.UK content pages.
+// Move rules out only when ownership is clear and cascade impact is validated.
+
 .govuk-list + .govuk-list + .govuk-list--number,
 .tariff-markdown ul + .govuk-list + .govuk-list--number,
 .tariff-markdown ol + .govuk-list + .govuk-list--number,
@@ -41,14 +44,6 @@
     text-decoration: underline;
   }
   @include govuk.govuk-link-style-text;
-}
-
-.pull-left {
-  float: left;
-}
-
-.pull-right {
-  float: right;
 }
 
 // terms
