@@ -14,7 +14,24 @@ module CacheHelper
     ].compact
   end
 
+  def heading_cache_key
+    [
+      'headings#show',
+      cache_key,
+      cache_params.sort.map { |_, v| v }.compact.join('/'),
+    ].compact
+  end
+
   def cache_params
     params.to_unsafe_h.except(*CACHE_EXCLUDED_PARAMS)
+  end
+
+  def resilient_cache_if(condition, key, &block)
+    cache_if(condition, key, &block)
+  rescue Zlib::DataError, Timeout::Error, Timeout::ExitException => e
+    Rails.logger.error("Cache deserialization error for key #{key}: #{e.class} - #{e.message}")
+
+    Rails.cache.delete(key)
+    capture(&block)
   end
 end

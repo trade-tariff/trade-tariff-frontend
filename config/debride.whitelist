@@ -51,6 +51,8 @@ AuthenticationError#expired?
 BasicSession#password=
 BasicSessionsController#new
 CacheHelper#commodity_cache_key
+CacheHelper#heading_cache_key
+CacheHelper#resilient_cache_if
 Certificate#certificate_code=
 Certificate#certificate_type_code=
 Certificate#description=

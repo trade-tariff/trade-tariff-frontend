@@ -7,7 +7,7 @@
 <% end %>
 <% content_for :bodyClasses, "page--wide" %>
 
-<% cache_if(cacheable, commodity_cache_key) do %>
+<% resilient_cache_if(cacheable, commodity_cache_key) do %>
   <%= render 'commodities/header', commodity_code: declarable.code %>
 
   <% declarable.critical_footnotes.each do |footnote| %>
