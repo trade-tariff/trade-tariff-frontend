@@ -19,6 +19,11 @@
   margin-bottom: govuk.govuk-spacing(4);
 }
 
+.interactive-results__section-heading {
+  border-bottom: 1px solid settings.$tariff-subtle-border-colour;
+  padding-bottom: govuk.govuk-spacing(4);
+}
+
 .interactive-result__content {
   flex: 1;
 }
