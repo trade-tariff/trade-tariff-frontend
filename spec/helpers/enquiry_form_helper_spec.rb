@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe EnquiryFormHelper, :aggregate_failures, type: :helper do
   describe '.fields' do
     it 'returns the revised field order' do
-      expect(described_class.fields).to eq(%w[category goods_details commodity_code query contact_details])
+      expect(described_class.fields).to eq(%w[category enquiry_type goods_details commodity_code duty_details quota_details postal_or_baggage_details query contact_details])
     end
   end
 
@@ -79,6 +79,11 @@ RSpec.describe EnquiryFormHelper, :aggregate_failures, type: :helper do
     it 'returns yes and no labels for commodity code answers' do
       expect(helper.display_value_for('has_commodity_code', 'yes')).to eq('Yes')
       expect(helper.display_value_for('has_commodity_code', 'no')).to eq('No')
+    end
+
+    it 'returns yes and no labels for quota reference answers' do
+      values = %w[commodity_code quota_order_number movement_reference_number no]
+      expect(values.map { |value| helper.display_value_for('quota_reference_type', value) }).to eq(%w[Yes Yes Yes No])
     end
   end
 

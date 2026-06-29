@@ -19,6 +19,15 @@
         <% if @enquiry_data['category'] == 'classification' %>
           <% rows << check_your_answers_row('goods_details', %w[goods_product goods_made_of goods_used_for goods_function goods_processed goods_packaged]) %>
           <% rows << check_your_answers_row('commodity_code', %w[has_commodity_code commodity_code], labelled_fields: %w[commodity_code]) %>
+        <% elsif @enquiry_data['category'] == EnquiryFormHelper::IMPORT_DUTIES_AND_QUOTAS %>
+          <% rows << check_your_answers_row('enquiry_type', %w[enquiry_type], labelled_fields: []) %>
+          <% if @enquiry_data['enquiry_type'] == 'import_duties' %>
+            <% rows << check_your_answers_row('duty_details', %w[duty_commodity_code customs_value country_of_origin destination query], labelled_fields: %w[duty_commodity_code customs_value country_of_origin destination query]) %>
+          <% elsif @enquiry_data['enquiry_type'] == 'quotas' %>
+            <% rows << check_your_answers_row('quota_details', %w[quota_reference_type quota_commodity_code quota_order_number movement_reference_number country_of_origin destination query], labelled_fields: %w[quota_reference_type quota_commodity_code quota_order_number movement_reference_number country_of_origin destination query]) %>
+          <% elsif @enquiry_data['enquiry_type'] == 'postal_or_baggage' %>
+            <% rows << check_your_answers_row('postal_or_baggage_details', %w[postal_or_baggage postal_commodity_code item purchase_price transport_cost query], labelled_fields: %w[postal_or_baggage postal_commodity_code item purchase_price transport_cost query]) %>
+          <% end %>
         <% else %>
           <% rows << check_your_answers_row('query', %w[query], labelled_fields: []) %>
         <% end %>

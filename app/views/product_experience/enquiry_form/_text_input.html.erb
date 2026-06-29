@@ -4,7 +4,7 @@
 ].compact.join(' ') %>
 
 <div class="govuk-form-group <%= field_error_class(field) %>">
-  <label class="govuk-label govuk-label--m" for="<%= field %>">
+  <label class="govuk-label govuk-label--<%= local_assigns.fetch(:label_size, 'm') %>" for="<%= field %>">
     <%= label %>
   </label>
   <% if hint.present? %>

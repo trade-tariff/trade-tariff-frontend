@@ -116,9 +116,15 @@ module ProductExperience
 
     def render_step(field)
       @field = field
-      @enquiry_data = enquiry_data
+      @enquiry_data = prefilled_enquiry_data(field)
       @prev_field = ProductExperience::EnquiryFormJourney.previous_field(field, @enquiry_data)
       render :form
+    end
+
+    def prefilled_enquiry_data(field)
+      return enquiry_data unless field == 'category' && params[:category].present?
+
+      ProductExperience::EnquiryFormJourney.normalized_data(field, enquiry_data, 'category' => params[:category].to_s)
     end
 
     def verify_submission_token
@@ -188,13 +194,17 @@ module ProductExperience
         company_name: data['company_name'],
         job_title: data['occupation'],
         email: data['email_address'],
-        enquiry_category: data['category'],
+        enquiry_category: submission_category(data),
       }
       common_attributes[:other_category] = data['other_category'] if data['category'] == 'other'
 
       route_attributes =
-        if data['category'] == 'classification'
+        if classification?(data)
           classification_submission_attributes(data)
+        elsif duties_and_quotas?(data)
+          {
+            enquiry_description: duties_and_quotas_description(data),
+          }
         else
           {
             enquiry_description: data['query'],
@@ -216,6 +226,32 @@ module ProductExperience
       }
       attributes[:commodity_code] = data['commodity_code'] if data['has_commodity_code'] == 'yes'
       attributes
+    end
+
+    def submission_category(data)
+      duties_and_quotas?(data) ? display_value_for('enquiry_type', data['enquiry_type']) : data['category']
+    end
+
+    def classification?(data)
+      data['category'] == 'classification'
+    end
+
+    def duties_and_quotas?(data)
+      data['category'] == EnquiryFormHelper::IMPORT_DUTIES_AND_QUOTAS
+    end
+
+    def duties_and_quotas_description(data)
+      duties_and_quotas_fields_for(data['enquiry_type']).map { |field|
+        "#{check_your_answers_label(field)}\n#{description_value(field, data[field])}"
+      }.join("\n\n")
+    end
+
+    def duties_and_quotas_fields_for(enquiry_type)
+      ProductExperience::EnquiryFormJourney::DETAIL_FIELDS_BY_ENQUIRY_TYPE.fetch(enquiry_type)
+    end
+
+    def description_value(field, value)
+      display_value_for(field, value).presence || 'Not provided'
     end
   end
 end

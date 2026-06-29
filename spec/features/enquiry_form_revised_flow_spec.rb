@@ -89,7 +89,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
 
     expect(page).to have_css 'h1', text: 'Your request has been submitted'
     expect(page).to have_content 'HDJ2123F'
-    expect(page).to have_content 'Please make a note of your reference number.'
+    expect(page).to have_content 'We will email you with a reminder of your enquiry and your reference number.'
     expect(page).to have_css 'h2', text: 'Other ways to find information'
     expect(page).to have_link 'Help section', href: help_path
     expect(page).to have_link 'Live issues log', href: live_issues_path
@@ -111,7 +111,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
   it 'lets a user complete the generic enquiry journey' do
     visit product_experience_enquiry_form_path
 
-    choose 'Import duties and quotas'
+    choose 'Valuation'
     click_button 'Continue'
 
     expect(page).to have_css 'h1', text: 'How can we help you?'
@@ -125,7 +125,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     click_button 'Continue'
 
     expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
-    expect(page).to have_content 'Import duties and quotas'
+    expect(page).to have_content 'Valuation'
     expect(page).to have_content 'I need help understanding tariff quota duties.'
     expect(page).to have_content 'trader@example.com'
 
@@ -136,10 +136,75 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     expect(EnquiryForm).to have_received(:create!).with(
       hash_including(
         email: 'trader@example.com',
-        enquiry_category: 'import_duties_and_quota',
+        enquiry_category: 'valuation',
         enquiry_description: include('I need help understanding tariff quota duties'),
       ),
     )
+  end
+
+  it 'lets a user complete the import duties journey' do
+    choose_duties_and_quotas_route('Import duties')
+
+    expect(page).to have_css 'h1', text: 'Tell us about your duty question'
+    expect(page).to have_css '.govuk-fieldset__legend.govuk-fieldset__legend--m', text: 'Destination (optional)'
+
+    fill_in 'Commodity code (optional)', with: '0987654321'
+    fill_in 'Customs value of the goods (optional)', with: '$2.52'
+    fill_in 'Country of origin (optional)', with: 'Portugal'
+    choose 'England, Scotland or Wales'
+    fill_in 'How can we help?', with: 'Can you confirm the duty?'
+    click_button 'Continue'
+
+    fill_in 'Email address', with: 'trader@example.com'
+    click_button 'Continue'
+
+    expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
+    [
+      'Import duties and quotas', 'Import duties', '0987654321', '$2.52', 'Portugal',
+      'England, Scotland or Wales', 'How can we help?', 'Can you confirm the duty?', 'trader@example.com'
+    ].each { |text| expect(page).to have_content text }
+
+    click_button 'Submit'
+
+    expect(page).to have_css 'h1', text: 'Your request has been submitted'
+
+    expect(EnquiryForm).to have_received(:create!).with(
+      hash_including(
+        email: 'trader@example.com',
+        enquiry_category: 'Import duties',
+        enquiry_description: include("Commodity code\n0987654321", "Customs value of the goods\n$2.52",
+                                     "Country of origin\nPortugal", "How can we help?\nCan you confirm the duty?"),
+      ),
+    )
+  end
+
+  it 'preselects classification from the duty question classification enquiry link' do
+    choose_duties_and_quotas_route('Import duties')
+
+    click_link 'classification enquiry'
+
+    expect(page).to have_current_path(product_experience_enquiry_form_field_path('category'), ignore_query: true)
+    expect(page).to have_checked_field 'Classification'
+  end
+
+  it 'uses conditional radios for quota reference details' do
+    choose_duties_and_quotas_route('Quotas')
+
+    ['Enter the commodity code', 'Enter the quota order number', 'Enter the MRN'].each { |label| expect(page).to have_css 'label.govuk-label--s', text: label }
+    ['Commodity code', 'Quota order number', 'Movement Reference Number (MRN)'].each { |label| expect(page).to have_css 'label.govuk-radios__label', text: label }
+
+    choose 'Commodity code'
+    fill_in 'How can we help?', with: 'Can I use this quota?'
+    click_button 'Continue'
+
+    fill_in 'Enter the commodity code', with: '1701991000'
+    click_button 'Continue'
+  end
+
+  it 'uses a medium question heading for postal or baggage details' do
+    choose_duties_and_quotas_route('Item sent by post or in personal baggage')
+
+    expect(page).to have_css '.govuk-fieldset__legend.govuk-fieldset__legend--m', text: 'What are you asking about?'
   end
 
   it 'clears a possible commodity code when the user changes their answer to no' do
@@ -290,7 +355,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
   it 'marks the generic query textarea as invalid using GOV.UK error attributes' do
     visit product_experience_enquiry_form_path
 
-    choose 'Import duties and quotas'
+    choose 'Valuation'
     click_button 'Continue'
     click_button 'Continue'
 
@@ -304,7 +369,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
 
     visit product_experience_enquiry_form_path
 
-    choose 'Import duties and quotas'
+    choose 'Valuation'
     click_button 'Continue'
     fill_in 'How can we help you?', with: 'I need help understanding duties.'
     click_button 'Continue'
@@ -330,6 +395,14 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
 
   def large_answer(prefix)
     "#{prefix}. #{'Extra detail ' * 350}"
+  end
+
+  def choose_duties_and_quotas_route(enquiry_type)
+    visit product_experience_enquiry_form_path
+    choose 'Import duties and quotas'
+    click_button 'Continue'
+    choose enquiry_type
+    click_button 'Continue'
   end
 
   def session_cookie_value

@@ -1,0 +1,33 @@
+<h1 class="govuk-heading-l">Tell us about your postal or baggage question</h1>
+
+<p class="govuk-body">
+  Give as much detail as you can. This helps HMRC review your enquiry.
+</p>
+
+<%= render 'product_experience/enquiry_form/radio_group',
+           field: 'postal_or_baggage',
+           legend: 'What are you asking about?',
+           legend_size: 'm',
+           inline: true %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'postal_commodity_code',
+           label: 'Commodity code (optional)',
+           hint: 'Commodity codes are used to identify goods and are usually 10 digits.' %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'item',
+           label: 'What is the item?',
+           hint: nil %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'purchase_price',
+           label: 'Purchase price',
+           hint: nil %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'transport_cost',
+           label: 'Post, shipping, packaging or insurance costs (optional)',
+           hint: nil %>
+
+<%= render 'product_experience/enquiry_form/detail_query' %>

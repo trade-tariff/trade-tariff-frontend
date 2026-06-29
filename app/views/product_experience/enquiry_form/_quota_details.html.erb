@@ -1,0 +1,23 @@
+<h1 class="govuk-heading-l">Tell us about your quota question</h1>
+
+<p class="govuk-body">
+  Give as much detail as you can. This helps HMRC review your enquiry.
+</p>
+
+<%= render 'product_experience/enquiry_form/radio_group',
+           field: 'quota_reference_type',
+           legend: 'Do you have a commodity code or quota order number?',
+           legend_size: 'm' %>
+
+<%= render 'product_experience/enquiry_form/text_input',
+           field: 'country_of_origin',
+           label: 'Country of origin (optional)',
+           hint: nil %>
+
+<%= render 'product_experience/enquiry_form/radio_group',
+           field: 'destination',
+           legend: 'Destination (optional)',
+           legend_size: 'm',
+           inline: true %>
+
+<%= render 'product_experience/enquiry_form/detail_query' %>
