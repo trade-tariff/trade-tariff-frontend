@@ -69,6 +69,31 @@ RSpec.describe ProductExperience::EnquiryFormJourney, :aggregate_failures do
       expect(data).not_to include('duty_commodity_code', 'customs_value')
     end
 
+    it 'preserves answers when the category is resubmitted without changing route' do
+      data = described_class.normalized_data(
+        'category',
+        {
+          'category' => 'import_duties_and_quota',
+          'enquiry_type' => 'import_duties',
+          'duty_commodity_code' => '0101210000',
+          'query' => 'Can you confirm the duty rate?',
+        },
+        { 'category' => 'import_duties_and_quota' },
+      )
+      expect(data).to include(
+        'enquiry_type' => 'import_duties',
+        'duty_commodity_code' => '0101210000',
+        'query' => 'Can you confirm the duty rate?',
+      )
+
+      data = described_class.normalized_data(
+        'category',
+        { 'category' => 'valuation', 'query' => 'I need help with valuation.' },
+        { 'category' => 'valuation' },
+      )
+      expect(data).to include('query' => 'I need help with valuation.')
+    end
+
     it 'removes the other category label when the selected category is not other' do
       data = described_class.normalized_data(
         'category',

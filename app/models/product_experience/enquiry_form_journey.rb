@@ -35,7 +35,7 @@ module ProductExperience
 
         case field
         when 'category'
-          data_for_category(data)
+          data_for_category(data, previous_data.to_h.stringify_keys)
         when 'commodity_code'
           data_for_commodity_code(data)
         when 'enquiry_type'
@@ -107,8 +107,9 @@ module ProductExperience
 
       private
 
-      def data_for_category(data)
+      def data_for_category(data, previous_data)
         data = data.except('other_category') unless data['category'] == 'other'
+        return data if route_for_category(previous_data['category']) == route_for_category(data['category'])
 
         case route_for_category(data['category'])
         when :classification
