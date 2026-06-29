@@ -68,7 +68,25 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'results subheading' do
-    it { is_expected.to have_css('h2', text: 'Top search results') }
+    it { is_expected.to have_css('h2.interactive-results__section-heading', text: 'Top search result') }
+
+    context 'when there is more than one strong result' do
+      let(:results) do
+        Search::InternalSearchResult.new(
+          [
+            result_attrs,
+            result_attrs.merge(
+              'goods_nomenclature_item_id' => '2007919940',
+              'classification_description' => 'Other citrus fruit jam',
+              'confidence' => 'strong',
+            ),
+          ],
+          meta,
+        )
+      end
+
+      it { is_expected.to have_css('h2.interactive-results__section-heading', text: 'Top search results') }
+    end
   end
 
   describe 'result descriptions' do
@@ -148,10 +166,11 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
         )
       end
 
-      it 'separates the remaining results with an Other search results heading', :aggregate_failures do
+      it 'separates the remaining results with an Other search results heading and a single result boundary', :aggregate_failures do
         render partial: 'search/interactive_results_content'
 
-        expect(rendered).to have_css('.interactive-results__other-heading', text: 'Other search results')
+        expect(rendered).to have_css('h2.interactive-results__section-heading.govuk-heading-m', text: 'Other search results')
+        expect(rendered).not_to have_css('.interactive-results__other-heading')
         expect(rendered.index('Citrus fruit jam')).to be < rendered.index('Other search results')
         expect(rendered.index('Other search results')).to be < rendered.index('Other citrus fruit jam')
       end
@@ -161,7 +180,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
       it 'does not render the divider' do
         render partial: 'search/interactive_results_content'
 
-        expect(rendered).not_to have_css('.interactive-results__other-heading')
+        expect(rendered).not_to have_css('h2', text: 'Other search results')
       end
     end
   end

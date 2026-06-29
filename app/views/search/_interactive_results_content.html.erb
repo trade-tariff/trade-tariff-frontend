@@ -32,8 +32,9 @@
 
     <% display_results = @results.result_limit.zero? ? @results.all : @results.all.first(@results.result_limit) %>
     <% strong_results, other_results = display_results.partition { |result| result.try(:confidence).to_s.casecmp('strong').zero? } %>
+    <% top_result_count = strong_results.any? ? strong_results.size : display_results.size %>
 
-    <h2 class="govuk-heading-m">Top search results</h2>
+    <h2 class="interactive-results__section-heading govuk-heading-m">Top search <%= 'result'.pluralize(top_result_count) %></h2>
 
     <div class="interactive-results">
       <% strong_results.each do |result| %>
@@ -41,7 +42,7 @@
       <% end %>
 
       <% if strong_results.any? && other_results.any? %>
-        <h3 class="interactive-results__other-heading govuk-heading-m">Other search results</h3>
+        <h2 class="interactive-results__section-heading govuk-heading-m">Other search results</h2>
       <% end %>
 
       <% other_results.each do |result| %>

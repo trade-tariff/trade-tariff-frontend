@@ -90,6 +90,8 @@ export default class extends Controller {
     const pageContent = document.querySelector('[data-guided-search-validation-page-content]')
     const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]')
 
+    window.scrollTo({ top: 0, left: 0 })
+
     this.formContentTarget.classList.add('govuk-!-display-none')
 
     if (pageContent && loadingPage) {

@@ -70,6 +70,7 @@ describe('GuidedSearchValidationController', () => {
   let submitSpy;
   let fetchSpy;
   let setTimeoutSpy;
+  let scrollToSpy;
 
   async function setup(options) {
     document.body.innerHTML = buildHTML(options);
@@ -89,6 +90,7 @@ describe('GuidedSearchValidationController', () => {
   beforeEach(() => {
     submitSpy = jest.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {});
     setTimeoutSpy = jest.spyOn(window, 'setTimeout').mockImplementation(() => {});
+    scrollToSpy = jest.spyOn(window, 'scrollTo').mockImplementation(() => {});
     global.fetch = jest.fn();
     fetchSpy = jest.spyOn(global, 'fetch').mockResolvedValue({
       redirected: false,
@@ -100,6 +102,7 @@ describe('GuidedSearchValidationController', () => {
     if (application) application.stop();
     submitSpy.mockRestore();
     setTimeoutSpy.mockRestore();
+    scrollToSpy.mockRestore();
     fetchSpy.mockRestore();
     delete global.fetch;
   });
@@ -276,6 +279,16 @@ describe('GuidedSearchValidationController', () => {
       submitForm();
 
       expect(document.querySelector('[data-guided-search-validation-page-content]').classList.contains('govuk-!-display-none')).toBe(true);
+    });
+
+    it('scrolls to the top before showing the loading page', async () => {
+      await setup({textareaValue: 'televisions'});
+      submitForm();
+
+      expect(scrollToSpy).toHaveBeenCalledWith({top: 0, left: 0});
+      expect(scrollToSpy.mock.invocationCallOrder[0]).toBeLessThan(
+        setTimeoutSpy.mock.invocationCallOrder[0],
+      );
     });
 
     it('does not show throbber when validation fails', async () => {
