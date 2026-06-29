@@ -30,9 +30,9 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         get :start, params: { return_to: '/subscriptions/mycommodities?as_of=2025-06-20' }
       end
 
-      it 'assigns @continue_url to the identity base url' do
+      it 'redirects to the identity service with the return_to parameter' do
         expected_url = "#{URI.join(TradeTariffFrontend.identity_base_url, '/myott')}?return_to=%2Fsubscriptions%2Fmycommodities%3Fas_of%3D2025-06-20"
-        expect(assigns(:continue_url)).to eq(expected_url)
+        expect(response).to redirect_to(expected_url)
       end
     end
 
@@ -42,9 +42,9 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         get :start, params: { return_to: 'https://example.com/phishing' }
       end
 
-      it 'assigns @continue_url to the identity base url without a return URL' do
+      it 'redirects to the identity base url without a return URL' do
         expected_url = URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s
-        expect(assigns(:continue_url)).to eq(expected_url)
+        expect(response).to redirect_to(expected_url)
       end
     end
 
@@ -66,9 +66,9 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         get :start, params: { return_to: '/subscriptions.evil/mycommodities?as_of=2025-06-20' }
       end
 
-      it 'assigns @continue_url to the identity base url without a return URL' do
+      it 'redirects to the identity base url without a return URL' do
         expected_url = URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s
-        expect(assigns(:continue_url)).to eq(expected_url)
+        expect(response).to redirect_to(expected_url)
       end
     end
   end

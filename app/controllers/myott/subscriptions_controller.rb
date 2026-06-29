@@ -3,13 +3,15 @@ module Myott
     skip_before_action :authenticate, only: %i[start invalid]
 
     def start
-      @continue_url = if current_user.present?
-                        myott_path
-                      elsif safe_return_to.present?
-                        "#{identity_url}?return_to=#{CGI.escape(safe_return_to)}"
-                      else
-                        identity_url
-                      end
+      return @continue_url = myott_path if current_user.present?
+
+      redirect_url = if safe_return_to.present?
+                       "#{identity_url}?return_to=#{CGI.escape(safe_return_to)}"
+                     else
+                       identity_url
+                     end
+
+      redirect_to redirect_url, allow_other_host: true
     end
 
     def invalid
@@ -27,10 +29,6 @@ module Myott
     end
 
   private
-
-    def identity_url
-      URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s
-    end
 
     def safe_return_to
       return_to = params[:return_to].to_s
