@@ -312,6 +312,35 @@ RSpec.describe Search do
 
         expect(stub).to have_been_requested
       end
+
+      it 'keeps request IDs isolated without fragmenting the cached backend response', :aggregate_failures do
+        original_cache = Rails.cache
+        Rails.cache = ActiveSupport::Cache::MemoryStore.new
+
+        stub = stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: {
+                       'data' => [],
+                       'meta' => {
+                         'interactive_search' => {
+                           'request_id' => 'first-request-id',
+                         },
+                       },
+                     }.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        first_search = described_class.new(q: 'horses', request_id: 'first-request-id')
+        first_search.interactive_search = true
+
+        second_search = described_class.new(q: 'horses', request_id: 'second-request-id')
+        second_search.interactive_search = true
+
+        expect([first_search.perform.request_id, second_search.perform.request_id])
+          .to eq(%w[first-request-id second-request-id])
+        expect(stub).to have_been_requested.once
+      ensure
+        Rails.cache = original_cache
+      end
     end
 
     context 'when interactive_search is true and response is empty' do

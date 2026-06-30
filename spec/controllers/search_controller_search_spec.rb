@@ -555,7 +555,7 @@ RSpec.describe SearchController, type: :controller do
           do_response
         end
 
-        it { is_expected.to redirect_to(perform_search_path(q: 'exampleterm', interactive_search: 'true', request_id: 'stable-request-id')) }
+        it { is_expected.to redirect_to(perform_search_path(q: 'exampleterm', interactive_search: 'true', request_id: 'generated-request-id')) }
       end
 
       context 'when rendering a blocking description intercept with request_id in the URL' do

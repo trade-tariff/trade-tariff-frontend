@@ -143,7 +143,7 @@ class Search
   end
 
   def perform_internal_search
-    Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: 30.minutes) do
+    result = Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: 30.minutes) do
       api_host = TradeTariffFrontend::ServiceChooser.api_host
       path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
 
@@ -161,6 +161,8 @@ class Search
 
       InternalSearchResult.new(parsed_data, body['meta'])
     end
+
+    result.with_request_id(request_id)
   rescue Faraday::UnprocessableContentError => e
     hydrate_errors_from_response(e)
     InternalSearchResult.new([], nil)

@@ -76,6 +76,16 @@ class Search
       meta&.dig('interactive_search', 'request_id')
     end
 
+    def with_request_id(request_id)
+      return self if request_id.blank? || !interactive_search?
+
+      copy = dup
+      meta = @meta.deep_dup
+      meta['interactive_search']['request_id'] = request_id
+      copy.instance_variable_set(:@meta, meta)
+      copy
+    end
+
     def answered_questions
       all_answers = meta&.dig('interactive_search', 'answers') || []
       all_answers.select { |a| a['answer'].present? }
