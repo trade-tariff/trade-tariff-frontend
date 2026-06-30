@@ -19,7 +19,7 @@
                          id: 'order_number',
                          name: 'order_number',
                          maxlength: 6,
-                         label: { text: t('quota_search.form.order_number_label') },
+                         label: { text: t('quota_search.form.order_number_label'), for: 'order_number' },
                          form_group: { class: 'govuk-!-margin-top-6' } %>
 
   <%= f.govuk_text_field :goods_nomenclature_item_id,
@@ -27,7 +27,7 @@
                          id: 'goods_nomenclature_item_id',
                          name: 'goods_nomenclature_item_id',
                          maxlength: 10,
-                         label: { text: t('quota_search.form.goods_nomenclature_item_id_label') },
+                         label: { text: t('quota_search.form.goods_nomenclature_item_id_label'), for: 'goods_nomenclature_item_id' },
                          form_group: { class: 'govuk-!-margin-top-6' } %>
 
   <div class="js-quota-country-picker">
@@ -36,7 +36,7 @@
                                   :id,
                                   :long_description,
                                   options: { include_blank: t('quota_search.form.geographical_area_id_blank') },
-                                  label: { text: t('quota_search.form.geographical_area_id_label') },
+                                  label: { text: t('quota_search.form.geographical_area_id_label'), for: 'geographical_area_id' },
                                   form_group: { class: 'govuk-!-margin-top-6' },
                                   id: 'geographical_area_id',
                                   name: 'geographical_area_id',
@@ -53,7 +53,7 @@
   <%= f.govuk_select :critical,
                      QuotaSearchForm::CRITICAL_VALUES,
                      options: { include_blank: true },
-                     label: { text: t('quota_search.form.critical_label') },
+                     label: { text: t('quota_search.form.critical_label'), for: 'critical' },
                      form_group: { class: 'govuk-!-margin-top-6' },
                      id: 'critical',
                      name: 'critical',
@@ -62,7 +62,7 @@
   <%= f.govuk_select :status,
                      QuotaSearchForm::STATUS_VALUES,
                      options: { include_blank: true },
-                     label: { text: t('quota_search.form.status_label') },
+                     label: { text: t('quota_search.form.status_label'), for: 'status' },
                      form_group: { class: 'govuk-!-margin-top-6' },
                      id: 'status',
                      name: 'status',

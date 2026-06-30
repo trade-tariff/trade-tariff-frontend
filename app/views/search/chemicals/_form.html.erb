@@ -12,13 +12,13 @@
                          width: 'one-quarter',
                          id: 'cas',
                          name: 'cas',
-                         label: { text: t('chemical_search.form.cas_label') } %>
+                         label: { text: t('chemical_search.form.cas_label'), for: 'cas' } %>
 
   <%= f.govuk_text_field :name,
                          width: 'one-half',
                          id: 'name',
                          name: 'name',
-                         label: { text: t('chemical_search.form.name_label') } %>
+                         label: { text: t('chemical_search.form.name_label'), for: 'name' } %>
 
   <%= f.govuk_submit t('chemical_search.form.submit'),
                      name: 'new_search',
