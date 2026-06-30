@@ -21,7 +21,7 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.0.3
+      - uses: actions/checkout@v7.0.0
       - run: touch .env # To prevent preevy from failing due to missing .env file
 
       - uses: aws-actions/configure-aws-credentials@v6.2.0
