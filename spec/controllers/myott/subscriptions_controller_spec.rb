@@ -54,9 +54,9 @@ RSpec.describe Myott::SubscriptionsController, type: :controller do
         get :start, params: { return_to: '//example.com/phishing' }
       end
 
-      it 'assigns @continue_url to the identity base url without a return URL' do
+      it 'redirects to the identity base url without a return URL' do
         expected_url = URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s
-        expect(assigns(:continue_url)).to eq(expected_url)
+        expect(response).to redirect_to(expected_url)
       end
     end
 
