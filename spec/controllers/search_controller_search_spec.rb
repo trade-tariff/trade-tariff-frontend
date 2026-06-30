@@ -333,7 +333,7 @@ RSpec.describe SearchController, type: :controller do
       end
 
       before do
-        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
+        enable_feature(:interactive_search)
       end
 
       context 'when backend returns a pending question' do
@@ -542,10 +542,7 @@ RSpec.describe SearchController, type: :controller do
 
         before do
           allow(SecureRandom).to receive(:uuid).and_return('generated-request-id')
-          allow(TradeTariffFrontend).to receive_messages(
-            enquiries_email: 'classification.enquiries@hmrc.gov.uk',
-            webchat_url: 'https://example.com/webchat',
-          )
+          allow(TradeTariffFrontend).to receive(:webchat_url).and_return('https://example.com/webchat')
 
           stub_api_request('search', :post, internal: true).to_return(
             status: 200,
@@ -570,10 +567,7 @@ RSpec.describe SearchController, type: :controller do
 
         before do
           allow(SecureRandom).to receive(:uuid).and_return('generated-request-id')
-          allow(TradeTariffFrontend).to receive_messages(
-            enquiries_email: 'classification.enquiries@hmrc.gov.uk',
-            webchat_url: 'https://example.com/webchat',
-          )
+          allow(TradeTariffFrontend).to receive(:webchat_url).and_return('https://example.com/webchat')
 
           stub_api_request('search', :post, internal: true).to_return(
             status: 200,

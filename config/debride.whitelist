@@ -331,6 +331,8 @@ Feedback#telephone=
 FeedbackController#new
 FeedbackController#thanks
 FindCommoditiesController#show
+FlagsmithClient#configure
+FlagsmithClient#instance=
 Footnote#code=
 Footnote#description=
 Footnote#footnote_id
@@ -942,6 +944,7 @@ TimeMachineUrlHelper#heading_on_date_path
 TimeMachineUrlHelper#subheading_on_date_path
 TradeTariffFrontend#currency_default
 TradeTariffFrontend#developer_portal_url
+TradeTariffFrontend#flagsmith_api_url
 TradeTariffFrontend#google_tag_manager_container_id
 TradeTariffFrontend#redis_config
 TradeTariffFrontend#roo_wizard?

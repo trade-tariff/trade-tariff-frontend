@@ -84,6 +84,46 @@ RSpec.describe TradeTariffFrontend do
     end
   end
 
+  describe '.flagsmith_api_url' do
+    context 'with FLAGSMITH_API_URL configured' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('FLAGSMITH_API_URL' => 'https://flagsmith.example.test/api/v1'))
+      end
+
+      it 'returns the configured URL' do
+        expect(described_class.flagsmith_api_url).to eq('https://flagsmith.example.test/api/v1')
+      end
+    end
+
+    context 'without FLAGSMITH_API_URL configured' do
+      before do
+        stub_const('ENV', ENV.to_hash.except('FLAGSMITH_API_URL').merge('ENVIRONMENT' => environment))
+      end
+
+      {
+        'development' => 'https://flags-edge.dev.trade-tariff.service.gov.uk/api/v1',
+        'staging' => 'https://flags-edge.staging.trade-tariff.service.gov.uk/api/v1',
+        'production' => 'https://flags-edge.trade-tariff.service.gov.uk/api/v1',
+      }.each do |configured_environment, expected_url|
+        context "when ENVIRONMENT is #{configured_environment}" do
+          let(:environment) { configured_environment }
+
+          it 'returns the Flagsmith Edge URL for that environment' do
+            expect(described_class.flagsmith_api_url).to eq(expected_url)
+          end
+        end
+      end
+
+      context 'when ENVIRONMENT is not recognised' do
+        let(:environment) { 'test' }
+
+        it 'does not return a Flagsmith Edge URL' do
+          expect(described_class.flagsmith_api_url).to be_nil
+        end
+      end
+    end
+  end
+
   describe '.identity_cookie_domain' do
     around do |example|
       # Clear cached values before and after each test to prevent contamination

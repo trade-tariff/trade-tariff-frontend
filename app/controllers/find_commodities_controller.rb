@@ -6,6 +6,6 @@ class FindCommoditiesController < ApplicationController
     @hero_story = News::Item.latest_for_home_page
     @recent_stories = News::Item.updates_page.slice(0, 3)
 
-    render :show_interactive if TradeTariffFrontend.interactive_search_enabled?
+    render :show_interactive if flagsmith_feature_enabled?(:interactive_search)
   end
 end

@@ -2,6 +2,11 @@ module TradeTariffFrontend
   DEFAULT_ENQUIRIES_EMAIL = 'classification.enquiries@hmrc.gov.uk'.freeze
   DEFAULT_SUPPORT_EMAIL = DEFAULT_ENQUIRIES_EMAIL
   WEBCHAT_BASE_URL = 'https://www.tax.service.gov.uk/ask-hmrc/chat/'.freeze
+  FLAGSMITH_API_URLS = {
+    'development' => 'https://flags-edge.dev.trade-tariff.service.gov.uk/api/v1',
+    'staging' => 'https://flags-edge.staging.trade-tariff.service.gov.uk/api/v1',
+    'production' => 'https://flags-edge.trade-tariff.service.gov.uk/api/v1',
+  }.freeze
 
   autoload :Presenter,      'trade_tariff_frontend/presenter'
   autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
@@ -65,6 +70,10 @@ module TradeTariffFrontend
 
   def developer_portal_url
     ENV.fetch('DEVELOPER_PORTAL_URL') { "https://hub.#{base_domain}/" }
+  end
+
+  def flagsmith_api_url
+    ENV['FLAGSMITH_API_URL'].presence || FLAGSMITH_API_URLS[environment]
   end
 
   def identity_base_url

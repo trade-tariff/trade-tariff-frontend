@@ -22,11 +22,8 @@ RSpec.describe 'Search', :js do
 
     context 'when using guided search' do
       before do
-        allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(true)
-        allow(TradeTariffFrontend).to receive_messages(
-          enquiries_email: 'classification.enquiries@hmrc.gov.uk',
-          webchat_url: 'https://example.com/webchat',
-        )
+        enable_feature(:interactive_search)
+        allow(TradeTariffFrontend).to receive(:webchat_url).and_return('https://example.com/webchat')
 
         stub_api_request('search', :post, internal: true).to_return(
           {
