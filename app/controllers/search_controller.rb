@@ -34,7 +34,7 @@ class SearchController < ApplicationController
   end
 
   def interactive_suggestions
-    return suggestions unless flagsmith_feature_enabled?(:interactive_search)
+    return suggestions unless interactive_search_enabled?
 
     search_term = Regexp.escape(params[:term].to_s.strip)
 

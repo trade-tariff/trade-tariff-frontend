@@ -80,6 +80,25 @@ RSpec.describe ApplicationController, type: :controller do
 
       expect(FlagsmithClient.instance).to have_received(:get_flags_for).once
     end
+
+    context 'when on the XI service' do
+      controller do
+        def index
+          render plain: flagsmith_feature_enabled?(:interactive_search).to_s
+        end
+      end
+
+      before do
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:xi?).and_return(true)
+        enable_feature(:interactive_search)
+      end
+
+      it 'returns the raw Flagsmith flag value' do
+        get :index
+
+        expect(response.body).to eq('true')
+      end
+    end
   end
 
   describe '#check_green_lanes_enabled' do

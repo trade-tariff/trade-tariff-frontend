@@ -155,7 +155,7 @@ class ApplicationController < ActionController::Base
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
                    faq_send_feedback_path: green_lanes_send_feedback_path }
 
-    if flagsmith_feature_enabled?(:interactive_search)
+    if interactive_search_enabled?
       @path_info[:interactive_search_suggestions_path] = interactive_search_suggestions_path(format: :json)
     end
   end
@@ -171,7 +171,6 @@ class ApplicationController < ActionController::Base
   end
 
   def flagsmith_feature_enabled?(flag)
-    return false if flag.to_sym == :interactive_search && TradeTariffFrontend::ServiceChooser.xi?
     return false if Current.flagsmith_unavailable
 
     flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
@@ -180,6 +179,12 @@ class ApplicationController < ActionController::Base
     Current.flagsmith_unavailable = true
     Rails.logger.warn("Flagsmith unavailable, disabling #{flag}: #{e.class}: #{e.message}")
     false
+  end
+
+  def interactive_search_enabled?
+    return false if TradeTariffFrontend::ServiceChooser.xi?
+
+    flagsmith_feature_enabled?(:interactive_search)
   end
 
   def set_current_flagsmith_identity
