@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
   include CacheHelper
 
   before_action :maintenance_mode_if_active
-
   before_action :set_cache
+  before_action :set_current_flagsmith_identity
   before_action :set_path_info
   before_action :set_search
   before_action :bots_no_index_if_historical
@@ -156,7 +156,7 @@ class ApplicationController < ActionController::Base
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
                    faq_send_feedback_path: green_lanes_send_feedback_path }
 
-    if TradeTariffFrontend.interactive_search_enabled?
+    if interactive_search_enabled?
       @path_info[:interactive_search_suggestions_path] = interactive_search_suggestions_path(format: :json)
     end
   end
@@ -169,6 +169,44 @@ class ApplicationController < ActionController::Base
     unless TradeTariffFrontend.green_lanes_enabled?
       raise TradeTariffFrontend::FeatureUnavailable
     end
+  end
+
+  def flagsmith_feature_enabled?(flag)
+    return false if Current.flagsmith_unavailable
+
+    flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
+    flags.is_feature_enabled(flag.to_s)
+  rescue StandardError => e
+    Current.flagsmith_unavailable = true
+    Rails.logger.warn("Flagsmith unavailable, disabling #{flag}: #{e.class}: #{e.message}")
+    false
+  end
+
+  def interactive_search_enabled?
+    return false if TradeTariffFrontend::ServiceChooser.xi?
+
+    flagsmith_feature_enabled?(:interactive_search)
+  end
+
+  def set_current_flagsmith_identity
+    Current.flagsmith_identity = current_flagsmith_identity
+  end
+
+  def current_flagsmith_identity
+    Flagsmith::AnonymousIdentity.new(anonymous_flagsmith_id)
+  end
+
+  def anonymous_flagsmith_id
+    return cookies[:flagsmith_anonymous_id] if cookies[:flagsmith_anonymous_id].present?
+
+    uuid = SecureRandom.uuid
+    cookies[:flagsmith_anonymous_id] = {
+      value: uuid,
+      max_age: 1.year.to_i,
+      httponly: true,
+      secure: Rails.env.production?,
+    }
+    uuid
   end
 
   def handle_too_many_requests_error

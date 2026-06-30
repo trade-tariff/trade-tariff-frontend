@@ -75,7 +75,7 @@ module InteractiveSearchable
   end
 
   def interactive_search?
-    @search.interactive_search && TradeTariffFrontend.interactive_search_enabled?
+    @search.interactive_search && interactive_search_enabled?
   end
 
   def sync_interactive_request_id

@@ -81,9 +81,9 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     expect(find_field('What is the product?').value).to include('A detailed description of embroidered floss')
     expect(find_field('What is it made of?').value).to include('Cotton thread and synthetic packaging')
 
-    click_button 'Continue'
-    click_button 'Continue'
-    click_button 'Continue'
+    visit product_experience_enquiry_form_check_your_answers_path
+
+    expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
 
     click_button 'Submit'
 

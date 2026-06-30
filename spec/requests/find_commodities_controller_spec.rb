@@ -8,7 +8,6 @@ RSpec.describe FindCommoditiesController, type: :request do
     include_context 'with news updates stubbed'
 
     before do
-      allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(false)
       get find_commodity_path(params)
     end
 
@@ -16,6 +15,25 @@ RSpec.describe FindCommoditiesController, type: :request do
 
     it { is_expected.to have_http_status :ok }
     it { is_expected.to have_attributes content_type: %r{text/html} }
+    it { expect(response.body).not_to include('search_type_guided') }
+
+    context 'when interactive search is enabled' do
+      before do
+        enable_feature(:interactive_search)
+        get find_commodity_path
+      end
+
+      it { expect(response.body).to include('search_type_guided') }
+    end
+
+    context 'when interactive search is enabled on the XI service' do
+      before do
+        enable_feature(:interactive_search)
+        get '/xi/find_commodity'
+      end
+
+      it { expect(response.body).not_to include('search_type_guided') }
+    end
 
     context 'with a malformed search param' do
       let(:params) { { search: 'coffee beans' } }
