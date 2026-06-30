@@ -1,45 +1,75 @@
-<%= form_tag quota_search_path, method: :get, class: "tariff-search quota-search #{@section_css}", id: 'new_search' do |f| %>
-  <%= page_header 'Search for quotas' %>
-  <%= render 'shared/invalid_date_error_summary' if params[:invalid_date].present? %>
+<%= form_with model: search_form,
+              url: quota_search_path,
+              method: :get,
+              scope: nil,
+              local: true,
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              class: "tariff-search quota-search #{@section_css}",
+              id: 'new_search' do |f| %>
+  <%= page_header t('quota_search.form.page_header') %>
+  <%= f.govuk_error_summary if search_form.errors.any? %>
 
   <div class="govuk-form-group govuk-!-margin-top-6">
     <div class="govuk-inset-text govuk-grid-column-one-half govuk-!-margin-top-0 govuk-!-margin-bottom-0">
-      Search for tariff quotas, including daily updated balances. Enter data into at least one of the criteria below.
+      <%= t('quota_search.form.inset_text') %>
     </div>
   </div>
-  <div class="govuk-form-group govuk-!-margin-top-6">
-    <%= label_tag :order_number, 'Enter the 6-digit quota order number', class: 'govuk-label' %>
-    <%= text_field_tag :order_number, search_form.order_number, class: 'govuk-input govuk-input--width-10', maxlength: 6 %>
-  </div>
-  <div class="govuk-form-group govuk-!-margin-top-6">
-    <%= label_tag :goods_nomenclature_item_id, 'Enter a 10-digit commodity code to search for quotas available on that code', class: 'govuk-label' %>
-    <%= text_field_tag :goods_nomenclature_item_id, search_form.goods_nomenclature_item_id, class: 'govuk-input govuk-input--width-10', maxlength: 10 %>
-  </div>
-  <div class="govuk-form-group govuk-!-margin-top-6">
-    <%= label_tag :geographical_area_id, 'Select a country to which the quota applies', class: 'govuk-label' %>
-    <div class="js-quota-country-picker">
-      <%= select_tag :geographical_area_id, options_from_collection_for_select(search_form.geographical_areas, 'id', 'long_description', search_form.geographical_area_id), include_blank: 'All countries', class: 'js-quota-country-picker-select custom-select' %>
-      <div class="govuk-!-margin-top-3">
-        <a class="reset-country-picker" href="#reset-country-picker" title="Reset country picker" rel="nofollow">Reset<span class="long-text">&nbsp;to all countries</span></a>
-      </div>
-    </div>
-  </div>
-  <div class="govuk-form-group govuk-!-margin-top-6">
-    <%= render layout: 'shared/date_picker', locals: { isInvalidDate: params[:invalid_date].present? } do %>
-      <%= content_tag :legend, 'Enter the date for which you would like to return results', class: 'govuk-label' %>
-      <%= content_tag :div, 'If you leave this field blank, then today\'s date will be used', class: 'govuk-hint' %>
-    <% end %>
-  </div>
-  <div class="govuk-form-group govuk-!-margin-top-6">
-    <%= label_tag :critical, 'Critical state', class: 'govuk-label' %>
-    <%= select_tag :critical, options_for_select(QuotaSearchForm::CRITICAL_VALUES, search_form.critical), include_blank: true, class: "custom-select" %>
-  </div>
-  <div class="govuk-form-group govuk-!-margin-top-6">
-    <%= label_tag :status, 'Status', class: 'govuk-label' %>
-    <%= select_tag :status, options_for_select(QuotaSearchForm::STATUS_VALUES, search_form.status), include_blank: true, class: "custom-select" %>
-  </div>
+  <%= f.govuk_text_field :order_number,
+                         width: 'one-quarter',
+                         id: 'order_number',
+                         name: 'order_number',
+                         maxlength: 6,
+                         label: { text: t('quota_search.form.order_number_label') },
+                         form_group: { class: 'govuk-!-margin-top-6' } %>
 
-  <div class="govuk-form-group govuk-!-margin-top-6">
-    <input class="button govuk-button" type="submit" name="new_search" value="Search for quotas">
+  <%= f.govuk_text_field :goods_nomenclature_item_id,
+                         width: 'one-quarter',
+                         id: 'goods_nomenclature_item_id',
+                         name: 'goods_nomenclature_item_id',
+                         maxlength: 10,
+                         label: { text: t('quota_search.form.goods_nomenclature_item_id_label') },
+                         form_group: { class: 'govuk-!-margin-top-6' } %>
+
+  <div class="js-quota-country-picker">
+    <%= f.govuk_collection_select :geographical_area_id,
+                                  search_form.geographical_areas,
+                                  :id,
+                                  :long_description,
+                                  options: { include_blank: t('quota_search.form.geographical_area_id_blank') },
+                                  label: { text: t('quota_search.form.geographical_area_id_label') },
+                                  form_group: { class: 'govuk-!-margin-top-6' },
+                                  id: 'geographical_area_id',
+                                  name: 'geographical_area_id',
+                                  class: 'js-quota-country-picker-select custom-select' %>
+    <div class="govuk-!-margin-top-3">
+      <a class="reset-country-picker" href="#reset-country-picker" title="<%= t('quota_search.form.reset_country_picker_title') %>" rel="nofollow"><%= t('quota_search.form.reset_country_picker') %><span class="long-text">&nbsp;<%= t('quota_search.form.reset_country_picker_suffix') %></span></a>
+    </div>
   </div>
+  <%= f.govuk_date_field :as_of,
+                         legend: { text: t('quota_search.form.date_legend'), size: 's' },
+                         hint: { text: t('quota_search.form.date_hint') },
+                         form_group: { class: 'govuk-!-margin-top-6' },
+                         maxlength_enabled: true %>
+  <%= f.govuk_select :critical,
+                     QuotaSearchForm::CRITICAL_VALUES,
+                     options: { include_blank: true },
+                     label: { text: t('quota_search.form.critical_label') },
+                     form_group: { class: 'govuk-!-margin-top-6' },
+                     id: 'critical',
+                     name: 'critical',
+                     class: 'custom-select' %>
+
+  <%= f.govuk_select :status,
+                     QuotaSearchForm::STATUS_VALUES,
+                     options: { include_blank: true },
+                     label: { text: t('quota_search.form.status_label') },
+                     form_group: { class: 'govuk-!-margin-top-6' },
+                     id: 'status',
+                     name: 'status',
+                     class: 'custom-select' %>
+
+  <%= f.govuk_submit t('quota_search.form.submit'),
+                     name: 'new_search',
+                     value: t('quota_search.form.submit'),
+                     class: 'govuk-!-margin-top-6' %>
 <% end %>

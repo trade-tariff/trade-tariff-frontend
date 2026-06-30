@@ -35,7 +35,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :cookies_policy,
                 :meursing_lookup_result,
-                :is_switch_service_banner_enabled?
+                :is_switch_service_banner_enabled?,
+                :extract_search_date_parts
 
   def disable_switch_service_banner
     @disable_switch_service_banner = true

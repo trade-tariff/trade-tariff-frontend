@@ -152,10 +152,10 @@ RSpec.describe 'Search', :js do
           expect(page.find('#order_number')).to be_present
           expect(page.find('#critical')).to be_present
           expect(page.find('#status')).to be_present
-          expect(page.find('#day')).to be_present
-          expect(page.find('#month')).to be_present
-          expect(page.find('#year')).to be_present
-          expect(page.find('input[name="new_search"]')).to be_present
+          expect(page.find('#quota_search_form_as_of_3i')).to be_present
+          expect(page.find('#quota_search_form_as_of_2i')).to be_present
+          expect(page.find('#quota_search_form_as_of_1i')).to be_present
+          expect(page).to have_css('button[name="new_search"], input[name="new_search"]')
 
           expect(page.find('.autocomplete__wrapper')).to be_present
 
@@ -172,10 +172,10 @@ RSpec.describe 'Search', :js do
           expect(page).to have_content('Quotas')
 
           page.find('#order_number').set('050088')
-          page.find('#day').set('14')
-          page.find('#month').set('7')
-          page.find('#year').set('2025')
-          page.find('input[name="new_search"]').click
+          page.find('#quota_search_form_as_of_3i').set('14')
+          page.find('#quota_search_form_as_of_2i').set('7')
+          page.find('#quota_search_form_as_of_1i').set('2025')
+          page.find('button[name="new_search"], input[name="new_search"]').click
 
           expect(page).to have_content('Quota search results')
           expect(page).to have_content('050088')
@@ -204,7 +204,7 @@ RSpec.describe 'Search', :js do
 
           expect(page.find('#cas')).to be_present
           expect(page.find('#name')).to be_present
-          expect(page.find('input[name="new_search"]')).to be_present
+          expect(page.find('button[name="new_search"]')).to be_present
 
           expect(page).not_to have_content('Chemical search results')
         end
@@ -219,7 +219,7 @@ RSpec.describe 'Search', :js do
           expect(page).to have_content(name)
 
           page.find('#cas').set('121-17-5')
-          page.find('input[name="new_search"]').click
+          page.find('button[name="new_search"]').click
 
           expect(page).to have_content('Chemical search results for “121-17-5”')
           expect(page).to have_content('4-chloro-alpha,alpha,alpha-trifluoro-3-nitrotoluene')
@@ -234,7 +234,7 @@ RSpec.describe 'Search', :js do
           expect(page).to have_content(name)
 
           page.find('#name').set('benzene')
-          page.find('input[name="new_search"]').click
+          page.find('button[name="new_search"]').click
 
           expect(page).to have_content('Chemical search results for “benzene”')
           expect(page).to have_content('22199-08-2')

@@ -53,17 +53,12 @@ class SearchController < ApplicationController
       raise TradeTariffFrontend::FeatureUnavailable
     end
 
+    if quota_search_date_redirect_required?
+      return redirect_to(quota_search_path(canonical_quota_search_query))
+    end
+
     form = QuotaSearchForm.new(quota_search_params)
     @result = QuotaSearchPresenter.new(form)
-
-    # Test the search date to check if it's valid
-    @search.date unless params.key?(:invalid_date) && params[:invalid_date] == 'true'
-
-    respond_to do |format|
-      format.html
-    end
-  rescue Search::InvalidDate
-    redirect_to quota_search_path(quota_search_params.merge(invalid_date: true))
   end
 
   def chemical_search
@@ -141,5 +136,25 @@ class SearchController < ApplicationController
 
   def quota_search_params
     params.permit(QuotaSearchForm::PERMITTED_PARAMS)
+      .to_h
+      .merge(extract_search_date_parts(quota_search_date_source))
+  end
+
+  def quota_search_date_source
+    quota_search_params = params[:quota_search_form]
+
+    quota_search_params.respond_to?(:permit) ? quota_search_params : params
+  end
+
+  def quota_search_date_redirect_required?
+    params[:quota_search_form].present? &&
+      extract_search_date_parts(quota_search_date_source).present? &&
+      params.values_at(:day, :month, :year).any?(&:blank?)
+  end
+
+  def canonical_quota_search_query
+    request.query_parameters
+      .except('quota_search_form')
+      .merge(extract_search_date_parts(quota_search_date_source))
   end
 end
