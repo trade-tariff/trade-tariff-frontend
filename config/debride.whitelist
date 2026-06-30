@@ -85,6 +85,7 @@ Chemical#id=
 Chemical#name=
 ChemicalSearchForm#cas=
 ChemicalSearchForm#name=
+ChemicalSearchForm#persisted?
 ChemicalSubstance#cas_rn
 ChemicalSubstance#cas_rn=
 ChemicalSubstance#cus
@@ -699,6 +700,8 @@ QuotaSearchForm#goods_nomenclature_item_id=
 QuotaSearchForm#large_result?
 QuotaSearchForm#month=
 QuotaSearchForm#page=
+QuotaSearchForm#persisted?
+QuotaSearchForm#read_attribute_for_validation
 QuotaSearchForm#status=
 QuotaSearchForm#year=
 QuotaSearchHelper#quota_search_today_params
