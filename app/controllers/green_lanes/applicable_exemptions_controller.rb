@@ -4,8 +4,7 @@ module GreenLanes
 
     include Concerns::ExpirableUrl
 
-    before_action :check_green_lanes_enabled,
-                  :disable_switch_service_banner,
+    before_action :disable_switch_service_banner,
                   :disable_search_form
 
     before_action :page_has_not_expired, only: %i[new]

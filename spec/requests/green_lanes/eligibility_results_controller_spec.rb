@@ -3,10 +3,6 @@ require 'spec_helper'
 RSpec.describe GreenLanes::EligibilityResultsController, type: :request do
   subject { make_request && response }
 
-  before do
-    allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return true
-  end
-
   describe 'GET #new' do
     let(:make_request) do
       get green_lanes_eligibility_result_path,

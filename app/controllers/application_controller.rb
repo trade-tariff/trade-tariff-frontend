@@ -165,12 +165,6 @@ class ApplicationController < ActionController::Base
     params['country'].try(:upcase)
   end
 
-  def check_green_lanes_enabled
-    unless TradeTariffFrontend.green_lanes_enabled?
-      raise TradeTariffFrontend::FeatureUnavailable
-    end
-  end
-
   def flagsmith_feature_enabled?(flag)
     return false if Current.flagsmith_unavailable
 

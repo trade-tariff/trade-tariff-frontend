@@ -3,8 +3,7 @@ module GreenLanes
     # application contoller requires search params to be set
     # override this for faq feedback ajax requests
     skip_before_action :set_search, only: [:send_feedback]
-    before_action :check_green_lanes_enabled,
-                  :disable_switch_service_banner,
+    before_action :disable_switch_service_banner,
                   :disable_search_form
 
     def index; end

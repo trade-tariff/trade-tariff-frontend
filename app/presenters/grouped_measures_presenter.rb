@@ -21,9 +21,6 @@ class GroupedMeasuresPresenter
         css_id: 'uk_import_controls',
         declarable: uk_declarable,
         hide_duty_rate: true,
-        search:,
-        show_stw_text: true,
-        anchor: 'import',
         roo_schemes: rules_of_origin_schemes,
         information: I18n.t('tabs.measures.import_controls_uk'),
       }

@@ -1,7 +1,6 @@
 module GreenLanes
   class CategoryAssessmentsController < ApplicationController
-    before_action :disable_search_form,
-                  :check_allowed
+    before_action :disable_search_form
 
     def show
       @category_assessments_search = CategoryAssessmentSearch.new
@@ -28,10 +27,6 @@ module GreenLanes
 
     def ca_search_params
       params.require(:green_lanes_category_assessment_search).permit(:commodity_code, :country)
-    end
-
-    def check_allowed
-      raise TradeTariffFrontend::FeatureUnavailable unless TradeTariffFrontend.green_lanes_enabled?
     end
   end
 end
