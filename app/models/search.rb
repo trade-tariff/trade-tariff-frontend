@@ -49,10 +49,6 @@ class Search
     @geographical_area ||= Rails.cache.resilient_fetch([cache_key, country]) { GeographicalArea.find(country) } if country.present?
   end
 
-  def country_description
-    geographical_area&.description || 'All countries'
-  end
-
   def date
     @date ||= TariffDate.build(attributes)
   rescue Date::Error

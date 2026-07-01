@@ -1,10 +1,5 @@
 module TradeTariffFrontend
   module ServiceChooser
-    SERVICE_CURRENCIES = {
-      'uk' => 'GBP',
-      'xi' => 'EUR',
-    }.freeze
-
     module_function
 
     def with_source(service_source)
@@ -26,10 +21,6 @@ module TradeTariffFrontend
 
     def service_default
       ENV.fetch('SERVICE_DEFAULT', 'uk')
-    end
-
-    def currency
-      SERVICE_CURRENCIES.fetch(service_choice, 'GBP')
     end
 
     def service_choices

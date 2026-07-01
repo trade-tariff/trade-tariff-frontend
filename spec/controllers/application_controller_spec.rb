@@ -101,33 +101,6 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  describe '#check_green_lanes_enabled' do
-    controller do
-      before_action :check_green_lanes_enabled
-
-      def index
-        render plain: 'ok'
-      end
-    end
-
-    context 'when green_lanes flag is enabled' do
-      before { allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return(true) }
-
-      it 'allows the request' do
-        get :index
-        expect(response).to have_http_status(:ok)
-      end
-    end
-
-    context 'when green_lanes flag is disabled' do
-      before { allow(TradeTariffFrontend).to receive(:green_lanes_enabled?).and_return(false) }
-
-      it 'raises FeatureUnavailable' do
-        expect { get :index }.to raise_error(TradeTariffFrontend::FeatureUnavailable)
-      end
-    end
-  end
-
   describe '#append_info_to_payload' do
     it 'adds frontend and search request ids to the logging payload' do
       request.request_id = 'frontend-request-id'

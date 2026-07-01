@@ -51,14 +51,6 @@ module Declarable
     import_measures.third_country_duties.any?(&:pharma_additional_code?)
   end
 
-  def one_or_more_prohibitive_measures?
-    import_measures.any?(&:prohibitive?)
-  end
-
-  def one_or_more_conditionally_prohibitive_measures?
-    import_measures.any?(&:conditionally_prohibitive?)
-  end
-
   def calculate_duties?
     no_heading? && no_entry_price_system?
   end

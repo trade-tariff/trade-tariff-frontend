@@ -1,5 +1,0 @@
-<% if TradeTariffFrontend.single_trade_window_linking_enabled? %>
-  <%= tariff_information_inset(classes: 'govuk-inset-text--s') do %>
-    <%= sanitize(declarable_stw_html(declarable, @search), tags: %w[a p], attributes: %w[target class rel href]) %>
-  <% end %>
-<% end %>

@@ -60,10 +60,6 @@ module TradeTariffFrontend
     DEFAULT_ENQUIRIES_EMAIL
   end
 
-  def currency_default
-    currency_default_gbp? ? 'GBP' : 'EUR'
-  end
-
   def host
     ENV.fetch('FRONTEND_HOST', 'http://localhost')
   end
@@ -104,31 +100,12 @@ module TradeTariffFrontend
     ENV['BACKEND_BASE_DOMAIN']
   end
 
-  def single_trade_window_url
-    ENV.fetch(
-      'STW_URI',
-      'https://check-how-to-import-export-goods.service.gov.uk/import/check-licences-certificates-and-other-restrictions',
-    )
-  end
-
-  def single_trade_window_linking_enabled?
-    ENV.fetch('STW_ENABLED', 'false') == 'true'
-  end
-
   def revision
     @revision ||= `cat REVISION 2>/dev/null || echo 'development'`.strip
   end
 
   def self.check_duties_service_url
     ENV.fetch('CHECK_DUTIES_SERVICE_URL', 'https://www.check-duties-customs-exporting-goods.service.gov.uk')
-  end
-
-  def welsh?
-    ENV['WELSH'].to_s == 'true'
-  end
-
-  def roo_wizard?
-    ENV['ROO_WIZARD'] == 'true' && TradeTariffFrontend::ServiceChooser.uk?
   end
 
   def webchat_enabled?
@@ -145,10 +122,6 @@ module TradeTariffFrontend
 
   def legacy_results_to_show
     ENV.fetch('LEGACY_RESULTS_TO_SHOW', '5').to_i
-  end
-
-  def green_lanes_enabled?
-    ENV['GREEN_LANES_ENABLED'].to_s == 'true'
   end
 
   def interactive_search_enabled?

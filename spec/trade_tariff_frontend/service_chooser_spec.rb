@@ -84,30 +84,4 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
       it { expect(described_class.api_client).to be_a(Faraday::Connection) }
     end
   end
-
-  describe '.currency' do
-    context 'when the service is xi' do
-      include_context 'with XI service'
-
-      it 'returns the correct currency' do
-        expect(described_class.currency).to eq('EUR')
-      end
-    end
-
-    context 'when the service is uk' do
-      include_context 'with UK service'
-
-      it 'returns the correct currency' do
-        expect(described_class.currency).to eq('GBP')
-      end
-    end
-
-    context 'when the service is not set' do
-      include_context 'with default service'
-
-      it 'returns the correct currency' do
-        expect(described_class.currency).to eq('GBP')
-      end
-    end
-  end
 end

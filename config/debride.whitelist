@@ -945,7 +945,6 @@ TimeMachineUrlHelper#chapter_on_date_path
 TimeMachineUrlHelper#commodity_on_date_path
 TimeMachineUrlHelper#heading_on_date_path
 TimeMachineUrlHelper#subheading_on_date_path
-TradeTariffFrontend#currency_default
 TradeTariffFrontend#developer_portal_url
 TradeTariffFrontend#flagsmith_api_url
 TradeTariffFrontend#google_tag_manager_container_id
@@ -955,7 +954,6 @@ TradeTariffFrontend#single_trade_window_linking_enabled?
 TradeTariffFrontend#waf_integration_enabled?
 TradeTariffFrontend#webchat_enabled?
 TradeTariffFrontend#welsh?
-TradeTariffFrontend::ServiceChooser#currency
 TradeTariffFrontend::ServiceChooser#uk_host
 TradeTariffFrontend::ServiceChooser#xi_host
 User#chapter_ids=

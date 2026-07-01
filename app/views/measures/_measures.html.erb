@@ -65,7 +65,7 @@
   <% component.with_tab(label: 'Origin', id: 'rules-of-origin') do %>
   <% tariff_tab = TradeTariffFrontend::ServiceChooser.uk? ? 'uk' : 'xi' %>
     <%- if @search.filtered_by_country? && @search.geographical_area -%>
-      <%= render (TradeTariffFrontend.roo_wizard? ? 'rules_of_origin/tab_' + tariff_tab : 'rules_of_origin/legacy/tab'),
+      <%= render (TradeTariffFrontend::ServiceChooser.uk? ? 'rules_of_origin/tab_uk' : 'rules_of_origin/legacy/tab'),
                  country_code: @search.country,
                  country_name: @search.geographical_area.description,
                  commodity_code: declarable.code,
