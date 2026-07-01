@@ -3,6 +3,9 @@ inherit_gem:
     - config/default.yml
     - config/rails.yml
 
+require:
+  - ./.rubocop/cop/trade_tariff/config_order
+
 plugins:
   - rubocop-rspec
   - rubocop-capybara
@@ -86,3 +89,6 @@ RSpec/IndexedLet:
 
 RSpec/NoExpectationExample:
   Enabled: false
+
+TradeTariff/ConfigOrder:
+  Enabled: true
