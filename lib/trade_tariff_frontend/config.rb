@@ -1,5 +1,9 @@
+require_relative 'flagsmith_backed_config'
+
 module TradeTariffFrontend
   module Config
+    prepend FlagsmithBackedConfig
+
     def production?
       environment == 'production'
     end
@@ -136,5 +140,8 @@ module TradeTariffFrontend
     def basic_session_passwords
       @basic_session_passwords ||= basic_session_password.to_s.split(',').map(&:strip).reject(&:blank?)
     end
+
+    flagsmith_flag :interactive_search_enabled?, name: :interactive_search, services: %i[uk]
+    flagsmith_flag :webchat_enabled?, name: :webchat
   end
 end

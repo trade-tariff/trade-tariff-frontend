@@ -65,39 +65,40 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  describe '#flagsmith_feature_enabled?' do
+  describe '#interactive_search_enabled?' do
     controller do
       def index
-        2.times { flagsmith_feature_enabled?(:interactive_search) }
-        render plain: 'ok'
+        render plain: interactive_search_enabled?.to_s
       end
     end
 
-    it 'does not retry Flagsmith after a failed flag fetch in the same request' do
-      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_raise(Faraday::ConnectionFailed.new('timeout'))
+    before do
+      stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+      allow(TradeTariffFrontend::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+    end
 
+    it 'uses the config default when the Flagsmith flag is not configured' do
       get :index
 
-      expect(FlagsmithClient.instance).to have_received(:get_flags_for).once
+      expect(response.body).to eq('true')
+    end
+  end
+
+  describe '#webchat_enabled?' do
+    controller do
+      def index
+        render plain: webchat_enabled?.to_s
+      end
     end
 
-    context 'when on the XI service' do
-      controller do
-        def index
-          render plain: flagsmith_feature_enabled?(:interactive_search).to_s
-        end
-      end
+    before do
+      stub_const('ENV', ENV.to_hash.merge('WEBCHAT_URL' => 'https://example.com/webchat'))
+    end
 
-      before do
-        allow(TradeTariffFrontend::ServiceChooser).to receive(:xi?).and_return(true)
-        enable_feature(:interactive_search)
-      end
+    it 'uses the config default when the Flagsmith flag is not configured' do
+      get :index
 
-      it 'returns the raw Flagsmith flag value' do
-        get :index
-
-        expect(response.body).to eq('true')
-      end
+      expect(response.body).to eq('true')
     end
   end
 

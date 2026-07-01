@@ -5,6 +5,19 @@ RSpec.describe TradeTariffFrontend do
     expect(described_class.singleton_class.ancestors).to include(described_class::Config)
   end
 
+  it 'registers config-backed feature flags' do
+    expect(described_class::Config.registered_flags).to include(
+      interactive_search_enabled?: {
+        name: 'interactive_search',
+        services: %w[uk],
+      },
+      webchat_enabled?: {
+        name: 'webchat',
+        services: [],
+      },
+    )
+  end
+
   describe '.enquiries_email' do
     it 'returns the default classification enquiries email' do
       expect(described_class.enquiries_email).to eq('classification.enquiries@hmrc.gov.uk')
@@ -53,6 +66,55 @@ RSpec.describe TradeTariffFrontend do
         expect(described_class.webchat_url).to eq(
           'https://www.tax.service.gov.uk/ask-hmrc/chat/test-online-services-helpdesk',
         )
+      end
+    end
+  end
+
+  describe '.webchat_enabled?' do
+    before do
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+    end
+
+    context 'when the Flagsmith flag is not configured' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('WEBCHAT_URL' => 'https://example.com/webchat'))
+      end
+
+      it 'uses the configured default' do
+        expect(described_class.webchat_enabled?).to be(true)
+      end
+    end
+
+    context 'when the Flagsmith flag is configured as disabled' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('WEBCHAT_URL' => 'https://example.com/webchat'))
+        disable_feature(:webchat)
+      end
+
+      it 'overrides the configured default' do
+        expect(described_class.webchat_enabled?).to be(false)
+      end
+    end
+
+    context 'when the Flagsmith flag is configured as enabled' do
+      before do
+        stub_const('ENV', ENV.to_hash.except('WEBCHAT_URL'))
+        enable_feature(:webchat)
+      end
+
+      it 'overrides the configured default' do
+        expect(described_class.webchat_enabled?).to be(true)
+      end
+    end
+
+    context 'when Flagsmith is unavailable' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('WEBCHAT_URL' => 'https://example.com/webchat'))
+        allow(FlagsmithClient.instance).to receive(:get_flags_for).and_raise(Faraday::ConnectionFailed.new('timeout'))
+      end
+
+      it 'uses the configured default' do
+        expect(described_class.webchat_enabled?).to be(true)
       end
     end
   end
@@ -123,6 +185,155 @@ RSpec.describe TradeTariffFrontend do
 
         it 'does not return a Flagsmith Edge URL' do
           expect(described_class.flagsmith_api_url).to be_nil
+        end
+      end
+    end
+  end
+
+  describe '.interactive_search_enabled?' do
+    before do
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+    end
+
+    def capture_flagsmith_fallback_events
+      events = []
+      subscriber = ActiveSupport::Notifications.subscribe('flagsmith.config_flag_fallback') do |*args|
+        events << ActiveSupport::Notifications::Event.new(*args)
+      end
+
+      yield events
+    ensure
+      ActiveSupport::Notifications.unsubscribe(subscriber)
+    end
+
+    context 'when the Flagsmith flag is not configured' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+      end
+
+      it 'uses the configured default' do
+        expect(described_class.interactive_search_enabled?).to be(true)
+      end
+    end
+
+    context 'when the Flagsmith flag is not configured in production' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'production'))
+      end
+
+      it 'uses the configured default' do
+        expect(described_class.interactive_search_enabled?).to be(false)
+      end
+
+      it 'instruments the fallback reason' do
+        capture_flagsmith_fallback_events do |events|
+          described_class.interactive_search_enabled?
+
+          expect(events.map(&:payload)).to include(
+            a_hash_including(
+              flag_name: 'interactive_search',
+              method_name: :interactive_search_enabled?,
+              reason: :missing_flag,
+              service_name: 'uk',
+              default: false,
+            ),
+          )
+        end
+      end
+    end
+
+    context 'without a Flagsmith identity' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+        Current.flagsmith_identity = nil
+        allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
+      end
+
+      it 'uses the configured default without fetching Flagsmith flags', :aggregate_failures do
+        expect(described_class.interactive_search_enabled?).to be(true)
+        expect(FlagsmithClient.instance).not_to have_received(:get_flags_for)
+      end
+
+      it 'instruments the fallback reason' do
+        capture_flagsmith_fallback_events do |events|
+          described_class.interactive_search_enabled?
+
+          expect(events.map(&:payload)).to include(
+            a_hash_including(
+              flag_name: 'interactive_search',
+              method_name: :interactive_search_enabled?,
+              reason: :missing_identity,
+              service_name: 'uk',
+              default: true,
+            ),
+          )
+        end
+      end
+    end
+
+    context 'when the Flagsmith flag is configured as disabled' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+        disable_feature(:interactive_search)
+      end
+
+      it 'overrides the configured default' do
+        expect(described_class.interactive_search_enabled?).to be(false)
+      end
+    end
+
+    context 'when the Flagsmith flag is configured as enabled' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'production'))
+        enable_feature(:interactive_search)
+      end
+
+      it 'overrides the configured default' do
+        expect(described_class.interactive_search_enabled?).to be(true)
+      end
+    end
+
+    context 'when the flag does not apply to the current service' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+        allow(described_class::ServiceChooser).to receive_messages(service_name: 'xi', xi?: true)
+        enable_feature(:interactive_search)
+      end
+
+      it 'uses the configured default' do
+        expect(described_class.interactive_search_enabled?).to be(false)
+      end
+    end
+
+    context 'when Flagsmith is unavailable' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+        allow(FlagsmithClient.instance).to receive(:get_flags_for).and_raise(Faraday::ConnectionFailed.new('timeout'))
+      end
+
+      it 'uses the configured default and does not retry during the request', :aggregate_failures do
+        2.times do
+          expect(described_class.interactive_search_enabled?).to be(true)
+        end
+
+        expect(FlagsmithClient.instance).to have_received(:get_flags_for).once
+      end
+
+      it 'instruments the fallback reason' do
+        capture_flagsmith_fallback_events do |events|
+          described_class.interactive_search_enabled?
+
+          expect(events.map(&:payload)).to include(
+            a_hash_including(
+              flag_name: 'interactive_search',
+              method_name: :interactive_search_enabled?,
+              reason: :unavailable,
+              service_name: 'uk',
+              default: true,
+              error_class: 'Faraday::ConnectionFailed',
+            ),
+          )
         end
       end
     end

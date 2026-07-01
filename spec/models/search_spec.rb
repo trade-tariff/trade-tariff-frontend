@@ -233,6 +233,10 @@ RSpec.describe Search do
   end
 
   describe '#perform' do
+    before do
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+    end
+
     context 'when interactive_search is true and interactive search is enabled' do
       subject(:perform_search) do
         search = described_class.new(q: 'horses')
@@ -334,6 +338,28 @@ RSpec.describe Search do
       end
     end
 
+    context 'when the interactive search flag is not configured but the config default is enabled' do
+      subject(:perform_search) do
+        search = described_class.new(q: 'horses')
+        search.interactive_search = true
+        search.perform
+      end
+
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+        Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+        allow(TradeTariffFrontend::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: { 'data' => [] }.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'returns an InternalSearchResult' do
+        expect(perform_search).to be_a(Search::InternalSearchResult)
+      end
+    end
+
     context 'when interactive_search is false even though interactive search is enabled' do
       subject(:perform_search) { described_class.new(q: 'horses').perform }
 
@@ -422,6 +448,7 @@ RSpec.describe Search do
       end
 
       before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'production'))
         allow(FlagsmithClient.instance).to receive(:get_flags_for).and_raise(Faraday::ConnectionFailed.new('timeout'))
         stub_api_request('search', :post).to_return(
           jsonapi_response(:search, {
@@ -434,6 +461,12 @@ RSpec.describe Search do
 
       it 'returns a Search::Outcome' do
         expect(perform_search).to be_a(Search::Outcome)
+      end
+
+      it 'attempts to fetch Flagsmith flags before falling back' do
+        perform_search
+
+        expect(FlagsmithClient.instance).to have_received(:get_flags_for).once
       end
     end
   end
