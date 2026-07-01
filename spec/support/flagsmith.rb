@@ -3,13 +3,38 @@
 # Shared across threads (it is a constant, not thread-local), so Puma server
 # threads in JS tests see the same state as the test thread.
 class TestFlagsmithClient
+  class TestFlag
+    attr_reader :enabled, :default
+
+    def initialize(enabled:, default:)
+      @enabled = enabled
+      @default = default
+    end
+
+    def enabled?
+      enabled
+    end
+
+    alias_method :is_default, :default
+  end
+
   class TestFlags
     def initialize(flags)
       @flags = flags
     end
 
     def is_feature_enabled(flag_name)
-      @flags.fetch(flag_name.to_s, false)
+      get_flag(flag_name).enabled?
+    end
+
+    def get_flag(flag_name)
+      flag_name = flag_name.to_s
+
+      if @flags.key?(flag_name)
+        TestFlag.new(enabled: @flags.fetch(flag_name), default: false)
+      else
+        TestFlag.new(enabled: false, default: true)
+      end
     end
   end
 

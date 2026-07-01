@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include BasicSessionAuth
   include CacheHelper
+  include TradeTariffFrontend::Config::RegisteredFlags
 
   before_action :maintenance_mode_if_active
   before_action :set_cache
@@ -163,23 +164,6 @@ class ApplicationController < ActionController::Base
 
   def country
     params['country'].try(:upcase)
-  end
-
-  def flagsmith_feature_enabled?(flag)
-    return false if Current.flagsmith_unavailable
-
-    flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
-    flags.is_feature_enabled(flag.to_s)
-  rescue StandardError => e
-    Current.flagsmith_unavailable = true
-    Rails.logger.warn("Flagsmith unavailable, disabling #{flag}: #{e.class}: #{e.message}")
-    false
-  end
-
-  def interactive_search_enabled?
-    return false if TradeTariffFrontend::ServiceChooser.xi?
-
-    flagsmith_feature_enabled?(:interactive_search)
   end
 
   def set_current_flagsmith_identity
