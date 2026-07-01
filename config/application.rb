@@ -19,6 +19,7 @@ require 'action_view/railtie'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 APP_SLUG = 'trade-tariff'.freeze
+require_relative '../app/middleware/filter_bad_url_encoding'
 
 module TradeTariffFrontend
   class Application < Rails::Application
@@ -62,7 +63,7 @@ module TradeTariffFrontend
 
     config.guide_links = config_for(:guide_links)
     # Prevent invalid queries from causing an error, e.g., `/api/uk/search_references.json?query[letter]=%`
-    config.middleware.use TradeTariffFrontend::FilterBadURLEncoding
+    config.middleware.use FilterBadUrlEncoding
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

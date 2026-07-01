@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 RSpec.describe TradeTariffFrontend do
+  it 'extends its configuration module' do
+    expect(described_class.singleton_class.ancestors).to include(described_class::Config)
+  end
+
   describe '.enquiries_email' do
     it 'returns the default classification enquiries email' do
       expect(described_class.enquiries_email).to eq('classification.enquiries@hmrc.gov.uk')
