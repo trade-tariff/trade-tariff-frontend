@@ -66,10 +66,15 @@ RSpec.describe FeatureFlagsController, type: :request do
     end
 
     describe 'PATCH /feature-flags/:id' do
-      it 'sets the trait on the management client and redirects' do
+      it 'redirects back to the feature flags page' do
         patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
 
         expect(response).to redirect_to(feature_flags_path)
+      end
+
+      it 'writes the trait to the management client' do
+        patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
+
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
           hash_including(trait_key: 'interactive_search', trait_value: true),
         )
