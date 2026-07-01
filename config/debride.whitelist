@@ -335,6 +335,7 @@ FindCommoditiesController#show
 FlagsmithClient#configure
 FlagsmithClient#instance=
 FlagsmithManagementClient#configure
+FlagsmithManagementClient#instance=
 Footnote#code=
 Footnote#description=
 Footnote#footnote_id
