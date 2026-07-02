@@ -1,4 +1,6 @@
 module LiveIssueHelper
+  COMMODITY_CODE_WITH_OPTIONAL_TRAILING_COMMA = /\A\s*(\d{10}),?\s*\z/
+
   SORT_LABELS = {
     'updated_desc' => 'live_issues.sort.updated_desc',
     'updated_asc' => 'live_issues.sort.updated_asc',
@@ -22,6 +24,13 @@ module LiveIssueHelper
     return t('live_issues.card.none') if live_issue.suggested_action.blank?
 
     markdown_field(live_issue.suggested_action)
+  end
+
+  def live_issue_commodity_link(commodity_code)
+    normalized_commodity_code = commodity_code.to_s.match(COMMODITY_CODE_WITH_OPTIONAL_TRAILING_COMMA)&.[](1)
+    return commodity_code.to_s if normalized_commodity_code.blank?
+
+    govuk_link_to(normalized_commodity_code, commodity_path(normalized_commodity_code))
   end
 
   def live_issue_from_to_date(live_issue)

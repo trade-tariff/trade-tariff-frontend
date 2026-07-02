@@ -8,6 +8,28 @@ RSpec.describe LiveIssueHelper, type: :helper do
     it { is_expected.to eq(expected_html) }
   end
 
+  describe '#live_issue_commodity_link' do
+    subject(:live_issue_commodity_link) { helper.live_issue_commodity_link(commodity_code) }
+
+    context 'when a commodity code contains non-digit characters' do
+      let(:commodity_code) { '3402420090,' }
+
+      it { is_expected.to have_link('3402420090', href: commodity_path('3402420090')) }
+    end
+
+    context 'when a commodity code cannot be normalized to ten digits' do
+      let(:commodity_code) { 'BAD' }
+
+      it { is_expected.to eq('BAD') }
+    end
+
+    context 'when a commodity code contains unexpected characters around ten digits' do
+      let(:commodity_code) { '<script>3402420090</script>' }
+
+      it { is_expected.to eq('<script>3402420090</script>') }
+    end
+  end
+
   describe '#live_issue_from_to_date' do
     subject(:live_issue_from_to_date) { helper.live_issue_from_to_date(live_issue) }
 

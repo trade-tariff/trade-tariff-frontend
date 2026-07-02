@@ -497,6 +497,7 @@ LiveIssue#status=
 LiveIssue#suggested_action=
 LiveIssue#title=
 LiveIssue#updated_at=
+LiveIssueHelper#live_issue_commodity_link
 LiveIssueHelper#live_issue_from_to_date
 LiveIssueHelper#live_issue_recommendation
 LiveIssueHelper#live_issue_selected_filters
