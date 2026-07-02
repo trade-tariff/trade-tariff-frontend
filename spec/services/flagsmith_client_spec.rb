@@ -52,6 +52,49 @@ RSpec.describe FlagsmithClient do
         hash_including(request_timeout_seconds: 1),
       )
     end
+
+    it 'configures the SDK with a quiet logger for request noise' do
+      allow(Flagsmith::Client).to receive(:new).and_call_original
+
+      described_class.new(
+        environment_key: 'test-env-key',
+        api_url: 'https://flags-edge.example.com/api/v1/',
+      )
+
+      expect(Flagsmith::Client).to have_received(:new).with(
+        hash_including(logger: an_instance_of(described_class::SdkLogger)),
+      )
+    end
+  end
+
+  describe 'SDK logging' do
+    subject(:logger) { described_class::SdkLogger.new(rails_logger) }
+
+    let(:rails_logger) { instance_spy(ActiveSupport::Logger) }
+
+    it 'suppresses debug request logs' do
+      logger.debug('debug details')
+
+      expect(rails_logger).not_to have_received(:debug)
+    end
+
+    it 'suppresses info request logs' do
+      logger.info { 'request: POST https://flags-edge.example.com/api/v1/identities/' }
+
+      expect(rails_logger).not_to have_received(:info)
+    end
+
+    it 'forwards warnings to the Rails logger' do
+      logger.warn('Flagsmith warning')
+
+      expect(rails_logger).to have_received(:warn).with('Flagsmith warning')
+    end
+
+    it 'forwards errors to the Rails logger' do
+      logger.error { 'Flagsmith error' }
+
+      expect(rails_logger).to have_received(:error).with('Flagsmith error')
+    end
   end
 
   describe '#get_flags_for' do
