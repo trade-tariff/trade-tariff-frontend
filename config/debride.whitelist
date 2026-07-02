@@ -332,6 +332,7 @@ Feedback#telephone=
 FeedbackController#new
 FeedbackController#thanks
 FindCommoditiesController#show
+FlagsmithClient::SdkLogger#debug
 FlagsmithClient#configure
 FlagsmithClient#instance=
 Footnote#code=
