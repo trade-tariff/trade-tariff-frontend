@@ -13,6 +13,20 @@ RSpec.describe FlagsmithClient do
     end
   end
 
+  describe '.configured?' do
+    it 'returns false when instance has not been set' do
+      original = described_class.instance
+      described_class.instance = nil
+      expect(described_class.configured?).to be false
+    ensure
+      described_class.instance = original
+    end
+
+    it 'returns true when a client is configured' do
+      expect(described_class.configured?).to be true
+    end
+  end
+
   describe '.instance=' do
     it 'replaces the singleton' do
       replacement = instance_double(described_class)
