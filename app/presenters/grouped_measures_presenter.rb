@@ -176,29 +176,11 @@ class GroupedMeasuresPresenter
   end
 
   def uk_navigation_items
-    return [] if uk_import_measures.blank?
-
-    items = []
-    items << { text: 'Import controls', anchor: '#uk_import_controls' } if uk_import_measures.import_controls.present?
-    items << { text: 'Import duties', anchor: '#import_duties' } if uk_import_measures.customs_duties.present?
-    items << { text: 'Quotas', anchor: '#quotas' } if uk_import_measures.quotas.present?
-    items << { text: 'Trade remedies, safeguards and retaliatory duties', anchor: '#trade_remedies' } if uk_import_measures.trade_remedies.present?
-    items << { text: 'Suspensions', anchor: '#suspensions' } if uk_import_measures.suspensions.present?
-    items << { text: 'Credibility checks', anchor: '#credibility_checks' } if uk_import_measures.credibility_checks.present?
-    items << { text: 'Import VAT and excise', anchor: '#vat_excise' } if uk_import_measures.vat_excise.present?
-    items
+    uk_sections.map { |section| { text: section[:caption], anchor: "##{section[:css_id]}" } }
   end
 
   def xi_navigation_items
-    items = []
-    items << { text: 'Import duties', anchor: '#import_duties' } if xi_import_measures.customs_duties.present?
-    items << { text: 'Trade remedies, safeguards and retaliatory duties', anchor: '#trade_remedies' } if xi_import_measures.trade_remedies.present?
-    items << { text: 'Suspensions', anchor: '#suspensions' } if xi_import_measures.suspensions.present?
-    items << { text: 'Credibility checks', anchor: '#credibility_checks' } if xi_import_measures.credibility_checks.present?
-    items << { text: 'Import VAT and excise', anchor: '#vat_excise' } if uk_import_measures&.vat_excise.present?
-    items << { text: 'EU import controls', anchor: '#xi_import_controls' } if xi_import_measures.import_controls.present?
-    items << { text: 'UK import controls', anchor: '#uk_import_controls' } if uk_import_measures&.import_controls.present?
-    items
+    xi_sections.map { |section| { text: section[:caption], anchor: "##{section[:css_id]}" } }
   end
 
   def show_meursing_form?
