@@ -195,7 +195,6 @@
   .heading-code {
     width: 30px;
     height: 30px;
-    //margin-right: 2px !important;
   }
 
   .commodity-code {
@@ -208,12 +207,6 @@
       display: inline-block;
       text-align: center;
       line-height: 30px;
-      //margin: 0 !important;
-
-      &:nth-child(2) {
-        //margin-left: 2px !important;
-        //margin-right: 2px !important;
-      }
     }
   }
 }

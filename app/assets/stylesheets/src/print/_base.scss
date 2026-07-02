@@ -30,19 +30,6 @@ article dd ul a {
   display: block;
 }
 
-a.print-link-without-description:after {
-  content: "";
-}
-
-.hidden-print {
-  display: none !important;
-}
-
-.visible-print {
-  display: initial !important;
-  visibility: visible !important;
-}
-
 .pull-left {
   float: left;
 }
@@ -55,27 +42,6 @@ a[href^="/"]:after,
 a[href^="http://"]:after,
 a[href^="https://"]:after {
   display: none;
-}
-
-.back-to-previous {
-  display: none;
-}
-
-.js-header-toggle.menu {
-  display: none;
-}
-
-.header-proposition {
-  display: none;
-}
-
-#proposition-name {
-  position: relative;
-  top: -0.2em;
-  font-size: 1.7em;
-  padding-left: 0.5em;
-  margin-left: 0.5em;
-  border-left: 2px solid #000;
 }
 
 #proposition-links {
