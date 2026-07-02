@@ -2,6 +2,7 @@ class ChangePresenter
   attr_reader :change
 
   delegate :record, to: :change, prefix: true
+  delegate :id, :operation, :operation_date, to: :change
 
   def initialize(change)
     @change = change
@@ -29,12 +30,4 @@ class ChangePresenter
   end
 
   def anchor_link; end
-
-  private
-
-  # rubocop:disable Style/MissingRespondToMissing
-  def method_missing(*args, &block)
-    @change.send(*args, &block)
-  end
-  # rubocop:enable Style/MissingRespondToMissing
 end
