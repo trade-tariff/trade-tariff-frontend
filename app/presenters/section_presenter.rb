@@ -10,5 +10,4 @@ class SectionPresenter < TradeTariffFrontend::Presenter
   def link
     view_context.section_path(@section)
   end
-
 end

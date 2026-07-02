@@ -10,5 +10,4 @@ class ChapterPresenter < TradeTariffFrontend::Presenter
   def link
     view_context.chapter_path(@chapter)
   end
-
 end
