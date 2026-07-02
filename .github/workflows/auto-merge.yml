@@ -22,5 +22,6 @@ jobs:
     with:
       label: low-risk
       merge-method: merge
+      copilot-review-required: false
     secrets:
       github-token: ${{ secrets.PULL_REQUEST_PAT }}
