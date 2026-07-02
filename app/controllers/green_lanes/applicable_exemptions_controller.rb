@@ -3,6 +3,7 @@ module GreenLanes
     include GreenLanesHelper
 
     include Concerns::ExpirableUrl
+    include Concerns::NextPageNavigation
 
     before_action :disable_switch_service_banner,
                   :disable_search_form
@@ -134,28 +135,17 @@ module GreenLanes
       merged_params
     end
 
-    def handle_next_page(next_page)
-      uri = URI(next_page)
-      path = uri.path
-      next_page_query = if uri.query
-                          Rack::Utils.parse_query(uri.query)
-                        else
-                          {}
-                        end
-
-      query = {
+    def next_page_base_query_params
+      {
         commodity_code: params[:commodity_code],
         country_of_origin: params[:country_of_origin],
         moving_date: params[:moving_date],
         category: params[:category],
-      }
-        .merge(exemptions_results_params)
-        .merge(next_page_query)
-        .merge(passed_exemption_answers)
-        .merge(t: Time.zone.now.to_i)
-        .deep_symbolize_keys
+      }.merge(exemptions_results_params)
+    end
 
-      "#{path}?#{query.to_query}"
+    def next_page_extra_query_params
+      passed_exemption_answers
     end
 
     def passed_exemption_answers
