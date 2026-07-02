@@ -1,9 +1,9 @@
 RSpec.describe FlagsmithClient do
   describe '.instance' do
-    it 'raises if not configured' do
+    it 'returns a NullClient when not configured' do
       original = described_class.instance
       described_class.instance = nil
-      expect { described_class.instance }.to raise_error(RuntimeError, /not configured/)
+      expect(described_class.instance).to be_a(described_class::NullClient)
     ensure
       described_class.instance = original
     end
