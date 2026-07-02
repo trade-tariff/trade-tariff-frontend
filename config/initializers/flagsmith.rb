@@ -27,7 +27,7 @@ if flagsmith_environment_key.present? && flagsmith_api_url.present?
     )
   end
 elsif flagsmith_environment_key.blank?
-  Rails.logger.warn('Flagsmith environment key is not configured; all feature flags default to enabled')
+  Rails.logger.warn('Flagsmith environment key is not configured; feature flags will use their per-flag defaults')
 else
   Rails.logger.warn("Flagsmith API URL is not configured for ENVIRONMENT=#{TradeTariffFrontend.environment}; guided search is disabled")
 end

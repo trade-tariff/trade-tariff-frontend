@@ -1,15 +1,29 @@
 RSpec.describe FlagsmithClient do
   describe '.instance' do
-    it 'returns a NullClient when not configured' do
+    it 'raises if not configured' do
       original = described_class.instance
       described_class.instance = nil
-      expect(described_class.instance).to be_a(described_class::NullClient)
+      expect { described_class.instance }.to raise_error(RuntimeError, /not configured/)
     ensure
       described_class.instance = original
     end
 
     it 'returns the configured singleton' do
       expect(described_class.instance).to eq(TEST_FLAGSMITH_CLIENT)
+    end
+  end
+
+  describe '.configured?' do
+    it 'returns false when instance has not been set' do
+      original = described_class.instance
+      described_class.instance = nil
+      expect(described_class.configured?).to be false
+    ensure
+      described_class.instance = original
+    end
+
+    it 'returns true when a client is configured' do
+      expect(described_class.configured?).to be true
     end
   end
 
