@@ -11,6 +11,16 @@ RSpec.describe 'layouts/application', type: :view do
 
   it { is_expected.to have_css 'header.govuk-header .govuk-width-container > .tariff-header-banner' }
 
+  it 'renders the service switch banner without legacy tariff breadcrumb tree markup', :aggregate_failures do
+    render
+
+    expect(rendered).to have_css('.tariff-breadcrumbs .switch-service-control')
+    expect(rendered).not_to have_css('.tariff-breadcrumbs ul')
+    expect(rendered).not_to have_css('.tariff-breadcrumbs .feed')
+    expect(rendered).not_to have_css('.tariff-breadcrumbs .line-text')
+    expect(rendered).not_to have_css('.tariff-breadcrumbs .full-code')
+  end
+
   it 'renders the standard feedback useful banner', :aggregate_failures do
     render
 
