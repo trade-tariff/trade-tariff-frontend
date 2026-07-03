@@ -5,12 +5,11 @@
 # FLAGSMITH_API_URL - optional override for the self-hosted FlagSmith
 #   instance. Defaults to the Flagsmith Edge URL for
 #   TradeTariffFrontend.environment.
-# FLAGSMITH_MANAGEMENT_API_URL - base URL for the Flagsmith Management API
-#   (the core API server, not the Edge Proxy). Required for trait writes.
-#   The Edge Proxy does not persist traits.
 # FLAGSMITH_MANAGEMENT_API_TOKEN - personal or service API token for the
 #   Flagsmith Management API. Used by FlagsmithManagementClient to write
-#   identity traits (e.g. for user opt-in to feature flags).
+#   identity traits (e.g. for user opt-in to feature flags). The management
+#   client connects directly to the core API (Cloud Map internal URL) — not
+#   the Edge Proxy, which is read-only.
 #
 # In the test environment the singletons are replaced by test doubles
 # (see spec/support/flagsmith.rb) so these env vars are not required there.
@@ -24,7 +23,6 @@
 # the top level here raises NameError during asset precompilation.
 flagsmith_environment_key = ENV['FLAGSMITH_ENVIRONMENT_KEY']
 flagsmith_api_url = TradeTariffFrontend.flagsmith_api_url
-flagsmith_management_api_url = ENV['FLAGSMITH_MANAGEMENT_API_URL']
 flagsmith_management_api_token = ENV['FLAGSMITH_MANAGEMENT_API_TOKEN']
 
 if flagsmith_environment_key.present? && flagsmith_api_url.present?
@@ -34,9 +32,9 @@ if flagsmith_environment_key.present? && flagsmith_api_url.present?
       api_url: flagsmith_api_url,
     )
 
-    if flagsmith_management_api_url.present? && flagsmith_management_api_token.present?
+    if flagsmith_management_api_token.present?
       FlagsmithManagementClient.configure(
-        api_url: flagsmith_management_api_url,
+        environment_key: flagsmith_environment_key,
         api_token: flagsmith_management_api_token,
       )
     end

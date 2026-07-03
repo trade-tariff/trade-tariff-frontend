@@ -26,13 +26,13 @@ RSpec.describe FlagsmithManagementClient do
   describe '#set_trait' do
     subject(:client) do
       described_class.new(
-        api_url: 'https://flagsmith.example.com',
+        environment_key: 'test-env-key',
         api_token: 'test-token',
       )
     end
 
     before do
-      stub_request(:post, 'https://flagsmith.example.com/api/v1/traits/')
+      stub_request(:post, "#{described_class::MANAGEMENT_API_URL}/api/v1/environments/test-env-key/traits/")
         .with(
           headers: { 'Authorization' => 'Api-Key test-token' },
           body: {
@@ -48,10 +48,10 @@ RSpec.describe FlagsmithManagementClient do
         )
     end
 
-    it 'POSTs the trait to the management API' do
+    it 'POSTs the trait to the admin identity-trait endpoint' do
       client.set_trait('Anonymous:abc123', 'interactive_search', true)
 
-      expect(WebMock).to have_requested(:post, 'https://flagsmith.example.com/api/v1/traits/')
+      expect(WebMock).to have_requested(:post, "#{described_class::MANAGEMENT_API_URL}/api/v1/environments/test-env-key/traits/")
         .with(body: hash_including(trait_key: 'interactive_search', trait_value: true))
     end
   end
