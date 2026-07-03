@@ -90,10 +90,15 @@ RSpec.describe FeatureFlagsController, type: :request do
         )
       end
 
-      it 'rejects a flag not in the optin allowlist' do
+      it 'redirects when the flag is not in the optin allowlist' do
         patch feature_flag_path('unknown_flag'), params: { enabled: 'true' }
 
         expect(response).to redirect_to(feature_flags_path)
+      end
+
+      it 'does not write a trait when the flag is not in the optin allowlist' do
+        patch feature_flag_path('unknown_flag'), params: { enabled: 'true' }
+
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
       end
     end
