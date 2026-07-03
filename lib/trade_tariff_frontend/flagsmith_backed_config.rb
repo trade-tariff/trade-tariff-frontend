@@ -73,7 +73,7 @@ module TradeTariffFrontend
         return default
       end
 
-      flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
+      flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity, Current.flagsmith_optin_traits || {})
       flag = flags.get_flag(flag_name)
 
       if flag.is_default

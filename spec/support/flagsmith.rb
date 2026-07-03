@@ -56,7 +56,7 @@ class TestFlagsmithClient
   end
 
   # FlagsmithClient interface - evaluation
-  def get_flags_for(_identity)
+  def get_flags_for(_identity, _traits = {})
     TestFlags.new(@flags)
   end
 end
@@ -72,8 +72,8 @@ class TestFlagsmithManagementClient
     @recorded_traits = []
   end
 
-  def get_flags_for(identity) # rubocop:disable Rails/Delegate
-    TEST_FLAGSMITH_CLIENT.get_flags_for(identity)
+  def get_flags_for(identity, traits = {}) # rubocop:disable Rails/Delegate
+    TEST_FLAGSMITH_CLIENT.get_flags_for(identity, traits)
   end
 
   def set_trait(identifier, trait_key, trait_value)

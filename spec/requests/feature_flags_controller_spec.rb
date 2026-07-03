@@ -76,6 +76,18 @@ RSpec.describe FeatureFlagsController, type: :request do
         )
       end
 
+      it 'stores the enabled trait in the session' do
+        patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
+
+        expect(session[:flagsmith_optin_traits]).to include('interactive_search' => true)
+      end
+
+      it 'stores the disabled trait in the session' do
+        patch feature_flag_path('interactive_search'), params: { enabled: 'false' }
+
+        expect(session[:flagsmith_optin_traits]).to include('interactive_search' => false)
+      end
+
       it 'redirects when the flag is not a registered optin flag' do
         patch feature_flag_path('unknown_flag'), params: { enabled: 'true' }
 

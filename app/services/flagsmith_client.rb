@@ -65,7 +65,7 @@ class FlagsmithClient
   # Returns a Flagsmith::Flags::Collection for the given identity.
   # Call is_feature_enabled('flag_name') or get_feature_value('flag_name') on the result.
   # Unknown flags return false (via default_flag_handler) rather than raising.
-  def get_flags_for(identity)
-    @sdk_client.get_identity_flags(identity.identifier)
+  def get_flags_for(identity, traits = {})
+    @sdk_client.get_identity_flags(identity.identifier, false, **traits.transform_keys(&:to_sym))
   end
 end

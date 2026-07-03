@@ -29,6 +29,9 @@ class FeatureFlagsController < ApplicationController
       enabled,
     )
 
+    session[:flagsmith_optin_traits] ||= {}
+    session[:flagsmith_optin_traits][flag_name] = enabled
+
     redirect_to feature_flags_path, notice: "#{flag_name.humanize} #{enabled ? 'enabled' : 'disabled'}."
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#update: failed to set trait #{params[:id]}: #{e.class}: #{e.message}")
