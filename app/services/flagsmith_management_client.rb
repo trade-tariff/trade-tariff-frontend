@@ -1,20 +1,17 @@
-# Thin wrapper around the Flagsmith Management API for writing identity traits.
+# Thin wrapper for writing identity traits directly to the Flagsmith core API.
 #
-# Uses the admin identity-trait endpoint which requires:
-#   FLAGSMITH_MANAGEMENT_API_TOKEN - a personal or service API token from the
-#     Flagsmith dashboard. Distinct from the SDK environment key.
-#
-# Connects directly to the Flagsmith core API server (Cloud Map:
-# http://flagsmith.tariff.internal:8000) rather than the Edge Proxy, because
-# the Edge Proxy is read-only and does not persist trait writes.
+# Uses the SDK trait endpoint (POST /api/v1/traits/) with the X-Environment-Key
+# header — identical schema to the standard SDK, but sent to the Flagsmith core
+# server via Cloud Map (http://flagsmith.tariff.internal:8000) rather than the
+# Edge Proxy. The Edge Proxy is read-through and does not persist trait writes.
 #
 # Only set_trait is implemented — the read path uses the existing FlagsmithClient.
 class FlagsmithManagementClient
-  MANAGEMENT_API_URL = 'http://flagsmith.tariff.internal:8000'.freeze
+  CORE_API_URL = 'http://flagsmith.tariff.internal:8000'.freeze
 
   class << self
     def instance
-      @instance || raise('FlagsmithManagementClient not configured — set FLAGSMITH_MANAGEMENT_API_TOKEN')
+      @instance || raise('FlagsmithManagementClient not configured')
     end
 
     attr_writer :instance
@@ -23,19 +20,18 @@ class FlagsmithManagementClient
       @instance.present?
     end
 
-    def configure(environment_key:, api_token:)
-      @instance = new(environment_key:, api_token:)
+    def configure(environment_key:)
+      @instance = new(environment_key:)
     end
   end
 
-  def initialize(environment_key:, api_token:)
-    @environment_key = environment_key
-    @connection = Faraday.new(url: MANAGEMENT_API_URL) do |f|
+  def initialize(environment_key:)
+    @connection = Faraday.new(url: CORE_API_URL) do |f|
       f.request :json
       f.response :raise_error
       f.response :json
       f.options.timeout = 2
-      f.headers['Authorization'] = "Api-Key #{api_token}"
+      f.headers['X-Environment-Key'] = environment_key
     end
   end
 
@@ -43,7 +39,7 @@ class FlagsmithManagementClient
   # trait_value should be a boolean, string, integer, or float.
   # Raises Faraday::Error on non-2xx responses.
   def set_trait(identifier, trait_key, trait_value)
-    @connection.post("/api/v1/environments/#{@environment_key}/traits/", {
+    @connection.post('/api/v1/traits/', {
       identity: { identifier: identifier },
       trait_key: trait_key.to_s,
       trait_value: trait_value,
