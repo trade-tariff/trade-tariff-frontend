@@ -66,6 +66,8 @@ RSpec.describe FeatureFlagsController, type: :request do
     end
 
     describe 'PATCH /feature-flags/:id' do
+      before { enable_feature('interactive_search_optin') }
+
       it 'redirects back to the feature flags page' do
         patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
 
@@ -86,6 +88,13 @@ RSpec.describe FeatureFlagsController, type: :request do
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
           hash_including(trait_key: 'interactive_search', trait_value: false),
         )
+      end
+
+      it 'rejects a flag not in the optin allowlist' do
+        patch feature_flag_path('unknown_flag'), params: { enabled: 'true' }
+
+        expect(response).to redirect_to(feature_flags_path)
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
       end
     end
   end

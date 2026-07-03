@@ -24,14 +24,16 @@ class FlagsmithManagementClient
   def initialize(api_url:, api_token:)
     @connection = Faraday.new(url: api_url.to_s.delete_suffix('/')) do |f|
       f.request :json
+      f.response :raise_error
       f.response :json
       f.options.timeout = 2
-      f.headers['Authorization'] = "Token #{api_token}"
+      f.headers['Authorization'] = "Api-Key #{api_token}"
     end
   end
 
   # Set a trait on the given Flagsmith identity.
   # trait_value should be a boolean, string, integer, or float.
+  # Raises Faraday::Error on non-2xx responses.
   def set_trait(identifier, trait_key, trait_value)
     @connection.post('/api/v1/traits/', {
       identity: { identifier: identifier },

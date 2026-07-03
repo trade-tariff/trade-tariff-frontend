@@ -1,66 +1,41 @@
 <% content_for :title, "Feature flags | #{default_title}" %>
 
 <div class="govuk-width-container">
-  <main class="govuk-main-wrapper" id="main-content" role="main">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">Feature flags</h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Feature flags</h1>
 
-        <p class="govuk-body">
-          Opt into experimental features for your current browser session.
-          These features are under development and may change or be removed.
-        </p>
+      <p class="govuk-body">
+        Opt into experimental features for your current browser session.
+        These features are under development and may change or be removed.
+      </p>
 
-        <% if flash[:notice] %>
-          <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
-               aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-            <div class="govuk-notification-banner__header">
-              <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">Success</h2>
+      <% if @optin_features.any? %>
+        <dl class="govuk-summary-list">
+          <% @optin_features.each do |feature| %>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                <%= feature[:name].tr('_', ' ').capitalize %>
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <strong class="govuk-tag <%= feature[:enabled] ? 'govuk-tag--green' : 'govuk-tag--grey' %>">
+                  <%= feature[:enabled] ? 'Enabled' : 'Disabled' %>
+                </strong>
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <%= button_to feature_flag_path(feature[:name]),
+                              method: :patch,
+                              params: { enabled: (!feature[:enabled]).to_s },
+                              class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-0' do %>
+                  <%= feature[:enabled] ? 'Disable' : 'Enable' %>
+                <% end %>
+              </dd>
             </div>
-            <div class="govuk-notification-banner__content">
-              <p class="govuk-body"><%= flash[:notice] %></p>
-            </div>
-          </div>
-        <% end %>
-
-        <% if flash[:alert] %>
-          <div class="govuk-error-summary" data-module="govuk-error-summary">
-            <div role="alert">
-              <h2 class="govuk-error-summary__title">There was a problem</h2>
-              <div class="govuk-error-summary__body">
-                <p class="govuk-body"><%= flash[:alert] %></p>
-              </div>
-            </div>
-          </div>
-        <% end %>
-
-        <% if @optin_features.any? %>
-          <dl class="govuk-summary-list">
-            <% @optin_features.each do |feature| %>
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  <%= feature[:name].tr('_', ' ').capitalize %>
-                </dt>
-                <dd class="govuk-summary-list__value">
-                  <strong class="govuk-tag <%= feature[:enabled] ? 'govuk-tag--green' : 'govuk-tag--grey' %>">
-                    <%= feature[:enabled] ? 'Enabled' : 'Disabled' %>
-                  </strong>
-                </dd>
-                <dd class="govuk-summary-list__actions">
-                  <%= button_to feature_flag_path(feature[:name]),
-                                method: :patch,
-                                params: { enabled: (!feature[:enabled]).to_s },
-                                class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-0' do %>
-                    <%= feature[:enabled] ? 'Disable' : 'Enable' %>
-                  <% end %>
-                </dd>
-              </div>
-            <% end %>
-          </dl>
-        <% else %>
-          <p class="govuk-body">No features are currently available for opt-in.</p>
-        <% end %>
-      </div>
+          <% end %>
+        </dl>
+      <% else %>
+        <p class="govuk-body">No features are currently available for opt-in.</p>
+      <% end %>
     </div>
-  </main>
+  </div>
 </div>

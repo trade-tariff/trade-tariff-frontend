@@ -19,6 +19,12 @@ class FeatureFlagsController < ApplicationController
 
   def update
     flag_name = params[:id]
+    flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
+
+    unless flags.get_flag("#{flag_name}_optin").enabled?
+      return redirect_to feature_flags_path, alert: 'That feature is not available for opt-in.'
+    end
+
     enabled = params[:enabled] == 'true'
 
     FlagsmithManagementClient.instance.set_trait(

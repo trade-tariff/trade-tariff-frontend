@@ -34,7 +34,7 @@ RSpec.describe FlagsmithManagementClient do
     before do
       stub_request(:post, 'https://flagsmith.example.com/api/v1/traits/')
         .with(
-          headers: { 'Authorization' => 'Token test-token' },
+          headers: { 'Authorization' => 'Api-Key test-token' },
           body: {
             identity: { identifier: 'Anonymous:abc123' },
             trait_key: 'interactive_search',
