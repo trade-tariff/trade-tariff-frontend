@@ -64,6 +64,8 @@ jobs:
       - run: bundle exec brakeman
       - run: pip install pre-commit
       - run: pre-commit run --all-files --hook-stage pre-commit --show-diff-on-failure
+        env:
+          RUBOCOP_OPTS: --format github
       - run: pre-commit run --all-files --hook-stage pre-push --show-diff-on-failure
 
   test:
