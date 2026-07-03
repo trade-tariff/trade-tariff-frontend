@@ -61,3 +61,6 @@ Do not apply more than one risk label to the same PR. If the risk rating changes
 - Use the PR template in `.github/pull_request_template.md`.
 - Use `BAU` as the ticket prefix when there is no Jira story.
 - Include risk, manual evidence, accessibility impact, and test commands when changing user-facing pages.
+- When reviewing a PR, check the body against `.github/pull_request_template.md` and `docs/development-and-delivery.md`; call out missing risk level/reason, test evidence, manual evidence, accessibility impact, and backend/API/environment/deployment implications where relevant.
+- Challenge tests that only assert deleted implementation details. Prefer tests that prove user-visible behaviour, public contracts, or a realistic regression risk; remove arbitrary tests that do not add confidence.
+- For removals, do not rely on the diff alone. Verify references with `rg`, inspect routes/views/helpers/assets/config as appropriate, and run the focused tests or build commands that prove the removed code is not still required.
