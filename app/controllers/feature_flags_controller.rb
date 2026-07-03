@@ -3,7 +3,7 @@ class FeatureFlagsController < ApplicationController
   before_action :disable_search_form
 
   def index
-    flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
+    flags = FlagsmithManagementClient.instance.get_flags_for(Current.flagsmith_identity)
 
     @optin_features = optin_flag_names.map { |name|
       { name: name, enabled: flags.get_flag(name).enabled? }

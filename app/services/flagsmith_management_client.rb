@@ -1,13 +1,36 @@
-# Thin wrapper for writing identity traits directly to the Flagsmith core API.
+# Wrapper for the Flagsmith core API — writes identity traits and reads
+# identity flags directly from the core server.
 #
-# Uses the SDK trait endpoint (POST /api/v1/traits/) with the X-Environment-Key
-# header — identical schema to the standard SDK, but sent to the Flagsmith core
-# server via Cloud Map (http://flagsmith.tariff.internal:8000) rather than the
-# Edge Proxy. The Edge Proxy is read-through and does not persist trait writes.
-#
-# Only set_trait is implemented — the read path uses the existing FlagsmithClient.
+# Both reads and writes use the SDK endpoints with the X-Environment-Key header,
+# sent to the Flagsmith core server via Cloud Map
+# (http://flagsmith.tariff.internal:8000) rather than the Edge Proxy.
+# The Edge Proxy is read-through and does not persist trait writes, so reading
+# back via the Edge Proxy after a write can show stale state.
 class FlagsmithManagementClient
   CORE_API_URL = 'http://flagsmith.tariff.internal:8000'.freeze
+
+  # Minimal flag wrapper returned by get_flags_for.
+  class Flag
+    def initialize(enabled:)
+      @enabled = enabled
+    end
+
+    def enabled?
+      @enabled
+    end
+  end
+
+  # Wraps the flags array from POST /api/v1/identities/ with a get_flag interface.
+  class Flags
+    def initialize(flags_data)
+      @by_name = flags_data.index_by { |f| f.dig('feature', 'name') }
+    end
+
+    def get_flag(name)
+      data = @by_name[name.to_s]
+      Flag.new(enabled: data ? data.fetch('enabled', false) : false)
+    end
+  end
 
   class << self
     def instance
@@ -33,6 +56,16 @@ class FlagsmithManagementClient
       f.options.timeout = 2
       f.headers['X-Environment-Key'] = environment_key
     end
+  end
+
+  # Read identity flags from core so the state is consistent with trait writes.
+  # Raises Faraday::Error on non-2xx responses.
+  def get_flags_for(identity)
+    response = @connection.post('/api/v1/identities/', {
+      identifier: identity.identifier,
+      traits: [],
+    })
+    Flags.new(response.body.fetch('flags', []))
   end
 
   # Set a trait on the given Flagsmith identity.

@@ -72,6 +72,10 @@ class TestFlagsmithManagementClient
     @recorded_traits = []
   end
 
+  def get_flags_for(identity) # rubocop:disable Rails/Delegate
+    TEST_FLAGSMITH_CLIENT.get_flags_for(identity)
+  end
+
   def set_trait(identifier, trait_key, trait_value)
     @recorded_traits << { identifier:, trait_key:, trait_value: }
   end
