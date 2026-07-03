@@ -29,7 +29,7 @@ class FeatureFlagsController < ApplicationController
       enabled,
     )
 
-    redirect_to feature_flags_path, notice: "#{flag_name} #{enabled ? 'enabled' : 'disabled'}."
+    redirect_to feature_flags_path, notice: "#{flag_name.humanize} #{enabled ? 'enabled' : 'disabled'}."
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#update: failed to set trait #{params[:id]}: #{e.class}: #{e.message}")
     redirect_to feature_flags_path, alert: 'Could not save your preference. Flagsmith may be unavailable.'
