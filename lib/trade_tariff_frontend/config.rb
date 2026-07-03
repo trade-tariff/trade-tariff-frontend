@@ -141,7 +141,7 @@ module TradeTariffFrontend
       URI.join(WEBCHAT_BASE_URL, configured_url).to_s
     end
 
-    flagsmith_flag :interactive_search_enabled?, name: :interactive_search, services: %i[uk]
+    flagsmith_flag :interactive_search_enabled?, name: :interactive_search, services: %i[uk], optin: true
     flagsmith_flag :webchat_enabled?, name: :webchat
   end
 end

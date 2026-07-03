@@ -342,6 +342,8 @@ FindCommoditiesController#show
 FlagsmithClient::SdkLogger#debug
 FlagsmithClient#configure
 FlagsmithClient#instance=
+FlagsmithManagementClient#configure
+FlagsmithManagementClient#instance=
 Footnote#code=
 Footnote#description=
 Footnote#footnote_id

@@ -10,10 +10,12 @@ RSpec.describe TradeTariffFrontend do
       interactive_search_enabled?: {
         name: 'interactive_search',
         services: %w[uk],
+        optin: true,
       },
       webchat_enabled?: {
         name: 'webchat',
         services: [],
+        optin: false,
       },
     )
   end

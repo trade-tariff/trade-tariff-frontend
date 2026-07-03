@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get 'healthcheck', to: 'healthcheck#check'
   get 'healthcheckz', to: 'healthcheck#checkz'
 
+  resources :feature_flags, only: %i[index update], path: 'feature-flags'
+
   get 'help', to: 'pages#help', as: 'help'
   get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'
   get 'help/changes_999l', to: 'pages#changes_999l', as: 'help_changes_999l'

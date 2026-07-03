@@ -30,10 +30,10 @@ module TradeTariffFrontend
         @registered_flags ||= {}
       end
 
-      def flagsmith_flag(method_name, name:, services: nil)
+      def flagsmith_flag(method_name, name:, services: nil, optin: false)
         flag_name = name.to_s
         service_names = Array(services).map(&:to_s)
-        registered_flags[method_name] = { name: flag_name, services: service_names }
+        registered_flags[method_name] = { name: flag_name, services: service_names, optin: optin }
 
         TradeTariffFrontend::FlagsmithBackedConfig.define_method(method_name) do
           default = super()
@@ -73,7 +73,7 @@ module TradeTariffFrontend
         return default
       end
 
-      flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
+      flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity, Current.flagsmith_optin_traits || {})
       flag = flags.get_flag(flag_name)
 
       if flag.is_default

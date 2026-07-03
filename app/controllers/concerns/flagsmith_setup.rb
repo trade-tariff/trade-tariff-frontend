@@ -5,6 +5,7 @@ module FlagsmithSetup
 
   def set_current_flagsmith_identity
     Current.flagsmith_identity = current_flagsmith_identity
+    Current.flagsmith_optin_traits = session[:flagsmith_optin_traits] || {}
   end
 
   def current_flagsmith_identity

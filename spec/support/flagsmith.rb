@@ -4,9 +4,10 @@
 # threads in JS tests see the same state as the test thread.
 class TestFlagsmithClient
   class TestFlag
-    attr_reader :enabled, :default
+    attr_reader :enabled, :default, :feature_name
 
-    def initialize(enabled:, default:)
+    def initialize(feature_name:, enabled:, default:)
+      @feature_name = feature_name
       @enabled = enabled
       @default = default
     end
@@ -31,10 +32,14 @@ class TestFlagsmithClient
       flag_name = flag_name.to_s
 
       if @flags.key?(flag_name)
-        TestFlag.new(enabled: @flags.fetch(flag_name), default: false)
+        TestFlag.new(feature_name: flag_name, enabled: @flags.fetch(flag_name), default: false)
       else
-        TestFlag.new(enabled: false, default: true)
+        TestFlag.new(feature_name: flag_name, enabled: false, default: true)
       end
+    end
+
+    def all_flags
+      @flags.map { |name, enabled| TestFlag.new(feature_name: name, enabled: enabled, default: false) }
     end
   end
 
@@ -51,22 +56,43 @@ class TestFlagsmithClient
   end
 
   # FlagsmithClient interface - evaluation
-  def get_flags_for(_identity)
+  def get_flags_for(_identity, _traits = {})
     TestFlags.new(@flags)
   end
 end
 
+class TestFlagsmithManagementClient
+  attr_reader :recorded_traits
+
+  def initialize
+    @recorded_traits = []
+  end
+
+  def reset!
+    @recorded_traits = []
+  end
+
+  def get_flags_for(identity, traits = {})
+    TEST_FLAGSMITH_CLIENT.get_flags_for(identity, traits)
+  end
+
+  def set_trait(identifier, trait_key, trait_value)
+    @recorded_traits << { identifier:, trait_key:, trait_value: }
+  end
+end
+
 TEST_FLAGSMITH_CLIENT = TestFlagsmithClient.new
+TEST_FLAGSMITH_MANAGEMENT_CLIENT = TestFlagsmithManagementClient.new
 
 RSpec.configure do |config|
   config.before(:suite) do
-    next unless defined?(FlagsmithClient)
-
-    FlagsmithClient.instance = TEST_FLAGSMITH_CLIENT
+    FlagsmithClient.instance = TEST_FLAGSMITH_CLIENT if defined?(FlagsmithClient)
+    FlagsmithManagementClient.instance = TEST_FLAGSMITH_MANAGEMENT_CLIENT if defined?(FlagsmithManagementClient)
   end
 
   config.before do
     TEST_FLAGSMITH_CLIENT.reset!
+    TEST_FLAGSMITH_MANAGEMENT_CLIENT.reset!
     Current.reset
   end
 end
