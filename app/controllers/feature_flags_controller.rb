@@ -1,16 +1,13 @@
 class FeatureFlagsController < ApplicationController
   before_action :require_management_client
+  before_action :disable_search_form
 
   def index
     flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
 
-    @optin_features = flags.all_flags
-      .select { |f| f.feature_name.end_with?('_optin') && f.enabled? }
-      .map { |optin_flag|
-        feature_name = optin_flag.feature_name.delete_suffix('_optin')
-        { name: feature_name, enabled: flags.get_flag(feature_name).enabled? }
-      }
-      .sort_by { |f| f[:name] }
+    @optin_features = optin_flag_names.map { |name|
+      { name: name, enabled: flags.get_flag(name).enabled? }
+    }.sort_by { |f| f[:name] }
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#index: Flagsmith unavailable: #{e.class}: #{e.message}")
     @optin_features = []
@@ -19,9 +16,8 @@ class FeatureFlagsController < ApplicationController
 
   def update
     flag_name = params[:id]
-    flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity)
 
-    unless flags.get_flag("#{flag_name}_optin").enabled?
+    unless optin_flag_names.include?(flag_name)
       return redirect_to feature_flags_path, alert: 'That feature is not available for opt-in.'
     end
 
@@ -43,5 +39,12 @@ class FeatureFlagsController < ApplicationController
 
   def require_management_client
     render plain: 'Not found', status: :not_found unless FlagsmithManagementClient.configured?
+  end
+
+  def optin_flag_names
+    TradeTariffFrontend::Config.registered_flags
+      .values
+      .select { |f| f[:optin] }
+      .map { |f| f[:name] }
   end
 end

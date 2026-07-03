@@ -25,9 +25,8 @@ RSpec.describe FeatureFlagsController, type: :request do
     describe 'GET /feature-flags' do
       subject(:perform_request) { get feature_flags_path }
 
-      context 'when optin flags are enabled' do
+      context 'when a registered optin feature is enabled' do
         before do
-          enable_feature('interactive_search_optin')
           enable_feature('interactive_search')
           perform_request
         end
@@ -36,7 +35,7 @@ RSpec.describe FeatureFlagsController, type: :request do
           expect(response).to have_http_status(:ok)
         end
 
-        it 'shows the available opt-in feature' do
+        it 'shows the registered optin feature' do
           expect(response.body).to include('Interactive search')
         end
 
@@ -45,19 +44,8 @@ RSpec.describe FeatureFlagsController, type: :request do
         end
       end
 
-      context 'when no optin flags are enabled' do
+      context 'when a registered optin feature is not yet enabled by the user' do
         before { perform_request }
-
-        it 'shows the empty state message' do
-          expect(response.body).to include('No features are currently available for opt-in')
-        end
-      end
-
-      context 'when a feature is available but disabled' do
-        before do
-          enable_feature('interactive_search_optin')
-          perform_request
-        end
 
         it 'shows the feature as disabled' do
           expect(response.body).to include('Disabled')
@@ -66,8 +54,6 @@ RSpec.describe FeatureFlagsController, type: :request do
     end
 
     describe 'PATCH /feature-flags/:id' do
-      before { enable_feature('interactive_search_optin') }
-
       it 'redirects back to the feature flags page' do
         patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
 
@@ -90,13 +76,13 @@ RSpec.describe FeatureFlagsController, type: :request do
         )
       end
 
-      it 'redirects when the flag is not in the optin allowlist' do
+      it 'redirects when the flag is not a registered optin flag' do
         patch feature_flag_path('unknown_flag'), params: { enabled: 'true' }
 
         expect(response).to redirect_to(feature_flags_path)
       end
 
-      it 'does not write a trait when the flag is not in the optin allowlist' do
+      it 'does not write a trait when the flag is not a registered optin flag' do
         patch feature_flag_path('unknown_flag'), params: { enabled: 'true' }
 
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
