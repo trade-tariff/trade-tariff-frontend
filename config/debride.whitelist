@@ -30,6 +30,13 @@ ApplicationController#handle_server_error
 ApplicationController#handle_timeout_error
 ApplicationController#handle_too_many_requests_error
 ApplicationController#handle_unknown_format
+ErrorHandling#handle_connection_failed
+ErrorHandling#handle_invalid_search_date
+ErrorHandling#handle_invalid_uri_error
+ErrorHandling#handle_server_error
+ErrorHandling#handle_timeout_error
+ErrorHandling#handle_too_many_requests_error
+ErrorHandling#handle_unknown_format
 ApplicationController#set_layout
 ApplicationController#skip_news_banner
 ApplicationHelper#breadcrumb_link_or_text
@@ -332,6 +339,7 @@ Feedback#telephone=
 FeedbackController#new
 FeedbackController#thanks
 FindCommoditiesController#show
+FlagsmithClient::SdkLogger#debug
 FlagsmithClient#configure
 FlagsmithClient#instance=
 FlagsmithManagementClient#configure
@@ -491,6 +499,7 @@ LiveIssue#status=
 LiveIssue#suggested_action=
 LiveIssue#title=
 LiveIssue#updated_at=
+LiveIssueHelper#live_issue_commodity_link
 LiveIssueHelper#live_issue_from_to_date
 LiveIssueHelper#live_issue_recommendation
 LiveIssueHelper#live_issue_selected_filters

@@ -34,4 +34,37 @@ RSpec.describe 'Live issues log', :js, type: :feature do
     expect(page).to have_css('.govuk-summary-card:first-of-type', text: 'Issue 2')
     expect(page).to have_no_content('Issue 1')
   end
+
+  it 'renders live issue commodity links when a commodity code includes non-digit characters' do
+    allow(LiveIssue).to receive(:all).and_return([
+      build(:live_issue, commodities: ['3402420090,', '7222190000']),
+    ])
+
+    visit live_issues_path
+
+    expect(page).to have_link('3402420090', href: commodity_path('3402420090'))
+    expect(page).to have_link('7222190000', href: commodity_path('7222190000'))
+  end
+
+  it 'renders invalid live issue commodity values as text' do
+    allow(LiveIssue).to receive(:all).and_return([
+      build(:live_issue, commodities: %w[BAD]),
+    ])
+
+    visit live_issues_path
+
+    expect(page).to have_content('BAD')
+    expect(page).to have_no_link('BAD')
+  end
+
+  it 'renders none when live issue commodities are nil or blank' do
+    allow(LiveIssue).to receive(:all).and_return([
+      build(:live_issue, commodities: nil),
+      build(:live_issue, commodities: [nil, '', ' ']),
+    ])
+
+    visit live_issues_path
+
+    expect(page).to have_css('.govuk-summary-list__row', text: 'Commodities affected None', count: 2)
+  end
 end

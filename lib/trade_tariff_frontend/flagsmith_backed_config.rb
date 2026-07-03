@@ -58,6 +58,11 @@ module TradeTariffFrontend
     private
 
     def flagsmith_config_flag(flag_name, method_name:, default:)
+      unless FlagsmithClient.configured?
+        instrument_flagsmith_config_fallback(flag_name:, method_name:, default:, reason: :not_configured)
+        return default
+      end
+
       if Current.flagsmith_unavailable
         instrument_flagsmith_config_fallback(flag_name:, method_name:, default:, reason: :previously_unavailable)
         return default

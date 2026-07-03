@@ -1,19 +1,21 @@
-<% if live_issue.commodities.empty? %>
+<% commodities = Array(live_issue.commodities).filter_map { |commodity| commodity.to_s.presence } %>
+
+<% if commodities.empty? %>
   <p class="govuk-body">
     <%= t('live_issues.commodities.none') %>
   </p>
-<% elsif live_issue.commodities.size > 1 %>
-  <%= govuk_details(summary_text: t('live_issues.commodities.count', count: live_issue.commodities.count)) do %>
+<% elsif commodities.size > 1 %>
+  <%= govuk_details(summary_text: t('live_issues.commodities.count', count: commodities.count)) do %>
     <ul class="govuk-list govuk-!-margin-bottom-0 live-issues__commodity-list">
-      <% live_issue.commodities.each do |commodity_code| %>
+      <% commodities.each do |commodity_code| %>
         <li>
-          <%= govuk_link_to(commodity_code, commodity_path(commodity_code)) %>
+          <%= live_issue_commodity_link(commodity_code) %>
         </li>
       <% end %>
     </ul>
   <% end %>
 <% else %>
   <p class="govuk-body">
-    <%= govuk_link_to(live_issue.commodities.first, commodity_path(live_issue.commodities.first)) %>
+    <%= live_issue_commodity_link(commodities.first) %>
   </p>
 <% end %>

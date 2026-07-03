@@ -3,13 +3,43 @@
 # Evaluation (get_flags_for) uses the SDK environment key to call the
 # Flagsmith API and returns a Flagsmith::Flags::Collection.
 #
+# When Flagsmith is not configured (no FLAGSMITH_ENVIRONMENT_KEY), configured?
+# returns false and FlagsmithBackedConfig falls back to each flag's own
+# Ruby-computed default rather than attempting an API call.
+#
 # In tests, FlagsmithClient.instance is replaced with a TestFlagsmithClient
 # double (see spec/support/flagsmith.rb). Use FlagsmithClient.instance= to
 # inject any replacement.
 class FlagsmithClient
+  class SdkLogger
+    def initialize(logger)
+      @logger = logger
+    end
+
+    def debug(*) = nil
+
+    def info(*) = nil
+
+    def warn(message = nil, &block)
+      @logger.warn(message || block&.call)
+    end
+
+    def error(message = nil, &block)
+      @logger.error(message || block&.call)
+    end
+
+    def fatal(message = nil, &block)
+      @logger.fatal(message || block&.call)
+    end
+  end
+
   class << self
     def instance
       @instance || raise('FlagsmithClient not configured - call FlagsmithClient.configure first or set instance= in tests')
+    end
+
+    def configured?
+      !@instance.nil?
     end
 
     attr_writer :instance
@@ -26,6 +56,7 @@ class FlagsmithClient
       environment_key: @environment_key,
       api_url: "#{@api_url}/",
       request_timeout_seconds: 1,
+      logger: SdkLogger.new(Rails.logger),
       # Return a disabled default flag rather than raising for unknown features.
       default_flag_handler: ->(_name) { Flagsmith::Flags::DefaultFlag.new(enabled: false, value: nil) },
     )
