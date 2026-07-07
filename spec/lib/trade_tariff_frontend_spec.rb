@@ -12,6 +12,11 @@ RSpec.describe TradeTariffFrontend do
         services: %w[uk],
         optin: true,
       },
+      hybrid_search_enabled?: {
+        name: 'hybrid_search',
+        services: [],
+        optin: true,
+      },
       webchat_enabled?: {
         name: 'webchat',
         services: [],
@@ -333,6 +338,139 @@ RSpec.describe TradeTariffFrontend do
               reason: :unavailable,
               service_name: 'uk',
               default: true,
+              error_class: 'Faraday::ConnectionFailed',
+            ),
+          )
+        end
+      end
+    end
+  end
+
+  describe '.hybrid_search_enabled?' do
+    before do
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+    end
+
+    def capture_flagsmith_fallback_events
+      events = []
+      subscriber = ActiveSupport::Notifications.subscribe('flagsmith.config_flag_fallback') do |*args|
+        events << ActiveSupport::Notifications::Event.new(*args)
+      end
+
+      yield events
+    ensure
+      ActiveSupport::Notifications.unsubscribe(subscriber)
+    end
+
+    context 'when the Flagsmith flag is not configured' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+      end
+
+      it 'uses the configured default' do
+        expect(described_class.hybrid_search_enabled?).to be(false)
+      end
+    end
+
+    context 'when the Flagsmith flag is not configured in production' do
+      before do
+        stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'production'))
+      end
+
+      it 'uses the configured default' do
+        expect(described_class.hybrid_search_enabled?).to be(false)
+      end
+
+      it 'instruments the fallback reason' do
+        capture_flagsmith_fallback_events do |events|
+          described_class.hybrid_search_enabled?
+
+          expect(events.map(&:payload)).to include(
+            a_hash_including(
+              flag_name: 'hybrid_search',
+              method_name: :hybrid_search_enabled?,
+              reason: :missing_flag,
+              service_name: 'uk',
+              default: false,
+            ),
+          )
+        end
+      end
+    end
+
+    context 'without a Flagsmith identity' do
+      before do
+        Current.flagsmith_identity = nil
+        allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
+      end
+
+      it 'uses the configured default without fetching Flagsmith flags', :aggregate_failures do
+        expect(described_class.hybrid_search_enabled?).to be(false)
+        expect(FlagsmithClient.instance).not_to have_received(:get_flags_for)
+      end
+
+      it 'instruments the fallback reason' do
+        capture_flagsmith_fallback_events do |events|
+          described_class.hybrid_search_enabled?
+
+          expect(events.map(&:payload)).to include(
+            a_hash_including(
+              flag_name: 'hybrid_search',
+              method_name: :hybrid_search_enabled?,
+              reason: :missing_identity,
+              service_name: 'uk',
+              default: false,
+            ),
+          )
+        end
+      end
+    end
+
+    context 'when the Flagsmith flag is configured as disabled' do
+      before do
+        disable_feature(:hybrid_search)
+      end
+
+      it 'overrides the configured default' do
+        expect(described_class.hybrid_search_enabled?).to be(false)
+      end
+    end
+
+    context 'when the Flagsmith flag is configured as enabled' do
+      before do
+        enable_feature(:hybrid_search)
+      end
+
+      it 'overrides the configured default' do
+        expect(described_class.hybrid_search_enabled?).to be(true)
+      end
+    end
+
+    context 'when Flagsmith is unavailable' do
+      before do
+        allow(FlagsmithClient.instance).to receive(:get_flags_for).and_raise(Faraday::ConnectionFailed.new('timeout'))
+      end
+
+      it 'uses the configured default and does not retry during the request', :aggregate_failures do
+        2.times do
+          expect(described_class.hybrid_search_enabled?).to be(false)
+        end
+
+        expect(FlagsmithClient.instance).to have_received(:get_flags_for).once
+      end
+
+      it 'instruments the fallback reason' do
+        capture_flagsmith_fallback_events do |events|
+          described_class.hybrid_search_enabled?
+
+          expect(events.map(&:payload)).to include(
+            a_hash_including(
+              flag_name: 'hybrid_search',
+              method_name: :hybrid_search_enabled?,
+              reason: :unavailable,
+              service_name: 'uk',
+              default: false,
               error_class: 'Faraday::ConnectionFailed',
             ),
           )

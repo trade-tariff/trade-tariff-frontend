@@ -17,7 +17,11 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <%= render partial: 'search/commodity', collection: @results.commodities %>
+          <% if TradeTariffFrontend.hybrid_search_enabled? %>
+            <%= render partial: 'search/hybrid_commodity', collection: @results.commodities, as: :commodity %>
+          <% else %>
+            <%= render partial: 'search/commodity', collection: @results.commodities %>
+          <% end %>
         </tbody>
       </table>
     <% end %>

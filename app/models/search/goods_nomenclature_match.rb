@@ -57,12 +57,17 @@ class Search
     private
 
     def find_heading(heading_for_search)
+      return nil if heading_for_search.blank?
+
       (headings + commodity_headings).detect { |heading| heading == heading_for_search }
     end
 
     def build_heading_from(commodity)
-      Heading.new(commodity.heading.attributes.merge(chapter: commodity.chapter.attributes,
-                                                     section: commodity.section.attributes))
+      heading_attrs = commodity.respond_to?(:heading) && commodity.heading.present? ? commodity.heading.attributes : commodity.attributes
+      chapter_attrs = commodity.respond_to?(:chapter) && commodity.chapter.present? ? commodity.chapter.attributes : {}
+      section_attrs = commodity.respond_to?(:section) && commodity.section.present? ? commodity.section.attributes : {}
+
+      Heading.new(heading_attrs.merge(chapter: chapter_attrs, section: section_attrs))
     end
   end
 end

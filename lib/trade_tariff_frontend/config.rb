@@ -8,6 +8,10 @@ module TradeTariffFrontend
       @basic_session_authentication ||= basic_session_password.present?
     end
 
+    def hybrid_search_enabled?
+      false
+    end
+
     def interactive_search_enabled?
       !production? && !ServiceChooser.xi?
     end
@@ -93,6 +97,10 @@ module TradeTariffFrontend
       ENV.fetch('FRONTEND_HOST', 'http://localhost')
     end
 
+    def hybrid_results_to_show
+      ENV.fetch('HYBRID_RESULTS_TO_SHOW', '10').to_i
+    end
+
     def id_token_cookie_name
       cookie_name_for('id_token')
     end
@@ -141,6 +149,7 @@ module TradeTariffFrontend
       URI.join(WEBCHAT_BASE_URL, configured_url).to_s
     end
 
+    flagsmith_flag :hybrid_search_enabled?, name: :hybrid_search, optin: true
     flagsmith_flag :interactive_search_enabled?, name: :interactive_search, services: %i[uk], optin: true
     flagsmith_flag :webchat_enabled?, name: :webchat
   end
