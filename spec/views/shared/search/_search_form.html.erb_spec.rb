@@ -35,6 +35,14 @@ RSpec.describe 'shared/search/_search_form', type: :view do
     expect(rendered_form).not_to have_css('button[formnovalidate]')
   end
 
+  it 'renders the noscript autocomplete fallback as a plain text input' do
+    expect(rendered_form).to have_css('noscript input#search-q-field[type="text"]:not([role])', visible: :all)
+  end
+
+  it 'does not render fallback combobox roles outside the enhanced autocomplete' do
+    expect(rendered_form).not_to include('role="combobox"')
+  end
+
   context 'when shared search button text is not used' do
     before do
       assign(:no_shared_search, true)
