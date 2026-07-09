@@ -315,6 +315,7 @@ ExchangeRates::ExchangeRate#validity_end_date=
 ExchangeRates::ExchangeRate#validity_start_date=
 ExchangeRates::ExchangeRate#year=
 ExchangeRates::File#adjusted_file_path
+ExchangeRates::File#filename
 ExchangeRates::File#file_path
 ExchangeRates::File#file_path=
 ExchangeRates::File#file_size=

@@ -8,6 +8,10 @@ class ExchangeRates::File
 
   delegate :year, :month, to: :publication_date, allow_nil: true
 
+  def filename
+    File.basename(file_path)
+  end
+
   def adjusted_file_path
     url = TradeTariffFrontend.backend_base_domain
 
