@@ -18,15 +18,30 @@
     margin-bottom: 3em;
   }
 
+  // Match GOV.UK attachment thumbnail framing so pale spreadsheet icons
+  // read as paper documents (edge + depth), not flat blocks on white.
+  // See govuk_publishing_components govspeak/_attachment.scss
   .attachment-thumb {
-    img {
-      border: 5px solid settings.$tariff-white;
+    img,
+    svg {
+      display: block;
       max-width: 99px;
       width: 100%;
+      height: auto;
+      background: settings.$tariff-white-colour;
+      border: 0;
+      box-shadow:
+        0 2px 2px rgba(settings.$tariff-shadow-colour, 0.4),
+        0 0 0 5px rgba(settings.$tariff-shadow-colour, 0.1);
 
       @include govuk.govuk-media-query($until: tablet) {
         max-width: 50px;
       }
+    }
+
+    svg {
+      fill: govuk.govuk-colour("black", $variant: "tint-80");
+      stroke: govuk.govuk-colour("black", $variant: "tint-80");
     }
   }
 }
