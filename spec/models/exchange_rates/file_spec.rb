@@ -12,6 +12,12 @@ RSpec.describe ExchangeRates::File do
     it { expect(file.file_size_label).to eq 'CSV file (2.0 KB)' }
   end
 
+  describe '#filename' do
+    it 'returns just the filename portion of the file path' do
+      expect(file.filename).to eq 'exrates-monthly-0623.csv'
+    end
+  end
+
   describe '#adjusted_file_path' do
     before do
       allow(TradeTariffFrontend).to receive(:backend_base_domain).and_return(backend_base_domain)

@@ -40,6 +40,13 @@ RSpec.describe ExchangeRatesController, type: :request, vcr: { cassette_name: 'e
     end
   end
 
+  describe 'GET #files' do
+    before { get '/exchange_rates/view/files/monthly_csv_2022-1.csv' }
+
+    it { is_expected.to redirect_to('/uk/api/exchange_rates/files/monthly_csv_2022-1/redirect.csv') }
+    it { is_expected.to have_http_status :found }
+  end
+
   describe 'GET #show' do
     context 'when exchange rate type is "monthly"' do
       before { get '/exchange_rates/view/2022-1?type=monthly' }
