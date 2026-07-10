@@ -52,7 +52,7 @@ module Declarable
   end
 
   def calculate_duties?
-    no_heading? && no_entry_price_system?
+    declarable? && no_entry_price_system?
   end
 
   def critical_footnotes
@@ -99,10 +99,6 @@ module Declarable
   end
 
   private
-
-  def no_heading?
-    !heading?
-  end
 
   def no_entry_price_system?
     !entry_price_system?

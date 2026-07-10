@@ -335,13 +335,22 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe '#duty_calculator_link' do
-    subject { helper.duty_calculator_link('1704909991') }
+    subject(:link) { helper.duty_calculator_link(declarable_code) }
+
+    let(:declarable_code) { '1704909991' }
 
     context 'when the service is uk' do
       include_context 'with UK service'
 
       it { is_expected.to have_css 'a', text: 'work out the duties and taxes applicable to the import of commodity 1704 9099 91' }
       it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date"]' }
+
+      context 'with a heading-level code' do
+        let(:declarable_code) { '1704000000' }
+
+        it { is_expected.to have_css 'a', text: 'work out the duties and taxes applicable to the import of commodity 1704 0000 00' }
+        it { is_expected.to have_css 'a[href="/duty-calculator/1704000000/import-date"]' }
+      end
     end
 
     context 'when the service is xi' do
@@ -349,6 +358,13 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       it { is_expected.to have_css 'a', text: 'work out the duties and taxes applicable to the import of commodity 1704 9099 91' }
       it { is_expected.to have_css 'a[href="/xi/duty-calculator/1704909991/import-date"]' }
+
+      context 'with a heading-level code' do
+        let(:declarable_code) { '1704000000' }
+
+        it { is_expected.to have_css 'a', text: 'work out the duties and taxes applicable to the import of commodity 1704 0000 00' }
+        it { is_expected.to have_css 'a[href="/xi/duty-calculator/1704000000/import-date"]' }
+      end
     end
   end
 end

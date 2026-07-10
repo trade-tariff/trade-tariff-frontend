@@ -55,6 +55,12 @@ RSpec.describe GroupedMeasuresPresenter do
         %w[uk_import_controls import_duties quotas trade_remedies suspensions credibility_checks vat_excise],
       )
     end
+
+    it 'shows the duty calculator in the UK import duties section when the declarable supports it' do
+      import_duties = presenter.uk_sections.find { |section| section[:css_id] == 'import_duties' }
+
+      expect(import_duties[:show_duty_calculator]).to be true
+    end
   end
 
   describe '#xi_sections' do
@@ -70,6 +76,12 @@ RSpec.describe GroupedMeasuresPresenter do
 
     it 'sorts collections by key' do
       expect(sections.first[:collection].map(&:key)).to eq(%w[a b])
+    end
+
+    it 'shows the duty calculator in the XI import duties section when the declarable supports it' do
+      import_duties = sections.find { |section| section[:css_id] == 'import_duties' }
+
+      expect(import_duties[:show_duty_calculator]).to be true
     end
   end
 
