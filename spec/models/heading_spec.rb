@@ -48,7 +48,26 @@ RSpec.describe Heading do
   end
 
   describe '#calculate_duties?' do
-    it { is_expected.not_to be_calculate_duties }
+    context 'when the heading is declarable' do
+      before { heading.declarable = true }
+
+      it { is_expected.to be_calculate_duties }
+    end
+
+    context 'when the heading is not declarable' do
+      before { heading.declarable = false }
+
+      it { is_expected.not_to be_calculate_duties }
+    end
+
+    context 'when the heading has measures that use the Entry Price System' do
+      before do
+        heading.declarable = true
+        heading.meta = { 'duty_calculator' => { 'entry_price_system' => true } }
+      end
+
+      it { is_expected.not_to be_calculate_duties }
+    end
   end
 
   describe '#rules' do
