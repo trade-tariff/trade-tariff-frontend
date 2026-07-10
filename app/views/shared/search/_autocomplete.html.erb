@@ -28,7 +28,7 @@
             tempQuery = query;
             const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
             window.GOVUK.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
-          }, 200, false),
+          }, 200, { immediate: false }),
           onConfirm: (suggestion) => {
             if (suggestion) {
               document.querySelector('#<%= input_id %>').value = suggestion

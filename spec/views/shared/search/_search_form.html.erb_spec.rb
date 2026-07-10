@@ -43,6 +43,12 @@ RSpec.describe 'shared/search/_search_form', type: :view do
     expect(rendered_form).not_to include('role="combobox"')
   end
 
+  it 'configures debounce with an options object for debounce@3 compatibility' do
+    # debounce@3 throws if the third argument is a boolean, which caused the
+    # accessible autocomplete init try/catch to fall back to a plain input.
+    expect(rendered_form).to include('}, 200, { immediate: false })')
+  end
+
   context 'when shared search button text is not used' do
     before do
       assign(:no_shared_search, true)
