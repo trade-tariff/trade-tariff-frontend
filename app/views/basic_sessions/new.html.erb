@@ -24,7 +24,9 @@
 
           <%= form.govuk_password_field :password,
                                         label: { text: 'Password' },
-                                        class: 'govuk-input--width-10' %>
+                                        class: 'govuk-input--width-10',
+                                        show_password_text: 'Show',
+                                        hide_password_text: 'Hide' %>
 
 
 	  <%= form.hidden_field :return_url, value: @basic_session.return_url %>
