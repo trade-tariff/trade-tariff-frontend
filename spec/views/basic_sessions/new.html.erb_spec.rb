@@ -18,15 +18,21 @@ RSpec.describe 'basic_sessions/new', type: :view do
   # show_password_text is passed. Without it the GOV.UK JS unhides an empty
   # secondary button (thin grey bar) because setType early-returns when the
   # input is already type=password.
+  # visible: :all / :hidden — the toggle is server-rendered with [hidden]
+  # until GOV.UK Frontend JS runs.
   it 'renders the show password toggle with visible label text' do
-    expect(rendered_page).to match(
-      %r{<button[^>]*class="[^"]*govuk-password-input__toggle[^"]*"[^>]*>\s*Show\s*</button>}m,
+    expect(rendered_page).to have_css(
+      'button.govuk-password-input__toggle',
+      text: 'Show',
+      visible: :all,
     )
   end
 
   it 'keeps the show password toggle hidden until JS initialises' do
-    expect(rendered_page).to match(
-      %r{<button[^>]*hidden="hidden"[^>]*class="[^"]*govuk-password-input__toggle[^"]*"[^>]*>\s*Show\s*</button>}m,
+    expect(rendered_page).to have_css(
+      'button.govuk-password-input__toggle[hidden]',
+      text: 'Show',
+      visible: :hidden,
     )
   end
 end
