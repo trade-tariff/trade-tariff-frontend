@@ -57,13 +57,6 @@ RSpec.describe 'shared/search/_search_form', type: :view do
     )
   end
 
-  it 'does not overwrite a longer typed query with a stale shorter autocomplete suggestion' do
-    expect(rendered_form).to include(
-      'const currentQuery = autocompleteInput.value.trim()',
-      'if (currentQuery.length <= confirmedSuggestion.length)',
-    )
-  end
-
   context 'when shared search button text is not used' do
     before do
       assign(:no_shared_search, true)

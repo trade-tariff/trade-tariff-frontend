@@ -7,34 +7,62 @@
         let tempQuery = '';
         const autocompleteElement = document.querySelector('#autocomplete');
         const form = autocompleteElement.closest('form');
+        const searchSuggestionsPathElement = document.querySelector('.path_info');
         const submittedQueryInput = document.createElement('input');
         submittedQueryInput.type = 'hidden';
         submittedQueryInput.name = '<%= input_name %>';
         submittedQueryInput.id = '<%= input_id %>-submitted-query';
         autocompleteElement.appendChild(submittedQueryInput);
-        let submittedQuerySyncedBeforeBlur = false;
+        let autocompleteInput;
+        let latestTypedQuery = '';
+        let lastInputEventQuery = '';
+        let populatedSuggestionsQuery = '';
+        let explicitSuggestionSelection = false;
+        let queryCapturedBeforeBlur = false;
+        let controlledValueAfterBlur = null;
 
         const syncSubmittedQuery = () => {
-          const autocompleteInput = document.getElementById('<%= input_id %>');
-
           if (autocompleteInput) {
-            submittedQueryInput.value = autocompleteInput.value;
+            latestTypedQuery = autocompleteInput.value;
+            submittedQueryInput.value = latestTypedQuery;
           }
         };
 
-        const syncSubmittedQueryBeforeBlur = (event) => {
-          if (!event.target.closest('#autocomplete input')) {
+        const captureExplicitSuggestionSelection = (event) => {
+          const selectedOption = event.target.closest('[role="option"]');
+          if (selectedOption && autocompleteElement.contains(selectedOption)) {
+            explicitSuggestionSelection = true;
+          }
+        };
+
+        const captureSubmittedQueryBeforeBlur = (event) => {
+          if (event.target === autocompleteInput) {
             syncSubmittedQuery();
-            submittedQuerySyncedBeforeBlur = true;
-            window.setTimeout(() => {
-              submittedQuerySyncedBeforeBlur = false;
-            }, 0);
+            queryCapturedBeforeBlur = true;
+            window.queueMicrotask(() => {
+              window.queueMicrotask(() => {
+                controlledValueAfterBlur = autocompleteInput.value;
+              });
+            });
+
+            const nextOption = event.relatedTarget?.closest?.('[role="option"]');
+            if (!nextOption || !autocompleteElement.contains(nextOption)) {
+              explicitSuggestionSelection = false;
+            }
           }
         };
 
         const syncSubmittedQueryOnSubmit = () => {
-          if (!submittedQuerySyncedBeforeBlur) {
+          const valueChangedAfterBlur = queryCapturedBeforeBlur && (
+            controlledValueAfterBlur === null
+              ? autocompleteInput.value !== lastInputEventQuery
+              : autocompleteInput.value !== controlledValueAfterBlur
+          );
+
+          if (!queryCapturedBeforeBlur || valueChangedAfterBlur) {
             syncSubmittedQuery();
+          } else {
+            submittedQueryInput.value = latestTypedQuery;
           }
         };
 
@@ -59,36 +87,64 @@
           },
           source: window.GOVUK.debounce((query, populateResults) => {
             tempQuery = query;
-            const searchSuggestionsPath = document.querySelector('.path_info').dataset.searchSuggestionsPath;
-            window.GOVUK.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], populateResults);
+            const searchSuggestionsPath = searchSuggestionsPathElement.dataset.searchSuggestionsPath;
+            window.GOVUK.Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, [], (results) => {
+              populatedSuggestionsQuery = query;
+              populateResults(results);
+            });
           }, 200, { immediate: false }),
           onConfirm: (suggestion) => {
             if (suggestion) {
-              const autocompleteInput = document.querySelector('#<%= input_id %>');
-              const currentQuery = autocompleteInput.value.trim();
-              const confirmedSuggestion = suggestion.trim();
+              syncSubmittedQuery();
 
-              if (currentQuery.length <= confirmedSuggestion.length) {
+              if (explicitSuggestionSelection || latestTypedQuery === populatedSuggestionsQuery) {
                 autocompleteInput.value = suggestion;
+                latestTypedQuery = suggestion;
               }
 
-              syncSubmittedQuery();
+              explicitSuggestionSelection = false;
+              submittedQueryInput.value = latestTypedQuery;
               form.submit()
             }
           }
         });
 
-        const autocompleteInput = document.getElementById('<%= input_id %>');
-        autocompleteInput.addEventListener('input', syncSubmittedQuery);
-        autocompleteInput.addEventListener('change', syncSubmittedQuery);
-        autocompleteInput.addEventListener('keyup', syncSubmittedQuery);
-        form.addEventListener('pointerdown', syncSubmittedQueryBeforeBlur, true);
-        form.addEventListener('mousedown', syncSubmittedQueryBeforeBlur, true);
+        autocompleteInput = document.getElementById('<%= input_id %>');
+        autocompleteInput.addEventListener('input', () => {
+          explicitSuggestionSelection = false;
+          queryCapturedBeforeBlur = false;
+          controlledValueAfterBlur = null;
+          syncSubmittedQuery();
+          lastInputEventQuery = latestTypedQuery;
+        });
+        autocompleteInput.addEventListener('focus', () => {
+          queryCapturedBeforeBlur = false;
+          controlledValueAfterBlur = null;
+        });
+        autocompleteInput.addEventListener('keydown', (event) => {
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            explicitSuggestionSelection = true;
+          }
+
+          if (event.key === 'Escape') {
+            explicitSuggestionSelection = false;
+          }
+
+          if (event.key === 'Enter' || event.key === 'Tab') {
+            syncSubmittedQuery();
+          }
+        });
+        autocompleteElement.addEventListener('click', captureExplicitSuggestionSelection, true);
+        form.addEventListener('blur', captureSubmittedQueryBeforeBlur, true);
         form.addEventListener('submit', syncSubmittedQueryOnSubmit);
 
         window.addEventListener('pageshow', (event) => {
           if (event.persisted) {
-            document.querySelector('#autocomplete input').value = '';
+            autocompleteInput.value = '';
+            latestTypedQuery = '';
+            lastInputEventQuery = '';
+            queryCapturedBeforeBlur = false;
+            controlledValueAfterBlur = null;
             submittedQueryInput.value = '';
           }
         });
