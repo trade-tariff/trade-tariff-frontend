@@ -43,17 +43,11 @@ RSpec.describe 'shared/search/_search_form', type: :view do
     expect(rendered_form).not_to include('role="combobox"')
   end
 
-  it 'configures debounce with an options object for debounce@3 compatibility' do
-    # debounce@3 throws if the third argument is a boolean, which caused the
-    # accessible autocomplete init try/catch to fall back to a plain input.
-    expect(rendered_form).to include('}, 200, { immediate: false })')
-  end
-
-  it 'keeps the submitted query outside the accessible-autocomplete controlled input state' do
-    expect(rendered_form).to include(
-      "const submittedQueryInput = document.createElement('input')",
-      "submittedQueryInput.name = 'q'",
-      "name: 'search-q-field-autocomplete'",
+  it 'configures the autocomplete input and submitted query names' do
+    expect(rendered_form).to have_css(
+      '#autocomplete[data-module="search-autocomplete"]' \
+      '[data-input-id="search-q-field"]' \
+      '[data-input-name="q"]',
     )
   end
 
