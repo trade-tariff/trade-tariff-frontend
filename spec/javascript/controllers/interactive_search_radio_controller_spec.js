@@ -39,7 +39,8 @@ function buildHTML() {
            hidden
            data-interactive-search-radio-target="keywordSection">
         <div id="autocomplete">
-          <input id="q" name="q">
+          <input id="q" name="q-autocomplete">
+          <input id="q-submitted-query" name="q" type="hidden">
         </div>
       </div>
 
@@ -82,6 +83,7 @@ describe('InteractiveSearchRadioController', () => {
     expect(document.querySelector('#conditional-keyword').hidden).toBe(false);
     expect(document.querySelector('#conditional-guided').hidden).toBe(true);
     expect(document.querySelector('#q').disabled).toBe(false);
+    expect(document.querySelector('#q-submitted-query').disabled).toBe(false);
     expect(document.querySelector('#guided_q').disabled).toBe(true);
   });
 
@@ -93,6 +95,7 @@ describe('InteractiveSearchRadioController', () => {
     expect(document.querySelector('#conditional-keyword').hidden).toBe(true);
     expect(document.querySelector('#guided_q').disabled).toBe(false);
     expect(document.querySelector('#q').disabled).toBe(true);
+    expect(document.querySelector('#q-submitted-query').disabled).toBe(true);
     expect(document.querySelector('.path_info').dataset.searchSuggestionsPath).toBe('/internal_search_suggestions.json');
     expect(document.querySelector('input[name="interactive_search"]').value).toBe('true');
   });
@@ -107,6 +110,7 @@ describe('InteractiveSearchRadioController', () => {
     expect(document.querySelector('#conditional-keyword').hidden).toBe(true);
     expect(document.querySelector('#guided_q').disabled).toBe(false);
     expect(document.querySelector('#q').disabled).toBe(true);
+    expect(document.querySelector('#q-submitted-query').disabled).toBe(true);
     expect(document.querySelector('input[name="interactive_search"]').value).toBe('true');
   });
 });

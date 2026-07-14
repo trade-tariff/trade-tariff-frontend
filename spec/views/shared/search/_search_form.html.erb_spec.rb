@@ -49,6 +49,21 @@ RSpec.describe 'shared/search/_search_form', type: :view do
     expect(rendered_form).to include('}, 200, { immediate: false })')
   end
 
+  it 'keeps the submitted query outside the accessible-autocomplete controlled input state' do
+    expect(rendered_form).to include(
+      "const submittedQueryInput = document.createElement('input')",
+      "submittedQueryInput.name = 'q'",
+      "name: 'search-q-field-autocomplete'",
+    )
+  end
+
+  it 'does not overwrite a longer typed query with a stale shorter autocomplete suggestion' do
+    expect(rendered_form).to include(
+      'const currentQuery = autocompleteInput.value.trim()',
+      'if (currentQuery.length <= confirmedSuggestion.length)',
+    )
+  end
+
   context 'when shared search button text is not used' do
     before do
       assign(:no_shared_search, true)

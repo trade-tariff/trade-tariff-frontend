@@ -15,7 +15,64 @@ RSpec.describe 'Search', :js do
           expect(page).to have_content('Search')
           expect(page).to have_content('Browse')
 
-          expect(page.find('#autocomplete input')).to be_present
+          expect(page.find('#autocomplete input.autocomplete__input')).to be_present
+        end
+      end
+
+      it 'submits the full typed query when submitting immediately after fast input' do
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+
+          page.execute_script <<~JS
+            window.submittedSearchQuery = null;
+            document.addEventListener('click', function(event) {
+              if (!event.target.closest('#new_search')) return;
+              if (event.target.closest('#autocomplete')) return;
+
+              event.preventDefault();
+              window.submittedSearchQuery = new FormData(document.querySelector('#new_search')).get('q');
+            }, true);
+          JS
+
+          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input.click
+          autocomplete_input.send_keys('tahini')
+          expect(autocomplete_input.value).to eq('tahini')
+
+          page.execute_script <<~JS
+            document.querySelector('#search-q-field').value = 'tahini paste';
+          JS
+
+          page.find('#new_search button[type="submit"]').click
+
+          expect(page.evaluate_script('window.submittedSearchQuery')).to eq('tahini paste')
+        end
+      end
+
+      it 'submits the full typed query when enter would confirm a stale autocomplete suggestion' do
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+
+          page.execute_script <<~JS
+            window.submittedSearchQuery = null;
+            window.GOVUK.Utility.fetchCommoditySearchSuggestions = function(query, searchSuggestionsPath, options, populateResults) {
+              populateResults(['tahini']);
+            };
+            HTMLFormElement.prototype.submit = function() {
+              window.submittedSearchQuery = new FormData(this).get('q');
+            };
+          JS
+
+          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input.click
+          autocomplete_input.send_keys('tahini')
+
+          expect(page).to have_css('#autocomplete [role="option"]', text: 'tahini')
+
+          autocomplete_input.send_keys(' paste')
+          autocomplete_input.send_keys(:enter)
+
+          expect(page.evaluate_script('window.submittedSearchQuery')).to eq('tahini paste')
         end
       end
     end
