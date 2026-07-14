@@ -4,10 +4,10 @@ class Search
 
     attr_accessor :entry, :type
 
-    def initialize(parsed_data)
-      @results = Array(parsed_data).map { |attrs| build_model(attrs) }
-      @type = exact_match? ? 'exact_match' : 'fuzzy_match'
-    end
+def initialize(parsed_data)
+  @results = Array(parsed_data).map { |attrs| build_model(attrs) }
+  @type = 'internal'
+end
 
     def exact_match?
       @results.size == 1 && @results.first.score.nil?
