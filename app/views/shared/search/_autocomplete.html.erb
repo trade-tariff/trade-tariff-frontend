@@ -5,10 +5,43 @@
     document.addEventListener('DOMContentLoaded', function() {
       try {
         let tempQuery = '';
+        const autocompleteElement = document.querySelector('#autocomplete');
+        const form = autocompleteElement.closest('form');
+        const submittedQueryInput = document.createElement('input');
+        submittedQueryInput.type = 'hidden';
+        submittedQueryInput.name = '<%= input_name %>';
+        submittedQueryInput.id = '<%= input_id %>-submitted-query';
+        autocompleteElement.appendChild(submittedQueryInput);
+        let submittedQuerySyncedBeforeBlur = false;
+
+        const syncSubmittedQuery = () => {
+          const autocompleteInput = document.getElementById('<%= input_id %>');
+
+          if (autocompleteInput) {
+            submittedQueryInput.value = autocompleteInput.value;
+          }
+        };
+
+        const syncSubmittedQueryBeforeBlur = (event) => {
+          if (!event.target.closest('#autocomplete input')) {
+            syncSubmittedQuery();
+            submittedQuerySyncedBeforeBlur = true;
+            window.setTimeout(() => {
+              submittedQuerySyncedBeforeBlur = false;
+            }, 0);
+          }
+        };
+
+        const syncSubmittedQueryOnSubmit = () => {
+          if (!submittedQuerySyncedBeforeBlur) {
+            syncSubmittedQuery();
+          }
+        };
+
         window.GOVUK.accessibleAutocomplete({
-          element: document.querySelector('#autocomplete'),
+          element: autocompleteElement,
           id: '<%= input_id %>',
-          name: '<%= input_name %>',
+          name: '<%= input_id %>-autocomplete',
           required: 'true',
           className: 'govuk-input',
           placeholder: 'Enter the name of the goods or commodity code',
@@ -31,14 +64,33 @@
           }, 200, { immediate: false }),
           onConfirm: (suggestion) => {
             if (suggestion) {
-              document.querySelector('#<%= input_id %>').value = suggestion
-              document.querySelector("#new_search").submit()
+              const autocompleteInput = document.querySelector('#<%= input_id %>');
+              const currentQuery = autocompleteInput.value.trim();
+              const confirmedSuggestion = suggestion.trim();
+
+              if (currentQuery.length <= confirmedSuggestion.length) {
+                autocompleteInput.value = suggestion;
+              }
+
+              syncSubmittedQuery();
+              form.submit()
             }
           }
         });
 
+        const autocompleteInput = document.getElementById('<%= input_id %>');
+        autocompleteInput.addEventListener('input', syncSubmittedQuery);
+        autocompleteInput.addEventListener('change', syncSubmittedQuery);
+        autocompleteInput.addEventListener('keyup', syncSubmittedQuery);
+        form.addEventListener('pointerdown', syncSubmittedQueryBeforeBlur, true);
+        form.addEventListener('mousedown', syncSubmittedQueryBeforeBlur, true);
+        form.addEventListener('submit', syncSubmittedQueryOnSubmit);
+
         window.addEventListener('pageshow', (event) => {
-          event.persisted ? document.querySelector('#autocomplete input').value = '' : () => {}
+          if (event.persisted) {
+            document.querySelector('#autocomplete input').value = '';
+            submittedQueryInput.value = '';
+          }
         });
       } catch(e) {
         var node = document.getElementById('autocomplete');

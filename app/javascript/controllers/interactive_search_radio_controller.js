@@ -49,15 +49,15 @@ export default class extends Controller {
 
   #syncInputs(guided) {
     // Disable the inactive input so only one q value submits
-    const autocompleteInput = document.querySelector('#autocomplete input[name="q"], #q')
+    const autocompleteInputs = document.querySelectorAll('#autocomplete input[name="q"], #autocomplete input[id$="-submitted-query"], #q')
 
     if (this.hasGuidedInputTarget) {
       this.guidedInputTarget.disabled = !guided
     }
 
-    if (autocompleteInput) {
+    autocompleteInputs.forEach((autocompleteInput) => {
       autocompleteInput.disabled = guided
-    }
+    })
   }
 
   #syncConditionals(guided) {
