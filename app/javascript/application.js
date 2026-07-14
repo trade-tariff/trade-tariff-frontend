@@ -3,6 +3,8 @@ import accessibleAutocomplete from 'accessible-autocomplete'
 import jQuery from 'jquery';
 import "controllers"
 import { initAll } from 'govuk-frontend';
+import { initializeSearchAutocompletes } from 'search-autocomplete';
+import Utility from 'utility';
 
 initAll();
 
@@ -14,7 +16,12 @@ window.GOVUK.Utility = Utility;
 window.GOVUK.debounce = debounce;
 window.GOVUK.accessibleAutocomplete = accessibleAutocomplete;
 
-import Utility from 'utility';
+initializeSearchAutocompletes(document, {
+  accessibleAutocomplete,
+  debounce,
+  fetchSuggestions: (...args) => Utility.fetchCommoditySearchSuggestions(...args),
+});
+
 import 'quota-search'
 import 'country-of-origin'
 import 'other-country-of-origin'

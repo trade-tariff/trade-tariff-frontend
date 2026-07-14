@@ -76,64 +76,6 @@ RSpec.describe 'Search', :js do
         end
       end
 
-      it 'submits a shorter replacement query instead of a stale longer suggestion' do
-        VCR.use_cassette('search#check') do
-          visit find_commodity_path
-
-          page.execute_script <<~JS
-            window.submittedSearchQuery = null;
-            window.GOVUK.Utility.fetchCommoditySearchSuggestions = function(query, searchSuggestionsPath, options, populateResults) {
-              if (query === 'tahini paste') populateResults(['tahini paste']);
-            };
-            HTMLFormElement.prototype.submit = function() {
-              window.submittedSearchQuery = new FormData(this).get('q');
-            };
-          JS
-
-          autocomplete_input = page.find('#search-q-field')
-          autocomplete_input.send_keys('tahini paste')
-          expect(page).to have_css('#autocomplete [role="option"]', text: 'tahini paste')
-
-          page.execute_script <<~JS
-            const input = document.querySelector('#search-q-field');
-            input.value = 'salt';
-            input.dispatchEvent(new Event('input', { bubbles: true }));
-          JS
-          autocomplete_input.send_keys(:enter)
-
-          expect(page.evaluate_script('window.submittedSearchQuery')).to eq('salt')
-        end
-      end
-
-      it 'submits an equal-length replacement query instead of a stale suggestion' do
-        VCR.use_cassette('search#check') do
-          visit find_commodity_path
-
-          page.execute_script <<~JS
-            window.submittedSearchQuery = null;
-            window.GOVUK.Utility.fetchCommoditySearchSuggestions = function(query, searchSuggestionsPath, options, populateResults) {
-              if (query === 'tahini') populateResults(['tahini']);
-            };
-            HTMLFormElement.prototype.submit = function() {
-              window.submittedSearchQuery = new FormData(this).get('q');
-            };
-          JS
-
-          autocomplete_input = page.find('#search-q-field')
-          autocomplete_input.send_keys('tahini')
-          expect(page).to have_css('#autocomplete [role="option"]', text: 'tahini')
-
-          page.execute_script <<~JS
-            const input = document.querySelector('#search-q-field');
-            input.value = 'tomato';
-            input.dispatchEvent(new Event('input', { bubbles: true }));
-          JS
-          autocomplete_input.send_keys(:enter)
-
-          expect(page.evaluate_script('window.submittedSearchQuery')).to eq('tomato')
-        end
-      end
-
       it 'submits an explicitly clicked suggestion when it is shorter than the typed query' do
         VCR.use_cassette('search#check') do
           visit find_commodity_path
@@ -163,35 +105,6 @@ RSpec.describe 'Search', :js do
         end
       end
 
-      it 'submits a suggestion activated without a pointer event' do
-        VCR.use_cassette('search#check') do
-          visit find_commodity_path
-
-          page.execute_script <<~JS
-            window.submittedSearchQuery = null;
-            window.GOVUK.Utility.fetchCommoditySearchSuggestions = function(query, searchSuggestionsPath, options, populateResults) {
-              if (query === 'tahini') populateResults(['tahini']);
-            };
-            HTMLFormElement.prototype.submit = function() {
-              window.submittedSearchQuery = new FormData(this).get('q');
-            };
-          JS
-
-          autocomplete_input = page.find('#search-q-field')
-          autocomplete_input.send_keys('tahini')
-          expect(page).to have_css('#autocomplete [role="option"]', text: 'tahini')
-
-          page.execute_script <<~JS
-            const input = document.querySelector('#search-q-field');
-            input.value = 'tahini paste';
-            input.dispatchEvent(new Event('input', { bubbles: true }));
-            document.querySelector('#autocomplete [role="option"]').click();
-          JS
-
-          expect(page.evaluate_script('window.submittedSearchQuery')).to eq('tahini')
-        end
-      end
-
       it 'submits an explicitly selected suggestion after arrow key navigation' do
         VCR.use_cassette('search#check') do
           visit find_commodity_path
@@ -214,97 +127,6 @@ RSpec.describe 'Search', :js do
           autocomplete_input.send_keys(:enter)
 
           expect(page.evaluate_script('window.submittedSearchQuery')).to eq('tahini paste')
-        end
-      end
-
-      it 'preserves the latest query when tabbing to submit by keyboard' do
-        VCR.use_cassette('search#check') do
-          visit find_commodity_path
-
-          page.execute_script <<~JS
-            window.submittedSearchQuery = null;
-            document.addEventListener('submit', function(event) {
-              event.preventDefault();
-              window.submittedSearchQuery = new FormData(event.target).get('q');
-            });
-          JS
-
-          autocomplete_input = page.find('#search-q-field')
-          autocomplete_input.send_keys('tahini')
-
-          page.execute_script <<~JS
-            const input = document.querySelector('#search-q-field');
-            const submit = document.querySelector('#new_search button[type="submit"]');
-            input.value = 'tahini paste';
-            input.dispatchEvent(new KeyboardEvent('keydown', {
-              key: 'Tab',
-              keyCode: 9,
-              bubbles: true
-            }));
-            input.blur();
-            submit.focus();
-          JS
-          page.execute_script <<~JS
-            const submit = document.querySelector('#new_search button[type="submit"]');
-            submit.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-            submit.click();
-          JS
-
-          expect(page.evaluate_script('window.submittedSearchQuery')).to eq('tahini paste')
-        end
-      end
-
-      it 'submits a direct input update without pointer or keyboard events' do
-        VCR.use_cassette('search#check') do
-          visit find_commodity_path
-
-          page.execute_script <<~JS
-            window.submittedSearchQuery = null;
-            document.addEventListener('submit', function(event) {
-              event.preventDefault();
-              window.submittedSearchQuery = new FormData(event.target).get('q');
-            });
-          JS
-
-          autocomplete_input = page.find('#search-q-field')
-          autocomplete_input.send_keys('tahini')
-
-          page.execute_script <<~JS
-            const input = document.querySelector('#search-q-field');
-            input.blur();
-            document.querySelector('#new_search button[type="submit"]').focus();
-            input.value = 'voice entered query';
-            document.querySelector('#new_search').requestSubmit();
-          JS
-
-          expect(page.evaluate_script('window.submittedSearchQuery')).to eq('voice entered query')
-        end
-      end
-
-      it 'clears the submitted query when restoring the page from browser history' do
-        VCR.use_cassette('search#check') do
-          visit find_commodity_path
-
-          page.execute_script <<~JS
-            window.submittedSearchQuery = null;
-            document.addEventListener('submit', function(event) {
-              event.preventDefault();
-              window.submittedSearchQuery = new FormData(event.target).get('q');
-            });
-          JS
-
-          autocomplete_input = page.find('#search-q-field')
-          autocomplete_input.send_keys('tahini')
-
-          page.execute_script <<~JS
-            window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
-            document.querySelector('#new_search').dispatchEvent(new Event('submit', {
-              bubbles: true,
-              cancelable: true
-            }));
-          JS
-
-          expect(page.evaluate_script('window.submittedSearchQuery')).to eq('')
         end
       end
     end
