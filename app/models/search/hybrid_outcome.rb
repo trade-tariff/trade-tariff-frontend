@@ -23,7 +23,8 @@ class Search
         .first(TradeTariffFrontend.hybrid_results_to_show)
     end
 
-    delegate :any?, :none?, to: :@results
+def any? = commodities.any?
+def none? = !any?
 
     def reference_matches_by_chapter = []
     def gn_matches_without_duplicates_by_chapter = []
