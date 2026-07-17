@@ -37,8 +37,8 @@ class Search
       end
     end
 
-    def any? = commodities.any?
-def none? = !any?
+    delegate :any?, to: :commodities
+    def none? = !any?
 
     def reference_matches_by_chapter = []
     def gn_matches_without_duplicates_by_chapter = []

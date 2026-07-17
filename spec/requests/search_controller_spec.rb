@@ -64,14 +64,15 @@ RSpec.describe SearchController, type: :request do
             status: 200,
             body: { 'data' => [commodity_data] }.to_json,
             headers: { 'content-type' => 'application/json; charset=utf-8' },
-            )
+          )
 
           get perform_search_path, params: { q: 'car parts', day: '5', month: '4', year: '2019' }, as: :json
-          @body = JSON.parse(response.body)
         end
 
-        it { expect(@body).to include('q' => 'car parts', 'as_of' => '2019-04-05') }
-        it { expect(@body['results']).to be_an(Array) }
+        let(:body) { JSON.parse(response.body) }
+
+        it { expect(body).to include('q' => 'car parts', 'as_of' => '2019-04-05') }
+        it { expect(body['results']).to be_an(Array) }
       end
     end
   end
