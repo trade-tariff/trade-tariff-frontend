@@ -136,8 +136,20 @@ RSpec.describe Search::HybridOutcome do
       expect(outcome.reference_match).to eq(Search::ReferenceMatch::BLANK_RESULT)
     end
 
+    it 'exposes blank headings in goods nomenclature matches' do
+      expect(outcome.goods_nomenclature_match.headings).to eq([])
+    end
+
+    it 'exposes blank chapters in goods nomenclature matches' do
+      expect(outcome.goods_nomenclature_match.chapters).to eq([])
+    end
+
+    it 'exposes blank sections in goods nomenclature matches' do
+      expect(outcome.goods_nomenclature_match.sections).to eq([])
+    end
+
     it 'exposes blank goods nomenclature matches' do
-      expect(outcome.goods_nomenclature_match).to eq(Search::GoodsNomenclatureMatch::BLANK_RESULT)
+      expect(outcome.goods_nomenclature_match.commodities.size).to eq(1)
     end
 
     it 'returns empty chapter-grouped reference result collections' do
