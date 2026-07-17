@@ -29,14 +29,6 @@ class Search
     @country = country&.upcase
   end
 
-  def perform
-    if interactive_search && interactive_search_enabled?
-      perform_internal_search
-    else
-      perform_v2_search
-    end
-  end
-
   def q=(term)
     @q = term.to_s.gsub(/(\[|\])/, '').strip
   end
@@ -115,10 +107,14 @@ class Search
     q
   end
 
-  private
-
-  def interactive_search_enabled?
-    TradeTariffFrontend.interactive_search_enabled?
+  def perform
+    if interactive_search && TradeTariffFrontend.interactive_search_enabled?
+      perform_internal_search
+    elsif TradeTariffFrontend.hybrid_search_enabled?
+      perform_hybrid_search
+    else
+      perform_v2_search
+    end
   end
 
   def perform_v2_search
@@ -131,32 +127,57 @@ class Search
     Outcome.new(response)
   end
 
-  def perform_internal_search
-    Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: 30.minutes) do
-      api_host = TradeTariffFrontend::ServiceChooser.api_host
-      path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
+  def perform_hybrid_search
+    Rails.cache.resilient_fetch(hybrid_search_cache_key, expires_in: 30.minutes) do
+      parsed_data, = internal_search(skip_question: true)
 
-      params = { q:, as_of: date.to_fs(:db) }
-      params[:answers] = answers if answers.present?
-      params[:request_id] = request_id if request_id.present?
-      params[:expanded_query] = expanded_query if expanded_query.present?
-
-      response = self.class.api.post(path, MultiJson.dump(params), 'Content-Type' => 'application/json') do |request|
-        request.options.timeout = TradeTariffFrontend::ServiceTimeout.timeout_for('/internal/search')
-      end
-      body = response.body.is_a?(Hash) ? response.body : JSON.parse(response.body)
-      parsed_data = TariffJsonapiParser.new(body).parse
-      parsed_data = [] unless parsed_data.is_a?(Array)
-
-      InternalSearchResult.new(parsed_data, body['meta'])
+      HybridOutcome.new(parsed_data)
     end
   rescue Faraday::UnprocessableContentError => e
     hydrate_errors_from_response(e)
     InternalSearchResult.new([], nil)
   end
 
+  def perform_internal_search
+    Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: 30.minutes) do
+      parsed_data, meta = internal_search(skip_question: false)
+
+      InternalSearchResult.new(parsed_data, meta)
+    end
+  rescue Faraday::UnprocessableContentError => e
+    hydrate_errors_from_response(e)
+    InternalSearchResult.new([], nil)
+  end
+
+  private
+
+  def internal_search(skip_question: false)
+    api_host = TradeTariffFrontend::ServiceChooser.api_host
+    path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
+
+    params = { q:, as_of: date.to_fs(:db) }
+    params[:answers] = answers if answers.present?
+    params[:request_id] = request_id if request_id.present?
+    params[:expanded_query] = expanded_query if expanded_query.present?
+    params[:skip_question] = skip_question
+
+    response = self.class.api.post(path, MultiJson.dump(params), 'Content-Type' => 'application/json') do |request|
+      request.options.timeout = TradeTariffFrontend::ServiceTimeout.timeout_for('/internal/search')
+    end
+    body = response.body.is_a?(Hash) ? response.body : JSON.parse(response.body)
+    parsed_data = TariffJsonapiParser.new(body).parse
+    parsed_data = [] unless parsed_data.is_a?(Array)
+
+    [parsed_data, body['meta']]
+  end
+
   def interactive_search_cache_key
     digest = Digest::SHA256.hexdigest(MultiJson.dump({ q:, answers:, as_of: date.to_fs(:db), expanded_query: }))
     "interactive_search/#{digest}"
+  end
+
+  def hybrid_search_cache_key
+    digest = Digest::SHA256.hexdigest(MultiJson.dump({ q:, as_of: date.to_fs(:db), expanded_query: }))
+    "hybrid_search/#{digest}"
   end
 end

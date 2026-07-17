@@ -312,6 +312,78 @@ RSpec.describe SearchController, type: :controller do
       end
     end
 
+    context 'with hybrid search enabled' do
+      subject(:do_response) { get :search, params: }
+
+      let(:commodity_data) do
+        {
+          'id' => '123',
+          'type' => 'commodity',
+          'attributes' => {
+            'goods_nomenclature_item_id' => '0101210000',
+            'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+            'goods_nomenclature_class' => 'Commodity',
+            'classification_description' => 'Pure-bred breeding animals',
+            'self_text' => 'Pure-bred breeding animals are domesticated specimens of the same breed, carefully selected and controlled over many generations to preserve desirable characteristics',
+            'formatted_description' => 'Pure-bred breeding animals',
+            'declarable' => true,
+            'score' => 12.5,
+          },
+        }
+      end
+
+      before do
+        disable_feature(:interactive_search)
+        enable_feature(:hybrid_search)
+      end
+
+      context 'when backend returns fuzzy commodity matches' do
+        render_views
+
+        let(:params) { { q: 'horses' } }
+
+        before do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: { 'data' => [commodity_data] }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to have_http_status(:ok) }
+        it { is_expected.to render_template(:search) }
+        it { expect(assigns(:results)).to be_a(Search::HybridOutcome) }
+        it { expect(response.body).to include('Pure-bred breeding animals') }
+      end
+
+      context 'when backend returns a single exact match' do
+        let(:params) { { q: '0101210000' } }
+
+        let(:exact_match_data) do
+          commodity_data.deep_merge(
+            'attributes' => {
+              'goods_nomenclature_item_id' => '0101210000',
+              'score' => nil,
+            },
+          )
+        end
+
+        before do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: { 'data' => [exact_match_data] }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to have_http_status(:redirect) }
+        it { expect(response.location).to include(commodity_path('0101210000')) }
+        it { expect(response.location).to include('request_id=') }
+      end
+    end
+
     context 'with internal interactive search via POST' do
       subject(:do_response) { post :search, params: }
 

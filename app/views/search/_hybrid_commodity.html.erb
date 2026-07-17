@@ -1,0 +1,12 @@
+<tr class="govuk-table__row">
+  <td class="govuk-table__cell commodity-result">
+    <%= govuk_link_to(commodity_path(commodity, request_id: @search.request_id), aria_describedby: "code-for-commodity-#{commodity.id}", visually_hidden_suffix: "(code #{commodity.code})") do %>
+      <%= commodity.formatted_classification_description %>
+    <% end %>
+    <p><%= commodity.formatted_self_text %></p>
+  </td>
+
+  <td class="govuk-table__cell text-right" id="code-for-commodity-<%= commodity.id %>">
+    <%= format_full_code(commodity) %>
+  </td>
+</tr>

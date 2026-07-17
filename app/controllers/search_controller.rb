@@ -4,6 +4,7 @@ class SearchController < ApplicationController
   include GoodsNomenclatureHelper
   include ClassicSearchable
   include InteractiveSearchable
+  include HybridSearchable
 
   skip_before_action :verify_authenticity_token, only: [:search]
 
@@ -21,6 +22,8 @@ class SearchController < ApplicationController
 
     if interactive_search?
       perform_interactive_search
+    elsif hybrid_search?
+      perform_hybrid_search
     else
       perform_classic_search
     end

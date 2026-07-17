@@ -469,5 +469,173 @@ RSpec.describe Search do
         expect(FlagsmithClient.instance).to have_received(:get_flags_for).once
       end
     end
+
+    context 'when hybrid search is enabled' do
+      subject(:perform_search) { described_class.new(q: 'horses').perform }
+
+      let(:internal_response_body) do
+        {
+          'data' => [
+            {
+              'id' => '123',
+              'type' => 'commodity',
+              'attributes' => {
+                'goods_nomenclature_item_id' => '0101210000',
+                'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+                'goods_nomenclature_class' => 'Commodity',
+                'description' => 'Pure-bred breeding animals',
+                'formatted_description' => 'Pure-bred breeding animals',
+                'declarable' => true,
+                'score' => 12.5,
+              },
+            },
+          ],
+        }
+      end
+
+      before do
+        disable_feature(:interactive_search)
+        enable_feature(:hybrid_search)
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'returns a HybridOutcome' do
+        expect(perform_search).to be_a(Search::HybridOutcome)
+      end
+
+      it 'contains parsed commodity results' do
+        expect(perform_search.commodities.first).to be_a(Commodity)
+      end
+
+      it 'requests internal search with skip_question enabled' do
+        stub = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['skip_question'] == true }
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        perform_search
+
+        expect(stub).to have_been_requested
+      end
+    end
+
+    context 'when hybrid search is enabled and interactive search is also requested' do
+      subject(:perform_search) do
+        search = described_class.new(q: 'horses')
+        search.interactive_search = true
+        search.perform
+      end
+
+      let(:internal_response_body) do
+        {
+          'data' => [],
+          'meta' => {
+            'interactive_search' => {
+              'query' => 'horses',
+              'request_id' => 'abc-123',
+              'answers' => [],
+            },
+          },
+        }
+      end
+
+      before do
+        enable_feature(:interactive_search)
+        enable_feature(:hybrid_search)
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'prefers interactive search over hybrid search' do
+        expect(perform_search).to be_a(Search::InternalSearchResult)
+      end
+    end
+
+    context 'when hybrid search returns 422 validation error' do
+      let(:search) { described_class.new(q: 'a' * 1001) }
+
+      let(:error_body) do
+        {
+          'errors' => [
+            {
+              'status' => '422',
+              'title' => 'Invalid query',
+              'detail' => 'Query exceeds maximum length of 1000 characters',
+              'source' => { 'pointer' => '/data/attributes/q' },
+            },
+          ],
+        }
+      end
+
+      before do
+        disable_feature(:interactive_search)
+        enable_feature(:hybrid_search)
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 422,
+                     body: error_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'returns an InternalSearchResult' do
+        expect(search.perform).to be_a(Search::InternalSearchResult)
+      end
+
+      it 'returns empty results' do
+        expect(search.perform).to be_none
+      end
+
+      it 'hydrates errors on the search model' do
+        search.perform
+        expect(search.errors[:q]).to include('Query exceeds maximum length of 1000 characters')
+      end
+    end
+  end
+
+  describe '#perform_hybrid_search' do
+    subject(:perform_hybrid_search) { described_class.new(q: 'horses').perform_hybrid_search }
+
+    let(:internal_response_body) do
+      {
+        'data' => [
+          {
+            'id' => '123',
+            'type' => 'commodity',
+            'attributes' => {
+              'goods_nomenclature_item_id' => '0101210000',
+              'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+              'goods_nomenclature_class' => 'Commodity',
+              'description' => 'Pure-bred breeding animals',
+              'formatted_description' => 'Pure-bred breeding animals',
+              'declarable' => true,
+              'score' => 12.5,
+            },
+          },
+        ],
+      }
+    end
+
+    before do
+      stub_api_request('search', :post, internal: true)
+        .to_return(status: 200,
+                   body: internal_response_body.to_json,
+                   headers: { 'content-type' => 'application/json; charset=utf-8' })
+    end
+
+    it 'returns a HybridOutcome' do
+      expect(perform_hybrid_search).to be_a(Search::HybridOutcome)
+    end
+
+    it 'caches repeated hybrid searches for the same query' do
+      perform_hybrid_search
+      perform_hybrid_search
+
+      expect(WebMock).to have_requested(:post, %r{/internal/.*/search}).once
+    end
   end
 end
