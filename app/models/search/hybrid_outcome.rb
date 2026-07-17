@@ -2,7 +2,7 @@ class Search
   class HybridOutcome
     include ApiEntity
 
-    attr_accessor :entry, :type
+    attr_accessor :type
 
     def initialize(parsed_data)
       @results = Array(parsed_data).map { |attrs| build_model(attrs) }
@@ -23,13 +23,26 @@ class Search
         .first(TradeTariffFrontend.hybrid_results_to_show)
     end
 
-def any? = commodities.any?
+    def entry
+      if exact_match?
+        { 'id' => exact_match.id, 'endpoint' => 'commodities' }
+      end
+    end
+
+    def goods_nomenclature_match
+      if @goods_nomenclature_match || exact_match?
+        GoodsNomenclatureMatch::BLANK_RESULT
+      else
+        GoodsNomenclatureMatch.new(sections: [], chapters: [], headings: [], commodities: commodities)
+      end
+    end
+
+    def any? = commodities.any?
 def none? = !any?
 
     def reference_matches_by_chapter = []
     def gn_matches_without_duplicates_by_chapter = []
     def reference_match = ReferenceMatch::BLANK_RESULT
-    def goods_nomenclature_match = GoodsNomenclatureMatch::BLANK_RESULT
     def all = @results
 
     delegate :size, to: :all

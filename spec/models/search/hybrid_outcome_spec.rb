@@ -95,6 +95,40 @@ RSpec.describe Search::HybridOutcome do
     end
   end
 
+  describe '#entry' do
+    context 'when the result is an exact match' do
+      subject(:entry) { described_class.new([commodity_attrs('score' => nil)]).entry }
+
+      it 'returns the entry payload for the exact match' do
+        expect(entry).to eq('id' => '0712903000', 'endpoint' => 'commodities')
+      end
+    end
+
+    context 'when the result is not an exact match' do
+      subject(:entry) { described_class.new([commodity_attrs('score' => 12.5), heading_attrs]).entry }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#goods_nomenclature_match' do
+    context 'when the search is an exact match' do
+      let(:outcome) { described_class.new([commodity_attrs('score' => nil)]) }
+
+      it 'returns the blank goods nomenclature match result' do
+        expect(outcome.goods_nomenclature_match).to eq(Search::GoodsNomenclatureMatch::BLANK_RESULT)
+      end
+    end
+
+    context 'when the search is not an exact match' do
+      let(:outcome) { described_class.new([commodity_attrs('score' => 12.5), heading_attrs]) }
+
+      it 'builds a goods nomenclature match from the hybrid commodities' do
+        expect(outcome.goods_nomenclature_match.commodities).to all(be_a(Commodity))
+      end
+    end
+  end
+
   describe 'v2 compatibility shims' do
     subject(:outcome) { described_class.new([commodity_attrs, heading_attrs, chapter_attrs]) }
 

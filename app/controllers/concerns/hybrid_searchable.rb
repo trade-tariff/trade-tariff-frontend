@@ -14,7 +14,9 @@ module HybridSearchable
   end
 
   def route_hybrid_results
-    if @results.exact_match?
+    if @search.missing_search_term?
+      redirect_to missing_search_query_fallback_url
+    elsif @results.exact_match?
       redirect_to polymorphic_url(
         @results.exact_match,
         request_id: @search.request_id,
