@@ -58,6 +58,11 @@ module TradeTariffFrontend
     config.exceptions_app = routes
 
     config.grouped_measure_types = config_for(:grouped_measure_types)
+    config.experiment_urls = TradeTariffFrontend::ExperimentUrls.new(
+      config_for(:experiment_urls),
+      registered_flags: TradeTariffFrontend::Config.registered_flags,
+      service_names: TradeTariffFrontend::ServiceChooser.supported_service_names,
+    ).freeze
 
     config.x.http.retry_options = {}
 

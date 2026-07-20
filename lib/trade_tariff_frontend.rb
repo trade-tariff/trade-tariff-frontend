@@ -9,6 +9,7 @@ module TradeTariffFrontend
   }.freeze
 
   autoload :Presenter,      'trade_tariff_frontend/presenter'
+  autoload :ExperimentUrls, 'trade_tariff_frontend/experiment_urls'
   autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
   autoload :ViewContext,    'trade_tariff_frontend/view_context'
 

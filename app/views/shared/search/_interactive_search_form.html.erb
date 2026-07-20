@@ -17,6 +17,7 @@
 <%= hidden_field_tag :month, @search.month %>
 <%= hidden_field_tag :day, @search.day %>
 <% end %>
+<%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
 
 <div data-controller="interactive-search-radio"
      data-interactive-search-radio-v2-suggestions-path-value="<%= search_suggestions_path(format: :json) %>"

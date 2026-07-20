@@ -1,6 +1,12 @@
 module TradeTariffFrontend
   module ServiceChooser
+    SUPPORTED_SERVICE_NAMES = %w[uk xi].freeze
+
     module_function
+
+    def supported_service_names
+      SUPPORTED_SERVICE_NAMES
+    end
 
     def with_source(service_source)
       original_service_source = service_choice
