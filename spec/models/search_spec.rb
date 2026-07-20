@@ -232,6 +232,26 @@ RSpec.describe Search do
     end
   end
 
+  describe '#perform_v2_search experiment instrumentation' do
+    let(:response) do
+      jsonapi_response(:search, {
+        type: 'fuzzy_match',
+        goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+        reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+      })
+    end
+
+    it 'sends only a present experiment label to V2 search' do
+      ['trstd-trdr', nil].each do |label|
+        stub = stub_api_request('search', :post)
+          .with { |request| Rack::Utils.parse_nested_query(request.body)['experiment'] == label }
+          .to_return(response)
+        described_class.new(q: 'horses', experiment: label).perform
+        expect(stub).to have_been_requested
+      end
+    end
+  end
+
   describe '#perform' do
     before do
       Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
@@ -315,6 +335,23 @@ RSpec.describe Search do
         search.perform
 
         expect(stub).to have_been_requested
+      end
+
+      it 'sends the label to internal search and isolates its cache cohort' do
+        allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+        stub = stub_api_request('search', :post, internal: true)
+          .with { |request| %w[first-experiment second-experiment].include?(JSON.parse(request.body)['experiment']) }
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        %w[first-experiment first-experiment second-experiment].each do |experiment|
+          search = described_class.new(q: 'cache isolation query', experiment:)
+          search.interactive_search = true
+          search.perform
+        end
+
+        expect(stub).to have_been_requested.twice
       end
     end
 

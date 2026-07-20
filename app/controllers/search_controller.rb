@@ -125,9 +125,13 @@ class SearchController < ApplicationController
       :expanded_query,
       :current_question,
       :current_options,
+      :experiment,
       answers: %i[question options answer],
       interactive_search_form: [:answer],
-    ).to_h.merge(extract_search_date_parts)
+    ).to_h
+      .merge(extract_search_date_parts)
+      .merge(experiment: Current.experiment)
+      .compact
   end
 
   def search_params

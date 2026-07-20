@@ -52,6 +52,7 @@ module ErrorHandling
       exception_class: exception.class.name,
       exception_message: exception.message,
       search_request_id: @search&.request_id,
+      experiment_label: Current.experiment,
     }.merge(faraday_response_log_context(exception)).compact
   end
 

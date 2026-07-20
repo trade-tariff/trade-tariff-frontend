@@ -10,7 +10,10 @@ class Current < ActiveSupport::CurrentAttributes
   # Set when Flagsmith cannot be reached/configured during the current request.
   attribute :flagsmith_unavailable
 
-  # Opt-in trait overrides for the current request (keyed by flag name, boolean values).
+  # Opt-in trait overrides for the current request (keyed by flag name, boolean or SDK trait options).
   # Loaded from session by FlagsmithSetup and passed through to Edge Proxy evaluation.
   attribute :flagsmith_optin_traits
+
+  # Instrumentation label for the most recently enrolled active experiment.
+  attribute :experiment
 end

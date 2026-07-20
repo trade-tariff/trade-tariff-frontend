@@ -249,5 +249,13 @@ Rails.application.routes.draw do
   match '/500', to: 'errors#internal_server_error', via: :all
   match '/501', to: 'errors#not_implemented', via: :all
   match '/503', to: 'errors#maintenance', via: :all
+
+  Rails.application.config.experiment_urls.each do |experiment|
+    get experiment.path,
+        to: 'experiment_urls#show',
+        defaults: { experiment_key: experiment.key },
+        format: false
+  end
+
   match '*path', to: 'errors#not_found', via: :all
 end

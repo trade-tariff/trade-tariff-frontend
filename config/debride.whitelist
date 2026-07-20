@@ -37,6 +37,7 @@ ErrorHandling#handle_server_error
 ErrorHandling#handle_timeout_error
 ErrorHandling#handle_too_many_requests_error
 ErrorHandling#handle_unknown_format
+ExperimentUrlsController#show
 ApplicationController#set_layout
 ApplicationController#skip_news_banner
 ApplicationHelper#breadcrumb_link_or_text
@@ -965,6 +966,7 @@ TradeTariffFrontend#single_trade_window_linking_enabled?
 TradeTariffFrontend::Config#waf_integration_enabled?
 TradeTariffFrontend::Config#webchat_enabled?
 TradeTariffFrontend#welsh?
+TradeTariffFrontend::ServiceChooser#supported_service_names
 TradeTariffFrontend::ServiceChooser#uk_host
 TradeTariffFrontend::ServiceChooser#xi_host
 User#chapter_ids=

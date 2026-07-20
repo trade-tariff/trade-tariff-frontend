@@ -154,5 +154,14 @@ RSpec.describe FlagsmithClient do
       flags = client.get_flags_for(identity)
       expect(flags.is_feature_enabled('unknown_flag')).to be false
     end
+
+    it 'passes transient traits without persisting them to the identity' do
+      client.get_flags_for(identity, interactive_search: { value: true, transient: true })
+
+      expect(a_request(:post, 'https://flagsmith.example.com/api/v1/identities/').with do |request|
+        JSON.parse(request.body).fetch('traits').sole ==
+          { 'trait_key' => 'interactive_search', 'trait_value' => true, 'transient' => true }
+      end).to have_been_made
+    end
   end
 end

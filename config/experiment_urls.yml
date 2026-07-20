@@ -1,0 +1,10 @@
+shared:
+  trusted_trader_guided_search:
+    path: /trusted-trader-guided-search
+    feature: interactive_search
+    starts_on: "2026-07-27"
+    ends_on: "2026-07-31"
+    timezone: Europe/London
+    redirect: /find_commodity
+    service: uk
+    instrumentation_label: trstd-trdr

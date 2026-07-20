@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 RSpec.describe TradeTariffFrontend::ServiceChooser do
+  describe '.supported_service_names' do
+    it 'returns the immutable service domain catalogue', :aggregate_failures do
+      expect(described_class.supported_service_names).to eq(%w[uk xi])
+      expect(described_class.supported_service_names).to be_frozen
+    end
+  end
+
   describe '.service_choices' do
     it 'returns a Hash of url options for the services' do
       expect(described_class.service_choices).to eq(

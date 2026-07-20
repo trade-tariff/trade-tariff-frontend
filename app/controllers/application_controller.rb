@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   include TradeTariffFrontend::Config::RegisteredFlags
 
   include CacheControl
+  include ExperimentEnrollment
   include FlagsmithSetup
   include BotProtection
   include ErrorHandling
@@ -87,7 +88,11 @@ class ApplicationController < ActionController::Base
       :month,
       :year,
       :as_of,
-    ).to_h.merge(extract_search_date_parts)
+      :experiment,
+    ).to_h
+      .merge(extract_search_date_parts)
+      .merge(experiment: Current.experiment)
+      .compact
   end
 
   def search_attribute_params
@@ -141,6 +146,7 @@ class ApplicationController < ActionController::Base
     payload[:request_id] = request.request_id
     payload[:search_request_id] = @search&.request_id
     payload[:user_agent] = request.env['HTTP_USER_AGENT']
+    payload[:experiment_label] = Current.experiment if Current.experiment.present?
     payload.merge!(@handled_exception_log_context) if defined?(@handled_exception_log_context) && @handled_exception_log_context.present?
   end
 

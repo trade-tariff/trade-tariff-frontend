@@ -33,6 +33,13 @@ RSpec.describe 'search/interactive_question', type: :view do
     )
   end
 
+  it 'carries only a present experiment label into the answer form' do
+    allow(view).to receive(:search_form_path).and_return('/find_commodity')
+    assign(:search, Search.new(q: 'jam', request_id: '123', interactive_search: true, experiment: 'trstd-trdr'))
+    render
+    expect(rendered).to have_css('input[name="experiment"][value="trstd-trdr"]', visible: :hidden)
+  end
+
   context 'when the guided search was started for a historical date' do
     let(:search) do
       Search.new(
