@@ -4,7 +4,7 @@ pin 'application'
 pin '@hotwired/stimulus', to: 'stimulus.min.js'
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js'
 
-pin "govuk-frontend" # @6.4.0
+pin 'govuk-frontend' # @6.4.0
 pin 'mark.js' # @8.11.1
 pin 'jquery' # @4.0.0
 pin 'accessible-autocomplete' # @3.0.1
