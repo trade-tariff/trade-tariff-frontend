@@ -39,6 +39,21 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
     it { is_expected.to have_text('Steps for searching the tariff') }
   end
 
+  describe 'guided search tips content' do
+    it 'renders the approved guidance and steps', :aggregate_failures do
+      render
+      guided_tips = Capybara.string(rendered).find('#conditional-guided', visible: :all)
+
+      expect(guided_tips).to have_css('h3', text: 'Steps for using guided search')
+      expect(guided_tips).to have_css('.special-numbered-list li', count: 3)
+      expect(guided_tips).to have_text('Do not enter any personal or sensitive information in your search queries.')
+      expect(guided_tips).to have_link(
+        'Tax and customs for goods sent from abroad: Tax and duty - GOV.UK',
+        href: 'https://www.gov.uk/goods-sent-from-abroad/tax-and-duty',
+      )
+    end
+  end
+
   describe 'hero spimm banner' do
     it { is_expected.to have_css('.govuk-notification-banner', text: /Importing goods into Northern Ireland/) }
     it { is_expected.to have_link('Check eligibility') }
