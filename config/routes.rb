@@ -235,6 +235,16 @@ Rails.application.routes.draw do
 
   resources :basic_sessions, only: %i[new create] if TradeTariffFrontend.basic_session_authentication?
 
+  if Rails.env.development? || Rails.env.test?
+    namespace :vat_guidance_prototype, path: 'vat-guidance-prototype' do
+      root to: 'journeys#index'
+      post 'start', to: 'journeys#start'
+      get 'question', to: 'journeys#question'
+      post 'answer', to: 'journeys#answer'
+      get 'result', to: 'journeys#result'
+    end
+  end
+
   draw('duty_calculator')
 
   post '/csp-violation-report', to: 'csp_reports#create'

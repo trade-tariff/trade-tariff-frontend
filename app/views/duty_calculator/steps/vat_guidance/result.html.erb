@@ -1,0 +1,43 @@
+<%= govuk_back_link(href: vat_guidance_path(restart: true)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
+
+    <% if @state.determined? %>
+      <h1 class="govuk-heading-xl">VAT guidance result</h1>
+      <%= govuk_panel(title_text: @vat_option_label, text: "Tariff option #{@state.vat_option}") %>
+      <% if @journey.generic? %>
+        <p class="govuk-body">You confirmed this treatment independently. The prototype verified that it is one of the current VAT options for commodity <%= segmented_commodity_code commodity_code %>.</p>
+      <% else %>
+        <p class="govuk-body">This result uses the current VAT options for commodity <%= segmented_commodity_code commodity_code %> and the answers you provided.</p>
+      <% end %>
+      <%= button_to 'Use this VAT rate', apply_vat_guidance_path, class: 'govuk-button', data: { module: 'govuk-button', prevent_double_click: true } %>
+    <% else %>
+      <h1 class="govuk-heading-xl">VAT rate not determined</h1>
+      <%= govuk_warning_text(text: 'The guidance does not guess when the available information is insufficient.') %>
+      <p class="govuk-body"><%= @state.reason %></p>
+      <%= govuk_button_link_to 'Choose from the available VAT rates', vat_path %>
+    <% end %>
+
+    <h2 class="govuk-heading-l">Answers used</h2>
+    <%= govuk_summary_list(rows: @state.trail.map do |item|
+      {
+        key: { text: item[:question].text },
+        value: { text: item[:answer].label },
+      }
+    end) %>
+
+    <h2 class="govuk-heading-l"><%= @journey.generic? ? 'Guidance to check' : 'HMRC guidance used' %></h2>
+    <% @journey.sources.each do |source| %>
+      <p class="govuk-body">
+        <%= govuk_link_to source.title, source.url %><br>
+        <span class="govuk-body-s">Section: <%= source.section %>. Reviewed <%= source.reviewed_at.to_formatted_s(:long) %>.</span>
+      </p>
+    <% end %>
+
+    <%= govuk_warning_text(text: 'This prototype is not an HMRC determination and must not be used to make a VAT declaration.') %>
+  </div>
+</div>
+
+<%= render 'duty_calculator/shared/commodity_details' %>
