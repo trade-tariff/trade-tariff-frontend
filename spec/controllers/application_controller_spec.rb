@@ -122,10 +122,10 @@ RSpec.describe ApplicationController, type: :controller do
 
     it 'retains future enrolments and prunes expired or malformed storage', :aggregate_failures do
       session[:experiment_url_optins] = [experiment.enrollment_token]
-      travel_to(Time.utc(2026, 7, 26, 22)) { get :index }
+      travel_to(experiment.starts_on.in_time_zone(experiment.timezone) - 1.second) { get :index }
       expect(response.parsed_body['experiment']).to be_nil
       expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
-      travel_to(Time.utc(2026, 7, 31, 23)) { get :index }
+      travel_to((experiment.ends_on + 1.day).in_time_zone(experiment.timezone)) { get :index }
       expect(session[:experiment_url_optins]).to eq([])
       session[:experiment_url_optins] = { bad: 'shape' }
       get :index

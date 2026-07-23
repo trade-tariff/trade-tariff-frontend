@@ -17,18 +17,20 @@ RSpec.describe ExperimentUrlsController, type: :request do
   end
 
   it 'uses inclusive London dates and refuses the wrong service', :aggregate_failures do
+    starts_at = experiment.starts_on.in_time_zone(experiment.timezone)
+    expires_at = (experiment.ends_on + 1.day).in_time_zone(experiment.timezone)
     cases = {
-      Time.utc(2026, 7, 26, 22, 59, 59) => '/find_commodity',
-      Time.utc(2026, 7, 26, 23) => '/find_commodity?experiment=trstd-trdr',
-      Time.utc(2026, 7, 31, 22, 59, 59) => '/find_commodity?experiment=trstd-trdr',
-      Time.utc(2026, 7, 31, 23) => '/find_commodity',
+      starts_at - 1.second => '/find_commodity',
+      starts_at => '/find_commodity?experiment=trstd-trdr',
+      expires_at - 1.second => '/find_commodity?experiment=trstd-trdr',
+      expires_at => '/find_commodity',
     }
     cases.each do |time, location|
       travel_to(time) { get '/trusted-trader-guided-search' }
       expect(response).to redirect_to(location)
       session.delete(:experiment_url_optins)
     end
-    travel_to(Time.utc(2026, 7, 27, 12)) { get '/xi/trusted-trader-guided-search' }
+    travel_to(starts_at) { get '/xi/trusted-trader-guided-search' }
     expect(response).to redirect_to('/xi/find_commodity')
   end
 
@@ -60,7 +62,9 @@ RSpec.describe ExperimentUrlsController, type: :request do
     end
     expect(Capybara.string(response.body)).to have_css('input[name="experiment"][value="trstd-trdr"]', visible: :hidden)
 
-    get '/find_commodity', params: { experiment: 'spoofed' }
+    travel_to(experiment.starts_on.in_time_zone(experiment.timezone) - 1.second) do
+      get '/find_commodity', params: { experiment: 'spoofed' }
+    end
     expect(Capybara.string(response.body)).to have_no_css('input[name="experiment"]', visible: :hidden)
   end
 end
