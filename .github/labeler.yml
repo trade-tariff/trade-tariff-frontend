@@ -5,3 +5,4 @@ needs-deployment:
       - "db/**"
       - "Dockerfile"
       - "terraform/**"
+      - "config/experiment_urls.yml"
