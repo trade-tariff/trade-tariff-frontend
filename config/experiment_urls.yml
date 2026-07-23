@@ -1,6 +1,6 @@
 shared:
   trusted_trader_guided_search:
-    path: /trusted-trader-guided-search
+    path: /guided-search-research
     feature: interactive_search
     starts_on: "2026-07-23"
     ends_on: "2026-07-31"

@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Experiment search instrumentation', type: :request do
+  let(:experiment) { Rails.application.config.experiment_urls.fetch(:trusted_trader_guided_search) }
+
   let(:response_body) do
     {
       data: [],
@@ -24,7 +26,7 @@ RSpec.describe 'Experiment search instrumentation', type: :request do
       .to_return(status: 200, body: response_body, headers: { 'content-type' => 'application/json' })
 
     travel_to(Time.utc(2026, 7, 27, 12)) do
-      get '/trusted-trader-guided-search'
+      get experiment.path
       post '/search', params: { q: 'horses', interactive_search: 'true', experiment: 'spoofed' }
     end
 

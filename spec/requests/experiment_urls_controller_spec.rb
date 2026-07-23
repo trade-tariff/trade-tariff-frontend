@@ -8,7 +8,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
   it 'enrols the active browser, redirects with its trusted label, and is not cacheable', :aggregate_failures do
     allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
-    travel_to(Time.utc(2026, 7, 27, 12)) { get '/trusted-trader-guided-search', params: { experiment: 'spoofed' } }
+    travel_to(Time.utc(2026, 7, 27, 12)) { get experiment.path, params: { experiment: 'spoofed' } }
     expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
     expect(response).to redirect_to('/find_commodity?experiment=trstd-trdr')
     expect(response.headers.fetch('Cache-Control')).to include('no-store')
@@ -26,11 +26,11 @@ RSpec.describe ExperimentUrlsController, type: :request do
       expires_at => '/find_commodity',
     }
     cases.each do |time, location|
-      travel_to(time) { get '/trusted-trader-guided-search' }
+      travel_to(time) { get experiment.path }
       expect(response).to redirect_to(location)
       session.delete(:experiment_url_optins)
     end
-    travel_to(starts_at) { get '/xi/trusted-trader-guided-search' }
+    travel_to(starts_at) { get "/xi#{experiment.path}" }
     expect(response).to redirect_to('/xi/find_commodity')
   end
 
@@ -39,7 +39,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
     storage = { experiment_url_optins: ['stale', experiment.enrollment_token, experiment.enrollment_token] }
     allow(described_class).to receive(:new).and_return(controller)
     allow(controller).to receive(:session).and_return(storage)
-    travel_to(Time.utc(2026, 7, 27, 12)) { 2.times { get '/trusted-trader-guided-search' } }
+    travel_to(Time.utc(2026, 7, 27, 12)) { 2.times { get experiment.path } }
     expect(storage[:experiment_url_optins]).to eq([experiment.enrollment_token])
   end
 
@@ -49,7 +49,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
       storage = { experiment_url_optins: malformed }
       allow(described_class).to receive(:new).and_return(controller)
       allow(controller).to receive(:session).and_return(storage)
-      travel_to(Time.utc(2026, 7, 27, 12)) { get '/trusted-trader-guided-search' }
+      travel_to(Time.utc(2026, 7, 27, 12)) { get experiment.path }
       expect(storage[:experiment_url_optins]).to eq([experiment.enrollment_token])
     end
   end
@@ -57,7 +57,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
   it 'carries only a validated active label into guided search', :aggregate_failures do
     enable_feature(:interactive_search)
     travel_to(Time.utc(2026, 7, 27, 12)) do
-      get '/trusted-trader-guided-search'
+      get experiment.path
       follow_redirect!
     end
     expect(Capybara.string(response.body)).to have_css('input[name="experiment"][value="trstd-trdr"]', visible: :hidden)
