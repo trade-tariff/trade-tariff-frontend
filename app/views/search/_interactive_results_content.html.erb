@@ -33,12 +33,13 @@
     <% display_results = @results.result_limit.zero? ? @results.all : @results.all.first(@results.result_limit) %>
     <% strong_results, other_results = display_results.partition { |result| result.try(:confidence).to_s.casecmp('strong').zero? } %>
     <% top_result_count = strong_results.any? ? strong_results.size : display_results.size %>
+    <% result_ranks = display_results.each_with_index.to_h { |result, index| [result.object_id, index + 1] } %>
 
     <h2 class="interactive-results__section-heading govuk-heading-m">Top search <%= 'result'.pluralize(top_result_count) %></h2>
 
     <div class="interactive-results">
       <% strong_results.each do |result| %>
-        <%= render 'search/interactive_result', result: result, rank: display_results.index(result) + 1 %>
+        <%= render 'search/interactive_result', result: result, rank: result_ranks.fetch(result.object_id) %>
       <% end %>
 
       <% if strong_results.any? && other_results.any? %>
@@ -46,7 +47,7 @@
       <% end %>
 
       <% other_results.each do |result| %>
-        <%= render 'search/interactive_result', result: result, rank: display_results.index(result) + 1 %>
+        <%= render 'search/interactive_result', result: result, rank: result_ranks.fetch(result.object_id) %>
       <% end %>
     </div>
 

@@ -11,6 +11,7 @@ export default class extends Controller {
 
   select() {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+    const confidence = this.hasConfidenceValue ? this.confidenceValue.toLowerCase() : 'unknown'
 
     window.fetch(this.eventUrlValue, {
       method: 'POST',
@@ -24,7 +25,7 @@ export default class extends Controller {
         request_id: this.requestIdValue,
         goods_nomenclature_item_id: this.goodsNomenclatureItemIdValue,
         result_rank: this.rankValue,
-        confidence: this.confidenceValue,
+        confidence,
       }),
     }).catch(() => {})
   }

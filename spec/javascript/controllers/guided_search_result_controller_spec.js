@@ -14,7 +14,7 @@ describe('GuidedSearchResultController', () => {
          data-guided-search-result-request-id-value="request-123"
          data-guided-search-result-goods-nomenclature-item-id-value="2007919930"
          data-guided-search-result-rank-value="2"
-         data-guided-search-result-confidence-value="good">
+         data-guided-search-result-confidence-value="Good">
         View this commodity code
       </a>
     `;
