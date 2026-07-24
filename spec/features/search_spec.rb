@@ -206,6 +206,13 @@ RSpec.describe 'Search', :js do
 
         expect(page).to have_css('h1', text: 'Search for a commodity')
         expect(page).to have_content('What type of fish?')
+        journey = page.find('[data-controller="interactive-question"]')
+        expect(journey['data-interactive-question-event-url-value']).to eq(guided_search_event_path)
+        expect(journey['data-interactive-question-request-id-value']).to eq('guided-request-123')
+        expect(journey['data-interactive-question-question-number-value']).to eq('1')
+        page_tracker = page.find('[data-controller="guided-search-page"]')
+        expect(page_tracker['data-guided-search-page-request-id-value']).to eq('guided-request-123')
+        expect(page_tracker['data-guided-search-page-outcome-value']).to eq('question')
 
         choose 'Haddock'
         click_button 'Submit'

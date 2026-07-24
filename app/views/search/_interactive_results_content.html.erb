@@ -38,7 +38,7 @@
 
     <div class="interactive-results">
       <% strong_results.each do |result| %>
-        <%= render 'search/interactive_result', result: result %>
+        <%= render 'search/interactive_result', result: result, rank: display_results.index(result) + 1 %>
       <% end %>
 
       <% if strong_results.any? && other_results.any? %>
@@ -46,7 +46,7 @@
       <% end %>
 
       <% other_results.each do |result| %>
-        <%= render 'search/interactive_result', result: result %>
+        <%= render 'search/interactive_result', result: result, rank: display_results.index(result) + 1 %>
       <% end %>
     </div>
 

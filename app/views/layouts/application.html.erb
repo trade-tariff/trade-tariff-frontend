@@ -80,6 +80,7 @@
 
     <main id="content" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing govuk-!-padding-top-7" role="main">
       <%= render 'shared/flashes' %>
+      <%= render 'search/interactive_page_tracking' if @guided_search_outcome.present? %>
       <%= yield :before_main_content %>
 
       <%= render 'shared/search/search_form' unless @no_shared_search %>

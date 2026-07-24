@@ -5,7 +5,7 @@ module InteractiveSearchable
 
   def perform_interactive_search
     if validate_interactive_search == :invalid
-      render_interactive_search_page
+      render_interactive_search_page(outcome: 'input_error')
       return
     end
 
@@ -17,7 +17,7 @@ module InteractiveSearchable
     sync_interactive_request_id
 
     if @search.errors.any?
-      render_interactive_search_page
+      render_interactive_search_page(outcome: 'backend_error')
       return
     end
 
@@ -151,6 +151,7 @@ module InteractiveSearchable
     disable_switch_service_banner
     disable_search_form
     mark_interactive_search_page
+    record_guided_search_journey(outcome: 'question')
     render :interactive_question
   end
 
@@ -158,6 +159,7 @@ module InteractiveSearchable
     disable_switch_service_banner
     disable_search_form
     mark_interactive_search_page
+    record_guided_search_journey(outcome: 'no_results')
     render :interactive_no_results
   end
 
@@ -165,6 +167,7 @@ module InteractiveSearchable
     disable_switch_service_banner
     disable_search_form
     mark_interactive_search_page
+    record_guided_search_journey(outcome: 'unknown_results')
     render :interactive_unknown_results
   end
 
@@ -172,6 +175,7 @@ module InteractiveSearchable
     disable_switch_service_banner
     disable_search_form
     mark_interactive_search_page
+    record_guided_search_journey(outcome: 'blocking_guidance')
     render :interactive_blocking
   end
 
@@ -179,17 +183,40 @@ module InteractiveSearchable
     disable_switch_service_banner
     disable_search_form
     mark_interactive_search_page
+    record_guided_search_journey(outcome: 'results')
     render :interactive_results
   end
 
-  def render_interactive_search_page
+  def render_interactive_search_page(outcome:)
     @no_shared_search = true
     @hero_story = nil
     @recent_stories = []
+    record_guided_search_journey(outcome:)
     render 'find_commodities/show_interactive'
   end
 
   def mark_interactive_search_page
     @interactive_search_page = true
+  end
+
+  def record_guided_search_journey(outcome:)
+    @guided_search_outcome = outcome
+    current_question = @results&.current_question
+
+    GuidedSearch::JourneyInstrumentation.record(
+      browser_session_id: guided_search_browser_session_id,
+      request_id: @search.request_id,
+      outcome:,
+      question_count: @results&.answered_questions&.size.to_i + (current_question.present? ? 1 : 0),
+      option_count: Array(current_question&.dig('options')).size,
+      result_count: @results&.size.to_i,
+      client_elapsed_ms: bounded_integer(params[:client_elapsed_ms], maximum: 86_400_000),
+      experiment: @search.experiment,
+    )
+  end
+
+  def guided_search_browser_session_id
+    raw_id = session[:guided_search_browser_session_id] ||= SecureRandom.uuid
+    GuidedSearch::JourneyInstrumentation.browser_session_id(raw_id)
   end
 end

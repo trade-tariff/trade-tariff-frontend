@@ -161,6 +161,7 @@ Rails.application.routes.draw do
   end
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
+  post '/search/guided-search-event', to: 'search#journey_event', as: :guided_search_event
 
   scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
     get 'exchange_rates(/:type)', to: 'exchange_rates#index', as: 'exchange_rates'

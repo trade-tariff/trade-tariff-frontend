@@ -353,6 +353,22 @@ RSpec.describe Search do
 
         expect(stub).to have_been_requested.twice
       end
+
+      it 'isolates cached results by guided search journey' do
+        allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+        stub = stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        %w[first-journey first-journey second-journey].each do |request_id|
+          search = described_class.new(q: 'cache isolation query', request_id:)
+          search.interactive_search = true
+          search.perform
+        end
+
+        expect(stub).to have_been_requested.twice
+      end
     end
 
     context 'when interactive_search is true and response is empty' do

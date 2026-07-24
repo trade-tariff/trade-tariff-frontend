@@ -5,9 +5,15 @@ describe('InteractiveQuestionController', () => {
   let application;
 
   beforeEach(() => {
+    window.sessionStorage.clear();
+    document.head.innerHTML = '<meta name="csrf-token" content="csrf-token-123">';
+    window.fetch = jest.fn().mockResolvedValue({ok: true});
     document.body.innerHTML = `
       <main id="content">
-      <div data-controller="interactive-question">
+      <div data-controller="interactive-question"
+           data-interactive-question-event-url-value="/search/guided-search-event"
+           data-interactive-question-request-id-value="request-123"
+           data-interactive-question-question-number-value="2">
         <div data-interactive-question-target="pageHeader" id="page-header">
           <span>UK Integrated Online Tariff</span>
         </div>
@@ -42,6 +48,8 @@ describe('InteractiveQuestionController', () => {
   afterEach(() => {
     application.stop();
     jest.useRealTimers();
+    jest.restoreAllMocks();
+    delete window.fetch;
   });
 
   describe('selecting the unknown option', () => {
@@ -136,13 +144,16 @@ describe('InteractiveQuestionController', () => {
       formEl.dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
 
       expect(submitSpy).not.toHaveBeenCalled();
+      expect(formEl.querySelector('input[name="client_elapsed_ms"]').value).toMatch(/^\d+$/);
+      expect(Number(window.sessionStorage.getItem('guidedSearchSubmittedAt'))).toBeGreaterThan(0);
 
       jest.runOnlyPendingTimers();
 
       expect(submitSpy).toHaveBeenCalledWith();
     });
 
-    it('shows the dont know page after the unknown answer is submitted without fetching', () => {
+    it('records the unknown answer before showing the dont know page', () => {
+      const fetchSpy = window.fetch.mockResolvedValue({ok: true});
       const header = document.querySelector('#header');
       const form = document.querySelector('#form');
       const thinking = document.querySelector('#thinking');
@@ -158,6 +169,24 @@ describe('InteractiveQuestionController', () => {
       expect(thinking.classList.contains('govuk-!-display-none')).toBe(true);
       expect(dontKnow.classList.contains('govuk-!-display-none')).toBe(false);
       expect(submitSpy).not.toHaveBeenCalled();
+      expect(fetchSpy).toHaveBeenCalledWith(
+        '/search/guided-search-event',
+        expect.objectContaining({
+          method: 'POST',
+          keepalive: true,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': 'csrf-token-123',
+          },
+          body: expect.any(String),
+        }),
+      );
+      expect(JSON.parse(fetchSpy.mock.calls[0][1].body)).toEqual({
+        event_type: 'dont_know',
+        request_id: 'request-123',
+        question_number: 2,
+        client_elapsed_ms: expect.any(Number),
+      });
     });
   });
 });

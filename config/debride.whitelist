@@ -842,6 +842,7 @@ Search::Outcome#reference_match=
 Search::Outcome#type=
 SearchController#chemical_search
 SearchController#interactive_suggestions
+SearchController#journey_event
 SearchReference#id=
 SearchReference#productline_suffix
 SearchReference#productline_suffix=

@@ -159,7 +159,7 @@ class Search
   end
 
   def interactive_search_cache_key
-    digest = Digest::SHA256.hexdigest(MultiJson.dump({ q:, answers:, as_of: date.to_fs(:db), expanded_query:, experiment: }))
+    digest = Digest::SHA256.hexdigest(MultiJson.dump({ q:, answers:, as_of: date.to_fs(:db), expanded_query:, experiment:, request_id: }))
     "interactive_search/#{digest}"
   end
 end

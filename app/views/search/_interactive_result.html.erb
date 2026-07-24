@@ -8,6 +8,15 @@
     </p>
     <%= govuk_link_to "View this commodity code",
         commodity_path(result.goods_nomenclature_item_id, request_id: @search.request_id),
+        data: {
+          controller: 'guided-search-result',
+          action: 'click->guided-search-result#select',
+          guided_search_result_event_url_value: guided_search_event_path(day: nil, month: nil, year: nil),
+          guided_search_result_request_id_value: @search.request_id,
+          guided_search_result_goods_nomenclature_item_id_value: result.goods_nomenclature_item_id,
+          guided_search_result_rank_value: rank,
+          guided_search_result_confidence_value: result.try(:confidence),
+        },
         new_tab: true %>
   </div>
   <div class="interactive-result__confidence">
