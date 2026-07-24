@@ -15,7 +15,7 @@
           guided_search_result_request_id_value: @search.request_id,
           guided_search_result_goods_nomenclature_item_id_value: result.goods_nomenclature_item_id,
           guided_search_result_rank_value: rank,
-          guided_search_result_confidence_value: result.try(:confidence),
+          guided_search_result_confidence_value: result.try(:confidence).to_s.downcase.presence || 'unknown',
         },
         new_tab: true %>
   </div>

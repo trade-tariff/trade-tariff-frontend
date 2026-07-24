@@ -122,7 +122,7 @@ class SearchController < ApplicationController
     when 'result_selected'
       goods_nomenclature_item_id = event[:goods_nomenclature_item_id].to_s[/\A\d{10}\z/]
       result_rank = bounded_integer(event[:result_rank], maximum: 100)
-      confidence = event[:confidence].to_s[/\A(strong|good|possible|unlikely|unknown)\z/]
+      confidence = event[:confidence].to_s.downcase[/\A(strong|good|possible|unlikely|unknown)\z/]
       return if [goods_nomenclature_item_id, result_rank, confidence].any?(&:nil?)
 
       {
@@ -147,7 +147,8 @@ class SearchController < ApplicationController
   end
 
   def safe_guided_search_identifier(value)
-    value.to_s.match?(/\A[a-zA-Z0-9-]{1,64}\z/) ? value : nil
+    identifier = value.to_s
+    identifier.match?(/\A[a-zA-Z0-9-]{1,64}\z/) ? identifier : nil
   end
 
   def bounded_integer(value, maximum:)

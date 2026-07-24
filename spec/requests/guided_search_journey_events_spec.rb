@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Guided search journey events', type: :request do
+RSpec.describe 'Guided search journey events', :aggregate_failures, type: :request do
   let(:journey_events) { [] }
 
   around do |example|
@@ -12,83 +12,46 @@ RSpec.describe 'Guided search journey events', type: :request do
     ActiveSupport::Notifications.unsubscribe(subscriber)
   end
 
-  it 'records when a user selects the unknown answer', :aggregate_failures do
-    post '/search/guided-search-event',
-         params: {
-           event_type: 'dont_know',
-           request_id: 'request-123',
-           question_number: 2,
-           client_elapsed_ms: 4_321,
-         },
-         as: :json
+  it 'records each supported browser event' do
+    cases = [
+      [
+        { event_type: 'dont_know', request_id: 123, question_number: 2, client_elapsed_ms: 4_321 },
+        { outcome: 'dont_know', used_dont_know: true, request_id: '123', question_count: 2, client_elapsed_ms: 4_321 },
+      ],
+      [
+        {
+          event_type: 'result_selected',
+          request_id: 'request-123',
+          goods_nomenclature_item_id: '2007919930',
+          result_rank: 2,
+          confidence: 'Good',
+        },
+        {
+          outcome: 'result_selected',
+          request_id: 'request-123',
+          goods_nomenclature_item_id: '2007919930',
+          result_rank: 2,
+          confidence: 'good',
+        },
+      ],
+      [
+        { event_type: 'page_visible', request_id: 'request-123', destination: 'question', client_navigation_ms: 1_234 },
+        { outcome: 'page_visible', request_id: 'request-123', destination: 'question', client_navigation_ms: 1_234 },
+      ],
+    ]
 
-    expect(response).to have_http_status(:no_content)
-    expect(journey_events).to contain_exactly(
-      hash_including(
-        outcome: 'dont_know',
-        used_dont_know: true,
-        request_id: 'request-123',
-        question_count: 2,
-        client_elapsed_ms: 4_321,
-        browser_session_id: a_string_starting_with('v1:'),
-      ),
-    )
-  end
+    cases.each do |params, expected|
+      post guided_search_event_path, params:, as: :json
 
-  it 'records the displayed result selected by the user', :aggregate_failures do
-    post '/search/guided-search-event',
-         params: {
-           event_type: 'result_selected',
-           request_id: 'request-123',
-           goods_nomenclature_item_id: '2007919930',
-           result_rank: 2,
-           confidence: 'good',
-         },
-         as: :json
-
-    expect(response).to have_http_status(:no_content)
-    expect(journey_events).to contain_exactly(
-      hash_including(
-        outcome: 'result_selected',
-        request_id: 'request-123',
-        goods_nomenclature_item_id: '2007919930',
-        result_rank: 2,
-        confidence: 'good',
-        browser_session_id: a_string_starting_with('v1:'),
-      ),
-    )
-  end
-
-  it 'records the destination and browser-visible navigation time', :aggregate_failures do
-    post '/search/guided-search-event',
-         params: {
-           event_type: 'page_visible',
-           request_id: 'request-123',
-           destination: 'question',
-           client_navigation_ms: 1_234,
-         },
-         as: :json
-
-    expect(response).to have_http_status(:no_content)
-    expect(journey_events).to contain_exactly(
-      hash_including(
-        outcome: 'page_visible',
-        destination: 'question',
-        request_id: 'request-123',
-        client_navigation_ms: 1_234,
-      ),
-    )
+      expect(response).to have_http_status(:no_content)
+      expect(journey_events.shift).to include(expected)
+    end
   end
 
   it 'uses one pseudonymous identifier for the browser session' do
     2.times do |index|
-      post '/search/guided-search-event',
-           params: {
-             event_type: 'dont_know',
-             request_id: "request-#{index}",
-             question_number: 1,
-             client_elapsed_ms: 100,
-           },
+      post guided_search_event_path,
+           params: { event_type: 'dont_know', request_id: "request-#{index}", question_number: 1, client_elapsed_ms: 100 },
            as: :json
     end
 
@@ -97,13 +60,9 @@ RSpec.describe 'Guided search journey events', type: :request do
     )
   end
 
-  it 'rejects incomplete events without recording them', :aggregate_failures do
-    post '/search/guided-search-event',
-         params: {
-           event_type: 'page_visible',
-           request_id: 'request-123',
-           destination: 'invented',
-         },
+  it 'rejects incomplete events without recording them' do
+    post guided_search_event_path,
+         params: { event_type: 'page_visible', request_id: 'request-123', destination: 'invented' },
          as: :json
 
     expect(response).to have_http_status(:unprocessable_content)
