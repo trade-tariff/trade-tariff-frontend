@@ -2,7 +2,10 @@
   <%= generate_breadcrumbs "Search", [["Home", home_path]] %>
 <% end %>
 
-<div data-controller="interactive-question">
+<div data-controller="interactive-question"
+     data-interactive-question-event-url-value="<%= guided_search_event_path(day: nil, month: nil, year: nil) %>"
+     data-interactive-question-request-id-value="<%= @search.request_id %>"
+     data-interactive-question-question-number-value="<%= @results.answered_questions.size + 1 %>">
   <div data-interactive-question-target="pageHeader">
     <%= page_header %>
   </div>

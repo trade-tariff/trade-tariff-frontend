@@ -19,6 +19,7 @@ export default class extends Controller {
     if (errors.length > 0) {
       this.#showErrors(errors)
     } else {
+      window.sessionStorage.setItem('guidedSearchSubmittedAt', Date.now().toString())
       this.#showThrobber()
       this.#submitForm(event.target.closest('form'))
     }

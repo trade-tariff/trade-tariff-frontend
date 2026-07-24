@@ -315,6 +315,7 @@ RSpec.describe SearchController, type: :controller do
     context 'with internal interactive search via POST' do
       subject(:do_response) { post :search, params: }
 
+      let(:journey_events) { [] }
       let(:commodity_data) do
         {
           'id' => '123',
@@ -332,8 +333,45 @@ RSpec.describe SearchController, type: :controller do
         }
       end
 
+      around do |example|
+        subscriber = ActiveSupport::Notifications.subscribe('guided_search.journey') do |*args|
+          journey_events << ActiveSupport::Notifications::Event.new(*args).payload
+        end
+        example.run
+      ensure
+        ActiveSupport::Notifications.unsubscribe(subscriber)
+      end
+
       before do
         enable_feature(:interactive_search)
+      end
+
+      context 'when the guided search input is invalid' do
+        let(:params) { { q: '', interactive_search: 'true', request_id: 'invalid-input-journey' } }
+
+        before { do_response }
+
+        it 'records the input page as an error outcome' do
+          expect(journey_events).to contain_exactly(
+            hash_including(outcome: 'input_error', request_id: 'invalid-input-journey', result_count: 0),
+          )
+        end
+      end
+
+      context 'when the guided search journey identifier is invalid' do
+        let(:params) { { q: '', interactive_search: 'true', request_id: 'raw private text!' } }
+
+        before { do_response }
+
+        it 'replaces it before recording frontend telemetry', :aggregate_failures do
+          expect(journey_events).to contain_exactly(
+            hash_including(
+              outcome: 'input_error',
+              request_id: a_string_matching(/\A[0-9a-f-]{36}\z/),
+            ),
+          )
+          expect(journey_events.to_json).not_to include('raw private text')
+        end
       end
 
       context 'when backend returns a pending question' do
@@ -362,6 +400,20 @@ RSpec.describe SearchController, type: :controller do
 
         it { is_expected.to have_http_status(:ok) }
         it { is_expected.to render_template(:interactive_question) }
+
+        it 'records the question page as a frontend journey outcome' do
+          expect(journey_events).to contain_exactly(
+            hash_including(
+              schema_version: 1,
+              outcome: 'question',
+              request_id: 'abc-123',
+              browser_session_id: a_string_starting_with('v1:'),
+              question_count: 1,
+              option_count: 2,
+              result_count: 1,
+            ),
+          )
+        end
       end
 
       context 'when backend returns a single exact match' do
@@ -403,15 +455,24 @@ RSpec.describe SearchController, type: :controller do
         it { is_expected.to have_http_status(:ok) }
         it { is_expected.to render_template(:interactive_results) }
         it { expect(assigns(:results).all).to contain_exactly(an_object_having_attributes(goods_nomenclature_item_id: '0101210000')) }
+
+        it 'records the results page as a frontend journey outcome' do
+          expect(journey_events).to contain_exactly(
+            hash_including(outcome: 'results', request_id: 'abc-123', result_count: 1),
+          )
+        end
       end
 
       context 'when all questions are answered' do
+        render_views
+
         let(:params) do
           {
             q: 'horses',
             expanded_query: 'pure-bred breeding horses',
             interactive_search: 'true',
             request_id: 'abc-123',
+            client_elapsed_ms: '3210',
             answers: [
               { question: 'What type of horse?', options: %w[Racing Breeding], answer: 'Breeding' },
             ],
@@ -442,6 +503,25 @@ RSpec.describe SearchController, type: :controller do
         it { is_expected.to have_http_status(:ok) }
         it { is_expected.to render_template(:interactive_results) }
         it { expect(assigns(:search).expanded_query).to eq('pure-bred breeding horses') }
+
+        it 'records how long the presented question was visible before submission' do
+          expect(journey_events).to contain_exactly(
+            hash_including(
+              outcome: 'results',
+              request_id: 'abc-123',
+              client_elapsed_ms: 3210,
+            ),
+          )
+        end
+
+        it 'adds journey, rank, and confidence metadata to the displayed result link', :aggregate_failures do
+          link = Capybara.string(response.body).find_link('View this commodity code')
+
+          expect(link['data-controller']).to eq('guided-search-result')
+          expect(link['data-guided-search-result-request-id-value']).to eq('abc-123')
+          expect(link['data-guided-search-result-rank-value']).to eq('1')
+          expect(link['data-guided-search-result-confidence-value']).to eq('strong')
+        end
       end
 
       context 'when answer validation fails after query expansion' do
@@ -519,6 +599,12 @@ RSpec.describe SearchController, type: :controller do
         it { is_expected.to have_http_status(:ok) }
         it { is_expected.to render_template(:interactive_unknown_results) }
         it { expect(response.body).to include('Search cannot suggest a code') }
+
+        it 'records the unknown-results page as a frontend journey outcome' do
+          expect(journey_events).to contain_exactly(
+            hash_including(outcome: 'unknown_results', request_id: 'abc-123', result_count: 1),
+          )
+        end
       end
 
       context 'when backend returns a blocking description intercept' do
@@ -592,7 +678,13 @@ RSpec.describe SearchController, type: :controller do
         it { expect(response.body).to include('Example guidance header') }
         it { expect(response.body).to include('Example guidance message body') }
         it { expect(response.body).to include('<strong>stable-request-id</strong>') }
-        it { expect(response.body).not_to include('generated-request-id') }
+
+        it do
+          message = Capybara.string(response.body).find('p.govuk-body', text: 'Example guidance message body')
+
+          expect(message).not_to have_text('generated-request-id')
+        end
+
         it { expect(response.body).to include('classification.enquiries@hmrc.gov.uk') }
         it { expect(response.body).to include('href="https://example.com/webchat"') }
         it { expect(response.body).to include('exampleterm') }
@@ -600,6 +692,12 @@ RSpec.describe SearchController, type: :controller do
         it { expect(Capybara.string(response.body).find('.govuk-inset-text')).not_to have_text('canonical intercept term') }
         it { expect(response.body).not_to include('style=') }
         it { expect(response.body).not_to include('app-section-break--thick') }
+
+        it 'records the blocking-guidance page as a frontend journey outcome' do
+          expect(journey_events).to contain_exactly(
+            hash_including(outcome: 'blocking_guidance', request_id: 'stable-request-id', result_count: 0),
+          )
+        end
       end
 
       context 'when backend returns no results' do
@@ -628,6 +726,12 @@ RSpec.describe SearchController, type: :controller do
         it { is_expected.to have_http_status(:ok) }
         it { is_expected.to render_template(:interactive_no_results) }
         it { expect(response.body).to include('No search results could be found') }
+
+        it 'records the no-results page as a frontend journey outcome' do
+          expect(journey_events).to contain_exactly(
+            hash_including(outcome: 'no_results', request_id: 'abc-123', result_count: 0),
+          )
+        end
       end
     end
 

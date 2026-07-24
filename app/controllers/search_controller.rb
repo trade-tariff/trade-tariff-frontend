@@ -16,7 +16,11 @@ class SearchController < ApplicationController
     @search.q = params[:q] if params[:q]
     @search.interactive_search = params[:interactive_search] == 'true'
     @search.answers = params[:answers] if params[:answers].present?
-    @search.request_id = params[:request_id].presence || SecureRandom.uuid
+    @search.request_id = if @search.interactive_search
+                           safe_guided_search_identifier(params[:request_id]) || SecureRandom.uuid
+                         else
+                           params[:request_id].presence || SecureRandom.uuid
+                         end
     @search.expanded_query = params[:expanded_query].presence
 
     if interactive_search?
@@ -48,6 +52,22 @@ class SearchController < ApplicationController
     render_suggestions(parsed.map { |attrs| SearchSuggestion.new(attrs) })
   end
 
+  def journey_event
+    event = guided_search_event_params
+    event_attributes = guided_search_event_attributes(event)
+    request_id = safe_guided_search_identifier(event[:request_id])
+    return head :unprocessable_content if event_attributes.nil? || request_id.nil?
+
+    GuidedSearch::JourneyInstrumentation.record(
+      browser_session_id: guided_search_browser_session_id,
+      request_id:,
+      experiment: Current.experiment,
+      **event_attributes,
+    )
+
+    head :no_content
+  end
+
   def quota_search
     if TradeTariffFrontend::ServiceChooser.xi?
       raise TradeTariffFrontend::FeatureUnavailable
@@ -71,6 +91,68 @@ class SearchController < ApplicationController
   end
 
   private
+
+  def guided_search_event_params
+    params.permit(
+      :event_type,
+      :request_id,
+      :question_number,
+      :client_elapsed_ms,
+      :goods_nomenclature_item_id,
+      :result_rank,
+      :confidence,
+      :destination,
+      :client_navigation_ms,
+    )
+  end
+
+  def guided_search_event_attributes(event)
+    case event[:event_type]
+    when 'dont_know'
+      question_count = bounded_integer(event[:question_number], maximum: 100)
+      client_elapsed_ms = bounded_integer(event[:client_elapsed_ms], maximum: 86_400_000)
+      return if question_count.nil? || client_elapsed_ms.nil?
+
+      {
+        outcome: 'dont_know',
+        used_dont_know: true,
+        question_count:,
+        client_elapsed_ms:,
+      }
+    when 'result_selected'
+      goods_nomenclature_item_id = event[:goods_nomenclature_item_id].to_s[/\A\d{10}\z/]
+      result_rank = bounded_integer(event[:result_rank], maximum: 100)
+      confidence = event[:confidence].to_s[/\A(strong|good|possible|unlikely|unknown)\z/]
+      return if [goods_nomenclature_item_id, result_rank, confidence].any?(&:nil?)
+
+      {
+        outcome: 'result_selected',
+        goods_nomenclature_item_id:,
+        result_rank:,
+        confidence:,
+      }
+    when 'page_visible'
+      destination = event[:destination].to_s[
+        /\A(question|results|no_results|unknown_results|blocking_guidance|input_error|backend_error)\z/,
+      ]
+      client_navigation_ms = bounded_integer(event[:client_navigation_ms], maximum: 86_400_000)
+      return if destination.nil? || client_navigation_ms.nil?
+
+      {
+        outcome: 'page_visible',
+        destination:,
+        client_navigation_ms:,
+      }
+    end
+  end
+
+  def safe_guided_search_identifier(value)
+    value.to_s.match?(/\A[a-zA-Z0-9-]{1,64}\z/) ? value : nil
+  end
+
+  def bounded_integer(value, maximum:)
+    Integer(value, exception: false)&.clamp(0, maximum)
+  end
 
   def render_suggestions(suggestions)
     results = suggestions.map do |s|

@@ -88,6 +88,7 @@ describe('GuidedSearchValidationController', () => {
   }
 
   beforeEach(() => {
+    window.sessionStorage.clear();
     submitSpy = jest.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {});
     setTimeoutSpy = jest.spyOn(window, 'setTimeout').mockImplementation(() => {});
     scrollToSpy = jest.spyOn(window, 'scrollTo').mockImplementation(() => {});
@@ -306,6 +307,7 @@ describe('GuidedSearchValidationController', () => {
       await setup({textareaValue: 'televisions'});
       const form = submitForm();
 
+      expect(Number(window.sessionStorage.getItem('guidedSearchSubmittedAt'))).toBeGreaterThan(0);
       window.setTimeout.mock.calls[0][0]();
 
       expect(submitSpy).toHaveBeenCalledWith();
