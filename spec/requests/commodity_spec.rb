@@ -143,4 +143,46 @@ RSpec.describe 'Commodity page', type: :request do
       expect(page).to have_css '#webchat-link'
     end
   end
+
+  describe 'GET /commodities/:id/origin' do
+    context 'without a country' do
+      it 'renders the origin template without layout' do
+        VCR.use_cassette('commodities#0101300000#uk') do
+          get '/commodities/0101300000/origin'
+        end
+
+        expect(response).to be_successful
+        expect(response).to render_template('commodities/origin')
+        expect(response.body).not_to include('govuk-header__container')
+      end
+    end
+
+    context 'with a country' do
+      before do
+        allow(Commodity).to receive(:find).and_return(build(:commodity, :with_import_trade_summary))
+      end
+
+      it 'renders the origin template without layout and calls for_heading_and_country' do
+        get '/commodities/0101300000/origin', params: { country: 'AD' }
+
+        expect(response).to be_successful
+        expect(response).to render_template('commodities/origin')
+        expect(response.body).not_to include('govuk-header__container')
+        expect(RulesOfOrigin::Scheme).to have_received(:for_heading_and_country)
+      end
+    end
+
+    context 'on the XI service without a country' do
+      before { TradeTariffFrontend::ServiceChooser.service_choice = 'xi' }
+
+      it 'renders successfully' do
+        VCR.use_cassette('commodities#0101300000#xi') do
+          get '/xi/commodities/0101300000/origin'
+        end
+
+        expect(response).to be_successful
+        expect(response).to render_template('commodities/origin')
+      end
+    end
+  end
 end
