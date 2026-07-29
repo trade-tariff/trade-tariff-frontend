@@ -95,4 +95,18 @@ describe('LazyTabController', () => {
     expect(element.innerHTML).toContain('govuk-error-message');
     expect(element.innerHTML).toContain('could not be loaded');
   });
+
+  it('fetches immediately on connect when hash is #rules-of-origin', async () => {
+    application.stop();
+    window.location.hash = '#rules-of-origin';
+
+    application = Application.start();
+    application.register('lazy-tab', LazyTabController);
+    element = document.querySelector('[data-controller="lazy-tab"]');
+
+    await new Promise((resolve) => setTimeout(resolve, 50));
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(element.innerHTML).toContain('origin-content');
+  });
 });

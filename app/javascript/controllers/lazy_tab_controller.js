@@ -6,14 +6,21 @@ export default class extends Controller {
   connect() {
     this.loaded = false;
     this.loading = false;
+    this._handleClick = () => this.load();
 
     if (window.location.hash === '#rules-of-origin') {
       this.load();
     }
 
-    const tabLink = document.querySelector('a[href="#rules-of-origin"]');
-    if (tabLink) {
-      tabLink.addEventListener('click', () => this.load());
+    this._tabLink = document.querySelector('a[href="#rules-of-origin"]');
+    if (this._tabLink) {
+      this._tabLink.addEventListener('click', this._handleClick);
+    }
+  }
+
+  disconnect() {
+    if (this._tabLink) {
+      this._tabLink.removeEventListener('click', this._handleClick);
     }
   }
 
