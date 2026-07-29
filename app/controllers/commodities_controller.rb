@@ -16,7 +16,9 @@ class CommoditiesController < GoodsNomenclaturesController
       @inn_chemicals = @all_chemicals.select(&:inn?)
       @rest_chemicals = @all_chemicals.reject(&:inn?)
     end
+  end
 
+  def origin
     if params[:country].present? && @search.geographical_area
       @rules_of_origin_schemes = declarable.rules_of_origin(params[:country])
     else
@@ -24,6 +26,8 @@ class CommoditiesController < GoodsNomenclaturesController
         RulesOfOrigin::Scheme.all
       end
     end
+
+    render layout: false
   end
 
   def url_options
