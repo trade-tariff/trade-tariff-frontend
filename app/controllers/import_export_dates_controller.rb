@@ -1,9 +1,9 @@
 class ImportExportDatesController < ApplicationController
   include GoodsNomenclatureHelper
+  include GoodsNomenclatureContext
 
   before_action :disable_search_form,
-                :disable_switch_service_banner,
-                :set_goods_nomenclature_code
+                :disable_switch_service_banner
 
   def show
     @import_export_date = ImportExportDate.new(show_import_export_date_params)
@@ -62,8 +62,9 @@ class ImportExportDatesController < ApplicationController
     @today ||= Time.zone.today
   end
 
-  def set_goods_nomenclature_code
-    @goods_nomenclature_code = params[:goods_nomenclature_code] || # Set by the link to show action query param
-      params.fetch(:import_export_date, {})[:goods_nomenclature_code] # Set by the update form submission
+  def goods_nomenclature_context_param
+    params[:goods_nomenclature_code].presence || # Set by the link to show action query param
+      nested_goods_nomenclature_context_param(:import_export_date) || # Set by the update form submission
+      params[:goods_nomenclature_code]
   end
 end
