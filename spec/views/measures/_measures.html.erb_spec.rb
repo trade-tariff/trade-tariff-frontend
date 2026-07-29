@@ -42,14 +42,8 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     it { is_expected.to have_css '.govuk-tabs__panel#footnotes', count: 1 }
   end
 
-  shared_examples 'roo_wizard_uk tab' do
-    it { is_expected.to render_template('rules_of_origin/_tab_uk') }
-    it { is_expected.not_to render_template('rules_of_origin/legacy/_tab') }
-  end
-
-  shared_examples 'legacy roo tab' do
-    it { is_expected.not_to render_template('rules_of_origin/_tab') }
-    it { is_expected.to render_template('rules_of_origin/legacy/_tab') }
+  shared_examples 'lazy origin tab' do
+    it { is_expected.to have_css '#rules-of-origin div[data-controller="lazy-tab"]' }
   end
 
   it { is_expected.to render_template('declarables/_consigned') }
@@ -66,8 +60,8 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
   it { is_expected.to render_template('measures/grouped/_tariff_duty_calculator_link') }
   it { is_expected.to render_template('measures/grouped/_vat_excise') }
   it { is_expected.to render_template('measures/grouped/_uk') }
-  it { is_expected.to render_template('rules_of_origin/_without_country_uk') }
   it { is_expected.to render_template('shared/_notes') }
+  it_behaves_like 'lazy origin tab'
 
   context 'with uk service' do
     let :render_page do
@@ -80,19 +74,14 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
 
     context 'without country selected' do
       it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin strong', text: 'Select a country to check which tariff treatments apply.' }
-      it { is_expected.to render_template('rules_of_origin/_find_out_more') }
-      it { is_expected.to render_template('rules_of_origin/_preferential') }
-      it { is_expected.to render_template('rules_of_origin/_non_preferential_uk') }
-      it { is_expected.not_to render_template('rules_of_origin/_non_preferential_xi') }
+      it_behaves_like 'lazy origin tab'
     end
 
     context 'with country selected' do
       let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
       it_behaves_like 'measures with rules of origin tab'
-      it_behaves_like 'roo_wizard_uk tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: 'Trading with' }
+      it_behaves_like 'lazy origin tab'
     end
   end
 
@@ -109,13 +98,13 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
 
     context 'without country selected' do
       it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
+      it_behaves_like 'lazy origin tab'
     end
 
     context 'with country selected' do
       let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
-      it_behaves_like 'legacy roo tab'
+      it_behaves_like 'lazy origin tab'
     end
   end
 
@@ -132,17 +121,14 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
 
     context 'without country selected' do
       it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin' }
-      it { is_expected.to render_template('rules_of_origin/_non_preferential_xi') }
-      it { is_expected.not_to render_template('rules_of_origin/_non_preferential_uk') }
-      it { is_expected.not_to render_template('rules_of_origin/_preferential') }
+      it_behaves_like 'lazy origin tab'
     end
 
     context 'with country selected' do
       let(:search) { build(:search, q: '0101300000', country: 'FR') }
 
       it_behaves_like 'measures with rules of origin tab'
-      it { is_expected.to have_css '#rules-of-origin h2', text: 'rules of origin for trading' }
+      it_behaves_like 'lazy origin tab'
     end
   end
 end

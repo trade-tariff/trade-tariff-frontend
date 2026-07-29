@@ -16,9 +16,21 @@ class CommoditiesController < GoodsNomenclaturesController
       @inn_chemicals = @all_chemicals.select(&:inn?)
       @rest_chemicals = @all_chemicals.reject(&:inn?)
     end
+
+    if params[:country].present? && @search.geographical_area
+      @rules_of_origin_schemes = declarable.rules_of_origin(params[:country])
+    else
+      @roo_all_schemes = Rails.cache.resilient_fetch(['roo_all_schemes', cache_key]) do
+        RulesOfOrigin::Scheme.all
+      end
+    end
   end
 
   def origin
+    unless declarable.declarable?
+      return head :not_found
+    end
+
     if params[:country].present? && @search.geographical_area
       @rules_of_origin_schemes = declarable.rules_of_origin(params[:country])
     else
