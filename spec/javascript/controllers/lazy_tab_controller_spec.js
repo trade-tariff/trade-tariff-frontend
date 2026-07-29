@@ -30,7 +30,7 @@ describe('LazyTabController', () => {
     );
 
     global.IntersectionObserver = class {
-      constructor(callback) {
+      constructor(callback, _options) {
         this._callback = callback;
       }
       observe() {}

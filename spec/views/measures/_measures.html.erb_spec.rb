@@ -61,6 +61,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
   it { is_expected.to render_template('measures/grouped/_vat_excise') }
   it { is_expected.to render_template('measures/grouped/_uk') }
   it { is_expected.to render_template('shared/_notes') }
+
   it_behaves_like 'lazy origin tab'
 
   context 'with uk service' do
