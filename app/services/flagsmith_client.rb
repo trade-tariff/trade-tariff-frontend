@@ -56,6 +56,7 @@ class FlagsmithClient
       environment_key: @environment_key,
       api_url: "#{@api_url}/",
       request_timeout_seconds: 1,
+      enable_analytics: true,
       logger: SdkLogger.new(Rails.logger),
       # Return a disabled default flag rather than raising for unknown features.
       default_flag_handler: ->(_name) { Flagsmith::Flags::DefaultFlag.new(enabled: false, value: nil) },
