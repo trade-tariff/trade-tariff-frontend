@@ -67,6 +67,11 @@
          data-lazy-tab-url-value="<%= origin_commodity_path(declarable.code, request.query_parameters) %>">
       <p class="govuk-body">Loading&hellip;</p>
     </div>
+    <noscript>
+      <p class="govuk-body">
+        <a class="govuk-link" href="<%= origin_commodity_path(declarable.code, request.query_parameters) %>">View origin information</a>
+      </p>
+    </noscript>
   <% end %>
 
   <% if declarable.has_chemicals? %>

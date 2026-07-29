@@ -184,5 +184,17 @@ RSpec.describe 'Commodity page', type: :request do
         expect(response).to render_template('commodities/origin')
       end
     end
+
+    context 'for a non-declarable id' do
+      before do
+        allow(Commodity).to receive(:find).and_return(build(:commodity))
+        allow_any_instance_of(CommodityPresenter).to receive(:declarable?).and_return(false)
+      end
+
+      it 'returns 404' do
+        get '/commodities/0101300000/origin'
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 end

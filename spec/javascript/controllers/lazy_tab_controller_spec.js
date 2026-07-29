@@ -29,6 +29,14 @@ describe('LazyTabController', () => {
       })
     );
 
+    global.IntersectionObserver = class {
+      constructor(callback) {
+        this._callback = callback;
+      }
+      observe() {}
+      disconnect() {}
+    };
+
     application = Application.start();
     application.register('lazy-tab', LazyTabController);
     element = document.querySelector('[data-controller="lazy-tab"]');
@@ -108,5 +116,18 @@ describe('LazyTabController', () => {
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(element.innerHTML).toContain('origin-content');
+  });
+
+  it('removes the click listener on disconnect', async () => {
+    const tabLink = document.querySelector('a[href="#rules-of-origin"]');
+
+    // Removing the element from the DOM triggers Stimulus's disconnect() hook
+    // via the MutationObserver that Stimulus uses to track controller elements
+    element.remove();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    const clickSpy = jest.spyOn(global, 'fetch');
+    tabLink.click();
+    expect(clickSpy).not.toHaveBeenCalled();
   });
 });

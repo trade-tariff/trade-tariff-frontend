@@ -10,17 +10,32 @@ export default class extends Controller {
 
     if (window.location.hash === '#rules-of-origin') {
       this.load();
+      return;
     }
 
     this._tabLink = document.querySelector('a[href="#rules-of-origin"]');
     if (this._tabLink) {
       this._tabLink.addEventListener('click', this._handleClick);
     }
+
+    this._observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          this.load();
+          this._observer.disconnect();
+        }
+      },
+      {threshold: 0.1}
+    );
+    this._observer.observe(this.element);
   }
 
   disconnect() {
     if (this._tabLink) {
       this._tabLink.removeEventListener('click', this._handleClick);
+    }
+    if (this._observer) {
+      this._observer.disconnect();
     }
   }
 
