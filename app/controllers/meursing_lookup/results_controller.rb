@@ -1,8 +1,7 @@
 module MeursingLookup
   class ResultsController < ApplicationController
-    before_action :set_goods_nomenclature_code
-
     include GoodsNomenclatureHelper
+    include GoodsNomenclatureContext
 
     def show
       session.delete(Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY)
@@ -24,12 +23,9 @@ module MeursingLookup
       params.require(:meursing_lookup_result).permit(:meursing_additional_code_id, :goods_nomenclature_code)
     end
 
-    def set_goods_nomenclature_code
-      @goods_nomenclature_code = if params[:goods_nomenclature_code].present?
-                                   params[:goods_nomenclature_code]
-                                 elsif params[:meursing_lookup_result].present?
-                                   result_params[:goods_nomenclature_code]
-                                 end
+    def goods_nomenclature_context_param
+      params[:goods_nomenclature_code].presence ||
+        nested_goods_nomenclature_context_param(:meursing_lookup_result)
     end
   end
 end

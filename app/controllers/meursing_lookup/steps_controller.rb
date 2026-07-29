@@ -1,16 +1,16 @@
 module MeursingLookup
   class StepsController < ApplicationController
+    include GoodsNomenclatureHelper
+    include GoodsNomenclatureContext
+    include WizardSteps
+
     before_action do
       disable_search_form
       disable_switch_service_banner
 
       clear_meursing_lookup_session
       store_meursing_lookup_result_on_session
-      set_goods_nomenclature_code
     end
-
-    include GoodsNomenclatureHelper
-    include WizardSteps
 
     self.wizard_class = MeursingLookup::Wizard
 
@@ -32,9 +32,9 @@ module MeursingLookup
       session.delete(wizard_store_key) if current_step.key == MeursingLookup::Steps::Start.key
     end
 
-    def set_goods_nomenclature_code
-      @goods_nomenclature_code = params[:goods_nomenclature_code].presence ||
-        params.fetch(step_param_key, {})[:goods_nomenclature_code]
+    def goods_nomenclature_context_param
+      params[:goods_nomenclature_code].presence ||
+        nested_goods_nomenclature_context_param(step_param_key)
     end
 
     def step_param_key

@@ -1,7 +1,8 @@
 class GeographicalAreasController < ApplicationController
+  include GoodsNomenclatureContext
+
   before_action :disable_search_form,
-                :disable_switch_service_banner,
-                :set_goods_nomenclature_code
+                :disable_switch_service_banner
 
   def show
     render 'errors/not_found', status: :not_found if params[:id] == 'countries'
@@ -18,9 +19,5 @@ class GeographicalAreasController < ApplicationController
     TradeTariffFrontend::ServiceChooser.with_source(:uk) do
       GeographicalArea.find(params[:id], query_params)
     end
-  end
-
-  def set_goods_nomenclature_code
-    @goods_nomenclature_code = params[:goods_nomenclature_code]
   end
 end
