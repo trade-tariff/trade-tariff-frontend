@@ -12,6 +12,11 @@ RSpec.describe TradeTariffFrontend do
         services: %w[uk],
         optin: true,
       },
+      vat_guidance_enabled?: {
+        name: 'vat_guidance',
+        services: %w[uk],
+        optin: true,
+      },
       webchat_enabled?: {
         name: 'webchat',
         services: [],
@@ -338,6 +343,33 @@ RSpec.describe TradeTariffFrontend do
           )
         end
       end
+    end
+  end
+
+  describe '.vat_guidance_enabled?' do
+    before do
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+    end
+
+    it 'defaults on in development' do
+      stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+
+      expect(described_class.vat_guidance_enabled?).to be(true)
+    end
+
+    it 'defaults off in production' do
+      stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'production'))
+
+      expect(described_class.vat_guidance_enabled?).to be(false)
+    end
+
+    it 'does not apply to the XI service' do
+      stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'xi', xi?: true)
+      enable_feature(:vat_guidance)
+
+      expect(described_class.vat_guidance_enabled?).to be(false)
     end
   end
 

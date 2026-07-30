@@ -1,0 +1,37 @@
+<%= govuk_back_link(href: vat_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
+
+    <% if @journey.generic? %>
+      <%= govuk_warning_text(text: 'Product-specific guided questions have not been reviewed for this commodity.') %>
+      <p class="govuk-body">
+        This generic journey can record a VAT treatment only after you confirm it using current HMRC guidance or professional advice. It does not infer the treatment from the commodity code.
+      </p>
+    <% end %>
+
+    <%= form_for @answer_form, url: vat_guidance_answer_path do |f| %>
+      <%= f.govuk_error_summary %>
+      <%= f.govuk_collection_radio_buttons :answer,
+                                           @question.answers,
+                                           :id,
+                                           :label,
+                                           legend: { text: @question.text, size: 'xl', tag: 'h1' },
+                                           hint: (@question.hint.present? ? { text: @question.hint } : nil),
+                                           include_hidden: true %>
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+
+    <p class="govuk-body-s">
+      <%= @journey.reviewed? ? 'Reviewed rule set' : 'Generic fallback' %>
+      <%= @journey.rule_set_id.humanize %>, content version <%= @journey.content_version %>;
+      rule effective from <%= @journey.guidance_version_from.to_formatted_s(:long) %>
+      <% if @journey.reviewed? %>
+        and mapping effective from <%= @journey.applicability_from.to_formatted_s(:long) %>
+      <% end %>.
+    </p>
+  </div>
+</div>
+
+<%= render 'duty_calculator/shared/commodity_details' %>
