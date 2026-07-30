@@ -64,7 +64,8 @@
 
   <% component.with_tab(label: 'Origin', id: 'rules-of-origin') do %>
     <div data-controller="lazy-tab"
-         data-lazy-tab-url-value="<%= origin_commodity_path(declarable.code, request.query_parameters) %>">
+         data-lazy-tab-url-value="<%= origin_commodity_path(declarable.code, request.query_parameters) %>"
+         aria-live="polite">
       <p class="govuk-body">Loading&hellip;</p>
     </div>
     <noscript>
