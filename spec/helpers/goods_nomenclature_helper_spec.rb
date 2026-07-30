@@ -74,6 +74,14 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
     it_behaves_like 'a goods_nomenclature_path', '1901', '/headings/1901?country=AR&day=01&month=01&year=2021#export'
     it_behaves_like 'a goods_nomenclature_path', '19', '/chapters/19?country=AR&day=01&month=01&year=2021#export'
     it_behaves_like 'a goods_nomenclature_path', nil, '/find_commodity?country=AR&day=01&month=01&year=2021'
+
+    context 'when the code length does not match any known goods nomenclature type' do
+      let(:goods_nomenclature_code) { '104' }
+
+      it 'raises a routing error rather than a URL generation error' do
+        expect { helper.goods_nomenclature_path }.to raise_error(ActionController::RoutingError)
+      end
+    end
   end
 
   describe '#current_goods_nomenclature_code' do

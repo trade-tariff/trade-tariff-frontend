@@ -15,8 +15,10 @@ module GoodsNomenclatureHelper
       heading_path(path_opts)
     when Subheading::FULL_CODE_LENGTH
       subheading_path(path_opts)
-    else
+    when 10
       commodity_path(path_opts)
+    else
+      raise ActionController::RoutingError, "No route for goods nomenclature code #{current_goods_nomenclature_code.inspect}"
     end
   end
 

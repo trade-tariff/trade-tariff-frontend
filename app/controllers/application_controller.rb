@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from Faraday::TooManyRequestsError, with: :handle_too_many_requests_error
   rescue_from URI::InvalidURIError, with: :handle_invalid_uri_error
+  rescue_from ActionController::UrlGenerationError, with: :raise_not_found
   rescue_from ActionController::UnknownFormat, with: :handle_unknown_format
   rescue_from Faraday::ConnectionFailed, with: :handle_connection_failed
   rescue_from Faraday::TimeoutError, with: :handle_timeout_error
