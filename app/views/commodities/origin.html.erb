@@ -1,3 +1,4 @@
+<% content_for :title, strip_tags(commodity_title(declarable)) %>
 <% tariff_tab = TradeTariffFrontend::ServiceChooser.uk? ? 'uk' : 'xi' %>
 <%- if @search.filtered_by_country? && @search.geographical_area -%>
   <%= render (TradeTariffFrontend::ServiceChooser.uk? ? 'rules_of_origin/tab_uk' : 'rules_of_origin/legacy/tab'),
