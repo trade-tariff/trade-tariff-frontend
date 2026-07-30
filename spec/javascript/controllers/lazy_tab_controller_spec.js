@@ -62,7 +62,9 @@ describe('LazyTabController', () => {
 
     expect(global.fetch).toHaveBeenCalledWith(
       '/commodities/0101300000/origin',
-      expect.objectContaining({headers: expect.any(Object)})
+      expect.objectContaining({
+        headers: expect.objectContaining({'X-Requested-With': 'XMLHttpRequest'}),
+      })
     );
     expect(element.innerHTML).toContain('origin-content');
   });
@@ -89,6 +91,7 @@ describe('LazyTabController', () => {
     await new Promise((resolve) => setTimeout(resolve, 50));
 
     expect(element.innerHTML).toContain('govuk-error-message');
+    expect(element.innerHTML).toContain('govuk-visually-hidden');
     expect(element.innerHTML).toContain('could not be loaded');
   });
 
@@ -101,7 +104,29 @@ describe('LazyTabController', () => {
     await new Promise((resolve) => setTimeout(resolve, 50));
 
     expect(element.innerHTML).toContain('govuk-error-message');
+    expect(element.innerHTML).toContain('govuk-visually-hidden');
     expect(element.innerHTML).toContain('could not be loaded');
+  });
+
+  it('loads immediately on connect when IntersectionObserver is unavailable', async () => {
+    application.stop();
+    delete global.IntersectionObserver;
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        text: () => Promise.resolve('<p class="origin-content">Origin content</p>'),
+      })
+    );
+
+    application = Application.start();
+    application.register('lazy-tab', LazyTabController);
+    element = document.querySelector('[data-controller="lazy-tab"]');
+
+    await new Promise((resolve) => setTimeout(resolve, 50));
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(element.innerHTML).toContain('origin-content');
   });
 
   it('fetches immediately on connect when hash is #rules-of-origin', async () => {

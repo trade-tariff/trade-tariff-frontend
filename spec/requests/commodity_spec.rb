@@ -148,7 +148,7 @@ RSpec.describe 'Commodity page', type: :request do
     context 'without a country' do
       before do
         VCR.use_cassette('commodities#0101300000#uk') do
-          get '/commodities/0101300000/origin'
+          get '/commodities/0101300000/origin', headers: { 'X-Requested-With' => 'XMLHttpRequest' }
         end
       end
 
@@ -160,7 +160,7 @@ RSpec.describe 'Commodity page', type: :request do
     context 'with a country' do
       before do
         allow(Commodity).to receive(:find).and_return(build(:commodity, :with_import_trade_summary))
-        get '/commodities/0101300000/origin', params: { country: 'AD' }
+        get '/commodities/0101300000/origin', params: { country: 'AD' }, headers: { 'X-Requested-With' => 'XMLHttpRequest' }
       end
 
       it { expect(response).to be_successful }
@@ -173,7 +173,7 @@ RSpec.describe 'Commodity page', type: :request do
       before do
         TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
         VCR.use_cassette('commodities#0101300000#xi') do
-          get '/xi/commodities/0101300000/origin'
+          get '/xi/commodities/0101300000/origin', headers: { 'X-Requested-With' => 'XMLHttpRequest' }
         end
       end
 

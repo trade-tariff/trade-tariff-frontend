@@ -18,16 +18,20 @@ export default class extends Controller {
       this._tabLink.addEventListener('click', this._handleClick);
     }
 
-    this._observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          this.load();
-          this._observer.disconnect();
-        }
-      },
-      {threshold: 0.1}
-    );
-    this._observer.observe(this.element);
+    if ('IntersectionObserver' in window) {
+      this._observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            this.load();
+            this._observer.disconnect();
+          }
+        },
+        {threshold: 0.1}
+      );
+      this._observer.observe(this.element);
+    } else {
+      this.load();
+    }
   }
 
   disconnect() {
@@ -46,7 +50,7 @@ export default class extends Controller {
 
     try {
       const response = await fetch(this.urlValue, {
-        headers: {'Accept': 'text/html'},
+        headers: {'Accept': 'text/html', 'X-Requested-With': 'XMLHttpRequest'},
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -55,7 +59,7 @@ export default class extends Controller {
       this.loaded = true;
     } catch {
       this.element.innerHTML =
-        '<p class="govuk-error-message">Sorry, this content could not be loaded. Please refresh the page to try again.</p>';
+        '<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> Sorry, this content could not be loaded. Please refresh the page to try again.</p>';
     } finally {
       this.loading = false;
     }
