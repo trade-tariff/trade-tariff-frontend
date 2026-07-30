@@ -30,6 +30,13 @@ RSpec.describe 'Goods nomenclature context', type: :request do
         end
       end
     end
+
+    it 'hides page controls on error', :aggregate_failures do
+      get import_export_dates_path, params: { goods_nomenclature_code: '803909000' }
+
+      expect(response.body).not_to include('id="new_search"')
+      expect(response.body).not_to include('tariff-breadcrumbs clt')
+    end
   end
 
   describe 'GET /geographical_areas/:id' do
@@ -37,6 +44,13 @@ RSpec.describe 'Goods nomenclature context', type: :request do
       get geographical_area_path('1013'), params: { goods_nomenclature_code: '803909000' }
 
       expect(response).to have_http_status(:not_found)
+    end
+
+    it 'hides page controls on error', :aggregate_failures do
+      get geographical_area_path('1013'), params: { goods_nomenclature_code: '803909000' }
+
+      expect(response.body).not_to include('id="new_search"')
+      expect(response.body).not_to include('tariff-breadcrumbs clt')
     end
   end
 
@@ -47,6 +61,13 @@ RSpec.describe 'Goods nomenclature context', type: :request do
 
       expect(response).to have_http_status(:not_found)
     end
+
+    it 'hides the search form on error' do
+      get measure_type_preference_code_path(measure_type_id: '103', id: '100'),
+          params: { goods_nomenclature_code: '803909000' }
+
+      expect(response.body).not_to include('id="new_search"')
+    end
   end
 
   describe 'GET /meursing_lookup/steps/:id' do
@@ -54,6 +75,13 @@ RSpec.describe 'Goods nomenclature context', type: :request do
       get meursing_lookup_step_path(:start), params: { goods_nomenclature_code: '803909000' }
 
       expect(response).to have_http_status(:not_found)
+    end
+
+    it 'hides page controls on error', :aggregate_failures do
+      get meursing_lookup_step_path(:start), params: { goods_nomenclature_code: '803909000' }
+
+      expect(response.body).not_to include('id="new_search"')
+      expect(response.body).not_to include('tariff-breadcrumbs clt')
     end
   end
 

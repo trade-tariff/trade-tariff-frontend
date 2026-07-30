@@ -4,10 +4,10 @@ module MeursingLookup
     include GoodsNomenclatureContext
     include WizardSteps
 
-    before_action do
-      disable_search_form
-      disable_switch_service_banner
+    prepend_before_action :disable_search_form,
+                          :disable_switch_service_banner
 
+    before_action do
       clear_meursing_lookup_session
       store_meursing_lookup_result_on_session
     end
