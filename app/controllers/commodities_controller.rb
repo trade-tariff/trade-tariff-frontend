@@ -39,7 +39,7 @@ class CommoditiesController < GoodsNomenclaturesController
       end
     end
 
-    render layout: false
+    render layout: !request.xhr?
   end
 
   def url_options
