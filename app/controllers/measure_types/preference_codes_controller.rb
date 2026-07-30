@@ -2,7 +2,7 @@ module MeasureTypes
   class PreferenceCodesController < ApplicationController
     include GoodsNomenclatureContext
 
-    before_action :disable_search_form
+    prepend_before_action :disable_search_form
 
     def show
       # pass the geographical area id to the description

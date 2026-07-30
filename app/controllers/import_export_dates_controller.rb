@@ -2,8 +2,8 @@ class ImportExportDatesController < ApplicationController
   include GoodsNomenclatureHelper
   include GoodsNomenclatureContext
 
-  before_action :disable_search_form,
-                :disable_switch_service_banner
+  prepend_before_action :disable_search_form,
+                        :disable_switch_service_banner
 
   def show
     @import_export_date = ImportExportDate.new(show_import_export_date_params)

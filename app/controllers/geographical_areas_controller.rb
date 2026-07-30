@@ -1,8 +1,8 @@
 class GeographicalAreasController < ApplicationController
   include GoodsNomenclatureContext
 
-  before_action :disable_search_form,
-                :disable_switch_service_banner
+  prepend_before_action :disable_search_form,
+                        :disable_switch_service_banner
 
   def show
     render 'errors/not_found', status: :not_found if params[:id] == 'countries'
