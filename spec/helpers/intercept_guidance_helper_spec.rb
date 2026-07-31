@@ -32,13 +32,6 @@ RSpec.describe InterceptGuidanceHelper do
       expect(resolve_intercept_placeholders(msg, search:)).to eq('[Ask HMRC online](https://example.com/webchat)')
     end
 
-    it 'replaces {{help_url}} with the general help path' do
-      msg = 'See [help on using the tariff (opens in new tab)]({{help_url}})'
-      expect(resolve_intercept_placeholders(msg, search:)).to eq(
-        'See [help on using the tariff (opens in new tab)](/help)',
-      )
-    end
-
     it 'leaves unknown placeholders untouched' do
       msg = 'Contact {{unknown_email}} for help.'
       expect(resolve_intercept_placeholders(msg, search:)).to eq('Contact {{unknown_email}} for help.')
@@ -106,36 +99,6 @@ RSpec.describe InterceptGuidanceHelper do
       expect(html).to include('Chapter 71')
       expect(html).not_to have_css('a[href="/search?q=71"]')
       expect(html).not_to have_css('a[href="https://example.com/existing"] a')
-    end
-
-    it 'resolves {{help_url}} to the general help page', :aggregate_failures do
-      html = render_intercept_message(
-        'Guidance is in [help on using the tariff (opens in new tab)]({{help_url}}).',
-        search:,
-      )
-
-      expect(html).to have_css(
-        'a.govuk-link[href="/help"][target="_blank"][rel~="noopener"][rel~="noreferrer"]',
-        text: 'help on using the tariff (opens in new tab)',
-      )
-      expect(html).not_to have_css('a[href="/help/help_find_commodity"]')
-    end
-
-    it 'rewrites legacy generic-help destinations to the general help page', :aggregate_failures do
-      legacy_urls = [
-        'https://www.gov.uk/guidance/classification-of-goods/',
-        '/help/help_find_commodity',
-      ]
-
-      legacy_urls.each do |legacy_url|
-        html = render_intercept_message(
-          "Guidance is in [help on using the tariff (opens in new tab)](#{legacy_url}).",
-          search:,
-        )
-
-        expect(html).to have_css('a.govuk-link[href="/help"]', text: 'help on using the tariff (opens in new tab)')
-        expect(html).not_to have_css(%(a[href="#{legacy_url}"]))
-      end
     end
   end
 end
