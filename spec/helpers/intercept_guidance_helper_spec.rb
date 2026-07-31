@@ -32,6 +32,13 @@ RSpec.describe InterceptGuidanceHelper do
       expect(resolve_intercept_placeholders(msg, search:)).to eq('[Ask HMRC online](https://example.com/webchat)')
     end
 
+    it 'replaces {{help_url}} with the general help path' do
+      msg = 'See [help on using the tariff (opens in new tab)]({{help_url}})'
+      expect(resolve_intercept_placeholders(msg, search:)).to eq(
+        'See [help on using the tariff (opens in new tab)](/help)',
+      )
+    end
+
     it 'leaves unknown placeholders untouched' do
       msg = 'Contact {{unknown_email}} for help.'
       expect(resolve_intercept_placeholders(msg, search:)).to eq('Contact {{unknown_email}} for help.')
@@ -75,24 +82,60 @@ RSpec.describe InterceptGuidanceHelper do
       expect(html).not_to have_css('a .govuk-visually-hidden', text: '(opens in new tab)')
     end
 
-    it 'linkifies goods nomenclature code references like the admin preview', :aggregate_failures do
+    it 'does not linkify goods nomenclature code references', :aggregate_failures do
       msg = 'Review Chapter 71, headings 3207 to 3210, subheading 8703.10 and commodity 0101210000.'
       html = render_intercept_message(msg, search:)
 
-      expect(html).to have_css('a.govuk-link[href="/search?q=71"][target="_blank"][rel="noopener noreferrer"]', text: '71')
-      expect(html).to have_css('a.govuk-link[href="/search?q=3207"]', text: '3207')
-      expect(html).to have_css('a.govuk-link[href="/search?q=3210"]', text: '3210')
-      expect(html).to have_css('a.govuk-link[href="/search?q=870310"]', text: '8703.10')
-      expect(html).to have_css('a.govuk-link[href="/search?q=0101210000"]', text: '0101210000')
-      expect(html).to have_css('a .govuk-visually-hidden', text: '(opens in new tab)', count: 5)
+      expect(html).to include('Chapter 71')
+      expect(html).to include('3207')
+      expect(html).to include('3210')
+      expect(html).to include('8703.10')
+      expect(html).to include('0101210000')
+      expect(html).not_to have_css('a[href="/search?q=71"]')
+      expect(html).not_to have_css('a[href="/search?q=3207"]')
+      expect(html).not_to have_css('a[href="/search?q=3210"]')
+      expect(html).not_to have_css('a[href="/search?q=870310"]')
+      expect(html).not_to have_css('a[href="/search?q=0101210000"]')
+      expect(html).not_to have_css('a .govuk-visually-hidden', text: '(opens in new tab)')
     end
 
-    it 'does not linkify code references inside existing markdown links', :aggregate_failures do
+    it 'still renders explicit markdown links without auto-linking surrounding codes', :aggregate_failures do
       html = render_intercept_message('[Read about 0101](https://example.com/existing) and Chapter 71', search:)
 
       expect(html).to have_css('a.govuk-link[href="https://example.com/existing"]', text: 'Read about 0101')
-      expect(html).to have_css('a.govuk-link[href="/search?q=71"]', text: '71')
+      expect(html).to include('Chapter 71')
+      expect(html).not_to have_css('a[href="/search?q=71"]')
       expect(html).not_to have_css('a[href="https://example.com/existing"] a')
+    end
+
+    it 'resolves {{help_url}} to the general help page', :aggregate_failures do
+      html = render_intercept_message(
+        'Guidance is in [help on using the tariff (opens in new tab)]({{help_url}}).',
+        search:,
+      )
+
+      expect(html).to have_css(
+        'a.govuk-link[href="/help"][target="_blank"][rel~="noopener"][rel~="noreferrer"]',
+        text: 'help on using the tariff (opens in new tab)',
+      )
+      expect(html).not_to have_css('a[href="/help/help_find_commodity"]')
+    end
+
+    it 'rewrites legacy generic-help destinations to the general help page', :aggregate_failures do
+      legacy_urls = [
+        'https://www.gov.uk/guidance/classification-of-goods/',
+        '/help/help_find_commodity',
+      ]
+
+      legacy_urls.each do |legacy_url|
+        html = render_intercept_message(
+          "Guidance is in [help on using the tariff (opens in new tab)](#{legacy_url}).",
+          search:,
+        )
+
+        expect(html).to have_css('a.govuk-link[href="/help"]', text: 'help on using the tariff (opens in new tab)')
+        expect(html).not_to have_css(%(a[href="#{legacy_url}"]))
+      end
     end
   end
 end
