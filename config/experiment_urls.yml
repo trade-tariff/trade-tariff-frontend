@@ -3,7 +3,7 @@ shared:
     path: /guided-search-research
     feature: interactive_search
     starts_on: "2026-07-23"
-    ends_on: "2026-07-31"
+    ends_on: "2026-08-07"
     timezone: Europe/London
     redirect: /find_commodity
     service: uk
