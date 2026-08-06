@@ -18,7 +18,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     let(:schemes) { build_list :rules_of_origin_scheme, 1 }
 
     scenario 'Importing - Wholly obtained' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
@@ -47,7 +47,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     end
 
     scenario 'Importing - Not wholly obtained - Insufficient processing' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
@@ -83,7 +83,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     end
 
     scenario 'Importing - Not wholly obtained - Sufficient Processing - Rules met' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
@@ -126,7 +126,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     end
 
     scenario 'Importing - Not wholly obtained - Sufficient Processing - Rules not met' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
@@ -170,7 +170,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     let(:schemes) { build_list :rules_of_origin_scheme, 1, unilateral: true }
 
     scenario 'Wholly obtained' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
@@ -202,7 +202,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     let(:schemes) { build_list :rules_of_origin_scheme, 2 }
 
     scenario 'Choosing second agreement then wholly obtained' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
@@ -241,7 +241,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     let(:schemes) { [multilateral, unilateral] }
 
     scenario 'Choosing GSP then Wholly obtained' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
@@ -277,7 +277,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     let(:schemes) { build_list :rules_of_origin_scheme, 1, :subdivided }
 
     scenario 'Importing - Not wholly obtained - Sufficient Processing - Subdivided - Rules met' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
@@ -330,7 +330,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     end
 
     scenario 'Importing - Wholly obtained' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
@@ -359,7 +359,7 @@ RSpec.feature 'Rules of Origin wizard', type: :feature do
     end
 
     scenario 'Importing - Not wholly obtained' do
-      visit commodity_path(commodity, country: 'JP', anchor: 'rules-of-origin')
+      visit origin_commodity_path(commodity, country: 'JP')
 
       expect(page).to have_css 'h2', text: 'Preferential rules of origin for trading with Japan'
       click_on 'Start now'
