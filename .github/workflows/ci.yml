@@ -28,7 +28,6 @@ jobs:
             data/
             docs/
             terraform/versions.tf
-            config/debride.whitelist
             *.md
             *.lock
             .github
