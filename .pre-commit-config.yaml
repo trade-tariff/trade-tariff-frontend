@@ -59,8 +59,3 @@ repos:
         pass_filenames: false
         require_serial: true
         stages: ["pre-commit", "pre-push"]
-
-  - repo: https://github.com/trade-tariff/trade-tariff-tools
-    rev: main
-    hooks:
-      - id: debride
