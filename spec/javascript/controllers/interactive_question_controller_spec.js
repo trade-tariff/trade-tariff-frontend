@@ -189,4 +189,63 @@ describe('InteractiveQuestionController', () => {
       });
     });
   });
+
+  describe('bfcache restore', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    it('restores the header and form and hides the thinking screen when the page is restored from bfcache', () => {
+      const pageHeader = document.querySelector('#page-header');
+      const header = document.querySelector('#header');
+      const form = document.querySelector('#form');
+      const thinking = document.querySelector('#thinking');
+      const formEl = document.querySelector('form');
+
+      formEl.dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+
+      expect(thinking.classList.contains('govuk-!-display-none')).toBe(false);
+
+      window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));
+
+      expect(pageHeader.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(header.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(form.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(thinking.classList.contains('govuk-!-display-none')).toBe(true);
+    });
+
+    it('restores the header and form and hides the dont know screen when the page is restored from bfcache', () => {
+      const pageHeader = document.querySelector('#page-header');
+      const header = document.querySelector('#header');
+      const form = document.querySelector('#form');
+      const dontKnow = document.querySelector('#dont-know');
+      const radio = document.querySelector('#unknown');
+      const formEl = document.querySelector('form');
+
+      radio.checked = true;
+      formEl.dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+
+      expect(dontKnow.classList.contains('govuk-!-display-none')).toBe(false);
+
+      window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));
+
+      expect(pageHeader.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(header.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(form.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(dontKnow.classList.contains('govuk-!-display-none')).toBe(true);
+    });
+
+    it('does nothing on a normal (non-bfcache) pageshow', () => {
+      const header = document.querySelector('#header');
+      const thinking = document.querySelector('#thinking');
+      const formEl = document.querySelector('form');
+
+      formEl.dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+
+      window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: false}));
+
+      expect(header.classList.contains('govuk-!-display-none')).toBe(true);
+      expect(thinking.classList.contains('govuk-!-display-none')).toBe(false);
+    });
+  });
 });

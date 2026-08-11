@@ -10,6 +10,12 @@ export default class extends Controller {
 
   connect() {
     this.questionShownAt = performance.now()
+    this.boundRestoreFromBfcache = this.#restoreFromBfcache.bind(this)
+    window.addEventListener('pageshow', this.boundRestoreFromBfcache)
+  }
+
+  disconnect() {
+    window.removeEventListener('pageshow', this.boundRestoreFromBfcache)
   }
 
   submitWithThinking(event) {
@@ -108,5 +114,27 @@ export default class extends Controller {
 
   #clientElapsedMs() {
     return Math.max(0, Math.round(performance.now() - this.questionShownAt))
+  }
+
+  #restoreFromBfcache(event) {
+    if (!event.persisted) return
+
+    this.questionShownAt = performance.now()
+
+    if (this.hasPageHeaderTarget) {
+      this.pageHeaderTarget.classList.remove('govuk-!-display-none')
+    }
+    if (this.hasHeaderTarget) {
+      this.headerTarget.classList.remove('govuk-!-display-none')
+    }
+    if (this.hasFormTarget) {
+      this.formTarget.classList.remove('govuk-!-display-none')
+    }
+    if (this.hasThinkingTarget) {
+      this.thinkingTarget.classList.add('govuk-!-display-none')
+    }
+    if (this.hasDontKnowTarget) {
+      this.dontKnowTarget.classList.add('govuk-!-display-none')
+    }
   }
 }

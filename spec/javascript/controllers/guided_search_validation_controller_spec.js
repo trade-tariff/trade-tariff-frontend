@@ -322,4 +322,35 @@ describe('GuidedSearchValidationController', () => {
       expect(document.querySelector('[data-guided-search-validation-loading-page]').classList.contains('govuk-!-display-none')).toBe(false);
     });
   });
+
+  describe('bfcache restore', () => {
+    it('restores the page content and hides the loading page when the page is restored from bfcache', async () => {
+      await setup({textareaValue: 'televisions'});
+      submitForm();
+
+      const pageContent = document.querySelector('[data-guided-search-validation-page-content]');
+      const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]');
+
+      expect(pageContent.classList.contains('govuk-!-display-none')).toBe(true);
+      expect(loadingPage.classList.contains('govuk-!-display-none')).toBe(false);
+
+      window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));
+
+      expect(pageContent.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(loadingPage.classList.contains('govuk-!-display-none')).toBe(true);
+    });
+
+    it('does nothing on a normal (non-bfcache) pageshow', async () => {
+      await setup({textareaValue: 'televisions'});
+      submitForm();
+
+      const pageContent = document.querySelector('[data-guided-search-validation-page-content]');
+      const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]');
+
+      window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: false}));
+
+      expect(pageContent.classList.contains('govuk-!-display-none')).toBe(true);
+      expect(loadingPage.classList.contains('govuk-!-display-none')).toBe(false);
+    });
+  });
 });
