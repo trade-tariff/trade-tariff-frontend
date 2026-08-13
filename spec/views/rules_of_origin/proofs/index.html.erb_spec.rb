@@ -27,4 +27,14 @@ RSpec.describe 'rules_of_origin/proofs/index', type: :view do
     it { is_expected.to have_css 'details summary', text: schemes.first.proofs.first.summary }
     it { is_expected.to have_css 'details .govuk-details__text *' }
   end
+
+  describe 'origin reference document link within proof content' do
+    let(:schemes) do
+      build_list :rules_of_origin_scheme, 1,
+                 proofs: [attributes_for(:rules_of_origin_proof,
+                                         content: 'See the full text. <a href="{ord_url}">Origin Reference Document</a>')]
+    end
+
+    it { is_expected.to have_link 'Origin Reference Document', href: '/roo_origin_reference_documents/211203_ORD_Japan_V1.1.odt' }
+  end
 end
