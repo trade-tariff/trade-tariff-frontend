@@ -6,6 +6,15 @@ const MIN_QUERY_LENGTH = 2
 export default class extends Controller {
   static targets = ['hiddenField', 'textarea', 'formGroup', 'formContent']
 
+  connect() {
+    this.boundRestoreFromBfcache = this.#restoreFromBfcache.bind(this)
+    window.addEventListener('pageshow', this.boundRestoreFromBfcache)
+  }
+
+  disconnect() {
+    window.removeEventListener('pageshow', this.boundRestoreFromBfcache)
+  }
+
   async validateAndSubmit(event) {
     if (this.hiddenFieldTarget.value !== 'true') return
 
@@ -103,5 +112,16 @@ export default class extends Controller {
 
   #submitForm(form) {
     window.setTimeout(() => HTMLFormElement.prototype.submit.call(form), 0)
+  }
+
+  #restoreFromBfcache(event) {
+    if (!event.persisted) return
+
+    const pageContent = document.querySelector('[data-guided-search-validation-page-content]')
+    const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]')
+
+    if (pageContent) pageContent.classList.remove('govuk-!-display-none')
+    if (loadingPage) loadingPage.classList.add('govuk-!-display-none')
+    if (this.hasFormContentTarget) this.formContentTarget.classList.remove('govuk-!-display-none')
   }
 }
