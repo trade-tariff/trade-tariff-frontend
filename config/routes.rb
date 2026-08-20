@@ -216,6 +216,7 @@ Rails.application.routes.draw do
 
   constraints(id: /\d{10}/) do
     resources :commodities, only: %i[show] do
+      member { get :origin }
       resources :changes,
                 only: [:index],
                 defaults: { format: :atom },
