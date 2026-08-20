@@ -15,6 +15,7 @@ RSpec.describe FeedbackController, type: :request do
         get new_feedback_path, headers: { 'HTTP_REFERER' => 'http://test.host/404' }
         post feedbacks_path, params: {
           feedback: { message: },
+          feedback_url: 'http://test.host/404',
           authenticity_token: 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw',
         }
         follow_redirect!
@@ -27,6 +28,48 @@ RSpec.describe FeedbackController, type: :request do
       it 'links Return to page at the referrer URL' do
         expect(response.body).to include('http://test.host/404')
       end
+    end
+  end
+
+  describe 'session cookie size' do
+    # The session cookie is a single browser-enforced 4096-byte budget shared by every
+    # feature that writes to `session` (duty calculator answers, myott preferences,
+    # meursing lookups, experiment opt-ins, and so on). This controller must never spend
+    # any of that budget itself, however much context a request carries, otherwise it can
+    # tip an already-long cookie (from any of those other sources) over the limit.
+    let(:large_context) { 'a' * 4500 }
+
+    let(:params_with_large_context) do
+      {
+        feedback: { message: },
+        feedback_url: large_context,
+        feedback_query: large_context,
+        feedback_request_id: large_context,
+        feedback_date: large_context,
+        authenticity_token: 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw',
+      }
+    end
+
+    it 'does not raise CookieOverflow, regardless of how large the request context is' do
+      expect {
+        get new_feedback_path, params: params_with_large_context.except(:feedback, :authenticity_token)
+        post feedbacks_path, params: params_with_large_context
+      }.not_to raise_error
+    end
+
+    it 'never writes feedback context into the session' do
+      get new_feedback_path, params: params_with_large_context.except(:feedback, :authenticity_token)
+      post feedbacks_path, params: params_with_large_context
+
+      expect(session.to_hash.keys).not_to include('feedback_referrer', 'feedback_query', 'feedback_request_id', 'feedback_date')
+    end
+
+    it 'keeps the session cookie well under the browser 4096-byte limit' do
+      get new_feedback_path, params: params_with_large_context.except(:feedback, :authenticity_token)
+      post feedbacks_path, params: params_with_large_context
+
+      session_cookie = response.headers['Set-Cookie'].to_s.split("\n").find { |c| c.start_with?('_tradetarifffrontend_session=') }
+      expect(session_cookie.to_s.bytesize).to be < 4096
     end
   end
 
@@ -153,6 +196,10 @@ RSpec.describe FeedbackController, type: :request do
       get feedback_hrefs.first
       post feedbacks_path, params: {
         feedback: { message: },
+        feedback_url: 'http://www.example.com/search',
+        feedback_query: 'leather handbags',
+        feedback_request_id: 'search-request-123',
+        feedback_date: '2026-06-05',
         authenticity_token:,
       }
 
