@@ -1,0 +1,40 @@
+<% content_for :title, @state.determined? ? 'Prototype VAT option' : 'VAT option not determined' %>
+<% content_for :back_link do %>
+  <%= back_link vat_guidance_prototype_root_path %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl"><%= @journey.title %> prototype</span>
+
+    <% if @state.determined? %>
+      <h1 class="govuk-heading-xl">Prototype VAT option</h1>
+      <%= govuk_inset_text do %>
+        <p class="govuk-heading-l govuk-!-margin-bottom-1"><%= @vat_option_label %></p>
+        <p class="govuk-body govuk-!-margin-bottom-0">Tariff option key: <strong><%= @state.vat_option %></strong></p>
+      <% end %>
+      <p class="govuk-body">The deterministic rules selected an option already present in the simulated tariff response.</p>
+    <% else %>
+      <h1 class="govuk-heading-xl">VAT option not determined</h1>
+      <%= govuk_warning_text(text: 'This is an intentional outcome: the prototype does not guess when its source is insufficient.') %>
+      <p class="govuk-body"><%= @state.reason %></p>
+    <% end %>
+
+    <h2 class="govuk-heading-l">Answers used</h2>
+    <%= govuk_summary_list(actions: false, rows: @state.trail.map { |item|
+      { key: { text: item[:question].text }, value: { text: item[:answer].label } }
+    }) %>
+
+    <h2 class="govuk-heading-l">Sources and traceability</h2>
+    <% @journey.sources.each do |source| %>
+      <p class="govuk-body">
+        <%= link_to source.title, source.url, class: 'govuk-link' %><br>
+        <span class="govuk-body-s">Section: <%= source.section %>. Reviewed <%= source.reviewed_at.to_fs(:long) %>.</span>
+      </p>
+    <% end %>
+
+    <%= govuk_warning_text(text: 'This prototype is not an HMRC determination and must not be used to make a VAT declaration.') %>
+
+    <%= link_to 'Try another example', vat_guidance_prototype_root_path, class: 'govuk-button' %>
+  </div>
+</div>

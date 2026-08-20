@@ -16,6 +16,10 @@ module TradeTariffFrontend
       environment == 'production'
     end
 
+    def vat_guidance_enabled?
+      !production? && !ServiceChooser.xi?
+    end
+
     def waf_integration_enabled?
       waf_integration_url.present?
     end
@@ -142,6 +146,7 @@ module TradeTariffFrontend
     end
 
     flagsmith_flag :interactive_search_enabled?, name: :interactive_search, services: %i[uk], optin: true
+    flagsmith_flag :vat_guidance_enabled?, name: :vat_guidance, services: %i[uk], optin: true
     flagsmith_flag :webchat_enabled?, name: :webchat
   end
 end

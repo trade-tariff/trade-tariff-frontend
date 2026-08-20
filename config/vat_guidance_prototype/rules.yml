@@ -1,0 +1,286 @@
+schema_version: 3
+
+# Labels in this catalogue exist only so the standalone prototype can run
+# without a backend request. The duty-calculator integration always injects
+# the current, filtered applicable_vat_options from Trade Tariff Backend.
+prototype_option_catalog:
+  VAT: Value added tax (20.0%)
+  VATR: VAT reduced rate 5% (5.0%)
+  VATZ: VAT zero rate (0.0%)
+  VATE: VAT exempt
+
+rule_sets:
+  live_bees:
+    content_version: 1
+    effective_from: '2023-02-28'
+    jurisdictions: [uk]
+    allowed_outcomes: [VAT, VATZ]
+    start_question: product_identity
+    questions:
+      product_identity:
+        text: '%{identity_question}'
+        hint: '%{identity_hint}'
+        answers:
+          'yes':
+            label: 'Yes'
+            next_question: bee_type
+          'no':
+            label: 'No'
+            unable_reason: The goods do not match the commodity scenario used by this guidance.
+          not_sure:
+            label: I am not sure
+            unable_reason: The type of live bee must be confirmed before HMRC guidance can be applied.
+      bee_type:
+        text: What type of live bees are being imported?
+        answers:
+          honey_bees:
+            label: Honey bees
+            next_question: food_chain_status
+          bumble_bees:
+            label: Bumble bees
+            outcome: VAT
+          other:
+            label: Another type of bee
+            unable_reason: This reviewed journey covers only honey bees and bumble bees.
+          not_sure:
+            label: I am not sure
+            unable_reason: The type of bee must be established before a VAT option can be selected.
+      food_chain_status:
+        text: Have the honey bees been removed from the human food chain because they are diseased or otherwise unfit?
+        hint: HMRC says honey bees are normally zero-rated, but live food animals removed from the human food chain because they are diseased or unfit are standard-rated.
+        answers:
+          'yes':
+            label: 'Yes'
+            outcome: VAT
+          'no':
+            label: 'No'
+            outcome: VATZ
+          not_sure:
+            label: I am not sure
+            unable_reason: Whether the honey bees remain in the human food chain must be established before a VAT option can be selected.
+    sources:
+      - title: Animals and animal food (VAT Notice 701/15)
+        url: https://www.gov.uk/guidance/animals-and-animal-food-notice-70115
+        section: 2.2, 2.3 and 2.7 — food animals, animals excluded from zero rating, honey bees and bumble bees
+        reviewed_at: '2026-07-24'
+
+  childrens_picture_books:
+    content_version: 1
+    effective_from: '2020-07-31'
+    jurisdictions: [uk]
+    allowed_outcomes: [VAT, VATZ]
+    start_question: product_identity
+    questions:
+      product_identity:
+        text: '%{identity_question}'
+        hint: '%{identity_hint}'
+        answers:
+          'yes':
+            label: 'Yes'
+            next_question: mixed_supply
+          'no':
+            label: 'No'
+            unable_reason: The goods do not match the commodity scenario used by this guidance.
+          not_sure:
+            label: I am not sure
+            unable_reason: The product must be confirmed as a children's picture, drawing or colouring book before HMRC guidance can be applied.
+      mixed_supply:
+        text: Is the product supplied as a book without a separately usable toy, pen or other item?
+        hint: A mixed pack can require a separate VAT supply analysis that this reviewed journey does not cover.
+        answers:
+          'yes':
+            label: 'Yes'
+            next_question: essentially_a_toy
+          'no':
+            label: 'No'
+            unable_reason: A mixed supply must be assessed before a VAT option can be selected.
+          not_sure:
+            label: I am not sure
+            unable_reason: The contents of the supplied product must be established before a VAT option can be selected.
+      essentially_a_toy:
+        text: Is the product essentially a toy rather than a book?
+        hint: This includes products made wholly or mainly from cut-out models and books whose pages are intended to be used as game boards.
+        answers:
+          'yes':
+            label: 'Yes'
+            outcome: VAT
+          'no':
+            label: 'No'
+            next_question: suitable_for_children
+          not_sure:
+            label: I am not sure
+            unable_reason: Whether the product is essentially a toy must be established before a VAT option can be selected.
+      suitable_for_children:
+        text: Is the book suitable for people under 18 and not advertised or held out for sale only to adults?
+        answers:
+          'yes':
+            label: 'Yes'
+            outcome: VATZ
+          'no':
+            label: 'No'
+            outcome: VAT
+          not_sure:
+            label: I am not sure
+            unable_reason: The intended audience and content must be established before a VAT option can be selected.
+    sources:
+      - title: Zero rating books and printed matter (VAT Notice 701/10)
+        url: https://www.gov.uk/guidance/zero-rating-books-and-printed-matter-for-vat-notice-70110
+        section: 3.7 and 3.8 — children's picture, painting, drawing and colouring books
+        reviewed_at: '2026-07-24'
+
+  food_producing_plants:
+    content_version: 1
+    effective_from: '2021-09-22'
+    jurisdictions: [uk]
+    allowed_outcomes: [VAT, VATZ]
+    start_question: product_identity
+    questions:
+      product_identity:
+        text: '%{identity_question}'
+        hint: '%{identity_hint}'
+        answers:
+          'yes':
+            label: 'Yes'
+            next_question: intended_purpose
+          'no':
+            label: 'No'
+            unable_reason: The goods do not match the commodity scenario used by this guidance.
+          not_sure:
+            label: I am not sure
+            unable_reason: The plant type must be confirmed before HMRC guidance can be applied.
+      intended_purpose:
+        text: How are the plants held out for sale?
+        hint: HMRC distinguishes plants grown to produce food from ornamental plants and plants grown for non-food purposes.
+        answers:
+          food:
+            label: As vegetable or strawberry plants specifically grown to produce food
+            outcome: VATZ
+          ornamental:
+            label: For ornamental effect
+            outcome: VAT
+          other_non_food:
+            label: For another non-food purpose
+            outcome: VAT
+          not_sure:
+            label: I am not sure
+            unable_reason: How the plants are held out for sale must be established before a VAT option can be selected.
+    sources:
+      - title: Zero rating certain seeds and plants (VAT Notice 701/38)
+        url: https://www.gov.uk/guidance/zero-rating-certain-seeds-and-plants-for-vat-notice-70138
+        section: 2.1, 3.1, 3.2 and 3.5 — food-producing, ornamental and non-food plants
+        reviewed_at: '2026-07-24'
+
+  animal_feed_oils:
+    content_version: 3
+    effective_from: '2025-02-05'
+    jurisdictions: [uk]
+    allowed_outcomes: [VAT, VATZ]
+    start_question: product_identity
+    questions:
+      product_identity:
+        text: '%{identity_question}'
+        hint: '%{identity_hint}'
+        answers:
+          'yes':
+            label: 'Yes'
+            next_question: intended_use
+          'no':
+            label: 'No'
+            unable_reason: The product does not match the commodity scenario used by this guidance.
+          not_sure:
+            label: I am not sure
+            unable_reason: The product composition and origin must be confirmed before HMRC guidance can be applied.
+      intended_use:
+        text: How will the product be held out for sale?
+        hint: HMRC says the VAT treatment of oils and fats can depend on their intended use and how they are marketed.
+        answers:
+          animal_feed:
+            label: As an animal feeding stuff
+            next_question: feed_processing
+          road_fuel:
+            label: As road fuel
+            outcome: VAT
+          other_fuel:
+            label: As another type of fuel or power
+            unable_reason: Some qualifying fuel supplies may be reduced-rated, but that option is not present in this commodity's current tariff response.
+          other_non_feed:
+            label: For another non-feed purpose
+            outcome: VAT
+          not_sure:
+            label: I am not sure
+            unable_reason: The way the product will be held out for sale must be established before an option can be selected.
+      feed_processing:
+        text: Is the oil or fat suitable for animal feed without further processing?
+        hint: A need only for sieving, decanting or heating does not prevent zero rating under HMRC guidance.
+        answers:
+          'yes':
+            label: 'Yes'
+            outcome: VATZ
+          'no':
+            label: 'No'
+            outcome: VAT
+          not_sure:
+            label: I am not sure
+            unable_reason: Whether further processing is required must be established before an option can be selected.
+    sources:
+      - title: Animals and animal food (VAT Notice 701/15)
+        url: https://www.gov.uk/guidance/animals-and-animal-food-notice-70115
+        section: 9.3 — oils and fats used in animal feeding stuffs
+        reviewed_at: '2026-07-20'
+      - title: Fuel and power (VAT Notice 701/19)
+        url: https://www.gov.uk/guidance/vat-on-fuel-and-power-notice-70119
+        section: 1.2 and 6.2 — standard rating and road fuel
+        reviewed_at: '2026-07-20'
+      - title: Paying VAT on imports from outside the UK to Great Britain and from outside the EU to Northern Ireland
+        url: https://www.gov.uk/guidance/vat-imports-acquisitions-and-purchases-from-abroad
+        section: Imported goods — accounting for import VAT
+        reviewed_at: '2026-07-20'
+
+applicability:
+  bees:
+    title: Live bees
+    description: Live honey bees and bumble bees.
+    commodity_codes: ['0106410000']
+    rule_set: live_bees
+    review_status: reviewed
+    effective_from: '2012-01-01'
+    prototype_option_keys: [VATZ, VAT]
+    variables:
+      identity_question: Are the goods live bees, as described by commodity code 0106410000?
+      identity_hint: This guidance does not cover bee products, equipment or other live insects.
+
+  childrens_picture_books:
+    title: Children's picture, drawing or colouring books
+    description: Printed children's picture, drawing or colouring books.
+    commodity_codes: ['4903000000']
+    rule_set: childrens_picture_books
+    review_status: reviewed
+    effective_from: '1972-01-01'
+    prototype_option_keys: [VATZ, VAT]
+    variables:
+      identity_question: Are the goods children's picture, drawing or colouring books, as described by commodity code 4903000000?
+      identity_hint: Confirm the complete product being supplied, including anything packaged with the book.
+
+  vegetable_and_strawberry_plants:
+    title: Vegetable and strawberry plants
+    description: Live vegetable and strawberry plants, including seedlings.
+    commodity_codes: ['0602903000']
+    rule_set: food_producing_plants
+    review_status: reviewed
+    effective_from: '1996-01-01'
+    prototype_option_keys: [VATZ, VAT]
+    variables:
+      identity_question: Are the goods live vegetable or strawberry plants, as described by commodity code 0602903000?
+      identity_hint: This guidance does not cover seeds, cut flowers, prepared food or other plant classifications.
+
+  vegetable_oil_blend:
+    title: Vegetable fat and oil blend consigned from Canada
+    description: A vegetable fat and oil blend containing more than 20% fatty-acid esters or non-fossil paraffinic gasoil.
+    commodity_codes: ['1516209821']
+    rule_set: animal_feed_oils
+    review_status: reviewed
+    effective_from: '2010-08-13'
+    prototype_option_keys: [VATZ, VAT]
+    variables:
+      identity_question: Does the product match the vegetable fat and oil blend described by commodity code 1516209821?
+      identity_hint: It must be consigned from Canada and contain more than 20% fatty-acid mono-alkyl esters or paraffinic gasoil of non-fossil origin.

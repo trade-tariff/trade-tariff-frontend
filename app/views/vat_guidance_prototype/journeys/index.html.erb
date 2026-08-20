@@ -1,0 +1,45 @@
+<% content_for :title, 'Guided VAT determination prototype' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">Prototype</span>
+    <h1 class="govuk-heading-xl">Guided VAT determination</h1>
+
+    <%= govuk_warning_text(text: 'This prototype uses illustrative rules and must not be used to make a VAT declaration.') %>
+
+    <p class="govuk-body">
+      The production-shaped model starts with the VAT options returned by tariff data. It maps the commodity to a reusable, effective-dated rule set and stops when approved guidance is unavailable or not specific enough.
+    </p>
+
+    <%= govuk_inset_text do %>
+      In the duty calculator, every commodity with more than one live VAT option can enter the journey. Reviewed products use specific HMRC questions; every other product uses a generic confirmation journey built from its live tariff options.
+    <% end %>
+
+    <p class="govuk-body">
+      The example below demonstrates a reviewed question set. To test the generic journey, start a duty calculation for any other commodity that has more than one VAT option.
+    </p>
+
+    <h2 class="govuk-heading-l">Choose an example</h2>
+
+    <% @journeys.each do |journey| %>
+      <section class="govuk-!-margin-bottom-7">
+        <h3 class="govuk-heading-m"><%= journey.title %></h3>
+        <p class="govuk-body"><%= journey.description %></p>
+        <% if journey.commodity_code.present? %>
+          <p class="govuk-body-s">Tariff commodity code: <strong><%= journey.commodity_code %></strong></p>
+        <% end %>
+        <p class="govuk-body-s">
+          Shared rule set: <strong><%= journey.rule_set_id.humanize %></strong><br>
+          Review status: <strong><%= journey.review_status.to_s.humanize %></strong><br>
+          Rule effective from: <strong><%= journey.guidance_version_from.to_fs(:long) %></strong><br>
+          Mapping effective from: <strong><%= journey.applicability_from.to_fs(:long) %></strong><br>
+          Simulated tariff options:
+          <%= journey.applicable_vat_options.map { |key, label| "#{label} (#{key})" }.to_sentence %>
+        </p>
+        <%= button_to 'Try this example', vat_guidance_prototype_start_path,
+                      params: { journey_id: journey.id }, method: :post,
+                      class: 'govuk-button govuk-button--secondary' %>
+      </section>
+    <% end %>
+  </div>
+</div>

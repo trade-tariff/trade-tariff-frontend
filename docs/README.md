@@ -10,6 +10,7 @@ This directory is the starting point for understanding the Trade Tariff Frontend
 - [Style guide](style-guide.md) covers Ruby/Rails, tests, GOV.UK Frontend components, and PR review expectations.
 - [Code Wiki guide](code-wiki.md) explains how to use generated repository documentation safely.
 - Existing domain notes: [Rules of Origin](../doc/rules_of_origin.md).
+- Spike prototypes: [Guided VAT determination](spikes/guided-vat-prototype.md).
 
 ## Operational Entry Points
 

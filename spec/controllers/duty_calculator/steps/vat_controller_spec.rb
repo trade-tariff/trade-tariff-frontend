@@ -1,8 +1,14 @@
 RSpec.describe DutyCalculator::Steps::VatController, :user_session do
+  render_views
+
   let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
 
   describe 'GET #show' do
     subject(:response) { get :show }
+
+    before do
+      allow(TradeTariffFrontend).to receive(:vat_guidance_enabled?).and_return(true)
+    end
 
     it 'assigns the correct step' do
       response
@@ -11,6 +17,12 @@ RSpec.describe DutyCalculator::Steps::VatController, :user_session do
 
     it { expect(response).to have_http_status(:ok) }
     it { expect(response).to render_template('vat/show') }
+
+    it 'offers guided help without replacing the existing VAT choices', :aggregate_failures do
+      expect(response.body).to include('Get help choosing a VAT rate')
+      expect(response.body).to include('every other multi-rate commodity')
+      expect(response.body).to include('Which VAT rate is applicable to your trade?')
+    end
   end
 
   describe 'POST #create' do
