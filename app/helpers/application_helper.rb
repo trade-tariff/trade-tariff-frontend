@@ -82,11 +82,22 @@ module ApplicationHelper
   end
 
   def feedback_context_params
+    return current_feedback_params if controller_path == 'feedback'
+
     {
       feedback_url: request.original_url,
       feedback_query: feedback_search_query,
       feedback_request_id: feedback_search_request_id,
       feedback_date: feedback_search_date,
+    }.compact
+  end
+
+  def current_feedback_params
+    {
+      feedback_url: params[:feedback_url],
+      feedback_query: params[:feedback_query],
+      feedback_request_id: params[:feedback_request_id],
+      feedback_date: params[:feedback_date],
     }.compact
   end
 

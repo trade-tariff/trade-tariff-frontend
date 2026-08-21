@@ -73,6 +73,32 @@ RSpec.describe FeedbackController, type: :request do
     end
   end
 
+  describe 'self-referential feedback_url' do
+    # The layout footer renders a "Feedback" link (via ApplicationHelper#feedback_context_params)
+    # on every page, including the feedback page itself. If that helper always derived
+    # feedback_url from the current page's own URL, visiting /feedback (which already carries
+    # ?feedback_url=...) and following its own footer link would wrap the URL in another layer
+    # of ?feedback_url=..., compounding indefinitely on repeated visits.
+    let(:original_page) { 'http://test.host/404' }
+
+    def footer_feedback_href
+      response.body[/<a[^>]+href="([^"]+)"[^>]*>Feedback<\/a>/, 1]
+    end
+
+    before { get new_feedback_path, params: { feedback_url: original_page } }
+
+    it 'points the footer feedback link at the original page' do
+      expect(Rack::Utils.parse_query(URI.parse(footer_feedback_href).query)).to eq('feedback_url' => original_page)
+    end
+
+    it 'does not grow the link when following it from the feedback page itself' do
+      first_href = footer_feedback_href
+      get first_href
+
+      expect(footer_feedback_href).to eq(first_href)
+    end
+  end
+
   describe 'POST #create' do
     before { post feedbacks_path, params: }
 
