@@ -34,6 +34,13 @@ scope path: '/duty-calculator/' do
   get 'vat', to: 'duty_calculator/steps/vat#show'
   post 'vat', to: 'duty_calculator/steps/vat#create'
 
+  if Rails.env.development? || Rails.env.test? || ENV['VAT_GUIDANCE_DEMO_ENABLED'] == 'true'
+    post 'vat-guidance/start', to: 'duty_calculator/steps/vat_guidance#start', as: :vat_guidance_start
+    get 'vat-guidance/question', to: 'duty_calculator/steps/vat_guidance#question', as: :vat_guidance_question
+    post 'vat-guidance/answer', to: 'duty_calculator/steps/vat_guidance#answer', as: :vat_guidance_answer
+    get 'vat-guidance/result', to: 'duty_calculator/steps/vat_guidance#result', as: :vat_guidance_result
+  end
+
   get 'confirm', to: 'duty_calculator/steps/confirmation#show'
 
   get 'interstitial', to: 'duty_calculator/steps/interstitial#show'

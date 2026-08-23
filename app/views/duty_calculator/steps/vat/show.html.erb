@@ -3,8 +3,28 @@
 <%= form_for @step, url: vat_path do |f| %>
   <%= f.govuk_error_summary %>
   <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
+  <h1 class="govuk-heading-xl">Which VAT rate is applicable to your trade?</h1>
 
-  <%= f.govuk_collection_radio_buttons :vat, @step.vat_options, :id, :name, legend: { text: 'Which VAT rate is applicable to your trade?', size: 'xl', tag: 'h1' }, hint: { text: "There are #{applicable_vat_options.keys.count} VAT rates applicable to the trade in this commodity code. Select which rate applies to your trade. For guidance on applicable VAT rates, please see the document <a href='https://www.gov.uk/guidance/rates-of-vat-on-different-goods-and-services' target='_blank' class='govuk-link'>VAT rates on different goods and services (opens in new browser window)</a>.".html_safe }, include_hidden: true %>
+  <% if @vat_guidance_available %>
+    <%= govuk_inset_text do %>
+      <% if @vat_guidance_candidate.present? %>
+        <p class="govuk-body"><strong>Guided VAT result: <%= applicable_vat_options.fetch(@vat_guidance_candidate) %></strong></p>
+        <p class="govuk-body">Review the suggested rate and confirm your selection below. The guided result is not an HMRC determination.</p>
+        <% selected_journey_id = session.dig(DutyCalculator::Steps::VatGuidanceController::SESSION_KEY, 'journey_id') %>
+        <%= button_tag 'Review the guided VAT questions', formaction: vat_guidance_start_path, name: 'journey_id', value: selected_journey_id, class: 'govuk-button govuk-button--secondary' %>
+      <% else %>
+        <p class="govuk-body"><strong>Not sure which VAT rate applies?</strong></p>
+        <p class="govuk-body">Choose guidance for this commodity before selecting a VAT rate.</p>
+        <% @vat_guidance_journeys.each do |journey| %>
+          <h2 class="govuk-heading-s"><%= journey.title %></h2>
+          <p class="govuk-body"><%= journey.description %></p>
+          <%= button_tag 'Start this guidance', formaction: vat_guidance_start_path, name: 'journey_id', value: journey.id, class: 'govuk-button govuk-button--secondary' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_collection_radio_buttons :vat, @step.vat_options, :id, :name, legend: { text: 'VAT rates', hidden: true }, hint: { text: "There are #{applicable_vat_options.keys.count} VAT rates applicable to the trade in this commodity code. Select which rate applies to your trade. For guidance on applicable VAT rates, please see the document <a href='https://www.gov.uk/guidance/rates-of-vat-on-different-goods-and-services' target='_blank' class='govuk-link'>VAT rates on different goods and services (opens in new browser window)</a>.".html_safe }, include_hidden: true %>
 
   <%= f.govuk_submit %>
 <% end %>

@@ -1,0 +1,27 @@
+<% content_for :title, @question.text %>
+<% content_for :back_link do %>
+  <%= back_link vat_path %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl"><%= @journey.title %> — calculate import duties</span>
+
+    <%= govuk_warning_text(text: 'This guided result uses synthetic review decisions and is not an HMRC determination.') %>
+
+    <%= form_for @answer_form,
+                 url: vat_guidance_answer_path,
+                 builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+      <%= form.govuk_error_summary %>
+      <%= form.govuk_collection_radio_buttons :answer,
+                                               @answer_form.options,
+                                               :id,
+                                               :name,
+                                               legend: { text: @question.text, size: 'xl', tag: 'h1' },
+                                               include_hidden: true %>
+      <%= form.govuk_submit 'Continue' %>
+    <% end %>
+
+    <p class="govuk-body-s">Guidance for commodity <%= user_session.commodity_code.scan(/../).join(' ') %>.</p>
+  </div>
+</div>
