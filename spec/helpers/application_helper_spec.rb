@@ -334,6 +334,63 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+  describe '#feedback_context_params' do
+    context 'when not on the feedback controller' do
+      before do
+        allow(helper.request).to receive(:original_url).and_return('http://test.host/commodities/1234567890')
+        controller.params[:q] = 'leather handbags'
+      end
+
+      it 'derives feedback_url from the current page URL' do
+        expect(helper.feedback_context_params).to include(feedback_url: 'http://test.host/commodities/1234567890')
+      end
+    end
+
+    context 'when already on the feedback controller' do
+      before do
+        allow(helper.controller).to receive(:controller_path).and_return('feedback')
+        controller.params[:feedback_url] = 'http://test.host/commodities/1234567890'
+        controller.params[:feedback_query] = 'leather handbags'
+      end
+
+      it 'passes through the existing feedback_url instead of the current (feedback) page URL' do
+        expect(helper.feedback_context_params).to eq(
+          feedback_url: 'http://test.host/commodities/1234567890',
+          feedback_query: 'leather handbags',
+        )
+      end
+
+      it 'ignores request.original_url so the feedback page cannot nest itself into feedback_url' do
+        allow(helper.request).to receive(:original_url)
+          .and_return('http://test.host/feedback?feedback_url=http://test.host/commodities/1234567890')
+
+        expect(helper.feedback_context_params[:feedback_url]).not_to include('/feedback?feedback_url=')
+      end
+    end
+  end
+
+  describe '#current_feedback_params' do
+    it 'passes through the feedback params already on the request' do
+      controller.params[:feedback_url] = 'http://test.host/commodities/1234567890'
+      controller.params[:feedback_query] = 'leather handbags'
+      controller.params[:feedback_request_id] = 'abc-123'
+      controller.params[:feedback_date] = '2026-01-01'
+
+      expect(helper.current_feedback_params).to eq(
+        feedback_url: 'http://test.host/commodities/1234567890',
+        feedback_query: 'leather handbags',
+        feedback_request_id: 'abc-123',
+        feedback_date: '2026-01-01',
+      )
+    end
+
+    it 'omits params that are not present' do
+      controller.params[:feedback_url] = 'http://test.host/commodities/1234567890'
+
+      expect(helper.current_feedback_params).to eq(feedback_url: 'http://test.host/commodities/1234567890')
+    end
+  end
+
   describe '#duty_calculator_link' do
     subject(:link) { helper.duty_calculator_link(declarable_code) }
 
