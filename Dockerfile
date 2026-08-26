@@ -44,8 +44,10 @@ FROM ruby:${RUBY_VERSION}-alpine${ALPINE_VERSION} AS production
 
 RUN apk add --no-cache \
     tzdata && \
+    apk upgrade --no-cache libcrypto3 libssl3 && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
-    echo "Europe/London" > /etc/timezone
+    echo "Europe/London" > /etc/timezone && \
+    rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec
 
 ENV RAILS_SERVE_STATIC_FILES=true \
     RAILS_ENV=production \
