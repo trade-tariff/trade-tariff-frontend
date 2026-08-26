@@ -143,4 +143,57 @@ RSpec.describe 'Commodity page', type: :request do
       expect(page).to have_css '#webchat-link'
     end
   end
+
+  describe 'GET /commodities/:id/origin' do
+    context 'without a country' do
+      before do
+        VCR.use_cassette('commodities#0101300000#uk') do
+          get '/commodities/0101300000/origin', headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        end
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('commodities/origin') }
+      it { expect(response.body).not_to include('govuk-header__container') }
+    end
+
+    context 'with a country' do
+      before do
+        allow(Commodity).to receive(:find).and_return(build(:commodity, :with_import_trade_summary))
+        get '/commodities/0101300000/origin', params: { country: 'AD' }, headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('commodities/origin') }
+      it { expect(response.body).not_to include('govuk-header__container') }
+      it { expect(RulesOfOrigin::Scheme).to have_received(:for_heading_and_country) }
+    end
+
+    context 'when on the XI service without a country' do
+      before do
+        TradeTariffFrontend::ServiceChooser.service_choice = 'xi'
+        VCR.use_cassette('commodities#0101300000#xi') do
+          get '/xi/commodities/0101300000/origin', headers: { 'X-Requested-With' => 'XMLHttpRequest' }
+        end
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('commodities/origin') }
+    end
+
+    context 'when given a non-declarable id' do
+      let(:non_declarable_commodity) do
+        commodity = build(:commodity)
+        allow(commodity).to receive(:declarable?).and_return(false)
+        commodity
+      end
+
+      before { allow(Commodity).to receive(:find).and_return(non_declarable_commodity) }
+
+      it 'returns not found' do
+        get '/commodities/0101300000/origin'
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end
