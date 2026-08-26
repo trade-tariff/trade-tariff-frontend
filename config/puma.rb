@@ -31,14 +31,7 @@ threads threads_count, threads_count
 
 environment ENV['RACK_ENV'] || 'development'
 
-rails_env = ENV.fetch('RAILS_ENV', 'development')
-
-# Explicit HTTP bind,  default is 3000.
-if rails_env == 'development'
-  bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3000)}"
-end
-
-# Explicit HTTPS bind
+# Explicit HTTPS bind when TLS material is supplied (ECS services behind the ALB).
 cert = ENV['SSL_CERT_PEM']&.gsub('\\n', "\n")
 key  = ENV['SSL_KEY_PEM']&.gsub('\\n', "\n")
 
@@ -46,6 +39,9 @@ if cert.to_s != '' && key.to_s != ''
   ssl_bind '0.0.0.0', ENV.fetch('SSL_PORT', 8443),
            cert_pem: cert,
            key_pem: key
+else
+  # No TLS material configured (local dev, tests, Preevy preview apps): bind plain HTTP.
+  bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3000)}"
 end
 
 # Allow puma to be restarted by `bin/rails restart` command.
