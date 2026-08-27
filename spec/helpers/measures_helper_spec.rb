@@ -1,6 +1,38 @@
 require 'spec_helper'
 
 RSpec.describe MeasuresHelper, type: :helper do
+  describe '#import_measures_heading' do
+    before { allow(helper).to receive(:measures_heading).with(anchor: 'import').and_return('Importing into the UK') }
+
+    let(:date) { Date.new(2026, 7, 22) }
+
+    it 'includes the all-countries context and date' do
+      search = instance_double(Search, geographical_area: nil, date:)
+
+      expect(helper.import_measures_heading(search)).to eq('Importing into the UK from All countries on 22 July 2026')
+    end
+
+    it 'includes the selected country' do
+      search = instance_double(Search, geographical_area: instance_double(GeographicalArea, description: 'France'), date:)
+
+      expect(helper.import_measures_heading(search)).to eq('Importing into the UK from France on 22 July 2026')
+    end
+  end
+
+  describe '#import_measures_summary' do
+    it 'explains how to narrow all-country measures' do
+      search = instance_double(Search, filtered_by_country?: false)
+
+      expect(helper.import_measures_summary(search)).to include('Select a country')
+    end
+
+    it 'confirms when measures are country-filtered' do
+      search = instance_double(Search, filtered_by_country?: true)
+
+      expect(helper.import_measures_summary(search)).to eq('Showing import measures for the selected country.')
+    end
+  end
+
   describe '#filter_duty_expression' do
     subject(:filtered_expression) { helper.filter_duty_expression(measure) }
 

@@ -3,39 +3,21 @@
 </h3>
 
 <% if local_assigns[:information] %>
-  <%= tariff_information_inset do %>
-    <%= sanitize local_assigns[:information] %>
-  <% end %>
+  <div class="govuk-body"><%= sanitize local_assigns[:information] %></div>
 <% end %>
 
-<%= render 'measures/grouped/tariff_duty_calculator_link', declarable_code: declarable.code if local_assigns[:show_duty_calculator] %>
-
-<%= render 'measures/grouped/vat_excise', uk_declarable: uk_declarable, declarable_code: uk_declarable.code if local_assigns[:vat_excise] && local_assigns[:uk_declarable] %>
-
-<%= render 'measures/grouped/credibility_checks' if local_assigns[:credibility_checks] %>
-
-<table class="small-table measures govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header">Country</th>
-      <th class="govuk-table__header">Measure type</th>
-
-      <% unless local_assigns[:hide_duty_rate] %>
-        <th class="govuk-table__header">Duty rate</th>
-      <% end %>
-
-      <th class="govuk-table__header">Conditions</th>
-      <th class="govuk-table__header legal-base-col" title="Opens in a new window">Legal base</th>
-      <th class="govuk-table__header">Footnotes</th>
-    </tr>
-  </thead>
-
-  <tbody class="govuk-table__body">
-    <%= render partial: 'measures/measure',
-               collection: collection,
-               locals: {
-                 hide_duty_rate: local_assigns[:hide_duty_rate],
-                 roo_schemes: local_assigns[:roo_schemes],
-               } %>
-  </tbody>
-</table>
+<% if local_assigns[:import_duties] %>
+  <%= render 'measures/grouped/import_duties',
+             declarable: declarable,
+             standard_collection: standard_collection,
+             preferential_collection: preferential_collection,
+             show_duty_calculator: show_duty_calculator,
+             roo_schemes: roo_schemes %>
+<% else %>
+  <%= render 'measures/grouped/vat_excise', uk_declarable: uk_declarable, declarable_code: uk_declarable.code if local_assigns[:vat_excise] && local_assigns[:uk_declarable] %>
+  <%= render 'measures/grouped/credibility_checks' if local_assigns[:credibility_checks] %>
+  <%= render 'measures/grouped/measure_table',
+             collection: collection,
+             hide_duty_rate: local_assigns[:hide_duty_rate],
+             roo_schemes: local_assigns[:roo_schemes] %>
+<% end %>

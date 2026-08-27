@@ -133,6 +133,18 @@ RSpec.describe 'Commodity page', type: :request do
       expect(page).to have_content 'Asses'
     end
 
+    it 'renders the first-release commodity page hierarchy and trade controls', :aggregate_failures do
+      expect(page).to have_css 'details', text: 'View Section, Chapter, Heading and commodity hierarchy'
+      expect(page).to have_css 'details:not([open]) nav.commodity-ancestors', visible: :all
+      expect(page).to have_css 'form.trade-details'
+      expect(page).to have_field 'country'
+      expect(page).to have_field 'Day'
+      expect(page).to have_field 'Month'
+      expect(page).to have_field 'Year'
+      expect(page).to have_button 'Update page'
+      expect(page).not_to have_css 'dt', text: 'Commodity valid from'
+    end
+
     it 'renders the help popup with its styling class' do
       expect(page).to have_css '#help_popup.help-popup'
     end

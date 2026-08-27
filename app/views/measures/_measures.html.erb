@@ -3,15 +3,13 @@
 
 <%= govuk_tabs(classes: 'govuk-!-margin-top-0') do |component| %>
   <% component.with_tab(label: 'Import', id: 'import') do %>
-    <h2 class="govuk-heading-m"><%= measures_heading(anchor: 'import') %></h2>
+    <h2 class="govuk-heading-m"><%= import_measures_heading(@search) %></h2>
 
     <% declarable.critical_footnotes.each do |footnote| %>
       <%= render "footnotes/critical_warning", footnote: footnote %>
     <% end %>
 
-    <p>Select a country to view country-specific import information.</p>
-
-    <p>You can check if preferential tariff treatments apply to the import of this specific product in the Origin tab.</p>
+    <p><%= import_measures_summary(@search) %></p>
 
     <%= render 'declarables/consigned', declarable: declarable %>
 

@@ -1,0 +1,19 @@
+<p>Import duties might be payable on imports to the UK. The standard duty rate applies unless the country of origin is covered by a trade agreement.</p>
+
+<%= render 'measures/grouped/tariff_duty_calculator_link', declarable_code: declarable.code if show_duty_calculator %>
+
+<h4 class="govuk-heading-s govuk-!-margin-top-4">Standard duty rate</h4>
+<%= render 'measures/grouped/measure_table',
+           collection: standard_collection,
+           roo_schemes: roo_schemes %>
+
+<% if preferential_collection.present? %>
+  <h4 class="govuk-heading-s govuk-!-margin-top-6">Lower rates from trade agreements</h4>
+  <p>Some countries and trading groups might have lower duty rates through trade agreements. You will need to be able to prove the origin of the goods to claim this rate. Find out more about <%= govuk_link_to 'rules of origin', '#rules-of-origin' %>.</p>
+
+  <%= govuk_details(summary_text: "View #{pluralize(preferential_collection.size, 'preferential rate')}") do %>
+    <%= render 'measures/grouped/measure_table',
+               collection: preferential_collection,
+               roo_schemes: roo_schemes %>
+  <% end %>
+<% end %>

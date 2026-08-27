@@ -1,10 +1,38 @@
 @use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
 
 .country-picker {
-  margin-bottom: govuk.govuk-spacing(6);
+  margin-bottom: govuk.govuk-spacing(4);
 
   .search-submit {
     width: auto;
     margin-top: govuk.govuk-spacing(2);
+  }
+}
+
+.trade-details {
+  border-left: govuk.govuk-spacing(2) solid settings.$tariff-brand-colour;
+  background: settings.$feature-panel-shaded-background-colour;
+  padding: govuk.govuk-spacing(4);
+
+  &__fields {
+    display: grid;
+    gap: govuk.govuk-spacing(4);
+    align-items: start;
+
+    @include govuk.govuk-media-query($from: tablet) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: govuk.govuk-spacing(6);
+    }
+  }
+
+  &__field {
+    min-width: 0;
+  }
+
+  &__country-select,
+  [data-country-select-box-target="countrySelect"] .autocomplete__input {
+    background-color: govuk.govuk-colour("white");
+    width: 100%;
   }
 }

@@ -14,21 +14,11 @@
     <%= render 'footnotes/critical_warning', footnote: footnote %>
   <% end %>
 
-  <%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
+  <%= govuk_details(summary_text: 'View Section, Chapter, Heading and commodity hierarchy', classes: 'govuk-!-margin-bottom-5') do %>
+    <%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
+  <% end %>
 
   <%= render 'shared/context_tables/commodity' %>
-
-  <%= govuk_tag(text: "You are currently using the #{service_name}", colour: 'green', classes: 'govuk-tag--wide') %>
-
-  <p class="govuk-body govuk-!-margin-top-6">
-    Use this page to find:
-  </p>
-
-  <%= govuk_list [
-    'import and export measures, conditions and exemptions',
-    'reduced or zero duty rates based on preferential rules of origin',
-    'chapter notes and references',
-  ], type: :bullet, classes: 'govuk-!-margin-bottom-6' %>
 
   <%= render 'declarables/declarable',
             declarable: declarable,

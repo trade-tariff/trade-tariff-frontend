@@ -9,6 +9,10 @@ RSpec.describe 'measures/grouped/_table', type: :view do
            collection: [],
            css_id: 'import_duties',
            declarable: declarable,
+           import_duties: true,
+           standard_collection: [],
+           preferential_collection: [],
+           roo_schemes: [],
            show_duty_calculator: show_duty_calculator
   end
 
@@ -17,7 +21,15 @@ RSpec.describe 'measures/grouped/_table', type: :view do
 
   it 'renders the duty calculator link when show_duty_calculator is true' do
     expect(rendered_page).to have_css '#duty-calculator-link[href="/duty-calculator/1704000000/import-date"]',
-                                      text: 'work out the duties and taxes applicable to the import of commodity 1704 0000 00'
+                                      text: 'Start a duty calculation'
+  end
+
+  it 'renders the decorative calculator icon at the required size' do
+    expect(rendered_page).to have_css 'img.measure-inset--calculator__icon[src*="calculator-icon"][alt=""][width="41"][height="50"]'
+  end
+
+  it 'renders the decorative arrow icon inside the calculator link at the required size' do
+    expect(rendered_page).to have_css '#duty-calculator-link img.measure-inset--calculator__arrow[src*="arrow-icon"][alt=""][width="30"][height="30"]'
   end
 
   context 'when show_duty_calculator is false' do
