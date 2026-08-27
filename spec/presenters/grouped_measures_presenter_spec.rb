@@ -18,6 +18,8 @@ RSpec.describe GroupedMeasuresPresenter do
       MeasureCollection,
       import_controls: [measure_b, measure_a],
       customs_duties: [measure_b, measure_a],
+      standard_customs_duties: [measure_b],
+      tariff_preferences: [measure_a],
       quotas: [measure_b, measure_a],
       trade_remedies: [measure_b, measure_a],
       suspensions: [measure_b, measure_a],
@@ -30,6 +32,8 @@ RSpec.describe GroupedMeasuresPresenter do
     instance_double(
       MeasureCollection,
       customs_duties: [measure_b, measure_a],
+      standard_customs_duties: [measure_b],
+      tariff_preferences: [measure_a],
       trade_remedies: [measure_b, measure_a],
       suspensions: [measure_b, measure_a],
       credibility_checks: [measure_b, measure_a],
@@ -52,7 +56,16 @@ RSpec.describe GroupedMeasuresPresenter do
   describe '#uk_sections' do
     it 'returns UK sections in display order' do
       expect(presenter.uk_sections.map { |section| section[:css_id] }).to eq(
-        %w[uk_import_controls import_duties quotas trade_remedies suspensions credibility_checks vat_excise],
+        %w[import_duties vat_excise uk_import_controls quotas trade_remedies suspensions credibility_checks],
+      )
+    end
+
+    it 'separates standard and preferential duty rates' do
+      import_duties = presenter.uk_sections.find { |section| section[:css_id] == 'import_duties' }
+
+      expect(import_duties).to include(
+        standard_collection: [measure_b],
+        preferential_collection: [measure_a],
       )
     end
 
@@ -74,8 +87,9 @@ RSpec.describe GroupedMeasuresPresenter do
       )
     end
 
-    it 'sorts collections by key' do
-      expect(sections.first[:collection].map(&:key)).to eq(%w[a b])
+    it 'sorts collections by key', :aggregate_failures do
+      expect(sections.first[:standard_collection].map(&:key)).to eq(%w[b])
+      expect(sections.first[:preferential_collection].map(&:key)).to eq(%w[a])
     end
 
     it 'shows the duty calculator in the XI import duties section when the declarable supports it' do

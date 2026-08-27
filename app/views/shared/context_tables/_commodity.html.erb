@@ -1,27 +1,12 @@
 <%= govuk_summary_list(classes: 'govuk-!-margin-bottom-6') do |summary_list| %>
   <% summary_list.with_row do |row| %>
-    <% row.with_key { 'Commodity' } %>
-    <% row.with_value { segmented_commodity_code(declarable.code) } %>
-  <% end %>
-  <% summary_list.with_row do |row| %>
     <% row.with_key { 'Classification' } %>
     <% row.with_value do %>
       <%= render '/shared/classification', goods_nomenclature: declarable %>
     <% end %>
   <% end %>
-  <% if declarable.validity_start_date.present? && declarable.validity_end_date.present? %>
-    <% summary_list.with_row do |row| %>
-      <% row.with_key { 'Commodity valid between' } %>
-      <% row.with_value { "#{declarable.validity_start_date.to_formatted_s(:long)} and #{declarable.validity_end_date.to_formatted_s(:long)}" } %>
-    <% end %>
-  <% elsif declarable.validity_start_date.present? %>
-    <% summary_list.with_row do |row| %>
-      <% row.with_key { 'Commodity valid from' } %>
-      <% row.with_value { declarable.validity_start_date.to_formatted_s(:long) } %>
-    <% end %>
-  <% end %>
   <% if declarable.supplementary_unit_description.present? %>
-    <% summary_list.with_row do |row| %>
+    <% summary_list.with_row(classes: 'govuk-summary-list__row--no-border') do |row| %>
       <% row.with_key { declarable.supplementary_unit_description } %>
       <% row.with_value do %>
         <p>
@@ -34,10 +19,5 @@
         <% end %>
       <% end %>
     <% end %>
-  <% end %>
-  <% summary_list.with_row do |row| %>
-    <% row.with_key { 'Date of trade' } %>
-    <% row.with_value { @search.date.to_formatted_s(:long) } %>
-    <% row.with_action(href: import_export_dates_path(goods_nomenclature_code: current_goods_nomenclature_code)) %>
   <% end %>
 <% end %>

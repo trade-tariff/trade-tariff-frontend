@@ -111,7 +111,7 @@ RSpec.describe ServiceHelper, type: :helper do
 
       it { is_expected.to have_css 'span.switch-service-control img.switch-service-control__arrow' }
       it { is_expected.to have_css 'span.switch-service-control a.govuk-link' }
-      it { is_expected.to have_link 'Change to Northern Ireland', href: '/xi/some_path' }
+      it { is_expected.to have_link 'Change to Northern Ireland tariff', href: '/xi/some_path' }
     end
 
     context 'with XI' do
@@ -119,7 +119,7 @@ RSpec.describe ServiceHelper, type: :helper do
 
       it { is_expected.to have_css 'span.switch-service-control img.switch-service-control__arrow' }
       it { is_expected.to have_css 'span.switch-service-control a.govuk-link' }
-      it { is_expected.to have_link 'Change to England, Scotland or Wales (GB)', href: '/some_path' }
+      it { is_expected.to have_link 'Change to England, Scotland and Wales (GB) tariff', href: '/some_path' }
     end
 
     context 'with search tracking and filters' do
@@ -151,7 +151,7 @@ RSpec.describe ServiceHelper, type: :helper do
 
       include_context 'with UK service'
 
-      it { is_expected.to have_link 'Change to Northern Ireland', href: '/xi/some_path/uk-part' }
+      it { is_expected.to have_link 'Change to Northern Ireland tariff', href: '/xi/some_path/uk-part' }
     end
   end
 
