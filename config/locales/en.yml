@@ -316,8 +316,8 @@ en:
       uk: "Tariff for England, Scotland or Wales (GB)"
       xi: "Tariff for Northern Ireland (NI)"
     switch:
-      uk: "Change to Northern Ireland"
-      xi: "Change to England, Scotland or Wales (GB)"
+      uk: "Change to Northern Ireland tariff"
+      xi: "Change to England, Scotland and Wales (GB) tariff"
     bottom:
       uk: You are viewing the UK Integrated Online Tariff.
       xi: You are viewing the Northern Ireland Online Tariff.

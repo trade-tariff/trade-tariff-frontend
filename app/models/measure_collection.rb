@@ -37,6 +37,14 @@ class MeasureCollection < SimpleDelegator
     @customs_duties ||= new(third_country_duties + tariff_preferences + other_customs_duties + unclassified_customs_duties)
   end
 
+  def standard_customs_duties
+    @standard_customs_duties ||= new(third_country_duties + other_customs_duties + unclassified_customs_duties)
+  end
+
+  def tariff_preferences
+    @tariff_preferences ||= new(select(&:tariff_preferences?))
+  end
+
   def trade_remedies
     @trade_remedies ||= new(select(&:trade_remedies?))
   end
@@ -110,10 +118,6 @@ class MeasureCollection < SimpleDelegator
   end
 
   private
-
-  def tariff_preferences
-    select(&:tariff_preferences?)
-  end
 
   def other_customs_duties
     select(&:other_customs_duties?)
