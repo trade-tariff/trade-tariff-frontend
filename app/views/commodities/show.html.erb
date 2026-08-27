@@ -8,34 +8,36 @@
 <% content_for :bodyClasses, "page--wide" %>
 
 <% resilient_cache_if(cacheable, commodity_cache_key) do %>
-  <%= render 'commodities/header', commodity_code: declarable.code %>
+  <div data-controller="commodity-page-analytics"
+       data-commodity-page-analytics-commodity-code-value="<%= declarable.code %>">
+    <%= render 'commodities/header', commodity_code: declarable.code %>
 
-  <% declarable.critical_footnotes.each do |footnote| %>
-    <%= render 'footnotes/critical_warning', footnote: footnote %>
-  <% end %>
+    <% declarable.critical_footnotes.each do |footnote| %>
+      <%= render 'footnotes/critical_warning', footnote: footnote %>
+    <% end %>
 
-  <%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
+    <%= govuk_details(
+          summary_text: 'View Section, Chapter, Heading...',
+          classes: 'commodity-hierarchy-details govuk-!-margin-bottom-5',
+          html_attributes: {
+            data: {
+              commodity_page_analytics_target: 'hierarchy',
+              action: 'toggle->commodity-page-analytics#trackHierarchyToggle click->commodity-page-analytics#trackHierarchyLink',
+            },
+          },
+        ) do %>
+      <%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
+    <% end %>
 
-  <%= render 'shared/context_tables/commodity' %>
+    <%= render 'shared/context_tables/commodity' %>
 
-  <%= govuk_tag(text: "You are currently using the #{service_name}", colour: 'green', classes: 'govuk-tag--wide') %>
+    <%= render 'declarables/declarable',
+              declarable: declarable,
+              xi_declarable: xi_declarable,
+              uk_declarable: uk_declarable,
+              rules_of_origin_schemes: @rules_of_origin_schemes,
+              roo_all_schemes: @roo_all_schemes %>
 
-  <p class="govuk-body govuk-!-margin-top-6">
-    Use this page to find:
-  </p>
-
-  <%= govuk_list [
-    'import and export measures, conditions and exemptions',
-    'reduced or zero duty rates based on preferential rules of origin',
-    'chapter notes and references',
-  ], type: :bullet, classes: 'govuk-!-margin-bottom-6' %>
-
-  <%= render 'declarables/declarable',
-            declarable: declarable,
-            xi_declarable: xi_declarable,
-            uk_declarable: uk_declarable,
-            rules_of_origin_schemes: @rules_of_origin_schemes,
-            roo_all_schemes: @roo_all_schemes %>
-
-  <%= render 'commodities/help_popup' %>
+    <%= render 'commodities/help_popup' %>
+  </div>
 <% end %>

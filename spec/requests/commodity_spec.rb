@@ -133,6 +133,28 @@ RSpec.describe 'Commodity page', type: :request do
       expect(page).to have_content 'Asses'
     end
 
+    it 'renders the first-release commodity page hierarchy and trade controls', :aggregate_failures do
+      expect(page).to have_css 'details', text: 'View Section, Chapter, Heading...'
+      expect(page).to have_css 'details.commodity-hierarchy-details'
+      expect(page).to have_css 'details:not([open]) nav.commodity-ancestors', visible: :all
+      expect(page).to have_css 'form.trade-details'
+      expect(page).to have_field 'country'
+      expect(page).to have_field 'Day'
+      expect(page).to have_field 'Month'
+      expect(page).to have_field 'Year'
+      expect(page).to have_button 'Update page'
+      expect(page).not_to have_css 'dt', text: 'Commodity valid from'
+    end
+
+    it 'renders commodity-page analytics hooks', :aggregate_failures do
+      expect(page).to have_css '[data-controller="commodity-page-analytics"][data-commodity-page-analytics-commodity-code-value="0101300000"]'
+      expect(page).to have_css 'details[data-commodity-page-analytics-target="hierarchy"]'
+      expect(page).to have_css 'form.trade-details[data-commodity-page-analytics-target="tradeDetails"]'
+      expect(page).to have_css '[data-commodity-page-analytics-target="tariffSection"][data-analytics-exposure-event="commodity_tariff_section_shown"]'
+      expect(page).to have_css '#duty-calculator[data-commodity-page-analytics-target="calculator"]'
+      expect(page).to have_css '#duty-calculator-link[data-action*="trackCalculatorClick"]'
+    end
+
     it 'renders the help popup with its styling class' do
       expect(page).to have_css '#help_popup.help-popup'
     end

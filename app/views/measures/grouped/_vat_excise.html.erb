@@ -1,11 +1,7 @@
 <%- uk_import_measures = uk_declarable&.import_measures %>
 
-<%= measure_inset(classes: 'vat-excise-panel') do %>
-  <ul>
-    <% vat_messages(uk_import_measures).each do |message| %>
-      <li><%= message %></li>
-    <% end %>
+<p>Import VAT is separate from customs duty and may still be due when the customs duty rate is 0%. If more than one VAT rate is shown, the rate that applies depends on the goods and any relevant conditions.</p>
 
-    <li><%= excise_message(uk_import_measures, segmented_commodity_code(declarable_code)) %></li>
-  </ul>
+<% if uk_import_measures.excise.any? %>
+  <p><%= excise_message(uk_import_measures, segmented_commodity_code(declarable_code)) %></p>
 <% end %>

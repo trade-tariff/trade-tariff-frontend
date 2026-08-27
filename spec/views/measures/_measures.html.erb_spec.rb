@@ -57,10 +57,15 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
   it { is_expected.to render_template('measures/_measures') }
   it { is_expected.to render_template('measures/grouped/_navigation') }
   it { is_expected.to render_template('measures/grouped/_table') }
+  it { is_expected.to render_template('measures/grouped/_import_duties') }
   it { is_expected.to render_template('measures/grouped/_tariff_duty_calculator_link') }
   it { is_expected.to render_template('measures/grouped/_vat_excise') }
   it { is_expected.to render_template('measures/grouped/_uk') }
   it { is_expected.to render_template('shared/_notes') }
+  it { is_expected.to have_css '#import h2', text: /Importing into the UK from All countries on/ }
+  it { is_expected.to have_css '#export h2', text: /Exporting from the UK to All countries on/ }
+  it { is_expected.to have_link 'Start a duty calculation' }
+  it { is_expected.to have_css '[data-commodity-page-analytics-target="preferentialRates"] summary strong', text: /^\d+$/ }
 
   it_behaves_like 'lazy origin tab'
 
@@ -80,6 +85,9 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
 
     context 'with country selected' do
       let(:search) { build(:search, q: '0101300000', country: 'FR') }
+
+      it { is_expected.to have_css '#import h2', text: /Importing into the UK from France on/ }
+      it { is_expected.to have_css '#export h2', text: /Exporting from the UK to France on/ }
 
       it_behaves_like 'measures with rules of origin tab'
       it_behaves_like 'lazy origin tab'

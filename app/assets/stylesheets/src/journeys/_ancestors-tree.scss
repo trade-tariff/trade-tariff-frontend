@@ -1,6 +1,10 @@
 @use "src/settings/govuk" as govuk;
 @use "src/settings" as settings;
 
+.commodity-hierarchy-details[open] > .govuk-details__text {
+  padding-bottom: 0;
+}
+
 .commodity-ancestors {
   margin-bottom: 1em;
   padding: 1em 0 0.5em 1em;

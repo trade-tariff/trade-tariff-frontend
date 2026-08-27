@@ -53,4 +53,22 @@ describe('AnalyticsController', () => {
     }).not.toThrow()
     expect(window.dataLayer).toBeUndefined()
   })
+
+  it('tracks a configured exposure event with context', async () => {
+    window.dataLayer = []
+    const element = document.createElement('div')
+    element.dataset.controller = 'analytics'
+    element.dataset.analyticsExposureEventValue = 'duty_calculator_started'
+    element.dataset.analyticsContextValue = JSON.stringify({commodity_code: '0101300000'})
+
+    document.body.appendChild(element)
+    await new Promise((resolve) => setTimeout(resolve, 0))
+
+    expect(window.dataLayer).toEqual([
+      {
+        event: 'duty_calculator_started',
+        commodity_code: '0101300000',
+      },
+    ])
+  })
 })
