@@ -1,4 +1,4 @@
-<% cacheable = params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
+<% cacheable = @trade_date_error.nil? && params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
 
 <%# These are always needed regardless of cache state — set them before the cache block. %>
 <% content_for :title, strip_tags(commodity_title(declarable)) %>
@@ -7,35 +7,52 @@
 <% end %>
 <% content_for :bodyClasses, "page--wide" %>
 
-<% resilient_cache_if(cacheable, commodity_cache_key) do %>
-  <%= render 'commodities/header', commodity_code: declarable.code %>
-
-  <% declarable.critical_footnotes.each do |footnote| %>
-    <%= render 'footnotes/critical_warning', footnote: footnote %>
+<% if @trade_date_error %>
+  <% content_for :before_main_content do %>
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li><a href="#day"><%= @trade_date_error %></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
   <% end %>
+<% end %>
 
-  <%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
+<% resilient_cache_if(cacheable, commodity_cache_key) do %>
+  <div data-controller="commodity-page-analytics"
+       data-commodity-page-analytics-commodity-code-value="<%= declarable.code %>">
+    <%= render 'commodities/header', commodity_code: declarable.code %>
 
-  <%= render 'shared/context_tables/commodity' %>
+    <% declarable.critical_footnotes.each do |footnote| %>
+      <%= render 'footnotes/critical_warning', footnote: footnote %>
+    <% end %>
 
-  <%= govuk_tag(text: "You are currently using the #{service_name}", colour: 'green', classes: 'govuk-tag--wide') %>
+    <%= govuk_details(
+          summary_text: 'View Section, Chapter, Heading...',
+          classes: 'commodity-hierarchy-details govuk-!-margin-bottom-5',
+          html_attributes: {
+            data: {
+              commodity_page_analytics_target: 'hierarchy',
+              action: 'toggle->commodity-page-analytics#trackHierarchyToggle click->commodity-page-analytics#trackHierarchyLink',
+            },
+          },
+        ) do %>
+      <%= render 'goods_nomenclatures/ancestors', goods_nomenclature: declarable %>
+    <% end %>
 
-  <p class="govuk-body govuk-!-margin-top-6">
-    Use this page to find:
-  </p>
+    <%= render 'shared/context_tables/commodity' %>
 
-  <%= govuk_list [
-    'import and export measures, conditions and exemptions',
-    'reduced or zero duty rates based on preferential rules of origin',
-    'chapter notes and references',
-  ], type: :bullet, classes: 'govuk-!-margin-bottom-6' %>
+    <%= render 'declarables/declarable',
+              declarable: declarable,
+              xi_declarable: xi_declarable,
+              uk_declarable: uk_declarable,
+              rules_of_origin_schemes: @rules_of_origin_schemes,
+              roo_all_schemes: @roo_all_schemes %>
 
-  <%= render 'declarables/declarable',
-            declarable: declarable,
-            xi_declarable: xi_declarable,
-            uk_declarable: uk_declarable,
-            rules_of_origin_schemes: @rules_of_origin_schemes,
-            roo_all_schemes: @roo_all_schemes %>
-
-  <%= render 'commodities/help_popup' %>
+    <%= render 'commodities/help_popup' %>
+  </div>
 <% end %>
