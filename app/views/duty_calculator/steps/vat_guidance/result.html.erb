@@ -1,0 +1,39 @@
+<% content_for :title, 'Guided VAT result' %>
+<% content_for :back_link do %>
+  <%= back_link vat_path %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl"><%= @journey.title %> — calculate import duties</span>
+    <h1 class="govuk-heading-xl">Guided VAT result</h1>
+
+    <%= govuk_warning_text(text: 'This result uses synthetic review decisions. It is not an HMRC determination. Review and confirm the VAT rate before continuing.') %>
+
+    <%= govuk_inset_text do %>
+      <p class="govuk-heading-l govuk-!-margin-bottom-1"><%= @state.route.fetch('treatment').humanize %></p>
+      <% if @journey.evidence_only %>
+        <p class="govuk-body govuk-!-margin-bottom-0">Evidence-only outcome — no VAT option has been selected.</p>
+      <% else %>
+        <p class="govuk-body govuk-!-margin-bottom-0">Suggested VAT option: <strong><%= DutyCalculator::Steps::VatGuidanceController::TREATMENT_TO_VAT.fetch(@state.route.fetch('treatment')) %></strong></p>
+      <% end %>
+    <% end %>
+
+    <h2 class="govuk-heading-l">Answers used</h2>
+    <%= govuk_summary_list(actions: false, rows: @state.trail.map { |item|
+      { key: { text: item.question.text }, value: { text: item.answer.label } }
+    }) %>
+
+    <h2 class="govuk-heading-l">Evidence used</h2>
+    <% evidence_items = @state.trail.filter_map(&:evidence) + [@state.route['terminal_evidence']].compact %>
+    <% evidence_items.uniq.each do |evidence| %>
+      <blockquote class="govuk-inset-text">
+        <p class="govuk-body"><%= evidence.fetch('quote') %></p>
+        <% source_path = evidence.fetch('node_id').delete_prefix('document:') %>
+        <p class="govuk-body-s"><%= link_to 'Read the source guidance', "https://www.gov.uk#{source_path}", class: 'govuk-link' %></p>
+      </blockquote>
+    <% end %>
+
+    <%= link_to 'Return to VAT rate selection', vat_path, class: 'govuk-button' %>
+  </div>
+</div>
