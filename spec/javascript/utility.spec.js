@@ -5,24 +5,15 @@ import Utility from '../../app/javascript/src/utility';
 describe('Utility.countrySelectorOnConfirm', () => {
   let selectElement;
   let form;
-  let navigateSpy;
 
   beforeEach(() => {
-    // Spy on Utility.navigate so we can assert where it navigated without
-    // triggering jsdom's "Not implemented: navigation" error
-    navigateSpy = jest.spyOn(Utility, 'navigate').mockImplementation(() => {});
-
-    // Use history.pushState to control window.location.hash and .pathname —
-    // jsdom supports this without triggering navigation
-    window.history.pushState({}, '', '/#origin');
-
     document.body.innerHTML = `
-      <div class="commodity-header" data-comm-code="1234"></div>
       <form>
         <div class="govuk-fieldset">
           <select>
-            <option value="AF">(AF)</option>
-            <option value="ZW">(ZW)</option>
+            <option value=" ">All countries</option>
+            <option value="AF">Afghanistan (AF)</option>
+            <option value="ZW">Zimbabwe (ZW)</option>
           </select>
         </div>
       </form>
@@ -34,30 +25,36 @@ describe('Utility.countrySelectorOnConfirm', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
-    window.history.pushState({}, '', '/');
   });
 
-  it('navigates to the URL for "All countries"', () => {
+  it('selects "All countries" without updating the page', () => {
+    selectElement.value = 'AF';
+    form.submit = jest.fn();
+
     Utility.countrySelectorOnConfirm('All countries', selectElement);
 
-    expect(navigateSpy).toHaveBeenCalledWith('/commodities/1234#origin');
+    expect(selectElement.value).toBe(' ');
+    expect(form.submit).not.toHaveBeenCalled();
   });
 
-  it('sets the select element value and submits the form for a specific country', () => {
+  it('selects a specific country without updating the page', () => {
     form.submit = jest.fn();
+    const changeHandler = jest.fn();
+    selectElement.addEventListener('change', changeHandler);
 
     Utility.countrySelectorOnConfirm('Afghanistan (AF)', selectElement);
 
     expect(selectElement.value).toBe('AF');
-    expect(form.submit).toHaveBeenCalled();
+    expect(changeHandler).toHaveBeenCalledTimes(1);
+    expect(form.submit).not.toHaveBeenCalled();
   });
 
-  it('navigates to the URL with service "xi" for "All countries"', () => {
-    window.history.pushState({}, '', '/xi/commodities/1234#origin');
+  it('does not change the selection for an unrecognised country', () => {
+    selectElement.value = 'ZW';
 
-    Utility.countrySelectorOnConfirm('All countries', selectElement);
+    Utility.countrySelectorOnConfirm('Unknown country', selectElement);
 
-    expect(navigateSpy).toHaveBeenCalledWith('/xi/commodities/1234#origin');
+    expect(selectElement.value).toBe('ZW');
   });
 });
 

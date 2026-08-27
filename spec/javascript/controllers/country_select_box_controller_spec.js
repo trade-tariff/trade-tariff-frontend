@@ -13,8 +13,7 @@ describe('CountrySelectBoxController', () => {
     document.body.innerHTML = `
      <div data-controller="country-select-box">
       <div data-country-select-box-target="countrySelect">
-        <select data-action="focus->country-select-box#clearSelect"
-          name="trading_partner[country]" id="trading_partner_country-select" style="display: none;">
+        <select name="trading_partner[country]" id="trading_partner_country-select" style="display: none;">
           <option value=" ">All countries</option>
           <option selected="selected" value="AF">Afghanistan (AF)</option>
           <option value="TR">Turkey (TR)</option>
@@ -29,15 +28,51 @@ describe('CountrySelectBoxController', () => {
     jest.clearAllMocks();
   });
 
-  it('clears the select value on focus', () => {
+  it('clears a selected country before processing another click', () => {
     const element = document.querySelector('[data-controller="country-select-box"]');
     const inputElement = element.querySelector('.autocomplete__input');
 
-    inputElement.value = 'All countries';
-    const event = new Event('focus');
-    inputElement.dispatchEvent(event);
+    inputElement.click();
 
     expect(inputElement.value).toEqual('');
+  });
+
+  it('immediately reopens all options when clicking after a selection', async () => {
+    const element = document.querySelector('[data-controller="country-select-box"]');
+    const inputElement = element.querySelector('.autocomplete__input');
+
+    inputElement.click();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(inputElement.value).toEqual('');
+    expect(element.querySelectorAll('.autocomplete__option')).toHaveLength(4);
+  });
+
+  it('does not clear an unfinished search when clicking the input again', () => {
+    const element = document.querySelector('[data-controller="country-select-box"]');
+    const inputElement = element.querySelector('.autocomplete__input');
+
+    inputElement.value = 'Tur';
+    inputElement.dispatchEvent(new Event('input', {bubbles: true}));
+    inputElement.click();
+
+    expect(inputElement.value).toEqual('Tur');
+  });
+
+  it('selects a country after typing a search query', async () => {
+    const element = document.querySelector('[data-controller="country-select-box"]');
+    const inputElement = element.querySelector('.autocomplete__input');
+    const selectElement = element.querySelector('select');
+
+    inputElement.click();
+    inputElement.value = 'Tur';
+    inputElement.dispatchEvent(new Event('input', {bubbles: true}));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    element.querySelector('.autocomplete__option').click();
+    expect(selectElement.value).toEqual('TR');
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(inputElement.value).toEqual('Turkey (TR)');
   });
 
   it('matches accented characters', () => {

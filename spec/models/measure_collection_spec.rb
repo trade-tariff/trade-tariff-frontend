@@ -181,6 +181,8 @@ RSpec.describe MeasureCollection do
     let(:vat_excise_measure) { build(:measure, :vat_excise) }
 
     it { expect(collection.customs_duties.measures).to eq([third_country_measure, tariff_preference_measure, other_customs_duties_measure, unclassified_customs_measure]) }
+    it { expect(collection.standard_customs_duties.measures).to eq([third_country_measure, other_customs_duties_measure, unclassified_customs_measure]) }
+    it { expect(collection.tariff_preferences.measures).to eq([tariff_preference_measure]) }
   end
 
   describe '#find_by_quota_order_number' do

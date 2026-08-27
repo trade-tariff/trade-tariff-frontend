@@ -1,4 +1,17 @@
 module MeasuresHelper
+  def import_measures_heading(search)
+    country = search.geographical_area&.description || I18n.t('geographical_areas.descriptions.erga_omnes')
+    "#{measures_heading(anchor: 'import')} from #{country} on #{search.date.to_formatted_s(:long)}"
+  end
+
+  def import_measures_summary(search)
+    if search.filtered_by_country?
+      'Showing import measures for the selected country.'
+    else
+      'Showing import measures for all countries. Select a country to see which measures may apply to a specific import.'
+    end
+  end
+
   def filter_duty_expression(measure)
     # NIHIL is an abbreviation (see backend DutyExpressionDescription model),
     # our best guess is that it is used to indicate that a previously applied measure
