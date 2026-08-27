@@ -6,24 +6,26 @@ import Utility from 'utility';
 export default class extends Controller {
   static targets = ['countrySelect'];
 
-  clearSelect(event) {
-    event.currentTarget.value = '';
+  reopenSelect(event) {
+    const selectedOption = this.selectElement.options[this.selectElement.selectedIndex];
+
+    if (selectedOption && event.currentTarget.value === selectedOption.text) {
+      event.currentTarget.value = '';
+    }
   }
 
   connect() {
     this.selectElement = this.countrySelectTarget.querySelector('select');
+    this.reopenSelectHandler = this.reopenSelect.bind(this);
 
     this.#initializeAutocomplete(this.selectElement);
-
-    // Attach event listener after initialization as accessibleAutocomplete.enhanceSelectElement
-    // hides focus event from stimulus.
-    this.#attachFocusListener();
+    this.#attachReopenListener();
   }
 
   disconnect() {
     const autocompleteInput = this.countrySelectTarget.querySelector('input.autocomplete__input');
     if (autocompleteInput) {
-      autocompleteInput.removeEventListener('focus', this.clearSelect.bind(this));
+      autocompleteInput.removeEventListener('click', this.reopenSelectHandler, true);
     }
   }
 
@@ -65,12 +67,13 @@ export default class extends Controller {
     return selectedOption ? selectedOption.textContent : '';
   }
 
-  #attachFocusListener() {
-    // ensures focus event is attached to the accessible autocomplete.
+  #attachReopenListener() {
     const autocompleteInput = this.countrySelectTarget.querySelector('input.autocomplete__input');
 
     if (autocompleteInput) {
-      autocompleteInput.addEventListener('focus', this.clearSelect.bind(this));
+      // Run before accessible-autocomplete's click handler so it sees an empty
+      // query and opens the full list immediately.
+      autocompleteInput.addEventListener('click', this.reopenSelectHandler, true);
     } else {
       console.error('Autocomplete input element not found.');
     }
