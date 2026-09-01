@@ -55,15 +55,6 @@
       <%= govuk_button_link_to 'Start search again', find_commodity_path, secondary: true %>
       <%= govuk_link_to 'Cancel', find_commodity_path %>
     </div>
-
-    <%= govuk_details(summary_text: 'How we calculate confidence', classes: 'govuk-!-margin-top-6') do %>
-      <p>Our system analyses your search term and answers to find the most relevant commodity codes.</p>
-      <%= govuk_list [
-        safe_join([tag.strong('Strong result'), ' - High confidence this is the correct classification']),
-        safe_join([tag.strong('Good result'), ' - Likely correct but you may want to verify']),
-        safe_join([tag.strong('Possible result'), ' - Worth considering but less certain'])
-      ], type: :bullet %>
-    <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">

@@ -147,7 +147,8 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'confidence meter' do
-    it { is_expected.to have_css('.confidence-indicator') }
+    it { is_expected.not_to have_css('.interactive-result__confidence') }
+    it { is_expected.not_to have_css('.confidence-indicator') }
   end
 
   describe 'other results divider' do
@@ -186,20 +187,17 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'confidence explainer' do
-    it { is_expected.to have_text('Strong result') }
-    it { is_expected.to have_text('Good result') }
-    it { is_expected.to have_text('Possible result') }
-    it { is_expected.not_to have_text('Low confidence, included for completeness') }
+    it { is_expected.not_to have_css('.govuk-details__summary-text', text: 'How we calculate confidence') }
   end
 
   describe 'actions' do
     it { is_expected.to have_link('Start search again', href: find_commodity_path) }
     it { is_expected.to have_link('Cancel', href: find_commodity_path) }
 
-    it 'renders the actions before the confidence explainer' do
+    it 'renders the actions before other search options' do
       render partial: 'search/interactive_results_content'
 
-      expect(rendered.index('Start search again')).to be < rendered.index('How we calculate confidence')
+      expect(rendered.index('Start search again')).to be < rendered.index('Other ways to search for a commodity')
     end
   end
 
@@ -208,12 +206,6 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
     it { is_expected.to have_link('Keyword or commodity code', href: find_commodity_path) }
     it { is_expected.to have_link('Goods classifications', href: browse_sections_path) }
     it { is_expected.to have_link('A-Z product index', href: a_z_index_path(letter: 'a')) }
-
-    it 'renders after the confidence explainer' do
-      render partial: 'search/interactive_results_content'
-
-      expect(rendered.index('How we calculate confidence')).to be < rendered.index('Other ways to search for a commodity')
-    end
   end
 
   describe 'sidebar' do
