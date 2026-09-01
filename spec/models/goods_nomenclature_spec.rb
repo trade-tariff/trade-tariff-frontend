@@ -216,28 +216,12 @@ RSpec.describe GoodsNomenclature do
         expect(formatted_self_text).not_to include('<script>')
       end
 
-      it 'linkifies dotted goods codes to a new tab search link' do
-        expect(formatted_self_text).to include('href="/search?q=870310"')
-      end
-
-      it 'opens linkified goods codes in a new tab' do
-        expect(formatted_self_text).to include('target="_blank"')
-      end
-
-      it 'adds a safe rel attribute to generated goods code links' do
-        expect(formatted_self_text).to include('rel="noopener noreferrer"')
+      it 'does not link dotted goods codes' do
+        expect(formatted_self_text).not_to include('<a')
       end
 
       it 'preserves the displayed dotted goods code text' do
-        expect(formatted_self_text).to include('>8703.10</a>')
-      end
-
-      it 'does not link unrelated numeric values' do
-        expect(formatted_self_text).not_to include('href="/search?q=1000"')
-      end
-
-      it 'keeps dotted goods codes linked to the full code' do
-        expect(formatted_self_text).not_to include('href="/search?q=8703"')
+        expect(formatted_self_text).to include('subheading 8703.10')
       end
     end
   end
@@ -257,12 +241,12 @@ RSpec.describe GoodsNomenclature do
       expect(formatted_classification_description).to include('cm<sub>3</sub><br>')
     end
 
-    it 'linkifies recognised code references' do
-      expect(formatted_classification_description).to include('href="/search?q=87"')
+    it 'does not link recognised code references' do
+      expect(formatted_classification_description).not_to include('<a')
     end
 
     it 'preserves the displayed chapter reference text' do
-      expect(formatted_classification_description).to include('>chapter 87</a>')
+      expect(formatted_classification_description).to include('chapter 87')
     end
   end
 end

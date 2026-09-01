@@ -123,21 +123,21 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
       expect(rendered).not_to include('&lt;sub&gt;')
     end
 
-    it 'linkifies recognised goods codes in self text' do
+    it 'does not link goods code references in result descriptions' do
       render partial: 'search/interactive_results_content'
 
-      expect(rendered).to have_link('8703.10', href: '/search?q=870310')
-    end
-
-    it 'opens linkified goods code references in a new tab' do
-      render partial: 'search/interactive_results_content'
-
-      expect(rendered).to have_css('p.govuk-body-s a[target="_blank"][rel="noopener noreferrer"]', text: '8703.10')
+      expect(rendered).not_to have_css('.interactive-result h3 a, .interactive-result p.govuk-body-s a')
     end
   end
 
   describe 'commodity links' do
     it { is_expected.to have_link('View this commodity code (opens in new tab)', href: /2007919930/) }
+
+    it 'is the only link on the result card' do
+      render partial: 'search/interactive_results_content'
+
+      expect(rendered).to have_css('.interactive-result a', count: 1)
+    end
 
     it 'opens commodity links in a new tab' do
       render partial: 'search/interactive_results_content'
