@@ -32,6 +32,7 @@ module InteractiveSearchable
     if @results.exact_match?
       render_interactive_results
     elsif @results.has_pending_question?
+      @form = InteractiveSearchForm.new
       render_interactive_question
     elsif @results.blocking_guidance?
       return redirect_to_interactive_blocking if redirectable_interactive_blocking?
