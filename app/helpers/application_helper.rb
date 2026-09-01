@@ -81,6 +81,12 @@ module ApplicationHelper
     feedback_path(feedback_context_params.merge(options))
   end
 
+  def enquiry_form_path_with_context
+    request_id = feedback_search_request_id || params[:feedback_request_id].presence
+
+    product_experience_enquiry_form_path(request_id:)
+  end
+
   def feedback_context_params
     return current_feedback_params if controller_path == 'feedback'
 

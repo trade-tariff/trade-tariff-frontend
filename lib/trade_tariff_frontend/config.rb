@@ -65,6 +65,17 @@ module TradeTariffFrontend
       ENV.fetch('DEVELOPER_PORTAL_URL') { "https://hub.#{base_domain}/" }
     end
 
+    def enabled_flagsmith_feature_names
+      Config.registered_flags.filter_map { |method_name, registration|
+        next unless public_send(method_name)
+
+        flag_name = registration.fetch(:name)
+        flag = Current.flagsmith_flags&.get_flag(flag_name)
+
+        flag_name.humanize if flag && !flag.is_default
+      }.sort
+    end
+
     def enquiries_email
       DEFAULT_ENQUIRIES_EMAIL
     end

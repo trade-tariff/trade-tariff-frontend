@@ -369,6 +369,32 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+  describe '#enquiry_form_path_with_context' do
+    subject(:path) { helper.enquiry_form_path_with_context }
+
+    it 'includes the current search request id' do
+      assign(:search, build(:search, request_id: 'search-request-123'))
+
+      expect(path).to eq('/enquiry_form?request_id=search-request-123')
+    end
+
+    it 'falls back to the request params' do
+      controller.params[:request_id] = 'search-request-456'
+
+      expect(path).to eq('/enquiry_form?request_id=search-request-456')
+    end
+
+    it 'preserves context from the feedback page' do
+      controller.params[:feedback_request_id] = 'search-request-789'
+
+      expect(path).to eq('/enquiry_form?request_id=search-request-789')
+    end
+
+    it 'omits a missing request id' do
+      expect(path).to eq('/enquiry_form')
+    end
+  end
+
   describe '#current_feedback_params' do
     it 'passes through the feedback params already on the request' do
       controller.params[:feedback_url] = 'http://test.host/commodities/1234567890'

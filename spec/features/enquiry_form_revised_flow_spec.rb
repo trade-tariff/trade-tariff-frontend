@@ -138,7 +138,51 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
         email: 'trader@example.com',
         enquiry_category: 'valuation',
         enquiry_description: include('I need help understanding tariff quota duties'),
+        test_condition: 'none',
       ),
+    )
+  end
+
+  it 'submits feature flag and search context' do
+    enable_feature(:interactive_search)
+    visit product_experience_enquiry_form_path(request_id: 'search-request-123')
+    disable_feature(:interactive_search)
+
+    choose 'Valuation'
+    click_button 'Continue'
+    fill_in 'How can we help you?', with: 'The search results did not answer my question.'
+    click_button 'Continue'
+    fill_in 'Email address', with: 'trader@example.com'
+    click_button 'Continue'
+    click_button 'Submit'
+
+    expect(EnquiryForm).to have_received(:create!).with(
+      hash_including(
+        test_condition: 'Interactive search',
+        search_request_id: 'search-request-123',
+      ),
+    )
+  end
+
+  it 'submits globally enabled feature flags from the XI service' do
+    TradeTariffFrontend::ServiceChooser.with_source(:xi) do
+      enable_feature(:webchat)
+      enable_feature(:interactive_search)
+      visit product_experience_enquiry_form_path
+      disable_feature(:webchat)
+      disable_feature(:interactive_search)
+
+      choose 'Valuation'
+      click_button 'Continue'
+      fill_in 'How can we help you?', with: 'The service did not answer my question.'
+      click_button 'Continue'
+      fill_in 'Email address', with: 'trader@example.com'
+      click_button 'Continue'
+      click_button 'Submit'
+    end
+
+    expect(EnquiryForm).to have_received(:create!).with(
+      hash_including(test_condition: 'Webchat'),
     )
   end
 
