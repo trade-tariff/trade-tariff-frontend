@@ -47,7 +47,9 @@ RUN apk add --no-cache \
     apk upgrade --no-cache libcrypto3 libssl3 && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone && \
-    rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec
+    rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec && \
+    rm -rf /usr/local/lib/ruby/gems/*/gems/json-* && \
+    rm -rf /usr/local/lib/ruby/*/json.rb /usr/local/lib/ruby/*/json /usr/local/lib/ruby/*/*-linux-musl/json
 
 ENV RAILS_SERVE_STATIC_FILES=true \
     RAILS_ENV=production \
