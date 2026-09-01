@@ -36,7 +36,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
       'description' => 'Containing less than 70% by weight of sugar',
       'formatted_description' => 'Containing less than 70% by weight of sugar',
       'self_text' => 'Citrus marmalade and jam products with 8703.10 and 1000 cm<sup>3</sup>',
-      'classification_description' => 'Citrus fruit jam<br>with less than 70% sugar and 5 cm<sub>3</sub>',
+      'classification_description' => 'Citrus fruit jam<br>with less than 70% sugar and 5 cm<sub>3</sub><br>Other<br>Other, excluding preparations of heading 9406',
       'full_description' => 'Citrus fruit jam with less than 70% sugar',
       'heading_description' => 'Jams and marmalades',
       'declarable' => true,
