@@ -51,18 +51,19 @@ RSpec.describe 'search/_interactive_unknown_results_content', type: :view do
     context 'when webchat is enabled' do
       before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(true) }
 
-      it { is_expected.to have_css('p.govuk-body', text: 'Webchat: Ask HMRC online') }
-      it { is_expected.to have_css('p.govuk-body', text: 'Email: classification.enquiries@hmrc.gov.uk') }
-      it { is_expected.to have_link('Ask HMRC online') }
-      it { is_expected.to have_link('classification.enquiries@hmrc.gov.uk', href: 'mailto:classification.enquiries@hmrc.gov.uk') }
+      it { is_expected.to have_css('h3.govuk-heading-s', exact_text: 'Webchat') }
+      it { is_expected.to have_css('h3[class~="govuk-!-margin-bottom-0"] + p.govuk-body > a', text: 'Ask HMRC online') }
+      it { is_expected.to have_css('h3.govuk-heading-s', exact_text: 'Enquiry form') }
+      it { is_expected.to have_css('h3[class~="govuk-!-margin-bottom-0"] + p.govuk-body > a', text: 'Ask a classification question') }
+      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path) }
+      it { is_expected.not_to have_link('classification.enquiries@hmrc.gov.uk') }
     end
 
     context 'when webchat is disabled' do
       before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(false) }
 
       it { is_expected.not_to have_link('Ask HMRC online') }
-      it { is_expected.to have_css('p.govuk-body', text: 'Email: classification.enquiries@hmrc.gov.uk') }
-      it { is_expected.to have_link('classification.enquiries@hmrc.gov.uk', href: 'mailto:classification.enquiries@hmrc.gov.uk') }
+      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path) }
     end
   end
 
@@ -71,6 +72,13 @@ RSpec.describe 'search/_interactive_unknown_results_content', type: :view do
     it { is_expected.to have_link('Classifying your goods') }
     it { is_expected.to have_link('How to use quotas') }
     it { is_expected.to have_link('How to value your goods for import or export') }
+
+    context 'when webchat is disabled' do
+      before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(false) }
+
+      it { is_expected.to have_css('.govuk-details', text: 'Ask a classification question') }
+      it { is_expected.not_to have_css('.govuk-details', text: 'Ask HMRC online') }
+    end
   end
 
   describe 'alternative search cards' do

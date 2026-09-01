@@ -1,5 +1,11 @@
 <% if TradeTariffFrontend.webchat_enabled? %>
-  <%= tag.p(class: 'govuk-body govuk-!-margin-bottom-1') do %><%= tag.strong('Webchat:') %> <%= webchat_link 'Ask HMRC online' %><% end %>
+  <%= tag.h3('Webchat', class: 'govuk-heading-s govuk-!-margin-bottom-0') %>
+  <%= tag.p(class: 'govuk-body') do %>
+    <%= webchat_link 'Ask HMRC online' %>
+  <% end %>
 <% end %>
 
-<%= tag.p(class: 'govuk-body') do %><%= tag.strong('Email:') %> <%= govuk_mail_to 'classification.enquiries@hmrc.gov.uk' %><% end %>
+<%= tag.h3('Enquiry form', class: 'govuk-heading-s govuk-!-margin-bottom-0') %>
+<%= tag.p(class: 'govuk-body') do %>
+  <%= govuk_link_to 'Ask a classification question', product_experience_enquiry_form_path %>
+<% end %>
