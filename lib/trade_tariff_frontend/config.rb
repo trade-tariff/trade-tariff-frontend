@@ -72,7 +72,7 @@ module TradeTariffFrontend
         flag_name = registration.fetch(:name)
         flag = Current.flagsmith_flags&.get_flag(flag_name)
 
-        flag_name.humanize if flag && !flag.is_default
+        flag_name if flag && !flag.is_default
       }.sort
     end
 

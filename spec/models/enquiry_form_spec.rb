@@ -14,9 +14,13 @@ RSpec.describe EnquiryForm do
                 attributes: attributes,
               },
             ),
-            headers: { 'Content-Type' => 'application/json' },
+            headers: {
+              'Authorization' => 'Bearer frontend-token',
+              'Content-Type' => 'application/json',
+            },
           )
           .and_return(jsonapi_response(:enquiry_form_submission, { resource_id: resource_id }))
+        allow(TradeTariffFrontend).to receive(:green_lanes_api_token).and_return('Bearer frontend-token')
       end
 
       it { is_expected.to be_a described_class }
