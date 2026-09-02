@@ -10,6 +10,16 @@ RSpec.describe FeedbackController, type: :request do
 
     it { is_expected.to have_http_status :success }
 
+    it 'preserves the search request identifier in the enquiry link' do
+      get new_feedback_path(feedback_request_id: 'search-request-123')
+
+      enquiry_link = Nokogiri::HTML(response.body).css('a').find { |link| link.text.strip == 'enquiry form' }
+
+      expect(enquiry_link['href']).to eq(
+        product_experience_enquiry_form_path(request_id: 'search-request-123'),
+      )
+    end
+
     context 'with HTTP_REFERER set' do
       before do
         get new_feedback_path, headers: { 'HTTP_REFERER' => 'http://test.host/404' }
