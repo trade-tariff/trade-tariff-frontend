@@ -1,6 +1,9 @@
 {
   "name": "trade-tariff-frontend",
   "private": true,
+  "resolutions": {
+    "browserslist": "^4.28.7"
+  },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@babel/preset-env": "^8.0.2",
