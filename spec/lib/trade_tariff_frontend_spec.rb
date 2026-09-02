@@ -121,6 +121,21 @@ RSpec.describe TradeTariffFrontend do
     end
   end
 
+  describe '.enabled_flagsmith_feature_names' do
+    it 'does not inspect flags again after the SDK becomes unavailable', :aggregate_failures do
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+      stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+
+      flags = instance_double(TestFlagsmithClient::TestFlags)
+      allow(flags).to receive(:get_flag).and_raise(Faraday::ConnectionFailed.new('timeout'))
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_return(flags)
+
+      expect(described_class.enabled_flagsmith_feature_names).to be_empty
+      expect(flags).to have_received(:get_flag).once
+    end
+  end
+
   describe '.developer_portal_url' do
     around do |example|
       described_class.instance_variable_set(:@base_domain, nil)

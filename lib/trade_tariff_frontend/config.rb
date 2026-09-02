@@ -68,6 +68,7 @@ module TradeTariffFrontend
     def enabled_flagsmith_feature_names
       Config.registered_flags.filter_map { |method_name, registration|
         next unless public_send(method_name)
+        next if Current.flagsmith_unavailable
 
         flag_name = registration.fetch(:name)
         flag = Current.flagsmith_flags&.get_flag(flag_name)
