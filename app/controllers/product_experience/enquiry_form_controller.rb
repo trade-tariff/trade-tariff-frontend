@@ -93,8 +93,13 @@ module ProductExperience
     def enquiry_context
       {
         'feature_flags' => enabled_feature_flag_names,
-        'search_request_id' => params[:request_id].presence,
+        'search_request_id' => safe_search_request_id(params[:request_id]),
       }.compact
+    end
+
+    def safe_search_request_id(value)
+      request_id = value.to_s
+      request_id if request_id.match?(/\A[a-zA-Z0-9-]{1,64}\z/)
     end
 
     def enabled_feature_flag_names
