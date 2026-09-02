@@ -92,7 +92,7 @@ module ProductExperience
 
     def enquiry_context
       {
-        'test_condition' => enabled_feature_flag_names.presence&.to_sentence || 'none',
+        'feature_flags' => enabled_feature_flag_names,
         'search_request_id' => params[:request_id].presence,
       }.compact
     end
@@ -206,7 +206,7 @@ module ProductExperience
         job_title: data['occupation'],
         email: data['email_address'],
         enquiry_category: submission_category(data),
-        test_condition: data.fetch('test_condition', 'none'),
+        feature_flags: data.fetch('feature_flags', []),
         search_request_id: data['search_request_id'],
       }
       common_attributes[:other_category] = data['other_category'] if data['category'] == 'other'

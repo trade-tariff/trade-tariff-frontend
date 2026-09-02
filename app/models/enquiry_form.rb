@@ -12,6 +12,12 @@ class EnquiryForm
       },
     }
 
-    super(json_api_params, { 'Content-Type' => 'application/json' })
+    super(
+      json_api_params,
+      {
+        'Authorization' => TradeTariffFrontend.green_lanes_api_token,
+        'Content-Type' => 'application/json',
+      },
+    )
   end
 end

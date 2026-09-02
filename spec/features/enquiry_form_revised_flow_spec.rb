@@ -138,7 +138,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
         email: 'trader@example.com',
         enquiry_category: 'valuation',
         enquiry_description: include('I need help understanding tariff quota duties'),
-        test_condition: 'none',
+        feature_flags: [],
       ),
     )
   end
@@ -158,7 +158,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
 
     expect(EnquiryForm).to have_received(:create!).with(
       hash_including(
-        test_condition: 'Interactive search',
+        feature_flags: %w[interactive_search],
         search_request_id: 'search-request-123',
       ),
     )
@@ -182,7 +182,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     end
 
     expect(EnquiryForm).to have_received(:create!).with(
-      hash_including(test_condition: 'Webchat'),
+      hash_including(feature_flags: %w[webchat]),
     )
   end
 

@@ -55,7 +55,7 @@ RSpec.describe 'search/_interactive_unknown_results_content', type: :view do
       it { is_expected.to have_css('h3[class~="govuk-!-margin-bottom-0"] + p.govuk-body > a', text: 'Ask HMRC online') }
       it { is_expected.to have_css('h3.govuk-heading-s', exact_text: 'Enquiry form') }
       it { is_expected.to have_css('h3[class~="govuk-!-margin-bottom-0"] + p.govuk-body > a', text: 'Ask a classification question') }
-      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path) }
+      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path(request_id: 'test-uuid-123')) }
       it { is_expected.not_to have_link('classification.enquiries@hmrc.gov.uk') }
     end
 
@@ -63,7 +63,7 @@ RSpec.describe 'search/_interactive_unknown_results_content', type: :view do
       before { allow(TradeTariffFrontend).to receive(:webchat_enabled?).and_return(false) }
 
       it { is_expected.not_to have_link('Ask HMRC online') }
-      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path) }
+      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path(request_id: 'test-uuid-123')) }
     end
   end
 
