@@ -82,7 +82,7 @@ module ApplicationHelper
   end
 
   def enquiry_form_path_with_context
-    request_id = feedback_search_request_id || params[:feedback_request_id].presence
+    request_id = feedback_search_request_id || params[:feedback_request_id].presence || @feedback&.request_id.presence
 
     product_experience_enquiry_form_path(request_id:)
   end
