@@ -154,6 +154,7 @@ class ApplicationController < ActionController::Base
     payload[:search_request_id] = @search&.request_id
     payload[:user_agent] = request.env['HTTP_USER_AGENT']
     payload[:experiment_label] = Current.experiment if Current.experiment.present?
+    payload[:request_country] = Current.request_country.presence&.to_s || 'unknown'
     payload.merge!(@handled_exception_log_context) if defined?(@handled_exception_log_context) && @handled_exception_log_context.present?
   end
 
