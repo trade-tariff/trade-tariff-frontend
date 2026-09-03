@@ -8,6 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'rails', '~> 8.1'
+gem 'resolv', '>= 0.7.2'
 
 gem 'faraday'
 gem 'faraday-http-cache'

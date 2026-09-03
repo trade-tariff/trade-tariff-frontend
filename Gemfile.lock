@@ -666,6 +666,7 @@ GEM
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
+    resolv (0.7.2)
     rexml (3.4.4)
     rinku (2.0.6)
     roo (3.0.0)
@@ -853,6 +854,7 @@ DEPENDENCIES
   rails (~> 8.1)
   rails-controller-testing!
   redis
+  resolv (>= 0.7.2)
   roo
   routing-filter!
   rspec-rails

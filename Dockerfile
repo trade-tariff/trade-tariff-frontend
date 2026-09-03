@@ -48,8 +48,11 @@ RUN apk add --no-cache \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone && \
     rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec && \
+    rm -f /usr/local/lib/ruby/gems/*/specifications/default/resolv-*.gemspec && \
     rm -rf /usr/local/lib/ruby/gems/*/gems/json-* && \
-    rm -rf /usr/local/lib/ruby/*/json.rb /usr/local/lib/ruby/*/json /usr/local/lib/ruby/*/*-linux-musl/json
+    rm -rf /usr/local/lib/ruby/gems/*/gems/resolv-[0-9]* && \
+    rm -rf /usr/local/lib/ruby/*/json.rb /usr/local/lib/ruby/*/json /usr/local/lib/ruby/*/*-linux-musl/json && \
+    rm -f /usr/local/lib/ruby/*/resolv.rb
 
 ENV RAILS_SERVE_STATIC_FILES=true \
     RAILS_ENV=production \
