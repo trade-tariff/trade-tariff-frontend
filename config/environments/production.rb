@@ -62,8 +62,15 @@ Rails.application.configure do
   # information to avoid inadvertent exposure of personally identifiable information (PII).
   config.log_level = ENV.fetch('RAILS_LOG_LEVEL', :info)
 
-  # Prepend all log lines with the following tags.
-  config.log_tags = [:request_id]
+  # Prepend all request log lines with the following tags.
+  config.log_tags = [
+    :request_id,
+    lambda do |request|
+      country_code = request.headers['CloudFront-Viewer-Country'].to_s
+      country_code = 'unknown' unless country_code.match?(/\A[A-Z]{2}\z/)
+      "request_country=#{country_code.downcase}"
+    end,
+  ]
 
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store,
