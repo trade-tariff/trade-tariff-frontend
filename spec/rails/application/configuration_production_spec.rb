@@ -32,4 +32,8 @@ RSpec.describe Rails::Application::Configuration do
     expect(country_tag.call(instance_double(ActionDispatch::Request, headers: {})))
       .to eq('request_country=unknown')
   end
+
+  it 'keeps the final production logger tagged' do
+    expect(production_config.logger).to respond_to(:tagged)
+  end
 end

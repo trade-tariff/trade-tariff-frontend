@@ -105,7 +105,6 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.logger = ActiveSupport::Logger.new($stdout)
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Logstash.new
   config.lograge.custom_options = lambda do |event|
