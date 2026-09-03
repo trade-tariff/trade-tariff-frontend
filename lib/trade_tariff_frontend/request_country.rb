@@ -7,6 +7,8 @@ module TradeTariffFrontend
 
     def normalize(value)
       country_code = value.to_s
+      return '' if country_code == 'XX'
+
       country_code.match?(COUNTRY_CODE_PATTERN) ? country_code.downcase : ''
     end
   end
