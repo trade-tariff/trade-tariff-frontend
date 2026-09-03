@@ -9,6 +9,9 @@ module FlagsmithSetup
 
     traits = session[:flagsmith_optin_traits]
     Current.flagsmith_optin_traits = traits.is_a?(Hash) ? traits.to_h.transform_keys(&:to_s) : {}
+    if Current.request_country.present?
+      Current.flagsmith_optin_traits['request_country'] = { value: Current.request_country.to_s, transient: true }
+    end
 
     resolve_experiment_url_optins
   end

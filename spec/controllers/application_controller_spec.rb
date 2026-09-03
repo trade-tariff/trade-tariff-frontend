@@ -73,6 +73,66 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
+  describe 'request country resolution' do
+    controller do
+      def index
+        render json: {
+          request_country: Current.request_country,
+          request_country_class: Current.request_country.class.name,
+          gb: Current.request_country.gb?,
+          traits: Current.flagsmith_optin_traits,
+        }
+      end
+    end
+
+    it 'exposes GB as a transient trait', :aggregate_failures do
+      request.headers['CloudFront-Viewer-Country'] = 'GB'
+
+      get :index
+
+      expect(response.parsed_body).to eq(
+        'request_country' => 'gb',
+        'request_country_class' => 'ActiveSupport::StringInquirer',
+        'gb' => true,
+        'traits' => { 'request_country' => { 'value' => 'gb', 'transient' => true } },
+      )
+    end
+
+    it 'exposes another country without matching GB' do
+      request.headers['CloudFront-Viewer-Country'] = 'FR'
+
+      get :index
+
+      expect(response.parsed_body).to include(
+        'request_country' => 'fr',
+        'gb' => false,
+        'traits' => { 'request_country' => { 'value' => 'fr', 'transient' => true } },
+      )
+    end
+
+    it 'uses an empty inquiry when the header is missing' do
+      get :index
+
+      expect(response.parsed_body).to include(
+        'request_country' => '',
+        'gb' => false,
+        'traits' => {},
+      )
+    end
+
+    it 'rejects an invalid country value' do
+      request.headers['CloudFront-Viewer-Country'] = 'not-a-country'
+
+      get :index
+
+      expect(response.parsed_body).to include(
+        'request_country' => '',
+        'gb' => false,
+        'traits' => {},
+      )
+    end
+  end
+
   describe '#interactive_search_enabled?' do
     controller do
       def index
