@@ -75,6 +75,26 @@ RSpec.describe InterceptGuidanceHelper do
       expect(html).not_to have_css('a .govuk-visually-hidden', text: '(opens in new tab)')
     end
 
+    it 'replaces classification email support with the enquiry form', :aggregate_failures do
+      message = <<~MARKDOWN
+        **Webchat:** [Ask HMRC online]({{webchat_url}})
+
+        **Email:** [{{enquiries_email}}](mailto:{{enquiries_email}})
+      MARKDOWN
+      allow(TradeTariffFrontend).to receive_messages(
+        enquiries_email: 'classification.enquiries@hmrc.gov.uk',
+        webchat_url: 'https://example.com/webchat',
+      )
+
+      html = render_intercept_message(message, search:)
+
+      expect(html).to have_css('h3.govuk-heading-s + p.govuk-body > a', text: 'Ask HMRC online')
+      expect(html).to have_css('h3.govuk-heading-s', exact_text: 'Webchat')
+      expect(html).to have_css('h3.govuk-heading-s + p.govuk-body > a[href="/enquiry_form"]', text: 'Ask a classification question')
+      expect(html).to have_css('h3.govuk-heading-s', exact_text: 'Enquiry form')
+      expect(html).not_to have_link('classification.enquiries@hmrc.gov.uk')
+    end
+
     it 'does not linkify goods nomenclature code references', :aggregate_failures do
       msg = 'Review Chapter 71, headings 3207 to 3210, subheading 8703.10 and commodity 0101210000.'
       html = render_intercept_message(msg, search:)

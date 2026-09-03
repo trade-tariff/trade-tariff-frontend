@@ -41,6 +41,7 @@ private
       fragment.css(selector).each { |node| append_classes(node, classes) }
     end
     fragment.css('a').each { |node| apply_new_tab_standard(node) }
+    replace_classification_support_link(fragment)
 
     fragment.to_html.html_safe
   end
@@ -52,5 +53,35 @@ private
   def apply_new_tab_standard(node)
     node['target'] = '_blank'
     node['rel'] = (node['rel'].to_s.split + %w[noopener noreferrer]).uniq.join(' ')
+  end
+
+  def replace_classification_support_link(fragment)
+    email_link = fragment.css('a[href]').find do |link|
+      link['href'].casecmp?("mailto:#{TradeTariffFrontend.enquiries_email}")
+    end
+    return if email_link.blank?
+
+    promote_support_label(email_link.ancestors('p').first, from: 'Email:', to: 'Enquiry form')
+
+    webchat_paragraph = fragment.css('p').find do |paragraph|
+      paragraph.at_css('strong')&.text&.strip == 'Webchat:'
+    end
+    promote_support_label(webchat_paragraph, from: 'Webchat:', to: 'Webchat')
+
+    email_link.content = 'Ask a classification question'
+    email_link['href'] = product_experience_enquiry_form_path
+    email_link.remove_attribute('target')
+    email_link.remove_attribute('rel')
+  end
+
+  def promote_support_label(paragraph, from:, to:)
+    label = paragraph&.at_css('strong')
+    return unless label&.text&.strip == from
+
+    heading = Nokogiri::XML::Node.new('h3', paragraph.document)
+    heading.content = to
+    heading['class'] = GOVUK_MARKDOWN_CLASSES.fetch('h3').join(' ')
+    paragraph.add_previous_sibling(heading)
+    label.remove
   end
 end
