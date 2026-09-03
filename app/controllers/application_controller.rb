@@ -12,9 +12,9 @@ class ApplicationController < ActionController::Base
   include BotProtection
   include ErrorHandling
 
+  prepend_before_action :set_current_request_country
   before_action :maintenance_mode_if_active
   before_action :set_cache
-  before_action :set_current_request_country
   before_action :set_current_flagsmith_identity
   before_action :set_path_info
   before_action :set_search
