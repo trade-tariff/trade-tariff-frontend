@@ -51,9 +51,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_request_country
-    country_code = request.headers['CloudFront-Viewer-Country'].to_s
-    country_code = '' unless country_code.match?(/\A[A-Z]{2}\z/)
-    Current.request_country = ActiveSupport::StringInquirer.new(country_code.downcase)
+    country_code = TradeTariffFrontend::RequestCountry.normalize(
+      request.headers[TradeTariffFrontend::RequestCountry::HEADER],
+    )
+    Current.request_country = ActiveSupport::StringInquirer.new(country_code)
   end
 
   def is_switch_service_banner_enabled?
