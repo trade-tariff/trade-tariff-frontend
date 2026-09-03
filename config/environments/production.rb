@@ -66,9 +66,10 @@ Rails.application.configure do
   config.log_tags = [
     :request_id,
     lambda do |request|
-      country_code = request.headers['CloudFront-Viewer-Country'].to_s
-      country_code = 'unknown' unless country_code.match?(/\A[A-Z]{2}\z/)
-      "request_country=#{country_code.downcase}"
+      country_code = TradeTariffFrontend::RequestCountry.normalize(
+        request.headers[TradeTariffFrontend::RequestCountry::HEADER],
+      )
+      "request_country=#{country_code.presence || 'unknown'}"
     end,
   ]
 
