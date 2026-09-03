@@ -10,6 +10,7 @@ module TradeTariffFrontend
 
   autoload :Presenter,      'trade_tariff_frontend/presenter'
   autoload :ExperimentUrls, 'trade_tariff_frontend/experiment_urls'
+  autoload :RequestCountryMiddleware, 'trade_tariff_frontend/request_country_middleware'
   autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'
   autoload :ViewContext,    'trade_tariff_frontend/view_context'
 

@@ -106,6 +106,7 @@ Rails.application.configure do
       search_request_id: event.payload[:search_request_id],
       user_agent: event.payload[:user_agent],
       experiment_label: event.payload[:experiment_label],
+      request_country: event.payload[:request_country],
       params: event.payload[:params].except('controller', 'action', 'format', 'utf8', 'experiment'),
       exception_class: event.payload[:exception_class],
       exception_message: event.payload[:exception_message],

@@ -215,6 +215,7 @@ RSpec.describe ApplicationController, type: :controller do
     it 'adds frontend and search request ids to the logging payload' do
       request.request_id = 'frontend-request-id'
       Current.experiment = 'trstd-trdr'
+      Current.request_country = ActiveSupport::StringInquirer.new('gb')
       controller.instance_variable_set(:@search, Search.new(q: '94036099', request_id: 'search-request-id'))
 
       payload = {}
@@ -224,7 +225,16 @@ RSpec.describe ApplicationController, type: :controller do
         request_id: 'frontend-request-id',
         search_request_id: 'search-request-id',
         experiment_label: 'trstd-trdr',
+        request_country: 'gb',
       )
+    end
+
+    it 'logs an unknown request country when unavailable' do
+      payload = {}
+
+      controller.send(:append_info_to_payload, payload)
+
+      expect(payload[:request_country]).to eq('unknown')
     end
 
     it 'adds structured details for handled Faraday errors' do
