@@ -1,4 +1,8 @@
 class Current < ActiveSupport::CurrentAttributes
+  # The CloudFront-derived country for the current request.
+  # Normalised for StringInquirer predicates such as Current.request_country.gb?.
+  attribute :request_country, default: -> { ActiveSupport::StringInquirer.new('') }
+
   # The resolved Flagsmith identity for the current request.
   # Set by ApplicationController#set_current_flagsmith_identity.
   attribute :flagsmith_identity

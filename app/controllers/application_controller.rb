@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
 
   before_action :maintenance_mode_if_active
   before_action :set_cache
+  before_action :set_current_request_country
   before_action :set_current_flagsmith_identity
   before_action :set_path_info
   before_action :set_search
@@ -47,6 +48,12 @@ class ApplicationController < ActionController::Base
 
   def disable_switch_service_banner
     @disable_switch_service_banner = true
+  end
+
+  def set_current_request_country
+    country_code = request.headers['CloudFront-Viewer-Country'].to_s
+    country_code = '' unless country_code.match?(/\A[A-Z]{2}\z/)
+    Current.request_country = ActiveSupport::StringInquirer.new(country_code.downcase)
   end
 
   def is_switch_service_banner_enabled?
