@@ -40,6 +40,7 @@
       <%= hidden_field_tag :feedback_query, @feedback.query %>
       <%= hidden_field_tag :feedback_request_id, @feedback.request_id %>
       <%= hidden_field_tag :feedback_date, @feedback.date %>
+      <%= hidden_field_tag :feedback_feature_flags, Array(@feedback.feature_flags).join(',') %>
 
       <%= f.govuk_submit 'Submit feedback' %>
     <% end %>

@@ -95,6 +95,7 @@ module ApplicationHelper
       feedback_query: feedback_search_query,
       feedback_request_id: feedback_search_request_id,
       feedback_date: feedback_search_date,
+      feedback_feature_flags: TradeTariffFrontend.enabled_flagsmith_feature_names.join(','),
     }.compact
   end
 
@@ -104,6 +105,7 @@ module ApplicationHelper
       feedback_query: params[:feedback_query],
       feedback_request_id: params[:feedback_request_id],
       feedback_date: params[:feedback_date],
+      feedback_feature_flags: params[:feedback_feature_flags],
     }.compact
   end
 
