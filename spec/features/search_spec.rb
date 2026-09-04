@@ -207,8 +207,7 @@ RSpec.describe 'Search', :js do
 
         expect(page).to have_css('h1', text: 'Search for a commodity')
         expect(page).to have_content('What type of fish?')
-        expect(page).to have_css('.govuk-notification-banner', text: 'Issues with AI-assisted search')
-        expect(page).to have_content('We are aware of some issues affecting AI-assisted search')
+        expect(page).not_to have_css('.govuk-notification-banner')
         expect(page).to have_css('[data-controller="interactive-question"][data-interactive-question-request-id-value="guided-request-123"]')
         expect(page).to have_css('[data-controller="guided-search-page"][data-guided-search-page-outcome-value="question"]')
 
