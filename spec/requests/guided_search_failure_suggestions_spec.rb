@@ -20,7 +20,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     }
   end
 
-  it 'shows the issue banner when a question response is degraded', :aggregate_failures do
+  it 'does not show the issue banner while asking questions', :aggregate_failures do
     stub_search_response(
       failures: %w[query_expansion_failed],
       answers: [pending_answer],
@@ -29,8 +29,8 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     post perform_search_path, params: { q: 'horses', interactive_search: 'true' }
 
     page = Capybara.string(response.body)
-    expect(page).to have_css('.govuk-notification-banner', text: 'Issues with AI-assisted search')
-    expect(page).to have_text('We are aware of some issues affecting AI-assisted search')
+    expect(page).not_to have_css('.govuk-notification-banner')
+    expect(page).not_to have_text('Issues with AI-assisted search')
     expect(page).not_to have_text('These results are based on the words you entered.')
     expect(page).not_to have_css('[role="alert"]')
   end
@@ -66,7 +66,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
       interactive_search_form: { answer: '' },
     }
 
-    expect(Capybara.string(response.body)).to have_text('Issues with AI-assisted search')
+    expect(Capybara.string(response.body)).not_to have_text('Issues with AI-assisted search')
 
     post perform_search_path, params: {
       q: 'horses',
@@ -140,7 +140,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
       )
     end
     responses += (1..6).map do |number|
-      search_response(failures: [], answers: [pending_answer], request_id: "journey-#{number}")
+      search_response(failures: [], answers: [completed_answer], request_id: "journey-#{number}")
     end
     stub_api_request('search', :post, internal: true).to_return(*responses)
 
@@ -221,7 +221,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
           request_id: "disabled-journey-#{number}",
         )
       end,
-      search_response(failures: [], answers: [pending_answer], request_id: 'enabled-journey'),
+      search_response(failures: [], answers: [completed_answer], request_id: 'enabled-journey'),
     ]
     stub_api_request('search', :post, internal: true).to_return(*responses)
 
