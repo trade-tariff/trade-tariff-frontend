@@ -1,0 +1,15 @@
+<% if suggestions.present? %>
+  <div class="govuk-notification-banner"
+       role="region"
+       aria-labelledby="search-failure-suggestions-title"
+       data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="search-failure-suggestions-title">
+        <%= t('search.failure_suggestions.heading') %>
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <p class="govuk-body"><%= t('search.failure_suggestions.body') %></p>
+    </div>
+  </div>
+<% end %>

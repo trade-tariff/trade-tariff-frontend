@@ -154,6 +154,9 @@ en:
       xi: "Northern Ireland Online Tariff"
   search:
     label: "Search the %{service_name}"
+    failure_suggestions:
+      heading: "Issues with AI-assisted search"
+      body: "We are aware of some issues affecting AI-assisted search and are working to fix these as soon as possible."
 
   geographical_areas:
     descriptions:

@@ -266,6 +266,23 @@ RSpec.describe Search::InternalSearchResult do
     end
   end
 
+  describe '#search_failures' do
+    it 'returns the failure codes from top-level response metadata' do
+      result = described_class.new(
+        [commodity_attrs],
+        'search_failures' => %w[query_expansion_failed opensearch_failed],
+      )
+
+      expect(result.search_failures).to eq(%w[query_expansion_failed opensearch_failed])
+    end
+
+    it 'returns an empty array when response metadata has no failure codes' do
+      result = described_class.new([commodity_attrs], nil)
+
+      expect(result.search_failures).to eq([])
+    end
+  end
+
   describe '#has_pending_question?' do
     context 'when last answer has nil answer' do
       subject { described_class.new([commodity_attrs], meta) }

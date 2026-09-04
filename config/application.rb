@@ -67,6 +67,7 @@ module TradeTariffFrontend
     config.x.http.retry_options = {}
 
     config.guide_links = config_for(:guide_links)
+    config.search_failure_messages = config_for(:search_failure_messages).freeze
     # Prevent invalid queries from causing an error, e.g., `/api/uk/search_references.json?query[letter]=%`
     config.middleware.use FilterBadUrlEncoding
 
