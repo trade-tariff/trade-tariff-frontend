@@ -2,6 +2,11 @@ name: Deploy to development
 
 on:
   workflow_dispatch:
+    inputs:
+      sha:
+        description: 'Git SHA or ref to deploy (defaults to current HEAD)'
+        type: string
+        required: false
   pull_request:
     types:
       - opened
@@ -28,6 +33,7 @@ jobs:
       app-name: tariff-frontend
       environment: development
       test-flavour: none
+      checkout-ref: ${{ inputs.sha }}
     secrets:
       basic-password: ${{ secrets.BASIC_PASSWORD }}
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
