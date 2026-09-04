@@ -131,6 +131,32 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     expect(Capybara.string(response.body)).to have_text('Issues with AI-assisted search')
   end
 
+  it 'retains only the five most recent enabled failure journeys', :aggregate_failures do
+    responses = (1..6).map do |number|
+      search_response(
+        failures: %w[opensearch_failed],
+        answers: [pending_answer],
+        request_id: "journey-#{number}",
+      )
+    end
+    responses += (1..6).map do |number|
+      search_response(failures: [], answers: [pending_answer], request_id: "journey-#{number}")
+    end
+    stub_api_request('search', :post, internal: true).to_return(*responses)
+
+    (1..6).each do |number|
+      post perform_search_path, params: { q: 'horses', interactive_search: 'true', request_id: "journey-#{number}" }
+    end
+
+    post perform_search_path, params: { q: 'horses', interactive_search: 'true', request_id: 'journey-1' }
+    expect(Capybara.string(response.body)).not_to have_text('Issues with AI-assisted search')
+
+    (2..6).each do |number|
+      post perform_search_path, params: { q: 'horses', interactive_search: 'true', request_id: "journey-#{number}" }
+      expect(Capybara.string(response.body)).to have_text('Issues with AI-assisted search')
+    end
+  end
+
   it 'uses one issue banner for multiple failures', :aggregate_failures do
     stub_search_response(
       failures: %w[embedding_generation_failed vector_retrieval_failed opensearch_failed],
