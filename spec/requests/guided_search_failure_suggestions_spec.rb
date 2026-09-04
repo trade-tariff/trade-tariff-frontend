@@ -182,6 +182,33 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     expect(Capybara.string(response.body)).not_to have_css('.govuk-notification-banner')
   end
 
+  it 'does not let disabled-only journeys evict an enabled failure' do
+    configured_messages = Rails.application.config.search_failure_messages.deep_dup
+    configured_messages['query_expansion_failed']['enabled'] = false
+    allow(Rails.application.config).to receive(:search_failure_messages).and_return(configured_messages)
+    responses = [
+      search_response(failures: %w[opensearch_failed], answers: [pending_answer], request_id: 'enabled-journey'),
+      *(1..5).map do |number|
+        search_response(
+          failures: %w[query_expansion_failed],
+          answers: [pending_answer],
+          request_id: "disabled-journey-#{number}",
+        )
+      end,
+      search_response(failures: [], answers: [pending_answer], request_id: 'enabled-journey'),
+    ]
+    stub_api_request('search', :post, internal: true).to_return(*responses)
+
+    post perform_search_path, params: { q: 'horses', interactive_search: 'true', request_id: 'enabled-journey' }
+    (1..5).each do |number|
+      post perform_search_path,
+           params: { q: 'horses', interactive_search: 'true', request_id: "disabled-journey-#{number}" }
+    end
+    post perform_search_path, params: { q: 'horses', interactive_search: 'true', request_id: 'enabled-journey' }
+
+    expect(Capybara.string(response.body)).to have_text('Issues with AI-assisted search')
+  end
+
   def pending_answer
     { 'question' => 'What type of horse?', 'options' => %w[Racing Breeding], 'answer' => nil }
   end

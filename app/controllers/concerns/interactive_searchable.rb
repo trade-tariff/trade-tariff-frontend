@@ -97,9 +97,12 @@ module InteractiveSearchable
 
   def prepare_search_failure_suggestions
     suggestions = GuidedSearch::FailureSuggestions.new
-    retained = retained_search_failure_codes
+    retained = retained_search_failure_codes.filter_map { |request_id, retained_codes|
+      enabled_codes = suggestions.enabled_codes_for(retained_codes)
+      [request_id, enabled_codes] if enabled_codes.any?
+    }.to_h
     retained_codes = retained.fetch(@search.request_id, [])
-    codes = suggestions.known_codes(Array(retained_codes) + @results.search_failures)
+    codes = suggestions.enabled_codes_for(Array(retained_codes) + @results.search_failures)
 
     if codes.any?
       retained.delete(@search.request_id)
@@ -108,7 +111,7 @@ module InteractiveSearchable
     end
     store_search_failure_codes(retained)
 
-    @search_failure_suggestions = suggestions.enabled_codes_for(codes)
+    @search_failure_suggestions = codes
   end
 
   def redirectable_interactive_blocking?
