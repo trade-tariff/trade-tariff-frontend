@@ -344,6 +344,21 @@ RSpec.describe ApplicationHelper, type: :helper do
       it 'derives feedback_url from the current page URL' do
         expect(helper.feedback_context_params).to include(feedback_url: 'http://test.host/commodities/1234567890')
       end
+
+      it 'includes enabled feature flags' do
+        allow(TradeTariffFrontend).to receive(:enabled_flagsmith_feature_names)
+          .and_return(%w[interactive_search webchat])
+
+        expect(helper.feedback_context_params).to include(
+          feedback_feature_flags: 'interactive_search,webchat',
+        )
+      end
+
+      it 'includes an explicit empty feature flag context' do
+        allow(TradeTariffFrontend).to receive(:enabled_flagsmith_feature_names).and_return([])
+
+        expect(helper.feedback_context_params).to include(feedback_feature_flags: '')
+      end
     end
 
     context 'when already on the feedback controller' do
@@ -401,12 +416,14 @@ RSpec.describe ApplicationHelper, type: :helper do
       controller.params[:feedback_query] = 'leather handbags'
       controller.params[:feedback_request_id] = 'abc-123'
       controller.params[:feedback_date] = '2026-01-01'
+      controller.params[:feedback_feature_flags] = 'interactive_search,webchat'
 
       expect(helper.current_feedback_params).to eq(
         feedback_url: 'http://test.host/commodities/1234567890',
         feedback_query: 'leather handbags',
         feedback_request_id: 'abc-123',
         feedback_date: '2026-01-01',
+        feedback_feature_flags: 'interactive_search,webchat',
       )
     end
 

@@ -9,6 +9,7 @@ class FeedbackController < ApplicationController
     @feedback.query = feedback_query
     @feedback.request_id = feedback_request_id
     @feedback.date = feedback_date
+    @feedback.feature_flags = feedback_feature_flags
   end
 
   def create
@@ -18,6 +19,7 @@ class FeedbackController < ApplicationController
     @feedback.query = params[:feedback_query]
     @feedback.request_id = params[:feedback_request_id]
     @feedback.date = params[:feedback_date]
+    @feedback.feature_flags = feedback_feature_flags
 
     return redirect_to(find_commodity_path) unless @feedback.valid_page_useful_options?
 
@@ -69,6 +71,13 @@ class FeedbackController < ApplicationController
 
   def feedback_date
     params[:feedback_date].presence || referrer_date_param
+  end
+
+  def feedback_feature_flags
+    return TradeTariffFrontend.enabled_flagsmith_feature_names unless params.key?(:feedback_feature_flags)
+
+    registered_names = TradeTariffFrontend::Config.registered_flags.values.pluck(:name)
+    params[:feedback_feature_flags].to_s.split(',') & registered_names
   end
 
   def referrer_date_param
