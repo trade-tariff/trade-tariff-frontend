@@ -1,0 +1,8 @@
+<% if suggestions.present? %>
+  <%= govuk_inset_text do %>
+    <p class="govuk-body"><strong><%= t('search.failure_suggestions.heading') %></strong></p>
+    <% suggestions.each do |suggestion| %>
+      <p class="govuk-body"><%= suggestion %></p>
+    <% end %>
+  <% end %>
+<% end %>

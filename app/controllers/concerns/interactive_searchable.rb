@@ -1,6 +1,8 @@
 module InteractiveSearchable
   extend ActiveSupport::Concern
 
+  FAILURE_SUGGESTIONS_SESSION_KEY = :guided_search_failure_codes
+
   private
 
   def perform_interactive_search
@@ -9,12 +11,16 @@ module InteractiveSearchable
       return
     end
 
-    return render_interactive_question if validate_interactive_answer == :invalid
+    if validate_interactive_answer == :invalid
+      prepare_search_failure_suggestions
+      return render_interactive_question
+    end
 
     merge_current_answer
 
     @results = @search.perform
     sync_interactive_request_id
+    prepare_search_failure_suggestions
 
     if @search.errors.any?
       render_interactive_search_page(outcome: 'backend_error')
@@ -23,7 +29,10 @@ module InteractiveSearchable
 
     respond_to do |format|
       format.html { route_interactive_results }
-      format.json { render json: SearchPresenter.new(@search, @results) }
+      format.json do
+        render json: SearchPresenter.new(@search, @results)
+        clear_search_failure_suggestions
+      end
       format.atom
     end
   end
@@ -83,6 +92,21 @@ module InteractiveSearchable
     return unless @results.respond_to?(:request_id) && @results.request_id.present?
 
     @search.request_id = @results.request_id
+  end
+
+  def prepare_search_failure_suggestions
+    suggestions = GuidedSearch::FailureSuggestions.new
+    retained = session[FAILURE_SUGGESTIONS_SESSION_KEY].to_h
+    retained_codes = retained['request_id'] == @search.request_id ? retained['codes'] : []
+    codes = suggestions.known_codes(Array(retained_codes) + @results.search_failures)
+
+    if codes.any?
+      session[FAILURE_SUGGESTIONS_SESSION_KEY] = { 'request_id' => @search.request_id, 'codes' => codes }
+    else
+      session.delete(FAILURE_SUGGESTIONS_SESSION_KEY)
+    end
+
+    @search_failure_suggestions = suggestions.messages_for(codes)
   end
 
   def redirectable_interactive_blocking?
@@ -162,6 +186,7 @@ module InteractiveSearchable
     mark_interactive_search_page
     record_guided_search_journey(outcome: 'no_results')
     render :interactive_no_results
+    clear_search_failure_suggestions
   end
 
   def render_interactive_unknown_results
@@ -170,6 +195,7 @@ module InteractiveSearchable
     mark_interactive_search_page
     record_guided_search_journey(outcome: 'unknown_results')
     render :interactive_unknown_results
+    clear_search_failure_suggestions
   end
 
   def render_interactive_blocking
@@ -178,6 +204,7 @@ module InteractiveSearchable
     mark_interactive_search_page
     record_guided_search_journey(outcome: 'blocking_guidance')
     render :interactive_blocking
+    clear_search_failure_suggestions
   end
 
   def render_interactive_results
@@ -186,6 +213,7 @@ module InteractiveSearchable
     mark_interactive_search_page
     record_guided_search_journey(outcome: 'results')
     render :interactive_results
+    clear_search_failure_suggestions
   end
 
   def render_interactive_search_page(outcome:)
@@ -194,6 +222,11 @@ module InteractiveSearchable
     @recent_stories = []
     record_guided_search_journey(outcome:)
     render 'find_commodities/show_interactive'
+    clear_search_failure_suggestions
+  end
+
+  def clear_search_failure_suggestions
+    session.delete(FAILURE_SUGGESTIONS_SESSION_KEY)
   end
 
   def mark_interactive_search_page

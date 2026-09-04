@@ -4,4 +4,6 @@
 
 <%= page_header "Search results" %>
 
+<%= render 'search/failure_suggestions', suggestions: @search_failure_suggestions %>
+
 <%= render 'search/interactive_results_content' %>

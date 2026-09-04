@@ -142,6 +142,7 @@ RSpec.describe 'Search', :js do
             body: {
               'data' => [guided_search_result],
               'meta' => {
+                'search_failures' => %w[query_expansion_failed],
                 'interactive_search' => {
                   'query' => 'smoked haddock',
                   'request_id' => 'guided-request-123',
@@ -206,6 +207,8 @@ RSpec.describe 'Search', :js do
 
         expect(page).to have_css('h1', text: 'Search for a commodity')
         expect(page).to have_content('What type of fish?')
+        expect(page).to have_css('.govuk-inset-text', text: 'About these results')
+        expect(page).to have_content('These results are based on the words you entered.')
         expect(page).to have_css('[data-controller="interactive-question"][data-interactive-question-request-id-value="guided-request-123"]')
         expect(page).to have_css('[data-controller="guided-search-page"][data-guided-search-page-outcome-value="question"]')
 
