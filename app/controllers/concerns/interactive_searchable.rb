@@ -2,6 +2,7 @@ module InteractiveSearchable
   extend ActiveSupport::Concern
 
   FAILURE_SUGGESTIONS_SESSION_KEY = :guided_search_failure_codes
+  MAX_RETAINED_FAILURE_JOURNEYS = 5
 
   private
 
@@ -31,9 +32,12 @@ module InteractiveSearchable
       format.html { route_interactive_results }
       format.json do
         render json: SearchPresenter.new(@search, @results)
-        clear_search_failure_suggestions
+        clear_search_failure_suggestions unless @results.has_pending_question?
       end
-      format.atom
+      format.atom do
+        render
+        clear_search_failure_suggestions unless @results.has_pending_question?
+      end
     end
   end
 
@@ -96,15 +100,16 @@ module InteractiveSearchable
 
   def prepare_search_failure_suggestions
     suggestions = GuidedSearch::FailureSuggestions.new
-    retained = session[FAILURE_SUGGESTIONS_SESSION_KEY].to_h
-    retained_codes = retained['request_id'] == @search.request_id ? retained['codes'] : []
+    retained = retained_search_failure_codes
+    retained_codes = retained.fetch(@search.request_id, [])
     codes = suggestions.known_codes(Array(retained_codes) + @results.search_failures)
 
     if codes.any?
-      session[FAILURE_SUGGESTIONS_SESSION_KEY] = { 'request_id' => @search.request_id, 'codes' => codes }
-    else
-      session.delete(FAILURE_SUGGESTIONS_SESSION_KEY)
+      retained.delete(@search.request_id)
+      retained[@search.request_id] = codes
+      retained = retained.to_a.last(MAX_RETAINED_FAILURE_JOURNEYS).to_h
     end
+    store_search_failure_codes(retained)
 
     @search_failure_suggestions = suggestions.enabled_codes_for(codes)
   end
@@ -226,7 +231,21 @@ module InteractiveSearchable
   end
 
   def clear_search_failure_suggestions
-    session.delete(FAILURE_SUGGESTIONS_SESSION_KEY)
+    retained = retained_search_failure_codes
+    retained.delete(@search.request_id)
+    store_search_failure_codes(retained)
+  end
+
+  def retained_search_failure_codes
+    session[FAILURE_SUGGESTIONS_SESSION_KEY].to_h
+  end
+
+  def store_search_failure_codes(retained)
+    if retained.any?
+      session[FAILURE_SUGGESTIONS_SESSION_KEY] = retained
+    else
+      session.delete(FAILURE_SUGGESTIONS_SESSION_KEY)
+    end
   end
 
   def mark_interactive_search_page
