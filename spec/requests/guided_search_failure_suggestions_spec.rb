@@ -86,6 +86,77 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     expect(Capybara.string(response.body)).not_to have_text('Issues with AI-assisted search')
   end
 
+  it 'retains a failure when a JSON response has a pending question' do
+    stub_api_request('search', :post, internal: true).to_return(
+      search_response(failures: %w[query_expansion_failed], answers: [pending_answer]),
+      search_response(failures: [], answers: [completed_answer]),
+    )
+
+    post perform_search_path(format: :json), params: {
+      q: 'horses',
+      interactive_search: 'true',
+      request_id: 'guided-request-123',
+    }
+    post perform_search_path, params: {
+      q: 'horses',
+      interactive_search: 'true',
+      request_id: 'guided-request-123',
+    }
+
+    expect(Capybara.string(response.body)).to have_text('Issues with AI-assisted search')
+  end
+
+  it 'clears a failure after a terminal Atom response' do
+    stub_api_request('search', :post, internal: true).to_return(
+      search_response(failures: %w[query_expansion_failed], answers: [pending_answer]),
+      search_response(failures: [], answers: [completed_answer]),
+      search_response(failures: [], answers: [completed_answer]),
+    )
+
+    post perform_search_path, params: {
+      q: 'horses',
+      interactive_search: 'true',
+      request_id: 'guided-request-123',
+    }
+    post perform_search_path(format: :atom), params: {
+      q: 'horses',
+      interactive_search: 'true',
+      request_id: 'guided-request-123',
+    }
+    post perform_search_path, params: {
+      q: 'horses',
+      interactive_search: 'true',
+      request_id: 'guided-request-123',
+    }
+
+    expect(Capybara.string(response.body)).not_to have_text('Issues with AI-assisted search')
+  end
+
+  it 'retains failures independently for concurrent journeys' do
+    stub_api_request('search', :post, internal: true).to_return(
+      search_response(failures: %w[query_expansion_failed], answers: [pending_answer], request_id: 'journey-a'),
+      search_response(failures: %w[opensearch_failed], answers: [pending_answer], request_id: 'journey-b'),
+      search_response(failures: [], answers: [completed_answer], request_id: 'journey-b'),
+      search_response(failures: [], answers: [completed_answer], request_id: 'journey-a'),
+    )
+
+    %w[journey-a journey-b].each do |request_id|
+      post perform_search_path, params: { q: 'horses', interactive_search: 'true', request_id: }
+    end
+    post perform_search_path, params: {
+      q: 'horses',
+      interactive_search: 'true',
+      request_id: 'journey-b',
+    }
+    post perform_search_path, params: {
+      q: 'horses',
+      interactive_search: 'true',
+      request_id: 'journey-a',
+    }
+
+    expect(Capybara.string(response.body)).to have_text('Issues with AI-assisted search')
+  end
+
   it 'uses one issue banner for multiple failures', :aggregate_failures do
     stub_search_response(
       failures: %w[embedding_generation_failed vector_retrieval_failed opensearch_failed],
