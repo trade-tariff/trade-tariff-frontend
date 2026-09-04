@@ -106,32 +106,6 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     expect(Capybara.string(response.body)).to have_text('Issues with AI-assisted search')
   end
 
-  it 'clears a failure after a terminal Atom response' do
-    stub_api_request('search', :post, internal: true).to_return(
-      search_response(failures: %w[query_expansion_failed], answers: [pending_answer]),
-      search_response(failures: [], answers: [completed_answer]),
-      search_response(failures: [], answers: [completed_answer]),
-    )
-
-    post perform_search_path, params: {
-      q: 'horses',
-      interactive_search: 'true',
-      request_id: 'guided-request-123',
-    }
-    post perform_search_path(format: :atom), params: {
-      q: 'horses',
-      interactive_search: 'true',
-      request_id: 'guided-request-123',
-    }
-    post perform_search_path, params: {
-      q: 'horses',
-      interactive_search: 'true',
-      request_id: 'guided-request-123',
-    }
-
-    expect(Capybara.string(response.body)).not_to have_text('Issues with AI-assisted search')
-  end
-
   it 'retains failures independently for concurrent journeys' do
     stub_api_request('search', :post, internal: true).to_return(
       search_response(failures: %w[query_expansion_failed], answers: [pending_answer], request_id: 'journey-a'),

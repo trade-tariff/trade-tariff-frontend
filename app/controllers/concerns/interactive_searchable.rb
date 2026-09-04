@@ -34,10 +34,7 @@ module InteractiveSearchable
         render json: SearchPresenter.new(@search, @results)
         clear_search_failure_suggestions unless @results.has_pending_question?
       end
-      format.atom do
-        render
-        clear_search_failure_suggestions unless @results.has_pending_question?
-      end
+      format.atom
     end
   end
 
