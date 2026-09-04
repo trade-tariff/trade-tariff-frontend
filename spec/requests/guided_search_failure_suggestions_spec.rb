@@ -20,7 +20,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     }
   end
 
-  it 'shows a lightweight suggestion when a question response is degraded', :aggregate_failures do
+  it 'shows the issue banner when a question response is degraded', :aggregate_failures do
     stub_search_response(
       failures: %w[query_expansion_failed],
       answers: [pending_answer],
@@ -29,12 +29,13 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     post perform_search_path, params: { q: 'horses', interactive_search: 'true' }
 
     page = Capybara.string(response.body)
-    expect(page).to have_css('.govuk-inset-text', text: 'About these results')
-    expect(page).to have_text('These results are based on the words you entered.')
-    expect(page).not_to have_css('[role="alert"]', text: 'These results are based on the words you entered.')
+    expect(page).to have_css('.govuk-notification-banner', text: 'Issues with AI-assisted search')
+    expect(page).to have_text('We are aware of some issues affecting AI-assisted search')
+    expect(page).not_to have_text('These results are based on the words you entered.')
+    expect(page).not_to have_css('[role="alert"]')
   end
 
-  it 'shows a lightweight suggestion when the final results response is degraded', :aggregate_failures do
+  it 'shows the issue banner when the final results response is degraded', :aggregate_failures do
     stub_search_response(failures: %w[embedding_generation_failed], answers: [completed_answer])
 
     post perform_search_path, params: {
@@ -44,8 +45,9 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     }
 
     page = Capybara.string(response.body)
-    expect(page).to have_css('.govuk-inset-text', text: 'About these results')
-    expect(page).to have_text('These results use keyword matching.')
+    expect(page).to have_css('.govuk-notification-banner', text: 'Issues with AI-assisted search')
+    expect(page).to have_text('We are aware of some issues affecting AI-assisted search')
+    expect(page).not_to have_text('These results use keyword matching.')
   end
 
   it 'retains a suggestion for the same request until the final results page', :aggregate_failures do
@@ -64,7 +66,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
       interactive_search_form: { answer: '' },
     }
 
-    expect(Capybara.string(response.body)).to have_text('These results are based on the words you entered.')
+    expect(Capybara.string(response.body)).to have_text('Issues with AI-assisted search')
 
     post perform_search_path, params: {
       q: 'horses',
@@ -72,7 +74,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
       request_id: 'guided-request-123',
     }
 
-    expect(Capybara.string(response.body)).to have_text('These results are based on the words you entered.')
+    expect(Capybara.string(response.body)).to have_text('Issues with AI-assisted search')
 
     stub_search_response(failures: [], answers: [completed_answer])
     post perform_search_path, params: {
@@ -81,10 +83,10 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
       request_id: 'guided-request-123',
     }
 
-    expect(Capybara.string(response.body)).not_to have_text('These results are based on the words you entered.')
+    expect(Capybara.string(response.body)).not_to have_text('Issues with AI-assisted search')
   end
 
-  it 'deduplicates shared copy and uses one inset for multiple suggestions', :aggregate_failures do
+  it 'uses one issue banner for multiple failures', :aggregate_failures do
     stub_search_response(
       failures: %w[embedding_generation_failed vector_retrieval_failed opensearch_failed],
       answers: [completed_answer],
@@ -97,9 +99,11 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
     }
 
     page = Capybara.string(response.body)
-    expect(page).to have_css('.govuk-inset-text', count: 1)
-    expect(page).to have_text('These results use keyword matching.', count: 1)
-    expect(page).to have_text('These results are based on the meaning of your description.', count: 1)
+    expect(page).to have_css('.govuk-notification-banner', count: 1)
+    expect(page).to have_text('Issues with AI-assisted search', count: 1)
+    expect(page).to have_text('We are aware of some issues affecting AI-assisted search', count: 1)
+    expect(page).not_to have_text('These results use keyword matching.')
+    expect(page).not_to have_text('These results are based on the meaning of your description.')
   end
 
   it 'ignores unknown codes and records a bounded warning', :aggregate_failures do
@@ -112,7 +116,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
       request_id: 'guided-request-123',
     }
 
-    expect(Capybara.string(response.body)).not_to have_css('.govuk-inset-text')
+    expect(Capybara.string(response.body)).not_to have_css('.govuk-notification-banner')
     expect(Rails.logger).to have_received(:warn).with(
       { event: 'guided_search.unknown_failure_code', failure_code: 'future_failure' }.to_json,
     )
@@ -130,7 +134,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
       request_id: 'guided-request-123',
     }
 
-    expect(Capybara.string(response.body)).not_to have_css('.govuk-inset-text')
+    expect(Capybara.string(response.body)).not_to have_css('.govuk-notification-banner')
   end
 
   def pending_answer
