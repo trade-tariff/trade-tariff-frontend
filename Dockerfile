@@ -69,6 +69,11 @@ USER tariff
 COPY --chown=tariff:tariff --from=builder /build .
 COPY --chown=tariff:tariff --from=builder /usr/local/bundle/ /usr/local/bundle/
 
+# The builder stage deletes tmp/log (see above), so recreate them here, owned by
+# tariff, ready for the read-only-root-filesystem writable-volume mounts at
+# /home/tariff/tmp and /home/tariff/log. bootsnap writes to tmp/cache on boot.
+RUN mkdir -p tmp log
+
 HEALTHCHECK CMD nc -z 0.0.0.0 $SSL_PORT
 
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
