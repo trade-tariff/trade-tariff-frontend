@@ -13,12 +13,8 @@ module GuidedSearch
       validate_configuration!
     end
 
-    def messages_for(codes)
-      messages = known_codes(codes).filter_map do |code|
-        entry = @config[code]
-        I18n.t(entry.fetch('translation_key')) if entry&.fetch('enabled', false)
-      end
-      messages.uniq
+    def enabled_codes_for(codes)
+      known_codes(codes).select { |code| @config.dig(code, 'enabled') }
     end
 
     def known_codes(codes)
@@ -44,10 +40,6 @@ module GuidedSearch
 
         unless [true, false].include?(entry['enabled'])
           raise ConfigurationError, "#{code} must define enabled as a boolean"
-        end
-
-        if entry['translation_key'].blank?
-          raise ConfigurationError, "#{code} must define translation_key"
         end
 
         next if SUPPORTED_LEVELS.include?(entry['level'])

@@ -106,7 +106,7 @@ module InteractiveSearchable
       session.delete(FAILURE_SUGGESTIONS_SESSION_KEY)
     end
 
-    @search_failure_suggestions = suggestions.messages_for(codes)
+    @search_failure_suggestions = suggestions.enabled_codes_for(codes)
   end
 
   def redirectable_interactive_blocking?

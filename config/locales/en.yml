@@ -155,11 +155,8 @@ en:
   search:
     label: "Search the %{service_name}"
     failure_suggestions:
-      heading: "About these results"
-      query_expansion_failed: "These results are based on the words you entered. Try searching again if they are not useful."
-      meaning_matching_failed: "These results use keyword matching. Try searching again if they are not useful."
-      interactive_search_failed: "These are the best available matches. Try searching again if you want to answer questions and refine the results."
-      opensearch_failed: "These results are based on the meaning of your description. Try searching again if they are not useful."
+      heading: "Issues with AI-assisted search"
+      body: "We are aware of some issues affecting AI-assisted search and are working to fix these as soon as possible."
 
   geographical_areas:
     descriptions:
