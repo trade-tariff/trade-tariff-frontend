@@ -1,0 +1,21 @@
+shared:
+  query_expansion_failed:
+    enabled: true
+    level: warn
+    translation_key: search.failure_suggestions.query_expansion_failed
+  embedding_generation_failed:
+    enabled: true
+    level: warn
+    translation_key: search.failure_suggestions.meaning_matching_failed
+  vector_retrieval_failed:
+    enabled: true
+    level: warn
+    translation_key: search.failure_suggestions.meaning_matching_failed
+  interactive_search_failed:
+    enabled: true
+    level: warn
+    translation_key: search.failure_suggestions.interactive_search_failed
+  opensearch_failed:
+    enabled: true
+    level: warn
+    translation_key: search.failure_suggestions.opensearch_failed
