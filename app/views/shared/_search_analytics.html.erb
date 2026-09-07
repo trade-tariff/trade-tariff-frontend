@@ -1,5 +1,8 @@
-<script id="search-analytics-context" type="application/json" nonce="<%= content_security_policy_nonce %>"><%= raw json_escape(search_analytics_context.to_json) %></script>
+<% context = search_analytics_context %>
+<script id="search-analytics-context" type="application/json" nonce="<%= content_security_policy_nonce %>"><%= raw json_escape(context.to_json) %></script>
 <%= javascript_tag nonce: true do %>
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push(JSON.parse(document.getElementById('search-analytics-context').textContent));
+  <% if context[:search_state].present? %>
+    window.dataLayer.push(JSON.parse(document.getElementById('search-analytics-context').textContent));
+  <% end %>
 <% end %>
