@@ -43,7 +43,9 @@
   <% end %>
 </head>
 
-<body class="govuk-template__body <%= service_choice || service_default %>-service">
+<body class="govuk-template__body <%= service_choice || service_default %>-service"
+      data-controller="search-analytics"
+      data-action="submit@window->search-analytics#submit:capture">
   <%= render 'shared/gtm', part: 'body' if analytics_allowed? %>
   <%= content_tag :div, class: 'path_info', data: @path_info do %>
   <% end %>

@@ -8,6 +8,7 @@ This directory is the starting point for understanding the Trade Tariff Frontend
 - [Duty calculator architecture](architecture/duty-calculator.md) maps the import duty calculation journey, option construction, and high-risk decision points.
 - [Development and delivery](development-and-delivery.md) summarises local setup, checks, PR, and deployment conventions.
 - [Style guide](style-guide.md) covers Ruby/Rails, tests, GOV.UK Frontend components, and PR review expectations.
+- [Search analytics](search-analytics.md) defines the GTM event properties and Amplitude survey setup.
 - [Code Wiki guide](code-wiki.md) explains how to use generated repository documentation safely.
 - Existing domain notes: [Rules of Origin](../doc/rules_of_origin.md).
 
