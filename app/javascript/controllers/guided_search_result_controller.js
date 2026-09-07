@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { trackSearchJourney } from 'search-analytics'
 
 export default class extends Controller {
   static values = {
@@ -12,6 +13,12 @@ export default class extends Controller {
   select() {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
     const confidence = this.hasConfidenceValue ? this.confidenceValue.toLowerCase() : 'unknown'
+
+    trackSearchJourney('result_selected', {
+      goods_nomenclature_item_id: this.goodsNomenclatureItemIdValue,
+      result_rank: this.rankValue,
+      confidence,
+    })
 
     window.fetch(this.eventUrlValue, {
       method: 'POST',

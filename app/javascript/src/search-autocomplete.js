@@ -1,3 +1,5 @@
+import { publishSearchContext } from 'search-analytics';
+
 export function initializeSearchAutocomplete(autocompleteElement, dependencies) {
   const {
     accessibleAutocomplete,
@@ -102,6 +104,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
 
         explicitSuggestionSelection = false;
         submittedQueryInput.value = latestTypedQuery;
+        publishSearchContext(form);
         form.submit();
       }
     },
