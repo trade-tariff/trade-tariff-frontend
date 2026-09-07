@@ -91,12 +91,36 @@ describe('search journey analytics integration', () => {
     // GTM may register a document capture listener before Stimulus starts.
     document.addEventListener('submit', observeSubmission, true)
     await start({ ...guidedContext, search_state: 'entry' },
-      '<form id="new_search"><input name="interactive_search" value="false"></form>')
+      '<form id="new_search"><input name="q"><input name="interactive_search" value="false"></form>')
     window.dataLayer.length = 0
     document.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
     document.removeEventListener('submit', observeSubmission, true)
 
     expect(submittedContext).toMatchObject({ search_mode: 'keyword', search_experience: 'guided_beta' })
+  })
+
+  it.each(['order_number', 'cas'])('ignores the unrelated search form containing %s', async field => {
+    await start({ ...guidedContext, search_state: null },
+      `<form id="new_search"><input name="${field}"></form>`)
+
+    document.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
+
+    expect(window.dataLayer).toEqual([])
+  })
+
+  it('waits for a commodity search on a non-search page', async () => {
+    await start({ ...guidedContext, search_state: null, search_mode: 'keyword', request_id: null, result_count: null },
+      '<form id="new_search"><input name="q" value="coffee"></form>')
+
+    expect(window.dataLayer).toEqual([])
+
+    document.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
+
+    expect(window.dataLayer).toEqual([expect.objectContaining({
+      event: 'ott_search_context', search_state: 'submitted', search_mode: 'keyword',
+      search_experience: 'guided_beta', feature_flag_source: 'flagsmith',
+    })])
+    expect(JSON.stringify(window.dataLayer)).not.toContain('coffee')
   })
 
   it('reports selected rank and confidence while retaining the server event', async () => {

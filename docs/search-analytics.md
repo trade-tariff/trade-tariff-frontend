@@ -6,9 +6,11 @@ the GTM mappings and survey trigger below must also be configured and checked.
 
 ## Events
 
-`ott_search_context` supplies the current context before GTM loads. It also
-updates the chosen mode when the initial search form submits, including an
-autocomplete submission. This is an enrichment signal, not a search count.
+`ott_search_context` supplies the current context before GTM loads on search
+pages only. Consented JSON metadata remains available on other pages for the
+shared search box, but those page loads do not publish search events. Submitting
+a commodity search from any page publishes the chosen mode and context,
+including an autocomplete submission. This is an enrichment signal, not a search count.
 An attempted submission can fail validation. Keep the existing
 `ott_search_submitted` trigger and attach the context properties to its tag.
 The frontend does not emit another copy of that existing event.
@@ -128,6 +130,9 @@ In GTM Preview, check beta guided, beta keyword and classic sessions. Confirm
 the existing submitted event sees the correct experience/mode, including
 autocomplete, and that `ott_search_journey` fires once per rendered page.
 Check the question, results, no-results and guidance states separately.
+On a non-search page, confirm neither search event fires on load, then submit
+the shared commodity search and check its context is published before the
+existing submitted event. Quota and chemical searches must not publish it.
 
 In Amplitude, inspect the received event properties and verify a test survey
 appears only on the intended results state. Check a default/unavailable flag
