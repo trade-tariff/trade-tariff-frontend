@@ -63,6 +63,16 @@ describe('CookieManager', () => {
       cookieManager.setCookiesPolicy({usage: 'false', remember_settings: true});
       expect(cookieManager.usage()).toBe(false);
     });
+
+    it('accepts the legacy string true value', () => {
+      cookieManager.setCookiesPolicy({usage: 'true'});
+      expect(cookieManager.usage()).toBe(true);
+    });
+
+    it.each([1, {}, [], null, undefined, 'yes'])('rejects malformed usage value %p', usage => {
+      cookieManager.setCookiesPolicy({usage});
+      expect(cookieManager.usage()).toBe(false);
+    });
   });
 
   describe('shouldOpenTree', () => {
