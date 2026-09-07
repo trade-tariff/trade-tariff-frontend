@@ -71,6 +71,14 @@ describe('SitePreferencesController', () => {
   });
 
   describe('connect', () => {
+    it('shows rejected consent for a malformed truthy usage value', () => {
+      cookieManager.setCookiesPolicy({usage: 1});
+      controllerInstance = application.getControllerForElementAndIdentifier(element, 'site-preferences');
+      controllerInstance.connect();
+
+      expect(controllerInstance.bannerTarget.innerHTML).toContain('Hide cookies banner rejected');
+    });
+
     it('should set the banner html to the accept reject target html by default', () => {
       cookieManager.setCookiesPolicy();
       application.start();
