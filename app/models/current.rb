@@ -11,6 +11,9 @@ class Current < ActiveSupport::CurrentAttributes
   # Reused for the request lifetime once feature flags have been fetched.
   attribute :flagsmith_flags
 
+  # Actual decisions and their sources, without identity or trait values.
+  attribute :flagsmith_evaluations, default: -> { {} }
+
   # Set when Flagsmith cannot be reached/configured during the current request.
   attribute :flagsmith_unavailable
 
