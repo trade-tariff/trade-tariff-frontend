@@ -20,7 +20,7 @@ Each event carries the complete context, so GTM can read its properties together
 
 | `outcome` | When it fires |
 | --- | --- |
-| `page_visible` | Entry, question, results, no results, unknown results, blocking guidance or handled guided input/backend error connects in the browser |
+| `page_visible` | A search page becomes visible in the browser: entry, question, results, no results, unknown results, blocking guidance, or a handled guided input/backend error |
 | `dont_know` | The trader submits the unknown-answer choice |
 | `result_selected` | The trader selects a Guided Search commodity result |
 
