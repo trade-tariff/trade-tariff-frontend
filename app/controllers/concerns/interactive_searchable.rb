@@ -86,7 +86,7 @@ module InteractiveSearchable
   end
 
   def interactive_search?
-    @search.interactive_search && interactive_search_enabled?
+    @search.interactive_search && interactive_search_enabled_with_analytics?
   end
 
   def sync_interactive_request_id
@@ -255,15 +255,18 @@ module InteractiveSearchable
   def record_guided_search_journey(outcome:)
     @guided_search_outcome = outcome
     current_question = @results&.current_question
+    @guided_search_metrics = {
+      question_count: @results&.answered_questions&.size.to_i + (current_question.present? ? 1 : 0),
+      option_count: Array(current_question&.dig('options')).size,
+      result_count: @results&.size.to_i,
+      client_elapsed_ms: bounded_integer(params[:client_elapsed_ms], maximum: 86_400_000),
+    }
 
     GuidedSearch::JourneyInstrumentation.record(
       browser_session_id: guided_search_browser_session_id,
       request_id: @search.request_id,
       outcome:,
-      question_count: @results&.answered_questions&.size.to_i + (current_question.present? ? 1 : 0),
-      option_count: Array(current_question&.dig('options')).size,
-      result_count: @results&.size.to_i,
-      client_elapsed_ms: bounded_integer(params[:client_elapsed_ms], maximum: 86_400_000),
+      **@guided_search_metrics,
       experiment: @search.experiment,
     )
   end

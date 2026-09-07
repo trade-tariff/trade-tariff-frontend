@@ -163,9 +163,17 @@ class ApplicationController < ActionController::Base
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
                    faq_send_feedback_path: green_lanes_send_feedback_path }
 
-    if interactive_search_enabled?
+    if interactive_search_enabled_with_analytics?
       @path_info[:interactive_search_suggestions_path] = interactive_search_suggestions_path(format: :json)
     end
+  end
+
+  def interactive_search_enabled_with_analytics?
+    enabled = interactive_search_enabled?
+    @search_feature_evaluation = Current.flagsmith_evaluations.fetch(
+      'interactive_search', { enabled:, source: 'default', reason: 'missing_evaluation' }
+    ).dup
+    enabled
   end
 
   def country
