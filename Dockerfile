@@ -59,8 +59,10 @@ ENV RAILS_SERVE_STATIC_FILES=true \
     SSL_PORT=8443 \
     TZ=Europe/London
 
-RUN addgroup -S tariff && \
-    adduser -S tariff -G tariff
+# Pin uid/gid so the ecs-service module's writable-volume permissions init container
+# can chown the read-only-root-filesystem mounts to a known id (container_user).
+RUN addgroup -S -g 1000 tariff && \
+    adduser -S -u 1000 -G tariff tariff
 
 WORKDIR /home/tariff
 
@@ -68,11 +70,6 @@ USER tariff
 
 COPY --chown=tariff:tariff --from=builder /build .
 COPY --chown=tariff:tariff --from=builder /usr/local/bundle/ /usr/local/bundle/
-
-# The builder stage deletes tmp/log (see above), so recreate them here, owned by
-# tariff, ready for the read-only-root-filesystem writable-volume mounts at
-# /home/tariff/tmp and /home/tariff/log. bootsnap writes to tmp/cache on boot.
-RUN mkdir -p tmp log
 
 HEALTHCHECK CMD nc -z 0.0.0.0 $SSL_PORT
 
