@@ -26,7 +26,7 @@ function push(properties) {
 
 export function publishSearchContext(form) {
   const context = searchAnalyticsContext()
-  if (!context || form.id !== 'new_search') return
+  if (!context || form.id !== 'new_search' || !form.querySelector('[name="q"]')) return
 
   const guided = context.search_experience === 'guided_beta' &&
     form.querySelector('[name="interactive_search"]')?.value === 'true'

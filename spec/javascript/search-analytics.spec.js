@@ -104,7 +104,7 @@ describe('search analytics', () => {
 
   it('does not infer beta membership from a submitted field', () => {
     document.getElementById('search-analytics-context').textContent = JSON.stringify({ ...context, search_experience: 'classic' })
-    document.body.innerHTML = '<form id="new_search"><input name="interactive_search" value="true"></form>'
+    document.body.innerHTML = '<form id="new_search"><input name="q"><input name="interactive_search" value="true"></form>'
 
     publishSearchContext(document.querySelector('form'))
 
