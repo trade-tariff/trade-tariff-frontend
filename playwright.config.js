@@ -1,5 +1,4 @@
 import { defineConfig, devices } from "@playwright/test";
-import { wafBypassHeaders } from "./spec/javascript/accessibility/utils/wafBypassHeaders";
 require('dotenv').config();
 
 const baseURL = process.env.BASE_URL;
@@ -13,7 +12,7 @@ export default defineConfig({
   retries: onCI ? 1 : 0,
   workers: onCI ? 1 : 1,
   reporter: "html",
-  use: { trace: "off", baseURL: baseURL, extraHTTPHeaders: wafBypassHeaders() },
+  use: { trace: "off", baseURL: baseURL },
   projects: [
     {
       name: "chromium",

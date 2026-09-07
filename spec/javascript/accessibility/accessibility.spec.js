@@ -1,6 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 const { LoginPage } = require("./pages/loginPage");
+const { configureWafBypass } = require("./utils/configureWafBypass");
 const { generateHtmlReport } = require("./utils/generateHtmlReport");
 const fs = require("fs");
 const path = require("path");
@@ -65,6 +66,10 @@ async function runAccessibilityScan(page, pageName, url, threshold) {
 }
 
 test.describe("Accessibility Tests", () => {
+  test.beforeEach(async ({ page }) => {
+    await configureWafBypass(page);
+  });
+
   testConfig.tariffPages.forEach((pageConfig) => {
     test(pageConfig.name, async ({ page }, testInfo) => {
       try {
