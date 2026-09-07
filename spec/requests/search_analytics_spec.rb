@@ -110,6 +110,15 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
     )
   end
 
+  it 'accepts legacy string consent' do
+    cookies['cookies_policy'] = { usage: 'true' }.to_json
+
+    get find_commodity_path
+
+    expect(analytics_context).to include('event' => 'ott_search_context', 'search_state' => 'entry')
+    expect(response.body).to include('gtm.start')
+  end
+
   it 'does not render analytics without consent' do
     cookies.delete('cookies_policy')
 
