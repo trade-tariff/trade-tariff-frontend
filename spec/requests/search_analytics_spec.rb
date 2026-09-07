@@ -27,6 +27,22 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
       'search_state' => 'entry',
     )
     expect(response.body.index('search-analytics-context')).to be < response.body.index('gtm.start')
+    expect(response.body).to include('window.dataLayer.push(')
+  end
+
+  it 'keeps non-search page context unpublished' do
+    enable_feature(:interactive_search)
+
+    get privacy_path
+
+    expect(response).to have_http_status(:ok)
+    expect(analytics_context).to include(
+      'search_experience' => 'guided_beta',
+      'feature_flag_source' => 'flagsmith',
+      'search_state' => nil,
+    )
+    expect(response.body).to include('window.dataLayer = window.dataLayer || [];')
+    expect(response.body).not_to include('window.dataLayer.push(')
   end
 
   it 'identifies deliberately classic search' do
