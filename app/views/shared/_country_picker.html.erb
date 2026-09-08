@@ -12,19 +12,6 @@
     <%= hidden_field_tag param, params[param] if params.key?(param) %>
   <% end %>
 
-  <% if @search.errors[:as_of].any? %>
-    <div class="govuk-error-summary" data-module="govuk-error-summary">
-      <div role="alert">
-        <h2 class="govuk-error-summary__title">There is a problem</h2>
-        <div class="govuk-error-summary__body">
-          <ul class="govuk-list govuk-error-summary__list">
-            <li><a href="#trade-date">You must enter a valid date</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  <% end %>
-
   <div class="trade-details__fields">
     <fieldset class="govuk-fieldset country-picker trade-details__field">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Select a country</legend>
@@ -39,25 +26,27 @@
       </div>
     </fieldset>
 
-    <fieldset class="govuk-fieldset trade-details__field" id="trade-date">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Date of trade</legend>
-      <% if @search.errors[:as_of].any? %>
-        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> You must enter a valid date</p>
-      <% end %>
-      <div class="govuk-date-input">
-        <% { day: [2, @search.date.day], month: [2, @search.date.month], year: [4, @search.date.year] }.each do |name, (width, value)| %>
-          <div class="govuk-date-input__item">
-            <div class="govuk-form-group">
-              <%= label_tag name, name.to_s.humanize, class: 'govuk-label govuk-date-input__label' %>
-              <%= text_field_tag name,
-                                 params[name].presence || value,
-                                 class: "govuk-input govuk-date-input__input govuk-input--width-#{width}",
-                                 inputmode: 'numeric' %>
-            </div>
-          </div>
+    <div class="trade-details__field<%= ' govuk-form-group govuk-form-group--error govuk-!-margin-bottom-0' if @trade_date_error %>">
+      <fieldset class="govuk-fieldset trade-details__field" id="trade-date" <%= tag.attributes(aria: { describedby: ('trade-date-error' if @trade_date_error) }) %>>
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Date of trade</legend>
+        <% if @trade_date_error %>
+          <p class="govuk-error-message" id="trade-date-error"><span class="govuk-visually-hidden">Error:</span> <%= @trade_date_error %></p>
         <% end %>
-      </div>
-    </fieldset>
+        <div class="govuk-date-input">
+          <% { day: [2, @search.date.day], month: [2, @search.date.month], year: [4, @search.date.year] }.each do |name, (width, value)| %>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <%= label_tag name, name.to_s.humanize, class: 'govuk-label govuk-date-input__label' %>
+                <%= text_field_tag name,
+                                   params[name].presence || value,
+                                   class: "govuk-input govuk-date-input__input govuk-input--width-#{width}#{' govuk-input--error' if @trade_date_error}",
+                                   inputmode: 'numeric' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </fieldset>
+    </div>
   </div>
 
   <%= button_tag 'Update page', class: 'button search-submit govuk-button govuk-!-margin-bottom-0' %>

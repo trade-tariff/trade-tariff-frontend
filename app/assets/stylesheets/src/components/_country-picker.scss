@@ -22,7 +22,7 @@
 
     @include govuk.govuk-media-query($from: tablet) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: govuk.govuk-spacing(6);
+      column-gap: govuk.govuk-spacing(8);
     }
   }
 

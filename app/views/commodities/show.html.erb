@@ -1,4 +1,4 @@
-<% cacheable = params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
+<% cacheable = @trade_date_error.nil? && params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
 
 <%# These are always needed regardless of cache state — set them before the cache block. %>
 <% content_for :title, strip_tags(commodity_title(declarable)) %>
@@ -6,6 +6,21 @@
   <meta name="description" content="<%= declarable.description_plain %>">
 <% end %>
 <% content_for :bodyClasses, "page--wide" %>
+
+<% if @trade_date_error %>
+  <% content_for :before_main_content do %>
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li><a href="#day"><%= @trade_date_error %></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
 
 <% resilient_cache_if(cacheable, commodity_cache_key) do %>
   <div data-controller="commodity-page-analytics"

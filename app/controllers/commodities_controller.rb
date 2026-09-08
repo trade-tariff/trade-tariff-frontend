@@ -48,6 +48,14 @@ class CommoditiesController < GoodsNomenclaturesController
 
   private
 
+  def set_search
+    super
+    @search.date if action_name == 'show' && request.format.html?
+  rescue Search::InvalidDate
+    @trade_date_error = 'Date of trade must be a real date'
+    @search = Search.new(search_attributes.except('day', 'month', 'year', 'as_of'))
+  end
+
   def declarable
     @declarable ||= heading? ? heading : commodity_or_subheading
   end
