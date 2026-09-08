@@ -20,7 +20,7 @@ RSpec.describe FeedbackController, type: :request do
     end
 
     it 'preserves the search request identifier in the enquiry link' do
-      get new_feedback_path(feedback_request_id: 'search-request-123')
+      get new_feedback_path(search_request_id: 'search-request-123')
 
       enquiry_link = Nokogiri::HTML(response.body).css('a').find { |link| link.text.strip == 'enquiry form' }
 
@@ -74,7 +74,7 @@ RSpec.describe FeedbackController, type: :request do
         feedback: { message: },
         feedback_url: large_context,
         feedback_query: large_context,
-        feedback_request_id: large_context,
+        search_request_id: large_context,
         feedback_date: large_context,
         feedback_feature_flags: large_context,
         authenticity_token: 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw',
@@ -95,7 +95,7 @@ RSpec.describe FeedbackController, type: :request do
       expect(session.to_hash.keys).not_to include(
         'feedback_referrer',
         'feedback_query',
-        'feedback_request_id',
+        'search_request_id',
         'feedback_date',
         'feedback_feature_flags',
       )
@@ -274,7 +274,7 @@ RSpec.describe FeedbackController, type: :request do
         expect(feedback_params).to include(
           'feedback_url' => 'http://www.example.com/search',
           'feedback_query' => 'leather handbags',
-          'feedback_request_id' => 'search-request-123',
+          'search_request_id' => 'search-request-123',
           'feedback_date' => '2026-06-05',
           'feedback_feature_flags' => 'interactive_search,webchat',
         )
@@ -289,7 +289,7 @@ RSpec.describe FeedbackController, type: :request do
         feedback: { message: },
         feedback_url: 'http://www.example.com/search',
         feedback_query: 'leather handbags',
-        feedback_request_id: 'search-request-123',
+        search_request_id: 'search-request-123',
         feedback_date: '2026-06-05',
         feedback_feature_flags: 'interactive_search,webchat',
         authenticity_token:,

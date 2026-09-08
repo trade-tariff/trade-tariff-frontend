@@ -400,7 +400,7 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
 
     it 'preserves context from the feedback page' do
-      controller.params[:feedback_request_id] = 'search-request-789'
+      controller.params[:search_request_id] = 'search-request-789'
 
       expect(path).to eq('/enquiry_form?request_id=search-request-789')
     end
@@ -414,14 +414,14 @@ RSpec.describe ApplicationHelper, type: :helper do
     it 'passes through the feedback params already on the request' do
       controller.params[:feedback_url] = 'http://test.host/commodities/1234567890'
       controller.params[:feedback_query] = 'leather handbags'
-      controller.params[:feedback_request_id] = 'abc-123'
+      controller.params[:search_request_id] = 'abc-123'
       controller.params[:feedback_date] = '2026-01-01'
       controller.params[:feedback_feature_flags] = 'interactive_search,webchat'
 
       expect(helper.current_feedback_params).to eq(
         feedback_url: 'http://test.host/commodities/1234567890',
         feedback_query: 'leather handbags',
-        feedback_request_id: 'abc-123',
+        search_request_id: 'abc-123',
         feedback_date: '2026-01-01',
         feedback_feature_flags: 'interactive_search,webchat',
       )
