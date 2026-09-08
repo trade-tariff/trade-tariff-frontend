@@ -283,6 +283,7 @@ RSpec.describe FeedbackController, type: :request do
       get feedback_hrefs.first
 
       feedback_form = Nokogiri::HTML(response.body)
+      expect(feedback_form.at_css('input[name="search_request_id"]')['value']).to eq('search-request-123')
       expect(feedback_form.at_css('input[name="feedback_feature_flags"]')['value']).to eq('interactive_search,webchat')
 
       post feedbacks_path, params: {
