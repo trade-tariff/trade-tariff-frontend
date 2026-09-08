@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 
   def set_search
     @search ||= Search.new(search_attributes)
-    @search.errors.add(:as_of, 'You must enter a valid date') if invalid_date_for_current_search?
+    @search.errors.add(:as_of, 'Date of trade must be a real date') if invalid_date_for_current_search?
   end
 
   def invalid_date_for_current_search?
