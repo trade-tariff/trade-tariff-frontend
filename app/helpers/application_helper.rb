@@ -82,7 +82,7 @@ module ApplicationHelper
   end
 
   def enquiry_form_path_with_context
-    request_id = feedback_search_request_id || params[:feedback_request_id].presence || @feedback&.request_id.presence
+    request_id = feedback_search_request_id || params[:search_request_id].presence || @feedback&.request_id.presence
 
     product_experience_enquiry_form_path(request_id:)
   end
@@ -93,7 +93,7 @@ module ApplicationHelper
     {
       feedback_url: request.original_url,
       feedback_query: feedback_search_query,
-      feedback_request_id: feedback_search_request_id,
+      search_request_id: feedback_search_request_id,
       feedback_date: feedback_search_date,
       feedback_feature_flags: TradeTariffFrontend.enabled_flagsmith_feature_names.join(','),
     }.compact
@@ -103,7 +103,7 @@ module ApplicationHelper
     {
       feedback_url: params[:feedback_url],
       feedback_query: params[:feedback_query],
-      feedback_request_id: params[:feedback_request_id],
+      search_request_id: params[:search_request_id],
       feedback_date: params[:feedback_date],
       feedback_feature_flags: params[:feedback_feature_flags],
     }.compact

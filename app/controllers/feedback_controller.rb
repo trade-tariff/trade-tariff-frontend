@@ -7,7 +7,7 @@ class FeedbackController < ApplicationController
     @feedback.page_useful = params[:page_useful]
     @feedback.referrer = feedback_url
     @feedback.query = feedback_query
-    @feedback.request_id = feedback_request_id
+    @feedback.request_id = search_request_id
     @feedback.date = feedback_date
     @feedback.feature_flags = feedback_feature_flags
   end
@@ -17,7 +17,7 @@ class FeedbackController < ApplicationController
     @feedback.authenticity_token = params[:authenticity_token]
     @feedback.referrer = params[:feedback_url]
     @feedback.query = params[:feedback_query]
-    @feedback.request_id = params[:feedback_request_id]
+    @feedback.request_id = params[:search_request_id]
     @feedback.date = params[:feedback_date]
     @feedback.feature_flags = feedback_feature_flags
 
@@ -52,8 +52,8 @@ class FeedbackController < ApplicationController
     params[:feedback_query].presence || referrer_query_param('q')
   end
 
-  def feedback_request_id
-    params[:feedback_request_id].presence || referrer_query_param('request_id')
+  def search_request_id
+    params[:search_request_id].presence || referrer_query_param('request_id')
   end
 
   def referrer_query_param(key)
