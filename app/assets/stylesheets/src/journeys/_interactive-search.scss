@@ -92,3 +92,8 @@
     }
   }
 }
+
+.app-ai-search-banner {
+  border-left-color: settings.$tariff-brand-colour;
+  background: govuk.govuk-colour('blue', $variant: 'tint-95');
+}

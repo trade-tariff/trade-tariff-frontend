@@ -1,7 +1,11 @@
 <div data-guided-search-validation-page-content>
   <%= page_header 'Find commodity codes, import duties, taxes and controls' %>
 
-  <%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
+  <% if @ai_search_enabled %>
+    <%= render 'find_commodities/ai_search_banner' %>
+  <% elsif @hero_story %>
+    <%= render 'news_items/hero_story', news_item: @hero_story %>
+  <% end %>
 
   <p class="app-find-commodity-service govuk-!-margin-top-6 govuk-!-margin-bottom-6">
     <strong>Tariff for England, Scotland or Wales (GB)</strong>

@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   end
   get 'cookies', to: redirect(path: '/cookies/policy')
 
+  get '/news/service-updates/ai-assisted-search', to: 'ai_search_information#show', as: :ai_search_information
   get '/news/collections/:collection_id(/:story_year)', to: 'news_items#index', as: :news_collection
   get '/news/years/:story_year', to: 'news_items#index', as: :news_year
   get '/news/stories/:id', to: 'news_items#show', as: :news_item
