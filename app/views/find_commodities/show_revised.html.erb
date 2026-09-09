@@ -1,0 +1,30 @@
+<div data-guided-search-validation-page-content>
+  <%= page_header 'Find commodity codes, import duties, taxes and controls' %>
+
+  <%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
+
+  <p class="app-find-commodity-service govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+    <strong>Tariff for England, Scotland or Wales (GB)</strong>
+    <%= switch_service_button(path: find_commodity_path) %>
+  </p>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Search for a commodity</h2>
+      <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
+      <p>These codes can be very specific, so you need to be very clear about what you're importing or exporting. This will help avoid any delays at customs.</p>
+
+      <%= render 'find_commodities/revised_search_form' %>
+      <%= govuk_section_break(size: 'l', visible: true, classes: 'app-section-break--thick') %>
+      <%= render 'search/other_ways_to_search', include_keyword: false %>
+    </div>
+
+    <div class="govuk-grid-column-one-third" id="recent-news">
+      <%= render '/pages/howto_sidebar_links' %>
+      <%= render 'news_items/recent_news', news_items: @recent_stories %>
+    </div>
+  </div>
+</div>
+<div data-guided-search-validation-loading-page class="govuk-!-display-none">
+  <%= render 'search/interactive_search_thinking' %>
+</div>

@@ -1,0 +1,62 @@
+<% controllers = @ai_search_enabled ? 'search-mode guided-search-validation' : nil %>
+<%= form_with model: @search, url: perform_search_path(day: nil, month: nil, year: nil),
+              method: :post, scope: nil, local: true, id: 'new_search',
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              data: { controller: controllers, search_mode_initial_mode_value: @search_mode,
+                      action: @ai_search_enabled ? 'submit->guided-search-validation#validateAndSubmit' : nil } do |f| %>
+  <div data-guided-search-validation-target="formContent" class="govuk-tabs govuk-!-margin-top-6 govuk-!-margin-bottom-8">
+    <%= f.govuk_error_summary %>
+    <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
+    <%= hidden_field_tag :interactive_search, 'false', data: { search_mode_target: 'hiddenField', guided_search_validation_target: 'hiddenField' } %>
+
+    <% if @ai_search_enabled %>
+      <ul class="govuk-tabs__list app-find-commodity-search-tabs govuk-!-margin-bottom-5" role="tablist" aria-label="Search method" data-search-mode-target="tabs" hidden>
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
+          <%= govuk_link_to 'Keyword search', '#keyword-search-panel', id: 'keyword-search-tab', class: 'govuk-tabs__tab',
+                role: 'tab', aria: { controls: 'keyword-search-panel', selected: true },
+                data: { mode: 'keyword', search_mode_target: 'tab', action: 'click->search-mode#select keydown->search-mode#navigate' } %>
+        </li>
+        <li class="govuk-tabs__list-item" role="presentation">
+          <%= govuk_link_to safe_join([govuk_tag(text: 'Beta', colour: 'magenta', classes: 'govuk-!-margin-right-1'), 'AI-assisted search'], ' '),
+                '#ai-search-panel', id: 'ai-search-tab', class: 'govuk-tabs__tab', role: 'tab', tabindex: -1,
+                aria: { controls: 'ai-search-panel', selected: false },
+                data: { mode: 'guided', search_mode_target: 'tab', action: 'click->search-mode#select keydown->search-mode#navigate' } %>
+        </li>
+      </ul>
+    <% end %>
+
+    <div id="keyword-search-panel" data-search-mode-target="keywordSection">
+      <h2 class="govuk-heading-m">Keyword search</h2>
+      <%= govuk_details(summary_text: 'Tips for using keyword or commodity code search') do %>
+        <%= render 'find_commodities/keyword_tips' %>
+      <% end %>
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="revised-keyword-query">Search the UK Integrated Online Tariff</label>
+        <div class="govuk-hint" id="revised-keyword-hint">For example, tomatoes or 1234 5678 90</div>
+        <%= render 'shared/search/autocomplete', input_id: 'revised-keyword-query', described_by: 'revised-keyword-hint',
+                   input_value: @search_mode == 'keyword' && @search.errors.any? ? @search.q : nil %>
+      </div>
+    </div>
+
+    <% if @ai_search_enabled %>
+      <div id="ai-search-panel" data-search-mode-target="guidedSection" hidden>
+        <h2 class="govuk-heading-m">AI-assisted search</h2>
+        <p>Enter as much information as possible, such as the type of product, what it is made of, its function and how it's presented or packaged.</p>
+        <%= govuk_details(summary_text: 'Tips for using AI-assisted search') do %>
+          <%= render 'find_commodities/guided_tips' %>
+        <% end %>
+        <%= f.govuk_text_area :q, label: { text: 'Describe the products you are trading' },
+              hint: { text: 'For example, 55" 4K Ultra HD OLED Smart TV' }, rows: 5,
+              placeholder: 'Enter a detailed description of the goods', disabled: true,
+              form_group: { data: { guided_search_validation_target: 'formGroup' } },
+              data: { guided_search_validation_target: 'textarea' } %>
+      </div>
+    <% end %>
+
+    <%= f.govuk_date_field :as_of,
+          legend: { text: 'When are you planning to trade the products?', size: 's', tag: nil },
+          hint: { text: safe_join(["You can enter the date your products will be traded. This is important, as commodities, duties and quotas change over time. If you don't enter a date, today's date is used.", tag.br, tag.br, 'For example 27 3 2021']) },
+          form_group: { class: 'govuk-!-margin-top-6' }, maxlength_enabled: true %>
+    <%= f.govuk_submit 'Search for a commodity' %>
+  </div>
+<% end %>

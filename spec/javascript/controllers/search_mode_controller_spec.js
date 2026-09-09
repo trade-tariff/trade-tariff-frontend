@@ -12,10 +12,10 @@ describe('SearchModeController', () => {
   async function setup(initialMode = 'keyword') {
     document.body.innerHTML = `
       <form data-controller="search-mode" data-search-mode-initial-mode-value="${initialMode}">
-        <div hidden data-search-mode-target="tabs" role="tablist">
-          <button type="button" id="keyword-tab" role="tab" aria-controls="keyword" data-search-mode-target="tab" data-mode="keyword" data-action="click->search-mode#select keydown->search-mode#navigate">Keyword</button>
-          <button type="button" id="guided-tab" role="tab" aria-controls="guided" data-search-mode-target="tab" data-mode="guided" data-action="click->search-mode#select keydown->search-mode#navigate">AI-assisted</button>
-        </div>
+        <ul hidden data-search-mode-target="tabs" role="tablist">
+          <li class="govuk-tabs__list-item"><a href="#keyword" id="keyword-tab" role="tab" aria-controls="keyword" data-search-mode-target="tab" data-mode="keyword" data-action="click->search-mode#select keydown->search-mode#navigate">Keyword</a></li>
+          <li class="govuk-tabs__list-item"><a href="#guided" id="guided-tab" role="tab" aria-controls="guided" data-search-mode-target="tab" data-mode="guided" data-action="click->search-mode#select keydown->search-mode#navigate">AI-assisted</a></li>
+        </ul>
         <div id="keyword" data-search-mode-target="keywordSection"><input name="q" value="bicycle"></div>
         <div id="guided" hidden data-search-mode-target="guidedSection"><textarea name="q" disabled>cotton shirt</textarea></div>
         <input name="interactive_search" value="false" data-search-mode-target="hiddenField">
@@ -46,7 +46,11 @@ describe('SearchModeController', () => {
   })
   it('preserves each query and shared date while submitting only the active query', async () => {
     await setup()
-    tab('guided').click()
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true })
+    tab('guided').dispatchEvent(click)
+    expect(click.defaultPrevented).toBe(true)
+    expect(tab('guided').parentElement.classList.contains('govuk-tabs__list-item--selected')).toBe(true)
+    expect(tab('keyword').parentElement.classList.contains('govuk-tabs__list-item--selected')).toBe(false)
     expect(panel('guided').hidden).toBe(false)
     expect(new FormData(form()).getAll('q')).toEqual(['cotton shirt'])
     expect(new FormData(form()).get('interactive_search')).toBe('true')
@@ -59,7 +63,7 @@ describe('SearchModeController', () => {
   it.each([
     ['ArrowRight', 'keyword', 'guided'], ['ArrowLeft', 'keyword', 'guided'],
     ['ArrowRight', 'guided', 'keyword'], ['Home', 'guided', 'keyword'],
-    ['End', 'keyword', 'guided']
+    ['End', 'keyword', 'guided'], [' ', 'keyword', 'keyword']
   ])('moves focus and selection with %s from %s', async (key, start, expected) => {
     await setup()
     tab(start).click()

@@ -200,6 +200,8 @@ describe('initializeSearchAutocompletes', () => {
     document.body.innerHTML = `
       <form>
         <div
+          data-described-by="query-hint"
+          data-input-value="coffee beans"
           data-module="search-autocomplete"
           data-input-id="search-q-field"
           data-input-name="q"
@@ -216,6 +218,8 @@ describe('initializeSearchAutocompletes', () => {
     const fallback = document.querySelector('#search-q-field');
     expect(fallback.name).toBe('q');
     expect(fallback.required).toBe(true);
+    expect(fallback.value).toBe('coffee beans');
+    expect(fallback.getAttribute('aria-describedby')).toBe('query-hint');
     expect(fallback.getAttribute('role')).toBeNull();
   });
 });

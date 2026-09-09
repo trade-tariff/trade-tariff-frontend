@@ -75,6 +75,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
     id: inputId,
     name: `${inputId}-autocomplete`,
     required: 'true',
+    defaultValue: autocompleteElement.dataset.inputValue || '',
     className: 'govuk-input',
     placeholder: 'Enter the name of the goods or commodity code',
     confirmOnBlur: false,
@@ -111,6 +112,17 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   });
 
   autocompleteInput = document.getElementById(inputId);
+  const describedBy = autocompleteElement.dataset.describedBy;
+  if (describedBy) {
+    const associateHint = () => {
+      const ids = autocompleteInput.getAttribute('aria-describedby')?.split(/\s+/).filter(Boolean) || [];
+      if (!ids.includes(describedBy)) autocompleteInput.setAttribute('aria-describedby', [...ids, describedBy].join(' '));
+    };
+    associateHint();
+    // The autocomplete removes its own assistive hint after typing.
+    new MutationObserver(associateHint).observe(autocompleteInput, { attributes: true, attributeFilter: ['aria-describedby'] });
+  }
+  syncSubmittedQuery();
   autocompleteInput.addEventListener('input', () => {
     explicitSuggestionSelection = false;
     queryCapturedBeforeBlur = false;
@@ -163,6 +175,8 @@ function renderFallbackInput(autocompleteElement) {
   input.placeholder = 'Enter the name of the goods or commodity code';
   input.type = 'text';
   input.required = true;
+  input.value = autocompleteElement.dataset.inputValue || '';
+  if (autocompleteElement.dataset.describedBy) input.setAttribute('aria-describedby', autocompleteElement.dataset.describedBy);
   wrapper.appendChild(input);
   autocompleteElement.replaceChildren(wrapper);
 }

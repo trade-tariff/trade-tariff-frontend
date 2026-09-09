@@ -31,6 +31,7 @@ module SearchAnalyticsHelper
   private
 
   def search_analytics_mode(enabled)
+    return @search_mode if @revised_find_commodity
     return 'guided' if @guided_search_outcome.present?
     return 'guided' if enabled && controller_name == 'find_commodities' && cookies[:interactive_search] == 'true'
 

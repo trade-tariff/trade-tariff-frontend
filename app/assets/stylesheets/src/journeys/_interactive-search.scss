@@ -69,3 +69,26 @@
     padding: govuk.govuk-spacing(4) govuk.govuk-spacing(6);
   }
 }
+
+.app-find-commodity-service {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: govuk.govuk-spacing(3);
+
+  .switch-service-control {
+    top: 0;
+  }
+}
+
+@include govuk.govuk-media-query($from: tablet) {
+  .app-find-commodity-search-tabs .govuk-tabs__list-item {
+    box-sizing: border-box;
+    width: 50%;
+    margin-right: 0;
+
+    &:not(.govuk-tabs__list-item--selected) {
+      background-color: govuk.govuk-colour('blue', $variant: 'tint-95');
+    }
+  }
+}
