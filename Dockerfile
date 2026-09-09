@@ -59,8 +59,10 @@ ENV RAILS_SERVE_STATIC_FILES=true \
     SSL_PORT=8443 \
     TZ=Europe/London
 
-RUN addgroup -S tariff && \
-    adduser -S tariff -G tariff
+# Pin uid/gid so the ecs-service module's writable-volume permissions init container
+# can chown the read-only-root-filesystem mounts to a known id (container_user).
+RUN addgroup -S -g 1000 tariff && \
+    adduser -S -u 1000 -G tariff tariff
 
 WORKDIR /home/tariff
 
