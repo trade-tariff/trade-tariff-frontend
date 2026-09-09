@@ -3,8 +3,6 @@ class AiSearchInformationController < ApplicationController
                 :disable_switch_service_banner
 
   def show
-    unless TradeTariffFrontend.revised_find_commodity_enabled? && interactive_search_enabled?
-      redirect_to find_commodity_path
-    end
+    redirect_to find_commodity_path unless interactive_search_enabled?
   end
 end

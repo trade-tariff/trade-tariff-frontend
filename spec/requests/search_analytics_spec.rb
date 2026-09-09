@@ -89,7 +89,7 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
 
     get find_commodity_path
 
-    expect(response.body).to include('search_type_guided')
+    expect(Capybara.string(response.body)).to have_link('AI-assisted search')
     expect(analytics_context).to include(
       'search_experience' => 'guided_beta',
       'feature_flag_source' => 'flagsmith',

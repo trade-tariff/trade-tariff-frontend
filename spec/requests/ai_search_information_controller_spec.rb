@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe 'AI-assisted search information', type: :request do
   subject(:page) { Capybara.string(response.body) }
 
-  let(:environment) { 'development' }
+  let(:environment) { 'production' }
   let(:path) { '/news/service-updates/ai-assisted-search' }
 
   before do
@@ -12,7 +12,7 @@ RSpec.describe 'AI-assisted search information', type: :request do
   end
 
   describe 'GET /news/service-updates/ai-assisted-search' do
-    %w[development staging].each do |deployed_environment|
+    %w[development staging production].each do |deployed_environment|
       context "when eligible in #{deployed_environment}" do
         let(:environment) { deployed_environment }
 
@@ -36,16 +36,6 @@ RSpec.describe 'AI-assisted search information', type: :request do
         disable_feature(:interactive_search)
         get path
       end
-
-      it 'returns to find commodity' do
-        expect(response).to redirect_to(find_commodity_path)
-      end
-    end
-
-    context 'when deployed to production' do
-      let(:environment) { 'production' }
-
-      before { get path }
 
       it 'returns to find commodity' do
         expect(response).to redirect_to(find_commodity_path)
