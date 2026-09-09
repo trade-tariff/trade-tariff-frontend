@@ -15,6 +15,8 @@ This directory is the starting point for understanding the Trade Tariff Frontend
 
 ## Operational Entry Points
 
+- [Puma request capacity metrics](puma-metrics.md) covers opt-in web worker occupancy, queue backlog and CloudWatch dashboards.
+
 - `README.md` covers local setup, backend configuration, assets, and test commands.
 - `.env.development` contains local development defaults.
 - `.github/workflows/ci.yml` shows the current lint, Brakeman, asset precompile, and RSpec checks.
