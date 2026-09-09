@@ -20,6 +20,26 @@ RSpec.describe TradeTariffFrontend do
     )
   end
 
+  describe '.revised_find_commodity_enabled?' do
+    subject(:enabled) { described_class.revised_find_commodity_enabled? }
+
+    %w[development staging production preview test].each do |deployment|
+      context "when deployed to #{deployment}" do
+        before { stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => deployment)) }
+
+        it 'limits rollout to development and staging' do
+          expect(enabled).to eq(%w[development staging].include?(deployment))
+        end
+      end
+    end
+
+    context 'without a configured environment' do
+      before { stub_const('ENV', ENV.to_hash.except('ENVIRONMENT')) }
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe '.enquiries_email' do
     it 'returns the default classification enquiries email' do
       expect(described_class.enquiries_email).to eq('classification.enquiries@hmrc.gov.uk')
