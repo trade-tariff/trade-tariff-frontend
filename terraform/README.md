@@ -20,6 +20,7 @@ Terraform to deploy the service into AWS.
 
 | Name | Source | Version |
 | ---- | ------ | ------- |
+| <a name="module_puma_capacity_dashboard"></a> [puma\_capacity\_dashboard](#module\_puma\_capacity\_dashboard) | ./modules/puma_capacity_dashboard | n/a |
 | <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | aws/ecs-service-v3.3.0 |
 
 ## Resources
@@ -58,5 +59,7 @@ Terraform to deploy the service into AWS.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+| ---- | ----------- |
+| <a name="output_puma_capacity_dashboard_name"></a> [puma\_capacity\_dashboard\_name](#output\_puma\_capacity\_dashboard\_name) | Dashboard for Puma web request capacity. |
 <!-- END_TF_DOCS -->

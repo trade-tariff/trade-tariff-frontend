@@ -20,6 +20,7 @@ This directory is the starting point for understanding the Trade Tariff Frontend
 - `.github/workflows/ci.yml` shows the current lint, Brakeman, asset precompile, and RSpec checks.
 - `.github/pull_request_template.md` is the current PR template and risk guide.
 - `package.json` lists JavaScript, Sass, accessibility, and browser-test scripts.
+- [Puma capacity dashboard](puma-capacity-dashboard.md) explains queue, spare-capacity and coverage views.
 
 ## AI Tooling Notes
 
