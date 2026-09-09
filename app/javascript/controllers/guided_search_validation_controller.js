@@ -95,7 +95,10 @@ export default class extends Controller {
       this.formContentTarget.prepend(summary)
     }
 
-    if (revisedPage) summary.tabIndex = -1
+    if (revisedPage) {
+      summary.hidden = false
+      summary.tabIndex = -1
+    }
     const list = summary.querySelector('.govuk-error-summary__list')
     errors.forEach(message => {
       const item = document.createElement('li')
