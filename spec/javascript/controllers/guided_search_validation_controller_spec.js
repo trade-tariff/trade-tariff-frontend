@@ -108,6 +108,31 @@ describe('GuidedSearchValidationController', () => {
     delete global.fetch;
   });
 
+  describe('revised entry page', () => {
+    it('scopes and focuses AI query errors', async () => {
+      await setup();
+      document.querySelector('#new_search').dataset.searchModeInitialModeValue = 'keyword';
+      submitForm();
+      const summary = document.querySelector('.govuk-error-summary');
+      expect(summary.dataset.searchModeError).toBe('guided');
+      expect(document.activeElement).toBe(summary);
+    });
+
+    it('keeps shared date errors when validating AI input', async () => {
+      await setup({serverErrors: true});
+      document.querySelector('#new_search').dataset.searchModeInitialModeValue = 'guided';
+      document.querySelector('.govuk-error-summary ul').innerHTML = '<li><a href="#date-error">Enter a valid date</a></li>';
+      submitForm();
+      expect(document.querySelectorAll('.govuk-error-summary')).toHaveLength(1);
+      const summary = document.querySelector('.govuk-error-summary');
+      expect(summary.textContent).toContain('Enter a valid date');
+      expect(document.activeElement).toBe(summary);
+      expect(summary.querySelector('a[href="#search-q-field"]').closest('li').dataset.searchModeError).toBe('guided');
+      submitForm();
+      expect(summary.querySelectorAll('li')).toHaveLength(2);
+    });
+  });
+
   describe('keyword search', () => {
     it('bypasses validation entirely', async () => {
       await setup({hiddenFieldValue: 'false', textareaValue: ''});
