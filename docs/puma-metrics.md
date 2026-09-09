@@ -102,118 +102,34 @@ Therefore frontend and backend occupancy cannot be added into a single shared
 capacity figure. CPU, memory and downstream connection/provider limits still
 matter even when thread capacity is available.
 
-## Dashboards
+## Rollout and checks
 
-`terraform/puma_metrics.tf` creates a dedicated dashboard, without touching the
-existing manually managed dashboards or ECS settings:
+Collection stays disabled until `PUMA_METRICS_ENABLED=true` is supplied through
+the existing application configuration secret and normal refresh workflow.
+Initially enable it outside production. Confirm raw `puma.metrics` events are
+extracted into `TradeTariff/Puma` metrics, with the application's environment
+and expected service labels. Compare reporting/expected workers with startup
+logs and running tasks. Missing or stale telemetry is not spare capacity.
 
-- `Puma-frontend-<environment>` in the frontend repository.
-- `Puma-backend-<environment>` in the backend repository (UK and XI sections).
-
-**Start here:** each service has an aligned summary row: queued requests in the
-busiest worker, threads in the least-spare worker, reporting collectors, then
-running/desired ECS tasks. Both backend service summaries appear before any
-diagnostics. The dashboards link to each other and to this guide; there is no
-new shared dashboard resource.
-
-Summary metrics and reporting-collector bins use 60 seconds. A collector seen
-at least once during that minute counts once, even if its workers are stale or
-unready. This is a task-coverage proxy, not an exact simultaneous task count:
-master restarts and rolling replacements can contribute multiple identities.
-Compare it with ECS counts and inspect worker reporting/expected/stale/unready
-coverage in the diagnostics before trusting spare capacity. Missing telemetry
-is not a measured zero; charts do not fill gaps or infer health from an empty
-internal queue. Extrema may come from different workers and different times,
-so matching queue and spare-thread extrema do not establish a correlation.
-
-Diagnostic charts separate thread totals from queued-request totals and use
-explicit worker/service scope. Capacity totals exclude records without worker
-capacity fields rather than aggregating missing capacity into a false zero.
-Fleet charts use Logs Insights to take one latest snapshot per collector per
-10-second bucket before summing. These are sampled totals for **reporting workers only**, not exact
-instantaneous fleet measurements. Sampling boundaries, deployment overlap and
-missing records can distort totals; compare reporting coverage with ECS tasks.
-If all collectors disappear, there is no record to plot: a blank is not zero.
-
-Use a short window for 10-second log charts. Seven-day/month views should use
-coarser bins to avoid query/visualisation limits, with explicit treatment of
-collector turnover. CloudWatch high-resolution metric detail is retained for
-3 hours, 1-minute data for 15 days, 5-minute data for 63 days and 1-hour data for
-455 days. Maxima remain useful after aggregation, but historical sub-minute
-shape cannot be reconstructed. Retained raw log snapshots can support a
-separate offline analysis at their original resolution.
-
-Do not set arbitrary rollout alarms in this change. Establish a baseline,
-check coverage, and agree service-specific thresholds alongside normal-traffic
-response times before using these measurements as a go-live gate.
-
-## Verification and rollout
-
-1. Deploy code and dashboard through the normal approved workflow, initially
-   outside production. Enable the reporter through the configuration secret.
-2. Confirm valid `event = "puma.metrics"` JSON records in `platform-logs-<env>`.
-   Confirm EMF extraction produces `TradeTariff/Puma` metrics with the expected
-   environment and service, not merely log records. Inspect EMF processing
-   errors if logs arrive but metrics do not.
-3. Execute the dashboard's Logs Insights queries and check time-series rendering,
-   not just their presence in the dashboard JSON. Capture staging screenshots for
-   idle, sustained saturation, recovery and missing/partial telemetry. Confirm
-   an operator can identify the affected service and any coverage gap without
-   reading application code. This requires an approved staging rollout; local
-   mock tests are structural checks, not rendered or ingestion evidence.
-4. Compare reporting workers/task coverage with actual Puma startup logs and
-   ECS task counts. Check that disabled applications and Sidekiq emit nothing.
-5. In a safe environment, hold requests open to occupy all threads; confirm
-   available capacity reaches zero and reports recover after release. Backlog
-   may remain outside Puma's internal queue, so do not expect every waiting
-   client to appear in `Backlog`.
-6. Check restarts and log backpressure do not break serving/shutdown. Compare
-   CPU/memory/log volume before and after enabling. No production load test is
-   authorised by the instrumentation change.
-
-Local checks (no AWS access or Rails/database boot required for these specs):
+Check idle, saturation, recovery, full/phased restarts and log backpressure in
+an approved test environment. Confirm serving and shutdown still work and
+compare CPU/memory/log volume before and after collection. No production load
+test is authorised by this change.
 
 ```sh
 bundle exec rspec --options /dev/null spec/lib/puma_metrics_spec.rb spec/lib/puma_metrics_integration_spec.rb
 bundle exec rubocop lib/puma_metrics.rb config/puma.rb spec/lib/puma_metrics*_spec.rb
-terraform -chdir=terraform/modules/puma_capacity_dashboard init -backend=false
-terraform -chdir=terraform/modules/puma_capacity_dashboard validate
-terraform -chdir=terraform/modules/puma_capacity_dashboard test
 ```
 
-The `puma-dashboard-test` CI job runs the Terraform tests using a mock AWS
-provider, without AWS credentials or applying resources. These are structural
-assertions, not evidence of deployed EMF extraction or query execution.
+The integration specs use real Puma, existing application configuration and a
+shorter subprocess-only interval. They cover default service/environment labels,
+saturation, idle recovery, full and phased restarts, HTTP serving and shutdown;
+their boot path must not load Rails. The phased test disables preloading.
 
-The RSpec integration tests launch real Puma in single and cluster modes, check
-default service labels and existing application environment/defaults, hold a request
-open, then wait for idle recovery. They cover full master and phased worker
-restarts followed by serving and graceful shutdown. The phased scenario
-explicitly disables preloading, including in backend where ordinary phased
-restarts otherwise fall back to a full restart. Only the test subprocess uses
-a shorter sampling interval.
+## Keeping the collector copies aligned
 
-## Keeping the repository copies in sync
-
-Whoever changes this telemetry owns the paired update in frontend and backend.
-Neither copy is an independent fork: submit companion changes together and run
-the focused checks in both repositories. No shared package is required.
-
-From the directory containing both checkouts, compare the shared sources:
-
-```sh
-for file in spec/lib/puma_metrics_spec.rb \
-  terraform/modules/puma_capacity_dashboard/main.tf \
-  terraform/modules/puma_capacity_dashboard/variables.tf \
-  terraform/modules/puma_capacity_dashboard/tests/dashboard.tftest.hcl; do
-  cmp "trade-tariff-frontend/$file" "trade-tariff-backend/$file" || exit 1
-done
-```
-
-Review `lib/puma_metrics.rb` together: only the plugin environment lookup should
-differ; collector behaviour stays aligned. The integration specs' expected
-service/environment matrix is repository-specific; their lifecycle assertions
-should stay aligned. Keep this guide aligned too. Puma registration, dashboard
-callers and CI Terraform versions
-remain repository-specific. Compare explicit source files, not generated
-`.terraform` directories or module-local lockfiles.
+Changes to collector behaviour need a paired frontend/backend update and focused
+checks in both repositories. Only the plugin's application environment lookup
+and the integration specs' expected labels should differ. Compare the unit specs
+byte-for-byte and review the collectors and integration specs together. No shared
+package or additional runtime configuration is required.
