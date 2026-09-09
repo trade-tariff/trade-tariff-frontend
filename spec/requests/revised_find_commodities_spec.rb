@@ -9,7 +9,7 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
     guided ? enable_feature(:interactive_search) : disable_feature(:interactive_search)
   end
 
-  let(:environment) { 'staging' }
+  let(:environment) { 'production' }
   let(:guided) { false }
 
   def entry_page(params = {})
@@ -18,7 +18,7 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
     Capybara.string(response.body)
   end
 
-  %w[development staging].each do |deployment|
+  %w[development staging production].each do |deployment|
     context "when deployed to #{deployment}" do
       let(:environment) { deployment }
 
@@ -98,22 +98,6 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
 
       analytics = JSON.parse(Nokogiri::HTML(response.body).at_css('#search-analytics-context').text)
       expect(analytics).to include('search_mode' => 'keyword', 'search_experience' => 'guided_beta')
-    end
-  end
-
-  context 'when deployed to production' do
-    let(:environment) { 'production' }
-
-    it 'keeps the existing classic page' do
-      expect(entry_page).to have_css('h1', text: 'Look up commodity codes, import duties, taxes and controls')
-    end
-
-    context 'with AI search enabled' do
-      let(:guided) { true }
-
-      it 'keeps the existing radio page' do
-        expect(entry_page).to have_field('Guided search', type: 'radio')
-      end
     end
   end
 

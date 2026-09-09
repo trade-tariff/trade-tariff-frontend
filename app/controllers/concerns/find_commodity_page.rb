@@ -5,7 +5,7 @@ module FindCommodityPage
 
   def find_commodity_template
     @ai_search_enabled = interactive_search_enabled_with_analytics?
-    @revised_find_commodity = TradeTariffFrontend.revised_find_commodity_enabled? && @ai_search_enabled && !TradeTariffFrontend::ServiceChooser.xi?
+    @revised_find_commodity = @ai_search_enabled && !TradeTariffFrontend::ServiceChooser.xi?
 
     if @revised_find_commodity
       disable_switch_service_banner

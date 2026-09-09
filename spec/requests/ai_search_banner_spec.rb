@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe 'AI-assisted search banner', :aggregate_failures, type: :request do
   include_context 'with news updates stubbed'
 
-  let(:environment) { 'staging' }
+  let(:environment) { 'production' }
   let(:hero_story) { build(:news_item, title: 'Latest tariff update') }
 
   before do
@@ -35,17 +35,5 @@ RSpec.describe 'AI-assisted search banner', :aggregate_failures, type: :request 
     page = Capybara.string(response.body)
     expect(page).to have_css('h2', text: hero_story.title)
     expect(page).not_to have_link('AI-assisted search', href: ai_search_information_path)
-  end
-
-  context 'when deployed to production' do
-    let(:environment) { 'production' }
-
-    it 'retains the existing banner selection' do
-      get find_commodity_path
-
-      page = Capybara.string(response.body)
-      expect(page).to have_css('h2', text: hero_story.title)
-      expect(page).not_to have_text('Introducing AI-assisted search')
-    end
   end
 end
