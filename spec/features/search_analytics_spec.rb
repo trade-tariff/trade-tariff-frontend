@@ -56,7 +56,7 @@ RSpec.describe 'Search analytics in the browser', :js, type: :feature do
     )
     accept_usage_cookies
 
-    choose 'Guided search'
+    find('#ai-search-tab').click
     fill_in 'Describe the products you are trading', with: 'horses'
     click_button 'Search for a commodity'
 
