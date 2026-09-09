@@ -1,0 +1,36 @@
+<% content_for :title, 'AI-assisted search - Service updates' %>
+
+<% content_for :top_breadcrumbs do %>
+  <%= generate_breadcrumbs 'AI-assisted search',
+                           [[t('breadcrumb.home'), home_path],
+                            [t('breadcrumb.news'), news_items_path]] %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= page_header 'AI-assisted search', 'UK Integrated Online Tariff' %>
+
+    <p class="govuk-body-l">Assisted search is currently in beta phase. While we strive for accuracy, at this stage there might be some errors in the service.</p>
+    <p class="govuk-body">It remains the responsibility of the user to ensure accurate completion of declarations.</p>
+    <p class="govuk-body">If you find any problems, <%= govuk_link_to 'use feedback to report them', feedback_path %>.</p>
+
+    <h2 class="govuk-heading-m">How assisted search uses AI</h2>
+    <p class="govuk-body">Assisted search uses AI, including large language models, generative AI and other approved data sources.</p>
+    <p class="govuk-body">These tools are designed to support users by making commodity codes easier to find and do not replace or supersede official HMRC guidance or formal tariff decisions.</p>
+    <p class="govuk-body">Search queries and responses will only be recorded and analysed to help improve the service.</p>
+    <p class="govuk-body">Users should not enter personal, sensitive or confidential information - the AI tools are designed for general assistance only and are not designed to handle secure or case-specific data that may carry privacy or commercial risks.</p>
+    <p class="govuk-body">For more information refer to <%= govuk_link_to 'the UK Online Trade Tariff Terms and Conditions', terms_path, new_tab: true %>.</p>
+
+    <h2 class="govuk-heading-m">Can I use AI-assisted search on other devices</h2>
+    <p class="govuk-body">Access is being made available to a sample of visitors and participants who opt in. A cookie in your browser allows you to continue to use AI-assisted search in that browser.</p>
+    <p class="govuk-body">Access does not automatically transfer to another browser or device. Another browser may be selected for the beta service, or a participant can opt in using that browser.</p>
+    <p class="govuk-body">Sharing a search page link does not automatically give someone else access to AI-assisted search.</p>
+
+    <h2 class="govuk-heading-m">Service changes and availability</h2>
+    <p class="govuk-body">AI-assisted search might:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>be updated, changed, suspended or withdrawn at any time without notice</li>
+      <li>evolve as the service is improved.</li>
+    </ul>
+  </div>
+</div>
