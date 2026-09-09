@@ -201,7 +201,7 @@ RSpec.describe 'Search', :js do
       it 'submits the journey and renders final intercept links with new-tab attributes' do
         visit find_commodity_path
 
-        choose 'Guided search'
+        find('#ai-search-tab').click
         fill_in 'Describe the products you are trading', with: 'smoked haddock'
         click_button 'Search for a commodity'
 
@@ -228,7 +228,7 @@ RSpec.describe 'Search', :js do
       it 'only shows the unknown answer guidance after submitting the unknown option' do
         visit find_commodity_path
 
-        choose 'Guided search'
+        find('#ai-search-tab').click
         fill_in 'Describe the products you are trading', with: 'smoked haddock'
         click_button 'Search for a commodity'
 
