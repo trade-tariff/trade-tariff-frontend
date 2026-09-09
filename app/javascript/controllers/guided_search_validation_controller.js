@@ -49,8 +49,20 @@ export default class extends Controller {
   }
 
   #clearErrors() {
-    const summary = this.element.querySelector('.govuk-error-summary')
-    if (summary) summary.remove()
+    if (this.element.hasAttribute('data-search-mode-initial-mode-value')) {
+      this.element.querySelectorAll('.govuk-error-summary').forEach(summary => {
+        if (summary.dataset.searchModeError === 'guided') {
+          summary.remove()
+        } else {
+          summary.querySelectorAll('li').forEach(item => {
+            if (item.querySelector('a')?.getAttribute('href') === `#${this.textareaTarget.id}`) item.remove()
+          })
+          if (!summary.querySelector('li')) summary.remove()
+        }
+      })
+    } else {
+      this.element.querySelector('.govuk-error-summary')?.remove()
+    }
 
     const inlineError = this.formGroupTarget.querySelector('.govuk-error-message')
     if (inlineError) inlineError.remove()
@@ -64,21 +76,36 @@ export default class extends Controller {
   #showErrors(errors) {
     const textareaId = this.textareaTarget.id
 
-    const summary = document.createElement('div')
-    summary.className = 'govuk-error-summary'
-    summary.setAttribute('data-module', 'govuk-error-summary')
-    summary.innerHTML = `
-      <div role="alert">
-        <h2 class="govuk-error-summary__title">There is a problem</h2>
-        <div class="govuk-error-summary__body">
-          <ul class="govuk-list govuk-error-summary__list">
-            ${errors.map((msg) => `<li><a href="#${textareaId}">${msg}</a></li>`).join('')}
-          </ul>
-        </div>
-      </div>
-    `
+    const revisedPage = this.element.hasAttribute('data-search-mode-initial-mode-value')
+    let summary = revisedPage ? this.element.querySelector('.govuk-error-summary') : null
 
-    this.formContentTarget.prepend(summary)
+    if (!summary) {
+      summary = document.createElement('div')
+      summary.className = 'govuk-error-summary'
+      summary.setAttribute('data-module', 'govuk-error-summary')
+      if (revisedPage) summary.dataset.searchModeError = 'guided'
+      summary.innerHTML = `
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list"></ul>
+          </div>
+        </div>
+      `
+      this.formContentTarget.prepend(summary)
+    }
+
+    if (revisedPage) summary.tabIndex = -1
+    const list = summary.querySelector('.govuk-error-summary__list')
+    errors.forEach(message => {
+      const item = document.createElement('li')
+      if (revisedPage) item.dataset.searchModeError = 'guided'
+      const link = document.createElement('a')
+      link.href = `#${textareaId}`
+      link.textContent = message
+      item.append(link)
+      list.append(item)
+    })
 
     this.formGroupTarget.classList.add('govuk-form-group--error')
     this.textareaTarget.classList.add('govuk-textarea--error')
