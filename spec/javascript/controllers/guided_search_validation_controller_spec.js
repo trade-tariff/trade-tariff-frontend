@@ -118,6 +118,18 @@ describe('GuidedSearchValidationController', () => {
       expect(document.activeElement).toBe(summary);
     });
 
+    it('reveals a summary hidden after leaving keyword mode before focusing AI errors', async () => {
+      await setup({serverErrors: true});
+      document.querySelector('#new_search').dataset.searchModeInitialModeValue = 'guided';
+      const summary = document.querySelector('.govuk-error-summary');
+      summary.querySelector('li').dataset.searchModeError = 'keyword';
+      summary.querySelector('a').href = '#keyword-query';
+      summary.hidden = true;
+      submitForm();
+      expect(summary.hidden).toBe(false);
+      expect(document.activeElement).toBe(summary);
+    });
+
     it('keeps shared date errors when validating AI input', async () => {
       await setup({serverErrors: true});
       document.querySelector('#new_search').dataset.searchModeInitialModeValue = 'guided';
