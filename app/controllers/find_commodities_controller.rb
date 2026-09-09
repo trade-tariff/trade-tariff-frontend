@@ -5,9 +5,10 @@ class FindCommoditiesController < ApplicationController
 
   def show
     @no_shared_search = true
-    @hero_story = News::Item.latest_for_home_page
+    template = find_commodity_template
+    @hero_story = News::Item.latest_for_home_page unless @revised_find_commodity
     @recent_stories = News::Item.updates_page.slice(0, 3)
 
-    render find_commodity_template
+    render template
   end
 end
