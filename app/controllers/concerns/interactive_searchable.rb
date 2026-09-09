@@ -226,7 +226,7 @@ module InteractiveSearchable
     @hero_story = nil
     @recent_stories = []
     record_guided_search_journey(outcome:)
-    render 'find_commodities/show_interactive'
+    render find_commodity_template
     clear_search_failure_suggestions
   end
 

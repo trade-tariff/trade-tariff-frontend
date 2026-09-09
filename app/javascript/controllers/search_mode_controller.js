@@ -22,6 +22,7 @@ export default class extends Controller {
   }
 
   select(event) {
+    event.preventDefault()
     this.#setMode(event.currentTarget.dataset.mode)
   }
 
@@ -31,6 +32,7 @@ export default class extends Controller {
     const positions = {
       ArrowRight: (current + 1) % tabs.length,
       ArrowLeft: (current + tabs.length - 1) % tabs.length,
+      ' ': current,
       Home: 0,
       End: tabs.length - 1,
     }
@@ -48,6 +50,7 @@ export default class extends Controller {
     this.tabTargets.forEach(tab => {
       const selected = tab.dataset.mode === mode
       tab.setAttribute('aria-selected', selected.toString())
+      tab.closest('.govuk-tabs__list-item')?.classList.toggle('govuk-tabs__list-item--selected', selected)
       tab.tabIndex = selected ? 0 : -1
     })
     for (const name of ['keyword', 'guided']) {

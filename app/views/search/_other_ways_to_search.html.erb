@@ -7,7 +7,7 @@
           href: find_commodity_path,
           description: 'Search using keywords or use a known commodity code',
           heading_level: 3,
-        },
+        }.then { |card| card if local_assigns.fetch(:include_keyword, true) },
         {
           title: 'Goods classifications',
           href: browse_sections_path,
@@ -20,5 +20,5 @@
           description: 'Look for your product in the A-Z',
           heading_level: 3,
         },
-      ],
+      ].compact,
     ) %>

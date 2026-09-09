@@ -32,11 +32,11 @@ module ServiceHelper
     t("trade_tariff_heading.#{service_choice}")
   end
 
-  def switch_service_button
+  def switch_service_button(path: current_path)
     copy, link = if uk_service_choice?
-                   [t('service_banner.service_name.xi'), "/xi#{current_path}"]
+                   [t('service_banner.service_name.xi'), "/xi#{path}"]
                  else
-                   [t('service_banner.service_name.uk'), current_path]
+                   [t('service_banner.service_name.uk'), path]
                  end
 
     tag.span class: %w[switch-service-control govuk-!-display-none-print] do

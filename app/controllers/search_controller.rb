@@ -1,6 +1,7 @@
 require 'addressable/uri'
 
 class SearchController < ApplicationController
+  include FindCommodityPage
   include GoodsNomenclatureHelper
   include ClassicSearchable
   include InteractiveSearchable
@@ -29,7 +30,12 @@ class SearchController < ApplicationController
       perform_classic_search
     end
   rescue Search::InvalidDate
-    redirect_to find_commodity_path(search_params.merge(invalid_date: true))
+    redirect_params = search_params.merge(invalid_date: true)
+    if TradeTariffFrontend.revised_find_commodity_enabled? && !TradeTariffFrontend::ServiceChooser.xi?
+      redirect_params[:interactive_search] = params[:interactive_search] == 'true'
+      redirect_params[:q] = params[:q] if params[:q].present?
+    end
+    redirect_to find_commodity_path(redirect_params)
   end
 
   def suggestions
