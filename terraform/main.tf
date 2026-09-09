@@ -1,5 +1,5 @@
 module "service" {
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v3.2.1"
+  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v3.3.0"
 
   region = var.region
 
@@ -24,6 +24,14 @@ module "service" {
 
   task_role_policy_arns = [aws_iam_policy.task.arn]
   enable_ecs_exec       = true
+
+  # frontend's WORKDIR (and therefore Rails.root) is /home/tariff, not /app like the
+  # other services this module backs — bootsnap writes to tmp/cache on boot.
+  # container_user matches the pinned uid/gid in the image; the module's init container
+  # chowns the writable mounts to it so the non-root process can write to them.
+  readonly_root_filesystem = true
+  writable_paths           = ["/tmp", "/home/tariff/tmp", "/home/tariff/log"]
+  container_user           = "1000:1000"
 
   service_environment_config = local.frontend_service_env_vars
 
