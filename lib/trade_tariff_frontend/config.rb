@@ -16,6 +16,10 @@ module TradeTariffFrontend
       environment == 'production'
     end
 
+    def revised_find_commodity_enabled?
+      %w[development staging].include?(environment)
+    end
+
     def waf_integration_enabled?
       waf_integration_url.present?
     end
