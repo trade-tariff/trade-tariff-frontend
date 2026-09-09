@@ -25,6 +25,7 @@
 # be configured to provide at least as many connections as the number of
 # threads. This includes Active Record's `pool` parameter in `database.yml`.
 if ENV['PUMA_METRICS_ENABLED'] == 'true'
+  require_relative '../lib/trade_tariff_frontend'
   require_relative '../lib/puma_metrics'
   ENV['PUMA_METRICS_SERVICE'] ||= 'frontend'
   Puma::Plugins.register('trade_tariff_metrics', PumaMetrics::Plugin)
