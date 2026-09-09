@@ -19,6 +19,7 @@ RSpec.describe 'AI-assisted search banner', :aggregate_failures, type: :request 
     expect(page).to have_css('h2', text: 'Introducing AI-assisted search')
     expect(page).to have_css('a[href="/news/service-updates/ai-assisted-search"][target="_blank"]', text: 'AI-assisted search')
     expect(page).not_to have_text(hero_story.title)
+    expect(News::Item).not_to have_received(:latest_for_home_page)
   end
 
   it 'shows the introduction on an AI validation response' do
