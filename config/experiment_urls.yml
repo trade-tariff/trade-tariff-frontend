@@ -8,3 +8,11 @@ shared:
     redirect: /find_commodity
     service: uk
     instrumentation_label: trstd-trdr
+  search_beta_demo:
+    path: /search-beta-demo
+    feature: interactive_search
+    starts_on: "2026-09-10"
+    timezone: Europe/London
+    redirect: /find_commodity
+    service: uk
+    instrumentation_label: demo

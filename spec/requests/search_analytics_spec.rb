@@ -266,6 +266,22 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
     expect(analytics_context).to include('experiment' => 'trstd-trdr')
   end
 
+  it 'tracks the demo opt-in separately' do
+    enable_feature(:interactive_search)
+
+    travel_to(Time.utc(2026, 9, 10, 12)) do
+      get '/search-beta-demo'
+      get find_commodity_path, params: { experiment: 'spoofed' }
+    end
+
+    expect(analytics_context).to include(
+      'experiment' => 'demo',
+      'search_experience' => 'guided_beta',
+      'feature_flag_enabled' => true,
+      'feature_flag_source' => 'flagsmith',
+    )
+  end
+
   it 'keeps beta experience for keyword results' do
     enable_feature(:interactive_search)
     stub_api_request('search', :post).to_return(jsonapi_response(:search, {
