@@ -71,9 +71,9 @@ test.describe("Accessibility Tests", () => {
   });
 
   testConfig.tariffPages.forEach((pageConfig) => {
-    test(pageConfig.name, async ({ page }, testInfo) => {
+    test(pageConfig.name, async ({ page }) => {
       try {
-        await new LoginPage(pageConfig.path, page, testInfo).login();
+        await new LoginPage(pageConfig.path, page).login();
 
         await runAccessibilityScan(page, pageConfig.name, pageConfig.path, pageConfig.threshold);
       } catch (error) {
@@ -84,12 +84,12 @@ test.describe("Accessibility Tests", () => {
   });
 
   testConfig.adminPages.forEach((pageConfig) => {
-    test(pageConfig.name, async ({ page }, testInfo) => {
+    test(pageConfig.name, async ({ page }) => {
       try {
-        const url = `${process.env.ADMIN_URL}/${pageConfig.path}`;
-        await new LoginPage(url, page, testInfo, true).login();
+        const loginPage = new LoginPage(pageConfig.path, page, process.env.ADMIN_URL);
+        await loginPage.login();
 
-        await runAccessibilityScan(page, pageConfig.name, url, pageConfig.threshold);
+        await runAccessibilityScan(page, pageConfig.name, loginPage.url, pageConfig.threshold);
       } catch (error) {
         console.error(`Admin test failed for ${pageConfig.name}:`, error.message);
         throw error;
