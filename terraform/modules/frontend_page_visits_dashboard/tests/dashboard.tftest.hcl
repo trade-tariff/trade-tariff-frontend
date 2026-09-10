@@ -137,7 +137,9 @@ run "page_visits_dashboard" {
       regex(local.enquiry_step_pattern, "/enquiry_form/contact_details").enquiry_step == "contact_details" &&
       regex(local.enquiry_step_pattern, "/xi/enquiry_form/goods_details").enquiry_step == "goods_details" &&
       !can(regex(local.enquiry_step_pattern, "/enquiry_form/some-answer")) &&
-      !can(regex(local.enquiry_step_pattern, "/enquiry_form/query?query=private")) &&
+      regex(local.enquiry_step_pattern, "/enquiry_form/query?query=private").enquiry_step == "query" &&
+      regex(local.enquiry_step_pattern, "/uk/enquiry_form/goods_details?editing=true").enquiry_step == "goods_details" &&
+      !can(regex(local.enquiry_step_pattern, "/enquiry_form/some-answer?editing=true")) &&
       alltrue([for step in keys(local.enquiry_steps) :
         fileexists("${path.module}/../../../app/views/product_experience/enquiry_form/_${step}.html.erb")
       ])

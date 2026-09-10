@@ -11,6 +11,8 @@ test.describe.configure({ mode: 'serial' });
 const configPath = path.join(__dirname, 'config.json');
 const testConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 const globalAccessibilityResults = [];
+// Fail before running any scans if admin configuration is missing or invalid.
+const adminUrl = new URL(process.env.ADMIN_URL).href;
 
 async function runAccessibilityScan(page, pageName, url, threshold) {
   try {
@@ -86,7 +88,7 @@ test.describe("Accessibility Tests", () => {
   testConfig.adminPages.forEach((pageConfig) => {
     test(pageConfig.name, async ({ page }) => {
       try {
-        const loginPage = new LoginPage(pageConfig.path, page, process.env.ADMIN_URL);
+        const loginPage = new LoginPage(pageConfig.path, page, adminUrl);
         await loginPage.login();
 
         await runAccessibilityScan(page, pageConfig.name, loginPage.url, pageConfig.threshold);
