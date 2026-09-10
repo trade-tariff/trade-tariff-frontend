@@ -26,6 +26,23 @@ run "page_visits_dashboard" {
   }
 
   assert {
+    condition = alltrue([
+      for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
+      strcontains(widget.properties.query, "fields requested_at as @timestamp") &&
+      can(regex("\\| stats [^|]+by bin\\(1h\\)", widget.properties.query))
+      if widget.type == "log" && try(widget.properties.view, "") == "timeSeries"
+    ])
+    error_message = "Time-series queries must restore the deduplicated request timestamp and aggregate using bin(1h)."
+  }
+
+  assert {
+    condition = alltrue([
+      for query in values(local.queries) : length(regexall("\\| stats ", query)) <= 10
+    ])
+    error_message = "Queries must stay within the documented maximum of ten stats commands."
+  }
+
+  assert {
     condition = (
       strcontains(local.cohort_expression, "visits <= ${local.frequency_thresholds.low_max}") &&
       strcontains(local.cohort_expression, "visits <= ${local.frequency_thresholds.regular_max}") &&

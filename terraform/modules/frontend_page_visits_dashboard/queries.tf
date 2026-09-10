@@ -44,6 +44,9 @@ locals {
       "Other public pages") as page_type
   QUERY
 
+  # Current Logs Insights supports up to ten stats commands per query.
+  # Session reports need three: request deduplication, session totals, groups.
+  # https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax-Stats.html
   session_counts = <<-QUERY
     ${local.page_requests}
     | filter isblank(session_id) = 0
@@ -72,7 +75,8 @@ locals {
     volume = <<-QUERY
       ${local.page_requests}
       | ${local.classify_pages}
-      | stats count(*) as page_requests by datefloor(requested_at, 1h), page_type
+      | fields requested_at as @timestamp
+      | stats count(*) as page_requests by bin(1h), page_type
     QUERY
 
     distribution = <<-QUERY
@@ -110,7 +114,8 @@ locals {
     responses = <<-QUERY
       ${local.page_requests}
       | fields case(response_status >= 500, "5xx errors", response_status >= 400, "4xx errors", response_status >= 300, "3xx redirects", "2xx success") as response_class
-      | stats count(*) as page_requests by datefloor(requested_at, 1h), response_class
+      | fields requested_at as @timestamp
+      | stats count(*) as page_requests by bin(1h), response_class
     QUERY
 
     popular_pages = <<-QUERY
