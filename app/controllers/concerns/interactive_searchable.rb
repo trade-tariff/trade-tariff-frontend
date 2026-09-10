@@ -263,16 +263,11 @@ module InteractiveSearchable
     }
 
     GuidedSearch::JourneyInstrumentation.record(
-      browser_session_id: guided_search_browser_session_id,
+      browser_session_id:,
       request_id: @search.request_id,
       outcome:,
       **@guided_search_metrics,
       experiment: @search.experiment,
     )
-  end
-
-  def guided_search_browser_session_id
-    raw_id = session[:guided_search_browser_session_id] ||= SecureRandom.uuid
-    GuidedSearch::JourneyInstrumentation.browser_session_id(raw_id)
   end
 end

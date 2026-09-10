@@ -18,6 +18,21 @@ RSpec.describe Rails::Application::Configuration do
       .to include(experiment_label: 'trstd-trdr', params: {})
   end
 
+  it 'includes the browser session in logs' do
+    event = instance_double(ActiveSupport::Notifications::Event,
+                            payload: { browser_session_id: 'v1:pseudonymous-id', params: {} })
+
+    expect(production_config.lograge.custom_options.call(event))
+      .to include(browser_session_id: 'v1:pseudonymous-id')
+  end
+
+  it 'omits unavailable browser sessions' do
+    event = instance_double(ActiveSupport::Notifications::Event,
+                            payload: { browser_session_id: nil, params: {} })
+
+    expect(production_config.lograge.custom_options.call(event)).not_to have_key(:browser_session_id)
+  end
+
   it 'tags request logs with the normalised request country' do
     country_tag = production_config.log_tags.second
 
