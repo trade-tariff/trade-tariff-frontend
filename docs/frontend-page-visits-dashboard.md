@@ -69,13 +69,17 @@ POST/PATCH/other non-GET/HEAD requests add **(form submission)**. A 3xx status a
 **(redirect)**, including on form submissions. These annotations describe the
 request, not proof of successful validation or a destination page display.
 
-The pie and behaviour table use eight compact activity labels: Search,
-Browse / A-Z, Commodities, Duty calculator, Tariff tools, Enquiry form,
+The pie, hourly activity chart and behaviour table use nine activity labels:
+Search, Browse tariff, A-Z index, Commodities, Duty calculator, Tariff tools, Enquiry form,
 Help & guidance, and Other pages. Enquiry form remains its own activity rather
 than being folded into general help. Table columns use readable names and
 percentages are rounded to two decimal places; rounded shares may not sum to
-exactly 100%. Browse-the-tariff and A-Z
-requests count as browsing, not search. Quota, chemical and code lookups count as
+exactly 100%. Browse tariff covers navigating sections, chapters, headings and
+subheadings, including the browse landing page. A-Z index covers alphabetical
+classified-goods lookup through `SearchReferencesController`; it is distinct from
+both tariff browsing and commodity search. The section-index redirect to Find
+commodity codes remains Search. Splitting A-Z from browsing does not change
+request totals, session totals or frequency thresholds. Quota, chemical and code lookups count as
 Tariff tools, not commodity search. Commodity origin-tab requests count as
 Help, news and rules of origin, not commodity details.
 
