@@ -136,8 +136,10 @@ must not be inferred from this dashboard.
 ## Page-request definition
 
 The source is `platform-logs-<environment>`, restricted to streams starting
-`ecs/frontend/`, matching the ECS awslogs stream convention. Select structured
-controller records with `format = "html"` and a status.
+`ecs/frontend/`, matching the ECS awslogs stream convention. Explicitly extract
+and parse the JSON object because Rails can prefix it with its logger timestamp
+and request tag. Select controller records with `format = "html"` and a status;
+never display the raw message or submitted parameters.
 
 - Count each HTTP request ID once, collapsing duplicate records. Separate
   requests to the same page still count separately.
@@ -158,8 +160,12 @@ controller records with `format = "html"` and a status.
   full-page navigation. The origin-tab mapping makes that distinction explicit.
 
 Page and session totals are grouped from request records rather than summing
-per-hour distinct estimates. First/last aggregation explicitly restores the
-request timestamp after duplicate collapse.
+per-hour distinct estimates. Hourly charts preserve the earliest request's
+`bin(1h)` bucket through duplicate collapse. Logs Insights does not allow
+restoring its implicit `@timestamp` after aggregation. First/last ordering uses
+the deduplicated timestamp's 13-digit epoch-millisecond string followed by the
+page label, then strips the timestamp from the output. Tied timestamps use
+alphabetical label order, not a claim about which page was displayed first.
 
 ## Coverage, cost and access
 
