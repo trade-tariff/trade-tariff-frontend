@@ -23,13 +23,14 @@ locals {
     | fields concat(page_controller, "#", page_action) as page_key
   QUERY
 
-  # The pie uses eight readable activity groups; ranked and first/last tables
+  # The pie uses nine readable activity groups; ranked and first/last tables
   # use the detailed UI names in page_names.tf. Controller alone is insufficient:
   # Search also serves quota/chemical tools, and Commodities serves origin tabs.
   classify_pages = <<-QUERY
     fields case(
       page_key in ["FindCommoditiesController#show", "SectionsController#index", "SearchController#search"], "search",
-      page_controller in ["BrowseSectionsController", "SearchReferencesController", "SectionsController", "ChaptersController", "HeadingsController", "SubheadingsController"], "browse",
+      page_controller = "SearchReferencesController", "az",
+      page_controller in ["BrowseSectionsController", "SectionsController", "ChaptersController", "HeadingsController", "SubheadingsController"], "browse",
       page_key = "CommoditiesController#show", "commodity",
       page_controller like /^DutyCalculator::/, "calculator",
       page_key in ["SearchController#quota_search", "SearchController#chemical_search", "PagesController#tools"] or page_controller in ["AdditionalCodeSearchController", "CertificateSearchController", "FootnoteSearchController", "ExchangeRatesController", "SimplifiedProceduralValuesController"] or page_controller like /^MeursingLookup::/, "tools",
@@ -38,7 +39,8 @@ locals {
       "other"
     ) as activity
     | fields case(activity = "search", "Search",
-      activity = "browse", "Browse / A-Z",
+      activity = "browse", "Browse tariff",
+      activity = "az", "A-Z index",
       activity = "commodity", "Commodities",
       activity = "calculator", "Duty calculator",
       activity = "tools", "Tariff tools",
@@ -97,6 +99,7 @@ locals {
       | stats count(*) as visits,
           sum(if(activity = "search", 1, 0)) as search_visits,
           sum(if(activity = "browse", 1, 0)) as browse_visits,
+          sum(if(activity = "az", 1, 0)) as az_visits,
           sum(if(activity = "commodity", 1, 0)) as commodity_visits,
           sum(if(activity = "calculator", 1, 0)) as calculator_visits,
           sum(if(activity = "tools", 1, 0)) as tool_visits,
@@ -107,6 +110,7 @@ locals {
       | stats count(*) as Sessions, sum(visits) as Requests, round(avg(visits), 2) as `Requests/session`,
           round(100 * sum(search_visits) / sum(visits), 2) as `Search (%)`,
           round(100 * sum(browse_visits) / sum(visits), 2) as `Browse (%)`,
+          round(100 * sum(az_visits) / sum(visits), 2) as `A-Z (%)`,
           round(100 * sum(commodity_visits) / sum(visits), 2) as `Commodities (%)`,
           round(100 * sum(calculator_visits) / sum(visits), 2) as `Calculator (%)`,
           round(100 * sum(tool_visits) / sum(visits), 2) as `Tools (%)`,

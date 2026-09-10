@@ -89,6 +89,20 @@ run "page_visits_dashboard" {
 
   assert {
     condition = (
+      strcontains(local.classify_pages, "page_controller = \"SearchReferencesController\", \"az\"") &&
+      strcontains(local.classify_pages, "page_controller in [\"BrowseSectionsController\", \"SectionsController\", \"ChaptersController\", \"HeadingsController\", \"SubheadingsController\"], \"browse\"") &&
+      strcontains(local.classify_pages, "activity = \"az\", \"A-Z index\"") &&
+      strcontains(local.classify_pages, "activity = \"browse\", \"Browse tariff\"") &&
+      alltrue([for query in [local.queries.pages, local.queries.volume, local.queries.behaviour] : strcontains(query, local.classify_pages)]) &&
+      strcontains(local.queries.behaviour, "sum(if(activity = \"az\", 1, 0)) as az_visits") &&
+      strcontains(local.queries.behaviour, "round(100 * sum(az_visits) / sum(visits), 2) as `A-Z (%)`") &&
+      strcontains(local.queries.behaviour, "round(100 * sum(browse_visits) / sum(visits), 2) as `Browse (%)`")
+    )
+    error_message = "A-Z lookup and tariff hierarchy browsing must be separate activities across charts and frequency shares, using the same request denominator."
+  }
+
+  assert {
+    condition = (
       local.page_names["BrowseSectionsController#index"].name == "Browse the tariff" &&
       local.page_names["SearchReferencesController#show"].name == "A-Z of Classified Goods" &&
       local.page_names["SearchController#quota_search"].name == "Search for quotas" &&
