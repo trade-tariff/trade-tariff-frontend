@@ -5,27 +5,17 @@ class MeasureType
 
   include ApiEntity
 
-  enum :id, {
-    excise: %w[306],
-    mfn_no_authorized_use: %w[103],
-    provides_unit_context: %w[103 105 141 142 145 106 122 123 143 146],
-    safeguard: %w[696],
-    supplementary: %w[109 110 111],
-    supplementary_unit_import_only: %w[110],
-    cds_proofs_of_origin: %w[141 142 143 145 146 147],
-  }
-
   enum :measure_component_applicable_code, {
     duties_permitted: [0],
     duties_mandatory: [1],
     duties_not_permitted: [2],
   }
 
-  enum :measure_type_series_id, {
-    prohibitive: %w[A B],
-  }
+  attr_accessor :id,
+                :measure_component_applicable_code,
+                :measure_type_series_id,
+                :semantic_roles
 
-  attr_accessor :id, :measure_component_applicable_code, :measure_type_series_id
   attr_writer :description, :geographical_area_id
 
   def description
@@ -45,6 +35,34 @@ class MeasureType
     return 'Restriction' if description.scan(/Restriction/i).present?
 
     'Control'
+  end
+
+  def mfn_no_authorized_use?
+    semantic_roles.include?('mfn_no_authorized_use')
+  end
+
+  def provides_unit_context?
+    semantic_roles.include?('provides_unit_context')
+  end
+
+  def safeguard?
+    semantic_roles.include?('safeguard')
+  end
+
+  def supplementary?
+    semantic_roles.include?('supplementary')
+  end
+
+  def supplementary_unit_import_only?
+    semantic_roles.include?('supplementary_unit_import_only')
+  end
+
+  def cds_proofs_of_origin?
+    semantic_roles.include?('cds_proofs_of_origin')
+  end
+
+  def prohibitive?
+    semantic_roles.include?('prohibitive')
   end
 
   private

@@ -46,4 +46,26 @@ RSpec.describe 'shared/context_tables/_heading', type: :view, vcr: { cassette_na
       it { is_expected.not_to have_css 'dl div dt', text: 'Supplementary unit' }
     end
   end
+
+  context 'with an import-only-supplementary measure' do
+    include_context 'with UK service'
+
+    before do
+      allow(DeclarableUnitService).to receive(:new).and_call_original
+    end
+
+    let(:heading) do
+      build(:heading, declarable: true, import_measures: [
+        attributes_for(
+          :measure,
+          :import_only_supplementary,
+          :erga_omnes,
+          :with_supplementary_measure_components,
+        ),
+      ])
+    end
+
+    it { is_expected.to have_css 'dt', exact_text: 'Supplementary unit (import)' }
+    it { is_expected.to have_css 'dd', text: 'Number of items (p/st)' }
+  end
 end

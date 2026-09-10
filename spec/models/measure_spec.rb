@@ -266,6 +266,18 @@ RSpec.describe Measure do
         expect(measure.prohibitive?).to be(false)
       end
     end
+
+    context 'when a prohibitive type has measure conditions' do
+      subject(:measure) { build(:measure, :prohibitive, :with_conditions) }
+
+      it { is_expected.not_to be_prohibitive }
+    end
+
+    context 'when a prohibitive type has an additional code' do
+      subject(:measure) { build(:measure, :prohibitive, :with_additional_code) }
+
+      it { is_expected.not_to be_prohibitive }
+    end
   end
 
   describe '#residual?' do
@@ -283,6 +295,12 @@ RSpec.describe Measure do
       it 'returns false' do
         expect(measure).not_to be_residual
       end
+    end
+
+    context 'when a residual measure has conditions' do
+      subject(:measure) { build(:measure, :residual, :with_conditions) }
+
+      it { is_expected.not_to be_residual }
     end
   end
 
@@ -315,17 +333,31 @@ RSpec.describe Measure do
   end
 
   describe '#key' do
-    subject(:measure) { build(:measure) }
+    subject(:ordered_measure) do
+      [ordinary_measure, supplementary_measure].sort_by(&:key)
+    end
 
-    it 'memoizes the result' do
-      expect(measure.key).to equal(measure.key)
+    let(:geographical_area) do
+      attributes_for(:geographical_area, id: 'FR', description: 'France')
+    end
+
+    let(:ordinary_measure) do
+      build(:measure, :suspension, geographical_area:)
+    end
+
+    let(:supplementary_measure) do
+      build(:measure, :import_export_supplementary, geographical_area:)
+    end
+
+    it 'places supplementary measures before otherwise comparable measures' do
+      expect(ordered_measure).to eq([supplementary_measure, ordinary_measure])
     end
   end
 
   describe '#cds_proofs_of_origin' do
     subject { measure.cds_proofs_of_origin schemes }
 
-    let(:measure) { build :measure, geographical_area_id: 'FR', measure_type_id: '142' }
+    let(:measure) { build :measure, :tariff_preference, geographical_area_id: 'FR' }
 
     let :schemes do
       build_list :rules_of_origin_scheme, 1, :with_cds_proof_info, countries: %w[FR]
