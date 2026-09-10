@@ -44,6 +44,42 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
     expectations.each { |(time, service), state| expect(experiment.state_at(time, service_name: service)).to eq(state) }
   end
 
+  context 'without an end date' do
+    let(:config) { { trusted_trader_guided_search: entry.except(:ends_on) } }
+
+    it 'keeps the start and service boundaries', :aggregate_failures do
+      experiment = registry.first
+
+      expect(experiment.ends_on).to be_nil
+      expect(experiment.state_at(Time.utc(2026, 7, 26, 22, 59, 59), service_name: 'uk')).to eq(:not_started)
+      expect(experiment.state_at(Time.utc(2026, 7, 26, 23), service_name: 'uk')).to eq(:active)
+      expect(experiment.state_at(Time.utc(2036, 7, 27), service_name: 'uk')).to eq(:active)
+      expect(experiment.state_at(Time.utc(2036, 7, 27), service_name: 'xi')).to eq(:wrong_service)
+    end
+
+    it 'does not expire the enrolment' do
+      expect(registry.first.expired_at?(Time.utc(2036, 7, 27))).to be(false)
+    end
+  end
+
+  context 'with a null end date' do
+    let(:config) { { trusted_trader_guided_search: entry.merge(ends_on: nil) } }
+
+    it 'does not expire the enrolment' do
+      expect(registry.first.expired_at?(Time.utc(2036, 7, 27))).to be(false)
+    end
+  end
+
+  ['', 'invalid', false].each do |ends_on|
+    context "with an invalid end date of #{ends_on.inspect}" do
+      let(:config) { { trusted_trader_guided_search: entry.merge(ends_on:) } }
+
+      it 'rejects the supplied date' do
+        expect { registry }.to raise_error(described_class::ConfigurationError, /field ends_on/)
+      end
+    end
+  end
+
   it 'rejects invalid boot configuration with context' do
     invalid = {
       path: 'relative',

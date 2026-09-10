@@ -6,6 +6,41 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
   let(:experiment) { Rails.application.config.experiment_urls.fetch(:trusted_trader_guided_search) }
 
+  context 'with the demo experiment' do
+    let(:experiment) { Rails.application.config.experiment_urls.fetch(:search_beta_demo) }
+
+    it 'enrols at the London start date', :aggregate_failures do
+      travel_to(Time.utc(2026, 9, 9, 23)) do
+        get '/search-beta-demo', params: { experiment: 'spoofed' }
+      end
+
+      expect(response).to redirect_to('/find_commodity?experiment=demo')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+      expect(response.headers.fetch('Cache-Control')).to include('no-store')
+    end
+
+    it 'does not enrol before the start', :aggregate_failures do
+      travel_to(Time.utc(2026, 9, 9, 22, 59, 59)) { get '/search-beta-demo' }
+
+      expect(response).to redirect_to('/find_commodity')
+      expect(session[:experiment_url_optins]).to be_blank
+    end
+
+    it 'does not enrol Northern Ireland', :aggregate_failures do
+      travel_to(Time.utc(2026, 9, 10, 12)) { get '/xi/search-beta-demo' }
+
+      expect(response).to redirect_to('/xi/find_commodity')
+      expect(session[:experiment_url_optins]).to be_blank
+    end
+
+    it 'remains available without an end date', :aggregate_failures do
+      travel_to(Time.utc(2036, 9, 10, 12)) { get '/search-beta-demo' }
+
+      expect(response).to redirect_to('/find_commodity?experiment=demo')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+    end
+  end
+
   it 'enrols the active browser, redirects with its trusted label, and is not cacheable', :aggregate_failures do
     allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
     travel_to(Time.utc(2026, 7, 27, 12)) { get experiment.path, params: { experiment: 'spoofed' } }
