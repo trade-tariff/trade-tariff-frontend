@@ -4,6 +4,10 @@ class CommoditiesController < GoodsNomenclaturesController
   helper_method :uk_declarable, :xi_declarable, :declarable
 
   def show
+    if params[:id].ends_with?(GoodsNomenclature::CHAPTER_SUFFIX)
+      return redirect_to chapter_path(params[:id].first(2))
+    end
+
     unless declarable.declarable?
       return redirect_to polymorphic_path(declarable)
     end
