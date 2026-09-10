@@ -44,8 +44,9 @@ module GuidedSearch
       return false unless resource.is_a?(Hash) && %w[id type].all? { |key| resource[key].is_a?(String) && resource[key].present? }
 
       attributes = resource['attributes']
-      attributes.is_a?(Hash) && attributes['goods_nomenclature_item_id'].is_a?(String) && attributes['goods_nomenclature_item_id'].present? &&
-        (Search::InternalSearchResult::CONTROLLER_MAP.keys + %w[GoodsNomenclature]).include?(attributes['goods_nomenclature_class'])
+      attributes.is_a?(Hash) && %w[goods_nomenclature_item_id goods_nomenclature_class].all? do |key|
+        attributes[key].is_a?(String) && attributes[key].present?
+      end
     end
     private_class_method :valid_resource?
 
