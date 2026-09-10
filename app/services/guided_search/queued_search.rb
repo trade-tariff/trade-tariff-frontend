@@ -69,6 +69,7 @@ module GuidedSearch
       intercept = meta['description_intercept']
       return true unless intercept
 
+      # Copy is optional: exclusions without both fields use the shared no-results fallback.
       optional_types?(intercept, 'message_header' => String, 'message' => String) &&
         [nil, true, false].include?(intercept['excluded'])
     end
@@ -96,7 +97,8 @@ module GuidedSearch
     private_class_method :path
 
     def self.parse(response)
-      body = response.body.is_a?(Hash) ? response.body : JSON.parse(response.body)
+      body = response.body
+      body = JSON.parse(body) if body.is_a?(String)
       raise InvalidResponse unless body.is_a?(Hash)
 
       body

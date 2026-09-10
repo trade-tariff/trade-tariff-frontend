@@ -45,6 +45,42 @@ RSpec.describe GuidedSearch::QueuedSearch do
     end
   end
 
+  [nil, [], false, 123].each do |body|
+    it "converts a non-object JSON response (#{body.inspect}) into a recoverable error" do
+      stub_api_request("queued_searches/#{id}", internal: true).to_return(
+        status: 200, body: body.to_json, headers: { 'content-type' => 'application/json' },
+      )
+
+      expect { result }.to raise_error(described_class::InvalidResponse)
+    end
+  end
+
+  it 'also handles a decoded null submission response as unavailable' do
+    stub_api_request('queued_searches', :post, internal: true).to_return(
+      status: 202, body: 'null', headers: { 'content-type' => 'application/json' },
+    )
+
+    expect { described_class.submit(Search.new(q: 'horse')) }.to raise_error(described_class::InvalidResponse)
+  end
+
+  [{}, { message: 'Body only' }, { message_header: 'Header only' }].each do |copy|
+    it "preserves the existing no-results fallback for excluded terms with #{copy.keys.inspect}", :aggregate_failures do
+      stub_api_request("queued_searches/#{id}", internal: true).to_return(
+        status: 200,
+        headers: { 'content-type' => 'application/json' },
+        body: {
+          id:,
+          status: 'completed',
+          response_status: 200,
+          result: { data: [], meta: { description_intercept: { excluded: true, **copy } } },
+        }.to_json,
+      )
+
+      expect(result).to be_none
+      expect(result).not_to be_blocking_guidance
+    end
+  end
+
   [nil, '', ' ', 123, {}, 'Hash', 'Array', 'String', 'Kernel'].each do |malformed|
     context "with malformed class #{malformed.inspect}" do
       let(:resource_class) { malformed }
