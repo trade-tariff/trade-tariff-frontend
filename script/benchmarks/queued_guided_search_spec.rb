@@ -123,7 +123,7 @@ RSpec.describe 'Controlled queued search frontend benchmark', :aggregate_failure
       release_health << true
       expect(trial.value).to include(submission_ms: 2000, total_ms: mode == 'synchronous' ? 2000 : 3000, unrelated_ms: 50_000)
     ensure
-      release_health << true
+      release_health&.push(true)
       trial&.kill
       trial&.join
     end
