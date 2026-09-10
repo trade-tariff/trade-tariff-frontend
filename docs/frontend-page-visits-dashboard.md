@@ -67,8 +67,12 @@ POST/PATCH/other non-GET/HEAD requests add **(form submission)**. A 3xx status a
 **(redirect)**, including on form submissions. These annotations describe the
 request, not proof of successful validation or a destination page display.
 
-The pie and behaviour table use eight broader groups, including Enquiry form as
-its own activity rather than folding it into general help. Browse-the-tariff and A-Z
+The pie and behaviour table use eight compact activity labels: Search,
+Browse / A-Z, Commodities, Duty calculator, Tariff tools, Enquiry form,
+Help & guidance, and Other pages. Enquiry form remains its own activity rather
+than being folded into general help. Table columns use readable names and
+percentages are rounded to two decimal places; rounded shares may not sum to
+exactly 100%. Browse-the-tariff and A-Z
 requests count as browsing, not search. Quota, chemical and code lookups count as
 Tariff tools, not commodity search. Commodity origin-tab requests count as
 Help, news and rules of origin, not commodity details.
@@ -170,9 +174,17 @@ alphabetical label order, not a claim about which page was displayed first.
 ## Coverage, cost and access
 
 Historical session coverage begins when the AI-1091 logging change is deployed
-to the selected environment, not at its merge date. The actual collection start,
-log retention and live field coverage have not yet been validated. Empty charts
-must not be interpreted as zero visitors or complete historical coverage.
+to the selected environment, not at its merge date. A full-day window can mix
+older uncorrelated requests with newer correlated requests. Check a recent
+post-deployment window before diagnosing current collection failures; retain
+missing IDs in historical coverage rather than hiding them.
+
+Development validation on 10 September 2026 found a Standard-class log group
+with seven-day retention. In the sampled hour, all 52 eligible requests in the
+11:05 UTC bucket lacked IDs, while all 108 observed requests from 11:15 UTC
+onward had IDs. This is bounded development evidence, not a guarantee for other
+environments or future traffic. Empty charts must not be interpreted as zero
+visitors or complete historical coverage.
 
 Each dashboard refresh runs nine Logs Insights queries over a shared platform
 log group. Prefer manual refresh and bounded windows. Measure bytes scanned and

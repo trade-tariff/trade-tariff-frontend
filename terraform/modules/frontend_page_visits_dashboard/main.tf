@@ -25,7 +25,7 @@ resource "aws_cloudwatch_dashboard" "page_visits" {
         properties = {
           markdown = join("\n\n", [
             "# Frontend Page Visits - ${var.environment}",
-            "**Product: start here:** check session-ID coverage, then the frequency and page-type pies. User groups count browser sessions, not people; page types count requests, including Other.",
+            "**Product: start here:** check session-ID coverage, then the frequency and activity pies. Groups count browser sessions, not people; activities count requests, including Other. After a logging deployment, check a recent window: older requests may have no session ID.",
             "**Frequency in the selected window:** Low 1-${local.frequency_thresholds.low_max}; Regular ${local.frequency_thresholds.low_max + 1}-${local.frequency_thresholds.regular_max}; High ${local.frequency_thresholds.regular_max + 1}+. Provisional counts, not expertise. Window changes and session resets change grouping. Missing IDs are excluded from groups, not counted as low frequency.",
             "**Page visits:** public HTML controller requests, including refreshes, submissions, redirects and errors; duplicate HTTP IDs count once. Known bots/auth routes excluded. No data is not zero; requests are not proof of visible views. First/last pages are window-limited, not entry/exit proof.",
             "**Cost:** prefer manual refresh; each refresh runs nine log queries. [Definitions, exclusions and coverage](${local.guide_url}) | [Puma operations](${local.puma_url})",

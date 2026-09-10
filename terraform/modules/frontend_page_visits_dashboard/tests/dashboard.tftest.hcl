@@ -31,7 +31,7 @@ run "page_visits_dashboard" {
       for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
       strcontains(widget.properties.query, "fields bin(1h) as hourly_bin") &&
       strcontains(widget.properties.query, "earliest(hourly_bin) as request_hour") &&
-      can(regex("\\| stats [^|]+by request_hour,", widget.properties.query))
+      can(regex("\\| stats [^|]+by Hour,", widget.properties.query))
       if widget.type == "log" && try(widget.properties.view, "") == "timeSeries"
     ])
     error_message = "Time-series queries must carry the hourly bin through request deduplication without reintroducing @timestamp."
@@ -58,17 +58,17 @@ run "page_visits_dashboard" {
     condition = (
       strcontains(local.queries.cohorts, "filter not isblank(session_id)") &&
       strcontains(local.queries.cohorts, "by session_id") &&
-      strcontains(local.queries.cohorts, "count(*) as sessions by frequency_group") &&
-      strcontains(local.queries.coverage, "Missing session ID")
+      strcontains(local.queries.cohorts, "count(*) as Sessions by `Frequency group`") &&
+      strcontains(local.queries.coverage, "Missing ID")
     )
     error_message = "Cohorts must count sessions, with uncorrelated requests visible separately rather than classified as low-frequency."
   }
 
   assert {
     condition = (
-      strcontains(local.queries.pages, "count(*) as page_requests by page_type") &&
+      strcontains(local.queries.pages, "count(*) as Requests by Activity") &&
       !strcontains(local.queries.pages, "limit") &&
-      strcontains(local.classify_pages, "Other public pages")
+      strcontains(local.classify_pages, "Other pages")
     )
     error_message = "The page-type pie must include the full eligible population, including Other, not a truncated top-N denominator."
   }
@@ -153,6 +153,18 @@ run "page_visits_dashboard" {
       local.page_names["ProductExperience::EnquiryFormController#confirmation"].name == "Enquiry: Your request has been submitted"
     )
     error_message = "Enquiry activity, step submissions, final submission and confirmation must remain distinguishable."
+  }
+
+  assert {
+    condition = (
+      strcontains(local.queries.behaviour, "as `Requests/session`") &&
+      strcontains(local.queries.behaviour, "as `Enquiries (%)`") &&
+      strcontains(local.queries.popular_pages, "fields page_label as Page") &&
+      strcontains(local.queries.first_last, "as `First page`") &&
+      strcontains(local.classify_pages, "activity = \"commodity\", \"Commodities\"") &&
+      strcontains(local.classify_pages, "activity = \"guidance\", \"Help & guidance\"")
+    )
+    error_message = "Displayed fields and activity legends must use readable product-facing names."
   }
 
   assert {
