@@ -9,9 +9,11 @@ using the controller-log correlation added by
 `Frontend-Page-Visits-<environment>` defaults to the last 24 hours. Start with
 session-ID coverage, then compare the two main pies:
 
-- **User frequency groups:** number of distinct observed browser-session IDs in
-  each group. These are reporting identities, not verified people.
-- **Most visited pages:** share of eligible requests by readable activity group,
+- **Browser sessions by request frequency:** number of distinct observed
+  browser-session IDs in each group. These are reporting identities, not verified
+  people. Low, Medium and High describe request counts in the selected period,
+  not how regularly someone returns to the service.
+- **Share of requests by activity:** share of eligible requests by activity group,
   including Other. The separate top-20 page table shows UI names mapped from
   controller/action pairs, distinguishing form submissions and redirects.
 
@@ -119,7 +121,7 @@ Edit `local.frequency_thresholds` in
 | Group | Visits within the selected window |
 | --- | --- |
 | Low frequency | 1-2 |
-| Regular | 3-9 |
+| Medium frequency | 3-9 |
 | High frequency | 10+ |
 
 These are provisional product defaults, not observed 20th/80th percentiles or
