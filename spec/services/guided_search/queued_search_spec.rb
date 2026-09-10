@@ -35,7 +35,17 @@ RSpec.describe GuidedSearch::QueuedSearch do
     end
   end
 
-  [nil, '', ' ', 123, {}].each do |malformed|
+  context 'with a future valid model subclass' do
+    let(:resource_class) { 'FutureGoodsNomenclature' }
+
+    before { stub_const('FutureGoodsNomenclature', Class.new(GoodsNomenclature)) }
+
+    it 'accepts subclasses outside the current controller map' do
+      expect(result.all.first).to be_an_instance_of(FutureGoodsNomenclature)
+    end
+  end
+
+  [nil, '', ' ', 123, {}, 'Hash', 'Array', 'String', 'Kernel'].each do |malformed|
     context "with malformed class #{malformed.inspect}" do
       let(:resource_class) { malformed }
 
