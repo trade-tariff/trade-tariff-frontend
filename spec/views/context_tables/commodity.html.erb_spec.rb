@@ -12,6 +12,28 @@ RSpec.describe 'shared/context_tables/_commodity', type: :view, vcr: { cassette_
   let(:declarable) { build(:commodity) }
   let(:search) { build(:search, :with_search_date, :with_country) }
 
+  context 'with an import-only supplementary measure' do
+    include_context 'with UK service'
+
+    before do
+      allow(DeclarableUnitService).to receive(:new).and_call_original
+    end
+
+    let(:declarable) do
+      build(:commodity, import_measures: [
+        attributes_for(
+          :measure,
+          :import_only_supplementary,
+          :erga_omnes,
+          :with_supplementary_measure_components,
+        ),
+      ])
+    end
+
+    it { is_expected.to have_css 'dt', exact_text: 'Supplementary unit (import)' }
+    it { is_expected.to have_css 'dd', text: 'Number of items (p/st)' }
+  end
+
   describe 'commodity row' do
     it { is_expected.to have_css 'dl div dt', text: 'Commodity' }
     it { is_expected.to have_css 'dl div dd', text: declarable.goods_nomenclature_item_id }

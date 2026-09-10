@@ -156,7 +156,7 @@ RSpec.describe MeasureCollection do
     end
 
     context 'when there are multiple third country measures' do
-      subject(:collection) { described_class.new([third_country_measure, authorised_use_measure, measure]) }
+      subject(:collection) { described_class.new([authorised_use_measure, third_country_measure, measure]) }
 
       it { expect(collection.unique_third_country_overview_measures.measures).to eq([third_country_measure]) }
     end
