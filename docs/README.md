@@ -15,6 +15,7 @@ This directory is the starting point for understanding the Trade Tariff Frontend
 
 ## Operational Entry Points
 
+- [Frontend Page Visits dashboard](frontend-page-visits-dashboard.md) covers product reporting, session frequency bands and counting rules.
 - [Puma request capacity metrics](puma-metrics.md) covers opt-in web worker occupancy, queue backlog and collection rollout.
 
 - `README.md` covers local setup, backend configuration, assets, and test commands.
