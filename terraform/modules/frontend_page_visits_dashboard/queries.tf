@@ -12,11 +12,14 @@ locals {
   page_requests = <<-QUERY
     SOURCE 'platform-logs-${var.environment}'
     | filter @logStream like /^ecs\/frontend\//
-    | filter format = "html" and ispresent(controller) and ispresent(status)
-    | filter controller not like /^(Myott::|BasicSessionsController|HealthcheckController|Cookies::)/
-    | filter isblank(user_agent) = 1 or tolower(user_agent) not like /bot|crawler|spider|headless|synthetic|healthcheck/
-    | filter ispresent(request_id) and request_id != ""
-    | stats earliest(@timestamp) as requested_at, earliest(controller) as page_controller, earliest(action) as page_action, earliest(method) as page_method, earliest(path) as page_path, earliest(status) as response_status, earliest(browser_session_id) as session_id by request_id
+    | parse @message /(?<request_json>\{.*\})$/
+    | fields jsonParse(request_json) as request
+    | filter request.format = "html" and ispresent(request.controller) and ispresent(request.status)
+    | filter request.controller not like /^(Myott::|BasicSessionsController|HealthcheckController|Cookies::)/
+    | filter isblank(request.user_agent) or tolower(request.user_agent) not like /bot|crawler|spider|headless|synthetic|healthcheck/
+    | filter ispresent(request.request_id) and request.request_id != ""
+    | fields bin(1h) as hourly_bin
+    | stats earliest(hourly_bin) as request_hour, earliest(@timestamp) as requested_at, earliest(request.controller) as page_controller, earliest(request.action) as page_action, earliest(request.method) as page_method, earliest(request.path) as page_path, earliest(request.status) as response_status, earliest(request.browser_session_id) as session_id by request.request_id
     | fields concat(page_controller, "#", page_action) as page_key
   QUERY
 
@@ -49,7 +52,7 @@ locals {
   # https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax-Stats.html
   session_counts = <<-QUERY
     ${local.page_requests}
-    | filter isblank(session_id) = 0
+    | filter not isblank(session_id)
     | stats count(*) as visits by session_id
   QUERY
 
@@ -68,15 +71,14 @@ locals {
 
     coverage = <<-QUERY
       ${local.page_requests}
-      | fields if(isblank(session_id) = 1, "Missing session ID", "Correlated") as coverage
+      | fields if(isblank(session_id), "Missing session ID", "Correlated") as coverage
       | stats count(*) as page_requests by coverage
     QUERY
 
     volume = <<-QUERY
       ${local.page_requests}
       | ${local.classify_pages}
-      | fields requested_at as @timestamp
-      | stats count(*) as page_requests by bin(1h), page_type
+      | stats count(*) as page_requests by request_hour, page_type
     QUERY
 
     distribution = <<-QUERY
@@ -88,7 +90,7 @@ locals {
 
     behaviour = <<-QUERY
       ${local.page_requests}
-      | filter isblank(session_id) = 0
+      | filter not isblank(session_id)
       | ${local.classify_pages}
       | stats count(*) as visits,
           sum(if(activity = "search", 1, 0)) as search_visits,
@@ -114,8 +116,7 @@ locals {
     responses = <<-QUERY
       ${local.page_requests}
       | fields case(response_status >= 500, "5xx errors", response_status >= 400, "4xx errors", response_status >= 300, "3xx redirects", "2xx success") as response_class
-      | fields requested_at as @timestamp
-      | stats count(*) as page_requests by bin(1h), response_class
+      | stats count(*) as page_requests by request_hour, response_class
     QUERY
 
     popular_pages = <<-QUERY
@@ -128,10 +129,12 @@ locals {
 
     first_last = <<-QUERY
       ${local.page_requests}
-      | filter isblank(session_id) = 0
+      | filter not isblank(session_id)
       | ${local.name_pages}
-      | fields requested_at as @timestamp
-      | stats earliest(page_label) as first_page, latest(page_label) as last_page by session_id
+      | fields concat(requested_at, "|", page_label) as observation
+      | stats sortsFirst(observation) as first_observation, sortsLast(observation) as last_observation by session_id
+      | parse first_observation /^[0-9]+\|(?<first_page>.*)$/
+      | parse last_observation /^[0-9]+\|(?<last_page>.*)$/
       | stats count(*) as sessions by first_page, last_page
       | sort sessions desc
       | limit 20

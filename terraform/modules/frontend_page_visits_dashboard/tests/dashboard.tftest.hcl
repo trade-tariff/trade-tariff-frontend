@@ -18,8 +18,9 @@ run "page_visits_dashboard" {
       for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
       strcontains(widget.properties.query, "SOURCE 'platform-logs-staging'") &&
       strcontains(widget.properties.query, "ecs\\/frontend\\/") &&
-      strcontains(widget.properties.query, "format = \"html\"") &&
-      strcontains(widget.properties.query, "by request_id")
+      strcontains(widget.properties.query, "jsonParse(request_json) as request") &&
+      strcontains(widget.properties.query, "request.format = \"html\"") &&
+      strcontains(widget.properties.query, "by request.request_id")
       if widget.type == "log"
     ])
     error_message = "All reports must select frontend HTML requests and collapse duplicate request records."
@@ -28,11 +29,12 @@ run "page_visits_dashboard" {
   assert {
     condition = alltrue([
       for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
-      strcontains(widget.properties.query, "fields requested_at as @timestamp") &&
-      can(regex("\\| stats [^|]+by bin\\(1h\\)", widget.properties.query))
+      strcontains(widget.properties.query, "fields bin(1h) as hourly_bin") &&
+      strcontains(widget.properties.query, "earliest(hourly_bin) as request_hour") &&
+      can(regex("\\| stats [^|]+by request_hour,", widget.properties.query))
       if widget.type == "log" && try(widget.properties.view, "") == "timeSeries"
     ])
-    error_message = "Time-series queries must restore the deduplicated request timestamp and aggregate using bin(1h)."
+    error_message = "Time-series queries must carry the hourly bin through request deduplication without reintroducing @timestamp."
   }
 
   assert {
@@ -54,7 +56,7 @@ run "page_visits_dashboard" {
 
   assert {
     condition = (
-      strcontains(local.queries.cohorts, "filter isblank(session_id) = 0") &&
+      strcontains(local.queries.cohorts, "filter not isblank(session_id)") &&
       strcontains(local.queries.cohorts, "by session_id") &&
       strcontains(local.queries.cohorts, "count(*) as sessions by frequency_group") &&
       strcontains(local.queries.coverage, "Missing session ID")
@@ -76,7 +78,9 @@ run "page_visits_dashboard" {
       for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
       widget.properties.region == var.region &&
       !strcontains(widget.properties.query, "dedup") &&
-      !strcontains(widget.properties.query, "@message") &&
+      !strcontains(widget.properties.query, "display @message") &&
+      !can(regex("isblank\\([^)]*\\) = [01]", widget.properties.query)) &&
+      !strcontains(widget.properties.query, "as @timestamp") &&
       !strcontains(widget.properties.query, "params")
       if widget.type == "log"
     ])
@@ -105,8 +109,8 @@ run "page_visits_dashboard" {
 
   assert {
     condition = (
-      strcontains(local.page_requests, "earliest(action) as page_action") &&
-      strcontains(local.page_requests, "earliest(method) as page_method") &&
+      strcontains(local.page_requests, "earliest(request.action) as page_action") &&
+      strcontains(local.page_requests, "earliest(request.method) as page_method") &&
       strcontains(local.name_pages, "(form submission)") &&
       strcontains(local.name_pages, "(redirect)") &&
       strcontains(local.queries.popular_pages, local.name_pages) &&
@@ -114,6 +118,17 @@ run "page_visits_dashboard" {
       !strcontains(local.queries.popular_pages, "by page_path")
     )
     error_message = "Ranked and first/last tables must share the action-aware UI labels and preserve submission/redirect distinctions."
+  }
+
+  assert {
+    condition = (
+      strcontains(local.queries.first_last, "concat(requested_at, \"|\", page_label)") &&
+      strcontains(local.queries.first_last, "sortsFirst(observation) as first_observation") &&
+      strcontains(local.queries.first_last, "sortsLast(observation) as last_observation") &&
+      strcontains(local.queries.first_last, "parse first_observation") &&
+      strcontains(local.queries.first_last, "parse last_observation")
+    )
+    error_message = "First/last reporting must preserve chronological order after request deduplication without implicit @timestamp access."
   }
 
   assert {
