@@ -1,7 +1,7 @@
 class LoginPage {
-  constructor(relativeUrl, page) {
+  constructor(relativeUrl, page, baseUrl) {
     this.page = page;
-    this.url = relativeUrl;
+    this.url = baseUrl ? new URL(relativeUrl, baseUrl).href : relativeUrl;
     this.password = process.env.BASIC_PASSWORD;
   }
 
