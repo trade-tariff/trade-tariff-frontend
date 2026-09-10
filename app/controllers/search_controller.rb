@@ -5,24 +5,21 @@ class SearchController < ApplicationController
   include GoodsNomenclatureHelper
   include ClassicSearchable
   include InteractiveSearchable
+  include QueuedGuidedSearchable
 
   skip_before_action :verify_authenticity_token, only: [:search]
+  # A signed grant authorises status reads; avoid page setup and remote flag evaluation.
+  skip_before_action :set_current_flagsmith_identity, :set_path_info, :set_search,
+                     :bots_no_index_if_historical, only: :queued_guided_search
 
   before_action :disable_switch_service_banner, only: [:quota_search]
   before_action :disable_search_form, except: [:search]
 
   def search
-    params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?
-
-    @search.q = params[:q] if params[:q]
-    @search.interactive_search = params[:interactive_search] == 'true'
-    @search.answers = params[:answers] if params[:answers].present?
-    @search.request_id = if @search.interactive_search
-                           safe_guided_search_identifier(params[:request_id]) || SecureRandom.uuid
-                         else
-                           params[:request_id].presence || SecureRandom.uuid
-                         end
-    @search.expanded_query = params[:expanded_query].presence
+    prepare_search
+    if params[:queued_search_id].present? && (!accepted_queued_search? || !interactive_search?)
+      return head :not_found
+    end
 
     if interactive_search?
       perform_interactive_search
@@ -98,6 +95,19 @@ class SearchController < ApplicationController
 
   private
 
+  def prepare_search
+    params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?
+    @search.q = params[:q] if params[:q]
+    @search.interactive_search = params[:interactive_search] == 'true'
+    @search.answers = params[:answers] if params[:answers].present?
+    @search.request_id = if @search.interactive_search
+                           safe_guided_search_identifier(params[:request_id]) || SecureRandom.uuid
+                         else
+                           params[:request_id].presence || SecureRandom.uuid
+                         end
+    @search.expanded_query = params[:expanded_query].presence
+  end
+
   def guided_search_event_params
     params.permit(
       :event_type,
@@ -154,7 +164,7 @@ class SearchController < ApplicationController
 
   def safe_guided_search_identifier(value)
     identifier = value.to_s
-    identifier.match?(/\A[a-zA-Z0-9-]{1,64}\z/) ? identifier : nil
+    identifier.match?(Search::GUIDED_REQUEST_ID_PATTERN) ? identifier : nil
   end
 
   def bounded_integer(value, maximum:)

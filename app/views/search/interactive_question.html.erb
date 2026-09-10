@@ -2,7 +2,9 @@
   <%= generate_breadcrumbs "Search", [["Home", home_path]] %>
 <% end %>
 
-<div data-controller="interactive-question"
+<div data-controller="interactive-question queued-search"
+     data-queued-search-url-value="<%= queue_guided_search_path(day: nil, month: nil, year: nil) %>"
+     data-action="guided-search:submit->queued-search#submit queued-search:error->interactive-question#restore"
      data-interactive-question-event-url-value="<%= guided_search_event_path(day: nil, month: nil, year: nil) %>"
      data-interactive-question-request-id-value="<%= @search.request_id %>"
      data-interactive-question-question-number-value="<%= @results.answered_questions.size + 1 %>">
@@ -16,6 +18,7 @@
   </div>
 
   <div data-interactive-question-target="form">
+    <%= render 'search/queued_search_error' %>
     <% question = @results.current_question %>
 
     <%= form_with model: (@form || InteractiveSearchForm.new),
