@@ -44,9 +44,12 @@ module GuidedSearch
       return false unless resource.is_a?(Hash) && %w[id type].all? { |key| resource[key].is_a?(String) && resource[key].present? }
 
       attributes = resource['attributes']
-      attributes.is_a?(Hash) && %w[goods_nomenclature_item_id goods_nomenclature_class].all? do |key|
-        attributes[key].is_a?(String) && attributes[key].present?
-      end
+      return false unless attributes.is_a?(Hash)
+      return false unless %w[goods_nomenclature_item_id goods_nomenclature_class].all? { |key| attributes[key].is_a?(String) && attributes[key].present? }
+
+      # Keep the shared unknown-name fallback without instantiating unrelated constants.
+      model_class = attributes['goods_nomenclature_class'].safe_constantize
+      model_class.nil? || (model_class.is_a?(Class) && model_class <= GoodsNomenclature)
     end
     private_class_method :valid_resource?
 
