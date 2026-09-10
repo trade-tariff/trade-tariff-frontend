@@ -44,16 +44,20 @@ RSpec.describe 'Search analytics in the browser', :js, type: :feature do
   it 'tracks guided questions and rendered results' do
     enable_feature(:interactive_search)
     question = { question: 'What type of horse?', options: %w[Racing Breeding], answer: nil }
-    stub_api_request('search', :post, internal: true).to_return(
-      {
-        body: { data: [commodity], meta: { interactive_search: { request_id: 'browser-request', answers: [question] } } }.to_json,
+    results = [
+      { data: [commodity], meta: { interactive_search: { request_id: 'browser-request', answers: [question] } } },
+      { data: [commodity], meta: { interactive_search: { request_id: 'browser-request', answers: [question.merge(answer: 'Racing')] } } },
+    ]
+    ids = results.map { SecureRandom.uuid }
+    stub_api_request('queued_searches', :post, internal: true).to_return(*ids.map do |id|
+      { status: 202, body: { id:, status: 'queued' }.to_json, headers: { 'content-type' => 'application/json' } }
+    end)
+    results.zip(ids).each do |result, id|
+      stub_api_request("queued_searches/#{id}", internal: true).to_return(
+        body: { id:, status: 'completed', response_status: 200, result: }.to_json,
         headers: { 'content-type' => 'application/json' },
-      },
-      {
-        body: { data: [commodity], meta: { interactive_search: { request_id: 'browser-request', answers: [question.merge(answer: 'Racing')] } } }.to_json,
-        headers: { 'content-type' => 'application/json' },
-      },
-    )
+      )
+    end
     accept_usage_cookies
 
     find('#ai-search-tab').click

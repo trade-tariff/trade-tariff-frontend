@@ -132,11 +132,14 @@ RSpec.describe 'Search', :js do
     end
 
     context 'when using guided search' do
+      # The fixture completes on the third poll, now scheduled five seconds after submission.
+      around { |example| Capybara.using_wait_time(10) { example.run } }
+
       before do
         enable_feature(:interactive_search)
         allow(TradeTariffFrontend).to receive(:webchat_url).and_return('https://example.com/webchat')
 
-        stub_api_request('search', :post, internal: true).to_return(
+        responses = [
           {
             status: 200,
             body: {
@@ -176,7 +179,21 @@ RSpec.describe 'Search', :js do
             }.to_json,
             headers: { 'content-type' => 'application/json; charset=utf-8' },
           },
-        )
+        ]
+        ids = %w[aabbccdd-1234-4567-8901-aabbccddeeff aabbccdd-1234-4567-8901-aabbccddee00]
+        stub_api_request('queued_searches', :post, internal: true).to_return(*ids.map do |id|
+          { status: 202, body: { id:, status: 'queued' }.to_json, headers: { 'content-type' => 'application/json' } }
+        end)
+        responses.zip(ids).each do |response, id|
+          states = [
+            { id:, status: 'queued' },
+            { id:, status: 'running' },
+            { id:, status: 'completed', response_status: 200, result: JSON.parse(response.fetch(:body)) },
+          ]
+          stub_api_request("queued_searches/#{id}", internal: true).to_return(*states.map do |state|
+            { status: 200, body: state.to_json, headers: { 'content-type' => 'application/json' } }
+          end)
+        end
       end
 
       let(:guided_search_result) do
@@ -208,7 +225,7 @@ RSpec.describe 'Search', :js do
         expect(page).to have_css('h1', text: 'Search for a commodity')
         expect(page).to have_content('What type of fish?')
         expect(page).not_to have_css('.govuk-notification-banner')
-        expect(page).to have_css('[data-controller="interactive-question"][data-interactive-question-request-id-value="guided-request-123"]')
+        expect(page).to have_css('[data-controller~="interactive-question"][data-interactive-question-request-id-value="guided-request-123"]')
         expect(page).to have_css('[data-controller="guided-search-page"][data-guided-search-page-outcome-value="question"]')
 
         choose 'Haddock'
@@ -223,6 +240,58 @@ RSpec.describe 'Search', :js do
         expect(link[:target]).to eq('_blank')
         expect(link[:rel].split).to include('noopener', 'noreferrer')
         expect(link).not_to have_css('.govuk-visually-hidden', text: '(opens in new tab)')
+      end
+
+      it 'keeps the same visible throbber throughout every poll', :aggregate_failures do
+        visit find_commodity_path
+        page.execute_script <<~JS
+          sessionStorage.removeItem('queuedPollVisibility');
+          const originalFetch = window.fetch;
+          let firstStatusNode;
+          const samples = [];
+          window.fetch = async (...args) => {
+            const response = await originalFetch(...args);
+            if (String(args[0]).includes('/search/queued/')) {
+              const node = document.querySelector('[data-guided-search-validation-loading-page] [role="status"]');
+              firstStatusNode ||= node;
+              samples.push({ sameNode: node === firstStatusNode, visible: !!node?.getClientRects().length });
+              sessionStorage.setItem('queuedPollVisibility', JSON.stringify(samples));
+            }
+            return response;
+          };
+        JS
+        find('#ai-search-tab').click
+        fill_in 'Describe the products you are trading', with: 'smoked haddock'
+        click_button 'Search for a commodity'
+
+        expect(page).to have_content('What type of fish?')
+        samples = page.evaluate_script("JSON.parse(sessionStorage.getItem('queuedPollVisibility'))")
+        expect(samples.size).to eq(3)
+        expect(samples).to all(include('sameNode' => true, 'visible' => true))
+        expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+      end
+
+      it 'shows a focused recovery message without losing the query when the worker fails', :aggregate_failures do
+        id = 'aabbccdd-1234-4567-8901-aabbccddeeff'
+        stub_api_request("queued_searches/#{id}", internal: true).to_return(
+          status: 200, body: { id:, status: 'failed', response_status: 500 }.to_json,
+          headers: { 'content-type' => 'application/json' }
+        )
+        visit find_commodity_path
+        find('#ai-search-tab').click
+        fill_in 'Describe the products you are trading', with: 'smoked haddock'
+        click_button 'Search for a commodity'
+
+        expect(page).to have_content('We could not complete this search')
+        expect(page).to have_field('Describe the products you are trading', with: 'smoked haddock')
+        expect(page).to have_css('[data-queued-search-target="error"]:focus', visible: :visible)
+        expect(page.evaluate_script(<<~JS)).to be(true)
+          (() => {
+            const bounds = document.activeElement.getBoundingClientRect();
+            return bounds.top >= 0 && bounds.bottom <= window.innerHeight;
+          })()
+        JS
+        expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
       end
 
       it 'only shows the unknown answer guidance after submitting the unknown option' do
@@ -244,7 +313,7 @@ RSpec.describe 'Search', :js do
         click_button 'Submit'
 
         dont_know = page.find('[data-interactive-question-target="dontKnow"]', visible: :all)
-        expect(dont_know[:class]).not_to include('govuk-!-display-none')
+        expect(page).to have_css('[data-interactive-question-target="dontKnow"]', visible: :visible)
         expect(dont_know).to have_css('h1', text: "We can't suggest a tariff code yet")
         expect(dont_know).to have_content('To find the relevant commodity code, we need more information about the product.')
       end

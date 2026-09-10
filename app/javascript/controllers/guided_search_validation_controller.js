@@ -50,7 +50,7 @@ export default class extends Controller {
 
   #clearErrors() {
     if (this.element.hasAttribute('data-search-mode-initial-mode-value')) {
-      this.element.querySelectorAll('.govuk-error-summary').forEach(summary => {
+      this.element.querySelectorAll('.govuk-error-summary:not([data-queued-search-target])').forEach(summary => {
         if (summary.dataset.searchModeError === 'guided') {
           summary.remove()
         } else {
@@ -61,7 +61,7 @@ export default class extends Controller {
         }
       })
     } else {
-      this.element.querySelector('.govuk-error-summary')?.remove()
+      this.element.querySelector('.govuk-error-summary:not([data-queued-search-target])')?.remove()
     }
 
     const inlineError = this.formGroupTarget.querySelector('.govuk-error-message')
@@ -77,7 +77,7 @@ export default class extends Controller {
     const textareaId = this.textareaTarget.id
 
     const revisedPage = this.element.hasAttribute('data-search-mode-initial-mode-value')
-    let summary = revisedPage ? this.element.querySelector('.govuk-error-summary') : null
+    let summary = revisedPage ? this.element.querySelector('.govuk-error-summary:not([data-queued-search-target])') : null
 
     if (!summary) {
       summary = document.createElement('div')
@@ -141,7 +141,14 @@ export default class extends Controller {
   }
 
   #submitForm(form) {
-    window.setTimeout(() => HTMLFormElement.prototype.submit.call(form), 0)
+    window.setTimeout(() => {
+      const event = new CustomEvent('guided-search:submit', { bubbles: true, cancelable: true, detail: { form } })
+      if (form.dispatchEvent(event)) HTMLFormElement.prototype.submit.call(form)
+    }, 0)
+  }
+
+  restore() {
+    this.#restoreFromBfcache({ persisted: true })
   }
 
   #restoreFromBfcache(event) {

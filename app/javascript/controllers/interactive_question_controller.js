@@ -82,7 +82,14 @@ export default class extends Controller {
   }
 
   #submitForm(form) {
-    window.setTimeout(() => HTMLFormElement.prototype.submit.call(form), 0)
+    window.setTimeout(() => {
+      const event = new CustomEvent('guided-search:submit', { bubbles: true, cancelable: true, detail: { form } })
+      if (form.dispatchEvent(event)) HTMLFormElement.prototype.submit.call(form)
+    }, 0)
+  }
+
+  restore() {
+    this.#restoreFromBfcache({ persisted: true })
   }
 
   #recordDontKnow() {

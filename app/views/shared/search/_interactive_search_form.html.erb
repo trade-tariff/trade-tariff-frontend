@@ -5,10 +5,12 @@
               local: true,
               builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               id: "new_search",
-              data: { controller: "guided-search-validation",
-                      action: "submit->guided-search-validation#validateAndSubmit" } do |f| %>
+              data: { controller: "guided-search-validation queued-search",
+                      queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
+                      action: "submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore" } do |f| %>
 
 <div data-guided-search-validation-target="formContent">
+<%= render 'search/queued_search_error' %>
 
 <%= f.govuk_error_summary %>
 
