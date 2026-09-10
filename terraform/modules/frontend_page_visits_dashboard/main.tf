@@ -2,15 +2,15 @@ locals {
   guide_url = "https://github.com/trade-tariff/trade-tariff-frontend/blob/main/docs/frontend-page-visits-dashboard.md"
   puma_url  = "https://${var.region}.console.aws.amazon.com/cloudwatch/home?region=${var.region}#dashboards:name=Puma-frontend-${var.environment}"
   charts = [
-    { query = "cohorts", title = "User frequency groups (browser sessions)", view = "pie", x = 0, y = 6, width = 8 },
-    { query = "pages", title = "Most visited pages: page-type share", view = "pie", x = 8, y = 6, width = 8 },
-    { query = "coverage", title = "Page requests: session-ID coverage", view = "pie", x = 16, y = 6, width = 8 },
-    { query = "volume", title = "Page requests per hour, by page type", view = "timeSeries", x = 0, y = 12, width = 12 },
+    { query = "cohorts", title = "User frequency groups (browser sessions)", view = "pie", x = 0, y = 6, width = 12 },
+    { query = "pages", title = "Most visited pages: page-type share", view = "pie", x = 12, y = 6, width = 12 },
+    { query = "coverage", title = "Page requests: session-ID coverage", view = "pie", x = 0, y = 12, width = 12 },
+    { query = "volume", title = "Page requests per hour, by page type", view = "timeSeries", x = 0, y = 18, width = 24 },
     { query = "distribution", title = "Visits per browser session (21 means 21+)", view = "bar", x = 12, y = 12, width = 12 },
-    { query = "behaviour", title = "Behaviour by frequency group: request shares (%)", view = "table", x = 0, y = 18, width = 24 },
-    { query = "responses", title = "Page responses per hour: includes redirects and errors", view = "timeSeries", x = 0, y = 24, width = 12 },
-    { query = "popular_pages", title = "Most visited pages and form submissions (top 20)", view = "table", x = 12, y = 24, width = 12 },
-    { query = "first_last", title = "First and last observed pages (top 20, not entry/exit proof)", view = "table", x = 0, y = 30, width = 24 },
+    { query = "behaviour", title = "Behaviour by frequency group: request shares (%)", view = "table", x = 0, y = 24, width = 24 },
+    { query = "responses", title = "Page responses per hour: includes redirects and errors", view = "timeSeries", x = 0, y = 30, width = 24 },
+    { query = "popular_pages", title = "Most visited pages and form submissions (top 20)", view = "table", x = 0, y = 36, width = 24 },
+    { query = "first_last", title = "First and last observed pages (top 20, not entry/exit proof)", view = "table", x = 0, y = 42, width = 24 },
   ]
 }
 
