@@ -2,15 +2,15 @@ locals {
   guide_url = "https://github.com/trade-tariff/trade-tariff-frontend/blob/main/docs/frontend-page-visits-dashboard.md"
   puma_url  = "https://${var.region}.console.aws.amazon.com/cloudwatch/home?region=${var.region}#dashboards:name=Puma-frontend-${var.environment}"
   charts = [
-    { query = "cohorts", title = "User frequency groups (browser sessions)", view = "pie", x = 0, y = 6, width = 12 },
-    { query = "pages", title = "Most visited pages: page-type share", view = "pie", x = 12, y = 6, width = 12 },
-    { query = "coverage", title = "Page requests: session-ID coverage", view = "pie", x = 0, y = 12, width = 12 },
-    { query = "volume", title = "Page requests per hour, by page type", view = "timeSeries", x = 0, y = 18, width = 24 },
-    { query = "distribution", title = "Visits per browser session (21 means 21+)", view = "bar", x = 12, y = 12, width = 12 },
-    { query = "behaviour", title = "Behaviour by frequency group: request shares (%)", view = "table", x = 0, y = 24, width = 24 },
+    { query = "cohorts", title = "Browser sessions by request frequency", view = "pie", x = 0, y = 6, width = 12 },
+    { query = "pages", title = "Share of requests by activity", view = "pie", x = 12, y = 6, width = 12 },
+    { query = "coverage", title = "Requests with and without a session identifier", view = "pie", x = 0, y = 12, width = 12 },
+    { query = "volume", title = "Requests per hour by activity", view = "timeSeries", x = 0, y = 18, width = 24 },
+    { query = "distribution", title = "Requests per browser session (21 means 21+)", view = "bar", x = 12, y = 12, width = 12 },
+    { query = "behaviour", title = "Share of requests by activity within each frequency group (%)", view = "table", x = 0, y = 24, width = 24 },
     { query = "responses", title = "Page responses per hour: includes redirects and errors", view = "timeSeries", x = 0, y = 30, width = 24 },
     { query = "popular_pages", title = "Most visited pages and form submissions (top 20)", view = "table", x = 0, y = 36, width = 24 },
-    { query = "first_last", title = "First and last observed pages (top 20, not entry/exit proof)", view = "table", x = 0, y = 42, width = 24 },
+    { query = "first_last", title = "First and last recorded pages in this period (top 20, not entry/exit points)", view = "table", x = 0, y = 42, width = 24 },
   ]
 }
 
@@ -25,10 +25,11 @@ resource "aws_cloudwatch_dashboard" "page_visits" {
         properties = {
           markdown = join("\n\n", [
             "# Frontend Page Visits - ${var.environment}",
-            "**Product: start here:** check session-ID coverage, then the frequency and activity pies. Groups count browser sessions, not people; activities count requests, including Other. After a logging deployment, check a recent window: older requests may have no session ID.",
-            "**Frequency in the selected window:** Low 1-${local.frequency_thresholds.low_max}; Regular ${local.frequency_thresholds.low_max + 1}-${local.frequency_thresholds.regular_max}; High ${local.frequency_thresholds.regular_max + 1}+. Provisional counts, not expertise. Window changes and session resets change grouping. Missing IDs are excluded from groups, not counted as low frequency.",
-            "**Page visits:** public HTML controller requests, including refreshes, submissions, redirects and errors; duplicate HTTP IDs count once. Known bots/auth routes excluded. No data is not zero; requests are not proof of visible views. First/last pages are window-limited, not entry/exit proof.",
-            "**Cost:** prefer manual refresh; each refresh runs nine log queries. [Definitions, exclusions and coverage](${local.guide_url}) | [Puma operations](${local.puma_url})",
+            "**Understand how the tariff is used.** Explore which activities receive the most requests and how activity varies between browser sessions in the selected window.",
+            "**Start with coverage.** Requests without a session identifier appear in activity totals but not session-based reports. The frequency pie counts sessions; the activity pie counts requests.",
+            "**Frequency groups:** Low: 1-${local.frequency_thresholds.low_max} requests; Medium: ${local.frequency_thresholds.low_max + 1}-${local.frequency_thresholds.regular_max}; High: ${local.frequency_thresholds.regular_max + 1}+. These provisional thresholds describe activity in this period, not experience or expertise.",
+            "**Reading the figures:** browser sessions are not people. Requests include refreshes, form submissions, redirects and errors, so they are not exact page-view counts. Changing the period or resetting a session can change its group. Empty charts do not necessarily mean no activity.",
+            "Prefer manual refresh to limit query costs. [Counting rules and limitations](${local.guide_url}) | [Service performance dashboard](${local.puma_url})",
           ])
         }
       }

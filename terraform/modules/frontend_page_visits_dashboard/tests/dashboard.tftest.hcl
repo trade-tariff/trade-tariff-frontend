@@ -179,6 +179,16 @@ run "page_visits_dashboard" {
 
   assert {
     condition = (
+      strcontains(local.cohort_expression, "'Medium'") &&
+      strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "Low: 1-${local.frequency_thresholds.low_max}") &&
+      strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "Medium: ${local.frequency_thresholds.low_max + 1}-${local.frequency_thresholds.regular_max}") &&
+      strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "High: ${local.frequency_thresholds.regular_max + 1}+")
+    )
+    error_message = "Displayed frequency groups must match the query labels and configured thresholds."
+  }
+
+  assert {
+    condition = (
       strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "not people") &&
       strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "selected window") &&
       jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).start == "-PT24H"

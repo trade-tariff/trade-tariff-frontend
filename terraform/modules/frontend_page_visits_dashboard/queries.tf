@@ -5,7 +5,7 @@ locals {
     low_max     = 2
     regular_max = 9
   }
-  cohort_expression = "if(visits <= ${local.frequency_thresholds.low_max}, 'Low', if(visits <= ${local.frequency_thresholds.regular_max}, 'Regular', 'High'))"
+  cohort_expression = "if(visits <= ${local.frequency_thresholds.low_max}, 'Low', if(visits <= ${local.frequency_thresholds.regular_max}, 'Medium', 'High'))"
 
   # awslogs uses ecs/<container name>/<task id>. Scope before examining fields
   # because the platform log group also contains backend and other service logs.
