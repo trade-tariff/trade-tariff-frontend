@@ -65,7 +65,7 @@ class SearchController < ApplicationController
     return head :unprocessable_content if event_attributes.nil? || request_id.nil?
 
     GuidedSearch::JourneyInstrumentation.record(
-      browser_session_id: guided_search_browser_session_id,
+      browser_session_id:,
       request_id:,
       experiment: Current.experiment,
       **event_attributes,

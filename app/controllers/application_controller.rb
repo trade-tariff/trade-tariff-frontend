@@ -152,11 +152,20 @@ class ApplicationController < ActionController::Base
   def append_info_to_payload(payload)
     super
     payload[:request_id] = request.request_id
+    payload[:browser_session_id] = browser_session_id
     payload[:search_request_id] = @search&.request_id
     payload[:user_agent] = request.env['HTTP_USER_AGENT']
     payload[:experiment_label] = Current.experiment if Current.experiment.present?
     payload[:request_country] = Current.request_country.presence&.to_s || 'unknown'
     payload.merge!(@handled_exception_log_context) if defined?(@handled_exception_log_context) && @handled_exception_log_context.present?
+  end
+
+  def browser_session_id
+    raw_id = session[:guided_search_browser_session_id] ||= SecureRandom.uuid
+    GuidedSearch::JourneyInstrumentation.browser_session_id(raw_id)
+  rescue StandardError
+    # Optional correlation must not prevent a page from being served.
+    nil
   end
 
   def set_path_info

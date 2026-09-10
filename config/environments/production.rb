@@ -110,6 +110,7 @@ Rails.application.configure do
   config.lograge.custom_options = lambda do |event|
     {
       request_id: event.payload[:request_id],
+      browser_session_id: event.payload[:browser_session_id],
       search_request_id: event.payload[:search_request_id],
       user_agent: event.payload[:user_agent],
       experiment_label: event.payload[:experiment_label],
