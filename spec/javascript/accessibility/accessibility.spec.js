@@ -12,6 +12,9 @@ const configPath = path.join(__dirname, 'config.json');
 const testConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 const globalAccessibilityResults = [];
 // Fail before running any scans if admin configuration is missing or invalid.
+if (!process.env.ADMIN_URL?.trim()) {
+  throw new Error("ADMIN_URL is required for admin accessibility checks");
+}
 const adminUrl = new URL(process.env.ADMIN_URL).href;
 
 async function runAccessibilityScan(page, pageName, url, threshold) {
