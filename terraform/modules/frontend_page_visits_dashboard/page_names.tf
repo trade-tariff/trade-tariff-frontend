@@ -71,7 +71,7 @@ locals {
     query                     = "How can we help you?"
     contact_details           = "Contact details"
   }
-  enquiry_step_pattern    = "^/(?:uk/|xi/)?enquiry_form/(?<enquiry_step>${join("|", keys(local.enquiry_steps))})$"
+  enquiry_step_pattern    = "^/(?:uk/|xi/)?enquiry_form/(?<enquiry_step>${join("|", keys(local.enquiry_steps))})(?:\\?.*)?$"
   enquiry_step_expression = "case(${join(", ", [for step, name in local.enquiry_steps : "enquiry_step = ${jsonencode(step)}, ${jsonencode("Enquiry: ${name}")}"])}, \"Enquiry form (unmapped step)\")"
 
   page_name_fallback = <<-QUERY
