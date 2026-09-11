@@ -100,10 +100,16 @@ RSpec.describe 'Revised find commodity' do
     end
 
     it 'submits AI text into the journey' do
-      stub_api_request('search', :post, internal: true)
+      id = SecureRandom.uuid
+      stub_api_request('queued_searches', :post, internal: true)
         .with { |request| JSON.parse(request.body)['q'] == 'fresh tomatoes' }
-        .to_return(
-          body: {
+        .to_return(status: 202, body: { id:, status: 'queued' }.to_json, headers: { 'content-type' => 'application/json' })
+      stub_api_request("queued_searches/#{id}", internal: true).to_return(
+        body: {
+          id:,
+          status: 'completed',
+          response_status: 200,
+          result: {
             data: [],
             meta: {
               interactive_search: {
@@ -112,9 +118,10 @@ RSpec.describe 'Revised find commodity' do
                 answers: [{ question: 'How are the tomatoes prepared?', options: %w[Fresh Dried], answer: nil }],
               },
             },
-          }.to_json,
-          headers: { 'content-type' => 'application/json' },
-        )
+          },
+        }.to_json,
+        headers: { 'content-type' => 'application/json' },
+      )
       fill_in 'revised-keyword-query', with: 'unused keyword'
       find('#ai-search-tab').click
       fill_in 'Describe the products you are trading', with: 'fresh tomatoes'

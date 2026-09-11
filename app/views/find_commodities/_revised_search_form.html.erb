@@ -1,10 +1,12 @@
-<% controllers = @ai_search_enabled ? 'search-mode guided-search-validation' : nil %>
+<% controllers = @ai_search_enabled ? 'search-mode guided-search-validation queued-search' : nil %>
 <%= form_with model: @search, url: perform_search_path(day: nil, month: nil, year: nil),
               method: :post, scope: nil, local: true, id: 'new_search',
               builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               data: { controller: controllers, search_mode_initial_mode_value: @search_mode,
-                      action: @ai_search_enabled ? 'submit->guided-search-validation#validateAndSubmit' : nil } do |f| %>
+                      queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
+                      action: @ai_search_enabled ? 'submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore' : nil } do |f| %>
   <div data-guided-search-validation-target="formContent" class="govuk-tabs govuk-!-margin-top-6 govuk-!-margin-bottom-8">
+    <%= render 'search/queued_search_error' if @ai_search_enabled %>
     <%= f.govuk_error_summary %>
     <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
     <%= hidden_field_tag :interactive_search, 'false', data: { search_mode_target: 'hiddenField', guided_search_validation_target: 'hiddenField' } %>

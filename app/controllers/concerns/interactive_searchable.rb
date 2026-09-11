@@ -18,8 +18,11 @@ module InteractiveSearchable
     end
 
     merge_current_answer
+    if params[:queued_search_id].present? && !queued_search_owned?
+      return head :not_found
+    end
 
-    @results = @search.perform
+    @results = params[:queued_search_id].present? ? queued_search_result : @search.perform
     sync_interactive_request_id
     prepare_search_failure_suggestions
 
@@ -86,7 +89,7 @@ module InteractiveSearchable
   end
 
   def interactive_search?
-    @search.interactive_search && interactive_search_enabled_with_analytics?
+    @search.interactive_search && (accepted_queued_search? || interactive_search_enabled_with_analytics?)
   end
 
   def sync_interactive_request_id
