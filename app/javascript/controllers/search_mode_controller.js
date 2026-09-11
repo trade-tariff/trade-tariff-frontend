@@ -12,7 +12,9 @@ export default class extends Controller {
       panel.setAttribute('aria-labelledby', tab.id)
     })
     const navigation = window.performance.getEntriesByType?.('navigation')[0]
-    this.#setMode(navigation?.type === 'reload' ? 'keyword' : this.initialModeValue)
+    const linkedMode = window.location.hash === '#ai-search-panel' && !this.element.querySelector('.govuk-error-summary')
+      ? 'guided' : this.initialModeValue
+    this.#setMode(navigation?.type === 'reload' ? 'keyword' : linkedMode)
     this.observer = new MutationObserver(() => this.#setMode(this.mode))
     this.observer.observe(this.element, { childList: true, subtree: true })
   }
