@@ -13,6 +13,28 @@ RSpec.describe 'Revised find commodity' do
   context 'with JavaScript', :js do
     before { visit find_commodity_path }
 
+    it 'returns from the update using a keyboard', :aggregate_failures do
+      visit ai_search_information_path
+      link = find_link('Try AI-assisted search')
+      30.times do
+        break if page.evaluate_script('document.activeElement.textContent') == link.text
+
+        page.driver.send_keys(:tab)
+      end
+      expect(page).to have_css('a:focus', text: 'Try AI-assisted search')
+      page.driver.send_keys(:enter)
+
+      expect(page).to have_css('#ai-search-tab[aria-selected="true"]')
+      fill_in 'Describe the products you are trading', with: 'fresh tomatoes'
+      expect(page).to have_field('Describe the products you are trading', with: 'fresh tomatoes', disabled: false, visible: :visible)
+      expect(page).not_to have_field('revised-keyword-query', visible: :visible)
+
+      page.refresh
+      expect(page).to have_css('#keyword-search-tab[aria-selected="true"]')
+      visit find_commodity_path
+      expect(page).to have_css('#keyword-search-tab[aria-selected="true"]')
+    end
+
     it 'has one primary heading in either mode', :aggregate_failures do
       expect(page).to have_css('h1', count: 1, visible: :visible)
       find('#ai-search-tab').click
@@ -153,6 +175,17 @@ RSpec.describe 'Revised find commodity' do
     before do
       stub_api_request('search', :post).to_return(jsonapi_response(:search, attributes_for(:search_outcome, :fuzzy_match)))
       visit find_commodity_path
+    end
+
+    it 'keeps the return link fallback usable', :aggregate_failures do
+      visit ai_search_information_path
+      click_link 'Try AI-assisted search'
+      expect(page).to have_field('revised-keyword-query', disabled: false)
+      fill_in 'revised-keyword-query', with: 'toothbrush'
+      click_button 'Search for a commodity'
+
+      expect(page).to have_css('h1', text: 'Search results')
+      expect(page).to have_current_path('/search')
     end
 
     it 'submits a usable keyword search', :aggregate_failures do

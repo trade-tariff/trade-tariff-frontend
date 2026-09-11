@@ -9,9 +9,10 @@ describe('SearchModeController', () => {
   const tab = mode => document.querySelector(`[data-mode="${mode}"]`)
   const panel = mode => document.getElementById(mode)
 
-  async function setup(initialMode = 'keyword') {
+  async function setup(initialMode = 'keyword', errors = false) {
     document.body.innerHTML = `
       <form data-controller="search-mode" data-search-mode-initial-mode-value="${initialMode}">
+        ${errors ? '<div class="govuk-error-summary">Check your search</div>' : ''}
         <ul hidden data-search-mode-target="tabs" role="tablist">
           <li class="govuk-tabs__list-item"><a href="#keyword" id="keyword-tab" role="tab" aria-controls="keyword" data-search-mode-target="tab" data-mode="keyword" data-action="click->search-mode#select keydown->search-mode#navigate">Keyword</a></li>
           <li class="govuk-tabs__list-item"><a href="#guided" id="guided-tab" role="tab" aria-controls="guided" data-search-mode-target="tab" data-mode="guided" data-action="click->search-mode#select keydown->search-mode#navigate">AI-assisted</a></li>
@@ -30,6 +31,8 @@ describe('SearchModeController', () => {
     application?.stop()
     document.body.innerHTML = ''
     document.cookie = 'interactive_search=; max-age=0'
+    window.history.replaceState({}, '', '/')
+    delete performance.getEntriesByType
     jest.restoreAllMocks()
   })
 
@@ -72,6 +75,36 @@ describe('SearchModeController', () => {
     expect(document.activeElement).toBe(tab(expected))
     expect(tab(expected).getAttribute('aria-selected')).toBe('true')
     expect(panel(expected).hidden).toBe(false)
+  })
+
+  it('opens a usable AI form from the service-update fragment', async () => {
+    window.history.replaceState({}, '', '/find_commodity#ai-search-panel')
+    await setup()
+    expect(tab('guided').getAttribute('aria-selected')).toBe('true')
+    expect(panel('guided').hidden).toBe(false)
+    expect(new FormData(form()).get('interactive_search')).toBe('true')
+    expect(new FormData(form()).getAll('q')).toEqual(['cotton shirt'])
+  })
+
+  it.each(['#unknown', '#keyword-search-panel', '#AI-search-panel'])('ignores the unrelated fragment %s', async hash => {
+    window.history.replaceState({}, '', `/find_commodity${hash}`)
+    await setup()
+    expect(panel('keyword').hidden).toBe(false)
+  })
+
+  it.each(['keyword', 'guided'])('preserves %s validation errors over fragment selection', async mode => {
+    window.history.replaceState({}, '', '/find_commodity#ai-search-panel')
+    await setup(mode, true)
+    expect(panel(mode).hidden).toBe(false)
+  })
+
+  it('keeps keyword on reload even with the return fragment', async () => {
+    window.history.replaceState({}, '', '/find_commodity#ai-search-panel')
+    Object.defineProperty(performance, 'getEntriesByType', {
+      configurable: true, value: jest.fn(() => [{ type: 'reload' }])
+    })
+    await setup()
+    expect(panel('keyword').hidden).toBe(false)
   })
 
   it('opens the submitted AI mode after a server validation error', async () => {
