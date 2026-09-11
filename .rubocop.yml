@@ -1,0 +1,88 @@
+inherit_gem:
+  rubocop-govuk:
+    - config/default.yml
+    - config/rails.yml
+
+plugins:
+  - rubocop-rspec
+  - rubocop-capybara
+
+AllCops:
+  Exclude:
+    - "db/schema.rb"
+    - "vendor/**/*"
+    - "bin/**"
+    - "db/**/*"
+    - "node_modules/**/*"
+    - "tmp/**/*"
+    - "config/initializers/canonical_rails.rb"
+    - "config/puma.rb"
+    - "spec/spec_helper.rb"
+
+Layout/AccessModifierIndentation:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - tasks/**/*.rb
+    - spec/features/*
+
+RSpec/ExampleLength:
+  Enabled: false
+
+Rails/HelperInstanceVariable:
+  Enabled: false
+
+Rails/FindEach:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 13
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - spec/features/**/*_spec.rb
+
+RSpec/NestedGroups:
+  Max: 5
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: never
+
+Style/GuardClause:
+  MinBodyLength: 2
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/SymbolArray:
+  Exclude:
+    - config/initializers/*.rb
+
+Style/HashEachMethods:
+  Enabled: false
+
+RSpec/IndexedLet:
+  Enabled: false
+
+RSpec/NoExpectationExample:
+  Enabled: false
