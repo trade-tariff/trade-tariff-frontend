@@ -147,8 +147,60 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'confidence meter' do
-    it { is_expected.not_to have_css('.interactive-result__confidence') }
-    it { is_expected.not_to have_css('.confidence-indicator') }
+    { 'strong' => 'Strong result', 'Good' => 'Good result', 'POSSIBLE' => 'Possible result' }.each do |confidence, label|
+      context "with #{confidence} confidence" do
+        let(:result_attrs) { super().merge('confidence' => confidence) }
+
+        it 'shows the existing gauge and label', :aggregate_failures do
+          expect(rendered_partial).to have_css('.interactive-result__confidence svg[aria-label="Confidence gauge"]')
+          expect(rendered_partial).to have_css('.interactive-result__confidence .confidence-label', exact_text: label)
+        end
+      end
+    end
+
+    [nil, '', 'unknown', 'unlikely', 'unrecognised'].each do |confidence|
+      context "with #{confidence.inspect} confidence" do
+        let(:result_attrs) { super().merge('confidence' => confidence) }
+
+        it { is_expected.not_to have_css('.interactive-result__confidence') }
+        it { is_expected.to have_link('View this commodity code (opens in new tab)', href: /2007919930/) }
+      end
+    end
+
+    context 'with malicious confidence markup' do
+      let(:result_attrs) { super().merge('confidence' => '"><script>alert(1)</script>') }
+
+      it 'does not render untrusted markup', :aggregate_failures do
+        expect(rendered_partial).not_to have_css('.confidence-indicator, .interactive-result script')
+        expect(rendered_partial).to include('&lt;script&gt;')
+      end
+    end
+
+    context 'without a confidence attribute' do
+      let(:result_attrs) { super().except('confidence') }
+
+      it { is_expected.not_to have_css('.confidence-indicator') }
+    end
+  end
+
+  describe 'result ordering and limit' do
+    let(:results) do
+      Search::InternalSearchResult.new(
+        ['good', 'strong', nil, 'possible', 'strong', 'good'].each_with_index.map do |confidence, index|
+          result_attrs.merge('goods_nomenclature_item_id' => "200791993#{index}", 'confidence' => confidence)
+        end,
+        meta,
+      )
+    end
+
+    it 'preserves grouping and original ranks', :aggregate_failures do
+      cards = Capybara.string(rendered_partial).all('.interactive-result')
+
+      expect(cards.map { |card| card.find('a')['data-guided-search-result-rank-value'] }).to eq(%w[2 5 1 3 4])
+      expect(cards.map { |card| card.all('.confidence-label').map(&:text) }).to eq([
+        ['Strong result'], ['Strong result'], ['Good result'], [], ['Possible result']
+      ])
+    end
   end
 
   describe 'other results divider' do
