@@ -86,7 +86,7 @@ module TradeTariffFrontend
     end
 
     def flagsmith_api_url
-      ENV['FLAGSMITH_API_URL'].presence || FLAGSMITH_API_URLS[environment]
+      ENV['FLAGSMITH_API_URL'].presence || FLAGSMITH_EDGE_API_URL
     end
 
     def from_email

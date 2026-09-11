@@ -183,25 +183,13 @@ RSpec.describe TradeTariffFrontend do
         stub_const('ENV', ENV.to_hash.except('FLAGSMITH_API_URL').merge('ENVIRONMENT' => environment))
       end
 
-      {
-        'development' => 'https://flags-edge.dev.trade-tariff.service.gov.uk/api/v1',
-        'staging' => 'https://flags-edge.staging.trade-tariff.service.gov.uk/api/v1',
-        'production' => 'https://flags-edge.trade-tariff.service.gov.uk/api/v1',
-      }.each do |configured_environment, expected_url|
+      %w[development staging production test].each do |configured_environment|
         context "when ENVIRONMENT is #{configured_environment}" do
           let(:environment) { configured_environment }
 
-          it 'returns the Flagsmith Edge URL for that environment' do
-            expect(described_class.flagsmith_api_url).to eq(expected_url)
+          it 'returns the internal Cloud Map Edge Proxy URL' do
+            expect(described_class.flagsmith_api_url).to eq('http://flagsmith-edge.tariff.internal:8000/api/v1')
           end
-        end
-      end
-
-      context 'when ENVIRONMENT is not recognised' do
-        let(:environment) { 'test' }
-
-        it 'does not return a Flagsmith Edge URL' do
-          expect(described_class.flagsmith_api_url).to be_nil
         end
       end
     end
