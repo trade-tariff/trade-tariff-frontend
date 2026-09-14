@@ -33,7 +33,10 @@ module QueuedGuidedSearchable
     }, status: :accepted
   rescue Search::InvalidDate
     render json: { error: 'You must enter a valid date', validation_failed: true }, status: :unprocessable_content
-  rescue Faraday::Error, GuidedSearch::QueuedSearch::InvalidResponse
+  rescue GuidedSearch::QueuedSearch::InvalidResponse
+    Rails.logger.warn('Queued guided search rejected a malformed enqueue response')
+    render json: { error: RECOVERY_MESSAGE }, status: :service_unavailable
+  rescue Faraday::Error
     render json: { error: RECOVERY_MESSAGE }, status: :service_unavailable
   end
 
@@ -44,7 +47,10 @@ module QueuedGuidedSearchable
     render json: { status: queued_search_state(params[:id]).fetch(:status) }
   rescue Faraday::ResourceNotFound
     head :not_found
-  rescue Faraday::Error, GuidedSearch::QueuedSearch::InvalidResponse
+  rescue GuidedSearch::QueuedSearch::InvalidResponse
+    Rails.logger.warn('Queued guided search discarded a malformed payload')
+    render json: { error: RECOVERY_MESSAGE, error_code: 'invalid_response' }, status: :unprocessable_content
+  rescue Faraday::Error
     render json: { error: RECOVERY_MESSAGE }, status: :service_unavailable
   end
 
