@@ -5,7 +5,7 @@
       <div class="govuk-grid-column-two-thirds">
         <p class="govuk-heading-m">Select a country<p>
 
-        <% (params.keys - ['controller', 'action', 'country', 'service', 'id']).each do |p| %>
+        <% (params.keys - ['controller', 'action', 'country', 'service', 'id', 'request_id']).each do |p| %>
           <% if params.has_key?(p) %>
             <%= hidden_field_tag p, params[p] %>
           <% end %>

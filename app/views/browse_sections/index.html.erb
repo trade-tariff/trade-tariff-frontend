@@ -34,7 +34,7 @@
             <%= govuk_visually_hidden 'Section ' %>
             <%= section.numeral %>
           <% end %>
-            <% row.with_cell(text: govuk_link_to(section.title, section_path(section, request.query_parameters.symbolize_keys), visually_hidden_prefix: "Section #{section.position}:"), classes: 'title') %>
+            <% row.with_cell(text: govuk_link_to(section.title, section_path(section, navigation_query_params), visually_hidden_prefix: "Section #{section.position}:"), classes: 'title') %>
           <% row.with_cell(text: section.chapters_title, classes: 'chapters') %>
         <% end %>
       <% end %>

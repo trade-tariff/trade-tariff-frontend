@@ -73,6 +73,10 @@ module ApplicationHelper
     %r{\A/(?:(?:xi|uk)/)?(?:#{normalized_prefixes.join('|')})}
   end
 
+  def navigation_query_params(query_parameters = request.query_parameters)
+    query_parameters.except('request_id')
+  end
+
   def current_url_without_parameters
     request.base_url + request.path
   end
