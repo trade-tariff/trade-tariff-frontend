@@ -254,6 +254,22 @@ describe('QueuedSearchController', () => {
     expect(error).toHaveBeenCalledTimes(1)
   })
 
+  it('reloads on a non-JSON 422 so a stale CSRF token is not a dead end', async () => {
+    const reload = jest.spyOn(QueuedSearchController.prototype, 'reloadPage').mockImplementation(() => {})
+    window.fetch.mockResolvedValue({
+      ok: false,
+      status: 422,
+      redirected: false,
+      json: async () => { throw new SyntaxError('Unexpected token') },
+    })
+    start()
+    await jest.advanceTimersByTimeAsync(0)
+
+    expect(reload).toHaveBeenCalledTimes(1)
+    expect(error).not.toHaveBeenCalled()
+    expect(submit).not.toHaveBeenCalled()
+  })
+
   it('stops on expiry', async () => {
     window.fetch.mockResolvedValueOnce(accepted()).mockResolvedValueOnce(reply({}, 404))
     start()

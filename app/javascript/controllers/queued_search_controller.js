@@ -70,6 +70,12 @@ export default class extends Controller {
       this.schedulePoll(run, true)
     } catch (error) {
       if (this.run !== run) return
+      if (error.reload) {
+        // Stale CSRF or other HTML 422: reload for a fresh token. Do not skip CSRF.
+        this.stop()
+        this.reloadPage()
+        return
+      }
       if (error.validationFailed) {
         // Nothing was queued. Let Rails render its existing field errors.
         this.submitted = true
@@ -139,13 +145,21 @@ export default class extends Controller {
       const error = new Error('Queued search request failed')
       error.status = response.status
       if (response.status === 422) {
-        const payload = await response.json()
-        if (typeof payload.error === 'string') error.userMessage = payload.error
-        error.validationFailed = payload.validation_failed === true
+        try {
+          const payload = await response.json()
+          if (typeof payload.error === 'string') error.userMessage = payload.error
+          error.validationFailed = payload.validation_failed === true
+        } catch {
+          error.reload = true
+        }
       }
       throw error
     }
     return response.json()
+  }
+
+  reloadPage() {
+    window.location.reload()
   }
 
   fail(run, message = RECOVERY_MESSAGE) {
@@ -153,7 +167,7 @@ export default class extends Controller {
     this.stop()
     window.sessionStorage.removeItem('guidedSearchSubmittedAt')
     this.dispatch('error')
-    this.messageTarget.textContent = message
+    this.messageTarget.textContent = typeof message === 'string' && message ? message : RECOVERY_MESSAGE
     this.errorTarget.setAttribute('role', 'alert')
     this.errorTarget.classList.add('govuk-error-summary')
     this.errorTarget.classList.remove('govuk-!-display-none')
