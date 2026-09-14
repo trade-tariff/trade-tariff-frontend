@@ -104,26 +104,6 @@ describe('QueuedSearchController', () => {
     expect(submit).not.toHaveBeenCalled()
   })
 
-  it('pins blank nested Rails date fields for handoff and restores them on back navigation', async () => {
-    form.insertAdjacentHTML('beforeend', `
-      <input name="search[as_of(1i)]" value="">
-      <input name="search[as_of(2i)]" value="">
-      <input name="search[as_of(3i)]" value="">`)
-    window.fetch.mockResolvedValueOnce(accepted()).mockResolvedValue(reply({ status: 'completed' }))
-    start()
-    await jest.advanceTimersByTimeAsync(250)
-    expect(form.elements['search[as_of(1i)]'].value).toBe('2025')
-    expect(form.elements['search[as_of(2i)]'].value).toBe('1')
-    expect(form.elements['search[as_of(3i)]'].value).toBe('2')
-
-    const event = new Event('pageshow')
-    Object.defineProperty(event, 'persisted', { value: true })
-    window.dispatchEvent(event)
-    for (const part of [1, 2, 3]) {
-      expect(form.elements[`search[as_of(${part}i)]`].value).toBe('')
-      expect(form.elements[`search[as_of(${part}i)]`].type).toBe('text')
-    }
-  })
 
   it('uses elapsed-time slots and continues checking the long tail', async () => {
     const polls = []

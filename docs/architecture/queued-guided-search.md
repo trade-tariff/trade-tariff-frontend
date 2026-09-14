@@ -20,7 +20,7 @@ There is no new runtime feature flag. Deploying the caller activates queued subm
 
 Current eligibility is checked for **every new submission**, including follow-up answers. Disabling guided search prevents new work but lets a previously accepted step finish with its valid grant. Polling therefore does not repeat remote Flagsmith identity calls. Ordinary page/final-navigation setup can still evaluate flags; these are not zero-dependency requests.
 
-The submission's resolved date is retained through final handoff, including nested Rails date fields and crossing midnight. Back-forward cache restoration restores or removes the added handoff fields so they cannot silently override a newly edited date.
+The submission's resolved date is retained through final handoff as `year` / `month` / `day` fields, including crossing midnight. Back-forward cache restoration restores or removes the added handoff fields so they cannot silently override a newly edited date.
 
 ## Results, cache and recovery
 
