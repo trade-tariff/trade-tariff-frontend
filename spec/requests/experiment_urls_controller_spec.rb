@@ -6,6 +6,41 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
   let(:experiment) { Rails.application.config.experiment_urls.fetch(:trusted_trader_guided_search) }
 
+  context 'with the HMRC users experiment' do
+    let(:experiment) { Rails.application.config.experiment_urls.fetch(:hmrc_users) }
+
+    it 'enrols at the London start date', :aggregate_failures do
+      travel_to(Time.utc(2026, 9, 13, 23)) do
+        get '/hmrc-users', params: { experiment: 'spoofed' }
+      end
+
+      expect(response).to redirect_to('/find_commodity?experiment=hmrc-users')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+      expect(response.headers.fetch('Cache-Control')).to include('no-store')
+    end
+
+    it 'does not enrol before the start', :aggregate_failures do
+      travel_to(Time.utc(2026, 9, 13, 22, 59, 59)) { get '/hmrc-users' }
+
+      expect(response).to redirect_to('/find_commodity')
+      expect(session[:experiment_url_optins]).to be_blank
+    end
+
+    it 'does not enrol Northern Ireland', :aggregate_failures do
+      travel_to(Time.utc(2026, 9, 14, 12)) { get '/xi/hmrc-users' }
+
+      expect(response).to redirect_to('/xi/find_commodity')
+      expect(session[:experiment_url_optins]).to be_blank
+    end
+
+    it 'remains available without an end date', :aggregate_failures do
+      travel_to(Time.utc(2036, 9, 14, 12)) { get '/hmrc-users' }
+
+      expect(response).to redirect_to('/find_commodity?experiment=hmrc-users')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+    end
+  end
+
   context 'with the demo experiment' do
     let(:experiment) { Rails.application.config.experiment_urls.fetch(:search_beta_demo) }
 
