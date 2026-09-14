@@ -250,6 +250,17 @@ describe('QueuedSearchController', () => {
     expect(submit).not.toHaveBeenCalled()
   })
 
+  it('fails immediately on a malformed-payload 422 without retrying', async () => {
+    window.fetch.mockResolvedValueOnce(accepted())
+      .mockResolvedValue(reply({ error: 'We could not complete this search. Please try your search again.', error_code: 'invalid_response' }, 422))
+    start()
+    await jest.advanceTimersByTimeAsync(250)
+    expect(error).toHaveBeenCalledTimes(1)
+    await jest.advanceTimersByTimeAsync(120000)
+    expect(window.fetch).toHaveBeenCalledTimes(2)
+    expect(submit).not.toHaveBeenCalled()
+  })
+
   it('stops on expiry', async () => {
     window.fetch.mockResolvedValueOnce(accepted()).mockResolvedValueOnce(reply({}, 404))
     start()
@@ -372,6 +383,46 @@ describe('QueuedSearchController', () => {
     expect(document.activeElement).toBe(summary)
     expect(loading.classList.contains('govuk-!-display-none')).toBe(true)
     expect(form.elements.q.value).toBe('horse')
+  })
+
+  it('keeps the question thinking node visible through successful polls', async () => {
+    application.register('interactive-question', InteractiveQuestionController)
+    window.scrollTo = jest.fn()
+    document.body.innerHTML = `
+      <div data-controller="interactive-question queued-search" data-queued-search-url-value="/search/queued"
+           data-action="guided-search:submit->queued-search#submit queued-search:error->interactive-question#restore">
+        <div data-interactive-question-target="form">
+          <form data-action="submit->interactive-question#submitWithThinking">
+            <input name="q" value="horse">
+            <input name="interactive_search" value="true">
+            <input type="radio" name="interactive_search_form[answer]" value="Pure-bred" checked>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+        <div data-interactive-question-target="thinking" data-test-loading class="govuk-!-display-none">Thinking...</div>
+        <div data-queued-search-target="error" class="govuk-!-display-none" tabindex="-1">
+          <p data-queued-search-target="message"></p>
+        </div>
+      </div>`
+    await jest.advanceTimersByTimeAsync(0)
+    form = document.querySelector('form')
+    const thinking = document.querySelector('[data-test-loading]')
+    window.fetch.mockResolvedValueOnce(accepted())
+      .mockResolvedValueOnce(reply({ status: 'queued' }))
+      .mockResolvedValueOnce(reply({ status: 'running' }))
+      .mockResolvedValueOnce(reply({ status: 'completed' }))
+
+    form.querySelector('button').click()
+    await jest.advanceTimersByTimeAsync(0)
+    expect(thinking.classList.contains('govuk-!-display-none')).toBe(false)
+    await jest.advanceTimersByTimeAsync(250)
+    expect(thinking.classList.contains('govuk-!-display-none')).toBe(false)
+    expect(document.querySelector('[data-test-loading]')).toBe(thinking)
+    await jest.advanceTimersByTimeAsync(750)
+    expect(thinking.classList.contains('govuk-!-display-none')).toBe(false)
+    await jest.advanceTimersByTimeAsync(1000)
+    expect(submit).toHaveBeenCalledTimes(1)
+    expect(thinking.classList.contains('govuk-!-display-none')).toBe(false)
   })
 
   it.each(['question', 'shared initial form'])('restores the %s and queues exactly one user retry with the original input', async journey => {

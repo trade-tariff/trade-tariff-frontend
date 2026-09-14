@@ -56,7 +56,9 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     expect(accepted).to include('id' => id, 'request_id' => 'journey-123')
     expect(accepted.fetch('token')).to be_present
-    expect(URI.parse(accepted.fetch('poll_url')).path).to eq("/search/queued/#{id}")
+    poll_uri = URI.parse(accepted.fetch('poll_url'))
+    expect(poll_uri.path).to eq("/search/queued/#{id}")
+    expect(Rack::Utils.parse_query(poll_uri.query)).to include('token' => accepted.fetch('token'))
     expect(WebMock).to(have_requested(:post, %r{/internal/uk/queued_searches$}).with do |request|
       JSON.parse(request.body).slice('q', 'answers') == {
         'q' => 'horse', 'answers' => [{ 'question' => 'Material?', 'options' => '["Wood"]', 'answer' => 'Wood' }]
@@ -86,6 +88,32 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include('What is it used for?')
+    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+  end
+
+  it 'renders completed commodity results without another search' do
+    accepted = enqueue
+    stub_completed(
+      id,
+      data: [{
+        id: '123',
+        type: 'commodity',
+        attributes: {
+          goods_nomenclature_item_id: '0101210000',
+          goods_nomenclature_class: 'Commodity',
+          description: 'Horses',
+          declarable: true,
+          confidence: 'strong',
+          score: 12.5,
+        },
+      }],
+      meta: { interactive_search: { query: 'horse', request_id: 'journey-123' } },
+    )
+
+    finish(accepted)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include('0101210000')
     expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
   end
 
