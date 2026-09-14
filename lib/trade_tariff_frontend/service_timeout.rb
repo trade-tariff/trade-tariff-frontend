@@ -1,7 +1,7 @@
 module TradeTariffFrontend
   class ServiceTimeout
     DEFAULT_TIMEOUT = 15
-    DEFAULT_PATH_OVERRIDES = '/uk/search:100,/xi/search:100,/search:100,/internal/search:100'.freeze
+    DEFAULT_PATH_OVERRIDES = '/uk/search:100,/xi/search:100,/search:100,/internal/search:100,/internal/queued_searches:5'.freeze
 
     class << self
       def timeout_for(path)

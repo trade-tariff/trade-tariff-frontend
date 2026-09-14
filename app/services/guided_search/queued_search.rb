@@ -5,7 +5,7 @@ module GuidedSearch
 
     def self.submit(search)
       response = Search.api.post(path, MultiJson.dump(search.internal_search_params), 'Content-Type' => 'application/json') do |request|
-        request.options.timeout = 5
+        request.options.timeout = timeout
       end
       payload = parse(response)
       raise InvalidResponse unless response.status == 202 && payload['id'].to_s.match?(ID_PATTERN)
@@ -15,7 +15,7 @@ module GuidedSearch
 
     def self.find(id)
       response = Search.api.get("#{path}/#{id}", {}, 'Cache-Control' => 'no-store') do |request|
-        request.options.timeout = 5
+        request.options.timeout = timeout
       end
       payload = parse(response)
       raise InvalidResponse unless response.status == 200 && payload['id'] == id && %w[queued running completed failed].include?(payload['status'])
@@ -95,6 +95,11 @@ module GuidedSearch
       "#{URI.parse(host).path.sub(%r{/api\b}, '/internal')}/queued_searches"
     end
     private_class_method :path
+
+    def self.timeout
+      TradeTariffFrontend::ServiceTimeout.timeout_for('/internal/queued_searches')
+    end
+    private_class_method :timeout
 
     def self.parse(response)
       body = response.body
