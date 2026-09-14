@@ -111,10 +111,8 @@ export default class extends Controller {
         this.setHidden(run.form, 'request_id', run.requestId)
         this.setHidden(run.form, 'queued_search_id', run.id)
         this.setHidden(run.form, 'queued_search_token', run.token)
-        for (const [index, part] of ['year', 'month', 'day'].entries()) {
+        for (const part of ['year', 'month', 'day']) {
           this.setHidden(run.form, part, run.date[part])
-          const nestedField = `search[as_of(${index + 1}i)]`
-          if (run.form.elements.namedItem(nestedField)) this.setHidden(run.form, nestedField, run.date[part])
         }
         this.submitted = true
         this.stop()
