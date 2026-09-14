@@ -78,7 +78,7 @@ describe('QueuedSearchController', () => {
     expect(submit).not.toHaveBeenCalled()
     await jest.advanceTimersByTimeAsync(750)
     expect(submit).not.toHaveBeenCalled()
-    await jest.advanceTimersByTimeAsync(4000)
+    await jest.advanceTimersByTimeAsync(1000)
     expect(submit).toHaveBeenCalledTimes(1)
     expect(form.elements.queued_search_id.value).toBe(queuedId)
     expect(form.elements.queued_search_token.type).toBe('hidden')
@@ -136,7 +136,7 @@ describe('QueuedSearchController', () => {
     jest.setSystemTime(Date.now() + 3600000)
     await jest.advanceTimersByTimeAsync(24000)
 
-    expect(polls).toEqual([250, 1000, 5000, 7000, 10000, 12000, 15000, 20000, 25000])
+    expect(polls).toEqual([250, 1000, 2000, 5000, 7000, 10000, 12000, 15000, 20000, 25000])
     expect(submit).not.toHaveBeenCalled()
   })
 

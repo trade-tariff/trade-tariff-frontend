@@ -4,7 +4,7 @@ const RECOVERY_MESSAGE = 'We could not complete this search. Please try your sea
 // Data-informed starting cadence from AI-1093, not a fixed latency guarantee.
 // Reduce status traffic through both web tiers; revisit as timings change.
 // Evidence and trade-offs: docs/architecture/queued-guided-search.md.
-const POLL_TIMES = [250, 1000, 5000, 7000, 10000, 12000, 15000]
+const POLL_TIMES = [250, 1000, 2000, 5000, 7000, 10000, 12000, 15000]
 const TAIL_POLL_INTERVAL = 5000
 
 export default class extends Controller {

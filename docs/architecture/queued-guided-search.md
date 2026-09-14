@@ -37,7 +37,7 @@ The submission's resolved date is retained through final handoff, including nest
 Elapsed times from submission, not successive delays:
 
 ```text
-0.25s, 1s, 5s, 7s, 10s, 12s, 15s, then every 5s through 115s.
+0.25s, 1s, 2s, 5s, 7s, 10s, 12s, 15s, then every 5s through 115s.
 ```
 
 Use a monotonic clock. Late acceptance gets one immediate check; slow responses skip missed slots rather than triggering catch-up bursts. Polls never overlap. `queued` and `running` use the same clock because neither exposes the processing stage or an ETA.
@@ -62,7 +62,7 @@ The 12-second check catches 42 steps that finished between 10 and 12 seconds. Th
 
 For reproduction, select `event=search_completed`, `search_type=interactive`, `results_type=hybrid`; convert `total_duration_ms` to seconds. Detection is the first scheduled check at or after completion; count checks through detection and subtract completion time for polling delay. Percentiles use linear interpolation. This excludes ten exact matches, unfinished/failed work, new queue waits and network/rendering overhead. It is historical modelling, not measured current async latency.
 
-None of those 318 steps finished within two seconds. The two early checks are a deliberate allowance for backend fast paths, not a finding from that filtered sample. A result ready at two seconds waits until five seconds; tail gaps can add almost five seconds.
+None of those 318 steps finished within two seconds. The early checks are a deliberate allowance for backend fast paths, not a finding from that filtered sample. The live schedule also checks at two seconds so a job that finishes just after one second is not left waiting until five. Tail gaps can still add almost five seconds. The table above is the original experiment; update it when the schedule is replayed.
 
 Backend inspection supports this distinction: description exclusions and exact matches can finish before retrieval; empty shortlists and single-result answers avoid question generation but still wait for retrieval. Hybrid retrieval joins both legs, expansion can add another pass, and provider retries mean failures are not uniformly fast. Lifecycle status provides no stage information. See the backend's `Api::Internal::SearchService`, `HybridRetrievalService` and `docs/architecture/queued-internal-search.md` for the execution contract and budgets.
 
