@@ -76,7 +76,7 @@ Use representative initial and follow-up timings, including exact matches, inter
 
 Deploy the backend API and **all workers containing `QueuedSearchWorker` before this frontend**. Classification logic and tariff content are unchanged. Reverting the frontend caller is the rollback boundary; accepted jobs can continue.
 
-Keep activation to a controlled environment with bounded traffic until shared-worker impact is understood. The default Sidekiq queue is shared. Its worker has no job retries, but providers can retry internally, beyond the browser deadline. Redis retains jobs for one hour; expiry does not terminate execution. Queue fairness, admission control, provider limits, abandoned/duplicate work and polling bursts without jitter remain unproven.
+Keep activation to a controlled environment with bounded traffic until shared-worker impact is understood. The default Sidekiq queue is shared. Production also throttles `POST /search/queued` to 20 requests per IP per minute; poll GETs stay on the generic 500/min limit. Its worker has no job retries, but providers can retry internally, beyond the browser deadline. Redis retains jobs for one hour; expiry does not terminate execution. Queue fairness, admission control, provider limits, abandoned/duplicate work and polling bursts without jitter remain unproven.
 
 ## Source anchors
 
