@@ -22,7 +22,7 @@ Terraform to deploy the service into AWS.
 | ---- | ------ | ------- |
 | <a name="module_frontend_page_visits_dashboard"></a> [frontend\_page\_visits\_dashboard](#module\_frontend\_page\_visits\_dashboard) | ./modules/frontend_page_visits_dashboard | n/a |
 | <a name="module_puma_capacity_dashboard"></a> [puma\_capacity\_dashboard](#module\_puma\_capacity\_dashboard) | ./modules/puma_capacity_dashboard | n/a |
-| <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | aws/ecs-service-v3.3.0 |
+| <a name="module_service"></a> [service](#module\_service) | git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service | HMRC-2677-init-container-readonly-root |
 
 ## Resources
 
