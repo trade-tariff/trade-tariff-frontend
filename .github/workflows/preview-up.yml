@@ -1,0 +1,52 @@
+name: Preview App Up
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+env:
+  AWS_REGION: eu-west-2
+  IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-Preview-App-Role
+  PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
+  ENVIRONMENT: development
+  SECRET_NAME: frontend-configuration
+
+# allow a single job to run per PR
+concurrency: preevy-${{ github.event.number }}
+
+jobs:
+  deploy:
+    if: contains(github.event.pull_request.labels.*.name, 'needs-preview')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: actions/checkout@v4
+
+      - name: Fetch frontend-configuration secrets and mask values
+        run: |
+          set -euo pipefail
+
+          SECRET_JSON=$(aws secretsmanager get-secret-value \
+            --secret-id "${{ env.SECRET_NAME }}" \
+            --query "SecretString" \
+            --output text)
+
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "::add-mask::\(.value)"'
+          echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> .env
+
+      - uses: livecycle/preevy-up-action@v2.4.0
+        id: preevy_up
+        with:
+          install: gh-release
+          profile-url: "${{ env.PREEVY_PROFILE_URL }}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          BUILDX_BAKE_ENTITLEMENTS_FS: 0
