@@ -89,6 +89,17 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
   end
 
+  it 'maps a backend poll outage to 503 recovery without a second search' do
+    accepted = enqueue
+    stub_api_request("queued_searches/#{id}", internal: true).to_return(status: 503, body: '', headers:)
+
+    poll(accepted)
+
+    expect(response).to have_http_status(:service_unavailable)
+    expect(response.parsed_body).to include('error' => QueuedGuidedSearchable::RECOVERY_MESSAGE)
+    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+  end
+
   it 'lets an accepted step finish after disabling guided search, but rejects new submissions' do
     accepted = enqueue
     stub_completed
@@ -339,7 +350,8 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
         allow(cache).to receive(:write).and_call_original
 
         poll(accepted)
-        expect(response).to have_http_status(:service_unavailable)
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(response.parsed_body).to include('error_code' => 'invalid_response')
         finish(accepted)
         expect(response.body).to include('Please try your search again')
         expect(cache).not_to have_received(:write).with(start_with('queued_search/'), anything, anything)
