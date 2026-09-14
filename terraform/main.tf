@@ -1,8 +1,5 @@
 module "service" {
-  # TEMPORARY: unmerged branch, to verify the init container fix in development before
-  # the module PR merges. Must be repointed to a tag before this merges to main.
-  # trade-tariff/trade-tariff-platform-terraform-modules#111
-  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=HMRC-2677-init-container-readonly-root"
+  source = "git@github.com:trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v3.3.1"
 
   region = var.region
 
