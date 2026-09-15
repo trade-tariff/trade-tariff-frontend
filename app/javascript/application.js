@@ -5,6 +5,9 @@ import "controllers"
 import { initAll } from 'govuk-frontend';
 import { initializeSearchAutocompletes } from 'search-autocomplete';
 import Utility from 'utility';
+import { startAmplitudeSurveys } from 'amplitude-surveys';
+
+startAmplitudeSurveys();
 
 initAll();
 

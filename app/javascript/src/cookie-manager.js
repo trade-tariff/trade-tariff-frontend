@@ -62,6 +62,7 @@ export default class CookieManager {
 
   setCookiesPolicy(value = {usage: true, remember_settings: true}) {
     this.#setCookie(this.cookiesPolicyName, value, this.expiresInOneYear);
+    window.dispatchEvent(new Event('cookies:changed'));
   }
 
   getCookiesPolicy() {
