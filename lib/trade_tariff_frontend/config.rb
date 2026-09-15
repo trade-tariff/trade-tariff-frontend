@@ -24,6 +24,18 @@ module TradeTariffFrontend
       webchat_url.present?
     end
 
+    def amplitude_surveys_config
+      api_key = ENV['AMPLITUDE_API_KEY'].to_s
+      server_zone = ENV['AMPLITUDE_SERVER_ZONE'].to_s
+      return unless api_key.match?(/\A[a-f0-9]{32}\z/i) && %w[EU US].include?(server_zone)
+
+      {
+        apiKey: api_key,
+        serverZone: server_zone,
+        instanceName: ENV.fetch('AMPLITUDE_GTM_INSTANCE_NAME', ''),
+      }
+    end
+
     def backend_base_domain
       ENV['BACKEND_BASE_DOMAIN']
     end

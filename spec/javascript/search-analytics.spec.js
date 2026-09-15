@@ -1,5 +1,11 @@
 import Cookies from 'js-cookie'
 import { publishSearchContext, trackSearchJourney } from '../../app/javascript/src/search-analytics'
+import { clearPendingSurveyResults, forwardSurveyResults } from '../../app/javascript/src/amplitude-surveys'
+
+jest.mock('../../app/javascript/src/amplitude-surveys', () => ({
+  clearPendingSurveyResults: jest.fn(),
+  forwardSurveyResults: jest.fn(),
+}))
 
 describe('search analytics', () => {
   const context = {
@@ -27,6 +33,7 @@ describe('search analytics', () => {
   }
 
   beforeEach(() => {
+    jest.clearAllMocks()
     document.head.innerHTML = `<script type="application/json" id="search-analytics-context">${JSON.stringify(context)}</script>`
     document.body.innerHTML = ''
     Cookies.set('cookies_policy', JSON.stringify({ usage: true }))
@@ -41,6 +48,7 @@ describe('search analytics', () => {
   it('publishes a self-contained results event', () => {
     trackSearchJourney('page_visible', { client_navigation_ms: 1234 })
 
+    expect(forwardSurveyResults).toHaveBeenCalledWith(window.dataLayer[0])
     expect(window.dataLayer).toEqual([{
       ...context,
       event: 'ott_search_journey',
@@ -57,6 +65,7 @@ describe('search analytics', () => {
     publishSearchContext(document.createElement('form'))
 
     expect(window.dataLayer).toEqual([])
+    expect(forwardSurveyResults).not.toHaveBeenCalled()
   })
 
   it('does nothing without server consent context', () => {
@@ -68,6 +77,7 @@ describe('search analytics', () => {
   it('does not break a journey when analytics is blocked', () => {
     window.dataLayer.push = () => { throw new Error('blocked') }
     expect(() => trackSearchJourney('page_visible')).not.toThrow()
+    expect(forwardSurveyResults).toHaveBeenCalledWith(expect.objectContaining({ search_state: 'results' }))
   })
 
   it('does not send arbitrary interaction properties', () => {
@@ -98,6 +108,7 @@ describe('search analytics', () => {
       result_count: null,
       client_elapsed_ms: null,
     })])
+    expect(clearPendingSurveyResults).toHaveBeenCalledTimes(1)
     expect(JSON.stringify(window.dataLayer)).not.toContain('0101210000')
     expect(window.dataLayer.some(event => event.event === 'ott_search_submitted')).toBe(false)
   })
