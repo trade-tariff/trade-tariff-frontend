@@ -41,6 +41,7 @@ describe('Amplitude survey integration', () => {
     adapter.stop()
     Cookies.remove('cookies_policy')
     delete window.amplitudeGTM
+    delete window.amplitude
     delete window.engagement
     document.head.innerHTML = ''
     jest.clearAllTimers()
@@ -87,30 +88,40 @@ describe('Amplitude survey integration', () => {
     expect(loadSdk).not.toHaveBeenCalled()
   })
 
-  it('waits for GTM identity and preserves the queued results snapshot', async () => {
+  it('preserves the queued results snapshot when Analytics identity is missing', async () => {
     client.getDeviceId.mockReturnValue(undefined)
     const properties = { ...results }
     adapter.results(properties)
     properties.request_id = 'changed-after-the-event'
-    expect(loadSdk).not.toHaveBeenCalled()
-    client.getDeviceId.mockReturnValue('existing-device')
-    await jest.advanceTimersByTimeAsync(100)
     await adapter.ready
 
     expect(sdk.forwardEvent).toHaveBeenCalledWith({
       event_type: 'Search Results Viewed',
       event_properties: expect.objectContaining({ request_id: 'backend-request-123', search_state: 'results' }),
     })
+    expect(sdk.boot.mock.calls[0][0].user()).toEqual({})
     expect(client.track).not.toHaveBeenCalled()
   })
 
-  it('times out without inventing a device ID if GTM is blocked', async () => {
+  it('boots the survey SDK when GTM does not expose an Analytics client', async () => {
     delete window.amplitudeGTM
     adapter.results(results)
-    await jest.advanceTimersByTimeAsync(10000)
     await adapter.ready
-    expect(loadSdk).not.toHaveBeenCalled()
-    expect(adapter.pending).toBeNull()
+
+    expect(init).toHaveBeenCalledWith(config.apiKey, { serverZone: 'EU' })
+    expect(sdk.forwardEvent).toHaveBeenCalledWith({
+      event_type: 'Search Results Viewed',
+      event_properties: expect.objectContaining({ request_id: 'backend-request-123' }),
+    })
+    expect(sdk.boot.mock.calls[0][0].user()).toEqual({})
+  })
+
+  it('uses window.amplitude when amplitudeGTM is absent', async () => {
+    delete window.amplitudeGTM
+    window.amplitude = client
+    adapter.start()
+    await adapter.ready
+    expect(sdk.boot.mock.calls[0][0].user()).toEqual({ device_id: 'existing-device', user_id: undefined })
   })
 
   it('uses the configured named GTM instance and its signed-in identity', async () => {

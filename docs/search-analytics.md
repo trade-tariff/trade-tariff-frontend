@@ -115,21 +115,23 @@ old beta assignment after the flag or service changes.
 
 There is no separate enable flag: valid project configuration enables the
 integration for consented users. Missing/invalid configuration loads no survey
-SDK. GTM must expose the current Browser SDK client through `amplitudeGTM`, or
-`amplitudeGTM._iq[instanceName]`, with `getDeviceId`, `getUserId` and `track`.
-Legacy `window.amplitude` installations are not silently substituted.
+SDK. When GTM exposes a Browser SDK client through `amplitudeGTM`,
+`amplitudeGTM._iq[instanceName]`, or `window.amplitude`, with `getDeviceId`,
+`getUserId` and `track`, the adapter reuses that identity. If GTM only delivers
+Analytics and never creates that client, the survey SDK still boots from the
+frontend configuration so Preview and in-page surveys can run.
 
-The adapter waits up to ten seconds for an existing device identity before
-loading the SDK. It never creates another Analytics client or identifier.
-The vendored MIT-licensed `@amplitude/engagement-browser` 1.0.12 loader is pinned
-and lazily imported without module preload. Its `init` loads Amplitude's
-vendor-managed runtime from the regional CDN; the runtime itself is not pinned
-by this repository. That third-party execution is part of the deployment risk.
+The adapter does not wait for a GTM Analytics client before loading the SDK. It
+does not create another Analytics client. The vendored MIT-licensed
+`@amplitude/engagement-browser` 1.0.12 loader is pinned and lazily imported
+without module preload. Its `init` loads Amplitude's vendor-managed runtime from
+the regional CDN; the runtime itself is not pinned by this repository. That
+third-party execution is part of the deployment risk.
 
 One page-local results snapshot waits for boot and is forwarded once. A new
 submission, consent withdrawal or navigation discards pending results. SDK
-responses go back through the same GTM Analytics client. Withdrawal shuts down
-Engagement; identity changes stop it rather than attributing responses to a
+responses go through the GTM Analytics client when one exists. Withdrawal shuts
+down Engagement; identity changes stop it rather than attributing responses to a
 different visitor. A page restored from the browser back/forward cache does not
 restart a stopped survey integration; a fresh navigation is required.
 

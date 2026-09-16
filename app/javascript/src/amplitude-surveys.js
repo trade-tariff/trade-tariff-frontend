@@ -21,13 +21,19 @@ function consented() {
   return new CookieManager().usage() === true
 }
 
-// GTM remains the only Analytics owner. Never create a second device identity.
-function analyticsClient(instanceName) {
-  const root = window.amplitudeGTM
-  const client = instanceName ? root?._iq?.[instanceName] : root
+function usableClient(client) {
   if (typeof client?.getDeviceId !== 'function' ||
       typeof client?.getUserId !== 'function' || typeof client?.track !== 'function') return null
   return client.getDeviceId() ? client : null
+}
+
+// Prefer GTM's Analytics client when it exists. Surveys still boot without it.
+function analyticsClient(instanceName) {
+  if (instanceName) {
+    const named = usableClient(window.amplitudeGTM?._iq?.[instanceName])
+    if (named) return named
+  }
+  return usableClient(window.amplitudeGTM) || usableClient(window.amplitude)
 }
 
 export class AmplitudeSurveys {
@@ -56,19 +62,16 @@ export class AmplitudeSurveys {
 
   async boot(config) {
     if (!/^[a-f0-9]{32}$/i.test(config.apiKey) || !['EU', 'US'].includes(config.serverZone)) return
-    const deadline = Date.now() + TIMEOUT_MS
-    let client
-    while (!this.stopped && consented() && Date.now() < deadline) {
-      client = analyticsClient(config.instanceName)
-      if (client) break
-      await new Promise(resolve => setTimeout(resolve, WAIT_MS))
-    }
-    if (!client || this.stopped || !consented()) return this.stop()
+    if (this.stopped || !consented()) return this.stop()
     // Fail closed if GTM or another integration already owns Engagement.
     if (window.engagement) return this.stop()
-    const deviceId = client.getDeviceId()
-    const userId = client.getUserId()
-    this.sameIdentity = () => client.getDeviceId() === deviceId && client.getUserId() === userId
+    const client = analyticsClient(config.instanceName)
+    const deviceId = client?.getDeviceId()
+    const userId = client?.getUserId()
+    this.sameIdentity = () => {
+      if (!client) return true
+      return client.getDeviceId() === deviceId && client.getUserId() === userId
+    }
     const { init } = await withTimeout(this.loadSdk())
     if (!this.active() || window.engagement) return this.stop()
 
@@ -80,13 +83,14 @@ export class AmplitudeSurveys {
     await withTimeout(Promise.resolve(this.sdk.boot({
       // The loader queues boot while fetching its runtime. Recheck when the
       // runtime actually consumes the identity, not only when we enqueue it.
-      user: () => this.active() ? { device_id: deviceId, user_id: userId } : {},
+      user: () => this.active() && client ? { device_id: deviceId, user_id: userId } : {},
       integrations: [{
         track: event => {
           if (!this.active()) {
             this.stop()
             return
           }
+          if (!client) return
           try {
             const result = client.track(event)
             result?.promise?.catch(() => {})
