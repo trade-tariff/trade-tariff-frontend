@@ -65,6 +65,8 @@
       <%= @filter_collection&.name || 'All collections' %>
     </h2>
 
+    <%= render 'news_items/ai_search_update' if @show_ai_search_update %>
+
     <% @news_items.each do |news_item| %>
       <article class="news-item" data-news-item-id="<%= news_item.id %>">
         <h2 class="govuk-heading-s">
@@ -88,7 +90,7 @@
 
     <% if @news_items.any? %>
       <%= paginate @news_items %>
-    <% else %>
+    <% elsif !@show_ai_search_update %>
       <div class="govuk-inset-text">
         <p>
           <em>There are no updates at present</em>

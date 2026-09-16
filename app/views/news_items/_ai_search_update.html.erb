@@ -1,0 +1,16 @@
+<article class="news-item" data-news-item-id="ai-assisted-search">
+  <h2 class="govuk-heading-s">
+    <%= govuk_link_to 'AI-assisted search', ai_search_information_path %>
+  </h2>
+
+  <div class="tariff-markdown tariff-markdown--reduced-trailing-margin">
+    <%= format_news_item_content 'Assisted search is currently in beta phase. While we strive for accuracy, at this stage there might be some errors in the service.' %>
+  </div>
+
+  <p class="tariff-body-subtext">
+    <%= Date.new(2026, 9, 9).to_formatted_s :short %>
+    | Service updates
+  </p>
+
+  <%= govuk_section_break(size: 'm', visible: true) %>
+</article>
