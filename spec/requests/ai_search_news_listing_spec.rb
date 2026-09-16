@@ -59,6 +59,6 @@ RSpec.describe 'AI-assisted search news listing', :aggregate_failures, type: :re
   it 'hides the beta update on the XI service' do
     get '/xi/news'
 
-    expect(page).not_to have_link('AI-assisted search', href: '/xi/news/service-updates/ai-assisted-search')
+    expect(page).not_to have_link('AI-assisted search')
   end
 end
