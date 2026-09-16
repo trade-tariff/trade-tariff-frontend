@@ -21,7 +21,6 @@ class NewsItemsController < ApplicationController
       collection: @filter_collection,
       collection_id: params[:collection_id],
       page: params[:page],
-      previous_oldest: previous_page_oldest,
     )
   rescue Faraday::ServerError
     redirect_to not_found_path
@@ -42,24 +41,4 @@ private
           .symbolize_keys
   end
   helper_method :news_index_params
-
-  def previous_page_oldest
-    page_number = params[:page].to_i
-    return if page_number <= 1
-    return unless News::AiSearchUpdate.visible?(
-      enabled: interactive_search_enabled?,
-      year: @filter_year,
-      collection: @filter_collection,
-      collection_id: params[:collection_id],
-    )
-    return if @news_items.blank?
-
-    newest = @news_items.first.start_date
-    return if newest.blank? || newest.to_date > News::AiSearchUpdate::START_DATE
-
-    previous_page = News::Item.updates_page(**news_index_params.merge(page: page_number - 1))
-    previous_page.last&.start_date
-  rescue Faraday::Error
-    nil
-  end
 end
