@@ -134,11 +134,19 @@ describe('Amplitude survey integration', () => {
   it('rechecks ownership after the asynchronous import', async () => {
     const loading = deferred()
     loadSdk.mockReturnValue(loading.promise)
-    adapter.start()
-    window.engagement = { boot: jest.fn() }
+    const removeListener = jest.spyOn(window, 'removeEventListener')
+    adapter.results(results)
+    const externalSdk = { boot: jest.fn(), shutdown: jest.fn() }
+    window.engagement = externalSdk
     loading.resolve({ init })
     await adapter.ready
     expect(init).not.toHaveBeenCalled()
+    expect(adapter.pending).toBeNull()
+    expect(adapter.stopped).toBe(true)
+    expect(removeListener).toHaveBeenCalledWith('cookies:changed', adapter.onConsentChange)
+    expect(removeListener).toHaveBeenCalledWith('pagehide', adapter.onPageHide)
+    expect(externalSdk.shutdown).not.toHaveBeenCalled()
+    removeListener.mockRestore()
   })
 
   it('waits for boot before forwarding, and deduplicates page reconnects', async () => {
@@ -178,9 +186,13 @@ describe('Amplitude survey integration', () => {
   it('records SDK-generated responses through existing Analytics without inventing search attribution', async () => {
     adapter.start()
     await adapter.ready
-    const response = { event_type: '[Amplitude] Survey Submitted', event_properties: { answer: 'Good' } }
+    const response = {
+      event_type: '[Amplitude] Survey Submitted', event_properties: { answer: 'Good' },
+      groups: { organisation: 'trader' }, time: 1789495691346, insert_id: 'survey-response-123',
+    }
     sdk.boot.mock.calls[0][0].integrations[0].track(response)
-    expect(client.track).toHaveBeenCalledWith(response.event_type, response.event_properties)
+    expect(client.track).toHaveBeenCalledWith(response)
+    expect(client.track.mock.calls[0][0]).toBe(response)
     expect(sdk.forwardEvent).not.toHaveBeenCalled()
   })
 

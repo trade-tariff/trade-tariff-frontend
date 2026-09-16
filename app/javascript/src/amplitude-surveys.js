@@ -67,7 +67,7 @@ export class AmplitudeSurveys {
     // Fail closed if GTM or another integration already owns Engagement.
     if (window.engagement) return this.stop()
     const { init } = await withTimeout(this.loadSdk())
-    if (this.stopped || !consented() || window.engagement) return
+    if (this.stopped || !consented() || window.engagement) return this.stop()
 
     init(config.apiKey, { serverZone: config.serverZone })
     this.sdk = window.engagement
@@ -88,7 +88,7 @@ export class AmplitudeSurveys {
             return
           }
           try {
-            const result = client.track(event.event_type, event.event_properties)
+            const result = client.track(event)
             result?.promise?.catch(() => {})
           } catch (_) { /* Analytics failure must not break the survey. */ }
         },
