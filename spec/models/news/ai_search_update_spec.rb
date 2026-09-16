@@ -10,6 +10,7 @@ RSpec.describe News::AiSearchUpdate do
         collection:,
         collection_id:,
         page:,
+        previous_oldest:,
       )
     end
 
@@ -18,6 +19,7 @@ RSpec.describe News::AiSearchUpdate do
     let(:collection) { nil }
     let(:collection_id) { nil }
     let(:page) { 1 }
+    let(:previous_oldest) { nil }
     let(:service_updates) { build(:news_collection, name: 'Service updates', slug: 'service_updates') }
     let(:other_collection) { build(:news_collection, name: 'Tariff notices', slug: 'tariff_notices') }
 
@@ -82,6 +84,7 @@ RSpec.describe News::AiSearchUpdate do
 
     context 'when the date falls between pages' do
       let(:page) { 2 }
+      let(:previous_oldest) { Date.new(2026, 9, 10) }
       let(:news_items) do
         page_for(
           [item_on(Date.new(2026, 9, 8))],
@@ -92,6 +95,19 @@ RSpec.describe News::AiSearchUpdate do
       it 'places the update at the start of the later page' do
         expect(listed.first).to be_ai_search_update
       end
+    end
+
+    context 'with a later page of older items' do
+      let(:page) { 3 }
+      let(:previous_oldest) { Date.new(2026, 9, 8) }
+      let(:news_items) do
+        page_for(
+          [item_on(Date.new(2026, 9, 7))],
+          total_count: 30,
+        )
+      end
+
+      it { is_expected.not_to include(a_kind_of(described_class)) }
     end
 
     context 'with the 2026 year filter' do
