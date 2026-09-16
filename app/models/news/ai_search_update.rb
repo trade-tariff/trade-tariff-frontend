@@ -11,7 +11,7 @@ module News
       START_DATE
     end
 
-    def self.merge(news_items, enabled:, year: nil, collection: nil, collection_id: nil, page: nil, previous_oldest: nil)
+    def self.merge(news_items, enabled:, year: nil, collection: nil, collection_id: nil, page: nil)
       items = news_items.to_a
       return items unless visible?(enabled:, year:, collection:, collection_id:)
 
@@ -19,7 +19,6 @@ module News
         items,
         page: normalized_page(page),
         last_page: last_page?(news_items, page),
-        previous_oldest:,
       )
     end
 
@@ -31,44 +30,25 @@ module News
       collection&.slug == COLLECTION_SLUG
     end
 
-    def self.insert(items, page:, last_page:, previous_oldest:)
+    def self.insert(items, page:, last_page:)
       return page == 1 ? [new] : items if items.empty?
-      return items unless belongs_on_page?(items, page:, last_page:, previous_oldest:)
+      return items unless belongs_on_page?(items, page:, last_page:)
 
       items.dup.insert(insertion_index(items, START_DATE), new)
     end
     private_class_method :insert
 
-    def self.belongs_on_page?(items, page:, last_page:, previous_oldest:)
+    def self.belongs_on_page?(items, page:, last_page:)
       date = START_DATE
       newest = items.first.start_date&.to_date
       oldest = items.last.start_date&.to_date
       return false if newest.blank? || oldest.blank?
 
-      return false if claimed_by_previous_page?(page:, date:, newest:, previous_oldest:)
-
-      (date <= newest && date >= oldest) ||
+      (date < newest && date >= oldest) ||
         (page == 1 && date >= newest) ||
-        (last_page && date <= oldest) ||
-        first_older_page?(page:, date:, newest:, previous_oldest:)
+        (last_page && date < oldest)
     end
     private_class_method :belongs_on_page?
-
-    def self.claimed_by_previous_page?(page:, date:, newest:, previous_oldest:)
-      page > 1 &&
-        newest == date &&
-        previous_oldest.present? &&
-        previous_oldest.to_date <= date
-    end
-    private_class_method :claimed_by_previous_page?
-
-    def self.first_older_page?(page:, date:, newest:, previous_oldest:)
-      page > 1 &&
-        date > newest &&
-        previous_oldest.present? &&
-        previous_oldest.to_date > date
-    end
-    private_class_method :first_older_page?
 
     def self.insertion_index(items, date)
       items.index { |item| item.start_date.present? && item.start_date.to_date <= date } || items.length
