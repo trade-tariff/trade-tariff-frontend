@@ -66,14 +66,14 @@ export class AmplitudeSurveys {
     if (!client || this.stopped || !consented()) return this.stop()
     // Fail closed if GTM or another integration already owns Engagement.
     if (window.engagement) return this.stop()
-    const { init } = await withTimeout(this.loadSdk())
-    if (this.stopped || !consented() || window.engagement) return this.stop()
-
-    init(config.apiKey, { serverZone: config.serverZone })
-    this.sdk = window.engagement
     const deviceId = client.getDeviceId()
     const userId = client.getUserId()
     this.sameIdentity = () => client.getDeviceId() === deviceId && client.getUserId() === userId
+    const { init } = await withTimeout(this.loadSdk())
+    if (!this.active() || window.engagement) return this.stop()
+
+    init(config.apiKey, { serverZone: config.serverZone })
+    this.sdk = window.engagement
     this.monitor = setInterval(() => {
       if (!this.active()) this.stop()
     }, WAIT_MS)

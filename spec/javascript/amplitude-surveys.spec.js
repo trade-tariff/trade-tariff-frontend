@@ -249,14 +249,16 @@ describe('Amplitude survey integration', () => {
     expect(sdk.shutdown).toHaveBeenCalled()
   })
 
-  it('does not initialise if consent is withdrawn during import', async () => {
+  it.each(['consent', 'getDeviceId', 'getUserId'])('discards results if %s changes during import', async change => {
     const loading = deferred()
     loadSdk.mockReturnValue(loading.promise)
-    adapter.start()
-    new CookieManager().setCookiesPolicy({ usage: false })
+    adapter.results(results)
+    if (change === 'consent') new CookieManager().setCookiesPolicy({ usage: false })
+    else client[change].mockReturnValue('another-identity')
     loading.resolve({ init })
     await adapter.ready
     expect(init).not.toHaveBeenCalled()
+    expect(adapter.pending).toBeNull()
   })
 
   it('stops if the analytics identity changes after boot', async () => {
