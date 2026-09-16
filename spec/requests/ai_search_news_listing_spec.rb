@@ -71,6 +71,26 @@ RSpec.describe 'AI-assisted search news listing', :aggregate_failures, type: :re
     expect(page).not_to have_link('AI-assisted search', href: ai_search_information_path)
   end
 
+  it 'lists the beta update on the first older page' do
+    newer_page = Kaminari.paginate_array(
+      [build(:news_item, title: 'Newer update', start_date: Date.new(2026, 9, 16))],
+      total_count: 20,
+    ).page(1).per(10)
+    older_page = Kaminari.paginate_array(
+      [build(:news_item, title: 'Older update', start_date: Date.new(2026, 9, 8))],
+      total_count: 20,
+    ).page(1).per(10)
+
+    allow(News::Item).to receive(:updates_page) do |**kwargs|
+      kwargs[:page].to_i == 2 ? older_page : newer_page
+    end
+
+    get news_items_path(page: 2)
+
+    expect(page).to have_link('AI-assisted search', href: ai_search_information_path)
+    expect(News::Item).to have_received(:updates_page).with(hash_including(page: 1))
+  end
+
   it 'hides the beta update on the XI service' do
     get '/xi/news'
 

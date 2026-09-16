@@ -110,6 +110,22 @@ RSpec.describe News::AiSearchUpdate do
       it { is_expected.not_to include(a_kind_of(described_class)) }
     end
 
+    context 'when the same date straddles a page boundary' do
+      let(:page) { 2 }
+      let(:previous_oldest) { Date.new(2026, 9, 9) }
+      let(:news_items) do
+        page_for(
+          [
+            item_on(Date.new(2026, 9, 9)),
+            item_on(Date.new(2026, 9, 8)),
+          ],
+          total_count: 20,
+        )
+      end
+
+      it { is_expected.not_to include(a_kind_of(described_class)) }
+    end
+
     context 'with the 2026 year filter' do
       let(:year) { 2026 }
       let(:news_items) { page_for([item_on(Date.new(2026, 7, 24))], total_count: 1) }
