@@ -59,23 +59,14 @@ RSpec.describe 'Amplitude survey configuration', :aggregate_failures, type: :req
     end
   end
 
-  context 'with the US region' do
+  context 'with a named GTM instance in the US region' do
     let(:server_zone) { 'US' }
-
-    it 'uses the configured region' do
-      get find_commodity_path
-
-      expect(survey_config).to include('serverZone' => 'US')
-    end
-  end
-
-  context 'with a named GTM instance' do
     let(:instance_name) { '</script><script>alert(1)</script>' }
 
-    it 'escapes the configuration without changing the instance name' do
+    it 'preserves the region and safely escapes the instance name' do
       get find_commodity_path
 
-      expect(survey_config).to include('instanceName' => instance_name)
+      expect(survey_config).to include('serverZone' => 'US', 'instanceName' => instance_name)
       expect(response.body).not_to include(instance_name)
     end
   end
