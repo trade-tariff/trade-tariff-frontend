@@ -30,7 +30,6 @@ module News
 
       collection&.slug == COLLECTION_SLUG
     end
-    private_class_method :visible?
 
     def self.insert(items, page:, last_page:, previous_oldest:)
       return page == 1 ? [new] : items if items.empty?
@@ -46,12 +45,22 @@ module News
       oldest = items.last.start_date&.to_date
       return false if newest.blank? || oldest.blank?
 
+      return false if claimed_by_previous_page?(page:, date:, newest:, previous_oldest:)
+
       (date <= newest && date >= oldest) ||
         (page == 1 && date >= newest) ||
         (last_page && date <= oldest) ||
         first_older_page?(page:, date:, newest:, previous_oldest:)
     end
     private_class_method :belongs_on_page?
+
+    def self.claimed_by_previous_page?(page:, date:, newest:, previous_oldest:)
+      page > 1 &&
+        newest == date &&
+        previous_oldest.present? &&
+        previous_oldest.to_date <= date
+    end
+    private_class_method :claimed_by_previous_page?
 
     def self.first_older_page?(page:, date:, newest:, previous_oldest:)
       page > 1 &&
