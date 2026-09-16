@@ -65,32 +65,35 @@
       <%= @filter_collection&.name || 'All collections' %>
     </h2>
 
-    <%= render 'news_items/ai_search_update' if @show_ai_search_update %>
+    <% listed = @listed_news_items || @news_items %>
+    <% listed.each do |news_item| %>
+      <% if news_item.try(:ai_search_update?) %>
+        <%= render 'news_items/ai_search_update' %>
+      <% else %>
+        <article class="news-item" data-news-item-id="<%= news_item.id %>">
+          <h2 class="govuk-heading-s">
+            <%= govuk_link_to sanitize(news_item.title), news_item %>
+          </h2>
 
-    <% @news_items.each do |news_item| %>
-      <article class="news-item" data-news-item-id="<%= news_item.id %>">
-        <h2 class="govuk-heading-s">
-          <%= govuk_link_to sanitize(news_item.title), news_item %>
-        </h2>
+          <div class="tariff-markdown tariff-markdown--reduced-trailing-margin">
+            <%= format_news_item_content news_item.precis_with_fallback %>
+          </div>
 
-        <div class="tariff-markdown tariff-markdown--reduced-trailing-margin">
-          <%= format_news_item_content news_item.precis_with_fallback %>
-        </div>
+          <p class="tariff-body-subtext">
+            <%= news_item.start_date.to_formatted_s :short %>
+            <% news_item.collections.each do |collection| %>
+              | <%= collection.name %>
+            <% end %>
+          </p>
 
-        <p class="tariff-body-subtext">
-          <%= news_item.start_date.to_formatted_s :short %>
-          <% news_item.collections.each do |collection| %>
-            | <%= collection.name %>
-          <% end %>
-        </p>
-
-        <%= govuk_section_break(size: 'm', visible: true) %>
-      </article>
+          <%= govuk_section_break(size: 'm', visible: true) %>
+        </article>
+      <% end %>
     <% end %>
 
     <% if @news_items.any? %>
       <%= paginate @news_items %>
-    <% elsif !@show_ai_search_update %>
+    <% elsif listed.empty? %>
       <div class="govuk-inset-text">
         <p>
           <em>There are no updates at present</em>

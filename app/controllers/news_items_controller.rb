@@ -1,6 +1,4 @@
 class NewsItemsController < ApplicationController
-  AI_SEARCH_UPDATE_COLLECTION_SLUG = 'service_updates'.freeze
-
   before_action :disable_search_form,
                 :disable_switch_service_banner
 
@@ -16,7 +14,14 @@ class NewsItemsController < ApplicationController
     end
 
     @news_items = News::Item.updates_page(**news_index_params)
-    @show_ai_search_update = ai_search_update_visible?
+    @listed_news_items = News::AiSearchUpdate.merge(
+      @news_items,
+      enabled: interactive_search_enabled?,
+      year: @filter_year,
+      collection: @filter_collection,
+      collection_id: params[:collection_id],
+      page: params[:page],
+    )
   rescue Faraday::ServerError
     redirect_to not_found_path
   end
@@ -29,17 +34,6 @@ class NewsItemsController < ApplicationController
   end
 
 private
-
-  def ai_search_update_visible?
-    return false unless interactive_search_enabled?
-    return false if params[:page].to_i > 1
-    return false if @filter_year.present?
-
-    collection_id = params[:collection_id]
-    return true if collection_id.blank?
-
-    @filter_collection&.slug == AI_SEARCH_UPDATE_COLLECTION_SLUG
-  end
 
   def news_index_params
     params.permit(:page, :story_year, :collection_id)
