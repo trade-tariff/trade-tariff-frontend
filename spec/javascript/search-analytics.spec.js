@@ -19,6 +19,7 @@ describe('search analytics', () => {
     feature_flag_fallback_reason: null,
     request_id: 'request-123',
     experiment: 'trstd-trdr',
+    experiment_url: '/guided-search-research',
     question_count: 2,
     option_count: 0,
     result_count: 3,

@@ -64,6 +64,18 @@ describe('Amplitude survey integration', () => {
     expect(sdk.forwardEvent).not.toHaveBeenCalled()
   })
 
+  it('attaches experiment URL identity for Amplitude filtering', async () => {
+    document.head.insertAdjacentHTML('beforeend', `<script id="search-analytics-context" type="application/json">${JSON.stringify({
+      experiment: 'hmrc-users', experiment_url: '/hmrc-users',
+    })}</script>`)
+    adapter.start()
+    await adapter.ready
+    expect(sdk.boot.mock.calls[0][0].user()).toEqual({
+      device_id: 'existing-device', user_id: undefined,
+      user_properties: { experiment: 'hmrc-users', experiment_url: '/hmrc-users' },
+    })
+  })
+
   it.each([true, 'true'])('accepts supported consent %j', async usage => {
     Cookies.set('cookies_policy', JSON.stringify({ usage }))
     adapter.start()

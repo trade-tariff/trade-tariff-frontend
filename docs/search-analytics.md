@@ -40,7 +40,8 @@ distinguish them. `destination` repeats that state on journey events.
 | `feature_flag_source` | `flagsmith` or `default` |
 | `feature_flag_fallback_reason` | Null after successful evaluation; otherwise `missing_flag`, `unavailable`, `not_configured`, `missing_identity`, `unsupported_service` or `missing_evaluation` |
 | `request_id` | Existing search request ID, including the backend-returned Guided Search ID; null before a request has been assigned |
-| `experiment` | Existing server-resolved experiment label, or null |
+| `experiment` | Existing server-resolved experiment URL instrumentation label, or null |
+| `experiment_url` | Path of the enrolled experiment URL, such as `/hmrc-users`, or null |
 | `question_count` | Answered questions plus the current pending question |
 | `option_count` | Options on the current pending question, excluding the UI's extra unknown-answer choice |
 | `result_count` | Results returned for the current search |
@@ -65,8 +66,8 @@ reported for default decisions because it describes what the trader received.
 ## GTM and Amplitude setup
 
 1. Create Data Layer Variables for the properties above using the exact keys.
-2. Add `search_experience`, `search_mode`, the four `feature_flag_*` properties
-   and `experiment` to the existing `ott_search_submitted` tag. Keep its current
+2. Add `search_experience`, `search_mode`, the four `feature_flag_*` properties,
+   `experiment` and `experiment_url` to the existing `ott_search_submitted` tag. Keep its current
    Search Term, Search Type, Search Origin, Journey and Unique Search ID mapping.
    Add `request_id` where available on destination events for correlation.
 3. Create a Custom Event trigger for `ott_search_journey`. Send that event and
