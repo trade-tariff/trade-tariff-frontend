@@ -6,7 +6,6 @@ module FlagsmithSetup
   def set_current_flagsmith_identity
     Current.flagsmith_identity = current_flagsmith_identity
     Current.experiment = nil
-    Current.experiment_url = nil
 
     traits = session[:flagsmith_optin_traits]
     Current.flagsmith_optin_traits = traits.is_a?(Hash) ? traits.to_h.transform_keys(&:to_s) : {}
@@ -24,9 +23,7 @@ module FlagsmithSetup
     active.each do |experiment|
       Current.flagsmith_optin_traits[experiment.feature_name] = { value: true, transient: true }
     end
-    enrolled = active.last
-    Current.experiment = enrolled&.instrumentation_label
-    Current.experiment_url = enrolled&.path
+    Current.experiment = active.last&.instrumentation_label
   end
 
   def current_flagsmith_identity

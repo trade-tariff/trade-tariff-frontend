@@ -50,20 +50,6 @@ function anonymousDeviceId() {
   }
 }
 
-function experimentUserProperties() {
-  try {
-    const element = document.getElementById('search-analytics-context')
-    if (!element) return {}
-    const context = JSON.parse(element.textContent)
-    const properties = {}
-    if (context.experiment) properties.experiment = context.experiment
-    if (context.experiment_url) properties.experiment_url = context.experiment_url
-    return properties
-  } catch (_) {
-    return {}
-  }
-}
-
 function ingestUrl(serverZone) {
   return serverZone === 'EU' ? 'https://api.eu.amplitude.com/2/httpapi' : 'https://api2.amplitude.com/2/httpapi'
 }
@@ -140,13 +126,7 @@ export class AmplitudeSurveys {
     await withTimeout(Promise.resolve(this.sdk.boot({
       // The loader queues boot while fetching its runtime. Recheck when the
       // runtime actually consumes the identity, not only when we enqueue it.
-      user: () => {
-        if (!this.active()) return {}
-        const user = { device_id: deviceId, user_id: userId }
-        const properties = experimentUserProperties()
-        if (Object.keys(properties).length) user.user_properties = properties
-        return user
-      },
+      user: () => this.active() ? { device_id: deviceId, user_id: userId } : {},
       integrations: [{
         track: event => {
           if (!this.active()) {

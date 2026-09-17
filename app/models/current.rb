@@ -23,7 +23,4 @@ class Current < ActiveSupport::CurrentAttributes
 
   # Instrumentation label for the most recently enrolled active experiment.
   attribute :experiment
-
-  # Path of the most recently enrolled active experiment URL.
-  attribute :experiment_url
 end
