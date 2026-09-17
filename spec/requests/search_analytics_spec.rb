@@ -25,6 +25,8 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
       'feature_flag_source' => 'flagsmith',
       'feature_flag_fallback_reason' => nil,
       'search_state' => 'entry',
+      'experiment' => nil,
+      'experiment_url' => nil,
     )
     expect(response.body.index('search-analytics-context')).to be < response.body.index('gtm.start')
     expect(response.body).to include('window.dataLayer.push(')
@@ -263,7 +265,10 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
       get find_commodity_path, params: { experiment: 'spoofed' }
     end
 
-    expect(analytics_context).to include('experiment' => 'trstd-trdr')
+    expect(analytics_context).to include(
+      'experiment' => 'trstd-trdr',
+      'experiment_url' => experiment.path,
+    )
   end
 
   it 'tracks the demo opt-in separately' do
@@ -276,6 +281,7 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
 
     expect(analytics_context).to include(
       'experiment' => 'demo',
+      'experiment_url' => '/search-beta-demo',
       'search_experience' => 'guided_beta',
       'feature_flag_enabled' => true,
       'feature_flag_source' => 'flagsmith',

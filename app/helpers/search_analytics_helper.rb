@@ -14,6 +14,7 @@ module SearchAnalyticsHelper
       feature_flag_fallback_reason: evaluation[:reason],
       request_id: search_analytics_request_id,
       experiment: Current.experiment,
+      experiment_url: Current.experiment_url,
       question_count: nil,
       option_count: nil,
       result_count: search_analytics_results? ? @results&.size : nil,
