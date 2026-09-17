@@ -75,8 +75,10 @@ reported for default decisions because it describes what the trader received.
 4. Leave Guides & Surveys loading and event forwarding disabled in GTM when
    using the frontend integration. Keep GTM's existing Analytics event delivery.
    The frontend forwards `Search Results Viewed` locally for
-   `ott_search_journey` with `outcome = page_visible` and `search_state = results`.
-   It does not ingest another copy of that event into Analytics.
+   `ott_search_journey` with `outcome = page_visible` and `search_state = results`,
+   and also sends that event to Amplitude Analytics over HTTP. Keep GTM's
+   `ott_search_journey` mapping. Turn off any GTM tag that also sends
+   `Search Results Viewed`, or Analytics will receive two copies.
 5. Configure the survey's **On event tracked** trigger with:
 
    ```text

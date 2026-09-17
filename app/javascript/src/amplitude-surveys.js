@@ -50,6 +50,32 @@ function anonymousDeviceId() {
   }
 }
 
+function ingestUrl(serverZone) {
+  return serverZone === 'EU' ? 'https://api.eu.amplitude.com/2/httpapi' : 'https://api2.amplitude.com/2/httpapi'
+}
+
+function ingest(config, deviceId, userId, event) {
+  const payload = {
+    device_id: deviceId,
+    event_type: event.event_type,
+  }
+  if (userId) payload.user_id = userId
+  if (event.event_properties) payload.event_properties = event.event_properties
+  if (event.groups) payload.groups = event.groups
+  if (event.time) payload.time = event.time
+  if (event.insert_id) payload.insert_id = event.insert_id
+
+  try {
+    const result = fetch(ingestUrl(config.serverZone), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ api_key: config.apiKey, events: [payload] }),
+      keepalive: true,
+    })
+    result?.catch?.(() => {})
+  } catch (_) { /* Analytics failure must not break the survey. */ }
+}
+
 export class AmplitudeSurveys {
   constructor(loadSdk = () => import('@amplitude/engagement-browser')) {
     this.loadSdk = loadSdk
@@ -82,6 +108,9 @@ export class AmplitudeSurveys {
     const client = analyticsClient(config.instanceName)
     const deviceId = client?.getDeviceId() || anonymousDeviceId()
     const userId = client?.getUserId()
+    this.config = config
+    this.deviceId = deviceId
+    this.userId = userId
     this.sameIdentity = () => {
       if (!client) return true
       return client.getDeviceId() === deviceId && client.getUserId() === userId
@@ -104,11 +133,14 @@ export class AmplitudeSurveys {
             this.stop()
             return
           }
-          if (!client) return
-          try {
-            const result = client.track(event)
-            result?.promise?.catch(() => {})
-          } catch (_) { /* Analytics failure must not break the survey. */ }
+          if (client) {
+            try {
+              const result = client.track(event)
+              result?.promise?.catch(() => {})
+            } catch (_) { /* Analytics failure must not break the survey. */ }
+            return
+          }
+          ingest(this.config, this.deviceId, this.userId, event)
         },
       }],
     })).then(() => {
@@ -151,6 +183,7 @@ export class AmplitudeSurveys {
     this.pending = null
     this.forwarded = true
     this.sdk.forwardEvent(event)
+    ingest(this.config, this.deviceId, this.userId, event)
   }
 
   clearPending() {

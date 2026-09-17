@@ -34,6 +34,7 @@ describe('Amplitude survey integration', () => {
     sdk = { boot: jest.fn().mockResolvedValue(), shutdown: jest.fn(), forwardEvent: jest.fn() }
     init = jest.fn(() => { window.engagement = sdk })
     loadSdk = jest.fn().mockResolvedValue({ init })
+    global.fetch = jest.fn(() => Promise.resolve({ ok: true }))
     adapter = new AmplitudeSurveys(loadSdk)
   })
 
@@ -44,6 +45,7 @@ describe('Amplitude survey integration', () => {
     delete window.amplitude
     delete window.engagement
     window.localStorage.removeItem('amplitude_survey_device_id')
+    delete global.fetch
     document.head.innerHTML = ''
     jest.clearAllTimers()
     jest.useRealTimers()
@@ -119,6 +121,57 @@ describe('Amplitude survey integration', () => {
     expect(sdk.boot.mock.calls[0][0].user()).toEqual({
       device_id: expect.any(String), user_id: undefined,
     })
+  })
+
+  it('sends Search Results Viewed to Amplitude Analytics as well as the survey SDK', async () => {
+    delete window.amplitudeGTM
+    window.localStorage.setItem('amplitude_survey_device_id', 'stored-device')
+    adapter.results(results)
+    await adapter.ready
+
+    expect(sdk.forwardEvent).toHaveBeenCalledTimes(1)
+    expect(global.fetch).toHaveBeenCalledWith('https://api.eu.amplitude.com/2/httpapi', expect.objectContaining({
+      method: 'POST',
+      keepalive: true,
+    }))
+    const body = JSON.parse(global.fetch.mock.calls[0][1].body)
+    expect(body.events).toEqual([{
+      device_id: 'stored-device',
+      event_type: 'Search Results Viewed',
+      event_properties: expect.objectContaining({ request_id: 'backend-request-123', search_state: 'results' }),
+    }])
+  })
+
+  it('posts Analytics events to the US HTTP endpoint', async () => {
+    configure({ serverZone: 'US' })
+    delete window.amplitudeGTM
+    adapter.results(results)
+    await adapter.ready
+    expect(global.fetch.mock.calls[0][0]).toBe('https://api2.amplitude.com/2/httpapi')
+  })
+
+  it('ingests survey responses over HTTP when GTM has no Analytics client', async () => {
+    delete window.amplitudeGTM
+    window.localStorage.setItem('amplitude_survey_device_id', 'stored-device')
+    adapter.start()
+    await adapter.ready
+    global.fetch.mockClear()
+    sdk.boot.mock.calls[0][0].integrations[0].track({
+      event_type: '[Amplitude] Survey Submitted', event_properties: { answer: 'Good' },
+    })
+    expect(JSON.parse(global.fetch.mock.calls[0][1].body).events).toEqual([{
+      device_id: 'stored-device',
+      event_type: '[Amplitude] Survey Submitted',
+      event_properties: { answer: 'Good' },
+    }])
+  })
+
+  it('isolates Analytics HTTP failures', async () => {
+    global.fetch.mockImplementation(() => { throw new Error('blocked') })
+    delete window.amplitudeGTM
+    adapter.results(results)
+    await expect(adapter.ready).resolves.toBeUndefined()
+    expect(sdk.forwardEvent).toHaveBeenCalledTimes(1)
   })
 
   it('uses window.amplitude when amplitudeGTM is absent', async () => {
