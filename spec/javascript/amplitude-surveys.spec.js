@@ -43,6 +43,7 @@ describe('Amplitude survey integration', () => {
     delete window.amplitudeGTM
     delete window.amplitude
     delete window.engagement
+    window.localStorage.removeItem('amplitude_survey_device_id')
     document.head.innerHTML = ''
     jest.clearAllTimers()
     jest.useRealTimers()
@@ -99,7 +100,9 @@ describe('Amplitude survey integration', () => {
       event_type: 'Search Results Viewed',
       event_properties: expect.objectContaining({ request_id: 'backend-request-123', search_state: 'results' }),
     })
-    expect(sdk.boot.mock.calls[0][0].user()).toEqual({})
+    expect(sdk.boot.mock.calls[0][0].user()).toEqual({
+      device_id: expect.any(String), user_id: undefined,
+    })
     expect(client.track).not.toHaveBeenCalled()
   })
 
@@ -113,7 +116,9 @@ describe('Amplitude survey integration', () => {
       event_type: 'Search Results Viewed',
       event_properties: expect.objectContaining({ request_id: 'backend-request-123' }),
     })
-    expect(sdk.boot.mock.calls[0][0].user()).toEqual({})
+    expect(sdk.boot.mock.calls[0][0].user()).toEqual({
+      device_id: expect.any(String), user_id: undefined,
+    })
   })
 
   it('uses window.amplitude when amplitudeGTM is absent', async () => {
@@ -122,6 +127,14 @@ describe('Amplitude survey integration', () => {
     adapter.start()
     await adapter.ready
     expect(sdk.boot.mock.calls[0][0].user()).toEqual({ device_id: 'existing-device', user_id: undefined })
+  })
+
+  it('reuses a stored anonymous device id when Analytics is absent', async () => {
+    delete window.amplitudeGTM
+    window.localStorage.setItem('amplitude_survey_device_id', 'stored-device')
+    adapter.start()
+    await adapter.ready
+    expect(sdk.boot.mock.calls[0][0].user()).toEqual({ device_id: 'stored-device', user_id: undefined })
   })
 
   it('uses the configured named GTM instance and its signed-in identity', async () => {

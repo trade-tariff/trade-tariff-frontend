@@ -36,6 +36,20 @@ function analyticsClient(instanceName) {
   return usableClient(window.amplitudeGTM) || usableClient(window.amplitude)
 }
 
+const DEVICE_ID_KEY = 'amplitude_survey_device_id'
+
+function anonymousDeviceId() {
+  try {
+    const existing = window.localStorage.getItem(DEVICE_ID_KEY)
+    if (existing) return existing
+    const id = crypto.randomUUID()
+    window.localStorage.setItem(DEVICE_ID_KEY, id)
+    return id
+  } catch (_) {
+    return crypto.randomUUID()
+  }
+}
+
 export class AmplitudeSurveys {
   constructor(loadSdk = () => import('@amplitude/engagement-browser')) {
     this.loadSdk = loadSdk
@@ -66,7 +80,7 @@ export class AmplitudeSurveys {
     // Fail closed if GTM or another integration already owns Engagement.
     if (window.engagement) return this.stop()
     const client = analyticsClient(config.instanceName)
-    const deviceId = client?.getDeviceId()
+    const deviceId = client?.getDeviceId() || anonymousDeviceId()
     const userId = client?.getUserId()
     this.sameIdentity = () => {
       if (!client) return true
@@ -83,7 +97,7 @@ export class AmplitudeSurveys {
     await withTimeout(Promise.resolve(this.sdk.boot({
       // The loader queues boot while fetching its runtime. Recheck when the
       // runtime actually consumes the identity, not only when we enqueue it.
-      user: () => this.active() && client ? { device_id: deviceId, user_id: userId } : {},
+      user: () => this.active() ? { device_id: deviceId, user_id: userId } : {},
       integrations: [{
         track: event => {
           if (!this.active()) {
