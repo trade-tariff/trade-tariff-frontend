@@ -180,6 +180,14 @@ RSpec.describe ApplicationController, type: :controller do
       expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
     end
 
+    it 'does not stamp tenpct for a manual Flagsmith opt-in' do
+      enable_feature(:interactive_search)
+      get :index
+      Current.flagsmith_optin_traits = { 'interactive_search' => true }
+      controller.send(:interactive_search_enabled_with_analytics?)
+      expect(Current.experiment).to be_nil
+    end
+
     it 'retains future enrolments and prunes expired or malformed storage', :aggregate_failures do
       session[:experiment_url_optins] = [experiment.enrollment_token]
       travel_to(experiment.starts_on.in_time_zone(experiment.timezone) - 1.second) { get :index }

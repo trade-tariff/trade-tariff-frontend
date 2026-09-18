@@ -71,13 +71,11 @@ RSpec.describe 'Experiment search instrumentation', type: :request do
 
   it 'does not stamp tenpct when Flagsmith is unavailable' do
     allow(FlagsmithClient.instance).to receive(:get_flags_for).and_raise(Faraday::ConnectionFailed, 'offline')
-    stub = stub_api_request('search', :post, internal: true)
-      .with { |request| JSON.parse(request.body).exclude?('experiment') }
-      .to_return(status: 200, body: response_body, headers: { 'content-type' => 'application/json' })
+    stub_search_without_tenpct
 
     post '/search', params: { q: 'horses', interactive_search: 'true' }
 
-    expect(stub).to have_been_requested
+    expect_search_without_tenpct
   end
 
   it 'does not stamp tenpct when Flagsmith has not selected the search' do
@@ -89,5 +87,16 @@ RSpec.describe 'Experiment search instrumentation', type: :request do
     post '/search', params: { q: 'horses', experiment: 'demo' }
 
     expect(stub).to have_been_requested
+  end
+
+  def stub_search_without_tenpct
+    stub_api_request('search', :post, internal: true)
+      .to_return(status: 200, body: response_body, headers: { 'content-type' => 'application/json' })
+    stub_api_request('search', :post)
+      .to_return(jsonapi_response(:search, attributes_for(:search_outcome, :fuzzy_match)))
+  end
+
+  def expect_search_without_tenpct
+    expect(WebMock).not_to(have_requested(:post, %r{/search$}).with { |request| request.body.to_s.include?('tenpct') })
   end
 end
