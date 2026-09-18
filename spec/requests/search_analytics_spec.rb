@@ -79,6 +79,7 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
     expect(analytics_context).to include(
       'feature_flag_source' => 'default',
       'feature_flag_fallback_reason' => 'unavailable',
+      'experiment' => nil,
     )
   end
 

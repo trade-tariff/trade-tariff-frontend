@@ -69,6 +69,17 @@ RSpec.describe 'Experiment search instrumentation', type: :request do
     expect(stub).to have_been_requested
   end
 
+  it 'does not stamp tenpct when Flagsmith is unavailable' do
+    allow(FlagsmithClient.instance).to receive(:get_flags_for).and_raise(Faraday::ConnectionFailed, 'offline')
+    stub = stub_api_request('search', :post, internal: true)
+      .with { |request| JSON.parse(request.body).exclude?('experiment') }
+      .to_return(status: 200, body: response_body, headers: { 'content-type' => 'application/json' })
+
+    post '/search', params: { q: 'horses', interactive_search: 'true' }
+
+    expect(stub).to have_been_requested
+  end
+
   it 'does not stamp tenpct when Flagsmith has not selected the search' do
     disable_feature(:interactive_search)
     stub = stub_api_request('search', :post)

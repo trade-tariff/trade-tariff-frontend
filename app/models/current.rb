@@ -21,7 +21,8 @@ class Current < ActiveSupport::CurrentAttributes
   # Loaded from session by FlagsmithSetup and passed through to Edge Proxy evaluation.
   attribute :flagsmith_optin_traits
 
-  # Instrumentation label for the most recently enrolled active experiment.
+  # Instrumentation label for the most recently enrolled active experiment URL,
+  # or `tenpct` when Flagsmith selected interactive search and no URL enrolment is active.
   attribute :experiment
 
   # Path of the most recently enrolled active experiment URL.
