@@ -21,27 +21,18 @@ class GeographicalArea
   has_many :children_geographical_areas, class_name: 'GeographicalArea'
 
   class << self
-    def european_union
-      @european_union ||= Rails.cache.resilient_fetch(['european_union', cache_key, EUROPEAN_UNION_ID]) do
-        find(EUROPEAN_UNION_ID).tap do |eu|
-          if eu.description != 'European Union'
-            info = {
-              id: eu.id,
-              description: eu.description,
-              messages: "EU description is '#{eu.description}' instead of 'European Union'",
-            }
-            Rails.logger.warn info.to_json
-          end
-        end
+    def european_union(as_of: nil)
+      Rails.cache.resilient_fetch(['european_union', cache_key, EUROPEAN_UNION_ID, as_of]) do
+        find(EUROPEAN_UNION_ID, as_of:)
       end
     end
 
-    def european_union_members
-      european_union.children_geographical_areas
+    def european_union_members(as_of: nil)
+      european_union(as_of:).children_geographical_areas
     end
 
-    def eu_members_ids
-      candidate_ids = european_union_members.map(&:id)
+    def eu_members_ids(as_of: nil)
+      candidate_ids = european_union_members(as_of:).map(&:id)
       candidate_ids.delete('EU')
       candidate_ids
     end
@@ -70,8 +61,8 @@ class GeographicalArea
     end
   end
 
-  def eu_member?
-    id.in?(self.class.eu_members_ids) || id == REFERENCING_EUROPEAN_UNION_ID
+  def eu_member?(as_of: nil)
+    id.in?(self.class.eu_members_ids(as_of:)) || id == REFERENCING_EUROPEAN_UNION_ID
   end
 
   def long_description

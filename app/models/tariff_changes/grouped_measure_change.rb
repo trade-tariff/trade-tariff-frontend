@@ -50,11 +50,11 @@ module TariffChanges
       []
     end
 
-    def geographical_area_description
+    def geographical_area_description(as_of: nil)
       description = geographical_area.long_description
 
-      if excluded_country_list.present?
-        description << " excluding #{excluded_country_list}"
+      if excluded_country_list(as_of:).present?
+        description << " excluding #{excluded_country_list(as_of:)}"
       end
 
       description
