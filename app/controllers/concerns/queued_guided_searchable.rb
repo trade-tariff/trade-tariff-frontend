@@ -19,7 +19,7 @@ module QueuedGuidedSearchable
 
     id = GuidedSearch::QueuedSearch.submit(@search)
     token = GuidedSearch::QueuedSearchToken.issue(
-      id:, search_key: @search.interactive_search_cache_key, session_id: session.id.public_id,
+      id:, search_key: @search.queued_search_handoff_key, session_id: session.id.public_id,
     )
     # Retire the earlier spike's per-job cookie map. Grants never go in the cookie.
     session.delete(:queued_guided_searches)
@@ -70,7 +70,7 @@ module QueuedGuidedSearchable
   end
 
   def queued_search_owned?
-    queued_search_key == @search.interactive_search_cache_key
+    queued_search_key == @search.queued_search_handoff_key
   end
 
   def queued_search_result
