@@ -6,7 +6,7 @@
       [
         [t('breadcrumb.myott.watchlists'), myott_path],
         [t('breadcrumb.myott.mycommodities'), myott_mycommodities_path(as_of:)],
-        ["#{@grouped_measure_commodity_changes.trade_direction_description} from #{@grouped_measure_commodity_changes.geographical_area_description}", myott_grouped_measure_change_path(@grouped_measure_commodity_changes.grouped_measure_change.resource_id, as_of:)],
+        ["#{@grouped_measure_commodity_changes.trade_direction_description} from #{@grouped_measure_commodity_changes.geographical_area_description(as_of:)}", myott_grouped_measure_change_path(@grouped_measure_commodity_changes.grouped_measure_change.resource_id, as_of:)],
       ]
     )
   %>
@@ -30,7 +30,7 @@
 
       <%= govuk_summary_list(rows: [
         { key: { text: 'Import/Export' }, value: { text: @grouped_measure_commodity_changes.trade_direction.capitalize } },
-        { key: { text: 'Country' }, value: { text: @grouped_measure_commodity_changes.geographical_area_description } },
+        { key: { text: 'Country' }, value: { text: @grouped_measure_commodity_changes.geographical_area_description(as_of:) } },
         { key: { text: 'Chapter' }, value: { text: @grouped_measure_commodity_changes.chapter } },
         { key: { text: 'Heading' }, value: { text: sanitize(@grouped_measure_commodity_changes.heading) } },
         { key: { text: 'Classification' }, value: { text: sanitize(@grouped_measure_commodity_changes.classification_description) } },
