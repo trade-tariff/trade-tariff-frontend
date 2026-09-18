@@ -9,6 +9,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
 
     allow(GeographicalArea).to receive(:find).with('FR').and_return(build(:geographical_area, id: 'FR', description: 'France'))
+    allow(GeographicalArea).to receive(:find).with('1013', as_of: anything).and_return(build(:geographical_area, id: '1013', description: 'European Union'))
     allow(search).to receive(:countries).and_return all_countries
 
     assign :search, search
