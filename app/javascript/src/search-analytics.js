@@ -1,4 +1,5 @@
 import CookieManager from 'cookie-manager'
+import { clearPendingSurveyResults, forwardSurveyResults } from 'amplitude-surveys'
 
 const METRICS = [
   'question_count', 'option_count', 'result_count', 'used_dont_know',
@@ -31,6 +32,8 @@ export function publishSearchContext(form) {
   const guided = context.search_experience === 'guided_beta' &&
     form.querySelector('[name="interactive_search"]')?.value === 'true'
 
+  clearPendingSurveyResults()
+
   // Update GTM's variables before its existing search-submitted trigger runs.
   // Clear the previous results so a refinement cannot look survey-eligible.
   push({
@@ -50,11 +53,13 @@ export function trackSearchJourney(outcome, metrics = {}) {
   const context = searchAnalyticsContext()
   if (!context) return
 
-  push({
+  const properties = {
     ...context,
     ...Object.fromEntries(Object.entries(metrics).filter(([key]) => METRICS.includes(key))),
     event: 'ott_search_journey',
     outcome,
     destination: context.search_state,
-  })
+  }
+  push(properties)
+  forwardSurveyResults(properties)
 }

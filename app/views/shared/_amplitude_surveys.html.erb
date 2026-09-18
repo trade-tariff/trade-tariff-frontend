@@ -1,0 +1,3 @@
+<% if (config = TradeTariffFrontend.amplitude_surveys_config) %>
+  <script id="amplitude-surveys-config" type="application/json" nonce="<%= content_security_policy_nonce %>"><%= raw json_escape(config.to_json) %></script>
+<% end %>

@@ -1,6 +1,9 @@
 # Pin npm packages by running ./bin/importmap
 pin 'application'
 
+# @amplitude/engagement-browser 1.0.12, loaded only after consent and GTM readiness.
+pin '@amplitude/engagement-browser', to: 'amplitude-engagement.js', preload: false
+
 pin '@hotwired/stimulus', to: 'stimulus.min.js'
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js'
 

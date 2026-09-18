@@ -1,8 +1,9 @@
 # Search analytics for Amplitude
 
-The frontend publishes search context to `window.dataLayer`. GTM owns delivery
-to GA and Amplitude. Deploying the frontend makes the properties available;
-the GTM mappings and survey trigger below must also be configured and checked.
+The frontend publishes search context to `window.dataLayer`. GTM owns Analytics
+delivery to GA and Amplitude. The frontend owns the standalone Guides & Surveys
+SDK and forwards a local results trigger after the SDK boots. Deployment requires
+the matching Amplitude project configuration and GTM identity integration below.
 
 ## Events
 
@@ -72,24 +73,17 @@ reported for default decisions because it describes what the trader received.
 3. Create a Custom Event trigger for `ott_search_journey`. Send that event and
    its non-null properties through the existing Amplitude browser tag. If GA
    is also required, map the same properties to its event tag.
-4. Ensure Guides & Surveys receives the browser event. With the Amplitude GTM
-   template, enable Guides & Surveys in the SDK setup. With standalone
-   engagement initialization, configure event forwarding after it boots:
-
-   ```javascript
-   window.engagement.forwardEvent({
-     event_type: 'ott_search_journey',
-     event_properties: propertiesFromThisDataLayerEvent,
-   });
-   ```
-
-   Use the configured SDK integration or standalone forwarding once. Avoid
-   forwarding a second copy when the Amplitude integration already does it.
-   A GA export or server ingestion alone does not provide this browser trigger.
-5. Configure the survey's event trigger with:
+4. Leave Guides & Surveys loading and event forwarding disabled in GTM when
+   using the frontend integration. Keep GTM's existing Analytics event delivery.
+   The frontend forwards `Search Results Viewed` locally for
+   `ott_search_journey` with `outcome = page_visible` and `search_state = results`,
+   and also sends that event to Amplitude Analytics over HTTP. Keep GTM's
+   `ott_search_journey` mapping. Turn off any GTM tag that also sends
+   `Search Results Viewed`, or Analytics will receive two copies.
+5. Configure the survey's **On event tracked** trigger with:
 
    ```text
-   event = ott_search_journey
+   event = Search Results Viewed
    outcome = page_visible
    search_state = results
    search_experience = guided_beta
@@ -98,11 +92,75 @@ reported for default decisions because it describes what the trader received.
    ```
 
    Add `search_mode = guided` only if the survey should exclude beta traders
-   who chose keyword search. Include `no_results` or `unknown_results` only
-   if those states are explicitly in the survey audience.
+   who chose keyword search. The adapter never forwards this trigger for
+   `no_results` or `unknown_results`; changing audience filters cannot include them.
+
+The example above targets beta users. For a Classic survey, use
+`search_experience = classic`, `feature_flag_enabled = false`, and retain
+`feature_flag_source = flagsmith`. The adapter forwards both experiences and
+beta keyword results; the survey configuration determines the audience.
+
+Use page targeting as well as the event trigger to constrain survey display.
+Amplitude can carry an already-active survey onto another page without a new
+trigger. Configure exclusions for entry, questions, no-results and guidance as
+needed, using page elements where the shared `/search` URL is insufficient.
 
 Keep these properties on events. A persistent user property could retain an
 old beta assignment after the flag or service changes.
+
+### Frontend SDK configuration
+
+| Environment variable | Value |
+| --- | --- |
+| `AMPLITUDE_API_KEY` | Public 32-character hexadecimal project API key, matching GTM Analytics. Never use a secret key. |
+| `AMPLITUDE_SERVER_ZONE` | Required: `EU` or `US`, matching the project. No implicit regional default. |
+| `AMPLITUDE_GTM_INSTANCE_NAME` | Optional named Analytics instance; empty uses `window.amplitudeGTM`. |
+
+There is no separate enable flag: valid project configuration enables the
+integration for consented users. Missing/invalid configuration loads no survey
+SDK. When GTM exposes a Browser SDK client through `amplitudeGTM`,
+`amplitudeGTM._iq[instanceName]`, or `window.amplitude`, with `getDeviceId`,
+`getUserId` and `track`, the adapter reuses that identity. If GTM only delivers
+Analytics and never creates that client, the survey SDK still boots from the
+frontend configuration so Preview and in-page surveys can run.
+
+The adapter does not wait for a GTM Analytics client before loading the SDK. It
+does not create another Analytics client. The vendored MIT-licensed
+`@amplitude/engagement-browser` 1.0.12 loader is pinned and lazily imported
+without module preload. Its `init` loads Amplitude's vendor-managed runtime from
+the regional CDN; the runtime itself is not pinned by this repository. That
+third-party execution is part of the deployment risk.
+
+One page-local results snapshot waits for boot and is forwarded once. A new
+submission, consent withdrawal or navigation discards pending results. SDK
+responses go through the GTM Analytics client when one exists. Withdrawal shuts
+down Engagement; identity changes stop it rather than attributing responses to a
+different visitor. A page restored from the browser back/forward cache does not
+restart a stopped survey integration; a fresh navigation is required.
+
+If another integration already exposes `window.engagement`, the frontend does
+not initialise or forward through it. Remove the competing GTM setup before
+using this integration. Import, boot and analytics failures must not affect
+search.
+
+### Required handover before rollout
+
+Obtain the public project key and region, the GTM SDK/template version and
+instance name, and confirmation of who owns Engagement loading. Check that
+`Search Results Viewed` is actually tracked in the browser, not just defined as
+an Amplitude Analytics custom/derived event. Amplitude does not support those
+derived events as survey triggers.
+
+The local trigger preserves the rendered page's `request_id` and feature-flag
+context. Survey response events are passed through unchanged: the adapter does
+not assume that triggering-event properties are inherited, or stamp a later
+page's request ID onto a response. Agree and verify the response/export join to
+the original search before treating per-search attribution as complete.
+
+Keep the surveys in Draft until Preview, results-only targeting, first-answer
+retention on abandonment, response/export attribution and keyboard/screen-reader
+behaviour have been checked. Updating GTM, configuring deployment variables and
+publishing surveys are separate rollout actions, not part of this code change.
 
 References: [Google's data layer contract](https://developers.google.com/tag-platform/tag-manager/datalayer),
 [Amplitude GTM template](https://amplitude.com/docs/data/source-catalog/google-tag-manager),
