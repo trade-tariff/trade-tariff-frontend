@@ -1,6 +1,9 @@
 module FlagsmithSetup
   extend ActiveSupport::Concern
 
+  FLAGSMITH_SAMPLE_EXPERIMENT = 'tenpct'.freeze
+  INTERACTIVE_SEARCH_FLAG = 'interactive_search'.freeze
+
   private
 
   def set_current_flagsmith_identity
@@ -27,6 +30,15 @@ module FlagsmithSetup
     enrolled = active.last
     Current.experiment = enrolled&.instrumentation_label
     Current.experiment_url = enrolled&.path
+  end
+
+  def assign_flagsmith_sample_experiment
+    return if Current.experiment.present?
+
+    evaluation = Current.flagsmith_evaluations[INTERACTIVE_SEARCH_FLAG]
+    return unless evaluation && evaluation[:source] == 'flagsmith' && evaluation[:enabled]
+
+    Current.experiment = FLAGSMITH_SAMPLE_EXPERIMENT
   end
 
   def current_flagsmith_identity
