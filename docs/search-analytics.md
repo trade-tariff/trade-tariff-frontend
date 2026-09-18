@@ -39,8 +39,8 @@ distinguish them. `destination` repeats that state on journey events.
 | `feature_flag_source` | `flagsmith` or `default` |
 | `feature_flag_fallback_reason` | Null after successful evaluation; otherwise `missing_flag`, `unavailable`, `not_configured`, `missing_identity`, `unsupported_service` or `missing_evaluation` |
 | `request_id` | Existing search request ID, including the backend-returned Guided Search ID; null before a request has been assigned |
-| `experiment` | Existing server-resolved experiment URL instrumentation label, or null |
-| `experiment_url` | Path of the enrolled experiment URL, such as `/hmrc-users`, or null |
+| `experiment` | Server-resolved experiment URL instrumentation label, `tenpct` when Flagsmith selected interactive search and no URL enrolment is active, or null |
+| `experiment_url` | Path of the enrolled experiment URL, such as `/hmrc-users`, or null when the label is `tenpct` or absent |
 | `question_count` | Answered questions plus the current pending question |
 | `option_count` | Options on the current pending question, excluding the UI's extra unknown-answer choice |
 | `result_count` | Results returned for the current search |
