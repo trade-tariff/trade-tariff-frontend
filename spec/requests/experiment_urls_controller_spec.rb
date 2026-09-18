@@ -135,6 +135,6 @@ RSpec.describe ExperimentUrlsController, type: :request do
     travel_to(experiment.starts_on.in_time_zone(experiment.timezone) - 1.second) do
       get '/find_commodity', params: { experiment: 'spoofed' }
     end
-    expect(Capybara.string(response.body)).to have_no_css('input[name="experiment"]', visible: :hidden)
+    expect(Capybara.string(response.body)).to have_css('input[name="experiment"][value="tenpct"]', visible: :hidden)
   end
 end

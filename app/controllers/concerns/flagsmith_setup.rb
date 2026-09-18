@@ -34,11 +34,17 @@ module FlagsmithSetup
 
   def assign_flagsmith_sample_experiment
     return if Current.experiment.present?
+    return if flagsmith_interactive_search_opted_in?
 
     evaluation = Current.flagsmith_evaluations[INTERACTIVE_SEARCH_FLAG]
     return unless evaluation && evaluation[:source] == 'flagsmith' && evaluation[:enabled]
 
     Current.experiment = FLAGSMITH_SAMPLE_EXPERIMENT
+  end
+
+  def flagsmith_interactive_search_opted_in?
+    trait = Current.flagsmith_optin_traits&.[](INTERACTIVE_SEARCH_FLAG)
+    trait == true || (trait.is_a?(Hash) && ActiveModel::Type::Boolean.new.cast(trait[:value] || trait['value']))
   end
 
   def current_flagsmith_identity
