@@ -6,10 +6,10 @@
       <%= measure.geographical_area.long_description %>
     <% end %>
 
-    <% if measure.excluded_country_list(as_of: @search.date).present? %>
+    <% if measure.excluded_country_list(as_of: @search&.date).present? %>
       </br>
       <span class="country-exclusions">
-        excluding <%= measure.excluded_country_list(as_of: @search.date) %>
+        excluding <%= measure.excluded_country_list(as_of: @search&.date) %>
       </span>
     <% end %>
   </td>
