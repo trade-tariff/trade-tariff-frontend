@@ -149,15 +149,20 @@ class Search
   private_class_method :queued_result_cache_key
 
   def interactive_search_cache_key
-    digest = Digest::SHA256.hexdigest(MultiJson.dump({ q:, answers:, as_of: date.to_fs(:db), expanded_query:, experiment: cache_experiment, request_id: }))
-    "interactive_search/#{digest}"
+    search_fingerprint(experiment:)
   end
 
-  def cache_experiment
-    experiment unless experiment == FlagsmithSetup::FLAGSMITH_SAMPLE_EXPERIMENT
+  def queued_search_handoff_key
+    sample = experiment == FlagsmithSetup::FLAGSMITH_SAMPLE_EXPERIMENT ? nil : experiment
+    search_fingerprint(experiment: sample)
   end
 
   private
+
+  def search_fingerprint(experiment:)
+    digest = Digest::SHA256.hexdigest(MultiJson.dump({ q:, answers:, as_of: date.to_fs(:db), expanded_query:, experiment:, request_id: }))
+    "interactive_search/#{digest}"
+  end
 
   def interactive_search_enabled?
     TradeTariffFrontend.interactive_search_enabled?
