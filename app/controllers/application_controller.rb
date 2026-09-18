@@ -182,6 +182,7 @@ class ApplicationController < ActionController::Base
     @search_feature_evaluation = Current.flagsmith_evaluations.fetch(
       'interactive_search', { enabled:, source: 'default', reason: 'missing_evaluation' }
     ).dup
+    assign_flagsmith_sample_experiment
     enabled
   end
 

@@ -25,7 +25,7 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
       'feature_flag_source' => 'flagsmith',
       'feature_flag_fallback_reason' => nil,
       'search_state' => 'entry',
-      'experiment' => nil,
+      'experiment' => 'tenpct',
       'experiment_url' => nil,
     )
     expect(response.body.index('search-analytics-context')).to be < response.body.index('gtm.start')
@@ -301,7 +301,8 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
     expect(response).to have_http_status(:ok)
     expect(analytics_context).to include(
       'search_experience' => 'guided_beta', 'search_mode' => 'keyword',
-      'search_state' => 'no_results', 'request_id' => 'keyword-request'
+      'search_state' => 'no_results', 'request_id' => 'keyword-request',
+      'experiment' => 'tenpct'
     )
   end
 end

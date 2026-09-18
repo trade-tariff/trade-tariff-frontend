@@ -59,12 +59,23 @@ RSpec.describe 'Experiment search instrumentation', type: :request do
     expect(stub).to have_been_requested
   end
 
-  it 'drops a submitted label without an active enrolment' do
+  it 'stamps Flagsmith-selected searches as tenpct without an enrolment' do
     stub = stub_api_request('search', :post, internal: true)
-      .with { |request| JSON.parse(request.body).exclude?('experiment') }
+      .with { |request| JSON.parse(request.body)['experiment'] == 'tenpct' }
       .to_return(status: 200, body: response_body, headers: { 'content-type' => 'application/json' })
 
     post '/search', params: { q: 'horses', interactive_search: 'true', experiment: 'demo' }
+
+    expect(stub).to have_been_requested
+  end
+
+  it 'does not stamp tenpct when Flagsmith has not selected the search' do
+    disable_feature(:interactive_search)
+    stub = stub_api_request('search', :post)
+      .with { |request| request.body.to_s.exclude?('experiment=') }
+      .to_return(jsonapi_response(:search, attributes_for(:search_outcome, :fuzzy_match)))
+
+    post '/search', params: { q: 'horses', experiment: 'demo' }
 
     expect(stub).to have_been_requested
   end
