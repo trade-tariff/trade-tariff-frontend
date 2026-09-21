@@ -20,7 +20,8 @@ describe('GuidedSearchStartAgainController', () => {
          data-controller="guided-search-start-again"
          data-action="click->guided-search-start-again#select"
          data-guided-search-start-again-event-url-value="/search/guided-search-event"
-         data-guided-search-start-again-request-id-value="request-123">
+         data-guided-search-start-again-request-id-value="request-123"
+         data-guided-search-start-again-destination-value="results">
         Start search again
       </a>
     `;
@@ -69,5 +70,19 @@ describe('GuidedSearchStartAgainController', () => {
         }),
       }),
     );
+  });
+
+  it('records the server event when usage consent is absent', () => {
+    Cookies.remove('cookies_policy');
+    window.dataLayer = [];
+
+    document.querySelector('a').dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+
+    expect(window.dataLayer).toEqual([]);
+    expect(JSON.parse(window.fetch.mock.calls.at(-1)[1].body)).toMatchObject({
+      event_type: 'start_again',
+      destination: 'results',
+      client_elapsed_ms: 3100,
+    });
   });
 });

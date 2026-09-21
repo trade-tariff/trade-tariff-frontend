@@ -1,8 +1,9 @@
 import { Controller } from '@hotwired/stimulus'
-import { guidedSearchPageElapsedMs, searchAnalyticsContext, trackSearchJourney } from 'search-analytics'
+import { guidedSearchPageElapsedMs, trackSearchJourney } from 'search-analytics'
 
 export default class extends Controller {
   static values = {
+    destination: String,
     eventUrl: String,
     requestId: String,
   }
@@ -10,7 +11,7 @@ export default class extends Controller {
   select() {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
     const clientElapsedMs = guidedSearchPageElapsedMs()
-    const destination = searchAnalyticsContext()?.search_state
+    const destination = this.hasDestinationValue ? this.destinationValue : null
 
     trackSearchJourney('start_again', { client_elapsed_ms: clientElapsedMs })
 

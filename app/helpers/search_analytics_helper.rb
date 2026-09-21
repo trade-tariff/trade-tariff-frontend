@@ -9,6 +9,7 @@ module SearchAnalyticsHelper
         action: 'click->guided-search-start-again#select',
         guided_search_start_again_event_url_value: guided_search_event_path(day: nil, month: nil, year: nil),
         guided_search_start_again_request_id_value: @search.request_id,
+        guided_search_start_again_destination_value: @guided_search_outcome,
       },
     )
   end
