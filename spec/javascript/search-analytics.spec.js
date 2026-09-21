@@ -1,5 +1,10 @@
 import Cookies from 'js-cookie'
-import { publishSearchContext, trackSearchJourney } from '../../app/javascript/src/search-analytics'
+import {
+  guidedSearchPageElapsedMs,
+  markGuidedSearchPageVisible,
+  publishSearchContext,
+  trackSearchJourney,
+} from '../../app/javascript/src/search-analytics'
 
 describe('search analytics', () => {
   const context = {
@@ -36,7 +41,9 @@ describe('search analytics', () => {
 
   afterEach(() => {
     Cookies.remove('cookies_policy')
+    window.sessionStorage.clear()
     delete window.dataLayer
+    jest.restoreAllMocks()
   })
 
   it('publishes a self-contained results event', () => {
@@ -101,6 +108,14 @@ describe('search analytics', () => {
     })])
     expect(JSON.stringify(window.dataLayer)).not.toContain('0101210000')
     expect(window.dataLayer.some(event => event.event === 'ott_search_submitted')).toBe(false)
+  })
+
+  it('measures time since the guided page became visible', () => {
+    jest.spyOn(Date, 'now').mockReturnValueOnce(1000).mockReturnValueOnce(4200)
+
+    markGuidedSearchPageVisible()
+
+    expect(guidedSearchPageElapsedMs()).toBe(3200)
   })
 
   it('does not infer beta membership from a submitted field', () => {

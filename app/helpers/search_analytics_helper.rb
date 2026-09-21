@@ -1,4 +1,18 @@
 module SearchAnalyticsHelper
+  def start_search_again_button(secondary: false)
+    govuk_button_link_to(
+      'Start search again',
+      find_commodity_path,
+      secondary:,
+      data: {
+        controller: 'guided-search-start-again',
+        action: 'click->guided-search-start-again#select',
+        guided_search_start_again_event_url_value: guided_search_event_path(day: nil, month: nil, year: nil),
+        guided_search_start_again_request_id_value: @search.request_id,
+      },
+    )
+  end
+
   def search_analytics_context
     evaluation = @search_feature_evaluation || { enabled: false, source: 'default', reason: 'missing_evaluation' }
     enabled = evaluation[:enabled]

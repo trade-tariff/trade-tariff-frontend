@@ -244,6 +244,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
 
   describe 'actions' do
     it { is_expected.to have_link('Start search again', href: find_commodity_path) }
+    it { is_expected.to have_css('[data-controller="guided-search-start-again"]') }
     it { is_expected.to have_link('Cancel', href: find_commodity_path) }
 
     it 'renders the actions before other search options' do

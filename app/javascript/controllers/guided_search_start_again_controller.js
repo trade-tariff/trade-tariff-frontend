@@ -1,26 +1,20 @@
 import { Controller } from '@hotwired/stimulus'
-import { guidedSearchPageElapsedMs, trackSearchJourney } from 'search-analytics'
+import { guidedSearchPageElapsedMs, searchAnalyticsContext, trackSearchJourney } from 'search-analytics'
 
 export default class extends Controller {
   static values = {
-    confidence: String,
     eventUrl: String,
-    goodsNomenclatureItemId: String,
-    rank: Number,
     requestId: String,
   }
 
   select() {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
-    const confidence = this.hasConfidenceValue ? this.confidenceValue.toLowerCase() : 'unknown'
     const clientElapsedMs = guidedSearchPageElapsedMs()
+    const destination = searchAnalyticsContext()?.search_state
 
-    trackSearchJourney('result_selected', {
-      goods_nomenclature_item_id: this.goodsNomenclatureItemIdValue,
-      result_rank: this.rankValue,
-      confidence,
-      client_elapsed_ms: clientElapsedMs,
-    })
+    trackSearchJourney('start_again', { client_elapsed_ms: clientElapsedMs })
+
+    if (!this.hasEventUrlValue) return
 
     window.fetch(this.eventUrlValue, {
       method: 'POST',
@@ -30,11 +24,9 @@ export default class extends Controller {
         'X-CSRF-Token': csrfToken,
       },
       body: JSON.stringify({
-        event_type: 'result_selected',
+        event_type: 'start_again',
         request_id: this.requestIdValue,
-        goods_nomenclature_item_id: this.goodsNomenclatureItemIdValue,
-        result_rank: this.rankValue,
-        confidence,
+        destination,
         client_elapsed_ms: clientElapsedMs,
       }),
     }).catch(() => {})

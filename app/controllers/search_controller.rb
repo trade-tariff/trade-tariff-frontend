@@ -146,6 +146,18 @@ class SearchController < ApplicationController
         goods_nomenclature_item_id:,
         result_rank:,
         confidence:,
+        client_elapsed_ms: bounded_integer(event[:client_elapsed_ms], maximum: 86_400_000),
+      }
+    when 'start_again'
+      destination = event[:destination].to_s[
+        /\A(question|results|no_results|unknown_results|blocking_guidance|input_error|backend_error)\z/,
+      ]
+      return if destination.nil?
+
+      {
+        outcome: 'start_again',
+        destination:,
+        client_elapsed_ms: bounded_integer(event[:client_elapsed_ms], maximum: 86_400_000),
       }
     when 'page_visible'
       destination = event[:destination].to_s[

@@ -10,7 +10,7 @@
     <%= render_intercept_message(@results.description_intercept_message, search: @search) %>
 
     <div class="govuk-button-group">
-      <%= govuk_button_link_to 'Start search again', find_commodity_path %>
+      <%= start_search_again_button %>
       <%= govuk_link_to 'Cancel', find_commodity_path %>
     </div>
   </div>
