@@ -2,6 +2,8 @@ module HasExcludedCountries
   extend ActiveSupport::Concern
 
   def excluded_country_list(as_of:)
+    return ''.html_safe if excluded_countries.blank?
+
     countries = if exclusions_include_european_union?(as_of:)
                   # Replace EU members with the EU geographical_area
                   [GeographicalArea.european_union(as_of:)] + excluded_countries.delete_if { |country| country.eu_member?(as_of:) }
@@ -10,10 +12,16 @@ module HasExcludedCountries
                 end
 
     countries.map(&:description).sort.join(', ').html_safe
+  rescue Faraday::Error
+    excluded_countries.map(&:description).sort.join(', ').html_safe
   end
 
   def exclusions_include_european_union?(as_of:)
+    return false if excluded_countries.blank?
+
     GeographicalArea.eu_members_ids(as_of:).all? { |eu_member| eu_member.in?(excluded_country_ids) }
+  rescue Faraday::Error
+    false
   end
 
   private

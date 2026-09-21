@@ -41,6 +41,18 @@ RSpec.describe HasExcludedCountries do
 
       it { expect(measure.excluded_country_list(as_of:)).to eq(expected_list) }
     end
+
+    context 'when the EU membership lookup fails' do
+      subject(:measure) { build(:measure, :with_exclusions) }
+
+      let(:expected_list) { 'Cyprus, Czechia, Switzerland' }
+
+      before do
+        allow(GeographicalArea).to receive(:eu_members_ids).with(as_of:).and_raise(Faraday::Error, 'connection refused')
+      end
+
+      it { expect(measure.excluded_country_list(as_of:)).to eq(expected_list) }
+    end
   end
 
   describe '#exclusions_include_european_union?' do
@@ -70,6 +82,16 @@ RSpec.describe HasExcludedCountries do
 
       before do
         allow(GeographicalArea).to receive(:eu_members_ids).with(as_of:).and_return(%w[AT])
+      end
+
+      it { expect(measure.exclusions_include_european_union?(as_of:)).to be false }
+    end
+
+    context 'when the EU membership lookup fails' do
+      subject(:measure) { build(:measure, :with_exclusions) }
+
+      before do
+        allow(GeographicalArea).to receive(:eu_members_ids).with(as_of:).and_raise(Faraday::Error, 'connection refused')
       end
 
       it { expect(measure.exclusions_include_european_union?(as_of:)).to be false }

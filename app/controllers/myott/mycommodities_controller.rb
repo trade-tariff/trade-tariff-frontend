@@ -144,11 +144,23 @@ module Myott
     end
 
     def grouped_measure_changes
-      @grouped_measure_changes ||= TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+      @grouped_measure_changes ||= fetch_grouped_measure_changes
     end
 
     def commodity_changes
-      @commodity_changes ||= TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+      @commodity_changes ||= fetch_commodity_changes
+    end
+
+    def fetch_grouped_measure_changes
+      TariffChanges::GroupedMeasureChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+    rescue Faraday::Error
+      []
+    end
+
+    def fetch_commodity_changes
+      TariffChanges::CommodityChange.all(user_id_token, { as_of: as_of.to_fs(:dashed) })
+    rescue Faraday::Error
+      []
     end
 
     helper_method :as_of, :commodity_code_counts, :last_change_date, :grouped_measure_changes, :commodity_changes
