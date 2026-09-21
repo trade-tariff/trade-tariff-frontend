@@ -11,10 +11,9 @@ module FlagsmithSetup
     Current.experiment = nil
     Current.experiment_url = nil
 
-    traits = session[:flagsmith_optin_traits]
-    Current.flagsmith_optin_traits = traits.is_a?(Hash) ? traits.to_h.transform_keys(&:to_s) : {}
+    Current.flagsmith_request_traits = {}
     if Current.request_country.present?
-      Current.flagsmith_optin_traits['request_country'] = { value: Current.request_country.to_s, transient: true }
+      Current.flagsmith_request_traits['request_country'] = { value: Current.request_country.to_s, transient: true }
     end
 
     resolve_experiment_url_optins
@@ -25,7 +24,7 @@ module FlagsmithSetup
     service_name = TradeTariffFrontend::ServiceChooser.service_name
     active = active_experiment_enrollments(at: now, service_name:)
     active.each do |experiment|
-      Current.flagsmith_optin_traits[experiment.feature_name] = { value: true, transient: true }
+      Current.flagsmith_request_traits[experiment.feature_name] = { value: true, transient: true }
     end
     enrolled = active.last
     Current.experiment = enrolled&.instrumentation_label
@@ -43,8 +42,7 @@ module FlagsmithSetup
   end
 
   def flagsmith_interactive_search_opted_in?
-    trait = Current.flagsmith_optin_traits&.[](INTERACTIVE_SEARCH_FLAG)
-    trait == true || (trait.is_a?(Hash) && ActiveModel::Type::Boolean.new.cast(trait[:value] || trait['value']))
+    Current.flagsmith_preferences&.[](INTERACTIVE_SEARCH_FLAG) == true
   end
 
   def current_flagsmith_identity

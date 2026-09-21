@@ -75,7 +75,11 @@ module TradeTariffFrontend
         return default
       end
 
-      flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity, Current.flagsmith_optin_traits || {})
+      flags = Current.flagsmith_flags ||= begin
+        traits = Flagsmith::OptInPreferences.current.transform_values { |value| { value:, transient: true } }
+        traits.merge!(Current.flagsmith_request_traits || {})
+        FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity, traits)
+      end
       flag = flags.get_flag(flag_name)
 
       if flag.is_default

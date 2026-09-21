@@ -201,6 +201,35 @@ RSpec.describe TradeTariffFrontend do
       allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
     end
 
+    it 'merges persisted preferences with transient country and experiment traits' do
+      allow(FlagsmithManagementClient.instance).to receive(:get_traits_for)
+        .and_return('interactive_search' => false, 'request_country' => 'us')
+      Current.flagsmith_request_traits = {
+        'interactive_search' => { value: true, transient: true },
+        'request_country' => { value: 'gb', transient: true },
+      }
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
+
+      described_class.interactive_search_enabled?
+
+      expect(FlagsmithClient.instance).to have_received(:get_flags_for).with(
+        Current.flagsmith_identity,
+        'interactive_search' => { value: true, transient: true },
+        'request_country' => { value: 'gb', transient: true },
+      )
+    end
+
+    it 'sends a persisted manual opt-in as a transient evaluation input' do
+      allow(FlagsmithManagementClient.instance).to receive(:get_traits_for).and_return('interactive_search' => true)
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
+
+      described_class.interactive_search_enabled?
+
+      expect(FlagsmithClient.instance).to have_received(:get_flags_for).with(
+        Current.flagsmith_identity, 'interactive_search' => { value: true, transient: true }
+      )
+    end
+
     def capture_flagsmith_fallback_events
       events = []
       subscriber = ActiveSupport::Notifications.subscribe('flagsmith.config_flag_fallback') do |*args|

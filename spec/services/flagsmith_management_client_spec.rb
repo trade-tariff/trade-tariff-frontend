@@ -23,6 +23,38 @@ RSpec.describe FlagsmithManagementClient do
     end
   end
 
+  describe '#get_traits_for' do
+    subject(:traits) { client.get_traits_for(Flagsmith::AnonymousIdentity.new('abc123')) }
+
+    let(:client) { described_class.new(environment_key: 'test-env-key') }
+    let(:body) { { traits: [{ trait_key: 'interactive_search', trait_value: true }] } }
+
+    before do
+      stub_request(:post, "#{described_class::CORE_API_URL}/api/v1/identities/")
+        .with(headers: { 'X-Environment-Key' => 'test-env-key' },
+              body: { identifier: 'Anonymous:abc123', traits: [] })
+        .to_return(status: 200, body: body.to_json, headers: { 'Content-Type' => 'application/json' })
+    end
+
+    it 'reads the saved trait without sending replacement traits' do
+      expect(traits).to eq('interactive_search' => true)
+    end
+
+    context 'without any stored traits' do
+      let(:body) { { traits: [] } }
+
+      it { is_expected.to eq({}) }
+    end
+
+    context 'with a malformed response' do
+      let(:body) { {} }
+
+      it 'does not treat a failed read as an empty preference' do
+        expect { traits }.to raise_error(KeyError)
+      end
+    end
+  end
+
   describe '#set_trait' do
     subject(:client) { described_class.new(environment_key: 'test-env-key') }
 
