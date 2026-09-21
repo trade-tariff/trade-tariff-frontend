@@ -80,7 +80,7 @@ RSpec.describe ApplicationController, type: :controller do
           request_country: Current.request_country,
           request_country_class: Current.request_country.class.name,
           gb: Current.request_country.gb?,
-          traits: Current.flagsmith_optin_traits,
+          traits: Current.flagsmith_request_traits,
         }
       end
     end
@@ -156,7 +156,7 @@ RSpec.describe ApplicationController, type: :controller do
     controller do
       def index
         render json: { experiment: Current.experiment,
-                       traits: Current.flagsmith_optin_traits,
+                       traits: Current.flagsmith_request_traits,
                        interactive_search_enabled: interactive_search_enabled? }
       end
     end
@@ -174,16 +174,23 @@ RSpec.describe ApplicationController, type: :controller do
       session[:experiment_url_optins] = ['stale', experiment.enrollment_token]
       travel_to(Time.utc(2026, 7, 27, 12)) { get :index }
       expect(response.parsed_body).to eq('experiment' => 'trstd-trdr',
-                                         'traits' => { 'webchat' => true,
-                                                       'interactive_search' => { 'value' => true, 'transient' => true } },
+                                         'traits' => { 'interactive_search' => { 'value' => true, 'transient' => true } },
                                          'interactive_search_enabled' => false)
       expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
     end
 
-    it 'does not stamp tenpct for a manual Flagsmith opt-in' do
-      enable_feature(:interactive_search)
+    it 'ignores an old session preference when core has no saved opt-in' do
+      session[:flagsmith_optin_traits] = { interactive_search: true }
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
       get :index
-      Current.flagsmith_optin_traits = { 'interactive_search' => true }
+
+      expect(FlagsmithClient.instance).to have_received(:get_flags_for).with(anything, {})
+    end
+
+    it 'does not stamp tenpct for a persisted manual Flagsmith opt-in' do
+      enable_feature(:interactive_search)
+      allow(FlagsmithManagementClient.instance).to receive(:get_traits_for).and_return('interactive_search' => true)
+      get :index
       controller.send(:interactive_search_enabled_with_analytics?)
       expect(Current.experiment).to be_nil
     end

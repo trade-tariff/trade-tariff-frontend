@@ -8,6 +8,7 @@ These pages give a code-level map of the Trade Tariff Frontend. They describe st
 - [Request routing](request-routing.md)
 - [Backend API client](backend-api-client.md)
 - [Queued guided search](queued-guided-search.md)
+- [Feature flags and manual preferences](feature-flags.md)
 - [Duty calculator](duty-calculator.md)
 - [Frontend rendering](frontend-rendering.md)
 
