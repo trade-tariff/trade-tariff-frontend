@@ -4,6 +4,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   before do
     assign(:results, results)
     assign(:search, search)
+    assign(:guided_search_outcome, 'results')
   end
 
   let(:search) { Search.new(q: 'citrus jam', request_id: 'test-uuid-123', interactive_search: true) }
@@ -244,7 +245,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
 
   describe 'actions' do
     it { is_expected.to have_link('Start search again', href: find_commodity_path) }
-    it { is_expected.to have_css('[data-controller="guided-search-start-again"]') }
+    it { is_expected.to have_css('[data-controller="guided-search-start-again"][data-guided-search-start-again-destination-value="results"]') }
     it { is_expected.to have_link('Cancel', href: find_commodity_path) }
 
     it 'renders the actions before other search options' do

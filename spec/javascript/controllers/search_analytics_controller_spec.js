@@ -148,7 +148,8 @@ describe('search journey analytics integration', () => {
     await start(guidedContext, `${guidedPage}<a href="#" data-controller="guided-search-start-again"
       data-action="click->guided-search-start-again#select"
       data-guided-search-start-again-event-url-value="/search/guided-search-event"
-      data-guided-search-start-again-request-id-value="request-123">Start search again</a>`)
+      data-guided-search-start-again-request-id-value="request-123"
+      data-guided-search-start-again-destination-value="results">Start search again</a>`)
     window.dataLayer.length = 0
     document.querySelector('a').click()
 
