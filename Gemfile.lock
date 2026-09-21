@@ -871,7 +871,7 @@ DEPENDENCIES
   wizard_steps
 
 RUBY VERSION
-  ruby 4.0.6
+  ruby 4.0.7
 
 BUNDLED WITH
   4.0.3
