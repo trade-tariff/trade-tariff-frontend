@@ -12,7 +12,8 @@ module HasExcludedCountries
                 end
 
     countries.map(&:description).sort.join(', ').html_safe
-  rescue Faraday::Error
+  rescue Faraday::Error => e
+    Rails.logger.warn "Unable to resolve replace EU exclusion list, as_of=#{as_of}. Error: #{e.message}"
     excluded_countries.map(&:description).sort.join(', ').html_safe
   end
 
@@ -20,7 +21,8 @@ module HasExcludedCountries
     return false if excluded_countries.blank?
 
     GeographicalArea.eu_members_ids(as_of:).all? { |eu_member| eu_member.in?(excluded_country_ids) }
-  rescue Faraday::Error
+  rescue Faraday::Error => e
+    Rails.logger.warn "Failed to fetch EU member countries list, as_of=#{as_of}. Error: #{e.message}"
     false
   end
 
