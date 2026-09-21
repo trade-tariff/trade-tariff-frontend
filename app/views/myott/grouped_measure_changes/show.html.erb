@@ -2,7 +2,7 @@
 
 <% content_for :top_breadcrumbs do %>
   <%= generate_breadcrumbs(
-      "#{@grouped_measure_changes.trade_direction_description} from #{@grouped_measure_changes.geographical_area_description}",
+      "#{@grouped_measure_changes.trade_direction_description} from #{@grouped_measure_changes.geographical_area_description(as_of:)}",
       [
         [t('breadcrumb.myott.watchlists'), myott_path],
         [t('breadcrumb.myott.mycommodities'), myott_mycommodities_path(as_of:)],
@@ -19,7 +19,7 @@
           Changes to your measures
         </span>
       </span>
-      <h1 class="govuk-heading-xl"><%= @grouped_measure_changes.trade_direction_description %> from <%= @grouped_measure_changes.geographical_area_description %></h1>
+      <h1 class="govuk-heading-xl"><%= @grouped_measure_changes.trade_direction_description %> from <%= @grouped_measure_changes.geographical_area_description(as_of:) %></h1>
 
       <div class="govuk-inset-text">
         Changes published: <strong><%= as_of.to_fs %></strong>
