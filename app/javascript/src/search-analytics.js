@@ -6,6 +6,26 @@ const METRICS = [
   'goods_nomenclature_item_id',
 ]
 
+const PAGE_VISIBLE_AT_KEY = 'guidedSearchPageVisibleAt'
+
+export function markGuidedSearchPageVisible() {
+  try {
+    window.sessionStorage.setItem(PAGE_VISIBLE_AT_KEY, String(Date.now()))
+  } catch (_) {
+    // Analytics must never interrupt search.
+  }
+}
+
+export function guidedSearchPageElapsedMs() {
+  try {
+    const startedAt = Number(window.sessionStorage.getItem(PAGE_VISIBLE_AT_KEY))
+    if (!Number.isFinite(startedAt) || startedAt <= 0) return null
+    return Math.max(0, Math.round(Date.now() - startedAt))
+  } catch (_) {
+    return null
+  }
+}
+
 export function searchAnalyticsContext() {
   try {
     if (new CookieManager().usage() !== true) return null

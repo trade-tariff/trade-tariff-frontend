@@ -19,6 +19,8 @@ describe('GuidedSearchResultController', () => {
       </a>
     `;
     window.fetch = jest.fn().mockResolvedValue({ok: true});
+    window.sessionStorage.setItem('guidedSearchPageVisibleAt', '1000');
+    jest.spyOn(Date, 'now').mockReturnValue(5200);
 
     application = Application.start();
     application.register('guided-search-result', GuidedSearchResultController);
@@ -26,7 +28,9 @@ describe('GuidedSearchResultController', () => {
 
   afterEach(() => {
     application.stop();
+    window.sessionStorage.clear();
     delete window.fetch;
+    jest.restoreAllMocks();
   });
 
   it('records rank and confidence without preventing navigation', () => {
@@ -47,6 +51,7 @@ describe('GuidedSearchResultController', () => {
           goods_nomenclature_item_id: '2007919930',
           result_rank: 2,
           confidence: 'good',
+          client_elapsed_ms: 4200,
         }),
       }),
     );

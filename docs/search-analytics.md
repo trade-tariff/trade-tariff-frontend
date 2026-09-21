@@ -23,6 +23,7 @@ Each event carries the complete context, so GTM can read its properties together
 | `page_visible` | A search page becomes visible in the browser: entry, question, results, no results, unknown results, blocking guidance, or a handled guided input/backend error |
 | `dont_know` | The trader submits the unknown-answer choice |
 | `result_selected` | The trader selects a Guided Search commodity result |
+| `start_again` | The trader clicks Start search again |
 
 Questions and results share `/search`. Use `search_state`, not the URL, to
 distinguish them. `destination` repeats that state on journey events.
@@ -45,7 +46,7 @@ distinguish them. `destination` repeats that state on journey events.
 | `option_count` | Options on the current pending question, excluding the UI's extra unknown-answer choice |
 | `result_count` | Results returned for the current search |
 | `used_dont_know` | True on the unknown-answer event; false on other events |
-| `client_elapsed_ms` | Time spent on the question before submitting, or before choosing the unknown answer |
+| `client_elapsed_ms` | Time spent on the question before submitting or choosing the unknown answer; on results, time from page visible to a result click or Start search again |
 | `client_navigation_ms` | Guided submit-to-visible duration when a submission timestamp is available; otherwise null |
 | `result_rank` | One-based rank of the selected Guided Search result |
 | `confidence` | Confidence of the selected result, such as `strong`, `good` or `unknown` |

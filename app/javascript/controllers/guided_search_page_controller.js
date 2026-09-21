@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { trackSearchJourney } from 'search-analytics'
+import { markGuidedSearchPageVisible, trackSearchJourney } from 'search-analytics'
 
 export default class extends Controller {
   static values = {
@@ -9,6 +9,7 @@ export default class extends Controller {
   }
 
   connect() {
+    markGuidedSearchPageVisible()
     const submittedAt = Number(window.sessionStorage.getItem('guidedSearchSubmittedAt'))
     const navigationMs = Number.isFinite(submittedAt) && submittedAt > 0
       ? Math.max(0, Math.round(Date.now() - submittedAt)) : null

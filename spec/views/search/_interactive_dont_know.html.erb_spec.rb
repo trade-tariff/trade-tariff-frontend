@@ -1,6 +1,8 @@
 RSpec.describe 'search/_interactive_dont_know', type: :view do
   subject { render partial: 'search/interactive_dont_know' }
 
+  before { assign(:search, Search.new(request_id: 'test-uuid-123', interactive_search: true)) }
+
   it { is_expected.to have_css('h1', text: "We can't suggest a tariff code yet") }
   it { is_expected.to have_text('To find the relevant commodity code, we need more information about the product.') }
   it { is_expected.to have_css('h2', text: 'Where can I find this information?') }

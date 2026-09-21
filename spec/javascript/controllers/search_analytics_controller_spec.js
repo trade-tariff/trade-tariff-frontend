@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import SearchAnalyticsController from '../../../app/javascript/controllers/search_analytics_controller'
 import GuidedSearchPageController from '../../../app/javascript/controllers/guided_search_page_controller'
 import GuidedSearchResultController from '../../../app/javascript/controllers/guided_search_result_controller'
+import GuidedSearchStartAgainController from '../../../app/javascript/controllers/guided_search_start_again_controller'
 import InteractiveQuestionController from '../../../app/javascript/controllers/interactive_question_controller'
 
 describe('search journey analytics integration', () => {
@@ -17,6 +18,7 @@ describe('search journey analytics integration', () => {
     application.register('search-analytics', SearchAnalyticsController)
     application.register('guided-search-page', GuidedSearchPageController)
     application.register('guided-search-result', GuidedSearchResultController)
+    application.register('guided-search-start-again', GuidedSearchStartAgainController)
     application.register('interactive-question', InteractiveQuestionController)
     await new Promise(resolve => setTimeout(resolve, 0))
   }
@@ -124,20 +126,38 @@ describe('search journey analytics integration', () => {
   })
 
   it('reports selected rank and confidence while retaining the server event', async () => {
-    await start(guidedContext, `<a href="#" data-controller="guided-search-result"
+    await start(guidedContext, `${guidedPage}<a href="#" data-controller="guided-search-result"
       data-action="click->guided-search-result#select"
       data-guided-search-result-event-url-value="/search/guided-search-event"
       data-guided-search-result-request-id-value="request-123"
       data-guided-search-result-goods-nomenclature-item-id-value="0101210000"
       data-guided-search-result-rank-value="2"
       data-guided-search-result-confidence-value="Good">View code</a>`)
+    window.dataLayer.length = 0
     document.querySelector('a').click()
 
     expect(window.dataLayer).toEqual([expect.objectContaining({
       outcome: 'result_selected', result_rank: 2, confidence: 'good',
       goods_nomenclature_item_id: '0101210000', request_id: 'request-123',
+      client_elapsed_ms: expect.any(Number),
     })])
     expect(window.fetch).toHaveBeenCalled()
+  })
+
+  it('reports start again with time spent on the results page', async () => {
+    await start(guidedContext, `${guidedPage}<a href="#" data-controller="guided-search-start-again"
+      data-action="click->guided-search-start-again#select"
+      data-guided-search-start-again-event-url-value="/search/guided-search-event"
+      data-guided-search-start-again-request-id-value="request-123">Start search again</a>`)
+    window.dataLayer.length = 0
+    document.querySelector('a').click()
+
+    expect(window.dataLayer).toEqual([expect.objectContaining({
+      outcome: 'start_again', destination: 'results', client_elapsed_ms: expect.any(Number),
+    })])
+    expect(JSON.parse(window.fetch.mock.calls.at(-1)[1].body)).toMatchObject({
+      event_type: 'start_again', destination: 'results', client_elapsed_ms: expect.any(Number),
+    })
   })
 
   it('reports I do not know without sending the answer text', async () => {
