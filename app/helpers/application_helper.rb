@@ -9,6 +9,12 @@ module ApplicationHelper
     find_commodity_url(*args, &block)
   end
 
+  # Used by the "Start search again" buttons on every AI search end state. The find commodity page
+  # opens on the keyword tab by default, so these links ask for the AI-assisted tab explicitly.
+  def guided_search_restart_path
+    find_commodity_path(search_mode: 'guided')
+  end
+
   def govspeak(text)
     text = text['content'] || text[:content] if text.is_a?(Hash)
     return '' if text.nil?

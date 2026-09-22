@@ -88,6 +88,30 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
     end
   end
 
+  context 'when arriving from a start search again link' do
+    let(:guided) { true }
+
+    it 'opens on the AI tab' do
+      page = entry_page(search_mode: 'guided')
+
+      expect(page).to have_css('[data-search-mode-initial-mode-value="guided"]')
+    end
+
+    it 'opens on the keyword tab for an unrecognised mode' do
+      page = entry_page(search_mode: 'banana')
+
+      expect(page).to have_css('[data-search-mode-initial-mode-value="keyword"]')
+    end
+
+    it 'reports the AI tab to analytics' do
+      cookies[:cookies_policy] = { usage: true }.to_json
+      entry_page(search_mode: 'guided')
+
+      analytics = JSON.parse(Nokogiri::HTML(response.body).at_css('#search-analytics-context').text)
+      expect(analytics).to include('search_mode' => 'guided', 'search_state' => 'entry')
+    end
+  end
+
   context 'with analytics consent' do
     let(:guided) { true }
 

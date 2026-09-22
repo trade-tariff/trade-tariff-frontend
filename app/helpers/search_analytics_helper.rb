@@ -2,7 +2,7 @@ module SearchAnalyticsHelper
   def start_search_again_button(secondary: false)
     govuk_button_link_to(
       'Start search again',
-      find_commodity_path,
+      guided_search_restart_path,
       secondary:,
       data: {
         controller: 'guided-search-start-again',
