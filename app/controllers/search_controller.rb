@@ -211,7 +211,9 @@ class SearchController < ApplicationController
 
     query_values = Rack::Utils.parse_query(back_url.query || '')
     query_values = query_values.merge(@search.query_attributes)
-    query_values = query_values.tap { |qv| qv.delete('invalid_date') }
+    # This redirect answers a keyword search, so it must not send the user to the AI tab even when
+    # the page they came from was opened on it with search_mode=guided.
+    query_values = query_values.except('invalid_date', 'search_mode')
 
     back_url.query = if @search.date.today?
                        CGI.unescape(query_values.except('year', 'month', 'day').to_query)

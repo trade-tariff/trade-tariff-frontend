@@ -45,7 +45,7 @@ RSpec.describe 'search/_interactive_unknown_results_content', type: :view do
   describe 'next steps' do
     it { is_expected.to have_css('h2', text: 'Next steps') }
     it { is_expected.to have_text('Check your answers and start your search again.') }
-    it { is_expected.to have_link('Start search again', href: find_commodity_path) }
+    it { is_expected.to have_link('Start search again', href: '/find_commodity?search_mode=guided') }
     it { is_expected.to have_link('Cancel', href: find_commodity_path) }
 
     context 'when webchat is enabled' do

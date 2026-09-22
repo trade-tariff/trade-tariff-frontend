@@ -29,6 +29,14 @@ RSpec.describe 'Revised find commodity' do
       expect(page).not_to have_field('Describe the products you are trading', visible: :visible)
     end
 
+    it 'opens on the AI tab when a start search again link asks for it', :aggregate_failures do
+      visit find_commodity_path(search_mode: 'guided')
+
+      expect(page).to have_css('#ai-search-tab[aria-selected="true"]')
+      expect(page).to have_field('Describe the products you are trading', visible: :visible)
+      expect(page).not_to have_field('revised-keyword-query', visible: :visible)
+    end
+
     it 'restores a rejected keyword query and associates its hint', :aggregate_failures do
       fill_in 'revised-keyword-query', with: 'coffee beans'
       fill_in 'Month', with: '0'

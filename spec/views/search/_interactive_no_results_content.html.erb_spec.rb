@@ -24,7 +24,7 @@ RSpec.describe 'search/_interactive_no_results_content', type: :view do
   describe 'next steps' do
     it { is_expected.to have_css('h2', text: 'Next steps') }
     it { is_expected.to have_text('Go back and search again, browse the tariff or look for your product in the A-Z.') }
-    it { is_expected.to have_link('Start search again', href: find_commodity_path) }
+    it { is_expected.to have_link('Start search again', href: '/find_commodity?search_mode=guided') }
     it { is_expected.to have_link('Cancel', href: find_commodity_path) }
   end
 
