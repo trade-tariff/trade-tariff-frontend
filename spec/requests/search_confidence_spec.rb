@@ -37,14 +37,14 @@ RSpec.describe 'Search confidence', :aggregate_failures, type: :request do
   it 'shows confidence on results and reload' do
     post perform_search_path, params: { q: 'citrus jam', interactive_search: 'true' }
 
-    expect(page).to have_css('.confidence-label', exact_text: 'Strong result')
+    expect(page).to have_css('.confidence-label', exact_text: 'Highest match')
     expect(page).not_to have_text('How we calculate confidence')
     expect(page).to have_text('You are responsible for using the correct commodity codes')
 
     get perform_search_path, params: { q: 'citrus jam', interactive_search: 'true', request_id: 'confidence-request' }
 
     expect(response).to have_http_status(:ok)
-    expect(Capybara.string(response.body)).to have_css('.confidence-label', exact_text: 'Strong result')
+    expect(Capybara.string(response.body)).to have_css('.confidence-label', exact_text: 'Highest match')
   end
 
   context 'without results' do

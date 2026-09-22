@@ -34,7 +34,7 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
         it 'offers the two search modes' do
           page = entry_page
           expect(page).to have_link('Switch to the Northern Ireland Online Tariff')
-          expect(page).to have_link('Keyword search')
+          expect(page).to have_link('Code or keyword search')
           expect(page).to have_link('AI-assisted search')
           expect(page).not_to have_text('What type of search are you doing?')
           expect(page).not_to have_text('Importing goods into Northern Ireland?')

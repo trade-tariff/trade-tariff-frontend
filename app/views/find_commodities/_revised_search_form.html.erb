@@ -14,7 +14,7 @@
     <% if @ai_search_enabled %>
       <ul class="govuk-tabs__list app-find-commodity-search-tabs govuk-!-margin-bottom-5" role="tablist" aria-label="Search method" data-search-mode-target="tabs" hidden>
         <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
-          <%= govuk_link_to 'Keyword search', '#keyword-search-panel', id: 'keyword-search-tab', class: 'govuk-tabs__tab',
+          <%= govuk_link_to 'Code or keyword search', '#keyword-search-panel', id: 'keyword-search-tab', class: 'govuk-tabs__tab',
                 role: 'tab', aria: { controls: 'keyword-search-panel', selected: true },
                 data: { mode: 'keyword', search_mode_target: 'tab', action: 'click->search-mode#select keydown->search-mode#navigate' } %>
         </li>
@@ -28,8 +28,8 @@
     <% end %>
 
     <div id="keyword-search-panel" data-search-mode-target="keywordSection">
-      <h2 class="govuk-heading-m">Keyword search</h2>
-      <%= govuk_details(summary_text: 'Tips for using keyword or commodity code search') do %>
+      <h2 class="govuk-heading-m">Code or keyword search</h2>
+      <%= govuk_details(summary_text: 'Tips for using code or keyword search') do %>
         <%= render 'find_commodities/keyword_tips' %>
       <% end %>
       <div class="govuk-form-group">

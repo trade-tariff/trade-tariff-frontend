@@ -17,7 +17,7 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
   describe 'search type radio buttons' do
     it { is_expected.to have_css('input[type="radio"][value="keyword"]') }
     it { is_expected.to have_css('input[type="radio"][value="guided"]') }
-    it { is_expected.to have_text('Keyword or commodity code search') }
+    it { is_expected.to have_text('Code or keyword search') }
     it { is_expected.to have_text('Guided search') }
   end
 
@@ -30,7 +30,7 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
 
   describe 'help details components' do
     it { is_expected.to have_css('.govuk-details__summary-text', text: 'What are keyword, commodity code and guided searches?') }
-    it { is_expected.to have_css('.govuk-details__summary-text', text: 'Tips for using keyword or commodity code search') }
+    it { is_expected.to have_css('.govuk-details__summary-text', text: 'Tips for using code or keyword search') }
     it { is_expected.to have_css('.govuk-details__summary-text', text: 'Tips for using guided search') }
   end
 
@@ -61,7 +61,7 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
 
   describe 'other ways to search' do
     it { is_expected.to have_css('h2', text: 'Other ways to search for a commodity') }
-    it { is_expected.to have_link('Keyword or commodity code') }
+    it { is_expected.to have_link('Code or keyword search') }
     it { is_expected.to have_link('Goods classifications') }
     it { is_expected.to have_link('A-Z product index') }
     it { is_expected.to have_text('Browse the goods classification') }

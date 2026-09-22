@@ -17,7 +17,7 @@ RSpec.describe 'search/_interactive_dont_know', type: :view do
 
   describe 'alternative search cards' do
     it { is_expected.to have_css('h2', text: 'Other ways to search for a commodity') }
-    it { is_expected.to have_link('Keyword or commodity code') }
+    it { is_expected.to have_link('Code or keyword search') }
     it { is_expected.to have_link('Goods classifications') }
     it { is_expected.to have_link('A-Z product index') }
   end
