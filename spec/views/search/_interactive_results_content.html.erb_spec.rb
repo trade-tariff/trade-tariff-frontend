@@ -148,7 +148,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'confidence meter' do
-    { 'strong' => 'Strong result', 'Good' => 'Good result', 'POSSIBLE' => 'Possible result' }.each do |confidence, label|
+    { 'strong' => 'Highest match', 'Good' => 'Medium match', 'POSSIBLE' => 'Low match' }.each do |confidence, label|
       context "with #{confidence} confidence" do
         let(:result_attrs) { super().merge('confidence' => confidence) }
 
@@ -199,7 +199,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
 
       expect(cards.map { |card| card.find('a')['data-guided-search-result-rank-value'] }).to eq(%w[2 5 1 3 4])
       expect(cards.map { |card| card.all('.confidence-label').map(&:text) }).to eq([
-        ['Strong result'], ['Strong result'], ['Good result'], [], ['Possible result']
+        ['Highest match'], ['Highest match'], ['Medium match'], [], ['Low match']
       ])
     end
   end
@@ -257,7 +257,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
 
   describe 'other ways to search' do
     it { is_expected.to have_css('h2', text: 'Other ways to search for a commodity') }
-    it { is_expected.to have_link('Keyword or commodity code', href: find_commodity_path) }
+    it { is_expected.to have_link('Code or keyword search', href: find_commodity_path) }
     it { is_expected.to have_link('Goods classifications', href: browse_sections_path) }
     it { is_expected.to have_link('A-Z product index', href: a_z_index_path(letter: 'a')) }
   end
