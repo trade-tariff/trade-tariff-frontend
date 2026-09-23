@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@babel/preset-env": "^8.0.2",
+    "@babel/preset-env": "^8.0.5",
     "@hotwired/stimulus": "^3.2.2",
     "@playwright/test": "^1.63.0",
     "accessible-autocomplete": "^3.0.1",
