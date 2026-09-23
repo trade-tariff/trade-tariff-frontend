@@ -16,6 +16,11 @@ RSpec.describe HasExcludedCountries do
       end
 
       it { expect(measure.excluded_country_list(as_of:)).to eq(expected_list) }
+
+      it 'returns the same label on repeated calls without mutating excluded countries' do
+        expect(measure.excluded_country_list(as_of:)).to eq(expected_list)
+        expect(measure.excluded_country_list(as_of:)).to eq(expected_list)
+      end
     end
 
     context 'when the excluded_countries do not include all eu members' do
