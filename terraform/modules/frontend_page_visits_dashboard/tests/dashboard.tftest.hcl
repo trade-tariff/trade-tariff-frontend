@@ -107,6 +107,9 @@ run "page_visits_dashboard" {
         "BrowseSectionsController#index", "SectionsController#show", "ChaptersController#show",
         "HeadingsController#show", "SubheadingsController#show", "CommoditiesController#show",
       ]) &&
+      strcontains(local.tariff_requests, "| filter page_key in ${jsonencode(local.tariff_page_keys)}") &&
+      !strcontains(local.tariff_requests, jsonencode("SectionsController#index")) &&
+      !strcontains(local.tariff_requests, jsonencode("CommoditiesController#origin")) &&
       alltrue([for key in local.tariff_page_keys :
         strcontains(local.tariff_requests, "page_key = ${jsonencode(key)}, ${jsonencode(local.page_names[key].name)}")
       ]) &&

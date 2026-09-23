@@ -52,6 +52,13 @@ included. Totals group requests across all IDs at each tariff level; the charts
 show neither individual goods codes nor raw paths. They do not prove that a
 browser displayed the page or followed the hierarchy in order.
 
+The category describes the action requested, not the page ultimately rendered.
+For example, a declarable heading redirects to its commodity page. If the
+browser follows that redirect, the two HTTP requests count once under each
+category. Unlike the ranked table, these charts deliberately omit the
+`(redirect)` and `(form submission)` suffixes to keep one series per tariff level.
+Do not interpret their sum as unique visits or successful page displays.
+
 ## UI names, not controller names
 
 `terraform/modules/frontend_page_visits_dashboard/page_names.tf` is the shared

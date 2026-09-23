@@ -60,6 +60,7 @@ locals {
     "SubheadingsController#show",
     "CommoditiesController#show",
   ]
+  # case() requires a default result; the action filter makes it unreachable.
   tariff_requests = <<-QUERY
     ${local.page_requests}
     | filter page_key in ${jsonencode(local.tariff_page_keys)}
