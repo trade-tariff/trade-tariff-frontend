@@ -11,7 +11,7 @@ gem 'rails', '~> 8.1'
 gem 'resolv', '>= 0.7.2'
 
 gem 'faraday'
-gem 'faraday-http-cache'
+gem 'faraday-http-cache', '~> 2.8'
 gem 'faraday-net_http_persistent'
 gem 'faraday-retry'
 gem 'flagsmith', '~> 4.3'
