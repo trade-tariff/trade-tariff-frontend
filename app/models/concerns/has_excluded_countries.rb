@@ -4,12 +4,12 @@ module HasExcludedCountries
   def excluded_country_list(as_of:)
     return ''.html_safe if excluded_countries.blank?
 
-    countries = if exclusions_include_european_union?(as_of:)
-                  # Replace EU members with the EU geographical_area
-                  [GeographicalArea.european_union(as_of:)] + excluded_countries.delete_if { |country| country.eu_member?(as_of:) }
-                else
-                  excluded_countries
-                end
+    countries = excluded_countries.dup
+
+    if exclusions_include_european_union?(as_of:)
+      countries.delete_if { |country| country.eu_member?(as_of:) }
+      countries.unshift(GeographicalArea.european_union(as_of:))
+    end
 
     countries.map(&:description).sort.join(', ').html_safe
   rescue Faraday::Error => e
