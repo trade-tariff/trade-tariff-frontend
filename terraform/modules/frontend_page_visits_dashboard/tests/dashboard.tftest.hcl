@@ -103,6 +103,28 @@ run "page_visits_dashboard" {
 
   assert {
     condition = (
+      toset(local.tariff_page_keys) == toset([
+        "BrowseSectionsController#index", "SectionsController#show", "ChaptersController#show",
+        "HeadingsController#show", "SubheadingsController#show", "CommoditiesController#show",
+      ]) &&
+      alltrue([for key in local.tariff_page_keys :
+        strcontains(local.tariff_requests, "page_key = ${jsonencode(key)}, ${jsonencode(local.page_names[key].name)}")
+      ]) &&
+      alltrue([for query in [local.queries.tariff_pages, local.queries.tariff_volume] :
+        strcontains(query, local.page_requests) && strcontains(query, local.tariff_requests) &&
+        !strcontains(query, "limit") && !strcontains(query, "by page_path") &&
+        !strcontains(query, "filter not isblank(session_id)")
+      ]) &&
+      strcontains(local.queries.tariff_pages, "count(*) as Requests by Page") &&
+      strcontains(local.queries.tariff_volume, "count(*) as Requests by Hour, Page") &&
+      length([for chart in local.charts : chart if chart.query == "tariff_pages" && chart.view == "bar"]) == 1 &&
+      length([for chart in local.charts : chart if chart.query == "tariff_volume" && chart.view == "timeSeries"]) == 1
+    )
+    error_message = "Tariff totals and trends must retain all six page types, shared eligibility and UI names without top-N truncation, identity filtering or raw-path grouping."
+  }
+
+  assert {
+    condition = (
       local.page_names["BrowseSectionsController#index"].name == "Browse the tariff" &&
       local.page_names["SearchReferencesController#show"].name == "A-Z of Classified Goods" &&
       local.page_names["SearchController#quota_search"].name == "Search for quotas" &&

@@ -7,10 +7,12 @@ locals {
     { query = "coverage", title = "Requests with and without a session identifier", view = "pie", x = 0, y = 12, width = 12 },
     { query = "volume", title = "Requests per hour by activity", view = "timeSeries", x = 0, y = 18, width = 24 },
     { query = "distribution", title = "Requests per browser session (21 means 21+)", view = "bar", x = 12, y = 12, width = 12 },
-    { query = "behaviour", title = "Share of requests by activity within each frequency group (%)", view = "table", x = 0, y = 24, width = 24 },
-    { query = "responses", title = "Page responses per hour: includes redirects and errors", view = "timeSeries", x = 0, y = 30, width = 24 },
-    { query = "popular_pages", title = "Most visited pages and form submissions (top 20)", view = "table", x = 0, y = 36, width = 24 },
-    { query = "first_last", title = "First and last recorded pages in this period (top 20, not entry/exit points)", view = "table", x = 0, y = 42, width = 24 },
+    { query = "tariff_pages", title = "Tariff page requests (selected range)", view = "bar", x = 0, y = 24, width = 12 },
+    { query = "tariff_volume", title = "Tariff page requests per hour", view = "timeSeries", x = 12, y = 24, width = 12 },
+    { query = "behaviour", title = "Share of requests by activity within each frequency group (%)", view = "table", x = 0, y = 30, width = 24 },
+    { query = "responses", title = "Page responses per hour: includes redirects and errors", view = "timeSeries", x = 0, y = 36, width = 24 },
+    { query = "popular_pages", title = "Most visited pages and form submissions (top 20)", view = "table", x = 0, y = 42, width = 24 },
+    { query = "first_last", title = "First and last recorded pages in this period (top 20, not entry/exit points)", view = "table", x = 0, y = 48, width = 24 },
   ]
 }
 
