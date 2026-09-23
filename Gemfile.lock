@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/routing-filter.git
-  revision: b1c5f06d8e40ed46384c9125c713615753f539fd
+  revision: 658eb8feeeabbeaa937a05f0f32869e2c2f658bb
   specs:
     routing-filter (1.0.0)
       actionpack (>= 7.1)
@@ -597,7 +597,7 @@ GEM
     puma (8.0.2)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.2.6)
+    rack (3.2.7)
     rack-attack (6.8.0)
       rack (>= 1.0, < 4)
     rack-cors (3.0.0)
