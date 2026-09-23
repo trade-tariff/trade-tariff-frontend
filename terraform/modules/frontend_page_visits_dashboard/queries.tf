@@ -49,6 +49,23 @@ locals {
       "Other pages") as page_type
   QUERY
 
+  # Keep hierarchy levels visible without the ranked page table's top-20 cutoff.
+  # Select actions, not URL IDs: the section-index redirect and origin tab are
+  # different activities. Reuse the UI names already maintained for page tables.
+  tariff_page_keys = [
+    "BrowseSectionsController#index",
+    "SectionsController#show",
+    "ChaptersController#show",
+    "HeadingsController#show",
+    "SubheadingsController#show",
+    "CommoditiesController#show",
+  ]
+  tariff_requests = <<-QUERY
+    ${local.page_requests}
+    | filter page_key in ${jsonencode(local.tariff_page_keys)}
+    | fields case(${join(", ", [for key in local.tariff_page_keys : "page_key = ${jsonencode(key)}, ${jsonencode(local.page_names[key].name)}"])}, "Other tariff page") as Page
+  QUERY
+
   # Current Logs Insights supports up to ten stats commands per query.
   # Session reports need three: request deduplication, session totals, groups.
   # https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax-Stats.html
@@ -70,6 +87,18 @@ locals {
       | ${local.classify_pages}
       | fields page_type as Activity
       | stats count(*) as Requests by Activity
+    QUERY
+
+    tariff_pages = <<-QUERY
+      ${local.tariff_requests}
+      | stats count(*) as Requests by Page
+      | sort Requests desc
+    QUERY
+
+    tariff_volume = <<-QUERY
+      ${local.tariff_requests}
+      | fields request_hour as Hour
+      | stats count(*) as Requests by Hour, Page
     QUERY
 
     coverage = <<-QUERY

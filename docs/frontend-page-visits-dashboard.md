@@ -31,6 +31,27 @@ The most popular named pages and first/last pairs are limited to 20 rows; the
 pies do not truncate their populations. Individual commodity codes and product
 descriptions are not displayed.
 
+## Tariff page breakdown
+
+**Tariff page requests (selected range)** and **Tariff page requests per hour**
+show the browse landing page, sections, chapters, headings, subheadings and
+commodity details separately. They have no top-20 cutoff. Categories with no
+observations are not filled with zero.
+
+The queries select the exact controller/action pairs for `/browse`,
+`/sections/:id`, `/chapters/:id`, `/headings/:id`, `/subheadings/:id` and
+`/commodities/:id`. UK/XI-prefixed routes share these actions and are combined,
+like the existing activity charts. The `/sections` index redirect and commodity
+origin tab are excluded from this breakdown, but remain in their existing
+Search and Help activity groups.
+
+These are subsets of the existing request population, not additional visits.
+The same bot exclusions, request-ID deduplication and HTML eligibility apply.
+Redirects, errors, refreshes and eligible requests without session IDs remain
+included. Totals group requests across all IDs at each tariff level; the charts
+show neither individual goods codes nor raw paths. They do not prove that a
+browser displayed the page or followed the hierarchy in order.
+
 ## UI names, not controller names
 
 `terraform/modules/frontend_page_visits_dashboard/page_names.tf` is the shared
@@ -192,7 +213,7 @@ onward had IDs. This is bounded development evidence, not a guarantee for other
 environments or future traffic. Empty charts must not be interpreted as zero
 visitors or complete historical coverage.
 
-Each dashboard refresh runs nine Logs Insights queries over a shared platform
+Each dashboard refresh runs eleven Logs Insights queries over a shared platform
 log group. Prefer manual refresh and bounded windows. Measure bytes scanned and
 query duration before adopting longer windows or frequent refresh. A result
 limit is not a scan-cost budget. Terraform does not set the viewer's refresh
@@ -220,7 +241,7 @@ syntax or prove the data results.
 Before deployment, with authorised staging credentials:
 
 1. Confirm the account, region, log group/stream selector and actual field types.
-2. Run all nine queries over a small, fixed window. Check results, bytes scanned
+2. Run all eleven queries over a small, fixed window. Check results, bytes scanned
    and duration. Confirm the region supports the multi-stage Logs Insights syntax.
 3. Validate sessions with 1, 2, 3, 9 and 10 requests, equal-count sessions, missing
    session IDs, duplicated HTTP IDs, repeated pages, redirects and errors. Include
