@@ -1,6 +1,27 @@
 @use "src/settings/govuk" as govuk;
 @use "src/settings" as settings;
 
+.commodity-heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: govuk.govuk-spacing(3) govuk.govuk-spacing(4);
+}
+
+.commodity-navigation-link {
+  @include govuk.govuk-font($size: 24);
+  display: inline-flex;
+  align-items: center;
+  gap: govuk.govuk-spacing(3);
+
+  img {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+  }
+}
+
 .commodity-action-button {
   display: inline-flex;
   align-items: center;
