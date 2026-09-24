@@ -76,6 +76,47 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
     )
   end
 
+  describe 'classifier click forwarding' do
+    let(:click) do
+      { event_type: 'result_selected', request_id: 'request-123', goods_nomenclature_item_id: '2007919930', result_rank: 2, confidence: 'Good' }
+    end
+    let!(:backend_request) do
+      stub_api_request('/search_export/result_clicks', :post, internal: true).to_return(status: 204)
+    end
+
+    it 'sends only the request id, code and rank to the backend' do
+      post guided_search_event_path, params: click, as: :json
+
+      expect(response).to have_http_status(:no_content)
+      expect(backend_request.with(body: { request_id: 'request-123', goods_nomenclature_item_id: '2007919930', result_rank: 2 }.to_json)).to have_been_requested.once
+    end
+
+    it 'keeps recording the browser event when the backend times out' do
+      backend_request.to_timeout
+
+      post guided_search_event_path, params: click, as: :json
+
+      expect(response).to have_http_status(:no_content)
+      expect(backend_request).to have_been_requested.once
+      expect(journey_events.last).to include(outcome: 'result_selected')
+    end
+
+    it 'does not send non-click events to the backend' do
+      post guided_search_event_path, params: { event_type: 'dont_know', request_id: 'request-123', question_number: 1 }, as: :json
+
+      expect(backend_request).not_to have_been_requested
+    end
+
+    it 'does not forward clicks in XI' do
+      allow(TradeTariffFrontend::ServiceChooser).to receive(:xi?).and_return(true)
+
+      post guided_search_event_path, params: click, as: :json
+
+      expect(response).to have_http_status(:no_content)
+      expect(backend_request).not_to have_been_requested
+    end
+  end
+
   it 'rejects incomplete events without recording them' do
     post guided_search_event_path,
          params: { event_type: 'page_visible', request_id: 'request-123', destination: 'invented' },

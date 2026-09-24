@@ -67,6 +67,7 @@ class SearchController < ApplicationController
       experiment: Current.experiment,
       **event_attributes,
     )
+    record_classifier_click(request_id, event_attributes)
 
     head :no_content
   end
@@ -94,6 +95,25 @@ class SearchController < ApplicationController
   end
 
   private
+
+  def record_classifier_click(request_id, event_attributes)
+    return unless event_attributes[:outcome] == 'result_selected'
+    return if TradeTariffFrontend::ServiceChooser.xi?
+
+    api_host = TradeTariffFrontend::ServiceChooser.api_host
+    path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search_export/result_clicks"
+    TradeTariffFrontend::ServiceChooser.api_client.post(
+      path,
+      {
+        request_id:,
+        goods_nomenclature_item_id: event_attributes[:goods_nomenclature_item_id],
+        result_rank: event_attributes[:result_rank],
+      }.to_json,
+      'Content-Type' => 'application/json',
+    )
+  rescue StandardError => e
+    Rails.logger.warn("Could not store classifier click: #{e.class}")
+  end
 
   def prepare_search
     params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?
