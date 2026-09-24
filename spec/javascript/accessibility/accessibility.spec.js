@@ -1,6 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const AxeBuilder = require("@axe-core/playwright").default;
 const { LoginPage } = require("./pages/loginPage");
+const { configureWafBypass } = require("./utils/configureWafBypass");
 const { generateHtmlReport } = require("./utils/generateHtmlReport");
 const fs = require("fs");
 const path = require("path");
@@ -10,6 +11,11 @@ test.describe.configure({ mode: 'serial' });
 const configPath = path.join(__dirname, 'config.json');
 const testConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 const globalAccessibilityResults = [];
+// Fail before running any scans if admin configuration is missing or invalid.
+if (!process.env.ADMIN_URL?.trim()) {
+  throw new Error("ADMIN_URL is required for admin accessibility checks");
+}
+const adminUrl = new URL(process.env.ADMIN_URL).href;
 
 async function runAccessibilityScan(page, pageName, url, threshold) {
   try {
@@ -65,10 +71,14 @@ async function runAccessibilityScan(page, pageName, url, threshold) {
 }
 
 test.describe("Accessibility Tests", () => {
+  test.beforeEach(async ({ page }) => {
+    await configureWafBypass(page);
+  });
+
   testConfig.tariffPages.forEach((pageConfig) => {
-    test(pageConfig.name, async ({ page }, testInfo) => {
+    test(pageConfig.name, async ({ page }) => {
       try {
-        await new LoginPage(pageConfig.path, page, testInfo).login();
+        await new LoginPage(pageConfig.path, page).login();
 
         await runAccessibilityScan(page, pageConfig.name, pageConfig.path, pageConfig.threshold);
       } catch (error) {
@@ -79,12 +89,12 @@ test.describe("Accessibility Tests", () => {
   });
 
   testConfig.adminPages.forEach((pageConfig) => {
-    test(pageConfig.name, async ({ page }, testInfo) => {
+    test(pageConfig.name, async ({ page }) => {
       try {
-        const url = `${process.env.ADMIN_URL}/${pageConfig.path}`;
-        await new LoginPage(url, page, testInfo, true).login();
+        const loginPage = new LoginPage(pageConfig.path, page, adminUrl);
+        await loginPage.login();
 
-        await runAccessibilityScan(page, pageConfig.name, url, pageConfig.threshold);
+        await runAccessibilityScan(page, pageConfig.name, loginPage.url, pageConfig.threshold);
       } catch (error) {
         console.error(`Admin test failed for ${pageConfig.name}:`, error.message);
         throw error;

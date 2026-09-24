@@ -15,7 +15,7 @@ RSpec.describe FindCommoditiesController, type: :request do
 
     it { is_expected.to have_http_status :ok }
     it { is_expected.to have_attributes content_type: %r{text/html} }
-    it { expect(response.body).not_to include('search_type_guided') }
+    it { expect(Capybara.string(response.body)).not_to have_link('AI-assisted search') }
 
     context 'when interactive search is enabled' do
       before do
@@ -23,7 +23,7 @@ RSpec.describe FindCommoditiesController, type: :request do
         get find_commodity_path
       end
 
-      it { expect(response.body).to include('search_type_guided') }
+      it { expect(Capybara.string(response.body)).to have_link('AI-assisted search') }
     end
 
     context 'when interactive search is enabled on the XI service' do
@@ -32,7 +32,7 @@ RSpec.describe FindCommoditiesController, type: :request do
         get '/xi/find_commodity'
       end
 
-      it { expect(response.body).not_to include('search_type_guided') }
+      it { expect(Capybara.string(response.body)).not_to have_link('AI-assisted search') }
     end
 
     context 'with a malformed search param' do

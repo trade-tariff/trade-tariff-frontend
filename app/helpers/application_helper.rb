@@ -9,6 +9,12 @@ module ApplicationHelper
     find_commodity_url(*args, &block)
   end
 
+  # Used by the "Start search again" buttons on every AI search end state. The find commodity page
+  # opens on the keyword tab by default, so these links ask for the AI-assisted tab explicitly.
+  def guided_search_restart_path
+    find_commodity_path(search_mode: 'guided')
+  end
+
   def govspeak(text)
     text = text['content'] || text[:content] if text.is_a?(Hash)
     return '' if text.nil?
@@ -73,6 +79,10 @@ module ApplicationHelper
     %r{\A/(?:(?:xi|uk)/)?(?:#{normalized_prefixes.join('|')})}
   end
 
+  def navigation_query_params(query_parameters = request.query_parameters)
+    query_parameters.except('request_id')
+  end
+
   def current_url_without_parameters
     request.base_url + request.path
   end
@@ -81,14 +91,21 @@ module ApplicationHelper
     feedback_path(feedback_context_params.merge(options))
   end
 
+  def enquiry_form_path_with_context
+    request_id = feedback_search_request_id || params[:search_request_id].presence || @feedback&.request_id.presence
+
+    product_experience_enquiry_form_path(request_id:)
+  end
+
   def feedback_context_params
     return current_feedback_params if controller_path == 'feedback'
 
     {
       feedback_url: request.original_url,
       feedback_query: feedback_search_query,
-      feedback_request_id: feedback_search_request_id,
+      search_request_id: feedback_search_request_id,
       feedback_date: feedback_search_date,
+      feedback_feature_flags: TradeTariffFrontend.enabled_flagsmith_feature_names.join(','),
     }.compact
   end
 
@@ -96,8 +113,9 @@ module ApplicationHelper
     {
       feedback_url: params[:feedback_url],
       feedback_query: params[:feedback_query],
-      feedback_request_id: params[:feedback_request_id],
+      search_request_id: params[:search_request_id],
       feedback_date: params[:feedback_date],
+      feedback_feature_flags: params[:feedback_feature_flags],
     }.compact
   end
 

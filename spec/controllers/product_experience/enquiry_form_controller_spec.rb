@@ -34,6 +34,14 @@ RSpec.describe ProductExperience::EnquiryFormController, :aggregate_failures, ty
 
       expect(session[:product_experience_enquiry]).to be_nil
     end
+
+    it 'omits an invalid search request identifier from the enquiry draft' do
+      get :show, params: { request_id: { nested: 'value' } }
+
+      draft = ProductExperience::EnquiryFormDraftStore.read(session[:enquiry_form_draft_id])
+
+      expect(draft).not_to include('search_request_id')
+    end
   end
 
   describe 'POST #submit' do

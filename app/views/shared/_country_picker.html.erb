@@ -8,7 +8,7 @@
   <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Trade details</h2>
   <p class="govuk-body">Select the origin of the commodity to view information for that country.</p>
 
-  <% (params.keys - %w[controller action country service id day month year invalid_date]).each do |param| %>
+  <% (params.keys - %w[controller action country service id day month year invalid_date request_id]).each do |param| %>
     <%= hidden_field_tag param, params[param] if params.key?(param) %>
   <% end %>
 

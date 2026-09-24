@@ -25,6 +25,7 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
           goods_nomenclature_item_id: '2007919930',
           result_rank: 2,
           confidence: 'Good',
+          client_elapsed_ms: 4_200,
         },
         {
           outcome: 'result_selected',
@@ -32,6 +33,21 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
           goods_nomenclature_item_id: '2007919930',
           result_rank: 2,
           confidence: 'good',
+          client_elapsed_ms: 4_200,
+        },
+      ],
+      [
+        {
+          event_type: 'start_again',
+          request_id: 'request-123',
+          destination: 'results',
+          client_elapsed_ms: 3_100,
+        },
+        {
+          outcome: 'start_again',
+          request_id: 'request-123',
+          destination: 'results',
+          client_elapsed_ms: 3_100,
         },
       ],
       [

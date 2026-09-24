@@ -2,6 +2,11 @@ name: Deploy to staging
 
 on:
   workflow_dispatch:
+    inputs:
+      sha:
+        description: 'Git SHA or ref to deploy (defaults to current HEAD)'
+        type: string
+        required: false
   push:
     branches:
       - main
@@ -20,6 +25,7 @@ jobs:
     with:
       app-name: tariff-frontend
       environment: staging
+      checkout-ref: ${{ inputs.sha }}
     secrets:
       basic-password: ${{ secrets.BASIC_PASSWORD }}
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}

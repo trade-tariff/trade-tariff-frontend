@@ -62,8 +62,16 @@ Rails.application.configure do
   # information to avoid inadvertent exposure of personally identifiable information (PII).
   config.log_level = ENV.fetch('RAILS_LOG_LEVEL', :info)
 
-  # Prepend all log lines with the following tags.
-  config.log_tags = [:request_id]
+  # Prepend all request log lines with the following tags.
+  config.log_tags = [
+    :request_id,
+    lambda do |request|
+      country_code = TradeTariffFrontend::RequestCountry.normalize(
+        request.headers[TradeTariffFrontend::RequestCountry::HEADER],
+      )
+      "request_country=#{country_code.presence || 'unknown'}"
+    end,
+  ]
 
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store,
@@ -97,15 +105,16 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.logger = ActiveSupport::Logger.new($stdout)
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Logstash.new
   config.lograge.custom_options = lambda do |event|
     {
       request_id: event.payload[:request_id],
+      browser_session_id: event.payload[:browser_session_id],
       search_request_id: event.payload[:search_request_id],
       user_agent: event.payload[:user_agent],
       experiment_label: event.payload[:experiment_label],
+      request_country: event.payload[:request_country],
       params: event.payload[:params].except('controller', 'action', 'format', 'utf8', 'experiment'),
       exception_class: event.payload[:exception_class],
       exception_message: event.payload[:exception_message],

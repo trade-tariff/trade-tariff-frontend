@@ -1,27 +1,25 @@
 require 'addressable/uri'
 
 class SearchController < ApplicationController
+  include FindCommodityPage
   include GoodsNomenclatureHelper
   include ClassicSearchable
   include InteractiveSearchable
+  include QueuedGuidedSearchable
 
   skip_before_action :verify_authenticity_token, only: [:search]
+  # A signed grant authorises status reads; avoid page setup and remote flag evaluation.
+  skip_before_action :set_current_flagsmith_identity, :set_path_info, :set_search,
+                     :bots_no_index_if_historical, only: :queued_guided_search
 
   before_action :disable_switch_service_banner, only: [:quota_search]
   before_action :disable_search_form, except: [:search]
 
   def search
-    params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?
-
-    @search.q = params[:q] if params[:q]
-    @search.interactive_search = params[:interactive_search] == 'true'
-    @search.answers = params[:answers] if params[:answers].present?
-    @search.request_id = if @search.interactive_search
-                           safe_guided_search_identifier(params[:request_id]) || SecureRandom.uuid
-                         else
-                           params[:request_id].presence || SecureRandom.uuid
-                         end
-    @search.expanded_query = params[:expanded_query].presence
+    prepare_search
+    if params[:queued_search_id].present? && (!accepted_queued_search? || !interactive_search?)
+      return head :not_found
+    end
 
     if interactive_search?
       perform_interactive_search
@@ -29,7 +27,12 @@ class SearchController < ApplicationController
       perform_classic_search
     end
   rescue Search::InvalidDate
-    redirect_to find_commodity_path(search_params.merge(invalid_date: true))
+    redirect_params = search_params.merge(invalid_date: true)
+    if interactive_search_enabled? && !TradeTariffFrontend::ServiceChooser.xi?
+      redirect_params[:interactive_search] = params[:interactive_search] == 'true'
+      redirect_params[:q] = params[:q] if params[:q].present?
+    end
+    redirect_to find_commodity_path(redirect_params)
   end
 
   def suggestions
@@ -59,7 +62,7 @@ class SearchController < ApplicationController
     return head :unprocessable_content if event_attributes.nil? || request_id.nil?
 
     GuidedSearch::JourneyInstrumentation.record(
-      browser_session_id: guided_search_browser_session_id,
+      browser_session_id:,
       request_id:,
       experiment: Current.experiment,
       **event_attributes,
@@ -91,6 +94,19 @@ class SearchController < ApplicationController
   end
 
   private
+
+  def prepare_search
+    params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?
+    @search.q = params[:q] if params[:q]
+    @search.interactive_search = params[:interactive_search] == 'true'
+    @search.answers = params[:answers] if params[:answers].present?
+    @search.request_id = if @search.interactive_search
+                           safe_guided_search_identifier(params[:request_id]) || SecureRandom.uuid
+                         else
+                           params[:request_id].presence || SecureRandom.uuid
+                         end
+    @search.expanded_query = params[:expanded_query].presence
+  end
 
   def guided_search_event_params
     params.permit(
@@ -130,6 +146,18 @@ class SearchController < ApplicationController
         goods_nomenclature_item_id:,
         result_rank:,
         confidence:,
+        client_elapsed_ms: bounded_integer(event[:client_elapsed_ms], maximum: 86_400_000),
+      }
+    when 'start_again'
+      destination = event[:destination].to_s[
+        /\A(question|results|no_results|unknown_results|blocking_guidance|input_error|backend_error)\z/,
+      ]
+      return if destination.nil?
+
+      {
+        outcome: 'start_again',
+        destination:,
+        client_elapsed_ms: bounded_integer(event[:client_elapsed_ms], maximum: 86_400_000),
       }
     when 'page_visible'
       destination = event[:destination].to_s[
@@ -148,7 +176,7 @@ class SearchController < ApplicationController
 
   def safe_guided_search_identifier(value)
     identifier = value.to_s
-    identifier.match?(/\A[a-zA-Z0-9-]{1,64}\z/) ? identifier : nil
+    identifier.match?(Search::GUIDED_REQUEST_ID_PATTERN) ? identifier : nil
   end
 
   def bounded_integer(value, maximum:)
@@ -183,7 +211,9 @@ class SearchController < ApplicationController
 
     query_values = Rack::Utils.parse_query(back_url.query || '')
     query_values = query_values.merge(@search.query_attributes)
-    query_values = query_values.tap { |qv| qv.delete('invalid_date') }
+    # This redirect answers a keyword search, so it must not send the user to the AI tab even when
+    # the page they came from was opened on it with search_mode=guided.
+    query_values = query_values.except('invalid_date', 'search_mode')
 
     back_url.query = if @search.date.today?
                        CGI.unescape(query_values.except('year', 'month', 'day').to_query)

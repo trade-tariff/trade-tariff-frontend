@@ -24,7 +24,7 @@
             </div>
           <% end %>
           <% row.with_cell do %>
-            <%= govuk_link_to chapter, chapter_path(chapter, request.query_parameters.symbolize_keys), visually_hidden_prefix: "Chapter #{chapter.short_code}:" %>
+            <%= govuk_link_to chapter, chapter_path(chapter, navigation_query_params), visually_hidden_prefix: "Chapter #{chapter.short_code}:" %>
             <%= render partial: 'chapters/chapter_guides', locals: { chapter: chapter } %>
           <% end %>
         <% end %>

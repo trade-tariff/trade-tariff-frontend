@@ -1,6 +1,9 @@
 module InteractiveSearchable
   extend ActiveSupport::Concern
 
+  FAILURE_SUGGESTIONS_SESSION_KEY = :guided_search_failure_codes
+  MAX_RETAINED_FAILURE_JOURNEYS = 5
+
   private
 
   def perform_interactive_search
@@ -9,12 +12,19 @@ module InteractiveSearchable
       return
     end
 
-    return render_interactive_question if validate_interactive_answer == :invalid
+    if validate_interactive_answer == :invalid
+      prepare_search_failure_suggestions
+      return render_interactive_question
+    end
 
     merge_current_answer
+    if params[:queued_search_id].present? && !queued_search_owned?
+      return head :not_found
+    end
 
-    @results = @search.perform
+    @results = params[:queued_search_id].present? ? queued_search_result : @search.perform
     sync_interactive_request_id
+    prepare_search_failure_suggestions
 
     if @search.errors.any?
       render_interactive_search_page(outcome: 'backend_error')
@@ -23,7 +33,10 @@ module InteractiveSearchable
 
     respond_to do |format|
       format.html { route_interactive_results }
-      format.json { render json: SearchPresenter.new(@search, @results) }
+      format.json do
+        render json: SearchPresenter.new(@search, @results)
+        clear_search_failure_suggestions unless @results.has_pending_question?
+      end
       format.atom
     end
   end
@@ -76,13 +89,32 @@ module InteractiveSearchable
   end
 
   def interactive_search?
-    @search.interactive_search && interactive_search_enabled?
+    @search.interactive_search && (accepted_queued_search? || interactive_search_enabled_with_analytics?)
   end
 
   def sync_interactive_request_id
     return unless @results.respond_to?(:request_id) && @results.request_id.present?
 
     @search.request_id = @results.request_id
+  end
+
+  def prepare_search_failure_suggestions
+    suggestions = GuidedSearch::FailureSuggestions.new
+    retained = retained_search_failure_codes.filter_map { |request_id, retained_codes|
+      enabled_codes = suggestions.enabled_codes_for(retained_codes)
+      [request_id, enabled_codes] if enabled_codes.any?
+    }.to_h
+    retained_codes = retained.fetch(@search.request_id, [])
+    codes = suggestions.enabled_codes_for(Array(retained_codes) + @results.search_failures)
+
+    if codes.any?
+      retained.delete(@search.request_id)
+      retained[@search.request_id] = codes
+      retained = retained.to_a.last(MAX_RETAINED_FAILURE_JOURNEYS).to_h
+    end
+    store_search_failure_codes(retained)
+
+    @search_failure_suggestions = codes
   end
 
   def redirectable_interactive_blocking?
@@ -162,6 +194,7 @@ module InteractiveSearchable
     mark_interactive_search_page
     record_guided_search_journey(outcome: 'no_results')
     render :interactive_no_results
+    clear_search_failure_suggestions
   end
 
   def render_interactive_unknown_results
@@ -170,6 +203,7 @@ module InteractiveSearchable
     mark_interactive_search_page
     record_guided_search_journey(outcome: 'unknown_results')
     render :interactive_unknown_results
+    clear_search_failure_suggestions
   end
 
   def render_interactive_blocking
@@ -178,6 +212,7 @@ module InteractiveSearchable
     mark_interactive_search_page
     record_guided_search_journey(outcome: 'blocking_guidance')
     render :interactive_blocking
+    clear_search_failure_suggestions
   end
 
   def render_interactive_results
@@ -186,6 +221,7 @@ module InteractiveSearchable
     mark_interactive_search_page
     record_guided_search_journey(outcome: 'results')
     render :interactive_results
+    clear_search_failure_suggestions
   end
 
   def render_interactive_search_page(outcome:)
@@ -193,7 +229,26 @@ module InteractiveSearchable
     @hero_story = nil
     @recent_stories = []
     record_guided_search_journey(outcome:)
-    render 'find_commodities/show_interactive'
+    render find_commodity_template
+    clear_search_failure_suggestions
+  end
+
+  def clear_search_failure_suggestions
+    retained = retained_search_failure_codes
+    retained.delete(@search.request_id)
+    store_search_failure_codes(retained)
+  end
+
+  def retained_search_failure_codes
+    session[FAILURE_SUGGESTIONS_SESSION_KEY].to_h
+  end
+
+  def store_search_failure_codes(retained)
+    if retained.any?
+      session[FAILURE_SUGGESTIONS_SESSION_KEY] = retained
+    else
+      session.delete(FAILURE_SUGGESTIONS_SESSION_KEY)
+    end
   end
 
   def mark_interactive_search_page
@@ -203,21 +258,19 @@ module InteractiveSearchable
   def record_guided_search_journey(outcome:)
     @guided_search_outcome = outcome
     current_question = @results&.current_question
-
-    GuidedSearch::JourneyInstrumentation.record(
-      browser_session_id: guided_search_browser_session_id,
-      request_id: @search.request_id,
-      outcome:,
+    @guided_search_metrics = {
       question_count: @results&.answered_questions&.size.to_i + (current_question.present? ? 1 : 0),
       option_count: Array(current_question&.dig('options')).size,
       result_count: @results&.size.to_i,
       client_elapsed_ms: bounded_integer(params[:client_elapsed_ms], maximum: 86_400_000),
+    }
+
+    GuidedSearch::JourneyInstrumentation.record(
+      browser_session_id:,
+      request_id: @search.request_id,
+      outcome:,
+      **@guided_search_metrics,
       experiment: @search.experiment,
     )
-  end
-
-  def guided_search_browser_session_id
-    raw_id = session[:guided_search_browser_session_id] ||= SecureRandom.uuid
-    GuidedSearch::JourneyInstrumentation.browser_session_id(raw_id)
   end
 end

@@ -16,6 +16,10 @@ RSpec.describe Current do
     expect(described_class.flagsmith_unavailable).to be true
   end
 
+  it 'defaults request_country to an empty inquiry' do
+    expect(described_class.request_country).to be_a(ActiveSupport::StringInquirer).and be_empty
+  end
+
   it 'resets flagsmith_identity between examples' do
     expect(described_class.flagsmith_identity).to be_nil
   end

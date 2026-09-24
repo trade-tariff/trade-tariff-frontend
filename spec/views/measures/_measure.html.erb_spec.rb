@@ -35,6 +35,10 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
     let(:measure) { build(:measure, :prohibitive, :with_additional_code) }
 
     it { expect(rendered).to render_template('measures/additional_codes/_prohibitive') }
+
+    it 'explains that the restriction applies to the additional code' do
+      expect(rendered).to have_text('applies to goods covered under additional code:')
+    end
   end
 
   context 'with a non-prohibitive measure that has an additional code' do

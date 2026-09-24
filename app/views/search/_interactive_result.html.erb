@@ -19,4 +19,9 @@
         },
         new_tab: true %>
   </div>
+  <% if SearchResultsHelper::CONFIDENCE_LEVELS.key?(result.try(:confidence).to_s.capitalize) %>
+    <div class="interactive-result__confidence">
+      <%= render_confidence_meter(result.confidence) %>
+    </div>
+  <% end %>
 </div>

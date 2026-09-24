@@ -72,6 +72,22 @@ RSpec.describe 'news_items/index', type: :view do
     it { is_expected.to have_css 'p', text: /no updates/ }
   end
 
+  context 'with the AI search update' do
+    before { assign :listed_news_items, [News::AiSearchUpdate.new, *paginated_news_items] }
+
+    it { is_expected.to have_link 'AI-assisted search', href: ai_search_information_path }
+    it { is_expected.to have_css 'article h2', count: 4 }
+  end
+
+  context 'with only the AI search update' do
+    let(:news_items) { [] }
+
+    before { assign :listed_news_items, [News::AiSearchUpdate.new] }
+
+    it { is_expected.to have_link 'AI-assisted search', href: ai_search_information_path }
+    it { is_expected.not_to have_css 'p', text: /no updates/ }
+  end
+
   context 'when filtering by year' do
     before { assign :filter_year, news_years.second.year }
 

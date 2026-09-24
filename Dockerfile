@@ -1,4 +1,4 @@
-ARG RUBY_VERSION=4.0.6
+ARG RUBY_VERSION=4.0.7
 ARG ALPINE_VERSION=3.24
 
 #### Build image #####
@@ -48,16 +48,21 @@ RUN apk add --no-cache \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone && \
     rm -f /usr/local/lib/ruby/gems/*/specifications/default/json-*.gemspec && \
+    rm -f /usr/local/lib/ruby/gems/*/specifications/default/resolv-*.gemspec && \
     rm -rf /usr/local/lib/ruby/gems/*/gems/json-* && \
-    rm -rf /usr/local/lib/ruby/*/json.rb /usr/local/lib/ruby/*/json /usr/local/lib/ruby/*/*-linux-musl/json
+    rm -rf /usr/local/lib/ruby/gems/*/gems/resolv-[0-9]* && \
+    rm -rf /usr/local/lib/ruby/*/json.rb /usr/local/lib/ruby/*/json /usr/local/lib/ruby/*/*-linux-musl/json && \
+    rm -f /usr/local/lib/ruby/*/resolv.rb
 
 ENV RAILS_SERVE_STATIC_FILES=true \
     RAILS_ENV=production \
     SSL_PORT=8443 \
     TZ=Europe/London
 
-RUN addgroup -S tariff && \
-    adduser -S tariff -G tariff
+# Pin uid/gid so the ecs-service module's writable-volume permissions init container
+# can chown the read-only-root-filesystem mounts to a known id (container_user).
+RUN addgroup -S -g 1000 tariff && \
+    adduser -S -u 1000 -G tariff tariff
 
 WORKDIR /home/tariff
 

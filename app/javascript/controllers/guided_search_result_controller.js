@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { guidedSearchPageElapsedMs, trackSearchJourney } from 'search-analytics'
 
 export default class extends Controller {
   static values = {
@@ -12,6 +13,14 @@ export default class extends Controller {
   select() {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
     const confidence = this.hasConfidenceValue ? this.confidenceValue.toLowerCase() : 'unknown'
+    const clientElapsedMs = guidedSearchPageElapsedMs()
+
+    trackSearchJourney('result_selected', {
+      goods_nomenclature_item_id: this.goodsNomenclatureItemIdValue,
+      result_rank: this.rankValue,
+      confidence,
+      client_elapsed_ms: clientElapsedMs,
+    })
 
     window.fetch(this.eventUrlValue, {
       method: 'POST',
@@ -26,6 +35,7 @@ export default class extends Controller {
         goods_nomenclature_item_id: this.goodsNomenclatureItemIdValue,
         result_rank: this.rankValue,
         confidence,
+        client_elapsed_ms: clientElapsedMs,
       }),
     }).catch(() => {})
   }

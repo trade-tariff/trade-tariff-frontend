@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   include BotProtection
   include ErrorHandling
 
+  prepend_before_action :set_current_request_country
   before_action :maintenance_mode_if_active
   before_action :set_cache
   before_action :set_current_flagsmith_identity
@@ -47,6 +48,13 @@ class ApplicationController < ActionController::Base
 
   def disable_switch_service_banner
     @disable_switch_service_banner = true
+  end
+
+  def set_current_request_country
+    country_code = TradeTariffFrontend::RequestCountry.normalize(
+      request.headers[TradeTariffFrontend::RequestCountry::HEADER],
+    )
+    Current.request_country = ActiveSupport::StringInquirer.new(country_code)
   end
 
   def is_switch_service_banner_enabled?
@@ -144,19 +152,38 @@ class ApplicationController < ActionController::Base
   def append_info_to_payload(payload)
     super
     payload[:request_id] = request.request_id
+    payload[:browser_session_id] = browser_session_id
     payload[:search_request_id] = @search&.request_id
     payload[:user_agent] = request.env['HTTP_USER_AGENT']
     payload[:experiment_label] = Current.experiment if Current.experiment.present?
+    payload[:request_country] = Current.request_country.presence&.to_s || 'unknown'
     payload.merge!(@handled_exception_log_context) if defined?(@handled_exception_log_context) && @handled_exception_log_context.present?
+  end
+
+  def browser_session_id
+    raw_id = session[:guided_search_browser_session_id] ||= SecureRandom.uuid
+    GuidedSearch::JourneyInstrumentation.browser_session_id(raw_id)
+  rescue StandardError
+    # Optional correlation must not prevent a page from being served.
+    nil
   end
 
   def set_path_info
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
                    faq_send_feedback_path: green_lanes_send_feedback_path }
 
-    if interactive_search_enabled?
+    if interactive_search_enabled_with_analytics?
       @path_info[:interactive_search_suggestions_path] = interactive_search_suggestions_path(format: :json)
     end
+  end
+
+  def interactive_search_enabled_with_analytics?
+    enabled = interactive_search_enabled?
+    @search_feature_evaluation = Current.flagsmith_evaluations.fetch(
+      'interactive_search', { enabled:, source: 'default', reason: 'missing_evaluation' }
+    ).dup
+    assign_flagsmith_sample_experiment
+    enabled
   end
 
   def country

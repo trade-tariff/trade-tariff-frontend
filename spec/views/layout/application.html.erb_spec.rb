@@ -18,6 +18,14 @@ RSpec.describe 'layouts/application', type: :view do
     expect(rendered).not_to have_css('.app-feedback-useful-banner')
   end
 
+  it 'preserves search context in the enquiry link' do
+    assign :search, Search.new(request_id: 'search-request-123')
+
+    render
+
+    expect(rendered).to have_link('Enquiry Form', href: '/enquiry_form?request_id=search-request-123')
+  end
+
   context 'when rendering an interactive search page' do
     before { assign(:interactive_search_page, true) }
 

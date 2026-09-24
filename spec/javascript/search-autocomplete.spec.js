@@ -1,5 +1,7 @@
 /* eslint-env node, jest */
 
+import Cookies from 'js-cookie';
+
 import {
   initializeSearchAutocomplete,
   initializeSearchAutocompletes,
@@ -81,6 +83,25 @@ describe('initializeSearchAutocomplete', () => {
     autocompleteConfig.onConfirm('tahini paste');
 
     expect(new FormData(form).get('q')).toBe('tahini paste');
+  });
+
+  it('publishes keyword context before programmatic submission', () => {
+    Cookies.set('cookies_policy', JSON.stringify({ usage: true }));
+    document.head.innerHTML = `<script type="application/json" id="search-analytics-context">${JSON.stringify({
+      search_experience: 'guided_beta', search_mode: 'guided', search_state: 'results',
+    })}</script>`;
+    window.dataLayer = [];
+    let submittedContext;
+    form.submit.mockImplementation(() => { submittedContext = window.dataLayer.at(-1); });
+
+    autocompleteConfig.onConfirm('tahini');
+
+    expect(submittedContext).toMatchObject({
+      search_experience: 'guided_beta', search_mode: 'keyword', search_state: 'submitted',
+    });
+    Cookies.remove('cookies_policy');
+    delete window.dataLayer;
+    document.head.innerHTML = '';
   });
 
   it('submits an explicitly clicked suggestion from an older result set', () => {
@@ -179,6 +200,8 @@ describe('initializeSearchAutocompletes', () => {
     document.body.innerHTML = `
       <form>
         <div
+          data-described-by="query-hint"
+          data-input-value="coffee beans"
           data-module="search-autocomplete"
           data-input-id="search-q-field"
           data-input-name="q"
@@ -195,6 +218,8 @@ describe('initializeSearchAutocompletes', () => {
     const fallback = document.querySelector('#search-q-field');
     expect(fallback.name).toBe('q');
     expect(fallback.required).toBe(true);
+    expect(fallback.value).toBe('coffee beans');
+    expect(fallback.getAttribute('aria-describedby')).toBe('query-hint');
     expect(fallback.getAttribute('role')).toBeNull();
   });
 });

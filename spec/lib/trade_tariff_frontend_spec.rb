@@ -121,6 +121,21 @@ RSpec.describe TradeTariffFrontend do
     end
   end
 
+  describe '.enabled_flagsmith_feature_names' do
+    it 'does not inspect flags again after the SDK becomes unavailable', :aggregate_failures do
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+      stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'development'))
+
+      flags = instance_double(TestFlagsmithClient::TestFlags)
+      allow(flags).to receive(:get_flag).and_raise(Faraday::ConnectionFailed.new('timeout'))
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_return(flags)
+
+      expect(described_class.enabled_flagsmith_feature_names).to be_empty
+      expect(flags).to have_received(:get_flag).once
+    end
+  end
+
   describe '.developer_portal_url' do
     around do |example|
       described_class.instance_variable_set(:@base_domain, nil)
@@ -168,25 +183,13 @@ RSpec.describe TradeTariffFrontend do
         stub_const('ENV', ENV.to_hash.except('FLAGSMITH_API_URL').merge('ENVIRONMENT' => environment))
       end
 
-      {
-        'development' => 'https://flags-edge.dev.trade-tariff.service.gov.uk/api/v1',
-        'staging' => 'https://flags-edge.staging.trade-tariff.service.gov.uk/api/v1',
-        'production' => 'https://flags-edge.trade-tariff.service.gov.uk/api/v1',
-      }.each do |configured_environment, expected_url|
+      %w[development staging production test].each do |configured_environment|
         context "when ENVIRONMENT is #{configured_environment}" do
           let(:environment) { configured_environment }
 
-          it 'returns the Flagsmith Edge URL for that environment' do
-            expect(described_class.flagsmith_api_url).to eq(expected_url)
+          it 'returns the internal Cloud Map Edge Proxy URL' do
+            expect(described_class.flagsmith_api_url).to eq('http://flagsmith-edge.tariff.internal:8000/api/v1')
           end
-        end
-      end
-
-      context 'when ENVIRONMENT is not recognised' do
-        let(:environment) { 'test' }
-
-        it 'does not return a Flagsmith Edge URL' do
-          expect(described_class.flagsmith_api_url).to be_nil
         end
       end
     end
@@ -196,6 +199,35 @@ RSpec.describe TradeTariffFrontend do
     before do
       Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
       allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+    end
+
+    it 'merges persisted preferences with transient country and experiment traits' do
+      allow(FlagsmithManagementClient.instance).to receive(:get_traits_for)
+        .and_return('interactive_search' => false, 'request_country' => 'us')
+      Current.flagsmith_request_traits = {
+        'interactive_search' => { value: true, transient: true },
+        'request_country' => { value: 'gb', transient: true },
+      }
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
+
+      described_class.interactive_search_enabled?
+
+      expect(FlagsmithClient.instance).to have_received(:get_flags_for).with(
+        Current.flagsmith_identity,
+        'interactive_search' => { value: true, transient: true },
+        'request_country' => { value: 'gb', transient: true },
+      )
+    end
+
+    it 'sends a persisted manual opt-in as a transient evaluation input' do
+      allow(FlagsmithManagementClient.instance).to receive(:get_traits_for).and_return('interactive_search' => true)
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
+
+      described_class.interactive_search_enabled?
+
+      expect(FlagsmithClient.instance).to have_received(:get_flags_for).with(
+        Current.flagsmith_identity, 'interactive_search' => { value: true, transient: true }
+      )
     end
 
     def capture_flagsmith_fallback_events

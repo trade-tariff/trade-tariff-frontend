@@ -7,8 +7,9 @@ class FeedbackController < ApplicationController
     @feedback.page_useful = params[:page_useful]
     @feedback.referrer = feedback_url
     @feedback.query = feedback_query
-    @feedback.request_id = feedback_request_id
+    @feedback.request_id = search_request_id
     @feedback.date = feedback_date
+    @feedback.feature_flags = feedback_feature_flags
   end
 
   def create
@@ -16,8 +17,9 @@ class FeedbackController < ApplicationController
     @feedback.authenticity_token = params[:authenticity_token]
     @feedback.referrer = params[:feedback_url]
     @feedback.query = params[:feedback_query]
-    @feedback.request_id = params[:feedback_request_id]
+    @feedback.request_id = params[:search_request_id]
     @feedback.date = params[:feedback_date]
+    @feedback.feature_flags = feedback_feature_flags
 
     return redirect_to(find_commodity_path) unless @feedback.valid_page_useful_options?
 
@@ -50,8 +52,8 @@ class FeedbackController < ApplicationController
     params[:feedback_query].presence || referrer_query_param('q')
   end
 
-  def feedback_request_id
-    params[:feedback_request_id].presence || referrer_query_param('request_id')
+  def search_request_id
+    params[:search_request_id].presence || referrer_query_param('request_id')
   end
 
   def referrer_query_param(key)
@@ -69,6 +71,13 @@ class FeedbackController < ApplicationController
 
   def feedback_date
     params[:feedback_date].presence || referrer_date_param
+  end
+
+  def feedback_feature_flags
+    return TradeTariffFrontend.enabled_flagsmith_feature_names unless params.key?(:feedback_feature_flags)
+
+    registered_names = TradeTariffFrontend::Config.registered_flags.values.pluck(:name)
+    params[:feedback_feature_flags].to_s.split(',') & registered_names
   end
 
   def referrer_date_param

@@ -344,6 +344,21 @@ RSpec.describe ApplicationHelper, type: :helper do
       it 'derives feedback_url from the current page URL' do
         expect(helper.feedback_context_params).to include(feedback_url: 'http://test.host/commodities/1234567890')
       end
+
+      it 'includes enabled feature flags' do
+        allow(TradeTariffFrontend).to receive(:enabled_flagsmith_feature_names)
+          .and_return(%w[interactive_search webchat])
+
+        expect(helper.feedback_context_params).to include(
+          feedback_feature_flags: 'interactive_search,webchat',
+        )
+      end
+
+      it 'includes an explicit empty feature flag context' do
+        allow(TradeTariffFrontend).to receive(:enabled_flagsmith_feature_names).and_return([])
+
+        expect(helper.feedback_context_params).to include(feedback_feature_flags: '')
+      end
     end
 
     context 'when already on the feedback controller' do
@@ -369,18 +384,46 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+  describe '#enquiry_form_path_with_context' do
+    subject(:path) { helper.enquiry_form_path_with_context }
+
+    it 'includes the current search request id' do
+      assign(:search, build(:search, request_id: 'search-request-123'))
+
+      expect(path).to eq('/enquiry_form?request_id=search-request-123')
+    end
+
+    it 'falls back to the request params' do
+      controller.params[:request_id] = 'search-request-456'
+
+      expect(path).to eq('/enquiry_form?request_id=search-request-456')
+    end
+
+    it 'preserves context from the feedback page' do
+      controller.params[:search_request_id] = 'search-request-789'
+
+      expect(path).to eq('/enquiry_form?request_id=search-request-789')
+    end
+
+    it 'omits a missing request id' do
+      expect(path).to eq('/enquiry_form')
+    end
+  end
+
   describe '#current_feedback_params' do
     it 'passes through the feedback params already on the request' do
       controller.params[:feedback_url] = 'http://test.host/commodities/1234567890'
       controller.params[:feedback_query] = 'leather handbags'
-      controller.params[:feedback_request_id] = 'abc-123'
+      controller.params[:search_request_id] = 'abc-123'
       controller.params[:feedback_date] = '2026-01-01'
+      controller.params[:feedback_feature_flags] = 'interactive_search,webchat'
 
       expect(helper.current_feedback_params).to eq(
         feedback_url: 'http://test.host/commodities/1234567890',
         feedback_query: 'leather handbags',
-        feedback_request_id: 'abc-123',
+        search_request_id: 'abc-123',
         feedback_date: '2026-01-01',
+        feedback_feature_flags: 'interactive_search,webchat',
       )
     end
 

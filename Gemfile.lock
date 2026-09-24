@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/routing-filter.git
-  revision: b1c5f06d8e40ed46384c9125c713615753f539fd
+  revision: 658eb8feeeabbeaa937a05f0f32869e2c2f658bb
   specs:
     routing-filter (1.0.0)
       actionpack (>= 7.1)
@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/uktt.git
-  revision: a19a2943f24cf92ea927abaf3c33f4fd8bf04675
+  revision: 4825239f8b4044d940717a41ffdc0e5ca306ffcb
   specs:
     uktt (4.0.0)
       faraday
@@ -131,8 +131,8 @@ GEM
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.3.0)
-    bigdecimal (4.1.2)
-    bootsnap (1.25.0)
+    bigdecimal (4.1.3)
+    bootsnap (1.26.0)
       msgpack (~> 1.5)
     brakeman (8.0.6)
       racc
@@ -182,7 +182,7 @@ GEM
       logger
     faraday-follow_redirects (0.5.0)
       faraday (>= 1, < 3)
-    faraday-http-cache (2.7.0)
+    faraday-http-cache (2.8.0)
       faraday (>= 0.8)
     faraday-net_http (3.4.4)
       net-http (~> 0.5)
@@ -233,10 +233,10 @@ GEM
       nokogiri (~> 1.12)
       rinku (~> 2.0)
       sanitize (>= 6, < 8)
-    govuk-components (6.4.1)
+    govuk-components (6.5.0)
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
-      view_component (>= 4.9, < 4.13)
+      view_component (>= 4.9, < 4.16)
     govuk_app_config (9.25.1)
       connection_pool (< 4)
       logstasher (~> 2.1)
@@ -250,7 +250,7 @@ GEM
       sentry-rails (>= 5.3, < 7.0)
       sentry-ruby (>= 5.3, < 7.0)
       statsd-ruby (~> 1.5)
-    govuk_design_system_formbuilder (6.4.0)
+    govuk_design_system_formbuilder (6.5.0)
       actionview (>= 7.2)
       activemodel (>= 7.2)
       activesupport (>= 7.2)
@@ -363,8 +363,8 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    msgpack (1.8.4)
-    multi_json (1.21.1)
+    msgpack (1.8.5)
+    multi_json (1.21.2)
     nenv (0.3.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
@@ -379,7 +379,7 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    newrelic_rpm (10.7.0)
+    newrelic_rpm (10.8.0)
       logger
     nio4r (2.7.5)
     nokogiri (1.19.4-arm64-darwin)
@@ -597,7 +597,7 @@ GEM
     puma (8.0.2)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.2.6)
+    rack (3.2.7)
     rack-attack (6.8.0)
       rack (>= 1.0, < 4)
     rack-cors (3.0.0)
@@ -666,6 +666,7 @@ GEM
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
+    resolv (0.7.2)
     rexml (3.4.4)
     rinku (2.0.6)
     roo (3.0.0)
@@ -742,7 +743,7 @@ GEM
     ruby-lsp-rspec (0.1.29)
       ruby-lsp (~> 0.26.0)
     ruby-progressbar (1.13.0)
-    rubyzip (3.2.2)
+    rubyzip (3.4.1)
     sanitize (7.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.16.8)
@@ -758,7 +759,7 @@ GEM
     shellany (0.0.1)
     shoulda-matchers (8.0.1)
       activesupport (>= 7.2)
-    simplecov (1.1.1)
+    simplecov (1.3.0)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -785,11 +786,11 @@ GEM
     uri (1.1.1)
     useragent (0.16.11)
     vcr (6.4.0)
-    view_component (4.12.0)
+    view_component (4.15.0)
       actionview (>= 7.1.0)
       activesupport (>= 7.1.0)
       concurrent-ruby (~> 1)
-    webmock (3.26.2)
+    webmock (3.26.4)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -823,7 +824,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faraday
-  faraday-http-cache
+  faraday-http-cache (~> 2.8)
   faraday-net_http_persistent
   faraday-retry
   flagsmith (~> 4.3)
@@ -853,6 +854,7 @@ DEPENDENCIES
   rails (~> 8.1)
   rails-controller-testing!
   redis
+  resolv (>= 0.7.2)
   roo
   routing-filter!
   rspec-rails
@@ -869,7 +871,7 @@ DEPENDENCIES
   wizard_steps
 
 RUBY VERSION
-  ruby 4.0.6
+  ruby 4.0.7
 
 BUNDLED WITH
   4.0.3

@@ -26,19 +26,8 @@ export default class CookieManager {
   }
 
   usage() {
-    if (this.getCookiesPolicy()) {
-      const usage = this.getCookiesPolicy().usage;
-
-      if (usage === 'true') {
-        return true;
-      } else if (usage === 'false') {
-        return false;
-      } else {
-        return usage;
-      }
-    } else {
-      return false;
-    }
+    const usage = this.getCookiesPolicy()?.usage;
+    return usage === true || usage === 'true';
   }
 
   shouldOpenTree() {

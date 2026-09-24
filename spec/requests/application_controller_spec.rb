@@ -1,4 +1,21 @@
 RSpec.describe ApplicationController, type: :request do
+  it 'captures the request country before an earlier callback halts the request' do
+    allow(ENV).to receive(:[]).and_call_original
+    allow(ENV).to receive(:[]).with('MAINTENANCE').and_return('true')
+    events = []
+
+    ActiveSupport::Notifications.subscribed(
+      ->(*args) { events << ActiveSupport::Notifications::Event.new(*args) },
+      'process_action.action_controller',
+    ) do
+      get '/news', headers: { 'CloudFront-Viewer-Country' => 'GB' }
+    end
+
+    event = events.find { |candidate| candidate.payload[:controller] == 'NewsItemsController' }
+
+    expect(event.payload[:request_country]).to eq('gb')
+  end
+
   describe 'GET #index' do
     subject(:do_response) { get('/healthcheck') && response }
 

@@ -102,7 +102,7 @@ RSpec.describe ServiceHelper, type: :helper do
   end
 
   describe '#switch_service_button' do
-    subject { helper.switch_service_button }
+    subject(:switch_service_button) { helper.switch_service_button }
 
     before { allow(request).to receive(:path).and_return '/some_path' }
 
@@ -120,6 +120,28 @@ RSpec.describe ServiceHelper, type: :helper do
       it { is_expected.to have_css 'span.switch-service-control span.arrow', text: nil }
       it { is_expected.to have_css 'span.switch-service-control a.govuk-link--no-underline' }
       it { is_expected.to have_link 'Switch to the UK Integrated Online Tariff', href: '/some_path' }
+    end
+
+    context 'with search tracking and filters' do
+      include_context 'with UK service'
+
+      before do
+        allow(request).to receive(:filtered_path).and_return('/commodities/0101300000?request_id=search-123&country=FR&day=1&month=2&year=2026')
+      end
+
+      it 'keeps filters without search tracking' do
+        expect(switch_service_button).to have_link(href: '/xi/commodities/0101300000?country=FR&day=1&month=2&year=2026')
+      end
+    end
+
+    context 'with only search tracking' do
+      include_context 'with XI service'
+
+      before do
+        allow(request).to receive(:filtered_path).and_return('/xi/commodities/0101300000?request_id=search-123')
+      end
+
+      it { is_expected.to have_link(href: '/commodities/0101300000') }
     end
 
     context 'with service part later in URL' do

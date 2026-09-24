@@ -1,25 +1,28 @@
 {
   "name": "trade-tariff-frontend",
   "private": true,
+  "resolutions": {
+    "browserslist": "^4.28.7"
+  },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@babel/preset-env": "^8.0.2",
+    "@babel/preset-env": "^8.0.5",
     "@hotwired/stimulus": "^3.2.2",
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "^1.63.0",
     "accessible-autocomplete": "^3.0.1",
-    "babel-jest": "^30.4.1",
+    "babel-jest": "^30.5.1",
     "dotenv": "^17.4.2",
-    "govuk-frontend": "6.4.0",
+    "govuk-frontend": "6.5.1",
     "gh-pages": "^6.3.0",
-    "jest": "^30.4.2",
-    "jest-environment-jsdom": "^30.4.1",
+    "jest": "^30.5.1",
+    "jest-environment-jsdom": "^30.5.1",
     "jquery": "4.0.0",
     "jquery-grid-navigation": "^1.0.1",
     "jquery-linear-navigation": "^1.0.2",
     "jquery-prevent-scroll-keys": "^1.0.1",
     "js-cookie": "^3.0.8",
     "mark.js": "^8.11.1",
-    "sass": "^1.102.0"
+    "sass": "^1.104.1"
   },
   "scripts": {
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/print.sass.scss:./app/assets/builds/print.css --no-source-map --load-path=node_modules --load-path=app/assets/stylesheets",

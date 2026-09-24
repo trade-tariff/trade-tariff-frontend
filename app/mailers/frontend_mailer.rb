@@ -12,6 +12,7 @@ class FrontendMailer < ActionMailer::Base
     @request_id = feedback.request_id
     @date = feedback.date
     @page_useful = feedback.page_useful
+    @feature_flags = feedback.feature_flags
 
     mail subject: 'Trade Tariff Feedback'
   end

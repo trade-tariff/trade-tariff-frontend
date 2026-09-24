@@ -1,0 +1,16 @@
+shared:
+  query_expansion_failed:
+    enabled: true
+    level: warn
+  embedding_generation_failed:
+    enabled: true
+    level: warn
+  vector_retrieval_failed:
+    enabled: true
+    level: warn
+  interactive_search_failed:
+    enabled: true
+    level: warn
+  opensearch_failed:
+    enabled: true
+    level: warn

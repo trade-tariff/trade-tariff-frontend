@@ -7,6 +7,8 @@ RSpec.describe EnquiryForm do
 
     context 'when the request is successful' do
       before do
+        allow(TradeTariffFrontend).to receive(:green_lanes_api_token)
+
         stub_api_request('enquiry_form/submissions', :post)
           .with(
             body: hash_including(
@@ -20,6 +22,12 @@ RSpec.describe EnquiryForm do
       end
 
       it { is_expected.to be_a described_class }
+
+      it 'does not add the Green Lanes authentication token' do
+        response
+
+        expect(TradeTariffFrontend).not_to have_received(:green_lanes_api_token)
+      end
 
       it 'returns the resource id' do
         expect(response['resource_id']).to eq(resource_id)

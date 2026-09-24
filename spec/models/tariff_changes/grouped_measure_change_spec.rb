@@ -247,6 +247,7 @@ RSpec.describe TariffChanges::GroupedMeasureChange do
 
   describe '#geographical_area_description' do
     let(:grouped_measure_change) { build(:grouped_measure_change) }
+    let(:as_of) { Date.current }
 
     before do
       # Mock the geographical_area to have the expected long_description
@@ -257,32 +258,32 @@ RSpec.describe TariffChanges::GroupedMeasureChange do
 
     context 'without excluded countries' do
       before do
-        allow(grouped_measure_change).to receive(:excluded_country_list).and_return('')
+        allow(grouped_measure_change).to receive(:excluded_country_list).with(as_of:).and_return('')
       end
 
       it 'returns the geographical area long description' do
-        expect(grouped_measure_change.geographical_area_description).to eq('United Kingdom')
+        expect(grouped_measure_change.geographical_area_description(as_of:)).to eq('United Kingdom')
       end
     end
 
     context 'with excluded countries' do
       before do
-        allow(grouped_measure_change).to receive(:excluded_country_list).and_return('France, Germany')
+        allow(grouped_measure_change).to receive(:excluded_country_list).with(as_of:).and_return('France, Germany')
       end
 
       it 'returns description with exclusions' do
         expected = 'United Kingdom excluding France, Germany'
-        expect(grouped_measure_change.geographical_area_description).to eq(expected)
+        expect(grouped_measure_change.geographical_area_description(as_of:)).to eq(expected)
       end
     end
 
     context 'with blank excluded countries list' do
       before do
-        allow(grouped_measure_change).to receive(:excluded_country_list).and_return('   ')
+        allow(grouped_measure_change).to receive(:excluded_country_list).with(as_of:).and_return('   ')
       end
 
       it 'returns only the geographical area description' do
-        expect(grouped_measure_change.geographical_area_description).to eq('United Kingdom')
+        expect(grouped_measure_change.geographical_area_description(as_of:)).to eq('United Kingdom')
       end
     end
   end

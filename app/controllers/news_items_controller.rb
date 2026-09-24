@@ -14,6 +14,14 @@ class NewsItemsController < ApplicationController
     end
 
     @news_items = News::Item.updates_page(**news_index_params)
+    @listed_news_items = News::AiSearchUpdate.merge(
+      @news_items,
+      enabled: interactive_search_enabled?,
+      year: @filter_year,
+      collection: @filter_collection,
+      collection_id: params[:collection_id],
+      page: params[:page],
+    )
   rescue Faraday::ServerError
     redirect_to not_found_path
   end

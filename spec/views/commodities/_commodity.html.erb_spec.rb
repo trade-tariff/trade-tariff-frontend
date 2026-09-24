@@ -6,6 +6,17 @@ RSpec.describe 'commodities/_commodity', type: :view do
 
   let(:commodity) { build :commodity }
 
+  context 'with a search request ID' do
+    before do
+      allow(request).to receive(:query_parameters).and_return('request_id' => 'search-123', 'country' => 'FR')
+    end
+
+    it 'keeps filters without search tracking', :aggregate_failures do
+      expect(rendered_page).to have_link(href: commodity_path(commodity, country: 'FR'))
+      expect(rendered_page).not_to include('search-123')
+    end
+  end
+
   context 'when the commodity has children' do
     let(:commodity) { build(:heading, :with_subheading_and_commodity, producline_suffix:).commodities.first }
 

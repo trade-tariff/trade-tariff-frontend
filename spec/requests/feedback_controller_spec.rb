@@ -10,6 +10,36 @@ RSpec.describe FeedbackController, type: :request do
 
     it { is_expected.to have_http_status :success }
 
+    it 'captures enabled feature flags' do
+      enable_feature(:webchat)
+
+      get new_feedback_path
+
+      feedback_form = Nokogiri::HTML(response.body)
+      expect(feedback_form.at_css('input[name="feedback_feature_flags"]')['value']).to eq('webchat')
+    end
+
+    it 'preserves the search request identifier in the enquiry link' do
+      get new_feedback_path(search_request_id: 'search-request-123')
+
+      enquiry_link = Nokogiri::HTML(response.body).css('a').find { |link| link.text.strip == 'enquiry form' }
+
+      expect(enquiry_link['href']).to eq(
+        product_experience_enquiry_form_path(request_id: 'search-request-123'),
+      )
+    end
+
+    it 'preserves a search request identifier recovered from the referrer' do
+      get new_feedback_path,
+          headers: { 'HTTP_REFERER' => 'http://test.host/search?request_id=search-request-456' }
+
+      enquiry_link = Nokogiri::HTML(response.body).css('a').find { |link| link.text.strip == 'enquiry form' }
+
+      expect(enquiry_link['href']).to eq(
+        product_experience_enquiry_form_path(request_id: 'search-request-456'),
+      )
+    end
+
     context 'with HTTP_REFERER set' do
       before do
         get new_feedback_path, headers: { 'HTTP_REFERER' => 'http://test.host/404' }
@@ -44,8 +74,9 @@ RSpec.describe FeedbackController, type: :request do
         feedback: { message: },
         feedback_url: large_context,
         feedback_query: large_context,
-        feedback_request_id: large_context,
+        search_request_id: large_context,
         feedback_date: large_context,
+        feedback_feature_flags: large_context,
         authenticity_token: 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw',
       }
     end
@@ -61,7 +92,13 @@ RSpec.describe FeedbackController, type: :request do
       get new_feedback_path, params: params_with_large_context.except(:feedback, :authenticity_token)
       post feedbacks_path, params: params_with_large_context
 
-      expect(session.to_hash.keys).not_to include('feedback_referrer', 'feedback_query', 'feedback_request_id', 'feedback_date')
+      expect(session.to_hash.keys).not_to include(
+        'feedback_referrer',
+        'feedback_query',
+        'search_request_id',
+        'feedback_date',
+        'feedback_feature_flags',
+      )
     end
 
     it 'keeps the session cookie well under the browser 4096-byte limit' do
@@ -115,6 +152,10 @@ RSpec.describe FeedbackController, type: :request do
       expect(ActionMailer::Base.deliveries.count).to eq(1)
     end
 
+    it 'reports when no feature flags were enabled' do
+      expect(ActionMailer::Base.deliveries.last.body).to include('Feature flags: None')
+    end
+
     context 'when honeypot (telephone field) captcha data included' do
       let(:params) do
         {
@@ -148,6 +189,23 @@ RSpec.describe FeedbackController, type: :request do
 
       it 'includes users selected choice in the email' do
         expect(ActionMailer::Base.deliveries.last.body).to include('Found this page useful: yes')
+      end
+    end
+
+    context 'with unknown feature flags' do
+      let(:params) do
+        {
+          feedback: { message: },
+          feedback_feature_flags: 'interactive_search,unknown_feature',
+          authenticity_token: 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw',
+        }
+      end
+
+      it 'omits unregistered names' do
+        email = Nokogiri::HTML(ActionMailer::Base.deliveries.last.body.to_s)
+        feature_flags = email.css('p').find { |paragraph| paragraph.text.start_with?('Feature flags:') }
+
+        expect(feature_flags.text).to eq('Feature flags: interactive_search')
       end
     end
 
@@ -197,7 +255,9 @@ RSpec.describe FeedbackController, type: :request do
       )
     end
 
-    it 'sends the search URL, query, request id and date of trade to support when the URL has no query param', :aggregate_failures do
+    it 'sends the search and feature flag context to support when the URL has no query param', :aggregate_failures do
+      enable_feature(:interactive_search)
+      enable_feature(:webchat)
       post perform_search_path, params: { q: 'leather handbags', request_id: 'search-request-123', day: '5', month: '6', year: '2026' }
 
       expect(response).to have_http_status(:ok)
@@ -214,18 +274,25 @@ RSpec.describe FeedbackController, type: :request do
         expect(feedback_params).to include(
           'feedback_url' => 'http://www.example.com/search',
           'feedback_query' => 'leather handbags',
-          'feedback_request_id' => 'search-request-123',
+          'search_request_id' => 'search-request-123',
           'feedback_date' => '2026-06-05',
+          'feedback_feature_flags' => 'interactive_search,webchat',
         )
       end
 
       get feedback_hrefs.first
+
+      feedback_form = Nokogiri::HTML(response.body)
+      expect(feedback_form.at_css('input[name="search_request_id"]')['value']).to eq('search-request-123')
+      expect(feedback_form.at_css('input[name="feedback_feature_flags"]')['value']).to eq('interactive_search,webchat')
+
       post feedbacks_path, params: {
         feedback: { message: },
         feedback_url: 'http://www.example.com/search',
         feedback_query: 'leather handbags',
-        feedback_request_id: 'search-request-123',
+        search_request_id: 'search-request-123',
         feedback_date: '2026-06-05',
+        feedback_feature_flags: 'interactive_search,webchat',
         authenticity_token:,
       }
 
@@ -233,8 +300,9 @@ RSpec.describe FeedbackController, type: :request do
 
       expect(email_body).to include('URL: http://www.example.com/search')
       expect(email_body).to include('Query: leather handbags')
-      expect(email_body).to include('Request ID: search-request-123')
+      expect(email_body).to include('Search request ID: search-request-123')
       expect(email_body).to include('Date of trade: 2026-06-05')
+      expect(email_body).to include('Feature flags: interactive_search, webchat')
     end
   end
 end

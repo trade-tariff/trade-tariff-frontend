@@ -4,6 +4,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   before do
     assign(:results, results)
     assign(:search, search)
+    assign(:guided_search_outcome, 'results')
   end
 
   let(:search) { Search.new(q: 'citrus jam', request_id: 'test-uuid-123', interactive_search: true) }
@@ -147,8 +148,60 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'confidence meter' do
-    it { is_expected.not_to have_css('.interactive-result__confidence') }
-    it { is_expected.not_to have_css('.confidence-indicator') }
+    { 'strong' => 'Highest match', 'Good' => 'Medium match', 'POSSIBLE' => 'Low match' }.each do |confidence, label|
+      context "with #{confidence} confidence" do
+        let(:result_attrs) { super().merge('confidence' => confidence) }
+
+        it 'shows the existing gauge and label', :aggregate_failures do
+          expect(rendered_partial).to have_css('.interactive-result__confidence svg[aria-label="Confidence gauge"]')
+          expect(rendered_partial).to have_css('.interactive-result__confidence .confidence-label', exact_text: label)
+        end
+      end
+    end
+
+    [nil, '', 'unknown', 'unlikely', 'unrecognised'].each do |confidence|
+      context "with #{confidence.inspect} confidence" do
+        let(:result_attrs) { super().merge('confidence' => confidence) }
+
+        it { is_expected.not_to have_css('.interactive-result__confidence') }
+        it { is_expected.to have_link('View this commodity code (opens in new tab)', href: /2007919930/) }
+      end
+    end
+
+    context 'with malicious confidence markup' do
+      let(:result_attrs) { super().merge('confidence' => '"><script>alert(1)</script>') }
+
+      it 'does not render untrusted markup', :aggregate_failures do
+        expect(rendered_partial).not_to have_css('.confidence-indicator, .interactive-result script')
+        expect(rendered_partial).to include('&lt;script&gt;')
+      end
+    end
+
+    context 'without a confidence attribute' do
+      let(:result_attrs) { super().except('confidence') }
+
+      it { is_expected.not_to have_css('.confidence-indicator') }
+    end
+  end
+
+  describe 'result ordering and limit' do
+    let(:results) do
+      Search::InternalSearchResult.new(
+        ['good', 'strong', nil, 'possible', 'strong', 'good'].each_with_index.map do |confidence, index|
+          result_attrs.merge('goods_nomenclature_item_id' => "200791993#{index}", 'confidence' => confidence)
+        end,
+        meta,
+      )
+    end
+
+    it 'preserves grouping and original ranks', :aggregate_failures do
+      cards = Capybara.string(rendered_partial).all('.interactive-result')
+
+      expect(cards.map { |card| card.find('a')['data-guided-search-result-rank-value'] }).to eq(%w[2 5 1 3 4])
+      expect(cards.map { |card| card.all('.confidence-label').map(&:text) }).to eq([
+        ['Highest match'], ['Highest match'], ['Medium match'], [], ['Low match']
+      ])
+    end
   end
 
   describe 'other results divider' do
@@ -191,7 +244,8 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
   end
 
   describe 'actions' do
-    it { is_expected.to have_link('Start search again', href: find_commodity_path) }
+    it { is_expected.to have_link('Start search again', href: '/find_commodity?search_mode=guided') }
+    it { is_expected.to have_css('[data-controller="guided-search-start-again"][data-guided-search-start-again-destination-value="results"]') }
     it { is_expected.to have_link('Cancel', href: find_commodity_path) }
 
     it 'renders the actions before other search options' do
@@ -203,7 +257,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
 
   describe 'other ways to search' do
     it { is_expected.to have_css('h2', text: 'Other ways to search for a commodity') }
-    it { is_expected.to have_link('Keyword or commodity code', href: find_commodity_path) }
+    it { is_expected.to have_link('Code or keyword search', href: find_commodity_path) }
     it { is_expected.to have_link('Goods classifications', href: browse_sections_path) }
     it { is_expected.to have_link('A-Z product index', href: a_z_index_path(letter: 'a')) }
   end
@@ -222,7 +276,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
       it { is_expected.to have_css('h3[class~="govuk-!-margin-bottom-0"] + p.govuk-body > a', text: 'Ask HMRC online') }
       it { is_expected.to have_css('h3.govuk-heading-s', exact_text: 'Enquiry form') }
       it { is_expected.to have_css('h3[class~="govuk-!-margin-bottom-0"] + p.govuk-body > a', text: 'Ask a classification question') }
-      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path) }
+      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path(request_id: 'test-uuid-123')) }
       it { is_expected.not_to have_link('classification.enquiries@hmrc.gov.uk') }
     end
 
@@ -231,7 +285,7 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
 
       it { is_expected.to have_css('.govuk-details__summary-text', text: 'Get support') }
       it { is_expected.not_to have_link('Ask HMRC online') }
-      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path) }
+      it { is_expected.to have_link('Ask a classification question', href: product_experience_enquiry_form_path(request_id: 'test-uuid-123')) }
     end
   end
 end

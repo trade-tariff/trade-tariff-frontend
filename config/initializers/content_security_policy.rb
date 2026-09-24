@@ -10,7 +10,10 @@ Rails.application.configure do
     policy.connect_src :self, :https, :blob,
                        'https://www.google-analytics.com',
                        'https://analytics.google.com',
-                       'https://region1.google-analytics.com'
+                       'https://region1.google-analytics.com',
+                       'https://api2.amplitude.com',
+                       'https://sr-client-cfg.amplitude.com',
+                       'https://gs.amplitude.com'
     policy.font_src    :self, :https, :data
     policy.img_src     :self, :https, :data, :blob,
                        'https://www.google-analytics.com',

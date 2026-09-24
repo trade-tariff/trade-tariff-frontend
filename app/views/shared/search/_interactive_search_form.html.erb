@@ -5,10 +5,12 @@
               local: true,
               builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               id: "new_search",
-              data: { controller: "guided-search-validation",
-                      action: "submit->guided-search-validation#validateAndSubmit" } do |f| %>
+              data: { controller: "guided-search-validation queued-search",
+                      queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
+                      action: "submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore" } do |f| %>
 
 <div data-guided-search-validation-target="formContent">
+<%= render 'search/queued_search_error' %>
 
 <%= f.govuk_error_summary %>
 
@@ -73,12 +75,12 @@
                data-interactive-search-radio-target="toggle"
                data-action="interactive-search-radio#toggle">
         <label class="govuk-label govuk-radios__label" for="search_type_keyword">
-          Keyword or commodity code search
+          Code or keyword search
         </label>
       </div>
 
       <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-keyword" hidden data-interactive-search-radio-target="keywordSection">
-        <%= govuk_details(summary_text: 'Tips for using keyword or commodity code search', classes: 'govuk-!-margin-bottom-4') do %>
+        <%= govuk_details(summary_text: 'Tips for using code or keyword search', classes: 'govuk-!-margin-bottom-4') do %>
           <p>To find a commodity code, you must specify what the item is. If the item is a gift, you must still specify the product.</p>
           <p>Do not use brand names. It is best to use general terms like trainers or sports footwear instead of 'Nike trainers'.</p>
           <p>Expect technical language. Commodity code descriptions can be quite formal. For example, a laptop might be described as a "Portable automatic data-processing machines, weighing not more than 10 kg, consisting of at least a central processing unit, a keyboard and a display."</p>

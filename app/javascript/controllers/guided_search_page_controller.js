@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { markGuidedSearchPageVisible, trackSearchJourney } from 'search-analytics'
 
 export default class extends Controller {
   static values = {
@@ -8,8 +9,13 @@ export default class extends Controller {
   }
 
   connect() {
+    markGuidedSearchPageVisible()
     const submittedAt = Number(window.sessionStorage.getItem('guidedSearchSubmittedAt'))
-    if (!Number.isFinite(submittedAt) || submittedAt <= 0 || !this.hasEventUrlValue) return
+    const navigationMs = Number.isFinite(submittedAt) && submittedAt > 0
+      ? Math.max(0, Math.round(Date.now() - submittedAt)) : null
+
+    trackSearchJourney('page_visible', { client_navigation_ms: navigationMs })
+    if (navigationMs === null || !this.hasEventUrlValue) return
 
     window.sessionStorage.removeItem('guidedSearchSubmittedAt')
 
@@ -25,7 +31,7 @@ export default class extends Controller {
         event_type: 'page_visible',
         request_id: this.requestIdValue,
         destination: this.outcomeValue,
-        client_navigation_ms: Math.max(0, Math.round(Date.now() - submittedAt)),
+        client_navigation_ms: navigationMs,
       }),
     }).catch(() => {})
   }

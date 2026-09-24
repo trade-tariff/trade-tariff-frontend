@@ -37,7 +37,9 @@ module TradeTariffFrontend
 
         TradeTariffFrontend::FlagsmithBackedConfig.define_method(method_name) do
           default = super()
-          next default unless service_names.empty? || service_names.include?(TradeTariffFrontend::ServiceChooser.service_name)
+          unless service_names.empty? || service_names.include?(TradeTariffFrontend::ServiceChooser.service_name)
+            next record_flagsmith_evaluation(flag_name, enabled: default, source: 'default', reason: 'unsupported_service')
+          end
 
           flagsmith_config_flag(flag_name, method_name:, default:)
         end
@@ -73,14 +75,18 @@ module TradeTariffFrontend
         return default
       end
 
-      flags = Current.flagsmith_flags ||= FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity, Current.flagsmith_optin_traits || {})
+      flags = Current.flagsmith_flags ||= begin
+        traits = Flagsmith::OptInPreferences.current.transform_values { |value| { value:, transient: true } }
+        traits.merge!(Current.flagsmith_request_traits || {})
+        FlagsmithClient.instance.get_flags_for(Current.flagsmith_identity, traits)
+      end
       flag = flags.get_flag(flag_name)
 
       if flag.is_default
         instrument_flagsmith_config_fallback(flag_name:, method_name:, default:, reason: :missing_flag)
         default
       else
-        flag.enabled?
+        record_flagsmith_evaluation(flag_name, enabled: flag.enabled?, source: 'flagsmith')
       end
     rescue StandardError => e
       Current.flagsmith_unavailable = true
@@ -90,6 +96,9 @@ module TradeTariffFrontend
     end
 
     def instrument_flagsmith_config_fallback(flag_name:, method_name:, default:, reason:, error: nil)
+      evaluation_reason = reason == :previously_unavailable ? 'unavailable' : reason.to_s
+      record_flagsmith_evaluation(flag_name, enabled: default, source: 'default', reason: evaluation_reason)
+
       payload = {
         flag_name:,
         method_name:,
@@ -101,6 +110,11 @@ module TradeTariffFrontend
       payload[:error_class] = error.class.name if error
 
       ActiveSupport::Notifications.instrument(FALLBACK_EVENT, payload)
+    end
+
+    def record_flagsmith_evaluation(flag_name, enabled:, source:, reason: nil)
+      Current.flagsmith_evaluations[flag_name] = { enabled:, source:, reason: }
+      enabled
     end
   end
 end

@@ -45,6 +45,7 @@ module DutyCalculator
         faraday.options.timeout = 10
         faraday.ssl.verify = false
         faraday.ssl.ca_file = cert_path
+        faraday.use TradeTariffFrontend::RequestCountryMiddleware
         faraday.adapter :net_http_persistent
 
         faraday.headers['User-Agent'] = user_agent

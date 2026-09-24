@@ -186,6 +186,23 @@ RSpec.describe SearchController, type: :controller do
         end
       end
 
+      # An empty keyword search sends the user back to the page they came from. If they
+      # arrived via a "Start search again" link, copying search_mode would flip them
+      # from the keyword tab they submitted on to the AI tab.
+      context 'when the referer asked for the AI tab' do
+        let(:request_referer) { "http://test.host#{find_commodity_path(search_mode: 'guided')}" }
+        let(:year)    { now.year - 1 }
+        let(:month)   { now.month }
+        let(:day)     { now.day }
+
+        it 'does not carry the AI tab request into the redirect', :aggregate_failures do
+          params = Rack::Utils.parse_query(URI(response.location).query)
+
+          expect(params).to include('year' => year.to_s)
+          expect(params).not_to include('search_mode')
+        end
+      end
+
       context 'when date param is a string' do
         subject(:do_response) do
           post :search, params: { date: '2012-10-1' }

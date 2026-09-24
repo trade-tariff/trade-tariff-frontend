@@ -377,7 +377,6 @@
                 run_setup_step "Installing JS dependencies" yarn install --frozen-lockfile || fail_worktree_setup
                 run_setup_step "Building CSS assets" yarn build:css || fail_worktree_setup
                 run_setup_step "Precompiling assets" bundle exec bin/rails assets:precompile || fail_worktree_setup
-                run_setup_step "Installing pre-commit hooks" pre-commit install || fail_worktree_setup
 
                 touch "$MARKER"
                 echo ""

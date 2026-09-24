@@ -1,6 +1,55 @@
 require 'spec_helper'
 
 RSpec.describe MeasureType do
+  shared_examples 'an API semantic role' do |role, legacy_attributes|
+    describe "##{role}?" do
+      subject(:result) { measure_type.public_send("#{role}?") }
+
+      let(:measure_type) do
+        build(
+          :measure_type,
+          id: 'FOO',
+          measure_type_series_id: 'Z',
+          semantic_roles:,
+        )
+      end
+
+      let(:semantic_roles) { [] }
+
+      context 'when the API supplies the role' do
+        let(:semantic_roles) { [role] }
+
+        it { is_expected.to be(true) }
+      end
+
+      context 'when the API supplies no roles' do
+        it { is_expected.to be(false) }
+      end
+
+      context 'when the API supplies an unrelated role' do
+        let(:semantic_roles) { %w[future_role] }
+
+        it { is_expected.to be(false) }
+      end
+
+      context 'when an old matching ID or series has no role' do
+        let(:measure_type) do
+          build(:measure_type, **legacy_attributes, semantic_roles: [])
+        end
+
+        it { is_expected.to be(false) }
+      end
+    end
+  end
+
+  it_behaves_like 'an API semantic role', 'mfn_no_authorized_use', { id: '103' }
+  it_behaves_like 'an API semantic role', 'provides_unit_context', { id: '103' }
+  it_behaves_like 'an API semantic role', 'safeguard', { id: '696' }
+  it_behaves_like 'an API semantic role', 'supplementary', { id: '109' }
+  it_behaves_like 'an API semantic role', 'supplementary_unit_import_only', { id: '110' }
+  it_behaves_like 'an API semantic role', 'cds_proofs_of_origin', { id: '142' }
+  it_behaves_like 'an API semantic role', 'prohibitive', { measure_type_series_id: 'A' }
+
   describe '#duties_permitted?' do
     subject(:measure_type) do
       build(:measure_type,
@@ -55,63 +104,6 @@ RSpec.describe MeasureType do
       let(:measure_component_applicable_code) { 9 }
 
       it { is_expected.not_to be_duties_not_permitted }
-    end
-  end
-
-  describe '#prohibitive?' do
-    subject(:measure_type) do
-      build(:measure_type,
-            measure_type_series_id:)
-    end
-
-    context 'when id lies in prohibitive category' do
-      let(:measure_type_series_id) { 'A' }
-
-      it { is_expected.to be_prohibitive }
-    end
-
-    context 'when id does not lie in prohibitive category' do
-      let(:measure_type_series_id) { 'D' }
-
-      it { is_expected.not_to be_prohibitive }
-    end
-  end
-
-  describe '#supplementary?' do
-    shared_examples_for 'a supplementary measure type' do |measure_type_id|
-      subject(:measure_type) { build(:measure_type, id: measure_type_id) }
-
-      it { is_expected.to be_a_supplementary }
-    end
-
-    it_behaves_like 'a supplementary measure type', '109'
-    it_behaves_like 'a supplementary measure type', '110'
-    it_behaves_like 'a supplementary measure type', '111'
-
-    context 'when the measure type id is a non supplementary measure type id' do
-      subject(:measure_type) { build(:measure_type, id: 'foo') }
-
-      it { is_expected.not_to be_a_supplementary }
-    end
-  end
-
-  describe '#supplementary_unit_import_only?' do
-    context 'when the measure type id is a supplementary id and import only' do
-      subject(:measure_type) { build(:measure_type, id: '110') }
-
-      it { is_expected.to be_a_supplementary_unit_import_only }
-    end
-
-    context 'when the measure type id is a supplementary id but not import only' do
-      subject(:measure_type) { build(:measure_type, id: '109') }
-
-      it { is_expected.not_to be_a_supplementary_unit_import_only }
-    end
-
-    context 'when the measure type id is not supplementary' do
-      subject(:measure_type) { build(:measure_type, id: 'foo') }
-
-      it { is_expected.not_to be_a_supplementary_unit_import_only }
     end
   end
 
@@ -199,93 +191,6 @@ RSpec.describe MeasureType do
       subject(:measure_type) { build(:measure_type, id: '911') }
 
       it { expect(measure_type.details_text).to eq('') }
-    end
-  end
-
-  describe '#safeguard?' do
-    context 'with safeguard measure' do
-      subject { build :measure_type, :safeguard }
-
-      it { is_expected.to be_safeguard }
-    end
-
-    context 'with non-safeguard measure' do
-      subject { build :measure_type, :vat }
-
-      it { is_expected.not_to be_safeguard }
-    end
-  end
-
-  describe '#mfn_no_authorized_use?' do
-    context 'with MFN measure' do
-      subject { build :measure_type, :third_country }
-
-      it { is_expected.to be_mfn_no_authorized_use }
-    end
-
-    context 'with an authorised used measure' do
-      subject { build :measure_type, :third_country_authorised_use }
-
-      it { is_expected.not_to be_mfn_no_authorized_use }
-    end
-
-    context 'with non-MFN measure' do
-      subject { build :measure_type, :vat }
-
-      it { is_expected.not_to be_mfn_no_authorized_use }
-    end
-  end
-
-  describe '#excise?' do
-    context 'with excise measure' do
-      subject { build :measure_type, :excise }
-
-      it { is_expected.to be_excise }
-    end
-
-    context 'with non-excise measure' do
-      subject { build :measure_type, :vat }
-
-      it { is_expected.not_to be_excise }
-    end
-  end
-
-  describe '#provides_unit_context?' do
-    shared_examples_for 'a provides unit context measure type' do |id|
-      subject(:measure_type) { build(:measure_type, id:) }
-
-      it { is_expected.to be_provides_unit_context }
-    end
-
-    it_behaves_like 'a provides unit context measure type', '103'
-    it_behaves_like 'a provides unit context measure type', '105'
-    it_behaves_like 'a provides unit context measure type', '141'
-    it_behaves_like 'a provides unit context measure type', '142'
-    it_behaves_like 'a provides unit context measure type', '145'
-    it_behaves_like 'a provides unit context measure type', '106'
-    it_behaves_like 'a provides unit context measure type', '122'
-    it_behaves_like 'a provides unit context measure type', '123'
-    it_behaves_like 'a provides unit context measure type', '143'
-    it_behaves_like 'a provides unit context measure type', '146'
-
-    context 'when the measure type does not provide unit context' do
-      subject(:measure_type) { build(:measure_type, id: '696') }
-
-      it { is_expected.not_to be_provides_unit_context }
-    end
-  end
-
-  describe '#cds_proofs_of_origin?' do
-    context 'when expected type' do
-      subject { build(:measure_type, :tariff_preference).cds_proofs_of_origin? }
-
-      it { is_expected.to be true }
-    end
-
-    context 'when not expected type' do
-      subject { build(:measure_type, :suspension).cds_proofs_of_origin? }
-
-      it { is_expected.to be false }
     end
   end
 end

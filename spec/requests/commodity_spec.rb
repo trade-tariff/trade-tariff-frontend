@@ -8,6 +8,7 @@ RSpec.describe 'Commodity page', type: :request do
     allow(TradeTariffFrontend::ServiceChooser).to receive(:with_source).with(:uk).and_call_original
     allow(DeclarableUnitService).to receive(:new).and_return(instance_double(DeclarableUnitService, call: 'There are no supplementary unit measures assigned to this commodity'))
     allow(GeographicalArea).to receive(:find).with('AD').and_return(build(:geographical_area, id: 'AD', description: 'Andorra'))
+    allow(GeographicalArea).to receive(:find).with('1013', as_of: anything).and_return(build(:geographical_area, id: '1013', description: 'European Union'))
     allow(GeographicalArea).to receive(:all).and_return([build(:geographical_area, id: 'AD', description: 'Andorra')])
     allow(RulesOfOrigin::Scheme).to receive_messages(for_heading_and_country: [], all: build_list(:rules_of_origin_scheme, 1))
 

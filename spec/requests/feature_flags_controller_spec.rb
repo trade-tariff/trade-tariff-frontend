@@ -40,7 +40,7 @@ RSpec.describe FeatureFlagsController, type: :request do
         end
 
         it 'shows the enabled state' do
-          expect(response.body).to include('Enabled')
+          expect(response.body).to include('Available now')
         end
       end
 
@@ -48,7 +48,7 @@ RSpec.describe FeatureFlagsController, type: :request do
         before { perform_request }
 
         it 'shows the feature as disabled' do
-          expect(response.body).to include('Disabled')
+          expect(response.body).to include('Not opted in')
         end
       end
     end
@@ -76,16 +76,23 @@ RSpec.describe FeatureFlagsController, type: :request do
         )
       end
 
-      it 'stores the enabled trait in the session' do
+      it 'shows the persisted preference after redirect without a session copy', :aggregate_failures do
         patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
+        follow_redirect!
 
-        expect(session[:flagsmith_optin_traits]).to include('interactive_search' => true)
+        expect(response.body).to include('Saved preference: Opted in')
+        expect(response.body).to include('Remove opt-in')
+        expect(session[:flagsmith_optin_traits]).to be_nil
       end
 
-      it 'stores the disabled trait in the session' do
+      it 'keeps removal separate from automatic availability', :aggregate_failures do
+        enable_feature(:interactive_search)
         patch feature_flag_path('interactive_search'), params: { enabled: 'false' }
+        follow_redirect!
 
-        expect(session[:flagsmith_optin_traits]).to include('interactive_search' => false)
+        expect(response.body).to include('Saved preference: Not opted in')
+        expect(response.body).to include('Available now')
+        expect(Capybara.string(response.body)).to have_button('Opt in')
       end
 
       it 'redirects when the flag is not a registered optin flag' do

@@ -58,6 +58,10 @@ class Search
       meta&.dig('interactive_search').present?
     end
 
+    def search_failures
+      Array(meta&.dig('search_failures'))
+    end
+
     def has_pending_question?
       return false unless interactive_search?
 

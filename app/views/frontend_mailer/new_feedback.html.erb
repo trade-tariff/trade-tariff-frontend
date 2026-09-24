@@ -11,11 +11,13 @@
 <% end %>
 
 <% if @request_id %>
-  <p>Request ID: <%= @request_id %></p>
+  <p>Search request ID: <%= @request_id %></p>
 <% end %>
 
 <% if @date %>
   <p>Date of trade: <%= @date %></p>
 <% end %>
+
+<p>Feature flags: <%= Array(@feature_flags).presence&.join(', ') || 'None' %></p>
 
 <p>Found this page useful: <%= @page_useful if @page_useful %></p>

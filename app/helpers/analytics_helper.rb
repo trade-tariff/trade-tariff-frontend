@@ -9,7 +9,7 @@ module AnalyticsHelper
     policy = JSON.parse(cookie)
     return false unless policy.is_a?(Hash)
 
-    !!policy.fetch('usage', false)
+    [true, 'true'].include?(policy['usage'])
   rescue JSON::ParserError
     false
   end

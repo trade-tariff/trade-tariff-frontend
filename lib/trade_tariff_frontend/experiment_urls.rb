@@ -18,12 +18,14 @@ module TradeTariffFrontend
 
         date = time.in_time_zone(timezone).to_date
         return :not_started if date < starts_on
-        return :expired if date > ends_on
+        return :expired if ends_on && date > ends_on
 
         :active
       end
 
       def expired_at?(time)
+        return false unless ends_on
+
         time.in_time_zone(timezone).to_date > ends_on
       end
     end
@@ -36,7 +38,7 @@ module TradeTariffFrontend
       entries = config.map do |key, raw_entry|
         error!(key, :key, 'must be at most 64 lowercase snake-case characters') unless key.to_s.length <= 64 && key.to_s.match?(KEY)
         attributes = hash!(raw_entry, "entry #{key}").with_indifferent_access
-        FIELDS.each { |field| error!(key, field, 'is required') if attributes[field].blank? }
+        FIELDS.excluding(:ends_on).each { |field| error!(key, field, 'is required') if attributes[field].blank? }
 
         path = attributes[:path].to_s
         redirect = attributes[:redirect].to_s
@@ -52,8 +54,8 @@ module TradeTariffFrontend
         error!(key, :service, "is not supported by feature #{feature}") unless Array(flag[:services]).map(&:to_s).include?(service)
 
         starts_on = date!(attributes[:starts_on], key, :starts_on)
-        ends_on = date!(attributes[:ends_on], key, :ends_on)
-        error!(key, :ends_on, 'must be on or after starts_on') if ends_on < starts_on
+        ends_on = date!(attributes[:ends_on], key, :ends_on) unless attributes[:ends_on].nil?
+        error!(key, :ends_on, 'must be on or after starts_on') if ends_on && ends_on < starts_on
         timezone = attributes[:timezone].to_s
         error!(key, :timezone, 'must be a valid IANA timezone') unless ActiveSupport::TimeZone[timezone]
 

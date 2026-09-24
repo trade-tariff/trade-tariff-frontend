@@ -32,6 +32,25 @@ jobs:
             *.lock
             .github
 
+  terraform-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        module: [puma_capacity_dashboard, frontend_page_visits_dashboard]
+    defaults:
+      run:
+        working-directory: terraform/modules/${{ matrix.module }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+      - run: terraform init -backend=false -input=false
+      - run: terraform test -no-color
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -45,7 +64,7 @@ jobs:
       - uses: actions/setup-python@v7.0.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      - uses: ruby/setup-ruby@v1.321.0
+      - uses: ruby/setup-ruby@v1.324.0
         with:
           bundler-cache: true
       - uses: hashicorp/setup-terraform@v4
@@ -72,7 +91,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
-      - uses: ruby/setup-ruby@v1.321.0
+      - uses: ruby/setup-ruby@v1.324.0
         with:
           bundler-cache: true
 

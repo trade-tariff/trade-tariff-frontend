@@ -87,7 +87,23 @@ module ProductExperience
       clear_enquiry_data
       session[:enquiry_form_draft_id] = SecureRandom.uuid
       session[:submission_token] = SecureRandom.uuid
-      write_enquiry_data({})
+      write_enquiry_data(enquiry_context)
+    end
+
+    def enquiry_context
+      {
+        'feature_flags' => enabled_feature_flag_names,
+        'search_request_id' => safe_search_request_id(params[:request_id]),
+      }.compact
+    end
+
+    def safe_search_request_id(value)
+      request_id = value.to_s
+      request_id if request_id.match?(/\A[a-zA-Z0-9-]{1,64}\z/)
+    end
+
+    def enabled_feature_flag_names
+      TradeTariffFrontend.enabled_flagsmith_feature_names
     end
 
     def hide_feedback_useful_banner
@@ -195,6 +211,8 @@ module ProductExperience
         job_title: data['occupation'],
         email: data['email_address'],
         enquiry_category: submission_category(data),
+        feature_flags: data.fetch('feature_flags', []),
+        search_request_id: data['search_request_id'],
       }
       common_attributes[:other_category] = data['other_category'] if data['category'] == 'other'
 

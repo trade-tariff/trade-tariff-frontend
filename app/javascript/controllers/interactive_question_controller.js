@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { trackSearchJourney } from 'search-analytics'
 
 export default class extends Controller {
   static targets = ['pageHeader', 'header', 'form', 'dontKnow', 'thinking']
@@ -81,10 +82,24 @@ export default class extends Controller {
   }
 
   #submitForm(form) {
-    window.setTimeout(() => HTMLFormElement.prototype.submit.call(form), 0)
+    window.setTimeout(() => {
+      const event = new CustomEvent('guided-search:submit', { bubbles: true, cancelable: true, detail: { form } })
+      if (form.dispatchEvent(event)) HTMLFormElement.prototype.submit.call(form)
+    }, 0)
+  }
+
+  restore() {
+    this.#restoreFromBfcache({ persisted: true })
   }
 
   #recordDontKnow() {
+    const elapsedMs = this.#clientElapsedMs()
+    trackSearchJourney('dont_know', {
+      used_dont_know: true,
+      question_count: this.questionNumberValue,
+      client_elapsed_ms: elapsedMs,
+    })
+
     if (!this.hasEventUrlValue) return
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
@@ -99,7 +114,7 @@ export default class extends Controller {
         event_type: 'dont_know',
         request_id: this.requestIdValue,
         question_number: this.questionNumberValue,
-        client_elapsed_ms: this.#clientElapsedMs(),
+        client_elapsed_ms: elapsedMs,
       }),
     }).catch(() => {})
   }

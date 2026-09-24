@@ -1,0 +1,5 @@
+<%= govuk_inset_text(classes: 'app-ai-search-banner') do %>
+  <%= govuk_tag(text: 'Beta', colour: 'magenta') %>
+  <h2 class="govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">Introducing AI-assisted search</h2>
+  <p>By entering a description of the goods and answering a few clarifying questions, AI-assisted search will help you find the correct commodity code. Find out more about <%= govuk_link_to 'AI-assisted search', ai_search_information_path, new_tab: true %>.</p>
+<% end %>

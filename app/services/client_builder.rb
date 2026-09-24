@@ -40,6 +40,7 @@ class ClientBuilder
         conn.options.timeout = 10
         conn.ssl.verify = false
         conn.ssl.ca_file = cert_path
+        conn.use TradeTariffFrontend::RequestCountryMiddleware
         conn.adapter :net_http_persistent
         conn.response :json, content_type: /\bjson$/
         conn.headers['User-Agent'] = user_agent

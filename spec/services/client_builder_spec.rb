@@ -30,6 +30,16 @@ RSpec.describe ClientBuilder do
       end
     end
 
+    context 'when sending a backend request' do
+      before do
+        allow(Faraday).to receive(:new).and_call_original
+      end
+
+      it 'adds the request country middleware' do
+        expect(builder.call.builder.handlers).to include(TradeTariffFrontend::RequestCountryMiddleware)
+      end
+    end
+
     context 'when the services are not configured' do
       before do
         allow(TradeTariffFrontend::ServiceChooser).to receive(:service_choices).and_return(nil)

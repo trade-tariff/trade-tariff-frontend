@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   end
   get 'cookies', to: redirect(path: '/cookies/policy')
 
+  get '/news/service-updates/ai-assisted-search', to: 'ai_search_information#show', as: :ai_search_information
   get '/news/collections/:collection_id(/:story_year)', to: 'news_items#index', as: :news_collection
   get '/news/years/:story_year', to: 'news_items#index', as: :news_year
   get '/news/stories/:id', to: 'news_items#show', as: :news_item
@@ -162,6 +163,8 @@ Rails.application.routes.draw do
 
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
   post '/search/guided-search-event', to: 'search#journey_event', as: :guided_search_event
+  post '/search/queued', to: 'search#queue_guided_search', as: :queue_guided_search
+  get '/search/queued/:id', to: 'search#queued_guided_search', as: :queued_guided_search
 
   scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do
     get 'exchange_rates(/:type)', to: 'exchange_rates#index', as: 'exchange_rates'

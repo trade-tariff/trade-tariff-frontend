@@ -73,6 +73,66 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
+  describe 'request country resolution' do
+    controller do
+      def index
+        render json: {
+          request_country: Current.request_country,
+          request_country_class: Current.request_country.class.name,
+          gb: Current.request_country.gb?,
+          traits: Current.flagsmith_request_traits,
+        }
+      end
+    end
+
+    it 'exposes GB as a transient trait', :aggregate_failures do
+      request.headers['CloudFront-Viewer-Country'] = 'GB'
+
+      get :index
+
+      expect(response.parsed_body).to eq(
+        'request_country' => 'gb',
+        'request_country_class' => 'ActiveSupport::StringInquirer',
+        'gb' => true,
+        'traits' => { 'request_country' => { 'value' => 'gb', 'transient' => true } },
+      )
+    end
+
+    it 'exposes another country without matching GB' do
+      request.headers['CloudFront-Viewer-Country'] = 'FR'
+
+      get :index
+
+      expect(response.parsed_body).to include(
+        'request_country' => 'fr',
+        'gb' => false,
+        'traits' => { 'request_country' => { 'value' => 'fr', 'transient' => true } },
+      )
+    end
+
+    it 'uses an empty inquiry when the header is missing' do
+      get :index
+
+      expect(response.parsed_body).to include(
+        'request_country' => '',
+        'gb' => false,
+        'traits' => {},
+      )
+    end
+
+    it 'rejects an invalid country value' do
+      request.headers['CloudFront-Viewer-Country'] = 'not-a-country'
+
+      get :index
+
+      expect(response.parsed_body).to include(
+        'request_country' => '',
+        'gb' => false,
+        'traits' => {},
+      )
+    end
+  end
+
   describe '#interactive_search_enabled?' do
     controller do
       def index
@@ -96,7 +156,7 @@ RSpec.describe ApplicationController, type: :controller do
     controller do
       def index
         render json: { experiment: Current.experiment,
-                       traits: Current.flagsmith_optin_traits,
+                       traits: Current.flagsmith_request_traits,
                        interactive_search_enabled: interactive_search_enabled? }
       end
     end
@@ -114,10 +174,25 @@ RSpec.describe ApplicationController, type: :controller do
       session[:experiment_url_optins] = ['stale', experiment.enrollment_token]
       travel_to(Time.utc(2026, 7, 27, 12)) { get :index }
       expect(response.parsed_body).to eq('experiment' => 'trstd-trdr',
-                                         'traits' => { 'webchat' => true,
-                                                       'interactive_search' => { 'value' => true, 'transient' => true } },
+                                         'traits' => { 'interactive_search' => { 'value' => true, 'transient' => true } },
                                          'interactive_search_enabled' => false)
       expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+    end
+
+    it 'ignores an old session preference when core has no saved opt-in' do
+      session[:flagsmith_optin_traits] = { interactive_search: true }
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
+      get :index
+
+      expect(FlagsmithClient.instance).to have_received(:get_flags_for).with(anything, {})
+    end
+
+    it 'does not stamp tenpct for a persisted manual Flagsmith opt-in' do
+      enable_feature(:interactive_search)
+      allow(FlagsmithManagementClient.instance).to receive(:get_traits_for).and_return('interactive_search' => true)
+      get :index
+      controller.send(:interactive_search_enabled_with_analytics?)
+      expect(Current.experiment).to be_nil
     end
 
     it 'retains future enrolments and prunes expired or malformed storage', :aggregate_failures do
@@ -155,6 +230,7 @@ RSpec.describe ApplicationController, type: :controller do
     it 'adds frontend and search request ids to the logging payload' do
       request.request_id = 'frontend-request-id'
       Current.experiment = 'trstd-trdr'
+      Current.request_country = ActiveSupport::StringInquirer.new('gb')
       controller.instance_variable_set(:@search, Search.new(q: '94036099', request_id: 'search-request-id'))
 
       payload = {}
@@ -164,7 +240,16 @@ RSpec.describe ApplicationController, type: :controller do
         request_id: 'frontend-request-id',
         search_request_id: 'search-request-id',
         experiment_label: 'trstd-trdr',
+        request_country: 'gb',
       )
+    end
+
+    it 'logs an unknown request country when unavailable' do
+      payload = {}
+
+      controller.send(:append_info_to_payload, payload)
+
+      expect(payload[:request_country]).to eq('unknown')
     end
 
     it 'adds structured details for handled Faraday errors' do
