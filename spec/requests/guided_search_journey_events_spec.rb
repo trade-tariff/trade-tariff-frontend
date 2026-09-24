@@ -91,6 +91,23 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
       expect(backend_request.with(body: { request_id: 'request-123', goods_nomenclature_item_id: '2007919930', result_rank: 2 }.to_json)).to have_been_requested.once
     end
 
+    it 'bounds capture timeouts without changing the shared client defaults' do
+      client = TradeTariffFrontend::ServiceChooser.api_client
+      original_timeout = client.options.timeout
+      allow(client).to receive(:post).and_wrap_original do |original, *arguments, &configure|
+        original.call(*arguments) do |request|
+          configure.call(request)
+          expect(request.options.timeout).to eq(2)
+          expect(request.options.open_timeout).to eq(1)
+        end
+      end
+
+      post guided_search_event_path, params: click, as: :json
+
+      expect(backend_request).to have_been_requested.once
+      expect(client.options.timeout).to eq(original_timeout)
+    end
+
     it 'keeps recording the browser event when the backend times out' do
       backend_request.to_timeout
 

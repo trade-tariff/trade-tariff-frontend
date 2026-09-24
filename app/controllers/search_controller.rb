@@ -110,7 +110,10 @@ class SearchController < ApplicationController
         result_rank: event_attributes[:result_rank],
       }.to_json,
       'Content-Type' => 'application/json',
-    )
+    ) do |request|
+      request.options.timeout = 2
+      request.options.open_timeout = 1
+    end
   rescue StandardError => e
     Rails.logger.warn("Could not store classifier click: #{e.class}")
   end
