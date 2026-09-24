@@ -1,7 +1,16 @@
 <%= page_header do %>
-  <h1 class="govuk-heading-l commodity-header govuk-!-margin-bottom-4" data-comm-code="<%= commodity_code %>">
-    Commodity <%= segmented_commodity_code commodity_code %>
-  </h1>
+  <div class="commodity-heading-row govuk-!-margin-bottom-4">
+    <h1 class="govuk-heading-l commodity-header govuk-!-margin-bottom-0" data-comm-code="<%= commodity_code %>">
+      Commodity <%= segmented_commodity_code commodity_code %>
+    </h1>
+
+    <% if @show_commodity_search_link %>
+      <%= link_to find_commodity_path(search_mode: 'guided', country: nil, day: nil, month: nil, year: nil), class: 'govuk-link commodity-navigation-link govuk-!-display-none-print' do %>
+        <%= image_tag 'arrow-icon.svg', alt: '', width: 46, height: 46 %>
+        <span>Search for another commodity</span>
+      <% end %>
+    <% end %>
+  </div>
 
   <div class="govuk-!-margin-bottom-7">
     <button type="button" class="commodity-action-button" id="copy_code" comm-code="<%= commodity_code %>" data-copied-label="Commodity code copied">

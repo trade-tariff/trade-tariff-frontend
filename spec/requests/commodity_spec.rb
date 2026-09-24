@@ -20,6 +20,39 @@ RSpec.describe 'Commodity page', type: :request do
     it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk) }
   end
 
+  describe 'commodity navigation and tariff selection', :aggregate_failures do
+    before do
+      allow(Commodity).to receive(:find).and_return(build(:commodity, :with_import_trade_summary))
+    end
+
+    it 'offers guided search navigation for UK interactive-search users' do
+      enable_feature(:interactive_search)
+      get '/commodities/0101300000'
+
+      page = Capybara.string(response.body)
+      expect(page).to have_link('Search for another commodity', href: '/find_commodity?search_mode=guided')
+      expect(page).not_to have_css('form#new_search')
+    end
+
+    it 'keeps the shared search for UK users without interactive search' do
+      disable_feature(:interactive_search)
+      get '/commodities/0101300000'
+
+      page = Capybara.string(response.body)
+      expect(page).not_to have_link('Search for another commodity')
+      expect(page).to have_css('form#new_search')
+    end
+
+    it 'does not offer the link on XI, even when interactive search is enabled' do
+      enable_feature(:interactive_search)
+      get '/xi/commodities/0101300000'
+
+      page = Capybara.string(response.body)
+      expect(page).not_to have_link('Search for another commodity')
+      expect(page).to have_css('form#new_search')
+    end
+  end
+
   shared_examples_for 'loads the correct xi declarables' do
     it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:xi) }
     it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk) }

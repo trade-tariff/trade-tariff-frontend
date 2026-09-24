@@ -12,6 +12,9 @@ class CommoditiesController < GoodsNomenclaturesController
       return redirect_to polymorphic_path(declarable)
     end
 
+    @show_commodity_search_link = interactive_search_enabled? && TradeTariffFrontend::ServiceChooser.uk?
+    disable_search_form if @show_commodity_search_link
+
     @heading = declarable.heading
     @chapter = declarable.chapter
     @section = declarable.section

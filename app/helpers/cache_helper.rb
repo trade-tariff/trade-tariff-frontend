@@ -10,8 +10,15 @@ module CacheHelper
       'commodities#show',
       cache_key,
       meursing_lookup_result.meursing_additional_code_id,
+      commodity_search_navigation_cache_key,
       cache_params.sort.map { |_, v| v }.compact.join('/'),
     ].compact
+  end
+
+  def commodity_search_navigation_cache_key
+    return if @show_commodity_search_link.nil?
+
+    @show_commodity_search_link ? 'guided-search-link' : 'shared-search'
   end
 
   def heading_cache_key
