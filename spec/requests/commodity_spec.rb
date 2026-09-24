@@ -20,6 +20,48 @@ RSpec.describe 'Commodity page', type: :request do
     it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk) }
   end
 
+  describe 'trade date validation' do
+    before do
+      allow(Commodity).to receive(:find).and_return(build(:commodity, :with_import_trade_summary))
+    end
+
+    ['/commodities/0101300000', '/xi/commodities/0101300000'].each do |path|
+      it "preserves invalid dates and country selection on #{path}", :aggregate_failures do
+        get path, params: { day: '31', month: '2', year: '2027', country: 'AD' }
+
+        expect(response).to have_http_status(:success)
+        page = Capybara.string(response.body)
+        expect(page).to have_css('.govuk-error-summary', count: 1)
+        expect(page).to have_css('.govuk-error-summary a[href="#day"]', text: 'Date of trade must be a real date')
+        expect(response.body.index('govuk-error-summary')).to be < response.body.index('id="new_search"')
+        expect(page).to have_css('.govuk-form-group--error #trade-date[aria-describedby="trade-date-error"]')
+        expect(page).to have_css('#trade-date-error', text: 'Date of trade must be a real date')
+        expect(page).to have_css('#trade-date .govuk-input--error', count: 3)
+        expect(page).to have_field('Day', with: '31')
+        expect(page).to have_field('Month', with: '2')
+        expect(page).to have_field('Year', with: '2027')
+        expect(page).to have_css('#country option[value="AD"][selected]')
+      end
+    end
+
+    it 'accepts a corrected date and removes the error state', :aggregate_failures do
+      get '/commodities/0101300000', params: { day: '28', month: '2', year: '2027', invalid_date: 'true' }
+
+      expect(response).to have_http_status(:success)
+      page = Capybara.string(response.body)
+      expect(page).not_to have_css('.govuk-error-summary, .govuk-form-group--error, .govuk-input--error')
+      expect(page).to have_field('Day', with: '28')
+      expect(Commodity).to have_received(:find).with('0101300000', hash_including(as_of: have_attributes(day: 28, month: 2, year: 2027)), anything)
+    end
+
+    it 'preserves non-numeric input for correction', :aggregate_failures do
+      get '/commodities/0101300000', params: { day: ')', month: '2', year: '2027' }
+
+      expect(response).to have_http_status(:success)
+      expect(Capybara.string(response.body)).to have_field('Day', with: ')')
+    end
+  end
+
   shared_examples_for 'loads the correct xi declarables' do
     it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:xi) }
     it { expect(TradeTariffFrontend::ServiceChooser).to have_received(:with_source).with(:uk) }
@@ -132,6 +174,28 @@ RSpec.describe 'Commodity page', type: :request do
 
     it 'displays the commodity classification' do
       expect(page).to have_content 'Asses'
+    end
+
+    it 'renders the first-release commodity page hierarchy and trade controls', :aggregate_failures do
+      expect(page).to have_css 'details', text: 'View Section, Chapter, Heading...'
+      expect(page).to have_css 'details.commodity-hierarchy-details'
+      expect(page).to have_css 'details:not([open]) nav.commodity-ancestors', visible: :all
+      expect(page).to have_css 'form.trade-details'
+      expect(page).to have_field 'country'
+      expect(page).to have_field 'Day'
+      expect(page).to have_field 'Month'
+      expect(page).to have_field 'Year'
+      expect(page).to have_button 'Update page'
+      expect(page).not_to have_css 'dt', text: 'Commodity valid from'
+    end
+
+    it 'renders commodity-page analytics hooks', :aggregate_failures do
+      expect(page).to have_css '[data-controller="commodity-page-analytics"][data-commodity-page-analytics-commodity-code-value="0101300000"]'
+      expect(page).to have_css 'details[data-commodity-page-analytics-target="hierarchy"]'
+      expect(page).to have_css 'form.trade-details[data-commodity-page-analytics-target="tradeDetails"]'
+      expect(page).to have_css '[data-commodity-page-analytics-target="tariffSection"][data-analytics-exposure-event="commodity_tariff_section_shown"]'
+      expect(page).to have_css '#duty-calculator[data-commodity-page-analytics-target="calculator"]'
+      expect(page).to have_css '#duty-calculator-link[data-action*="trackCalculatorClick"]'
     end
 
     it 'renders the help popup with its styling class' do

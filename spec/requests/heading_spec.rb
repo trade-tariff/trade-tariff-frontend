@@ -33,7 +33,7 @@ RSpec.describe 'Heading page', type: :request do
           follow_redirect!
         end
 
-        expect(response.body).not_to include('You must enter a valid date')
+        expect(response.body).not_to include('Date of trade must be a real date')
       end
     end
 

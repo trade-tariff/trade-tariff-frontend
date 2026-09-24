@@ -1,25 +1,11 @@
 export default class Utility {
-  static navigate(url) {
-    window.location.href = url;
-  }
-
   static countrySelectorOnConfirm(confirmed, selectElement) {
-    const commodityCode = document.querySelector('.commodity-header').dataset.commCode;
+    const selectedOption = [...selectElement.options].find((option) => option.text === confirmed);
 
-    if (confirmed === 'All countries') {
-      const selectedTab = window.location.hash.substring(1);
-      if (window.location.pathname.split('/')[1] === 'xi') {
-        Utility.navigate(`/xi/commodities/${commodityCode}#${selectedTab}`);
-      } else {
-        Utility.navigate(`/commodities/${commodityCode}#${selectedTab}`);
-      }
-    } else {
-      const code = /\((\w\w)\)/.test(confirmed) ? /\((\w\w)\)/.exec(confirmed)[1] : null;
-      selectElement.value = code;
-      selectElement.closest('form').submit();
+    if (selectedOption) {
+      selectElement.value = selectedOption.value;
+      selectElement.dispatchEvent(new Event('change', {bubbles: true}));
     }
-
-
   }
 
   static async fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults) {

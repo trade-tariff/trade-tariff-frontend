@@ -45,6 +45,8 @@ RSpec.describe 'Commodity show page', :js, vcr: { cassette_name: 'geographical_a
       expect(page).not_to have_selector('#modal .info-content', visible: :visible) # ensure popup is hidden
       # rubocop:enable RSpec/ExpectInHook
 
+      find('summary', text: /View \d+ preferential rates/).click
+
       within '#measure-3977333' do
         click_on 'Conditions'
       end

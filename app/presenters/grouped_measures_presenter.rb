@@ -14,6 +14,30 @@ class GroupedMeasuresPresenter
 
     sections = []
 
+    if uk_import_measures.customs_duties.present?
+      sections << {
+        caption: 'Import duties',
+        css_id: 'import_duties',
+        declarable: uk_declarable,
+        import_duties: true,
+        standard_collection: sorted_by_key(uk_import_measures.standard_customs_duties),
+        preferential_collection: sorted_by_key(uk_import_measures.tariff_preferences),
+        show_duty_calculator: uk_declarable.calculate_duties?,
+        roo_schemes: rules_of_origin_schemes,
+      }
+    end
+
+    if uk_import_measures.vat_excise.present?
+      sections << {
+        caption: 'Import VAT',
+        collection: sorted_by_key(uk_import_measures.vat_excise),
+        css_id: 'vat_excise',
+        uk_declarable:,
+        vat_excise: true,
+        roo_schemes: rules_of_origin_schemes,
+      }
+    end
+
     if uk_import_measures.import_controls.present?
       sections << {
         caption: 'Import controls',
@@ -22,25 +46,14 @@ class GroupedMeasuresPresenter
         declarable: uk_declarable,
         hide_duty_rate: true,
         roo_schemes: rules_of_origin_schemes,
-        information: I18n.t('tabs.measures.import_controls_uk'),
-      }
-    end
-
-    if uk_import_measures.customs_duties.present?
-      sections << {
-        caption: 'Import duties',
-        collection: sorted_by_key(uk_import_measures.customs_duties),
-        css_id: 'import_duties',
-        declarable: uk_declarable,
-        show_duty_calculator: uk_declarable.calculate_duties?,
-        roo_schemes: rules_of_origin_schemes,
+        information: 'There are rules or restrictions that may apply before the goods can be imported. They are not charges.',
       }
     end
 
     if uk_import_measures.quotas.present?
       sections << {
         caption: 'Quotas',
-        information: I18n.t('tabs.measures.quotas_information_html'),
+        information: 'Quotas allow a limited amount of goods to be imported at a lower duty rate. Once a quota is used up, a higher rate may apply.',
         collection: sorted_by_key(uk_import_measures.quotas),
         css_id: 'quotas',
         roo_schemes: rules_of_origin_schemes,
@@ -50,6 +63,7 @@ class GroupedMeasuresPresenter
     if uk_import_measures.trade_remedies.present?
       sections << {
         caption: 'Trade remedies, safeguards and retaliatory duties',
+        information: 'These are additional duties or measures that may apply to specific goods or countries. Check the country and conditions to see if these apply.',
         collection: sorted_by_key(uk_import_measures.trade_remedies),
         css_id: 'trade_remedies',
         roo_schemes: rules_of_origin_schemes,
@@ -78,17 +92,6 @@ class GroupedMeasuresPresenter
       }
     end
 
-    if uk_import_measures.vat_excise.present?
-      sections << {
-        caption: 'Import VAT and excise',
-        collection: sorted_by_key(uk_import_measures.vat_excise),
-        css_id: 'vat_excise',
-        uk_declarable:,
-        vat_excise: true,
-        roo_schemes: rules_of_origin_schemes,
-      }
-    end
-
     sections
   end
 
@@ -98,9 +101,11 @@ class GroupedMeasuresPresenter
     if xi_import_measures.customs_duties.present?
       sections << {
         caption: 'Import duties',
-        collection: sorted_by_key(xi_import_measures.customs_duties),
         css_id: 'import_duties',
         declarable: xi_declarable,
+        import_duties: true,
+        standard_collection: sorted_by_key(xi_import_measures.standard_customs_duties),
+        preferential_collection: sorted_by_key(xi_import_measures.tariff_preferences),
         show_duty_calculator: xi_declarable.calculate_duties?,
         roo_schemes: rules_of_origin_schemes,
       }
@@ -109,6 +114,7 @@ class GroupedMeasuresPresenter
     if xi_import_measures.trade_remedies.present?
       sections << {
         caption: 'Trade remedies, safeguards and retaliatory duties',
+        information: 'These are additional duties or measures that may apply to specific goods or countries. Check the country and conditions to see if these apply.',
         collection: sorted_by_key(xi_import_measures.trade_remedies),
         css_id: 'trade_remedies',
         roo_schemes: rules_of_origin_schemes,
@@ -139,7 +145,7 @@ class GroupedMeasuresPresenter
 
     if uk_import_measures&.vat_excise.present?
       sections << {
-        caption: 'Import VAT and excise',
+        caption: 'Import VAT',
         collection: sorted_by_key(uk_import_measures.vat_excise),
         css_id: 'vat_excise',
         uk_declarable:,
@@ -155,6 +161,7 @@ class GroupedMeasuresPresenter
         hide_duty_rate: true,
         css_id: 'xi_import_controls',
         roo_schemes: rules_of_origin_schemes,
+        information: 'There are rules or restrictions that may apply before the goods can be imported. They are not charges.',
       }
     end
 
@@ -165,6 +172,7 @@ class GroupedMeasuresPresenter
         hide_duty_rate: true,
         css_id: 'uk_import_controls',
         roo_schemes: rules_of_origin_schemes,
+        information: 'There are rules or restrictions that may apply before the goods can be imported. They are not charges.',
       }
     end
 
