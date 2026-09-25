@@ -6,7 +6,7 @@
 
     <% if @show_commodity_search_link %>
       <%= link_to find_commodity_path(search_mode: 'guided', country: nil, day: nil, month: nil, year: nil), class: 'govuk-link commodity-navigation-link govuk-!-display-none-print' do %>
-        <%= image_tag 'arrow-icon.svg', alt: '', width: 46, height: 46 %>
+        <%= image_tag 'arrow-icon.svg', alt: '', width: 30, height: 30 %>
         <span>Search for another commodity</span>
       <% end %>
     <% end %>
