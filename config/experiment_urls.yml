@@ -24,3 +24,11 @@ shared:
     redirect: /find_commodity
     service: uk
     instrumentation_label: hmrc-users
+  hmrc_traders:
+    path: /hmrc-traders
+    feature: interactive_search
+    starts_on: "2026-09-25"
+    timezone: Europe/London
+    redirect: /find_commodity
+    service: uk
+    instrumentation_label: hmrc-traders
