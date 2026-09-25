@@ -30,7 +30,7 @@ RSpec.describe 'Commodity page', type: :request do
       get '/commodities/0101300000'
 
       page = Capybara.string(response.body)
-      expect(page).to have_link('Search for another commodity', href: '/find_commodity?search_mode=guided')
+      expect(page).to have_link('Search for another commodity', href: '/find_commodity')
       expect(page).not_to have_css('form#new_search')
     end
 

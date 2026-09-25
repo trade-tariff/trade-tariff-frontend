@@ -20,13 +20,25 @@ RSpec.describe 'Revised find commodity' do
       expect(page).to have_css('legend', text: 'When are you planning to trade the products?')
     end
 
-    it 'starts on keyword despite a saved mode', :aggregate_failures do
+    it 'restores the saved AI tab', :aggregate_failures do
       page.execute_script("document.cookie = 'interactive_search=true; path=/'")
+      visit find_commodity_path
+
+      expect(page).to have_css('#ai-search-tab[aria-selected="true"]')
+      expect(page).to have_field('Describe the products you are trading', visible: :visible)
+      expect(page).not_to have_field('revised-keyword-query', visible: :visible)
+    end
+
+    it 'remembers the tab the user picks', :aggregate_failures do
+      find('#ai-search-tab').click
+      visit find_commodity_path
+
+      expect(page).to have_css('#ai-search-tab[aria-selected="true"]')
+      find('#keyword-search-tab').click
       visit find_commodity_path
 
       expect(page).to have_css('#keyword-search-tab[aria-selected="true"]')
       expect(page).to have_field('revised-keyword-query', visible: :visible)
-      expect(page).not_to have_field('Describe the products you are trading', visible: :visible)
     end
 
     it 'opens on the AI tab when a start search again link asks for it', :aggregate_failures do

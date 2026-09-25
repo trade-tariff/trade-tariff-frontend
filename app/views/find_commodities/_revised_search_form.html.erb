@@ -3,6 +3,7 @@
               method: :post, scope: nil, local: true, id: 'new_search',
               builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               data: { controller: controllers, search_mode_initial_mode_value: @search_mode,
+                      search_mode_url_forced_value: @search_mode_from_url,
                       queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
                       action: @ai_search_enabled ? 'submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore' : nil } do |f| %>
   <div data-guided-search-validation-target="formContent" class="govuk-tabs govuk-!-margin-top-6 govuk-!-margin-bottom-8">
