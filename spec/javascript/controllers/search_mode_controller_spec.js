@@ -1,4 +1,5 @@
 import { Application } from '@hotwired/stimulus'
+import Cookies from 'js-cookie'
 import SearchModeController from '../../../app/javascript/controllers/search_mode_controller'
 
 const settle = () => new Promise(resolve => setTimeout(resolve, 0))
@@ -9,9 +10,9 @@ describe('SearchModeController', () => {
   const tab = mode => document.querySelector(`[data-mode="${mode}"]`)
   const panel = mode => document.getElementById(mode)
 
-  async function setup(initialMode = 'keyword') {
+  async function setup(initialMode = 'keyword', urlForced = false) {
     document.body.innerHTML = `
-      <form data-controller="search-mode" data-search-mode-initial-mode-value="${initialMode}">
+      <form data-controller="search-mode" data-search-mode-initial-mode-value="${initialMode}" data-search-mode-url-forced-value="${urlForced}">
         <ul hidden data-search-mode-target="tabs" role="tablist">
           <li class="govuk-tabs__list-item"><a href="#keyword" id="keyword-tab" role="tab" aria-controls="keyword" data-search-mode-target="tab" data-mode="keyword" data-action="click->search-mode#select keydown->search-mode#navigate">Keyword</a></li>
           <li class="govuk-tabs__list-item"><a href="#guided" id="guided-tab" role="tab" aria-controls="guided" data-search-mode-target="tab" data-mode="guided" data-action="click->search-mode#select keydown->search-mode#navigate">AI-assisted</a></li>
@@ -29,12 +30,12 @@ describe('SearchModeController', () => {
   afterEach(() => {
     application?.stop()
     document.body.innerHTML = ''
-    document.cookie = 'interactive_search=; max-age=0'
+    Cookies.remove('interactive_search')
     jest.restoreAllMocks()
   })
 
   it('enhances the keyword fallback with an accessible selected tab', async () => {
-    document.cookie = 'interactive_search=true'
+    Cookies.set('interactive_search', 'true')
     await setup()
     expect(document.querySelector('[role="tablist"]').hidden).toBe(false)
     expect(tab('keyword').getAttribute('aria-selected')).toBe('true')
@@ -79,13 +80,40 @@ describe('SearchModeController', () => {
     expect(panel('guided').hidden).toBe(false)
   })
 
-  it('starts on keyword when a server validation response is refreshed', async () => {
+  it('drops a one-off AI URL on refresh unless that tab was saved', async () => {
+    Object.defineProperty(performance, 'getEntriesByType', {
+      configurable: true, value: jest.fn(() => [{ type: 'reload' }])
+    })
+    await setup('guided', true)
+    expect(panel('keyword').hidden).toBe(false)
+    delete performance.getEntriesByType
+  })
+
+  it('keeps a saved AI tab when a one-off AI URL is refreshed', async () => {
+    Cookies.set('interactive_search', 'true')
+    Object.defineProperty(performance, 'getEntriesByType', {
+      configurable: true, value: jest.fn(() => [{ type: 'reload' }])
+    })
+    await setup('guided', true)
+    expect(panel('guided').hidden).toBe(false)
+    delete performance.getEntriesByType
+  })
+
+  it('keeps a validation error on the AI tab when that response is refreshed', async () => {
     Object.defineProperty(performance, 'getEntriesByType', {
       configurable: true, value: jest.fn(() => [{ type: 'reload' }])
     })
     await setup('guided')
-    expect(panel('keyword').hidden).toBe(false)
+    expect(panel('guided').hidden).toBe(false)
     delete performance.getEntriesByType
+  })
+
+  it('stores the tab the user picks', async () => {
+    await setup()
+    tab('guided').click()
+    expect(Cookies.get('interactive_search')).toBe('true')
+    tab('keyword').click()
+    expect(Cookies.get('interactive_search')).toBe('false')
   })
 
   it('excludes autocomplete fields added while the keyword panel is inactive', async () => {

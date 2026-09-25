@@ -1,8 +1,12 @@
 import { Controller } from '@hotwired/stimulus'
+import Cookies from 'js-cookie'
 
 export default class extends Controller {
   static targets = ['tabs', 'tab', 'keywordSection', 'guidedSection', 'hiddenField']
-  static values = { initialMode: { type: String, default: 'keyword' } }
+  static values = {
+    initialMode: { type: String, default: 'keyword' },
+    urlForced: { type: Boolean, default: false },
+  }
 
   connect() {
     this.tabsTarget.hidden = false
@@ -12,7 +16,8 @@ export default class extends Controller {
       panel.setAttribute('aria-labelledby', tab.id)
     })
     const navigation = window.performance.getEntriesByType?.('navigation')[0]
-    this.#setMode(navigation?.type === 'reload' ? 'keyword' : this.initialModeValue)
+    const reloadedUrlRequest = navigation?.type === 'reload' && this.urlForcedValue
+    this.#setMode(reloadedUrlRequest ? this.#rememberedMode() : this.initialModeValue)
     this.observer = new MutationObserver(() => this.#setMode(this.mode))
     this.observer.observe(this.element, { childList: true, subtree: true })
   }
@@ -23,7 +28,7 @@ export default class extends Controller {
 
   select(event) {
     event.preventDefault()
-    this.#setMode(event.currentTarget.dataset.mode)
+    this.#chooseMode(event.currentTarget.dataset.mode)
   }
 
   navigate(event) {
@@ -40,8 +45,25 @@ export default class extends Controller {
 
     event.preventDefault()
     const tab = tabs[positions[event.key]]
-    this.#setMode(tab.dataset.mode)
+    this.#chooseMode(tab.dataset.mode)
     tab.focus()
+  }
+
+  #chooseMode(mode) {
+    this.#setMode(mode)
+    this.#rememberMode(mode)
+  }
+
+  #rememberedMode() {
+    return Cookies.get('interactive_search') === 'true' ? 'guided' : 'keyword'
+  }
+
+  #rememberMode(mode) {
+    Cookies.set('interactive_search', (mode === 'guided').toString(), {
+      expires: 365,
+      secure: location.protocol === 'https:',
+      sameSite: 'Strict',
+    })
   }
 
   #setMode(mode) {
