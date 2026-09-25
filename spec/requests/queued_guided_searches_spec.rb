@@ -80,6 +80,56 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
   end
 
+  it 'sends known-empty expansion terms when queueing' do
+    inputs[:query_expansion] = '{"ai_terms":[]}'
+
+    enqueue
+
+    expect(WebMock).to(have_requested(:post, %r{/internal/uk/queued_searches$}).with do |request|
+      JSON.parse(request.body)['query_expansion'] == { 'ai_terms' => [] }
+    end)
+  end
+
+  it 'keeps handoff when expansion terms differ' do
+    inputs[:query_expansion] = '{"ai_terms":[]}'
+    accepted = enqueue
+    stub_completed(id, result.deep_merge(
+                         meta: { interactive_search: { query_expansion: { ai_terms: ['live horse'] } } },
+                       ))
+
+    finish(accepted, query_expansion: '{"ai_terms":["other"]}')
+
+    field = Capybara.string(response.body).find('input[name="query_expansion"]', visible: :hidden)
+    expect(response).to have_http_status(:ok)
+    expect(JSON.parse(field.value)).to eq('ai_terms' => ['live horse'])
+  end
+
+  it 'renders returned expansion terms for the next answer' do
+    accepted = enqueue
+    stub_completed(id, result.deep_merge(
+                         meta: { interactive_search: { query_expansion: { ai_terms: ['live horse'] } } },
+                       ))
+
+    finish(accepted)
+
+    field = Capybara.string(response.body).find('input[name="query_expansion"]', visible: :hidden)
+    expect(JSON.parse(field.value)).to eq('ai_terms' => ['live horse'])
+    expect(response.body).to include('&quot;live horse&quot;')
+  end
+
+  it 'keeps a completed question when expansion data is invalid' do
+    accepted = enqueue
+    stub_completed(id, result.deep_merge(
+                         meta: { interactive_search: { query_expansion: { ai_terms: ['', 1] } } },
+                       ))
+
+    finish(accepted)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include('What is it used for?')
+    expect(response.body).not_to include('name="query_expansion"')
+  end
+
   it 'renders a completed question without another search' do
     accepted = enqueue
     stub_completed

@@ -354,6 +354,124 @@ RSpec.describe Search do
         expect(stub).to have_been_requested.twice
       end
 
+      it 'sends expansion terms without changing the expanded query' do
+        stub = stub_api_request('search', :post, internal: true)
+          .with { |request|
+            body = JSON.parse(request.body)
+            body['expanded_query'] == 'portable data processing machine' &&
+              body['query_expansion'] == { 'ai_terms' => %w[machine] }
+          }
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        search = described_class.new(
+          q: 'laptop',
+          expanded_query: 'portable data processing machine',
+          query_expansion: { 'ai_terms' => %w[machine] },
+        )
+        search.interactive_search = true
+        search.perform
+
+        expect(stub).to have_been_requested
+      end
+
+      it 'sends a known-empty expansion term list' do
+        stub = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['query_expansion'] == { 'ai_terms' => [] } }
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        search = described_class.new(q: 'laptop', query_expansion: { 'ai_terms' => [] })
+        search.interactive_search = true
+        search.perform
+
+        expect(stub).to have_been_requested
+      end
+
+      it 'omits unknown expansion data' do
+        stub = stub_api_request('search', :post, internal: true)
+          .with { |request| !JSON.parse(request.body).key?('query_expansion') }
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        search = described_class.new(q: 'laptop', query_expansion: { 'ai_terms' => [''] })
+        search.interactive_search = true
+        search.perform
+
+        expect(stub).to have_been_requested
+      end
+
+      it 'keeps the queued handoff key on the previous formula', :aggregate_failures do
+        [nil, { 'ai_terms' => [] }, { 'ai_terms' => %w[mare] }].each do |query_expansion|
+          search = described_class.new(
+            q: 'horse',
+            answers: [{ 'question' => 'Type?', 'answer' => 'Live' }],
+            request_id: 'journey-1',
+            expanded_query: 'live horse',
+            year: '2024',
+            month: '1',
+            day: '2',
+            query_expansion:,
+          )
+          original = {
+            q: search.q,
+            answers: search.answers,
+            as_of: search.date.to_fs(:db),
+            expanded_query: search.expanded_query,
+            experiment: search.experiment,
+            request_id: search.request_id,
+          }
+          expected = "interactive_search/#{Digest::SHA256.hexdigest(MultiJson.dump(original))}"
+
+          expect(search.queued_search_handoff_key).to eq(expected)
+          expect(search.interactive_search_cache_key).to eq(expected) if query_expansion.nil?
+        end
+      end
+
+      it 'separates the sync cache without changing the handoff key', :aggregate_failures do
+        searches = [nil, { 'ai_terms' => [] }, { 'ai_terms' => %w[mare] }].map do |query_expansion|
+          described_class.new(q: 'horse', query_expansion:)
+        end
+
+        expect(searches.map(&:interactive_search_cache_key).uniq.size).to eq(3)
+        expect(searches.map(&:queued_search_handoff_key).uniq).to eq([searches.first.queued_search_handoff_key])
+      end
+
+      it 'isolates cached metadata by expansion terms' do
+        allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+        stub = stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        [nil, nil, { 'ai_terms' => [] }, { 'ai_terms' => [] }, { 'ai_terms' => %w[mare] }].each do |query_expansion|
+          search = described_class.new(q: 'cache isolation query', query_expansion:)
+          search.interactive_search = true
+          search.perform
+        end
+
+        expect(stub).to have_been_requested.times(3)
+      end
+
+      it 'treats invalid expansion data as absent in the cache' do
+        allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+        stub = stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        [nil, 'not-json', { 'ai_terms' => [1] }].each do |query_expansion|
+          search = described_class.new(q: 'cache isolation query', query_expansion:)
+          search.interactive_search = true
+          search.perform
+        end
+
+        expect(stub).to have_been_requested.once
+      end
+
       it 'isolates cached results by guided search journey' do
         allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
         stub = stub_api_request('search', :post, internal: true)

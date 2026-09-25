@@ -13,7 +13,7 @@ class Search
     def initialize(parsed_data, meta = nil)
       @results = Array(parsed_data).map { |attrs| build_model(attrs) }
       @type = @results.empty? ? nil : 'internal'
-      @meta = meta
+      @meta = normalized_meta(meta)
     end
 
     def exact_match?
@@ -97,6 +97,14 @@ class Search
       meta&.dig('interactive_search', 'expanded_query')
     end
 
+    def query_expansion
+      QueryExpansion.parse(meta&.dig('interactive_search', 'query_expansion'))
+    end
+
+    def query_expansion_json
+      QueryExpansion.dump(query_expansion)
+    end
+
     def description_intercept
       meta&.dig('description_intercept')
     end
@@ -119,6 +127,24 @@ class Search
     end
 
     private
+
+    def normalized_meta(meta)
+      interactive = meta&.dig('interactive_search')
+      return meta unless interactive.is_a?(Hash) && interactive.key?('query_expansion')
+
+      meta = meta.deep_dup
+      assign_query_expansion(meta['interactive_search'])
+      meta
+    end
+
+    def assign_query_expansion(interactive)
+      parsed = QueryExpansion.parse(interactive['query_expansion'])
+      if parsed
+        interactive['query_expansion'] = parsed
+      else
+        interactive.delete('query_expansion')
+      end
+    end
 
     def build_model(entry)
       gn_class = entry['goods_nomenclature_class']
