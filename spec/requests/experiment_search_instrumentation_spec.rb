@@ -46,6 +46,19 @@ RSpec.describe 'Experiment search instrumentation', type: :request do
     expect(stub).to have_been_requested
   end
 
+  it 'records the HMRC traders label on later searches' do
+    stub = stub_api_request('search', :post, internal: true)
+      .with { |request| JSON.parse(request.body)['experiment'] == 'hmrc-traders' }
+      .to_return(status: 200, body: response_body, headers: { 'content-type' => 'application/json' })
+
+    travel_to(Time.utc(2026, 9, 25, 12)) { get '/hmrc-traders' }
+    travel_to(Time.utc(2026, 10, 25, 12)) do
+      post '/search', params: { q: 'horses', interactive_search: 'true', experiment: 'spoofed' }
+    end
+
+    expect(stub).to have_been_requested
+  end
+
   it 'retains the demo label on later searches' do
     stub = stub_api_request('search', :post, internal: true)
       .with { |request| JSON.parse(request.body)['experiment'] == 'demo' }
