@@ -33,6 +33,31 @@ RSpec.describe 'search/interactive_question', type: :view do
     )
   end
 
+  it 'carries expansion terms as escaped JSON', :aggregate_failures do
+    meta['interactive_search']['query_expansion'] = { 'ai_terms' => ['horse "mare" & <foal>'] }
+
+    render
+
+    field = Capybara.string(rendered).find('input[name="query_expansion"]', visible: :hidden)
+    expect(JSON.parse(field.value)).to eq('ai_terms' => ['horse "mare" & <foal>'])
+    expect(rendered).to include('&quot;').and include('&lt;')
+  end
+
+  it 'carries a known-empty expansion term list' do
+    meta['interactive_search']['query_expansion'] = { 'ai_terms' => [] }
+
+    render
+
+    field = Capybara.string(rendered).find('input[name="query_expansion"]', visible: :hidden)
+    expect(field.value).to eq('{"ai_terms":[]}')
+  end
+
+  it 'omits unknown expansion data from the answer form' do
+    render
+
+    expect(rendered).not_to have_css('input[name="query_expansion"]', visible: :all)
+  end
+
   it 'carries only a present experiment label into the answer form' do
     allow(view).to receive(:search_form_path).and_return('/find_commodity')
     assign(:search, Search.new(q: 'jam', request_id: '123', interactive_search: true, experiment: 'trstd-trdr'))

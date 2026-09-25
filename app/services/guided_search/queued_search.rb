@@ -59,6 +59,7 @@ module GuidedSearch
       return false unless Array(meta['search_failures']).all? { |code| code.is_a?(String) }
 
       interactive = meta['interactive_search']
+      # Expansion reporting is optional. Invalid values are removed later and must not fail the result.
       if interactive
         return false unless optional_types?(interactive, 'answers' => Array, 'result_limit' => Integer, 'request_id' => String, 'query' => String, 'expanded_query' => String)
         return false if interactive['request_id'] && !interactive['request_id'].match?(Search::GUIDED_REQUEST_ID_PATTERN)

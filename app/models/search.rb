@@ -9,8 +9,9 @@ class Search
   INTERNAL_RESULT_CACHE_TTL = 30.minutes
   GUIDED_REQUEST_ID_PATTERN = /\A[a-zA-Z0-9-]{1,64}\z/
 
-  attr_reader   :q,      # search text query
-                :country # search country
+  attr_reader :q, # search text query
+              :country, # search country
+              :query_expansion
   attr_accessor :day,
                 :month,
                 :year,
@@ -20,6 +21,10 @@ class Search
                 :request_id,
                 :expanded_query,
                 :experiment
+
+  def query_expansion=(value)
+    @query_expansion = QueryExpansion.parse(value)
+  end
 
   delegate :today?, to: :date
 
@@ -124,6 +129,7 @@ class Search
       answers: answers.presence,
       request_id: request_id.presence,
       expanded_query: expanded_query.presence,
+      query_expansion:,
       experiment: experiment.presence }.compact
   end
 
@@ -149,7 +155,7 @@ class Search
   private_class_method :queued_result_cache_key
 
   def interactive_search_cache_key
-    search_fingerprint(experiment:)
+    search_fingerprint(experiment:, include_query_expansion: true)
   end
 
   def queued_search_handoff_key
@@ -159,9 +165,17 @@ class Search
 
   private
 
-  def search_fingerprint(experiment:)
-    digest = Digest::SHA256.hexdigest(MultiJson.dump({ q:, answers:, as_of: date.to_fs(:db), expanded_query:, experiment:, request_id: }))
-    "interactive_search/#{digest}"
+  def search_fingerprint(experiment:, include_query_expansion: false)
+    payload = {
+      q:,
+      answers:,
+      as_of: date.to_fs(:db),
+      expanded_query:,
+      experiment:,
+      request_id:,
+    }
+    payload[:query_expansion] = query_expansion if include_query_expansion && !query_expansion.nil?
+    "interactive_search/#{Digest::SHA256.hexdigest(MultiJson.dump(payload))}"
   end
 
   def interactive_search_enabled?

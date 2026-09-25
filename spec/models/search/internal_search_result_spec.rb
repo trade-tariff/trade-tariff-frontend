@@ -459,6 +459,45 @@ RSpec.describe Search::InternalSearchResult do
     it { is_expected.to eq('leather handbag travel bag') }
   end
 
+  describe '#query_expansion' do
+    subject(:result) { described_class.new([commodity_attrs], meta) }
+
+    let(:meta) do
+      {
+        'interactive_search' => {
+          'expanded_query' => 'leather handbag',
+          'query_expansion' => expansion,
+        },
+      }
+    end
+    let(:expansion) { { 'ai_terms' => %w[handbag], 'other' => 'ignored' } }
+
+    it 'returns only the expansion terms' do
+      expect(result.query_expansion).to eq('ai_terms' => %w[handbag])
+    end
+
+    it 'keeps a known-empty term list', :aggregate_failures do
+      meta['interactive_search']['query_expansion'] = { 'ai_terms' => [] }
+
+      expect(result.query_expansion).to eq('ai_terms' => [])
+      expect(result.query_expansion_json).to eq('{"ai_terms":[]}')
+    end
+
+    it 'drops invalid expansion data and keeps the result', :aggregate_failures do
+      meta['interactive_search']['query_expansion'] = { 'ai_terms' => [''] }
+
+      expect(result.query_expansion).to be_nil
+      expect(result.expanded_query).to eq('leather handbag')
+      expect(result.meta['interactive_search']).not_to have_key('query_expansion')
+    end
+
+    it 'treats missing expansion data as unknown' do
+      meta['interactive_search'].delete('query_expansion')
+
+      expect(result.query_expansion).to be_nil
+    end
+  end
+
   describe '#description_intercept' do
     it 'returns the description_intercept hash from meta when present' do
       meta = { 'description_intercept' => { 'excluded' => true, 'message_header' => 'Sending a set', 'message' => 'Sets...' } }

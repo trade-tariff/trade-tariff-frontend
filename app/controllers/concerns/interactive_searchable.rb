@@ -127,6 +127,7 @@ module InteractiveSearchable
         interactive_search: 'true',
         request_id: @search.request_id,
         expanded_query: @results.expanded_query,
+        query_expansion: @results.query_expansion_json,
       ).compact,
     )
   end
@@ -165,6 +166,7 @@ module InteractiveSearchable
         'request_id' => params[:request_id],
         'query' => params[:q],
         'expanded_query' => params[:expanded_query],
+        'query_expansion' => Search::QueryExpansion.parse(params[:query_expansion]),
         'answers' => answers + [current],
       }.compact,
     }

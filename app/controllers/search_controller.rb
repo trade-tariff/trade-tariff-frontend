@@ -106,6 +106,7 @@ class SearchController < ApplicationController
                            params[:request_id].presence || SecureRandom.uuid
                          end
     @search.expanded_query = params[:expanded_query].presence
+    @search.query_expansion = params[:query_expansion]
   end
 
   def guided_search_event_params
@@ -236,11 +237,13 @@ class SearchController < ApplicationController
       :interactive_search,
       :request_id,
       :expanded_query,
+      :query_expansion,
       :current_question,
       :current_options,
       :experiment,
       answers: %i[question options answer],
       interactive_search_form: [:answer],
+      query_expansion: { ai_terms: [] },
     ).to_h
       .merge(extract_search_date_parts)
       .merge(experiment: Current.experiment)

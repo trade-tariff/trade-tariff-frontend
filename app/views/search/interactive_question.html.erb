@@ -35,6 +35,7 @@
       <%= hidden_field_tag :request_id, @search.request_id %>
       <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
       <%= hidden_field_tag :expanded_query, @results.expanded_query if @results.expanded_query.present? %>
+      <%= hidden_field_tag :query_expansion, @results.query_expansion_json if @results.query_expansion_json %>
       <% if @search.day_month_and_year_set? %>
         <%= hidden_field_tag :year, @search.year %>
         <%= hidden_field_tag :month, @search.month %>
