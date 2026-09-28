@@ -29,10 +29,15 @@ class PageVisitMetrics
     end
 
     def record(event, output: $stdout, environment: TradeTariffFrontend.environment, catalogue: self.catalogue)
+      request_id = event.payload[:request_id].to_s
+      return false if request_id.empty? || already_recorded?(request_id)
+
       line = line_for(event.payload, environment:, catalogue:, now: event.end)
       return false unless line
 
-      output.write_nonblock(line, exception: false) == line.bytesize
+      written = output.write_nonblock(line, exception: false) == line.bytesize
+      remember_request(request_id) if written
+      written
     rescue StandardError
       false
     end
@@ -52,6 +57,14 @@ class PageVisitMetrics
     end
 
     private
+
+    def already_recorded?(request_id)
+      Thread.current[:page_visit_metrics_request_id] == request_id
+    end
+
+    def remember_request(request_id)
+      Thread.current[:page_visit_metrics_request_id] = request_id
+    end
 
     def sample_for(payload, environment:, catalogue:, now:)
       request = Request.new(payload)
