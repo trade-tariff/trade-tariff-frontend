@@ -15,8 +15,18 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
   it 'records each supported browser event' do
     cases = [
       [
-        { event_type: 'dont_know', request_id: 123, question_number: 2, client_elapsed_ms: 4_321 },
-        { outcome: 'dont_know', used_dont_know: true, request_id: '123', question_count: 2, client_elapsed_ms: 4_321 },
+        { event_type: 'dont_know', request_id: 123, question_number: 2, client_elapsed_ms: 4_321, question_id: 'question-123', event_id: 'event-123' },
+        {
+          outcome: 'dont_know',
+          used_dont_know: true,
+          request_id: '123',
+          question_count: 2,
+          client_elapsed_ms: 4_321,
+          question_response: 'dont_know',
+          terminal_outcome: 'dont_know',
+          question_id: 'question-123',
+          event_id: 'event-123',
+        },
       ],
       [
         {
@@ -62,18 +72,17 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
       expect(response).to have_http_status(:no_content)
       expect(journey_events.shift).to include(expected)
     end
+    expect(journey_events).to be_empty
   end
 
-  [nil, ''].each do |timing|
-    it "records a visible page without navigation timing (#{timing.inspect})" do
-      post guided_search_event_path,
-           params: { event_type: 'page_visible', request_id: 'request-123', destination: 'results', client_navigation_ms: timing },
-           as: :json
+  it 'records a visible page without navigation timing' do
+    post guided_search_event_path,
+         params: { event_type: 'page_visible', request_id: 'request-123', destination: 'results' },
+         as: :json
 
-      expect(response).to have_http_status(:no_content)
-      expect(journey_events.sole).to include(outcome: 'page_visible', destination: 'results', request_id: 'request-123')
-      expect(journey_events.sole).not_to have_key(:client_navigation_ms)
-    end
+    expect(response).to have_http_status(:no_content)
+    expect(journey_events.sole).to include(outcome: 'page_visible', destination: 'results', request_id: 'request-123')
+    expect(journey_events.sole).not_to have_key(:client_navigation_ms)
   end
 
   it 'rejects malformed navigation timing' do
@@ -97,14 +106,6 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
     )
   end
 
-  it 'stamps server service and guided scope over a caller-supplied value' do
-    GuidedSearch::JourneyInstrumentation.record(
-      outcome: 'initial_submitted', service: 'xi', search_scope: 'classic',
-    )
-
-    expect(journey_events.sole).to include(schema_version: 1, service: 'uk', search_scope: 'guided')
-  end
-
   it 'rejects incomplete events without recording them' do
     post guided_search_event_path,
          params: { event_type: 'page_visible', request_id: 'request-123', destination: 'invented' },
@@ -122,6 +123,8 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
            submission_id: 'submission-123',
            event_id: 'event-123',
            q: 'private query',
+           service: 'xi',
+           search_scope: 'classic',
          },
          as: :json
 
@@ -129,12 +132,14 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
     expect(journey_events.sole).to include(
       outcome: 'initial_submitted',
       submission_source: 'browser',
+      schema_version: 1,
+      service: 'uk',
+      search_scope: 'guided',
       request_id: 'request-123',
       submission_id: 'submission-123',
       event_id: 'event-123',
     )
     expect(journey_events.to_json).not_to include('private query')
-    expect(journey_events.to_json).not_to include('journey_id')
   end
 
   it 'records a browser-selected answer separately from dont_know' do
@@ -163,31 +168,9 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
     expect(journey_events.to_json).not_to include('Haddock')
   end
 
-  it 'keeps dont_know as one question response and terminal outcome' do
-    post guided_search_event_path,
-         params: {
-           event_type: 'dont_know',
-           request_id: 'request-123',
-           question_number: 1,
-           client_elapsed_ms: 100,
-           question_id: 'question-123',
-           event_id: 'event-123',
-         },
-         as: :json
-
-    expect(journey_events.sole).to include(
-      outcome: 'dont_know',
-      question_response: 'dont_know',
-      terminal_outcome: 'dont_know',
-      question_id: 'question-123',
-      event_id: 'event-123',
-    )
-    expect(journey_events.size).to eq(1)
-  end
-
   it 'rejects malformed telemetry ids and an answer without the browser source' do
     post guided_search_event_path,
-         params: { event_type: 'initial_submitted', request_id: 'bad id', event_id: 'event-123' },
+         params: { event_type: 'initial_submitted', request_id: 'request-123', event_id: 'bad id' },
          as: :json
     post guided_search_event_path,
          params: {

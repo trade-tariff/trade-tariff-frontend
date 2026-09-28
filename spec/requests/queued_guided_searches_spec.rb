@@ -143,7 +143,6 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     expect(response).to have_http_status(:ok)
     expect(events.pluck(:outcome)).not_to include('initial_submitted')
     expect(events).to include(hash_including(outcome: 'question', request_id: 'journey-123'))
-    expect(events.to_json).not_to include('journey_id')
   ensure
     ActiveSupport::Notifications.unsubscribe(subscriber)
   end

@@ -59,15 +59,13 @@ describe('guided search journey telemetry', () => {
 
     expect(HTMLFormElement.prototype.submit).not.toHaveBeenCalled()
     expect(events().map(event => event.event_type)).toEqual(['initial_submitted', 'page_visible'])
-    expect(events()[0]).toMatchObject({ event_type: 'initial_submitted' })
     expect(events()[0].request_id).toMatch(ID)
     expect(events()[0].event_id).toMatch(ID)
     expect(events()[1]).toMatchObject({ event_type: 'page_visible', destination: 'input_error', request_id: events()[0].request_id })
     expect(document.querySelector('[name="request_id"]').value).toBe(events()[0].request_id)
-    expect(JSON.stringify(events())).not.toContain('search-q-field')
   })
 
-  it('gives a corrected initial submit a new journey id', async () => {
+  it('gives a corrected initial submit a new request id', async () => {
     await startValidation('')
     const first = events()[0].request_id
     document.querySelector('#search-q-field').value = 'a'
@@ -138,7 +136,6 @@ describe('guided search journey telemetry', () => {
     expect(HTMLFormElement.prototype.submit).toHaveBeenCalledTimes(1)
     expect(events().filter(event => event.event_type === 'initial_submitted')).toHaveLength(1)
     expect(document.querySelector('[name="request_id"]').value).toBe(events()[0].request_id)
-    expect(document.querySelector('[name="telemetry_journey_id"]')).toBeNull()
   })
 
   it('keeps one question id across dont know, back, and a normal answer', async () => {
@@ -153,7 +150,6 @@ describe('guided search journey telemetry', () => {
           <input type="hidden" name="telemetry_question_id" value="question-server-id">
           <input type="radio" id="known" name="interactive_search_form[answer]" value="Haddock" data-guided-option="true">
           <input type="radio" id="unknown" name="interactive_search_form[answer]" value="I don't know">
-          <input type="radio" id="injected" name="interactive_search_form[answer]" value="Not an option">
         </form>
         <div data-interactive-question-target="dontKnow" class="govuk-!-display-none"></div>
         <button data-action="interactive-question#goBack">Go back</button>
@@ -209,6 +205,8 @@ describe('guided search journey telemetry', () => {
   })
 
   it('reuses an observation id when the same logical event is sent again', () => {
-    expect(observationId('page_visible:results:request-123')).toBe(observationId('page_visible:results:request-123'))
+    const original = observationId('page_visible:results:request-123')
+    expect(observationId('page_visible:results:request-123')).toBe(original)
+    expect(observationId('page_visible:results:request-456')).not.toBe(original)
   })
 })

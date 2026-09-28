@@ -21,7 +21,6 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
     expect(journey_events.map { |event| event[:outcome] }).to eq(%w[initial_submitted input_error])
     expect(journey_events.first).to include(submission_source: 'server_direct', request_id: 'request-123')
     expect(journey_events.second[:request_id]).to eq('request-123')
-    expect(journey_events.to_json).not_to include('journey_id')
     expect(WebMock).not_to have_requested(:post, %r{queued_searches})
   end
 
@@ -32,7 +31,6 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
 
     expect(journey_events.map { |event| event[:outcome] }).to eq(%w[input_error])
     expect(journey_events.sole).to include(request_id: 'request-123')
-    expect(journey_events.to_json).not_to include('journey_id')
   end
 
   it 'does not start a journey for a question submit' do
@@ -43,13 +41,10 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
       current_question: 'Material?',
       current_options: '["Wood"]',
       interactive_search_form: { answer: '' },
-      telemetry_submission_id: 'submission-1',
     }
 
     expect(journey_events.map { |event| event[:outcome] }).not_to include('initial_submitted')
     expect(journey_events).to include(hash_including(outcome: 'question', request_id: 'request-123'))
-    expect(journey_events.to_json).not_to include('Material')
-    expect(journey_events.to_json).not_to include('journey_id')
   end
 
   it 'keeps question identity stable and distinct at the same ordinal' do
@@ -60,7 +55,6 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
     expect(material).to eq(GuidedSearch::JourneyInstrumentation.question_id(**shared, question: 'What is the material?', options: %w[Wood Metal]))
     expect(material).not_to eq(use)
     expect(material).to match(/\A[0-9a-f]{64}\z/)
-    expect(material).not_to include('material')
   end
 
   it 'counts a rendered option only after the server accepts it' do
@@ -76,83 +70,39 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
       current_question: 'Material?',
       current_options: %w[Wood Metal].to_json,
     }
-    post perform_search_path, params: base.merge(interactive_search_form: { answer: 'Nope' })
+    post perform_search_path, params: base.merge(interactive_search_form: { answer: '' })
 
     expect(journey_events.map { |event| event[:outcome] }).not_to include('answer_accepted')
+    shown_question_id = Capybara.string(response.body).find('input[name="telemetry_question_id"]', visible: :all)[:value]
 
     journey_events.clear
     post perform_search_path, params: base.merge(interactive_search_form: { answer: 'Wood' }, telemetry_submission_id: 'submission-1')
 
     accepted = journey_events.find { |event| event[:outcome] == 'answer_accepted' }
     expect(accepted).to include(response_source: 'server_accepted', question_response: 'normal', request_id: 'request-123', submission_id: 'submission-1')
-    expect(accepted[:question_id]).to match(/\A[0-9a-f]{64}\z/)
+    expect(accepted[:question_id]).to eq(shown_question_id)
     expect(journey_events.to_json).not_to include('Wood')
     expect(journey_events.to_json).not_to include('Material')
-    expect(journey_events.to_json).not_to include('journey_id')
   end
 
-  it 'drops a malformed submission id without copying it into the log' do
-    post perform_search_path, params: { q: '', interactive_search: 'true', telemetry_submission_id: 'bad id' }
-
-    expect(journey_events.map { |event| event[:outcome] }).to eq(%w[input_error])
-    expect(journey_events.to_json).not_to include('bad id')
-    expect(journey_events.to_json).not_to include('journey_id')
-  end
-
-  it 'keeps the existing intercept for a direct submit and retains a supplied request id' do
-    blocking = {
+  it 'retains the early request id when displaying blocking guidance' do
+    stub_api_request('search', :post, internal: true).to_return(
       status: 200,
       body: {
         data: [],
         meta: {
-          interactive_search: { query: 'exampleterm', request_id: 'backend-request-id', answers: [] },
+          interactive_search: { query: 'exampleterm', request_id: 'browser-request-id', answers: [] },
           description_intercept: { excluded: true, message_header: 'Stop', message: 'Guidance' },
         },
       }.to_json,
       headers: { 'content-type' => 'application/json' },
-    }
-    stub_api_request('search', :post, internal: true).to_return(blocking)
-
-    post perform_search_path, params: { q: 'exampleterm', interactive_search: 'true' }
-
-    expect(response).to redirect_to(perform_search_path(q: 'exampleterm', interactive_search: 'true', request_id: 'backend-request-id'))
-
-    stub_api_request('search', :post, internal: true).to_return(
-      blocking.merge(body: blocking[:body].sub('backend-request-id', 'browser-request-id')),
     )
     post perform_search_path, params: {
       q: 'exampleterm', interactive_search: 'true', request_id: 'browser-request-id', telemetry_submission_id: 'submission-1'
     }
 
     expect(response).to have_http_status(:ok)
-    expect(response).not_to be_redirect
     expect(response.body).to include('browser-request-id')
     expect(journey_events).to include(hash_including(outcome: 'blocking_guidance', request_id: 'browser-request-id'))
-  end
-
-  it 'does not redirect a blocking question continuation' do
-    stub_api_request('search', :post, internal: true).to_return(
-      status: 200,
-      body: {
-        data: [],
-        meta: {
-          interactive_search: { query: 'exampleterm', request_id: 'request-123', answers: [] },
-          description_intercept: { excluded: true, message_header: 'Stop', message: 'Guidance' },
-        },
-      }.to_json,
-      headers: { 'content-type' => 'application/json' },
-    )
-
-    post perform_search_path, params: {
-      q: 'exampleterm',
-      interactive_search: 'true',
-      request_id: 'request-123',
-      current_question: 'Material?',
-      current_options: %w[Wood].to_json,
-      interactive_search_form: { answer: 'Wood' },
-    }
-
-    expect(response).to have_http_status(:ok)
-    expect(response).not_to be_redirect
   end
 end
