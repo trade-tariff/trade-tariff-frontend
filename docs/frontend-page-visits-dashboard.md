@@ -7,29 +7,34 @@ using the controller-log correlation added by
 ## Read the dashboard
 
 `Frontend-Page-Visits-<environment>` defaults to the last 24 hours. Start with
-session-ID coverage, then compare the two main pies:
+the two coverage numbers, then the activity bar:
 
+- **Session ID coverage:** eligible requests with and without a browser-session
+  identifier. These are reporting identities, not verified people.
+- **Page-name coverage:** eligible requests whose page family is mapped, and
+  requests that remain unmapped. Unmapped is not the same thing as the Other
+  activity group.
 - **Browser sessions by request frequency:** number of distinct observed
-  browser-session IDs in each group. These are reporting identities, not verified
-  people. Low, Medium and High describe request counts in the selected period,
-  not how regularly someone returns to the service.
-- **Share of requests by activity:** share of eligible requests by activity group,
-  including Other. The separate top-20 page table shows UI names mapped from
-  controller/action pairs, distinguishing form submissions and redirects.
+  browser-session IDs in each group. Low, Medium and High describe request
+  counts in the selected period, not how regularly someone returns to the service.
+- **Requests by activity:** eligible requests by activity group, including Other.
+  The page-type bar shows every observed page family, including form submissions
+  and redirects. It is not a top-20 cutoff.
 
-The two pies have different denominators: sessions versus requests. They must not
-be compared as if they represented the same population.
+Session charts and request charts have different denominators. They must not be
+compared as if they represented the same population.
 
-Other views show hourly traffic by page type, visits-per-session distribution,
-activity shares by frequency group, responses by status class, and the
-first/last observed named pages for each session. The distribution caps its final
-bucket at 21: that bucket includes every session with 21 or more visits.
+Request totals, hourly activity, tariff levels and status classes are container
+metrics. Session frequency, the request-count distribution, activity share within
+each frequency group, and first/last page types still scan logs because they
+group a selected window by session. The distribution caps its final bucket at 21:
+that bucket includes every session with 21 or more visits. The one-request bar
+dominates that chart; use the frequency table for the group counts.
 
 The first/last table is not an entry/exit funnel or bounce rate. It describes only
 observations within the selected window, including single-request sessions.
-The most popular named pages and first/last pairs are limited to 20 rows; the
-pies do not truncate their populations. Individual commodity codes and product
-descriptions are not displayed.
+It is limited to 20 rows. The metric charts do not truncate their populations.
+Individual commodity codes and product descriptions are not displayed.
 
 ## Tariff page breakdown
 
@@ -97,7 +102,7 @@ POST/PATCH/other non-GET/HEAD requests add **(form submission)**. A 3xx status a
 **(redirect)**, including on form submissions. These annotations describe the
 request, not proof of successful validation or a destination page display.
 
-The pie, hourly activity chart and behaviour table use nine activity labels:
+The activity bar, hourly activity chart and behaviour table use nine activity labels:
 Search, Browse tariff, A-Z index, Commodities, Duty calculator, Tariff tools, Enquiry form,
 Help & guidance, and Other pages. Enquiry form remains its own activity rather
 than being folded into general help. Table columns use readable names and
@@ -163,8 +168,8 @@ use the same local thresholds. Equal counts always receive the same group.
 A browser-session ID is the accepted reporting identity. Session resets lose
 continuity; we do not add login tracking or link persistent browser identities.
 Changing the dashboard time range can change a session's group. A missing ID is
-not a low-frequency session: those requests are counted in the coverage pie but
-excluded from cohort and first/last reports.
+not a low-frequency session: those requests are counted in the session-ID coverage
+numbers but excluded from cohort and first/last reports.
 
 This delivers retrospective dashboard groups. It does not assign a prior-only
 group to a search journey at journey start, establish monthly history, enforce
@@ -177,10 +182,12 @@ The source is `platform-logs-<environment>`, restricted to streams starting
 `ecs/frontend/`, matching the ECS awslogs stream convention. Explicitly extract
 and parse the JSON object because Rails can prefix it with its logger timestamp
 and request tag. Select controller records with `format = "html"` and a status;
-never display the raw message or submitted parameters.
+never display the raw message or submitted parameters. The container metrics use
+the same eligibility rules from `config/page_visit_catalogue.json`. They count
+one in-process event rather than collapsing a duplicate delivered log line.
 
-- Count each HTTP request ID once, collapsing duplicate records. Separate
-  requests to the same page still count separately.
+- Count each HTTP request ID once in the session log charts, collapsing duplicate
+  records. Separate requests to the same page still count separately.
 - Include public HTML GETs, form submissions, refreshes, redirects and errors.
   These are server-observed page requests, not proof of a visible page view.
 - Exclude authentication/subscription controllers, basic-auth pages, health
@@ -220,21 +227,39 @@ onward had IDs. This is bounded development evidence, not a guarantee for other
 environments or future traffic. Empty charts must not be interpreted as zero
 visitors or complete historical coverage.
 
-Each dashboard refresh runs eleven Logs Insights queries over a shared platform
-log group. Prefer manual refresh and bounded windows. Measure bytes scanned and
-query duration before adopting longer windows or frequent refresh. A result
-limit is not a scan-cost budget. Terraform does not set the viewer's refresh
-interval here.
+Request charts read `TradeTariff/PageVisits` metrics emitted by the frontend
+container. Each eligible HTML request writes one Embedded Metric Format line to
+stdout. CloudWatch extracts `PageRequests` with closed dimensions only:
+activity, session-ID coverage, status class, page family, page-mapping coverage,
+and tariff level when the request is one of the six tariff pages. The dimension
+values come from `config/page_visit_catalogue.json`, which the remaining log
+queries use as well. Session ID, request ID, path, query string and user agent
+are not dimensions.
 
-The module creates a dashboard only. It adds no collection, metric dimensions,
-IAM grants, identity linkage, retention changes or public sharing. Access follows
-the existing AWS/log permissions; pseudonymous telemetry remains restricted data.
+Metric history starts when that emission is deployed to the selected environment.
+A missing series means no matching event was recorded in the window, not a query
+failure and not a proven zero. The coverage numbers show zero for the missing
+side only when the other side has data in the selected window. A repeated stdout
+line can double-count a metric. The four session log charts still collapse
+duplicate request IDs, so a metric total and a session-chart request total can
+differ by duplicate log delivery.
+
+Each dashboard refresh runs four Logs Insights queries over the shared platform
+log group, plus metric queries that do not scan those logs. Prefer manual refresh
+and bounded windows for the log charts. A result limit is not a scan-cost budget.
+Terraform does not set the viewer's refresh interval here.
+
+The dashboard module creates a dashboard only. Collection is the application
+metric line, not a new log group, IAM grant, identity linkage, retention change
+or public share. Access follows the existing AWS metric and log permissions;
+pseudonymous telemetry remains restricted data.
 
 ## Verification and rollout
 
 Offline structural checks:
 
 ```sh
+bundle exec rspec --options /dev/null spec/lib/page_visit_metrics_spec.rb
 terraform -chdir=terraform/modules/frontend_page_visits_dashboard init -backend=false
 terraform -chdir=terraform/modules/frontend_page_visits_dashboard validate
 terraform -chdir=terraform/modules/frontend_page_visits_dashboard test
@@ -248,17 +273,19 @@ syntax or prove the data results.
 Before deployment, with authorised staging credentials:
 
 1. Confirm the account, region, log group/stream selector and actual field types.
-2. Run all eleven queries over a small, fixed window. Check results, bytes scanned
-   and duration. Confirm the region supports the multi-stage Logs Insights syntax.
+2. Run the four session queries over a small, fixed window. Check results, bytes
+   scanned and duration. Confirm the region supports the multi-stage Logs Insights
+   syntax. After deployment, compare a metric activity total with a deduplicated
+   log count for the same window and record any duplicate-line difference.
 3. Validate sessions with 1, 2, 3, 9 and 10 requests, equal-count sessions, missing
    session IDs, duplicated HTTP IDs, repeated pages, redirects and errors. Include
    records just outside the window and excluded bot/background/auth records.
 4. Compare grouped session totals and summed page requests to an independently
    computed aggregate for that same window. Check missing HTTP-ID records too.
-5. Inspect both pies and every table/chart in CloudWatch, including empty results,
-   readable labels and text height. Publish aggregate evidence without IDs.
-6. Record collection start/coverage and query cost. Inspect the environment's
-   Terraform plan: only the new dashboard should be added. Apply only with approval.
+5. Inspect every number, bar, time series and table in CloudWatch, including empty
+   results, readable labels and text height. Publish aggregate evidence without IDs.
+6. Record collection start, coverage and query cost. Inspect the environment's
+   Terraform plan. Apply only with approval.
 
 Live query execution and visual validation remain required before calling the
 dashboard production-validated. The dashboard alone does not complete AI-1313.

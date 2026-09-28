@@ -1,0 +1,441 @@
+{
+  "namespace": "TradeTariff/PageVisits",
+  "service": "frontend",
+  "metric": "PageRequests",
+  "bot_pattern": "bot|crawler|spider|headless|synthetic|healthcheck",
+  "excluded_controller_pattern": "^(Myott::|BasicSessionsController|HealthcheckController|Cookies::)",
+  "coverage": {
+    "present": "With session ID",
+    "missing": "Missing ID"
+  },
+  "mapping": {
+    "mapped": "Mapped",
+    "unmapped": "Unmapped"
+  },
+  "statuses": [
+    {
+      "id": "server_error",
+      "label": "5xx errors",
+      "minimum": 500,
+      "color": "#d62728"
+    },
+    {
+      "id": "client_error",
+      "label": "4xx errors",
+      "minimum": 400,
+      "color": "#1f77b4"
+    },
+    {
+      "id": "redirect",
+      "label": "3xx redirects",
+      "minimum": 300,
+      "color": "#ff7f0e"
+    },
+    {
+      "id": "success",
+      "label": "2xx success",
+      "minimum": 0,
+      "color": "#2ca02c"
+    }
+  ],
+  "activities": [
+    {
+      "id": "search",
+      "label": "Search",
+      "color": "#ff9900",
+      "matchers": [
+        {
+          "type": "page_key",
+          "values": [
+            "FindCommoditiesController#show",
+            "SectionsController#index",
+            "SearchController#search"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "az",
+      "label": "A-Z index",
+      "color": "#bcbd22",
+      "matchers": [
+        {
+          "type": "controller",
+          "values": [
+            "SearchReferencesController"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "browse",
+      "label": "Browse tariff",
+      "color": "#1f77b4",
+      "matchers": [
+        {
+          "type": "controller",
+          "values": [
+            "BrowseSectionsController",
+            "SectionsController",
+            "ChaptersController",
+            "HeadingsController",
+            "SubheadingsController"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "commodity",
+      "label": "Commodities",
+      "color": "#e377c2",
+      "matchers": [
+        {
+          "type": "page_key",
+          "values": [
+            "CommoditiesController#show"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "calculator",
+      "label": "Duty calculator",
+      "color": "#8c564b",
+      "matchers": [
+        {
+          "type": "controller_prefix",
+          "values": [
+            "DutyCalculator::"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "label": "Tariff tools",
+      "color": "#17becf",
+      "matchers": [
+        {
+          "type": "page_key",
+          "values": [
+            "SearchController#quota_search",
+            "SearchController#chemical_search",
+            "PagesController#tools"
+          ]
+        },
+        {
+          "type": "controller",
+          "values": [
+            "AdditionalCodeSearchController",
+            "CertificateSearchController",
+            "FootnoteSearchController",
+            "ExchangeRatesController",
+            "SimplifiedProceduralValuesController"
+          ]
+        },
+        {
+          "type": "controller_prefix",
+          "values": [
+            "MeursingLookup::"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enquiry",
+      "label": "Enquiry form",
+      "color": "#9467bd",
+      "matchers": [
+        {
+          "type": "controller",
+          "values": [
+            "ProductExperience::EnquiryFormController"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guidance",
+      "label": "Help & guidance",
+      "color": "#d62728",
+      "matchers": [
+        {
+          "type": "page_key",
+          "values": [
+            "CommoditiesController#origin"
+          ]
+        },
+        {
+          "type": "controller_prefix",
+          "values": [
+            "RulesOfOrigin::",
+            "GreenLanes::",
+            "Pages::",
+            "ProductExperience::"
+          ]
+        },
+        {
+          "type": "controller",
+          "values": [
+            "PagesController",
+            "NewsItemsController",
+            "FeedbackController",
+            "AiSearchInformationController",
+            "LiveIssuesController"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "label": "Other pages",
+      "color": "#2ca02c",
+      "matchers": []
+    }
+  ],
+  "tariff_keys": [
+    "BrowseSectionsController#index",
+    "SectionsController#show",
+    "ChaptersController#show",
+    "HeadingsController#show",
+    "SubheadingsController#show",
+    "CommoditiesController#show"
+  ],
+  "fallbacks": {
+    "duty_calculator": "Import duty calculator: other step",
+    "rules_of_origin": "Rules of origin: guidance step",
+    "green_lanes": "Check simplified processes eligibility",
+    "enquiry": "Enquiry form",
+    "unmapped": "Other public page (unmapped)",
+    "enquiry_unmapped_step": "Enquiry form (unmapped step)"
+  },
+  "page_names": {
+    "FindCommoditiesController#show": {
+      "name": "Find commodity codes",
+      "source": "app/views/find_commodities/show_revised.html.erb"
+    },
+    "SectionsController#index": {
+      "name": "Find commodity codes",
+      "source": "app/controllers/sections_controller.rb"
+    },
+    "BrowseSectionsController#index": {
+      "name": "Browse the tariff",
+      "source": "app/views/browse_sections/index.html.erb"
+    },
+    "SearchReferencesController#show": {
+      "name": "A-Z of Classified Goods",
+      "source": "app/views/search_references/show.html.erb"
+    },
+    "SectionsController#show": {
+      "name": "Tariff section",
+      "source": "app/models/section.rb"
+    },
+    "ChaptersController#show": {
+      "name": "Tariff chapter",
+      "source": "app/models/chapter.rb"
+    },
+    "HeadingsController#show": {
+      "name": "Tariff heading",
+      "source": "app/models/heading.rb"
+    },
+    "SubheadingsController#show": {
+      "name": "Tariff subheading",
+      "source": "app/models/subheading.rb"
+    },
+    "CommoditiesController#show": {
+      "name": "Commodity code details",
+      "source": "config/locales/en.yml"
+    },
+    "CommoditiesController#origin": {
+      "name": "Rules of origin (commodity tab)",
+      "source": "app/controllers/commodities_controller.rb"
+    },
+    "SearchController#search": {
+      "name": "Search for a commodity",
+      "source": "app/views/search/interactive_question.html.erb"
+    },
+    "SearchController#quota_search": {
+      "name": "Search for quotas",
+      "source": "config/locales/en.yml"
+    },
+    "SearchController#chemical_search": {
+      "name": "Search by Chemical",
+      "source": "config/locales/en.yml"
+    },
+    "AdditionalCodeSearchController#new": {
+      "name": "Search for additional codes",
+      "source": "app/views/search/additional_codes/_form.html.erb"
+    },
+    "AdditionalCodeSearchController#create": {
+      "name": "Search for additional codes",
+      "source": "app/views/search/additional_codes/_form.html.erb"
+    },
+    "CertificateSearchController#new": {
+      "name": "Search for a certificate, licence or document",
+      "source": "app/views/search/certificate/_form.html.erb"
+    },
+    "CertificateSearchController#create": {
+      "name": "Search for a certificate, licence or document",
+      "source": "app/views/search/certificate/_form.html.erb"
+    },
+    "FootnoteSearchController#new": {
+      "name": "Search by Footnote",
+      "source": "app/views/search/footnotes/_form.html.erb"
+    },
+    "FootnoteSearchController#create": {
+      "name": "Search by Footnote",
+      "source": "app/views/search/footnotes/_form.html.erb"
+    },
+    "ExchangeRatesController#index": {
+      "name": "Check foreign currency exchange rates",
+      "source": "app/views/exchange_rates/index.html.erb"
+    },
+    "ExchangeRatesController#show": {
+      "name": "Currency exchange rates for a period",
+      "source": "app/views/exchange_rates/show.html.erb"
+    },
+    "SimplifiedProceduralValuesController#index": {
+      "name": "Simplified procedure value rates",
+      "source": "app/views/pages/tools.html.erb"
+    },
+    "PagesController#tools": {
+      "name": "Tariff tools",
+      "source": "app/views/pages/tools.html.erb"
+    },
+    "PagesController#help": {
+      "name": "Help on using the tariff",
+      "source": "app/views/pages/help.html.erb"
+    },
+    "PagesController#help_find_commodity": {
+      "name": "Getting help from HMRC to find a commodity code",
+      "source": "app/views/pages/help_find_commodity.html.erb"
+    },
+    "PagesController#howto": {
+      "name": "Using the tariff: guidance",
+      "source": "app/views/pages/howto.html.erb"
+    },
+    "PagesController#privacy": {
+      "name": "Privacy notice",
+      "source": "app/views/pages/privacy.html.erb"
+    },
+    "PagesController#terms": {
+      "name": "Terms and conditions",
+      "source": "app/views/pages/terms.html.erb"
+    },
+    "PagesController#cn2021_cn2022": {
+      "name": "2022 UK goods classification",
+      "source": "app/views/pages/cn2021_cn2022.html.erb"
+    },
+    "PagesController#changes_999l": {
+      "name": "Document Code 999L",
+      "source": "app/views/pages/changes_999l.html.erb"
+    },
+    "PagesController#rules_of_origin_duty_drawback": {
+      "name": "Duty drawback",
+      "source": "app/views/pages/rules_of_origin_duty_drawback.html.erb"
+    },
+    "PagesController#rules_of_origin_proof_requirements": {
+      "name": "Requirements for proving origin",
+      "source": "app/views/pages/rules_of_origin_proof_requirements.html.erb"
+    },
+    "PagesController#rules_of_origin_proof_verification": {
+      "name": "Verification for proving origin",
+      "source": "app/views/pages/rules_of_origin_proof_verification.html.erb"
+    },
+    "Pages::GlossaryController#index": {
+      "name": "Rules of origin glossary",
+      "source": "app/views/pages/glossary/index.html.erb"
+    },
+    "Pages::GlossaryController#show": {
+      "name": "Rules of origin glossary term",
+      "source": "app/views/pages/glossary/show.html.erb"
+    },
+    "RulesOfOrigin::ProofsController#index": {
+      "name": "Proofs of origin for all trade agreements",
+      "source": "app/views/rules_of_origin/proofs/index.html.erb"
+    },
+    "AiSearchInformationController#show": {
+      "name": "AI-assisted search: service update",
+      "source": "app/views/ai_search_information/show.html.erb"
+    },
+    "LiveIssuesController#index": {
+      "name": "Live issues log",
+      "source": "config/locales/en.yml"
+    },
+    "GreenLanes::StartsController#new": {
+      "name": "Check simplified processes eligibility",
+      "source": "app/views/green_lanes/starts/new.html.erb"
+    },
+    "ProductExperience::EnquiryFormController#show": {
+      "name": "Enquiry: What do you need help with?",
+      "source": "app/views/product_experience/enquiry_form/_category.html.erb"
+    },
+    "ProductExperience::EnquiryFormController#check_your_answers": {
+      "name": "Enquiry: Check your answers",
+      "source": "app/views/product_experience/enquiry_form/check_your_answers.html.erb"
+    },
+    "ProductExperience::EnquiryFormController#submit_form": {
+      "name": "Submit enquiry",
+      "source": "app/controllers/product_experience/enquiry_form_controller.rb"
+    },
+    "ProductExperience::EnquiryFormController#confirmation": {
+      "name": "Enquiry: Your request has been submitted",
+      "source": "app/views/product_experience/enquiry_form/confirmation.html.erb"
+    },
+    "NewsItemsController#index": {
+      "name": "Trade tariff news bulletin",
+      "source": "app/views/news_items/index.html.erb"
+    },
+    "NewsItemsController#show": {
+      "name": "Trade tariff news article",
+      "source": "app/views/news_items/show.html.erb"
+    },
+    "FeedbackController#new": {
+      "name": "Give feedback on Online Trade Tariff",
+      "source": "app/views/feedback/new.html.erb"
+    },
+    "FeedbackController#create": {
+      "name": "Give feedback on Online Trade Tariff",
+      "source": "app/views/feedback/new.html.erb"
+    },
+    "FeedbackController#thanks": {
+      "name": "Feedback submitted",
+      "source": "app/views/feedback/thanks.html.erb"
+    },
+    "ImportExportDatesController#show": {
+      "name": "When are you planning to trade the goods?",
+      "source": "config/locales/en.yml"
+    },
+    "ImportExportDatesController#update": {
+      "name": "When are you planning to trade the goods?",
+      "source": "config/locales/en.yml"
+    },
+    "DutyCalculator::Steps::CustomsValueController#show": {
+      "name": "What is the customs value of this import?",
+      "source": "app/views/duty_calculator/steps/customs_value/show.html.erb"
+    },
+    "DutyCalculator::Steps::CustomsValueController#create": {
+      "name": "What is the customs value of this import?",
+      "source": "app/views/duty_calculator/steps/customs_value/show.html.erb"
+    },
+    "DutyCalculator::Steps::ConfirmationController#show": {
+      "name": "Import duty calculator: check your answers",
+      "source": "app/views/duty_calculator/steps/confirmation/show.html.erb"
+    },
+    "DutyCalculator::Steps::DutyController#show": {
+      "name": "Import duty calculation",
+      "source": "app/views/duty_calculator/steps/duty/show.html.erb"
+    }
+  },
+  "enquiry_steps": {
+    "category": "What do you need help with?",
+    "enquiry_type": "What does your enquiry relate to?",
+    "goods_details": "Tell us about your goods",
+    "commodity_code": "Do you already have a possible commodity code?",
+    "duty_details": "Tell us about your duty question",
+    "quota_details": "Tell us about your quota question",
+    "postal_or_baggage_details": "Tell us about your postal or baggage question",
+    "query": "How can we help you?",
+    "contact_details": "Contact details"
+  }
+}
