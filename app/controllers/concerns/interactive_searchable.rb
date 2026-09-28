@@ -7,6 +7,9 @@ module InteractiveSearchable
   private
 
   def perform_interactive_search
+    record_direct_initial_submission
+    @guided_search_journey_id = safe_guided_search_identifier(params[:telemetry_journey_id]) || @telemetry_journey_id
+
     if validate_interactive_search == :invalid
       render_interactive_search_page(outcome: 'input_error')
       return
@@ -17,9 +20,12 @@ module InteractiveSearchable
       return render_interactive_question
     end
 
-    merge_current_answer
-    if params[:queued_search_id].present? && !queued_search_owned?
-      return head :not_found
+    if params[:queued_search_id].present?
+      merge_current_answer
+      return head :not_found unless queued_search_owned?
+    else
+      record_accepted_answer
+      merge_current_answer
     end
 
     @results = params[:queued_search_id].present? ? queued_search_result : @search.perform
@@ -186,6 +192,7 @@ module InteractiveSearchable
     disable_switch_service_banner
     disable_search_form
     mark_interactive_search_page
+    assign_question_identity
     record_guided_search_journey(outcome: 'question')
     render :interactive_question
   end
@@ -270,9 +277,85 @@ module InteractiveSearchable
     GuidedSearch::JourneyInstrumentation.record(
       browser_session_id:,
       request_id: @search.request_id,
+      journey_id: @guided_search_journey_id,
       outcome:,
       **@guided_search_metrics,
       experiment: @search.experiment,
     )
+  end
+
+  def assign_question_identity
+    question = @results&.current_question
+    return if question.blank?
+
+    @guided_search_question_id = GuidedSearch::JourneyInstrumentation.question_id(
+      journey_id: @guided_search_journey_id,
+      request_id: @search.request_id,
+      question_number: @results.answered_questions.size + 1,
+      question: question['question'],
+      options: question['options'],
+    )
+  end
+
+  def record_accepted_answer
+    return if params[:current_question].blank?
+    return unless selected_answer_allowed?
+
+    question_id = guided_answer_question_id
+    return if question_id.blank?
+
+    submission_id = safe_guided_search_identifier(params[:telemetry_submission_id])
+    GuidedSearch::JourneyInstrumentation.record(
+      browser_session_id:,
+      request_id: @search.request_id,
+      journey_id: @guided_search_journey_id,
+      question_id:,
+      submission_id:,
+      question_count: completed_answers.size + 1,
+      outcome: 'answer_accepted',
+      response_source: 'server_accepted',
+      question_response: 'normal',
+      event_id: Digest::SHA256.hexdigest(['answer_accepted', @guided_search_journey_id, question_id, submission_id].join(':')),
+      experiment: @search.experiment,
+    )
+  rescue StandardError
+    nil
+  end
+
+  def selected_answer_allowed?
+    answer = params.dig(:interactive_search_form, :answer).to_s
+    return false if answer.blank? || answer == "I don't know"
+
+    parse_options(params[:current_options]).include?(answer)
+  end
+
+  def guided_answer_question_id
+    GuidedSearch::JourneyInstrumentation.question_id(
+      journey_id: @guided_search_journey_id,
+      request_id: @search.request_id,
+      question_number: completed_answers.size + 1,
+      question: params[:current_question],
+      options: parse_options(params[:current_options]),
+    )
+  end
+
+  def record_direct_initial_submission
+    return unless request.post?
+    return if params[:queued_search_id].present? || params[:current_question].present?
+    return if params[:telemetry_journey_id].present?
+
+    @telemetry_journey_id = SecureRandom.uuid
+    GuidedSearch::JourneyInstrumentation.record(
+      browser_session_id:,
+      request_id: @search.request_id,
+      experiment: @search.experiment,
+      outcome: 'initial_submitted',
+      submission_source: 'server_direct',
+      journey_id: @telemetry_journey_id,
+      submission_id: SecureRandom.uuid,
+      event_id: SecureRandom.uuid,
+    )
+  rescue StandardError
+    nil
   end
 end

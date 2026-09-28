@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { beginInitialJourney, currentJourney, currentSubmission, eventUrlFrom, observationId, postJourneyEvent } from 'guided-search-journey'
 
 const MAX_QUERY_LENGTH = 1000
 const MIN_QUERY_LENGTH = 2
@@ -19,6 +20,11 @@ export default class extends Controller {
     if (this.hiddenFieldTarget.value !== 'true') return
 
     event.preventDefault()
+    if (this.submitting) return
+    this.submitting = true
+
+    const form = event.target.closest('form')
+    this.#recordInitialSubmit(form)
 
     const value = this.textareaTarget.value.trim()
     const errors = this.#validate(value)
@@ -26,12 +32,39 @@ export default class extends Controller {
     this.#clearErrors()
 
     if (errors.length > 0) {
+      this.submitting = false
       this.#showErrors(errors)
+      this.#recordInputError(form)
     } else {
-      window.sessionStorage.setItem('guidedSearchSubmittedAt', Date.now().toString())
+      try {
+        window.sessionStorage.setItem('guidedSearchSubmittedAt', Date.now().toString())
+      } catch {
+        // Navigation timing is optional.
+      }
       this.#showThrobber()
-      this.#submitForm(event.target.closest('form'))
+      this.#submitForm(form)
     }
+  }
+
+  #recordInitialSubmit(form) {
+    const started = beginInitialJourney(form)
+    postJourneyEvent(eventUrlFrom(this.element), {
+      event_type: 'initial_submitted',
+      journey_id: started.journeyId,
+      submission_id: started.submissionId,
+      event_id: observationId(`initial:${started.journeyId}`),
+    })
+  }
+
+  #recordInputError(form) {
+    const journeyId = currentJourney(form)
+    postJourneyEvent(eventUrlFrom(this.element), {
+      event_type: 'page_visible',
+      destination: 'input_error',
+      journey_id: journeyId,
+      submission_id: currentSubmission(form),
+      event_id: observationId(`input_error:${journeyId}`),
+    })
   }
 
   #validate(value) {
@@ -153,6 +186,7 @@ export default class extends Controller {
 
   #restoreFromBfcache(event) {
     if (!event.persisted) return
+    this.submitting = false
 
     const pageContent = document.querySelector('[data-guided-search-validation-page-content]')
     const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]')

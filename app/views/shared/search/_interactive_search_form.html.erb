@@ -7,6 +7,7 @@
               id: "new_search",
               data: { controller: "guided-search-validation queued-search",
                       queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
+                      guided_search_event_url: guided_search_event_path(day: nil, month: nil, year: nil),
                       action: "submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore" } do |f| %>
 
 <div data-guided-search-validation-target="formContent">

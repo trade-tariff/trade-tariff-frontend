@@ -181,12 +181,16 @@ describe('InteractiveQuestionController', () => {
           body: expect.any(String),
         }),
       );
-      expect(JSON.parse(fetchSpy.mock.calls[0][1].body)).toEqual({
+      const body = JSON.parse(fetchSpy.mock.calls[0][1].body);
+      expect(body).toMatchObject({
         event_type: 'dont_know',
         request_id: 'request-123',
         question_number: 2,
-        client_elapsed_ms: expect.any(Number),
+        question_response: 'dont_know',
+        terminal_outcome: 'dont_know',
       });
+      expect(body.client_elapsed_ms).toEqual(expect.any(Number));
+      expect(body.answer).toBeUndefined();
     });
   });
 
