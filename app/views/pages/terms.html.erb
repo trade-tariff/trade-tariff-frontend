@@ -8,7 +8,7 @@
   %>
 <% end %>
 
-<%= page_header 'Terms and conditions' %>
+<%= page_header 'Terms and conditions', 'UK Integrated Online Tariff' %>
 
 <p>
   This page explains the Online Trade Tariff service’s terms of use. You must agree to these to use the service.
@@ -19,16 +19,17 @@
 <p>This is a quick guide. You should still read the full terms and conditions below.</p>
 
 <%= govuk_list [
-  'You are responsible for using the correct commodity codes and complying with customs rules.',
-  'The law takes priority over any information in the Online Trade Tariff.',
+  'The Online Trade Tariff service provides a number of tools to support customers in determining the requirements and implications of importing to and exporting from the UK.',
+  'These tools are designed to support the user in making informed decisions and do not affect the liability when customs formalities are being completed.',
+  'The declarant remains responsible for using the correct commodity codes, declaring an accurate customs value and Origin for any goods they import or export and complying with customs rules.',
   'Notifications such as Stop Press are for information only — you must still check and act on any relevant changes.',
   'If you use the Trade Tariff APIs, you must follow published guidance and usage limits.',
-  'We will give at least 6 months’ notice of major or breaking changes to stable APIs, unless urgent changes are needed for security, legal or operational reasons.',
-  'We collect and process your personal data in line with the Online Trade Tariff Privacy Notice, including information provided in customer support enquiries.',
+  'AI tools and responses are based on HMRC data and guidance, but it remains the responsibility of the user to ensure complete and accurate completion of declarations.',
+  'Unless urgent changes are needed for security, legal or operational reasons, we will give at least 6 months’ notice of major changes to stable APIs, unless urgent changes are needed for security, legal or operational reasons.',
+  'We will only collect and process personal data in line with the Online Trade Tariff Privacy Notice, including information provided in customer support enquiries.',
   'HMRC may change or withdraw services when needed for legal, security or operational reasons.',
   'These terms are governed by the laws of England and Wales.'
 ], type: :bullet %>
-
 
 <h2 class="govuk-heading-m">Who we are</h2>
 
@@ -39,13 +40,12 @@
 <h2 class="govuk-heading-m">Using the Online Trade Tariff</h2>
 
 <p>
-  You agree to use the service only for lawful purposes. You must use it in a way that does not infringe the rights of, or restrict or inhibit the use and enjoyment of, this site by anyone else.
+  Users of this service agree to use the service only for lawful purposes. You must use it in a way that does not infringe the rights of, or restrict or inhibit the use and enjoyment of, this site by anyone else.
 </p>
 
 <p>
   We update the service regularly and may change or remove content at any time without notice.
 </p>
-
 
 <h2 class="govuk-heading-m">Scope of the service</h2>
 
@@ -56,7 +56,7 @@
 <%= govuk_list [
   safe_join(['the Online Trade Tariff browsing platform at ', govuk_link_to('trade-tariff.service.gov.uk', 'https://www.trade-tariff.service.gov.uk')]),
   'subscription-based tariff notifications such as Stop Press',
-  'Trade Tariff APIs, including (but not limited to) the Commodities API, the Categorisation API, and the Fast Parcel Operator (FPO) Commodity Code Identification Tool API',
+  'Trade Tariff APIs, developer portal and API documentation',
   'any additional services made available through the Online Trade Tariff in the future'
 ], type: :bullet %>
 
@@ -65,13 +65,13 @@
 <h2 class="govuk-heading-m">Accuracy of information</h2>
 
 <p>
-  The Service provides tariff data and tools for reference only. We make every effort to ensure the information we provide is accurate, but the applicable UK legislation always takes precedence.
+  The Service provides tariff data and tools for reference only. We make every effort to ensure the information we provide is accurate. However, if there are discrepancies with the applicable UK legislation, that legislation always takes precedence.
 </p>
 
-<p>You are responsible for:</p>
+<p>Declarants are responsible for:</p>
 
 <%= govuk_list [
-  'verifying the accuracy of commodity codes and trade data before using them in customs declarations or other processes',
+  'ensuring the accuracy of commodity codes and trade data before using them in customs declarations or other processes',
   'complying with customs requirements',
   'paying any applicable duties'
 ], type: :bullet %>
@@ -79,19 +79,20 @@
 <p>Failure to use correct codes may result in penalties, delayed clearance, or seizure of goods.</p>
 
 <h2 class="govuk-heading-m">Tariff Notifications</h2>
-<p>If you subscribe to tariff notifications, you agree that:</p>
+
+<p>Subscribers to tariff notifications, acknowledge that:</p>
 
 <%= govuk_list [
   'notifications are provided for convenience and may not include every relevant update',
   'delivery times are not guaranteed',
-  'you remain responsible for checking and acting on relevant changes'
+  'responsibility for checking and acting on relevant changes remains with the user'
 ], type: :bullet %>
 
 <p>You can update your preferences or unsubscribe at any time using the links in notification emails.</p>
 
 <h2 class="govuk-heading-m">Using Trade Tariff APIs</h2>
 
-<p>By using the Trade Tariff APIs, you agree to:</p>
+<p>Users of the Trade Tariff APIs, agree to:</p>
 
 <%= govuk_list [
   'follow any published technical specifications, usage limits and guidance',
@@ -99,7 +100,27 @@
   'avoid any use that could damage, disable or compromise the service or HMRC systems'
 ], type: :bullet %>
 
-<p>For stable APIs, we will give at least 6 months’ notice of any major or breaking changes that require you to update your systems. This notice period does not apply where changes are required urgently for security, legal or operational reasons.</p>
+<p>For stable APIs, we will give at least 6 months’ notice of any major changes that require you to update your systems. This notice period does not apply where changes are required urgently for security, legal or operational reasons.</p>
+
+<h2 class="govuk-heading-m">Online Trade Tariff AI tools</h2>
+
+<p>Some tools within the HMRC Online Trade Tariff (OTT) use artificial intelligence (AI), including large language models and generative AI, which aims to help users navigate and understand tariff information and guidance.</p>
+
+<p>These tools are designed to support users by making information easier to find and may assist with the interpretation of customs terminology. They do not replace or supersede official HMRC guidance or formal tariff decisions.</p>
+
+<p>Liability for accuracy and completeness of any information used on customs declarations remains with the user.</p>
+
+<p>Users should not enter personal, sensitive or confidential information into these AI tools - they are designed for general assistance only and are not designed to handle secure or case-specific data that may carry privacy or commercial risks.</p>
+
+<p>Information submitted can be logged, monitored and analysed to improve the service.</p>
+
+<p>Whilst HMRC will make ongoing effort to ensure that the tools are maintained and updated, AI generated responses:</p>
+
+<%= govuk_list [
+  'Might be incomplete, inaccurate or out-of-date.',
+  'Do not constitute legal, financial pr professional advice and are provided for assistance only.',
+  'Are not legally binding. For full legal certainly refer to Advance Tariff Ruling, Advance Origin Ruling or Advance Valuation ruling.'
+], type: :bullet %>
 
 <h2 class="govuk-heading-m">Security and acceptable use</h2>
 
@@ -116,7 +137,7 @@
 <h2 class="govuk-heading-m">Data and privacy</h2>
 
 <p>
-  We collect and process information in line with the <%= govuk_link_to "Online Trade Tariff Privacy Notice", privacy_path %> and UK data protection law. This may include:
+  We collect and process information in line with the <%= govuk_link_to 'Online Trade Tariff Privacy Notice', privacy_path %> and UK data protection law. This may include:
 </p>
 
 <%= govuk_list [
@@ -129,8 +150,7 @@
 
 <h2 class="govuk-heading-m">Service changes and availability</h2>
 
-<p>We may change, suspend or withdraw parts of the service for legal, security or operational reasons.</p>
-
+<p>We may change, suspend or withdraw parts of the service for legal, security or operational reasons at any time.</p>
 
 <p>For registered or subscribed services, we will notify you of:</p>
 
@@ -138,6 +158,13 @@
   'material changes that affect your use of the service',
   'planned service withdrawal or replacement',
   'major changes to these terms that alter your rights or obligations'
+], type: :bullet %>
+
+<p>HMRC tools using AI:</p>
+
+<%= govuk_list [
+  'might be updated, changed, suspended or withdrawn at any time without notice',
+  'can evolve as the service is improved'
 ], type: :bullet %>
 
 <h2 class="govuk-heading-m">Changes to these terms</h2>
@@ -150,11 +177,11 @@
   'require changes to your systems or processes'
 ], type: :bullet %>
 
-<p>Continued use of the service after updates means you accept the new terms.</p>
+<p>Continued use of the service and AI tools after updates, means you accept the new terms.</p>
 
 <h2 class="govuk-heading-m">Liability</h2>
 
-<p>We do not guarantee that the service will always be available, uninterrupted or error-free. We are not liable for:</p>
+<p>Although we endeavour to provide a consistent service, we cannot guarantee that the service will always be available, uninterrupted or error-free. We are not liable for:</p>
 
 <%= govuk_list [
   'losses or penalties arising from reliance solely on the service',
@@ -164,7 +191,6 @@
 
 <p>We remain liable for death or personal injury caused by our negligence, fraudulent misrepresentation, or any liability that cannot be excluded by law.</p>
 
-
 <h2 class="govuk-heading-m">Governing law</h2>
 
 <p>These terms are governed by and construed in accordance with the laws of England and Wales.</p>
@@ -173,6 +199,6 @@
 
 <h2 class="govuk-heading-m">Contact us</h2>
 
-<p>For general enquiries or support, email: <%= mail_to "tariff.management@hmrc.gov.uk" %></p>
+<p>For general enquiries or support, email: <%= mail_to 'online.tariff.feedback@hmrc.gov.uk' %></p>
 
-<p>When you contact us, we will collect and process your personal information in line with the <%= govuk_link_to "Online Trade Tariff Privacy Notice", privacy_path %>. This includes the information you provide in your enquiry, which will be used only for the purposes of responding to and managing your request.</p>
+<p>When you contact us, we will collect and process your personal information in line with the <%= govuk_link_to 'Online Trade Tariff Privacy Notice', privacy_path %>. This includes the information you provide in your enquiry, which will be used only for the purposes of responding to and managing your request.</p>
