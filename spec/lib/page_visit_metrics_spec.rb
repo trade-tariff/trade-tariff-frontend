@@ -132,6 +132,15 @@ RSpec.describe PageVisitMetrics do
     expect(emitted).to include('Activity' => 'Enquiry form', 'Page' => 'Enquiry: Tell us about your goods', 'PageMapping' => 'Mapped')
   end
 
+  it 'emits once when the exception page repeats the same request ID' do
+    Thread.current[:page_visit_metrics_request_id] = nil
+    output = instance_double(IO)
+    allow(output).to receive(:write_nonblock) { |line, **| line.bytesize }
+    event = Struct.new(:payload, :end).new(payload, now)
+
+    expect([described_class.record(event, output:, environment: 'staging', catalogue:), described_class.record(event, output:, environment: 'staging', catalogue:)]).to eq([true, false])
+  end
+
   it 'returns false when the write fails and does not raise' do
     output = instance_double(IO, write_nonblock: nil)
     event = Struct.new(:payload, :end).new(payload, now)

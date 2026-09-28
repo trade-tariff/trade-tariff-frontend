@@ -19,7 +19,7 @@ the two coverage numbers, then the activity bar:
   counts in the selected period, not how regularly someone returns to the service.
 - **Requests by activity:** eligible requests by activity group, including Other.
   The page-type bar shows every observed page family, including form submissions
-  and redirects. It is not a top-20 cutoff.
+  and redirects. It shows families that reported during the last two weeks. A family that was quiet for longer than that can be absent from an older selected window even though its retained metric still exists.
 
 Session charts and request charts have different denominators. They must not be
 compared as if they represented the same population.

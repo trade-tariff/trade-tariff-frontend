@@ -163,6 +163,15 @@ run "page_visits_dashboard" {
   }
 
   assert {
+    condition = alltrue([
+      for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
+      alltrue([for series in widget.properties.metrics : can(series[0])])
+      if widget.type == "metric"
+    ])
+    error_message = "Each CloudWatch metric entry, including an expression, must be an array."
+  }
+
+  assert {
     condition = (
       strcontains(local.page_requests, "earliest(request.action) as page_action") &&
       strcontains(local.page_requests, "earliest(request.method) as page_method") &&

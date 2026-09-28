@@ -69,7 +69,7 @@ resource "aws_cloudwatch_dashboard" "page_visits" {
               "**Start with coverage.** Session-ID coverage and page-name coverage are separate. Requests without a session identifier are in activity totals but not session reports. A missing metric series means no matching event was recorded, not a failed query. A coverage number shows zero for the missing side only when the other side has data in the selected window.",
               "**Frequency groups:** Low: 1-${local.frequency_thresholds.low_max} requests; Medium: ${local.frequency_thresholds.low_max + 1}-${local.frequency_thresholds.regular_max}; High: ${local.frequency_thresholds.regular_max + 1}+. These provisional thresholds describe activity in this period, not experience or expertise. The one-request bar dominates the distribution; use the frequency table for the group counts.",
               "**Reading the figures:** browser sessions are not people. Requests include refreshes, form submissions, redirects and errors, so they are not exact page-view counts. Changing the period or resetting a session can change its group. Metric history starts when collection is deployed. Empty charts do not necessarily mean no activity, and a gap is not zero.",
-              "Metrics count one application event per request. A repeated log line can double-count a metric. Session charts still collapse duplicate request IDs. Prefer manual refresh for the four log charts. [Counting rules and limitations](${local.guide_url}) | [Service performance dashboard](${local.puma_url})",
+              "Metrics count one application event per request. A repeated log line can double-count a metric. Session charts still collapse duplicate request IDs. The page-family bar shows families that reported during the last two weeks, so an older selected window can omit a quiet family. Prefer manual refresh for the four log charts. [Counting rules and limitations](${local.guide_url}) | [Service performance dashboard](${local.puma_url})",
             ])
           }
         },
@@ -84,22 +84,22 @@ resource "aws_cloudwatch_dashboard" "page_visits" {
           type = "metric", x = 4, y = 8, width = 4, height = 4
           properties = {
             title = "Requests missing a session ID", region = var.region, view = "singleValue", sparkline = false, setPeriodToTimeRange = true
-            metrics = concat(local.session_sources, [{
+            metrics = concat(local.session_sources, [[{
               expression = "IF(${local.observed_session_requests}>0,FILL(missing_session_id,0))"
               id         = "missing_display"
               label      = local.catalogue.coverage.missing
-            }])
+            }]])
           }
         },
         {
           type = "metric", x = 8, y = 8, width = 4, height = 4
           properties = {
             title = "Session ID coverage (%)", region = var.region, view = "singleValue", sparkline = false, setPeriodToTimeRange = true
-            metrics = concat(local.session_sources, [{
+            metrics = concat(local.session_sources, [[{
               expression = "IF(${local.observed_session_requests}>0,100*FILL(with_session_id,0)/(${local.observed_session_requests}))"
               id         = "session_coverage"
               label      = "Coverage"
-            }])
+            }]])
             yAxis = { left = { min = 0, max = 100, showUnits = false } }
           }
         },
@@ -114,22 +114,22 @@ resource "aws_cloudwatch_dashboard" "page_visits" {
           type = "metric", x = 16, y = 8, width = 4, height = 4
           properties = {
             title = "Unmapped page requests", region = var.region, view = "singleValue", sparkline = false, setPeriodToTimeRange = true
-            metrics = concat(local.mapping_sources, [{
+            metrics = concat(local.mapping_sources, [[{
               expression = "IF(${local.observed_mapped_requests}>0,FILL(unmapped_pages,0))"
               id         = "unmapped_display"
               label      = local.catalogue.mapping.unmapped
-            }])
+            }]])
           }
         },
         {
           type = "metric", x = 20, y = 8, width = 4, height = 4
           properties = {
             title = "Page-name coverage (%)", region = var.region, view = "singleValue", sparkline = false, setPeriodToTimeRange = true
-            metrics = concat(local.mapping_sources, [{
+            metrics = concat(local.mapping_sources, [[{
               expression = "IF(${local.observed_mapped_requests}>0,100*FILL(mapped_pages,0)/(${local.observed_mapped_requests}))"
               id         = "mapping_coverage"
               label      = "Mapped"
-            }])
+            }]])
             yAxis = { left = { min = 0, max = 100, showUnits = false } }
           }
         },
@@ -192,19 +192,19 @@ resource "aws_cloudwatch_dashboard" "page_visits" {
         type = "metric", x = index * 6, y = 42, width = 6, height = 4
         properties = {
           title = "${status.label} (selected range)", region = var.region, view = "singleValue", sparkline = false, setPeriodToTimeRange = true
-          metrics = concat(local.status_sources, [{
+          metrics = concat(local.status_sources, [[{
             expression = "IF(${local.observed_status_requests}>0,FILL(${status.id},0))"
             id         = "${status.id}_display"
             label      = status.label
             color      = status.color
-          }])
+          }]])
         }
       }],
       [
         {
           type = "metric", x = 0, y = 54, width = 24, height = 12
           properties = {
-            title = "Requested page types (all observed families)", region = var.region, view = "bar", stacked = false, setPeriodToTimeRange = true
+            title = "Requested page types that reported in the last two weeks", region = var.region, view = "bar", stacked = false, setPeriodToTimeRange = true
             metrics = [[
               {
                 expression = "SEARCH('{${local.namespace},Environment,Service,Page} MetricName=\"${local.metric}\" Environment=\"${var.environment}\" Service=\"${local.service}\"', 'Sum', ${local.period})"
