@@ -28,6 +28,24 @@ RSpec.describe PagesController, type: :request do
     end
   end
 
+  %w[uk xi].each do |service|
+    describe "GET /#{service}/terms" do
+      before { get "/#{service}/terms" }
+
+      it { is_expected.to have_http_status(:ok) }
+      it { is_expected.to render_template('pages/terms') }
+
+      it 'renders the terms from the approved document' do
+        expect(Capybara.string(response.body).text).to include(
+          'UK Integrated Online Tariff',
+          'Online Trade Tariff AI tools',
+          'Some tools within the HMRC Online Trade Tariff (OTT) use artificial intelligence (AI)',
+          'online.tariff.feedback@hmrc.gov.uk',
+        )
+      end
+    end
+  end
+
   describe 'GET #help' do
     before { get help_path }
 
