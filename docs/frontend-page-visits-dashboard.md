@@ -183,7 +183,7 @@ The source is `platform-logs-<environment>`, restricted to streams starting
 and parse the JSON object because Rails can prefix it with its logger timestamp
 and request tag. Select controller records with `format = "html"` and a status;
 never display the raw message or submitted parameters. The container metrics use
-the same eligibility rules from `config/page_visit_catalogue.json`. They count
+the same eligibility rules from `data/page_visit_catalogue.json`. They count
 one in-process event rather than collapsing a duplicate delivered log line.
 
 - Count each HTTP request ID once in the session log charts, collapsing duplicate
@@ -232,8 +232,8 @@ container. Each eligible HTML request writes one Embedded Metric Format line to
 stdout. CloudWatch extracts `PageRequests` with closed dimensions only:
 activity, session-ID coverage, status class, page family, page-mapping coverage,
 and tariff level when the request is one of the six tariff pages. The dimension
-values come from `config/page_visit_catalogue.json`, which the remaining log
-queries use as well. Session ID, request ID, path, query string and user agent
+values come from `data/page_visit_catalogue.json`. The session log queries keep
+the same activity labels. Session ID, request ID, path, query string and user agent
 are not dimensions.
 
 Metric history starts when that emission is deployed to the selected environment.

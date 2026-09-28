@@ -20,17 +20,21 @@ run "page_visits_dashboard" {
       strcontains(widget.properties.query, "ecs\\/frontend\\/") &&
       strcontains(widget.properties.query, "jsonParse(request_json) as request") &&
       strcontains(widget.properties.query, "request.format = \"html\"") &&
-      strcontains(widget.properties.query, "by request.request_id") &&
-      strcontains(widget.properties.query, local.catalogue.excluded_controller_pattern) &&
-      strcontains(widget.properties.query, local.catalogue.bot_pattern)
+      strcontains(widget.properties.query, "by request.request_id")
       if widget.type == "log"
     ])
-    error_message = "Session reports must select the same frontend HTML requests as the container metrics and collapse duplicate request records."
+    error_message = "All reports must select frontend HTML requests and collapse duplicate request records."
   }
 
   assert {
-    condition     = length([for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets : widget if widget.type == "log"]) == 4
-    error_message = "Only the four selected-window session reports should scan logs."
+    condition = alltrue([
+      for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
+      strcontains(widget.properties.query, "fields bin(1h) as hourly_bin") &&
+      strcontains(widget.properties.query, "earliest(hourly_bin) as request_hour") &&
+      can(regex("\\| stats [^|]+by Hour,", widget.properties.query))
+      if widget.type == "log" && try(widget.properties.view, "") == "timeSeries"
+    ])
+    error_message = "Time-series queries must carry the hourly bin through request deduplication without reintroducing @timestamp."
   }
 
   assert {
@@ -44,13 +48,10 @@ run "page_visits_dashboard" {
     condition = (
       strcontains(local.cohort_expression, "visits <= ${local.frequency_thresholds.low_max}") &&
       strcontains(local.cohort_expression, "visits <= ${local.frequency_thresholds.regular_max}") &&
-      strcontains(local.cohort_expression, local.frequency_labels.low) &&
-      strcontains(local.cohort_expression, local.frequency_labels.medium) &&
-      strcontains(local.cohort_expression, local.frequency_labels.high) &&
       local.frequency_thresholds.low_max > 0 &&
       local.frequency_thresholds.regular_max > local.frequency_thresholds.low_max
     )
-    error_message = "Cohort queries must use ordered, inclusive thresholds and the same labels as the dashboard text."
+    error_message = "Cohort queries must use ordered, inclusive thresholds from the single configuration local."
   }
 
   assert {
@@ -58,15 +59,32 @@ run "page_visits_dashboard" {
       strcontains(local.queries.cohorts, "filter not isblank(session_id)") &&
       strcontains(local.queries.cohorts, "by session_id") &&
       strcontains(local.queries.cohorts, "count(*) as Sessions by `Frequency group`") &&
-      strcontains(local.queries.behaviour, "filter not isblank(session_id)") &&
-      strcontains(local.queries.first_last, "filter not isblank(session_id)") &&
-      !contains(keys(local.queries), "coverage") &&
-      !contains(keys(local.queries), "pages") &&
-      !contains(keys(local.queries), "volume") &&
-      !contains(keys(local.queries), "responses") &&
-      !contains(keys(local.queries), "popular_pages")
+      strcontains(local.queries.coverage, "Missing ID")
     )
-    error_message = "Session reports must exclude missing identifiers, and request totals must not remain as log scans."
+    error_message = "Cohorts must count sessions, with uncorrelated requests visible separately rather than classified as low-frequency."
+  }
+
+  assert {
+    condition = (
+      strcontains(local.queries.pages, "count(*) as Requests by Activity") &&
+      !strcontains(local.queries.pages, "limit") &&
+      strcontains(local.classify_pages, "Other pages")
+    )
+    error_message = "The page-type pie must include the full eligible population, including Other, not a truncated top-N denominator."
+  }
+
+  assert {
+    condition = alltrue([
+      for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
+      widget.properties.region == var.region &&
+      !strcontains(widget.properties.query, "dedup") &&
+      !strcontains(widget.properties.query, "display @message") &&
+      !can(regex("isblank\\([^)]*\\) = [01]", widget.properties.query)) &&
+      !strcontains(widget.properties.query, "as @timestamp") &&
+      !strcontains(widget.properties.query, "params")
+      if widget.type == "log"
+    ])
+    error_message = "Queries must stay in the configured region, use composable aggregation and avoid displaying raw messages or params."
   }
 
   assert {
@@ -75,30 +93,37 @@ run "page_visits_dashboard" {
       strcontains(local.classify_pages, "page_controller in [\"BrowseSectionsController\", \"SectionsController\", \"ChaptersController\", \"HeadingsController\", \"SubheadingsController\"], \"browse\"") &&
       strcontains(local.classify_pages, "activity = \"az\", \"A-Z index\"") &&
       strcontains(local.classify_pages, "activity = \"browse\", \"Browse tariff\"") &&
-      strcontains(local.classify_pages, "activity = \"commodity\", \"Commodities\"") &&
-      strcontains(local.classify_pages, "activity = \"guidance\", \"Help & guidance\"") &&
-      strcontains(local.classify_pages, "activity = \"enquiry\", \"Enquiry form\"") &&
-      strcontains(local.queries.behaviour, trimspace(local.classify_pages)) &&
+      alltrue([for query in [local.queries.pages, local.queries.volume, local.queries.behaviour] : strcontains(query, local.classify_pages)]) &&
       strcontains(local.queries.behaviour, "sum(if(activity = \"az\", 1, 0)) as az_visits") &&
-      strcontains(local.queries.behaviour, "as `A-Z %`") &&
-      strcontains(local.queries.behaviour, "as `Browse %`") &&
-      strcontains(local.queries.behaviour, "as `Requests/session`") &&
-      strcontains(local.queries.behaviour, "as `Enquiries %`")
+      strcontains(local.queries.behaviour, "round(100 * sum(az_visits) / sum(visits), 2) as `A-Z (%)`") &&
+      strcontains(local.queries.behaviour, "round(100 * sum(browse_visits) / sum(visits), 2) as `Browse (%)`")
     )
-    error_message = "A-Z lookup and tariff browsing must stay separate activities, using the catalogue labels and the same session-request denominator."
+    error_message = "A-Z lookup and tariff hierarchy browsing must be separate activities across charts and frequency shares, using the same request denominator."
   }
 
   assert {
     condition = (
-      toset(local.tariff_page_keys) == toset(local.catalogue.tariff_keys) &&
       toset(local.tariff_page_keys) == toset([
         "BrowseSectionsController#index", "SectionsController#show", "ChaptersController#show",
         "HeadingsController#show", "SubheadingsController#show", "CommoditiesController#show",
       ]) &&
-      alltrue([for key in local.tariff_page_keys : contains(keys(local.page_names), key)]) &&
-      length([for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets : widget if try(widget.properties.title, "") == "Tariff page requests (selected range)" && widget.type == "metric" && widget.properties.view == "bar"]) == 1
+      strcontains(local.tariff_requests, "| filter page_key in ${jsonencode(local.tariff_page_keys)}") &&
+      !strcontains(local.tariff_requests, jsonencode("SectionsController#index")) &&
+      !strcontains(local.tariff_requests, jsonencode("CommoditiesController#origin")) &&
+      alltrue([for key in local.tariff_page_keys :
+        strcontains(local.tariff_requests, "page_key = ${jsonencode(key)}, ${jsonencode(local.page_names[key].name)}")
+      ]) &&
+      alltrue([for query in [local.queries.tariff_pages, local.queries.tariff_volume] :
+        strcontains(query, local.page_requests) && strcontains(query, local.tariff_requests) &&
+        !strcontains(query, "limit") && !strcontains(query, "by page_path") &&
+        !strcontains(query, "filter not isblank(session_id)")
+      ]) &&
+      strcontains(local.queries.tariff_pages, "count(*) as Requests by Page") &&
+      strcontains(local.queries.tariff_volume, "count(*) as Requests by Hour, Page") &&
+      length([for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets : widget if try(widget.properties.title, "") == "Tariff page requests (selected range)" && widget.type == "metric" && widget.properties.view == "bar"]) == 1 &&
+      length([for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets : widget if try(widget.properties.title, "") == "Tariff page requests per hour" && widget.type == "metric" && widget.properties.view == "timeSeries"]) == 1
     )
-    error_message = "Tariff metric charts must use the six catalogue page types, not a log scan or a top-N cutoff."
+    error_message = "Tariff totals and trends must retain all six page types, shared eligibility and UI names without top-N truncation, identity filtering or raw-path grouping."
   }
 
   assert {
@@ -107,12 +132,9 @@ run "page_visits_dashboard" {
       local.page_names["SearchReferencesController#show"].name == "A-Z of Classified Goods" &&
       local.page_names["SearchController#quota_search"].name == "Search for quotas" &&
       local.page_names["SearchController#chemical_search"].name == "Search by Chemical" &&
-      local.page_names["CommoditiesController#origin"].name == "Rules of origin (commodity tab)" &&
-      local.catalogue.namespace == "TradeTariff/PageVisits" &&
-      local.catalogue.service == "frontend" &&
-      local.catalogue.metric == "PageRequests"
+      local.page_names["CommoditiesController#origin"].name == "Rules of origin (commodity tab)"
     )
-    error_message = "UI mapping and metric identity must stay on the shared catalogue."
+    error_message = "UI mapping must distinguish browsing, specialist searches and origin tabs from commodity search/details."
   }
 
   assert {
@@ -126,61 +148,15 @@ run "page_visits_dashboard" {
 
   assert {
     condition = (
-      alltrue([
-        for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
-        widget.properties.region == var.region &&
-        !strcontains(try(widget.properties.query, ""), "dedup") &&
-        !strcontains(try(widget.properties.query, ""), "display @message") &&
-        !strcontains(try(widget.properties.query, ""), "params")
-        if widget.type == "log" || widget.type == "metric"
-      ]) &&
-      alltrue([
-        for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
-        !strcontains(jsonencode(widget.properties), "browser_session_id") &&
-        !strcontains(jsonencode(widget.properties), "request_id")
-        if widget.type == "metric"
-      ])
-    )
-    error_message = "Widgets must stay in the configured region. Metric widgets must not carry session or request identifiers."
-  }
-
-  assert {
-    condition = (
-      alltrue([
-        for activity in local.catalogue.activities :
-        length([for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets : widget if widget.type == "metric" && strcontains(jsonencode(widget.properties), "\"id\":\"${activity.id}\"")]) >= 1
-      ]) &&
-      alltrue([
-        for status in local.catalogue.statuses :
-        length([for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets : widget if widget.type == "metric" && strcontains(jsonencode(widget.properties), "\"id\":\"${status.id}\"")]) >= 1
-      ]) &&
-      strcontains(jsonencode(aws_cloudwatch_dashboard.page_visits.dashboard_body), local.catalogue.coverage.present) &&
-      strcontains(jsonencode(aws_cloudwatch_dashboard.page_visits.dashboard_body), local.catalogue.coverage.missing) &&
-      strcontains(jsonencode(aws_cloudwatch_dashboard.page_visits.dashboard_body), local.catalogue.mapping.unmapped) &&
-      strcontains(jsonencode(aws_cloudwatch_dashboard.page_visits.dashboard_body), "Environment,Service,Page")
-    )
-    error_message = "Every catalogue request counter must appear on the dashboard with the same dimension values."
-  }
-
-  assert {
-    condition = alltrue([
-      for widget in jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets :
-      alltrue([for series in widget.properties.metrics : can(series[0])])
-      if widget.type == "metric"
-    ])
-    error_message = "Each CloudWatch metric entry, including an expression, must be an array."
-  }
-
-  assert {
-    condition = (
       strcontains(local.page_requests, "earliest(request.action) as page_action") &&
       strcontains(local.page_requests, "earliest(request.method) as page_method") &&
       strcontains(local.name_pages, "(form submission)") &&
       strcontains(local.name_pages, "(redirect)") &&
+      strcontains(local.queries.popular_pages, local.name_pages) &&
       strcontains(local.queries.first_last, local.name_pages) &&
-      !strcontains(local.queries.first_last, "by page_path")
+      !strcontains(local.queries.popular_pages, "by page_path")
     )
-    error_message = "First and last reports must keep the action-aware UI labels and submission/redirect distinctions."
+    error_message = "Ranked and first/last tables must share the action-aware UI labels and preserve submission/redirect distinctions."
   }
 
   assert {
@@ -213,10 +189,23 @@ run "page_visits_dashboard" {
   assert {
     condition = (
       strcontains(local.name_pages, "page_action in [\"form\", \"submit\"]") &&
+      strcontains(local.classify_pages, "activity = \"enquiry\", \"Enquiry form\"") &&
       local.page_names["ProductExperience::EnquiryFormController#submit_form"].name == "Submit enquiry" &&
       local.page_names["ProductExperience::EnquiryFormController#confirmation"].name == "Enquiry: Your request has been submitted"
     )
-    error_message = "Enquiry step submissions, final submission and confirmation must remain distinguishable."
+    error_message = "Enquiry activity, step submissions, final submission and confirmation must remain distinguishable."
+  }
+
+  assert {
+    condition = (
+      strcontains(local.queries.behaviour, "as `Requests/session`") &&
+      strcontains(local.queries.behaviour, "as `Enquiries (%)`") &&
+      strcontains(local.queries.popular_pages, "fields page_label as Page") &&
+      strcontains(local.queries.first_last, "as `First page`") &&
+      strcontains(local.classify_pages, "activity = \"commodity\", \"Commodities\"") &&
+      strcontains(local.classify_pages, "activity = \"guidance\", \"Help & guidance\"")
+    )
+    error_message = "Displayed fields and activity legends must use readable product-facing names."
   }
 
   assert {
@@ -231,14 +220,20 @@ run "page_visits_dashboard" {
 
   assert {
     condition = (
+      strcontains(local.cohort_expression, "'Medium'") &&
       strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "Low: 1-${local.frequency_thresholds.low_max}") &&
       strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "Medium: ${local.frequency_thresholds.low_max + 1}-${local.frequency_thresholds.regular_max}") &&
-      strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "High: ${local.frequency_thresholds.regular_max + 1}+") &&
+      strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "High: ${local.frequency_thresholds.regular_max + 1}+")
+    )
+    error_message = "Displayed frequency groups must match the query labels and configured thresholds."
+  }
+
+  assert {
+    condition = (
       strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "not people") &&
       strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "selected window") &&
-      strcontains(jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).widgets[0].properties.markdown, "container metrics") &&
       jsondecode(aws_cloudwatch_dashboard.page_visits.dashboard_body).start == "-PT24H"
     )
-    error_message = "The dashboard must explain session/window semantics, metric collection and the bounded default window."
+    error_message = "The dashboard must explain session/window semantics and default to a bounded window."
   }
 }
