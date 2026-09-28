@@ -18,12 +18,10 @@ module GuidedSearch
         "v1:#{digest}"
       end
 
-      def question_id(journey_id:, request_id:, question_number:, question:, options:)
-        return if journey_id.blank? && request_id.blank?
-        return if question.blank?
+      def question_id(request_id:, question_number:, question:, options:)
+        return if request_id.blank? || question.blank?
 
         Digest::SHA256.hexdigest(MultiJson.dump([
-          journey_id.to_s,
           request_id.to_s,
           question_number.to_i,
           question.to_s,

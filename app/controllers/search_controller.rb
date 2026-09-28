@@ -7,7 +7,7 @@ class SearchController < ApplicationController
   include InteractiveSearchable
   include QueuedGuidedSearchable
 
-  TELEMETRY_PARAM_KEYS = %i[telemetry_journey_id telemetry_submission_id telemetry_question_id].freeze
+  TELEMETRY_PARAM_KEYS = %i[telemetry_submission_id telemetry_question_id].freeze
 
   skip_before_action :verify_authenticity_token, only: [:search]
   # A signed grant authorises status reads; avoid page setup and remote flag evaluation.
@@ -61,9 +61,7 @@ class SearchController < ApplicationController
     event = guided_search_event_params
     event_attributes = guided_search_event_attributes(event)
     request_id = safe_guided_search_identifier(event[:request_id])
-    return head :unprocessable_content if event_attributes.nil?
-    return head :unprocessable_content if event[:request_id].present? && request_id.nil?
-    return head :unprocessable_content if request_id.nil? && event_attributes[:journey_id].blank?
+    return head :unprocessable_content if event_attributes.nil? || request_id.nil?
 
     GuidedSearch::JourneyInstrumentation.record(
       browser_session_id:,
@@ -124,7 +122,6 @@ class SearchController < ApplicationController
       :confidence,
       :destination,
       :client_navigation_ms,
-      :journey_id,
       :submission_id,
       :question_id,
       :event_id,
@@ -197,14 +194,14 @@ class SearchController < ApplicationController
   end
 
   def telemetry_identity(event)
-    identity = %i[journey_id submission_id question_id event_id].index_with { |key| event[key] }.reject { |_key, value| value.blank? }
+    identity = %i[submission_id question_id event_id].index_with { |key| event[key] }.reject { |_key, value| value.blank? }
     return unless identity.values.all? { |value| safe_guided_search_identifier(value) }
 
     identity.transform_values { |value| safe_guided_search_identifier(value) }
   end
 
   def initial_submitted_attributes(identity)
-    return if identity[:journey_id].blank? || identity[:event_id].blank?
+    return if identity[:event_id].blank?
 
     {
       outcome: 'initial_submitted',
@@ -214,7 +211,7 @@ class SearchController < ApplicationController
   end
 
   def answer_submitted_attributes(event, identity)
-    return if identity.values_at(:journey_id, :question_id, :event_id).any?(&:blank?)
+    return if identity.values_at(:question_id, :event_id).any?(&:blank?)
     return unless event[:response_source].to_s == 'browser_selected'
 
     elapsed = optional_elapsed(event)

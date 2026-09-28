@@ -57,7 +57,7 @@ describe('GuidedSearchPageController', () => {
 
   it('links the visible question to the server-provided question identity without storage', async () => {
     const page = document.querySelector('[data-controller]');
-    page.setAttribute('data-guided-search-page-journey-id-value', 'journey-123');
+    page.setAttribute('data-guided-search-page-request-id-value', 'request-123');
     page.setAttribute('data-guided-search-page-question-id-value', 'question-123');
     jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('blocked'); });
     jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw new Error('blocked'); });
@@ -67,8 +67,38 @@ describe('GuidedSearchPageController', () => {
 
     expect(JSON.parse(window.fetch.mock.calls[0][1].body)).toMatchObject({
       event_type: 'page_visible', destination: 'question',
-      journey_id: 'journey-123', question_id: 'question-123',
+      request_id: 'request-123', question_id: 'question-123',
     });
+    expect(JSON.parse(window.fetch.mock.calls[0][1].body)).not.toHaveProperty('journey_id');
+  });
+
+  it('records a fresh visible outcome when the browser restores the cached page', async () => {
+    const page = document.querySelector('[data-controller]');
+    page.setAttribute('data-guided-search-page-request-id-value', 'request-123');
+    application = Application.start();
+    application.register('guided-search-page', GuidedSearchPageController);
+    await Promise.resolve();
+    const first = JSON.parse(window.fetch.mock.calls[0][1].body);
+
+    window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
+    const restored = JSON.parse(window.fetch.mock.calls[1][1].body);
+    expect(restored.request_id).toBe(first.request_id);
+    expect(restored.event_id).not.toBe(first.event_id);
+    expect(restored.destination).toBe('question');
+    expect(restored).not.toHaveProperty('client_navigation_ms');
+
+    const calls = window.fetch.mock.calls.length;
+    window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: false }));
+    expect(window.fetch).toHaveBeenCalledTimes(calls);
+  });
+
+  it('does not attach an unrelated stored journey to a page with no journey identity', async () => {
+    window.sessionStorage.setItem('guidedSearchJourney', JSON.stringify({ journeyId: 'previous-journey' }));
+    application = Application.start();
+    application.register('guided-search-page', GuidedSearchPageController);
+    await Promise.resolve();
+
+    expect(JSON.parse(window.fetch.mock.calls[0][1].body)).not.toHaveProperty('journey_id');
   });
 
   it('records submit-to-visible timing once the destination page connects', async () => {

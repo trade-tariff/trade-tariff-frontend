@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { currentJourney, currentSubmission, eventUrlFrom, observationId, postJourneyEvent } from 'guided-search-journey'
+import { currentRequestId, currentSubmission, eventUrlFrom, observationId, postJourneyEvent } from 'guided-search-journey'
 
 const RECOVERY_MESSAGE = 'We could not complete this search. Please try your search again.'
 // Data-informed starting cadence from AI-1093, not a fixed latency guarantee.
@@ -179,14 +179,13 @@ export default class extends Controller {
   }
 
   #recordRecovery(run) {
-    const journeyId = currentJourney(run.form)
+    const requestId = run.requestId || currentRequestId(run.form)
     postJourneyEvent(eventUrlFrom(this.element) || eventUrlFrom(run.form), {
       event_type: 'page_visible',
       destination: 'backend_error',
-      journey_id: journeyId,
       submission_id: currentSubmission(run.form),
-      request_id: run.requestId,
-      event_id: observationId(`backend_error:${journeyId}`),
+      request_id: requestId,
+      event_id: observationId(`backend_error:${requestId}:${currentSubmission(run.form)}`),
     })
   }
 

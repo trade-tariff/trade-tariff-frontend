@@ -1,20 +1,30 @@
 import { Controller } from '@hotwired/stimulus'
-import { currentJourney, observationId, postJourneyEvent, rememberJourney } from 'guided-search-journey'
+import { newId, observationId, postJourneyEvent } from 'guided-search-journey'
 import { markGuidedSearchPageVisible, trackSearchJourney } from 'search-analytics'
 
 export default class extends Controller {
   static values = {
     eventUrl: String,
-    journeyId: String,
     questionId: String,
     outcome: String,
     requestId: String,
   }
 
   connect() {
+    this.onPageShow = event => {
+      if (event.persisted) this.recordVisibility(newId())
+    }
+    window.addEventListener('pageshow', this.onPageShow)
+    this.recordVisibility('initial')
+  }
+
+  disconnect() {
+    window.removeEventListener('pageshow', this.onPageShow)
+  }
+
+  recordVisibility(observation) {
     markGuidedSearchPageVisible()
-    rememberJourney(this.hasJourneyIdValue ? this.journeyIdValue : null)
-    const navigationMs = this.#navigationMs()
+    const navigationMs = observation === 'initial' ? this.#navigationMs() : null
 
     trackSearchJourney('page_visible', { client_navigation_ms: navigationMs })
     if (!this.hasEventUrlValue) return
@@ -25,15 +35,13 @@ export default class extends Controller {
       // Timing is optional.
     }
 
-    const journeyId = currentJourney() || (this.hasJourneyIdValue ? this.journeyIdValue : null)
     postJourneyEvent(this.eventUrlValue, {
       event_type: 'page_visible',
       request_id: this.requestIdValue,
       destination: this.outcomeValue,
       client_navigation_ms: navigationMs,
-      journey_id: journeyId,
       question_id: this.hasQuestionIdValue ? this.questionIdValue : null,
-      event_id: observationId(`page_visible:${this.outcomeValue}:${this.requestIdValue}:${navigationMs ?? 'untimed'}`),
+      event_id: observationId(`page_visible:${this.outcomeValue}:${this.requestIdValue}:${observation}:${navigationMs ?? 'untimed'}`),
     })
   }
 

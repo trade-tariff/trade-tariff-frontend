@@ -8,7 +8,6 @@ module InteractiveSearchable
 
   def perform_interactive_search
     record_direct_initial_submission
-    @guided_search_journey_id = safe_guided_search_identifier(params[:telemetry_journey_id]) || @telemetry_journey_id
 
     if validate_interactive_search == :invalid
       render_interactive_search_page(outcome: 'input_error')
@@ -277,7 +276,6 @@ module InteractiveSearchable
     GuidedSearch::JourneyInstrumentation.record(
       browser_session_id:,
       request_id: @search.request_id,
-      journey_id: @guided_search_journey_id,
       outcome:,
       **@guided_search_metrics,
       experiment: @search.experiment,
@@ -289,7 +287,6 @@ module InteractiveSearchable
     return if question.blank?
 
     @guided_search_question_id = GuidedSearch::JourneyInstrumentation.question_id(
-      journey_id: @guided_search_journey_id,
       request_id: @search.request_id,
       question_number: @results.answered_questions.size + 1,
       question: question['question'],
@@ -308,14 +305,13 @@ module InteractiveSearchable
     GuidedSearch::JourneyInstrumentation.record(
       browser_session_id:,
       request_id: @search.request_id,
-      journey_id: @guided_search_journey_id,
       question_id:,
       submission_id:,
       question_count: completed_answers.size + 1,
       outcome: 'answer_accepted',
       response_source: 'server_accepted',
       question_response: 'normal',
-      event_id: Digest::SHA256.hexdigest(['answer_accepted', @guided_search_journey_id, question_id, submission_id].join(':')),
+      event_id: Digest::SHA256.hexdigest(['answer_accepted', @search.request_id, question_id, submission_id].join(':')),
       experiment: @search.experiment,
     )
   rescue StandardError
@@ -331,7 +327,6 @@ module InteractiveSearchable
 
   def guided_answer_question_id
     GuidedSearch::JourneyInstrumentation.question_id(
-      journey_id: @guided_search_journey_id,
       request_id: @search.request_id,
       question_number: completed_answers.size + 1,
       question: params[:current_question],
@@ -342,16 +337,14 @@ module InteractiveSearchable
   def record_direct_initial_submission
     return unless request.post?
     return if params[:queued_search_id].present? || params[:current_question].present?
-    return if params[:telemetry_journey_id].present?
+    return if params[:telemetry_submission_id].present?
 
-    @telemetry_journey_id = SecureRandom.uuid
     GuidedSearch::JourneyInstrumentation.record(
       browser_session_id:,
       request_id: @search.request_id,
       experiment: @search.experiment,
       outcome: 'initial_submitted',
       submission_source: 'server_direct',
-      journey_id: @telemetry_journey_id,
       submission_id: SecureRandom.uuid,
       event_id: SecureRandom.uuid,
     )
