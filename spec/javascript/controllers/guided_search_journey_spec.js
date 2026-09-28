@@ -60,21 +60,22 @@ describe('guided search journey telemetry', () => {
     expect(HTMLFormElement.prototype.submit).not.toHaveBeenCalled()
     expect(events().map(event => event.event_type)).toEqual(['initial_submitted', 'page_visible'])
     expect(events()[0]).toMatchObject({ event_type: 'initial_submitted' })
-    expect(events()[0].journey_id).toMatch(ID)
+    expect(events()[0].request_id).toMatch(ID)
     expect(events()[0].event_id).toMatch(ID)
-    expect(events()[1]).toMatchObject({ event_type: 'page_visible', destination: 'input_error', journey_id: events()[0].journey_id })
+    expect(events()[1]).toMatchObject({ event_type: 'page_visible', destination: 'input_error', request_id: events()[0].request_id })
+    expect(document.querySelector('[name="request_id"]').value).toBe(events()[0].request_id)
     expect(JSON.stringify(events())).not.toContain('search-q-field')
   })
 
   it('gives a corrected initial submit a new journey id', async () => {
     await startValidation('')
-    const first = events()[0].journey_id
+    const first = events()[0].request_id
     document.querySelector('#search-q-field').value = 'a'
     document.querySelector('#new_search').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
 
     const initial = events().filter(event => event.event_type === 'initial_submitted')
     expect(initial).toHaveLength(2)
-    expect(initial[1].journey_id).not.toBe(first)
+    expect(initial[1].request_id).not.toBe(first)
   })
 
   it('keeps search working when storage and the event request fail', async () => {
@@ -102,9 +103,19 @@ describe('guided search journey telemetry', () => {
     expect(recorded.at(-1)).toMatchObject({
       event_type: 'page_visible',
       destination: 'backend_error',
-      journey_id: recorded[0].journey_id,
+      request_id: recorded[0].request_id,
     })
     expect(HTMLFormElement.prototype.submit).not.toHaveBeenCalled()
+
+    const form = document.querySelector('#new_search')
+    form.querySelector('[name="telemetry_submission_id"]').value = 'later-question-submission'
+    const controller = application.getControllerForElementAndIdentifier(form, 'queued-search')
+    const laterRun = { form, controller: new AbortController() }
+    controller.run = laterRun
+    controller.fail(laterRun)
+    const laterRecovery = events().at(-1)
+    expect(laterRecovery.request_id).toBe(recorded.at(-1).request_id)
+    expect(laterRecovery.event_id).not.toBe(recorded.at(-1).event_id)
   })
 
   it('does not emit another initial submit when the queue hands off', async () => {
@@ -118,7 +129,7 @@ describe('guided search journey telemetry', () => {
     }
     window.fetch.mockImplementation(async (url, options) => {
       if (String(url).includes('guided-search-event')) return { ok: true }
-      if (options?.method === 'POST') return reply(accepted, 202)
+      if (options?.method === 'POST') return reply({ ...accepted, request_id: options.body.get('request_id') }, 202)
       return reply({ status: 'completed' })
     })
     await startValidation('horse')
@@ -126,8 +137,8 @@ describe('guided search journey telemetry', () => {
 
     expect(HTMLFormElement.prototype.submit).toHaveBeenCalledTimes(1)
     expect(events().filter(event => event.event_type === 'initial_submitted')).toHaveLength(1)
-    expect(document.querySelector('[name="telemetry_journey_id"]').value).toBe(events()[0].journey_id)
-    expect(document.querySelector('[name="request_id"]').value).toBe('request-123')
+    expect(document.querySelector('[name="request_id"]').value).toBe(events()[0].request_id)
+    expect(document.querySelector('[name="telemetry_journey_id"]')).toBeNull()
   })
 
   it('keeps one question id across dont know, back, and a normal answer', async () => {
@@ -138,7 +149,7 @@ describe('guided search journey telemetry', () => {
            data-interactive-question-question-id-value="question-server-id"
            data-interactive-question-question-number-value="2">
         <form data-action="submit->interactive-question#submitWithThinking">
-          <input type="hidden" name="telemetry_journey_id" value="journey-abc">
+          <input type="hidden" name="request_id" value="request-123">
           <input type="hidden" name="telemetry_question_id" value="question-server-id">
           <input type="radio" id="known" name="interactive_search_form[answer]" value="Haddock" data-guided-option="true">
           <input type="radio" id="unknown" name="interactive_search_form[answer]" value="I don't know">
@@ -160,10 +171,10 @@ describe('guided search journey telemetry', () => {
 
     const [dontKnow, answer] = events()
     expect(dontKnow).toMatchObject({
-      event_type: 'dont_know', question_response: 'dont_know', terminal_outcome: 'dont_know', journey_id: 'journey-abc',
+      event_type: 'dont_know', question_response: 'dont_know', terminal_outcome: 'dont_know', request_id: 'request-123',
     })
     expect(answer).toMatchObject({
-      event_type: 'answer_submitted', response_source: 'browser_selected', question_response: 'browser_selected', journey_id: 'journey-abc',
+      event_type: 'answer_submitted', response_source: 'browser_selected', question_response: 'browser_selected', request_id: 'request-123',
     })
     expect(dontKnow.question_id).toBe('question-server-id')
     expect(answer.question_id).toBe('question-server-id')

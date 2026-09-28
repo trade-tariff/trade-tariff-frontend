@@ -131,10 +131,10 @@ existing `dont_know` event. The payload never includes the query, question, opti
 or answer text. Every event includes server-derived `service` (`uk` or `xi`) and
 `search_scope` (`guided`). A client cannot set either field.
 
-`journey_id` is a telemetry id for one deliberate initial Search submit and the
-questions that follow it. It is not the backend `request_id`. A corrected initial
-query and an explicit retry each get a new `journey_id`. Automatic queue fallback,
-handoff, and retransmission of the same observation keep that `journey_id`.
+`request_id` is the journey identity. The browser creates one for each deliberate
+initial Search submit, before client validation, and the server keeps that id.
+A corrected initial query and an explicit retry each get a new `request_id`.
+Automatic queue fallback, handoff, and question submits keep the same `request_id`.
 Question submits do not start a journey. `event_id` identifies one logical
 observation and stays the same if that observation is sent again.
 
@@ -146,14 +146,14 @@ observation and stays the same if that observation is sent again.
 | `dont_know` | One event. It is both the question response and the terminal outcome |
 | `page_visible` | A question or terminal state became visible. `destination` is `question`, `results`, `no_results`, `unknown_results`, `blocking_guidance`, `input_error`, or `backend_error`. Navigation timing is optional |
 
-Count a journey by `journey_id` and its latest terminal outcome that day:
+Count a journey by `request_id` and its latest terminal outcome that day:
 `results`, `no_results`, `unknown_results`, `blocking_guidance`, `input_error`,
 `backend_error`, or `dont_know`. Same-day and cross-day abandonment is accepted.
 There is no dropout timeout. Count a question by `question_id` and its last
 `answer_accepted` or `dont_know` response. Do not count `answer_submitted`.
 
-`question_id` is an opaque server id. It is a digest of the journey, request,
-ordinal, and question context. It does not contain the question text. A different
+`question_id` is an opaque server id. It is a digest of the request, ordinal,
+and question context. It does not contain the question text. A different
 question at the same ordinal gets a different id. The page renders the id, so a
 reload does not need session storage to keep it.
 

@@ -114,11 +114,11 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
     expect(journey_events).to be_empty
   end
 
-  it 'records a browser initial submit without a request id or query text' do
+  it 'records a browser initial submit with its request id and no query text' do
     post guided_search_event_path,
          params: {
            event_type: 'initial_submitted',
-           journey_id: 'journey-123',
+           request_id: 'request-123',
            submission_id: 'submission-123',
            event_id: 'event-123',
            q: 'private query',
@@ -129,12 +129,12 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
     expect(journey_events.sole).to include(
       outcome: 'initial_submitted',
       submission_source: 'browser',
-      journey_id: 'journey-123',
+      request_id: 'request-123',
       submission_id: 'submission-123',
       event_id: 'event-123',
     )
-    expect(journey_events.sole).not_to have_key(:request_id)
     expect(journey_events.to_json).not_to include('private query')
+    expect(journey_events.to_json).not_to include('journey_id')
   end
 
   it 'records a browser-selected answer separately from dont_know' do
@@ -142,7 +142,6 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
          params: {
            event_type: 'answer_submitted',
            request_id: 'request-123',
-           journey_id: 'journey-123',
            question_id: 'question-123',
            submission_id: 'submission-123',
            event_id: 'event-123',
@@ -171,7 +170,6 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
            request_id: 'request-123',
            question_number: 1,
            client_elapsed_ms: 100,
-           journey_id: 'journey-123',
            question_id: 'question-123',
            event_id: 'event-123',
          },
@@ -189,13 +187,12 @@ RSpec.describe 'Guided search journey events', :aggregate_failures, type: :reque
 
   it 'rejects malformed telemetry ids and an answer without the browser source' do
     post guided_search_event_path,
-         params: { event_type: 'initial_submitted', journey_id: 'bad id', event_id: 'event-123' },
+         params: { event_type: 'initial_submitted', request_id: 'bad id', event_id: 'event-123' },
          as: :json
     post guided_search_event_path,
          params: {
            event_type: 'answer_submitted',
            request_id: 'request-123',
-           journey_id: 'journey-123',
            question_id: 'question-123',
            event_id: 'event-123',
            response_source: 'accepted',

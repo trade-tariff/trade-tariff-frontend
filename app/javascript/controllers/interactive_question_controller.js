@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { currentJourney, newId, observationId, postJourneyEvent, readField, validId, writeField } from 'guided-search-journey'
+import { newId, observationId, postJourneyEvent, readField, validId, writeField } from 'guided-search-journey'
 import { trackSearchJourney } from 'search-analytics'
 
 export default class extends Controller {
@@ -118,7 +118,6 @@ export default class extends Controller {
       request_id: this.requestIdValue,
       question_number: this.questionNumberValue,
       client_elapsed_ms: elapsedMs,
-      journey_id: identity.journeyId,
       question_id: identity.questionId,
       submission_id: identity.submissionId,
       event_id: observationId(`dont_know:${identity.questionId}:${identity.submissionId}`),
@@ -135,7 +134,6 @@ export default class extends Controller {
 
   #recordAnswer(form) {
     const identity = this.#identity()
-    writeField(form, 'telemetry_journey_id', identity.journeyId)
     writeField(form, 'telemetry_submission_id', identity.submissionId)
     if (!readField(form, 'telemetry_question_id')) writeField(form, 'telemetry_question_id', identity.questionId)
     postJourneyEvent(this.hasEventUrlValue ? this.eventUrlValue : null, {
@@ -145,7 +143,6 @@ export default class extends Controller {
       request_id: this.requestIdValue,
       question_number: this.questionNumberValue,
       client_elapsed_ms: this.#clientElapsedMs(),
-      journey_id: identity.journeyId,
       question_id: identity.questionId,
       submission_id: identity.submissionId,
       event_id: observationId(`answer:${identity.questionId}:${identity.submissionId}`),
@@ -155,7 +152,6 @@ export default class extends Controller {
   #identity() {
     const form = this.element.querySelector('form')
     return {
-      journeyId: currentJourney(form),
       questionId: this.#renderedQuestionId(form),
       submissionId: this.submissionId,
     }

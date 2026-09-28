@@ -51,7 +51,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
   end
 
   it 'does not put telemetry ids into the queued search payload' do
-    enqueue(inputs.merge(telemetry_journey_id: 'journey-abc', telemetry_submission_id: 'submission-abc'))
+    enqueue(inputs.merge(telemetry_submission_id: 'submission-abc'))
 
     expect(WebMock).to(have_requested(:post, %r{/internal/uk/queued_searches$}).with do |request|
       body = JSON.parse(request.body)
@@ -64,7 +64,6 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
       current_question: 'Material?',
       current_options: %w[Wood Metal].to_json,
       interactive_search_form: { answer: },
-      telemetry_journey_id: 'journey-abc',
       telemetry_submission_id: submission_id,
     )
   end
@@ -79,7 +78,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     expect(first.size).to eq(1)
     expect(first.sole).to include(
-      journey_id: 'journey-abc', submission_id: 'submission-1', response_source: 'server_accepted',
+      request_id: 'journey-123', submission_id: 'submission-1', response_source: 'server_accepted',
     )
     expect(events.to_json).not_to include('Wood')
 
@@ -136,14 +135,15 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     subscriber = ActiveSupport::Notifications.subscribe('guided_search.journey') do |*args|
       events << ActiveSupport::Notifications::Event.new(*args).payload
     end
-    accepted = enqueue(inputs.merge(telemetry_journey_id: 'journey-abc'))
+    accepted = enqueue
     stub_completed
 
-    finish(accepted, telemetry_journey_id: 'journey-abc')
+    finish(accepted)
 
     expect(response).to have_http_status(:ok)
     expect(events.pluck(:outcome)).not_to include('initial_submitted')
-    expect(events).to include(hash_including(outcome: 'question', journey_id: 'journey-abc'))
+    expect(events).to include(hash_including(outcome: 'question', request_id: 'journey-123'))
+    expect(events.to_json).not_to include('journey_id')
   ensure
     ActiveSupport::Notifications.unsubscribe(subscriber)
   end

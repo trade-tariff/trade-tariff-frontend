@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { beginInitialJourney, currentJourney, currentSubmission, eventUrlFrom, observationId, postJourneyEvent } from 'guided-search-journey'
+import { beginInitialSubmit, currentRequestId, currentSubmission, eventUrlFrom, observationId, postJourneyEvent } from 'guided-search-journey'
 
 const MAX_QUERY_LENGTH = 1000
 const MIN_QUERY_LENGTH = 2
@@ -47,23 +47,23 @@ export default class extends Controller {
   }
 
   #recordInitialSubmit(form) {
-    const started = beginInitialJourney(form)
+    const started = beginInitialSubmit(form)
     postJourneyEvent(eventUrlFrom(this.element), {
       event_type: 'initial_submitted',
-      journey_id: started.journeyId,
+      request_id: started.requestId,
       submission_id: started.submissionId,
-      event_id: observationId(`initial:${started.journeyId}`),
+      event_id: observationId(`initial:${started.requestId}`),
     })
   }
 
   #recordInputError(form) {
-    const journeyId = currentJourney(form)
+    const requestId = currentRequestId(form)
     postJourneyEvent(eventUrlFrom(this.element), {
       event_type: 'page_visible',
       destination: 'input_error',
-      journey_id: journeyId,
+      request_id: requestId,
       submission_id: currentSubmission(form),
-      event_id: observationId(`input_error:${journeyId}`),
+      event_id: observationId(`input_error:${requestId}`),
     })
   }
 

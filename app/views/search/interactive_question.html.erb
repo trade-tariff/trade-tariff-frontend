@@ -35,7 +35,6 @@
       <%= hidden_field_tag :q, @search.q %>
       <%= hidden_field_tag :interactive_search, 'true' %>
       <%= hidden_field_tag :request_id, @search.request_id %>
-      <%= hidden_field_tag :telemetry_journey_id, @guided_search_journey_id if @guided_search_journey_id.present? %>
       <%= hidden_field_tag :telemetry_question_id, @guided_search_question_id if @guided_search_question_id.present? %>
       <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
       <%= hidden_field_tag :expanded_query, @results.expanded_query if @results.expanded_query.present? %>

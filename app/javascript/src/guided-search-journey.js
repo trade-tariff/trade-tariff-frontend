@@ -1,23 +1,5 @@
 const ID = /^[a-zA-Z0-9-]{1,64}$/
-const KEY = 'guidedSearchJourney'
 const observations = new Map()
-
-function readStore() {
-  try {
-    const parsed = JSON.parse(window.sessionStorage.getItem(KEY) || '{}')
-    return parsed && typeof parsed === 'object' ? parsed : {}
-  } catch {
-    return {}
-  }
-}
-
-function writeStore(value) {
-  try {
-    window.sessionStorage.setItem(KEY, JSON.stringify(value))
-  } catch {
-    // Telemetry must not break search.
-  }
-}
 
 export function validId(value) {
   return typeof value === 'string' && ID.test(value) ? value : null
@@ -59,32 +41,21 @@ export function writeField(form, name, value) {
   }
 }
 
-export function rememberJourney(journeyId) {
-  const id = validId(journeyId)
-  if (!id) return
-  const store = readStore()
-  if (store.journeyId === id) return
-  writeStore({ ...store, journeyId: id })
-}
-
-export function currentJourney(form) {
-  return readField(form, 'telemetry_journey_id') ||
-    validId(document.querySelector('[data-guided-search-page-journey-id-value]')?.getAttribute('data-guided-search-page-journey-id-value')) ||
-    validId(readStore().journeyId)
+export function currentRequestId(form) {
+  return readField(form, 'request_id') ||
+    validId(document.querySelector('[data-guided-search-page-request-id-value]')?.getAttribute('data-guided-search-page-request-id-value'))
 }
 
 export function currentSubmission(form) {
-  return readField(form, 'telemetry_submission_id') || validId(readStore().submissionId)
+  return readField(form, 'telemetry_submission_id')
 }
 
-export function beginInitialJourney(form) {
-  const journeyId = newId()
+export function beginInitialSubmit(form) {
+  const requestId = newId()
   const submissionId = newId()
-  writeField(form, 'telemetry_journey_id', journeyId)
+  writeField(form, 'request_id', requestId)
   writeField(form, 'telemetry_submission_id', submissionId)
-  const store = readStore()
-  writeStore({ ...store, journeyId, submissionId })
-  return { journeyId, submissionId }
+  return { requestId, submissionId }
 }
 
 export function observationId(logicalKey) {
