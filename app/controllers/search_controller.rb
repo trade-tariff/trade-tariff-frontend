@@ -7,6 +7,8 @@ class SearchController < ApplicationController
   include InteractiveSearchable
   include QueuedGuidedSearchable
 
+  TELEMETRY_PARAM_KEYS = %i[telemetry_journey_id telemetry_submission_id telemetry_question_id].freeze
+
   skip_before_action :verify_authenticity_token, only: [:search]
   # A signed grant authorises status reads; avoid page setup and remote flag evaluation.
   skip_before_action :set_current_flagsmith_identity, :set_path_info, :set_search,
@@ -59,7 +61,9 @@ class SearchController < ApplicationController
     event = guided_search_event_params
     event_attributes = guided_search_event_attributes(event)
     request_id = safe_guided_search_identifier(event[:request_id])
-    return head :unprocessable_content if event_attributes.nil? || request_id.nil?
+    return head :unprocessable_content if event_attributes.nil?
+    return head :unprocessable_content if event[:request_id].present? && request_id.nil?
+    return head :unprocessable_content if request_id.nil? && event_attributes[:journey_id].blank?
 
     GuidedSearch::JourneyInstrumentation.record(
       browser_session_id:,
@@ -120,11 +124,23 @@ class SearchController < ApplicationController
       :confidence,
       :destination,
       :client_navigation_ms,
+      :journey_id,
+      :submission_id,
+      :question_id,
+      :event_id,
+      :response_source,
     )
   end
 
   def guided_search_event_attributes(event)
+    identity = telemetry_identity(event)
+    return if identity.nil?
+
     case event[:event_type]
+    when 'initial_submitted'
+      initial_submitted_attributes(identity)
+    when 'answer_submitted'
+      answer_submitted_attributes(event, identity)
     when 'dont_know'
       question_count = bounded_integer(event[:question_number], maximum: 100)
       client_elapsed_ms = bounded_integer(event[:client_elapsed_ms], maximum: 86_400_000)
@@ -135,6 +151,9 @@ class SearchController < ApplicationController
         used_dont_know: true,
         question_count:,
         client_elapsed_ms:,
+        question_response: 'dont_know',
+        terminal_outcome: 'dont_know',
+        **identity,
       }
     when 'result_selected'
       goods_nomenclature_item_id = event[:goods_nomenclature_item_id].to_s[/\A\d{10}\z/]
@@ -165,14 +184,59 @@ class SearchController < ApplicationController
         /\A(question|results|no_results|unknown_results|blocking_guidance|input_error|backend_error)\z/,
       ]
       client_navigation_ms = bounded_integer(event[:client_navigation_ms], maximum: 86_400_000)
-      return if destination.nil? || client_navigation_ms.nil?
+      return if destination.nil?
+      return if event[:client_navigation_ms].present? && client_navigation_ms.nil?
 
       {
         outcome: 'page_visible',
         destination:,
         client_navigation_ms:,
+        **identity,
       }
     end
+  end
+
+  def telemetry_identity(event)
+    identity = %i[journey_id submission_id question_id event_id].index_with { |key| event[key] }.reject { |_key, value| value.blank? }
+    return unless identity.values.all? { |value| safe_guided_search_identifier(value) }
+
+    identity.transform_values { |value| safe_guided_search_identifier(value) }
+  end
+
+  def initial_submitted_attributes(identity)
+    return if identity[:journey_id].blank? || identity[:event_id].blank?
+
+    {
+      outcome: 'initial_submitted',
+      submission_source: 'browser',
+      **identity,
+    }
+  end
+
+  def answer_submitted_attributes(event, identity)
+    return if identity.values_at(:journey_id, :question_id, :event_id).any?(&:blank?)
+    return unless event[:response_source].to_s == 'browser_selected'
+
+    elapsed = optional_elapsed(event)
+    return if elapsed == :invalid
+
+    question_count = bounded_integer(event[:question_number], maximum: 100)
+    return if event[:question_number].present? && question_count.nil?
+
+    {
+      outcome: 'answer_submitted',
+      response_source: 'browser_selected',
+      question_response: 'browser_selected',
+      question_count:,
+      client_elapsed_ms: elapsed,
+      **identity,
+    }
+  end
+
+  def optional_elapsed(event)
+    return if event[:client_elapsed_ms].blank?
+
+    bounded_integer(event[:client_elapsed_ms], maximum: 86_400_000) || :invalid
   end
 
   def safe_guided_search_identifier(value)
@@ -241,10 +305,11 @@ class SearchController < ApplicationController
       :current_question,
       :current_options,
       :experiment,
+      *TELEMETRY_PARAM_KEYS,
       answers: %i[question options answer],
       interactive_search_form: [:answer],
       query_expansion: { ai_terms: [] },
-    ).to_h
+    ).except(*TELEMETRY_PARAM_KEYS).to_h
       .merge(extract_search_date_parts)
       .merge(experiment: Current.experiment)
       .compact

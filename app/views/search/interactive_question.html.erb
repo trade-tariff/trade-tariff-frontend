@@ -5,8 +5,10 @@
 <div data-controller="interactive-question queued-search"
      data-queued-search-url-value="<%= queue_guided_search_path(day: nil, month: nil, year: nil) %>"
      data-action="guided-search:submit->queued-search#submit queued-search:error->interactive-question#restore"
+     data-guided-search-event-url="<%= guided_search_event_path(day: nil, month: nil, year: nil) %>"
      data-interactive-question-event-url-value="<%= guided_search_event_path(day: nil, month: nil, year: nil) %>"
      data-interactive-question-request-id-value="<%= @search.request_id %>"
+     data-interactive-question-question-id-value="<%= @guided_search_question_id %>"
      data-interactive-question-question-number-value="<%= @results.answered_questions.size + 1 %>">
   <div data-interactive-question-target="pageHeader">
     <%= page_header %>
@@ -33,6 +35,8 @@
       <%= hidden_field_tag :q, @search.q %>
       <%= hidden_field_tag :interactive_search, 'true' %>
       <%= hidden_field_tag :request_id, @search.request_id %>
+      <%= hidden_field_tag :telemetry_journey_id, @guided_search_journey_id if @guided_search_journey_id.present? %>
+      <%= hidden_field_tag :telemetry_question_id, @guided_search_question_id if @guided_search_question_id.present? %>
       <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
       <%= hidden_field_tag :expanded_query, @results.expanded_query if @results.expanded_query.present? %>
       <%= hidden_field_tag :query_expansion, @results.query_expansion_json if @results.query_expansion_json %>
@@ -54,7 +58,7 @@
       <%= f.govuk_radio_buttons_fieldset :answer,
           legend: { text: question['question'], size: 'm' } do %>
         <% question['options'].each do |option| %>
-          <%= f.govuk_radio_button :answer, option, label: { text: option } %>
+          <%= f.govuk_radio_button :answer, option, label: { text: option }, data: { guided_option: true } %>
         <% end %>
 
         <%= f.govuk_radio_divider %>

@@ -12,6 +12,8 @@ module QueuedGuidedSearchable
       return render json: { error: @form.errors.full_messages.join('. '), validation_failed: true }, status: :unprocessable_content
     end
 
+    @guided_search_journey_id = safe_guided_search_identifier(params[:telemetry_journey_id])
+    record_accepted_answer
     merge_current_answer
     # Initialise the app's existing correlation/session identity, not a per-job cookie value.
     browser_session_id

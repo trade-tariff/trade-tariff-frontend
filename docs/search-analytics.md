@@ -123,6 +123,55 @@ and analytics consent. The new event does not replace those server requests.
 Exact classic matches that redirect to a commodity page are not a rendered
 search-results state and do not trigger the results survey.
 
+## Guided search journey monitoring
+
+Server logs use the existing `guided_search.journey` event and `schema_version` 1.
+New fields and outcomes are additive. They do not replace rendered outcomes or the
+existing `dont_know` event. The payload never includes the query, question, option,
+or answer text. Every event includes server-derived `service` (`uk` or `xi`) and
+`search_scope` (`guided`). A client cannot set either field.
+
+`journey_id` is a telemetry id for one deliberate initial Search submit and the
+questions that follow it. It is not the backend `request_id`. A corrected initial
+query and an explicit retry each get a new `journey_id`. Automatic queue fallback,
+handoff, and retransmission of the same observation keep that `journey_id`.
+Question submits do not start a journey. `event_id` identifies one logical
+observation and stays the same if that observation is sent again.
+
+| Outcome | Meaning |
+| --- | --- |
+| `initial_submitted` | The trader submitted the initial Search form, before client or server validation |
+| `answer_submitted` | The browser recorded a rendered option. `response_source` is `browser_selected`. This is not a counted or server-accepted answer |
+| `answer_accepted` | The server accepted a rendered option before continuing the search. `response_source` is `server_accepted`. This is the normal-answer count |
+| `dont_know` | One event. It is both the question response and the terminal outcome |
+| `page_visible` | A question or terminal state became visible. `destination` is `question`, `results`, `no_results`, `unknown_results`, `blocking_guidance`, `input_error`, or `backend_error`. Navigation timing is optional |
+
+Count a journey by `journey_id` and its latest terminal outcome that day:
+`results`, `no_results`, `unknown_results`, `blocking_guidance`, `input_error`,
+`backend_error`, or `dont_know`. Same-day and cross-day abandonment is accepted.
+There is no dropout timeout. Count a question by `question_id` and its last
+`answer_accepted` or `dont_know` response. Do not count `answer_submitted`.
+
+`question_id` is an opaque server id. It is a digest of the journey, request,
+ordinal, and question context. It does not contain the question text. A different
+question at the same ordinal gets a different id. The page renders the id, so a
+reload does not need session storage to keep it.
+
+Browser telemetry is fail-open. Storage and network failures must not stop search.
+Direct no-JS submits are logged by the server before validation. A queued handoff
+does not log another initial submit. The server rejects malformed ids and fields
+outside the allowlist.
+
+These visible outcomes are not covered, because the app does not have the journey
+when they are shown: static or infrastructure error pages, redirects to `/500`,
+`/404`, or `/429`, and invalid-date redirects. No-JS "I don't know" is submitted
+as a search answer, so it is not a separate `dont_know` event. No-JS normal answers are not `answer_submitted` events. A no-JS answer that
+matches a rendered option is still `answer_accepted`. An answer that is blank,
+unknown, or not one of the rendered options is not accepted and is not counted.
+`answer_submitted` can still be recorded before the server rejects a later
+submission, so it is not the count. A browser retry of the same accepted answer
+reuses the acceptance `event_id`.
+
 ## Verification before closing AI-1271
 
 Repository request and browser tests verify the emitted payload and consent.

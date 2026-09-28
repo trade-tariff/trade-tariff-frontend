@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { currentJourney, currentSubmission, eventUrlFrom, observationId, postJourneyEvent } from 'guided-search-journey'
 
 const RECOVERY_MESSAGE = 'We could not complete this search. Please try your search again.'
 // Data-informed starting cadence from AI-1093, not a fixed latency guarantee.
@@ -163,13 +164,30 @@ export default class extends Controller {
   fail(run, message = RECOVERY_MESSAGE) {
     if (this.run !== run) return
     this.stop()
-    window.sessionStorage.removeItem('guidedSearchSubmittedAt')
+    try {
+      window.sessionStorage.removeItem('guidedSearchSubmittedAt')
+    } catch {
+      // Optional timing storage must not prevent the recovery screen.
+    }
     this.dispatch('error')
     this.messageTarget.textContent = typeof message === 'string' && message ? message : RECOVERY_MESSAGE
     this.errorTarget.setAttribute('role', 'alert')
     this.errorTarget.classList.add('govuk-error-summary')
     this.errorTarget.classList.remove('govuk-!-display-none')
     this.errorTarget.focus()
+    this.#recordRecovery(run)
+  }
+
+  #recordRecovery(run) {
+    const journeyId = currentJourney(run.form)
+    postJourneyEvent(eventUrlFrom(this.element) || eventUrlFrom(run.form), {
+      event_type: 'page_visible',
+      destination: 'backend_error',
+      journey_id: journeyId,
+      submission_id: currentSubmission(run.form),
+      request_id: run.requestId,
+      event_id: observationId(`backend_error:${journeyId}`),
+    })
   }
 
   clearError() {

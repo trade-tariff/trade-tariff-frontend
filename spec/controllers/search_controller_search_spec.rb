@@ -369,7 +369,7 @@ RSpec.describe SearchController, type: :controller do
         before { do_response }
 
         it 'records the input page as an error outcome' do
-          expect(journey_events).to contain_exactly(hash_including(outcome: 'input_error', request_id: 'invalid-input-journey', result_count: 0))
+          expect(journey_events).to include(hash_including(outcome: 'input_error', request_id: 'invalid-input-journey', result_count: 0))
         end
       end
 
@@ -379,7 +379,7 @@ RSpec.describe SearchController, type: :controller do
         before { do_response }
 
         it 'replaces it before recording frontend telemetry', :aggregate_failures do
-          expect(journey_events).to contain_exactly(
+          expect(journey_events).to include(
             hash_including(
               outcome: 'input_error',
               request_id: a_string_matching(/\A[0-9a-f-]{36}\z/),
@@ -417,7 +417,7 @@ RSpec.describe SearchController, type: :controller do
         it { is_expected.to render_template(:interactive_question) }
 
         it 'records the question page as a frontend journey outcome' do
-          expect(journey_events).to contain_exactly(
+          expect(journey_events).to include(
             hash_including(
               schema_version: 1,
               outcome: 'question',
@@ -472,7 +472,7 @@ RSpec.describe SearchController, type: :controller do
         it { expect(assigns(:results).all).to contain_exactly(an_object_having_attributes(goods_nomenclature_item_id: '0101210000')) }
 
         it 'records the results page as a frontend journey outcome' do
-          expect(journey_events).to contain_exactly(hash_including(outcome: 'results', request_id: 'abc-123', result_count: 1))
+          expect(journey_events).to include(hash_including(outcome: 'results', request_id: 'abc-123', result_count: 1))
         end
       end
 
@@ -518,7 +518,7 @@ RSpec.describe SearchController, type: :controller do
         it { expect(assigns(:search).expanded_query).to eq('pure-bred breeding horses') }
 
         it 'records how long the presented question was visible before submission' do
-          expect(journey_events).to contain_exactly(
+          expect(journey_events).to include(
             hash_including(outcome: 'results', request_id: 'abc-123', client_elapsed_ms: 3210),
           )
         end
@@ -610,7 +610,7 @@ RSpec.describe SearchController, type: :controller do
         it { expect(response.body).to include('Search cannot suggest a code') }
 
         it 'records the unknown-results page as a frontend journey outcome' do
-          expect(journey_events).to contain_exactly(hash_including(outcome: 'unknown_results', request_id: 'abc-123', result_count: 1))
+          expect(journey_events).to include(hash_including(outcome: 'unknown_results', request_id: 'abc-123', result_count: 1))
         end
       end
 
@@ -701,7 +701,7 @@ RSpec.describe SearchController, type: :controller do
         it { expect(response.body).not_to include('app-section-break--thick') }
 
         it 'records the blocking-guidance page as a frontend journey outcome' do
-          expect(journey_events).to contain_exactly(hash_including(outcome: 'blocking_guidance', request_id: 'stable-request-id', result_count: 0))
+          expect(journey_events).to include(hash_including(outcome: 'blocking_guidance', request_id: 'stable-request-id', result_count: 0))
         end
       end
 
@@ -733,7 +733,7 @@ RSpec.describe SearchController, type: :controller do
         it { expect(response.body).to include('No search results could be found') }
 
         it 'records the no-results page as a frontend journey outcome' do
-          expect(journey_events).to contain_exactly(hash_including(outcome: 'no_results', request_id: 'abc-123', result_count: 0))
+          expect(journey_events).to include(hash_including(outcome: 'no_results', request_id: 'abc-123', result_count: 0))
         end
       end
     end

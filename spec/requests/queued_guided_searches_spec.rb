@@ -50,6 +50,104 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     )
   end
 
+  it 'does not put telemetry ids into the queued search payload' do
+    enqueue(inputs.merge(telemetry_journey_id: 'journey-abc', telemetry_submission_id: 'submission-abc'))
+
+    expect(WebMock).to(have_requested(:post, %r{/internal/uk/queued_searches$}).with do |request|
+      body = JSON.parse(request.body)
+      body['request_id'] == 'journey-123' && body.keys.none? { |key| key.start_with?('telemetry_') }
+    end)
+  end
+
+  def answer_params(answer:, submission_id:)
+    inputs.merge(
+      current_question: 'Material?',
+      current_options: %w[Wood Metal].to_json,
+      interactive_search_form: { answer: },
+      telemetry_journey_id: 'journey-abc',
+      telemetry_submission_id: submission_id,
+    )
+  end
+
+  it 'records a queued answer before enqueue and does not repeat it on handoff' do
+    events = []
+    subscriber = ActiveSupport::Notifications.subscribe('guided_search.journey') do |*args|
+      events << ActiveSupport::Notifications::Event.new(*args).payload
+    end
+    accepted = enqueue(answer_params(answer: 'Wood', submission_id: 'submission-1'))
+    first = events.select { |event| event[:outcome] == 'answer_accepted' }
+
+    expect(first.size).to eq(1)
+    expect(first.sole).to include(
+      journey_id: 'journey-abc', submission_id: 'submission-1', response_source: 'server_accepted',
+    )
+    expect(events.to_json).not_to include('Wood')
+
+    stub_completed
+    finish(accepted, answer_params(answer: 'Wood', submission_id: 'submission-1'))
+
+    expect(response).to have_http_status(:ok)
+    expect(events.count { |event| event[:outcome] == 'answer_accepted' }).to eq(1)
+  ensure
+    ActiveSupport::Notifications.unsubscribe(subscriber)
+  end
+
+  it 'keeps separate accepted answers on the same question and ignores a non-option' do
+    events = []
+    subscriber = ActiveSupport::Notifications.subscribe('guided_search.journey') do |*args|
+      events << ActiveSupport::Notifications::Event.new(*args).payload
+    end
+    enqueue(answer_params(answer: 'Nope', submission_id: 'submission-bad'))
+    enqueue(answer_params(answer: 'Wood', submission_id: 'submission-1'))
+    enqueue(answer_params(answer: 'Metal', submission_id: 'submission-2'))
+
+    accepted = events.select { |event| event[:outcome] == 'answer_accepted' }
+    expect(accepted.pluck(:submission_id)).to eq(%w[submission-1 submission-2])
+    expect(accepted.pluck(:event_id).uniq.size).to eq(2)
+    expect(accepted.pluck(:question_id).uniq.size).to eq(1)
+  ensure
+    ActiveSupport::Notifications.unsubscribe(subscriber)
+  end
+
+  it 'keeps the accepted answer when enqueue fails and records nothing for an unowned handoff' do
+    events = []
+    subscriber = ActiveSupport::Notifications.subscribe('guided_search.journey') do |*args|
+      events << ActiveSupport::Notifications::Event.new(*args).payload
+    end
+    stub_api_request('queued_searches', :post, internal: true).to_return(status: 503, body: '', headers:)
+    post '/search/queued', params: answer_params(answer: 'Wood', submission_id: 'submission-1')
+
+    expect(response).to have_http_status(:service_unavailable)
+    expect(events.count { |event| event[:outcome] == 'answer_accepted' }).to eq(1)
+
+    events.clear
+    post '/search', params: answer_params(answer: 'Wood', submission_id: 'submission-1').merge(
+      queued_search_id: id, queued_search_token: 'not-owned',
+    )
+
+    expect(response).to have_http_status(:not_found)
+    expect(events).to be_empty
+  ensure
+    ActiveSupport::Notifications.unsubscribe(subscriber)
+  end
+
+  it 'does not record another initial submit on handoff' do
+    events = []
+    subscriber = ActiveSupport::Notifications.subscribe('guided_search.journey') do |*args|
+      events << ActiveSupport::Notifications::Event.new(*args).payload
+    end
+    accepted = enqueue(inputs.merge(telemetry_journey_id: 'journey-abc'))
+    stub_completed
+
+    finish(accepted, telemetry_journey_id: 'journey-abc')
+
+    expect(response).to have_http_status(:ok)
+    expect(events.pluck(:outcome)).not_to include('initial_submitted')
+    expect(events).to include(hash_including(outcome: 'question', journey_id: 'journey-abc'))
+  ensure
+    ActiveSupport::Notifications.unsubscribe(subscriber)
+  end
+
   it 'queues the validated query and merged answer with a signed handoff' do
     inputs.merge!(current_question: 'Material?', current_options: '["Wood"]', interactive_search_form: { answer: 'Wood' })
     accepted = enqueue
