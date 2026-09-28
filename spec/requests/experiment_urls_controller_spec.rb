@@ -76,6 +76,41 @@ RSpec.describe ExperimentUrlsController, type: :request do
     end
   end
 
+  context 'with the HMRC showcase experiment' do
+    let(:experiment) { Rails.application.config.experiment_urls.fetch(:hmrc_showcase) }
+
+    it 'enrols at the London start date', :aggregate_failures do
+      travel_to(Time.utc(2026, 9, 27, 23)) do
+        get '/hmrc-showcase', params: { experiment: 'spoofed' }
+      end
+
+      expect(response).to redirect_to('/find_commodity?experiment=hmrc-showcase')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+      expect(response.headers.fetch('Cache-Control')).to include('no-store')
+    end
+
+    it 'does not enrol before the start', :aggregate_failures do
+      travel_to(Time.utc(2026, 9, 27, 22, 59, 59)) { get '/hmrc-showcase' }
+
+      expect(response).to redirect_to('/find_commodity')
+      expect(session[:experiment_url_optins]).to be_blank
+    end
+
+    it 'does not enrol Northern Ireland', :aggregate_failures do
+      travel_to(Time.utc(2026, 9, 28, 12)) { get '/xi/hmrc-showcase' }
+
+      expect(response).to redirect_to('/xi/find_commodity')
+      expect(session[:experiment_url_optins]).to be_blank
+    end
+
+    it 'remains available without an end date', :aggregate_failures do
+      travel_to(Time.utc(2036, 9, 28, 12)) { get '/hmrc-showcase' }
+
+      expect(response).to redirect_to('/find_commodity?experiment=hmrc-showcase')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+    end
+  end
+
   context 'with the demo experiment' do
     let(:experiment) { Rails.application.config.experiment_urls.fetch(:search_beta_demo) }
 
