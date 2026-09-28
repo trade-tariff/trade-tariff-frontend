@@ -1,9 +1,9 @@
 RSpec.describe EnquiryForm do
-  describe '.internal_submission_path' do
+  describe '.singular_path' do
     it 'uses the selected service internal API path' do
-      path = TradeTariffFrontend::ServiceChooser.with_source('xi') { described_class.internal_submission_path }
+      path = TradeTariffFrontend::ServiceChooser.with_source('xi') { described_class.singular_path }
 
-      expect(path).to eq('xi/internal/enquiry_form/submissions')
+      expect(path).to eq('/xi/internal/enquiry_form/submissions')
     end
   end
 
@@ -16,6 +16,7 @@ RSpec.describe EnquiryForm do
     context 'when the request is successful' do
       before do
         allow(TradeTariffFrontend).to receive(:green_lanes_api_token)
+
         stub_api_request('enquiry_form/submissions', :post, internal: true)
           .with(
             body: hash_including(

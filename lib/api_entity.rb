@@ -280,12 +280,22 @@ private
       ).page(pagination['page']).per(pagination['per_page'])
     end
 
+    # Internal paths are resolved per request because the selected service can change.
     def singular_path
-      @singular_path ||= "#{nested_name}/:id"
+      path = @singular_path ||= "#{nested_name}/:id"
+
+      @internal_singular_path ? internal_api_path(path) : path
     end
 
-    def set_singular_path(path)
+    def set_singular_path(path, internal: false)
       @singular_path = path
+      @internal_singular_path = internal
+    end
+
+    def internal_api_path(path)
+      api_path = URI.parse(TradeTariffFrontend::ServiceChooser.api_host).path
+
+      "#{api_path.sub(%r{/api\b}, '/internal')}/#{path.delete_prefix('/')}"
     end
 
     def collection_path

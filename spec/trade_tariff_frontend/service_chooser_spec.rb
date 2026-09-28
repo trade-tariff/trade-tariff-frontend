@@ -48,22 +48,6 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
     end
   end
 
-  describe '.internal_api_path' do
-    %w[uk xi].each do |service|
-      it "builds the #{service.upcase} internal path" do
-        path = described_class.with_source(service) { described_class.internal_api_path('enquiry_form/submissions') }
-
-        expect(path).to eq("/internal/#{service}/enquiry_form/submissions")
-      end
-    end
-
-    it 'supports service-prefixed API hosts used in deployed environments' do
-      allow(described_class).to receive(:api_host).and_return('https://backend.example.test/uk/api')
-
-      expect(described_class.internal_api_path('/search')).to eq('/uk/internal/search')
-    end
-  end
-
   describe '.with_source' do
     before do
       described_class.service_choice = :uk
