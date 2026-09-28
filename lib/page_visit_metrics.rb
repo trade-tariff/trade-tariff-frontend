@@ -5,7 +5,7 @@ require 'json'
 # not affect the request. Session IDs, request IDs, paths and user agents are
 # never metric dimensions.
 #
-# Eligibility and labels come from config/page_visit_catalogue.json, which the
+# Eligibility and labels come from data/page_visit_catalogue.json, which the
 # page-visits dashboard reads as well. A repeated log line can still double-count
 # a metric; the session log widgets continue to collapse duplicate request IDs.
 class PageVisitMetrics
@@ -155,7 +155,7 @@ class PageVisitMetrics
     end
 
     def page_label
-      label = enquiry_step_label || named_page || fallback_label
+      label = page_name
       label += ' (form submission)' unless %w[GET HEAD].include?(@request.method)
       label += ' (redirect)' if @request.status >= 300 && @request.status < 400
       label
@@ -175,9 +175,15 @@ class PageVisitMetrics
     private
 
     def activity
-      matched = @catalogue.fetch('activities').find { |candidate| matches?(candidate) }
-      default = @catalogue.fetch('activities').find { |candidate| candidate.fetch('matchers').empty? }
-      @activity ||= matched || default
+      @activity ||= matched_activity || default_activity
+    end
+
+    def matched_activity
+      @catalogue.fetch('activities').find { |candidate| matches?(candidate) }
+    end
+
+    def default_activity
+      @catalogue.fetch('activities').find { |candidate| candidate.fetch('matchers').empty? }
     end
 
     def matches?(candidate)
