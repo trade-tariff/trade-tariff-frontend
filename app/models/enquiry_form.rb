@@ -1,8 +1,6 @@
 class EnquiryForm
   include ApiEntity
 
-  set_singular_path 'enquiry_form/submissions'
-
   attr_accessor :name, :company_name, :job_title, :email, :enquiry_category, :enquiry_description
 
   def self.create!(attributes)
@@ -12,6 +10,13 @@ class EnquiryForm
       },
     }
 
-    super(json_api_params, { 'Content-Type' => 'application/json' })
+    request = prepare_json_request(json_api_params, { 'Content-Type' => 'application/json' })
+    response = api.post(internal_submission_path, request[:body], request[:headers])
+
+    new parse_jsonapi(response)
+  end
+
+  def self.internal_submission_path
+    TradeTariffFrontend::ServiceChooser.internal_api_path('enquiry_form/submissions')
   end
 end

@@ -69,6 +69,10 @@ module TradeTariffFrontend
       host
     end
 
+    def internal_api_path(suffix)
+      "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/#{suffix.delete_prefix('/')}"
+    end
+
     def service_name
       service_choice || service_default
     end
