@@ -32,3 +32,11 @@ shared:
     redirect: /find_commodity
     service: uk
     instrumentation_label: hmrc-traders
+  hmrc_showcase:
+    path: /hmrc-showcase
+    feature: interactive_search
+    starts_on: "2026-09-28"
+    timezone: Europe/London
+    redirect: /find_commodity
+    service: uk
+    instrumentation_label: hmrc-showcase
