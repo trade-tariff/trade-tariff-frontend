@@ -5,12 +5,7 @@ locals {
     low_max     = 2
     regular_max = 9
   }
-  frequency_labels = {
-    low    = "1. Low (1-${local.frequency_thresholds.low_max})"
-    medium = "2. Medium (${local.frequency_thresholds.low_max + 1}-${local.frequency_thresholds.regular_max})"
-    high   = "3. High (${local.frequency_thresholds.regular_max + 1}+)"
-  }
-  cohort_expression = "if(visits <= ${local.frequency_thresholds.low_max}, ${jsonencode(local.frequency_labels.low)}, if(visits <= ${local.frequency_thresholds.regular_max}, ${jsonencode(local.frequency_labels.medium)}, ${jsonencode(local.frequency_labels.high)}))"
+  cohort_expression = "if(visits <= ${local.frequency_thresholds.low_max}, 'Low', if(visits <= ${local.frequency_thresholds.regular_max}, 'Medium', 'High'))"
 
   # awslogs uses ecs/<container name>/<task id>. Scope before examining fields
   # because the platform log group also contains backend and other service logs.
@@ -20,36 +15,51 @@ locals {
     | parse @message /(?<request_json>\{.*\})$/
     | fields jsonParse(request_json) as request
     | filter request.format = "html" and ispresent(request.controller) and ispresent(request.status)
-    | filter request.controller not like /${local.catalogue.excluded_controller_pattern}/
-    | filter isblank(request.user_agent) or tolower(request.user_agent) not like /${local.catalogue.bot_pattern}/
+    | filter request.controller not like /^(Myott::|BasicSessionsController|HealthcheckController|Cookies::)/
+    | filter isblank(request.user_agent) or tolower(request.user_agent) not like /bot|crawler|spider|headless|synthetic|healthcheck/
     | filter ispresent(request.request_id) and request.request_id != ""
     | fields bin(1h) as hourly_bin
     | stats earliest(hourly_bin) as request_hour, earliest(@timestamp) as requested_at, earliest(request.controller) as page_controller, earliest(request.action) as page_action, earliest(request.method) as page_method, earliest(request.path) as page_path, earliest(request.status) as response_status, earliest(request.browser_session_id) as session_id by request.request_id
     | fields concat(page_controller, "#", page_action) as page_key
   QUERY
 
-  activity_clause = {
-    for activity in local.catalogue.activities : activity.id => join(" or ", [
-      for matcher in activity.matchers : (
-        matcher.type == "page_key" ? (
-          length(matcher.values) == 1 ? "page_key = ${jsonencode(matcher.values[0])}" :
-          "page_key in [${join(", ", [for value in matcher.values : jsonencode(value)])}]"
-          ) : matcher.type == "controller" ? (
-          length(matcher.values) == 1 ? "page_controller = ${jsonencode(matcher.values[0])}" :
-          "page_controller in [${join(", ", [for value in matcher.values : jsonencode(value)])}]"
-        ) : length(matcher.values) == 1 ? "page_controller like /^${matcher.values[0]}/" :
-        "page_controller like /^(${join("|", matcher.values)})/"
-      )
-    ]) if length(activity.matchers) > 0
-  }
-  classified_activities = [for activity in local.catalogue.activities : activity if activity.id != "other"]
-  other_activity_label  = one([for activity in local.catalogue.activities : activity.label if activity.id == "other"])
-  classify_pages        = <<-QUERY
-    fields case(${join(", ", [for activity in local.classified_activities : "${local.activity_clause[activity.id]}, ${jsonencode(activity.id)}"])}, "other") as activity
-    | fields case(${join(", ", [for activity in local.classified_activities : "activity = ${jsonencode(activity.id)}, \"${activity.label}\""])}, "${local.other_activity_label}") as page_type
+  # The pie uses nine readable activity groups; ranked and first/last tables
+  # use the detailed UI names in page_names.tf. Controller alone is insufficient:
+  # Search also serves quota/chemical tools, and Commodities serves origin tabs.
+  classify_pages = <<-QUERY
+    fields case(
+      page_key in ["FindCommoditiesController#show", "SectionsController#index", "SearchController#search"], "search",
+      page_controller = "SearchReferencesController", "az",
+      page_controller in ["BrowseSectionsController", "SectionsController", "ChaptersController", "HeadingsController", "SubheadingsController"], "browse",
+      page_key = "CommoditiesController#show", "commodity",
+      page_controller like /^DutyCalculator::/, "calculator",
+      page_key in ["SearchController#quota_search", "SearchController#chemical_search", "PagesController#tools"] or page_controller in ["AdditionalCodeSearchController", "CertificateSearchController", "FootnoteSearchController", "ExchangeRatesController", "SimplifiedProceduralValuesController"] or page_controller like /^MeursingLookup::/, "tools",
+      page_controller = "ProductExperience::EnquiryFormController", "enquiry",
+      page_key = "CommoditiesController#origin" or page_controller like /^(RulesOfOrigin::|GreenLanes::|Pages::|ProductExperience::)/ or page_controller in ["PagesController", "NewsItemsController", "FeedbackController", "AiSearchInformationController", "LiveIssuesController"], "guidance",
+      "other"
+    ) as activity
+    | fields case(activity = "search", "Search",
+      activity = "browse", "Browse tariff",
+      activity = "az", "A-Z index",
+      activity = "commodity", "Commodities",
+      activity = "calculator", "Duty calculator",
+      activity = "tools", "Tariff tools",
+      activity = "enquiry", "Enquiry form",
+      activity = "guidance", "Help & guidance",
+      "Other pages") as page_type
   QUERY
 
-  tariff_page_keys = local.catalogue.tariff_keys
+  # Keep hierarchy levels visible without the ranked page table's top-20 cutoff.
+  # Select actions, not URL IDs: the section-index redirect and origin tab are
+  # different activities. Reuse the UI names already maintained for page tables.
+  tariff_page_keys = [
+    "BrowseSectionsController#index",
+    "SectionsController#show",
+    "ChaptersController#show",
+    "HeadingsController#show",
+    "SubheadingsController#show",
+    "CommoditiesController#show",
+  ]
   # case() requires a default result; the action filter makes it unreachable.
   tariff_requests = <<-QUERY
     ${local.page_requests}
@@ -66,15 +76,43 @@ locals {
     | stats count(*) as visits by session_id
   QUERY
 
-  # Request totals, coverage, tariff levels and status classes are container
-  # metrics. These remaining queries need a selected-window session grouping
-  # that a counter cannot answer.
   queries = {
     cohorts = <<-QUERY
       ${local.session_counts}
       | fields ${local.cohort_expression} as `Frequency group`
       | stats count(*) as Sessions by `Frequency group`
-      | sort `Frequency group` asc
+    QUERY
+
+    pages = <<-QUERY
+      ${local.page_requests}
+      | ${local.classify_pages}
+      | fields page_type as Activity
+      | stats count(*) as Requests by Activity
+    QUERY
+
+    tariff_pages = <<-QUERY
+      ${local.tariff_requests}
+      | stats count(*) as Requests by Page
+      | sort Requests desc
+    QUERY
+
+    tariff_volume = <<-QUERY
+      ${local.tariff_requests}
+      | fields request_hour as Hour
+      | stats count(*) as Requests by Hour, Page
+    QUERY
+
+    coverage = <<-QUERY
+      ${local.page_requests}
+      | fields if(isblank(session_id), "Missing ID", "Correlated") as Coverage
+      | stats count(*) as Requests by Coverage
+    QUERY
+
+    volume = <<-QUERY
+      ${local.page_requests}
+      | ${local.classify_pages}
+      | fields request_hour as Hour, page_type as Activity
+      | stats count(*) as Requests by Hour, Activity
     QUERY
 
     distribution = <<-QUERY
@@ -100,16 +138,31 @@ locals {
           sum(if(activity = "other", 1, 0)) as other_visits by session_id
       | fields ${local.cohort_expression} as `Frequency group`
       | stats count(*) as Sessions, sum(visits) as Requests, round(avg(visits), 2) as `Requests/session`,
-          round(100 * sum(search_visits) / sum(visits), 2) as `Search %`,
-          round(100 * sum(browse_visits) / sum(visits), 2) as `Browse %`,
-          round(100 * sum(az_visits) / sum(visits), 2) as `A-Z %`,
-          round(100 * sum(commodity_visits) / sum(visits), 2) as `Commodities %`,
-          round(100 * sum(calculator_visits) / sum(visits), 2) as `Calculator %`,
-          round(100 * sum(tool_visits) / sum(visits), 2) as `Tools %`,
-          round(100 * sum(enquiry_visits) / sum(visits), 2) as `Enquiries %`,
-          round(100 * sum(guidance_visits) / sum(visits), 2) as `Guidance %`,
-          round(100 * sum(other_visits) / sum(visits), 2) as `Other %` by `Frequency group`
-      | sort `Frequency group` asc
+          round(100 * sum(search_visits) / sum(visits), 2) as `Search (%)`,
+          round(100 * sum(browse_visits) / sum(visits), 2) as `Browse (%)`,
+          round(100 * sum(az_visits) / sum(visits), 2) as `A-Z (%)`,
+          round(100 * sum(commodity_visits) / sum(visits), 2) as `Commodities (%)`,
+          round(100 * sum(calculator_visits) / sum(visits), 2) as `Calculator (%)`,
+          round(100 * sum(tool_visits) / sum(visits), 2) as `Tools (%)`,
+          round(100 * sum(enquiry_visits) / sum(visits), 2) as `Enquiries (%)`,
+          round(100 * sum(guidance_visits) / sum(visits), 2) as `Guidance (%)`,
+          round(100 * sum(other_visits) / sum(visits), 2) as `Other (%)` by `Frequency group`
+    QUERY
+
+    responses = <<-QUERY
+      ${local.page_requests}
+      | fields case(response_status >= 500, "5xx errors", response_status >= 400, "4xx errors", response_status >= 300, "3xx redirects", "2xx success") as response_class
+      | fields request_hour as Hour, response_class as Response
+      | stats count(*) as Requests by Hour, Response
+    QUERY
+
+    popular_pages = <<-QUERY
+      ${local.page_requests}
+      | ${local.name_pages}
+      | fields page_label as Page
+      | stats count(*) as Requests by Page
+      | sort Requests desc
+      | limit 20
     QUERY
 
     first_last = <<-QUERY

@@ -9,7 +9,7 @@ require 'json'
 # page-visits dashboard reads as well. A repeated log line can still double-count
 # a metric; the session log widgets continue to collapse duplicate request IDs.
 class PageVisitMetrics
-  CATALOGUE_PATH = File.expand_path('../config/page_visit_catalogue.json', __dir__)
+  CATALOGUE_PATH = File.expand_path('../data/page_visit_catalogue.json', __dir__)
   MAX_LINE_BYTES = 4096
   private_constant :MAX_LINE_BYTES
 

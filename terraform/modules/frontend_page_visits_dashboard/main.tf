@@ -1,4 +1,5 @@
 locals {
+  catalogue = jsondecode(file("${path.module}/../../../data/page_visit_catalogue.json"))
   guide_url = "https://github.com/trade-tariff/trade-tariff-frontend/blob/main/docs/frontend-page-visits-dashboard.md"
   puma_url  = "https://${var.region}.console.aws.amazon.com/cloudwatch/home?region=${var.region}#dashboards:name=Puma-frontend-${var.environment}"
   namespace = local.catalogue.namespace
