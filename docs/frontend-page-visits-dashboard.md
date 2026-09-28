@@ -236,6 +236,11 @@ values come from `data/page_visit_catalogue.json`. The session log queries keep
 the same activity labels. Session ID, request ID, path, query string and user agent
 are not dimensions.
 
+The page-family dimension also carries the form-submission and redirect suffixes,
+so it can be a few hundred series per environment. That should still cost less
+than the old log scans. Check the custom-metric bill after the first week of
+collection.
+
 Metric history starts when that emission is deployed to the selected environment.
 A missing series means no matching event was recorded in the window, not a query
 failure and not a proven zero. The coverage numbers show zero for the missing
