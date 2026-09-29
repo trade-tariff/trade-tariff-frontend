@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/geographical_areas/1400
+    uri: http://localhost:3019/xi/api/geographical_areas/1400
     body:
       encoding: US-ASCII
       string: ''
@@ -24,7 +24,7 @@ http_interactions:
   recorded_at: Wed, 18 Mar 2026 10:00:00 GMT
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/geographical_areas/1400
+    uri: http://localhost:3018/uk/api/geographical_areas/1400
     body:
       encoding: US-ASCII
       string: ''

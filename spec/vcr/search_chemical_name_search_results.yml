@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/chemicals/search?cas&name=benzene&page=1
+    uri: http://localhost:3018/uk/api/chemicals/search?cas&name=benzene&page=1
     body:
       encoding: US-ASCII
       string: ''

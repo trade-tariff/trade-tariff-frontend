@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3018/api/uk/search
+    uri: http://localhost:3018/uk/api/search
     body:
       encoding: UTF-8
       string: as_of=2023-05-11&q=horses&resource_id
@@ -59,7 +59,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:55:33 GMT
 - request:
     method: post
-    uri: http://localhost:3018/api/uk/search
+    uri: http://localhost:3018/uk/api/search
     body:
       encoding: UTF-8
       string: as_of=2019-04-05&q=car+parts&resource_id
@@ -116,7 +116,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:55:34 GMT
 - request:
     method: post
-    uri: http://localhost:3018/api/uk/search
+    uri: http://localhost:3018/uk/api/search
     body:
       encoding: UTF-8
       string: as_of=2019-04-05&q=minerals&resource_id
@@ -173,7 +173,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:55:34 GMT
 - request:
     method: post
-    uri: http://localhost:3018/api/uk/search
+    uri: http://localhost:3018/uk/api/search
     body:
       encoding: UTF-8
       string: as_of=2019-04-05&q=22&resource_id
@@ -229,7 +229,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:55:34 GMT
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/chapters/22?as_of=2019-04-05
+    uri: http://localhost:3018/uk/api/chapters/22?as_of=2019-04-05
     body:
       encoding: US-ASCII
       string: ''
@@ -286,7 +286,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:55:34 GMT
 - request:
     method: post
-    uri: http://localhost:3018/api/uk/search
+    uri: http://localhost:3018/uk/api/search
     body:
       encoding: UTF-8
       string: as_of=2019-04-05&q=ricotta&resource_id
@@ -342,7 +342,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:55:34 GMT
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/commodities/0406105090?as_of=2019-04-05
+    uri: http://localhost:3018/uk/api/commodities/0406105090?as_of=2019-04-05
     body:
       encoding: US-ASCII
       string: ''
@@ -399,7 +399,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:55:34 GMT
 - request:
     method: post
-    uri: http://localhost:3018/api/uk/search
+    uri: http://localhost:3018/uk/api/search
     body:
       encoding: UTF-8
       string: as_of=2019-04-05&q=designed+velocycles&resource_id

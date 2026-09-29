@@ -144,7 +144,7 @@ RSpec.describe 'Guided search expansion terms', :aggregate_failures, type: :requ
 
     expect(response).to have_http_status(:ok)
     expect(JSON.parse(expansion_field.value)).to eq('ai_terms' => ['horse "mare"'])
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
   end
 
   it 'carries expansion terms through a blocking redirect' do
@@ -253,7 +253,7 @@ RSpec.describe 'Guided search expansion terms', :aggregate_failures, type: :requ
     }
 
     expect(response).to have_http_status(:accepted)
-    expect(WebMock).to(have_requested(:post, %r{/internal/uk/queued_searches$}).with do |request|
+    expect(WebMock).to(have_requested(:post, %r{#{internal_api_path}/queued_searches$}).with do |request|
       body = JSON.parse(request.body)
       body['query_expansion'] == { 'ai_terms' => ['live horse'] } &&
         body['answers'] == [{ 'question' => 'What type of horse?', 'options' => '["Racing","Breeding"]', 'answer' => 'Racing' }]

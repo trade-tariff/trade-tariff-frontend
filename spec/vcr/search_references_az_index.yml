@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/search_references?query%5Bletter%5D=a
+    uri: http://localhost:3018/uk/api/search_references?query%5Bletter%5D=a
     body:
       encoding: US-ASCII
       string: ''

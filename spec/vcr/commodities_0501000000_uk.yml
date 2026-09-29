@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/headings/0501?as_of=2025-07-14&filter%5Bmeursing_additional_code_id%5D
+    uri: http://localhost:3018/uk/api/headings/0501?as_of=2025-07-14&filter%5Bmeursing_additional_code_id%5D
     body:
       encoding: US-ASCII
       string: ''

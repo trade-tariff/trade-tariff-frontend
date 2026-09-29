@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/commodities/0101210000?as_of=2025-07-14&filter%5Bmeursing_additional_code_id%5D
+    uri: http://localhost:3019/xi/api/commodities/0101210000?as_of=2025-07-14&filter%5Bmeursing_additional_code_id%5D
     body:
       encoding: US-ASCII
       string: ''

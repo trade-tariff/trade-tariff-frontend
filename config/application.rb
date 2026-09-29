@@ -68,7 +68,7 @@ module TradeTariffFrontend
 
     config.guide_links = config_for(:guide_links)
     config.search_failure_messages = config_for(:search_failure_messages).freeze
-    # Prevent invalid queries from causing an error, e.g., `/api/uk/search_references.json?query[letter]=%`
+    # Prevent invalid queries from causing an error, e.g., `/uk/api/search_references.json?query[letter]=%`
     config.middleware.use FilterBadUrlEncoding
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

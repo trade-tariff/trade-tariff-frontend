@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/subheadings/0101210000-10?as_of=2025-07-14
+    uri: http://localhost:3018/uk/api/subheadings/0101210000-10?as_of=2025-07-14
     body:
       encoding: US-ASCII
       string: ''

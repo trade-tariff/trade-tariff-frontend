@@ -268,7 +268,7 @@ RSpec.describe 'Search', :js do
         samples = page.evaluate_script("JSON.parse(sessionStorage.getItem('queuedPollVisibility'))")
         expect(samples.size).to eq(3)
         expect(samples).to all(include('sameNode' => true, 'visible' => true))
-        expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+        expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
       end
 
       it 'shows a focused recovery message without losing the query when the worker fails', :aggregate_failures do
@@ -291,7 +291,7 @@ RSpec.describe 'Search', :js do
             return bounds.top >= 0 && bounds.bottom <= window.innerHeight;
           })()
         JS
-        expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+        expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
       end
 
       it 'only shows the unknown answer guidance after submitting the unknown option' do

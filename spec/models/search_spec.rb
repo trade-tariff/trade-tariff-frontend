@@ -305,7 +305,7 @@ RSpec.describe Search do
         connection = Faraday.new(url: TradeTariffFrontend::ServiceChooser.api_host) do |faraday|
           faraday.options.timeout = 10
           faraday.adapter :test do |stub|
-            stub.post('/internal/uk/search') do |env|
+            stub.post(internal_api_path('search')) do |env|
               captured_env = env
               [
                 200,

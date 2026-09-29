@@ -53,7 +53,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
   it 'does not put telemetry ids into the queued search payload' do
     enqueue(inputs.merge(telemetry_submission_id: 'submission-abc'))
 
-    expect(WebMock).to(have_requested(:post, %r{/internal/uk/queued_searches$}).with do |request|
+    expect(WebMock).to(have_requested(:post, %r{#{internal_api_path}/queued_searches$}).with do |request|
       body = JSON.parse(request.body)
       body['request_id'] == 'journey-123' && body.keys.none? { |key| key.start_with?('telemetry_') }
     end)
@@ -156,7 +156,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     poll_uri = URI.parse(accepted.fetch('poll_url'))
     expect(poll_uri.path).to eq("/search/queued/#{id}")
     expect(Rack::Utils.parse_query(poll_uri.query)).to include('token' => accepted.fetch('token'))
-    expect(WebMock).to(have_requested(:post, %r{/internal/uk/queued_searches$}).with do |request|
+    expect(WebMock).to(have_requested(:post, %r{#{internal_api_path}/queued_searches$}).with do |request|
       JSON.parse(request.body).slice('q', 'answers') == {
         'q' => 'horse', 'answers' => [{ 'question' => 'Material?', 'options' => '["Wood"]', 'answer' => 'Wood' }]
       }
@@ -174,7 +174,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     expect(response.parsed_body).to eq('status' => 'running')
     expect(response.headers['Cache-Control']).to include('no-store')
     expect(FlagsmithClient.instance).not_to have_received(:get_flags_for)
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
   end
 
   it 'sends known-empty expansion terms when queueing' do
@@ -182,7 +182,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     enqueue
 
-    expect(WebMock).to(have_requested(:post, %r{/internal/uk/queued_searches$}).with do |request|
+    expect(WebMock).to(have_requested(:post, %r{#{internal_api_path}/queued_searches$}).with do |request|
       JSON.parse(request.body)['query_expansion'] == { 'ai_terms' => [] }
     end)
   end
@@ -235,7 +235,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include('What is it used for?')
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
   end
 
   it 'renders completed commodity results without another search' do
@@ -261,7 +261,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include('0101210000')
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
   end
 
   it 'maps a backend poll outage to 503 recovery without a second search' do
@@ -272,7 +272,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     expect(response).to have_http_status(:service_unavailable)
     expect(response.parsed_body).to include('error' => QueuedGuidedSearchable::RECOVERY_MESSAGE)
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
   end
 
   it 'lets an accepted step finish after disabling guided search, but rejects new submissions' do
@@ -286,7 +286,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     expect(response.body).to include('What is it used for?')
     post '/search/queued', params: inputs
     expect(response).to have_http_status(:not_found)
-    expect(WebMock).to have_requested(:post, %r{/internal/uk/queued_searches$}).once
+    expect(WebMock).to have_requested(:post, %r{#{internal_api_path}/queued_searches$}).once
   end
 
   it 'rejects polling and final handoff from a different session' do
@@ -296,7 +296,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     expect(other_browser.response).to have_http_status(:not_found)
     other_browser.post '/search', params: inputs.merge(queued_search_id: id, queued_search_token: accepted.fetch('token'))
     expect(other_browser.response).to have_http_status(:not_found)
-    expect(WebMock).not_to have_requested(:get, %r{/internal/uk/queued_searches/#{id}$})
+    expect(WebMock).not_to have_requested(:get, %r{#{internal_api_path}/queued_searches/#{id}$})
   end
 
   it 'rejects missing, tampered and expired tokens without backend lookups' do
@@ -309,7 +309,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
       poll(accepted)
       expect(response).to have_http_status(:not_found)
     end
-    expect(WebMock).not_to have_requested(:get, %r{/internal/uk/queued_searches/})
+    expect(WebMock).not_to have_requested(:get, %r{#{internal_api_path}/queued_searches/})
   end
 
   it 'binds the token to the job and service' do
@@ -333,7 +333,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
       finish(accepted, override)
 
       expect(response).to have_http_status(:not_found)
-      expect(WebMock).not_to have_requested(:get, %r{/internal/uk/queued_searches/#{id}$})
+      expect(WebMock).not_to have_requested(:get, %r{#{internal_api_path}/queued_searches/#{id}$})
     end
   end
 
@@ -345,7 +345,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     finish(accepted, id:, queued_search_id: other_id)
 
     expect(response).to have_http_status(:not_found)
-    expect(WebMock).not_to have_requested(:get, %r{/internal/uk/queued_searches/#{other_id}$})
+    expect(WebMock).not_to have_requested(:get, %r{#{internal_api_path}/queued_searches/#{other_id}$})
   end
 
   it 'rejects a changed experiment during final handoff' do
@@ -355,7 +355,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     finish(accepted)
 
     expect(response).to have_http_status(:not_found)
-    expect(WebMock).not_to have_requested(:get, %r{/internal/uk/queued_searches/#{id}$})
+    expect(WebMock).not_to have_requested(:get, %r{#{internal_api_path}/queued_searches/#{id}$})
   end
 
   it 'retains ownership when two tabs submit from the same starting cookie' do
@@ -401,14 +401,14 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     expect(response).to have_http_status(:unprocessable_content)
     expect(response.parsed_body).to include('validation_failed' => true)
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/queued_searches$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
   end
 
   it 'does not enqueue unanswered questions' do
     post '/search/queued', params: inputs.merge(current_question: 'Material?', current_options: '["Wood"]')
 
     expect(response).to have_http_status(:unprocessable_content)
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/queued_searches$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
   end
 
   it 'reports failed and expired jobs without restarting' do
@@ -422,7 +422,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     expect(response.parsed_body).to eq('status' => 'failed')
     poll(accepted)
     expect(response).to have_http_status(:not_found)
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
   end
 
   it 'does not silently restart if the result expires before rendering' do
@@ -432,7 +432,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     finish(accepted)
 
     expect(response.body).to include('Please try your search again')
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
   end
 
   it 'retains the submission date across midnight' do
@@ -466,8 +466,8 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
       cache.clear
       finish(accepted)
       expect(response.body).to include('What is it used for?')
-      expect(WebMock).to have_requested(:get, %r{/internal/uk/queued_searches/#{id}$}).times(3)
-      expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+      expect(WebMock).to have_requested(:get, %r{#{internal_api_path}/queued_searches/#{id}$}).times(3)
+      expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
     end
 
     it 'caches the completed job for polling and handoff without another backend read' do
@@ -478,7 +478,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
       finish(accepted)
 
       expect(response.body).to include('What is it used for?')
-      expect(WebMock).to have_requested(:get, %r{/internal/uk/queued_searches/#{id}$}).once
+      expect(WebMock).to have_requested(:get, %r{#{internal_api_path}/queued_searches/#{id}$}).once
     end
 
     [Zlib::DataError, TypeError].each do |error_class|
@@ -490,7 +490,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
         expect(response.parsed_body).to eq('status' => 'completed')
         finish(accepted)
         expect(response.body).to include('What is it used for?')
-        expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+        expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
       end
     end
 
@@ -530,7 +530,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
         finish(accepted)
         expect(response.body).to include('Please try your search again')
         expect(cache).not_to have_received(:write).with(start_with('queued_search/'), anything, anything)
-        expect(WebMock).not_to have_requested(:post, %r{/internal/uk/search$})
+        expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
       end
     end
   end
@@ -548,14 +548,14 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     post '/search/queued', params: inputs
 
     expect(response).to have_http_status(:not_found)
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/queued_searches$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
   end
 
   it 'rejects an invalid date before enqueueing' do
     post '/search/queued', params: inputs.merge(year: '2025', month: '2', day: '31')
 
     expect(response).to have_http_status(:unprocessable_content)
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/queued_searches$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
   end
 
   it 'rejects submission without CSRF protection' do
@@ -564,7 +564,7 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     post '/search/queued', params: inputs
 
     expect(response).to have_http_status(:unprocessable_content)
-    expect(WebMock).not_to have_requested(:post, %r{/internal/uk/queued_searches$})
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
   ensure
     SearchController.allow_forgery_protection = previous
   end

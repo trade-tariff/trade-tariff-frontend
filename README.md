@@ -15,7 +15,7 @@ which contains all the environment variables used in development.
 Here are some of the relevant Env variables:
 
 - `API_SERVICE_BACKEND_URL_OPTIONS`: to set the BE address for he UK and XI (EU)
-    For example: `API_SERVICE_BACKEND_URL_OPTIONS={"uk":"http://localhost:3001","xi":"http://localhost:3002"}`
+    For example: `API_SERVICE_BACKEND_URL_OPTIONS={"uk":"http://localhost:3000/uk/api","xi":"http://localhost:3000/xi/api"}`
 
 - `TARIFF_API_VERSION`:  to set the APIs version, the current ver. is __2__.
 

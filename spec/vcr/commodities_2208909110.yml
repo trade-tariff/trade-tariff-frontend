@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/commodities/2208909110?as_of=2018-11-15
+    uri: http://localhost:3018/uk/api/commodities/2208909110?as_of=2018-11-15
     body:
       encoding: US-ASCII
       string: ''
