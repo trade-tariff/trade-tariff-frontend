@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3018/api/uk/search
+    uri: http://localhost:3018/uk/api/search
     body:
       encoding: UTF-8
       string: as_of=2025-07-14&q=01&resource_id

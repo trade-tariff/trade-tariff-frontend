@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/commodities/4302130000?as_of=2013-11-11
+    uri: http://localhost:3018/uk/api/commodities/4302130000?as_of=2013-11-11
     body:
       encoding: US-ASCII
       string: ''
@@ -50,6 +50,6 @@ http_interactions:
       - '98'
     body:
       encoding: UTF-8
-      string: '{"error":"not found","url":"http://localhost:3018/api/uk/commodities/4302130000?as_of=2013-11-11"}'
+      string: '{"error":"not found","url":"http://localhost:3018/uk/api/commodities/4302130000?as_of=2013-11-11"}'
   recorded_at: Mon, 14 Jul 2025 14:56:14 GMT
 recorded_with: VCR 6.3.1

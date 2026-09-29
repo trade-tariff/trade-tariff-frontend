@@ -146,7 +146,7 @@ RSpec.describe 'Controlled queued search frontend benchmark', :aggregate_failure
       started << true
       { status: 202, body: { id:, status: 'queued' }.to_json, headers: }
     end
-    stub_request(:get, %r{/internal/uk/queued_searches/}).to_return do |request|
+    stub_request(:get, %r{#{internal_api_path}/queued_searches/}).to_return do |request|
       id = request.uri.path.split('/').last
       job = jobs.fetch(id)
       payload = if now >= job.fetch(:ready_at)

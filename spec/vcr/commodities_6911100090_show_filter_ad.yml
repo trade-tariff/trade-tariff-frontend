@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/commodities/6911100090?as_of=2025-07-14&filter%5Bgeographical_area_id%5D=AD&filter%5Bmeursing_additional_code_id%5D
+    uri: http://localhost:3018/uk/api/commodities/6911100090?as_of=2025-07-14&filter%5Bgeographical_area_id%5D=AD&filter%5Bmeursing_additional_code_id%5D
     body:
       encoding: US-ASCII
       string: ''

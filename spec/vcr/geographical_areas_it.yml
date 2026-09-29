@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/geographical_areas/IT
+    uri: http://localhost:3018/uk/api/geographical_areas/IT
     body:
       encoding: US-ASCII
       string: ''

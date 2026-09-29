@@ -508,7 +508,7 @@ RSpec.describe ApiEntity do
     before do
       allow(mock_entity).to receive_messages(
         api: api_double,
-        singular_path: '/api/uk/mock_entities/1',
+        singular_path: '/uk/api/mock_entities/1',
       )
       allow(mock_entity).to receive(:parse_jsonapi).with(mock_response).and_return(parsed_data)
     end
@@ -549,7 +549,7 @@ RSpec.describe ApiEntity do
     before do
       allow(mock_entity).to receive_messages(
         api: api_double,
-        singular_path: '/api/uk/mock_entities/:id',
+        singular_path: '/uk/api/mock_entities/:id',
       )
       allow(mock_entity).to receive(:parse_jsonapi).with(mock_response).and_return(parsed_data)
     end
@@ -577,7 +577,7 @@ RSpec.describe ApiEntity do
     before do
       allow(mock_entity).to receive_messages(
         api: api_double,
-        singular_path: '/api/uk/mock_entities/1',
+        singular_path: '/uk/api/mock_entities/1',
       )
       allow(mock_entity).to receive(:parse_jsonapi).with(mock_response).and_return(parsed_data)
     end
@@ -604,7 +604,7 @@ RSpec.describe ApiEntity do
     before do
       allow(mock_entity).to receive_messages(
         api: api_double,
-        singular_path: '/api/uk/mock_entities/1',
+        singular_path: '/uk/api/mock_entities/1',
       )
     end
 

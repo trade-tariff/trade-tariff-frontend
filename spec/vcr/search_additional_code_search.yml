@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/additional_code_types
+    uri: http://localhost:3018/uk/api/additional_code_types
     body:
       encoding: US-ASCII
       string: ''
@@ -63,7 +63,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:55:47 GMT
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/additional_codes/search?code=119&description&type=4
+    uri: http://localhost:3018/uk/api/additional_codes/search?code=119&description&type=4
     body:
       encoding: US-ASCII
       string: ''

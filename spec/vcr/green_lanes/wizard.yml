@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/geographical_areas/countries
+    uri: http://localhost:3019/xi/api/geographical_areas/countries
     body:
       encoding: US-ASCII
       string: ''
@@ -59,7 +59,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:00 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/goods_nomenclatures/0808108090?as_of=2024-10-21
+    uri: http://localhost:3019/xi/api/goods_nomenclatures/0808108090?as_of=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -113,7 +113,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:01 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/geographical_areas/countries
+    uri: http://localhost:3019/xi/api/geographical_areas/countries
     body:
       encoding: US-ASCII
       string: ''
@@ -170,7 +170,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:01 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -228,7 +228,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:01 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/geographical_areas/countries
+    uri: http://localhost:3019/xi/api/geographical_areas/countries
     body:
       encoding: US-ASCII
       string: ''
@@ -285,7 +285,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:01 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -343,7 +343,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:01 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/geographical_areas/countries
+    uri: http://localhost:3019/xi/api/geographical_areas/countries
     body:
       encoding: US-ASCII
       string: ''
@@ -400,7 +400,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:02 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -458,7 +458,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:02 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/geographical_areas/countries
+    uri: http://localhost:3019/xi/api/geographical_areas/countries
     body:
       encoding: US-ASCII
       string: ''
@@ -515,7 +515,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:02 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -573,7 +573,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:02 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/geographical_areas/countries
+    uri: http://localhost:3019/xi/api/geographical_areas/countries
     body:
       encoding: US-ASCII
       string: ''
@@ -630,7 +630,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:02 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/0808108090?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -688,7 +688,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:02 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/goods_nomenclatures/2204101500?as_of=2024-10-21
+    uri: http://localhost:3019/xi/api/goods_nomenclatures/2204101500?as_of=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -742,7 +742,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:03 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -800,7 +800,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:03 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -858,7 +858,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:03 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -916,7 +916,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:03 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -974,7 +974,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:04 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/2204101500?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=UA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1032,7 +1032,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:04 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/goods_nomenclatures/2402209000?as_of=2024-10-21
+    uri: http://localhost:3019/xi/api/goods_nomenclatures/2402209000?as_of=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1086,7 +1086,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:05 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/2402209000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=MA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/2402209000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=MA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1156,7 +1156,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:06 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/2402209000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=MA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/2402209000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=MA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1226,7 +1226,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:06 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/2402209000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=MA&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/2402209000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=MA&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1296,7 +1296,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:06 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/goods_nomenclatures/6912002310?as_of=2024-10-21
+    uri: http://localhost:3019/xi/api/goods_nomenclatures/6912002310?as_of=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1358,7 +1358,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:07 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/6912002310?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=US&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/6912002310?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=US&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1416,7 +1416,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:07 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/6912002310?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=US&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/6912002310?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=US&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1474,7 +1474,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:07 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/6912002310?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=US&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/6912002310?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=US&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1532,7 +1532,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:10 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/goods_nomenclatures/3926200000?as_of=2024-10-21
+    uri: http://localhost:3019/xi/api/goods_nomenclatures/3926200000?as_of=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1588,7 +1588,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:11 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/3926200000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=BD&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/3926200000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=BD&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1646,7 +1646,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:11 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/3926200000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=BD&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/3926200000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=BD&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''
@@ -1704,7 +1704,7 @@ http_interactions:
   recorded_at: Mon, 14 Jul 2025 14:34:11 GMT
 - request:
     method: get
-    uri: http://localhost:3019/api/xi/green_lanes/goods_nomenclatures/3926200000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=BD&filter%5Bmoving_date%5D=2024-10-21
+    uri: http://localhost:3019/xi/api/green_lanes/goods_nomenclatures/3926200000?as_of=2024-10-21&filter%5Bgeographical_area_id%5D=BD&filter%5Bmoving_date%5D=2024-10-21
     body:
       encoding: US-ASCII
       string: ''

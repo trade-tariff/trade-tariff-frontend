@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3018/api/uk/goods_nomenclatures/0201100021?as_of=2022-02-03
+    uri: http://localhost:3018/uk/api/goods_nomenclatures/0201100021?as_of=2022-02-03
     body:
       encoding: US-ASCII
       string: ''

@@ -259,7 +259,7 @@ RSpec.describe ApplicationController, type: :controller do
         response: {
           status: 500,
           body: { 'errors' => [{ 'detail' => 'backend exploded' }] },
-          url: URI('https://backend.example.test/api/uk/search'),
+          url: URI('https://backend.example.test/uk/api/search'),
         },
       )
 
@@ -275,7 +275,7 @@ RSpec.describe ApplicationController, type: :controller do
         search_request_id: 'search-request-id',
         experiment_label: 'trstd-trdr',
         backend_status: 500,
-        backend_url: 'https://backend.example.test/api/uk/search',
+        backend_url: 'https://backend.example.test/uk/api/search',
         backend_response_body: { 'errors' => [{ 'detail' => 'backend exploded' }] }.to_json,
         backend_response_body_truncated: false,
       )

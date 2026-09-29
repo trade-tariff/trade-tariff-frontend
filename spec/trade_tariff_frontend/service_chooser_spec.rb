@@ -11,8 +11,8 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
   describe '.service_choices' do
     it 'returns a Hash of url options for the services' do
       expect(described_class.service_choices).to eq(
-        'uk' => 'http://localhost:3018/api/uk',
-        'xi' => 'http://localhost:3019/api/xi',
+        'uk' => 'http://localhost:3018/uk/api',
+        'xi' => 'http://localhost:3019/xi/api',
       )
     end
   end
@@ -35,7 +35,7 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
       let(:choice) { 'foo' }
 
       it 'returns the default service choice url' do
-        expect(described_class.api_host).to eq('http://localhost:3018/api/uk')
+        expect(described_class.api_host).to eq('http://localhost:3018/uk/api')
       end
     end
 
@@ -43,7 +43,7 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
       let(:choice) { 'xi' }
 
       it 'returns the service choice url' do
-        expect(described_class.api_host).to eq('http://localhost:3019/api/xi')
+        expect(described_class.api_host).to eq('http://localhost:3019/xi/api')
       end
     end
   end
@@ -65,11 +65,11 @@ RSpec.describe TradeTariffFrontend::ServiceChooser do
   end
 
   describe '.uk_host' do
-    it { expect(described_class.uk_host).to eq('http://localhost:3018/api/uk') }
+    it { expect(described_class.uk_host).to eq('http://localhost:3018/uk/api') }
   end
 
   describe '.xi_host' do
-    it { expect(described_class.xi_host).to eq('http://localhost:3019/api/xi') }
+    it { expect(described_class.xi_host).to eq('http://localhost:3019/xi/api') }
   end
 
   describe '.api_client' do

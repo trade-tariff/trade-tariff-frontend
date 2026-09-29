@@ -4,8 +4,7 @@ module ApiResponsesHelper
     backend_url = if backend
                     TradeTariffFrontend::ServiceChooser.service_choices[backend]
                   elsif internal
-                    TradeTariffFrontend::ServiceChooser.api_host
-                      .sub(%r{/api\b}, '/internal')
+                    internal_api_host
                   else
                     TradeTariffFrontend::ServiceChooser.api_host
                   end
@@ -19,6 +18,16 @@ module ApiResponsesHelper
           end
 
     stub_request(method, url)
+  end
+
+  # Mirrors the production /api -> /internal rewrite so specs do not depend on the backend URL layout
+  def internal_api_host
+    TradeTariffFrontend::ServiceChooser.api_host.sub(%r{/api\b}, '/internal')
+  end
+
+  def internal_api_path(path = nil)
+    base = URI.parse(internal_api_host).path
+    path ? "#{base}/#{path}" : base
   end
 
   # Generate a JSONAPI response from data suitable for webmock
