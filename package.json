@@ -10,7 +10,7 @@
     "@hotwired/stimulus": "^3.2.2",
     "@playwright/test": "^1.63.0",
     "accessible-autocomplete": "^3.0.1",
-    "babel-jest": "^30.5.1",
+    "babel-jest": "^30.5.2",
     "dotenv": "^18.0.3",
     "govuk-frontend": "6.5.1",
     "gh-pages": "^6.3.0",
