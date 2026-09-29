@@ -16,6 +16,41 @@ RSpec.describe ApiEntity do
     end
   end
 
+  describe '.singular_path' do
+    it 'defaults to the nested resource path' do
+      expect(mock_entity.singular_path).to eq('mock_entities/:id')
+    end
+
+    context 'when the path is internal' do
+      let(:internal_entity) do
+        Class.new do
+          include ApiEntity
+
+          set_singular_path 'mock_entities', internal: true
+
+          def self.name
+            'MockEntity'
+          end
+        end
+      end
+
+      %w[uk xi].each do |service|
+        it "resolves to the #{service.upcase} internal API path" do
+          path = TradeTariffFrontend::ServiceChooser.with_source(service) { internal_entity.singular_path }
+
+          expect(path).to eq("/#{service}/internal/mock_entities")
+        end
+      end
+
+      it 'supports service-prefixed API hosts used in deployed environments' do
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:api_host)
+          .and_return('https://backend.example.test/uk/api')
+
+        expect(internal_entity.singular_path).to eq('/uk/internal/mock_entities')
+      end
+    end
+  end
+
   describe '#inspect' do
     context 'when initialized with attributes' do
       subject(:api_entity) { mock_entity.new(name: 'Bilbo Baggins', age: 111) }
