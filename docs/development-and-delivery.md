@@ -12,18 +12,10 @@ The repo README is the source of truth for setup. In normal local development yo
 - A Trade Tariff Backend API endpoint, usually configured through `API_SERVICE_BACKEND_URL_OPTIONS`.
 - Pre-commit hooks installed and enabled.
 
-Useful commands:
-
-```sh
-bin/setup
-bin/rails start
-bin/rails assets:precompile
-bundle exec rspec
-yarn jest
-yarn axxy
-```
-
-`bin/rails assets:precompile` is required before many specs because view and feature specs depend on compiled assets.
+Follow [local setup](../README.md#run-locally) and [checks](../README.md#run-checks)
+for the current commands. `bin/dev` starts Rails and the stylesheet watcher.
+Compile stylesheets and test assets before running view and feature specs.
+See [CONTRIBUTING.md](../CONTRIBUTING.md) for the fork workflow and accessibility checks.
 
 ## Pull Requests
 

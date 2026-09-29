@@ -1,92 +1,90 @@
 # Trade Tariff Frontend
 
-<https://www.trade-tariff.service.gov.uk/find_commodity>
+Trade Tariff Frontend is the public
+[Online Trade Tariff website](https://www.gov.uk/trade-tariff).
+It helps people find commodity codes, duties, VAT, quotas and measures for goods
+moving to and from the UK, including Northern Ireland.
 
-This is the front-end application for [Trade Tariff Backend][backend],
-which provides the Backend APIs.
+This Ruby on Rails application renders the website and the duty calculator.
+It gets tariff data from
+[Trade Tariff Backend](https://github.com/trade-tariff/trade-tariff-backend);
+it does not maintain a local tariff database.
+[Trade Tariff Admin](https://github.com/trade-tariff/trade-tariff-admin) is the
+separate staff interface for managing content and operations.
 
-> Make sure you install and enable all pre-commit hooks https://pre-commit.com/
+## Run locally
 
-## Configuration
+### Prerequisites
 
-You can run the front-end on your local machine without changing the file `.env.development`,
-which contains all the environment variables used in development.
+- Ruby at the version in [.ruby-version](.ruby-version) and Bundler.
+- Node.js and Yarn for stylesheets and JavaScript tooling.
+- A local Trade Tariff Backend with data for the journeys you need.
+- Chrome or Chrome for Testing for browser-based RSpec tests.
 
-Here are some of the relevant Env variables:
+Clone this repository, or follow the [fork workflow](CONTRIBUTING.md#fork-and-branch)
+if you want to contribute without write access.
 
-- `API_SERVICE_BACKEND_URL_OPTIONS`: to set the BE address for he UK and XI (EU)
-    For example: `API_SERVICE_BACKEND_URL_OPTIONS={"uk":"http://localhost:3000/uk/api","xi":"http://localhost:3000/xi/api"}`
+### Configure the application
 
-- `TARIFF_API_VERSION`:  to set the APIs version, the current ver. is __2__.
+[.env.development](.env.development) contains development defaults. Put local
+overrides in `.env.development.local`. Do not commit secrets or point local
+write operations at production services.
 
-## Running the frontend
+`API_SERVICE_BACKEND_URL_OPTIONS` maps `uk` and `xi` to their API roots, including
+`/api`. For example, a UK backend on port 3000 uses
+`http://localhost:3000/uk/api`. Northern Ireland uses the `xi` service and needs
+its own backend process and data. Set its URL to the port where that process runs.
 
-Requires:
+The API client requests version 2. Authentication and other integrations need
+additional configuration for those journeys; the basic tariff pages do not
+require a local Identity service.
 
-- Ruby
-- Rails
-- node
-- yarn
-- Chrome or Chrome-for-testing for browser based testing
-
-Uses:
-
-- Redis (production only)
-
-Commands:
+### Set up and start
 
 ```sh
-bin/setup
-bin/rails start
+yarn install --frozen-lockfile
+bin/setup --skip-server
+bin/dev
 ```
 
-## Running the test suite
+`bin/setup` installs Ruby dependencies and clears temporary files. Without
+`--skip-server`, it also starts the application. `bin/dev` starts Rails on port
+3001 and watches the CSS build. Open <http://localhost:3001>.
 
-To run the spec use the following command:
+## Run checks
+
+Compile the stylesheets and assets before running tests that render pages:
 
 ```sh
+yarn build:css
+RAILS_ENV=test bin/rails assets:precompile
 bundle exec rspec
+yarn jest
+bundle exec rubocop
+bundle exec brakeman
 ```
 
-Note that lots of tests will fail without the assets being compiled. In order to run the tests you need to run `bin/rails assets:precompile` first.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for hooks, accessibility checks and pull
+requests. [GitHub Actions](.github/workflows/ci.yml) defines the CI checks.
 
-### Guard
+## Find your way around
 
-We use [Guard](https://github.com/guard/guard) to run the test suite automatically when files are changed.
+- [Documentation index](docs/README.md): architecture and domain guides.
+- [Architecture](docs/architecture/README.md): routing, API clients and rendering.
+- [Duty calculator](docs/architecture/duty-calculator.md): the calculation journey.
+- [Style guide](docs/style-guide.md): Ruby, Rails, GOV.UK components and tests.
+- [Development and delivery](docs/development-and-delivery.md): maintainer conventions.
 
-To run Guard use the following command:
+## Contribute
 
-```sh
-bundle exec guard
-```
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for reporting bugs, making a fork,
+submitting changes and reporting security issues privately.
 
-This will run the appropriate test suite for the file you are working on.
+## Licence
 
-## Understanding the codebase
-
-Start with [docs/README.md](docs/README.md) for the documentation map, [docs/architecture/README.md](docs/architecture/README.md) for the main runtime boundaries, and [docs/style-guide.md](docs/style-guide.md) for Ruby, Rails, GOV.UK Frontend, testing, and PR conventions.
-
-## Troubleshooting
-
-Sometimes, when trying to load the front page, you get the error:
-__[Webpacker] Compilation failed__
-
-Try to clear Yarn and Webpacker Cache:
-
-```sh
-yarn cache clean
-bin/rails setup
-```
-
-### Disabling Continuous Deployments
-
-We continuously deploy our frontend application to production after a staging deployment passes some end-to-end tests.
-
-You can disable this by:
-
-- Navigating to the [production environment deployment rule][production] page
-- Updating the `Required Reviewers` section to the reviewers you want to control production deployments
-- Hit the `Save protection rules` button
-
-[backend]: https://github.com/trade-tariff/trade-tariff-backend
-[production]: https://github.com/trade-tariff/trade-tariff-frontend/settings/environments/6229078129/edit
+The code and associated documentation are available under the
+[MIT licence](LICENCE.md), with the existing Crown copyright notice.
+Keep the licence and copyright notice when you reuse the software.
+Third-party dependencies and assets retain their own licences. In particular,
+check the [GOV.UK Frontend licence](https://github.com/alphagov/govuk-frontend/blob/main/LICENSE.txt)
+before reusing GOV.UK fonts or branding in another service.
