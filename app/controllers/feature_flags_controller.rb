@@ -3,14 +3,11 @@ class FeatureFlagsController < ApplicationController
   before_action :disable_search_form
 
   def index
-    preferences = Flagsmith::OptInPreferences.current
+    flags = FlagsmithManagementClient.instance.get_flags_for(Current.flagsmith_identity)
 
-    @optin_features = TradeTariffFrontend::Config.registered_flags.filter_map { |method_name, flag|
-      next unless flag[:optin]
-
-      name = flag[:name]
-      { name:, opted_in: preferences[name] == true, enabled: TradeTariffFrontend.public_send(method_name) }
-    }.sort_by { |feature| feature[:name] }
+    @optin_features = optin_flag_names.map { |name|
+      { name: name, enabled: flags.get_flag(name).enabled? }
+    }.sort_by { |f| f[:name] }
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#index: Flagsmith unavailable: #{e.class}: #{e.message}")
     @optin_features = []
@@ -32,7 +29,10 @@ class FeatureFlagsController < ApplicationController
       enabled,
     )
 
-    redirect_to feature_flags_path, notice: "#{flag_name.humanize} preference saved: #{enabled ? 'opted in' : 'not opted in'}."
+    session[:flagsmith_optin_traits] ||= {}
+    session[:flagsmith_optin_traits][flag_name] = enabled
+
+    redirect_to feature_flags_path, notice: "#{flag_name.humanize} #{enabled ? 'enabled' : 'disabled'}."
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#update: failed to set trait #{params[:id]}: #{e.class}: #{e.message}")
     redirect_to feature_flags_path, alert: 'Could not save your preference. Flagsmith may be unavailable.'
