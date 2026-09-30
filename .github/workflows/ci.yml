@@ -2,6 +2,7 @@ name: ci
 
 on:
   pull_request:
+  merge_group:
   workflow_dispatch:
 
 permissions:
@@ -14,6 +15,8 @@ env:
 
 jobs:
   check-pr-lines:
+    # A merge queue run has no pull request to measure.
+    if: github.event_name != 'merge_group'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
