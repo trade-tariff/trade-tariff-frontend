@@ -38,6 +38,34 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
     it 'saves the document codes for xi on to the session' do
       expect { step.save! }.to change(user_session, :document_code_xi).from({}).to('117' => 'N851')
     end
+
+    context 'when a later document question was already answered' do
+      let(:user_session) do
+        build(
+          :duty_calculator_user_session,
+          :with_commodity_information,
+          document_code: { 'uk' => { '117' => 'None', '464' => 'None' }, 'xi' => { '464' => 'None' } },
+        )
+      end
+
+      before do
+        # rubocop:disable RSpec/SubjectStub
+        allow(step).to receive(:document_codes_applicable_measure_type_ids).and_return(%w[105 117 464])
+        # rubocop:enable RSpec/SubjectStub
+      end
+
+      it 'clears the later answer so the question is asked again' do
+        step.save!
+
+        expect(user_session.document_code_uk).to eq('117' => 'C644')
+      end
+
+      it 'clears the later answer for xi too' do
+        step.save!
+
+        expect(user_session.document_code_xi).to eq('117' => 'N851')
+      end
+    end
   end
 
   describe '#options_for' do
@@ -407,6 +435,10 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
       let(:stopping_conditions_met) { true }
 
       it { expect(step.next_step_path).to eq(stopping_path) }
+
+      it 'remembers the question that caused the stop' do
+        expect { step.next_step_path }.to change(user_session, :stopping_measure_type_id).to('117')
+      end
     end
 
     context 'when there are less than 2 applicable vat options' do

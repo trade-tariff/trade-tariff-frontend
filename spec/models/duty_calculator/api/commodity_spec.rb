@@ -282,10 +282,143 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
       it { is_expected.to be_stopping_conditions_met }
     end
 
-    context 'when one of the measures have an applicable stopping condition' do
+    context 'when one of the measures have an applicable stopping condition and the other duty option still applies' do
       subject(:commodity) { build(:duty_calculator_commodity, :with_multiple_stopping_condition_measures) }
 
       let(:user_session) { build(:duty_calculator_user_session, :with_a_single_stopping_condition_document_answer) }
+
+      it { is_expected.not_to be_stopping_conditions_met }
+    end
+
+    context 'when an optional authorised use suspension is answered with None' do
+      subject(:commodity) do
+        build(
+          :duty_calculator_commodity,
+          import_measures: [
+            attributes_for(:duty_calculator_measure, :third_country_tariff),
+            attributes_for(:duty_calculator_measure, :autonomous_end_use, :with_stopping_conditions),
+          ],
+        )
+      end
+
+      let(:user_session) { build(:duty_calculator_user_session, document_code: { 'uk' => { '115' => 'None' } }) }
+
+      it { is_expected.not_to be_stopping_conditions_met }
+    end
+
+    context 'when authorised use on the third-country duty is answered with None' do
+      subject(:commodity) do
+        build(
+          :duty_calculator_commodity,
+          import_measures: [
+            attributes_for(:duty_calculator_measure, :third_country_tariff_authorised_use, :with_stopping_conditions),
+            *other_measures,
+          ],
+        )
+      end
+
+      let(:user_session) { build(:duty_calculator_user_session, document_code: { 'uk' => answers }) }
+      let(:answers) { { '105' => 'None' } }
+
+      context 'when there is no other duty option' do
+        let(:other_measures) { [] }
+
+        it { is_expected.to be_stopping_conditions_met }
+      end
+
+      context 'when a tariff preference applies' do
+        let(:other_measures) { [attributes_for(:duty_calculator_measure, :tariff_preference)] }
+
+        it { is_expected.not_to be_stopping_conditions_met }
+      end
+
+      context 'when an authorised use quota is not answered yet' do
+        let(:other_measures) { [attributes_for(:duty_calculator_measure, :non_preferential_end_use, :with_stopping_conditions)] }
+
+        it { is_expected.not_to be_stopping_conditions_met }
+      end
+
+      context 'when an authorised use quota is also answered with None' do
+        let(:other_measures) { [attributes_for(:duty_calculator_measure, :non_preferential_end_use, :with_stopping_conditions)] }
+        let(:answers) { { '105' => 'None', '123' => 'None' } }
+
+        it { is_expected.to be_stopping_conditions_met }
+      end
+    end
+
+    context 'when authorised use on the third-country duty is answered with None in a UK/XI comparison journey' do
+      subject(:commodity) do
+        build(
+          :duty_calculator_commodity,
+          import_measures: [
+            attributes_for(:duty_calculator_measure, :third_country_tariff_authorised_use, :with_stopping_conditions),
+            attributes_for(:duty_calculator_measure, :tariff_preference),
+          ],
+        )
+      end
+
+      let(:user_session) { build(:duty_calculator_user_session, :deltas_applicable, document_code: { 'uk' => { '105' => 'None' } }) }
+
+      before { allow(user_session).to receive(:deltas_applicable?).and_return(true) }
+
+      it { is_expected.to be_stopping_conditions_met }
+    end
+
+    context 'when a declaration measure is answered with None' do
+      subject(:commodity) do
+        build(
+          :duty_calculator_commodity,
+          import_measures: [
+            attributes_for(:duty_calculator_measure, :third_country_tariff),
+            attributes_for(:duty_calculator_measure, :authorised_use_provisions_submission, :with_stopping_conditions),
+          ],
+        )
+      end
+
+      let(:user_session) { build(:duty_calculator_user_session, document_code: { 'uk' => { '464' => 'None' } }) }
+
+      it { is_expected.to be_stopping_conditions_met }
+    end
+
+    context 'when a code has both an authorised use suspension and a declaration measure' do
+      subject(:commodity) do
+        build(
+          :duty_calculator_commodity,
+          import_measures: [
+            attributes_for(:duty_calculator_measure, :third_country_tariff),
+            attributes_for(:duty_calculator_measure, :autonomous_end_use, :with_stopping_conditions),
+            attributes_for(:duty_calculator_measure, :authorised_use_provisions_submission, :with_stopping_conditions),
+          ],
+        )
+      end
+
+      let(:user_session) { build(:duty_calculator_user_session, document_code: { 'uk' => answers }) }
+
+      context 'when the suspension is answered with None and the declaration document is held' do
+        let(:answers) { { '115' => 'None', '464' => 'N990' } }
+
+        it { is_expected.not_to be_stopping_conditions_met }
+      end
+
+      context 'when the declaration is answered with None' do
+        let(:answers) { { '115' => 'N990', '464' => 'None' } }
+
+        it { is_expected.to be_stopping_conditions_met }
+      end
+    end
+
+    context 'when an anti-dumping measure is answered with None' do
+      subject(:commodity) do
+        build(
+          :duty_calculator_commodity,
+          import_measures: [
+            attributes_for(:duty_calculator_measure, :third_country_tariff),
+            attributes_for(:duty_calculator_measure, :definitive_anti_dumping, :with_stopping_conditions),
+          ],
+        )
+      end
+
+      let(:user_session) { build(:duty_calculator_user_session, document_code: { 'uk' => { '552' => 'None' } }) }
 
       it { is_expected.to be_stopping_conditions_met }
     end
