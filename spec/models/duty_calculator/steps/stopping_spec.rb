@@ -39,7 +39,7 @@ RSpec.describe DutyCalculator::Steps::Stopping, :step, :user_session do
       end
     end
 
-    context 'when the stop was caused by a later answer that is not itself a stopping condition' do
+    context 'when the session remembers which answer caused the stop' do
       let(:filtered_commodity) do
         build(
           :duty_calculator_commodity,

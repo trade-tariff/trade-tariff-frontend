@@ -306,6 +306,38 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
       it { is_expected.not_to be_stopping_conditions_met }
     end
 
+    context 'when an optional authorised use quota or preference is answered with None' do
+      subject(:commodity) do
+        build(
+          :duty_calculator_commodity,
+          import_measures: [
+            attributes_for(:duty_calculator_measure, :third_country_tariff),
+            relief,
+          ],
+        )
+      end
+
+      let(:user_session) { build(:duty_calculator_user_session, document_code: { 'uk' => { relief[:measure_type][:id] => 'None' } }) }
+
+      context 'when it is an authorised use tariff quota' do
+        let(:relief) { attributes_for(:duty_calculator_measure, :non_preferential_end_use, :with_stopping_conditions) }
+
+        it { is_expected.not_to be_stopping_conditions_met }
+      end
+
+      context 'when it is an authorised use preference' do
+        let(:relief) do
+          attributes_for(
+            :duty_calculator_measure,
+            :with_stopping_conditions,
+            measure_type: attributes_for(:duty_calculator_measure_type, id: '145', description: 'Preference under authorised use', measure_type_series_id: 'C'),
+          )
+        end
+
+        it { is_expected.not_to be_stopping_conditions_met }
+      end
+    end
+
     context 'when authorised use on the third-country duty is answered with None' do
       subject(:commodity) do
         build(
@@ -387,7 +419,14 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
           import_measures: [
             attributes_for(:duty_calculator_measure, :third_country_tariff),
             attributes_for(:duty_calculator_measure, :autonomous_end_use, :with_stopping_conditions),
-            attributes_for(:duty_calculator_measure, :authorised_use_provisions_submission, :with_stopping_conditions),
+            attributes_for(
+              :duty_calculator_measure,
+              :authorised_use_provisions_submission,
+              measure_conditions: [
+                attributes_for(:duty_calculator_measure_condition, :stopping_document, document_code: 'D019'),
+                attributes_for(:duty_calculator_measure_condition, :stopping_negative),
+              ],
+            ),
           ],
         )
       end
@@ -395,7 +434,7 @@ RSpec.describe DutyCalculator::Api::Commodity, :user_session, type: :model do
       let(:user_session) { build(:duty_calculator_user_session, document_code: { 'uk' => answers }) }
 
       context 'when the suspension is answered with None and the declaration document is held' do
-        let(:answers) { { '115' => 'None', '464' => 'N990' } }
+        let(:answers) { { '115' => 'None', '464' => 'D019' } }
 
         it { is_expected.not_to be_stopping_conditions_met }
       end

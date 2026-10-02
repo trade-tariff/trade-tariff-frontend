@@ -737,6 +737,37 @@ RSpec.describe DutyCalculator::Api::Measure, :user_session do
     end
   end
 
+  describe '#hard_stopping_condition_met?' do
+    let(:user_session) { build(:duty_calculator_user_session, document_code: { 'uk' => { measure_type_id => answer } }) }
+
+    context 'when a declaration measure is answered with None' do
+      subject(:measure) { build(:duty_calculator_measure, :authorised_use_provisions_submission, :with_stopping_conditions) }
+
+      let(:measure_type_id) { '464' }
+      let(:answer) { 'None' }
+
+      it { is_expected.to be_hard_stopping_condition_met }
+    end
+
+    context 'when a declaration measure is answered with its document' do
+      subject(:measure) { build(:duty_calculator_measure, :authorised_use_provisions_submission, :with_stopping_conditions) }
+
+      let(:measure_type_id) { '464' }
+      let(:answer) { 'N990' }
+
+      it { is_expected.not_to be_hard_stopping_condition_met }
+    end
+
+    context 'when an optional authorised use suspension is answered with None' do
+      subject(:measure) { build(:duty_calculator_measure, :autonomous_end_use, :with_stopping_conditions) }
+
+      let(:measure_type_id) { '115' }
+      let(:answer) { 'None' }
+
+      it { is_expected.not_to be_hard_stopping_condition_met }
+    end
+  end
+
   describe '#stopping?' do
     context 'when the measure has a measure condition that is stopping' do
       subject(:measure) { build(:duty_calculator_measure, :with_stopping_conditions) }
