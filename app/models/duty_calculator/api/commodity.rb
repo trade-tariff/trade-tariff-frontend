@@ -74,9 +74,15 @@ module DutyCalculator
         )
       end
 
+      # Stop when a non-option measure forbids the declared code, or when every duty option
+      # has been ruled out (e.g. AU on the third-country duty and no other relief left).
       def stopping_conditions_met?
-        stopping_measures.any? &&
-          stopping_measures.any?(&:stopping_condition_met?)
+        return true if stopping_measures.any?(&:hard_stopping_condition_met?)
+        # UK/XI comparison journeys keep the original rule: RowToNiDutyCalculator
+        # cannot yet compare a UK third-country option with a missing XI one.
+        return stopping_measures.any?(&:stopping_condition_met?) if user_session.deltas_applicable?
+
+        stopping_measures.any?(&:stopping_condition_met?) && no_duty_options_left?
       end
 
       def stopping_measures
@@ -84,6 +90,10 @@ module DutyCalculator
       end
 
       private
+
+      def no_duty_options_left?
+        applicable_measures.none? { |measure| measure.measure_type.option.present? && measure.applicable? }
+      end
 
       def excise_measure_units
         @excise_measure_units ||= excise_measures.flat_map(&:all_units).uniq

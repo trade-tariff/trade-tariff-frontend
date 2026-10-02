@@ -28,10 +28,16 @@ module DutyCalculator
         user_session.document_code_xi = { measure_type_id => document_code_xi } unless document_code_xi.nil?
 
         user_session.document_code_xi = user_session.document_code_xi.merge(measure_type_id => document_code_uk) if !document_code_uk.nil? && user_session.deltas_applicable?
+
+        clear_later_document_answers
       end
 
       def next_step_path
-        return stopping_path if filtered_commodity.stopping_conditions_met?
+        if filtered_commodity.stopping_conditions_met?
+          # Remember which answer caused the stop, so the stop page links back to it
+          user_session.stopping_measure_type_id = measure_type_id
+          return stopping_path
+        end
         return document_codes_path(next_measure_type_id) if next_measure_type_id.present?
         return excise_path(applicable_excise_measure_type_ids.first) if applicable_excise_additional_codes?
         return vat_path if applicable_vat_options.keys.count > 1
@@ -54,6 +60,18 @@ module DutyCalculator
       end
 
       private
+
+      # Later document questions are asked again after an earlier answer changes, so an old
+      # later answer cannot keep stopping the journey.
+      def clear_later_document_answers
+        current_index = document_codes_applicable_measure_type_ids.find_index(measure_type_id)
+        return if current_index.nil?
+
+        document_codes_applicable_measure_type_ids.drop(current_index + 1).each do |later_measure_type_id|
+          user_session.document_code_uk.delete(later_measure_type_id)
+          user_session.document_code_xi.delete(later_measure_type_id)
+        end
+      end
 
       def uk_available_documents
         available_document_codes_for('uk')

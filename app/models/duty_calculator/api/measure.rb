@@ -123,6 +123,12 @@ module DutyCalculator
         applicable_document_condition&.stopping?
       end
 
+      # A stopping answer on a duty option (third-country duty, suspension, quota, preference)
+      # only removes that option. On any other measure (e.g. a 464 declaration) it ends the journey.
+      def hard_stopping_condition_met?
+        measure_type.option.nil? && stopping_condition_met?
+      end
+
       def applicable_document_condition
         @applicable_document_condition ||= begin
           document_code = user_session.document_code_for(measure_type.id, source)
