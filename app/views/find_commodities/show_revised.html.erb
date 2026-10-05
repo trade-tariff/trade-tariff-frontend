@@ -7,10 +7,7 @@
     <%= render 'news_items/hero_story', news_item: @hero_story %>
   <% end %>
 
-  <p class="app-find-commodity-service govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-    <strong>Tariff for England, Scotland or Wales (GB)</strong>
-    <%= switch_service_button(path: find_commodity_path) %>
-  </p>
+  <%= render 'shared/service_switch' %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

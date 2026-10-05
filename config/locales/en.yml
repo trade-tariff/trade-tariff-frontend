@@ -312,6 +312,12 @@ en:
     service_name:
       uk: "UK Integrated Online Tariff"
       xi: "Northern Ireland Online Tariff"
+    current:
+      uk: "Tariff for England, Scotland or Wales (GB)"
+      xi: "Tariff for Northern Ireland (NI)"
+    switch:
+      uk: "Change to Northern Ireland"
+      xi: "Change to England, Scotland or Wales (GB)"
     bottom:
       uk: You are viewing the UK Integrated Online Tariff.
       xi: You are viewing the Northern Ireland Online Tariff.

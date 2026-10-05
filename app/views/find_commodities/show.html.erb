@@ -1,8 +1,8 @@
 <%= page_header 'Look up commodity codes, import duties, taxes and controls' %>
 
-<%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
+<%= render 'shared/service_switch' %>
 
-<%= render 'news_items/hero_spimm'%>
+<%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
