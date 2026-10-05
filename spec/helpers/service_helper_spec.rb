@@ -109,17 +109,17 @@ RSpec.describe ServiceHelper, type: :helper do
     context 'with UK service' do
       include_context 'with UK service'
 
-      it { is_expected.to have_css 'span.switch-service-control span.arrow', text: nil }
-      it { is_expected.to have_css 'span.switch-service-control a.govuk-link--no-underline' }
-      it { is_expected.to have_link 'Switch to the Northern Ireland Online Tariff', href: '/xi/some_path' }
+      it { is_expected.to have_css 'span.switch-service-control img.switch-service-control__arrow' }
+      it { is_expected.to have_css 'span.switch-service-control a.govuk-link' }
+      it { is_expected.to have_link 'Change to Northern Ireland', href: '/xi/some_path' }
     end
 
     context 'with XI' do
       include_context 'with XI service'
 
-      it { is_expected.to have_css 'span.switch-service-control span.arrow', text: nil }
-      it { is_expected.to have_css 'span.switch-service-control a.govuk-link--no-underline' }
-      it { is_expected.to have_link 'Switch to the UK Integrated Online Tariff', href: '/some_path' }
+      it { is_expected.to have_css 'span.switch-service-control img.switch-service-control__arrow' }
+      it { is_expected.to have_css 'span.switch-service-control a.govuk-link' }
+      it { is_expected.to have_link 'Change to England, Scotland or Wales (GB)', href: '/some_path' }
     end
 
     context 'with search tracking and filters' do
@@ -151,7 +151,7 @@ RSpec.describe ServiceHelper, type: :helper do
 
       include_context 'with UK service'
 
-      it { is_expected.to have_link 'Switch to the Northern Ireland Online Tariff', href: '/xi/some_path/uk-part' }
+      it { is_expected.to have_link 'Change to Northern Ireland', href: '/xi/some_path/uk-part' }
     end
   end
 
