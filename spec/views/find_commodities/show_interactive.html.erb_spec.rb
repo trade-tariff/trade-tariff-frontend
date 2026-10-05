@@ -54,9 +54,10 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
     end
   end
 
-  describe 'hero spimm banner' do
-    it { is_expected.to have_css('.govuk-notification-banner', text: /Importing goods into Northern Ireland/) }
-    it { is_expected.to have_link('Check eligibility') }
+  describe 'tariff switch' do
+    it { is_expected.to have_text('Tariff for England, Scotland or Wales (GB)') }
+    it { is_expected.to have_link('Change to Northern Ireland', href: '/xi/find_commodity') }
+    it { is_expected.not_to have_text('Importing goods into Northern Ireland?') }
   end
 
   describe 'other ways to search' do

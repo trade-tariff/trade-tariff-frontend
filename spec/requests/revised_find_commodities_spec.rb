@@ -33,7 +33,8 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
 
         it 'offers the two search modes' do
           page = entry_page
-          expect(page).to have_link('Switch to the Northern Ireland Online Tariff')
+          expect(page).to have_text('Tariff for England, Scotland or Wales (GB)')
+          expect(page).to have_link('Change to Northern Ireland')
           expect(page).to have_link('Code or keyword search')
           expect(page).to have_link('AI-assisted search')
           expect(page).not_to have_text('What type of search are you doing?')
@@ -92,7 +93,7 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
       expect(response.body).to include('data-search-mode-initial-mode-value="guided"')
       expect(response.body).to include('Search term must be at least 2 characters')
       expect(Capybara.string(response.body)).to have_css('.switch-service-control', count: 1)
-      expect(Capybara.string(response.body)).to have_link('Switch to the Northern Ireland Online Tariff', href: '/xi/find_commodity')
+      expect(Capybara.string(response.body)).to have_link('Change to Northern Ireland', href: '/xi/find_commodity')
     end
   end
 
@@ -140,6 +141,12 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
       get '/xi/find_commodity'
       expect(response.body).not_to include('data-controller="search-mode')
       expect(response.body).to include('Look up commodity codes, import duties, taxes and controls')
+      expect(Capybara.string(response.body)).to have_text('Tariff for Northern Ireland (NI)')
+      expect(Capybara.string(response.body)).to have_link(
+        'Change to England, Scotland or Wales (GB)',
+        href: '/find_commodity',
+      )
+      expect(response.body).not_to include('New process for moving goods from Great Britain to Northern Ireland')
     end
   end
 end

@@ -7,10 +7,7 @@
     <%= render 'find_commodities/ai_search_banner' %>
   <% end %>
 
-  <p class="app-find-commodity-service govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-    <strong><%= uk_service_choice? ? 'Tariff for England, Scotland or Wales (GB)' : 'Tariff for Northern Ireland (NI)' %></strong>
-    <%= switch_service_button(path: find_commodity_path.delete_prefix('/xi')) %>
-  </p>
+  <%= render 'shared/service_switch' %>
 
   <div class="govuk-grid-row app-find-commodity-layout">
     <div class="govuk-grid-column-two-thirds app-find-commodity-search">
