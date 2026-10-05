@@ -9,7 +9,6 @@ class SearchController < ApplicationController
 
   TELEMETRY_PARAM_KEYS = %i[telemetry_submission_id telemetry_question_id].freeze
 
-  skip_before_action :verify_authenticity_token, only: [:search]
   # A signed grant authorises status reads; avoid page setup and remote flag evaluation.
   skip_before_action :set_current_flagsmith_identity, :set_path_info, :set_search,
                      :bots_no_index_if_historical, only: :queued_guided_search
