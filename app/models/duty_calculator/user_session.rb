@@ -23,7 +23,8 @@ module DutyCalculator
                           :referred_service,
                           :trade_defence,
                           :zero_mfn_duty,
-                          :redirect_to
+                          :redirect_to,
+                          :stopping_measure_type_id
 
     attribute_for_uk_and_xi :additional_code, :document_code
 
