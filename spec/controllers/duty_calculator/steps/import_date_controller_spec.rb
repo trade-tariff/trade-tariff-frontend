@@ -18,6 +18,16 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
         .to_return(jsonapi_response(:commodity, commodity_attributes))
     end
 
+    context 'when the duty calculator UX improvements are switched on' do
+      before do
+        allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
+        user_session.return_to_confirm = true
+      end
+
+      it { expect(response).to redirect_to(import_details_path(commodity_code:)) }
+      it { expect { response }.to change(user_session, :return_to_confirm).from(true).to(false) }
+    end
+
     it 'assigns the correct step' do
       response
       expect(assigns[:step]).to be_a(DutyCalculator::Steps::ImportDate)

@@ -1,6 +1,8 @@
 scope path: '/duty-calculator/:commodity_code/' do
   get 'import-date', to: 'duty_calculator/steps/import_date#show'
   post 'import-date', to: 'duty_calculator/steps/import_date#create'
+  get 'import-details', to: 'duty_calculator/steps/import_details#show'
+  post 'import-details', to: 'duty_calculator/steps/import_details#create'
 end
 
 scope path: '/duty-calculator/' do

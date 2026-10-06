@@ -18,6 +18,10 @@ module DutyCalculator
         description.html_safe
       end
 
+      def long_description
+        "#{description} (#{geographical_area_id})"
+      end
+
       def european_union?
         geographical_area_id == EU
       end

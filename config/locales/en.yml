@@ -433,6 +433,15 @@ en:
           attributes:
             import_destination:
               blank: Select a destination
+        duty_calculator/steps/import_details:
+          attributes:
+            import_date:
+              invalid_date: Enter a valid date, no earlier than 1st January 2021
+              commodity_not_available_on_date: The commodity code could not be found for this date. Enter a different date.
+            import_destination:
+              blank: Select a destination
+            country_of_origin:
+              blank: Enter a valid origin for this import
         duty_calculator/steps/country_of_origin:
           attributes:
             country_of_origin:
@@ -1593,6 +1602,7 @@ en:
     excise: Which class of excise is applicable to your trade - Online Tariff Duty Calculator
     final_use: Are your goods for final use in the UK - Online Tariff Duty calculator
     import_date: When will the good be imported - Online Tariff Duty calculator
+    import_details: Tell us about this import - Online Tariff Duty calculator
     confirmation: Check your answers - Online Tariff Duty calculator
     meursing_additional_code: Enter a 'Meursing Code' for this commodity - Online Tariff Duty calculator
     customs_value: What is the customs value of this import - Online Tariff Duty calculator
@@ -1615,6 +1625,7 @@ en:
   duty_calculator:
     shared:
       caption: Calculate import duties
+      ux_caption: Calculate import costs
       explore_topic_title: Explore the topic
 
   duty_calculations:
