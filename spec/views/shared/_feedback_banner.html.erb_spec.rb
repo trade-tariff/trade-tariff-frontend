@@ -1,15 +1,9 @@
 RSpec.describe 'shared/_feedback_banner', type: :view do
   subject { render partial: 'shared/feedback_banner' }
 
-  it { is_expected.to have_css('.govuk-tag', text: 'FEEDBACK') }
-  it { is_expected.to have_text('Tell us what you think') }
+  it { is_expected.to have_css('.govuk-tag', text: 'SERVICE UPDATE') }
+  it { is_expected.to have_text('We’re making improvements to this service. Let us know what you think by giving your feedback.') }
   it { is_expected.to have_link('feedback', href: %r{\A/feedback\?}) }
-
-  context 'with a custom tag text' do
-    subject { render partial: 'shared/feedback_banner', locals: { tag_text: 'BETA' } }
-
-    it { is_expected.to have_css('.govuk-tag', text: 'BETA') }
-  end
 
   context 'when @feedback is set' do
     before { assign(:feedback, true) }
