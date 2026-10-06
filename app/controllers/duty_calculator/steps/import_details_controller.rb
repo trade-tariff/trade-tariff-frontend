@@ -68,6 +68,7 @@ module DutyCalculator
 
       def start_new_journey
         user_session.remove_step_ids(Steps::ImportDetails::DEPENDENT_STEPS)
+        user_session.vat_assumed = false
         user_session.return_to_confirm = false
         user_session.commodity_code = commodity_code
         user_session.commodity_source = TradeTariffFrontend::ServiceChooser.service_name

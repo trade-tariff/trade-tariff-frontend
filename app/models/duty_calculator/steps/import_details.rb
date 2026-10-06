@@ -62,7 +62,10 @@ module DutyCalculator
 
       def save!
         @changed = changed_from_session?
-        user_session.remove_step_ids(DEPENDENT_STEPS) if @changed
+        if @changed
+          user_session.remove_step_ids(DEPENDENT_STEPS)
+          user_session.vat_assumed = false
+        end
 
         user_session.import_date = input_date.strftime('%Y-%m-%d')
         user_session.import_destination = import_destination

@@ -138,6 +138,7 @@ RSpec.describe DutyCalculator::Steps::ImportDetails, :user_session do
 
       it { is_expected.to be_changed }
       it { expect(user_session.vat).to be_nil }
+      it { expect(user_session.vat_assumed).to be(false) }
     end
   end
 

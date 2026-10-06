@@ -108,6 +108,13 @@ RSpec.describe DutyCalculator::Steps::ImportDetailsController, :user_session do
 
       it { expect(response.body).to include("href=\"#{confirm_path}\"") }
     end
+
+    context 'when a new commodity is started after an assumed VAT rate' do
+      let(:user_session) { build(:duty_calculator_user_session, commodity_code: '0101210000', vat: 'VAT', vat_assumed: true) }
+
+      it { expect { response }.to change(user_session, :vat_assumed).from(true).to(false) }
+      it { expect { response }.to change(user_session, :vat).from('VAT').to(nil) }
+    end
   end
 
   describe 'POST #create' do
