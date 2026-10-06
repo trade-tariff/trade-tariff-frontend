@@ -4,7 +4,7 @@
 <h1 class="govuk-heading-xl">Suggested VAT rate</h1>
 
 <%= govuk_inset_text do %>
-  <p class="govuk-body"><%= vat_rate_summary(DutyCalculator::Steps::Vat::STANDARD_RATE, assumed: true, bold: true) %></p>
+  <p class="govuk-body"><%= vat_rate_summary(user_session.vat, assumed: true, bold: true) %></p>
 <% end %>
 
 <%= govuk_button_link_to 'Continue', @step.next_step_path %>
