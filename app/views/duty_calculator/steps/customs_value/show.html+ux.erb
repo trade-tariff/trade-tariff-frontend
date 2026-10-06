@@ -1,0 +1,20 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<%= form_for @step, url: customs_value_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.ux_caption') %></span>
+  <h1 class="govuk-heading-xl">What is the value of this import?</h1>
+  <p class="govuk-body-l">
+    The amount of duty payable depends on the customs value of your goods.
+    For most goods the customs value is the price paid, or payable for the goods, plus shipping and insurance costs.
+  </p>
+  <p class="govuk-body govuk-!-margin-bottom-7">
+    If there is no sale or transaction value, other valuation methods are available.<br>
+    Find out more about how to <%= govuk_link_to('value goods for import', '/howto/valuation', new_tab: true) %>.
+  </p>
+  <%= f.govuk_text_field :monetary_value, width: 'one-quarter', label: { text: 'Value of goods being imported', size: 'm', tag: 'h2' }, hint: { text: 'Value of goods in GBP' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :shipping_cost, width: 'one-quarter', label: { text: 'Shipping cost (optional)', size: 'm', tag: 'h2' }, hint: { text: 'Cost of shipping goods to their point of entry in the UK in GBP.' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :insurance_cost, width: 'one-quarter', label: { text: 'Insurance cost (optional)', size: 'm', tag: 'h2' }, hint: { text: 'Cost of insuring goods to their point of entry into the UK in GBP.' }, prefix_text: '£' %>
+
+  <%= f.govuk_submit %>
+<% end %>
