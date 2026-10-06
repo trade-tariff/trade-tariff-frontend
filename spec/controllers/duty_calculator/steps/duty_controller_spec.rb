@@ -114,7 +114,8 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
     it { expect(response.body).to include('Details used for this estimate') }
     it { expect(response.body).to include('1 September 2026') }
     it { expect(response.body).to include('£10,200.00') }
-    it { expect(response.body).to include('Next steps') }
+    it { expect(response.body).not_to include('Next steps') }
+    it { expect(response.body).not_to include('Lorem ipsum') }
     it { expect(response.body).to include('Help us improve this service') }
     it { expect(response.body).to include("href=\"#{confirm_path}\"") }
     it { expect(response.body).not_to include('<details class="govuk-details duty-estimate-calculations" open') }

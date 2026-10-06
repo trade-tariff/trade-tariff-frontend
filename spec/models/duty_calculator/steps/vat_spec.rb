@@ -70,6 +70,49 @@ RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
     end
   end
 
+  context 'when the duty calculator UX improvements are switched on' do
+    before do
+      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
+      allow(DutyCalculator::Api::Commodity).to receive(:build).and_return(commodity)
+    end
+
+    let(:vat) { 'dont_know' }
+    let(:available_rates) { { 'VATZ' => 'Zero rate', 'VATR' => 'Reduced rate' } }
+    let(:commodity) { build(:duty_calculator_commodity, applicable_vat_options: available_rates) }
+
+    context 'when standard-rate VAT is unavailable' do
+      it 'omits the unknown-rate option' do
+        expect(step.vat_options.map(&:id)).to eq(%w[VATZ VATR])
+      end
+
+      it 'rejects an unknown-rate submission' do
+        expect(step).not_to be_valid
+      end
+
+      it 'explains that an available rate is needed' do
+        step.valid?
+
+        expect(step.errors[:vat]).to eq(['Select one of the available options'])
+      end
+
+      context 'when an available rate is selected' do
+        let(:vat) { 'VATZ' }
+
+        it { expect(step).to be_valid }
+      end
+    end
+
+    context 'when standard-rate VAT is available' do
+      let(:available_rates) { super().merge('VAT' => 'Standard rate') }
+
+      it 'offers the unknown-rate option' do
+        expect(step.vat_options.map(&:id)).to include('dont_know')
+      end
+
+      it { expect(step).to be_valid }
+    end
+  end
+
   describe '#next_step_path' do
     it 'returns confirm_path' do
       expect(

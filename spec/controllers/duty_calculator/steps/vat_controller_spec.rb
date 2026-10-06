@@ -93,6 +93,21 @@ RSpec.describe DutyCalculator::Steps::VatController, :user_session do
         it { expect(response).to redirect_to(suggested_vat_path) }
         it { expect { response }.to change(user_session, :vat).from(nil).to('VAT') }
         it { expect { response }.to change(user_session, :vat_assumed).from(nil).to(true) }
+
+        context 'when the commodity has no standard rate' do
+          let(:commodity) do
+            build(:duty_calculator_commodity, applicable_vat_options: { 'VATZ' => 'Zero rate', 'VATR' => 'Reduced rate' })
+          end
+
+          before do
+            allow(DutyCalculator::Api::Commodity).to receive(:build).and_return(commodity)
+          end
+
+          it { expect(response.body).to include('Select one of the available options') }
+          it { expect(response.body).not_to include('I don&#39;t know') }
+          it { expect { response }.not_to change(user_session, :vat) }
+          it { expect { response }.not_to change(user_session, :vat_assumed) }
+        end
       end
 
       context 'when nothing is selected' do

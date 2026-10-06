@@ -509,6 +509,7 @@ en:
           attributes:
             vat:
               blank: Select one of the available options
+              inclusion: Select one of the available options
         duty_calculator/steps/document_code:
           attributes:
             measure_type_id:

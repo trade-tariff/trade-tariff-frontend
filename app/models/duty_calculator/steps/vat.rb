@@ -14,6 +14,7 @@ module DutyCalculator
       attribute :vat, :string
 
       validates :vat, presence: true
+      validate :standard_vat_rate_available, if: :dont_know?
 
       def vat
         super || (assumed? ? DONT_KNOW : user_session.vat)
@@ -57,12 +58,17 @@ module DutyCalculator
 
     private
 
+      def standard_vat_rate_available
+        errors.add(:vat, :inclusion) unless applicable_vat_options.key?(STANDARD_RATE)
+      end
+
       def ux_vat_options
         options = applicable_vat_options.map do |k, v|
           Option.new(id: k, name: UX_LABELS.fetch(k, v))
         end
 
-        options << Option.new(id: DONT_KNOW, name: "I don't know")
+        options << Option.new(id: DONT_KNOW, name: "I don't know") if applicable_vat_options.key?(STANDARD_RATE)
+        options
       end
     end
   end

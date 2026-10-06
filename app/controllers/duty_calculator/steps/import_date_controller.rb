@@ -26,7 +26,7 @@ module DutyCalculator
       def redirect_to_import_details
         user_session.return_to_confirm = false
 
-        redirect_to import_details_path(request.query_parameters.merge(commodity_code:))
+        redirect_to import_details_path(request.query_parameters.slice('country', 'day', 'month', 'year').merge(commodity_code:))
       end
 
       def permitted_params

@@ -43,7 +43,7 @@ module DutyCalculator
       private
 
       def redirect_unless_ux_improvements
-        redirect_to import_date_path(request.query_parameters.merge(commodity_code:)) unless duty_calculator_ux_improvements?
+        redirect_to import_date_path(request.query_parameters.slice('country', 'day', 'month', 'year').merge(commodity_code:)) unless duty_calculator_ux_improvements?
       end
 
       def permitted_params
