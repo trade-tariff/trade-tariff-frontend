@@ -55,7 +55,19 @@ module TradeTariffFrontend
     )
 
     # Tells Rails to serve error pages from the app itself, rather than using static error pages in public/
-    config.exceptions_app = routes
+    # Strip the original body and query so a request with unparseable params
+    # cannot break the error page and fall back to a 500.
+    config.exceptions_app = lambda do |env|
+      env['rack.input'] = StringIO.new
+      env.delete('CONTENT_TYPE')
+      env.delete('CONTENT_LENGTH')
+      env['QUERY_STRING'] = ''
+      env.delete_if do |key, _|
+        key.start_with?('rack.request.form_', 'rack.request.query_') ||
+          %w[parameters request_parameters query_parameters].any? { |k| key == "action_dispatch.request.#{k}" }
+      end
+      routes.call(env)
+    end
 
     config.grouped_measure_types = config_for(:grouped_measure_types)
     config.experiment_urls = TradeTariffFrontend::ExperimentUrls.new(

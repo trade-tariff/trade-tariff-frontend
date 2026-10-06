@@ -93,4 +93,21 @@ RSpec.describe ErrorsController, type: :request do
 
     it { expect(body).to include 'Maintenance' }
   end
+
+  describe 'requests with unparseable parameters' do
+    context 'with a truncated multipart body' do
+      let(:make_request) do
+        post '/search', headers: { 'CONTENT_TYPE' => 'multipart/form-data; boundary=x', 'CONTENT_LENGTH' => '10' }
+      end
+
+      it { is_expected.to have_http_status :bad_request }
+      it { expect(body).to include 'The request you made is not valid' }
+    end
+
+    context 'with an invalid UTF-8 query string' do
+      let(:make_request) { get '/find_commodity?q=%ff' }
+
+      it { is_expected.to have_http_status :bad_request }
+    end
+  end
 end
