@@ -1695,6 +1695,25 @@ en:
           non_preferential_end_use: "Option %{option_no}: Non-preferential tariff quota under end-use %{order_number}"
         waiver:
           waiver: "Option %{option_no}: Claiming a waiver – Exchange rate"
+      estimate:
+        third_country_tariff:
+          third_country_tariff: "Third-country duty"
+        tariff_preference:
+          tariff_preference: "Tariff preference - %{geographical_area_description}"
+        suspension:
+          autonomous: "Autonomous tariff suspension"
+          airworthiness: "Airworthiness tariff suspension"
+          autonomous_end_use: "Autonomous suspension under end-use"
+          certain_category_goods: "Suspension - goods for certain categories of ships, boats and other vessels and for drilling or production platforms"
+          preferential: "Preferential suspension"
+        quota:
+          customs_union: "Customs Union quota %{order_number}"
+          preferential: "Preferential tariff quota %{order_number}"
+          preferential_end_use: "Preferential tariff quota under end-use %{order_number}"
+          non_preferential: "Non-preferential quota %{order_number}"
+          non_preferential_end_use: "Non-preferential tariff quota under end-use %{order_number}"
+        waiver:
+          waiver: "Claiming a waiver – Exchange rate"
   interstitial:
     gb_to_ni:
       trade_defence:

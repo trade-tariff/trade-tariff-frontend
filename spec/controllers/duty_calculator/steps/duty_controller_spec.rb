@@ -52,6 +52,68 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
     end
   end
 
+  context 'when the duty calculator UX improvements are switched on' do
+    render_views
+
+    subject(:response) { get :show }
+
+    let(:user_session) do
+      build(
+        :duty_calculator_user_session,
+        commodity_code: '0103921100',
+        import_date: '2026-09-01',
+        import_destination: 'UK',
+        country_of_origin: 'AR',
+        customs_value: { 'monetary_value' => '10000', 'shipping_cost' => '180', 'insurance_cost' => '20' },
+        vat: 'VAT',
+        vat_assumed:,
+      )
+    end
+    let(:vat_assumed) { false }
+    let(:rows) { [['Valuation for import', 'Value of goods + freight + insurance costs', '£10,200.00'], ['<strong>Duty Total</strong>'.html_safe, nil, '£3,508.80']] }
+    let(:duty_options) do
+      [
+        DutyCalculator::DutyOptionResult.new(type: 'third_country_tariff', category: :third_country_tariff, footnote: '', values: rows, value: 1224, source: 'uk').tap do |option|
+          option.duty_total = 1224
+          option.footnote_suffix = '<p class="govuk-body">Northern Ireland explanation</p>'.html_safe
+        end,
+        DutyCalculator::DutyOptionResult.new(type: 'tariff_preference', category: :tariff_preference, footnote: '', values: rows, value: 0, source: 'uk', geographical_area_description: 'Argentina').tap { |option| option.duty_total = 0 },
+      ]
+    end
+    let(:duty_calculator) { instance_double(DutyCalculator::DutyCalculator, options: duty_options) }
+
+    before do
+      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
+      allow(DutyCalculator::Api::GeographicalArea).to receive(:build)
+        .with(:uk, 'AR')
+        .and_return(DutyCalculator::Api::GeographicalArea.new(geographical_area_id: 'AR', description: 'Argentina'))
+    end
+
+    it { expect(response.body).to include('Import cost estimate') }
+    it { expect(response.body).to include('Estimated duty and VAT using standard duty') }
+    it { expect(response.body).to include('Third-country duty') }
+    it { expect(response.body).to include('£1,224.00') }
+    it { expect(response.body).to include('Tariff preference rate') }
+    it { expect(response.body).to include('Tariff preference - Argentina') }
+    it { expect(response.body).to include('Show calculations') }
+    it { expect(response.body).to include('Northern Ireland explanation') }
+    it { expect(response.body).to include('£3,508.80') }
+    it { expect(response.body).to include('Details used for this estimate') }
+    it { expect(response.body).to include('1 September 2026') }
+    it { expect(response.body).to include('£10,200.00') }
+    it { expect(response.body).to include('Next steps') }
+    it { expect(response.body).to include('Help us improve this service') }
+    it { expect(response.body).to include("href=\"#{confirm_path}\"") }
+    it { expect(response.body).not_to include('<details class="govuk-details duty-estimate-calculations" open') }
+    it { expect(response.body).not_to include('generally standard-rate VAT') }
+
+    context 'when the VAT rate was assumed' do
+      let(:vat_assumed) { true }
+
+      it { expect(response.body).to include('If you cannot provide details, generally standard-rate VAT (20%) applies.') }
+    end
+  end
+
   describe '#title' do
     before do
       controller.instance_variable_set('@duty_options', duty_options)

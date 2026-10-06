@@ -1,0 +1,59 @@
+<% name = t("duty_calculations.options.estimate.#{option.category}.#{option.type}", default: t("duty_calculations.options.option_type.#{option.category}.#{option.type}", default: option.type.to_s.humanize), geographical_area_description: option.geographical_area_description, order_number: option.order_number) %>
+
+<section id="<%= option.type %>" class="govuk-!-margin-bottom-8">
+  <% case option.category.to_s %>
+  <% when 'third_country_tariff' %>
+    <h2 class="govuk-heading-m">Estimated duty and VAT using standard duty</h2>
+    <p class="govuk-body">This is the default rate if you cannot claim a reduced duty rate.</p>
+  <% when 'tariff_preference' %>
+    <h2 class="govuk-heading-m">Tariff preference rate</h2>
+    <p class="govuk-body">To claim this rate you must be able to provide proof of origin. Find out more about <%= govuk_link_to 'rules of origin', '/howto/origin', new_tab: true %>.</p>
+  <% else %>
+    <h2 class="govuk-heading-m"><%= name %></h2>
+  <% end %>
+
+  <% if option.values.present? %>
+    <%= measure_inset(classes: 'duty-estimate-panel') do %>
+      <%= image_tag('calculator-blue.svg', alt: '', width: 40, height: 48) %>
+      <div>
+        <div class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-1"><%= name %></div>
+        <div class="govuk-heading-l duty-estimate__amount"><%= number_to_currency(option.duty_total) %></div>
+      </div>
+    <% end %>
+
+    <%= govuk_details(classes: 'duty-estimate-calculations', summary_text: safe_join([tag.span('Show calculations', class: 'duty-estimate-calculations__show'), tag.span('Hide calculations', class: 'duty-estimate-calculations__hide')])) do %>
+      <h3 class="govuk-heading-s"><%= name %></h3>
+      <% case option.category.to_s %>
+      <% when 'third_country_tariff' %>
+        <p class="govuk-body">This rate applies to imports into the UK from countries with no trade agreement or preference scheme.</p>
+        <p class="govuk-body">This rate also applies if you cannot provide valid proof of origin, or the quota has been exhausted.</p>
+        <%= option.footnote_suffix %>
+      <% when 'tariff_preference' %>
+        <p class="govuk-body">Tariff preference rate applies to imports into the UK from countries where there is a trade agreement.</p>
+        <p class="govuk-body">To claim this rate you must be able to provide proof of origin. Find out more about <%= govuk_link_to 'rules of origin', '/howto/origin', new_tab: true %>.</p>
+        <%= option.footnote_suffix %>
+      <% else %>
+        <div class="govuk-body"><%= option.footnote.html_safe if option.footnote.present? %></div>
+      <% end %>
+
+      <table class="govuk-table govuk-table--m">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Data</th>
+            <th scope="col" class="govuk-table__header">Calculation</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Value</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <%= render partial: 'duty_calculator/steps/duty/calculations/option_row', collection: option.values, as: :row %>
+        </tbody>
+      </table>
+
+      <% if option.show_rules_of_origin? && scheme_for(option, @rules_of_origin_schemes).present? %>
+        <%= render partial: 'duty_calculator/steps/duty/calculations/rules_of_origin_scheme', locals: { scheme: scheme_for(option, @rules_of_origin_schemes) } %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="govuk-body"><%= option.footnote.html_safe if option.footnote.present? %></div>
+  <% end %>
+</section>
