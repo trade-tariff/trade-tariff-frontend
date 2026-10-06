@@ -76,7 +76,7 @@
   <%= yield :service_navigation %>
 
   <div class="tariff service govuk-width-container">
-    <%= render 'shared/feedback_banner', tag_text: (@interactive_search_page ? 'BETA' : 'FEEDBACK') %>
+    <%= render 'shared/feedback_banner' %>
     <%= render 'shared/top_breadcrumbs' %>
 
     <%= yield :back_link %>
