@@ -90,7 +90,7 @@ RSpec.describe DutyCalculator::Steps::VatController, :user_session do
       context 'when the trader does not know the rate' do
         let(:vat) { 'dont_know' }
 
-        it { expect(response).to redirect_to(confirm_path) }
+        it { expect(response).to redirect_to(suggested_vat_path) }
         it { expect { response }.to change(user_session, :vat).from(nil).to('VAT') }
         it { expect { response }.to change(user_session, :vat_assumed).from(nil).to(true) }
       end

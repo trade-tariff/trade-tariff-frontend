@@ -1603,6 +1603,7 @@ en:
     final_use: Are your goods for final use in the UK - Online Tariff Duty calculator
     import_date: When will the good be imported - Online Tariff Duty calculator
     import_details: Tell us about this import - Online Tariff Duty calculator
+    suggested_vat: Suggested VAT rate - Online Tariff Duty calculator
     confirmation: Check your answers - Online Tariff Duty calculator
     meursing_additional_code: Enter a 'Meursing Code' for this commodity - Online Tariff Duty calculator
     customs_value: What is the customs value of this import - Online Tariff Duty calculator
@@ -1627,6 +1628,8 @@ en:
       caption: Calculate import duties
       ux_caption: Calculate import costs
       explore_topic_title: Explore the topic
+    vat:
+      assumed_explanation: If you cannot provide details, generally standard-rate VAT (20%) applies.
 
   duty_calculations:
     options:

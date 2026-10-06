@@ -36,6 +36,8 @@ scope path: '/duty-calculator/' do
   get 'vat', to: 'duty_calculator/steps/vat#show'
   post 'vat', to: 'duty_calculator/steps/vat#create'
 
+  get 'suggested-vat', to: 'duty_calculator/steps/suggested_vat#show'
+
   get 'confirm', to: 'duty_calculator/steps/confirmation#show'
 
   get 'interstitial', to: 'duty_calculator/steps/interstitial#show'

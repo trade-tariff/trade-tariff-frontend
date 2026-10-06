@@ -1,0 +1,10 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<span class="govuk-caption-xl"><%= t('duty_calculator.shared.ux_caption') %></span>
+<h1 class="govuk-heading-xl">Suggested VAT rate</h1>
+
+<%= govuk_inset_text do %>
+  <p class="govuk-body"><%= vat_rate_summary(DutyCalculator::Steps::Vat::STANDARD_RATE, assumed: true, bold: true) %></p>
+<% end %>
+
+<%= govuk_button_link_to 'Continue', @step.next_step_path %>

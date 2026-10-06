@@ -43,6 +43,16 @@ RSpec.describe DutyCalculator::Steps::Confirmation, :step, :user_session do
       end
 
       it { expect(step.previous_step_path).to eq(vat_path) }
+
+      context 'when the VAT rate was assumed in the new journey' do
+        let(:user_session) { build(:duty_calculator_user_session, vat: 'VAT', vat_assumed: true) }
+
+        before do
+          allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
+        end
+
+        it { expect(step.previous_step_path).to eq(suggested_vat_path) }
+      end
     end
 
     context 'when there us just one applicable vat option available' do

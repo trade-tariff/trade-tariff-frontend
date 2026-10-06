@@ -41,6 +41,8 @@ module DutyCalculator
       end
 
       def next_step_path
+        return suggested_vat_path if dont_know?
+
         confirm_path
       end
 
