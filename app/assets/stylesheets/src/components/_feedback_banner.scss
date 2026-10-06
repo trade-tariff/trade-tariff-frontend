@@ -3,5 +3,10 @@
 .tariff-feedback-banner {
   .govuk-phase-banner {
     padding-top: govuk.govuk-spacing(4);
+
+    .govuk-phase-banner__content__tag {
+      color: govuk.govuk-colour("magenta", $variant: "shade-50");
+      background-color: govuk.govuk-colour("magenta", $variant: "tint-80");
+    }
   }
 }
