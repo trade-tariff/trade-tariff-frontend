@@ -16,10 +16,12 @@ module DutyCalculator
       default_form_builder GOVUKDesignSystemFormBuilder::FormBuilder
       before_action :ensure_session_integrity
       before_action :initialize_commodity_context_service
+      before_action :set_ux_improvements_variant
 
       helper_method :commodity_code,
                     :commodity_source,
                     :country_of_origin_description,
+                    :duty_calculator_ux_improvements?,
                     :title,
                     :user_session
 
@@ -36,10 +38,30 @@ module DutyCalculator
         if step.valid?
           step.save!
 
-          redirect_to step.next_step_path
+          redirect_to path_after_save(step)
         else
           render 'show'
         end
+      end
+
+      def path_after_save(step)
+        next_step_path = step.next_step_path
+        return next_step_path unless duty_calculator_ux_improvements? && user_session.return_to_confirm
+
+        can_return_to_confirm?(next_step_path) ? confirm_path : next_step_path
+      end
+
+      # After a Change link from Check your answers, go straight back to the
+      # summary unless a later answer has to be given again.
+      def can_return_to_confirm?(next_step_path)
+        return true if next_step_path == confirm_path
+        return false unless next_step_path == vat_path
+
+        user_session.vat.present? && applicable_vat_options.key?(user_session.vat)
+      end
+
+      def set_ux_improvements_variant
+        request.variant = :ux if duty_calculator_ux_improvements?
       end
 
       def commodity_code

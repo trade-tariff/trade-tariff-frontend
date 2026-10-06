@@ -1,6 +1,8 @@
 scope path: '/duty-calculator/:commodity_code/' do
   get 'import-date', to: 'duty_calculator/steps/import_date#show'
   post 'import-date', to: 'duty_calculator/steps/import_date#create'
+  get 'import-details', to: 'duty_calculator/steps/import_details#show'
+  post 'import-details', to: 'duty_calculator/steps/import_details#create'
 end
 
 scope path: '/duty-calculator/' do
@@ -33,6 +35,8 @@ scope path: '/duty-calculator/' do
 
   get 'vat', to: 'duty_calculator/steps/vat#show'
   post 'vat', to: 'duty_calculator/steps/vat#create'
+
+  get 'suggested-vat', to: 'duty_calculator/steps/suggested_vat#show'
 
   get 'confirm', to: 'duty_calculator/steps/confirmation#show'
 

@@ -24,7 +24,9 @@ module DutyCalculator
                           :trade_defence,
                           :zero_mfn_duty,
                           :redirect_to,
-                          :stopping_measure_type_id
+                          :stopping_measure_type_id,
+                          :return_to_confirm,
+                          :vat_assumed
 
     attribute_for_uk_and_xi :additional_code, :document_code
 

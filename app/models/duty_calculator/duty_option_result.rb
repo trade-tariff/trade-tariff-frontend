@@ -16,6 +16,9 @@ module DutyCalculator
     attribute :geographical_area_description
     attribute :scheme_code
 
+    # Duty for this option without VAT, shown as the headline amount on the results page.
+    attr_accessor :duty_total
+
     def footnote
       super + footnote_suffix
     end

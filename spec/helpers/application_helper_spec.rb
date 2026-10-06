@@ -445,6 +445,22 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to have_css 'a', text: 'work out the duties and taxes applicable to the import of commodity 1704 9099 91' }
       it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date"]' }
 
+      context 'when the commodity page has a country and date' do
+        before do
+          assign(:search, Search.new('country' => 'eg', 'day' => '1', 'month' => '9', 'year' => '2026'))
+        end
+
+        it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date"]' }
+
+        context 'when the duty calculator UX improvements are switched on' do
+          before do
+            allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
+          end
+
+          it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date?country=EG&day=1&month=9&year=2026"]' }
+        end
+      end
+
       context 'with a heading-level code' do
         let(:declarable_code) { '1704000000' }
 

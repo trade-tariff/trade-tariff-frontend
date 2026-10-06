@@ -1,0 +1,18 @@
+<h2 class="govuk-heading-m">Details used for this estimate</h2>
+<%
+  rows = [
+    { key: { text: 'Import to' }, value: { text: import_destination_name(user_session.import_destination) } },
+    { key: { text: 'Origin' }, value: { text: country_of_origin_description } },
+    { key: { text: 'Commodity code' }, value: { text: commodity.formatted_commodity_code(user_session.additional_codes) } },
+    { key: { text: 'Classification' }, value: { text: commodity.description } },
+    { key: { text: 'Import date' }, value: { text: user_session.import_date.to_formatted_s(:long) } },
+    { key: { text: 'Valuation of import' }, value: { text: number_to_currency(user_session.total_amount) } },
+  ]
+  if user_session.vat_assumed && user_session.vat.present?
+    rows << {
+      key: { text: 'VAT rate' },
+      value: { text: vat_rate_summary(user_session.vat, assumed: true) },
+    }
+  end
+%>
+<%= govuk_summary_list(actions: false, rows:) %>

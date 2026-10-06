@@ -1,0 +1,30 @@
+@use "src/settings/govuk" as govuk;
+
+.duty-estimate-panel {
+  border-left-color: govuk.govuk-colour("blue");
+}
+
+.duty-estimate__amount {
+  margin-bottom: 0;
+}
+
+// The design labels an open breakdown "Hide calculations".
+.duty-estimate-calculations {
+  .duty-estimate-calculations__hide {
+    display: none;
+  }
+
+  &[open] .duty-estimate-calculations__show {
+    display: none;
+  }
+
+  &[open] .duty-estimate-calculations__hide {
+    display: inline;
+  }
+}
+
+.duty-estimate-feedback {
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
+  border-top: 1px solid govuk.govuk-colour("blue");
+  padding: govuk.govuk-spacing(4);
+}
