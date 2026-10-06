@@ -17,7 +17,7 @@
       <%= image_tag('calculator-blue.svg', alt: '', width: 40, height: 48) %>
       <div>
         <div class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-1"><%= name %></div>
-        <div class="govuk-heading-l duty-estimate__amount"><%= number_to_currency(option.duty_total) %></div>
+        <div class="govuk-heading-l duty-estimate__amount"><%= number_to_currency(option.duty_and_vat_total) %></div>
       </div>
     <% end %>
 

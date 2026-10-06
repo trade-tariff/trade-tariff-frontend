@@ -24,6 +24,6 @@ RSpec.describe DutyCalculator::DutyOptions::ThirdCountryTariff, :user_session do
     end
 
     it { expect(service.call.attributes.deep_symbolize_keys).to eq(expected_table) }
-    it { expect(service.call.duty_total).to eq(96) }
+    it { expect(service.call.duty_and_vat_total).to eq(96) }
   end
 end

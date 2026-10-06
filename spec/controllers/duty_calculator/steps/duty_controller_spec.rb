@@ -71,13 +71,14 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
     end
     let(:vat_assumed) { false }
     let(:rows) { [['Valuation for import', 'Value of goods + freight + insurance costs', '£10,200.00'], ['<strong>Duty Total</strong>'.html_safe, nil, '£3,508.80']] }
+    let(:preference_rows) { [['Valuation for import', 'Value of goods + freight + insurance costs', '£10,200.00'], ['<strong>Duty Total</strong>'.html_safe, nil, '£2,040.00']] }
     let(:duty_options) do
       [
         DutyCalculator::DutyOptionResult.new(type: 'third_country_tariff', category: :third_country_tariff, footnote: '', values: rows, value: 1224, source: 'uk').tap do |option|
-          option.duty_total = 1224
+          option.duty_and_vat_total = 3508.80
           option.footnote_suffix = '<p class="govuk-body">Northern Ireland explanation</p>'.html_safe
         end,
-        DutyCalculator::DutyOptionResult.new(type: 'tariff_preference', category: :tariff_preference, footnote: '', values: rows, value: 0, source: 'uk', geographical_area_description: 'Argentina').tap { |option| option.duty_total = 0 },
+        DutyCalculator::DutyOptionResult.new(type: 'tariff_preference', category: :tariff_preference, footnote: '', values: preference_rows, value: 0, source: 'uk', geographical_area_description: 'Argentina').tap { |option| option.duty_and_vat_total = 2040 },
       ]
     end
     let(:duty_calculator) { instance_double(DutyCalculator::DutyCalculator, options: duty_options) }
@@ -92,7 +93,19 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
     it { expect(response.body).to include('Import cost estimate') }
     it { expect(response.body).to include('Estimated duty and VAT using standard duty') }
     it { expect(response.body).to include('Third-country duty') }
-    it { expect(response.body).to include('£1,224.00') }
+
+    it 'shows duty and VAT in the headline' do
+      page = Nokogiri::HTML(response.body)
+
+      expect(page.at_css('#third_country_tariff .duty-estimate__amount').text).to eq('£3,508.80')
+    end
+
+    it 'shows VAT when preference duty is zero' do
+      page = Nokogiri::HTML(response.body)
+
+      expect(page.at_css('#tariff_preference .duty-estimate__amount').text).to eq('£2,040.00')
+    end
+
     it { expect(response.body).to include('Tariff preference rate') }
     it { expect(response.body).to include('Tariff preference - Argentina') }
     it { expect(response.body).to include('Show calculations') }
