@@ -66,4 +66,36 @@ RSpec.describe DutyCalculator::Steps::CustomsValueController, :user_session do
       it { expect { response }.not_to change(user_session, :customs_value).from(nil) }
     end
   end
+
+  describe 'returning to Check your answers' do
+    subject(:response) { post :create, params: { duty_calculator_steps_customs_value: { monetary_value: '1500' } } }
+
+    let(:user_session) do
+      build(:duty_calculator_user_session, :with_commodity_information, vat:, return_to_confirm: true)
+    end
+    let(:vat) { 'VATZ' }
+
+    before do
+      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
+      allow_any_instance_of(DutyCalculator::Steps::CustomsValue).to receive(:next_step_path).and_return(vat_path) # rubocop:disable RSpec/AnyInstance
+    end
+
+    context 'when the VAT answer is still valid' do
+      it { expect(response).to redirect_to(confirm_path) }
+    end
+
+    context 'when the VAT answer must be given again' do
+      let(:vat) { nil }
+
+      it { expect(response).to redirect_to(vat_path) }
+    end
+
+    context 'when the feature switch is off' do
+      before do
+        allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(false)
+      end
+
+      it { expect(response).to redirect_to(vat_path) }
+    end
+  end
 end
