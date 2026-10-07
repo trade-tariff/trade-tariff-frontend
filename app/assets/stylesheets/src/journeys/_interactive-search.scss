@@ -72,12 +72,19 @@
 
 .app-find-commodity-service {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: govuk.govuk-spacing(3);
 
+  strong {
+    flex: 0 0 auto;
+  }
+
   .switch-service-control {
     top: 0;
+  }
+
+  @include govuk.govuk-media-query($until: tablet) {
+    flex-wrap: wrap;
   }
 }
 
