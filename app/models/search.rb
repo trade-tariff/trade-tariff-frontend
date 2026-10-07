@@ -155,7 +155,9 @@ class Search
   private_class_method :queued_result_cache_key
 
   def interactive_search_cache_key
-    search_fingerprint(experiment:, include_query_expansion: true)
+    payload = internal_search_params.except(:request_id)
+    digest = Digest::SHA256.hexdigest(MultiJson.dump(payload))
+    "interactive_search/v2/#{TradeTariffFrontend::ServiceChooser.service_name}/#{digest}"
   end
 
   def queued_search_handoff_key
@@ -165,7 +167,7 @@ class Search
 
   private
 
-  def search_fingerprint(experiment:, include_query_expansion: false)
+  def search_fingerprint(experiment:)
     payload = {
       q:,
       answers:,
@@ -174,7 +176,6 @@ class Search
       experiment:,
       request_id:,
     }
-    payload[:query_expansion] = query_expansion if include_query_expansion && !query_expansion.nil?
     "interactive_search/#{Digest::SHA256.hexdigest(MultiJson.dump(payload))}"
   end
 
@@ -194,15 +195,26 @@ class Search
   end
 
   def perform_internal_search
-    Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: INTERNAL_RESULT_CACHE_TTL) do
+    self.request_id = request_id.presence || SecureRandom.uuid
+    result = nil
+    body = Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: INTERNAL_RESULT_CACHE_TTL, skip_nil: true) do
       api_host = TradeTariffFrontend::ServiceChooser.api_host
       path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
 
       response = self.class.api.post(path, MultiJson.dump(internal_search_params), 'Content-Type' => 'application/json') do |request|
         request.options.timeout = TradeTariffFrontend::ServiceTimeout.timeout_for('/internal/search')
       end
-      self.class.internal_result(response.body)
+      payload = response.body.is_a?(Hash) ? response.body.deep_dup : JSON.parse(response.body)
+      payload.dig('meta', 'interactive_search')&.delete('request_id')
+      # Parse before caching, and keep temporary failures out of the shared cache.
+      result = self.class.internal_result(payload.deep_dup)
+      payload if result.search_failures.empty?
     end
+
+    # Share search content, never the correlation identity of another journey.
+    result ||= self.class.internal_result(body.deep_dup)
+    result.meta&.dig('interactive_search')&.[]=('request_id', request_id)
+    result
   rescue Faraday::UnprocessableContentError => e
     hydrate_errors_from_response(e)
     InternalSearchResult.new([], nil)

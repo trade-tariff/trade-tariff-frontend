@@ -14,6 +14,41 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
 
   before { enable_feature(:interactive_search) }
 
+  it 'reuses synchronous questions without merging journey telemetry' do
+    allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+    stub = stub_api_request('search', :post, internal: true).to_return(
+      status: 200,
+      body: {
+        data: [],
+        meta: {
+          interactive_search: {
+            query: 'horse',
+            request_id: 'first-journey',
+            answers: [{ question: 'What type of horse?', options: %w[Racing Breeding], answer: nil }],
+          },
+        },
+      }.to_json,
+      headers: { 'content-type' => 'application/json' },
+    )
+    question_ids = []
+
+    %w[first-journey second-journey].each do |request_id|
+      journey_events.clear
+      post perform_search_path, params: { q: 'horse', interactive_search: 'true', request_id: }
+
+      expect(response).to have_http_status(:ok)
+      page = Capybara.string(response.body)
+      expect(page).to have_text('What type of horse?')
+      expect(page.find('input[name="request_id"]', visible: :hidden).value).to eq(request_id)
+      expect(journey_events).to include(hash_including(outcome: 'question', request_id:))
+      expect(journey_events.map { |event| event[:request_id] }.uniq).to eq([request_id])
+      question_ids << page.find('input[name="telemetry_question_id"]', visible: :hidden).value
+    end
+
+    expect(stub).to have_been_requested.once
+    expect(question_ids.uniq.size).to eq(2)
+  end
+
   it 'logs an invalid direct submit before validation and does not enqueue' do
     post perform_search_path, params: { q: '', interactive_search: 'true', request_id: 'request-123' }
 

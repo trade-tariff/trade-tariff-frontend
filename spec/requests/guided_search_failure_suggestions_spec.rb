@@ -56,7 +56,7 @@ RSpec.describe 'Guided search failure suggestions', type: :request do
       search_response(failures: [], answers: [completed_answer]),
     )
 
-    post perform_search_path, params: { q: 'horses', interactive_search: 'true' }
+    post perform_search_path, params: { q: 'horses', interactive_search: 'true', request_id: 'guided-request-123' }
     post perform_search_path, params: {
       q: 'horses',
       interactive_search: 'true',

@@ -390,7 +390,7 @@ RSpec.describe SearchController, type: :controller do
       end
 
       context 'when backend returns a pending question' do
-        let(:params) { { q: 'horses', interactive_search: 'true' } }
+        let(:params) { { q: 'horses', interactive_search: 'true', request_id: 'abc-123' } }
 
         before do
           stub_api_request('search', :post, internal: true).to_return(
@@ -432,7 +432,7 @@ RSpec.describe SearchController, type: :controller do
       end
 
       context 'when backend returns a single exact match' do
-        let(:params) { { q: '0101210000', interactive_search: 'true' } }
+        let(:params) { { q: '0101210000', interactive_search: 'true', request_id: 'abc-123' } }
 
         let(:exact_match_data) do
           {
@@ -648,7 +648,7 @@ RSpec.describe SearchController, type: :controller do
           do_response
         end
 
-        it { is_expected.to redirect_to(perform_search_path(q: 'exampleterm', interactive_search: 'true', request_id: 'stable-request-id')) }
+        it { is_expected.to redirect_to(perform_search_path(q: 'exampleterm', interactive_search: 'true', request_id: 'generated-request-id')) }
       end
 
       context 'when rendering a blocking description intercept with request_id in the URL' do
@@ -708,7 +708,7 @@ RSpec.describe SearchController, type: :controller do
       context 'when backend returns no results' do
         render_views
 
-        let(:params) { { q: 'flimflammagoo', interactive_search: 'true' } }
+        let(:params) { { q: 'flimflammagoo', interactive_search: 'true', request_id: 'abc-123' } }
 
         before do
           stub_api_request('search', :post, internal: true).to_return(

@@ -427,7 +427,6 @@ RSpec.describe Search do
           expected = "interactive_search/#{Digest::SHA256.hexdigest(MultiJson.dump(original))}"
 
           expect(search.queued_search_handoff_key).to eq(expected)
-          expect(search.interactive_search_cache_key).to eq(expected) if query_expansion.nil?
         end
       end
 
@@ -472,20 +471,134 @@ RSpec.describe Search do
         expect(stub).to have_been_requested.once
       end
 
-      it 'isolates cached results by guided search journey' do
-        allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
-        stub = stub_api_request('search', :post, internal: true)
-          .to_return(status: 200,
-                     body: internal_response_body.to_json,
-                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      context 'with a shared response cache' do
+        let(:cache) { ActiveSupport::Cache::MemoryStore.new }
+        let(:question) { { 'question' => 'What type?', 'options' => %w[Live Toy], 'answer' => nil } }
+        let(:answered_question) { question.merge('answer' => 'Live') }
 
-        %w[first-journey first-journey second-journey].each do |request_id|
-          search = described_class.new(q: 'cache isolation query', request_id:)
-          search.interactive_search = true
-          search.perform
+        before { allow(Rails).to receive(:cache).and_return(cache) }
+
+        [false, true].each do |pending_question|
+          it "shares #{pending_question ? 'questions' : 'results'} without sharing journey IDs", :aggregate_failures do
+            answers = pending_question ? [question] : [answered_question]
+            payload = internal_response_body.merge('meta' => {
+              'interactive_search' => { 'request_id' => 'first-journey', 'answers' => answers },
+            })
+            stub = stub_api_request('search', :post, internal: true)
+              .with { |request| JSON.parse(request.body)['request_id'] == 'first-journey' }
+              .to_return(status: 200, body: payload.to_json, headers: { 'content-type' => 'application/json' })
+
+            searches = %w[first-journey second-journey first-journey].map do |request_id|
+              described_class.new(q: 'horse', interactive_search: true, request_id:, answers: [answered_question])
+            end
+            results = searches.map(&:perform)
+
+            expect(stub).to have_been_requested.once
+            expect(results.map(&:request_id)).to eq(%w[first-journey second-journey first-journey])
+            expect(results.map(&:has_pending_question?)).to eq([pending_question] * 3)
+            expect(results.map { |result| result.all.first.goods_nomenclature_item_id }).to eq(%w[0101210000] * 3)
+            expect(cache.read(searches.first.interactive_search_cache_key).dig('meta', 'interactive_search')).not_to have_key('request_id')
+            expect(searches.first.queued_search_handoff_key).not_to eq(searches.second.queued_search_handoff_key)
+          end
         end
 
-        expect(stub).to have_been_requested.twice
+        it 'does not cache responses that fail parsing', :aggregate_failures do
+          malformed = internal_response_body.deep_dup
+          malformed['data'].first['attributes'] = nil
+          stub_api_request('search', :post, internal: true)
+            .to_return(status: 200, body: malformed.to_json, headers: { 'content-type' => 'application/json' })
+          search = described_class.new(q: 'horse', interactive_search: true, request_id: 'first-journey')
+
+          expect { search.perform }.to raise_error(TypeError)
+          expect(cache.exist?(search.interactive_search_cache_key)).to be(false)
+
+          recovered = stub_api_request('search', :post, internal: true)
+            .with { |request| JSON.parse(request.body)['request_id'] != 'first-journey' }
+            .to_return(status: 200, body: internal_response_body.to_json, headers: { 'content-type' => 'application/json' })
+          %w[second-journey third-journey].each do |request_id|
+            result = described_class.new(q: 'horse', interactive_search: true, request_id:).perform
+            expect(result.all.first.goods_nomenclature_item_id).to eq('0101210000')
+          end
+
+          expect(recovered).to have_been_requested.once
+        end
+
+        it 'returns degraded results without caching them', :aggregate_failures do
+          degraded = internal_response_body.merge('meta' => {
+            'search_failures' => %w[interactive_search_failed],
+            'interactive_search' => { 'request_id' => 'backend-journey', 'answers' => [] },
+          })
+          stub_api_request('search', :post, internal: true)
+            .to_return(status: 200, body: degraded.to_json, headers: { 'content-type' => 'application/json' })
+          search = described_class.new(q: 'horse', interactive_search: true, request_id: 'first-journey')
+          result = search.perform
+
+          expect(result.search_failures).to eq(%w[interactive_search_failed])
+          expect(result.all.first.goods_nomenclature_item_id).to eq('0101210000')
+          expect(result.request_id).to eq('first-journey')
+          expect(cache.exist?(search.interactive_search_cache_key)).to be(false)
+
+          healthy = internal_response_body.merge('meta' => {
+            'search_failures' => [],
+            'interactive_search' => { 'request_id' => 'second-journey', 'answers' => [question] },
+          })
+          recovered = stub_api_request('search', :post, internal: true)
+            .with { |request| JSON.parse(request.body)['request_id'] != 'first-journey' }
+            .to_return(status: 200, body: healthy.to_json, headers: { 'content-type' => 'application/json' })
+          %w[second-journey third-journey].each do |request_id|
+            result = described_class.new(q: 'horse', interactive_search: true, request_id:).perform
+            expect(result.search_failures).to be_empty
+            expect(result).to have_pending_question
+            expect(result.request_id).to eq(request_id)
+          end
+
+          expect(recovered).to have_been_requested.once
+        end
+
+        it 'assigns separate IDs when callers omit them', :aggregate_failures do
+          payload = internal_response_body.merge('meta' => { 'interactive_search' => { 'answers' => [question] } })
+          stub = stub_api_request('search', :post, internal: true)
+            .to_return(status: 200, body: payload.to_json, headers: { 'content-type' => 'application/json' })
+          searches = Array.new(2) { described_class.new(q: 'horse', interactive_search: true) }
+          results = searches.map(&:perform)
+
+          expect(stub).to have_been_requested.once
+          expect(results.map(&:request_id)).to eq(searches.map(&:request_id))
+          expect(results.map(&:request_id).uniq.size).to eq(2)
+          expect(results.map(&:request_id)).to all(match(Search::GUIDED_REQUEST_ID_PATTERN))
+        end
+
+        it 'normalizes absent optional inputs' do
+          searches = [
+            described_class.new(q: 'horse'),
+            described_class.new(q: 'horse', answers: [], expanded_query: '', experiment: ''),
+          ]
+
+          expect(searches.map(&:interactive_search_cache_key).uniq.size).to eq(1)
+        end
+
+        it 'isolates different search inputs', :aggregate_failures do
+          original = { q: 'horse', answers: [answered_question], expanded_query: 'live horse', year: '2024', month: '1', day: '2' }
+          variants = [
+            {},
+            { q: 'pony' },
+            { answers: [question.merge('answer' => 'Toy')] },
+            { expanded_query: 'toy horse' },
+            { day: '3' },
+          ]
+          searches = variants.map { |attributes| described_class.new(original.merge(attributes)) }
+
+          expect(searches.map(&:interactive_search_cache_key).uniq.size).to eq(variants.size)
+        end
+
+        it 'isolates UK and XI responses' do
+          search = described_class.new(q: 'horse')
+          allow(TradeTariffFrontend::ServiceChooser).to receive(:service_name).and_return('uk')
+          uk_key = search.interactive_search_cache_key
+          allow(TradeTariffFrontend::ServiceChooser).to receive(:service_name).and_return('xi')
+
+          expect(search.interactive_search_cache_key).not_to eq(uk_key)
+        end
       end
     end
 

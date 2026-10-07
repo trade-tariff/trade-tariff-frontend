@@ -172,11 +172,11 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
     end
 
     it 'exposes question metrics without text' do
-      post perform_search_path, params: { q: 'horse', interactive_search: 'true', client_elapsed_ms: '1234' }
+      post perform_search_path, params: { q: 'horse', interactive_search: 'true', client_elapsed_ms: '1234', request_id: 'frontend-request-123' }
 
       expect(analytics_context).to include(
         'search_mode' => 'guided', 'search_state' => 'question',
-        'request_id' => 'backend-request-123', 'question_count' => 2,
+        'request_id' => 'frontend-request-123', 'question_count' => 2,
         'option_count' => 2, 'result_count' => 0, 'client_elapsed_ms' => 1234
       )
       expect(analytics_context.to_json).not_to match(/Private|private|horse/)
