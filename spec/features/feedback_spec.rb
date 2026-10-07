@@ -15,6 +15,11 @@ RSpec.feature 'Feedback', type: :feature do
 
     click_on 'Feedback'
     expect(page).to have_css 'h1', text: 'Give feedback on Online Trade Tariff'
+    expect(page).to have_field 'Tell us how to improve our service'
+    expect(page).to have_text 'Feedback is anonymous. Do not include any personal information.'
+    expect(page).to have_css '.govuk-character-count'
+    expect(page).to have_css 'h2', text: 'Need help with something?'
+    expect(page).to have_link 'enquiry form'
     fill_in 'feedback[message]', with: 'Some random feedback'
     click_button 'Submit feedback'
 
@@ -35,16 +40,12 @@ RSpec.feature 'Feedback', type: :feature do
 
   scenario 'feedback bottom banner is not shown on feedback page' do
     visit '/404'
-    expect(page).to have_css 'a', text: 'Yes'
-    expect(page).to have_css 'a', text: 'No'
-    expect(page).to have_css 'a', text: 'Report a problem with this page'
-    expect(page).to have_css 'p', text: 'Is this page useful?'
+    expect(page).to have_css 'h2.govuk-feedback__title', text: 'Help us improve this service'
+    expect(page).to have_text 'Tell us about your experience using this service.'
+    expect(page).to have_link 'Give us your feedback'
 
-    click_on 'Yes'
-    expect(page).not_to have_css 'a', text: 'Yes'
-    expect(page).not_to have_css 'a', text: 'No'
-    expect(page).not_to have_css 'a', text: 'Report a problem with this page'
-    expect(page).not_to have_css 'p', text: 'Is this page useful?'
+    click_on 'Give us your feedback'
+    expect(page).to have_css 'h1', text: 'Give feedback on Online Trade Tariff'
   end
 
   scenario 'feedback banner is not shown on feedback page' do
