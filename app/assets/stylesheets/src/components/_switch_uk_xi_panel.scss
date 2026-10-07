@@ -18,7 +18,19 @@
   }
 
   .switch-service-control__arrow + a {
+    @include govuk.govuk-font($size: 19);
     color: govuk.govuk-functional-colour(brand);
+    text-underline-offset: 0.20em;
+  }
+
+  @include govuk.govuk-media-query($until: tablet) {
+    max-width: 100%;
+    white-space: normal;
+
+    .switch-service-control__arrow + a {
+      min-width: 0;
+      white-space: normal;
+    }
   }
 }
 
