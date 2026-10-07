@@ -1,4 +1,6 @@
 <p class="app-find-commodity-service govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <strong><%= service_switch_current_copy %></strong>
-  <%= switch_service_button(path: find_commodity_path.sub(%r{\A/xi}, '')) %>
+  <%= switch_service_button(
+        path: local_assigns.fetch(:path, find_commodity_path.sub(%r{\A/xi}, '')),
+      ) %>
 </p>
