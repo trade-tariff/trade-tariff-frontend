@@ -9,6 +9,10 @@ class SearchController < ApplicationController
 
   TELEMETRY_PARAM_KEYS = %i[telemetry_submission_id telemetry_question_id].freeze
 
+  # No state-changing side effects worth protecting: the action returns search results
+  # and only records session hints and journey events. CSRF is skipped deliberately:
+  # cached pages can carry a stale token, which caused InvalidAuthenticityToken errors
+  # in production (see f742c0aab).
   skip_before_action :verify_authenticity_token, only: [:search]
   # A signed grant authorises status reads; avoid page setup and remote flag evaluation.
   skip_before_action :set_current_flagsmith_identity, :set_path_info, :set_search,
