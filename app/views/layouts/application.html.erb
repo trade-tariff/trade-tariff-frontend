@@ -99,8 +99,8 @@
     </main>
   </div>
 
-  <% unless @feedback || @hide_feedback_useful_banner %>
-    <%= render 'shared/feedback_useful_banner' %>
+  <% unless @feedback || @hide_feedback_invitation %>
+    <%= render 'shared/feedback_invitation' %>
   <% end %>
 
   <footer id="footer" class="govuk-footer govuk-!-display-none-print" role="contentinfo">
