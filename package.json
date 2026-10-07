@@ -9,9 +9,9 @@
     "@babel/preset-env": "^8.0.6",
     "@hotwired/stimulus": "^3.2.2",
     "@playwright/test": "^1.63.0",
-    "accessible-autocomplete": "^3.0.1",
+    "accessible-autocomplete": "^3.0.2",
     "babel-jest": "^30.5.2",
-    "dotenv": "^18.0.3",
+    "dotenv": "^18.0.4",
     "govuk-frontend": "6.5.1",
     "gh-pages": "^6.3.0",
     "jest": "^30.5.2",
@@ -22,7 +22,7 @@
     "jquery-prevent-scroll-keys": "^1.0.1",
     "js-cookie": "^3.0.8",
     "mark.js": "^8.11.1",
-    "sass": "^1.104.1"
+    "sass": "^1.105.0"
   },
   "scripts": {
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/print.sass.scss:./app/assets/builds/print.css --no-source-map --load-path=node_modules --load-path=app/assets/stylesheets",

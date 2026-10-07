@@ -1976,10 +1976,10 @@
   resolved "https://registry.yarnpkg.com/@unrs/resolver-binding-win32-x64-msvc/-/resolver-binding-win32-x64-msvc-1.12.2.tgz#72da0da48d72b1e87831b9c0308931d3f4669027"
   integrity sha512-nAB74NfSNKknqQ1RrYj6uz8FcXEomu/MATJZxh/x+BArzN2U3JbOYC0APYzUIGhVY3m5hRxA8VPNdPBoG8txlA==
 
-accessible-autocomplete@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/accessible-autocomplete/-/accessible-autocomplete-3.0.1.tgz"
-  integrity sha512-xMshgc2LT5addvvfCTGzIkRrvhbOFeylFSnSMfS/PdjvvvElZkakCwxO3/yJYBWyi1hi3tZloqOJQ5kqqJtH4g==
+accessible-autocomplete@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/accessible-autocomplete/-/accessible-autocomplete-3.0.2.tgz#1d6cdd4917ca83083c6af840f9f71b13b516231a"
+  integrity sha512-po7fS9YyTFFZjzaenYKtV4JUcb6xh2eFttTsspg5NIX5epQCbderffjW8evYOTuDh+FgJyYPwL9B7qTkhND3gA==
 
 agent-base@^7.1.0, agent-base@^7.1.2:
   version "7.1.3"
@@ -2344,10 +2344,10 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-dotenv@^18.0.3:
-  version "18.0.3"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-18.0.3.tgz#b631bd444652cd971357123dc2342976589467ab"
-  integrity sha512-/8CJTyL817qPnfbQrJgOEcrU3fDrJkRIoXBE566wHuvIXKOCHUZhPqGPbCPi9SogjdGnreF0TlvnTgK6J/8zpA==
+dotenv@^18.0.4:
+  version "18.0.4"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-18.0.4.tgz#419bbe784f30915bfeb10e2d407e13ca5528504f"
+  integrity sha512-jGt9uI5BIxpVO15kvy+iEFqNAwxYClKWnkptLjSNPnFLC003Imd0ofr3aEVsbpHdSBdSsbcApNIlz4nbyGMwdA==
 
 eastasianwidth@^0.2.0:
   version "0.2.0"
@@ -3644,10 +3644,10 @@ run-parallel@^1.1.9:
   resolved "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sass@^1.104.1:
-  version "1.104.1"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.104.1.tgz#29a4bdb33c48a8bb656e300a33afcafbfcbc8491"
-  integrity sha512-yDA+1aIG3EHgN4V/BvuhCvu61FF6hEd4e+9DxikUm9U0CAGuvdIZ/UYy7qbOxjhbbWQraoyLlMuzdRGOSV5Bmw==
+sass@^1.105.0:
+  version "1.105.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.105.0.tgz#deee89b5e6d2f4c712d3e1ef891a840b778fd68a"
+  integrity sha512-4EjSuRTyG8M4yRXXY1PT9OUV5zz23xBxJkbIAprohKHqf6HOU4MCpE3U3vAC+iO1gxobBjESNbcj8rYAQZWnyA==
   dependencies:
     chokidar "^5.0.0"
     immutable "^5.1.5"
@@ -3700,9 +3700,9 @@ slash@^3.0.0:
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
 "source-map-js@>=0.6.2 <2.0.0":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz"
-  integrity sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.2.tgz#79fb88d97535a21cb27162cb05d211b67acea4ab"
+  integrity sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw==
 
 sprintf-js@~1.0.2:
   version "1.0.3"
