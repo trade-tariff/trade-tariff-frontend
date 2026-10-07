@@ -1,0 +1,48 @@
+---
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.99.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+      - id: terraform_tflint
+      - id: terraform_docs
+        args:
+          - --hook-config=--add-to-existing-file=true
+          - --hook-config=--path-to-file=README.md
+          - --hook-config=--create-file-if-not-exist=true
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^spec/vcr|vendor/|app/assets/images
+      - id: end-of-file-fixer
+        exclude: ^spec/vcr|vendor/|app/assets/images
+      - id: check-yaml
+        exclude: ^spec/vcr|vendor/|app/assets/images
+
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.88.29
+    hooks:
+      - id: trufflehog
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.44.0
+    hooks:
+      - id: markdownlint-docker
+        args:
+          - "--ignore"
+          - terraform
+          - "--fix"
+
+  - repo: https://github.com/mattlqx/pre-commit-ruby
+    rev: v1.3.6
+    hooks:
+      - id: rubocop
+        args: ["--autocorrect"]
+
+  - repo: https://github.com/rhysd/actionlint.git
+    rev: v1.7.7
+    hooks:
+      - id: actionlint-docker

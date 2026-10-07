@@ -1,0 +1,37 @@
+name: Preview App Down
+
+on:
+  pull_request:
+    types: [closed, unlabeled]
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency: preevy-${{ github.event.number }}
+
+env:
+  AWS_REGION: eu-west-2
+  IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-Preview-App-Role
+  PREEVY_PROFILE_URL: s3://preevy-profile-store?region=eu-west-2
+
+jobs:
+  teardown:
+    if: github.event.action == 'closed' || (github.event.action == 'unlabeled' && github.event.label.name == 'needs-preview')
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: touch .env # To prevent preevy from failing due to missing .env file
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.IAM_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: livecycle/preevy-down-action@v1.4.0
+        id: preevy_down
+        with:
+          install: gh-release
+          profile-url: ${{ env.PREEVY_PROFILE_URL }}
+          args: "--force"
