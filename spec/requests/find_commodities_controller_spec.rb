@@ -35,6 +35,12 @@ RSpec.describe FindCommoditiesController, type: :request do
       it { expect(Capybara.string(response.body)).not_to have_link('AI-assisted search') }
     end
 
+    context 'when on the XI service' do
+      before { get '/xi/find_commodity' }
+
+      it { expect(Capybara.string(response.body)).not_to have_css('.latest-news-banner') }
+    end
+
     context 'with a malformed search param' do
       let(:params) { { search: 'coffee beans' } }
 
