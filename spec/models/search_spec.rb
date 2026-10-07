@@ -502,6 +502,59 @@ RSpec.describe Search do
           end
         end
 
+        it 'does not cache responses that fail parsing', :aggregate_failures do
+          malformed = internal_response_body.deep_dup
+          malformed['data'].first['attributes'] = nil
+          stub_api_request('search', :post, internal: true)
+            .to_return(status: 200, body: malformed.to_json, headers: { 'content-type' => 'application/json' })
+          search = described_class.new(q: 'horse', interactive_search: true, request_id: 'first-journey')
+
+          expect { search.perform }.to raise_error(TypeError)
+          expect(cache.exist?(search.interactive_search_cache_key)).to be(false)
+
+          recovered = stub_api_request('search', :post, internal: true)
+            .with { |request| JSON.parse(request.body)['request_id'] != 'first-journey' }
+            .to_return(status: 200, body: internal_response_body.to_json, headers: { 'content-type' => 'application/json' })
+          %w[second-journey third-journey].each do |request_id|
+            result = described_class.new(q: 'horse', interactive_search: true, request_id:).perform
+            expect(result.all.first.goods_nomenclature_item_id).to eq('0101210000')
+          end
+
+          expect(recovered).to have_been_requested.once
+        end
+
+        it 'returns degraded results without caching them', :aggregate_failures do
+          degraded = internal_response_body.merge('meta' => {
+            'search_failures' => %w[interactive_search_failed],
+            'interactive_search' => { 'request_id' => 'backend-journey', 'answers' => [] },
+          })
+          stub_api_request('search', :post, internal: true)
+            .to_return(status: 200, body: degraded.to_json, headers: { 'content-type' => 'application/json' })
+          search = described_class.new(q: 'horse', interactive_search: true, request_id: 'first-journey')
+          result = search.perform
+
+          expect(result.search_failures).to eq(%w[interactive_search_failed])
+          expect(result.all.first.goods_nomenclature_item_id).to eq('0101210000')
+          expect(result.request_id).to eq('first-journey')
+          expect(cache.exist?(search.interactive_search_cache_key)).to be(false)
+
+          healthy = internal_response_body.merge('meta' => {
+            'search_failures' => [],
+            'interactive_search' => { 'request_id' => 'second-journey', 'answers' => [question] },
+          })
+          recovered = stub_api_request('search', :post, internal: true)
+            .with { |request| JSON.parse(request.body)['request_id'] != 'first-journey' }
+            .to_return(status: 200, body: healthy.to_json, headers: { 'content-type' => 'application/json' })
+          %w[second-journey third-journey].each do |request_id|
+            result = described_class.new(q: 'horse', interactive_search: true, request_id:).perform
+            expect(result.search_failures).to be_empty
+            expect(result).to have_pending_question
+            expect(result.request_id).to eq(request_id)
+          end
+
+          expect(recovered).to have_been_requested.once
+        end
+
         it 'assigns separate IDs when callers omit them', :aggregate_failures do
           payload = internal_response_body.merge('meta' => { 'interactive_search' => { 'answers' => [question] } })
           stub = stub_api_request('search', :post, internal: true)

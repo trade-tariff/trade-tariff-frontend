@@ -196,7 +196,8 @@ class Search
 
   def perform_internal_search
     self.request_id = request_id.presence || SecureRandom.uuid
-    body = Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: INTERNAL_RESULT_CACHE_TTL) do
+    result = nil
+    body = Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: INTERNAL_RESULT_CACHE_TTL, skip_nil: true) do
       api_host = TradeTariffFrontend::ServiceChooser.api_host
       path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
 
@@ -205,13 +206,15 @@ class Search
       end
       payload = response.body.is_a?(Hash) ? response.body.deep_dup : JSON.parse(response.body)
       payload.dig('meta', 'interactive_search')&.delete('request_id')
-      payload
+      # Parse before caching, and keep temporary failures out of the shared cache.
+      result = self.class.internal_result(payload.deep_dup)
+      payload if result.search_failures.empty?
     end
 
     # Share search content, never the correlation identity of another journey.
-    body = body.deep_dup
-    body.dig('meta', 'interactive_search')&.[]=('request_id', request_id)
-    self.class.internal_result(body)
+    result ||= self.class.internal_result(body.deep_dup)
+    result.meta&.dig('interactive_search')&.[]=('request_id', request_id)
+    result
   rescue Faraday::UnprocessableContentError => e
     hydrate_errors_from_response(e)
     InternalSearchResult.new([], nil)
