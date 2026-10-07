@@ -161,6 +161,14 @@ RSpec.describe TradeTariffFrontend do
       end
     end
 
+    context 'without either domain or portal configuration' do
+      before { stub_const('ENV', ENV.to_hash.except('GOVUK_APP_DOMAIN', 'DEVELOPER_PORTAL_URL')) }
+
+      it 'defaults to the public Developer Portal' do
+        expect(described_class.developer_portal_url).to eq('https://hub.trade-tariff.service.gov.uk/')
+      end
+    end
+
     context 'with DEVELOPER_PORTAL_URL configured' do
       before do
         stub_const('ENV', ENV.to_hash.merge('DEVELOPER_PORTAL_URL' => 'http://dev.localhost:9080/'))
@@ -200,8 +208,115 @@ RSpec.describe TradeTariffFrontend do
     end
   end
 
+  describe '.parcel_gift_journey_enabled?' do
+    before do
+      stub_const('ENV', ENV.to_hash.except('PARCEL_GIFT_JOURNEY'))
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('parcel-reviewer')
+    end
+
+    it 'defaults to off in every environment' do
+      %w[development review staging production].each do |environment|
+        ENV['ENVIRONMENT'] = environment
+        expect(described_class.parcel_gift_journey_enabled?).to be(false)
+      end
+    end
+
+    it 'supports an explicit local override' do
+      ENV['PARCEL_GIFT_JOURNEY'] = 'true'
+      expect(described_class.parcel_gift_journey_enabled?).to be(true)
+    end
+
+    it 'takes precedence over Flagsmith' do
+      ENV['PARCEL_GIFT_JOURNEY'] = 'true'
+      disable_feature(:parcel_gift_journey)
+      expect(described_class.parcel_gift_journey_enabled?).to be(true)
+    end
+
+    it 'enables both supported services' do
+      enable_feature(:parcel_gift_journey)
+      %w[uk xi].each do |service|
+        allow(described_class::ServiceChooser).to receive(:service_name).and_return(service)
+        expect(described_class.parcel_gift_journey_enabled?).to be(true)
+      end
+    end
+
+    it 'is registered for browser opt-in' do
+      expect(described_class::Config.registered_flags.fetch(:parcel_gift_journey_enabled?)).to eq(
+        name: 'parcel_gift_journey', services: %w[uk xi], optin: true,
+      )
+    end
+  end
+
+  describe 'automatic environment overrides' do
+    before do
+      stub_const('ENV', ENV.to_hash.except('INTERACTIVE_SEARCH').merge('ENVIRONMENT' => 'development'))
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('environment-reviewer')
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+    end
+
+    it 'can disable a remotely enabled feature' do
+      ENV['INTERACTIVE_SEARCH'] = 'false'
+      enable_feature(:interactive_search)
+      expect(described_class.interactive_search_enabled?).to be(false)
+    end
+
+    it 'enables a feature without fetching Flagsmith and records the source', :aggregate_failures do
+      ENV['INTERACTIVE_SEARCH'] = 'true'
+      disable_feature(:interactive_search)
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
+
+      expect(described_class.interactive_search_enabled?).to be(true)
+      expect(FlagsmithClient.instance).not_to have_received(:get_flags_for)
+      expect(Current.flagsmith_evaluations['interactive_search']).to include(source: 'environment', enabled: true)
+    end
+
+    it 'works without a request identity' do
+      ENV['INTERACTIVE_SEARCH'] = 'false'
+      Current.flagsmith_identity = nil
+      expect(described_class.interactive_search_enabled?).to be(false)
+    end
+
+    ['', 'invalid'].each do |value|
+      it "ignores an environment value of #{value.inspect}" do
+        ENV['INTERACTIVE_SEARCH'] = value
+        enable_feature(:interactive_search)
+        expect(described_class.interactive_search_enabled?).to be(true)
+      end
+    end
+
+    it 'preserves service restrictions' do
+      ENV['INTERACTIVE_SEARCH'] = 'true'
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'xi', xi?: true)
+      expect(described_class.interactive_search_enabled?).to be(false)
+    end
+
+    context 'when the registration opts out with env: false' do
+      around do |example|
+        options = described_class::Config.registered_flags.fetch(:interactive_search_enabled?)
+        begin
+          described_class::Config.flagsmith_flag(:interactive_search_enabled?, **options, env: false)
+          example.run
+        ensure
+          described_class::Config.flagsmith_flag(:interactive_search_enabled?, **options)
+        end
+      end
+
+      it 'leaves Flagsmith in control' do
+        ENV['INTERACTIVE_SEARCH'] = 'true'
+        disable_feature(:interactive_search)
+        expect(described_class.interactive_search_enabled?).to be(false)
+      end
+
+      it 'retains the original default when no remote value exists' do
+        ENV['INTERACTIVE_SEARCH'] = 'false'
+        expect(described_class.interactive_search_enabled?).to be(true)
+      end
+    end
+  end
+
   describe '.interactive_search_enabled?' do
     before do
+      stub_const('ENV', ENV.to_hash.except('INTERACTIVE_SEARCH'))
       Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
       allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
     end
@@ -418,6 +533,14 @@ RSpec.describe TradeTariffFrontend do
 
       described_class.instance_variable_set(:@identity_cookie_domain, nil)
       described_class.instance_variable_set(:@base_domain, nil)
+    end
+
+    context 'without GOVUK_APP_DOMAIN configured' do
+      before { stub_const('ENV', ENV.to_hash.except('GOVUK_APP_DOMAIN')) }
+
+      it 'defaults to the production domain' do
+        expect(described_class.base_domain).to eq('trade-tariff.service.gov.uk')
+      end
     end
 
     context 'with GOVUK_APP_DOMAIN without protocol' do

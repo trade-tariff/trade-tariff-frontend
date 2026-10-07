@@ -1,0 +1,32 @@
+<% content_for :title, "#{@step.title} - Online Trade Tariff - GOV.UK" %>
+<% content_for :top_breadcrumbs do %>
+  <%= govuk_breadcrumbs(breadcrumbs: {
+        t('breadcrumb.home') => home_path,
+        @journey.chooser.title => parcel_gift_chooser_path,
+        @step.breadcrumb => nil,
+      }, hide_in_print: true, html_attributes: { role: 'navigation', aria: { label: 'Breadcrumb' } }) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l"><%= @step.title %></h1>
+    <% @step.sections.each do |section| %>
+      <% if section.content %>
+        <div class="tariff-markdown"><%= govspeak section.content %></div>
+      <% end %>
+      <% if section.details %>
+        <%= govuk_details(summary_text: section.details.summary) do %>
+          <div class="tariff-markdown"><%= govspeak section.details.content %></div>
+        <% end %>
+      <% end %>
+      <% section.links.each do |link| %>
+        <p><% if link.prefix %><%= link.prefix %> <% end %><%= parcel_gift_link(link) %><%= '.' if link.prefix %></p>
+      <% end %>
+    <% end %>
+    <h2 class="govuk-heading-m">Getting help from HMRC</h2>
+    <p>
+      <%= govuk_link_to 'Enquiry form', enquiry_form_path_with_context(field: 'postal_or_baggage_details', parcel_gift_step: @step.id) %><br>
+      Submit a question and provide as much detail as possible.
+    </p>
+  </div>
+</div>

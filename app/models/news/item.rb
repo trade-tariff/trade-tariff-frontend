@@ -73,6 +73,11 @@ module News
       @end_date = date.is_a?(String) ? Date.parse(date) : date
     end
 
+    def title_without_date
+      dates = Regexp.union(%i[long short].map { |format| start_date.to_formatted_s(format) })
+      title.sub(/\s+[-\u2013\u2014]\s+#{dates}\s*\z/, '')
+    end
+
     def paragraphs
       @paragraphs ||= content.to_s.split(/(\r?\n)+/).map(&:presence).compact
     end

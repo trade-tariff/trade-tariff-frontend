@@ -2,14 +2,14 @@
   <%= related_navigation do %>
     <%= related_navigation_section(
           title: 'Latest news',
-          heading_id: 'related-nav-related_items-e81f23c1',
+          heading_id: local_assigns.fetch(:heading_id, 'related-nav-related_items-e81f23c1'),
           heading_attributes: { data: { track_count: 'sidebarrelateditemsection' } },
           nav_attributes: { data: { module: 'gem-toggle' } },
         ) do %>
     <% news_items.each do |news_item| %>
       <article class="news-item">
         <p class="govuk-body-s govuk-!-margin-bottom-2">
-          <%= govuk_link_to news_item.title, news_item %>
+          <%= govuk_link_to news_item.title_without_date, news_item %>
         </p>
 
         <p class="tariff-body-subtext">

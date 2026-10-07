@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus'
 import Cookies from 'js-cookie'
 
 export default class extends Controller {
-  static targets = ['tabs', 'tab', 'keywordSection', 'guidedSection', 'hiddenField']
+  static targets = ['tabs', 'tab', 'keywordSection', 'guidedSection', 'hiddenField', 'guidedHelp']
   static values = {
     initialMode: { type: String, default: 'keyword' },
     urlForced: { type: Boolean, default: false },
@@ -18,6 +18,9 @@ export default class extends Controller {
     const navigation = window.performance.getEntriesByType?.('navigation')[0]
     const reloadedUrlRequest = navigation?.type === 'reload' && this.urlForcedValue
     this.#setMode(reloadedUrlRequest ? this.#rememberedMode() : this.initialModeValue)
+    if (this.urlForcedValue) {
+      this[`${this.mode}SectionTarget`].querySelector('textarea, input:not([type="hidden"])')?.focus({ preventScroll: true })
+    }
     this.observer = new MutationObserver(() => this.#setMode(this.mode))
     this.observer.observe(this.element, { childList: true, subtree: true })
   }
@@ -82,6 +85,7 @@ export default class extends Controller {
         input.disabled = name !== mode
       })
     }
+    this.guidedHelpTargets.forEach(help => { help.hidden = mode !== 'guided' })
     this.#scopeSummaryErrors()
     this.element.querySelectorAll('[data-search-mode-error]').forEach(error => {
       error.hidden = error.dataset.searchModeError !== mode

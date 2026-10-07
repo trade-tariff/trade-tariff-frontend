@@ -17,6 +17,21 @@ for the current commands. `bin/dev` starts Rails and the stylesheet watcher.
 Compile stylesheets and test assets before running view and feature specs.
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for the fork workflow and accessibility checks.
 
+### Feature flags
+
+Registered feature flags automatically accept an environment override using the
+uppercase flag name. Edit `.env.development`, then restart Rails:
+
+```dotenv
+INTERACTIVE_SEARCH=false
+PARCEL_GIFT_JOURNEY=true
+```
+
+The exact values `true` and `false` take precedence over Flagsmith. Unset, empty or
+other values leave Flagsmith and the existing default in control. Service
+restrictions still apply. A registration can disable automatic overrides with
+`env: false`, for example `flagsmith_flag :feature_enabled?, name: :feature, env: false`.
+
 ## Pull Requests
 
 Use `.github/pull_request_template.md`. Include:

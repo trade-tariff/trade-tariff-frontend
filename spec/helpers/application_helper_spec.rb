@@ -408,6 +408,14 @@ RSpec.describe ApplicationHelper, type: :helper do
     it 'omits a missing request id' do
       expect(path).to eq('/enquiry_form')
     end
+
+    it 'links to a specific step while preserving search and guidance context' do
+      assign(:search, build(:search, request_id: 'search-request-123'))
+
+      path = helper.enquiry_form_path_with_context(field: 'postal_or_baggage_details', parcel_gift_step: 'parcel_charges')
+
+      expect(path).to eq('/enquiry_form/postal_or_baggage_details?parcel_gift_step=parcel_charges&request_id=search-request-123')
+    end
   end
 
   describe '#current_feedback_params' do

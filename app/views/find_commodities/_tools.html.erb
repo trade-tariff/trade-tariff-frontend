@@ -1,0 +1,14 @@
+<section class="app-find-commodity-tools" aria-labelledby="find-commodity-tools-heading">
+  <h2 class="govuk-heading-s" id="find-commodity-tools-heading">Tools</h2>
+  <%= govuk_list(classes: 'govuk-body-s') do %>
+    <% if uk_service_choice? %>
+      <li><%= govuk_link_to 'Exchange rates', exchange_rates_path %></li>
+      <li><%= govuk_link_to 'Quotas', quota_search_path %></li>
+      <li><%= govuk_link_to 'Developer Portal (opens in new tab)', TradeTariffFrontend.developer_portal_url, target: '_blank', rel: 'noopener noreferrer' %></li>
+    <% else %>
+      <li><%= govuk_link_to 'Simplified procedure value rates', simplified_procedural_values_path %></li>
+      <li><%= govuk_link_to 'Meursing code lookup', meursing_lookup_step_path('start') %></li>
+    <% end %>
+    <li><%= govuk_link_to 'View all tariff tools', tools_path %></li>
+  <% end %>
+</section>

@@ -1,0 +1,24 @@
+<% date_field = capture do %>
+  <%= f.govuk_date_field :as_of,
+        legend: { text: @parcel_gift_homepage ? 'Change trade date' : 'When are you planning to trade the products?', size: 's', tag: nil },
+        hint: { text: safe_join([@parcel_gift_homepage ? 'Use the date your goods will be traded. Duties and quotas can change over time.' : "You can enter the date your products will be traded. This is important, as commodities, duties and quotas change over time. If you don't enter a date, today's date is used.", tag.br, tag.br, 'For example 27 3 2021']) },
+        form_group: { class: @parcel_gift_homepage ? 'govuk-!-margin-bottom-0' : 'govuk-!-margin-top-6' }, maxlength_enabled: true %>
+<% end %>
+<% if @parcel_gift_homepage %>
+  <%# Incomplete fields submit a different date from the one the summary would state, so hide
+     the summary and open the fields for the user to finish. %>
+  <% date_needs_attention = @search.errors[:as_of].any? || @search.partial_date? %>
+  <div data-controller="date-summary" data-action="input->date-summary#hide change->date-summary#hide">
+    <% unless date_needs_attention %>
+      <p class="govuk-body-s" data-date-summary-target="summary">
+        <%= @search.today? ? "Using today's date," : 'Using' %>
+        <strong><%= @search.date.strftime('%-d %B %Y') %></strong>, for duties and quotas.
+      </p>
+    <% end %>
+    <%= govuk_details(summary_text: 'Change date', id: 'find-commodity-date', open: date_needs_attention) do %>
+      <%= date_field %>
+    <% end %>
+  </div>
+<% else %>
+  <%= date_field %>
+<% end %>

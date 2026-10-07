@@ -1,0 +1,20 @@
+<% content_for :title, "#{'Error: ' if @form.errors.any?}#{@journey.chooser.title} - Online Trade Tariff - GOV.UK" %>
+<% content_for :top_breadcrumbs do %>
+  <%= govuk_breadcrumbs(breadcrumbs: { t('breadcrumb.home') => home_path, @journey.chooser.title => nil },
+        hide_in_print: true, html_attributes: { role: 'navigation', aria: { label: 'Breadcrumb' } }) %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @form, url: parcel_gift_chooser_path, method: :get, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      <%= f.govuk_error_summary %>
+      <%= f.govuk_collection_radio_buttons :choice, @form.available_steps, :id, :label,
+        legend: { text: @journey.chooser.title, size: 'l', tag: 'h1' } %>
+      <%= f.govuk_submit @journey.chooser.submit_label %>
+    <% end %>
+
+    <h2 class="govuk-heading-m"><%= @journey.chooser.fallback_heading %></h2>
+    <p><%= govuk_link_to 'Enquiry form', enquiry_form_path_with_context %><br>
+      <%= @journey.chooser.fallback_text %></p>
+  </div>
+</div>
