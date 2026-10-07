@@ -11,11 +11,13 @@ RSpec.describe 'layouts/application', type: :view do
 
   it { is_expected.to have_css 'header.govuk-header .govuk-width-container > .tariff-header-banner' }
 
-  it 'renders the standard feedback useful banner', :aggregate_failures do
+  it 'renders the feedback invitation', :aggregate_failures do
     render
 
-    expect(rendered).to have_css('.feedback-useful-banner')
-    expect(rendered).not_to have_css('.app-feedback-useful-banner')
+    expect(rendered).to have_css('.govuk-feedback')
+    expect(rendered).to have_css('.govuk-feedback__title', text: 'Help us improve this service')
+    expect(rendered).to have_text('Tell us about your experience using this service.')
+    expect(rendered).to have_link('Give us your feedback', href: %r{\A/feedback\?})
   end
 
   it 'preserves search context in the enquiry link' do
@@ -29,12 +31,11 @@ RSpec.describe 'layouts/application', type: :view do
   context 'when rendering an interactive search page' do
     before { assign(:interactive_search_page, true) }
 
-    it 'uses the standard feedback useful banner without an extra divider', :aggregate_failures do
+    it 'uses the feedback invitation', :aggregate_failures do
       render
 
-      expect(rendered).to have_css('.feedback-useful-banner')
-      expect(rendered).not_to have_css('.feedback-useful-banner__divider')
-      expect(rendered).not_to have_css('.app-feedback-useful-banner')
+      expect(rendered).to have_css('.govuk-feedback')
+      expect(rendered).not_to have_text('Is this page useful?')
     end
   end
 

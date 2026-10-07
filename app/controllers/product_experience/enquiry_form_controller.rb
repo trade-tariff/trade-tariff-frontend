@@ -4,7 +4,7 @@ module ProductExperience
 
     before_action :disable_switch_service_banner,
                   :disable_search_form
-    before_action :hide_feedback_useful_banner, except: :confirmation
+    before_action :hide_feedback_invitation, except: :confirmation
 
     before_action :ensure_submission_started, except: %i[show confirmation]
     before_action :validate_field, only: %i[form submit]
@@ -106,8 +106,8 @@ module ProductExperience
       TradeTariffFrontend.enabled_flagsmith_feature_names
     end
 
-    def hide_feedback_useful_banner
-      @hide_feedback_useful_banner = true
+    def hide_feedback_invitation
+      @hide_feedback_invitation = true
     end
 
     def search_attributes
