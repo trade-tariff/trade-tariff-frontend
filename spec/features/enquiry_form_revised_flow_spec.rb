@@ -20,7 +20,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     visit product_experience_enquiry_form_path
 
     expect(page).to have_css 'h1', text: 'What do you need help with?'
-    expect(page).not_to have_css '.feedback-useful-banner'
+    expect(page).not_to have_css '.govuk-feedback'
     expect(page).to have_content 'Use this form if you need help from the HMRC Trade Tariff team. Choose the option that best matches your question so it goes to the right team.'
     expect(page).to have_css 'label.govuk-radios__label.govuk-\\!-font-weight-bold', text: 'Classification'
     expect(page).to have_css '.govuk-radios__hint', text: 'Help finding the correct commodity code for your goods.'
@@ -95,7 +95,7 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
     expect(page).to have_link 'Live issues log', href: live_issues_path
     expect(page).to have_css '#enquiry-form-confirmation-help-link[data-controller="analytics"][data-action="click->analytics#track"][data-analytics-event="confirmation_help_clicked"]'
     expect(page).to have_css '#enquiry-form-confirmation-live-issues-link[data-controller="analytics"][data-action="click->analytics#track"][data-analytics-event="confirmation_live_issues_clicked"]'
-    expect(page).to have_css '.feedback-useful-banner'
+    expect(page).to have_css '.govuk-feedback'
 
     expect(EnquiryForm).to have_received(:create!).with(
       hash_including(
