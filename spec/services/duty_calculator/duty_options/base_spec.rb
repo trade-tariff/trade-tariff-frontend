@@ -35,6 +35,29 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
     allow(DutyCalculator::ExpressionEvaluators::Vat).to receive(:new).and_return(vat_evaluator)
   end
 
+  describe 'the duty and VAT total' do
+    subject(:total) { service.call.duty_and_vat_total }
+
+    it 'includes additional duties and VAT' do
+      expect(total).to eq(636)
+    end
+
+    context 'when there is no VAT measure' do
+      let(:vat_measure) { nil }
+
+      it { is_expected.to eq(396) }
+    end
+
+    context 'when there is no duty to pay' do
+      let(:additional_duty_options) { [] }
+      let(:duty_evaluation) { { calculation: '0.00% * £1200.00', formatted_value: '£0.00', value: 0 } }
+
+      it 'still includes VAT' do
+        expect(total).to eq(240)
+      end
+    end
+  end
+
   describe '#call' do
     let(:default_expected_option) do
       {

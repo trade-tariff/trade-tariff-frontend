@@ -28,7 +28,7 @@ module DutyCalculator
             category: self.class::CATEGORY,
             scheme_code: measure.scheme_code,
           },
-        )
+        ).tap { |result| result.duty_and_vat_total = duty_totals_plus_vat }
       end
 
       def self.id

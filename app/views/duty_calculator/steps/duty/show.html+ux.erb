@@ -1,0 +1,33 @@
+<%= govuk_back_link(href: @duty_options.nil? ? :back : confirm_path) %>
+
+<span class="govuk-caption-xl"><%= t('duty_calculator.shared.ux_caption') %></span>
+
+<% if @duty_options.nil? %>
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+      <h1 class="govuk-fieldset__heading">There is no import duty to pay</h1>
+    </legend>
+  </fieldset>
+  <%= render 'no_duty' %>
+<% else %>
+  <h1 class="govuk-heading-xl">Import cost estimate</h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body-l">Based on the value of the goods, shipping and insurance, this is the estimated amount of duty and VAT on this import.</p>
+    </div>
+  </div>
+
+  <% @duty_options.each do |option| %>
+    <%= render 'duty_calculator/steps/duty/estimate/option', option: %>
+  <% end %>
+
+  <%= render 'duty_calculator/steps/duty/estimate/details_used' %>
+  <% if @gbp_to_eur_exchange_rate.present? %>
+    <p class="govuk-body-s">Please note - the current page uses an exchange rate of <strong><%= @gbp_to_eur_exchange_rate %> GBP to EUR</strong>.</p>
+  <% end %>
+
+  <div class="duty-estimate-feedback govuk-!-margin-top-8">
+    <h2 class="govuk-heading-m">Help us improve this service</h2>
+    <p class="govuk-body govuk-!-margin-bottom-0">Tell us about your experience using this service. <%= govuk_link_to 'Give us your feedback', feedback_path_with_context %></p>
+  </div>
+<% end %>

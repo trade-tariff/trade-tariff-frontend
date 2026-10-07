@@ -214,9 +214,19 @@ module ApplicationHelper
   def duty_calculator_link(declarable_code)
     code = divide_commodity_code(declarable_code).join(' ')
     link_description = "work out the duties and taxes applicable to the import of commodity #{code}"
-    link_url = import_date_path(commodity_code: declarable_code)
+    link_url = import_date_path(commodity_code: declarable_code, **duty_calculator_prefill_params)
 
     govuk_link_to link_description, link_url, id: 'duty-calculator-link'
+  end
+
+  # Carries the country and date chosen on the commodity page into the duty calculator.
+  def duty_calculator_prefill_params
+    return {} unless TradeTariffFrontend.duty_calculator_ux_improvements? && @search
+
+    prefill = {}
+    prefill[:country] = @search.country if @search.country.present?
+    prefill.merge!(day: @search.day, month: @search.month, year: @search.year) if @search.day_month_and_year_set?
+    prefill
   end
 
   def month_name_and_year(month, year)

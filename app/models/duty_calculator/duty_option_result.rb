@@ -16,6 +16,9 @@ module DutyCalculator
     attribute :geographical_area_description
     attribute :scheme_code
 
+    # Duty and VAT for this option, matching the total in the calculation breakdown.
+    attr_accessor :duty_and_vat_total
+
     def footnote
       super + footnote_suffix
     end

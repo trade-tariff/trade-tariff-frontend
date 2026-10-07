@@ -4,6 +4,7 @@ module DutyCalculator
     include ActionView::Helpers::TagHelper
     include CommodityHelper
     include UkimsHelper
+    include VatSummaryHelper
 
     ORDERED_STEPS = %w[
       additional_code
@@ -23,8 +24,29 @@ module DutyCalculator
       vat
     ].freeze
 
+    # Steps shown in their own sections on the new Check your answers page.
+    UX_SECTION_STEPS = %w[import_date import_destination country_of_origin customs_value vat].freeze
+
     def path_for(key:)
       send("#{key}_path")
+    end
+
+    # Rows for the new Check your answers page: one row for each section of the journey.
+    def ux_rows
+      rows = [
+        section_row('Tell us about this import', import_details_answers, import_details_step_path, 'import details'),
+        section_row('What did you pay for the goods and delivery?', valuation_answers, customs_value_path, 'value of the import'),
+      ].compact
+      rows += other_answers.map do |answer|
+        { key: { text: answer[:label] }, value: { text: answer[:value] }, actions: [{ href: path_for(key: answer[:key]), visually_hidden_text: answer[:label] }] }
+      end
+      vat = vat_row
+      rows << vat if vat
+      rows
+    end
+
+    def import_details_step_path
+      import_details_path(commodity_code: user_session.commodity_code)
     end
 
     def user_answers
@@ -40,6 +62,62 @@ module DutyCalculator
     end
 
   private
+
+    # As on the existing page, questions without an answer are left out.
+    def section_row(title, answers, href, hidden_text)
+      answers = answers.reject { |_question, answer| answer.blank? }
+      return if answers.empty?
+
+      {
+        key: { text: title },
+        value: { text: safe_join(answers.map { |question, answer| tag.p(safe_join([tag.strong(question), tag.br, answer]), class: 'govuk-body') }) },
+        actions: [{ href:, visually_hidden_text: hidden_text }],
+      }
+    end
+
+    def import_details_answers
+      [
+        ['Which part of the UK are you importing into?', import_destination_name(user_session.import_destination)],
+        ['What is the country of origin?', origin_long_description],
+        ['Date of import', user_session.import_date&.to_formatted_s(:long)],
+      ]
+    end
+
+    def origin_long_description
+      return if user_session.import_destination.blank? || user_session.origin_country_code.blank?
+
+      Api::GeographicalArea.build(user_session.import_destination.downcase.to_sym, user_session.origin_country_code.upcase).long_description
+    end
+
+    def valuation_answers
+      return [] if user_session.monetary_value.blank?
+
+      [
+        ['Value of the goods being imported', format_money(user_session.monetary_value)],
+        ['Shipping cost', format_money(user_session.shipping_cost)],
+        ['Insurance cost', format_money(user_session.insurance_cost)],
+      ]
+    end
+
+    # The VAT rate used by the calculator, also when the VAT page was skipped
+    # because the commodity has only one rate.
+    def vat_row
+      vat_code = user_session.vat.presence || (applicable_vat_options.keys.first if applicable_vat_options.size == 1)
+      return if vat_code.blank?
+
+      assumed = user_session.vat_assumed && user_session.vat.present?
+
+      {
+        key: { text: 'Which VAT rate applies to your import?' },
+        value: { text: vat_rate_summary(vat_code, assumed:, fallback: applicable_vat_options[vat_code], bold: true) },
+        # A single VAT rate cannot be changed, so it has no Change link (the VAT page is skipped today).
+        actions: applicable_vat_options.size > 1 ? [{ href: vat_path, visually_hidden_text: 'VAT rate' }] : [],
+      }
+    end
+
+    def other_answers
+      user_answers.reject { |answer| answer[:key].in?(UX_SECTION_STEPS) }
+    end
 
     def import_date_path
       params_hash = { commodity_code: user_session.commodity_code }
@@ -104,6 +182,11 @@ module DutyCalculator
       end
 
       formatted_values.join('').html_safe
+    end
+
+    # A blank optional cost counts as zero, as in the existing customs value total.
+    def format_money(value)
+      number_to_currency(value.presence || 0)
     end
 
     def format_customs_value(_value, _key)

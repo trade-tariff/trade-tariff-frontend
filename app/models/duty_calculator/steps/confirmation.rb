@@ -6,6 +6,7 @@ module DutyCalculator
       end
 
       def previous_step_path
+        return suggested_vat_path if ux_improvements? && user_session.vat_assumed && user_session.vat.present?
         return vat_path if filtered_commodity(source: 'uk').applicable_vat_options.keys.size > 1
         return excise_path(user_session.excise_measure_type_ids.last) if user_session.excise_additional_code.present?
         return document_codes_path(user_session.document_code_measure_type_ids.last) if user_session.document_code_uk.present? || user_session.document_code_xi.present?

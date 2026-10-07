@@ -2,6 +2,8 @@ module DutyCalculator
   module Steps
     class ImportDateController < BaseController
       def show
+        return redirect_to_import_details if duty_calculator_ux_improvements?
+
         @step = Steps::ImportDate.new(initial_date_params)
 
         persist_commodity_data
@@ -19,6 +21,13 @@ module DutyCalculator
       end
 
       private
+
+      # Entry point from the commodity page: a new journey starts here.
+      def redirect_to_import_details
+        user_session.return_to_confirm = false
+
+        redirect_to import_details_path(request.query_parameters.slice('country', 'day', 'month', 'year').merge(commodity_code:))
+      end
 
       def permitted_params
         params.require(:duty_calculator_steps_import_date).permit(
