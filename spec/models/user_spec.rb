@@ -10,6 +10,50 @@ RSpec.describe User do
       it { is_expected.to be_nil }
     end
 
+    context 'when in development without a token' do
+      let(:token) { nil }
+
+      before do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with('MYOTT_AUTH_BYPASS').and_return(nil)
+      end
+
+      it 'keeps the existing dummy user lookup by default' do
+        stub_api_request('http://localhost:3018/uk/user/users').and_return(jsonapi_response(:user, attributes_for(:user)))
+
+        expect(response).to be_a(described_class)
+      end
+
+      context 'when the development bypass is disabled' do
+        before do
+          allow(ENV).to receive(:[]).with('MYOTT_AUTH_BYPASS').and_return('false')
+        end
+
+        it 'returns nil without requesting a dummy user', :aggregate_failures do
+          expect(response).to be_nil
+          expect(WebMock).not_to have_requested(:get, 'http://localhost:3018/uk/user/users')
+        end
+      end
+    end
+
+    context 'when in development with real authentication' do
+      before do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with('MYOTT_AUTH_BYPASS').and_return('false')
+        stub_api_request('http://localhost:3018/uk/user/users').and_return(jsonapi_error_response(404))
+        stub_api_request('http://localhost:3018/uk/user/users', :post)
+          .and_return(jsonapi_response(:user, attributes_for(:user).merge(email: 'local@example.test')))
+      end
+
+      it 'uses lookup then creation to return the real account', :aggregate_failures do
+        expect(response.email).to eq('local@example.test')
+        expect(WebMock).to have_requested(:post, 'http://localhost:3018/uk/user/users')
+          .with(headers: { 'Authorization' => "Bearer #{token}" })
+      end
+    end
+
     context 'when response is successful' do
       before do
         stub_api_request('http://localhost:3018/uk/user/users').and_return(jsonapi_response(:user, attributes_for(:user)))
@@ -84,6 +128,21 @@ RSpec.describe User do
       let(:token) { nil }
 
       it { is_expected.to be_nil }
+    end
+
+    context 'when in development without a token and with the bypass disabled' do
+      let(:token) { nil }
+
+      before do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with('MYOTT_AUTH_BYPASS').and_return('false')
+      end
+
+      it 'does not update a dummy user', :aggregate_failures do
+        expect(response).to be_nil
+        expect(WebMock).not_to have_requested(:put, 'http://localhost:3018/uk/user/users')
+      end
     end
 
     context 'when the request is successful' do

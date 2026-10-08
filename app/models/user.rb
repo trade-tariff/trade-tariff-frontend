@@ -7,7 +7,7 @@ class User
                 :chapter_ids
 
   def self.find(id, token, options = {})
-    return nil if token.nil? && !Rails.env.development?
+    return nil if token.nil? && (!Rails.env.development? || ENV['MYOTT_AUTH_BYPASS'] == 'false')
 
     super
   rescue AuthenticationError => e
@@ -17,7 +17,7 @@ class User
   end
 
   def self.update(token, attributes)
-    return nil if token.nil? && !Rails.env.development?
+    return nil if token.nil? && (!Rails.env.development? || ENV['MYOTT_AUTH_BYPASS'] == 'false')
 
     json_api_params = {
       data: {
