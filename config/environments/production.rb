@@ -113,6 +113,7 @@ Rails.application.configure do
       browser_session_id: event.payload[:browser_session_id],
       search_request_id: event.payload[:search_request_id],
       user_agent: event.payload[:user_agent],
+      remote_ip: event.payload[:remote_ip],
       experiment_label: event.payload[:experiment_label],
       request_country: event.payload[:request_country],
       params: event.payload[:params].except('controller', 'action', 'format', 'utf8', 'experiment'),
