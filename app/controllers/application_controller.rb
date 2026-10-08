@@ -155,6 +155,7 @@ class ApplicationController < ActionController::Base
     payload[:browser_session_id] = browser_session_id
     payload[:search_request_id] = @search&.request_id
     payload[:user_agent] = request.env['HTTP_USER_AGENT']
+    payload[:remote_ip] = viewer_ip
     payload[:experiment_label] = Current.experiment if Current.experiment.present?
     payload[:request_country] = Current.request_country.presence&.to_s || 'unknown'
     payload.merge!(@handled_exception_log_context) if defined?(@handled_exception_log_context) && @handled_exception_log_context.present?
@@ -166,6 +167,18 @@ class ApplicationController < ActionController::Base
   rescue StandardError
     # Optional correlation must not prevent a page from being served.
     nil
+  end
+
+  # CloudFront-Viewer-Address is "ip:port" and contains the end-user IP.
+  # request.remote_ip alone would report a CloudFront edge node's IP, because
+  # Rails' default trusted_proxies does not cover CloudFront's public edge IP
+  # ranges. Falls back to request.remote_ip for traffic that does not arrive
+  # through CloudFront. Same logic as the backend ApplicationController.
+  def viewer_ip
+    viewer_address = request.headers['CloudFront-Viewer-Address']
+    return request.remote_ip if viewer_address.blank?
+
+    viewer_address.rpartition(':').first.delete_prefix('[').delete_suffix(']')
   end
 
   def set_path_info
