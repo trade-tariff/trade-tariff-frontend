@@ -45,6 +45,14 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
           cookies[:interactive_search] = 'true'
           page = entry_page
           expect(page).to have_css('[data-search-mode-initial-mode-value="guided"]')
+          expect(page).to have_css('[data-search-mode-url-forced-value="false"]')
+        end
+
+        it 'keeps a keyword error on the keyword tab when AI search is remembered' do
+          cookies[:interactive_search] = 'true'
+          page = entry_page(interactive_search: 'false', q: 'coffee', invalid_date: true, day: '22', month: '0', year: '2026')
+          expect(page).to have_css('[data-search-mode-initial-mode-value="keyword"]')
+          expect(page).to have_field('revised-keyword-query', with: 'coffee')
         end
 
         it 'retains AI mode for invalid dates' do

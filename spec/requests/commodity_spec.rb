@@ -93,6 +93,17 @@ RSpec.describe 'Commodity page', type: :request do
       expect(response).to have_http_status(:success)
       expect(Capybara.string(response.body)).to have_field('Day', with: ')')
     end
+
+    it 'rejects incomplete dates and preserves the blank date component', :aggregate_failures do
+      get '/commodities/0101300000', params: { day: '12', month: '', year: '2025' }
+
+      expect(response).to have_http_status(:success)
+      page = Capybara.string(response.body)
+      expect(page).to have_css('#trade-date-error', text: 'Date of trade must be a real date')
+      expect(page).to have_field('Day', with: '12')
+      expect(page).to have_field('Month', with: '')
+      expect(page).to have_field('Year', with: '2025')
+    end
   end
 
   shared_examples_for 'loads the correct xi declarables' do

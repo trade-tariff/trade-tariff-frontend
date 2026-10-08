@@ -24,8 +24,8 @@ RSpec.describe 'measures/grouped/_table', type: :view do
                                       text: 'Start a duty calculation'
   end
 
-  it 'renders the calculator title as an H2' do
-    expect(rendered_page).to have_css 'h2.govuk-heading-m', text: 'Calculate import costs'
+  it 'renders the calculator title as an H4' do
+    expect(rendered_page).to have_css 'h4.govuk-heading-m', text: 'Calculate import costs'
   end
 
   it 'renders the decorative calculator icon at the required size' do

@@ -1,3 +1,6 @@
+<div data-controller="analytics"
+     data-analytics-exposure-event-value="duty_calculator_completed"
+     data-analytics-context-value="<%= { commodity_code: user_session.commodity_code }.to_json %>">
 <%= govuk_back_link(href: @duty_options.nil? ? :back : confirm_path) %>
 
 <span class="govuk-caption-xl"><%= t('duty_calculator.shared.ux_caption') %></span>
@@ -31,3 +34,4 @@
     <p class="govuk-body govuk-!-margin-bottom-0">Tell us about your experience using this service. <%= govuk_link_to 'Give us your feedback', feedback_path_with_context %></p>
   </div>
 <% end %>
+</div>

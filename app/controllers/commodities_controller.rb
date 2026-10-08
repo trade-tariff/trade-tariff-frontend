@@ -57,6 +57,7 @@ class CommoditiesController < GoodsNomenclaturesController
 
   def set_search
     super
+    @trade_date_error = 'Date of trade must be a real date' if @search.partial_date?
     @search.date if action_name == 'show' && request.format.html?
   rescue Search::InvalidDate
     @trade_date_error = 'Date of trade must be a real date'

@@ -37,12 +37,13 @@
           <p class="govuk-error-message" id="trade-date-error"><span class="govuk-visually-hidden">Error:</span> <%= @trade_date_error %></p>
         <% end %>
         <div class="govuk-date-input">
-          <% { day: [2, @search.date.day], month: [2, @search.date.month], year: [4, @search.date.year] }.each do |name, (width, value)| %>
+          <% date = @search.date %>
+          <% { day: [2, date.day], month: [2, date.month], year: [4, date.year] }.each do |name, (width, value)| %>
             <div class="govuk-date-input__item">
               <div class="govuk-form-group">
                 <%= label_tag name, name.to_s.humanize, class: 'govuk-label govuk-date-input__label' %>
                 <%= text_field_tag name,
-                                   params[name].presence || value,
+                                   params.key?(name.to_s) ? params[name] : value,
                                    class: "govuk-input govuk-date-input__input govuk-input--width-#{width}#{' govuk-input--error' if @trade_date_error}",
                                    inputmode: 'numeric' %>
               </div>
