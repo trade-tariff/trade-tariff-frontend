@@ -9,11 +9,15 @@ module TradeTariffFrontend
     end
 
     def duty_calculator_ux_improvements?
-      ENV['DUTY_CALCULATOR_UX_IMPROVEMENTS'] == 'true'
+      false
     end
 
     def interactive_search_enabled?
       !production? && !ServiceChooser.xi?
+    end
+
+    def parcel_gift_journey_enabled?
+      false
     end
 
     def production?
@@ -34,7 +38,7 @@ module TradeTariffFrontend
 
     def base_domain
       @base_domain ||= begin
-        domain = ENV['GOVUK_APP_DOMAIN']
+        domain = ENV.fetch('GOVUK_APP_DOMAIN', 'trade-tariff.service.gov.uk')
 
         unless /(http(s?):).*/.match(domain)
           domain = "https://#{domain}"
@@ -159,6 +163,7 @@ module TradeTariffFrontend
 
     flagsmith_flag :duty_calculator_ux_improvements?, name: :duty_calculator_ux_improvements, optin: true
     flagsmith_flag :interactive_search_enabled?, name: :interactive_search, services: %i[uk], optin: true
+    flagsmith_flag :parcel_gift_journey_enabled?, name: :parcel_gift_journey, services: %i[uk xi], optin: true
     flagsmith_flag :webchat_enabled?, name: :webchat
   end
 end

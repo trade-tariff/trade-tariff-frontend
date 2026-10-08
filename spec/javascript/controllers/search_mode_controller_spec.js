@@ -21,6 +21,7 @@ describe('SearchModeController', () => {
         <div id="guided" hidden data-search-mode-target="guidedSection"><textarea name="q" disabled>cotton shirt</textarea></div>
         <input name="interactive_search" value="false" data-search-mode-target="hiddenField">
         <input name="day" value="12">
+        <p data-search-mode-target="guidedHelp" hidden><a href="/news/service-updates/ai-assisted-search">AI-assisted search information</a></p>
       </form>`
     application = Application.start()
     application.register('search-mode', SearchModeController)
@@ -75,6 +76,20 @@ describe('SearchModeController', () => {
     expect(panel(expected).hidden).toBe(false)
   })
 
+  it('focuses the selected input for a direct search link without moving the anchor scroll position', async () => {
+    const focus = jest.spyOn(HTMLTextAreaElement.prototype, 'focus')
+    await setup('guided', true)
+
+    expect(document.activeElement).toBe(panel('guided').querySelector('textarea'))
+    expect(focus).toHaveBeenCalledWith({ preventScroll: true })
+  })
+
+  it.each(['keyword', 'guided'])('does not move focus on an ordinary %s visit', async mode => {
+    await setup(mode)
+
+    expect(document.activeElement).toBe(document.body)
+  })
+
   it('opens the submitted AI mode after a server validation error', async () => {
     await setup('guided')
     expect(panel('guided').hidden).toBe(false)
@@ -86,6 +101,7 @@ describe('SearchModeController', () => {
     })
     await setup('guided', true)
     expect(panel('keyword').hidden).toBe(false)
+    expect(document.activeElement).toBe(panel('keyword').querySelector('input'))
     delete performance.getEntriesByType
   })
 
@@ -106,6 +122,21 @@ describe('SearchModeController', () => {
     await setup('guided')
     expect(panel('guided').hidden).toBe(false)
     delete performance.getEntriesByType
+  })
+
+  it('shows the optional information link only for the AI tab', async () => {
+    await setup()
+    const help = document.querySelector('[data-search-mode-target="guidedHelp"]')
+    expect(help.hidden).toBe(true)
+    tab('guided').click()
+    expect(help.hidden).toBe(false)
+    tab('keyword').click()
+    expect(help.hidden).toBe(true)
+  })
+
+  it('shows the information link when returning to the AI tab', async () => {
+    await setup('guided')
+    expect(document.querySelector('[data-search-mode-target="guidedHelp"]').hidden).toBe(false)
   })
 
   it('stores the tab the user picks', async () => {

@@ -3,7 +3,9 @@ module TradeTariffFrontend
   #
   # A config method remains the source of truth for the default value. Register it
   # with `flagsmith_flag` to allow a configured Flagsmith value to override that
-  # default for the selected service(s):
+  # default for the selected service(s). An environment variable named after the
+  # flag (uppercased), set to 'true' or 'false', takes precedence over Flagsmith.
+  # Pass env: false to disable this automatic environment override.
   #
   #   def interactive_search_enabled?
   #     !production? && !ServiceChooser.xi?
@@ -30,7 +32,7 @@ module TradeTariffFrontend
         @registered_flags ||= {}
       end
 
-      def flagsmith_flag(method_name, name:, services: nil, optin: false)
+      def flagsmith_flag(method_name, name:, services: nil, optin: false, env: true)
         flag_name = name.to_s
         service_names = Array(services).map(&:to_s)
         registered_flags[method_name] = { name: flag_name, services: service_names, optin: optin }
@@ -41,7 +43,7 @@ module TradeTariffFrontend
             next record_flagsmith_evaluation(flag_name, enabled: default, source: 'default', reason: 'unsupported_service')
           end
 
-          flagsmith_config_flag(flag_name, method_name:, default:)
+          flagsmith_config_flag(flag_name, method_name:, default:, env:)
         end
 
         registered_flags_module.define_method(method_name) do
@@ -59,7 +61,12 @@ module TradeTariffFrontend
 
     private
 
-    def flagsmith_config_flag(flag_name, method_name:, default:)
+    def flagsmith_config_flag(flag_name, method_name:, default:, env:)
+      override = env ? ENV[flag_name.upcase] : nil
+      if %w[true false].include?(override)
+        return record_flagsmith_evaluation(flag_name, enabled: override == 'true', source: 'environment')
+      end
+
       unless FlagsmithClient.configured?
         instrument_flagsmith_config_fallback(flag_name:, method_name:, default:, reason: :not_configured)
         return default

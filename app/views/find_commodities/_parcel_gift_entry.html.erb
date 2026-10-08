@@ -1,0 +1,15 @@
+<% if TradeTariffFrontend.parcel_gift_journey_enabled? %>
+  <% journey = Rails.configuration.parcel_gift_journey %>
+  <% if journey.chooser.services.include?(TradeTariffFrontend::ServiceChooser.service_name) %>
+    <%= app_card(classes: 'app-parcel-gift-card', id: 'parcel-gift-entry') do %>
+      <h2 class="app-parcel-gift-card__heading govuk-heading-s govuk-!-margin-top-0 govuk-!-margin-bottom-2">
+        <svg class="app-parcel-gift-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M2 8h9v4H2zm11 0h9v4h-9zM4 13h7v9H4zm9 0h7v9h-7z" />
+          <path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z" fill="none" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+        <%= govuk_link_to journey.homepage.title, public_send("#{journey.chooser.route_name}_path"), class: 'app-parcel-gift-card__link govuk-link--no-visited-state govuk-link--no-underline' %>
+      </h2>
+      <p class="govuk-body govuk-!-margin-bottom-0"><%= journey.homepage.description %></p>
+    <% end %>
+  <% end %>
+<% end %>

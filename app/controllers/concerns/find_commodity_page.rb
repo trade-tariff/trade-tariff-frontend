@@ -5,9 +5,12 @@ module FindCommodityPage
 
   def find_commodity_template
     @ai_search_enabled = interactive_search_enabled_with_analytics?
-    @revised_find_commodity = @ai_search_enabled && !TradeTariffFrontend::ServiceChooser.xi?
+    @parcel_gift_homepage = TradeTariffFrontend.parcel_gift_journey_enabled? &&
+      Rails.configuration.parcel_gift_journey.chooser.services.include?(TradeTariffFrontend::ServiceChooser.service_name)
+    @revised_find_commodity = @parcel_gift_homepage || (@ai_search_enabled && !TradeTariffFrontend::ServiceChooser.xi?)
 
     if @revised_find_commodity
+      @ai_search_enabled &&= !TradeTariffFrontend::ServiceChooser.xi?
       disable_switch_service_banner
       submitted_ai = @search.interactive_search || params[:interactive_search] == 'true'
       returning_with_errors = submitted_ai && @search.errors.any?

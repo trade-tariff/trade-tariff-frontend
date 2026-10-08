@@ -154,6 +154,48 @@ RSpec.describe News::Item do
     it { is_expected.to have_attributes length: 2 }
   end
 
+  describe '#title_without_date' do
+    subject(:formatted_title) { news_item.title_without_date }
+
+    let(:news_item) { build(:news_item, title:, start_date: Date.new(2026, 10, 6)) }
+    let(:title) { "Indonesia Graduation (DCTS) \u2013 6 October 2026" }
+
+    it 'removes the trailing publication date and separator' do
+      expect(formatted_title).to eq('Indonesia Graduation (DCTS)')
+    end
+
+    it 'leaves the original title unchanged' do
+      original_title = title.dup
+      formatted_title
+
+      expect(news_item.title).to eq(original_title)
+    end
+
+    context 'with an abbreviated month and a hyphen' do
+      let(:title) { 'Indonesia Graduation (DCTS) - 6 Oct 2026' }
+
+      it { is_expected.to eq('Indonesia Graduation (DCTS)') }
+    end
+
+    context 'with a different date in the title' do
+      let(:title) { 'Changes taking effect - 1 November 2026' }
+
+      it { is_expected.to eq(title) }
+    end
+
+    context 'with the publication date inside the title' do
+      let(:title) { 'Changes - 6 October 2026 update' }
+
+      it { is_expected.to eq(title) }
+    end
+
+    context 'without a date in the title' do
+      let(:title) { 'Indonesia Graduation (DCTS)' }
+
+      it { is_expected.to eq(title) }
+    end
+  end
+
   describe '#paragraphs' do
     subject { build(:news_item, content:).paragraphs }
 

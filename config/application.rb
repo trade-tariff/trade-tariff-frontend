@@ -76,6 +76,15 @@ module TradeTariffFrontend
       service_names: TradeTariffFrontend::ServiceChooser.supported_service_names,
     ).freeze
 
+    config.parcel_gift_journey = TradeTariffFrontend::ParcelGiftJourney.new(
+      YAML.safe_load_file(config.root.join('config/parcel_gift_journey.yml'), permitted_classes: [], permitted_symbols: [], aliases: false),
+      service_names: TradeTariffFrontend::ServiceChooser.supported_service_names,
+    )
+
+    unless config.parcel_gift_journey.feature_flag == TradeTariffFrontend::Config.registered_flags.fetch(:parcel_gift_journey_enabled?).fetch(:name)
+      raise TradeTariffFrontend::ParcelGiftJourney::ConfigurationError, 'feature_flag must match the parcel journey registration'
+    end
+
     config.x.http.retry_options = {}
 
     config.guide_links = config_for(:guide_links)

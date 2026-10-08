@@ -91,10 +91,14 @@ module ApplicationHelper
     feedback_path(feedback_context_params.merge(options))
   end
 
-  def enquiry_form_path_with_context
+  def enquiry_form_path_with_context(field: nil, **options)
     request_id = feedback_search_request_id || params[:search_request_id].presence || @feedback&.request_id.presence
 
-    product_experience_enquiry_form_path(request_id:)
+    if field
+      product_experience_enquiry_form_field_path(field, request_id:, **options)
+    else
+      product_experience_enquiry_form_path(request_id:, **options)
+    end
   end
 
   def feedback_context_params

@@ -53,6 +53,27 @@ RSpec.describe FeatureFlagsController, type: :request do
       end
     end
 
+    describe 'the parcel journey opt-in' do
+      it 'lists the parcel journey' do
+        get feature_flags_path
+        expect(response.body).to include('Parcel gift journey')
+      end
+
+      it 'persists and clears the review trait', :aggregate_failures do
+        patch feature_flag_path('parcel_gift_journey'), params: { enabled: 'true' }
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
+          hash_including(trait_key: 'parcel_gift_journey', trait_value: true),
+        )
+        expect(session[:flagsmith_optin_traits]).to include('parcel_gift_journey' => true)
+
+        patch feature_flag_path('parcel_gift_journey'), params: { enabled: 'false' }
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
+          hash_including(trait_key: 'parcel_gift_journey', trait_value: false),
+        )
+        expect(session[:flagsmith_optin_traits]).to include('parcel_gift_journey' => false)
+      end
+    end
+
     describe 'PATCH /feature-flags/:id' do
       it 'redirects back to the feature flags page' do
         patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
