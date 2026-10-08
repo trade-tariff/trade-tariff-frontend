@@ -38,7 +38,7 @@ RSpec.describe FindCommoditiesController, type: :request do
     context 'when on the XI service' do
       before { get '/xi/find_commodity' }
 
-      it { expect(Capybara.string(response.body)).not_to have_css('.latest-news-banner') }
+      it { expect(Capybara.string(response.body)).to have_css('.latest-news-banner') }
     end
 
     context 'with a malformed search param' do
