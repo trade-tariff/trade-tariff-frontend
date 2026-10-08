@@ -33,22 +33,20 @@
                  title: 'Certificates, licences and documents',
                  url: certificate_search_path,
                  description: 'Find document codes and guidance for importing and exporting goods' %>
-      <% if TradeTariffFrontend::ServiceChooser.uk? %>
-        <%= render 'tool_card',
-                   title: 'Developer Portal (opens in new tab)',
-                   url: TradeTariffFrontend.developer_portal_url,
-                   description: 'Access official trade tariff data from HMRC and create and manage API keys',
-                   link_options: {
-                     id: 'developer-portal-tools-link',
-                     target: '_blank',
-                     rel: 'noopener noreferrer',
-                     data: {
-                       controller: 'analytics',
-                       action: 'click->analytics#track',
-                       analytics_event: 'developer_portal_tools_link_click',
-                     },
-                   } %>
-      <% end %>
+      <%= render 'tool_card',
+                 title: 'Developer Portal (opens in new tab)',
+                 url: TradeTariffFrontend.developer_portal_url,
+                 description: 'Access official trade tariff data from HMRC and create and manage API keys',
+                 link_options: {
+                   id: 'developer-portal-tools-link',
+                   target: '_blank',
+                   rel: 'noopener noreferrer',
+                   data: {
+                     controller: 'analytics',
+                     action: 'click->analytics#track',
+                     analytics_event: 'developer_portal_tools_link_click',
+                   },
+                 } %>
       <%= render 'tool_card',
                  title: t('breadcrumb.additional_codes'),
                  url: additional_code_search_path,
