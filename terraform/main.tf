@@ -1,5 +1,5 @@
 module "service" {
-  source = "git::https://github.com/trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v3.3.1"
+  source = "git::https://github.com/trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v3.5.0"
 
   region = var.region
 
@@ -50,6 +50,15 @@ module "service" {
       metric_type  = "ECSServiceAverageMemoryUtilization"
       target_value = 70
     }
+  }
+
+  # Target tracking above takes several minutes to add tasks. This adds 3
+  # tasks after 1 minute at 80% CPU or more, so a sudden traffic spike gets
+  # capacity within about 2 minutes (HMRC-2724). Target tracking still
+  # handles scale-in.
+  cpu_step_scaling = {
+    threshold          = 80
+    scaling_adjustment = 3
   }
 
   enable_alarms       = var.enable_alarms
