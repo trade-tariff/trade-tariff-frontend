@@ -64,7 +64,7 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(page).to have_css('details#find-commodity-date[open]')
-    expect(page).to have_css('.govuk-error-summary', text: 'You must enter a valid date')
+    expect(page).to have_css('.govuk-error-summary', text: 'Date of trade must be a real date')
     expect(page).to have_css('#find-commodity-date input[name="search[as_of(2i)]"][value="0"]')
   end
 
@@ -115,7 +115,7 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(page).to have_css('details#find-commodity-date[open]')
-      expect(page).to have_css('.govuk-error-summary', text: 'You must enter a valid date')
+      expect(page).to have_css('.govuk-error-summary', text: 'Date of trade must be a real date')
       expect(page).to have_css('#find-commodity-date input[name="search[as_of(2i)]"][value="0"]')
       expect(page).not_to have_text("Using today's date,")
     end
