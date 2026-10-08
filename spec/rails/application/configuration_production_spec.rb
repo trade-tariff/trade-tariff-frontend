@@ -26,6 +26,14 @@ RSpec.describe Rails::Application::Configuration do
       .to include(browser_session_id: 'v1:pseudonymous-id')
   end
 
+  it 'includes the client IP in logs' do
+    event = instance_double(ActiveSupport::Notifications::Event,
+                            payload: { remote_ip: '198.51.100.10', params: {} })
+
+    expect(production_config.lograge.custom_options.call(event))
+      .to include(remote_ip: '198.51.100.10')
+  end
+
   it 'omits unavailable browser sessions' do
     event = instance_double(ActiveSupport::Notifications::Event,
                             payload: { browser_session_id: nil, params: {} })

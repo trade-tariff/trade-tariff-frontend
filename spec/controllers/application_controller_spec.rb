@@ -245,6 +245,33 @@ RSpec.describe ApplicationController, type: :controller do
       expect(payload[:request_country]).to eq('unknown')
     end
 
+    it 'logs the IPv4 viewer address from CloudFront without the port' do
+      request.headers['CloudFront-Viewer-Address'] = '198.51.100.10:46532'
+      payload = {}
+
+      controller.send(:append_info_to_payload, payload)
+
+      expect(payload[:remote_ip]).to eq('198.51.100.10')
+    end
+
+    it 'logs the IPv6 viewer address from CloudFront without the port' do
+      request.headers['CloudFront-Viewer-Address'] = '2001:db8:85a3::8a2e:370:7334:46532'
+      payload = {}
+
+      controller.send(:append_info_to_payload, payload)
+
+      expect(payload[:remote_ip]).to eq('2001:db8:85a3::8a2e:370:7334')
+    end
+
+    it 'logs the request remote IP when the CloudFront viewer address is unavailable' do
+      request.env['REMOTE_ADDR'] = '203.0.113.7'
+      payload = {}
+
+      controller.send(:append_info_to_payload, payload)
+
+      expect(payload[:remote_ip]).to eq('203.0.113.7')
+    end
+
     it 'adds structured details for handled Faraday errors' do
       Current.experiment = 'trstd-trdr'
       error = Faraday::ServerError.new(
