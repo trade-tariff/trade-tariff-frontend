@@ -14,7 +14,7 @@
 
     <%= form_for @feedback, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_text_area :message,
-                            label: { text: 'Tell us how to improve our service' },
+                            label: { text: '<strong>Tell us how to improve our service</strong>'.html_safe },
                             hint: { text: 'Feedback is anonymous. Do not include any personal information.' },
                             max_chars: 500 %>
 
