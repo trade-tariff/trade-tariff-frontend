@@ -54,7 +54,7 @@ RSpec.describe 'Revised find commodity' do
       fill_in 'Month', with: '0'
       click_button 'Search for a commodity'
 
-      expect(page).to have_content('You must enter a valid date')
+      expect(page).to have_content('Date of trade must be a real date')
       expect(page).to have_field('revised-keyword-query', with: 'coffee beans')
       find_field('revised-keyword-query').send_keys(' roasted')
       expect(page).to have_css('#revised-keyword-query[aria-describedby~="revised-keyword-hint"]')
@@ -65,19 +65,19 @@ RSpec.describe 'Revised find commodity' do
       fill_in 'Describe the products you are trading', with: 'fresh tomatoes'
       fill_in 'Month', with: '0'
       click_button 'Search for a commodity'
-      expect(page).to have_content('You must enter a valid date')
+      expect(page).to have_content('Date of trade must be a real date')
 
       fill_in 'Describe the products you are trading', with: ''
       click_button 'Search for a commodity'
       expect(page).to have_css('.govuk-error-summary', count: 1)
       expect(page).to have_css('.govuk-error-summary:focus', text: 'Enter a search term')
       within '.govuk-error-summary' do
-        expect(page).to have_content('You must enter a valid date')
+        expect(page).to have_content('Date of trade must be a real date')
       end
 
       find('#keyword-search-tab').click
       within '.govuk-error-summary' do
-        expect(page).to have_content('You must enter a valid date')
+        expect(page).to have_content('Date of trade must be a real date')
         expect(page).not_to have_css('li', text: 'Enter a search term', visible: :visible)
       end
       find('#ai-search-tab').click

@@ -101,7 +101,7 @@ module ApplicationHelper
     return current_feedback_params if controller_path == 'feedback'
 
     {
-      feedback_url: request.original_url,
+      feedback_url: original_url_without_search_tracking,
       feedback_query: feedback_search_query,
       search_request_id: feedback_search_request_id,
       feedback_date: feedback_search_date,
@@ -142,6 +142,15 @@ module ApplicationHelper
     TariffDate.build(params.permit(:year, :month, :day).to_h).to_fs(:db)
   rescue Date::Error
     nil
+  end
+
+  def original_url_without_search_tracking
+    url = URI.parse(request.original_url)
+    query = navigation_query_params(Rack::Utils.parse_nested_query(url.query.to_s)).to_query
+    url.query = query.presence
+    url.to_s
+  rescue URI::InvalidURIError
+    request.original_url
   end
 
   def breadcrumb_link_or_text(parent, child, caption)

@@ -1,4 +1,4 @@
-<% cacheable = @trade_date_error.nil? && params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
+<% cacheable = @trade_date_error.nil? && params[:request_id].blank? && params.values.compact.none? { |v| v.is_a?(ActionController::Parameters) } %>
 
 <%# These are always needed regardless of cache state — set them before the cache block. %>
 <% content_for :title, strip_tags(commodity_title(declarable)) %>
