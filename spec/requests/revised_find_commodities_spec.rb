@@ -41,10 +41,10 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
           expect(page).not_to have_text('Importing goods into Northern Ireland?')
         end
 
-        it 'ignores a remembered AI preference' do
+        it 'opens the AI tab from the remembered preference' do
           cookies[:interactive_search] = 'true'
           page = entry_page
-          expect(page).to have_css('[data-search-mode-initial-mode-value="keyword"]')
+          expect(page).to have_css('[data-search-mode-initial-mode-value="guided"]')
         end
 
         it 'retains AI mode for invalid dates' do
@@ -116,13 +116,13 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
   context 'with analytics consent' do
     let(:guided) { true }
 
-    it 'reports the actual initial mode' do
+    it 'reports the remembered AI tab' do
       cookies[:cookies_policy] = { usage: true }.to_json
       cookies[:interactive_search] = 'true'
       entry_page
 
       analytics = JSON.parse(Nokogiri::HTML(response.body).at_css('#search-analytics-context').text)
-      expect(analytics).to include('search_mode' => 'keyword', 'search_experience' => 'guided_beta')
+      expect(analytics).to include('search_mode' => 'guided', 'search_experience' => 'guided_beta')
     end
   end
 

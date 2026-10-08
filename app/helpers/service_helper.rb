@@ -128,6 +128,8 @@ private
 
   def current_path
     path, query_string = request.filtered_path.split('?', 2)
+    query_parameters = Rack::Utils.parse_nested_query(query_string.to_s)
+    query_string = navigation_query_params(query_parameters).to_query.presence
 
     components = path.to_s.split('/')
                           .reject(&:blank?)

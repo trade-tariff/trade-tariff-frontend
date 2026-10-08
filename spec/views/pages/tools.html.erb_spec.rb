@@ -70,7 +70,7 @@ RSpec.describe 'pages/tools', type: :view do
       expect(rendered_page).not_to have_link('Developer Portal (opens in new tab)')
       expect(rendered_page).to have_link(
         'Simplified Process for Internal Market Movements (SPIMM) eligibility checker',
-        href: '/check_simplified_processes_eligibility',
+        href: '/xi/check_simplified_processes_eligibility',
       )
       expect(rendered_page).to have_css(
         '.gem-c-cards__description',
