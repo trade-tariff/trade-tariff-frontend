@@ -1,32 +1,49 @@
 <div data-guided-search-validation-page-content>
   <%= page_header 'Find commodity codes, import duties, taxes and controls' %>
 
-  <% if @ai_search_enabled %>
+  <%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
+
+  <% if @ai_search_enabled && !@parcel_gift_homepage %>
     <%= render 'find_commodities/ai_search_banner' %>
-  <% elsif @hero_story %>
-    <%= render 'news_items/hero_story', news_item: @hero_story %>
   <% end %>
 
   <p class="app-find-commodity-service govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-    <strong>Tariff for England, Scotland or Wales (GB)</strong>
-    <%= switch_service_button(path: find_commodity_path) %>
+    <strong><%= uk_service_choice? ? 'Tariff for England, Scotland or Wales (GB)' : 'Tariff for Northern Ireland (NI)' %></strong>
+    <%= switch_service_button(path: find_commodity_path.delete_prefix('/xi')) %>
   </p>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-m">Search for a commodity</h2>
-      <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
-      <p>These codes can be very specific, so you need to be very clear about what you're importing or exporting. This will help avoid any delays at customs.</p>
+  <div class="govuk-grid-row app-find-commodity-layout">
+    <div class="govuk-grid-column-two-thirds app-find-commodity-search">
+      <% unless @parcel_gift_homepage %>
+        <h2 class="govuk-heading-m">Search for a commodity</h2>
+        <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
+        <p>These codes can be very specific, so you need to be very clear about what you're importing or exporting. This will help avoid any delays at customs.</p>
+      <% end %>
 
       <%= render 'find_commodities/revised_search_form' %>
-      <%= govuk_section_break(size: 'l', visible: true, classes: 'app-section-break--thick') %>
-      <%= render 'search/other_ways_to_search', include_keyword: false %>
+      <% unless @parcel_gift_homepage %>
+        <%= govuk_section_break(size: 'l', visible: true, classes: 'app-section-break--thick') %>
+        <%= render 'search/other_ways_to_search', include_keyword: false %>
+      <% end %>
     </div>
 
-    <div class="govuk-grid-column-one-third" id="recent-news">
+    <div class="govuk-grid-column-one-third" id="<%= @parcel_gift_homepage ? 'find-commodity-sidebar' : 'recent-news' %>">
+      <%= render 'find_commodities/parcel_gift_entry' %>
       <%= render '/pages/howto_sidebar_links' %>
-      <%= render 'news_items/recent_news', news_items: @recent_stories %>
+      <% if @parcel_gift_homepage %>
+        <%= render 'find_commodities/tools' %>
+      <% else %>
+        <%= render 'news_items/recent_news', news_items: @recent_stories %>
+      <% end %>
     </div>
+
+    <% if @parcel_gift_homepage %>
+      <div class="govuk-grid-column-two-thirds app-find-commodity-news-column">
+        <section class="app-find-commodity-news" id="recent-news" aria-labelledby="find-commodity-news-heading">
+          <%= render 'news_items/recent_news', news_items: @recent_stories, heading_id: 'find-commodity-news-heading' %>
+        </section>
+      </div>
+    <% end %>
   </div>
 </div>
 <div data-guided-search-validation-loading-page class="govuk-!-display-none">

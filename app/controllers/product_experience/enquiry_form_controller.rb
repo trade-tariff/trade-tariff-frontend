@@ -6,6 +6,7 @@ module ProductExperience
                   :disable_search_form
     before_action :hide_feedback_useful_banner, except: :confirmation
 
+    before_action :start_parcel_gift_enquiry, only: :form
     before_action :ensure_submission_started, except: %i[show confirmation]
     before_action :validate_field, only: %i[form submit]
     before_action :verify_submission_token, only: %i[submit submit_form]
@@ -90,6 +91,30 @@ module ProductExperience
       write_enquiry_data(enquiry_context)
     end
 
+    def start_parcel_gift_enquiry
+      return unless params[:field] == 'postal_or_baggage_details' && params[:parcel_gift_step].is_a?(String)
+      return unless TradeTariffFrontend.parcel_gift_journey_enabled?
+
+      step = Rails.configuration.parcel_gift_journey.find_step(
+        params[:parcel_gift_step], service_name: TradeTariffFrontend::ServiceChooser.service_name
+      )
+      return unless step
+
+      entry_data = {
+        'category' => ProductExperience::EnquiryFormJourney::IMPORT_DUTIES_AND_QUOTAS,
+        'enquiry_type' => 'postal_or_baggage',
+        'parcel_gift_return_to' => public_send("#{step.route_name}_path"),
+      }
+      request_id = safe_search_request_id(params[:request_id])
+      # A different search context must start a new draft. An absent or unusable
+      # request id keeps the context the draft already holds.
+      entry_data['search_request_id'] = request_id if request_id
+      return if submission_started? && enquiry_data.slice(*entry_data.keys) == entry_data
+
+      start_new_enquiry
+      write_enquiry_data(enquiry_data.merge(entry_data))
+    end
+
     def enquiry_context
       {
         'feature_flags' => enabled_feature_flag_names,
@@ -115,11 +140,7 @@ module ProductExperience
     end
 
     def ensure_submission_started
-      if session[:submission_token].present? &&
-          session[:enquiry_form_draft_id].present? &&
-          ProductExperience::EnquiryFormDraftStore.exists?(session[:enquiry_form_draft_id])
-        return
-      end
+      return if submission_started?
 
       if session[:enquiry_form_draft_id].present?
         Rails.logger.warn "Missing enquiry form draft for session draft id #{session[:enquiry_form_draft_id]}"
@@ -128,6 +149,12 @@ module ProductExperience
       clear_enquiry_data
 
       redirect_to product_experience_enquiry_form_path
+    end
+
+    def submission_started?
+      session[:submission_token].present? &&
+        session[:enquiry_form_draft_id].present? &&
+        ProductExperience::EnquiryFormDraftStore.exists?(session[:enquiry_form_draft_id])
     end
 
     def render_step(field)

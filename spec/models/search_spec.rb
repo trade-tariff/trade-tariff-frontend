@@ -73,6 +73,29 @@ RSpec.describe Search do
     end
   end
 
+  describe '#partial_date?' do
+    let(:search) { described_class.new }
+
+    it 'returns false when no date component is set' do
+      expect(search.partial_date?).to be false
+    end
+
+    it 'returns false when every date component is set' do
+      search.day = 1
+      search.month = 12
+      search.year = 2021
+
+      expect(search.partial_date?).to be false
+    end
+
+    it 'returns true when only some date components are set' do
+      search.day = 22
+      search.month = 7
+
+      expect(search.partial_date?).to be true
+    end
+  end
+
   describe '#contains_search_term?' do
     subject { described_class.new(q: search_term).contains_search_term? }
 

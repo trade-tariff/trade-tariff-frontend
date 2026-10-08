@@ -4,7 +4,7 @@
 
 <%= render 'news_items/hero_spimm'%>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row app-find-commodity-layout">
   <div class="govuk-grid-column-two-thirds">
     <%= feature_panel(no_bottom_border: true, classes: 'govuk-form-group govuk-!-margin-0 govuk-!-padding-0') do %>
       <h2 class="govuk-heading-m">Search for a commodity</h2>
@@ -44,9 +44,11 @@
       ], type: :bullet %>
 
     <% end %>
+
   </div>
 
   <div class="govuk-grid-column-one-third" id="recent-news">
+    <%= render 'find_commodities/parcel_gift_entry' %>
     <%= render partial: "/pages/howto_sidebar_links" %>
     <%= render 'news_items/recent_news', news_items: @recent_stories %>
   </div>

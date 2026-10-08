@@ -1,6 +1,8 @@
 <% content_for :title, "#{enquiry_form_title(@field)}" %>
 <% content_for :back_link do %>
-  <% if @prev_field %>
+  <% if @field == 'postal_or_baggage_details' && @enquiry_data['parcel_gift_return_to'].present? %>
+    <%= back_link @enquiry_data['parcel_gift_return_to'] %>
+  <% elsif @prev_field %>
     <%= back_link product_experience_enquiry_form_field_path(@prev_field) %>
   <% end %>
 <% end %>

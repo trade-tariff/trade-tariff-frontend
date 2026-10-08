@@ -21,6 +21,7 @@ module TradeTariffFrontend
 
   autoload :Presenter,      'trade_tariff_frontend/presenter'
   autoload :ExperimentUrls, 'trade_tariff_frontend/experiment_urls'
+  autoload :ParcelGiftJourney, 'trade_tariff_frontend/parcel_gift_journey'
   autoload :RequestCountry, 'trade_tariff_frontend/request_country'
   autoload :RequestCountryMiddleware, 'trade_tariff_frontend/request_country_middleware'
   autoload :ServiceChooser, 'trade_tariff_frontend/service_chooser'

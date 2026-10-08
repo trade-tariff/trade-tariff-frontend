@@ -79,6 +79,10 @@ class Search
     day.present? && month.present? && year.present?
   end
 
+  def partial_date?
+    [day, month, year].any?(&:present?) && !day_month_and_year_set?
+  end
+
   def filtered_by_country?
     country.present?
   end

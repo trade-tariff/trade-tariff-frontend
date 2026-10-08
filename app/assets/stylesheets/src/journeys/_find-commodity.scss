@@ -1,0 +1,76 @@
+@use "src/settings/govuk" as govuk;
+
+.app-find-commodity-layout:has(.app-parcel-gift-card) {
+  @include govuk.govuk-media-query($from: tablet) {
+    // Keep news beneath search even when the sidebar is taller.
+    > .govuk-grid-column-one-third {
+      float: right;
+    }
+
+    .app-find-commodity-news {
+      // The search column already supplies the desktop separation.
+      margin-top: 0;
+    }
+  }
+
+  .gem-c-related-navigation {
+    border-top: 0;
+  }
+
+  .app-section-break--thick {
+    border-bottom: 0;
+  }
+}
+
+.app-find-commodity-news {
+  border-top: 1px solid govuk.govuk-functional-colour(brand);
+  padding-top: govuk.govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(6);
+
+  .news-item {
+    margin-bottom: govuk.govuk-spacing(3);
+
+    p {
+      display: inline;
+    }
+
+    .tariff-body-subtext {
+      margin-left: govuk.govuk-spacing(1);
+    }
+  }
+}
+
+.app-find-commodity-tools .govuk-list {
+  @include govuk.govuk-font(16);
+}
+
+.app-find-commodity-tools li {
+  margin-bottom: govuk.govuk-spacing(2);
+}
+
+.app-parcel-gift-card {
+  position: relative;
+  min-height: 0;
+  padding: govuk.govuk-spacing(3);
+  border: 1px solid govuk.govuk-functional-colour(border);
+  border-radius: 6px;
+  background-color: govuk.govuk-colour("white");
+  box-shadow: 0 2px 6px rgba(govuk.govuk-colour("black"), 0.16);
+}
+
+.app-parcel-gift-card__heading {
+  display: flex;
+  align-items: flex-start;
+  gap: govuk.govuk-spacing(2);
+}
+
+.app-parcel-gift-card__icon {
+  flex-shrink: 0;
+  color: govuk.govuk-functional-colour(link);
+}
+
+.app-parcel-gift-card__link::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}

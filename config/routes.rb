@@ -16,6 +16,14 @@ Rails.application.routes.draw do
 
   resources :feature_flags, only: %i[index update], path: 'feature-flags'
 
+  parcel_gift_journey = Rails.configuration.parcel_gift_journey
+  scope path: parcel_gift_journey.base_path do
+    get '/', to: 'parcel_gift_journey#new', as: parcel_gift_journey.chooser.route_name
+    parcel_gift_journey.steps.each do |step|
+      get step.path, to: 'parcel_gift_journey#show', as: step.route_name, defaults: { step_id: step.id }
+    end
+  end
+
   get 'help', to: 'pages#help', as: 'help'
   get 'help/cn2021_cn2022', to: 'pages#cn2021_cn2022', as: 'cn2021_cn2022'
   get 'help/changes_999l', to: 'pages#changes_999l', as: 'help_changes_999l'
