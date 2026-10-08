@@ -12,9 +12,13 @@ RSpec.describe 'pages/tools', type: :view do
 
     it 'renders tools as GOV.UK card links', :aggregate_failures do
       expect(rendered_page).to have_css('.gem-c-cards__list.gem-c-cards__list--one-column')
-      expect(rendered_page).to have_css('.gem-c-cards__list-item', count: 8)
+      expect(rendered_page).to have_css('.gem-c-cards__list-item', count: 9)
       expect(rendered_page).to have_css('.gem-c-cards__link', text: 'Exchange rates')
       expect(rendered_page).to have_link('Change to Northern Ireland tariff', href: '/xi/tools')
+      expect(rendered_page).to have_link(
+        'Simplified Process for Internal Market Movements (SPIMM) eligibility checker',
+        href: '/check_simplified_processes_eligibility',
+      )
     end
 
     it 'renders the reviewed tools content without trailing full stops', :aggregate_failures do
@@ -28,7 +32,9 @@ RSpec.describe 'pages/tools', type: :view do
       expect(rendered_page).to have_css('.gem-c-cards__description', text: 'Search footnotes applying to a commodity code')
       expect(rendered_page).to have_css('.gem-c-cards__description', text: 'Look up chemicals by CAS Registry Number (RN)')
 
-      descriptions = Capybara.string(rendered_page).all('.gem-c-cards__description').map { |description| description.text.strip }
+      descriptions = Capybara.string(rendered_page).all('.gem-c-cards__description')
+                                .map { |description| description.text.strip }
+                                .reject { |description| description.start_with?('Check eligibility for the SPIMM') }
       expect(descriptions).not_to include(a_string_matching(/\.\z/))
     end
 
