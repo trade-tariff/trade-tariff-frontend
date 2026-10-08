@@ -66,14 +66,21 @@ RSpec.describe 'pages/tools', type: :view do
   context 'with XI service' do
     include_context 'with XI service'
 
-    it 'renders existing XI tools as cards without the Developer Portal link', :aggregate_failures do
+    before do
+      allow(TradeTariffFrontend).to receive(:developer_portal_url).and_return('https://hub.dev.trade-tariff.service.gov.uk/')
+    end
+
+    it 'renders existing XI tools as cards including the Developer Portal link', :aggregate_failures do
       expect(rendered_page).to have_css('.app-find-commodity-service', count: 1)
       expect(rendered_page).to have_css('.switch-service-control', count: 1)
-      expect(rendered_page).to have_css('.gem-c-cards__list-item', count: 7)
+      expect(rendered_page).to have_css('.gem-c-cards__list-item', count: 8)
       expect(rendered_page).to have_text('Tariff for Northern Ireland (NI)')
       expect(rendered_page).to have_link('Change to England, Scotland and Wales (GB) tariff', href: '/tools')
       expect(rendered_page).to have_link('Meursing code finder')
-      expect(rendered_page).not_to have_link('Developer Portal (opens in new tab)')
+      expect(rendered_page).to have_link(
+        'Developer Portal (opens in new tab)',
+        href: 'https://hub.dev.trade-tariff.service.gov.uk/',
+      )
       expect(rendered_page).to have_link(
         'Simplified Process for Internal Market Movements (SPIMM) eligibility checker',
         href: '/xi/check_simplified_processes_eligibility',
