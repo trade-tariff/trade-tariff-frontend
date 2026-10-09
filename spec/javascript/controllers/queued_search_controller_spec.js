@@ -1,4 +1,6 @@
+import { readFileSync } from 'node:fs'
 import { Application } from '@hotwired/stimulus'
+import GuidedSearchLoadingController from '../../../app/javascript/controllers/guided_search_loading_controller'
 import QueuedSearchController from '../../../app/javascript/controllers/queued_search_controller'
 import GuidedSearchValidationController from '../../../app/javascript/controllers/guided_search_validation_controller'
 import SearchModeController from '../../../app/javascript/controllers/search_mode_controller'
@@ -7,9 +9,10 @@ import InteractiveSearchRadioController from '../../../app/javascript/controller
 
 const reply = (body, status = 200) => ({ ok: status >= 200 && status < 300, status, json: async () => body })
 const queuedId = '2be1e438-1c16-42c0-8517-405b1d4f1caf'
+const loadingMarkup = readFileSync(`${__dirname}/../../../app/views/search/_interactive_search_thinking.html.erb`, 'utf8')
 
 describe('QueuedSearchController', () => {
-  let application, form, submit, error
+  let application, form, submit, error, states, onState
 
   beforeEach(async () => {
     document.head.innerHTML = '<meta name="csrf-token" content="test-token">'
@@ -27,6 +30,9 @@ describe('QueuedSearchController', () => {
     await new Promise(resolve => setTimeout(resolve, 0))
     form = document.querySelector('form')
     error = jest.fn()
+    states = []
+    onState = event => states.push(event.detail)
+    window.addEventListener('queued-search:state', onState)
     form.addEventListener('queued-search:error', error)
     submit = jest.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => {})
     window.fetch = jest.fn()
@@ -34,6 +40,7 @@ describe('QueuedSearchController', () => {
   })
 
   afterEach(() => {
+    window.removeEventListener('queued-search:state', onState)
     document.querySelectorAll('[data-controller]').forEach(element => {
       element.dataset.controller.split(' ').forEach(identifier => {
         application.getControllerForElementAndIdentifier(element, identifier)?.disconnect()
@@ -50,6 +57,17 @@ describe('QueuedSearchController', () => {
 
   function start() {
     form.dispatchEvent(new CustomEvent('guided-search:submit', { bubbles: true, cancelable: true, detail: { form } }))
+  }
+
+  function enableLoadingPreview() {
+    application.register('guided-search-loading', GuidedSearchLoadingController)
+    const panel = document.querySelector('[data-controller="guided-search-loading"]')
+    panel.dataset.guidedSearchLoadingIllustrativeValue = 'true'
+    panel.dataset.guidedSearchLoadingMessagesValue = JSON.stringify([
+      { text: 'Searching tariff references', description: 'Finding possible matches.', min_seconds: 1, max_seconds: 1 },
+      { text: 'Preparing the response', min_seconds: 1, max_seconds: 1 },
+    ])
+    return panel
   }
 
   function accepted(overrides = {}) {
@@ -90,6 +108,21 @@ describe('QueuedSearchController', () => {
     expect(form.elements.day.value).toBe('2')
     expect(window.fetch.mock.calls[0][1].headers['X-CSRF-Token']).toBe('test-token')
     expect(window.fetch.mock.calls[0][1].body.get('q')).toBe('horse')
+    expect(states).toEqual(['submitting', 'accepted', 'queued', 'running', 'stopped', 'navigating']
+      .map(status => ({ status, followUp: false })))
+  })
+
+  it('identifies follow-up state events without including submitted content', async () => {
+    form.insertAdjacentHTML('beforeend', '<input type="hidden" name="current_question" value="What type of horse?">')
+    window.fetch.mockResolvedValueOnce(accepted()).mockResolvedValueOnce(reply({ status: 'completed' }))
+    submit.mockImplementation(() => {
+      expect(states.at(-1)).toEqual({ status: 'navigating', followUp: true })
+    })
+    start()
+    await jest.advanceTimersByTimeAsync(250)
+    expect(states).toEqual(['submitting', 'accepted', 'stopped', 'navigating']
+      .map(status => ({ status, followUp: true })))
+    expect(submit).toHaveBeenCalledTimes(1)
   })
 
   it.each([undefined, null, 'invalid', {}, { year: 2025, month: 1 }, { year: '2025', month: 1, day: 2 }])('rejects malformed acceptance dates (%p)', async date => {
@@ -158,6 +191,7 @@ describe('QueuedSearchController', () => {
     await jest.advanceTimersByTimeAsync(7000)
 
     expect(polls).toEqual([250, 2250, 5000, 7000])
+    expect(states.map(({ status }) => status)).toEqual(['submitting', 'accepted', 'retrying', 'running', 'running', 'running'])
   })
 
   it('stops at the submission deadline without starting a final poll', async () => {
@@ -289,6 +323,7 @@ describe('QueuedSearchController', () => {
     expect(window.fetch).toHaveBeenCalledTimes(1)
     expect(submit).not.toHaveBeenCalled()
     expect(error).not.toHaveBeenCalled()
+    expect(states.map(({ status }) => status)).toEqual(['submitting', 'stopped'])
   })
 
   it('restores injected handoff fields on back navigation so dates can be changed', async () => {
@@ -337,6 +372,7 @@ describe('QueuedSearchController', () => {
     await jest.advanceTimersByTimeAsync(250)
     expect(submit).toHaveBeenCalledTimes(1)
     expect(window.fetch).toHaveBeenCalledTimes(3)
+    expect(states.map(({ status }) => status)).toEqual(['submitting', 'stopped', 'submitting', 'accepted', 'stopped', 'navigating'])
   })
 
   it('keeps one throbber through polls and shows recovery with the revised form controllers', async () => {
@@ -363,7 +399,9 @@ describe('QueuedSearchController', () => {
           </div>
         </form>
       </section>
-      <section class="govuk-!-display-none" data-guided-search-validation-loading-page>Collecting information...</section>`
+      <section class="govuk-!-display-none" data-guided-search-validation-loading-page>${loadingMarkup}</section>`
+    const panel = enableLoadingPreview()
+    const status = panel.querySelector('[role="status"]')
     await jest.advanceTimersByTimeAsync(0)
     form = document.querySelector('form')
     const loading = document.querySelector('[data-guided-search-validation-loading-page]')
@@ -375,6 +413,8 @@ describe('QueuedSearchController', () => {
     await jest.advanceTimersByTimeAsync(1000)
     expect(document.querySelector('[data-guided-search-validation-loading-page]')).toBe(loading)
     expect(loading.classList.contains('govuk-!-display-none')).toBe(false)
+    expect(panel.querySelector('[role="status"]')).toBe(status)
+    expect(status.textContent).toBe('Searching tariff references')
     expect(submit).not.toHaveBeenCalled()
     await jest.advanceTimersByTimeAsync(4000)
     const summary = form.querySelector('[data-queued-search-target="error"]')
@@ -383,6 +423,8 @@ describe('QueuedSearchController', () => {
     expect(document.activeElement).toBe(summary)
     expect(loading.classList.contains('govuk-!-display-none')).toBe(true)
     expect(form.elements.q.value).toBe('horse')
+    expect(panel.dataset.waiting).toBe('false')
+    expect(jest.getTimerCount()).toBe(0)
   })
 
   it('keeps the question thinking node visible through successful polls', async () => {
@@ -399,14 +441,17 @@ describe('QueuedSearchController', () => {
             <button type="submit">Submit</button>
           </form>
         </div>
-        <div data-interactive-question-target="thinking" data-test-loading class="govuk-!-display-none">Thinking...</div>
+        <div data-interactive-question-target="thinking" data-test-loading class="govuk-!-display-none">${loadingMarkup}</div>
         <div data-queued-search-target="error" class="govuk-!-display-none" tabindex="-1">
           <p data-queued-search-target="message"></p>
         </div>
       </div>`
     await jest.advanceTimersByTimeAsync(0)
     form = document.querySelector('form')
+    const panel = enableLoadingPreview()
+    await jest.advanceTimersByTimeAsync(0)
     const thinking = document.querySelector('[data-test-loading]')
+    const status = panel.querySelector('[role="status"]')
     window.fetch.mockResolvedValueOnce(accepted())
       .mockResolvedValueOnce(reply({ status: 'queued' }))
       .mockResolvedValueOnce(reply({ status: 'running' }))
@@ -423,6 +468,10 @@ describe('QueuedSearchController', () => {
     await jest.advanceTimersByTimeAsync(1000)
     expect(submit).toHaveBeenCalledTimes(1)
     expect(thinking.classList.contains('govuk-!-display-none')).toBe(false)
+    expect(panel.querySelector('[role="status"]')).toBe(status)
+    expect(status.textContent).toBe('Loading the next page.')
+    expect(panel.dataset.waiting).toBe('false')
+    expect(jest.getTimerCount()).toBe(0)
   })
 
   it.each(['question', 'shared initial form'])('restores the %s and queues exactly one user retry with the original input', async journey => {
