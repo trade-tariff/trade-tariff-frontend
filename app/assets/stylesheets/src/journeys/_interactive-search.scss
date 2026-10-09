@@ -6,6 +6,49 @@
 .app-guided-search-loading {
   max-width: 640px;
   padding-top: govuk.govuk-spacing(2);
+
+  &__activity {
+    display: flex;
+    align-items: flex-start;
+    gap: govuk.govuk-spacing(3);
+  }
+
+  &__ring {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: govuk.govuk-spacing(6);
+    height: govuk.govuk-spacing(6);
+    border: govuk.$govuk-border-width-form-element solid settings.$tariff-border-colour;
+    border-top-color: govuk.govuk-colour("blue");
+    border-radius: 50%;
+    animation: app-guided-search-waiting 1s linear infinite;
+    animation-play-state: paused;
+  }
+
+  &[data-waiting="true"] &__ring {
+    animation-play-state: running;
+  }
+
+  &__status {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__message {
+    @include govuk.govuk-font(24, $weight: bold);
+    min-block-size: 2lh;
+    margin-bottom: govuk.govuk-spacing(2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__ring {
+      animation: none;
+    }
+  }
+}
+
+@keyframes app-guided-search-waiting {
+  to { transform: rotate(360deg); }
 }
 
 .interactive-results .interactive-result {

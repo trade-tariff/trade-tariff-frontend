@@ -1,0 +1,29 @@
+shared:
+  # Pick a new delay within each range before showing the next message.
+  # These timings illustrate activity; they do not measure backend stages.
+  # Hold the final message until the real search responds. Never delay results.
+  messages:
+    - text: Searching tariff references
+      description: References link common product names to tariff entries.
+      min_seconds: 2
+      max_seconds: 4
+    - text: Comparing detailed product descriptions
+      description: Detailed descriptions help compare what a product is, what it is made of and how it is used.
+      min_seconds: 3
+      max_seconds: 5
+    - text: Checking commodity labels
+      description: Labels can connect everyday names, synonyms and technical terms.
+      min_seconds: 3
+      max_seconds: 4
+    - text: Consulting chapter and section notes
+      description: Tariff notes can help distinguish between products that sound similar.
+      min_seconds: 2
+      max_seconds: 3
+    - text: Checking relevant Advance Tariff Rulings
+      description: Published rulings can provide examples of how similar goods were classified.
+      min_seconds: 1
+      max_seconds: 2
+    - text: Preparing possible matches or the next question
+      description: The search brings the information together to suggest matches or ask for more detail.
+      min_seconds: 1
+      max_seconds: 2

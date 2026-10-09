@@ -1,7 +1,15 @@
-<div class="app-guided-search-loading" role="status" aria-live="polite">
+<div class="app-guided-search-loading"
+     data-controller="guided-search-loading"
+     data-guided-search-loading-messages-value="<%= Rails.application.config_for(:guided_search_loading).fetch(:messages).to_json %>"
+     data-action="queued-search:state@window->guided-search-loading#update pagehide@window->guided-search-loading#reset pageshow@window->guided-search-loading#restore">
   <span class="govuk-caption-xl">UK Integrated Online Tariff</span>
   <h1 class="govuk-heading-l">Search for a commodity</h1>
-  <p class="govuk-body">Collecting information...</p>
-  <p class="govuk-body">We're checking the provided information against the tariff.</p>
-  <p class="govuk-body">This can take a few seconds.</p>
+
+  <div class="app-guided-search-loading__activity">
+    <span class="app-guided-search-loading__ring" aria-hidden="true"></span>
+    <p class="govuk-body app-guided-search-loading__status app-guided-search-loading__message"
+       role="status" aria-live="polite" aria-atomic="true"
+       data-guided-search-loading-target="message"></p>
+  </div>
+  <p class="govuk-body govuk-!-margin-top-4" data-guided-search-loading-target="description"></p>
 </div>

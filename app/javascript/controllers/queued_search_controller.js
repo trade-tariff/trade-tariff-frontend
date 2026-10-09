@@ -48,6 +48,7 @@ export default class extends Controller {
     this.clearError()
     const run = { form: event.detail.form, controller: new AbortController(), failures: 0, startedAt: performance.now() }
     this.run = run
+    this.dispatchState('submitting', run)
     run.deadline = window.setTimeout(() => this.fail(run), this.deadlineValue)
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
 
@@ -68,12 +69,14 @@ export default class extends Controller {
       run.requestId = accepted.request_id
       run.date = accepted.date
       run.pollUrl = pollUrl.href
+      this.dispatchState('accepted', run)
       this.schedulePoll(run, true)
     } catch (error) {
       if (this.run !== run) return
       if (error.reload) {
         // Stale CSRF or other HTML 422: reload for a fresh token. Do not skip CSRF.
         this.stop()
+        this.dispatchState('navigating', run)
         this.reloadPage()
         return
       }
@@ -81,6 +84,7 @@ export default class extends Controller {
         // Nothing was queued. Let Rails render its existing field errors.
         this.submitted = true
         this.stop()
+        this.dispatchState('navigating', run)
         HTMLFormElement.prototype.submit.call(run.form)
       } else {
         this.fail(run, error.userMessage)
@@ -117,8 +121,10 @@ export default class extends Controller {
         }
         this.submitted = true
         this.stop()
+        this.dispatchState('navigating', run)
         HTMLFormElement.prototype.submit.call(run.form)
       } else if (['queued', 'running'].includes(payload.status)) {
+        this.dispatchState(payload.status, run)
         this.schedulePoll(run)
       } else {
         this.fail(run)
@@ -129,6 +135,7 @@ export default class extends Controller {
       if ((error.status >= 400 && error.status < 500) || run.failures >= 3) {
         this.fail(run)
       } else {
+        this.dispatchState('retrying', run)
         run.timer = window.setTimeout(() => this.poll(run), Math.min(1000 * 2 ** run.failures, 4000))
       }
     }
@@ -202,6 +209,11 @@ export default class extends Controller {
     window.clearTimeout(run.timer)
     window.clearTimeout(run.deadline)
     run.controller.abort()
+    this.dispatchState('stopped', run)
+  }
+
+  dispatchState(status, run) {
+    this.dispatch('state', { detail: { status, followUp: !!run.form.querySelector('[name="current_question"]') } })
   }
 
   setHidden(form, name, value) {
