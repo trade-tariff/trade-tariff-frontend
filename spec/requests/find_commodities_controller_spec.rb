@@ -35,6 +35,12 @@ RSpec.describe FindCommoditiesController, type: :request do
       it { expect(Capybara.string(response.body)).not_to have_link('AI-assisted search') }
     end
 
+    context 'when on the XI service' do
+      before { get '/xi/find_commodity' }
+
+      it { expect(Capybara.string(response.body)).to have_css('.latest-news-banner') }
+    end
+
     context 'with a malformed search param' do
       let(:params) { { search: 'coffee beans' } }
 
@@ -47,7 +53,7 @@ RSpec.describe FindCommoditiesController, type: :request do
       it { is_expected.to have_http_status :ok }
 
       it 'renders a GOV.UK error summary' do
-        expect(response.body).to match(/govuk-error-summary.*You must enter a valid date/m)
+        expect(response.body).to match(/govuk-error-summary.*Date of trade must be a real date/m)
       end
 
       it 'links the error summary to the date input' do
@@ -69,7 +75,7 @@ RSpec.describe FindCommoditiesController, type: :request do
       it { is_expected.to have_http_status :ok }
 
       it 'does not render the invalid date summary' do
-        expect(response.body).not_to match(/govuk-error-summary.*You must enter a valid date/m)
+        expect(response.body).not_to match(/govuk-error-summary.*Date of trade must be a real date/m)
       end
     end
   end

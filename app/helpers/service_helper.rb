@@ -33,18 +33,18 @@ module ServiceHelper
   end
 
   def switch_service_button(path: current_path)
-    copy, link = if uk_service_choice?
-                   [t('service_banner.service_name.xi'), "/xi#{path}"]
-                 else
-                   [t('service_banner.service_name.uk'), path]
-                 end
+    link = uk_service_choice? ? "/xi#{path}" : path
 
     tag.span class: %w[switch-service-control govuk-!-display-none-print] do
       safe_join [
-        tag.span(class: 'arrow'),
-        link_to("Switch to the #{copy}", link, class: 'govuk-link--no-underline'),
+        image_tag('arrow-icon.svg', class: 'switch-service-control__arrow', alt: '', aria: { hidden: true }),
+        link_to(t("service_banner.switch.#{service_choice}"), link, class: 'govuk-link'),
       ], "\n"
     end
+  end
+
+  def service_switch_current_copy
+    t("service_banner.current.#{service_choice}")
   end
 
   def search_label_text
@@ -128,7 +128,8 @@ private
 
   def current_path
     path, query_string = request.filtered_path.split('?', 2)
-    query_string = navigation_query_params(Rack::Utils.parse_nested_query(query_string)).to_query
+    query_parameters = Rack::Utils.parse_nested_query(query_string.to_s)
+    query_string = navigation_query_params(query_parameters).to_query.presence
 
     components = path.to_s.split('/')
                           .reject(&:blank?)

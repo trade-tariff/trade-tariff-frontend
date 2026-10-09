@@ -1,3 +1,6 @@
+<div data-controller="analytics"
+     data-analytics-exposure-event-value="duty_calculator_started"
+     data-analytics-context-value="<%= { commodity_code: user_session.commodity_code }.to_json %>">
 <%= govuk_back_link(href: commodity_path(user_session.commodity_code)) %>
 
 <%= form_for @step, url: import_date_path, html: { novalidate: true } do |f| %>
@@ -33,3 +36,4 @@
 <p class="govuk-body">It is possible that this data will change over time.</p>
 
 <%= render 'duty_calculator/shared/commodity_details' %>
+</div>

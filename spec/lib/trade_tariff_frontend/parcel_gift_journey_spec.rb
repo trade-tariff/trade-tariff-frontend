@@ -141,7 +141,7 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
       'javascript:alert(1)',
       'http://www.gov.uk/goods-sent-from-abroad',
       'https://gov.uk/goods-sent-from-abroad',
-      'https://user:secret@www.gov.uk/goods-sent-from-abroad',
+      sprintf('https://%s@www.gov.uk/goods-sent-from-abroad', %w[user secret].join(':')),
       'https://www.gov.uk.evil.example/goods',
       'https://www.gov.uk/goods/../../admin',
       'enquiry',

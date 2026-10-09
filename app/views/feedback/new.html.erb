@@ -12,19 +12,11 @@
   <div class="govuk-grid-column-three-quarters">
     <%= page_header 'Give feedback on Online Trade Tariff' %>
 
-    <p class="form-hint govuk-hint">
-      Tell us how to improve our service.<br>
-      Feedback is anonymous. Do not include any personal information.
-    </p>
-
     <%= form_for @feedback, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_text_area :message,
-                            label: nil,
+                            label: { text: '<strong>Tell us how to improve our service</strong>'.html_safe },
+                            hint: { text: 'Feedback is anonymous. Do not include any personal information.' },
                             max_chars: 500 %>
-
-        <p class="form-hint">
-          If you have any questions or need assistance, use our <%= govuk_link_to 'enquiry form', enquiry_form_path_with_context %>.
-        </p>
 
       <div hidden>
         <%= f.govuk_phone_field :telephone,
@@ -44,5 +36,11 @@
 
       <%= f.govuk_submit 'Submit feedback' %>
     <% end %>
+
+    <h2 class="govuk-heading-m">Need help with something?</h2>
+    <p class="govuk-body">
+      If you have a question or need help using the Online Trade Tariff, use our
+      <%= govuk_link_to 'enquiry form', enquiry_form_path_with_context, class: 'feedback-help-link' %>.
+    </p>
   </div>
 </div>

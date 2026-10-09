@@ -33,7 +33,8 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
 
         it 'offers the two search modes' do
           page = entry_page
-          expect(page).to have_link('Switch to the Northern Ireland Online Tariff')
+          expect(page).to have_text('Tariff for England, Scotland or Wales (GB)')
+          expect(page).to have_link('Change to Northern Ireland tariff')
           expect(page).to have_link('Code or keyword search')
           expect(page).to have_link('AI-assisted search')
           expect(page).not_to have_text('What type of search are you doing?')
@@ -57,7 +58,7 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
         it 'retains AI mode for invalid dates' do
           page = entry_page(interactive_search: 'true', q: 'coffee', invalid_date: true, day: '22', month: '0', year: '2026')
           expect(page).to have_css('[data-search-mode-initial-mode-value="guided"]')
-          expect(page).to have_text('You must enter a valid date')
+          expect(page).to have_text('Date of trade must be a real date')
           expect(page).to have_field('Describe the products you are trading', with: 'coffee', disabled: true)
         end
       end
@@ -74,7 +75,7 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('data-search-mode-initial-mode-value="guided"')
       expect(Capybara.string(response.body)).to have_field('Describe the products you are trading', with: 'coffee beans', disabled: true)
-      expect(response.body).to include('You must enter a valid date')
+      expect(response.body).to include('Date of trade must be a real date')
     end
 
     it 'retains keyword text after an invalid-date submission' do
@@ -82,7 +83,7 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
       follow_redirect!
 
       expect(Capybara.string(response.body)).to have_field('revised-keyword-query', with: 'coffee beans')
-      expect(response.body).to include('You must enter a valid date')
+      expect(response.body).to include('Date of trade must be a real date')
     end
 
     it 'returns to the revised AI panel' do
@@ -92,7 +93,7 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
       expect(response.body).to include('data-search-mode-initial-mode-value="guided"')
       expect(response.body).to include('Search term must be at least 2 characters')
       expect(Capybara.string(response.body)).to have_css('.switch-service-control', count: 1)
-      expect(Capybara.string(response.body)).to have_link('Switch to the Northern Ireland Online Tariff', href: '/xi/find_commodity')
+      expect(Capybara.string(response.body)).to have_link('Change to Northern Ireland tariff', href: '/xi/find_commodity')
     end
   end
 
@@ -140,6 +141,12 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
       get '/xi/find_commodity'
       expect(response.body).not_to include('data-controller="search-mode')
       expect(response.body).to include('Look up commodity codes, import duties, taxes and controls')
+      expect(Capybara.string(response.body)).to have_text('Tariff for Northern Ireland (NI)')
+      expect(Capybara.string(response.body)).to have_link(
+        'Change to England, Scotland and Wales (GB) tariff',
+        href: '/find_commodity',
+      )
+      expect(response.body).not_to include('New process for moving goods from Great Britain to Northern Ireland')
     end
   end
 end

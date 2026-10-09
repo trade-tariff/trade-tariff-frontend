@@ -1,3 +1,6 @@
+<div data-controller="analytics"
+     data-analytics-exposure-event-value="duty_calculator_started"
+     data-analytics-context-value="<%= { commodity_code: user_session.commodity_code }.to_json %>">
 <%= govuk_back_link(href: @step.previous_step_path) %>
 
 <%= form_for @step, url: import_details_path, html: { novalidate: true } do |f| %>
@@ -50,3 +53,4 @@
 
   <%= f.govuk_submit %>
 <% end %>
+</div>

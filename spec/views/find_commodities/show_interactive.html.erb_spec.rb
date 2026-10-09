@@ -54,9 +54,10 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
     end
   end
 
-  describe 'hero spimm banner' do
-    it { is_expected.to have_css('.govuk-notification-banner', text: /Importing goods into Northern Ireland/) }
-    it { is_expected.to have_link('Check eligibility') }
+  describe 'tariff switch' do
+    it { is_expected.to have_text('Tariff for England, Scotland or Wales (GB)') }
+    it { is_expected.to have_link('Change to Northern Ireland', href: '/xi/find_commodity') }
+    it { is_expected.not_to have_text('Importing goods into Northern Ireland?') }
   end
 
   describe 'other ways to search' do
@@ -78,7 +79,7 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
     context 'with an invalid date flag' do
       let(:search) do
         build(:search, :with_search_date, q: '0101300000', search_date: Time.zone.today).tap do |s|
-          s.errors.add(:as_of, 'You must enter a valid date')
+          s.errors.add(:as_of, 'Date of trade must be a real date')
         end
       end
 
@@ -89,8 +90,8 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
         view.params[:year] = '2026'
       end
 
-      it { is_expected.to have_css('.govuk-error-summary', text: 'You must enter a valid date') }
-      it { is_expected.to have_css('.govuk-error-summary a[href="#search-as-of-field-error"]', text: 'You must enter a valid date') }
+      it { is_expected.to have_css('.govuk-error-summary', text: 'Date of trade must be a real date') }
+      it { is_expected.to have_css('.govuk-error-summary a[href="#search-as-of-field-error"]', text: 'Date of trade must be a real date') }
       it { is_expected.to have_css('#search-as-of-field-error') }
       it { is_expected.to have_css('.govuk-form-group--error #search-as-of-field-error.govuk-input--error') }
       it { is_expected.to have_css('input[name="search[as_of(3i)]"]') }
@@ -106,7 +107,7 @@ RSpec.describe 'find_commodities/show_interactive', type: :view do
         view.params[:year] = '2026'
       end
 
-      it { is_expected.not_to have_css('.govuk-error-summary', text: 'You must enter a valid date') }
+      it { is_expected.not_to have_css('.govuk-error-summary', text: 'Date of trade must be a real date') }
       it { is_expected.not_to have_css('.govuk-form-group--error #search-as-of-field-error.govuk-input--error') }
     end
   end
