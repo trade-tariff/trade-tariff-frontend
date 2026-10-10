@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
   static targets = ['message', 'description']
-  static values = { illustrative: Boolean, messages: Array }
+  static values = { messages: Array }
 
   connect() {
     this.reset()
@@ -19,7 +19,7 @@ export default class extends Controller {
       this.followUp = followUp
       this.element.dataset.waiting = 'true'
       this.setMessage(followUp ? 'Sending your answer.' : 'Sending your search.')
-      if (this.illustrativeValue && this.messages.length) this.startIllustration()
+      if (this.messages.length) this.startIllustration()
       return
     }
 
@@ -42,7 +42,7 @@ export default class extends Controller {
       retrying: 'We could not check the search status. We will try again.',
     }
     if (!messages[status]) return
-    if (status === 'running' && this.illustrativeValue && this.messages.length) {
+    if (status === 'running' && this.messages.length) {
       this.startIllustration()
       return
     }
@@ -50,7 +50,6 @@ export default class extends Controller {
     this.setMessage(messages[status])
   }
 
-  // Timed messages are enabled only by the local prototype launcher.
   get messages() {
     return this.messagesValue.filter(entry => entry && typeof entry.text === 'string' &&
       Number.isFinite(entry.min_seconds) && entry.min_seconds > 0 &&

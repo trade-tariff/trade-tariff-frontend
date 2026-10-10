@@ -59,10 +59,9 @@ describe('QueuedSearchController', () => {
     form.dispatchEvent(new CustomEvent('guided-search:submit', { bubbles: true, cancelable: true, detail: { form } }))
   }
 
-  function enableLoadingPreview() {
+  function connectLoadingPanel() {
     application.register('guided-search-loading', GuidedSearchLoadingController)
     const panel = document.querySelector('[data-controller="guided-search-loading"]')
-    panel.dataset.guidedSearchLoadingIllustrativeValue = 'true'
     panel.dataset.guidedSearchLoadingMessagesValue = JSON.stringify([
       { text: 'Searching tariff references', description: 'Finding possible matches.', min_seconds: 1, max_seconds: 1 },
       { text: 'Preparing the response', min_seconds: 1, max_seconds: 1 },
@@ -400,7 +399,7 @@ describe('QueuedSearchController', () => {
         </form>
       </section>
       <section class="govuk-!-display-none" data-guided-search-validation-loading-page>${loadingMarkup}</section>`
-    const panel = enableLoadingPreview()
+    const panel = connectLoadingPanel()
     const status = panel.querySelector('[role="status"]')
     await jest.advanceTimersByTimeAsync(0)
     form = document.querySelector('form')
@@ -448,7 +447,7 @@ describe('QueuedSearchController', () => {
       </div>`
     await jest.advanceTimersByTimeAsync(0)
     form = document.querySelector('form')
-    const panel = enableLoadingPreview()
+    const panel = connectLoadingPanel()
     await jest.advanceTimersByTimeAsync(0)
     const thinking = document.querySelector('[data-test-loading]')
     const status = panel.querySelector('[role="status"]')
