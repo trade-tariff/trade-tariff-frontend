@@ -40,7 +40,8 @@ describe('GuidedSearchLoadingController', () => {
     form.dispatchEvent(new CustomEvent('queued-search:state', { bubbles: true, detail: { status, followUp } }))
   }
 
-  it('keeps one isolated live region and follows lifecycle signals without illustrative mode', async () => {
+  it('keeps one isolated live region and falls back to lifecycle signals without configured messages', async () => {
+    controller.messagesValue = []
     state('submitting')
     expect(status.textContent).toBe('Sending your search.')
     expect(panel.dataset.waiting).toBe('true')
@@ -60,7 +61,8 @@ describe('GuidedSearchLoadingController', () => {
     expect(panel.querySelector('.app-guided-search-loading__ring').getAttribute('aria-hidden')).toBe('true')
   })
 
-  it('uses answer-specific lifecycle copy', () => {
+  it('uses answer-specific lifecycle copy when messages are not configured', () => {
+    controller.messagesValue = []
     state('submitting', true)
     expect(status.textContent).toBe('Sending your answer.')
     state('queued')
@@ -70,7 +72,6 @@ describe('GuidedSearchLoadingController', () => {
   })
 
   it('updates the supporting explanation outside the live region with each configured message', async () => {
-    controller.illustrativeValue = true
     const description = panel.querySelector('[data-guided-search-loading-target="description"]')
     state('submitting')
     expect(description.textContent).toBe(messages[0].description)
@@ -83,7 +84,6 @@ describe('GuidedSearchLoadingController', () => {
 
   it.each([[0, 1000], [0.5, 2000], [0.99, 2980]])('uses random value %s within the configured range', async (random, delay) => {
     Math.random.mockReturnValue(random)
-    controller.illustrativeValue = true
     state('submitting')
     expect(status.textContent).toBe(messages[0].text)
     await jest.advanceTimersByTimeAsync(delay - 1)
@@ -94,7 +94,6 @@ describe('GuidedSearchLoadingController', () => {
   })
 
   it('uses each message range and holds the last message without looping or completing the search', async () => {
-    controller.illustrativeValue = true
     state('submitting')
     await jest.advanceTimersByTimeAsync(2000)
     expect(status.textContent).toBe(messages[1].text)
@@ -110,7 +109,6 @@ describe('GuidedSearchLoadingController', () => {
   })
 
   it('navigates immediately during the first message without waiting for its delay', async () => {
-    controller.illustrativeValue = true
     state('submitting')
     await jest.advanceTimersByTimeAsync(250)
     state('stopped')
@@ -123,7 +121,6 @@ describe('GuidedSearchLoadingController', () => {
   })
 
   it('prioritises queue and transport warnings over illustrations', async () => {
-    controller.illustrativeValue = true
     state('submitting')
     state('queued')
     await jest.advanceTimersByTimeAsync(10000)
@@ -140,7 +137,6 @@ describe('GuidedSearchLoadingController', () => {
   })
 
   it.each(['stopped', 'pagehide', 'bfcache', 'disconnect'])('clears illustration timers and motion on %s', async trigger => {
-    controller.illustrativeValue = true
     state('submitting')
     if (trigger === 'stopped') state('stopped')
     if (trigger === 'pagehide') window.dispatchEvent(new Event('pagehide'))
@@ -153,7 +149,6 @@ describe('GuidedSearchLoadingController', () => {
   })
 
   it('restarts from the first configured message on a new submission', async () => {
-    controller.illustrativeValue = true
     state('submitting')
     await jest.advanceTimersByTimeAsync(2000)
     state('stopped')
@@ -164,7 +159,6 @@ describe('GuidedSearchLoadingController', () => {
   })
 
   it('falls back to lifecycle copy if no valid ranges are configured', () => {
-    controller.illustrativeValue = true
     controller.messagesValue = [{ text: 'Invalid delay', min_seconds: 0, max_seconds: -1 }]
     state('submitting')
     state('running')
