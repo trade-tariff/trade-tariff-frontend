@@ -53,6 +53,24 @@ RSpec.describe FeatureFlagsController, type: :request do
       end
     end
 
+    describe 'the enhanced loading opt-in' do
+      it 'lists the enhanced loading feature' do
+        get feature_flags_path
+        expect(response.body).to include('Enhanced guided search loading')
+      end
+
+      it 'persists and clears the loading preference', :aggregate_failures do
+        patch feature_flag_path('enhanced_guided_search_loading'), params: { enabled: 'true' }
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
+          hash_including(trait_key: 'enhanced_guided_search_loading', trait_value: true),
+        )
+        expect(session[:flagsmith_optin_traits]).to include('enhanced_guided_search_loading' => true)
+
+        patch feature_flag_path('enhanced_guided_search_loading'), params: { enabled: 'false' }
+        expect(session[:flagsmith_optin_traits]).to include('enhanced_guided_search_loading' => false)
+      end
+    end
+
     describe 'the parcel journey opt-in' do
       it 'lists the parcel journey' do
         get feature_flags_path

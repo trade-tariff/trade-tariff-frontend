@@ -1,0 +1,22 @@
+<div class="app-guided-search-loading app-guided-search-loading--enhanced"
+     data-controller="guided-search-loading"
+     data-guided-search-loading-messages-value="<%= Rails.application.config.guided_search_loading.fetch(:messages).to_json %>"
+     data-action="queued-search:state@window->guided-search-loading#update pagehide@window->guided-search-loading#reset pageshow@window->guided-search-loading#restore">
+  <span class="govuk-caption-xl">UK Integrated Online Tariff</span>
+  <h1 class="govuk-heading-l">Search for a commodity</h1>
+
+  <div class="app-guided-search-loading__activity">
+    <span class="app-guided-search-loading__bulb" aria-hidden="true">
+      <svg width="32" height="40" viewBox="0 0 32 40" aria-hidden="true" focusable="false"
+           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path class="app-guided-search-loading__glass" d="M11 30v-3c0-4-4-6-4-11a9 9 0 0 1 18 0c0 5-4 7-4 11v3z" />
+        <path d="m12 18 4 4 4-4m-4 4v8m-5 3h10m-8 4h6" />
+        <path d="M16 1v2M3 5l2 2m22 0 2-2M1 16h2m26 0h2" />
+      </svg>
+    </span>
+    <p class="govuk-body app-guided-search-loading__status app-guided-search-loading__message"
+       role="status" aria-live="polite" aria-atomic="true"
+       data-guided-search-loading-target="message"></p>
+    <p class="govuk-body app-guided-search-loading__description" data-guided-search-loading-target="description"></p>
+  </div>
+</div>
