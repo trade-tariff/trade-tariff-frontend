@@ -65,19 +65,21 @@ class TestFlagsmithManagementClient
   attr_reader :recorded_traits
 
   def initialize
-    @recorded_traits = []
+    reset!
   end
 
   def reset!
     @recorded_traits = []
+    @traits = {}
   end
 
-  def get_flags_for(identity, traits = {})
-    TEST_FLAGSMITH_CLIENT.get_flags_for(identity, traits)
+  def get_traits_for(identity)
+    @traits.fetch(identity.identifier, {}).dup
   end
 
   def set_trait(identifier, trait_key, trait_value)
     @recorded_traits << { identifier:, trait_key:, trait_value: }
+    (@traits[identifier] ||= {})[trait_key.to_s] = trait_value
   end
 end
 

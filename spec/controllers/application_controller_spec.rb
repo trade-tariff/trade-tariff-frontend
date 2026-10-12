@@ -174,8 +174,7 @@ RSpec.describe ApplicationController, type: :controller do
       session[:experiment_url_optins] = ['stale', experiment.enrollment_token]
       travel_to(Time.utc(2026, 7, 27, 12)) { get :index }
       expect(response.parsed_body).to eq('experiment' => 'trstd-trdr',
-                                         'traits' => { 'webchat' => true,
-                                                       'interactive_search' => { 'value' => true, 'transient' => true } },
+                                         'traits' => { 'interactive_search' => { 'value' => true, 'transient' => true } },
                                          'interactive_search_enabled' => false)
       expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
     end
