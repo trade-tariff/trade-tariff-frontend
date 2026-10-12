@@ -8,24 +8,28 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
   context 'with the enhanced loading experiment' do
     let(:experiment) { Rails.application.config.experiment_urls.fetch(:guided_search_loading_demo) }
+    let(:disabled_flags) { [] }
+    let(:evaluated_traits) { [] }
 
-    it 'enrols the browser using the loading opt-in and trusted label', :aggregate_failures do
+    before do
+      allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
+        evaluated_traits << traits.deep_dup
+        flags = %w[interactive_search enhanced_guided_search_loading].index_with do |feature|
+          traits.dig(feature, :value) == true && disabled_flags.exclude?(feature)
+        end
+        TestFlagsmithClient::TestFlags.new(flags)
+      end
+    end
+
+    it 'enrols the browser once for both opt-ins and one trusted label', :aggregate_failures do
       travel_to(Time.utc(2026, 10, 12, 12)) { get '/search-loading-demo' }
 
       expect(response).to redirect_to('/find_commodity?experiment=loading-demo')
       expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
-      expect(experiment.feature_name).to eq('enhanced_guided_search_loading')
+      expect(experiment.feature_names).to eq(%w[interactive_search enhanced_guided_search_loading])
     end
 
-    it 'shows the enhanced screen only after the configured segment accepts the opt-in', :aggregate_failures do
-      allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
-        opted_in = traits.dig('enhanced_guided_search_loading', :value) == true
-        TestFlagsmithClient::TestFlags.new(
-          'interactive_search' => opted_in,
-          'enhanced_guided_search_loading' => opted_in,
-        )
-      end
-
+    it 'enables both features through their independent opt-in segments on later requests', :aggregate_failures do
       travel_to(Time.utc(2026, 10, 12, 12)) do
         get find_commodity_path
         expect(response.body).not_to include('data-controller="guided-search-loading"')
@@ -34,15 +38,19 @@ RSpec.describe ExperimentUrlsController, type: :request do
         follow_redirect!
         expect(response.body).to include('data-controller="guided-search-loading"')
         expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+        expect(evaluated_traits.last).to include(
+          'interactive_search' => { value: true, transient: true },
+          'enhanced_guided_search_loading' => { value: true, transient: true },
+        )
 
         get find_commodity_path
         expect(response.body).to include('data-controller="guided-search-loading"')
+        expect(Capybara.string(response.body)).to have_css('input[name="experiment"][value="loading-demo"]', visible: :hidden)
       end
     end
 
     it 'does not bypass a disabled flag', :aggregate_failures do
-      enable_feature(:interactive_search)
-      disable_feature(:enhanced_guided_search_loading)
+      disabled_flags << 'enhanced_guided_search_loading'
 
       travel_to(Time.utc(2026, 10, 12, 12)) do
         get '/search-loading-demo'
@@ -51,6 +59,61 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
       expect(response.body).to include('Collecting information...')
       expect(response.body).not_to include('data-controller="guided-search-loading"')
+    end
+
+    it 'does not force AI search on when its flag remains disabled', :aggregate_failures do
+      disabled_flags << 'interactive_search'
+
+      travel_to(Time.utc(2026, 10, 12, 12)) do
+        get '/search-loading-demo'
+        follow_redirect!
+      end
+
+      expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
+      expect(response.body).not_to include('data-controller="guided-search-loading"')
+    end
+
+    context 'when the multi-feature experiment expires' do
+      before do
+        config = Rails.application.config_for(:experiment_urls).deep_dup
+        config.fetch(:guided_search_loading_demo)[:ends_on] = '2026-10-12'
+        registry = TradeTariffFrontend::ExperimentUrls.new(
+          config,
+          registered_flags: TradeTariffFrontend::Config.registered_flags,
+          service_names: %w[uk xi],
+        )
+        allow(Rails.application.config).to receive(:experiment_urls).and_return(registry)
+      end
+
+      it 'removes both transient opt-ins together', :aggregate_failures do
+        travel_to(Time.utc(2026, 10, 12, 12)) do
+          get '/search-loading-demo'
+          follow_redirect!
+          expect(response.body).to include('data-controller="guided-search-loading"')
+        end
+
+        travel_to(Time.utc(2026, 10, 12, 23)) { get find_commodity_path }
+
+        expect(session[:experiment_url_optins]).to be_empty
+        expect(evaluated_traits.last).not_to have_key('interactive_search')
+        expect(evaluated_traits.last).not_to have_key('enhanced_guided_search_loading')
+        expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
+        expect(response.body).not_to include('data-controller="guided-search-loading"')
+      end
+
+      it 'preserves a separate AI-search enrolment', :aggregate_failures do
+        travel_to(Time.utc(2026, 10, 12, 12)) do
+          get '/search-beta-demo'
+          get '/search-loading-demo'
+        end
+        travel_to(Time.utc(2026, 10, 12, 23)) { get find_commodity_path }
+
+        expect(evaluated_traits.last).to include('interactive_search' => { value: true, transient: true })
+        expect(evaluated_traits.last).not_to have_key('enhanced_guided_search_loading')
+        expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+        expect(response.body).not_to include('data-controller="guided-search-loading"')
+        expect(Capybara.string(response.body)).to have_css('input[name="experiment"][value="demo"]', visible: :hidden)
+      end
     end
 
     it 'does not enrol before the start or on the XI service', :aggregate_failures do
