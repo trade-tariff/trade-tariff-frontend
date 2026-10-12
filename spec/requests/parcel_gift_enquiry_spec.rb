@@ -25,7 +25,7 @@ RSpec.describe 'Enquiries from parcel guidance', :aggregate_failures, type: :req
           outcome = journey.find_step(step_id, service_name: service)
           origin = "#{prefix}/#{journey.base_path}/#{outcome.path}"
           get origin
-          link = document.find_link('Enquiry form')[:href]
+          link = document.find_link('Use the enquiry form to ask a question')[:href]
 
           expect(URI.parse(link).path).to eq(details_path)
           get link

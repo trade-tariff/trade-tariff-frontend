@@ -8,16 +8,16 @@ module TradeTariffFrontend
     HOMEPAGE_KEYS = %w[title description].freeze
     STEP_KEYS = %w[id path route_name label title breadcrumb services sections].freeze
     SECTION_KEYS = %w[content details links].freeze
-    DETAILS_KEYS = %w[summary content].freeze
-    LINK_KEYS = %w[text target new_tab button prefix].freeze
+    DETAILS_KEYS = %w[summary content links].freeze
+    LINK_KEYS = %w[text target new_tab button prefix suffix].freeze
     IDENTIFIER = /\A[a-z][a-z0-9_]*\z/
     SLUG = /\A[a-z0-9]+(?:-[a-z0-9]+)*\z/
     GOVUK_URL = %r{\Ahttps://www\.gov\.uk/[A-Za-z0-9._~!$&'()*+,;=%/-]+\z}
 
     Chooser = Data.define(:route_name, :title, :error, :submit_label, :services, :fallback_heading, :fallback_text)
     Homepage = Data.define(:title, :description)
-    Link = Data.define(:text, :target, :new_tab, :button, :prefix)
-    Details = Data.define(:summary, :content)
+    Link = Data.define(:text, :target, :new_tab, :button, :prefix, :suffix)
+    Details = Data.define(:summary, :content, :links)
     Section = Data.define(:content, :details, :links)
     Step = Data.define(:id, :path, :route_name, :label, :title, :breadcrumb, :services, :sections)
 
@@ -126,6 +126,7 @@ module TradeTariffFrontend
       Details.new(
         summary: text!(fetch!(details, 'summary', context), "#{context} details summary"),
         content: content!(fetch!(details, 'content', context), "#{context} details content"),
+        links: links!(details.fetch('links', []), "#{context} details"),
       ).freeze
     end
 
@@ -144,6 +145,7 @@ module TradeTariffFrontend
         new_tab: boolean!(fetch!(link, 'new_tab', context), "#{context} new_tab"),
         button: boolean!(fetch!(link, 'button', context), "#{context} button"),
         prefix: link.key?('prefix') ? text!(link['prefix'], "#{context} prefix") : nil,
+        suffix: link.key?('suffix') ? text!(link['suffix'], "#{context} suffix") : nil,
       ).freeze
     end
 

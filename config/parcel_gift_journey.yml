@@ -1,4 +1,5 @@
-# Draft prototype guidance for stakeholder review. Not HMRC-approved legal content.
+# Revised consumer copy for stakeholder review behind the parcel gift flag.
+# Final HMRC sign-off is still outstanding.
 # Sections render sanitized Govspeak, optional GOV.UK details, then links.
 # Do not treat the UK or XI site prefix as the destination.
 base_path: parcels-and-gifts
@@ -10,7 +11,7 @@ chooser:
   submit_label: Continue
   services: [uk, xi]
   fallback_heading: Need help with something else?
-  fallback_text: Submit a question and provide as much detail as possible.
+  fallback_text: Give as much detail as you can.
 homepage:
   title: Parcels, gifts, belongings
   description: Check charges, tax and duty when sending or receiving items.
@@ -18,76 +19,75 @@ steps:
   - id: parcel_charges
     path: i-have-been-asked-to-pay-a-charge-before-a-parcel-is-delivered
     route_name: parcel_gift_charges
-    label: I have been asked to pay a charge before a parcel is delivered
-    title: I have been asked to pay a charge before a parcel is delivered
+    label: I’ve been asked to pay a charge on a parcel
+    title: I’ve been asked to pay a charge on a parcel
     breadcrumb: A charge on a parcel
     services: [uk, xi]
     sections:
       - content: |
-          All items sent or couriered from another country will go through customs to check:
+          Customs check every item sent to you from another country. They check:
 
-          * for any banned or restricted items
-          * what tax and duty should be paid.
+          * if the item is banned or restricted
+          * what tax and duty you need to pay
 
-          This includes new or used items purchased:
+          This applies to new and used items you bought:
 
-          * online and shipped from outside the UK
-          * overseas and sent back to the UK.
+          * online from a seller outside the UK
+          * abroad and sent back to the UK
 
-          You might be charged if:
+          You may have to pay if:
 
-          * **the item costs more than £135**
-          * **it is a gift worth more than £39**
-          * it contains alcohol or tobacco (charged at any value)
+          * you bought the item and it cost more than £135
+          * it’s a gift worth more than £39
+          * it contains alcohol, tobacco or vaping products (Excise Duty is charged at any value)
 
-          VAT, customs duty or excise duty might have to be paid before you receive the item. The amount of duty depends on the specific item and where it is being sent from.
+          You may need to pay VAT, Customs Duty or Excise Duty before you get the item. The amount depends on what the item is and where it’s sent from.
 
-          If VAT or duty was not paid when the item was sent, the delivery company collects it from you before delivery. They may also add their own handling fee.
+          If the seller did not charge VAT or duty when they sent the item, the delivery company will ask you to pay it before they deliver. They may also add a handling fee.
 
-          ## If you think you have been charged incorrectly
+          ## If you think the charge is wrong
         links:
-          - prefix: If you think you’ve been overcharged you can
+          - prefix: For Royal Mail or Parcelforce, you can
             text: report incorrect Customs Duty or VAT on items imported by post
             target: https://www.gov.uk/government/publications/report-incorrect-customs-duty-or-vat-on-items-imported-by-post-bor286
             new_tab: true
             button: false
-          - prefix: Find out more about
-            text: how to claim a repayment of import duty and VAT if you’ve overpaid
+          - prefix: If you’ve already paid another courier or freight company, you can
+            text: claim a repayment of import duty and VAT
             target: https://www.gov.uk/guidance/how-to-claim-a-repayment-of-import-duty-and-vat-if-youve-overpaid
             new_tab: true
             button: false
   - id: incoming_tax
     path: i-want-to-know-what-i-might-pay-on-something-coming-from-abroad
     route_name: parcel_gift_incoming_tax
-    label: I want to know what I might pay on something coming from abroad
-    title: I want to know what I might pay on something coming from abroad
+    label: I want to know what tax I might pay on a parcel sent to me
+    title: I want to know what I might pay on a parcel sent to me
     breadcrumb: Tax on a parcel sent to you
     services: [uk, xi]
     sections:
       - content: |
-          Duty and VAT rates depend on what is being sent, where it is being sent from, and whether it is a gift or something you bought.
+          How much Customs Duty and VAT you pay depends on what the item is, where it’s sent from, and whether it’s a gift or something you bought.
 
-          **If it is a gift from a person:**
+          **If it’s a gift from a person**
 
           * £39 or less: no VAT or Customs Duty
-          * £39 to £135: Import VAT may be charged
-          * more than £135: Import VAT and Customs Duty may be charged
+          * more than £39 and up to £135: you may pay Import VAT
+          * more than £135: you may pay Import VAT and Customs Duty
 
           **If it is something you bought:**
 
           * £135 or less: VAT is usually included in the price by the seller, and Customs Duty is not usually charged
           * more than £135: Import VAT and Customs Duty may be charged by the delivery company
 
-          **If it contains alcohol or tobacco:**
+          **If it contains alcohol, tobacco or vaping products**
 
-          * £135 or less: VAT is usually included in the price by the seller, and Customs Duty is not usually charged
-          * more than £135: Import VAT and Customs Duty may be charged by the delivery company
+          You’ll pay Excise Duty, Customs Duty and VAT at any value, whether it’s a gift or something you bought.
 
           The delivery company may also add its own handling fee.
 
           Different rules apply to parcels sent to Northern Ireland.
         links:
-          - prefix: Find out more about
+          - prefix: Read more about
             text: tax and customs for goods sent from abroad
             target: https://www.gov.uk/goods-sent-from-abroad/tax-and-duty
             new_tab: true
@@ -95,86 +95,88 @@ steps:
   - id: sending_overseas
     path: i-am-sending-a-parcel-or-gift-to-someone-abroad
     route_name: parcel_gift_sending_overseas
-    label: I am sending a parcel or gift to someone abroad
-    title: I am sending a parcel or gift to someone abroad
+    label: I’m sending a parcel or gift overseas
+    title: I’m sending a parcel or gift overseas
     breadcrumb: Sending a parcel or gift overseas
     services: [uk, xi]
     sections:
       - content: |
-          If you’re sending or receiving a gift, the item must be described and the correct commodity code provided on customs declarations.
+          When you send a parcel or gift overseas, you need to describe each item and give its commodity code on the customs declaration.
 
-          Some postal and parcel services will help you identify the appropriate code.
+          Some postal and courier services can help you find the right code.
         details:
           summary: What a commodity code is used for
           content: |
-            A commodity code describes the item you are sending.
+            A commodity code describes the item you’re sending.
 
             Customs use it to check what tax, duty or rules apply when goods move between countries.
 
-            Your postal or courier service may ask you for a commodity code when you send a parcel or gift overseas.
+            The code must describe the item itself, not the parcel or the reason for sending it (for example, a gift).
 
-            The code should describe the item itself, not “gift” or “parcel”.
-
-            If your parcel contains different types of items, you may need more than one code.
+            If your parcel contains different types of item, each type may need its own commodity code.
+          links:
+            - text: Read how to find a commodity code
+              target: https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports
+              new_tab: true
+              button: false
+              suffix: .
         links:
           - text: Search for a commodity code
             target: commodity_search
             new_tab: false
             button: true
       - content: |
-          ## What the person receiving the parcel or gift might pay
+          ## What the person receiving it might pay
 
-          The person receiving the gift might have to pay import duties and taxes. The amount depends on the item being sent, where it is going and where it is coming from.
+          The country you send to sets its own rules and charges for import duties and taxes. The person receiving the parcel may be required to pay them.
+  - id: personal_baggage
+    path: i-wish-to-bring-goods-back-from-overseas-in-personal-luggage
+    route_name: parcel_gift_personal_baggage
+    label: I’m bringing goods into the UK in my luggage
+    title: I’m bringing goods into the UK in my luggage
+    breadcrumb: Goods in personal baggage
+    services: [uk, xi]
+    sections:
+      - content: |
+          You can bring up to £390 of goods into Great Britain without paying tax or duty, if they are for your own use or a gift. The limit is £270 if you arrive by private plane or boat.
 
-          * for a birthday, anniversary or other occasion
-          * bought and sent between individuals, not companies
-          * intended for personal use
+          This includes goods you bought abroad or in a duty-free or tax-free shop.
+
+          Alcohol and tobacco have separate allowances.
+        links:
+          - text: Check the allowances for bringing goods into the UK
+            suffix: ', including Northern Ireland.'
+            target: https://www.gov.uk/bringing-goods-into-uk-personal-use
+            new_tab: true
+            button: false
   - id: moving_belongings
     path: i-am-moving-to-the-uk-and-bringing-my-belongings
     route_name: parcel_gift_moving_belongings
-    label: I am moving to the UK and bringing my belongings
-    title: I am moving to the UK and bringing my belongings
+    label: I’m moving to the UK with my belongings
+    title: I’m moving to the UK with my personal belongings
     breadcrumb: Moving to the UK with personal belongings
     services: [uk, xi]
     sections:
       - content: |
-          If you’re moving to the UK permanently or temporarily and bringing personal belongings with you, different rules apply.
+          If you’re moving to the UK and bringing your belongings with you, separate rules apply. These depend on whether you’re moving permanently or for a set time.
         links:
-          - prefix: Find out more about
-            text: moving personal belongings to the UK
+          - text: Read about moving your belongings to the UK
+            suffix: .
             target: https://www.gov.uk/moving-to-uk
             new_tab: true
             button: false
       - content: |
           ## Transfer of Residence relief
 
-          You can get relief from customs charges on personal belongings and other goods when transferring your place of residence to Great Britain or Northern Ireland.
+          You may not have to pay customs charges on your belongings if you’re moving your home to Great Britain or Northern Ireland. This is called Transfer of Residence relief.
         links:
-          - prefix: Find out more about
-            text: Transfer of residence to the UK
+          - text: Check if you can get Transfer of Residence relief
+            suffix: .
             target: https://www.gov.uk/guidance/transfer-of-residence-to-great-britain
             new_tab: true
             button: false
-          - prefix: Complete
-            text: application for transfer of residence relief
+          - text: Apply for Transfer of Residence relief
+            suffix: .
             target: https://www.gov.uk/guidance/application-for-transfer-of-residence-relief-tor1
-            new_tab: true
-            button: false
-  - id: personal_baggage
-    path: i-wish-to-bring-goods-back-from-overseas-in-personal-luggage
-    route_name: parcel_gift_personal_baggage
-    label: I wish to bring goods back from overseas in personal luggage
-    title: I wish to bring goods back from overseas in personal luggage
-    breadcrumb: Goods in personal baggage
-    services: [uk, xi]
-    sections:
-      - content: |
-          You are entitled to a tax-free personal allowance of £390 for goods brought back to the UK for personal use, or as a gift.
-
-          This includes goods purchased in another country or in a duty-free or tax-free shop.
-        links:
-          - prefix: Find out more about
-            text: bringing goods into the UK for personal use
-            target: https://www.gov.uk/bringing-goods-into-uk-personal-use
             new_tab: true
             button: false

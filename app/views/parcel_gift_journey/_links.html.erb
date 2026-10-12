@@ -1,0 +1,3 @@
+<% links.each do |link| %>
+  <p><% if link.prefix %><%= link.prefix %> <% end %><%= parcel_gift_link(link) %><%= link.suffix || ('.' if link.prefix) %></p>
+<% end %>
