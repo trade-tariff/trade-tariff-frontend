@@ -59,6 +59,8 @@ jobs:
 
   axxy:
     needs: deploy-full-stack
+    permissions:
+      contents: write
     if: >
       github.event_name == 'workflow_dispatch' ||
       contains(github.event.pull_request.labels.*.name, 'needs-full-deployment')
