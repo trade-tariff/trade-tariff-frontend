@@ -33,6 +33,8 @@ RSpec.describe 'Enquiries from parcel guidance', :aggregate_failures, type: :req
           expect(response).to have_http_status(:ok)
           expect(document).to have_css('h1', text: 'Tell us about your postal or baggage question')
           expect(document).to have_link('Back', href: origin)
+          expect(document).to have_css('.govuk-phase-banner__content .govuk-tag', text: 'SERVICE UPDATE')
+          expect(document).not_to have_css('.switch-service-control, .govuk-feedback')
         end
       end
 
@@ -66,6 +68,7 @@ RSpec.describe 'Enquiries from parcel guidance', :aggregate_failures, type: :req
         expect(response).to have_http_status(:ok)
         expect(document).to have_text('Item sent by post or in personal baggage')
         expect(document).to have_text('Please explain the charge on this parcel.')
+        expect(document).not_to have_css('.switch-service-control, .govuk-feedback')
 
         allow(EnquiryForm).to receive(:create!).and_return('resource_id' => 'TEST123')
         post "#{prefix}/enquiry_form/submit", params: { submission_token: token }
@@ -74,6 +77,10 @@ RSpec.describe 'Enquiries from parcel guidance', :aggregate_failures, type: :req
                                                               enquiry_category: 'Item sent by post or in personal baggage',
                                                               search_request_id: 'search-123',
                                                             ))
+        follow_redirect!
+        expect(document).to have_text('TEST123')
+        expect(document).to have_css('.govuk-feedback', text: 'Help us improve this service')
+        expect(document).to have_link('Give us your feedback')
       end
 
       it 'starts with the new origin when opening a different guidance enquiry' do

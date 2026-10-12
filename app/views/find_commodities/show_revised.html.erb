@@ -1,13 +1,15 @@
 <div data-guided-search-validation-page-content>
   <%= page_header 'Find commodity codes, import duties, taxes and controls' %>
 
+  <%= render 'shared/service_switch' if @parcel_gift_homepage %>
+
   <%= render 'news_items/hero_story', news_item: @hero_story if @hero_story %>
 
   <% if @ai_search_enabled && !@parcel_gift_homepage %>
     <%= render 'find_commodities/ai_search_banner' %>
   <% end %>
 
-  <%= render 'shared/service_switch' %>
+  <%= render 'shared/service_switch' unless @parcel_gift_homepage %>
 
   <div class="govuk-grid-row app-find-commodity-layout">
     <div class="govuk-grid-column-two-thirds app-find-commodity-search">
