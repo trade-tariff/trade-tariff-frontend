@@ -40,7 +40,7 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           expect(page).to have_css('[role="navigation"][aria-label="Breadcrumb"] [aria-current="page"]', text: journey.chooser.title, exact_text: true)
           expect(page.all('input[type="radio"]').map { |radio| radio[:value] }).to eq(journey.steps.map(&:id))
           expect(page).not_to have_css('input[type="radio"][checked]')
-          expect(page).to have_link('Enquiry form', href: %r{/enquiry_form})
+          expect(page).to have_link('Use the enquiry form to ask a question', href: %r{/enquiry_form})
           expect(page).not_to have_css('form#new_search')
           expect(page).to have_css('form[method="get"] input[type="hidden"][name="parcel_gift_choice_form[choice]"][value=""]', visible: :all)
           expect(page).not_to have_css('input[name="authenticity_token"]', visible: :all)
@@ -68,7 +68,7 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           end
         end
 
-        %w[parcel_charges incoming_tax sending_overseas].each do |step_id|
+        %w[parcel_charges incoming_tax].each do |step_id|
           it "renders #{step_id} lists with GOV.UK Markdown styling", :aggregate_failures do
             step = journey.find_step(step_id, service_name: service)
             get "#{start_path}/#{step.path}"
@@ -135,11 +135,36 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           get "#{start_path}/#{step.path}"
 
           expect(page).to have_css('details.govuk-details summary', text: 'What a commodity code is used for')
-          expect(page).to have_css('details .tariff-markdown', text: 'A commodity code describes the item you are sending.', visible: :all)
+          expect(page).to have_css('details .tariff-markdown', text: 'A commodity code describes the item you’re sending.', visible: :all)
+          expect(page).to have_link('Read how to find a commodity code (opens in new tab)', href: 'https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports')
           expect(response.body.index('<details')).to be < response.body.index('Search for a commodity code')
           expect(response.body.index('Search for a commodity code')).to be < response.body.index('What the person receiving')
           expect(page).to have_css('h2', text: 'Getting help from HMRC')
-          expect(page).to have_link('Enquiry form', href: %r{/enquiry_form/postal_or_baggage_details\?parcel_gift_step=sending_overseas})
+          expect(page).to have_link('Use the enquiry form to ask a question', href: %r{/enquiry_form/postal_or_baggage_details\?parcel_gift_step=sending_overseas})
+          expect(page).to have_text('Give as much detail as you can.')
+        end
+
+        it 'renders the revised charge, excise and allowance copy', :aggregate_failures do
+          charges = journey.find_step('parcel_charges', service_name: service)
+          get "#{start_path}/#{charges.path}"
+          charges_page = Capybara.string(response.body)
+          expect(charges_page).to have_css('h1', text: charges.title)
+          expect(charges_page).to have_text('alcohol, tobacco or vaping products')
+          expect(charges_page).to have_text('For Royal Mail or Parcelforce, you can')
+          expect(charges_page).to have_link('report incorrect Customs Duty or VAT on items imported by post (opens in new tab)')
+          expect(charges_page).to have_text('For other couriers or freight, you can')
+          expect(charges_page).to have_link('claim a repayment of import duty and VAT (opens in new tab)')
+
+          tax = journey.find_step('incoming_tax', service_name: service)
+          get "#{start_path}/#{tax.path}"
+          tax_page = Capybara.string(response.body)
+          expect(tax_page).to have_css('h1', text: tax.title)
+          expect(tax_page).to have_text('You’ll pay Excise Duty, Customs Duty and VAT at any value')
+          expect(tax_page).not_to have_text('Different rules apply to parcels sent to Northern Ireland')
+
+          baggage = journey.find_step('personal_baggage', service_name: service)
+          get "#{start_path}/#{baggage.path}"
+          expect(Capybara.string(response.body)).to have_text('The limit is £270 if you arrive by private plane or boat')
         end
 
         it 'rejects a service-excluded step', :aggregate_failures do

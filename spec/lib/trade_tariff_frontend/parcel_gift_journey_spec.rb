@@ -8,11 +8,29 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
   describe 'checked-in guidance' do
     let(:labels) do
       [
-        'I have been asked to pay a charge before a parcel is delivered',
-        'I want to know what I might pay on something coming from abroad',
-        'I am sending a parcel or gift to someone abroad',
-        'I am moving to the UK and bringing my belongings',
-        'I wish to bring goods back from overseas in personal luggage',
+        'I’ve been asked to pay a charge on a parcel',
+        'I want to know what tax I might pay on a parcel sent to me',
+        'I’m sending a parcel or gift overseas',
+        'I’m bringing goods into the UK in my luggage',
+        'I’m moving to the UK with my belongings',
+      ]
+    end
+    let(:titles) do
+      [
+        'I’ve been asked to pay a charge on a parcel',
+        'I want to know what I might pay on a parcel sent to me',
+        'I’m sending a parcel or gift overseas',
+        'I’m bringing goods into the UK in my luggage',
+        'I’m moving to the UK with my personal belongings',
+      ]
+    end
+    let(:paths) do
+      %w[
+        i-have-been-asked-to-pay-a-charge-before-a-parcel-is-delivered
+        i-want-to-know-what-i-might-pay-on-something-coming-from-abroad
+        i-am-sending-a-parcel-or-gift-to-someone-abroad
+        i-wish-to-bring-goods-back-from-overseas-in-personal-luggage
+        i-am-moving-to-the-uk-and-bringing-my-belongings
       ]
     end
     let(:breadcrumbs) do
@@ -20,8 +38,8 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
         'A charge on a parcel',
         'Tax on a parcel sent to you',
         'Sending a parcel or gift overseas',
-        'Moving to the UK with personal belongings',
         'Goods in personal baggage',
+        'Moving to the UK with personal belongings',
       ]
     end
 
@@ -34,16 +52,16 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
         submit_label: 'Continue',
         services: %w[uk xi],
         fallback_heading: 'Need help with something else?',
-        fallback_text: 'Submit a question and provide as much detail as possible.',
+        fallback_text: 'Give as much detail as you can.',
       )
       expect(journey.homepage).to have_attributes(
         title: 'Parcels, gifts, belongings',
         description: 'Check charges, tax and duty when sending or receiving items.',
       )
-      expect(journey.steps.map(&:id)).to eq(%w[parcel_charges incoming_tax sending_overseas moving_belongings personal_baggage])
+      expect(journey.steps.map(&:id)).to eq(%w[parcel_charges incoming_tax sending_overseas personal_baggage moving_belongings])
       expect(journey.steps.map(&:label)).to eq(labels)
-      expect(journey.steps.map(&:title)).to eq(labels)
-      expect(journey.steps.map(&:path)).to eq(labels.map(&:parameterize))
+      expect(journey.steps.map(&:title)).to eq(titles)
+      expect(journey.steps.map(&:path)).to eq(paths)
       expect(journey.steps.map(&:breadcrumb)).to eq(breadcrumbs)
       expect(journey.steps).to all(have_attributes(services: %w[uk xi]))
       expect(journey.steps_for('uk').map(&:id)).to eq(journey.steps_for(:xi).map(&:id))
@@ -57,7 +75,8 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
         have_attributes(text: 'Search for a commodity code', target: 'commodity_search', new_tab: false),
       )
       expect(overseas.sections.first.details).to have_attributes(summary: 'What a commodity code is used for')
-      expect(overseas.sections.last.content).to include('What the person receiving the parcel or gift might pay')
+      expect(overseas.sections.last.content).to include('What the person receiving it might pay')
+      expect(overseas.sections.first.details.content).to include('not the parcel or the reason for sending it')
       expect(links.map(&:target)).to include('https://www.gov.uk/guidance/application-for-transfer-of-residence-relief-tor1')
     end
 
