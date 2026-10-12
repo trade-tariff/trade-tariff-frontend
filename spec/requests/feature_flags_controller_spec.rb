@@ -40,7 +40,7 @@ RSpec.describe FeatureFlagsController, type: :request do
         end
 
         it 'shows the enabled state' do
-          expect(response.body).to include('Enabled')
+          expect(response.body).to include('Available now')
         end
       end
 
@@ -48,7 +48,7 @@ RSpec.describe FeatureFlagsController, type: :request do
         before { perform_request }
 
         it 'shows the feature as disabled' do
-          expect(response.body).to include('Disabled')
+          expect(response.body).to include('Not available now')
         end
       end
     end
@@ -64,10 +64,14 @@ RSpec.describe FeatureFlagsController, type: :request do
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
           hash_including(trait_key: 'enhanced_guided_search_loading', trait_value: true),
         )
-        expect(session[:flagsmith_optin_traits]).to include('enhanced_guided_search_loading' => true)
+        follow_redirect!
+        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading').text)
+          .to include('Saved preference: Opted in')
 
         patch feature_flag_path('enhanced_guided_search_loading'), params: { enabled: 'false' }
-        expect(session[:flagsmith_optin_traits]).to include('enhanced_guided_search_loading' => false)
+        follow_redirect!
+        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading').text)
+          .to include('Saved preference: Not opted in')
       end
     end
 
@@ -82,13 +86,17 @@ RSpec.describe FeatureFlagsController, type: :request do
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
           hash_including(trait_key: 'parcel_gift_journey', trait_value: true),
         )
-        expect(session[:flagsmith_optin_traits]).to include('parcel_gift_journey' => true)
+        follow_redirect!
+        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey').text)
+          .to include('Saved preference: Opted in')
 
         patch feature_flag_path('parcel_gift_journey'), params: { enabled: 'false' }
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
           hash_including(trait_key: 'parcel_gift_journey', trait_value: false),
         )
-        expect(session[:flagsmith_optin_traits]).to include('parcel_gift_journey' => false)
+        follow_redirect!
+        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey').text)
+          .to include('Saved preference: Not opted in')
       end
     end
 
@@ -115,16 +123,22 @@ RSpec.describe FeatureFlagsController, type: :request do
         )
       end
 
-      it 'stores the enabled trait in the session' do
+      it 'shows the saved opt-in separately', :aggregate_failures do
         patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
+        follow_redirect!
 
-        expect(session[:flagsmith_optin_traits]).to include('interactive_search' => true)
+        expect(response.body).to include('Saved preference: Opted in', 'Not available now')
+        expect(Capybara.string(response.body)).to have_button('Remove opt-in')
+        expect(session[:flagsmith_optin_traits]).to be_nil
       end
 
-      it 'stores the disabled trait in the session' do
+      it 'keeps removal separate from rollout', :aggregate_failures do
+        enable_feature(:interactive_search)
         patch feature_flag_path('interactive_search'), params: { enabled: 'false' }
+        follow_redirect!
 
-        expect(session[:flagsmith_optin_traits]).to include('interactive_search' => false)
+        expect(response.body).to include('Saved preference: Not opted in', 'Available now')
+        expect(Capybara.string(response.body)).to have_button('Opt in')
       end
 
       it 'redirects when the flag is not a registered optin flag' do

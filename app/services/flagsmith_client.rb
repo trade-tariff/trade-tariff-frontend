@@ -67,6 +67,7 @@ class FlagsmithClient
   # Call is_feature_enabled('flag_name') or get_feature_value('flag_name') on the result.
   # Unknown flags return false (via default_flag_handler) rather than raising.
   def get_flags_for(identity, traits = {})
-    @sdk_client.get_identity_flags(identity.identifier, false, **traits.transform_keys(&:to_sym))
+    # Evaluation must not create identities even if this client is pointed at core.
+    @sdk_client.get_identity_flags(identity.identifier, true, **traits.transform_keys(&:to_sym))
   end
 end

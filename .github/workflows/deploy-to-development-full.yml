@@ -70,7 +70,6 @@ jobs:
       test-flavour: tariff
       migrate: true
     secrets:
-      ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
       basic-password: ${{ secrets.BASIC_PASSWORD }}
       waf_bypass_token: ${{ secrets.TF_VAR_WAF_E2E_SECRET_TOKEN }}
@@ -87,5 +86,4 @@ jobs:
     secrets:
       basic-password: ${{ secrets.BASIC_PASSWORD }}
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
-      ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
       waf_bypass_token: ${{ secrets.TF_VAR_WAF_E2E_SECRET_TOKEN }}

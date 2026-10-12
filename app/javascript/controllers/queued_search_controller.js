@@ -70,7 +70,11 @@ export default class extends Controller {
       run.date = accepted.date
       run.pollUrl = pollUrl.href
       this.dispatchState('accepted', run)
-      this.schedulePoll(run, true)
+      if (accepted.status === 'completed') {
+        this.complete(run)
+      } else {
+        this.schedulePoll(run, true)
+      }
     } catch (error) {
       if (this.run !== run) return
       if (error.reload) {
@@ -104,6 +108,22 @@ export default class extends Controller {
     run.timer = window.setTimeout(() => this.poll(run), Math.max(0, next - elapsed))
   }
 
+  complete(run) {
+    if (this.run !== run || this.submitted) return
+
+    this.handoffFields = []
+    this.setHidden(run.form, 'request_id', run.requestId)
+    this.setHidden(run.form, 'queued_search_id', run.id)
+    this.setHidden(run.form, 'queued_search_token', run.token)
+    for (const part of ['year', 'month', 'day']) {
+      this.setHidden(run.form, part, run.date[part])
+    }
+    this.submitted = true
+    this.stop()
+    this.dispatchState('navigating', run)
+    HTMLFormElement.prototype.submit.call(run.form)
+  }
+
   async poll(run) {
     if (this.run !== run) return
     if (performance.now() - run.startedAt >= this.deadlineValue) return this.fail(run)
@@ -112,17 +132,7 @@ export default class extends Controller {
       if (this.run !== run) return
       run.failures = 0
       if (payload.status === 'completed') {
-        this.handoffFields = []
-        this.setHidden(run.form, 'request_id', run.requestId)
-        this.setHidden(run.form, 'queued_search_id', run.id)
-        this.setHidden(run.form, 'queued_search_token', run.token)
-        for (const part of ['year', 'month', 'day']) {
-          this.setHidden(run.form, part, run.date[part])
-        }
-        this.submitted = true
-        this.stop()
-        this.dispatchState('navigating', run)
-        HTMLFormElement.prototype.submit.call(run.form)
+        this.complete(run)
       } else if (['queued', 'running'].includes(payload.status)) {
         this.dispatchState(payload.status, run)
         this.schedulePoll(run)

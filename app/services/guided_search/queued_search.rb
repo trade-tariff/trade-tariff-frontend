@@ -23,7 +23,9 @@ module GuidedSearch
       if payload['status'] == 'completed'
         raise InvalidResponse unless payload['response_status'] == 200
 
+        raw_result = payload['result'].deep_dup if payload['result'].is_a?(Hash)
         payload['result'] = completed_result(payload['result'])
+        payload['raw_result'] = raw_result if raw_result
       end
 
       payload
