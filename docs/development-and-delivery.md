@@ -61,4 +61,34 @@ Other workflows cover CodeQL, deployment, preview environments, labels, and serv
 
 Deployment is handled by GitHub Actions. Development, staging, production, and preview environment workflows live in `.github/workflows/`.
 
+### Approved fork deployments
+
+The frontend-only development workflow reads
+[the approved account list](../.github/approved-fork-deployers.json) from the
+trusted default branch. Add an external contributor's GitHub login through a
+reviewed PR. An approved contributor can deploy a PR from their own fork after a
+repository writer adds `needs-deployment`. Later updates from approved accounts
+or repository writers deploy the new commit. Both the original triggering account
+and the account that reruns a job must be approved or have repository write access.
+Unlisted forks cannot deploy through this workflow.
+
+The authorization job runs trusted code without deployment secrets or OIDC
+permission. After authorization, the deployment jobs use the exact PR commit.
+**Approval trusts that account's build and Terraform code with the existing
+development CI credentials.** It does not make fork code a sandbox. Review changes
+to build scripts and Terraform before adding the deployment label. Remove the
+label to stop future automatic deployments. Cancel an active run separately.
+Development builds push images to the shared production-account ECR repository.
+The account list does not reduce the existing IAM role's permissions.
+
+Repository writers can still deploy upstream branches and run the workflow
+manually from `main`. The manual `sha` input accepts a commit or ref and resolves
+it to an exact commit before deployment. The external account list does not grant
+manual dispatch access, organisation membership or personal AWS credentials.
+Full-stack, preview, staging and production workflows do not use this list.
+
+Development deployment does not run end-to-end tests. Check the deployed commit
+and changed journey on the development site. If rollback is needed, a repository
+writer runs the manual development workflow with the previous deployed commit.
+
 Frontend changes can affect GOV.UK compliance, accessibility, SEO metadata, analytics, service navigation, and user-visible tariff interpretation. Call out those effects explicitly in PRs.
