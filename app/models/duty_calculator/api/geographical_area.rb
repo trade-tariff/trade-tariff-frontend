@@ -39,7 +39,15 @@ module DutyCalculator
       end
 
       def self.european_union_members
-        build(:xi, EU).children_geographical_areas
+        as_of = default_query.fetch('as_of')
+
+        # EU membership changes rarely, but it is date specific, so the key
+        # includes the import date used by the request.
+        rows = Rails.cache.resilient_fetch(['duty_calculator', 'eu_members', 'xi', as_of], expires_in: 24.hours) do
+          build(:xi, EU).children_geographical_areas.map(&:attributes)
+        end
+
+        rows.map { |attributes| new(attributes) }
       end
 
       def self.eu_member?(geographical_area_id)

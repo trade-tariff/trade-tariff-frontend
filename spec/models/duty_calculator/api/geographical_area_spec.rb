@@ -84,6 +84,40 @@ RSpec.describe DutyCalculator::Api::GeographicalArea do
 
       expect(members).to eq(expected_members)
     end
+
+    it 'requests the EU group once per import date' do
+      cache = ActiveSupport::Cache::MemoryStore.new
+      allow(Rails).to receive(:cache).and_return(cache)
+
+      described_class.european_union_members
+      described_class.european_union_members
+
+      expect(Uktt::GeographicalArea).to have_received(:new).once
+    end
+
+    it 'requests the EU group again for a different import date' do
+      cache = ActiveSupport::Cache::MemoryStore.new
+      allow(Rails).to receive(:cache).and_return(cache)
+
+      described_class.european_union_members
+      travel_to(1.day.from_now) { described_class.european_union_members }
+
+      expect(Uktt::GeographicalArea).to have_received(:new).twice
+    end
+
+    it 'does not cache a failed request' do
+      cache = ActiveSupport::Cache::MemoryStore.new
+      allow(Rails).to receive(:cache).and_return(cache)
+      allow(described_class).to receive(:build).and_raise(Faraday::ConnectionFailed, 'backend down')
+
+      2.times do
+        described_class.european_union_members
+      rescue Faraday::ConnectionFailed
+        nil
+      end
+
+      expect(described_class).to have_received(:build).twice
+    end
   end
 
   describe '.non_eu_countries' do
