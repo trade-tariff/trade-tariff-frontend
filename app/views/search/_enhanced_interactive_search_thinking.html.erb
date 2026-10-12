@@ -1,6 +1,6 @@
 <div class="app-guided-search-loading app-guided-search-loading--enhanced"
      data-controller="guided-search-loading"
-     data-guided-search-loading-messages-value="<%= Rails.application.config_for(:guided_search_loading).fetch(:messages).to_json %>"
+     data-guided-search-loading-messages-value="<%= Rails.application.config.guided_search_loading.fetch(:messages).to_json %>"
      data-action="queued-search:state@window->guided-search-loading#update pagehide@window->guided-search-loading#reset pageshow@window->guided-search-loading#restore">
   <span class="govuk-caption-xl">UK Integrated Online Tariff</span>
   <h1 class="govuk-heading-l">Search for a commodity</h1>

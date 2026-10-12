@@ -1,3 +1,5 @@
+# Loaded at application boot; restart after changing this file.
+# Activity wording requires client review before wider release.
 shared:
   # Pick a new delay within each range before showing the next message.
   # These timings illustrate activity; they do not measure backend stages.
