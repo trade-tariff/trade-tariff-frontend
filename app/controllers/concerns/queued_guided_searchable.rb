@@ -18,20 +18,7 @@ module QueuedGuidedSearchable
     browser_session_id
     raise GuidedSearch::QueuedSearch::InvalidResponse unless session.id
 
-    id = GuidedSearch::QueuedSearch.submit(@search)
-    token = GuidedSearch::QueuedSearchToken.issue(
-      id:, search_key: @search.queued_search_handoff_key, session_id: session.id.public_id,
-    )
-    # Retire the earlier spike's per-job cookie map. Grants never go in the cookie.
-    session.delete(:queued_guided_searches)
-
-    render json: {
-      id:,
-      token:,
-      request_id: @search.request_id,
-      date: { year: @search.date.year, month: @search.date.month, day: @search.date.day },
-      poll_url: queued_guided_search_path(id:, token:, day: nil, month: nil, year: nil),
-    }, status: :accepted
+    accept_queued_search
   rescue Search::InvalidDate
     render json: { error: 'You must enter a valid date', validation_failed: true }, status: :unprocessable_content
   rescue GuidedSearch::QueuedSearch::InvalidResponse
@@ -57,11 +44,25 @@ module QueuedGuidedSearchable
 
   private
 
-  def queued_search_key
+  def queued_search_token
     polling = action_name == 'queued_guided_search'
+    params[polling ? :token : :queued_search_token]
+  end
+
+  def queued_search_id
+    polling = action_name == 'queued_guided_search'
+    params[polling ? :id : :queued_search_id]
+  end
+
+  def queued_search_key
     @queued_search_key ||= GuidedSearch::QueuedSearchToken.search_key(
-      params[polling ? :token : :queued_search_token],
-      id: params[polling ? :id : :queued_search_id], session_id: session.id&.public_id,
+      queued_search_token, id: queued_search_id, session_id: session.id&.public_id
+    )
+  end
+
+  def queued_search_content_key
+    @queued_search_content_key ||= GuidedSearch::QueuedSearchToken.content_key(
+      queued_search_token, id: queued_search_id, session_id: session.id&.public_id
     )
   end
 
@@ -84,15 +85,68 @@ module QueuedGuidedSearchable
     unavailable_queued_result
   end
 
+  def accept_queued_search
+    cached = Search.cached_interactive_result(@search.interactive_search_cache_key, request_id: @search.request_id)
+    if cached && grant_cached_queued_search(cached)
+      return render_queued_acceptance(status: 'completed')
+    end
+
+    @queued_acceptance_id = GuidedSearch::QueuedSearch.submit(@search)
+    render_queued_acceptance(status: 'queued')
+  end
+
+  def grant_cached_queued_search(result)
+    id = SecureRandom.uuid
+    return false unless Search.cache_queued_result(id, result)
+
+    Search.remember_queued_cache_grant(
+      id, content_key: @search.interactive_search_cache_key, request_id: @search.request_id
+    )
+    @queued_acceptance_id = id
+    true
+  end
+
+  def render_queued_acceptance(status:)
+    id = @queued_acceptance_id
+    token = GuidedSearch::QueuedSearchToken.issue(
+      id:,
+      search_key: @search.queued_search_handoff_key,
+      content_key: @search.interactive_search_cache_key,
+      session_id: session.id.public_id,
+    )
+    # Retire the earlier spike's per-job cookie map. Grants never go in the cookie.
+    session.delete(:queued_guided_searches)
+
+    render json: {
+      id:,
+      token:,
+      status:,
+      request_id: @search.request_id,
+      date: { year: @search.date.year, month: @search.date.month, day: @search.date.day },
+      poll_url: queued_guided_search_path(id:, token:, day: nil, month: nil, year: nil),
+    }, status: :accepted
+  end
+
   def queued_search_state(id)
     cached = Search.cached_queued_result(id)
     return { status: 'completed', result: cached } if cached
+
+    grant = Search.queued_cache_grant(id)
+    return refill_queued_cache_grant(id, grant) if grant
 
     payload = GuidedSearch::QueuedSearch.find(id)
     return { status: payload.fetch('status') } unless payload['status'] == 'completed'
 
     result = payload.fetch('result')
     Search.cache_queued_result(id, result)
+    Search.cache_interactive_response(queued_search_content_key, payload['raw_result'])
+    { status: 'completed', result: }
+  end
+
+  def refill_queued_cache_grant(id, grant)
+    result = Search.cached_interactive_result(grant['content_key'], request_id: grant['request_id'])
+    return { status: 'failed' } unless result && Search.cache_queued_result(id, result)
+
     { status: 'completed', result: }
   end
 

@@ -451,23 +451,57 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     before { allow(Rails).to receive(:cache).and_return(cache) }
 
-    it 'accepts a real backend id even with a warm synchronous result, and survives cache loss' do
-      search = Search.new(q: 'horse', request_id: 'journey-123')
-      cache.write(search.interactive_search_cache_key, Search.internal_result(result.deep_stringify_keys))
-      accepted = enqueue
-      expect(accepted.fetch('id')).to eq(id)
-      stub_completed
+    it 'reuses a shared response for another journey without a backend job' do
+      search = Search.new(q: 'horse', experiment: 'tenpct', request_id: 'first-journey')
+      cache.write(search.interactive_search_cache_key, result.deep_stringify_keys)
 
+      accepted = enqueue(inputs.merge(request_id: 'second-journey'))
+
+      expect(accepted.fetch('status')).to eq('completed')
+      expect(accepted.fetch('id')).not_to eq(id)
+      expect(accepted.fetch('request_id')).to eq('second-journey')
+      expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
+
+      cache.delete_matched('queued_search/')
       poll(accepted)
       expect(response.parsed_body).to eq('status' => 'completed')
-      cache.clear
-      poll(accepted)
-      expect(response.parsed_body).to eq('status' => 'completed')
-      cache.clear
-      finish(accepted)
+      finish(accepted, request_id: 'second-journey')
       expect(response.body).to include('What is it used for?')
-      expect(WebMock).to have_requested(:get, %r{#{internal_api_path}/queued_searches/#{id}$}).times(3)
-      expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/search$})
+      expect(response.body).to include('second-journey')
+      expect(response.body).not_to include('journey-123')
+      expect(WebMock).not_to have_requested(:get, %r{#{internal_api_path}/queued_searches/})
+    end
+
+    it 'stores a completed job for the next identical search and keeps failed searches out' do
+      accepted = enqueue
+      stub_completed
+      poll(accepted)
+
+      shared = cache.read(Search.new(q: 'horse', experiment: 'tenpct', request_id: 'journey-123').interactive_search_cache_key)
+      expect(shared.dig('meta', 'interactive_search')).not_to have_key('request_id')
+
+      WebMock.reset_executed_requests!
+      reused = enqueue(inputs.merge(request_id: 'second-journey'))
+      expect(reused.fetch('status')).to eq('completed')
+      expect(reused.fetch('request_id')).to eq('second-journey')
+      expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
+
+      cache.clear
+      failed = result.deep_stringify_keys
+      failed['meta']['search_failures'] = %w[interactive_search_failed]
+      stub_completed(id, failed)
+      poll(enqueue(inputs.merge(request_id: 'degraded-journey')))
+      expect(cache.read(Search.new(q: 'horse', experiment: 'tenpct').interactive_search_cache_key)).to be_nil
+    end
+
+    it 'falls back to the backend job when its own result cache is lost' do
+      accepted = enqueue
+      stub_completed
+      poll(accepted)
+      cache.clear
+      poll(accepted)
+      expect(response.parsed_body).to eq('status' => 'completed')
+      expect(WebMock).to have_requested(:get, %r{#{internal_api_path}/queued_searches/#{id}$}).twice
     end
 
     it 'caches the completed job for polling and handoff without another backend read' do
