@@ -1,7 +1,11 @@
+# Use feature for one opt-in, or features for a list. Do not specify both.
+# Changing the feature set requires visitors to enrol again through the URL.
 shared:
   guided_search_loading_demo:
     path: /search-loading-demo
-    feature: enhanced_guided_search_loading
+    features:
+      - interactive_search
+      - enhanced_guided_search_loading
     starts_on: "2026-10-12"
     timezone: Europe/London
     redirect: /find_commodity
