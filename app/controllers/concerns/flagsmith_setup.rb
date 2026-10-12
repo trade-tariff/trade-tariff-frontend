@@ -25,7 +25,9 @@ module FlagsmithSetup
     service_name = TradeTariffFrontend::ServiceChooser.service_name
     active = active_experiment_enrollments(at: now, service_name:)
     active.each do |experiment|
-      Current.flagsmith_optin_traits[experiment.feature_name] = { value: true, transient: true }
+      experiment.feature_names.each do |feature_name|
+        Current.flagsmith_optin_traits[feature_name] = { value: true, transient: true }
+      end
     end
     enrolled = active.last
     Current.experiment = enrolled&.instrumentation_label

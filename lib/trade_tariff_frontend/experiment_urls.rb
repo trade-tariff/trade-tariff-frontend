@@ -11,7 +11,7 @@ module TradeTariffFrontend
     LABEL = /\A[a-z0-9]+(?:-[a-z0-9]+)*\z/
     KEY = /\A[a-z0-9]+(?:_[a-z0-9]+)*\z/
 
-    Entry = Data.define(:key, :path, :feature_name, :starts_on, :ends_on, :timezone,
+    Entry = Data.define(:key, :path, :feature_names, :starts_on, :ends_on, :timezone,
                         :redirect_path, :service, :instrumentation_label, :enrollment_token) do
       def state_at(time, service_name:)
         return :wrong_service unless service == service_name.to_s
@@ -38,20 +38,22 @@ module TradeTariffFrontend
       entries = config.map do |key, raw_entry|
         error!(key, :key, 'must be at most 64 lowercase snake-case characters') unless key.to_s.length <= 64 && key.to_s.match?(KEY)
         attributes = hash!(raw_entry, "entry #{key}").with_indifferent_access
-        FIELDS.excluding(:ends_on).each { |field| error!(key, field, 'is required') if attributes[field].blank? }
+        FIELDS.excluding(:ends_on, :feature).each { |field| error!(key, field, 'is required') if attributes[field].blank? }
 
         path = attributes[:path].to_s
         redirect = attributes[:redirect].to_s
         error!(key, :path, 'must be an absolute literal route path') unless path.match?(LITERAL_PATH)
         error!(key, :redirect, 'must be an absolute internal path') unless redirect.match?(INTERNAL_PATH)
 
-        feature = attributes[:feature].to_s
-        flag = flags.find { |metadata| metadata[:name].to_s == feature }
-        error!(key, :feature, 'must be a registered opt-in flag') unless flag&.fetch(:optin, false)
-
+        feature_names = feature_names!(attributes, key)
+        feature_field = attributes.key?(:features) ? :features : :feature
         service = attributes[:service].to_s
         error!(key, :service, 'is not configured') unless service_names.map(&:to_s).include?(service)
-        error!(key, :service, "is not supported by feature #{feature}") unless Array(flag[:services]).map(&:to_s).include?(service)
+        feature_names.each do |feature|
+          flag = flags.find { |metadata| metadata[:name].to_s == feature }
+          error!(key, feature_field, "#{feature} must be a registered opt-in flag") unless flag&.fetch(:optin, false)
+          error!(key, :service, "is not supported by feature #{feature}") unless Array(flag[:services]).map(&:to_s).include?(service)
+        end
 
         starts_on = date!(attributes[:starts_on], key, :starts_on)
         ends_on = date!(attributes[:ends_on], key, :ends_on) unless attributes[:ends_on].nil?
@@ -61,8 +63,10 @@ module TradeTariffFrontend
 
         label = attributes[:instrumentation_label].to_s
         error!(key, :instrumentation_label, 'must be a lowercase hyphenated label') unless label.length <= 64 && label.match?(LABEL)
-        token = "#{key}:#{Digest::SHA256.hexdigest(FIELDS.map { |field| attributes[field] }.to_json).first(16)}"
-        Entry.new(key: key.to_s.freeze, path: path.freeze, feature_name: feature.freeze,
+        # Preserve existing single-feature tokens; list order does not change enrolment.
+        token_attributes = attributes.key?(:features) ? attributes.merge(feature: feature_names.sort) : attributes
+        token = "#{key}:#{Digest::SHA256.hexdigest(FIELDS.map { |field| token_attributes[field] }.to_json).first(16)}"
+        Entry.new(key: key.to_s.freeze, path: path.freeze, feature_names:,
                   starts_on:, ends_on:, timezone: timezone.freeze, redirect_path: redirect.freeze,
                   service: service.freeze, instrumentation_label: label.freeze,
                   enrollment_token: token.freeze).freeze
@@ -84,6 +88,25 @@ module TradeTariffFrontend
     def find_by_enrollment_token(token) = @by_token[token.to_s]
 
     private
+
+    def feature_names!(attributes, key)
+      if attributes.key?(:feature) && attributes.key?(:features)
+        error!(key, :features, 'must not be combined with feature')
+      end
+
+      unless attributes.key?(:features)
+        error!(key, :feature, 'is required') if attributes[:feature].blank?
+        return [attributes[:feature].to_s.freeze].freeze
+      end
+
+      features = attributes[:features]
+      unless features.is_a?(Array) && features.any? && features.all? { |feature| feature.is_a?(String) && feature.present? }
+        error!(key, :features, 'must be a non-empty array of feature names')
+      end
+      error!(key, :features, 'must not contain duplicates') unless features.uniq.size == features.size
+
+      features.map { |feature| feature.dup.freeze }.freeze
+    end
 
     def hash!(value, context)
       return value.to_h if value.respond_to?(:each_pair)

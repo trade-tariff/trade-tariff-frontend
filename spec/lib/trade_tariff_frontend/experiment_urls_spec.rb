@@ -20,16 +20,68 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
   it 'parses immutable entries and looks them up by key or token', :aggregate_failures do
     experiment = registry.fetch(:trusted_trader_guided_search)
     expect(experiment).to have_attributes(key: 'trusted_trader_guided_search', path: entry[:path],
-                                          feature_name: entry[:feature], starts_on: Date.new(2026, 7, 27),
+                                          feature_names: [entry[:feature]], starts_on: Date.new(2026, 7, 27),
                                           ends_on: Date.new(2026, 7, 31), timezone: entry[:timezone],
                                           redirect_path: entry[:redirect], service: 'uk', instrumentation_label: 'trstd-trdr')
-    expect(experiment.enrollment_token).to match(/\Atrusted_trader_guided_search:[a-f0-9]{16}\z/)
+    expect(experiment.enrollment_token).to eq('trusted_trader_guided_search:3e5d8e2314add509')
     expect(registry.find_by_enrollment_token(experiment.enrollment_token)).to equal(experiment)
     expect(registry.find_by_enrollment_token('stale')).to be_nil
     changed = described_class.new({ trusted_trader_guided_search: entry.merge(redirect: '/changed') },
                                   registered_flags: TradeTariffFrontend::Config.registered_flags, service_names: %w[uk xi])
     expect(changed.first.enrollment_token).not_to eq(experiment.enrollment_token)
     expect([registry, experiment, experiment.path, experiment.timezone]).to all(be_frozen)
+  end
+
+  context 'with multiple features' do
+    let(:features) { %w[interactive_search enhanced_guided_search_loading] }
+    let(:config) { { trusted_trader_guided_search: entry.except(:feature).merge(features:) } }
+
+    it 'exposes an immutable list of opt-ins', :aggregate_failures do
+      expect(registry.first.feature_names).to eq(features)
+      expect(registry.first.feature_names).to be_frozen
+      expect(registry.first.feature_names).to all(be_frozen)
+    end
+
+    it 'changes the token when membership changes, but not when the list is reordered', :aggregate_failures do
+      reordered = described_class.new({ trusted_trader_guided_search: config.values.first.merge(features: features.reverse) },
+                                      registered_flags: TradeTariffFrontend::Config.registered_flags, service_names: %w[uk xi])
+      reduced = described_class.new({ trusted_trader_guided_search: config.values.first.merge(features: [features.first]) },
+                                    registered_flags: TradeTariffFrontend::Config.registered_flags, service_names: %w[uk xi])
+
+      expect(reordered.first.enrollment_token).to eq(registry.first.enrollment_token)
+      expect(reduced.first.enrollment_token).not_to eq(registry.first.enrollment_token)
+      expect(registry.find_by_enrollment_token(reduced.first.enrollment_token)).to be_nil
+      expect(registry.find_by_enrollment_token('trusted_trader_guided_search:3e5d8e2314add509')).to be_nil
+    end
+
+    [nil, [], 'interactive_search', [''], [false], %w[interactive_search interactive_search],
+     %w[interactive_search unknown], %w[interactive_search webchat]].each do |invalid_features|
+      context "with invalid features #{invalid_features.inspect}" do
+        let(:features) { invalid_features }
+
+        it 'rejects the list at boot with field context' do
+          expect { registry }.to raise_error(described_class::ConfigurationError, /entry trusted_trader_guided_search field features/)
+        end
+      end
+    end
+
+    it 'rejects conflicting singular and plural fields, even when the singular field is null' do
+      config[:trusted_trader_guided_search][:feature] = nil
+
+      expect { registry }.to raise_error(described_class::ConfigurationError, /field features must not be combined with feature/)
+    end
+
+    it 'checks the configured service for every feature' do
+      config[:trusted_trader_guided_search].merge!(features: %w[parcel_gift_journey interactive_search], service: 'xi')
+
+      expect { registry }.to raise_error(described_class::ConfigurationError, /field service is not supported by feature interactive_search/)
+    end
+  end
+
+  it 'requires a singular feature when no list is supplied' do
+    config[:trusted_trader_guided_search].delete(:feature)
+
+    expect { registry }.to raise_error(described_class::ConfigurationError, /field feature is required/)
   end
 
   it 'uses inclusive London calendar dates and the configured service' do
