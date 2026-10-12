@@ -153,10 +153,55 @@ class Search
     Rails.cache.resilient_write(queued_result_cache_key(id), result, expires_in: INTERNAL_RESULT_CACHE_TTL)
   end
 
+  def self.cached_interactive_result(key, request_id:)
+    body = Rails.cache.resilient_read(key)
+    return unless body.is_a?(Hash)
+
+    result = internal_result(body.deep_dup)
+    return if result.search_failures.any?
+
+    interactive = result.meta&.dig('interactive_search')
+    interactive['request_id'] = request_id if interactive.is_a?(Hash)
+    result
+  rescue TariffJsonapiParser::ParsingError, JSON::ParserError, TypeError, NoMethodError
+    nil
+  end
+
+  def self.cache_interactive_response(key, body)
+    return false if key.blank? || !body.is_a?(Hash)
+
+    payload = body.deep_dup
+    payload.dig('meta', 'interactive_search')&.delete('request_id')
+    result = internal_result(payload.deep_dup)
+    return false unless result.search_failures.empty?
+
+    Rails.cache.resilient_write(key, payload, expires_in: INTERNAL_RESULT_CACHE_TTL)
+  rescue TariffJsonapiParser::ParsingError, JSON::ParserError, TypeError, NoMethodError
+    false
+  end
+
+  def self.remember_queued_cache_grant(id, content_key:, request_id:)
+    Rails.cache.resilient_write(
+      queued_cache_grant_key(id),
+      { 'content_key' => content_key, 'request_id' => request_id },
+      expires_in: INTERNAL_RESULT_CACHE_TTL,
+    )
+  end
+
+  def self.queued_cache_grant(id)
+    grant = Rails.cache.resilient_read(queued_cache_grant_key(id))
+    grant if grant.is_a?(Hash) && grant['content_key'].present? && grant['request_id'].present?
+  end
+
   def self.queued_result_cache_key(id)
     "queued_search/#{TradeTariffFrontend::ServiceChooser.service_name}/#{id}"
   end
   private_class_method :queued_result_cache_key
+
+  def self.queued_cache_grant_key(id)
+    "queued_search_grant/#{TradeTariffFrontend::ServiceChooser.service_name}/#{id}"
+  end
+  private_class_method :queued_cache_grant_key
 
   def interactive_search_cache_key
     payload = internal_search_params.except(:request_id)

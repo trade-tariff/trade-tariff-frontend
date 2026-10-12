@@ -85,6 +85,18 @@ describe('QueuedSearchController', () => {
     expect(form.elements.queued_search_token).toBeUndefined()
   })
 
+  it('hands off a completed cached acceptance without polling', async () => {
+    window.fetch.mockResolvedValueOnce(accepted({ status: 'completed' }))
+    start()
+    await jest.advanceTimersByTimeAsync(0)
+
+    expect(window.fetch).toHaveBeenCalledTimes(1)
+    expect(submit).toHaveBeenCalledTimes(1)
+    expect(form.elements.queued_search_id.value).toBe(queuedId)
+    expect(form.elements.queued_search_token.value).toBe('signed-grant')
+    expect(form.elements.request_id.value).toBe('journey-id')
+  })
+
   it('polls until complete then hands off the queued id and accepted token', async () => {
     window.fetch.mockResolvedValueOnce(accepted())
       .mockResolvedValueOnce(reply({ status: 'queued' }))
