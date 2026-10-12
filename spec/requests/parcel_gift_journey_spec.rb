@@ -48,6 +48,46 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           expect(response.headers['X-Robots-Tag']).to eq('noindex, nofollow')
         end
 
+        it 'switches tariff on the chooser and every guidance page without leaving the journey', :aggregate_failures do
+          other_prefix = service == 'uk' ? '/xi' : ''
+          current_prefix = service == 'xi' ? '/xi' : ''
+          [nil, *journey.steps].each do |step|
+            path = "/#{journey.base_path}#{"/#{step.path}" if step}"
+            get "#{current_prefix}#{path}", params: { parcel_gift_choice_form: { choice: '' } }
+
+            current_page = Capybara.string(response.body)
+            switch = current_page.find('.switch-service-control a')
+            expect(switch.text).to eq(I18n.t("service_banner.switch.#{service}"))
+            expect(switch[:href]).to eq("#{other_prefix}#{path}")
+            expect(current_page).to have_css('.app-find-commodity-service strong', text: I18n.t("service_banner.current.#{service}"))
+            expect(current_page).to have_css('.govuk-phase-banner__content .govuk-tag', text: 'SERVICE UPDATE')
+            expect(current_page).to have_css('.govuk-feedback', text: 'Help us improve this service', count: 1)
+            expect(current_page).to have_link('Give us your feedback')
+            expect(current_page).to have_css('h1', count: 1)
+
+            get switch[:href]
+            switched_page = Capybara.string(response.body)
+            expect(response).to have_http_status(:ok)
+            expect(switched_page).to have_css('h1', text: step ? step.title : journey.chooser.title)
+            expect(switched_page).not_to have_css('.govuk-error-summary')
+            expect(switched_page.find('.switch-service-control a')[:href]).to eq("#{current_prefix}#{path}")
+          end
+        end
+
+        it 'opens the shared feedback form with the guidance page as its source', :aggregate_failures do
+          get "#{start_path}/#{journey.steps.first.path}"
+          origin = request.original_url
+          get page.find_link('Give us your feedback')[:href]
+
+          feedback_page = Capybara.string(response.body)
+          expect(response).to have_http_status(:ok)
+          expect(feedback_page).to have_field('Tell us how to improve our service')
+          expect(feedback_page).to have_text('Feedback is anonymous. Do not include any personal information.')
+          expect(feedback_page).to have_css('[data-module="govuk-character-count"][data-maxlength="500"]')
+          expect(feedback_page).to have_field('feedback_url', type: 'hidden', with: origin, visible: :all)
+          expect(feedback_page).to have_css('h2', text: 'Need help with something?')
+        end
+
         it 'routes each choice to its guidance', :aggregate_failures do
           journey.steps.each do |step|
             get start_path, params: { parcel_gift_choice_form: { choice: step.id } }
@@ -187,6 +227,19 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           expect(response).to have_http_status(:unprocessable_content)
           get "#{start_path}/#{restricted.steps.first.path}"
           expect(response).to have_http_status(:not_found)
+        end
+
+        it 'switches to the chooser if the guidance is unavailable in the other tariff', :aggregate_failures do
+          raw = YAML.safe_load_file(Rails.root.join('config/parcel_gift_journey.yml'))
+          raw.fetch('steps').first['services'] = [service]
+          restricted = TradeTariffFrontend::ParcelGiftJourney.new(raw, service_names: %w[uk xi])
+          allow(Rails.configuration).to receive(:parcel_gift_journey).and_return(restricted)
+
+          get "#{start_path}/#{restricted.steps.first.path}"
+          get page.find('.switch-service-control a')[:href]
+
+          expect(response).to have_http_status(:ok)
+          expect(Capybara.string(response.body)).to have_css('h1', text: restricted.chooser.title)
         end
       end
     end
