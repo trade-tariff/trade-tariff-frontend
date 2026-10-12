@@ -52,7 +52,7 @@ steps:
             target: https://www.gov.uk/government/publications/report-incorrect-customs-duty-or-vat-on-items-imported-by-post-bor286
             new_tab: true
             button: false
-          - prefix: For other couriers or freight, you can
+          - prefix: If you’ve already paid another courier or freight company, you can
             text: claim a repayment of import duty and VAT
             target: https://www.gov.uk/guidance/how-to-claim-a-repayment-of-import-duty-and-vat-if-youve-overpaid
             new_tab: true
@@ -68,7 +68,7 @@ steps:
       - content: |
           How much Customs Duty and VAT you pay depends on what the item is, where it’s sent from, and whether it’s a gift or something you bought.
 
-          If it’s a gift from a person:
+          **If it’s a gift from a person**
 
           * £39 or less: no VAT or Customs Duty
           * more than £39 and up to £135: you may pay Import VAT
@@ -79,11 +79,13 @@ steps:
           * £135 or less: VAT is usually included in the price by the seller, and Customs Duty is not usually charged
           * more than £135: Import VAT and Customs Duty may be charged by the delivery company
 
-          If it contains alcohol, tobacco or vaping products:
+          **If it contains alcohol, tobacco or vaping products**
 
           You’ll pay Excise Duty, Customs Duty and VAT at any value, whether it’s a gift or something you bought.
 
           The delivery company may also add its own handling fee.
+
+          Different rules apply to parcels sent to Northern Ireland.
         links:
           - prefix: Read more about
             text: tax and customs for goods sent from abroad
@@ -112,11 +114,13 @@ steps:
             The code must describe the item itself, not the parcel or the reason for sending it (for example, a gift).
 
             If your parcel contains different types of item, each type may need its own commodity code.
+          links:
+            - text: Read how to find a commodity code
+              target: https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports
+              new_tab: true
+              button: false
+              suffix: .
         links:
-          - text: Read how to find a commodity code
-            target: https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports
-            new_tab: true
-            button: false
           - text: Search for a commodity code
             target: commodity_search
             new_tab: false
@@ -140,7 +144,8 @@ steps:
 
           Alcohol and tobacco have separate allowances.
         links:
-          - text: Check the allowances for bringing goods into the UK, including Northern Ireland
+          - text: Check the allowances for bringing goods into the UK
+            suffix: ', including Northern Ireland.'
             target: https://www.gov.uk/bringing-goods-into-uk-personal-use
             new_tab: true
             button: false
@@ -156,6 +161,7 @@ steps:
           If you’re moving to the UK and bringing your belongings with you, separate rules apply. These depend on whether you’re moving permanently or for a set time.
         links:
           - text: Read about moving your belongings to the UK
+            suffix: .
             target: https://www.gov.uk/moving-to-uk
             new_tab: true
             button: false
@@ -165,10 +171,12 @@ steps:
           You may not have to pay customs charges on your belongings if you’re moving your home to Great Britain or Northern Ireland. This is called Transfer of Residence relief.
         links:
           - text: Check if you can get Transfer of Residence relief
+            suffix: .
             target: https://www.gov.uk/guidance/transfer-of-residence-to-great-britain
             new_tab: true
             button: false
           - text: Apply for Transfer of Residence relief
+            suffix: .
             target: https://www.gov.uk/guidance/application-for-transfer-of-residence-relief-tor1
             new_tab: true
             button: false

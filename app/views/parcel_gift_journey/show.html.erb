@@ -17,15 +17,14 @@
       <% if section.details %>
         <%= govuk_details(summary_text: section.details.summary) do %>
           <div class="tariff-markdown"><%= govspeak section.details.content %></div>
+          <%= render 'links', links: section.details.links %>
         <% end %>
       <% end %>
-      <% section.links.each do |link| %>
-        <p><% if link.prefix %><%= link.prefix %> <% end %><%= parcel_gift_link(link) %><%= '.' if link.prefix %></p>
-      <% end %>
+      <%= render 'links', links: section.links %>
     <% end %>
     <h2 class="govuk-heading-m">Getting help from HMRC</h2>
     <p>
-      <%= govuk_link_to 'Use the enquiry form to ask a question', enquiry_form_path_with_context(field: 'postal_or_baggage_details', parcel_gift_step: @step.id) %><br>
+      <%= govuk_link_to 'Use the enquiry form to ask a question', enquiry_form_path_with_context(field: 'postal_or_baggage_details', parcel_gift_step: @step.id) %>.
       <%= @journey.chooser.fallback_text %>
     </p>
   </div>

@@ -75,6 +75,9 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
         have_attributes(text: 'Search for a commodity code', target: 'commodity_search', new_tab: false),
       )
       expect(overseas.sections.first.details).to have_attributes(summary: 'What a commodity code is used for')
+      expect(overseas.sections.first.details.links).to contain_exactly(
+        have_attributes(text: 'Read how to find a commodity code', target: 'https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports', new_tab: true, suffix: '.'),
+      )
       expect(overseas.sections.last.content).to include('What the person receiving it might pay')
       expect(overseas.sections.first.details.content).to include('not the parcel or the reason for sending it')
       expect(links.map(&:target)).to include('https://www.gov.uk/guidance/application-for-transfer-of-residence-relief-tor1')
@@ -89,7 +92,21 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
       expect([journey, journey.chooser, journey.chooser.title, journey.homepage, journey.homepage.description,
               journey.steps, step, step.label, step.breadcrumb, step.services, step.services.first,
               step.sections, section, section.content, section.links, link, link.text, link.target, link.prefix,
-              details, details.summary, details.content]).to all(be_frozen)
+              details, details.summary, details.content, details.links, details.links.first,
+              details.links.first.text, details.links.first.target, details.links.first.suffix]).to all(be_frozen)
+    end
+  end
+
+  describe 'optional link fields' do
+    let(:config) { valid_config }
+
+    it 'defaults omitted suffixes and details links', :aggregate_failures do
+      config['steps'].first['sections'].first['details'] = { 'summary' => 'Help', 'content' => 'Explanation' }
+
+      section = journey.steps.first.sections.first
+      expect(section.links.first.suffix).to be_nil
+      expect(section.details.links).to be_empty
+      expect(section.details.links).to be_frozen
     end
   end
 
@@ -214,6 +231,26 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
         expect { described_class.new(changed, service_names: %w[uk xi]) }
           .to raise_error(described_class::ConfigurationError)
       end
+    end
+
+    it 'validates links inside details' do
+      changed = valid_config
+      changed['steps'].first['sections'].first['details'] = {
+        'summary' => 'Help',
+        'content' => 'Explanation',
+        'links' => [valid_link.merge('target' => 'javascript:alert(1)')],
+      }
+
+      expect { described_class.new(changed, service_names: %w[uk xi]) }
+        .to raise_error(described_class::ConfigurationError, /details link 0 target/)
+    end
+
+    it 'rejects non-text link suffixes' do
+      changed = valid_config
+      changed['steps'].first['sections'].first['links'].first['suffix'] = false
+
+      expect { described_class.new(changed, service_names: %w[uk xi]) }
+        .to raise_error(described_class::ConfigurationError, /suffix must be text/)
     end
 
     it 'rejects a string used as a boolean' do
