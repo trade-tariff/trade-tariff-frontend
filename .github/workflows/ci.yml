@@ -102,6 +102,8 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
+      - run: yarn jest
+
       - run: bin/rails assets:precompile
 
       - name: Run tests
