@@ -1,4 +1,12 @@
 shared:
+  guided_search_loading_demo:
+    path: /search-loading-demo
+    feature: enhanced_guided_search_loading
+    starts_on: "2026-10-12"
+    timezone: Europe/London
+    redirect: /find_commodity
+    service: uk
+    instrumentation_label: loading-demo
   trusted_trader_guided_search:
     path: /guided-search-research
     feature: interactive_search

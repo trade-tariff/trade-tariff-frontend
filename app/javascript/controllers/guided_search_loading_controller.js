@@ -42,6 +42,8 @@ export default class extends Controller {
       retrying: 'We could not check the search status. We will try again.',
     }
     if (!messages[status]) return
+    const running = String(status === 'running')
+    if (this.element.dataset.running !== running) this.element.dataset.running = running
     if (status === 'running' && this.messages.length) {
       this.startIllustration()
       return
@@ -90,6 +92,7 @@ export default class extends Controller {
     this.activityIndex = 0
     this.active = false
     this.element.dataset.waiting = 'false'
+    this.element.dataset.running = 'false'
   }
 
   setMessage(text, description = '') {

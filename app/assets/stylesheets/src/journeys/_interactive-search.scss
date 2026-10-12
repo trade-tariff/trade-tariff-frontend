@@ -4,51 +4,90 @@
 
 
 .app-guided-search-loading {
-  max-width: 640px;
-  padding-top: govuk.govuk-spacing(2);
+  &--enhanced {
+    max-width: 640px;
+    padding-top: govuk.govuk-spacing(2);
+    overflow-wrap: anywhere;
+  }
 
   &__activity {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: govuk.govuk-spacing(3);
+    row-gap: govuk.govuk-spacing(1);
+  }
+
+  &__bulb {
+    position: relative;
     display: flex;
-    align-items: flex-start;
-    gap: govuk.govuk-spacing(3);
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    color: settings.$tariff-brand-colour;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle closest-side, govuk.govuk-colour("yellow") 0%, govuk.govuk-colour("yellow") 55%, transparent 100%);
+      opacity: 0;
+    }
+
+    svg {
+      position: relative;
+      width: 32px;
+      height: 40px;
+    }
   }
 
-  &__ring {
-    flex: 0 0 auto;
-    box-sizing: border-box;
-    width: govuk.govuk-spacing(6);
-    height: govuk.govuk-spacing(6);
-    border: govuk.$govuk-border-width-form-element solid settings.$tariff-border-colour;
-    border-top-color: govuk.govuk-colour("blue");
-    border-radius: 50%;
-    animation: app-guided-search-waiting 1s linear infinite;
-    animation-play-state: paused;
+  &__glass {
+    fill: govuk.govuk-colour("blue", $variant: "tint-95");
   }
 
-  &[data-waiting="true"] &__ring {
-    animation-play-state: running;
+  &[data-running="true"] &__bulb::before {
+    animation: app-guided-search-warm 1200ms ease-out forwards,
+      app-guided-search-breathe 3600ms ease-in-out 1200ms infinite;
   }
 
   &__status {
-    flex: 1;
     min-width: 0;
   }
 
   &__message {
     @include govuk.govuk-font(24, $weight: bold);
-    min-block-size: 2lh;
-    margin-bottom: govuk.govuk-spacing(2);
+    margin-bottom: 0;
+  }
+
+  &__description {
+    grid-column: 2;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    &__ring {
+    &[data-running="true"] &__bulb::before {
       animation: none;
+      opacity: 0.24;
     }
   }
 }
 
-@keyframes app-guided-search-waiting {
-  to { transform: rotate(360deg); }
+@keyframes app-guided-search-warm {
+  from { opacity: 0; }
+  to { opacity: 0.16; }
+}
+
+@keyframes app-guided-search-breathe {
+  0%, 100% {
+    opacity: 0.16;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.24;
+    transform: scale(1.13636);
+  }
 }
 
 .interactive-results .interactive-result {

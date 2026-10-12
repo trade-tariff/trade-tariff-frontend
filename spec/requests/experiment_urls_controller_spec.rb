@@ -6,6 +6,64 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
   let(:experiment) { Rails.application.config.experiment_urls.fetch(:trusted_trader_guided_search) }
 
+  context 'with the enhanced loading experiment' do
+    let(:experiment) { Rails.application.config.experiment_urls.fetch(:guided_search_loading_demo) }
+
+    it 'enrols the browser using the loading opt-in and trusted label', :aggregate_failures do
+      travel_to(Time.utc(2026, 10, 12, 12)) { get '/search-loading-demo' }
+
+      expect(response).to redirect_to('/find_commodity?experiment=loading-demo')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+      expect(experiment.feature_name).to eq('enhanced_guided_search_loading')
+    end
+
+    it 'shows the enhanced screen only after the configured segment accepts the opt-in', :aggregate_failures do
+      allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
+        opted_in = traits.dig('enhanced_guided_search_loading', :value) == true
+        TestFlagsmithClient::TestFlags.new(
+          'interactive_search' => opted_in,
+          'enhanced_guided_search_loading' => opted_in,
+        )
+      end
+
+      travel_to(Time.utc(2026, 10, 12, 12)) do
+        get find_commodity_path
+        expect(response.body).not_to include('data-controller="guided-search-loading"')
+
+        get '/search-loading-demo'
+        follow_redirect!
+        expect(response.body).to include('data-controller="guided-search-loading"')
+        expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+
+        get find_commodity_path
+        expect(response.body).to include('data-controller="guided-search-loading"')
+      end
+    end
+
+    it 'does not bypass a disabled flag', :aggregate_failures do
+      enable_feature(:interactive_search)
+      disable_feature(:enhanced_guided_search_loading)
+
+      travel_to(Time.utc(2026, 10, 12, 12)) do
+        get '/search-loading-demo'
+        follow_redirect!
+      end
+
+      expect(response.body).to include('Collecting information...')
+      expect(response.body).not_to include('data-controller="guided-search-loading"')
+    end
+
+    it 'does not enrol before the start or on the XI service', :aggregate_failures do
+      travel_to(Time.utc(2026, 10, 11, 22, 59, 59)) { get '/search-loading-demo' }
+      expect(session[:experiment_url_optins]).to be_blank
+      expect(response).to redirect_to('/find_commodity')
+
+      travel_to(Time.utc(2026, 10, 12, 12)) { get '/xi/search-loading-demo' }
+      expect(session[:experiment_url_optins]).to be_blank
+      expect(response).to redirect_to('/xi/find_commodity')
+    end
+  end
+
   context 'with the HMRC users experiment' do
     let(:experiment) { Rails.application.config.experiment_urls.fetch(:hmrc_users) }
 

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { Application } from '@hotwired/stimulus'
 import GuidedSearchLoadingController from '../../../app/javascript/controllers/guided_search_loading_controller'
 
-const panelMarkup = readFileSync(`${__dirname}/../../../app/views/search/_interactive_search_thinking.html.erb`, 'utf8')
+const panelMarkup = readFileSync(`${__dirname}/../../../app/views/search/_enhanced_interactive_search_thinking.html.erb`, 'utf8')
 const messages = [
   { text: 'Searching tariff references', description: 'Common product names.', min_seconds: 1, max_seconds: 3 },
   { text: 'Consulting chapter notes', description: 'Distinguishing similar products.', min_seconds: 2, max_seconds: 4 },
@@ -58,7 +58,28 @@ describe('GuidedSearchLoadingController', () => {
     expect(status.getAttribute('aria-live')).toBe('polite')
     expect(status.getAttribute('aria-atomic')).toBe('true')
     expect(status.querySelector('h1, h2, button')).toBeNull()
-    expect(panel.querySelector('.app-guided-search-loading__ring').getAttribute('aria-hidden')).toBe('true')
+    expect(panel.querySelector('.app-guided-search-loading__bulb').getAttribute('aria-hidden')).toBe('true')
+    expect(panel.querySelector('svg').getAttribute('focusable')).toBe('false')
+    expect(panel.dataset.running).toBe('true')
+  })
+
+  it('lights only while running and preserves the glow across repeated running polls', () => {
+    expect(panel.dataset.running).toBe('false')
+    state('submitting')
+    expect(panel.dataset.running).toBe('false')
+    state('accepted')
+    expect(panel.dataset.running).toBe('false')
+    state('queued')
+    expect(panel.dataset.running).toBe('false')
+    state('running')
+    expect(panel.dataset.running).toBe('true')
+
+    const observer = new MutationObserver(() => {})
+    observer.observe(panel, { attributes: true, attributeFilter: ['data-running'] })
+    state('running')
+    state('running')
+    expect(observer.takeRecords()).toHaveLength(0)
+    observer.disconnect()
   })
 
   it('uses answer-specific lifecycle copy when messages are not configured', () => {
@@ -111,10 +132,11 @@ describe('GuidedSearchLoadingController', () => {
   it('navigates immediately during the first message without waiting for its delay', async () => {
     state('submitting')
     await jest.advanceTimersByTimeAsync(250)
-    state('stopped')
+    state('running')
     state('navigating')
     expect(status.textContent).toBe('Loading the next page.')
     expect(panel.dataset.waiting).toBe('false')
+    expect(panel.dataset.running).toBe('false')
     expect(jest.getTimerCount()).toBe(0)
     await jest.advanceTimersByTimeAsync(10000)
     expect(status.textContent).toBe('Loading the next page.')
@@ -122,15 +144,19 @@ describe('GuidedSearchLoadingController', () => {
 
   it('prioritises queue and transport warnings over illustrations', async () => {
     state('submitting')
+    state('running')
     state('queued')
+    expect(panel.dataset.running).toBe('false')
     await jest.advanceTimersByTimeAsync(10000)
     expect(status.textContent).toBe('Your search is waiting to start.')
     state('running')
     await jest.advanceTimersByTimeAsync(2000)
     state('retrying')
+    expect(panel.dataset.running).toBe('false')
     await jest.advanceTimersByTimeAsync(10000)
     expect(status.textContent).toContain('could not check')
     state('running')
+    expect(panel.dataset.running).toBe('true')
     expect(status.textContent).toBe(messages[1].text)
     await jest.advanceTimersByTimeAsync(3000)
     expect(status.textContent).toBe(messages[2].text)
@@ -138,10 +164,14 @@ describe('GuidedSearchLoadingController', () => {
 
   it.each(['stopped', 'pagehide', 'bfcache', 'disconnect'])('clears illustration timers and motion on %s', async trigger => {
     state('submitting')
+    state('running')
     if (trigger === 'stopped') state('stopped')
     if (trigger === 'pagehide') window.dispatchEvent(new Event('pagehide'))
     if (trigger === 'bfcache') window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }))
     if (trigger === 'disconnect') controller.disconnect()
+    expect(panel.dataset.running).toBe('false')
+    state('running')
+    expect(panel.dataset.running).toBe('false')
     await jest.advanceTimersByTimeAsync(10000)
     expect(status.textContent).toBe(messages[0].text)
     expect(panel.dataset.waiting).toBe('false')
@@ -150,9 +180,11 @@ describe('GuidedSearchLoadingController', () => {
 
   it('restarts from the first configured message on a new submission', async () => {
     state('submitting')
+    state('running')
     await jest.advanceTimersByTimeAsync(2000)
     state('stopped')
     state('submitting', true)
+    expect(panel.dataset.running).toBe('false')
     expect(status.textContent).toBe(messages[0].text)
     await jest.advanceTimersByTimeAsync(2000)
     expect(status.textContent).toBe(messages[1].text)

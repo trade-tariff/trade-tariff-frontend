@@ -9,7 +9,7 @@ import InteractiveSearchRadioController from '../../../app/javascript/controller
 
 const reply = (body, status = 200) => ({ ok: status >= 200 && status < 300, status, json: async () => body })
 const queuedId = '2be1e438-1c16-42c0-8517-405b1d4f1caf'
-const loadingMarkup = readFileSync(`${__dirname}/../../../app/views/search/_interactive_search_thinking.html.erb`, 'utf8')
+const loadingMarkup = readFileSync(`${__dirname}/../../../app/views/search/_enhanced_interactive_search_thinking.html.erb`, 'utf8')
 
 describe('QueuedSearchController', () => {
   let application, form, submit, error, states, onState
