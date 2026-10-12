@@ -61,7 +61,7 @@ module DutyCalculator
           'import_date(3i)' => reference_date.day.to_s,
           'import_date(2i)' => reference_date.month.to_s,
           'import_date(1i)' => reference_date.year.to_s,
-          'import_destination' => user_session.import_destination || default_import_destination,
+          'import_destination' => user_session.import_destination,
           'country_of_origin' => params[:country].presence || user_session.origin_country_code,
         }
       end
@@ -73,10 +73,6 @@ module DutyCalculator
         user_session.commodity_code = commodity_code
         user_session.commodity_source = TradeTariffFrontend::ServiceChooser.service_name
         user_session.referred_service = TradeTariffFrontend::ServiceChooser.service_name
-      end
-
-      def default_import_destination
-        TradeTariffFrontend::ServiceChooser.xi? ? 'XI' : 'UK'
       end
 
       def validate_commodity_validity!

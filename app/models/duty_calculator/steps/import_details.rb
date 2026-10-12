@@ -41,6 +41,11 @@ module DutyCalculator
         @country_options[destination] ||= self.class.country_options(destination)
       end
 
+      # Before a destination is chosen the list follows the service the trader is on.
+      def country_list_destination
+        import_destination.presence || (TradeTariffFrontend::ServiceChooser.xi? ? 'XI' : 'UK')
+      end
+
       def country_lists
         %w[UK XI].index_with { |destination| country_options_for(destination) }
       end
@@ -99,8 +104,6 @@ module DutyCalculator
       end
 
       def previous_step_path
-        return confirm_path if user_session.return_to_confirm
-
         commodity_path(user_session.commodity_code)
       end
 

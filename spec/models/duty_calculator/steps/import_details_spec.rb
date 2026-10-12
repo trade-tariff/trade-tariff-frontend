@@ -156,6 +156,30 @@ RSpec.describe DutyCalculator::Steps::ImportDetails, :user_session do
 
   describe '#previous_step_path' do
     it { expect(step.previous_step_path).to eq('/commodities/0702000007') }
+
+    context 'when the trader came from Check your answers' do
+      let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, return_to_confirm: true) }
+
+      it { expect(step.previous_step_path).to eq('/commodities/0702000007') }
+    end
+  end
+
+  describe '#country_list_destination' do
+    it { expect(step.country_list_destination).to eq('UK') }
+
+    [nil, ''].each do |blank|
+      context "when the destination is #{blank.inspect}" do
+        let(:import_destination) { blank }
+
+        it { expect(step.country_list_destination).to eq('UK') }
+
+        context 'when the trader is on the Northern Ireland service' do
+          include_context 'with XI service'
+
+          it { expect(step.country_list_destination).to eq('XI') }
+        end
+      end
+    end
   end
 
   describe '.country_options' do

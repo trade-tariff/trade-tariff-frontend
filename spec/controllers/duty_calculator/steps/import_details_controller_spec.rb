@@ -60,10 +60,10 @@ RSpec.describe DutyCalculator::Steps::ImportDetailsController, :user_session do
       it { expect(response.body).to include('The commodity code could not be found for this date') }
     end
 
-    it 'selects GB by default' do
+    it 'does not select a destination' do
       response
 
-      expect(assigns[:step].import_destination).to eq('UK')
+      expect(assigns[:step].import_destination).to be_nil
     end
 
     context 'when the commodity page passes a country' do
@@ -106,7 +106,9 @@ RSpec.describe DutyCalculator::Steps::ImportDetailsController, :user_session do
     context 'when the trader came from Check your answers' do
       let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, return_to_confirm: true) }
 
-      it { expect(response.body).to include("href=\"#{confirm_path}\"") }
+      it 'links back to the commodity page' do
+        expect(response.body).to include("href=\"#{commodity_path(commodity_code)}\"")
+      end
     end
 
     context 'when a new commodity is started after an assumed VAT rate' do
