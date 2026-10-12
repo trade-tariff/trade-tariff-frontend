@@ -18,7 +18,7 @@ class Current < ActiveSupport::CurrentAttributes
   attribute :flagsmith_unavailable
 
   # Opt-in trait overrides for the current request (keyed by flag name, boolean or SDK trait options).
-  # Loaded from session by FlagsmithSetup and passed through to Edge Proxy evaluation.
+  # Loaded from the persistent preference cookie and merged with transient request traits.
   attribute :flagsmith_optin_traits
 
   # Instrumentation label for the most recently enrolled active experiment URL,

@@ -127,7 +127,7 @@ RSpec.describe FlagsmithClient do
       stub_request(:post, 'https://flagsmith.example.com/api/v1/identities/')
         .with(
           headers: { 'X-Environment-Key' => 'test-env-key' },
-          body: hash_including('identifier' => 'Anonymous:anon-123'),
+          body: hash_including('identifier' => 'Anonymous:anon-123', 'transient' => true),
         )
         .to_return(
           status: 200,

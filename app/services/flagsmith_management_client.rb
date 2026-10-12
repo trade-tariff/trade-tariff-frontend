@@ -1,36 +1,7 @@
-# Wrapper for the Flagsmith core API — writes identity traits and reads
-# identity flags directly from the core server.
-#
-# Both reads and writes use the SDK endpoints with the X-Environment-Key header,
-# sent to the Flagsmith core server via Cloud Map
-# (http://flagsmith.tariff.internal:8000) rather than the Edge Proxy.
-# The Edge Proxy is read-through and does not persist trait writes, so reading
-# back via the Edge Proxy after a write can show stale state.
+# Reads and writes saved preferences through core. Edge evaluates request traits
+# but does not retrieve these persisted preferences.
 class FlagsmithManagementClient
   CORE_API_URL = 'http://flagsmith.tariff.internal:8000'.freeze
-
-  # Minimal flag wrapper returned by get_flags_for.
-  class Flag
-    def initialize(enabled:)
-      @enabled = enabled
-    end
-
-    def enabled?
-      @enabled
-    end
-  end
-
-  # Wraps the flags array from POST /api/v1/identities/ with a get_flag interface.
-  class Flags
-    def initialize(flags_data)
-      @by_name = flags_data.index_by { |f| f.dig('feature', 'name') }
-    end
-
-    def get_flag(name)
-      data = @by_name[name.to_s]
-      Flag.new(enabled: data ? data.fetch('enabled', false) : false)
-    end
-  end
 
   class << self
     def instance
@@ -58,14 +29,18 @@ class FlagsmithManagementClient
     end
   end
 
-  # Read identity flags from core so the state is consistent with trait writes.
-  # Raises Faraday::Error on non-2xx responses.
-  def get_flags_for(identity)
+  # Identity-level transiency reads existing traits without creating an unknown
+  # identity. An ordinary SDK GET or transient traits alone do not provide this.
+  def get_traits_for(identity)
     response = @connection.post('/api/v1/identities/', {
       identifier: identity.identifier,
+      transient: true,
       traits: [],
     })
-    Flags.new(response.body.fetch('flags', []))
+    traits = response.body.fetch('traits')
+    raise TypeError, 'Flagsmith traits must be an array' unless traits.is_a?(Array)
+
+    traits.to_h { |trait| [trait.fetch('trait_key'), trait.fetch('trait_value')] }
   end
 
   # Set a trait on the given Flagsmith identity.

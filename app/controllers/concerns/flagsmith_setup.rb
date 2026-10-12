@@ -7,17 +7,24 @@ module FlagsmithSetup
   private
 
   def set_current_flagsmith_identity
+    existing_identity = cookies[:flagsmith_anonymous_id].present?
     Current.flagsmith_identity = current_flagsmith_identity
+    @flagsmith_preferences = Flagsmith::OptInPreferences.new(
+      cookies:, session:, identity: Current.flagsmith_identity, migrate_session: existing_identity,
+    )
     Current.experiment = nil
     Current.experiment_url = nil
 
-    traits = session[:flagsmith_optin_traits]
-    Current.flagsmith_optin_traits = traits.is_a?(Hash) ? traits.to_h.transform_keys(&:to_s) : {}
+    Current.flagsmith_optin_traits = load_flagsmith_preferences.transform_values { |value| { value:, transient: true } }
     if Current.request_country.present?
       Current.flagsmith_optin_traits['request_country'] = { value: Current.request_country.to_s, transient: true }
     end
 
     resolve_experiment_url_optins
+  end
+
+  def load_flagsmith_preferences
+    @flagsmith_preferences.read
   end
 
   def resolve_experiment_url_optins
