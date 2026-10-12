@@ -63,14 +63,21 @@ Deployment is handled by GitHub Actions. Development, staging, production, and p
 
 ### Approved fork deployments
 
-The frontend-only development workflow reads
-[the approved account list](../.github/approved-fork-deployers.json) from the
-trusted default branch. Add an external contributor's GitHub login through a
-reviewed PR. An approved contributor can deploy a PR from their own fork after a
-repository writer adds `needs-deployment`. Later updates from approved accounts
-or repository writers deploy the new commit. Both the original triggering account
-and the account that reruns a job must be approved or have repository write access.
-Unlisted forks cannot deploy through this workflow.
+The frontend-only and full-stack development workflows use the shared tools
+authorization action. It reads
+[the central account policy](https://github.com/trade-tariff/trade-tariff-tools/blob/main/.github/approved-fork-deployers.json)
+from tools `main`. Add an external contributor's GitHub login under
+`trade-tariff-frontend` through a reviewed tools PR. Approval for another
+repository does not grant frontend approval.
+
+A repository writer adds `needs-deployment` for the frontend alone or
+`needs-full-deployment` for the full stack. An approved contributor can then
+deploy later updates from their own fork. Both the original triggering account
+and the account that reruns a job must be approved for this repository or have
+repository write access. Unlisted forks cannot deploy through these workflows.
+Full-stack deployment uses the approved frontend commit and the normal refs for
+backend, admin and identity. The policy approves fork-code sources; it does not
+filter these supporting apps.
 
 The authorization job runs trusted code without deployment secrets or OIDC
 permission. After authorization, the deployment jobs use the exact PR commit.
@@ -83,12 +90,13 @@ The account list does not reduce the existing IAM role's permissions.
 
 Repository writers can still deploy upstream branches and run the workflow
 manually from `main`. The manual `sha` input accepts a commit or ref and resolves
-it to an exact commit before deployment. The external account list does not grant
+it to an exact commit before deployment. The external account policy does not grant
 manual dispatch access, organisation membership or personal AWS credentials.
-Full-stack, preview, staging and production workflows do not use this list.
+Preview, staging and production workflows do not use this policy.
 
-Development deployment does not run end-to-end tests. Check the deployed commit
-and changed journey on the development site. If rollback is needed, a repository
+Frontend-only development deployment does not run end-to-end tests. Full-stack
+deployment runs the existing tariff and accessibility checks. Check the deployed
+commit and changed journey on the development site. If rollback is needed, a repository
 writer runs the manual development workflow with the previous deployed commit.
 
 Frontend changes can affect GOV.UK compliance, accessibility, SEO metadata, analytics, service navigation, and user-visible tariff interpretation. Call out those effects explicitly in PRs.
