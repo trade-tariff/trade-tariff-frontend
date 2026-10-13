@@ -2,8 +2,10 @@
 
 Flagsmith core stores manual browser preferences as boolean identity traits.
 For registered opt-in features, the frontend applies a saved true or false value
-directly, ahead of experiments, rollout, environment overrides and defaults.
-Service restrictions still apply. The page only lists features for the current service.
+directly, ahead of experiments, rollout, environment enablement and defaults.
+An explicit environment value of `false` remains an operator OFF switch.
+Service restrictions still apply. The page only lists features for the current service
+that the operator has not disabled, and rejects saves for excluded features.
 Without a saved preference, normal Flagsmith evaluation and defaults apply.
 Experiment traits stay separate from saved preferences and do not force flags on.
 
