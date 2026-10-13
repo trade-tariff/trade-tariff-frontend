@@ -3,7 +3,10 @@
 Flagsmith core stores manual opt-in preferences as boolean identity traits. Edge
 Proxy evaluates those preferences alongside country and active experiment traits.
 A saved opt-in is not a direct flag override. Service restrictions and Flagsmith
-rollout rules still determine availability.
+rollout rules still determine availability. A saved opt-out turns off a registered
+opt-in feature for that browser, even if a rollout, experiment, environment override
+or fallback would enable it. Experiment enrolments cannot replace a saved false
+trait. Opting back in lets the feature follow its usual availability rules again.
 
 ## Browser persistence
 
@@ -35,9 +38,10 @@ Only explicit preference saves use the persistent trait-write endpoint.
 
 A failed core refresh keeps the cached preferences available to Edge and reports
 the failure on the settings page. A failed save does not replace the cached
-preference. The page shows saved preference separately from effective availability;
-removing an opt-in does not exclude a browser from an automatic rollout or an
-active experiment.
+preference. The page distinguishes no saved preference, opted in and opted out
+from effective availability. It offers an opt-out when a feature is available or
+the browser has opted in, including features enabled only by a rollout or experiment.
+Existing saved false values, including migrated session values, count as opt-outs.
 
 Rolling back to the session-based implementation loses the new cookie's benefit.
 It leaves saved core preferences intact, but the old application does not read the

@@ -71,7 +71,7 @@ RSpec.describe FeatureFlagsController, type: :request do
         patch feature_flag_path('enhanced_guided_search_loading'), params: { enabled: 'false' }
         follow_redirect!
         expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading').text)
-          .to include('Saved preference: Not opted in')
+          .to include('Saved preference: Opted out')
       end
     end
 
@@ -96,7 +96,7 @@ RSpec.describe FeatureFlagsController, type: :request do
         )
         follow_redirect!
         expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey').text)
-          .to include('Saved preference: Not opted in')
+          .to include('Saved preference: Opted out')
       end
     end
 
@@ -128,17 +128,26 @@ RSpec.describe FeatureFlagsController, type: :request do
         follow_redirect!
 
         expect(response.body).to include('Saved preference: Opted in', 'Not available now')
-        expect(Capybara.string(response.body)).to have_button('Remove opt-in')
+        expect(Capybara.string(response.body)).to have_button('Opt out')
         expect(session[:flagsmith_optin_traits]).to be_nil
       end
 
-      it 'keeps removal separate from rollout', :aggregate_failures do
+      it 'opts out of an automatic rollout', :aggregate_failures do
         enable_feature(:interactive_search)
-        patch feature_flag_path('interactive_search'), params: { enabled: 'false' }
+        get feature_flags_path
+        row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
+        expect(row).to have_text('Saved preference: No preference')
+        expect(row).to have_text('Available now')
+        expect(row).to have_button('Opt out')
+
+        form = row.find('form')
+        patch form[:action], params: { enabled: form.find('input[name="enabled"]', visible: :hidden)[:value] }
         follow_redirect!
 
-        expect(response.body).to include('Saved preference: Not opted in', 'Available now')
-        expect(Capybara.string(response.body)).to have_button('Opt in')
+        row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
+        expect(row).to have_text('Saved preference: Opted out')
+        expect(row).to have_text('Not available now')
+        expect(row).to have_button('Opt in')
       end
 
       it 'redirects when the flag is not a registered optin flag' do

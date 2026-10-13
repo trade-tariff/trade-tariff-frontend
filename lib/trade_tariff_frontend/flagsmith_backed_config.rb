@@ -43,6 +43,12 @@ module TradeTariffFrontend
             next record_flagsmith_evaluation(flag_name, enabled: default, source: 'default', reason: 'unsupported_service')
           end
 
+          trait = Current.flagsmith_optin_traits&.[](flag_name)
+          opted_out = trait.is_a?(Hash) ? trait[:value] == false : trait == false
+          if optin && opted_out
+            next record_flagsmith_evaluation(flag_name, enabled: false, source: 'preference', reason: 'opted_out')
+          end
+
           flagsmith_config_flag(flag_name, method_name:, default:, env:)
         end
 

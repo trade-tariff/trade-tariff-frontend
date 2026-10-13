@@ -60,6 +60,21 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
     )
   end
 
+  it 'distinguishes an opt-out from control' do
+    enable_feature(:interactive_search)
+    patch feature_flag_path('interactive_search'), params: { enabled: 'false' }
+
+    get find_commodity_path
+
+    expect(analytics_context).to include(
+      'search_experience' => 'classic',
+      'feature_flag_enabled' => false,
+      'feature_flag_source' => 'preference',
+      'feature_flag_fallback_reason' => 'opted_out',
+      'experiment' => nil,
+    )
+  end
+
   it 'distinguishes a default from control' do
     get find_commodity_path
 

@@ -52,6 +52,47 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
     expect(Array(response.headers['Set-Cookie']).join).not_to include("#{preference_cookie}=")
   end
 
+  it 'keeps a rollout opt-out after session loss', :aggregate_failures do
+    allow(FlagsmithClient.instance).to receive(:get_flags_for)
+      .and_return(TestFlagsmithClient::TestFlags.new('interactive_search' => true))
+    patch '/feature-flags/interactive_search', params: { enabled: 'false' }
+    identity = cookies[identity_cookie]
+    cookies.delete(session_cookie)
+
+    get '/find_commodity'
+
+    expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
+    expect(saved_preferences).to eq('interactive_search' => false)
+    expect(cookies[identity_cookie]).to eq(identity)
+    expect(FlagsmithManagementClient.instance).not_to have_received(:get_traits_for)
+
+    cookies.delete(identity_cookie)
+    get '/find_commodity'
+    expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+  end
+
+  it 'opts out of a demo and back in', :aggregate_failures do
+    travel_to(Time.utc(2026, 10, 13, 12)) do
+      get '/search-beta-demo'
+      follow_redirect!
+      expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+
+      patch '/feature-flags/interactive_search', params: { enabled: 'false' }
+      follow_redirect!
+      row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
+      expect(row).to have_text('Saved preference: Opted out')
+      expect(row).to have_text('Not available now')
+      expect(row).to have_button('Opt in')
+
+      get '/find_commodity'
+      expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
+
+      patch '/feature-flags/interactive_search', params: { enabled: 'true' }
+      get '/find_commodity'
+      expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+    end
+  end
+
   it 'migrates true and false then cleans up', :aggregate_failures do
     cookies[identity_cookie] = browser_id
     set_legacy_preferences(interactive_search: true, parcel_gift_journey: false, webchat: true)
@@ -147,7 +188,7 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
 
     get '/feature-flags'
 
-    expect(response.body).to include('Saved preference: Not opted in', 'Not available now')
+    expect(response.body).to include('Saved preference: Opted out', 'Not available now')
     expect(saved_preferences).to eq('interactive_search' => false)
     expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
   end
