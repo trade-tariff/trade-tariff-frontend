@@ -55,6 +55,26 @@ RSpec.describe FlagsmithManagementClient do
     end
   end
 
+  describe '#delete_trait' do
+    let(:client) { described_class.new(environment_key: 'test-env-key') }
+    let(:payload) do
+      [{ identity: { identifier: 'Anonymous:abc123' }, trait_key: 'interactive_search', trait_value: nil }]
+    end
+
+    before do
+      stub_request(:put, "#{described_class::CORE_API_URL}/api/v1/traits/bulk/")
+        .with(headers: { 'X-Environment-Key' => 'test-env-key' }, body: payload.to_json)
+        .to_return(status: 200, body: '[]', headers: { 'Content-Type' => 'application/json' })
+    end
+
+    it 'deletes only the named trait without upserting an identity' do
+      client.delete_trait('Anonymous:abc123', 'interactive_search')
+
+      expect(WebMock).to have_requested(:put, "#{described_class::CORE_API_URL}/api/v1/traits/bulk/")
+        .with(body: payload.to_json)
+    end
+  end
+
   describe '#set_trait' do
     subject(:client) { described_class.new(environment_key: 'test-env-key') }
 

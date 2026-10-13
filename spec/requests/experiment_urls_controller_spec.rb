@@ -49,18 +49,78 @@ RSpec.describe ExperimentUrlsController, type: :request do
       end
     end
 
-    it 'preserves each feature opt-out', :aggregate_failures do
+    %w[interactive_search enhanced_guided_search_loading].each do |feature|
+      it "unenrols when #{feature} is cleared and allows re-enrolment", :aggregate_failures do
+        allow(FlagsmithManagementClient.instance).to receive(:get_traits_for).and_call_original
+
+        travel_to(Time.utc(2026, 10, 12, 12)) do
+          get '/search-loading-demo'
+          follow_redirect!
+          expect(response.body).to include('data-controller="guided-search-loading"')
+
+          patch "/feature-flags/#{feature}", params: { enabled: 'false' }
+          get find_commodity_path
+
+          expect(session[:experiment_url_optins]).to be_empty
+          expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
+          expect(response.body).not_to include('data-controller="guided-search-loading"')
+          expect(evaluated_traits.last).not_to have_key('interactive_search')
+          expect(evaluated_traits.last).not_to have_key('enhanced_guided_search_loading')
+
+          get '/search-loading-demo'
+          follow_redirect!
+
+          expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+          expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+          expect(response.body).to include('data-controller="guided-search-loading"')
+          expect(FlagsmithManagementClient.instance).not_to have_received(:get_traits_for)
+          expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
+        end
+      end
+    end
+
+    it 'ignores old persisted false preferences', :aggregate_failures do
+      cookies['flagsmith_anonymous_id'] = 'demo-browser'
+      %w[interactive_search enhanced_guided_search_loading].each do |feature|
+        FlagsmithManagementClient.instance.set_trait('Anonymous:demo-browser', feature, false)
+      end
+
       travel_to(Time.utc(2026, 10, 12, 12)) do
-        patch '/feature-flags/enhanced_guided_search_loading', params: { enabled: 'false' }
+        get '/feature-flags'
         get '/search-loading-demo'
         follow_redirect!
 
         expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+        expect(response.body).to include('data-controller="guided-search-loading"')
+      end
+    end
+
+    it 'keeps enrolment when clearing fails', :aggregate_failures do
+      allow(FlagsmithManagementClient.instance).to receive(:delete_trait).and_raise(Faraday::TimeoutError)
+
+      travel_to(Time.utc(2026, 10, 12, 12)) do
+        get '/search-loading-demo'
+        patch '/feature-flags/interactive_search', params: { enabled: 'false' }
+        get find_commodity_path
+
+        expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+        expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+        expect(response.body).to include('data-controller="guided-search-loading"')
+      end
+    end
+
+    it 'keeps experiments unrelated to the cleared feature', :aggregate_failures do
+      travel_to(Time.utc(2026, 10, 12, 12)) do
+        get '/search-beta-demo'
+        get '/search-loading-demo'
+        patch '/feature-flags/enhanced_guided_search_loading', params: { enabled: 'false' }
+        get find_commodity_path
+
+        expect(session[:experiment_url_optins]).to eq([
+          Rails.application.config.experiment_urls.fetch(:search_beta_demo).enrollment_token,
+        ])
+        expect(Capybara.string(response.body)).to have_link('AI-assisted search')
         expect(response.body).not_to include('data-controller="guided-search-loading"')
-        expect(evaluated_traits.last).to include(
-          'interactive_search' => { value: true, transient: true },
-          'enhanced_guided_search_loading' => { value: false, transient: true },
-        )
       end
     end
 

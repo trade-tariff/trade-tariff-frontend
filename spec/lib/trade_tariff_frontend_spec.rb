@@ -312,14 +312,12 @@ RSpec.describe TradeTariffFrontend do
       interactive_search_enabled?: 'interactive_search',
       parcel_gift_journey_enabled?: 'parcel_gift_journey',
     }.each do |method, flag|
-      [true, false].each do |enabled|
-        it "sets #{flag} to #{enabled}", :aggregate_failures do
-          TEST_FLAGSMITH_CLIENT.set_flag(flag, !enabled)
-          Current.flagsmith_preferences = { flag => enabled }
+      it "enables a saved #{flag} opt-in", :aggregate_failures do
+        disable_feature(flag)
+        Current.flagsmith_preferences = { flag => true }
 
-          expect(described_class.public_send(method)).to be(enabled)
-          expect(Current.flagsmith_evaluations[flag]).to include(source: 'preference', enabled:)
-        end
+        expect(described_class.public_send(method)).to be(true)
+        expect(Current.flagsmith_evaluations[flag]).to include(source: 'preference', enabled: true)
       end
 
       it "keeps the operator OFF switch for #{flag}", :aggregate_failures do
@@ -332,21 +330,20 @@ RSpec.describe TradeTariffFrontend do
       end
     end
 
-    [true, false].each do |enabled|
-      it "preserves #{enabled} without Flagsmith" do
-        stub_const('ENV', ENV.to_hash.except('INTERACTIVE_SEARCH').merge('ENVIRONMENT' => enabled ? 'production' : 'development'))
-        Current.flagsmith_preferences = { 'interactive_search' => enabled }
-        allow(FlagsmithClient).to receive(:configured?).and_return(false)
+    it 'preserves an opt-in without Flagsmith' do
+      stub_const('ENV', ENV.to_hash.except('INTERACTIVE_SEARCH').merge('ENVIRONMENT' => 'production'))
+      Current.flagsmith_preferences = { 'interactive_search' => true }
+      allow(FlagsmithClient).to receive(:configured?).and_return(false)
 
-        expect(described_class.interactive_search_enabled?).to be(enabled)
-      end
+      expect(described_class.interactive_search_enabled?).to be(true)
+    end
 
-      it "preserves #{enabled} when the environment enables the feature" do
-        stub_const('ENV', ENV.to_hash.merge('INTERACTIVE_SEARCH' => 'true'))
-        Current.flagsmith_preferences = { 'interactive_search' => enabled }
+    it 'treats old false preferences as unset', :aggregate_failures do
+      enable_feature(:interactive_search)
+      Current.flagsmith_preferences = { 'interactive_search' => false }
 
-        expect(described_class.interactive_search_enabled?).to be(enabled)
-      end
+      expect(described_class.interactive_search_enabled?).to be(true)
+      expect(Current.flagsmith_evaluations['interactive_search']).to include(source: 'flagsmith')
     end
 
     it 'does not treat experiment traits as saved preferences' do

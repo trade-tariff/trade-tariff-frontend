@@ -91,8 +91,8 @@ RSpec.describe FeatureFlagsController, type: :request do
           .to have_css('.govuk-tag', text: 'Enabled')
 
         patch feature_flag_path('parcel_gift_journey'), params: { enabled: 'false' }
-        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
-          hash_including(trait_key: 'parcel_gift_journey', trait_value: false),
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.deleted_traits).to include(
+          hash_including(trait_key: 'parcel_gift_journey'),
         )
         follow_redirect!
         expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey'))
@@ -115,11 +115,11 @@ RSpec.describe FeatureFlagsController, type: :request do
         )
       end
 
-      it 'disables the trait when enabled is false' do
+      it 'deletes the trait when enabled is false' do
         patch feature_flag_path('interactive_search'), params: { enabled: 'false' }
 
-        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
-          hash_including(trait_key: 'interactive_search', trait_value: false),
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.deleted_traits).to include(
+          hash_including(trait_key: 'interactive_search'),
         )
       end
 
@@ -140,8 +140,8 @@ RSpec.describe FeatureFlagsController, type: :request do
         expect(session[:flagsmith_optin_traits]).to be_nil
       end
 
-      it 'opts out of an automatic rollout', :aggregate_failures do
-        enable_feature(:interactive_search)
+      it 'clears a saved opt-in', :aggregate_failures do
+        patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
         get feature_flags_path
         row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
         expect(row).to have_css('.govuk-tag', text: 'Enabled')

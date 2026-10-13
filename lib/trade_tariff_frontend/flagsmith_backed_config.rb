@@ -68,8 +68,8 @@ module TradeTariffFrontend
       end
 
       preference = Current.flagsmith_preferences&.[](flag_name)
-      if optin && [true, false].include?(preference)
-        return record_flagsmith_evaluation(flag_name, enabled: preference, source: 'preference', reason: preference ? 'opted_in' : 'opted_out')
+      if optin && preference == true
+        return record_flagsmith_evaluation(flag_name, enabled: true, source: 'preference', reason: 'opted_in')
       end
 
       if override == 'true'

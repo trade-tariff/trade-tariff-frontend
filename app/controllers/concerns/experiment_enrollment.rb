@@ -7,6 +7,13 @@ module ExperimentEnrollment
     session[:experiment_url_optins] = tokens << experiment.enrollment_token
   end
 
+  def unenroll_from_experiments_for(feature_name)
+    enrolled = valid_experiment_enrollments(at: Time.current)
+    session[:experiment_url_optins] = enrolled.reject { |experiment|
+      experiment.feature_names.include?(feature_name)
+    }.map(&:enrollment_token)
+  end
+
   def active_experiment_enrollments(at:, service_name:)
     valid_experiment_enrollments(at:).select do |experiment|
       experiment.state_at(at, service_name:) == :active
