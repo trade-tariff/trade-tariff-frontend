@@ -15,7 +15,8 @@ module FlagsmithSetup
     Current.experiment = nil
     Current.experiment_url = nil
 
-    Current.flagsmith_optin_traits = load_flagsmith_preferences.transform_values { |value| { value:, transient: true } }
+    Current.flagsmith_preferences = load_flagsmith_preferences
+    Current.flagsmith_optin_traits = Current.flagsmith_preferences.transform_values { |value| { value:, transient: true } }
     if Current.request_country.present?
       Current.flagsmith_optin_traits['request_country'] = { value: Current.request_country.to_s, transient: true }
     end
