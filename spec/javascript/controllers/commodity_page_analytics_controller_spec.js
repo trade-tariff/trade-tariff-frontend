@@ -98,6 +98,16 @@ describe('CommodityPageAnalyticsController', () => {
     ]);
   });
 
+  it('does not track a hierarchy toggle raised while restoring a saved choice', () => {
+    const hierarchy = document.querySelector('details');
+    hierarchy.setAttribute('data-commodity-hierarchy-restoring', 'true');
+    hierarchy.open = true;
+    hierarchy.dispatchEvent(new Event('toggle'));
+
+    expect(window.dataLayer).not.toContainEqual(expect.objectContaining({event: 'commodity_hierarchy_opened'}));
+    expect(window.dataLayer).not.toContainEqual(expect.objectContaining({event: 'commodity_hierarchy_closed'}));
+  });
+
   it('tracks hierarchy opening, closing, and link clicks', () => {
     const hierarchy = document.querySelector('details');
     const link = document.querySelector('#chapter-link');

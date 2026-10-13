@@ -5,24 +5,14 @@ export default class CookieManager {
     this.cookiesPolicyName = 'cookies_policy';
     this.cookiesHideConfirmName = 'cookies_preferences_set';
     this.cookiesTreeOpenClosedDefault = 'tree_open_close_default';
+    this.commodityHierarchyOpenName = 'commodity_hierarchy_open';
     this.expiresInOneYear = 365;
     this.expiresInTwentyEightDays = 28;
   }
 
   rememberSettings() {
-    if (this.getCookiesPolicy()) {
-      const rememberSettings = this.getCookiesPolicy().remember_settings;
-
-      if (rememberSettings === 'true') {
-        return true;
-      } else if (rememberSettings === 'false') {
-        return false;
-      } else {
-        return rememberSettings;
-      }
-    } else {
-      return false;
-    }
+    const rememberSettings = this.getCookiesPolicy()?.remember_settings;
+    return rememberSettings === true || rememberSettings === 'true';
   }
 
   usage() {
@@ -62,6 +52,10 @@ export default class CookieManager {
 
   setCookiesPolicy(value = {usage: true, remember_settings: true}) {
     this.#setCookie(this.cookiesPolicyName, value, this.expiresInOneYear);
+
+    if (value && (value.remember_settings === false || value.remember_settings === 'false')) {
+      this.clearCommodityHierarchyOpen();
+    }
   }
 
   getCookiesPolicy() {
@@ -87,6 +81,25 @@ export default class CookieManager {
     } else {
       return 'open';
     }
+  }
+
+  setCommodityHierarchyOpen(value) {
+    this.#setCookie(this.commodityHierarchyOpenName, {value}, this.expiresInTwentyEightDays);
+  }
+
+  getCommodityHierarchyOpen() {
+    const cookie = this.#getCookie(this.commodityHierarchyOpenName);
+    if (!cookie || (cookie.value !== 'open' && cookie.value !== 'closed')) {
+      return null;
+    }
+
+    return cookie.value;
+  }
+
+  clearCommodityHierarchyOpen() {
+    if (Cookies.get(this.commodityHierarchyOpenName) === undefined) return;
+
+    Cookies.remove(this.commodityHierarchyOpenName);
   }
 
   #setCookie(name, value, expires) {

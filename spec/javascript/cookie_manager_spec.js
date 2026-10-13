@@ -42,6 +42,11 @@ describe('CookieManager', () => {
       cookieManager.setCookiesPolicy({usage: true, remember_settings: 'true'});
       expect(cookieManager.rememberSettings()).toBe(true);
     });
+
+    it.each([1, {}, [], null, undefined, 'yes'])('rejects malformed remember_settings value %p', (rememberSettings) => {
+      cookieManager.setCookiesPolicy({usage: true, remember_settings: rememberSettings});
+      expect(cookieManager.rememberSettings()).toBe(false);
+    });
   });
 
   describe('usage', () => {
@@ -129,6 +134,22 @@ describe('CookieManager', () => {
       cookieManager.setCookiesPolicy(cookieValue);
       expect(cookieManager.getCookiesPolicy()).toEqual(cookieValue);
     });
+
+    it('clears the hierarchy choice when settings cookies are turned off', () => {
+      cookieManager.setCommodityHierarchyOpen('open');
+      cookieManager.setCookiesPolicy({usage: true, remember_settings: false});
+      expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+
+      cookieManager.setCommodityHierarchyOpen('open');
+      cookieManager.setCookiesPolicy({usage: true, remember_settings: 'false'});
+      expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+    });
+
+    it('keeps the hierarchy choice when settings cookies stay on', () => {
+      cookieManager.setCommodityHierarchyOpen('open');
+      cookieManager.setCookiesPolicy({usage: false, remember_settings: true});
+      expect(cookieManager.getCommodityHierarchyOpen()).toEqual('open');
+    });
   });
 
   describe('getCookiesPolicy', () => {
@@ -184,6 +205,39 @@ describe('CookieManager', () => {
   describe('getCookiesTreeOpenClosedDefault', () => {
     it('should return `open` if cookies_tree_open_closed_default cookie is not set', () => {
       expect(cookieManager.getCookiesTreeOpenClosedDefault()).toEqual('open');
+    });
+  });
+
+  describe('commodity hierarchy open cookie', () => {
+    it('stores an open or closed choice for 28 days', () => {
+      const setCookie = jest.spyOn(Cookies, 'set');
+
+      cookieManager.setCommodityHierarchyOpen('closed');
+
+      expect(setCookie).toHaveBeenCalledWith(
+          'commodity_hierarchy_open',
+          JSON.stringify({value: 'closed'}),
+          expect.objectContaining({expires: 28, sameSite: 'Strict'}),
+      );
+      expect(cookieManager.getCommodityHierarchyOpen()).toEqual('closed');
+    });
+
+    it('returns null when the cookie is missing or not a known choice', () => {
+      expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+
+      Cookies.set('commodity_hierarchy_open', JSON.stringify({value: 'maybe'}));
+      expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+    });
+
+    it('removes a stored choice and does not write a cookie when none exists', () => {
+      const removeCookie = jest.spyOn(Cookies, 'remove');
+
+      cookieManager.clearCommodityHierarchyOpen();
+      expect(removeCookie).not.toHaveBeenCalled();
+
+      cookieManager.setCommodityHierarchyOpen('open');
+      cookieManager.clearCommodityHierarchyOpen();
+      expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
     });
   });
 });

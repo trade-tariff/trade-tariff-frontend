@@ -238,7 +238,12 @@ RSpec.describe 'Commodity page', type: :request do
 
     it 'renders commodity-page analytics hooks', :aggregate_failures do
       expect(page).to have_css '[data-controller="commodity-page-analytics"][data-commodity-page-analytics-commodity-code-value="0101300000"]'
-      expect(page).to have_css 'details[data-commodity-page-analytics-target="hierarchy"]'
+      expect(page).to have_css 'details[data-controller="commodity-hierarchy"][data-commodity-page-analytics-target="hierarchy"]'
+      expect(page).to have_css(
+        'details[data-action="toggle->commodity-hierarchy#remember ' \
+        'toggle->commodity-page-analytics#trackHierarchyToggle ' \
+        'click->commodity-page-analytics#trackHierarchyLink"]',
+      )
       expect(page).to have_css 'form.trade-details[data-commodity-page-analytics-target="tradeDetails"]'
       expect(page).to have_css '[data-commodity-page-analytics-target="tariffSection"][data-analytics-exposure-event="commodity_tariff_section_shown"]'
       expect(page).to have_css '#duty-calculator[data-commodity-page-analytics-target="calculator"]'

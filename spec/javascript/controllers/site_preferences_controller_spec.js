@@ -118,6 +118,12 @@ describe('SitePreferencesController', () => {
       });
     });
 
+    it('clears the hierarchy choice when cookies are rejected', () => {
+      cookieManager.setCommodityHierarchyOpen('open');
+      element.querySelector('.cookie_reject_all').click();
+      expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+    });
+
     it('should set the banner html to the hide this message target html when we reject all cookies', () => {
       const rejectButton = element.querySelector('.cookie_reject_all');
       rejectButton.click();
