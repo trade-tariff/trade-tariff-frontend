@@ -186,5 +186,93 @@ RSpec.describe TariffJsonapiParser do
         expect(shared_things).to all(equal(first))
       end
     end
+
+    context 'when linkage resolves against primary data and included entries' do
+      subject(:parsed) { described_class.new(payload).parse }
+
+      let(:primary_heading) do
+        {
+          'id' => '0101000000',
+          'type' => 'heading',
+          'attributes' => {
+            'goods_nomenclature_item_id' => '0101000000',
+            'description' => 'Live horses',
+          },
+          'relationships' => {
+            'chapter' => { 'data' => { 'id' => '0100000000', 'type' => 'chapter' } },
+          },
+        }
+      end
+
+      let(:primary_commodity) do
+        {
+          'id' => '0101210000',
+          'type' => 'commodity',
+          'attributes' => {
+            'goods_nomenclature_item_id' => '0101210000',
+            'description' => 'Pure-bred breeding animals',
+          },
+          'relationships' => {
+            'heading' => { 'data' => { 'id' => '0101000000', 'type' => 'heading' } },
+          },
+        }
+      end
+
+      let(:included_chapter) do
+        {
+          'id' => '0100000000',
+          'type' => 'chapter',
+          'attributes' => {
+            'goods_nomenclature_item_id' => '0100000000',
+            'description' => 'Live animals',
+          },
+        }
+      end
+
+      let(:payload) do
+        { 'data' => [primary_commodity, primary_heading], 'included' => [included_chapter] }
+      end
+
+      it 'resolves a heading linkage against primary data' do
+        expect(parsed.first['heading']).to include(
+          'goods_nomenclature_item_id' => '0101000000',
+          'description' => 'Live horses',
+        )
+      end
+
+      it 'resolves the chapter of a primary heading without self links', :aggregate_failures do
+        heading = parsed.second
+
+        expect(heading['chapter']).to include(
+          'goods_nomenclature_item_id' => '0100000000',
+          'description' => 'Live animals',
+        )
+        expect(heading).not_to have_key('heading')
+      end
+
+      it 'prefers an included entry over primary data with the same identity' do
+        payload['data'] << {
+          'id' => '0100000000',
+          'type' => 'chapter',
+          'attributes' => {
+            'goods_nomenclature_item_id' => '0100000000',
+            'description' => 'Primary chapter description',
+          },
+        }
+
+        expect(parsed.second['chapter']['description']).to eq('Live animals')
+      end
+
+      it 'terminates mutual primary and included references with an empty placeholder', :aggregate_failures do
+        payload['included'].first['relationships'] = {
+          'headings' => { 'data' => [{ 'id' => '0101000000', 'type' => 'heading' }] },
+        }
+
+        heading = parsed.second
+
+        expect(heading['chapter']['goods_nomenclature_item_id']).to eq('0100000000')
+        expect(heading['chapter']['headings']).to eq([{}])
+      end
+    end
   end
 end

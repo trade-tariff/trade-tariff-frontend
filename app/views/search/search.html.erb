@@ -1,6 +1,18 @@
 <%= page_header "Search results for &lsquo;#{h @search.q}&rsquo;".html_safe %>
 <article class="search-results govuk-!-padding-top-1">
-  <% if @results.any? %>
+  <% if @search.errors.any? %>
+    <h2 class="govuk-heading-m">There is a problem with your search</h2>
+    <div class="panel govuk-panel">
+      <p><strong>Your search could not be completed. Fix the following and search again:</strong></p>
+      <%= govuk_list @search.errors.map(&:message), type: :bullet %>
+    </div>
+  <% elsif @results.respond_to?(:blocking_guidance?) && @results.blocking_guidance? %>
+    <h2 class="govuk-heading-m"><%= @results.description_intercept_message_header %></h2>
+    <div class="panel govuk-panel">
+      <%= render_intercept_message(@results.description_intercept_message, search: @search) %>
+      <p class="govuk-body"><%= govuk_link_to 'Start a new search', find_commodity_path %></p>
+    </div>
+  <% elsif @results.any? %>
     <% if @results.commodities.any? %>
       <table class="govuk-table govuk-!-padding-bottom-7">
         <colgroup>

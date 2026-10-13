@@ -40,6 +40,8 @@ class Search
   def perform
     if interactive_search && interactive_search_enabled?
       perform_internal_search
+    elsif hybrid_search_enabled?
+      perform_hybrid_search
     else
       perform_v2_search
     end
@@ -137,11 +139,24 @@ class Search
       experiment: experiment.presence }.compact
   end
 
-  def self.internal_result(body)
+  def hybrid_search_params
+    {
+      q:,
+      as_of: date.to_fs(:db),
+      resource_id: resource_id.presence,
+      request_id: request_id.presence,
+      skip_question: true,
+      retrieval_method: 'hybrid',
+      include: 'heading,chapter',
+      experiment: experiment.presence,
+    }.compact
+  end
+
+  def self.internal_result(body, prefer_self_text: false)
     body = JSON.parse(body) unless body.is_a?(Hash)
     parsed_data = TariffJsonapiParser.new(body).parse
     parsed_data = [] unless parsed_data.is_a?(Array)
-    InternalSearchResult.new(parsed_data, body['meta'])
+    InternalSearchResult.new(parsed_data, body['meta'], prefer_self_text:)
   end
 
   def self.cached_queued_result(id)
@@ -232,6 +247,16 @@ private
     TradeTariffFrontend.interactive_search_enabled?
   end
 
+  def hybrid_search_enabled?
+    TradeTariffFrontend.hybrid_search_enabled?
+  end
+
+  def hybrid_search_cache_key
+    payload = hybrid_search_params.except(:request_id)
+    digest = Digest::SHA256.hexdigest(MultiJson.dump(payload))
+    "hybrid_search/v1/#{TradeTariffFrontend::ServiceChooser.service_name}/#{digest}"
+  end
+
   def perform_v2_search
     params = { q:, as_of: date.to_fs(:db), resource_id: }
     params[:request_id] = request_id if request_id.present?
@@ -245,27 +270,38 @@ private
 
   def perform_internal_search
     self.request_id = request_id.presence || SecureRandom.uuid
-    result = nil
-    body = Rails.cache.resilient_fetch(interactive_search_cache_key, expires_in: INTERNAL_RESULT_CACHE_TTL, skip_nil: true) do
-      api_host = TradeTariffFrontend::ServiceChooser.api_host
-      path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
+    fetch_internal_result(interactive_search_cache_key, internal_search_params)
+  end
 
-      response = self.class.api.post(path, MultiJson.dump(internal_search_params), 'Content-Type' => 'application/json') do |request|
+  def perform_hybrid_search
+    self.request_id = request_id.presence || SecureRandom.uuid
+    fetch_internal_result(hybrid_search_cache_key, hybrid_search_params, prefer_self_text: true)
+  end
+
+  def fetch_internal_result(cache_key, search_params, prefer_self_text: false)
+    result = nil
+    body = Rails.cache.resilient_fetch(cache_key, expires_in: INTERNAL_RESULT_CACHE_TTL, skip_nil: true) do
+      response = self.class.api.post(internal_search_path, MultiJson.dump(search_params), 'Content-Type' => 'application/json') do |request|
         request.options.timeout = TradeTariffFrontend::ServiceTimeout.timeout_for('/internal/search')
       end
       payload = response.body.is_a?(Hash) ? response.body.deep_dup : JSON.parse(response.body)
       payload.dig('meta', 'interactive_search')&.delete('request_id')
       # Parse before caching, and keep temporary failures out of the shared cache.
-      result = self.class.internal_result(payload.deep_dup)
+      result = self.class.internal_result(payload.deep_dup, prefer_self_text:)
       payload if result.search_failures.empty?
     end
 
     # Share search content, never the correlation identity of another journey.
-    result ||= self.class.internal_result(body.deep_dup)
+    result ||= self.class.internal_result(body.deep_dup, prefer_self_text:)
     result.meta&.dig('interactive_search')&.[]=('request_id', request_id)
     result
   rescue Faraday::UnprocessableContentError => e
     hydrate_errors_from_response(e)
     InternalSearchResult.new([], nil)
+  end
+
+  def internal_search_path
+    api_host = TradeTariffFrontend::ServiceChooser.api_host
+    "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search"
   end
 end

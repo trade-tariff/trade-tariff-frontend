@@ -23,9 +23,12 @@ Registered feature flags automatically accept an environment override using the
 uppercase flag name. Edit `.env.development`, then restart Rails:
 
 ```dotenv
+HYBRID_SEARCH=true
 INTERACTIVE_SEARCH=false
 PARCEL_GIFT_JOURNEY=true
 ```
+
+`HYBRID_SEARCH=true` keeps the classic search page and asks internal search for hybrid retrieval, including heading and chapter descriptions. Guided search stays off unless `INTERACTIVE_SEARCH=true`.
 
 The exact values `true` and `false` take precedence over Flagsmith. Unset, empty or
 other values leave Flagsmith and the existing default in control. Service

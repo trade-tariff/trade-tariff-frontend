@@ -87,15 +87,25 @@ private
 
     key = [type.to_s, id.to_s]
     return parsed_included_cache[key] if parsed_included_cache.key?(key)
+    # Primary data can link back to a resource that is still being parsed.
+    # Degrade such a back-reference to an empty placeholder so mutual
+    # primary/included references terminate instead of recursing without end.
+    return {} if resolving.include?(key)
 
+    resolving << key
     found_resource = find_included(id, type)
     result = found_resource.blank? ? {} : parse_resource(found_resource)
+    resolving.delete(key)
 
     parsed_included_cache[key] = result
     result
   rescue NoMethodError
     raise ParsingError,
           "Error finding relationship - '#{name}', '#{id}', '#{type}'"
+  end
+
+  def resolving
+    @resolving ||= []
   end
 
   def parsed_included_cache
@@ -107,12 +117,32 @@ private
   end
 
   def find_included(id, type)
-    included_index[[type.to_s, id.to_s]] || {}
+    linked_resource_index[[type.to_s, id.to_s]] || {}
   end
 
-  def included_index
-    @included_index ||= (@attributes['included'] || []).index_by do |resource|
-      [resource['type'].to_s, resource['id'].to_s]
+  # The backend can serve a linked resource either as primary data or as an
+  # included entry without duplicating identities across both. Resolve linkage
+  # against both, keeping the existing precedence for included entries.
+  def linked_resource_index
+    @linked_resource_index ||= begin
+      index = {}
+      Array(@attributes['included']).each do |resource|
+        index[[resource['type'].to_s, resource['id'].to_s]] = resource
+      end
+      primary_resources.each do |resource|
+        key = [resource['type'].to_s, resource['id'].to_s]
+        index[key] = resource unless index.key?(key)
+      end
+      index
     end
+  end
+
+  def primary_resources
+    data = @attributes['data']
+    case data
+    when Hash then [data]
+    when Array then data
+    else []
+    end.compact
   end
 end
