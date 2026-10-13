@@ -32,6 +32,15 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
     expect([registry, experiment, experiment.path, experiment.timezone]).to all(be_frozen)
   end
 
+  %w[uk xi].each do |service|
+    it "accepts an unrestricted opt-in flag on #{service}", :aggregate_failures do
+      entry.merge!(feature: 'duty_calculator_ux_improvements', service:)
+
+      expect(registry.first.feature_names).to eq(%w[duty_calculator_ux_improvements])
+      expect(registry.first.service).to eq(service)
+    end
+  end
+
   context 'with multiple features' do
     let(:features) { %w[interactive_search enhanced_guided_search_loading] }
     let(:config) { { trusted_trader_guided_search: entry.except(:feature).merge(features:) } }
