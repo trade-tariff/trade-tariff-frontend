@@ -49,6 +49,21 @@ RSpec.describe ExperimentUrlsController, type: :request do
       end
     end
 
+    it 'preserves each feature opt-out', :aggregate_failures do
+      travel_to(Time.utc(2026, 10, 12, 12)) do
+        patch '/feature-flags/enhanced_guided_search_loading', params: { enabled: 'false' }
+        get '/search-loading-demo'
+        follow_redirect!
+
+        expect(Capybara.string(response.body)).to have_link('AI-assisted search')
+        expect(response.body).not_to include('data-controller="guided-search-loading"')
+        expect(evaluated_traits.last).to include(
+          'interactive_search' => { value: true, transient: true },
+          'enhanced_guided_search_loading' => { value: false, transient: true },
+        )
+      end
+    end
+
     it 'does not bypass a disabled flag', :aggregate_failures do
       disabled_flags << 'enhanced_guided_search_loading'
 

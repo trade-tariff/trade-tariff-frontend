@@ -33,6 +33,8 @@ module FlagsmithSetup
     active = active_experiment_enrollments(at: now, service_name:)
     active.each do |experiment|
       experiment.feature_names.each do |feature_name|
+        next if Current.flagsmith_optin_traits.dig(feature_name, :value) == false
+
         Current.flagsmith_optin_traits[feature_name] = { value: true, transient: true }
       end
     end
