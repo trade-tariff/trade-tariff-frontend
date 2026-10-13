@@ -9,13 +9,7 @@ class FeatureFlagsController < ApplicationController
       return
     end
 
-    preferences = @flagsmith_preferences.read
-    @optin_features = TradeTariffFrontend::Config.registered_flags.filter_map { |method_name, flag|
-      next unless flag[:optin]
-
-      name = flag[:name]
-      { name:, opted_in: preferences[name] == true, enabled: TradeTariffFrontend.public_send(method_name) }
-    }.sort_by { |feature| feature[:name] }
+    @optin_features = optin_features
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#index: Flagsmith unavailable: #{e.class}: #{e.message}")
     @flagsmith_preferences_unavailable = true
@@ -32,15 +26,20 @@ class FeatureFlagsController < ApplicationController
 
     enabled = params[:enabled] == 'true'
 
-    FlagsmithManagementClient.instance.set_trait(
-      Current.flagsmith_identity.identifier,
-      flag_name,
-      enabled,
-    )
+    preferences = @flagsmith_preferences.read.dup
+    identifier = Current.flagsmith_identity.identifier
+    if enabled
+      FlagsmithManagementClient.instance.set_trait(identifier, flag_name, true)
+      preferences[flag_name] = true
+    else
+      FlagsmithManagementClient.instance.delete_trait(identifier, flag_name)
+      preferences.delete(flag_name)
+    end
 
-    @flagsmith_preferences.write(@flagsmith_preferences.read.merge(flag_name => enabled))
+    @flagsmith_preferences.write(preferences)
+    unenroll_from_experiments_for(flag_name) unless enabled
 
-    redirect_to feature_flags_path, notice: "#{flag_name.humanize} preference saved: #{enabled ? 'opted in' : 'not opted in'}."
+    redirect_to feature_flags_path, notice: "#{flag_name.humanize} #{enabled ? 'enabled' : 'disabled'}."
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#update: failed to set trait #{params[:id]}: #{e.class}: #{e.message}")
     redirect_to feature_flags_path, alert: 'Could not save your preference. Flagsmith may be unavailable.'
@@ -66,6 +65,19 @@ class FeatureFlagsController < ApplicationController
   end
 
   def optin_flag_names
-    Flagsmith::OptInPreferences.names
+    optin_features.pluck(:name)
+  end
+
+  def optin_features
+    TradeTariffFrontend::Config.registered_flags.filter_map { |method_name, flag|
+      next unless flag[:optin]
+      next unless flag[:services].empty? || flag[:services].include?(TradeTariffFrontend::ServiceChooser.service_name)
+
+      name = flag[:name]
+      enabled = TradeTariffFrontend.public_send(method_name)
+      next if !enabled && Current.flagsmith_evaluations.dig(name, :source) == 'environment'
+
+      { name:, enabled: }
+    }.sort_by { |feature| feature[:name] }
   end
 end

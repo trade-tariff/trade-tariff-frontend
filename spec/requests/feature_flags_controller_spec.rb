@@ -40,7 +40,7 @@ RSpec.describe FeatureFlagsController, type: :request do
         end
 
         it 'shows the enabled state' do
-          expect(response.body).to include('Available now')
+          expect(response.body).to include('Enabled')
         end
       end
 
@@ -48,7 +48,7 @@ RSpec.describe FeatureFlagsController, type: :request do
         before { perform_request }
 
         it 'shows the feature as disabled' do
-          expect(response.body).to include('Not available now')
+          expect(response.body).to include('Disabled')
         end
       end
     end
@@ -65,13 +65,13 @@ RSpec.describe FeatureFlagsController, type: :request do
           hash_including(trait_key: 'enhanced_guided_search_loading', trait_value: true),
         )
         follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading').text)
-          .to include('Saved preference: Opted in')
+        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading'))
+          .to have_css('.govuk-tag', text: 'Enabled')
 
         patch feature_flag_path('enhanced_guided_search_loading'), params: { enabled: 'false' }
         follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading').text)
-          .to include('Saved preference: Not opted in')
+        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading'))
+          .to have_css('.govuk-tag', text: 'Disabled')
       end
     end
 
@@ -87,16 +87,16 @@ RSpec.describe FeatureFlagsController, type: :request do
           hash_including(trait_key: 'parcel_gift_journey', trait_value: true),
         )
         follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey').text)
-          .to include('Saved preference: Opted in')
+        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey'))
+          .to have_css('.govuk-tag', text: 'Enabled')
 
         patch feature_flag_path('parcel_gift_journey'), params: { enabled: 'false' }
-        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
-          hash_including(trait_key: 'parcel_gift_journey', trait_value: false),
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.deleted_traits).to include(
+          hash_including(trait_key: 'parcel_gift_journey'),
         )
         follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey').text)
-          .to include('Saved preference: Not opted in')
+        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey'))
+          .to have_css('.govuk-tag', text: 'Disabled')
       end
     end
 
@@ -115,30 +115,59 @@ RSpec.describe FeatureFlagsController, type: :request do
         )
       end
 
-      it 'disables the trait when enabled is false' do
+      it 'deletes the trait when enabled is false' do
         patch feature_flag_path('interactive_search'), params: { enabled: 'false' }
 
-        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
-          hash_including(trait_key: 'interactive_search', trait_value: false),
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.deleted_traits).to include(
+          hash_including(trait_key: 'interactive_search'),
         )
       end
 
-      it 'shows the saved opt-in separately', :aggregate_failures do
-        patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
+      it 'enables a feature outside rollout', :aggregate_failures do
+        disable_feature(:interactive_search)
+        get feature_flags_path
+        row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
+        expect(row).to have_css('.govuk-tag', text: 'Disabled')
+        expect(row).to have_button('Enable interactive search', exact: true)
+
+        form = row.find('form')
+        patch form[:action], params: { enabled: form.find('input[name="enabled"]', visible: :hidden)[:value] }
         follow_redirect!
 
-        expect(response.body).to include('Saved preference: Opted in', 'Not available now')
-        expect(Capybara.string(response.body)).to have_button('Remove opt-in')
+        row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
+        expect(row).to have_css('.govuk-tag', text: 'Enabled')
+        expect(row).to have_button('Disable interactive search', exact: true)
         expect(session[:flagsmith_optin_traits]).to be_nil
       end
 
-      it 'keeps removal separate from rollout', :aggregate_failures do
-        enable_feature(:interactive_search)
-        patch feature_flag_path('interactive_search'), params: { enabled: 'false' }
+      it 'clears a saved opt-in', :aggregate_failures do
+        patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
+        get feature_flags_path
+        row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
+        expect(row).to have_css('.govuk-tag', text: 'Enabled')
+        expect(row).to have_button('Disable')
+
+        form = row.find('form')
+        patch form[:action], params: { enabled: form.find('input[name="enabled"]', visible: :hidden)[:value] }
         follow_redirect!
 
-        expect(response.body).to include('Saved preference: Not opted in', 'Available now')
-        expect(Capybara.string(response.body)).to have_button('Opt in')
+        row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
+        expect(row).to have_css('.govuk-tag', text: 'Disabled')
+        expect(row).to have_button('Enable')
+      end
+
+      it 'does not offer or save operator-disabled features', :aggregate_failures do
+        stub_const('ENV', ENV.to_hash.merge('DUTY_CALCULATOR_UX_IMPROVEMENTS' => 'false'))
+        enable_feature(:duty_calculator_ux_improvements)
+
+        get feature_flags_path
+        expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Duty calculator ux improvements')
+
+        patch feature_flag_path('duty_calculator_ux_improvements'), params: { enabled: 'true' }
+        expect(response).to redirect_to(feature_flags_path)
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
+        follow_redirect!
+        expect(response.body).to include('That feature is not available for opt-in.')
       end
 
       it 'redirects when the flag is not a registered optin flag' do

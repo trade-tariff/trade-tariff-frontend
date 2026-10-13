@@ -37,8 +37,8 @@ distinguish them. `destination` repeats that state on journey events.
 | `search_state` | `entry`, `submitted`, `question`, `results`, `no_results`, `unknown_results`, `blocking_guidance`, `input_error`, `backend_error`; null outside search |
 | `feature_flag_name` | `interactive_search` |
 | `feature_flag_enabled` | Boolean effective decision, including service restrictions and defaults |
-| `feature_flag_source` | `flagsmith` or `default` |
-| `feature_flag_fallback_reason` | Null after successful evaluation; otherwise `missing_flag`, `unavailable`, `not_configured`, `missing_identity`, `unsupported_service` or `missing_evaluation` |
+| `feature_flag_source` | `flagsmith`, `default`, `environment` or `preference` |
+| `feature_flag_fallback_reason` | `opted_in` for a saved browser opt-in; null after successful evaluation; otherwise `missing_flag`, `unavailable`, `not_configured`, `missing_identity`, `unsupported_service` or `missing_evaluation` |
 | `request_id` | Existing search request ID, including the backend-returned Guided Search ID; null before a request has been assigned |
 | `experiment` | Server-resolved experiment URL instrumentation label, `tenpct` when Flagsmith selected interactive search and no URL enrolment is active, or null |
 | `experiment_url` | Path of the enrolled experiment URL, such as `/hmrc-users`, or null when the label is `tenpct` or absent |

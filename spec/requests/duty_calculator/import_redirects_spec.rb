@@ -6,6 +6,15 @@ RSpec.describe 'Duty calculator import redirects', type: :request do
   let(:commodity_code) { '0702000007' }
   let(:prefill) { { country: 'AR', day: '2', month: '10', year: '2026' } }
 
+  it 'keeps the original journey when the operator disables the feature' do
+    patch '/feature-flags/duty_calculator_ux_improvements', params: { enabled: 'true' }
+    stub_const('ENV', ENV.to_hash.merge('DUTY_CALCULATOR_UX_IMPROVEMENTS' => 'false'))
+
+    get "/duty-calculator/#{commodity_code}/import-details", params: prefill
+
+    expect(response).to redirect_to("/duty-calculator/#{commodity_code}/import-date?#{prefill.to_query}")
+  end
+
   [
     [true, 'import-date', 'import-details'],
     [false, 'import-details', 'import-date'],

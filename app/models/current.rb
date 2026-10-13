@@ -17,6 +17,9 @@ class Current < ActiveSupport::CurrentAttributes
   # Set when Flagsmith cannot be reached/configured during the current request.
   attribute :flagsmith_unavailable
 
+  # Saved browser choices, separate from traits supplied by experiment enrolments.
+  attribute :flagsmith_preferences
+
   # Opt-in trait overrides for the current request (keyed by flag name, boolean or SDK trait options).
   # Loaded from the persistent preference cookie and merged with transient request traits.
   attribute :flagsmith_optin_traits

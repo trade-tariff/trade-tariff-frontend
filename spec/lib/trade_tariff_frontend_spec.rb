@@ -300,6 +300,60 @@ RSpec.describe TradeTariffFrontend do
     end
   end
 
+  describe 'saved browser preferences' do
+    before do
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('browser-with-preferences')
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+    end
+
+    {
+      duty_calculator_ux_improvements?: 'duty_calculator_ux_improvements',
+      enhanced_guided_search_loading_enabled?: 'enhanced_guided_search_loading',
+      interactive_search_enabled?: 'interactive_search',
+      parcel_gift_journey_enabled?: 'parcel_gift_journey',
+    }.each do |method, flag|
+      it "enables a saved #{flag} opt-in", :aggregate_failures do
+        disable_feature(flag)
+        Current.flagsmith_preferences = { flag => true }
+
+        expect(described_class.public_send(method)).to be(true)
+        expect(Current.flagsmith_evaluations[flag]).to include(source: 'preference', enabled: true)
+      end
+
+      it "keeps the operator OFF switch for #{flag}", :aggregate_failures do
+        stub_const('ENV', ENV.to_hash.merge(flag.upcase => 'false'))
+        enable_feature(flag)
+        Current.flagsmith_preferences = { flag => true }
+
+        expect(described_class.public_send(method)).to be(false)
+        expect(Current.flagsmith_evaluations[flag]).to include(source: 'environment', enabled: false)
+      end
+    end
+
+    it 'preserves an opt-in without Flagsmith' do
+      stub_const('ENV', ENV.to_hash.except('INTERACTIVE_SEARCH').merge('ENVIRONMENT' => 'production'))
+      Current.flagsmith_preferences = { 'interactive_search' => true }
+      allow(FlagsmithClient).to receive(:configured?).and_return(false)
+
+      expect(described_class.interactive_search_enabled?).to be(true)
+    end
+
+    it 'treats old false preferences as unset', :aggregate_failures do
+      enable_feature(:interactive_search)
+      Current.flagsmith_preferences = { 'interactive_search' => false }
+
+      expect(described_class.interactive_search_enabled?).to be(true)
+      expect(Current.flagsmith_evaluations['interactive_search']).to include(source: 'flagsmith')
+    end
+
+    it 'does not treat experiment traits as saved preferences' do
+      disable_feature(:interactive_search)
+      Current.flagsmith_optin_traits = { 'interactive_search' => { value: true, transient: true } }
+
+      expect(described_class.interactive_search_enabled?).to be(false)
+    end
+  end
+
   describe 'automatic environment overrides' do
     before do
       stub_const('ENV', ENV.to_hash.except('INTERACTIVE_SEARCH').merge('ENVIRONMENT' => 'development'))
