@@ -8,28 +8,29 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
   context 'with the enhanced loading experiment' do
     let(:experiment) { Rails.application.config.experiment_urls.fetch(:guided_search_loading_demo) }
+    let(:features) { %w[duty_calculator_ux_improvements enhanced_guided_search_loading interactive_search] }
     let(:disabled_flags) { [] }
     let(:evaluated_traits) { [] }
 
     before do
       allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
         evaluated_traits << traits.deep_dup
-        flags = %w[interactive_search enhanced_guided_search_loading].index_with do |feature|
+        flags = features.index_with do |feature|
           traits.dig(feature, :value) == true && disabled_flags.exclude?(feature)
         end
         TestFlagsmithClient::TestFlags.new(flags)
       end
     end
 
-    it 'enrols the browser once for both opt-ins and one trusted label', :aggregate_failures do
+    it 'enrols the browser once for all three opt-ins and one trusted label', :aggregate_failures do
       travel_to(Time.utc(2026, 10, 12, 12)) { get '/search-loading-demo' }
 
       expect(response).to redirect_to('/find_commodity?experiment=loading-demo')
       expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
-      expect(experiment.feature_names).to eq(%w[interactive_search enhanced_guided_search_loading])
+      expect(experiment.feature_names).to eq(features)
     end
 
-    it 'enables both features through their independent opt-in segments on later requests', :aggregate_failures do
+    it 'enables all three features through their independent opt-in segments on later requests', :aggregate_failures do
       travel_to(Time.utc(2026, 10, 12, 12)) do
         get find_commodity_path
         expect(response.body).not_to include('data-controller="guided-search-loading"')
@@ -39,6 +40,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
         expect(response.body).to include('data-controller="guided-search-loading"')
         expect(Capybara.string(response.body)).to have_link('AI-assisted search')
         expect(evaluated_traits.last).to include(
+          'duty_calculator_ux_improvements' => { value: true, transient: true },
           'interactive_search' => { value: true, transient: true },
           'enhanced_guided_search_loading' => { value: true, transient: true },
         )
@@ -49,7 +51,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
       end
     end
 
-    %w[interactive_search enhanced_guided_search_loading].each do |feature|
+    %w[duty_calculator_ux_improvements enhanced_guided_search_loading interactive_search].each do |feature|
       it "unenrols when #{feature} is cleared and allows re-enrolment", :aggregate_failures do
         allow(FlagsmithManagementClient.instance).to receive(:get_traits_for).and_call_original
 
@@ -64,8 +66,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
           expect(session[:experiment_url_optins]).to be_empty
           expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
           expect(response.body).not_to include('data-controller="guided-search-loading"')
-          expect(evaluated_traits.last).not_to have_key('interactive_search')
-          expect(evaluated_traits.last).not_to have_key('enhanced_guided_search_loading')
+          features.each { |name| expect(evaluated_traits.last).not_to have_key(name) }
 
           get '/search-loading-demo'
           follow_redirect!
@@ -81,7 +82,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
     it 'ignores old persisted false preferences', :aggregate_failures do
       cookies['flagsmith_anonymous_id'] = 'demo-browser'
-      %w[interactive_search enhanced_guided_search_loading].each do |feature|
+      features.each do |feature|
         FlagsmithManagementClient.instance.set_trait('Anonymous:demo-browser', feature, false)
       end
 
@@ -124,6 +125,20 @@ RSpec.describe ExperimentUrlsController, type: :request do
       end
     end
 
+    [true, false].each do |enabled|
+      it "keeps duty calculator availability subject to its flag when enabled is #{enabled}" do
+        disabled_flags << 'duty_calculator_ux_improvements' unless enabled
+
+        travel_to(Time.utc(2026, 10, 12, 12)) do
+          get '/search-loading-demo'
+          get feature_flags_path
+        end
+
+        row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Duty calculator ux improvements')
+        expect(row).to have_css('.govuk-tag', text: enabled ? 'Enabled' : 'Disabled')
+      end
+    end
+
     it 'does not bypass a disabled flag', :aggregate_failures do
       disabled_flags << 'enhanced_guided_search_loading'
 
@@ -160,7 +175,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
         allow(Rails.application.config).to receive(:experiment_urls).and_return(registry)
       end
 
-      it 'removes both transient opt-ins together', :aggregate_failures do
+      it 'removes all three transient opt-ins together', :aggregate_failures do
         travel_to(Time.utc(2026, 10, 12, 12)) do
           get '/search-loading-demo'
           follow_redirect!
@@ -170,8 +185,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
         travel_to(Time.utc(2026, 10, 12, 23)) { get find_commodity_path }
 
         expect(session[:experiment_url_optins]).to be_empty
-        expect(evaluated_traits.last).not_to have_key('interactive_search')
-        expect(evaluated_traits.last).not_to have_key('enhanced_guided_search_loading')
+        features.each { |name| expect(evaluated_traits.last).not_to have_key(name) }
         expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
         expect(response.body).not_to include('data-controller="guided-search-loading"')
       end
@@ -184,6 +198,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
         travel_to(Time.utc(2026, 10, 12, 23)) { get find_commodity_path }
 
         expect(evaluated_traits.last).to include('interactive_search' => { value: true, transient: true })
+        expect(evaluated_traits.last).not_to have_key('duty_calculator_ux_improvements')
         expect(evaluated_traits.last).not_to have_key('enhanced_guided_search_loading')
         expect(Capybara.string(response.body)).to have_link('AI-assisted search')
         expect(response.body).not_to include('data-controller="guided-search-loading"')

@@ -4,8 +4,9 @@ shared:
   guided_search_loading_demo:
     path: /search-loading-demo
     features:
-      - interactive_search
+      - duty_calculator_ux_improvements
       - enhanced_guided_search_loading
+      - interactive_search
     starts_on: "2026-10-12"
     timezone: Europe/London
     redirect: /find_commodity

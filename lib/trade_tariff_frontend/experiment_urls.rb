@@ -52,7 +52,8 @@ module TradeTariffFrontend
         feature_names.each do |feature|
           flag = flags.find { |metadata| metadata[:name].to_s == feature }
           error!(key, feature_field, "#{feature} must be a registered opt-in flag") unless flag&.fetch(:optin, false)
-          error!(key, :service, "is not supported by feature #{feature}") unless Array(flag[:services]).map(&:to_s).include?(service)
+          services = Array(flag[:services]).map(&:to_s)
+          error!(key, :service, "is not supported by feature #{feature}") unless services.empty? || services.include?(service)
         end
 
         starts_on = date!(attributes[:starts_on], key, :starts_on)
