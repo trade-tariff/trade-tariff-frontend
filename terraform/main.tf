@@ -1,5 +1,5 @@
 module "service" {
-  source = "git::https://github.com/trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=hmrc-2758-ecs-metric-step-scaling"
+  source = "git::https://github.com/trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v3.6.0"
 
   region = var.region
 
