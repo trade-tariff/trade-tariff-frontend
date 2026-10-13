@@ -4,7 +4,8 @@ Flagsmith core stores manual browser opt-ins as true identity traits. A saved
 opt-in enables a registered feature. Disabling removes the trait and the cached
 opt-in, rather than storing false. It also unenrols the browser session from every
 experiment containing that feature. Visiting an active experiment URL again can
-therefore enrol all its features, including both flags in `/search-loading-demo`.
+therefore enrol all its features. For `/search-loading-demo`, these are interactive
+search, enhanced guided search loading and duty calculator UX improvements.
 Unrelated enrolments and manual opt-ins remain unchanged.
 
 An explicit environment value of `false` remains an operator OFF switch.
