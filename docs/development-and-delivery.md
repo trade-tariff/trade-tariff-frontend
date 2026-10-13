@@ -52,6 +52,7 @@ Current CI checks are defined in `.github/workflows/ci.yml`:
 
 - Brakeman
 - pre-commit hooks
+- Jest
 - asset precompile
 - RSpec
 
