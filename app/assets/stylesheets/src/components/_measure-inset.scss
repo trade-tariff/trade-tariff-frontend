@@ -46,3 +46,55 @@
     display: none;
   }
 }
+
+.measure-inset--calculator {
+  background-color: settings.$feature-panel-shaded-background-colour;
+  border-left: govuk.govuk-spacing(2) solid settings.$tariff-brand-colour;
+  clear: both;
+  display: grid;
+  gap: govuk.govuk-spacing(3);
+  grid-template-columns: 41px minmax(0, 1fr);
+  margin-bottom: govuk.govuk-spacing(4);
+  margin-top: govuk.govuk-spacing(4);
+  padding: govuk.govuk-spacing(3);
+
+  & > &__icon {
+    display: block;
+    float: none;
+    height: 50px;
+    margin: 0;
+    width: 41px;
+  }
+
+  & > &__content {
+    margin-left: 0;
+    min-width: 0;
+  }
+
+  & &__description {
+    @include govuk.govuk-font(19);
+
+    margin-bottom: govuk.govuk-spacing(3);
+  }
+
+  & &__link-container {
+    margin-bottom: 0;
+  }
+
+  & &__link {
+    @include govuk.govuk-font(19);
+
+    align-items: center;
+    display: inline-flex;
+    gap: govuk.govuk-spacing(2);
+  }
+
+  &__link &__arrow {
+    display: block;
+    flex: 0 0 30px;
+    float: none;
+    height: 30px;
+    margin: 0;
+    width: 30px;
+  }
+}

@@ -10,11 +10,11 @@
 }
 
 .commodity-navigation-link {
-  @include govuk.govuk-font($size: 24);
+  @include govuk.govuk-font($size: 19);
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
-  gap: govuk.govuk-spacing(3);
+  gap: govuk.govuk-spacing(2);
 
   img {
     width: 30px;

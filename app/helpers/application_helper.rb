@@ -55,13 +55,13 @@ module ApplicationHelper
     end
   end
 
-  def page_header(heading_text = nil, caption_text = nil, &block)
+  def page_header(heading_text = nil, caption_text = nil, show_switch_service: nil, &block)
     extra_content = block_given? ? capture(&block) : nil
 
     render 'shared/page_header',
            heading_text:,
            caption_text:,
-           show_switch_service: is_switch_service_banner_enabled?,
+           show_switch_service: show_switch_service.nil? ? is_switch_service_banner_enabled? : show_switch_service,
            extra_content:
   end
 
@@ -105,7 +105,7 @@ module ApplicationHelper
     return current_feedback_params if controller_path == 'feedback'
 
     {
-      feedback_url: request.original_url,
+      feedback_url: original_url_without_search_tracking,
       feedback_query: feedback_search_query,
       search_request_id: feedback_search_request_id,
       feedback_date: feedback_search_date,
@@ -146,6 +146,15 @@ module ApplicationHelper
     TariffDate.build(params.permit(:year, :month, :day).to_h).to_fs(:db)
   rescue Date::Error
     nil
+  end
+
+  def original_url_without_search_tracking
+    url = URI.parse(request.original_url)
+    query = navigation_query_params(Rack::Utils.parse_nested_query(url.query.to_s)).to_query
+    url.query = query.presence
+    url.to_s
+  rescue URI::InvalidURIError
+    request.original_url
   end
 
   def breadcrumb_link_or_text(parent, child, caption)

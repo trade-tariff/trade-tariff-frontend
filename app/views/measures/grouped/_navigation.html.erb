@@ -5,7 +5,9 @@
   <ul class="measure-list-item govuk-!-margin-bottom-0">
     <% grouped_measures_presenter.navigation_items.each do |item| %>
       <li class="govuk-!-margin-bottom-2">
-        <%= govuk_link_to(item[:text], item[:anchor]) %>
+        <%= govuk_link_to item[:text],
+                          item[:anchor],
+                          data: { action: 'click->commodity-page-analytics#trackTariffSectionNavigation' } %>
       </li>
     <% end %>
   </ul>

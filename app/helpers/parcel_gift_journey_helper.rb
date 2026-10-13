@@ -3,6 +3,16 @@ module ParcelGiftJourneyHelper
     public_send("#{Rails.configuration.parcel_gift_journey.chooser.route_name}_path")
   end
 
+  def parcel_gift_service_switch_path(step = nil)
+    journey = Rails.configuration.parcel_gift_journey
+    other_service = uk_service_choice? ? 'xi' : 'uk'
+    return unless journey.chooser.services.include?(other_service)
+
+    destination = journey.find_step(step.id, service_name: other_service) if step
+    route_name = destination&.route_name || journey.chooser.route_name
+    public_send("#{route_name}_path").delete_prefix('/xi')
+  end
+
   def parcel_gift_link(link)
     destination = case link.target
                   when 'commodity_search' then find_commodity_path(search_mode: 'guided', anchor: 'new_search')

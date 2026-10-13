@@ -1,17 +1,23 @@
-<%= measure_inset(id: 'duty-calculator') do %>
-  <%= image_tag('calculator.png', alt: 'Tariff duty calculator') %>
-  <div>
-    <p>
-      The table below lists the import duties that apply to the import of
-      commodity <%= segmented_commodity_code declarable_code %>.
+<%= measure_inset(
+      id: 'duty-calculator',
+      classes: 'measure-inset--calculator',
+      data: {
+        commodity_page_analytics_target: 'calculator',
+        analytics_exposure_event: 'commodity_duty_calculator_shown',
+      },
+    ) do %>
+  <%= image_tag 'calculator-icon.svg', alt: '', class: 'measure-inset--calculator__icon', width: 41, height: 50 %>
+  <div class="measure-inset--calculator__content">
+    <h4 class="govuk-heading-m">Calculate import costs</h4>
+    <p class="measure-inset--calculator__description">Provide details to get a calculation of import duties and taxes.</p>
+    <p class="measure-inset--calculator__link-container">
+      <%= govuk_link_to import_date_path(commodity_code: declarable_code),
+                        id: 'duty-calculator-link',
+                        class: 'measure-inset--calculator__link',
+                        data: { action: 'click->commodity-page-analytics#trackCalculatorClick' } do %>
+        <%= image_tag 'arrow-icon.svg', alt: '', class: 'measure-inset--calculator__arrow', width: 30, height: 30 %>
+        <span>Start a duty calculation</span>
+      <% end %>
     </p>
-
-    <p>
-      Use our <strong>tariff duty calculator</strong> to
-
-      <%= duty_calculator_link(declarable_code) %>
-    </p>
-
-    <p><%= I18n.t("measure_type_message")%></p>
   </div>
 <% end %>

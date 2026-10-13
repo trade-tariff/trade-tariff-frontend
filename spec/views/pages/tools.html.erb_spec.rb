@@ -12,8 +12,13 @@ RSpec.describe 'pages/tools', type: :view do
 
     it 'renders tools as GOV.UK card links', :aggregate_failures do
       expect(rendered_page).to have_css('.gem-c-cards__list.gem-c-cards__list--one-column')
-      expect(rendered_page).to have_css('.gem-c-cards__list-item', count: 8)
+      expect(rendered_page).to have_css('.gem-c-cards__list-item', count: 9)
       expect(rendered_page).to have_css('.gem-c-cards__link', text: 'Exchange rates')
+      expect(rendered_page).to have_link('Change to Northern Ireland tariff', href: '/xi/tools')
+      expect(rendered_page).to have_link(
+        'Simplified Process for Internal Market Movements (SPIMM) eligibility checker',
+        href: '/check_simplified_processes_eligibility',
+      )
     end
 
     it 'renders the reviewed tools content without trailing full stops', :aggregate_failures do
@@ -27,7 +32,9 @@ RSpec.describe 'pages/tools', type: :view do
       expect(rendered_page).to have_css('.gem-c-cards__description', text: 'Search footnotes applying to a commodity code')
       expect(rendered_page).to have_css('.gem-c-cards__description', text: 'Look up chemicals by CAS Registry Number (RN)')
 
-      descriptions = Capybara.string(rendered_page).all('.gem-c-cards__description').map { |description| description.text.strip }
+      descriptions = Capybara.string(rendered_page).all('.gem-c-cards__description')
+                                .map { |description| description.text.strip }
+                                .reject { |description| description.start_with?('Check eligibility for the SPIMM') }
       expect(descriptions).not_to include(a_string_matching(/\.\z/))
     end
 
@@ -49,22 +56,43 @@ RSpec.describe 'pages/tools', type: :view do
       )
     end
 
-    it 'renders the Developer Portal New status tag' do
+    it 'does not render a status tag for the Developer Portal' do
       developer_portal_card = Capybara.string(rendered_page).find('.gem-c-cards__list-item', text: 'Developer Portal')
 
-      expect(developer_portal_card).to have_css('.govuk-tag.govuk-tag--magenta', text: 'New')
+      expect(developer_portal_card).not_to have_css('.govuk-tag')
     end
   end
 
   context 'with XI service' do
     include_context 'with XI service'
 
-    it 'renders existing XI tools as cards without the Developer Portal link', :aggregate_failures do
-      expect(rendered_page).to have_css('.gem-c-cards__list-item', count: 6)
-      expect(rendered_page).to have_link('Meursing code finder')
-      expect(rendered_page).not_to have_link('Developer Portal (opens in new tab)')
+    before do
+      allow(TradeTariffFrontend).to receive(:developer_portal_url).and_return('https://hub.dev.trade-tariff.service.gov.uk/')
+    end
 
-      descriptions = Capybara.string(rendered_page).all('.gem-c-cards__description').map { |description| description.text.strip }
+    it 'renders existing XI tools as cards including the Developer Portal link', :aggregate_failures do
+      expect(rendered_page).to have_css('.app-find-commodity-service', count: 1)
+      expect(rendered_page).to have_css('.switch-service-control', count: 1)
+      expect(rendered_page).to have_css('.gem-c-cards__list-item', count: 8)
+      expect(rendered_page).to have_text('Tariff for Northern Ireland (NI)')
+      expect(rendered_page).to have_link('Change to England, Scotland and Wales (GB) tariff', href: '/tools')
+      expect(rendered_page).to have_link('Meursing code finder')
+      expect(rendered_page).to have_link(
+        'Developer Portal (opens in new tab)',
+        href: 'https://hub.dev.trade-tariff.service.gov.uk/',
+      )
+      expect(rendered_page).to have_link(
+        'Simplified Process for Internal Market Movements (SPIMM) eligibility checker',
+        href: '/xi/check_simplified_processes_eligibility',
+      )
+      expect(rendered_page).to have_css(
+        '.gem-c-cards__description',
+        text: 'Check eligibility for the SPIMM when moving goods from Great Britain to Northern Ireland.',
+      )
+
+      descriptions = Capybara.string(rendered_page).all('.gem-c-cards__description')
+                                .map { |description| description.text.strip }
+                                .reject { |description| description.start_with?('Check eligibility for the SPIMM') }
       expect(descriptions).not_to include(a_string_matching(/\.\z/))
     end
   end
